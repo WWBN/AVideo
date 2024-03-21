@@ -522,7 +522,7 @@ class LiveTransmitionHistory extends ObjectYPT
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$live_transmitions_history_id} ";
 
         $insert_row = sqlDAL::writeSql($sql);
-        _error_log("LiveTransmitionHistory::finishFromTransmitionHistoryId: live_transmitions_history_id=$live_transmitions_history_id " . getRealIpAddr(). ' ' . getDeviceName() . ' '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log("LiveTransmitionHistory::finishFromTransmitionHistoryId: live_transmitions_history_id=$live_transmitions_history_id users_id=".  User::getId() .' IP='. getRealIpAddr(). ' ' . $_SERVER['HTTP_USER_AGENT'] . ' '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
 
         _mysql_commit();
 
