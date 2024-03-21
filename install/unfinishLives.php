@@ -11,7 +11,7 @@ $stats = Live::getStats(true);
 
 foreach ($stats as $key => $server) {
     if (is_array($server) || is_object($server)) {
-        foreach ($server as $live) {
+        foreach ($server as $key2 => $live) {
             if (!empty($live->key)) {
                 echo $live->key.PHP_EOL;
                 $row = LiveTransmitionHistory::getLatest($live->key, @$live->live_servers_id);
@@ -21,7 +21,8 @@ foreach ($stats as $key => $server) {
                     LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
                 }
             }else{
-                echo "Error {$key}".PHP_EOL;
+                echo "Error {$key2}".PHP_EOL;
+                //var_dump($live);
             }
         }
     }
