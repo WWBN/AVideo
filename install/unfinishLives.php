@@ -27,7 +27,7 @@ foreach ($rows as $liveS) {
         }
     }
 }
-*/
+
 $stats = Live::getStatsApplications(true);
 
 foreach ($stats as $key => $live) {
@@ -58,3 +58,7 @@ foreach ($stats as $key => $live) {
         }
     }
 }
+*/
+
+Live::finishAllFromStats();
+Live::unfinishAllFromStats(true);
