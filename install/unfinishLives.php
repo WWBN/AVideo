@@ -22,7 +22,7 @@ foreach ($stats as $key => $server) {
                 }
             }else{
                 echo "Error {$key2}".PHP_EOL;
-                //var_dump($live);
+                var_dump($live);
             }
         }
     }
