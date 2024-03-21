@@ -1151,7 +1151,13 @@ if (!class_exists('Video')) {
                     $_POST['sort']['v.created'] = 'DESC';
                     //var_dump($_POST['sort']);
                 default:
-                    $sort = $_POST['sort'];
+                    if(is_array($sort)){
+                        foreach ($sort as $key=>$value) {
+                            if(!isset($_POST['sort'][$key])){
+                                $_POST['sort'][$key] = $value;
+                            }
+                        }
+                    }
                     if (!empty($_POST['sort']['created']) && count($_POST['sort']) == 1) {
                         $_POST['sort']['v.created'] = $_POST['sort']['created'];
                         unset($_POST['sort']['created']);
@@ -1166,7 +1172,6 @@ if (!class_exists('Video')) {
                     }
                     //var_dump($_POST['sort']);
                     $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
-                    $_POST['sort'] = $sort;
                     //var_dump($sql);exit;
                     break;
             }
@@ -1893,7 +1898,7 @@ if (!class_exists('Video')) {
 
             //var_dump($max_duration_in_seconds);echo $sql; //exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
-            //if($status == Video::SORT_TYPE_MOSTPOPULAR){ var_dump($sql);exit;}
+            if($status == Video::SORT_TYPE_VIEWABLE){ var_dump($sql);exit;}
             //var_dump($sql, $videosArrayId, $status, debug_backtrace());exit;
             //if(!empty($_REQUEST['test'])){var_dump($sql); }
             global $_lastGetAllSQL;
