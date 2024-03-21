@@ -9,7 +9,7 @@ AVideoPlugin::loadPlugin('Live');
 
 $stats = Live::getStats(true);
 
-foreach ($stats as $server) {
+foreach ($stats as $key => $server) {
     if (is_array($server) || is_object($server)) {
         foreach ($server as $live) {
             if (!empty($live->key)) {
@@ -21,8 +21,7 @@ foreach ($stats as $server) {
                     LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
                 }
             }else{
-                echo "Error".PHP_EOL;
-                var_dump($live);
+                echo "Error {$key}".PHP_EOL;
             }
         }
     }
