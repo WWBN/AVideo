@@ -435,7 +435,7 @@ class AI extends PluginAbstract
         $msg = '';
         $isValid = false;
         if ($arrayRegular['isValid'] && $arrayLower['isValid']) {
-            $f = convertVideoFileWithFFMPEGIsLockedInfo($arrayLower['path']);
+            $f = convertVideoFileWithFFMPEGIsLockedInfo($arrayLower['paths']['path']);
             if (!$f['isUnlocked']) {
                 $msg = "The audio is processing";
             }else{
@@ -471,7 +471,7 @@ class AI extends PluginAbstract
             if (!$mp3s['isValid']) {
                 ini_set('max_execution_time', 300);
                 set_time_limit(300);
-                if (file_exists($mp3s['lower']['paths']['path'])) {
+                if (file_exists($mp3s['lower']['paths']['path']) && filesize($mp3s['lower']['paths']['path']) > 20) {
                     unlink($mp3s['lower']['paths']['path']);
                 }
                 $fromFileLocationEscaped = escapeshellarg($mp3s['regular']['paths']['path']);
