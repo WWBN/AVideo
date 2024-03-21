@@ -648,7 +648,7 @@ class LiveTransmitionHistory extends ObjectYPT
 
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE `key` LIKE '{$key}%'  ";
 
-        $sql .= " ORDER BY id DESC LIMIT 1";
+        $sql .= " ORDER BY `key` = '{$key}', id DESC LIMIT 1";
         //var_dump($sql);exit;
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
