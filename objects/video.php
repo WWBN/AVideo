@@ -1101,6 +1101,7 @@ if (!class_exists('Video')) {
             $sql = '';
             $sort = @$_POST['sort'];
 
+            $_POST['sort'] = array();
             $videosToShowViewableOnly = array(Video::SORT_TYPE_SUGGESTED, Video::SORT_TYPE_TRENDING ,Video::SORT_TYPE_MOSTPOPULAR, Video::SORT_TYPE_MOSTWATCHED);
 
             if(in_array($sortType, $videosToShowViewableOnly)){
@@ -1111,7 +1112,6 @@ if (!class_exists('Video')) {
                 case Video::SORT_TYPE_SUGGESTED:
                     $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
                     $sql .= " ORDER BY RAND() ";
-                    unset($_POST['sort']);
                     $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
                     if (strpos(mb_strtolower($sql), 'limit') === false) {
                         $sql .= " LIMIT 60 ";
@@ -1140,12 +1140,16 @@ if (!class_exists('Video')) {
                     break;
                 case Video::SORT_TYPE_MOSTPOPULAR:
                     $_POST['sort']['likes'] = 'DESC';
+                    //var_dump($_POST['sort']);
                 case Video::SORT_TYPE_MOSTWATCHED:
                     $_POST['sort']['views_count'] = 'DESC';
+                    //var_dump($_POST['sort']);
                 case Video::SORT_TYPE_NAME:
                     $_POST['sort']['v.title'] = 'ASC';
+                    //var_dump($_POST['sort']);
                 case Video::SORT_TYPE_DATEADDED:
                     $_POST['sort']['v.created'] = 'DESC';
+                    //var_dump($_POST['sort']);
                 default:
                     $sort = $_POST['sort'];
                     if (!empty($_POST['sort']['created']) && count($_POST['sort']) == 1) {
@@ -1160,7 +1164,7 @@ if (!class_exists('Video')) {
                             $_POST['sort']['v.created'] = 'DESC';
                         }
                     }
-                    //var_dump($_POST['sort']);exit;
+                    //var_dump($_POST['sort']);
                     $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
                     $_POST['sort'] = $sort;
                     //var_dump($sql);exit;
