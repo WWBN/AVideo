@@ -223,15 +223,28 @@ function getDirSize($dir, $forceNew = false)
     }
 }
 
-function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
-{
+function convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation){
     $localFileLock = $toFileLocation. ".lock";
     $ageInSeconds = time() - @filemtime($localFileLock);
-    if ($ageInSeconds > 300) {
-        _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} too long without change, unlock it " . $fromFileLocation. ' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+    $isOld = $ageInSeconds > 300;
+    $file_exists = file_exists($localFileLock);
+    return array(
+        'ageInSeconds'=>$ageInSeconds,
+        'isOld'=>$isOld ,
+        'file_exists'=>file_exists($localFileLock),
+        'localFileLock'=>$localFileLock,
+        'isUnlocked'=>$isOld || !$file_exists,
+    );
+}
+function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
+{
+    $f = convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation);
+    $localFileLock = $f['localFileLock'];
+    if ($f['isOld']) {
+        _error_log("convertVideoFileWithFFMPEG: age: {$f['ageInSeconds']} too long without change, unlock it " . $fromFileLocation. ' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         @unlink($localFileLock);
-    } elseif (file_exists($localFileLock)) {
-        _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} download from CDN There is a process running for {$fromFileLocation} localFileLock=$localFileLock log=$logFile");
+    } elseif ($f['file_exists']) {
+        _error_log("convertVideoFileWithFFMPEG: age: {$f['ageInSeconds']} download from CDN There is a process running for {$fromFileLocation} localFileLock=$localFileLock log=$logFile");
         return false;
     } else {
         _error_log("convertVideoFileWithFFMPEG: creating file: localFileLock: {$localFileLock} toFileLocation: {$toFileLocation}");

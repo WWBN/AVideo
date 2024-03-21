@@ -51,17 +51,17 @@ function convertVideoToMP3FileIfNotExists($videos_id)
 
     $paths = Video::getPaths($video['filename']);
     $mp3File = "{$paths['path']}{$video['filename']}.mp3";
-    if (file_exists($mp3File) && filesize($mp3File)<100) {
-        unlink($mp3File);
-    }
     if (!file_exists($mp3File)) {
-        $sources = getVideosURLOnly($video['filename'], false);
-
-        if (!empty($sources)) {
-            $source = end($sources);
-            convertVideoFileWithFFMPEG($source['url'], $mp3File);
-            if (file_exists($mp3File)) {
-                return Video::getSourceFile($video['filename'], ".mp3", true);
+        $f = convertVideoFileWithFFMPEGIsLockedInfo($mp3File);
+        if ($f['isUnlocked']) {
+            $sources = getVideosURLOnly($video['filename'], false);
+    
+            if (!empty($sources)) {
+                $source = end($sources);
+                convertVideoFileWithFFMPEG($source['url'], $mp3File);
+                if (file_exists($mp3File)) {
+                    return Video::getSourceFile($video['filename'], ".mp3", true);
+                }
             }
         }
         return false;

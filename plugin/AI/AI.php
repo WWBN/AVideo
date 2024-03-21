@@ -377,10 +377,10 @@ class AI extends PluginAbstract
 
         $paths = self::getMP3Path($videos_id);
         if (!empty($paths)) {
-            if(filesize($paths['path'])<20){
+            if (filesize($paths['path']) < 20) {
                 // it is a dummy file, try the Storage URL
                 $duration = getDurationFromFile($paths['url']);
-            }else{
+            } else {
                 $duration = getDurationFromFile($paths['path']);
             }
 
@@ -389,13 +389,24 @@ class AI extends PluginAbstract
             $videoDuration = $video->getDuration_in_seconds();
             $diff = abs($videoDuration - $durationInSeconds);
             if ($diff > 2) {
-                unlink($paths['path']);
-                $response = array(
-                    'regular' => $arrayRegular,
-                    'lower' => $arrayLower,
-                    'isValid' => false,
-                    'msg' => "Length does not match (Video/MP3) video = {$videoDuration} seconds MP3 = $durationInSeconds seconds",
-                );
+
+                $f = convertVideoFileWithFFMPEGIsLockedInfo($paths['path']);
+                if ($f['isUnlocked']) {
+                    unlink($paths['path']);
+                    $response = array(
+                        'regular' => $arrayRegular,
+                        'lower' => $arrayLower,
+                        'isValid' => false,
+                        'msg' => "Length does not match (Video/MP3) video = {$videoDuration} seconds MP3 = $durationInSeconds seconds",
+                    );
+                } else {
+                    $response = array(
+                        'regular' => $arrayRegular,
+                        'lower' => $arrayLower,
+                        'isValid' => true,
+                        'msg' => "The MP3 file is processing",
+                    );
+                }
                 return $response;
             }
 
