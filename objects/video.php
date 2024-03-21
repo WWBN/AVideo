@@ -1100,6 +1100,13 @@ if (!class_exists('Video')) {
         {
             $sql = '';
             $sort = @$_POST['sort'];
+
+            $videosToShowViewableOnly = array(Video::SORT_TYPE_SUGGESTED, Video::SORT_TYPE_TRENDING ,Video::SORT_TYPE_MOSTPOPULAR, Video::SORT_TYPE_MOSTWATCHED);
+
+            if(in_array($sortType, $videosToShowViewableOnly)){
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
+            }
+
             switch ($sortType) {
                 case Video::SORT_TYPE_SUGGESTED:
                     $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
@@ -1139,8 +1146,6 @@ if (!class_exists('Video')) {
                     $_POST['sort']['v.title'] = 'ASC';
                 case Video::SORT_TYPE_DATEADDED:
                     $_POST['sort']['v.created'] = 'DESC';
-                    $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
-                    break;
                 default:
                     if (!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])) {
                         $_POST['sort']['v.created'] = $_POST['sort']['created'];
@@ -1863,6 +1868,7 @@ if (!class_exists('Video')) {
                 }else if(strlen($status) > 1){
                     $sortType = $status;
                 }
+                
                 $sql .= self::getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
             }
             if (strpos(mb_strtolower($sql), 'limit') === false) {
