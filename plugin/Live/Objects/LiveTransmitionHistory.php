@@ -554,11 +554,13 @@ class LiveTransmitionHistory extends ObjectYPT
     public static function unfinishFromTransmitionHistoryId($live_transmitions_history_id)
     {
         if(isBot()){
+            _error_log("LiveTransmitionHistory::unfinishFromTransmitionHistoryId: isBot " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             return false;
         }
         global $global, $unfinishFromTransmitionHistoryIdSQL;
         $live_transmitions_history_id = intval($live_transmitions_history_id);
         if (empty($live_transmitions_history_id)) {
+            _error_log("LiveTransmitionHistory::unfinishFromTransmitionHistoryId: empty live_transmitions_history_id " . json_encode(debug_backtrace()));
             return false;
         }
         $sql = "UPDATE " . static::getTableName() . " SET finished = NULL WHERE id = {$live_transmitions_history_id} ";
