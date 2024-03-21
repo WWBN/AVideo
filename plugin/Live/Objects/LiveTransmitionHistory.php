@@ -484,7 +484,8 @@ class LiveTransmitionHistory extends ObjectYPT
                 $sql .= " AND finished IS NULL ";
             }
         }
-        $sql .= " ORDER BY lth.created DESC LIMIT 1";
+        $sql .= " ORDER BY (lth.`key` = '{$key}') DESC, lth.created DESC LIMIT 1";
+
         $getLatestSQL = $sql;
         //var_dump($sql, $key);exit;
         $res = sqlDAL::readSql($sql);
