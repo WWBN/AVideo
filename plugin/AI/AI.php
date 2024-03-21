@@ -828,7 +828,8 @@ class AI extends PluginAbstract
                         $response = json_decode($value['response']);
                         foreach ($response->shorts as $key2 => $shorts) {
                             foreach ($shorts as $key3 => $short) {
-                                if ($short->endTimeInSeconds - $short->startTimeInSeconds < 30) {
+                                $ShortsDuration = $short->endTimeInSeconds - $short->startTimeInSeconds;
+                                if ($ShortsDuration < 15 || $ShortsDuration > 60) {
                                     continue;
                                 }
                                 $responses[] = $short;
