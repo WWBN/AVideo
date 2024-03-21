@@ -1852,41 +1852,33 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function checkAllFromStats($force_recreate = false)
     {
-        self::finishAllFromStats($force_recreate);
-        self::unfinishAllFromStats(false);
+        //self::finishAllFromStats($force_recreate);
+        self::unfinishAllFromStats($force_recreate);
     }
 
     public static function finishAllFromStats($force_recreate = false)
     {
-        $stats = self::getStats($force_recreate);
+        $stats = Live::getStatsApplications($force_recreate);
 
-        foreach ($stats as $server) {
-            if (is_array($server) || is_object($server)) {
-                foreach ($server as $live) {
-                    if (!empty($live->key)) {
-                        $row = LiveTransmitionHistory::getLatest($live->key, @$live->live_servers_id);
-                        if (empty($row['finished'])) {
-                            LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
-                        }
-                    }
+        foreach ($stats as $key => $live) {
+            if (!empty($live['key'])) {
+                $row = LiveTransmitionHistory::getLatest($live['key'],$live['live_servers_id']);
+                if (empty($row['finished'])) {
+                    LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
                 }
             }
         }
     }
 
     public static function unfinishAllFromStats($force_recreate = false)
-    {
-        $stats = self::getStats($force_recreate);
+    {       
+        $stats = Live::getStatsApplications($force_recreate);
 
-        foreach ($stats as $server) {
-            if (is_array($server) || is_object($server)) {
-                foreach ($server as $live) {
-                    if (!empty($live->key)) {
-                        $row = LiveTransmitionHistory::getLatest($live->key, @$live->live_servers_id);
-                        if (!empty($row['finished'])) {
-                            LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
-                        }
-                    }
+        foreach ($stats as $key => $live) {
+            if (!empty($live['key'])) {
+                $row = LiveTransmitionHistory::getLatest($live['key'],$live['live_servers_id']);
+                if (!empty($row['finished'])) {
+                    LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
                 }
             }
         }
