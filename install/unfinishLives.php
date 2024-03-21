@@ -37,7 +37,11 @@ foreach ($stats as $key => $live) {
         $row = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
         echo "id={$row['id']} finished= {$row['finished']}".PHP_EOL;
         if (!empty($row['finished'])) {
-            LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+            $resp = LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+            var_dump($resp);
+            echo "id={$row['id']} unfinished".PHP_EOL;
+        }else{
+            echo "not empty id={$row['id']}".PHP_EOL;
         }
     }
 }
