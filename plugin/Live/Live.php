@@ -338,7 +338,7 @@ class Live extends PluginAbstract
                 $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id']);
                 $isStatsAccessible = self::isStatsAccessible($value['live_servers_id']);
                 if (empty($isLiveAndIsReadyFromKey) && $isStatsAccessible) {
-                    _error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$value['live_servers_id']})");
+                    //_error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$value['live_servers_id']})");
                     LiveTransmitionHistory::finishFromTransmitionHistoryId($value['id']);
                     continue;
                 } else if (!empty($isLiveAndIsReadyFromKey)) {
@@ -362,7 +362,7 @@ class Live extends PluginAbstract
             }
 
             if (in_array($link, $currentLives)) {
-                _error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) {$value['users_id']}, {$value['live_servers_id']} [{$link}]");
+                //_error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) {$value['users_id']}, {$value['live_servers_id']} [{$link}]");
                 LiveTransmitionHistory::finishFromTransmitionHistoryId($value['id']);
                 continue;
             }
