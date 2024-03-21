@@ -512,7 +512,7 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function finishFromTransmitionHistoryId($live_transmitions_history_id)
     {
-        if(isBot()){
+        if(isBot(false)){
             return false;
         }
         global $global;
@@ -553,7 +553,7 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function unfinishFromTransmitionHistoryId($live_transmitions_history_id)
     {
-        if(isBot()){
+        if(isBot(false)){
             _error_log("LiveTransmitionHistory::unfinishFromTransmitionHistoryId: isBot " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             return false;
         }
@@ -572,7 +572,7 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function finishALL($olderThan = '')
     {
-        if(isBot()){
+        if(isBot(false)){
             return false;
         }
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE finished IS NULL ";

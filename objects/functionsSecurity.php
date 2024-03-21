@@ -230,11 +230,11 @@ function is_ssl_certificate_valid($port = 443, $domain = '127.0.0.1', $timeout =
 }
 
 //detect search engine bots
-function isBot()
+function isBot($returnTrueIfNoUserAgent=true)
 {
     global $_isBot;
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
-        return true;
+        return $returnTrueIfNoUserAgent;
     }
     if (isAVideoEncoder()) {
         return false;
