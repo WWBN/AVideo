@@ -2888,9 +2888,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
             $cache = $cacheHandler->getCache($name, 90);
            
-            _error_log("isLiveAndIsReadyFromKey::key: {$key} get cache  ".json_encode(array($cache, $name)));
+            //_error_log("isLiveAndIsReadyFromKey::key: {$key} get cache  ".json_encode(array($cache, $name)));
         } else {
-            _error_log("isLiveAndIsReadyFromKey($key, $live_servers_id, $live_index, $force_recreate) force_recreate " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            //_error_log("isLiveAndIsReadyFromKey($key, $live_servers_id, $live_index, $force_recreate) force_recreate " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $cacheHandler->setSuffix($name);
         }
         if (!empty($cache)) {
@@ -2901,14 +2901,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
             //_error_log("isLiveAndIsReadyFromKey::key: {$key} getCache");
             $_isLiveAndIsReadyFromKey[$name] = $json->result;
         } else {
-            _error_log("isLiveAndIsReadyFromKey::key: {$key} $name  ".json_encode(array($cache, $json)));
+            //_error_log("isLiveAndIsReadyFromKey::key: {$key} $name  ".json_encode(array($cache, $json)));
             $json = new stdClass();
             $key = self::getLiveKeyFromRequest($key, $live_index);
             _error_log("isLiveAndIsReadyFromKey::key: {$key} checking live_servers_id={$live_servers_id} ");
             $isLiveFromKey = self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate);
             $_isLiveAndIsReadyFromKey[$name] = true;
             if (empty($isLiveFromKey)) {
-                _error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id ".json_encode($isLiveFromKey));
+                //_error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id ".json_encode($isLiveFromKey));
                 $_isLiveAndIsReadyFromKey[$name] = false;
             } else {
                 $ls = @$_REQUEST['live_servers_id'];
@@ -2930,7 +2930,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
             $json->result = $_isLiveAndIsReadyFromKey[$name];
             $saved = $cacheHandler->setCache($json);
-            _error_log("isLiveAndIsReadyFromKey::key: {$key} end  ".json_encode(array($saved, $json)));
+            //_error_log("isLiveAndIsReadyFromKey::key: {$key} end  ".json_encode(array($saved, $json)));
         }
 
         //_error_log("isLiveAndIsReadyFromKey the key {$key} ".json_encode($_isLiveAndIsReadyFromKey[$name]));
