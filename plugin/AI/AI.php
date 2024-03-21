@@ -436,10 +436,12 @@ class AI extends PluginAbstract
         $isValid = false;
         if ($arrayRegular['isValid'] && $arrayLower['isValid']) {
             $f = convertVideoFileWithFFMPEGIsLockedInfo($arrayRegular['paths']['path']);
+            _error_log("convertVideoFileWithFFMPEGIsLockedInfo({$arrayRegular['paths']['path']}) arrayRegular ".json_encode($f));
             if (!$f['isUnlocked']) {
                 $msg = "The original audio is processing";
             }else{
                 $f = convertVideoFileWithFFMPEGIsLockedInfo($arrayLower['paths']['path']);
+                _error_log("convertVideoFileWithFFMPEGIsLockedInfo({$arrayLower['paths']['path']}) arrayLower ".json_encode($f));
                 if (!$f['isUnlocked']) {
                     $msg = "The audio is processing";
                 }else{

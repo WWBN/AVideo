@@ -233,7 +233,7 @@ function convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation){
         'isOld'=>$isOld ,
         'file_exists'=>file_exists($localFileLock),
         'localFileLock'=>$localFileLock,
-        'isUnlocked'=>$isOld || !$file_exists,
+        'isUnlocked'=> $isOld || !$file_exists,
     );
 }
 function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
