@@ -6566,7 +6566,7 @@ if (!class_exists('Video')) {
                 $galeryDetailsHTML = '<strong class="title">' . getSEOTitle($title) . '</strong>';
             }
 
-            return '<div class="thumbsImageContainer ' . $isserieClass . '"><div class="aspectRatio16_9">' . $img . '</div><div class="clearfix"></div>' . $progressDiv . $galleryVideoButtons . $galeryDetailsHTML . '</div>';
+            return '<div class="thumbsImageContainer ' . $isserieClass . '"><div class="aspectRatio16_9">' . $img . '</div>' . $progressDiv . $galleryVideoButtons . $galeryDetailsHTML . '</div>';
         }
 
         public function getTotal_seconds_watching()
