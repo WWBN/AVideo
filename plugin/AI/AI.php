@@ -377,7 +377,13 @@ class AI extends PluginAbstract
 
         $paths = self::getMP3Path($videos_id);
         if (!empty($paths)) {
-            $duration = getDurationFromFile($paths['path']);
+            if(filesize($paths['path'])<20){
+                // it is a dummy file, try the Storage URL
+                $duration = getDurationFromFile($paths['url']);
+            }else{
+                $duration = getDurationFromFile($paths['path']);
+            }
+
             $durationInSeconds = durationToSeconds($duration);
             $video = new Video('', '', $videos_id);
             $videoDuration = $video->getDuration_in_seconds();
