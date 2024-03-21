@@ -556,13 +556,13 @@ class LiveTransmitionHistory extends ObjectYPT
         if(isBot()){
             return false;
         }
-        global $global;
+        global $global, $unfinishFromTransmitionHistoryIdSQL;
         $live_transmitions_history_id = intval($live_transmitions_history_id);
         if (empty($live_transmitions_history_id)) {
             return false;
         }
         $sql = "UPDATE " . static::getTableName() . " SET finished = NULL WHERE id = {$live_transmitions_history_id} ";
-
+        $unfinishFromTransmitionHistoryIdSQL = $sql;
         $insert_row = sqlDAL::writeSql($sql);
         _mysql_commit();
         return $insert_row;

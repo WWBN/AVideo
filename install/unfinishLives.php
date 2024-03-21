@@ -38,7 +38,7 @@ foreach ($stats as $key => $live) {
         echo "id={$row['id']} finished= {$row['finished']}".PHP_EOL;
         if (!empty($row['finished'])) {
             $resp = LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
-            var_dump($resp);
+            var_dump($resp, $unfinishFromTransmitionHistoryIdSQL);
             echo "id={$row['id']} unfinished".PHP_EOL;
         }else{
             echo "not empty id={$row['id']}".PHP_EOL;
