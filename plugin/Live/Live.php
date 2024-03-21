@@ -2761,7 +2761,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function isKeyLiveInStats($key, $live_servers_id = 0, $live_index = '', $force_recreate = false, $doNotCheckDatabase = true)
     {
-        return self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate, $doNotCheckDatabase);
+        return self::isKeyLiveInStatsv2($key, $live_servers_id, $live_index, $force_recreate, $doNotCheckDatabase);
         global $_isLiveFromKey, $global;
         if (empty($key) || $key == '-1') {
             _error_log('Live::isKeyLiveInStats key is empty');
