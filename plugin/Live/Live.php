@@ -1859,15 +1859,41 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function finishAllFromStats()
     {
         $obj = AVideoPlugin::getObjectData("Live");
+        $stats = Live::getStatsApplications();
         if (empty($obj->useLiveServers)) {
-            LiveTransmitionHistory::getActiveLives(0, true);
+            $lives = LiveTransmitionHistory::getActiveLives(0, true);
+            foreach ($lives as $live) {
+                $found = false;
+                foreach ($stats as $liveFromStats) {
+                    if (!empty($liveFromStats['key']) && $liveFromStats['key'] == $live['key'] ) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if(!$found){
+                    LiveTransmitionHistory::finishFromTransmitionHistoryId($live['id']);
+                }
+            }
         } else {
             $rows = Live_servers::getAllActive();
 
-            foreach ($rows as $key => $live) {
-                LiveTransmitionHistory::getActiveLives($live['id'], true);
+            foreach ($rows as $liveS) {
+                $lives = LiveTransmitionHistory::getActiveLives($liveS['id'], true);
+                foreach ($lives as $live) {
+                    $found = false;
+                    foreach ($stats as $liveFromStats) {
+                        if (!empty($liveFromStats['key']) && $liveFromStats['key'] == $live['key'] ) {
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if(!$found){
+                        LiveTransmitionHistory::finishFromTransmitionHistoryId($live['id']);
+                    }
+                }
             }
         }
+        
     }
 
     public static function unfinishAllFromStats($force_recreate = false)
