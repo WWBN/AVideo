@@ -2900,6 +2900,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function isLiveAndIsReadyFromKey($key, $live_servers_id = 0, $live_index = '', $force_recreate = false)
     {
+        if(isBot()){
+            return true;
+        }
         global $_isLiveAndIsReadyFromKey;
 
         if (!isset($_isLiveAndIsReadyFromKey)) {
