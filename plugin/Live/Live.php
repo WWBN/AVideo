@@ -2754,6 +2754,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
                         break;
                     }
                 }
+            }else{
+                _error_log("Live::isKeyLiveInStatsV2 /{$key}.*/, {$value['key']}");
             }
         }
         return $_isLiveFromKey[$index];
@@ -2903,7 +2905,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $isLiveFromKey = self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate);
             $_isLiveAndIsReadyFromKey[$name] = true;
             if (empty($isLiveFromKey)) {
-                //_error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id");
+                _error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id ".json_encode($isLiveFromKey));
                 $_isLiveAndIsReadyFromKey[$name] = false;
             } else {
                 $ls = @$_REQUEST['live_servers_id'];
