@@ -60,4 +60,5 @@ foreach ($stats as $key => $live) {
 }
 */
 
-Live::checkAllFromStats();
+Live::finishAllFromStats();
+Live::unfinishAllFromStats(true);

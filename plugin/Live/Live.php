@@ -4327,7 +4327,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             //_error_log("Live::executeEveryMinute live_servers_id=$live_servers_id");
             $this->createCacheStatsObject($live_servers_id);
         }
-        Live::checkAllFromStats();
+        Live::checkAllFromStats(true);
         $end = microtime(true) - $start;
         //_error_log("Live::executeEveryMinute complete in {$end} seconds");
     }
