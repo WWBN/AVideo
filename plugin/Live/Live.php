@@ -2829,6 +2829,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
             $cache = $cacheHandler->getCache($name, 90);
         } else {
+            _error_log("isLiveAndIsReadyFromKey($key, $live_servers_id, $live_index, $force_recreate) force_recreate " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $cacheHandler->setSuffix($name);
         }
         if (!empty($cache)) {
