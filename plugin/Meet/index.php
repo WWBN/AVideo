@@ -79,7 +79,7 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
                             if (User::canCreateMeet()) {
                             ?>
                                 <li><a data-toggle="tab" href="#createMeet"><i class="far fa-calendar-alt"></i> <span class="hidden-sm hidden-xs"><?php echo __("Schedule"); ?></span></a></li>
-                                <li><a data-toggle="tab" href="#" onclick="_startMeetNow();return false;"><i class="far fa-comments"></i> <?php echo __("New Meet"); ?></a></li>
+                                <li><a data-toggle="tab" href="#none" onclick="_startMeetNow();return false;"><i class="far fa-comments"></i> <?php echo __("New Meet"); ?></a></li>
                             <?php
                             }
                             ?>
