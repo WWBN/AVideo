@@ -2673,6 +2673,7 @@ if (!class_exists('Video')) {
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
             }
+
             /*
               $res = sqlDAL::readSql($sql);
               $numRows = sqlDal::num_rows($res);
