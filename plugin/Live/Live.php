@@ -2703,8 +2703,65 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $_live_is_live[$name];
     }
 
+    
+    public static function isKeyLiveInStatsV2($key, $live_servers_id = 0, $live_index = '', $force_recreate = false, $doNotCheckDatabase = true)
+    {
+        global $_isLiveFromKey, $global;
+        if (empty($key) || $key == '-1') {
+            _error_log('Live::isKeyLiveInStats key is empty');
+            return false;
+        }
+
+        if (!empty($global['disableIsKeyLiveInStats'])) {
+            _error_log('disableIsKeyLiveInStats');
+            return true;
+        }
+        $index = "$key, $live_servers_id,$live_index";
+        if (!isset($_isLiveFromKey)) {
+            $_isLiveFromKey = [];
+        }
+
+        if (empty($force_recreate) && isset($_isLiveFromKey[$index])) {
+            //_error_log('Live::isKeyLiveInStats key is already set');
+            return $_isLiveFromKey[$index];
+        }
+
+        //_error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");
+        $o = AVideoPlugin::getObjectData("Live");
+        if ($doNotCheckDatabase) {
+            if (empty($o->server_type->value) || !empty($live_servers_id)) {
+                //_error_log("Live::isLiveFromKey return LiveTransmitionHistory::isLive($key, $live_servers_id)");
+                return LiveTransmitionHistory::isLive($key, $live_servers_id);
+            }
+        }
+
+        $stats = Live::getStatsApplications($force_recreate);
+        $_isLiveFromKey[$index] = false;
+        foreach ($stats as $key => $value) {
+            
+            if (!is_array($value) || empty($value) || empty($value['key'])) {
+                continue;
+            }
+            
+            $namesFound[] = "({$value['key']})";
+            if (preg_match("/{$key}.*/", $value['key'])) {
+                if (empty($live_servers_id)) {
+                    $_isLiveFromKey[$index] = true;
+                    break;
+                } else {
+                    if (intval(@$value['live_servers_id']) == $live_servers_id) {
+                        $_isLiveFromKey[$index] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return $_isLiveFromKey[$index];
+    }
+
     public static function isKeyLiveInStats($key, $live_servers_id = 0, $live_index = '', $force_recreate = false, $doNotCheckDatabase = true)
     {
+        return self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate, $doNotCheckDatabase);
         global $_isLiveFromKey, $global;
         if (empty($key) || $key == '-1') {
             _error_log('Live::isKeyLiveInStats key is empty');
