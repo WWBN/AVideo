@@ -2927,7 +2927,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
 
             $json->result = $_isLiveAndIsReadyFromKey[$name];
-            $cacheHandler->setCache($json);
+            $saved = $cacheHandler->setCache($json);
+            _error_log("isLiveAndIsReadyFromKey::key: {$key} end  ".json_encode(array($saved, $json)));
         }
 
         //_error_log("isLiveAndIsReadyFromKey the key {$key} ".json_encode($_isLiveAndIsReadyFromKey[$name]));
