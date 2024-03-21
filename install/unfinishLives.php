@@ -34,13 +34,14 @@ foreach ($stats as $key => $live) {
     if (!empty($live['key'])) {
         echo "key= {$live['key']}".PHP_EOL;
         $row = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
+        
         echo "id={$row['id']} finished= {$row['finished']}".PHP_EOL;
         if (!empty($row['finished'])) {
             LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
             var_dump($resp, $unfinishFromTransmitionHistoryIdSQL);
             echo "id={$row['id']} unfinished".PHP_EOL;
         }else{
-            $row = LiveTransmition::keyExists($_POST['name']);
+            $row = LiveTransmition::keyExists($live['key']);
             if(!empty($row)){
                 $lth = new LiveTransmitionHistory();
                 $lth->setTitle($row['title']);
@@ -51,6 +52,8 @@ foreach ($stats as $key => $live) {
                 $id = $lth->save();
                 echo ("unfinishAllFromStats saving LiveTransmitionHistory [{$id}]").PHP_EOL;
                 echo "not empty id={$row['id']}".PHP_EOL;
+            }else{
+
             }
         }
     }

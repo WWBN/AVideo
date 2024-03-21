@@ -1906,7 +1906,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 if (!empty($row['finished'])) {
                     LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
                 }else{
-                    $row = LiveTransmition::keyExists($_POST['name']);
+                    $row = LiveTransmition::keyExists($live['key']);
                     if(!empty($row)){
                         $lth = new LiveTransmitionHistory();
                         $lth->setTitle($row['title']);
