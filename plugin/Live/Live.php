@@ -1905,6 +1905,18 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $row = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
                 if (!empty($row['finished'])) {
                     LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+                }else{
+                    /*
+                    $lth = new LiveTransmitionHistory();
+                    $lth->setTitle($obj->row['title']);
+                    $lth->setDescription($obj->row['description']);
+                    $lth->setKey($_POST['name']);
+                    $lth->setDomain(@$_REQUEST['domain']);
+                    $lth->setUsers_id($user->getBdId());
+                    $lth->setLive_servers_id($live_servers_id);
+                    _error_log("NGINX ON Publish saving LiveTransmitionHistory");
+                    $obj->liveTransmitionHistory_id = $lth->save();
+                    */
                 }
             }
         }
