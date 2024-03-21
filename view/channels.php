@@ -25,6 +25,11 @@ $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array)
 $totalPages = ceil($totalChannels / $_REQUEST['rowCount']);
 //var_dump($channels, $totalPages, $totalChannels, $_REQUEST['rowCount']);exit;
 $_page = new Page(array('Channels'));
+$_page->setExtraStyles(
+    array(
+        'plugin/Gallery/style.css'
+    )
+);
 ?>
 <style>
     #custom-search-input {
