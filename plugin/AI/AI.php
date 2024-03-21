@@ -435,11 +435,16 @@ class AI extends PluginAbstract
         $msg = '';
         $isValid = false;
         if ($arrayRegular['isValid'] && $arrayLower['isValid']) {
-            $diff = abs($arrayRegular['durationInSeconds'] - $arrayLower['durationInSeconds']);
-            if ($diff <= 2) {
-                $isValid = true;
-            } else {
-                $msg = "durationInSeconds are not the same regular={$arrayRegular['durationInSeconds']} lower={$arrayLower['durationInSeconds']}";
+            $f = convertVideoFileWithFFMPEGIsLockedInfo($arrayLower['path']);
+            if (!$f['isUnlocked']) {
+                $msg = "The audio is processing";
+            }else{
+                $diff = abs($arrayRegular['durationInSeconds'] - $arrayLower['durationInSeconds']);
+                if ($diff <= 2) {
+                    $isValid = true;
+                } else {
+                    $msg = "durationInSeconds are not the same regular={$arrayRegular['durationInSeconds']} lower={$arrayLower['durationInSeconds']}";
+                }
             }
         } else {
             if (!$arrayRegular['isValid']) {
