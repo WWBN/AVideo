@@ -79,30 +79,15 @@ foreach ($rows as $value) {
     }
     $forceIndex = Playlists_schedules::getPlayListScheduledIndex($value['id']);
 
-
-
-    $json = Live::getStats(true);
-    $json = object_to_array($json);
-
+    $stats = Live::getStatsApplications(true);
     $found = false; // Flag to indicate if the desired condition is met
 
-    foreach ($json as $liveServers) {
-        if(!is_array($liveServers) || (!is_array($liveServers['applications']) && !is_object($liveServers['applications']))){
-            continue;
-        }
-        if (empty($liveServers['error'])) {
-            foreach ($liveServers['applications'] as $apps) {
-                if (preg_match("/.*{$forceIndex}$/", $apps['key'])) {
-                    $found = true;
-                    break; // Breaks the inner loop
-                }
-            }
-        }
-        if ($found) {
-            break; // Breaks the outer loop if $found is true
+    foreach ($stats as $key => $apps) {
+        if (preg_match("/.*{$forceIndex}$/", $apps['key'])) {
+            $found = true;
+            break; // Breaks the inner loop
         }
     }
-
 
     //var_dump($value['key'], $found);
     if (!$found) {
