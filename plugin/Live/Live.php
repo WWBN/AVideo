@@ -2737,7 +2737,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         $stats = Live::getStatsApplications($force_recreate);
         $_isLiveFromKey[$index] = false;
-        foreach ($stats as $key => $value) {
+        foreach ($stats as $value) {
             
             if (!is_array($value) || empty($value) || empty($value['key'])) {
                 continue;
