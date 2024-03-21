@@ -393,6 +393,7 @@ class AI extends PluginAbstract
 
                 $f = convertVideoFileWithFFMPEGIsLockedInfo($paths['path']);
                 if ($f['isUnlocked']) {
+                    _error_log('getMP3RegularAndLower: unlink line=' . __LINE__);
                     unlink($paths['path']);
                     $response = array(
                         'regular' => $arrayRegular,
@@ -479,6 +480,7 @@ class AI extends PluginAbstract
                 ini_set('max_execution_time', 300);
                 set_time_limit(300);
                 if (file_exists($mp3s['lower']['paths']['path']) && filesize($mp3s['lower']['paths']['path']) > 20) {
+                    _error_log('getLowerMP3: unlink line=' . __LINE__);
                     unlink($mp3s['lower']['paths']['path']);
                 }
                 $fromFileLocationEscaped = escapeshellarg($mp3s['regular']['paths']['path']);
