@@ -2886,7 +2886,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 //_error_log("isLiveAndIsReadyFromKey::key: {$key} isset");
                 return $_isLiveAndIsReadyFromKey[$name];
             }
-            $cache = $cacheHandler->getCache($name, 90);
+            $cache = $cacheHandler->getCache($a, 90);
+           
+            _error_log("isLiveAndIsReadyFromKey::key: {$key} get cache  ".json_encode(array($cache, $name)));
         } else {
             _error_log("isLiveAndIsReadyFromKey($key, $live_servers_id, $live_index, $force_recreate) force_recreate " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $cacheHandler->setSuffix($name);
