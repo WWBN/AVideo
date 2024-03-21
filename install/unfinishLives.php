@@ -28,8 +28,7 @@ foreach ($rows as $liveS) {
     }
 }
 */
-
-$stats = Live::getStatsApplications($force_recreate);
+$stats = Live::getStatsApplications(true);
 
 foreach ($stats as $key => $live) {
     if (!empty($live['key'])) {
@@ -37,11 +36,22 @@ foreach ($stats as $key => $live) {
         $row = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
         echo "id={$row['id']} finished= {$row['finished']}".PHP_EOL;
         if (!empty($row['finished'])) {
-            $resp = LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+            LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
             var_dump($resp, $unfinishFromTransmitionHistoryIdSQL);
             echo "id={$row['id']} unfinished".PHP_EOL;
         }else{
-            echo "not empty id={$row['id']}".PHP_EOL;
+            $row = LiveTransmition::keyExists($_POST['name']);
+            if(!empty($row)){
+                $lth = new LiveTransmitionHistory();
+                $lth->setTitle($row['title']);
+                $lth->setDescription($row['description']);
+                $lth->setKey($live['key']);
+                $lth->setUsers_id($row['users_id']);
+                $lth->setLive_servers_id($live['live_servers_id']);
+                $id = $lth->save();
+                echo ("unfinishAllFromStats saving LiveTransmitionHistory [{$id}]").PHP_EOL;
+                echo "not empty id={$row['id']}".PHP_EOL;
+            }
         }
     }
 }
