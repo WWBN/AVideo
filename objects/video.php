@@ -1153,6 +1153,9 @@ if (!class_exists('Video')) {
                 default:
                     if(is_array($sort)){
                         foreach ($sort as $key=>$value) {
+                            if($key == 'created'){
+                                $key = 'v.created';
+                            }
                             if(!isset($_POST['sort'][$key])){
                                 $_POST['sort'][$key] = $value;
                             }
