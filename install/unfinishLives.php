@@ -20,6 +20,9 @@ foreach ($stats as $server) {
                     echo "{$row['id']} [{$row['finished']}] Finishing".PHP_EOL;
                     LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
                 }
+            }else{
+                echo "Error".PHP_EOL;
+                var_dump($live);
             }
         }
     }
