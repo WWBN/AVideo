@@ -512,6 +512,9 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function finishFromTransmitionHistoryId($live_transmitions_history_id)
     {
+        if(isBot()){
+            return false;
+        }
         global $global;
         //var_dump(debug_backtrace());exit;
         $live_transmitions_history_id = intval($live_transmitions_history_id);
@@ -550,6 +553,9 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function unfinishFromTransmitionHistoryId($live_transmitions_history_id)
     {
+        if(isBot()){
+            return false;
+        }
         global $global;
         $live_transmitions_history_id = intval($live_transmitions_history_id);
         if (empty($live_transmitions_history_id)) {
@@ -564,6 +570,9 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function finishALL($olderThan = '')
     {
+        if(isBot()){
+            return false;
+        }
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE finished IS NULL ";
 
         if (!empty($olderThan)) {
