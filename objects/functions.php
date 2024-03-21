@@ -5377,7 +5377,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             }
         }
         $cache = $cacheHandler->setCache($json);
-        Live::checkAllFromStats();
+        //Live::checkAllFromStats();
         TimeLogEnd($timeName, __LINE__);
         //_error_log('Live::createStatsCache ' . json_encode($cache));
     } else {
