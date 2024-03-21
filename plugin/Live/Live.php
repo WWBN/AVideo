@@ -1892,6 +1892,28 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
     }
 
+    public static function getStatsApplications($force_recreate = false)
+    {
+        $applications = array();
+        $stats = Live::getStats($force_recreate);
+        foreach ($stats as $key => $server) {
+            if (is_array($server) || is_object($server)) {
+                foreach ($server as $key2 => $live) {
+                    if (!empty($live->key)) {
+                        $applications[] = object_to_array($live);
+                    }else{
+                        if($key2=='applications' && is_array($live)){
+                            foreach ($live as $key3 => $value3) {
+                                $applications[] = object_to_array($value3);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $applications;
+    }
+
     public static function getStats($force_recreate = false)
     {
         global $getStatsLive, $_getStats, $getStatsObject;

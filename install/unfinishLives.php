@@ -7,7 +7,7 @@ if (!isCommandLineInterface()) {
 ob_end_flush();
 AVideoPlugin::loadPlugin('Live');
 
-$stats = Live::getStats(true);
+$stats = Live::getStatsApplications(true);
 
 foreach ($stats as $key => $server) {
     if (is_array($server) || is_object($server)) {
@@ -18,7 +18,7 @@ foreach ($stats as $key => $server) {
                 echo "{$row['id']} [{$row['finished']}] {$row['title']}".PHP_EOL;
                 if (!empty($row['finished'])) {
                     echo "{$row['id']} [{$row['finished']}] Finishing".PHP_EOL;
-                    LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+                    //LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
                 }
             }else{
                 echo "Error {$key2}".PHP_EOL;
