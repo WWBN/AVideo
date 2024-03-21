@@ -388,7 +388,8 @@ class AI extends PluginAbstract
             $video = new Video('', '', $videos_id);
             $videoDuration = $video->getDuration_in_seconds();
             $diff = abs($videoDuration - $durationInSeconds);
-            if ($diff > 2) {
+            $tenPercentOfVideoDuration = $videoDuration * 0.1; // 10% of $videoDuration
+            if ($diff < $tenPercentOfVideoDuration) {
 
                 $f = convertVideoFileWithFFMPEGIsLockedInfo($paths['path']);
                 if ($f['isUnlocked']) {
