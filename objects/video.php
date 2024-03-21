@@ -1147,25 +1147,21 @@ if (!class_exists('Video')) {
                 case Video::SORT_TYPE_DATEADDED:
                     $_POST['sort']['v.created'] = 'DESC';
                 default:
-                    if (!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])) {
+                    $sort = $_POST['sort'];
+                    if (!empty($_POST['sort']['created']) && count($_POST['sort']) == 1) {
                         $_POST['sort']['v.created'] = $_POST['sort']['created'];
                         unset($_POST['sort']['created']);
                     }
-                    $sort = $_POST['sort'];
-                    if (!empty($_POST['sort']['v.created']) || !empty($_POST['sort']['created'])) {
-                        $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
-                        unset($_POST['sort']);
-                        $_POST['sort'] = array();
-                        if (strtoupper($created) === 'DESC') {
+                    if (!empty($_POST['sort']['v.created']) && count($_POST['sort']) == 1) {                        
+                        if (strtoupper($_POST['sort']['v.created']) === 'DESC') {
+                            $_POST['sort'] = array();
                             $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
                             $_POST['sort']['`order`'] = 'ASC';
+                            $_POST['sort']['v.created'] = 'DESC';
                         }
-
-                        $_POST['sort']['v.created'] = $created;
                     }
                     //var_dump($_POST['sort']);exit;
                     $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
-                    unset($_POST['sort']);
                     $_POST['sort'] = $sort;
                     //var_dump($sql);exit;
                     break;
@@ -1893,6 +1889,7 @@ if (!class_exists('Video')) {
 
             //var_dump($max_duration_in_seconds);echo $sql; //exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
+            if($status == Video::SORT_TYPE_MOSTPOPULAR){ var_dump($sql);exit;}
             //var_dump($sql, $videosArrayId, $status, debug_backtrace());exit;
             //if(!empty($_REQUEST['test'])){var_dump($sql); }
             global $_lastGetAllSQL;
