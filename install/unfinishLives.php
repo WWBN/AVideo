@@ -6,7 +6,7 @@ if (!isCommandLineInterface()) {
 }
 ob_end_flush();
 AVideoPlugin::loadPlugin('Live');
-
+/*
 $rows = Live_servers::getAllActive();
 
 foreach ($rows as $liveS) {
@@ -24,6 +24,20 @@ foreach ($rows as $liveS) {
         }
         if(!$found){
             LiveTransmitionHistory::finishFromTransmitionHistoryId($live['id']);
+        }
+    }
+}
+*/
+
+$stats = Live::getStatsApplications($force_recreate);
+
+foreach ($stats as $key => $live) {
+    if (!empty($live['key'])) {
+        echo "key= {$liveS['key']}".PHP_EOL;
+        $row = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
+        echo "finished= {$liveS['finished']}".PHP_EOL;
+        if (!empty($row['finished'])) {
+            LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
         }
     }
 }
