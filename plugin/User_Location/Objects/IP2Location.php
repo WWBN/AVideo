@@ -233,4 +233,20 @@ class IP2Location extends ObjectYPT {
         return $countries;
     }
 
+    static function getUSTerritories() {
+        $countries = array(
+            "American Samoa",
+            "Guam",
+            "Marshall Islands",
+            "Micronesia, Federated States of",
+            "Northern Mariana Islands",
+            "Puerto Rico",
+            "Samoa",
+            "United States",
+            "United States Minor Outlying Islands",
+            "Virgin Islands, U.S.",
+        );
+        return $countries;
+    }
+
 }
