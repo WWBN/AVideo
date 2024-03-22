@@ -2,19 +2,23 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
-class IP2Location extends ObjectYPT {
+class IP2Location extends ObjectYPT
+{
 
     protected $ip_from, $ip_to, $country_code, $country_name, $region_name, $city_name;
 
-    static function getSearchFieldsNames() {
+    static function getSearchFieldsNames()
+    {
         return array('country_code', 'country_name', 'region_name');
     }
 
-    static function getTableName() {
+    static function getTableName()
+    {
         return 'ip2location_db3';
     }
 
-    static function getLocation($ip) {
+    static function getLocation($ip)
+    {
         if (!self::isTableInstalled() || !AVideoPlugin::isEnabledByName('User_Location')) {
             return false;
         }
@@ -24,7 +28,7 @@ class IP2Location extends ObjectYPT {
         // japan 2.16.40.123
         // USA 	2.16.13.123
         //$ip = '2.16.40.123';
-        if(!isset($_SESSION['IP2Location']) || !is_array($_SESSION['IP2Location'])){
+        if (!isset($_SESSION['IP2Location']) || !is_array($_SESSION['IP2Location'])) {
             $_SESSION['IP2Location'] = array();
         }
         if (empty($_SESSION['IP2Location'][$ip]['country_code'])) {
@@ -56,7 +60,7 @@ class IP2Location extends ObjectYPT {
                 $row['ip'] = $ip;
                 $_SESSION['IP2Location'][$ip] = $row;
             }
-        }//var_dump($_SESSION['IP2Location'][$ip]);exit;
+        } //var_dump($_SESSION['IP2Location'][$ip]);exit;
         if (!empty($_SESSION['IP2Location'][$ip]['country_name']) && $_SESSION['IP2Location'][$ip]['country_name'] == "United States of America") {
             $_SESSION['IP2Location'][$ip]['country_name'] = "United States";
         }
@@ -65,7 +69,8 @@ class IP2Location extends ObjectYPT {
     }
 
     // Function to convert IP address to IP number (IPv6)
-    static function Dot2LongIPv6($IPaddr) {
+    static function Dot2LongIPv6($IPaddr)
+    {
         if (!function_exists("gmp_strval")) {
             _error_log("To query IPV6 you must install php-gmp (apt-get install php-gmp)");
             return 0;
@@ -86,7 +91,8 @@ class IP2Location extends ObjectYPT {
         return $ipv6long;
     }
 
-    static function getCountries() {
+    static function getCountries()
+    {
         global $global;
 
         if (!static::isTableInstalled()) {
@@ -120,7 +126,8 @@ class IP2Location extends ObjectYPT {
         return _json_decode($content);
     }
 
-    static function getRegions($country_name) {
+    static function getRegions($country_name)
+    {
         global $global;
 
         if (!static::isTableInstalled()) {
@@ -148,7 +155,7 @@ class IP2Location extends ObjectYPT {
                 }
                 $content = json_encode($rows);
                 file_put_contents($cachefile, $content);
-            } 
+            }
         } else {
             $content = file_get_contents($cachefile);
         }
@@ -156,7 +163,8 @@ class IP2Location extends ObjectYPT {
         return _json_decode($content);
     }
 
-    static function getCities($country_name, $region_name) {
+    static function getCities($country_name, $region_name)
+    {
         global $global;
 
         $cacheDir = $global['systemRootPath'] . 'videos/cache/';
@@ -190,7 +198,8 @@ class IP2Location extends ObjectYPT {
         return _json_decode($content);
     }
 
-    static function getNorthAmericaCountries() {
+    static function getNorthAmericaCountries()
+    {
         $countries = array(
             "Antigua and Barbuda",
             "Bahamas",
@@ -233,7 +242,8 @@ class IP2Location extends ObjectYPT {
         return $countries;
     }
 
-    static function getUSTerritories() {
+    static function getUSTerritories()
+    {
         $countries = array(
             "American Samoa",
             "Guam",
@@ -248,5 +258,185 @@ class IP2Location extends ObjectYPT {
         );
         return $countries;
     }
+    static function getEuropeanUnionCountries()
+    {
+        $countries = array(
+            "Austria",
+            "Belgium",
+            "Bulgaria",
+            "Croatia",
+            "Cyprus",
+            "Czech Republic",
+            "Denmark",
+            "Estonia",
+            "Finland",
+            "France",
+            "Germany",
+            "Greece",
+            "Hungary",
+            "Ireland",
+            "Italy",
+            "Latvia",
+            "Lithuania",
+            "Luxembourg",
+            "Malta",
+            "Netherlands",
+            "Poland",
+            "Portugal",
+            "Romania",
+            "Slovakia",
+            "Slovenia",
+            "Spain",
+            "Sweden",
+        );
+        return $countries;
+    }
+    static function getASEANCountries()
+    {
+        $countries = array(
+            "Brunei Darussalam",
+            "Cambodia",
+            "Indonesia",
+            "Laos",
+            "Malaysia",
+            "Myanmar",
+            "Philippines",
+            "Singapore",
+            "Thailand",
+            "Vietnam",
+        );
+        return $countries;
+    }
 
+    static function getSouthAmericanCountries() {
+        $countries = array(
+            "Argentina",
+            "Bolivia",
+            "Brazil",
+            "Chile",
+            "Colombia",
+            "Ecuador",
+            "Guyana",
+            "Paraguay",
+            "Peru",
+            "Suriname",
+            "Uruguay",
+            "Venezuela",
+        );
+        return $countries;
+    }
+
+    static function getMiddleEasternCountries() {
+        $countries = array(
+            "Bahrain",
+            "Cyprus",
+            "Egypt",
+            "Iran",
+            "Iraq",
+            "Israel",
+            "Jordan",
+            "Kuwait",
+            "Lebanon",
+            "Oman",
+            "Palestine",
+            "Qatar",
+            "Saudi Arabia",
+            "Syria",
+            "Turkey",
+            "United Arab Emirates",
+            "Yemen",
+        );
+        return $countries;
+    }
+    static function getAfricanCountries() {
+        $countries = array(
+            "Algeria",
+            "Angola",
+            "Benin",
+            "Botswana",
+            "Burkina Faso",
+            "Burundi",
+            "Cabo Verde",
+            "Cameroon",
+            "Central African Republic",
+            "Chad",
+            "Comoros",
+            "Congo, Democratic Republic of the",
+            "Congo, Republic of the",
+            "Djibouti",
+            "Egypt",
+            "Equatorial Guinea",
+            "Eritrea",
+            "Eswatini",
+            "Ethiopia",
+            "Gabon",
+            "Gambia",
+            "Ghana",
+            "Guinea",
+            "Guinea-Bissau",
+            "Ivory Coast",
+            "Kenya",
+            "Lesotho",
+            "Liberia",
+            "Libya",
+            "Madagascar",
+            "Malawi",
+            "Mali",
+            "Mauritania",
+            "Mauritius",
+            "Morocco",
+            "Mozambique",
+            "Namibia",
+            "Niger",
+            "Nigeria",
+            "Rwanda",
+            "Sao Tome and Principe",
+            "Senegal",
+            "Seychelles",
+            "Sierra Leone",
+            "Somalia",
+            "South Africa",
+            "South Sudan",
+            "Sudan",
+            "Tanzania",
+            "Togo",
+            "Tunisia",
+            "Uganda",
+            "Zambia",
+            "Zimbabwe",
+        );
+        return $countries;
+    }
+    
+    static function getCaribbeanCountries() {
+        $countries = array(
+            "Antigua and Barbuda",
+            "Bahamas",
+            "Barbados",
+            "Cuba",
+            "Dominica",
+            "Dominican Republic",
+            "Grenada",
+            "Haiti",
+            "Jamaica",
+            "Saint Kitts and Nevis",
+            "Saint Lucia",
+            "Saint Vincent and the Grenadines",
+            "Trinidad and Tobago",
+        );
+        return $countries;
+    }
+    static function getCentralAmericanCountries() {
+        $countries = array(
+            "Belize",
+            "Costa Rica",
+            "El Salvador",
+            "Guatemala",
+            "Honduras",
+            "Nicaragua",
+            "Panama",
+        );
+        return $countries;
+    }
+    
 }
