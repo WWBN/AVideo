@@ -22,7 +22,7 @@ $basicValidElements = 'a[role|href|target|data-toggle|data-parent|data-dismiss|a
     'ol[class],' .
     'blockquote[class],' .
     'abbr[title],' .
-    'code,' .
+    'code,'.
     'pre[class]';
 $basicValidStyles = 'a{role|href|target|data-toggle|data-parent|data-dismiss|aria-expanded|aria-controls|class|title};' .
     'div{class|role|data-toggle|aria-labelledby|aria-hidden|aria-expanded|data-target|data-parent|style};' .
@@ -31,7 +31,7 @@ $basicValidStyles = 'a{role|href|target|data-toggle|data-parent|data-dismiss|ari
     'p{class|style};';
 
 // Allowing all attributes, CSS, and tags
-$extendedValidElements = '';
+$extendedValidElements = '*[*]';
 $extendedValidStyles = '';
 
 
