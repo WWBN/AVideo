@@ -47,6 +47,6 @@
         "scssphp/scssphp": "^1.11",
         "vimeo/vimeo-api": "^3.0",
         "phpseclib/phpseclib": "^3.0",
-        "bunnycdn/storage": "^2.0"
+        "bunnycdn/storage": "^3.0"
     }
 }
