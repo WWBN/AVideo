@@ -313,7 +313,7 @@ class CachesInDB extends ObjectYPT
         self::readUncomited(false);
         return $return;
     }
-    public static function set_innodb_lock_wait_timeout($timeout = 2)
+    public static function set_innodb_lock_wait_timeout($timeout = 10)
     {
         global $global;
         $sql = "SET SESSION innodb_lock_wait_timeout = {$timeout};";

@@ -20,10 +20,14 @@ class CacheDB
 
     public static function deleteCacheStartingWith($name)
     {
-        if(self::$cacheType == self::$CACHE_ON_MEMORY){
-            return CachesInDBMem::_deleteCacheStartingWith($name);
-        }else{
-            return CachesInDB::_deleteCacheStartingWith($name);
+        try {
+            if(self::$cacheType == self::$CACHE_ON_MEMORY){
+                return CachesInDBMem::_deleteCacheStartingWith($name);
+            }else{
+                return CachesInDB::_deleteCacheStartingWith($name);
+            }
+        } catch (\Throwable $th) {
+            _error_log("CacheDB::deleteCacheStartingWith($name)");
         }
     }
 
