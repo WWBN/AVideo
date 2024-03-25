@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df692ca596b41829c67fd6ba2a414f3e",
+    "content-hash": "7c8023603cbe94312faf8012dc4e434d",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -70,16 +70,16 @@
         },
         {
             "name": "amphp/amp",
-            "version": "v2.6.2",
+            "version": "v2.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/amp.git",
-                "reference": "9d5100cebffa729aaffecd3ad25dc5aeea4f13bb"
+                "reference": "ded3d9be08f526089eb7ee8d9f16a9768f9dec2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/amp/zipball/9d5100cebffa729aaffecd3ad25dc5aeea4f13bb",
-                "reference": "9d5100cebffa729aaffecd3ad25dc5aeea4f13bb",
+                "url": "https://api.github.com/repos/amphp/amp/zipball/ded3d9be08f526089eb7ee8d9f16a9768f9dec2d",
+                "reference": "ded3d9be08f526089eb7ee8d9f16a9768f9dec2d",
                 "shasum": ""
             },
             "require": {
@@ -91,8 +91,8 @@
                 "ext-json": "*",
                 "jetbrains/phpstorm-stubs": "^2019.3",
                 "phpunit/phpunit": "^7 | ^8 | ^9",
-                "psalm/phar": "^3.11@dev",
-                "react/promise": "^2"
+                "react/promise": "^2",
+                "vimeo/psalm": "^3.12"
             },
             "type": "library",
             "extra": {
@@ -147,7 +147,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/amphp",
                 "issues": "https://github.com/amphp/amp/issues",
-                "source": "https://github.com/amphp/amp/tree/v2.6.2"
+                "source": "https://github.com/amphp/amp/tree/v2.6.4"
             },
             "funding": [
                 {
@@ -155,7 +155,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-20T17:52:18+00:00"
+            "time": "2024-03-21T18:52:26+00:00"
         },
         {
             "name": "ankitpokhrel/tus-php",
@@ -282,16 +282,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.301.1",
+            "version": "3.301.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0a910d2b35e7087337cdf3569dc9b6ce232aafba"
+                "reference": "18c0ebd71d3071304f1ea02aa9af75f95863177a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0a910d2b35e7087337cdf3569dc9b6ce232aafba",
-                "reference": "0a910d2b35e7087337cdf3569dc9b6ce232aafba",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/18c0ebd71d3071304f1ea02aa9af75f95863177a",
+                "reference": "18c0ebd71d3071304f1ea02aa9af75f95863177a",
                 "shasum": ""
             },
             "require": {
@@ -371,9 +371,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.301.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.301.6"
             },
-            "time": "2024-03-15T18:14:42+00:00"
+            "time": "2024-03-22T18:05:21+00:00"
         },
         {
             "name": "brick/math",
@@ -432,22 +432,23 @@
         },
         {
             "name": "bunnycdn/storage",
-            "version": "2.1.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage.git",
-                "reference": "8711f951d548d9927139af8710da920487c99cb9"
+                "reference": "ecacac961869133c0ba24f6e87c20d4e003b8d97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BunnyWay/BunnyCDN.PHP.Storage/zipball/8711f951d548d9927139af8710da920487c99cb9",
-                "reference": "8711f951d548d9927139af8710da920487c99cb9",
+                "url": "https://api.github.com/repos/BunnyWay/BunnyCDN.PHP.Storage/zipball/ecacac961869133c0ba24f6e87c20d4e003b8d97",
+                "reference": "ecacac961869133c0ba24f6e87c20d4e003b8d97",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.8",
-                "php": ">=8.0.0",
-                "psr/http-message": "^2.0"
+                "php": "^7.4||^8.0",
+                "psr/http-message": "^2.0",
+                "symfony/polyfill-php80": "^1.29"
             },
             "type": "library",
             "autoload": {
@@ -475,9 +476,9 @@
             ],
             "support": {
                 "issues": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage/issues",
-                "source": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage/tree/2.1.0"
+                "source": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage/tree/3.0.0"
             },
-            "time": "2024-02-23T13:46:27+00:00"
+            "time": "2024-03-20T06:54:12+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -1124,16 +1125,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.340.0",
+            "version": "v0.341.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "c89999ea477da2b0803b2b4f14c9e7fc23b6344a"
+                "reference": "50dad3cd4a3902bd2df0d96e7dc09cdaa2ba79b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/c89999ea477da2b0803b2b4f14c9e7fc23b6344a",
-                "reference": "c89999ea477da2b0803b2b4f14c9e7fc23b6344a",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/50dad3cd4a3902bd2df0d96e7dc09cdaa2ba79b9",
+                "reference": "50dad3cd4a3902bd2df0d96e7dc09cdaa2ba79b9",
                 "shasum": ""
             },
             "require": {
@@ -1162,9 +1163,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.340.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.341.0"
             },
-            "time": "2024-03-17T00:56:17+00:00"
+            "time": "2024-03-24T01:08:16+00:00"
         },
         {
             "name": "google/auth",
@@ -4057,16 +4058,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.14.0",
+            "version": "v13.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "d569265e79dc82329dadea1b1088a0a29c7a8a76"
+                "reference": "22963c3596eb198e3dd56fbd95d7de9bc4d44f8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d569265e79dc82329dadea1b1088a0a29c7a8a76",
-                "reference": "d569265e79dc82329dadea1b1088a0a29c7a8a76",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/22963c3596eb198e3dd56fbd95d7de9bc4d44f8f",
+                "reference": "22963c3596eb198e3dd56fbd95d7de9bc4d44f8f",
                 "shasum": ""
             },
             "require": {
@@ -4110,9 +4111,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.14.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v13.15.0"
             },
-            "time": "2024-03-14T21:12:02+00:00"
+            "time": "2024-03-21T21:05:10+00:00"
         },
         {
             "name": "symfony/console",
