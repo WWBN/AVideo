@@ -13,10 +13,13 @@ class MonetizeUsers extends PluginAbstract {
     }
 
     public function getDescription() {
+        global $global;
         $txt = "This plugin will reward your users based on their videos view, each view will affect the user's walled balance";
 
         $txt .= $this->isReadyLabel(array('YPTWallet'));
-        return $txt;
+        $help = "<br><small><a href='{$global['webSiteRootURL']}plugin/MonetizeUsers/revenueCalculator.php' target='_blank'><i class='fa-solid fa-money-check-dollar'></i> Revenue Calculator</a></small>";
+
+        return $txt . $help;
     }
 
     public function getName() {

@@ -4128,3 +4128,22 @@ function durationToSeconds(duration) {
     // Convert everything to seconds
     return (hours * 3600) + (minutes * 60) + seconds;
 }
+
+function formatNumber(num) {
+    if (num >= 1000 && num < 1000000) {
+        return (num / 1000).toFixed(1) + 'K';
+    } else if (num >= 1000000 && num < 1000000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000000000 && num < 1000000000000) {
+        return (num / 1000000000).toFixed(1) + 'B';
+    } else if (num >= 1000000000000) {
+        return (num / 1000000000000).toFixed(1) + 'T';
+    } else {
+        if(num==0){
+            return '0';
+        }else{
+            return num.toFixed(1).toString();
+        }
+    }
+}
+
