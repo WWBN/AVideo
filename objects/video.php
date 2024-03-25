@@ -6187,15 +6187,19 @@ if (!class_exists('Video')) {
                 return 'article';
             }
             $vType = $video['type'];
-            if ($vType == 'linkVideo') {
+            if ($vType ==  Video::$videoTypeLinkVideo) {
                 if (!preg_match('/m3u8/', $video['videoLink'])) {
                     $vType = isHTMLPage($video['videoLink']) ? 'embed' : 'video';
                 } else {
                     $vType = 'video';
                 }
+            } elseif ($vType == Video::$videoTypeEmbed) {
+                if (preg_match('/\.m3u8/', $video['videoLink'])) {
+                    $vType = 'video';
+                }
             } elseif ($vType == 'live') {
                 $vType = '../../plugin/Live/view/liveVideo';
-            } elseif ($vType == 'linkAudio') {
+            } elseif ($vType == Video::$videoTypeLinkAudio) {
                 $vType = 'audio';
             }
             if (!in_array($vType, Video::$typeOptions)) {
