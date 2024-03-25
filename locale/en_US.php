@@ -1364,6 +1364,7 @@ $t['We could not save this file'] = 'We could not save this file';
 $t["We couldn't find what you were looking for."] = "We couldn't find what you were looking for.";
 $t['We detected a total of %s pending updates, if you want to do it now click (Update Now) button'] = 'We detected a total of %s pending updates, if you want to do it now click (Update Now) button';
 $t['We have not found any videos or audios to show'] = 'We have not found any videos or audios to show';
+$t['We need to allow Apache to read .htaccess files located under the %s directory.'] = 'We need to allow Apache to read .htaccess files located under the %s directory.';
 $t['We sent you an e-mail with instructions'] = 'We sent you an e-mail with instructions';
 $t['We use youtube-dl to download videos from youtube.com or other video platforms'] = 'We use youtube-dl to download videos from youtube.com or other video platforms';
 $t['We will check if there is a stream conflict before stream'] = 'We will check if there is a stream conflict before stream';
