@@ -112,12 +112,18 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
     }
 }
 if (!$liveFound) {
-    $_POST['rowCount'] = 1;
-    $_POST['sort']['created'] = 'DESC';
-                   //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
-    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, false, [], false, false, true, false, null, Video::$videoTypeVideo);
+    $_POST['rowCount'] = 1; 
+     
+    //try suggested only first
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, true, null, Video::$videoTypeVideo, 0);
+                
     if (empty($videos)) {
-        videoNotFound('');
+            $_POST['sort']['created'] = 'DESC';
+                           //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
+            $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, false, null, Video::$videoTypeVideo, 0);
+            if (empty($videos)) {
+                videoNotFound('');
+            }
     }
     $video = $videos[0];
     $_GET['videos_id'] = $video['id'];
