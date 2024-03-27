@@ -89,18 +89,25 @@ $_page = new Page(array('Revenue Calculator'));
             </div>
         </div>
         <div class="panel-footer">
-            <h3>Understanding Your Revenue</h3>
-            <p>The revenue you earn from your videos is directly tied to the views they accumulate. Simply put, more views translate to more earnings. Here's how it works:</p>
-            <p>Each view on your videos contributes to your overall revenue. Currently, the value per view is set at <strong><?php echo YPTWallet::formatCurrency($rewardPerView); ?></strong>.</p>
-            <p>This means, as your videos are viewed across our platform, each view adds to your earnings based on the above rate. This system ensures that your content creation efforts are rewarded directly in relation to your video's popularity and viewership.</p>
-            <h4>How to Maximize Your Earnings</h4>
-            <ul>
-                <li><strong>Quality Content:</strong> High-quality, engaging content is more likely to attract views.</li>
-                <li><strong>Promotion:</strong> Share your videos on social media and other platforms to increase visibility.</li>
-                <li><strong>Engagement:</strong> Interact with your audience through comments to build a community around your channel.</li>
-            </ul>
-            <p>By understanding this revenue model, you can better strategize how to produce and promote your videos to maximize your earnings. Keep creating, keep engaging, and watch your revenue grow!</p>
-
+            <?php
+            if(empty($obj->revenueCalculatorFooterText->value)){
+                ?>
+                <h3>Understanding Your Revenue</h3>
+                <p>The revenue you earn from your videos is directly tied to the views they accumulate. Simply put, more views translate to more earnings. Here's how it works:</p>
+                <p>Each view on your videos contributes to your overall revenue. Currently, the value per view is set at <strong><?php echo YPTWallet::formatCurrency($rewardPerView); ?></strong>.</p>
+                <p>This means, as your videos are viewed across our platform, each view adds to your earnings based on the above rate. This system ensures that your content creation efforts are rewarded directly in relation to your video's popularity and viewership.</p>
+                <h4>How to Maximize Your Earnings</h4>
+                <ul>
+                    <li><strong>Quality Content:</strong> High-quality, engaging content is more likely to attract views.</li>
+                    <li><strong>Promotion:</strong> Share your videos on social media and other platforms to increase visibility.</li>
+                    <li><strong>Engagement:</strong> Interact with your audience through comments to build a community around your channel.</li>
+                </ul>
+                <p>By understanding this revenue model, you can better strategize how to produce and promote your videos to maximize your earnings. Keep creating, keep engaging, and watch your revenue grow!</p>
+                <?php
+            }else{
+               echo $obj->revenueCalculatorFooterText->value;
+            }
+            ?>
         </div>
     </div>
 </div>

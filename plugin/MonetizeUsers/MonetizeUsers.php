@@ -53,6 +53,11 @@ class MonetizeUsers extends PluginAbstract {
         $obj->rewardOnlyLoggedUsersView = true;
         self::addDataObjectHelper('rewardOnlyLoggedUsersView', 'Reward only logged users', 'This is a good option to avoid bots. This option requires VideosStatistics plugin');
 
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = "";
+        $obj->revenueCalculatorFooterText = $o;
+        
         return $obj;
     }
 
