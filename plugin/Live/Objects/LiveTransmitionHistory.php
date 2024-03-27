@@ -496,6 +496,9 @@ class LiveTransmitionHistory extends ObjectYPT
         if (!empty($data)) {
             $row = $data;
         } else {
+            if (is_int($active)) {
+                _error_log("LiveTransmitionHistory::getLatest not found ($key, $live_servers_id, $active, $users_id, $categories_id) ".$sql);
+            }
             $row = false;
         }
         return $row;
