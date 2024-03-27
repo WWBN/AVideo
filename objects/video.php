@@ -6326,30 +6326,31 @@ if (!class_exists('Video')) {
 
             require_once $global['systemRootPath'] . 'objects/subscribe.php';
             $content = local_get_contents($template);
+            $channelLinkImageClass = '';
+            $channelLinkNameClass = '';
             if (!empty($advancedCustom->showChannelPhotoOnVideoItem)) {
                 $photo = User::getPhoto($users_id);
             }else{
                 $photo = '';
+                $channelLinkImageClass = 'hidden';
             }
             if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
                 $name = strip_tags(User::getNameIdentificationById($users_id));
             }else{
                 $name = '';
+                $channelLinkNameClass = 'hidden';
             }
             if ($ignoreLinks) {
                 $channelLink = '#';
             } else {
                 $channelLink = User::getChannelLink($users_id);
             }
-            $channelLinkClass = '';
-            if(empty($photo) && empty($name)){
-                $channelLinkClass = 'hidden';
-            }
             $search = [
                 '{photo}',
                 '{channelLink}',
                 '{name}',
-                '{channelLinkClass}',
+                '{channelLinkImageClass}',
+                '{channelLinkNameClass}',
                 '{icon}',
                 '{subscriptionButton}',
                 '{html}'
@@ -6359,7 +6360,8 @@ if (!class_exists('Video')) {
                 $photo,
                 $channelLink,
                 $name,
-                $channelLinkClass,
+                $channelLinkImageClass,
+                $channelLinkNameClass,
                 User::getEmailVerifiedIcon($users_id),
                 Subscribe::getButton($users_id),
                 $html,
