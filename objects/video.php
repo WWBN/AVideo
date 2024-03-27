@@ -6336,15 +6336,20 @@ if (!class_exists('Video')) {
             }else{
                 $name = '';
             }
-            if ($ignoreLinks || (empty($photo) && empty($name))) {
+            if ($ignoreLinks) {
                 $channelLink = '#';
             } else {
                 $channelLink = User::getChannelLink($users_id);
+            }
+            $channelLinkClass = '';
+            if(empty($photo) && empty($name)){
+                $channelLinkClass = 'hidden';
             }
             $search = [
                 '{photo}',
                 '{channelLink}',
                 '{name}',
+                '{channelLinkClass}',
                 '{icon}',
                 '{subscriptionButton}',
                 '{html}'
@@ -6354,6 +6359,7 @@ if (!class_exists('Video')) {
                 $photo,
                 $channelLink,
                 $name,
+                $channelLinkClass,
                 User::getEmailVerifiedIcon($users_id),
                 Subscribe::getButton($users_id),
                 $html,
