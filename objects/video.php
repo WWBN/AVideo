@@ -6313,6 +6313,7 @@ if (!class_exists('Video')) {
 
         public static function getCreatorHTML($users_id, $html = '', $small = false, $ignoreLinks = false)
         {
+            global $global;
             if (empty($users_id)) {
                 return '';
             }
@@ -6325,8 +6326,21 @@ if (!class_exists('Video')) {
 
             require_once $global['systemRootPath'] . 'objects/subscribe.php';
             $content = local_get_contents($template);
-            $name = User::getNameIdentificationById($users_id);
-
+            if (!empty($advancedCustom->showChannelPhotoOnVideoItem)) {
+                $photo = User::getPhoto($users_id);
+            }else{
+                $photo = '';
+            }
+            if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
+                $name = strip_tags(User::getNameIdentificationById($users_id));
+            }else{
+                $name = '';
+            }
+            if ($ignoreLinks || (empty($photo) && empty($name))) {
+                $channelLink = '#';
+            } else {
+                $channelLink = User::getChannelLink($users_id);
+            }
             $search = [
                 '{photo}',
                 '{channelLink}',
@@ -6336,16 +6350,10 @@ if (!class_exists('Video')) {
                 '{html}'
             ];
 
-            if ($ignoreLinks) {
-                $channelLink = '#';
-            } else {
-                $channelLink = User::getChannelLink($users_id);
-            }
-
             $replace = [
-                User::getPhoto($users_id),
+                $photo,
                 $channelLink,
-                strip_tags($name),
+                $name,
                 User::getEmailVerifiedIcon($users_id),
                 Subscribe::getButton($users_id),
                 $html,
