@@ -260,8 +260,10 @@ if ($return_val !== 0) {
 /*
 FOR WWBNIndex Plugin
 */
-if (file_exists($_POST['systemRootPath'] . "plugin/WWBNIndex/submitIndex.php")) {
-    include ($_POST['systemRootPath'] . "plugin/WWBNIndex/submitIndex.php");
+$systemRootPath = __DIR__ . DIRECTORY_SEPARATOR . '../';
+$file = "{$systemRootPath}plugin/WWBNIndex/submitIndex.php";
+if (file_exists($file)) {
+    include $file;
 }
 error_log("Installation: ".__LINE__);
 $obj->success = true;
