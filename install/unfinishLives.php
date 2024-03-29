@@ -6,6 +6,8 @@ if (!isCommandLineInterface()) {
 }
 ob_end_flush();
 AVideoPlugin::loadPlugin('Live');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 /*
 $rows = Live_servers::getAllActive();
 
