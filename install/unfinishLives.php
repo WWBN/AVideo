@@ -65,16 +65,20 @@ foreach ($stats as $key => $live) {
 Live::finishAllFromStats();
 Live::unfinishAllFromStats(true);*/
 
-$row = LiveTransmition::keyExists('6606911904489');
-//var_dump($row);
-if(!empty($row)){
-    $lth = new LiveTransmitionHistory();
-    $lth->setTitle($row['title']);
-    $lth->setDescription($row['description']);
-    $lth->setKey($row['key']);
-    $lth->setUsers_id($row['users_id']);
-    $lth->setLive_servers_id($row['live_servers_id']);
-    $id = $lth->save();
-    echo ("unfinishAllFromStats saving LiveTransmitionHistory [{$id}]").PHP_EOL;
-    echo "not empty id={$row['id']}".PHP_EOL;
-}
+$stats = Live::getStatsApplications(1);
+
+        foreach ($stats as $key => $live) {
+            if (!empty($live['key'])) {
+                $row = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
+                if (!empty($row['finished'])) {
+                    var_dump(__LINE__, $live['key']);
+                }else{
+                    $row = LiveTransmition::keyExists($live['key']);
+                    if(!empty($row)){
+                        var_dump(__LINE__, $live['key']);                        
+                    }
+                }
+            }else{
+                var_dump(__LINE__, $live);
+            }
+        }
