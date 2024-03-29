@@ -80,5 +80,7 @@ if (!empty($stats['key'])) {
                         var_dump(__LINE__, $live['key']);                        
                     }
                 }
+            }else{
+                var_dump(__LINE__,$key);
             }
         }
