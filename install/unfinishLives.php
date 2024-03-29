@@ -64,7 +64,7 @@ Live::finishAllFromStats();
 Live::unfinishAllFromStats(true);*/
 
 $row = LiveTransmition::keyExists('6606911904489');
-var_dump($row);
+//var_dump($row);
 if(!empty($row)){
     $lth = new LiveTransmitionHistory();
     $lth->setTitle($row['title']);
