@@ -1931,6 +1931,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 foreach ($server as $key2 => $live) {
                     if (!empty($live->key)) {
                         $applications[] = object_to_array($live);
+                    } else if (!empty($live['key'])) {
+                        $applications[] = $live;
                     } else {
                         if ($key2 == 'applications' && is_array($live)) {
                             foreach ($live as $key3 => $value3) {
