@@ -61,26 +61,6 @@ foreach ($stats as $key => $live) {
     }
 }
 
-
+*/
 Live::finishAllFromStats();
-Live::unfinishAllFromStats(true);*/
-
-$stats = Live::getStatsApplications(1);
-if (!empty($stats['key'])) {
-    var_dump(__LINE__, $stats['key']);
-}
-        foreach ($stats as $key => $live) {
-            if (!empty($live['key'])) {
-                $row = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
-                if (!empty($row['finished'])) {
-                    var_dump(__LINE__, $live['key']);
-                }else{
-                    $row = LiveTransmition::keyExists($live['key']);
-                    if(!empty($row)){
-                        var_dump(__LINE__, $live['key']);                        
-                    }
-                }
-            }else{
-                var_dump(__LINE__,$key,);
-            }
-        }
+Live::unfinishAllFromStats(true);
