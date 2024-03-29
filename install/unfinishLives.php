@@ -71,9 +71,9 @@ if(!empty($row)){
     $lth = new LiveTransmitionHistory();
     $lth->setTitle($row['title']);
     $lth->setDescription($row['description']);
-    $lth->setKey($live['key']);
+    $lth->setKey($row['key']);
     $lth->setUsers_id($row['users_id']);
-    $lth->setLive_servers_id($live['live_servers_id']);
+    $lth->setLive_servers_id($row['live_servers_id']);
     $id = $lth->save();
     echo ("unfinishAllFromStats saving LiveTransmitionHistory [{$id}]").PHP_EOL;
     echo "not empty id={$row['id']}".PHP_EOL;
