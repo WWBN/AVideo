@@ -558,7 +558,7 @@ class LiveTransmitionHistory extends ObjectYPT
     public static function unfinishFromTransmitionHistoryId($live_transmitions_history_id)
     {
         if(isBot(false)){
-            _error_log("LiveTransmitionHistory::unfinishFromTransmitionHistoryId: isBot ");
+            //_error_log("LiveTransmitionHistory::unfinishFromTransmitionHistoryId: isBot ");
             return false;
         }
         global $global, $unfinishFromTransmitionHistoryIdSQL;
@@ -834,7 +834,7 @@ class LiveTransmitionHistory extends ObjectYPT
             $activeLive = self::getLatest($this->key, $this->live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
             if (!empty($activeLive)) {
                 if($activeLive['key'] == $this->key){
-                    _error_log("LiveTransmitionHistory::save: active live found $this->key, $this->live_servers_id " . json_encode($activeLive));
+                    //_error_log("LiveTransmitionHistory::save: active live found $this->key, $this->live_servers_id " . json_encode($activeLive));
                     foreach ($activeLive as $key => $value) {
                         if (empty($this->$key)) {
                             @$this->$key = $value;
