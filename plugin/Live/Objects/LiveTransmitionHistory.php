@@ -832,15 +832,19 @@ class LiveTransmitionHistory extends ObjectYPT
         _mysql_commit();
         $activeLive = self::getLatest($this->key, $this->live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
         if (!empty($activeLive)) {
-            _error_log("LiveTransmitionHistory::save: active live found $this->key, $this->live_servers_id " . json_encode($activeLive));
-            foreach ($activeLive as $key => $value) {
-                if (empty($this->$key)) {
-                    @$this->$key = $value;
-                    //$this->properties[$key] = $value;
+            if($activeLive['key'] == $this->key){
+                _error_log("LiveTransmitionHistory::save: active live found $this->key, $this->live_servers_id " . json_encode($activeLive));
+                foreach ($activeLive as $key => $value) {
+                    if (empty($this->$key)) {
+                        @$this->$key = $value;
+                        //$this->properties[$key] = $value;
+                    }
                 }
+                self::unfinishFromTransmitionHistoryId($activeLive['id']);
+                $this->finished = null;
+            }else{
+                _error_log("LiveTransmitionHistory::save: active live NOT match $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
             }
-            self::unfinishFromTransmitionHistoryId($activeLive['id']);
-            $this->finished = null;
         } else {
             _error_log("LiveTransmitionHistory::save: active live NOT found $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
         }
