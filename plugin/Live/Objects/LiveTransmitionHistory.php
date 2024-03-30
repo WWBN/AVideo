@@ -832,7 +832,7 @@ class LiveTransmitionHistory extends ObjectYPT
         _mysql_commit();
         $activeLive = self::getLatest($this->key, $this->live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
         if (!empty($activeLive)) {
-            _error_log("LiveTransmitionHistory::save: active live found " . json_encode($activeLive));
+            _error_log("LiveTransmitionHistory::save: active live found $this->key, $this->live_servers_id " . json_encode($activeLive));
             foreach ($activeLive as $key => $value) {
                 if (empty($this->$key)) {
                     @$this->$key = $value;
@@ -842,7 +842,7 @@ class LiveTransmitionHistory extends ObjectYPT
             self::unfinishFromTransmitionHistoryId($activeLive['id']);
             $this->finished = null;
         } else {
-            _error_log("LiveTransmitionHistory::save: active live NOT found " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
+            _error_log("LiveTransmitionHistory::save: active live NOT found $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
         }
         if (empty($this->id)) {
             // if is creating a new make sure all 

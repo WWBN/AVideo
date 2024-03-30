@@ -61,6 +61,56 @@ foreach ($stats as $key => $live) {
     }
 }
 
-*/
+
 Live::finishAllFromStats();
 Live::unfinishAllFromStats(true);
+*/
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
+$stats = Live::getStats(1);
+foreach ($stats as $key => $server) {
+    if (is_array($server) || is_object($server)) {
+        foreach ($server as $key2 => $live) {
+            if (!empty($live->key)) {
+                echo __LINE__ . " {$live->key} ".PHP_EOL;
+            } else if (!empty($live['key'])) {
+                echo __LINE__ . " {$live['key']} ".PHP_EOL;
+            } else {
+                if ($key2 == 'applications' && is_array($live)) {
+                    foreach ($live as $key3 => $value3) {
+                        var_dump($value3);
+                    }
+                }
+            }
+        }
+    }
+}
+
+$stats = Live::getStatsApplications(1);
+foreach ($stats as $key => $live) {
+    if (!empty($live['key'])) {
+        echo __LINE__ . " {$live['key']} ".PHP_EOL;
+        if (!empty($row['finished'])) {
+            echo __LINE__ . " {$live['key']} ".PHP_EOL;
+        }else{
+            $row = LiveTransmition::keyExists($live['key']);
+            if(!empty($row)){
+                echo __LINE__ . " {$live['key']} ".PHP_EOL;
+                $lth = new LiveTransmitionHistory();
+                $lth->setTitle($row['title']);
+                $lth->setDescription($row['description']);
+                $lth->setKey($live['key']);
+                $lth->setUsers_id($row['users_id']);
+                $lth->setLive_servers_id($live['live_servers_id']);
+                $id = $lth->save();
+                echo ("unfinishAllFromStats saving LiveTransmitionHistory {$live['key']} [{$id}]".PHP_EOL);
+            }else{                
+                echo __LINE__ . " {$live['key']} ".PHP_EOL;
+            }
+        }
+    }else{
+        var_dump($live);
+    }
+}
