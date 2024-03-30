@@ -558,7 +558,7 @@ class LiveTransmitionHistory extends ObjectYPT
     public static function unfinishFromTransmitionHistoryId($live_transmitions_history_id)
     {
         if(isBot(false)){
-            _error_log("LiveTransmitionHistory::unfinishFromTransmitionHistoryId: isBot " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            _error_log("LiveTransmitionHistory::unfinishFromTransmitionHistoryId: isBot ");
             return false;
         }
         global $global, $unfinishFromTransmitionHistoryIdSQL;
@@ -830,26 +830,25 @@ class LiveTransmitionHistory extends ObjectYPT
         global $global;
         //_error_log("LiveTransmitionHistory::save: ". json_encode(debug_backtrace()));
         _mysql_commit();
-        $activeLive = self::getLatest($this->key, $this->live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
-        if (!empty($activeLive)) {
-            if($activeLive['key'] == $this->key){
-                _error_log("LiveTransmitionHistory::save: active live found $this->key, $this->live_servers_id " . json_encode($activeLive));
-                foreach ($activeLive as $key => $value) {
-                    if (empty($this->$key)) {
-                        @$this->$key = $value;
-                        //$this->properties[$key] = $value;
-                    }
-                }
-                self::unfinishFromTransmitionHistoryId($activeLive['id']);
-                $this->finished = null;
-            }else{
-               // _error_log("LiveTransmitionHistory::save: active live NOT match $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
-            }
-        } else {
-            //_error_log("LiveTransmitionHistory::save: active live NOT found $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
-        }
         if (empty($this->id)) {
-            // if is creating a new make sure all 
+            $activeLive = self::getLatest($this->key, $this->live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
+            if (!empty($activeLive)) {
+                if($activeLive['key'] == $this->key){
+                    _error_log("LiveTransmitionHistory::save: active live found $this->key, $this->live_servers_id " . json_encode($activeLive));
+                    foreach ($activeLive as $key => $value) {
+                        if (empty($this->$key)) {
+                            @$this->$key = $value;
+                            //$this->properties[$key] = $value;
+                        }
+                    }
+                    self::unfinishFromTransmitionHistoryId($activeLive['id']);
+                    $this->finished = null;
+                }else{
+                // _error_log("LiveTransmitionHistory::save: active live NOT match $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
+                }
+            } else {
+                //_error_log("LiveTransmitionHistory::save: active live NOT found $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
+            }
         }
         if (empty($this->live_servers_id)) {
             $this->live_servers_id = 'NULL';
