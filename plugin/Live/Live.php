@@ -1915,7 +1915,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                         $lth->setUsers_id($row['users_id']);
                         $lth->setLive_servers_id($live['live_servers_id']);
                         $id = $lth->save();
-                        _error_log("unfinishAllFromStats saving LiveTransmitionHistory {$live['key']} [{$id}]");
+                        _error_log("unfinishAllFromStats saving LiveTransmitionHistory {$live['key']} [{$id}] " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                     }
                 }
             }
