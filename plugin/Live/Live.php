@@ -4202,14 +4202,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return Scheduler::getReminderOptions($destinationURL, $title, $date_start, $selectedEarlierOptions, $date_end, $joinURL);
     }
 
-    public function getWatchActionButton($videos_id): string
+    public function getWatchActionButton($videos_id)
     {
-        $isLive = isLive();
-        if (!empty($isLive['live_schedule'])) {
-            return '<button class="btn btn-default no-outline" onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/Live/remindMe.php?live_schedule_id=' .
-                $isLive['live_schedule'] . '\');"><i class="fas fa-bell"></i> ' . __('Remind Me') . '</button>';
-        }
-        return '';
+        global $global;
+        include $global['systemRootPath'] . 'plugin/Live/actionButton.php';
     }
 
     private static function getProcess($key)
