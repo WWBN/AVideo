@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../videos/configuration.php';
 
-if (!isCommandLineInterface()) {
+if (!isCommandLineInterface() && !User::isAdmin()) {
     forbiddenPage();
 }
 

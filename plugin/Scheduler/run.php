@@ -7,7 +7,7 @@ if (!isCommandLineInterface() && !User::isAdmin()) {
     return die('Command Line only');
 }
 
-if(!AVideoPlugin::isEnabledByName('Scheduler')){
+if (!AVideoPlugin::isEnabledByName('Scheduler')) {
     return die('Scheduler is disabled');
 }
 
@@ -20,51 +20,52 @@ $total1 = count($rowActive);
 
 $rows = Scheduler_commands::getAllActiveAndReady();
 $total2 = count($rows);
-if(!isCommandLineInterface()){
+if (!isCommandLineInterface()) {
     echo '<pre>';
 }
-if(empty($rows)){
+if (empty($rows)) {
     //echo ("Scheduler row is empty".PHP_EOL); 
 }
 
 $rows2 = Scheduler_commands::getAllScheduledTORepeat();
-if(empty($rows)){
+if (empty($rows)) {
     //echo ("Scheduler row2 is empty".PHP_EOL); 
 }
 $total3 = count($rows2);
 //_log("There are {$total1} active requests; getAllActiveAndReady={$total2} getAllScheduledTORepeat={$total3} on time ". json_encode(Scheduler_commands::getTimesNow())); 
 
 foreach ($rows as $value) {
-    _log("getAllActiveAndReady run ". json_encode($value)); 
+    _log("getAllActiveAndReady run " . json_encode($value));
     $id = Scheduler::run($value['id']);
-    if(empty($id)){
-        _log("error [{$value['id']}] callbackURL={$value['callbackURL']}"); 
+    if (empty($id)) {
+        _log("error [{$value['id']}] callbackURL={$value['callbackURL']}");
     }
 }
 
 foreach ($rows2 as $value) {
-    _log("getAllScheduledTORepeat run ". json_encode($value)); 
+    _log("getAllScheduledTORepeat run " . json_encode($value));
     $id = Scheduler::run($value['id']);
-    if(empty($id)){
-        _log("error [{$value['id']}] callbackURL={$value['callbackURL']} ".json_encode($value)); 
+    if (empty($id)) {
+        _log("error [{$value['id']}] callbackURL={$value['callbackURL']} " . json_encode($value));
     }
 }
 $lastVisitFile = Scheduler::setLastVisit();
-if(!empty($lastVisitFile) && !empty($lastVisitFile['size'])){
+if (!empty($lastVisitFile) && !empty($lastVisitFile['size'])) {
     //echo 'Saved '.json_encode($lastVisitFile); 
     //_error_log("Last visit set {$lastVisitFile}");
-}else{
-    $msg = 'ERROR: Last visit NOT set '.json_encode($lastVisitFile);
-    echo $msg.PHP_EOL; 
+} else {
+    $msg = 'ERROR: Last visit NOT set ' . json_encode($lastVisitFile);
+    echo $msg . PHP_EOL;
     _error_log($msg);
 }
 
-function _log($msg){
-    
-    if(!isCommandLineInterface()){
-        echo date('Y-m-d H:i:s').' '.$msg.'<br>';
+function _log($msg)
+{
+
+    if (!isCommandLineInterface()) {
+        echo date('Y-m-d H:i:s') . ' ' . $msg . '<br>';
     }
-    
+
     _error_log("Scheduler::run {$msg}");
 }
 
@@ -97,6 +98,6 @@ if ($current_day == '1' && $current_hour == '0' && $current_minute == '00') {
     //echo ("Scheduler executeEveryMonth".PHP_EOL); 
     AVideoPlugin::executeEveryMonth();
 }
-if(!isCommandLineInterface()){
+if (!isCommandLineInterface()) {
     echo '</pre>';
 }
