@@ -7,7 +7,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
-require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
+require_once $global['systemRootPath'] . 'objects/functionInfiniteScroll.php';
 
 _session_write_close();
 
@@ -114,7 +114,7 @@ unset($_POST['current']);
                 <div class="pull-left">
                     <strong style="font-size: 1.1em;" class="playlistName">
                         <!-- <?php echo basename(__FILE__); ?> -->
-                        <a href="<?php echo "{$global['webSiteRootURL']}viewProgram/{$playlist['id']}/".urlencode($playlist['name']); ?>"><?php echo __($playlist['name']); ?></a>
+                        <a href="<?php echo "{$global['webSiteRootURL']}viewProgram/{$playlist['id']}/" . urlencode($playlist['name']); ?>"><?php echo __($playlist['name']); ?></a>
                     </strong><br>
                     <small class="text-muted">
                         <?php echo seconds2human(PlayList::getTotalDurationFromPlaylistInSeconds($playlist['id'])); ?>
@@ -183,7 +183,7 @@ unset($_POST['current']);
                                     <div class="descriptionArea">
                                         <div class="descriptionAreaPreContent">
                                             <div class="descriptionAreaContent">
-                                                <?php echo strip_specific_tags($serie['description']) ; ?>
+                                                <?php echo strip_specific_tags($serie['description']); ?>
                                             </div>
                                         </div>
                                         <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
@@ -206,8 +206,8 @@ unset($_POST['current']);
                             $count++;
                             continue;
                         }
-                        
-                $episodeLink = PlayLists::getURL($playlist['id'], $count, $channelName, $playlist['name'], $value['clean_title']);
+
+                        $episodeLink = PlayLists::getURL($playlist['id'], $count, $channelName, $playlist['name'], $value['clean_title']);
                         $count++;
                         $name = User::getNameIdentificationById($value['users_id']);
                         $class = '';
@@ -241,24 +241,31 @@ unset($_POST['current']);
                                             <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                                         </span>
                                     </div>
-                                <?php }
-                                ?>
+                                <?php
+                                }
 
-                                <div>
-                                    <i class="far fa-clock"></i>
-                                    <?php echo humanTiming(strtotime($value['videoCreation']), 0, true, true); ?>
-                                </div>
-                                <div>
-                                    <i class="fa fa-user"></i>
-                                    <?php echo $name; ?>
-                                </div>
+                                if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
+                                ?>
+                                    <div>
+                                        <i class="far fa-clock"></i>
+                                        <?php echo humanTiming(strtotime($value['videoCreation']), 0, true, true); ?>
+                                    </div>
+                                <?php
+                                }
+                                if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
+                                ?>
+                                    <div>
+                                        <i class="fa fa-user"></i>
+                                        <?php echo $name; ?>
+                                    </div>
+                                <?php
+                                }
+                                ?>
                                 <?php
                                 if (Video::canEdit($value['id'])) {
                                 ?>
                                     <div>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
-
-
                                     </div>
                                 <?php }
                                 ?>
@@ -462,20 +469,20 @@ $url = addQueryStringParameter($url, 'channelName', $_GET['channelName']);
 echo getPagination($totalPages, $url, 10, ".programsContainerItem", ".programsContainerItem");
 ?>
 <script>
-    
-
     var timoutembed;
+
     function setTextEmbedCopied() {
         clearTimeout(timoutembed);
         $("#btnEmbedText").html("<?php echo __("Copied!"); ?>");
-        timoutembed = setTimeout(function () {
+        timoutembed = setTimeout(function() {
             $("#btnEmbedText").html("<?php echo __("Copy embed code"); ?>");
         }, 3000);
     }
+
     function setTextGalleryCopied() {
         clearTimeout(timoutembed);
         $("#btnEmbedGalleryText").html("<?php echo __("Copied!"); ?>");
-        timoutembed = setTimeout(function () {
+        timoutembed = setTimeout(function() {
             $("#btnEmbedGalleryText").html("<?php echo __("Copy embed Gallery"); ?>");
         }, 3000);
     }
@@ -489,7 +496,7 @@ echo getPagination($totalPages, $url, 10, ".programsContainerItem", ".programsCo
                 "playlist_id": playlist_id
             },
             type: 'post',
-            success: function (response) {
+            success: function(response) {
                 $("#channelPlaylists").load(webSiteRootURL + "view/channelPlaylist.php?channelName=" + channelName);
                 modal.hidePleaseWait();
             }
@@ -505,17 +512,17 @@ echo getPagination($totalPages, $url, 10, ".programsContainerItem", ".programsCo
             return false;
         }
         if (position === 0) {
-            $this.slideUp(500, function () {
+            $this.slideUp(500, function() {
                 $this.insertBefore($this.siblings(':eq(0)'));
                 saveSortable($uiDiv, $playListId);
             }).slideDown(500);
         } else if ($list.length - 1 > position) {
-            $this.slideUp(500, function () {
+            $this.slideUp(500, function() {
                 $this.insertBefore($this.siblings(':eq(' + position + ')'));
                 saveSortable($uiDiv, $playListId);
             }).slideDown(500);
         } else {
-            $this.slideUp(500, function () {
+            $this.slideUp(500, function() {
                 $this.insertAfter($this.siblings(':eq(' + ($list.length - 2) + ')'));
                 saveSortable($uiDiv, $playListId);
             }).slideDown(500);

@@ -192,22 +192,29 @@ $_page->setExtraStyles(
                                                     </span>
                                                 </div>
                                             <?php }
-                                            ?>
 
-                                            <div>
-                                                <i class="far fa-clock"></i>
-                                                <?php echo humanTiming(strtotime($value['videoCreation']), 0, true, true); ?>
-                                            </div>
-                                            <div>
-                                                <i class="fa fa-user"></i>
-                                                <?php echo $name; ?>
-                                            </div>
+                                            if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
+                                            ?>
+                                                <div>
+                                                    <i class="far fa-clock"></i>
+                                                    <?php echo humanTiming(strtotime($value['videoCreation']), 0, true, true); ?>
+                                                </div>
+                                            <?php
+                                            }
+                                            if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
+                                            ?>
+                                                <div>
+                                                    <i class="fa fa-user"></i>
+                                                    <?php echo $name; ?>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
                                             <?php
                                             if (Video::canEdit($value['id'])) {
                                             ?>
                                                 <div>
                                                     <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
-
 
                                                 </div>
                                             <?php }
