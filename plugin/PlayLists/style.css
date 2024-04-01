@@ -1,17 +1,40 @@
-.PlayListList{
+.PlayListList {
     max-height: 235px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
-.PlayListList.list-group .list-group-item{
+
+.PlayListList.list-group .list-group-item {
     padding: 5px;
 }
+
 .vjs-playlist img {
     min-height: 10px;
 }
+
 .vjs-mouse.vjs-playlist {
     font-size: 12px;
 }
+
 .vjs-playlist .vjs-up-next-text {
     font-size: .8em;
+}
+
+.plistNameSearch {
+    width: calc(100% - 40px);
+}
+
+
+
+.epgProgress.progress-bar-primary {
+    opacity: 0.5;
+}
+
+.epgProgress:hover {
+    opacity: 1.0;
+}
+
+.epgProgressText {
+    border-right: 1px solid #FFF;
+    height: 100%;
 }
