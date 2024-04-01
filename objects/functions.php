@@ -5929,6 +5929,9 @@ function getURL($relativePath, $ignoreCDN = false)
 
 function fixTestURL($text)
 {
+    if(empty($text) || !is_string($text)){
+        return $text;
+    }
     if (isAVideoMobileApp() || !empty($_REQUEST['isAVideoMobileApp'])) {
         $text = str_replace(array('https://vlu.me', 'https://www.vlu.me', 'vlu.me'), array('http://192.168.0.2', 'http://192.168.0.2', '192.168.0.2'), $text);
     }
