@@ -974,21 +974,26 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         if (!row.id && videos_id) {
             row.id = videos_id;
         }
+        /*
         if (!row.id) {
             setTimeout(function() {
                 reloadFileInput(row);
             }, 500);
             return false;
         }
+        */
         $('#input-jpg, #input-gif, #input-pjpg, #input-pgif, #input-webp').fileinput('destroy');
+        var initialPreview1 = "<img style='height:160px' src='" + webSiteRootURL + "videos/" + row.filename + "/" + row.filename + ".jpg'>";
+        console.log('reloadFileInput', initialPreview1, row);
+        console.trace();
         $("#input-jpg").fileinput({
-            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
+            uploadUrl: webSiteRootURL+"objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
             autoReplace: true,
             overwriteInitial: true,
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                "<img style='height:160px' src='" + webSiteRootURL + "videos/" + row.filename + "/" + row.filename + ".jpg'>",
+                initialPreview1,
             ],
             initialCaption: row.clean_title + '.jpg',
             initialPreviewShowDelete: false,
@@ -1002,7 +1007,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             pasteZone: null
         });
         $("#input-pjpg").fileinput({
-            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pjpg",
+            uploadUrl: webSiteRootURL+"objects/uploadPoster.php?video_id=" + row.id + "&type=pjpg",
             autoReplace: true,
             overwriteInitial: true,
             showUploadedThumbs: false,
@@ -1022,7 +1027,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             pasteZone: null
         });
         $("#input-gif").fileinput({
-            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=gif",
+            uploadUrl: webSiteRootURL+"objects/uploadPoster.php?video_id=" + row.id + "&type=gif",
             autoReplace: true,
             overwriteInitial: true,
             showUploadedThumbs: false,
