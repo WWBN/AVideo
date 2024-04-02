@@ -35,7 +35,7 @@
                         </div>
                         <ul class="nav nav-tabs">
                             <li class="active uploadFile hideIfIsArticle hideIfIsEmbedLink hideIfIsEditing"><a data-toggle="tab" href="#pmedia"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></a></li>
-                            <li class=" hideIfIsEmbedLink"><a data-toggle="tab" href="#pimages"><i class="far fa-image"></i> <?php echo __("Images"); ?></a></li>
+                            <li class=""><a data-toggle="tab" href="#pimages"><i class="far fa-image"></i> <?php echo __("Images"); ?></a></li>
                             <li class=""><a data-toggle="tab" href="#pmetadata"><i class="fas fa-info-circle"></i> <?php echo __("Meta Data"); ?></a></li>
                             <li class=""><a data-toggle="tab" href="#pSEO"><i class="fab fa-searchengin"></i> SEO</a></li>
                             <li class=""><a data-toggle="tab" href="#pPrivacy"><i class="fas fa-user-lock"></i> <?php echo __("Privacy"); ?></a></li>
