@@ -4043,7 +4043,7 @@ if (!class_exists('Video')) {
                 $token = '';
                 $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
-                if ((preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || $type == ".m3u8" || $type == ".pdf" || $type == ".zip")) {
+                if (preg_match("/.*\\.(mp4|webm|m3u8|pdf|zip)$/", $type)){
                     $vars = [];
                     if (!empty($secure)) {
                         $vars[] = $secure->getToken($filename);

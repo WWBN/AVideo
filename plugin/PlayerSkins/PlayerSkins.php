@@ -136,7 +136,7 @@ class PlayerSkins extends PluginAbstract
                     . 'preload="auto" poster="' . $images->poster . '" controls controlsList="nodownload"
                         class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered vjs-16-9" id="mainVideo">';
                 if ($video['type'] == Video::$videoTypeVideo) {
-                    $htmlMediaTag .= "<!-- Video title={$video['title']} {$video['filename']} -->" . getSources($video['filename']);
+                    $htmlMediaTag .= "<!-- Video title={$video['title']} {$video['filename']} -->" .getSources($video['filename']);
                 } else { // video link
                     $url = AVideoPlugin::modifyURL($video['videoLink'], $video['id']);
                     //var_dump($video['videoLink'], $url);exit;

@@ -1357,7 +1357,7 @@ function getSources($fileName, $returnArray = false, $try = 0)
             $obj->res = 0;
             $sourcesArray["mp4"] = $obj;
             $sources["mp4"] = "<source src=\"\" type=\"{$obj->type}\" label=\"{$obj->label}\" res=\"{$obj->res}\">";
-            $return = $returnArray ? $sourcesArray : implode(PHP_EOL, $sources);
+            $return = $returnArray ? $sourcesArray : PHP_EOL.implode(PHP_EOL, $sources).PHP_EOL;
         }
     }
     return $return;
