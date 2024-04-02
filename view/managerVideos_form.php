@@ -59,7 +59,7 @@
                                     </ul>
                                 </form>
                             </div>
-                            <div id="pimages" class="tab-pane fade hideIfIsEmbedLink">
+                            <div id="pimages" class="tab-pane fade">
                                 <div class="panel panel-default">
                                     <div class="panel-heading tabbable-line">
                                         <ul class="nav nav-tabs">
