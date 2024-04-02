@@ -50,7 +50,7 @@
         modal.showPleaseWait();
         $("#emailMessage").val(tinymce.get('emailMessage').getContent());
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>objects/emailAllUsers.json.php',
+            url: webSiteRootURL+'objects/emailAllUsers.json.php',
             method: 'POST',
             data: {
                 'message': $('#emailMessage').val(),

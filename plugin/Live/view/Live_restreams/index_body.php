@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -119,7 +119,7 @@ if (!User::isAdmin()) {
     $(document).ready(function () {
         $('#addLive_restreamsBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/addLive_restreamsVideo.php',
+                url: webSiteRootURL+'plugin/Live/view/addLive_restreamsVideo.php',
                 data: $('#panelLive_restreamsForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -161,7 +161,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/add.json.php',
+                url: webSiteRootURL+'plugin/Live/view/Live_restreams/add.json.php',
                 data: $('#panelLive_restreamsForm').serialize(),
                 type: 'post',
                 success: function (response) {

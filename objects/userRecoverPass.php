@@ -133,7 +133,7 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
                 evt.preventDefault();
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPassSave.json.php',
+                    url: webSiteRootURL+'objects/userRecoverPassSave.json.php',
                     data: $('#recoverPassForm').serializeArray(),
                     type: 'post',
                     success: function(response) {

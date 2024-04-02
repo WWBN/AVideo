@@ -105,7 +105,7 @@ if (!User::isAdmin()) {
     $(document).ready(function () {
         $('#addCategories_has_users_groupsBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/addCategories_has_users_groupsVideo.php',
+                url: webSiteRootURL+'plugin/CustomizeUser/View/addCategories_has_users_groupsVideo.php',
                 data: $('#panelCategories_has_users_groupsForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -145,7 +145,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/Categories_has_users_groups/add.json.php',
+                url: webSiteRootURL+'plugin/CustomizeUser/View/Categories_has_users_groups/add.json.php',
                 data: $('#panelCategories_has_users_groupsForm').serialize(),
                 type: 'post',
                 success: function (response) {

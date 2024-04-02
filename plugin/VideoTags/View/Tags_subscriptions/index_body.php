@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -100,7 +100,7 @@ $('#Tags_subscriptionsusers_id').val('');
     $(document).ready(function () {
     $('#addTags_subscriptionsBtn').click(function () {
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/VideoTags/View/addTags_subscriptionsVideo.php',
+            url: webSiteRootURL+'plugin/VideoTags/View/addTags_subscriptionsVideo.php',
             data: $('#panelTags_subscriptionsForm').serialize(),
             type: 'post',
             success: function (response) {
@@ -138,7 +138,7 @@ $('#Tags_subscriptionsusers_id').val('');
         e.preventDefault();
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/VideoTags/View/Tags_subscriptions/add.json.php',
+            url: webSiteRootURL+'plugin/VideoTags/View/Tags_subscriptions/add.json.php',
             data: $('#panelTags_subscriptionsForm').serialize(),
             type: 'post',
             success: function (response) {

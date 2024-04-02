@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -138,7 +138,7 @@ $('#Ai_transcribe_responsesai_responses_id').val('');
     $(document).ready(function () {
     $('#addAi_transcribe_responsesBtn').click(function () {
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/AI/View/addAi_transcribe_responsesVideo.php',
+            url: webSiteRootURL+'plugin/AI/View/addAi_transcribe_responsesVideo.php',
             data: $('#panelAi_transcribe_responsesForm').serialize(),
             type: 'post',
             success: function (response) {
@@ -183,7 +183,7 @@ $('#Ai_transcribe_responsesai_responses_id').val('');
         e.preventDefault();
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/AI/View/Ai_transcribe_responses/add.json.php',
+            url: webSiteRootURL+'plugin/AI/View/Ai_transcribe_responses/add.json.php',
             data: $('#panelAi_transcribe_responsesForm').serialize(),
             type: 'post',
             success: function (response) {

@@ -88,141 +88,121 @@ if (isHTMLEmpty($sideAd)) {
     $modeYoutubeBottomClass1 = "col-sm-12 col-md-12 col-lg-10";
     $modeYoutubeBottomClass2 = "hidden ";
 }
+$_page = new Page(array('Live Links'));
+$_page->setExtraStyles(array('node_modules/video.js/dist/video-js.min.css'));
+$_page->setExtraScripts(array('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js'));
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo $t['title'] . $config->getPageTitleSeparator() . __("Live Links") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js'); ?>" rel="stylesheet" type="text/css"/>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-    </head>
+<div class="container-fluid principalContainer" style="padding: 0;overflow: hidden;" id="modeYoutubePrincipal">
+    <?php
+    if (!$isCompressed) {
+    ?>
+        <div class="" id="modeYoutubeTop">
 
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        ?>
-        <!-- LiveLinks Live.php -->
-        <div class="container-fluid principalContainer" style="padding: 0;overflow: hidden;" id="modeYoutubePrincipal">
-            <?php
-            if (!$isCompressed) {
+            <div class="col-md-12">
+                <center style="margin:5px;">
+                    <?php echo getAdsLeaderBoardTop(); ?>
+                </center>
+            </div>
+            <div class="col-md-12">
+                <?php
+                require "{$global['systemRootPath']}plugin/LiveLinks/view/liveVideo.php";
                 ?>
-                <div class="" id="modeYoutubeTop" >
+            </div>
+            <div class="col-md-12">
+                <center style="margin:5px;">
+                    <?php echo getAdsLeaderBoardTop2(); ?>
+                </center>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
+    <div class="row" id="modeYoutubeBottom" style="margin: 0;">
+        <div class="col-lg-1"></div>
+        <div class="<?php echo $modeYoutubeBottomClass1; ?>" id="modeYoutubeBottomContent">
+            <?php
+            if ($isCompressed) {
+            ?>
+                <div class="" id="modeYoutubeTop">
 
                     <div class="col-md-12">
                         <center style="margin:5px;">
                             <?php echo getAdsLeaderBoardTop(); ?>
                         </center>
-                    </div>  
+                    </div>
                     <div class="col-md-12">
                         <?php
                         require "{$global['systemRootPath']}plugin/LiveLinks/view/liveVideo.php";
                         ?>
-                    </div>  
+                    </div>
                     <div class="col-md-12">
                         <center style="margin:5px;">
                             <?php echo getAdsLeaderBoardTop2(); ?>
                         </center>
-                    </div>  
+                    </div>
                 </div>
-                <?php
+            <?php
             }
             ?>
-            <div class="row" id="modeYoutubeBottom" style="margin: 0;">
-                <div class="col-lg-1"></div>
-                <div class="<?php echo $modeYoutubeBottomClass1; ?>" id="modeYoutubeBottomContent">
-                    <?php
-                    if ($isCompressed) {
-                        ?>
-                        <div class="" id="modeYoutubeTop" >
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h1 itemprop="name"><i class="fas fa-video"></i> <?php echo getSEOTitle($t['title']); ?></h1>
+                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
+                    <p><?php echo nl2br(textToLink($t['description'])); ?></p>
 
-                            <div class="col-md-12">
-                                <center style="margin:5px;">
-                                    <?php echo getAdsLeaderBoardTop(); ?>
-                                </center>
-                            </div>  
-                            <div class="col-md-12">
-                                <?php
-                                require "{$global['systemRootPath']}plugin/LiveLinks/view/liveVideo.php";
-                                ?>
-                            </div>  
-                            <div class="col-md-12">
-                                <center style="margin:5px;">
-                                    <?php echo getAdsLeaderBoardTop2(); ?>
-                                </center>
-                            </div>   
-                        </div>
-                        <?php
-                    }
-                    ?>
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h1 itemprop="name"><i class="fas fa-video"></i> <?php echo getSEOTitle($t['title']); ?></h1>
-                            <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                            <p><?php echo nl2br(textToLink($t['description'])); ?></p>
-
-                            <div class="row">
-                                <div class="col-md-12 watch8-action-buttons text-muted">
-                                    <?php if (isShareEnabled()) { ?>
-                                        <a href="#" class="btn btn-default no-outline" id="shareBtn">
-                                            <span class="fa fa-share"></span> <?php echo __("Share"); ?>
-                                        </a>
-                                        <?php
-                                    }
-                                    ?>
-                                    <script>
-                                        $(document).ready(function () {
-                                            $("#shareDiv").slideUp();
-                                            $("#shareBtn").click(function () {
-                                                $(".menusDiv").not("#shareDiv").slideUp();
-                                                $("#shareDiv").slideToggle();
-                                                return false;
-                                            });
-                                        });
-                                    </script>
-                                    <?php echo AVideoPlugin::getWatchActionButton(0); ?>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-12 watch8-action-buttons text-muted">
+                            <?php if (isShareEnabled()) { ?>
+                                <a href="#" class="btn btn-default no-outline" id="shareBtn">
+                                    <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                                </a>
                             <?php
-                            if (isShareEnabled()) {
-                                /**
-                                 * @var string $link
-                                 * @var string $linkEmbed
-                                 */
-                                $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
-                                $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
-                                getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
                             }
                             ?>
-                            <div class="row">
-                                <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
-                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $("#shareDiv").slideUp();
+                                    $("#shareBtn").click(function() {
+                                        $(".menusDiv").not("#shareDiv").slideUp();
+                                        $("#shareDiv").slideToggle();
+                                        return false;
+                                    });
+                                });
+                            </script>
+                            <?php echo AVideoPlugin::getWatchActionButton(0); ?>
                         </div>
                     </div>
-                </div>
-                <div class="<?php echo $modeYoutubeBottomClass2; ?> rightBar" id="yptRightBar">
-                    <div class="list-group-item ">
-                        <?php
-                        echo $sideAd;
-                        ?>
+                    <?php
+                    if (isShareEnabled()) {
+                        /**
+                         * @var string $link
+                         * @var string $linkEmbed
+                         */
+                        $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
+                        $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
+                        getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
+                    }
+                    ?>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                     </div>
                 </div>
-                <div class="col-lg-1"></div>
-            </div>  
-
+            </div>
         </div>
-        <?php
-        include $global['systemRootPath'] . 'view/include/video.min.js.php';
-        echo AVideoPlugin::afterVideoJS();
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-    </body>
-</html>
-
+        <div class="<?php echo $modeYoutubeBottomClass2; ?> rightBar" id="yptRightBar">
+            <div class="list-group-item ">
+                <?php
+                echo $sideAd;
+                ?>
+            </div>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+</div>
 <?php
-include $global['systemRootPath'] . 'objects/include_end.php';
+include $global['systemRootPath'] . 'view/include/video.min.js.php';
+echo AVideoPlugin::afterVideoJS();
 ?>
-
-
+<?php
+$_page->print();
+?>

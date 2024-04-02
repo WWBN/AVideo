@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -224,7 +224,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/UserNotifications/View/User_notifications/add.json.php',
+                url: webSiteRootURL+'plugin/UserNotifications/View/User_notifications/add.json.php',
                 data: $('#panelUser_notificationsForm').serialize(),
                 type: 'post',
                 success: function (response) {

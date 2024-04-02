@@ -82,7 +82,7 @@ $uid = uniqid();
         console.log(users_groups_id, plugins_id, type);
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Permissions/setPermission.json.php',
+            url: webSiteRootURL+'plugin/Permissions/setPermission.json.php',
             data: {"users_groups_id": users_groups_id, "plugins_id": plugins_id, "type": type, "isEnabled": $('#pluginPermission'+users_groups_id+'<?php echo  $uid; ?>_'+type).is(":checked")},
             type: 'post',
             success: function (response) {

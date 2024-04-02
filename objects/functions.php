@@ -5488,9 +5488,16 @@ function getHTMLTitle($titleArray)
     if (!is_array($titleArray)) {
         $titleArray = [];
     }
+    $titleArray[] = getSEOComplement();
     $titleArray[] = $config->getWebSiteTitle();
-
-    $title = implode($config->getPageTitleSeparator(), $titleArray);
+    $cleanTitleArray = array();
+    foreach ($titleArray as $value) {
+        if(!empty($value) && !in_array($value, $cleanTitleArray)){
+            $cleanTitleArray[] = $value;
+        }
+    }
+    
+    $title = implode($config->getPageTitleSeparator(), $cleanTitleArray);
     $global['pageTitle'] = $title;
     return "<title>{$title}</title>";
 }

@@ -335,7 +335,7 @@ $outputText .= $collapsibleClose;
                 $(".archiveLog").click(function () {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>view/logArchive.json.php',
+                        url: webSiteRootURL+'view/logArchive.json.php',
                         success: function (response) {
                             modal.hidePleaseWait();
                             avideoResponse(response);

@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -287,7 +287,7 @@ if (!User::isAdmin()) {
         $(".pluginSwitch").on("change", function (e) {
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                 data: {"uuid": "3f2a707f-3c06-4b78-90f9-a22f2fda92ef", "name": "AD_Server", "dir": "AD_Server", "enable": $('#enable1').is(":checked")},
                 type: 'post',
                 success: function (response) {
@@ -300,7 +300,7 @@ if (!User::isAdmin()) {
             minLength: 0,
             source: function (req, res) {
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>videos.json',
+                    url: webSiteRootURL+'videos.json',
                     type: "POST",
                     data: {
                         searchPhrase: req.term,
@@ -481,7 +481,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/addCampaign.php',
+                url: webSiteRootURL+'plugin/AD_Server/view/addCampaign.php',
                 data: $('#panelForm').serialize(),
                 type: 'post',
                 success: function (response) {

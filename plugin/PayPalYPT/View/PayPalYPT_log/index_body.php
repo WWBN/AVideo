@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -115,7 +115,7 @@ if (!User::isAdmin()) {
     $(document).ready(function () {
         $('#addPayPalYPT_logBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/PayPalYPT/View/addPayPalYPT_logVideo.php',
+                url: webSiteRootURL+'plugin/PayPalYPT/View/addPayPalYPT_logVideo.php',
                 data: $('#panelPayPalYPT_logForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -156,7 +156,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/PayPalYPT/View/PayPalYPT_log/add.json.php',
+                url: webSiteRootURL+'plugin/PayPalYPT/View/PayPalYPT_log/add.json.php',
                 data: $('#panelPayPalYPT_logForm').serialize(),
                 type: 'post',
                 success: function (response) {

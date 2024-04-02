@@ -53,12 +53,12 @@ $delay = 0.2;
             $('.playerSwitch').not(this).prop('checked', false);
             var skin = $(this).val();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                 data: {"uuid": "e9a568e6-ef61-4dcc-aad0-0109e9be8e36", "name": "PlayerSkins", "dir": "PlayerSkins", "enable": true},
                 type: 'post',
                 success: function (response) {
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>admin/playerUpdate.json.php',
+                        url: webSiteRootURL+'admin/playerUpdate.json.php',
                         data: {"skin": skin},
                         type: 'post',
                         success: function (response) {

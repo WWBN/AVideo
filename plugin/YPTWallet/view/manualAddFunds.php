@@ -93,7 +93,7 @@ $options = _json_decode($obj->addFundsOptions);
                 $('#manualAddFundsPageButton').click(function () {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/manualAddFunds.json.php',
+                        url: webSiteRootURL+'plugin/YPTWallet/view/manualAddFunds.json.php',
                         type: "POST",
                         data: {
                             value: $('#value').val(),

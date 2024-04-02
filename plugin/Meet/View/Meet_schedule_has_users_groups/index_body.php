@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -99,7 +99,7 @@ $('#Meet_schedule_has_users_groupsusers_groups_id').val('');
     $(document).ready(function () {
     $('#addMeet_schedule_has_users_groupsBtn').click(function () {
     $.ajax({
-    url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/addMeet_schedule_has_users_groupsVideo.php',
+    url: webSiteRootURL+'plugin/Meet/View/addMeet_schedule_has_users_groupsVideo.php',
             data: $('#panelMeet_schedule_has_users_groupsForm').serialize(),
             type: 'post',
             success: function (response) {
@@ -136,7 +136,7 @@ $('#Meet_schedule_has_users_groupsusers_groups_id').val('');
     e.preventDefault();
     modal.showPleaseWait();
     $.ajax({
-    url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule_has_users_groups/add.json.php',
+    url: webSiteRootURL+'plugin/Meet/View/Meet_schedule_has_users_groups/add.json.php',
             data: $('#panelMeet_schedule_has_users_groupsForm').serialize(),
             type: 'post',
             success: function (response) {

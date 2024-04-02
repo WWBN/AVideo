@@ -326,7 +326,7 @@ unset($_POST['current']);
                             var playlist_id = $(currentObject).attr('playlist_id');
                             var video_id = $(currentObject).attr('video_id');
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
+                                url: webSiteRootURL+'objects/playlistRemoveVideo.php',
                                 data: {
                                     "playlist_id": playlist_id,
                                     "video_id": video_id
@@ -358,7 +358,7 @@ unset($_POST['current']);
                             var playlist_id = $(currentObject).attr('playlist_id');
                             console.log(playlist_id);
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
+                                url: webSiteRootURL+'objects/playlistRemove.php',
                                 data: {
                                     "playlist_id": playlist_id
                                 },
@@ -390,7 +390,7 @@ unset($_POST['current']);
                 modal.showPleaseWait();
                 console.log(playlist_id);
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistStatus.php',
+                    url: webSiteRootURL+'objects/playlistStatus.php',
                     data: {
                         "playlist_id": playlist_id,
                         "status": status
@@ -490,7 +490,7 @@ echo getPagination($totalPages, $url, 10, ".programsContainerItem", ".programsCo
     function saveSortable($sortableObject, playlist_id) {
         var list = $($sortableObject).sortable("toArray");
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php',
+            url: webSiteRootURL+'objects/playlistSort.php',
             data: {
                 "list": list,
                 "playlist_id": playlist_id

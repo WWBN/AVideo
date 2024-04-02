@@ -10,7 +10,7 @@ $uid = uniqid();
         $('#switch<?php echo $uid; ?>').change(function (e) {
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/set.json.php',
+                url: webSiteRootURL+'plugin/CustomizeUser/set.json.php',
                 data: {"type": "userCanAllowFilesShare", "value": $('#switch<?php echo $uid; ?>').is(":checked")},
                 type: 'post',
                 success: function (response) {

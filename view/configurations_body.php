@@ -700,7 +700,7 @@ if (User::isAdmin()) {
                 evt.preventDefault();
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
+                    url: webSiteRootURL+'objects/sendEmail.json.php',
                     data: {
                         captcha: $('#captchaText').val(),
                         first_name: "Your Site test",

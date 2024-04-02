@@ -17,27 +17,13 @@ $screenWidth = 1024;
 $screenHeight = 576;
 
 $factorW = $screenWidth / $finalWidth;
+$_page = new Page(array('Channel Art'));
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title><?php echo __("Channel Art"); ?></title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-    </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        ?>
-        <div class="container">
-            <br>
-            <?php
-            include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
-            ?>
-        </div><!--/.container-->
-        <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-    </body>
-</html>
+<div class="container">
+    <?php
+    include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
+    ?>
+</div>
+<?php
+$_page->print();
+?>

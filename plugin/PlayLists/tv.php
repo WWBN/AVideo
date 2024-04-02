@@ -504,7 +504,7 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
 
             function loadBody() {
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/tv_body.php',
+                    url: webSiteRootURL+'plugin/PlayLists/tv_body.php',
                     success: function (response) {
                         $(response).find('.videoLinkDiv').each(function (index) {
                             var bodyTabindex = parseInt($(this).attr('tabindex'));

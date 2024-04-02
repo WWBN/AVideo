@@ -9,59 +9,49 @@ if (empty($users_id)) {
     forbiddenPage('Empty users_id');
 }
 $pass = User::getProfilePassword($users_id);
+$_page = new Page(array('Set Password'));
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo __("Set Password"); ?></title>
+<div class="panel panel-default">
+    <div class="panel-heading">
         <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
+        echo Video::getCreatorHTML($users_id);
         ?>
-    </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <?php
-                echo Video::getCreatorHTML($users_id);
-                ?>
-            </div>
-            <div class="panel-body">
-                Protect the user's channel with a password 
-                <?php
-                   echo getInputPassword('ProfilePassword', 'maxlength="100" value="'.$pass.'" class="form-control"', __('Channel Password'));
-                ?>
-            </div>
-            <div class="panel-footer">
-                <button class="btn btn-success btn-lg btn-block" onclick="setSubscribers();">
-                    <i class="fas fa-save"></i> <?php echo __('Save'); ?>
-                </button>
-            </div>
-        </div>
+    </div>
+    <div class="panel-body">
+        Protect the user's channel with a password
         <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
+        echo getInputPassword('ProfilePassword', 'maxlength="100" value="' . $pass . '" class="form-control"', __('Channel Password'));
         ?>
-        <script type="text/javascript">
-            function setSubscribers() {
-                modal.showPleaseWait();
-                $.ajax({
-                    url: webSiteRootURL + 'plugin/CustomizeUser/setPassword.json.php',
-                    method: 'POST',
-                    data: {
-                        users_id: <?php echo $users_id; ?>,
-                        ProfilePassword: $('#ProfilePassword').val()
-                    },
-                    success: function (response) {
-                        modal.hidePleaseWait();
-                        avideoResponse(response);
-                    }
-                });
+    </div>
+    <div class="panel-footer">
+        <button class="btn btn-success btn-lg btn-block" onclick="setSubscribers();">
+            <i class="fas fa-save"></i> <?php echo __('Save'); ?>
+        </button>
+    </div>
+</div>
+<script type="text/javascript">
+    function setSubscribers() {
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'plugin/CustomizeUser/setPassword.json.php',
+            method: 'POST',
+            data: {
+                users_id: <?php echo $users_id; ?>,
+                ProfilePassword: $('#ProfilePassword').val()
+            },
+            success: function(response) {
+                modal.hidePleaseWait();
+                avideoResponse(response);
             }
-            $(document).ready(function () {
+        });
+    }
+    $(document).ready(function() {
 
-                    $('#ProfilePassword').keyup(function () {
-                        $(this).val($(this).val().replace(/[^0-9a-z]/i, ''));
-                    });
-                });
-        </script>
-    </body>
-</html>
+        $('#ProfilePassword').keyup(function() {
+            $(this).val($(this).val().replace(/[^0-9a-z]/i, ''));
+        });
+    });
+</script>
+<?php
+$_page->print();
+?>

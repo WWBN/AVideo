@@ -41,7 +41,7 @@
             modal.showPleaseWait();
             $('.themeSwitch').not(this).prop('checked', false);
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>admin/themeUpdate.json.php',
+                url: webSiteRootURL+'admin/themeUpdate.json.php',
                 data: {"theme": $(this).val()},
                 type: 'post',
                 success: function (response) {

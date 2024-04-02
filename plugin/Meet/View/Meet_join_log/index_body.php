@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -113,7 +113,7 @@ if (!User::isAdmin()) {
     $(document).ready(function () {
         $('#addMeet_join_logBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/addMeet_join_logVideo.php',
+                url: webSiteRootURL+'plugin/Meet/View/addMeet_join_logVideo.php',
                 data: $('#panelMeet_join_logForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -152,7 +152,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_join_log/add.json.php',
+                url: webSiteRootURL+'plugin/Meet/View/Meet_join_log/add.json.php',
                 data: $('#panelMeet_join_logForm').serialize(),
                 type: 'post',
                 success: function (response) {

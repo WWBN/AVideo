@@ -697,7 +697,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
             $('#pluginsImportFormModal').modal();
         });
         $('#input-b1').fileinput({
-            uploadUrl: '<?php echo $global['webSiteRootURL']; ?>objects/pluginImport.json.php',
+            uploadurl: webSiteRootURL+'objects/pluginImport.json.php',
             allowedFileExtensions: ['zip']
         }).on('fileuploaded', function(event, data, id, index) {
             $("#grid").bootgrid('reload');

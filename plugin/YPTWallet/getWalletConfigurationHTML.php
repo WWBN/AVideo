@@ -19,7 +19,7 @@ $myWallet = YPTWallet::getWallet(User::getId());
             event.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/saveConfiguration.php',
+                url: webSiteRootURL+'plugin/YPTWallet/view/saveConfiguration.php',
                 data: $("#form").serialize(),
                 type: 'post',
                 success: function (response) {

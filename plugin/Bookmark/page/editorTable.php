@@ -45,7 +45,7 @@
             console.log(data);
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Bookmark/page/bookmarkDelete.json.php',
+                url: webSiteRootURL+'plugin/Bookmark/page/bookmarkDelete.json.php',
                 data: {'id': data.id},
                 type: 'post',
                 success: function (response) {

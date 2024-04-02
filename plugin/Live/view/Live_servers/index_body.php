@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 $obj = AVideoPlugin::getObjectData("Live");
@@ -197,7 +197,7 @@ $obj = AVideoPlugin::getObjectData("Live");
     $(document).ready(function() {
         $('#addLiveBtn').click(function() {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/addLive_serversVideo.php',
+                url: webSiteRootURL+'plugin/Live/view/addLive_serversVideo.php',
                 data: $('#panelLive_serversForm').serialize(),
                 type: 'post',
                 success: function(response) {
@@ -244,7 +244,7 @@ $obj = AVideoPlugin::getObjectData("Live");
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_servers/add.json.php',
+                url: webSiteRootURL+'plugin/Live/view/Live_servers/add.json.php',
                 data: $('#panelLive_serversForm').serialize(),
                 type: 'post',
                 success: function(response) {

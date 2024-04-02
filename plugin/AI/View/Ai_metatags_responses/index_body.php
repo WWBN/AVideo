@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -170,7 +170,7 @@ $('#Ai_metatags_responsesai_responses_id').val('');
     $(document).ready(function () {
     $('#addAi_metatags_responsesBtn').click(function () {
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/AI/View/addAi_metatags_responsesVideo.php',
+            url: webSiteRootURL+'plugin/AI/View/addAi_metatags_responsesVideo.php',
             data: $('#panelAi_metatags_responsesForm').serialize(),
             type: 'post',
             success: function (response) {
@@ -220,7 +220,7 @@ $('#Ai_metatags_responsesai_responses_id').val('');
         e.preventDefault();
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/AI/View/Ai_metatags_responses/add.json.php',
+            url: webSiteRootURL+'plugin/AI/View/Ai_metatags_responses/add.json.php',
             data: $('#panelAi_metatags_responsesForm').serialize(),
             type: 'post',
             success: function (response) {

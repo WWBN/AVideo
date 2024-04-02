@@ -34,7 +34,7 @@
         ad_overlay_users_id = users_id;
         $('#adsFormModal').modal();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Overlay/getCode.json.php?users_id=' + users_id,
+            url: webSiteRootURL+'plugin/AD_Overlay/getCode.json.php?users_id=' + users_id,
             success: function (response) {
                 $( "#addOverlayCode" ).text(response.msg);
                 if(response.status == 'a'){

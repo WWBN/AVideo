@@ -118,7 +118,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
             function submitDonation<?php echo $uid; ?>() {
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/donate.json.php',
+                    url: webSiteRootURL+'plugin/CustomizeUser/donate.json.php',
                     data: {
                         "value": $('#donationValue<?php echo $uid; ?>').val(),
                         "videos_id": <?php echo intval(@$video['id']); ?>,
@@ -144,7 +144,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
             function submitDonationButton<?php echo $uid; ?>(buttonIndex) {
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/donate.json.php',
+                    url: webSiteRootURL+'plugin/CustomizeUser/donate.json.php',
                     data: {
                         "buttonIndex": buttonIndex,
                         "videos_id": <?php echo intval(@$video['id']); ?>,

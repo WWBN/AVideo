@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -124,7 +124,7 @@ if (!User::isAdmin()) {
     $(document).ready(function () {
         $('#addUsers_affiliationsBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/addUsers_affiliationsVideo.php',
+                url: webSiteRootURL+'plugin/CustomizeUser/View/addUsers_affiliationsVideo.php',
                 data: $('#panelUsers_affiliationsForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -167,7 +167,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/Users_affiliations/add.json.php',
+                url: webSiteRootURL+'plugin/CustomizeUser/View/Users_affiliations/add.json.php',
                 data: $('#panelUsers_affiliationsForm').serialize(),
                 type: 'post',
                 success: function (response) {

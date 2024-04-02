@@ -99,7 +99,7 @@ $options = _json_decode($obj->withdrawFundsOptions);
                 $('#manualWithdrawFundsPageButton').click(function () {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/manualWithdrawFunds.json.php',
+                        url: webSiteRootURL+'plugin/YPTWallet/view/manualWithdrawFunds.json.php',
                         type: "POST",
                         data: {
                             value: $('#value').val(),

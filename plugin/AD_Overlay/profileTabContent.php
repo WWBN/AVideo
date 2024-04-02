@@ -10,7 +10,7 @@ $ad->loadFromUser(User::getId());
             AD Code
         </div>
         <div class="panel-body">
-            <textarea class="form-control" rows="10" id="addOverlayCode"><?php echo $ad->getCode(); ?></textarea>
+            <textarea class="form-control" rows="10" id="addOverlayCode"><?php echo htmlentities($ad->getCode()); ?></textarea>
             <button class="btn btn-success btn-block" type="button" onclick="saveCode()"><?php echo __("Save Ad Code") ?></button>
         </div>
     </div>

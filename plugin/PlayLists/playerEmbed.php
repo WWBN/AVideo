@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 
 if (!PlayList::canSee($_GET['playlists_id'], User::getId())) {
-    forbiddenPage(_('You cannot see this playlist').' '.basename(__FILE__));
+    forbiddenPage(_('You cannot see this playlist') . ' ' . basename(__FILE__));
 }
 $global['doNotLoadPlayer'] = 1;
 /*
@@ -49,57 +49,45 @@ foreach ($playList as $key => $value) {
     $videos[$key] = $value;
     $videos[$key]['id'] = $value['videos_id'];
 }
+$_page = new Page(array($playListObj->getName()));
+$_page->setExtraStyles(array('view/css/social.css', 'plugin/Gallery/style.css'));
+$_page->setExtraScripts(array('plugin/Gallery/script.js'));
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo $playListObj->getName() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getURL('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo getURL('plugin/Gallery/script.js'); ?>" type="text/javascript"></script>
-
-        <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
-        <style>
-            .clearfix {
-                margin-bottom: 10px;
-            }
-        </style>
-    </head>
-
-    <body class="<?php echo $global['bodyClass']; ?>" style="padding: 5px;">
-        <div class="container-fluid " style="overflow: hidden;">
-            <div class="gallery">
-            <?php
-            if (!empty($playList)) {
-                if(isMobile()){
-                    createGallerySection($videos, true, true,6, 4, 2, 1, false);
-                }else{
-                    createGallerySection($videos, true, true,6, 6, 4, 2, false);
-                }
-            } ?>
-            </div>
-        </div>
+<style>
+    .clearfix {
+        margin-bottom: 10px;
+    }
+</style>
+<div class="container-fluid " style="overflow: hidden;">
+    <div class="gallery">
         <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-        <script>
-            $(document).ready(function () {
-               $('.galleryVideo a').click(function(event){
-                   event.preventDefault();
-                   //avideoModalIframeFull($(this).attr('alternativeLink'));
-                   var url = $(this).attr('embed');
-                   if(empty(url)){  
-                       console.log('$(\'.galleryVideo a\').click does not have embed');
-                       url = $(this).attr('href');
-                   }       
-                   url = addGetParam(url, 'controls', -1);
-                   url = addGetParam(url, 'showinfo', 0);
-                   url = addGetParam(url, 'autoplay', 1);
-                   console.log('$(\'.galleryVideo a\').click open', url);
-                   avideoAddIframeIntoElement(this, url, '');
-               });
-            });
-        </script>
-    </body>
-</html>
-<?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>
+        if (!empty($playList)) {
+            if (isMobile()) {
+                createGallerySection($videos, true, true, 6, 4, 2, 1, false);
+            } else {
+                createGallerySection($videos, true, true, 6, 6, 4, 2, false);
+            }
+        } ?>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('.galleryVideo a').click(function(event) {
+            event.preventDefault();
+            //avideoModalIframeFull($(this).attr('alternativeLink'));
+            var url = $(this).attr('embed');
+            if (empty(url)) {
+                console.log('$(\'.galleryVideo a\').click does not have embed');
+                url = $(this).attr('href');
+            }
+            url = addGetParam(url, 'controls', -1);
+            url = addGetParam(url, 'showinfo', 0);
+            url = addGetParam(url, 'autoplay', 1);
+            console.log('$(\'.galleryVideo a\').click open', url);
+            avideoAddIframeIntoElement(this, url, '');
+        });
+    });
+</script>
+<?php
+$_page->print();
+?>

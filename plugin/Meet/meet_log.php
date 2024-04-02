@@ -13,7 +13,7 @@ if (empty($obj)) {
 }
 
 if (!User::isLogged()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 $userCredentials = User::loginFromRequestToGet();

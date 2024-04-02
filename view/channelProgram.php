@@ -295,7 +295,7 @@ $_page->setExtraStyles(
         function saveSortable($sortableObject, playlist_id) {
             var list = $($sortableObject).sortable("toArray");
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php',
+                url: webSiteRootURL+'objects/playlistSort.php',
                 data: {
                     "list": list,
                     "playlist_id": playlist_id
@@ -405,7 +405,7 @@ $_page->setExtraStyles(
                             var playlist_id = $(currentObject).attr('playlist_id');
                             console.log(playlist_id);
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
+                                url: webSiteRootURL+'objects/playlistRemove.php',
                                 data: {
                                     "playlist_id": playlist_id
                                 },
@@ -439,7 +439,7 @@ $_page->setExtraStyles(
                 modal.showPleaseWait();
                 console.log(playlist_id);
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistStatus.php',
+                    url: webSiteRootURL+'objects/playlistStatus.php',
                     data: {
                         "playlist_id": playlist_id,
                         "status": status

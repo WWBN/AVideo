@@ -358,7 +358,7 @@ switch ($_GET['page']) {
                     e.preventDefault();
                     modal.showPleaseWait();
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>admin/save.json.php',
+                        url: webSiteRootURL+'admin/save.json.php',
                         data: $(this).serialize(),
                         type: 'post',
                         success: function (response) {
@@ -369,7 +369,7 @@ switch ($_GET['page']) {
                 $('.pluginSwitch').change(function (e) {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                         data: {"uuid": $(this).attr('uuid'), "name": $(this).attr('name'), "dir": $(this).attr('name'), "enable": $(this).is(":checked")},
                         type: 'post',
                         success: function (response) {

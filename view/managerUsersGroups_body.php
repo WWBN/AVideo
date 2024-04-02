@@ -81,7 +81,7 @@
         $('#groupFormModal').modal('hide');
         $("#pluginsPermissionModalContent").html('');
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Permissions/getPermissionsFromPlugin.html.php?plugins_id=' + plugins_id,
+            url: webSiteRootURL+'plugin/Permissions/getPermissionsFromPlugin.html.php?plugins_id=' + plugins_id,
             success: function (response) {
                 modal.hidePleaseWait();
                 $("#pluginsPermissionModalContent").html(response);
@@ -122,7 +122,7 @@
 
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/Permissions/getPermissions.json.php?users_groups_id=' + row.id,
+                    url: webSiteRootURL+'plugin/Permissions/getPermissions.json.php?users_groups_id=' + row.id,
                     success: function (response) {
                         console.log(response);
                         $(".permissions").prop("checked", false);
@@ -161,7 +161,7 @@
 
                                 modal.showPleaseWait();
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/userGroupsDelete.json.php',
+                                    url: webSiteRootURL+'objects/userGroupsDelete.json.php',
                                     data: {"id": row.id},
                                     type: 'post',
                                     success: function (response) {

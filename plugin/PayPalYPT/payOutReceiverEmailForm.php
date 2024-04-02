@@ -35,7 +35,7 @@ $uid = uniqid();
         }
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/PayPalYPT/savePayPalReceiverEmail.json.php',
+            url: webSiteRootURL+'plugin/PayPalYPT/savePayPalReceiverEmail.json.php',
             data: {"PayPalReceiverEmail": PayPalReceiverEmail},
             type: 'post',
             success: function (response) {

@@ -175,7 +175,7 @@
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/addLiveLink.php',
+                url: webSiteRootURL+'plugin/LiveLinks/view/addLiveLink.php',
                 data: $('#liveLinksForm').serialize(),
                 type: 'post',
                 success: function (response) {

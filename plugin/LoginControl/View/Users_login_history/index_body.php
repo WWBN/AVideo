@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -126,7 +126,7 @@ if (!User::isAdmin()) {
     $(document).ready(function () {
         $('#addlogincontrol_historyBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/View/addlogincontrol_historyVideo.php',
+                url: webSiteRootURL+'plugin/LoginControl/View/addlogincontrol_historyVideo.php',
                 data: $('#panellogincontrol_historyForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -168,7 +168,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/View/Users_login_history/add.json.php',
+                url: webSiteRootURL+'plugin/LoginControl/View/Users_login_history/add.json.php',
                 data: $('#panellogincontrol_historyForm').serialize(),
                 type: 'post',
                 success: function (response) {

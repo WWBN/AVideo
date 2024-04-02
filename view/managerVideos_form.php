@@ -356,7 +356,7 @@
                                         minLength: 0,
                                         source: function(req, res) {
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/videos.json.php?rowCount=6',
+                                                url: webSiteRootURL+'objects/videos.json.php?rowCount=6',
                                                 type: "POST",
                                                 data: {
                                                     searchPhrase: req.term

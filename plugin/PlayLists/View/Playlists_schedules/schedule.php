@@ -215,7 +215,7 @@ $_page->setExtraScripts(
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/Playlists_schedules/add.json.php',
+                url: webSiteRootURL+'plugin/PlayLists/View/Playlists_schedules/add.json.php',
                 data: $('#panelPlaylists_schedulesForm').serialize(),
                 type: 'post',
                 success: function(response) {

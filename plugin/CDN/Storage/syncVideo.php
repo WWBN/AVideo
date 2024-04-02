@@ -12,31 +12,18 @@ if (!Video::canEdit($videos_id)) {
 }
 
 $video = Video::getVideoLight($videos_id);
+$_page = new Page(array('Move Storage'));
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Move Storage</title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-    </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        ?>
-        <div class="container-fluid">
-            <?php
-            $isMoving = CDNStorage::isMoving($videos_id);
-            if (!empty($isMoving)) {
-                include './panelIsMoving.php';
-            } else {
-                include './panelMove.php';
-            }
-            ?>
-        </div>
-        <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-    </body>
-</html>
+<div class="container-fluid">
+    <?php
+    $isMoving = CDNStorage::isMoving($videos_id);
+    if (!empty($isMoving)) {
+        include './panelIsMoving.php';
+    } else {
+        include './panelMove.php';
+    }
+    ?>
+</div>
+<?php
+$_page->print();
+?>

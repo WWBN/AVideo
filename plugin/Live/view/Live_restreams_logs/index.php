@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 

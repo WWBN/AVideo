@@ -23,7 +23,7 @@
                         minLength: 0,
                         source: function(req, res) {
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/users.json.php',
+                                url: webSiteRootURL+'objects/users.json.php',
                                 type: "POST",
                                 data: {
                                     searchPhrase: req.term

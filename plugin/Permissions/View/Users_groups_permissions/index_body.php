@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -124,7 +124,7 @@ if (!User::isAdmin()) {
     $(document).ready(function () {
         $('#addUsers_groups_permissionsBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Permissions/View/addUsers_groups_permissionsVideo.php',
+                url: webSiteRootURL+'plugin/Permissions/View/addUsers_groups_permissionsVideo.php',
                 data: $('#panelUsers_groups_permissionsForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -164,7 +164,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Permissions/View/Users_groups_permissions/add.json.php',
+                url: webSiteRootURL+'plugin/Permissions/View/Users_groups_permissions/add.json.php',
                 data: $('#panelUsers_groups_permissionsForm').serialize(),
                 type: 'post',
                 success: function (response) {

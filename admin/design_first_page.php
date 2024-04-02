@@ -95,27 +95,27 @@ $delay = 0.5;
 
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                 data: {"uuid": "a06505bf-3570-4b1f-977a-fd0e5cab205d", "name": "Gallery", "dir": "Gallery", "enable": false},
                 type: 'post',
                 success: function (response) {
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                         data: {"uuid": "e3a568e6-ef61-4dcc-aad0-0109e9be8e36", "name": "YouPHPFlix2", "dir": "YouPHPFlix2", "enable": false},
                         type: 'post',
                         success: function (response) {
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                 data: {"uuid": "youu05bf-3570-4b1f-977a-fd0e5cabtube", "name": "YouTube", "dir": "YouTube", "enable": false},
                                 type: 'post',
                                 success: function (response) {
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                         data: {"uuid": "channel-first-page-977a-fd0e5cab205d", "name": "FirstPageChannelList", "dir": "FirstPageChannelList", "enable": false},
                                         type: 'post',
                                         success: function (response) {
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>admin/themeUpdate.json.php',
+                                                url: webSiteRootURL+'admin/themeUpdate.json.php',
                                                 data: {"theme": 'default'},
                                                 type: 'post',
                                                 success: function (response) {
@@ -142,27 +142,27 @@ $delay = 0.5;
 
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                 data: {"uuid": "a06505bf-3570-4b1f-977a-fd0e5cab205d", "name": "Gallery", "dir": "Gallery", "enable": false},
                 type: 'post',
                 success: function (response) {
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                         data: {"uuid": "youu05bf-3570-4b1f-977a-fd0e5cabtube", "name": "YouTube", "dir": "YouTube", "enable": false},
                         type: 'post',
                         success: function (response) {
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                 data: {"uuid": "e3a568e6-ef61-4dcc-aad0-0109e9be8e36", "name": "YouPHPFlix2", "dir": "YouPHPFlix2", "enable": true},
                                 type: 'post',
                                 success: function (response) {
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                         data: {"uuid": "channel-first-page-977a-fd0e5cab205d", "name": "FirstPageChannelList", "dir": "FirstPageChannelList", "enable": false},
                                         type: 'post',
                                         success: function (response) {
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>admin/themeUpdate.json.php',
+                                                url: webSiteRootURL+'admin/themeUpdate.json.php',
                                                 data: {"theme": 'netflix'},
                                                 type: 'post',
                                                 success: function (response) {
@@ -189,27 +189,27 @@ $delay = 0.5;
 
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                 data: {"uuid": "a06505bf-3570-4b1f-977a-fd0e5cab205d", "name": "Gallery", "dir": "Gallery", "enable": true},
                 type: 'post',
                 success: function (response) {
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                         data: {"uuid": "youu05bf-3570-4b1f-977a-fd0e5cabtube", "name": "YouTube", "dir": "YouTube", "enable": false},
                         type: 'post',
                         success: function (response) {
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                 data: {"uuid": "e3a568e6-ef61-4dcc-aad0-0109e9be8e36", "name": "YouPHPFlix2", "dir": "YouPHPFlix2", "enable": false},
                                 type: 'post',
                                 success: function (response) {
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                         data: {"uuid": "channel-first-page-977a-fd0e5cab205d", "name": "FirstPageChannelList", "dir": "FirstPageChannelList", "enable": false},
                                         type: 'post',
                                         success: function (response) {
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>admin/themeUpdate.json.php',
+                                                url: webSiteRootURL+'admin/themeUpdate.json.php',
                                                 data: {"theme": 'default'},
                                                 type: 'post',
                                                 success: function (response) {
@@ -236,27 +236,27 @@ $delay = 0.5;
 
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                 data: {"uuid": "a06505bf-3570-4b1f-977a-fd0e5cab205d", "name": "Gallery", "dir": "Gallery", "enable": false},
                 type: 'post',
                 success: function (response) {
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                         data: {"uuid": "e3a568e6-ef61-4dcc-aad0-0109e9be8e36", "name": "YouPHPFlix2", "dir": "YouPHPFlix2", "enable": false},
                         type: 'post',
                         success: function (response) {
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                 data: {"uuid": "youu05bf-3570-4b1f-977a-fd0e5cabtube", "name": "YouTube", "dir": "YouTube", "enable": true},
                                 type: 'post',
                                 success: function (response) {
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                         data: {"uuid": "channel-first-page-977a-fd0e5cab205d", "name": "FirstPageChannelList", "dir": "FirstPageChannelList", "enable": false},
                                         type: 'post',
                                         success: function (response) {
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>admin/themeUpdate.json.php',
+                                                url: webSiteRootURL+'admin/themeUpdate.json.php',
                                                 data: {"theme": 'default'},
                                                 type: 'post',
                                                 success: function (response) {
@@ -285,27 +285,27 @@ $delay = 0.5;
 
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                 data: {"uuid": "a06505bf-3570-4b1f-977a-fd0e5cab205d", "name": "Gallery", "dir": "Gallery", "enable": false},
                 type: 'post',
                 success: function (response) {
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                         data: {"uuid": "e3a568e6-ef61-4dcc-aad0-0109e9be8e36", "name": "YouPHPFlix2", "dir": "YouPHPFlix2", "enable": false},
                         type: 'post',
                         success: function (response) {
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                 data: {"uuid": "youu05bf-3570-4b1f-977a-fd0e5cabtube", "name": "YouTube", "dir": "YouTube", "enable": false},
                                 type: 'post',
                                 success: function (response) {
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                         data: {"uuid": "channel-first-page-977a-fd0e5cab205d", "name": "FirstPageChannelList", "dir": "FirstPageChannelList", "enable": true},
                                         type: 'post',
                                         success: function (response) {
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>admin/themeUpdate.json.php',
+                                                url: webSiteRootURL+'admin/themeUpdate.json.php',
                                                 data: {"theme": 'default'},
                                                 type: 'post',
                                                 success: function (response) {

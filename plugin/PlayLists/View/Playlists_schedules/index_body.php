@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -155,7 +155,7 @@ if (!User::isAdmin()) {
     $(document).ready(function() {
         $('#addPlaylists_schedulesBtn').click(function() {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/addPlaylists_schedulesVideo.php',
+                url: webSiteRootURL+'plugin/PlayLists/View/addPlaylists_schedulesVideo.php',
                 data: $('#panelPlaylists_schedulesForm').serialize(),
                 type: 'post',
                 success: function(response) {
@@ -221,7 +221,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/Playlists_schedules/add.json.php',
+                url: webSiteRootURL+'plugin/PlayLists/View/Playlists_schedules/add.json.php',
                 data: $('#panelPlaylists_schedulesForm').serialize(),
                 type: 'post',
                 success: function(response) {

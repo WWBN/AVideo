@@ -360,7 +360,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
             if (willDelete) {
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
+                    url: webSiteRootURL+'objects/userRecoverPass.php',
                     data: {
                         "user": $('#inputUser').val(),
                         "captcha": <?php echo $captcha2['captchaText']; ?>

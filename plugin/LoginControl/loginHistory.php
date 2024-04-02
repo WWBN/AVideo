@@ -11,42 +11,27 @@ if (empty($users_id)) {
     forbiddenPage('Empty user ID');
 }
 
+$_page = new Page(array("Login History"));
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title><?php echo __("Login History"); ?></title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-    </head>
-    <body>
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        ?>
-        <div class="container-fluid">
-
-            <div class="panel panel-default">
-                <div class="panel-heading tabbable-line">
-                    <?php
-                    echo Video::getCreatorHTML($users_id);
-                    ?>
-                </div>
-                <div class="panel-body">
-                    <?php
-                            include '../../plugin/LoginControl/profileTabContent.php';
-                    ?>
-                </div>
-            </div>
-
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-heading tabbable-line">
+            <?php
+            echo Video::getCreatorHTML($users_id);
+            ?>
         </div>
-        <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-        <script>
-            $(document).ready(function () {
-                $('#loginHistory').addClass('in');
-            });
-        </script>
-    </body>
-</html>
+        <div class="panel-body">
+            <?php
+            include '../../plugin/LoginControl/profileTabContent.php';
+            ?>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#loginHistory').addClass('in');
+    });
+</script>
+<?php
+$_page->print();
+?>

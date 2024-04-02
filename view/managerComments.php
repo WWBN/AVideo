@@ -9,33 +9,17 @@ if (!User::isLogged()) {
     exit;
 }
 require_once $global['systemRootPath'] . 'objects/comment.php';
+$_page = new Page(array('Comments'));
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo __("Comments") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-    </head>
-
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        ?>
-
-        <div class="container-fluid">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <?php
-                    include $global['systemRootPath'] . 'view/videoComments.php';
-                    ?>
-                </div>
-            </div>
-        </div><!--/.container-->
-        <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-    </body>
-</html>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <?php
+            include $global['systemRootPath'] . 'view/videoComments.php';
+            ?>
+        </div>
+    </div>
+</div>
+<?php
+$_page->print();
+?>

@@ -41,7 +41,7 @@ if(!User::userCanBlockUser($users_id, true)){
 
                                 modal.showPleaseWait();
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/ReportVideo/block.json.php?unblock=1&<?php echo User::loginFromRequestToGet(); ?>',
+                                    url: webSiteRootURL+'plugin/ReportVideo/block.json.php?unblock=1&<?php echo User::loginFromRequestToGet(); ?>',
                                     method: 'POST',
                                     data: {'users_id': '<?php echo $users_id; ?>'},
                                     success: function (response) {
@@ -77,7 +77,7 @@ if(!User::userCanBlockUser($users_id, true)){
 
                                 modal.showPleaseWait();
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/ReportVideo/block.json.php?<?php echo User::loginFromRequestToGet(); ?>',
+                                    url: webSiteRootURL+'plugin/ReportVideo/block.json.php?<?php echo User::loginFromRequestToGet(); ?>',
                                     method: 'POST',
                                     data: {'users_id': '<?php echo $users_id; ?>'},
                                     success: function (response) {

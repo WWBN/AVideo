@@ -34,7 +34,7 @@
             evt.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Bookmark/page/bookmarkSave.json.php',
+                url: webSiteRootURL+'plugin/Bookmark/page/bookmarkSave.json.php',
                 data: $('#bookmarkForm').serializeArray(),
                 type: 'post',
                 success: function (response) {

@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -144,7 +144,7 @@ $('#Statisticscollected_date').val('');
     $(document).ready(function () {
     $('#addStatisticsBtn').click(function () {
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/VideosStatistics/View/addStatisticsVideo.php',
+            url: webSiteRootURL+'plugin/VideosStatistics/View/addStatisticsVideo.php',
             data: $('#panelStatisticsForm').serialize(),
             type: 'post',
             success: function (response) {
@@ -190,7 +190,7 @@ $('#Statisticscollected_date').val('');
         e.preventDefault();
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/VideosStatistics/View/Statistics/add.json.php',
+            url: webSiteRootURL+'plugin/VideosStatistics/View/Statistics/add.json.php',
             data: $('#panelStatisticsForm').serialize(),
             type: 'post',
             success: function (response) {

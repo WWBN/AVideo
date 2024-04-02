@@ -94,7 +94,7 @@
         var data = Users_affiliationstableVar.row(tr).data();
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/Users_affiliations/confirm.json.php',
+            url: webSiteRootURL+'plugin/CustomizeUser/View/Users_affiliations/confirm.json.php',
             data: {id: data.id, confirm: confirm},
             type: 'post',
             success: function (response) {
@@ -108,7 +108,7 @@
     $(document).ready(function () {
         $('#addUsers_affiliationsBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/addUsers_affiliationsVideo.php',
+                url: webSiteRootURL+'plugin/CustomizeUser/View/addUsers_affiliationsVideo.php',
                 data: $('#panelUsers_affiliationsForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -164,7 +164,7 @@ echo 'var sendConfirmationCancelButton = row.company_agree_date && row.affiliate
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/Users_affiliations/add.json.php',
+                url: webSiteRootURL+'plugin/CustomizeUser/View/Users_affiliations/add.json.php',
                 data: $('#panelUsers_affiliationsForm').serialize(),
                 type: 'post',
                 success: function (response) {

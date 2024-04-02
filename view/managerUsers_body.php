@@ -401,7 +401,7 @@ foreach ($userGroups as $value) {
                 selectedUserGroups.push($(this).val());
             });
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/userAddNew.json.php',
+                url: webSiteRootURL+'objects/userAddNew.json.php',
                 data: {
                     <?php
                     print AVideoPlugin::updateUserFormJS();

@@ -153,7 +153,7 @@ if (!User::isAdmin()) {
         });
         $('#addUsers_extra_infoBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/addUsers_extra_infoVideo.php',
+                url: webSiteRootURL+'plugin/CustomizeUser/View/addUsers_extra_infoVideo.php',
                 data: $('#panelUsers_extra_infoForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -199,7 +199,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/Users_extra_info/add.json.php',
+                url: webSiteRootURL+'plugin/CustomizeUser/View/Users_extra_info/add.json.php',
                 data: $('#panelUsers_extra_infoForm').serialize(),
                 type: 'post',
                 success: function (response) {

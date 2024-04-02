@@ -107,7 +107,7 @@
                 logoImgBase64 = resp;
 
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>admin/customize_settings_nativeUpdate.json.php',
+                    url: webSiteRootURL+'admin/customize_settings_nativeUpdate.json.php',
                     data: {
                         "logoImgBase64": logoImgBase64,
                         "webSiteTitle": $('#inputWebSiteTitle').val(),

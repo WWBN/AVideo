@@ -10,7 +10,7 @@ $uid = uniqid();
         $('#switch<?php echo $uid; ?>').change(function (e) {
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/set.json.php',
+                url: webSiteRootURL+'plugin/LoginControl/set.json.php',
                 data: {"type": "set2FA", "value": $('#switch<?php echo $uid; ?>').is(":checked")},
                 type: 'post',
                 success: function (response) {

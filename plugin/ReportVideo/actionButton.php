@@ -23,7 +23,7 @@ if (empty($video['id'])) {
 
                                 modal.showPleaseWait();
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/ReportVideo/report.json.php',
+                                    url: webSiteRootURL+'plugin/ReportVideo/report.json.php',
                                     method: 'POST',
                                     data: {'videos_id': '<?php echo $video['id']; ?>'},
                                     success: function (response) {

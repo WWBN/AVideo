@@ -13,7 +13,7 @@ if (empty($obj)) {
 }
 
 if (!User::canCreateMeet()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 $userCredentials = User::loginFromRequestToGet();
@@ -154,7 +154,7 @@ $userCredentials = User::loginFromRequestToGet();
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php?<?php echo $userCredentials; ?>',
+                url: webSiteRootURL+'plugin/Meet/saveMeet.json.php?<?php echo $userCredentials; ?>',
                                 data: $('#formMeetManager').serialize(),
                                 type: 'post',
                                 success: function (response) {

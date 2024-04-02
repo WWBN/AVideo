@@ -10,7 +10,7 @@ $obj = AVideoPlugin::getObjectData("PayPalYPT");
             modal.showPleaseWait();
 
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletPayPal/requestSubscription.json.php',
+                url: webSiteRootURL+'plugin/YPTWallet/plugins/YPTWalletPayPal/requestSubscription.json.php',
                 data: {
                     "plans_id": "<?php echo @$_GET['plans_id']; ?>"
                 },

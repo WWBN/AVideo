@@ -99,7 +99,7 @@ $_page->setExtraScripts(
     function addBookmark() {
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Bookmark/page/bookmarkSave.json.php',
+            url: webSiteRootURL+'plugin/Bookmark/page/bookmarkSave.json.php',
             data: {
                 "videos_id": <?php echo $_GET['videos_id'] ?>,
                 "timeInSeconds": timeToSeconds($('#currentTime').val()),
@@ -146,7 +146,7 @@ $_page->setExtraScripts(
             var index = $(li).attr('index');
             var id = $(li).attr('bookmarkId');
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Bookmark/page/bookmarkDelete.json.php',
+                url: webSiteRootURL+'plugin/Bookmark/page/bookmarkDelete.json.php',
                 data: {
                     "id": id
                 },
@@ -164,7 +164,7 @@ $_page->setExtraScripts(
     function loadBookmark() {
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Bookmark/getBookmarks.json.php?videos_id=<?php echo $_GET['videos_id'] ?>',
+            url: webSiteRootURL+'plugin/Bookmark/getBookmarks.json.php?videos_id=<?php echo $_GET['videos_id'] ?>',
             success: function(response) {
                 allBookmarksArray = response;
                 bookmarksArray = (allBookmarksArray.rows);

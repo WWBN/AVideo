@@ -51,7 +51,7 @@ $countries = IP2Location::getCountries();
         $("#country").on("change", function (e) {
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/User_Location/regions.json.php?country=' + $('#country').val(),
+                url: webSiteRootURL+'plugin/User_Location/regions.json.php?country=' + $('#country').val(),
                 success: function (response) {
                     $('#region').empty();
                     $('#region').append($("<option></option>").text('All'));
@@ -68,7 +68,7 @@ $countries = IP2Location::getCountries();
         $("#region").on("change", function (e) {
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/User_Location/cities.json.php?country=' + $('#country').val() + '&region=' + $('#region').val(),
+                url: webSiteRootURL+'plugin/User_Location/cities.json.php?country=' + $('#country').val() + '&region=' + $('#region').val(),
                 success: function (response) {
                     $('#city').empty();
                     $('#city').append($("<option></option>").text('All'));

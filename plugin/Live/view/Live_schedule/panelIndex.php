@@ -8,20 +8,7 @@ if (!User::canStream()) {
     exit;
 }
 
+$_page = new Page(array('Live'));
+include $global['systemRootPath'] . 'plugin/Live/view/Live_schedule/panel.php';
+$_page->print();
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Live</title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-    </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        include $global['systemRootPath'] . 'plugin/Live/view/Live_schedule/panel.php';
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-    </body>
-</html>

@@ -126,7 +126,7 @@ $obj = $plugin->getDataObject();
                     modal.showPleaseWait();
 
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/saveBalance.php',
+                        url: webSiteRootURL+'plugin/YPTWallet/view/saveBalance.php',
                         data: {
                             "users_id": $('#inputUserId').val(),
                             "balance": $('#inputUserBalance').val()

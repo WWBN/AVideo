@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    forbiddenPage("You can not do this");
     exit;
 }
 ?>
@@ -114,7 +114,7 @@ if (!User::isAdmin()) {
     $(document).ready(function() {
         $('#addEmail_to_userBtn').click(function() {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Scheduler/View/addEmail_to_userVideo.php',
+                url: webSiteRootURL+'plugin/Scheduler/View/addEmail_to_userVideo.php',
                 data: $('#panelEmail_to_userForm').serialize(),
                 type: 'post',
                 success: function(response) {
@@ -159,7 +159,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Scheduler/View/Email_to_user/add.json.php',
+                url: webSiteRootURL+'plugin/Scheduler/View/Email_to_user/add.json.php',
                 data: $('#panelEmail_to_userForm').serialize(),
                 type: 'post',
                 success: function(response) {

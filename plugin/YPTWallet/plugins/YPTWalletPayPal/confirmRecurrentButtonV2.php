@@ -13,7 +13,7 @@ $params = array('total'=>$total, 'currency'=>$currency, 'frequency'=>$frequency,
             modal.showPleaseWait();
 
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletPayPal/requestSubscriptionV2.json.php',
+                url: webSiteRootURL+'plugin/YPTWallet/plugins/YPTWalletPayPal/requestSubscriptionV2.json.php',
                 data: {
                     "hash": "<?php echo encryptString(json_encode($params)); ?>"
                 },
