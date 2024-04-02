@@ -3,12 +3,17 @@ if (empty($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
-if ((empty($video) || !is_array($video)) && !empty($_GET['videos_id'])) {
+if((empty($video) || !is_array($video)) && !empty($_GET['videos_id'])){
     $video = Video::getVideo(intval($_GET['videos_id']), Video::SORT_TYPE_VIEWABLE, true, false, true, true);
+}
+if (is_array($video)) {
     $html = '';
+    //var_dump(__LINE__, !empty($advancedCustom->showCreationTimeOnVideoItem));exit;
     if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
         $created = !empty($video['videoCreation']) ? $video['videoCreation'] : $video['created'];
         $html = '<div class="clearfix"></div><small>' . humanTiming(_strtotime($created)) . '</small>';
+    }else{
+        $html = '<!-- empty showCreationTimeOnVideoItem '.basename(__FILE__).' line='.__LINE__.'-->';
     }
     $video['creator'] = Video::getCreatorHTML($video['users_id'], $html);
     $source = Video::getSourceFile($video['filename']);

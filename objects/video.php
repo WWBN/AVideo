@@ -1807,11 +1807,6 @@ if (!class_exists('Video')) {
                 }
             }
 
-            if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
-                $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
-            } else {
-                $sql .= self::getSQLByStatus($status, $showUnlisted);
-            }
             //var_dump($max_duration_in_seconds);echo $sql;exit;            
             $sql .= Video::getCatSQL();
 
@@ -1878,6 +1873,10 @@ if (!class_exists('Video')) {
                 }
                 
                 $sql .= self::getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
+            }else if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
+                $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
+            } else {
+                $sql .= self::getSQLByStatus($status, $showUnlisted);
             }
             if (strpos(mb_strtolower($sql), 'limit') === false) {
                 if (!empty($_GET['limitOnceToOne'])) {

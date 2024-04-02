@@ -389,6 +389,8 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
                             <?php echo $humanTiming; ?>
                         </time>
                     <?php
+                    }else{
+                        echo '<!-- empty showCreationTimeOnVideoItem '.basename(__FILE__).' line='.__LINE__.'-->';
                     }
                     ?>
                 </div>

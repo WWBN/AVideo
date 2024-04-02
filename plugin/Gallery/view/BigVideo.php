@@ -175,6 +175,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                     <?php echo humanTiming(strtotime($videoRow['videoCreation']), 0, true, true); ?>
                                                 </div>
                                             <?php
+                                            }else{
+                                                echo '<!-- empty showCreationTimeOnVideoItem '.basename(__FILE__).' line='.__LINE__.'-->';
                                             }
                                             ?>
                                             <?php

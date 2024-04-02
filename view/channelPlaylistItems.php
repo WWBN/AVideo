@@ -251,6 +251,8 @@ unset($_POST['current']);
                                         <?php echo humanTiming(strtotime($value['videoCreation']), 0, true, true); ?>
                                     </div>
                                 <?php
+                                }else{
+                                    echo '<!-- empty showCreationTimeOnVideoItem '.basename(__FILE__).' line='.__LINE__.'-->';
                                 }
                                 if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
                                 ?>

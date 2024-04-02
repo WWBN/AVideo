@@ -200,6 +200,8 @@ if (!empty($evideo)) {
         if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
             $created = !empty($video['videoCreation']) ? $video['videoCreation'] : $video['created'];
             $html = '<div class="clearfix"></div><small>' . humanTiming(_strtotime($created)) . '</small>';
+        }else{
+            $html = '<!-- empty showCreationTimeOnVideoItem '.basename(__FILE__).' line='.__LINE__.'-->';
         }
         $video['creator'] = Video::getCreatorHTML($video['users_id'], $html);
 
