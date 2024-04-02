@@ -4040,20 +4040,6 @@ if (!class_exists('Video')) {
                 } elseif (!empty($ftp)) {
                     $includeS3 = true;
                 }
-                $token = '';
-                $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
-                if (preg_match("/.*\\.(mp4|webm|m3u8|pdf|zip)$/", $type)){
-                    $vars = [];
-                    if (!empty($secure)) {
-                        $vars[] = $secure->getToken($filename);
-                    }
-                    if (!empty($vars)) {
-                        $token = "?" . implode("&", $vars);
-                    }
-                }
-
-                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
 
                 $paths = self::getPaths($filename);
 
@@ -4090,40 +4076,35 @@ if (!class_exists('Video')) {
                         $f = "{$paths['relative']}{$filename}{$type}";
                     }
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
-                    $source['url'] = CDNStorage::getURL($f) . "{$token}";
+                    $source['url'] = CDNStorage::getURL($f);
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                     //$source['url'] = addQueryStringParameter($source['url'], 'cache', uniqid());
                     $source['url_noCDN'] = $source['url'];
                 } elseif (!empty($yptStorage) && !empty($site) && $isValidType && $fsize < 20) {
                     $siteURL = getCDNOrURL($site->getUrl(), 'CDN_YPTStorage', $video['sites_id']);
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
-                    $source['url'] = "{$siteURL}{$paths['relative']}{$filename}{$type}{$token}";
-                    $source['url_noCDN'] = $site->getUrl() . "{$paths['relative']}{$filename}{$type}{$token}";
+                    $source['url'] = "{$siteURL}{$paths['relative']}{$filename}{$type}";
+                    $source['url_noCDN'] = $site->getUrl() . "{$paths['relative']}{$filename}{$type}";
                     if ($type == ".m3u8") {
-                        $source['url'] = "{$siteURL}videos/{$filename}/index{$type}{$token}";
-                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
+                        $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
+                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                     }
                 } elseif (!empty($advancedCustom->videosCDN) && $canUseCDN) {
                     $advancedCustom->videosCDN = addLastSlash($advancedCustom->videosCDN);
-                    $source['url'] = "{$advancedCustom->videosCDN}{$paths['relative']}{$filename}{$type}{$token}";
-                    $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}{$token}";
+                    $source['url'] = "{$advancedCustom->videosCDN}{$paths['relative']}{$filename}{$type}";
+                    $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}";
                     if ($type == ".m3u8") {
-                        $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}{$token}";
-                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
+                        $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
+                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                     }
                 } else {
-                    $source['url'] = getCDN() . "{$paths['relative']}{$filename}{$type}{$token}";
-                    $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}{$token}";
+                    $source['url'] = getCDN() . "{$paths['relative']}{$filename}{$type}";
+                    $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}";
                     if ($type == ".m3u8") {
-                        $source['url'] = getCDN() . "videos/{$filename}/index{$type}{$token}";
-                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
+                        $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
+                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                     }
                 }
-                /*
-                if($filename == "video_201128054142_00bc" && $type == ".m3u8"){
-                    var_dump($source);exit;
-                }
-                */
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 /* need it because getDurationFromFile */
                 if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip|m3u8)$/i', $type)) {
@@ -4189,6 +4170,17 @@ if (!class_exists('Video')) {
             }
             */
             $source = AVideoPlugin::modifyURL($source);
+
+            $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
+            TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
+            if (preg_match("/.*\\.(mp4|webm|m3u8|pdf|zip)$/", $type)){
+                $token = $secure->getToken($filename);
+                $source['url'] = addQueryStringParameter($source['url'], 'token', $token);
+                $source['url_noCDN'] = addQueryStringParameter($source['url_noCDN'], 'token', $token);
+            }
+
+            TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
+
             //var_dump($source);exit;
             //var_dump($type, $source);exit;
             $VideoGetSourceFile[$cacheName] = $source;
