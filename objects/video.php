@@ -4119,6 +4119,11 @@ if (!class_exists('Video')) {
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
                     }
                 }
+                /*
+                if($filename == "video_240320130936_v4a3d" && $type == ".m3u8"){
+                    var_dump($source);exit;
+                }
+                */
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 /* need it because getDurationFromFile */
                 if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip|m3u8)$/i', $type)) {
