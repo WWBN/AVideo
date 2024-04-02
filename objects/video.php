@@ -1862,7 +1862,10 @@ if (!class_exists('Video')) {
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
-            if (empty($videosArrayId)) {
+            if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
+                $sql .= self::getSQLByStatus(Video::SORT_TYPE_VIEWABLE, true);
+                $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
+            }else {
                 $sortType = Video::SORT_TYPE_VIEWABLE;
                 if ($suggestedOnly) {
                     $sortType = Video::SORT_TYPE_SUGGESTED;
@@ -1872,11 +1875,9 @@ if (!class_exists('Video')) {
                     $sortType = $status;
                 }
                 
-                $sql .= self::getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
-            }else if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
-                $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
-            } else {
                 $sql .= self::getSQLByStatus($status, $showUnlisted);
+
+                $sql .= self::getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
             }
             if (strpos(mb_strtolower($sql), 'limit') === false) {
                 if (!empty($_GET['limitOnceToOne'])) {
