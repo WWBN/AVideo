@@ -6312,7 +6312,7 @@ if (!class_exists('Video')) {
 
         public static function getCreatorHTML($users_id, $html = '', $small = false, $ignoreLinks = false)
         {
-            global $global;
+            global $global, $advancedCustom;
             if (empty($users_id)) {
                 return '';
             }
