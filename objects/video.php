@@ -4174,9 +4174,8 @@ if (!class_exists('Video')) {
             $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             if (preg_match("/.*\\.(mp4|webm|m3u8|pdf|zip)$/", $type)){
-                $token = $secure->getToken($filename);
-                $source['url'] = addQueryStringParameter($source['url'], 'token', $token);
-                $source['url_noCDN'] = addQueryStringParameter($source['url_noCDN'], 'token', $token);
+                $source['url'] = $secure->addToken($source['url'], $filename);
+                $source['url_noCDN'] = $secure->addToken($source['url_noCDN'], $filename);
             }
 
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
