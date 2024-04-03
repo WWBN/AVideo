@@ -2177,8 +2177,8 @@ function verify($url)
     } else {
         if (file_exists($cacheFile)) {
             _error_log("Verification GetFrom Cache file_exists($cacheFile)");
+            _error_log("Verification GetFrom Cache  (time()=".time()." > (filemtime($cacheFile)=".filemtime($cacheFile)." + $lifetime)");
         }
-        _error_log("Verification GetFrom Cache  (time()=".time()." > (filemtime($cacheFile)=".filemtime($cacheFile)." + $lifetime)");
         $filemtime = filemtime($cacheFile);
         $time = time();
         if ($time > ($filemtime + $lifetime)) {
