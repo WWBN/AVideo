@@ -2168,24 +2168,19 @@ function verify($url)
     $verifyURL = "https://search.ypt.me/verify.php";
     $verifyURL = addQueryStringParameter($verifyURL, 'url', $url);
     $verifyURL = addQueryStringParameter($verifyURL, 'screenshot', 1);
-    if (!file_exists($cacheFile) || (time() > (filemtime($cacheFile) + $lifetime))) {
+
+    if (file_exists($cacheFile) && (time() < (filemtime($cacheFile) + $lifetime))) {
+        $result = file_get_contents($cacheFile);
+    }
+
+    if (empty($result)) {
         _error_log("Verification Creating the Cache {$url}");
         $result = url_get_contents($verifyURL, '', 5);
         if ($result !== 'Invalid URL') {
             file_put_contents($cacheFile, $result);
         }
-    } else {
-        if (file_exists($cacheFile)) {
-            _error_log("Verification GetFrom Cache file_exists($cacheFile)");
-            _error_log("Verification GetFrom Cache  (time()=".time()." > (filemtime($cacheFile)=".filemtime($cacheFile)." + $lifetime)");
-        }
-        $filemtime = filemtime($cacheFile);
-        $time = time();
-        if ($time > ($filemtime + $lifetime)) {
-            _error_log("Verification GetFrom Cache  $time > ($filemtime + $lifetime)");
-        }
+    } else {        
         _error_log("Verification GetFrom Cache $cacheFile");
-        $result = file_get_contents($cacheFile);
         if ($result === 'Invalid URL') {
             _error_log("Verification Invalid URL unlink ($cacheFile)");
             unlink($cacheFile);
