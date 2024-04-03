@@ -4173,8 +4173,8 @@ if (!class_exists('Video')) {
 
             $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
-            if (preg_match("/.*\\.(mp4|webm|m3u8|pdf|zip)$/", $type)){
-                if (!method_exists($secure, 'addToken')) {
+            if (!empty($secure) && preg_match("/.*\\.(mp4|webm|m3u8|pdf|zip)$/", $type)){
+                if (!empty($secure) && !method_exists($secure, 'addToken')) {
                     die('Update the plugin SecureVideosDirectory');
                 } 
                 $source['url'] = $secure->addToken($source['url'], $filename);
