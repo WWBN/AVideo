@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.pt_BR',
   '  <dd>Windows ou Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Foco na barra de ferramentas contextual</dt>\n' +
-  '  <dd>Windows, Linux ou macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux ou macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>A navegação inicia no primeiro item da IU, que será destacado ou sublinhado no caso do primeiro item no\n' +

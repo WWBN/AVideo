@@ -1,6 +1,6 @@
 {
   "name": "@lezer/highlight",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "description": "Highlighting system for Lezer parse trees",
   "main": "dist/index.cjs",
   "type": "module",

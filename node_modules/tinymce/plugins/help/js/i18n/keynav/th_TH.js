@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.th_TH',
   '  <dd>Windows หรือ Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>โฟกัสที่แถบเครื่องมือตามบริบท</dt>\n' +
-  '  <dd>Windows, Linux หรือ macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux หรือ macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>การนำทางจะเริ่มที่รายการ UI แรก ซึ่งจะมีการไฮไลต์หรือขีดเส้นใต้ไว้ในกรณีที่รายการแรกอยู่ใน\n' +

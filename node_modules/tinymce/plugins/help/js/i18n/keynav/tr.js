@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.tr',
   '  <dd>Windows veya Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Bağlamsal araç çubuğuna odaklan</dt>\n' +
-  '  <dd>Windows, Linux veya macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux veya macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Gezinti ilk kullanıcı arabirimi öğesinden başlar, bu öğe vurgulanır ya da ilk öğe, Alt bilgi elemanı\n' +

@@ -283,6 +283,8 @@ Here we put all of this together in a very basic example player.
           data.set(segment.data, segment.initSegment.byteLength);
           console.log(muxjs.mp4.tools.inspect(data));
           sourceBuffer.appendBuffer(data);
+          // reset the 'data' event listener to just append (moof/mdat) boxes to the Source Buffer
+          transmuxer.off('data');
         })
 
         fetch(segments.shift()).then((response)=>{
@@ -294,10 +296,9 @@ Here we put all of this together in a very basic example player.
       }
 
       function appendNextSegment(){
-        // reset the 'data' event listener to just append (moof/mdat) boxes to the Source Buffer
-        transmuxer.off('data');
         transmuxer.on('data', (segment) =>{
           sourceBuffer.appendBuffer(new Uint8Array(segment.data));
+          transmuxer.off('data');
         })
 
         if (segments.length == 0){

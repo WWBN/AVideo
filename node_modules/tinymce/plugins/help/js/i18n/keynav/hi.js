@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.hi',
   '  <dd>Windows या Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>प्रासंगिक टूलबार पर फ़ोकस करें</dt>\n' +
-  '  <dd>Windows, Linux या macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux या macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>नेविगेशन पहले UI आइटम पर शुरू होगा, जिसे हाइलाइट किया जाएगा या पहले आइटम के मामले में फ़ुटर तत्व पथ में\n' +

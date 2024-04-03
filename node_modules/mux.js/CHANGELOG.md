@@ -1,3 +1,14 @@
+<a name="7.0.3"></a>
+## [7.0.3](https://github.com/videojs/mux.js/compare/v7.0.2...v7.0.3) (2024-03-12)
+
+### Bug Fixes
+
+* 608 caption out of bound rows ([#442](https://github.com/videojs/mux.js/issues/442)) ([37ec801](https://github.com/videojs/mux.js/commit/37ec801))
+
+### Chores
+
+* change code example transmuxer event listeners ([#438](https://github.com/videojs/mux.js/issues/438)) ([2d61f49](https://github.com/videojs/mux.js/commit/2d61f49))
+
 <a name="7.0.2"></a>
 ## [7.0.2](https://github.com/videojs/mux.js/compare/v7.0.1...v7.0.2) (2023-11-27)
 

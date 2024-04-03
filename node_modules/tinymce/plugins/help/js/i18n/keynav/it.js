@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.it',
   '  <dd>Windows o Linux: ALT+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Impostare lo stato attivo per la barra degli strumenti contestuale</dt>\n' +
-  '  <dd>Windows, Linux o macOS: CTRL+F9\n' +
+  '  <dd>Windows, Linux o macOS: CTRL+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   "<p>La navigazione inizierà dalla prima voce dell'interfaccia utente, che sarà evidenziata o sottolineata nel caso della prima voce\n" +

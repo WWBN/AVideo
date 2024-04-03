@@ -17,6 +17,7 @@ import playMiddlewareFeature from './playMiddleware.js';
 import register from './register.js';
 import {listenToTcf} from './tcf.js';
 import {obtainUsPrivacyString} from './usPrivacy.js';
+import {OUTSTREAM_VIDEO} from './constants.js';
 
 import States from './states.js';
 import './states/abstract/State.js';
@@ -30,6 +31,9 @@ import './states/Postroll.js';
 import './states/ContentPlayback.js';
 import './states/StitchedContentPlayback.js';
 import './states/StitchedAdRoll.js';
+import './states/OutstreamPending.js';
+import './states/OutstreamPlayback.js';
+import './states/OutstreamDone.js';
 
 const { isMiddlewareMediatorSupported } = playMiddlewareFeature;
 const VIDEO_EVENTS = videojs.getTech('Html5').Events;
@@ -217,7 +221,11 @@ const contribAdsPlugin = function(options) {
   // But first, cast to boolean.
   settings.stitchedAds = !!settings.stitchedAds;
 
-  if (settings.stitchedAds) {
+  if (settings.playerMode === 'outstream') {
+    // Set a 0s mp4 file to enable ads to play
+    player.src(OUTSTREAM_VIDEO);
+    player.ads._state = new (States.getState('OutstreamPending'))(player);
+  } else if (settings.stitchedAds) {
     player.ads._state = new (States.getState('StitchedContentPlayback'))(player);
   } else {
     player.ads._state = new (States.getState('BeforePreroll'))(player);

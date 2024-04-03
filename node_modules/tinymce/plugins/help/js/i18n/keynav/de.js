@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.de',
   '  <dd>Windows oder Linux: ALT+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Fokus auf kontextbezogene Symbolleiste</dt>\n' +
-  '  <dd>Windows, Linux oder macOS: STRG+F9\n' +
+  '  <dd>Windows, Linux oder macOS: STRG+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Die Navigation beginnt beim ersten Benutzeroberflächenelement, welches hervorgehoben ist. Falls sich das erste Element im Pfad der Fußzeile befindet,\n' +

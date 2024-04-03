@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.ro',
   '  <dd>Windows sau Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Focalizare pe o bară de instrumente contextuală</dt>\n' +
-  '  <dd>Windows, Linux sau macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux sau macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Navigarea va începe de la primul element al interfeței cu utilizatorul, care va fi evidențiat sau subliniat în cazul primului element din\n' +

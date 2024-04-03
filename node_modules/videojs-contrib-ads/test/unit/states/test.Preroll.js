@@ -16,6 +16,7 @@ QUnit.module('Preroll', {
     this.player = {
       ads: {
         debug: () => {},
+        error: () => {},
         settings: {},
         inAdBreak: () => false,
         isContentResuming: () => false,

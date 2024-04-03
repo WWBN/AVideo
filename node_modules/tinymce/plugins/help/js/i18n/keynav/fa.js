@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.fa',
   '  <dd>Windows یا Linux‎‏: Alt+F11</dd>\n' +
   '  <dd>‎‏macOS: &#x2325;F11‎‏</dd>\n' +
   '  <dt>تمرکز بر نوار ابزار بافتاری</dt>\n' +
-  '  <dd>Windows ،Linux یا macOS:‏ Ctrl+F9\n' +
+  '  <dd>Windows ،Linux یا macOS:‏ Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>پیمایش در اولین مورد رابط کاربری شروع می‌شود و درخصوص اولین مورد در\n' +

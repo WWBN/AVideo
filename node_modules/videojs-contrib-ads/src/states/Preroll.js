@@ -134,6 +134,11 @@ class Preroll extends AdState {
    */
   onAdsError(player) {
     videojs.log('adserror (Preroll)');
+
+    player.ads.error({
+      errorType: videojs.Error.AdsPrerollError
+    });
+
     // In the future, we may not want to do this automatically.
     // Ad plugins should be able to choose to continue the ad break
     // if there was an error.

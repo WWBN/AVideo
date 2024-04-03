@@ -75,6 +75,38 @@ if (player.ads.inAdBreak()) {
 }
 ```
 
+### error
+
+Advanced function. Gets, sets, and clears a non-critical ads error in videojs-contrib-ads.
+
+The error will be in the form of an object. This object must contain a `errorType` string, and can also include zero to many custom properties.
+```js
+{
+  errorType: 'ads-error-type',
+  // The key can have any name, and the value can have any type of data.
+  customData: 'custom-data'
+  ...
+}
+```
+
+To get the current ads error, the `error` function should be called with no parameters. Returns `null` if there is no error.
+```js
+const currentAdError = player.ads.error();
+```
+
+To set the current ads error, the `error` function should be called with a valid error.
+```js
+const adError = { errorType: 'ads-error-type' }
+
+player.ads.error(adError);
+```
+
+To clear the current ads error, the `error` function should be called with a `null` value.
+This value will also be cleared if an invalid error is passed to the function.
+```js
+player.ads.error(null);
+```
+
 ## Deprecated
 
 The following are slated for removal from contrib-ads and will have no special behavior once removed. These should no longer be used in integrating ad plugins. Replacements are provided for matching functionality that will continue to be supported.

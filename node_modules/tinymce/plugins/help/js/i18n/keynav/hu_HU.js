@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.hu_HU',
   '  <dd>Windows és Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Fókusz egy környezetfüggő eszköztárra</dt>\n' +
-  '  <dd>Windows, Linux és macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux és macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>A navigáció az első felhasználói felületi elemnél kezdődik, amelyet a rendszer kiemel, illetve aláhúz, amennyiben az az első elem\n' +

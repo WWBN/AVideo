@@ -1,3 +1,4 @@
+import videojs from 'video.js';
 import States from '../states.js';
 import adBreak from '../adBreak.js';
 
@@ -48,6 +49,10 @@ class Midroll extends AdState {
    * End midroll break if there is an error.
    */
   onAdsError(player) {
+    player.ads.error({
+      errorType: videojs.Error.AdsMidrollError
+    });
+
     // In the future, we may not want to do this automatically.
     // Ad plugins should be able to choose to continue the ad break
     // if there was an error.

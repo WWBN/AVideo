@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.eu',
   '  <dd>Windows edo Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Fokuratu testuinguruaren tresna-barra</dt>\n' +
-  '  <dd>Windows, Linux edo macOS: Ktrl+F9\n' +
+  '  <dd>Windows, Linux edo macOS: Ktrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Nabigazioa EIko lehen elementuan hasiko da: elementu hori nabarmendu egingo da, edo azpimarratu lehen elementua bada\n' +

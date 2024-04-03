@@ -603,6 +603,7 @@ coding:
     - sitemap
     - terminal
     - user-secret
+    - web-awesome
     - window-maximize
     - window-minimize
     - window-restore
@@ -767,6 +768,7 @@ design:
     - vector-square
     - wand-magic
     - wand-magic-sparkles
+    - web-awesome
   label: Design
 devices-hardware:
   icons:
@@ -2699,7 +2701,9 @@ text-formatting:
     - superscript
     - table
     - table-cells
+    - table-cells-column-lock
     - table-cells-large
+    - table-cells-row-lock
     - table-columns
     - table-list
     - text-height

@@ -102,6 +102,7 @@ bryntum:
     - diagram-previous
     - diagram-subtask
     - diagram-successor
+    - table-cells-row-lock
   label: Bryntum
   url: 'https://bryntum.com'
 büromöbel-experte-gmb-h &co-kg:
@@ -435,6 +436,11 @@ icis:
     - user-group-simple
   label: ICIS
   url: 'https://www.icis.com/'
+idle-anthill:
+  icons:
+    - ant
+  label: Idle Anthill
+  url: 'https://idleanthill.com/'
 in-site-systems:
   icons:
     - toolbox
@@ -481,6 +487,11 @@ jon-galloway:
     - crow
   label: Jon Galloway
   url: null
+jxl:
+  icons:
+    - jxl
+  label: JXL for Jira
+  url: 'https://jxl.app'
 kevin-barone:
   icons:
     - file-contract
@@ -860,6 +871,11 @@ rodney-oliver:
     - folder-plus
   label: Rodney Oliver
   url: null
+ruling:
+  icons:
+    - file-cad
+  label: 'Ruland Manufacturing Co., Inc.'
+  url: 'http://www.ruland.com/'
 schlix:
   icons:
     - schlix
@@ -1057,6 +1073,11 @@ think-peaks:
     - think-peaks
   label: Think Peaks
   url: 'https://thinkpeaks.com'
+timesavr:
+  icons:
+    - bottle-baby
+  label: Timesavr Software
+  url: 'http://www.timesavr.net'
 typo3:
   icons:
     - typo3
@@ -1354,6 +1375,11 @@ van-raam:
     - tricycle-adult
   label: Van Raam
   url: 'https://www.vanraam.com'
+verifi:
+  icons:
+    - circle-wifi-circle-wifi
+  label: VeriFi
+  url: 'http://verifi.world/'
 via:
   icons:
     - car-burst

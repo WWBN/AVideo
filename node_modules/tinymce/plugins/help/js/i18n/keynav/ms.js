@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.ms',
   '  <dd>Windows atau Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Fokus bar alat kontekstual</dt>\n' +
-  '  <dd>Windows, Linux atau macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux atau macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Navigasi akan bermula pada item UI pertama, yang akan diserlahkan atau digaris bawah dalam saiz item pertama dalam\n' +

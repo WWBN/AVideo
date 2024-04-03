@@ -852,6 +852,7 @@ angle-down:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -1807,6 +1808,7 @@ arrow-right-from-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -1869,6 +1871,7 @@ arrow-right-to-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -2237,6 +2240,7 @@ arrow-up-from-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -3267,6 +3271,7 @@ baby-carriage:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -4894,6 +4899,21 @@ blogger-b:
     terms: []
   unicode: f37d
   voted: false
+bluesky:
+  changes:
+    - 6.5.2
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: brands
+    pro:
+      - family: classic
+        style: brands
+  label: Bluesky
+  search:
+    terms: []
+  unicode: e671
+  voted: false
 bluetooth:
   aliases:
     unicodes:
@@ -5722,6 +5742,7 @@ bottle-water:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -9484,6 +9505,7 @@ cheese:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -15775,6 +15797,7 @@ dumpster-fire:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -16970,6 +16993,7 @@ expand:
       - ' resize'
       - ' size'
       - expand
+      - viewfinder
   unicode: f065
   voted: false
 expeditedssl:
@@ -18005,6 +18029,7 @@ face-kiss:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -18047,6 +18072,7 @@ face-kiss-beam:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -18091,6 +18117,7 @@ face-kiss-wink-heart:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -18916,6 +18943,7 @@ fax:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -20361,6 +20389,7 @@ fire-burner:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -21183,6 +21212,7 @@ font-awesome:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -28017,6 +28047,21 @@ jug-detergent:
       - wash
   unicode: e519
   voted: false
+jxl:
+  changes:
+    - 6.5.2
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: brands
+    pro:
+      - family: classic
+        style: brands
+  label: Jxl
+  search:
+    terms: []
+  unicode: e67b
+  voted: false
 k:
   aliases:
     unicodes:
@@ -28233,8 +28278,12 @@ khanda:
   unicode: f66d
   voted: false
 kickstarter:
+  aliases:
+    names:
+      - square-kickstarter
   changes:
     - 5.0.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -28250,6 +28299,7 @@ kickstarter:
 kickstarter-k:
   changes:
     - 5.0.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -37571,6 +37621,7 @@ print:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -38878,6 +38929,7 @@ right-from-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -38972,6 +39024,7 @@ right-to-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -42817,6 +42870,7 @@ spray-can:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -42849,6 +42903,7 @@ spray-can-sparkles:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -43259,6 +43314,7 @@ square-font-awesome:
     - 5.0.1
     - 6.0.0-beta1
     - 6.1.2
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -43266,7 +43322,7 @@ square-font-awesome:
     pro:
       - family: classic
         style: brands
-  label: Font Awesome in Square
+  label: Square Font Awesome
   search:
     terms: []
   unicode: e5ad
@@ -43278,6 +43334,7 @@ square-font-awesome-stroke:
   changes:
     - 5.0.0
     - 6.0.0-beta1
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -43285,9 +43342,14 @@ square-font-awesome-stroke:
     pro:
       - family: classic
         style: brands
-  label: Font Awesome in Square with Stroke Outline
+  label: Square Font Awesome Stroke
   search:
-    terms: []
+    terms:
+      - ' flag'
+      - ' font'
+      - ' icons'
+      - ' typeface'
+      - awesome
   unicode: f35c
   voted: false
 square-full:
@@ -44219,6 +44281,21 @@ square-up-right:
       - up-right arrow
   unicode: f360
   voted: false
+square-upwork:
+  changes:
+    - 6.5.2
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: brands
+    pro:
+      - family: classic
+        style: brands
+  label: Square Upwork
+  search:
+    terms: []
+  unicode: e67c
+  voted: false
 square-viadeo:
   aliases:
     names:
@@ -44286,6 +44363,46 @@ square-virus:
       - infection
       - pandemic
   unicode: e578
+  voted: false
+square-web-awesome:
+  changes:
+    - 6.5.2
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: brands
+    pro:
+      - family: classic
+        style: brands
+  label: Square Web Awesome
+  search:
+    terms:
+      - '  coding'
+      - '  crown'
+      - '  web'
+      - ' awesome'
+      - ' components'
+  unicode: e683
+  voted: false
+square-web-awesome-stroke:
+  changes:
+    - 6.5.2
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: brands
+    pro:
+      - family: classic
+        style: brands
+  label: Square Web Awesome Stroke
+  search:
+    terms:
+      - '  coding'
+      - '  crown'
+      - '  web'
+      - ' awesome'
+      - ' components'
+  unicode: e684
   voted: false
 square-whatsapp:
   aliases:
@@ -45815,12 +45932,38 @@ table-cells:
   label: Table Cells
   search:
     terms:
+      - ' excel'
       - blocks
       - boxes
       - category
       - grid
+      - spreadsheet
       - squares
   unicode: f00a
+  voted: false
+table-cells-column-lock:
+  changes:
+    - 6.5.2
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Table Cells Column Lock
+  search:
+    terms:
+      - ' blocks'
+      - ' boxes'
+      - ' column'
+      - ' excel'
+      - ' grid'
+      - ' lock'
+      - ' squares'
+      - category
+      - spreadsheet
+  unicode: e678
   voted: false
 table-cells-large:
   aliases:
@@ -45848,12 +45991,40 @@ table-cells-large:
   label: Table Cells Large
   search:
     terms:
+      - ' excel'
       - blocks
       - boxes
       - category
       - grid
+      - spreadsheet
       - squares
   unicode: f009
+  voted: false
+table-cells-row-lock:
+  changes:
+    - 6.5.2
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Table Cells Row Lock
+  search:
+    terms:
+      - '  blocks'
+      - '  boxes'
+      - '  column'
+      - '  grid'
+      - '  squares'
+      - ' category'
+      - ' column'
+      - ' excel'
+      - ' lock'
+      - ' lock'
+      - ' spreadsheet'
+  unicode: e67a
   voted: false
 table-columns:
   aliases:
@@ -47637,6 +47808,7 @@ toolbox:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -49688,6 +49860,7 @@ ups:
 upwork:
   changes:
     - 6.5.0
+    - 6.5.2
   familyStylesByLicense:
     free:
       - family: classic
@@ -52195,6 +52368,26 @@ waze:
     terms: []
   unicode: f83f
   voted: false
+web-awesome:
+  changes:
+    - 6.5.2
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: brands
+    pro:
+      - family: classic
+        style: brands
+  label: Web Awesome
+  search:
+    terms:
+      - ' coding'
+      - ' components'
+      - ' crown'
+      - ' web'
+      - awesome
+  unicode: e682
+  voted: false
 webflow:
   changes:
     - 6.5.0
@@ -52538,6 +52731,7 @@ wifi:
       - hotspot
       - internet
       - network
+      - signal
       - wireless
       - www
   unicode: f1eb

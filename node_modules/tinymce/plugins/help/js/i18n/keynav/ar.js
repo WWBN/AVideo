@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.ar',
   '  <dd>نظاما التشغيل Windows أو Linux: Alt + F11</dd>\n' +
   '  <dd>نظام التشغيل macOS: &#x2325;F11</dd>\n' +
   '  <dt>التركيز على شريط أدوات السياق</dt>\n' +
-  '  <dd>أنظمة التشغيل Windows أو Linux أو macOS: Ctrl+F9\n' +
+  '  <dd>أنظمة التشغيل Windows أو Linux أو macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>سيبدأ التنقل عند عنصر واجهة المستخدم الأول، والذي سيتم تمييزه أو تسطيره في حالة العنصر الأول في\n' +

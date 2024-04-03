@@ -661,6 +661,7 @@ angle-down:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Angle Down
   search:
     terms:
@@ -1451,6 +1452,7 @@ arrow-right-from-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Arrow Right From Bracket
   search:
     terms:
@@ -1503,6 +1505,7 @@ arrow-right-to-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Arrow Right To Bracket
   search:
     terms:
@@ -1811,6 +1814,7 @@ arrow-up-from-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Arrow Up From Bracket
   search:
     terms:
@@ -2641,6 +2645,7 @@ baby-carriage:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Baby Carriage
   search:
     terms:
@@ -3992,6 +3997,16 @@ blogger-b:
     - brands
   unicode: f37d
   voted: false
+bluesky:
+  changes:
+    - 6.5.2
+  label: Bluesky
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: e671
+  voted: false
 bluetooth:
   aliases:
     unicodes:
@@ -4682,6 +4697,7 @@ bottle-water:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Bottle Water
   search:
     terms:
@@ -7790,6 +7806,7 @@ cheese:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Cheese
   search:
     terms:
@@ -12921,6 +12938,7 @@ dumpster-fire:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Dumpster Fire
   search:
     terms:
@@ -13908,6 +13926,7 @@ expand:
       - ' resize'
       - ' size'
       - expand
+      - viewfinder
   styles:
     - solid
   unicode: f065
@@ -14752,6 +14771,7 @@ face-kiss:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Face Kiss
   search:
     terms:
@@ -14786,6 +14806,7 @@ face-kiss-beam:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Face Kiss Beam
   search:
     terms:
@@ -14822,6 +14843,7 @@ face-kiss-wink-heart:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Face Kiss Wink Heart
   search:
     terms:
@@ -15492,6 +15514,7 @@ fax:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Fax
   search:
     terms:
@@ -16674,6 +16697,7 @@ fire-burner:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Fire Burner
   search:
     terms:
@@ -17341,6 +17365,7 @@ font-awesome:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Font Awesome
   search:
     terms:
@@ -22860,6 +22885,16 @@ jug-detergent:
     - solid
   unicode: e519
   voted: false
+jxl:
+  changes:
+    - 6.5.2
+  label: Jxl
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: e67b
+  voted: false
 k:
   aliases:
     unicodes:
@@ -23033,8 +23068,12 @@ khanda:
   unicode: f66d
   voted: false
 kickstarter:
+  aliases:
+    names:
+      - square-kickstarter
   changes:
     - 5.0.0
+    - 6.5.2
   label: Kickstarter
   search:
     terms: []
@@ -23045,6 +23084,7 @@ kickstarter:
 kickstarter-k:
   changes:
     - 5.0.0
+    - 6.5.2
   label: Kickstarter K
   search:
     terms: []
@@ -30664,6 +30704,7 @@ print:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Print
   search:
     terms:
@@ -31712,6 +31753,7 @@ right-from-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Right From Bracket
   search:
     terms:
@@ -31791,6 +31833,7 @@ right-to-bracket:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Right To Bracket
   search:
     terms:
@@ -34955,6 +34998,7 @@ spray-can:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Spray Can
   search:
     terms:
@@ -34982,6 +35026,7 @@ spray-can-sparkles:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Spray Can Sparkles
   search:
     terms:
@@ -35314,7 +35359,8 @@ square-font-awesome:
     - 5.0.1
     - 6.0.0-beta1
     - 6.1.2
-  label: Font Awesome in Square
+    - 6.5.2
+  label: Square Font Awesome
   search:
     terms: []
   styles:
@@ -35328,9 +35374,15 @@ square-font-awesome-stroke:
   changes:
     - 5.0.0
     - 6.0.0-beta1
-  label: Font Awesome in Square with Stroke Outline
+    - 6.5.2
+  label: Square Font Awesome Stroke
   search:
-    terms: []
+    terms:
+      - ' flag'
+      - ' font'
+      - ' icons'
+      - ' typeface'
+      - awesome
   styles:
     - brands
   unicode: f35c
@@ -36085,6 +36137,16 @@ square-up-right:
     - solid
   unicode: f360
   voted: false
+square-upwork:
+  changes:
+    - 6.5.2
+  label: Square Upwork
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: e67c
+  voted: false
 square-viadeo:
   aliases:
     names:
@@ -36137,6 +36199,36 @@ square-virus:
   styles:
     - solid
   unicode: e578
+  voted: false
+square-web-awesome:
+  changes:
+    - 6.5.2
+  label: Square Web Awesome
+  search:
+    terms:
+      - '  coding'
+      - '  crown'
+      - '  web'
+      - ' awesome'
+      - ' components'
+  styles:
+    - brands
+  unicode: e683
+  voted: false
+square-web-awesome-stroke:
+  changes:
+    - 6.5.2
+  label: Square Web Awesome Stroke
+  search:
+    terms:
+      - '  coding'
+      - '  crown'
+      - '  web'
+      - ' awesome'
+      - ' components'
+  styles:
+    - brands
+  unicode: e684
   voted: false
 square-whatsapp:
   aliases:
@@ -37362,14 +37454,35 @@ table-cells:
   label: Table Cells
   search:
     terms:
+      - ' excel'
       - blocks
       - boxes
       - category
       - grid
+      - spreadsheet
       - squares
   styles:
     - solid
   unicode: f00a
+  voted: false
+table-cells-column-lock:
+  changes:
+    - 6.5.2
+  label: Table Cells Column Lock
+  search:
+    terms:
+      - ' blocks'
+      - ' boxes'
+      - ' column'
+      - ' excel'
+      - ' grid'
+      - ' lock'
+      - ' squares'
+      - category
+      - spreadsheet
+  styles:
+    - solid
+  unicode: e678
   voted: false
 table-cells-large:
   aliases:
@@ -37390,14 +37503,37 @@ table-cells-large:
   label: Table Cells Large
   search:
     terms:
+      - ' excel'
       - blocks
       - boxes
       - category
       - grid
+      - spreadsheet
       - squares
   styles:
     - solid
   unicode: f009
+  voted: false
+table-cells-row-lock:
+  changes:
+    - 6.5.2
+  label: Table Cells Row Lock
+  search:
+    terms:
+      - '  blocks'
+      - '  boxes'
+      - '  column'
+      - '  grid'
+      - '  squares'
+      - ' category'
+      - ' column'
+      - ' excel'
+      - ' lock'
+      - ' lock'
+      - ' spreadsheet'
+  styles:
+    - solid
+  unicode: e67a
   voted: false
 table-columns:
   aliases:
@@ -38880,6 +39016,7 @@ toolbox:
     - 6.3.0
     - 6.4.0
     - 6.5.0
+    - 6.5.2
   label: Toolbox
   search:
     terms:
@@ -40568,6 +40705,7 @@ ups:
 upwork:
   changes:
     - 6.5.0
+    - 6.5.2
   label: Upwork
   search:
     terms: []
@@ -42637,6 +42775,21 @@ waze:
     - brands
   unicode: f83f
   voted: false
+web-awesome:
+  changes:
+    - 6.5.2
+  label: Web Awesome
+  search:
+    terms:
+      - ' coding'
+      - ' components'
+      - ' crown'
+      - ' web'
+      - awesome
+  styles:
+    - brands
+  unicode: e682
+  voted: false
 webflow:
   changes:
     - 6.5.0
@@ -42908,6 +43061,7 @@ wifi:
       - hotspot
       - internet
       - network
+      - signal
       - wireless
       - www
   styles:

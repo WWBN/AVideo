@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.cs',
   '  <dd>Windows nebo Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Přejít na kontextový panel nástrojů</dt>\n' +
-  '  <dd>Windows, Linux nebo macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux nebo macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Navigace začne u první položky uživatelského rozhraní, která bude zvýrazněna nebo v případě první položky\n' +

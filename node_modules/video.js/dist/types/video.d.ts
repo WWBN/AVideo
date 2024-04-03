@@ -210,6 +210,7 @@ declare namespace videojs {
     export { Num as num };
     export { Str as str };
     export { Url as url };
+    export { VjsErrors as Error };
 }
 import Player from "./player";
 import { hooks_ } from "./utils/hooks";
@@ -237,4 +238,5 @@ import * as Fn from "./utils/fn.js";
 import * as Num from "./utils/num.js";
 import * as Str from "./utils/str.js";
 import * as Url from "./utils/url.js";
+import VjsErrors from "./consts/errors";
 //# sourceMappingURL=video.d.ts.map

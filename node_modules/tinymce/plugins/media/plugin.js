@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.8.3 (2024-02-08)
+ * TinyMCE version 7.0.0 (2024-03-20)
  */
 
 (function () {
@@ -625,7 +625,7 @@
         if (cache[data.source]) {
           wrappedResolve(cache[data.source]);
         } else {
-          handler({ url: data.source }, wrappedResolve, rej);
+          handler({ url: data.source }).then(wrappedResolve).catch(rej);
         }
       });
     };

@@ -15,6 +15,7 @@ QUnit.module('Postroll', {
       ads: {
         settings: {},
         debug: () => {},
+        error: () => {},
         inAdBreak: () => false
       },
       addClass: () => {},

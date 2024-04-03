@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.sk',
   '  <dd>Windows alebo Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Prejsť na kontextový panel nástrojov</dt>\n' +
-  '  <dd>Windows, Linux alebo macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux alebo macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Navigácia začne pri prvej položke používateľského rozhrania, ktorá bude zvýraznená alebo v prípade prvej položky\n' +

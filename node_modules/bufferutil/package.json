@@ -1,6 +1,6 @@
 {
   "name": "bufferutil",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "description": "WebSocket buffer utils",
   "main": "index.js",
   "engines": {

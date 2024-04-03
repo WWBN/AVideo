@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.hr',
   '  <dd>Windows ili Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Fokusiranje kontekstne alatne trake</dt>\n' +
-  '  <dd>Windows, Linux ili macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux ili macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Navigacija će započeti kod prve stavke na korisničkom sučelju, koja će biti istaknuta ili podcrtana ako se radi o prvoj stavci u\n' +

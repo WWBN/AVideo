@@ -19,9 +19,10 @@ function build () {
   var args = [os.platform() === 'win32' ? 'node-gyp.cmd' : 'node-gyp', 'rebuild']
 
   try {
+    var pkg = require('node-gyp/package.json')
     args = [
       process.execPath,
-      path.join(require.resolve('node-gyp/package.json'), '..', require('node-gyp/package.json').bin['node-gyp']),
+      path.join(require.resolve('node-gyp/package.json'), '..', typeof pkg.bin === 'string' ? pkg.bin : pkg.bin['node-gyp']),
       'rebuild'
     ]
   } catch (_) {}

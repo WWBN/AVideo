@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.en',
   '  <dd>Windows or Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Focus a contextual toolbar</dt>\n' +
-  '  <dd>Windows, Linux or macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux or macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Navigation will start at the first UI item, which will be highlighted, or underlined in the case of the first item in\n' +

@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.pl',
   '  <dd>Windows lub Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Ustaw fokus na kontekstowy pasek narzędzi</dt>\n' +
-  '  <dd>Windows, Linux lub macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux lub macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Nawigacja zostanie rozpoczęta od pierwszego elementu interfejsu użytkownika, który jest podświetlony lub — w przypadku pierwszego elementu\n' +

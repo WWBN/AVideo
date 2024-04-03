@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.nl',
   '  <dd>Windows of Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Focus op een contextuele werkbalk instellen</dt>\n' +
-  '  <dd>Windows, Linux of macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux of macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>De navigatie start bij het eerste UI-item, dat wordt gemarkeerd of onderstreept als het eerste item zich in\n' +

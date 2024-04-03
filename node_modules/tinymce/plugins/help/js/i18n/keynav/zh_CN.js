@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.zh_CN',
   '  <dd>Windows 或 Linux：Alt+F11</dd>\n' +
   '  <dd>macOS：&#x2325;F11</dd>\n' +
   '  <dt>聚焦于上下文工具栏</dt>\n' +
-  '  <dd>Windows、Linux 或 macOS：Ctrl+F9\n' +
+  '  <dd>Windows、Linux 或 macOS：Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>导航将在第一个 UI 项上开始，其中突出显示该项，或者对于页脚元素路径中的第一项，将为其添加下划线。</p>\n' +

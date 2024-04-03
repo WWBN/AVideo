@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.uk',
   '  <dd>Windows або Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Фокус на контекстній панелі інструментів</dt>\n' +
-  '  <dd>Windows, Linux або macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux або macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Навігація почнеться з першого елемента інтерфейсу користувача, який буде виділено або підкреслено в разі, якщо перший елемент знаходиться в\n' +

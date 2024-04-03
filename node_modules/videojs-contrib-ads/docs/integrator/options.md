@@ -40,6 +40,13 @@ Default Value: `false`
 
 Set this to true if you are using ads stitched into the content video. This is necessary for ad events to be sent correctly.
 
+### playerMode
+
+Type: `string`
+No Default Value
+
+Set this to `outstream` if you are creating a player that has no content video between ad breaks.
+
 ### liveCuePoints
 
 Type: `boolean`

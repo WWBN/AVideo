@@ -132,3 +132,21 @@ Diagram(
 .addTo(document.querySelector('#diagram-6'));
 </script>
 <div id="diagram-6"></div>
+
+## Outstream Mode
+
+In Outstream mode, videojs.contrib-ads moves through three ad states as there is no content state. Here's a state diagram showing the states of the ads plugin in outstream mode and how it transitions between them:
+
+![](outstream-ad-states.png)
+
+## OutstreamPending (extends AdState)
+
+The initial state for a player in outstream mode.
+
+## OutstreamPlayback (extends AdState)
+
+We move into this state when a 'play' event is triggered. Ads should play during this time (assuming there have not been any errors/cancellations). We leave this state once all the ad breaks have completed.
+
+## OutstreamDone (extends AdState)
+
+We move into this state once there are no more ad breaks to be played. No more ads play after this state.

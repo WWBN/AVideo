@@ -6,11 +6,11 @@
  */
 
 import keyboardNavigation from './core/keyboard-navigation.js';
-import touchNavigation from './core/touch-navigation.js';
 import Slide from './core/slide.js';
+import touchNavigation from './core/touch-navigation.js';
 import * as _ from './utils/helpers.js';
 
-const version = '3.2.0';
+const version = '3.3.0';
 const isMobile = _.isMobile();
 const isTouch = _.isTouch();
 const html = document.getElementsByTagName('html')[0];
@@ -1085,7 +1085,12 @@ class GlightboxInit {
                 let descHeight = description.offsetHeight;
                 let imgNode = image.querySelector('img');
 
-                imgNode.setAttribute('style', `max-height: calc(100vh - ${descHeight}px)`);
+                // if a slide height is set via data-height, we want to use that
+                // if not, we fall back to 100vh
+                const slideTriggerNode = this.elements[this.index].node;
+                const maxHeightValue = slideTriggerNode.getAttribute('data-height') ?? '100vh';
+
+                imgNode.setAttribute('style', `max-height: calc(${maxHeightValue} - ${descHeight}px)`);
                 description.setAttribute('style', `max-width: ${imgNode.offsetWidth}px;`);
             }
         }

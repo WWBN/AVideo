@@ -1433,7 +1433,9 @@ var Cea608Stream = function(field, dataChannel) {
         this.setRollUp(packet.pts, row);
       }
 
-      if (row !== this.row_) {
+      // Ensure the row is between 0 and 14, otherwise use the most
+      // recent or default row.
+      if (row !== this.row_ && row >= 0 && row <= 14) {
         // formatting is only persistent for current row
         this.clearFormatting(packet.pts);
         this.row_ = row;

@@ -1,6 +1,6 @@
 {
 	"name": "tinymce",
-	"version": "6.8.3",
+	"version": "7.0.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/tinymce/tinymce.git",
@@ -10,7 +10,7 @@
 	"author": "Ephox Corporation DBA Tiny Technologies, Inc",
 	"main": "tinymce.js",
 	"types": "tinymce.d.ts",
-	"license": "MIT",
+	"license": "GPL-2.0-or-later",
 	"keywords": [
 		"wysiwyg",
 		"tinymce",

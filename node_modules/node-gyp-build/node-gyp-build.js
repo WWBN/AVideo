@@ -154,8 +154,8 @@ function parseTags (file) {
 function matchTags (runtime, abi) {
   return function (tags) {
     if (tags == null) return false
-    if (tags.runtime !== runtime && !runtimeAgnostic(tags)) return false
-    if (tags.abi !== abi && !tags.napi) return false
+    if (tags.runtime && tags.runtime !== runtime && !runtimeAgnostic(tags)) return false
+    if (tags.abi && tags.abi !== abi && !tags.napi) return false
     if (tags.uv && tags.uv !== uv) return false
     if (tags.armv && tags.armv !== armv) return false
     if (tags.libc && tags.libc !== libc) return false

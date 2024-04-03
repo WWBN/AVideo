@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.he_IL',
   '  <dd>Windows או Linux:‏ Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>העבר מיקוד לסרגל כלים הקשרי</dt>\n' +
-  '  <dd>Windows‏, Linux או macOS:‏ Ctrl+F9\n' +
+  '  <dd>Windows‏, Linux או macOS:‏ Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>הניווט יתחיל ברכיב הראשון במשך, שיודגש או שיהיה מתחתיו קו תחתון במקרה של הפריט הראשון\n' +

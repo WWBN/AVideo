@@ -1720,12 +1720,12 @@ declare class Player extends Component {
      * Values other than arrays are ignored.
      *
      * @fires Player#playbackrateschange
-     * @param {number[]} newRates
+     * @param {number[]} [newRates]
      *                   The new rates that the playback rates menu should update to.
      *                   An empty array will hide the menu
      * @return {number[]} When used as a getter will return the current playback rates
      */
-    playbackRates(newRates: number[]): number[];
+    playbackRates(newRates?: number[]): number[];
     /**
      * Get or set the `Player`'s crossorigin option. For the HTML5 player, this
      * sets the `crossOrigin` property on the `<video>` tag to control the CORS

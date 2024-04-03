@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.kk',
   '  <dd>Windows немесе Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Мәтінмәндік құралдар тақтасын фокустау</dt>\n' +
-  '  <dd>Windows, Linux немесе macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux немесе macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Навигация бөлектелетін немесе Төменгі деректеме элементінің жолындағы бірінші элемент жағдайында асты сызылатын\n' +

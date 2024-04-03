@@ -1042,3 +1042,40 @@ QUnit.test('playback rate menu is hidden during ad playback if playbackrate supp
   this.player.ads.endLinearAdMode();
   assert.notOk(this.player.controlBar.playbackRateMenuButton.hasClass('vjs-hidden'), 'Playback rate menu is shown when ad finishes');
 });
+
+QUnit.test('error() - returns the current error when no params are passed in', function(assert) {
+  const expectedError = { errorType: 'test-error' };
+
+  this.player.ads._error = expectedError;
+
+  assert.equal(this.player.ads.error(), expectedError);
+});
+
+QUnit.test('error() - resets the current error when null is passed in', function(assert) {
+  const previousError = { errorType: 'test-error' };
+
+  this.player.ads._error = previousError;
+  this.player.ads.error(null);
+
+  assert.equal(this.player.ads._error, null);
+});
+
+QUnit.test('error() - resets the current error when an invalid error is passed in', function(assert) {
+  const previousError = { errorType: 'test-error' };
+
+  this.player.ads._error = previousError;
+  // A valid error is not passed into the function, so it should be reset
+  this.player.ads.error(2);
+
+  assert.equal(this.player.ads._error, null);
+});
+
+QUnit.test('error() - when a valid error is passed in, set the error', function(assert) {
+  const previousError = { errorType: 'test-error' };
+  const newError = { errorType: 'new-test-error'};
+
+  this.player.ads._error = previousError;
+  this.player.ads.error(newError);
+
+  assert.equal(this.player.ads._error, newError);
+});

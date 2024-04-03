@@ -161,7 +161,7 @@ const getPageVariableMacros = function(string, defaults, macroNameOverrides) {
   return pageVariablesMacros;
 };
 
-const replaceMacros = function(string, macros, uriEncode, overrides = {}) {
+const replaceMacros = function(string, macros, uriEncode, overrides = {}, player) {
   for (const macroName in macros) {
     // The resolvedMacroName is the macro as it is expected to appear in the actual string, or regex if it has been provided.
     const resolvedMacroName = overrides.hasOwnProperty(macroName) ? overrides[macroName] : macroName;
@@ -172,6 +172,12 @@ const replaceMacros = function(string, macros, uriEncode, overrides = {}) {
 
         string = string.replace(regex, uriEncodeIfNeeded(macros[macroName], uriEncode));
       } catch (error) {
+        player.ads.error({
+          errorType: videojs.Error.AdsMacroReplacementFailed,
+          macro: macroName,
+          error
+        });
+
         videojs.log.warn(`Unable to replace macro with regex "${resolvedMacroName}". The provided regex may be invalid.`);
       }
     } else {
@@ -229,7 +235,7 @@ export default function adMacroReplacement(string, uriEncode = false, customMacr
   );
 
   // Perform macro replacement
-  string = replaceMacros(string, macros, uriEncode, macroNameOverrides);
+  string = replaceMacros(string, macros, uriEncode, macroNameOverrides, this);
 
   // Replace any remaining default values that have not already been replaced. This includes mediainfo custom fields.
   for (const macro in defaults) {

@@ -3,7 +3,11 @@ export class StyleModule {
     finish?(sel: string): string
   })
   getRules(): string
-  static mount(root: Document | ShadowRoot | DocumentOrShadowRoot, module: StyleModule | ReadonlyArray<StyleModule>): void
+  static mount(
+    root: Document | ShadowRoot | DocumentOrShadowRoot,
+    module: StyleModule | ReadonlyArray<StyleModule>,
+    options?: {nonce?: string}
+  ): void
   static newName(): string
 }
 

@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.sl_SI',
   '  <dd>Windows ali Linux: Alt + F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Fokus na kontekstualno orodno vrstico</dt>\n' +
-  '  <dd>Windows, Linux ali macOS: Ctrl + F9\n' +
+  '  <dd>Windows, Linux ali macOS: Ctrl + F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Krmarjenje se bo začelo s prvim elementom uporabniškega vmesnika, ki bo izpostavljena ali podčrtan, če gre za prvi element na\n' +
@@ -39,7 +39,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.sl_SI',
   '<p>Če razdelek uporabniškega vmesnika ni prisoten, je preskočen.</p>\n' +
   '\n' +
   '<p>Če ima noga fokus za krmarjenje s tipkovnico in ni vidne stranske vrstice, s pritiskom na <strong>shift + tabulatorko</strong>\n' +
-  '  fokus premaknete na prvo skupino orodne vrstice, ne zadnjo</p>.\n' +
+  '  fokus premaknete na prvo skupino orodne vrstice, ne zadnjo.</p>\n' +
   '\n' +
   '<h1>Krmarjenje v razdelkih uporabniškega vmesnika</h1>\n' +
   '\n' +

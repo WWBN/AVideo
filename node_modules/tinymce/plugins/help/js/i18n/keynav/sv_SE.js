@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.sv_SE',
   '  <dd>Windows eller Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Fokusera på en snabbverktygsrad</dt>\n' +
-  '  <dd>Windows, Linux eller macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux eller macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Navigeringen börjar vid det första gränssnittsobjektet, vilket är markerat eller understruket om det gäller det första objektet i\n' +

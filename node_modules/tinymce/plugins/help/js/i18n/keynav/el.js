@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.el',
   '  <dd>Windows ή Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Εστίαση σε γραμμή εργαλείων βάσει περιεχομένου</dt>\n' +
-  '  <dd>Windows, Linux ή macOS: Ctrl+F9\n' +
+  '  <dd>Windows, Linux ή macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Η πλοήγηση θα ξεκινήσει από το πρώτο στοιχείο περιβάλλοντος χρήστη, που θα επισημαίνεται ή θα είναι υπογραμμισμένο,\n' +

@@ -45,6 +45,10 @@ export default function getAds(player) {
     // either by the play method or user interaction
     _playRequested: false,
 
+    // Contains error information when an error occurs in contrib-ads.
+    // When set, will contain an object with a type and metadata.
+    _error: null,
+
     // This is an estimation of the current ad type being played
     // This is experimental currently. Do not rely on its presence or behavior!
     adType: null,
@@ -65,6 +69,7 @@ export default function getAds(player) {
       player.ads.nopreroll_ = false;
       player.ads.nopostroll_ = false;
       player.ads._playRequested = false;
+      player.ads._error = null;
     },
 
     // Call this when an ad response has been received and there are
@@ -226,6 +231,49 @@ export default function getAds(player) {
           videojs.log('ADS:', ...args);
         }
       }
+    },
+
+    /**
+     * Set or get the current ads error.
+     *
+     * @fires Player#vjsadserror
+     *
+     * @param {import('video.js/dist/types/media-error').ErrorMetadata|null} [err]
+     *      The error to be set. This can either be a string
+     *      of the error type, or it can be an object containing the
+     *      type, along with error metadata.
+     *      If nothing is passed in, this function will return the current error.
+     * @param {string} err.errorType The error type.
+     *
+     * @return {Object|null|undefined}
+     *      The current ads error. The function will return undefined if the function
+     *      is used to set an error. It will return null if there is no error.
+     */
+    error(err) {
+      // If `err` doesn't exist, return the current error.
+      if (err === undefined) {
+        return this._error || null;
+      }
+
+      // If `err` is null or not a valid error, reset the ads error.
+      if (err === null || !err.errorType) {
+        this._error = null;
+
+        return;
+      }
+
+      this._error = err;
+
+      videojs.log.error(`An error with Ads occured. Type: ${err.errorType}.`);
+
+      /**
+       * @event Player#vjsadserror
+       * @type {Event}
+       */
+      player.trigger({
+        type: 'vjsadserror',
+        error: this._error
+      });
     }
 
   };

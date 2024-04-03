@@ -12,7 +12,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.nb_NO',
   '  <dd>Windows eller Linux: Alt + F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
   '  <dt>Utheve en kontekstuell verktøylinje</dt>\n' +
-  '  <dd>Windows, Linux eller macOS: Ctrl + F9\n' +
+  '  <dd>Windows, Linux eller macOS: Ctrl + F9</dd>\n' +
   '</dl>\n' +
   '\n' +
   '<p>Navigeringen starter ved det første grensesnittelementet, som utheves, eller understrekes når det gjelder det første elementet i\n' +

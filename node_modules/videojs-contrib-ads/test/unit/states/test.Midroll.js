@@ -16,7 +16,8 @@ QUnit.module('Midroll', {
         _inLinearAdMode: true,
         endLinearAdMode: () => {
           this.calledEndLinearAdMode = true;
-        }
+        },
+        error: () => {}
       }
     };
 

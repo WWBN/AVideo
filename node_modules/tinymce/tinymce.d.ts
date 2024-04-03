@@ -152,7 +152,7 @@ interface ElementSettings {
     wrap_block_elements?: string;
 }
 interface SchemaSettings extends ElementSettings {
-    custom_elements?: string;
+    custom_elements?: string | Record<string, CustomElementSpec>;
     extended_valid_elements?: string;
     invalid_elements?: string;
     invalid_styles?: string | Record<string, string>;
@@ -200,6 +200,12 @@ interface SchemaMap {
 interface SchemaRegExpMap {
     [name: string]: RegExp;
 }
+interface CustomElementSpec {
+    extends?: string;
+    attributes?: string[];
+    children?: string[];
+    padEmpty?: boolean;
+}
 interface Schema {
     type: SchemaType;
     children: Record<string, SchemaMap>;
@@ -227,7 +233,7 @@ interface Schema {
     getCustomElements: () => SchemaMap;
     addValidElements: (validElements: string) => void;
     setValidElements: (validElements: string) => void;
-    addCustomElements: (customElements: string) => void;
+    addCustomElements: (customElements: string | Record<string, CustomElementSpec>) => void;
     addValidChildren: (validChildren: any) => void;
 }
 type Attributes$1 = Array<{
@@ -374,6 +380,12 @@ interface Annotator {
     removeAll: (name: string) => void;
     getAll: (name: string) => Record<string, Element[]>;
 }
+interface IsEmptyOptions {
+    readonly skipBogus?: boolean;
+    readonly includeZwsp?: boolean;
+    readonly checkRootAsContent?: boolean;
+    readonly isContent?: (node: Node) => boolean;
+}
 interface GeomRect {
     readonly x: number;
     readonly y: number;
@@ -400,7 +412,6 @@ interface NotificationSpec {
     icon?: string;
     progressBar?: boolean;
     timeout?: number;
-    closeButton?: boolean;
 }
 interface NotificationApi {
     close: () => void;
@@ -429,6 +440,7 @@ interface UploadResult$2 {
     status: boolean;
     error?: UploadFailure;
 }
+type BlockPatternTrigger = 'enter' | 'space';
 interface RawPattern {
     start?: any;
     end?: any;
@@ -436,6 +448,7 @@ interface RawPattern {
     cmd?: any;
     value?: any;
     replacement?: any;
+    trigger?: BlockPatternTrigger;
 }
 interface InlineBasePattern {
     readonly start: string;
@@ -453,6 +466,7 @@ interface InlineCmdPattern extends InlineBasePattern {
 type InlinePattern = InlineFormatPattern | InlineCmdPattern;
 interface BlockBasePattern {
     readonly start: string;
+    readonly trigger: BlockPatternTrigger;
 }
 interface BlockFormatPattern extends BlockBasePattern {
     readonly type: 'block-format';
@@ -531,6 +545,7 @@ interface CustomEditorNewSpec extends FormComponentSpec {
     tag?: string;
     scriptId: string;
     scriptUrl: string;
+    onFocus?: (e: HTMLElement) => void;
     settings?: any;
 }
 type CustomEditorSpec = CustomEditorOldSpec | CustomEditorNewSpec;
@@ -639,6 +654,7 @@ interface BaseToolbarButtonInstanceApi {
 interface ToolbarButtonSpec extends BaseToolbarButtonSpec<ToolbarButtonInstanceApi> {
     type?: 'button';
     onAction: (api: ToolbarButtonInstanceApi) => void;
+    shortcut?: string;
 }
 interface ToolbarButtonInstanceApi extends BaseToolbarButtonInstanceApi {
 }
@@ -850,6 +866,7 @@ interface BaseToolbarToggleButtonInstanceApi extends BaseToolbarButtonInstanceAp
 interface ToolbarToggleButtonSpec extends BaseToolbarToggleButtonSpec<ToolbarToggleButtonInstanceApi> {
     type?: 'togglebutton';
     onAction: (api: ToolbarToggleButtonInstanceApi) => void;
+    shortcut?: string;
 }
 interface ToolbarToggleButtonInstanceApi extends BaseToolbarToggleButtonInstanceApi {
 }
@@ -1025,8 +1042,7 @@ interface AutocompleterItemSpec {
 type AutocompleterContents = SeparatorItemSpec | AutocompleterItemSpec | CardMenuItemSpec;
 interface AutocompleterSpec {
     type?: 'autocompleter';
-    ch?: string;
-    trigger?: string;
+    trigger: string;
     minChars?: number;
     columns?: ColumnTypes;
     matches?: (rng: Range, text: string, pattern: string) => boolean;
@@ -1384,9 +1400,9 @@ interface DomParserSettings {
     inline_styles?: boolean;
     pad_empty_with_br?: boolean;
     preserve_cdata?: boolean;
-    remove_trailing_brs?: boolean;
     root_name?: string;
     sandbox_iframes?: boolean;
+    sandbox_iframes_exclusions?: string[];
     sanitize?: boolean;
     validate?: boolean;
 }
@@ -1797,7 +1813,6 @@ interface ToolbarGroup {
 }
 type ToolbarMode = 'floating' | 'sliding' | 'scrolling' | 'wrap';
 type ToolbarLocation = 'top' | 'bottom' | 'auto';
-type ForceHexColor = 'always' | 'rgb_only' | 'off';
 interface BaseEditorOptions {
     a11y_advanced_options?: boolean;
     add_form_submit_trigger?: boolean;
@@ -1841,7 +1856,7 @@ interface BaseEditorOptions {
     convert_unsafe_embeds?: boolean;
     convert_urls?: boolean;
     custom_colors?: boolean;
-    custom_elements?: string;
+    custom_elements?: string | Record<string, CustomElementSpec>;
     custom_ui_selector?: string;
     custom_undo_redo_levels?: number;
     default_font_stack?: string[];
@@ -1873,7 +1888,6 @@ interface BaseEditorOptions {
     font_size_style_values?: string;
     font_size_formats?: string;
     font_size_input_default_unit?: string;
-    force_hex_color?: ForceHexColor;
     forced_root_block?: string;
     forced_root_block_attrs?: Record<string, string>;
     formats?: Formats;
@@ -1954,6 +1968,7 @@ interface BaseEditorOptions {
     resize_img_proportional?: boolean;
     root_name?: string;
     sandbox_iframes?: boolean;
+    sandbox_iframes_exclusions?: string[];
     schema?: SchemaType;
     selector?: string;
     setup?: SetupCallback;
@@ -2003,6 +2018,7 @@ interface BaseEditorOptions {
     visual_table_class?: string;
     width?: number | string;
     xss_sanitization?: boolean;
+    license_key?: string;
     disable_nodechange?: boolean;
     forced_plugins?: string | string[];
     plugin_base_urls?: Record<string, string>;
@@ -2054,7 +2070,6 @@ interface EditorOptions extends NormalizedEditorOptions {
     font_size_style_values: string;
     forced_root_block: string;
     forced_root_block_attrs: Record<string, string>;
-    force_hex_color: ForceHexColor;
     format_noneditable_selector: string;
     height: number | string;
     highlight_on_focus: boolean;
@@ -2089,6 +2104,7 @@ interface EditorOptions extends NormalizedEditorOptions {
     readonly: boolean;
     removed_menuitems: string;
     sandbox_iframes: boolean;
+    sandbox_iframes_exclusions: string[];
     toolbar: boolean | string | string[] | Array<ToolbarGroup>;
     toolbar_groups: Record<string, GroupToolbarButtonSpec>;
     toolbar_location: ToolbarLocation;
@@ -2110,7 +2126,6 @@ interface StylesSettings {
     allow_svg_data_urls?: boolean;
     url_converter?: URLConverter;
     url_converter_scope?: any;
-    force_hex_color?: ForceHexColor;
 }
 interface Styles {
     parse: (css: string | undefined) => Record<string, string>;
@@ -2171,7 +2186,6 @@ interface DOMUtilsSettings {
     onSetAttrib: (event: SetAttribEvent) => void;
     contentCssCors: boolean;
     referrerPolicy: ReferrerPolicy;
-    force_hex_color: ForceHexColor;
 }
 type Target = Node | Window;
 type RunArguments<T extends Node = Node> = string | T | Array<string | T> | null;
@@ -2290,9 +2304,7 @@ interface DOMUtils {
     findCommonAncestor: (a: Node, b: Node) => Node | null;
     run<R, T extends Node>(this: DOMUtils, elm: T | T[], func: (node: T) => R, scope?: any): typeof elm extends Array<any> ? R[] : R;
     run<R, T extends Node>(this: DOMUtils, elm: RunArguments<T>, func: (node: T) => R, scope?: any): RunResult<typeof elm, R>;
-    isEmpty: (node: Node, elements?: Record<string, any>, options?: ({
-        includeZwsp?: boolean;
-    })) => boolean;
+    isEmpty: (node: Node, elements?: Record<string, any>, options?: IsEmptyOptions) => boolean;
     createRng: () => Range;
     nodeIndex: (node: Node, normalized?: boolean) => number;
     split: {
