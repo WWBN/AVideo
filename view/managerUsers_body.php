@@ -16,337 +16,338 @@ foreach ($userGroups as $value) {
 ?>
 
 <link href="<?php echo getURL('node_modules/flickity/dist/flickity.min.css'); ?>" rel="stylesheet" type="text/css" />
-<div class="panel panel-default">
-    <div class="panel-heading tabbable-line">
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default" id="addUserBtn">
-                <i class="fa-solid fa-plus"></i></span> <?php echo __("New User"); ?>
-            </button>
-            <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
-                <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
-            </a>
-            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
-                <span class="fa fa-film"></span> <?php echo __("Videos"); ?>
-            </a>
-            <a href="<?php echo $global['webSiteRootURL']; ?>objects/getAllEmails.csv.php" class="btn btn-primary">
-                <i class="fas fa-file-csv"></i> <?php echo __("CSV File"); ?>
-            </a>
-            <div class="btn btn-primary" data-toggle="tooltip" title="<?php echo __('Online users'); ?>">
-                <i class="fas fa-users"></i> <span class="total_users_online">0</span>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-        <?php
-        $_REQUEST['rowCount'] = $_rowCount;
-        $_REQUEST['current'] = $current;
-        $items = array();
-        foreach ($users_tabs as $value) {
-            $label = "<i class=\"{$value['icon']}\"></i> " . __($value['title']);
-            $items[] = array('href' => "#{$value['selector']}Tab", 'tooltip' => __($value['title']), 'onclick' => "startUserGrid('#{$value['selector']}', '{$value['queryString']}', " . intval($value['userGroupID']) . ");", 'label' => $label);
-        }
-        generateHorizontalFlickity($items);
-        ?>
-    </div>
-    <div class="panel-body">
-        <div class="tab-content">
-
-            <?php
-            foreach ($users_tabs as $value) {
-            ?>
-                <div id="<?php echo $value['selector']; ?>Tab" class="tab-pane fade in <?php echo $value['active']; ?>">
-                    <?php
-                    if (!empty($value['userGroupID'])) {
-                    ?>
-                        <div class="btn-group pull-left" id="filterButtonsUG<?php echo $value['userGroupID']; ?>">
-                            <div class="btn-group ">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, '');return false;"><?php echo __('All'); ?></a></li>
-                                    <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_dynamic" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, 'dynamic');return false;"><i class="fas fa-link"></i> <?php echo __('Dynamic User groups'); ?> (<?php echo __('Added by a plugin, PPV or Subscription'); ?>)</a></li>
-                                    <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_permanent" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, 'permanent');return false;;"><i class="fas fa-lock"></i> <?php echo __('Permanent User groups'); ?></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    <?php
-                    }
-                    ?>
-                    <table id="<?php echo $value['selector']; ?>" class="table table-condensed table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
-                                <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
-                                <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                                <th data-column-id="email"><?php echo __("E-mail"); ?></th>
-                                <th data-column-id="phone"><?php echo __("Phone"); ?></th>
-                                <th data-column-id="created"><?php echo __("Created"); ?></th>
-                                <th data-column-id="modified"><?php echo __("Modified"); ?></th>
-                                <th data-column-id="tags" data-formatter="tags" data-sortable="false"><?php echo __("Tags"); ?></th>
-                                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
-                            </tr>
-                        </thead>
-                    </table>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-heading tabbable-line">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default" id="addUserBtn">
+                    <i class="fa-solid fa-plus"></i></span> <?php echo __("New User"); ?>
+                </button>
+                <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                    <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
+                </a>
+                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
+                    <span class="fa fa-film"></span> <?php echo __("Videos"); ?>
+                </a>
+                <a href="<?php echo $global['webSiteRootURL']; ?>objects/getAllEmails.csv.php" class="btn btn-primary">
+                    <i class="fas fa-file-csv"></i> <?php echo __("CSV File"); ?>
+                </a>
+                <div class="btn btn-primary" data-toggle="tooltip" title="<?php echo __('Online users'); ?>">
+                    <i class="fas fa-users"></i> <span class="total_users_online">0</span>
                 </div>
+            </div>
+            <div class="clearfix"></div>
             <?php
+            $_REQUEST['rowCount'] = $_rowCount;
+            $_REQUEST['current'] = $current;
+            $items = array();
+            foreach ($users_tabs as $value) {
+                $label = "<i class=\"{$value['icon']}\"></i> " . __($value['title']);
+                $items[] = array('href' => "#{$value['selector']}Tab", 'tooltip' => __($value['title']), 'onclick' => "startUserGrid('#{$value['selector']}', '{$value['queryString']}', " . intval($value['userGroupID']) . ");", 'label' => $label);
             }
+            generateHorizontalFlickity($items);
             ?>
         </div>
-    </div>
-</div>
+        <div class="panel-body">
+            <div class="tab-content">
 
-
-<div id="userFormModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?php echo __("User Form"); ?></h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-compact" id="updateUserForm" onsubmit="">
-                    <input type="hidden" id="inputUserId">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label for="inputUser"><?php echo __("User"); ?></label>
-                            <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" autofocus required="required" data-toggle="tooltip" title="<?php echo __('User'); ?>">
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="inputPassword"><?php echo __("Password"); ?></label><?php
-                                                                                            getInputPassword("inputPassword", 'class="form-control" required="required"  autocomplete="off"', __("Password"));
-                                                                                            ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="inputName">
-                                <?php echo __("Name"); ?>
-                            </label>
-                            <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>" data-toggle="tooltip" title="<?php echo __('Name'); ?>">
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="inputEmail">
-                                <?php echo __("E-mail"); ?>
-                            </label>
-                            <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>" data-toggle="tooltip" title="<?php echo __('E-mail'); ?>">
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="inputChannelName">
-                                <?php echo __("Channel Name"); ?>
-                            </label>
-                            <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" data-toggle="tooltip" title="<?php echo __('Channel Name'); ?>">
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="inputBirth">
-                                <?php echo __("Birth Date"); ?>
-                            </label>
-                            <input type="date" id="inputBirth" class="form-control" placeholder="<?php echo __("Birth Date"); ?>" data-toggle="tooltip" title="<?php echo __('Birth'); ?>">
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="inputPhone">
-                                <?php echo __("Phone"); ?>
-                            </label>
-                            <input type="text" id="inputPhone" class="form-control" placeholder="<?php echo __("Phone"); ?>" data-toggle="tooltip" title="<?php echo __('Phone'); ?>">
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="inputAnalyticsCode">
-                                <?php echo __("Analytics Code"); ?>
-                            </label>
-                            <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" data-toggle="tooltip" title="<?php echo __('Analytics Code'); ?>">
-                            <small>Do not paste the full javascript code, paste only the gtag id</small>
-                        </div>
-                    </div>
-                    <?php
-                    if (empty($advancedCustomUser->disableCompanySignUp) || !empty($advancedCustomUser->enableAffiliation)) {
-                    ?>
-                        <label for="is_company"><?php echo __("is a Company"); ?></label>
-                        <select name="is_company" id="is_company" class="form-control last">
-                            <?php
-                            foreach (User::$is_company_status as $key => $value) {
-                                if (!empty($advancedCustomUser->disableCompanySignUp) && $key == User::$is_company_status_WAITINGAPPROVAL) {
-                                    continue;
-                                }
-                                echo "<option value='{$key}'>" . __($value) . "</option>";
-                            }
-                            ?>
-                        </select>
-                    <?php }
-                    ?>
-
-                    <ul class="list-group">
-                        <li class="list-group-item <?php echo User::isAdmin() ? "" : "hidden"; ?>">
-                            <?php echo __("is Admin"); ?>
-                            <div class="material-switch pull-right">
-                                <input type="checkbox" value="isAdmin" id="isAdmin" />
-                                <label for="isAdmin" class="label-success"></label>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <?php echo __("Can Stream Videos"); ?>
-                            <div class="material-switch pull-right">
-                                <input type="checkbox" value="canStream" id="canStream" />
-                                <label for="canStream" class="label-success"></label>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <?php echo __("Can Upload Videos"); ?>
-                            <div class="material-switch pull-right">
-                                <input type="checkbox" value="canUpload" id="canUpload" />
-                                <label for="canUpload" class="label-success"></label>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <?php echo __("Can view chart"); ?>
-                            <div class="material-switch pull-right">
-                                <input type="checkbox" value="canViewChart" id="canViewChart" />
-                                <label for="canViewChart" class="label-success"></label>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <?php echo __("Can create meet"); ?>
-                            <div class="material-switch pull-right">
-                                <input type="checkbox" value="canCreateMeet" id="canCreateMeet" />
-                                <label for="canCreateMeet" class="label-success"></label>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <?php echo __("E-mail Verified"); ?>
-                            <div class="material-switch pull-right">
-                                <input type="checkbox" value="isEmailVerified" id="isEmailVerified" />
-                                <label for="isEmailVerified" class="label-success"></label>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <?php echo __("is Active"); ?>
-                            <div class="material-switch pull-right">
-                                <input type="checkbox" value="status" id="status" />
-                                <label for="status" class="label-success"></label>
-                            </div>
-                        </li>
+                <?php
+                foreach ($users_tabs as $value) {
+                ?>
+                    <div id="<?php echo $value['selector']; ?>Tab" class="tab-pane fade in <?php echo $value['active']; ?>">
                         <?php
-                        print AVideoPlugin::getUserOptions();
+                        if (!empty($value['userGroupID'])) {
                         ?>
-                    </ul>
-                    <ul class="list-group">
-                        <li class="list-group-item active">
-                            <?php echo __("User Groups"); ?>
-                            <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom" data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
-                        </li>
-                        <?php
-                        foreach ($userGroups as $value) {
-                        ?>
-                            <li class="list-group-item usergroupsLi" id="usergroupsLi<?php echo $value['id']; ?>">
-                                <span class="fa fa-unlock"></span>
-                                <?php echo $value['group_name']; ?>
-                                <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
-                                <span class="label label-warning dynamicLabel"><i class="fas fa-link"></i> <?php echo __("Dynamic group"); ?></span>
-                                <div class="material-switch pull-right">
-                                    <input id="userGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" />
-                                    <label for="userGroup<?php echo $value['id']; ?>" class="label-warning"></label>
+                            <div class="btn-group pull-left" id="filterButtonsUG<?php echo $value['userGroupID']; ?>">
+                                <div class="btn-group ">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, '');return false;"><?php echo __('All'); ?></a></li>
+                                        <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_dynamic" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, 'dynamic');return false;"><i class="fas fa-link"></i> <?php echo __('Dynamic User groups'); ?> (<?php echo __('Added by a plugin, PPV or Subscription'); ?>)</a></li>
+                                        <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_permanent" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, 'permanent');return false;;"><i class="fas fa-lock"></i> <?php echo __('Permanent User groups'); ?></a></li>
+                                    </ul>
                                 </div>
-                            </li>
+                            </div>
                         <?php
                         }
                         ?>
-                    </ul>
-                </form>
+                        <table id="<?php echo $value['selector']; ?>" class="table table-condensed table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
+                                    <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
+                                    <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
+                                    <th data-column-id="email"><?php echo __("E-mail"); ?></th>
+                                    <th data-column-id="phone"><?php echo __("Phone"); ?></th>
+                                    <th data-column-id="created"><?php echo __("Created"); ?></th>
+                                    <th data-column-id="modified"><?php echo __("Modified"); ?></th>
+                                    <th data-column-id="tags" data-formatter="tags" data-sortable="false"><?php echo __("Tags"); ?></th>
+                                    <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                <?php
+                }
+                ?>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
-                <button type="button" class="btn btn-primary" id="saveUserBtn"><?php echo __("Save changes"); ?></button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
 
 
-<div id="userInfoModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?php echo __("User Info"); ?></h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <label class="col-md-4 control-label"><?php echo __("First Name"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input id="first_name" class="form-control" type="text" readonly>
+    <div id="userFormModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><?php echo __("User Form"); ?></h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-compact" id="updateUserForm" onsubmit="">
+                        <input type="hidden" id="inputUserId">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="inputUser"><?php echo __("User"); ?></label>
+                                <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" autofocus required="required" data-toggle="tooltip" title="<?php echo __('User'); ?>">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="inputPassword"><?php echo __("Password"); ?></label><?php
+                                                                                                getInputPassword("inputPassword", 'class="form-control" required="required"  autocomplete="off"', __("Password"));
+                                                                                                ?>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="inputName">
+                                    <?php echo __("Name"); ?>
+                                </label>
+                                <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>" data-toggle="tooltip" title="<?php echo __('Name'); ?>">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="inputEmail">
+                                    <?php echo __("E-mail"); ?>
+                                </label>
+                                <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>" data-toggle="tooltip" title="<?php echo __('E-mail'); ?>">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="inputChannelName">
+                                    <?php echo __("Channel Name"); ?>
+                                </label>
+                                <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" data-toggle="tooltip" title="<?php echo __('Channel Name'); ?>">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="inputBirth">
+                                    <?php echo __("Birth Date"); ?>
+                                </label>
+                                <input type="date" id="inputBirth" class="form-control" placeholder="<?php echo __("Birth Date"); ?>" data-toggle="tooltip" title="<?php echo __('Birth'); ?>">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="inputPhone">
+                                    <?php echo __("Phone"); ?>
+                                </label>
+                                <input type="text" id="inputPhone" class="form-control" placeholder="<?php echo __("Phone"); ?>" data-toggle="tooltip" title="<?php echo __('Phone'); ?>">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="inputAnalyticsCode">
+                                    <?php echo __("Analytics Code"); ?>
+                                </label>
+                                <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" data-toggle="tooltip" title="<?php echo __('Analytics Code'); ?>">
+                                <small>Do not paste the full javascript code, paste only the gtag id</small>
+                            </div>
+                        </div>
+                        <?php
+                        if (empty($advancedCustomUser->disableCompanySignUp) || !empty($advancedCustomUser->enableAffiliation)) {
+                        ?>
+                            <label for="is_company"><?php echo __("is a Company"); ?></label>
+                            <select name="is_company" id="is_company" class="form-control last">
+                                <?php
+                                foreach (User::$is_company_status as $key => $value) {
+                                    if (!empty($advancedCustomUser->disableCompanySignUp) && $key == User::$is_company_status_WAITINGAPPROVAL) {
+                                        continue;
+                                    }
+                                    echo "<option value='{$key}'>" . __($value) . "</option>";
+                                }
+                                ?>
+                            </select>
+                        <?php }
+                        ?>
+
+                        <ul class="list-group">
+                            <li class="list-group-item <?php echo User::isAdmin() ? "" : "hidden"; ?>">
+                                <?php echo __("is Admin"); ?>
+                                <div class="material-switch pull-right">
+                                    <input type="checkbox" value="isAdmin" id="isAdmin" />
+                                    <label for="isAdmin" class="label-success"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <?php echo __("Can Stream Videos"); ?>
+                                <div class="material-switch pull-right">
+                                    <input type="checkbox" value="canStream" id="canStream" />
+                                    <label for="canStream" class="label-success"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <?php echo __("Can Upload Videos"); ?>
+                                <div class="material-switch pull-right">
+                                    <input type="checkbox" value="canUpload" id="canUpload" />
+                                    <label for="canUpload" class="label-success"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <?php echo __("Can view chart"); ?>
+                                <div class="material-switch pull-right">
+                                    <input type="checkbox" value="canViewChart" id="canViewChart" />
+                                    <label for="canViewChart" class="label-success"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <?php echo __("Can create meet"); ?>
+                                <div class="material-switch pull-right">
+                                    <input type="checkbox" value="canCreateMeet" id="canCreateMeet" />
+                                    <label for="canCreateMeet" class="label-success"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <?php echo __("E-mail Verified"); ?>
+                                <div class="material-switch pull-right">
+                                    <input type="checkbox" value="isEmailVerified" id="isEmailVerified" />
+                                    <label for="isEmailVerified" class="label-success"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <?php echo __("is Active"); ?>
+                                <div class="material-switch pull-right">
+                                    <input type="checkbox" value="status" id="status" />
+                                    <label for="status" class="label-success"></label>
+                                </div>
+                            </li>
+                            <?php
+                            print AVideoPlugin::getUserOptions();
+                            ?>
+                        </ul>
+                        <ul class="list-group">
+                            <li class="list-group-item active">
+                                <?php echo __("User Groups"); ?>
+                                <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom" data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
+                            </li>
+                            <?php
+                            foreach ($userGroups as $value) {
+                            ?>
+                                <li class="list-group-item usergroupsLi" id="usergroupsLi<?php echo $value['id']; ?>">
+                                    <span class="fa fa-unlock"></span>
+                                    <?php echo $value['group_name']; ?>
+                                    <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
+                                    <span class="label label-warning dynamicLabel"><i class="fas fa-link"></i> <?php echo __("Dynamic group"); ?></span>
+                                    <div class="material-switch pull-right">
+                                        <input id="userGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" />
+                                        <label for="userGroup<?php echo $value['id']; ?>" class="label-warning"></label>
+                                    </div>
+                                </li>
+                            <?php
+                            }
+                            ?>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
+                    <button type="button" class="btn btn-primary" id="saveUserBtn"><?php echo __("Save changes"); ?></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <div id="userInfoModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><?php echo __("User Info"); ?></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <label class="col-md-4 control-label"><?php echo __("First Name"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="first_name" class="form-control" type="text" readonly>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <label class="col-md-4 control-label"><?php echo __("Last Name"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input id="last_name" class="form-control" readonly>
+                    <div class="row">
+                        <label class="col-md-4 control-label"><?php echo __("Last Name"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="last_name" class="form-control" readonly>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <label class="col-md-4 control-label"><?php echo __("Address"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input id="address" class="form-control" readonly>
+                    <div class="row">
+                        <label class="col-md-4 control-label"><?php echo __("Address"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="address" class="form-control" readonly>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <label class="col-md-4 control-label"><?php echo __("Zip Code"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input id="zip_code" class="form-control" readonly>
+                    <div class="row">
+                        <label class="col-md-4 control-label"><?php echo __("Zip Code"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="zip_code" class="form-control" readonly>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <label class="col-md-4 control-label"><?php echo __("Country"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input id="country" class="form-control" readonly>
+                    <div class="row">
+                        <label class="col-md-4 control-label"><?php echo __("Country"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="country" class="form-control" readonly>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-4 control-label"><?php echo __("Region"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input id="region" class="form-control" readonly>
+                    <div class="row">
+                        <label class="col-md-4 control-label"><?php echo __("Region"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="region" class="form-control" readonly>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-4 control-label"><?php echo __("City"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input id="city" class="form-control" readonly>
+                    <div class="row">
+                        <label class="col-md-4 control-label"><?php echo __("City"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="city" class="form-control" readonly>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <label class="col-md-4 control-label"><?php echo __("Document"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <img src="" class="img img-responsive img-thumbnail" id="documentImage" />
+                    <div class="row">
+                        <label class="col-md-4 control-label"><?php echo __("Document"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <img src="" class="img img-responsive img-thumbnail" id="documentImage" />
+                            </div>
                         </div>
                     </div>
+
                 </div>
-
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
 <script src="<?php echo getURL('node_modules/flickity/dist/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/flickity-bg-lazyload/bg-lazyload.js'); ?>" type="text/javascript"></script>
 
@@ -401,7 +402,7 @@ foreach ($userGroups as $value) {
                 selectedUserGroups.push($(this).val());
             });
             $.ajax({
-                url: webSiteRootURL+'objects/userAddNew.json.php',
+                url: webSiteRootURL + 'objects/userAddNew.json.php',
                 data: {
                     <?php
                     print AVideoPlugin::updateUserFormJS();

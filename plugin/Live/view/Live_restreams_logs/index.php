@@ -8,22 +8,8 @@ if (!User::isAdmin()) {
     exit;
 }
 
+$_page = new Page(array('Live Restream'));
+$_page->setIncludeInHead(array('plugin/Live/view/Live_restreams_logs/index_head.phpp'));
+$_page->setIncludeInBody(array('plugin/Live/view/Live_restreams_logs/index_body.php'));
+$_page->print();
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Live</title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams_logs/index_head.php';
-        ?>
-    </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams_logs/index_body.php';
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-        <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
-    </body>
-</html>

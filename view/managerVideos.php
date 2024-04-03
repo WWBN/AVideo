@@ -19,24 +19,9 @@ if (!empty($_GET['iframe'])) {
     $_GET['noNavbar'] = 1;
 }
 
+$_page = new Page(array('Videos'));
+$_page->loadBasicCSSAndJS();
+$_page->setIncludeInHead(array('view/managerVideos_head.php'));
+include $global['systemRootPath'] . 'view/managerVideos_body.php';
+$_page->print();
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo __("Audio and Video") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        include $global['systemRootPath'] . 'view/managerVideos_head.php';
-        ?>
-    </head>
-
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        include $global['systemRootPath'] . 'view/managerVideos_body.php';
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-        <script src="<?php echo getCDN(); ?>view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-
-    </body>
-</html>

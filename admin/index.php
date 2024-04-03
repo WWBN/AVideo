@@ -189,197 +189,181 @@ switch ($_GET['page']) {
         $includeBody = $global['systemRootPath'] . 'view/charts_body.php';
         break;
 }
-?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <?php
-        echo getHTMLTitle(__("Administration"));
-        ?>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        if (!empty($includeHead) && file_exists($includeHead)) {
-            echo "<!-- Include $includeHead -->";
-            include $includeHead;
-            echo "<!-- END Include $includeHead -->";
-        }
-        ?>
-        <style>
-            @media (max-width: 767px) {
-                .affix {
-                    position: static;
-                }
-            }
-            .leftMenu .panel-body {
-                padding: 0px;
-            }
-            .adminLeftMenu.panel-default i, .adminLeftMenu.panel-default{
-                -webkit-transition: opacity 0.5s ease-in-out;
-                -moz-transition: opacity 0.5s ease-in-out;
-                transition: opacity 0.5s ease-in-out;
-            }
-            .adminLeftMenu.panel-default i{
-                opacity: 0.2;
-            }
-            .adminLeftMenu:hover.panel-default i{
-                opacity: 1;
-            }
-            .adminLeftMenu.panel-default{
-                opacity: 0.6;
-            }
-            .adminLeftMenu:hover.panel-default{
-                opacity: 1;
-            }
-        </style>
-    </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        ?>
 
-        <div class="container-fluid">
-            <br>
-            <div class="row">
-                <div class=" col-lg-2 col-md-3 col-sm-3 fixed affix leftMenu">
-                    <div class="panel-group" id="accordion">
-                        <?php
-                        $panel = 'panel-default';
-                        if (empty($_REQUEST['page'])) {
-                            $panel = 'panel-primary';
-                        }
-                        foreach ($itens as $key => $value) {
-                            $uid = uniqid();
-                            $href = 'data-toggle="collapse" data-parent="#accordion" href="#collapse' . $uid . '"';
-                            if (!empty($value->href)) {
-                                $href = 'href="' . $global['webSiteRootURL'] . 'admin/?page=' . $value->href . '"';
-                            }
-                            if (!empty($_REQUEST['page']) && $_REQUEST['page'] == $value->href) {
+$_page = new Page(array('Administration'));
+if (!empty($includeHead) && file_exists($includeHead)) {
+    $_page->setIncludeInHead(array($includeHead));
+}
+
+?>
+<style>
+@media (max-width: 767px) {
+    .affix {
+        position: static;
+    }
+}
+.leftMenu .panel-body {
+    padding: 0px;
+}
+.adminLeftMenu.panel-default i, .adminLeftMenu.panel-default{
+    -webkit-transition: opacity 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+}
+.adminLeftMenu.panel-default i{
+    opacity: 0.2;
+}
+.adminLeftMenu:hover.panel-default i{
+    opacity: 1;
+}
+.adminLeftMenu.panel-default{
+    opacity: 0.6;
+}
+.adminLeftMenu:hover.panel-default{
+    opacity: 1;
+}
+</style>
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class=" col-lg-2 col-md-3 col-sm-3 fixed affix leftMenu">
+            <div class="panel-group" id="accordion">
+                <?php
+                $panel = 'panel-default';
+                if (empty($_REQUEST['page'])) {
+                    $panel = 'panel-primary';
+                }
+                foreach ($itens as $key => $value) {
+                    $uid = uniqid();
+                    $href = 'data-toggle="collapse" data-parent="#accordion" href="#collapse' . $uid . '"';
+                    if (!empty($value->href)) {
+                        $href = 'href="' . $global['webSiteRootURL'] . 'admin/?page=' . $value->href . '"';
+                    }
+                    if (!empty($_REQUEST['page']) && $_REQUEST['page'] == $value->href) {
+                        $panel = 'panel-primary';
+                    } else {
+                        foreach ($value->itens as $key2 => $value2) {
+                            if (!empty($_REQUEST['page']) && $_REQUEST['page'] === $value2->href) {
                                 $panel = 'panel-primary';
-                            } else {
-                                foreach ($value->itens as $key2 => $value2) {
-                                    if (!empty($_REQUEST['page']) && $_REQUEST['page'] === $value2->href) {
-                                        $panel = 'panel-primary';
+                            }
+                        }
+                    } ?>
+                    <div class="panel <?php echo $panel; ?> adminLeftMenu <?php echo getCSSAnimationClassAndStyle('animate__bounceInLeft', 'menu'); ?>">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a <?php echo $href; ?>>
+                                    <i class="<?php echo $value->icon; ?> "></i> <?php echo $value->title; ?>
+                                </a>
+                            </h4>
+                        </div>
+                        <?php
+                        if (!empty($value->itens)) {
+                            $in = '';
+                            if (!empty($_GET['page'])) {
+                                foreach ($value->itens as $search) {
+                                    if ($_GET['page'] === $search->href) {
+                                        $in = "in";
+                                        break;
                                     }
                                 }
                             } ?>
-                            <div class="panel <?php echo $panel; ?> adminLeftMenu <?php echo getCSSAnimationClassAndStyle('animate__bounceInLeft', 'menu'); ?>">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a <?php echo $href; ?> >
-                                            <i class="<?php echo $value->icon; ?> "></i> <?php echo $value->title; ?>
-                                        </a>
-                                    </h4>
-                                </div>
-                                <?php
-                                if (!empty($value->itens)) {
-                                    $in = '';
-                                    if (!empty($_GET['page'])) {
-                                        foreach ($value->itens as $search) {
-                                            if ($_GET['page'] === $search->href) {
-                                                $in = "in";
-                                                break;
-                                            }
-                                        }
-                                    } ?>
-                                    <div id="collapse<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $in; ?>">
-                                        <div class="panel-body">
-                                            <table class="table">
-                                                <?php
-                                                $active = '';
-                                    if (empty($_GET['page'])) {
-                                        $active = "active";
-                                    }
-                                    foreach ($value->itens as $key2 => $value2) {
-                                        if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
+                            <div id="collapse<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $in; ?>">
+                                <div class="panel-body">
+                                    <table class="table">
+                                        <?php
+                                        $active = '';
+                                        if (empty($_GET['page'])) {
                                             $active = "active";
+                                        }
+                                        foreach ($value->itens as $key2 => $value2) {
+                                            if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
+                                                $active = "active";
+                                            } ?>
+                                            <tr>
+                                                <td class="<?php echo $active; ?>">
+                                                    <a href="<?php echo "{$global['webSiteRootURL']}admin/?page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                            $active = '';
                                         } ?>
-                                                    <tr>
-                                                        <td class="<?php echo $active; ?>">
-                                                            <a href="<?php echo "{$global['webSiteRootURL']}admin/?page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
-                                                        </td>
-                                                    </tr>
-                                                    <?php
-                                                    $active = '';
-                                    } ?>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <?php
-                                } ?>
-                            </div>
-                            <?php
-                            $panel = 'panel-default';
-                        }
-                        ?>
-                    </div>
-                </div>
-                <div class=" col-lg-10 col-md-9 col-sm-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-2 ">
-                    <?php
-                    if (!empty($includeBody)) {
-                        if (is_array($includeBody)) {
-                            foreach ($includeBody as $value) {
-                                if (file_exists($value)) {
-                                    include $value;
-                                } else {
-                                    ?>
-                                    <div class="alert alert-danger">
-                                        <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
-                                        <a class="btn btn-danger" href="https://youphp.tube/marketplace/"><?php echo __('Plugin Store'); ?></a>
-                                    </div>
-                                    <?php
-                                }
-                            }
-                        } else {
-                            if (file_exists($includeBody)) {
-                                include $includeBody;
-                            } else {
-                                ?>
-                                <div class="alert alert-danger">
-                                    <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
-                                    <a class="btn btn-danger" href="https://youphp.tube/marketplace/"><?php echo __('Plugin Store'); ?></a>
+                                    </table>
                                 </div>
-                                <?php
-                            }
-                        }
-                    }
-                    ?>
-                </div>
+                            </div>
+                        <?php
+                        } ?>
+                    </div>
+                <?php
+                    $panel = 'panel-default';
+                }
+                ?>
             </div>
         </div>
-
-
-        <?php
-        include_once $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-        <script>
-
-            $(document).ready(function () {
-                $('.adminOptionsForm').submit(function (e) {
-                    e.preventDefault();
-                    modal.showPleaseWait();
-                    $.ajax({
-                        url: webSiteRootURL+'admin/save.json.php',
-                        data: $(this).serialize(),
-                        type: 'post',
-                        success: function (response) {
-                            modal.hidePleaseWait();
+        <div class=" col-lg-10 col-md-9 col-sm-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-2 ">
+            <?php
+            if (!empty($includeBody)) {
+                if (is_array($includeBody)) {
+                    foreach ($includeBody as $value) {
+                        if (file_exists($value)) {
+                            include $value;
+                        } else {
+            ?>
+                            <div class="alert alert-danger">
+                                <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
+                                <a class="btn btn-danger" href="https://youphp.tube/marketplace/"><?php echo __('Plugin Store'); ?></a>
+                            </div>
+                        <?php
                         }
-                    });
-                });
-                $('.pluginSwitch').change(function (e) {
-                    modal.showPleaseWait();
-                    $.ajax({
-                        url: webSiteRootURL+'objects/pluginSwitch.json.php',
-                        data: {"uuid": $(this).attr('uuid'), "name": $(this).attr('name'), "dir": $(this).attr('name'), "enable": $(this).is(":checked")},
-                        type: 'post',
-                        success: function (response) {
-                            modal.hidePleaseWait();
-                        }
-                    });
-                });
-
-
+                    }
+                } else {
+                    if (file_exists($includeBody)) {
+                        include $includeBody;
+                    } else {
+                        ?>
+                        <div class="alert alert-danger">
+                            <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
+                            <a class="btn btn-danger" href="https://youphp.tube/marketplace/"><?php echo __('Plugin Store'); ?></a>
+                        </div>
+            <?php
+                    }
+                }
+            }
+            ?>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('.adminOptionsForm').submit(function(e) {
+            e.preventDefault();
+            modal.showPleaseWait();
+            $.ajax({
+                url: webSiteRootURL + 'admin/save.json.php',
+                data: $(this).serialize(),
+                type: 'post',
+                success: function(response) {
+                    modal.hidePleaseWait();
+                }
             });
-        </script>
-    </body>
-</html>
+        });
+        $('.pluginSwitch').change(function(e) {
+            modal.showPleaseWait();
+            $.ajax({
+                url: webSiteRootURL + 'objects/pluginSwitch.json.php',
+                data: {
+                    "uuid": $(this).attr('uuid'),
+                    "name": $(this).attr('name'),
+                    "dir": $(this).attr('name'),
+                    "enable": $(this).is(":checked")
+                },
+                type: 'post',
+                success: function(response) {
+                    modal.hidePleaseWait();
+                }
+            });
+        });
+    });
+</script>
+<?php
+$_page->print();
+?>

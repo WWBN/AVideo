@@ -14,6 +14,7 @@ class Page
     private $includeFooter = true;
     private $includeBGAnimation = false;
     private $includeInHead = array();
+    private $includeInBody = array();
     private $includeInFooter = array();
 
     public function __construct($title, $bodyClass = '', $loadBasicCSSAndJS = false)
@@ -92,6 +93,11 @@ class Page
         $this->includeInHead = $includeInHead;
     }
 
+    public function setIncludeInBody(array $includeInBody)
+    {
+        $this->includeInBody = $includeInBody;
+    }
+
     public function setIncludeInFooter(array $includeInFooter)
     {
         $this->includeInFooter = $includeInFooter;
@@ -117,7 +123,16 @@ class Page
         include $global['systemRootPath'] . 'view/include/head.php';
         if (!empty($this->includeInHead)) {
             foreach ($this->includeInHead as $value) {
-                include $global['systemRootPath'] . $value;
+                if(!empty($value)){
+                    if(!file_exists($value)){
+                        $value = $global['systemRootPath'] . $value;
+                    }
+                    if(file_exists($value)){
+                        include $value;
+                    }else{
+                        echo "<!-- Page::includeInHead not found {$value} -->";
+                    }
+                }
             }
         }
         if (!empty($this->extraStyles)) {
@@ -157,7 +172,16 @@ class Page
         }
         if (!empty($this->includeInFooter)) {
             foreach ($this->includeInFooter as $value) {
-                include $global['systemRootPath'] . $value;
+                if(!empty($value)){
+                    if(!file_exists($value)){
+                        $value = $global['systemRootPath'] . $value;
+                    }
+                    if(file_exists($value)){
+                        include $value;
+                    }else{
+                        echo "<!-- Page::includeInFooter not found {$value} -->";
+                    }
+                }
             }
         }
         if (!empty($this->extraScripts)) {
@@ -181,6 +205,20 @@ class Page
         $this->getNavBar();
         //echo '<div id="_avideoPageContentLoading" class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="sr-only">Loading...</span></div></div>';
         //echo '<div id="_avideoPageContent">';
+        if (!empty($this->includeInBody)) {
+            foreach ($this->includeInBody as $value) {
+                if(!empty($value)){
+                    if(!file_exists($value)){
+                        $value = $global['systemRootPath'] . $value;
+                    }
+                    if(file_exists($value)){
+                        include $value;
+                    }else{
+                        echo "<!-- Page::includeInBody not found {$value} -->";
+                    }
+                }
+            }
+        }
         echo $this->bodyContent;
         //echo '</div>';
         $this->getFooter();
@@ -206,5 +244,31 @@ class Page
         if ($include_end) {
             include $global['systemRootPath'] . 'objects/include_end.php';
         }
+    }
+
+    public function printEditorIndex($plugin, $classname)
+    {
+        $this->loadBasicCSSAndJS();
+        $this->setIncludeInHead(array("plugin/{$plugin}/View/{$classname}/index_head.php"));
+        $this->setIncludeInBody(array("plugin/{$plugin}/View/{$classname}/index_body.php"));
+        $this->print();
+    }
+
+    public function printEditorIndexFromFile($file)
+    {
+        global $config, $global;
+        $file = str_replace($global['systemRootPath'], '', $file);
+        $title = str_replace('/index.php', '', $file);
+        $parts = explode('/View/', $title);
+        $title = $parts[1];
+        $title = ucwords(str_replace('_', ' ', $title));
+        $this->setTitle($title);
+        $head = str_replace('index.php', 'index_head.php', $file);
+        $body = str_replace('index.php', 'index_body.php', $file);
+        //var_dump($title, $file, $head, $body);exit;
+        $this->loadBasicCSSAndJS();
+        $this->setIncludeInHead(array($head));
+        $this->setIncludeInBody(array($body));
+        $this->print();
     }
 }

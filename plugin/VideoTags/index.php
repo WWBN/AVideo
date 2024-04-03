@@ -7,21 +7,8 @@ if (!User::isAdmin()) {
     forbiddenPage("You can not do this");
     exit;
 }
-
+$_page = new Page(array('Tags'));
+include $global['systemRootPath'] . 'plugin/VideoTags/index_body.php';
+$_page->print();
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo __("Tags") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-    </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        include $global['systemRootPath'] . 'plugin/VideoTags/index_body.php';
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-    </body>
-</html>
+

@@ -5482,6 +5482,10 @@ function getHTMLTitle($titleArray)
 {
     global $config, $global;
 
+    if(!empty($_REQUEST['catName'])){
+        $cat = Category::getCategoryByName($_REQUEST['catName']);
+        $titleArray[] = $cat['name'];
+    }
     if (!is_array($titleArray)) {
         $titleArray = [];
     }

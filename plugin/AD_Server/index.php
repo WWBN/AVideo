@@ -7,24 +7,8 @@ if (!User::isAdmin()) {
     forbiddenPage("You can not do this");
     exit;
 }
-
+$_page = new Page(array('VAST'));
+$_page->setIncludeInHead(array('plugin/AD_Server/index_head.php'));
+$_page->setIncludeInBody(array('plugin/AD_Server/index_body.php'));
+$_page->print();
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <?php
-        echo getHTMLTitle(__("VAST"));
-        ?>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        include $global['systemRootPath'] . 'plugin/AD_Server/index_head.php';
-        ?>
-    </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        include $global['systemRootPath'] . 'plugin/AD_Server/index_body.php';
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-    </body>
-</html>

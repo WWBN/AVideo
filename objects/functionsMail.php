@@ -222,6 +222,7 @@ function createEmailMessageFromTemplate($message)
 
     global $global, $config;
     $text = file_get_contents("{$global['systemRootPath']}view/include/emailTemplate.html");
+    $config = new AVideoConf();
     $siteTitle = $config->getWebSiteTitle();
     $logo = "<img src=\"" . getURL($config->getLogo()) . "\" alt=\"{$siteTitle}\"/>";
 
