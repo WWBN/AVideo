@@ -2175,9 +2175,10 @@ function verify($url)
             file_put_contents($cacheFile, $result);
         }
     } else {
-        if (!file_exists($cacheFile)) {
-            _error_log("Verification GetFrom Cache  !file_exists($cacheFile)");
+        if (file_exists($cacheFile)) {
+            _error_log("Verification GetFrom Cache file_exists($cacheFile)");
         }
+        _error_log("Verification GetFrom Cache  (time()=".time()." > (filemtime($cacheFile)=".filemtime($cacheFile)." + $lifetime)");
         $filemtime = filemtime($cacheFile);
         $time = time();
         if ($time > ($filemtime + $lifetime)) {
@@ -2186,10 +2187,11 @@ function verify($url)
         _error_log("Verification GetFrom Cache $cacheFile");
         $result = file_get_contents($cacheFile);
         if ($result === 'Invalid URL') {
+            _error_log("Verification Invalid URL unlink ($cacheFile)");
             unlink($cacheFile);
         }
     }
-    _error_log("Verification Response ($verifyURL): {$result}");
+    _error_log("Verification Response ($verifyURL): result={$result}");
     return json_decode($result);
 }
 
