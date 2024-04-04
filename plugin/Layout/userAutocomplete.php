@@ -103,7 +103,7 @@ if (empty($name)) {
                 return false;
             }
         }).autocomplete("instance")._renderItem = function(ul, item) {
-            console.log('userautocomplete', item);
+            console.log('userautocomplete', item.creator, ul);
             return $("<li>").append("<div> " + item.creator + "</div>").appendTo(ul);
         };
     });
