@@ -229,3 +229,6 @@ $_page = new Page(array('Upload Poster'));
         });
     });
 </script>
+<?php
+$_page->print();
+?>

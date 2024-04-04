@@ -29,8 +29,8 @@ class PlayerSkins extends PluginAbstract
         }
         $desc .= $desc . "<code>" . implode("</code> or <code>", $names) . "</code>";
 
-        $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/epg.php';
-        $desc .= "<br>crontab for auto generate cache for EPG links <code>0 * * * * php {$dir}</code>";
+        //$dir = $global['systemRootPath'] . 'plugin/PlayerSkins/epg.php';
+        //$desc .= "<br>crontab for auto generate cache for EPG links <code>0 * * * * php {$dir}</code>";
 
         return $desc;
     }
@@ -84,6 +84,8 @@ class PlayerSkins extends PluginAbstract
         $obj->hideButtonFromPlayerIfIsSmallSeek = true;
         $obj->hideButtonFromPlayerIfIsSmallLoop = true;
         $obj->hideButtonFromPlayerIfIsSmallAutoplay = true;
+
+        $obj->autoGenerateAndCacheEPG = false;
 
         return $obj;
     }
@@ -854,5 +856,14 @@ class PlayerSkins extends PluginAbstract
     {
         global $global;
         include $global['systemRootPath'] . 'plugin/PlayerSkins/actionButtonGallery.php';
+    }
+
+    function executeEveryHour()
+    {
+        global $global;
+        $obj = AVideoPlugin::getObjectData('PlayerSkins');
+        if($obj->autoGenerateAndCacheEPG){
+            include "{$global['systemRootPath']}plugin/PlayerSkins/epg.php";
+        }
     }
 }
