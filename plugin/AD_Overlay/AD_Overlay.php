@@ -126,7 +126,7 @@ class AD_Overlay extends PluginAbstract
     margin-left:-5px;
     overflow: hidden;
 
-}</style>';
+} .vjs-playing.vjs-user-inactive .vjs-overlay{bottom: 0.5em;}</style>';
         return $css;
     }
 
