@@ -328,10 +328,11 @@ if (typeof gtag !== \"function\") {
 
     static function getCookieUsersId()
     {
-        if (empty($_COOKIE['users_id'])) {
+        $userCookie = User::getUserCookieCredentials();
+        if (empty($userCookie)) {
             return 0;
         } else {
-            return intval($_COOKIE['users_id']);
+            return intval($userCookie->users_id);
         }
     }
 
@@ -1130,7 +1131,9 @@ if (typeof gtag !== \"function\") {
     public const SYSTEM_ERROR = 5;
 
     public function login($noPass = false, $encodedPass = false, $ignoreEmailVerification = false)
-    {
+    {        
+        global $global, $advancedCustom, $advancedCustomUser, $config;
+        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         if (!class_exists('AVideoPlugin')) {
             _error_log("ERROR login($noPass, $encodedPass, $ignoreEmailVerification) " . json_encode(debug_backtrace()));
             return self::SYSTEM_ERROR;
@@ -1139,7 +1142,6 @@ if (typeof gtag !== \"function\") {
             //_error_log('User:login is already logged '.json_encode($_SESSION['user']['id']));
             return self::USER_LOGGED;
         }
-        global $global, $advancedCustom, $advancedCustomUser, $config;
         if (class_exists('AVideoPlugin')) {
             if (empty($advancedCustomUser)) {
                 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
@@ -1186,10 +1188,8 @@ if (typeof gtag !== \"function\") {
                 $expires = 0;
                 $passhash = self::getUserHash($user['id'], $valid);
             }
-            _setcookie("rememberme", $rememberme, $expires);
-            _setcookie("users_id", $user['id'], $expires);
-            _setcookie("user", $user['user'], $expires);
-            _setcookie("pass", $passhash, $expires);
+
+            self::setUserCookie($rememberme, $user['id'], $user['user'], $passhash, $expires);
 
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
@@ -1202,6 +1202,46 @@ if (typeof gtag !== \"function\") {
             unset($_SESSION['user']);
             return self::USER_NOT_FOUND;
         }
+    }
+
+    static function setUserCookie($rememberme, $users_id, $user, $pass, $expires){
+        //_error_log("setUserCookie rememberme=$rememberme users_id={$users_id}");
+        if(!empty($rememberme)){
+            self::setUserCookieCredentials($users_id, $user, $pass, $expires);
+        }
+    }
+
+    static function setUserCookieCredentials($users_id, $user, $pass, $expires){
+        $array = self::getUserCookieCredentials();
+        if(!empty($array->users_id)){
+            _error_log("setUserCookieCredentials there is already a cookie");
+            if($array->users_id == $users_id){
+                _error_log("setUserCookieCredentials there is already a cookie and is the same user");
+                return true;
+            }
+        }
+        $array = array('users_id'=>$users_id,'user'=>$user,'pass'=>$pass,'ip'=>getRealIpAddr());
+        $cookieValue = encryptString(json_encode($array));
+        _setcookie("credentials", $cookieValue, $expires);
+        _error_log("setUserCookieCredentials credentials set");
+    }
+
+    static function getUserCookieCredentials(){
+        $array = false;
+        if(!empty($_COOKIE['credentials'])){
+           $string = decryptString($_COOKIE['credentials']);
+           $array = json_decode($string);
+           if($array->ip !== getRealIpAddr()){
+                _error_log("getUserCookieCredentials ip does not match {$array->ip}");
+                return false;
+           }
+        }
+        return $array;
+    }
+
+    static function unsetUserCookie(){
+        _error_log("unsetUserCookie _unsetcookie('credentials') ".json_encode(debug_backtrace()));
+        _unsetcookie('credentials');
     }
 
     public static function isCaptchaNeed()
@@ -1279,10 +1319,7 @@ if (typeof gtag !== \"function\") {
         $justLogoff = true;
         $isLogged = false;
         _session_start();
-        _unsetcookie('rememberme');
-        _unsetcookie('user');
-        _unsetcookie('pass');
-        _unsetcookie('users_id');
+        self::unsetUserCookie();
         //session_regenerate_id(true);
         ObjectYPT::deleteAllSessionCache();
         unset($_SESSION['user']);
@@ -1305,37 +1342,44 @@ if (typeof gtag !== \"function\") {
 
     private static function recreateLoginFromCookie()
     {
+        //var_dump($_COOKIE['credentials']);exit;
+        //var_dump($_COOKIE);exit;
         global $justLogoff, $justTryToRecreateLoginFromCookie;
         _session_start();
         if (empty($justTryToRecreateLoginFromCookie) && empty($justLogoff) && empty($_SESSION['user']['id'])) {
+            //var_dump($_COOKIE);exit;
             $justTryToRecreateLoginFromCookie = 1;
 
             // first check if the LoginControl::singleDeviceLogin is enabled, if it is only recreate login if the device is the last device
             if (class_exists('AVideoPlugin') && $obj = AVideoPlugin::getDataObjectIfEnabled("LoginControl")) {
                 if (!empty($obj->singleDeviceLogin)) {
                     if (!LoginControl::isLoggedFromSameDevice()) {
-                        //_error_log("user::recreateLoginFromCookie: LoginControl and the last logged device is different: " . $_COOKIE['user'] . "");
                         self::logoff();
                         return false;
                     }
                 }
             }
-            if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass'])) && (!empty($_COOKIE['rememberme']))) {
-                $user = new User(0, $_COOKIE['user'], false);
-                $user->setPassword($_COOKIE['pass'], true);
-                //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
+            $userCookie = User::getUserCookieCredentials();
+            if ((!empty($userCookie))) {
+                $_REQUEST['rememberme'] = 1;
+                _error_log("user::recreateLoginFromCookie: user cookie found: {$userCookie->user} result: ");
+                $user = new User(0, $userCookie->user, false);
+                $user->setPassword($userCookie->pass, true);
                 $resp = $user->login(false, true);
-
-                if ($user->id != $_COOKIE['users_id']) {
-                    _error_log("user::recreateLoginFromCookie: do logoff because the cookie users_id does not match: " . $_COOKIE['user'] . "   result: " . $resp);
+                _error_log("user::recreateLoginFromCookie: resp=$resp");
+                
+                $userCookie = User::getUserCookieCredentials();
+                if (!empty($userCookie) && $user->id != $userCookie->users_id) {
+                    _error_log("user::recreateLoginFromCookie: do logoff because the cookie users_id does not match: {$userCookie->user} result: " . $resp);
                     self::logoff();
                 } else {
-                    //_error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   result: " $resp);
-                    if (0 == $resp) {
-                        _error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   id: " . $_SESSION['user']['id']);
+                    if (User::USER_LOGGED == $resp) {
+                        _error_log("user::recreateLoginFromCookie: do cookie-login: {$userCookie->user} id: " . $_SESSION['user']['id']);
                     } else {
-                        //_error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   result: " . $resp);
-                        self::logoff();
+                        _error_log("user::recreateLoginFromCookie: do cookie-login: user={$userCookie->user} pass={$userCookie->pass} login does not match resp=$resp");
+                        if($resp != User::SYSTEM_ERROR){
+                            self::logoff();
+                        }
                     }
                 }
             }

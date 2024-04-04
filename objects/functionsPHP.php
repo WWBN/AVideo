@@ -92,6 +92,9 @@ function _ob_get_clean()
 
 function _setcookie($cookieName, $value, $expires = 0)
 {
+    if($cookieName === 'pass'){
+        _error_log('_setcookie pass changed '.$value);
+    }
     global $config, $global;
     if (empty($expires)) {
         if (empty($config) || !is_object($config)) {

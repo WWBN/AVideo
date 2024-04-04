@@ -6,7 +6,8 @@ if (!empty($advancedCustomUser->signInOnRight)) {
             <li>
                 <a class="btn navbar-btn btn-default" href="#" onclick="avideoLogoff(true);" >
                     <?php
-                    if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
+                    $userCookie = User::getUserCookieCredentials();
+                    if ((!empty($userCookie))) {
                         ?>
                         <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
                         <?php
