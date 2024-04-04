@@ -29,15 +29,15 @@ class MaintenanceMode extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "2.0";
     }
 
     public function getStart() {
         global $global, $config;
         if ($this->shouldEnterInMaintenencaMode()) {
             header('HTTP/1.0 403 Forbidden');
+            $obj = $this->getDataObject();
             if (isContentTypeJson()) {
-                $obj = $this->getDataObject();
                 header("Content-Type: application/json");
                 $resp = new stdClass();
                 $resp->error = true;
@@ -71,7 +71,8 @@ class MaintenanceMode extends PluginAbstract {
         $forbidden = array(
             $global['systemRootPath'] . 'view' . DIRECTORY_SEPARATOR . 'index.php',
             $global['systemRootPath'] . 'view' . DIRECTORY_SEPARATOR . 'channels.php',
-            $global['systemRootPath'] . 'view' . DIRECTORY_SEPARATOR . 'channel.php'
+            $global['systemRootPath'] . 'view' . DIRECTORY_SEPARATOR . 'channel.php',
+            $global['systemRootPath'] . 'view' . DIRECTORY_SEPARATOR . 'trending.php'
         );
         $SCRIPT_FILENAME = str_replace('/', DIRECTORY_SEPARATOR, $_SERVER["SCRIPT_FILENAME"]);
         //var_dump($SCRIPT_FILENAME, $forbidden);exit;
