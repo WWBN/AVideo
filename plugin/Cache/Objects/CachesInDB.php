@@ -235,6 +235,9 @@ class CachesInDB extends ObjectYPT
     }
     
     public static function setBulkCache($cacheArray, $metadata, $batchSize = 50) {
+        if(isBot()){
+            return false;
+        }
         if (empty($cacheArray)) {
             return false;
         }
@@ -294,6 +297,9 @@ class CachesInDB extends ObjectYPT
 
     public static function _deleteCache($name)
     {
+        if(isBot()){
+            return false;
+        }
         global $global;
         if (empty($name)) {
             return false;
@@ -327,6 +333,9 @@ class CachesInDB extends ObjectYPT
 
     public static function _deleteCacheStartingWith($name)
     {
+        if(isBot()){
+            return false;
+        }
         global $global;
         if (empty($name)) {
             return false;
@@ -350,6 +359,9 @@ class CachesInDB extends ObjectYPT
     
     public static function _deleteCacheWith($name)
     {
+        if(isBot()){
+            return false;
+        }
         global $global;
         if (empty($name)) {
             return false;
@@ -372,6 +384,9 @@ class CachesInDB extends ObjectYPT
 
     public static function _deleteAllCache()
     {
+        if(isBot()){
+            return false;
+        }
         global $global;
         if (!static::isTableInstalled()) {
             return false;
