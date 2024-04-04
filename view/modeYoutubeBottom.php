@@ -3,9 +3,10 @@ if (empty($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
-if((empty($video) || !is_array($video)) && !empty($_GET['videos_id'])){
-    $video = Video::getVideo(intval($_GET['videos_id']), Video::SORT_TYPE_VIEWABLE, true, false, true, true);
-}
+
+$videos_id = getVideos_id();
+$video = Video::getVideoLight($videos_id);
+//var_dump($video['filename']);exit;
 if (is_array($video)) {
     $html = '';
     //var_dump(__LINE__, !empty($advancedCustom->showCreationTimeOnVideoItem));exit;

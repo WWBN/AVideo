@@ -431,10 +431,12 @@ class VideoTags extends PluginAbstract {
         $get = $_GET;
         unset($_GET);
         $types = TagsTypes::getAll();
+        //var_dump($videos_id,  $types);
         $obj = AVideoPlugin::getDataObject('VideoTags');
         $tagsStrList = array();
         foreach ($types as $type) {
             $tags = TagsHasVideos::getAllFromVideosIdAndTagsTypesId($videos_id, $type['id']);
+            //var_dump($tags);
             $strT = "";
             foreach ($tags as $value) {
                 if (empty($value['name']) || $value['name'] === '-') {
@@ -455,6 +457,7 @@ class VideoTags extends PluginAbstract {
                 $tagsStrList[] = "{$label}{$strT}";
             }
         }
+        //exit;
         $_POST = $post;
         $_GET = $get;
 

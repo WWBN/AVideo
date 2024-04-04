@@ -162,6 +162,7 @@ class TagsHasVideos extends ObjectYPT {
         }
         $sql = "SELECT t.*, tv.* FROM  " . static::getTableName() . " tv LEFT JOIN tags as t ON tags_id = t.id WHERE tags_types_id = ? AND videos_id=? ";
         $res = sqlDAL::readSql($sql, "ii", array($tags_types_id, $videos_id));
+        //var_dump($sql, $tags_types_id, $videos_id);
         $fullData = sqlDAL::fetchAllAssoc($res);
 
         sqlDAL::close($res);
