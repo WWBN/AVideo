@@ -277,7 +277,7 @@ class CachesInDB extends ObjectYPT
                 mysqlCommit();
             } catch (\Throwable $th) {
                 mysqlRollback();
-                _error_log($th->getMessage() . ' '.$sql, AVideoLog::$ERROR);
+                _error_log($th->getMessage() . " name={$name} ".$sql, AVideoLog::$ERROR);
                 //return false;
             }
         }
