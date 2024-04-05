@@ -285,12 +285,3 @@ function isBot($returnTrueIfNoUserAgent=true)
     }
     return $_isBot;
 }
-
-function stopIfIsHeadRequest(){
-    if ($_SERVER['REQUEST_METHOD'] === 'HEAD') {
-        // Optionally, you can send a specific status code or header before exiting
-        http_response_code(200); // Set response code if needed
-        _error_log('stopIfIsHeadRequest '.$_SERVER['HTTP_USER_AGENT']);
-        die();
-    }
-}

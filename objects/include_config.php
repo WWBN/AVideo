@@ -2,6 +2,17 @@
 if (!isset($global['skippPlugins'])) {
     $global['skippPlugins'] = array();
 }
+
+
+if (!empty($global['stopHeadRequests'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'HEAD') {
+        // Optionally, you can send a specific status code or header before exiting
+        http_response_code(200); // Set response code if needed
+        _error_log('stopIfIsHeadRequest '.$_SERVER['HTTP_USER_AGENT']);
+        die();
+    }
+}
+
 /**
  * Global variables.
  *
