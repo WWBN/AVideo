@@ -4358,13 +4358,15 @@ class LiveStreamObject
     private $live_servers_id;
     private $live_index;
     private $playlists_id_live;
+    private $live_schedule;
 
-    public function __construct($key, $live_servers_id = 0, $live_index = 0, $playlists_id_live = 0)
+    public function __construct($key, $live_servers_id = 0, $live_index = 0, $playlists_id_live = 0, $live_schedule = 0)
     {
         $this->key = $key;
         $this->live_servers_id = intval($live_servers_id);
         $this->live_index = $live_index;
         $this->playlists_id_live = intval($playlists_id_live);
+        $this->live_schedule = intval($live_schedule);
         $parts = Live::getLiveParametersFromKey($this->key);
         $objLive = AVideoPlugin::getDataObject("Live");
         if (empty($live_servers_id) && !empty($objLive->useLiveServers)) {
@@ -4455,6 +4457,10 @@ class LiveStreamObject
         }
 
         $url = "{$global['webSiteRootURL']}live/{$this->live_servers_id}/" . urlencode($channelName);
+
+        if (!empty($this->live_schedule)) {
+            $url .= "/ls/{$this->live_schedule}";
+        }
 
         if (!empty($this->live_index)) {
             $url .= '/' . urlencode($this->live_index);

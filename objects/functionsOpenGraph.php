@@ -361,7 +361,7 @@ function getOpenGraphLiveSchedule($live_schedule_id)
     $description = '';
     $duration_in_seconds = 0;
     $poster = Live_schedule::getPosterURL($live_schedule_id);
-    $liveStreamObject = new LiveStreamObject($liveS->getKey(), $liveS->getLive_servers_id(), 0, 0);
+    $liveStreamObject = new LiveStreamObject($liveS->getKey(), $liveS->getLive_servers_id(), 0, 0, @$_REQUEST['live_schedule']);
     $sourceFileURL = $liveStreamObject->getM3U8(true);
     $pageURL = $liveStreamObject->getURL();
     $pageURLEmbed = $liveStreamObject->getURLEmbed();
