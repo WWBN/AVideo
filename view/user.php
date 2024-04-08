@@ -17,17 +17,16 @@ if (User::isLogged()) {
     $_page->setExtraScripts(
         array(
             'node_modules/croppie/croppie.min.js',
-            'view/js/bootstrap-fileinput/js/fileinput.min.js'
         )
     );
     $_page->setExtraStyles(
         array(
             'node_modules/croppie/croppie.css',
-            'view/js/bootstrap-fileinput/css/fileinput.min.css',
             'view/css/bodyFadein.css'
         )
     );
 }
+include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
 ?>
 
 <div class="container-fluid">

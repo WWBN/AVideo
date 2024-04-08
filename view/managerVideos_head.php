@@ -10,10 +10,9 @@ if (!empty($_GET['video_id'])) {
         $row = Video::getVideo($_GET['video_id'], "");
     }
 }
+include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
 ?>
 <link href="<?php echo getURL('view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css" />
-<link href="<?php echo getURL('view/js/bootstrap-fileinput/css/fileinput.min.css'); ?>" rel="stylesheet" type="text/css" />
-<script src="<?php echo getURL('view/js/bootstrap-fileinput/js/fileinput.min.js'); ?>" type="text/javascript"></script>
 <link href="<?php echo getURL('view/mini-upload-form/assets/css/style.css'); ?>" rel="stylesheet" />
 <?php
 if (AVideoPlugin::isEnabledByName("VideoTags")) {

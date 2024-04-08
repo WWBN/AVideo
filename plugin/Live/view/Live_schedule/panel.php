@@ -5,11 +5,6 @@ if (!User::canStream()) {
 $objScheduleLive = AVideoPlugin::getObjectData("Live");
 global $Schedulecount;
 ?>
-<script src="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
-<link href="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css" />
-<script src="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/themes/fa/theme.min.js" type="text/javascript"></script>
-<link href="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/themes/explorer/theme.min.css" rel="stylesheet" type="text/css" />
-<script src="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/themes/explorer/theme.min.js" type="text/javascript"></script>
 <link href="<?php echo getURL('view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css" />
 <div class="panel panel-default">
     <div class="panel-heading">

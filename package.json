@@ -4,6 +4,7 @@
     "@silvermine/videojs-chromecast": "^1.5.0",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.3",
+    "bootstrap-fileinput": "^5.5.3",
     "chart.js": "^4.4.2",
     "codemirror": "^6.0.1",
     "croppie": "^2.6.5",

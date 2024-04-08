@@ -963,6 +963,56 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         videoUploaded = true;
     }
 
+    function createFileInput(selector, row, type) {
+        var videos_id = row.id;
+        var filename = row.filename;
+        var uploadUrl = webSiteRootURL + "objects/uploadPoster.php";
+        var suffix = '.' + type;
+        if (type === 'pjpg') {
+            suffix = '_portrait.jpg';
+        } else if (type === 'pgif') {
+            suffix = '_portrait.gif';
+        }
+        var initialPreview = "<img style='height:160px' src='" + webSiteRootURL + "videos/" + filename + "/" + filename + suffix + "'>";
+        uploadUrl = addQueryStringParameter(uploadUrl, 'video_id', videos_id);
+        uploadUrl = addQueryStringParameter(uploadUrl, 'type', type);
+        $(selector).fileinput({
+            maxFileCount: 1,
+            uploadUrl: uploadUrl,
+            theme: 'fa6',
+            initialPreview: [initialPreview],
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            allowedFileExtensions: ["jpg", "jpeg", "png", "bmp"],
+        }).on('fileuploaderror', function(event, data, msg) {
+            avideoAlertError(data.response.msg);
+            console.log('fileuploaderror', data, msg);
+        }).on('filebatchuploaderror', function(event, preview, config, tags, extraData) {
+            // Handle file batch upload error
+            avideoAlertError(data.response.msg);
+            console.log('filebatchuploaderror', preview, config, tags, extraData);
+        }).on('fileerror', function(event, data, previewId, index, fileId) {
+            // Handle file error
+            avideoAlertError(data.response.msg);
+            modal.hidePleaseWait();
+        }).on('fileuploaded', function(event, data, previewId, index, fileId) {
+            // Handle file uploaded successfully
+            console.log('fileuploaded', data, previewId, index, fileId);
+
+            // Check if there is a non-empty response from the server and it indicates an error
+            if (data.response && data.response.msg) {
+                // Display red alert below the image with the response message
+                avideoAlertError(data.response.msg);
+            } else {
+                // Hide any previous error alerts
+                // (Assuming avideoAlertError() handles the display of alerts and has a method to clear/hide alerts)
+                // avideoAlertClear(); // Example function to clear alerts, replace it with your implementation
+            }
+        });
+
+    }
+
     function reloadFileInput(row) {
         if (!row || typeof row === 'undefined') {
             row = {
@@ -983,112 +1033,16 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         }
         */
         $('#input-jpg, #input-gif, #input-pjpg, #input-pgif, #input-webp').fileinput('destroy');
-        var initialPreview1 = "<img style='height:160px' src='" + webSiteRootURL + "videos/" + row.filename + "/" + row.filename + ".jpg'>";
-        console.log('reloadFileInput', initialPreview1, row);
         console.trace();
-        $("#input-jpg").fileinput({
-            uploadUrl: webSiteRootURL+"objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                initialPreview1,
-            ],
-            initialCaption: row.clean_title + '.jpg',
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: {
-                actionDelete: ''
-            }, // disable thumbnail deletion
-            allowedFileExtensions: ["jpg", "jpeg", "png", "bmp"],
-            dropZone: null,
-            pasteZone: null
-        });
-        $("#input-pjpg").fileinput({
-            uploadUrl: webSiteRootURL+"objects/uploadPoster.php?video_id=" + row.id + "&type=pjpg",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                "<img style='height:160px' src='" + webSiteRootURL + "videos/" + row.filename + "/" + row.filename + "_portrait.jpg'>",
-            ],
-            initialCaption: row.clean_title + '_portrait.jpg',
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: {
-                actionDelete: ''
-            }, // disable thumbnail deletion
-            allowedFileExtensions: ["jpg", "jpeg", "png", "bmp"],
-            dropZone: null,
-            pasteZone: null
-        });
-        $("#input-gif").fileinput({
-            uploadUrl: webSiteRootURL+"objects/uploadPoster.php?video_id=" + row.id + "&type=gif",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                "<img style='height:160px' src='" + webSiteRootURL + "videos/" + row.filename + "/" + row.filename + ".gif'>",
-            ],
-            initialCaption: row.clean_title + '.gif',
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: {
-                actionDelete: ''
-            }, // disable thumbnail deletion
-            allowedFileExtensions: ["gif"],
-            dropZone: null,
-            pasteZone: null
-        });
-        $("#input-pgif").fileinput({
-            uploadUrl: webSiteRootURL + "objects/uploadPoster.php?video_id=" + row.id + "&type=pgif",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                "<img style='height:160px' src='" + webSiteRootURL + "videos/" + row.filename + "/" + row.filename + "_portrait.gif'>",
-            ],
-            initialCaption: row.clean_title + '_portrait.gif',
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: {
-                actionDelete: ''
-            }, // disable thumbnail deletion
-            allowedFileExtensions: ["gif"],
-            dropZone: null,
-            pasteZone: null
-        });
-        $("#input-webp").fileinput({
-            uploadUrl: webSiteRootURL + "objects/uploadPoster.php?video_id=" + row.id + "&type=webp",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                "<img style='height:160px' src='" + webSiteRootURL + "videos/" + row.filename + "/" + row.filename + ".webp'>",
-            ],
-            initialCaption: row.clean_title + '.webp',
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: {
-                actionDelete: ''
-            }, // disable thumbnail deletion
-            allowedFileExtensions: ["webp"],
-            dropZone: null,
-            pasteZone: null
-        });
+        createFileInput("#input-jpg", row, 'jpg');
+        createFileInput("#input-gif", row, 'gif');
+        createFileInput("#input-pjpg", row, 'pjpg');
+        createFileInput("#input-pgif", row, 'pgif');
+        createFileInput("#input-webp", row, 'webp');
     }
 
     var modalSaveVideo;
+
     function saveVideo(closeModal) {
         if (waitToSubmit) {
             return false;
@@ -1105,7 +1059,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         if (isPublic) {
             selectedVideoGroups = [];
         }
-        if(typeof modalSaveVideo === 'undefined'){
+        if (typeof modalSaveVideo === 'undefined') {
             modalSaveVideo = getPleaseWait();
         }
         modalSaveVideo.showPleaseWait();
@@ -1191,7 +1145,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             echo "$('body').removeClass('edit_{$videoType}');";
         }
         ?>
-        
+
         $('body').removeClass('edit_directUpload');
         $('body').removeClass('is_editing');
     }
@@ -1214,14 +1168,14 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#videoLink').val('');
         $('#epg_link').val('');
 
-        
+
         $('#inputShortSummary').val('');
         $('#inputMetaDescription').val('');
         $('#redirectVideoURL').val('');
         $('#redirectVideoCode').val('0');
         $('#releaseDate').val('now');
         $('#releaseDateTime').val('');
-        
+
 
         if (typeof tinymce === 'object' && tinymce.get('inputDescription')) {
             tinymce.get('inputDescription').setContent('');

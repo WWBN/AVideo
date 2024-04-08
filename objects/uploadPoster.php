@@ -81,7 +81,8 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         Video::clearCache($obj->videos_id, true);
         $obj->clearFirstPageCache = clearFirstPageCache();
         $obj->error = false;
-        echo "{}";
+        //die(json_encode($obj));
+        echo '{}';
         exit;
     } else {
         $obj->msg = "Video Not found";

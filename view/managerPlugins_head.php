@@ -9,12 +9,8 @@ if (!User::isAdmin()) {
     exit;
 }
 require_once $global['systemRootPath'] . 'objects/plugin.php';
+include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
 ?>
-<script src="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
-<link href="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
-<script src="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/themes/fa/theme.min.js" type="text/javascript"></script>
-<link href="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/themes/explorer/theme.min.css" rel="stylesheet" type="text/css"/>
-<script src="<?php echo getCDN(); ?>view/bootstrap/bootstrap-fileinput/themes/explorer/theme.min.js" type="text/javascript"></script>
 <style>
     .panel:hover { box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4), 0 1px 5px rgba(130, 130, 130, 0.35); }
     .panel-body
