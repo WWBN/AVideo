@@ -32,7 +32,7 @@ if (!empty($_GET['u'])) {
     //var_dump($livet['key'],$live_index, $_GET['live_index']);exit;
     $info = Live::getInfo($livet['key'], $live_servers_id, $live_index, '', false);
     //var_dump($livet['key'],$live_index, $info);exit;
-    if (!$info['isLive'] && (empty($info['live_schedule_id']) || empty($_REQUEST['live_schedule'])) && empty($_REQUEST['justRedirected'])) {
+    if (!isBot() && !$info['isLive'] && (empty($info['live_schedule_id']) || empty($_REQUEST['live_schedule'])) && empty($_REQUEST['justRedirected'])) {
         if (!empty($info['otherLivesSameUser'])) {
             $link = LiveTransmitionHistory::getLinkToLive($info['otherLivesSameUser'][0]['id']);
             $link = addQueryStringParameter($link, 'justRedirected', 1);
@@ -115,16 +115,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
 $global['doNotLoadPlayer'] = 1;
 
 $_page = new Page(array('Live'));
-$_page->setExtraScripts(
-    array(
-        'view/js/bootstrap-fileinput/js/fileinput.min.js',
-    )
-);
-$_page->setExtraStyles(
-    array(
-        'view/js/bootstrap-fileinput/css/fileinput.min.css',
-    )
-);
+include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
 ?>
 <div class="container-fluid">
 
