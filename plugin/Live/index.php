@@ -39,7 +39,8 @@ if (!empty($_GET['u'])) {
             $link = addQueryStringParameter($link, 'return_line', $info['return_line']);
             //var_dump($link, $info['otherLivesSameUser'][0]);exit;
             //var_dump($link,$info['users_id'], $info['otherLivesSameUser']);exit;
-            header("Location: {$link}");
+            _error_log("Redirecting to {$link}");
+            header("Location: {$link} info=".json_encode($info).' $_REQUEST='.json_encode($_REQUEST));
             exit;
             /*
             if (count($info['otherLivesSameUser']) == 1) {
