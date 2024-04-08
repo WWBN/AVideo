@@ -172,13 +172,17 @@ if ($return_val !== 0) {
 
 $lines = file($sqlFile);
 //$global['mysqli']->query("SET SESSION sql_mode = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'");
-$global['mysqli']->query("SET SESSION OLD_CHARACTER_SET_CLIENT = 'utf8';");
+//$global['mysqli']->query("SET SESSION OLD_CHARACTER_SET_CLIENT = 'utf8';");
 // Loop through each line
 $templine = '';
 foreach ($lines as $line) {
-    // Skip it if it's a comment
-    if (substr($line, 0, 2) == '--' || $line == '')
+    if (strpos($line, 'CHARACTER_SET_CLIENT') !== false) {
         continue;
+    }
+    // Skip it if it's a comment
+    if (substr($line, 0, 2) == '--' || $line == ''){
+        continue;
+    }
 
     // Add this line to the current segment
     $templine .= $line;
