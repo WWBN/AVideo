@@ -177,6 +177,7 @@ $lines = file($sqlFile);
 $templine = '';
 foreach ($lines as $line) {
     ///*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+    ///*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */
     if (strpos($line, 'OLD_CHARACTER_SET_RESULT') !== false) {
         continue;
     }
