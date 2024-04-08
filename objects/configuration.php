@@ -72,7 +72,7 @@ class AVideoConf extends ObjectYPT{
         $this->users_id = User::getId();
         $this->disable_youtubeupload = 0;
         ObjectYPT::deleteCache("getEncoderURL");
-
+        //var_dump($this->head);exit;
         return parent::save();
     }
 
