@@ -171,7 +171,8 @@ if ($return_val !== 0) {
 */
 
 $lines = file($sqlFile);
-$global['mysqli']->query("SET SESSION sql_mode = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'");
+//$global['mysqli']->query("SET SESSION sql_mode = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'");
+$global['mysqli']->query("SET SESSION sql_mode = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 // Loop through each line
 $templine = '';
 foreach ($lines as $line) {
