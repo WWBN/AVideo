@@ -121,7 +121,7 @@ $_page = new Page(array('Transfer Funds'));
                             data: {
                                 "value": $('#value').val(),
                                 "users_id": $('#users_id').val(),
-                                "captcha": $('#captchaText').val()
+                                "captcha": <?php echo $capcha['captchaText']; ?>
                             },
                             type: 'post',
                             success: function(response) {
