@@ -10,6 +10,7 @@ if (empty($advancedCustomUser->disableCompanySignUp)) {
     $users_tabs[] = ['selector' => 'companyApAdmin', 'queryString' => '?isCompany=2', 'icon' => 'fas fa-building', 'title' => 'Company Waiting Approval', 'active' => '', 'userGroupID' => 0];
 }
 
+$userGroups = UserGroups::getAllUsersGroups();
 foreach ($userGroups as $value) {
     $users_tabs[] = ['selector' => 'userGroupGrid' . $value['id'], 'queryString' => '?status=a&user_groups_id=' . $value['id'], 'icon' => 'fas fa-users', 'title' => $value['group_name'], 'active' => '', 'userGroupID' => $value['id']];
 }
