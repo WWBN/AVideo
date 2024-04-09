@@ -349,6 +349,7 @@
                 // console.log(row);
                 $("#subcat" + row.id).hide(); // hide own entry
                 $('#inputCategoryId').val(row.id);
+                $('#inputCategory').trigger('change');
                 $('#inputName').val(row.name);
                 $('#inputCleanName').val(row.clean_name);
                 $('#inputDescription').val(row.description);

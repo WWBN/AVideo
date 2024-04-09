@@ -877,6 +877,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         }
         ?>
         $('#inputCategory').val(row.categories_id);
+        $('#inputCategory').trigger('change');
         $('#inputRrating').val(row.rrating);
         $('#madeForKids').prop('checked', !empty(row.made_for_kids));
         <?php
@@ -1181,6 +1182,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             tinymce.get('inputDescription').setContent('');
         }
         $('#inputCategory').val($('#inputCategory option:first').val());
+        $('#inputCategory').trigger('change');
         $('#inputRrating').val("");
         $('#madeForKids').prop('checked', false);
         $('#removeAutoplay').trigger('click');

@@ -130,18 +130,14 @@
                                             if ($showCategory) {
                                                 $parentsOnly = @$_GET['parentsOnly'];
                                                 unset($_GET['parentsOnly']);
-                                                $categories = Category::getAllCategories(true, false);
-                                                $_GET['parentsOnly'] = $parentsOnly;
                                                 //var_dump($categories);exit;
                                             ?>
                                                 <label class="control-label" for="inputCategory"><?php echo __("Category"); ?></label>
-                                                <select class="form-control last" id="inputCategory" required>
-                                                    <?php
-                                                    foreach ($categories as $value) {
-                                                        echo "<option value='{$value['id']}'>{$value['hierarchyAndName']}</option>";
-                                                    }
-                                                    ?>
-                                                </select>
+
+                                                <?php
+                                                echo Layout::getCategorySelect('inputCategory', '', 'inputCategory');
+                                                $_GET['parentsOnly'] = $parentsOnly;
+                                                ?>
                                             <?php
                                             }
                                             ?>
@@ -356,7 +352,7 @@
                                         minLength: 0,
                                         source: function(req, res) {
                                             $.ajax({
-                                                url: webSiteRootURL+'objects/videos.json.php?rowCount=6',
+                                                url: webSiteRootURL + 'objects/videos.json.php?rowCount=6',
                                                 type: "POST",
                                                 data: {
                                                     searchPhrase: req.term
