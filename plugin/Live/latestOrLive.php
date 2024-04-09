@@ -112,18 +112,18 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
     }
 }
 if (!$liveFound) {
-    $_POST['rowCount'] = 1; 
-     
+    $_POST['rowCount'] = 1;
+
     //try suggested only first
     $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, true, null, Video::$videoTypeVideo, 0);
-                
+
     if (empty($videos)) {
-            $_POST['sort']['created'] = 'DESC';
-                           //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
-            $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, false, null, Video::$videoTypeVideo, 0);
-            if (empty($videos)) {
-                videoNotFound('');
-            }
+        $_POST['sort']['created'] = 'DESC';
+        //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, false, null, Video::$videoTypeVideo, 0);
+        if (empty($videos)) {
+            videoNotFound('');
+        }
     }
     $video = $videos[0];
     $_GET['videos_id'] = $video['id'];
@@ -150,10 +150,15 @@ $objectToReturnToParentIframe->user = User::getNameIdentificationById($objectToR
 $objectToReturnToParentIframe->UserPhoto = User::getPhoto($objectToReturnToParentIframe->users_id);
 $objectToReturnToParentIframe->posterURL = $poster;
 
+$bodyClass = '';
+if (!empty($_REQUEST['isClosed'])) {
+    $bodyClass = 'is-closed';
+}
 //var_dump($liveVideo, $video['id'], $poster, $sources);exit;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">
+
 <head>
     <!-- version 2024-10-01 -->
     <meta charset="utf-8">
@@ -176,8 +181,9 @@ $objectToReturnToParentIframe->posterURL = $poster;
             margin-top: 25px;
         }
 
-        .liveEmbed .liveOnlineLabel.label-danger,        
-        body.is-closed #mainVideo > button.vjs-big-play-button{          
+        .liveEmbed .liveOnlineLabel.label-danger,
+        body.is-closed #mainVideo>button.vjs-big-play-button,
+        body.is-closed #mainVideo .videoTagsLabelsElement {
             display: none !important;
         }
     </style>
@@ -186,11 +192,11 @@ $objectToReturnToParentIframe->posterURL = $poster;
     echo AVideoPlugin::afterVideoJS();
     ?>
     <script>
-        <?php 
-            if(!empty($objectToReturnToParentIframe->videos_id)){
-                echo "var mediaId = {$objectToReturnToParentIframe->videos_id};";
-                echo "var videos_id = {$objectToReturnToParentIframe->videos_id};";
-            }
+        <?php
+        if (!empty($objectToReturnToParentIframe->videos_id)) {
+            echo "var mediaId = {$objectToReturnToParentIframe->videos_id};";
+            echo "var videos_id = {$objectToReturnToParentIframe->videos_id};";
+        }
         ?>
         var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
         var player;
@@ -201,7 +207,7 @@ $objectToReturnToParentIframe->posterURL = $poster;
     ?>
 </head>
 
-<body>
+<body class="<?php echo $bodyClass; ?>">
     <div id="videoDiv" style="display: none;">
         <video poster="<?php echo $poster; ?>" controls <?php echo PlayerSkins::getPlaysinline(); ?> class="video-js vjs-default-skin vjs-big-play-centered" id="mainVideo" style="width: 100%; height: 100%; position: absolute;">
             <?php echo $sources; ?>
@@ -245,6 +251,8 @@ $objectToReturnToParentIframe->posterURL = $poster;
     ?>
     <!-- getFooterCode end -->
     <script>
+        doNotCountView = <?php echo !empty($_REQUEST['isClosed']) ? 'true' : 'false'; ?>;
+
         /*
              * add this code in your parent page
              window.addEventListener("message", function (event) {
@@ -285,7 +293,6 @@ $objectToReturnToParentIframe->posterURL = $poster;
             }
         });
         $(document).ready(function() {
-            doNotCountView = true;
             <?php
             echo PlayerSkins::getStartPlayerJS();
             if (!empty($_REQUEST['muted'])) {

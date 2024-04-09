@@ -21,6 +21,7 @@ if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
 }
 $urlLiveNow = "{$global['webSiteRootURL']}liveNow?muted=1";
 $urlLiveNow = addQueryStringParameter($urlLiveNow, 'muted', 1);
+$urlLiveNow = addQueryStringParameter($urlLiveNow, 'isClosed', 1);
 ?>
 <style>
     #BigVideoLive {
