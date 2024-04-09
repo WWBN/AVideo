@@ -1172,6 +1172,7 @@ if (!class_exists('Video')) {
                             $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
                             $_POST['sort']['`order`'] = 'ASC';
                             $_POST['sort']['v.created'] = 'DESC';
+                            $_POST['sort']['v.id'] = 'DESC';
                         }
                     }
                     //var_dump($_POST['sort']);
