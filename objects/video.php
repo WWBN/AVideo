@@ -1903,7 +1903,7 @@ if (!class_exists('Video')) {
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             //if($status == Video::SORT_TYPE_VIEWABLE){ var_dump($sql);exit;}
             //var_dump($sql, $videosArrayId, $status, debug_backtrace());exit;
-            //if(!empty($_REQUEST['test'])){var_dump($sql); }
+            if(!empty($_REQUEST['debug'])){var_dump($sql); }
             global $_lastGetAllSQL;
             $_lastGetAllSQL = $sql;
             $timeLogName = TimeLogStart("video::getAllVideos");
