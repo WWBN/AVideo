@@ -6327,13 +6327,13 @@ if (!class_exists('Video')) {
             $content = local_get_contents($template);
             $channelLinkImageClass = '';
             $channelLinkNameClass = '';
-            if ($small || !empty($advancedCustom->showChannelPhotoOnVideoItem)) {
+            if (!empty($advancedCustom->showChannelPhotoOnVideoItem)) {
                 $photo = User::getPhoto($users_id);
             }else{
                 $photo = '';
                 $channelLinkImageClass = 'hidden';
             }
-            if ($small || !empty($advancedCustom->showChannelNameOnVideoItem)) {
+            if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
                 $name = strip_tags(User::getNameIdentificationById($users_id));
             }else{
                 $name = '';
