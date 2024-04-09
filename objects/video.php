@@ -1149,6 +1149,7 @@ if (!class_exists('Video')) {
                     //var_dump($_POST['sort']);
                 case Video::SORT_TYPE_DATEADDED:
                     $_POST['sort']['v.created'] = 'DESC';
+                    $_POST['sort']['v.id'] = 'DESC';
                     //var_dump($_POST['sort']);
                 default:
                     if(is_array($sort)){
