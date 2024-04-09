@@ -69,6 +69,10 @@ try {
 } catch (e) {
     //console.log('Variable declaration ERROR', e);
 }
+//add the class pwa in the <body> tag if is a pwa app
+if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+    document.body.classList.add('pwa');
+}
 
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
@@ -4146,4 +4150,3 @@ function formatNumber(num) {
         }
     }
 }
-

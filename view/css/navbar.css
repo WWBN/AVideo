@@ -19,16 +19,19 @@
     transition: all 0.25s ease-in-out;
 }
 
+#menuBackButton,
 #compressMenu{
     display: none;
 }
 
-body.youtube #compressMenu{
+body.youtube #compressMenu,
+body.pwa #menuBackButton{
     display: inline-block;
 }
 
 #buttonMenu{
     border-radius: 4px;
+    margin: 0;
 }
 
 body.youtube #buttonMenu{
@@ -36,17 +39,17 @@ body.youtube #buttonMenu{
     border-bottom-left-radius: 0;
 }
 
-body.youtube #compressMenu .fa-chevron-left{
+body.youtube #compressMenu .compress{
     display: inline-block;
 }
-body.youtube #compressMenu .fa-chevron-right{
+body.youtube #compressMenu .expand{
     display: none;
 }
 
-body.youtube.compressedMenu #compressMenu .fa-chevron-right{
+body.youtube.compressedMenu #compressMenu .expand{
     display: inline-block;
 }
-body.youtube.compressedMenu #compressMenu .fa-chevron-left{
+body.youtube.compressedMenu #compressMenu .compress{
     display: none;
 }
 

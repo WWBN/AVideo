@@ -2,13 +2,16 @@
     <ul class="left-side">
         <li style="max-width: 80px;">
             <div class="btn-group justified">
-                <button type="button" id="compressMenu" class="btn btn-default" onclick="YPTSidebarCompressToggle();">
-                    <i class="fa-solid fa-chevron-right" data-toggle="tooltip" title="<?php echo __('Uncompress Menu'); ?>" data-placement="right"></i>
-                    <i class="fa-solid fa-chevron-left" data-toggle="tooltip" title="<?php echo __('Compress Menu'); ?>" data-placement="right"></i>
+                <button type="button" id="menuBackButton" class="btn btn-default" onclick="window.history.back();" data-toggle="tooltip" title="<?php echo __('Back'); ?>" data-placement="bottom">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
                 <?php
-                echo getHamburgerButton('buttonMenu', 'x', 'class="btn btn-default pull-left hamburger"  data-toggle="tooltip"  title="' . __("Main Menu") . '" data-placement="right"');
+                echo getHamburgerButton('buttonMenu', 'x', 'class="btn btn-default pull-left hamburger"  data-toggle="tooltip"  title="' . __("Main Menu") . '" data-placement="bottom"');
                 ?>
+                <button type="button" id="compressMenu" class="btn btn-default" onclick="YPTSidebarCompressToggle();">
+                    <i class="fa-solid fa-compress compress" data-toggle="tooltip" title="<?php echo __('Compress Menu'); ?>" data-placement="bottom"></i>
+                    <i class="fa-solid fa-expand expand" data-toggle="tooltip" title="<?php echo __('Expand Menu'); ?>" data-placement="bottom"></i>
+                </button>
                 <?php
                 if ($advancedCustom->disableNavBarInsideIframe) {
                 ?>
