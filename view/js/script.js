@@ -4143,10 +4143,23 @@ function formatNumber(num) {
     } else if (num >= 1000000000000) {
         return (num / 1000000000000).toFixed(1) + 'T';
     } else {
-        if(num==0){
+        if (num == 0) {
             return '0';
-        }else{
+        } else {
             return num.toFixed(1).toString();
         }
     }
 }
+
+function findLargestCookies() {
+    const allCookies = document.cookie.split(';').map(cookie => {
+        const [name, value] = cookie.trim().split('=');
+        return { name, size: value.length };
+    });
+
+    const sortedCookies = allCookies.sort((a, b) => b.size - a.size).slice(0, 10);
+
+    console.log("Top 10 largest cookies:", sortedCookies);
+    return sortedCookies;
+}
+
