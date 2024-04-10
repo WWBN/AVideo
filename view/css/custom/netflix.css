@@ -70,6 +70,9 @@ span.selection > span.select2-selection--single{
 .is_advanced {
     color: #FFF;
 }
-footer {
+footer, .ui-widget-content {
     background-color: #111 !important;
+}
+.ui-widget-content .liveSearchTitle{
+    color: #EEE;
 }
