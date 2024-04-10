@@ -200,8 +200,8 @@ if (!empty($evideo)) {
         if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
             $created = !empty($video['videoCreation']) ? $video['videoCreation'] : $video['created'];
             $html = '<div class="clearfix"></div><small>' . humanTiming(_strtotime($created)) . '</small>';
-        }else{
-            $html = '<!-- empty showCreationTimeOnVideoItem '.basename(__FILE__).' line='.__LINE__.'-->';
+        } else {
+            $html = '<!-- empty showCreationTimeOnVideoItem ' . basename(__FILE__) . ' line=' . __LINE__ . '-->';
         }
         $video['creator'] = Video::getCreatorHTML($video['users_id'], $html);
 
@@ -323,7 +323,22 @@ if (empty($video)) {
             if (!User::isLogged()) {
                 gotToLoginAndComeBackHere();
             } else {
-                $msg = 'ERROR 2: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
+                $status = $vid->getStatus();
+
+                switch ($status) {
+                    case 'i':
+                        $msg = "The video ID [{$_GET['v']}] is currently inactive. Please check back later or contact support.";
+                        break;
+                    case 'b':
+                        $msg = "There seems to be an issue with your video ID [{$_GET['v']}]: Broken or missing files. Please contact support for assistance.";
+                        break;
+                    case 'p':
+                        $msg = "The video ID [{$_GET['v']}] is unpublished. If this is unexpected, please reach out to support for more information.";
+                        break;
+                    default:
+                        $msg = "The video ID [{$_GET['v']}] status {$status}. Please contact support for further assistance.";
+                        break;
+                }
                 videoNotFound($msg);
             }
             exit;
@@ -397,7 +412,7 @@ if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
             <i class="fa-solid fa-video"></i>
             <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
         </div>
-    <?php 
+    <?php
     }
     ?>
 </div>
