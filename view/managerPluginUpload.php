@@ -47,8 +47,9 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
             uploadUrl: webSiteRootURL + 'objects/pluginImport.json.php',
             allowedFileExtensions: ['zip'],
             theme: 'fa6',
+            showClose: false,
         }).on('fileuploaded', function(event, data, id, index) {
-            $("#grid").bootgrid('reload');
+            parent.$("#grid").bootgrid('reload');
         });
     });
 </script>
