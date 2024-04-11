@@ -152,41 +152,6 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
                         </div>
-                        <div id="pluginsImportFormModal" class="modal fade" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <?php
-                                $dir = "{$global['systemRootPath']}plugin";
-                                if (!isUnzip()) {
-                                ?>
-                                    <div class="alert alert-warning">
-                                        <?php echo __("Make sure you have the unzip app on your server"); ?>
-                                        <pre><code>sudo apt-get install unzip</code></pre>
-                                    </div>
-                                <?php
-                                }
-                                if (is_writable($dir)) {
-                                ?>
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title"><?php echo __("Upload a Plugin ZIP File"); ?></h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input id="input-b1" name="input-b1" type="file" class="">
-                                        </div>
-                                    </div>
-                                <?php
-                                } else {
-                                ?>
-                                    <div class="alert alert-danger">
-                                        <?php echo __("You need to make the plugin dir writable before upload, run this command and refresh this page"); ?>
-                                        <pre><code>sudo chown www-data:www-data <?php echo $dir; ?> && sudo chmod 755 <?php echo $dir; ?></code></pre>
-                                    </div>
-                                <?php
-                                }
-                                ?>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div id="menu1" class="tab-pane fade">
@@ -694,13 +659,8 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
             });
         });
         $('#upload').click(function(evt) {
-            $('#pluginsImportFormModal').modal();
-        });
-        $('#input-b1').fileinput({
-            uploadurl: webSiteRootURL+'objects/pluginImport.json.php',
-            allowedFileExtensions: ['zip']
-        }).on('fileuploaded', function(event, data, id, index) {
-            $("#grid").bootgrid('reload');
+            //$('#pluginsImportFormModal').modal();
+            avideoModalIframeSmall(webSiteRootURL + 'view/managerPluginUpload.php');
         });
         $.ajax({
             url: 'https://youphp.tube/marketplace/plugins.json?jsonp=1',
