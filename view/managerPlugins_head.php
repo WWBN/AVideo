@@ -9,7 +9,6 @@ if (!User::isAdmin()) {
     exit;
 }
 require_once $global['systemRootPath'] . 'objects/plugin.php';
-include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
 ?>
 <style>
     .panel:hover { box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4), 0 1px 5px rgba(130, 130, 130, 0.35); }

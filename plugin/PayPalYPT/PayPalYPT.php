@@ -69,6 +69,7 @@ class PayPalYPT extends PluginAbstract {
 
     public function setUpPayment($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $description = "") {
         global $global;
+        $total = parseToFloat($total);
         if ($total < 1) {
             $total = 1;
         }

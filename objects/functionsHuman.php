@@ -208,3 +208,36 @@ function secondsIntervalFromNow($time, $useDatabaseTimeOrTimezoneString = true)
     }
     return secondsInterval($timeNow, $time);
 }
+
+function parseToFloat($numString) {
+    if(!is_string($numString)){
+        return $numString;
+    }
+    // Normalize the string by removing spaces
+    $numString = str_replace(' ', '', $numString);
+
+    // Decide on the decimal separator based on the position and count of ',' and '.'
+    if (substr_count($numString, '.') == 1 && substr_count($numString, ',') == 0) {
+        // One dot, no comma, dot is decimal
+        $numString = str_replace(',', '', $numString);
+    } elseif (substr_count($numString, ',') == 1 && substr_count($numString, '.') == 0) {
+        // One comma, no dot, comma is decimal
+        $numString = str_replace(',', '.', $numString);
+    } else {
+        // Complex or ambiguous formatting
+        $lastComma = strrpos($numString, ',');
+        $lastPeriod = strrpos($numString, '.');
+
+        if ($lastComma > $lastPeriod) {
+            // Assume last comma is decimal
+            $numString = str_replace('.', '', $numString);
+            $numString = substr_replace($numString, '.', $lastComma, 1);
+        } else {
+            // Assume last period is decimal
+            $numString = str_replace(',', '', $numString);
+        }
+    }
+
+    // Convert to float
+    return (float) $numString;
+}
