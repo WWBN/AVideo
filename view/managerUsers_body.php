@@ -437,6 +437,11 @@ foreach ($userGroups as $value) {
                     avideoResponse(response);
                     console.log('user save', response);
                     modal.hidePleaseWait();
+                },
+                complete: function(resp) {
+                    console.log('user save error', resp);
+                    avideoResponse(resp.responseJSON);
+                    modal.hidePleaseWait();
                 }
             });
             return false;

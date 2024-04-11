@@ -1936,6 +1936,19 @@ if (typeof gtag !== \"function\") {
         $this->name = strip_tags($name);
     }
 
+    static function isEmailUniqeOrFromUser($email, $users_id){
+
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        $userFromEmail = User::getUserFromEmail($email);
+        if (empty($userFromEmail)) {
+            return true;
+        }
+        return $userFromEmail['id'] == $users_id;
+
+    }
+
     public function setEmail($email)
     {
         global $advancedCustomUser;

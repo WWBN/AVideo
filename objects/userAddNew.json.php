@@ -36,7 +36,13 @@ if (empty($_POST['id'])) {
     _error_log("userAddNew.json.php: Editing a user id = {$_POST['id']}");
 }
 
-$user = new User(@$_POST['id']);
+if (!empty($advancedCustomUser->emailMustBeUnique)) {
+    if (!empty($_POST['email'])) {
+    if(!User::isEmailUniqeOrFromUser($_POST['email'], @$_POST['id'])){
+            forbiddenPage('Email Must be unique');
+        }
+    }
+}
 $user->setUser($_POST['user']);
 $user->setPassword($_POST['pass']);
 $user->setEmail($_POST['email']);
