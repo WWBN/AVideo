@@ -6,10 +6,20 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
-    die('{"error":"' . __("Permission denied") . '"}');
+    forbiddenPage('Admin Only');
 }
 
 $config = new AVideoConf();
-$config->setTheme($_POST['theme']);
+if(!empty($_POST['theme'])){
+    $config->setTheme($_POST['theme'], @$_REQUEST["defaultTheme"]);
+}else if(!empty($_POST['themeLight'])){
+    $config->setThemes($_REQUEST["themeLight"], $_REQUEST["themeDark"], $_REQUEST["defaultTheme"]);
+}
 
-echo '{"status":"' . $config->save() . '"}';
+$obj = new stdClass();
+$obj->error = empty($config->save());
+
+$config = new AVideoConf();
+$obj->themes = $config->getThemes();
+
+echo json_encode($obj);

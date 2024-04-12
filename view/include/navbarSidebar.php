@@ -76,6 +76,16 @@ global $avideoLayout;
                 </li>
             <?php
             }
+            ?>
+            <li>
+                <hr>
+            </li>
+            <li>
+                <?php
+                include $global['systemRootPath'] . 'plugin/Layout/darkModeSwitch.php';
+                ?>
+            </li>
+            <?php
             if (Video::videoMadeForKidsExists()) {
             ?>
                 <li>
@@ -689,6 +699,20 @@ global $avideoLayout;
             ?>
         </ul>
     </div>
+    <!--
+    <div style="position: absolute; top: 55px; right:-19px;" onclick="YPTSidebarCompressToggle();">
+        <button class="btn btn-default btn-lg compressMenu" style="
+                                                                padding: 6px 3px;
+                                                                border-radius: 0 20px 20px 0;
+                                                                border-left: none;
+                                                                border-left-width: initial;
+                                                                border-left-style: none;
+                                                            ">
+            <i class="fa-solid fa-chevron-right expand" data-toggle="tooltip" title="<?php echo __('Expand Menu'); ?>" data-placement="right"></i>
+            <i class="fa-solid fa-chevron-left compress" data-toggle="tooltip" title="<?php echo __('Compress Menu'); ?>" data-placement="right"></i>
+        </button>
+    </div>
+            -->
 </div>
 <script>
     $(document).ready(function() {

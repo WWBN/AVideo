@@ -49,6 +49,8 @@ class AVideoConf extends ObjectYPT{
     // version 4
     protected $encoderURL;
 
+    const DARKTHEMES = array('cyborg','darkly','netflix','slate','superhero','solar');
+
     public function __construct($video_resolution = "")
     {
         $this->load();
@@ -417,9 +419,80 @@ class AVideoConf extends ObjectYPT{
         return $this->theme;
     }
 
-    public function setTheme($theme)
+    public function getThemes()
     {
-        $this->theme = $theme;
+        $theme = json_encode(array('light'=>'default', 'dark'=>'netflix', 'defaultTheme'=>'light'));
+        if (empty($this->theme)) {
+            return json_decode($theme);
+        }
+        $json = json_decode($this->theme);
+        if (empty($json)) {
+            if(in_array($this->theme, AVideoConf::DARKTHEMES)){
+                $theme = json_encode(array('light'=>'default', 'dark'=>$this->theme, 'defaultTheme'=>'dark'));
+            }else{
+                $theme = json_encode(array('light'=>$this->theme, 'dark'=>'netflix', 'defaultTheme'=>'light'));
+            }
+            return json_decode($theme);
+        }
+        return $json;
+    }
+
+    public function getThemeLight()
+    {
+        $theme = $this->getThemes();
+        return $theme->light;
+    }
+
+    public function getThemeDark()
+    {
+        $theme = $this->getThemes();
+        return $theme->dark;
+    }
+
+    public function getDefaultTheme()
+    {
+        if($this->isDefaultThemeDark()){
+            return  $this->getThemeDark();
+        }else{
+            return  $this->getThemeLight();
+        }
+    }
+
+    public function getAlternativeTheme()
+    {
+        if(!$this->isDefaultThemeDark()){
+            return  $this->getThemeDark();
+        }else{
+            return  $this->getThemeLight();
+        }
+    }
+
+    public function isDefaultThemeDark()
+    {
+        $theme = $this->getThemes();
+        return $theme->defaultTheme == 'dark';
+    }
+
+    public function setTheme($theme, $setDefault=false)
+    {
+        $themes = $this->getThemes();
+        if(in_array($theme, AVideoConf::DARKTHEMES)){
+            $themes->dark = $theme;
+            if($setDefault){
+                $themes->defaultTheme = 'dark';
+            }
+        }else{
+            $themes->light = $theme;
+            if($setDefault){
+                $themes->defaultTheme = 'light';
+            }
+        }
+        $this->theme = json_encode($themes);
+    }
+
+    public function setThemes($lightTheme, $darkTheme, $defaultTheme)
+    {
+        $this->theme = json_encode(array('light'=>$lightTheme, 'dark'=>$darkTheme, 'defaultTheme'=>$defaultTheme));
     }
 
     public function getSmtp()

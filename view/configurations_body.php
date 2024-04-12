@@ -8,12 +8,6 @@ if (User::isAdmin()) {
 
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link " href="#tabTheme" data-toggle="tab">
-                                <span class="fa fa-cog"></span>
-                                <?php echo __("Themes"); ?>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link " href="#tabCompatibility" data-toggle="tab">
                                 <span class="fa fa-cog"></span>
                                 <?php echo __("Compatibility Check"); ?>
@@ -41,76 +35,6 @@ if (User::isAdmin()) {
                 </div>
                 <div class="panel-body">
                     <div class="tab-content clearfix">
-                        <div class="tab-pane" id="tabTheme">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h2><?php echo __("Themes"); ?></h2>
-                                </div>
-                                <div class="panel-body">
-
-                                    <h1 class="alert alert-warning">
-                                        <span class="fa fa-warning"></span>
-                                        <?php echo __("Do not forget to save after choose your theme"); ?>
-                                    </h1>
-                                    <div class="alert alert-info">
-                                        <span class="fa fa-info-circle"></span>
-                                        <?php echo __("We would like to thanks http://bootswatch.com/"); ?>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <div class="panel panel-success">
-                                                <div class="panel-heading"><?php echo __('Customize Your site colors'); ?> <div class="pull-right"><?php echo getPluginSwitch('Customize'); ?></div>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <img src="<?php echo $global['webSiteRootURL'], "view/css/custom/customize.png"; ?>" class="img-responsive">
-                                                    <?php
-                                                    if (!AVideoPlugin::exists('Customize')) {
-                                                    ?>
-                                                        <a href="https://youphp.tube/marketplace/" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i> Purchase the Customize Plugin</a>
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <a href="<?php echo $global['webSiteRootURL']; ?>admin/?page=design_colors" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i> Customize Colors</a>
-                                                    <?php }
-                                                    ?>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <?php
-                                        $themes = getThemes();
-                                        $savedTheme = $config->getTheme();
-                                        foreach ($themes as $fileEx) {
-                                            if ($fileEx == $savedTheme) {
-                                        ?>
-                                                <script>
-                                                    $(document).ready(function() {
-                                                        setTimeout(function() {
-                                                            $("#btn<?php echo ($fileEx); ?>").trigger("click");
-                                                        }, 1000);
-                                                    });
-                                                </script>
-                                            <?php }
-                                            ?>
-                                            <div class="col-xs-4">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading"><?php echo ucfirst($fileEx); ?></div>
-                                                    <div class="panel-body">
-
-                                                        <img src="<?php echo $global['webSiteRootURL'], "view/css/custom/", $fileEx, ".png"; ?>" class="img-responsive img-radio">
-                                                        <button type="button" class="btn btn-default btn-radio btn-block btn-xs" id="btn<?php echo ($fileEx); ?>"><?php echo ucfirst($fileEx); ?></button>
-                                                        <input type="checkbox" value="<?php echo ($fileEx); ?>" class="hidden left-item">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php }
-                                        ?>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
                         <div class="tab-pane" id="tabCompatibility">
                             <div class="alert alert-success">
                                 <span class="fa fa-film"></span>

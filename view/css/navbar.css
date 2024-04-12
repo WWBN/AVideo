@@ -20,11 +20,11 @@
 }
 
 #menuBackButton,
-#compressMenu{
+.compressMenu{
     display: none;
 }
 
-body.youtube #compressMenu,
+body.youtube .compressMenu,
 body.pwa #menuBackButton{
     display: inline-block;
 }
@@ -39,17 +39,17 @@ body.youtube #buttonMenu{
     border-bottom-left-radius: 0;
 }
 
-body.youtube #compressMenu .compress{
+body.youtube .compressMenu .compress{
     display: inline-block;
 }
-body.youtube #compressMenu .expand{
+body.youtube .compressMenu .expand{
     display: none;
 }
 
-body.youtube.compressedMenu #compressMenu .expand{
+body.youtube.compressedMenu .compressMenu .expand{
     display: inline-block;
 }
-body.youtube.compressedMenu #compressMenu .compress{
+body.youtube.compressedMenu .compressMenu .compress{
     display: none;
 }
 

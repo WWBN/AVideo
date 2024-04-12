@@ -5001,6 +5001,27 @@ function getThemes()
     return $_getThemes;
 }
 
+
+function getThemesSeparated()
+{
+    global $_getThemes, $global;
+    if (isset($_getThemes)) {
+        return $_getThemes;
+    }
+    $_getThemesLight = [];
+    $_getThemesDark = [];
+    foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
+        $fileEx = basename($filename, ".css");
+        if(in_array($fileEx, AVideoConf::DARKTHEMES)){
+            $_getThemesDark[] = $fileEx;
+        }else{
+            $_getThemesLight[] = $fileEx;
+        }
+    }
+    return array('light'=>$_getThemesLight, 'dark'=>$_getThemesDark);
+}
+
+
 function getCurrentTheme()
 {
     global $config;
@@ -5011,7 +5032,12 @@ function getCurrentTheme()
     if (!empty($_COOKIE['customCSS'])) {
         return $_COOKIE['customCSS'];
     }
-    return $config->getTheme();
+
+    if (!empty($_COOKIE['themeMode'])) {
+        return $config->getAlternativeTheme();
+    }else{        
+        return  $config->getDefaultTheme();
+    }
 }
 
 function isWindows()
