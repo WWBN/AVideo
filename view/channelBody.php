@@ -65,7 +65,7 @@ if ($ownerCanUplaodVideos) {
         $uploadedVideos = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, $type);
     }
 }
-//var_dump($ownerCanUplaodVideos, $uploadedTotalVideos, $uploadedVideos);exit;
+//var_dump($ownerCanUplaodVideos, $uploadedTotalVideos, $uploadedVideos, $lastGetTotalVideos);exit;
 TimeLogEnd($timeLog, __LINE__);
 $totalPages = ceil($uploadedTotalVideos / $rowCount);
 
