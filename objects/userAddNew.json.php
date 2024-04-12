@@ -43,6 +43,7 @@ if (!empty($advancedCustomUser->emailMustBeUnique)) {
         }
     }
 }
+$user = new User(@$_POST['id']);
 $user->setUser($_POST['user']);
 $user->setPassword($_POST['pass']);
 $user->setEmail($_POST['email']);
