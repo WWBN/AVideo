@@ -4,21 +4,23 @@ if (!empty($_COOKIE['themeMode'])) {
     $checked = 'checked';
 }
 ?>
-<label for="themeMode" class="row-label singleLineMenu hideIfCompressed" style="padding: 5px;">
-    <?php
-    if($config->isDefaultThemeDark()){
-        echo '<i class="fa-solid fa-sun"></i> ';
-        echo __('Light Mode');
-    }else{
-        echo '<i class="fa-solid fa-moon"></i> ';
-        echo __('Dark Mode');
-    }
-    ?>
-    <div class="material-switch">
+<div class="clearfix" style="padding: 5px;">
+    <label for="themeMode" class="row-label singleLineMenu hideIfCompressed pull-left">
+        <?php
+        if ($config->isDefaultThemeDark()) {
+            echo '<i class="fa-solid fa-sun"></i> ';
+            echo __('Light Mode');
+        } else {
+            echo '<i class="fa-solid fa-moon"></i> ';
+            echo __('Dark Mode');
+        }
+        ?>
+    </label>
+    <div class="material-switch pull-right">
         <input type="checkbox" value="1" id="themeMode" <?php echo $checked; ?> onchange="toogleThemeMode();">
         <label for="themeMode" class="label-success"></label>
     </div>
-</label>
+</div>
 <script>
     function toogleThemeMode() {
         var themeMode = Cookies.get('themeMode');
@@ -30,6 +32,7 @@ if (!empty($_COOKIE['themeMode'])) {
 
         loadTheme();
     }
+
     function loadTheme() {
         var themeMode = Cookies.get('themeMode');
         var isEmptythemeMode = empty(themeMode);
