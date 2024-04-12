@@ -29,12 +29,17 @@ body.pwa #menuBackButton{
     display: inline-block;
 }
 
+body.youtube #buttonMenu{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
 #buttonMenu{
     border-radius: 4px;
     margin: 0;
 }
 
-body.youtube #buttonMenu{
+body.pwa #buttonMenu{
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
