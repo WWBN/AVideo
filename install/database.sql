@@ -324,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `allow_download` TINYINT(1) NULL DEFAULT 0,
   `session_timeout` INT NULL DEFAULT 3600,
   `autoplay` TINYINT(1) NULL,
-  `theme` TEXT DEFAULT 'default',
+  `theme` VARCHAR(255) NULL DEFAULT 'default',
   `smtp` TINYINT(1) NULL,
   `smtpAuth` TINYINT(1) NULL,
   `smtpSecure` VARCHAR(255) NULL COMMENT '\'ssl\'; // secure transfer enabled REQUIRED for Gmail',
