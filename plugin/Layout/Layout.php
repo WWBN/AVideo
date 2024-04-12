@@ -91,6 +91,8 @@ class Layout extends PluginAbstract
         $obj->categoriesTopLeftMenu = true;
         $obj->enableAccessibility = false;
 
+        $obj->canToogleDarkAndLightMode = false;
+
         $o = new stdClass();
         $o->type = array(0 => '-- ' . ("Random")) + self::getLoadersArray();
         $o->value = 'avideo';

@@ -76,16 +76,18 @@ global $avideoLayout;
                 </li>
             <?php
             }
-            ?>
-            <li>
-                <hr>
-            </li>
-            <li>
-                <?php
-                include $global['systemRootPath'] . 'plugin/Layout/darkModeSwitch.php';
+            if($avideoLayout->canToogleDarkAndLightMode){
                 ?>
-            </li>
-            <?php
+                <li>
+                    <hr>
+                </li>
+                <li>
+                    <?php
+                    include $global['systemRootPath'] . 'plugin/Layout/darkModeSwitch.php';
+                    ?>
+                </li>
+                <?php
+            }
             if (Video::videoMadeForKidsExists()) {
             ?>
                 <li>
