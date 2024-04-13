@@ -223,6 +223,7 @@
                                                     <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom" data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                                 </li>
                                                 <?php
+                                                $userGroups = UserGroups::getAllUsersGroups();
                                                 foreach ($userGroups as $value) {
                                                 ?>
                                                     <li class="list-group-item non-public groupSwitch" id="groupSwitch<?php echo $value['id']; ?>">
