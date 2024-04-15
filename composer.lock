@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c8023603cbe94312faf8012dc4e434d",
+    "content-hash": "33841756c0761dc165984946955961c6",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -4058,16 +4058,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.17.0",
+            "version": "v14.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "24d3d9ed8406e10d24452af44597300173655f69"
+                "reference": "b9308aea15e5cdad3d906c3bba726ff95079554c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/24d3d9ed8406e10d24452af44597300173655f69",
-                "reference": "24d3d9ed8406e10d24452af44597300173655f69",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/b9308aea15e5cdad3d906c3bba726ff95079554c",
+                "reference": "b9308aea15e5cdad3d906c3bba726ff95079554c",
                 "shasum": ""
             },
             "require": {
@@ -4111,9 +4111,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.17.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v14.1.0"
             },
-            "time": "2024-04-04T22:16:10+00:00"
+            "time": "2024-04-11T23:07:41+00:00"
         },
         {
             "name": "symfony/console",
