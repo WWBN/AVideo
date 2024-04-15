@@ -4471,6 +4471,7 @@ function gotToLoginAndComeBackHere($msg = '')
     setAlertMessage($msg, $type = "msg");
     $url = "{$global['webSiteRootURL']}user?redirectUri=" . urlencode(getSelfURI());
     $url = addQueryStringParameter($url, 'comebackhere', 1);
+    _error_log("gotToLoginAndComeBackHere($msg) ".getRealIpAddr().' '.json_encode(debug_backtrace()));
     header("Location: {$url}");
     exit;
 }
