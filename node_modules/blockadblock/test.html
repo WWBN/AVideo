@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<head>
+	<title>BlockAdBlock 3.2.1</title>
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/default.min.css" rel="stylesheet">
+	<style>
+		header {
+			margin-bottom: 20px;
+		}
+		.outline {
+			width: 302px;
+			height: 252px;
+			border: 1px solid #cccccc;
+			border-radius: 4px;
+			background-color: #f2dede;
+		}
+		.pub_300x250 {
+			width: 300px;
+			height: 250px;
+			background-color: #dff0d8;
+		}
+		h5.bg-success,
+		h5.bg-danger {
+			padding: 8px;
+			border: 1px solid #cccccc;
+			border-radius: 4px;
+		}
+		pre {
+			background-color: #f0f0f0;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header class="row">
+			<div class="col-sm-6">
+				<h1>BlockAdBlock <small>3.2.1</small></h1>
+			</div>
+			<div class="col-sm-6 text-right">
+				<h4>
+					<a href="https://github.com/sitexw/FuckAdBlock" style="color: #acc6d7;">FuckAdBlock</a>
+					&nbsp; &nbsp;
+					<a href="http://sitexw.fr/blockadblock/">Online example</a>
+					&nbsp; &nbsp;
+					<a href="https://github.com/sitexw/BlockAdBlock">GitHub</a>
+				</h4>
+			</div>
+		</header>
+		<div class="row">
+			<div class="col-sm-5">
+				<div class="outline">
+					<div class="pub_300x250"></div>
+				</div>
+			</div>
+			<div class="col-sm-7">
+				<h3 class="text-left">Publicity example<button class="btn btn-primary btn-xs pull-right" onclick="checkAgain();">Check again</button></h3>
+				<h5 class="bg-success" id="block-adb-not-enabled" style="display: none;">AdBlock is not enabled</h5>
+				<h5 class="bg-danger" id="block-adb-enabled" style="display: none;">AdBlock is enabled</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<h3 class="text-left">Valid on</h3>
+				<ul>
+					<li>Google Chrome</li>
+					<li>Mozilla Firefox</li>
+					<li>Internet Explorer (8+)</li>
+					<li>Safari</li>
+					<li>Opera</li>
+				</ul>
+				<h3 class="text-left">Install via</h3>
+				<p>Manual:</p>
+				<pre>Download "blockadblock.js" and add it to your website.</pre>
+				<p>Bower:</p>
+				<pre>bower install blockadblock</pre>
+				<p>Node.js/io.js:</p>
+				<pre>npm install blockadblock</pre>
+				<h3 class="text-left">Code example</h3>
+<pre><code class="javascript">// Function called if AdBlock is not detected
+function adBlockNotDetected() {
+	alert('AdBlock is not enabled');
+}
+// Function called if AdBlock is detected
+function adBlockDetected() {
+	alert('AdBlock is enabled');
+}
+
+// Recommended audit because AdBlock lock the file 'blockadblock.js' 
+// If the file is not called, the variable does not exist 'blockAdBlock'
+// This means that AdBlock is present
+if(typeof blockAdBlock === 'undefined') {
+	adBlockDetected();
+} else {
+	blockAdBlock.onDetected(adBlockDetected);
+	blockAdBlock.onNotDetected(adBlockNotDetected);
+	// and|or
+	blockAdBlock.on(true, adBlockDetected);
+	blockAdBlock.on(false, adBlockNotDetected);
+	// and|or
+	blockAdBlock.on(true, adBlockDetected).onNotDetected(adBlockNotDetected);
+}
+
+// Change the options
+blockAdBlock.setOption('checkOnLoad', false);
+// and|or
+blockAdBlock.setOption({
+	debug: true,
+	checkOnLoad: false,
+	resetOnEnd: false
+});</code></pre>
+				<h3 class="text-left">Default options</h3>
+<pre><code class="javascript">// At launch, check if AdBlock is enabled
+// Uses the method blockAdBlock.check()
+checkOnLoad: true
+
+// At the end of the check, is that it removes all events added ?
+resetOnEnd: true
+
+// The number of milliseconds between each check
+loopCheckTime: 50
+
+// The number of negative checks after which there is considered that AdBlock is not enabled
+// Time (ms) = 50*(5-1) = 200ms (per default)
+loopMaxNumber: 5
+
+// CSS class used by the bait caught AdBlock
+baitClass: 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links'
+
+// CSS style used to hide the bait of the users
+baitStyle: 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
+
+// Displays the debug in the console (available only from version 3.2 and more)
+debug: false
+</code></pre>
+				<h3 class="text-left">Method available</h3>
+<pre><code class="javascript">// Allows to set options
+// #options: string|object
+// #value:   string
+blockAdBlock.setOption(options, value);
+
+// Allows to check if AdBlock is enabled
+// The parameter 'loop' allows checking without loop several times according to the value of 'loopMaxNumber'
+// Example: loop=true  => time~=200ms (time varies depending on the configuration)
+//          loop=false => time~=1ms
+// #loop: boolean (default: true)
+blockAdBlock.check(loop);
+
+// Allows to manually simulate the presence of AdBlock or not
+// #detected: boolean (AdBlock is detected ?)
+blockAdBlock.emitEvent(detected);
+
+// Allows to clear all events added via methods 'on', 'onDetected' and 'onNotDetected'
+blockAdBlock.clearEvent();
+
+// Allows to add an event if AdBlock is detected
+// #detected: boolean (true: detected, false: not detected)
+// #fn:       function
+blockAdBlock.on(detected, fn);
+
+// Similar to blockAdBlock.on(true|false, fn)
+blockAdBlock.onDetected(fn);
+blockAdBlock.onNotDetected(fn);</code></pre>
+				<h3 class="text-left">Instance</h3>
+				<p>
+					<i>(Available only from version 3.1 and more)</i><br>
+					By default, BlockAdBlock is instantiated automatically.<br>
+					To block this automatic instantiation, simply create a variable "blockAdBlock" with a value (null, false, ...) before importing the script.
+				</p>
+<pre><code class="html">&lt;script&gt;var blockAdBlock = false;&lt/script&gt;
+&ltscript src="./blockadblock.js"&gt;&lt/script&gt;</code></pre>
+After that, you are free to create your own instances:
+<pre><code class="javascript">blockAdBlock = new BlockAdBlock;
+// and|or
+myBlockAdBlock = new BlockAdBlock({
+	checkOnLoad: true,
+	resetOnEnd: true
+});</code></pre>
+			</div>
+		</div>
+	</div>
+	
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="./blockadblock.js"></script>
+	<script>
+		function adBlockDetected() {
+			$('#block-adb-enabled').show();
+			$('#block-adb-not-enabled').hide();
+		}
+		function adBlockNotDetected() {
+			$('#block-adb-enabled').hide();
+			$('#block-adb-not-enabled').show();
+		}
+		
+		if(typeof blockAdBlock === 'undefined') {
+			adBlockDetected();
+		} else {
+			blockAdBlock.setOption({ debug: true });
+			blockAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
+		}
+		
+		function checkAgain() {
+			$('#block-adb-enabled').hide();
+			$('#block-adb-not-enabled').hide();
+			// setTimeout 300ms for the recheck is visible when you click on the button
+			setTimeout(function() {
+				if(typeof blockAdBlock === 'undefined') {
+					adBlockDetected();
+				} else {
+					blockAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
+					blockAdBlock.check();
+				}
+			}, 300);
+		}
+	</script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+	<script>
+		$('pre code').each(function(i, block) {
+			hljs.highlightBlock(block);
+		});
+	</script>
+</body>
+</html>

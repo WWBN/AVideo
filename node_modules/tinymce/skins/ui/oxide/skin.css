@@ -3608,6 +3608,8 @@ body.tox-dialog__disable-scroll {
      */
   pointer-events: none;
   position: relative;
+  width: -moz-max-content;
+  width: max-content;
   z-index: 1150;
 }
 .tox .tox-tooltip__body {

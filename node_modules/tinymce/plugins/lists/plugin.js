@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.0.0 (2024-03-20)
+ * TinyMCE version 7.0.1 (2024-04-10)
  */
 
 (function () {
@@ -805,7 +805,8 @@
     const isListHost = (schema, node) => !isListNode(node) && !isListItemNode(node) && exists(listNames, listName => schema.isValidChild(node.nodeName, listName));
     const getClosestListHost = (editor, elm) => {
       const parentBlocks = editor.dom.getParents(elm, editor.dom.isBlock);
-      const parentBlock = find(parentBlocks, elm => isListHost(editor.schema, elm));
+      const isNotForcedRootBlock = elm => elm.nodeName.toLowerCase() !== getForcedRootBlock(editor);
+      const parentBlock = find(parentBlocks, elm => isNotForcedRootBlock(elm) && isListHost(editor.schema, elm));
       return parentBlock.getOr(editor.getBody());
     };
     const isListInsideAnLiWithFirstAndLastNotListElement = list => parent(list).exists(parent => isListItemNode(parent.dom) && firstChild(parent).exists(firstChild => !isListNode(firstChild.dom)) && lastChild(parent).exists(lastChild => !isListNode(lastChild.dom)));
