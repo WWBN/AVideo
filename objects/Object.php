@@ -646,8 +646,8 @@ abstract class ObjectYPT implements ObjectInterface
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
-
-        if (empty($ignoreSessionCache)) {
+        
+        if (empty($ignoreSessionCache) && empty($global['ignoreSessionCache'])) {
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
                 self::setLastUsedCacheMode("Session cache \$_SESSION['user']['sessionCache'][$name]");
