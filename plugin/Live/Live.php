@@ -2258,7 +2258,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         //$force_recreate = true;
         if (empty($force_recreate)) {
             if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']])) {
-                _error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ");
+                //_error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ");
                 return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
             $global['ignoreSessionCache'] = 1;
@@ -2266,7 +2266,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $result = $cacheHandler->getCache($cacheName, 90);
             $global['ignoreSessionCache'] = 0;
             if (!empty($result)) {
-                _error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
+                //_error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
                 return _json_decode($result);
             }
         }
