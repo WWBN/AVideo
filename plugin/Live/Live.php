@@ -2252,7 +2252,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             //_error_log("Live::_getStats {$live_servers_id} REQUEST " . json_encode($_REQUEST));
             $_REQUEST['name'] = "undefined";
         }
-        _error_log('Live::_getStats ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
+        //_error_log('Live::_getStats ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
         $cacheName = "live_servers_id_{$live_servers_id}_{$_REQUEST['name']}_" . User::getId();
         $cacheHandler = new LiveCacheHandler();
         //$force_recreate = true;
