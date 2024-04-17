@@ -335,13 +335,16 @@ class CachesInDB extends ObjectYPT
     public static function _deleteCacheStartingWith($name)
     {
         if(isBot()){
+            _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
             return false;
         }
         global $global;
-        if (empty($name)) {
+        if (empty($name)) { 
+            _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
             return false;
         }
         if (!static::isTableInstalled()) {
+            _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
             return false;
         }
         $name = self::hashName($name);
@@ -349,7 +352,7 @@ class CachesInDB extends ObjectYPT
         //$sql = "DELETE FROM " . static::getTableName() . " WHERE name LIKE '{$name}%'";
         $sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
         
-        _error_log("CachesInDB::_deleteCacheStartingWith($name)($name) $sql");
+        _error_log("CachesInDB::_deleteCacheStartingWith($name) $sql");
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
         self::readUncomited();

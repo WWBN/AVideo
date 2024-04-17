@@ -1112,7 +1112,8 @@ abstract class CacheHandler {
         $timeLog = __FILE__ . "::deleteCache ";
         TimeLogStart($timeLog);
         $prefix = $this->getCacheSubdir();
-        if (class_exists('CachesInDB')) {           
+        if (class_exists('CachesInDB')) {   
+            _error_log("deleteCache CachesInDB");        
             CacheDB::deleteCacheStartingWith($prefix);
         } 
         TimeLogEnd($timeLog, __LINE__);
@@ -1121,6 +1122,7 @@ abstract class CacheHandler {
         unset($_SESSION['user']['sessionCache']);
         TimeLogEnd($timeLog, __LINE__);
         if($clearFirstPageCache){
+            _error_log("deleteCache clearFirstPageCache");        
             clearCache(true);
         }
         TimeLogEnd($timeLog, __LINE__);
