@@ -391,7 +391,7 @@ class Cache extends PluginAbstract {
                 //$time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
                 $time = $row['created_php_time'];
                 if (!empty($lifetime) && ($time + $lifetime) < time() && !empty($row['id'])) {   
-                    _error_log("getCache($name, $lifetime, $ignoreMetadata) line=".__LINE__);             
+                    _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound line=".__LINE__);             
                     $cacheNotFound++;
                 } else if(!empty($row['content'])) {
                     $_getCacheDB[$index] = _json_decode($row['content']);
@@ -399,7 +399,7 @@ class Cache extends PluginAbstract {
                         $cacheFound++;
                         $_getCacheDB[$index] = $row['content'];
                     }else{
-                        _error_log("getCache($name, $lifetime, $ignoreMetadata) line=".__LINE__);      
+                        _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound line=".__LINE__);             
                         $cacheNotFound++;
                     }
                 }
