@@ -5331,6 +5331,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             return $__getStatsNotifications__;
         }
         //$pobj = AVideoPlugin::getDataObject("Live");
+        // I had to remove it otherwise the cache did not update
         //$json = $cacheHandler->getCache(LiveCacheHandler::$cacheTypeNotificationSuffix, 60); // 1.5 minutes because the cache is receated every minute
     }
     TimeLogEnd($timeName, __LINE__);
@@ -5401,7 +5402,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                 }
             }
         }
-        $cache = $cacheHandler->setCache($json);
+        //$cache = $cacheHandler->setCache($json);
         //Live::checkAllFromStats();
         TimeLogEnd($timeName, __LINE__);
         //_error_log('Live::createStatsCache ' . json_encode($cache));

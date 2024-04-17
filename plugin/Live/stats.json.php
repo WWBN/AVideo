@@ -25,7 +25,7 @@ if (empty($pobj)) {
 $live_servers_id = Live::getLiveServersIdRequest();
 $cacheName = "lsid_{$live_servers_id}_" . md5($global['systemRootPath'] . json_encode($_REQUEST));
 $cacheHandler = new LiveCacheHandler();
-//$json = $cacheHandler->getCache( $cacheName, 30);
+$json = $cacheHandler->getCache( $cacheName, 30);
 //_error_log(json_encode(ObjectYPT::getLastUsedCacheInfo()));
 //var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
 
@@ -36,7 +36,7 @@ if (empty($json)) {
     $json = getStatsNotifications();
     TimeLogEnd($timeName, __LINE__);
     //var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
-    //$cacheHandler->setCache($json);
+    $cacheHandler->setCache($json);
     TimeLogEnd($timeName, __LINE__);
 }
 TimeLogEnd($timeName, __LINE__);
