@@ -517,7 +517,7 @@ class CustomizeUser extends PluginAbstract
         global $advancedCustom;
 
         if (!isShareEnabled()) {
-            _error_log("NOT isShareEnabled()");
+            //_error_log("NOT isShareEnabled()");
             return false;
         }
 
@@ -648,7 +648,7 @@ class CustomizeUser extends PluginAbstract
         }
         $users_id = $video->getUsers_id();
         if (!self::canShareVideosFromUser($users_id)) {
-            _error_log("CustomizeUser::canShareVideosFromVideo canShareVideosFromUser($users_id) = false");
+            //_error_log("CustomizeUser::canShareVideosFromVideo canShareVideosFromUser($users_id) = false");
             return false;
         }
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
