@@ -395,7 +395,7 @@ class Cache extends PluginAbstract {
                 $isExpired = !empty($lifetime) && $maxTimeTolerance < $timeNow;
                 if ($isExpired) {   
                     $moreInfo = "Lifetime expired = ".($timeNow-$maxTimeTolerance);
-                    _error_log("getCache($name, $lifetime, $ignoreMetadata) is expired cacheNotFoundCount=$cacheNotFound $moreInfo line=".__LINE__);         
+                    //_error_log("getCache($name, $lifetime, $ignoreMetadata) is expired cacheNotFoundCount=$cacheNotFound $moreInfo line=".__LINE__);         
                     $cacheNotFound++;
                 } else if(!$isExpired && !empty($row['content'])) {
                     $_getCacheDB[$index] = _json_decode($row['content']);
