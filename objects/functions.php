@@ -5331,7 +5331,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             return $__getStatsNotifications__;
         }
         //$pobj = AVideoPlugin::getDataObject("Live");
-        $json = $cacheHandler->getCache(LiveCacheHandler::$cacheTypeNotificationSuffix, 60); // 1.5 minutes because the cache is receated every minute
+        //$json = $cacheHandler->getCache(LiveCacheHandler::$cacheTypeNotificationSuffix, 60); // 1.5 minutes because the cache is receated every minute
     }
     TimeLogEnd($timeName, __LINE__);
     if ($isLiveEnabled && (empty($json) || !empty($json->error) || !isset($json->error))) {
