@@ -5331,11 +5331,9 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             return $__getStatsNotifications__;
         }
         //$pobj = AVideoPlugin::getDataObject("Live");
-        // I had to remove it otherwise the cache did not update
-        //$json = $cacheHandler->getCache(LiveCacheHandler::$cacheTypeNotificationSuffix, 60); // 1.5 minutes because the cache is receated every minute
     }
     TimeLogEnd($timeName, __LINE__);
-    if ($isLiveEnabled && (empty($json) || !empty($json->error) || !isset($json->error))) {
+    if ($isLiveEnabled) {
         //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $json = Live::getStats();
         $json = object_to_array($json);
@@ -5408,7 +5406,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
         //_error_log('Live::createStatsCache ' . json_encode($cache));
     } else {
         //_error_log('getStatsNotifications: 2 cached result');
-        $json = object_to_array($json);
+        $json = array();
     }
 
     TimeLogEnd($timeName, __LINE__);

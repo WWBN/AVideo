@@ -22,30 +22,14 @@ if (empty($pobj->server_type->value)) {
 if (empty($pobj)) {
     die(json_encode("Plugin disabled"));
 }
-$live_servers_id = Live::getLiveServersIdRequest();
-$cacheName = "lsid_{$live_servers_id}_" . md5($global['systemRootPath'] . json_encode($_REQUEST));
-$cacheHandler = new LiveCacheHandler();
-$json = $cacheHandler->getCache( $cacheName, 30);
-//_error_log(json_encode(ObjectYPT::getLastUsedCacheInfo()));
-//var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
 
 $timeName = "stats.json.php";
 TimeLogStart($timeName);
-if (empty($json)) {
-    TimeLogEnd($timeName, __LINE__);
-    $json = getStatsNotifications();
-    TimeLogEnd($timeName, __LINE__);
-    //var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
-    $cacheHandler->setCache($json);
-    TimeLogEnd($timeName, __LINE__);
-}
+$json = getStatsNotifications();
 TimeLogEnd($timeName, __LINE__);
 $json = object_to_array($json);
 TimeLogEnd($timeName, __LINE__);
 
-//var_dump($json);exit;
-// check if application is online
-    TimeLogEnd($timeName, __LINE__);
 if (!empty($_REQUEST['name'])) {
     TimeLogEnd($timeName, __LINE__);
     $json['msg'] = 'OFFLINE';
