@@ -661,6 +661,7 @@ abstract class ObjectYPT implements ObjectInterface
             $cache = Cache::getCache($name, $lifetime, $ignoreMetadata);
             //var_dump($name, $lifetime, $ignoreMetadata);
             if (!empty($cache)) {
+                if(preg_match('/live/', $name)){_error_log("getCache 1: stats [$name] lifetime=$lifetime filemtime=".filemtime($cachefile)." ".$cachefile);}
                 self::setLastUsedCacheMode("Cache::getCache($name, $lifetime, $ignoreMetadata)");
                 return $cache;
             }
@@ -678,7 +679,7 @@ abstract class ObjectYPT implements ObjectInterface
           /**
          */
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
-            if(preg_match('/live/', $name)){_error_log("getCache: stats [$name] lifetime=$lifetime filemtime=".filemtime($cachefile)." ".$cachefile);}
+            if(preg_match('/live/', $name)){_error_log("getCache 2: stats [$name] lifetime=$lifetime filemtime=".filemtime($cachefile)." ".$cachefile);}
             self::setLastUsedCacheMode("Local File $cachefile");
             $c = @url_get_contents($cachefile);
             $json = _json_decode($c);
