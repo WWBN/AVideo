@@ -2243,7 +2243,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function _getStats($live_servers_id = 0, $force_recreate = false)
     {
-        global $global, $_getStats;
+        global $global, $_getStats, $cacheNotFound;
         $timeName = "stats.json.php _getStats";
         TimeLogStart($timeName);
         if (empty($_REQUEST['name'])) {
@@ -2262,6 +2262,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
             $global['ignoreSessionCache'] = 1;
+            $cacheNotFound = 0;
             $result = $cacheHandler->getCache($cacheName, 90);
             $global['ignoreSessionCache'] = 0;
             if (!empty($result)) {
