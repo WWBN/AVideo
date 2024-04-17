@@ -2252,13 +2252,13 @@ Click <a href=\"{link}\">here</a> to join our live.";
             //_error_log("Live::_getStats {$live_servers_id} REQUEST " . json_encode($_REQUEST));
             $_REQUEST['name'] = "undefined";
         }
-        //_error_log('_getStats: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
+        _error_log('Live::_getStats ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
         $cacheName = "live_servers_id_{$live_servers_id}_{$_REQUEST['name']}_" . User::getId();
         $cacheHandler = new LiveCacheHandler();
         //$force_recreate = true;
         if (empty($force_recreate)) {
             if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']])) {
-                //_error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ");
+                _error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ");
                 return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
             $global['ignoreSessionCache'] = 1;
@@ -2266,10 +2266,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $result = $cacheHandler->getCache($cacheName, 90);
             $global['ignoreSessionCache'] = 0;
             if (!empty($result)) {
-                //_error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
+                _error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
                 return _json_decode($result);
             }
         }
+        _error_log("Live::_getStats NOT cached {$_REQUEST['name']} {$cacheName}");
 
         TimeLogEnd($timeName, __LINE__);
         _session_write_close();
