@@ -399,7 +399,7 @@ class Cache extends PluginAbstract {
                         $cacheFound++;
                         $_getCacheDB[$index] = $row['content'];
                     }else{
-                        _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound line=".__LINE__);             
+                        _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound line=".__LINE__ .' content='.$row['content']);             
                         $cacheNotFound++;
                     }
                 }
