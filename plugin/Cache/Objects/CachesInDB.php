@@ -273,10 +273,7 @@ class CachesInDB extends ObjectYPT
             mysqlBeginTransaction();
     
             try {
-                $res = sqlDAL::writeSql($sql, implode('', $formats), $values);
-                if(preg_match('/live/i', $name)){
-                    _error_log("setBulkCache saved name={$name} ".json_encode($res).' sql='.$sql, AVideoLog::$DEBUG);
-                }   
+                $res = sqlDAL::writeSql($sql, implode('', $formats), $values);  
                 $result &= $res;
                 mysqlCommit();
             } catch (\Throwable $th) {
