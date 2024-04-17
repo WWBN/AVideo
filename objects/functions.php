@@ -5330,7 +5330,8 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
         if (!empty($__getStatsNotifications__)) {
             return $__getStatsNotifications__;
         }
-        $json = $cacheHandler->getCache(LiveCacheHandler::$cacheTypeNotificationSuffix, 0);
+        $pobj = AVideoPlugin::getDataObject("Live");
+        $json = $cacheHandler->getCache(LiveCacheHandler::$cacheTypeNotificationSuffix, $pobj->cacheStatsTimout);
     }
     TimeLogEnd($timeName, __LINE__);
     if ($isLiveEnabled && (empty($json) || !empty($json->error) || !isset($json->error))) {
