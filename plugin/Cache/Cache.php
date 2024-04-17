@@ -387,15 +387,17 @@ class Cache extends PluginAbstract {
             $_getCacheDB[$index] = false;
             $metadata = self::getCacheMetaData();
             $row = CacheDB::getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
-            if (!empty($row)) {
+            if (!empty($row) && !empty($row['id'])) {
                 //$time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
-                $time = $row['created_php_time'];
+                $created_php_time = $row['created_php_time'];
+                $maxTimeTolerance = ($created_php_time + $lifetime);
                 $timeNow = time();
-                if (!empty($lifetime) && ($time + $lifetime) < $timeNow && !empty($row['id'])) {   
-                    $moreInfo = 'Lifetime expired = '.($timeNow-($time + $lifetime));
-                    _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound $moreInfo line=".__LINE__);         
+                $isExpired = !empty($lifetime) && $maxTimeTolerance < $timeNow;
+                if ($isExpired) {   
+                    $moreInfo = "Lifetime expired = ".($timeNow-$maxTimeTolerance);
+                    _error_log("getCache($name, $lifetime, $ignoreMetadata) is expired cacheNotFoundCount=$cacheNotFound $moreInfo line=".__LINE__);         
                     $cacheNotFound++;
-                } else if(!empty($row['content'])) {
+                } else if(!$isExpired && !empty($row['content'])) {
                     $_getCacheDB[$index] = _json_decode($row['content']);
                     $cacheFound++;
                     if($_getCacheDB[$index] === null){
