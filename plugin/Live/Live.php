@@ -2261,7 +2261,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 //_error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ");
                 return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
-            $result = $cacheHandler->getCache($cacheName, maxLifetime() + 60);
+            $result = $cacheHandler->getCache($cacheName, 90);
             if (!empty($result)) {
                 //_error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
                 return _json_decode($result);
