@@ -390,8 +390,10 @@ class Cache extends PluginAbstract {
             if (!empty($row)) {
                 //$time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
                 $time = $row['created_php_time'];
-                if (!empty($lifetime) && ($time + $lifetime) < time() && !empty($row['id'])) {   
-                    _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound line=".__LINE__);             
+                $timeNow = time();
+                if (!empty($lifetime) && ($time + $lifetime) < $timeNow && !empty($row['id'])) {   
+                    $moreInfo = 'Lifetime expired = '.($timeNow-($time + $lifetime));
+                    _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound $moreInfo line=".__LINE__);             
                     $cacheNotFound++;
                 } else if(!empty($row['content'])) {
                     $_getCacheDB[$index] = _json_decode($row['content']);
