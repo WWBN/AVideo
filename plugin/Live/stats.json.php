@@ -25,7 +25,7 @@ if (empty($pobj)) {
 $live_servers_id = Live::getLiveServersIdRequest();
 $cacheName = "lsid_{$live_servers_id}_" . md5($global['systemRootPath'] . json_encode($_REQUEST));
 $cacheHandler = new LiveCacheHandler();
-$json = $cacheHandler->getCache( $cacheName, $pobj->cacheStatsTimout);
+$json = $cacheHandler->getCache( $cacheName, 30);
 //_error_log(json_encode(ObjectYPT::getLastUsedCacheInfo()));
 //var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
 
