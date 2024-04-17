@@ -397,12 +397,9 @@ class Cache extends PluginAbstract {
                     $cacheNotFound++;
                 } else if(!empty($row['content'])) {
                     $_getCacheDB[$index] = _json_decode($row['content']);
-                    if($_getCacheDB[$index] !== null){
-                        $cacheFound++;
+                    $cacheFound++;
+                    if($_getCacheDB[$index] === null){
                         $_getCacheDB[$index] = $row['content'];
-                    }else{
-                        _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound line=".__LINE__ .' content='.$row['content']);             
-                        $cacheNotFound++;
                     }
                 }
             }
