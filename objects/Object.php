@@ -678,7 +678,7 @@ abstract class ObjectYPT implements ObjectInterface
           /**
          */
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
-            //if(preg_match('/getStats/', $cachefile)){echo $cachefile,'<br>';}
+            if(preg_match('/live_servers_id_/', $name)){_error_log("getCache: stats [$name] lifetime=$lifetime filemtime=".filemtime($cachefile)." ".$cachefile);}
             self::setLastUsedCacheMode("Local File $cachefile");
             $c = @url_get_contents($cachefile);
             $json = _json_decode($c);

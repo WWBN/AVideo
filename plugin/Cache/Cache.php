@@ -393,10 +393,7 @@ class Cache extends PluginAbstract {
                 $timeNow = time();
                 if (!empty($lifetime) && ($time + $lifetime) < $timeNow && !empty($row['id'])) {   
                     $moreInfo = 'Lifetime expired = '.($timeNow-($time + $lifetime));
-                    _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound $moreInfo line=".__LINE__);
-                    if(preg_match('/live/', $name)){
-                        _error_log("livestats getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound $moreInfo ".json_encode(debug_backtrace()));
-                    }             
+                    _error_log("getCache($name, $lifetime, $ignoreMetadata) cacheNotFound=$cacheNotFound $moreInfo line=".__LINE__);         
                     $cacheNotFound++;
                 } else if(!empty($row['content'])) {
                     $_getCacheDB[$index] = _json_decode($row['content']);
