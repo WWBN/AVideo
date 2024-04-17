@@ -383,8 +383,8 @@ class Cache extends PluginAbstract {
             }
         }
         $index = "{$name}_{$lifetime}";
-        if (empty($_getCacheDB[$index])) {
-            $_getCacheDB[$index] = null;
+        if (!isset($_getCacheDB[$index])) {
+            $_getCacheDB[$index] = false;
             $metadata = self::getCacheMetaData();
             $row = CacheDB::getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
             if (!empty($row)) {
