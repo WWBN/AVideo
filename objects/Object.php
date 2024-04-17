@@ -545,7 +545,7 @@ abstract class ObjectYPT implements ObjectInterface
             self::logTime($start, __LINE__, $name);
             if (!empty($saved)) {
                 //_error_log('set cache saved '.$saved);
-                return $saved;
+                return "Saved on Cache::_setCache($name) at the end";
             }else{
                 _error_log('Error on set cache not saved ');
             }
@@ -646,7 +646,7 @@ abstract class ObjectYPT implements ObjectInterface
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
-        
+
         if (empty($ignoreSessionCache) && empty($global['ignoreSessionCache'])) {
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
