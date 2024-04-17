@@ -2466,7 +2466,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         $cache = $cacheHandler->setCache($obj);
-        _error_log("Live::_getStats NOT cached {$cacheName} ".json_encode($cache));
+        //_error_log("Live::_getStats NOT cached {$cacheName} ".json_encode($cache));
         TimeLogEnd($timeName, __LINE__);
         return $obj;
     }
