@@ -432,6 +432,9 @@ if (typeof gtag !== \"function\") {
             $name = preg_replace('/\s+/', '', $name);
             $name = cleanString($name);
         }
+        if(!is_string($name)){
+            $name = json_encode($name);
+        }
         // in case is a email get only the username
         $parts = explode("@", $name);
         $name = $parts[0];
