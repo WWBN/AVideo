@@ -4,7 +4,15 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+// header('Access-Control-Allow-Origin: *');
+if (!isset($_REQUEST['domain'])) {
+    header("Access-Control-Allow-Origin: *");
+} else {
+    header("Access-Control-Allow-Origin: " . $_REQUEST['domain']);
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin");
+}
 
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../../videos/configuration.php';

@@ -1,5 +1,17 @@
 <?php
 
+
+if (!isset($_REQUEST['domain'])) {
+    header("Access-Control-Allow-Origin: *");
+} else {
+    header("Access-Control-Allow-Origin: " . $_REQUEST['domain']);
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin");
+    // header('P3P: CP="CAO PSA OUR"');
+}
+header("Content-Type: text/html");
+
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../../videos/configuration.php';
     if (file_exists($configFile)) {

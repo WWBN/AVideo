@@ -1,6 +1,11 @@
 <?php
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+if (isset($_REQUEST['domain'])) {
+    header('Access-Control-Allow-Origin: '.$_REQUEST['domain']);
+    header("Access-Control-Allow-Credentials", true);
+} else {
+    header('Access-Control-Allow-Origin: *');
+}
 // header("Access-Control-Allow-Headers: Content-Type");
 
 ini_set('display_errors', 1);
@@ -19,6 +24,10 @@ require_once('API.php');
 $meetAPI = new MeetAPI();
 
 $parameters = array_merge($_GET, $_POST);
+
+$_REQUEST['rememberme'] = "true";
+// $user = new User(0, $parameters['user'], $parameters['pass']);
+// $resp = $user->login(false, true);
 
 if (!isset($parameters['apiName']) && empty($parameters['apiName'])) {
 	die(json_encode(array("error"=>"true","message"=>"Error! Please provide apiName field.")));

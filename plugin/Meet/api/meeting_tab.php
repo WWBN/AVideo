@@ -3,8 +3,22 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+// header('Content-Type: application/json');
+// header('Access-Control-Allow-Origin: *');
+
+if (!isset($_REQUEST['domain'])) {
+    header("Access-Control-Allow-Origin: *");
+} else {
+    header("Access-Control-Allow-Origin: " . $_REQUEST['domain']);
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin");
+    header('P3P: CP="CAO PSA OUR"');
+}
+
+// Response
+header("Content-Type: text/html");
+
 
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../../videos/configuration.php';
@@ -68,15 +82,9 @@ $end_meet_redirect = $_REQUEST['end_meet_redirect'];
                 </ul>
 
                 <div class="tab-content">
-                    <div id="mUGToday" class="tab-pane fade in active" style="padding: 10px;" url="<?php
-                    echo $global['webSiteRootURL'] . 'plugin/Meet/api/meet_scheduled.php?meet_scheduled=today&manageMeetings=0&'.$userCredentials;
-                    ?>"><div class="loader"></div></div>
-                    <div id="mUGUpcoming" class="tab-pane fade" style="padding: 10px;" url="<?php
-                    echo $global['webSiteRootURL'] . 'plugin/Meet/api/meet_scheduled.php?meet_scheduled=upcoming&manageMeetings=0&'.$userCredentials;
-                    ?>"><div class="loader"></div></div>
-                    <div id="mUGPast" class="tab-pane fade" style="padding: 10px;" url="<?php
-                         echo $global['webSiteRootURL'] . 'plugin/Meet/api/meet_scheduled.php?meet_scheduled=past&manageMeetings=0&'.$userCredentials;
-                         ?>"><div class="loader"></div></div>
+                    <div id="mUGToday" class="tab-pane fade in active" style="padding: 10px;" url="<?php echo $global['webSiteRootURL'] . 'plugin/Meet/api/meet_scheduled.php?meet_scheduled=today&manageMeetings=0&'.$userCredentials ?>"><div class="loader"></div></div>
+                    <div id="mUGUpcoming" class="tab-pane fade" style="padding: 10px;" url="<?php echo $global['webSiteRootURL'] . 'plugin/Meet/api/meet_scheduled.php?meet_scheduled=upcoming&manageMeetings=0&'.$userCredentials ?>"><div class="loader"></div></div>
+                    <div id="mUGPast" class="tab-pane fade" style="padding: 10px;" url="<?php echo $global['webSiteRootURL'] . 'plugin/Meet/api/meet_scheduled.php?meet_scheduled=past&manageMeetings=0&'.$userCredentials ?>"><div class="loader"></div></div>
                 </div>
             </div>
         </div>

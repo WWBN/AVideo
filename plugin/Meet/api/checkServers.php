@@ -224,7 +224,9 @@ $domain = $_REQUEST['domain'];
                 function checkServerUsage(server) {
                     var ajaxTime = new Date().getTime();
                     $.ajax({
+                        type: "GET",
                         url: "https://" + server + "/api/info.json.php",
+                        crossDomain: true,
                     }).done(function (response) {
                         var totalTime = new Date().getTime() - ajaxTime;
                         var serverId = server.replace(/[.]/g, "_");

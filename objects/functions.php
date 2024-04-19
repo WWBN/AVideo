@@ -7495,7 +7495,7 @@ function _setcookie($cookieName, $value, $expires = 0)
             'domain' => $domain,
             'secure' => true,
             'httponly' => true,
-            'samesite' => 'None'
+            'samesite' => 'Lax', //'None'
         ];
         setcookie($cookieName, $value, $cookie_options);
         $cookie_options['domain'] = 'www.' . $domain;

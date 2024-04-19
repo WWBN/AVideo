@@ -23,10 +23,9 @@ $userCredentials = User::loginFromRequestToGet();
 $domain = $_REQUEST['domain'];
 
 ?>
-
         <link rel="stylesheet"  type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-toast/jquery.toast.min.css">    
         <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
         <style>
             .serverLabels{
                 padding-bottom: 15px;
@@ -76,7 +75,7 @@ $domain = $_REQUEST['domain'];
                                 if (User::canCreateMeet()) {
                                     ?>
                                     <li><a data-toggle="tab" href="#createMeet"><i class="fa fa-calendar"></i>  <span class="hidden-sm hidden-xs"><?php echo __("Schedule"); ?></span></a></li>
-                                    <li><a data-toggle="tab" href="#" onclick="_startMeetNow();return false;"><i class="fa fa-comments"></i>  <?php echo __("New Meet"); ?></a></li>
+                                    <li><a data-toggle="tab" href="#" onclick="_startMeetNow();return false;" style="cursor: pointer;"><i class="fa fa-comments"></i>  <?php echo __("New Meet"); ?></a></li>
                                     <?php
                                 }
                                 ?>
@@ -89,8 +88,7 @@ $domain = $_REQUEST['domain'];
                                 <?php
                                     if (User::canCreateMeet()) {
                                 ?>
-                                    <div id="createMeet" class="tab-pane fade" url="<?php echo $global['webSiteRootURL'] . 'plugin/Meet/api/schedule_tab.php?' . $userCredentials. '&end_meet_redirect='.$end_meet_redirect;
-                                    ?>">
+                                    <div id="createMeet" class="tab-pane fade" url="<?php echo $global['webSiteRootURL'] . 'plugin/Meet/api/schedule_tab.php?' . $userCredentials. '&end_meet_redirect='.$end_meet_redirect.'&domain='.$domain; ?>">
                                         <div class="loader"></div>
                                     </div>
                                 <?php
@@ -114,11 +112,13 @@ $domain = $_REQUEST['domain'];
 
             <div id="swal-div"></div>
 
+            <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>node_modules/js-cookie/dist/js.cookie.js"></script>
             <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js?<?php echo filectime("{$global['systemRootPath']}view/js/script.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-toast/jquery.toast.min.js"></script>
             <!-- <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/seetalert/sweetalert.min.js"></script> -->
             <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
             <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+            <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>node_modules/sweetalert/dist/sweetalert.min.js"></script>
 
             <?php
             // include $global['systemRootPath'] . 'view/include/footer.php';
