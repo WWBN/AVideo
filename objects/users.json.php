@@ -6,6 +6,8 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+$global['showChannelPhotoOnVideoItem'] = 1; 
+$global['showChannelNameOnVideoItem'] = 1;
 header('Content-Type: application/json');
 session_write_close();
 $canAdminUsers = canAdminUsers(); 

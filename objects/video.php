@@ -1102,9 +1102,9 @@ if (!class_exists('Video')) {
             $sort = @$_POST['sort'];
 
             $_POST['sort'] = array();
-            $videosToShowViewableOnly = array(Video::SORT_TYPE_SUGGESTED, Video::SORT_TYPE_TRENDING ,Video::SORT_TYPE_MOSTPOPULAR, Video::SORT_TYPE_MOSTWATCHED);
+            $videosToShowViewableOnly = array(Video::SORT_TYPE_SUGGESTED, Video::SORT_TYPE_TRENDING, Video::SORT_TYPE_MOSTPOPULAR, Video::SORT_TYPE_MOSTWATCHED);
 
-            if(in_array($sortType, $videosToShowViewableOnly)){
+            if (in_array($sortType, $videosToShowViewableOnly)) {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
             }
 
@@ -1152,12 +1152,12 @@ if (!class_exists('Video')) {
                     $_POST['sort']['v.id'] = 'DESC';
                     //var_dump($_POST['sort']);
                 default:
-                    if(is_array($sort)){
-                        foreach ($sort as $key=>$value) {
-                            if($key == 'created'){
+                    if (is_array($sort)) {
+                        foreach ($sort as $key => $value) {
+                            if ($key == 'created') {
                                 $key = 'v.created';
                             }
-                            if(!isset($_POST['sort'][$key])){
+                            if (!isset($_POST['sort'][$key])) {
                                 $_POST['sort'][$key] = $value;
                             }
                         }
@@ -1166,7 +1166,7 @@ if (!class_exists('Video')) {
                         $_POST['sort']['v.created'] = $_POST['sort']['created'];
                         unset($_POST['sort']['created']);
                     }
-                    if (!empty($_POST['sort']['v.created']) && count($_POST['sort']) == 1) {                        
+                    if (!empty($_POST['sort']['v.created']) && count($_POST['sort']) == 1) {
                         if (strtoupper($_POST['sort']['v.created']) === 'DESC') {
                             $_POST['sort'] = array();
                             $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
@@ -1867,16 +1867,16 @@ if (!class_exists('Video')) {
             if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
                 $sql .= self::getSQLByStatus(Video::SORT_TYPE_VIEWABLE, true);
                 $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
-            }else {
+            } else {
                 $sortType = Video::SORT_TYPE_VIEWABLE;
                 if ($suggestedOnly) {
                     $sortType = Video::SORT_TYPE_SUGGESTED;
                 } elseif (isset($_POST['sort']['trending']) || isset($_GET['sort']['trending'])) {
                     $sortType = Video::SORT_TYPE_TRENDING;
-                }else if(strlen($status) > 1){
+                } else if (strlen($status) > 1) {
                     $sortType = $status;
                 }
-                
+
                 $sql .= self::getSQLByStatus($status, $showUnlisted);
 
                 $sql .= self::getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
@@ -4175,10 +4175,10 @@ if (!class_exists('Video')) {
 
             $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
-            if (!empty($secure) && preg_match("/.*\\.(mp4|webm|m3u8|pdf|zip)$/", $type)){
+            if (!empty($secure) && preg_match("/.*\\.(mp4|webm|m3u8|pdf|zip)$/", $type)) {
                 if (!empty($secure) && !method_exists($secure, 'addToken')) {
                     die('Update the plugin SecureVideosDirectory');
-                } 
+                }
                 $source['url'] = $secure->addToken($source['url'], $filename);
                 $source['url_noCDN'] = $secure->addToken($source['url_noCDN'], $filename);
             }
@@ -5672,15 +5672,14 @@ if (!class_exists('Video')) {
             $cacheSuffix = "getVideoTypeFromId";
             $videoCache = new VideoCacheHandler($video['filename']);
             $cache = $videoCache->getCache($cacheSuffix, 0);
-            if(!empty($cache)){
+            if (!empty($cache)) {
                 return _json_decode($cache);
             }
-            
+
             $response =  self::getVideoType($video['filename']);
             $videoCache->setCache($response);
 
             return $response;
-
         }
 
         public static function getVideoType($filename)
@@ -6329,15 +6328,15 @@ if (!class_exists('Video')) {
             $content = local_get_contents($template);
             $channelLinkImageClass = '';
             $channelLinkNameClass = '';
-            if (!empty($advancedCustom->showChannelPhotoOnVideoItem)) {
+            if (!empty($global['showChannelPhotoOnVideoItem']) || !empty($advancedCustom->showChannelPhotoOnVideoItem)) {
                 $photo = User::getPhoto($users_id);
-            }else{
+            } else {
                 $photo = '';
                 $channelLinkImageClass = 'hidden';
             }
-            if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
+            if (!empty($global['showChannelNameOnVideoItem']) || !empty($advancedCustom->showChannelNameOnVideoItem)) {
                 $name = strip_tags(User::getNameIdentificationById($users_id));
-            }else{
+            } else {
                 $name = '';
                 $channelLinkNameClass = 'hidden';
             }
@@ -6747,21 +6746,30 @@ if (!class_exists('Video')) {
             return $_checkIfIsBrokenList[$videos_id];
         }
 
+        public static function getFirstSource($filename, $cacheCleared = false)
+        {
+            $sources = getVideosURL_V2($filename, $cacheCleared);
+            $search = ['m3u8', 'mp4', 'webm', 'mp3',];
+            foreach ($sources as $key => $value1) {
+                foreach ($search as $value2) {
+                    if (preg_match("/^{$value2}/i", $key)) {
+                        $value1['sourceFound'] = $key;
+                        $value1['sourceFoundType'] = $value2;
+                        return $value1;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public static function isMediaFileMissing($filename, $cacheCleared = false)
         {
             global $getVideosURL_V2Array;
             unset($getVideosURL_V2Array[$filename]);
             $sources = getVideosURL_V2($filename, true);
             $search = ['mp3', 'mp4', 'm3u8', 'webm'];
-            $found = false;
-            foreach ($sources as $key => $value1) {
-                foreach ($search as $value2) {
-                    if (preg_match("/^{$value2}/i", $key)) {
-                        $found = true;
-                        break 2;
-                    }
-                }
-            }
+            $found = !empty(self::getFirstSource($filename, $cacheCleared));
 
             if (!$cacheCleared && !$found) {
                 global $getVideosURL_V2Array;

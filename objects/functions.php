@@ -1363,7 +1363,6 @@ function getSources($fileName, $returnArray = false, $try = 0)
     return $return;
 }
 
-
 function getSourceFromURL($url)
 {
     $url = AVideoPlugin::modifyURL($url);
