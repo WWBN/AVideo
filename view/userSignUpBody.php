@@ -3,7 +3,7 @@
 // convert the string to a json object
 //$advancedCustom = _json_decode($json_file);
 if (!empty($advancedCustomUser->disableNativeSignUp)) {
-    die(__("Sign Up Disabled"));
+    forbiddenPage("Sign Up Disabled");
 }
 
 $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
