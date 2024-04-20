@@ -1199,7 +1199,7 @@ if (typeof gtag !== \"function\") {
             _session_regenerate_id();
             _session_write_close();
 
-            _error_log('User:login finish with success users_id=' . json_encode($_SESSION['user']['id']));
+            _error_log("User:login finish with success users_id= {$_SESSION['user']['id']} {$_SERVER['HTTP_USER_AGENT']} IP=".getRealIpAddr());
             return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);
