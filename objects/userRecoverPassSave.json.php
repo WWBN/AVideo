@@ -24,6 +24,7 @@ if (empty($user)) {
     $user->setPassword($_POST['newPassword']);
     $user->setRecoverPass(true);
     if ($user->save()) {
+        _error_log("Your Password has been set user={$_POST['user']}, email={$user->getEmail()} " .' IP='.getRealIpAddr().' '.$_SERVER['HTTP_USER_AGENT'] . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $obj->success = __("Your Password has been set");
         die(json_encode($obj));
     }

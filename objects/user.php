@@ -869,6 +869,7 @@ if (typeof gtag !== \"function\") {
                 . "?,?,?, now(), now(),?,?,?,?," . (empty($this->is_company) ? 'NULL' : intval($this->is_company)) . ",?)";
 
             _error_log("Insert new user user=$user, email={$this->email}, name=$name " .' IP='.getRealIpAddr().' '.$_SERVER['HTTP_USER_AGENT'] . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+
         }
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
