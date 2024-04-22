@@ -1962,7 +1962,7 @@ if (!class_exists('Video')) {
                     }
                     $tlogName = TimeLogStart("video::getInfo index={$index} id={$row['id']} {$row['type']}");
                     $row = self::getInfo($row, $getStatistcs);
-
+                    
                     if ($getStatistcs) {
                         $row = self::getInfoPersonal($row);
                     }

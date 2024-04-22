@@ -350,7 +350,7 @@ class CachesInDB extends ObjectYPT
         $name = self::hashName($name);
         self::set_innodb_lock_wait_timeout();
         //$sql = "DELETE FROM " . static::getTableName() . " WHERE name LIKE '{$name}%'";
-        $sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
+        $sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE) OR name like '{$name}%';";
         
         _error_log("CachesInDB::_deleteCacheStartingWith($name) $sql");
         $global['lastQuery'] = $sql;
