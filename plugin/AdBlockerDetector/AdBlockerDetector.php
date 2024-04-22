@@ -37,8 +37,11 @@ class AdBlockerDetector extends PluginAbstract
 
     public function getStart()
     {
-        if (!empty($_REQUEST["adBlockerDetected"])) {
-            forbiddenPage("We've detected that you're using an ad blocker. This content is accessible when no ad blocker is detected.");
+        global $global;
+        if (!empty($_REQUEST["adBDetec"]) && empty($global['ignoreAdBlocker'])) {
+            $global['ignoreAdBlocker'] = 1;
+            require_once "{$global['systemRootPath']}plugin/AdBlockerDetector/index.php";
+            exit;
         }
     }
 
@@ -46,38 +49,40 @@ class AdBlockerDetector extends PluginAbstract
     {
         global $global, $config;
         $js = '';
-        if (empty($_REQUEST["adBlockerDetected"])) {
-            $js .= '<script src="' . getURL('node_modules/blockadblock/blockadblock.js') . '" type="text/javascript"></script>';
-            $js .= '<script src="' . getURL('plugin/AdBlockerDetector/script.js') . '" type="text/javascript"></script>';
-            
-            $js .= "<script>
-            function reloadWithAdBlockerDetected() {
-                var currentUrl = window.location.href;
-                if (currentUrl.indexOf('?') === -1) {
-                    currentUrl += '?adBlockerDetected=true';
-                } else {
-                    currentUrl += '&adBlockerDetected=true';
+        if(empty($global['ignoreAdBlocker'])){
+            if (empty($_REQUEST["adBDetec"])) {
+                $js .= '<script src="' . getURL('node_modules/blockadblock/blockadblock.js') . '" type="text/javascript"></script>';
+                $js .= '<script src="' . getURL('plugin/AdBlockerDetector/script.js') . '" type="text/javascript"></script>';
+                
+                $js .= "<script>
+                function reloadWithadBDetec() {
+                    var currentUrl = window.location.href;
+                    if (currentUrl.indexOf('?') === -1) {
+                        currentUrl += '?adBDetec=1';
+                    } else {
+                        currentUrl += '&adBDetec=1';
+                    }
+                    window.location.href = currentUrl;
                 }
-                window.location.href = currentUrl;
+                function adBlockDetected() {
+                    modal.showPleaseWait();
+                    avideoToastError('Ad Blocker detected');
+                    $('.container, .container-fluid').html('');
+                    reloadWithadBDetec();
+                }
+                if(typeof blockAdBlock === 'undefined') {
+                    avideoToastError('Ad Blocker file not found');
+                    adBlockDetected();
+                }
+                if(typeof checkScriptBlocking === 'undefined') {
+                    avideoToastError('Ad Blocker JS checkScriptBlocking not found');
+                    adBlockDetected();
+                }
+                
+                </script>";
+            }else{
+                $js .= '<script>history.replaceState(null, null, "'.getRedirectUri().'");</script>';
             }
-            function adBlockDetected() {
-                modal.showPleaseWait();
-                avideoToastError('Ad Blocker detected');
-                $('.container, .container-fluid').html('');
-                reloadWithAdBlockerDetected();
-            }
-            if(typeof blockAdBlock === 'undefined') {
-                avideoToastError('Ad Blocker file not found');
-                adBlockDetected();
-            }
-            if(typeof checkScriptBlocking === 'undefined') {
-                avideoToastError('Ad Blocker JS checkScriptBlocking not found');
-                adBlockDetected();
-            }
-            
-            </script>";
-        }else{
-            $js .= '<script>history.replaceState(null, null, "'.getRedirectUri().'");</script>';
         }
 
         return $js;

@@ -6988,7 +6988,10 @@ function getActivationCode()
 function fix_parse_url($url, $parameter)
 {
     $cleanParameter = str_replace('.', '_', $parameter);
-    return str_replace("{$cleanParameter}=", "{$parameter}=", $url);
+    //var_dump("{$cleanParameter}%3D", "{$parameter}%3D", $url);
+    $url = str_replace("{$cleanParameter}%3D", "{$parameter}%3D", $url);
+    $url = str_replace("{$cleanParameter}=", "{$parameter}=", $url);
+    return $url;
 }
 
 function generateHorizontalFlickity($items)
