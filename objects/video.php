@@ -5283,12 +5283,6 @@ if (!class_exists('Video')) {
                 $siteURL .= 'channel/' . urlencode($video->getChannelName()) . '/';
             }
 
-            if ($embed) {
-                $baseURL = "{$siteURL}{$subEmbedDir}/{$videos_id}";
-            } else {
-                $baseURL = "{$siteURL}{$subDir}/{$videos_id}";
-            }
-
             if ($type == Video::$urlTypeFriendly) {
                 if (empty($clean_title)) {
                     $clean_title = $video->getClean_title();
@@ -5301,14 +5295,20 @@ if (!class_exists('Video')) {
                         $videos_id = $encryptedVideos_id;
                     }
                 }
-                $url = "{$baseURL}/{$clean_title}{$get_http}";
+                $get_http = "/{$clean_title}{$get_http}";
             } else {
                 if (!empty($advancedCustom->makeVideosIDHarderToGuess)) {
                     $encryptedVideos_id = '.' . idToHash($videos_id);
                     $videos_id = $encryptedVideos_id;
                 }
-                $url = "{$baseURL}{$get_http}";
             }
+            
+            if ($embed) {
+                $url = "{$siteURL}{$subEmbedDir}/{$videos_id}{$get_http}";
+            } else {
+                $url = "{$siteURL}{$subDir}/{$videos_id}{$get_http}";
+            }
+
             if ($parseIfEmbed && $embed) {
                 return parseVideos($url, $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
             }
