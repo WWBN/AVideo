@@ -120,12 +120,12 @@ class YPTSocket extends PluginAbstract {
 
     public static function getSocketJS() {
         global $global;
-        include $global['systemRootPath'] . 'plugin/YPTSocket/footer.php';
+        include_once $global['systemRootPath'] . 'plugin/YPTSocket/footer.php';
     }
 
     public static function getCallerJS() {
         global $global;
-        include $global['systemRootPath'] . 'plugin/YPTSocket/footerCaller.php';
+        include_once $global['systemRootPath'] . 'plugin/YPTSocket/footerCaller.php';
     }
 
     public static function sendAsync($msg, $callbackJSFunction = "", $users_id = "", $send_to_uri_pattern = "") {

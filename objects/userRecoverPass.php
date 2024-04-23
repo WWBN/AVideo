@@ -85,7 +85,7 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
                     <h2><?php echo __("Recover password!"); ?></h2>
                 </div>
                 <div class="panel-body">
-                    <div class="form-group">
+                    <div class="row">
                         <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
                         <div class="col-md-8 inputGroupContainer">
                             <div class="input-group">
@@ -93,8 +93,6 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
                                 <input name="user" class="form-control" type="text" value="<?php echo $user->getUser(); ?>" readonly>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-md-4 control-label"><?php echo __("Recover Password"); ?></label>
                         <div class="col-md-8 inputGroupContainer">
                             <div class="input-group">
@@ -102,20 +100,17 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
                                 <input name="recoverPassword" class="form-control" type="text" value="<?php echo $recoverPass; ?>" <?php echo $readonly; ?>>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
                         <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
                         <div class="col-md-8 inputGroupContainer">
                             <?php getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password")); ?>
                         </div>
-                    </div>
 
-                    <div class="form-group">
                         <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
                         <div class="col-md-8 inputGroupContainer">
                             <?php getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password")); ?>
                         </div>
+
                     </div>
                 </div>
                 <div class="panel-footer">
