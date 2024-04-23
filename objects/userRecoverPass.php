@@ -45,7 +45,7 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
 
                     $to = $user->getEmail();
                     $subject = __('Recover Pass from') . ' ' . $config->getWebSiteTitle();
-                    $message = __("You asked for a recover link, click on the provided link") . "<br><a href='{$url}' class='button blue-button'>" . __("Reset password") . "</a><br>IP: ".getRealIpAddr();
+                    $message = __("You asked for a recover link, click on the provided link") . "<br><a href='{$url}' class='button blue-button'>" . __("Reset password") . "</a><br>IP: " . getRealIpAddr();
                     $fromEmail = $config->getContactEmail();
                     $resp = sendSiteEmail($to, $subject, $message, $fromEmail);
 
@@ -72,65 +72,59 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
     if ($user->getRecoverPass() !== $_REQUEST['recoverpass']) {
         //forbiddenPage('The recover pass does not match!');
         $recoverPass = '';
-    }else{
+    } else {
         $readonly = 'readonly';
         $recoverPass = $user->getRecoverPass();
     }
     $_page = new Page(array('Recover Password'));
 ?>
     <div class="container">
-        <form class="well form-horizontal" action=" " method="post" id="recoverPassForm">
-            <fieldset>
+        <form action="" method="post" id="recoverPassForm">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2><?php echo __("Recover password!"); ?></h2>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa-solid fa-user"></i></span>
+                                <input name="user" class="form-control" type="text" value="<?php echo $user->getUser(); ?>" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"><?php echo __("Recover Password"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input name="recoverPassword" class="form-control" type="text" value="<?php echo $recoverPass; ?>" <?php echo $readonly; ?>>
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- Form Name -->
-                <legend><?php echo __("Recover password!"); ?></legend>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <?php getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password")); ?>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input name="user" class="form-control" type="text" value="<?php echo $user->getUser(); ?>" readonly>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
+                        <div class="col-md-8 inputGroupContainer">
+                            <?php getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password")); ?>
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><?php echo __("Recover Password"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input name="recoverPassword" class="form-control" type="text" value="<?php echo $recoverPass; ?>" <?php echo $readonly; ?>>
-                        </div>
-                    </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-regular fa-floppy-disk"></i>
+                        <?php echo __("Save Password"); ?>
+                    </button>
                 </div>
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <?php getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password")); ?>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
-                    <div class="col-md-8 inputGroupContainer">
-                        <?php getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password")); ?>
-                    </div>
-                </div>
-
-
-                <!-- Button -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label"></label>
-                    <div class="col-md-8">
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fa-regular fa-floppy-disk"></i>
-                            <?php echo __("Save Password"); ?>
-                        </button>
-                    </div>
-                </div>
-
-            </fieldset>
+            </div>
         </form>
     </div>
     <script>
@@ -139,7 +133,7 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
                 evt.preventDefault();
                 modal.showPleaseWait();
                 $.ajax({
-                    url: webSiteRootURL+'objects/userRecoverPassSave.json.php',
+                    url: webSiteRootURL + 'objects/userRecoverPassSave.json.php',
                     data: $('#recoverPassForm').serializeArray(),
                     type: 'post',
                     success: function(response) {
@@ -156,7 +150,6 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
 
         });
     </script>
-
 <?php
     $_page->print();
     exit;
