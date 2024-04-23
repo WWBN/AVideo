@@ -2,6 +2,7 @@
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 global $global, $config;
+$global['ignoreAllCache'] = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
@@ -44,7 +45,7 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
 
                     $to = $user->getEmail();
                     $subject = __('Recover Pass from') . ' ' . $config->getWebSiteTitle();
-                    $message = __("You asked for a recover link, click on the provided link") . "<br><a href='{$url}' class='button blue-button'>" . __("Reset password") . "</a>";
+                    $message = __("You asked for a recover link, click on the provided link") . "<br><a href='{$url}' class='button blue-button'>" . __("Reset password") . "</a><br>IP: ".getRealIpAddr();
                     $fromEmail = $config->getContactEmail();
                     $resp = sendSiteEmail($to, $subject, $message, $fromEmail);
 
@@ -67,8 +68,13 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
     }
     die(json_encode($obj));
 } else {
+    $readonly = '';
     if ($user->getRecoverPass() !== $_REQUEST['recoverpass']) {
         //forbiddenPage('The recover pass does not match!');
+        $recoverPass = '';
+    }else{
+        $readonly = 'readonly';
+        $recoverPass = $user->getRecoverPass();
     }
     $_page = new Page(array('Recover Password'));
 ?>
@@ -93,7 +99,7 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input name="recoverPassword" class="form-control" type="text" value="<?php echo $user->getRecoverPass(); ?>" readonly>
+                            <input name="recoverPassword" class="form-control" type="text" value="<?php echo $recoverPass; ?>" <?php echo $readonly; ?>>
                         </div>
                     </div>
                 </div>

@@ -2435,6 +2435,7 @@ if (typeof gtag !== \"function\") {
         $json->id = $id;
         $json->uniqid = uniqid();
         $json->valid = strtotime("+{$secondsValid} seconds");
+        _error_log("createRecoverPass " . getRealIpAddr() . ' ' . json_encode($_SERVER));
         return encryptString(json_encode($json));
     }
 

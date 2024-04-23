@@ -60,7 +60,7 @@ class CustomizeUser extends PluginAbstract
                 'isActive' => true,
             ],
             'twitter' => [
-                'class' => 'icoTwitter',
+                'class' => 'icoXTwitter',
                 'icon' => 'fa-brands fa-x-twitter',
                 'label' => __("Twitter"),
                 'placeholder' => __("Twitter URL"),
