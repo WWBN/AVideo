@@ -47,7 +47,7 @@ $social_medias = [
     new SocialMedias(@$href, @$class, @$title, @$iclass, @$img, @$onclick),
 ];
 ?>
-<ul class="social-network social-circle">
+<ul class="social-network social-circle social-bgColor">
     <?php
     $loaderSequenceName = uniqid();
     foreach ($global['social_medias'] as $key => $value) {

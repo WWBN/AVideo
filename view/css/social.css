@@ -13,6 +13,11 @@ ul.social-network li {
 	display: inline;
 	margin: 0 5px;
 }
+
+.social-network button{
+    margin: 3px;
+}
+
 /* Specific icons with custom properties for color management */
 .social-network .icoRss {
     --hover-color: #F56505;
@@ -108,7 +113,7 @@ ul.social-network li {
 /* Define a base class for common styles */
 .social-network a, .social-network button {
     color: var(--hover-color); /* Change text color on hover */
-    box-shadow: 0 0 3px 1px var(--hover-color); /* Outer glow effect */
+    box-shadow: 0 0 1px 1px var(--hover-color); /* Outer glow effect */
     transition: box-shadow 0.3s ease; /* Smooth transition for the glow effect */
 }
 
@@ -117,9 +122,16 @@ ul.social-network li {
     box-shadow: 0 0 6px 4px var(--hover-color); /* Outer glow effect */
 }
 
+.social-network.social-bgColor a,
+.social-network.social-bgColor button {
+    color: #fff;
+    background-color: var(--hover-color);
+}
+
 .social-network *:hover {
     color: #fff;
 }
+
 a.socialIcon:hover,
 .socialHoverClass {
     color: #44BCDD;
@@ -127,7 +139,7 @@ a.socialIcon:hover,
 .social-circle li a {
     display: inline-block;
     position: relative;
-    margin: 0 auto 0 auto;
+    margin: 0 auto 10px auto;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
     border-radius: 50%;
@@ -154,14 +166,13 @@ a.socialIcon:hover,
     transition: all 0.2s;
 }
 .social-circle i {
-    color: #fff;
     -webkit-transition: all 0.8s;
     -moz-transition: all 0.8s;
     -o-transition: all 0.8s;
     -ms-transition: all 0.8s;
     transition: all 0.8s;
-}.social-circle a {
-    background-color: #999;
+}
+.social-circle a {
 }
 #shareDiv,
 #shareDiv .tabbable-panel {
