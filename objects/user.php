@@ -857,6 +857,7 @@ if (typeof gtag !== \"function\") {
                 . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , donationLink = ? , phone = ? , is_company = " . (empty($this->is_company) ? 'NULL' : intval($this->is_company)) . ", "
                 . " modified = now() WHERE id = ?";
             //var_dump(__LINE__, debug_backtrace());exit;
+            _error_log("Update user user=$user, email={$this->email}, name=$name " . ' IP=' . getRealIpAddr() . ' ' . $_SERVER['HTTP_USER_AGENT'] . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         } else {
             $formats = "ssssiiiisssssssi";
             $values = [
