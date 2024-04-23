@@ -1757,7 +1757,7 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
-        $res = sqlDAL::readSql($sql, "i", [$id]);
+        $res = sqlDAL::readSql($sql, "i", [$id], true);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user !== false) {
