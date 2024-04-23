@@ -2876,7 +2876,7 @@ if (typeof gtag !== \"function\") {
                 return true;
             }
         } else {
-            _error_log('verifyCode wrong recover pass');
+            _error_log("verifyCode wrong recover pass for user {$obj->users_id} [{$recoverPass}] != [{$obj->recoverPass}]");
         }
         return false;
     }
