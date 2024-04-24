@@ -4,7 +4,7 @@ error_log("avideoencoder REQUEST 1: " . json_encode($_REQUEST));
 error_log("avideoencoder POST 1: " . json_encode($_REQUEST));
 error_log("avideoencoder GET 1: " . json_encode($_GET));
 */
-if(empty($global)){
+if (empty($global)) {
     $global = [];
 }
 $obj = new stdClass();
@@ -32,12 +32,12 @@ if (empty($_REQUEST)) {
 }
 //_error_log("aVideoEncoder.json: start");
 _error_log("aVideoEncoder.json: start");
-if(empty($global['allowedExtension'])){
+if (empty($global['allowedExtension'])) {
     $global['allowedExtension'] = array();
 }
 if (empty($_REQUEST['format']) || !in_array($_REQUEST['format'], $global['allowedExtension'])) {
     $obj->msg = "aVideoEncoder.json: ERROR Extension not allowed File {$_REQUEST['format']}";
-    _error_log($obj->msg. ": " . json_encode($_REQUEST));
+    _error_log($obj->msg . ": " . json_encode($_REQUEST));
     die(json_encode($obj));
 }
 
@@ -46,8 +46,8 @@ if (!isset($_REQUEST['encodedPass'])) {
 }
 useVideoHashOrLogin();
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to receive a file").': '. json_encode($_REQUEST);
-    _error_log("aVideoEncoder.json: {$obj->msg} ". json_encode(User::canNotUploadReason()) );
+    $obj->msg = __("Permission denied to receive a file") . ': ' . json_encode($_REQUEST);
+    _error_log("aVideoEncoder.json: {$obj->msg} " . json_encode(User::canNotUploadReason()));
     _error_log($obj->msg);
     die(json_encode($obj));
 }
@@ -65,7 +65,7 @@ _error_log("aVideoEncoder.json: start to receive: " . json_encode($_REQUEST));
 $video = new Video("", "", @$_REQUEST['videos_id'], true);
 
 if (!empty($video->getId()) && !empty($_REQUEST['first_request'])) {
-    _error_log("aVideoEncoder.json: There is a new video to replace the existing one, we will delete the current files videos_id = ".$video->getId());
+    _error_log("aVideoEncoder.json: There is a new video to replace the existing one, we will delete the current files videos_id = " . $video->getId());
     $video->removeVideoFiles();
 }
 
@@ -77,7 +77,7 @@ if (empty($title) && !empty($_REQUEST['title'])) {
     $title = $video->setTitle($_REQUEST['title']);
 } elseif (empty($title)) {
     $video->setTitle("Automatic Title");
-}else{
+} else {
     _error_log("aVideoEncoder.json: Title not updated {$_REQUEST['title']} ");
 }
 
@@ -153,7 +153,7 @@ if (empty($_FILES['video']['tmp_name']) && isValidURLOrPath($_REQUEST['chunkFile
 if (!empty($_FILES['video']['tmp_name'])) {
     $resolution = '';
     if (!empty($_REQUEST['resolution'])) {
-        if(!in_array($_REQUEST['resolution'],$global['avideo_possible_resolutions'])){
+        if (!in_array($_REQUEST['resolution'], $global['avideo_possible_resolutions'])) {
             $msg = "This resolution is not possible {$_REQUEST['resolution']}";
             _error_log($msg);
             forbiddenPage($msg);
@@ -228,30 +228,31 @@ die(json_encode($obj));
   var_dump($_REQUEST, $_FILES);
  */
 
-function downloadVideoFromDownloadURL($downloadURL){
+function downloadVideoFromDownloadURL($downloadURL)
+{
     global $global;
     $downloadURL = trim($downloadURL);
     _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($downloadURL);
     $strlen = strlen($file);
     $minLen = 20000;
-    if(preg_match('/\.mp3$/', $downloadURL)){
+    if (preg_match('/\.mp3$/', $downloadURL)) {
         $minLen = 5000;
     }
-    if ($strlen<$minLen) {
-        _error_log("aVideoEncoder.json: this is not a video " . $downloadURL . " strlen={$strlen} ". humanFileSize($strlen));
+    if ($strlen < $minLen) {
+        _error_log("aVideoEncoder.json: this is not a video " . $downloadURL . " strlen={$strlen} " . humanFileSize($strlen));
         //it is not a video
         return false;
     }
-    _error_log("aVideoEncoder.json: Got the download " . $downloadURL . ' '. humanFileSize($strlen));
+    _error_log("aVideoEncoder.json: Got the download " . $downloadURL . ' ' . humanFileSize($strlen));
     if ($file) {
         $_FILES['video']['name'] = basename($downloadURL);
 
-        $temp = Video::getStoragePath()."cache/tmpFile/" . $_FILES['video']['name'];
+        $temp = Video::getStoragePath() . "cache/tmpFile/" . $_FILES['video']['name'];
         make_path($temp);
         $bytesSaved = file_put_contents($temp, $file);
         if ($bytesSaved) {
-            _error_log("aVideoEncoder.json: saved " . $temp  . ' '. humanFileSize($bytesSaved));
+            _error_log("aVideoEncoder.json: saved " . $temp  . ' ' . humanFileSize($bytesSaved));
             return $temp;
         } else {
             _error_log("aVideoEncoder.json: ERROR on save file " . $temp);
