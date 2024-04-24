@@ -235,6 +235,7 @@ function downloadVideoFromDownloadURL($downloadURL){
     $file = url_get_contents($downloadURL);
     $strlen = strlen($file);
     if ($strlen<20000) {
+        _error_log("aVideoEncoder.json: this is not a video " . $downloadURL . " strlen={$strlen} ". humanFileSize($strlen));
         //it is not a video
         return false;
     }
