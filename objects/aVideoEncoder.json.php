@@ -234,6 +234,10 @@ function downloadVideoFromDownloadURL($downloadURL){
     _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($downloadURL);
     $strlen = strlen($file);
+    $minLen = 20000;
+    if(preg_match('/\.mp3$/', $downloadURL)){
+        $minLen = 5000;
+    }
     if ($strlen<20000) {
         _error_log("aVideoEncoder.json: this is not a video " . $downloadURL . " strlen={$strlen} ". humanFileSize($strlen));
         //it is not a video
