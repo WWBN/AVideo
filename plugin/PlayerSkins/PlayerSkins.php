@@ -482,8 +482,9 @@ class PlayerSkins extends PluginAbstract
     static function includeFullscreenBlock(){
         //$o->type = array(0=>'Show In all devices', 1=>'Show In Mobile Only', 2=>'Show In Desktop Only');
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
+        //var_dump($obj->showFullscreenToggle->value);exit;
         if (!empty($obj->showFullscreenToggle->value)) {
-            if (($obj->showFullscreenToggle->value==1 && isMobile()) || $obj->showFullscreenToggle->value==2) {
+            if (($obj->showFullscreenToggle->value==1 && !isMobile()) || $obj->showFullscreenToggle->value==2) {
                 return true;
             }
         }
@@ -518,7 +519,7 @@ class PlayerSkins extends PluginAbstract
             $controlBar[] = 'pictureInPictureToggle: false';
         }
         if (self::includeFullscreenBlock()) {            
-            $controlBar[] = "fullscreenToggle: false";
+            //$controlBar[] = "fullscreenToggle: false";
         }
         if (!empty($controlBar)) {
             $dataSetup[] = "controlBar: {" . implode(', ', $controlBar) . "}";
