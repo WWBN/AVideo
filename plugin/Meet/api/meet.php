@@ -23,7 +23,7 @@ $userCredentials = User::loginFromRequestToGet();
 $domain = $_REQUEST['domain'];
 
 ?>
-        <link rel="stylesheet"  type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-toast/jquery.toast.min.css">    
+        <link rel="stylesheet"  type="text/css" href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>">    
         <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
         <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
         <style>
@@ -114,7 +114,7 @@ $domain = $_REQUEST['domain'];
 
             <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>node_modules/js-cookie/dist/js.cookie.js"></script>
             <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js?<?php echo filectime("{$global['systemRootPath']}view/js/script.js"); ?>"></script>
-            <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-toast/jquery.toast.min.js"></script>
+            <script type="text/javascript" src="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.js'); ?>"></script>
             <!-- <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/seetalert/sweetalert.min.js"></script> -->
             <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
             <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
