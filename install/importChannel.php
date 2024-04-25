@@ -11,6 +11,7 @@ ob_end_flush();
 
 function download($url, $filename, $path, $forceDownload = false) {
     if(empty($url) || preg_match('/view.img/', $url)){
+        echo ("importChannel::download ERROR on url {$url}").PHP_EOL;
         return false;
     }
     $parts = explode("/{$filename}/", $url);
