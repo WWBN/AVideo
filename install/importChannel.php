@@ -23,7 +23,7 @@ function download($url, $filename, $path, $forceDownload = false) {
     }
 
     if (empty($parts[1])) {
-        echo ("importChannel::download ERROR on download {$url}").PHP_EOL;
+        echo ("importChannel::download ERROR on download filename=$filename {$url}").PHP_EOL;
         return false;
     }
 
