@@ -177,6 +177,15 @@ a:visited {
     height: 100vh;
 }
 
+#carouselRows div.carousel.rowPortrait div.slide.thumbsImage{
+    height: calc(100% - 20px);
+}
+#carouselRows div.carousel.rowPortrait div.slide.thumbsImage .tile__media,
+#carouselRows div.carousel.rowPortrait div.slide.thumbsImage .tile__media .tile__img.posterPortrait{
+    height: 100%;
+}
+
+
 
 .posterDetails .row{
     margin-top: 15px;
