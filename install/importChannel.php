@@ -19,6 +19,9 @@ function download($url, $filename, $path, $forceDownload = false) {
     if (empty($parts[1])) {
         if (preg_match("/\.mp3$/", $url)) {
             $parts[1] = "{$filename}.mp3";
+        }else if (preg_match("/s3\.cdn\.ypt\.me.*\.mp4$/", $url)) {
+            $partsCDN = explode("s3.cdn.ypt.me/", $url);
+            $parts[1] = $partsCDN[1];
         }
     }
 
