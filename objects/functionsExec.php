@@ -127,6 +127,9 @@ function getDirSize($dir, $forceNew = false)
     } else {
         $command = "du -sb {$dir}";
         exec($command . " < /dev/null 2>&1", $output, $return_val);
+        if(isCommandLineInterface()){
+            echo $command.PHP_EOL;
+        }
         if ($return_val !== 0) {
             _error_log("getDirSize: ERROR ON Command {$command}");
             $return = 0;

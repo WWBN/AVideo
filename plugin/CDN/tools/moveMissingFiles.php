@@ -81,7 +81,7 @@ if ($res != false) {
                 $statusSkipped[$row['status']] = 0;
             }
             $statusSkipped[$row['status']]++;
-            echo "{$info} ERROR skipped {$row['status']}". PHP_EOL;
+            echo "{$info} ERROR skipped status={$row['status']}". PHP_EOL;
         }
     }
 } else {
