@@ -104,7 +104,7 @@ function wget($url, $filename, $debug = false)
         _error_log("wget: ERROR the url download but is empty $url, $filename");
         return true;
     }
-    return false;
+    return file_exists($filename);
 }
 
 function getDirSize($dir, $forceNew = false)
