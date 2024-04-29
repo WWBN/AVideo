@@ -1,7 +1,7 @@
 <?php
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
-    require_once '../../videos/configuration.php';
+    require_once __DIR__.'/../../../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
     forbiddenPage('You can not do this');
