@@ -1095,7 +1095,6 @@ if (!class_exists('Video')) {
             return $sql;
         }
 
-
         static function getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly)
         {
             $sql = '';
