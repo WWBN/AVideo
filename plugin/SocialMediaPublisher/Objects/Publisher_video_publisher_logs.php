@@ -14,7 +14,7 @@ class Publisher_video_publisher_logs extends ObjectYPT
 
     static function getTableName()
     {
-        return 'Publisher_video_publisher_logs';
+        return 'publisher_video_publisher_logs';
     }
 
     static function getAllVideos()

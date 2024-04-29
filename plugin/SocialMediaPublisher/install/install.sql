@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `publisher_user_preferences` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `Publisher_video_publisher_logs` (
+CREATE TABLE IF NOT EXISTS `publisher_video_publisher_logs` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `publish_datetimestamp` INT UNSIGNED NOT NULL,
   `status` CHAR(1) NULL,
