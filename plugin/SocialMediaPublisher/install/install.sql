@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `publisher_user_preferences` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `publisher_video_publisher_logs` (
+CREATE TABLE IF NOT EXISTS `Publisher_video_publisher_logs` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `publish_datetimestamp` INT UNSIGNED NOT NULL,
   `status` CHAR(1) NULL,
@@ -45,20 +45,20 @@ CREATE TABLE IF NOT EXISTS `publisher_video_publisher_logs` (
   `modified` DATETIME NULL,
   `timezone` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_publisher_video_publisher_logs_videos1_idx` (`videos_id` ASC),
-  INDEX `fk_publisher_video_publisher_logs_users1_idx` (`users_id` ASC),
-  INDEX `fk_publisher_video_publisher_logs_publisher_social_medias1_idx` (`publisher_social_medias_id` ASC),
-  CONSTRAINT `fk_publisher_video_publisher_logs_videos1`
+  INDEX `fk_Publisher_video_publisher_logs_videos1_idx` (`videos_id` ASC),
+  INDEX `fk_Publisher_video_publisher_logs_users1_idx` (`users_id` ASC),
+  INDEX `fk_Publisher_video_publisher_logs_publisher_social_medias1_idx` (`publisher_social_medias_id` ASC),
+  CONSTRAINT `fk_Publisher_video_publisher_logs_videos1`
     FOREIGN KEY (`videos_id`)
     REFERENCES `videos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_publisher_video_publisher_logs_users1`
+  CONSTRAINT `fk_Publisher_video_publisher_logs_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_publisher_video_publisher_logs_publisher_social_medias1`
+  CONSTRAINT `fk_Publisher_video_publisher_logs_publisher_social_medias1`
     FOREIGN KEY (`publisher_social_medias_id`)
     REFERENCES `publisher_social_medias` (`id`)
     ON DELETE CASCADE

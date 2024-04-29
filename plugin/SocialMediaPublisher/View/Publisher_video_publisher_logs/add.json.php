@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'plugin/SocialMediaPublisher/Objects/publisher_video_publisher_logs.php';
+require_once $global['systemRootPath'] . 'plugin/SocialMediaPublisher/Objects/Publisher_video_publisher_logs.php';
 
 $obj = new stdClass();
 $obj->error = true;
@@ -14,7 +14,7 @@ if(!User::isAdmin()){
     die(json_encode($obj));
 }
 
-$o = new publisher_video_publisher_logs(@$_POST['id']);
+$o = new Publisher_video_publisher_logs(@$_POST['id']);
 $o->setPublish_datetimestamp($_POST['publish_datetimestamp']);
 $o->setStatus($_POST['status']);
 $o->setDetails($_POST['details']);

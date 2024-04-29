@@ -14,6 +14,6 @@ if(empty($plugin)){
 $_page = new Page(array('SocialMediaPublisher'));
 $_page->setExtraStyles(array('view/css/DataTables/datatables.min.css', 'view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'));
 $_page->setExtraScripts(array('view/css/DataTables/datatables.min.js'));
-require $global['systemRootPath'] . 'plugin/SocialMediaPublisher/View/publisher_video_publisher_logs/index_body.php';
+require $global['systemRootPath'] . 'plugin/SocialMediaPublisher/View/Publisher_video_publisher_logs/index_body.php';
 $_page->print();
 ?>

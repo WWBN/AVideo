@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
-class publisher_video_publisher_logs extends ObjectYPT
+class Publisher_video_publisher_logs extends ObjectYPT
 {
 
     protected $id, $publish_datetimestamp, $status, $details, $videos_id, $users_id, $publisher_social_medias_id, $timezone;
@@ -14,7 +14,7 @@ class publisher_video_publisher_logs extends ObjectYPT
 
     static function getTableName()
     {
-        return 'publisher_video_publisher_logs';
+        return 'Publisher_video_publisher_logs';
     }
 
     static function getAllVideos()

@@ -279,7 +279,7 @@ class SocialMediaPublisher extends PluginAbstract
         if (empty($users_id)) {
             $users_id = User::getId();
         }
-        $o = new publisher_video_publisher_logs(0);
+        $o = new Publisher_video_publisher_logs(0);
         $o->setPublish_datetimestamp(time());
         $o->setStatus($status);
         $o->setDetails(array('publisher_user_preferences_id' => $publisher_user_preferences_id));
