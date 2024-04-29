@@ -1145,7 +1145,12 @@ class AVideoPlugin
                 self::YPTstart();
                 $p = static::loadPlugin($value['dirName']);
                 if (is_object($p)) {
-                    $appArray = $p->getLiveApplicationArray();
+                    try {
+                        $appArray = $p->getLiveApplicationArray();
+                    } catch (\Throwable $th) {
+                        _error_log('AVideoPlugin::getLiveApplicationArray '.$th->getMessage(), AVideoLog::$ERROR);
+                        $appArray = array();
+                    }
                     if (is_array($appArray)) {
                         if (!is_array($array)) {
                             $array = $appArray;

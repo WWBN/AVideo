@@ -9,7 +9,6 @@ if (!User::isAdmin()) {
 }
 
 header('Content-Type: application/json');
-
 $row = Plugin::getAvailablePlugins(true);
 $total = count($row);
 
