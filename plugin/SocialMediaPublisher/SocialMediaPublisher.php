@@ -270,11 +270,11 @@ class SocialMediaPublisher extends PluginAbstract
             //unlink($videoPathToYouTube);
         }
         _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName complete ");
-        self::saveLog($publisher_social_medias_id, $videos_id, $publisher_user_preferences_id);
+        self::saveLog($publisher_social_medias_id, $videos_id, array('publisher_user_preferences_id' => $publisher_user_preferences_id, 'response'=>$response));
         return $response;
     }
 
-    private static function saveLog($publisher_social_medias_id, $videos_id, $publisher_user_preferences_id, $users_id = 0, $status = '')
+    private static function saveLog($publisher_social_medias_id, $videos_id, $details, $users_id = 0, $status = '')
     {
         if (empty($users_id)) {
             $users_id = User::getId();
@@ -282,7 +282,7 @@ class SocialMediaPublisher extends PluginAbstract
         $o = new Publisher_video_publisher_logs(0);
         $o->setPublish_datetimestamp(time());
         $o->setStatus($status);
-        $o->setDetails(array('publisher_user_preferences_id' => $publisher_user_preferences_id));
+        $o->setDetails($details);
         $o->setVideos_id($videos_id);
         $o->setUsers_id($users_id);
         $o->setPublisher_social_medias_id($publisher_social_medias_id);
