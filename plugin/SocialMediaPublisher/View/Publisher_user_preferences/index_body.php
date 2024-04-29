@@ -3,8 +3,8 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
-if (!User::isAdmin()) {
-    forbiddenPage('Admins only');
+if (!User::canUpload()) {
+    forbiddenPage('You cannot upload');
 }
 $videos_id = getVideos_id();
 if (empty($videos_id)) {

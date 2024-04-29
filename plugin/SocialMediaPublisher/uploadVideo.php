@@ -2,6 +2,9 @@
 require_once '../../videos/configuration.php';
 
 
+if (!User::canUpload()) {
+    forbiddenPage('You cannot upload');
+}
 $videos_id = getVideos_id();
 
 $_page = new Page(array('Upload Video'));
