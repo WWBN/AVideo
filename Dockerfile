@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:22.04
 
 LABEL maintainer="Daniel Neto <developer@youphptube.com>" \
       org.label-schema.schema-version="2.0" \
@@ -122,10 +122,10 @@ RUN cd /var/www/html && \
 RUN a2enmod xsendfile rewrite expires headers ssl
 
 # Install and upgrade youtube-dl using pip
-# RUN pip3 install youtube-dl --upgrade youtube-dl
+RUN pip3 install --upgrade youtube-dl
 
 # Video Transcription for the SubtitleSwitcher Plugin
-# RUN pip3 install vosk
+RUN pip3 install vosk
 
 # Copy configuration files
 COPY deploy/apache/avideo.conf /etc/apache2/sites-available/avideo.conf
