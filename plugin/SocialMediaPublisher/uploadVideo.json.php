@@ -42,8 +42,7 @@ if(isset($obj->resp["error"])){
 }else{
     $obj->error = empty($obj->resp);
 }
-if(!empty($obj->resp["msg"]["message"])){
-    $obj->msg = $obj->resp["msg"]["message"];
-}
+
+$obj->msg = SocialUploader::getErrorMsg($obj->resp);
 
 echo json_encode($obj);

@@ -88,5 +88,8 @@ function reloadSocialAccountsTables() {
     if (typeof Publisher_social_mediastableVar !== 'undefined') {
         Publisher_social_mediastableVar.ajax.reload();
     }
+    if (typeof Publisher_video_publisher_logstableVarVID !== 'undefined') {
+        Publisher_video_publisher_logstableVarVID.ajax.reload();
+    }
 
 }

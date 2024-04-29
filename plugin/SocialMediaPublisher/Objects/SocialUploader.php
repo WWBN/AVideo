@@ -4,40 +4,62 @@ class SocialUploader
 {
     public static function upload($publisher_user_preferences_id, $videoPath, $title, $description, $isShort = false)
     {
+        $title = strip_tags($title);
+        $description = strip_tags($description);
         $accessToken = SocialMediaPublisher::getRevalidatedToken($publisher_user_preferences_id, true);
         if (empty($accessToken)) {
-            var_dump($publisher_user_preferences_id, $videoPath, $title, $description, $isShort, debug_backtrace());
-            die('Empty access token');
+            return array('error' => true, 'msg' => 'Empty access token', 'line' => __LINE__);
         }
         $pub = new Publisher_user_preferences($publisher_user_preferences_id);
-        switch ($pub->getProviderName()) {
-            case SocialMediaPublisher::SOCIAL_TYPE_YOUTUBE['name']:
-                return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $isShort);
-                break;
-            case SocialMediaPublisher::SOCIAL_TYPE_FACEBOOK['name']:
-                $json = json_decode($pub->getJson());
-                $pageId = $json->{'restream.ypt.me'}->facebook->broadcaster_id;
-                return SocialUploader::uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $isShort);
-                break;
-            case SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM['name']:
-                //return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $isShort);
-                break;
-            case SocialMediaPublisher::SOCIAL_TYPE_TWITCH['name']:
-                //return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $isShort);
-                break;
-            case SocialMediaPublisher::SOCIAL_TYPE_LINKEDIN['name']:
-                return SocialUploader::uploadLinkedIn($accessToken, $videoPath, $title, $description, $isShort);
-                break;
+        try {
+            switch ($pub->getProviderName()) {
+                case SocialMediaPublisher::SOCIAL_TYPE_YOUTUBE['name']:
+                    return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $isShort);
+                    break;
+                case SocialMediaPublisher::SOCIAL_TYPE_FACEBOOK['name']:
+                    $json = json_decode($pub->getJson());
+                    $pageId = $json->{'restream.ypt.me'}->facebook->broadcaster_id;
+                    return SocialUploader::uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $isShort);
+                    break;
+                case SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM['name']:
+                    //return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $isShort);
+                    break;
+                case SocialMediaPublisher::SOCIAL_TYPE_TWITCH['name']:
+                    //return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $isShort);
+                    break;
+                case SocialMediaPublisher::SOCIAL_TYPE_LINKEDIN['name']:
+                    $json = json_decode($pub->getJson());
+                    $ownerId = $json->{'restream.ypt.me'}->linkedin->profile_id;
+                    return SocialUploader::uploadLinkedIn($accessToken, $ownerId, $videoPath, $title, $description, $isShort);
+                    break;
+            }
+        } catch (\Throwable $th) {
+            $error = $th->getMessage();
+            if (is_string($error)) {
+                $obj = json_decode($error);
+                if (!empty($obj->error)) {
+                    if (!empty($obj->error->message)) {
+                        return array('error' => true, 'msg' => $obj->error->message, 'line' => __LINE__);
+                    } else {
+                        return array('error' => true, 'msg' => $error, 'line' => __LINE__);
+                    }
+                }
+            } else {
+                return array('error' => true, 'msg' => $error, 'line' => __LINE__);
+            }
         }
         return false;
     }
 
-    private static function uploadLinkedIn($accessToken, $videoPath, $title, $description, $isShort = false)
+    private static function uploadLinkedIn($accessToken, $ownerId, $videoPath, $title, $description, $isShort = false)
     {
         return LinkedInUploader::upload($accessToken, $ownerId, $videoPath, $title, $description);
     }
     private static function uploadYouTube($accessToken, $videoPath, $title, $description, $isShort = false)
     {
+        $title = _substr($title, 0, 90);
+        $description = _substr($description, 0, 4000);
+
         //var_dump($accessToken, $videoPath, filesize($videoPath), file_exists($videoPath));exit;
         $client = new Google_Client();
         $client->setAccessToken($accessToken); // Ensure this token is valid
@@ -91,6 +113,32 @@ class SocialUploader
         } else {
             return FacebookUploader::uploadFacebookVideo($accessToken, $pageId, $videoPath, $title, $description);
         }
+    }
+
+
+    static public function getErrorMsg($obj)
+    {
+        $line = __LINE__;
+        $msg = '';
+        $obj = object_to_array($obj);
+        if (!empty($obj["msg"]) && is_string($obj["msg"])) {
+            $line = __LINE__;
+            $msg = $obj["msg"];
+        } else if (!empty($obj["msg"]["message"])) {
+            $line = __LINE__;
+            $msg = $obj["msg"]["message"];
+        } else if (!empty($obj["error"]["msg"])) {
+            $line = __LINE__;
+            $msg = $obj["error"]["msg"];
+        } else if (!empty($obj["message"])) {
+            $line = __LINE__;
+            $msg = $obj["message"];
+        }
+        if (!is_string($msg)) {
+            var_dump($line, $msg, $obj);
+            exit;
+        }
+        return strip_tags($msg);
     }
 }
 
@@ -150,7 +198,7 @@ class FacebookUploader
             }
         } else {
             $return['line'][] = __LINE__;
-            $return['msg'] = isset($initResponse['error']) ? $initResponse['error'] : 'Failed to initialize upload session.';
+            $return['msg'] = isset($initResponse['error']) ? $initResponse['error'] : 'Failed to initialize FB upload session.';
             return $return;
         }
     }
@@ -384,16 +432,34 @@ class LinkedInUploader
         curl_setopt($ch, CURLOPT_INFILE, $fp);
         curl_setopt($ch, CURLOPT_INFILESIZE, $fileSize);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);  // Enable header response
 
         $response = curl_exec($ch);
+        $info = curl_getinfo($ch);
         if (curl_errno($ch)) {
             fclose($fp);
-            return ['error' => true, 'message' => curl_error($ch)];
+            curl_close($ch);
+            return ['error' => true, 'msg' => curl_error($ch), 'json' => false];
         }
 
-        curl_close($ch);
-        fclose($fp);
+        $header_size = $info['header_size'];
+        $header = substr($response, 0, $header_size);
+        $body = substr($response, $header_size);
 
-        return json_decode($response, true);
+        $etag = null;
+        if (preg_match('/etag: ([^\r\n]+)/i', $header, $matches)) {
+            $etag = trim($matches[1]);
+        }
+
+        fclose($fp);
+        curl_close($ch);
+
+        return [
+            'error' => false,
+            'msg' => 'File uploaded successfully.',
+            'json' => json_decode($body, true),
+            'etag' => $etag,
+            'httpcode' => $info['http_code']
+        ];
     }
 }

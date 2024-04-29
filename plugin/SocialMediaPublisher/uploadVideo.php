@@ -25,11 +25,18 @@ if (empty($videos_id)) {
 <div class="container-fluid">
     <div class="panel panel-default ">
         <div class="panel-heading clearfix ">
-            <h1>
-                <?php
-                echo Video::getVideosListItem($videos_id);
-                ?>
-            </h1>
+            <div class="row">
+                <div class="col-sm-6">
+                    <?php
+                    echo Video::getVideosListItem($videos_id);
+                    ?>
+                </div>
+                <div class="col-sm-6">
+                    <?php
+                    include $global['systemRootPath'] . 'plugin/SocialMediaPublisher/View/Publisher_video_publisher_logs/index_body_videos_id.php';
+                    ?>
+                </div>
+            </div>
         </div>
         <div class="panel-body">
             <?php

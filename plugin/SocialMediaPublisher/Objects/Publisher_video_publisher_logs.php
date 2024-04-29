@@ -5,7 +5,8 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 class Publisher_video_publisher_logs extends ObjectYPT
 {
 
-    protected $id, $publish_datetimestamp, $status, $details, $videos_id, $users_id, $publisher_social_medias_id, $timezone;
+    protected $id, $publish_datetimestamp, $status, $details, $videos_id, $users_id, 
+    $publisher_social_medias_id, $timezone;
 
     static function getSearchFieldsNames()
     {
@@ -176,5 +177,46 @@ class Publisher_video_publisher_logs extends ObjectYPT
     function getTimezone()
     {
         return $this->timezone;
+    }
+
+    public static function getAllFromVideosId($videos_id)
+    {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT psm.*, pvpl.* FROM  " . static::getTableName() . " pvpl LEFT JOIN publisher_social_medias psm ON publisher_social_medias_id = psm.id WHERE videos_id = ? ";
+
+        $sql .= self::getSqlFromPost('pvpl.');
+        $res = sqlDAL::readSql($sql, 'i', [$videos_id]);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        foreach ($fullData as $key => $value) {
+            $fullData[$key]['publish'] = date('Y-m-d H:i:s', $fullData[$key]['publish_datetimestamp'] );
+            $fullData[$key]['json'] = json_decode($fullData[$key]['details']);
+            $fullData[$key]['provider'] = SocialMediaPublisher::getProiderItem($value['name']);
+            $fullData[$key]['msg'] = '';
+            if(!empty($fullData[$key]['json']->response)){
+                $fullData[$key]['msg'] = SocialUploader::getErrorMsg($fullData[$key]['json']->response);
+            }
+        }
+        return $fullData;
+    }
+
+    
+    public static function getTotalFromVideosId($videos_id)
+    {
+        //will receive
+        //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
+        global $global;
+        if (!static::isTableInstalled()) {
+            return 0;
+        }
+        $sql = "SELECT id FROM  " . static::getTableName() . " WHERE videos_id = ? ";
+        $sql .= self::getSqlSearchFromPost();
+        $res = sqlDAL::readSql($sql, 'i', [$videos_id]);
+        $countRow = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+        return $countRow;
     }
 }
