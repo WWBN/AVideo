@@ -37,8 +37,11 @@ if(!Video::canEdit($obj->videos_id)){
 }
 
 $obj->resp = SocialMediaPublisher::upload($obj->row['id'], $obj->videos_id);
-
-$obj->error = $obj->resp["error"];
+if(isset($obj->resp["error"])){
+    $obj->error = $obj->resp["error"];
+}else{
+    $obj->error = empty($obj->resp);
+}
 if(!empty($obj->resp["msg"]["message"])){
     $obj->msg = $obj->resp["msg"]["message"];
 }
