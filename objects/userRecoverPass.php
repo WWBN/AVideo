@@ -10,6 +10,8 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 $user = new User(0, $_REQUEST['user'], false);
 if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
+    _error_log("RecoverPass start user={$_POST['user']} " .' IP='.getRealIpAddr().' '. ' Line='.__LINE__.' '.$_SERVER['HTTP_USER_AGENT'] . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+    
     $obj = new stdClass();
     $obj->user = $_REQUEST['user'];
     $obj->captcha = $_REQUEST['captcha'];
@@ -68,6 +70,8 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
     }
     die(json_encode($obj));
 } else {
+    _error_log("RecoverPass start user={$_POST['user']} " .' IP='.getRealIpAddr().' '. ' Line='.__LINE__.' '.$_SERVER['HTTP_USER_AGENT'] . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+       
     $readonly = '';
     if ($user->getRecoverPass() !== $_REQUEST['recoverpass']) {
         //forbiddenPage('The recover pass does not match!');

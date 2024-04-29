@@ -1902,7 +1902,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         foreach ($stats as $key => $live) {
             if (!empty($live['key'])) {
-                $row = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
+                $row = LiveTransmitionHistory::getLatest($live['key'], @$live['live_servers_id']);
                 if (!empty($row['finished'])) {
                     LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
                 }else{
@@ -1913,7 +1913,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                         $lth->setDescription($row['description']);
                         $lth->setKey($live['key']);
                         $lth->setUsers_id($row['users_id']);
-                        $lth->setLive_servers_id($live['live_servers_id']);
+                        $lth->setLive_servers_id(@$live['live_servers_id']);
                         $id = $lth->save();
                         _error_log("unfinishAllFromStats saving LiveTransmitionHistory {$live['key']} [{$id}] ");
                     }
