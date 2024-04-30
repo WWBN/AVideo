@@ -219,6 +219,7 @@ class Publisher_video_publisher_logs extends ObjectYPT
             }
             $row['msg'] = implode('<br>', $msg);
         }
+        return $row;
     }
 
     public static function getTotalFromVideosId($videos_id)
