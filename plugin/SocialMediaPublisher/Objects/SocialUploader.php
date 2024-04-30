@@ -29,8 +29,9 @@ class SocialUploader
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_LINKEDIN['name']:
                     $json = json_decode($pub->getJson());
-                    $ownerId = $json->{'restream.ypt.me'}->linkedin->profile_id;
-                    return SocialUploader::uploadLinkedIn($accessToken, $ownerId, $videoPath, $title, $description, $isShort);
+                    $urn = $json->{'restream.ypt.me'}->linkedin->urn;
+                    $id = $json->{'restream.ypt.me'}->linkedin->profile_id;
+                    return SocialUploader::uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $isShort);
                     break;
             }
         } catch (\Throwable $th) {
@@ -51,9 +52,9 @@ class SocialUploader
         return false;
     }
 
-    private static function uploadLinkedIn($accessToken, $ownerId, $videoPath, $title, $description, $isShort = false)
+    private static function uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $isShort = false)
     {
-        return LinkedInUploader::upload($accessToken, $ownerId, $videoPath, $title, $description);
+        return LinkedInUploader::upload($accessToken, $urn, $id , $videoPath, $title, $description);
     }
     private static function uploadYouTube($accessToken, $videoPath, $title, $description, $isShort = false)
     {
@@ -341,9 +342,10 @@ class FacebookUploader
 
 class LinkedInUploader
 {
+    //version number in the format YYYYMM
+    const versionNumber = '202404';
 
-
-    static function upload($accessToken, $ownerId, $videoPath, $title, $description)
+    static function upload($accessToken, $urn, $id, $videoPath, $title, $description)
     {
         $return = [
             'error' => true,
@@ -352,56 +354,49 @@ class LinkedInUploader
             'uploadResponse' => null
         ];
 
+        $fileSizeBytes = filesize($videoPath);
+
         // Initialize upload session
-        $initResponse = LinkedInUploader::initializeLinkedInUploadSession($accessToken, $ownerId);
+        $initResponse = LinkedInUploader::initializeLinkedInUploadSession($accessToken, $urn, $fileSizeBytes);
         $return['initResponse'] = $initResponse;
-
         // Check if the initialization was successful
-        if (isset($initResponse['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl'])) {
-            $uploadUrl = $initResponse['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl'];
+        if (isset($initResponse) && isset($initResponse['value']) && !empty($initResponse['value']['uploadInstructions'])) {
+            $return['uploadResponse'] = array();
+            $return['msg'] = array();
 
-            // Upload the video
-            $uploadResponse = LinkedInUploader::uploadVideoToLinkedIn($uploadUrl, $accessToken, $videoPath);
-            $return['uploadResponse'] = $uploadResponse;
-
-            // Check if the upload was successful
-            if (isset($uploadResponse['error']) && $uploadResponse['error']) {
-                $return['msg'] = "Error uploading video: " . $uploadResponse['message'];
-            } else {
-                $return['error'] = false;
-                $return['msg'] = "Video uploaded successfully!";
+            foreach ($initResponse['value']['uploadInstructions'] as $key => $value) {
+                $uploadResponse = LinkedInUploader::uploadVideoToLinkedIn($value['uploadUrl'], $accessToken, $videoPath, $value['firstByte'], $value['lastByte']);
+                $return['uploadResponse'][] = $uploadResponse;
+                if (isset($uploadResponse['error']) && $uploadResponse['error']) {
+                    $return['msg'][] = "Error uploading video httpcode:" . $uploadResponse['httpcode'];
+                }
             }
         } else {
-            $return['msg'] = "Failed to initialize upload session: " . json_encode($initResponse);
+            $return['msg'] = "Failed to initialize upload session";
         }
 
         return $return;
     }
 
-    static function initializeLinkedInUploadSession($accessToken, $ownerId)
+    static function initializeLinkedInUploadSession($accessToken, $urn, $fileSizeBytes)
     {
-        $url = "https://api.linkedin.com/v2/assets?action=registerUpload";
+        $url = "https://api.linkedin.com/rest/videos?action=initializeUpload";
         $data = json_encode([
-            "registerUploadRequest" => [
-                "recipes" => [
-                    "urn:li:digitalmediaRecipe:feedshare-video"
-                ],
-                "owner" => 'urn:li:person:' . $ownerId,
-                "serviceRelationships" => [
-                    [
-                        "relationshipType" => "OWNER",
-                        "identifier" => "urn:li:userGeneratedContent"
-                    ]
-                ]
+            "initializeUploadRequest" => [
+                "owner" => $urn,
+                "fileSizeBytes" => $fileSizeBytes,
+                "uploadCaptions" => false,
+                "uploadThumbnail" => false
             ]
         ]);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
+            "Content-Type: application/json",
             "Authorization: Bearer {$accessToken}",
-            "X-RestLi-Protocol-Version: 2.0.0"
+            "X-RestLi-Protocol-Version: 2.0.0",
+            "LinkedIn-Version: " . LinkedInUploader::versionNumber
         ]);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -416,24 +411,28 @@ class LinkedInUploader
         return json_decode($response, true);
     }
 
-    static function uploadVideoToLinkedIn($uploadUrl, $accessToken, $filePath)
+    static function uploadVideoToLinkedIn($uploadUrl, $accessToken, $filePath, $firstByte, $lastByte)
     {
-        $fileSize = filesize($filePath);
+        $fileSize = $lastByte - $firstByte + 1; // Calculate the size of the portion to upload
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uploadUrl);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: Bearer {$accessToken}",
+            //"Authorization: Bearer {$accessToken}",
             "Content-Type: application/octet-stream",
-            "Content-Length: {$fileSize}"
+            "Content-Length: {$fileSize}",
+            //"X-RestLi-Protocol-Version: 2.0.0",
+            //"LinkedIn-Version: " . LinkedInUploader::versionNumber
         ]);
-        curl_setopt($ch, CURLOPT_PUT, true);
-
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT"); // Use CURLOPT_CUSTOMREQUEST "PUT"
+    
         $fp = fopen($filePath, 'rb');
+        // Move the file pointer to the starting byte
+        fseek($fp, $firstByte);
         curl_setopt($ch, CURLOPT_INFILE, $fp);
         curl_setopt($ch, CURLOPT_INFILESIZE, $fileSize);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);  // Enable header response
-
+    
         $response = curl_exec($ch);
         $info = curl_getinfo($ch);
         if (curl_errno($ch)) {
@@ -441,25 +440,30 @@ class LinkedInUploader
             curl_close($ch);
             return ['error' => true, 'msg' => curl_error($ch), 'json' => false];
         }
-
+    
         $header_size = $info['header_size'];
         $header = substr($response, 0, $header_size);
         $body = substr($response, $header_size);
-
+    
         $etag = null;
         if (preg_match('/etag: ([^\r\n]+)/i', $header, $matches)) {
             $etag = trim($matches[1]);
         }
-
+    
         fclose($fp);
         curl_close($ch);
-
+    
         return [
-            'error' => false,
-            'msg' => 'File uploaded successfully.',
-            'json' => json_decode($body, true),
+            'uploadUrl' => $uploadUrl,
+            'error' => empty($etag),
+            'msg' => empty($etag) ? '' : 'File uploaded successfully.',
             'etag' => $etag,
-            'httpcode' => $info['http_code']
+            'httpcode' => $info['http_code'],
+            'response' => $response,
+            'firstByte' => $firstByte,
+            'lastByte' => $lastByte,
+            'fileSize' => $fileSize
         ];
     }
+    
 }
