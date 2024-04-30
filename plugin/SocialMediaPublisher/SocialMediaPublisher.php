@@ -188,12 +188,13 @@ class SocialMediaPublisher extends PluginAbstract
 
         $access_token = base64_encode(json_encode($response->accessToken));
 
-        $p = new Publisher_social_medias($pub['id']);
+        $p = new Publisher_social_medias($pub['publisher_social_medias_id']);
         $response->provider = $p->getName();
 
         $url = SocialMediaPublisher::RESTREAMER_URL . 'refresh.json.php';
         $url = addQueryStringParameter($url, 'access_token', $access_token);
         $response->url = addQueryStringParameter($url, 'provider', $response->provider);
+        //var_dump($pub['publisher_social_medias_id'], $response->provider, $url);exit;
 
         $response->resp = url_get_contents($response->url);
         if (empty($response->resp)) {
