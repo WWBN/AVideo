@@ -210,10 +210,12 @@ class Publisher_video_publisher_logs extends ObjectYPT
             if (!empty($error)) {
                 $msg[] = $error;
             }
+            //var_dump($row['name'], SocialMediaPublisher::SOCIAL_TYPE_YOUTUBE["name"], $row['json']->response->id);exit;
             switch ($row['name']) {
-                case SocialMediaPublisher::SOCIAL_TYPE_YOUTUBE:
+                case SocialMediaPublisher::SOCIAL_TYPE_YOUTUBE["name"]:
                     if (!empty($row['json']->response->id)) {
-                        $msg[] = "https://youtu.be/" . $row['json']->response->id;
+                        $link = "https://youtu.be/" . $row['json']->response->id;
+                        $msg[] = "<a href='{$link}' target='_blank'>{$link}</a>";
                     }
                     break;
             }
