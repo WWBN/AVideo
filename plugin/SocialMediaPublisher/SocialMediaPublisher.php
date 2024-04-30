@@ -270,7 +270,7 @@ class SocialMediaPublisher extends PluginAbstract
         if (!empty($videoPathToYouTube)) {
             //unlink($videoPathToYouTube);
         }
-        _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName complete ");
+        _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName complete ".json_encode($response));
         self::saveLog($publisher_social_medias_id, $videos_id, array('publisher_user_preferences_id' => $publisher_user_preferences_id, 'response'=>$response));
         return $response;
     }

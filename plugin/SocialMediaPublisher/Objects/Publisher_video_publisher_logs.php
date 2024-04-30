@@ -5,8 +5,8 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 class Publisher_video_publisher_logs extends ObjectYPT
 {
 
-    protected $id, $publish_datetimestamp, $status, $details, $videos_id, $users_id, 
-    $publisher_social_medias_id, $timezone;
+    protected $id, $publish_datetimestamp, $status, $details, $videos_id, $users_id,
+        $publisher_social_medias_id, $timezone;
 
     static function getSearchFieldsNames()
     {
@@ -112,7 +112,7 @@ class Publisher_video_publisher_logs extends ObjectYPT
 
     function setDetails($details)
     {
-        if(!is_string($details)){
+        if (!is_string($details)) {
             $details = json_encode($details);
         }
         $this->details = $details;
@@ -192,18 +192,41 @@ class Publisher_video_publisher_logs extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         foreach ($fullData as $key => $value) {
-            $fullData[$key]['publish'] = date('Y-m-d H:i:s', $fullData[$key]['publish_datetimestamp'] );
+            $fullData[$key]['publish'] = date('Y-m-d H:i:s', $fullData[$key]['publish_datetimestamp']);
             $fullData[$key]['json'] = json_decode($fullData[$key]['details']);
             $fullData[$key]['provider'] = SocialMediaPublisher::getProiderItem($value['name']);
             $fullData[$key]['msg'] = '';
-            if(!empty($fullData[$key]['json']->response)){
+            if (!empty($fullData[$key]['json']->response)) {
                 $fullData[$key]['msg'] = SocialUploader::getErrorMsg($fullData[$key]['json']->response);
             }
         }
         return $fullData;
     }
 
-    
+    static function getInfo($row)
+    {
+
+        $row['publish'] = date('Y-m-d H:i:s', $row['publish_datetimestamp']);
+        $row['json'] = json_decode($row['details']);
+        $row['provider'] = SocialMediaPublisher::getProiderItem($row['name']);
+        $row['msg'] = '';
+        if (!empty($row['json']->response)) {
+            $msg = array();
+            $error = SocialUploader::getErrorMsg($row['json']->response);
+            if (!empty($error)) {
+                $msg[] = $error;
+            }
+            switch ($row['name']) {
+                case SocialMediaPublisher::SOCIAL_TYPE_YOUTUBE:
+                    if (!empty($row['json']->response->id)) {
+                        $msg[] = "https://youtu.be/" . $row['json']->response->id;
+                    }
+                    break;
+            }
+            $row['msg'] = implode('<br>', $msg);
+        }
+    }
+
     public static function getTotalFromVideosId($videos_id)
     {
         //will receive
