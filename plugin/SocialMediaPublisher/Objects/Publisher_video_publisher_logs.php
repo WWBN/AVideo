@@ -192,13 +192,7 @@ class Publisher_video_publisher_logs extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         foreach ($fullData as $key => $value) {
-            $fullData[$key]['publish'] = date('Y-m-d H:i:s', $fullData[$key]['publish_datetimestamp']);
-            $fullData[$key]['json'] = json_decode($fullData[$key]['details']);
-            $fullData[$key]['provider'] = SocialMediaPublisher::getProiderItem($value['name']);
-            $fullData[$key]['msg'] = '';
-            if (!empty($fullData[$key]['json']->response)) {
-                $fullData[$key]['msg'] = SocialUploader::getErrorMsg($fullData[$key]['json']->response);
-            }
+            $fullData[$key] = self::getInfo($fullData[$key]);
         }
         return $fullData;
     }
