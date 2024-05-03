@@ -702,6 +702,11 @@ body.vjs-pip-window .video-js {
        appearance: none;
 }
 
+.video-js.vjs-spatial-navigation-enabled .vjs-button:focus {
+  outline: 0.0625em solid white;
+  box-shadow: none;
+}
+
 .vjs-control .vjs-button {
   width: 100%;
   height: 100%;
@@ -909,6 +914,10 @@ body.vjs-pip-window .video-js {
   height: 3em;
   background-color: #2B333F;
   background-color: rgba(43, 51, 63, 0.7);
+}
+
+.video-js.vjs-spatial-navigation-enabled .vjs-control-bar {
+  gap: 1px;
 }
 
 .video-js:not(.vjs-controls-disabled, .vjs-using-native-controls, .vjs-error) .vjs-control-bar.vjs-lock-showing {
@@ -1156,6 +1165,10 @@ body.vjs-pip-window .video-js {
 .video-js .vjs-slider:focus {
   text-shadow: 0em 0em 1em white;
   box-shadow: 0 0 1em #fff;
+}
+
+.video-js.vjs-spatial-navigation-enabled .vjs-slider:focus {
+  outline: 0.0625em solid white;
 }
 
 .video-js .vjs-mute-control {
@@ -1541,6 +1554,11 @@ video::-webkit-media-text-track-display {
   transform: translateY(-1.5em);
 }
 
+.video-js.vjs-force-center-align-cues .vjs-text-track-cue {
+  text-align: center !important;
+  width: 80% !important;
+}
+
 .video-js .vjs-picture-in-picture-control {
   cursor: pointer;
   flex: none;
@@ -1757,6 +1775,9 @@ video::-webkit-media-text-track-display {
   background-color: rgba(43, 51, 63, 0.75);
   color: #fff;
   height: 70%;
+}
+.vjs-spatial-navigation-enabled .vjs-modal-dialog.vjs-text-track-settings {
+  height: 80%;
 }
 
 .vjs-error .vjs-text-track-settings {

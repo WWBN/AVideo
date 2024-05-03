@@ -1,0 +1,74 @@
+{
+  "name": "@fullcalendar/core",
+  "version": "6.1.11",
+  "title": "FullCalendar Core",
+  "description": "FullCalendar core package for rendering a calendar",
+  "dependencies": {
+    "preact": "~10.12.1"
+  },
+  "type": "module",
+  "keywords": [
+    "calendar",
+    "event",
+    "full-sized",
+    "fullcalendar"
+  ],
+  "homepage": "https://fullcalendar.io",
+  "bugs": "https://fullcalendar.io/reporting-bugs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fullcalendar/fullcalendar.git",
+    "directory": "packages/core"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
+    "url": "http://arshaw.com/"
+  },
+  "copyright": "2023 Adam Shaw",
+  "types": "./index.d.ts",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "unpkg": "./index.global.min.js",
+  "jsdelivr": "./index.global.min.js",
+  "exports": {
+    "./package.json": "./package.json",
+    "./index.cjs": "./index.cjs",
+    "./index.js": "./index.js",
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.cjs",
+      "import": "./index.js"
+    },
+    "./preact.cjs": "./preact.cjs",
+    "./preact.js": "./preact.js",
+    "./preact": {
+      "types": "./preact.d.ts",
+      "require": "./preact.cjs",
+      "import": "./preact.js"
+    },
+    "./internal.cjs": "./internal.cjs",
+    "./internal.js": "./internal.js",
+    "./internal": {
+      "types": "./internal.d.ts",
+      "require": "./internal.cjs",
+      "import": "./internal.js"
+    },
+    "./locales-all.cjs": "./locales-all.cjs",
+    "./locales-all.js": "./locales-all.js",
+    "./locales-all": {
+      "types": "./locales-all.d.ts",
+      "require": "./locales-all.cjs",
+      "import": "./locales-all.js"
+    },
+    "./locales/*.cjs": "./locales/*.cjs",
+    "./locales/*.js": "./locales/*.js",
+    "./locales/*": {
+      "types": "./locales/*.d.ts",
+      "require": "./locales/*.cjs",
+      "import": "./locales/*.js"
+    }
+  },
+  "sideEffects": false
+}

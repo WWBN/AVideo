@@ -1,3 +1,10 @@
+<a name="5.1.1"></a>
+## [5.1.1](https://github.com/brightcove/videojs-playlist/compare/v5.1.0...v5.1.1) (2024-04-23)
+
+### Bug Fixes
+
+* Poster hidden when index is greater than 0 ([#260](https://github.com/videojs/videojs-playlist/pull/260)) ([d117f2c](https://github.com/brightcove/videojs-playlist/commit/8d117f2c))
+
 <a name="5.1.0"></a>
 # [5.1.0](https://github.com/brightcove/videojs-playlist/compare/v5.0.1...v5.1.0) (2023-04-14)
 

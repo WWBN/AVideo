@@ -167,7 +167,7 @@ QUnit.test('playlist.currentItem() works as expected', function(assert) {
   assert.equal(playlist.currentItem(-Infinity), 2, 'cannot change to an invalid item');
 });
 
-QUnit.test('playlist.currentItem() shows the poster for the first video', function(assert) {
+QUnit.test('playlist.currentItem() shows a poster by default', function(assert) {
   const player = playerProxyMaker();
   const playlist = playlistMaker(player, videoList);
 
@@ -175,14 +175,12 @@ QUnit.test('playlist.currentItem() shows the poster for the first video', functi
   assert.notEqual(player.poster(), '', 'poster is shown for playlist index 0');
 });
 
-QUnit.test('playlist.currentItem() hides the poster for all videos after the first', function(assert) {
+QUnit.test('playlist.currentItem() will hide the poster if suppressPoster param is true', function(assert) {
   const player = playerProxyMaker();
   const playlist = playlistMaker(player, videoList);
 
-  for (let i = 1; i <= playlist.lastIndex(); i++) {
-    playlist.currentItem(i);
-    assert.equal(player.poster(), '', 'poster is hidden for playlist index ' + i);
-  }
+  playlist.currentItem(1, true);
+  assert.equal(player.poster(), '', 'poster is suppressed');
 });
 
 QUnit.test('playlist.currentItem() returns -1 with an empty playlist', function(assert) {

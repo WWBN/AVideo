@@ -290,11 +290,13 @@ export default function factory(player, initialList, initialIndex = 0) {
    *
    * @param  {number} [index]
    *         If given as a valid value, plays the playlist item at that index.
+   * @param {boolean} [suppressPoster]
+   *         Should the native poster be suppressed? Defaults to false.
    *
    * @return {number}
    *         The current item index.
    */
-  playlist.currentItem = (index) => {
+  playlist.currentItem = (index, suppressPoster) => {
     // If the playlist is changing, only act as a getter.
     if (changing) {
       return playlist.currentIndex_;
@@ -310,19 +312,9 @@ export default function factory(player, initialList, initialIndex = 0) {
       playlist.currentIndex_ = index;
       playItem(
         playlist.player_,
-        list[playlist.currentIndex_]
+        list[playlist.currentIndex_],
+        suppressPoster
       );
-
-      // When playing multiple videos in a playlist the videojs PosterImage
-      // will be hidden using CSS. However, in some browsers the native poster
-      // attribute will briefly appear while the new source loads. Prevent
-      // this by hiding every poster after the first play list item. This
-      // doesn't cover every use case for showing/hiding the poster, but
-      // it will significantly improve the user experience.
-      if (index > 0) {
-        player.poster('');
-      }
-
       return playlist.currentIndex_;
     }
 
@@ -604,10 +596,12 @@ export default function factory(player, initialList, initialIndex = 0) {
   /**
    * Plays the next item in the playlist.
    *
+   * @param {boolean} [suppressPoster]
+   *         Should the native poster be suppressed? Defaults to false.
    * @return {Object|undefined}
    *         Returns undefined and has no side effects if on last item.
    */
-  playlist.next = () => {
+  playlist.next = (suppressPoster = false) => {
     if (changing) {
       return;
     }
@@ -615,7 +609,7 @@ export default function factory(player, initialList, initialIndex = 0) {
     const index = playlist.nextIndex();
 
     if (index !== playlist.currentIndex_) {
-      const newItem = playlist.currentItem(index);
+      const newItem = playlist.currentItem(index, suppressPoster);
 
       return list[newItem].originalValue || list[newItem];
     }

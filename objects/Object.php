@@ -1058,6 +1058,20 @@ abstract class ObjectYPT implements ObjectInterface
         $obj->properties = $state['properties'];
         return $obj;
     }
+    
+
+    static function isTableEmpty()
+    {
+        $sql = "SELECT 1 FROM `" . static::getTableName() . "` LIMIT 1";
+        $res = sqlDAL::readSql($sql);
+        if ($res) {
+            $row = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            return $row ? false : true; // Return false if a row exists (table is not empty), true if no row exists (table is empty)
+        } else {
+            return true; // Assume the table is empty if the query fails
+        }
+    }
 }
 abstract class CacheHandler {
 
