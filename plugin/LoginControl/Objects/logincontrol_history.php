@@ -37,8 +37,6 @@ class logincontrol_history extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            _error_log($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -134,16 +132,13 @@ class logincontrol_history extends ObjectYPT
                 $row['type'] = ($row['status']!==logincontrol_history_status::$CONFIRMED) ? __("Failed login attempt") : __("Successfully logged in");
                 $rows[] = $row;
             }
-        } else {
-            _error_log($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 
     public static function getDeviceName($user_agent)
     {
-        $device = get_browser_name($user_agent);
-        $device .= " - " . getOS($user_agent);
+        $device = getUserAgentInfo();
         return $device;
     }
 

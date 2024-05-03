@@ -18,7 +18,7 @@ $page = new Page('About', 'about');
                 $custom = $ec->getAbout();
             }
             if (empty($custom)) {
-                ?>
+            ?>
                 <h1><?php echo __("I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible."); ?></h1>
                 <blockquote class="blockquote">
                     <h1><?php echo __("For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen."); ?></h1>
@@ -35,14 +35,9 @@ $page = new Page('About', 'about');
                 </span>
                 <div class="clearfix"></div>
                 <span class="label label-info">
-                    <?php echo __("You are using"); ?>: <?php echo get_browser_name() . " " . __("on") . " " . getOS(); ?> (<?php echo isMobile() ? __("Mobile") : __("PC"); ?>)
+                    <?php echo __("You are using"); ?>: <?php echo getUserAgentInfo(); ?> (<?php echo isMobile() ? __("Mobile") : __("PC"); ?>)
                 </span>
-                <span class="label label-default">
-                    <?php echo $_SERVER['HTTP_USER_AGENT']; ?>
-                </span>
-
-
-                <?php
+            <?php
             } else {
                 echo $custom;
             }
