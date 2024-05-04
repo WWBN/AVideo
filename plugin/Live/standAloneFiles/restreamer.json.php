@@ -513,7 +513,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     . "-c:v libx264 "
     . "-pix_fmt yuv420p "
     //. "-vf \"scale=trunc(iw/2)*2:1080,format=yuv420p\" " // Adjusted scale filter for compatibility and performance
-    . "-vf \"scale=trunc(iw/2)*2:720,format=yuv420p\" " // Adjusted scale filter for 720p resolution    
+    //. "-vf \"scale=trunc(iw/2)*2:720,format=yuv420p\" " // Adjusted scale filter for 720p resolution    
+    . "-vf \"scale=-2:720,format=yuv420p\" "
     . "-r 30 -g 60 "
     . "-tune zerolatency "
     . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms

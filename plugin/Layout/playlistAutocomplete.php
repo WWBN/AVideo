@@ -13,7 +13,7 @@ if (empty($name)) {
 ?>
 <div class="clearfix"></div>
 <div class="col-xs-12" style="padding-left: 2px;">
-    <input id="Playlist<?php echo $id; ?>" placeholder="<?php echo __("Type to search"); ?>" class="form-control" name="Playlist<?php echo $id; ?>" value="<?php echo $name; ?>">
+    <input id="Playlist<?php echo $id; ?>" placeholder="<?php echo __("Type to search a playlist"); ?>" class="form-control" name="Playlist<?php echo $id; ?>" value="<?php echo $name; ?>">
     <input type="hidden" id="<?php echo $id; ?>" value="<?php echo $default_Playlists_id; ?>" name="<?php echo $id; ?>">
 </div>
 <div class="clearfix"></div>
