@@ -464,7 +464,7 @@ if (!class_exists('Video')) {
 
 
             if (!User::isLogged() && !$allowOfflineUser) {
-                _error_log('Video::save permission denied to save '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+                _error_log('Video::save permission denied to save ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 return false;
             }
             if (empty($this->title)) {
@@ -815,6 +815,12 @@ if (!class_exists('Video')) {
 
         public function setStatus($status)
         {
+            if ($status === Video::$statusBrokenMissingFiles) {
+                if (empty($this->status) || $this->status !== Video::$statusBrokenMissingFiles) {
+                    _error_log("Video::setStatus({$status}) set to statusBrokenMissingFiles id = {$this->id} " . json_encode(debug_backtrace()), AVideoLog::$WARNING);
+                }
+            }
+
             if (!empty($this->id)) {
                 global $global;
 
@@ -1961,7 +1967,7 @@ if (!class_exists('Video')) {
                     }
                     $tlogName = TimeLogStart("video::getInfo index={$index} id={$row['id']} {$row['type']}");
                     $row = self::getInfo($row, $getStatistcs);
-                    
+
                     if ($getStatistcs) {
                         $row = self::getInfoPersonal($row);
                     }
@@ -5301,7 +5307,7 @@ if (!class_exists('Video')) {
                     $videos_id = $encryptedVideos_id;
                 }
             }
-            
+
             if ($embed) {
                 $url = "{$siteURL}{$subEmbedDir}/{$videos_id}{$get_http}";
             } else {
