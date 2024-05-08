@@ -1428,9 +1428,13 @@ function closeFullscreenVideo() {
     avideoModalIframeClose();
 }
 
+// make sure it does not close all the windows in cascade
+var _justPropagateClose = false;
 // Listen for messages from child frames
 window.addEventListener('message', function (event) {
     if (event.data === 'closeFullscreen') {
+        _justPropagateClose = true;
+        setTimeout(function(){_justPropagateClose = false;},500);
         // Call the function to close fullscreen video
         closeFullscreenVideo();
     }
@@ -3972,9 +3976,14 @@ function addCloseButton(elementToAppend) {
         // Add event listener
         closeButton.on('click', function () {
             if (window.self !== window.top) {
-                console.log('close parent iframe');
                 //window.parent.closeFullscreenVideo();
-                window.parent.postMessage('closeFullscreen', '*');
+                if(!_justPropagateClose){
+                    console.log('close parent iframe');
+                    console.trace();
+                    window.parent.postMessage('closeFullscreen', '*');
+                }else{
+                    console.log('close parent iframe _justPropagateClose');
+                }
             } else {
                 console.log('close history.back');
                 window.history.back();
@@ -4170,4 +4179,41 @@ function findLargestCookies() {
     console.log("Top 10 largest cookies:", sortedCookies);
     return sortedCookies;
 }
+
+function confirmAndDelete(urlToDelete, id, functionForResponse){
+    swal({
+        title: __("Are you sure?"),
+        text: __("You will not be able to recover this action!"),
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then(function(willDelete) {
+        if (willDelete) {
+            modal.showPleaseWait();
+            $.ajax({
+                type: "POST",
+                url: urlToDelete,
+                data: {
+                    id: id
+                }
+            }).done(function(response) {
+                modal.hidePleaseWait();
+                avideoResponse(response);
+                functionForResponse(response);
+            });
+        } else {
+
+        }
+    });
+}
+
+function getTinyMCEVal(id){
+    return $(tinymce.get(id).getBody()).html();
+}
+function setTinyMCEVal(id, val){
+    $('#'+id).val(val);
+    tinymce.get(id).setContent(val);
+}
+
 
