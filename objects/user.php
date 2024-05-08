@@ -3526,7 +3526,7 @@ if (typeof gtag !== \"function\") {
                     ?>
                 </div>
             </div>
-            <div class="panel-footer " style="font-size: 0.8em">
+            <div class="panel-footer channelsFooter" style="font-size: 0.8em">
                 <div class=" text-muted">
                     <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($users_id)), " ", __("Views in the last 30 days"); ?>
                 </div>

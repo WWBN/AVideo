@@ -27,6 +27,9 @@ try {
     var avideoIsOnline = false;
     var userLang = navigator.language || navigator.userLanguage;
     var iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
+    
+    // make sure it does not close all the windows in cascade
+    var _justPropagateClose = false;
 
     // Create browser compatible event handler.
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
@@ -53,7 +56,9 @@ try {
                 tryToPlayMuted(currentTime);
             }
         }
-        forwardToIframe(e.data);
+        if(!_justPropagateClose && e.data !== 'closeFullscreen'){
+            forwardToIframe(e.data);
+        }
     }, false);
 
     eventer("online", function (e) {
@@ -85,6 +90,8 @@ if (urlParams.has('debug')) {
 function forwardToIframe(data) {
     var iframe = document.getElementById('avideoModalIframe'); // Get the iframe by ID
     if (iframe && iframe.contentWindow) {
+        console.trace('forwardToIframe');
+        console.log('forwardToIframe', data);
         iframe.contentWindow.postMessage(data, '*'); // Send the message to the iframe, replace '*' with the iframe's origin for security
     }
 }
@@ -1412,7 +1419,9 @@ function avideoModalIframeClose() {
         }
     }
     try {
-        if (inIframe()) {
+        if (!_justPropagateClose && inIframe()) {
+            console.trace('window.parent.swal.close()');
+            console.log('window.parent.swal.close() _justPropagateClose', _justPropagateClose);
             window.parent.swal.close();
         }
     } catch (e) {
@@ -1425,16 +1434,13 @@ function avideoModalIframeFullScreenClose() {
 }
 
 function closeFullscreenVideo() {
+    console.trace('closeFullscreenVideo');
     avideoModalIframeClose();
 }
 
-// make sure it does not close all the windows in cascade
-var _justPropagateClose = false;
 // Listen for messages from child frames
 window.addEventListener('message', function (event) {
     if (event.data === 'closeFullscreen') {
-        _justPropagateClose = true;
-        setTimeout(function(){_justPropagateClose = false;},500);
         // Call the function to close fullscreen video
         closeFullscreenVideo();
     }
@@ -3978,8 +3984,12 @@ function addCloseButton(elementToAppend) {
             if (window.self !== window.top) {
                 //window.parent.closeFullscreenVideo();
                 if(!_justPropagateClose){
-                    console.log('close parent iframe');
-                    console.trace();
+                    _justPropagateClose = true;
+                    console.log('close parent iframe _justPropagateClose = true');
+                    setTimeout(function(){
+                        _justPropagateClose = false;
+                        console.log('_justPropagateClose = false');
+                    },10000);
                     window.parent.postMessage('closeFullscreen', '*');
                 }else{
                     console.log('close parent iframe _justPropagateClose');
