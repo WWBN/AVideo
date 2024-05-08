@@ -8727,6 +8727,6 @@ span.selection>span.select2-selection--single {
     color: rgba(0, 0, 0, .65);
 }
 
-body.youtube #buttonMenu{
-    padding-top: 5px;
+#mainNavBar button.compressMenu{
+    padding: 6px 12px;
 }
