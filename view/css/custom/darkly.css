@@ -8726,3 +8726,7 @@ span.selection>span.select2-selection--single {
 .swal-modal {
     color: rgba(0, 0, 0, .65);
 }
+
+#mainNavBar button.compressMenu{
+    padding: 6px 12px;
+}

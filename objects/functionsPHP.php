@@ -292,7 +292,12 @@ function session_start_preload(){
     // each client should remember their session id for EXACTLY 1 hour
     session_set_cookie_params($config->getSession_timeout());
 
-    //Fix “set SameSite cookie to none” warning
+    // Fix “set SameSite cookie to none” warning and check if cookie already set
+    if (isset($_COOKIE['key'])) {
+        // Cookie 'key' is already set, no need to set it again
+        return true;
+    }
+
     if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
         setcookie('key', 'value', ['samesite' => 'None', 'secure' => true]);
     } else {
@@ -300,6 +305,7 @@ function session_start_preload(){
         setcookie('key', 'value', time() + $config->getSession_timeout(), '/; SameSite=None; Secure');
     }
 }
+
 
 function _session_start(array $options = [])
 {
