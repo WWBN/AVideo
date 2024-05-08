@@ -72,7 +72,8 @@ const setup = (player, delay) => {
     player.playlist.autoadvance_.timeout = player.setTimeout(() => {
       reset(player);
       player.off('play', cancelOnPlay);
-      player.playlist.next();
+      // Poster should be suppressed when auto-advancing
+      player.playlist.next(true);
     }, delay * 1000);
   };
 

@@ -1,0 +1,25 @@
+var l37 = {
+    code: 'hy-am',
+    week: {
+        dow: 1,
+        doy: 4, // The week that contains Jan 4th is the first week of the year.
+    },
+    buttonText: {
+        prev: 'Նախորդ',
+        next: 'Հաջորդ',
+        today: 'Այսօր',
+        year: 'Տարի',
+        month: 'Ամիս',
+        week: 'Շաբաթ',
+        day: 'Օր',
+        list: 'Օրվա ցուցակ',
+    },
+    weekText: 'Շաբ',
+    allDayText: 'Ամբողջ օր',
+    moreLinkText(n) {
+        return '+ ևս ' + n;
+    },
+    noEventsText: 'Բացակայում է իրադարձությունը ցուցադրելու',
+};
+
+export { l37 as default };

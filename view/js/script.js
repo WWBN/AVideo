@@ -53,6 +53,7 @@ try {
                 tryToPlayMuted(currentTime);
             }
         }
+        forwardToIframe(e.data);
     }, false);
 
     eventer("online", function (e) {
@@ -79,6 +80,13 @@ var urlParams = new URLSearchParams(queryString);
 
 if (urlParams.has('debug')) {
     isDebuging = false;
+}
+
+function forwardToIframe(data) {
+    var iframe = document.getElementById('avideoModalIframe'); // Get the iframe by ID
+    if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage(data, '*'); // Send the message to the iframe, replace '*' with the iframe's origin for security
+    }
 }
 
 function escapeRegExp(string) {

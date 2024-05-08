@@ -587,12 +587,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `category_type_cache`
 -- -----------------------------------------------------
-CREATE TABLE `category_type_cache` (
+CREATE TABLE IF NOT EXISTS `category_type_cache` (
   `categoryId` int(11) NOT NULL,
   `type` int(2) NOT NULL COMMENT '0=both, 1=audio, 2=video' DEFAULT 0,
   `manualSet` int(1) NOT NULL COMMENT '0=auto, 1=manual' DEFAULT 0
-
-) ENGINE=InnoDB;
+) 
+ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `categories_has_users_groups` (
   `id` INT NOT NULL AUTO_INCREMENT,

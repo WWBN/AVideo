@@ -506,28 +506,39 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
      *
      */
     
-    $global_maxbitrate = 6000;
-    $global_fps = 30;
+      
+    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" ";
+    $FFMPEGComplement = " -max_muxing_queue_size 1024 "
+    . '{audioConfig}'
+    . "-c:v libx264 "
+    . "-pix_fmt yuv420p "  
+    //. "-vf \"scale=-2:720,format=yuv420p\" "
+    . "-r 30 -g 60 "
+    . "-tune zerolatency "
+    . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms
+    . "-b:v 6000k " // Set constant video bitrate
+    . "-minrate 6000k -maxrate 6000k -bufsize 6000k " // Set buffer size to match the bitrate
+    . "-preset veryfast "
+    . "-f flv "
+    . "-fflags +genpts " // Ensure smooth playback
+    . "-strict -2 " // Allow non-compliant AAC audio
+    . "-reconnect 1 " // Enable reconnection in case of a broken pipe
+    . "-reconnect_at_eof 1 " // Reconnect at the end of file
+    . "-reconnect_streamed 1 " // Reconnect for streamed media
+    . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
+    . "\"{restreamsDestinations}\"";
+
     if (count($restreamsDestinations) > 1) {
         //$command = "{$ffmpegBinary} -re -i \"{$m3u8}\" ";
-        $command = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -i \"{$m3u8}\" ";
+        $command = $FFMPEGcommand;
         foreach ($restreamsDestinations as $value) {
             if (!isOpenSSLEnabled() && preg_match("/rtpms:/i", $value)) {
                 error_log("Restreamer.json.php startRestream ERROR #1 FFMPEG openssl is not enabled, ignoring $value ");
                 continue;
-            }
-            
-            $audioConfig = getAudioConfiguration($value);
-            
+            }            
+            $audioConfig = getAudioConfiguration($value);            
             $value = clearCommandURL($value);
-            $command .= ' -max_muxing_queue_size 1024 '
-                    . $audioConfig
-                    . '-vcodec libx264 '
-                    . '-pix_fmt yuv420p '
-                    . '-vf scale=-1:1080 '
-                    . '-r '.$global_fps.' -g 60 '
-                    . '-tune zerolatency '
-                    . '-f flv -maxrate '.$global_maxbitrate.'k -preset veryfast -f flv "' . $value . '" ';
+            $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}'), array($audioConfig, $value), $FFMPEGComplement);
         }
     } else {
         if (!isOpenSSLEnabled() && preg_match("/rtpms:/i", $restreamsDestinations[0])) {
@@ -535,14 +546,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         } else {
             $audioConfig = getAudioConfiguration($restreamsDestinations[0]);
             //$command = "ffmpeg -re -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
-            $command = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -y -i \"{$m3u8}\" -max_muxing_queue_size 1024 "
-            . $audioConfig
-            . "-vcodec libx264 "
-            . "-pix_fmt yuv420p "
-            . "-vf scale=-1:1080 "
-            . "-r {$global_fps} -g 60 "
-            . "-tune zerolatency "
-            . "-f flv -maxrate {$global_maxbitrate}k -preset veryfast -f flv \"{$restreamsDestinations[0]}\"";
+            $command = $FFMPEGcommand;
+            $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}'), array($audioConfig, $restreamsDestinations[0]), $FFMPEGComplement);
         }
     }
     if (empty($command) || !preg_match("/-f flv/i", $command)) {

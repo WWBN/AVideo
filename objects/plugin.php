@@ -592,4 +592,5 @@ class PluginTags
     public static $FREE = ['info', 'Free', '<i class="fas fa-check"></i>', 'FREE'];
     public static $PREMIUM = ['info', 'Premium', '<i class="fas fa-thumbs-up"></i>', 'PREMIUM'];
     public static $DEPRECATED = ['danger', 'Deprecated', '<i class="fas fa-times-circle"></i>', 'DEPRECATED'];
+    public static $UNDERDEVELOPMENT = ['warning', 'Under Development', '<i class="fa-solid fa-terminal"></i>', 'UNDERDEVELOPMENT'];
 }

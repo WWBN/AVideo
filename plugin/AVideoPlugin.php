@@ -398,9 +398,12 @@ class AVideoPlugin
                 if (!class_exists($name)) {
                     require_once $loadPluginFile;
                 }
-
-                $code = "\$p = new {$name}();";
-                eval($code);
+                try {
+                    $code = "\$p = new {$name}();";
+                    eval($code);
+                } catch (\Throwable $th) {
+                    _error_log("[loadPlugin] ".$th->getMessage(), AVideoLog::$ERROR);
+                }
                 if (is_object($p)) {
                     $pluginIsLoaded[$name] = $p;
                 } else {
@@ -1145,7 +1148,12 @@ class AVideoPlugin
                 self::YPTstart();
                 $p = static::loadPlugin($value['dirName']);
                 if (is_object($p)) {
-                    $appArray = $p->getLiveApplicationArray();
+                    try {
+                        $appArray = $p->getLiveApplicationArray();
+                    } catch (\Throwable $th) {
+                        _error_log('AVideoPlugin::getLiveApplicationArray '.$th->getMessage(), AVideoLog::$ERROR);
+                        $appArray = array();
+                    }
                     if (is_array($appArray)) {
                         if (!is_array($array)) {
                             $array = $appArray;

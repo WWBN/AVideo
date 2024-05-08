@@ -1,8 +1,8 @@
-/*! jQuery UI - v1.13.2 - 2022-07-14
-* http://jqueryui.com
+/*! jQuery UI - v1.13.3 - 2024-04-26
+* https://jqueryui.com
 * Includes: core.css, accordion.css, autocomplete.css, menu.css, button.css, controlgroup.css, checkboxradio.css, datepicker.css, dialog.css, draggable.css, resizable.css, progressbar.css, selectable.css, selectmenu.css, slider.css, sortable.css, spinner.css, tabs.css, tooltip.css, theme.css
-* To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Georgia%2CVerdana%2CArial%2Csans-serif&fwDefault=bold&fsDefault=1.2em&cornerRadius=5px&bgColorHeader=261803&bgTextureHeader=diamond&bgImgOpacityHeader=8&borderColorHeader=baaa5a&fcHeader=eacd86&iconColorHeader=e9cd86&bgColorContent=443113&bgTextureContent=diamond&bgImgOpacityContent=8&borderColorContent=efec9f&fcContent=efec9f&iconColorContent=efec9f&bgColorDefault=4f4221&bgTextureDefault=diamond&bgImgOpacityDefault=10&borderColorDefault=362917&fcDefault=f8eec9&iconColorDefault=e8e2b5&bgColorHover=675423&bgTextureHover=diamond&bgImgOpacityHover=25&borderColorHover=362917&fcHover=f8eec9&iconColorHover=f2ec64&bgColorActive=443113&bgTextureActive=diamond&bgImgOpacityActive=8&borderColorActive=efec9f&fcActive=f9f2bd&iconColorActive=f9f2bd&bgColorHighlight=d5ac5d&bgTextureHighlight=diamond&bgImgOpacityHighlight=25&borderColorHighlight=362917&fcHighlight=060200&iconColorHighlight=070603&bgColorError=fee4bd&bgTextureError=highlight_hard&bgImgOpacityError=65&borderColorError=c26629&fcError=803f1e&iconColorError=ff7519&bgColorOverlay=372806&bgTextureOverlay=diamond&bgImgOpacityOverlay=20&opacityOverlay=80&bgColorShadow=ddd4b0&bgTextureShadow=flat&bgImgOpacityShadow=75&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=12px
-* Copyright jQuery Foundation and other contributors; Licensed MIT */
+* To view and modify this theme, visit https://jqueryui.com/themeroller/?ffDefault=Georgia%2CVerdana%2CArial%2Csans-serif&fwDefault=bold&fsDefault=1.2em&cornerRadius=5px&bgColorHeader=261803&bgTextureHeader=diamond&bgImgOpacityHeader=8&borderColorHeader=baaa5a&fcHeader=eacd86&iconColorHeader=e9cd86&bgColorContent=443113&bgTextureContent=diamond&bgImgOpacityContent=8&borderColorContent=efec9f&fcContent=efec9f&iconColorContent=efec9f&bgColorDefault=4f4221&bgTextureDefault=diamond&bgImgOpacityDefault=10&borderColorDefault=362917&fcDefault=f8eec9&iconColorDefault=e8e2b5&bgColorHover=675423&bgTextureHover=diamond&bgImgOpacityHover=25&borderColorHover=362917&fcHover=f8eec9&iconColorHover=f2ec64&bgColorActive=443113&bgTextureActive=diamond&bgImgOpacityActive=8&borderColorActive=efec9f&fcActive=f9f2bd&iconColorActive=f9f2bd&bgColorHighlight=d5ac5d&bgTextureHighlight=diamond&bgImgOpacityHighlight=25&borderColorHighlight=362917&fcHighlight=060200&iconColorHighlight=070603&bgColorError=fee4bd&bgTextureError=highlight_hard&bgImgOpacityError=65&borderColorError=c26629&fcError=803f1e&iconColorError=ff7519&bgColorOverlay=372806&bgTextureOverlay=diamond&bgImgOpacityOverlay=20&opacityOverlay=80&bgColorShadow=ddd4b0&bgTextureShadow=flat&bgImgOpacityShadow=75&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=12px
+* Copyright OpenJS Foundation and other contributors; Licensed MIT */
 
 /* Layout helpers
 ----------------------------------*/
@@ -1306,7 +1306,7 @@ a.ui-button:active,
 .ui-widget-overlay {
 	background: #372806 url("images/ui-bg_diamond_20_372806_10x8.png") 50% 50% repeat;
 	opacity: .8;
-	-ms-filter: Alpha(Opacity=80); /* support: IE8 */
+	-ms-filter: "alpha(opacity=80)"; /* support: IE8 */
 }
 .ui-widget-shadow {
 	-webkit-box-shadow: -8px -8px 8px #ddd4b0;

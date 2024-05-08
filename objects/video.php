@@ -464,7 +464,7 @@ if (!class_exists('Video')) {
 
 
             if (!User::isLogged() && !$allowOfflineUser) {
-                _error_log('Video::save permission denied to save');
+                _error_log('Video::save permission denied to save '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 return false;
             }
             if (empty($this->title)) {
@@ -1094,7 +1094,6 @@ if (!class_exists('Video')) {
 
             return $sql;
         }
-
 
         static function getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly)
         {
