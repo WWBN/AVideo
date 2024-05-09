@@ -27,9 +27,6 @@ try {
     var avideoIsOnline = false;
     var userLang = navigator.language || navigator.userLanguage;
     var iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
-    
-    // make sure it does not close all the windows in cascade
-    var _justPropagateClose = false;
 
     // Create browser compatible event handler.
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
@@ -56,9 +53,11 @@ try {
                 tryToPlayMuted(currentTime);
             }
         }
-        if(!_justPropagateClose && e.data !== 'closeFullscreen'){
+        /*
+        if (e.data !== 'closeFullscreen') {
             forwardToIframe(e.data);
         }
+        */
     }, false);
 
     eventer("online", function (e) {
@@ -1419,10 +1418,10 @@ function avideoModalIframeClose() {
         }
     }
     try {
-        if (!_justPropagateClose && inIframe()) {
-            console.trace('window.parent.swal.close()');
-            console.log('window.parent.swal.close() _justPropagateClose', _justPropagateClose);
-            window.parent.swal.close();
+        if (inIframe()) {
+            if ($('.swal-overlay iframe').length == 0) {
+                window.parent.swal.close();
+            }
         }
     } catch (e) {
 
@@ -1441,7 +1440,6 @@ function closeFullscreenVideo() {
 // Listen for messages from child frames
 window.addEventListener('message', function (event) {
     if (event.data === 'closeFullscreen') {
-        // Call the function to close fullscreen video
         closeFullscreenVideo();
     }
 });
@@ -3982,18 +3980,7 @@ function addCloseButton(elementToAppend) {
         // Add event listener
         closeButton.on('click', function () {
             if (window.self !== window.top) {
-                //window.parent.closeFullscreenVideo();
-                if(!_justPropagateClose){
-                    _justPropagateClose = true;
-                    console.log('close parent iframe _justPropagateClose = true');
-                    setTimeout(function(){
-                        _justPropagateClose = false;
-                        console.log('_justPropagateClose = false');
-                    },10000);
-                    window.parent.postMessage('closeFullscreen', '*');
-                }else{
-                    console.log('close parent iframe _justPropagateClose');
-                }
+                window.parent.postMessage('closeFullscreen', '*');
             } else {
                 console.log('close history.back');
                 window.history.back();
@@ -4190,7 +4177,7 @@ function findLargestCookies() {
     return sortedCookies;
 }
 
-function confirmAndDelete(urlToDelete, id, functionForResponse){
+function confirmAndDelete(urlToDelete, id, functionForResponse) {
     swal({
         title: __("Are you sure?"),
         text: __("You will not be able to recover this action!"),
@@ -4198,32 +4185,68 @@ function confirmAndDelete(urlToDelete, id, functionForResponse){
         buttons: true,
         dangerMode: true,
     })
-    .then(function(willDelete) {
-        if (willDelete) {
-            modal.showPleaseWait();
-            $.ajax({
-                type: "POST",
-                url: urlToDelete,
-                data: {
-                    id: id
-                }
-            }).done(function(response) {
-                modal.hidePleaseWait();
-                avideoResponse(response);
-                functionForResponse(response);
-            });
-        } else {
+        .then(function (willDelete) {
+            if (willDelete) {
+                modal.showPleaseWait();
+                $.ajax({
+                    type: "POST",
+                    url: urlToDelete,
+                    data: {
+                        id: id
+                    }
+                }).done(function (response) {
+                    modal.hidePleaseWait();
+                    avideoResponse(response);
+                    functionForResponse(response);
+                });
+            } else {
 
-        }
-    });
+            }
+        });
 }
 
-function getTinyMCEVal(id){
+function getTinyMCEVal(id) {
     return $(tinymce.get(id).getBody()).html();
 }
-function setTinyMCEVal(id, val){
-    $('#'+id).val(val);
+function setTinyMCEVal(id, val) {
+    $('#' + id).val(val);
     tinymce.get(id).setContent(val);
 }
 
+var _displayJsonAsHtmlCount = 0;
+function displayJsonAsHtml(jsonObjectOrString) {
+    // Check if the input is a string and parse it into an object if so
+    var jsonObject = (typeof jsonObjectOrString === "string") ? JSON.parse(jsonObjectOrString) : jsonObjectOrString;
 
+    var html = '';
+
+    $.each(jsonObject, function (key, value) {
+        var rowHtml = '<div class="displayJsonAsHtml">';
+
+        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+            // Generate a unique collapsible section
+            var collapseId = 'collapse' + (key + '_' + (_displayJsonAsHtmlCount++)).replace(/[^a-zA-Z0-9_]/g, '');
+            var panelHtml = '<div class="panel panel-default">' +
+                '<div class="panel-heading">' +
+                '<h4 class="panel-title">' +
+                '<a data-toggle="collapse" href="#' + collapseId + '" target="_blank" class="btn btn-xs btn-default btn-block" >' + key + ' Details</a>' +
+                '</h4>' +
+                '</div>' +
+                '<div id="' + collapseId + '" class="panel-collapse collapse">' +
+                '<div class="panel-body">' + displayJsonAsHtml(value) + '</div>' +
+                '</div>' +
+                '</div>';
+            rowHtml += panelHtml;
+        } else {
+            // Handle non-object values
+            if (typeof value === 'string' && isURL(value)) {
+                value = '<a href="' + value + '" target="_blank" class="btn btn-xs btn-default" >' + value + '</a>';
+            }
+            rowHtml += '<strong>' + key + ':</strong> ' + value;
+        }
+        rowHtml += '</div>';
+        html += rowHtml;
+    });
+
+    return html;
+}

@@ -2051,3 +2051,15 @@ body.ypt-is-compressed #videoCol {
 .loadInfiniteScrollButton:disabled .fas.fa-angle-double-down {
     display: none;
 }
+
+.displayJsonAsHtml .panel{
+    background-color: transparent;
+}
+.displayJsonAsHtml .panel .panel-heading{
+    padding: 0;
+}
+
+.displayJsonAsHtml .panel .panel-body{
+    padding: 3px 6px;
+}
+
