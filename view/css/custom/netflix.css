@@ -73,6 +73,6 @@ span.selection > span.select2-selection--single{
 footer, .ui-widget-content {
     background-color: #111 !important;
 }
-.ui-widget-content .liveSearchTitle, .ui-widget-content a, #ui-menu-item-wrapper{
+.ui-widget-content .liveSearchTitle, .ui-widget-content a, .ui-menu-item-wrapper{
     color: #EEE !important;
 }
