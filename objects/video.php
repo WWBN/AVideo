@@ -4920,7 +4920,7 @@ if (!class_exists('Video')) {
         {
             global $advancedCustom;
             // I dont know why but I had to remove it to avoid ERR_RESPONSE_HEADERS_TOO_BIG
-            header_remove('Set-Cookie');
+            @header_remove('Set-Cookie');
             return self::getImageFromFilename_($filename, $type);
         }
 
