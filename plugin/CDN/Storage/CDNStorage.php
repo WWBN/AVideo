@@ -900,6 +900,9 @@ class CDNStorage
         if (empty($conn_id[$index])) {
             $timeout = 180;
             $obj = AVideoPlugin::getDataObject('CDN');
+            if(!empty($conn_id[$index])){
+                ftp_close($conn_id[$index]);
+            }
             $conn_id[$index] = ftp_connect($obj->storage_hostname, 21, $timeout);
             ftp_set_option($conn_id[$index], FTP_TIMEOUT_SEC, $timeout);
             if (empty($conn_id[$index])) {
@@ -984,7 +987,8 @@ class CDNStorage
         $_uploadInfo[$index] = ['microtime' => microtime(true), 'filesize' => $filesize, 'local_path' => $local_path, 'remote_file' => $remote_file];
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
-        //_error_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} " . json_encode($_uploadInfo[$index]));
+        //_erroftp_close($connID); r_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} " . json_encode($_uploadInfo[$index]));
+
         return true;
     }
 
