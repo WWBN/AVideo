@@ -904,6 +904,10 @@ class CDNStorage
                 ftp_close($conn_id[$index]);
             }
             $conn_id[$index] = ftp_connect($obj->storage_hostname, 21, $timeout);
+            if(empty($conn_id[$index])){
+                error_log("getConnID($index) error on ftp_connect($obj->storage_hostname, 21, $timeout)");
+                exit;
+            }
             ftp_set_option($conn_id[$index], FTP_TIMEOUT_SEC, $timeout);
             if (empty($conn_id[$index])) {
                 sleep(1);
