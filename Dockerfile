@@ -108,9 +108,9 @@ RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o 
     chmod a+rx /usr/local/bin/yt-dlp    
 
 # Download and install youtube-dl
-RUN cd /var/www/html && \
-    curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && \
-    chmod a+rx /usr/local/bin/youtube-dl   
+#RUN cd /var/www/html && \
+#    curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && \
+#    chmod a+rx /usr/local/bin/youtube-dl   
 
 # Install ssh2 and openssl
 #RUN pecl install ssh2 && \
@@ -122,7 +122,7 @@ RUN cd /var/www/html && \
 RUN a2enmod xsendfile rewrite expires headers ssl
 
 # Install and upgrade youtube-dl using pip
-RUN pip3 install --upgrade youtube-dl
+# RUN pip3 install --upgrade youtube-dl
 
 # Video Transcription for the SubtitleSwitcher Plugin
 RUN pip3 install vosk
