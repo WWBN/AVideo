@@ -71,6 +71,7 @@ class AVideoConf extends ObjectYPT{
             header('Content-Type: application/json');
             die('{"error":"' . __("Permission denied") . '"}');
         }
+        _error_log('Configuration saved '.getRealIpAddr().' '.json_encode(debug_backtrace()));
         $this->users_id = User::getId();
         $this->disable_youtubeupload = 0;
         ObjectYPT::deleteCache("getEncoderURL");
