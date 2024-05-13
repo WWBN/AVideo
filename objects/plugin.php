@@ -248,6 +248,8 @@ class Plugin extends ObjectYPT
                                 }else{
                                     _error_log("Plugin Not Found 1 hide: {$value}");
                                 }
+                            }else{
+                                _error_log("Plugin Not loaded: {$value}");
                             }
                             continue;
                         }
@@ -276,6 +278,8 @@ class Plugin extends ObjectYPT
                             $obj->tags[] = "update";
                         }
                         $getAvailablePlugins[] = $obj;
+                    }else{
+
                     }
                 }
             }

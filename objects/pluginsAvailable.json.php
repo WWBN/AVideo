@@ -30,4 +30,11 @@ if (empty($json)) {
     $json = _json_encode($row);
 }
 
-echo '{  "current": 1,"rowCount": '.$total.', "total": '.$total.', "rows":'. $json.'}';
+$array = array(
+    'current'=>1,
+    'rowCount'=>$total,
+    'total'=>$total,
+    'rows'=>$json,
+);
+
+echo _json_encode($array);
