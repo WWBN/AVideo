@@ -55,7 +55,7 @@ RUN apt-get install -y --no-install-recommends \
         software-properties-common \
         unzip \       
         wget \        
-        sshpass
+        sshpass \
 
 # Install Apache and Apache modules
 RUN apt-get install -y --no-install-recommends \
