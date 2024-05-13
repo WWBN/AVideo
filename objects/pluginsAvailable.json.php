@@ -34,7 +34,7 @@ $array = array(
     'current'=>1,
     'rowCount'=>$total,
     'total'=>$total,
-    'rows'=>$json,
+    'rows'=>_json_decode($json),
 );
 
 echo _json_encode($array);
