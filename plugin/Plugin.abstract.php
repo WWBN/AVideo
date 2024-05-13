@@ -537,6 +537,7 @@ abstract class PluginAbstract {
                 }
             }else{
                 _error_log("isReady Error on load plugin {$name}");
+                $return['error'][] = array('name' => $name);
             }
         }
         return $return;
@@ -548,11 +549,15 @@ abstract class PluginAbstract {
         $ready = $this->isReady($pluginsList);
 
         foreach ($ready['ready'] as $value) {
-            $desc .= "<span class='btn btn-success btn-sm btn-xs' onclick='$(\"#enable{$value['uuid']}\").prop(\"checked\", false);$(\"#enable{$value['uuid']}\").trigger(\"change\");'>{$value['name']}</span> ";
+            $desc .= "<span class='btn btn-success btn-sm btn-xs' onclick='$(\"#enable{$value['uuid']}\").prop(\"checked\", false);$(\"#enable{$value['uuid']}\").trigger(\"change\");'><i class='fa fa-toggle-on'></i> Disable {$value['name']}</span> ";
         }
         foreach ($ready['missing'] as $value) {
-            $desc .= "<span class='btn btn-danger btn-sm btn-xs' onclick='$(\"#enable{$value['uuid']}\").prop(\"checked\", true);$(\"#enable{$value['uuid']}\").trigger(\"change\");'>{$value['name']}</span> ";
+            $desc .= "<span class='btn btn-danger btn-sm btn-xs' onclick='$(\"#enable{$value['uuid']}\").prop(\"checked\", true);$(\"#enable{$value['uuid']}\").trigger(\"change\");'><i class='fa fa-toggle-off'></i> Enable {$value['name']}</span> ";
         }
+        foreach ($ready['error'] as $value) {
+            $desc .= "<span class='btn btn-warning btn-sm btn-xs'><i class='fa fa-exclamation-triangle'></i> {$value['name']} plugin Not Found</span> ";
+        }
+        
 
         return $desc;
     }

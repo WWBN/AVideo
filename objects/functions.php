@@ -7184,6 +7184,21 @@ function calculateCenterCrop($originalWidth, $originalHeight, $aspectRatio) {
     return ['newWidth' => intval($newWidth), 'newHeight' => intval($newHeight), 'x' => intval($x), 'y' => intval($y)];
 }
 
+function getTourHelpButton($stepsFileRelativePath, $class = 'btn btn-default'){
+    /*
+    [
+        {
+            "element": "#elementId1",
+            "intro": "Welcome to our feature!"
+        },
+        {
+            "element": "#elementId2",
+            "intro": "Here's how you can use this tool."
+        }
+    ]
+    */
+    return "<button class=\"startTourBtn {$class}\" onclick=\"startTour('{$stepsFileRelativePath}')\"><i class=\"fa-solid fa-circle-question\"></i> ".__('Help')."</button>";
+}
 
 require_once __DIR__.'/functionsSecurity.php';
 require_once __DIR__.'/functionsMySQL.php';

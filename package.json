@@ -24,6 +24,7 @@
     "hls.js": "^1.5.8",
     "infinite-scroll": "^4.0.1",
     "inputmask": "^5.0.8",
+    "intro.js": "^7.2.0",
     "jquery": "^3.7.1",
     "jquery-lazy": "^1.7.11",
     "jquery-mask-plugin": "^1.14.16",

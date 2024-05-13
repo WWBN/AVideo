@@ -4250,3 +4250,38 @@ function displayJsonAsHtml(jsonObjectOrString) {
 
     return html;
 }
+
+function startTour(stepsFileRelativePath) {
+    let id = stepsFileRelativePath.replace(/[^a-zA-Z0-9]/g, '');
+    // Check if Intro.js is already loaded
+    if (typeof introJs === 'undefined') {
+        // Load Intro.js CSS
+        $('head').append('<link rel="stylesheet" href="' + webSiteRootURL + 'node_modules/intro.js/minified/introjs.min.css" type="text/css" />');
+
+        // Load Intro.js JavaScript
+        $.getScript(webSiteRootURL + 'node_modules/intro.js/minified/intro.min.js', function () {
+            loadAndStartTour(stepsFileRelativePath);
+        });
+    } else {
+        loadAndStartTour(stepsFileRelativePath);
+    }
+    function loadAndStartTour(stepsFileRelativePath) {
+        // Fetch the tour steps from a server
+        $.ajax({
+            url: webSiteRootURL + stepsFileRelativePath, // URL to the server-side script that returns JSON
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                // Initialize the tour with the fetched data
+                var tour = introJs();
+                tour.setOptions({
+                    steps: response
+                });
+                tour.start();
+            },
+            error: function (xhr, status, error) {
+                console.log("Error fetching tour data: " + error);
+            }
+        });
+    }
+}
