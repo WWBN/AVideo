@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:22.04
 
 LABEL maintainer="Daniel Neto <developer@youphptube.com>" \
       org.label-schema.schema-version="2.0" \
