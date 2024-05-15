@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.ru',
   '  <dt>Фокус на нижнем колонтитуле</dt>\n' +
   '  <dd>Windows или Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Фокус на уведомлении</dt>\n' +
+  '  <dd>Windows или Linux: Alt+12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Фокус на контекстной панели инструментов</dt>\n' +
   '  <dd>Windows, Linux или macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

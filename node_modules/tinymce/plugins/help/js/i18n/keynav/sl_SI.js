@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.sl_SI',
   '  <dt>Fokus na nogo</dt>\n' +
   '  <dd>Windows ali Linux: Alt + F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Označitev obvestila</dt>\n' +
+  '  <dd>Windows ali Linux: Alt + F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Fokus na kontekstualno orodno vrstico</dt>\n' +
   '  <dd>Windows, Linux ali macOS: Ctrl + F9</dd>\n' +
   '</dl>\n' +

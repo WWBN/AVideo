@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.es',
   '  <dt>Enfocar el pie de página</dt>\n' +
   '  <dd>Windows o Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Enfocar la notificación</dt>\n' +
+  '  <dd>Windows o Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Enfocar una barra de herramientas contextual</dt>\n' +
   '  <dd>Windows, Linux o macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

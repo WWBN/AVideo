@@ -267,6 +267,11 @@ class PlayerSkins extends PluginAbstract
             $js .= "<script>var isLive = true;</script>";
         }
         if (isVideo() || !empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
+            
+            if (self::showSkipIntro()) {
+                $css .= "<link href=\"" . getURL('plugin/PlayerSkins/skipIntro.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
+            }
+
             if (!empty($_REQUEST['autoplay']) || !empty($obj->forceAlwaysAutoplay)) {
                 $js .= "<script>var autoplay = true;var forceautoplay = true;</script>";
             } else if (self::isAutoplayEnabled()) {
@@ -379,6 +384,17 @@ class PlayerSkins extends PluginAbstract
          */
     }
 
+    static function showSkipIntro(){
+        $videos_id = getVideos_id();
+        $video = Video::getVideoLight($videos_id);
+        $video['externalOptions'] = _json_decode($video['externalOptions']);
+
+        if(!empty($video['externalOptions']->videoSkipIntroSecond)){
+            return parseDurationToSeconds($video['externalOptions']->videoSkipIntroSecond);
+        }
+        return 0;
+    }
+
     public function getFooterCode()
     {
         if (isWebRTC()) {
@@ -418,6 +434,11 @@ class PlayerSkins extends PluginAbstract
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
                 $js .= $social['html'];
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
+            }
+
+            if ($skipTime = self::showSkipIntro()) {
+                PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/skipintro.js"));
+                $js .= "<script>var skipintroTime = {$skipTime};</script>";
             }
 
             if (self::showAutoplay()) {

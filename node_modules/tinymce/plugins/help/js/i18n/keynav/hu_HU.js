@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.hu_HU',
   '  <dt>Fókusz a láblécre</dt>\n' +
   '  <dd>Windows és Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Ráközelítés az értesítésre</dt>\n' +
+  '  <dd>Windows vagy Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Fókusz egy környezetfüggő eszköztárra</dt>\n' +
   '  <dd>Windows, Linux és macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

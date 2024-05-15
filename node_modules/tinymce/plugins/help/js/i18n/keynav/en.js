@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.en',
   '  <dt>Focus the footer</dt>\n' +
   '  <dd>Windows or Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Focus the notification</dt>\n' +
+  '  <dd>Windows or Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Focus a contextual toolbar</dt>\n' +
   '  <dd>Windows, Linux or macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.it',
   '  <dt>Impostare lo stato attivo per il piè di pagina</dt>\n' +
   '  <dd>Windows o Linux: ALT+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Metti a fuoco la notifica</dt>\n' +
+  '  <dd>Windows o Linux: ALT+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Impostare lo stato attivo per la barra degli strumenti contestuale</dt>\n' +
   '  <dd>Windows, Linux o macOS: CTRL+F9</dd>\n' +
   '</dl>\n' +

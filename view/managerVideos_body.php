@@ -1161,6 +1161,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#inputTitle').val("");
         $('#inputTrailer').val("");
         $('#videoStartSeconds').val('00:00:00');
+        $('#videoSkipIntroSecond').val('00:00:00');
         $('#inputVideoPassword').val("");
         $('#inputCleanTitle').val("");
         $('#created').val("");

@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.ja',
   '  <dt>フッターをフォーカス</dt>\n' +
   '  <dd>Windows または Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>通知にフォーカス</dt>\n' +
+  '  <dd>Windows または Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>コンテキスト ツール バーをフォーカス</dt>\n' +
   '  <dd>Windows、Linux または macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

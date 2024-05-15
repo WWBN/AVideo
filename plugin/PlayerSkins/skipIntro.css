@@ -1,0 +1,21 @@
+#mainVideo button.vjs-skip-intro-button {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #000;
+    border-color: #CCC;
+    border-width: 2px 0 2px 2px;
+    border-style: solid;
+    color: #DDD;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 1.5em;
+    z-index: 9999;
+    opacity: 0.5;
+}
+
+#mainVideo button.vjs-skip-intro-button:hover {
+    border-color: #FFF;
+    color: #FFF;
+    opacity: 1;
+}

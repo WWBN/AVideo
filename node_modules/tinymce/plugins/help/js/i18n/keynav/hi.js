@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.hi',
   '  <dt>फ़ुटर पर फ़ोकस करें</dt>\n' +
   '  <dd>Windows या Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>नोटिफ़िकेशन फ़ोकस</dt>\n' +
+  '  <dd>Windows या Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>प्रासंगिक टूलबार पर फ़ोकस करें</dt>\n' +
   '  <dd>Windows, Linux या macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

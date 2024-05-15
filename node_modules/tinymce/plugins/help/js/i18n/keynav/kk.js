@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.kk',
   '  <dt>Төменгі деректемені фокустау</dt>\n' +
   '  <dd>Windows немесе Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Хабарландыруды белгілеу</dt>\n' +
+  '  <dd>Windows немесе Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Мәтінмәндік құралдар тақтасын фокустау</dt>\n' +
   '  <dd>Windows, Linux немесе macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

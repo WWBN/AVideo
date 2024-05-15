@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.ro',
   '  <dt>Focalizare pe subsol</dt>\n' +
   '  <dd>Windows sau Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Focalizare pe notificare</dt>\n' +
+  '  <dd>Windows sau Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Focalizare pe o bară de instrumente contextuală</dt>\n' +
   '  <dd>Windows, Linux sau macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

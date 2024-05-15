@@ -224,6 +224,16 @@ div.mce-footnotes li > a.mce-footnotes-backlink {
     display: none;
   }
 }
+/* stylelint-disable selector-type-no-unknown */
+tiny-math-block {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0 16px 0;
+}
+tiny-math-inline {
+  display: inline-block;
+}
+/* stylelint-enable selector-type-no-unknown */
 .mce-content-body figure.align-left {
   float: left;
 }
@@ -339,6 +349,13 @@ div.mce-footnotes li > a.mce-footnotes-backlink {
   color: rgba(34, 47, 62, 0.7);
   content: attr(data-mce-placeholder);
   position: absolute;
+}
+@media (forced-colors: active) {
+  .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+    color: highlight;
+    filter: brightness(30%);
+    z-index: -1;
+  }
 }
 .mce-content-body:not([dir=rtl])[data-mce-placeholder]:not(.mce-visualblocks)::before {
   left: 1px;

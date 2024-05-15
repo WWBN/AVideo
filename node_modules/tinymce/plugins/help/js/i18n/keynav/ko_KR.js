@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.ko_KR',
   '  <dt>푸터 포커스 표시</dt>\n' +
   '  <dd>Windows 또는 Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>알림 포커스</dt>\n' +
+  '  <dd>Windows 또는 Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>컨텍스트 도구 모음에 포커스 표시</dt>\n' +
   '  <dd>Windows, Linux 또는 macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

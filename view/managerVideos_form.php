@@ -320,11 +320,16 @@
                                         <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed URL for trailer"); ?>" required>
 
                                     </div>
-                                    <div class="col-md-6">
-
+                                    <div class="col-md-3">
                                         <div>
                                             <label class="control-label" for="videoStartSecond"><?php echo __("Start video at"); ?></label>
                                             <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="control-label" for="videoSkipIntroSecond"><?php echo __("Skip intro to"); ?></label>
+                                            <input type="text" id="videoSkipIntroSecond" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

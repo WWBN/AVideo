@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.ms',
   '  <dt>Fokus pengaki</dt>\n' +
   '  <dd>Windows atau Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Tumpu kepada pemberitahuan</dt>\n' +
+  '  <dd>Windows atau Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Fokus bar alat kontekstual</dt>\n' +
   '  <dd>Windows, Linux atau macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

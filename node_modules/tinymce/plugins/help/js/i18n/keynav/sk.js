@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.sk',
   '  <dt>Prejsť na pätičku</dt>\n' +
   '  <dd>Windows alebo Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Zaostriť na oznámenie</dt>\n' +
+  '  <dd>Windows alebo Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Prejsť na kontextový panel nástrojov</dt>\n' +
   '  <dd>Windows, Linux alebo macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

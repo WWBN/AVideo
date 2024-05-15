@@ -589,7 +589,7 @@ class PlayList extends ObjectYPT
                             $row['videoTagsObject'] = Tags::getObjectFromVideosId($row['videos_id']);
                         }
                         if (empty($row['externalOptions'])) {
-                            $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
+                            $row['externalOptions'] = json_encode(Video::getBlankExternalOptions());
                         }
                     }
                     $row['id'] = $row['videos_id'];

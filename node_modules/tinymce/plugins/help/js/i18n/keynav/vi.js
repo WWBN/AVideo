@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.vi',
   '  <dt>Tập trung vào chân trang</dt>\n' +
   '  <dd>Windows hoặc Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Tập trung vào thông báo</dt>\n' +
+  '  <dd>Windows hoặc Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Tập trung vào thanh công cụ ngữ cảnh</dt>\n' +
   '  <dd>Windows, Linux hoặc macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

@@ -1649,7 +1649,7 @@ if (!class_exists('Video')) {
                 foreach ($fullData as $row) {
                     $row['images'] = self::getImageFromFilename($row['filename']);
                     if (empty($row['externalOptions'])) {
-                        $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
+                        $row['externalOptions'] = json_encode(Video::getBlankExternalOptions());
                     }
                     $rows[] = $row;
                 }
@@ -2067,7 +2067,7 @@ if (!class_exists('Video')) {
                     $obj['externalOptions'] = json_encode($obj['externalOptions']);
                 }
                 if (empty($obj['externalOptions'])) {
-                    $obj['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
+                    $obj['externalOptions'] = json_encode(Video::getBlankExternalOptions());
                 }
                 if (!empty($obj['userExternalOptions']) && is_string($obj['userExternalOptions'])) {
                     $obj['userExternalOptions'] = User::decodeExternalOption($obj['userExternalOptions']);
@@ -2142,7 +2142,7 @@ if (!class_exists('Video')) {
             $row['hasPPV'] = self::hasPPV($row['id']);
             $row['hasSubscription'] = self::hasSubscription($row['id']);
             if (empty($row['externalOptions'])) {
-                $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
+                $row['externalOptions'] = json_encode(Video::getBlankExternalOptions());
             }
             if (!empty($row['userExternalOptions']) && is_string($row['userExternalOptions'])) {
                 $row['userExternalOptions'] = User::decodeExternalOption($row['userExternalOptions']);
@@ -2161,6 +2161,10 @@ if (!class_exists('Video')) {
                 $video['type'] = 'article';
             }
             return $row;
+        }
+
+        static function getBlankExternalOptions(){
+            return ['videoStartSeconds' => '00:00:00', 'videoSkipIntroSecond' => '00:00:00'];
         }
 
         static function getInfoPersonal($row)

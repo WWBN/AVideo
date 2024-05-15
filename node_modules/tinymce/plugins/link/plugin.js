@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.0.1 (2024-04-10)
+ * TinyMCE version 7.1.0 (2024-05-08)
  */
 
 (function () {
@@ -420,8 +420,8 @@
       return trimCaretContainers(text);
     };
     const getLinksInSelection = rng => collectNodesInRange(rng, isLink);
-    const getLinks$1 = elements => global$4.grep(elements, isLink);
-    const hasLinks = elements => getLinks$1(elements).length > 0;
+    const getLinks$2 = elements => global$4.grep(elements, isLink);
+    const hasLinks = elements => getLinks$2(elements).length > 0;
     const hasLinksInSelection = rng => getLinksInSelection(rng).length > 0;
     const isOnlyTextSelected = editor => {
       const inlineTextElements = editor.schema.getTextInlineElements();
@@ -754,7 +754,7 @@
         return Optional.none();
       }
     };
-    const getLinks = editor => {
+    const getLinks$1 = editor => {
       const extractor = item => editor.convertURL(item.value || item.url || '', 'href');
       const linkList = getLinkList(editor);
       return new Promise(resolve => {
@@ -777,7 +777,7 @@
         }
       }));
     };
-    const LinkListOptions = { getLinks };
+    const LinkListOptions = { getLinks: getLinks$1 };
 
     const getRels = (editor, initialTarget) => {
       const list = getRelList(editor);
@@ -998,8 +998,13 @@
       appendClickRemove(link, evt);
     };
 
-    const getLink = (editor, elm) => editor.dom.getParent(elm, 'a[href]');
-    const getSelectedLink = editor => getLink(editor, editor.selection.getStart());
+    const isSelectionOnImageWithEmbeddedLink = editor => {
+      const rng = editor.selection.getRng();
+      const node = rng.startContainer;
+      return isLink(node) && rng.startContainer === rng.endContainer && editor.dom.select('img', node).length === 1;
+    };
+    const getLinks = editor => editor.selection.isCollapsed() || isSelectionOnImageWithEmbeddedLink(editor) ? getLinks$2(editor.dom.getParents(editor.selection.getStart())) : getLinksInSelection(editor.selection.getRng());
+    const getSelectedLink = editor => getLinks(editor)[0];
     const hasOnlyAltModifier = e => {
       return e.altKey === true && e.shiftKey === false && e.ctrlKey === false && e.metaKey === false;
     };
@@ -1024,10 +1029,10 @@
     };
     const setupGotoLinks = editor => {
       editor.on('click', e => {
-        const link = getLink(editor, e.target);
-        if (link && global.metaKeyPressed(e)) {
+        const links = getLinks$2(editor.dom.getParents(e.target));
+        if (links.length === 1 && global.metaKeyPressed(e)) {
           e.preventDefault();
-          gotoLink(editor, link);
+          gotoLink(editor, links[0]);
         }
       });
       editor.on('keydown', e => {
@@ -1059,10 +1064,7 @@
       updateState();
       return toggleState(editor, updateState);
     };
-    const hasExactlyOneLinkInSelection = editor => {
-      const links = editor.selection.isCollapsed() ? getLinks$1(editor.dom.getParents(editor.selection.getStart())) : getLinksInSelection(editor.selection.getRng());
-      return links.length === 1;
-    };
+    const hasExactlyOneLinkInSelection = editor => getLinks(editor).length === 1;
     const toggleGotoLinkState = editor => api => {
       const updateState = () => api.setEnabled(hasExactlyOneLinkInSelection(editor));
       updateState();

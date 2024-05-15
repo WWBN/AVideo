@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.pl',
   '  <dt>Ustaw fokus na sekcję Footer</dt>\n' +
   '  <dd>Windows lub Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Skup się na powiadomieniu</dt>\n' +
+  '  <dd>Windows lub Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Ustaw fokus na kontekstowy pasek narzędzi</dt>\n' +
   '  <dd>Windows, Linux lub macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

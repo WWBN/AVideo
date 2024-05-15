@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.ar',
   '  <dt>التركيز على التذييل</dt>\n' +
   '  <dd>نظاما التشغيل Windows أو Linux: Alt + F11</dd>\n' +
   '  <dd>نظام التشغيل macOS: &#x2325;F11</dd>\n' +
+  '  <dt>تركيز الإشعارات</dt>\n' +
+  '  <dd>نظاما التشغيل Windows أو Linux: Alt + F12</dd>\n' +
+  '  <dd>نظام التشغيل macOS: &#x2325;F12</dd>\n' +
   '  <dt>التركيز على شريط أدوات السياق</dt>\n' +
   '  <dd>أنظمة التشغيل Windows أو Linux أو macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

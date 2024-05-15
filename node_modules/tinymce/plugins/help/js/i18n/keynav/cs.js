@@ -11,6 +11,9 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.cs',
   '  <dt>Přejít na zápatí</dt>\n' +
   '  <dd>Windows nebo Linux: Alt+F11</dd>\n' +
   '  <dd>macOS: &#x2325;F11</dd>\n' +
+  '  <dt>Přejít na oznámení</dt>\n' +
+  '  <dd>Windows nebo Linux: Alt+F12</dd>\n' +
+  '  <dd>macOS: &#x2325;F12</dd>\n' +
   '  <dt>Přejít na kontextový panel nástrojů</dt>\n' +
   '  <dd>Windows, Linux nebo macOS: Ctrl+F9</dd>\n' +
   '</dl>\n' +

@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.0.1 (2024-04-10)
+ * TinyMCE version 7.1.0 (2024-05-08)
  */
 
 (function () {
@@ -387,6 +387,10 @@
         action: 'Focus to element path'
       },
       {
+        shortcuts: ['Alt + F12'],
+        action: 'Focus to notification'
+      },
+      {
         shortcuts: ['Ctrl + F9'],
         action: 'Focus to contextual toolbar'
       },
@@ -641,6 +645,11 @@
       {
         key: 'linkchecker',
         name: 'Link Checker',
+        type: 'premium'
+      },
+      {
+        key: 'math',
+        name: 'Math',
         type: 'premium'
       },
       {
