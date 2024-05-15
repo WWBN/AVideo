@@ -3,15 +3,26 @@ var downloadURLOrAlertErrorInterval;
 var downloadURLOrAlertModal;
 _setPleaseWait();
 
-function _setPleaseWait(){
-    if(typeof getPleaseWait== 'undefined'){
+function _setPleaseWait() {
+    if (typeof getPleaseWait == 'undefined') {
         setTimeout(() => {
             _setPleaseWait();
         }, 1000);
-    }else{
+    } else {
         downloadURLOrAlertModal = getPleaseWait();
     }
-   
+
+}
+
+function downloadURLOrAlertModalHideShow(show) {
+    if (typeof downloadURLOrAlertModal === 'undefined') {
+        return false;
+    }
+    if (show) {
+        downloadURLOrAlertModal.showPleaseWait();
+    } else {
+        downloadURLOrAlertModal.hidePleaseWait();
+    }
 }
 
 function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
@@ -19,7 +30,7 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
         console.log('downloadURLOrAlertError error empty jsonURL', jsonURL, data, filename, FFMpegProgress);
         return false;
     }
-    downloadURLOrAlertModal.showPleaseWait();
+    downloadURLOrAlertModalHideShow(true);
     avideoToastInfo('Converting');
     console.log('downloadURLOrAlertError 1', jsonURL, FFMpegProgress);
     checkFFMPEGProgress(FFMpegProgress);
@@ -31,7 +42,7 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
             clearInterval(downloadURLOrAlertErrorInterval);
             if (response.error) {
                 avideoAlertError(response.msg);
-                downloadURLOrAlertModal.hidePleaseWait();
+                downloadURLOrAlertModalHideShow(false);
             } else if (response.url) {
                 if (response.msg) {
                     avideoAlertInfo(response.msg);
@@ -65,20 +76,22 @@ function checkFFMPEGProgress(FFMpegProgress) {
     $.ajax({
         url: FFMpegProgress,
         success: function (response) {
-            console.log('checkFFMPEGProgress',response);
+            console.log('checkFFMPEGProgress', response);
             if (typeof response.progress.progress !== 'undefined') {
                 var text = 'Converting ...';
-                if (typeof response.progress.progress !== 'undefined') {
-                    text += response.progress.progress + '% ';
-                    downloadURLOrAlertModal.setProgress(response.progress.progress);
+                if (typeof downloadURLOrAlertModal !== 'undefined') {
+                    if (typeof response.progress.progress !== 'undefined') {
+                        text += response.progress.progress + '% ';
+                        downloadURLOrAlertModal.setProgress(response.progress.progress);
+                    }
+                    downloadURLOrAlertModal.setText(text);
                 }
-                downloadURLOrAlertModal.setText(text);
                 if (response.progress.progress !== 100) {
                     setTimeout(function () {
                         checkFFMPEGProgress(FFMpegProgress);
                     }, 10000);
-                }else if(response.progress.progress >= 100){
-                    downloadURLOrAlertModal.hidePleaseWait();
+                } else if (response.progress.progress >= 100) {
+                    downloadURLOrAlertModalHideShow(false);
                 }
             }
         }
