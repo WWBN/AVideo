@@ -91,6 +91,8 @@ function checkFFMPEGProgress(FFMpegProgress) {
                         checkFFMPEGProgress(FFMpegProgress);
                     }, 10000);
                 } else if (response.progress.progress >= 100) {
+                    downloadURLOrAlertModal.setProgress(100);
+                    downloadURLOrAlertModal.setText(__('Complete'));
                     downloadURLOrAlertModalHideShow(false);
                 }
             }
