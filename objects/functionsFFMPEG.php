@@ -149,6 +149,7 @@ function parseFFMPEGProgress($progressFilename)
     $obj->progress = 0;
     $obj->from = '';
     $obj->to = '';
+    $obj->fileFound = false;
     if (!file_exists($progressFilename)) {
         return $obj;
     }
@@ -160,6 +161,8 @@ function parseFFMPEGProgress($progressFilename)
     if (empty($content)) {
         return $obj;
     }
+    
+    $obj->fileFound = true;
     //var_dump($content);exit;
     preg_match("/Duration: (.*?), start:/", $content, $matches);
     if (!empty($matches[1])) {
