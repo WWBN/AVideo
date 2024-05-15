@@ -1146,6 +1146,7 @@ function _sortJS($a, $b)
         "jquery.lazy.plugins.min.js",
         "flickity.pkgd.min.js",
         "flickity-bg-lazyload/bg-lazyload.js",
+        "@fullcalendar/core/index.global.min.js",
     ];
     $lastOrder = [
         "js/script.js",
