@@ -28,3 +28,6 @@ span.selection > span.select2-selection--single{
     background-color: #95a5a6;
     border-color: #95a5a6;
 }
+#mainNavBar button.compressMenu{
+    padding: 6px 12px;
+}
