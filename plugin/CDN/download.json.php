@@ -63,14 +63,19 @@ $resp->file = "{$video['filename']}/index.{$json->format}.log";
 $relativeFilename = "{$video['filename']}/index.mp4";
 $convertedFile = "{$global['systemRootPath']}videos/{$relativeFilename}";
 
+
 $progressFile = getVideosDir() . $resp->file;
 //$resp->progressFile = $progressFile;
 $resp->progress = parseFFMPEGProgress($progressFile);
 
+$file_exists_on_cdn = CDNStorage::file_exists_on_cdn($relativeFilename);
+if($file_exists_on_cdn && !file_exists($progressFile)){
+    $resp->progress->progress = 100;
+}
+
 $resp->lines[] = __LINE__;
 
 
-$file_exists_on_cdn = CDNStorage::file_exists_on_cdn($relativeFilename);
 
 if (!$file_exists_on_cdn && empty($_REQUEST['delete']) && file_exists($progressFile) && $resp->progress->progress < 100) {
     if ($resp->progress->secondsOld < 30 && $resp->progress->progress < 100) {
