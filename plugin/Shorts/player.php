@@ -388,6 +388,7 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
                 var src = 'about:blank';
                 if (shortIsOpen) {
                     src = addQueryStringParameter(shortVideos[index2].embedlink, 'autoplay', 1);
+                    src = addQueryStringParameter(src, 'showBigButton', 1);
                 }
                 console.log('Flickity settled at ', index2, src);
                 iframe = $('<iframe/>', {

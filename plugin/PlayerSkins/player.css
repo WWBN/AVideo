@@ -46,6 +46,9 @@
     display: none !important;
 }
 
+.vjs-has-started.vjs-paused.showBigButton .vjs-big-play-button{
+    display: block !important;
+}
 
 @media all and (max-width: 900px) {
     div.vjs-control-bar{

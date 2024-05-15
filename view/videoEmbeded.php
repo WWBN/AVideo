@@ -105,6 +105,11 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
   $vjsClass = "vjs-16-9";
   } */
 $vjsClass = '';
+
+if(!empty($_REQUEST['showBigButton'])){
+    $vjsClass .= ' showBigButton';
+}
+
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
 
