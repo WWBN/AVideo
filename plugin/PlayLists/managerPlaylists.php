@@ -489,8 +489,11 @@ $_page = new Page(array('Manage playlist'));
             });
     }
 
-
+    var createNewProgramIsEditing = false;
     function createNewProgram() {
+        if(createNewProgramIsEditing){
+            return false;
+        }
         swal({
             title: "<?php echo __('New program'); ?>",
             text: "<?php echo __('Type your program title'); ?>",
@@ -512,7 +515,7 @@ $_page = new Page(array('Manage playlist'));
                 swal.showInputError("<?php echo __('Please provide a title'); ?>");
                 return false
             }
-
+            createNewProgramIsEditing = true;
             $.ajax({
                 url: webSiteRootURL + 'objects/playlistAddNew.json.php',
                 method: 'POST',
@@ -526,6 +529,7 @@ $_page = new Page(array('Manage playlist'));
                         location.reload();
                     } else {
                         modal.hidePleaseWait();
+                        createNewProgramIsEditing = false;
                     }
                 }
             });
