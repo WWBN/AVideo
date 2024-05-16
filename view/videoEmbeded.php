@@ -57,7 +57,7 @@ $img = '';
 $imgw = 1280;
 $imgh = 720;
 
-if ($video['type'] !== "pdf") {
+if ($video['type'] !== Video::$videoTypePdf) {
     if (!empty($video['filename'])) {
         $source = Video::getSourceFile($video['filename']);
         $poster = $img = $source['url'];
