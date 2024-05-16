@@ -79,6 +79,8 @@ class Hotkeys extends PluginAbstract
         return $obj;
     }
 
+    
+
     public function getFooterCode()
     {
         global $global;
@@ -90,6 +92,8 @@ class Hotkeys extends PluginAbstract
 
             PlayerSkins::getStartPlayerJS($tmp);
         }
-        return "";
+        $js = '<script src="' . getURL('plugin/Hotkeys/listener.js') . '" type="text/javascript"></script>';
+
+        return $js;
     }
 }
