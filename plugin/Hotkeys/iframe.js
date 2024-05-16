@@ -27,6 +27,11 @@ window.addEventListener('keydown', function(event) {
         default:
             return; // Exit for other keys
     }
+
+    // Stop propagation and prevent default action
+    event.stopPropagation();
+    event.preventDefault();
+
     console.log('keydown', message, event);
     sendMessageToAllIframes(message);
 });
