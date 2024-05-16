@@ -64,13 +64,6 @@ class Hotkeys extends PluginAbstract
         }
         return $html . "</tbody></table>";
     }
-    public function getJSFiles()
-    {
-        if (isVideo()) {
-            return array("node_modules/videojs-hotkeys/videojs.hotkeys.min.js");
-        }
-        return array();
-    }
 
     public function getEmptyDataObject()
     {
@@ -92,6 +85,7 @@ class Hotkeys extends PluginAbstract
 
             PlayerSkins::getStartPlayerJS($tmp);
         }
+        $js = '<script src="' . getURL('node_modules/videojs-hotkeys/videojs.hotkeys.min.js') . '" type="text/javascript"></script>';
         $js = '<script src="' . getURL('plugin/Hotkeys/listener.js') . '" type="text/javascript"></script>';
 
         return $js;
