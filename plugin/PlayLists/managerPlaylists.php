@@ -106,7 +106,7 @@ $_page = new Page(array('Manage playlist'));
                 <li class="pull-right ">
                     <form class="navbar-form form-inline input-group" role="search" id="searchFormPlaylist" method="get">
                         <input type="search" id="searchPlaylist" name="searchPlaylist" placeholder="<?php echo __('Search Playlist'); ?>" class="form-control" value="<?php echo @$_REQUEST['searchPlaylist']; ?>" autocomplete="off">
-                        <input type="hidden" name="PlaylistOwnerUsersId" value="<?php echo @$_REQUEST['PlaylistOwnerUsersId']; ?>" >
+                        <input type="hidden" name="PlaylistOwnerUsersId" value="<?php echo @$_REQUEST['PlaylistOwnerUsersId']; ?>">
                         <span class="input-group-append">
                             <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit" id="buttonSearchPlaylist">
                                 <i class="fas fa-search faa-shake"></i>
@@ -153,7 +153,7 @@ $_page = new Page(array('Manage playlist'));
                     ?>
                         <div class="col-sm-6 col-md-4 col-lg-3 pl pl<?php echo $value["id"]; ?> <?php echo implode(' ', $classes) ?>">
                             <div class="panel panel-<?php echo $totalSubPlaylists ? 'primary' : 'default'; ?>">
-                                <div class="panel-heading">
+                                <div class="panel-heading clearfix">
                                     <?php
                                     echo "[{$value["id"]}] ";
                                     if (!empty($totalSubPlaylists)) {
@@ -173,6 +173,9 @@ $_page = new Page(array('Manage playlist'));
                                         </button>
                                         <button type="button" class="btn btn-default btn-xs editBtn " onclick="editPlayList(<?php echo $value['id']; ?>);" data-toggle="tooltip" title="<?php echo __('Edit'); ?>">
                                             <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs cloneBtn " onclick="clonePlayList(<?php echo $value['id']; ?>);" data-toggle="tooltip" title="<?php echo __('Clone'); ?>">
+                                            <i class="fa-regular fa-clone"></i>
                                         </button>
                                         <?php
                                         echo PlayLists::scheduleLiveButton($value['id'], false);
@@ -420,6 +423,22 @@ $_page = new Page(array('Manage playlist'));
 
     function editPlayList(playlists_id) {
         avideoModalIframe(webSiteRootURL + 'viewProgram/' + playlists_id);
+    }
+
+    function clonePlayList(playlists_id) {
+        var url = 'plugin/PlayLists/clone.json.php';
+        var data = {
+            "playlists_id": playlists_id
+        };
+        var pleaseWait = true;
+        var returnFunction = function(response) {
+            console.log('returnFunction', response);
+            if (!response.error) {
+                avideoToastSuccess(__('Playlist cloned') + ' #' + response.new_playlist_id);
+                editPlayList(response.new_playlist_id);
+            }
+        };
+        avideoAjaxWithResponse(url, data, pleaseWait, returnFunction);
     }
 
     function removeFromSerie(playlists_id, videos_id) {

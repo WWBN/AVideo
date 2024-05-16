@@ -84,6 +84,7 @@ function _error_log_debug($message, $show_args = false)
 function _error_log($message, $type = 0, $doNotRepeat = false)
 {
     if(isSchedulerRun()){
+        echo $message.PHP_EOL;
         return false;
     }
     if (empty($doNotRepeat)) {

@@ -159,10 +159,10 @@ class PlayList extends ObjectYPT
             }
         }
 
-        if(!empty($_REQUEST['searchPlaylist'])){
+        if (!empty($_REQUEST['searchPlaylist'])) {
             $sql .= " AND pl.name LIKE CONCAT('%', ?, '%') ";
             $formats .= "s";
-            $values[] = $_REQUEST['searchPlaylist'];
+            $values[] = trim($_REQUEST['searchPlaylist']);
         }
 
         $sql .= self::getSqlFromPost("pl.");
@@ -291,11 +291,11 @@ class PlayList extends ObjectYPT
             }
         }
         $sql .= self::getSqlSearchFromPost("pl.");
-        
-        if(!empty($_REQUEST['searchPlaylist'])){
+
+        if (!empty($_REQUEST['searchPlaylist'])) {
             $sql .= " AND pl.name LIKE CONCAT('%', ?, '%') ";
             $formats .= "s";
-            $values[] = $_REQUEST['searchPlaylist'];
+            $values[] = trim($_REQUEST['searchPlaylist']);
         }
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $row = sqlDAL::fetchAssoc($res);
@@ -326,8 +326,8 @@ class PlayList extends ObjectYPT
             $sql .= " LEFT JOIN videos v ON pl.id = serie_playlists_id  ";
         }
         $sql .= " LEFT JOIN users u ON u.id = pl.users_id WHERE 1=1 ";
-        
-        if($includeSeries && isForKidsSet()){
+
+        if ($includeSeries && isForKidsSet()) {
             $sql .= " AND v.made_for_kids = 1 ";
         }
         if (!empty($playlists_id)) {
@@ -930,7 +930,8 @@ class PlayList extends ObjectYPT
         return sqlDAL::writeSql($sql);
     }
 
-    static function getNextOrder($playlists_id){
+    static function getNextOrder($playlists_id)
+    {
         $sql = 'SELECT MAX(`order`) AS max_order
         FROM playlists_has_videos
         WHERE playlists_id = ? ';
@@ -939,10 +940,10 @@ class PlayList extends ObjectYPT
         $row = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         $max_order = 0;
-        if(!empty($row['max_order'])){
+        if (!empty($row['max_order'])) {
             $max_order = intval($row['max_order']);
         }
-        return ($max_order+1);
+        return ($max_order + 1);
     }
 
     public function addVideo($videos_id, $add, $order = 0, $_deleteCache = true)
@@ -952,7 +953,7 @@ class PlayList extends ObjectYPT
         $this->id = intval($this->id);
         $videos_id = intval($videos_id);
         $order = intval($order);
-        
+
         if (empty($this->id) || empty($videos_id)) {
             return false;
         }
@@ -966,7 +967,7 @@ class PlayList extends ObjectYPT
             $values[] = $videos_id;
         } else {
             $this->addVideo($videos_id, false, 0, false);
-            if(empty($order)){
+            if (empty($order)) {
                 $order = self::getNextOrder($this->id);
             }
             $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
@@ -992,7 +993,7 @@ class PlayList extends ObjectYPT
     {
         $cacheHandler = new PlayListCacheHandler($playlists_id);
         $cacheHandler->deleteCache();
-        
+
         $pl = new PlayList($playlists_id);
         $cacheHandler = new PlayListUserCacheHandler($pl->getUsers_id());
         $cacheHandler->deleteCache();
@@ -1076,7 +1077,7 @@ class PlayList extends ObjectYPT
     {
         global $playListCanSee;
         $index = "$playlist_id, $users_id";
-        if(isset($playListCanSe[$index])){
+        if (isset($playListCanSe[$index])) {
             return $playListCanSe[$index];
         }
         $playListCanSe[$index] = true;
@@ -1241,5 +1242,40 @@ class PlayList extends ObjectYPT
             }
         }
         return $rows;
+    }
+
+    public static function clone($playlists_id)
+    {
+        // Modify the name to include " (Clone)"
+        $sql = "INSERT INTO playlists (name, created, modified, users_id, status, showOnTV, showOnFirstPage)
+        SELECT 
+            CONCAT(name, ' (Clone)') AS name, 
+            NOW() AS created, 
+            NOW() AS modified, 
+            users_id, 
+            status, 
+            showOnTV, 
+            showOnFirstPage
+        FROM 
+            playlists 
+        WHERE 
+            id = ?";
+
+        $new_playlist_id = sqlDAL::writeSql($sql, 'i', [$playlists_id]);
+
+        // Clone the videos associated with the playlist
+        $sql = "INSERT INTO playlists_has_videos (playlists_id, videos_id, `order`)
+        SELECT 
+            ? AS playlists_id, 
+            videos_id, 
+            `order`
+        FROM 
+            playlists_has_videos 
+        WHERE 
+            playlists_id = ?";
+
+        sqlDAL::writeSql($sql, 'ii', [$new_playlist_id, $playlists_id]);
+
+        return $new_playlist_id;
     }
 }

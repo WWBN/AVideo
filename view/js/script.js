@@ -1763,6 +1763,9 @@ function avideoResponse(response) {
             avideoToastInfo(response.msg);
         } else {
             avideoToastSuccess(response.msg);
+            if (typeof response.eval !== 'undefined') {
+                eval(response.eval);
+            }
         }
     }
 }
@@ -2358,41 +2361,40 @@ function changeVideoStatus(videos_id, status) {
 }
 
 function avideoAjax(url, data) {
-    if (!url.startsWith('http')) {
-        url = webSiteRootURL + url;
-    }
-    avideoAjax2(url, data, true);
+    avideoAjaxWithResponse(url, data, true, ()=>{});
 }
 
-function avideoAjax2(url, data, pleaseWait) {
+function avideoAjaxWithResponse(url, data, pleaseWait, returnFunction) {
     if (pleaseWait) {
         modal.showPleaseWait();
+    }
+    if (!url.startsWith('http')) {
+        url = webSiteRootURL + url;
     }
     $.ajax({
         url: url,
         data: data,
         type: 'post',
-        success: function (response) {
-            if (response.error) {
-                avideoAlertError(response.msg);
-            } else {
-                avideoToastSuccess(response.msg);
-                if (typeof response.eval !== 'undefined') {
-                    eval(response.eval);
-                }
-            }
-        },
-        error: function (response) {
-            //console.error('avideoAjax2', url, data, pleaseWait, response.responseJSON);
-            if (response.responseJSON.error) {
-                avideoAlertError(response.responseJSON.msg);
-            } else {
-                avideoToastError(response.responseJSON.msg);
-            }
-        },
-        complete: function (response) {
+        complete: function (jqXHR, textStatus) {
             if (pleaseWait) {
                 modal.hidePleaseWait();
+            }
+            if (jqXHR.status >= 200 && jqXHR.status < 300) {
+                // Successful response
+                if (jqXHR.responseJSON) {
+                    avideoResponse(jqXHR.responseJSON);
+                    returnFunction(jqXHR.responseJSON);
+                } else {
+                    returnFunction(jqXHR.responseText);
+                }
+            } else {
+                // Error response
+                console.error('Error:', textStatus, jqXHR.statusText);
+                if (jqXHR.responseJSON) {
+                    avideoResponse(jqXHR.responseJSON);
+                } else {
+                    avideoAlertError(textStatus + ': ' + jqXHR.statusText);
+                }
             }
         }
     });
