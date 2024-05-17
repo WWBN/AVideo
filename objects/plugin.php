@@ -4,6 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/Object.php';
+require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Plugin extends ObjectYPT

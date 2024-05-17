@@ -1828,7 +1828,7 @@ if (typeof gtag !== \"function\") {
         $formats .= 's';
         $values[] = $user;
 
-        if (class_exists('AVideoPlugin') && empty($advancedCustomUser)) {
+        if (class_exists('AVideoPlugin') && empty($advancedCustomUser)) {            
             $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
         }
         if (
