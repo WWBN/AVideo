@@ -197,7 +197,7 @@ class PlayLists extends PluginAbstract
             return false;
         }
         $obj = AVideoPlugin::getObjectData("PlayLists");
-        if (!User::isAdmin() && $obj->usersCanOnlyCreatePlayListsFromTheirContent) {
+        if (!PlayLists::canManageAllPlaylists() && $obj->usersCanOnlyCreatePlayListsFromTheirContent) {
             if (User::isLogged()) {
                 $users_id = Video::getOwner($videos_id);
                 if (User::getId() == $users_id) {

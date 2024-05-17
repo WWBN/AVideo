@@ -30,7 +30,7 @@ if (empty($playlists_id)) {
 }
 
 $pl = new PlayList($playlists_id);
-if (User::getId() != $pl->getUsers_id() && !User::isAdmin()) {
+if (User::getId() != $pl->getUsers_id() && !PlayLists::canManageAllPlaylists()) {
     forbiddenPage('Programs does not belong to you');
 }
 
