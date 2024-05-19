@@ -37,7 +37,7 @@ if(empty($mysqlPort)){
 }
 
 // Use the mysqldump command to get the database dump
-$dumpCommand = "mysqldump --host=$mysqlHost --port=$mysqlPort --user=$mysqlUser --password=$mysqlPass "
+$dumpCommand = "mysqldump --host=$mysqlHost --port=$mysqlPort --user='$mysqlUser' --password='$mysqlPass' "
              . "--default-character-set=utf8mb4 $mysqlDatabase $tableList > {$file}";
 
 // Execute the command
@@ -45,6 +45,7 @@ system($dumpCommand, $output);
 
 // Check the result
 if ($output !== 0) {
+    echo $dumpCommand.PHP_EOL;
     die("Error occurred while taking the database dump.");
 }
 
