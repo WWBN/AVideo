@@ -125,7 +125,7 @@ RUN a2enmod xsendfile rewrite expires headers ssl
 # RUN pip3 install --upgrade youtube-dl
 
 # Video Transcription for the SubtitleSwitcher Plugin
-RUN pip3 install vosk
+RUN pip3 install vosk --break-system-packages &
 
 # Copy configuration files
 COPY deploy/apache/avideo.conf /etc/apache2/sites-available/avideo.conf
