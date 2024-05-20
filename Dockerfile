@@ -33,108 +33,84 @@ ARG NGINX_RTMP_PORT
 ARG NGINX_HTTP_PORT
 ARG NGINX_HTTPS_PORT
 
-# Update package list and upgrade installed packages
-RUN apt-get update && apt-get upgrade -y
-
-# Install basic utilities
-RUN apt-get install -y --no-install-recommends \
-        apt-transport-https \
-        bash-completion \
-        ca-certificates \
-        cron \
-        curl \
-        dos2unix \
-        git \
-        htop \
-        iputils-ping \
-        lsof \
-        nano \
-        net-tools \
-        rsyslog \
-        rsync \
-        software-properties-common \
-        unzip \       
-        wget \        
-        sshpass \
+# Update package list and install basic utilities
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apt-transport-https \
+    bash-completion \
+    ca-certificates \
+    cron \
+    curl \
+    dos2unix \
+    git \
+    htop \
+    iputils-ping \
+    lsof \
+    nano \
+    net-tools \
+    rsyslog \
+    rsync \
+    software-properties-common \
+    unzip \
+    wget \
+    sshpass && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install Apache and Apache modules
-RUN apt-get install -y --no-install-recommends \
-        apache2 \
-        libapache2-mod-xsendfile \
-        libapache2-mod-php \
-        libimage-exiftool-perl \ 
-        memcached 
-
-# Update package list and upgrade installed packages
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apache2 \
+    libapache2-mod-xsendfile \
+    libapache2-mod-php \
+    libimage-exiftool-perl \
+    memcached && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install PHP and PHP extensions
-RUN apt-get install -y --no-install-recommends \
-        libapache2-mod-php \
-        #libzip-dev \
-        libssl-dev \
-        #libicu-dev \
-        #libpq-dev \
-        #libpng-dev \
-        #libjpeg-dev \
-        #libfreetype6-dev \
-        #libonig-dev \
-        #libxml2-dev \
-        zlib1g-dev \
-        php \
-        php-curl \
-        php-gd \
-        php-intl \
-        php-mysql \
-        php-sqlite3 \
-        php-xml \
-        #php-dev \
-        php-zip \
-        php-pear \
-        php-mbstring \
-        php-memcached
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libssl-dev \
+    zlib1g-dev \
+    php \
+    php-curl \
+    php-gd \
+    php-intl \
+    php-mysql \
+    php-sqlite3 \
+    php-xml \
+    php-zip \
+    php-pear \
+    php-mbstring \
+    php-memcached && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install multimedia tools
-RUN apt-get install -y --no-install-recommends \
-        ffmpeg
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install Python packages
-RUN apt-get install -y --no-install-recommends \
-        python3-certbot-apache \
-        python3-pip
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-certbot-apache \
+    python3-pip && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Download and install yt-dlp
 RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp && \
-    chmod a+rx /usr/local/bin/yt-dlp    
-
-# Download and install youtube-dl
-#RUN cd /var/www/html && \
-#    curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && \
-#    chmod a+rx /usr/local/bin/youtube-dl   
-
-# Install ssh2 and openssl
-#RUN pecl install ssh2 && \
-#    docker-php-ext-enable ssh2 && \
-#    docker-php-ext-install openssl && \
-#    echo "extension=ssh2.so" >> /usr/local/etc/php/conf.d/ssh2.ini
+    chmod a+rx /usr/local/bin/yt-dlp
 
 # Enable necessary Apache modules
 RUN a2enmod xsendfile rewrite expires headers ssl
 
 # Install and upgrade youtube-dl using pip
-# RUN pip3 install --upgrade youtube-dl
+RUN pip3 install --upgrade youtube-dl
 
 # Video Transcription for the SubtitleSwitcher Plugin
-RUN pip3 install vosk --break-system-packages &
+RUN pip3 install vosk --break-system-packages
 
 # Copy configuration files
 COPY deploy/apache/avideo.conf /etc/apache2/sites-available/avideo.conf
 COPY deploy/apache/localhost.conf /etc/apache2/sites-available/localhost.conf
 COPY deploy/apache/docker-entrypoint /usr/local/bin/docker-entrypoint
-#COPY deploy/apache/wait-for-db.php /usr/local/bin/wait-for-db.php
 COPY deploy/apache/crontab /etc/cron.d/crontab
 
-RUN if [ ["$SERVER_NAME" != "localhost"] || [ "${SERVER_NAME}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] ; \
+RUN if [ "$SERVER_NAME" != "localhost" ] || [[ "$SERVER_NAME" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] ; \
     then \
         cp /etc/apache2/sites-available/avideo.conf /etc/apache2/sites-enabled/000-default.conf; \
     else \
@@ -157,23 +133,18 @@ RUN dos2unix /usr/local/bin/docker-entrypoint && \
     a2enmod rewrite expires headers ssl xsendfile
 
 RUN echo "error_log = /dev/stdout" >> /etc/php/8.1/apache2/php.ini
-# RUN echo "session.save_path = /var/www/memfolder" >> /etc/php/8.1/apache2/php.ini
 
 # Configure PHP to use Memcached for sessions
 RUN echo "session.save_handler = memcached" >> /etc/php/8.1/apache2/php.ini && \
     echo "session.save_path = 'memcached:11211'" >> /etc/php/8.1/apache2/php.ini
 
-
 # Add Apache configuration
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Create directory and set permissions
-# VOLUME /var/www/tmp
 RUN mkdir -p /var/www/tmp && \
     chown www-data:www-data /var/www/tmp && \
     chmod 777 /var/www/tmp
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /var/www/html/AVideo/
 
