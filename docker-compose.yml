@@ -195,11 +195,20 @@ services:
   memcached:
     image: memcached:alpine
     restart: "unless-stopped"
-    command: memcached -m 64 -p 11211 -u memcache
+    command: >
+      sh -c "memcached -m 128 -c 1024 -t $(nproc) -vv"
     ports:
       - "11211:11211"
     networks:
       - app_net
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: '256M'
+        reservations:
+          cpus: '0.5'
+          memory: '128M'
 
 networks:
   app_net:

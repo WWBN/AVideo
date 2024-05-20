@@ -4212,8 +4212,13 @@ function confirmAndDelete(urlToDelete, id, functionForResponse) {
 }
 
 function getTinyMCEVal(id) {
-    return $(tinymce.get(id).getBody()).html();
+    if (tinymce && tinymce.get(id)) {
+        return tinymce.get(id).getContent();
+    } else {
+        return $('#' + id).val();
+    }
 }
+
 function setTinyMCEVal(id, val) {
     $('#' + id).val(val);
     tinymce.get(id).setContent(val);

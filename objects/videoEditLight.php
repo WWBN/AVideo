@@ -46,9 +46,15 @@ if(!empty($_REQUEST['users_id'])){
         $video->setUsers_id($_REQUEST['users_id']);
     }
 }
+
 $obj->save = $video->save();
 $obj->error = empty($obj->save);
-if (empty($obj->error)) {
+if (empty($obj->error)) {    
+    if (isset($_REQUEST['playlists_id'])) {
+        if (!PlayLists::canAddVideoOnPlaylist($obj->save)) {
+            Playlists::addVideo($obj->save, $_REQUEST['playlists_id']);
+        }
+    }
     AVideoPlugin::saveVideosAddNew($_POST, $obj->videos_id);
     Video::clearCache($obj->videos_id, true);
 }
