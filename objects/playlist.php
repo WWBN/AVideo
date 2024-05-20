@@ -487,6 +487,15 @@ class PlayList extends ObjectYPT
         return 0;
     }
 
+    private static function getOrderBy($prefix=''){
+        $order = " ORDER BY {$prefix}`order` ASC, id ASC";
+
+        //if add in the top
+        //$order = " ORDER BY {$prefix}`order` ASC, id DESC";
+
+        return $order;
+    }
+
     public static function getVideosIDFromPlaylistLight($playlists_id)
     {
         global $global, $getVideosIDFromPlaylistLight;
@@ -504,7 +513,7 @@ class PlayList extends ObjectYPT
             $formats = 's';
             $values = [Video::$statusActive];
         } else {
-            $sql = "SELECT * FROM playlists_has_videos p WHERE playlists_id = ?  ORDER BY `order` ASC ";
+            $sql = "SELECT * FROM playlists_has_videos p WHERE playlists_id = ? ".self::getOrderBy('p.');
             $formats = 'i';
             $values = [$playlists_id];
         }
@@ -716,7 +725,7 @@ class PlayList extends ObjectYPT
             $sql .= ' AND serie_playlists_id IS NOT NULL ';
         }
 
-        $sql .= ' ORDER BY p.`order` ASC ';
+        $sql .= self::getOrderBy('p.');
 
         $res = sqlDAL::readSql($sql, "i", [$playlists_id]);
         $fullData = sqlDAL::fetchAllAssoc($res);
