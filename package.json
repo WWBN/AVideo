@@ -42,7 +42,7 @@
     "tinymce": "^7.1.0",
     "tinymce-langs": "^1.0.0",
     "video.js": "^8.14.0",
-    "videojs-contrib-ads": "^7.5.0",
+    "videojs-contrib-ads": "^7.5.2",
     "videojs-contrib-quality-levels": "^4.0.0",
     "videojs-font": "^4.1.0",
     "videojs-hotkeys": "^0.2.28",
