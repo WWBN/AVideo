@@ -124,19 +124,20 @@ RUN dos2unix /usr/local/bin/docker-entrypoint && \
     chmod 755 /usr/local/bin/docker-entrypoint && \
     chmod +x /usr/local/bin/docker-entrypoint
 
-# Dynamically determine the PHP version and modify the php.ini file
-RUN PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;") && \
-    sed -i "s/^post_max_size.*$/post_max_size = 10G/" /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    sed -i "s/^upload_max_filesize.*$/upload_max_filesize = 10G/" /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    sed -i "s/^max_execution_time.*$/max_execution_time = 7200/" /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    sed -i "s/^memory_limit.*$/memory_limit = 512M/" /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    a2enmod rewrite expires headers ssl xsendfile
+# Create a script to handle PHP configuration
+RUN echo '#!/bin/sh' > /usr/local/bin/configure-php.sh && \
+    echo 'PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION . \".\" . PHP_MINOR_VERSION;")' >> /usr/local/bin/configure-php.sh && \
+    echo 'sed -i "s/^post_max_size.*$/post_max_size = 10G/" /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
+    echo 'sed -i "s/^upload_max_filesize.*$/upload_max_filesize = 10G/" /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
+    echo 'sed -i "s/^max_execution_time.*$/max_execution_time = 7200/" /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
+    echo 'sed -i "s/^memory_limit.*$/memory_limit = 512M/" /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
+    echo 'echo "error_log = /dev/stdout" >> /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
+    echo 'echo "session.save_handler = memcached" >> /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
+    echo 'echo "session.save_path = \"memcached:11211\"" >> /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
+    chmod +x /usr/local/bin/configure-php.sh
 
-RUN echo "error_log = /dev/stdout" >> /etc/php/${PHP_VERSION}/apache2/php.ini
-
-# Configure PHP to use Memcached for sessions
-RUN echo "session.save_handler = memcached" >> /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    echo "session.save_path = 'memcached:11211'" >> /etc/php/${PHP_VERSION}/apache2/php.ini
+# Run the PHP configuration script
+RUN /usr/local/bin/configure-php.sh
 
 # Add Apache configuration
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
