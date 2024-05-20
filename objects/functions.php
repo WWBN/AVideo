@@ -7200,6 +7200,11 @@ function getTourHelpButton($stepsFileRelativePath, $class = 'btn btn-default'){
     return "<button class=\"startTourBtn {$class}\" onclick=\"startTour('{$stepsFileRelativePath}')\"><i class=\"fa-solid fa-circle-question\"></i> ".__('Help')."</button>";
 }
 
+function getInfoButton($info){
+    $html = '<button class="btn btn-default btn-block infoButton" data-toggle="tooltip" title="'.__('Info').'"><i class="fa-solid fa-circle-info"></i><div class="hidden">'.$info.'</div></button>';
+    return $html;
+}
+
 require_once __DIR__.'/functionsSecurity.php';
 require_once __DIR__.'/functionsMySQL.php';
 require_once __DIR__.'/functionsDocker.php';

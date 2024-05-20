@@ -2954,6 +2954,10 @@ $(document).ready(function () {
     _alertFromGet('success');
     _alertFromGet('toast');
 
+    $(".infoButton").click(function() {
+        var innerDiv = $(this).find("div.hidden");
+        avideoAlertInfo(innerDiv.html());
+    });
 });
 
 /*!
@@ -4286,4 +4290,24 @@ function startTour(stepsFileRelativePath) {
             }
         });
     }
+}
+
+function findIndex(value, array) {
+    return array.indexOf(value);
+}
+
+function getNextValue(value, array) {
+    const index = findIndex(value, array);
+    if (index !== -1 && index < array.length - 1) {
+        return array[index + 1];
+    }
+    return null; // Return null if there is no next value
+}
+
+function getPreviousValue(value, array) {
+    const index = findIndex(value, array);
+    if (index > 0) {
+        return array[index - 1];
+    }
+    return null; // Return null if there is no previous value
 }
