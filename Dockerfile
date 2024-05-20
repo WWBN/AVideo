@@ -98,9 +98,6 @@ RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o 
 # Enable necessary Apache modules
 RUN a2enmod xsendfile rewrite expires headers ssl
 
-# Install and upgrade youtube-dl using pip
-RUN pip3 install --upgrade youtube-dl
-
 # Video Transcription for the SubtitleSwitcher Plugin
 RUN pip3 install vosk --break-system-packages
 
