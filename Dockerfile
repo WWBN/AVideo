@@ -122,8 +122,9 @@ RUN dos2unix /etc/cron.d/crontab && \
 # Configure AVideo
 RUN dos2unix /usr/local/bin/docker-entrypoint && \
     chmod 755 /usr/local/bin/docker-entrypoint && \
-    chmod +x /usr/local/bin/docker-entrypoint && \
-    sed -i 's/^post_max_size.*$/post_max_size = 10G/' /etc/php/8.1/apache2/php.ini && \
+    chmod +x /usr/local/bin/docker-entrypoint
+
+RUN sed -i 's/^post_max_size.*$/post_max_size = 10G/' /etc/php/8.1/apache2/php.ini && \
     sed -i 's/^upload_max_filesize.*$/upload_max_filesize = 10G/' /etc/php/8.1/apache2/php.ini && \
     sed -i 's/^max_execution_time.*$/max_execution_time = 7200/' /etc/php/8.1/apache2/php.ini && \
     sed -i 's/^memory_limit.*$/memory_limit = 512M/' /etc/php/8.1/apache2/php.ini && \
