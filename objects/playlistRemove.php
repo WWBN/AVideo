@@ -10,8 +10,10 @@ if (!User::isLogged()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 $obj = new PlayList($_POST['playlist_id']);
-if (User::getId() !== $obj->getUsers_id()) {
-    die('{"error":"'.__("Permission denied").'"}');
+if (!PlayLists::canManageAllPlaylists()) {
+    if (User::getId() !== $obj->getUsers_id()) {
+        die('{"error":"'.__("Permission denied").'"}');
+    }
 }
 
 echo '{"status":"'.$obj->delete().'"}';
