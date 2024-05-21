@@ -35,7 +35,7 @@ if (empty($programs)) {
     $videos_id = @$videosArrayId[0];
 }
 $playListsObj = AVideoPlugin::getObjectData("PlayLists");
-//var_dump($_GET['program_id']);exit;
+//var_dump($_GET['program_id'], $videosArrayId, $programs);exit;
 PlayLists::loadScripts();
 
 

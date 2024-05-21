@@ -488,10 +488,10 @@ class PlayList extends ObjectYPT
     }
 
     private static function getOrderBy($prefix=''){
-        $order = " ORDER BY {$prefix}`order` ASC, id ASC";
+        $order = " ORDER BY {$prefix}`order` ASC";
 
         //if add in the top
-        //$order = " ORDER BY {$prefix}`order` ASC, id DESC";
+        //$order = " ORDER BY {$prefix}`order` ASC";
 
         return $order;
     }
