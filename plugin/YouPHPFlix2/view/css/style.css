@@ -270,7 +270,7 @@ iframe{
     background: #F33;
 }
 .flickity-viewport{
-    overflow: visible;
+    overflow: visible !important;
 }
 .flickity-prev-next-button{
     z-index: 1020;
