@@ -178,7 +178,7 @@ a:visited {
 }
 
 #carouselRows div.carousel.rowPortrait div.slide.thumbsImage{
-    height: calc(100% - 20px);
+    height: calc(100% - 10px);
 }
 #carouselRows div.carousel.rowPortrait div.slide.thumbsImage .tile__media,
 #carouselRows div.carousel.rowPortrait div.slide.thumbsImage .tile__media .tile__img.posterPortrait{
