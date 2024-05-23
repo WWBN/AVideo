@@ -2562,21 +2562,21 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function isApplicationListed($key, $listItIfIsAdminOrOwner = true)
     {
         global $_isApplicationListed;
-        if (empty($key)) {
-            return __LINE__;
-        }
-        if ($listItIfIsAdminOrOwner && User::isAdmin()) {
-            return __LINE__;
-        }
         if (!isset($_isApplicationListed)) {
             $_isApplicationListed = array();
+        }
+        if (empty($key)) {
+            $_isApplicationListed[$key] = __LINE__;
+        }
+        if ($listItIfIsAdminOrOwner && User::isAdmin()) {
+            $_isApplicationListed[$key] = __LINE__;
         }
         if (!isset($_isApplicationListed[$key])) {
             $row = LiveTransmition::keyExists($key);
             if (empty($row) || empty($row['users_id'])) {
                 $_isApplicationListed[$key] = __LINE__;
-            } else if (!empty($row['scheduled'])) {
-                $_isApplicationListed[$key] = __LINE__;
+            //} else if (!empty($row['scheduled'])) {
+            //    $_isApplicationListed[$key] = __LINE__;
             } else if (!empty($row['public'])) {
                 $_isApplicationListed[$key] = __LINE__;
             } else if ($listItIfIsAdminOrOwner && User::getId() == $row['users_id']) {

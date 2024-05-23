@@ -5415,9 +5415,12 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
 
     TimeLogEnd($timeName, __LINE__);
     foreach ($json['applications'] as $key => $value) {
-        if (!Live::isApplicationListed(@$value['key'], $listItIfIsAdminOrOwner)) {
+        $isListed = Live::isApplicationListed(@$value['key'], $listItIfIsAdminOrOwner);
+        if (!$isListed) {
             $json['hidden_applications'][] = $value;
             unset($json['applications'][$key]);
+        }else{
+            $json['applications'][$key]['isListed'] = $isListed;
         }
     }
     TimeLogEnd($timeName, __LINE__);

@@ -265,7 +265,7 @@
                                             <label for="madeForKids" class="label-primary"></label>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <label class="control-label" for="inputRrating">
                                             <?php echo __("R Rating"); ?>
                                         </label>
@@ -283,10 +283,25 @@
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <?php
                                         include $global['systemRootPath'] . 'view/managerVideos_owner.php';
                                         ?>
+                                    </div>
+                                    
+                                    <div class="col-md-2">
+                                        <?php
+                                        if (Permissions::canAdminVideos()) {
+                                        ?>
+                                            <div>
+                                                <label class="control-label" for="views_count"><?php echo __("Video Views"); ?></label>
+                                                <input type="number" step="1" id="views_count" class="form-control externalOptions">
+                                            </div>
+                                        <?php
+                                        } else {
+                                        ?><input type="hidden" id="views_count" value="-1"><?php
+                                                                                        }
+                                                                                            ?>
                                     </div>
                                 </div>
 
@@ -331,20 +346,6 @@
                                             <label class="control-label" for="videoSkipIntroSecond"><?php echo __("Skip intro to"); ?></label>
                                             <input type="text" id="videoSkipIntroSecond" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <?php
-                                        if (Permissions::canAdminVideos()) {
-                                        ?>
-                                            <div>
-                                                <label class="control-label" for="videoStartSecond"><?php echo __("Video Views"); ?></label>
-                                                <input type="number" step="1" id="views_count" class="form-control externalOptions">
-                                            </div>
-                                        <?php
-                                        } else {
-                                        ?><input type="hidden" id="views_count" value="-1"><?php
-                                                                                        }
-                                                                                            ?>
                                     </div>
 
                                 </div>
