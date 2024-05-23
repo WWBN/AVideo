@@ -908,6 +908,10 @@ abstract class PluginAbstract {
     public function getWalletConfigurationHTML($users_id, $wallet, $walletDataObject) {
         return "";
     }
+    
+    function canRecordVideo($key) {
+        return true;
+    }
 
 }
 

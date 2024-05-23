@@ -179,62 +179,58 @@ class YPTSocket extends PluginAbstract
 
         require_once $global['systemRootPath'] . 'objects/autoload.php';
         $SocketURL = self::getWebSocketURL(true, $SocketSendObj->webSocketToken, isDocker());
-        _error_log("Socket Send: {$SocketURL}");
+        //_error_log("Socket Send: {$SocketURL}");
 
         \Ratchet\Client\connect($SocketURL)->then(function ($conn) use ($SocketSendUsers_id, $SocketSendObj, $SocketSendResponseObj) {
             global $SocketSendResponseObj;
 
+            _error_log("Socket line=" . __LINE__);
             $conn->on('message', function ($msg) use ($conn, $SocketSendResponseObj) {
+                _error_log("Socket on message line=" . __LINE__ . ' ' . json_encode($msg));
+
                 $SocketSendResponseObj->error = false;
                 $SocketSendResponseObj->msg = $msg;
             });
 
+            // Log when the connection is closed
+            $conn->on('close', function ($code = null, $reason = null) {
+                _error_log("Socket connection closed. Code: $code, Reason: $reason line=" . __LINE__);
+            });
+
             $sendMessages = function ($users, $index = 0) use ($conn, $SocketSendObj, &$sendMessages) {
+                _error_log("Socket sendMessages $index line=" . __LINE__);
                 if ($index < count($users)) {
+                    _error_log("Socket sendMessages $index line=" . __LINE__);
                     $SocketSendObj->to_users_id = $users[$index];
                     $conn->send(json_encode($SocketSendObj), function () use ($users, $index, $sendMessages) {
-                        $sendMessages($users, $index + 1);
+                        _error_log("Socket sendMessages $index total=" . count($users) . " line=" . __LINE__);
+                        //$sendMessages($users, $index + 1);
                     });
+                    if ($index + 1 >= count($users)) {
+                        _error_log("Socket close $index total=" . count($users) . " line=" . __LINE__);
+                        $conn->close();
+                    } else {
+                        _error_log("Socket sendMessages $index total=" . count($users) . " line=" . __LINE__);
+                        $sendMessages($users, $index + 1);
+                    }
                 } else {
+                    _error_log("Socket close line=" . __LINE__);
                     $conn->close();
                 }
+                _error_log("Socket sendMessages $index line=" . __LINE__);
             };
+            _error_log("Socket connect line=" . __LINE__);
 
             $sendMessages($SocketSendUsers_id);
         }, function ($e) {
             global $SocketURL;
-            _error_log("Could not connect: {$e->getMessage()} {$SocketURL}", AVideoLog::$ERROR);
+            _error_log("Could not connect: {$e->getMessage()} {$SocketURL} line=" . __LINE__, AVideoLog::$ERROR);
         });
 
-        /*
-        $SocketURL = self::getWebSocketURL(true, $SocketSendObj->webSocketToken, isDocker());
-        //_error_log("Socket Send: {$SocketURL}");
-        \Ratchet\Client\connect($SocketURL)->then(function ($conn) {
-            global $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
-            $conn->on('message', function ($msg) use ($conn, $SocketSendResponseObj) {
-                //echo "Received: {$msg}".PHP_EOL;
-                $SocketSendResponseObj->error = false;
-                $SocketSendResponseObj->msg = $msg;
-                //$conn->close();
-            });
-
-            foreach ($SocketSendUsers_id as $users_id) {
-                $SocketSendObj->to_users_id = $users_id;
-                $conn->send(json_encode($SocketSendObj));
-                //echo "send: {$users_id}".PHP_EOL;
-            }
-
-            $conn->close();
-            //echo "close".PHP_EOL;
-
-            //$SocketSendResponseObj->error = false;
-        }, function ($e) {
-                    global $SocketURL;
-                    _error_log("Could not connect: {$e->getMessage()} {$SocketURL}", AVideoLog::$ERROR);
-                });
-        */
+        _error_log("Socket SocketSendResponseObj line=" . __LINE__);
         return $SocketSendResponseObj;
     }
+
 
     public static function getWebSocketURL($isCommandLine = false, $webSocketToken = '', $internalDocker = false)
     {

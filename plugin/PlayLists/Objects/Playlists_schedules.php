@@ -321,6 +321,10 @@ class Playlists_schedules extends ObjectYPT
         return "ps-{$playlists_schedules}";
     }
     
+    function canRecordVideo($key) {
+        return empty(Playlists_schedules::iskeyPlayListScheduled($key));
+    }
+
     static function iskeyPlayListScheduled($key){
         if(preg_match('/([0-9a-z]+)-ps-([0-9]+)/', $key, $matches)){
             if(!empty($matches[2])){

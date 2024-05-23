@@ -235,7 +235,10 @@ if (Permissions::canAdminVideos()) {
 }
 
 $rowsPath[] = array('line'=>__LINE__, 'ElapsedTime'=>getElapsedTime());
+
+_error_log('Saving video start');
 AVideoPlugin::saveVideosAddNew($_POST, $resp);
+_error_log('Saving video end');
 
 $rowsPath[] = array('line'=>__LINE__, 'ElapsedTime'=>getElapsedTime());
 TimeLogEnd(__FILE__, __LINE__);
@@ -249,10 +252,13 @@ $obj->videos_id = intval($resp);
 $obj->video = Video::getVideoLight($obj->videos_id, true);
 if ($obj->video['status'] == Video::$statusActive) {
     $rowsPath[] = array('line'=>__LINE__, 'ElapsedTime'=>getElapsedTime());
+    _error_log('clearFirstPageCache start');
     $obj->clearFirstPageCache = clearFirstPageCache();
+    _error_log('clearFirstPageCache end');
     //clearAllUsersSessionCache();
 }
 $rowsPath[] = array('line'=>__LINE__, 'ElapsedTime'=>getElapsedTime());
 $obj->rowsPath = $rowsPath;
 TimeLogEnd(__FILE__, __LINE__);
+_error_log('video add new done end');
 echo json_encode($obj);

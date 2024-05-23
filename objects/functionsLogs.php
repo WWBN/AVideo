@@ -83,6 +83,10 @@ function _error_log_debug($message, $show_args = false)
 
 function _error_log($message, $type = 0, $doNotRepeat = false)
 {
+
+    if (!is_string($message)) {
+        $message = json_encode($message);
+    }
     if(isSchedulerRun()){
         echo $message.PHP_EOL;
         return false;
@@ -97,9 +101,6 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
     global $global;
     if (!empty($global['noDebug']) && $type == 0) {
         return false;
-    }
-    if (!is_string($message)) {
-        $message = json_encode($message);
     }
     $prefix = "AVideoLog::";
     switch ($type) {

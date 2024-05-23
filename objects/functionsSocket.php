@@ -43,7 +43,7 @@
      if (!is_array($users_id)) {
          $users_id = [$users_id];
      }
- 
+
      $resp = [];
      foreach ($users_id as $value) {
          $resp[] = sendSocketMessage($msg, $callbackJSFunction, $value);

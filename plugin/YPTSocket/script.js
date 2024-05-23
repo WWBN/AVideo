@@ -49,7 +49,7 @@ function socketConnect() {
     }
     conn.onmessage = function (e) {
         var json = JSON.parse(e.data);
-        consolelog("Socket onmessage conn.onmessage", json);
+        //console.log("Socket onmessage conn.onmessage", json);
         socketResourceId = json.resourceId;
         yptSocketResponse = json;
         parseSocketResponse();
@@ -81,12 +81,13 @@ function socketConnect() {
             if (json.callback) {
                 //console.log("Socket onmessage json.callback ", json.resourceId, json.callback);
                 var code = "if(typeof " + json.callback + " == 'function'){myfunc = " + json.callback + ";}else{myfunc = defaultCallback;}";
-                ////console.log(code);
+                //console.log(code);
                 eval(code);
             } else {
                 //console.log("onmessage: callback not found", json);
                 myfunc = defaultCallback;
             }
+            //console.log("onmessage: callback ", myfunc, json);
             myfunc(json.msg);
         }
     };

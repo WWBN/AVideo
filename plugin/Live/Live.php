@@ -993,7 +993,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getControlOrPublic($key, $live_servers_id = 0)
     {
-        global $global;
+        global $global;        
+        if(isDocker()){
+            return 'http://live:8080/control/drop/publisher';                
+        }
         $obj = AVideoPlugin::getObjectData("Live");
         if (empty($obj->server_type->value)) {
             $row = LiveTransmitionHistory::getLatest($key, $live_servers_id);
@@ -1365,7 +1368,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getKeyFromUser($users_id, $doNotCheckUser = false)
     {
-        if (!$doNotCheckUser && (!User::isLogged() || ($users_id !== User::getId() && !User::isAdmin()))) {
+        if (!isCommandLineInterface() && !$doNotCheckUser && (!User::isLogged() || ($users_id !== User::getId() && !User::isAdmin()))) {
             return false;
         }
         $user = new User($users_id);

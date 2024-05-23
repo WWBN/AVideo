@@ -247,48 +247,15 @@ function getPIDUsingPort($port)
     return false;
 }
 
-function execAsync($command)
+function canExecutePgrep()
 {
-    //$command = escapeshellarg($command);
-    // If windows, else
-    if (isWindows()) {
-        //echo $command;
-        //$pid = system("start /min  ".$command. " > NUL");
-        //$commandString = "start /B " . $command;
-        //pclose($pid = popen($commandString, "r"));
-        _error_log($command);
-        $pid = exec($command, $output, $retval);
-        _error_log('execAsync Win: ' . json_encode($output) . ' ' . $retval);
-    } else {
-        $newCommand = $command . " > /dev/null 2>&1 & echo $!; ";
-        _error_log('execAsync Linux: ' . $newCommand);
-        $pid = exec($newCommand);
-    }
-    return $pid;
-}
-
-function killProcess($pid)
-{
-    $pid = intval($pid);
-    if (empty($pid)) {
-        return false;
-    }
-    if (isWindows()) {
-        exec("taskkill /F /PID $pid");
-    } else {
-        exec("kill -9 $pid");
-    }
-    return true;
-}
-
-
-function canExecutePgrep() {
     // Check if we can successfully pgrep the init or systemd process
     $test = shell_exec('pgrep -f init || pgrep -f systemd');
     return !empty($test); // Return true if we can execute pgrep, false otherwise
 }
 
-function getProcessPids($processName) {
+function getProcessPids($processName)
+{
     if (!canExecutePgrep()) {
         return null; // If we can't execute pgrep, return null
     }
@@ -311,14 +278,15 @@ function getProcessPids($processName) {
         }
         //_error_log("getProcessPids($processName) $line");
         // Extract PID from the start of the line
-        list($pid, ) = explode(' ', trim($line), 2);
+        list($pid,) = explode(' ', trim($line), 2);
         $pids[] = $pid;
     }
 
     return $pids;
 }
 
-function getCommandByPid($pid) {
+function getCommandByPid($pid)
+{
     $cmdlineFile = "/proc/{$pid}/cmdline";
 
     // Check if the cmdline file exists for the given PID
@@ -331,9 +299,148 @@ function getCommandByPid($pid) {
     $cmdArray = explode("\0", $cmd);
 
     // Remove any empty elements from the array
-    $cmdArray = array_filter($cmdArray, function($value) {
+    $cmdArray = array_filter($cmdArray, function ($value) {
         return $value !== '';
     });
 
     return $cmdArray;
+}
+
+function execAsync($command, $keyword = null)
+{
+    if ($keyword) {
+        // Sanitize the keyword to make it a valid filename
+        $keyword = preg_replace('/[^a-zA-Z0-9_-]/', '_', $keyword);
+    }
+
+    if (isWindows()) {
+        if ($keyword) {
+            // Add the keyword as a comment to the command for Windows
+            $commandWithKeyword = "start /B cmd /c \"$command & REM $keyword\" > NUL 2>&1";
+        } else {
+            $commandWithKeyword = "start /B cmd /c \"$command\" > NUL 2>&1";
+        }
+        _error_log($commandWithKeyword);
+        $pid = exec($commandWithKeyword, $output, $retval);
+        if ($retval !== 0) {
+            _error_log('execAsync Win Error: ' . json_encode($output) . ' Return Value: ' . $retval);
+        } else {
+            _error_log('execAsync Win: ' . json_encode($output) . ' ' . $retval);
+        }
+    } else {
+        if ($keyword) {
+            // Add the keyword as a comment to the command for Linux
+            $commandWithKeyword = "nohup sh -c \"$command & echo \\$! > /tmp/$keyword.pid\" > /dev/null 2>&1 &";
+        } else {
+            $commandWithKeyword = "nohup sh -c \"$command & echo \\$!\" > /dev/null 2>&1 &";
+        }
+        _error_log('execAsync Linux: ' . $commandWithKeyword);
+        exec($commandWithKeyword, $output, $retval);
+        _error_log('Command output: ' . json_encode($output));
+        _error_log('Return value: ' . $retval);
+        if ($retval !== 0) {
+            _error_log('execAsync Linux Error: ' . json_encode($output) . ' Return Value: ' . $retval);
+        } else {
+            if ($keyword) {
+                $pidFile = "/tmp/$keyword.pid";
+                _error_log('Checking PID file: ' . $pidFile);
+                sleep(1); // Wait a bit to ensure the PID file is written
+                if (file_exists($pidFile) && filesize($pidFile) > 0) {
+                    $pid = (int)file_get_contents($pidFile);
+                    _error_log('PID file exists, PID: ' . $pid);
+                } else {
+                    _error_log('PID file does not exist or is empty. Using output[0].');
+                    if (!empty($output[0])) {
+                        $pid = (int)$output[0];
+                        _error_log('PID from output[0]: ' . $pid);
+                        // Save the PID to the file as a fallback
+                        file_put_contents($pidFile, $pid);
+                        _error_log('PID saved to file: ' . $pidFile);
+                    } else {
+                        _error_log('Output[0] is also empty. Unable to determine PID.');
+                        $pid = null;
+                    }
+                }
+            } else {
+                $pid = (int)$output[0];
+            }
+        }
+    }
+    return $pid;
+}
+
+
+// Function to find the process by keyword using the pid file
+function findProcess($keyword)
+{
+    $output = [];
+    if ($keyword) {
+        // Sanitize the keyword to make it a valid filename
+        $keyword = preg_replace('/[^a-zA-Z0-9_-]/', '_', $keyword);
+    }
+    // Use pgrep to find processes with the keyword (case insensitive)
+    exec("pgrep -fai " . escapeshellarg($keyword), $pgrepOutput, $retval);
+    //var_dump($pgrepOutput);
+    if ($retval === 0) {
+        foreach ($pgrepOutput as $pgrepPid) {
+            if(preg_match('/pgrep /i', $pgrepPid)){
+                continue;
+            }
+            if(preg_match('/([0-9]+) (.*)/i', $pgrepPid, $matches)){
+                if(!empty($matches[2])){
+                    $output[] = array('pid'=>(int)$matches[1], 'command'=>trim($matches[2]));
+                }
+            }
+            //$output[] = (int)$pgrepPid;
+            //$output[] = $pgrepPid;
+        }
+    }
+
+    // Remove duplicate PIDs
+    $output = array_unique($output);
+
+    return $output; // Returns an array of PIDs
+}
+
+
+// Function to kill the process by keyword using the pid file
+function killProcessFromKeyword($keyword)
+{
+    $pids = findProcess($keyword);
+    _error_log("killProcessFromKeyword($keyword) findProcess " . json_encode($pids));
+    foreach ($pids as $pid) {
+        killProcess($pid);
+    }
+}
+
+function killProcess($pid)
+{
+    if (is_array($pid)) {
+        $pid = $pid['pid'];
+    }
+
+    $pid = intval($pid);
+    if (empty($pid)) {
+        _error_log("killProcess: Invalid PID $pid");
+        return false;
+    }
+
+    _error_log("killProcess($pid)");
+
+    if (isWindows()) {
+        $cmd = "taskkill /F /PID $pid";
+    } else {
+        $cmd = "kill -9 $pid";
+    }
+    _error_log("Executing command: $cmd");
+
+    exec($cmd, $output, $retval);
+
+    if ($retval === 0) {
+        _error_log("killProcess: Successfully killed process $pid");
+        return true;
+    } else {
+        _error_log("killProcess: Failed to kill process $pid. Command output: " . json_encode($output) . " Return value: $retval");
+        return false;
+    }
 }

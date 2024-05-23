@@ -884,8 +884,9 @@ class AVideoPlugin
             return false;
         }
         $plugins = Plugin::getAllEnabled();
-        foreach ($plugins as $value) {
+        foreach ($plugins as $key => $value) {
             self::YPTstart();
+            //error_log("{$key} onNewVideo {$value['dirName']} load");
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->onNewVideo($videos_id);
@@ -3114,6 +3115,23 @@ class AVideoPlugin
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
+    }
+
+    public static function canRecordVideo($key)
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                if(!$p->canRecordVideo($key)){
+                    _error_log("{$value['dirName']} said you cannot record this key $key");
+                    return false;
+                }
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return true;
     }
 }
 

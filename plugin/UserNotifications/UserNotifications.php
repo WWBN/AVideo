@@ -128,8 +128,10 @@ class UserNotifications extends PluginAbstract {
 
     public static function notifySocket($array, $to_users_id = 0) {
         if (!empty($to_users_id)) {
+            //error_log('notifySocket line='.__LINE__);return false;
             $socketObj = sendSocketMessageToUsers_id($array, $to_users_id, 'socketUserNotificationCallback');
         } else {
+            //error_log('notifySocket line='.__LINE__);return false;
             $socketObj = sendSocketMessageToAll($array, 'socketUserNotificationCallback');
         }
         return $socketObj;

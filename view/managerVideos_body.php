@@ -723,6 +723,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 if (response.encoding && response.encoding.length) {
                     for (i = 0; i < response.encoding.length; i++) {
                         var encoding = response.encoding[i];
+                        if(typeof encoding.return_vars === 'undefined'){
+                            continue;
+                        }
                         var id = encoding.return_vars.videos_id;
                         $("#downloadProgress" + id).slideDown();
                         var download_status = response.download_status[i];
