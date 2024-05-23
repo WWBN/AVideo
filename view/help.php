@@ -20,7 +20,7 @@ $_page = new Page(array('Help'));
             <p><?php echo __('Here you can find help, how this platform works.'); ?></p>
             <?php if (User::isAdmin()) { ?>
                 <h2><?php echo __('Admin\'s manual'); ?></h2>
-                <p><?php echo __('Only you can see this, because you are a admin.'); ?></p>
+                <p><?php echo __('Only you can see this, because you are an admin.'); ?></p>
                 <h3><?php echo __('Settings and plugins'); ?></h3>
                 <p><?php echo __('The default'); ?> <a href='<?php echo $global['webSiteRootURL']; ?>siteConfigurations'><?php echo __('site config'); ?></a>, <?php echo __('you can find on the menu-point. But there are more settings avaible; go to the'); ?> <a href='<?php echo $global['webSiteRootURL']; ?>plugins'><?php echo __('plugins'); ?></a> <?php echo __('and check the'); ?> "CustomiseAdvanced"<?php echo __('-Plugin'); ?>.</p>
                 <p><?php echo __('Like on a lot of plugins, on the right site, you will find a button'); ?> "<i class="fa-solid fa-pen-to-square"></i><?php echo __('Edit parameters'); ?>". <?php echo __('This button is always a click worth'); ?>.</p>
