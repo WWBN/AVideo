@@ -12,6 +12,9 @@
     -webkit-line-clamp: 2; /* number of lines to show */
     -webkit-box-orient: vertical;
 }
+#videosListItems .videosDetails .title {
+line-height: 1.25em !important;
+}
 .gallery .watch-view-count {
     font-size: 0.8em;
     font-weight: normal;
