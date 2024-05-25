@@ -230,6 +230,7 @@ global $avideoLayout;
                                         <i class="fa-solid fa-list"></i>
                                         <span class="menuLabel">
                                             <?php echo __($advancedCustom->CategoryLabel); ?>
+                            </span>
                                     </a>
                                 </div>
                             </li>
@@ -308,6 +309,7 @@ global $avideoLayout;
                                 <i class="fa-solid fa-list"></i>
                                 <span class="menuLabel">
                                     <?php echo __($advancedCustom->CategoryLabel); ?>
+                </span>
                             </a>
                         </li>
                         <li>
@@ -332,6 +334,7 @@ global $avideoLayout;
                                 <i class="fa-solid fa-gear"></i>
                                 <span class="menuLabel">
                                     <?php echo __("Site Configurations"); ?>
+                </span>
                             </a>
                         </li>
                         <li>
