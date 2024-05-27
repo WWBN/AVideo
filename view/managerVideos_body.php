@@ -988,7 +988,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
-            allowedFileExtensions: ["jpg", "jpeg", "png", "bmp"],
+            allowedFileExtensions: ["jpg", "jpeg", "png", "bmp", 'gif', "webp"],
         }).on('fileuploaderror', function(event, data, msg) {
             avideoAlertError(data.response.msg);
             console.log('fileuploaderror', data, msg);
