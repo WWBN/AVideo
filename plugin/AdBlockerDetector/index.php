@@ -25,7 +25,7 @@ $_page = new Page(array('Disable Ad Blocker'));
                 </div>
 
                 <div class="panel-footer">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="location.reload();"><i class="fa fa-refresh"></i> Refresh Page</button>
+                    <button class="btn btn-primary btn-lg btn-block" onclick="document.location = webSiteRootURL ;"><i class="fa fa-refresh"></i> Refresh Page</button>
                     <p><small><i class="fa fa-info-circle"></i> Please refresh this page once you have disabled the ad blocker.</small></p>
                 </div>
             </div>
