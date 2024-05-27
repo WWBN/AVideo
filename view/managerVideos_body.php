@@ -1,6 +1,11 @@
 <?php
 global $statusThatShowTheCompleteMenu;
 require_once $global['systemRootPath'] . 'objects/video.php';
+
+$video_id = $_REQUEST['video_id'];
+if (!empty($video_id) && Video::canEdit($video_id)) {
+    $editVideo = Video::getVideo($video_id, '');
+}
 ?>
 <style>
     <?php
@@ -132,6 +137,17 @@ require_once $global['systemRootPath'] . 'objects/video.php';
     var filterStatus = '';
     var filterType = '';
     var filterCategory = '';
+    var _editVideo = false;
+    <?php
+    if (!empty($editVideo)) {
+        $json = json_encode($editVideo);
+        if (!empty($json)) {
+    ?>
+            _editVideo = <?php echo $json; ?>;
+    <?php
+        }
+    }
+    ?>
 </script>
 <div class="container-fluid">
     <?php
@@ -465,10 +481,14 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
                         <?php
                         foreach (Video::$searchFieldsNamesLabels as $key => $value) {
+                            $checked = 'checked';
+                            if (!empty($editVideo)) {
+                                $checked = Video::$searchFieldsNames[$key] == 'v.id' ? 'checked' : '';
+                            }
                         ?>
                             <li onclick="$('#grid').bootgrid('reload');event.stopPropagation();">
                                 <div class="form-check" style="padding-left: 5px;">
-                                    <input class="form-check-input searchFieldsNames" type="checkbox" value="<?php echo Video::$searchFieldsNames[$key]; ?>" id="searchFieldsNames<?php echo $key; ?>" checked>
+                                    <input class="form-check-input searchFieldsNames" type="checkbox" value="<?php echo Video::$searchFieldsNames[$key]; ?>" id="searchFieldsNames<?php echo $key; ?>" <?php echo $checked; ?>>
                                     <label class="form-check-label" for="searchFieldsNames<?php echo $key; ?>">
                                         <?php echo __($value); ?>
                                     </label>
@@ -723,7 +743,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 if (response.encoding && response.encoding.length) {
                     for (i = 0; i < response.encoding.length; i++) {
                         var encoding = response.encoding[i];
-                        if(typeof encoding.return_vars === 'undefined'){
+                        if (typeof encoding.return_vars === 'undefined') {
                             continue;
                         }
                         var id = encoding.return_vars.videos_id;
@@ -1477,19 +1497,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
             return (bytes / 1000).toFixed(2) + ' KB';
         }
-        <?php
-        if (!empty($row)) {
-            $json = json_encode($row);
-            if (!empty($json)) {
-        ?>
+        if(!empty(_editVideo)){
                 waitToSubmit = true;
-                editVideo(<?php echo $json; ?>);
-        <?php
-            } else {
-                echo "/*Json error for Video ID*/";
-            }
+                editVideo(_editVideo);
         }
-        ?>
 
         $('#linkExternalVideo').click(function() {
             newVideoLink();
@@ -1618,12 +1629,12 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         var grid = $("#grid").bootgrid({
             padding: 4,
             labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
+                noResults: __("No results found!"),
+                all: __("All"),
                 infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
-                search: "<?php echo __("Search"); ?>",
+                loading: __("Loading..."),
+                refresh: __("Refresh"),
+                search: __("Search"),
             },
             rowCount: <?php echo $advancedCustom->videosManegerRowCount; ?>,
             ajax: true,
@@ -1925,6 +1936,12 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     //$(this).html($(this).attr('videos_id'));
                 });
             }
+            if(!empty(_editVideo)){
+                $(".bootgrid-header .search-field").val(_editVideo.id);
+                // Opcional: Execute uma busca automaticamente com o valor padrão
+                grid.bootgrid("search", _editVideo.id);
+            }
+
             /* Executes after data is loaded and rendered */
             grid.find(".command-edit").on("click", function(e) {
                     waitToSubmit = true;
