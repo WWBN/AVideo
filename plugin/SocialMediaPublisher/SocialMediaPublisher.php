@@ -51,8 +51,9 @@ class SocialMediaPublisher extends PluginAbstract
     );
 
     //const RESTREAMER_URL = 'https://restream.ypt.me/';
-    const RESTREAMER_URL = 'http://localhost:81/Restreamer/';
-
+    //const RESTREAMER_URL = 'http://localhost:81/Restreamer/';
+    const RESTREAMER_URL = 'https://vlu.me:444/Restreamer/';
+    
     public function getTags()
     {
         return [

@@ -388,6 +388,13 @@ if (!class_exists('Video')) {
         {
             AVideoPlugin::onVideoSetLive_transmitions_history_id($this->id, $this->live_transmitions_history_id, intval($live_transmitions_history_id));
             $this->live_transmitions_history_id = intval($live_transmitions_history_id);
+           
+            if (empty($this->id) && AVideoPlugin::isEnabledByName('LiveUsers')) {
+                $lt = new LiveTransmitionHistory($this->live_transmitions_history_id);
+                $totalViews = LiveUsers::getTotalUsers( $lt->getKey(), $lt->getLive_servers_id());
+                $this->setViews_count($totalViews);
+            }
+
         }
 
         public function getEncoderURL()
@@ -5168,6 +5175,11 @@ if (!class_exists('Video')) {
         public function getViews_count()
         {
             return intval($this->views_count);
+        }
+
+        public function setViews_count($views_count)
+        {
+            $this->views_count = intval($views_count);
         }
 
         public static function get_clean_title($videos_id)
