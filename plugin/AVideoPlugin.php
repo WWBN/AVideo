@@ -3133,6 +3133,22 @@ class AVideoPlugin
         }
         return true;
     }
+
+    public static function videoHLSProtectionByPass($videos_id)
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                if($p->videoHLSProtectionByPass($videos_id)){
+                    return true;
+                }
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return false;
+    }
 }
 
 class YouPHPTubePlugin extends AVideoPlugin

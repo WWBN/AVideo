@@ -913,6 +913,10 @@ abstract class PluginAbstract {
         return true;
     }
 
+    function videoHLSProtectionByPass($videos_id) {
+        return false;
+    }
+
 }
 
 class PluginPermissionOption {
