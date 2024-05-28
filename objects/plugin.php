@@ -228,7 +228,8 @@ class Plugin extends ObjectYPT
         if ($comparePluginVersion) {
             $pluginsMarketplace = ObjectYPT::getSessionCache('getAvailablePlugins', 600); // 10 min cache
             if (empty($pluginsMarketplace)) {
-                $pluginsMarketplace = _json_decode(url_get_contents("https://tutorials.wwbn.net/info?version=1", "", 2));
+                //$pluginsMarketplace = _json_decode(url_get_contents("https://tutorials.wwbn.net/info?version=1", "", 2));
+                $pluginsMarketplace = _json_decode(url_get_contents("https://youphp.tube/marketplace/plugins.json.php", "", 2));
                 if (!empty($pluginsMarketplace)) {
                     ObjectYPT::setSessionCache('getAvailablePlugins', $pluginsMarketplace);
                 }
@@ -269,7 +270,7 @@ class Plugin extends ObjectYPT
                         $obj->pluginMenu = $p->getPluginMenu();
                         $obj->tags = $p->getTags();
                         $obj->pluginversion = $p->getPluginVersion();
-                        $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace->plugins->{$obj->uuid}) ? $pluginsMarketplace->plugins->{$obj->uuid}->pluginversion : 0);
+                        $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace->{$obj->name}) ? $pluginsMarketplace->{$obj->name}->version : 0);
                         $obj->pluginversionCompare = (!empty($obj->pluginversionMarketPlace) ? version_compare($obj->pluginversion, $obj->pluginversionMarketPlace) : 0);
                         $obj->permissions = $obj->enabled ? Permissions::getPluginPermissions($obj->id) : [];
                         if (User::isAdmin()) {
