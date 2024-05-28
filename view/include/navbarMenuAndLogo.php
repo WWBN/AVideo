@@ -1,6 +1,6 @@
 <li>
     <ul class="left-side">
-        <li style="max-width: 80px;">
+        <li style="max-width: 80px; max-height: 35px;">
             <div class="btn-group justified">
                 <button type="button" id="menuBackButton" class="btn btn-default" onclick="window.history.back();" data-toggle="tooltip" title="<?php echo __('Back'); ?>" data-placement="bottom">
                     <i class="fa-solid fa-chevron-left"></i>
