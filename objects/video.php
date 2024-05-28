@@ -389,10 +389,13 @@ if (!class_exists('Video')) {
             AVideoPlugin::onVideoSetLive_transmitions_history_id($this->id, $this->live_transmitions_history_id, intval($live_transmitions_history_id));
             $this->live_transmitions_history_id = intval($live_transmitions_history_id);
            
-            if (empty($this->id) && AVideoPlugin::isEnabledByName('LiveUsers')) {
-                $lt = new LiveTransmitionHistory($this->live_transmitions_history_id);
-                $totalViews = LiveUsers::getTotalUsers( $lt->getKey(), $lt->getLive_servers_id());
-                $this->setViews_count($totalViews);
+            if (empty($this->id)) {
+                $obj = AVideoPlugin::getDataObjectIfEnabled('LiveUsers');
+                if(!empty($obj) && !empty($obj->saveTotalViewsWhenSaveARecordedLive)){
+                    $lt = new LiveTransmitionHistory($this->live_transmitions_history_id);
+                    $totalViews = LiveUsers::getTotalUsers( $lt->getKey(), $lt->getLive_servers_id());
+                    $this->setViews_count($totalViews);
+                }
             }
 
         }
