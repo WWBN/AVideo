@@ -132,6 +132,23 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
     .typeLabels span {
         width: 100% !important;
     }
+
+    body.youtube .bootgrid-table {
+        table-layout: auto;
+    }
+
+    body.compact .hideIfCompact {
+        display: none;
+    }
+
+    body.compact .scrollIfCompact {
+        max-height: 90px;
+        overflow-y: scroll;
+    }
+
+    body.compact #grid img {
+        max-height: 50px !important;
+    }
 </style>
 <script>
     var filterStatus = '';
@@ -500,6 +517,35 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
                     </ul>
                 </div>
             </div>
+            <div class="material-switch pull-right" style="margin-right: 20px; margin-top: 10px;">
+                <?php echo __('Compact Mode'); ?>
+                <input class="" data-toggle="toggle" type="checkbox" id="compactMode" >
+                <label for="compactMode" class="label-success" style="margin-left: 10px;"></label>
+            </div>
+            <script>
+                $(document).ready(function() {
+                    // Check if the compact mode cookie exists and apply the class
+                    if (Cookies.get('compactMode') === 'on') {
+                        $('body').addClass('compact');
+                        $('#compactMode').prop('checked', true);
+                    }
+
+                    // Toggle compact mode on checkbox change
+                    $('#compactMode').change(function() {
+                        if ($(this).is(':checked')) {
+                            $('body').addClass('compact');
+                            Cookies.set('compactMode', 'on', {
+                                expires: 7
+                            }); // Cookie expires in 7 days
+                        } else {
+                            $('body').removeClass('compact');
+                            Cookies.set('compactMode', 'off', {
+                                expires: 7
+                            });
+                        }
+                    });
+                });
+            </script>
         </div>
         <div class="panel-body">
 
@@ -1497,9 +1543,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
             return (bytes / 1000).toFixed(2) + ' KB';
         }
-        if(!empty(_editVideo)){
-                waitToSubmit = true;
-                editVideo(_editVideo);
+        if (!empty(_editVideo)) {
+            waitToSubmit = true;
+            editVideo(_editVideo);
         }
 
         $('#linkExternalVideo').click(function() {
@@ -1780,7 +1826,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
                     var bigButtons = _edit + _thumbnail + _download;
 
-                    return playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + editLikes + bigButtons + pluginsButtons + download + nextIsSet;
+                    return '<div class="scrollIfCompact">' + playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + editLikes + bigButtons + pluginsButtons + download + nextIsSet + '<div>';
                 },
                 "tags": function(column, row) {
                     var tags = '';
@@ -1824,7 +1870,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         }, 1000);
                     }
 
-                    return tags;
+                    return '<div class="tagsContainer scrollIfCompact">' + tags + '</div>';
                 },
                 "filesize": function(column, row) {
                     return formatFileSize(row.filesize);
@@ -1897,7 +1943,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     <?php
                     if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     ?>
-                        var playList = "<hr><div class='videoPlaylist' videos_id='" + row.id + "' id='videoPlaylist" + row.id + "' style='height:200px; overflow-y: scroll; padding:10px 5px;'></div>";
+                        var playList = "<hr class='hideIfCompact'><div class='videoPlaylist hideIfCompact' videos_id='" + row.id + "' id='videoPlaylist" + row.id + "' style='height:200px; overflow-y: scroll; padding:10px 5px;'></div>";
                     <?php
                     } else {
                     ?>
@@ -1908,7 +1954,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     //img = img + '<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> ' + row.duration + '</div>';
                     var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
                     var buttonTitleLink = '<a href="' + row.link + '" class="btn btn-default btn-block titleBtn" style="overflow: hidden;" target="_top">' + img + '<br>' + type + row.title + '</a>';
-                    return '<div>' + buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList + '</div>';
+                    return '<div>' + buttonTitleLink + tags + "<div class='clearfix hideIfCompact'></div><div class='gridYTPluginButtons hideIfCompact'>" + yt + pluginsButtons + "</div>" + playList + '</div>';
                 }
 
 
@@ -1936,7 +1982,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     //$(this).html($(this).attr('videos_id'));
                 });
             }
-            if(!empty(_editVideo)){
+            if (!empty(_editVideo)) {
                 $(".bootgrid-header .search-field").val(_editVideo.id);
                 // Opcional: Execute uma busca automaticamente com o valor padrão
                 grid.bootgrid("search", _editVideo.id);
