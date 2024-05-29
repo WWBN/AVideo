@@ -125,7 +125,7 @@ rm -R /var/www/html/AVideo/videos/cache
 
 echo "entrypoint -- Reset log"
 echo '' > /var/www/html/AVideo/videos/avideo.log
-chmod 777 /var/www/html/AVideo/videos/avideo.log
+chown -R www-data:www-data /var/www/html/AVideo/videos/
 
 echo "entrypoint -- Deny access to .compose"
 echo "Deny from all" > /var/www/html/AVideo/.compose/.htaccess
@@ -138,9 +138,9 @@ cd /var/www/html/AVideo/Encoder/ && git pull && cd install && php install.php ht
 
 echo "entrypoint -- Running reencodeAllVideos script..."
 cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
+chown -R www-data:www-data /var/www/html/AVideo/Encoder/videos/
 
-echo '127.0.0.1       vlu.me' >> /etc/hosts
-echo '127.0.0.1       www.vlu.me' >> /etc/hosts
+echo "127.0.0.1       ${SERVER_NAME}  www.${SERVER_NAME}" >> /etc/hosts
 
 echo "entrypoint -- Starting cron service..."
 cron
