@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   avideo:
@@ -25,12 +25,10 @@ services:
         WEBSITE_TITLE: ${WEBSITE_TITLE}
         MAIN_LANGUAGE: ${MAIN_LANGUAGE}
     restart: "unless-stopped"
-    # tmpfs:
-    #  - /var/www/memfolder:rw,size=512M
     environment:
       SOCKET_PORT: ${SOCKET_PORT:-2053}
       HTTP_PORT: ${HTTP_PORT:-80}
-      HTTPS_PORT: ${HTTP_PORT:-443}
+      HTTPS_PORT: ${HTTPS_PORT:-443}
       DB_MYSQL_HOST: "${DB_MYSQL_HOST:-database}"
       DB_MYSQL_PORT: ${DB_MYSQL_PORT:-3306}
       DB_MYSQL_NAME: "${DB_MYSQL_NAME:-avideo}"
@@ -58,7 +56,6 @@ services:
       - "${HTTP_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"
     volumes:
-      # - "./.compose/tmp:/var/www/tmp"
       - "./.compose/HLS:/HLS"
       - "./:/var/www/html/AVideo"
       - "./.compose/videos:/var/www/html/AVideo/videos"
@@ -76,6 +73,11 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPUS_LIMIT:-4}"
+          memory: "${MEMORY_LIMIT:-16G}"
     networks:
       - app_net
 
@@ -85,7 +87,6 @@ services:
       dockerfile: Dockerfile.live
     restart: "unless-stopped"
     volumes:
-      # - "./.compose/tmp:/var/www/tmp"
       - "./.compose/HLS:/HLS"
       - "./.compose/letsencrypt:/etc/letsencrypt/"
     environment:
@@ -115,6 +116,11 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPUS_LIMIT:-2}"
+          memory: "${MEMORY_LIMIT:-8G}"
     networks:
       - app_net
 
@@ -130,11 +136,18 @@ services:
     volumes:
       - ./.compose/db:/var/lib/mysql
     healthcheck:
-      #test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
-      test: "mariadb-admin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD"
+      test: "mariadb-admin ping -h localhost -u $DB_MYSQL_USER -p$DB_MYSQL_PASSWORD"
       interval: 30s
       timeout: 10s
       retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: "4G"
+        reservations:
+          cpus: '1'
+          memory: '1G'
     networks:
       - app_net
 
@@ -150,15 +163,13 @@ services:
     volumes:
       - ./.compose/db_encoder:/var/lib/mysql
     healthcheck:
-      #test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
-      test: "mariadb-admin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD"
+      test: "mariadb-admin ping -h localhost -u $DB_MYSQL_USER -p$DB_MYSQL_PASSWORD"
       interval: 30s
       timeout: 10s
       retries: 3
     networks:
       - app_net
 
-  #http://localhost:8081
   phpmyadmin:
     image: "phpmyadmin/phpmyadmin"
     restart: "unless-stopped"
@@ -175,7 +186,6 @@ services:
     networks:
       - app_net
 
-  #http://localhost:8082
   phpmyadmin_encoder:
     image: "phpmyadmin/phpmyadmin"
     restart: "unless-stopped"
@@ -199,17 +209,20 @@ services:
       sh -c "memcached -m 128 -c 1024 -t $(nproc) -vv"
     ports:
       - "11211:11211"
-    networks:
-      - app_net
     deploy:
       resources:
         limits:
-          cpus: '1.0'
-          memory: '256M'
+          cpus: "${CPUS_LIMIT:-1}"
+          memory: "${MEMORY_LIMIT:-256M}"
         reservations:
           cpus: '0.5'
           memory: '128M'
+    networks:
+      - app_net
 
 networks:
   app_net:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
