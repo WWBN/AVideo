@@ -42,7 +42,7 @@ if (empty($videos_id)) {
                     <tr>
                         <th>#</th>
                         <th><?php echo __("Share on Social Media"); ?></th>
-                        <th><?php echo __("Provider"); ?></th>
+                        <th></th>
                         <th><?php echo __("Profile"); ?></th>
                         <th><?php echo __("Expires in"); ?></th>
                         <th><?php echo __("Connection"); ?></th>
@@ -52,7 +52,7 @@ if (empty($videos_id)) {
                     <tr>
                         <th>#</th>
                         <th><?php echo __("Share on Social Media"); ?></th>
-                        <th><?php echo __("Provider"); ?></th>
+                        <th></th>
                         <th><?php echo __("Profile"); ?></th>
                         <th><?php echo __("Expires in"); ?></th>
                         <th><?php echo __("Connection"); ?></th>
@@ -104,7 +104,7 @@ if (empty($videos_id)) {
                     "data": "name",
                     render: function(data, type, row) {
                         // You can return different data based on the content
-                        return '<div class="' + row.details.iconClass + ' largeSocialIcon">' + row.details.ico + ' ' + row.details.label + '</div>'; // Example dynamic content
+                        return '<div class="' + row.details.iconClass + ' largeSocialIcon">' + row.details.ico +'</div>'; // Example dynamic content
                     }
                 },
                 {

@@ -17,8 +17,8 @@ if (!User::canUpload()) {
             <?php
             foreach (SocialMediaPublisher::SOCIAL_TYPES as $value) {
             ?>
-                <button type="button" class="btn btn-default <?php echo $value['iconClass']; ?> largeSocialIcon" onclick="openYPT('<?php echo $value['name']; ?>')">
-                    <?php echo $value['ico']; ?>
+                <button type="button" class="btn btn-default <?php echo $value['iconClass']; ?> " onclick="openYPT('<?php echo $value['name']; ?>')">
+                    <div class="largeSocialIcon"><?php echo $value['ico']; ?></div>
                     <?php echo $value['label']; ?>
                 </button>
             <?php
