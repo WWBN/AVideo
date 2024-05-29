@@ -11,7 +11,7 @@ foreach (CustomizeUser::getSocialMedia() as $platform => $details) {
             <?php echo $details['label']; ?>
         </label>
         <div class="col-md-8 inputGroupContainer">
-            <div class="input-group">
+            <div class="input-group largeSocialIcon">
                 <span class="input-group-addon"><i class="<?php echo $details['icon']; ?>"></i></span>
                 <input id="user<?php echo ucfirst($platform); ?>" platform="<?php echo $platform; ?>" 
                 placeholder="<?php echo $details['placeholder']; ?>" 

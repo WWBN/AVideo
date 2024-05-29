@@ -1,7 +1,7 @@
 <?php
 $restreamerURL = 'http://localhost/Restreamer/';
 $restreamerURL = 'http://127.0.0.1/Restreamer/';
-if(empty($global['local_test_server'])){
+if (empty($global['local_test_server'])) {
     $restreamerURL = 'https://restream.ypt.me/';
 }
 
@@ -9,18 +9,20 @@ if (!Live::canRestream()) {
     return false;
 }
 ?>
-<button type="button" class="btn btn-default" onclick="openRestream('facebook')">
-    <i class="fab fa-facebook-f"></i>
-    Facebook
-</button>
-<button type="button" class="btn btn-default" onclick="openRestream('youtube')">
-    <i class="fab fa-youtube"></i>
-    YouTube
-</button>
-<button type="button" class="btn btn-default" onclick="openRestream('twitch')">
-    <i class="fab fa-twitch"></i>
-    Twitch
-</button>
+<div class="social-network">
+    <button type="button" class="btn btn-default icoFacebook" onclick="openRestream('facebook')">
+        <i class="fab fa-facebook-f mediumSocialIcon"></i><br>
+        Facebook
+    </button>
+    <button type="button" class="btn btn-default icoYoutube " onclick="openRestream('youtube')">
+        <i class="fab fa-youtube mediumSocialIcon"></i><br>
+        YouTube
+    </button>
+    <button type="button" class="btn btn-default icoTwitch" onclick="openRestream('twitch')">
+        <i class="fab fa-twitch mediumSocialIcon"></i><br>
+        Twitch
+    </button>
+</div>
 <!--
 <button type="button" class="btn btn-default" onclick="openRestream('')">
     <i class="fas fa-cog"></i>
@@ -34,7 +36,7 @@ if (!Live::canRestream()) {
     var eventer = window[eventMethod];
     var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
     // Listen for a message from the iframe.
-    eventer(messageEvent, function (e) {
+    eventer(messageEvent, function(e) {
         console.log('EventListener restreamer', e.data);
         if (e.data.stream_key && e.data.name) {
             saveRestreamer(e.data.stream_key, e.data.stream_url, e.data.name, e.data.parameters);
@@ -42,16 +44,20 @@ if (!Live::canRestream()) {
     }, false);
 
     var restreamWin;
+
     function openRestream(provider) {
         restreamPopupOpened = 1;
         modal.showPleaseWait();
         $('#newLive_restreamsLink').trigger("click");
-        var url = "<?php  echo $restreamerURL; ?>" + provider;
+        var url = "<?php echo $restreamerURL; ?>confirm/" + provider;
         var name = "theRestreamerPopUp";
-        var params = {title: $('#title').val(), description: $('#description').val()};
+        var params = {
+            title: $('#title').val(),
+            description: $('#description').val()
+        };
         var strWindowFeatures = "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800";
         restreamWin = openWindowWithPost(url, name, params, strWindowFeatures);
-        var pollTimer = window.setInterval(function () {
+        var pollTimer = window.setInterval(function() {
             if (restreamWin.closed !== false) { // !== is required for compatibility with Opera
                 window.clearInterval(pollTimer);
                 modal.hidePleaseWait();

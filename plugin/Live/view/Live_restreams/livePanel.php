@@ -15,7 +15,7 @@ if (!Live::canRestream()) {
         include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/livePanelForm.php';
         ?>
     </div>
-    <div class="panel-footer">
+    <div class="panel-footer clearfix">
         <?php
         include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/getLiveKey.php';
         ?>

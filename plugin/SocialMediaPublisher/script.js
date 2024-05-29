@@ -9,7 +9,7 @@ var yptWin;
 function openYPT(provider) {
     yptPopupOpened = 1;
     modal.showPleaseWait();
-    var url = yptURL + provider;
+    var url = yptURL + 'confirm/'+provider;
     var name = "theYPTPopUp";
     var params = {
         title: $('#title').val(),

@@ -104,7 +104,7 @@ if (empty($videos_id)) {
                     "data": "name",
                     render: function(data, type, row) {
                         // You can return different data based on the content
-                        return '<div class="' + row.details.iconClass + '">' + row.details.ico + ' ' + row.details.label + '</div>'; // Example dynamic content
+                        return '<div class="' + row.details.iconClass + ' largeSocialIcon">' + row.details.ico + ' ' + row.details.label + '</div>'; // Example dynamic content
                     }
                 },
                 {

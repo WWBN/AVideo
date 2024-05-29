@@ -105,7 +105,7 @@ class Live_restreams extends ObjectYPT {
                 $row['token_expired'] = self::checkIfTokenIsExpired($row['parameters']);
                 $row['provider'] = self::getProviderName($row['parameters']);
                 if ($row['token_expired']->needToRevalidate) {
-                    $row['revalidateButton'] = '<button class="btn btn-primary btn-xs" onclick="openRestream(\''.$row['provider'].'\');"><i class="fas fa-sync"></i> '.__("Revalidate").'</button>';
+                    $row['revalidateButton'] = '<button class="btn btn-primary btn-xs mediumSocialIcon" onclick="openRestream(\''.$row['provider'].'\');"><i class="fas fa-sync"></i> '.__("Revalidate").'</button>';
                 } else {
                     $row['revalidateButton'] = '<i class="fas fa-check text-success"></i>';
                 }

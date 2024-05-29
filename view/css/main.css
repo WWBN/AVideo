@@ -2062,3 +2062,15 @@ body.ypt-is-compressed #videoCol {
 .displayJsonAsHtml .panel .panel-body{
     padding: 3px 6px;
 }
+
+.largeSocialIcon{
+    font-size: 2em;
+}
+
+.input-group.largeSocialIcon i{
+    font-size: 1.5em;
+}
+
+.mediumSocialIcon{
+    font-size: 1.5em;
+}

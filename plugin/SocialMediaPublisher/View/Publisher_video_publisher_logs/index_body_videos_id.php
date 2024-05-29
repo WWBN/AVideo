@@ -42,7 +42,7 @@ if (!User::canUpload()) {
                 {
                     data: 'name',
                     render: function(data, type, row) {
-                        return row.provider.ico;
+                        return '<div class="largeSocialIcon">'+row.provider.ico+'</div>';
                     }
                 },
                 {
