@@ -142,6 +142,10 @@ RUN /usr/local/bin/configure-php.sh
 # Add Apache configuration
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
+# Redirect Apache logs to stdout and stderr
+RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
+    ln -sf /proc/self/fd/2 /var/log/apache2/error.log
+
 # Create directory and set permissions
 RUN mkdir -p /var/www/tmp && \
     chown www-data:www-data /var/www/tmp && \
