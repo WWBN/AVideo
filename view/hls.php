@@ -72,6 +72,7 @@ $newContent = '';
 // if is using a CDN I can not check if the user is logged
 if (isAVideoUserAgent() || isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id']) || User::canWatchVideoWithAds($video['id']) || isCDN()) {
     if (!empty($_GET['download'])) {
+        _error_log("Download file {$_GET['file']}");
         downloadHLS($_GET['file']);
     } elseif (!empty($_GET['playHLSasMP4'])) {
         playHLSasMP4($_GET['file']);

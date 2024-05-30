@@ -76,8 +76,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "${CPUS_LIMIT:-4}"
-          memory: "${MEMORY_LIMIT:-16G}"
+          cpus: "${CPUS_LIMIT:-3}"
+          memory: "${MEMORY_LIMIT:-8G}"
+        reservations:
+          cpus: "${CPUS_LIMIT:-1}"
+          memory: "${MEMORY_LIMIT:-2G}"
     networks:
       - app_net
 
@@ -119,8 +122,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "${CPUS_LIMIT:-2}"
-          memory: "${MEMORY_LIMIT:-8G}"
+          cpus: "2"
+          memory: "4G"
+        reservations:
+          cpus: "1"
+          memory: "2G"
     networks:
       - app_net
 
@@ -144,10 +150,10 @@ services:
       resources:
         limits:
           cpus: "2"
-          memory: "4G"
+          memory: "10G"
         reservations:
           cpus: '1'
-          memory: '1G'
+          memory: '4G'
     networks:
       - app_net
 
@@ -167,6 +173,11 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "1G"
     networks:
       - app_net
 
@@ -183,6 +194,11 @@ services:
       - "${PHPMYADMIN_PORT:-8081}:80"
     depends_on:
       - database
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: "1G"
     networks:
       - app_net
 
@@ -199,6 +215,11 @@ services:
       - "${PHPMYADMIN_ENCODER_PORT:-8082}:80"
     depends_on:
       - database_encoder
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: "1G"
     networks:
       - app_net
 
@@ -212,11 +233,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "${CPUS_LIMIT:-1}"
-          memory: "${MEMORY_LIMIT:-256M}"
+          cpus: '1'
+          memory: "4G"
         reservations:
           cpus: '0.5'
-          memory: '128M'
+          memory: '512M'
     networks:
       - app_net
 
