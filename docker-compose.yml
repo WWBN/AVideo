@@ -229,7 +229,7 @@ services:
     command: >
       sh -c "memcached -m 128 -c 1024 -t $(nproc) -vv"
     ports:
-      - "11211:11211"
+      - "${MEMCACHE_PORT:-11211}:11211"
     deploy:
       resources:
         limits:
