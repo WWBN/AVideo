@@ -1570,12 +1570,17 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public function createCacheStatsObject($live_servers_id = 0, $requestStatsTimout = 15)
     {
         if (!function_exists('simplexml_load_file')) {
-            _error_log("Live::getStatsObject: You need to install the simplexml_load_file function to be able to see the Live stats", AVideoLog::$ERROR);
+            _error_log("Live::createCacheStatsObject: You need to install the simplexml_load_file function to be able to see the Live stats", AVideoLog::$ERROR);
             return false;
         }
         global $global;
         if (!isset($global['isStatsAccessible'])) {
             $global['isStatsAccessible'] = array();
+        }
+        
+        if(!AVideoPlugin::isEnabled('Live')){
+            _error_log("Live::createCacheStatsObject: live plugin is disabled", AVideoLog::$DEBUG);
+            return false;
         }
         $name = "live_servers_id_{$live_servers_id}_getStatsObject";
         $cacheHandler = new LiveCacheHandler();
