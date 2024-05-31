@@ -1579,7 +1579,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         
         if(!AVideoPlugin::isEnabled('Live')){
-            _error_log("Live::createCacheStatsObject: live plugin is disabled", AVideoLog::$DEBUG);
+            _error_log("Live::createCacheStatsObject: live plugin is disabled ".json_encode(debug_backtrace()), AVideoLog::$DEBUG);
             return false;
         }
         $name = "live_servers_id_{$live_servers_id}_getStatsObject";
