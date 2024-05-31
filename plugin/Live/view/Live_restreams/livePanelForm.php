@@ -116,7 +116,7 @@ if (!Live::canRestream()) {
                             var json = JSON.parse(row.parameters);
                             //console.log('Live_restreamstableVar parameters', json);
                             if (!empty(json['restream.ypt.me'])) {
-                                return '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/getLiveKey.json.php?live_restreams_id=' + row.id + '" target="_blank">' + data + '</a>';
+                                return '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/getLiveKey.json.php?live_restreams_id=' + row.id + '" target="_blank" style="color:#000;">' + data + '</a>';
                             }
 
                         }
