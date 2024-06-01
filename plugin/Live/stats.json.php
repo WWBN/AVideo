@@ -53,4 +53,5 @@ if (!empty($_REQUEST['name'])) {
     }
     TimeLogEnd($timeName, __LINE__);
 }
+//var_dump($json);exit;
 echo json_encode($json);
