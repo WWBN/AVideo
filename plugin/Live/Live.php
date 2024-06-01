@@ -1537,7 +1537,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (!isset($getStatsObject)) {
             $getStatsObject = [];
         }
-        if (empty($force_recreate)) {
+        if (empty($force_recreate) && empty($_REQUEST['debug'])) {
             //_error_log("Live::getStatsObject[$live_servers_id] 1: searching for cache");
             if (isset($getStatsObject[$live_servers_id])) {
                 //_error_log("Live::getStatsObject[$live_servers_id] 2: return cached result");
@@ -1591,10 +1591,18 @@ Click <a href=\"{link}\">here</a> to join our live.";
         } else {
             $url = $this->getStatsURL($live_servers_id);
         }
+
+        
+        if(!empty($_REQUEST['debug'])){
+            _error_log("Live::getStatsObject $url ");
+        }
+
         $data = $this->get_data($url,  $requestStatsTimout);
         if (empty($data)) {
             _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE requestStatsTimout={$requestStatsTimout} we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
             $data = '<?xml version="1.0" encoding="utf-8" ?><?xml-stylesheet type="text/xsl" href="stat.xsl" ?><rtmp><server><application><name>The RTMP Server is Unavailable</name><live><nclients>0</nclients></live></application></server></rtmp>';
+        }else if(!empty($_REQUEST['debug'])){
+            _error_log("Live::getStatsObject $data ");
         }
         $xml = simplexml_load_string($data);
         $xml = json_encode($xml);
