@@ -1959,12 +1959,13 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $getStatsLive, $_getStats, $getStatsObject;
         $timeName = "stats.json.php getStats";
         TimeLogStart($timeName);
-        if (empty($force_recreate)) {
+        if (empty($force_recreate) && empty($_REQUEST['debug'])) {
             if (isset($getStatsLive)) {
                 //_error_log('Live::getStats: return cached result');
                 return $getStatsLive;
             }
         }
+        
         TimeLogEnd($timeName, __LINE__);
         $obj = AVideoPlugin::getObjectData("Live");
         if (empty($obj->server_type->value)) {
@@ -1982,7 +1983,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
             TimeLogEnd($timeName, __LINE__);
             return $servers;
         } elseif (empty($obj->useLiveServers)) {
-            //_error_log("Live::getStats empty obj->useLiveServers}");
+            if(!empty($_REQUEST['debug'])){
+                _error_log("Live::getStats empty obj->useLiveServers}");;
+            }
+            //
             //_error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
             $getStatsLive = self::_getStats(0, $force_recreate);
             TimeLogEnd($timeName, __LINE__);
@@ -1992,7 +1996,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $rows = Live_servers::getAllActive();
             TimeLogEnd($timeName, __LINE__);
 
-            //_error_log("Live::getStats Live_servers::getAllActive total=" . count($rows));
+            if(!empty($_REQUEST['debug'])){
+                _error_log("Live::getStats Live_servers::getAllActive total=" . count($rows));
+            }
             $liveServers = [];
             foreach ($rows as $key => $row) {
                 if (!empty($row['playerServer'])) {
@@ -2038,7 +2044,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
         }
         TimeLogEnd($timeName, __LINE__);
-        //_error_log("Live::getStats return " . json_encode($liveServers));
+        if(!empty($_REQUEST['debug'])){
+            _error_log("Live::getStats return " . json_encode($liveServers));;
+        }
         $_REQUEST['live_servers_id'] = $getLiveServersIdRequest;
         $getStatsLive = $liveServers;
         return $liveServers;

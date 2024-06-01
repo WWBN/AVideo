@@ -5320,7 +5320,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     $isLiveEnabled = AVideoPlugin::isEnabledByName('Live');
     $cacheHandler = new LiveCacheHandler();
     unset($_POST['sort']);
-    if ($force_recreate) {
+    if ($force_recreate || !empty($_REQUEST['debug'])) {
         if ($isLiveEnabled) {
             deleteStatsNotifications();
             TimeLogEnd($timeName, __LINE__);
@@ -5333,7 +5333,9 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     }
     TimeLogEnd($timeName, __LINE__);
     if ($isLiveEnabled) {
-        //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        if(!empty($_REQUEST['debug'])){
+            _error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        }
         $json = Live::getStats();
         $json = object_to_array($json);
         // make sure all the applications are listed on the same array, even from different live servers
