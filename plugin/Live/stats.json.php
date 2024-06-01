@@ -26,6 +26,7 @@ if (empty($pobj)) {
 $timeName = "stats.json.php";
 TimeLogStart($timeName);
 $json = getStatsNotifications();
+//var_dump($json);exit;
 TimeLogEnd($timeName, __LINE__);
 $json = object_to_array($json);
 TimeLogEnd($timeName, __LINE__);
