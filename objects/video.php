@@ -3531,13 +3531,13 @@ if (!class_exists('Video')) {
             $video = new Video("", "", $videos_id);
             $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
             $response['fans_only'] = $video->getStatus() === self::$statusFansOnly;
-            if ($response['fans_only'] && AVideoPlugin::isEnabled("FansSubscriptions")) {
+            if ($response['fans_only'] && AVideoPlugin::isEnabledByName("FansSubscriptions")) {
                 $response['fans_only_info'] = FansSubscriptions::getPlansFromUsersID($video->getUsers_id());
             }
             $response['password_protectd'] = $advancedCustomUser->userCanProtectVideosWithPassword && !empty($video->getVideo_password());
             $response['only_for_paid'] = !empty($video->getOnly_for_paid());
             $response['pay_per_view'] = $ppv && PayPerView::isVideoPayPerView($videos_id);
-            if ($response['pay_per_view'] && AVideoPlugin::isEnabled("PayPerView")) {
+            if ($response['pay_per_view'] && AVideoPlugin::isEnabledByName("PayPerView")) {
                 $response['pay_per_view_info'] = PayPerView::getAllPlansFromVideo($videos_id);
             }
             $response['user_groups'] = !Video::isPublic($videos_id);

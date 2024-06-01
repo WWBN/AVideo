@@ -723,7 +723,7 @@ class CustomizeUser extends PluginAbstract
                 forbiddenPage(__("Sorry, this video is private"));
             }
             /*
-              if (!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')) {
+              if (!AVideoPlugin::isEnabledByName('Gallery') && !AVideoPlugin::isEnabledByName('YouPHPFlix2') && !AVideoPlugin::isEnabledByName('YouTube')) {
               header("Location: {$global['webSiteRootURL']}user?msg=" . urlencode(__("Sorry, this video is private")));
               } else {
               header("Location: {$global['webSiteRootURL']}?msg=" . urlencode(__("Sorry, this video is private")));

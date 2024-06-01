@@ -2194,7 +2194,7 @@ function getPorts()
     $ports = array();
     $ports[80] = 'Apache http';
     $ports[443] = 'Apache https';
-    if(AVideoPlugin::isEnabled('Live')){  
+    if(AVideoPlugin::isEnabledByName('Live')){  
         $ports[8080] = 'NGINX http';
         $ports[8443] = 'NGINX https';
         $ports[1935] = 'RTMP';      
@@ -6905,7 +6905,7 @@ function rowToRoku($row)
     $video->videoType = Video::getVideoTypeText($row['filename']);
     $content->videos = [$video];
 
-    if (function_exists('getVTTTracks') || AVideoPlugin::isEnabled('SubtitleSwitcher')) {
+    if (function_exists('getVTTTracks') || AVideoPlugin::isEnabledByName('SubtitleSwitcher')) {
         $captions = getVTTTracks($row['filename'], true);
         if (!empty($captions)) {
             $content->captions = array();
