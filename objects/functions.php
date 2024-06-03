@@ -1705,6 +1705,52 @@ function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout =
     return $return;
 }
 
+function url_get_response($url)
+{
+    $responseObj = new stdClass();
+    $responseObj->error = true;
+    $responseObj->code = 0;
+    $responseObj->msg = '';
+    $responseObj->response = '';
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($ch, CURLOPT_HEADER, true); // Include the header in the output
+    curl_setopt($ch, CURLOPT_NOBODY, true); // Exclude the body from the output
+
+    $responseObj->response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $responseObj->code = $httpCode;
+
+    // Map of HTTP status codes to messages
+    $httpMessages = [
+        200 => "Success",
+        400 => "Bad request. Please check the parameters.",
+        401 => "Unauthorized. Please check your credentials.",
+        403 => "Forbidden. You don't have permission to access this resource.",
+        404 => "Not found. The stream key does not exist.",
+        500 => "Internal server error. Please try again later.",
+        502 => "Bad gateway. There might be an issue with the server.",
+        503 => "Service unavailable. The server is currently unable to handle the request.",
+    ];
+
+    if (array_key_exists($httpCode, $httpMessages)) {
+        $responseObj->msg = $httpMessages[$httpCode];
+        if ($httpCode == 200) {
+            $responseObj->error = false;
+        }
+    } else {
+        $responseObj->msg = "Unexpected error occurred.";
+    }
+
+    return $responseObj;
+}
+
+
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
