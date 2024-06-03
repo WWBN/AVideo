@@ -92,15 +92,44 @@ body.youtube.compressedMenu #leftMenuUser .leftMenuUserImg{
 }
 
 #sideBarContainer {
-    overflow: hidden;
-    position: absolute;
-    left: 0;
-    padding: 10px;
-    height: 100%;
-    width: 100%;
-    overflow-y: auto;
-    padding-right: 10px;
-    padding-right: 12px;
+	position: absolute;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	padding: 10px;
+	padding-right: 12px;
+	overflow-y: scroll;
+	mask-image: linear-gradient(to top, transparent, black),
+	linear-gradient(to left, transparent 17px, black 17px);
+	mask-size: 100% 20000px;
+	mask-position: left bottom;
+	-webkit-mask-image: linear-gradient(to top, transparent, black),
+	linear-gradient(to left, transparent 17px, black 17px);
+	-webkit-mask-size: 100% 20000px;
+	-webkit-mask-position: left bottom;
+	transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+}
+#sideBarContainer:hover {
+	-webkit-mask-position: left top;
+}
+#sideBarContainer {
+  /* Non-Standard, But More Styling-Capable Properties */
+	&::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: gray;
+		border-radius: 8px;
+	}
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	/* Standardized Properties */
+	@supports not selector(::-webkit-scrollbar) {
+		scrollbar-color: gray transparent;
+		scrollbar-width: thin;
+	}
 }
 
 /*
