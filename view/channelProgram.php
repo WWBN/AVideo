@@ -96,6 +96,7 @@ $_page->setExtraStyles(
         }
     ?>
         <br>
+        <!-- channelProgram -->
         <div class="panel panel-default program" playListId="<?php echo $program['id']; ?>">
             <div class="panel-heading clearfix" style="padding-left: 10px;">
                 <span class="badge pull-right"><?php echo $totalVideos; ?> <?php echo __('Videos'); ?></span>

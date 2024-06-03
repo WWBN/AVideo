@@ -113,7 +113,7 @@ unset($_POST['current']);
         $startC = microtime(true);
         $countSuccess++;
     ?>
-
+        <!-- channelPlaylistItems -->
         <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
             <div class="panel-heading clearfix">
                 <div class="pull-left">

@@ -145,6 +145,7 @@ class PlayerSkins extends PluginAbstract
                         class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered vjs-16-9" id="mainVideo">';
                 if ($video['type'] == Video::$videoTypeVideo) {
                     $sources = getSources($video['filename']);
+                    //var_dump($video['filename'], $sources);exit;
                     $htmlMediaTag .= "<!-- Video title={$video['title']} {$video['filename']} -->" . $sources; //var_dump($sources);exit;
                 } else { // video link
                     $url = AVideoPlugin::modifyURL($video['videoLink'], $video['id']);

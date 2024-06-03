@@ -1331,7 +1331,7 @@ function getSources($fileName, $returnArray = false, $try = 0)
     if ($returnArray) {
         $return = array_merge($videoSources, $audioTracks, $subtitleTracks,  $captionsTracks);
     } else {
-        $return = $videoSources . $audioTracks . $subtitleTracks.$captionsTracks;
+        $return = $videoSources . $audioTracks  . PHP_EOL . $subtitleTracks  . PHP_EOL . $captionsTracks;
     }
 
     $obj = new stdClass();

@@ -101,3 +101,4 @@ plugin/CustomizeUser/getMyAccount.php
 /plugin/Search/
 plugin/Vdatait/
 plugin/VideoPlaylistScheduler/
+install/bulkCreateUser.php
