@@ -131,7 +131,9 @@ services:
       - app_net
 
   database:
-    image: "mariadb:latest"
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb
     restart: "unless-stopped"
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
@@ -158,7 +160,9 @@ services:
       - app_net
 
   database_encoder:
-    image: "mariadb:latest"
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb
     restart: "unless-stopped"
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
@@ -246,4 +250,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: "${NETWORK_SUBNET:-172.21.1.0/24}"
+        - subnet: "${NETWORK_SUBNET:-172.21.1.0/16}"

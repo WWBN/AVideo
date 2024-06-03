@@ -1,0 +1,6 @@
+# File: Dockerfile.mariadb
+
+FROM mariadb:latest
+
+# Set correct permissions for /tmp directory
+RUN chmod 1777 /tmp
