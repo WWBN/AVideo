@@ -1265,7 +1265,23 @@ function avideoAlertOnceADay(title, msg, type, uid) {
     avideoAlertWithCookie(title, msg, type, uid, timeUntilMidnight / 24); // Convert time from hours to a fraction of a day
 }
 
+async function avideoConfirmCallBack(msg, confirmCallBackFunction, cancelCallBackFunction) {
+    const response = await avideoConfirm(msg);
 
+    if (response) {
+        if (typeof confirmCallBackFunction === 'function') {
+            confirmCallBackFunction(response);
+        } else {
+            console.log("confirmCallBackFunction is not a function");
+        }
+    } else {
+        if (typeof cancelCallBackFunction === 'function') {
+            cancelCallBackFunction(response);
+        } else {
+            console.log("cancelCallBackFunction is not a function");
+        }
+    }
+}
 
 async function avideoConfirm(msg) {
     var span = document.createElement("span");
