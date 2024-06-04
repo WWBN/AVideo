@@ -6,13 +6,13 @@ foreach (CustomizeUser::getSocialMedia() as $platform => $details) {
         continue;
     }
 ?>
-    <div class="form-group">
+    <div class="form-group social-network">
         <label class="col-md-4 control-label">
             <?php echo $details['label']; ?>
         </label>
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group largeSocialIcon">
-                <span class="input-group-addon"><i class="<?php echo $details['icon']; ?>"></i></span>
+                <span class="input-group-addon"><i class="<?php echo $details['icon']; ?> <?php echo $details['class']; ?> socialColor"></i></span>
                 <input id="user<?php echo ucfirst($platform); ?>" platform="<?php echo $platform; ?>" 
                 placeholder="<?php echo $details['placeholder']; ?>" 
                 class="form-control CustomizeUserSocialMedia" 

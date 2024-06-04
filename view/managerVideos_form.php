@@ -191,17 +191,37 @@
                                                 </li>
                                             <?php
                                             }
-                                            if (!empty($advancedCustomUser->userCanProtectVideosWithPassword) || Permissions::canAdminVideos()) {
                                             ?>
-                                                <li class="list-group-item">
-                                                    <label class="control-label" for="inputVideoPassword"><?php echo __("Password Protected"); ?></label>
-                                                    <input type="text" id="inputVideoPassword" class="form-control" placeholder="<?php echo __("Password"); ?>">
-                                                </li>
-                                                <?php
-                                            }
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <?php
+                                                    $col = 12;
+                                                    if (!empty($advancedCustomUser->userCanProtectVideosWithPassword) || Permissions::canAdminVideos()) {
+                                                        $col = 6;
+                                                    ?>
+                                                        <div class="col-sm-6">
+                                                            <label class="control-label" for="inputVideoPassword"><?php echo __("Password Protected"); ?></label>
+                                                            <input type="text" id="inputVideoPassword" class="form-control" placeholder="<?php echo __("Password"); ?>">
+                                                        </div>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    <div class="col-sm-<?php echo $col; ?>">
+                                                        <label for="videoStatus"><?php echo __('Video Status'); ?></label>
+                                                        <select class="form-control last" id="videoStatus">
+                                                            <?php
+                                                            foreach ($statusThatTheUserCanUpdate as $value) {
+                                                                echo "<option value=\"{$value[0]}\">" . __(Video::$statusDesc[$value[0]]) . "</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <?php
                                             if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdminVideos()) {
                                                 if ($advancedCustom->paidOnlyUsersTellWhatVideoIs || Permissions::canAdminVideos()) {
-                                                ?>
+                                            ?>
                                                     <li class="list-group-item">
                                                         <i class="fas fa-money-check-alt"></i> <?php echo __("Only Paid Users Can see"); ?>
                                                         <div class="material-switch pull-right">
@@ -288,7 +308,7 @@
                                         include $global['systemRootPath'] . 'view/managerVideos_owner.php';
                                         ?>
                                     </div>
-                                    
+
                                     <div class="col-md-2">
                                         <?php
                                         if (Permissions::canAdminVideos()) {

@@ -216,6 +216,21 @@ if (Permissions::canAdminVideos()) {
 TimeLogEnd(__FILE__, __LINE__);
 $resp = $obj->save(true);
 
+if(!empty($resp)){
+    if(!empty($_POST['videoStatus'])){
+        $found = false;
+        foreach ($statusThatTheUserCanUpdate as $key => $value) {
+            if($_POST['videoStatus'] == $value[0]){
+                $found = true;
+            }
+        }
+        if($found){
+            $obj = new Video('', '', @$_POST['id'], true);
+            $obj->setStatus(@$_POST['videoStatus']); 
+        }
+    }
+}
+
 if (isset($_REQUEST['playlists_id'])) {
     if (!PlayLists::canAddVideoOnPlaylist($resp)) {
         Playlists::addVideo($resp, $_REQUEST['playlists_id']);

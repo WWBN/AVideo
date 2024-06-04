@@ -1223,8 +1223,8 @@ class API extends PluginAbstract
      * @param array $parameters
      * 'videos_id' the video id that will be deleted
      * ['APISecret' if passed will not require user and pass]
-     * ['user' username of the user that will like the video]
-     * ['pass' password  of the user that will like the video]
+     * ['user' username of the user that will login]
+     * ['pass' password  of the user that will login]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
      * @return \ApiObject
      */
@@ -1257,8 +1257,8 @@ class API extends PluginAbstract
      * 'videos_id' the video that will receive the comment
      * ['id' the comment id if you will edit some]
      * ['APISecret' if passed will not require user and pass]
-     * ['user' username of the user that will like the video]
-     * ['pass' password  of the user that will like the video]
+     * ['user' username of the user that will login]
+     * ['pass' password  of the user that will login]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
      * @return \ApiObject
      */
@@ -1298,8 +1298,8 @@ class API extends PluginAbstract
      * 'comment' String with the comment
      * 'videos_id' the video that will retreive the comments
      * ['APISecret' if passed will not require user and pass]
-     * ['user' username of the user that will like the video]
-     * ['pass' password  of the user that will like the video]
+     * ['user' username of the user that will login]
+     * ['pass' password  of the user that will login]
      * ['rowCount' max numbers of rows]
      * ['current' current page]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
@@ -1335,8 +1335,8 @@ class API extends PluginAbstract
      * @param array $parameters
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
      * ['live_schedule_id' if you pass it will return a specific live_schedule record]
-     * 'user' username of the user that will like the video
-     * 'pass' password  of the user that will like the video
+     * 'user' username of the user that will login
+     * 'pass' password  of the user that will login
      * @return \ApiObject
      */
     public function get_api_live_schedule($parameters)
@@ -1364,8 +1364,8 @@ class API extends PluginAbstract
      * @param array $parameters
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
      * ['live_schedule_id' if you pass it will return a specific live_schedule record]
-     * 'user' username of the user that will like the video
-     * 'pass' password  of the user that will like the video
+     * 'user' username of the user that will login
+     * 'pass' password  of the user that will login
      * @return \ApiObject
      */
     public function set_api_live_schedule_delete($parameters)
@@ -1401,8 +1401,8 @@ class API extends PluginAbstract
      * 'scheduled_time' pass it in the YYYY-mm-dd HH:ii:ss format
      * 'status' a for active or i for inactive
      * 'scheduled_password' 
-     * 'user' username of the user that will like the video
-     * 'pass' password  of the user that will like the video
+     * 'user' username of the user that will login
+     * 'pass' password  of the user that will login
      * @return \ApiObject
      */
     public function set_api_live_schedule($parameters)
@@ -2026,8 +2026,8 @@ class API extends PluginAbstract
     /**
      * @param array $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
-     * 'user' username of the user that will like the video
-     * 'pass' password  of the user that will like the video
+     * 'user' username of the user that will login
+     * 'pass' password  of the user that will login
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123
      * @return \ApiObject
      */
@@ -2039,8 +2039,8 @@ class API extends PluginAbstract
     /**
      * @param array $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
-     * 'user' username of the user that will like the video
-     * 'pass' password  of the user that will like the video
+     * 'user' username of the user that will login
+     * 'pass' password  of the user that will login
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123
      * @return \ApiObject
      */
@@ -2052,8 +2052,8 @@ class API extends PluginAbstract
     /**
      * @param array $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
-     * 'user' username of the user that will like the video
-     * 'pass' password  of the user that will like the video
+     * 'user' username of the user that will login
+     * 'pass' password  of the user that will login
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123
      * @return \ApiObject
      */

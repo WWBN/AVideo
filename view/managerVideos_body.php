@@ -922,6 +922,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#inputVideoId').val(row.id);
         $('#inputTitle').val(row.title);
         $('#inputVideoPassword').val(row.video_password);
+        $('#videoStatus').val(row.status);
         $('#inputTrailer').val(row.trailer1);
         $('#inputCleanTitle').val(row.clean_title);
         $('#created').val(row.created);
@@ -1150,6 +1151,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 "title": $('#inputTitle').val(),
                 "trailer1": $('#inputTrailer').val(),
                 "video_password": $('#inputVideoPassword').val(),
+                "videoStatus": $('#videoStatus').val(),
                 "videoLink": $('#videoLink').val(),
                 "epg_link": $('#epg_link').val(),
                 "videoLinkType": $('#videoLinkType').val(),
@@ -1232,6 +1234,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#videoStartSeconds').val('00:00:00');
         $('#videoSkipIntroSecond').val('00:00:00');
         $('#inputVideoPassword').val("");
+        $('#videoStatus').val('a');
         $('#inputCleanTitle').val("");
         $('#created').val("");
         $('#inputDescription').val("");
