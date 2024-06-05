@@ -95,8 +95,10 @@ if (isset($_REQUEST['currentTime'])) {
         $obj2->currentTime = 0;
     }
     $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), $obj2->currentTime, $obj2->seconds_watching_video);
+    $obj2->updateStatistic = $_updateStatisticFailMessage;
 } else {
     $resp = 0;
+    $obj2->updateStatistic = false;
 }
 $count = $obj->getViews_count();
 
