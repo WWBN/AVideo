@@ -2,7 +2,7 @@
 
 class SocialUploader
 {
-    public static function upload($publisher_user_preferences_id, $videoPath, $title, $description, $isShort = false)
+    public static function upload($publisher_user_preferences_id, $videoPath, $title, $description, $visibility = 'public', $isShort = false)
     {
         $title = strip_tags($title);
         $description = strip_tags($description);
@@ -14,24 +14,24 @@ class SocialUploader
         try {
             switch ($pub->getProviderName()) {
                 case SocialMediaPublisher::SOCIAL_TYPE_YOUTUBE['name']:
-                    return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $isShort);
+                    return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $visibility, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_FACEBOOK['name']:
                     $json = json_decode($pub->getJson());
                     $pageId = $json->{'restream.ypt.me'}->facebook->broadcaster_id;
-                    return SocialUploader::uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $isShort);
+                    return SocialUploader::uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $visibility, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM['name']:
-                    //return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $isShort);
+                    //return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $visibility, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_TWITCH['name']:
-                    //return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $isShort);
+                    //return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $visibility, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_LINKEDIN['name']:
                     $json = json_decode($pub->getJson());
                     $urn = $json->{'restream.ypt.me'}->linkedin->urn;
                     $id = $json->{'restream.ypt.me'}->linkedin->profile_id;
-                    return SocialUploader::uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $isShort);
+                    return SocialUploader::uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $visibility, $isShort);
                     break;
             }
         } catch (\Throwable $th) {
@@ -52,11 +52,11 @@ class SocialUploader
         return false;
     }
 
-    private static function uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $isShort = false)
+    private static function uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $visibility = 'public', $isShort = false)
     {
         return LinkedInUploader::upload($accessToken, $urn, $id, $videoPath, $title, $description);
     }
-    private static function uploadYouTube($accessToken, $videoPath, $title, $description, $isShort = false)
+    private static function uploadYouTube($accessToken, $videoPath, $title, $description, $visibility = 'public', $isShort = false)
     {
         $title = _substr($title, 0, 90);
         $description = _substr($description, 0, 4000);
@@ -69,6 +69,7 @@ class SocialUploader
 
         $video = new Google_Service_YouTube_Video();
         $video->setSnippet(new Google_Service_YouTube_VideoSnippet());
+
         $video->getSnippet()->setTitle($title);
         if ($isShort) {
             $video->getSnippet()->setDescription($description . " #Shorts"); // Mark as a YouTube Short in the description
@@ -78,7 +79,7 @@ class SocialUploader
         //$video->getSnippet()->setTags(['tag1', 'tag2']);
         //$video->getSnippet()->setCategoryId('22'); // For example, 'People & Blogs'
         $video->setStatus(new Google_Service_YouTube_VideoStatus());
-        $video->getStatus()->setPrivacyStatus('public');
+        $video->getStatus()->setPrivacyStatus($visibility);
 
         $chunkSizeBytes = 1 * 1024 * 1024; // Define the size of each chunk
         $client->setDefer(true);
@@ -107,7 +108,7 @@ class SocialUploader
         return $status;
     }
 
-    private static function uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $isShort = false)
+    private static function uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $visibility = 'public', $isShort = false)
     {
         if ($isShort) {
             return FacebookUploader::uploadFacebookReels($accessToken, $pageId, $videoPath, $title, $description);

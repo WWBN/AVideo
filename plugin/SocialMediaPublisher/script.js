@@ -63,7 +63,7 @@ function checkIfIsConnected(id) {
     });
 }
 
-function uploadToSocial(id, videos_id) {
+function uploadToSocial(id, videos_id, title, description, visibility) {
 
     modal.showPleaseWait();
     $.ajax({
@@ -72,6 +72,9 @@ function uploadToSocial(id, videos_id) {
         data: {
             id: id,
             videos_id: videos_id,
+            title: title,
+            description: description,
+            visibility: visibility,
         },
         success: function (response) {
             modal.hidePleaseWait();

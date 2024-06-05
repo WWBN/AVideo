@@ -31,8 +31,30 @@ if (empty($videos_id)) {
             <div class="row">
                 <div class="col-sm-6">
                     <?php
-                    echo Video::getVideosListItem($videos_id);
+
+                    $value = Video::getVideoLight($videos_id);
+                    $thumbsImage = Video::getVideoImagewithHoverAnimationFromVideosId($value);
+                    echo $thumbsImage;
+                    //echo Video::getVideosListItem($videos_id);
                     ?>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="control-label" for="socialUploadtitle"><?php echo __('Title'); ?></label>
+                            <input type="text" id="socialUploadtitle" class="form-control" placeholder="<?php echo __('Title'); ?>" value="<?php echo $value['title']; ?>">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="socialUploadvisibility"><?php echo __('Visibility'); ?></label>
+                            <select class="form-control last" id="socialUploadvisibility">
+                                <option value="private"><?php echo __('Private'); ?></option>
+                                <option value="unlisted"><?php echo __('Unlisted'); ?></option>
+                                <option value="public"><?php echo __('Public'); ?></option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="control-label" for="socialUploaddescription"><?php echo __('Description'); ?></label>
+                            <textarea id="socialUploaddescription" class="form-control" placeholder="<?php echo __('Description'); ?>"><?php echo strip_tags($value['description']); ?></textarea>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-6">
                     <?php

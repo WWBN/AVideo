@@ -53,7 +53,7 @@ class SocialMediaPublisher extends PluginAbstract
     const RESTREAMER_URL = 'https://restream.ypt.me/';
     //const RESTREAMER_URL = 'http://localhost:81/Restreamer/';
     //const RESTREAMER_URL = 'https://vlu.me:444/Restreamer/';
-    
+
     public function getTags()
     {
         return [
@@ -267,12 +267,29 @@ class SocialMediaPublisher extends PluginAbstract
             _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName end conversion ");
         }
         _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName Upload start ");
-        $response = SocialUploader::upload($publisher_user_preferences_id, $videoPath, $video->getTitle(), $video->getDescription());
+
+        if (!empty($_REQUEST['title'])) {
+            $title = $_REQUEST['title'];
+        } else {
+            $title = $video->getTitle();
+        }
+        if (!empty($_REQUEST['description'])) {
+            $description = $_REQUEST['description'];
+        } else {
+            $description = $video->getDescription();
+        }
+        if (!empty($_REQUEST['visibility'])) {
+            $visibility = $_REQUEST['visibility'];
+        } else {
+            $visibility = 'public';
+        }
+
+        $response = SocialUploader::upload($publisher_user_preferences_id, $videoPath, $title, $description, $visibility);
         if (!empty($videoPathToYouTube)) {
             //unlink($videoPathToYouTube);
         }
-        _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName complete ".json_encode($response));
-        self::saveLog($publisher_social_medias_id, $videos_id, array('publisher_user_preferences_id' => $publisher_user_preferences_id, 'response'=>$response));
+        _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName complete " . json_encode($response));
+        self::saveLog($publisher_social_medias_id, $videos_id, array('publisher_user_preferences_id' => $publisher_user_preferences_id, 'response' => $response));
         return $response;
     }
 

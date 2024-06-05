@@ -198,7 +198,7 @@ if (empty($videos_id)) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Publisher_user_preferencestableVar.row(tr).data();
-            uploadToSocial(data.id, <?php echo $videos_id; ?>);
+            uploadToSocial(data.id, <?php echo $videos_id; ?>, $('#socialUploadtitle').val(), $('#socialUploaddescription').val(), $('#socialUploadvisibility').val());
         });
     });
 </script>
