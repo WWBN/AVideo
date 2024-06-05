@@ -468,7 +468,8 @@ abstract class ObjectYPT implements ObjectInterface
             'ai_transcribe_responses',
             'ai_responses_json',
             'playlists_schedules',
-            'videops_logs'
+            'videops_logs',
+            'videos_statistics'
         ];
         return in_array(static::getTableName(), $ignoreArray);
     }
