@@ -23,7 +23,7 @@ ALTER TABLE CachesInDB ADD FULLTEXT(name);
 
 -- Drop the unique index if it exists
 DROP PROCEDURE IF EXISTS DropUniqueIndexIfExists;
-DELIMITER //
+
 CREATE PROCEDURE DropUniqueIndexIfExists()
 BEGIN
     DECLARE index_exists INT DEFAULT 0;
@@ -41,8 +41,7 @@ BEGIN
         EXECUTE stmt;
         DEALLOCATE PREPARE stmt;
     END IF;
-END //
-DELIMITER ;
+END;
 
 -- Call the procedure to drop the index if it exists
 CALL DropUniqueIndexIfExists();
