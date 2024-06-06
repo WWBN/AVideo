@@ -142,6 +142,9 @@ function getUserAgentInfo(){
 
 function get_browser_name($user_agent = "")
 {
+    if(isCommandLineInterface()){
+        return 'Commandline';
+    }
     if (empty($user_agent)) {
         $user_agent = @$_SERVER['HTTP_USER_AGENT'];
     }
