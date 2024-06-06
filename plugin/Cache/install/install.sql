@@ -22,3 +22,10 @@ ALTER TABLE CachesInDB ADD FULLTEXT(name);
 
 ALTER TABLE CachesInDB 
 ADD UNIQUE `unique_cache_index`(`name`(250), `domain`(50), `ishttps`, `user_location`(50), `loggedType`);
+
+CREATE TABLE IF NOT EXISTS `cache_schedule_delete` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+ENGINE = InnoDB;

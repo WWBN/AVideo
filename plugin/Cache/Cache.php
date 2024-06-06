@@ -2,6 +2,7 @@
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Cache/Objects/CacheDB.php';
+require_once $global['systemRootPath'] . 'plugin/Cache/Objects/Cache_schedule_delete.php';
 
 class Cache extends PluginAbstract {
 
@@ -29,7 +30,7 @@ class Cache extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "7.0";
+        return "8.0";
     }
 
     public function getEmptyDataObject() {
@@ -419,7 +420,13 @@ class Cache extends PluginAbstract {
 
     public static function deleteFirstPageCache() {
         clearCache(true);
-        return CacheDB::deleteCacheStartingWith('firstPage');
+        return CacheDB::deleteCacheStartingWith('firstPage', false);
+    }
+
+    public static function deleteCacheDir($prefix){;
+        $dir = ObjectYPT::getTmpCacheDir() . $prefix;
+        $resp = exec("rm -R {$dir}");
+        return $resp;
     }
 
     public static function deleteOldCache($days, $limit = 5000) {
@@ -438,10 +445,18 @@ class Cache extends PluginAbstract {
         }
         return false;
     }
+
     function executeEveryMinute() {
         global $global;
         $global['systemRootPath'] . 'plugin/Cache/deleteStatistics.json.php';
         self::deleteOldCache(1);
+
+        $rows = Cache_schedule_delete::getAll();        
+        Cache_schedule_delete::truncateTable();
+        foreach ($rows as $row) {
+            CacheDB::deleteCacheStartingWith($row['name'], false);
+            self::deleteCacheDir($row['name']);
+        }
     }
 
 }

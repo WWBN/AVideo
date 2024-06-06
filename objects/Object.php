@@ -444,12 +444,39 @@ abstract class ObjectYPT implements ObjectInterface
         return false;
     }
 
+
+    public static function truncateTable()
+    {
+        global $global;
+
+        if (!self::ignoreTableSecurityCheck() && isUntrustedRequest("TRUNCATE " . static::getTableName())) {
+            return false;
+        }
+
+        // Attempt to truncate the table
+        $sql = "TRUNCATE TABLE " . static::getTableName();
+        $global['lastQuery'] = $sql;
+
+        $result = sqlDAL::writeSql($sql);
+        if ($result === false) {
+            // If truncation fails, delete all records
+            $sql = "DELETE FROM " . static::getTableName() . " WHERE id > 0";
+            $global['lastQuery'] = $sql;
+            return sqlDAL::writeSql($sql);
+        }
+
+        return $result;
+    }
+
+
     static function ignoreTableSecurityCheck()
     {
 
         $ignoreArray = [
             'vast_campaigns_logs',
-            'videos', 'CachesInDB',
+            'videos', 
+            'CachesInDB',
+            'cache_schedule_delete',
             'plugins',
             'users_login_history',
             'live_transmitions_history',
@@ -1131,31 +1158,35 @@ abstract class CacheHandler
         return $cache;
     }
 
-    public function deleteCache($clearFirstPageCache = false)
+    public function deleteCache($clearFirstPageCache = false, $schedule=true)
     {
         $timeLog = __FILE__ . "::deleteCache ";
         TimeLogStart($timeLog);
         $prefix = $this->getCacheSubdir();
         if (class_exists('CachesInDB')) {
             _error_log("deleteCache CachesInDB");
-            CacheDB::deleteCacheStartingWith($prefix);
+            CacheDB::deleteCacheStartingWith($prefix, $schedule);
         }
-        TimeLogEnd($timeLog, __LINE__);
-        _session_start();
-        TimeLogEnd($timeLog, __LINE__);
-        unset($_SESSION['user']['sessionCache']);
-        TimeLogEnd($timeLog, __LINE__);
-        if ($clearFirstPageCache) {
-            _error_log("deleteCache clearFirstPageCache");
-            clearCache(true);
+        if(!$schedule){
+            TimeLogEnd($timeLog, __LINE__);
+            _session_start();
+            TimeLogEnd($timeLog, __LINE__);
+            unset($_SESSION['user']['sessionCache']);
+            TimeLogEnd($timeLog, __LINE__);
+            if ($clearFirstPageCache) {
+                _error_log("deleteCache clearFirstPageCache");
+                clearCache(true);
+            }
+            TimeLogEnd($timeLog, __LINE__);
+            $dir = ObjectYPT::getTmpCacheDir() . $prefix;
+    
+            $resp = exec("rm -R {$dir}");
+            TimeLogEnd($timeLog, __LINE__);
+    
+            return $resp;
+        }else{
+            return false;
         }
-        TimeLogEnd($timeLog, __LINE__);
-        $dir = ObjectYPT::getTmpCacheDir() . $prefix;
-
-        $resp = exec("rm -R {$dir}");
-        TimeLogEnd($timeLog, __LINE__);
-
-        return $resp;
     }
 
     public function setSuffix($suffix)

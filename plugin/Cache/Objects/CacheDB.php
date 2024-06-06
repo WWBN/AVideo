@@ -18,16 +18,22 @@ class CacheDB
         return CachesInDB::encodeContent($content);
     }
 
-    public static function deleteCacheStartingWith($name)
+    public static function deleteCacheStartingWith($name, $schedule=true)
     {
-        try {
-            if(self::$cacheType == self::$CACHE_ON_MEMORY){
-                return CachesInDBMem::_deleteCacheStartingWith($name);
-            }else{
-                return CachesInDB::_deleteCacheStartingWith($name);
+        if($schedule){
+            $newSchedule = new Cache_schedule_delete(0);
+            $newSchedule->setName($name);
+            return $newSchedule->save();
+        }else{
+            try {
+                if(self::$cacheType == self::$CACHE_ON_MEMORY){
+                    return CachesInDBMem::_deleteCacheStartingWith($name);
+                }else{
+                    return CachesInDB::_deleteCacheStartingWith($name);
+                }
+            } catch (\Throwable $th) {
+                _error_log("CacheDB::deleteCacheStartingWith($name)");
             }
-        } catch (\Throwable $th) {
-            _error_log("CacheDB::deleteCacheStartingWith($name)");
         }
     }
 

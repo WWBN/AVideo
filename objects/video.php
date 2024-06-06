@@ -5549,7 +5549,20 @@ if (!class_exists('Video')) {
             return true;
         }
 
-        public static function clearCache($videos_id, $deleteThumbs = false, $clearFirstPageCache = false)
+        public static function clearCache($videos_id, $deleteThumbs = false, $clearFirstPageCache = false, $async = true)
+        {
+            global $global;
+            if($async){
+                $videos_id = intval($videos_id);
+                $deleteThumbs = !empty($deleteThumbs)?'true':'false';
+                $clearFirstPageCache = !empty($clearFirstPageCache)?'true':'false';
+                execAsync("php {$global['systemRootPath']}plugin/Cache/deleteVideo.json.php $videos_id $deleteThumbs $clearFirstPageCache");
+            }else{
+                return self::_clearCache($videos_id, $deleteThumbs, $clearFirstPageCache, false);
+            }
+        }
+
+        public static function _clearCache($videos_id, $deleteThumbs = false, $clearFirstPageCache = false, $schedule=true)
         {
             //_error_log("Video:clearCache($videos_id)");
             $video = new Video("", "", $videos_id);
@@ -5563,10 +5576,10 @@ if (!class_exists('Video')) {
             }
 
             $videoCache = new VideoCacheHandler($filename);
-            $videoCache->deleteCache($clearFirstPageCache);
+            $videoCache->deleteCache($clearFirstPageCache, $schedule);
 
             $videosListCache = new VideosListCacheHandler();
-            $videosListCache->deleteCache();
+            $videosListCache->deleteCache(false, $schedule);
 
             ObjectYPT::setLastDeleteALLCacheTime();
             return true;
