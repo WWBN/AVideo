@@ -21,6 +21,9 @@ ENGINE = InnoDB;
 ALTER TABLE CachesInDB ADD FULLTEXT(name);
 
 ALTER TABLE CachesInDB 
+DROP INDEX `unique_cache_index`;
+
+ALTER TABLE CachesInDB 
 ADD UNIQUE `unique_cache_index`(`name`(250), `domain`(50), `ishttps`, `user_location`(50), `loggedType`);
 
 CREATE TABLE IF NOT EXISTS `cache_schedule_delete` (
