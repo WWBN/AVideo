@@ -30,7 +30,7 @@ if ($fileName) {
         if (substr(trim($line), -1, 1) == ';') {
             if (!$global['mysqli']->query($templine)) {
                 $obj->msg = ('Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
-                die(json_encode($obj));
+                die($templine.' '.json_encode($obj));
             }
             $templine = '';
         }
