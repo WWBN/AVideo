@@ -39,7 +39,7 @@
     "p2p-media-loader-hlsjs": "^0.6.2",
     "pouchdb": "^8.0.0",
     "sweetalert": "^2.1.2",
-    "tinymce": "^7.1.1",
+    "tinymce": "^7.1.2",
     "tinymce-langs": "^1.0.0",
     "video.js": "^8.15.0",
     "videojs-contrib-ads": "^7.5.2",
