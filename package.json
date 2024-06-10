@@ -44,7 +44,7 @@
     "video.js": "^8.15.0",
     "videojs-contrib-ads": "^7.5.2",
     "videojs-contrib-quality-levels": "^4.0.0",
-    "videojs-font": "^4.1.0",
+    "videojs-font": "^4.2.0",
     "videojs-hotkeys": "^0.2.28",
     "videojs-ima": "^2.3.0",
     "videojs-landscape-fullscreen": "^12.2.0",
