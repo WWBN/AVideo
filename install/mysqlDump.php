@@ -29,6 +29,8 @@ foreach ($row as $value) {
     $firstElement = reset($value);
     if (!in_array($firstElement, $excludeTables)) {
         $tables[] = $firstElement;
+    }else{        
+        echo "Exclude from dump $firstElement".PHP_EOL;
     }
 }
 

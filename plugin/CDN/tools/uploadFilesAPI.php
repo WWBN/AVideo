@@ -53,6 +53,23 @@ if ($res != false) {
         }
         $videos_id = $row['id'];
         $info1 = "videos_id = $videos_id [{$total}, {$key}] ";
+
+        // I want to use the $localList var below to speed up the process
+        $localList = CDNStorage::getFilesListLocal($videos_id, false);
+        $validFound = false;
+        foreach ($localList as $value) {
+            $filesize = filesize($value['local_path']);
+            if($filesize > 20){
+                echo ("{$info1} CDNStorage::APIput valid file found {$value['local_path']}") . PHP_EOL;
+                $validFound = true;
+                break;
+            }
+        }
+        if(!$validFound){
+            echo ("{$info1} CDNStorage::APIput local_path filesize is invalid ") . PHP_EOL;
+            continue;
+        }
+
         $list = CDNStorage::getFilesListBoth($videos_id);
         $totalFiles = count($list);
         echo ("{$info1} CDNStorage::APIput found {$totalFiles} files for videos_id = $videos_id ") . PHP_EOL;

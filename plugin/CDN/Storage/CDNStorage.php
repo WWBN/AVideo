@@ -505,8 +505,8 @@ class CDNStorage
         }
         _error_log("CDNStorage::put got a list from {$videos_id}");
         $list = self::getFilesListBoth($videos_id);
-        _error_log("CDNStorage::put got a list ".count($list));
-                
+        _error_log("CDNStorage::put got a list " . count($list));
+
         $filesToUpload = [];
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
@@ -541,7 +541,7 @@ class CDNStorage
             _error_log("CDNStorage::put videos_id={$videos_id} There is no file to upload ");
         } else {
             _error_log("CDNStorage::put videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
-            
+
             if (version_compare(PHP_VERSION, '8.0.0') >= 0 && !$forceUseFTP) {
                 try {
                     $response = self::putUsingAPI($filesToUpload);
@@ -553,9 +553,9 @@ class CDNStorage
             } else {
                 $response = self::putUsingFTP($filesToUpload, $totalSameTime);
             }
-            
-            $fileUploadCount+= $response['filesCopied'];
-            $totalBytesTransferred+= $response['totalBytesTransferred'];
+
+            $fileUploadCount += $response['filesCopied'];
+            $totalBytesTransferred += $response['totalBytesTransferred'];
         }
 
         if ((empty($onlyExtension) || !empty($fileUploadCount)) && $fileUploadCount == $totalFiles) {
@@ -564,10 +564,11 @@ class CDNStorage
             self::setProgress($videos_id, true, true);
             _error_log("CDNStorage::put finished SUCCESS ");
         } else {
-            _error_log("CDNStorage::put finished ERROR ".json_encode(array(
-                'onlyExtension'=>$onlyExtension, 
-                'fileUploadCount'=>$fileUploadCount, 
-                'totalFiles'=>$totalFiles)));
+            _error_log("CDNStorage::put finished ERROR " . json_encode(array(
+                'onlyExtension' => $onlyExtension,
+                'fileUploadCount' => $fileUploadCount,
+                'totalFiles' => $totalFiles
+            )));
         }
         return ['filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred];
     }
@@ -587,10 +588,10 @@ class CDNStorage
         $fileUploadCount = 0;
         $totalBytesTransferred = 0;
         $total = count($filesToUpload);
-        _error_log("CDNStorage::putUsingAPI total=$total ".json_encode($filesToUpload));
+        _error_log("CDNStorage::putUsingAPI total=$total " . json_encode($filesToUpload));
         foreach ($filesToUpload as $value) {
             if (empty($value)) {
-                _error_log("CDNStorage::putUsingAPI empty local ".json_encode($value));
+                _error_log("CDNStorage::putUsingAPI empty local " . json_encode($value));
                 continue;
             }
             $filesize = filesize($value);
@@ -600,8 +601,8 @@ class CDNStorage
                 _error_log("CDNStorage::putUsingAPI {$remote_file} ");
                 $client->upload($value, $remote_file);
                 $totalBytesTransferred += $filesize; // Update remaining size 
-            } else{                
-                _error_log("CDNStorage::putUsingAPI invalid filesize [$filesize] ".json_encode($value));
+            } else {
+                _error_log("CDNStorage::putUsingAPI invalid filesize [$filesize] " . json_encode($value));
             }
         }
         return ['filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred];
@@ -618,6 +619,9 @@ class CDNStorage
         $totalBytesTransferred = 0;
         $conn_id = [];
         $ret = [];
+        $maxRetries = 3; // Maximum number of retries
+        $retryDelay = 5; // Delay between retries in seconds
+
         for ($i = 0; $i < $totalSameTime; $i++) {
             $file = array_shift($filesToUpload);
             if (empty($file)) {
@@ -642,12 +646,21 @@ class CDNStorage
                 }
                 if ($r == FTP_MOREDATA) {
                     // Continue uploading...
-                    try {
-                        $ret[$key] = ftp_nb_continue($conn_id[$key]);
-                    } catch (Exception $exc) {
-                        _error_log("CDNStorage::put:upload ftp_nb_continue error " . $exc->getMessage());
+                    $retries = 0;
+                    while ($retries < $maxRetries) {
+                        try {
+                            $ret[$key] = ftp_nb_continue($conn_id[$key]);
+                            break; // If successful, break out of the retry loop
+                        } catch (Exception $exc) {
+                            _error_log("CDNStorage::put:upload ftp_nb_continue error " . $exc->getMessage());
+                            $retries++;
+                            if ($retries >= $maxRetries) {
+                                _error_log("CDNStorage::put:upload ftp_nb_continue failed after {$maxRetries} retries");
+                                break;
+                            }
+                            sleep($retryDelay);
+                        }
                     }
-
                     $continue = true;
                 }
                 if ($r == FTP_FINISHED) {
@@ -687,6 +700,7 @@ class CDNStorage
         }
         return ['filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred];
     }
+
 
     public static function ftp_get($videos_id)
     {
@@ -900,11 +914,11 @@ class CDNStorage
         if (empty($conn_id[$index])) {
             $timeout = 180;
             $obj = AVideoPlugin::getDataObject('CDN');
-            if(!empty($conn_id[$index])){
+            if (!empty($conn_id[$index])) {
                 ftp_close($conn_id[$index]);
             }
             $conn_id[$index] = ftp_connect($obj->storage_hostname, 21, $timeout);
-            if(empty($conn_id[$index])){
+            if (empty($conn_id[$index])) {
                 error_log("getConnID($index) error on ftp_connect($obj->storage_hostname, 21, $timeout)");
                 exit;
             }
@@ -1274,7 +1288,7 @@ class CDNStorage
     public static function convertCDNHLSVideoToDownload($videos_id, $format = 'mp4', $logFile = '')
     {
         _error_log("convertCDNHLSVideoToDownload: start $videos_id, $format, $logFile ");
-            
+
         $format = strtolower($format);
         $video = new Video('', '', $videos_id);
         $filename = $video->getFilename();
@@ -1297,7 +1311,7 @@ class CDNStorage
             if (!empty($mp4File)) {
                 return $mp4File;
             }
-            _error_log("convertCDNHLSVideoToDownload: m3u8 not found videos_id={$videos_id}, format={$format} ".json_encode($files));
+            _error_log("convertCDNHLSVideoToDownload: m3u8 not found videos_id={$videos_id}, format={$format} " . json_encode($files));
             return false;
         }
 
@@ -1366,6 +1380,6 @@ class CDNStorage
         $video = new Video('', '', $videos_id);
         $filename = $video->getFilename();
         $progressFile = getVideosDir() . "{$filename}/index.{$format}.log";
-        return array('file'=>$progressFile, 'progress'=>parseFFMPEGProgress($progressFile));
+        return array('file' => $progressFile, 'progress' => parseFFMPEGProgress($progressFile));
     }
 }
