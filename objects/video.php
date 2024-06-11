@@ -2127,7 +2127,7 @@ if (!class_exists('Video')) {
                 //$otherInfo['groups'][] = '?';
                 TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 $otherInfo['tags'] = self::getTags($row['id']);
-                TimeLogEnd("video::otherInfo", __LINE__, 0.05);
+                TimeLogEnd("video::otherInfo", __LINE__, 0.1);
             }
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $otherInfo['title'] = UTF8encode($row['title']);
