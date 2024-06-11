@@ -175,7 +175,7 @@ class Message implements MessageComponentInterface {
         $live_key = $client['live_key'];
 
         if ($this->shouldPropagateInfo($client)) {
-            $this->msgToAll($conn, array('users_id' => $client['users_id']), \SocketMessageType::NEW_DISCONNECTION);
+            $this->msgToAll($conn, array('users_id' => $users_id), \SocketMessageType::NEW_DISCONNECTION);
             if (!empty($videos_id)) {
                 $this->msgToAllSameVideo($videos_id, "");
             }
@@ -183,6 +183,7 @@ class Message implements MessageComponentInterface {
                 $this->msgToAllSameLive($live_key, "");
             }
         }
+        $conn->close();
         _log_message("Connection {$conn->resourceId} has disconnected");
     }
 
