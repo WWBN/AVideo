@@ -9,8 +9,8 @@ if (!empty($_REQUEST['theme'])) {
     <head>
         <title>Theme <?php echo ucfirst($theme); ?> Test</title>
         <link href="../../css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css">
-        <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="customCSS">
-        <link href="../../css/custom/<?php echo $theme; ?>.css" rel="stylesheet" type="text/css" id="customCSS">
+        <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../../css/custom/<?php echo $theme; ?>.css" rel="stylesheet" type="text/css" >
         <link href="../../css/main.css" rel="stylesheet" type="text/css">
     </head>
     <body class="" >

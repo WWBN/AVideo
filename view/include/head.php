@@ -127,9 +127,11 @@ include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
 ?>
 <?php
 TimeLogEnd($timeLogHead, __LINE__);
-?>
-<link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
-<?php
+if(!empty($theme)){
+    ?>
+    <link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
+    <?php
+}
 if (empty($global['userBootstrapLatest'])) {
     $filename = Video::getStoragePath() . "cache/custom.css";
 }
