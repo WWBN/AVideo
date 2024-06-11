@@ -362,6 +362,9 @@ function execAsync($command, $keyword = null)
                     }
                 }
             } else {
+                if(empty($output)){
+                    return $output;
+                }
                 $pid = (int)$output[0];
             }
         }
