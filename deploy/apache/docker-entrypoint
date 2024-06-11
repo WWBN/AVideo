@@ -117,7 +117,7 @@ echo "entrypoint -- Writing /var/www/docker_vars.json"
 echo "{\"SOCKET_PORT\":${SOCKET_PORT}, \"HTTP_PORT\":${HTTP_PORT}, \"HTTPS_PORT\":${HTTPS_PORT}, \"SERVER_NAME\":\"${SERVER_NAME}\", \"NGINX_RTMP_PORT\":${NGINX_RTMP_PORT}, \"NGINX_HTTP_PORT\":${NGINX_HTTP_PORT}, \"NGINX_HTTPS_PORT\":${NGINX_HTTPS_PORT}}" > /var/www/docker_vars.json
 
 echo "entrypoint -- Starting socket server..."
-ulimit -n 1048576 && nohup php /var/www/html/AVideo/plugin/YPTSocket/server.php &
+nohup php /var/www/html/AVideo/plugin/YPTSocket/server.php &
 
 
 echo "Clear cache"

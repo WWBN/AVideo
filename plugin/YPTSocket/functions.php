@@ -131,7 +131,7 @@ function restartServer($kill=true) {
         killProcessOnPort();
         sleep(1);
     }
-    $cmd = "php {$global['systemRootPath']}plugin/YPTSocket/server.php";
+    $cmd = YPTSocket::getStartServerCommand();
     echo 'Starting server with command ' . $cmd . PHP_EOL;
     exec($cmd, $output, $retval);
     echo implode(PHP_EOL,$output);
