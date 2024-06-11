@@ -23,7 +23,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     if (isset($_COOKIE['socketInfoPositionLeft'])) {
         $socket_info_container_left = $_COOKIE['socketInfoPositionLeft'];
     }
-    $command = "sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &";
+    $command = "sudo ulimit -n 1048576 && sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &";
     ?>
     <style>
         #socket_info_container>div{

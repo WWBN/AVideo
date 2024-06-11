@@ -20,7 +20,7 @@ class YPTSocket extends PluginAbstract
         global $global;
         $desc = '<span class="socket_info" style="float: right; margin:0 10px;">' . getSocketConnectionLabel() . '</span><script>if(isSocketActive()){setSocketIconStatus(\'connected\');}</script> ';
         $desc .= "Socket Plugin, WebSockets allow for a higher amount of efficiency compared to REST because they do not require the HTTP request/response overhead for each message sent and received<br>";
-        $desc .= "<br>To start it on server now <code>sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &</code>";
+        $desc .= "<br>To start it on server now <code>ulimit -n 1048576 &&  sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &</code>";
         $desc .= "<br>To test use <code>php {$global['systemRootPath']}plugin/YPTSocket/test.php</code>";
         $desc .= "<br>To start it on server reboot add it on your crontab (Ubuntu 18+) <code>sudo crontab -eu root</code> than add this code on the last line <code>@reboot sleep 60;nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &</code>";
         $desc .= "<br>If you use Certbot to renew your SSL use (Ubuntu 18+) <code>sudo crontab -eu root</code> than add this code on the last line <code>0 1 * * * nohup php {$global['systemRootPath']}plugin/YPTSocket/serverCertbot.php &</code>";
@@ -324,7 +324,7 @@ class YPTSocket extends PluginAbstract
         global $global;
         exec("php {$global['systemRootPath']}plugin/YPTSocket/stopServer.php");
         exec("sleep 1");
-        execAsync("nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &");
+        execAsync("ulimit -n 1048576 && nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &");
         return true;
     }
 }
