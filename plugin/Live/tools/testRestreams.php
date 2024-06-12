@@ -51,39 +51,51 @@ function parseFfmpegLog($filePath) {
 
     // Inicializa as variáveis para armazenar as informações extraídas
     $duration = '';
-    $bitrate = '';
-    $speed = '';
-    $size = '';
-    $frames = '';
+    $bitrates = [];
+    $speeds = [];
+    $sizes = [];
+    $frames = [];
 
     // Usa expressões regulares para extrair as informações necessárias
-    if (preg_match('/time=([\d:.]+)/', $fileContent, $matches)) {
-        $duration = $matches[1];
+    preg_match_all('/time=([\d:.]+)/', $fileContent, $timeMatches);
+    preg_match_all('/bitrate=([\d.]+kbits\/s)/', $fileContent, $bitrateMatches);
+    preg_match_all('/speed=([\d.]+x)/', $fileContent, $speedMatches);
+    preg_match_all('/Lsize=\s*([\d.]+kB)/', $fileContent, $sizeMatches);
+    preg_match_all('/frame=\s*(\d+)/', $fileContent, $frameMatches);
+
+    if (!empty($timeMatches[1])) {
+        $duration = end($timeMatches[1]);
     }
-    if (preg_match('/bitrate=([\d.]+kbits\/s)/', $fileContent, $matches)) {
-        $bitrate = $matches[1];
+    if (!empty($bitrateMatches[1])) {
+        $bitrates = array_map(function($v) { return (float) str_replace('kbits/s', '', $v); }, $bitrateMatches[1]);
     }
-    if (preg_match('/speed=([\d.]+x)/', $fileContent, $matches)) {
-        $speed = $matches[1];
+    if (!empty($speedMatches[1])) {
+        $speeds = array_map(function($v) { return (float) str_replace('x', '', $v); }, $speedMatches[1]);
     }
-    if (preg_match('/Lsize=\s*([\d.]+kB)/', $fileContent, $matches)) {
-        $size = $matches[1];
+    if (!empty($sizeMatches[1])) {
+        $sizes = array_map(function($v) { return (float) str_replace('kB', '', $v); }, $sizeMatches[1]);
     }
-    if (preg_match('/frame=\s*(\d+)/', $fileContent, $matches)) {
-        $frames = $matches[1];
+    if (!empty($frameMatches[1])) {
+        $frames = array_map('intval', $frameMatches[1]);
     }
+
+    // Calcula as médias
+    $averageBitrate = !empty($bitrates) ? array_sum($bitrates) / count($bitrates) : 0;
+    $averageSpeed = !empty($speeds) ? array_sum($speeds) / count($speeds) : 0;
+    $averageSize = !empty($sizes) ? array_sum($sizes) / count($sizes) : 0;
+    $averageFrames = !empty($frames) ? array_sum($frames) / count($frames) : 0;
 
     // Cria um array com as informações extraídas
     $info = [
         "duration" => $duration,
-        "bitrate" => $bitrate,
-        "speed" => $speed,
-        "size" => $size,
-        "frames" => $frames
+        "average_bitrate" => $averageBitrate . 'kbits/s',
+        "average_speed" => $averageSpeed . 'x',
+        "average_size" => $averageSize . 'kB',
+        "average_frames" => $averageFrames
     ];
 
     // Verifica se todas as informações foram extraídas com sucesso
-    if (empty($duration) && empty($bitrate) && empty($speed) && empty($size) && empty($frames)) {
+    if (empty($duration) && empty($averageBitrate) && empty($averageSpeed) && empty($averageSize) && empty($averageFrames)) {
         return json_encode([
             "error" => true,
             "msg" => "Failed to extract information from log",
