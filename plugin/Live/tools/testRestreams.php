@@ -2,6 +2,10 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
+if(!isCommandLineInterface()){
+    forbiddenPage('Command line only');
+}
+
 function listLogFiles($directory) {
     $files = array_diff(scandir($directory), array('..', '.'));
     $logFiles = [];
