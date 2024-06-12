@@ -88,10 +88,10 @@ function parseFfmpegLog($filePath) {
     // Cria um array com as informações extraídas
     $info = [
         "duration" => $duration,
-        "average_bitrate" => $averageBitrate . 'kbits/s',
-        "average_speed" => $averageSpeed . 'x',
-        "average_size" => $averageSize . 'kB',
-        "average_frames" => $averageFrames
+        "average_bitrate" => number_format($averageBitrate, 2) . 'kbits/s',
+        "average_speed" => number_format($averageSpeed, 2) . 'x',
+        "average_size" => humanFileSize($averageSize),
+        "average_frames" => number_format($averageFrames, 2)
     ];
 
     // Verifica se todas as informações foram extraídas com sucesso
