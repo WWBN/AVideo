@@ -120,6 +120,7 @@ function getLogFileInfo($directory, $fileName) {
 
 // Exemplo de uso
 $directory = '/var/www/tmp/';
+echo "Start".PHP_EOL;
 $logFiles = listLogFiles($directory);
 
 echo "Últimos 20 logs disponíveis:\n";
