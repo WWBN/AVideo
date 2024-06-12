@@ -6,6 +6,8 @@ if(!isCommandLineInterface()){
     forbiddenPage('Command line only');
 }
 
+ob_end_flush();
+
 function listLogFiles($directory) {
     $files = array_diff(scandir($directory), array('..', '.'));
     $logFiles = [];
