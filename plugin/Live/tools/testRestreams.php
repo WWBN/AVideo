@@ -147,6 +147,7 @@ $selectedFileIndex = (int)trim($line) - 1;
 
 if (isset($logFiles[$selectedFileIndex])) {
     $selectedFile = $logFiles[$selectedFileIndex];
+    echo "selectedFile: {$selectedFile}\n";
     $fileInfo = getLogFileInfo($directory, $selectedFile);
     $logData = parseFfmpegLog("$directory/$selectedFile");
 
