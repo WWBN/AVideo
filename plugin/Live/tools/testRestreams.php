@@ -96,7 +96,7 @@ function parseFfmpegLog($filePath) {
         "error" => false,
         "msg" => "Success",
         "info" => $info
-    ]);
+    ], JSON_PRETTY_PRINT);
 }
 
 function getLogFileInfo($directory, $fileName) {
