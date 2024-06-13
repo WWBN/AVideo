@@ -1,6 +1,6 @@
 <?php
-// if you want to usea  third party app to submit video files, please check this https://github.com/WWBN/Upload-Sample
-    
+// If you want to use a third-party app to submit video files, please check https://github.com/WWBN/Upload-Sample
+
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
@@ -41,7 +41,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $prefix = 'i';
         $extension = $image;
     } else {
-        //chack if is an audio
+        // Check whether it's an audio file
         $type = "video";
         $prefix = 'v';
         if (strcasecmp($extension, 'mp3') == 0 || strcasecmp($extension, 'wav') == 0) {
@@ -53,7 +53,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     require_once $global['systemRootPath'] . 'objects/video.php';
     $duration = Video::getDurationFromFile($_FILES['upl']['tmp_name']);
 
-    // check if can upload video (about time limit storage)
+    // Check whether video can be uploaded (about time limit storage)
     if (!empty($global['videoStorageLimitMinutes'])) {
         $maxDuration = $global['videoStorageLimitMinutes'] * 60;
         $currentStorageUsage = getSecondsTotalVideosLength();
@@ -125,7 +125,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $object->msg = "We sent your video to the encoder";
     }
     $object->posterSent = false;
-    
+
     if(!empty($object->videos_id) && !empty($_REQUEST['base64PNG'])){
         $filePng = "{$paths['path']}{$paths['filename']}.png";
         $fileJpg = "{$paths['path']}{$paths['filename']}.jpg";
@@ -133,7 +133,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         convertImage($filePng, $fileJpg, 90);
         Video::clearImageCache($paths['filename']);
     }
-    
+
     _error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
     die(json_encode($object));
 } else {
