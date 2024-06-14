@@ -21,9 +21,7 @@ class CacheDB
     public static function deleteCacheStartingWith($name, $schedule=true)
     {
         if($schedule){
-            $newSchedule = new Cache_schedule_delete(0);
-            $newSchedule->setName($name);
-            return $newSchedule->save();
+            return Cache_schedule_delete::insert($name);
         }else{
             try {
                 if(self::$cacheType == self::$CACHE_ON_MEMORY){
