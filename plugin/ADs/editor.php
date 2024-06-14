@@ -65,7 +65,7 @@ $_page->setExtraScripts(
                     <ul class="nav nav-tabs nav-pills nav-stacked">
                         <?php
                         $active = 'active';
-                        foreach (ADs::$AdsPositions as $value) {
+                        foreach (ADs::AdsPositions as $value) {
                             $type = $value[0];
                             eval("\$AllowUserToModify = \$obj->{$type}AllowUserToModify;");
                             if ($is_regular_user && empty($AllowUserToModify)) {
@@ -87,7 +87,7 @@ $_page->setExtraScripts(
 
                         <?php
                         $active = ' in active';
-                        foreach (ADs::$AdsPositions as $value) {
+                        foreach (ADs::AdsPositions as $value) {
                             $type = $value[0];
                             eval("\$AllowUserToModify = \$obj->{$type}AllowUserToModify;");
                             if ($is_regular_user && empty($AllowUserToModify)) {
