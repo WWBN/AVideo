@@ -520,9 +520,6 @@ class PlayList extends ObjectYPT
         $res = sqlDAL::readSql($sql, $formats, $values);
         //var_dump($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
-        if(!empty($_REQUEST['debug'])){
-            var_dump($sql, $formats, $values, $fullData);
-        }
         sqlDAL::close($res);
         $rows = [];
         if ($res !== false) {

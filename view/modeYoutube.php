@@ -31,7 +31,7 @@ if (!empty($_GET['evideo'])) {
 $videos_id = getVideos_id(!empty($_REQUEST['playlist_id']));
 
 if(!empty($_REQUEST['debug'])){
-    $videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['playlist_index']);
+    $videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['playlist_id']);
     var_dump($videos_id, $_REQUEST['playlist_id'], getPlayListCurrentVideosId(), $videosArrayId);exit;
 }
 
