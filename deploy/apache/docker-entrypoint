@@ -134,7 +134,7 @@ echo "entrypoint -- Running updatedb script..."
 cd /var/www/html/AVideo/install && php updatedb.php
 
 echo "entrypoint -- install database ..."
-cd /var/www/html/AVideo/Encoder/ && git pull && cd install && php install.php https://${SERVER_NAME} "${DB_MYSQL_USER}" "${DB_MYSQL_PASSWORD}" "${SYSTEM_ADMIN_PASSWORD}" "${DB_MYSQL_NAME}" "https://${SERVER_NAME}/Encoder" "${DB_MYSQL_HOST}" "${DB_MYSQL_PORT}"
+cd /var/www/html/AVideo/Encoder/ && git pull && cd install && php install.php https://${SERVER_NAME} "${DB_MYSQL_USER}" "${DB_MYSQL_PASSWORD}" "${SYSTEM_ADMIN_PASSWORD}" "${DB_MYSQL_NAME}" "https://${SERVER_NAME}/Encoder/" "${DB_MYSQL_HOST}" "${DB_MYSQL_PORT}"
 
 echo "entrypoint -- Running reencodeAllVideos script..."
 cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
