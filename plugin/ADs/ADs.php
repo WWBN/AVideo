@@ -57,10 +57,10 @@ class ADs extends PluginAbstract
         $array = array();
         
         foreach (ADS::AdsPositions as $value) {
-            $array[] = $value;
-            $array[] = "{$value}Label";
-            $array[] = "{$value}ShowOnVideoPlayerPage";
-            $array[] = "{$value}AllowUserToModify";
+            $array[] = $value[0];
+            $array[] = "{$value[0]}Label";
+            $array[] = "{$value[0]}ShowOnVideoPlayerPage";
+            $array[] = "{$value[0]}AllowUserToModify";
         }
         $array[] = "tags3rdParty";
         return $array;
@@ -102,7 +102,7 @@ class ADs extends PluginAbstract
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
         $obj->doNotShowAdsForPaidUsers = true;
         $obj->bannerIntervalInSeconds = 5;
-
+        //var_dump(self::getDataObjectAdvanced(), $obj);exit;
 
         return $obj;
     }
