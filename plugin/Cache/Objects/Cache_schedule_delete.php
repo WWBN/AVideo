@@ -31,5 +31,15 @@ class Cache_schedule_delete extends ObjectYPT {
         return $this->name;
     }  
 
+    public static function insert($name) {
+        $sql = "INSERT IGNORE INTO cache_schedule_delete (name) VALUES (?)";
+        $res = sqlDAL::writeSql($sql, "s", [$name]);
+        if ($res) {
+            return true;
+        } else {
+            error_log("ObjectYPT::insert::Error on save: " . $sql . " Error : " . json_encode($res));
+            return false;
+        }
+    }
         
 }
