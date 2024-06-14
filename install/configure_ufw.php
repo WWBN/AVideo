@@ -1,4 +1,9 @@
 <?php
+require_once '../videos/configuration.php';
+
+if (!isCommandLineInterface()) {
+    return die('Command Line only');
+}
 
 function executeCommand($command) {
     $output = [];
