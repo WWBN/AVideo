@@ -3649,7 +3649,7 @@ function getPlayListCurrentVideosId($setVideos_id = true)
 {
     $playListData = getPlayListData();
     $playlist_index = getPlayListIndex();
-    if(empty($playListData) && !empty($_REQUEST['playlist_index'])){
+    if(empty($playListData) && !empty($_REQUEST['playlist_index']) && class_exists('PlayList')){
         $videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['playlist_index']);
         $videos_id = $videosArrayId[$playlist_index];
     }else {
