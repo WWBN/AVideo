@@ -3649,11 +3649,17 @@ function getPlayListCurrentVideosId($setVideos_id = true)
 {
     $playListData = getPlayListData();
     $playlist_index = getPlayListIndex();
-    if (empty($playListData[$playlist_index])) {
-        //var_dump($playlist_index, $playListData);
-        return false;
+    if(empty($playListData) && !empty($_REQUEST['playlist_index'])){
+        $videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['playlist_index']);
+        $videos_id = $videosArrayId[$playlist_index];
+    }else {
+        if (empty($playListData[$playlist_index])) {
+            //var_dump($playlist_index, $playListData);
+            return false;
+        }else{
+            $videos_id = $playListData[$playlist_index]->getVideos_id();
+        }
     }
-    $videos_id = $playListData[$playlist_index]->getVideos_id();
     if ($setVideos_id) {
         setVideos_id($videos_id);
     }
