@@ -3560,7 +3560,7 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
 
         $videos_id = videosHashToID($videos_id);
     }
-    if ($returnPlaylistVideosIDIfIsSerie && !empty($videos_id)) {
+    if ($returnPlaylistVideosIDIfIsSerie && empty($videos_id)) {
         if (isPlayList()) {
             $videos_id = getPlayListCurrentVideosId();
             //var_dump($videos_id);exit;

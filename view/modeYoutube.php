@@ -28,7 +28,7 @@ if (!empty($_GET['evideo'])) {
     $evideo = $v['evideo'];
 }
 
-$videos_id = getVideos_id();
+$videos_id = getVideos_id(!empty($_REQUEST['playlist_id']));
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 $playlist_index = 0;
 if (!empty($evideo)) {
@@ -292,6 +292,7 @@ if (!empty($evideo)) {
     }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 }
+
 //_error_log('AVideoPlugin::getModeYouTube');
 AVideoPlugin::getModeYouTube($videos_id);
 //var_dump(__LINE__);exit;
