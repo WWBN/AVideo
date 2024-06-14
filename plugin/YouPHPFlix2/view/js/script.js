@@ -93,9 +93,10 @@ function startModeFlix(container) {
             $('#poster' + crc).css('background-image', 'url(' + $('#poster' + crc).attr('poster') + ')');
             $('#poster' + crc).slideDown('fast', function () {
                 console.log('#poster' + crc+' slideDown');
+                console.log('#poster' + crc+' row.offset().top', top, myEleTop, top - myEleTop);
                 setTimeout(() => {
                     var top = row.offset().top;
-                    console.log('#poster' + crc+' row.offset().top', top, myEleTop, top - myEleTop);
+                    console.log('row', row);
                     $('html, body').animate({
                         scrollTop: top - myEleTop
                     }, 'fast');
