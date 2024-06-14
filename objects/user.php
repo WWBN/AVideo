@@ -960,7 +960,7 @@ if (typeof gtag !== \"function\") {
             return $cache;
         }
         if (empty($videos_id)) {
-            _error_log("User::canWatchVideo Video is empty ({$videos_id})");
+            _error_log("User::canWatchVideo Video is empty ({$videos_id}) ".json_encode(debug_backtrace()));
             return false;
         }
 

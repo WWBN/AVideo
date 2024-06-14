@@ -36,6 +36,11 @@ global $disableMysqlNdMethods;
 // this is only to test both methods more easy.
 $disableMysqlNdMethods = false;
 
+if(isDocker()){
+    ini_set('mysql.connect_timeout', 300);
+    ini_set('default_socket_timeout', 300);    
+}
+
 /*
  * This class exists for making servers avaible, which have no mysqlnd, withouth cause a performance-issue for those who have the driver.
  * It wouldn't be possible without Daan on https://stackoverflow.com/questions/31562359/workaround-for-mysqlnd-missing-driver

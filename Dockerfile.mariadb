@@ -4,3 +4,6 @@ FROM mariadb:latest
 
 # Set correct permissions for /tmp directory
 RUN chmod 1777 /tmp
+
+# Copy custom MySQL configuration file
+COPY deploy/my.cnf /etc/mysql/my.cnf
