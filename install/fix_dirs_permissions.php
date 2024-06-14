@@ -8,7 +8,7 @@ if (!isCommandLineInterface()) {
 function setPermissions($directories) {
     foreach ($directories as $dir) {
         if (is_dir($dir)) {
-            echo "Set Permission ".PHP_EOL;
+            echo "Set Permission $dir ".PHP_EOL;
             setPermissionsRecursively($dir);
         } else {
             echo "The path $dir is not a directory.\n";
