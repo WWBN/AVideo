@@ -36,7 +36,7 @@ global $disableMysqlNdMethods;
 // this is only to test both methods more easy.
 $disableMysqlNdMethods = false;
 
-if(isDocker()){
+if(function_exists('isDocker') && isDocker()){
     ini_set('mysql.connect_timeout', 300);
     ini_set('default_socket_timeout', 300);    
 }
