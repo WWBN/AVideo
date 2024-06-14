@@ -223,7 +223,7 @@ class API extends PluginAbstract
         }
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
         $array = array('users_id' => $users_id, 'ads' => array());
-        foreach (ADs::$AdsPositions as $key => $value) {
+        foreach (ADs::AdsPositions as $key => $value) {
             $type = $value[0];
             $desktopGlobal = false;
             $mobileGlobal = false;
@@ -1048,7 +1048,7 @@ class API extends PluginAbstract
             }
             $rows[$key]['adsImages'] = array();
             if (!empty($objAds)) {
-                foreach (ADs::$AdsPositions as $value) {
+                foreach (ADs::AdsPositions as $value) {
                     $type = $value[0];
                     $rows[$key]['adsImages'][] = array('type' => $type, 'assets' => ADs::getAdsFromVideosId($type, $rows[$key]['id']));
                 }

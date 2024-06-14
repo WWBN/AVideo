@@ -93,13 +93,14 @@ function startModeFlix(container) {
             $('#poster' + crc).css('background-image', 'url(' + $('#poster' + crc).attr('poster') + ')');
             $('#poster' + crc).slideDown('fast', function () {
                 console.log('#poster' + crc+' slideDown');
+                console.log('#row', row);
                 setTimeout(() => {
-                    var top = row.offset().top;
-                    console.log('#poster' + crc+' row.offset().top', top, myEleTop, top - myEleTop);
+                    var _top = row.offset().top;
+                    console.log('#poster' + crc+' row.offset().top', _top, myEleTop, _top - myEleTop);
                     $('html, body').animate({
-                        scrollTop: top - myEleTop
+                        scrollTop: _top - myEleTop
                     }, 'fast');
-                }, 500);
+                }, 200);
             });
         } else {
             if ($(this).closest('.flickity-area').length) {

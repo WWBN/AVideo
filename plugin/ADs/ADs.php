@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class ADs extends PluginAbstract
 {
-    public static $AdsPositions = [
+    const AdsPositions = [
         ['leaderBoardBigVideo', 1],
         ['leaderBoardTop', 0],
         ['leaderBoardTop2', 0],
@@ -54,31 +54,16 @@ class ADs extends PluginAbstract
 
     public static function getDataObjectAdvanced()
     {
-        return array(
-            'leaderBoardBigVideo',
-            'leaderBoardBigVideoLabel',
-            'leaderBoardTop',
-            'leaderBoardTopLabel',
-            'leaderBoardTop2',
-            'leaderBoardTop2Label',
-            'channelLeaderBoardTop',
-            'channelLeaderBoardTopLabel',
-            'leaderBoardMiddle',
-            'leaderBoardMiddleLabel',
-            'sideRectangle',
-            'sideRectangleLabel',
-            'leaderBoardBigVideoMobile',
-            'leaderBoardBigVideoMobileLabel',
-            'leaderBoardTopMobile',
-            'leaderBoardTopMobileLabel',
-            'leaderBoardTopMobile2',
-            'leaderBoardTopMobile2Label',
-            'channelLeaderBoardTopMobile',
-            'channelLeaderBoardTopMobileLabel',
-            'leaderBoardMiddleMobile',
-            'leaderBoardMiddleMobileLabel',
-            'tags3rdParty',
-        );
+        $array = array();
+        
+        foreach (ADS::AdsPositions as $value) {
+            $array[] = $value;
+            $array[] = "{$value}Label";
+            $array[] = "{$value}ShowOnVideoPlayerPage";
+            $array[] = "{$value}AllowUserToModify";
+        }
+        $array[] = "tags3rdParty";
+        return $array;
     }
 
     public function getEmptyDataObject()
@@ -88,7 +73,7 @@ class ADs extends PluginAbstract
 
         $adsense = $config->getAdsense();
 
-        foreach (self::$AdsPositions as $value) {
+        foreach (ADS::AdsPositions as $value) {
             $size = '728x90';
             if (!empty($value[1])) {
                 $size = '300x250';
@@ -110,6 +95,7 @@ class ADs extends PluginAbstract
             eval("\$obj->$value[0]Width = {$width};");
             eval("\$obj->$value[0]Height = {$height};");
             eval("\$obj->$value[0]Label = '{$value[0]}';");
+            eval("\$obj->$value[0]ShowOnVideoPlayerPage = true;");
             eval("\$obj->$value[0]AllowUserToModify = true;");
         }
 
@@ -210,7 +196,7 @@ class ADs extends PluginAbstract
     {
         global $global;
         $typeFound = false;
-        foreach (ADs::$AdsPositions as $key => $value) {
+        foreach (ADs::AdsPositions as $key => $value) {
             if ($type === $value[0]) {
                 $typeFound = true;
                 break;
@@ -406,6 +392,11 @@ class ADs extends PluginAbstract
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
         $adCode = '';
         if (!empty($ad)) {
+            $showOnVideoPlayerPage = true;
+            eval("\$showOnVideoPlayerPage = \$obj->{$type}ShowOnVideoPlayerPage;");
+            if(!$showOnVideoPlayerPage && isVideo()){
+                return false;
+            }
             self::debug(__LINE__);
             if (isMobile()) {
                 $type = $type . 'Mobile';
@@ -469,7 +460,7 @@ class ADs extends PluginAbstract
     public static function getSize($type)
     {
         $obj = AVideoPlugin::getObjectData("ADs");
-        foreach (ADs::$AdsPositions as $key => $value) {
+        foreach (ADs::AdsPositions as $key => $value) {
             if ($type == $value[0]) {
                 $width = 0;
                 $height = 0;

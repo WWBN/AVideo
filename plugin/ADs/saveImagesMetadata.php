@@ -26,7 +26,7 @@ if (empty($type)) {
 }
 
 $typeFound = false;
-foreach (ADs::$AdsPositions as $key => $value) {
+foreach (ADs::AdsPositions as $key => $value) {
     if ($type === $value[0]) {
         $typeFound = true;
         break;
