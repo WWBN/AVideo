@@ -100,7 +100,7 @@ function startModeFlix(container) {
                     $('html, body').animate({
                         scrollTop: _top - myEleTop
                     }, 'fast');
-                }, 500);
+                }, 200);
             });
         } else {
             if ($(this).closest('.flickity-area').length) {
