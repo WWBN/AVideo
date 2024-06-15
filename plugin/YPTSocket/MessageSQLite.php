@@ -471,7 +471,7 @@ class Message implements MessageComponentInterface {
         $time = time();
         foreach ($rows as $key => $client) {
             if($client['time']+$this->disconnectAfter < $time){
-                _error_log("resourceId={$client['resourceId']} is too old, close it");
+                //_error_log("resourceId={$client['resourceId']} is too old, close it");
                 if(!empty($this->clients[$client['resourceId']])){
                     $this->clients[$client['resourceId']]->close();
                 }
