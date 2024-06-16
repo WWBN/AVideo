@@ -209,7 +209,7 @@ if (!$isCommandLine) { // not command line
                                 $jsonInfo = json_decode($liveKey->content);
                                 if(!empty($jsonInfo)){
                                     if(!empty($jsonInfo->msg)){
-                                        $errorMessages[] = $jsonInfo->msg;
+                                        $errorMessages[] = nl2br($jsonInfo->msg);
                                     }
                                 }
                             }
