@@ -164,6 +164,8 @@ function _getLiveKey($token) {
         }else if(!empty($json->rawData)){
             $rawData = json_decode($json->rawData);
             $obj->msg = $rawData->message;
+        }else if(!empty($json->msg)){
+            $obj->msg = $json->msg;
         }
     }
     return $obj;
@@ -203,6 +205,14 @@ if (!$isCommandLine) { // not command line
                             $newRestreamsDestination = $liveKey->newRestreamsDestination;
                         }else{                            
                             $errorMessages[] = $liveKey->msg;
+                            if(!empty($liveKey->content)){
+                                $jsonInfo = json_decode($liveKey->content);
+                                if(!empty($jsonInfo)){
+                                    if(!empty($jsonInfo->msg)){
+                                        $errorMessages[] = $jsonInfo->msg;
+                                    }
+                                }
+                            }
                         }
                     }
                     
