@@ -1202,7 +1202,7 @@ class PlayList extends ObjectYPT
         }
         $sql = "SELECT u.*, pl.* FROM  playlists pl "
             . " LEFT JOIN users u ON users_id = u.id "
-            . " WHERE showOnFirstPage=1 ORDER BY name ASC";
+            . " WHERE showOnFirstPage=1 ORDER BY pl.name ASC";
 
         //$sql .= self::getSqlFromPost();
         //echo $sql;exit;
