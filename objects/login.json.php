@@ -242,7 +242,7 @@ $object->name = User::getName();
 $object->nameIdentification = User::getNameIdentification();
 $object->pass = User::getUserPass();
 $object->email = User::getMail();
-$object->emailVerified = User::_getEmailVerified();
+$object->emailVerified = !empty(User::_getEmailVerified());
 ////_error_log("login.json.php get channel name");
 $object->channelName = User::_getChannelName($object->id);
 $object->photo = User::getPhoto();
