@@ -117,6 +117,23 @@ class PlayList extends ObjectYPT
         return $videosP;
     }
 
+    public static function getUserSpecialPlaylist($users_id, $type){
+
+        $sql = "SELECT pl.* FROM  " . static::getTableName() . " pl WHERE users_id = ? ";
+        if($type=='favorite'){
+            $sql .= " AND status = 'favorite' ";
+        }else{
+            $sql .= " AND status = 'watch_later' ";
+        }
+
+        
+        $res = sqlDAL::readSql($sql, 'i', [$users_id], true);
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return $row;
+
+    }
+
     /**
      *
      * @global array $global
@@ -166,7 +183,14 @@ class PlayList extends ObjectYPT
         }
 
         $sql .= self::getSqlFromPost("pl.");
-        //var_dump($sql, $formats, $values);
+
+        $sql = preg_replace('/ORDER +BY +pl.`created` +DESC/i', 'ORDER BY CASE 
+                            WHEN pl.status = \'favorite\' THEN 1
+                            WHEN pl.status = \'watch_later\' THEN 1
+                            ELSE 2
+                        END, pl.created DESC', $sql);
+
+        //var_dump($sql, $formats, $values, getCurrentPage());exit;
         $TimeLog1 = "playList getAllFromUser 1($userId)";
         TimeLogStart($TimeLog1);
         $cacheName = md5($sql . json_encode($values));
@@ -901,6 +925,9 @@ class PlayList extends ObjectYPT
         if (!User::isLogged()) {
             return false;
         }
+
+        _error_log('Playlist::save '.json_encode(debug_backtrace()));
+
         $this->clearEmptyLists();
         if (empty($this->getUsers_id()) || !PlayLists::canManageAllPlaylists()) {
             $users_id = User::getId();
