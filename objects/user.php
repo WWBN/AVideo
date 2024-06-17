@@ -2727,6 +2727,21 @@ if (typeof gtag !== \"function\") {
         return intval($this->emailVerified);
     }
 
+    
+    public static function _getEmailVerified($users_id = 0)
+    {
+        global $global, $config;
+        if (empty($users_id)) {
+            $users_id = self::getId();
+        }
+        $user = new User($users_id);
+        if (empty($user)) {
+            return false;
+        }
+
+        return $user->getEmailVerified();
+    }
+
     public static function validateChannelName($channelName)
     {
         return trim(preg_replace("/[^0-9A-Z_-]/i", "", ucwords($channelName)));
