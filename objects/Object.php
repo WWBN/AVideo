@@ -1142,6 +1142,7 @@ abstract class CacheHandler
         $this->setSuffix($suffix);
         $name = $this->getCacheName($this->suffix);
         if (isset($_getCache[$name])) {
+            //_error_log("getCache($suffix, $lifetime) line=".__LINE__);
             return $_getCache[$name];
         }
 
@@ -1155,6 +1156,7 @@ abstract class CacheHandler
             self::$cachedResults++;
         }
         $_getCache[$name] = $cache;
+        //_error_log("getCache($suffix, $lifetime) line=".__LINE__);
         return $cache;
     }
 
@@ -1176,15 +1178,19 @@ abstract class CacheHandler
             if ($clearFirstPageCache) {
                 _error_log("deleteCache clearFirstPageCache");
                 clearCache(true);
+            }else{                
+                _error_log("deleteCache not schedule");
             }
             TimeLogEnd($timeLog, __LINE__);
             $dir = ObjectYPT::getTmpCacheDir() . $prefix;
     
             $resp = exec("rm -R {$dir}");
+
             TimeLogEnd($timeLog, __LINE__);
     
-            return $resp;
+            return true;
         }else{
+            _error_log("deleteCache schedule");
             return false;
         }
     }

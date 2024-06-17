@@ -1001,11 +1001,11 @@ class PlayList extends ObjectYPT
     static function deleteCacheDir($playlists_id)
     {
         $cacheHandler = new PlayListCacheHandler($playlists_id);
-        $cacheHandler->deleteCache();
+        $cacheHandler->deleteCache(false, false);
 
         $pl = new PlayList($playlists_id);
         $cacheHandler = new PlayListUserCacheHandler($pl->getUsers_id());
-        $cacheHandler->deleteCache();
+        $cacheHandler->deleteCache(false, false);
     }
 
     public function delete()
