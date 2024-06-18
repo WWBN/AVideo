@@ -114,7 +114,7 @@ $_page->setExtraStyles(
                 if (PlayLists::canManageAllPlaylists()) {
                 ?>
                     <br>
-                    <div class="pull-right" style="padding: 10px 0 0 0;">
+                    <div class="pull-right" style="padding: 2px 0 0 0;">
                         <label for="addOnFirstPage<?php echo $program['id']; ?>">
                             <span style="margin-right: 10px;"><?php echo __('Add to first page'); ?></span>
                         </label>

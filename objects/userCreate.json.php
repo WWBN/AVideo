@@ -45,7 +45,7 @@ if (empty($ignoreCaptcha)) {
 $userCheck = new User(0, $_POST['user'], false);
 
 if (!empty($userCheck->getBdId())) {
-    $obj->error = __("User already exists");
+    $obj->msg = __("User already exists");
     die(json_encode($obj));
 }
 

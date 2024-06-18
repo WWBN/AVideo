@@ -68,12 +68,6 @@ if (empty($videos_id)) {
             include $global['systemRootPath'] . 'plugin/SocialMediaPublisher/View/Publisher_user_preferences/index_body.php';
             ?>
         </div>
-        <div class="panel-footer">
-            <button class="btn btn-success btn-lg btn-block">
-                <i class="fas fa-save"></i>
-                <?php echo __('Save'); ?>
-            </button>
-        </div>
     </div>
 </div>
 <script>
