@@ -102,3 +102,5 @@ plugin/CustomizeUser/getMyAccount.php
 plugin/Vdatait/
 plugin/VideoPlaylistScheduler/
 install/bulkCreateUser.php
+/plugin/CertifyComplete/
+/plugin/CertifyComplete*
