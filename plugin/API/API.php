@@ -2130,7 +2130,13 @@ class API extends PluginAbstract
             return new ApiObject("User must be logged");
         }
         new Like($like, $parameters['videos_id']);
-        return new ApiObject("", false, Like::getLikes($parameters['videos_id']));
+
+        $obj = Like::getLikes($parameters['videos_id']);
+        if(empty($obj)){
+            $obj = new stdClass();
+        }
+
+        return new ApiObject("", false, $obj);
     }
 
     /**
