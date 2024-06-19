@@ -519,7 +519,7 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
             </div>
             <div class="material-switch pull-right" style="margin-right: 20px; margin-top: 10px;">
                 <?php echo __('Compact Mode'); ?>
-                <input class="" data-toggle="toggle" type="checkbox" id="compactMode" >
+                <input class="" data-toggle="toggle" type="checkbox" id="compactMode">
                 <label for="compactMode" class="label-success" style="margin-left: 10px;"></label>
             </div>
             <script>
@@ -1035,7 +1035,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     }
 
     function createFileInput(selector, row, type) {
-        var videos_id = row.id;
         var filename = row.filename;
         var uploadUrl = webSiteRootURL + "objects/uploadPoster.php";
         var suffix = '.' + type;
@@ -1045,8 +1044,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             suffix = '_portrait.gif';
         }
         var initialPreview = "<img style='height:160px' src='" + webSiteRootURL + "videos/" + filename + "/" + filename + suffix + "'>";
-        uploadUrl = addQueryStringParameter(uploadUrl, 'video_id', videos_id);
         uploadUrl = addQueryStringParameter(uploadUrl, 'type', type);
+
         $(selector).fileinput({
             maxFileCount: 1,
             uploadUrl: uploadUrl,
@@ -1056,33 +1055,51 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             showRemove: false,
             showClose: false,
             allowedFileExtensions: ["jpg", "jpeg", "png", "bmp", 'gif', "webp"],
+            uploadExtraData: function() {
+                return {
+                    video_id: videos_id,
+                    type: type
+                };
+            }
         }).on('fileuploaderror', function(event, data, msg) {
-            avideoAlertError(data.response.msg);
             console.log('fileuploaderror', data, msg);
-        }).on('filebatchuploaderror', function(event, preview, config, tags, extraData) {
-            // Handle file batch upload error
+
+            var form = data.form,
+                files = data.files,
+                extra = data.extra,
+                response = data.response,
+                reader = data.reader,
+                jqXHR = data.jqXHR;
+
+            console.log('FormData:', form);
+            console.log('Files:', files);
+            console.log('Extra Data:', extra);
+            console.log('Response:', response);
+            console.log('FileReader:', reader);
+            console.log('jqXHR:', jqXHR);
+
+            avideoAlertError(msg || 'An error occurred during file upload.');
+
+            if (response && response.error) {
+                avideoAlertError(response.msg);
+                data.context.addClass('error');
+            } else {
+                console.log('Unexpected error occurred without response error');
+                avideoAlertError('An unexpected error occurred.');
+            }
+        }).on('filebatchuploaderror', function(event, data, config, tags, extraData) {
+            console.log('filebatchuploaderror', data, config, tags, extraData);
             avideoAlertError(data.response.msg);
-            console.log('filebatchuploaderror', preview, config, tags, extraData);
         }).on('fileerror', function(event, data, previewId, index, fileId) {
-            // Handle file error
+            console.log('fileerror', data);
             avideoAlertError(data.response.msg);
             modal.hidePleaseWait();
         }).on('fileuploaded', function(event, data, previewId, index, fileId) {
-            // Handle file uploaded successfully
             console.log('fileuploaded', data, previewId, index, fileId);
-
-            // Check if there is a non-empty response from the server and it indicates an error
-            if (data.response && data.response.msg) {
-                // Display red alert below the image with the response message
-                avideoAlertError(data.response.msg);
-            } else {
-                // Hide any previous error alerts
-                // (Assuming avideoAlertError() handles the display of alerts and has a method to clear/hide alerts)
-                // avideoAlertClear(); // Example function to clear alerts, replace it with your implementation
-            }
         });
-
     }
+
+
 
     function reloadFileInput(row) {
         if (!row || typeof row === 'undefined') {
@@ -1227,6 +1244,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         videos_id = 0;
         waitToSubmit = false;
         resetVideoEditClasses();
+        $('#upload > ul > li').remove();
         $('#fileUploadVideos_id').val(0);
         $('#inputVideoId').val(0);
         $('#inputTitle').val("");
@@ -1475,21 +1493,25 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 tpl.find('input').knob();
                 // Listen for clicks on the cancel icon
                 tpl.find('span').click(function() {
-
                     if (tpl.hasClass('working')) {
                         jqXHR.abort();
                     }
-
                     tpl.fadeOut(function() {
                         tpl.remove();
                     });
                 });
+                // Extract the filename without extension
+                var filenameWithoutExt = data.files[0].name.replace(/\.[^/.]+$/, "");
+                // Add the filename without extension as a title parameter
+                data.formData = {
+                    title: filenameWithoutExt,
+                    videos_id: videos_id
+                };
                 // Automatically upload the file once it is added to the queue
                 var jqXHR = data.submit();
                 videoUploaded = true;
             },
             progress: function(e, data) {
-
                 // Calculate the completion percentage of the upload
                 var progress = parseInt(data.loaded / data.total * 100, 10);
                 // Update the hidden input field and trigger a change
@@ -1505,7 +1527,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             },
             done: function(e, data) {
                 if (data.result.error && data.result.msg) {
-                    avideoAlert("<?php echo __("Sorry!"); ?>", data.result.msg, "error");
+                    avideoAlertError(data.result.ms);
                     data.context.addClass('error');
                     data.context.find('p.action').text("Error");
                 } else if (data.result.status === "error") {
@@ -1514,18 +1536,19 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     } else {
                         msg = data.result.msg[data.result.msg.length - 1];
                     }
-
-                    avideoAlert("<?php echo __("Sorry!"); ?>", msg, "error");
+                    avideoAlertError(msg);
                     data.context.addClass('error');
                     data.context.find('p.action').text("Error");
                 } else {
+                    console.log('upload done', data.result);
+                    videos_id = data.result.videos_id;
                     data.context.find('p.action').html("Upload done");
                     data.context.addClass('working');
                     $("#grid").bootgrid("reload");
                 }
             }
-
         });
+
         // Prevent the default action when a file is dropped on the window
         $(document).on('drop dragover', function(e) {
             e.preventDefault();

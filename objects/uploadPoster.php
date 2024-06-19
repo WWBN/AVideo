@@ -5,17 +5,16 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-if (empty($_GET['video_id']) && !empty($_POST['videos_id'])) {
-    $_GET['video_id'] = $_POST['videos_id'];
-}
 
 $obj = new stdClass();
 $obj->error = true;
-if (!Video::canEdit($_GET['video_id'])) {
+$obj->users_id = User::getId();
+$obj->videos_id = intval($_REQUEST['video_id']);
+if (!Video::canEdit($obj->videos_id)) {
     $obj->msg = 'You can\'t edit this file';
     die(json_encode($obj));
 }
-$obj->videos_id = intval($_GET['video_id']);
+$obj->videos_id = intval($obj->videos_id);
 
 header('Content-Type: application/json');
 // A list of permitted file extensions
@@ -32,7 +31,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         die(json_encode($obj));
     }
     //var_dump($extension, $type);exit;
-    $video = new Video("", "", $_GET['video_id']);
+    $video = new Video("", "", $obj->videos_id, true);
     if (!empty($video)) {
         $ext = ".jpg";
         switch ($_GET['type']) {
@@ -80,8 +79,8 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         }
         Video::clearCache($obj->videos_id, true);
         $obj->clearFirstPageCache = clearFirstPageCache();
-        $obj->error = false;
-        //die(json_encode($obj));
+        unset($obj->error);
+        die(json_encode($obj));
         echo '{}';
         exit;
     } else {

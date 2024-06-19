@@ -35,8 +35,8 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $videos_id = 0;
     if (!empty($_FILES['upl']['videoId'])) {
         $videos_id = $_FILES['upl']['videoId'];
-    } elseif (!empty($_POST['videos_id'])) {
-        $videos_id = $_POST['videos_id'];
+    } elseif (!empty($_REQUEST['videos_id'])) {
+        $videos_id = $_REQUEST['videos_id'];
     }
     $title = preg_replace("/_+/", " ", str_ireplace(".{$extension}", "", $_FILES['upl']['name']));
     if (empty($videos_id)) {
