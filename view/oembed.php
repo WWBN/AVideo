@@ -66,7 +66,9 @@ $duration = Video::getItemDurationSeconds($video['duration']);
 $code = str_replace("{embedURL}", $embedURL, $advancedCustom->embedCodeTemplate);
 
 if ($format === 'xml') {
-    header('Content-type: application/xml'); ?><?xml version="1.0" encoding="UTF-8"?>
+    header('Content-type: application/xml'); 
+    echo '<?xml version="1.0" encoding="UTF-8"?>'; 
+?>
 <oembed>
   <version>1.0</version>
   <type>rich</type>

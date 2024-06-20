@@ -1856,6 +1856,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 },
                 "tags": function(column, row) {
                     var tags = '';
+                    tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>#ID</span><span class=\"label label-default \">" + row.id + "</span>";
                     <?php
                     if (Permissions::canAdminVideos()) {
 
