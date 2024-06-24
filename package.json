@@ -37,7 +37,7 @@
     "moment-timezone": "^0.5.45",
     "nosleep.js": "^0.12.0",
     "p2p-media-loader-hlsjs": "^0.6.2",
-    "pouchdb": "^8.0.0",
+    "pouchdb": "^9.0.0",
     "sweetalert": "^2.1.2",
     "tinymce": "^7.2.0",
     "tinymce-langs": "^1.0.0",
