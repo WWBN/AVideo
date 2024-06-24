@@ -368,4 +368,20 @@ class VastCampaigns extends ObjectYPT
 
         return $r;
     }
+
+
+    public static function getAllActive()
+    {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' ";
+
+        //$sql .= self::getSqlFromPost();
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        return $fullData;
+    }
 }
