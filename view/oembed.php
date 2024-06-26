@@ -20,7 +20,7 @@ if (!isSameDomain($global['webSiteRootURL'], $_REQUEST['url'])) {
 $vars["v"] = getVideoIDFromURL($_REQUEST['url']);
 
 if (empty($vars["v"])) {
-    forbiddenPage("Video variable not found");
+    return '';
 }
 
 $videos_id = intval($vars["v"]);
