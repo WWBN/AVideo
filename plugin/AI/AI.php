@@ -425,7 +425,8 @@ class AI extends PluginAbstract
                 if($duration == "EE:EE:EE" && !empty($pathsLower['url'])){
                     $duration = getDurationFromFile($pathsLower['url']);
                     if($duration == "EE:EE:EE"){
-                        $duration = getDurationFromFile(str_replace('_Low.mp3', '.mp3', $pathsLower['url']));
+                        $pathsLower['url'] = str_replace('_Low.mp3', '.mp3', $pathsLower['url']);
+                        $duration = getDurationFromFile($pathsLower['url']);
                     }
                 }
 
