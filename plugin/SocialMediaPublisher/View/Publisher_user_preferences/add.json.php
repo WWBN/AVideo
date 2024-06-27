@@ -9,7 +9,7 @@ $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('SocialMediaPublisher');
                                                 
-if(!User::isAdmin()){
+if(!User::isLogged()){
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
