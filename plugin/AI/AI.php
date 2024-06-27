@@ -424,7 +424,7 @@ class AI extends PluginAbstract
                 $duration = getDurationFromFile($pathsLower['path']);
                 if($duration == "EE:EE:EE" && !empty($pathsLower['url'])){
                     _error_log('getDurationFromFile error '.json_encode($pathsLower));
-                    $duration = getDurationFromFile($pathsLower['path']);
+                    $duration = getDurationFromFile($pathsLower['url']);
                 }
 
                 $durationInSeconds = durationToSeconds($duration);
