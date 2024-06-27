@@ -422,6 +422,10 @@ class AI extends PluginAbstract
             $pathsLower = self::getMP3LowerPath($videos_id);
             if (!empty($pathsLower)) {
                 $duration = getDurationFromFile($pathsLower['path']);
+                if($duration == "EE:EE:EE" && !empty($pathsLower['url'])){
+                    $duration = getDurationFromFile($pathsLower['url']);
+                }
+
                 $durationInSeconds = durationToSeconds($duration);
                 $arrayLower = array(
                     'paths' => $pathsLower,
