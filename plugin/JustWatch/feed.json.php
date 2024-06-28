@@ -48,3 +48,5 @@ foreach ($rows as $row) {
 
 
 $array['last_modified'] = $formattedDate;
+
+echo _json_encode($array);
