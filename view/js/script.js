@@ -58,6 +58,11 @@ try {
             forwardToIframe(e.data);
         }
         */
+
+        // this is for plugin/SocialMediaPublisher/script.js
+        if (typeof e.data.provider !== 'undefined' && typeof saveYPT !== 'undeined') {
+            forwardToIframe(e.data);
+        }
     }, false);
 
     eventer("online", function (e) {
