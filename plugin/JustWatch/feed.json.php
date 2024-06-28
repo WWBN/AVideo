@@ -24,6 +24,8 @@ $array['streaming_service']['application_packages'] = json_decode($obj->streamin
 
 $array['contents'] = array();
 
+setRowCount(5);
+
 $rows = Video::getAllVideosLight();
 foreach ($rows as $row) {
     $element = array();
