@@ -561,7 +561,7 @@ abstract class ObjectYPT implements ObjectInterface
         $timeNow = microtime(true);
         $difference = $timeNow - $start;
         if ($difference >= $tolerance) {
-            _error_log("cache logTime: {$line} $name " . number_format($difference, 3) . ' ' . json_encode($lastShouldUseDatabaseMsg));
+            _error_log("cache logTime: {$line} $name " . number_format($difference, 3) . ' ' . json_encode($lastShouldUseDatabaseMsg), AVideoLog::$PERFORMANCE);
         }
     }
 
