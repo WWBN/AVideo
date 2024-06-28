@@ -20,7 +20,7 @@ $array['streaming_service'] = array();
 $array['streaming_service']['name'] = $obj->streaming_service_name;
 $array['streaming_service']['url'] = $obj->streaming_service_url;
 $array['streaming_service']['application_stores'] = json_decode($obj->application_stores->value);
-$array['streaming_service']['application_packages'] = json_decode($obj->streaming_service_url->value);
+$array['streaming_service']['application_packages'] = json_decode($obj->application_packages->value);
 
 $array['contents'] = array();
 
