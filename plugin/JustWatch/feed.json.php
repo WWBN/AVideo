@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 
 $obj = AVideoPlugin::getDataObjectIfEnabled('JustWatch');
 
-if(empty($obj)){
+if (empty($obj)) {
     forbiddenPage('Plugin is disabled');
 }
 
@@ -35,18 +35,16 @@ foreach ($rows as $row) {
     $posters = Video::getMediaSessionPosters($row['id']);
     foreach ($posters as $key => $value) {
 
-    $element['images'][] = array(
-        'url' => $value['url'],
-        'image_type' => 'poster',
-        'width' => $key,
-        'height' => $key,
-        //'language' => 'en',
-    );
+        $element['images'][] = array(
+            'url' => $value['url'],
+            'image_type' => 'poster',
+            'width' => $key,
+            'height' => $key,
+            //'language' => 'en',
+        );
+        $array['contents'][] = $element;
     }
 }
 
 
 $array['last_modified'] = $formattedDate;
-
-
-?>
