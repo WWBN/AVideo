@@ -101,8 +101,17 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
         return false;
     }
     global $global;
+    if (empty($global['noDebug'])) {
+        $global['noDebug'] = array();
+    }
     if (!empty($global['noDebug']) && ($type == AVideoLog::$DEBUG || $type == AVideoLog::$PERFORMANCE)) {
-        return false;
+        if(is_array($global['noDebug'])){
+            if(in_array($type, $global['noDebug'])){
+                return false;
+            }
+        }else if(($type == AVideoLog::$DEBUG || $type == AVideoLog::$PERFORMANCE)){
+            return false;
+        }
     }
     $prefix = "AVideoLog::";
     switch ($type) {
