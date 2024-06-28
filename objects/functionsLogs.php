@@ -68,6 +68,7 @@ class AVideoLog
     public static $SECURITY = 3;
     public static $SOCKET = 4;
     public static $PERFORMANCE = 5;
+    public static $MONITORE = 6;
 }
 
 function _error_log_debug($message, $show_args = false)
@@ -105,11 +106,11 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
         $global['noDebug'] = array();
     }
     if (!empty($global['noDebug']) && ($type == AVideoLog::$DEBUG || $type == AVideoLog::$PERFORMANCE)) {
-        if(is_array($global['noDebug'])){
-            if(in_array($type, $global['noDebug'])){
+        if (is_array($global['noDebug'])) {
+            if (in_array($type, $global['noDebug'])) {
                 return false;
             }
-        }else if(($type == AVideoLog::$DEBUG || $type == AVideoLog::$PERFORMANCE)){
+        } else if (($type == AVideoLog::$DEBUG || $type == AVideoLog::$PERFORMANCE)) {
             return false;
         }
     }
@@ -132,6 +133,9 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
             break;
         case AVideoLog::$PERFORMANCE:
             $prefix .= "PERFORMANCE: ";
+            break;
+        case AVideoLog::$MONITORE:
+            $prefix .= "MONITORE:    ";
             break;
     }
     $str = $prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}";

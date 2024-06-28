@@ -1227,7 +1227,7 @@ class CDNStorage
         if (isCommandLineInterface()) {
             echo $message . PHP_EOL;
         }
-        _error_log($message);
+        _error_log($message, AVideoLog::$MONITORE);
         $file = self::getLogFile($videos_id);
         if (empty($file)) {
             return false;
