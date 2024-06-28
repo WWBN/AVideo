@@ -29,11 +29,21 @@ setRowCount(5);
 $rows = Video::getAllVideosLight();
 foreach ($rows as $row) {
     $element = array();
-    $element['id'] = ''.$row['id'];
+    $element['id'] = '' . $row['id'];
     //$element['object_type'] = 'movie';
     $element['object_type'] = 'movie';
     $element['original_title'] = $row['title'];
     $element['original_description'] = $row['description'];
+
+    $element['localized_titles'] = array('language' => 'en', 'value' => $element['original_title']);
+    $element['localized_descriptions'] = array('language' => 'en', 'value' => $element['original_description']);
+    $element['offers'] = array(
+        array(
+            'web_url' => Video::getLinkToVideo($row['id']),
+            'quality' => 'hd',
+        )
+    );
+
     $element['images'] = array();
     $posters = Video::getMediaSessionPosters($row['id']);
     foreach ($posters as $key => $value) {
