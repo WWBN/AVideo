@@ -27,8 +27,6 @@ class JustWatch extends PluginAbstract {
 
     public function getEmptyDataObject() {
         $obj = new stdClass();
-        $obj->streaming_service_name = 'Example Streaming Service';
-        $obj->streaming_service_url = 'https://www.example.com';
 
         $o = new stdClass();
         $o->type = "textarea";

@@ -17,8 +17,8 @@ $formattedDate = $date->format('Y-m-d\TH:i:sP');
 
 $array = array();
 $array['streaming_service'] = array();
-$array['streaming_service']['name'] = $obj->streaming_service_name;
-$array['streaming_service']['url'] = $obj->streaming_service_url;
+$array['streaming_service']['name'] = $config->getWebSiteTitle();
+$array['streaming_service']['url'] = $global['webSiteRootURL'];
 $array['streaming_service']['application_stores'] = json_decode($obj->application_stores->value);
 $array['streaming_service']['application_packages'] = json_decode($obj->application_packages->value);
 
