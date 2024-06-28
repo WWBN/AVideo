@@ -35,8 +35,8 @@ foreach ($rows as $row) {
     $element['original_title'] = $row['title'];
     $element['original_description'] = $row['description'];
 
-    $element['localized_titles'] = array('language' => 'en', 'value' => $element['original_title']);
-    $element['localized_descriptions'] = array('language' => 'en', 'value' => $element['original_description']);
+    $element['localized_titles'] = array(array('language' => 'en', 'value' => $element['original_title']));
+    $element['localized_descriptions'] = array(array('language' => 'en', 'value' => $element['original_description']));
     $element['offers'] = array(
         array(
             'web_url' => Video::getLinkToVideo($row['id']),
