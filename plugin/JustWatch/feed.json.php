@@ -41,6 +41,10 @@ foreach ($rows as $row) {
         array(
             'web_url' => Video::getLinkToVideo($row['id']),
             'quality' => 'hd',
+            'monetization_type' => 'free',
+            'currency' => 'USD',
+            'country_iso' => 'US',
+            'price' => 0,
         )
     );
 
