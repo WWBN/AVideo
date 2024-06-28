@@ -12,7 +12,9 @@ class JustWatch extends PluginAbstract {
     }
 
     public function getDescription() {
-        $txt = "";
+      global $global;
+        $txt = "Provides a JustWatch feed at <a href='{$global['webSiteRootURL']}plugin/JustWatch/feed.json.php' target='_blank'>Feed.json</a>. 
+        It aggregates links and package information for platforms integration with <a href='https://www.justwatch.com/' target='_blank'>JustWatch services</a>.";
 
         return $txt;
     }
