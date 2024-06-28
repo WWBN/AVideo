@@ -16,7 +16,8 @@ function TimeLogStart($name)
     return $name;
 }
 
-function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
+function TimeLogEnd($name, $line, $TimeLogLimit = 0.7)
+{
     global $global;
     if (!empty($global['noDebug']) || empty($global['start'][$name])) {
         return false;
@@ -29,10 +30,10 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $global['start'][$name]), 4);
-    $type = AVideoLog::$DEBUG;
+    $type = AVideoLog::$PERFORMANCE;
     $backtrace = '';
     $ua = '';
-    
+
     if (empty($global['noDebugSlowProcess']) && $total_time > $TimeLogLimit) {
         if ($total_time > 1) {
             $type = AVideoLog::$WARNING;
@@ -41,18 +42,18 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
             $type = AVideoLog::$ERROR;
             $backtrace = ' backtrace=' . json_encode(debug_backtrace());
         }
-        
-        $ua = ' IP='.getRealIpAddr();
+
+        $ua = ' IP=' . getRealIpAddr();
         if (!empty($_SERVER['HTTP_USER_AGENT'])) {
-            if(isBot()){
+            if (isBot()) {
                 $ua .= " BOT ";
                 $ua .= " USER_AGENT={$_SERVER['HTTP_USER_AGENT']}";
             }
-        }else{
-            $ua .= " USER_AGENT=Undefined server=".json_encode($_SERVER);
+        } else {
+            $ua .= " USER_AGENT=Undefined server=" . json_encode($_SERVER);
         }
-        
-        _error_log("Time: ". str_pad(number_format($total_time,3) . "s", 8) . " | Limit: {$TimeLogLimit}s | Location: {$_SERVER["SCRIPT_FILENAME"]} Line {$line} [{$name}]{$ua}{$backtrace}", $type);
+
+        _error_log("Time: " . str_pad(number_format($total_time, 3) . "s", 8) . " | Limit: {$TimeLogLimit}s | Location: {$_SERVER["SCRIPT_FILENAME"]} Line {$line} [{$name}]{$ua}{$backtrace}", $type);
     }
     TimeLogStart($name);
 }
@@ -66,6 +67,7 @@ class AVideoLog
     public static $ERROR = 2;
     public static $SECURITY = 3;
     public static $SOCKET = 4;
+    public static $PERFORMANCE = 0;
 }
 
 function _error_log_debug($message, $show_args = false)
@@ -87,8 +89,8 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
     if (!is_string($message)) {
         $message = json_encode($message);
     }
-    if(isSchedulerRun()){
-        echo $message.PHP_EOL;
+    if (isSchedulerRun()) {
+        echo $message . PHP_EOL;
         return false;
     }
     if (empty($doNotRepeat)) {
@@ -99,25 +101,28 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
         return false;
     }
     global $global;
-    if (!empty($global['noDebug']) && $type == 0) {
+    if (!empty($global['noDebug']) && ($type == AVideoLog::$DEBUG || $type == AVideoLog::$PERFORMANCE)) {
         return false;
     }
     $prefix = "AVideoLog::";
     switch ($type) {
         case AVideoLog::$DEBUG:
-            $prefix .= "DEBUG: ";
+            $prefix .= "DEBUG:      ";
             break;
         case AVideoLog::$WARNING:
-            $prefix .= "WARNING: ";
+            $prefix .= "WARNING:    ";
             break;
         case AVideoLog::$ERROR:
-            $prefix .= "ERROR: ";
+            $prefix .= "ERROR:      ";
             break;
         case AVideoLog::$SECURITY:
-            $prefix .= "SECURITY: ";
+            $prefix .= "SECURITY:   ";
             break;
         case AVideoLog::$SOCKET:
-            $prefix .= "SOCKET: ";
+            $prefix .= "SOCKET:      ";
+            break;
+        case AVideoLog::$PERFORMANCE:
+            $prefix .= "PERFORMANCE: ";
             break;
     }
     $str = $prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}";
@@ -129,7 +134,8 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
     error_log($str);
 }
 
-function isSchedulerRun(){
+function isSchedulerRun()
+{
     return preg_match('/Scheduler\/run\.php$/', $_SERVER['SCRIPT_NAME']);
 }
 
