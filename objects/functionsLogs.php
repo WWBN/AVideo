@@ -67,7 +67,7 @@ class AVideoLog
     public static $ERROR = 2;
     public static $SECURITY = 3;
     public static $SOCKET = 4;
-    public static $PERFORMANCE = 0;
+    public static $PERFORMANCE = 5;
 }
 
 function _error_log_debug($message, $show_args = false)
