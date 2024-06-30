@@ -94,12 +94,17 @@ function _test_send($SocketURL, $msg) {
         global $SocketSendObj;
         $conn->on('message', function($msg) use ($conn, $_count) {
             global $responses;
-            $json = _json_decode($msg->getPayload());
+            $payload = $msg->getPayload();
+            $json = _json_decode($payload);
             //var_dump($json);
-            $parts = explode(':', $json->msg->test_msg);
-            $c = new AVideoSocketConfiguration($parts[0], $parts[2], $parts[1], true);
-            $responses[] = $c;
-            $c->log();
+            if(!empty($json->msg) && !is_object($json->msg)){
+                $parts = explode(':', $json->msg->test_msg);
+                $c = new AVideoSocketConfiguration($parts[0], $parts[2], $parts[1], true);
+                $responses[] = $c;
+                $c->log();
+            }else{
+                $responses[] = "Could not decode response {$payload}";
+            }
             printIfComplete();
         });
 
