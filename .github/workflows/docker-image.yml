@@ -14,6 +14,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.repository == 'WWBN/AVideo'
 
     steps:
       - name: Checkout code
