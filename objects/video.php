@@ -1924,7 +1924,7 @@ if (!class_exists('Video')) {
             global $_lastGetAllSQL;
             $_lastGetAllSQL = $sql;
             $timeLogName = TimeLogStart("video::getAllVideos");
-            $res = sqlDAL::readSql($sql, '', [], true);
+            $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
             //var_dump($sql, $fullData);exit;
             TimeLogEnd($timeLogName, __LINE__, 0.2);
