@@ -334,7 +334,7 @@ class CachesInDB extends ObjectYPT
 
     public static function _deleteCacheStartingWith($name)
     {
-        if(isBot() && !preg_match('/plugin\/Live\/on_/', $_SERVER['SCRIPT_NAME'])){
+        if((isBot() && !isCommandLineInterface()) && !preg_match('/plugin\/Live\/on_/', $_SERVER['SCRIPT_NAME'])){
             _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
             return false;
         }
