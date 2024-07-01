@@ -1161,7 +1161,7 @@ abstract class CacheHandler
         }
         $_getCache[$name] = $cache;
         if($logInfo){
-            _error_log("getCache($suffix, $lifetime) line=".__LINE__);
+            _error_log("getCache($suffix, $lifetime) name={$name} line=".__LINE__);
         }
         return $cache;
     }
