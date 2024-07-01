@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../../videos/configuration.php';
+require_once __DIR__.'/../../videos/configuration.php';
 
 $obj = new stdClass();
 $obj->error = true;
