@@ -1142,12 +1142,12 @@ abstract class CacheHandler
         $this->setSuffix($suffix);
         $name = $this->getCacheName($this->suffix);
         if (isset($_getCache[$name])) {
-            //_error_log("getCache($suffix, $lifetime) line=".__LINE__);
+            _error_log("getCache($suffix, $lifetime) line=".__LINE__);
             return $_getCache[$name];
         }
 
         if (!empty($lifetime) && !$this->canRefreshCache()) {
-            //_error_log("{$suffix} lifetime={$lifetime} cache will not be refreshed now");
+            _error_log("{$suffix} lifetime={$lifetime} cache will not be refreshed now");
             $lifetime = 0;
         }
         $name = $this->getCacheName($suffix);
