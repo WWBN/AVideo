@@ -1276,7 +1276,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.id = '$id' ";
             }
             $sql .= AVideoPlugin::getVideoWhereClause();
-            $sql .= static::getVideoQueryFileter();
+            $sql .= static::getVideoQueryFilter();
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL('v.');
             }
@@ -1775,7 +1775,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND u.status = 'a' ";
             }
 
-            $sql .= static::getVideoQueryFileter();
+            $sql .= static::getVideoQueryFilter();
             if (!$ignoreGroup) {
                 TimeLogStart("video::getAllVideos::getAllVideosExcludeVideosIDArray");
                 $arrayNotIN = AVideoPlugin::getAllVideosExcludeVideosIDArray();
@@ -2576,7 +2576,7 @@ if (!class_exists('Video')) {
             if ($activeUsersOnly) {
                 $sql .= " AND u.status = 'a' ";
             }
-            $sql .= static::getVideoQueryFileter();
+            $sql .= static::getVideoQueryFilter();
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL('v.');
             }
@@ -3728,7 +3728,7 @@ if (!class_exists('Video')) {
             return static::getVideo("", $status, false, $excludeVideoId);
         }
 
-        public static function getVideoQueryFileter()
+        public static function getVideoQueryFilter()
         {
             global $global;
             $sql = '';

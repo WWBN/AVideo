@@ -1156,7 +1156,7 @@ abstract class CacheHandler
             self::$cachedResults++;
         }
         $_getCache[$name] = $cache;
-        //_error_log("getCache($suffix, $lifetime) line=".__LINE__);
+        _error_log("getCache($suffix, $lifetime) line=".__LINE__);
         return $cache;
     }
 
