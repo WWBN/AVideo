@@ -5867,7 +5867,7 @@ if (!class_exists('Video')) {
                 $response->why[] = 'The video does not have any usergroup set';
             } else {
                 if (self::userGroupAndVideoGroupMatch($users_id, $videos_id)) {
-                    $videosug = self::getVideoGroups($videos_id);
+                    $videosug = $video->getVideoGroups($videos_id);
                     $categoriessug = UserGroups::getCategoriesGroups($videos_id);
                     $rowsUser = UserGroups::getUserGroups(User::getId());
                     // what group the user needs
