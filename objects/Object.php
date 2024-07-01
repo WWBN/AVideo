@@ -1133,7 +1133,7 @@ abstract class CacheHandler
         return $return;
     }
 
-    public function getCache($suffix, $lifetime = 60)
+    public function getCache($suffix, $lifetime = 60, $logInfo = false)
     {
         global $_getCache;
         if (!isset($_getCache)) {
@@ -1142,12 +1142,16 @@ abstract class CacheHandler
         $this->setSuffix($suffix);
         $name = $this->getCacheName($this->suffix);
         if (isset($_getCache[$name])) {
-            _error_log("getCache($suffix, $lifetime) line=".__LINE__);
+            if($logInfo){
+                _error_log("getCache($suffix, $lifetime) line=".__LINE__);
+            }
             return $_getCache[$name];
         }
 
         if (!empty($lifetime) && !$this->canRefreshCache()) {
-            _error_log("{$suffix} lifetime={$lifetime} cache will not be refreshed now");
+            if($logInfo){
+                _error_log("{$suffix} lifetime={$lifetime} cache will not be refreshed now line=".__LINE__);
+            }
             $lifetime = 0;
         }
         $name = $this->getCacheName($suffix);
@@ -1156,7 +1160,9 @@ abstract class CacheHandler
             self::$cachedResults++;
         }
         $_getCache[$name] = $cache;
-        _error_log("getCache($suffix, $lifetime) line=".__LINE__);
+        if($logInfo){
+            _error_log("getCache($suffix, $lifetime) line=".__LINE__);
+        }
         return $cache;
     }
 
@@ -1259,7 +1265,7 @@ class VideosListCacheHandler extends CacheHandler
     public function getCacheWithAutoSuffix($lifetime = 60)
     {
         $suffix = $this->getCacheSufix();
-        return parent::getCache($suffix, $lifetime);
+        return parent::getCache($suffix, $lifetime, true);
     }
 
     protected function getCacheSubdir()
