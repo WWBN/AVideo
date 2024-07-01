@@ -21,7 +21,7 @@ if (!empty($global['stopHeadRequests'])) {
  * @property mixed $global[] Dynamically loaded variables.
  */
 if (!empty($doNotIncludeConfig)) {
-    error_log('AVideo includeconfig ignored');
+    //error_log('AVideo includeconfig ignored');
     require_once $global['systemRootPath'] . 'objects/plugin.php';
     require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
     require_once $global['systemRootPath'] . 'objects/functions.php';
