@@ -24,17 +24,26 @@ $socketobj->forceNonSecure = false;
 if (!isPortOpen('127.0.0.1', $port)) {
     _log("Port {$port} is not open on localhost");
     die();
+}else{
+    _log("Sucess: Port {$port} is open on localhost");
 }
 
 if (!isDomainResolving($address)) {
     _log("Domain {$address} is not resolving");
     die();
+}else{
+    _log("Sucess: Domain {$address} is resolving");
 }
 
 if (!isPortOpen($address, $port)) {
     _log("Port {$port} is not open on {$address}");
     die();
+}else{
+    _log("Sucess: Port {$port} is open on {$address}");
 }
+
+
+_log("Testing Socket connection");
 
 $url = "://localhost:{$port}";
 $SocketURL = 'ws' . $url;
