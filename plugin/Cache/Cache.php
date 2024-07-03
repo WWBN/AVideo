@@ -51,11 +51,13 @@ class Cache extends PluginAbstract {
         $obj = $this->getDataObject();
         if (!$ignoreFirstPage && $this->isFirstPage()) {
             $obj->cacheDir .= "firstPage" . DIRECTORY_SEPARATOR;
+            /*
             if(isMobile()){
                 $obj->cacheDir .= "mobile" . DIRECTORY_SEPARATOR;
             }else{
                 $obj->cacheDir .= "desktop" . DIRECTORY_SEPARATOR;
             }
+            */
             if (User::isLogged()) {
                 $obj->cacheDir .= 'users_id_' . md5(User::getId() . $global['salt']) . DIRECTORY_SEPARATOR;
             }
