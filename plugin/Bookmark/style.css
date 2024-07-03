@@ -1,12 +1,12 @@
 .vjs-marker.marker-width-changed{
     position: absolute;
     top: 0;
-    background-color: #FFFF0055 !important;
+    background-color: #FFFF0033 !important;
     border-radius: 0 !important;
     transform: none;
 }
 .vjs-marker.marker-width-changed:hover{
     transform: scaleY(1.2) !important;
-    background-color: #FFFF00AA !important;
+    background-color: #FFFF0088 !important;
     transform-origin: bottom;
 }
