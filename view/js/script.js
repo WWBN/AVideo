@@ -255,6 +255,11 @@ async function lazyImage() {
                 // called after an element was successfully handled
                 afterLoad: function (element) {
 
+                    if(isMobile()){
+                        $(".thumbsGIF").hide();
+                        // disable it on mobile
+                        return false;
+                    }
                     element.addClass('gifNotLoaded');
                     element.addClass('lazyloadLoaded');
                     element.removeClass('blur');
