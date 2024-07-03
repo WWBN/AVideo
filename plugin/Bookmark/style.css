@@ -5,8 +5,8 @@
     background-color: #FFFF0099 !important;
     border-radius: 0 !important;
     transform: none;
-    transform: scaleY(1.1);
 }
 .vjs-marker.marker-width-changed:hover{
     transform: scaleY(1.2) !important;
+    transform-origin: bottom;
 }
