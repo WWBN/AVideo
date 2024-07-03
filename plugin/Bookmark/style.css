@@ -4,5 +4,9 @@
     top: 0;
     background-color: #FFFF0099 !important;
     border-radius: 0 !important;
-    transform: scaleY(1.5) !important;
+    transform: none;
+    transform: scaleY(1.1);
+}
+.vjs-marker.marker-width-changed:hover{
+    transform: scaleY(1.2) !important;
 }
