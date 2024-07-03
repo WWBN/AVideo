@@ -11,7 +11,7 @@ function adjustMarkerWidths() {
       }
   
       const width = nextLeft - currentLeft;
-      marker.style.width = `calc(${width}% - 1px)`; 
+      marker.style.width = `calc(${width}% - 3px)`; 
       marker.classList.add('marker-width-changed');
     });
   }
