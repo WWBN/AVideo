@@ -5133,7 +5133,7 @@ if (!class_exists('Video')) {
             if (empty($obj->thumbsJpgSmall)) {
                 $obj->thumbsJpgSmall = $obj->poster;
             }
-            if (!empty($advancedCustom->disableAnimatedGif)) {
+            if (!empty($advancedCustom->disableAnimatedGif) || (isMobile() && isFirstPage())) {
                 $obj->thumbsGif = false;
             }
 
