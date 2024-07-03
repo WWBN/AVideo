@@ -485,6 +485,11 @@ function subscribeNotify(email, user_id) {
 
 var _mouseEffectTimeout;
 async function mouseEffect() {
+    if(isMobile()){
+        $(".thumbsGIF").hide();
+        // disable it on mobile
+        return false;
+    }
     //return false;
     clearTimeout(_mouseEffectTimeout);
     _mouseEffectTimeout = setTimeout(function () {
