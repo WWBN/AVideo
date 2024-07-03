@@ -1,0 +1,11 @@
+.vjs-marker {
+    position: absolute;
+    height: 20px;
+    top: 0;
+    background-color: #FFFF0099;
+    border-radius: 0;
+}
+
+.marker-width-changed {
+    border: 2px solid red;
+}
