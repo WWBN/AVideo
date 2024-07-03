@@ -236,6 +236,9 @@ function isBot($returnTrueIfNoUserAgent=true)
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         return $returnTrueIfNoUserAgent;
     }
+    if (isCommandLineInterface()) {
+        return false;
+    }
     if (isAVideoEncoder()) {
         return false;
     }
