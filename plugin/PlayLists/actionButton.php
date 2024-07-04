@@ -1,5 +1,5 @@
 <?php
-global $advancedCustom;
+global $advancedCustom, $global;
 $crc = uniqid();
 doNOTOrganizeHTMLIfIsPagination();
 $global['laodPlaylistScript'] = 1;
