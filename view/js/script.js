@@ -4365,10 +4365,12 @@ function callFunctionOrLoadScript(funcName, jsUrl, ...args) {
       const script = document.createElement('script');
       script.src = jsUrl;
       
+      console.error(`Function ${funcName} not found loading script ${jsUrl}`);
       // Define what happens when the script is loaded
       script.onload = function() {
         // Check again if the function exists after loading the script
         if (typeof window[funcName] === 'function') {
+          console.error(`Function ${funcName} found after loading script ${jsUrl}`);
           window[funcName](...args);
         } else {
           console.error(`Function ${funcName} does not exist even after loading the script.`);
