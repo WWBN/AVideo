@@ -43,34 +43,6 @@
         }
     }
 
-    loadPlayListsResponseObject = {timestamp: 0, response: false};
-    async function loadPlayLists(videos_id, crc) {
-        if (loadPlayListsResponseObject.timestamp + 5000 < Date.now()) {
-            console.log('loadPlayLists');
-            console.trace();
-            loadPlayListsResponseObject.timestamp = Date.now();
-            loadPlayListsResponseObject.response = [];
-            setTimeout(function () {
-                $.ajax({
-                    url: webSiteRootURL+'objects/playlists.json.php',
-                    cache: true,
-                    success: function (response) {
-                        loadPlayListsResponseObject.response = response;
-                        loadPlayListsResponse(loadPlayListsResponseObject.response, videos_id, crc);
-                    }
-                });
-            }, 500);
-
-        } else {
-            if (loadPlayListsResponseObject.response) {
-                loadPlayListsResponse(loadPlayListsResponseObject.response, videos_id, crc);
-            } else {
-                setTimeout(function () {
-                    loadPlayLists(videos_id, crc);
-                }, 1500);
-            }
-        }
-    }
     var listGroupItemTemplate = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/PlayLists/listGroupItemTemplate.html')); ?>;
     async function loadPlayListsResponse(response, videos_id, crc) {
         //console.log('loadPlayListsResponse');
