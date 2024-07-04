@@ -309,10 +309,10 @@ class PlayerSkins extends PluginAbstract
             }
 
             if (!empty($classes)) {
-                $css .= "<style>";
+                $css .= "<style> @media (max-width: 768px) {";
                 $css .= implode(', ', $classes);
                 $css .= "{display: none !important;}";
-                $css .= "</style>";
+                $css .= "} </style>";
             }
             if (self::includeFullscreenBlock()) { 
                 $css .= "<style>";

@@ -53,7 +53,7 @@ try {
                 tryToPlayMuted(currentTime);
             }
         }else{
-            console.log('eventer messageEvent', e.data);
+            //console.log('eventer messageEvent', e.data);
         }
         /*
         if (e.data !== 'closeFullscreen') {
