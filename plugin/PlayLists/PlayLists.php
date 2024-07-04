@@ -162,8 +162,8 @@ class PlayLists extends PluginAbstract
         global $global;
         $obj = $this->getDataObject();
         $js = '';
+        include_once $global['systemRootPath'] . 'plugin/PlayLists/footer.php';
         if (!empty($global['laodPlaylistScript'])) {
-            include_once $global['systemRootPath'] . 'plugin/PlayLists/footer.php';
             $js .= '<script src="' . getURL('plugin/PlayLists/script.js') . '" type="text/javascript"></script>';
         }
 
