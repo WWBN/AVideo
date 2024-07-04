@@ -4354,3 +4354,34 @@ function getPreviousValue(value, array) {
     }
     return null; // Return null if there is no previous value
 }
+
+function callFunctionOrLoadScript(funcName, jsUrl, ...args) {
+    // Check if the function exists
+    if (typeof window[funcName] === 'function') {
+      // If the function exists, call it with the provided arguments
+      window[funcName](...args);
+    } else {
+      // Create a script element
+      const script = document.createElement('script');
+      script.src = jsUrl;
+      
+      // Define what happens when the script is loaded
+      script.onload = function() {
+        // Check again if the function exists after loading the script
+        if (typeof window[funcName] === 'function') {
+          window[funcName](...args);
+        } else {
+          console.error(`Function ${funcName} does not exist even after loading the script.`);
+        }
+      };
+  
+      // Handle errors in loading the script
+      script.onerror = function() {
+        console.error(`Failed to load the script from ${jsUrl}`);
+      };
+  
+      // Append the script element to the document head
+      document.head.appendChild(script);
+    }
+  }
+  
