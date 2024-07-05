@@ -251,11 +251,17 @@ function downloadVideoFromDownloadURL($downloadURL)
         $temp = Video::getStoragePath() . "cache/tmpFile/" . $_FILES['video']['name'];
         make_path($temp);
         $bytesSaved = file_put_contents($temp, $file);
+
         if ($bytesSaved) {
             _error_log("aVideoEncoder.json: saved " . $temp  . ' ' . humanFileSize($bytesSaved));
             return $temp;
         } else {
-            _error_log("aVideoEncoder.json: ERROR on save file " . $temp);
+            $dir = dirname($temp);
+            if (!is_writable($dir)) {
+                _error_log("aVideoEncoder.json: ERROR on save file " . $temp . ". Directory is not writable. To make the directory writable and set www-data as owner, use the following commands: sudo chmod -R 775 " . $dir . " && sudo chown -R www-data:www-data " . $dir);
+            } else {
+                _error_log("aVideoEncoder.json: ERROR on save file " . $temp . ". Directory is writable, but the file could not be saved. Possible causes could be disk space issues, file permission issues, or file system errors.");
+            }
         }
     }
     return false;
