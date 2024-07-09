@@ -468,211 +468,203 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     if (!empty($videoString)) {
         $videoString = fixURL($videoString);
     }
-    //_error_log("parseVideos: $videoString");
-    if (strpos($videoString, 'youtube.com/embed') !== false) {
-        return $videoString . (parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
-            . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time&objectFit=$objectFit";
+
+    // Define the base parameters to be appended to the URL
+    $baseParams = "modestbranding=1&showinfo={$showinfo}&autoplay={$autoplay}&controls={$controls}&loop={$loop}&mute={$mute}&t={$time}&objectFit={$objectFit}";
+
+    // Helper function to construct the final URL with base parameters
+    function appendParams($url, $baseParams)
+    {
+        return $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . $baseParams;
     }
+
+    // Process YouTube embedded URL
+    if (strpos($videoString, 'youtube.com/embed') !== false) {
+        return appendParams($videoString, $baseParams);
+    }
+
+    // Extract the video URL from the iframe if necessary
     if (strpos($videoString, 'iframe') !== false) {
-        // retrieve the video url
         $anchorRegex = '/src="(.*)?"/isU';
         $results = [];
         if (preg_match($anchorRegex, $videoString, $results)) {
             $link = trim($results[1]);
         }
     } else {
-        // we already have a url
         $link = $videoString;
     }
 
-    if (stripos($link, 'embed') !== false) {
-        return $link . (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
-            . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time&objectFit=$objectFit";
-    } elseif (strpos($link, 'youtube.com') !== false) {
-        preg_match(
-            '/[\\?\\&]v=([^\\?\\&]+)/',
-            $link,
-            $matches
-        );
-        //the ID of the YouTube URL: x6qe_kVaBpg
-        if (empty($matches[1])) {
-            return $link;
-        }
-        $id = $matches[1];
-        return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
-            . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time&objectFit=$objectFit";
-    } elseif (strpos($link, 'youtu.be') !== false) {
-        //https://youtu.be/9XXOBSsPoMU
-        preg_match(
-            '/youtu.be\/([a-zA-Z0-9_]+)(?:\?[^\/]*)?($|\/)/',
-            $link,
-            $matches
-        );
-        //the ID of the YouTube URL: x6qe_kVaBpg
-        $id = $matches[1];
-        return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
-            . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time&objectFit=$objectFit";
-    } elseif (strpos($link, 'player.vimeo.com') !== false) {
-        // works on:
-        // http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0
-        $videoIdRegex = '/player.vimeo.com\/video\/([0-9]+)\??/i';
-        preg_match($videoIdRegex, $link, $matches);
-        $id = $matches[1];
-        return '//player.vimeo.com/video/' . $id;
-    } elseif (strpos($link, 'vimeo.com/channels') !== false) {
-        //extract the ID
-        preg_match(
-            '/\/\/(www\.)?vimeo.com\/channels\/[a-z0-9-]+\/(\d+)($|\/)/i',
-            $link,
-            $matches
-        );
-
-        //the ID of the Vimeo URL: 71673549
-        $id = $matches[2];
-        return '//player.vimeo.com/video/' . $id;
-    } elseif (strpos($link, 'vimeo.com') !== false) {
-        //extract the ID
-        preg_match(
-            '/\/\/(www\.)?vimeo.com\/(\d+)($|\/)/',
-            $link,
-            $matches
-        );
-
-        //the ID of the Vimeo URL: 71673549
-        $id = $matches[2];
-        return '//player.vimeo.com/video/' . $id;
-    } elseif (strpos($link, 'dailymotion.com') !== false) {
-        //extract the ID
-        preg_match(
-            '/\/\/(www\.)?dailymotion.com\/video\/([a-zA-Z0-9_]+)($|\/)/',
-            $link,
-            $matches
-        );
-
-        //the ID of the Vimeo URL: 71673549
-        $id = $matches[2];
-        return '//www.dailymotion.com/embed/video/' . $id;
-    } elseif (strpos($link, 'metacafe.com') !== false) {
-        //extract the ID
-        preg_match(
-            '/\/\/(www\.)?metacafe.com\/watch\/([a-zA-Z0-9_\/-]+)$/',
-            $link,
-            $matches
-        );
-        $id = $matches[2];
-        return '//www.metacafe.com/embed/' . $id;
-    } elseif (strpos($link, 'vid.me') !== false) {
-        //extract the ID
-        preg_match(
-            '/\/\/(www\.)?vid.me\/([a-zA-Z0-9_-]+)$/',
-            $link,
-            $matches
-        );
-
-        $id = $matches[2];
-        return '//vid.me/e/' . $id;
-    } elseif (strpos($link, 'rutube.ru') !== false) {
-        //extract the ID
-        preg_match('/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)\/.*/', $link, $matches);
-        $id = $matches[2];
-        return '//rutube.ru/play/embed/' . $id;
-    } elseif (strpos($link, 'ok.ru') !== false) {
-        //extract the ID
-        preg_match('/\/\/(www\.)?ok.ru\/video\/([a-zA-Z0-9_-]+)$/', $link, $matches);
-
-        $id = $matches[2];
-        return '//ok.ru/videoembed/' . $id;
-    } elseif (strpos($link, 'streamable.com') !== false) {
-        //extract the ID
-        preg_match('/\/\/(www\.)?streamable.com\/([a-zA-Z0-9_-]+)$/', $link, $matches);
-
-        $id = $matches[2];
-        return '//streamable.com/s/' . $id;
-    } elseif (strpos($link, 'twitch.tv/videos') !== false) {
-        //extract the ID
-        preg_match('/\/\/(www\.)?twitch.tv\/videos\/([a-zA-Z0-9_-]+)$/', $link, $matches);
-        if (!empty($matches[2])) {
-            $id = $matches[2];
-            return '//player.twitch.tv/?video=' . $id . '&parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
-        }
-        //extract the ID
-        preg_match('/\/\/(www\.)?twitch.tv\/[a-zA-Z0-9_-]+\/v\/([a-zA-Z0-9_-]+)$/', $link, $matches);
-
-        $id = $matches[2];
-        return '//player.twitch.tv/?video=' . $id . '&parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
-    } elseif (strpos($link, 'twitch.tv') !== false) {
-        //extract the ID
-        preg_match('/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches);
-
-        $id = $matches[2];
-        return '//player.twitch.tv/?channel=' . $id . '&parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
-    } elseif (strpos($link, 'bitchute.com/video') !== false) {
-        //extract the ID
-        preg_match('/\/\/(www\.)?bitchute.com\/video\/([^\/]+)/', $link, $matches);
-        $id = $matches[2];
-        return 'https://www.bitchute.com/embed/' . $id . '/?parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
-    } elseif (strpos($link, '/evideo/') !== false) {
-        //extract the ID
-        preg_match('/(http.+)\/evideo\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
-
-        //the AVideo site
-        $site = $matches[1];
-        $id = $matches[2];
-        return $site . '/evideoEmbed/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
-    } elseif (strpos($link, '/fb.watch/') !== false) {
-        //extract the ID
-        preg_match('/\/\/(www\.)?fb.watch\/([^\/]+)/', $link, $matches);
-        $url = 'https://www.facebook.com/plugins/video.php';
-        $url = addQueryStringParameter($url, 'href', $link);
-        $url = addQueryStringParameter($url, 'show_text', $showinfo ? 'true' : 'false');
-        $url = addQueryStringParameter($url, 't', $time);
-        return $url;
-    } elseif (strpos($link, '/video/') !== false) {
-        //extract the ID
-        preg_match('/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
-
-        //the AVideo site
+    // Process YouTube links
+    if (stripos($link, 'embed') !== false || strpos($link, 'youtube.com') !== false || strpos($link, 'youtu.be') !== false) {
+        preg_match('/(?:youtube\.com\/.*v=|youtu\.be\/|youtube\.com\/embed\/)([^&?\/]+)/', $link, $matches);
         if (!empty($matches[1])) {
-            $site = $matches[1];
-            $id = $matches[2];
-            return $site . '/videoEmbed/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
-        } else {
-            return $link;
+            $id = $matches[1];
+            return appendParams('//www.youtube.com/embed/' . $id, $baseParams);
         }
     }
 
-    $url = $videoString;
-    $url_parsed = parse_url($url);
+    // Process Vimeo links
+    if (strpos($link, 'vimeo.com') !== false) {
+        preg_match('/vimeo\.com\/(?:channels\/[a-z0-9-]+\/|video\/|)(\d+)/i', $link, $matches);
+        if (!empty($matches[1])) {
+            $id = $matches[1];
+            return '//player.vimeo.com/video/' . $id;
+        }
+    }
+
+    // Process Dailymotion links
+    if (strpos($link, 'dailymotion.com') !== false) {
+        preg_match('/dailymotion.com\/video\/([a-zA-Z0-9_]+)/', $link, $matches);
+        if (!empty($matches[1])) {
+            $id = $matches[1];
+            return '//www.dailymotion.com/embed/video/' . $id;
+        }
+    }
+
+    // Process Metacafe links
+    if (strpos($link, 'metacafe.com') !== false) {
+        preg_match('/metacafe.com\/watch\/([a-zA-Z0-9_\/-]+)/', $link, $matches);
+        if (!empty($matches[1])) {
+            $id = $matches[1];
+            return '//www.metacafe.com/embed/' . $id;
+        }
+    }
+
+    // Process Vid.me links
+    if (strpos($link, 'vid.me') !== false) {
+        preg_match('/vid.me\/([a-zA-Z0-9_-]+)$/', $link, $matches);
+        if (!empty($matches[1])) {
+            $id = $matches[1];
+            return '//vid.me/e/' . $id;
+        }
+    }
+
+    // Process Rutube links
+    if (strpos($link, 'rutube.ru') !== false) {
+        preg_match('/rutube.ru\/video\/([a-zA-Z0-9_-]+)\//', $link, $matches);
+        if (!empty($matches[1])) {
+            $id = $matches[1];
+            return '//rutube.ru/play/embed/' . $id;
+        }
+    }
+
+    // Process OK.ru links
+    if (strpos($link, 'ok.ru') !== false) {
+        preg_match('/ok.ru\/video\/([a-zA-Z0-9_-]+)$/', $link, $matches);
+        if (!empty($matches[1])) {
+            $id = $matches[1];
+            return '//ok.ru/videoembed/' . $id;
+        }
+    }
+
+    // Process Streamable links
+    if (strpos($link, 'streamable.com') !== false) {
+        preg_match('/streamable.com\/([a-zA-Z0-9_-]+)$/', $link, $matches);
+        if (!empty($matches[1])) {
+            $id = $matches[1];
+            return '//streamable.com/s/' . $id;
+        }
+    }
+
+    // Process Twitch.tv links
+    if (strpos($link, 'twitch.tv') !== false) {
+        preg_match('/twitch.tv\/videos\/([a-zA-Z0-9_-]+)|twitch.tv\/[a-zA-Z0-9_-]+\/v\/([a-zA-Z0-9_-]+)|twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches);
+        if (!empty($matches[1])) {
+            return '//player.twitch.tv/?video=' . $matches[1] . '&parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+        } elseif (!empty($matches[2])) {
+            return '//player.twitch.tv/?video=' . $matches[2] . '&parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+        } elseif (!empty($matches[3])) {
+            return '//player.twitch.tv/?channel=' . $matches[3] . '&parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+        }
+    }
+
+    // Process Bitchute links
+    if (strpos($link, 'bitchute.com/video') !== false) {
+        preg_match('/bitchute.com\/video\/([^\/]+)/', $link, $matches);
+        if (!empty($matches[1])) {
+            $id = $matches[1];
+            return 'https://www.bitchute.com/embed/' . $id . '/?parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+        }
+    }
+
+    // Process AVideo links
+    if (strpos($link, '/evideo/') !== false) {
+        preg_match('/(http.+)\/evideo\/([a-zA-Z0-9_-]+)/i', $link, $matches);
+        if (!empty($matches[1]) && !empty($matches[2])) {
+            $site = $matches[1];
+            $id = $matches[2];
+            return $site . '/evideoEmbed/' . $id . "?autoplay={$autoplay}&controls={$controls}&loop={$loop}&mute={$mute}&t={$time}";
+        }
+    }
+
+    if (strpos($link, '/video/') !== false) {
+        preg_match('/(http.+)\/video\/([a-zA-Z0-9_-]+)/i', $link, $matches);
+        if (!empty($matches[1]) && !empty($matches[2])) {
+            $site = $matches[1];
+            $id = $matches[2];
+            return $site . '/videoEmbed/' . $id . "?autoplay={$autoplay}&controls={$controls}&loop={$loop}&mute={$mute}&t={$time}";
+        }
+    }
+
+    // Process Facebook Watch links
+    if (strpos($link, '/fb.watch/') !== false) {
+        preg_match('/fb.watch\/([^\/]+)/', $link, $matches);
+        if (!empty($matches[1])) {
+            $url = 'https://www.facebook.com/plugins/video.php';
+            $url = addQueryStringParameter($url, 'href', $link);
+            $url = addQueryStringParameter($url, 'show_text', $showinfo ? 'true' : 'false');
+            $url = addQueryStringParameter($url, 't', $time);
+            return $url;
+        }
+    }
+
+    // Process Voe.sx links
+    if (strpos($link, 'voe.sx') !== false) {
+        preg_match('/voe.sx\/(?:e\/)?([a-zA-Z0-9]+)/', $link, $matches);
+        if (!empty($matches[1])) {
+            return 'https://voe.sx/e/' . $matches[1];
+        }
+    }
+
+    // Process Streamvid.net links
+    if (strpos($link, 'streamvid.net') !== false) {
+        preg_match('/streamvid.net\/(?:embed-)?([a-zA-Z0-9]+)/', $link, $matches);
+        if (!empty($matches[1])) {
+            return 'https://streamvid.net/embed-' . $matches[1];
+        }
+    }
+
+    // Process Streamtape.to links
+    if (strpos($link, 'streamtape.to') !== false) {
+        preg_match('/streamtape.to\/(?:v|e)\/([a-zA-Z0-9]+)/', $link, $matches);
+        if (!empty($matches[1])) {
+            return 'https://streamtape.com/e/' . $matches[1];
+        }
+    }
+
+    // Process Vid-guard.com links
+    if (strpos($link, 'vid-guard.com') !== false) {
+        preg_match('/vembed.net\/(?:e\/)?([a-zA-Z0-9]+)/', $link, $matches);
+        if (!empty($matches[1])) {
+            return 'https://vembed.net/e/' . $matches[1];
+        }
+    }
+
+    // If no known video platform is matched, process the URL query parameters
+    $url_parsed = parse_url($videoString);
     if (empty($url_parsed['query'])) {
         return "";
     }
-    $new_qs_parsed = [];
-    // Grab our first query string
     parse_str($url_parsed['query'], $new_qs_parsed);
-    // Here's the other query string
-    $other_query_string = 'modestbranding=1&showinfo='
-        . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
-    $other_qs_parsed = [];
-    parse_str($other_query_string, $other_qs_parsed);
-    // Stitch the two query strings together
+    parse_str($baseParams, $other_qs_parsed);
     $final_query_string_array = array_merge($new_qs_parsed, $other_qs_parsed);
     $final_query_string = http_build_query($final_query_string_array);
-    // Now, our final URL:
-    if (empty($url_parsed['scheme'])) {
-        $scheme = '';
-    } else {
-        $scheme = "{$url_parsed['scheme']}:";
-    }
-    $new_url = $scheme
-        . '//'
-        . $url_parsed['host']
-        . $url_parsed['path']
-        . '?'
-        . $final_query_string;
+    $scheme = empty($url_parsed['scheme']) ? '' : "{$url_parsed['scheme']}:";
+    $new_url = $scheme . '//' . $url_parsed['host'] . $url_parsed['path'] . '?' . $final_query_string;
 
     return $new_url;
-    // return data
 }
+
 
 $canUseCDN = [];
 
