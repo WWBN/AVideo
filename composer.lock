@@ -282,16 +282,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.315.2",
+            "version": "3.315.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0d9911bf67e0f2c4b6965d7f10840b11f323e6b2"
+                "reference": "69e19f7b083c5b5a06677b026e23dae517825c8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0d9911bf67e0f2c4b6965d7f10840b11f323e6b2",
-                "reference": "0d9911bf67e0f2c4b6965d7f10840b11f323e6b2",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/69e19f7b083c5b5a06677b026e23dae517825c8b",
+                "reference": "69e19f7b083c5b5a06677b026e23dae517825c8b",
                 "shasum": ""
             },
             "require": {
@@ -371,9 +371,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.315.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.315.6"
             },
-            "time": "2024-06-28T19:07:22+00:00"
+            "time": "2024-07-05T18:07:22+00:00"
         },
         {
             "name": "brick/math",
@@ -1125,16 +1125,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.362.0",
+            "version": "v0.363.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "c5016217c8aba823a8ebeed6ccd75d93522e3311"
+                "reference": "5a0943e498e98e23dccdd98c5a3f74bc1b442053"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/c5016217c8aba823a8ebeed6ccd75d93522e3311",
-                "reference": "c5016217c8aba823a8ebeed6ccd75d93522e3311",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/5a0943e498e98e23dccdd98c5a3f74bc1b442053",
+                "reference": "5a0943e498e98e23dccdd98c5a3f74bc1b442053",
                 "shasum": ""
             },
             "require": {
@@ -1163,9 +1163,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.362.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.363.0"
             },
-            "time": "2024-06-28T01:06:13+00:00"
+            "time": "2024-07-02T01:04:18+00:00"
         },
         {
             "name": "google/auth",
@@ -4060,16 +4060,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v15.0.0",
+            "version": "v15.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "96f0dbe9c2b5365d716f86d92a27feecca2cbaee"
+                "reference": "ce69d019941cf528c036ae0d1a3a9580c7389460"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/96f0dbe9c2b5365d716f86d92a27feecca2cbaee",
-                "reference": "96f0dbe9c2b5365d716f86d92a27feecca2cbaee",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ce69d019941cf528c036ae0d1a3a9580c7389460",
+                "reference": "ce69d019941cf528c036ae0d1a3a9580c7389460",
                 "shasum": ""
             },
             "require": {
@@ -4113,9 +4113,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v15.0.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v15.1.0"
             },
-            "time": "2024-06-24T23:05:11+00:00"
+            "time": "2024-07-05T18:52:07+00:00"
         },
         {
             "name": "symfony/console",
