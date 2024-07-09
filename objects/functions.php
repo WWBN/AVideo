@@ -462,6 +462,12 @@ function fixURL($url)
     return str_replace(array('&amp%3B', '&amp;'), array('&', '&'), $url);
 }
 
+// Helper function to construct the final URL with base parameters
+function appendParams($url, $baseParams)
+{
+    return $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . $baseParams;
+}
+
 function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $showinfo = 0, $controls = 1, $time = 0, $objectFit = "")
 {
     global $global;
@@ -471,12 +477,6 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
 
     // Define the base parameters to be appended to the URL
     $baseParams = "modestbranding=1&showinfo={$showinfo}&autoplay={$autoplay}&controls={$controls}&loop={$loop}&mute={$mute}&t={$time}&objectFit={$objectFit}";
-
-    // Helper function to construct the final URL with base parameters
-    function appendParams($url, $baseParams)
-    {
-        return $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . $baseParams;
-    }
 
     // Process YouTube embedded URL
     if (strpos($videoString, 'youtube.com/embed') !== false) {
