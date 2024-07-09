@@ -727,60 +727,60 @@ if (User::isAdmin()) {
                 evt.preventDefault();
                 modal.showPleaseWait();
                 $('#tabRegularLink').tab('show');
+                setTimeout(function() {
 
-                logoCrop.croppie('result', {
-                    type: 'canvas',
-                    size: 'viewport'
-                }).then(function(resp) {
-                    logoImgBase64 = resp;
-
-                    faviconCrop.croppie('result', {
+                    logoCrop.croppie('result', {
                         type: 'canvas',
                         size: 'viewport'
                     }).then(function(resp) {
-                        faviconBase64 = resp;
-
-                        $.ajax({
-                            url: webSiteRootURL + 'objects/configurationUpdate.json.php',
-                            data: {
-                                "logoImgBase64": logoImgBase64,
-                                "faviconBase64": faviconBase64,
-                                "video_resolution": $('#inputVideoResolution').val(),
-                                "webSiteTitle": $('#inputWebSiteTitle').val(),
-                                "description": $('#inputWebSiteDescription').val(),
-                                "language": $('#inputLanguage').val(),
-                                "contactEmail": $('#inputEmail').val(),
-                                "authCanUploadVideos": $('#authCanUploadVideos').val(),
-                                "authCanViewChart": $('#authCanViewChart').val(),
-                                "authCanComment": $('#authCanComment').val(),
-                                "head": $('#head').val(),
-                                "adsense": $('#adsense').val(),
-                                "disable_analytics": $('#disable_analytics').prop("checked"),
-                                "allow_download": $("#allow_download").prop("checked"),
-                                "session_timeout": $('#session_timeout').val(),
-                                "autoplay": $('#autoplaySwitch').prop("checked"),
-                                "theme": theme,
-                                "smtp": $('#enableSmtp').prop("checked"),
-                                "smtpAuth": $('#enableSmtpAuth').prop("checked"),
-                                "smtpSecure": $('#smtpSecure').val(),
-                                "smtpHost": $('#smtpHost').val(),
-                                "smtpUsername": $('#smtpUsername').val(),
-                                "smtpPassword": $('#smtpPassword').val(),
-                                "smtpPort": $('#smtpPort').val(),
-                                "encoder_url": $('#encoder_url').val(),
-                            },
-                            type: 'post',
-                            success: function(response) {
-                                if (response.status === "1") {
-                                    avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
-                                } else {
-                                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
+                        logoImgBase64 = resp;
+                        faviconCrop.croppie('result', {
+                            type: 'canvas',
+                            size: 'viewport'
+                        }).then(function(resp) {
+                            faviconBase64 = resp;
+                            $.ajax({
+                                url: webSiteRootURL + 'objects/configurationUpdate.json.php',
+                                data: {
+                                    "logoImgBase64": logoImgBase64,
+                                    "faviconBase64": faviconBase64,
+                                    "video_resolution": $('#inputVideoResolution').val(),
+                                    "webSiteTitle": $('#inputWebSiteTitle').val(),
+                                    "description": $('#inputWebSiteDescription').val(),
+                                    "language": $('#inputLanguage').val(),
+                                    "contactEmail": $('#inputEmail').val(),
+                                    "authCanUploadVideos": $('#authCanUploadVideos').val(),
+                                    "authCanViewChart": $('#authCanViewChart').val(),
+                                    "authCanComment": $('#authCanComment').val(),
+                                    "head": $('#head').val(),
+                                    "adsense": $('#adsense').val(),
+                                    "disable_analytics": $('#disable_analytics').prop("checked"),
+                                    "allow_download": $("#allow_download").prop("checked"),
+                                    "session_timeout": $('#session_timeout').val(),
+                                    "autoplay": $('#autoplaySwitch').prop("checked"),
+                                    "theme": theme,
+                                    "smtp": $('#enableSmtp').prop("checked"),
+                                    "smtpAuth": $('#enableSmtpAuth').prop("checked"),
+                                    "smtpSecure": $('#smtpSecure').val(),
+                                    "smtpHost": $('#smtpHost').val(),
+                                    "smtpUsername": $('#smtpUsername').val(),
+                                    "smtpPassword": $('#smtpPassword').val(),
+                                    "smtpPort": $('#smtpPort').val(),
+                                    "encoder_url": $('#encoder_url').val(),
+                                },
+                                type: 'post',
+                                success: function(response) {
+                                    if (response.status === "1") {
+                                        avideoAlertSuccess(__("Your configurations has been updated!"));
+                                    } else {
+                                        avideoAlertError(__("Your configurations has NOT been updated!"));
+                                    }
+                                    modal.hidePleaseWait();
                                 }
-                                modal.hidePleaseWait();
-                            }
+                            });
                         });
                     });
-                });
+                }, 500);
 
             });
 
