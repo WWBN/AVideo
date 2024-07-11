@@ -653,7 +653,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     // If no known video platform is matched, process the URL query parameters
     $url_parsed = parse_url($videoString);
     if (empty($url_parsed['query'])) {
-        return "";
+        return $videoString;
     }
     parse_str($url_parsed['query'], $new_qs_parsed);
     parse_str($baseParams, $other_qs_parsed);
