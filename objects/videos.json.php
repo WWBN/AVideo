@@ -92,6 +92,8 @@ foreach ($videos as $key => $value) {
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
 $obj = new stdClass();
 $obj->users_id = User::getId();
+$obj->showAll = @$_REQUEST['showAll'];
+$obj->catName = @$_REQUEST['catName'];
 $obj->current = getCurrentPage();
 $obj->rowCount = getRowCount();
 $obj->total = $total;
