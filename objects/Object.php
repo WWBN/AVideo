@@ -167,6 +167,13 @@ abstract class ObjectYPT implements ObjectInterface
             }
         }
 
+        // add a security here
+        if (!empty($_GET['sort'])) {
+            foreach ($_GET['sort'] as $key => $value) {
+                $_GET['sort'][xss_esc($key)] = xss_esc($value);
+            }
+        }
+
         if (!empty($_POST['sort'])) {
             $orderBy = [];
             foreach ($_POST['sort'] as $key => $value) {
