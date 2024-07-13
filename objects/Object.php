@@ -181,7 +181,7 @@ abstract class ObjectYPT implements ObjectInterface
                 if (strpos($key, '.') === false) {
                     $key = "`{$key}`";
                 }
-                $orderBy[] = " {$keyPrefix}{$key} {$value} ";
+                $orderBy[] = " {$keyPrefix}{$key} {$direction} ";
             }
             $sql .= " ORDER BY " . implode(",", $orderBy);
         }
