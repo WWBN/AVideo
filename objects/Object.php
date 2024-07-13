@@ -1100,6 +1100,7 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function __set_state($state)
     {
+        // not sure where comes from this error
         $obj = new self();
         $obj->properties = $state['properties'];
         return $obj;
