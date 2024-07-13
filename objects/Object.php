@@ -145,7 +145,15 @@ abstract class ObjectYPT implements ObjectInterface
     {
         global $global;
         $sql = self::getSqlSearchFromPost($searchTableAlias);
+        $sql .= self::getSqlOrderByFromPost($keyPrefix);
+        $sql .= self::getSqlLimit();
+        return $sql;
+    }
 
+    public static function getSqlOrderByFromPost($keyPrefix = "")
+    {
+        global $global;
+        $sql = '';
         if (empty($_POST['sort']) && !empty($_GET['order'][0]['dir'])) {
             $index = intval($_GET['order'][0]['column']);
             $_GET['columns'][$index]['data'];
@@ -178,7 +186,6 @@ abstract class ObjectYPT implements ObjectInterface
             $sql .= " ORDER BY " . implode(",", $orderBy);
         }
 
-        $sql .= self::getSqlLimit();
         return $sql;
     }
 
