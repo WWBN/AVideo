@@ -45,7 +45,7 @@ function convertVideoToMP3FileIfNotExists($videos_id)
     if (empty($video)) {
         return false;
     }
-    $types = ['video', 'audio'];
+    $types = [Video::$videoTypeVideo, Video::$videoTypeAudio];
     if (!in_array($video['type'], $types)) {
         return false;
     }

@@ -482,6 +482,9 @@ Disallow: *action=tagsearch*
         self::addDataObjectHelper('showVideoDownloadedLink', 'Show video Downloaded Link', 'Show the video source URL above the video description');
         
         $obj->videosForKids = true;
+
+
+        $obj->autoConvertVideosToMP3 = false;
         
         return $obj;
     }
@@ -555,6 +558,10 @@ Disallow: *action=tagsearch*
         }
         
         $obj = $this->getDataObject();
+        if($obj->autoConvertVideosToMP3){
+            convertVideoToMP3FileIfNotExists($videos_id);
+        }
+
         $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, true);
         if (!empty($video['rrating']) && empty($_GET['rrating'])) {
             $suffix = strtoupper(str_replace("-", "", $video['rrating']));
@@ -665,6 +672,16 @@ Disallow: *action=tagsearch*
     public function onReceiveFile($videos_id) {
         Video::updateFilesize($videos_id);
         return true;
+    }
+
+    public function afterNewVideo($videos_id) {
+
+        $obj = AVideoPlugin::getDataObject('CustomizeAdvanced');
+        if($obj->autoConvertVideosToMP3){
+            convertVideoToMP3FileIfNotExists($videos_id);
+        }
+        
+        return false;
     }
     
     public static function getManagerVideosAddNew() {
