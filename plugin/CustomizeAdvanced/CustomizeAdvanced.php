@@ -558,9 +558,8 @@ Disallow: *action=tagsearch*
         }
         
         $obj = $this->getDataObject();
-        if($obj->autoConvertVideosToMP3){
-            convertVideoToMP3FileIfNotExists($videos_id);
-        }
+        
+        self::createMP3($videos_id);
 
         $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, true);
         if (!empty($video['rrating']) && empty($_GET['rrating'])) {
@@ -675,15 +674,17 @@ Disallow: *action=tagsearch*
     }
 
     public function afterNewVideo($videos_id) {
-
+        self::createMP3($videos_id);
+        return false;
+    }
+    
+    public static function createMP3($videos_id){
         $obj = AVideoPlugin::getDataObject('CustomizeAdvanced');
         if($obj->autoConvertVideosToMP3){
             convertVideoToMP3FileIfNotExists($videos_id);
         }
-        
-        return false;
     }
-    
+
     public static function getManagerVideosAddNew() {
         global $global;
         $filename = $global['systemRootPath'] . 'plugin/CustomizeAdvanced/getManagerVideosAddNew.js';

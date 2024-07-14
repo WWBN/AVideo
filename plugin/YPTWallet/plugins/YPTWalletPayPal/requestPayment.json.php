@@ -28,7 +28,10 @@ $invoiceNumber = uniqid();
 
 $description = $config->getWebSiteTitle()." Payment";
 
-$payment = $plugin->setUpPayment($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $_POST['value'], $objS->currency, $description);
+$RedirectURL = "{$global['webSiteRootURL']}plugin/YPTWallet/plugins/YPTWalletPayPal/redirect_url.php";
+$CancelURL = "{$global['webSiteRootURL']}plugin/YPTWallet/plugins/YPTWalletPayPal/cancel_url.php";
+
+$payment = $plugin->setUpPayment($invoiceNumber, $RedirectURL, $CancelURL, $_POST['value'], $objS->currency, $description);
 
 if (!empty($payment)) {
     $obj->error = false;
