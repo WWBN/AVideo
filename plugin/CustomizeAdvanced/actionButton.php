@@ -31,7 +31,9 @@ if($obj->allowDownloadMP3){
         <?php
     }else{
         CustomizeAdvanced::createMP3($videos_id);
-        echo '<!-- there is no mp3 to download -->';
+        echo '<!-- allowDownloadMP3: there is no mp3 to download -->';
     }
+}else{
+    echo '<!-- allowDownloadMP3: mp3 not allowed to download  -->';
 }
 ?>
