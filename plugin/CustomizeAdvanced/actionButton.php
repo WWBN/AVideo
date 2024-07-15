@@ -33,3 +33,4 @@ if($obj->allowDownloadMP3){
         echo '<!-- there is no mp3 to download -->';
     }
 }
+?>
