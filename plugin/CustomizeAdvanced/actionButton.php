@@ -28,7 +28,7 @@ if($obj->allowDownloadMP3){
         <a href="<?php echo $mp3URL; ?>" class="btn btn-default no-outline" data-toggle="tooltip" title="<?php echo __("MP3"); ?>" target="_blank">
             <i class="fas fa-download"></i> <?php echo __("MP3"); ?>
         </a>
-    <?
+        <?php
     }else{
         echo '<!-- there is no mp3 to download -->';
     }
