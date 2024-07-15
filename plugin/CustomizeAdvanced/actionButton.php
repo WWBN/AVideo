@@ -14,7 +14,7 @@ if (isValidURL($trailer)) {
     <button type="button" class="btn btn-default no-outline" onclick="avideoModalIframe('<?php echo parseVideos($trailer, 1); ?>');" data-toggle="tooltip" title="<?php echo __("Trailer"); ?>">
         <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
     </button>
-<?
+<?php
 }
 
 if($obj->allowDownloadMP3){
