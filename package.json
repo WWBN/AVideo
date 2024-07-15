@@ -5,7 +5,7 @@
     "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/interaction": "^6.1.14",
     "@fullcalendar/list": "^6.1.14",
-    "@fullcalendar/timegrid": "^6.1.14",
+    "@fullcalendar/timegrid": "^6.1.15",
     "@silvermine/videojs-chromecast": "^1.5.0",
     "animate.css": "^4.1.1",
     "blockadblock": "^3.2.1",
