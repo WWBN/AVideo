@@ -1,4 +1,5 @@
 <?php
+$obj = AVideoPlugin::getDataObject('CustomizeAdvanced');
 $videoAB = new Video('', '', $videos_id);
 $trailer = $videoAB->getTrailer1();
 //var_dump($_REQUEST);exit;
@@ -7,11 +8,28 @@ if (!isValidURL($trailer)) {
         $trailer = PlayLists::getTrailerIfIsSerie($_REQUEST['playlist_id']);
     }
 }
-if (!isValidURL($trailer)) {
+if (isValidURL($trailer)) {
     echo '<!-- invalid trailer URL -->';
-    return false;
-}
 ?>
-<button type="button" class="btn btn-default no-outline" onclick="avideoModalIframe('<?php echo parseVideos($trailer, 1); ?>');" data-toggle="tooltip" title="<?php echo __("Trailer"); ?>">
-    <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
-</button>
+    <button type="button" class="btn btn-default no-outline" onclick="avideoModalIframe('<?php echo parseVideos($trailer, 1); ?>');" data-toggle="tooltip" title="<?php echo __("Trailer"); ?>">
+        <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
+    </button>
+<?
+}
+
+if($obj->allowDownloadMP3){
+    $filename = $videoAB->getFilename();
+    $paths = Video::getPaths($filename);
+    $mp3File = "{$paths['path']}{$video['filename']}.mp3";
+    $mp3URL= "{$paths['url']}{$video['filename']}.mp3";
+    if (!file_exists($mp3File)) {
+        $mp3URL = addQueryStringParameter($mp3URL, 'download', 1);
+        ?>
+        <a href="<?php echo $mp3URL; ?>" class="btn btn-default no-outline" data-toggle="tooltip" title="<?php echo __("MP3"); ?>" target="_blank">
+            <i class="fas fa-download"></i> <?php echo __("MP3"); ?>
+        </a>
+    <?
+    }else{
+        echo '<!-- there is no mp3 to download -->';
+    }
+}

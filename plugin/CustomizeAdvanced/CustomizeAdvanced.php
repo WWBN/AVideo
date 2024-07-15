@@ -485,6 +485,7 @@ Disallow: *action=tagsearch*
 
 
         $obj->autoConvertVideosToMP3 = false;
+        $obj->allowDownloadMP3 = true;
         
         return $obj;
     }
