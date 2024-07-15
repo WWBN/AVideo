@@ -19,7 +19,9 @@ if (isValidURL($trailer)) {
 
 if($obj->allowDownloadMP3){
     $filename = $videoAB->getFilename();
-    $paths = Video::getPaths($filename);
+    $mp3FileRelative = "{$video['filename']}.mp3";
+    $paths = Video::getPaths($mp3FileRelative);
+    var_dump($paths);
     $mp3File = "{$paths['path']}{$video['filename']}.mp3";
     $mp3URL= "{$paths['url']}{$video['filename']}.mp3";
     if (file_exists($mp3File)) {
