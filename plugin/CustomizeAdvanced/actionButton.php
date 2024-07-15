@@ -30,7 +30,7 @@ if($obj->allowDownloadMP3){
         </a>
         <?php
     }else{
-        convertVideoToMP3FileIfNotExists($videos_id);
+        CustomizeAdvanced::createMP3($videos_id);
         echo '<!-- there is no mp3 to download -->';
     }
 }
