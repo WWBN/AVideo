@@ -14,7 +14,7 @@
     "chart.js": "^4.4.3",
     "codemirror": "^6.0.1",
     "croppie": "^2.6.5",
-    "dexie": "^4.0.7",
+    "dexie": "^4.0.8",
     "dom-walk": "^0.1.2",
     "flickity": "^3.0.0",
     "flickity-bg-lazyload": "^2.0.0",
