@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",
-    "@fullcalendar/core": "^6.1.13",
+    "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/list": "^6.1.14",
