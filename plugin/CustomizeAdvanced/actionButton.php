@@ -19,12 +19,10 @@ if (isValidURL($trailer)) {
 
 if($obj->allowDownloadMP3){
     $filename = $videoAB->getFilename();
-    $mp3FileRelative = "{$video['filename']}.mp3";
-    $paths = Video::getPaths($mp3FileRelative);
-    var_dump($paths);
+    $paths = Video::getPaths($filename);
     $mp3File = "{$paths['path']}{$video['filename']}.mp3";
-    $mp3URL= "{$paths['url']}{$video['filename']}.mp3";
     if (file_exists($mp3File)) {
+        $mp3URL = getVideosURLAudio($mp3File, true);
         $mp3URL = addQueryStringParameter($mp3URL, 'download', 1);
         ?>
         <a href="<?php echo $mp3URL; ?>" class="btn btn-default no-outline" data-toggle="tooltip" title="<?php echo __("MP3"); ?>" target="_blank">
