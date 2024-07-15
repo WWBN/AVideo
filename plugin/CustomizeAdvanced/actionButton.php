@@ -23,7 +23,7 @@ if($obj->allowDownloadMP3){
     $mp3File = "{$paths['path']}{$video['filename']}.mp3";
     if (file_exists($mp3File)) {
         $mp3URL = getVideosURLAudio($mp3File, true);
-        var_dump($mp3URL);
+        //var_dump($mp3URL);
         $mp3URL['mp3']['url'] = addQueryStringParameter($mp3URL['mp3']['url'], 'download', 1);
         ?>
         <a href="<?php echo $mp3URL['mp3']['url']; ?>" class="btn btn-default no-outline" data-toggle="tooltip" title="<?php echo __("MP3"); ?>" target="_blank">
