@@ -20,4 +20,3 @@ $t['Organize'] = 'Organise';
 $t['The Permissions Plugin is not installed. Please install it if you want to customize the permissions.'] = 'The Permissions Plugin is not installed. Please install it if you want to customise the permissions.';
 $t['Truly customize your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.'] = 'Truly customise your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.';
 $t['You can not manager plugin customize'] = 'You can not manager plugin customise';
-$t['Your maximum file size is:'] = 'Your maximum file size is:';
