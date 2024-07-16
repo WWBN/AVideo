@@ -304,7 +304,6 @@ $t['Funds successfully transferred'] = 'Средства успешно пере
 $t['General Audiences'] = 'Основная аудитория';
 $t['General Settings'] = 'Основные настройки';
 $t['Generate Sitemap'] = 'Создать карту сайта';
-$t['Get imgage error'] = 'Получать ошибку изображения';
 $t['Go Back'] = 'Вернуться';
 $t['Go back to the main page'] = 'Вернуться на мою страниц';
 $t['Go to manager videos page!'] = 'Перейти на страницу управления видео!';
