@@ -10,7 +10,7 @@ $menu = Menu::getAllActive(Menu::$typeActionMenu);
 
 $videos_id = getVideos_id();
 ?>
-<!-- action menu start -->
+<!-- action menu flix start -->
 <?php
 foreach ($menu as $key => $value) {
     $menuItems = MenuItem::getAllFromMenu($videos_id, true);
@@ -142,4 +142,4 @@ if (!User::canWatchVideo($videos_id)) {
     }
 }
 ?>
-<!-- action menu start -->
+<!-- action menu flix end -->
