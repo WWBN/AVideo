@@ -32,6 +32,7 @@ foreach ($menu as $key => $value) {
         <?php
     }
 }
+echo PHP_EOL.'<!-- action menu typeActionMenuCustomURL start -->'.PHP_EOL;
 $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
 
 foreach ($menu as $key => $value) {
@@ -60,6 +61,7 @@ foreach ($menu as $key => $value) {
 }
 
 if (User::isLogged()) {
+    echo PHP_EOL.'<!-- action menu typeActionMenuCustomURLForLoggedUsers start -->'.PHP_EOL;
     $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForLoggedUsers);
     foreach ($menu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($videos_id, true);
@@ -86,6 +88,8 @@ if (User::isLogged()) {
         }
     }
     if (User::canWatchVideo($videos_id)) {
+        echo PHP_EOL.'<!-- action menu typeActionMenuCustomURLForUsersThatCanWatchVideo start -->'.PHP_EOL;
+    
         $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanWatchVideo);
         foreach ($menu as $key => $value) {
             $menuItems = MenuItem::getAllFromMenu($videos_id, true);
@@ -115,6 +119,7 @@ if (User::isLogged()) {
 }
 
 if (!User::canWatchVideo($videos_id)) {
+    echo PHP_EOL.'<!-- action menu typeActionMenuCustomURLForUsersThatCanNotWatchVideo start -->'.PHP_EOL;
     $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanNotWatchVideo);
     foreach ($menu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($videos_id, true);
