@@ -1,12 +1,13 @@
 <?php
 $configFile = $global['systemRootPath'] . 'videos/configuration.php';
 
-$videos_id = getVideos_id();
 require_once $configFile;
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/Menu.php';
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/MenuItem.php';
 
 $menu = Menu::getAllActive(Menu::$typeActionMenu);
+
+$videos_id = getVideos_id();
 ?>
 <!-- action menu start -->
 <?php
