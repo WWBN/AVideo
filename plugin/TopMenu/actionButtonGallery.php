@@ -1,7 +1,7 @@
 <?php
 $configFile = $global['systemRootPath'] . 'videos/configuration.php';
 
-
+$videos_id = getVideos_id();
 require_once $configFile;
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/Menu.php';
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/MenuItem.php';
@@ -11,7 +11,7 @@ $menu = Menu::getAllActive(Menu::$typeActionMenu);
 <!-- action menu start -->
 <?php
 foreach ($menu as $key => $value) {
-    $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+    $menuItems = MenuItem::getAllFromMenu($videos_id, true);
     foreach ($menuItems as $key2 => $value2) {
         ?>
         <div>
@@ -34,7 +34,7 @@ foreach ($menu as $key => $value) {
 echo PHP_EOL.'<!-- action menu typeActionMenuCustomURL start -->'.PHP_EOL;
 $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
 foreach ($menu as $key => $value) {
-    $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+    $menuItems = MenuItem::getAllFromMenu($videos_id, true);
     foreach ($menuItems as $key2 => $value2) {
         $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
         if (empty($url)) {
@@ -63,7 +63,7 @@ echo PHP_EOL.'<!-- action menu typeActionMenuCustomURLForLoggedUsers end -->'.PH
 if (User::isLogged()) {
     $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForLoggedUsers);
     foreach ($menu as $key => $value) {
-        $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+        $menuItems = MenuItem::getAllFromMenu($videos_id, true);
         foreach ($menuItems as $key2 => $value2) {
             $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
             if (empty($url)) {
@@ -91,7 +91,7 @@ if (User::isLogged()) {
     if (User::canWatchVideo($videos_id)) {
         $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanWatchVideo);
         foreach ($menu as $key => $value) {
-            $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+            $menuItems = MenuItem::getAllFromMenu($videos_id, true);
             foreach ($menuItems as $key2 => $value2) {
                 $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
                 if (empty($url)) {
@@ -122,7 +122,7 @@ echo PHP_EOL.'<!-- action menu typeActionMenuCustomURLForUsersThatCanNotWatchVid
 if (!User::canWatchVideo($videos_id)) {
     $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanNotWatchVideo);
     foreach ($menu as $key => $value) {
-        $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+        $menuItems = MenuItem::getAllFromMenu($videos_id, true);
         foreach ($menuItems as $key2 => $value2) {
             $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
             if (empty($url)) {
