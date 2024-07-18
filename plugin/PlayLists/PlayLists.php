@@ -1027,9 +1027,9 @@ class PlayLists extends PluginAbstract
         if (is_numeric($playlistId)) {
             return "The playlist with ID {$playlistId} is empty or does not exist.";
         } elseif ($playlistId === 'favorite') {
-            return "Your Favorites playlist is empty.";
+            return __("Your Favorites playlist is empty.");
         } elseif ($playlistId === 'watch_later') {
-            return "Your 'Watch Later' playlist is empty.";
+            return __("Your 'Watch Later' playlist is empty.");
         } else {
             return "Playlist not found (ID: {$playlistId}).";
         }
