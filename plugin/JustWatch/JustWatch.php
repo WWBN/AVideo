@@ -61,8 +61,10 @@ class JustWatch extends PluginAbstract {
               "country_iso": "XX"
             }
           ]';
-        $obj->application_packages = $o;
-
+          $obj->application_packages = $o;
+          
+          $obj->currency = 'USD';
+          $obj->country_iso = 'US';
 
         return $obj;
     }
