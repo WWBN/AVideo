@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/interaction": "^6.1.15",
@@ -36,7 +36,7 @@
     "keycode": "^2.2.1",
     "moment-timezone": "^0.5.45",
     "nosleep.js": "^0.12.0",
-    "p2p-media-loader-hlsjs": "^1.0.3",
+    "p2p-media-loader-hlsjs": "^1.0.4",
     "pouchdb": "^9.0.0",
     "sweetalert": "^2.1.2",
     "tinymce": "^7.2.1",
