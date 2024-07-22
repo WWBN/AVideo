@@ -4,7 +4,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
-if((empty($video) || !is_array($video))){
+if ((empty($video) || !is_array($video))) {
     $videos_id = getVideos_id();
     $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, true, false, true, true);
 }
@@ -14,8 +14,8 @@ if (is_array($video)) {
     if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
         $created = !empty($video['videoCreation']) ? $video['videoCreation'] : $video['created'];
         $html = '<div class="clearfix"></div><small>' . humanTiming(_strtotime($created)) . '</small>';
-    }else{
-        $html = '<!-- empty showCreationTimeOnVideoItem '.basename(__FILE__).' line='.__LINE__.'-->';
+    } else {
+        $html = '<!-- empty showCreationTimeOnVideoItem ' . basename(__FILE__) . ' line=' . __LINE__ . '-->';
     }
     $video['creator'] = Video::getCreatorHTML($video['users_id'], $html);
     $source = Video::getSourceFile($video['filename']);
@@ -345,7 +345,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
             <?php
             if (!empty($video['rrating'])) {
             ?>
-
+                <div class="clearfix"></div>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10">
                     <?php
@@ -362,6 +362,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                 $parse = parse_url($video['videoDownloadedLink']);
                 $domain = str_replace('www.', '', $parse['host']);
             ?>
+                <div class="clearfix"></div>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Source"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="source">
                     <a class="btn btn-xs btn-default" href="<?php echo $video['videoDownloadedLink']; ?>" target="_blank" rel="nofollow">
@@ -377,6 +378,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                 $Chapters = Bookmark::generateChaptersHTML($video['id']);
                 if (!empty($Chapters)) {
                 ?>
+                    <div class="clearfix"></div>
                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right">
                         <strong>
                             <?php echo __("Chapters"); ?>:
@@ -392,6 +394,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
             }
             if ($video['type'] !== 'notfound' && $video['type'] !== 'article' && !isHTMLEmpty($video['description'])) {
                 ?>
+                <div class="clearfix"></div>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="description">
                     <?php
