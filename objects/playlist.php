@@ -481,11 +481,11 @@ class PlayList extends ObjectYPT
         return $rows;
     }
 
-    private static function removeCache($videos_id)
+    private static function removeCache($videos_id, $schedule=true)
     {
 
         $cacheHandler = new VideoCacheHandler($videos_id);
-        $cacheHandler->deleteCache();
+        $cacheHandler->deleteCache(false, $schedule);
 
         $cacheName = "getAllFromUserVideo_{$videos_id}";
         self::deleteCacheFromPattern($cacheName);
@@ -1017,7 +1017,7 @@ class PlayList extends ObjectYPT
         $result = sqlDAL::writeSql($sql, $formats, $values);
         if ($_deleteCache === true) {
             //_error_log('playlistSort addVideo line=' . __LINE__ .' '. json_encode(debug_backtrace()));
-            self::deleteCacheDir($this->id);
+            self::deleteCacheDir($this->id, true);
             //_error_log('playlistSort addVideo line=' . __LINE__);
             self::removeCache($videos_id);
         }
@@ -1025,14 +1025,14 @@ class PlayList extends ObjectYPT
         return $result;
     }
 
-    static function deleteCacheDir($playlists_id)
+    static function deleteCacheDir($playlists_id, $schedule=false)
     {
         $cacheHandler = new PlayListCacheHandler($playlists_id);
-        $cacheHandler->deleteCache(false, false);
+        $cacheHandler->deleteCache(false, $schedule);
 
         $pl = new PlayList($playlists_id);
         $cacheHandler = new PlayListUserCacheHandler($pl->getUsers_id());
-        $cacheHandler->deleteCache(false, false);
+        $cacheHandler->deleteCache(false, $schedule);
     }
 
     public function delete()
