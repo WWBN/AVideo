@@ -553,6 +553,9 @@ if (typeof gtag !== \"function\") {
 
     public function _getName()
     {
+        if(empty($this->name)){
+            return '';
+        }
         return str_replace('"', '', $this->name);
     }
 
@@ -960,7 +963,7 @@ if (typeof gtag !== \"function\") {
             return $cache;
         }
         if (empty($videos_id)) {
-            _error_log("User::canWatchVideo Video is empty ({$videos_id}) ".json_encode(debug_backtrace()));
+            //_error_log("User::canWatchVideo Video is empty ({$videos_id}) ".json_encode(debug_backtrace()));
             return false;
         }
 
