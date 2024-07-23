@@ -292,8 +292,8 @@ class Networks extends \Google\Service\Resource
     return $this->call('listPeeringRoutes', [$params], ExchangedPeeringRoutesList::class);
   }
   /**
-   * Patches the specified network with the data included in the request. Only the
-   * following fields can be modified: routingConfig.routingMode. (networks.patch)
+   * Patches the specified network with the data included in the request. Only
+   * routingConfig can be modified. (networks.patch)
    *
    * @param string $project Project ID for this request.
    * @param string $network Name of the network to update.

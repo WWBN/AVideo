@@ -20,11 +20,31 @@ namespace Google\Service\Aiplatform;
 class GoogleCloudAiplatformV1ComputeTokensRequest extends \Google\Collection
 {
   protected $collection_key = 'instances';
+  protected $contentsType = GoogleCloudAiplatformV1Content::class;
+  protected $contentsDataType = 'array';
   /**
    * @var array[]
    */
   public $instances;
+  /**
+   * @var string
+   */
+  public $model;
 
+  /**
+   * @param GoogleCloudAiplatformV1Content[]
+   */
+  public function setContents($contents)
+  {
+    $this->contents = $contents;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1Content[]
+   */
+  public function getContents()
+  {
+    return $this->contents;
+  }
   /**
    * @param array[]
    */
@@ -38,6 +58,20 @@ class GoogleCloudAiplatformV1ComputeTokensRequest extends \Google\Collection
   public function getInstances()
   {
     return $this->instances;
+  }
+  /**
+   * @param string
+   */
+  public function setModel($model)
+  {
+    $this->model = $model;
+  }
+  /**
+   * @return string
+   */
+  public function getModel()
+  {
+    return $this->model;
   }
 }
 

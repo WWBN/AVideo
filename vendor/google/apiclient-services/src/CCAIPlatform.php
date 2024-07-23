@@ -41,6 +41,7 @@ class CCAIPlatform extends \Google\Service
   public $projects_locations;
   public $projects_locations_contactCenters;
   public $projects_locations_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CCAIPlatform service.
@@ -53,6 +54,7 @@ class CCAIPlatform extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://contactcenteraiplatform.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://contactcenteraiplatform.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1alpha1';

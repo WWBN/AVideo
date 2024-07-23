@@ -21,7 +21,6 @@ class GoogleCloudIntegrationsV1alphaGetClientMetadataResponse extends \Google\Mo
 {
   protected $propertiesType = GoogleCloudIntegrationsV1alphaProjectProperties::class;
   protected $propertiesDataType = '';
-  public $properties;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaProjectProperties

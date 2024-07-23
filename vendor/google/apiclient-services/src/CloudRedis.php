@@ -42,6 +42,7 @@ class CloudRedis extends \Google\Service
   public $projects_locations_clusters;
   public $projects_locations_instances;
   public $projects_locations_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudRedis service.
@@ -54,6 +55,7 @@ class CloudRedis extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://redis.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://redis.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

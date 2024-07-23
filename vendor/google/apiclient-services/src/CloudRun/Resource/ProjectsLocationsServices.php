@@ -132,7 +132,8 @@ class ProjectsLocationsServices extends \Google\Service\Resource
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
   }
   /**
-   * Lists Services. (services.listProjectsLocationsServices)
+   * Lists Services. Results are sorted by creation time, descending.
+   * (services.listProjectsLocationsServices)
    *
    * @param string $parent Required. The location and project to list resources
    * on. Location must be a valid Google Cloud region, and cannot be the "-"
@@ -164,9 +165,11 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * @param GoogleCloudRunV2Service $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool allowMissing If set to true, and if the Service does not
-   * exist, it will create a new one. The caller must have 'run.services.create'
-   * permissions if this is set to true and the Service does not exist.
+   * @opt_param bool allowMissing Optional. If set to true, and if the Service
+   * does not exist, it will create a new one. The caller must have
+   * 'run.services.create' permissions if this is set to true and the Service does
+   * not exist.
+   * @opt_param string updateMask Optional. The list of fields to be updated.
    * @opt_param bool validateOnly Indicates that the request should be validated
    * and default values populated, without persisting the request or updating any
    * resources.

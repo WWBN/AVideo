@@ -32,6 +32,8 @@ class GoogleCloudDiscoveryengineV1betaSearchRequest extends \Google\Collection
   public $canonicalFilter;
   protected $contentSearchSpecType = GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec::class;
   protected $contentSearchSpecDataType = '';
+  protected $dataStoreSpecsType = GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpec::class;
+  protected $dataStoreSpecsDataType = 'array';
   protected $embeddingSpecType = GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec::class;
   protected $embeddingSpecDataType = '';
   protected $facetSpecsType = GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpec::class;
@@ -144,6 +146,20 @@ class GoogleCloudDiscoveryengineV1betaSearchRequest extends \Google\Collection
   public function getContentSearchSpec()
   {
     return $this->contentSearchSpec;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpec[]
+   */
+  public function setDataStoreSpecs($dataStoreSpecs)
+  {
+    $this->dataStoreSpecs = $dataStoreSpecs;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpec[]
+   */
+  public function getDataStoreSpecs()
+  {
+    return $this->dataStoreSpecs;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec

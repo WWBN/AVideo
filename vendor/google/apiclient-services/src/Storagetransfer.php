@@ -43,6 +43,7 @@ class Storagetransfer extends \Google\Service
   public $projects_agentPools;
   public $transferJobs;
   public $transferOperations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Storagetransfer service.
@@ -55,6 +56,7 @@ class Storagetransfer extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://storagetransfer.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://storagetransfer.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

@@ -24,6 +24,8 @@ class OfferClass extends \Google\Collection
    * @var bool
    */
   public $allowMultipleUsersPerObject;
+  protected $appLinkDataType = AppLinkData::class;
+  protected $appLinkDataDataType = '';
   protected $callbackOptionsType = CallbackOptions::class;
   protected $callbackOptionsDataType = '';
   protected $classTemplateInfoType = ClassTemplateInfo::class;
@@ -150,6 +152,20 @@ class OfferClass extends \Google\Collection
   public function getAllowMultipleUsersPerObject()
   {
     return $this->allowMultipleUsersPerObject;
+  }
+  /**
+   * @param AppLinkData
+   */
+  public function setAppLinkData(AppLinkData $appLinkData)
+  {
+    $this->appLinkData = $appLinkData;
+  }
+  /**
+   * @return AppLinkData
+   */
+  public function getAppLinkData()
+  {
+    return $this->appLinkData;
   }
   /**
    * @param CallbackOptions

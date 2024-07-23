@@ -40,6 +40,7 @@ class BusinessProfilePerformance extends \Google\Service
 
   public $locations;
   public $locations_searchkeywords_impressions_monthly;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the BusinessProfilePerformance
@@ -53,6 +54,7 @@ class BusinessProfilePerformance extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://businessprofileperformance.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://businessprofileperformance.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

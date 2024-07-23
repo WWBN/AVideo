@@ -25,6 +25,10 @@ class GoogleCloudAiplatformV1FeatureOnlineStore extends \Google\Model
    * @var string
    */
   public $createTime;
+  protected $dedicatedServingEndpointType = GoogleCloudAiplatformV1FeatureOnlineStoreDedicatedServingEndpoint::class;
+  protected $dedicatedServingEndpointDataType = '';
+  protected $encryptionSpecType = GoogleCloudAiplatformV1EncryptionSpec::class;
+  protected $encryptionSpecDataType = '';
   /**
    * @var string
    */
@@ -37,6 +41,8 @@ class GoogleCloudAiplatformV1FeatureOnlineStore extends \Google\Model
    * @var string
    */
   public $name;
+  protected $optimizedType = GoogleCloudAiplatformV1FeatureOnlineStoreOptimized::class;
+  protected $optimizedDataType = '';
   /**
    * @var string
    */
@@ -73,6 +79,34 @@ class GoogleCloudAiplatformV1FeatureOnlineStore extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1FeatureOnlineStoreDedicatedServingEndpoint
+   */
+  public function setDedicatedServingEndpoint(GoogleCloudAiplatformV1FeatureOnlineStoreDedicatedServingEndpoint $dedicatedServingEndpoint)
+  {
+    $this->dedicatedServingEndpoint = $dedicatedServingEndpoint;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1FeatureOnlineStoreDedicatedServingEndpoint
+   */
+  public function getDedicatedServingEndpoint()
+  {
+    return $this->dedicatedServingEndpoint;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1EncryptionSpec
+   */
+  public function setEncryptionSpec(GoogleCloudAiplatformV1EncryptionSpec $encryptionSpec)
+  {
+    $this->encryptionSpec = $encryptionSpec;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1EncryptionSpec
+   */
+  public function getEncryptionSpec()
+  {
+    return $this->encryptionSpec;
   }
   /**
    * @param string
@@ -115,6 +149,20 @@ class GoogleCloudAiplatformV1FeatureOnlineStore extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1FeatureOnlineStoreOptimized
+   */
+  public function setOptimized(GoogleCloudAiplatformV1FeatureOnlineStoreOptimized $optimized)
+  {
+    $this->optimized = $optimized;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1FeatureOnlineStoreOptimized
+   */
+  public function getOptimized()
+  {
+    return $this->optimized;
   }
   /**
    * @param string

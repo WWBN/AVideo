@@ -42,6 +42,7 @@ class CloudIAP extends \Google\Service
   public $projects_brands_identityAwareProxyClients;
   public $projects_iap_tunnel_locations_destGroups;
   public $v1;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudIAP service.
@@ -54,6 +55,7 @@ class CloudIAP extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://iap.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://iap.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

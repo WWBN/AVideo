@@ -37,8 +37,8 @@ class FoldersAssets extends \Google\Service\Resource
    * properties. (assets.group)
    *
    * @param string $parent Required. The name of the parent to group the assets
-   * by. Its format is "organizations/[organization_id]", "folders/[folder_id]",
-   * or "projects/[project_id]".
+   * by. Its format is `organizations/[organization_id]`, `folders/[folder_id]`,
+   * or `projects/[project_id]`.
    * @param GroupAssetsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GroupAssetsResponse
@@ -56,8 +56,8 @@ class FoldersAssets extends \Google\Service\Resource
    * @param string $parent Required. The name of the parent resource that contains
    * the assets. The value that you can specify on parent depends on the method in
    * which you specify parent. You can specify one of the following values:
-   * "organizations/[organization_id]", "folders/[folder_id]", or
-   * "projects/[project_id]".
+   * `organizations/[organization_id]`, `folders/[folder_id]`, or
+   * `projects/[project_id]`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string compareDuration When compare_duration is set, the

@@ -28,6 +28,8 @@ class StagePerformanceStandaloneInsight extends \Google\Collection
    * @var bool
    */
   public $insufficientShuffleQuota;
+  protected $partitionSkewType = PartitionSkew::class;
+  protected $partitionSkewDataType = '';
   /**
    * @var bool
    */
@@ -78,6 +80,20 @@ class StagePerformanceStandaloneInsight extends \Google\Collection
   public function getInsufficientShuffleQuota()
   {
     return $this->insufficientShuffleQuota;
+  }
+  /**
+   * @param PartitionSkew
+   */
+  public function setPartitionSkew(PartitionSkew $partitionSkew)
+  {
+    $this->partitionSkew = $partitionSkew;
+  }
+  /**
+   * @return PartitionSkew
+   */
+  public function getPartitionSkew()
+  {
+    return $this->partitionSkew;
   }
   /**
    * @param bool

@@ -89,7 +89,8 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
     return $this->call('calculateStats', [$params], GoogleCloudContactcenterinsightsV1CalculateStatsResponse::class);
   }
   /**
-   * Creates a conversation. (conversations.create)
+   * Creates a conversation. Does not support audio transcription or DLP
+   * redaction. Use `conversations.upload` instead. (conversations.create)
    *
    * @param string $parent Required. The parent resource of the conversation.
    * @param GoogleCloudContactcenterinsightsV1Conversation $postBody
@@ -173,8 +174,8 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * descending creation time. Supported values are one of the following: *
    * create_time * customer_satisfaction_rating * duration * latest_analysis *
    * start_time * turn_count The default sort order is ascending. To specify
-   * order, append `asc` or `desc`, i.e. `create_time desc`. See
-   * https://google.aip.dev/132#ordering for more details.
+   * order, append `asc` or `desc` (`create_time desc`). For more details, see
+   * [Google AIPs Ordering](https://google.aip.dev/132#ordering).
    * @opt_param int pageSize The maximum number of conversations to return in the
    * response. A valid page size ranges from 0 to 1,000 inclusive. If the page
    * size is zero or unspecified, a default page size of 100 will be chosen. Note
@@ -202,7 +203,12 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * @param GoogleCloudContactcenterinsightsV1Conversation $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask The list of fields to be updated.
+   * @opt_param string updateMask The list of fields to be updated. All possible
+   * fields can be updated by passing `*`, or a subset of the following updateable
+   * fields can be provided: * `agent_id` * `language_code` * `labels` *
+   * `metadata` * `quality_metadata` * `call_metadata` * `start_time` *
+   * `expire_time` or `ttl` * `data_source.gcs_source.audio_uri` or
+   * `data_source.dialogflow_source.audio_uri`
    * @return GoogleCloudContactcenterinsightsV1Conversation
    * @throws \Google\Service\Exception
    */
@@ -213,8 +219,8 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
     return $this->call('patch', [$params], GoogleCloudContactcenterinsightsV1Conversation::class);
   }
   /**
-   * Create a longrunning conversation upload operation. This method differs from
-   * CreateConversation by allowing audio transcription and optional DLP
+   * Create a long-running conversation upload operation. This method differs from
+   * `CreateConversation` by allowing audio transcription and optional DLP
    * redaction. (conversations.upload)
    *
    * @param string $parent Required. The parent resource of the conversation.

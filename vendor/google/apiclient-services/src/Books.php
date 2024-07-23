@@ -62,6 +62,7 @@ class Books extends \Google\Service
   public $volumes_mybooks;
   public $volumes_recommended;
   public $volumes_useruploaded;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Books service.
@@ -74,6 +75,7 @@ class Books extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://books.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://books.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

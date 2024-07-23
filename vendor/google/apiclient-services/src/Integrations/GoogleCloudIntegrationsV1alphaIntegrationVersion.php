@@ -29,6 +29,10 @@ class GoogleCloudIntegrationsV1alphaIntegrationVersion extends \Google\Collectio
   /**
    * @var string
    */
+  public $createdFromTemplate;
+  /**
+   * @var string
+   */
   public $databasePersistencePolicy;
   /**
    * @var string
@@ -128,6 +132,20 @@ class GoogleCloudIntegrationsV1alphaIntegrationVersion extends \Google\Collectio
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setCreatedFromTemplate($createdFromTemplate)
+  {
+    $this->createdFromTemplate = $createdFromTemplate;
+  }
+  /**
+   * @return string
+   */
+  public function getCreatedFromTemplate()
+  {
+    return $this->createdFromTemplate;
   }
   /**
    * @param string

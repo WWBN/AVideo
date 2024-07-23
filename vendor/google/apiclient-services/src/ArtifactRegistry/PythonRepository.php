@@ -19,11 +19,27 @@ namespace Google\Service\ArtifactRegistry;
 
 class PythonRepository extends \Google\Model
 {
+  protected $customRepositoryType = GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository::class;
+  protected $customRepositoryDataType = '';
   /**
    * @var string
    */
   public $publicRepository;
 
+  /**
+   * @param GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository
+   */
+  public function setCustomRepository(GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository $customRepository)
+  {
+    $this->customRepository = $customRepository;
+  }
+  /**
+   * @return GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository
+   */
+  public function getCustomRepository()
+  {
+    return $this->customRepository;
+  }
   /**
    * @param string
    */

@@ -25,6 +25,10 @@ class RemoteRepositoryConfig extends \Google\Model
    * @var string
    */
   public $description;
+  /**
+   * @var bool
+   */
+  public $disableUpstreamValidation;
   protected $dockerRepositoryType = DockerRepository::class;
   protected $dockerRepositoryDataType = '';
   protected $mavenRepositoryType = MavenRepository::class;
@@ -65,6 +69,20 @@ class RemoteRepositoryConfig extends \Google\Model
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisableUpstreamValidation($disableUpstreamValidation)
+  {
+    $this->disableUpstreamValidation = $disableUpstreamValidation;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableUpstreamValidation()
+  {
+    return $this->disableUpstreamValidation;
   }
   /**
    * @param DockerRepository

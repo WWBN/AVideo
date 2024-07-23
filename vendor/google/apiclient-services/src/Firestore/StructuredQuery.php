@@ -22,6 +22,8 @@ class StructuredQuery extends \Google\Collection
   protected $collection_key = 'orderBy';
   protected $endAtType = Cursor::class;
   protected $endAtDataType = '';
+  protected $findNearestType = FindNearest::class;
+  protected $findNearestDataType = '';
   protected $fromType = CollectionSelector::class;
   protected $fromDataType = 'array';
   /**
@@ -54,6 +56,20 @@ class StructuredQuery extends \Google\Collection
   public function getEndAt()
   {
     return $this->endAt;
+  }
+  /**
+   * @param FindNearest
+   */
+  public function setFindNearest(FindNearest $findNearest)
+  {
+    $this->findNearest = $findNearest;
+  }
+  /**
+   * @return FindNearest
+   */
+  public function getFindNearest()
+  {
+    return $this->findNearest;
   }
   /**
    * @param CollectionSelector[]

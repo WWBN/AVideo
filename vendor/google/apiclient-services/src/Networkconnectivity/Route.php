@@ -43,8 +43,18 @@ class Route extends \Google\Model
    * @var string
    */
   public $name;
+  protected $nextHopInterconnectAttachmentType = NextHopInterconnectAttachment::class;
+  protected $nextHopInterconnectAttachmentDataType = '';
+  protected $nextHopRouterApplianceInstanceType = NextHopRouterApplianceInstance::class;
+  protected $nextHopRouterApplianceInstanceDataType = '';
   protected $nextHopVpcNetworkType = NextHopVpcNetwork::class;
   protected $nextHopVpcNetworkDataType = '';
+  protected $nextHopVpnTunnelType = NextHopVPNTunnel::class;
+  protected $nextHopVpnTunnelDataType = '';
+  /**
+   * @var string
+   */
+  public $priority;
   /**
    * @var string
    */
@@ -151,6 +161,34 @@ class Route extends \Google\Model
     return $this->name;
   }
   /**
+   * @param NextHopInterconnectAttachment
+   */
+  public function setNextHopInterconnectAttachment(NextHopInterconnectAttachment $nextHopInterconnectAttachment)
+  {
+    $this->nextHopInterconnectAttachment = $nextHopInterconnectAttachment;
+  }
+  /**
+   * @return NextHopInterconnectAttachment
+   */
+  public function getNextHopInterconnectAttachment()
+  {
+    return $this->nextHopInterconnectAttachment;
+  }
+  /**
+   * @param NextHopRouterApplianceInstance
+   */
+  public function setNextHopRouterApplianceInstance(NextHopRouterApplianceInstance $nextHopRouterApplianceInstance)
+  {
+    $this->nextHopRouterApplianceInstance = $nextHopRouterApplianceInstance;
+  }
+  /**
+   * @return NextHopRouterApplianceInstance
+   */
+  public function getNextHopRouterApplianceInstance()
+  {
+    return $this->nextHopRouterApplianceInstance;
+  }
+  /**
    * @param NextHopVpcNetwork
    */
   public function setNextHopVpcNetwork(NextHopVpcNetwork $nextHopVpcNetwork)
@@ -163,6 +201,34 @@ class Route extends \Google\Model
   public function getNextHopVpcNetwork()
   {
     return $this->nextHopVpcNetwork;
+  }
+  /**
+   * @param NextHopVPNTunnel
+   */
+  public function setNextHopVpnTunnel(NextHopVPNTunnel $nextHopVpnTunnel)
+  {
+    $this->nextHopVpnTunnel = $nextHopVpnTunnel;
+  }
+  /**
+   * @return NextHopVPNTunnel
+   */
+  public function getNextHopVpnTunnel()
+  {
+    return $this->nextHopVpnTunnel;
+  }
+  /**
+   * @param string
+   */
+  public function setPriority($priority)
+  {
+    $this->priority = $priority;
+  }
+  /**
+   * @return string
+   */
+  public function getPriority()
+  {
+    return $this->priority;
   }
   /**
    * @param string

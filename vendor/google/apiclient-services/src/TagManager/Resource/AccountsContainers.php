@@ -119,13 +119,17 @@ class AccountsContainers extends \Google\Service\Resource
     return $this->call('list', [$params], ListContainersResponse::class);
   }
   /**
-   * Looks up a Container by destination ID. (containers.lookup)
+   * Looks up a Container by destination ID or tag ID. (containers.lookup)
    *
    * @param array $optParams Optional parameters.
    *
    * @opt_param string destinationId Destination ID linked to a GTM Container,
    * e.g. AW-123456789. Example:
-   * accounts/containers:lookup?destination_id={destination_id}.
+   * accounts/containers:lookup?destination_id={destination_id}. Only one of
+   * destination_id or tag_id should be set.
+   * @opt_param string tagId Tag ID for a GTM Container, e.g. GTM-123456789.
+   * Example: accounts/containers:lookup?tag_id={tag_id}. Only one of
+   * destination_id or tag_id should be set.
    * @return Container
    * @throws \Google\Service\Exception
    */

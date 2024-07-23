@@ -19,11 +19,27 @@ namespace Google\Service\ArtifactRegistry;
 
 class MavenRepository extends \Google\Model
 {
+  protected $customRepositoryType = GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository::class;
+  protected $customRepositoryDataType = '';
   /**
    * @var string
    */
   public $publicRepository;
 
+  /**
+   * @param GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository
+   */
+  public function setCustomRepository(GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository $customRepository)
+  {
+    $this->customRepository = $customRepository;
+  }
+  /**
+   * @return GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository
+   */
+  public function getCustomRepository()
+  {
+    return $this->customRepository;
+  }
   /**
    * @param string
    */

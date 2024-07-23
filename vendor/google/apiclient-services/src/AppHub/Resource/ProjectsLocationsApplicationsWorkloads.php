@@ -34,7 +34,9 @@ class ProjectsLocationsApplicationsWorkloads extends \Google\Service\Resource
   /**
    * Creates a Workload in an Application. (workloads.create)
    *
-   * @param string $parent Required. Value for parent.
+   * @param string $parent Required. Fully qualified name of the Application to
+   * create Workload in. Expected format:
+   * `projects/{project}/locations/{location}/applications/{application}`.
    * @param Workload $postBody
    * @param array $optParams Optional parameters.
    *
@@ -62,9 +64,11 @@ class ProjectsLocationsApplicationsWorkloads extends \Google\Service\Resource
     return $this->call('create', [$params], Operation::class);
   }
   /**
-   * Deletes a Workload in an Application. (workloads.delete)
+   * Deletes a Workload from an Application. (workloads.delete)
    *
-   * @param string $name Required. Value for name.
+   * @param string $name Required. Fully qualified name of the Workload to delete
+   * from an Application. Expected format: `projects/{project}/locations/{location
+   * }/applications/{application}/workloads/{workload}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string requestId Optional. An optional request ID to identify
@@ -90,7 +94,9 @@ class ProjectsLocationsApplicationsWorkloads extends \Google\Service\Resource
   /**
    * Gets a Workload in an Application. (workloads.get)
    *
-   * @param string $name Required. Value for name.
+   * @param string $name Required. Fully qualified name of the Workload to fetch.
+   * Expected format: `projects/{project}/locations/{location}/applications/{appli
+   * cation}/workloads/{workload}`.
    * @param array $optParams Optional parameters.
    * @return Workload
    * @throws \Google\Service\Exception
@@ -105,11 +111,13 @@ class ProjectsLocationsApplicationsWorkloads extends \Google\Service\Resource
    * Lists Workloads in an Application.
    * (workloads.listProjectsLocationsApplicationsWorkloads)
    *
-   * @param string $parent Required. Value for parent.
+   * @param string $parent Required. Fully qualified name of the parent
+   * Application to list Workloads for. Expected format:
+   * `projects/{project}/locations/{location}/applications/{application}`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Optional. Filtering results
-   * @opt_param string orderBy Optional. Hint for how to order the results
+   * @opt_param string filter Optional. Filtering results.
+   * @opt_param string orderBy Optional. Hint for how to order the results.
    * @opt_param int pageSize Optional. Requested page size. Server may return
    * fewer items than requested. If unspecified, server will pick an appropriate
    * default.

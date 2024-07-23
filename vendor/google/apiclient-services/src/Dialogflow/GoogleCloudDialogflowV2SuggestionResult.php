@@ -25,6 +25,8 @@ class GoogleCloudDialogflowV2SuggestionResult extends \Google\Model
   protected $suggestArticlesResponseDataType = '';
   protected $suggestFaqAnswersResponseType = GoogleCloudDialogflowV2SuggestFaqAnswersResponse::class;
   protected $suggestFaqAnswersResponseDataType = '';
+  protected $suggestKnowledgeAssistResponseType = GoogleCloudDialogflowV2SuggestKnowledgeAssistResponse::class;
+  protected $suggestKnowledgeAssistResponseDataType = '';
   protected $suggestSmartRepliesResponseType = GoogleCloudDialogflowV2SuggestSmartRepliesResponse::class;
   protected $suggestSmartRepliesResponseDataType = '';
 
@@ -69,6 +71,20 @@ class GoogleCloudDialogflowV2SuggestionResult extends \Google\Model
   public function getSuggestFaqAnswersResponse()
   {
     return $this->suggestFaqAnswersResponse;
+  }
+  /**
+   * @param GoogleCloudDialogflowV2SuggestKnowledgeAssistResponse
+   */
+  public function setSuggestKnowledgeAssistResponse(GoogleCloudDialogflowV2SuggestKnowledgeAssistResponse $suggestKnowledgeAssistResponse)
+  {
+    $this->suggestKnowledgeAssistResponse = $suggestKnowledgeAssistResponse;
+  }
+  /**
+   * @return GoogleCloudDialogflowV2SuggestKnowledgeAssistResponse
+   */
+  public function getSuggestKnowledgeAssistResponse()
+  {
+    return $this->suggestKnowledgeAssistResponse;
   }
   /**
    * @param GoogleCloudDialogflowV2SuggestSmartRepliesResponse

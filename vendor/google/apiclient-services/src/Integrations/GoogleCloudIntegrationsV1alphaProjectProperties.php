@@ -23,12 +23,30 @@ class GoogleCloudIntegrationsV1alphaProjectProperties extends \Google\Collection
   /**
    * @var string
    */
+  public $billingType;
+  /**
+   * @var string
+   */
   public $ipEnablementState;
   /**
    * @var string[]
    */
   public $provisionedRegions;
 
+  /**
+   * @param string
+   */
+  public function setBillingType($billingType)
+  {
+    $this->billingType = $billingType;
+  }
+  /**
+   * @return string
+   */
+  public function getBillingType()
+  {
+    return $this->billingType;
+  }
   /**
    * @param string
    */

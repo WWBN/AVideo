@@ -27,8 +27,14 @@ class GoogleFirestoreAdminV1RestoreDatabaseRequest extends \Google\Model
    * @var string
    */
   public $databaseId;
-  protected $databaseSnapshotType = GoogleFirestoreAdminV1DatabaseSnapshot::class;
-  protected $databaseSnapshotDataType = '';
+  /**
+   * @var string
+   */
+  public $kmsKeyName;
+  protected $useBackupEncryptionType = FirestoreEmpty::class;
+  protected $useBackupEncryptionDataType = '';
+  protected $useGoogleDefaultEncryptionType = FirestoreEmpty::class;
+  protected $useGoogleDefaultEncryptionDataType = '';
 
   /**
    * @param string
@@ -59,18 +65,46 @@ class GoogleFirestoreAdminV1RestoreDatabaseRequest extends \Google\Model
     return $this->databaseId;
   }
   /**
-   * @param GoogleFirestoreAdminV1DatabaseSnapshot
+   * @param string
    */
-  public function setDatabaseSnapshot(GoogleFirestoreAdminV1DatabaseSnapshot $databaseSnapshot)
+  public function setKmsKeyName($kmsKeyName)
   {
-    $this->databaseSnapshot = $databaseSnapshot;
+    $this->kmsKeyName = $kmsKeyName;
   }
   /**
-   * @return GoogleFirestoreAdminV1DatabaseSnapshot
+   * @return string
    */
-  public function getDatabaseSnapshot()
+  public function getKmsKeyName()
   {
-    return $this->databaseSnapshot;
+    return $this->kmsKeyName;
+  }
+  /**
+   * @param FirestoreEmpty
+   */
+  public function setUseBackupEncryption(FirestoreEmpty $useBackupEncryption)
+  {
+    $this->useBackupEncryption = $useBackupEncryption;
+  }
+  /**
+   * @return FirestoreEmpty
+   */
+  public function getUseBackupEncryption()
+  {
+    return $this->useBackupEncryption;
+  }
+  /**
+   * @param FirestoreEmpty
+   */
+  public function setUseGoogleDefaultEncryption(FirestoreEmpty $useGoogleDefaultEncryption)
+  {
+    $this->useGoogleDefaultEncryption = $useGoogleDefaultEncryption;
+  }
+  /**
+   * @return FirestoreEmpty
+   */
+  public function getUseGoogleDefaultEncryption()
+  {
+    return $this->useGoogleDefaultEncryption;
   }
 }
 

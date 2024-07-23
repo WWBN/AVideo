@@ -38,7 +38,9 @@ class ProjectsLocationsDiscoveryConfigs extends \Google\Service\Resource
    * (discoveryConfigs.create)
    *
    * @param string $parent Required. Parent resource name. The format of this
-   * value is as follows: `projects/`PROJECT_ID`/locations/`LOCATION_ID The
+   * value varies depending on the scope of the request (project or organization):
+   * + Projects scope: `projects/`PROJECT_ID`/locations/`LOCATION_ID +
+   * Organizations scope: `organizations/`ORG_ID`/locations/`LOCATION_ID The
    * following example `parent` string specifies a parent project with the
    * identifier `example-project`, and specifies the `europe-west3` location for
    * processing data: parent=projects/example-project/locations/europe-west3
@@ -95,7 +97,7 @@ class ProjectsLocationsDiscoveryConfigs extends \Google\Service\Resource
    * processing data: parent=projects/example-project/locations/europe-west3
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string orderBy Comma separated list of config fields to order by,
+   * @opt_param string orderBy Comma-separated list of config fields to order by,
    * followed by `asc` or `desc` postfix. This list is case insensitive. The
    * default sorting order is ascending. Redundant space characters are
    * insignificant. Example: `name asc,update_time, create_time desc` Supported

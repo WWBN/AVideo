@@ -171,9 +171,9 @@ class ProjectsLocationsNetworkmanagementGlobalConnectivityTests extends \Google\
    * reachability result returns a value of UNKNOWN. If the endpoint
    * specifications in `ConnectivityTest` are incomplete, the reachability result
    * returns a value of `AMBIGUOUS`. See the documentation in `ConnectivityTest`
-   * for for more details. (connectivityTests.patch)
+   * for more details. (connectivityTests.patch)
    *
-   * @param string $name Required. Unique name of the resource using the form:
+   * @param string $name Identifier. Unique name of the resource using the form:
    * `projects/{project_id}/locations/global/connectivityTests/{test_id}`
    * @param ConnectivityTest $postBody
    * @param array $optParams Optional parameters.

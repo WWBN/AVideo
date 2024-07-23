@@ -27,6 +27,7 @@ namespace Stripe;
  * @property int $interval_count The number of intervals (specified in the <code>interval</code> attribute) between subscription billings. For example, <code>interval=month</code> and <code>interval_count=3</code> bills every 3 months.
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property null|\Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+ * @property null|string $meter The meter tracking the usage of a metered price
  * @property null|string $nickname A brief description of the plan, hidden from customers.
  * @property null|string|\Stripe\Product $product The product whose pricing this plan determines.
  * @property null|\Stripe\StripeObject[] $tiers Each element represents a pricing tier. This parameter requires <code>billing_scheme</code> to be set to <code>tiered</code>. See also the documentation for <code>billing_scheme</code>.
@@ -39,10 +40,6 @@ class Plan extends ApiResource
 {
     const OBJECT_NAME = 'plan';
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Delete;
-    use ApiOperations\Retrieve;
     use ApiOperations\Update;
 
     const AGGREGATE_USAGE_LAST_DURING_PERIOD = 'last_during_period';
@@ -63,4 +60,111 @@ class Plan extends ApiResource
 
     const USAGE_TYPE_LICENSED = 'licensed';
     const USAGE_TYPE_METERED = 'metered';
+
+    /**
+     * You can now model subscriptions more flexibly using the <a href="#prices">Prices
+     * API</a>. It replaces the Plans API and is backwards compatible to simplify your
+     * migration.
+     *
+     * @param null|array $params
+     * @param null|array|string $options
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Plan the created resource
+     */
+    public static function create($params = null, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl();
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
+
+    /**
+     * Deleting plans means new subscribers can’t be added. Existing subscribers aren’t
+     * affected.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Plan the deleted resource
+     */
+    public function delete($params = null, $opts = null)
+    {
+        self::_validateParams($params);
+
+        $url = $this->instanceUrl();
+        list($response, $opts) = $this->_request('delete', $url, $params, $opts);
+        $this->refreshFrom($response, $opts);
+
+        return $this;
+    }
+
+    /**
+     * Returns a list of your plans.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Plan> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+
+        return static::_requestPage($url, \Stripe\Collection::class, $params, $opts);
+    }
+
+    /**
+     * Retrieves the plan with the given ID.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Plan
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
+
+    /**
+     * Updates the specified plan by setting the values of the parameters passed. Any
+     * parameters not provided are left unchanged. By design, you cannot change a
+     * plan’s ID, amount, currency, or billing cycle.
+     *
+     * @param string $id the ID of the resource to update
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Plan the updated resource
+     */
+    public static function update($id, $params = null, $opts = null)
+    {
+        self::_validateParams($params);
+        $url = static::resourceUrl($id);
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
 }

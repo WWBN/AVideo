@@ -27,6 +27,12 @@ class CompilationResult extends \Google\Collection
   /**
    * @var string
    */
+  public $createTime;
+  protected $dataEncryptionStateType = DataEncryptionState::class;
+  protected $dataEncryptionStateDataType = '';
+  /**
+   * @var string
+   */
   public $dataformCoreVersion;
   /**
    * @var string
@@ -76,6 +82,34 @@ class CompilationResult extends \Google\Collection
   public function getCompilationErrors()
   {
     return $this->compilationErrors;
+  }
+  /**
+   * @param string
+   */
+  public function setCreateTime($createTime)
+  {
+    $this->createTime = $createTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCreateTime()
+  {
+    return $this->createTime;
+  }
+  /**
+   * @param DataEncryptionState
+   */
+  public function setDataEncryptionState(DataEncryptionState $dataEncryptionState)
+  {
+    $this->dataEncryptionState = $dataEncryptionState;
+  }
+  /**
+   * @return DataEncryptionState
+   */
+  public function getDataEncryptionState()
+  {
+    return $this->dataEncryptionState;
   }
   /**
    * @param string

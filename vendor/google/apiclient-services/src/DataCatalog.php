@@ -51,6 +51,7 @@ class DataCatalog extends \Google\Service
   public $projects_locations_tagTemplates_fields_enumValues;
   public $projects_locations_taxonomies;
   public $projects_locations_taxonomies_policyTags;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the DataCatalog service.
@@ -63,6 +64,7 @@ class DataCatalog extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://datacatalog.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://datacatalog.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

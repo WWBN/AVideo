@@ -65,6 +65,10 @@ class GoogleCloudPaymentsResellerSubscriptionV1Subscription extends \Google\Coll
   /**
    * @var string
    */
+  public $purchaseTime;
+  /**
+   * @var string
+   */
   public $redirectUri;
   /**
    * @var string
@@ -250,6 +254,20 @@ class GoogleCloudPaymentsResellerSubscriptionV1Subscription extends \Google\Coll
   public function getPromotions()
   {
     return $this->promotions;
+  }
+  /**
+   * @param string
+   */
+  public function setPurchaseTime($purchaseTime)
+  {
+    $this->purchaseTime = $purchaseTime;
+  }
+  /**
+   * @return string
+   */
+  public function getPurchaseTime()
+  {
+    return $this->purchaseTime;
   }
   /**
    * @param string

@@ -63,6 +63,7 @@ class Monitoring extends \Google\Service
   public $services;
   public $services_serviceLevelObjectives;
   public $uptimeCheckIps;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Monitoring service.
@@ -75,6 +76,7 @@ class Monitoring extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://monitoring.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://monitoring.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v3';

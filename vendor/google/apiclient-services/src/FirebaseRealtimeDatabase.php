@@ -49,6 +49,7 @@ class FirebaseRealtimeDatabase extends \Google\Service
       "https://www.googleapis.com/auth/firebase.readonly";
 
   public $projects_locations_instances;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the FirebaseRealtimeDatabase
@@ -62,6 +63,7 @@ class FirebaseRealtimeDatabase extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://firebasedatabase.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://firebasedatabase.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1beta';

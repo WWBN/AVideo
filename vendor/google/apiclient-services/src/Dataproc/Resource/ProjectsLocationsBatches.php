@@ -17,6 +17,7 @@
 
 namespace Google\Service\Dataproc\Resource;
 
+use Google\Service\Dataproc\AnalyzeBatchRequest;
 use Google\Service\Dataproc\Batch;
 use Google\Service\Dataproc\DataprocEmpty;
 use Google\Service\Dataproc\ListBatchesResponse;
@@ -32,6 +33,23 @@ use Google\Service\Dataproc\Operation;
  */
 class ProjectsLocationsBatches extends \Google\Service\Resource
 {
+  /**
+   * Analyze a Batch for possible recommendations and insights. (batches.analyze)
+   *
+   * @param string $name Required. The fully qualified name of the batch to
+   * analyze in the format
+   * "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID"
+   * @param AnalyzeBatchRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function analyze($name, AnalyzeBatchRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('analyze', [$params], Operation::class);
+  }
   /**
    * Creates a batch workload that executes asynchronously. (batches.create)
    *

@@ -19,11 +19,27 @@ namespace Google\Service\DLP;
 
 class GooglePrivacyDlpV2DiscoveryGenerationCadence extends \Google\Model
 {
+  protected $inspectTemplateModifiedCadenceType = GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence::class;
+  protected $inspectTemplateModifiedCadenceDataType = '';
   protected $schemaModifiedCadenceType = GooglePrivacyDlpV2DiscoverySchemaModifiedCadence::class;
   protected $schemaModifiedCadenceDataType = '';
   protected $tableModifiedCadenceType = GooglePrivacyDlpV2DiscoveryTableModifiedCadence::class;
   protected $tableModifiedCadenceDataType = '';
 
+  /**
+   * @param GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence
+   */
+  public function setInspectTemplateModifiedCadence(GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence $inspectTemplateModifiedCadence)
+  {
+    $this->inspectTemplateModifiedCadence = $inspectTemplateModifiedCadence;
+  }
+  /**
+   * @return GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence
+   */
+  public function getInspectTemplateModifiedCadence()
+  {
+    return $this->inspectTemplateModifiedCadence;
+  }
   /**
    * @param GooglePrivacyDlpV2DiscoverySchemaModifiedCadence
    */

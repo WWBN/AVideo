@@ -24,6 +24,8 @@ class FlightClass extends \Google\Collection
    * @var bool
    */
   public $allowMultipleUsersPerObject;
+  protected $appLinkDataType = AppLinkData::class;
+  protected $appLinkDataDataType = '';
   protected $boardingAndSeatingPolicyType = BoardingAndSeatingPolicy::class;
   protected $boardingAndSeatingPolicyDataType = '';
   protected $callbackOptionsType = CallbackOptions::class;
@@ -150,6 +152,20 @@ class FlightClass extends \Google\Collection
   public function getAllowMultipleUsersPerObject()
   {
     return $this->allowMultipleUsersPerObject;
+  }
+  /**
+   * @param AppLinkData
+   */
+  public function setAppLinkData(AppLinkData $appLinkData)
+  {
+    $this->appLinkData = $appLinkData;
+  }
+  /**
+   * @return AppLinkData
+   */
+  public function getAppLinkData()
+  {
+    return $this->appLinkData;
   }
   /**
    * @param BoardingAndSeatingPolicy

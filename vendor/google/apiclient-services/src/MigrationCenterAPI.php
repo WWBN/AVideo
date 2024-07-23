@@ -41,6 +41,7 @@ class MigrationCenterAPI extends \Google\Service
 
   public $projects_locations;
   public $projects_locations_assets;
+  public $projects_locations_discoveryClients;
   public $projects_locations_groups;
   public $projects_locations_importJobs;
   public $projects_locations_importJobs_importDataFiles;
@@ -50,6 +51,7 @@ class MigrationCenterAPI extends \Google\Service
   public $projects_locations_reportConfigs_reports;
   public $projects_locations_sources;
   public $projects_locations_sources_errorFrames;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the MigrationCenterAPI service.
@@ -62,6 +64,7 @@ class MigrationCenterAPI extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://migrationcenter.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://migrationcenter.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -261,6 +264,112 @@ class MigrationCenterAPI extends \Google\Service
                 'source' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_discoveryClients = new MigrationCenterAPI\Resource\ProjectsLocationsDiscoveryClients(
+        $this,
+        $this->serviceName,
+        'discoveryClients',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/discoveryClients',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'discoveryClientId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/discoveryClients',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'sendHeartbeat' => [
+              'path' => 'v1/{+name}:sendHeartbeat',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],

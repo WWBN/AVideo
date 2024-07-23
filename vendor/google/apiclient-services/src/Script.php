@@ -94,6 +94,7 @@ class Script extends \Google\Service
   public $projects_deployments;
   public $projects_versions;
   public $scripts;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Script service.
@@ -106,6 +107,7 @@ class Script extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://script.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://script.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

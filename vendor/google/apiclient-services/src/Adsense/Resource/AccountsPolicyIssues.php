@@ -37,6 +37,7 @@ class AccountsPolicyIssues extends \Google\Service\Resource
    * accounts/{account}/policyIssues/{policy_issue}
    * @param array $optParams Optional parameters.
    * @return PolicyIssue
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -45,7 +46,8 @@ class AccountsPolicyIssues extends \Google\Service\Resource
     return $this->call('get', [$params], PolicyIssue::class);
   }
   /**
-   * Lists all the policy issues for the specified account.
+   * Lists all the policy issues where the specified account is involved, both
+   * directly and through any AFP child accounts.
    * (policyIssues.listAccountsPolicyIssues)
    *
    * @param string $parent Required. The account for which policy issues are being
@@ -61,6 +63,7 @@ class AccountsPolicyIssues extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListPolicyIssues` must match
    * the call that provided the page token.
    * @return ListPolicyIssuesResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsPolicyIssues($parent, $optParams = [])
   {

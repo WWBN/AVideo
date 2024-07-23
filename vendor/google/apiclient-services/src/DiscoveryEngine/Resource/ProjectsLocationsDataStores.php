@@ -17,10 +17,10 @@
 
 namespace Google\Service\DiscoveryEngine\Resource;
 
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaCompleteQueryResponse;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaDataStore;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaListDataStoresResponse;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaSiteSearchEngine;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1CompleteQueryResponse;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1DataStore;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1ListDataStoresResponse;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1SiteSearchEngine;
 use Google\Service\DiscoveryEngine\GoogleLongrunningOperation;
 
 /**
@@ -67,14 +67,14 @@ class ProjectsLocationsDataStores extends \Google\Service\Resource
    * same identifier as UserEvent.user_pseudo_id and SearchRequest.user_pseudo_id.
    * The field must be a UTF-8 encoded string with a length limit of 128
    * characters. Otherwise, an `INVALID_ARGUMENT` error is returned.
-   * @return GoogleCloudDiscoveryengineV1betaCompleteQueryResponse
+   * @return GoogleCloudDiscoveryengineV1CompleteQueryResponse
    * @throws \Google\Service\Exception
    */
   public function completeQuery($dataStore, $optParams = [])
   {
     $params = ['dataStore' => $dataStore];
     $params = array_merge($params, $optParams);
-    return $this->call('completeQuery', [$params], GoogleCloudDiscoveryengineV1betaCompleteQueryResponse::class);
+    return $this->call('completeQuery', [$params], GoogleCloudDiscoveryengineV1CompleteQueryResponse::class);
   }
   /**
    * Creates a DataStore. DataStore is for storing Documents. To serve these
@@ -83,7 +83,7 @@ class ProjectsLocationsDataStores extends \Google\Service\Resource
    *
    * @param string $parent Required. The parent resource name, such as
    * `projects/{project}/locations/{location}/collections/{collection}`.
-   * @param GoogleCloudDiscoveryengineV1betaDataStore $postBody
+   * @param GoogleCloudDiscoveryengineV1DataStore $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool createAdvancedSiteSearch A boolean flag indicating whether
@@ -98,7 +98,7 @@ class ProjectsLocationsDataStores extends \Google\Service\Resource
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function create($parent, GoogleCloudDiscoveryengineV1betaDataStore $postBody, $optParams = [])
+  public function create($parent, GoogleCloudDiscoveryengineV1DataStore $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -133,14 +133,14 @@ class ProjectsLocationsDataStores extends \Google\Service\Resource
    * is returned. If the requested DataStore does not exist, a NOT_FOUND error is
    * returned.
    * @param array $optParams Optional parameters.
-   * @return GoogleCloudDiscoveryengineV1betaDataStore
+   * @return GoogleCloudDiscoveryengineV1DataStore
    * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], GoogleCloudDiscoveryengineV1betaDataStore::class);
+    return $this->call('get', [$params], GoogleCloudDiscoveryengineV1DataStore::class);
   }
   /**
    * Gets the SiteSearchEngine. (dataStores.getSiteSearchEngine)
@@ -151,14 +151,14 @@ class ProjectsLocationsDataStores extends \Google\Service\Resource
    * the [SiteSearchEngine], regardless of whether or not it exists, a
    * PERMISSION_DENIED error is returned.
    * @param array $optParams Optional parameters.
-   * @return GoogleCloudDiscoveryengineV1betaSiteSearchEngine
+   * @return GoogleCloudDiscoveryengineV1SiteSearchEngine
    * @throws \Google\Service\Exception
    */
   public function getSiteSearchEngine($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
-    return $this->call('getSiteSearchEngine', [$params], GoogleCloudDiscoveryengineV1betaSiteSearchEngine::class);
+    return $this->call('getSiteSearchEngine', [$params], GoogleCloudDiscoveryengineV1SiteSearchEngine::class);
   }
   /**
    * Lists all the DataStores associated with the project.
@@ -171,8 +171,8 @@ class ProjectsLocationsDataStores extends \Google\Service\Resource
    * error is returned.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Filter by solution type. For example: filter =
-   * 'solution_type:SOLUTION_TYPE_SEARCH'
+   * @opt_param string filter Filter by solution type . For example: `filter =
+   * 'solution_type:SOLUTION_TYPE_SEARCH'`
    * @opt_param int pageSize Maximum number of DataStores to return. If
    * unspecified, defaults to 10. The maximum allowed value is 50. Values above 50
    * will be coerced to 50. If this field is negative, an INVALID_ARGUMENT is
@@ -183,14 +183,14 @@ class ProjectsLocationsDataStores extends \Google\Service\Resource
    * page. When paginating, all other parameters provided to
    * DataStoreService.ListDataStores must match the call that provided the page
    * token. Otherwise, an INVALID_ARGUMENT error is returned.
-   * @return GoogleCloudDiscoveryengineV1betaListDataStoresResponse
+   * @return GoogleCloudDiscoveryengineV1ListDataStoresResponse
    * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsDataStores($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], GoogleCloudDiscoveryengineV1betaListDataStoresResponse::class);
+    return $this->call('list', [$params], GoogleCloudDiscoveryengineV1ListDataStoresResponse::class);
   }
   /**
    * Updates a DataStore (dataStores.patch)
@@ -199,20 +199,20 @@ class ProjectsLocationsDataStores extends \Google\Service\Resource
    * Format: `projects/{project}/locations/{location}/collections/{collection_id}/
    * dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a
    * length limit of 1024 characters.
-   * @param GoogleCloudDiscoveryengineV1betaDataStore $postBody
+   * @param GoogleCloudDiscoveryengineV1DataStore $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Indicates which fields in the provided DataStore
    * to update. If an unsupported or unknown field is provided, an
    * INVALID_ARGUMENT error is returned.
-   * @return GoogleCloudDiscoveryengineV1betaDataStore
+   * @return GoogleCloudDiscoveryengineV1DataStore
    * @throws \Google\Service\Exception
    */
-  public function patch($name, GoogleCloudDiscoveryengineV1betaDataStore $postBody, $optParams = [])
+  public function patch($name, GoogleCloudDiscoveryengineV1DataStore $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('patch', [$params], GoogleCloudDiscoveryengineV1betaDataStore::class);
+    return $this->call('patch', [$params], GoogleCloudDiscoveryengineV1DataStore::class);
   }
 }
 

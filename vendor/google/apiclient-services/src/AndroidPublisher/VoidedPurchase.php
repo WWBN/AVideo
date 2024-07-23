@@ -38,6 +38,10 @@ class VoidedPurchase extends \Google\Model
   /**
    * @var int
    */
+  public $voidedQuantity;
+  /**
+   * @var int
+   */
   public $voidedReason;
   /**
    * @var int
@@ -103,6 +107,20 @@ class VoidedPurchase extends \Google\Model
   public function getPurchaseToken()
   {
     return $this->purchaseToken;
+  }
+  /**
+   * @param int
+   */
+  public function setVoidedQuantity($voidedQuantity)
+  {
+    $this->voidedQuantity = $voidedQuantity;
+  }
+  /**
+   * @return int
+   */
+  public function getVoidedQuantity()
+  {
+    return $this->voidedQuantity;
   }
   /**
    * @param int

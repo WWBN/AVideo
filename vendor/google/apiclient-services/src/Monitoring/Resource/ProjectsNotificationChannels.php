@@ -187,8 +187,9 @@ class ProjectsNotificationChannels extends \Google\Service\Resource
    * CreateNotificationChannel, DeleteNotificationChannel and
    * UpdateNotificationChannel. (notificationChannels.patch)
    *
-   * @param string $name The full REST resource name for this channel. The format
-   * is: projects/[PROJECT_ID_OR_NUMBER]/notificationChannels/[CHANNEL_ID] The
+   * @param string $name Identifier. The full REST resource name for this channel.
+   * The format is:
+   * projects/[PROJECT_ID_OR_NUMBER]/notificationChannels/[CHANNEL_ID] The
    * [CHANNEL_ID] is automatically assigned by the server on creation.
    * @param NotificationChannel $postBody
    * @param array $optParams Optional parameters.

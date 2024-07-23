@@ -71,6 +71,8 @@ class Step extends \Google\Model
   protected $proxyConnectionDataType = '';
   protected $routeType = RouteInfo::class;
   protected $routeDataType = '';
+  protected $serverlessNegType = ServerlessNegInfo::class;
+  protected $serverlessNegDataType = '';
   /**
    * @var string
    */
@@ -405,6 +407,20 @@ class Step extends \Google\Model
   public function getRoute()
   {
     return $this->route;
+  }
+  /**
+   * @param ServerlessNegInfo
+   */
+  public function setServerlessNeg(ServerlessNegInfo $serverlessNeg)
+  {
+    $this->serverlessNeg = $serverlessNeg;
+  }
+  /**
+   * @return ServerlessNegInfo
+   */
+  public function getServerlessNeg()
+  {
+    return $this->serverlessNeg;
   }
   /**
    * @param string

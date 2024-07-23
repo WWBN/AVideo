@@ -24,6 +24,8 @@ class GoogleCloudAiplatformV1Model extends \Google\Collection
    * @var string
    */
   public $artifactUri;
+  protected $baseModelSourceType = GoogleCloudAiplatformV1ModelBaseModelSource::class;
+  protected $baseModelSourceDataType = '';
   protected $containerSpecType = GoogleCloudAiplatformV1ModelContainerSpec::class;
   protected $containerSpecDataType = '';
   /**
@@ -81,6 +83,14 @@ class GoogleCloudAiplatformV1Model extends \Google\Collection
   protected $predictSchemataType = GoogleCloudAiplatformV1PredictSchemata::class;
   protected $predictSchemataDataType = '';
   /**
+   * @var bool
+   */
+  public $satisfiesPzi;
+  /**
+   * @var bool
+   */
+  public $satisfiesPzs;
+  /**
    * @var string[]
    */
   public $supportedDeploymentResourcesTypes;
@@ -136,6 +146,20 @@ class GoogleCloudAiplatformV1Model extends \Google\Collection
   public function getArtifactUri()
   {
     return $this->artifactUri;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1ModelBaseModelSource
+   */
+  public function setBaseModelSource(GoogleCloudAiplatformV1ModelBaseModelSource $baseModelSource)
+  {
+    $this->baseModelSource = $baseModelSource;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1ModelBaseModelSource
+   */
+  public function getBaseModelSource()
+  {
+    return $this->baseModelSource;
   }
   /**
    * @param GoogleCloudAiplatformV1ModelContainerSpec
@@ -388,6 +412,34 @@ class GoogleCloudAiplatformV1Model extends \Google\Collection
   public function getPredictSchemata()
   {
     return $this->predictSchemata;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzs($satisfiesPzs)
+  {
+    $this->satisfiesPzs = $satisfiesPzs;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzs()
+  {
+    return $this->satisfiesPzs;
   }
   /**
    * @param string[]

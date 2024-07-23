@@ -33,6 +33,8 @@ class TaskResult extends \Google\Model
    * @var string
    */
   public $type;
+  protected $valueType = ParamValue::class;
+  protected $valueDataType = '';
 
   /**
    * @param string
@@ -89,6 +91,20 @@ class TaskResult extends \Google\Model
   public function getType()
   {
     return $this->type;
+  }
+  /**
+   * @param ParamValue
+   */
+  public function setValue(ParamValue $value)
+  {
+    $this->value = $value;
+  }
+  /**
+   * @return ParamValue
+   */
+  public function getValue()
+  {
+    return $this->value;
   }
 }
 

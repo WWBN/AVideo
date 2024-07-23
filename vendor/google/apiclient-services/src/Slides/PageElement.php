@@ -39,6 +39,8 @@ class PageElement extends \Google\Model
   protected $sheetsChartDataType = '';
   protected $sizeType = Size::class;
   protected $sizeDataType = '';
+  protected $speakerSpotlightType = SpeakerSpotlight::class;
+  protected $speakerSpotlightDataType = '';
   protected $tableType = Table::class;
   protected $tableDataType = '';
   /**
@@ -163,6 +165,20 @@ class PageElement extends \Google\Model
   public function getSize()
   {
     return $this->size;
+  }
+  /**
+   * @param SpeakerSpotlight
+   */
+  public function setSpeakerSpotlight(SpeakerSpotlight $speakerSpotlight)
+  {
+    $this->speakerSpotlight = $speakerSpotlight;
+  }
+  /**
+   * @return SpeakerSpotlight
+   */
+  public function getSpeakerSpotlight()
+  {
+    return $this->speakerSpotlight;
   }
   /**
    * @param Table

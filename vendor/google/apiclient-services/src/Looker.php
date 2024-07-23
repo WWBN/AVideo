@@ -42,6 +42,7 @@ class Looker extends \Google\Service
   public $projects_locations_instances;
   public $projects_locations_instances_backups;
   public $projects_locations_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Looker service.
@@ -54,6 +55,7 @@ class Looker extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://looker.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://looker.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

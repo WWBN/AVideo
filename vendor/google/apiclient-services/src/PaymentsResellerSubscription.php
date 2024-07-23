@@ -41,6 +41,7 @@ class PaymentsResellerSubscription extends \Google\Service
   public $partners_products;
   public $partners_promotions;
   public $partners_subscriptions;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the PaymentsResellerSubscription
@@ -54,6 +55,7 @@ class PaymentsResellerSubscription extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://paymentsresellersubscription.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://paymentsresellersubscription.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

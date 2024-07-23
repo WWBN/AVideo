@@ -41,6 +41,7 @@ class BlockchainNodeEngine extends \Google\Service
   public $projects_locations;
   public $projects_locations_blockchainNodes;
   public $projects_locations_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the BlockchainNodeEngine service.
@@ -53,6 +54,7 @@ class BlockchainNodeEngine extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://blockchainnodeengine.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://blockchainnodeengine.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

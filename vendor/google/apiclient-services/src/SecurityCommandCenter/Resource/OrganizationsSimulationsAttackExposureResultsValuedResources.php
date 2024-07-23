@@ -34,10 +34,10 @@ class OrganizationsSimulationsAttackExposureResultsValuedResources extends \Goog
    * dResources.listOrganizationsSimulationsAttackExposureResultsValuedResources)
    *
    * @param string $parent Required. Name of parent to list valued resources.
-   * Valid formats: "organizations/{organization}",
-   * "organizations/{organization}/simulations/{simulation}" "organizations/{organ
+   * Valid formats: `organizations/{organization}`,
+   * `organizations/{organization}/simulations/{simulation}` `organizations/{organ
    * ization}/simulations/{simulation}/attackExposureResults/{attack_exposure_resu
-   * lt_v2}"
+   * lt_v2}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter The filter expression that filters the valued
@@ -48,7 +48,7 @@ class OrganizationsSimulationsAttackExposureResultsValuedResources extends \Goog
    * `resource_type` * `resource` * `display_name` Values should be a comma
    * separated list of fields. For example: `exposed_score,resource_value`. The
    * default sorting order is descending. To specify ascending or descending order
-   * for a field, append a " ASC" or a " DESC" suffix, respectively; for example:
+   * for a field, append a ` ASC` or a ` DESC` suffix, respectively; for example:
    * `exposed_score DESC`.
    * @opt_param int pageSize The maximum number of results to return in a single
    * response. Default is 10, minimum is 1, maximum is 1000.

@@ -23,7 +23,11 @@ use Google\Client;
  * Service definition for GoogleMarketingPlatformAdminAPI (v1alpha).
  *
  * <p>
- * marketingplatformadmin.googleapis.com API.</p>
+ * The Google Marketing Platform Admin API allows for programmatic access to the
+ * Google Marketing Platform configuration data. You can use the Google
+ * Marketing Platform Admin API to manage links between your Google Marketing
+ * Platform organization and Google Analytics accounts, and to set the service
+ * level of your GA4 properties.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -41,7 +45,9 @@ class GoogleMarketingPlatformAdminAPI extends \Google\Service
   const MARKETINGPLATFORMADMIN_ANALYTICS_UPDATE =
       "https://www.googleapis.com/auth/marketingplatformadmin.analytics.update";
 
+  public $organizations;
   public $organizations_analyticsAccountLinks;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the
@@ -55,11 +61,32 @@ class GoogleMarketingPlatformAdminAPI extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://marketingplatformadmin.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://marketingplatformadmin.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1alpha';
     $this->serviceName = 'marketingplatformadmin';
 
+    $this->organizations = new GoogleMarketingPlatformAdminAPI\Resource\Organizations(
+        $this,
+        $this->serviceName,
+        'organizations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1alpha/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->organizations_analyticsAccountLinks = new GoogleMarketingPlatformAdminAPI\Resource\OrganizationsAnalyticsAccountLinks(
         $this,
         $this->serviceName,

@@ -24,18 +24,19 @@ class GoogleCloudIntegrationsV1alphaTestIntegrationsRequest extends \Google\Mode
    */
   public $clientId;
   /**
+   * @var array[]
+   */
+  public $configParameters;
+  /**
    * @var string
    */
   public $deadlineSecondsTime;
   protected $inputParametersType = GoogleCloudIntegrationsV1alphaValueType::class;
   protected $inputParametersDataType = 'map';
-  public $inputParameters;
   protected $integrationVersionType = GoogleCloudIntegrationsV1alphaIntegrationVersion::class;
   protected $integrationVersionDataType = '';
-  public $integrationVersion;
   protected $parametersType = EnterpriseCrmFrontendsEventbusProtoEventParameters::class;
   protected $parametersDataType = '';
-  public $parameters;
   /**
    * @var bool
    */
@@ -58,6 +59,20 @@ class GoogleCloudIntegrationsV1alphaTestIntegrationsRequest extends \Google\Mode
   public function getClientId()
   {
     return $this->clientId;
+  }
+  /**
+   * @param array[]
+   */
+  public function setConfigParameters($configParameters)
+  {
+    $this->configParameters = $configParameters;
+  }
+  /**
+   * @return array[]
+   */
+  public function getConfigParameters()
+  {
+    return $this->configParameters;
   }
   /**
    * @param string

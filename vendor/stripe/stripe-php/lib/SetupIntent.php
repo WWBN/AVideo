@@ -11,13 +11,13 @@ namespace Stripe;
  *
  * Create a SetupIntent when you're ready to collect your customer's payment credentials.
  * Don't maintain long-lived, unconfirmed SetupIntents because they might not be valid.
- * The SetupIntent transitions through multiple <a href="https://stripe.com/docs/payments/intents#intent-statuses">statuses</a> as it guides
+ * The SetupIntent transitions through multiple <a href="https://docs.stripe.com/payments/intents#intent-statuses">statuses</a> as it guides
  * you through the setup process.
  *
  * Successful SetupIntents result in payment credentials that are optimized for future payments.
- * For example, cardholders in <a href="/guides/strong-customer-authentication">certain regions</a> might need to be run through
- * <a href="https://stripe.com/docs/strong-customer-authentication">Strong Customer Authentication</a> during payment method collection
- * to streamline later <a href="https://stripe.com/docs/payments/setup-intents">off-session payments</a>.
+ * For example, cardholders in <a href="https://stripe.com/guides/strong-customer-authentication">certain regions</a> might need to be run through
+ * <a href="https://docs.stripe.com/strong-customer-authentication">Strong Customer Authentication</a> during payment method collection
+ * to streamline later <a href="https://docs.stripe.com/payments/setup-intents">off-session payments</a>.
  * If you use the SetupIntent with a <a href="https://stripe.com/docs/api#setup_intent_object-customer">Customer</a>,
  * it automatically attaches the resulting payment method to that Customer after successful setup.
  * We recommend using SetupIntents or <a href="https://stripe.com/docs/api#payment_intent_object-setup_future_usage">setup_future_usage</a> on
@@ -25,7 +25,7 @@ namespace Stripe;
  *
  * By using SetupIntents, you can reduce friction for your customers, even as regulations change over time.
  *
- * Related guide: <a href="https://stripe.com/docs/payments/setup-intents">Setup Intents API</a>
+ * Related guide: <a href="https://docs.stripe.com/payments/setup-intents">Setup Intents API</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -57,9 +57,6 @@ class SetupIntent extends ApiResource
 {
     const OBJECT_NAME = 'setup_intent';
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
     use ApiOperations\Update;
 
     const CANCELLATION_REASON_ABANDONED = 'abandoned';
@@ -72,6 +69,98 @@ class SetupIntent extends ApiResource
     const STATUS_REQUIRES_CONFIRMATION = 'requires_confirmation';
     const STATUS_REQUIRES_PAYMENT_METHOD = 'requires_payment_method';
     const STATUS_SUCCEEDED = 'succeeded';
+
+    /**
+     * Creates a SetupIntent object.
+     *
+     * After you create the SetupIntent, attach a payment method and <a
+     * href="/docs/api/setup_intents/confirm">confirm</a> it to collect any required
+     * permissions to charge the payment method later.
+     *
+     * @param null|array $params
+     * @param null|array|string $options
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\SetupIntent the created resource
+     */
+    public static function create($params = null, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl();
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
+
+    /**
+     * Returns a list of SetupIntents.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\SetupIntent> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+
+        return static::_requestPage($url, \Stripe\Collection::class, $params, $opts);
+    }
+
+    /**
+     * Retrieves the details of a SetupIntent that has previously been created.
+     *
+     * Client-side retrieval using a publishable key is allowed when the
+     * <code>client_secret</code> is provided in the query string.
+     *
+     * When retrieved with a publishable key, only a subset of properties will be
+     * returned. Please refer to the <a href="#setup_intent_object">SetupIntent</a>
+     * object reference for more details.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\SetupIntent
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
+
+    /**
+     * Updates a SetupIntent object.
+     *
+     * @param string $id the ID of the resource to update
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\SetupIntent the updated resource
+     */
+    public static function update($id, $params = null, $opts = null)
+    {
+        self::_validateParams($params);
+        $url = static::resourceUrl($id);
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
 
     /**
      * @param null|array $params

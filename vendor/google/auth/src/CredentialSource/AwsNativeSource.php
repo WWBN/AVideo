@@ -153,8 +153,8 @@ class AwsNativeSource implements ExternalAccountCredentialSourceInterface
         $service = 'sts';
 
         # Create a date for headers and the credential string in ISO-8601 format
-        $amzdate = date('Ymd\THis\Z');
-        $datestamp = date('Ymd'); # Date w/o time, used in credential scope
+        $amzdate = gmdate('Ymd\THis\Z');
+        $datestamp = gmdate('Ymd'); # Date w/o time, used in credential scope
 
         # Create the canonical headers and signed headers. Header names
         # must be trimmed and lowercase, and sorted in code point order from
@@ -326,6 +326,21 @@ class AwsNativeSource implements ExternalAccountCredentialSourceInterface
         }
 
         return null;
+    }
+
+    /**
+     * Gets the unique key for caching
+     * For AwsNativeSource the values are:
+     * Imdsv2SessionTokenUrl.SecurityCredentialsUrl.RegionUrl.RegionalCredVerificationUrl
+     *
+     * @return string
+     */
+    public function getCacheKey(): string
+    {
+        return ($this->imdsv2SessionTokenUrl ?? '') .
+            '.' . ($this->securityCredentialsUrl ?? '') .
+            '.' . $this->regionUrl .
+            '.' . $this->regionalCredVerificationUrl;
     }
 
     /**

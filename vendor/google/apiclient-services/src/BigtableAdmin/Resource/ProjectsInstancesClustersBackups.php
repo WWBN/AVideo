@@ -43,7 +43,7 @@ class ProjectsInstancesClustersBackups extends \Google\Service\Resource
    * located in the destination instance and project. (backups.copy)
    *
    * @param string $parent Required. The name of the destination cluster that will
-   * contain the backup copy. The cluster must already exists. Values are of the
+   * contain the backup copy. The cluster must already exist. Values are of the
    * form: `projects/{project}/instances/{instance}/clusters/{cluster}`.
    * @param CopyBackupRequest $postBody
    * @param array $optParams Optional parameters.
@@ -117,8 +117,8 @@ class ProjectsInstancesClustersBackups extends \Google\Service\Resource
     return $this->call('get', [$params], Backup::class);
   }
   /**
-   * Gets the access control policy for a Table or Backup resource. Returns an
-   * empty policy if the resource exists but does not have a policy set.
+   * Gets the access control policy for a Bigtable resource. Returns an empty
+   * policy if the resource exists but does not have a policy set.
    * (backups.getIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
@@ -219,8 +219,8 @@ class ProjectsInstancesClustersBackups extends \Google\Service\Resource
     return $this->call('patch', [$params], Backup::class);
   }
   /**
-   * Sets the access control policy on a Table or Backup resource. Replaces any
-   * existing policy. (backups.setIamPolicy)
+   * Sets the access control policy on a Bigtable resource. Replaces any existing
+   * policy. (backups.setIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
    * specified. See [Resource
@@ -238,8 +238,8 @@ class ProjectsInstancesClustersBackups extends \Google\Service\Resource
     return $this->call('setIamPolicy', [$params], Policy::class);
   }
   /**
-   * Returns permissions that the caller has on the specified Table or Backup
-   * resource. (backups.testIamPermissions)
+   * Returns permissions that the caller has on the specified Bigtable resource.
+   * (backups.testIamPermissions)
    *
    * @param string $resource REQUIRED: The resource for which the policy detail is
    * being requested. See [Resource

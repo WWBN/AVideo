@@ -58,6 +58,14 @@ class AccessApprovalSettings extends \Google\Collection
    * @var int
    */
   public $preferredRequestExpirationDays;
+  /**
+   * @var string
+   */
+  public $requestScopeMaxWidthPreference;
+  /**
+   * @var bool
+   */
+  public $requireCustomerVisibleJustification;
 
   /**
    * @param string
@@ -198,6 +206,34 @@ class AccessApprovalSettings extends \Google\Collection
   public function getPreferredRequestExpirationDays()
   {
     return $this->preferredRequestExpirationDays;
+  }
+  /**
+   * @param string
+   */
+  public function setRequestScopeMaxWidthPreference($requestScopeMaxWidthPreference)
+  {
+    $this->requestScopeMaxWidthPreference = $requestScopeMaxWidthPreference;
+  }
+  /**
+   * @return string
+   */
+  public function getRequestScopeMaxWidthPreference()
+  {
+    return $this->requestScopeMaxWidthPreference;
+  }
+  /**
+   * @param bool
+   */
+  public function setRequireCustomerVisibleJustification($requireCustomerVisibleJustification)
+  {
+    $this->requireCustomerVisibleJustification = $requireCustomerVisibleJustification;
+  }
+  /**
+   * @return bool
+   */
+  public function getRequireCustomerVisibleJustification()
+  {
+    return $this->requireCustomerVisibleJustification;
   }
 }
 

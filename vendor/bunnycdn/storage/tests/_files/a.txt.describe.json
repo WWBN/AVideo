@@ -1,0 +1,17 @@
+{
+  "Guid": "A4B75509-1974-462C-862C-8BADAD915D6C",
+  "StorageZoneName": "test",
+  "Path": "/test/",
+  "ObjectName": "a.txt",
+  "Length": 8,
+  "LastChanged": "2024-01-01T00:00:00",
+  "ServerId": 123,
+  "ArrayNumber": 0,
+  "IsDirectory": false,
+  "UserId": "5AD8A98F-D5E8-4EDC-9DE1-692DB2BF6FDF",
+  "ContentType": "",
+  "DateCreated": "2024-01-01T00:00:00",
+  "StorageZoneId": 1234,
+  "Checksum": "ECD71870D1963316A97E3AC3408C9835AD8CF0F3C1BC703527C30265534F75AE",
+  "ReplicatedZones": ""
+}

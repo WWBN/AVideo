@@ -19,11 +19,27 @@ namespace Google\Service\Dataform;
 
 class Workspace extends \Google\Model
 {
+  protected $dataEncryptionStateType = DataEncryptionState::class;
+  protected $dataEncryptionStateDataType = '';
   /**
    * @var string
    */
   public $name;
 
+  /**
+   * @param DataEncryptionState
+   */
+  public function setDataEncryptionState(DataEncryptionState $dataEncryptionState)
+  {
+    $this->dataEncryptionState = $dataEncryptionState;
+  }
+  /**
+   * @return DataEncryptionState
+   */
+  public function getDataEncryptionState()
+  {
+    return $this->dataEncryptionState;
+  }
   /**
    * @param string
    */

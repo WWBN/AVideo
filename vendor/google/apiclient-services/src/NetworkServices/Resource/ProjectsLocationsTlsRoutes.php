@@ -106,7 +106,7 @@ class ProjectsLocationsTlsRoutes extends \Google\Service\Resource
   /**
    * Updates the parameters of a single TlsRoute. (tlsRoutes.patch)
    *
-   * @param string $name Required. Name of the TlsRoute resource. It matches
+   * @param string $name Identifier. Name of the TlsRoute resource. It matches
    * pattern `projects/locations/global/tlsRoutes/tls_route_name>`.
    * @param TlsRoute $postBody
    * @param array $optParams Optional parameters.

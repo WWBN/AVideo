@@ -31,6 +31,10 @@ class ConnectionInfo extends \Google\Model
    * @var string
    */
   public $name;
+  /**
+   * @var string
+   */
+  public $publicIpAddress;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class ConnectionInfo extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setPublicIpAddress($publicIpAddress)
+  {
+    $this->publicIpAddress = $publicIpAddress;
+  }
+  /**
+   * @return string
+   */
+  public function getPublicIpAddress()
+  {
+    return $this->publicIpAddress;
   }
 }
 

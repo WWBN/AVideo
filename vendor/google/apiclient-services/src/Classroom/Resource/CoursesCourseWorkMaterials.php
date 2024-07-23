@@ -17,6 +17,7 @@
 
 namespace Google\Service\Classroom\Resource;
 
+use Google\Service\Classroom\AddOnContext;
 use Google\Service\Classroom\ClassroomEmpty;
 use Google\Service\Classroom\CourseWorkMaterial;
 use Google\Service\Classroom\ListCourseWorkMaterialResponse;
@@ -100,6 +101,42 @@ class CoursesCourseWorkMaterials extends \Google\Service\Resource
     $params = ['courseId' => $courseId, 'id' => $id];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], CourseWorkMaterial::class);
+  }
+  /**
+   * Gets metadata for Classroom add-ons in the context of a specific post. To
+   * maintain the integrity of its own data and permissions model, an add-on
+   * should call this to validate query parameters and the requesting user's role
+   * whenever the add-on is opened in an
+   * [iframe](https://developers.google.com/classroom/add-ons/get-
+   * started/iframes/iframes-overview). This method returns the following error
+   * codes: * `PERMISSION_DENIED` for access errors. * `INVALID_ARGUMENT` if the
+   * request is malformed. * `NOT_FOUND` if one of the identified resources does
+   * not exist. (courseWorkMaterials.getAddOnContext)
+   *
+   * @param string $courseId Required. Identifier of the course.
+   * @param string $itemId Identifier of the announcement, courseWork, or
+   * courseWorkMaterial under which the attachment is attached. This field is
+   * required, but is not marked as such while we are migrating from post_id.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string addOnToken Optional. Token that authorizes the request. The
+   * token is passed as a query parameter when the user is redirected from
+   * Classroom to the add-on's URL. The authorization token is required when
+   * neither of the following is true: * The add-on has attachments on the post. *
+   * The developer project issuing the request is the same project that created
+   * the post.
+   * @opt_param string attachmentId Optional. The identifier of the attachment.
+   * This field is required for student users and optional for teacher users. If
+   * not provided in the student case, an error is returned.
+   * @opt_param string postId Optional. Deprecated, use item_id instead.
+   * @return AddOnContext
+   * @throws \Google\Service\Exception
+   */
+  public function getAddOnContext($courseId, $itemId, $optParams = [])
+  {
+    $params = ['courseId' => $courseId, 'itemId' => $itemId];
+    $params = array_merge($params, $optParams);
+    return $this->call('getAddOnContext', [$params], AddOnContext::class);
   }
   /**
    * Returns a list of course work material that the requester is permitted to

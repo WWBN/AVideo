@@ -17,7 +17,9 @@
         }
     },
     "require": {
-        "php": ">=8.0.0",
-        "ext-curl": "*"
+        "php": "^7.4||^8.0",
+        "guzzlehttp/guzzle": "^7.8",
+        "psr/http-message": "^2.0",
+        "symfony/polyfill-php80": "^1.29"
     }
 }

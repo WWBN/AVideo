@@ -18,8 +18,8 @@
 namespace Google\Service\DiscoveryEngine\Resource;
 
 use Google\Service\DiscoveryEngine\GoogleApiHttpBody;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaImportUserEventsRequest;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaUserEvent;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1ImportUserEventsRequest;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1UserEvent;
 use Google\Service\DiscoveryEngine\GoogleLongrunningOperation;
 
 /**
@@ -62,7 +62,7 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
     return $this->call('collect', [$params], GoogleApiHttpBody::class);
   }
   /**
-   * Bulk import of User events. Request processing might be synchronous. Events
+   * Bulk import of user events. Request processing might be synchronous. Events
    * that already exist are skipped. Use this method for backfilling historical
    * user events. Operation.response is of type ImportResponse. Note that it is
    * possible for a subset of the items to be successfully inserted.
@@ -71,12 +71,12 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
    * @param string $parent Required. Parent DataStore resource name, of the form `
    * projects/{project}/locations/{location}/collections/{collection}/dataStores/{
    * data_store}`
-   * @param GoogleCloudDiscoveryengineV1betaImportUserEventsRequest $postBody
+   * @param GoogleCloudDiscoveryengineV1ImportUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function import($parent, GoogleCloudDiscoveryengineV1betaImportUserEventsRequest $postBody, $optParams = [])
+  public function import($parent, GoogleCloudDiscoveryengineV1ImportUserEventsRequest $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -85,19 +85,26 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
   /**
    * Writes a single user event. (userEvents.write)
    *
-   * @param string $parent Required. The parent DataStore resource name, such as `
-   * projects/{project}/locations/{location}/collections/{collection}/dataStores/{
-   * data_store}`.
-   * @param GoogleCloudDiscoveryengineV1betaUserEvent $postBody
+   * @param string $parent Required. The parent resource name. If the write user
+   * event action is applied in DataStore level, the format is: `projects/{project
+   * }/locations/{location}/collections/{collection}/dataStores/{data_store}`. If
+   * the write user event action is applied in Location level, for example, the
+   * event with Document across multiple DataStore, the format is:
+   * `projects/{project}/locations/{location}`.
+   * @param GoogleCloudDiscoveryengineV1UserEvent $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleCloudDiscoveryengineV1betaUserEvent
+   *
+   * @opt_param bool writeAsync If set to true, the user event is written
+   * asynchronously after validation, and the API responds without waiting for the
+   * write.
+   * @return GoogleCloudDiscoveryengineV1UserEvent
    * @throws \Google\Service\Exception
    */
-  public function write($parent, GoogleCloudDiscoveryengineV1betaUserEvent $postBody, $optParams = [])
+  public function write($parent, GoogleCloudDiscoveryengineV1UserEvent $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('write', [$params], GoogleCloudDiscoveryengineV1betaUserEvent::class);
+    return $this->call('write', [$params], GoogleCloudDiscoveryengineV1UserEvent::class);
   }
 }
 

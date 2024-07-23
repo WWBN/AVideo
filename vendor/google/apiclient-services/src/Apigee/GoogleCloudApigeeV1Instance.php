@@ -20,6 +20,8 @@ namespace Google\Service\Apigee;
 class GoogleCloudApigeeV1Instance extends \Google\Collection
 {
   protected $collection_key = 'consumerAcceptList';
+  protected $accessLoggingConfigType = GoogleCloudApigeeV1AccessLoggingConfig::class;
+  protected $accessLoggingConfigDataType = '';
   /**
    * @var string[]
    */
@@ -81,6 +83,20 @@ class GoogleCloudApigeeV1Instance extends \Google\Collection
    */
   public $state;
 
+  /**
+   * @param GoogleCloudApigeeV1AccessLoggingConfig
+   */
+  public function setAccessLoggingConfig(GoogleCloudApigeeV1AccessLoggingConfig $accessLoggingConfig)
+  {
+    $this->accessLoggingConfig = $accessLoggingConfig;
+  }
+  /**
+   * @return GoogleCloudApigeeV1AccessLoggingConfig
+   */
+  public function getAccessLoggingConfig()
+  {
+    return $this->accessLoggingConfig;
+  }
   /**
    * @param string[]
    */

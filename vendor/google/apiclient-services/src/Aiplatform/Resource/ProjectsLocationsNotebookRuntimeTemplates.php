@@ -158,6 +158,26 @@ class ProjectsLocationsNotebookRuntimeTemplates extends \Google\Service\Resource
     return $this->call('list', [$params], GoogleCloudAiplatformV1ListNotebookRuntimeTemplatesResponse::class);
   }
   /**
+   * Updates a NotebookRuntimeTemplate. (notebookRuntimeTemplates.patch)
+   *
+   * @param string $name The resource name of the NotebookRuntimeTemplate.
+   * @param GoogleCloudAiplatformV1NotebookRuntimeTemplate $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The update mask applies to the
+   * resource. For the `FieldMask` definition, see google.protobuf.FieldMask.
+   * Input format: `{paths: "${updated_filed}"}` Updatable fields: *
+   * `encryption_spec.kms_key_name`
+   * @return GoogleCloudAiplatformV1NotebookRuntimeTemplate
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudAiplatformV1NotebookRuntimeTemplate $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudAiplatformV1NotebookRuntimeTemplate::class);
+  }
+  /**
    * Sets the access control policy on the specified resource. Replaces any
    * existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and
    * `PERMISSION_DENIED` errors. (notebookRuntimeTemplates.setIamPolicy)

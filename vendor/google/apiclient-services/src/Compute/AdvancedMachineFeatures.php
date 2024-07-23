@@ -28,6 +28,10 @@ class AdvancedMachineFeatures extends \Google\Model
    */
   public $enableUefiNetworking;
   /**
+   * @var string
+   */
+  public $performanceMonitoringUnit;
+  /**
    * @var int
    */
   public $threadsPerCore;
@@ -63,6 +67,20 @@ class AdvancedMachineFeatures extends \Google\Model
   public function getEnableUefiNetworking()
   {
     return $this->enableUefiNetworking;
+  }
+  /**
+   * @param string
+   */
+  public function setPerformanceMonitoringUnit($performanceMonitoringUnit)
+  {
+    $this->performanceMonitoringUnit = $performanceMonitoringUnit;
+  }
+  /**
+   * @return string
+   */
+  public function getPerformanceMonitoringUnit()
+  {
+    return $this->performanceMonitoringUnit;
   }
   /**
    * @param int

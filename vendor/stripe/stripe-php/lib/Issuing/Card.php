@@ -22,6 +22,7 @@ namespace Stripe\Issuing;
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property \Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
  * @property null|string $number The full unredacted card number. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with <a href="https://stripe.com/docs/api/expanding_objects">the <code>expand</code> parameter</a>. Additionally, it's only available via the <a href="https://stripe.com/docs/api/issuing/cards/retrieve">&quot;Retrieve a card&quot; endpoint</a>, not via &quot;List all cards&quot; or any other endpoint.
+ * @property null|string|\Stripe\Issuing\PersonalizationDesign $personalization_design The personalization design object belonging to this card.
  * @property null|string|\Stripe\Issuing\Card $replaced_by The latest card that replaces this card, if any.
  * @property null|string|\Stripe\Issuing\Card $replacement_for The card this card replaces, if any.
  * @property null|string $replacement_reason The reason why the previous card needed to be replaced.
@@ -35,9 +36,6 @@ class Card extends \Stripe\ApiResource
 {
     const OBJECT_NAME = 'issuing.card';
 
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
 
     const CANCELLATION_REASON_DESIGN_REJECTED = 'design_rejected';
@@ -55,4 +53,88 @@ class Card extends \Stripe\ApiResource
 
     const TYPE_PHYSICAL = 'physical';
     const TYPE_VIRTUAL = 'virtual';
+
+    /**
+     * Creates an Issuing <code>Card</code> object.
+     *
+     * @param null|array $params
+     * @param null|array|string $options
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Issuing\Card the created resource
+     */
+    public static function create($params = null, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl();
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
+
+    /**
+     * Returns a list of Issuing <code>Card</code> objects. The objects are sorted in
+     * descending order by creation date, with the most recently created object
+     * appearing first.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Issuing\Card> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+
+        return static::_requestPage($url, \Stripe\Collection::class, $params, $opts);
+    }
+
+    /**
+     * Retrieves an Issuing <code>Card</code> object.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Issuing\Card
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
+
+    /**
+     * Updates the specified Issuing <code>Card</code> object by setting the values of
+     * the parameters passed. Any parameters not provided will be left unchanged.
+     *
+     * @param string $id the ID of the resource to update
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Issuing\Card the updated resource
+     */
+    public static function update($id, $params = null, $opts = null)
+    {
+        self::_validateParams($params);
+        $url = static::resourceUrl($id);
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
 }

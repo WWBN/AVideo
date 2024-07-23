@@ -62,6 +62,7 @@ class CloudHealthcare extends \Google\Service
   public $projects_locations_datasets_hl7V2Stores_messages;
   public $projects_locations_datasets_operations;
   public $projects_locations_services_nlp;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudHealthcare service.
@@ -74,6 +75,7 @@ class CloudHealthcare extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://healthcare.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://healthcare.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

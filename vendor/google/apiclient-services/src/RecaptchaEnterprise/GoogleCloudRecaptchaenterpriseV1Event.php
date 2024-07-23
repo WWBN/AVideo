@@ -35,6 +35,10 @@ class GoogleCloudRecaptchaenterpriseV1Event extends \Google\Collection
   /**
    * @var string
    */
+  public $fraudPrevention;
+  /**
+   * @var string
+   */
   public $hashedAccountId;
   /**
    * @var string[]
@@ -114,6 +118,20 @@ class GoogleCloudRecaptchaenterpriseV1Event extends \Google\Collection
   public function getFirewallPolicyEvaluation()
   {
     return $this->firewallPolicyEvaluation;
+  }
+  /**
+   * @param string
+   */
+  public function setFraudPrevention($fraudPrevention)
+  {
+    $this->fraudPrevention = $fraudPrevention;
+  }
+  /**
+   * @return string
+   */
+  public function getFraudPrevention()
+  {
+    return $this->fraudPrevention;
   }
   /**
    * @param string

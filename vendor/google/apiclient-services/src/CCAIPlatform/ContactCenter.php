@@ -30,6 +30,8 @@ class ContactCenter extends \Google\Collection
    * @var string
    */
   public $createTime;
+  protected $criticalType = Critical::class;
+  protected $criticalDataType = '';
   /**
    * @var string
    */
@@ -38,6 +40,8 @@ class ContactCenter extends \Google\Collection
    * @var string
    */
   public $displayName;
+  protected $earlyType = Early::class;
+  protected $earlyDataType = '';
   protected $instanceConfigType = InstanceConfig::class;
   protected $instanceConfigDataType = '';
   /**
@@ -52,6 +56,10 @@ class ContactCenter extends \Google\Collection
    * @var string
    */
   public $name;
+  protected $normalType = Normal::class;
+  protected $normalDataType = '';
+  protected $privateAccessType = PrivateAccess::class;
+  protected $privateAccessDataType = '';
   /**
    * @var string[]
    */
@@ -116,6 +124,20 @@ class ContactCenter extends \Google\Collection
     return $this->createTime;
   }
   /**
+   * @param Critical
+   */
+  public function setCritical(Critical $critical)
+  {
+    $this->critical = $critical;
+  }
+  /**
+   * @return Critical
+   */
+  public function getCritical()
+  {
+    return $this->critical;
+  }
+  /**
    * @param string
    */
   public function setCustomerDomainPrefix($customerDomainPrefix)
@@ -142,6 +164,20 @@ class ContactCenter extends \Google\Collection
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param Early
+   */
+  public function setEarly(Early $early)
+  {
+    $this->early = $early;
+  }
+  /**
+   * @return Early
+   */
+  public function getEarly()
+  {
+    return $this->early;
   }
   /**
    * @param InstanceConfig
@@ -198,6 +234,34 @@ class ContactCenter extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param Normal
+   */
+  public function setNormal(Normal $normal)
+  {
+    $this->normal = $normal;
+  }
+  /**
+   * @return Normal
+   */
+  public function getNormal()
+  {
+    return $this->normal;
+  }
+  /**
+   * @param PrivateAccess
+   */
+  public function setPrivateAccess(PrivateAccess $privateAccess)
+  {
+    $this->privateAccess = $privateAccess;
+  }
+  /**
+   * @return PrivateAccess
+   */
+  public function getPrivateAccess()
+  {
+    return $this->privateAccess;
   }
   /**
    * @param string[]

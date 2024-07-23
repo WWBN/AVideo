@@ -2219,3 +2219,4 @@ $t['site config'] = 'configuração do site';
 $t['subscribed to your channel'] = 'inscrito no seu canal';
 $t['unchecked'] = 'desmarcado';
 $t['you can find on the menu-point. But there are more settings avaible; go to the'] = 'você pode encontrar no ponto de menu. Mas há mais configurações disponíveis; vou ao';
+$t['Signature'] = 'Assinatura';

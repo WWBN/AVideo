@@ -41,6 +41,7 @@ class OnDemandScanning extends \Google\Service
   public $projects_locations_operations;
   public $projects_locations_scans;
   public $projects_locations_scans_vulnerabilities;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the OnDemandScanning service.
@@ -53,6 +54,7 @@ class OnDemandScanning extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://ondemandscanning.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://ondemandscanning.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

@@ -31,6 +31,10 @@ class GoogleFirebaseAppcheckV1DebugToken extends \Google\Model
    * @var string
    */
   public $token;
+  /**
+   * @var string
+   */
+  public $updateTime;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class GoogleFirebaseAppcheckV1DebugToken extends \Google\Model
   public function getToken()
   {
     return $this->token;
+  }
+  /**
+   * @param string
+   */
+  public function setUpdateTime($updateTime)
+  {
+    $this->updateTime = $updateTime;
+  }
+  /**
+   * @return string
+   */
+  public function getUpdateTime()
+  {
+    return $this->updateTime;
   }
 }
 

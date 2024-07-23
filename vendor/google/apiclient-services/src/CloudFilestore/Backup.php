@@ -75,6 +75,10 @@ class Backup extends \Google\Model
    * @var string
    */
   public $storageBytes;
+  /**
+   * @var string[]
+   */
+  public $tags;
 
   /**
    * @param string
@@ -271,6 +275,20 @@ class Backup extends \Google\Model
   public function getStorageBytes()
   {
     return $this->storageBytes;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
 }
 

@@ -52,6 +52,7 @@ class BeyondCorp extends \Google\Service
   public $projects_locations_clientConnectorServices;
   public $projects_locations_clientGateways;
   public $projects_locations_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the BeyondCorp service.
@@ -64,6 +65,7 @@ class BeyondCorp extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://beyondcorp.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://beyondcorp.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

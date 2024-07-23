@@ -39,6 +39,7 @@ class MyBusinessNotificationSettings extends \Google\Service
 
 
   public $accounts;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the
@@ -52,6 +53,7 @@ class MyBusinessNotificationSettings extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://mybusinessnotifications.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://mybusinessnotifications.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

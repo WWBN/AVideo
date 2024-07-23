@@ -17,8 +17,8 @@
 
 namespace Google\Service\DiscoveryEngine\Resource;
 
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaEngine;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaListEnginesResponse;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1Engine;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1ListEnginesResponse;
 use Google\Service\DiscoveryEngine\GoogleLongrunningOperation;
 
 /**
@@ -36,7 +36,7 @@ class ProjectsLocationsCollectionsEngines extends \Google\Service\Resource
    *
    * @param string $parent Required. The parent resource name, such as
    * `projects/{project}/locations/{location}/collections/{collection}`.
-   * @param GoogleCloudDiscoveryengineV1betaEngine $postBody
+   * @param GoogleCloudDiscoveryengineV1Engine $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string engineId Required. The ID to use for the Engine, which will
@@ -47,7 +47,7 @@ class ProjectsLocationsCollectionsEngines extends \Google\Service\Resource
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function create($parent, GoogleCloudDiscoveryengineV1betaEngine $postBody, $optParams = [])
+  public function create($parent, GoogleCloudDiscoveryengineV1Engine $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -78,14 +78,14 @@ class ProjectsLocationsCollectionsEngines extends \Google\Service\Resource
    * /{project}/locations/{location}/collections/{collection_id}/engines/{engine_i
    * d}`.
    * @param array $optParams Optional parameters.
-   * @return GoogleCloudDiscoveryengineV1betaEngine
+   * @return GoogleCloudDiscoveryengineV1Engine
    * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], GoogleCloudDiscoveryengineV1betaEngine::class);
+    return $this->call('get', [$params], GoogleCloudDiscoveryengineV1Engine::class);
   }
   /**
    * Lists all the Engines associated with the project.
@@ -99,14 +99,14 @@ class ProjectsLocationsCollectionsEngines extends \Google\Service\Resource
    * solution_type=SOLUTION_TYPE_SEARCH
    * @opt_param int pageSize Optional. Not supported.
    * @opt_param string pageToken Optional. Not supported.
-   * @return GoogleCloudDiscoveryengineV1betaListEnginesResponse
+   * @return GoogleCloudDiscoveryengineV1ListEnginesResponse
    * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCollectionsEngines($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], GoogleCloudDiscoveryengineV1betaListEnginesResponse::class);
+    return $this->call('list', [$params], GoogleCloudDiscoveryengineV1ListEnginesResponse::class);
   }
   /**
    * Updates an Engine (engines.patch)
@@ -116,20 +116,20 @@ class ProjectsLocationsCollectionsEngines extends \Google\Service\Resource
    * characters. Format: `projects/{project_number}/locations/{location}/collectio
    * ns/{collection}/engines/{engine}` engine should be 1-63 characters, and valid
    * characters are /a-z0-9. Otherwise, an INVALID_ARGUMENT error is returned.
-   * @param GoogleCloudDiscoveryengineV1betaEngine $postBody
+   * @param GoogleCloudDiscoveryengineV1Engine $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Indicates which fields in the provided Engine to
    * update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT
    * error is returned.
-   * @return GoogleCloudDiscoveryengineV1betaEngine
+   * @return GoogleCloudDiscoveryengineV1Engine
    * @throws \Google\Service\Exception
    */
-  public function patch($name, GoogleCloudDiscoveryengineV1betaEngine $postBody, $optParams = [])
+  public function patch($name, GoogleCloudDiscoveryengineV1Engine $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('patch', [$params], GoogleCloudDiscoveryengineV1betaEngine::class);
+    return $this->call('patch', [$params], GoogleCloudDiscoveryengineV1Engine::class);
   }
 }
 

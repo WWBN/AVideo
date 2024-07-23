@@ -53,6 +53,7 @@ class Vault extends \Google\Service
   public $matters_holds_accounts;
   public $matters_savedQueries;
   public $operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Vault service.
@@ -65,6 +66,7 @@ class Vault extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://vault.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://vault.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

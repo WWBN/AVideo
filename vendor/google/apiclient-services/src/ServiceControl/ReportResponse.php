@@ -19,6 +19,25 @@ namespace Google\Service\ServiceControl;
 
 class ReportResponse extends \Google\Model
 {
+  /**
+   * @var array[]
+   */
+  public $extensions;
+
+  /**
+   * @param array[]
+   */
+  public function setExtensions($extensions)
+  {
+    $this->extensions = $extensions;
+  }
+  /**
+   * @return array[]
+   */
+  public function getExtensions()
+  {
+    return $this->extensions;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

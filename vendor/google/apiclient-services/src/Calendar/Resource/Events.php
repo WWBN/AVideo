@@ -86,7 +86,10 @@ class Events extends \Google\Service\Resource
   }
   /**
    * Imports an event. This operation is used to add a private copy of an existing
-   * event to a calendar. (events.import)
+   * event to a calendar. Only events with an eventType of default may be
+   * imported. Deprecated behavior: If a non-default event is imported, its type
+   * will be changed to default and any event-type-specific properties it may have
+   * will be dropped. (events.import)
    *
    * @param string $calendarId Calendar identifier. To retrieve calendar IDs call
    * the calendarList.list method. If you want to access the primary calendar of
@@ -200,8 +203,8 @@ class Events extends \Google\Service\Resource
    *
    * @opt_param bool alwaysIncludeEmail Deprecated and ignored.
    * @opt_param string eventTypes Event types to return. Optional. This parameter
-   * can be repeated multiple times to return events of different types. The
-   * default is ["default", "focusTime", "outOfOffice"].
+   * can be repeated multiple times to return events of different types. If unset,
+   * returns all event types.
    * @opt_param string iCalUID Specifies an event ID in the iCalendar format to be
    * provided in the response. Optional. Use this if you want to search for an
    * event by its iCalendar ID.
@@ -294,8 +297,8 @@ class Events extends \Google\Service\Resource
   }
   /**
    * Moves an event to another calendar, i.e. changes an event's organizer. Note
-   * that only default events can be moved; outOfOffice, focusTime and
-   * workingLocation events cannot be moved. (events.move)
+   * that only default events can be moved; outOfOffice, focusTime,
+   * workingLocation and fromGmail events cannot be moved. (events.move)
    *
    * @param string $calendarId Calendar identifier of the source calendar where
    * the event currently is on.
@@ -436,8 +439,8 @@ class Events extends \Google\Service\Resource
    *
    * @opt_param bool alwaysIncludeEmail Deprecated and ignored.
    * @opt_param string eventTypes Event types to return. Optional. This parameter
-   * can be repeated multiple times to return events of different types. The
-   * default is ["default", "focusTime", "outOfOffice"].
+   * can be repeated multiple times to return events of different types. If unset,
+   * returns all event types.
    * @opt_param string iCalUID Specifies an event ID in the iCalendar format to be
    * provided in the response. Optional. Use this if you want to search for an
    * event by its iCalendar ID.

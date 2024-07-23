@@ -31,6 +31,10 @@ class ProductCertification extends \Google\Model
    * @var string
    */
   public $certificationName;
+  /**
+   * @var string
+   */
+  public $certificationValue;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class ProductCertification extends \Google\Model
   public function getCertificationName()
   {
     return $this->certificationName;
+  }
+  /**
+   * @param string
+   */
+  public function setCertificationValue($certificationValue)
+  {
+    $this->certificationValue = $certificationValue;
+  }
+  /**
+   * @return string
+   */
+  public function getCertificationValue()
+  {
+    return $this->certificationValue;
   }
 }
 

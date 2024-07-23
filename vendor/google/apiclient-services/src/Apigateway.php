@@ -43,6 +43,7 @@ class Apigateway extends \Google\Service
   public $projects_locations_apis_configs;
   public $projects_locations_gateways;
   public $projects_locations_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Apigateway service.
@@ -55,6 +56,7 @@ class Apigateway extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://apigateway.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://apigateway.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

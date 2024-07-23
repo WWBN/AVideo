@@ -141,7 +141,8 @@ class ProjectsLocationsRepositories extends \Google\Service\Resource
    * Updates a repository. (repositories.patch)
    *
    * @param string $name The name of the repository, for example:
-   * `projects/p1/locations/us-central1/repositories/repo1`.
+   * `projects/p1/locations/us-central1/repositories/repo1`. For each location in
+   * a project, repository names must be unique.
    * @param Repository $postBody
    * @param array $optParams Optional parameters.
    *

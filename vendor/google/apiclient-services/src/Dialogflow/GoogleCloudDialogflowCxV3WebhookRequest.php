@@ -36,6 +36,8 @@ class GoogleCloudDialogflowCxV3WebhookRequest extends \Google\Collection
    * @var string
    */
   public $languageCode;
+  protected $languageInfoType = GoogleCloudDialogflowCxV3LanguageInfo::class;
+  protected $languageInfoDataType = '';
   protected $messagesType = GoogleCloudDialogflowCxV3ResponseMessage::class;
   protected $messagesDataType = 'array';
   protected $pageInfoType = GoogleCloudDialogflowCxV3PageInfo::class;
@@ -134,6 +136,20 @@ class GoogleCloudDialogflowCxV3WebhookRequest extends \Google\Collection
   public function getLanguageCode()
   {
     return $this->languageCode;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3LanguageInfo
+   */
+  public function setLanguageInfo(GoogleCloudDialogflowCxV3LanguageInfo $languageInfo)
+  {
+    $this->languageInfo = $languageInfo;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3LanguageInfo
+   */
+  public function getLanguageInfo()
+  {
+    return $this->languageInfo;
   }
   /**
    * @param GoogleCloudDialogflowCxV3ResponseMessage[]

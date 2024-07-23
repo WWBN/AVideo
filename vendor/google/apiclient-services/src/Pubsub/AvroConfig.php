@@ -22,8 +22,26 @@ class AvroConfig extends \Google\Model
   /**
    * @var bool
    */
+  public $useTopicSchema;
+  /**
+   * @var bool
+   */
   public $writeMetadata;
 
+  /**
+   * @param bool
+   */
+  public function setUseTopicSchema($useTopicSchema)
+  {
+    $this->useTopicSchema = $useTopicSchema;
+  }
+  /**
+   * @return bool
+   */
+  public function getUseTopicSchema()
+  {
+    return $this->useTopicSchema;
+  }
   /**
    * @param bool
    */

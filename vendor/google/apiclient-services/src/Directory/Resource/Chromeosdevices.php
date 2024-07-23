@@ -103,15 +103,16 @@ class Chromeosdevices extends \Google\Service\Resource
    * @opt_param bool includeChildOrgunits Return devices from all child orgunits,
    * as well as the specified org unit. If this is set to true, 'orgUnitPath' must
    * be provided.
-   * @opt_param int maxResults Maximum number of results to return.
+   * @opt_param int maxResults Maximum number of results to return. Value should
+   * not exceed 300.
    * @opt_param string orderBy Device property to use for sorting results.
    * @opt_param string orgUnitPath The full path of the organizational unit (minus
    * the leading `/`) or its unique ID.
    * @opt_param string pageToken The `pageToken` query parameter is used to
    * request the next page of query results. The follow-on request's `pageToken`
    * query parameter is the `nextPageToken` from your previous response.
-   * @opt_param string projection Restrict information returned to a set of
-   * selected fields.
+   * @opt_param string projection Determines whether the response contains the
+   * full list of properties or only a subset.
    * @opt_param string query Search string in the format given at
    * https://developers.google.com/admin-sdk/directory/v1/list-query-operators
    * @opt_param string sortOrder Whether to return results in ascending or
@@ -159,8 +160,8 @@ class Chromeosdevices extends \Google\Service\Resource
    * @param ChromeOsDevice $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string projection Restrict information returned to a set of
-   * selected fields.
+   * @opt_param string projection Determines whether the response contains the
+   * full list of properties or only a subset.
    * @return ChromeOsDevice
    * @throws \Google\Service\Exception
    */
@@ -186,8 +187,8 @@ class Chromeosdevices extends \Google\Service\Resource
    * @param ChromeOsDevice $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string projection Restrict information returned to a set of
-   * selected fields.
+   * @opt_param string projection Determines whether the response contains the
+   * full list of properties or only a subset.
    * @return ChromeOsDevice
    * @throws \Google\Service\Exception
    */

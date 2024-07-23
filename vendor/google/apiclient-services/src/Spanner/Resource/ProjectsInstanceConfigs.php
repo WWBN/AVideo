@@ -112,7 +112,8 @@ class ProjectsInstanceConfigs extends \Google\Service\Resource
     return $this->call('get', [$params], InstanceConfig::class);
   }
   /**
-   * Lists the supported instance configurations for a given project.
+   * Lists the supported instance configurations for a given project. Returns both
+   * Google managed configs and user managed configs.
    * (instanceConfigs.listProjectsInstanceConfigs)
    *
    * @param string $parent Required. The name of the project for which a list of
@@ -155,7 +156,8 @@ class ProjectsInstanceConfigs extends \Google\Service\Resource
    * permission on the resource name. (instanceConfigs.patch)
    *
    * @param string $name A unique identifier for the instance configuration.
-   * Values are of the form `projects//instanceConfigs/a-z*`.
+   * Values are of the form `projects//instanceConfigs/a-z*`. User instance config
+   * must start with `custom-`.
    * @param UpdateInstanceConfigRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation

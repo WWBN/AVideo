@@ -19,19 +19,85 @@ namespace Google\Service\SecurityCommandCenter;
 
 class GoogleCloudSecuritycenterV2Resource extends \Google\Model
 {
+  protected $awsMetadataType = GoogleCloudSecuritycenterV2AwsMetadata::class;
+  protected $awsMetadataDataType = '';
+  protected $azureMetadataType = GoogleCloudSecuritycenterV2AzureMetadata::class;
+  protected $azureMetadataDataType = '';
+  /**
+   * @var string
+   */
+  public $cloudProvider;
   /**
    * @var string
    */
   public $displayName;
+  protected $gcpMetadataType = GcpMetadata::class;
+  protected $gcpMetadataDataType = '';
+  /**
+   * @var string
+   */
+  public $location;
   /**
    * @var string
    */
   public $name;
+  protected $resourcePathType = GoogleCloudSecuritycenterV2ResourcePath::class;
+  protected $resourcePathDataType = '';
+  /**
+   * @var string
+   */
+  public $resourcePathString;
+  /**
+   * @var string
+   */
+  public $service;
   /**
    * @var string
    */
   public $type;
 
+  /**
+   * @param GoogleCloudSecuritycenterV2AwsMetadata
+   */
+  public function setAwsMetadata(GoogleCloudSecuritycenterV2AwsMetadata $awsMetadata)
+  {
+    $this->awsMetadata = $awsMetadata;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2AwsMetadata
+   */
+  public function getAwsMetadata()
+  {
+    return $this->awsMetadata;
+  }
+  /**
+   * @param GoogleCloudSecuritycenterV2AzureMetadata
+   */
+  public function setAzureMetadata(GoogleCloudSecuritycenterV2AzureMetadata $azureMetadata)
+  {
+    $this->azureMetadata = $azureMetadata;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2AzureMetadata
+   */
+  public function getAzureMetadata()
+  {
+    return $this->azureMetadata;
+  }
+  /**
+   * @param string
+   */
+  public function setCloudProvider($cloudProvider)
+  {
+    $this->cloudProvider = $cloudProvider;
+  }
+  /**
+   * @return string
+   */
+  public function getCloudProvider()
+  {
+    return $this->cloudProvider;
+  }
   /**
    * @param string
    */
@@ -47,6 +113,34 @@ class GoogleCloudSecuritycenterV2Resource extends \Google\Model
     return $this->displayName;
   }
   /**
+   * @param GcpMetadata
+   */
+  public function setGcpMetadata(GcpMetadata $gcpMetadata)
+  {
+    $this->gcpMetadata = $gcpMetadata;
+  }
+  /**
+   * @return GcpMetadata
+   */
+  public function getGcpMetadata()
+  {
+    return $this->gcpMetadata;
+  }
+  /**
+   * @param string
+   */
+  public function setLocation($location)
+  {
+    $this->location = $location;
+  }
+  /**
+   * @return string
+   */
+  public function getLocation()
+  {
+    return $this->location;
+  }
+  /**
    * @param string
    */
   public function setName($name)
@@ -59,6 +153,48 @@ class GoogleCloudSecuritycenterV2Resource extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param GoogleCloudSecuritycenterV2ResourcePath
+   */
+  public function setResourcePath(GoogleCloudSecuritycenterV2ResourcePath $resourcePath)
+  {
+    $this->resourcePath = $resourcePath;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2ResourcePath
+   */
+  public function getResourcePath()
+  {
+    return $this->resourcePath;
+  }
+  /**
+   * @param string
+   */
+  public function setResourcePathString($resourcePathString)
+  {
+    $this->resourcePathString = $resourcePathString;
+  }
+  /**
+   * @return string
+   */
+  public function getResourcePathString()
+  {
+    return $this->resourcePathString;
+  }
+  /**
+   * @param string
+   */
+  public function setService($service)
+  {
+    $this->service = $service;
+  }
+  /**
+   * @return string
+   */
+  public function getService()
+  {
+    return $this->service;
   }
   /**
    * @param string

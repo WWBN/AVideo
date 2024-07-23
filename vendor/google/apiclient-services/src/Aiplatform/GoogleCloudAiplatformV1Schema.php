@@ -21,6 +21,10 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
 {
   protected $collection_key = 'required';
   /**
+   * @var array
+   */
+  public $default;
+  /**
    * @var string
    */
   public $description;
@@ -39,9 +43,39 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
   protected $itemsType = GoogleCloudAiplatformV1Schema::class;
   protected $itemsDataType = '';
   /**
+   * @var string
+   */
+  public $maxItems;
+  /**
+   * @var string
+   */
+  public $maxLength;
+  /**
+   * @var string
+   */
+  public $maxProperties;
+  public $maximum;
+  /**
+   * @var string
+   */
+  public $minItems;
+  /**
+   * @var string
+   */
+  public $minLength;
+  /**
+   * @var string
+   */
+  public $minProperties;
+  public $minimum;
+  /**
    * @var bool
    */
   public $nullable;
+  /**
+   * @var string
+   */
+  public $pattern;
   protected $propertiesType = GoogleCloudAiplatformV1Schema::class;
   protected $propertiesDataType = 'map';
   /**
@@ -51,8 +85,26 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
   /**
    * @var string
    */
+  public $title;
+  /**
+   * @var string
+   */
   public $type;
 
+  /**
+   * @param array
+   */
+  public function setDefault($default)
+  {
+    $this->default = $default;
+  }
+  /**
+   * @return array
+   */
+  public function getDefault()
+  {
+    return $this->default;
+  }
   /**
    * @param string
    */
@@ -124,6 +176,106 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
     return $this->items;
   }
   /**
+   * @param string
+   */
+  public function setMaxItems($maxItems)
+  {
+    $this->maxItems = $maxItems;
+  }
+  /**
+   * @return string
+   */
+  public function getMaxItems()
+  {
+    return $this->maxItems;
+  }
+  /**
+   * @param string
+   */
+  public function setMaxLength($maxLength)
+  {
+    $this->maxLength = $maxLength;
+  }
+  /**
+   * @return string
+   */
+  public function getMaxLength()
+  {
+    return $this->maxLength;
+  }
+  /**
+   * @param string
+   */
+  public function setMaxProperties($maxProperties)
+  {
+    $this->maxProperties = $maxProperties;
+  }
+  /**
+   * @return string
+   */
+  public function getMaxProperties()
+  {
+    return $this->maxProperties;
+  }
+  public function setMaximum($maximum)
+  {
+    $this->maximum = $maximum;
+  }
+  public function getMaximum()
+  {
+    return $this->maximum;
+  }
+  /**
+   * @param string
+   */
+  public function setMinItems($minItems)
+  {
+    $this->minItems = $minItems;
+  }
+  /**
+   * @return string
+   */
+  public function getMinItems()
+  {
+    return $this->minItems;
+  }
+  /**
+   * @param string
+   */
+  public function setMinLength($minLength)
+  {
+    $this->minLength = $minLength;
+  }
+  /**
+   * @return string
+   */
+  public function getMinLength()
+  {
+    return $this->minLength;
+  }
+  /**
+   * @param string
+   */
+  public function setMinProperties($minProperties)
+  {
+    $this->minProperties = $minProperties;
+  }
+  /**
+   * @return string
+   */
+  public function getMinProperties()
+  {
+    return $this->minProperties;
+  }
+  public function setMinimum($minimum)
+  {
+    $this->minimum = $minimum;
+  }
+  public function getMinimum()
+  {
+    return $this->minimum;
+  }
+  /**
    * @param bool
    */
   public function setNullable($nullable)
@@ -136,6 +288,20 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
   public function getNullable()
   {
     return $this->nullable;
+  }
+  /**
+   * @param string
+   */
+  public function setPattern($pattern)
+  {
+    $this->pattern = $pattern;
+  }
+  /**
+   * @return string
+   */
+  public function getPattern()
+  {
+    return $this->pattern;
   }
   /**
    * @param GoogleCloudAiplatformV1Schema[]
@@ -164,6 +330,20 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
   public function getRequired()
   {
     return $this->required;
+  }
+  /**
+   * @param string
+   */
+  public function setTitle($title)
+  {
+    $this->title = $title;
+  }
+  /**
+   * @return string
+   */
+  public function getTitle()
+  {
+    return $this->title;
   }
   /**
    * @param string

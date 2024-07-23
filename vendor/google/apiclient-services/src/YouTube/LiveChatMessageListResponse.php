@@ -20,6 +20,8 @@ namespace Google\Service\YouTube;
 class LiveChatMessageListResponse extends \Google\Collection
 {
   protected $collection_key = 'items';
+  protected $activePollItemType = LiveChatMessage::class;
+  protected $activePollItemDataType = '';
   /**
    * @var string
    */
@@ -55,6 +57,20 @@ class LiveChatMessageListResponse extends \Google\Collection
    */
   public $visitorId;
 
+  /**
+   * @param LiveChatMessage
+   */
+  public function setActivePollItem(LiveChatMessage $activePollItem)
+  {
+    $this->activePollItem = $activePollItem;
+  }
+  /**
+   * @return LiveChatMessage
+   */
+  public function getActivePollItem()
+  {
+    return $this->activePollItem;
+  }
   /**
    * @param string
    */

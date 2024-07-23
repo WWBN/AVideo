@@ -35,11 +35,11 @@ class OrganizationsSimulationsAttackExposureResultsAttackPaths extends \Google\S
    * (attackPaths.listOrganizationsSimulationsAttackExposureResultsAttackPaths)
    *
    * @param string $parent Required. Name of parent to list attack paths. Valid
-   * formats: "organizations/{organization}",
-   * "organizations/{organization}/simulations/{simulation}" "organizations/{organ
+   * formats: `organizations/{organization}`,
+   * `organizations/{organization}/simulations/{simulation}` `organizations/{organ
    * ization}/simulations/{simulation}/attackExposureResults/{attack_exposure_resu
-   * lt_v2}" "organizations/{organization}/simulations/{simulation}/valuedResource
-   * s/{valued_resource}"
+   * lt_v2}` `organizations/{organization}/simulations/{simulation}/valuedResource
+   * s/{valued_resource}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter The filter expression that filters the attack path

@@ -69,7 +69,7 @@ class ProjectsLocationsDlpJobs extends \Google\Service\Resource
    * value varies depending on whether you have [specified a processing
    * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
    * location): + Projects scope, location specified:
-   * `projects/`PROJECT_ID`/locations/`LOCATION_ID + Projects scope, no location
+   * `projects/`PROJECT_ID`/locations/` LOCATION_ID + Projects scope, no location
    * specified (defaults to global): `projects/`PROJECT_ID The following example
    * `parent` string specifies a parent project with the identifier `example-
    * project`, and specifies the `europe-west3` location for processing data:
@@ -164,7 +164,7 @@ class ProjectsLocationsDlpJobs extends \Google\Service\Resource
    * value varies depending on whether you have [specified a processing
    * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
    * location): + Projects scope, location specified:
-   * `projects/`PROJECT_ID`/locations/`LOCATION_ID + Projects scope, no location
+   * `projects/`PROJECT_ID`/locations/` LOCATION_ID + Projects scope, no location
    * specified (defaults to global): `projects/`PROJECT_ID The following example
    * `parent` string specifies a parent project with the identifier `example-
    * project`, and specifies the `europe-west3` location for processing data:
@@ -189,7 +189,7 @@ class ProjectsLocationsDlpJobs extends \Google\Service\Resource
    * done OR state = canceled) * end_time > \"2017-12-12T00:00:00+00:00\" The
    * length of this field should be no more than 500 characters.
    * @opt_param string locationId Deprecated. This field has no effect.
-   * @opt_param string orderBy Comma separated list of fields to order by,
+   * @opt_param string orderBy Comma-separated list of fields to order by,
    * followed by `asc` or `desc` postfix. This list is case insensitive. The
    * default sorting order is ascending. Redundant space characters are
    * insignificant. Example: `name asc, end_time asc, create_time desc` Supported

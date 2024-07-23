@@ -20,6 +20,8 @@ namespace Google\Service\HangoutsChat;
 class Message extends \Google\Collection
 {
   protected $collection_key = 'emojiReactionSummaries';
+  protected $accessoryWidgetsType = AccessoryWidget::class;
+  protected $accessoryWidgetsDataType = 'array';
   protected $actionResponseType = ActionResponse::class;
   protected $actionResponseDataType = '';
   protected $annotationsType = Annotation::class;
@@ -91,6 +93,20 @@ class Message extends \Google\Collection
    */
   public $threadReply;
 
+  /**
+   * @param AccessoryWidget[]
+   */
+  public function setAccessoryWidgets($accessoryWidgets)
+  {
+    $this->accessoryWidgets = $accessoryWidgets;
+  }
+  /**
+   * @return AccessoryWidget[]
+   */
+  public function getAccessoryWidgets()
+  {
+    return $this->accessoryWidgets;
+  }
   /**
    * @param ActionResponse
    */

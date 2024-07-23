@@ -50,6 +50,8 @@ class Bucket extends \Google\Collection
    * @var string
    */
   public $id;
+  protected $ipFilterType = BucketIpFilter::class;
+  protected $ipFilterDataType = '';
   /**
    * @var string
    */
@@ -286,6 +288,20 @@ class Bucket extends \Google\Collection
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param BucketIpFilter
+   */
+  public function setIpFilter(BucketIpFilter $ipFilter)
+  {
+    $this->ipFilter = $ipFilter;
+  }
+  /**
+   * @return BucketIpFilter
+   */
+  public function getIpFilter()
+  {
+    return $this->ipFilter;
   }
   /**
    * @param string

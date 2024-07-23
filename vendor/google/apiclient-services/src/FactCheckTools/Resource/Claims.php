@@ -17,6 +17,7 @@
 
 namespace Google\Service\FactCheckTools\Resource;
 
+use Google\Service\FactCheckTools\GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse;
 use Google\Service\FactCheckTools\GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse;
 
 /**
@@ -29,6 +30,42 @@ use Google\Service\FactCheckTools\GoogleFactcheckingFactchecktoolsV1alpha1FactCh
  */
 class Claims extends \Google\Service\Resource
 {
+  /**
+   * Search through fact-checked claims using an image as the query.
+   * (claims.imageSearch)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string imageUri Required. The URI of the source image. This must
+   * be a publicly-accessible image HTTP/HTTPS URL. When fetching images from
+   * HTTP/HTTPS URLs, Google cannot guarantee that the request will be completed.
+   * Your request may fail if the specified host denies the request (e.g. due to
+   * request throttling or DOS prevention), or if Google throttles requests to the
+   * site for abuse prevention. You should not depend on externally-hosted images
+   * for production applications.
+   * @opt_param string languageCode Optional. The BCP-47 language code, such as
+   * "en-US" or "sr-Latn". Can be used to restrict results by language, though we
+   * do not currently consider the region.
+   * @opt_param int offset Optional. An integer that specifies the current offset
+   * (that is, starting result location) in search results. This field is only
+   * considered if `page_token` is unset. For example, 0 means to return results
+   * starting from the first matching result, and 10 means to return from the 11th
+   * result.
+   * @opt_param int pageSize Optional. The pagination size. We will return up to
+   * that many results. Defaults to 10 if not set.
+   * @opt_param string pageToken Optional. The pagination token. You may provide
+   * the `next_page_token` returned from a previous List request, if any, in order
+   * to get the next page. All other fields must have the same values as in the
+   * previous request.
+   * @return GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse
+   * @throws \Google\Service\Exception
+   */
+  public function imageSearch($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('imageSearch', [$params], GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse::class);
+  }
   /**
    * Search through fact-checked claims. (claims.search)
    *

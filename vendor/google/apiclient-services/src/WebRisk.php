@@ -43,6 +43,7 @@ class WebRisk extends \Google\Service
   public $projects_submissions;
   public $threatLists;
   public $uris;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the WebRisk service.
@@ -55,6 +56,7 @@ class WebRisk extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://webrisk.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://webrisk.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

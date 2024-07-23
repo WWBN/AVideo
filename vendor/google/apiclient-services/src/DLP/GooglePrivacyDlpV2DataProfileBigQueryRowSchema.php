@@ -21,6 +21,8 @@ class GooglePrivacyDlpV2DataProfileBigQueryRowSchema extends \Google\Model
 {
   protected $columnProfileType = GooglePrivacyDlpV2ColumnDataProfile::class;
   protected $columnProfileDataType = '';
+  protected $fileStoreProfileType = GooglePrivacyDlpV2FileStoreDataProfile::class;
+  protected $fileStoreProfileDataType = '';
   protected $tableProfileType = GooglePrivacyDlpV2TableDataProfile::class;
   protected $tableProfileDataType = '';
 
@@ -37,6 +39,20 @@ class GooglePrivacyDlpV2DataProfileBigQueryRowSchema extends \Google\Model
   public function getColumnProfile()
   {
     return $this->columnProfile;
+  }
+  /**
+   * @param GooglePrivacyDlpV2FileStoreDataProfile
+   */
+  public function setFileStoreProfile(GooglePrivacyDlpV2FileStoreDataProfile $fileStoreProfile)
+  {
+    $this->fileStoreProfile = $fileStoreProfile;
+  }
+  /**
+   * @return GooglePrivacyDlpV2FileStoreDataProfile
+   */
+  public function getFileStoreProfile()
+  {
+    return $this->fileStoreProfile;
   }
   /**
    * @param GooglePrivacyDlpV2TableDataProfile

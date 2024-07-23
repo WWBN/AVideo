@@ -38,6 +38,7 @@ class ACMEDNS extends \Google\Service
 
 
   public $acmeChallengeSets;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the ACMEDNS service.
@@ -50,6 +51,7 @@ class ACMEDNS extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://acmedns.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://acmedns.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

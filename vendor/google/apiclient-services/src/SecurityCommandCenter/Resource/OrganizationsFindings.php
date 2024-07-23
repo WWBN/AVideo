@@ -36,8 +36,8 @@ class OrganizationsFindings extends \Google\Service\Resource
    * by the filter will be muted after the LRO is done. (findings.bulkMute)
    *
    * @param string $parent Required. The parent, at which bulk action needs to be
-   * applied. Its format is "organizations/[organization_id]",
-   * "folders/[folder_id]", "projects/[project_id]".
+   * applied. Its format is `organizations/[organization_id]`,
+   * `folders/[folder_id]`, `projects/[project_id]`.
    * @param BulkMuteFindingsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation

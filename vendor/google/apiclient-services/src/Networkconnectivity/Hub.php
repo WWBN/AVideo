@@ -29,6 +29,10 @@ class Hub extends \Google\Collection
    */
   public $description;
   /**
+   * @var bool
+   */
+  public $exportPsc;
+  /**
    * @var string[]
    */
   public $labels;
@@ -36,6 +40,14 @@ class Hub extends \Google\Collection
    * @var string
    */
   public $name;
+  /**
+   * @var string
+   */
+  public $policyMode;
+  /**
+   * @var string
+   */
+  public $presetTopology;
   /**
    * @var string[]
    */
@@ -86,6 +98,20 @@ class Hub extends \Google\Collection
     return $this->description;
   }
   /**
+   * @param bool
+   */
+  public function setExportPsc($exportPsc)
+  {
+    $this->exportPsc = $exportPsc;
+  }
+  /**
+   * @return bool
+   */
+  public function getExportPsc()
+  {
+    return $this->exportPsc;
+  }
+  /**
    * @param string[]
    */
   public function setLabels($labels)
@@ -112,6 +138,34 @@ class Hub extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setPolicyMode($policyMode)
+  {
+    $this->policyMode = $policyMode;
+  }
+  /**
+   * @return string
+   */
+  public function getPolicyMode()
+  {
+    return $this->policyMode;
+  }
+  /**
+   * @param string
+   */
+  public function setPresetTopology($presetTopology)
+  {
+    $this->presetTopology = $presetTopology;
+  }
+  /**
+   * @return string
+   */
+  public function getPresetTopology()
+  {
+    return $this->presetTopology;
   }
   /**
    * @param string[]

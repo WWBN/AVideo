@@ -23,6 +23,10 @@ class TableMetadataCacheUsage extends \Google\Model
    * @var string
    */
   public $explanation;
+  /**
+   * @var string
+   */
+  public $staleness;
   protected $tableReferenceType = TableReference::class;
   protected $tableReferenceDataType = '';
   /**
@@ -47,6 +51,20 @@ class TableMetadataCacheUsage extends \Google\Model
   public function getExplanation()
   {
     return $this->explanation;
+  }
+  /**
+   * @param string
+   */
+  public function setStaleness($staleness)
+  {
+    $this->staleness = $staleness;
+  }
+  /**
+   * @return string
+   */
+  public function getStaleness()
+  {
+    return $this->staleness;
   }
   /**
    * @param TableReference

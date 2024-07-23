@@ -46,6 +46,7 @@ class BigLakeService extends \Google\Service
   public $projects_locations_catalogs;
   public $projects_locations_catalogs_databases;
   public $projects_locations_catalogs_databases_tables;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the BigLakeService service.
@@ -58,6 +59,7 @@ class BigLakeService extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://biglake.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://biglake.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

@@ -58,6 +58,7 @@ class VMwareEngine extends \Google\Service
   public $projects_locations_privateConnections;
   public $projects_locations_privateConnections_peeringRoutes;
   public $projects_locations_vmwareEngineNetworks;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the VMwareEngine service.
@@ -70,6 +71,7 @@ class VMwareEngine extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://vmwareengine.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://vmwareengine.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

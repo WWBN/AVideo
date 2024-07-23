@@ -17,6 +17,7 @@
 
 namespace Google\Service\CloudComposer\Resource;
 
+use Google\Service\CloudComposer\CheckUpgradeRequest;
 use Google\Service\CloudComposer\DatabaseFailoverRequest;
 use Google\Service\CloudComposer\Environment;
 use Google\Service\CloudComposer\ExecuteAirflowCommandRequest;
@@ -41,6 +42,25 @@ use Google\Service\CloudComposer\StopAirflowCommandResponse;
  */
 class ProjectsLocationsEnvironments extends \Google\Service\Resource
 {
+  /**
+   * Check if an upgrade operation on the environment will succeed. In case of
+   * problems detailed info can be found in the returned Operation.
+   * (environments.checkUpgrade)
+   *
+   * @param string $environment Required. The resource name of the environment to
+   * check upgrade for, in the form:
+   * "projects/{projectId}/locations/{locationId}/environments/{environmentId}"
+   * @param CheckUpgradeRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function checkUpgrade($environment, CheckUpgradeRequest $postBody, $optParams = [])
+  {
+    $params = ['environment' => $environment, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('checkUpgrade', [$params], Operation::class);
+  }
   /**
    * Create a new environment. (environments.create)
    *

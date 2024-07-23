@@ -40,6 +40,7 @@ class MyBusinessLodging extends \Google\Service
 
   public $locations;
   public $locations_lodging;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the MyBusinessLodging service.
@@ -52,6 +53,7 @@ class MyBusinessLodging extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://mybusinesslodging.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://mybusinesslodging.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

@@ -22,8 +22,26 @@ class GoogleCloudDiscoveryengineV1alphaControlFilterAction extends \Google\Model
   /**
    * @var string
    */
+  public $dataStore;
+  /**
+   * @var string
+   */
   public $filter;
 
+  /**
+   * @param string
+   */
+  public function setDataStore($dataStore)
+  {
+    $this->dataStore = $dataStore;
+  }
+  /**
+   * @return string
+   */
+  public function getDataStore()
+  {
+    return $this->dataStore;
+  }
   /**
    * @param string
    */

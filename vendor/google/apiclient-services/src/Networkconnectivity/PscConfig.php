@@ -21,14 +21,36 @@ class PscConfig extends \Google\Collection
 {
   protected $collection_key = 'subnetworks';
   /**
+   * @var string[]
+   */
+  public $allowedGoogleProducersResourceHierarchyLevel;
+  /**
    * @var string
    */
   public $limit;
+  /**
+   * @var string
+   */
+  public $producerInstanceLocation;
   /**
    * @var string[]
    */
   public $subnetworks;
 
+  /**
+   * @param string[]
+   */
+  public function setAllowedGoogleProducersResourceHierarchyLevel($allowedGoogleProducersResourceHierarchyLevel)
+  {
+    $this->allowedGoogleProducersResourceHierarchyLevel = $allowedGoogleProducersResourceHierarchyLevel;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAllowedGoogleProducersResourceHierarchyLevel()
+  {
+    return $this->allowedGoogleProducersResourceHierarchyLevel;
+  }
   /**
    * @param string
    */
@@ -42,6 +64,20 @@ class PscConfig extends \Google\Collection
   public function getLimit()
   {
     return $this->limit;
+  }
+  /**
+   * @param string
+   */
+  public function setProducerInstanceLocation($producerInstanceLocation)
+  {
+    $this->producerInstanceLocation = $producerInstanceLocation;
+  }
+  /**
+   * @return string
+   */
+  public function getProducerInstanceLocation()
+  {
+    return $this->producerInstanceLocation;
   }
   /**
    * @param string[]

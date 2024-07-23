@@ -28,6 +28,8 @@ class GoogleCloudDialogflowCxV3QueryResult extends \Google\Collection
   public $allowAnswerFeedback;
   protected $currentPageType = GoogleCloudDialogflowCxV3Page::class;
   protected $currentPageDataType = '';
+  protected $dataStoreConnectionSignalsType = GoogleCloudDialogflowCxV3DataStoreConnectionSignals::class;
+  protected $dataStoreConnectionSignalsDataType = '';
   /**
    * @var array[]
    */
@@ -118,6 +120,20 @@ class GoogleCloudDialogflowCxV3QueryResult extends \Google\Collection
   public function getCurrentPage()
   {
     return $this->currentPage;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3DataStoreConnectionSignals
+   */
+  public function setDataStoreConnectionSignals(GoogleCloudDialogflowCxV3DataStoreConnectionSignals $dataStoreConnectionSignals)
+  {
+    $this->dataStoreConnectionSignals = $dataStoreConnectionSignals;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3DataStoreConnectionSignals
+   */
+  public function getDataStoreConnectionSignals()
+  {
+    return $this->dataStoreConnectionSignals;
   }
   /**
    * @param array[]

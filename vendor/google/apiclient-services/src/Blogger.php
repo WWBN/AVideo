@@ -50,6 +50,7 @@ class Blogger extends \Google\Service
   public $postUserInfos;
   public $posts;
   public $users;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Blogger service.
@@ -62,6 +63,7 @@ class Blogger extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://blogger.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://blogger.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v3';

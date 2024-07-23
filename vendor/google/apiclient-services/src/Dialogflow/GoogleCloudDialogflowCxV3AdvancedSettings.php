@@ -25,6 +25,8 @@ class GoogleCloudDialogflowCxV3AdvancedSettings extends \Google\Model
   protected $dtmfSettingsDataType = '';
   protected $loggingSettingsType = GoogleCloudDialogflowCxV3AdvancedSettingsLoggingSettings::class;
   protected $loggingSettingsDataType = '';
+  protected $speechSettingsType = GoogleCloudDialogflowCxV3AdvancedSettingsSpeechSettings::class;
+  protected $speechSettingsDataType = '';
 
   /**
    * @param GoogleCloudDialogflowCxV3GcsDestination
@@ -67,6 +69,20 @@ class GoogleCloudDialogflowCxV3AdvancedSettings extends \Google\Model
   public function getLoggingSettings()
   {
     return $this->loggingSettings;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3AdvancedSettingsSpeechSettings
+   */
+  public function setSpeechSettings(GoogleCloudDialogflowCxV3AdvancedSettingsSpeechSettings $speechSettings)
+  {
+    $this->speechSettings = $speechSettings;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3AdvancedSettingsSpeechSettings
+   */
+  public function getSpeechSettings()
+  {
+    return $this->speechSettings;
   }
 }
 

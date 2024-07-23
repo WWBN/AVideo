@@ -36,7 +36,7 @@ class ProjectsLocationsFeatureGroups extends \Google\Service\Resource
    * (featureGroups.create)
    *
    * @param string $parent Required. The resource name of the Location to create
-   * FeatureGroups. Format: `projects/{project}/locations/{location}'`
+   * FeatureGroups. Format: `projects/{project}/locations/{location}`
    * @param GoogleCloudAiplatformV1FeatureGroup $postBody
    * @param array $optParams Optional parameters.
    *
@@ -140,7 +140,8 @@ class ProjectsLocationsFeatureGroups extends \Google\Service\Resource
    * field will be overwritten if it is in the mask. If the user does not provide
    * a mask then only the non-empty fields present in the request will be
    * overwritten. Set the update_mask to `*` to override all fields. Updatable
-   * fields: * `labels`
+   * fields: * `labels` * `description` * `big_query` *
+   * `big_query.entity_id_columns`
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */

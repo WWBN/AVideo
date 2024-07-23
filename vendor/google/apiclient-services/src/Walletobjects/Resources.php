@@ -28,6 +28,10 @@ class Resources extends \Google\Collection
   protected $flightClassesDataType = 'array';
   protected $flightObjectsType = FlightObject::class;
   protected $flightObjectsDataType = 'array';
+  protected $genericClassesType = GenericClass::class;
+  protected $genericClassesDataType = 'array';
+  protected $genericObjectsType = GenericObject::class;
+  protected $genericObjectsDataType = 'array';
   protected $giftCardClassesType = GiftCardClass::class;
   protected $giftCardClassesDataType = 'array';
   protected $giftCardObjectsType = GiftCardObject::class;
@@ -100,6 +104,34 @@ class Resources extends \Google\Collection
   public function getFlightObjects()
   {
     return $this->flightObjects;
+  }
+  /**
+   * @param GenericClass[]
+   */
+  public function setGenericClasses($genericClasses)
+  {
+    $this->genericClasses = $genericClasses;
+  }
+  /**
+   * @return GenericClass[]
+   */
+  public function getGenericClasses()
+  {
+    return $this->genericClasses;
+  }
+  /**
+   * @param GenericObject[]
+   */
+  public function setGenericObjects($genericObjects)
+  {
+    $this->genericObjects = $genericObjects;
+  }
+  /**
+   * @return GenericObject[]
+   */
+  public function getGenericObjects()
+  {
+    return $this->genericObjects;
   }
   /**
    * @param GiftCardClass[]

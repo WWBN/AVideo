@@ -22,6 +22,8 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   protected $collection_key = 'destinationConfigs';
   protected $authConfigType = GoogleCloudConnectorsV1AuthConfig::class;
   protected $authConfigDataType = '';
+  protected $billingConfigType = GoogleCloudConnectorsV1BillingConfig::class;
+  protected $billingConfigDataType = '';
   protected $configVariablesType = GoogleCloudConnectorsV1ConfigVariable::class;
   protected $configVariablesDataType = 'array';
   /**
@@ -120,6 +122,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public function getAuthConfig()
   {
     return $this->authConfig;
+  }
+  /**
+   * @param GoogleCloudConnectorsV1BillingConfig
+   */
+  public function setBillingConfig(GoogleCloudConnectorsV1BillingConfig $billingConfig)
+  {
+    $this->billingConfig = $billingConfig;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1BillingConfig
+   */
+  public function getBillingConfig()
+  {
+    return $this->billingConfig;
   }
   /**
    * @param GoogleCloudConnectorsV1ConfigVariable[]

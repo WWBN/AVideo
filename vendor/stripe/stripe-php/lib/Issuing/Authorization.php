@@ -22,6 +22,8 @@ namespace Stripe\Issuing;
  * @property null|string|\Stripe\Issuing\Cardholder $cardholder The cardholder to whom this authorization belongs.
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
  * @property string $currency The currency of the cardholder. This currency can be different from the currency presented at authorization and the <code>merchant_currency</code> field on this authorization. Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>, in lowercase. Must be a <a href="https://stripe.com/docs/currencies">supported currency</a>.
+ * @property null|\Stripe\StripeObject $fleet Fleet-specific information for authorizations using Fleet cards.
+ * @property null|\Stripe\StripeObject $fuel Information about fuel that was purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property int $merchant_amount The total amount that was authorized or rejected. This amount is in the <code>merchant_currency</code> and in the <a href="https://stripe.com/docs/currencies#zero-decimal">smallest currency unit</a>. <code>merchant_amount</code> should be the same as <code>amount</code>, unless <code>merchant_currency</code> and <code>currency</code> are different.
  * @property string $merchant_currency The local currency that was presented to the cardholder for the authorization. This currency can be different from the cardholder currency and the <code>currency</code> field on this authorization. Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>, in lowercase. Must be a <a href="https://stripe.com/docs/currencies">supported currency</a>.
@@ -41,8 +43,6 @@ class Authorization extends \Stripe\ApiResource
 {
     const OBJECT_NAME = 'issuing.authorization';
 
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
 
     const AUTHORIZATION_METHOD_CHIP = 'chip';
@@ -54,6 +54,69 @@ class Authorization extends \Stripe\ApiResource
     const STATUS_CLOSED = 'closed';
     const STATUS_PENDING = 'pending';
     const STATUS_REVERSED = 'reversed';
+
+    /**
+     * Returns a list of Issuing <code>Authorization</code> objects. The objects are
+     * sorted in descending order by creation date, with the most recently created
+     * object appearing first.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Issuing\Authorization> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+
+        return static::_requestPage($url, \Stripe\Collection::class, $params, $opts);
+    }
+
+    /**
+     * Retrieves an Issuing <code>Authorization</code> object.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Issuing\Authorization
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
+
+    /**
+     * Updates the specified Issuing <code>Authorization</code> object by setting the
+     * values of the parameters passed. Any parameters not provided will be left
+     * unchanged.
+     *
+     * @param string $id the ID of the resource to update
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Issuing\Authorization the updated resource
+     */
+    public static function update($id, $params = null, $opts = null)
+    {
+        self::_validateParams($params);
+        $url = static::resourceUrl($id);
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
 
     /**
      * @param null|array $params

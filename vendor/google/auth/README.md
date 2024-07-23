@@ -282,6 +282,37 @@ $auth->verify($idToken, [
 [google-id-tokens]: https://developers.google.com/identity/sign-in/web/backend-auth
 [iap-id-tokens]: https://cloud.google.com/iap/docs/signed-headers-howto
 
+## Caching
+Caching is enabled by passing a PSR-6 `CacheItemPoolInterface`
+instance to the constructor when instantiating the credentials.
+
+We offer some caching classes out of the box under the `Google\Auth\Cache` namespace.
+
+```php
+use Google\Auth\ApplicationDefaultCredentials;
+use Google\Auth\Cache\MemoryCacheItemPool;
+
+// Cache Instance
+$memoryCache = new MemoryCacheItemPool;
+
+// Get the credentials
+// From here, the credentials will cache the access token
+$middleware = ApplicationDefaultCredentials::getCredentials($scope, cache: $memoryCache);
+```
+
+### Integrating with a third party cache
+You can use a third party that follows the `PSR-6` interface of your choice.
+
+```php
+use Symphony\Component\Cache\Adapter\FileststenAdapter;
+
+// Create the cache instance
+$filesystemCache = new FilesystemAdapter();
+
+// Create Get the credentials
+$credentials = ApplicationDefaultCredentials::getCredentials($targetAudience, cache: $filesystemCache);
+```
+
 ## License
 
 This library is licensed under Apache 2.0. Full license text is

@@ -19,6 +19,7 @@ namespace Google\Service\DLP\Resource;
 
 use Google\Service\DLP\GooglePrivacyDlpV2ListTableDataProfilesResponse;
 use Google\Service\DLP\GooglePrivacyDlpV2TableDataProfile;
+use Google\Service\DLP\GoogleProtobufEmpty;
 
 /**
  * The "tableDataProfiles" collection of methods.
@@ -30,6 +31,22 @@ use Google\Service\DLP\GooglePrivacyDlpV2TableDataProfile;
  */
 class OrganizationsLocationsTableDataProfiles extends \Google\Service\Resource
 {
+  /**
+   * Delete a TableDataProfile. Will not prevent the profile from being
+   * regenerated if the table is still included in a discovery configuration.
+   * (tableDataProfiles.delete)
+   *
+   * @param string $name Required. Resource name of the table data profile.
+   * @param array $optParams Optional parameters.
+   * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
   /**
    * Gets a table data profile. (tableDataProfiles.get)
    *
@@ -46,7 +63,7 @@ class OrganizationsLocationsTableDataProfiles extends \Google\Service\Resource
     return $this->call('get', [$params], GooglePrivacyDlpV2TableDataProfile::class);
   }
   /**
-   * Lists data profiles for an organization.
+   * Lists table data profiles for an organization.
    * (tableDataProfiles.listOrganizationsLocationsTableDataProfiles)
    *
    * @param string $parent Required. Resource name of the organization or project,
@@ -58,28 +75,29 @@ class OrganizationsLocationsTableDataProfiles extends \Google\Service\Resource
    * expressions are made up of one or more restrictions. * Restrictions can be
    * combined by `AND` or `OR` logical operators. A sequence of restrictions
    * implicitly uses `AND`. * A restriction has the form of `{field} {operator}
-   * {value}`. * Supported fields/values: - `project_id` - The GCP project ID. -
-   * `dataset_id` - The BigQuery dataset ID. - `table_id` - The ID of the BigQuery
-   * table. - `sensitivity_level` - HIGH|MODERATE|LOW - `data_risk_level` -
-   * HIGH|MODERATE|LOW - `resource_visibility`: PUBLIC|RESTRICTED - `status_code`
-   * - an RPC status code as defined in
+   * {value}`. * Supported fields/values: - `project_id` - The Google Cloud
+   * project ID. - `dataset_id` - The BigQuery dataset ID. - `table_id` - The ID
+   * of the BigQuery table. - `sensitivity_level` - HIGH|MODERATE|LOW -
+   * `data_risk_level` - HIGH|MODERATE|LOW - `resource_visibility`:
+   * PUBLIC|RESTRICTED - `status_code` - an RPC status code as defined in
    * https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto *
-   * The operator must be `=` or `!=`. Examples: * project_id = 12345 AND
-   * status_code = 1 * project_id = 12345 AND sensitivity_level = HIGH *
-   * project_id = 12345 AND resource_visibility = PUBLIC The length of this field
-   * should be no more than 500 characters.
-   * @opt_param string orderBy Comma separated list of fields to order by,
+   * The operator must be `=` or `!=`. Examples: * `project_id = 12345 AND
+   * status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` *
+   * `project_id = 12345 AND resource_visibility = PUBLIC` The length of this
+   * field should be no more than 500 characters.
+   * @opt_param string orderBy Comma-separated list of fields to order by,
    * followed by `asc` or `desc` postfix. This list is case insensitive. The
    * default sorting order is ascending. Redundant space characters are
    * insignificant. Only one order field at a time is allowed. Examples: *
    * `project_id asc` * `table_id` * `sensitivity_level desc` Supported fields
-   * are: - `project_id`: The GCP project ID. - `dataset_id`: The ID of a BigQuery
-   * dataset. - `table_id`: The ID of a BigQuery table. - `sensitivity_level`: How
-   * sensitive the data in a table is, at most. - `data_risk_level`: How much risk
-   * is associated with this data. - `profile_last_generated`: When the profile
-   * was last updated in epoch seconds. - `last_modified`: The last time the
-   * resource was modified. - `resource_visibility`: Visibility restriction for
-   * this resource. - `row_count`: Number of rows in this resource.
+   * are: - `project_id`: The Google Cloud project ID. - `dataset_id`: The ID of a
+   * BigQuery dataset. - `table_id`: The ID of a BigQuery table. -
+   * `sensitivity_level`: How sensitive the data in a table is, at most. -
+   * `data_risk_level`: How much risk is associated with this data. -
+   * `profile_last_generated`: When the profile was last updated in epoch seconds.
+   * - `last_modified`: The last time the resource was modified. -
+   * `resource_visibility`: Visibility restriction for this resource. -
+   * `row_count`: Number of rows in this resource.
    * @opt_param int pageSize Size of the page. This value can be limited by the
    * server. If zero, server returns a page of max size 100.
    * @opt_param string pageToken Page token to continue retrieval.

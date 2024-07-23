@@ -52,6 +52,9 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * contain only lowercase letters, numbers, and hyphens. * Must start with a
    * letter. * Must be between 1-63 characters. * Must end with a number or a
    * letter. * Must be unique within the project.
+   * @opt_param string requestId Optional. A unique identifier for this request.
+   * Restricted to 36 ASCII characters. A random UUID is recommended. This request
+   * is only idempotent if a `request_id` is provided.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -74,6 +77,10 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * @param string $name Required. The name of the OS policy assignment to be
    * deleted
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId Optional. A unique identifier for this request.
+   * Restricted to 36 ASCII characters. A random UUID is recommended. This request
+   * is only idempotent if a `request_id` is provided.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -159,6 +166,12 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * @param OSPolicyAssignment $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool allowMissing Optional. If set to true, and the OS policy
+   * assignment is not found, a new OS policy assignment will be created. In this
+   * situation, `update_mask` is ignored.
+   * @opt_param string requestId Optional. A unique identifier for this request.
+   * Restricted to 36 ASCII characters. A random UUID is recommended. This request
+   * is only idempotent if a `request_id` is provided.
    * @opt_param string updateMask Optional. Field mask that controls which fields
    * of the assignment should be updated.
    * @return Operation

@@ -26,10 +26,6 @@ class GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig extends \Google\M
   /**
    * @var float
    */
-  public $contentWatchedMinutesThreshold;
-  /**
-   * @var float
-   */
   public $contentWatchedPercentageThreshold;
   /**
    * @var float
@@ -53,20 +49,6 @@ class GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig extends \Google\M
   public function getContentFreshnessCutoffDays()
   {
     return $this->contentFreshnessCutoffDays;
-  }
-  /**
-   * @param float
-   */
-  public function setContentWatchedMinutesThreshold($contentWatchedMinutesThreshold)
-  {
-    $this->contentWatchedMinutesThreshold = $contentWatchedMinutesThreshold;
-  }
-  /**
-   * @return float
-   */
-  public function getContentWatchedMinutesThreshold()
-  {
-    return $this->contentWatchedMinutesThreshold;
   }
   /**
    * @param float

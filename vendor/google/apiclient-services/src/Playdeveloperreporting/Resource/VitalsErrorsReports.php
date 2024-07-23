@@ -53,8 +53,10 @@ class VitalsErrorsReports extends \Google\Service\Resource
    * `NATIVE_CRASH`, `ANR`. Example: `errorIssueType = JAVA_CRASH OR
    * errorIssueType = NATIVE_CRASH`. * `errorIssueId`: Matches error reports
    * belonging to the requested error issue ids only. Example: `errorIssueId =
-   * 1234 OR errorIssueId = 4567`. * `appProcessState`: Matches error reports on
-   * the process state of an app, indicating whether an app runs in the foreground
+   * 1234 OR errorIssueId = 4567`. * `errorReportId`: Matches error reports with
+   * the requested error report id. Example: `errorReportId = 1234 OR
+   * errorReportId = 4567`. * `appProcessState`: Matches error reports on the
+   * process state of an app, indicating whether an app runs in the foreground
    * (user-visible) or background. Valid candidates: `FOREGROUND`, `BACKGROUND`.
    * Example: `appProcessState = FOREGROUND`. * `isUserPerceived`: Matches error
    * reports that are user-perceived. It is not accompanied by any operators.

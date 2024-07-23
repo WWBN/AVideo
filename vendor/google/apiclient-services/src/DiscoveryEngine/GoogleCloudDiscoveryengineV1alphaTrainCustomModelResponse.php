@@ -24,6 +24,11 @@ class GoogleCloudDiscoveryengineV1alphaTrainCustomModelResponse extends \Google\
   protected $errorConfigDataType = '';
   protected $errorSamplesType = GoogleRpcStatus::class;
   protected $errorSamplesDataType = 'array';
+  public $metrics;
+  /**
+   * @var string
+   */
+  public $modelName;
   /**
    * @var string
    */
@@ -56,6 +61,28 @@ class GoogleCloudDiscoveryengineV1alphaTrainCustomModelResponse extends \Google\
   public function getErrorSamples()
   {
     return $this->errorSamples;
+  }
+  public function setMetrics($metrics)
+  {
+    $this->metrics = $metrics;
+  }
+  public function getMetrics()
+  {
+    return $this->metrics;
+  }
+  /**
+   * @param string
+   */
+  public function setModelName($modelName)
+  {
+    $this->modelName = $modelName;
+  }
+  /**
+   * @return string
+   */
+  public function getModelName()
+  {
+    return $this->modelName;
   }
   /**
    * @param string

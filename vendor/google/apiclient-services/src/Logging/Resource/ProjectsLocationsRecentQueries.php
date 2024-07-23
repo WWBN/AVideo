@@ -43,6 +43,10 @@ class ProjectsLocationsRecentQueries extends \Google\Service\Resource
    * return all recent queries.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string filter Optional. Specifies the type ("Logging" or
+   * "OpsAnalytics") of the recent queries to list. The only valid value for this
+   * field is one of the two allowable type function calls, which are the
+   * following: type("Logging") type("OpsAnalytics")
    * @opt_param int pageSize Optional. The maximum number of results to return
    * from this request. Non-positive values are ignored. The presence of
    * nextPageToken in the response indicates that more results might be available.

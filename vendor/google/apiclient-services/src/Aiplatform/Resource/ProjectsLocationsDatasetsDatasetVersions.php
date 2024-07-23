@@ -106,6 +106,25 @@ class ProjectsLocationsDatasetsDatasetVersions extends \Google\Service\Resource
     return $this->call('list', [$params], GoogleCloudAiplatformV1ListDatasetVersionsResponse::class);
   }
   /**
+   * Updates a DatasetVersion. (datasetVersions.patch)
+   *
+   * @param string $name Output only. The resource name of the DatasetVersion.
+   * @param GoogleCloudAiplatformV1DatasetVersion $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The update mask applies to the
+   * resource. For the `FieldMask` definition, see google.protobuf.FieldMask.
+   * Updatable fields: * `display_name`
+   * @return GoogleCloudAiplatformV1DatasetVersion
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudAiplatformV1DatasetVersion $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudAiplatformV1DatasetVersion::class);
+  }
+  /**
    * Restores a dataset version. (datasetVersions.restore)
    *
    * @param string $name Required. The name of the DatasetVersion resource.

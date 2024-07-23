@@ -26,6 +26,8 @@ class LookupRequest extends \Google\Collection
   public $databaseId;
   protected $keysType = Key::class;
   protected $keysDataType = 'array';
+  protected $propertyMaskType = PropertyMask::class;
+  protected $propertyMaskDataType = '';
   protected $readOptionsType = ReadOptions::class;
   protected $readOptionsDataType = '';
 
@@ -56,6 +58,20 @@ class LookupRequest extends \Google\Collection
   public function getKeys()
   {
     return $this->keys;
+  }
+  /**
+   * @param PropertyMask
+   */
+  public function setPropertyMask(PropertyMask $propertyMask)
+  {
+    $this->propertyMask = $propertyMask;
+  }
+  /**
+   * @return PropertyMask
+   */
+  public function getPropertyMask()
+  {
+    return $this->propertyMask;
   }
   /**
    * @param ReadOptions

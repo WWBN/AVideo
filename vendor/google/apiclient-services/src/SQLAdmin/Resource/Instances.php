@@ -18,6 +18,7 @@
 namespace Google\Service\SQLAdmin\Resource;
 
 use Google\Service\SQLAdmin\DatabaseInstance;
+use Google\Service\SQLAdmin\InstancesAcquireSsrsLeaseRequest;
 use Google\Service\SQLAdmin\InstancesCloneRequest;
 use Google\Service\SQLAdmin\InstancesDemoteMasterRequest;
 use Google\Service\SQLAdmin\InstancesDemoteRequest;
@@ -31,6 +32,8 @@ use Google\Service\SQLAdmin\InstancesRestoreBackupRequest;
 use Google\Service\SQLAdmin\InstancesRotateServerCaRequest;
 use Google\Service\SQLAdmin\InstancesTruncateLogRequest;
 use Google\Service\SQLAdmin\Operation;
+use Google\Service\SQLAdmin\SqlInstancesAcquireSsrsLeaseResponse;
+use Google\Service\SQLAdmin\SqlInstancesReleaseSsrsLeaseResponse;
 
 /**
  * The "instances" collection of methods.
@@ -42,6 +45,27 @@ use Google\Service\SQLAdmin\Operation;
  */
 class Instances extends \Google\Service\Resource
 {
+  /**
+   * Acquire a lease for the setup of SQL Server Reporting Services (SSRS).
+   * (instances.acquireSsrsLease)
+   *
+   * @param string $project Required. Project ID of the project that contains the
+   * instance (Example: project-id).
+   * @param string $instance Required. Cloud SQL instance ID. This doesn't include
+   * the project ID. It's composed of lowercase letters, numbers, and hyphens, and
+   * it must start with a letter. The total length must be 98 characters or less
+   * (Example: instance-id).
+   * @param InstancesAcquireSsrsLeaseRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return SqlInstancesAcquireSsrsLeaseResponse
+   * @throws \Google\Service\Exception
+   */
+  public function acquireSsrsLease($project, $instance, InstancesAcquireSsrsLeaseRequest $postBody, $optParams = [])
+  {
+    $params = ['project' => $project, 'instance' => $instance, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('acquireSsrsLease', [$params], SqlInstancesAcquireSsrsLeaseResponse::class);
+  }
   /**
    * Adds a new trusted Certificate Authority (CA) version for the specified
    * instance. Required to prepare for a certificate rotation. If a CA version was
@@ -295,18 +319,20 @@ class Instances extends \Google\Service\Resource
     return $this->call('patch', [$params], Operation::class);
   }
   /**
-   * Promotes the read replica instance to be a stand-alone Cloud SQL instance.
-   * Using this operation might cause your instance to restart.
+   * Promotes the read replica instance to be an independent Cloud SQL primary
+   * instance. Using this operation might cause your instance to restart.
    * (instances.promoteReplica)
    *
    * @param string $project ID of the project that contains the read replica.
    * @param string $instance Cloud SQL read replica instance name.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool failover Set to true if the promote operation should attempt
-   * to re-add the original primary as a replica when it comes back online.
-   * Otherwise, if this value is false or not set, the original primary will be a
-   * standalone instance.
+   * @opt_param bool failover Set to true to invoke a replica failover to the
+   * designated DR replica. As part of replica failover, the promote operation
+   * attempts to add the original primary instance as a replica of the promoted DR
+   * replica when the original primary instance comes back online. If set to false
+   * or not specified, then the original primary instance becomes an independent
+   * Cloud SQL primary instance. Only applicable to MySQL.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -332,6 +358,25 @@ class Instances extends \Google\Service\Resource
     $params = ['project' => $project, 'instance' => $instance, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('reencrypt', [$params], Operation::class);
+  }
+  /**
+   * Release a lease for the setup of SQL Server Reporting Services (SSRS).
+   * (instances.releaseSsrsLease)
+   *
+   * @param string $project Required. The project ID that contains the instance.
+   * @param string $instance Required. The Cloud SQL instance ID. This doesn't
+   * include the project ID. The instance ID contains lowercase letters, numbers,
+   * and hyphens, and it must start with a letter. This ID can have a maximum
+   * length of 98 characters.
+   * @param array $optParams Optional parameters.
+   * @return SqlInstancesReleaseSsrsLeaseResponse
+   * @throws \Google\Service\Exception
+   */
+  public function releaseSsrsLease($project, $instance, $optParams = [])
+  {
+    $params = ['project' => $project, 'instance' => $instance];
+    $params = array_merge($params, $optParams);
+    return $this->call('releaseSsrsLease', [$params], SqlInstancesReleaseSsrsLeaseResponse::class);
   }
   /**
    * Deletes all client certificates and generates a new server SSL certificate
@@ -435,8 +480,8 @@ class Instances extends \Google\Service\Resource
     return $this->call('stopReplica', [$params], Operation::class);
   }
   /**
-   * Switches over from the primary instance to the replica instance.
-   * (instances.switchover)
+   * Switches over from the primary instance to the designated DR replica
+   * instance. (instances.switchover)
    *
    * @param string $project ID of the project that contains the replica.
    * @param string $instance Cloud SQL read replica instance name.

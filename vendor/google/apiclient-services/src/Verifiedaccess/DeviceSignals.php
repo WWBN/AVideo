@@ -101,6 +101,10 @@ class DeviceSignals extends \Google\Collection
   /**
    * @var string
    */
+  public $profileEnrollmentDomain;
+  /**
+   * @var string
+   */
   public $realtimeUrlCheckMode;
   /**
    * @var string
@@ -422,6 +426,20 @@ class DeviceSignals extends \Google\Collection
   public function getProfileAffiliationIds()
   {
     return $this->profileAffiliationIds;
+  }
+  /**
+   * @param string
+   */
+  public function setProfileEnrollmentDomain($profileEnrollmentDomain)
+  {
+    $this->profileEnrollmentDomain = $profileEnrollmentDomain;
+  }
+  /**
+   * @return string
+   */
+  public function getProfileEnrollmentDomain()
+  {
+    return $this->profileEnrollmentDomain;
   }
   /**
    * @param string

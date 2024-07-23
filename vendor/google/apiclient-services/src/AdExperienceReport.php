@@ -39,6 +39,7 @@ class AdExperienceReport extends \Google\Service
 
   public $sites;
   public $violatingSites;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the AdExperienceReport service.
@@ -51,6 +52,7 @@ class AdExperienceReport extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://adexperiencereport.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://adexperiencereport.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

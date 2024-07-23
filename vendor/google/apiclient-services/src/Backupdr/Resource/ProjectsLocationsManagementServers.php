@@ -40,8 +40,8 @@ class ProjectsLocationsManagementServers extends \Google\Service\Resource
    * (managementServers.create)
    *
    * @param string $parent Required. The management server project and location in
-   * the format `projects/{project_id}/locations/{location}`. In Cloud Backup and
-   * DR locations map to GCP regions, for example **us-central1**.
+   * the format 'projects/{project_id}/locations/{location}'. In Cloud Backup and
+   * DR locations map to Google Cloud regions, for example **us-central1**.
    * @param ManagementServer $postBody
    * @param array $optParams Optional parameters.
    *
@@ -98,8 +98,8 @@ class ProjectsLocationsManagementServers extends \Google\Service\Resource
    * Gets details of a single ManagementServer. (managementServers.get)
    *
    * @param string $name Required. Name of the management server resource name, in
-   * the format `projects/{project_id}/locations/{location}/managementServers/{res
-   * ource_name}`
+   * the format 'projects/{project_id}/locations/{location}/managementServers/{res
+   * ource_name}'
    * @param array $optParams Optional parameters.
    * @return ManagementServer
    * @throws \Google\Service\Exception
@@ -148,9 +148,9 @@ class ProjectsLocationsManagementServers extends \Google\Service\Resource
    *
    * @param string $parent Required. The project and location for which to
    * retrieve management servers information, in the format
-   * `projects/{project_id}/locations/{location}`. In Cloud BackupDR, locations
-   * map to GCP regions, for example **us-central1**. To retrieve management
-   * servers for all locations, use "-" for the `{location}` value.
+   * 'projects/{project_id}/locations/{location}'. In Cloud BackupDR, locations
+   * map to Google Cloud regions, for example **us-central1**. To retrieve
+   * management servers for all locations, use "-" for the '{location}' value.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. Filtering results.

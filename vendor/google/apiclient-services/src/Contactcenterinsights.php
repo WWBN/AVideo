@@ -47,6 +47,7 @@ class Contactcenterinsights extends \Google\Service
   public $projects_locations_operations;
   public $projects_locations_phraseMatchers;
   public $projects_locations_views;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Contactcenterinsights
@@ -60,6 +61,7 @@ class Contactcenterinsights extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://contactcenterinsights.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://contactcenterinsights.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

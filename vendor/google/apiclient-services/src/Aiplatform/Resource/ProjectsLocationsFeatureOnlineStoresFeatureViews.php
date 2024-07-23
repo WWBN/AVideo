@@ -169,7 +169,10 @@ class ProjectsLocationsFeatureOnlineStoresFeatureViews extends \Google\Service\R
    * field will be overwritten if it is in the mask. If the user does not provide
    * a mask then only the non-empty fields present in the request will be
    * overwritten. Set the update_mask to `*` to override all fields. Updatable
-   * fields: * `labels` * `serviceAgentType`
+   * fields: * `labels` * `service_agent_type` * `big_query_source` *
+   * `big_query_source.uri` * `big_query_source.entity_id_columns` *
+   * `feature_registry_source` * `feature_registry_source.feature_groups` *
+   * `sync_config` * `sync_config.cron`
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */

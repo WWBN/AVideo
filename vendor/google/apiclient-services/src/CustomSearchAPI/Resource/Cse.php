@@ -154,6 +154,10 @@ class Cse extends \Google\Service\Resource
    * @opt_param string siteSearchFilter Controls whether to include or exclude
    * results from the site named in the `siteSearch` parameter. Acceptable values
    * are: * `"e"`: exclude * `"i"`: include
+   * @opt_param int snippetLength Optional. Maximum length of snippet text, in
+   * characters, to be returned with results. Note: this feature is limited to
+   * specific engines. * Valid values are integers between 161 and 1000,
+   * inclusive.
    * @opt_param string sort The sort expression to apply to the results. The sort
    * parameter specifies that the results be sorted according to the specified
    * expression i.e. sort by date. [Example:

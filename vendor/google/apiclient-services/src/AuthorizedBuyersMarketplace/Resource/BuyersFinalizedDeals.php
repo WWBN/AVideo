@@ -89,7 +89,8 @@ class BuyersFinalizedDeals extends \Google\Service\Resource
    * filtering syntax](https://developers.google.com/authorized-
    * buyers/apis/guides/list-filters) Supported columns for filtering are: *
    * deal.displayName * deal.dealType * deal.createTime * deal.updateTime *
-   * deal.flightStartTime * deal.flightEndTime * dealServingStatus
+   * deal.flightStartTime * deal.flightEndTime * deal.eligibleSeatIds *
+   * dealServingStatus
    * @opt_param string orderBy An optional query string to sort finalized deals
    * using the [Cloud API sorting
    * syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order).
@@ -98,8 +99,7 @@ class BuyersFinalizedDeals extends \Google\Service\Resource
    * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime
    * * rtbMetrics.bidRequests7Days * rtbMetrics.bids7Days *
    * rtbMetrics.adImpressions7Days * rtbMetrics.bidRate7Days *
-   * rtbMetrics.filteredBidRate7Days * rtbMetrics.mustBidRateCurrentMonth Example:
-   * 'deal.displayName, deal.updateTime desc'
+   * rtbMetrics.filteredBidRate7Days * rtbMetrics.mustBidRateCurrentMonth
    * @opt_param int pageSize Requested page size. The server may return fewer
    * results than requested. If requested more than 500, the server will return
    * 500 results per page. If unspecified, the server will pick a default page
@@ -119,7 +119,7 @@ class BuyersFinalizedDeals extends \Google\Service\Resource
    * Pauses serving of the given finalized deal. This call only pauses the serving
    * status, and does not affect other fields of the finalized deal. Calling this
    * method for an already paused deal has no effect. This method only applies to
-   * programmatic guaranteed deals. (finalizedDeals.pause)
+   * programmatic guaranteed deals and preferred deals. (finalizedDeals.pause)
    *
    * @param string $name Required. Format:
    * `buyers/{accountId}/finalizedDeals/{dealId}`
@@ -138,8 +138,8 @@ class BuyersFinalizedDeals extends \Google\Service\Resource
    * Resumes serving of the given finalized deal. Calling this method for an
    * running deal has no effect. If a deal is initially paused by the seller,
    * calling this method will not resume serving of the deal until the seller also
-   * resumes the deal. This method only applies to programmatic guaranteed deals.
-   * (finalizedDeals.resume)
+   * resumes the deal. This method only applies to programmatic guaranteed deals
+   * and preferred deals. (finalizedDeals.resume)
    *
    * @param string $name Required. Format:
    * `buyers/{accountId}/finalizedDeals/{dealId}`

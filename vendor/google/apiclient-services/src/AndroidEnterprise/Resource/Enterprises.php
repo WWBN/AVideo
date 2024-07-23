@@ -99,7 +99,7 @@ class Enterprises extends \Google\Service\Resource
   /**
    * Returns a unique token to access an embeddable UI. To generate a web UI, pass
    * the generated token into the managed Google Play javascript API. Each token
-   * may only be used to start one UI session. See the javascript API
+   * may only be used to start one UI session. See the JavaScript API
    * documentation for further information. (enterprises.createWebToken)
    *
    * @param string $enterpriseId The ID of the enterprise.
@@ -135,6 +135,9 @@ class Enterprises extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string adminEmail Optional. Email address used to prefill the
+   * admin field of the enterprise signup form. This value is a hint only and can
+   * be altered by the user.
    * @opt_param string callbackUrl The callback URL to which the Admin will be
    * redirected after successfully creating an enterprise. Before redirecting
    * there the system will add a single query parameter to this URL named

@@ -34,6 +34,10 @@ class GoogleCloudIntegrationsV1alphaCloudKmsConfig extends \Google\Model
   /**
    * @var string
    */
+  public $kmsProjectId;
+  /**
+   * @var string
+   */
   public $kmsRing;
 
   /**
@@ -77,6 +81,20 @@ class GoogleCloudIntegrationsV1alphaCloudKmsConfig extends \Google\Model
   public function getKmsLocation()
   {
     return $this->kmsLocation;
+  }
+  /**
+   * @param string
+   */
+  public function setKmsProjectId($kmsProjectId)
+  {
+    $this->kmsProjectId = $kmsProjectId;
+  }
+  /**
+   * @return string
+   */
+  public function getKmsProjectId()
+  {
+    return $this->kmsProjectId;
   }
   /**
    * @param string

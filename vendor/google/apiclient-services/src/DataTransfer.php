@@ -45,6 +45,7 @@ class DataTransfer extends \Google\Service
 
   public $applications;
   public $transfers;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the DataTransfer service.
@@ -57,6 +58,7 @@ class DataTransfer extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://admin.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://admin.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'datatransfer_v1';

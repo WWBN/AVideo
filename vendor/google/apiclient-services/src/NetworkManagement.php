@@ -42,6 +42,7 @@ class NetworkManagement extends \Google\Service
   public $projects_locations;
   public $projects_locations_global_connectivityTests;
   public $projects_locations_global_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the NetworkManagement service.
@@ -54,6 +55,7 @@ class NetworkManagement extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://networkmanagement.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://networkmanagement.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

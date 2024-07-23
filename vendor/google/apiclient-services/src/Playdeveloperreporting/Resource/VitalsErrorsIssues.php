@@ -132,6 +132,9 @@ class VitalsErrorsIssues extends \Google\Service\Resource
    * Provide this to retrieve the subsequent page. When paginating, all other
    * parameters provided to the request must match the call that provided the page
    * token.
+   * @opt_param int sampleErrorReportLimit Optional. Number of sample error
+   * reports to return per ErrorIssue. If unspecified, 0 will be used. *Note:*
+   * currently only 0 and 1 are supported.
    * @return GooglePlayDeveloperReportingV1beta1SearchErrorIssuesResponse
    * @throws \Google\Service\Exception
    */

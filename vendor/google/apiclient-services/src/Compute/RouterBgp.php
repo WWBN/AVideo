@@ -37,6 +37,10 @@ class RouterBgp extends \Google\Collection
   /**
    * @var string
    */
+  public $identifierRange;
+  /**
+   * @var string
+   */
   public $keepaliveInterval;
 
   /**
@@ -94,6 +98,20 @@ class RouterBgp extends \Google\Collection
   public function getAsn()
   {
     return $this->asn;
+  }
+  /**
+   * @param string
+   */
+  public function setIdentifierRange($identifierRange)
+  {
+    $this->identifierRange = $identifierRange;
+  }
+  /**
+   * @return string
+   */
+  public function getIdentifierRange()
+  {
+    return $this->identifierRange;
   }
   /**
    * @param string

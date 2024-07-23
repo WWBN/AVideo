@@ -125,8 +125,8 @@ class Services extends \Google\Service\Resource
   /**
    * Update this Service. (services.patch)
    *
-   * @param string $name Resource name for this Service. The format is:
-   * projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]
+   * @param string $name Identifier. Resource name for this Service. The format
+   * is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]
    * @param Service $postBody
    * @param array $optParams Optional parameters.
    *

@@ -182,7 +182,8 @@ class ProjectsLocationsTargets extends \Google\Service\Resource
    * Updates the parameters of a single Target. (targets.patch)
    *
    * @param string $name Optional. Name of the `Target`. Format is
-   * `projects/{project}/locations/{location}/targets/a-z{0,62}`.
+   * `projects/{project}/locations/{location}/targets/{target}`. The `target`
+   * component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`
    * @param Target $postBody
    * @param array $optParams Optional parameters.
    *

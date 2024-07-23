@@ -17,10 +17,13 @@
 
 namespace Google\Service\CloudDataplex\Resource;
 
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1EntryType;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListEntryTypesResponse;
 use Google\Service\CloudDataplex\GoogleIamV1Policy;
 use Google\Service\CloudDataplex\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
+use Google\Service\CloudDataplex\GoogleLongrunningOperation;
 
 /**
  * The "entryTypes" collection of methods.
@@ -32,6 +35,61 @@ use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
  */
 class ProjectsLocationsEntryTypes extends \Google\Service\Resource
 {
+  /**
+   * Creates an EntryType. (entryTypes.create)
+   *
+   * @param string $parent Required. The resource name of the EntryType, of the
+   * form: projects/{project_number}/locations/{location_id} where location_id
+   * refers to a Google Cloud region.
+   * @param GoogleCloudDataplexV1EntryType $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string entryTypeId Required. EntryType identifier.
+   * @opt_param bool validateOnly Optional. The service validates the request
+   * without performing any mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, GoogleCloudDataplexV1EntryType $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Deletes an EntryType. (entryTypes.delete)
+   *
+   * @param string $name Required. The resource name of the EntryType:
+   * projects/{project_number}/locations/{location_id}/entryTypes/{entry_type_id}.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string etag Optional. If the client provided etag value does not
+   * match the current etag value, the DeleteEntryTypeRequest method returns an
+   * ABORTED error response.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Gets an EntryType. (entryTypes.get)
+   *
+   * @param string $name Required. The resource name of the EntryType:
+   * projects/{project_number}/locations/{location_id}/entryTypes/{entry_type_id}.
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1EntryType
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleCloudDataplexV1EntryType::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (entryTypes.getIamPolicy)
@@ -61,6 +119,59 @@ class ProjectsLocationsEntryTypes extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
+  }
+  /**
+   * Lists EntryType resources in a project and location.
+   * (entryTypes.listProjectsLocationsEntryTypes)
+   *
+   * @param string $parent Required. The resource name of the EntryType location,
+   * of the form: projects/{project_number}/locations/{location_id} where
+   * location_id refers to a Google Cloud region.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Filter request. Filters are case-
+   * sensitive. The service supports the following formats: labels.key1 = "value1"
+   * labels:key1 name = "value"These restrictions can be conjoined with AND, OR,
+   * and NOT conjunctions.
+   * @opt_param string orderBy Optional. Orders the result by name or create_time
+   * fields. If not specified, the ordering is undefined.
+   * @opt_param int pageSize Optional. Maximum number of EntryTypes to return. The
+   * service may return fewer than this value. If unspecified, the service returns
+   * at most 10 EntryTypes. The maximum value is 1000; values above 1000 will be
+   * coerced to 1000.
+   * @opt_param string pageToken Optional. Page token received from a previous
+   * ListEntryTypes call. Provide this to retrieve the subsequent page. When
+   * paginating, all other parameters you provided to ListEntryTypes must match
+   * the call that provided the page token.
+   * @return GoogleCloudDataplexV1ListEntryTypesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsEntryTypes($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GoogleCloudDataplexV1ListEntryTypesResponse::class);
+  }
+  /**
+   * Updates an EntryType. (entryTypes.patch)
+   *
+   * @param string $name Output only. The relative resource name of the EntryType,
+   * of the form:
+   * projects/{project_number}/locations/{location_id}/entryTypes/{entry_type_id}.
+   * @param GoogleCloudDataplexV1EntryType $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. Mask of fields to update.
+   * @opt_param bool validateOnly Optional. The service validates the request
+   * without performing any mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudDataplexV1EntryType $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

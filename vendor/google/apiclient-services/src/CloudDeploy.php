@@ -48,6 +48,7 @@ class CloudDeploy extends \Google\Service
   public $projects_locations_deliveryPipelines_releases_rollouts_jobRuns;
   public $projects_locations_operations;
   public $projects_locations_targets;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudDeploy service.
@@ -60,6 +61,7 @@ class CloudDeploy extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://clouddeploy.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://clouddeploy.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

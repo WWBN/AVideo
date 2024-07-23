@@ -47,6 +47,7 @@ class Pubsub extends \Google\Service
   public $projects_topics;
   public $projects_topics_snapshots;
   public $projects_topics_subscriptions;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Pubsub service.
@@ -59,6 +60,7 @@ class Pubsub extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://pubsub.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://pubsub.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

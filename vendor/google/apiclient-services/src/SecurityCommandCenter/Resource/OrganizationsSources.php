@@ -39,7 +39,7 @@ class OrganizationsSources extends \Google\Service\Resource
    * Creates a source. (sources.create)
    *
    * @param string $parent Required. Resource name of the new source's parent. Its
-   * format should be "organizations/[organization_id]".
+   * format should be `organizations/[organization_id]`.
    * @param Source $postBody
    * @param array $optParams Optional parameters.
    * @return Source
@@ -55,7 +55,7 @@ class OrganizationsSources extends \Google\Service\Resource
    * Gets a source. (sources.get)
    *
    * @param string $name Required. Relative resource name of the source. Its
-   * format is "organizations/[organization_id]/source/[source_id]".
+   * format is `organizations/[organization_id]/source/[source_id]`.
    * @param array $optParams Optional parameters.
    * @return Source
    * @throws \Google\Service\Exception
@@ -90,8 +90,8 @@ class OrganizationsSources extends \Google\Service\Resource
    * (sources.listOrganizationsSources)
    *
    * @param string $parent Required. Resource name of the parent of sources to
-   * list. Its format should be "organizations/[organization_id]",
-   * "folders/[folder_id]", or "projects/[project_id]".
+   * list. Its format should be `organizations/[organization_id]`,
+   * `folders/[folder_id]`, or `projects/[project_id]`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of results to return in a single

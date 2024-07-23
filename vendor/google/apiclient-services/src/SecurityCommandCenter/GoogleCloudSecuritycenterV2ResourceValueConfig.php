@@ -23,6 +23,10 @@ class GoogleCloudSecuritycenterV2ResourceValueConfig extends \Google\Collection
   /**
    * @var string
    */
+  public $cloudProvider;
+  /**
+   * @var string
+   */
   public $createTime;
   /**
    * @var string
@@ -59,6 +63,20 @@ class GoogleCloudSecuritycenterV2ResourceValueConfig extends \Google\Collection
    */
   public $updateTime;
 
+  /**
+   * @param string
+   */
+  public function setCloudProvider($cloudProvider)
+  {
+    $this->cloudProvider = $cloudProvider;
+  }
+  /**
+   * @return string
+   */
+  public function getCloudProvider()
+  {
+    return $this->cloudProvider;
+  }
   /**
    * @param string
    */

@@ -81,7 +81,7 @@ class ProjectsAppsSafetyNetConfig extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. A comma-separated list of names of
-   * fields in the SafetyNetConfig Gets to update. Example: `token_ttl`.
+   * fields in the SafetyNetConfig to update. Example: `token_ttl`.
    * @return GoogleFirebaseAppcheckV1SafetyNetConfig
    * @throws \Google\Service\Exception
    */

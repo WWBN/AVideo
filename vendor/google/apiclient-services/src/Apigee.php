@@ -115,6 +115,7 @@ class Apigee extends \Google\Service
   public $organizations_operations;
   public $organizations_optimizedHostStats;
   public $organizations_reports;
+  public $organizations_securityAssessmentResults;
   public $organizations_securityProfiles;
   public $organizations_securityProfiles_environments;
   public $organizations_sharedflows;
@@ -124,6 +125,7 @@ class Apigee extends \Google\Service
   public $organizations_sites_apicategories;
   public $organizations_sites_apidocs;
   public $projects;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Apigee service.
@@ -136,6 +138,7 @@ class Apigee extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://apigee.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://apigee.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -4618,6 +4621,26 @@ class Apigee extends \Google\Service
             ],'update' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'PUT',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->organizations_securityAssessmentResults = new Apigee\Resource\OrganizationsSecurityAssessmentResults(
+        $this,
+        $this->serviceName,
+        'securityAssessmentResults',
+        [
+          'methods' => [
+            'batchCompute' => [
+              'path' => 'v1/{+name}:batchCompute',
+              'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
                   'location' => 'path',

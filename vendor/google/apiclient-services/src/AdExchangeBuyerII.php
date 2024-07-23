@@ -82,6 +82,7 @@ class AdExchangeBuyerII extends \Google\Service
   public $buyers_filterSets_impressionMetrics;
   public $buyers_filterSets_losingBids;
   public $buyers_filterSets_nonBillableWinningBids;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the AdExchangeBuyerII service.
@@ -94,6 +95,7 @@ class AdExchangeBuyerII extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://adexchangebuyer.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://adexchangebuyer.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2beta1';

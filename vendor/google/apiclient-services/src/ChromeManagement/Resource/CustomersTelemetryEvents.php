@@ -50,7 +50,12 @@ class CustomersTelemetryEvents extends \Google\Service\Resource
    * @opt_param string pageToken Optional. Token to specify next page in the list.
    * @opt_param string readMask Required. Read mask to specify which fields to
    * return. Although currently required, this field will become optional, while
-   * the filter parameter with an event type will be come required.
+   * the filter parameter with an event type will be come required. Supported
+   * read_mask paths are: - device - user - audio_severe_underrun_event -
+   * usb_peripherals_event - https_latency_change_event -
+   * network_state_change_event - wifi_signal_strength_event -
+   * vpn_connection_state_change_event - app_install_event - app_uninstall_event -
+   * app_launch_event - os_crash_event
    * @return GoogleChromeManagementV1ListTelemetryEventsResponse
    * @throws \Google\Service\Exception
    */

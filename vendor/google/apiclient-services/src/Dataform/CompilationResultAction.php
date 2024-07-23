@@ -29,6 +29,8 @@ class CompilationResultAction extends \Google\Model
    * @var string
    */
   public $filePath;
+  protected $notebookType = Notebook::class;
+  protected $notebookDataType = '';
   protected $operationsType = Operations::class;
   protected $operationsDataType = '';
   protected $relationType = Relation::class;
@@ -91,6 +93,20 @@ class CompilationResultAction extends \Google\Model
   public function getFilePath()
   {
     return $this->filePath;
+  }
+  /**
+   * @param Notebook
+   */
+  public function setNotebook(Notebook $notebook)
+  {
+    $this->notebook = $notebook;
+  }
+  /**
+   * @return Notebook
+   */
+  public function getNotebook()
+  {
+    return $this->notebook;
   }
   /**
    * @param Operations

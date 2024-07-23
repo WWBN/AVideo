@@ -49,6 +49,7 @@ class Playdeveloperreporting extends \Google\Service
   public $vitals_slowrenderingrate;
   public $vitals_slowstartrate;
   public $vitals_stuckbackgroundwakelockrate;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Playdeveloperreporting
@@ -62,6 +63,7 @@ class Playdeveloperreporting extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://playdeveloperreporting.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://playdeveloperreporting.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1beta1';
@@ -332,6 +334,10 @@ class Playdeveloperreporting extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'sampleErrorReportLimit' => [
+                  'location' => 'query',
+                  'type' => 'integer',
                 ],
               ],
             ],

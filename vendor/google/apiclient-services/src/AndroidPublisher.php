@@ -71,6 +71,7 @@ class AndroidPublisher extends \Google\Service
   public $reviews;
   public $systemapks_variants;
   public $users;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the AndroidPublisher service.
@@ -83,6 +84,7 @@ class AndroidPublisher extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://androidpublisher.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://androidpublisher.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v3';
@@ -186,20 +188,6 @@ class AndroidPublisher extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'appRecoveries' => [
-              'path' => 'androidpublisher/v3/applications/{packageName}/appRecoveries',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'packageName' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'versionCode' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
             ],'cancel' => [
               'path' => 'androidpublisher/v3/applications/{packageName}/appRecoveries/{appRecoveryId}:cancel',
               'httpMethod' => 'POST',
@@ -238,6 +226,20 @@ class AndroidPublisher extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'androidpublisher/v3/applications/{packageName}/appRecoveries',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'packageName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'versionCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -2239,6 +2241,10 @@ class AndroidPublisher extends \Google\Service
                 'endTime' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'includeQuantityBasedPartialRefund' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'maxResults' => [
                   'location' => 'query',

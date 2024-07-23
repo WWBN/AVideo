@@ -43,6 +43,7 @@ class CloudWorkstations extends \Google\Service
   public $projects_locations_workstationClusters;
   public $projects_locations_workstationClusters_workstationConfigs;
   public $projects_locations_workstationClusters_workstationConfigs_workstations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudWorkstations service.
@@ -55,6 +56,7 @@ class CloudWorkstations extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://workstations.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://workstations.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

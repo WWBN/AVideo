@@ -23,6 +23,8 @@ class StringMatcher extends \Google\Model
    * @var string
    */
   public $contains;
+  protected $customType = TypedExtensionConfig::class;
+  protected $customDataType = '';
   /**
    * @var string
    */
@@ -55,6 +57,20 @@ class StringMatcher extends \Google\Model
   public function getContains()
   {
     return $this->contains;
+  }
+  /**
+   * @param TypedExtensionConfig
+   */
+  public function setCustom(TypedExtensionConfig $custom)
+  {
+    $this->custom = $custom;
+  }
+  /**
+   * @return TypedExtensionConfig
+   */
+  public function getCustom()
+  {
+    return $this->custom;
   }
   /**
    * @param string

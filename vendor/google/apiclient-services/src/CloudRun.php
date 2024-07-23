@@ -41,12 +41,14 @@ class CloudRun extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
+  public $projects_locations;
   public $projects_locations_jobs;
   public $projects_locations_jobs_executions;
   public $projects_locations_jobs_executions_tasks;
   public $projects_locations_operations;
   public $projects_locations_services;
   public $projects_locations_services_revisions;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudRun service.
@@ -59,11 +61,62 @@ class CloudRun extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://run.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://run.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2';
     $this->serviceName = 'run';
 
+    $this->projects_locations = new CloudRun\Resource\ProjectsLocations(
+        $this,
+        $this->serviceName,
+        'locations',
+        [
+          'methods' => [
+            'exportImage' => [
+              'path' => 'v2/{+name}:exportImage',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'exportImageMetadata' => [
+              'path' => 'v2/{+name}:exportImageMetadata',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'exportMetadata' => [
+              'path' => 'v2/{+name}:exportMetadata',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'exportProjectMetadata' => [
+              'path' => 'v2/{+name}:exportProjectMetadata',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations_jobs = new CloudRun\Resource\ProjectsLocationsJobs(
         $this,
         $this->serviceName,
@@ -236,6 +289,21 @@ class CloudRun extends \Google\Service
                 'validateOnly' => [
                   'location' => 'query',
                   'type' => 'boolean',
+                ],
+              ],
+            ],'exportStatus' => [
+              'path' => 'v2/{+name}/{+operationId}:exportStatus',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'operationId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'get' => [
@@ -479,6 +547,10 @@ class CloudRun extends \Google\Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'validateOnly' => [
                   'location' => 'query',
                   'type' => 'boolean',
@@ -530,6 +602,21 @@ class CloudRun extends \Google\Service
                 'validateOnly' => [
                   'location' => 'query',
                   'type' => 'boolean',
+                ],
+              ],
+            ],'exportStatus' => [
+              'path' => 'v2/{+name}/{+operationId}:exportStatus',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'operationId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'get' => [

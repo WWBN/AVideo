@@ -29,6 +29,8 @@ class GoogleCloudDocumentaiV1ProcessOptions extends \Google\Model
   public $fromStart;
   protected $individualPageSelectorType = GoogleCloudDocumentaiV1ProcessOptionsIndividualPageSelector::class;
   protected $individualPageSelectorDataType = '';
+  protected $layoutConfigType = GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig::class;
+  protected $layoutConfigDataType = '';
   protected $ocrConfigType = GoogleCloudDocumentaiV1OcrConfig::class;
   protected $ocrConfigDataType = '';
   protected $schemaOverrideType = GoogleCloudDocumentaiV1DocumentSchema::class;
@@ -75,6 +77,20 @@ class GoogleCloudDocumentaiV1ProcessOptions extends \Google\Model
   public function getIndividualPageSelector()
   {
     return $this->individualPageSelector;
+  }
+  /**
+   * @param GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig
+   */
+  public function setLayoutConfig(GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig $layoutConfig)
+  {
+    $this->layoutConfig = $layoutConfig;
+  }
+  /**
+   * @return GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig
+   */
+  public function getLayoutConfig()
+  {
+    return $this->layoutConfig;
   }
   /**
    * @param GoogleCloudDocumentaiV1OcrConfig

@@ -42,6 +42,7 @@ class CloudMemorystoreforMemcached extends \Google\Service
   public $projects_locations;
   public $projects_locations_instances;
   public $projects_locations_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudMemorystoreforMemcached
@@ -55,6 +56,7 @@ class CloudMemorystoreforMemcached extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://memcache.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://memcache.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

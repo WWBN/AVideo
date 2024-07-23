@@ -19,6 +19,8 @@ namespace Google\Service\BigtableAdmin;
 
 class AppProfile extends \Google\Model
 {
+  protected $dataBoostIsolationReadOnlyType = DataBoostIsolationReadOnly::class;
+  protected $dataBoostIsolationReadOnlyDataType = '';
   /**
    * @var string
    */
@@ -42,6 +44,20 @@ class AppProfile extends \Google\Model
   protected $standardIsolationType = StandardIsolation::class;
   protected $standardIsolationDataType = '';
 
+  /**
+   * @param DataBoostIsolationReadOnly
+   */
+  public function setDataBoostIsolationReadOnly(DataBoostIsolationReadOnly $dataBoostIsolationReadOnly)
+  {
+    $this->dataBoostIsolationReadOnly = $dataBoostIsolationReadOnly;
+  }
+  /**
+   * @return DataBoostIsolationReadOnly
+   */
+  public function getDataBoostIsolationReadOnly()
+  {
+    return $this->dataBoostIsolationReadOnly;
+  }
   /**
    * @param string
    */

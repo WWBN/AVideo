@@ -100,7 +100,7 @@ class ProjectsLocationsIssueModels extends \Google\Service\Resource
   /**
    * Exports an issue model to the provided destination. (issueModels.export)
    *
-   * @param string $name Required. The issue model to export
+   * @param string $name Required. The issue model to export.
    * @param GoogleCloudContactcenterinsightsV1ExportIssueModelRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation

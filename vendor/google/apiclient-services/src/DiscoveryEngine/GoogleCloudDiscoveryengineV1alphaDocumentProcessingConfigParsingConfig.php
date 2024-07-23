@@ -19,50 +19,50 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig extends \Google\Model
 {
-  protected $digitalParsingConfigType = GoogleCloudDiscoveryengineV1alphaDigitalParsingConfig::class;
+  protected $digitalParsingConfigType = GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig::class;
   protected $digitalParsingConfigDataType = '';
-  protected $layoutParsingConfigType = GoogleCloudDiscoveryengineV1alphaLayoutParsingConfig::class;
+  protected $layoutParsingConfigType = GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig::class;
   protected $layoutParsingConfigDataType = '';
-  protected $ocrParsingConfigType = GoogleCloudDiscoveryengineV1alphaOcrParsingConfig::class;
+  protected $ocrParsingConfigType = GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigOcrParsingConfig::class;
   protected $ocrParsingConfigDataType = '';
 
   /**
-   * @param GoogleCloudDiscoveryengineV1alphaDigitalParsingConfig
+   * @param GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig
    */
-  public function setDigitalParsingConfig(GoogleCloudDiscoveryengineV1alphaDigitalParsingConfig $digitalParsingConfig)
+  public function setDigitalParsingConfig(GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig $digitalParsingConfig)
   {
     $this->digitalParsingConfig = $digitalParsingConfig;
   }
   /**
-   * @return GoogleCloudDiscoveryengineV1alphaDigitalParsingConfig
+   * @return GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig
    */
   public function getDigitalParsingConfig()
   {
     return $this->digitalParsingConfig;
   }
   /**
-   * @param GoogleCloudDiscoveryengineV1alphaLayoutParsingConfig
+   * @param GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig
    */
-  public function setLayoutParsingConfig(GoogleCloudDiscoveryengineV1alphaLayoutParsingConfig $layoutParsingConfig)
+  public function setLayoutParsingConfig(GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig $layoutParsingConfig)
   {
     $this->layoutParsingConfig = $layoutParsingConfig;
   }
   /**
-   * @return GoogleCloudDiscoveryengineV1alphaLayoutParsingConfig
+   * @return GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig
    */
   public function getLayoutParsingConfig()
   {
     return $this->layoutParsingConfig;
   }
   /**
-   * @param GoogleCloudDiscoveryengineV1alphaOcrParsingConfig
+   * @param GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigOcrParsingConfig
    */
-  public function setOcrParsingConfig(GoogleCloudDiscoveryengineV1alphaOcrParsingConfig $ocrParsingConfig)
+  public function setOcrParsingConfig(GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigOcrParsingConfig $ocrParsingConfig)
   {
     $this->ocrParsingConfig = $ocrParsingConfig;
   }
   /**
-   * @return GoogleCloudDiscoveryengineV1alphaOcrParsingConfig
+   * @return GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigOcrParsingConfig
    */
   public function getOcrParsingConfig()
   {

@@ -35,6 +35,10 @@ class GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecExtractiveCo
    * @var int
    */
   public $numPreviousSegments;
+  /**
+   * @var bool
+   */
+  public $returnExtractiveSegmentScore;
 
   /**
    * @param int
@@ -91,6 +95,20 @@ class GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecExtractiveCo
   public function getNumPreviousSegments()
   {
     return $this->numPreviousSegments;
+  }
+  /**
+   * @param bool
+   */
+  public function setReturnExtractiveSegmentScore($returnExtractiveSegmentScore)
+  {
+    $this->returnExtractiveSegmentScore = $returnExtractiveSegmentScore;
+  }
+  /**
+   * @return bool
+   */
+  public function getReturnExtractiveSegmentScore()
+  {
+    return $this->returnExtractiveSegmentScore;
   }
 }
 

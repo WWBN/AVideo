@@ -53,6 +53,10 @@ class BackupConfiguration extends \Google\Model
    * @var int
    */
   public $transactionLogRetentionDays;
+  /**
+   * @var string
+   */
+  public $transactionalLogStorageState;
 
   /**
    * @param BackupRetentionSettings
@@ -179,6 +183,20 @@ class BackupConfiguration extends \Google\Model
   public function getTransactionLogRetentionDays()
   {
     return $this->transactionLogRetentionDays;
+  }
+  /**
+   * @param string
+   */
+  public function setTransactionalLogStorageState($transactionalLogStorageState)
+  {
+    $this->transactionalLogStorageState = $transactionalLogStorageState;
+  }
+  /**
+   * @return string
+   */
+  public function getTransactionalLogStorageState()
+  {
+    return $this->transactionalLogStorageState;
   }
 }
 

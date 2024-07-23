@@ -17,6 +17,7 @@
 
 namespace Google\Service\Classroom\Resource;
 
+use Google\Service\Classroom\AddOnContext;
 use Google\Service\Classroom\ClassroomEmpty;
 use Google\Service\Classroom\CourseWork;
 use Google\Service\Classroom\ListCourseWorkResponse;
@@ -104,6 +105,42 @@ class CoursesCourseWork extends \Google\Service\Resource
     return $this->call('get', [$params], CourseWork::class);
   }
   /**
+   * Gets metadata for Classroom add-ons in the context of a specific post. To
+   * maintain the integrity of its own data and permissions model, an add-on
+   * should call this to validate query parameters and the requesting user's role
+   * whenever the add-on is opened in an
+   * [iframe](https://developers.google.com/classroom/add-ons/get-
+   * started/iframes/iframes-overview). This method returns the following error
+   * codes: * `PERMISSION_DENIED` for access errors. * `INVALID_ARGUMENT` if the
+   * request is malformed. * `NOT_FOUND` if one of the identified resources does
+   * not exist. (courseWork.getAddOnContext)
+   *
+   * @param string $courseId Required. Identifier of the course.
+   * @param string $itemId Identifier of the announcement, courseWork, or
+   * courseWorkMaterial under which the attachment is attached. This field is
+   * required, but is not marked as such while we are migrating from post_id.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string addOnToken Optional. Token that authorizes the request. The
+   * token is passed as a query parameter when the user is redirected from
+   * Classroom to the add-on's URL. The authorization token is required when
+   * neither of the following is true: * The add-on has attachments on the post. *
+   * The developer project issuing the request is the same project that created
+   * the post.
+   * @opt_param string attachmentId Optional. The identifier of the attachment.
+   * This field is required for student users and optional for teacher users. If
+   * not provided in the student case, an error is returned.
+   * @opt_param string postId Optional. Deprecated, use item_id instead.
+   * @return AddOnContext
+   * @throws \Google\Service\Exception
+   */
+  public function getAddOnContext($courseId, $itemId, $optParams = [])
+  {
+    $params = ['courseId' => $courseId, 'itemId' => $itemId];
+    $params = array_merge($params, $optParams);
+    return $this->call('getAddOnContext', [$params], AddOnContext::class);
+  }
+  /**
    * Returns a list of course work that the requester is permitted to view. Course
    * students may only view `PUBLISHED` course work. Course teachers and domain
    * administrators may view all course work. This method returns the following
@@ -175,8 +212,7 @@ class CoursesCourseWork extends \Google\Service\Resource
    * the requested modification to the student submission, or for access errors. *
    * `INVALID_ARGUMENT` if the request is malformed. * `FAILED_PRECONDITION` if
    * the requested course work has already been deleted. * `NOT_FOUND` if the
-   * requested course, course work, or student submission does not exist.
-   * (courseWork.patch)
+   * requested course or course work does not exist. (courseWork.patch)
    *
    * @param string $courseId Identifier of the course. This identifier can be
    * either the Classroom-assigned identifier or an alias.
@@ -192,7 +228,9 @@ class CoursesCourseWork extends \Google\Service\Resource
    * update mask and not set in the `CourseWork` object, an `INVALID_ARGUMENT`
    * error is returned. The following fields may be specified by teachers: *
    * `title` * `description` * `state` * `due_date` * `due_time` * `max_points` *
-   * `scheduled_time` * `submission_modification_mode` * `topic_id`
+   * `scheduled_time` * `submission_modification_mode` * `topic_id` *
+   * `grading_period_id` Available in [V1_20240401_PREVIEW](https://developers.goo
+   * gle.com/classroom/reference/preview) and later.
    * @return CourseWork
    * @throws \Google\Service\Exception
    */

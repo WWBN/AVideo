@@ -47,6 +47,7 @@ class AdMob extends \Google\Service
   public $accounts_apps;
   public $accounts_mediationReport;
   public $accounts_networkReport;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the AdMob service.
@@ -59,6 +60,7 @@ class AdMob extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://admob.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://admob.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

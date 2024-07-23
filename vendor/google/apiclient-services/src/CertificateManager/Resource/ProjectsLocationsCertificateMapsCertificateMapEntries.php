@@ -96,7 +96,7 @@ class ProjectsLocationsCertificateMapsCertificateMapEntries extends \Google\Serv
    * Certificate Map Entries.
    * @opt_param string orderBy A list of Certificate Map Entry field names used to
    * specify the order of the returned results. The default sorting order is
-   * ascending. To specify descending order for a field, add a suffix " desc".
+   * ascending. To specify descending order for a field, add a suffix `" desc"`.
    * @opt_param int pageSize Maximum number of certificate map entries to return.
    * The service may return fewer than this value. If unspecified, at most 50
    * certificate map entries will be returned. The maximum value is 1000; values

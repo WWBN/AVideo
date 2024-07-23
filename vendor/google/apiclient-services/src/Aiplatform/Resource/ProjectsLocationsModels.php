@@ -181,8 +181,9 @@ class ProjectsLocationsModels extends \Google\Service\Resource
    * segment of the Model's resource name. * `display_name` supports = and != *
    * `labels` supports general map functions that is: * `labels.key=value` -
    * key:value equality * `labels.key:* or labels:key - key existence * A key
-   * including a space must be quoted. `labels."a key"`. Some examples: *
-   * `model=1234` * `displayName="myDisplayName"` * `labels.myKey="myValue"`
+   * including a space must be quoted. `labels."a key"`. * `base_model_name` only
+   * supports = Some examples: * `model=1234` * `displayName="myDisplayName"` *
+   * `labels.myKey="myValue"` * `baseModelName="text-bison"`
    * @opt_param string orderBy A comma-separated list of fields to order by,
    * sorted in ascending order. Use "desc" after a field name for descending.
    * Supported fields: * `display_name` * `create_time` * `update_time` Example:

@@ -50,6 +50,7 @@ class CloudOSLogin extends \Google\Service
   public $users;
   public $users_projects;
   public $users_sshPublicKeys;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudOSLogin service.
@@ -62,6 +63,7 @@ class CloudOSLogin extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://oslogin.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://oslogin.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

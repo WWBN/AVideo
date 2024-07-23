@@ -393,7 +393,6 @@ class Objects extends \Google\Service\Resource
    * @param string $object Name of the object. For information about how to URL
    * encode object names to be path safe, see Encoding URI Path Parts.
    * @param string $generation Selects a specific revision of this object.
-   * @param StorageObject $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool copySourceAcl If true, copies the source object's ACL;
@@ -416,9 +415,9 @@ class Objects extends \Google\Service\Resource
    * @return StorageObject
    * @throws \Google\Service\Exception
    */
-  public function restore($bucket, $object, $generation, StorageObject $postBody, $optParams = [])
+  public function restore($bucket, $object, $generation, $optParams = [])
   {
-    $params = ['bucket' => $bucket, 'object' => $object, 'generation' => $generation, 'postBody' => $postBody];
+    $params = ['bucket' => $bucket, 'object' => $object, 'generation' => $generation];
     $params = array_merge($params, $optParams);
     return $this->call('restore', [$params], StorageObject::class);
   }

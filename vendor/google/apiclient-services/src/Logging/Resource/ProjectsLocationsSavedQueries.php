@@ -82,6 +82,26 @@ class ProjectsLocationsSavedQueries extends \Google\Service\Resource
     return $this->call('delete', [$params], LoggingEmpty::class);
   }
   /**
+   * Returns all data associated with the requested query. (savedQueries.get)
+   *
+   * @param string $name Required. The resource name of the saved query.
+   * "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "orga
+   * nizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]"
+   * "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/savedQueries/[Q
+   * UERY_ID]"
+   * "folders/[FOLDER_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For
+   * example: "projects/my-project/locations/global/savedQueries/my-saved-query"
+   * @param array $optParams Optional parameters.
+   * @return SavedQuery
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], SavedQuery::class);
+  }
+  /**
    * Lists the SavedQueries that were created by the user making the request.
    * (savedQueries.listProjectsLocationsSavedQueries)
    *
@@ -95,6 +115,16 @@ class ProjectsLocationsSavedQueries extends \Google\Service\Resource
    * can be used for LOCATION_ID, for example: "projects/my-project/locations/-"
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string filter Optional. Specifies the type ("Logging" or
+   * "OpsAnalytics") and the visibility (PRIVATE or SHARED) of the saved queries
+   * to list. If provided, the filter must contain either the type function or a
+   * visibility token, or both. If both are chosen, they can be placed in any
+   * order, but they must be joined by the AND operator or the empty character.The
+   * two supported type function calls are: type("Logging")
+   * type("OpsAnalytics")The two supported visibility tokens are: visibility =
+   * PRIVATE visibility = SHAREDFor example:type("Logging") AND visibility =
+   * PRIVATE visibility=SHARED type("OpsAnalytics") type("OpsAnalytics)"
+   * visibility = PRIVATE visibility = SHARED
    * @opt_param int pageSize Optional. The maximum number of results to return
    * from this request.Non-positive values are ignored. The presence of
    * nextPageToken in the response indicates that more results might be available.
@@ -110,6 +140,36 @@ class ProjectsLocationsSavedQueries extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListSavedQueriesResponse::class);
+  }
+  /**
+   * Updates an existing SavedQuery. (savedQueries.patch)
+   *
+   * @param string $name Output only. Resource name of the saved query.In the
+   * format:
+   * "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a
+   * list of supported locations, see Supported Regions
+   * (https://cloud.google.com/logging/docs/region-support#bucket-regions)After
+   * the saved query is created, the location cannot be changed.If the user
+   * doesn't provide a QUERY_ID, the system will generate an alphanumeric ID.
+   * @param SavedQuery $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. A non-empty list of fields to change
+   * in the existing saved query. Fields are relative to the saved_query and new
+   * values for the fields are taken from the corresponding fields in the
+   * SavedQuery included in this request. Fields not mentioned in update_mask are
+   * not changed and are ignored in the request.To update all mutable fields,
+   * specify an update_mask of *.For example, to change the description and query
+   * filter text of a saved query, specify an update_mask of "description,
+   * query.filter".
+   * @return SavedQuery
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, SavedQuery $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], SavedQuery::class);
   }
 }
 

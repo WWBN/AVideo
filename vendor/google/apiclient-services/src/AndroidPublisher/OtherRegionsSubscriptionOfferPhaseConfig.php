@@ -21,6 +21,8 @@ class OtherRegionsSubscriptionOfferPhaseConfig extends \Google\Model
 {
   protected $absoluteDiscountsType = OtherRegionsSubscriptionOfferPhasePrices::class;
   protected $absoluteDiscountsDataType = '';
+  protected $freeType = OtherRegionsSubscriptionOfferPhaseFreePriceOverride::class;
+  protected $freeDataType = '';
   protected $otherRegionsPricesType = OtherRegionsSubscriptionOfferPhasePrices::class;
   protected $otherRegionsPricesDataType = '';
   public $relativeDiscount;
@@ -38,6 +40,20 @@ class OtherRegionsSubscriptionOfferPhaseConfig extends \Google\Model
   public function getAbsoluteDiscounts()
   {
     return $this->absoluteDiscounts;
+  }
+  /**
+   * @param OtherRegionsSubscriptionOfferPhaseFreePriceOverride
+   */
+  public function setFree(OtherRegionsSubscriptionOfferPhaseFreePriceOverride $free)
+  {
+    $this->free = $free;
+  }
+  /**
+   * @return OtherRegionsSubscriptionOfferPhaseFreePriceOverride
+   */
+  public function getFree()
+  {
+    return $this->free;
   }
   /**
    * @param OtherRegionsSubscriptionOfferPhasePrices

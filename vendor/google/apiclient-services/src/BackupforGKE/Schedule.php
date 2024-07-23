@@ -24,9 +24,15 @@ class Schedule extends \Google\Model
    */
   public $cronSchedule;
   /**
+   * @var string
+   */
+  public $nextScheduledBackupTime;
+  /**
    * @var bool
    */
   public $paused;
+  protected $rpoConfigType = RpoConfig::class;
+  protected $rpoConfigDataType = '';
 
   /**
    * @param string
@@ -43,6 +49,20 @@ class Schedule extends \Google\Model
     return $this->cronSchedule;
   }
   /**
+   * @param string
+   */
+  public function setNextScheduledBackupTime($nextScheduledBackupTime)
+  {
+    $this->nextScheduledBackupTime = $nextScheduledBackupTime;
+  }
+  /**
+   * @return string
+   */
+  public function getNextScheduledBackupTime()
+  {
+    return $this->nextScheduledBackupTime;
+  }
+  /**
    * @param bool
    */
   public function setPaused($paused)
@@ -55,6 +75,20 @@ class Schedule extends \Google\Model
   public function getPaused()
   {
     return $this->paused;
+  }
+  /**
+   * @param RpoConfig
+   */
+  public function setRpoConfig(RpoConfig $rpoConfig)
+  {
+    $this->rpoConfig = $rpoConfig;
+  }
+  /**
+   * @return RpoConfig
+   */
+  public function getRpoConfig()
+  {
+    return $this->rpoConfig;
   }
 }
 

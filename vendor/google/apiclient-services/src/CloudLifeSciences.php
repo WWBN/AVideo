@@ -42,6 +42,7 @@ class CloudLifeSciences extends \Google\Service
   public $projects_locations;
   public $projects_locations_operations;
   public $projects_locations_pipelines;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudLifeSciences service.
@@ -54,6 +55,7 @@ class CloudLifeSciences extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://lifesciences.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://lifesciences.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2beta';

@@ -17,8 +17,8 @@
 
 namespace Google\Service\DiscoveryEngine\Resource;
 
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesRequest;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesRequest;
 use Google\Service\DiscoveryEngine\GoogleLongrunningOperation;
 
 /**
@@ -38,12 +38,12 @@ class ProjectsLocationsCollectionsDataStoresSuggestionDenyListEntries extends \G
    * @param string $parent Required. The parent data store resource name for which
    * to import denylist entries. Follows pattern
    * projects/locations/collections/dataStores.
-   * @param GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest $postBody
+   * @param GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function import($parent, GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest $postBody, $optParams = [])
+  public function import($parent, GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesRequest $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -56,12 +56,12 @@ class ProjectsLocationsCollectionsDataStoresSuggestionDenyListEntries extends \G
    * @param string $parent Required. The parent data store resource name for which
    * to import denylist entries. Follows pattern
    * projects/locations/collections/dataStores.
-   * @param GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest $postBody
+   * @param GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function purge($parent, GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest $postBody, $optParams = [])
+  public function purge($parent, GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesRequest $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);

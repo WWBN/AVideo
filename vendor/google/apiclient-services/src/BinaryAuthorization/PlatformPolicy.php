@@ -23,6 +23,10 @@ class PlatformPolicy extends \Google\Model
    * @var string
    */
   public $description;
+  /**
+   * @var string
+   */
+  public $etag;
   protected $gkePolicyType = GkePolicy::class;
   protected $gkePolicyDataType = '';
   /**
@@ -47,6 +51,20 @@ class PlatformPolicy extends \Google\Model
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param string
+   */
+  public function setEtag($etag)
+  {
+    $this->etag = $etag;
+  }
+  /**
+   * @return string
+   */
+  public function getEtag()
+  {
+    return $this->etag;
   }
   /**
    * @param GkePolicy

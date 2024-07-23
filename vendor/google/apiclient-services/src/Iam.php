@@ -23,9 +23,11 @@ use Google\Client;
  * Service definition for Iam (v2).
  *
  * <p>
- * Manages identity and access control for Google Cloud Platform resources,
- * including the creation of service accounts, which you can use to authenticate
- * to Google and make API calls.</p>
+ * Manages identity and access control for Google Cloud resources, including the
+ * creation of service accounts, which you can use to authenticate to Google and
+ * make API calls. Enabling this API also enables the IAM Service Account
+ * Credentials API (iamcredentials.googleapis.com). However, disabling this API
+ * doesn't disable the IAM Service Account Credentials API.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -42,6 +44,7 @@ class Iam extends \Google\Service
 
   public $policies;
   public $policies_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Iam service.
@@ -54,6 +57,7 @@ class Iam extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://iam.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://iam.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2';

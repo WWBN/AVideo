@@ -128,7 +128,8 @@ class ProjectsLocationsJobs extends \Google\Service\Resource
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
   }
   /**
-   * Lists Jobs. (jobs.listProjectsLocationsJobs)
+   * Lists Jobs. Results are sorted by creation time, descending.
+   * (jobs.listProjectsLocationsJobs)
    *
    * @param string $parent Required. The location and project to list resources
    * on. Format: projects/{project}/locations/{location}, where {project} can be
@@ -157,9 +158,9 @@ class ProjectsLocationsJobs extends \Google\Service\Resource
    * @param GoogleCloudRunV2Job $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool allowMissing If set to true, and if the Job does not exist,
-   * it will create a new one. Caller must have both create and update permissions
-   * for this call if this is set to true.
+   * @opt_param bool allowMissing Optional. If set to true, and if the Job does
+   * not exist, it will create a new one. Caller must have both create and update
+   * permissions for this call if this is set to true.
    * @opt_param bool validateOnly Indicates that the request should be validated
    * and default values populated, without persisting the request or updating any
    * resources.

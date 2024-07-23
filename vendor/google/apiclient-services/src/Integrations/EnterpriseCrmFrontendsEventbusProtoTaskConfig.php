@@ -22,6 +22,8 @@ class EnterpriseCrmFrontendsEventbusProtoTaskConfig extends \Google\Collection
   protected $collection_key = 'nextTasks';
   protected $alertConfigsType = EnterpriseCrmEventbusProtoTaskAlertConfig::class;
   protected $alertConfigsDataType = 'array';
+  protected $conditionalFailurePoliciesType = EnterpriseCrmEventbusProtoConditionalFailurePolicies::class;
+  protected $conditionalFailurePoliciesDataType = '';
   /**
    * @var string
    */
@@ -128,6 +130,20 @@ class EnterpriseCrmFrontendsEventbusProtoTaskConfig extends \Google\Collection
   public function getAlertConfigs()
   {
     return $this->alertConfigs;
+  }
+  /**
+   * @param EnterpriseCrmEventbusProtoConditionalFailurePolicies
+   */
+  public function setConditionalFailurePolicies(EnterpriseCrmEventbusProtoConditionalFailurePolicies $conditionalFailurePolicies)
+  {
+    $this->conditionalFailurePolicies = $conditionalFailurePolicies;
+  }
+  /**
+   * @return EnterpriseCrmEventbusProtoConditionalFailurePolicies
+   */
+  public function getConditionalFailurePolicies()
+  {
+    return $this->conditionalFailurePolicies;
   }
   /**
    * @param string

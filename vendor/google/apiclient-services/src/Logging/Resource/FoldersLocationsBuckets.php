@@ -45,7 +45,8 @@ class FoldersLocationsBuckets extends \Google\Service\Resource
    *
    * @opt_param string bucketId Required. A client-assigned identifier such as
    * "my-bucket". Identifiers are limited to 100 characters and can include only
-   * letters, digits, underscores, hyphens, and periods.
+   * letters, digits, underscores, hyphens, and periods. Bucket identifiers must
+   * start with an alphanumeric character.
    * @return LogBucket
    * @throws \Google\Service\Exception
    */
@@ -68,7 +69,8 @@ class FoldersLocationsBuckets extends \Google\Service\Resource
    *
    * @opt_param string bucketId Required. A client-assigned identifier such as
    * "my-bucket". Identifiers are limited to 100 characters and can include only
-   * letters, digits, underscores, hyphens, and periods.
+   * letters, digits, underscores, hyphens, and periods. Bucket identifiers must
+   * start with an alphanumeric character.
    * @return Operation
    * @throws \Google\Service\Exception
    */

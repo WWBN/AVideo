@@ -42,9 +42,9 @@ class FoldersSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servic
    *
    * @param string $parent Required. Resource name of the new custom module's
    * parent. Its format is
-   * "organizations/{organization}/securityHealthAnalyticsSettings",
-   * "folders/{folder}/securityHealthAnalyticsSettings", or
-   * "projects/{project}/securityHealthAnalyticsSettings"
+   * `organizations/{organization}/securityHealthAnalyticsSettings`,
+   * `folders/{folder}/securityHealthAnalyticsSettings`, or
+   * `projects/{project}/securityHealthAnalyticsSettings`
    * @param GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule
@@ -62,10 +62,10 @@ class FoldersSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servic
    * custom modules. (customModules.delete)
    *
    * @param string $name Required. Name of the custom module to delete. Its format
-   * is "organizations/{organization}/securityHealthAnalyticsSettings/customModule
-   * s/{customModule}", "folders/{folder}/securityHealthAnalyticsSettings/customMo
-   * dules/{customModule}", or "projects/{project}/securityHealthAnalyticsSettings
-   * /customModules/{customModule}"
+   * is `organizations/{organization}/securityHealthAnalyticsSettings/customModule
+   * s/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/customMo
+   * dules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings
+   * /customModules/{customModule}`
    * @param array $optParams Optional parameters.
    * @return SecuritycenterEmpty
    * @throws \Google\Service\Exception
@@ -80,10 +80,10 @@ class FoldersSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servic
    * Retrieves a SecurityHealthAnalyticsCustomModule. (customModules.get)
    *
    * @param string $name Required. Name of the custom module to get. Its format is
-   * "organizations/{organization}/securityHealthAnalyticsSettings/customModules/{
-   * customModule}", "folders/{folder}/securityHealthAnalyticsSettings/customModul
-   * es/{customModule}", or "projects/{project}/securityHealthAnalyticsSettings/cu
-   * stomModules/{customModule}"
+   * `organizations/{organization}/securityHealthAnalyticsSettings/customModules/{
+   * customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/customModul
+   * es/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/cu
+   * stomModules/{customModule}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule
    * @throws \Google\Service\Exception
@@ -101,9 +101,9 @@ class FoldersSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servic
    * (customModules.listFoldersSecurityHealthAnalyticsSettingsCustomModules)
    *
    * @param string $parent Required. Name of parent to list custom modules. Its
-   * format is "organizations/{organization}/securityHealthAnalyticsSettings",
-   * "folders/{folder}/securityHealthAnalyticsSettings", or
-   * "projects/{project}/securityHealthAnalyticsSettings"
+   * format is `organizations/{organization}/securityHealthAnalyticsSettings`,
+   * `folders/{folder}/securityHealthAnalyticsSettings`, or
+   * `projects/{project}/securityHealthAnalyticsSettings`
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of results to return in a single
@@ -126,9 +126,9 @@ class FoldersSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servic
    *
    * @param string $parent Required. Name of parent to list descendant custom
    * modules. Its format is
-   * "organizations/{organization}/securityHealthAnalyticsSettings",
-   * "folders/{folder}/securityHealthAnalyticsSettings", or
-   * "projects/{project}/securityHealthAnalyticsSettings"
+   * `organizations/{organization}/securityHealthAnalyticsSettings`,
+   * `folders/{folder}/securityHealthAnalyticsSettings`, or
+   * `projects/{project}/securityHealthAnalyticsSettings`
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of results to return in a single

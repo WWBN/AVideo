@@ -71,6 +71,9 @@ class ProjectsLocationsRepositoriesCompilationResults extends \Google\Service\Re
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. Filter for the returned list.
+   * @opt_param string orderBy Optional. This field only supports ordering by
+   * `name` and `create_time`. If unspecified, the server will choose the
+   * ordering. If specified, the default order is ascending for the `name` field.
    * @opt_param int pageSize Optional. Maximum number of compilation results to
    * return. The server may return fewer items than requested. If unspecified, the
    * server will pick an appropriate default.

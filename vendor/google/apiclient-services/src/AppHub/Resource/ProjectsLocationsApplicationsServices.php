@@ -34,7 +34,9 @@ class ProjectsLocationsApplicationsServices extends \Google\Service\Resource
   /**
    * Creates a Service in an Application. (services.create)
    *
-   * @param string $parent Required. Value for parent.
+   * @param string $parent Required. Fully qualified name of the parent
+   * Application to create the Service in. Expected format:
+   * `projects/{project}/locations/{location}/applications/{application}`.
    * @param Service $postBody
    * @param array $optParams Optional parameters.
    *
@@ -62,9 +64,11 @@ class ProjectsLocationsApplicationsServices extends \Google\Service\Resource
     return $this->call('create', [$params], Operation::class);
   }
   /**
-   * Deletes a Service in an Application. (services.delete)
+   * Deletes a Service from an Application. (services.delete)
    *
-   * @param string $name Required. Value for name.
+   * @param string $name Required. Fully qualified name of the Service to delete
+   * from an Application. Expected format: `projects/{project}/locations/{location
+   * }/applications/{application}/services/{service}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string requestId Optional. An optional request ID to identify
@@ -90,7 +94,9 @@ class ProjectsLocationsApplicationsServices extends \Google\Service\Resource
   /**
    * Gets a Service in an Application. (services.get)
    *
-   * @param string $name Required. Value for name.
+   * @param string $name Required. Fully qualified name of the Service to fetch.
+   * Expected format: `projects/{project}/locations/{location}/applications/{appli
+   * cation}/services/{service}`.
    * @param array $optParams Optional parameters.
    * @return Service
    * @throws \Google\Service\Exception
@@ -102,10 +108,12 @@ class ProjectsLocationsApplicationsServices extends \Google\Service\Resource
     return $this->call('get', [$params], Service::class);
   }
   /**
-   * List Services in an Application.
+   * Lists Services in an Application.
    * (services.listProjectsLocationsApplicationsServices)
    *
-   * @param string $parent Required. Value for parent.
+   * @param string $parent Required. Fully qualified name of the parent
+   * Application to list Services for. Expected format:
+   * `projects/{project}/locations/{location}/applications/{application}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. Filtering results

@@ -27,6 +27,8 @@ class GoogleCloudDocumentaiV1TrainProcessorVersionRequest extends \Google\Model
   protected $customDocumentExtractionOptionsDataType = '';
   protected $documentSchemaType = GoogleCloudDocumentaiV1DocumentSchema::class;
   protected $documentSchemaDataType = '';
+  protected $foundationModelTuningOptionsType = GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions::class;
+  protected $foundationModelTuningOptionsDataType = '';
   protected $inputDataType = GoogleCloudDocumentaiV1TrainProcessorVersionRequestInputData::class;
   protected $inputDataDataType = '';
   protected $processorVersionType = GoogleCloudDocumentaiV1ProcessorVersion::class;
@@ -73,6 +75,20 @@ class GoogleCloudDocumentaiV1TrainProcessorVersionRequest extends \Google\Model
   public function getDocumentSchema()
   {
     return $this->documentSchema;
+  }
+  /**
+   * @param GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions
+   */
+  public function setFoundationModelTuningOptions(GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions $foundationModelTuningOptions)
+  {
+    $this->foundationModelTuningOptions = $foundationModelTuningOptions;
+  }
+  /**
+   * @return GoogleCloudDocumentaiV1TrainProcessorVersionRequestFoundationModelTuningOptions
+   */
+  public function getFoundationModelTuningOptions()
+  {
+    return $this->foundationModelTuningOptions;
   }
   /**
    * @param GoogleCloudDocumentaiV1TrainProcessorVersionRequestInputData

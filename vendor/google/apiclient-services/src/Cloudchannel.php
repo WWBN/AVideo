@@ -58,6 +58,7 @@ class Cloudchannel extends \Google\Service
   public $operations;
   public $products;
   public $products_skus;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Cloudchannel service.
@@ -70,6 +71,7 @@ class Cloudchannel extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://cloudchannel.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://cloudchannel.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

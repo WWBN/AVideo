@@ -95,11 +95,11 @@ class Datasets extends \Google\Service\Resource
    *
    * @opt_param bool all Whether to list all datasets, including hidden ones
    * @opt_param string filter An expression for filtering the results of the
-   * request by label. The syntax is \"labels.[:]\". Multiple filters can be ANDed
-   * together by connecting with a space. Example: \"labels.department:receiving
-   * labels.active\". See [Filtering datasets using
-   * labels](/bigquery/docs/labeling-datasets#filtering_datasets_using_labels) for
-   * details.
+   * request by label. The syntax is `labels.[:]`. Multiple filters can be ANDed
+   * together by connecting with a space. Example: `labels.department:receiving
+   * labels.active`. See [Filtering datasets using
+   * labels](https://cloud.google.com/bigquery/docs/filtering-
+   * labels#filtering_datasets_using_labels) for details.
    * @opt_param string maxResults The maximum number of results to return in a
    * single response page. Leverage the page tokens to iterate through the entire
    * collection.

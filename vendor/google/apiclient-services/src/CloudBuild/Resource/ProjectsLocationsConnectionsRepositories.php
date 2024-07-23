@@ -140,7 +140,7 @@ class ProjectsLocationsConnectionsRepositories extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Optional. Number of results to return in the list.
-   * Default to 100.
+   * Default to 20.
    * @opt_param string pageToken Optional. Page start.
    * @opt_param string refType Type of refs to fetch
    * @return FetchGitRefsResponse

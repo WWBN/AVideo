@@ -26,6 +26,10 @@ class GoogleCloudAiplatformV1SafetySetting extends \Google\Model
   /**
    * @var string
    */
+  public $method;
+  /**
+   * @var string
+   */
   public $threshold;
 
   /**
@@ -41,6 +45,20 @@ class GoogleCloudAiplatformV1SafetySetting extends \Google\Model
   public function getCategory()
   {
     return $this->category;
+  }
+  /**
+   * @param string
+   */
+  public function setMethod($method)
+  {
+    $this->method = $method;
+  }
+  /**
+   * @return string
+   */
+  public function getMethod()
+  {
+    return $this->method;
   }
   /**
    * @param string

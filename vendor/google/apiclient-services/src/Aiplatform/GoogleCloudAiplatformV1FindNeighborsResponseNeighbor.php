@@ -22,6 +22,7 @@ class GoogleCloudAiplatformV1FindNeighborsResponseNeighbor extends \Google\Model
   protected $datapointType = GoogleCloudAiplatformV1IndexDatapoint::class;
   protected $datapointDataType = '';
   public $distance;
+  public $sparseDistance;
 
   /**
    * @param GoogleCloudAiplatformV1IndexDatapoint
@@ -44,6 +45,14 @@ class GoogleCloudAiplatformV1FindNeighborsResponseNeighbor extends \Google\Model
   public function getDistance()
   {
     return $this->distance;
+  }
+  public function setSparseDistance($sparseDistance)
+  {
+    $this->sparseDistance = $sparseDistance;
+  }
+  public function getSparseDistance()
+  {
+    return $this->sparseDistance;
   }
 }
 

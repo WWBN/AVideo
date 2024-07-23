@@ -58,6 +58,7 @@ class Slides extends \Google\Service
 
   public $presentations;
   public $presentations_pages;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Slides service.
@@ -70,6 +71,7 @@ class Slides extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://slides.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://slides.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

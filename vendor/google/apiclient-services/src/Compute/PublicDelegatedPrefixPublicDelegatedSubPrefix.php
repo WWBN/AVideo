@@ -20,6 +20,10 @@ namespace Google\Service\Compute;
 class PublicDelegatedPrefixPublicDelegatedSubPrefix extends \Google\Model
 {
   /**
+   * @var int
+   */
+  public $allocatablePrefixLength;
+  /**
    * @var string
    */
   public $delegateeProject;
@@ -38,6 +42,10 @@ class PublicDelegatedPrefixPublicDelegatedSubPrefix extends \Google\Model
   /**
    * @var string
    */
+  public $mode;
+  /**
+   * @var string
+   */
   public $name;
   /**
    * @var string
@@ -48,6 +56,20 @@ class PublicDelegatedPrefixPublicDelegatedSubPrefix extends \Google\Model
    */
   public $status;
 
+  /**
+   * @param int
+   */
+  public function setAllocatablePrefixLength($allocatablePrefixLength)
+  {
+    $this->allocatablePrefixLength = $allocatablePrefixLength;
+  }
+  /**
+   * @return int
+   */
+  public function getAllocatablePrefixLength()
+  {
+    return $this->allocatablePrefixLength;
+  }
   /**
    * @param string
    */
@@ -103,6 +125,20 @@ class PublicDelegatedPrefixPublicDelegatedSubPrefix extends \Google\Model
   public function getIsAddress()
   {
     return $this->isAddress;
+  }
+  /**
+   * @param string
+   */
+  public function setMode($mode)
+  {
+    $this->mode = $mode;
+  }
+  /**
+   * @return string
+   */
+  public function getMode()
+  {
+    return $this->mode;
   }
   /**
    * @param string

@@ -17,6 +17,8 @@
 
 namespace Google\Service\Integrations\Resource;
 
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaGetClientResponse;
+
 /**
  * The "locations" collection of methods.
  * Typical usage is:
@@ -27,6 +29,22 @@ namespace Google\Service\Integrations\Resource;
  */
 class ProjectsLocations extends \Google\Service\Resource
 {
+  /**
+   * Gets the client configuration for the given project and location resource
+   * name (locations.getClients)
+   *
+   * @param string $parent Required. Required: The ID of the GCP Project to be
+   * provisioned.
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudIntegrationsV1alphaGetClientResponse
+   * @throws \Google\Service\Exception
+   */
+  public function getClients($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('getClients', [$params], GoogleCloudIntegrationsV1alphaGetClientResponse::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

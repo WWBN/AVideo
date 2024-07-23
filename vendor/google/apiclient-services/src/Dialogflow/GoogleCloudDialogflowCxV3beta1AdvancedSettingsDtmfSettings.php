@@ -26,7 +26,15 @@ class GoogleCloudDialogflowCxV3beta1AdvancedSettingsDtmfSettings extends \Google
   /**
    * @var string
    */
+  public $endpointingTimeoutDuration;
+  /**
+   * @var string
+   */
   public $finishDigit;
+  /**
+   * @var string
+   */
+  public $interdigitTimeoutDuration;
   /**
    * @var int
    */
@@ -49,6 +57,20 @@ class GoogleCloudDialogflowCxV3beta1AdvancedSettingsDtmfSettings extends \Google
   /**
    * @param string
    */
+  public function setEndpointingTimeoutDuration($endpointingTimeoutDuration)
+  {
+    $this->endpointingTimeoutDuration = $endpointingTimeoutDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getEndpointingTimeoutDuration()
+  {
+    return $this->endpointingTimeoutDuration;
+  }
+  /**
+   * @param string
+   */
   public function setFinishDigit($finishDigit)
   {
     $this->finishDigit = $finishDigit;
@@ -59,6 +81,20 @@ class GoogleCloudDialogflowCxV3beta1AdvancedSettingsDtmfSettings extends \Google
   public function getFinishDigit()
   {
     return $this->finishDigit;
+  }
+  /**
+   * @param string
+   */
+  public function setInterdigitTimeoutDuration($interdigitTimeoutDuration)
+  {
+    $this->interdigitTimeoutDuration = $interdigitTimeoutDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getInterdigitTimeoutDuration()
+  {
+    return $this->interdigitTimeoutDuration;
   }
   /**
    * @param int

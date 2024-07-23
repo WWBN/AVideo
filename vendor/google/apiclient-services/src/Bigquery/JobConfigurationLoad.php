@@ -34,6 +34,10 @@ class JobConfigurationLoad extends \Google\Collection
   public $autodetect;
   protected $clusteringType = Clustering::class;
   protected $clusteringDataType = '';
+  /**
+   * @var string
+   */
+  public $columnNameCharacterMap;
   protected $connectionPropertiesType = ConnectionProperty::class;
   protected $connectionPropertiesDataType = 'array';
   /**
@@ -200,6 +204,20 @@ class JobConfigurationLoad extends \Google\Collection
   public function getClustering()
   {
     return $this->clustering;
+  }
+  /**
+   * @param string
+   */
+  public function setColumnNameCharacterMap($columnNameCharacterMap)
+  {
+    $this->columnNameCharacterMap = $columnNameCharacterMap;
+  }
+  /**
+   * @return string
+   */
+  public function getColumnNameCharacterMap()
+  {
+    return $this->columnNameCharacterMap;
   }
   /**
    * @param ConnectionProperty[]

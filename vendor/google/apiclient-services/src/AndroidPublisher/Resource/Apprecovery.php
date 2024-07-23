@@ -58,25 +58,6 @@ class Apprecovery extends \Google\Service\Resource
     return $this->call('addTargeting', [$params], AddTargetingResponse::class);
   }
   /**
-   * List all app recovery action resources associated with a particular package
-   * name and app version. (apprecovery.appRecoveries)
-   *
-   * @param string $packageName Required. Package name of the app for which list
-   * of recovery actions is requested.
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string versionCode Required. Version code targeted by the list of
-   * recovery actions.
-   * @return ListAppRecoveriesResponse
-   * @throws \Google\Service\Exception
-   */
-  public function appRecoveries($packageName, $optParams = [])
-  {
-    $params = ['packageName' => $packageName];
-    $params = array_merge($params, $optParams);
-    return $this->call('appRecoveries', [$params], ListAppRecoveriesResponse::class);
-  }
-  /**
    * Cancel an already executing app recovery action. Note that this action
    * changes status of the recovery action to CANCELED. (apprecovery.cancel)
    *
@@ -131,6 +112,25 @@ class Apprecovery extends \Google\Service\Resource
     $params = ['packageName' => $packageName, 'appRecoveryId' => $appRecoveryId, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('deploy', [$params], DeployAppRecoveryResponse::class);
+  }
+  /**
+   * List all app recovery action resources associated with a particular package
+   * name and app version. (apprecovery.listApprecovery)
+   *
+   * @param string $packageName Required. Package name of the app for which list
+   * of recovery actions is requested.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string versionCode Required. Version code targeted by the list of
+   * recovery actions.
+   * @return ListAppRecoveriesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listApprecovery($packageName, $optParams = [])
+  {
+    $params = ['packageName' => $packageName];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], ListAppRecoveriesResponse::class);
   }
 }
 

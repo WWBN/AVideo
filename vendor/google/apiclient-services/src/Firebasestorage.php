@@ -43,6 +43,7 @@ class Firebasestorage extends \Google\Service
       "https://www.googleapis.com/auth/firebase";
 
   public $projects_buckets;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Firebasestorage service.
@@ -55,6 +56,7 @@ class Firebasestorage extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://firebasestorage.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://firebasestorage.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1beta';

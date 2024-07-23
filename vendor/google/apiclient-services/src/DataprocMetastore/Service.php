@@ -31,6 +31,10 @@ class Service extends \Google\Model
    * @var string
    */
   public $databaseType;
+  /**
+   * @var bool
+   */
+  public $deletionProtection;
   protected $encryptionConfigType = EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
   /**
@@ -135,6 +139,20 @@ class Service extends \Google\Model
   public function getDatabaseType()
   {
     return $this->databaseType;
+  }
+  /**
+   * @param bool
+   */
+  public function setDeletionProtection($deletionProtection)
+  {
+    $this->deletionProtection = $deletionProtection;
+  }
+  /**
+   * @return bool
+   */
+  public function getDeletionProtection()
+  {
+    return $this->deletionProtection;
   }
   /**
    * @param EncryptionConfig

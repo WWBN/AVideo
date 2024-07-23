@@ -149,8 +149,8 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
    * field. The returned operation is automatically deleted after a few hours, so
    * there is no need to call DeleteOperation. (clusters.patch)
    *
-   * @param string $name Required. Unique name of the resource in this scope
-   * including project and location using the form:
+   * @param string $name Required. Identifier. Unique name of the resource in this
+   * scope including project and location using the form:
    * `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}`
    * @param Cluster $postBody
    * @param array $optParams Optional parameters.

@@ -17,6 +17,8 @@
 
 namespace Google\Service\GoogleMarketingPlatformAdminAPI\Resource;
 
+use Google\Service\GoogleMarketingPlatformAdminAPI\Organization;
+
 /**
  * The "organizations" collection of methods.
  * Typical usage is:
@@ -27,6 +29,21 @@ namespace Google\Service\GoogleMarketingPlatformAdminAPI\Resource;
  */
 class Organizations extends \Google\Service\Resource
 {
+  /**
+   * Lookup for a single organization. (organizations.get)
+   *
+   * @param string $name Required. The name of the Organization to retrieve.
+   * Format: organizations/{org_id}
+   * @param array $optParams Optional parameters.
+   * @return Organization
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], Organization::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

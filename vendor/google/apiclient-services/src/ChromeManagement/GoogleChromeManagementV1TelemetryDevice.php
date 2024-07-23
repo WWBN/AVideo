@@ -20,6 +20,8 @@ namespace Google\Service\ChromeManagement;
 class GoogleChromeManagementV1TelemetryDevice extends \Google\Collection
 {
   protected $collection_key = 'thunderboltInfo';
+  protected $appReportType = GoogleChromeManagementV1AppReport::class;
+  protected $appReportDataType = 'array';
   protected $audioStatusReportType = GoogleChromeManagementV1AudioStatusReport::class;
   protected $audioStatusReportDataType = 'array';
   protected $batteryInfoType = GoogleChromeManagementV1BatteryInfo::class;
@@ -85,6 +87,20 @@ class GoogleChromeManagementV1TelemetryDevice extends \Google\Collection
   protected $thunderboltInfoType = GoogleChromeManagementV1ThunderboltInfo::class;
   protected $thunderboltInfoDataType = 'array';
 
+  /**
+   * @param GoogleChromeManagementV1AppReport[]
+   */
+  public function setAppReport($appReport)
+  {
+    $this->appReport = $appReport;
+  }
+  /**
+   * @return GoogleChromeManagementV1AppReport[]
+   */
+  public function getAppReport()
+  {
+    return $this->appReport;
+  }
   /**
    * @param GoogleChromeManagementV1AudioStatusReport[]
    */

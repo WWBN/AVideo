@@ -90,6 +90,8 @@ class Job extends \Google\Collection
    * @var bool
    */
   public $satisfiesPzs;
+  protected $serviceResourcesType = ServiceResources::class;
+  protected $serviceResourcesDataType = '';
   protected $stageStatesType = ExecutionStageState::class;
   protected $stageStatesDataType = 'array';
   /**
@@ -394,6 +396,20 @@ class Job extends \Google\Collection
   public function getSatisfiesPzs()
   {
     return $this->satisfiesPzs;
+  }
+  /**
+   * @param ServiceResources
+   */
+  public function setServiceResources(ServiceResources $serviceResources)
+  {
+    $this->serviceResources = $serviceResources;
+  }
+  /**
+   * @return ServiceResources
+   */
+  public function getServiceResources()
+  {
+    return $this->serviceResources;
   }
   /**
    * @param ExecutionStageState[]

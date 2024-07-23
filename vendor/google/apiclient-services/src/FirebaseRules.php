@@ -48,6 +48,7 @@ class FirebaseRules extends \Google\Service
   public $projects;
   public $projects_releases;
   public $projects_rulesets;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the FirebaseRules service.
@@ -60,6 +61,7 @@ class FirebaseRules extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://firebaserules.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://firebaserules.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

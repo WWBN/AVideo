@@ -35,6 +35,8 @@ class GoogleCloudRecaptchaenterpriseV1Assessment extends \Google\Model
    * @var string
    */
   public $name;
+  protected $phoneFraudAssessmentType = GoogleCloudRecaptchaenterpriseV1PhoneFraudAssessment::class;
+  protected $phoneFraudAssessmentDataType = '';
   protected $privatePasswordLeakVerificationType = GoogleCloudRecaptchaenterpriseV1PrivatePasswordLeakVerification::class;
   protected $privatePasswordLeakVerificationDataType = '';
   protected $riskAnalysisType = GoogleCloudRecaptchaenterpriseV1RiskAnalysis::class;
@@ -139,6 +141,20 @@ class GoogleCloudRecaptchaenterpriseV1Assessment extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1PhoneFraudAssessment
+   */
+  public function setPhoneFraudAssessment(GoogleCloudRecaptchaenterpriseV1PhoneFraudAssessment $phoneFraudAssessment)
+  {
+    $this->phoneFraudAssessment = $phoneFraudAssessment;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1PhoneFraudAssessment
+   */
+  public function getPhoneFraudAssessment()
+  {
+    return $this->phoneFraudAssessment;
   }
   /**
    * @param GoogleCloudRecaptchaenterpriseV1PrivatePasswordLeakVerification

@@ -41,6 +41,7 @@ class Safebrowsing extends \Google\Service
 
 
   public $hashes;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Safebrowsing service.
@@ -53,6 +54,7 @@ class Safebrowsing extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://safebrowsing.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://safebrowsing.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v5';

@@ -20,6 +20,8 @@ namespace Google\Service\SA360;
 class GoogleAdsSearchads360V0ServicesSearchAds360Row extends \Google\Collection
 {
   protected $collection_key = 'customColumns';
+  protected $accessibleBiddingStrategyType = GoogleAdsSearchads360V0ResourcesAccessibleBiddingStrategy::class;
+  protected $accessibleBiddingStrategyDataType = '';
   protected $adGroupType = GoogleAdsSearchads360V0ResourcesAdGroup::class;
   protected $adGroupDataType = '';
   protected $adGroupAdType = GoogleAdsSearchads360V0ResourcesAdGroupAd::class;
@@ -127,6 +129,20 @@ class GoogleAdsSearchads360V0ServicesSearchAds360Row extends \Google\Collection
   protected $webpageViewType = GoogleAdsSearchads360V0ResourcesWebpageView::class;
   protected $webpageViewDataType = '';
 
+  /**
+   * @param GoogleAdsSearchads360V0ResourcesAccessibleBiddingStrategy
+   */
+  public function setAccessibleBiddingStrategy(GoogleAdsSearchads360V0ResourcesAccessibleBiddingStrategy $accessibleBiddingStrategy)
+  {
+    $this->accessibleBiddingStrategy = $accessibleBiddingStrategy;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0ResourcesAccessibleBiddingStrategy
+   */
+  public function getAccessibleBiddingStrategy()
+  {
+    return $this->accessibleBiddingStrategy;
+  }
   /**
    * @param GoogleAdsSearchads360V0ResourcesAdGroup
    */

@@ -21,11 +21,22 @@ class GoogleCloudIntegrationsV1alphaProvisionClientRequest extends \Google\Model
 {
   protected $cloudKmsConfigType = GoogleCloudIntegrationsV1alphaCloudKmsConfig::class;
   protected $cloudKmsConfigDataType = '';
-  public $cloudKmsConfig;
   /**
    * @var bool
    */
   public $createSampleWorkflows;
+  /**
+   * @var bool
+   */
+  public $provisionGmek;
+  /**
+   * @var string
+   */
+  public $runAsServiceAccount;
+  /**
+   * @var bool
+   */
+  public $skipCpProvision;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaCloudKmsConfig
@@ -54,6 +65,48 @@ class GoogleCloudIntegrationsV1alphaProvisionClientRequest extends \Google\Model
   public function getCreateSampleWorkflows()
   {
     return $this->createSampleWorkflows;
+  }
+  /**
+   * @param bool
+   */
+  public function setProvisionGmek($provisionGmek)
+  {
+    $this->provisionGmek = $provisionGmek;
+  }
+  /**
+   * @return bool
+   */
+  public function getProvisionGmek()
+  {
+    return $this->provisionGmek;
+  }
+  /**
+   * @param string
+   */
+  public function setRunAsServiceAccount($runAsServiceAccount)
+  {
+    $this->runAsServiceAccount = $runAsServiceAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getRunAsServiceAccount()
+  {
+    return $this->runAsServiceAccount;
+  }
+  /**
+   * @param bool
+   */
+  public function setSkipCpProvision($skipCpProvision)
+  {
+    $this->skipCpProvision = $skipCpProvision;
+  }
+  /**
+   * @return bool
+   */
+  public function getSkipCpProvision()
+  {
+    return $this->skipCpProvision;
   }
 }
 

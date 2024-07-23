@@ -17,10 +17,15 @@
 
 namespace Google\Service\AuthorizedBuyersMarketplace;
 
-class MarketplaceTargeting extends \Google\Model
+class MarketplaceTargeting extends \Google\Collection
 {
+  protected $collection_key = 'excludedSensitiveCategoryIds';
   protected $daypartTargetingType = DayPartTargeting::class;
   protected $daypartTargetingDataType = '';
+  /**
+   * @var string[]
+   */
+  public $excludedSensitiveCategoryIds;
   protected $geoTargetingType = CriteriaTargeting::class;
   protected $geoTargetingDataType = '';
   protected $inventorySizeTargetingType = InventorySizeTargeting::class;
@@ -33,6 +38,8 @@ class MarketplaceTargeting extends \Google\Model
   protected $technologyTargetingDataType = '';
   protected $userListTargetingType = CriteriaTargeting::class;
   protected $userListTargetingDataType = '';
+  protected $verticalTargetingType = CriteriaTargeting::class;
+  protected $verticalTargetingDataType = '';
   protected $videoTargetingType = VideoTargeting::class;
   protected $videoTargetingDataType = '';
 
@@ -49,6 +56,20 @@ class MarketplaceTargeting extends \Google\Model
   public function getDaypartTargeting()
   {
     return $this->daypartTargeting;
+  }
+  /**
+   * @param string[]
+   */
+  public function setExcludedSensitiveCategoryIds($excludedSensitiveCategoryIds)
+  {
+    $this->excludedSensitiveCategoryIds = $excludedSensitiveCategoryIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getExcludedSensitiveCategoryIds()
+  {
+    return $this->excludedSensitiveCategoryIds;
   }
   /**
    * @param CriteriaTargeting
@@ -133,6 +154,20 @@ class MarketplaceTargeting extends \Google\Model
   public function getUserListTargeting()
   {
     return $this->userListTargeting;
+  }
+  /**
+   * @param CriteriaTargeting
+   */
+  public function setVerticalTargeting(CriteriaTargeting $verticalTargeting)
+  {
+    $this->verticalTargeting = $verticalTargeting;
+  }
+  /**
+   * @return CriteriaTargeting
+   */
+  public function getVerticalTargeting()
+  {
+    return $this->verticalTargeting;
   }
   /**
    * @param VideoTargeting

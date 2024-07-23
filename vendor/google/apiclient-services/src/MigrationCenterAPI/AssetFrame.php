@@ -25,6 +25,10 @@ class AssetFrame extends \Google\Collection
    */
   public $attributes;
   /**
+   * @var string
+   */
+  public $collectionType;
+  /**
    * @var string[]
    */
   public $labels;
@@ -54,6 +58,20 @@ class AssetFrame extends \Google\Collection
   public function getAttributes()
   {
     return $this->attributes;
+  }
+  /**
+   * @param string
+   */
+  public function setCollectionType($collectionType)
+  {
+    $this->collectionType = $collectionType;
+  }
+  /**
+   * @return string
+   */
+  public function getCollectionType()
+  {
+    return $this->collectionType;
   }
   /**
    * @param string[]

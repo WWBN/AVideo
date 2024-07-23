@@ -17,20 +17,27 @@
 
 namespace Google\Service\CloudIAP;
 
-class AccessSettings extends \Google\Model
+class AccessSettings extends \Google\Collection
 {
+  protected $collection_key = 'identitySources';
   protected $allowedDomainsSettingsType = AllowedDomainsSettings::class;
   protected $allowedDomainsSettingsDataType = '';
   protected $corsSettingsType = CorsSettings::class;
   protected $corsSettingsDataType = '';
   protected $gcipSettingsType = GcipSettings::class;
   protected $gcipSettingsDataType = '';
+  /**
+   * @var string[]
+   */
+  public $identitySources;
   protected $oauthSettingsType = OAuthSettings::class;
   protected $oauthSettingsDataType = '';
   protected $policyDelegationSettingsType = PolicyDelegationSettings::class;
   protected $policyDelegationSettingsDataType = '';
   protected $reauthSettingsType = ReauthSettings::class;
   protected $reauthSettingsDataType = '';
+  protected $workforceIdentitySettingsType = WorkforceIdentitySettings::class;
+  protected $workforceIdentitySettingsDataType = '';
 
   /**
    * @param AllowedDomainsSettings
@@ -75,6 +82,20 @@ class AccessSettings extends \Google\Model
     return $this->gcipSettings;
   }
   /**
+   * @param string[]
+   */
+  public function setIdentitySources($identitySources)
+  {
+    $this->identitySources = $identitySources;
+  }
+  /**
+   * @return string[]
+   */
+  public function getIdentitySources()
+  {
+    return $this->identitySources;
+  }
+  /**
    * @param OAuthSettings
    */
   public function setOauthSettings(OAuthSettings $oauthSettings)
@@ -115,6 +136,20 @@ class AccessSettings extends \Google\Model
   public function getReauthSettings()
   {
     return $this->reauthSettings;
+  }
+  /**
+   * @param WorkforceIdentitySettings
+   */
+  public function setWorkforceIdentitySettings(WorkforceIdentitySettings $workforceIdentitySettings)
+  {
+    $this->workforceIdentitySettings = $workforceIdentitySettings;
+  }
+  /**
+   * @return WorkforceIdentitySettings
+   */
+  public function getWorkforceIdentitySettings()
+  {
+    return $this->workforceIdentitySettings;
   }
 }
 

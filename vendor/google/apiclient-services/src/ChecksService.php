@@ -41,6 +41,7 @@ class ChecksService extends \Google\Service
   public $accounts_apps_operations;
   public $accounts_apps_reports;
   public $media;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the ChecksService service.
@@ -53,6 +54,7 @@ class ChecksService extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://checks.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://checks.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1alpha';

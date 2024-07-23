@@ -140,7 +140,7 @@ class Drives extends \Google\Service\Resource
     return $this->call('unhide', [$params], Drive::class);
   }
   /**
-   * Updates the metadate for a shared drive. (drives.update)
+   * Updates the metadata for a shared drive. (drives.update)
    *
    * @param string $driveId The ID of the shared drive.
    * @param Drive $postBody

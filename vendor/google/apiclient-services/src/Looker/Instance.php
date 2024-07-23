@@ -52,6 +52,10 @@ class Instance extends \Google\Model
   /**
    * @var string
    */
+  public $linkedLspProjectNumber;
+  /**
+   * @var string
+   */
   public $lookerUri;
   /**
    * @var string
@@ -75,12 +79,6 @@ class Instance extends \Google\Model
    * @var bool
    */
   public $privateIpEnabled;
-  protected $pscConfigType = PscConfig::class;
-  protected $pscConfigDataType = '';
-  /**
-   * @var bool
-   */
-  public $pscEnabled;
   /**
    * @var bool
    */
@@ -243,6 +241,20 @@ class Instance extends \Google\Model
   /**
    * @param string
    */
+  public function setLinkedLspProjectNumber($linkedLspProjectNumber)
+  {
+    $this->linkedLspProjectNumber = $linkedLspProjectNumber;
+  }
+  /**
+   * @return string
+   */
+  public function getLinkedLspProjectNumber()
+  {
+    return $this->linkedLspProjectNumber;
+  }
+  /**
+   * @param string
+   */
   public function setLookerUri($lookerUri)
   {
     $this->lookerUri = $lookerUri;
@@ -351,34 +363,6 @@ class Instance extends \Google\Model
   public function getPrivateIpEnabled()
   {
     return $this->privateIpEnabled;
-  }
-  /**
-   * @param PscConfig
-   */
-  public function setPscConfig(PscConfig $pscConfig)
-  {
-    $this->pscConfig = $pscConfig;
-  }
-  /**
-   * @return PscConfig
-   */
-  public function getPscConfig()
-  {
-    return $this->pscConfig;
-  }
-  /**
-   * @param bool
-   */
-  public function setPscEnabled($pscEnabled)
-  {
-    $this->pscEnabled = $pscEnabled;
-  }
-  /**
-   * @return bool
-   */
-  public function getPscEnabled()
-  {
-    return $this->pscEnabled;
   }
   /**
    * @param bool

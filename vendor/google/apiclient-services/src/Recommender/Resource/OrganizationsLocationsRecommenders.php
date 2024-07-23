@@ -53,8 +53,8 @@ class OrganizationsLocationsRecommenders extends \Google\Service\Resource
    * Updates a Recommender Config. This will create a new revision of the config.
    * (recommenders.updateConfig)
    *
-   * @param string $name Name of recommender config. Eg, projects/[PROJECT_NUMBER]
-   * /locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config
+   * @param string $name Identifier. Name of recommender config. Eg, projects/[PRO
+   * JECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config
    * @param GoogleCloudRecommenderV1RecommenderConfig $postBody
    * @param array $optParams Optional parameters.
    *

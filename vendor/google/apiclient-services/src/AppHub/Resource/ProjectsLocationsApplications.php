@@ -38,7 +38,8 @@ class ProjectsLocationsApplications extends \Google\Service\Resource
   /**
    * Creates an Application in a host project and location. (applications.create)
    *
-   * @param string $parent Required. Value for parent.
+   * @param string $parent Required. Project and location to create Application
+   * in. Expected format: `projects/{project}/locations/{location}`.
    * @param Application $postBody
    * @param array $optParams Optional parameters.
    *
@@ -68,7 +69,9 @@ class ProjectsLocationsApplications extends \Google\Service\Resource
   /**
    * Deletes an Application in a host project and location. (applications.delete)
    *
-   * @param string $name Required. Value for name.
+   * @param string $name Required. Fully qualified name of the Application to
+   * delete. Expected format:
+   * `projects/{project}/locations/{location}/applications/{application}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string requestId Optional. An optional request ID to identify
@@ -94,7 +97,9 @@ class ProjectsLocationsApplications extends \Google\Service\Resource
   /**
    * Gets an Application in a host project and location. (applications.get)
    *
-   * @param string $name Required. Value for name.
+   * @param string $name Required. Fully qualified name of the Application to
+   * fetch. Expected format:
+   * `projects/{project}/locations/{location}/applications/{application}`.
    * @param array $optParams Optional parameters.
    * @return Application
    * @throws \Google\Service\Exception
@@ -140,11 +145,12 @@ class ProjectsLocationsApplications extends \Google\Service\Resource
    * Lists Applications in a host project and location.
    * (applications.listProjectsLocationsApplications)
    *
-   * @param string $parent Required. Value for parent.
+   * @param string $parent Required. Project and location to list Applications on.
+   * Expected format: `projects/{project}/locations/{location}`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Optional. Filtering results
-   * @opt_param string orderBy Optional. Hint for how to order the results
+   * @opt_param string filter Optional. Filtering results.
+   * @opt_param string orderBy Optional. Hint for how to order the results.
    * @opt_param int pageSize Optional. Requested page size. Server may return
    * fewer items than requested. If unspecified, server will pick an appropriate
    * default.

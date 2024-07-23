@@ -37,6 +37,8 @@ class ReportRow extends \Google\Model
   protected $productViewDataType = '';
   protected $segmentsType = Segments::class;
   protected $segmentsDataType = '';
+  protected $topicTrendsType = TopicTrends::class;
+  protected $topicTrendsDataType = '';
 
   /**
    * @param BestSellers
@@ -163,6 +165,20 @@ class ReportRow extends \Google\Model
   public function getSegments()
   {
     return $this->segments;
+  }
+  /**
+   * @param TopicTrends
+   */
+  public function setTopicTrends(TopicTrends $topicTrends)
+  {
+    $this->topicTrends = $topicTrends;
+  }
+  /**
+   * @return TopicTrends
+   */
+  public function getTopicTrends()
+  {
+    return $this->topicTrends;
   }
 }
 

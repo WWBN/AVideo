@@ -142,7 +142,8 @@ class ProjectsLocationsFeatureOnlineStores extends \Google\Service\Resource
    * request. A field will be overwritten if it is in the mask. If the user does
    * not provide a mask then only the non-empty fields present in the request will
    * be overwritten. Set the update_mask to `*` to override all fields. Updatable
-   * fields: * `big_query_source` * `bigtable` * `labels` * `sync_config`
+   * fields: * `labels` * `description` * `bigtable` * `bigtable.auto_scaling` *
+   * `bigtable.enable_multi_region_replica`
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */

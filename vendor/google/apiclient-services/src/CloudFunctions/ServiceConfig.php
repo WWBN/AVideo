@@ -33,6 +33,10 @@ class ServiceConfig extends \Google\Collection
    */
   public $availableMemory;
   /**
+   * @var string
+   */
+  public $binaryAuthorizationPolicy;
+  /**
    * @var string[]
    */
   public $environmentVariables;
@@ -130,6 +134,20 @@ class ServiceConfig extends \Google\Collection
   public function getAvailableMemory()
   {
     return $this->availableMemory;
+  }
+  /**
+   * @param string
+   */
+  public function setBinaryAuthorizationPolicy($binaryAuthorizationPolicy)
+  {
+    $this->binaryAuthorizationPolicy = $binaryAuthorizationPolicy;
+  }
+  /**
+   * @return string
+   */
+  public function getBinaryAuthorizationPolicy()
+  {
+    return $this->binaryAuthorizationPolicy;
   }
   /**
    * @param string[]

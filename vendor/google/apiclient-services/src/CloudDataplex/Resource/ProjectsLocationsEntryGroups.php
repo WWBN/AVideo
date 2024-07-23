@@ -17,10 +17,13 @@
 
 namespace Google\Service\CloudDataplex\Resource;
 
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1EntryGroup;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListEntryGroupsResponse;
 use Google\Service\CloudDataplex\GoogleIamV1Policy;
 use Google\Service\CloudDataplex\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
+use Google\Service\CloudDataplex\GoogleLongrunningOperation;
 
 /**
  * The "entryGroups" collection of methods.
@@ -32,6 +35,61 @@ use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
  */
 class ProjectsLocationsEntryGroups extends \Google\Service\Resource
 {
+  /**
+   * Creates an EntryGroup. (entryGroups.create)
+   *
+   * @param string $parent Required. The resource name of the entryGroup, of the
+   * form: projects/{project_number}/locations/{location_id} where location_id
+   * refers to a GCP region.
+   * @param GoogleCloudDataplexV1EntryGroup $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string entryGroupId Required. EntryGroup identifier.
+   * @opt_param bool validateOnly Optional. The service validates the request
+   * without performing any mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, GoogleCloudDataplexV1EntryGroup $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Deletes an EntryGroup. (entryGroups.delete)
+   *
+   * @param string $name Required. The resource name of the EntryGroup: projects/{
+   * project_number}/locations/{location_id}/entryGroups/{entry_group_id}.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string etag Optional. If the client provided etag value does not
+   * match the current etag value, the DeleteEntryGroupRequest method returns an
+   * ABORTED error response.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Gets an EntryGroup. (entryGroups.get)
+   *
+   * @param string $name Required. The resource name of the EntryGroup: projects/{
+   * project_number}/locations/{location_id}/entryGroups/{entry_group_id}.
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1EntryGroup
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleCloudDataplexV1EntryGroup::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (entryGroups.getIamPolicy)
@@ -61,6 +119,55 @@ class ProjectsLocationsEntryGroups extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
+  }
+  /**
+   * Lists EntryGroup resources in a project and location.
+   * (entryGroups.listProjectsLocationsEntryGroups)
+   *
+   * @param string $parent Required. The resource name of the entryGroup location,
+   * of the form: projects/{project_number}/locations/{location_id} where
+   * location_id refers to a Google Cloud region.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Filter request.
+   * @opt_param string orderBy Optional. Order by fields for the result.
+   * @opt_param int pageSize Optional. Maximum number of EntryGroups to return.
+   * The service may return fewer than this value. If unspecified, the service
+   * returns at most 10 EntryGroups. The maximum value is 1000; values above 1000
+   * will be coerced to 1000.
+   * @opt_param string pageToken Optional. Page token received from a previous
+   * ListEntryGroups call. Provide this to retrieve the subsequent page. When
+   * paginating, all other parameters you provide to ListEntryGroups must match
+   * the call that provided the page token.
+   * @return GoogleCloudDataplexV1ListEntryGroupsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsEntryGroups($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GoogleCloudDataplexV1ListEntryGroupsResponse::class);
+  }
+  /**
+   * Updates an EntryGroup. (entryGroups.patch)
+   *
+   * @param string $name Output only. The relative resource name of the
+   * EntryGroup, of the form: projects/{project_number}/locations/{location_id}/en
+   * tryGroups/{entry_group_id}.
+   * @param GoogleCloudDataplexV1EntryGroup $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. Mask of fields to update.
+   * @opt_param bool validateOnly Optional. The service validates the request,
+   * without performing any mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudDataplexV1EntryGroup $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

@@ -20,10 +20,28 @@ namespace Google\Service\Container;
 class AdvancedMachineFeatures extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $enableNestedVirtualization;
+  /**
    * @var string
    */
   public $threadsPerCore;
 
+  /**
+   * @param bool
+   */
+  public function setEnableNestedVirtualization($enableNestedVirtualization)
+  {
+    $this->enableNestedVirtualization = $enableNestedVirtualization;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableNestedVirtualization()
+  {
+    return $this->enableNestedVirtualization;
+  }
   /**
    * @param string
    */

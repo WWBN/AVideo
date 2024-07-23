@@ -106,7 +106,7 @@ class ProjectsLocationsRepositoriesReleaseConfigs extends \Google\Service\Resour
   /**
    * Updates a single ReleaseConfig. (releaseConfigs.patch)
    *
-   * @param string $name Output only. The release config's name.
+   * @param string $name Identifier. The release config's name.
    * @param ReleaseConfig $postBody
    * @param array $optParams Optional parameters.
    *

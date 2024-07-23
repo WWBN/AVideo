@@ -21,6 +21,7 @@ use Google\Service\Spanner\CreateInstanceRequest;
 use Google\Service\Spanner\GetIamPolicyRequest;
 use Google\Service\Spanner\Instance;
 use Google\Service\Spanner\ListInstancesResponse;
+use Google\Service\Spanner\MoveInstanceRequest;
 use Google\Service\Spanner\Operation;
 use Google\Service\Spanner\Policy;
 use Google\Service\Spanner\SetIamPolicyRequest;
@@ -161,6 +162,51 @@ class ProjectsInstances extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListInstancesResponse::class);
+  }
+  /**
+   * Moves the instance to the target instance config. The returned long-running
+   * operation can be used to track the progress of moving the instance.
+   * `MoveInstance` returns `FAILED_PRECONDITION` if the instance meets any of the
+   * following criteria: * Has an ongoing move to a different instance config *
+   * Has backups * Has an ongoing update * Is under free trial * Contains any
+   * CMEK-enabled databases While the operation is pending: * All other attempts
+   * to modify the instance, including changes to its compute capacity, are
+   * rejected. * The following database and backup admin operations are rejected:
+   * * DatabaseAdmin.CreateDatabase, * DatabaseAdmin.UpdateDatabaseDdl (Disabled
+   * if default_leader is specified in the request.) *
+   * DatabaseAdmin.RestoreDatabase * DatabaseAdmin.CreateBackup *
+   * DatabaseAdmin.CopyBackup * Both the source and target instance configs are
+   * subject to hourly compute and storage charges. * The instance may experience
+   * higher read-write latencies and a higher transaction abort rate. However,
+   * moving an instance does not cause any downtime. The returned long-running
+   * operation will have a name of the format `/operations/` and can be used to
+   * track the move instance operation. The metadata field type is
+   * MoveInstanceMetadata. The response field type is Instance, if successful.
+   * Cancelling the operation sets its metadata's cancel_time. Cancellation is not
+   * immediate since it involves moving any data previously moved to target
+   * instance config back to the original instance config. The same operation can
+   * be used to track the progress of the cancellation. Upon successful completion
+   * of the cancellation, the operation terminates with CANCELLED status. Upon
+   * completion(if not cancelled) of the returned operation: * Instance would be
+   * successfully moved to the target instance config. * You are billed for
+   * compute and storage in target instance config. Authorization requires
+   * `spanner.instances.update` permission on the resource instance. For more
+   * details, please see
+   * [documentation](https://cloud.google.com/spanner/docs/move-instance).
+   * (instances.move)
+   *
+   * @param string $name Required. The instance to move. Values are of the form
+   * `projects//instances/`.
+   * @param MoveInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function move($name, MoveInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('move', [$params], Operation::class);
   }
   /**
    * Updates an instance, and begins allocating or releasing resources as

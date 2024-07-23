@@ -23,32 +23,33 @@ class GoogleCloudDiscoveryengineV1alphaControl extends \Google\Collection
   /**
    * @var string[]
    */
-  public $associatedServingConfigIds = [];
+  public $associatedServingConfigIds;
   protected $boostActionType = GoogleCloudDiscoveryengineV1alphaControlBoostAction::class;
   protected $boostActionDataType = '';
-  public $boostAction;
   protected $conditionsType = GoogleCloudDiscoveryengineV1alphaCondition::class;
   protected $conditionsDataType = 'array';
-  public $conditions = [];
   /**
    * @var string
    */
   public $displayName;
   protected $filterActionType = GoogleCloudDiscoveryengineV1alphaControlFilterAction::class;
   protected $filterActionDataType = '';
-  public $filterAction;
   /**
    * @var string
    */
   public $name;
+  protected $redirectActionType = GoogleCloudDiscoveryengineV1alphaControlRedirectAction::class;
+  protected $redirectActionDataType = '';
   /**
    * @var string
    */
   public $solutionType;
+  protected $synonymsActionType = GoogleCloudDiscoveryengineV1alphaControlSynonymsAction::class;
+  protected $synonymsActionDataType = '';
   /**
    * @var string[]
    */
-  public $useCases = [];
+  public $useCases;
 
   /**
    * @param string[]
@@ -135,6 +136,20 @@ class GoogleCloudDiscoveryengineV1alphaControl extends \Google\Collection
     return $this->name;
   }
   /**
+   * @param GoogleCloudDiscoveryengineV1alphaControlRedirectAction
+   */
+  public function setRedirectAction(GoogleCloudDiscoveryengineV1alphaControlRedirectAction $redirectAction)
+  {
+    $this->redirectAction = $redirectAction;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaControlRedirectAction
+   */
+  public function getRedirectAction()
+  {
+    return $this->redirectAction;
+  }
+  /**
    * @param string
    */
   public function setSolutionType($solutionType)
@@ -147,6 +162,20 @@ class GoogleCloudDiscoveryengineV1alphaControl extends \Google\Collection
   public function getSolutionType()
   {
     return $this->solutionType;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaControlSynonymsAction
+   */
+  public function setSynonymsAction(GoogleCloudDiscoveryengineV1alphaControlSynonymsAction $synonymsAction)
+  {
+    $this->synonymsAction = $synonymsAction;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaControlSynonymsAction
+   */
+  public function getSynonymsAction()
+  {
+    return $this->synonymsAction;
   }
   /**
    * @param string[]

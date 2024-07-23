@@ -49,6 +49,10 @@ class GoogleCloudAiplatformV1CustomJobSpec extends \Google\Collection
   /**
    * @var string
    */
+  public $persistentResourceId;
+  /**
+   * @var string
+   */
   public $protectedArtifactLocationId;
   /**
    * @var string[]
@@ -164,6 +168,20 @@ class GoogleCloudAiplatformV1CustomJobSpec extends \Google\Collection
   public function getNetwork()
   {
     return $this->network;
+  }
+  /**
+   * @param string
+   */
+  public function setPersistentResourceId($persistentResourceId)
+  {
+    $this->persistentResourceId = $persistentResourceId;
+  }
+  /**
+   * @return string
+   */
+  public function getPersistentResourceId()
+  {
+    return $this->persistentResourceId;
   }
   /**
    * @param string

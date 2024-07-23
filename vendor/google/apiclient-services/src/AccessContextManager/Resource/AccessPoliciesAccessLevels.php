@@ -123,7 +123,7 @@ class AccessPoliciesAccessLevels extends \Google\Service\Resource
    * lasting storage. If access levels contain errors, an error response is
    * returned for the first error encountered. (accessLevels.patch)
    *
-   * @param string $name Resource name for the `AccessLevel`. Format:
+   * @param string $name Identifier. Resource name for the `AccessLevel`. Format:
    * `accessPolicies/{access_policy}/accessLevels/{access_level}`. The
    * `access_level` component must begin with a letter, followed by alphanumeric
    * characters or `_`. Its maximum length is 50 characters. After you create an

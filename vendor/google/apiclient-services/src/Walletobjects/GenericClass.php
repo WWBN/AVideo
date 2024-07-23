@@ -20,6 +20,8 @@ namespace Google\Service\Walletobjects;
 class GenericClass extends \Google\Collection
 {
   protected $collection_key = 'textModulesData';
+  protected $appLinkDataType = AppLinkData::class;
+  protected $appLinkDataDataType = '';
   protected $callbackOptionsType = CallbackOptions::class;
   protected $callbackOptionsDataType = '';
   protected $classTemplateInfoType = ClassTemplateInfo::class;
@@ -55,6 +57,20 @@ class GenericClass extends \Google\Collection
    */
   public $viewUnlockRequirement;
 
+  /**
+   * @param AppLinkData
+   */
+  public function setAppLinkData(AppLinkData $appLinkData)
+  {
+    $this->appLinkData = $appLinkData;
+  }
+  /**
+   * @return AppLinkData
+   */
+  public function getAppLinkData()
+  {
+    return $this->appLinkData;
+  }
   /**
    * @param CallbackOptions
    */

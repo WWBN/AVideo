@@ -51,6 +51,7 @@ class Baremetalsolution extends \Google\Service
   public $projects_locations_volumes;
   public $projects_locations_volumes_luns;
   public $projects_locations_volumes_snapshots;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Baremetalsolution service.
@@ -63,6 +64,7 @@ class Baremetalsolution extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://baremetalsolution.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://baremetalsolution.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2';
@@ -126,8 +128,28 @@ class Baremetalsolution extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'disableHyperthreading' => [
+              'path' => 'v2/{+name}:disableHyperthreading',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'disableInteractiveSerialConsole' => [
               'path' => 'v2/{+name}:disableInteractiveSerialConsole',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'enableHyperthreading' => [
+              'path' => 'v2/{+name}:enableHyperthreading',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
@@ -200,6 +222,16 @@ class Baremetalsolution extends \Google\Service
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'reimage' => [
+              'path' => 'v2/{+name}:reimage',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'rename' => [

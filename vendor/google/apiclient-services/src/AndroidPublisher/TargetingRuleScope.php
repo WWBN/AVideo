@@ -19,11 +19,29 @@ namespace Google\Service\AndroidPublisher;
 
 class TargetingRuleScope extends \Google\Model
 {
+  protected $anySubscriptionInAppType = TargetingRuleScopeAnySubscriptionInApp::class;
+  protected $anySubscriptionInAppDataType = '';
   /**
    * @var string
    */
   public $specificSubscriptionInApp;
+  protected $thisSubscriptionType = TargetingRuleScopeThisSubscription::class;
+  protected $thisSubscriptionDataType = '';
 
+  /**
+   * @param TargetingRuleScopeAnySubscriptionInApp
+   */
+  public function setAnySubscriptionInApp(TargetingRuleScopeAnySubscriptionInApp $anySubscriptionInApp)
+  {
+    $this->anySubscriptionInApp = $anySubscriptionInApp;
+  }
+  /**
+   * @return TargetingRuleScopeAnySubscriptionInApp
+   */
+  public function getAnySubscriptionInApp()
+  {
+    return $this->anySubscriptionInApp;
+  }
   /**
    * @param string
    */
@@ -37,6 +55,20 @@ class TargetingRuleScope extends \Google\Model
   public function getSpecificSubscriptionInApp()
   {
     return $this->specificSubscriptionInApp;
+  }
+  /**
+   * @param TargetingRuleScopeThisSubscription
+   */
+  public function setThisSubscription(TargetingRuleScopeThisSubscription $thisSubscription)
+  {
+    $this->thisSubscription = $thisSubscription;
+  }
+  /**
+   * @return TargetingRuleScopeThisSubscription
+   */
+  public function getThisSubscription()
+  {
+    return $this->thisSubscription;
   }
 }
 

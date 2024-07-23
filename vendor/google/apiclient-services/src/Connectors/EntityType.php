@@ -19,7 +19,7 @@ namespace Google\Service\Connectors;
 
 class EntityType extends \Google\Collection
 {
-  protected $collection_key = 'fields';
+  protected $collection_key = 'operations';
   protected $fieldsType = Field::class;
   protected $fieldsDataType = 'array';
   protected $jsonSchemaType = JsonSchema::class;
@@ -28,6 +28,10 @@ class EntityType extends \Google\Collection
    * @var string
    */
   public $name;
+  /**
+   * @var string[]
+   */
+  public $operations;
 
   /**
    * @param Field[]
@@ -70,6 +74,20 @@ class EntityType extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string[]
+   */
+  public function setOperations($operations)
+  {
+    $this->operations = $operations;
+  }
+  /**
+   * @return string[]
+   */
+  public function getOperations()
+  {
+    return $this->operations;
   }
 }
 

@@ -221,9 +221,9 @@ class ProjectsLocationsEntryGroupsEntries extends \Google\Service\Resource
    * [Data Catalog resource project](https://cloud.google.com/data-
    * catalog/docs/concepts/resource-project). (entries.patch)
    *
-   * @param string $name Output only. The resource name of an entry in URL format.
-   * Note: The entry itself and its child resources might not be stored in the
-   * location specified in its name.
+   * @param string $name Output only. Identifier. The resource name of an entry in
+   * URL format. Note: The entry itself and its child resources might not be
+   * stored in the location specified in its name.
    * @param GoogleCloudDatacatalogV1Entry $postBody
    * @param array $optParams Optional parameters.
    *

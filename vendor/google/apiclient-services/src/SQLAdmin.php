@@ -51,6 +51,7 @@ class SQLAdmin extends \Google\Service
   public $sslCerts;
   public $tiers;
   public $users;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the SQLAdmin service.
@@ -63,6 +64,7 @@ class SQLAdmin extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://sqladmin.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://sqladmin.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -345,7 +347,22 @@ class SQLAdmin extends \Google\Service
         'instances',
         [
           'methods' => [
-            'addServerCa' => [
+            'acquireSsrsLease' => [
+              'path' => 'v1/projects/{project}/instances/{instance}/acquireSsrsLease',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'instance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'addServerCa' => [
               'path' => 'v1/projects/{project}/instances/{instance}/addServerCa',
               'httpMethod' => 'POST',
               'parameters' => [
@@ -563,6 +580,21 @@ class SQLAdmin extends \Google\Service
               ],
             ],'reencrypt' => [
               'path' => 'v1/projects/{project}/instances/{instance}/reencrypt',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'instance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'releaseSsrsLease' => [
+              'path' => 'v1/projects/{project}/instances/{instance}/releaseSsrsLease',
               'httpMethod' => 'POST',
               'parameters' => [
                 'project' => [

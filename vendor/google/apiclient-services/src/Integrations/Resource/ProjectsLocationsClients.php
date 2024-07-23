@@ -19,6 +19,9 @@ namespace Google\Service\Integrations\Resource;
 
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaDeprovisionClientRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaProvisionClientRequest;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest;
 use Google\Service\Integrations\GoogleProtobufEmpty;
 
 /**
@@ -40,6 +43,7 @@ class ProjectsLocationsClients extends \Google\Service\Resource
    * @param GoogleCloudIntegrationsV1alphaDeprovisionClientRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function deprovision($parent, GoogleCloudIntegrationsV1alphaDeprovisionClientRequest $postBody, $optParams = [])
   {
@@ -57,12 +61,62 @@ class ProjectsLocationsClients extends \Google\Service\Resource
    * @param GoogleCloudIntegrationsV1alphaProvisionClientRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function provision($parent, GoogleCloudIntegrationsV1alphaProvisionClientRequest $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('provision', [$params], GoogleProtobufEmpty::class);
+  }
+  /**
+   * Update run-as service account for provisioned client (clients.replace)
+   *
+   * @param string $parent Required. Required: The ID of the GCP Project to be
+   * provisioned.
+   * @param GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function replace($parent, GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('replace', [$params], GoogleProtobufEmpty::class);
+  }
+  /**
+   * Update client from GMEK to CMEK (clients.switchProjectsLocationsClients)
+   *
+   * @param string $parent Required. Required: The ID of the GCP Project to be
+   * provisioned.
+   * @param GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function switchProjectsLocationsClients($parent, GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('switch', [$params], GoogleProtobufEmpty::class);
+  }
+  /**
+   * Update variable masking for provisioned client
+   * (clients.switchVariableMasking)
+   *
+   * @param string $parent Required. Required: The ID of the GCP Project to be
+   * provisioned.
+   * @param GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function switchVariableMasking($parent, GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('switchVariableMasking', [$params], GoogleProtobufEmpty::class);
   }
 }
 

@@ -91,6 +91,10 @@ class ErrorObject extends StripeObject
     const CODE_EXPIRED_CARD = 'expired_card';
     const CODE_FINANCIAL_CONNECTIONS_ACCOUNT_INACTIVE = 'financial_connections_account_inactive';
     const CODE_FINANCIAL_CONNECTIONS_NO_SUCCESSFUL_TRANSACTION_REFRESH = 'financial_connections_no_successful_transaction_refresh';
+    const CODE_FORWARDING_API_INACTIVE = 'forwarding_api_inactive';
+    const CODE_FORWARDING_API_INVALID_PARAMETER = 'forwarding_api_invalid_parameter';
+    const CODE_FORWARDING_API_UPSTREAM_CONNECTION_ERROR = 'forwarding_api_upstream_connection_error';
+    const CODE_FORWARDING_API_UPSTREAM_CONNECTION_TIMEOUT = 'forwarding_api_upstream_connection_timeout';
     const CODE_IDEMPOTENCY_KEY_IN_USE = 'idempotency_key_in_use';
     const CODE_INCORRECT_ADDRESS = 'incorrect_address';
     const CODE_INCORRECT_CVC = 'incorrect_cvc';
@@ -186,6 +190,7 @@ class ErrorObject extends StripeObject
     const CODE_SETUP_INTENT_MANDATE_INVALID = 'setup_intent_mandate_invalid';
     const CODE_SETUP_INTENT_SETUP_ATTEMPT_EXPIRED = 'setup_intent_setup_attempt_expired';
     const CODE_SETUP_INTENT_UNEXPECTED_STATE = 'setup_intent_unexpected_state';
+    const CODE_SHIPPING_ADDRESS_INVALID = 'shipping_address_invalid';
     const CODE_SHIPPING_CALCULATION_FAILED = 'shipping_calculation_failed';
     const CODE_SKU_INACTIVE = 'sku_inactive';
     const CODE_STATE_UNSUPPORTED = 'state_unsupported';
@@ -196,6 +201,7 @@ class ErrorObject extends StripeObject
     const CODE_TERMINAL_LOCATION_COUNTRY_UNSUPPORTED = 'terminal_location_country_unsupported';
     const CODE_TERMINAL_READER_BUSY = 'terminal_reader_busy';
     const CODE_TERMINAL_READER_HARDWARE_FAULT = 'terminal_reader_hardware_fault';
+    const CODE_TERMINAL_READER_INVALID_LOCATION_FOR_PAYMENT = 'terminal_reader_invalid_location_for_payment';
     const CODE_TERMINAL_READER_OFFLINE = 'terminal_reader_offline';
     const CODE_TERMINAL_READER_TIMEOUT = 'terminal_reader_timeout';
     const CODE_TESTMODE_CHARGES_ONLY = 'testmode_charges_only';

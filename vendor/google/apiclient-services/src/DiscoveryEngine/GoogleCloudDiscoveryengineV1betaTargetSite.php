@@ -41,6 +41,10 @@ class GoogleCloudDiscoveryengineV1betaTargetSite extends \Google\Model
    * @var string
    */
   public $providedUriPattern;
+  /**
+   * @var string
+   */
+  public $rootDomainUri;
   protected $siteVerificationInfoType = GoogleCloudDiscoveryengineV1betaSiteVerificationInfo::class;
   protected $siteVerificationInfoDataType = '';
   /**
@@ -135,6 +139,20 @@ class GoogleCloudDiscoveryengineV1betaTargetSite extends \Google\Model
   public function getProvidedUriPattern()
   {
     return $this->providedUriPattern;
+  }
+  /**
+   * @param string
+   */
+  public function setRootDomainUri($rootDomainUri)
+  {
+    $this->rootDomainUri = $rootDomainUri;
+  }
+  /**
+   * @return string
+   */
+  public function getRootDomainUri()
+  {
+    return $this->rootDomainUri;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1betaSiteVerificationInfo

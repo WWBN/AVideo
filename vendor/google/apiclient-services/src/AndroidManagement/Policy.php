@@ -118,6 +118,8 @@ class Policy extends \Google\Collection
   protected $deviceOwnerLockScreenInfoDataType = '';
   protected $deviceRadioStateType = DeviceRadioState::class;
   protected $deviceRadioStateDataType = '';
+  protected $displaySettingsType = DisplaySettings::class;
+  protected $displaySettingsDataType = '';
   /**
    * @var string
    */
@@ -742,6 +744,20 @@ class Policy extends \Google\Collection
   public function getDeviceRadioState()
   {
     return $this->deviceRadioState;
+  }
+  /**
+   * @param DisplaySettings
+   */
+  public function setDisplaySettings(DisplaySettings $displaySettings)
+  {
+    $this->displaySettings = $displaySettings;
+  }
+  /**
+   * @return DisplaySettings
+   */
+  public function getDisplaySettings()
+  {
+    return $this->displaySettings;
   }
   /**
    * @param string

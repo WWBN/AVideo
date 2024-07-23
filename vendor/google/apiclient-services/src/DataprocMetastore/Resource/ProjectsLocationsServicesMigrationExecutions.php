@@ -17,6 +17,8 @@
 
 namespace Google\Service\DataprocMetastore\Resource;
 
+use Google\Service\DataprocMetastore\ListMigrationExecutionsResponse;
+use Google\Service\DataprocMetastore\MigrationExecution;
 use Google\Service\DataprocMetastore\Operation;
 
 /**
@@ -55,6 +57,56 @@ class ProjectsLocationsServicesMigrationExecutions extends \Google\Service\Resou
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], Operation::class);
+  }
+  /**
+   * Gets details of a single migration execution. (migrationExecutions.get)
+   *
+   * @param string $name Required. The relative resource name of the migration
+   * execution to retrieve, in the following form:projects/{project_number}/locati
+   * ons/{location_id}/services/{service_id}/migrationExecutions/{migration_execut
+   * ion_id}.
+   * @param array $optParams Optional parameters.
+   * @return MigrationExecution
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], MigrationExecution::class);
+  }
+  /**
+   * Lists migration executions on a service.
+   * (migrationExecutions.listProjectsLocationsServicesMigrationExecutions)
+   *
+   * @param string $parent Required. The relative resource name of the service
+   * whose migration executions to list, in the following form:projects/{project_n
+   * umber}/locations/{location_id}/services/{service_id}/migrationExecutions.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. The filter to apply to list results.
+   * @opt_param string orderBy Optional. Specify the ordering of results as
+   * described in Sorting Order
+   * (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not
+   * specified, the results will be sorted in the default order.
+   * @opt_param int pageSize Optional. The maximum number of migration executions
+   * to return. The response may contain less than the maximum number. If
+   * unspecified, no more than 500 migration executions are returned. The maximum
+   * value is 1000; values above 1000 are changed to 1000.
+   * @opt_param string pageToken Optional. A page token, received from a previous
+   * DataprocMetastore.ListMigrationExecutions call. Provide this token to
+   * retrieve the subsequent page.To retrieve the first page, supply an empty page
+   * token.When paginating, other parameters provided to
+   * DataprocMetastore.ListMigrationExecutions must match the call that provided
+   * the page token.
+   * @return ListMigrationExecutionsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsServicesMigrationExecutions($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], ListMigrationExecutionsResponse::class);
   }
 }
 

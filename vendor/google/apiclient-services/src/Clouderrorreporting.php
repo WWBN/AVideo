@@ -44,6 +44,11 @@ class Clouderrorreporting extends \Google\Service
   public $projects_events;
   public $projects_groupStats;
   public $projects_groups;
+  public $projects_locations;
+  public $projects_locations_events;
+  public $projects_locations_groupStats;
+  public $projects_locations_groups;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Clouderrorreporting service.
@@ -56,6 +61,7 @@ class Clouderrorreporting extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://clouderrorreporting.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://clouderrorreporting.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1beta1';
@@ -205,6 +211,169 @@ class Clouderrorreporting extends \Google\Service
         ]
     );
     $this->projects_groups = new Clouderrorreporting\Resource\ProjectsGroups(
+        $this,
+        $this->serviceName,
+        'groups',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1beta1/{+groupName}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'groupName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'update' => [
+              'path' => 'v1beta1/{+name}',
+              'httpMethod' => 'PUT',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations = new Clouderrorreporting\Resource\ProjectsLocations(
+        $this,
+        $this->serviceName,
+        'locations',
+        [
+          'methods' => [
+            'deleteEvents' => [
+              'path' => 'v1beta1/{+projectName}/events',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'projectName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_events = new Clouderrorreporting\Resource\ProjectsLocationsEvents(
+        $this,
+        $this->serviceName,
+        'events',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1beta1/{+projectName}/events',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'projectName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'groupId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'serviceFilter.resourceType' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'serviceFilter.service' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'serviceFilter.version' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'timeRange.period' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_groupStats = new Clouderrorreporting\Resource\ProjectsLocationsGroupStats(
+        $this,
+        $this->serviceName,
+        'groupStats',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1beta1/{+projectName}/groupStats',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'projectName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'alignment' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'alignmentTime' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'groupId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+                'order' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'serviceFilter.resourceType' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'serviceFilter.service' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'serviceFilter.version' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'timeRange.period' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'timedCountDuration' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_groups = new Clouderrorreporting\Resource\ProjectsLocationsGroups(
         $this,
         $this->serviceName,
         'groups',

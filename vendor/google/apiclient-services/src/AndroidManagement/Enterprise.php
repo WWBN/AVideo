@@ -34,6 +34,8 @@ class Enterprise extends \Google\Collection
    * @var string
    */
   public $enterpriseDisplayName;
+  protected $googleAuthenticationSettingsType = GoogleAuthenticationSettings::class;
+  protected $googleAuthenticationSettingsDataType = '';
   protected $logoType = ExternalData::class;
   protected $logoDataType = '';
   /**
@@ -108,6 +110,20 @@ class Enterprise extends \Google\Collection
   public function getEnterpriseDisplayName()
   {
     return $this->enterpriseDisplayName;
+  }
+  /**
+   * @param GoogleAuthenticationSettings
+   */
+  public function setGoogleAuthenticationSettings(GoogleAuthenticationSettings $googleAuthenticationSettings)
+  {
+    $this->googleAuthenticationSettings = $googleAuthenticationSettings;
+  }
+  /**
+   * @return GoogleAuthenticationSettings
+   */
+  public function getGoogleAuthenticationSettings()
+  {
+    return $this->googleAuthenticationSettings;
   }
   /**
    * @param ExternalData

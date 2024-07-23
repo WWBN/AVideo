@@ -17,9 +17,9 @@
 
 namespace Google\Service\DiscoveryEngine\Resource;
 
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaListTargetSitesResponse;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaTargetSite;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1BatchCreateTargetSitesRequest;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1ListTargetSitesResponse;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1TargetSite;
 use Google\Service\DiscoveryEngine\GoogleLongrunningOperation;
 
 /**
@@ -39,12 +39,12 @@ class ProjectsLocationsDataStoresSiteSearchEngineTargetSites extends \Google\Ser
    * being created. `projects/{project}/locations/{location}/collections/{collecti
    * on}/dataStores/{data_store}/siteSearchEngine`. The parent field in the
    * CreateBookRequest messages must either be empty or match this field.
-   * @param GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest $postBody
+   * @param GoogleCloudDiscoveryengineV1BatchCreateTargetSitesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function batchCreate($parent, GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest $postBody, $optParams = [])
+  public function batchCreate($parent, GoogleCloudDiscoveryengineV1BatchCreateTargetSitesRequest $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -56,12 +56,12 @@ class ProjectsLocationsDataStoresSiteSearchEngineTargetSites extends \Google\Ser
    * @param string $parent Required. Parent resource name of TargetSite, such as `
    * projects/{project}/locations/{location}/collections/{collection}/dataStores/{
    * data_store}/siteSearchEngine`.
-   * @param GoogleCloudDiscoveryengineV1betaTargetSite $postBody
+   * @param GoogleCloudDiscoveryengineV1TargetSite $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function create($parent, GoogleCloudDiscoveryengineV1betaTargetSite $postBody, $optParams = [])
+  public function create($parent, GoogleCloudDiscoveryengineV1TargetSite $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -96,14 +96,14 @@ class ProjectsLocationsDataStoresSiteSearchEngineTargetSites extends \Google\Ser
    * exists, a PERMISSION_DENIED error is returned. If the requested TargetSite
    * does not exist, a NOT_FOUND error is returned.
    * @param array $optParams Optional parameters.
-   * @return GoogleCloudDiscoveryengineV1betaTargetSite
+   * @return GoogleCloudDiscoveryengineV1TargetSite
    * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], GoogleCloudDiscoveryengineV1betaTargetSite::class);
+    return $this->call('get', [$params], GoogleCloudDiscoveryengineV1TargetSite::class);
   }
   /**
    * Gets a list of TargetSites.
@@ -124,14 +124,14 @@ class ProjectsLocationsDataStoresSiteSearchEngineTargetSites extends \Google\Ser
    * `ListTargetSites` call. Provide this to retrieve the subsequent page. When
    * paginating, all other parameters provided to `ListTargetSites` must match the
    * call that provided the page token.
-   * @return GoogleCloudDiscoveryengineV1betaListTargetSitesResponse
+   * @return GoogleCloudDiscoveryengineV1ListTargetSitesResponse
    * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsDataStoresSiteSearchEngineTargetSites($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], GoogleCloudDiscoveryengineV1betaListTargetSitesResponse::class);
+    return $this->call('list', [$params], GoogleCloudDiscoveryengineV1ListTargetSitesResponse::class);
   }
   /**
    * Updates a TargetSite. (targetSites.patch)
@@ -140,12 +140,12 @@ class ProjectsLocationsDataStoresSiteSearchEngineTargetSites extends \Google\Ser
    * target site. `projects/{project}/locations/{location}/collections/{collection
    * }/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The
    * `target_site_id` is system-generated.
-   * @param GoogleCloudDiscoveryengineV1betaTargetSite $postBody
+   * @param GoogleCloudDiscoveryengineV1TargetSite $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function patch($name, GoogleCloudDiscoveryengineV1betaTargetSite $postBody, $optParams = [])
+  public function patch($name, GoogleCloudDiscoveryengineV1TargetSite $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);

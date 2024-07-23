@@ -40,6 +40,7 @@ class MyBusinessPlaceActions extends \Google\Service
 
   public $locations_placeActionLinks;
   public $placeActionTypeMetadata;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the MyBusinessPlaceActions
@@ -53,6 +54,7 @@ class MyBusinessPlaceActions extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://mybusinessplaceactions.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://mybusinessplaceactions.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

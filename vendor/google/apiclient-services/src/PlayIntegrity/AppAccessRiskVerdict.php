@@ -17,8 +17,13 @@
 
 namespace Google\Service\PlayIntegrity;
 
-class AppAccessRiskVerdict extends \Google\Model
+class AppAccessRiskVerdict extends \Google\Collection
 {
+  protected $collection_key = 'appsDetected';
+  /**
+   * @var string[]
+   */
+  public $appsDetected;
   /**
    * @var string
    */
@@ -28,6 +33,20 @@ class AppAccessRiskVerdict extends \Google\Model
    */
   public $playOrSystemApps;
 
+  /**
+   * @param string[]
+   */
+  public function setAppsDetected($appsDetected)
+  {
+    $this->appsDetected = $appsDetected;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAppsDetected()
+  {
+    return $this->appsDetected;
+  }
   /**
    * @param string
    */

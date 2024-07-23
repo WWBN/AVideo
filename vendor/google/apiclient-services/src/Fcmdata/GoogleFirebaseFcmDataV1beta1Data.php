@@ -23,12 +23,18 @@ class GoogleFirebaseFcmDataV1beta1Data extends \Google\Model
    * @var string
    */
   public $countMessagesAccepted;
+  /**
+   * @var string
+   */
+  public $countNotificationsAccepted;
   protected $deliveryPerformancePercentsType = GoogleFirebaseFcmDataV1beta1DeliveryPerformancePercents::class;
   protected $deliveryPerformancePercentsDataType = '';
   protected $messageInsightPercentsType = GoogleFirebaseFcmDataV1beta1MessageInsightPercents::class;
   protected $messageInsightPercentsDataType = '';
   protected $messageOutcomePercentsType = GoogleFirebaseFcmDataV1beta1MessageOutcomePercents::class;
   protected $messageOutcomePercentsDataType = '';
+  protected $proxyNotificationInsightPercentsType = GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents::class;
+  protected $proxyNotificationInsightPercentsDataType = '';
 
   /**
    * @param string
@@ -43,6 +49,20 @@ class GoogleFirebaseFcmDataV1beta1Data extends \Google\Model
   public function getCountMessagesAccepted()
   {
     return $this->countMessagesAccepted;
+  }
+  /**
+   * @param string
+   */
+  public function setCountNotificationsAccepted($countNotificationsAccepted)
+  {
+    $this->countNotificationsAccepted = $countNotificationsAccepted;
+  }
+  /**
+   * @return string
+   */
+  public function getCountNotificationsAccepted()
+  {
+    return $this->countNotificationsAccepted;
   }
   /**
    * @param GoogleFirebaseFcmDataV1beta1DeliveryPerformancePercents
@@ -85,6 +105,20 @@ class GoogleFirebaseFcmDataV1beta1Data extends \Google\Model
   public function getMessageOutcomePercents()
   {
     return $this->messageOutcomePercents;
+  }
+  /**
+   * @param GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents
+   */
+  public function setProxyNotificationInsightPercents(GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents $proxyNotificationInsightPercents)
+  {
+    $this->proxyNotificationInsightPercents = $proxyNotificationInsightPercents;
+  }
+  /**
+   * @return GoogleFirebaseFcmDataV1beta1ProxyNotificationInsightPercents
+   */
+  public function getProxyNotificationInsightPercents()
+  {
+    return $this->proxyNotificationInsightPercents;
   }
 }
 

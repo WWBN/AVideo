@@ -26,6 +26,10 @@ class GoogleCloudAiplatformV1IndexStats extends \Google\Model
   /**
    * @var string
    */
+  public $sparseVectorsCount;
+  /**
+   * @var string
+   */
   public $vectorsCount;
 
   /**
@@ -41,6 +45,20 @@ class GoogleCloudAiplatformV1IndexStats extends \Google\Model
   public function getShardsCount()
   {
     return $this->shardsCount;
+  }
+  /**
+   * @param string
+   */
+  public function setSparseVectorsCount($sparseVectorsCount)
+  {
+    $this->sparseVectorsCount = $sparseVectorsCount;
+  }
+  /**
+   * @return string
+   */
+  public function getSparseVectorsCount()
+  {
+    return $this->sparseVectorsCount;
   }
   /**
    * @param string

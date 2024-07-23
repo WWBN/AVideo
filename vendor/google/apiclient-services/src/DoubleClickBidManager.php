@@ -41,6 +41,7 @@ class DoubleClickBidManager extends \Google\Service
 
   public $queries;
   public $queries_reports;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the DoubleClickBidManager
@@ -54,6 +55,7 @@ class DoubleClickBidManager extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://doubleclickbidmanager.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://doubleclickbidmanager.UNIVERSE_DOMAIN/';
     $this->servicePath = 'v2/';
     $this->batchPath = 'batch';
     $this->version = 'v2';

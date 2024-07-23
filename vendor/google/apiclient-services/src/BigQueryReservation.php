@@ -45,6 +45,7 @@ class BigQueryReservation extends \Google\Service
   public $projects_locations_capacityCommitments;
   public $projects_locations_reservations;
   public $projects_locations_reservations_assignments;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the BigQueryReservation service.
@@ -57,6 +58,7 @@ class BigQueryReservation extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://bigqueryreservation.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://bigqueryreservation.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -267,6 +269,16 @@ class BigQueryReservation extends \Google\Service
             ],'delete' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'failoverReservation' => [
+              'path' => 'v1/{+name}:failoverReservation',
+              'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
                   'location' => 'path',

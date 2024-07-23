@@ -50,13 +50,30 @@ class BuyersAuctionPackages extends \Google\Service\Resource
     return $this->call('get', [$params], AuctionPackage::class);
   }
   /**
-   * List the auction packages subscribed by a buyer and its clients.
+   * List the auction packages. Buyers can use the URL path
+   * "/v1/buyers/{accountId}/auctionPackages" to list auction packages for the
+   * current buyer and its clients. Bidders can use the URL path
+   * "/v1/bidders/{accountId}/auctionPackages" to list auction packages for the
+   * bidder, its media planners, its buyers, and all their clients.
    * (auctionPackages.listBuyersAuctionPackages)
    *
    * @param string $parent Required. Name of the parent buyer that can access the
-   * auction package. Format: `buyers/{accountId}`
+   * auction package. Format: `buyers/{accountId}`. When used with a bidder
+   * account, the auction packages that the bidder, its media planners, its buyers
+   * and clients are subscribed to will be listed, in the format
+   * `bidders/{accountId}`.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string filter Optional. Optional query string using the [Cloud API
+   * list filtering syntax](/authorized-buyers/apis/guides/list-filters). Only
+   * supported when parent is bidder. Supported columns for filtering are: *
+   * displayName * createTime * updateTime * eligibleSeatIds
+   * @opt_param string orderBy Optional. An optional query string to sort auction
+   * packages using the [Cloud API sorting
+   * syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order).
+   * If no sort order is specified, results will be returned in an arbitrary
+   * order. Only supported when parent is bidder. Supported columns for sorting
+   * are: * displayName * createTime * updateTime
    * @opt_param int pageSize Requested page size. The server may return fewer
    * results than requested. Max allowed page size is 500.
    * @opt_param string pageToken The page token as returned.

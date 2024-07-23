@@ -45,6 +45,7 @@ class DatabaseMigrationService extends \Google\Service
   public $projects_locations_migrationJobs;
   public $projects_locations_operations;
   public $projects_locations_privateConnections;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the DatabaseMigrationService
@@ -58,6 +59,7 @@ class DatabaseMigrationService extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://datamigration.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://datamigration.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

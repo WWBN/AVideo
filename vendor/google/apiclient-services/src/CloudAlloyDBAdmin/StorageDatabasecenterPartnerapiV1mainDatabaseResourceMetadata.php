@@ -52,6 +52,8 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
    * @var string
    */
   public $location;
+  protected $machineConfigurationType = StorageDatabasecenterPartnerapiV1mainMachineConfiguration::class;
+  protected $machineConfigurationDataType = '';
   protected $primaryResourceIdType = StorageDatabasecenterPartnerapiV1mainDatabaseResourceId::class;
   protected $primaryResourceIdDataType = '';
   protected $productType = StorageDatabasecenterProtoCommonProduct::class;
@@ -68,10 +70,8 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
    * @var string
    */
   public $updationTime;
-  /**
-   * @var string[]
-   */
-  public $userLabels;
+  protected $userLabelSetType = StorageDatabasecenterPartnerapiV1mainUserLabels::class;
+  protected $userLabelSetDataType = '';
 
   /**
    * @param StorageDatabasecenterPartnerapiV1mainAvailabilityConfiguration
@@ -228,6 +228,20 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
     return $this->location;
   }
   /**
+   * @param StorageDatabasecenterPartnerapiV1mainMachineConfiguration
+   */
+  public function setMachineConfiguration(StorageDatabasecenterPartnerapiV1mainMachineConfiguration $machineConfiguration)
+  {
+    $this->machineConfiguration = $machineConfiguration;
+  }
+  /**
+   * @return StorageDatabasecenterPartnerapiV1mainMachineConfiguration
+   */
+  public function getMachineConfiguration()
+  {
+    return $this->machineConfiguration;
+  }
+  /**
    * @param StorageDatabasecenterPartnerapiV1mainDatabaseResourceId
    */
   public function setPrimaryResourceId(StorageDatabasecenterPartnerapiV1mainDatabaseResourceId $primaryResourceId)
@@ -298,18 +312,18 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
     return $this->updationTime;
   }
   /**
-   * @param string[]
+   * @param StorageDatabasecenterPartnerapiV1mainUserLabels
    */
-  public function setUserLabels($userLabels)
+  public function setUserLabelSet(StorageDatabasecenterPartnerapiV1mainUserLabels $userLabelSet)
   {
-    $this->userLabels = $userLabels;
+    $this->userLabelSet = $userLabelSet;
   }
   /**
-   * @return string[]
+   * @return StorageDatabasecenterPartnerapiV1mainUserLabels
    */
-  public function getUserLabels()
+  public function getUserLabelSet()
   {
-    return $this->userLabels;
+    return $this->userLabelSet;
   }
 }
 

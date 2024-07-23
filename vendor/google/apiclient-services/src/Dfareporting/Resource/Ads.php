@@ -120,8 +120,7 @@ class Ads extends \Google\Service\Resource
     return $this->call('list', [$params], AdsListResponse::class);
   }
   /**
-   * Updates an existing event tag. This method supports patch semantics.
-   * (ads.patch)
+   * Updates an existing ad. This method supports patch semantics. (ads.patch)
    *
    * @param string $profileId User profile ID associated with this request.
    * @param string $id Required. RemarketingList ID.

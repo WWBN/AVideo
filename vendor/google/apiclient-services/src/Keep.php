@@ -45,6 +45,7 @@ class Keep extends \Google\Service
   public $media;
   public $notes;
   public $notes_permissions;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Keep service.
@@ -57,6 +58,7 @@ class Keep extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://keep.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://keep.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

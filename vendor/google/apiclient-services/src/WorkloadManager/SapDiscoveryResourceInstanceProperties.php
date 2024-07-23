@@ -20,6 +20,8 @@ namespace Google\Service\WorkloadManager;
 class SapDiscoveryResourceInstanceProperties extends \Google\Collection
 {
   protected $collection_key = 'clusterInstances';
+  protected $appInstancesType = SapDiscoveryResourceInstancePropertiesAppInstance::class;
+  protected $appInstancesDataType = 'array';
   /**
    * @var string[]
    */
@@ -27,8 +29,30 @@ class SapDiscoveryResourceInstanceProperties extends \Google\Collection
   /**
    * @var string
    */
+  public $instanceNumber;
+  /**
+   * @var string
+   */
+  public $instanceRole;
+  /**
+   * @var string
+   */
   public $virtualHostname;
 
+  /**
+   * @param SapDiscoveryResourceInstancePropertiesAppInstance[]
+   */
+  public function setAppInstances($appInstances)
+  {
+    $this->appInstances = $appInstances;
+  }
+  /**
+   * @return SapDiscoveryResourceInstancePropertiesAppInstance[]
+   */
+  public function getAppInstances()
+  {
+    return $this->appInstances;
+  }
   /**
    * @param string[]
    */
@@ -42,6 +66,34 @@ class SapDiscoveryResourceInstanceProperties extends \Google\Collection
   public function getClusterInstances()
   {
     return $this->clusterInstances;
+  }
+  /**
+   * @param string
+   */
+  public function setInstanceNumber($instanceNumber)
+  {
+    $this->instanceNumber = $instanceNumber;
+  }
+  /**
+   * @return string
+   */
+  public function getInstanceNumber()
+  {
+    return $this->instanceNumber;
+  }
+  /**
+   * @param string
+   */
+  public function setInstanceRole($instanceRole)
+  {
+    $this->instanceRole = $instanceRole;
+  }
+  /**
+   * @return string
+   */
+  public function getInstanceRole()
+  {
+    return $this->instanceRole;
   }
   /**
    * @param string

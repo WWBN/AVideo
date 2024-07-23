@@ -52,6 +52,8 @@ class DatabaseResourceMetadata extends \Google\Collection
    * @var string
    */
   public $location;
+  protected $machineConfigurationType = MachineConfiguration::class;
+  protected $machineConfigurationDataType = '';
   protected $primaryResourceIdType = DatabaseResourceId::class;
   protected $primaryResourceIdDataType = '';
   protected $productType = Product::class;
@@ -68,10 +70,8 @@ class DatabaseResourceMetadata extends \Google\Collection
    * @var string
    */
   public $updationTime;
-  /**
-   * @var string[]
-   */
-  public $userLabels;
+  protected $userLabelSetType = UserLabels::class;
+  protected $userLabelSetDataType = '';
 
   /**
    * @param AvailabilityConfiguration
@@ -228,6 +228,20 @@ class DatabaseResourceMetadata extends \Google\Collection
     return $this->location;
   }
   /**
+   * @param MachineConfiguration
+   */
+  public function setMachineConfiguration(MachineConfiguration $machineConfiguration)
+  {
+    $this->machineConfiguration = $machineConfiguration;
+  }
+  /**
+   * @return MachineConfiguration
+   */
+  public function getMachineConfiguration()
+  {
+    return $this->machineConfiguration;
+  }
+  /**
    * @param DatabaseResourceId
    */
   public function setPrimaryResourceId(DatabaseResourceId $primaryResourceId)
@@ -298,18 +312,18 @@ class DatabaseResourceMetadata extends \Google\Collection
     return $this->updationTime;
   }
   /**
-   * @param string[]
+   * @param UserLabels
    */
-  public function setUserLabels($userLabels)
+  public function setUserLabelSet(UserLabels $userLabelSet)
   {
-    $this->userLabels = $userLabels;
+    $this->userLabelSet = $userLabelSet;
   }
   /**
-   * @return string[]
+   * @return UserLabels
    */
-  public function getUserLabels()
+  public function getUserLabelSet()
   {
-    return $this->userLabels;
+    return $this->userLabelSet;
   }
 }
 

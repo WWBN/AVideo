@@ -97,7 +97,7 @@ class ProjectsLocationsCertificateIssuanceConfigs extends \Google\Service\Resour
    * Configs returned.
    * @opt_param string orderBy A list of Certificate Config field names used to
    * specify the order of the returned results. The default sorting order is
-   * ascending. To specify descending order for a field, add a suffix " desc".
+   * ascending. To specify descending order for a field, add a suffix `" desc"`.
    * @opt_param int pageSize Maximum number of certificate configs to return per
    * call.
    * @opt_param string pageToken The value returned by the last

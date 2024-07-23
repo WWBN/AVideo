@@ -42,6 +42,7 @@ class Workflows extends \Google\Service
   public $projects_locations;
   public $projects_locations_operations;
   public $projects_locations_workflows;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Workflows service.
@@ -54,6 +55,7 @@ class Workflows extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://workflows.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://workflows.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

@@ -24,8 +24,8 @@ composer require guzzlehttp/psr7
 
 | Version | Status              | PHP Version  |
 |---------|---------------------|--------------|
-| 1.x     | Security fixes only | >=5.4,<8.1   |
-| 2.x     | Latest              | >=7.2.5,<8.4 |
+| 1.x     | EOL (2024-06-30)    | >=5.4,<8.2   |
+| 2.x     | Latest              | >=7.2.5,<8.5 |
 
 
 ## AppendStream
@@ -498,7 +498,7 @@ a message.
 
 ## `GuzzleHttp\Psr7\Utils::readLine`
 
-`public static function readLine(StreamInterface $stream, int $maxLength = null): string`
+`public static function readLine(StreamInterface $stream, ?int $maxLength = null): string`
 
 Read a line from the stream up to the maximum allowed buffer length.
 
@@ -674,7 +674,7 @@ termed a relative-path reference.
 
 ### `GuzzleHttp\Psr7\Uri::isSameDocumentReference`
 
-`public static function isSameDocumentReference(UriInterface $uri, UriInterface $base = null): bool`
+`public static function isSameDocumentReference(UriInterface $uri, ?UriInterface $base = null): bool`
 
 Whether the URI is a same-document reference. A same-document reference refers to a URI that is, aside from its
 fragment component, identical to the base URI. When no base URI is given, only an empty URI reference

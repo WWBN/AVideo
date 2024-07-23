@@ -177,6 +177,13 @@ class ProjectsLocationsFunctions extends \Google\Service\Resource
    * @param string $name Required. The name of the function which details should
    * be obtained.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string revision Optional. The optional version of the 1st gen
+   * function whose details should be obtained. The version of a 1st gen function
+   * is an integer that starts from 1 and gets incremented on redeployments. GCF
+   * may keep historical configs for old versions of 1st gen function. This field
+   * can be specified to fetch the historical configs. This field is valid only
+   * for GCF 1st gen function.
    * @return CloudfunctionsFunction
    * @throws \Google\Service\Exception
    */

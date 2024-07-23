@@ -22,6 +22,10 @@ class GoogleCloudRunV2ExecutionReference extends \Google\Model
   /**
    * @var string
    */
+  public $completionStatus;
+  /**
+   * @var string
+   */
   public $completionTime;
   /**
    * @var string
@@ -30,8 +34,26 @@ class GoogleCloudRunV2ExecutionReference extends \Google\Model
   /**
    * @var string
    */
+  public $deleteTime;
+  /**
+   * @var string
+   */
   public $name;
 
+  /**
+   * @param string
+   */
+  public function setCompletionStatus($completionStatus)
+  {
+    $this->completionStatus = $completionStatus;
+  }
+  /**
+   * @return string
+   */
+  public function getCompletionStatus()
+  {
+    return $this->completionStatus;
+  }
   /**
    * @param string
    */
@@ -59,6 +81,20 @@ class GoogleCloudRunV2ExecutionReference extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setDeleteTime($deleteTime)
+  {
+    $this->deleteTime = $deleteTime;
+  }
+  /**
+   * @return string
+   */
+  public function getDeleteTime()
+  {
+    return $this->deleteTime;
   }
   /**
    * @param string

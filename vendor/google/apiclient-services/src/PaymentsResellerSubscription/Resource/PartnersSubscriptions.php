@@ -165,10 +165,11 @@ class PartnersSubscriptions extends \Google\Service\Resource
     return $this->call('provision', [$params], GoogleCloudPaymentsResellerSubscriptionV1Subscription::class);
   }
   /**
-   * Used by partners to revoke the pending cancellation of a subscription, which
-   * is currently in `STATE_CANCEL_AT_END_OF_CYCLE` state. If the subscription is
-   * already cancelled, the request will fail. It should be called directly by the
-   * partner using service accounts. (subscriptions.undoCancel)
+   * Revokes the pending cancellation of a subscription, which is currently in
+   * `STATE_CANCEL_AT_END_OF_CYCLE` state. If the subscription is already
+   * cancelled, the request will fail. - **This API doesn't apply to YouTube
+   * subscriptions.** It should be called directly by the partner using service
+   * accounts. (subscriptions.undoCancel)
    *
    * @param string $name Required. The name of the subscription resource whose
    * pending cancellation needs to be undone. It will have the format of

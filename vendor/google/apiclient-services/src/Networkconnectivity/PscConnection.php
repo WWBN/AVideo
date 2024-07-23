@@ -45,6 +45,10 @@ class PscConnection extends \Google\Model
   /**
    * @var string
    */
+  public $producerInstanceId;
+  /**
+   * @var string
+   */
   public $pscConnectionId;
   /**
    * @var string
@@ -152,6 +156,20 @@ class PscConnection extends \Google\Model
   public function getGceOperation()
   {
     return $this->gceOperation;
+  }
+  /**
+   * @param string
+   */
+  public function setProducerInstanceId($producerInstanceId)
+  {
+    $this->producerInstanceId = $producerInstanceId;
+  }
+  /**
+   * @return string
+   */
+  public function getProducerInstanceId()
+  {
+    return $this->producerInstanceId;
   }
   /**
    * @param string

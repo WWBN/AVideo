@@ -20,6 +20,8 @@ namespace Google\Service\Compute;
 class PathRule extends \Google\Collection
 {
   protected $collection_key = 'paths';
+  protected $customErrorResponsePolicyType = CustomErrorResponsePolicy::class;
+  protected $customErrorResponsePolicyDataType = '';
   /**
    * @var string[]
    */
@@ -33,6 +35,20 @@ class PathRule extends \Google\Collection
   protected $urlRedirectType = HttpRedirectAction::class;
   protected $urlRedirectDataType = '';
 
+  /**
+   * @param CustomErrorResponsePolicy
+   */
+  public function setCustomErrorResponsePolicy(CustomErrorResponsePolicy $customErrorResponsePolicy)
+  {
+    $this->customErrorResponsePolicy = $customErrorResponsePolicy;
+  }
+  /**
+   * @return CustomErrorResponsePolicy
+   */
+  public function getCustomErrorResponsePolicy()
+  {
+    return $this->customErrorResponsePolicy;
+  }
   /**
    * @param string[]
    */

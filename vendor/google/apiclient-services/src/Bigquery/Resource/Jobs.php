@@ -44,9 +44,9 @@ class Jobs extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string location The geographic location of the job. You must
-   * specify the location to run the job for the following scenarios: - If the
+   * specify the location to run the job for the following scenarios: * If the
    * location to run a job is not in the `us` or the `eu` multi-regional location
-   * - If the job's location is in a single region (for example, `us-central1`)
+   * * If the job's location is in a single region (for example, `us-central1`)
    * For more information, see
    * https://cloud.google.com/bigquery/docs/locations#specifying_your_location.
    * @return JobCancelResponse
@@ -91,9 +91,9 @@ class Jobs extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string location The geographic location of the job. You must
-   * specify the location to run the job for the following scenarios: - If the
+   * specify the location to run the job for the following scenarios: * If the
    * location to run a job is not in the `us` or the `eu` multi-regional location
-   * - If the job's location is in a single region (for example, `us-central1`)
+   * * If the job's location is in a single region (for example, `us-central1`)
    * For more information, see
    * https://cloud.google.com/bigquery/docs/locations#specifying_your_location.
    * @return Job
@@ -115,9 +115,9 @@ class Jobs extends \Google\Service\Resource
    * @opt_param bool formatOptions.useInt64Timestamp Optional. Output timestamp as
    * usec int64. Default is false.
    * @opt_param string location The geographic location of the job. You must
-   * specify the location to run the job for the following scenarios: - If the
+   * specify the location to run the job for the following scenarios: * If the
    * location to run a job is not in the `us` or the `eu` multi-regional location
-   * - If the job's location is in a single region (for example, `us-central1`)
+   * * If the job's location is in a single region (for example, `us-central1`)
    * For more information, see
    * https://cloud.google.com/bigquery/docs/locations#specifying_your_location.
    * @opt_param string maxResults Maximum number of results to read.

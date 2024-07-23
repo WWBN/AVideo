@@ -17,6 +17,7 @@
 
 namespace Google\Service\Networkconnectivity\Resource;
 
+use Google\Service\Networkconnectivity\GoogleLongrunningOperation;
 use Google\Service\Networkconnectivity\Group;
 use Google\Service\Networkconnectivity\ListGroupsResponse;
 use Google\Service\Networkconnectivity\Policy;
@@ -98,6 +99,40 @@ class ProjectsLocationsNetworkconnectivityGlobalHubsGroups extends \Google\Servi
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListGroupsResponse::class);
+  }
+  /**
+   * Updates the parameters of a Network Connectivity Center group. (groups.patch)
+   *
+   * @param string $name Immutable. The name of the group. Group names must be
+   * unique. They use the following form:
+   * `projects/{project_number}/locations/global/hubs/{hub}/groups/{group_id}`
+   * @param Group $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId Optional. A request ID to identify requests.
+   * Specify a unique request ID so that if you must retry your request, the
+   * server knows to ignore the request if it has already been completed. The
+   * server guarantees that a request doesn't result in creation of duplicate
+   * commitments for at least 60 minutes. For example, consider a situation where
+   * you make an initial request and the request times out. If you make the
+   * request again with the same request ID, the server can check to see whether
+   * the original operation was received. If it was, the server ignores the second
+   * request. This behavior prevents clients from mistakenly creating duplicate
+   * commitments. The request ID must be a valid UUID, with the exception that
+   * zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+   * @opt_param string updateMask Optional. In the case of an update to an
+   * existing group, field mask is used to specify the fields to be overwritten.
+   * The fields specified in the update_mask are relative to the resource, not the
+   * full request. A field is overwritten if it is in the mask. If the user does
+   * not provide a mask, then all fields are overwritten.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, Group $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

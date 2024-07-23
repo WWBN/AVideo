@@ -34,12 +34,16 @@ use Google\Client;
  */
 class FactCheckTools extends \Google\Service
 {
+  /** Read, create, update, and delete your ClaimReview data.. */
+  const FACTCHECKTOOLS =
+      "https://www.googleapis.com/auth/factchecktools";
   /** See your primary Google Account email address. */
   const USERINFO_EMAIL =
       "https://www.googleapis.com/auth/userinfo.email";
 
   public $claims;
   public $pages;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the FactCheckTools service.
@@ -52,6 +56,7 @@ class FactCheckTools extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://factchecktools.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://factchecktools.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1alpha1';
@@ -63,7 +68,32 @@ class FactCheckTools extends \Google\Service
         'claims',
         [
           'methods' => [
-            'search' => [
+            'imageSearch' => [
+              'path' => 'v1alpha1/claims:imageSearch',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'imageUri' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'offset' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'search' => [
               'path' => 'v1alpha1/claims:search',
               'httpMethod' => 'GET',
               'parameters' => [

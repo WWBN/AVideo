@@ -54,8 +54,8 @@ class OrganizationsLocationsInsightTypes extends \Google\Service\Resource
    * Updates an InsightTypeConfig change. This will create a new revision of the
    * config. (insightTypes.updateConfig)
    *
-   * @param string $name Name of insight type config. Eg, projects/[PROJECT_NUMBER
-   * ]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config
+   * @param string $name Identifier. Name of insight type config. Eg, projects/[PR
+   * OJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config
    * @param GoogleCloudRecommenderV1InsightTypeConfig $postBody
    * @param array $optParams Optional parameters.
    *

@@ -41,6 +41,7 @@ class FirebaseDynamicLinks extends \Google\Service
   public $managedShortLinks;
   public $shortLinks;
   public $v1;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the FirebaseDynamicLinks service.
@@ -53,6 +54,7 @@ class FirebaseDynamicLinks extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://firebasedynamiclinks.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://firebasedynamiclinks.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

@@ -24,6 +24,10 @@ class InstancePolicyOrTemplate extends \Google\Model
    */
   public $installGpuDrivers;
   /**
+   * @var bool
+   */
+  public $installOpsAgent;
+  /**
    * @var string
    */
   public $instanceTemplate;
@@ -43,6 +47,20 @@ class InstancePolicyOrTemplate extends \Google\Model
   public function getInstallGpuDrivers()
   {
     return $this->installGpuDrivers;
+  }
+  /**
+   * @param bool
+   */
+  public function setInstallOpsAgent($installOpsAgent)
+  {
+    $this->installOpsAgent = $installOpsAgent;
+  }
+  /**
+   * @return bool
+   */
+  public function getInstallOpsAgent()
+  {
+    return $this->installOpsAgent;
   }
   /**
    * @param string

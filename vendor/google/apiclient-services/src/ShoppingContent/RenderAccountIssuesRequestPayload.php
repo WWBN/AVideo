@@ -23,6 +23,10 @@ class RenderAccountIssuesRequestPayload extends \Google\Model
    * @var string
    */
   public $contentOption;
+  /**
+   * @var string
+   */
+  public $userInputActionOption;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class RenderAccountIssuesRequestPayload extends \Google\Model
   public function getContentOption()
   {
     return $this->contentOption;
+  }
+  /**
+   * @param string
+   */
+  public function setUserInputActionOption($userInputActionOption)
+  {
+    $this->userInputActionOption = $userInputActionOption;
+  }
+  /**
+   * @return string
+   */
+  public function getUserInputActionOption()
+  {
+    return $this->userInputActionOption;
   }
 }
 

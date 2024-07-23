@@ -22,6 +22,8 @@ class Action extends \Google\Collection
   protected $collection_key = 'reasons';
   protected $builtinSimpleActionType = BuiltInSimpleAction::class;
   protected $builtinSimpleActionDataType = '';
+  protected $builtinUserInputActionType = BuiltInUserInputAction::class;
+  protected $builtinUserInputActionDataType = '';
   /**
    * @var string
    */
@@ -48,6 +50,20 @@ class Action extends \Google\Collection
   public function getBuiltinSimpleAction()
   {
     return $this->builtinSimpleAction;
+  }
+  /**
+   * @param BuiltInUserInputAction
+   */
+  public function setBuiltinUserInputAction(BuiltInUserInputAction $builtinUserInputAction)
+  {
+    $this->builtinUserInputAction = $builtinUserInputAction;
+  }
+  /**
+   * @return BuiltInUserInputAction
+   */
+  public function getBuiltinUserInputAction()
+  {
+    return $this->builtinUserInputAction;
   }
   /**
    * @param string

@@ -26,9 +26,19 @@ class GoogleCloudAiplatformV1DeploymentResourcePool extends \Google\Model
   protected $dedicatedResourcesType = GoogleCloudAiplatformV1DedicatedResources::class;
   protected $dedicatedResourcesDataType = '';
   /**
+   * @var bool
+   */
+  public $disableContainerLogging;
+  protected $encryptionSpecType = GoogleCloudAiplatformV1EncryptionSpec::class;
+  protected $encryptionSpecDataType = '';
+  /**
    * @var string
    */
   public $name;
+  /**
+   * @var string
+   */
+  public $serviceAccount;
 
   /**
    * @param string
@@ -59,6 +69,34 @@ class GoogleCloudAiplatformV1DeploymentResourcePool extends \Google\Model
     return $this->dedicatedResources;
   }
   /**
+   * @param bool
+   */
+  public function setDisableContainerLogging($disableContainerLogging)
+  {
+    $this->disableContainerLogging = $disableContainerLogging;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableContainerLogging()
+  {
+    return $this->disableContainerLogging;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1EncryptionSpec
+   */
+  public function setEncryptionSpec(GoogleCloudAiplatformV1EncryptionSpec $encryptionSpec)
+  {
+    $this->encryptionSpec = $encryptionSpec;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1EncryptionSpec
+   */
+  public function getEncryptionSpec()
+  {
+    return $this->encryptionSpec;
+  }
+  /**
    * @param string
    */
   public function setName($name)
@@ -71,6 +109,20 @@ class GoogleCloudAiplatformV1DeploymentResourcePool extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceAccount($serviceAccount)
+  {
+    $this->serviceAccount = $serviceAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAccount()
+  {
+    return $this->serviceAccount;
   }
 }
 

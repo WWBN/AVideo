@@ -150,7 +150,8 @@ class ProjectsLocationsAuthConfigs extends \Google\Service\Resource
    * other fields, directly update the Spanner record. Returns the encrypted auth
    * config. (authConfigs.patch)
    *
-   * @param string $name Resource name of the SFDC instance
+   * @param string $name Resource name of the auth config. For more information,
+   * see Manage authentication profiles.
    * projects/{project}/locations/{location}/authConfigs/{authConfig}.
    * @param GoogleCloudIntegrationsV1alphaAuthConfig $postBody
    * @param array $optParams Optional parameters.

@@ -43,6 +43,7 @@ class DomainsRDAP extends \Google\Service
   public $ip;
   public $nameserver;
   public $v1;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the DomainsRDAP service.
@@ -55,6 +56,7 @@ class DomainsRDAP extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://domainsrdap.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://domainsrdap.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

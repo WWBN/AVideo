@@ -96,10 +96,10 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * @opt_param bool ignoreActiveCertificates Optional. This field allows the CA
    * to be deleted even if the CA has active certs. Active certs include both
    * unrevoked and unexpired certs.
-   * @opt_param bool ignoreDependentResources Optional. This field allows this ca
+   * @opt_param bool ignoreDependentResources Optional. This field allows this CA
    * to be deleted even if it's being depended on by another resource. However,
    * doing so may result in unintended and unrecoverable effects on any dependent
-   * resource(s) since the CA will no longer be able to issue certificates.
+   * resources since the CA will no longer be able to issue certificates.
    * @opt_param string requestId Optional. An ID to identify requests. Specify a
    * unique request ID so that if you must retry your request, the server will
    * know to ignore the request if it has already been completed. The server will

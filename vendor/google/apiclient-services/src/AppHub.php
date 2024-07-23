@@ -46,6 +46,7 @@ class AppHub extends \Google\Service
   public $projects_locations_discoveredWorkloads;
   public $projects_locations_operations;
   public $projects_locations_serviceProjectAttachments;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the AppHub service.
@@ -58,6 +59,7 @@ class AppHub extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://apphub.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://apphub.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -489,6 +491,20 @@ class AppHub extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'lookup' => [
+              'path' => 'v1/{+parent}/discoveredServices:lookup',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'uri' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],
           ]
         ]
@@ -531,6 +547,20 @@ class AppHub extends \Google\Service
                   'type' => 'integer',
                 ],
                 'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'lookup' => [
+              'path' => 'v1/{+parent}/discoveredWorkloads:lookup',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'uri' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

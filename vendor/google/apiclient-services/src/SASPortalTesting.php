@@ -61,6 +61,7 @@ class SASPortalTesting extends \Google\Service
   public $nodes_nodes_devices;
   public $nodes_nodes_nodes;
   public $policies;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the SASPortalTesting service.
@@ -73,6 +74,7 @@ class SASPortalTesting extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://prod-tt-sasportal.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://prod-tt-sasportal.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1alpha1';

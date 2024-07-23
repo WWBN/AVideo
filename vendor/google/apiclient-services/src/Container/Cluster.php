@@ -182,6 +182,14 @@ class Cluster extends \Google\Collection
   public $resourceLabels;
   protected $resourceUsageExportConfigType = ResourceUsageExportConfig::class;
   protected $resourceUsageExportConfigDataType = '';
+  /**
+   * @var bool
+   */
+  public $satisfiesPzi;
+  /**
+   * @var bool
+   */
+  public $satisfiesPzs;
   protected $securityPostureConfigType = SecurityPostureConfig::class;
   protected $securityPostureConfigDataType = '';
   /**
@@ -1016,6 +1024,34 @@ class Cluster extends \Google\Collection
   public function getResourceUsageExportConfig()
   {
     return $this->resourceUsageExportConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzs($satisfiesPzs)
+  {
+    $this->satisfiesPzs = $satisfiesPzs;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzs()
+  {
+    return $this->satisfiesPzs;
   }
   /**
    * @param SecurityPostureConfig

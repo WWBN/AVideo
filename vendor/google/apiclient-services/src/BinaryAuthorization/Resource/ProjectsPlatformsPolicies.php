@@ -59,6 +59,9 @@ class ProjectsPlatformsPolicies extends \Google\Service\Resource
    * @param string $name Required. The name of the platform policy to delete, in
    * the format `projects/platforms/policies`.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string etag Optional. Used to prevent deleting the policy when
+   * another request has updated it since it was retrieved.
    * @return BinaryauthorizationEmpty
    * @throws \Google\Service\Exception
    */

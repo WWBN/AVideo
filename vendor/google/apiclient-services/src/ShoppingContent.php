@@ -80,6 +80,7 @@ class ShoppingContent extends \Google\Service
   public $settlementtransactions;
   public $shippingsettings;
   public $shoppingadsprogram;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the ShoppingContent service.
@@ -92,6 +93,7 @@ class ShoppingContent extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://shoppingcontent.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://shoppingcontent.UNIVERSE_DOMAIN/';
     $this->servicePath = 'content/v2.1/';
     $this->batchPath = 'batch';
     $this->version = 'v2.1';
@@ -1475,6 +1477,20 @@ class ShoppingContent extends \Google\Service
                   'type' => 'string',
                 ],
                 'timeZone' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'triggeraction' => [
+              'path' => '{merchantId}/merchantsupport/triggeraction',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'languageCode' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

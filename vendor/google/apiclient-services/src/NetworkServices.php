@@ -54,6 +54,7 @@ class NetworkServices extends \Google\Service
   public $projects_locations_serviceLbPolicies;
   public $projects_locations_tcpRoutes;
   public $projects_locations_tlsRoutes;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the NetworkServices service.
@@ -66,6 +67,7 @@ class NetworkServices extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://networkservices.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://networkservices.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

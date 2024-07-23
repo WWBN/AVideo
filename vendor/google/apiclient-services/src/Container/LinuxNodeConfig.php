@@ -23,6 +23,8 @@ class LinuxNodeConfig extends \Google\Model
    * @var string
    */
   public $cgroupMode;
+  protected $hugepagesType = HugepagesConfig::class;
+  protected $hugepagesDataType = '';
   /**
    * @var string[]
    */
@@ -41,6 +43,20 @@ class LinuxNodeConfig extends \Google\Model
   public function getCgroupMode()
   {
     return $this->cgroupMode;
+  }
+  /**
+   * @param HugepagesConfig
+   */
+  public function setHugepages(HugepagesConfig $hugepages)
+  {
+    $this->hugepages = $hugepages;
+  }
+  /**
+   * @return HugepagesConfig
+   */
+  public function getHugepages()
+  {
+    return $this->hugepages;
   }
   /**
    * @param string[]

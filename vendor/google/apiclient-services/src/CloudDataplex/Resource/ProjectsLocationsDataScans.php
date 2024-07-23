@@ -18,6 +18,8 @@
 namespace Google\Service\CloudDataplex\Resource;
 
 use Google\Service\CloudDataplex\GoogleCloudDataplexV1DataScan;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1GenerateDataQualityRulesRequest;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1GenerateDataQualityRulesResponse;
 use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListDataScansResponse;
 use Google\Service\CloudDataplex\GoogleCloudDataplexV1RunDataScanRequest;
 use Google\Service\CloudDataplex\GoogleCloudDataplexV1RunDataScanResponse;
@@ -77,6 +79,26 @@ class ProjectsLocationsDataScans extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Generates recommended data quality rules based on the results of a data
+   * profiling scan.Use the recommendations to build rules for a data quality
+   * scan. (dataScans.generateDataQualityRules)
+   *
+   * @param string $name Required. The name must be one of the following: The name
+   * of a data scan with at least one successful, completed data profiling job The
+   * name of a successful, completed data profiling job (a data scan job where the
+   * job type is data profiling)
+   * @param GoogleCloudDataplexV1GenerateDataQualityRulesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1GenerateDataQualityRulesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function generateDataQualityRules($name, GoogleCloudDataplexV1GenerateDataQualityRulesRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('generateDataQualityRules', [$params], GoogleCloudDataplexV1GenerateDataQualityRulesResponse::class);
   }
   /**
    * Gets a DataScan resource. (dataScans.get)

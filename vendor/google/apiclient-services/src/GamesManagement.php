@@ -44,6 +44,7 @@ class GamesManagement extends \Google\Service
   public $events;
   public $players;
   public $scores;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the GamesManagement service.
@@ -56,6 +57,7 @@ class GamesManagement extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://gamesmanagement.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://gamesmanagement.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1management';

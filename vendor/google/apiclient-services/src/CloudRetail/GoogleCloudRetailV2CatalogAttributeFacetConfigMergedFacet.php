@@ -17,15 +17,12 @@
 
 namespace Google\Service\CloudRetail;
 
-class GoogleCloudRetailV2CatalogAttributeFacetConfigMergedFacet extends \Google\Collection
+class GoogleCloudRetailV2CatalogAttributeFacetConfigMergedFacet extends \Google\Model
 {
-  protected $collection_key = 'mergedFacetValues';
   /**
    * @var string
    */
   public $mergedFacetKey;
-  protected $mergedFacetValuesType = GoogleCloudRetailV2CatalogAttributeFacetConfigMergedFacetValue::class;
-  protected $mergedFacetValuesDataType = 'array';
 
   /**
    * @param string
@@ -40,20 +37,6 @@ class GoogleCloudRetailV2CatalogAttributeFacetConfigMergedFacet extends \Google\
   public function getMergedFacetKey()
   {
     return $this->mergedFacetKey;
-  }
-  /**
-   * @param GoogleCloudRetailV2CatalogAttributeFacetConfigMergedFacetValue[]
-   */
-  public function setMergedFacetValues($mergedFacetValues)
-  {
-    $this->mergedFacetValues = $mergedFacetValues;
-  }
-  /**
-   * @return GoogleCloudRetailV2CatalogAttributeFacetConfigMergedFacetValue[]
-   */
-  public function getMergedFacetValues()
-  {
-    return $this->mergedFacetValues;
   }
 }
 

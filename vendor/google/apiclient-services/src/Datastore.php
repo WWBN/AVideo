@@ -45,6 +45,7 @@ class Datastore extends \Google\Service
   public $projects;
   public $projects_indexes;
   public $projects_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Datastore service.
@@ -57,6 +58,7 @@ class Datastore extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://datastore.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://datastore.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

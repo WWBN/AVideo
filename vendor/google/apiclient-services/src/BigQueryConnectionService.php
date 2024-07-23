@@ -42,6 +42,7 @@ class BigQueryConnectionService extends \Google\Service
       "https://www.googleapis.com/auth/cloud-platform";
 
   public $projects_locations_connections;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the BigQueryConnectionService
@@ -55,6 +56,7 @@ class BigQueryConnectionService extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://bigqueryconnection.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://bigqueryconnection.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

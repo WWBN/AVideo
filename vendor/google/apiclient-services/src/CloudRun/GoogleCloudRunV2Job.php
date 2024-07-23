@@ -91,9 +91,17 @@ class GoogleCloudRunV2Job extends \Google\Collection
    */
   public $reconciling;
   /**
+   * @var string
+   */
+  public $runExecutionToken;
+  /**
    * @var bool
    */
   public $satisfiesPzs;
+  /**
+   * @var string
+   */
+  public $startExecutionToken;
   protected $templateType = GoogleCloudRunV2ExecutionTemplate::class;
   protected $templateDataType = '';
   protected $terminalConditionType = GoogleCloudRunV2Condition::class;
@@ -374,6 +382,20 @@ class GoogleCloudRunV2Job extends \Google\Collection
     return $this->reconciling;
   }
   /**
+   * @param string
+   */
+  public function setRunExecutionToken($runExecutionToken)
+  {
+    $this->runExecutionToken = $runExecutionToken;
+  }
+  /**
+   * @return string
+   */
+  public function getRunExecutionToken()
+  {
+    return $this->runExecutionToken;
+  }
+  /**
    * @param bool
    */
   public function setSatisfiesPzs($satisfiesPzs)
@@ -386,6 +408,20 @@ class GoogleCloudRunV2Job extends \Google\Collection
   public function getSatisfiesPzs()
   {
     return $this->satisfiesPzs;
+  }
+  /**
+   * @param string
+   */
+  public function setStartExecutionToken($startExecutionToken)
+  {
+    $this->startExecutionToken = $startExecutionToken;
+  }
+  /**
+   * @return string
+   */
+  public function getStartExecutionToken()
+  {
+    return $this->startExecutionToken;
   }
   /**
    * @param GoogleCloudRunV2ExecutionTemplate

@@ -28,6 +28,8 @@ class PipelineSpec extends \Google\Collection
   public $generatedYaml;
   protected $paramsType = ParamSpec::class;
   protected $paramsDataType = 'array';
+  protected $resultsType = PipelineResult::class;
+  protected $resultsDataType = 'array';
   protected $tasksType = PipelineTask::class;
   protected $tasksDataType = 'array';
   protected $workspacesType = PipelineWorkspaceDeclaration::class;
@@ -74,6 +76,20 @@ class PipelineSpec extends \Google\Collection
   public function getParams()
   {
     return $this->params;
+  }
+  /**
+   * @param PipelineResult[]
+   */
+  public function setResults($results)
+  {
+    $this->results = $results;
+  }
+  /**
+   * @return PipelineResult[]
+   */
+  public function getResults()
+  {
+    return $this->results;
   }
   /**
    * @param PipelineTask[]

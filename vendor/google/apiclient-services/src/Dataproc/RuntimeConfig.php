@@ -19,6 +19,12 @@ namespace Google\Service\Dataproc;
 
 class RuntimeConfig extends \Google\Model
 {
+  protected $autotuningConfigType = AutotuningConfig::class;
+  protected $autotuningConfigDataType = '';
+  /**
+   * @var string
+   */
+  public $cohort;
   /**
    * @var string
    */
@@ -34,6 +40,34 @@ class RuntimeConfig extends \Google\Model
    */
   public $version;
 
+  /**
+   * @param AutotuningConfig
+   */
+  public function setAutotuningConfig(AutotuningConfig $autotuningConfig)
+  {
+    $this->autotuningConfig = $autotuningConfig;
+  }
+  /**
+   * @return AutotuningConfig
+   */
+  public function getAutotuningConfig()
+  {
+    return $this->autotuningConfig;
+  }
+  /**
+   * @param string
+   */
+  public function setCohort($cohort)
+  {
+    $this->cohort = $cohort;
+  }
+  /**
+   * @return string
+   */
+  public function getCohort()
+  {
+    return $this->cohort;
+  }
   /**
    * @param string
    */

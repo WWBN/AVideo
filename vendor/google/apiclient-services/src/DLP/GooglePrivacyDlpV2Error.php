@@ -23,6 +23,10 @@ class GooglePrivacyDlpV2Error extends \Google\Collection
   protected $detailsType = GoogleRpcStatus::class;
   protected $detailsDataType = '';
   /**
+   * @var string
+   */
+  public $extraInfo;
+  /**
    * @var string[]
    */
   public $timestamps;
@@ -40,6 +44,20 @@ class GooglePrivacyDlpV2Error extends \Google\Collection
   public function getDetails()
   {
     return $this->details;
+  }
+  /**
+   * @param string
+   */
+  public function setExtraInfo($extraInfo)
+  {
+    $this->extraInfo = $extraInfo;
+  }
+  /**
+   * @return string
+   */
+  public function getExtraInfo()
+  {
+    return $this->extraInfo;
   }
   /**
    * @param string[]

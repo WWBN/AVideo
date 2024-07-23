@@ -41,6 +41,7 @@ class PublicCertificateAuthority extends \Google\Service
       "https://www.googleapis.com/auth/cloud-platform";
 
   public $projects_locations_externalAccountKeys;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the PublicCertificateAuthority
@@ -54,6 +55,7 @@ class PublicCertificateAuthority extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://publicca.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://publicca.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

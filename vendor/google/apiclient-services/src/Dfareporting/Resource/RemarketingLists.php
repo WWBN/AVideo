@@ -94,7 +94,7 @@ class RemarketingLists extends \Google\Service\Resource
     return $this->call('list', [$params], RemarketingListsListResponse::class);
   }
   /**
-   * Updates an existing RemarketingList. This method supports patch semantics.
+   * Updates an existing remarketing list. This method supports patch semantics.
    * (remarketingLists.patch)
    *
    * @param string $profileId User profile ID associated with this request.

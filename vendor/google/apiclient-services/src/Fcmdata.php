@@ -40,6 +40,7 @@ class Fcmdata extends \Google\Service
       "https://www.googleapis.com/auth/cloud-platform";
 
   public $projects_androidApps_deliveryData;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Fcmdata service.
@@ -52,6 +53,7 @@ class Fcmdata extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://fcmdata.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://fcmdata.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1beta1';

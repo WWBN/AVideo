@@ -46,6 +46,9 @@ class Drive extends \Google\Service
   /** See, edit, create, and delete only the specific Google Drive files you use with this app. */
   const DRIVE_FILE =
       "https://www.googleapis.com/auth/drive.file";
+  /** See and download your Google Drive files that were created or edited by Google Meet.. */
+  const DRIVE_MEET_READONLY =
+      "https://www.googleapis.com/auth/drive.meet.readonly";
   /** View and manage metadata of files in your Google Drive. */
   const DRIVE_METADATA =
       "https://www.googleapis.com/auth/drive.metadata";
@@ -73,6 +76,7 @@ class Drive extends \Google\Service
   public $replies;
   public $revisions;
   public $teamdrives;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Drive service.
@@ -85,6 +89,7 @@ class Drive extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://www.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://www.UNIVERSE_DOMAIN/';
     $this->servicePath = 'drive/v3/';
     $this->batchPath = 'batch/drive/v3';
     $this->version = 'v3';

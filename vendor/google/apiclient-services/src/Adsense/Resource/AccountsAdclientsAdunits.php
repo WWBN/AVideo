@@ -33,10 +33,12 @@ use Google\Service\Adsense\ListLinkedCustomChannelsResponse;
 class AccountsAdclientsAdunits extends \Google\Service\Resource
 {
   /**
-   * Creates an ad unit. This method can only be used by projects enabled for the
-   * [AdSense for Platforms](https://developers.google.com/adsense/platforms/)
-   * product. Note that ad units can only be created for ad clients with an "AFC"
-   * product code. For more info see the [AdClient
+   * Creates an ad unit. This method can be called only by a restricted set of
+   * projects, which are usually owned by [AdSense for
+   * Platforms](https://developers.google.com/adsense/platforms/) publishers.
+   * Contact your account manager if you need to use this method. Note that ad
+   * units can only be created for ad clients with an "AFC" product code. For more
+   * info see the [AdClient
    * resource](/adsense/management/reference/rest/v2/accounts.adclients). For now,
    * this method can only be used to create `DISPLAY` ad units. See:
    * https://support.google.com/adsense/answer/9183566 (adunits.create)
@@ -139,10 +141,12 @@ class AccountsAdclientsAdunits extends \Google\Service\Resource
     return $this->call('listLinkedCustomChannels', [$params], ListLinkedCustomChannelsResponse::class);
   }
   /**
-   * Updates an ad unit. This method can only be used by projects enabled for the
-   * [AdSense for Platforms](https://developers.google.com/adsense/platforms/)
-   * product. For now, this method can only be used to update `DISPLAY` ad units.
-   * See: https://support.google.com/adsense/answer/9183566 (adunits.patch)
+   * Updates an ad unit. This method can be called only by a restricted set of
+   * projects, which are usually owned by [AdSense for
+   * Platforms](https://developers.google.com/adsense/platforms/) publishers.
+   * Contact your account manager if you need to use this method. For now, this
+   * method can only be used to update `DISPLAY` ad units. See:
+   * https://support.google.com/adsense/answer/9183566 (adunits.patch)
    *
    * @param string $name Output only. Resource name of the ad unit. Format:
    * accounts/{account}/adclients/{adclient}/adunits/{adunit}

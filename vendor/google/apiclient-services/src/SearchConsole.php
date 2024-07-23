@@ -28,7 +28,7 @@ use Google\Client;
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://developers.google.com/webmaster-tools/search-console-api/" target="_blank">Documentation</a>
+ * <a href="https://developers.google.com/webmaster-tools/about" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -47,6 +47,7 @@ class SearchConsole extends \Google\Service
   public $sites;
   public $urlInspection_index;
   public $urlTestingTools_mobileFriendlyTest;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the SearchConsole service.
@@ -59,6 +60,7 @@ class SearchConsole extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://searchconsole.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://searchconsole.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

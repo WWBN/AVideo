@@ -46,7 +46,8 @@ class BiddersFinalizedDeals extends \Google\Service\Resource
    * filtering syntax](https://developers.google.com/authorized-
    * buyers/apis/guides/list-filters) Supported columns for filtering are: *
    * deal.displayName * deal.dealType * deal.createTime * deal.updateTime *
-   * deal.flightStartTime * deal.flightEndTime * dealServingStatus
+   * deal.flightStartTime * deal.flightEndTime * deal.eligibleSeatIds *
+   * dealServingStatus
    * @opt_param string orderBy An optional query string to sort finalized deals
    * using the [Cloud API sorting
    * syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order).
@@ -55,8 +56,7 @@ class BiddersFinalizedDeals extends \Google\Service\Resource
    * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime
    * * rtbMetrics.bidRequests7Days * rtbMetrics.bids7Days *
    * rtbMetrics.adImpressions7Days * rtbMetrics.bidRate7Days *
-   * rtbMetrics.filteredBidRate7Days * rtbMetrics.mustBidRateCurrentMonth Example:
-   * 'deal.displayName, deal.updateTime desc'
+   * rtbMetrics.filteredBidRate7Days * rtbMetrics.mustBidRateCurrentMonth
    * @opt_param int pageSize Requested page size. The server may return fewer
    * results than requested. If requested more than 500, the server will return
    * 500 results per page. If unspecified, the server will pick a default page

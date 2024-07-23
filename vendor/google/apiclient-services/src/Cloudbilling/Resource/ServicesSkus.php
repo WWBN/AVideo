@@ -34,7 +34,7 @@ class ServicesSkus extends \Google\Service\Resource
    * (skus.listServicesSkus)
    *
    * @param string $parent Required. The name of the service. Example:
-   * "services/DA34-426B-A397"
+   * "services/6F81-5844-456A"
    * @param array $optParams Optional parameters.
    *
    * @opt_param string currencyCode The ISO 4217 currency code for the pricing

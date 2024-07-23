@@ -90,6 +90,24 @@ class LiveChatMessages extends \Google\Service\Resource
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], LiveChatMessageListResponse::class);
   }
+  /**
+   * Transition a durable chat event. (liveChatMessages.transition)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string id The ID that uniquely identify the chat message event to
+   * transition.
+   * @opt_param string status The status to which the chat event is going to
+   * transition.
+   * @return LiveChatMessage
+   * @throws \Google\Service\Exception
+   */
+  public function transition($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('transition', [$params], LiveChatMessage::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

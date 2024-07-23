@@ -43,6 +43,7 @@ class FirebaseCloudMessaging extends \Google\Service
       "https://www.googleapis.com/auth/firebase.messaging";
 
   public $projects_messages;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the FirebaseCloudMessaging
@@ -56,6 +57,7 @@ class FirebaseCloudMessaging extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://fcm.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://fcm.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

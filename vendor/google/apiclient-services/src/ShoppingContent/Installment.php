@@ -24,6 +24,12 @@ class Installment extends \Google\Model
   /**
    * @var string
    */
+  public $creditType;
+  protected $downpaymentType = Price::class;
+  protected $downpaymentDataType = '';
+  /**
+   * @var string
+   */
   public $months;
 
   /**
@@ -39,6 +45,34 @@ class Installment extends \Google\Model
   public function getAmount()
   {
     return $this->amount;
+  }
+  /**
+   * @param string
+   */
+  public function setCreditType($creditType)
+  {
+    $this->creditType = $creditType;
+  }
+  /**
+   * @return string
+   */
+  public function getCreditType()
+  {
+    return $this->creditType;
+  }
+  /**
+   * @param Price
+   */
+  public function setDownpayment(Price $downpayment)
+  {
+    $this->downpayment = $downpayment;
+  }
+  /**
+   * @return Price
+   */
+  public function getDownpayment()
+  {
+    return $this->downpayment;
   }
   /**
    * @param string

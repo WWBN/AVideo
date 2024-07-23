@@ -17,8 +17,9 @@
 
 namespace Google\Service\AnalyticsHub;
 
-class Subscription extends \Google\Model
+class Subscription extends \Google\Collection
 {
+  protected $collection_key = 'linkedResources';
   /**
    * @var string
    */
@@ -33,6 +34,8 @@ class Subscription extends \Google\Model
   public $lastModifyTime;
   protected $linkedDatasetMapType = LinkedResource::class;
   protected $linkedDatasetMapDataType = 'map';
+  protected $linkedResourcesType = LinkedResource::class;
+  protected $linkedResourcesDataType = 'array';
   /**
    * @var string
    */
@@ -49,6 +52,10 @@ class Subscription extends \Google\Model
    * @var string
    */
   public $organizationId;
+  /**
+   * @var string
+   */
+  public $resourceType;
   /**
    * @var string
    */
@@ -115,6 +122,20 @@ class Subscription extends \Google\Model
     return $this->linkedDatasetMap;
   }
   /**
+   * @param LinkedResource[]
+   */
+  public function setLinkedResources($linkedResources)
+  {
+    $this->linkedResources = $linkedResources;
+  }
+  /**
+   * @return LinkedResource[]
+   */
+  public function getLinkedResources()
+  {
+    return $this->linkedResources;
+  }
+  /**
    * @param string
    */
   public function setListing($listing)
@@ -169,6 +190,20 @@ class Subscription extends \Google\Model
   public function getOrganizationId()
   {
     return $this->organizationId;
+  }
+  /**
+   * @param string
+   */
+  public function setResourceType($resourceType)
+  {
+    $this->resourceType = $resourceType;
+  }
+  /**
+   * @return string
+   */
+  public function getResourceType()
+  {
+    return $this->resourceType;
   }
   /**
    * @param string

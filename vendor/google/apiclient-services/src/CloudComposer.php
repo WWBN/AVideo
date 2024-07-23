@@ -44,6 +44,7 @@ class CloudComposer extends \Google\Service
   public $projects_locations_environments_workloads;
   public $projects_locations_imageVersions;
   public $projects_locations_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudComposer service.
@@ -56,6 +57,7 @@ class CloudComposer extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://composer.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://composer.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -67,7 +69,17 @@ class CloudComposer extends \Google\Service
         'environments',
         [
           'methods' => [
-            'create' => [
+            'checkUpgrade' => [
+              'path' => 'v1/{+environment}:checkUpgrade',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'environment' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
               'path' => 'v1/{+parent}/environments',
               'httpMethod' => 'POST',
               'parameters' => [

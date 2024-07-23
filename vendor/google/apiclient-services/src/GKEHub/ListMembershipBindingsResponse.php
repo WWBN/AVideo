@@ -19,13 +19,17 @@ namespace Google\Service\GKEHub;
 
 class ListMembershipBindingsResponse extends \Google\Collection
 {
-  protected $collection_key = 'membershipBindings';
+  protected $collection_key = 'unreachable';
   protected $membershipBindingsType = MembershipBinding::class;
   protected $membershipBindingsDataType = 'array';
   /**
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param MembershipBinding[]
@@ -54,6 +58,20 @@ class ListMembershipBindingsResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

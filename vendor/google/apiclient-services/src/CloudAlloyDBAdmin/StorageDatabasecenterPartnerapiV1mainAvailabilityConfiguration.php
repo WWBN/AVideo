@@ -26,6 +26,10 @@ class StorageDatabasecenterPartnerapiV1mainAvailabilityConfiguration extends \Go
   /**
    * @var bool
    */
+  public $crossRegionReplicaConfigured;
+  /**
+   * @var bool
+   */
   public $externalReplicaConfigured;
   /**
    * @var bool
@@ -45,6 +49,20 @@ class StorageDatabasecenterPartnerapiV1mainAvailabilityConfiguration extends \Go
   public function getAvailabilityType()
   {
     return $this->availabilityType;
+  }
+  /**
+   * @param bool
+   */
+  public function setCrossRegionReplicaConfigured($crossRegionReplicaConfigured)
+  {
+    $this->crossRegionReplicaConfigured = $crossRegionReplicaConfigured;
+  }
+  /**
+   * @return bool
+   */
+  public function getCrossRegionReplicaConfigured()
+  {
+    return $this->crossRegionReplicaConfigured;
   }
   /**
    * @param bool

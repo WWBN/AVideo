@@ -23,6 +23,10 @@ class GoogleAdsSearchads360V0ResourcesCampaign extends \Google\Collection
   /**
    * @var string
    */
+  public $accessibleBiddingStrategy;
+  /**
+   * @var string
+   */
   public $adServingOptimizationStatus;
   /**
    * @var string
@@ -155,6 +159,20 @@ class GoogleAdsSearchads360V0ResourcesCampaign extends \Google\Collection
    */
   public $urlExpansionOptOut;
 
+  /**
+   * @param string
+   */
+  public function setAccessibleBiddingStrategy($accessibleBiddingStrategy)
+  {
+    $this->accessibleBiddingStrategy = $accessibleBiddingStrategy;
+  }
+  /**
+   * @return string
+   */
+  public function getAccessibleBiddingStrategy()
+  {
+    return $this->accessibleBiddingStrategy;
+  }
   /**
    * @param string
    */

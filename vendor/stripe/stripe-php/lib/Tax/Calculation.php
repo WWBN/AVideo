@@ -18,6 +18,7 @@ namespace Stripe\Tax;
  * @property null|int $expires_at Timestamp of date at which the tax calculation will expire.
  * @property null|\Stripe\Collection<\Stripe\Tax\CalculationLineItem> $line_items The list of items the customer is purchasing.
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
+ * @property null|\Stripe\StripeObject $ship_from_details The details of the ship from location, such as the address.
  * @property null|\Stripe\StripeObject $shipping_cost The shipping cost details for the calculation.
  * @property int $tax_amount_exclusive The amount of tax to be collected on top of the line item prices.
  * @property int $tax_amount_inclusive The amount of tax already included in the line item prices.
@@ -28,7 +29,28 @@ class Calculation extends \Stripe\ApiResource
 {
     const OBJECT_NAME = 'tax.calculation';
 
-    use \Stripe\ApiOperations\Create;
+    /**
+     * Calculates tax based on the input and returns a Tax <code>Calculation</code>
+     * object.
+     *
+     * @param null|array $params
+     * @param null|array|string $options
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Tax\Calculation the created resource
+     */
+    public static function create($params = null, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl();
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
 
     /**
      * @param string $id

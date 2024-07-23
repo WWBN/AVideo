@@ -26,11 +26,23 @@ class SapDiscoveryComponentApplicationProperties extends \Google\Model
   /**
    * @var string
    */
+  public $appInstanceNumber;
+  /**
+   * @var string
+   */
   public $applicationType;
   /**
    * @var string
    */
+  public $ascsInstanceNumber;
+  /**
+   * @var string
+   */
   public $ascsUri;
+  /**
+   * @var string
+   */
+  public $ersInstanceNumber;
   /**
    * @var string
    */
@@ -57,6 +69,20 @@ class SapDiscoveryComponentApplicationProperties extends \Google\Model
   /**
    * @param string
    */
+  public function setAppInstanceNumber($appInstanceNumber)
+  {
+    $this->appInstanceNumber = $appInstanceNumber;
+  }
+  /**
+   * @return string
+   */
+  public function getAppInstanceNumber()
+  {
+    return $this->appInstanceNumber;
+  }
+  /**
+   * @param string
+   */
   public function setApplicationType($applicationType)
   {
     $this->applicationType = $applicationType;
@@ -71,6 +97,20 @@ class SapDiscoveryComponentApplicationProperties extends \Google\Model
   /**
    * @param string
    */
+  public function setAscsInstanceNumber($ascsInstanceNumber)
+  {
+    $this->ascsInstanceNumber = $ascsInstanceNumber;
+  }
+  /**
+   * @return string
+   */
+  public function getAscsInstanceNumber()
+  {
+    return $this->ascsInstanceNumber;
+  }
+  /**
+   * @param string
+   */
   public function setAscsUri($ascsUri)
   {
     $this->ascsUri = $ascsUri;
@@ -81,6 +121,20 @@ class SapDiscoveryComponentApplicationProperties extends \Google\Model
   public function getAscsUri()
   {
     return $this->ascsUri;
+  }
+  /**
+   * @param string
+   */
+  public function setErsInstanceNumber($ersInstanceNumber)
+  {
+    $this->ersInstanceNumber = $ersInstanceNumber;
+  }
+  /**
+   * @return string
+   */
+  public function getErsInstanceNumber()
+  {
+    return $this->ersInstanceNumber;
   }
   /**
    * @param string

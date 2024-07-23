@@ -58,6 +58,8 @@ class HttpCheck extends \Google\Collection
    * @var string
    */
   public $requestMethod;
+  protected $serviceAgentAuthenticationType = ServiceAgentAuthentication::class;
+  protected $serviceAgentAuthenticationDataType = '';
   /**
    * @var bool
    */
@@ -220,6 +222,20 @@ class HttpCheck extends \Google\Collection
   public function getRequestMethod()
   {
     return $this->requestMethod;
+  }
+  /**
+   * @param ServiceAgentAuthentication
+   */
+  public function setServiceAgentAuthentication(ServiceAgentAuthentication $serviceAgentAuthentication)
+  {
+    $this->serviceAgentAuthentication = $serviceAgentAuthentication;
+  }
+  /**
+   * @return ServiceAgentAuthentication
+   */
+  public function getServiceAgentAuthentication()
+  {
+    return $this->serviceAgentAuthentication;
   }
   /**
    * @param bool

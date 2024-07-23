@@ -108,6 +108,25 @@ class ProjectsLocationsDeploymentResourcePools extends \Google\Service\Resource
     return $this->call('list', [$params], GoogleCloudAiplatformV1ListDeploymentResourcePoolsResponse::class);
   }
   /**
+   * Update a DeploymentResourcePool. (deploymentResourcePools.patch)
+   *
+   * @param string $name Immutable. The resource name of the
+   * DeploymentResourcePool. Format: `projects/{project}/locations/{location}/depl
+   * oymentResourcePools/{deployment_resource_pool}`
+   * @param GoogleCloudAiplatformV1DeploymentResourcePool $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The list of fields to update.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudAiplatformV1DeploymentResourcePool $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
    * List DeployedModels that have been deployed on this DeploymentResourcePool.
    * (deploymentResourcePools.queryDeployedModels)
    *

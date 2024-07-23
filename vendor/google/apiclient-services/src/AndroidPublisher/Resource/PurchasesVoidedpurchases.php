@@ -43,6 +43,11 @@ class PurchasesVoidedpurchases extends \Google\Service\Resource
    * pagination token is set. Default value is current time. Note: This filter is
    * applied on the time at which the record is seen as voided by our systems and
    * not the actual voided time returned in the response.
+   * @opt_param bool includeQuantityBasedPartialRefund Optional. Whether to
+   * include voided purchases of quantity-based partial refunds, which are
+   * applicable only to multi-quantity purchases. If true, additional voided
+   * purchases may be returned with voidedQuantity that indicates the refund
+   * quantity of a quantity-based partial refund. The default value is false.
    * @opt_param string maxResults Defines how many results the list operation
    * should return. The default number depends on the resource collection.
    * @opt_param string startIndex Defines the index of the first element to

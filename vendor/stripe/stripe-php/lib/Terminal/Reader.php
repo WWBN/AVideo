@@ -13,7 +13,7 @@ namespace Stripe\Terminal;
  * @property string $object String representing the object's type. Objects of the same type share the same value.
  * @property null|\Stripe\StripeObject $action The most recent action performed by the reader.
  * @property null|string $device_sw_version The current software version of the reader.
- * @property string $device_type Type of reader, one of <code>bbpos_wisepad3</code>, <code>stripe_m2</code>, <code>bbpos_chipper2x</code>, <code>bbpos_wisepos_e</code>, <code>verifone_P400</code>, or <code>simulated_wisepos_e</code>.
+ * @property string $device_type Type of reader, one of <code>bbpos_wisepad3</code>, <code>stripe_m2</code>, <code>stripe_s700</code>, <code>bbpos_chipper2x</code>, <code>bbpos_wisepos_e</code>, <code>verifone_P400</code>, <code>simulated_wisepos_e</code>, or <code>mobile_phone_reader</code>.
  * @property null|string $ip_address The local IP address of the reader.
  * @property string $label Custom label given to the reader for easier identification.
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
@@ -26,21 +26,122 @@ class Reader extends \Stripe\ApiResource
 {
     const OBJECT_NAME = 'terminal.reader';
 
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Delete;
-    use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
 
     const DEVICE_TYPE_BBPOS_CHIPPER2X = 'bbpos_chipper2x';
     const DEVICE_TYPE_BBPOS_WISEPAD3 = 'bbpos_wisepad3';
     const DEVICE_TYPE_BBPOS_WISEPOS_E = 'bbpos_wisepos_e';
+    const DEVICE_TYPE_MOBILE_PHONE_READER = 'mobile_phone_reader';
     const DEVICE_TYPE_SIMULATED_WISEPOS_E = 'simulated_wisepos_e';
     const DEVICE_TYPE_STRIPE_M2 = 'stripe_m2';
+    const DEVICE_TYPE_STRIPE_S700 = 'stripe_s700';
     const DEVICE_TYPE_VERIFONE_P400 = 'verifone_P400';
 
     const STATUS_OFFLINE = 'offline';
     const STATUS_ONLINE = 'online';
+
+    /**
+     * Creates a new <code>Reader</code> object.
+     *
+     * @param null|array $params
+     * @param null|array|string $options
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Terminal\Reader the created resource
+     */
+    public static function create($params = null, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl();
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
+
+    /**
+     * Deletes a <code>Reader</code> object.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Terminal\Reader the deleted resource
+     */
+    public function delete($params = null, $opts = null)
+    {
+        self::_validateParams($params);
+
+        $url = $this->instanceUrl();
+        list($response, $opts) = $this->_request('delete', $url, $params, $opts);
+        $this->refreshFrom($response, $opts);
+
+        return $this;
+    }
+
+    /**
+     * Returns a list of <code>Reader</code> objects.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Terminal\Reader> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+
+        return static::_requestPage($url, \Stripe\Collection::class, $params, $opts);
+    }
+
+    /**
+     * Retrieves a <code>Reader</code> object.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Terminal\Reader
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
+
+    /**
+     * Updates a <code>Reader</code> object by setting the values of the parameters
+     * passed. Any parameters not provided will be left unchanged.
+     *
+     * @param string $id the ID of the resource to update
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Terminal\Reader the updated resource
+     */
+    public static function update($id, $params = null, $opts = null)
+    {
+        self::_validateParams($params);
+        $url = static::resourceUrl($id);
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
 
     /**
      * @param null|array $params

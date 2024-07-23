@@ -63,10 +63,6 @@ class Report extends \Google\Model
    * @var string
    */
   public $ownerProfileId;
-  protected $pathAttributionCriteriaType = ReportPathAttributionCriteria::class;
-  protected $pathAttributionCriteriaDataType = '';
-  protected $pathCriteriaType = ReportPathCriteria::class;
-  protected $pathCriteriaDataType = '';
   protected $pathToConversionCriteriaType = ReportPathToConversionCriteria::class;
   protected $pathToConversionCriteriaDataType = '';
   protected $reachCriteriaType = ReportReachCriteria::class;
@@ -263,34 +259,6 @@ class Report extends \Google\Model
   public function getOwnerProfileId()
   {
     return $this->ownerProfileId;
-  }
-  /**
-   * @param ReportPathAttributionCriteria
-   */
-  public function setPathAttributionCriteria(ReportPathAttributionCriteria $pathAttributionCriteria)
-  {
-    $this->pathAttributionCriteria = $pathAttributionCriteria;
-  }
-  /**
-   * @return ReportPathAttributionCriteria
-   */
-  public function getPathAttributionCriteria()
-  {
-    return $this->pathAttributionCriteria;
-  }
-  /**
-   * @param ReportPathCriteria
-   */
-  public function setPathCriteria(ReportPathCriteria $pathCriteria)
-  {
-    $this->pathCriteria = $pathCriteria;
-  }
-  /**
-   * @return ReportPathCriteria
-   */
-  public function getPathCriteria()
-  {
-    return $this->pathCriteria;
   }
   /**
    * @param ReportPathToConversionCriteria

@@ -48,10 +48,11 @@ class SearchAds360Fields extends \Google\Service\Resource
     return $this->call('get', [$params], GoogleAdsSearchads360V0ResourcesSearchAds360Field::class);
   }
   /**
-   * Returns all fields that match the search query. List of thrown errors:
-   * [AuthenticationError]() [AuthorizationError]() [HeaderError]()
-   * [InternalError]() [QueryError]() [QuotaError]() [RequestError]()
-   * (searchAds360Fields.search)
+   * Returns all fields that match the search [query](/search-
+   * ads/reporting/concepts/field-service#use_a_query_to_get_field_details). List
+   * of thrown errors: [AuthenticationError]() [AuthorizationError]()
+   * [HeaderError]() [InternalError]() [QueryError]() [QuotaError]()
+   * [RequestError]() (searchAds360Fields.search)
    *
    * @param GoogleAdsSearchads360V0ServicesSearchSearchAds360FieldsRequest $postBody
    * @param array $optParams Optional parameters.

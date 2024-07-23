@@ -48,6 +48,8 @@ class GoogleCloudDiscoveryengineV1alphaDataStore extends \Google\Collection
    * @var string
    */
   public $industryVertical;
+  protected $languageInfoType = GoogleCloudDiscoveryengineV1alphaLanguageInfo::class;
+  protected $languageInfoDataType = '';
   /**
    * @var string
    */
@@ -170,6 +172,20 @@ class GoogleCloudDiscoveryengineV1alphaDataStore extends \Google\Collection
   public function getIndustryVertical()
   {
     return $this->industryVertical;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaLanguageInfo
+   */
+  public function setLanguageInfo(GoogleCloudDiscoveryengineV1alphaLanguageInfo $languageInfo)
+  {
+    $this->languageInfo = $languageInfo;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaLanguageInfo
+   */
+  public function getLanguageInfo()
+  {
+    return $this->languageInfo;
   }
   /**
    * @param string

@@ -18,6 +18,7 @@
 namespace Google\Service\ChromeManagement\Resource;
 
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse;
+use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeCrashEventsResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse;
@@ -57,6 +58,29 @@ class CustomersReports extends \Google\Service\Resource
     $params = ['customer' => $customer];
     $params = array_merge($params, $optParams);
     return $this->call('countChromeBrowsersNeedingAttention', [$params], GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse::class);
+  }
+  /**
+   * Get a count of Chrome crash events. (reports.countChromeCrashEvents)
+   *
+   * @param string $customer Customer ID.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Query string to filter results, AND-separated fields
+   * in EBNF syntax. Supported filter fields: * major_browser_version *
+   * minor_browser_version * browser_channel * device_platform * past_number_days
+   * Example: `major_browser_version = 'M115' AND past_number_days = '28'`.
+   * @opt_param string orderBy Field used to order results. Supported order by
+   * fields: * browser_version * count * date
+   * @opt_param string orgUnitId If specified, only count the number of crash
+   * events of the devices in this organizational unit.
+   * @return GoogleChromeManagementV1CountChromeCrashEventsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function countChromeCrashEvents($customer, $optParams = [])
+  {
+    $params = ['customer' => $customer];
+    $params = array_merge($params, $optParams);
+    return $this->call('countChromeCrashEvents', [$params], GoogleChromeManagementV1CountChromeCrashEventsResponse::class);
   }
   /**
    * Generate report of the number of devices expiring in each month of the

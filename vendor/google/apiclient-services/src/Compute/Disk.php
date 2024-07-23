@@ -23,6 +23,10 @@ class Disk extends \Google\Collection
   /**
    * @var string
    */
+  public $accessMode;
+  /**
+   * @var string
+   */
   public $architecture;
   protected $asyncPrimaryDiskType = DiskAsyncReplication::class;
   protected $asyncPrimaryDiskDataType = '';
@@ -187,6 +191,10 @@ class Disk extends \Google\Collection
   /**
    * @var string
    */
+  public $storagePool;
+  /**
+   * @var string
+   */
   public $type;
   /**
    * @var string[]
@@ -197,6 +205,20 @@ class Disk extends \Google\Collection
    */
   public $zone;
 
+  /**
+   * @param string
+   */
+  public function setAccessMode($accessMode)
+  {
+    $this->accessMode = $accessMode;
+  }
+  /**
+   * @return string
+   */
+  public function getAccessMode()
+  {
+    return $this->accessMode;
+  }
   /**
    * @param string
    */
@@ -826,6 +848,20 @@ class Disk extends \Google\Collection
   public function getStatus()
   {
     return $this->status;
+  }
+  /**
+   * @param string
+   */
+  public function setStoragePool($storagePool)
+  {
+    $this->storagePool = $storagePool;
+  }
+  /**
+   * @return string
+   */
+  public function getStoragePool()
+  {
+    return $this->storagePool;
   }
   /**
    * @param string

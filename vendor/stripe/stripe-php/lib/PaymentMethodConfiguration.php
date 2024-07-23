@@ -27,6 +27,7 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $affirm
  * @property null|\Stripe\StripeObject $afterpay_clearpay
  * @property null|\Stripe\StripeObject $alipay
+ * @property null|\Stripe\StripeObject $amazon_pay
  * @property null|\Stripe\StripeObject $apple_pay
  * @property null|string $application For child configs, the Connect application associated with the configuration.
  * @property null|\Stripe\StripeObject $au_becs_debit
@@ -43,7 +44,6 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $giropay
  * @property null|\Stripe\StripeObject $google_pay
  * @property null|\Stripe\StripeObject $grabpay
- * @property null|\Stripe\StripeObject $id_bank_transfer
  * @property null|\Stripe\StripeObject $ideal
  * @property bool $is_default The default configuration is used whenever a payment method configuration is not specified.
  * @property null|\Stripe\StripeObject $jcb
@@ -51,29 +51,107 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $konbini
  * @property null|\Stripe\StripeObject $link
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
+ * @property null|\Stripe\StripeObject $mobilepay
  * @property null|\Stripe\StripeObject $multibanco
  * @property string $name The configuration's name.
- * @property null|\Stripe\StripeObject $netbanking
  * @property null|\Stripe\StripeObject $oxxo
  * @property null|\Stripe\StripeObject $p24
  * @property null|string $parent For child configs, the configuration's parent configuration.
- * @property null|\Stripe\StripeObject $pay_by_bank
  * @property null|\Stripe\StripeObject $paynow
  * @property null|\Stripe\StripeObject $paypal
  * @property null|\Stripe\StripeObject $promptpay
  * @property null|\Stripe\StripeObject $revolut_pay
  * @property null|\Stripe\StripeObject $sepa_debit
  * @property null|\Stripe\StripeObject $sofort
- * @property null|\Stripe\StripeObject $upi
+ * @property null|\Stripe\StripeObject $swish
  * @property null|\Stripe\StripeObject $us_bank_account
  * @property null|\Stripe\StripeObject $wechat_pay
+ * @property null|\Stripe\StripeObject $zip
  */
 class PaymentMethodConfiguration extends ApiResource
 {
     const OBJECT_NAME = 'payment_method_configuration';
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
     use ApiOperations\Update;
+
+    /**
+     * Creates a payment method configuration.
+     *
+     * @param null|array $params
+     * @param null|array|string $options
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\PaymentMethodConfiguration the created resource
+     */
+    public static function create($params = null, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl();
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
+
+    /**
+     * List payment method configurations.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\PaymentMethodConfiguration> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+
+        return static::_requestPage($url, \Stripe\Collection::class, $params, $opts);
+    }
+
+    /**
+     * Retrieve payment method configuration.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\PaymentMethodConfiguration
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
+
+    /**
+     * Update payment method configuration.
+     *
+     * @param string $id the ID of the resource to update
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\PaymentMethodConfiguration the updated resource
+     */
+    public static function update($id, $params = null, $opts = null)
+    {
+        self::_validateParams($params);
+        $url = static::resourceUrl($id);
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
 }

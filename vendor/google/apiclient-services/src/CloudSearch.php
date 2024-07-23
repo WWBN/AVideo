@@ -84,6 +84,7 @@ class CloudSearch extends \Google\Service
   public $stats_session_searchapplications;
   public $stats_user_searchapplications;
   public $v1;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudSearch service.
@@ -96,6 +97,7 @@ class CloudSearch extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://cloudsearch.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://cloudsearch.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -513,7 +515,11 @@ class CloudSearch extends \Google\Service
         'query',
         [
           'methods' => [
-            'removeActivity' => [
+            'debugSearch' => [
+              'path' => 'v1/query:debugSearch',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'removeActivity' => [
               'path' => 'v1/query:removeActivity',
               'httpMethod' => 'POST',
               'parameters' => [],

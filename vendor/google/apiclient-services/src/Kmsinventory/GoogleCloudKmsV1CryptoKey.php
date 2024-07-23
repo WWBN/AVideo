@@ -35,6 +35,8 @@ class GoogleCloudKmsV1CryptoKey extends \Google\Model
    * @var bool
    */
   public $importOnly;
+  protected $keyAccessJustificationsPolicyType = GoogleCloudKmsV1KeyAccessJustificationsPolicy::class;
+  protected $keyAccessJustificationsPolicyDataType = '';
   /**
    * @var string[]
    */
@@ -115,6 +117,20 @@ class GoogleCloudKmsV1CryptoKey extends \Google\Model
   public function getImportOnly()
   {
     return $this->importOnly;
+  }
+  /**
+   * @param GoogleCloudKmsV1KeyAccessJustificationsPolicy
+   */
+  public function setKeyAccessJustificationsPolicy(GoogleCloudKmsV1KeyAccessJustificationsPolicy $keyAccessJustificationsPolicy)
+  {
+    $this->keyAccessJustificationsPolicy = $keyAccessJustificationsPolicy;
+  }
+  /**
+   * @return GoogleCloudKmsV1KeyAccessJustificationsPolicy
+   */
+  public function getKeyAccessJustificationsPolicy()
+  {
+    return $this->keyAccessJustificationsPolicy;
   }
   /**
    * @param string[]

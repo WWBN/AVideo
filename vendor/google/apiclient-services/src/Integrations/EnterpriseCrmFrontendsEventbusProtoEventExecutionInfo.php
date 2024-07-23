@@ -24,6 +24,8 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo extends \Google\Coll
    * @var string
    */
   public $clientId;
+  protected $cloudLoggingDetailsType = EnterpriseCrmEventbusProtoCloudLoggingDetails::class;
+  protected $cloudLoggingDetailsDataType = '';
   /**
    * @var string
    */
@@ -52,6 +54,8 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo extends \Google\Coll
    * @var string
    */
   public $product;
+  protected $replayInfoType = EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo::class;
+  protected $replayInfoDataType = '';
   /**
    * @var string
    */
@@ -98,6 +102,20 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo extends \Google\Coll
   public function getClientId()
   {
     return $this->clientId;
+  }
+  /**
+   * @param EnterpriseCrmEventbusProtoCloudLoggingDetails
+   */
+  public function setCloudLoggingDetails(EnterpriseCrmEventbusProtoCloudLoggingDetails $cloudLoggingDetails)
+  {
+    $this->cloudLoggingDetails = $cloudLoggingDetails;
+  }
+  /**
+   * @return EnterpriseCrmEventbusProtoCloudLoggingDetails
+   */
+  public function getCloudLoggingDetails()
+  {
+    return $this->cloudLoggingDetails;
   }
   /**
    * @param string
@@ -224,6 +242,20 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo extends \Google\Coll
   public function getProduct()
   {
     return $this->product;
+  }
+  /**
+   * @param EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo
+   */
+  public function setReplayInfo(EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo $replayInfo)
+  {
+    $this->replayInfo = $replayInfo;
+  }
+  /**
+   * @return EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo
+   */
+  public function getReplayInfo()
+  {
+    return $this->replayInfo;
   }
   /**
    * @param string

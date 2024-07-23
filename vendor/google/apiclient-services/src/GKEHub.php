@@ -44,10 +44,12 @@ class GKEHub extends \Google\Service
   public $projects_locations_fleets;
   public $projects_locations_memberships;
   public $projects_locations_memberships_bindings;
+  public $projects_locations_memberships_rbacrolebindings;
   public $projects_locations_operations;
   public $projects_locations_scopes;
   public $projects_locations_scopes_namespaces;
   public $projects_locations_scopes_rbacrolebindings;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the GKEHub service.
@@ -60,6 +62,7 @@ class GKEHub extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://gkehub.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://gkehub.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -589,6 +592,34 @@ class GKEHub extends \Google\Service
           ]
         ]
     );
+    $this->projects_locations_memberships_rbacrolebindings = new GKEHub\Resource\ProjectsLocationsMembershipsRbacrolebindings(
+        $this,
+        $this->serviceName,
+        'rbacrolebindings',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/rbacrolebindings',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations_operations = new GKEHub\Resource\ProjectsLocationsOperations(
         $this,
         $this->serviceName,
@@ -707,6 +738,46 @@ class GKEHub extends \Google\Service
               ],
             ],'list' => [
               'path' => 'v1/{+parent}/scopes',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'listMemberships' => [
+              'path' => 'v1/{+scopeName}:listMemberships',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'scopeName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'listPermitted' => [
+              'path' => 'v1/{+parent}/scopes:listPermitted',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [

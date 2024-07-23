@@ -18,6 +18,7 @@
 namespace Google\Service\BigQueryReservation\Resource;
 
 use Google\Service\BigQueryReservation\BigqueryreservationEmpty;
+use Google\Service\BigQueryReservation\FailoverReservationRequest;
 use Google\Service\BigQueryReservation\ListReservationsResponse;
 use Google\Service\BigQueryReservation\Reservation;
 
@@ -66,6 +67,26 @@ class ProjectsLocationsReservations extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], BigqueryreservationEmpty::class);
+  }
+  /**
+   * Failover a reservation to the secondary location. The operation should be
+   * done in the current secondary location, which will be promoted to the new
+   * primary location for the reservation. Attempting to failover a reservation in
+   * the current primary location will fail with the error code
+   * `google.rpc.Code.FAILED_PRECONDITION`. (reservations.failoverReservation)
+   *
+   * @param string $name Required. Resource name of the reservation to failover.
+   * E.g., `projects/myproject/locations/US/reservations/team1-prod`
+   * @param FailoverReservationRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Reservation
+   * @throws \Google\Service\Exception
+   */
+  public function failoverReservation($name, FailoverReservationRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('failoverReservation', [$params], Reservation::class);
   }
   /**
    * Returns information about the reservation. (reservations.get)

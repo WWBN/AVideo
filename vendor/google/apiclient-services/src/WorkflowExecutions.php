@@ -42,6 +42,7 @@ class WorkflowExecutions extends \Google\Service
   public $projects_locations_workflows_executions;
   public $projects_locations_workflows_executions_callbacks;
   public $projects_locations_workflows_executions_stepEntries;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the WorkflowExecutions service.
@@ -54,6 +55,7 @@ class WorkflowExecutions extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://workflowexecutions.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://workflowexecutions.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

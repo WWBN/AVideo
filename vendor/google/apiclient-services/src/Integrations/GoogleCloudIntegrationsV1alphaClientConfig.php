@@ -29,10 +29,6 @@ class GoogleCloudIntegrationsV1alphaClientConfig extends \Google\Model
   public $clientState;
   protected $cloudKmsConfigType = GoogleCloudIntegrationsV1alphaCloudKmsConfig::class;
   protected $cloudKmsConfigDataType = '';
-  public $cloudKmsConfig;
-  protected $cloudLoggingConfigType = GoogleCloudIntegrationsV1alphaCloudLoggingConfig::class;
-  protected $cloudLoggingConfigDataType = '';
-  public $cloudLoggingConfig;
   /**
    * @var string
    */
@@ -42,9 +38,21 @@ class GoogleCloudIntegrationsV1alphaClientConfig extends \Google\Model
    */
   public $description;
   /**
+   * @var bool
+   */
+  public $enableInternalIp;
+  /**
+   * @var bool
+   */
+  public $enableVariableMasking;
+  /**
    * @var string
    */
   public $id;
+  /**
+   * @var bool
+   */
+  public $isGmek;
   /**
    * @var string
    */
@@ -57,6 +65,10 @@ class GoogleCloudIntegrationsV1alphaClientConfig extends \Google\Model
    * @var string
    */
   public $region;
+  /**
+   * @var string
+   */
+  public $runAsServiceAccount;
 
   /**
    * @param string
@@ -101,20 +113,6 @@ class GoogleCloudIntegrationsV1alphaClientConfig extends \Google\Model
     return $this->cloudKmsConfig;
   }
   /**
-   * @param GoogleCloudIntegrationsV1alphaCloudLoggingConfig
-   */
-  public function setCloudLoggingConfig(GoogleCloudIntegrationsV1alphaCloudLoggingConfig $cloudLoggingConfig)
-  {
-    $this->cloudLoggingConfig = $cloudLoggingConfig;
-  }
-  /**
-   * @return GoogleCloudIntegrationsV1alphaCloudLoggingConfig
-   */
-  public function getCloudLoggingConfig()
-  {
-    return $this->cloudLoggingConfig;
-  }
-  /**
    * @param string
    */
   public function setCreateTime($createTime)
@@ -143,6 +141,34 @@ class GoogleCloudIntegrationsV1alphaClientConfig extends \Google\Model
     return $this->description;
   }
   /**
+   * @param bool
+   */
+  public function setEnableInternalIp($enableInternalIp)
+  {
+    $this->enableInternalIp = $enableInternalIp;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableInternalIp()
+  {
+    return $this->enableInternalIp;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableVariableMasking($enableVariableMasking)
+  {
+    $this->enableVariableMasking = $enableVariableMasking;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableVariableMasking()
+  {
+    return $this->enableVariableMasking;
+  }
+  /**
    * @param string
    */
   public function setId($id)
@@ -155,6 +181,20 @@ class GoogleCloudIntegrationsV1alphaClientConfig extends \Google\Model
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsGmek($isGmek)
+  {
+    $this->isGmek = $isGmek;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsGmek()
+  {
+    return $this->isGmek;
   }
   /**
    * @param string
@@ -197,6 +237,20 @@ class GoogleCloudIntegrationsV1alphaClientConfig extends \Google\Model
   public function getRegion()
   {
     return $this->region;
+  }
+  /**
+   * @param string
+   */
+  public function setRunAsServiceAccount($runAsServiceAccount)
+  {
+    $this->runAsServiceAccount = $runAsServiceAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getRunAsServiceAccount()
+  {
+    return $this->runAsServiceAccount;
   }
 }
 

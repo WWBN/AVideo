@@ -300,8 +300,8 @@ class ProjectsLocationsDatasetsFhirStores extends \Google\Service\Resource
    * Updates the configuration of the specified FHIR store. (fhirStores.patch)
    *
    * @param string $name Output only. Identifier. Resource name of the FHIR store,
-   * of the form
-   * `projects/{project_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`.
+   * of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}
+   * /fhirStores/{fhir_store_id}`.
    * @param FhirStore $postBody
    * @param array $optParams Optional parameters.
    *

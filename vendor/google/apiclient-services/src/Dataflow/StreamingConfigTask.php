@@ -32,6 +32,8 @@ class StreamingConfigTask extends \Google\Collection
    * @var string
    */
   public $maxWorkItemCommitBytes;
+  protected $operationalLimitsType = StreamingOperationalLimits::class;
+  protected $operationalLimitsDataType = '';
   protected $streamingComputationConfigsType = StreamingComputationConfig::class;
   protected $streamingComputationConfigsDataType = 'array';
   /**
@@ -88,6 +90,20 @@ class StreamingConfigTask extends \Google\Collection
   public function getMaxWorkItemCommitBytes()
   {
     return $this->maxWorkItemCommitBytes;
+  }
+  /**
+   * @param StreamingOperationalLimits
+   */
+  public function setOperationalLimits(StreamingOperationalLimits $operationalLimits)
+  {
+    $this->operationalLimits = $operationalLimits;
+  }
+  /**
+   * @return StreamingOperationalLimits
+   */
+  public function getOperationalLimits()
+  {
+    return $this->operationalLimits;
   }
   /**
    * @param StreamingComputationConfig[]

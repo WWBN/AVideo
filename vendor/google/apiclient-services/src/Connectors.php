@@ -43,6 +43,7 @@ class Connectors extends \Google\Service
   public $projects_locations_connections_actions;
   public $projects_locations_connections_entityTypes;
   public $projects_locations_connections_entityTypes_entities;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Connectors service.
@@ -55,6 +56,7 @@ class Connectors extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://connectors.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://connectors.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2';

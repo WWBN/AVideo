@@ -43,6 +43,10 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
   /**
    * @var bool
    */
+  public $enableMultiLanguageTraining;
+  /**
+   * @var bool
+   */
   public $enableSpellCorrection;
   /**
    * @var bool
@@ -60,6 +64,8 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
    * @var string
    */
   public $name;
+  protected $personalizationSettingsType = GoogleCloudDialogflowCxV3AgentPersonalizationSettings::class;
+  protected $personalizationSettingsDataType = '';
   /**
    * @var string
    */
@@ -168,6 +174,20 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
   /**
    * @param bool
    */
+  public function setEnableMultiLanguageTraining($enableMultiLanguageTraining)
+  {
+    $this->enableMultiLanguageTraining = $enableMultiLanguageTraining;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableMultiLanguageTraining()
+  {
+    return $this->enableMultiLanguageTraining;
+  }
+  /**
+   * @param bool
+   */
   public function setEnableSpellCorrection($enableSpellCorrection)
   {
     $this->enableSpellCorrection = $enableSpellCorrection;
@@ -248,6 +268,20 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3AgentPersonalizationSettings
+   */
+  public function setPersonalizationSettings(GoogleCloudDialogflowCxV3AgentPersonalizationSettings $personalizationSettings)
+  {
+    $this->personalizationSettings = $personalizationSettings;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3AgentPersonalizationSettings
+   */
+  public function getPersonalizationSettings()
+  {
+    return $this->personalizationSettings;
   }
   /**
    * @param string

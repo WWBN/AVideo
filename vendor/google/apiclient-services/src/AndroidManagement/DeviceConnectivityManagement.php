@@ -35,6 +35,8 @@ class DeviceConnectivityManagement extends \Google\Model
    * @var string
    */
   public $wifiDirectSettings;
+  protected $wifiSsidPolicyType = WifiSsidPolicy::class;
+  protected $wifiSsidPolicyDataType = '';
 
   /**
    * @param string
@@ -91,6 +93,20 @@ class DeviceConnectivityManagement extends \Google\Model
   public function getWifiDirectSettings()
   {
     return $this->wifiDirectSettings;
+  }
+  /**
+   * @param WifiSsidPolicy
+   */
+  public function setWifiSsidPolicy(WifiSsidPolicy $wifiSsidPolicy)
+  {
+    $this->wifiSsidPolicy = $wifiSsidPolicy;
+  }
+  /**
+   * @return WifiSsidPolicy
+   */
+  public function getWifiSsidPolicy()
+  {
+    return $this->wifiSsidPolicy;
   }
 }
 

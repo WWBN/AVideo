@@ -59,6 +59,10 @@ class GoogleCloudRetailV2ServingConfig extends \Google\Collection
    */
   public $ignoreControlIds;
   /**
+   * @var bool
+   */
+  public $ignoreRecsDenylist;
+  /**
    * @var string
    */
   public $modelId;
@@ -232,6 +236,20 @@ class GoogleCloudRetailV2ServingConfig extends \Google\Collection
   public function getIgnoreControlIds()
   {
     return $this->ignoreControlIds;
+  }
+  /**
+   * @param bool
+   */
+  public function setIgnoreRecsDenylist($ignoreRecsDenylist)
+  {
+    $this->ignoreRecsDenylist = $ignoreRecsDenylist;
+  }
+  /**
+   * @return bool
+   */
+  public function getIgnoreRecsDenylist()
+  {
+    return $this->ignoreRecsDenylist;
   }
   /**
    * @param string

@@ -18,6 +18,7 @@
 namespace Google\Service\BackupforGKE\Resource;
 
 use Google\Service\BackupforGKE\Backup;
+use Google\Service\BackupforGKE\GetBackupIndexDownloadUrlResponse;
 use Google\Service\BackupforGKE\GoogleLongrunningOperation;
 use Google\Service\BackupforGKE\ListBackupsResponse;
 use Google\Service\BackupforGKE\Policy;
@@ -92,6 +93,21 @@ class ProjectsLocationsBackupPlansBackups extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Backup::class);
+  }
+  /**
+   * Retrieve the link to the backupIndex. (backups.getBackupIndexDownloadUrl)
+   *
+   * @param string $backup Required. Full name of Backup resource. Format: project
+   * s/{project}/locations/{location}/backupPlans/{backup_plan}/backups/{backup}
+   * @param array $optParams Optional parameters.
+   * @return GetBackupIndexDownloadUrlResponse
+   * @throws \Google\Service\Exception
+   */
+  public function getBackupIndexDownloadUrl($backup, $optParams = [])
+  {
+    $params = ['backup' => $backup];
+    $params = array_merge($params, $optParams);
+    return $this->call('getBackupIndexDownloadUrl', [$params], GetBackupIndexDownloadUrlResponse::class);
   }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the

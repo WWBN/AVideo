@@ -18,6 +18,8 @@
 namespace Google\Service\Integrations\Resource;
 
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaCertificate;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListCertificatesResponse;
+use Google\Service\Integrations\GoogleProtobufEmpty;
 
 /**
  * The "certificates" collection of methods.
@@ -29,6 +31,39 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaCertificate;
  */
 class ProjectsLocationsCertificates extends \Google\Service\Resource
 {
+  /**
+   * Creates a new certificate. The certificate will be registered to the trawler
+   * service and will be encrypted using cloud KMS and stored in Spanner Returns
+   * the certificate. (certificates.create)
+   *
+   * @param string $parent Required. "projects/{project}/locations/{location}"
+   * format.
+   * @param GoogleCloudIntegrationsV1alphaCertificate $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudIntegrationsV1alphaCertificate
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, GoogleCloudIntegrationsV1alphaCertificate $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleCloudIntegrationsV1alphaCertificate::class);
+  }
+  /**
+   * Delete a certificate (certificates.delete)
+   *
+   * @param string $name Required. The name that is associated with the
+   * Certificate.
+   * @param array $optParams Optional parameters.
+   * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
   /**
    * Get a certificates in the specified project. (certificates.get)
    *
@@ -43,6 +78,51 @@ class ProjectsLocationsCertificates extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], GoogleCloudIntegrationsV1alphaCertificate::class);
+  }
+  /**
+   * List all the certificates that match the filter. Restrict to certificate of
+   * current client only. (certificates.listProjectsLocationsCertificates)
+   *
+   * @param string $parent Required. The client, which owns this collection of
+   * Certificates.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Filtering as supported in
+   * https://developers.google.com/authorized-buyers/apis/guides/list-filters.
+   * @opt_param int pageSize The size of entries in the response. If unspecified,
+   * defaults to 100.
+   * @opt_param string pageToken The token returned in the previous response.
+   * @opt_param string readMask The mask which specifies fields that need to be
+   * returned in the Certificate's response.
+   * @return GoogleCloudIntegrationsV1alphaListCertificatesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsCertificates($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GoogleCloudIntegrationsV1alphaListCertificatesResponse::class);
+  }
+  /**
+   * Updates the certificate by id. If new certificate file is updated, it will
+   * register with the trawler service, re-encrypt with cloud KMS and update the
+   * Spanner record. Other fields will directly update the Spanner record. Returns
+   * the Certificate. (certificates.patch)
+   *
+   * @param string $name Output only. Auto generated primary key
+   * @param GoogleCloudIntegrationsV1alphaCertificate $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Field mask specifying the fields in the above
+   * Certificate that have been modified and need to be updated.
+   * @return GoogleCloudIntegrationsV1alphaCertificate
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudIntegrationsV1alphaCertificate $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudIntegrationsV1alphaCertificate::class);
   }
 }
 

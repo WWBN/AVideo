@@ -36,6 +36,8 @@ class Finding extends \Google\Collection
    * @var string
    */
   public $category;
+  protected $cloudArmorType = CloudArmor::class;
+  protected $cloudArmorDataType = '';
   protected $cloudDlpDataProfileType = CloudDlpDataProfile::class;
   protected $cloudDlpDataProfileDataType = '';
   protected $cloudDlpInspectionType = CloudDlpInspection::class;
@@ -76,6 +78,8 @@ class Finding extends \Google\Collection
    * @var string
    */
   public $findingClass;
+  protected $groupMembershipsType = GroupMembership::class;
+  protected $groupMembershipsDataType = 'array';
   protected $iamBindingsType = IamBinding::class;
   protected $iamBindingsDataType = 'array';
   protected $indicatorType = Indicator::class;
@@ -114,6 +118,8 @@ class Finding extends \Google\Collection
    * @var string
    */
   public $nextSteps;
+  protected $notebookType = Notebook::class;
+  protected $notebookDataType = '';
   protected $orgPoliciesType = OrgPolicy::class;
   protected $orgPoliciesDataType = 'array';
   /**
@@ -146,6 +152,8 @@ class Finding extends \Google\Collection
    * @var string
    */
   public $state;
+  protected $toxicCombinationType = ToxicCombination::class;
+  protected $toxicCombinationDataType = '';
   protected $vulnerabilityType = Vulnerability::class;
   protected $vulnerabilityDataType = '';
 
@@ -232,6 +240,20 @@ class Finding extends \Google\Collection
   public function getCategory()
   {
     return $this->category;
+  }
+  /**
+   * @param CloudArmor
+   */
+  public function setCloudArmor(CloudArmor $cloudArmor)
+  {
+    $this->cloudArmor = $cloudArmor;
+  }
+  /**
+   * @return CloudArmor
+   */
+  public function getCloudArmor()
+  {
+    return $this->cloudArmor;
   }
   /**
    * @param CloudDlpDataProfile
@@ -444,6 +466,20 @@ class Finding extends \Google\Collection
     return $this->findingClass;
   }
   /**
+   * @param GroupMembership[]
+   */
+  public function setGroupMemberships($groupMemberships)
+  {
+    $this->groupMemberships = $groupMemberships;
+  }
+  /**
+   * @return GroupMembership[]
+   */
+  public function getGroupMemberships()
+  {
+    return $this->groupMemberships;
+  }
+  /**
    * @param IamBinding[]
    */
   public function setIamBindings($iamBindings)
@@ -626,6 +662,20 @@ class Finding extends \Google\Collection
     return $this->nextSteps;
   }
   /**
+   * @param Notebook
+   */
+  public function setNotebook(Notebook $notebook)
+  {
+    $this->notebook = $notebook;
+  }
+  /**
+   * @return Notebook
+   */
+  public function getNotebook()
+  {
+    return $this->notebook;
+  }
+  /**
    * @param OrgPolicy[]
    */
   public function setOrgPolicies($orgPolicies)
@@ -764,6 +814,20 @@ class Finding extends \Google\Collection
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param ToxicCombination
+   */
+  public function setToxicCombination(ToxicCombination $toxicCombination)
+  {
+    $this->toxicCombination = $toxicCombination;
+  }
+  /**
+   * @return ToxicCombination
+   */
+  public function getToxicCombination()
+  {
+    return $this->toxicCombination;
   }
   /**
    * @param Vulnerability

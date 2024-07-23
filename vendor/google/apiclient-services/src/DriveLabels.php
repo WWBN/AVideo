@@ -55,6 +55,7 @@ class DriveLabels extends \Google\Service
   public $labels_revisions_permissions;
   public $limits;
   public $users;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the DriveLabels service.
@@ -67,6 +68,7 @@ class DriveLabels extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://drivelabels.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://drivelabels.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2';

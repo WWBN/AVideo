@@ -48,6 +48,8 @@ class DiscoveryOccurrence extends \Google\Collection
   public $lastScanTime;
   protected $sbomStatusType = SBOMStatus::class;
   protected $sbomStatusDataType = '';
+  protected $vulnerabilityAttestationType = VulnerabilityAttestation::class;
+  protected $vulnerabilityAttestationDataType = '';
 
   /**
    * @param AnalysisCompleted
@@ -174,6 +176,20 @@ class DiscoveryOccurrence extends \Google\Collection
   public function getSbomStatus()
   {
     return $this->sbomStatus;
+  }
+  /**
+   * @param VulnerabilityAttestation
+   */
+  public function setVulnerabilityAttestation(VulnerabilityAttestation $vulnerabilityAttestation)
+  {
+    $this->vulnerabilityAttestation = $vulnerabilityAttestation;
+  }
+  /**
+   * @return VulnerabilityAttestation
+   */
+  public function getVulnerabilityAttestation()
+  {
+    return $this->vulnerabilityAttestation;
   }
 }
 

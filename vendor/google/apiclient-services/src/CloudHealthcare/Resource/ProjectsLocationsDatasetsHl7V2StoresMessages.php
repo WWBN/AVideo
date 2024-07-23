@@ -189,7 +189,7 @@ class ProjectsLocationsDatasetsHl7V2StoresMessages extends \Google\Service\Resou
    *
    * @param string $name Output only. Resource name of the Message, of the form `p
    * rojects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Store
-   * s/{hl7_v2_store_id}/messages/{message_id}`. Assigned by the server.
+   * s/{hl7_v2_store_id}/messages/{message_id}`.
    * @param Message $postBody
    * @param array $optParams Optional parameters.
    *

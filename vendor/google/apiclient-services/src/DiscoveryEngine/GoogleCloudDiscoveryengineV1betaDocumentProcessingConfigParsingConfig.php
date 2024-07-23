@@ -19,34 +19,50 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfig extends \Google\Model
 {
-  protected $digitalParsingConfigType = GoogleCloudDiscoveryengineV1betaDigitalParsingConfig::class;
+  protected $digitalParsingConfigType = GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigDigitalParsingConfig::class;
   protected $digitalParsingConfigDataType = '';
-  protected $ocrParsingConfigType = GoogleCloudDiscoveryengineV1betaOcrParsingConfig::class;
+  protected $layoutParsingConfigType = GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig::class;
+  protected $layoutParsingConfigDataType = '';
+  protected $ocrParsingConfigType = GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigOcrParsingConfig::class;
   protected $ocrParsingConfigDataType = '';
 
   /**
-   * @param GoogleCloudDiscoveryengineV1betaDigitalParsingConfig
+   * @param GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigDigitalParsingConfig
    */
-  public function setDigitalParsingConfig(GoogleCloudDiscoveryengineV1betaDigitalParsingConfig $digitalParsingConfig)
+  public function setDigitalParsingConfig(GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigDigitalParsingConfig $digitalParsingConfig)
   {
     $this->digitalParsingConfig = $digitalParsingConfig;
   }
   /**
-   * @return GoogleCloudDiscoveryengineV1betaDigitalParsingConfig
+   * @return GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigDigitalParsingConfig
    */
   public function getDigitalParsingConfig()
   {
     return $this->digitalParsingConfig;
   }
   /**
-   * @param GoogleCloudDiscoveryengineV1betaOcrParsingConfig
+   * @param GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig
    */
-  public function setOcrParsingConfig(GoogleCloudDiscoveryengineV1betaOcrParsingConfig $ocrParsingConfig)
+  public function setLayoutParsingConfig(GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig $layoutParsingConfig)
+  {
+    $this->layoutParsingConfig = $layoutParsingConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig
+   */
+  public function getLayoutParsingConfig()
+  {
+    return $this->layoutParsingConfig;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigOcrParsingConfig
+   */
+  public function setOcrParsingConfig(GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigOcrParsingConfig $ocrParsingConfig)
   {
     $this->ocrParsingConfig = $ocrParsingConfig;
   }
   /**
-   * @return GoogleCloudDiscoveryengineV1betaOcrParsingConfig
+   * @return GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigOcrParsingConfig
    */
   public function getOcrParsingConfig()
   {

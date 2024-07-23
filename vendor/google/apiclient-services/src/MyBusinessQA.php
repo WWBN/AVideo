@@ -40,6 +40,7 @@ class MyBusinessQA extends \Google\Service
 
   public $locations_questions;
   public $locations_questions_answers;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the MyBusinessQA service.
@@ -52,6 +53,7 @@ class MyBusinessQA extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://mybusinessqanda.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://mybusinessqanda.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

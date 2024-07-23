@@ -43,6 +43,10 @@ class GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpec 
    * @var int
    */
   public $summaryResultCount;
+  /**
+   * @var bool
+   */
+  public $useSemanticChunks;
 
   /**
    * @param bool
@@ -141,6 +145,20 @@ class GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpec 
   public function getSummaryResultCount()
   {
     return $this->summaryResultCount;
+  }
+  /**
+   * @param bool
+   */
+  public function setUseSemanticChunks($useSemanticChunks)
+  {
+    $this->useSemanticChunks = $useSemanticChunks;
+  }
+  /**
+   * @return bool
+   */
+  public function getUseSemanticChunks()
+  {
+    return $this->useSemanticChunks;
   }
 }
 

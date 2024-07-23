@@ -17,6 +17,8 @@
 
 namespace Google\Service\GKEHub\Resource;
 
+use Google\Service\GKEHub\ListBoundMembershipsResponse;
+use Google\Service\GKEHub\ListPermittedScopesResponse;
 use Google\Service\GKEHub\ListScopesResponse;
 use Google\Service\GKEHub\Operation;
 use Google\Service\GKEHub\Policy;
@@ -136,6 +138,56 @@ class ProjectsLocationsScopes extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListScopesResponse::class);
+  }
+  /**
+   * Lists Memberships bound to a Scope. The response includes relevant
+   * Memberships from all regions. (scopes.listMemberships)
+   *
+   * @param string $scopeName Required. Name of the Scope, in the format
+   * `projects/locations/global/scopes`, to which the Memberships are bound.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Lists Memberships that match the filter
+   * expression, following the syntax outlined in https://google.aip.dev/160.
+   * Currently, filtering can be done only based on Memberships's `name`,
+   * `labels`, `create_time`, `update_time`, and `unique_id`.
+   * @opt_param int pageSize Optional. When requesting a 'page' of resources,
+   * `page_size` specifies number of resources to return. If unspecified or set to
+   * 0, all resources will be returned. Pagination is currently not supported;
+   * therefore, setting this field does not have any impact for now.
+   * @opt_param string pageToken Optional. Token returned by previous call to
+   * `ListBoundMemberships` which specifies the position in the list from where to
+   * continue listing the resources.
+   * @return ListBoundMembershipsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listMemberships($scopeName, $optParams = [])
+  {
+    $params = ['scopeName' => $scopeName];
+    $params = array_merge($params, $optParams);
+    return $this->call('listMemberships', [$params], ListBoundMembershipsResponse::class);
+  }
+  /**
+   * Lists permitted Scopes. (scopes.listPermitted)
+   *
+   * @param string $parent Required. The parent (project and location) where the
+   * Scope will be listed. Specified in the format `projects/locations`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int pageSize Optional. When requesting a 'page' of resources,
+   * `page_size` specifies number of resources to return. If unspecified or set to
+   * 0, all resources will be returned.
+   * @opt_param string pageToken Optional. Token returned by previous call to
+   * `ListPermittedScopes` which specifies the position in the list from where to
+   * continue listing the resources.
+   * @return ListPermittedScopesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listPermitted($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('listPermitted', [$params], ListPermittedScopesResponse::class);
   }
   /**
    * Updates a scopes. (scopes.patch)

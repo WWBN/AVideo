@@ -80,6 +80,27 @@ class ProjectsLocationsRepositoriesPackages extends \Google\Service\Resource
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListPackagesResponse::class);
   }
+  /**
+   * Updates a package. (packages.patch)
+   *
+   * @param string $name The name of the package, for example:
+   * `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the
+   * package ID part contains slashes, the slashes are escaped.
+   * @param Package $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask The update mask applies to the resource. For the
+   * `FieldMask` definition, see https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#fieldmask
+   * @return Package
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, Package $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Package::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

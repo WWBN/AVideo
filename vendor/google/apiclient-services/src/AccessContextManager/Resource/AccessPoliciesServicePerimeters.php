@@ -141,7 +141,8 @@ class AccessPoliciesServicePerimeters extends \Google\Service\Resource
    * storage. If a service perimeter contains errors, an error response is
    * returned for the first error encountered. (servicePerimeters.patch)
    *
-   * @param string $name Resource name for the `ServicePerimeter`. Format:
+   * @param string $name Identifier. Resource name for the `ServicePerimeter`.
+   * Format:
    * `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`. The
    * `service_perimeter` component must begin with a letter, followed by
    * alphanumeric characters or `_`. After you create a `ServicePerimeter`, you

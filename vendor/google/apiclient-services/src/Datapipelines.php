@@ -41,6 +41,7 @@ class Datapipelines extends \Google\Service
 
   public $projects_locations_pipelines;
   public $projects_locations_pipelines_jobs;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Datapipelines service.
@@ -53,6 +54,7 @@ class Datapipelines extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://datapipelines.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://datapipelines.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

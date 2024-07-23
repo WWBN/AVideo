@@ -43,6 +43,7 @@ class ServiceControl extends \Google\Service
       "https://www.googleapis.com/auth/servicecontrol";
 
   public $services;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the ServiceControl service.
@@ -55,6 +56,7 @@ class ServiceControl extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://servicecontrol.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://servicecontrol.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2';

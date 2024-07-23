@@ -19,11 +19,27 @@ namespace Google\Service\ArtifactRegistry;
 
 class NpmRepository extends \Google\Model
 {
+  protected $customRepositoryType = GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository::class;
+  protected $customRepositoryDataType = '';
   /**
    * @var string
    */
   public $publicRepository;
 
+  /**
+   * @param GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository
+   */
+  public function setCustomRepository(GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository $customRepository)
+  {
+    $this->customRepository = $customRepository;
+  }
+  /**
+   * @return GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository
+   */
+  public function getCustomRepository()
+  {
+    return $this->customRepository;
+  }
   /**
    * @param string
    */

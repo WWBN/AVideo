@@ -39,6 +39,10 @@ class ManagedFolders extends \Google\Service\Resource
    * @param string $managedFolder The managed folder name/path.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool allowNonEmpty Allows the deletion of a managed folder even if
+   * it is not empty. A managed folder is empty if there are no objects or managed
+   * folders that it applies to. Callers must have
+   * storage.managedFolders.setIamPolicy permission.
    * @opt_param string ifMetagenerationMatch If set, only deletes the managed
    * folder if its metageneration matches this value.
    * @opt_param string ifMetagenerationNotMatch If set, only deletes the managed

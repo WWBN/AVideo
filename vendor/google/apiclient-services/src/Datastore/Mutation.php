@@ -27,6 +27,8 @@ class Mutation extends \Google\Model
   protected $deleteDataType = '';
   protected $insertType = Entity::class;
   protected $insertDataType = '';
+  protected $propertyMaskType = PropertyMask::class;
+  protected $propertyMaskDataType = '';
   protected $updateType = Entity::class;
   protected $updateDataType = '';
   /**
@@ -77,6 +79,20 @@ class Mutation extends \Google\Model
   public function getInsert()
   {
     return $this->insert;
+  }
+  /**
+   * @param PropertyMask
+   */
+  public function setPropertyMask(PropertyMask $propertyMask)
+  {
+    $this->propertyMask = $propertyMask;
+  }
+  /**
+   * @return PropertyMask
+   */
+  public function getPropertyMask()
+  {
+    return $this->propertyMask;
   }
   /**
    * @param Entity

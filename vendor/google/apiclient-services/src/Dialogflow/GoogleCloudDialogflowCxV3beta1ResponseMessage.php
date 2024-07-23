@@ -45,6 +45,8 @@ class GoogleCloudDialogflowCxV3beta1ResponseMessage extends \Google\Model
   protected $telephonyTransferCallDataType = '';
   protected $textType = GoogleCloudDialogflowCxV3beta1ResponseMessageText::class;
   protected $textDataType = '';
+  protected $toolCallType = GoogleCloudDialogflowCxV3beta1ToolCall::class;
+  protected $toolCallDataType = '';
 
   /**
    * @param string
@@ -199,6 +201,20 @@ class GoogleCloudDialogflowCxV3beta1ResponseMessage extends \Google\Model
   public function getText()
   {
     return $this->text;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3beta1ToolCall
+   */
+  public function setToolCall(GoogleCloudDialogflowCxV3beta1ToolCall $toolCall)
+  {
+    $this->toolCall = $toolCall;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3beta1ToolCall
+   */
+  public function getToolCall()
+  {
+    return $this->toolCall;
   }
 }
 

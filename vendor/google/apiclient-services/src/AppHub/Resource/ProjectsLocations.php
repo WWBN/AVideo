@@ -35,9 +35,12 @@ class ProjectsLocations extends \Google\Service\Resource
 {
   /**
    * Detaches a service project from a host project. You can call this API from
-   * either a host or service project. (locations.detachServiceProjectAttachment)
+   * any service project without needing access to the host project that it is
+   * attached to. (locations.detachServiceProjectAttachment)
    *
-   * @param string $name Required. Value for name.
+   * @param string $name Required. Service project id and location to detach from
+   * a host project. Only global location is supported. Expected format:
+   * `projects/{project}/locations/{location}`.
    * @param DetachServiceProjectAttachmentRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DetachServiceProjectAttachmentResponse
@@ -88,10 +91,13 @@ class ProjectsLocations extends \Google\Service\Resource
     return $this->call('list', [$params], ListLocationsResponse::class);
   }
   /**
-   * Looks up a service project attachment. You can call this API from either a
-   * host or service project. (locations.lookupServiceProjectAttachment)
+   * Lists a service project attachment for a given service project. You can call
+   * this API from any project to find if it is attached to a host project.
+   * (locations.lookupServiceProjectAttachment)
    *
-   * @param string $name Required. Value for name.
+   * @param string $name Required. Service project ID and location to lookup
+   * service project attachment for. Only global location is supported. Expected
+   * format: `projects/{project}/locations/{location}`.
    * @param array $optParams Optional parameters.
    * @return LookupServiceProjectAttachmentResponse
    * @throws \Google\Service\Exception

@@ -52,6 +52,7 @@ class Recommender extends \Google\Service
   public $projects_locations_insightTypes_insights;
   public $projects_locations_recommenders;
   public $projects_locations_recommenders_recommendations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Recommender service.
@@ -64,6 +65,7 @@ class Recommender extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://recommender.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://recommender.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

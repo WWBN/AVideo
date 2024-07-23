@@ -45,6 +45,7 @@ class CloudRuntimeConfig extends \Google\Service
       "https://www.googleapis.com/auth/cloudruntimeconfig";
 
   public $operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudRuntimeConfig service.
@@ -57,6 +58,7 @@ class CloudRuntimeConfig extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://runtimeconfig.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://runtimeconfig.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

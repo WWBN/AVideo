@@ -27,6 +27,10 @@ class GkeCluster extends \Google\Model
    * @var bool
    */
   public $internalIp;
+  /**
+   * @var string
+   */
+  public $proxyUrl;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class GkeCluster extends \Google\Model
   public function getInternalIp()
   {
     return $this->internalIp;
+  }
+  /**
+   * @param string
+   */
+  public function setProxyUrl($proxyUrl)
+  {
+    $this->proxyUrl = $proxyUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getProxyUrl()
+  {
+    return $this->proxyUrl;
   }
 }
 

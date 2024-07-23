@@ -64,6 +64,7 @@ class Bigquery extends \Google\Service
   public $rowAccessPolicies;
   public $tabledata;
   public $tables;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Bigquery service.
@@ -76,6 +77,7 @@ class Bigquery extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://bigquery.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://bigquery.UNIVERSE_DOMAIN/';
     $this->servicePath = 'bigquery/v2/';
     $this->batchPath = 'batch/bigquery/v2';
     $this->version = 'v2';
@@ -555,6 +557,16 @@ class Bigquery extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'getIamPolicy' => [
+              'path' => '{+resource}:getIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'insert' => [
               'path' => 'projects/{+projectId}/datasets/{+datasetId}/routines',
               'httpMethod' => 'POST',
@@ -599,6 +611,16 @@ class Bigquery extends \Google\Service
                 'readMask' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => '{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'update' => [

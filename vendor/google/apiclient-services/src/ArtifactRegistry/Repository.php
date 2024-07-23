@@ -66,6 +66,10 @@ class Repository extends \Google\Model
   /**
    * @var bool
    */
+  public $satisfiesPzi;
+  /**
+   * @var bool
+   */
   public $satisfiesPzs;
   /**
    * @var string
@@ -259,6 +263,20 @@ class Repository extends \Google\Model
   public function getRemoteRepositoryConfig()
   {
     return $this->remoteRepositoryConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
   }
   /**
    * @param bool

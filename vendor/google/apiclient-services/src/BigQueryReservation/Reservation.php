@@ -48,6 +48,18 @@ class Reservation extends \Google\Model
   /**
    * @var string
    */
+  public $originalPrimaryLocation;
+  /**
+   * @var string
+   */
+  public $primaryLocation;
+  /**
+   * @var string
+   */
+  public $secondaryLocation;
+  /**
+   * @var string
+   */
   public $slotCapacity;
   /**
    * @var string
@@ -151,6 +163,48 @@ class Reservation extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setOriginalPrimaryLocation($originalPrimaryLocation)
+  {
+    $this->originalPrimaryLocation = $originalPrimaryLocation;
+  }
+  /**
+   * @return string
+   */
+  public function getOriginalPrimaryLocation()
+  {
+    return $this->originalPrimaryLocation;
+  }
+  /**
+   * @param string
+   */
+  public function setPrimaryLocation($primaryLocation)
+  {
+    $this->primaryLocation = $primaryLocation;
+  }
+  /**
+   * @return string
+   */
+  public function getPrimaryLocation()
+  {
+    return $this->primaryLocation;
+  }
+  /**
+   * @param string
+   */
+  public function setSecondaryLocation($secondaryLocation)
+  {
+    $this->secondaryLocation = $secondaryLocation;
+  }
+  /**
+   * @return string
+   */
+  public function getSecondaryLocation()
+  {
+    return $this->secondaryLocation;
   }
   /**
    * @param string

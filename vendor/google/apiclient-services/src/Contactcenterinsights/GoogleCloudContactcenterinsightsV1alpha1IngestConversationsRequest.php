@@ -29,6 +29,10 @@ class GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest extends
   public $parent;
   protected $redactionConfigType = GoogleCloudContactcenterinsightsV1alpha1RedactionConfig::class;
   protected $redactionConfigDataType = '';
+  /**
+   * @var int
+   */
+  public $sampleSize;
   protected $speechConfigType = GoogleCloudContactcenterinsightsV1alpha1SpeechConfig::class;
   protected $speechConfigDataType = '';
   protected $transcriptObjectConfigType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestTranscriptObjectConfig::class;
@@ -89,6 +93,20 @@ class GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest extends
   public function getRedactionConfig()
   {
     return $this->redactionConfig;
+  }
+  /**
+   * @param int
+   */
+  public function setSampleSize($sampleSize)
+  {
+    $this->sampleSize = $sampleSize;
+  }
+  /**
+   * @return int
+   */
+  public function getSampleSize()
+  {
+    return $this->sampleSize;
   }
   /**
    * @param GoogleCloudContactcenterinsightsV1alpha1SpeechConfig

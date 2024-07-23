@@ -106,7 +106,7 @@ class ProjectsLocationsRepositoriesWorkflowConfigs extends \Google\Service\Resou
   /**
    * Updates a single WorkflowConfig. (workflowConfigs.patch)
    *
-   * @param string $name Output only. The workflow config's name.
+   * @param string $name Identifier. The workflow config's name.
    * @param WorkflowConfig $postBody
    * @param array $optParams Optional parameters.
    *

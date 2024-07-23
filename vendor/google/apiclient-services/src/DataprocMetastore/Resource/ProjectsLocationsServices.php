@@ -19,6 +19,8 @@ namespace Google\Service\DataprocMetastore\Resource;
 
 use Google\Service\DataprocMetastore\AlterMetadataResourceLocationRequest;
 use Google\Service\DataprocMetastore\AlterTablePropertiesRequest;
+use Google\Service\DataprocMetastore\CancelMigrationRequest;
+use Google\Service\DataprocMetastore\CompleteMigrationRequest;
 use Google\Service\DataprocMetastore\ExportMetadataRequest;
 use Google\Service\DataprocMetastore\ListServicesResponse;
 use Google\Service\DataprocMetastore\MoveTableToDatabaseRequest;
@@ -28,6 +30,7 @@ use Google\Service\DataprocMetastore\QueryMetadataRequest;
 use Google\Service\DataprocMetastore\RestoreServiceRequest;
 use Google\Service\DataprocMetastore\Service;
 use Google\Service\DataprocMetastore\SetIamPolicyRequest;
+use Google\Service\DataprocMetastore\StartMigrationRequest;
 use Google\Service\DataprocMetastore\TestIamPermissionsRequest;
 use Google\Service\DataprocMetastore\TestIamPermissionsResponse;
 
@@ -78,6 +81,42 @@ class ProjectsLocationsServices extends \Google\Service\Resource
     $params = ['service' => $service, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('alterTableProperties', [$params], Operation::class);
+  }
+  /**
+   * Cancels the ongoing Managed Migration process. (services.cancelMigration)
+   *
+   * @param string $service Required. The relative resource name of the metastore
+   * service to cancel the ongoing migration to, in the following
+   * format:projects/{project_id}/locations/{location_id}/services/{service_id}.
+   * @param CancelMigrationRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function cancelMigration($service, CancelMigrationRequest $postBody, $optParams = [])
+  {
+    $params = ['service' => $service, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('cancelMigration', [$params], Operation::class);
+  }
+  /**
+   * Completes the managed migration process. The Dataproc Metastore service will
+   * switch to using its own backend database after successful migration.
+   * (services.completeMigration)
+   *
+   * @param string $service Required. The relative resource name of the metastore
+   * service to complete the migration to, in the following
+   * format:projects/{project_id}/locations/{location_id}/services/{service_id}.
+   * @param CompleteMigrationRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function completeMigration($service, CompleteMigrationRequest $postBody, $optParams = [])
+  {
+    $params = ['service' => $service, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('completeMigration', [$params], Operation::class);
   }
   /**
    * Creates a metastore service in a project and location. (services.create)
@@ -281,7 +320,7 @@ class ProjectsLocationsServices extends \Google\Service\Resource
     return $this->call('patch', [$params], Operation::class);
   }
   /**
-   * Query DPMS metadata. (services.queryMetadata)
+   * Query Dataproc Metastore metadata. (services.queryMetadata)
    *
    * @param string $service Required. The relative resource name of the metastore
    * service to query metadata, in the following
@@ -333,6 +372,23 @@ class ProjectsLocationsServices extends \Google\Service\Resource
     $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('setIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Starts the Managed Migration process. (services.startMigration)
+   *
+   * @param string $service Required. The relative resource name of the metastore
+   * service to start migrating to, in the following
+   * format:projects/{project_id}/locations/{location_id}/services/{service_id}.
+   * @param StartMigrationRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function startMigration($service, StartMigrationRequest $postBody, $optParams = [])
+  {
+    $params = ['service' => $service, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('startMigration', [$params], Operation::class);
   }
   /**
    * Returns permissions that a caller has on the specified resource. If the

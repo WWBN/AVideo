@@ -17,9 +17,9 @@
 
 namespace Google\Service\DiscoveryEngine\Resource;
 
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchRequest;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchRequest;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1RecrawlUrisRequest;
 use Google\Service\DiscoveryEngine\GoogleLongrunningOperation;
 
 /**
@@ -39,12 +39,12 @@ class ProjectsLocationsDataStoresSiteSearchEngine extends \Google\Service\Resour
    * @param string $siteSearchEngine Required. Full resource name of the
    * SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores
    * /{data_store_id}/siteSearchEngine`.
-   * @param GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest $postBody
+   * @param GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function disableAdvancedSiteSearch($siteSearchEngine, GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest $postBody, $optParams = [])
+  public function disableAdvancedSiteSearch($siteSearchEngine, GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchRequest $postBody, $optParams = [])
   {
     $params = ['siteSearchEngine' => $siteSearchEngine, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -57,12 +57,12 @@ class ProjectsLocationsDataStoresSiteSearchEngine extends \Google\Service\Resour
    * @param string $siteSearchEngine Required. Full resource name of the
    * SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores
    * /{data_store_id}/siteSearchEngine`.
-   * @param GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest $postBody
+   * @param GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function enableAdvancedSiteSearch($siteSearchEngine, GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest $postBody, $optParams = [])
+  public function enableAdvancedSiteSearch($siteSearchEngine, GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchRequest $postBody, $optParams = [])
   {
     $params = ['siteSearchEngine' => $siteSearchEngine, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -74,12 +74,12 @@ class ProjectsLocationsDataStoresSiteSearchEngine extends \Google\Service\Resour
    * @param string $siteSearchEngine Required. Full resource name of the
    * SiteSearchEngine, such as
    * `projects/locations/collections/dataStores/siteSearchEngine`.
-   * @param GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest $postBody
+   * @param GoogleCloudDiscoveryengineV1RecrawlUrisRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
-  public function recrawlUris($siteSearchEngine, GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest $postBody, $optParams = [])
+  public function recrawlUris($siteSearchEngine, GoogleCloudDiscoveryengineV1RecrawlUrisRequest $postBody, $optParams = [])
   {
     $params = ['siteSearchEngine' => $siteSearchEngine, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);

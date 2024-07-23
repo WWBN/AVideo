@@ -19,6 +19,8 @@ namespace Google\Service\HangoutsChat;
 
 class Space extends \Google\Model
 {
+  protected $accessSettingsType = AccessSettings::class;
+  protected $accessSettingsDataType = '';
   /**
    * @var bool
    */
@@ -62,6 +64,10 @@ class Space extends \Google\Model
    */
   public $spaceType;
   /**
+   * @var string
+   */
+  public $spaceUri;
+  /**
    * @var bool
    */
   public $threaded;
@@ -70,6 +76,20 @@ class Space extends \Google\Model
    */
   public $type;
 
+  /**
+   * @param AccessSettings
+   */
+  public function setAccessSettings(AccessSettings $accessSettings)
+  {
+    $this->accessSettings = $accessSettings;
+  }
+  /**
+   * @return AccessSettings
+   */
+  public function getAccessSettings()
+  {
+    return $this->accessSettings;
+  }
   /**
    * @param bool
    */
@@ -223,6 +243,20 @@ class Space extends \Google\Model
   public function getSpaceType()
   {
     return $this->spaceType;
+  }
+  /**
+   * @param string
+   */
+  public function setSpaceUri($spaceUri)
+  {
+    $this->spaceUri = $spaceUri;
+  }
+  /**
+   * @return string
+   */
+  public function getSpaceUri()
+  {
+    return $this->spaceUri;
   }
   /**
    * @param bool

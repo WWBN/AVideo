@@ -62,6 +62,9 @@ class ProjectsLocationsCatalogs extends \Google\Service\Resource
    * it is empty, the suggestions are across all device types. Supported formats:
    * * `UNKNOWN_DEVICE_TYPE` * `DESKTOP` * `MOBILE` * A customized string starts
    * with `OTHER_`, e.g. `OTHER_IPHONE`.
+   * @opt_param bool enableAttributeSuggestions If true, attribute suggestions are
+   * enabled and provided in the response. This field is only available for the
+   * "cloud-retail" dataset.
    * @opt_param string entity The entity for customers who run multiple entities,
    * domains, sites, or regions, for example, `Google US`, `Google Ads`, `Waymo`,
    * `google.com`, `youtube.com`, etc. If this is set, it must be an exact match

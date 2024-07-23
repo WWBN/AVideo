@@ -36,6 +36,8 @@ class Subscription extends \Google\Collection
    * @var string
    */
   public $productId;
+  protected $restrictedPaymentCountriesType = RestrictedPaymentCountries::class;
+  protected $restrictedPaymentCountriesDataType = '';
   protected $taxAndComplianceSettingsType = SubscriptionTaxAndComplianceSettings::class;
   protected $taxAndComplianceSettingsDataType = '';
 
@@ -108,6 +110,20 @@ class Subscription extends \Google\Collection
   public function getProductId()
   {
     return $this->productId;
+  }
+  /**
+   * @param RestrictedPaymentCountries
+   */
+  public function setRestrictedPaymentCountries(RestrictedPaymentCountries $restrictedPaymentCountries)
+  {
+    $this->restrictedPaymentCountries = $restrictedPaymentCountries;
+  }
+  /**
+   * @return RestrictedPaymentCountries
+   */
+  public function getRestrictedPaymentCountries()
+  {
+    return $this->restrictedPaymentCountries;
   }
   /**
    * @param SubscriptionTaxAndComplianceSettings

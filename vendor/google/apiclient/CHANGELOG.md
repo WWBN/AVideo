@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.17.0](https://github.com/googleapis/google-api-php-client/compare/v2.16.0...v2.17.0) (2024-07-10)
+
+
+### Features
+
+* Add logger to client constructor config ([#2606](https://github.com/googleapis/google-api-php-client/issues/2606)) ([1f47133](https://github.com/googleapis/google-api-php-client/commit/1f4713329d71111a317cda8ef8603fa1bdc88858))
+* Add the protected apiVersion property ([#2588](https://github.com/googleapis/google-api-php-client/issues/2588)) ([7e79f3d](https://github.com/googleapis/google-api-php-client/commit/7e79f3d7be4811f760e19cc4a2c558e04196ec1d))
+
+## [2.16.0](https://github.com/googleapis/google-api-php-client/compare/v2.15.4...v2.16.0) (2024-04-24)
+
+
+### Features
+
+* Add universe domain support ([#2563](https://github.com/googleapis/google-api-php-client/issues/2563)) ([35895de](https://github.com/googleapis/google-api-php-client/commit/35895ded90b507074b3430a94a5790ddd01f39f0))
+
+## [2.15.4](https://github.com/googleapis/google-api-php-client/compare/v2.15.3...v2.15.4) (2024-03-06)
+
+
+### Bug Fixes
+
+* Updates phpseclib because of a security issue ([#2574](https://github.com/googleapis/google-api-php-client/issues/2574)) ([633d41f](https://github.com/googleapis/google-api-php-client/commit/633d41f1b65fdb71a83bf747f7a3ad9857f6d02a))
+
 ## [2.15.3](https://github.com/googleapis/google-api-php-client/compare/v2.15.2...v2.15.3) (2024-01-04)
 
 

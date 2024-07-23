@@ -20,8 +20,6 @@ namespace Google\Service\Dns;
 class ManagedZonesListResponse extends \Google\Collection
 {
   protected $collection_key = 'managedZones';
-  protected $headerType = ResponseHeader::class;
-  protected $headerDataType = '';
   /**
    * @var string
    */
@@ -33,20 +31,6 @@ class ManagedZonesListResponse extends \Google\Collection
    */
   public $nextPageToken;
 
-  /**
-   * @param ResponseHeader
-   */
-  public function setHeader(ResponseHeader $header)
-  {
-    $this->header = $header;
-  }
-  /**
-   * @return ResponseHeader
-   */
-  public function getHeader()
-  {
-    return $this->header;
-  }
   /**
    * @param string
    */

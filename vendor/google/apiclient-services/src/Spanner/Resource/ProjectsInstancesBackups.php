@@ -88,6 +88,18 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * that will be used to protect the backup. This field should be set only when
    * encryption_type is `CUSTOMER_MANAGED_ENCRYPTION`. Values are of the form
    * `projects//locations//keyRings//cryptoKeys/`.
+   * @opt_param string encryptionConfig.kmsKeyNames Optional. Specifies the KMS
+   * configuration for the one or more keys used to protect the backup. Values are
+   * of the form `projects//locations//keyRings//cryptoKeys/`. The keys referenced
+   * by kms_key_names must fully cover all regions of the backup's instance
+   * configuration. Some examples: * For single region instance configs, specify a
+   * single regional location KMS key. * For multi-regional instance configs of
+   * type GOOGLE_MANAGED, either specify a multi-regional location KMS key or
+   * multiple regional location KMS keys that cover all regions in the instance
+   * config. * For an instance config of type USER_MANAGED, please specify only
+   * regional location KMS keys to cover each region in the instance config.
+   * Multi-regional location KMS keys are not supported for USER_MANAGED instance
+   * configs.
    * @return Operation
    * @throws \Google\Service\Exception
    */

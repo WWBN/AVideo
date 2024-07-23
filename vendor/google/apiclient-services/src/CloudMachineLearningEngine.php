@@ -50,6 +50,7 @@ class CloudMachineLearningEngine extends \Google\Service
   public $projects_models;
   public $projects_models_versions;
   public $projects_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudMachineLearningEngine
@@ -63,6 +64,7 @@ class CloudMachineLearningEngine extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://ml.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://ml.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

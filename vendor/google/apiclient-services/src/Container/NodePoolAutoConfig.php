@@ -21,6 +21,8 @@ class NodePoolAutoConfig extends \Google\Model
 {
   protected $networkTagsType = NetworkTags::class;
   protected $networkTagsDataType = '';
+  protected $nodeKubeletConfigType = NodeKubeletConfig::class;
+  protected $nodeKubeletConfigDataType = '';
   protected $resourceManagerTagsType = ResourceManagerTags::class;
   protected $resourceManagerTagsDataType = '';
 
@@ -37,6 +39,20 @@ class NodePoolAutoConfig extends \Google\Model
   public function getNetworkTags()
   {
     return $this->networkTags;
+  }
+  /**
+   * @param NodeKubeletConfig
+   */
+  public function setNodeKubeletConfig(NodeKubeletConfig $nodeKubeletConfig)
+  {
+    $this->nodeKubeletConfig = $nodeKubeletConfig;
+  }
+  /**
+   * @return NodeKubeletConfig
+   */
+  public function getNodeKubeletConfig()
+  {
+    return $this->nodeKubeletConfig;
   }
   /**
    * @param ResourceManagerTags

@@ -72,8 +72,16 @@ class Instance extends \Google\Collection
    * @var string
    */
   public $name;
+  protected $networkConfigType = InstanceNetworkConfig::class;
+  protected $networkConfigDataType = '';
   protected $nodesType = Node::class;
   protected $nodesDataType = 'array';
+  protected $pscInstanceConfigType = PscInstanceConfig::class;
+  protected $pscInstanceConfigDataType = '';
+  /**
+   * @var string
+   */
+  public $publicIpAddress;
   protected $queryInsightsConfigType = QueryInsightsInstanceConfig::class;
   protected $queryInsightsConfigDataType = '';
   protected $readPoolConfigType = ReadPoolConfig::class;
@@ -298,6 +306,20 @@ class Instance extends \Google\Collection
     return $this->name;
   }
   /**
+   * @param InstanceNetworkConfig
+   */
+  public function setNetworkConfig(InstanceNetworkConfig $networkConfig)
+  {
+    $this->networkConfig = $networkConfig;
+  }
+  /**
+   * @return InstanceNetworkConfig
+   */
+  public function getNetworkConfig()
+  {
+    return $this->networkConfig;
+  }
+  /**
    * @param Node[]
    */
   public function setNodes($nodes)
@@ -310,6 +332,34 @@ class Instance extends \Google\Collection
   public function getNodes()
   {
     return $this->nodes;
+  }
+  /**
+   * @param PscInstanceConfig
+   */
+  public function setPscInstanceConfig(PscInstanceConfig $pscInstanceConfig)
+  {
+    $this->pscInstanceConfig = $pscInstanceConfig;
+  }
+  /**
+   * @return PscInstanceConfig
+   */
+  public function getPscInstanceConfig()
+  {
+    return $this->pscInstanceConfig;
+  }
+  /**
+   * @param string
+   */
+  public function setPublicIpAddress($publicIpAddress)
+  {
+    $this->publicIpAddress = $publicIpAddress;
+  }
+  /**
+   * @return string
+   */
+  public function getPublicIpAddress()
+  {
+    return $this->publicIpAddress;
   }
   /**
    * @param QueryInsightsInstanceConfig

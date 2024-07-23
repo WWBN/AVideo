@@ -76,6 +76,10 @@ class Backup extends \Google\Model
    */
   public $name;
   /**
+   * @var bool
+   */
+  public $permissiveMode;
+  /**
    * @var int
    */
   public $podCount;
@@ -329,6 +333,20 @@ class Backup extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param bool
+   */
+  public function setPermissiveMode($permissiveMode)
+  {
+    $this->permissiveMode = $permissiveMode;
+  }
+  /**
+   * @return bool
+   */
+  public function getPermissiveMode()
+  {
+    return $this->permissiveMode;
   }
   /**
    * @param int

@@ -17,12 +17,17 @@
 
 namespace Google\Service\AnalyticsHub;
 
-class BigQueryDatasetSource extends \Google\Model
+class BigQueryDatasetSource extends \Google\Collection
 {
+  protected $collection_key = 'selectedResources';
   /**
    * @var string
    */
   public $dataset;
+  protected $restrictedExportPolicyType = RestrictedExportPolicy::class;
+  protected $restrictedExportPolicyDataType = '';
+  protected $selectedResourcesType = SelectedResource::class;
+  protected $selectedResourcesDataType = 'array';
 
   /**
    * @param string
@@ -37,6 +42,34 @@ class BigQueryDatasetSource extends \Google\Model
   public function getDataset()
   {
     return $this->dataset;
+  }
+  /**
+   * @param RestrictedExportPolicy
+   */
+  public function setRestrictedExportPolicy(RestrictedExportPolicy $restrictedExportPolicy)
+  {
+    $this->restrictedExportPolicy = $restrictedExportPolicy;
+  }
+  /**
+   * @return RestrictedExportPolicy
+   */
+  public function getRestrictedExportPolicy()
+  {
+    return $this->restrictedExportPolicy;
+  }
+  /**
+   * @param SelectedResource[]
+   */
+  public function setSelectedResources($selectedResources)
+  {
+    $this->selectedResources = $selectedResources;
+  }
+  /**
+   * @return SelectedResource[]
+   */
+  public function getSelectedResources()
+  {
+    return $this->selectedResources;
   }
 }
 

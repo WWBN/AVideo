@@ -26,6 +26,8 @@ class BasePlan extends \Google\Collection
    * @var string
    */
   public $basePlanId;
+  protected $installmentsBasePlanTypeType = InstallmentsBasePlanType::class;
+  protected $installmentsBasePlanTypeDataType = '';
   protected $offerTagsType = OfferTag::class;
   protected $offerTagsDataType = 'array';
   protected $otherRegionsConfigType = OtherRegionsBasePlanConfig::class;
@@ -66,6 +68,20 @@ class BasePlan extends \Google\Collection
   public function getBasePlanId()
   {
     return $this->basePlanId;
+  }
+  /**
+   * @param InstallmentsBasePlanType
+   */
+  public function setInstallmentsBasePlanType(InstallmentsBasePlanType $installmentsBasePlanType)
+  {
+    $this->installmentsBasePlanType = $installmentsBasePlanType;
+  }
+  /**
+   * @return InstallmentsBasePlanType
+   */
+  public function getInstallmentsBasePlanType()
+  {
+    return $this->installmentsBasePlanType;
   }
   /**
    * @param OfferTag[]

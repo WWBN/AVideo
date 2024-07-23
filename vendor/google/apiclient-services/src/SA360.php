@@ -43,6 +43,7 @@ class SA360 extends \Google\Service
   public $customers_customColumns;
   public $customers_searchAds360;
   public $searchAds360Fields;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the SA360 service.
@@ -55,6 +56,7 @@ class SA360 extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://searchads360.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://searchads360.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v0';

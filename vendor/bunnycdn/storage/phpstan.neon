@@ -2,3 +2,6 @@ parameters:
   level: 9
   paths:
     - src/
+  scanDirectories:
+    - vendor/
+  treatPhpDocTypesAsCertain: false

@@ -31,6 +31,10 @@ class GoogleCloudAiplatformV1Segment extends \Google\Model
    * @var int
    */
   public $startIndex;
+  /**
+   * @var string
+   */
+  public $text;
 
   /**
    * @param int
@@ -73,6 +77,20 @@ class GoogleCloudAiplatformV1Segment extends \Google\Model
   public function getStartIndex()
   {
     return $this->startIndex;
+  }
+  /**
+   * @param string
+   */
+  public function setText($text)
+  {
+    $this->text = $text;
+  }
+  /**
+   * @return string
+   */
+  public function getText()
+  {
+    return $this->text;
   }
 }
 

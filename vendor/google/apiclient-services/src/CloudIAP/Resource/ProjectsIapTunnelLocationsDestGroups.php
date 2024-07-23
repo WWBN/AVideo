@@ -115,9 +115,9 @@ class ProjectsIapTunnelLocationsDestGroups extends \Google\Service\Resource
   /**
    * Updates a TunnelDestGroup. (destGroups.patch)
    *
-   * @param string $name Required. Immutable. Identifier for the TunnelDestGroup.
-   * Must be unique within the project and contain only lower case letters (a-z)
-   * and dashes (-).
+   * @param string $name Identifier. Identifier for the TunnelDestGroup. Must be
+   * unique within the project and contain only lower case letters (a-z) and
+   * dashes (-).
    * @param TunnelDestGroup $postBody
    * @param array $optParams Optional parameters.
    *

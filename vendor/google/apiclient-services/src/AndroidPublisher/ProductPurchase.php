@@ -72,6 +72,10 @@ class ProductPurchase extends \Google\Model
    */
   public $quantity;
   /**
+   * @var int
+   */
+  public $refundableQuantity;
+  /**
    * @var string
    */
   public $regionCode;
@@ -257,6 +261,20 @@ class ProductPurchase extends \Google\Model
   public function getQuantity()
   {
     return $this->quantity;
+  }
+  /**
+   * @param int
+   */
+  public function setRefundableQuantity($refundableQuantity)
+  {
+    $this->refundableQuantity = $refundableQuantity;
+  }
+  /**
+   * @return int
+   */
+  public function getRefundableQuantity()
+  {
+    return $this->refundableQuantity;
   }
   /**
    * @param string

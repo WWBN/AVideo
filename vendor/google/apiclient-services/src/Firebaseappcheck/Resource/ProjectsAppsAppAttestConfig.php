@@ -81,7 +81,7 @@ class ProjectsAppsAppAttestConfig extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. A comma-separated list of names of
-   * fields in the AppAttestConfig Gets to update. Example: `token_ttl`.
+   * fields in the AppAttestConfig to update. Example: `token_ttl`.
    * @return GoogleFirebaseAppcheckV1AppAttestConfig
    * @throws \Google\Service\Exception
    */

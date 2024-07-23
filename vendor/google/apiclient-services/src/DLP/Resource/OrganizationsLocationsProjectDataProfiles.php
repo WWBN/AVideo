@@ -46,7 +46,7 @@ class OrganizationsLocationsProjectDataProfiles extends \Google\Service\Resource
     return $this->call('get', [$params], GooglePrivacyDlpV2ProjectDataProfile::class);
   }
   /**
-   * Lists data profiles for an organization.
+   * Lists project data profiles for an organization.
    * (projectDataProfiles.listOrganizationsLocationsProjectDataProfiles)
    *
    * @param string $parent Required. organizations/{org_id}/locations/{loc_id}
@@ -60,17 +60,18 @@ class OrganizationsLocationsProjectDataProfiles extends \Google\Service\Resource
    * HIGH|MODERATE|LOW - `data_risk_level` - HIGH|MODERATE|LOW - `status_code` -
    * an RPC status code as defined in
    * https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto *
-   * The operator must be `=` or `!=`. Examples: * project_id = 12345 AND
-   * status_code = 1 * project_id = 12345 AND sensitivity_level = HIGH The length
-   * of this field should be no more than 500 characters.
-   * @opt_param string orderBy Comma separated list of fields to order by,
+   * The operator must be `=` or `!=`. Examples: * `project_id = 12345 AND
+   * status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` The
+   * length of this field should be no more than 500 characters.
+   * @opt_param string orderBy Comma-separated list of fields to order by,
    * followed by `asc` or `desc` postfix. This list is case insensitive. The
    * default sorting order is ascending. Redundant space characters are
    * insignificant. Only one order field at a time is allowed. Examples: *
    * `project_id` * `sensitivity_level desc` Supported fields are: - `project_id`:
-   * GCP project ID - `sensitivity_level`: How sensitive the data in a project is,
-   * at most. - `data_risk_level`: How much risk is associated with this data. -
-   * `profile_last_generated`: When the profile was last updated in epoch seconds.
+   * Google Cloud project ID - `sensitivity_level`: How sensitive the data in a
+   * project is, at most. - `data_risk_level`: How much risk is associated with
+   * this data. - `profile_last_generated`: When the profile was last updated in
+   * epoch seconds.
    * @opt_param int pageSize Size of the page. This value can be limited by the
    * server. If zero, server returns a page of max size 100.
    * @opt_param string pageToken Page token to continue retrieval.

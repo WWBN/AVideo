@@ -29,6 +29,8 @@ class WorkflowInvocationAction extends \Google\Model
   public $failureReason;
   protected $invocationTimingType = Interval::class;
   protected $invocationTimingDataType = '';
+  protected $notebookActionType = NotebookAction::class;
+  protected $notebookActionDataType = '';
   /**
    * @var string
    */
@@ -91,6 +93,20 @@ class WorkflowInvocationAction extends \Google\Model
   public function getInvocationTiming()
   {
     return $this->invocationTiming;
+  }
+  /**
+   * @param NotebookAction
+   */
+  public function setNotebookAction(NotebookAction $notebookAction)
+  {
+    $this->notebookAction = $notebookAction;
+  }
+  /**
+   * @return NotebookAction
+   */
+  public function getNotebookAction()
+  {
+    return $this->notebookAction;
   }
   /**
    * @param string

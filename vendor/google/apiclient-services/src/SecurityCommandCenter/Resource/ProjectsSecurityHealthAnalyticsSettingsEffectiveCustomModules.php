@@ -35,10 +35,10 @@ class ProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules extends \Goo
    * (effectiveCustomModules.get)
    *
    * @param string $name Required. Name of the effective custom module to get. Its
-   * format is "organizations/{organization}/securityHealthAnalyticsSettings/effec
-   * tiveCustomModules/{customModule}", "folders/{folder}/securityHealthAnalyticsS
-   * ettings/effectiveCustomModules/{customModule}", or "projects/{project}/securi
-   * tyHealthAnalyticsSettings/effectiveCustomModules/{customModule}"
+   * format is `organizations/{organization}/securityHealthAnalyticsSettings/effec
+   * tiveCustomModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsS
+   * ettings/effectiveCustomModules/{customModule}`, or `projects/{project}/securi
+   * tyHealthAnalyticsSettings/effectiveCustomModules/{customModule}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule
    * @throws \Google\Service\Exception
@@ -57,9 +57,9 @@ class ProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules extends \Goo
    *
    * @param string $parent Required. Name of parent to list effective custom
    * modules. Its format is
-   * "organizations/{organization}/securityHealthAnalyticsSettings",
-   * "folders/{folder}/securityHealthAnalyticsSettings", or
-   * "projects/{project}/securityHealthAnalyticsSettings"
+   * `organizations/{organization}/securityHealthAnalyticsSettings`,
+   * `folders/{folder}/securityHealthAnalyticsSettings`, or
+   * `projects/{project}/securityHealthAnalyticsSettings`
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of results to return in a single

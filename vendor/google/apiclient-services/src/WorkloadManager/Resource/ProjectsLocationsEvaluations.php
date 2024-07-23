@@ -67,6 +67,8 @@ class ProjectsLocationsEvaluations extends \Google\Service\Resource
    * @param string $name Required. Name of the resource
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool force Optional. Followed the best practice from
+   * https://aip.dev/135#cascading-delete
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
    * the server will know to ignore the request if it has already been completed.
@@ -108,7 +110,8 @@ class ProjectsLocationsEvaluations extends \Google\Service\Resource
    * @param string $parent Required. Parent value for ListEvaluationsRequest
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Filtering results
+   * @opt_param string filter Filter to be applied when listing the evaluation
+   * results.
    * @opt_param string orderBy Hint for how to order the results
    * @opt_param int pageSize Requested page size. Server may return fewer items
    * than requested. If unspecified, server will pick an appropriate default.

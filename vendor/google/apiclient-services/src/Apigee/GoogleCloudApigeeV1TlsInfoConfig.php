@@ -37,6 +37,10 @@ class GoogleCloudApigeeV1TlsInfoConfig extends \Google\Collection
   /**
    * @var bool
    */
+  public $enforce;
+  /**
+   * @var bool
+   */
   public $ignoreValidationErrors;
   /**
    * @var string
@@ -108,6 +112,20 @@ class GoogleCloudApigeeV1TlsInfoConfig extends \Google\Collection
   public function getEnabled()
   {
     return $this->enabled;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnforce($enforce)
+  {
+    $this->enforce = $enforce;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnforce()
+  {
+    return $this->enforce;
   }
   /**
    * @param bool

@@ -86,8 +86,7 @@ class ProjectsAppsDeviceCheckConfig extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. A comma-separated list of names of
-   * fields in the DeviceCheckConfig Gets to update. Example:
-   * `key_id,private_key`.
+   * fields in the DeviceCheckConfig to update. Example: `key_id,private_key`.
    * @return GoogleFirebaseAppcheckV1DeviceCheckConfig
    * @throws \Google\Service\Exception
    */

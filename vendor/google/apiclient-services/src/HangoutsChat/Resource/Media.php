@@ -49,13 +49,13 @@ class Media extends \Google\Service\Resource
   }
   /**
    * Uploads an attachment. For an example, see [Upload media as a file
-   * attachment](https://developers.google.com/chat/api/guides/v1/media-and-
-   * attachments/upload). Requires user
-   * [authentication](https://developers.google.com/chat/api/guides/auth/users).
-   * You can upload attachments up to 200 MB. Certain file types aren't supported.
-   * For details, see [File types blocked by Google Chat](https://support.google.c
-   * om/chat/answer/7651457?&co=GENIE.Platform%3DDesktop#File%20types%20blocked%20
-   * in%20Google%20Chat). (media.upload)
+   * attachment](https://developers.google.com/workspace/chat/upload-media-
+   * attachments). Requires user
+   * [authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize-chat-user). You can upload attachments up to 200 MB. Certain file
+   * types aren't supported. For details, see [File types blocked by Google Chat](
+   * https://support.google.com/chat/answer/7651457?&co=GENIE.Platform%3DDesktop#F
+   * ile%20types%20blocked%20in%20Google%20Chat). (media.upload)
    *
    * @param string $parent Required. Resource name of the Chat space in which the
    * attachment is uploaded. Format "spaces/{space}".

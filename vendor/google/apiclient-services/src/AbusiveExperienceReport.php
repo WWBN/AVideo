@@ -39,6 +39,7 @@ class AbusiveExperienceReport extends \Google\Service
 
   public $sites;
   public $violatingSites;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the AbusiveExperienceReport
@@ -52,6 +53,7 @@ class AbusiveExperienceReport extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://abusiveexperiencereport.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://abusiveexperiencereport.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

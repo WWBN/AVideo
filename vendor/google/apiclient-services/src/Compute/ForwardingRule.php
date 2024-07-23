@@ -71,6 +71,10 @@ class ForwardingRule extends \Google\Collection
   /**
    * @var string
    */
+  public $ipCollection;
+  /**
+   * @var string
+   */
   public $ipVersion;
   /**
    * @var bool
@@ -310,6 +314,20 @@ class ForwardingRule extends \Google\Collection
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param string
+   */
+  public function setIpCollection($ipCollection)
+  {
+    $this->ipCollection = $ipCollection;
+  }
+  /**
+   * @return string
+   */
+  public function getIpCollection()
+  {
+    return $this->ipCollection;
   }
   /**
    * @param string

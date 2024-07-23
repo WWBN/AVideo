@@ -17,9 +17,14 @@
 
 namespace Google\Service\Logging\Resource;
 
+use Google\Service\Logging\GetIamPolicyRequest;
 use Google\Service\Logging\ListViewsResponse;
 use Google\Service\Logging\LogView;
 use Google\Service\Logging\LoggingEmpty;
+use Google\Service\Logging\Policy;
+use Google\Service\Logging\SetIamPolicyRequest;
+use Google\Service\Logging\TestIamPermissionsRequest;
+use Google\Service\Logging\TestIamPermissionsResponse;
 
 /**
  * The "views" collection of methods.
@@ -90,6 +95,25 @@ class ProjectsLocationsBucketsViews extends \Google\Service\Resource
     return $this->call('get', [$params], LogView::class);
   }
   /**
+   * Gets the access control policy for a resource. Returns an empty policy if the
+   * resource exists and does not have a policy set. (views.getIamPolicy)
+   *
+   * @param string $resource REQUIRED: The resource for which the policy is being
+   * requested. See Resource names
+   * (https://cloud.google.com/apis/design/resource_names) for the appropriate
+   * value for this field.
+   * @param GetIamPolicyRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Policy
+   * @throws \Google\Service\Exception
+   */
+  public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
+  {
+    $params = ['resource' => $resource, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('getIamPolicy', [$params], Policy::class);
+  }
+  /**
    * Lists views on a log bucket. (views.listProjectsLocationsBucketsViews)
    *
    * @param string $parent Required. The bucket whose views are to be listed:
@@ -140,6 +164,48 @@ class ProjectsLocationsBucketsViews extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], LogView::class);
+  }
+  /**
+   * Sets the access control policy on the specified resource. Replaces any
+   * existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED
+   * errors. (views.setIamPolicy)
+   *
+   * @param string $resource REQUIRED: The resource for which the policy is being
+   * specified. See Resource names
+   * (https://cloud.google.com/apis/design/resource_names) for the appropriate
+   * value for this field.
+   * @param SetIamPolicyRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Policy
+   * @throws \Google\Service\Exception
+   */
+  public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
+  {
+    $params = ['resource' => $resource, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('setIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Returns permissions that a caller has on the specified resource. If the
+   * resource does not exist, this will return an empty set of permissions, not a
+   * NOT_FOUND error.Note: This operation is designed to be used for building
+   * permission-aware UIs and command-line tools, not for authorization checking.
+   * This operation may "fail open" without warning. (views.testIamPermissions)
+   *
+   * @param string $resource REQUIRED: The resource for which the policy detail is
+   * being requested. See Resource names
+   * (https://cloud.google.com/apis/design/resource_names) for the appropriate
+   * value for this field.
+   * @param TestIamPermissionsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
+  {
+    $params = ['resource' => $resource, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('testIamPermissions', [$params], TestIamPermissionsResponse::class);
   }
 }
 

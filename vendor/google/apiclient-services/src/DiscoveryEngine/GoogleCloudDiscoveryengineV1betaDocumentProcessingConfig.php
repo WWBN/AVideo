@@ -19,6 +19,8 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig extends \Google\Model
 {
+  protected $chunkingConfigType = GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfig::class;
+  protected $chunkingConfigDataType = '';
   protected $defaultParsingConfigType = GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfig::class;
   protected $defaultParsingConfigDataType = '';
   /**
@@ -28,6 +30,20 @@ class GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig extends \Google\M
   protected $parsingConfigOverridesType = GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfig::class;
   protected $parsingConfigOverridesDataType = 'map';
 
+  /**
+   * @param GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfig
+   */
+  public function setChunkingConfig(GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfig $chunkingConfig)
+  {
+    $this->chunkingConfig = $chunkingConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfig
+   */
+  public function getChunkingConfig()
+  {
+    return $this->chunkingConfig;
+  }
   /**
    * @param GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfig
    */

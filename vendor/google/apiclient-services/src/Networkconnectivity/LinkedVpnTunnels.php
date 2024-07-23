@@ -21,6 +21,10 @@ class LinkedVpnTunnels extends \Google\Collection
 {
   protected $collection_key = 'uris';
   /**
+   * @var string[]
+   */
+  public $includeImportRanges;
+  /**
    * @var bool
    */
   public $siteToSiteDataTransfer;
@@ -33,6 +37,20 @@ class LinkedVpnTunnels extends \Google\Collection
    */
   public $vpcNetwork;
 
+  /**
+   * @param string[]
+   */
+  public function setIncludeImportRanges($includeImportRanges)
+  {
+    $this->includeImportRanges = $includeImportRanges;
+  }
+  /**
+   * @return string[]
+   */
+  public function getIncludeImportRanges()
+  {
+    return $this->includeImportRanges;
+  }
   /**
    * @param bool
    */

@@ -72,6 +72,10 @@ class EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry extends \Google\
    * @var string
    */
   public $protoDefPath;
+  /**
+   * @var bool
+   */
+  public $required;
 
   /**
    * @param EnterpriseCrmEventbusProtoAttributes
@@ -282,6 +286,20 @@ class EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry extends \Google\
   public function getProtoDefPath()
   {
     return $this->protoDefPath;
+  }
+  /**
+   * @param bool
+   */
+  public function setRequired($required)
+  {
+    $this->required = $required;
+  }
+  /**
+   * @return bool
+   */
+  public function getRequired()
+  {
+    return $this->required;
   }
 }
 

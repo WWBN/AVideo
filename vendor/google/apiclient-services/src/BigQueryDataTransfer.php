@@ -55,6 +55,7 @@ class BigQueryDataTransfer extends \Google\Service
   public $projects_transferConfigs;
   public $projects_transferConfigs_runs;
   public $projects_transferConfigs_runs_transferLogs;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the BigQueryDataTransfer service.
@@ -67,6 +68,7 @@ class BigQueryDataTransfer extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://bigquerydatatransfer.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://bigquerydatatransfer.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

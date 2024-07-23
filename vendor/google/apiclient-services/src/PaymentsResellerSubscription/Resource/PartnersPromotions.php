@@ -50,9 +50,9 @@ class PartnersPromotions extends \Google\Service\Resource
     return $this->call('findEligible', [$params], GoogleCloudPaymentsResellerSubscriptionV1FindEligiblePromotionsResponse::class);
   }
   /**
-   * To retrieve the promotions, such as free trial, that can be used by the
-   * partner. It should be autenticated with a service account.
-   * (promotions.listPartnersPromotions)
+   * Retrieves the promotions, such as free trial, that can be used by the
+   * partner. - This API doesn't apply to YouTube promotions currently. It should
+   * be autenticated with a service account. (promotions.listPartnersPromotions)
    *
    * @param string $parent Required. The parent, the partner that can resell.
    * Format: partners/{partner}

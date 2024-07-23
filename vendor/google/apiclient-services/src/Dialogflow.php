@@ -67,6 +67,7 @@ class Dialogflow extends \Google\Service
   public $projects_locations_operations;
   public $projects_locations_securitySettings;
   public $projects_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Dialogflow service.
@@ -79,6 +80,7 @@ class Dialogflow extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://dialogflow.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://dialogflow.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v3';

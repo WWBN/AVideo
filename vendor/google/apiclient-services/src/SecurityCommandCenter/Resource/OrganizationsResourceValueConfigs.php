@@ -71,7 +71,8 @@ class OrganizationsResourceValueConfigs extends \Google\Service\Resource
    * Gets a ResourceValueConfig. (resourceValueConfigs.get)
    *
    * @param string $name Required. Name of the resource value config to retrieve.
-   * Its format is organizations/{organization}/resourceValueConfigs/{config_id}.
+   * Its format is
+   * `organizations/{organization}/resourceValueConfigs/{config_id}`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudSecuritycenterV1ResourceValueConfig
    * @throws \Google\Service\Exception
@@ -87,7 +88,7 @@ class OrganizationsResourceValueConfigs extends \Google\Service\Resource
    * (resourceValueConfigs.listOrganizationsResourceValueConfigs)
    *
    * @param string $parent Required. The parent, which owns the collection of
-   * resource value configs. Its format is "organizations/[organization_id]"
+   * resource value configs. Its format is `organizations/[organization_id]`
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The number of results to return. The service may
@@ -112,7 +113,7 @@ class OrganizationsResourceValueConfigs extends \Google\Service\Resource
    * Updates an existing ResourceValueConfigs with new rules.
    * (resourceValueConfigs.patch)
    *
-   * @param string $name Name for the resource value config
+   * @param string $name Name for the resource value configuration
    * @param GoogleCloudSecuritycenterV1ResourceValueConfig $postBody
    * @param array $optParams Optional parameters.
    *

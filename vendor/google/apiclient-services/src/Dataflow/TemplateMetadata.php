@@ -23,6 +23,10 @@ class TemplateMetadata extends \Google\Collection
   /**
    * @var string
    */
+  public $defaultStreamingMode;
+  /**
+   * @var string
+   */
   public $description;
   /**
    * @var string
@@ -43,6 +47,20 @@ class TemplateMetadata extends \Google\Collection
    */
   public $supportsExactlyOnce;
 
+  /**
+   * @param string
+   */
+  public function setDefaultStreamingMode($defaultStreamingMode)
+  {
+    $this->defaultStreamingMode = $defaultStreamingMode;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultStreamingMode()
+  {
+    return $this->defaultStreamingMode;
+  }
   /**
    * @param string
    */

@@ -46,6 +46,7 @@ class YouTubeReporting extends \Google\Service
   public $jobs_reports;
   public $media;
   public $reportTypes;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the YouTubeReporting service.
@@ -58,6 +59,7 @@ class YouTubeReporting extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://youtubereporting.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://youtubereporting.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

@@ -22,6 +22,12 @@ class GoogleCloudAiplatformV1GroundingMetadata extends \Google\Collection
   protected $collection_key = 'webSearchQueries';
   protected $groundingAttributionsType = GoogleCloudAiplatformV1GroundingAttribution::class;
   protected $groundingAttributionsDataType = 'array';
+  protected $groundingChunksType = GoogleCloudAiplatformV1GroundingChunk::class;
+  protected $groundingChunksDataType = 'array';
+  protected $groundingSupportsType = GoogleCloudAiplatformV1GroundingSupport::class;
+  protected $groundingSupportsDataType = 'array';
+  protected $searchEntryPointType = GoogleCloudAiplatformV1SearchEntryPoint::class;
+  protected $searchEntryPointDataType = '';
   /**
    * @var string[]
    */
@@ -40,6 +46,48 @@ class GoogleCloudAiplatformV1GroundingMetadata extends \Google\Collection
   public function getGroundingAttributions()
   {
     return $this->groundingAttributions;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1GroundingChunk[]
+   */
+  public function setGroundingChunks($groundingChunks)
+  {
+    $this->groundingChunks = $groundingChunks;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1GroundingChunk[]
+   */
+  public function getGroundingChunks()
+  {
+    return $this->groundingChunks;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1GroundingSupport[]
+   */
+  public function setGroundingSupports($groundingSupports)
+  {
+    $this->groundingSupports = $groundingSupports;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1GroundingSupport[]
+   */
+  public function getGroundingSupports()
+  {
+    return $this->groundingSupports;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1SearchEntryPoint
+   */
+  public function setSearchEntryPoint(GoogleCloudAiplatformV1SearchEntryPoint $searchEntryPoint)
+  {
+    $this->searchEntryPoint = $searchEntryPoint;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1SearchEntryPoint
+   */
+  public function getSearchEntryPoint()
+  {
+    return $this->searchEntryPoint;
   }
   /**
    * @param string[]

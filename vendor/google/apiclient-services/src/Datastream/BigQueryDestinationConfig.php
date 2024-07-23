@@ -19,15 +19,33 @@ namespace Google\Service\Datastream;
 
 class BigQueryDestinationConfig extends \Google\Model
 {
+  protected $appendOnlyType = AppendOnly::class;
+  protected $appendOnlyDataType = '';
   /**
    * @var string
    */
   public $dataFreshness;
+  protected $mergeType = Merge::class;
+  protected $mergeDataType = '';
   protected $singleTargetDatasetType = SingleTargetDataset::class;
   protected $singleTargetDatasetDataType = '';
   protected $sourceHierarchyDatasetsType = SourceHierarchyDatasets::class;
   protected $sourceHierarchyDatasetsDataType = '';
 
+  /**
+   * @param AppendOnly
+   */
+  public function setAppendOnly(AppendOnly $appendOnly)
+  {
+    $this->appendOnly = $appendOnly;
+  }
+  /**
+   * @return AppendOnly
+   */
+  public function getAppendOnly()
+  {
+    return $this->appendOnly;
+  }
   /**
    * @param string
    */
@@ -41,6 +59,20 @@ class BigQueryDestinationConfig extends \Google\Model
   public function getDataFreshness()
   {
     return $this->dataFreshness;
+  }
+  /**
+   * @param Merge
+   */
+  public function setMerge(Merge $merge)
+  {
+    $this->merge = $merge;
+  }
+  /**
+   * @return Merge
+   */
+  public function getMerge()
+  {
+    return $this->merge;
   }
   /**
    * @param SingleTargetDataset

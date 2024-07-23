@@ -104,9 +104,16 @@ class Classroom extends \Google\Service
   public $courses;
   public $courses_aliases;
   public $courses_announcements;
+  public $courses_announcements_addOnAttachments;
   public $courses_courseWork;
+  public $courses_courseWork_addOnAttachments;
+  public $courses_courseWork_addOnAttachments_studentSubmissions;
   public $courses_courseWork_studentSubmissions;
   public $courses_courseWorkMaterials;
+  public $courses_courseWorkMaterials_addOnAttachments;
+  public $courses_posts;
+  public $courses_posts_addOnAttachments;
+  public $courses_posts_addOnAttachments_studentSubmissions;
   public $courses_students;
   public $courses_teachers;
   public $courses_topics;
@@ -115,6 +122,7 @@ class Classroom extends \Google\Service
   public $userProfiles;
   public $userProfiles_guardianInvitations;
   public $userProfiles_guardians;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Classroom service.
@@ -127,6 +135,7 @@ class Classroom extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://classroom.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://classroom.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -315,6 +324,33 @@ class Classroom extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'getAddOnContext' => [
+              'path' => 'v1/courses/{courseId}/announcements/{itemId}/addOnContext',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'addOnToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'attachmentId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'list' => [
               'path' => 'v1/courses/{courseId}/announcements',
               'httpMethod' => 'GET',
@@ -380,6 +416,142 @@ class Classroom extends \Google\Service
           ]
         ]
     );
+    $this->courses_announcements_addOnAttachments = new Classroom\Resource\CoursesAnnouncementsAddOnAttachments(
+        $this,
+        $this->serviceName,
+        'addOnAttachments',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/courses/{courseId}/announcements/{itemId}/addOnAttachments',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'addOnToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/courses/{courseId}/announcements/{itemId}/addOnAttachments',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->courses_courseWork = new Classroom\Resource\CoursesCourseWork(
         $this,
         $this->serviceName,
@@ -424,6 +596,33 @@ class Classroom extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'getAddOnContext' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{itemId}/addOnContext',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'addOnToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'attachmentId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],'list' => [
@@ -481,6 +680,214 @@ class Classroom extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->courses_courseWork_addOnAttachments = new Classroom\Resource\CoursesCourseWorkAddOnAttachments(
+        $this,
+        $this->serviceName,
+        'addOnAttachments',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'addOnToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->courses_courseWork_addOnAttachments_studentSubmissions = new Classroom\Resource\CoursesCourseWorkAddOnAttachmentsStudentSubmissions(
+        $this,
+        $this->serviceName,
+        'studentSubmissions',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}/studentSubmissions/{submissionId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}/studentSubmissions/{submissionId}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'updateMask' => [
                   'location' => 'query',
@@ -707,6 +1114,33 @@ class Classroom extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'getAddOnContext' => [
+              'path' => 'v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnContext',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'addOnToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'attachmentId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'list' => [
               'path' => 'v1/courses/{courseId}/courseWorkMaterials',
               'httpMethod' => 'GET',
@@ -755,6 +1189,387 @@ class Classroom extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->courses_courseWorkMaterials_addOnAttachments = new Classroom\Resource\CoursesCourseWorkMaterialsAddOnAttachments(
+        $this,
+        $this->serviceName,
+        'addOnAttachments',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnAttachments',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'addOnToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnAttachments',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->courses_posts = new Classroom\Resource\CoursesPosts(
+        $this,
+        $this->serviceName,
+        'posts',
+        [
+          'methods' => [
+            'getAddOnContext' => [
+              'path' => 'v1/courses/{courseId}/posts/{postId}/addOnContext',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'addOnToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'attachmentId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'itemId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->courses_posts_addOnAttachments = new Classroom\Resource\CoursesPostsAddOnAttachments(
+        $this,
+        $this->serviceName,
+        'addOnAttachments',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/courses/{courseId}/posts/{postId}/addOnAttachments',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'addOnToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'itemId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/courses/{courseId}/posts/{postId}/addOnAttachments',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->courses_posts_addOnAttachments_studentSubmissions = new Classroom\Resource\CoursesPostsAddOnAttachmentsStudentSubmissions(
+        $this,
+        $this->serviceName,
+        'studentSubmissions',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}/studentSubmissions/{submissionId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}/studentSubmissions/{submissionId}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'postId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'attachmentId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'itemId' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'updateMask' => [
                   'location' => 'query',

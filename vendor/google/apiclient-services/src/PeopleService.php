@@ -76,6 +76,7 @@ class PeopleService extends \Google\Service
   public $otherContacts;
   public $people;
   public $people_connections;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the PeopleService service.
@@ -88,6 +89,7 @@ class PeopleService extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://people.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://people.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

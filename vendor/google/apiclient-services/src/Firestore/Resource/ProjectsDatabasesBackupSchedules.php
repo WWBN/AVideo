@@ -33,9 +33,8 @@ class ProjectsDatabasesBackupSchedules extends \Google\Service\Resource
 {
   /**
    * Creates a backup schedule on a database. At most two backup schedules can be
-   * configured on a database, one daily backup schedule with retention up to 7
-   * days and one weekly backup schedule with retention up to 14 weeks.
-   * (backupSchedules.create)
+   * configured on a database, one daily backup schedule and one weekly backup
+   * schedule. (backupSchedules.create)
    *
    * @param string $parent Required. The parent database. Format
    * `projects/{project}/databases/{database}`
@@ -53,7 +52,7 @@ class ProjectsDatabasesBackupSchedules extends \Google\Service\Resource
   /**
    * Deletes a backup schedule. (backupSchedules.delete)
    *
-   * @param string $name Required. The name of backup schedule. Format
+   * @param string $name Required. The name of the backup schedule. Format
    * `projects/{project}/databases/{database}/backupSchedules/{backup_schedule}`
    * @param array $optParams Optional parameters.
    * @return FirestoreEmpty

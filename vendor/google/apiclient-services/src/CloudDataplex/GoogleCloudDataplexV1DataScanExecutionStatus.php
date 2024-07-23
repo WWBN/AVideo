@@ -22,12 +22,30 @@ class GoogleCloudDataplexV1DataScanExecutionStatus extends \Google\Model
   /**
    * @var string
    */
+  public $latestJobCreateTime;
+  /**
+   * @var string
+   */
   public $latestJobEndTime;
   /**
    * @var string
    */
   public $latestJobStartTime;
 
+  /**
+   * @param string
+   */
+  public function setLatestJobCreateTime($latestJobCreateTime)
+  {
+    $this->latestJobCreateTime = $latestJobCreateTime;
+  }
+  /**
+   * @return string
+   */
+  public function getLatestJobCreateTime()
+  {
+    return $this->latestJobCreateTime;
+  }
   /**
    * @param string
    */

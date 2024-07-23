@@ -35,6 +35,21 @@ use Google\Client;
  */
 class HangoutsChat extends \Google\Service
 {
+  /** Delete conversations and spaces owned by your organization and remove access to associated files in Google Chat. */
+  const CHAT_ADMIN_DELETE =
+      "https://www.googleapis.com/auth/chat.admin.delete";
+  /** View, add, update and remove members and managers in conversations owned by your organization. */
+  const CHAT_ADMIN_MEMBERSHIPS =
+      "https://www.googleapis.com/auth/chat.admin.memberships";
+  /** View members and managers in conversations owned by your organization. */
+  const CHAT_ADMIN_MEMBERSHIPS_READONLY =
+      "https://www.googleapis.com/auth/chat.admin.memberships.readonly";
+  /** View or edit display name, description, and other metadata for all Google Chat conversations owned by your organization. */
+  const CHAT_ADMIN_SPACES =
+      "https://www.googleapis.com/auth/chat.admin.spaces";
+  /** View display name, description, and other metadata for all Google Chat conversations owned by your organization. */
+  const CHAT_ADMIN_SPACES_READONLY =
+      "https://www.googleapis.com/auth/chat.admin.spaces.readonly";
   /** Private Service: https://www.googleapis.com/auth/chat.bot. */
   const CHAT_BOT =
       "https://www.googleapis.com/auth/chat.bot";
@@ -44,7 +59,7 @@ class HangoutsChat extends \Google\Service
   /** Import spaces, messages, and memberships into Google Chat.. */
   const CHAT_IMPORT =
       "https://www.googleapis.com/auth/chat.import";
-  /** View, add, and remove members from conversations in Google Chat. */
+  /** View, add, update, and remove members from conversations in Google Chat. */
   const CHAT_MEMBERSHIPS =
       "https://www.googleapis.com/auth/chat.memberships";
   /** Add and remove itself from conversations in Google Chat. */
@@ -80,6 +95,12 @@ class HangoutsChat extends \Google\Service
   /** View chat and spaces in Google Chat. */
   const CHAT_SPACES_READONLY =
       "https://www.googleapis.com/auth/chat.spaces.readonly";
+  /** View and modify last read time for Google Chat conversations. */
+  const CHAT_USERS_READSTATE =
+      "https://www.googleapis.com/auth/chat.users.readstate";
+  /** View last read time for Google Chat conversations. */
+  const CHAT_USERS_READSTATE_READONLY =
+      "https://www.googleapis.com/auth/chat.users.readstate.readonly";
 
   public $media;
   public $spaces;
@@ -87,6 +108,10 @@ class HangoutsChat extends \Google\Service
   public $spaces_messages;
   public $spaces_messages_attachments;
   public $spaces_messages_reactions;
+  public $spaces_spaceEvents;
+  public $users_spaces;
+  public $users_spaces_threads;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the HangoutsChat service.
@@ -99,6 +124,7 @@ class HangoutsChat extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://chat.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://chat.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -291,6 +317,20 @@ class HangoutsChat extends \Google\Service
                 'showInvited' => [
                   'location' => 'query',
                   'type' => 'boolean',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -489,6 +529,102 @@ class HangoutsChat extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->spaces_spaceEvents = new HangoutsChat\Resource\SpacesSpaceEvents(
+        $this,
+        $this->serviceName,
+        'spaceEvents',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/spaceEvents',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->users_spaces = new HangoutsChat\Resource\UsersSpaces(
+        $this,
+        $this->serviceName,
+        'spaces',
+        [
+          'methods' => [
+            'getSpaceReadState' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'updateSpaceReadState' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->users_spaces_threads = new HangoutsChat\Resource\UsersSpacesThreads(
+        $this,
+        $this->serviceName,
+        'threads',
+        [
+          'methods' => [
+            'getThreadReadState' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],

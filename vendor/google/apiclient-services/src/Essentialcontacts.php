@@ -41,6 +41,7 @@ class Essentialcontacts extends \Google\Service
   public $folders_contacts;
   public $organizations_contacts;
   public $projects_contacts;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Essentialcontacts service.
@@ -53,6 +54,7 @@ class Essentialcontacts extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://essentialcontacts.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://essentialcontacts.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

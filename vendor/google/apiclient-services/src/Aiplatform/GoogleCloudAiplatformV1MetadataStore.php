@@ -23,6 +23,8 @@ class GoogleCloudAiplatformV1MetadataStore extends \Google\Model
    * @var string
    */
   public $createTime;
+  protected $dataplexConfigType = GoogleCloudAiplatformV1MetadataStoreDataplexConfig::class;
+  protected $dataplexConfigDataType = '';
   /**
    * @var string
    */
@@ -53,6 +55,20 @@ class GoogleCloudAiplatformV1MetadataStore extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1MetadataStoreDataplexConfig
+   */
+  public function setDataplexConfig(GoogleCloudAiplatformV1MetadataStoreDataplexConfig $dataplexConfig)
+  {
+    $this->dataplexConfig = $dataplexConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1MetadataStoreDataplexConfig
+   */
+  public function getDataplexConfig()
+  {
+    return $this->dataplexConfig;
   }
   /**
    * @param string

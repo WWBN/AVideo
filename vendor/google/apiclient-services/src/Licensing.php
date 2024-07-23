@@ -40,6 +40,7 @@ class Licensing extends \Google\Service
       "https://www.googleapis.com/auth/apps.licensing";
 
   public $licenseAssignments;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Licensing service.
@@ -52,6 +53,7 @@ class Licensing extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://licensing.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://licensing.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

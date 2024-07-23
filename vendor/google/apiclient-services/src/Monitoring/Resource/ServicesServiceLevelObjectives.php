@@ -123,9 +123,9 @@ class ServicesServiceLevelObjectives extends \Google\Service\Resource
   /**
    * Update the given ServiceLevelObjective. (serviceLevelObjectives.patch)
    *
-   * @param string $name Resource name for this ServiceLevelObjective. The format
-   * is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]/serviceLevelObjecti
-   * ves/[SLO_NAME]
+   * @param string $name Identifier. Resource name for this ServiceLevelObjective.
+   * The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]/serviceL
+   * evelObjectives/[SLO_NAME]
    * @param ServiceLevelObjective $postBody
    * @param array $optParams Optional parameters.
    *

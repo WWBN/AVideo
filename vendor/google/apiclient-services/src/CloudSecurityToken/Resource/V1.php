@@ -17,12 +17,8 @@
 
 namespace Google\Service\CloudSecurityToken\Resource;
 
-use Google\Service\CloudSecurityToken\GoogleIdentityStsV1ExchangeOauthTokenRequest;
-use Google\Service\CloudSecurityToken\GoogleIdentityStsV1ExchangeOauthTokenResponse;
 use Google\Service\CloudSecurityToken\GoogleIdentityStsV1ExchangeTokenRequest;
 use Google\Service\CloudSecurityToken\GoogleIdentityStsV1ExchangeTokenResponse;
-use Google\Service\CloudSecurityToken\GoogleIdentityStsV1IntrospectTokenRequest;
-use Google\Service\CloudSecurityToken\GoogleIdentityStsV1IntrospectTokenResponse;
 
 /**
  * The "v1" collection of methods.
@@ -34,46 +30,6 @@ use Google\Service\CloudSecurityToken\GoogleIdentityStsV1IntrospectTokenResponse
  */
 class V1 extends \Google\Service\Resource
 {
-  /**
-   * Gets information about a Google OAuth 2.0 access token issued by the Google
-   * Cloud [Security Token Service
-   * API](https://cloud.google.com/iam/docs/reference/sts/rest). (v1.introspect)
-   *
-   * @param GoogleIdentityStsV1IntrospectTokenRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleIdentityStsV1IntrospectTokenResponse
-   * @throws \Google\Service\Exception
-   */
-  public function introspect(GoogleIdentityStsV1IntrospectTokenRequest $postBody, $optParams = [])
-  {
-    $params = ['postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('introspect', [$params], GoogleIdentityStsV1IntrospectTokenResponse::class);
-  }
-  /**
-   * Exchanges a credential that represents the resource owner's authorization for
-   * a Google-generated [OAuth 2.0 access token] (https://www.rfc-
-   * editor.org/rfc/rfc6749#section-5) or [refreshes an accesstoken]
-   * (https://www.rfc-editor.org/rfc/rfc6749#section-6) following [the OAuth 2.0
-   * authorization framework] (https://tools.ietf.org/html/rfc8693) The credential
-   * can be one of the following: - An authorization code issued by the workforce
-   * identity federation authorization endpoint - A [refresh
-   * token](https://www.rfc-editor.org/rfc/rfc6749#section-10.4) issued by this
-   * endpoint This endpoint is only meant to be called by the Google Cloud CLI.
-   * Also note that this API only accepts the authorization code issued for
-   * workforce pools. (v1.oauthtoken)
-   *
-   * @param GoogleIdentityStsV1ExchangeOauthTokenRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleIdentityStsV1ExchangeOauthTokenResponse
-   * @throws \Google\Service\Exception
-   */
-  public function oauthtoken(GoogleIdentityStsV1ExchangeOauthTokenRequest $postBody, $optParams = [])
-  {
-    $params = ['postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('oauthtoken', [$params], GoogleIdentityStsV1ExchangeOauthTokenResponse::class);
-  }
   /**
    * Exchanges a credential for a Google OAuth 2.0 access token. The token asserts
    * an external identity within an identity pool, or it applies a Credential

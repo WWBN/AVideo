@@ -40,7 +40,7 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * to succeed. (findings.create)
    *
    * @param string $parent Required. Resource name of the new finding's parent.
-   * Its format should be "organizations/[organization_id]/sources/[source_id]".
+   * Its format should be `organizations/[organization_id]/sources/[source_id]`.
    * @param Finding $postBody
    * @param array $optParams Optional parameters.
    *
@@ -64,12 +64,12 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * /v1/projects/{project_id}/sources/-/findings (findings.group)
    *
    * @param string $parent Required. Name of the source to groupBy. Its format is
-   * "organizations/[organization_id]/sources/[source_id]",
-   * folders/[folder_id]/sources/[source_id], or
-   * projects/[project_id]/sources/[source_id]. To groupBy across all sources
+   * `organizations/[organization_id]/sources/[source_id]`,
+   * `folders/[folder_id]/sources/[source_id]`, or
+   * `projects/[project_id]/sources/[source_id]`. To groupBy across all sources
    * provide a source_id of `-`. For example:
-   * organizations/{organization_id}/sources/-, folders/{folder_id}/sources/-, or
-   * projects/{project_id}/sources/-
+   * `organizations/{organization_id}/sources/-, folders/{folder_id}/sources/-`,
+   * or `projects/{project_id}/sources/-`
    * @param GroupFindingsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GroupFindingsResponse
@@ -88,12 +88,12 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * (findings.listOrganizationsSourcesFindings)
    *
    * @param string $parent Required. Name of the source the findings belong to.
-   * Its format is "organizations/[organization_id]/sources/[source_id],
-   * folders/[folder_id]/sources/[source_id], or
-   * projects/[project_id]/sources/[source_id]". To list across all sources
+   * Its format is `organizations/[organization_id]/sources/[source_id]`,
+   * `folders/[folder_id]/sources/[source_id]`, or
+   * `projects/[project_id]/sources/[source_id]`. To list across all sources
    * provide a source_id of `-`. For example:
-   * organizations/{organization_id}/sources/-, folders/{folder_id}/sources/- or
-   * projects/{projects_id}/sources/-
+   * `organizations/{organization_id}/sources/-`, `folders/{folder_id}/sources/-`
+   * or `projects/{projects_id}/sources/-`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string compareDuration When compare_duration is set, the
@@ -205,9 +205,9 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * @param string $name Required. The [relative resource name](https://cloud.goog
    * le.com/apis/design/resource_names#relative_resource_name) of the finding.
    * Example:
-   * "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}",
-   * "folders/{folder_id}/sources/{source_id}/findings/{finding_id}",
-   * "projects/{project_id}/sources/{source_id}/findings/{finding_id}".
+   * `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}`,
+   * `folders/{folder_id}/sources/{source_id}/findings/{finding_id}`,
+   * `projects/{project_id}/sources/{source_id}/findings/{finding_id}`.
    * @param SetMuteRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Finding
@@ -225,9 +225,9 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * @param string $name Required. The [relative resource name](https://cloud.goog
    * le.com/apis/design/resource_names#relative_resource_name) of the finding.
    * Example:
-   * "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}",
-   * "folders/{folder_id}/sources/{source_id}/findings/{finding_id}",
-   * "projects/{project_id}/sources/{source_id}/findings/{finding_id}".
+   * `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}`,
+   * `folders/{folder_id}/sources/{source_id}/findings/{finding_id}`,
+   * `projects/{project_id}/sources/{source_id}/findings/{finding_id}`.
    * @param SetFindingStateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Finding

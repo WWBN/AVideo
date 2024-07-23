@@ -34,6 +34,9 @@ class SignupUrls extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string adminEmail Optional. Email address used to prefill the
+   * admin field of the enterprise signup form. This value is a hint only and can
+   * be altered by the user.
    * @opt_param string callbackUrl The callback URL that the admin will be
    * redirected to after successfully creating an enterprise. Before redirecting
    * there the system will add a query parameter to this URL named enterpriseToken

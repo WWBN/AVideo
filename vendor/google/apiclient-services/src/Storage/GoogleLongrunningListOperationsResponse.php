@@ -23,10 +23,28 @@ class GoogleLongrunningListOperationsResponse extends \Google\Collection
   /**
    * @var string
    */
+  public $kind;
+  /**
+   * @var string
+   */
   public $nextPageToken;
   protected $operationsType = GoogleLongrunningOperation::class;
   protected $operationsDataType = 'array';
 
+  /**
+   * @param string
+   */
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  /**
+   * @return string
+   */
+  public function getKind()
+  {
+    return $this->kind;
+  }
   /**
    * @param string
    */

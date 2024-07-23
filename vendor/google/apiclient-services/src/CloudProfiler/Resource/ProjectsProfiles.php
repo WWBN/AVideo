@@ -85,11 +85,11 @@ class ProjectsProfiles extends \Google\Service\Resource
    * profiles. Format: projects/{user_project_id}
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize The maximum number of items to return. Default
-   * page_size is 1000. Max limit is 1000.
-   * @opt_param string pageToken The token to continue pagination and get profiles
-   * from a particular page. When paginating, all other parameters provided to
-   * `ListProfiles` must match the call that provided the page token.
+   * @opt_param int pageSize Optional. The maximum number of items to return.
+   * Default page_size is 1000. Max limit is 1000.
+   * @opt_param string pageToken Optional. The token to continue pagination and
+   * get profiles from a particular page. When paginating, all other parameters
+   * provided to `ListProfiles` must match the call that provided the page token.
    * @return ListProfilesResponse
    * @throws \Google\Service\Exception
    */

@@ -42,10 +42,15 @@ class ContainerAnalysis extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
+  public $projects_locations_notes;
+  public $projects_locations_notes_occurrences;
+  public $projects_locations_occurrences;
+  public $projects_locations_resources;
   public $projects_notes;
   public $projects_notes_occurrences;
   public $projects_occurrences;
   public $projects_resources;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the ContainerAnalysis service.
@@ -58,11 +63,172 @@ class ContainerAnalysis extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://containeranalysis.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://containeranalysis.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
     $this->serviceName = 'containeranalysis';
 
+    $this->projects_locations_notes = new ContainerAnalysis\Resource\ProjectsLocationsNotes(
+        $this,
+        $this->serviceName,
+        'notes',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/notes',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_notes_occurrences = new ContainerAnalysis\Resource\ProjectsLocationsNotesOccurrences(
+        $this,
+        $this->serviceName,
+        'occurrences',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+name}/occurrences',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_occurrences = new ContainerAnalysis\Resource\ProjectsLocationsOccurrences(
+        $this,
+        $this->serviceName,
+        'occurrences',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getNotes' => [
+              'path' => 'v1/{+name}/notes',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getVulnerabilitySummary' => [
+              'path' => 'v1/{+parent}/occurrences:vulnerabilitySummary',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/occurrences',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_resources = new ContainerAnalysis\Resource\ProjectsLocationsResources(
+        $this,
+        $this->serviceName,
+        'resources',
+        [
+          'methods' => [
+            'exportSBOM' => [
+              'path' => 'v1/{+name}:exportSBOM',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_notes = new ContainerAnalysis\Resource\ProjectsNotes(
         $this,
         $this->serviceName,

@@ -43,6 +43,7 @@ class Datalineage extends \Google\Service
   public $projects_locations_processes;
   public $projects_locations_processes_runs;
   public $projects_locations_processes_runs_lineageEvents;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Datalineage service.
@@ -55,6 +56,7 @@ class Datalineage extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://datalineage.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://datalineage.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

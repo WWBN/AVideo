@@ -13,7 +13,7 @@ class ObjectTypes
             \Stripe\Issuing\CardDetails::OBJECT_NAME => \Stripe\Issuing\CardDetails::class,
             \Stripe\SearchResult::OBJECT_NAME => \Stripe\SearchResult::class,
             \Stripe\File::OBJECT_NAME_ALT => \Stripe\File::class,
-            // The beginning of the section generated from our OpenAPI spec
+            // object classes: The beginning of the section generated from our OpenAPI spec
             \Stripe\Account::OBJECT_NAME => \Stripe\Account::class,
             \Stripe\AccountLink::OBJECT_NAME => \Stripe\AccountLink::class,
             \Stripe\AccountSession::OBJECT_NAME => \Stripe\AccountSession::class,
@@ -25,6 +25,10 @@ class ObjectTypes
             \Stripe\Balance::OBJECT_NAME => \Stripe\Balance::class,
             \Stripe\BalanceTransaction::OBJECT_NAME => \Stripe\BalanceTransaction::class,
             \Stripe\BankAccount::OBJECT_NAME => \Stripe\BankAccount::class,
+            \Stripe\Billing\Meter::OBJECT_NAME => \Stripe\Billing\Meter::class,
+            \Stripe\Billing\MeterEvent::OBJECT_NAME => \Stripe\Billing\MeterEvent::class,
+            \Stripe\Billing\MeterEventAdjustment::OBJECT_NAME => \Stripe\Billing\MeterEventAdjustment::class,
+            \Stripe\Billing\MeterEventSummary::OBJECT_NAME => \Stripe\Billing\MeterEventSummary::class,
             \Stripe\BillingPortal\Configuration::OBJECT_NAME => \Stripe\BillingPortal\Configuration::class,
             \Stripe\BillingPortal\Session::OBJECT_NAME => \Stripe\BillingPortal\Session::class,
             \Stripe\Capability::OBJECT_NAME => \Stripe\Capability::class,
@@ -35,6 +39,7 @@ class ObjectTypes
             \Stripe\Climate\Order::OBJECT_NAME => \Stripe\Climate\Order::class,
             \Stripe\Climate\Product::OBJECT_NAME => \Stripe\Climate\Product::class,
             \Stripe\Climate\Supplier::OBJECT_NAME => \Stripe\Climate\Supplier::class,
+            \Stripe\ConfirmationToken::OBJECT_NAME => \Stripe\ConfirmationToken::class,
             \Stripe\ConnectCollectionTransfer::OBJECT_NAME => \Stripe\ConnectCollectionTransfer::class,
             \Stripe\CountrySpec::OBJECT_NAME => \Stripe\CountrySpec::class,
             \Stripe\Coupon::OBJECT_NAME => \Stripe\Coupon::class,
@@ -46,6 +51,9 @@ class ObjectTypes
             \Stripe\CustomerSession::OBJECT_NAME => \Stripe\CustomerSession::class,
             \Stripe\Discount::OBJECT_NAME => \Stripe\Discount::class,
             \Stripe\Dispute::OBJECT_NAME => \Stripe\Dispute::class,
+            \Stripe\Entitlements\ActiveEntitlement::OBJECT_NAME => \Stripe\Entitlements\ActiveEntitlement::class,
+            \Stripe\Entitlements\ActiveEntitlementSummary::OBJECT_NAME => \Stripe\Entitlements\ActiveEntitlementSummary::class,
+            \Stripe\Entitlements\Feature::OBJECT_NAME => \Stripe\Entitlements\Feature::class,
             \Stripe\EphemeralKey::OBJECT_NAME => \Stripe\EphemeralKey::class,
             \Stripe\Event::OBJECT_NAME => \Stripe\Event::class,
             \Stripe\ExchangeRate::OBJECT_NAME => \Stripe\ExchangeRate::class,
@@ -56,6 +64,7 @@ class ObjectTypes
             \Stripe\FinancialConnections\AccountOwnership::OBJECT_NAME => \Stripe\FinancialConnections\AccountOwnership::class,
             \Stripe\FinancialConnections\Session::OBJECT_NAME => \Stripe\FinancialConnections\Session::class,
             \Stripe\FinancialConnections\Transaction::OBJECT_NAME => \Stripe\FinancialConnections\Transaction::class,
+            \Stripe\Forwarding\Request::OBJECT_NAME => \Stripe\Forwarding\Request::class,
             \Stripe\FundingInstructions::OBJECT_NAME => \Stripe\FundingInstructions::class,
             \Stripe\Identity\VerificationReport::OBJECT_NAME => \Stripe\Identity\VerificationReport::class,
             \Stripe\Identity\VerificationSession::OBJECT_NAME => \Stripe\Identity\VerificationSession::class,
@@ -66,6 +75,8 @@ class ObjectTypes
             \Stripe\Issuing\Card::OBJECT_NAME => \Stripe\Issuing\Card::class,
             \Stripe\Issuing\Cardholder::OBJECT_NAME => \Stripe\Issuing\Cardholder::class,
             \Stripe\Issuing\Dispute::OBJECT_NAME => \Stripe\Issuing\Dispute::class,
+            \Stripe\Issuing\PersonalizationDesign::OBJECT_NAME => \Stripe\Issuing\PersonalizationDesign::class,
+            \Stripe\Issuing\PhysicalBundle::OBJECT_NAME => \Stripe\Issuing\PhysicalBundle::class,
             \Stripe\Issuing\Token::OBJECT_NAME => \Stripe\Issuing\Token::class,
             \Stripe\Issuing\Transaction::OBJECT_NAME => \Stripe\Issuing\Transaction::class,
             \Stripe\LineItem::OBJECT_NAME => \Stripe\LineItem::class,
@@ -79,9 +90,9 @@ class ObjectTypes
             \Stripe\Payout::OBJECT_NAME => \Stripe\Payout::class,
             \Stripe\Person::OBJECT_NAME => \Stripe\Person::class,
             \Stripe\Plan::OBJECT_NAME => \Stripe\Plan::class,
-            \Stripe\PlatformTaxFee::OBJECT_NAME => \Stripe\PlatformTaxFee::class,
             \Stripe\Price::OBJECT_NAME => \Stripe\Price::class,
             \Stripe\Product::OBJECT_NAME => \Stripe\Product::class,
+            \Stripe\ProductFeature::OBJECT_NAME => \Stripe\ProductFeature::class,
             \Stripe\PromotionCode::OBJECT_NAME => \Stripe\PromotionCode::class,
             \Stripe\Quote::OBJECT_NAME => \Stripe\Quote::class,
             \Stripe\Radar\EarlyFraudWarning::OBJECT_NAME => \Stripe\Radar\EarlyFraudWarning::class,
@@ -135,6 +146,6 @@ class ObjectTypes
             \Stripe\UsageRecord::OBJECT_NAME => \Stripe\UsageRecord::class,
             \Stripe\UsageRecordSummary::OBJECT_NAME => \Stripe\UsageRecordSummary::class,
             \Stripe\WebhookEndpoint::OBJECT_NAME => \Stripe\WebhookEndpoint::class,
-            // The end of the section generated from our OpenAPI spec
+            // object classes: The end of the section generated from our OpenAPI spec
         ];
 }

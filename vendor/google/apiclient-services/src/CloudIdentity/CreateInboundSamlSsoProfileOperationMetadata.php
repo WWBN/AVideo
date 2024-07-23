@@ -19,6 +19,25 @@ namespace Google\Service\CloudIdentity;
 
 class CreateInboundSamlSsoProfileOperationMetadata extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $state;
+
+  /**
+   * @param string
+   */
+  public function setState($state)
+  {
+    $this->state = $state;
+  }
+  /**
+   * @return string
+   */
+  public function getState()
+  {
+    return $this->state;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

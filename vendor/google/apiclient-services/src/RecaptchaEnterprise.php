@@ -45,6 +45,7 @@ class RecaptchaEnterprise extends \Google\Service
   public $projects_relatedaccountgroupmemberships;
   public $projects_relatedaccountgroups;
   public $projects_relatedaccountgroups_memberships;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the RecaptchaEnterprise service.
@@ -57,6 +58,7 @@ class RecaptchaEnterprise extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://recaptchaenterprise.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://recaptchaenterprise.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

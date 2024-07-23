@@ -38,6 +38,7 @@ class PlayGrouping extends \Google\Service
 
   public $apps_tokens;
   public $apps_tokens_tags;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the PlayGrouping service.
@@ -50,6 +51,7 @@ class PlayGrouping extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://playgrouping.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://playgrouping.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1alpha1';

@@ -23,6 +23,14 @@ class LinkedResource extends \Google\Model
    * @var string
    */
   public $linkedDataset;
+  /**
+   * @var string
+   */
+  public $linkedPubsubSubscription;
+  /**
+   * @var string
+   */
+  public $listing;
 
   /**
    * @param string
@@ -37,6 +45,34 @@ class LinkedResource extends \Google\Model
   public function getLinkedDataset()
   {
     return $this->linkedDataset;
+  }
+  /**
+   * @param string
+   */
+  public function setLinkedPubsubSubscription($linkedPubsubSubscription)
+  {
+    $this->linkedPubsubSubscription = $linkedPubsubSubscription;
+  }
+  /**
+   * @return string
+   */
+  public function getLinkedPubsubSubscription()
+  {
+    return $this->linkedPubsubSubscription;
+  }
+  /**
+   * @param string
+   */
+  public function setListing($listing)
+  {
+    $this->listing = $listing;
+  }
+  /**
+   * @return string
+   */
+  public function getListing()
+  {
+    return $this->listing;
   }
 }
 

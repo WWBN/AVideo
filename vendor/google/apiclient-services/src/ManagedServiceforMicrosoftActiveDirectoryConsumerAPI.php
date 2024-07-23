@@ -45,6 +45,7 @@ class ManagedServiceforMicrosoftActiveDirectoryConsumerAPI extends \Google\Servi
   public $projects_locations_global_domains_sqlIntegrations;
   public $projects_locations_global_operations;
   public $projects_locations_global_peerings;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the
@@ -58,6 +59,7 @@ class ManagedServiceforMicrosoftActiveDirectoryConsumerAPI extends \Google\Servi
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://managedidentities.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://managedidentities.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

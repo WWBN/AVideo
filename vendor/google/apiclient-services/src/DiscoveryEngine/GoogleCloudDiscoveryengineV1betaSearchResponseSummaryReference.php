@@ -17,8 +17,11 @@
 
 namespace Google\Service\DiscoveryEngine;
 
-class GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReference extends \Google\Model
+class GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReference extends \Google\Collection
 {
+  protected $collection_key = 'chunkContents';
+  protected $chunkContentsType = GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReferenceChunkContent::class;
+  protected $chunkContentsDataType = 'array';
   /**
    * @var string
    */
@@ -32,6 +35,20 @@ class GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReference extends \Go
    */
   public $uri;
 
+  /**
+   * @param GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReferenceChunkContent[]
+   */
+  public function setChunkContents($chunkContents)
+  {
+    $this->chunkContents = $chunkContents;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReferenceChunkContent[]
+   */
+  public function getChunkContents()
+  {
+    return $this->chunkContents;
+  }
   /**
    * @param string
    */

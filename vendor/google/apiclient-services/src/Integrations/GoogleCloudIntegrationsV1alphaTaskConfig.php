@@ -20,6 +20,8 @@ namespace Google\Service\Integrations;
 class GoogleCloudIntegrationsV1alphaTaskConfig extends \Google\Collection
 {
   protected $collection_key = 'nextTasks';
+  protected $conditionalFailurePoliciesType = GoogleCloudIntegrationsV1alphaConditionalFailurePolicies::class;
+  protected $conditionalFailurePoliciesDataType = '';
   /**
    * @var string
    */
@@ -73,6 +75,20 @@ class GoogleCloudIntegrationsV1alphaTaskConfig extends \Google\Collection
    */
   public $taskTemplate;
 
+  /**
+   * @param GoogleCloudIntegrationsV1alphaConditionalFailurePolicies
+   */
+  public function setConditionalFailurePolicies(GoogleCloudIntegrationsV1alphaConditionalFailurePolicies $conditionalFailurePolicies)
+  {
+    $this->conditionalFailurePolicies = $conditionalFailurePolicies;
+  }
+  /**
+   * @return GoogleCloudIntegrationsV1alphaConditionalFailurePolicies
+   */
+  public function getConditionalFailurePolicies()
+  {
+    return $this->conditionalFailurePolicies;
+  }
   /**
    * @param string
    */

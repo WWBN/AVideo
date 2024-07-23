@@ -54,6 +54,8 @@ class WorkstationConfig extends \Google\Collection
   public $enableAuditAgent;
   protected $encryptionKeyType = CustomerEncryptionKey::class;
   protected $encryptionKeyDataType = '';
+  protected $ephemeralDirectoriesType = EphemeralDirectory::class;
+  protected $ephemeralDirectoriesDataType = 'array';
   /**
    * @var string
    */
@@ -236,6 +238,20 @@ class WorkstationConfig extends \Google\Collection
   public function getEncryptionKey()
   {
     return $this->encryptionKey;
+  }
+  /**
+   * @param EphemeralDirectory[]
+   */
+  public function setEphemeralDirectories($ephemeralDirectories)
+  {
+    $this->ephemeralDirectories = $ephemeralDirectories;
+  }
+  /**
+   * @return EphemeralDirectory[]
+   */
+  public function getEphemeralDirectories()
+  {
+    return $this->ephemeralDirectories;
   }
   /**
    * @param string

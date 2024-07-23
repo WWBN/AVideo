@@ -23,6 +23,10 @@ class GoogleCloudConnectorsV1LogConfig extends \Google\Model
    * @var bool
    */
   public $enabled;
+  /**
+   * @var string
+   */
+  public $level;
 
   /**
    * @param bool
@@ -37,6 +41,20 @@ class GoogleCloudConnectorsV1LogConfig extends \Google\Model
   public function getEnabled()
   {
     return $this->enabled;
+  }
+  /**
+   * @param string
+   */
+  public function setLevel($level)
+  {
+    $this->level = $level;
+  }
+  /**
+   * @return string
+   */
+  public function getLevel()
+  {
+    return $this->level;
   }
 }
 

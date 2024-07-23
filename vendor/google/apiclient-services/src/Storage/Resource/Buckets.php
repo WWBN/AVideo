@@ -18,6 +18,7 @@
 namespace Google\Service\Storage\Resource;
 
 use Google\Service\Storage\Bucket;
+use Google\Service\Storage\BucketStorageLayout;
 use Google\Service\Storage\Buckets as BucketsModel;
 use Google\Service\Storage\Policy;
 use Google\Service\Storage\TestIamPermissionsResponse;
@@ -95,6 +96,26 @@ class Buckets extends \Google\Service\Resource
     $params = ['bucket' => $bucket];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Returns the storage layout configuration for the specified bucket. Note that
+   * this operation requires storage.objects.list permission.
+   * (buckets.getStorageLayout)
+   *
+   * @param string $bucket Name of a bucket.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string prefix An optional prefix used for permission check. It is
+   * useful when the caller only has storage.objects.list permission under a
+   * specific prefix.
+   * @return BucketStorageLayout
+   * @throws \Google\Service\Exception
+   */
+  public function getStorageLayout($bucket, $optParams = [])
+  {
+    $params = ['bucket' => $bucket];
+    $params = array_merge($params, $optParams);
+    return $this->call('getStorageLayout', [$params], BucketStorageLayout::class);
   }
   /**
    * Creates a new bucket. (buckets.insert)

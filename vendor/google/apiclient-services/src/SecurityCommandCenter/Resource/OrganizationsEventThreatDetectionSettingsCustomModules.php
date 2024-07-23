@@ -160,10 +160,10 @@ class OrganizationsEventThreatDetectionSettingsCustomModules extends \Google\Ser
    * cannot be changed. (customModules.patch)
    *
    * @param string $name Immutable. The resource name of the Event Threat
-   * Detection custom module. Its format is: * "organizations/{organization}/event
-   * ThreatDetectionSettings/customModules/{module}". *
-   * "folders/{folder}/eventThreatDetectionSettings/customModules/{module}". *
-   * "projects/{project}/eventThreatDetectionSettings/customModules/{module}".
+   * Detection custom module. Its format is: * `organizations/{organization}/event
+   * ThreatDetectionSettings/customModules/{module}`. *
+   * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. *
+   * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`.
    * @param EventThreatDetectionCustomModule $postBody
    * @param array $optParams Optional parameters.
    *

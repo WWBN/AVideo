@@ -35,6 +35,10 @@ class SupportedService extends \Google\Collection
   /**
    * @var string
    */
+  public $serviceSupportStage;
+  /**
+   * @var string
+   */
   public $supportStage;
   protected $supportedMethodsType = MethodSelector::class;
   protected $supportedMethodsDataType = 'array';
@@ -84,6 +88,20 @@ class SupportedService extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceSupportStage($serviceSupportStage)
+  {
+    $this->serviceSupportStage = $serviceSupportStage;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceSupportStage()
+  {
+    return $this->serviceSupportStage;
   }
   /**
    * @param string

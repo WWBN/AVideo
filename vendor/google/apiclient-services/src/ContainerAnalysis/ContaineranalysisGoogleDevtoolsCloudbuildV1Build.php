@@ -40,6 +40,8 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Build extends \Google\Collectio
    * @var string
    */
   public $finishTime;
+  protected $gitConfigType = ContaineranalysisGoogleDevtoolsCloudbuildV1GitConfig::class;
+  protected $gitConfigDataType = '';
   /**
    * @var string
    */
@@ -210,6 +212,20 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Build extends \Google\Collectio
   public function getFinishTime()
   {
     return $this->finishTime;
+  }
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1GitConfig
+   */
+  public function setGitConfig(ContaineranalysisGoogleDevtoolsCloudbuildV1GitConfig $gitConfig)
+  {
+    $this->gitConfig = $gitConfig;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1GitConfig
+   */
+  public function getGitConfig()
+  {
+    return $this->gitConfig;
   }
   /**
    * @param string

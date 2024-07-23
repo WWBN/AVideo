@@ -22,10 +22,8 @@ class GoogleCloudDiscoveryengineV1alphaCondition extends \Google\Collection
   protected $collection_key = 'queryTerms';
   protected $activeTimeRangeType = GoogleCloudDiscoveryengineV1alphaConditionTimeRange::class;
   protected $activeTimeRangeDataType = 'array';
-  public $activeTimeRange = [];
   protected $queryTermsType = GoogleCloudDiscoveryengineV1alphaConditionQueryTerm::class;
   protected $queryTermsDataType = 'array';
-  public $queryTerms = [];
 
   /**
    * @param GoogleCloudDiscoveryengineV1alphaConditionTimeRange[]

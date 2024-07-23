@@ -47,6 +47,7 @@ class CloudTalentSolution extends \Google\Service
   public $projects_tenants_clientEvents;
   public $projects_tenants_companies;
   public $projects_tenants_jobs;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudTalentSolution service.
@@ -59,6 +60,7 @@ class CloudTalentSolution extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://jobs.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://jobs.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v4';

@@ -49,6 +49,7 @@ class AnalyticsData extends \Google\Service
 
   public $properties;
   public $properties_audienceExports;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the AnalyticsData service.
@@ -61,6 +62,7 @@ class AnalyticsData extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://analyticsdata.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://analyticsdata.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1beta';

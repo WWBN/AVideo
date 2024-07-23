@@ -52,6 +52,7 @@ class ApigeeRegistry extends \Google\Service
   public $projects_locations_instances;
   public $projects_locations_operations;
   public $projects_locations_runtime;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the ApigeeRegistry service.
@@ -64,6 +65,7 @@ class ApigeeRegistry extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://apigeeregistry.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://apigeeregistry.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

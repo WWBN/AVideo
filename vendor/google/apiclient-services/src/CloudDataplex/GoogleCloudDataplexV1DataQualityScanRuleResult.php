@@ -22,6 +22,10 @@ class GoogleCloudDataplexV1DataQualityScanRuleResult extends \Google\Model
   /**
    * @var string
    */
+  public $assertionRowCount;
+  /**
+   * @var string
+   */
   public $column;
   /**
    * @var string
@@ -65,6 +69,20 @@ class GoogleCloudDataplexV1DataQualityScanRuleResult extends \Google\Model
   public $ruleType;
   public $thresholdPercent;
 
+  /**
+   * @param string
+   */
+  public function setAssertionRowCount($assertionRowCount)
+  {
+    $this->assertionRowCount = $assertionRowCount;
+  }
+  /**
+   * @return string
+   */
+  public function getAssertionRowCount()
+  {
+    return $this->assertionRowCount;
+  }
   /**
    * @param string
    */

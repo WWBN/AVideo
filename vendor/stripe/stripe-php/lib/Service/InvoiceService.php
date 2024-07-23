@@ -6,12 +6,27 @@ namespace Stripe\Service;
 
 /**
  * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
- */
-/**
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
 class InvoiceService extends \Stripe\Service\AbstractService
 {
+    /**
+     * Adds multiple line items to an invoice. This is only possible when an invoice is
+     * still a draft.
+     *
+     * @param string $id
+     * @param null|array $params
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Invoice
+     */
+    public function addLines($id, $params = null, $opts = null)
+    {
+        return $this->request('post', $this->buildPath('/v1/invoices/%s/add_lines', $id), $params, $opts);
+    }
+
     /**
      * You can list all invoices, or list the invoices for a specific customer. The
      * invoices are returned sorted by creation date, with the most recently created
@@ -64,6 +79,45 @@ class InvoiceService extends \Stripe\Service\AbstractService
     public function create($params = null, $opts = null)
     {
         return $this->request('post', '/v1/invoices', $params, $opts);
+    }
+
+    /**
+     * At any time, you can preview the upcoming invoice for a customer. This will show
+     * you all the charges that are pending, including subscription renewal charges,
+     * invoice item charges, etc. It will also show you any discounts that are
+     * applicable to the invoice.
+     *
+     * Note that when you are viewing an upcoming invoice, you are simply viewing a
+     * preview – the invoice has not yet been created. As such, the upcoming invoice
+     * will not show up in invoice listing calls, and you cannot use the API to pay or
+     * edit the invoice. If you want to change the amount that your customer will be
+     * billed, you can add, remove, or update pending invoice items, or update the
+     * customer’s discount.
+     *
+     * You can preview the effects of updating a subscription, including a preview of
+     * what proration will take place. To ensure that the actual proration is
+     * calculated exactly the same as the previewed proration, you should pass the
+     * <code>subscription_details.proration_date</code> parameter when doing the actual
+     * subscription update. The recommended way to get only the prorations being
+     * previewed is to consider only proration line items where
+     * <code>period[start]</code> is equal to the
+     * <code>subscription_details.proration_date</code> value passed in the request.
+     *
+     * Note: Currency conversion calculations use the latest exchange rates. Exchange
+     * rates may vary between the time of the preview and the time of the actual
+     * invoice creation. <a href="https://docs.stripe.com/currencies/conversions">Learn
+     * more</a>
+     *
+     * @param null|array $params
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Invoice
+     */
+    public function createPreview($params = null, $opts = null)
+    {
+        return $this->request('post', '/v1/invoices/create_preview', $params, $opts);
     }
 
     /**
@@ -141,6 +195,23 @@ class InvoiceService extends \Stripe\Service\AbstractService
     }
 
     /**
+     * Removes multiple line items from an invoice. This is only possible when an
+     * invoice is still a draft.
+     *
+     * @param string $id
+     * @param null|array $params
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Invoice
+     */
+    public function removeLines($id, $params = null, $opts = null)
+    {
+        return $this->request('post', $this->buildPath('/v1/invoices/%s/remove_lines', $id), $params, $opts);
+    }
+
+    /**
      * Retrieves the invoice with the given ID.
      *
      * @param string $id
@@ -214,13 +285,17 @@ class InvoiceService extends \Stripe\Service\AbstractService
      *
      * You can preview the effects of updating a subscription, including a preview of
      * what proration will take place. To ensure that the actual proration is
-     * calculated exactly the same as the previewed proration, you should pass a
-     * <code>proration_date</code> parameter when doing the actual subscription update.
-     * The value passed in should be the same as the
-     * <code>subscription_proration_date</code> returned on the upcoming invoice
-     * resource. The recommended way to get only the prorations being previewed is to
-     * consider only proration line items where <code>period[start]</code> is equal to
-     * the <code>subscription_proration_date</code> on the upcoming invoice resource.
+     * calculated exactly the same as the previewed proration, you should pass the
+     * <code>subscription_details.proration_date</code> parameter when doing the actual
+     * subscription update. The recommended way to get only the prorations being
+     * previewed is to consider only proration line items where
+     * <code>period[start]</code> is equal to the
+     * <code>subscription_details.proration_date</code> value passed in the request.
+     *
+     * Note: Currency conversion calculations use the latest exchange rates. Exchange
+     * rates may vary between the time of the preview and the time of the actual
+     * invoice creation. <a href="https://docs.stripe.com/currencies/conversions">Learn
+     * more</a>
      *
      * @param null|array $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
@@ -298,10 +373,33 @@ class InvoiceService extends \Stripe\Service\AbstractService
     }
 
     /**
+     * Updates multiple line items on an invoice. This is only possible when an invoice
+     * is still a draft.
+     *
+     * @param string $id
+     * @param null|array $params
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Invoice
+     */
+    public function updateLines($id, $params = null, $opts = null)
+    {
+        return $this->request('post', $this->buildPath('/v1/invoices/%s/update_lines', $id), $params, $opts);
+    }
+
+    /**
      * Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is
      * similar to <a href="#delete_invoice">deletion</a>, however it only applies to
      * finalized invoices and maintains a papertrail where the invoice can still be
      * found.
+     *
+     * Consult with local regulations to determine whether and how an invoice might be
+     * amended, canceled, or voided in the jurisdiction you’re doing business in. You
+     * might need to <a href="#create_invoice">issue another invoice</a> or <a
+     * href="#create_credit_note">credit note</a> instead. Stripe recommends that you
+     * consult with your legal counsel for advice specific to your business.
      *
      * @param string $id
      * @param null|array $params

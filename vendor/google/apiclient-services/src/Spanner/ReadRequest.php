@@ -43,6 +43,14 @@ class ReadRequest extends \Google\Collection
   /**
    * @var string
    */
+  public $lockHint;
+  /**
+   * @var string
+   */
+  public $orderBy;
+  /**
+   * @var string
+   */
   public $partitionToken;
   protected $requestOptionsType = RequestOptions::class;
   protected $requestOptionsDataType = '';
@@ -140,6 +148,34 @@ class ReadRequest extends \Google\Collection
   public function getLimit()
   {
     return $this->limit;
+  }
+  /**
+   * @param string
+   */
+  public function setLockHint($lockHint)
+  {
+    $this->lockHint = $lockHint;
+  }
+  /**
+   * @return string
+   */
+  public function getLockHint()
+  {
+    return $this->lockHint;
+  }
+  /**
+   * @param string
+   */
+  public function setOrderBy($orderBy)
+  {
+    $this->orderBy = $orderBy;
+  }
+  /**
+   * @return string
+   */
+  public function getOrderBy()
+  {
+    return $this->orderBy;
   }
   /**
    * @param string

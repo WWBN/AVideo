@@ -46,6 +46,8 @@ class GoogleCloudAiplatformV1FeatureValue extends \Google\Model
    * @var string
    */
   public $stringValue;
+  protected $structValueType = GoogleCloudAiplatformV1StructValue::class;
+  protected $structValueDataType = '';
 
   /**
    * @param GoogleCloudAiplatformV1BoolArray
@@ -180,6 +182,20 @@ class GoogleCloudAiplatformV1FeatureValue extends \Google\Model
   public function getStringValue()
   {
     return $this->stringValue;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1StructValue
+   */
+  public function setStructValue(GoogleCloudAiplatformV1StructValue $structValue)
+  {
+    $this->structValue = $structValue;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1StructValue
+   */
+  public function getStructValue()
+  {
+    return $this->structValue;
   }
 }
 

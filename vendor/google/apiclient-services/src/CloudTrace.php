@@ -47,6 +47,7 @@ class CloudTrace extends \Google\Service
 
   public $projects_traces;
   public $projects_traces_spans;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudTrace service.
@@ -59,6 +60,7 @@ class CloudTrace extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://cloudtrace.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://cloudtrace.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2';

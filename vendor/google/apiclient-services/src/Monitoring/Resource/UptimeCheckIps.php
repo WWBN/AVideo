@@ -30,7 +30,7 @@ use Google\Service\Monitoring\ListUptimeCheckIpsResponse;
 class UptimeCheckIps extends \Google\Service\Resource
 {
   /**
-   * Returns the list of IP addresses that checkers run from
+   * Returns the list of IP addresses that checkers run from.
    * (uptimeCheckIps.listUptimeCheckIps)
    *
    * @param array $optParams Optional parameters.

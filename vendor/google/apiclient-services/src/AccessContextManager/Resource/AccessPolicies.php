@@ -131,8 +131,8 @@ class AccessPolicies extends \Google\Service\Resource
    * successful status after the changes to the access policy propagate to long-
    * lasting storage. (accessPolicies.patch)
    *
-   * @param string $name Output only. Resource name of the `AccessPolicy`. Format:
-   * `accessPolicies/{access_policy}`
+   * @param string $name Output only. Identifier. Resource name of the
+   * `AccessPolicy`. Format: `accessPolicies/{access_policy}`
    * @param AccessPolicy $postBody
    * @param array $optParams Optional parameters.
    *

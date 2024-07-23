@@ -33,9 +33,10 @@ use Google\Service\Adsense\ListLinkedAdUnitsResponse;
 class AccountsAdclientsCustomchannels extends \Google\Service\Resource
 {
   /**
-   * Creates a custom channel. This method can only be used by projects enabled
-   * for the [AdSense for
-   * Platforms](https://developers.google.com/adsense/platforms/) product.
+   * Creates a custom channel. This method can be called only by a restricted set
+   * of projects, which are usually owned by [AdSense for
+   * Platforms](https://developers.google.com/adsense/platforms/) publishers.
+   * Contact your account manager if you need to use this method.
    * (customchannels.create)
    *
    * @param string $parent Required. The ad client to create a custom channel
@@ -52,9 +53,10 @@ class AccountsAdclientsCustomchannels extends \Google\Service\Resource
     return $this->call('create', [$params], CustomChannel::class);
   }
   /**
-   * Deletes a custom channel. This method can only be used by projects enabled
-   * for the [AdSense for
-   * Platforms](https://developers.google.com/adsense/platforms/) product.
+   * Deletes a custom channel. This method can be called only by a restricted set
+   * of projects, which are usually owned by [AdSense for
+   * Platforms](https://developers.google.com/adsense/platforms/) publishers.
+   * Contact your account manager if you need to use this method.
    * (customchannels.delete)
    *
    * @param string $name Required. Name of the custom channel to delete. Format:
@@ -136,9 +138,10 @@ class AccountsAdclientsCustomchannels extends \Google\Service\Resource
     return $this->call('listLinkedAdUnits', [$params], ListLinkedAdUnitsResponse::class);
   }
   /**
-   * Updates a custom channel. This method can only be used by projects enabled
-   * for the [AdSense for
-   * Platforms](https://developers.google.com/adsense/platforms/) product.
+   * Updates a custom channel. This method can be called only by a restricted set
+   * of projects, which are usually owned by [AdSense for
+   * Platforms](https://developers.google.com/adsense/platforms/) publishers.
+   * Contact your account manager if you need to use this method.
    * (customchannels.patch)
    *
    * @param string $name Output only. Resource name of the custom channel. Format:

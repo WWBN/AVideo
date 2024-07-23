@@ -52,6 +52,7 @@ class Cloudbilling extends \Google\Service
   public $projects;
   public $services;
   public $services_skus;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Cloudbilling service.
@@ -64,6 +65,7 @@ class Cloudbilling extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://cloudbilling.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://cloudbilling.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

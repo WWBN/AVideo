@@ -32,6 +32,8 @@ class SapDiscoveryComponent extends \Google\Collection
    * @var string
    */
   public $hostProject;
+  protected $replicationSitesType = SapDiscoveryComponent::class;
+  protected $replicationSitesDataType = 'array';
   protected $resourcesType = SapDiscoveryResource::class;
   protected $resourcesDataType = 'array';
   /**
@@ -98,6 +100,20 @@ class SapDiscoveryComponent extends \Google\Collection
   public function getHostProject()
   {
     return $this->hostProject;
+  }
+  /**
+   * @param SapDiscoveryComponent[]
+   */
+  public function setReplicationSites($replicationSites)
+  {
+    $this->replicationSites = $replicationSites;
+  }
+  /**
+   * @return SapDiscoveryComponent[]
+   */
+  public function getReplicationSites()
+  {
+    return $this->replicationSites;
   }
   /**
    * @param SapDiscoveryResource[]

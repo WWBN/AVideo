@@ -45,6 +45,7 @@ class MyBusinessBusinessInformation extends \Google\Service
   public $googleLocations;
   public $locations;
   public $locations_attributes;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the MyBusinessBusinessInformation
@@ -58,6 +59,7 @@ class MyBusinessBusinessInformation extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://mybusinessbusinessinformation.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://mybusinessbusinessinformation.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

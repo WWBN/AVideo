@@ -88,6 +88,10 @@ class AttachedDiskInitializeParams extends \Google\Collection
   public $sourceSnapshot;
   protected $sourceSnapshotEncryptionKeyType = CustomerEncryptionKey::class;
   protected $sourceSnapshotEncryptionKeyDataType = '';
+  /**
+   * @var string
+   */
+  public $storagePool;
 
   /**
    * @param string
@@ -340,6 +344,20 @@ class AttachedDiskInitializeParams extends \Google\Collection
   public function getSourceSnapshotEncryptionKey()
   {
     return $this->sourceSnapshotEncryptionKey;
+  }
+  /**
+   * @param string
+   */
+  public function setStoragePool($storagePool)
+  {
+    $this->storagePool = $storagePool;
+  }
+  /**
+   * @return string
+   */
+  public function getStoragePool()
+  {
+    return $this->storagePool;
   }
 }
 

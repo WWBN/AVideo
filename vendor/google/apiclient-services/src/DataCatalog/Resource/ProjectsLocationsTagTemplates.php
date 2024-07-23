@@ -129,9 +129,9 @@ class ProjectsLocationsTagTemplates extends \Google\Service\Resource
    * resource project](https://cloud.google.com/data-
    * catalog/docs/concepts/resource-project). (tagTemplates.patch)
    *
-   * @param string $name The resource name of the tag template in URL format.
-   * Note: The tag template itself and its child resources might not be stored in
-   * the location specified in its name.
+   * @param string $name Identifier. The resource name of the tag template in URL
+   * format. Note: The tag template itself and its child resources might not be
+   * stored in the location specified in its name.
    * @param GoogleCloudDatacatalogV1TagTemplate $postBody
    * @param array $optParams Optional parameters.
    *

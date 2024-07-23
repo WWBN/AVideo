@@ -152,6 +152,7 @@ class Directory extends \Google\Service
   public $users_aliases;
   public $users_photos;
   public $verificationCodes;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Directory service.
@@ -164,6 +165,7 @@ class Directory extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://admin.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://admin.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'directory_v1';

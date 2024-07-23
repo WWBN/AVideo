@@ -19,9 +19,27 @@ namespace Google\Service\BigQueryConnectionService;
 
 class ConnectorConfigurationAuthentication extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $serviceAccount;
   protected $usernamePasswordType = ConnectorConfigurationUsernamePassword::class;
   protected $usernamePasswordDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setServiceAccount($serviceAccount)
+  {
+    $this->serviceAccount = $serviceAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAccount()
+  {
+    return $this->serviceAccount;
+  }
   /**
    * @param ConnectorConfigurationUsernamePassword
    */

@@ -19,6 +19,8 @@ namespace Google\Service\BigtableAdmin;
 
 class Table extends \Google\Model
 {
+  protected $automatedBackupPolicyType = AutomatedBackupPolicy::class;
+  protected $automatedBackupPolicyDataType = '';
   protected $changeStreamConfigType = ChangeStreamConfig::class;
   protected $changeStreamConfigDataType = '';
   protected $clusterStatesType = ClusterState::class;
@@ -42,6 +44,20 @@ class Table extends \Google\Model
   protected $statsType = TableStats::class;
   protected $statsDataType = '';
 
+  /**
+   * @param AutomatedBackupPolicy
+   */
+  public function setAutomatedBackupPolicy(AutomatedBackupPolicy $automatedBackupPolicy)
+  {
+    $this->automatedBackupPolicy = $automatedBackupPolicy;
+  }
+  /**
+   * @return AutomatedBackupPolicy
+   */
+  public function getAutomatedBackupPolicy()
+  {
+    return $this->automatedBackupPolicy;
+  }
   /**
    * @param ChangeStreamConfig
    */

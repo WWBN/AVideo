@@ -58,7 +58,9 @@ class BuyersProposals extends \Google\Service\Resource
     return $this->call('accept', [$params], Proposal::class);
   }
   /**
-   * Creates a note for this proposal and sends to the seller. (proposals.addNote)
+   * Creates a note for this proposal and sends to the seller. This method is not
+   * supported for proposals with DealType set to 'PRIVATE_AUCTION'.
+   * (proposals.addNote)
    *
    * @param string $proposal Name of the proposal. Format:
    * `buyers/{accountId}/proposals/{proposalId}`

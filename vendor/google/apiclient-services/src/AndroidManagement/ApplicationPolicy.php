@@ -87,6 +87,10 @@ class ApplicationPolicy extends \Google\Collection
   /**
    * @var string
    */
+  public $userControlSettings;
+  /**
+   * @var string
+   */
   public $workProfileWidgets;
 
   /**
@@ -340,6 +344,20 @@ class ApplicationPolicy extends \Google\Collection
   public function getPermissionGrants()
   {
     return $this->permissionGrants;
+  }
+  /**
+   * @param string
+   */
+  public function setUserControlSettings($userControlSettings)
+  {
+    $this->userControlSettings = $userControlSettings;
+  }
+  /**
+   * @return string
+   */
+  public function getUserControlSettings()
+  {
+    return $this->userControlSettings;
   }
   /**
    * @param string

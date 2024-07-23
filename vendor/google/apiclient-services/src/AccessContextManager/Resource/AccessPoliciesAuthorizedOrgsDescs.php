@@ -116,7 +116,8 @@ class AccessPoliciesAuthorizedOrgsDescs extends \Google\Service\Resource
    * `AuthorizedOrgsDesc` can be updated. The name, authorization_type, asset_type
    * and authorization_direction cannot be updated. (authorizedOrgsDescs.patch)
    *
-   * @param string $name Resource name for the `AuthorizedOrgsDesc`. Format:
+   * @param string $name Identifier. Resource name for the `AuthorizedOrgsDesc`.
+   * Format:
    * `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`.
    * The `authorized_orgs_desc` component must begin with a letter, followed by
    * alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you

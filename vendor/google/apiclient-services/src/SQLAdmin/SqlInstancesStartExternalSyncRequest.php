@@ -19,6 +19,10 @@ namespace Google\Service\SQLAdmin;
 
 class SqlInstancesStartExternalSyncRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $migrationType;
   protected $mysqlSyncConfigType = MySqlSyncConfig::class;
   protected $mysqlSyncConfigDataType = '';
   /**
@@ -34,6 +38,20 @@ class SqlInstancesStartExternalSyncRequest extends \Google\Model
    */
   public $syncParallelLevel;
 
+  /**
+   * @param string
+   */
+  public function setMigrationType($migrationType)
+  {
+    $this->migrationType = $migrationType;
+  }
+  /**
+   * @return string
+   */
+  public function getMigrationType()
+  {
+    return $this->migrationType;
+  }
   /**
    * @param MySqlSyncConfig
    */

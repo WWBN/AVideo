@@ -20,6 +20,8 @@ namespace Google\Service\CertificateManager;
 class TrustConfig extends \Google\Collection
 {
   protected $collection_key = 'trustStores';
+  protected $allowlistedCertificatesType = AllowlistedCertificate::class;
+  protected $allowlistedCertificatesDataType = 'array';
   /**
    * @var string
    */
@@ -47,6 +49,20 @@ class TrustConfig extends \Google\Collection
    */
   public $updateTime;
 
+  /**
+   * @param AllowlistedCertificate[]
+   */
+  public function setAllowlistedCertificates($allowlistedCertificates)
+  {
+    $this->allowlistedCertificates = $allowlistedCertificates;
+  }
+  /**
+   * @return AllowlistedCertificate[]
+   */
+  public function getAllowlistedCertificates()
+  {
+    return $this->allowlistedCertificates;
+  }
   /**
    * @param string
    */

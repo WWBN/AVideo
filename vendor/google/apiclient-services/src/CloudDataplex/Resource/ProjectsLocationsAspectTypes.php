@@ -17,10 +17,13 @@
 
 namespace Google\Service\CloudDataplex\Resource;
 
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1AspectType;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListAspectTypesResponse;
 use Google\Service\CloudDataplex\GoogleIamV1Policy;
 use Google\Service\CloudDataplex\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
+use Google\Service\CloudDataplex\GoogleLongrunningOperation;
 
 /**
  * The "aspectTypes" collection of methods.
@@ -32,6 +35,61 @@ use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
  */
 class ProjectsLocationsAspectTypes extends \Google\Service\Resource
 {
+  /**
+   * Creates an AspectType. (aspectTypes.create)
+   *
+   * @param string $parent Required. The resource name of the AspectType, of the
+   * form: projects/{project_number}/locations/{location_id} where location_id
+   * refers to a Google Cloud region.
+   * @param GoogleCloudDataplexV1AspectType $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string aspectTypeId Required. AspectType identifier.
+   * @opt_param bool validateOnly Optional. The service validates the request
+   * without performing any mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, GoogleCloudDataplexV1AspectType $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Deletes an AspectType. (aspectTypes.delete)
+   *
+   * @param string $name Required. The resource name of the AspectType: projects/{
+   * project_number}/locations/{location_id}/aspectTypes/{aspect_type_id}.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string etag Optional. If the client provided etag value does not
+   * match the current etag value, the DeleteAspectTypeRequest method returns an
+   * ABORTED error response.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Gets an AspectType. (aspectTypes.get)
+   *
+   * @param string $name Required. The resource name of the AspectType: projects/{
+   * project_number}/locations/{location_id}/aspectTypes/{aspect_type_id}.
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1AspectType
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleCloudDataplexV1AspectType::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (aspectTypes.getIamPolicy)
@@ -61,6 +119,59 @@ class ProjectsLocationsAspectTypes extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
+  }
+  /**
+   * Lists AspectType resources in a project and location.
+   * (aspectTypes.listProjectsLocationsAspectTypes)
+   *
+   * @param string $parent Required. The resource name of the AspectType location,
+   * of the form: projects/{project_number}/locations/{location_id} where
+   * location_id refers to a Google Cloud region.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Filter request. Filters are case-
+   * sensitive. The service supports the following formats: labels.key1 = "value1"
+   * labels:key1 name = "value"These restrictions can be conjoined with AND, OR,
+   * and NOT conjunctions.
+   * @opt_param string orderBy Optional. Orders the result by name or create_time
+   * fields. If not specified, the ordering is undefined.
+   * @opt_param int pageSize Optional. Maximum number of AspectTypes to return.
+   * The service may return fewer than this value. If unspecified, the service
+   * returns at most 10 AspectTypes. The maximum value is 1000; values above 1000
+   * will be coerced to 1000.
+   * @opt_param string pageToken Optional. Page token received from a previous
+   * ListAspectTypes call. Provide this to retrieve the subsequent page. When
+   * paginating, all other parameters you provide to ListAspectTypes must match
+   * the call that provided the page token.
+   * @return GoogleCloudDataplexV1ListAspectTypesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsAspectTypes($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GoogleCloudDataplexV1ListAspectTypesResponse::class);
+  }
+  /**
+   * Updates an AspectType. (aspectTypes.patch)
+   *
+   * @param string $name Output only. The relative resource name of the
+   * AspectType, of the form: projects/{project_number}/locations/{location_id}/as
+   * pectTypes/{aspect_type_id}.
+   * @param GoogleCloudDataplexV1AspectType $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. Mask of fields to update.
+   * @opt_param bool validateOnly Optional. Only validate the request, but do not
+   * perform mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudDataplexV1AspectType $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

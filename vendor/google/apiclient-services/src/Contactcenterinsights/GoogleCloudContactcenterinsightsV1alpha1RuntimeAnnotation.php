@@ -45,6 +45,8 @@ class GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotation extends \Google\
   protected $smartReplyDataType = '';
   protected $startBoundaryType = GoogleCloudContactcenterinsightsV1alpha1AnnotationBoundary::class;
   protected $startBoundaryDataType = '';
+  protected $userInputType = GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotationUserInput::class;
+  protected $userInputDataType = '';
 
   /**
    * @param string
@@ -199,6 +201,20 @@ class GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotation extends \Google\
   public function getStartBoundary()
   {
     return $this->startBoundary;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotationUserInput
+   */
+  public function setUserInput(GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotationUserInput $userInput)
+  {
+    $this->userInput = $userInput;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotationUserInput
+   */
+  public function getUserInput()
+  {
+    return $this->userInput;
   }
 }
 

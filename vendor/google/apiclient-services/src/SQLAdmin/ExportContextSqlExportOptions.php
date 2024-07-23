@@ -26,6 +26,8 @@ class ExportContextSqlExportOptions extends \Google\Collection
    * @var bool
    */
   public $parallel;
+  protected $postgresExportOptionsType = ExportContextSqlExportOptionsPostgresExportOptions::class;
+  protected $postgresExportOptionsDataType = '';
   /**
    * @var bool
    */
@@ -66,6 +68,20 @@ class ExportContextSqlExportOptions extends \Google\Collection
   public function getParallel()
   {
     return $this->parallel;
+  }
+  /**
+   * @param ExportContextSqlExportOptionsPostgresExportOptions
+   */
+  public function setPostgresExportOptions(ExportContextSqlExportOptionsPostgresExportOptions $postgresExportOptions)
+  {
+    $this->postgresExportOptions = $postgresExportOptions;
+  }
+  /**
+   * @return ExportContextSqlExportOptionsPostgresExportOptions
+   */
+  public function getPostgresExportOptions()
+  {
+    return $this->postgresExportOptions;
   }
   /**
    * @param bool

@@ -103,8 +103,8 @@ class FloodlightActivityGroups extends \Google\Service\Resource
     return $this->call('list', [$params], FloodlightActivityGroupsListResponse::class);
   }
   /**
-   * Updates an existing event tag. This method supports patch semantics.
-   * (floodlightActivityGroups.patch)
+   * Updates an existing floodlight activity group. This method supports patch
+   * semantics. (floodlightActivityGroups.patch)
    *
    * @param string $profileId User profile ID associated with this request.
    * @param string $id Required. EventTag ID.

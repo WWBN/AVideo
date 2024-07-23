@@ -140,7 +140,7 @@ class V1 extends \Google\Service\Resource
     return $this->call('updateIapSettings', [$params], IapSettings::class);
   }
   /**
-   * Validates a given CEL expression conforms to IAP restrictions.
+   * Validates that a given CEL expression conforms to IAP restrictions.
    * (v1.validateAttributeExpression)
    *
    * @param string $name Required. The resource name of the IAP protected
@@ -148,8 +148,8 @@ class V1 extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string expression Required. User input string expression. Should
-   * be of the form 'attributes.saml_attributes.filter(attribute, attribute.name
-   * in ['{attribute_name}', '{attribute_name}'])'
+   * be of the form `attributes.saml_attributes.filter(attribute, attribute.name
+   * in ['{attribute_name}', '{attribute_name}'])`
    * @return ValidateIapAttributeExpressionResponse
    * @throws \Google\Service\Exception
    */

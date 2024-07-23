@@ -24,6 +24,8 @@ class UrlMap extends \Google\Collection
    * @var string
    */
   public $creationTimestamp;
+  protected $defaultCustomErrorResponsePolicyType = CustomErrorResponsePolicy::class;
+  protected $defaultCustomErrorResponsePolicyDataType = '';
   protected $defaultRouteActionType = HttpRouteAction::class;
   protected $defaultRouteActionDataType = '';
   /**
@@ -82,6 +84,20 @@ class UrlMap extends \Google\Collection
   public function getCreationTimestamp()
   {
     return $this->creationTimestamp;
+  }
+  /**
+   * @param CustomErrorResponsePolicy
+   */
+  public function setDefaultCustomErrorResponsePolicy(CustomErrorResponsePolicy $defaultCustomErrorResponsePolicy)
+  {
+    $this->defaultCustomErrorResponsePolicy = $defaultCustomErrorResponsePolicy;
+  }
+  /**
+   * @return CustomErrorResponsePolicy
+   */
+  public function getDefaultCustomErrorResponsePolicy()
+  {
+    return $this->defaultCustomErrorResponsePolicy;
   }
   /**
    * @param HttpRouteAction

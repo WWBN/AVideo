@@ -49,6 +49,7 @@ class ChromePolicy extends \Google\Service
   public $customers_policies_orgunits;
   public $customers_policySchemas;
   public $media;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the ChromePolicy service.
@@ -61,6 +62,7 @@ class ChromePolicy extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://chromepolicy.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://chromepolicy.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

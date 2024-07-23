@@ -103,7 +103,7 @@ class Campaigns extends \Google\Service\Resource
     return $this->call('list', [$params], CampaignsListResponse::class);
   }
   /**
-   * Updates an existing creative. This method supports patch semantics.
+   * Updates an existing campaign. This method supports patch semantics.
    * (campaigns.patch)
    *
    * @param string $profileId User profile ID associated with this request.

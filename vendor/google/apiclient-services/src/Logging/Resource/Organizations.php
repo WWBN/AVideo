@@ -129,7 +129,7 @@ class Organizations extends \Google\Service\Resource
    * information. (organizations.updateSettings)
    *
    * @param string $name Required. The resource name for the settings to update.
-   * "organizations/[ORGANIZATION_ID]/settings" For
+   * "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For
    * example:"organizations/12345/settings"
    * @param Settings $postBody
    * @param array $optParams Optional parameters.

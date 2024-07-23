@@ -19,6 +19,8 @@ namespace Google\Service\Networkconnectivity;
 
 class Group extends \Google\Model
 {
+  protected $autoAcceptType = AutoAccept::class;
+  protected $autoAcceptDataType = '';
   /**
    * @var string
    */
@@ -38,6 +40,10 @@ class Group extends \Google\Model
   /**
    * @var string
    */
+  public $routeTable;
+  /**
+   * @var string
+   */
   public $state;
   /**
    * @var string
@@ -48,6 +54,20 @@ class Group extends \Google\Model
    */
   public $updateTime;
 
+  /**
+   * @param AutoAccept
+   */
+  public function setAutoAccept(AutoAccept $autoAccept)
+  {
+    $this->autoAccept = $autoAccept;
+  }
+  /**
+   * @return AutoAccept
+   */
+  public function getAutoAccept()
+  {
+    return $this->autoAccept;
+  }
   /**
    * @param string
    */
@@ -103,6 +123,20 @@ class Group extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setRouteTable($routeTable)
+  {
+    $this->routeTable = $routeTable;
+  }
+  /**
+   * @return string
+   */
+  public function getRouteTable()
+  {
+    return $this->routeTable;
   }
   /**
    * @param string

@@ -30,6 +30,10 @@ class NetworkConfig extends \Google\Model
   /**
    * @var bool
    */
+  public $enableCiliumClusterwideNetworkPolicy;
+  /**
+   * @var bool
+   */
   public $enableFqdnNetworkPolicy;
   /**
    * @var bool
@@ -107,6 +111,20 @@ class NetworkConfig extends \Google\Model
   public function getDnsConfig()
   {
     return $this->dnsConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableCiliumClusterwideNetworkPolicy($enableCiliumClusterwideNetworkPolicy)
+  {
+    $this->enableCiliumClusterwideNetworkPolicy = $enableCiliumClusterwideNetworkPolicy;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableCiliumClusterwideNetworkPolicy()
+  {
+    return $this->enableCiliumClusterwideNetworkPolicy;
   }
   /**
    * @param bool

@@ -21,7 +21,6 @@ class GoogleCloudIntegrationsV1alphaGetClientResponse extends \Google\Model
 {
   protected $clientType = GoogleCloudIntegrationsV1alphaClientConfig::class;
   protected $clientDataType = '';
-  public $client;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaClientConfig

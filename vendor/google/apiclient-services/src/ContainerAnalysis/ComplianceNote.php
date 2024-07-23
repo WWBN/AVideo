@@ -29,6 +29,10 @@ class ComplianceNote extends \Google\Collection
   /**
    * @var string
    */
+  public $impact;
+  /**
+   * @var string
+   */
   public $rationale;
   /**
    * @var string
@@ -72,6 +76,20 @@ class ComplianceNote extends \Google\Collection
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param string
+   */
+  public function setImpact($impact)
+  {
+    $this->impact = $impact;
+  }
+  /**
+   * @return string
+   */
+  public function getImpact()
+  {
+    return $this->impact;
   }
   /**
    * @param string

@@ -33,10 +33,13 @@ class EnterprisesMigrationTokens extends \Google\Service\Resource
   /**
    * Creates a migration token, to migrate an existing device from being managed
    * by the EMM's Device Policy Controller (DPC) to being managed by the Android
-   * Management API. (migrationTokens.create)
+   * Management API. See the guide
+   * (https://developers.google.com/android/management/dpc-migration) for more
+   * details. (migrationTokens.create)
    *
    * @param string $parent Required. The enterprise in which this migration token
-   * will be created. Format: enterprises/{enterprise}
+   * is created. This must be the same enterprise which already manages the device
+   * in the Play EMM API. Format: enterprises/{enterprise}
    * @param MigrationToken $postBody
    * @param array $optParams Optional parameters.
    * @return MigrationToken

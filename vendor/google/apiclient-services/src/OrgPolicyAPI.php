@@ -46,6 +46,7 @@ class OrgPolicyAPI extends \Google\Service
   public $organizations_policies;
   public $projects_constraints;
   public $projects_policies;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the OrgPolicyAPI service.
@@ -58,6 +59,7 @@ class OrgPolicyAPI extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://orgpolicy.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://orgpolicy.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v2';

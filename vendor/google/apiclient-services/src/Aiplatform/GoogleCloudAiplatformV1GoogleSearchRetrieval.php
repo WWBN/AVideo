@@ -19,25 +19,6 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1GoogleSearchRetrieval extends \Google\Model
 {
-  /**
-   * @var bool
-   */
-  public $disableAttribution;
-
-  /**
-   * @param bool
-   */
-  public function setDisableAttribution($disableAttribution)
-  {
-    $this->disableAttribution = $disableAttribution;
-  }
-  /**
-   * @return bool
-   */
-  public function getDisableAttribution()
-  {
-    return $this->disableAttribution;
-  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

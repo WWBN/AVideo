@@ -30,6 +30,10 @@ class MethodQuota extends \Google\Model
   /**
    * @var string
    */
+  public $quotaMinuteLimit;
+  /**
+   * @var string
+   */
   public $quotaUsage;
 
   /**
@@ -59,6 +63,20 @@ class MethodQuota extends \Google\Model
   public function getQuotaLimit()
   {
     return $this->quotaLimit;
+  }
+  /**
+   * @param string
+   */
+  public function setQuotaMinuteLimit($quotaMinuteLimit)
+  {
+    $this->quotaMinuteLimit = $quotaMinuteLimit;
+  }
+  /**
+   * @return string
+   */
+  public function getQuotaMinuteLimit()
+  {
+    return $this->quotaMinuteLimit;
   }
   /**
    * @param string

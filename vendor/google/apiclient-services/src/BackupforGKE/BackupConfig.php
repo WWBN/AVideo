@@ -33,6 +33,10 @@ class BackupConfig extends \Google\Model
    * @var bool
    */
   public $includeVolumeData;
+  /**
+   * @var bool
+   */
+  public $permissiveMode;
   protected $selectedApplicationsType = NamespacedNames::class;
   protected $selectedApplicationsDataType = '';
   protected $selectedNamespacesType = Namespaces::class;
@@ -93,6 +97,20 @@ class BackupConfig extends \Google\Model
   public function getIncludeVolumeData()
   {
     return $this->includeVolumeData;
+  }
+  /**
+   * @param bool
+   */
+  public function setPermissiveMode($permissiveMode)
+  {
+    $this->permissiveMode = $permissiveMode;
+  }
+  /**
+   * @return bool
+   */
+  public function getPermissiveMode()
+  {
+    return $this->permissiveMode;
   }
   /**
    * @param NamespacedNames

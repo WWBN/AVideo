@@ -26,6 +26,10 @@ class GoogleCloudDiscoveryengineV1alphaControlBoostAction extends \Google\Model
   /**
    * @var string
    */
+  public $dataStore;
+  /**
+   * @var string
+   */
   public $filter;
 
   /**
@@ -41,6 +45,20 @@ class GoogleCloudDiscoveryengineV1alphaControlBoostAction extends \Google\Model
   public function getBoost()
   {
     return $this->boost;
+  }
+  /**
+   * @param string
+   */
+  public function setDataStore($dataStore)
+  {
+    $this->dataStore = $dataStore;
+  }
+  /**
+   * @return string
+   */
+  public function getDataStore()
+  {
+    return $this->dataStore;
   }
   /**
    * @param string

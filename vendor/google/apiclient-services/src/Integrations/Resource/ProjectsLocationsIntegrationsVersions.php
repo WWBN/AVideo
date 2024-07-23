@@ -18,12 +18,11 @@
 namespace Google\Service\Integrations\Resource;
 
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaIntegrationVersion;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaTakeoverEditLockRequest;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaUnpublishIntegrationVersionRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse;
@@ -107,6 +106,27 @@ class ProjectsLocationsIntegrationsVersions extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('download', [$params], GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse::class);
+  }
+  /**
+   * Downloads an Integration version package like IntegrationVersion,Integration
+   * Config etc. Retrieves the IntegrationVersion package for a given
+   * `integration_id` and returns the response as a JSON.
+   * (versions.downloadJsonPackage)
+   *
+   * @param string $name Required. Integration version name Format: projects/{proj
+   * ect}/locations/{location}/integrations/{integration}/versions/{version}
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string files Optional. Integration related file to download like
+   * Integration Version, Config variable, testcase etc.
+   * @return GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse
+   * @throws \Google\Service\Exception
+   */
+  public function downloadJsonPackage($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('downloadJsonPackage', [$params], GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse::class);
   }
   /**
    * Get a integration in the specified project. (versions.get)
@@ -206,34 +226,6 @@ class ProjectsLocationsIntegrationsVersions extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('publish', [$params], GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse::class);
-  }
-  /**
-   * Clears the `locked_by` and `locked_at_timestamp`in the DRAFT version of this
-   * integration. It then performs the same action as the
-   * CreateDraftIntegrationVersion (i.e., copies the DRAFT version of the
-   * integration as a SNAPSHOT and then creates a new DRAFT version with the
-   * `locked_by` set to the `user_taking_over` and the `locked_at_timestamp` set
-   * to the current timestamp). Both the `locked_by` and `user_taking_over` are
-   * notified via email about the takeover. This RPC throws an exception if the
-   * integration is not in DRAFT status or if the `locked_by` and
-   * `locked_at_timestamp` fields are not set.The TakeoverEdit lock is treated the
-   * same as an edit of the integration, and hence shares ACLs with edit. Audit
-   * fields updated include last_modified_timestamp, last_modified_by.
-   * (versions.takeoverEditLock)
-   *
-   * @param string $integrationVersion Required. The version to take over edit
-   * lock. Format: projects/{project}/locations/{location}/integrations/{integrati
-   * on}/versions/{version}
-   * @param GoogleCloudIntegrationsV1alphaTakeoverEditLockRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse
-   * @throws \Google\Service\Exception
-   */
-  public function takeoverEditLock($integrationVersion, GoogleCloudIntegrationsV1alphaTakeoverEditLockRequest $postBody, $optParams = [])
-  {
-    $params = ['integrationVersion' => $integrationVersion, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('takeoverEditLock', [$params], GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse::class);
   }
   /**
    * Sets the status of the ACTIVE integration to SNAPSHOT with a new tag

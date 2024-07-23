@@ -27,10 +27,6 @@ class CompatibleFields extends \Google\Model
    * @var string
    */
   public $kind;
-  protected $pathAttributionReportCompatibleFieldsType = PathReportCompatibleFields::class;
-  protected $pathAttributionReportCompatibleFieldsDataType = '';
-  protected $pathReportCompatibleFieldsType = PathReportCompatibleFields::class;
-  protected $pathReportCompatibleFieldsDataType = '';
   protected $pathToConversionReportCompatibleFieldsType = PathToConversionReportCompatibleFields::class;
   protected $pathToConversionReportCompatibleFieldsDataType = '';
   protected $reachReportCompatibleFieldsType = ReachReportCompatibleFields::class;
@@ -79,34 +75,6 @@ class CompatibleFields extends \Google\Model
   public function getKind()
   {
     return $this->kind;
-  }
-  /**
-   * @param PathReportCompatibleFields
-   */
-  public function setPathAttributionReportCompatibleFields(PathReportCompatibleFields $pathAttributionReportCompatibleFields)
-  {
-    $this->pathAttributionReportCompatibleFields = $pathAttributionReportCompatibleFields;
-  }
-  /**
-   * @return PathReportCompatibleFields
-   */
-  public function getPathAttributionReportCompatibleFields()
-  {
-    return $this->pathAttributionReportCompatibleFields;
-  }
-  /**
-   * @param PathReportCompatibleFields
-   */
-  public function setPathReportCompatibleFields(PathReportCompatibleFields $pathReportCompatibleFields)
-  {
-    $this->pathReportCompatibleFields = $pathReportCompatibleFields;
-  }
-  /**
-   * @return PathReportCompatibleFields
-   */
-  public function getPathReportCompatibleFields()
-  {
-    return $this->pathReportCompatibleFields;
   }
   /**
    * @param PathToConversionReportCompatibleFields
