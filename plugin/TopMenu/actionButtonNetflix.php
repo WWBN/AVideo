@@ -7,8 +7,9 @@ require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/Menu.php';
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/MenuItem.php';
 
 $menu = Menu::getAllActive(Menu::$typeActionMenu);
-
-$videos_id = getVideos_id();
+if(empty($videos_id)){
+    $videos_id = getVideos_id();
+}
 ?>
 <!-- action menu flix start -->
 <?php
