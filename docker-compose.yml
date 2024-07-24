@@ -231,7 +231,7 @@ services:
     image: memcached:alpine
     restart: "unless-stopped"
     command: >
-      sh -c "memcached -m 128 -c 1024 -t $(nproc) -vv"
+      sh -c "memcached -m 128 -c 1024 -t ${NPROC:-2} -vv"
     ports:
       - "${MEMCACHE_PORT:-11211}:11211"
     deploy:
@@ -244,6 +244,8 @@ services:
           memory: '512M'
     networks:
       - app_net
+    environment:
+      - NPROC=${NPROC:-2}
 
 networks:
   app_net:
