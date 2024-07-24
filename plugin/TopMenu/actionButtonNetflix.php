@@ -11,13 +11,13 @@ if(empty($videos_id)){
     $videos_id = getVideos_id();
 }
 ?>
-<!-- action menu flix start -->
+<!-- action menu flix start videos_id=<?php echo $videos_id; ?> -->
 <?php
 foreach ($menu as $key => $value) {
     $menuItems = MenuItem::getAllFromMenu($videos_id, true);
     foreach ($menuItems as $key2 => $value2) {
         ?>
-        <!-- typeActionMenu -->
+        <!-- typeActionMenu videos_id=<?php echo $videos_id; ?> -->
         <a href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?> class="btn btn-default no-outline">
             <?php
             if (!empty($value2['icon'])) {
@@ -34,7 +34,7 @@ foreach ($menu as $key => $value) {
     }
 }
 $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
-echo PHP_EOL.'<!-- action menu typeActionMenuCustomURL start count='.count($menu).' -->'.PHP_EOL;
+echo PHP_EOL.'<!-- action menu typeActionMenuCustomURL start count='.count($menu).' videos_id='.$videos_id.'; ?> -->'.PHP_EOL;
 
 foreach ($menu as $key => $value) {
     $menuItems = MenuItem::getAllFromMenu($videos_id, true);
