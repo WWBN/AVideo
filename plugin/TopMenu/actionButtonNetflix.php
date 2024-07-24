@@ -37,7 +37,7 @@ $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
 echo PHP_EOL.'<!-- action menu typeActionMenuCustomURL start count='.count($menu).' videos_id='.$videos_id.'; ?> -->'.PHP_EOL;
 
 foreach ($menu as $key => $value) {
-    $menuItems = MenuItem::getAllFromMenu($videos_id, true);
+    $menuItems = MenuItem::getAllFromMenu($value['id'], true);
     //echo PHP_EOL.'<!-- action menuItems typeActionMenuCustomURL start countItens='.count($menuItems).' -->'.PHP_EOL;
     foreach ($menuItems as $key2 => $value2) {
         $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
@@ -67,7 +67,7 @@ if (User::isLogged()) {
     echo PHP_EOL.'<!-- action menu typeActionMenuCustomURLForLoggedUsers start -->'.PHP_EOL;
     $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForLoggedUsers);
     foreach ($menu as $key => $value) {
-        $menuItems = MenuItem::getAllFromMenu($videos_id, true);
+        $menuItems = MenuItem::getAllFromMenu($value['id'], true);
         foreach ($menuItems as $key2 => $value2) {
             $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
             if (empty($url)) {
@@ -95,7 +95,7 @@ if (User::isLogged()) {
     
         $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanWatchVideo);
         foreach ($menu as $key => $value) {
-            $menuItems = MenuItem::getAllFromMenu($videos_id, true);
+            $menuItems = MenuItem::getAllFromMenu($value['id'], true);
             foreach ($menuItems as $key2 => $value2) {
                 $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
                 if (empty($url)) {
@@ -125,7 +125,7 @@ if (!User::canWatchVideo($videos_id)) {
     echo PHP_EOL.'<!-- action menu typeActionMenuCustomURLForUsersThatCanNotWatchVideo start -->'.PHP_EOL;
     $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanNotWatchVideo);
     foreach ($menu as $key => $value) {
-        $menuItems = MenuItem::getAllFromMenu($videos_id, true);
+        $menuItems = MenuItem::getAllFromMenu($value['id'], true);
         foreach ($menuItems as $key2 => $value2) {
             $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
             if (empty($url)) {
