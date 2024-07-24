@@ -14,7 +14,7 @@ if(empty($videos_id)){
 <!-- action menu flix start videos_id=<?php echo $videos_id; ?> -->
 <?php
 foreach ($menu as $key => $value) {
-    $menuItems = MenuItem::getAllFromMenu($videos_id, true);
+    $menuItems = MenuItem::getAllFromMenu($value['id'], true);
     foreach ($menuItems as $key2 => $value2) {
         ?>
         <!-- typeActionMenu videos_id=<?php echo $videos_id; ?> -->
