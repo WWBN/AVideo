@@ -35,6 +35,10 @@ class MenuItem extends ObjectYPT {
             $sql .= " ORDER BY item_order ";
         }
 
+        if(!empty($global['forceDebug'])){
+            var_dump($sql);
+        }
+
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
