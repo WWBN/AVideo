@@ -68,11 +68,11 @@ services:
         condition: service_healthy
       memcached:
         condition: service_started
-    # healthcheck:
-    #   test: ["CMD-SHELL", "curl --silent --fail http://localhost || exit 1"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 3
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     deploy:
       resources:
         limits:
