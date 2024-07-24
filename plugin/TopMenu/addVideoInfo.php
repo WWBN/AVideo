@@ -32,7 +32,7 @@ function createMenuSaveForm($menu, $menuType)
                     }
                     ?>
                     <?php echo __($value['menuName']); ?>
-                    <small class="text-muted"><?php echo $menuType; ?></small>
+                    <small class="text-muted pull-right"><?php echo $menuType; ?></small>
                 </strong>
             </div>
             <div class="panel-body">

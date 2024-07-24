@@ -32,11 +32,12 @@ foreach ($menu as $key => $value) {
         <?php
     }
 }
-echo PHP_EOL.'<!-- action menu typeActionMenuCustomURL start -->'.PHP_EOL;
 $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
+echo PHP_EOL.'<!-- action menu typeActionMenuCustomURL start count='.count($menu).' -->'.PHP_EOL;
 
 foreach ($menu as $key => $value) {
     $menuItems = MenuItem::getAllFromMenu($videos_id, true);
+    echo PHP_EOL.'<!-- action menuItems typeActionMenuCustomURL start countItens='.count($menuItems).' -->'.PHP_EOL;
     foreach ($menuItems as $key2 => $value2) {
         $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
         if (empty($url)) {
