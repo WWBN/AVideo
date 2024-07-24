@@ -15,7 +15,7 @@ if (!AVideoPlugin::isEnabledByName('TopMenu')) {
 $video = Video::getVideoLight($videos_id);
 $img = Video::getPoster($videos_id);
 
-function createMenuSaveForm($menu)
+function createMenuSaveForm($menu, $menuType)
 {
     global $global, $videos_id;
     foreach ($menu as $key => $value) {
@@ -32,6 +32,7 @@ function createMenuSaveForm($menu)
                     }
                     ?>
                     <?php echo __($value['menuName']); ?>
+                    <small class="text-muted"><?php echo $menuType; ?></small>
                 </strong>
             </div>
             <div class="panel-body">
@@ -101,13 +102,13 @@ function createMenuSaveForm($menu)
 }
 $_page = new Page(array("Set Info"));
 $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
-createMenuSaveForm($menu);
+createMenuSaveForm($menu, 'All users');
 $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForLoggedUsers);
-createMenuSaveForm($menu);
+createMenuSaveForm($menu, 'Logged users');
 $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanWatchVideo);
-createMenuSaveForm($menu);
+createMenuSaveForm($menu, 'Users that can watch the video');
 $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanNotWatchVideo);
-createMenuSaveForm($menu);
+createMenuSaveForm($menu, 'Users that can NOT watch the video');
 
 $_page->print();
 ?>

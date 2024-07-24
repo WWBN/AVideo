@@ -40,6 +40,7 @@ foreach ($menu as $key => $value) {
     foreach ($menuItems as $key2 => $value2) {
         $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
         if (empty($url)) {
+            echo "<!-- actionButtonNetflix there invalid URL $videos_id, {$value2['id']} url=$url -->";
             continue;
         }
         ?>
