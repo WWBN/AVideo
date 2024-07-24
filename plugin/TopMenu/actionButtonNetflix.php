@@ -37,7 +37,7 @@ echo PHP_EOL.'<!-- action menu typeActionMenuCustomURL start count='.count($menu
 
 foreach ($menu as $key => $value) {
     $menuItems = MenuItem::getAllFromMenu($videos_id, true);
-    echo PHP_EOL.'<!-- action menuItems typeActionMenuCustomURL start countItens='.count($menuItems).' -->'.PHP_EOL;
+    //echo PHP_EOL.'<!-- action menuItems typeActionMenuCustomURL start countItens='.count($menuItems).' -->'.PHP_EOL;
     foreach ($menuItems as $key2 => $value2) {
         $url = TopMenu::getVideoMenuURL($videos_id, $value2['id']);
         if (empty($url)) {
