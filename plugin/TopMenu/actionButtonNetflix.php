@@ -64,8 +64,8 @@ foreach ($menu as $key => $value) {
 }
 
 if (User::isLogged()) {
-    echo PHP_EOL.'<!-- action menu typeActionMenuCustomURLForLoggedUsers start -->'.PHP_EOL;
     $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForLoggedUsers);
+    echo PHP_EOL.'<!-- action menu typeActionMenuCustomURLForLoggedUsers count='.count($menu).' start -->'.PHP_EOL;
     foreach ($menu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
         foreach ($menuItems as $key2 => $value2) {
