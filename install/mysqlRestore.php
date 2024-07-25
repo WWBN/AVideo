@@ -15,7 +15,7 @@ $globPattern = "{$global['systemRootPath']}videos/mysqldump-*.sql";
 echo "Searching [{$globPattern}]" . PHP_EOL;
 $glob = glob($globPattern);
 foreach ($glob as $key => $file) {
-    echo "($key) {$file}" . PHP_EOL;
+    echo "($key) {$file} ".humanFileSize(filesize($file)) . PHP_EOL;
 }
 
 // Check for command line argument
