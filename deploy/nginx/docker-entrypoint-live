@@ -47,9 +47,9 @@ sed -i 's#server_name localhost _#server_name localhost _ '${SERVER_NAME}'#' ${C
 echo "Configure Nginx..."
 sed -i 's#ssl_certificate /etc/apache2/ssl/localhost.crt#ssl_certificate '${TLS_CERTIFICATE_FILE}'#' ${CONFIG_NGINX_FILE}
 sed -i 's#ssl_certificate_key /etc/apache2/ssl/localhost.key#ssl_certificate_key '${TLS_CERTIFICATE_KEY}'#' ${CONFIG_NGINX_FILE}
-sed -i 's#listen 1935#listen '${NGINX_RTMP_PORT}'#' ${CONFIG_NGINX_FILE}
-sed -i 's#listen 8080#listen '${NGINX_HTTP_PORT}'#' ${CONFIG_NGINX_FILE}
-sed -i 's#listen 8443#listen '${NGINX_HTTPS_PORT}'#' ${CONFIG_NGINX_FILE}
+# sed -i 's#listen 1935#listen '${NGINX_RTMP_PORT}'#' ${CONFIG_NGINX_FILE}
+# sed -i 's#listen 8080#listen '${NGINX_HTTP_PORT}'#' ${CONFIG_NGINX_FILE}
+# sed -i 's#listen 8443#listen '${NGINX_HTTPS_PORT}'#' ${CONFIG_NGINX_FILE}
 
 mkdir -p /etc/letsencrypt/live/localhost/
 
