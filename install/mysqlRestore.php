@@ -3,7 +3,7 @@
 //streamer config
 $global['createDatabase'] = 1;
 $doNotIncludeConfig = 1;
-require_once '../videos/configuration.php';
+require_once __DIR__.'/../videos/configuration.php';
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
 $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
