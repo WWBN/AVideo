@@ -6,6 +6,7 @@ $doNotIncludeConfig = 1;
 require_once __DIR__.'/../videos/configuration.php';
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
+$createSQL = "DROP DATABASE {$mysqlDatabase};";
 $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
 $global['mysqli']->query($createSQL);
 $global['mysqli']->select_db($mysqlDatabase);
