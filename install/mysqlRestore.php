@@ -23,14 +23,19 @@ foreach ($glob as $key => $file) {
     echo "($key) {$file}" . PHP_EOL;
 }
 
-echo "Type the number of what file you want to restore or just press enter to get the latest" . PHP_EOL;
-$option = trim(readline(""));
-
-if ($option === '') {
+// Check for command line argument
+if (isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == '-1') {
     $filename = end($glob);
 } else {
-    $option = intval($option);
-    $filename = $glob[$option];
+    echo "Type the number of what file you want to restore or just press enter to get the latest" . PHP_EOL;
+    $option = trim(readline(""));
+
+    if ($option === '') {
+        $filename = end($glob);
+    } else {
+        $option = intval($option);
+        $filename = $glob[$option];
+    }
 }
 /*
 echo 'We will make a backup first ...' . PHP_EOL;
