@@ -11,7 +11,7 @@ if (php_sapi_name() !== 'cli') {
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
 try {
-    $createSQL = "DROP DATABASE {$mysqlDatabase};";
+    $createSQL = "mysql> DROP DATABASE IF EXISTS {$mysqlDatabase};";
     $global['mysqli']->query($createSQL);
 } catch (\Throwable $th) {
     echo ($th->getMessage());
