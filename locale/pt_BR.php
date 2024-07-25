@@ -1159,6 +1159,7 @@ $t['Off'] = 'Off';
 $t['On'] = 'On';
 $t['Only direct mp3- or ogg-files - if you download it with the link, it shouldbe a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.'] = 'Only direct mp3- or ogg-files - if you download it with the link, it shouldbe a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.';
 $t['Opacity'] = 'Opacidade';
+$t['Open'] = 'Abrir';
 $t['Open in a new Tab'] = 'Abrir em uma nova guia';
 $t['Original words found'] = 'Original words found';
 $t['Other Chats'] = 'Other Chats';
