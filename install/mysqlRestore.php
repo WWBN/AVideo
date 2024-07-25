@@ -58,6 +58,8 @@ function executeFile($filename) {
     $templine = '';
     // Read in entire file
     $lines = file($filename);
+
+    $global['mysqli']->query('UNLOCK TABLES;');
     // Loop through each line
     foreach ($lines as $line) {
         // Skip it if it's a comment
