@@ -71,8 +71,12 @@ function executeFile($filename) {
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
-            if (!$global['mysqli']->query($templine)) {
-                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+            try {
+                if (!$global['mysqli']->query($templine)) {
+                    echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+                }
+            } catch (\Throwable $th) {
+                echo $th->getMessage().PHP_EOL;
             }
             // Reset temp variable to empty
             $templine = '';
