@@ -44,6 +44,7 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
 }
 
 function getDecryptedInfo($string) {
+    global $global;
     $decriptedString = decryptString($string);
     $json = _json_decode($decriptedString);
     if (!empty($json) && !empty($json->token)) {
@@ -53,7 +54,7 @@ function getDecryptedInfo($string) {
             _error_log("socket:getDecryptedInfo: token is invalid ");
         }
     } else {
-        _error_log("socket:getDecryptedInfo: json->token is empty ({$decriptedString})");
+        _error_log("socket:getDecryptedInfo: [{$global['webSiteRootURL']}] json->token is empty ({$decriptedString})");
     }
     return false;
 }
