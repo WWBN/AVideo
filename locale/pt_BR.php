@@ -841,6 +841,7 @@ $t['Canceled'] = 'Cancelado';
 $t['Category to display this Ad'] = 'Category to display this Ad';
 $t['Category-Gallery'] = 'Category-Gallery';
 $t['Center'] = 'Centro';
+$t['Certify'] = 'Certificar';
 $t['Challenge Decryptor'] = 'Challenge Decryptor';
 $t['Change Style'] = 'Change Style';
 $t['Change theme'] = 'Change theme';
