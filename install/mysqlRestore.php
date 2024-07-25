@@ -5,16 +5,20 @@ $global['createDatabase'] = 1;
 $doNotIncludeConfig = 1;
 require_once __DIR__.'/../videos/configuration.php';
 
-$global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
-$createSQL = "DROP DATABASE {$mysqlDatabase};";
-$global['mysqli']->query($createSQL);
-$createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
-$global['mysqli']->query($createSQL);
-$global['mysqli']->select_db($mysqlDatabase);
-
 if (php_sapi_name() !== 'cli') {
     return die('Command Line only');
 }
+
+$global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
+try {
+    $createSQL = "DROP DATABASE {$mysqlDatabase};";
+    $global['mysqli']->query($createSQL);
+} catch (\Throwable $th) {
+    echo ($th->getMessage());
+}
+$createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
+$global['mysqli']->query($createSQL);
+$global['mysqli']->select_db($mysqlDatabase);
 
 ob_end_flush();
 
