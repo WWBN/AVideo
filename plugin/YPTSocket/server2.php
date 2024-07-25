@@ -63,6 +63,7 @@ $socket->on('connection', function (React\Socket\ConnectionInterface $connection
     $connection->write('hello there!' . PHP_EOL);
     // whenever a new message comes in
     $connection->on('data', function ($data) use ($connection, $socket) {
+        global $global;
         // remove any non-word characters (just for the demo)
         //$data = trim(preg_replace('/[^\w\d \.\,\-\!\?]/u', '', $data));
 
@@ -84,7 +85,7 @@ $socket->on('connection', function (React\Socket\ConnectionInterface $connection
         }
         $json = getDecryptedInfo($wsocketGetVars['webSocketToken']);
         if (empty($json)) {
-            echo ("Invalid websocket token ");
+            echo ("Invalid websocket token [{$global['webSiteRootURL']}]  [{$wsocketGetVars['webSocketToken']}]");
             return false;
         }
         echo 'websocket token [' .

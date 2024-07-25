@@ -50,7 +50,7 @@ class Message implements MessageComponentInterface {
         }
         $json = getDecryptedInfo($wsocketGetVars['webSocketToken']);
         if (empty($json)) {
-            _log_message("Invalid websocket token [{$wsocketGetVars['webSocketToken']}]");
+            _log_message("Invalid websocket token [{$global['webSiteRootURL']}] [{$wsocketGetVars['webSocketToken']}]");
             return false;
         }
 
