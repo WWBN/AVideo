@@ -35,6 +35,7 @@ $t['Admin'] = 'Administrador';
 $t['Advanced Configuration'] = 'Configuração avançada';
 $t['Advanced configurations are disabled'] = 'As configurações avançadas estão desativadas';
 $t['Advanced'] = 'Avançado';
+$t['Available Certificates'] = 'Certificados Disponíveis';
 $t['Advertising Manager'] = 'Gerente de publicidade';
 $t['All Ages Admitted'] = 'Todas as idades permitidas';
 $t['All'] = 'Tudo';
