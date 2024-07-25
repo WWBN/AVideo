@@ -40,7 +40,7 @@ if(empty($mysqlPort)){
 
 // Use the mysqldump command to get the database dump
 $dumpCommand = "mysqldump --host=$mysqlHost --port=$mysqlPort --user='$mysqlUser' --password='$mysqlPass' "
-             . "--default-character-set=utf8mb4 $mysqlDatabase $tableList > {$file}";
+             . "--default-character-set=utf8mb4 --column-statistics=0 $mysqlDatabase $tableList > {$file}";
 
 // Execute the command
 system($dumpCommand, $output);
