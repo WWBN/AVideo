@@ -9,17 +9,6 @@ if (php_sapi_name() !== 'cli') {
     return die('Command Line only');
 }
 
-$global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
-try {
-    $createSQL = "DROP DATABASE IF EXISTS {$mysqlDatabase};";
-    $global['mysqli']->query($createSQL);
-} catch (\Throwable $th) {
-    echo ($th->getMessage());
-}
-$createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
-$global['mysqli']->query($createSQL);
-$global['mysqli']->select_db($mysqlDatabase);
-
 ob_end_flush();
 
 $globPattern = "{$global['systemRootPath']}videos/mysqldump-*.sql";
@@ -51,6 +40,18 @@ $restore = 1;
 
 echo PHP_EOL . "Backup file created at {$file}" . PHP_EOL;
 */
+
+$global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
+try {
+    $createSQL = "DROP DATABASE IF EXISTS {$mysqlDatabase};";
+    $global['mysqli']->query($createSQL);
+} catch (\Throwable $th) {
+    echo ($th->getMessage());
+}
+$createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
+$global['mysqli']->query($createSQL);
+$global['mysqli']->select_db($mysqlDatabase);
+
 executeFile($filename);
 
 function executeFile($filename) {
