@@ -1,6 +1,6 @@
 <?php
 //streamer config
-require_once '../videos/configuration.php';
+require_once __DIR__.'/../videos/configuration.php';
 ob_end_flush();
 if (!isCommandLineInterface()) {
     return die('Command Line only');
