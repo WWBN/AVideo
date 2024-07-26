@@ -49,9 +49,11 @@ try {
     echo ($th->getMessage());
 }
 $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
+echo $createSQL . PHP_EOL;
 $global['mysqli']->query($createSQL);
 $global['mysqli']->select_db($mysqlDatabase);
 
+echo "Execute filename {$filename}" . PHP_EOL;
 executeFile($filename);
 
 function executeFile($filename) {
