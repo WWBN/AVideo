@@ -1,6 +1,6 @@
 <?php
 //streamer config
-require_once '../videos/configuration.php';
+require_once __DIR__.'/../videos/configuration.php';
 
 if (php_sapi_name() !== 'cli') {
     return die('Command Line only');
