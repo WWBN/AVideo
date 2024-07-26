@@ -361,6 +361,7 @@ class LiveTransmition extends ObjectYPT {
         if (empty($this->password)) {
             $this->password = '';
         }
+        _error_log("LiveTransmition::save users_id=".User::getId().' '.json_encode(debug_backtrace()));
         $id = parent::save();
         //Category::clearCacheCount();
         deleteStatsNotifications(true);
