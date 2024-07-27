@@ -332,6 +332,7 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
                     </div>
                     <?php
                     if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdminVideos()) {
+                        $userGroups = UserGroups::getAllUsersGroupsArray();
                     ?>
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
