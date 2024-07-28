@@ -61,8 +61,25 @@ function executeFile($filename)
     global $global;
     $templine = '';
     // Read in entire file
-    echo ("executeFile($filename)");
     $lines = file($filename);
+
+    // Identificar todas as tabelas no arquivo SQL
+    $tables = [];
+    foreach ($lines as $line) {
+        if (stripos($line, 'CREATE TABLE') !== false) {
+            $tableName = preg_split('/[\s`]+/', $line)[2]; // Extrair o nome da tabela
+            $tables[] = $tableName;
+        }
+    }
+
+    // Adicionar LOCK TABLES para todas as tabelas identificadas
+    if (!empty($tables)) {
+        $lockTables = 'LOCK TABLES ' . implode(' WRITE, ', $tables) . ' WRITE;';
+        if (!$global['mysqli']->query($lockTables)) {
+            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $lockTables . '\': ' . $global['mysqli']->error . '<br /><br />');
+            return;
+        }
+    }
 
     // Loop through each line
     foreach ($lines as $line) {
@@ -75,21 +92,14 @@ function executeFile($filename)
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
-            if (stripos($templine, 'LOCK TABLES') !== false || stripos($templine, 'UNLOCK TABLES') !== false) {
-                // Directly execute lock/unlock table commands
-                if (!$global['mysqli']->query($templine)) {
-                    echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
-                }
-            } else {
-                // Perform the query
-                if (!$global['mysqli']->query($templine)) {
-                    echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
-                }
+            if (!$global['mysqli']->query($templine)) {
+                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
             }
             // Reset temp variable to empty
             $templine = '';
         }
     }
-    // Ensure all tables are unlocked at the end
+
+    // Desbloquear as tabelas no final
     $global['mysqli']->query('UNLOCK TABLES;');
 }
