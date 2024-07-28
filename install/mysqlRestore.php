@@ -69,7 +69,7 @@ function executeFile($filename) {
             continue;
 
         // Add this line to the current segment
-        $templine += $line;
+        $templine .= $line; // Usar .= para concatenar strings
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
@@ -106,7 +106,7 @@ function executeFile($filename) {
             continue;
 
         // Add this line to the current segment
-        $templine += $line;
+        $templine .= $line; // Usar .= para concatenar strings
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
