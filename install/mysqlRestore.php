@@ -62,7 +62,12 @@ function executeFile($filename) {
     // Read in entire file
     $lines = file($filename);
 
-    // Executar todas as linhas para criar as tabelas sem bloqueio
+    // Lista para armazenar comandos de criação de tabela
+    $createTableCommands = [];
+    // Lista para armazenar todos os outros comandos SQL
+    $otherCommands = [];
+
+    // Separar os comandos de criação de tabela dos outros comandos
     foreach ($lines as $line) {
         // Skip it if it's a comment
         if (substr($line, 0, 2) == '--' || trim($line) == '')
@@ -72,20 +77,28 @@ function executeFile($filename) {
         $templine .= $line;
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1) == ';') {
-            // Perform the query
-            if (!$global['mysqli']->query($templine)) {
-                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+            if (stripos($templine, 'CREATE TABLE') !== false) {
+                $createTableCommands[] = $templine;
+            } else {
+                $otherCommands[] = $templine;
             }
             // Reset temp variable to empty
             $templine = '';
         }
     }
 
+    // Executar comandos de criação de tabela sem bloqueio
+    foreach ($createTableCommands as $command) {
+        if (!$global['mysqli']->query($command)) {
+            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
+        }
+    }
+
     // Identificar todas as tabelas no arquivo SQL
     $tables = [];
-    foreach ($lines as $line) {
-        if (stripos($line, 'CREATE TABLE') !== false) {
-            $tableName = preg_split('/[\s`]+/', $line)[2]; // Extrair o nome da tabela
+    foreach ($createTableCommands as $command) {
+        if (stripos($command, 'CREATE TABLE') !== false) {
+            $tableName = preg_split('/[\s`]+/', $command)[2]; // Extrair o nome da tabela
             $tables[] = $tableName;
         }
     }
@@ -99,22 +112,10 @@ function executeFile($filename) {
         }
     }
 
-    // Executar todas as linhas novamente para inserir dados com tabelas bloqueadas
-    foreach ($lines as $line) {
-        // Skip it if it's a comment
-        if (substr($line, 0, 2) == '--' || trim($line) == '')
-            continue;
-
-        // Add this line to the current segment
-        $templine .= $line;
-        // If it has a semicolon at the end, it's the end of the query
-        if (substr(trim($line), -1) == ';') {
-            // Perform the query
-            if (!$global['mysqli']->query($templine)) {
-                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
-            }
-            // Reset temp variable to empty
-            $templine = '';
+    // Executar todos os outros comandos com tabelas bloqueadas
+    foreach ($otherCommands as $command) {
+        if (!$global['mysqli']->query($command)) {
+            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
         }
     }
 
