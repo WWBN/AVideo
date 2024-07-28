@@ -173,8 +173,7 @@ function executeFile($filename)
 */
 executeFileUsingCommandLine($filename);
 
-function executeFileUsingCommandLine($filename)
-{
+function executeFileUsingCommandLine($filename) {
     global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
 
     $mysqli = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
@@ -186,7 +185,7 @@ function executeFileUsingCommandLine($filename)
     try {
         $dropSQL = "DROP DATABASE IF EXISTS {$mysqlDatabase};";
         $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
-
+        
         if (!$mysqli->query($dropSQL)) {
             throw new Exception($mysqli->error);
         }
@@ -196,6 +195,14 @@ function executeFileUsingCommandLine($filename)
         $mysqli->select_db($mysqlDatabase);
     } catch (Exception $e) {
         echo 'Error performing query: ' . $e->getMessage() . PHP_EOL;
+        return;
+    }
+
+    // Disable foreign key checks
+    try {
+        $mysqli->query('SET foreign_key_checks = 0;');
+    } catch (Exception $e) {
+        echo 'Error disabling foreign key checks: ' . $e->getMessage() . PHP_EOL;
         return;
     }
 
@@ -211,15 +218,25 @@ function executeFileUsingCommandLine($filename)
     );
 
     echo "Executing command..." . PHP_EOL;
-
+    
     $output = [];
     $return_var = null;
     exec($command, $output, $return_var);
-
+    
     if ($return_var !== 0) {
         echo "Error executing file using command line. Return code: $return_var" . PHP_EOL;
         echo implode(PHP_EOL, $output) . PHP_EOL;
     } else {
         echo "File executed successfully using command line." . PHP_EOL;
     }
+
+    // Enable foreign key checks
+    try {
+        $mysqli->query('SET foreign_key_checks = 1;');
+    } catch (Exception $e) {
+        echo 'Error enabling foreign key checks: ' . $e->getMessage() . PHP_EOL;
+        return;
+    }
+
+    $mysqli->close();
 }
