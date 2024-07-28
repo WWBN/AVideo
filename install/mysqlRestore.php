@@ -72,6 +72,13 @@ function executeFile($filename) {
         }
     }
 
+    // Função para verificar a existência da tabela
+    function tableExists($tableName) {
+        global $global;
+        $result = $global['mysqli']->query("SHOW TABLES LIKE '$tableName'");
+        return $result && $result->num_rows > 0;
+    }
+
     // Loop through each line
     foreach ($lines as $line) {
         // Skip it if it's a comment
@@ -91,7 +98,7 @@ function executeFile($filename) {
                 $error = $th->getMessage();
                 if (preg_match("/Table '(.*?)' was not locked with LOCK TABLES/", $error, $matches)) {
                     $tableName = $matches[1];
-                    if (!in_array($tableName, $lockedTables)) {
+                    if (!in_array($tableName, $lockedTables) && tableExists($tableName)) {
                         $lockedTables[] = $tableName;
                         try {
                             lockTables($lockedTables);
