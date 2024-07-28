@@ -54,7 +54,8 @@ $global['mysqli']->query($createSQL);
 $global['mysqli']->select_db($mysqlDatabase);
 
 echo "Execute filename {$filename}" . PHP_EOL;
-executeFile($filename);
+//executeFile($filename);
+executeFileUsingCommandLine($filename)
 
 function executeFile($filename) {
     global $global;
@@ -166,5 +167,33 @@ function executeFile($filename) {
         $global['mysqli']->query('UNLOCK TABLES;');
     } catch (Exception $e) {
         echo 'sqlDAL::executeFile ' . $filename . ' Error performing query \'UNLOCK TABLES\': ' . $e->getMessage() . PHP_EOL;
+    }
+}
+
+
+function executeFileUsingCommandLine($filename) {
+    global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
+
+    $command = sprintf(
+        'mysql --host=%s --user=%s --password=%s --port=%s %s < %s',
+        escapeshellarg($mysqlHost),
+        escapeshellarg($mysqlUser),
+        escapeshellarg($mysqlPass),
+        escapeshellarg($mysqlPort),
+        escapeshellarg($mysqlDatabase),
+        escapeshellarg($filename)
+    );
+
+    echo "Executing command..." . PHP_EOL;
+    
+    $output = [];
+    $return_var = null;
+    exec($command, $output, $return_var);
+    
+    if ($return_var !== 0) {
+        echo "Error executing file using command line. Return code: $return_var" . PHP_EOL;
+        echo implode(PHP_EOL, $output) . PHP_EOL;
+    } else {
+        echo "File executed successfully using command line." . PHP_EOL;
     }
 }
