@@ -62,52 +62,66 @@ function executeFile($filename) {
     // Read in entire file
     $lines = file($filename);
 
-    // Lista para armazenar todos os comandos SQL
+    // Lista para armazenar comandos SQL
     $commands = [];
-    // Lista para armazenar as tabelas a serem bloqueadas
+    // Lista para armazenar comandos de criação de tabelas
+    $createTableCommands = [];
+    // Lista para armazenar todas as tabelas identificadas
     $tables = [];
 
-    // Separar os comandos SQL
+    // Separar comandos SQL e identificar tabelas
     foreach ($lines as $line) {
-        // Skip it if it's a comment
+        // Pular se for um comentário ou linha vazia
         if (substr($line, 0, 2) == '--' || trim($line) == '')
             continue;
 
-        // Add this line to the current segment
+        // Adicionar esta linha ao segmento atual
         $templine .= $line;
-        // If it has a semicolon at the end, it's the end of the query
+        // Se tiver um ponto e vírgula no final, é o final da consulta
         if (substr(trim($line), -1) == ';') {
             $commands[] = $templine;
-            // Identificar tabelas a partir dos comandos CREATE TABLE
             if (stripos($templine, 'CREATE TABLE') !== false) {
+                $createTableCommands[] = $templine;
                 $tableName = preg_split('/[\s`]+/', $templine)[2]; // Extrair o nome da tabela
                 $tables[] = $tableName;
             }
-            // Reset temp variable to empty
+            // Resetar a variável temporária para vazia
             $templine = '';
         }
     }
 
     // Modificar comandos CREATE TABLE para CREATE TABLE IF NOT EXISTS, se necessário
-    foreach ($commands as &$command) {
+    foreach ($createTableCommands as &$command) {
         if (stripos($command, 'CREATE TABLE') !== false && stripos($command, 'IF NOT EXISTS') === false) {
             $command = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $command);
+        }
+    }
+
+    // Executar comandos de criação de tabela primeiro
+    foreach ($createTableCommands as $command) {
+        echo "Executing: $command\n"; // Imprimir o comando SQL
+        if (!$global['mysqli']->query($command)) {
+            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
         }
     }
 
     // Adicionar LOCK TABLES para todas as tabelas identificadas
     if (!empty($tables)) {
         $lockTables = 'LOCK TABLES ' . implode(' WRITE, ', $tables) . ' WRITE;';
+        echo "Executing: $lockTables\n"; // Imprimir o comando SQL
         if (!$global['mysqli']->query($lockTables)) {
             echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $lockTables . '\': ' . $global['mysqli']->error . '<br /><br />');
             return;
         }
     }
 
-    // Executar todos os comandos SQL
+    // Executar todos os outros comandos SQL
     foreach ($commands as $command) {
-        if (!$global['mysqli']->query($command)) {
-            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
+        if (!in_array($command, $createTableCommands)) {
+            echo "Executing: $command\n"; // Imprimir o comando SQL
+            if (!$global['mysqli']->query($command)) {
+                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
+            }
         }
     }
 
