@@ -39,7 +39,7 @@ $restore = 1;
 //include './mysqlDump.php';
 
 echo PHP_EOL . "Backup file created at {$file}" . PHP_EOL;
-*/
+
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
 try {
@@ -57,7 +57,8 @@ echo "Execute filename {$filename}" . PHP_EOL;
 //executeFile($filename);
 executeFileUsingCommandLine($filename);
 
-function executeFile($filename) {
+function executeFile($filename)
+{
     global $global;
     $templine = '';
     // Read in entire file
@@ -169,11 +170,36 @@ function executeFile($filename) {
         echo 'sqlDAL::executeFile ' . $filename . ' Error performing query \'UNLOCK TABLES\': ' . $e->getMessage() . PHP_EOL;
     }
 }
+*/
+executeFileUsingCommandLine($filename);
 
-
-function executeFileUsingCommandLine($filename) {
+function executeFileUsingCommandLine($filename)
+{
     global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
 
+    $mysqli = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
+    if ($mysqli->connect_error) {
+        die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
+    }
+
+    // Drop and create the database again
+    try {
+        $dropSQL = "DROP DATABASE IF EXISTS {$mysqlDatabase};";
+        $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
+
+        if (!$mysqli->query($dropSQL)) {
+            throw new Exception($mysqli->error);
+        }
+        if (!$mysqli->query($createSQL)) {
+            throw new Exception($mysqli->error);
+        }
+        $mysqli->select_db($mysqlDatabase);
+    } catch (Exception $e) {
+        echo 'Error performing query: ' . $e->getMessage() . PHP_EOL;
+        return;
+    }
+
+    // Prepare the command
     $command = sprintf(
         'mysql --host=%s --user=%s --password=%s --port=%s %s < %s',
         escapeshellarg($mysqlHost),
@@ -185,11 +211,11 @@ function executeFileUsingCommandLine($filename) {
     );
 
     echo "Executing command..." . PHP_EOL;
-    
+
     $output = [];
     $return_var = null;
     exec($command, $output, $return_var);
-    
+
     if ($return_var !== 0) {
         echo "Error executing file using command line. Return code: $return_var" . PHP_EOL;
         echo implode(PHP_EOL, $output) . PHP_EOL;
