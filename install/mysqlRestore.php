@@ -90,10 +90,11 @@ function executeFile($filename) {
         }
     }
 
-    // Modificar comandos CREATE TABLE para CREATE TABLE IF NOT EXISTS, se necessário
+    // Modificar comandos CREATE TABLE para incluir DROP TABLE IF EXISTS antes de CREATE TABLE
     foreach ($createTableCommands as &$command) {
-        if (stripos($command, 'CREATE TABLE') !== false && stripos($command, 'IF NOT EXISTS') === false) {
-            $command = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $command);
+        if (stripos($command, 'CREATE TABLE') !== false) {
+            $tableName = preg_split('/[\s`]+/', $command)[2]; // Extrair o nome da tabela
+            $command = 'DROP TABLE IF EXISTS `' . $tableName . '`;' . "\n" . $command;
         }
     }
 
