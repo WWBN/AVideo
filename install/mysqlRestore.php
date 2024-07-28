@@ -78,20 +78,15 @@ function executeFile($filename) {
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1) == ';') {
             if (stripos($templine, 'CREATE TABLE') !== false) {
-                $createTableCommands[] = $templine;
+                // Extrair o nome da tabela
+                $tableName = preg_split('/[\s`]+/', $templine)[2];
+                // Adicionar o comando DROP TABLE IF EXISTS antes do CREATE TABLE
+                $createTableCommands[] = 'DROP TABLE IF EXISTS `' . $tableName . '`;' . "\n" . $templine;
             } else {
                 $otherCommands[] = $templine;
             }
             // Reset temp variable to empty
             $templine = '';
-        }
-    }
-
-    // Adicionar comandos de DROP TABLE IF EXISTS antes de CREATE TABLE
-    foreach ($createTableCommands as &$command) {
-        if (stripos($command, 'CREATE TABLE') !== false) {
-            $tableName = preg_split('/[\s`]+/', $command)[2]; // Extrair o nome da tabela
-            $command = 'DROP TABLE IF EXISTS ' . $tableName . ";\n" . $command;
         }
     }
 
@@ -106,7 +101,7 @@ function executeFile($filename) {
     $tables = [];
     foreach ($createTableCommands as $command) {
         if (stripos($command, 'CREATE TABLE') !== false) {
-            $tableName = preg_split('/[\s`]+/', $command)[2]; // Extrair o nome da tabela
+            $tableName = preg_split('/[\s`]+/', $command)[4]; // Extrair o nome da tabela
             $tables[] = $tableName;
         }
     }
