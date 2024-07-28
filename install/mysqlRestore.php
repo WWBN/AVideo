@@ -55,7 +55,7 @@ $global['mysqli']->select_db($mysqlDatabase);
 
 echo "Execute filename {$filename}" . PHP_EOL;
 //executeFile($filename);
-executeFileUsingCommandLine($filename)
+executeFileUsingCommandLine($filename);
 
 function executeFile($filename) {
     global $global;
