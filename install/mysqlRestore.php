@@ -61,6 +61,7 @@ function executeFile($filename)
     global $global;
     $templine = '';
     // Read in entire file
+    echo ("executeFile($filename)");
     $lines = file($filename);
 
     // Loop through each line
