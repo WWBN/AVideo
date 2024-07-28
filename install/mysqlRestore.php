@@ -62,12 +62,12 @@ function executeFile($filename) {
     // Read in entire file
     $lines = file($filename);
 
-    // Lista para armazenar comandos de criação de tabela
-    $createTableCommands = [];
-    // Lista para armazenar todos os outros comandos SQL
-    $otherCommands = [];
+    // Lista para armazenar todos os comandos SQL
+    $commands = [];
+    // Lista para armazenar as tabelas a serem bloqueadas
+    $tables = [];
 
-    // Separar os comandos de criação de tabela dos outros comandos
+    // Separar os comandos SQL
     foreach ($lines as $line) {
         // Skip it if it's a comment
         if (substr($line, 0, 2) == '--' || trim($line) == '')
@@ -77,33 +77,21 @@ function executeFile($filename) {
         $templine .= $line;
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1) == ';') {
+            $commands[] = $templine;
+            // Identificar tabelas a partir dos comandos CREATE TABLE
             if (stripos($templine, 'CREATE TABLE') !== false) {
-                // Extrair o nome da tabela
-                $tableName = preg_split('/[\s`]+/', $templine)[2];
-                // Adicionar o comando DROP TABLE IF EXISTS antes do CREATE TABLE
-                $createTableCommands[] = 'DROP TABLE IF EXISTS `' . $tableName . '`;' . "\n" . $templine;
-            } else {
-                $otherCommands[] = $templine;
+                $tableName = preg_split('/[\s`]+/', $templine)[2]; // Extrair o nome da tabela
+                $tables[] = $tableName;
             }
             // Reset temp variable to empty
             $templine = '';
         }
     }
 
-    // Executar comandos de criação de tabela com DROP TABLE IF EXISTS
-    foreach ($createTableCommands as $command) {
-        echo $command.PHP_EOL;
-        if (!$global['mysqli']->query($command)) {
-            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
-        }
-    }
-
-    // Identificar todas as tabelas no arquivo SQL
-    $tables = [];
-    foreach ($createTableCommands as $command) {
-        if (stripos($command, 'CREATE TABLE') !== false) {
-            $tableName = preg_split('/[\s`]+/', $command)[4]; // Extrair o nome da tabela
-            $tables[] = $tableName;
+    // Modificar comandos CREATE TABLE para CREATE TABLE IF NOT EXISTS, se necessário
+    foreach ($commands as &$command) {
+        if (stripos($command, 'CREATE TABLE') !== false && stripos($command, 'IF NOT EXISTS') === false) {
+            $command = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $command);
         }
     }
 
@@ -116,8 +104,8 @@ function executeFile($filename) {
         }
     }
 
-    // Executar todos os outros comandos com tabelas bloqueadas
-    foreach ($otherCommands as $command) {
+    // Executar todos os comandos SQL
+    foreach ($commands as $command) {
         if (!$global['mysqli']->query($command)) {
             echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
         }
