@@ -56,12 +56,30 @@ $global['mysqli']->select_db($mysqlDatabase);
 echo "Execute filename {$filename}" . PHP_EOL;
 executeFile($filename);
 
-function executeFile($filename)
-{
+function executeFile($filename) {
     global $global;
     $templine = '';
     // Read in entire file
     $lines = file($filename);
+
+    // Executar todas as linhas para criar as tabelas sem bloqueio
+    foreach ($lines as $line) {
+        // Skip it if it's a comment
+        if (substr($line, 0, 2) == '--' || $line == '')
+            continue;
+
+        // Add this line to the current segment
+        $templine += $line;
+        // If it has a semicolon at the end, it's the end of the query
+        if (substr(trim($line), -1, 1) == ';') {
+            // Perform the query
+            if (!$global['mysqli']->query($templine)) {
+                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+            }
+            // Reset temp variable to empty
+            $templine = '';
+        }
+    }
 
     // Identificar todas as tabelas no arquivo SQL
     $tables = [];
@@ -81,14 +99,14 @@ function executeFile($filename)
         }
     }
 
-    // Loop through each line
+    // Executar todas as linhas novamente para inserir dados com tabelas bloqueadas
     foreach ($lines as $line) {
         // Skip it if it's a comment
         if (substr($line, 0, 2) == '--' || $line == '')
             continue;
 
         // Add this line to the current segment
-        $templine .= $line;
+        $templine += $line;
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
