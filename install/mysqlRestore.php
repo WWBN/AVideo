@@ -87,7 +87,15 @@ function executeFile($filename) {
         }
     }
 
-    // Executar comandos de criação de tabela sem bloqueio
+    // Adicionar comandos de DROP TABLE IF EXISTS antes de CREATE TABLE
+    foreach ($createTableCommands as &$command) {
+        if (stripos($command, 'CREATE TABLE') !== false) {
+            $tableName = preg_split('/[\s`]+/', $command)[2]; // Extrair o nome da tabela
+            $command = 'DROP TABLE IF EXISTS ' . $tableName . ";\n" . $command;
+        }
+    }
+
+    // Executar comandos de criação de tabela com DROP TABLE IF EXISTS
     foreach ($createTableCommands as $command) {
         if (!$global['mysqli']->query($command)) {
             echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
