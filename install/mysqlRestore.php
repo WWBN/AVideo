@@ -97,6 +97,14 @@ function executeFile($filename) {
         }
     }
 
+    // Desativar a verificação de chaves estrangeiras
+    try {
+        $global['mysqli']->query('SET foreign_key_checks = 0;');
+    } catch (Exception $e) {
+        echo 'sqlDAL::executeFile ' . $filename . ' Error performing query \'SET foreign_key_checks = 0\': ' . $e->getMessage() . PHP_EOL;
+        return;
+    }
+
     // Executar DROP TABLE IF EXISTS separado de CREATE TABLE
     foreach ($tables as $table) {
         $dropTableCommand = 'DROP TABLE IF EXISTS `' . $table . '`;';
@@ -144,6 +152,13 @@ function executeFile($filename) {
                 echo 'sqlDAL::executeFile ' . $filename . ' Error performing query \'' . $command . '\': ' . $e->getMessage() . PHP_EOL;
             }
         }
+    }
+
+    // Reativar a verificação de chaves estrangeiras
+    try {
+        $global['mysqli']->query('SET foreign_key_checks = 1;');
+    } catch (Exception $e) {
+        echo 'sqlDAL::executeFile ' . $filename . ' Error performing query \'SET foreign_key_checks = 1\': ' . $e->getMessage() . PHP_EOL;
     }
 
     // Desbloquear as tabelas no final
