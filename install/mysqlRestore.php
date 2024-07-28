@@ -90,24 +90,35 @@ function executeFile($filename) {
         }
     }
 
+    // Modificar comandos CREATE TABLE para CREATE TABLE IF NOT EXISTS
+    foreach ($createTableCommands as &$command) {
+        if (stripos($command, 'CREATE TABLE') !== false && stripos($command, 'IF NOT EXISTS') === false) {
+            $command = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $command);
+        }
+    }
+
     // Executar DROP TABLE IF EXISTS separado de CREATE TABLE
     foreach ($tables as $table) {
         $dropTableCommand = 'DROP TABLE IF EXISTS `' . $table . '`;';
         echo "Executing: $dropTableCommand\n"; // Imprimir o comando SQL
         try {
             if (!$global['mysqli']->query($dropTableCommand)) {
-                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $dropTableCommand . '\': ' . $global['mysqli']->error . '<br /><br />');
+                throw new Exception($global['mysqli']->error);
             }
-        } catch (\Throwable $th) {
-           echo 'Error: '.$th->getMessage().PHP_EOL;
+        } catch (Exception $e) {
+            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $dropTableCommand . '\': ' . $e->getMessage() . '<br /><br />');
         }
     }
 
     // Executar comandos de criação de tabela
     foreach ($createTableCommands as $command) {
         echo "Executing: $command\n"; // Imprimir o comando SQL
-        if (!$global['mysqli']->query($command)) {
-            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
+        try {
+            if (!$global['mysqli']->query($command)) {
+                throw new Exception($global['mysqli']->error);
+            }
+        } catch (Exception $e) {
+            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $e->getMessage() . '<br /><br />');
         }
     }
 
@@ -115,8 +126,12 @@ function executeFile($filename) {
     if (!empty($tables)) {
         $lockTables = 'LOCK TABLES ' . implode(' WRITE, ', $tables) . ' WRITE;';
         echo "Executing: $lockTables\n"; // Imprimir o comando SQL
-        if (!$global['mysqli']->query($lockTables)) {
-            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $lockTables . '\': ' . $global['mysqli']->error . '<br /><br />');
+        try {
+            if (!$global['mysqli']->query($lockTables)) {
+                throw new Exception($global['mysqli']->error);
+            }
+        } catch (Exception $e) {
+            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $lockTables . '\': ' . $e->getMessage() . '<br /><br />');
             return;
         }
     }
@@ -125,12 +140,20 @@ function executeFile($filename) {
     foreach ($commands as $command) {
         if (!in_array($command, $createTableCommands)) {
             echo "Executing: $command\n"; // Imprimir o comando SQL
-            if (!$global['mysqli']->query($command)) {
-                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
+            try {
+                if (!$global['mysqli']->query($command)) {
+                    throw new Exception($global['mysqli']->error);
+                }
+            } catch (Exception $e) {
+                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $e->getMessage() . '<br /><br />');
             }
         }
     }
 
     // Desbloquear as tabelas no final
-    $global['mysqli']->query('UNLOCK TABLES;');
+    try {
+        $global['mysqli']->query('UNLOCK TABLES;');
+    } catch (Exception $e) {
+        echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>UNLOCK TABLES</strong>\': ' . $e->getMessage() . '<br /><br />');
+    }
 }
