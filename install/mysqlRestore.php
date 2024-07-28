@@ -3,7 +3,7 @@
 //streamer config
 $global['createDatabase'] = 1;
 $doNotIncludeConfig = 1;
-require_once __DIR__.'/../videos/configuration.php';
+require_once __DIR__ . '/../videos/configuration.php';
 
 if (php_sapi_name() !== 'cli') {
     return die('Command Line only');
@@ -15,7 +15,7 @@ $globPattern = "{$global['systemRootPath']}videos/mysqldump-*.sql";
 echo "Searching [{$globPattern}]" . PHP_EOL;
 $glob = glob($globPattern);
 foreach ($glob as $key => $file) {
-    echo "($key) {$file} ".humanFileSize(filesize($file)) . PHP_EOL;
+    echo "($key) {$file} " . humanFileSize(filesize($file)) . PHP_EOL;
 }
 
 // Check for command line argument
@@ -56,13 +56,13 @@ $global['mysqli']->select_db($mysqlDatabase);
 echo "Execute filename {$filename}" . PHP_EOL;
 executeFile($filename);
 
-function executeFile($filename) {
+function executeFile($filename)
+{
     global $global;
     $templine = '';
     // Read in entire file
     $lines = file($filename);
 
-    $global['mysqli']->query('UNLOCK TABLES;');
     // Loop through each line
     foreach ($lines as $line) {
         // Skip it if it's a comment
@@ -74,11 +74,21 @@ function executeFile($filename) {
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
-            if (!$global['mysqli']->query($templine)) {
-                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+            if (stripos($templine, 'LOCK TABLES') !== false || stripos($templine, 'UNLOCK TABLES') !== false) {
+                // Directly execute lock/unlock table commands
+                if (!$global['mysqli']->query($templine)) {
+                    echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+                }
+            } else {
+                // Perform the query
+                if (!$global['mysqli']->query($templine)) {
+                    echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+                }
             }
             // Reset temp variable to empty
             $templine = '';
         }
     }
+    // Ensure all tables are unlocked at the end
+    $global['mysqli']->query('UNLOCK TABLES;');
 }
