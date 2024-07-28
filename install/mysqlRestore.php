@@ -94,8 +94,12 @@ function executeFile($filename) {
     foreach ($tables as $table) {
         $dropTableCommand = 'DROP TABLE IF EXISTS `' . $table . '`;';
         echo "Executing: $dropTableCommand\n"; // Imprimir o comando SQL
-        if (!$global['mysqli']->query($dropTableCommand)) {
-            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $dropTableCommand . '\': ' . $global['mysqli']->error . '<br /><br />');
+        try {
+            if (!$global['mysqli']->query($dropTableCommand)) {
+                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $dropTableCommand . '\': ' . $global['mysqli']->error . '<br /><br />');
+            }
+        } catch (\Throwable $th) {
+           echo 'Error: '.$th->getMessage().PHP_EOL;
         }
     }
 
