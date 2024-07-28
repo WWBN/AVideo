@@ -92,6 +92,7 @@ function executeFile($filename) {
 
     // Executar comandos de criação de tabela com DROP TABLE IF EXISTS
     foreach ($createTableCommands as $command) {
+        echo $command.PHP_EOL;
         if (!$global['mysqli']->query($command)) {
             echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $command . '\': ' . $global['mysqli']->error . '<br /><br />');
         }
