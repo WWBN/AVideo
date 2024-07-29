@@ -207,6 +207,9 @@ function setLanguage($lang) {
         return false;
     }
     global $global;
+    if(empty($global['systemRootPath'])){
+        return false;
+    }
     $lang = flag2Lang($lang);
     if (empty($lang) || $lang === '-') {
         return false;
