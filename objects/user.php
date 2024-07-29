@@ -317,6 +317,16 @@ if (typeof gtag !== \"function\") {
         $this->load($this->getId());
     }
 
+    
+    public static function getIdRequestOrSession()
+    {
+        if (!empty($_REQUEST['users_id'])) {
+            return intval($_REQUEST['users_id']);
+        } else {
+            return self::getId();
+        }
+    }
+
     public static function getId()
     {
         if (self::isLogged()) {
