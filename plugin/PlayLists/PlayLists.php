@@ -339,8 +339,9 @@ class PlayLists extends PluginAbstract
             }
         }
         if (isset($playlist_index)) {
+            $url = addLastSlash($url);
             //$url = addQueryStringParameter($url, 'playlist_index', $playlist_index);
-            $url .= "/$playlist_index";
+            $url .= "$playlist_index";
         }
         return $url;
     }
