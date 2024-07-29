@@ -282,16 +282,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.316.4",
+            "version": "3.316.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "2fffbb675e6af34a4a0ff42bbac04d17ab033142"
+                "reference": "9aff2e655c3f0139f5abe20195ee235b19fff603"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2fffbb675e6af34a4a0ff42bbac04d17ab033142",
-                "reference": "2fffbb675e6af34a4a0ff42bbac04d17ab033142",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9aff2e655c3f0139f5abe20195ee235b19fff603",
+                "reference": "9aff2e655c3f0139f5abe20195ee235b19fff603",
                 "shasum": ""
             },
             "require": {
@@ -371,9 +371,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.316.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.316.8"
             },
-            "time": "2024-07-18T19:22:56+00:00"
+            "time": "2024-07-25T19:29:46+00:00"
         },
         {
             "name": "brick/math",
@@ -6216,5 +6216,5 @@
     "platform-overrides": {
         "php": "8"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
