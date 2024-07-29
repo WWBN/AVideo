@@ -437,26 +437,6 @@ function array_iunique(array $array): array
     return array_intersect_key($array, array_unique(array_map('mb_strtolower', $array)));
 }
 
-function partition(array $list, $totalItens)
-{
-    $listlen = count($list);
-    if(empty($listlen)){
-        return $list;
-    }
-    _error_log("partition: listlen={$listlen} totalItens={$totalItens}");
-    $p = ceil($listlen / $totalItens);
-    $partlen = floor($listlen / $p);
-
-    $partition = [];
-    $mark = 0;
-    for ($index = 0; $index < $p; $index++) {
-        $partition[$index] = array_slice($list, $mark, $totalItens);
-        $mark += $totalItens;
-    }
-
-    return $partition;
-}
-
 function fixURL($url)
 {
     return str_replace(array('&amp%3B', '&amp;'), array('&', '&'), $url);

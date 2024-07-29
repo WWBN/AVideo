@@ -125,7 +125,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
             foreach ($piece as $value) {
                 $totalCount++;
                 $count++;
-                //_error_log("sendSiteEmail::addBCC [{$count}] {$value}");
+                _error_log("sendSiteEmail::addBCC [{$count}] {$value}");
                 $mail->addBCC($value);
             }
             //_error_log("sendSiteEmail::sending now count=[{$count}] [{$totalCount}/{$totalEmails}]");
@@ -144,6 +144,27 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     }
     return $resp;
 }
+
+function partition(array $list, $totalItens)
+{
+    $listlen = count($list);
+    if(empty($listlen)){
+        return $list;
+    }
+    _error_log("partition: listlen={$listlen} totalItens={$totalItens}");
+    $p = ceil($listlen / $totalItens);
+    $partlen = floor($listlen / $p);
+
+    $partition = [];
+    $mark = 0;
+    for ($index = 0; $index < $p; $index++) {
+        $partition[$index] = array_slice($list, $mark, $totalItens);
+        $mark += $totalItens;
+    }
+
+    return $partition;
+}
+
 
 function sendSiteEmailAsync($to, $subject, $message)
 {
