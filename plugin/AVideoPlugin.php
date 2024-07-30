@@ -3136,17 +3136,20 @@ class AVideoPlugin
 
     public static function videoHLSProtectionByPass($videos_id)
     {
+        global $_useDownloadProtectionReason;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 if($p->videoHLSProtectionByPass($videos_id)){
+                    $_useDownloadProtectionReason[] = " videoHLSProtectionByPass {$videos_id} Plugin {$value['dirName']} return true ".__LINE__;
                     return true;
                 }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
+        $_useDownloadProtectionReason[] = __LINE__;
         return false;
     }
 }

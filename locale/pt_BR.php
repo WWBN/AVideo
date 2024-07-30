@@ -919,6 +919,7 @@ $t['Design'] = 'Design';
 $t['Destination Application Name'] = 'Destination Application Name';
 $t['Destination Host'] = 'Destination Host';
 $t['Destination Port'] = 'Destination Port';
+$t['Details'] = 'Detalhes';
 $t['Detect language from IP'] = 'Detect language from IP';
 $t['Device'] = 'Device';
 $t['Devices Stream Info'] = 'Devices Stream Info';
