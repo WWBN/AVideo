@@ -175,10 +175,13 @@ function unzipDirectory($filename, $destination)
     ini_set('memory_limit', '-1');
     set_time_limit(0);
 
-    // Ensure the destination directory exists
+    // Ensure the destination directory exists, create it if it doesn't
     if (!is_dir($destination)) {
-        _error_log("unzipDirectory: Destination directory does not exist: {$destination}");
-        return false;
+        if (!mkdir($destination, 0755, true)) {
+            _error_log("unzipDirectory: Failed to create destination directory: {$destination}");
+            return false;
+        }
+        _error_log("unzipDirectory: Destination directory created: {$destination}");
     }
 
     // Ensure the destination directory is writable
