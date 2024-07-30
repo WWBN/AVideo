@@ -247,7 +247,7 @@ function downloadVideoFromDownloadURL($downloadURL)
     _error_log("aVideoEncoder.json: Got the download " . $downloadURL . ' ' . humanFileSize($strlen));
     if ($file) {
         $_FILES['video']['name'] = basename($downloadURL);
-
+        $temp = getTmpDir('zip') . $_FILES['video']['name'];
         $temp = Video::getStoragePath() . "cache/tmpFile/" . $_FILES['video']['name'];
         make_path($temp);
         $bytesSaved = file_put_contents($temp, $file);
