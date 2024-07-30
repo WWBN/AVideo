@@ -185,19 +185,30 @@ function unzipDirectory($filename, $destination)
     // Log the command for debugging purposes
     _error_log("unzipDirectory: {$cmd}");
 
-    // Execute the command and check the return value
+    // Execute the command and capture the output and return value
     exec($cmd, $output, $return_val);
 
     if ($return_val !== 0) {
-        // If the unzip command fails, try using PHP's ZipArchive class as a fallback
+        // Log the output and return value
+        _error_log("unzipDirectory: Command failed with return value {$return_val}");
+        _error_log("unzipDirectory: Command output: " . implode("\n", $output));
+        
+        // Check if the file exists
+        if (!file_exists($filename)) {
+            _error_log("unzipDirectory: Error - file does not exist: {$filename}");
+        } else {
+            _error_log("unzipDirectory: Error - file exists: {$filename}");
+        }
+
+        // Try using PHP's ZipArchive class as a fallback
         if (class_exists('ZipArchive')) {
             $zip = new ZipArchive();
             if ($zip->open($filename) === true) {
                 $zip->extractTo($destination);
                 $zip->close();
-                _error_log("unzipDirectory: Success {$destination}");
+                _error_log("unzipDirectory: Success using ZipArchive for {$destination}");
             } else {
-                _error_log("unzipDirectory: Error opening zip archive: {$filename}");
+                _error_log("unzipDirectory: Error opening zip archive using ZipArchive: {$filename}");
             }
         } else {
             _error_log("unzipDirectory: Error: ZipArchive class is not available");
@@ -208,8 +219,13 @@ function unzipDirectory($filename, $destination)
 
     // Delete the original zip file
     _error_log("unzipDirectory($filename) unlink line=" . __LINE__);
-    @unlink($filename);
+    if (@unlink($filename)) {
+        _error_log("unzipDirectory: Successfully deleted the zip file: {$filename}");
+    } else {
+        _error_log("unzipDirectory: Error deleting the zip file: {$filename}");
+    }
 }
+
 
 function getPIDUsingPort($port)
 {
