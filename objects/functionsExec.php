@@ -175,6 +175,18 @@ function unzipDirectory($filename, $destination)
     ini_set('memory_limit', '-1');
     set_time_limit(0);
 
+    // Ensure the destination directory exists
+    if (!is_dir($destination)) {
+        _error_log("unzipDirectory: Destination directory does not exist: {$destination}");
+        return false;
+    }
+
+    // Ensure the destination directory is writable
+    if (!is_writable($destination)) {
+        _error_log("unzipDirectory: Destination directory is not writable: {$destination}");
+        return false;
+    }
+
     // Escape the input parameters to prevent command injection attacks
     $filename = escapeshellarg($filename);
     $destination = escapeshellarg($destination);
@@ -192,7 +204,7 @@ function unzipDirectory($filename, $destination)
         // Log the output and return value
         _error_log("unzipDirectory: Command failed with return value {$return_val}");
         _error_log("unzipDirectory: Command output: " . implode("\n", $output));
-        
+
         // Check if the file exists
         if (!file_exists($filename)) {
             _error_log("unzipDirectory: Error - file does not exist: {$filename}");
@@ -224,7 +236,10 @@ function unzipDirectory($filename, $destination)
     } else {
         _error_log("unzipDirectory: Error deleting the zip file: {$filename}");
     }
+
+    return $return_val === 0;
 }
+
 
 
 function getPIDUsingPort($port)
