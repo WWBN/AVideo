@@ -182,7 +182,7 @@ function sendSiteEmailAsync($to, $subject, $message)
     //outputAndContinueInBackground();
     $command = "php {$global['systemRootPath']}objects/sendSiteEmailAsync.php '$tmpFile' && rm '$tmpFile'";
     $totalEmails = count($to);
-    _error_log("sendSiteEmailAsync start [bytes=$bytes] [totalEmails={$totalEmails}] ($command) file_exists=" . file_exists($tmpFile));
+    _error_log("sendSiteEmailAsync start [bytes=$bytes] [totalEmails={$totalEmails}] ($command) file_exists=" . file_exists($tmpFile) .' '.json_encode(debug_backtrace()));
     $pid = execAsync($command);
     _error_log("sendSiteEmailAsync end {$pid}");
     return $pid;
