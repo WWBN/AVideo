@@ -363,7 +363,7 @@ class CustomizeUser extends PluginAbstract
         $obj->MyChannelLabel = "My Channel";
         $obj->showAllAboutTextOnChannel = false;
         self::addDataObjectHelper('showAllAboutTextOnChannel', 'Show All About Text On Channel', 'Instead of show the [Show more] button, it will show the whole text');
-        
+
         $obj->afterLoginGoToMyChannel = false;
         $obj->afterLoginGoToURL = "";
         $obj->afterLogoffGoToMyChannel = false;
@@ -405,7 +405,7 @@ class CustomizeUser extends PluginAbstract
 
         $obj->onSignUpSubscribeToChannelsIds = '[]';
         self::addDataObjectHelper('onSignUpSubscribeToChannelsIds', 'On Sign Up Subscribe To Channels Ids', 'This field is an json array with ids of users that will be auto-subscribed');
-        
+
         return $obj;
     }
 
@@ -581,20 +581,22 @@ class CustomizeUser extends PluginAbstract
             return "";
         }
         $objcu = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
-        echo "<div style=\"float:right\">";
+        echo "<div class=\"clearfix\"></div><div style=\"float:right\">";
         if (!empty($objcu) && !empty($objcu->userCanAllowFilesDownload)) {
             echo '<div style=" margin:0 20px 10px 0;  height: 15px;">';
             echo '<div class="" style="max-width: 100px; float:right;"> ';
             self::getSwitchUserCanAllowFilesDownload(User::getId());
-            echo '</div>
-    <label class="control-label" style="float:right; margin:0 10px;">' . __("Allow Download My Videos") . '</label></div>';
+            echo '</div>';
+            echo '<label class="control-label" style="float:right; margin:0 10px;">' . __("Allow Download My Videos") . '</label>';
+            echo '</div>';
         }
         if (!empty($objcu) && !empty($objcu->userCanAllowFilesShare)) {
             echo '<div style=" margin:0 20px 10px 0; height: 15px;">';
             echo '<div class="" style="max-width: 100px; float:right;"> ';
             self::getSwitchUserCanAllowFilesShare(User::getId());
-            echo '</div>
-    <label class="control-label" style="float:right; margin:0 10px;">' . __("Allow Share My Videos") . '</label></div>';
+            echo '</div>';
+            echo '<label class="control-label" style="float:right; margin:0 10px;">' . __("Allow Share My Videos") . '</label>';
+            echo '</div>';
         }
         echo "</div>";
     }
@@ -665,9 +667,9 @@ class CustomizeUser extends PluginAbstract
     {
         global $global;
         $obj = $this->getDataObject();
-        if(!empty($obj->onSignUpSubscribeToChannelsIds)){
+        if (!empty($obj->onSignUpSubscribeToChannelsIds)) {
             $json = _json_decode($obj->onSignUpSubscribeToChannelsIds);
-            if(!empty($json) && is_array($json)){
+            if (!empty($json) && is_array($json)) {
                 foreach ($json as $channel_owner_users_id) {
                     $subsc = new Subscribe(0, '', $channel_owner_users_id, $users_id);
                     $subsc->setNotify(1);
@@ -998,10 +1000,11 @@ class CustomizeUser extends PluginAbstract
         include $global['systemRootPath'] . 'plugin/CustomizeUser/View/footer.php';
         return '';
     }
-    
-    public function getMobileInfo() {
+
+    public function getMobileInfo()
+    {
         $obj = $this->getDataObject();
-        $return = new stdClass();        
+        $return = new stdClass();
         $return->userCanChangeVideoOwner = $obj->userCanChangeVideoOwner;
         $return->usersCanCreateNewCategories = $obj->usersCanCreateNewCategories;
         $return->userCanNotChangeCategory = $obj->userCanNotChangeCategory;

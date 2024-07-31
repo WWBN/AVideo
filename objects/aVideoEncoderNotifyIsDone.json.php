@@ -33,6 +33,17 @@ if (!Video::canEdit($_REQUEST['videos_id'])) {
     _error_log($obj->msg);
     die(json_encode($obj));
 }
+
+$file = getTmpDir("aVideoEncoderNotifyIsDone")."video_{$_REQUEST['videos_id']}";
+if(file_exists($file)){
+    $obj->msg = __("Notification already sent {$file}");
+    _error_log($obj->msg);
+    die(json_encode($obj));
+}
+
+file_put_contents($file, time());
+
+
 Video::clearCache($_REQUEST['videos_id'], true);
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", $_REQUEST['videos_id'], true);
