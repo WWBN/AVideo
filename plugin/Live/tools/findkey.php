@@ -47,8 +47,8 @@ if (!empty($fullData)) {
     foreach ($fullData as $row) {
         // Print the result nicely
         echo "User ID: " . $row['users_id'] . "\n";
-        echo "Username: " . $row['username'] . "\n";
-        echo "Channel Name: " . $row['channel_name'] . "\n";
+        echo "Username: " . $row['user'] . "\n";
+        echo "Channel Name: " . $row['channelname'] . "\n";
         echo "Source: " . $row['source'] . "\n";
         echo "--------------------------\n";
         $rows[] = $row;
