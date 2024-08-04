@@ -13,7 +13,7 @@ echo "Please enter the key: ";
 $key = trim(fgets(STDIN));
 
 // Prepare the SQL queries for both tables
-$sql1 = "SELECT lt.users_id, u.username, u.channel_name, 'live_transmitions' as source
+$sql1 = "SELECT lt.users_id, u.user, u.channelname, 'live_transmitions' as source
 FROM 
     `live_transmitions` lt
 JOIN 
@@ -21,7 +21,7 @@ JOIN
 WHERE 
     lt.`key` = ?";
 
-$sql2 = "SELECT lth.users_id, u.username, u.channel_name, 'live_transmitions_history' as source
+$sql2 = "SELECT lth.users_id, u.user, u.channelname, 'live_transmitions_history' as source
 FROM 
     `live_transmitions_history` lth
 JOIN 
