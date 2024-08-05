@@ -17,7 +17,7 @@ function getRestreamsRuning()
     // Check if the command was successful
     if ($return_var === 0) {
         foreach ($output as $line) {
-            preg_match('/-i http.*live\/([^\/]+)\/index.m3u8.*/i', $line, $matches);
+            preg_match('/-i http.*(live|cdn.ypt.me)\/([^\/]+)\/index.m3u8.*/i', $line, $matches);
 
             // Extract the RTMP destination domain from the command line
             preg_match('/rtmps?:\/\/([^\/:]+)/i', $line, $destMatches);
@@ -30,7 +30,7 @@ function getRestreamsRuning()
             $liveTransmitionHistory_id = intval($matchesLth[1]);
             // Add process info to the response without the command line
             $obj->process[] = array(
-                'key' => $matches[1],
+                'key' => $matches[2],
                 'live_restreams_id' => $live_restreams_id,
                 'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
                 'restream_destination' => $restreamDomain,
