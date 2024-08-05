@@ -3,6 +3,8 @@
 use Amp\Deferred;
 use Amp\Loop;
 
+require_once __DIR__.'/functions.php';
+
 //pkill -9 -f "rw_timeout.*6196bac40f89f" //When -f is set, the full command line is used for pattern matching.
 /**
  * This file intent to restream your lives, you can copy this file in any server with FFMPEG
@@ -203,13 +205,23 @@ if (!$isCommandLine) { // not command line
                         $liveKey = _getLiveKey($token);                    
                         if(empty($liveKey->error)){
                             $newRestreamsDestination = $liveKey->newRestreamsDestination;
-                        }else{                            
-                            $errorMessages[] = $liveKey->msg;
+                        }else{     
+                            if(!is_string($liveKey->msg)){
+                                $msg = json_encode($liveKey->msg);
+                            }else{
+                                $msg = ($liveKey->msg);
+                            }
+                            $errorMessages[] = nl2br($msg);    
                             if(!empty($liveKey->content)){
                                 $jsonInfo = json_decode($liveKey->content);
                                 if(!empty($jsonInfo)){
                                     if(!empty($jsonInfo->msg)){
-                                        $errorMessages[] = nl2br($jsonInfo->msg);
+                                        if(!is_string($jsonInfo->msg)){
+                                            $msg = json_encode($jsonInfo->msg);
+                                        }else{
+                                            $msg = ($jsonInfo->msg);
+                                        }
+                                        $errorMessages[] = nl2br($msg);
                                     }
                                 }
                             }
@@ -482,6 +494,14 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     if (empty($restreamsDestinations)) {
         error_log("Restreamer.json.php startRestream ERROR empty restreamsDestinations");
         return false;
+    }
+
+    $restream = isRestreamRuning($robj->live_restreams_id, $robj->liveTransmitionHistory_id);
+    if (!empty($restream)) {
+        error_log("Restreamer.json.php startRestream ERROR it is already runing ".json_encode($restream));
+        return false;
+    }else{
+        error_log("Restreamer.json.php startRestream success ".json_encode(array($robj->live_restreams_id, $robj->liveTransmitionHistory_id)));
     }
 
     $m3u8 = _addQueryStringParameter($m3u8, 'live_restreams_id', $robj->live_restreams_id);

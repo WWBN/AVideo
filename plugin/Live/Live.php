@@ -3583,7 +3583,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $info = curl_getinfo($ch);
             $output = curl_exec($ch);
             curl_close($ch);
-            _error_log('Live:sendRestream complete ' . json_encode(array($output)));
+            _error_log("Live:sendRestream complete " . json_encode(array($output)));
             return true;
         } catch (Exception $exc) {
             _error_log("Live:sendRestream " . $exc->getTraceAsString());
@@ -4400,6 +4400,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             exec('php ' . $global['systemRootPath'] . 'plugin/Live/view/finishAll.json.php');
         }
     }
+
 }
 
 class LiveImageType

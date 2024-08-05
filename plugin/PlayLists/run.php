@@ -5,7 +5,7 @@ if (!isCommandLineInterface() && !User::isAdmin()) {
     forbiddenPage();
 }
 
-if (!AVideoPlugin::isEnabledByName("Rebroadcaster")) {
+if (!AVideoPlugin::loadPlugin("Rebroadcaster")) {
     forbiddenPage(__("Rebroadcaster plugin is required"));
 }
 
