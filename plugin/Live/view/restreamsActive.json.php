@@ -22,6 +22,13 @@ $obj = getRestreamsRuning();
 $totalConnections = array();
 foreach ($obj->process as $key => $value) {
     $users_id = LiveTransmition::getUsers_idOrCompanyFromKey($value['key']);
+
+    $lt = new Live_restreams($value['live_restreams_id']);
+    $lth = new LiveTransmitionHistory($value['liveTransmitionHistory_id']);
+
+    $obj->process[$key]['restream_name'] = $lt->getName();
+    $obj->process[$key]['live_title'] = $lth->getTitle();    
+
     $obj->process[$key]['users_id'] = $users_id;
     // Count total connections per users_id
     if (!isset($totalConnections[$users_id])) {
