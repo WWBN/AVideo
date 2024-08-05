@@ -27,7 +27,8 @@ foreach ($obj->process as $key => $value) {
     $lth = new LiveTransmitionHistory($value['liveTransmitionHistory_id']);
 
     $obj->process[$key]['restream_name'] = $lt->getName();
-    $obj->process[$key]['live_title'] = $lth->getTitle();    
+    $obj->process[$key]['live_title'] = $lth->getTitle();  
+    $obj->process[$key]['identification'] = User::getNameIdentificationById($users_id);    
 
     $obj->process[$key]['users_id'] = $users_id;
     // Count total connections per users_id
