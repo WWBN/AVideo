@@ -54,7 +54,7 @@ if (!empty($fullData)) {
         echo "Username: " . $row['user'] . "\n";
         echo "Channel Name: " . $row['channelname'] . "\n";
         echo "Source: " . $row['source'] . "\n";
-        echo "Source: " . $row['nodified'] . "\n";
+        echo "Modified: " . $row['modified'] . "\n";
         echo "--------------------------\n";
         $rows[] = $row;
     }
