@@ -13,7 +13,7 @@ echo "Please enter the key: ";
 $key = trim(fgets(STDIN));
 
 // Prepare the SQL queries for both tables
-$sql1 = "SELECT lt.users_id, u.user, u.channelname, 'live_transmitions' as source
+$sql1 = "SELECT lt.users_id, u.user, u.channelname, lt.modified , 'live_transmitions'as source
 FROM 
     `live_transmitions` lt
 JOIN 
@@ -21,7 +21,7 @@ JOIN
 WHERE 
     lt.`key` = ?";
 
-$sql2 = "SELECT lth.users_id, u.user, u.channelname, 'live_transmitions_history' as source
+$sql2 = "SELECT lth.users_id, u.user, u.channelname, lth.modified , 'live_transmitions_history' as source
 FROM 
     `live_transmitions_history` lth
 JOIN 
@@ -34,10 +34,14 @@ $res1 = sqlDAL::readSql($sql1, 's', [$key]);
 $fullData1 = sqlDAL::fetchAllAssoc($res1);
 sqlDAL::close($res1);
 
-// Execute the second query
-$res2 = sqlDAL::readSql($sql2, 's', [$key]);
-$fullData2 = sqlDAL::fetchAllAssoc($res2);
-sqlDAL::close($res2);
+if(empty($fullData1)){
+    // Execute the second query
+    $res2 = sqlDAL::readSql($sql2, 's', [$key]);
+    $fullData2 = sqlDAL::fetchAllAssoc($res2);
+    sqlDAL::close($res2);
+}else{
+    $fullData2 = array();
+}
 
 // Merge the results
 $fullData = array_merge($fullData1, $fullData2);
@@ -50,6 +54,7 @@ if (!empty($fullData)) {
         echo "Username: " . $row['user'] . "\n";
         echo "Channel Name: " . $row['channelname'] . "\n";
         echo "Source: " . $row['source'] . "\n";
+        echo "Source: " . $row['nodified'] . "\n";
         echo "--------------------------\n";
         $rows[] = $row;
     }
