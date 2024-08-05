@@ -1,6 +1,6 @@
 -- Add new column isChannelSuggested if it does not exist
 ALTER TABLE `videos`
-ADD COLUMN IF NOT EXISTS `isChannelSuggested` INT(1) UNSIGNED NOT NULL DEFAULT 0;
+ADD COLUMN `isChannelSuggested` INT(1) UNSIGNED NOT NULL DEFAULT 0;
 
 -- Add new index for isChannelSuggested if it does not exist
 CREATE INDEX IF NOT EXISTS `is_channel_suggested` ON `videos` (`isChannelSuggested`);
