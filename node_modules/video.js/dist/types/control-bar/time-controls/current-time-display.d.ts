@@ -31,5 +31,5 @@ declare class CurrentTimeDisplay extends Component {
      */
     protected controlText_: string;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
 //# sourceMappingURL=current-time-display.d.ts.map

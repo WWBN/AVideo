@@ -2,6 +2,7 @@ module.exports = {
   allowCache: true,
   dateTimeObject: new Date('2019-02-14T02:13:36.106Z'),
   dateTimeString: '2019-02-14T02:13:36.106Z',
+  dateRanges: [],
   discontinuitySequence: 0,
   discontinuityStarts: [],
   mediaSequence: 266,
@@ -40,6 +41,7 @@ module.exports = {
     {
       dateTimeObject: new Date('2019-02-14T02:13:36.106Z'),
       dateTimeString: '2019-02-14T02:13:36.106Z',
+      programDateTime: 1550110416106,
       duration: 4.00008,
       map: {
         uri: 'init.mp4'
@@ -52,6 +54,7 @@ module.exports = {
       map: {
         uri: 'init.mp4'
       },
+      programDateTime: 1550110420106.08,
       timeline: 0,
       uri: 'fileSequence267.mp4'
     },
@@ -60,6 +63,7 @@ module.exports = {
       map: {
         uri: 'init.mp4'
       },
+      programDateTime: 1550110424106.1602,
       timeline: 0,
       uri: 'fileSequence268.mp4'
     },
@@ -68,6 +72,7 @@ module.exports = {
       map: {
         uri: 'init.mp4'
       },
+      programDateTime: 1550110428106.2402,
       timeline: 0,
       uri: 'fileSequence269.mp4'
     },
@@ -76,6 +81,7 @@ module.exports = {
       map: {
         uri: 'init.mp4'
       },
+      programDateTime: 1550110432106.3203,
       timeline: 0,
       uri: 'fileSequence270.mp4'
     },
@@ -84,6 +90,7 @@ module.exports = {
       map: {
         uri: 'init.mp4'
       },
+      programDateTime: 1550110436106.4004,
       timeline: 0,
       uri: 'fileSequence271.mp4',
       parts: [
@@ -146,6 +153,7 @@ module.exports = {
       map: {
         uri: 'init.mp4'
       },
+      programDateTime: 1550110440106,
       timeline: 0,
       uri: 'fileSequence272.mp4',
       parts: [

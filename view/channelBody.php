@@ -458,7 +458,9 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                                 $obj->BigVideo = true;
                                                 $obj->Description = false;
                                                 include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
-                                                unset($uploadedVideos[0]);
+                                                if(empty($suggestedOrPinnedFound)){
+                                                    unset($uploadedVideos[0]);
+                                                }
                                             }
                                             ?>
                                             <div class="row">

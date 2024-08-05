@@ -1,4 +1,5 @@
 export default SeekToLive;
+/** @import Player from './player' */
 /**
  * Displays the live indicator when duration is Infinity.
  *
@@ -8,13 +9,13 @@ declare class SeekToLive extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('./player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: any, options?: any);
+    constructor(player: Player, options?: any);
     updateLiveEdgeStatusHandler_: (e: any) => void;
     /**
      * Create the `Component`'s DOM element
@@ -47,5 +48,5 @@ declare class SeekToLive extends Component {
      */
     protected controlText_: string;
 }
-import Component from "../component";
+import Component from '../component';
 //# sourceMappingURL=seek-to-live.d.ts.map

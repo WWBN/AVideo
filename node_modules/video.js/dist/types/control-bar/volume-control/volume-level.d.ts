@@ -13,5 +13,5 @@ declare class VolumeLevel extends Component {
      */
     createEl(): Element;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
 //# sourceMappingURL=volume-level.d.ts.map

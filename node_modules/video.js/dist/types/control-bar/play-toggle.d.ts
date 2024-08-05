@@ -1,4 +1,5 @@
 export default PlayToggle;
+/** @import Player from './player' */
 /**
  * Button to toggle between play and pause.
  *
@@ -8,13 +9,13 @@ declare class PlayToggle extends Button {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('./player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options={}]
      *        The key/value store of player options.
      */
-    constructor(player: any, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * This gets called when an `PlayToggle` is "clicked". See
      * {@link ClickableComponent} for more detailed information on what a click can be.
@@ -65,5 +66,5 @@ declare class PlayToggle extends Button {
      */
     handleEnded(event?: Event): void;
 }
-import Button from "../button.js";
+import Button from '../button.js';
 //# sourceMappingURL=play-toggle.d.ts.map

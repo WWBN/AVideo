@@ -1,4 +1,5 @@
 export default CloseButton;
+/** @import Player from './player' */
 /**
  * The `CloseButton` is a `{@link Button}` that fires a `close` event when
  * it gets clicked.
@@ -9,13 +10,13 @@ declare class CloseButton extends Button {
     /**
     * Creates an instance of the this class.
     *
-    * @param  { import('./player').default } player
+    * @param  {Player} player
     *         The `Player` that this class should be attached to.
     *
     * @param  {Object} [options]
     *         The key/value store of player options.
     */
-    constructor(player: import('./player').default, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * This gets called when a `CloseButton` gets clicked. See
      * {@link ClickableComponent#handleClick} for more information on when
@@ -31,5 +32,6 @@ declare class CloseButton extends Button {
      */
     handleClick(event: Event): void;
 }
-import Button from "./button";
+import Button from './button';
+import type Player from './player';
 //# sourceMappingURL=close-button.d.ts.map

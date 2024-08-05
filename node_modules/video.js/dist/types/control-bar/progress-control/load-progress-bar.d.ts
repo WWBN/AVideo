@@ -8,13 +8,13 @@ declare class LoadProgressBar extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     partEls_: any[];
     /**
      * Create the `Component`'s DOM element
@@ -36,5 +36,6 @@ declare class LoadProgressBar extends Component {
     update(event?: Event): void;
     percent_: any;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
+import type Player from '../../player';
 //# sourceMappingURL=load-progress-bar.d.ts.map

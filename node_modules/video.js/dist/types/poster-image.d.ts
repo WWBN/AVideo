@@ -1,4 +1,5 @@
 export default PosterImage;
+/** @import Player from './player' */
 /**
  * A `ClickableComponent` that handles showing the poster image for the player.
  *
@@ -8,13 +9,13 @@ declare class PosterImage extends ClickableComponent {
     /**
      * Create an instance of this class.
      *
-     * @param { import('./player').default } player
+     * @param {Player} player
      *        The `Player` that this class should attach to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: import('./player').default, options?: any);
+    constructor(player: Player, options?: any);
     update_: (e: any) => void;
     /**
      * Create the `PosterImage`s DOM element.
@@ -80,5 +81,6 @@ declare class PosterImage extends ClickableComponent {
      */
     crossorigin: (value?: string | null) => string | null;
 }
-import ClickableComponent from "./clickable-component.js";
+import ClickableComponent from './clickable-component.js';
+import type Player from './player';
 //# sourceMappingURL=poster-image.d.ts.map

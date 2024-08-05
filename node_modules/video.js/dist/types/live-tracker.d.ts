@@ -7,7 +7,7 @@ declare class LiveTracker extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('./player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
@@ -23,7 +23,7 @@ declare class LiveTracker extends Component {
      *        be used when playing at the live edge. This allows large seekable end
      *        changes to not effect whether we are live or not.
      */
-    constructor(player: import('./player').default, options?: {
+    constructor(player: Player, options?: {
         trackingThreshold?: number;
         liveTolerance?: number;
     });
@@ -166,5 +166,6 @@ declare class LiveTracker extends Component {
      */
     dispose(): void;
 }
-import Component from "./component.js";
+import Component from './component.js';
+import type Player from './player';
 //# sourceMappingURL=live-tracker.d.ts.map

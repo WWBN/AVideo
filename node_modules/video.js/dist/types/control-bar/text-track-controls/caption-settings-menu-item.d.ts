@@ -1,4 +1,5 @@
 export default CaptionSettingsMenuItem;
+/** @import Player from '../../player' */
 /**
  * The menu item for caption track settings menu
  *
@@ -18,5 +19,5 @@ declare class CaptionSettingsMenuItem extends TextTrackMenuItem {
      */
     handleClick(event?: Event): void;
 }
-import TextTrackMenuItem from "./text-track-menu-item.js";
+import TextTrackMenuItem from './text-track-menu-item.js';
 //# sourceMappingURL=caption-settings-menu-item.d.ts.map

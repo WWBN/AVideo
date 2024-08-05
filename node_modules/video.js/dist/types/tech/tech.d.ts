@@ -124,10 +124,10 @@ declare class Tech extends Component {
     /**
      * Get and create a `TimeRange` object for buffering.
      *
-     * @return { import('../utils/time').TimeRange }
+     * @return {TimeRange}
      *         The time range object that was created.
      */
-    buffered(): import('../utils/time').TimeRange;
+    buffered(): TimeRange;
     /**
      * Get the percentage of the current video that is currently buffered.
      *
@@ -235,11 +235,11 @@ declare class Tech extends Component {
      * > NOTE: This implementation is incomplete. It does not track the played `TimeRange`.
      *         It only checks whether the source has played at all or not.
      *
-     * @return { import('../utils/time').TimeRange }
+     * @return {TimeRange}
      *         - A single time range if this video has played
      *         - An empty set of ranges if not.
      */
-    played(): import('../utils/time').TimeRange;
+    played(): TimeRange;
     /**
      * Start playback
      *
@@ -574,8 +574,9 @@ declare namespace Tech {
      * @mixes Tech~SourceHandlerAdditions
      */
     function withSourceHandlers(_Tech: Tech): void;
-    const defaultTechOrder_: any[];
+    let defaultTechOrder_: any[];
 }
-import Component from "../component";
-import MediaError from "../media-error.js";
+import Component from '../component';
+import type { TimeRange } from '../utils/time';
+import MediaError from '../media-error.js';
 //# sourceMappingURL=tech.d.ts.map

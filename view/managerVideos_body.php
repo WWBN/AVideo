@@ -583,6 +583,9 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
                         <?php
                         }
                         ?>
+                        <th style="display: none;" data-column-id="isChannelSuggested" data-formatter="isChannelSuggested" data-width="42px" data-header-css-class='hidden-xs showOnGridDone' data-css-class='hidden-xs'>
+                            <?php echo htmlentities('<i class="fa-solid fa-thumbtack" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Pin On Channel") . '"></i>'); ?>
+                        </th>
                         <th data-column-id="filesize" data-formatter="filesize" data-width="100px" data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
                         <th data-column-id="created" data-order="desc" data-width="150px" data-header-css-class='hidden-sm hidden-xs' data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-css-class='controls' data-width="200px"></th>
@@ -1926,6 +1929,16 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     ?>
                     return suggestBtn;
                 },
+                "isChannelSuggested": function(column, row) {
+                    var suggestBtn = '';
+                    var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-Channelsuggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Unpin On Channel")); ?>"><i class="fa-solid fa-thumbtack"></i></button>';
+                    var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-Channelsuggest unsuggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Pin On Channel")); ?>"><i class="fa-solid fa-thumbtack-slash"></i></button>';
+                    suggestBtn = unsuggest;
+                    if (row.isChannelSuggested == "1") {
+                        suggestBtn = suggest;
+                    }
+                    return suggestBtn;
+                },
                 "checkbox": function(column, row) {
                     var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";
                     return tags;
@@ -2152,6 +2165,18 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             <?php
             }
             ?>
+
+            grid.find(".command-Channelsuggest").on("click", function(e) {
+                var row_index = $(this).closest('tr').index();
+                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                var isSuggested = $(this).hasClass('unsuggest');
+
+                setVideoChannelSuggested(row.id, isSuggested).then((data) => {
+                    $("#grid").bootgrid("reload");
+                }).catch((error) => {
+                    console.log(error)
+                });
+            });
         });
         $('#inputCleanTitle').keyup(function(evt) {
             $('#inputCleanTitle').val(clean_name($('#inputCleanTitle').val()));

@@ -1,4 +1,5 @@
 export default HTMLTrackElement;
+/** @import Tech from '../tech/tech' */
 /**
  * A single track represented in the DOM.
  *
@@ -12,7 +13,7 @@ declare class HTMLTrackElement extends EventTarget {
      * @param {Object} options={}
      *        Object of option names and values
      *
-     * @param { import('../tech/tech').default } options.tech
+     * @param {Tech} options.tech
      *        A reference to the tech that owns this HTMLTrackElement.
      *
      * @param {TextTrack~Kind} [options.kind='subtitles']
@@ -41,7 +42,7 @@ declare class HTMLTrackElement extends EventTarget {
      *        If this track should default to on or off.
      */
     constructor(options?: {
-        tech: import('../tech/tech').default;
+        tech: Tech;
     });
     kind: any;
     src: any;
@@ -56,10 +57,11 @@ declare class HTMLTrackElement extends EventTarget {
     };
 }
 declare namespace HTMLTrackElement {
-    const NONE: number;
-    const LOADING: number;
-    const LOADED: number;
-    const ERROR: number;
+    let NONE: number;
+    let LOADING: number;
+    let LOADED: number;
+    let ERROR: number;
 }
-import EventTarget from "../event-target";
+import EventTarget from '../event-target';
+import type Tech from '../tech/tech';
 //# sourceMappingURL=html-track-element.d.ts.map

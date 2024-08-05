@@ -48,5 +48,5 @@ declare class ResizeManager extends Component {
     dispose(): void;
     resizeObserver: any;
 }
-import Component from "./component.js";
+import Component from './component.js';
 //# sourceMappingURL=resize-manager.d.ts.map

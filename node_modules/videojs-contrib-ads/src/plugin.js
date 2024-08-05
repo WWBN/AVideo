@@ -18,6 +18,7 @@ import register from './register.js';
 import {listenToTcf} from './tcf.js';
 import {obtainUsPrivacyString} from './usPrivacy.js';
 import {OUTSTREAM_VIDEO} from './constants.js';
+import AdsError from './consts/errors';
 
 import States from './states.js';
 import './states/abstract/State.js';
@@ -312,6 +313,9 @@ const contribAdsPlugin = function(options) {
   // Expose so the US privacy string can be updated as needed
   player.ads.updateUsPrivacyString = (callback) => obtainUsPrivacyString(callback);
 };
+
+// contrib-ads specific error const
+contribAdsPlugin.Error = AdsError;
 
 // Expose the contrib-ads version before it is initialized. Will be replaced
 // after initialization in ads.js

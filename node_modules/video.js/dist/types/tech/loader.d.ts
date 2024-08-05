@@ -1,4 +1,5 @@
 export default MediaLoader;
+/** @import Player from '../player' */
 /**
  * The `MediaLoader` is the `Component` that decides which playback technology to load
  * when a player is initialized.
@@ -9,7 +10,7 @@ declare class MediaLoader extends Component {
     /**
      * Create an instance of this class.
      *
-     * @param { import('../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should attach to.
      *
      * @param {Object} [options]
@@ -18,7 +19,8 @@ declare class MediaLoader extends Component {
      * @param {Function} [ready]
      *        The function that is run when this component is ready.
      */
-    constructor(player: import('../player').default, options?: any, ready?: Function);
+    constructor(player: Player, options?: any, ready?: Function);
 }
-import Component from "../component.js";
+import Component from '../component.js';
+import type Player from '../player';
 //# sourceMappingURL=loader.d.ts.map

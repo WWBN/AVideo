@@ -9,13 +9,13 @@ declare class ProgressControl extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * When the mouse moves over the `ProgressControl`, the pointer position
      * gets passed down to the `MouseTimeDisplay` component.
@@ -97,5 +97,6 @@ declare class ProgressControl extends Component {
      */
     handleMouseUp(event: Event): void;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
+import type Player from '../../player';
 //# sourceMappingURL=progress-control.d.ts.map

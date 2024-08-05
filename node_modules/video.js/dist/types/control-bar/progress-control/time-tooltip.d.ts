@@ -1,4 +1,5 @@
 export default TimeTooltip;
+/** @import Player from '../../player' */
 /**
  * Time tooltips display a time above the progress bar.
  *
@@ -8,13 +9,13 @@ declare class TimeTooltip extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The {@link Player} that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * Updates the position of the time tooltip relative to the `SeekBar`.
      *
@@ -59,5 +60,6 @@ declare class TimeTooltip extends Component {
      */
     updateTime(seekBarRect: any, seekBarPoint: number, time: number, cb: Function): void;
 }
-import Component from "../../component";
+import Component from '../../component';
+import type Player from '../../player';
 //# sourceMappingURL=time-tooltip.d.ts.map

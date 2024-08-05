@@ -3,32 +3,33 @@
  */
 export type MimetypesKind = any;
 export namespace MimetypesKind {
-    const opus: string;
-    const ogv: string;
-    const mp4: string;
-    const mov: string;
-    const m4v: string;
-    const mkv: string;
-    const m4a: string;
-    const mp3: string;
-    const aac: string;
-    const caf: string;
-    const flac: string;
-    const oga: string;
-    const wav: string;
-    const m3u8: string;
-    const mpd: string;
-    const jpg: string;
-    const jpeg: string;
-    const gif: string;
-    const png: string;
-    const svg: string;
-    const webp: string;
+    let opus: string;
+    let ogv: string;
+    let mp4: string;
+    let mov: string;
+    let m4v: string;
+    let mkv: string;
+    let m4a: string;
+    let mp3: string;
+    let aac: string;
+    let caf: string;
+    let flac: string;
+    let oga: string;
+    let wav: string;
+    let m3u8: string;
+    let mpd: string;
+    let jpg: string;
+    let jpeg: string;
+    let gif: string;
+    let png: string;
+    let svg: string;
+    let webp: string;
 }
 export function getMimetype(src?: string): string;
-export function findMimetype(player: import('../player').default, src: string): string;
+export function findMimetype(player: Player, src: string): string;
 /**
  * ~Kind
  */
 export type Mimetypes = any;
+import type Player from '../player';
 //# sourceMappingURL=mimetypes.d.ts.map

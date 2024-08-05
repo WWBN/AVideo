@@ -103,8 +103,19 @@ bryntum:
     - diagram-subtask
     - diagram-successor
     - table-cells-row-lock
+    - table-cells-row-unlock
   label: Bryntum
   url: 'https://bryntum.com'
+bundeskriminalamt:
+  icons:
+    - globe-wifi
+    - hydra
+    - lightbulb-message
+    - octopus
+    - user-beard-bolt
+    - user-hoodie
+  label: 'Bundeskriminalamt, Cybercrime Division'
+  url: 'https://www.bka.de'
 büromöbel-experte-gmb-h &co-kg:
   icons:
     - buromobelexperte
@@ -885,7 +896,7 @@ screenpal:
   icons:
     - screenpal
   label: ScreenPal
-  url: 'https://screencast-o-matic.com/screenpal'
+  url: 'https://screenpal.com'
 search-eng-in:
   icons:
     - searchengin

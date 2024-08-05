@@ -9,21 +9,22 @@ declare class AudioTrackList extends TrackList {
     /**
      * Create an instance of this class.
      *
-     * @param { import('./audio-track').default[] } [tracks=[]]
+     * @param {AudioTrack[]} [tracks=[]]
      *        A list of `AudioTrack` to instantiate the list with.
      */
-    constructor(tracks?: import('./audio-track').default[]);
+    constructor(tracks?: AudioTrack[]);
     changing_: boolean;
     /**
      * Add an {@link AudioTrack} to the `AudioTrackList`.
      *
-     * @param { import('./audio-track').default } track
+     * @param {AudioTrack} track
      *        The AudioTrack to add to the list
      *
      * @fires TrackList#addtrack
      */
-    addTrack(track: import('./audio-track').default): void;
+    addTrack(track: AudioTrack): void;
     removeTrack(rtrack: any): void;
 }
-import TrackList from "./track-list";
+import TrackList from './track-list';
+import type AudioTrack from './audio-track';
 //# sourceMappingURL=audio-track-list.d.ts.map

@@ -1,4 +1,5 @@
 export default VolumeLevelTooltip;
+/** @import Player from '../../player' */
 /**
  * Volume level tooltips display a volume above or side by side the volume bar.
  *
@@ -8,13 +9,13 @@ declare class VolumeLevelTooltip extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The {@link Player} that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * Updates the position of the tooltip relative to the `VolumeBar` and
      * its content text.
@@ -69,5 +70,6 @@ declare class VolumeLevelTooltip extends Component {
      */
     updateVolume(rangeBarRect: any, rangeBarPoint: number, vertical: boolean, volume: number, cb: Function): void;
 }
-import Component from "../../component";
+import Component from '../../component';
+import type Player from '../../player';
 //# sourceMappingURL=volume-level-tooltip.d.ts.map

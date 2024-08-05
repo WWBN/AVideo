@@ -2,6 +2,7 @@ import videojs from 'video.js';
 import adBreak from '../adBreak.js';
 
 import States from '../states.js';
+import AdsError from '../consts/errors.js';
 
 const AdState = States.getState('AdState');
 
@@ -136,7 +137,7 @@ class Preroll extends AdState {
     videojs.log('adserror (Preroll)');
 
     player.ads.error({
-      errorType: videojs.Error.AdsPrerollError
+      errorType: AdsError.AdsPrerollError
     });
 
     // In the future, we may not want to do this automatically.

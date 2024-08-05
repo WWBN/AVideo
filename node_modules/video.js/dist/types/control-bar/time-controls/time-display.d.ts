@@ -1,4 +1,5 @@
 export default TimeDisplay;
+/** @import Player from '../../player' */
 /**
  * Displays time information about the video
  *
@@ -8,13 +9,13 @@ declare class TimeDisplay extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * Create the `Component`'s DOM element
      *
@@ -68,5 +69,6 @@ declare class TimeDisplay extends Component {
      */
     protected controlText_: string;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
+import type Player from '../../player';
 //# sourceMappingURL=time-display.d.ts.map

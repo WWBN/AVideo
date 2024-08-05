@@ -67,7 +67,7 @@
     "RFC6265",
     "RFC2965"
   ],
-  "version": "4.1.3",
+  "version": "4.1.4",
   "homepage": "https://github.com/salesforce/tough-cookie",
   "repository": {
     "type": "git",

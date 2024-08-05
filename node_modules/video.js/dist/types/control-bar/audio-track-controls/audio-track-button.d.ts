@@ -23,6 +23,6 @@ declare class AudioTrackButton extends TrackButton {
      */
     protected controlText_: string;
 }
-import TrackButton from "../track-button.js";
-import AudioTrackMenuItem from "./audio-track-menu-item.js";
+import TrackButton from '../track-button.js';
+import AudioTrackMenuItem from './audio-track-menu-item.js';
 //# sourceMappingURL=audio-track-button.d.ts.map

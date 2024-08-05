@@ -1,4 +1,5 @@
 export default Slider;
+/** @import Player from '../player' */
 /**
  * The base functionality for a slider. Can be vertical or horizontal.
  * For instance the volume bar or the seek bar on a video is a slider.
@@ -9,13 +10,13 @@ declare class Slider extends Component {
     /**
    * Create an instance of this class
    *
-   * @param { import('../player').default } player
+   * @param {Player} player
    *        The `Player` that this class should be attached to.
    *
    * @param {Object} [options]
    *        The key/value store of player options.
    */
-    constructor(player: import('../player').default, options?: any);
+    constructor(player: Player, options?: any);
     handleMouseDown_: (e: any) => void;
     handleMouseUp_: (e: any) => void;
     handleKeyDown_: (e: any) => void;
@@ -143,5 +144,6 @@ declare class Slider extends Component {
     vertical(bool?: boolean): boolean;
     vertical_: boolean;
 }
-import Component from "../component.js";
+import Component from '../component.js';
+import type Player from '../player';
 //# sourceMappingURL=slider.d.ts.map

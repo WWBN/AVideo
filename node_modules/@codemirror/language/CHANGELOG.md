@@ -1,3 +1,9 @@
+## 6.10.2 (2024-06-03)
+
+### Bug fixes
+
+Fix an infinite loop that could occur when enabling `bidiIsolates` in documents with both bidirectional text and very long lines.
+
 ## 6.10.1 (2024-02-02)
 
 ### Bug fixes

@@ -1,4 +1,5 @@
 export default PlaybackRateMenuButton;
+/** @import Player from '../../player' */
 /**
  * The component for controlling the playback rate.
  *
@@ -61,6 +62,6 @@ declare class PlaybackRateMenuButton extends MenuButton {
      */
     protected controlText_: string;
 }
-import MenuButton from "../../menu/menu-button.js";
-import PlaybackRateMenuItem from "./playback-rate-menu-item.js";
+import MenuButton from '../../menu/menu-button.js';
+import PlaybackRateMenuItem from './playback-rate-menu-item.js';
 //# sourceMappingURL=playback-rate-menu-button.d.ts.map

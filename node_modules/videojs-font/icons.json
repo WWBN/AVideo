@@ -142,8 +142,8 @@
     "root-dir": "./custom-icons/fontawesome/"
   }, {
     "name": "twitter",
-    "svg": "twitter.svg",
-    "root-dir": "./custom-icons/fontawesome/"
+    "svg": "twitterx.svg",
+    "root-dir": "./custom-icons/"
   }, {
     "name": "tumblr",
     "svg": "tumblr.svg",

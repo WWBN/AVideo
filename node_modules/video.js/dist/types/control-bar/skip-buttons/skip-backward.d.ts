@@ -25,5 +25,5 @@ declare class SkipBackward extends Button {
      */
     handleClick(event: any): void;
 }
-import Button from "../../button";
+import Button from '../../button';
 //# sourceMappingURL=skip-backward.d.ts.map

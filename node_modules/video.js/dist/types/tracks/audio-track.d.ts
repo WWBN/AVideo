@@ -33,5 +33,5 @@ declare class AudioTrack extends Track {
     enabled: any;
     loaded_: boolean;
 }
-import Track from "./track";
+import Track from './track';
 //# sourceMappingURL=audio-track.d.ts.map

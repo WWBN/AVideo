@@ -1,4 +1,5 @@
 export default TextTrackButton;
+/** @import Player from '../../player' */
 /**
  * The base class for buttons that toggle specific text track types (e.g. subtitles)
  *
@@ -8,13 +9,13 @@ declare class TextTrackButton {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options={}]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * Create a menu item for each text track
      *
@@ -27,5 +28,6 @@ declare class TextTrackButton {
     createItems(items?: TextTrackMenuItem[], TrackMenuItem?: typeof TextTrackMenuItem): TextTrackMenuItem[];
     kinds_: any[];
 }
-import TextTrackMenuItem from "./text-track-menu-item.js";
+import TextTrackMenuItem from './text-track-menu-item.js';
+import type Player from '../../player';
 //# sourceMappingURL=text-track-button.d.ts.map

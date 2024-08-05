@@ -14,5 +14,5 @@ declare class TimeDivider extends Component {
      */
     createEl(): Element;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
 //# sourceMappingURL=time-divider.d.ts.map

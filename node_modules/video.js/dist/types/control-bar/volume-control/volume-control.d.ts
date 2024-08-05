@@ -8,13 +8,13 @@ declare class VolumeControl extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options={}]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     throttledHandleMouseMove: Function;
     handleMouseUpHandler_: (e: any) => void;
     /**
@@ -55,5 +55,6 @@ declare class VolumeControl extends Component {
      */
     handleMouseMove(event: Event): void;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
+import type Player from '../../player';
 //# sourceMappingURL=volume-control.d.ts.map

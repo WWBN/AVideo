@@ -80,6 +80,13 @@ export let CHROMIUM_VERSION: number | null;
  */
 export let CHROME_VERSION: number | null;
 /**
+ * Whether or not this is a Chromecast receiver application.
+ *
+ * @static
+ * @type {Boolean}
+ */
+export const IS_CHROMECAST_RECEIVER: boolean;
+/**
  * The detected Internet Explorer version - or `null`.
  *
  * @static

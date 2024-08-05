@@ -9,14 +9,14 @@ export default _default;
  * state of all {@link TextTrack}s currently configured. The return array is compatible with
  * {@link text-track-list-converter:jsonToTextTracks}.
  *
- * @param { import('../tech/tech').default } tech
+ * @param {Tech} tech
  *        The tech object to query
  *
  * @return {Array}
  *         A serializable javascript representation of the {@link Tech}s
  *         {@link TextTrackList}.
  */
-declare function textTracksToJson(tech: import('../tech/tech').default): any[];
+declare function textTracksToJson(tech: Tech): any[];
 /**
  * Create a set of remote {@link TextTrack}s on a {@link Tech} based on an array of javascript
  * object {@link TextTrack} representations.
@@ -35,6 +35,7 @@ declare function jsonToTextTracks(json: any[], tech: Tech): any;
  *
  * @module text-track-list-converter
  */
+/** @import Tech from '../tech/tech' */
 /**
  * Examine a single {@link TextTrack} and return a JSON-compatible javascript object that
  * represents the {@link TextTrack}'s state.
@@ -47,4 +48,5 @@ declare function jsonToTextTracks(json: any[], tech: Tech): any;
  * @private
  */
 declare function trackToJson_(track: TextTrack): any;
+import type Tech from '../tech/tech';
 //# sourceMappingURL=text-track-list-converter.d.ts.map

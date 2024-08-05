@@ -21,7 +21,7 @@ declare class TextTrackDisplay extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
@@ -30,7 +30,7 @@ declare class TextTrackDisplay extends Component {
      * @param {Function} [ready]
      *        The function to call when `TextTrackDisplay` is ready.
      */
-    constructor(player: import('../player').default, options?: any, ready?: Function);
+    constructor(player: Player, options?: any, ready?: Function);
     /**
     * Preselect a track following this precedence:
     * - matches the previously selected {@link TextTrack}'s language and kind
@@ -89,5 +89,6 @@ declare class TextTrackDisplay extends Component {
      */
     updateForTrack(tracks: TextTrack | TextTrack[]): void;
 }
-import Component from "../component";
+import Component from '../component';
+import type Player from '../player';
 //# sourceMappingURL=text-track-display.d.ts.map

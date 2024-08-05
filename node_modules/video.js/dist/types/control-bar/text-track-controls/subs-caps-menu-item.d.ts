@@ -8,5 +8,5 @@ export default SubsCapsMenuItem;
 declare class SubsCapsMenuItem extends TextTrackMenuItem {
     createEl(type: any, props: any, attrs: any): Element;
 }
-import TextTrackMenuItem from "./text-track-menu-item.js";
+import TextTrackMenuItem from './text-track-menu-item.js';
 //# sourceMappingURL=subs-caps-menu-item.d.ts.map

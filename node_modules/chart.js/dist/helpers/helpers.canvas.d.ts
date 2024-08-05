@@ -33,7 +33,7 @@ export declare function _alignPixel(chart: Chart, pixel: number, width: number):
 /**
  * Clears the entire canvas.
  */
-export declare function clearCanvas(canvas: HTMLCanvasElement, ctx?: CanvasRenderingContext2D): void;
+export declare function clearCanvas(canvas?: HTMLCanvasElement, ctx?: CanvasRenderingContext2D): void;
 export interface DrawPointOptions {
     pointStyle: PointStyle;
     rotation?: number;

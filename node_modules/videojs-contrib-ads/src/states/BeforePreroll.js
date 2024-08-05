@@ -1,5 +1,5 @@
-import videojs from 'video.js';
 import States from '../states.js';
+import AdsError from '../consts/errors.js';
 
 const ContentState = States.getState('ContentState');
 
@@ -68,7 +68,7 @@ class BeforePreroll extends ContentState {
     this.player.ads.debug('adserror (BeforePreroll)');
 
     this.player.ads.error({
-      errorType: videojs.Error.BeforePrerollError
+      errorType: AdsError.AdsBeforePrerollError
     });
 
     this.shouldResumeToContent = true;

@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.1.0 (2024-05-08)
+ * TinyMCE version 7.2.1 (2024-07-03)
  */
 
 (function () {
@@ -195,11 +195,19 @@
               Array.prototype.push.apply(word, url);
               i = endOfUrl;
             }
+            if (sChars[i + 1] === '.' && /^([a-zA-Z]\.)+$/.test(str + '.')) {
+              word.push(chars[i + 1]);
+              indices.push({
+                start: startOfWord,
+                end: endOfWord + 1
+              });
+            } else {
+              indices.push({
+                start: startOfWord,
+                end: endOfWord
+              });
+            }
             words.push(word);
-            indices.push({
-              start: startOfWord,
-              end: endOfWord
-            });
           }
           word = [];
         }

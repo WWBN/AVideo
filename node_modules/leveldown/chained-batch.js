@@ -1,3 +1,5 @@
+'use strict'
+
 const util = require('util')
 const AbstractChainedBatch = require('abstract-leveldown').AbstractChainedBatch
 const binding = require('./binding')

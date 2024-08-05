@@ -80,5 +80,5 @@ declare class VolumeBar extends Slider {
      */
     playerEvent: string;
 }
-import Slider from "../../slider/slider.js";
+import Slider from '../../slider/slider.js';
 //# sourceMappingURL=volume-bar.d.ts.map

@@ -22,7 +22,22 @@
       ["OS == 'mac'", {
         "cflags+": ["-fvisibility=hidden"],
         "xcode_settings": {
-          "GCC_SYMBOLS_PRIVATE_EXTERN": "YES" # -fvisibility=hidden
+          # -fvisibility=hidden
+          "GCC_SYMBOLS_PRIVATE_EXTERN": "YES",
+
+          # Set minimum target version because we're building on newer
+          # Same as https://github.com/nodejs/node/blob/v10.0.0/common.gypi#L416
+          "MACOSX_DEPLOYMENT_TARGET": "10.7",
+
+          # Build universal binary to support M1 (Apple silicon)
+          "OTHER_CFLAGS": [
+            "-arch x86_64",
+            "-arch arm64"
+          ],
+          "OTHER_LDFLAGS": [
+            "-arch x86_64",
+            "-arch arm64"
+          ]
         }
       }],
       ["OS == 'android'", {

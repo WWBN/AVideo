@@ -42,6 +42,7 @@ if (!class_exists('Video')) {
         protected $videoLink;
         protected $next_videos_id;
         protected $isSuggested;
+        protected $isChannelSuggested;
         public static $types = ['webm', 'mp4', 'mp3', 'ogg', 'pdf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'zip'];
         protected $videoGroups;
         protected $trailer1;
@@ -149,6 +150,7 @@ if (!class_exists('Video')) {
         const ASPECT_RATIO_HORIZONTAL = '16:9';
 
 
+        const SORT_TYPE_CHANNELSUGGESTED = 'channelSuggested';
         const SORT_TYPE_SUGGESTED = 'suggested';
         const SORT_TYPE_VIEWABLE = 'viewable';
         const SORT_TYPE_VIEWABLENOTUNLISTED = 'viewableNotUnlisted';
@@ -388,16 +390,15 @@ if (!class_exists('Video')) {
         {
             AVideoPlugin::onVideoSetLive_transmitions_history_id($this->id, $this->live_transmitions_history_id, intval($live_transmitions_history_id));
             $this->live_transmitions_history_id = intval($live_transmitions_history_id);
-           
+
             if (empty($this->id)) {
                 $obj = AVideoPlugin::getDataObjectIfEnabled('LiveUsers');
-                if(!empty($obj) && !empty($obj->saveTotalViewsWhenSaveARecordedLive)){
+                if (!empty($obj) && !empty($obj->saveTotalViewsWhenSaveARecordedLive)) {
                     $lt = new LiveTransmitionHistory($this->live_transmitions_history_id);
-                    $totalViews = LiveUsers::getTotalUsers( $lt->getKey(), $lt->getLive_servers_id());
+                    $totalViews = LiveUsers::getTotalUsers($lt->getKey(), $lt->getLive_servers_id());
                     $this->setViews_count($totalViews);
                 }
             }
-
         }
 
         public function getEncoderURL()
@@ -518,6 +519,12 @@ if (!class_exists('Video')) {
                 $this->isSuggested = 0;
             } else {
                 $this->isSuggested = 1;
+            }
+
+            if (empty($this->isChannelSuggested)) {
+                $this->isChannelSuggested = 0;
+            } else {
+                $this->isChannelSuggested = 1;
             }
 
             $this->views_count = intval($this->views_count);
@@ -684,6 +691,10 @@ if (!class_exists('Video')) {
                     $cacheHandler->deleteCache();
                 }
                 self::clearCache($this->id);
+                if(!empty($global['notifiedVideos'][$this->id])){
+                    // the video was notified mark it as notified already
+                    $this->setVideoNotified();
+                }
                 return $this->id;
             }
             /**
@@ -821,6 +832,21 @@ if (!class_exists('Video')) {
             }
             AVideoPlugin::onVideoSetIsSuggested($this->id, $this->isSuggested, $new_isSuggested);
             $this->isSuggested = $new_isSuggested;
+        }
+
+        public function getIsChannelSuggested()
+        {
+            return $this->isChannelSuggested;
+        }
+
+        public function setIsChannelSuggested($isChannelSuggested)
+        {
+            if (empty($isChannelSuggested) || $isChannelSuggested === "false") {
+                $isChannelSuggested = 0;
+            } else {
+                $isChannelSuggested = 1;
+            }
+            $this->isChannelSuggested = $isChannelSuggested;
         }
 
         public function setStatus($status)
@@ -1265,6 +1291,9 @@ if (!class_exists('Video')) {
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . "LEFT JOIN videos nv ON v.next_videos_id = nv.id "
                 . " WHERE 1=1 ";
+            if ($status === Video::SORT_TYPE_CHANNELSUGGESTED) {
+                $sql .= " AND v.isChannelSuggested = 1 ";
+            }
             if (isForKidsSet()) {
                 $sql .= " AND v.made_for_kids = 1 ";
             }
@@ -1732,7 +1761,9 @@ if (!class_exists('Video')) {
                 . " LEFT JOIN categories c ON categories_id = c.id "
                 . " LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 2=2 ";
-
+            if ($status === Video::SORT_TYPE_CHANNELSUGGESTED) {
+                $sql .= " AND isChannelSuggested = 1 ";
+            }
             if (isForKidsSet()) {
                 $sql .= " AND made_for_kids = 1 ";
             }
@@ -2173,7 +2204,8 @@ if (!class_exists('Video')) {
             return $row;
         }
 
-        static function getBlankExternalOptions(){
+        static function getBlankExternalOptions()
+        {
             return ['videoStartSeconds' => '00:00:00', 'videoSkipIntroSecond' => '00:00:00'];
         }
 
@@ -3803,7 +3835,7 @@ if (!class_exists('Video')) {
             } else {
                 $new_trailer1 = '';
             }
-            AVideoPlugin::onVideoSetTrailer1($this->id, $this->trailer1, $new_trailer1);
+            AVideoPlugin::onVideoSetTrailer1($this, $new_trailer1);
             $this->trailer1 = $new_trailer1;
         }
 
@@ -3814,7 +3846,7 @@ if (!class_exists('Video')) {
             } else {
                 $new_trailer2 = '';
             }
-            AVideoPlugin::onVideoSetTrailer2($this->id, $this->trailer2, $new_trailer2);
+            AVideoPlugin::onVideoSetTrailer2($this, $new_trailer2);
             $this->trailer2 = $new_trailer2;
         }
 
@@ -3825,7 +3857,7 @@ if (!class_exists('Video')) {
             } else {
                 $new_trailer3 = '';
             }
-            AVideoPlugin::onVideoSetTrailer3($this->id, $this->trailer3, $new_trailer3);
+            AVideoPlugin::onVideoSetTrailer3($this, $new_trailer3);
             $this->trailer3 = $new_trailer3;
         }
 
@@ -5552,7 +5584,7 @@ if (!class_exists('Video')) {
         public static function clearCache($videos_id, $deleteThumbs = false, $clearFirstPageCache = false, $async = true)
         {
             global $global;
-            
+
             $video = new Video("", "", $videos_id);
             $filename = $video->getFilename();
             if (empty($filename)) {
@@ -5563,17 +5595,17 @@ if (!class_exists('Video')) {
                 self::deleteThumbs($filename, true);
             }
 
-            if($async){
+            if ($async) {
                 $videos_id = intval($videos_id);
-                $deleteThumbs = !empty($deleteThumbs)?'true':'false';
-                $clearFirstPageCache = !empty($clearFirstPageCache)?'true':'false';
+                $deleteThumbs = !empty($deleteThumbs) ? 'true' : 'false';
+                $clearFirstPageCache = !empty($clearFirstPageCache) ? 'true' : 'false';
                 execAsync("php {$global['systemRootPath']}plugin/Cache/deleteVideo.json.php $videos_id $deleteThumbs $clearFirstPageCache");
-            }else{
+            } else {
                 return self::_clearCache($videos_id, $clearFirstPageCache, false);
             }
         }
 
-        public static function _clearCache($videos_id, $clearFirstPageCache = false, $schedule=true)
+        public static function _clearCache($videos_id, $clearFirstPageCache = false, $schedule = true)
         {
             //_error_log("Video:clearCache($videos_id)");
             $video = new Video("", "", $videos_id);
@@ -6090,6 +6122,23 @@ if (!class_exists('Video')) {
                 return '';
             }
             return $externalOptions->embedWhitelist;
+        }
+
+
+        public function setVideoNotified()
+        {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            $externalOptions->notified = time();
+            $this->setExternalOptions(json_encode($externalOptions));
+        }
+
+        public function getVideoNotified()
+        {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            if (empty($externalOptions->notified)) {
+                return false;
+            }
+            return $externalOptions->notified;
         }
 
         public static function getEmbedWhitelist($videos_id)

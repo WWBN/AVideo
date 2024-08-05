@@ -17,13 +17,14 @@ declare class VideoTrackList extends TrackList {
     /**
      * Add a {@link VideoTrack} to the `VideoTrackList`.
      *
-     * @param { import('./video-track').default } track
+     * @param {VideoTrack} track
      *        The VideoTrack to add to the list
      *
      * @fires TrackList#addtrack
      */
-    addTrack(track: import('./video-track').default): void;
+    addTrack(track: VideoTrack): void;
     removeTrack(rtrack: any): void;
 }
-import TrackList from "./track-list";
+import TrackList from './track-list';
+import type VideoTrack from './video-track';
 //# sourceMappingURL=video-track-list.d.ts.map

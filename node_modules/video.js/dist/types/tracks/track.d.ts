@@ -37,5 +37,5 @@ declare class Track extends EventTarget {
         language?: string;
     });
 }
-import EventTarget from "../event-target";
+import EventTarget from '../event-target';
 //# sourceMappingURL=track.d.ts.map

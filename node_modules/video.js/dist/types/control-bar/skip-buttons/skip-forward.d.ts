@@ -25,5 +25,5 @@ declare class SkipForward extends Button {
      */
     handleClick(event: any): void;
 }
-import Button from "../../button";
+import Button from '../../button';
 //# sourceMappingURL=skip-forward.d.ts.map

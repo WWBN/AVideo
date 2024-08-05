@@ -1,4 +1,5 @@
 export default TrackList;
+/** @import Track from './track' */
 /**
  * Common functionaliy between {@link TextTrackList}, {@link AudioTrackList}, and
  * {@link VideoTrackList}
@@ -9,37 +10,37 @@ declare class TrackList extends EventTarget {
     /**
      * Create an instance of this class
      *
-     * @param { import('./track').default[] } tracks
+     * @param { Track[] } tracks
      *        A list of tracks to initialize the list with.
      *
      * @abstract
      */
-    constructor(tracks?: import('./track').default[]);
+    constructor(tracks?: Track[]);
     tracks_: any[];
     /**
      * Add a {@link Track} to the `TrackList`
      *
-     * @param { import('./track').default } track
+     * @param {Track} track
      *        The audio, video, or text track to add to the list.
      *
      * @fires TrackList#addtrack
      */
-    addTrack(track: import('./track').default): void;
+    addTrack(track: Track): void;
     /**
      * Remove a {@link Track} from the `TrackList`
      *
-     * @param { import('./track').default } rtrack
+     * @param {Track} rtrack
      *        The audio, video, or text track to remove from the list.
      *
      * @fires TrackList#removetrack
      */
-    removeTrack(rtrack: import('./track').default): void;
+    removeTrack(rtrack: Track): void;
     /**
      * Get a Track from the TrackList by a tracks id
      *
      * @param {string} id - the id of the track to get
      * @method getTrackById
-     * @return { import('./track').default }
+     * @return {Track}
      * @private
      */
     private getTrackById;
@@ -62,5 +63,6 @@ declare class TrackList extends EventTarget {
         labelchange: string;
     };
 }
-import EventTarget from "../event-target";
+import EventTarget from '../event-target';
+import type Track from './track';
 //# sourceMappingURL=track-list.d.ts.map

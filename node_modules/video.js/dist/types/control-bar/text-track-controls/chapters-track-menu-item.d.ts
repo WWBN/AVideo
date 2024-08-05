@@ -1,4 +1,5 @@
 export default ChaptersTrackMenuItem;
+/** @import Player from '../../player' */
 /**
  * The chapter track menu item
  *
@@ -20,5 +21,5 @@ declare class ChaptersTrackMenuItem extends MenuItem {
      */
     handleClick(event?: Event): void;
 }
-import MenuItem from "../../menu/menu-item.js";
+import MenuItem from '../../menu/menu-item.js';
 //# sourceMappingURL=chapters-track-menu-item.d.ts.map

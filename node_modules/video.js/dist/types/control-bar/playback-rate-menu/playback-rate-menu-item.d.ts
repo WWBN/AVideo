@@ -1,4 +1,5 @@
 export default PlaybackRateMenuItem;
+/** @import Player from '../../player' */
 /**
  * The specific menu item type for selecting a playback rate.
  *
@@ -36,5 +37,5 @@ declare class PlaybackRateMenuItem extends MenuItem {
      */
     private contentElType;
 }
-import MenuItem from "../../menu/menu-item.js";
+import MenuItem from '../../menu/menu-item.js';
 //# sourceMappingURL=playback-rate-menu-item.d.ts.map

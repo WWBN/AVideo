@@ -4,6 +4,7 @@ restoring the player state after an ad.
 */
 
 import videojs from 'video.js';
+import AdsError from './consts/errors.js';
 
 let tryToResumeTimeout_;
 
@@ -197,7 +198,7 @@ export function restorePlayerSnapshot(player, callback) {
         resume();
       } catch (e) {
         player.ads.error({
-          errorType: videojs.Error.AdsResumeContentFailed,
+          errorType: AdsError.AdsResumeContentFailed,
           error: e
         });
 

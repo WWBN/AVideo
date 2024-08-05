@@ -9,13 +9,13 @@ declare class PlayProgressBar extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The {@link Player} that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * Enqueues updates to its own DOM as well as the DOM of its
      * {@link TimeTooltip} child.
@@ -36,5 +36,6 @@ declare class PlayProgressBar extends Component {
      */
     createEl(): Element;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
+import type Player from '../../player';
 //# sourceMappingURL=play-progress-bar.d.ts.map

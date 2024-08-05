@@ -1,6 +1,7 @@
 import videojs from 'video.js';
 import adBreak from '../adBreak.js';
 import States from '../states.js';
+import AdsError from '../consts/errors.js';
 
 const AdState = States.getState('AdState');
 
@@ -118,7 +119,7 @@ class Postroll extends AdState {
     player.ads.debug('Postroll abort (adserror)');
 
     player.ads.error({
-      errorType: videojs.Error.AdsPostrollError
+      errorType: AdsError.AdsPostrollError
     });
 
     // In the future, we may not want to do this automatically.

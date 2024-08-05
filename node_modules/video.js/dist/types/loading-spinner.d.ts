@@ -13,5 +13,5 @@ declare class LoadingSpinner extends Component {
      */
     createEl(): Element;
 }
-import Component from "./component";
+import Component from './component';
 //# sourceMappingURL=loading-spinner.d.ts.map

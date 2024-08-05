@@ -1,16 +1,5 @@
 export default videojs;
-/**
- * A callback that is called when a component is ready. Does not have any
- * parameters and any callback value will be ignored. See: {@link Component ~ReadyCallback}
- */
-export type ReadyCallback = () => any;
 export type version = string;
-/**
- * A callback that is called when a component is ready. Does not have any
- * parameters and any callback value will be ignored. See: {@link Component~ReadyCallback}
- *
- * @callback ReadyCallback
- */
 /**
  * The `videojs()` function doubles as the main function for users to create a
  * {@link Player} instance as well as the main library namespace.
@@ -72,14 +61,14 @@ export type version = string;
  *         Options object for providing settings.
  *         See: [Options Guide](https://docs.videojs.com/tutorial-options.html).
  *
- * @param  {ReadyCallback} [ready]
+ * @param  {PlayerReadyCallback} [ready]
  *         A function to be called when the {@link Player} and {@link Tech} are
  *         ready.
  *
  * @return {Player}
  *         The `videojs()` function returns a {@link Player|Player} instance.
  */
-declare function videojs(id: string | Element, options?: any, ready?: ReadyCallback): Player;
+declare function videojs(id: string | Element, options?: any, ready?: PlayerReadyCallback): Player;
 declare namespace videojs {
     export { hooks_ };
     export { hooks };
@@ -87,7 +76,7 @@ declare namespace videojs {
     export { hookOnce };
     export { removeHook };
     export { version as VERSION };
-    export const options: any;
+    export let options: any;
     /**
      * Get an object with the currently created players, keyed by player ID
      *
@@ -109,7 +98,7 @@ declare namespace videojs {
      *          A player instance or `undefined` if there is no player instance
      *          matching the argument.
      */
-    export function getPlayer(id: string | Element): Player;
+    export function getPlayer(id: string | Element): Player | undefined;
     /**
      * Returns an array of all current players.
      *
@@ -120,8 +109,8 @@ declare namespace videojs {
      *
      */
     export function getAllPlayers(): any[];
-    export const players: any;
-    export const getComponent: typeof Component.getComponent;
+    export let players: any;
+    export let getComponent: typeof Component.getComponent;
     /**
      * Register a component so it can referred to by name. Used when adding to other
      * components, either through addChild `component.addChild('myComponent')` or through
@@ -140,19 +129,19 @@ declare namespace videojs {
      *         The newly registered component
      */
     export function registerComponent(name: string, comp: typeof Component): typeof Component;
-    export const getTech: typeof Tech.getTech;
-    export const registerTech: typeof Tech.registerTech;
+    export let getTech: typeof Tech.getTech;
+    export let registerTech: typeof Tech.registerTech;
     export { middlewareUse as use };
     export namespace middleware {
-        const TERMINATOR: {};
+        let TERMINATOR: {};
     }
     export { browser };
     export { Obj as obj };
-    export const mergeOptions: Function;
-    export const defineLazyProperty: Function;
-    export const bind: Function;
-    export const registerPlugin: typeof Plugin.registerPlugin;
-    export const deregisterPlugin: typeof Plugin.deregisterPlugin;
+    export let mergeOptions: Function;
+    export let defineLazyProperty: Function;
+    export let bind: Function;
+    export let registerPlugin: typeof Plugin.registerPlugin;
+    export let deregisterPlugin: typeof Plugin.deregisterPlugin;
     /**
      * Deprecated method to register a plugin with Video.js
      *
@@ -166,10 +155,10 @@ declare namespace videojs {
      *
      * @return {typeof Plugin|Function}
      */
-    export function plugin(name: string, plugin: Function | typeof Plugin): Function | typeof Plugin;
-    export const getPlugins: typeof Plugin.getPlugins;
-    export const getPlugin: (name: string) => Function | typeof Plugin;
-    export const getPluginVersion: typeof Plugin.getPluginVersion;
+    export function plugin(name: string, plugin: typeof Plugin | Function): typeof Plugin | Function;
+    export let getPlugins: typeof Plugin.getPlugins;
+    export let getPlugin: (name: string) => typeof Plugin | Function | undefined;
+    export let getPluginVersion: typeof Plugin.getPluginVersion;
     /**
      * Adding languages so that they're available to all players.
      * Example: `videojs.addLanguage('es', { 'Hello': 'Hola' });`
@@ -187,24 +176,24 @@ declare namespace videojs {
     export { log };
     export { createLogger };
     export { Time as time };
-    export const createTimeRange: Function;
-    export const createTimeRanges: Function;
-    export const formatTime: Function;
-    export const setFormatTime: Function;
-    export const resetFormatTime: Function;
-    export const parseUrl: Function;
-    export const isCrossOrigin: Function;
+    export let createTimeRange: Function;
+    export let createTimeRanges: Function;
+    export let formatTime: Function;
+    export let setFormatTime: Function;
+    export let resetFormatTime: Function;
+    export let parseUrl: Function;
+    export let isCrossOrigin: Function;
     export { EventTarget };
-    export const any: typeof Events.any;
-    export const on: typeof Events.on;
-    export const one: typeof Events.one;
-    export const off: typeof Events.off;
-    export const trigger: typeof Events.trigger;
+    export let any: typeof Events.any;
+    export let on: typeof Events.on;
+    export let one: typeof Events.one;
+    export let off: typeof Events.off;
+    export let trigger: typeof Events.trigger;
     export { xhr };
     export { TextTrack };
     export { AudioTrack };
     export { VideoTrack };
-    export const computedStyle: Function;
+    export let computedStyle: Function;
     export { Dom as dom };
     export { Fn as fn };
     export { Num as num };
@@ -212,31 +201,32 @@ declare namespace videojs {
     export { Url as url };
     export { VjsErrors as Error };
 }
-import Player from "./player";
-import { hooks_ } from "./utils/hooks";
-import { hooks } from "./utils/hooks";
-import { hook } from "./utils/hooks";
-import { hookOnce } from "./utils/hooks";
-import { removeHook } from "./utils/hooks";
-import Component from "./component";
-import Tech from "./tech/tech.js";
-import { use as middlewareUse } from "./tech/middleware.js";
-import * as browser from "./utils/browser.js";
-import * as Obj from "./utils/obj";
-import Plugin from "./plugin";
-import log from "./utils/log.js";
-import { createLogger } from "./utils/log.js";
-import * as Time from "./utils/time.js";
-import EventTarget from "./event-target";
-import * as Events from "./utils/events.js";
-import xhr from "@videojs/xhr";
-import TextTrack from "./tracks/text-track.js";
-import AudioTrack from "./tracks/audio-track.js";
-import VideoTrack from "./tracks/video-track.js";
-import * as Dom from "./utils/dom.js";
-import * as Fn from "./utils/fn.js";
-import * as Num from "./utils/num.js";
-import * as Str from "./utils/str.js";
-import * as Url from "./utils/url.js";
-import VjsErrors from "./consts/errors";
+import type { PlayerReadyCallback } from './player';
+import Player from './player';
+import { hooks_ } from './utils/hooks';
+import { hooks } from './utils/hooks';
+import { hook } from './utils/hooks';
+import { hookOnce } from './utils/hooks';
+import { removeHook } from './utils/hooks';
+import Component from './component';
+import Tech from './tech/tech.js';
+import { use as middlewareUse } from './tech/middleware.js';
+import * as browser from './utils/browser.js';
+import * as Obj from './utils/obj';
+import Plugin from './plugin';
+import log from './utils/log.js';
+import { createLogger } from './utils/log.js';
+import * as Time from './utils/time.js';
+import EventTarget from './event-target';
+import * as Events from './utils/events.js';
+import xhr from '@videojs/xhr';
+import TextTrack from './tracks/text-track.js';
+import AudioTrack from './tracks/audio-track.js';
+import VideoTrack from './tracks/video-track.js';
+import * as Dom from './utils/dom.js';
+import * as Fn from './utils/fn.js';
+import * as Num from './utils/num.js';
+import * as Str from './utils/str.js';
+import * as Url from './utils/url.js';
+import VjsErrors from './consts/errors';
 //# sourceMappingURL=video.d.ts.map

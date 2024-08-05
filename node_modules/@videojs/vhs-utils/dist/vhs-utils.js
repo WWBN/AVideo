@@ -1,11 +1,11 @@
-/*! @name @videojs/vhs-utils @version 3.0.5 @license MIT */
+/*! @name @videojs/vhs-utils @version 4.0.0 @license MIT */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.vhsUtils = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
-  var regexs = {
+  const regexs = {
     // to determine mime types
     mp4: /^(av0?1|avc0?[1234]|vp0?9|flac|opus|mp3|mp4a|mp4v|stpp.ttml.im1t)/,
     webm: /^(vp0?[89]|av0?1|opus|vorbis)/,
@@ -22,8 +22,8 @@
     // so this matches nothing.
     muxerText: /a^/
   };
-  var mediaTypes = ['video', 'audio', 'text'];
-  var upperMediaTypes = ['Video', 'Audio', 'Text'];
+  const mediaTypes = ['video', 'audio', 'text'];
+  const upperMediaTypes = ['Video', 'Audio', 'Text'];
   /**
    * Replace the old apple-style `avc1.<dd>.<dd>` codec string with the standard
    * `avc1.<hhhhhh>`
@@ -34,14 +34,14 @@
    *         The translated codec string
    */
 
-  var translateLegacyCodec = function translateLegacyCodec(codec) {
+  const translateLegacyCodec = function (codec) {
     if (!codec) {
       return codec;
     }
 
     return codec.replace(/avc1\.(\d+)\.(\d+)/i, function (orig, profile, avcLevel) {
-      var profileHex = ('00' + Number(profile).toString(16)).slice(-2);
-      var avcLevelHex = ('00' + Number(avcLevel).toString(16)).slice(-2);
+      const profileHex = ('00' + Number(profile).toString(16)).slice(-2);
+      const avcLevelHex = ('00' + Number(avcLevel).toString(16)).slice(-2);
       return 'avc1.' + profileHex + '00' + avcLevelHex;
     });
   };
@@ -55,7 +55,7 @@
    *         The translated array of codec strings
    */
 
-  var translateLegacyCodecs = function translateLegacyCodecs(codecs) {
+  const translateLegacyCodecs = function (codecs) {
     return codecs.map(translateLegacyCodec);
   };
   /**
@@ -70,8 +70,8 @@
    * @private
    */
 
-  var mapLegacyAvcCodecs = function mapLegacyAvcCodecs(codecString) {
-    return codecString.replace(/avc1\.(\d+)\.(\d+)/i, function (match) {
+  const mapLegacyAvcCodecs = function (codecString) {
+    return codecString.replace(/avc1\.(\d+)\.(\d+)/i, match => {
       return translateLegacyCodecs([match])[0];
     });
   };
@@ -97,18 +97,14 @@
    *         Parsed codec info
    */
 
-  var parseCodecs = function parseCodecs(codecString) {
-    if (codecString === void 0) {
-      codecString = '';
-    }
-
-    var codecs = codecString.split(',');
-    var result = [];
+  const parseCodecs = function (codecString = '') {
+    const codecs = codecString.split(',');
+    const result = [];
     codecs.forEach(function (codec) {
       codec = codec.trim();
-      var codecType;
+      let codecType;
       mediaTypes.forEach(function (name) {
-        var match = regexs[name].exec(codec.toLowerCase());
+        const match = regexs[name].exec(codec.toLowerCase());
 
         if (!match || match.length <= 1) {
           return;
@@ -116,11 +112,11 @@
 
         codecType = name; // maintain codec case
 
-        var type = codec.substring(0, match[1].length);
-        var details = codec.replace(type, '');
+        const type = codec.substring(0, match[1].length);
+        const details = codec.replace(type, '');
         result.push({
-          type: type,
-          details: details,
+          type,
+          details,
           mediaType: name
         });
       });
@@ -147,19 +143,19 @@
    *         Parsed codec info
    */
 
-  var codecsFromDefault = function codecsFromDefault(master, audioGroupId) {
+  const codecsFromDefault = (master, audioGroupId) => {
     if (!master.mediaGroups.AUDIO || !audioGroupId) {
       return null;
     }
 
-    var audioGroup = master.mediaGroups.AUDIO[audioGroupId];
+    const audioGroup = master.mediaGroups.AUDIO[audioGroupId];
 
     if (!audioGroup) {
       return null;
     }
 
-    for (var name in audioGroup) {
-      var audioType = audioGroup[name];
+    for (const name in audioGroup) {
+      const audioType = audioGroup[name];
 
       if (audioType.default && audioType.playlists) {
         // codec should be the same for all playlists within the audio type
@@ -169,37 +165,17 @@
 
     return null;
   };
-  var isVideoCodec = function isVideoCodec(codec) {
-    if (codec === void 0) {
-      codec = '';
-    }
-
-    return regexs.video.test(codec.trim().toLowerCase());
-  };
-  var isAudioCodec = function isAudioCodec(codec) {
-    if (codec === void 0) {
-      codec = '';
-    }
-
-    return regexs.audio.test(codec.trim().toLowerCase());
-  };
-  var isTextCodec = function isTextCodec(codec) {
-    if (codec === void 0) {
-      codec = '';
-    }
-
-    return regexs.text.test(codec.trim().toLowerCase());
-  };
-  var getMimeForCodec = function getMimeForCodec(codecString) {
+  const isVideoCodec = (codec = '') => regexs.video.test(codec.trim().toLowerCase());
+  const isAudioCodec = (codec = '') => regexs.audio.test(codec.trim().toLowerCase());
+  const isTextCodec = (codec = '') => regexs.text.test(codec.trim().toLowerCase());
+  const getMimeForCodec = codecString => {
     if (!codecString || typeof codecString !== 'string') {
       return;
     }
 
-    var codecs = codecString.toLowerCase().split(',').map(function (c) {
-      return translateLegacyCodec(c.trim());
-    }); // default to video type
+    const codecs = codecString.toLowerCase().split(',').map(c => translateLegacyCodec(c.trim())); // default to video type
 
-    var type = 'video'; // only change to audio type if the only codec we have is
+    let type = 'video'; // only change to audio type if the only codec we have is
     // audio
 
     if (codecs.length === 1 && isAudioCodec(codecs[0])) {
@@ -210,53 +186,35 @@
     } // default the container to mp4
 
 
-    var container = 'mp4'; // every codec must be able to go into the container
+    let container = 'mp4'; // every codec must be able to go into the container
     // for that container to be the correct one
 
-    if (codecs.every(function (c) {
-      return regexs.mp4.test(c);
-    })) {
+    if (codecs.every(c => regexs.mp4.test(c))) {
       container = 'mp4';
-    } else if (codecs.every(function (c) {
-      return regexs.webm.test(c);
-    })) {
+    } else if (codecs.every(c => regexs.webm.test(c))) {
       container = 'webm';
-    } else if (codecs.every(function (c) {
-      return regexs.ogg.test(c);
-    })) {
+    } else if (codecs.every(c => regexs.ogg.test(c))) {
       container = 'ogg';
     }
 
-    return type + "/" + container + ";codecs=\"" + codecString + "\"";
+    return `${type}/${container};codecs="${codecString}"`;
   };
-  var browserSupportsCodec = function browserSupportsCodec(codecString) {
-    if (codecString === void 0) {
-      codecString = '';
-    }
+  const browserSupportsCodec = (codecString = '') => window.MediaSource && window.MediaSource.isTypeSupported && window.MediaSource.isTypeSupported(getMimeForCodec(codecString)) || false;
+  const muxerSupportsCodec = (codecString = '') => codecString.toLowerCase().split(',').every(codec => {
+    codec = codec.trim(); // any match is supported.
 
-    return window.MediaSource && window.MediaSource.isTypeSupported && window.MediaSource.isTypeSupported(getMimeForCodec(codecString)) || false;
-  };
-  var muxerSupportsCodec = function muxerSupportsCodec(codecString) {
-    if (codecString === void 0) {
-      codecString = '';
-    }
+    for (let i = 0; i < upperMediaTypes.length; i++) {
+      const type = upperMediaTypes[i];
 
-    return codecString.toLowerCase().split(',').every(function (codec) {
-      codec = codec.trim(); // any match is supported.
-
-      for (var i = 0; i < upperMediaTypes.length; i++) {
-        var type = upperMediaTypes[i];
-
-        if (regexs["muxer" + type].test(codec)) {
-          return true;
-        }
+      if (regexs[`muxer${type}`].test(codec)) {
+        return true;
       }
+    }
 
-      return false;
-    });
-  };
-  var DEFAULT_AUDIO_CODEC = 'mp4a.40.2';
-  var DEFAULT_VIDEO_CODEC = 'avc1.4d400d';
+    return false;
+  });
+  const DEFAULT_AUDIO_CODEC = 'mp4a.40.2';
+  const DEFAULT_VIDEO_CODEC = 'avc1.4d400d';
 
   var codecs = /*#__PURE__*/Object.freeze({
     __proto__: null,
@@ -276,8 +234,8 @@
   });
 
   // const log2 = Math.log2 ? Math.log2 : (x) => (Math.log(x) / Math.log(2));
-  var repeat = function repeat(str, len) {
-    var acc = '';
+  const repeat = function (str, len) {
+    let acc = '';
 
     while (len--) {
       acc += str;
@@ -289,31 +247,19 @@
   // Math.ceil(log2(x));
 
 
-  var countBits = function countBits(x) {
-    return x.toString(2).length;
-  }; // count the number of whole bytes it would take to represent a number
+  const countBits = x => x.toString(2).length; // count the number of whole bytes it would take to represent a number
 
-  var countBytes = function countBytes(x) {
-    return Math.ceil(countBits(x) / 8);
-  };
-  var padStart = function padStart(b, len, str) {
-    if (str === void 0) {
-      str = ' ';
-    }
-
-    return (repeat(str, len) + b.toString()).slice(-len);
-  };
-  var isArrayBufferView = function isArrayBufferView(obj) {
+  const countBytes = x => Math.ceil(countBits(x) / 8);
+  const padStart = (b, len, str = ' ') => (repeat(str, len) + b.toString()).slice(-len);
+  const isArrayBufferView = obj => {
     if (ArrayBuffer.isView === 'function') {
       return ArrayBuffer.isView(obj);
     }
 
     return obj && obj.buffer instanceof ArrayBuffer;
   };
-  var isTypedArray = function isTypedArray(obj) {
-    return isArrayBufferView(obj);
-  };
-  var toUint8 = function toUint8(bytes) {
+  const isTypedArray = obj => isArrayBufferView(obj);
+  const toUint8 = function (bytes) {
     if (bytes instanceof Uint8Array) {
       return bytes;
     }
@@ -330,31 +276,31 @@
 
     return new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0);
   };
-  var toHexString = function toHexString(bytes) {
+  const toHexString = function (bytes) {
     bytes = toUint8(bytes);
-    var str = '';
+    let str = '';
 
-    for (var i = 0; i < bytes.length; i++) {
+    for (let i = 0; i < bytes.length; i++) {
       str += padStart(bytes[i].toString(16), 2, '0');
     }
 
     return str;
   };
-  var toBinaryString = function toBinaryString(bytes) {
+  const toBinaryString = function (bytes) {
     bytes = toUint8(bytes);
-    var str = '';
+    let str = '';
 
-    for (var i = 0; i < bytes.length; i++) {
+    for (let i = 0; i < bytes.length; i++) {
       str += padStart(bytes[i].toString(2), 8, '0');
     }
 
     return str;
   };
-  var BigInt = window.BigInt || Number;
-  var BYTE_TABLE = [BigInt('0x1'), BigInt('0x100'), BigInt('0x10000'), BigInt('0x1000000'), BigInt('0x100000000'), BigInt('0x10000000000'), BigInt('0x1000000000000'), BigInt('0x100000000000000'), BigInt('0x10000000000000000')];
-  var ENDIANNESS = function () {
-    var a = new Uint16Array([0xFFCC]);
-    var b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength);
+  const BigInt = window.BigInt || Number;
+  const BYTE_TABLE = [BigInt('0x1'), BigInt('0x100'), BigInt('0x10000'), BigInt('0x1000000'), BigInt('0x100000000'), BigInt('0x10000000000'), BigInt('0x1000000000000'), BigInt('0x100000000000000'), BigInt('0x10000000000000000')];
+  const ENDIANNESS = function () {
+    const a = new Uint16Array([0xFFCC]);
+    const b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength);
 
     if (b[0] === 0xFF) {
       return 'big';
@@ -366,25 +312,22 @@
 
     return 'unknown';
   }();
-  var IS_BIG_ENDIAN = ENDIANNESS === 'big';
-  var IS_LITTLE_ENDIAN = ENDIANNESS === 'little';
-  var bytesToNumber = function bytesToNumber(bytes, _temp) {
-    var _ref = _temp === void 0 ? {} : _temp,
-        _ref$signed = _ref.signed,
-        signed = _ref$signed === void 0 ? false : _ref$signed,
-        _ref$le = _ref.le,
-        le = _ref$le === void 0 ? false : _ref$le;
-
+  const IS_BIG_ENDIAN = ENDIANNESS === 'big';
+  const IS_LITTLE_ENDIAN = ENDIANNESS === 'little';
+  const bytesToNumber = function (bytes, {
+    signed = false,
+    le = false
+  } = {}) {
     bytes = toUint8(bytes);
-    var fn = le ? 'reduce' : 'reduceRight';
-    var obj = bytes[fn] ? bytes[fn] : Array.prototype[fn];
-    var number = obj.call(bytes, function (total, byte, i) {
-      var exponent = le ? i : Math.abs(i + 1 - bytes.length);
+    const fn = le ? 'reduce' : 'reduceRight';
+    const obj = bytes[fn] ? bytes[fn] : Array.prototype[fn];
+    let number = obj.call(bytes, function (total, byte, i) {
+      const exponent = le ? i : Math.abs(i + 1 - bytes.length);
       return total + BigInt(byte) * BYTE_TABLE[exponent];
     }, BigInt(0));
 
     if (signed) {
-      var max = BYTE_TABLE[bytes.length] / BigInt(2) - BigInt(1);
+      const max = BYTE_TABLE[bytes.length] / BigInt(2) - BigInt(1);
       number = BigInt(number);
 
       if (number > max) {
@@ -396,22 +339,20 @@
 
     return Number(number);
   };
-  var numberToBytes = function numberToBytes(number, _temp2) {
-    var _ref2 = _temp2 === void 0 ? {} : _temp2,
-        _ref2$le = _ref2.le,
-        le = _ref2$le === void 0 ? false : _ref2$le;
-
+  const numberToBytes = function (number, {
+    le = false
+  } = {}) {
     // eslint-disable-next-line
     if (typeof number !== 'bigint' && typeof number !== 'number' || typeof number === 'number' && number !== number) {
       number = 0;
     }
 
     number = BigInt(number);
-    var byteCount = countBytes(number);
-    var bytes = new Uint8Array(new ArrayBuffer(byteCount));
+    const byteCount = countBytes(number);
+    const bytes = new Uint8Array(new ArrayBuffer(byteCount));
 
-    for (var i = 0; i < byteCount; i++) {
-      var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
+    for (let i = 0; i < byteCount; i++) {
+      const byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
       bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xFF));
 
       if (number < 0) {
@@ -422,7 +363,7 @@
 
     return bytes;
   };
-  var bytesToString = function bytesToString(bytes) {
+  const bytesToString = bytes => {
     if (!bytes) {
       return '';
     } // TODO: should toUint8 handle cases where we only have 8 bytes
@@ -430,7 +371,7 @@
 
 
     bytes = Array.prototype.slice.call(bytes);
-    var string = String.fromCharCode.apply(null, toUint8(bytes));
+    const string = String.fromCharCode.apply(null, toUint8(bytes));
 
     try {
       return decodeURIComponent(escape(string));
@@ -440,7 +381,7 @@
 
     return string;
   };
-  var stringToBytes = function stringToBytes(string, stringIsBytes) {
+  const stringToBytes = (string, stringIsBytes) => {
     if (typeof string !== 'string' && string && typeof string.toString === 'function') {
       string = string.toString();
     }
@@ -456,22 +397,16 @@
       string = unescape(encodeURIComponent(string));
     }
 
-    var view = new Uint8Array(string.length);
+    const view = new Uint8Array(string.length);
 
-    for (var i = 0; i < string.length; i++) {
+    for (let i = 0; i < string.length; i++) {
       view[i] = string.charCodeAt(i);
     }
 
     return view;
   };
-  var concatTypedArrays = function concatTypedArrays() {
-    for (var _len = arguments.length, buffers = new Array(_len), _key = 0; _key < _len; _key++) {
-      buffers[_key] = arguments[_key];
-    }
-
-    buffers = buffers.filter(function (b) {
-      return b && (b.byteLength || b.length) && typeof b !== 'string';
-    });
+  const concatTypedArrays = (...buffers) => {
+    buffers = buffers.filter(b => b && (b.byteLength || b.length) && typeof b !== 'string');
 
     if (buffers.length <= 1) {
       // for 0 length we will return empty uint8
@@ -479,11 +414,9 @@
       return toUint8(buffers[0]);
     }
 
-    var totalLen = buffers.reduce(function (total, buf, i) {
-      return total + (buf.byteLength || buf.length);
-    }, 0);
-    var tempBuffer = new Uint8Array(totalLen);
-    var offset = 0;
+    const totalLen = buffers.reduce((total, buf, i) => total + (buf.byteLength || buf.length), 0);
+    const tempBuffer = new Uint8Array(totalLen);
+    let offset = 0;
     buffers.forEach(function (buf) {
       buf = toUint8(buf);
       tempBuffer.set(buf, offset);
@@ -514,31 +447,28 @@
    *         bit masks.
    */
 
-  var bytesMatch = function bytesMatch(a, b, _temp3) {
-    var _ref3 = _temp3 === void 0 ? {} : _temp3,
-        _ref3$offset = _ref3.offset,
-        offset = _ref3$offset === void 0 ? 0 : _ref3$offset,
-        _ref3$mask = _ref3.mask,
-        mask = _ref3$mask === void 0 ? [] : _ref3$mask;
-
+  const bytesMatch = (a, b, {
+    offset = 0,
+    mask = []
+  } = {}) => {
     a = toUint8(a);
     b = toUint8(b); // ie 11 does not support uint8 every
 
-    var fn = b.every ? b.every : Array.prototype.every;
+    const fn = b.every ? b.every : Array.prototype.every;
     return b.length && a.length - offset >= b.length && // ie 11 doesn't support every on uin8
-    fn.call(b, function (bByte, i) {
-      var aByte = mask[i] ? mask[i] & a[offset + i] : a[offset + i];
+    fn.call(b, (bByte, i) => {
+      const aByte = mask[i] ? mask[i] & a[offset + i] : a[offset + i];
       return bByte === aByte;
     });
   };
-  var sliceBytes = function sliceBytes(src, start, end) {
+  const sliceBytes = function (src, start, end) {
     if (Uint8Array.prototype.slice) {
       return Uint8Array.prototype.slice.call(src, start, end);
     }
 
     return new Uint8Array(Array.prototype.slice.call(src, start, end));
   };
-  var reverseBytes = function reverseBytes(src) {
+  const reverseBytes = function (src) {
     if (src.reverse) {
       return src.reverse();
     }
@@ -569,7 +499,7 @@
     reverseBytes: reverseBytes
   });
 
-  var normalizePath = function normalizePath(path) {
+  const normalizePath$1 = function (path) {
     if (typeof path === 'string') {
       return stringToBytes(path);
     }
@@ -581,14 +511,12 @@
     return path;
   };
 
-  var normalizePaths = function normalizePaths(paths) {
+  const normalizePaths$1 = function (paths) {
     if (!Array.isArray(paths)) {
-      return [normalizePath(paths)];
+      return [normalizePath$1(paths)];
     }
 
-    return paths.map(function (p) {
-      return normalizePath(p);
-    });
+    return paths.map(p => normalizePath$1(p));
   };
   /**
    * find any number of boxes by name given a path to it in an iso bmff
@@ -611,31 +539,27 @@
    *         An array of the end paths that we found.
    */
 
-  var findBox = function findBox(bytes, paths, complete) {
-    if (complete === void 0) {
-      complete = false;
-    }
-
-    paths = normalizePaths(paths);
+  const findBox = function (bytes, paths, complete = false) {
+    paths = normalizePaths$1(paths);
     bytes = toUint8(bytes);
-    var results = [];
+    const results = [];
 
     if (!paths.length) {
       // short-circuit the search for empty paths
       return results;
     }
 
-    var i = 0;
+    let i = 0;
 
     while (i < bytes.length) {
-      var size = (bytes[i] << 24 | bytes[i + 1] << 16 | bytes[i + 2] << 8 | bytes[i + 3]) >>> 0;
-      var type = bytes.subarray(i + 4, i + 8); // invalid box format.
+      const size = (bytes[i] << 24 | bytes[i + 1] << 16 | bytes[i + 2] << 8 | bytes[i + 3]) >>> 0;
+      const type = bytes.subarray(i + 4, i + 8); // invalid box format.
 
       if (size === 0) {
         break;
       }
 
-      var end = i + size;
+      let end = i + size;
 
       if (end > bytes.length) {
         // this box is bigger than the number of bytes we have
@@ -647,7 +571,7 @@
         end = bytes.length;
       }
 
-      var data = bytes.subarray(i + 8, end);
+      const data = bytes.subarray(i + 8, end);
 
       if (bytesMatch(type, paths[0])) {
         if (paths.length === 1) {
@@ -671,7 +595,7 @@
   // https://www.matroska.org/technical/elements.html
   // https://www.webmproject.org/docs/container/
 
-  var EBML_TAGS = {
+  const EBML_TAGS = {
     EBML: toUint8([0x1A, 0x45, 0xDF, 0xA3]),
     DocType: toUint8([0x42, 0x82]),
     Segment: toUint8([0x18, 0x53, 0x80, 0x67]),
@@ -706,12 +630,12 @@
    * case we have to xor all the length bits from another value.
    */
 
-  var LENGTH_TABLE = [128, 64, 32, 16, 8, 4, 2, 1];
+  const LENGTH_TABLE = [0b10000000, 0b01000000, 0b00100000, 0b00010000, 0b00001000, 0b00000100, 0b00000010, 0b00000001];
 
-  var getLength = function getLength(byte) {
-    var len = 1;
+  const getLength = function (byte) {
+    let len = 1;
 
-    for (var i = 0; i < LENGTH_TABLE.length; i++) {
+    for (let i = 0; i < LENGTH_TABLE.length; i++) {
       if (byte & LENGTH_TABLE[i]) {
         break;
       }
@@ -727,17 +651,9 @@
   // from the left.
 
 
-  var getvint = function getvint(bytes, offset, removeLength, signed) {
-    if (removeLength === void 0) {
-      removeLength = true;
-    }
-
-    if (signed === void 0) {
-      signed = false;
-    }
-
-    var length = getLength(bytes[offset]);
-    var valueBytes = bytes.subarray(offset, offset + length); // NOTE that we do **not** subarray here because we need to copy these bytes
+  const getvint = function (bytes, offset, removeLength = true, signed = false) {
+    const length = getLength(bytes[offset]);
+    let valueBytes = bytes.subarray(offset, offset + length); // NOTE that we do **not** subarray here because we need to copy these bytes
     // as they will be modified below to remove the dataSizeLen bits and we do not
     // want to modify the original data. normally we could just call slice on
     // uint8array but ie 11 does not support that...
@@ -748,19 +664,17 @@
     }
 
     return {
-      length: length,
+      length,
       value: bytesToNumber(valueBytes, {
-        signed: signed
+        signed
       }),
       bytes: valueBytes
     };
   };
 
-  var normalizePath$1 = function normalizePath(path) {
+  const normalizePath = function (path) {
     if (typeof path === 'string') {
-      return path.match(/.{1,2}/g).map(function (p) {
-        return normalizePath(p);
-      });
+      return path.match(/.{1,2}/g).map(p => normalizePath(p));
     }
 
     if (typeof path === 'number') {
@@ -770,28 +684,26 @@
     return path;
   };
 
-  var normalizePaths$1 = function normalizePaths(paths) {
+  const normalizePaths = function (paths) {
     if (!Array.isArray(paths)) {
-      return [normalizePath$1(paths)];
+      return [normalizePath(paths)];
     }
 
-    return paths.map(function (p) {
-      return normalizePath$1(p);
-    });
+    return paths.map(p => normalizePath(p));
   };
 
-  var getInfinityDataSize = function getInfinityDataSize(id, bytes, offset) {
+  const getInfinityDataSize = (id, bytes, offset) => {
     if (offset >= bytes.length) {
       return bytes.length;
     }
 
-    var innerid = getvint(bytes, offset, false);
+    const innerid = getvint(bytes, offset, false);
 
     if (bytesMatch(id.bytes, innerid.bytes)) {
       return offset;
     }
 
-    var dataHeader = getvint(bytes, offset + innerid.length);
+    const dataHeader = getvint(bytes, offset + innerid.length);
     return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
   };
   /**
@@ -815,21 +727,21 @@
    */
 
 
-  var findEbml = function findEbml(bytes, paths) {
-    paths = normalizePaths$1(paths);
+  const findEbml = function (bytes, paths) {
+    paths = normalizePaths(paths);
     bytes = toUint8(bytes);
-    var results = [];
+    let results = [];
 
     if (!paths.length) {
       return results;
     }
 
-    var i = 0;
+    let i = 0;
 
     while (i < bytes.length) {
-      var id = getvint(bytes, i, false);
-      var dataHeader = getvint(bytes, i + id.length);
-      var dataStart = i + id.length + dataHeader.length; // dataSize is unknown or this is a live stream
+      const id = getvint(bytes, i, false);
+      const dataHeader = getvint(bytes, i + id.length);
+      const dataStart = i + id.length + dataHeader.length; // dataSize is unknown or this is a live stream
 
       if (dataHeader.value === 0x7f) {
         dataHeader.value = getInfinityDataSize(id, bytes, dataStart);
@@ -839,8 +751,8 @@
         }
       }
 
-      var dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value;
-      var data = bytes.subarray(dataStart, dataEnd);
+      const dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value;
+      const data = bytes.subarray(dataStart, dataEnd);
 
       if (bytesMatch(paths[0], id.bytes)) {
         if (paths.length === 1) {
@@ -854,7 +766,7 @@
         }
       }
 
-      var totalLength = id.length + dataHeader.length + data.length; // move past this tag entirely, we are not looking for it
+      const totalLength = id.length + dataHeader.length + data.length; // move past this tag entirely, we are not looking for it
 
       i += totalLength;
     }
@@ -862,16 +774,12 @@
     return results;
   }; // see https://www.matroska.org/technical/basics.html#block-structure
 
-  var ID3 = toUint8([0x49, 0x44, 0x33]);
-  var getId3Size = function getId3Size(bytes, offset) {
-    if (offset === void 0) {
-      offset = 0;
-    }
-
+  const ID3 = toUint8([0x49, 0x44, 0x33]);
+  const getId3Size = function (bytes, offset = 0) {
     bytes = toUint8(bytes);
-    var flags = bytes[offset + 5];
-    var returnSize = bytes[offset + 6] << 21 | bytes[offset + 7] << 14 | bytes[offset + 8] << 7 | bytes[offset + 9];
-    var footerPresent = (flags & 16) >> 4;
+    const flags = bytes[offset + 5];
+    const returnSize = bytes[offset + 6] << 21 | bytes[offset + 7] << 14 | bytes[offset + 8] << 7 | bytes[offset + 9];
+    const footerPresent = (flags & 16) >> 4;
 
     if (footerPresent) {
       return returnSize + 20;
@@ -879,15 +787,11 @@
 
     return returnSize + 10;
   };
-  var getId3Offset = function getId3Offset(bytes, offset) {
-    if (offset === void 0) {
-      offset = 0;
-    }
-
+  const getId3Offset = function (bytes, offset = 0) {
     bytes = toUint8(bytes);
 
     if (bytes.length - offset < 10 || !bytesMatch(bytes, ID3, {
-      offset: offset
+      offset
     })) {
       return offset;
     }
@@ -899,9 +803,9 @@
     return getId3Offset(bytes, offset);
   };
 
-  var NAL_TYPE_ONE = toUint8([0x00, 0x00, 0x00, 0x01]);
-  var NAL_TYPE_TWO = toUint8([0x00, 0x00, 0x01]);
-  var EMULATION_PREVENTION = toUint8([0x00, 0x00, 0x03]);
+  const NAL_TYPE_ONE = toUint8([0x00, 0x00, 0x00, 0x01]);
+  const NAL_TYPE_TWO = toUint8([0x00, 0x00, 0x01]);
+  const EMULATION_PREVENTION = toUint8([0x00, 0x00, 0x03]);
   /**
    * Expunge any "Emulation Prevention" bytes from a "Raw Byte
    * Sequence Payload"
@@ -912,9 +816,9 @@
    * Prevention Bytes
    */
 
-  var discardEmulationPreventionBytes = function discardEmulationPreventionBytes(bytes) {
-    var positions = [];
-    var i = 1; // Find all `Emulation Prevention Bytes`
+  const discardEmulationPreventionBytes = function (bytes) {
+    const positions = [];
+    let i = 1; // Find all `Emulation Prevention Bytes`
 
     while (i < bytes.length - 2) {
       if (bytesMatch(bytes.subarray(i, i + 3), EMULATION_PREVENTION)) {
@@ -932,9 +836,9 @@
     } // Create a new array to hold the NAL unit data
 
 
-    var newLength = bytes.length - positions.length;
-    var newData = new Uint8Array(newLength);
-    var sourceIndex = 0;
+    const newLength = bytes.length - positions.length;
+    const newData = new Uint8Array(newLength);
+    let sourceIndex = 0;
 
     for (i = 0; i < newLength; sourceIndex++, i++) {
       if (sourceIndex === positions[0]) {
@@ -949,23 +853,19 @@
 
     return newData;
   };
-  var findNal = function findNal(bytes, dataType, types, nalLimit) {
-    if (nalLimit === void 0) {
-      nalLimit = Infinity;
-    }
-
+  const findNal = function (bytes, dataType, types, nalLimit = Infinity) {
     bytes = toUint8(bytes);
     types = [].concat(types);
-    var i = 0;
-    var nalStart;
-    var nalsFound = 0; // keep searching until:
+    let i = 0;
+    let nalStart;
+    let nalsFound = 0; // keep searching until:
     // we reach the end of bytes
     // we reach the maximum number of nals they want to seach
     // NOTE: that we disregard nalLimit when we have found the start
     // of the nal we want so that we can find the end of the nal we want.
 
     while (i < bytes.length && (nalsFound < nalLimit || nalStart)) {
-      var nalOffset = void 0;
+      let nalOffset;
 
       if (bytesMatch(bytes.subarray(i), NAL_TYPE_ONE)) {
         nalOffset = 4;
@@ -986,7 +886,7 @@
         return discardEmulationPreventionBytes(bytes.subarray(nalStart, i));
       }
 
-      var nalType = void 0;
+      let nalType;
 
       if (dataType === 'h264') {
         nalType = bytes[i + nalOffset] & 0x1f;
@@ -1004,14 +904,10 @@
 
     return bytes.subarray(0, 0);
   };
-  var findH264Nal = function findH264Nal(bytes, type, nalLimit) {
-    return findNal(bytes, 'h264', type, nalLimit);
-  };
-  var findH265Nal = function findH265Nal(bytes, type, nalLimit) {
-    return findNal(bytes, 'h265', type, nalLimit);
-  };
+  const findH264Nal = (bytes, type, nalLimit) => findNal(bytes, 'h264', type, nalLimit);
+  const findH265Nal = (bytes, type, nalLimit) => findNal(bytes, 'h265', type, nalLimit);
 
-  var CONSTANTS = {
+  const CONSTANTS = {
     // "webm" string literal in hex
     'webm': toUint8([0x77, 0x65, 0x62, 0x6d]),
     // "matroska" string literal in hex
@@ -1042,32 +938,36 @@
     // moof string literal in hex
     'moof': toUint8([0x6D, 0x6F, 0x6F, 0x66])
   };
-  var _isLikely = {
-    aac: function aac(bytes) {
-      var offset = getId3Offset(bytes);
+  const _isLikely = {
+    aac(bytes) {
+      const offset = getId3Offset(bytes);
       return bytesMatch(bytes, [0xFF, 0x10], {
-        offset: offset,
+        offset,
         mask: [0xFF, 0x16]
       });
     },
-    mp3: function mp3(bytes) {
-      var offset = getId3Offset(bytes);
+
+    mp3(bytes) {
+      const offset = getId3Offset(bytes);
       return bytesMatch(bytes, [0xFF, 0x02], {
-        offset: offset,
+        offset,
         mask: [0xFF, 0x06]
       });
     },
-    webm: function webm(bytes) {
-      var docType = findEbml(bytes, [EBML_TAGS.EBML, EBML_TAGS.DocType])[0]; // check if DocType EBML tag is webm
+
+    webm(bytes) {
+      const docType = findEbml(bytes, [EBML_TAGS.EBML, EBML_TAGS.DocType])[0]; // check if DocType EBML tag is webm
 
       return bytesMatch(docType, CONSTANTS.webm);
     },
-    mkv: function mkv(bytes) {
-      var docType = findEbml(bytes, [EBML_TAGS.EBML, EBML_TAGS.DocType])[0]; // check if DocType EBML tag is matroska
+
+    mkv(bytes) {
+      const docType = findEbml(bytes, [EBML_TAGS.EBML, EBML_TAGS.DocType])[0]; // check if DocType EBML tag is matroska
 
       return bytesMatch(docType, CONSTANTS.matroska);
     },
-    mp4: function mp4(bytes) {
+
+    mp4(bytes) {
       // if this file is another base media file format, it is not mp4
       if (_isLikely['3gp'](bytes) || _isLikely.mov(bytes)) {
         return false;
@@ -1091,28 +991,32 @@
         return true;
       }
     },
-    mov: function mov(bytes) {
+
+    mov(bytes) {
       return bytesMatch(bytes, CONSTANTS.mov, {
         offset: 4
       });
     },
-    '3gp': function gp(bytes) {
+
+    '3gp'(bytes) {
       return bytesMatch(bytes, CONSTANTS['3gp'], {
         offset: 4
       });
     },
-    ac3: function ac3(bytes) {
-      var offset = getId3Offset(bytes);
+
+    ac3(bytes) {
+      const offset = getId3Offset(bytes);
       return bytesMatch(bytes, CONSTANTS.ac3, {
-        offset: offset
+        offset
       });
     },
-    ts: function ts(bytes) {
+
+    ts(bytes) {
       if (bytes.length < 189 && bytes.length >= 1) {
         return bytes[0] === 0x47;
       }
 
-      var i = 0; // check the first 376 bytes for two matching sync bytes
+      let i = 0; // check the first 376 bytes for two matching sync bytes
 
       while (i + 188 < bytes.length && i < 188) {
         if (bytes[i] === 0x47 && bytes[i + 188] === 0x47) {
@@ -1124,59 +1028,62 @@
 
       return false;
     },
-    flac: function flac(bytes) {
-      var offset = getId3Offset(bytes);
+
+    flac(bytes) {
+      const offset = getId3Offset(bytes);
       return bytesMatch(bytes, CONSTANTS.flac, {
-        offset: offset
+        offset
       });
     },
-    ogg: function ogg(bytes) {
+
+    ogg(bytes) {
       return bytesMatch(bytes, CONSTANTS.ogg);
     },
-    avi: function avi(bytes) {
+
+    avi(bytes) {
       return bytesMatch(bytes, CONSTANTS.riff) && bytesMatch(bytes, CONSTANTS.avi, {
         offset: 8
       });
     },
-    wav: function wav(bytes) {
+
+    wav(bytes) {
       return bytesMatch(bytes, CONSTANTS.riff) && bytesMatch(bytes, CONSTANTS.wav, {
         offset: 8
       });
     },
-    'h264': function h264(bytes) {
+
+    'h264'(bytes) {
       // find seq_parameter_set_rbsp
       return findH264Nal(bytes, 7, 3).length;
     },
-    'h265': function h265(bytes) {
+
+    'h265'(bytes) {
       // find video_parameter_set_rbsp or seq_parameter_set_rbsp
       return findH265Nal(bytes, [32, 33], 3).length;
     }
+
   }; // get all the isLikely functions
   // but make sure 'ts' is above h264 and h265
   // but below everything else as it is the least specific
 
-  var isLikelyTypes = Object.keys(_isLikely) // remove ts, h264, h265
-  .filter(function (t) {
-    return t !== 'ts' && t !== 'h264' && t !== 'h265';
-  }) // add it back to the bottom
+  const isLikelyTypes = Object.keys(_isLikely) // remove ts, h264, h265
+  .filter(t => t !== 'ts' && t !== 'h264' && t !== 'h265') // add it back to the bottom
   .concat(['ts', 'h264', 'h265']); // make sure we are dealing with uint8 data.
 
   isLikelyTypes.forEach(function (type) {
-    var isLikelyFn = _isLikely[type];
+    const isLikelyFn = _isLikely[type];
 
-    _isLikely[type] = function (bytes) {
-      return isLikelyFn(toUint8(bytes));
-    };
+    _isLikely[type] = bytes => isLikelyFn(toUint8(bytes));
   }); // export after wrapping
 
-  var isLikely = _isLikely; // A useful list of file signatures can be found here
+  const isLikely = _isLikely; // A useful list of file signatures can be found here
   // https://en.wikipedia.org/wiki/List_of_file_signatures
 
-  var detectContainerForBytes = function detectContainerForBytes(bytes) {
+  const detectContainerForBytes = bytes => {
     bytes = toUint8(bytes);
 
-    for (var i = 0; i < isLikelyTypes.length; i++) {
-      var type = isLikelyTypes[i];
+    for (let i = 0; i < isLikelyTypes.length; i++) {
+      const type = isLikelyTypes[i];
 
       if (isLikely[type](bytes)) {
         return type;
@@ -1186,7 +1093,7 @@
     return '';
   }; // fmp4 is not a container
 
-  var isLikelyFmp4MediaSegment = function isLikelyFmp4MediaSegment(bytes) {
+  const isLikelyFmp4MediaSegment = bytes => {
     return findBox(bytes, ['moof']).length > 0;
   };
 
@@ -1197,15 +1104,13 @@
     isLikelyFmp4MediaSegment: isLikelyFmp4MediaSegment
   });
 
-  var atob = function atob(s) {
-    return window.atob ? window.atob(s) : Buffer.from(s, 'base64').toString('binary');
-  };
+  const atob = s => window.atob ? window.atob(s) : Buffer.from(s, 'base64').toString('binary');
 
   function decodeB64ToUint8Array(b64Text) {
-    var decodedString = atob(b64Text);
-    var array = new Uint8Array(decodedString.length);
+    const decodedString = atob(b64Text);
+    const array = new Uint8Array(decodedString.length);
 
-    for (var i = 0; i < decodedString.length; i++) {
+    for (let i = 0; i < decodedString.length; i++) {
       array[i] = decodedString.charCodeAt(i);
     }
 
@@ -1223,11 +1128,11 @@
    * @param {Function} callback
    *        Callback to call for each media group
    */
-  var forEachMediaGroup = function forEachMediaGroup(master, groups, callback) {
-    groups.forEach(function (mediaType) {
-      for (var groupKey in master.mediaGroups[mediaType]) {
-        for (var labelKey in master.mediaGroups[mediaType][groupKey]) {
-          var mediaProperties = master.mediaGroups[mediaType][groupKey][labelKey];
+  const forEachMediaGroup = (master, groups, callback) => {
+    groups.forEach(mediaType => {
+      for (const groupKey in master.mediaGroups[mediaType]) {
+        for (const labelKey in master.mediaGroups[mediaType][groupKey]) {
+          const mediaProperties = master.mediaGroups[mediaType][groupKey][labelKey];
           callback(mediaProperties, mediaType, groupKey, labelKey);
         }
       }
@@ -1239,21 +1144,9 @@
     forEachMediaGroup: forEachMediaGroup
   });
 
-  function createCommonjsModule(fn, basedir, module) {
-  	return module = {
-  	  path: basedir,
-  	  exports: {},
-  	  require: function (path, base) {
-        return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-      }
-  	}, fn(module, module.exports), module.exports;
-  }
+  var urlToolkit = {exports: {}};
 
-  function commonjsRequire () {
-  	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-  }
-
-  var urlToolkit = createCommonjsModule(function (module, exports) {
+  (function (module, exports) {
     // see https://tools.ietf.org/html/rfc1808
     (function (root) {
       var URL_REGEX = /^((?:[a-zA-Z0-9+\-.]+:)?)(\/\/[^\/?#]*)?((?:[^\/?#]*\/)*[^;?#]*)?(;[^?#]*)?(\?[^#]*)?(#.*)?$/;
@@ -1267,7 +1160,7 @@
         // http://a.com/b/cd + /e/f/../g => http://a.com/e/f/../g
         // With opts.alwaysNormalize = true (not spec compliant)
         // http://a.com/b/cd + /e/f/../g => http://a.com/e/g
-        buildAbsoluteURL: function buildAbsoluteURL(baseURL, relativeURL, opts) {
+        buildAbsoluteURL: function (baseURL, relativeURL, opts) {
           opts = opts || {}; // remove any remaining space and CRLF
 
           baseURL = baseURL.trim();
@@ -1379,7 +1272,7 @@
 
           return URLToolkit.buildURLFromParts(builtParts);
         },
-        parseURL: function parseURL(url) {
+        parseURL: function (url) {
           var parts = URL_REGEX.exec(url);
 
           if (!parts) {
@@ -1395,7 +1288,7 @@
             fragment: parts[6] || ''
           };
         },
-        normalizePath: function normalizePath(path) {
+        normalizePath: function (path) {
           // The following operations are
           // then applied, in order, to the new path:
           // 6a) All occurrences of "./", where "." is a complete path
@@ -1415,17 +1308,19 @@
 
           return path.split('').reverse().join('');
         },
-        buildURLFromParts: function buildURLFromParts(parts) {
+        buildURLFromParts: function (parts) {
           return parts.scheme + parts.netLoc + parts.path + parts.params + parts.query + parts.fragment;
         }
       };
       module.exports = URLToolkit;
     })();
-  });
+  })(urlToolkit);
 
-  var DEFAULT_LOCATION = 'http://example.com';
+  var URLToolkit = urlToolkit.exports;
 
-  var resolveUrl = function resolveUrl(baseUrl, relativeUrl) {
+  const DEFAULT_LOCATION = 'http://example.com';
+
+  const resolveUrl = (baseUrl, relativeUrl) => {
     // return early if we don't need to resolve
     if (/^[a-z]+:/i.test(relativeUrl)) {
       return relativeUrl;
@@ -1438,20 +1333,20 @@
     // feature detect the behavior we want
 
 
-    var nativeURL = typeof window.URL === 'function';
-    var protocolLess = /^\/\//.test(baseUrl); // remove location if window.location isn't available (i.e. we're in node)
+    const nativeURL = typeof window.URL === 'function';
+    const protocolLess = /^\/\//.test(baseUrl); // remove location if window.location isn't available (i.e. we're in node)
     // and if baseUrl isn't an absolute url
 
-    var removeLocation = !window.location && !/\/\//i.test(baseUrl); // if the base URL is relative then combine with the current location
+    const removeLocation = !window.location && !/\/\//i.test(baseUrl); // if the base URL is relative then combine with the current location
 
     if (nativeURL) {
       baseUrl = new window.URL(baseUrl, window.location || DEFAULT_LOCATION);
     } else if (!/\/\//i.test(baseUrl)) {
-      baseUrl = urlToolkit.buildAbsoluteURL(window.location && window.location.href || '', baseUrl);
+      baseUrl = URLToolkit.buildAbsoluteURL(window.location && window.location.href || '', baseUrl);
     }
 
     if (nativeURL) {
-      var newUrl = new URL(relativeUrl, baseUrl); // if we're a protocol-less url, remove the protocol
+      const newUrl = new URL(relativeUrl, baseUrl); // if we're a protocol-less url, remove the protocol
       // and if we're location-less, remove the location
       // otherwise, return the url unmodified
 
@@ -1464,7 +1359,7 @@
       return newUrl.href;
     }
 
-    return urlToolkit.buildAbsoluteURL(baseUrl, relativeUrl);
+    return URLToolkit.buildAbsoluteURL(baseUrl, relativeUrl);
   };
 
   /**
@@ -1476,8 +1371,8 @@
    *
    * @class Stream
    */
-  var Stream = /*#__PURE__*/function () {
-    function Stream() {
+  class Stream {
+    constructor() {
       this.listeners = {};
     }
     /**
@@ -1489,9 +1384,7 @@
      */
 
 
-    var _proto = Stream.prototype;
-
-    _proto.on = function on(type, listener) {
+    on(type, listener) {
       if (!this.listeners[type]) {
         this.listeners[type] = [];
       }
@@ -1506,14 +1399,14 @@
      * type of event through `on`
      * @return {boolean} if we could turn it off or not
      */
-    ;
 
-    _proto.off = function off(type, listener) {
+
+    off(type, listener) {
       if (!this.listeners[type]) {
         return false;
       }
 
-      var index = this.listeners[type].indexOf(listener); // TODO: which is better?
+      const index = this.listeners[type].indexOf(listener); // TODO: which is better?
       // In Video.js we slice listener functions
       // on trigger so that it does not mess up the order
       // while we loop through.
@@ -1532,10 +1425,10 @@
      *
      * @param {string} type the event name
      */
-    ;
 
-    _proto.trigger = function trigger(type) {
-      var callbacks = this.listeners[type];
+
+    trigger(type) {
+      const callbacks = this.listeners[type];
 
       if (!callbacks) {
         return;
@@ -1546,26 +1439,26 @@
 
 
       if (arguments.length === 2) {
-        var length = callbacks.length;
+        const length = callbacks.length;
 
-        for (var i = 0; i < length; ++i) {
+        for (let i = 0; i < length; ++i) {
           callbacks[i].call(this, arguments[1]);
         }
       } else {
-        var args = Array.prototype.slice.call(arguments, 1);
-        var _length = callbacks.length;
+        const args = Array.prototype.slice.call(arguments, 1);
+        const length = callbacks.length;
 
-        for (var _i = 0; _i < _length; ++_i) {
-          callbacks[_i].apply(this, args);
+        for (let i = 0; i < length; ++i) {
+          callbacks[i].apply(this, args);
         }
       }
     }
     /**
      * Destroys the stream and cleans up.
      */
-    ;
 
-    _proto.dispose = function dispose() {
+
+    dispose() {
       this.listeners = {};
     }
     /**
@@ -1576,27 +1469,26 @@
      * @param {Stream} destination the stream that will receive all `data` events
      * @see http://nodejs.org/api/stream.html#stream_readable_pipe_destination_options
      */
-    ;
 
-    _proto.pipe = function pipe(destination) {
+
+    pipe(destination) {
       this.on('data', function (data) {
         destination.push(data);
       });
-    };
+    }
 
-    return Stream;
-  }();
+  }
 
   var index = {
-    codecs: codecs,
-    byteHelpers: byteHelpers,
-    containers: containers,
-    decodeB64ToUint8Array: decodeB64ToUint8Array,
-    mediaGroups: mediaGroups,
-    resolveUrl: resolveUrl,
-    Stream: Stream
+    codecs,
+    byteHelpers,
+    containers,
+    decodeB64ToUint8Array,
+    mediaGroups,
+    resolveUrl,
+    Stream
   };
 
   return index;
 
-})));
+}));

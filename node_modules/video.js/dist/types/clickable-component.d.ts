@@ -1,4 +1,5 @@
 export default ClickableComponent;
+/** @import Player from './player' */
 /**
  * Component which is clickable or keyboard actionable, but is not a
  * native HTML button.
@@ -9,7 +10,7 @@ declare class ClickableComponent extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param  { import('./player').default } player
+     * @param  {Player} player
      *         The `Player` that this class should be attached to.
      *
      * @param  {Object} [options]
@@ -25,7 +26,7 @@ declare class ClickableComponent extends Component {
      *         A class or space separated list of classes to add the component
      *
      */
-    constructor(player: import('./player').default, options?: {
+    constructor(player: Player, options?: {
         clickHandler?: Function;
         controlText?: string;
         className?: string;
@@ -84,5 +85,6 @@ declare class ClickableComponent extends Component {
      */
     handleClick(event: Event, ...args: any[]): void;
 }
-import Component from "./component";
+import Component from './component';
+import type Player from './player';
 //# sourceMappingURL=clickable-component.d.ts.map

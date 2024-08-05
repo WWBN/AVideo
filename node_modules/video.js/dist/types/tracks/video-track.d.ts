@@ -36,5 +36,5 @@ declare class VideoTrack extends Track {
     });
     selected: any;
 }
-import Track from "./track";
+import Track from './track';
 //# sourceMappingURL=video-track.d.ts.map

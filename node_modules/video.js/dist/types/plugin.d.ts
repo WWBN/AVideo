@@ -161,7 +161,7 @@ declare namespace Plugin {
     export { getPlugin };
     export { BASE_PLUGIN_NAME };
 }
-import Player from "./player";
+import Player from './player';
 /**
  * Get a single registered plugin by name.
  *

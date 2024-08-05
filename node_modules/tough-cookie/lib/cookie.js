@@ -1116,7 +1116,8 @@ class CookieJar {
   }
 
   setCookie(cookie, url, options, cb) {
-    validators.validate(validators.isNonEmptyString(url), cb, options);
+    validators.validate(validators.isUrlStringOrObject(url), cb, options);
+
     let err;
 
     if (validators.isFunction(url)) {
@@ -1314,7 +1315,8 @@ class CookieJar {
 
   // RFC6365 S5.4
   getCookies(url, options, cb) {
-    validators.validate(validators.isNonEmptyString(url), cb, url);
+    validators.validate(validators.isUrlStringOrObject(url), cb, url);
+
     const context = getCookieContext(url);
     if (validators.isFunction(options)) {
       cb = options;

@@ -1,4 +1,5 @@
 export default DurationDisplay;
+/** @import Player from '../../player' */
 /**
  * Displays the duration
  *
@@ -8,13 +9,13 @@ declare class DurationDisplay extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * Update duration time display.
      *
@@ -44,5 +45,6 @@ declare class DurationDisplay extends Component {
      */
     protected controlText_: string;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
+import type Player from '../../player';
 //# sourceMappingURL=duration-display.d.ts.map

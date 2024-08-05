@@ -2,6 +2,7 @@ module.exports = {
   allowCache: true,
   discontinuitySequence: 0,
   discontinuityStarts: [],
+  dateRanges: [],
   mediaSequence: 7794,
   segments: [
     {

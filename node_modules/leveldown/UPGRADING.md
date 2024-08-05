@@ -2,7 +2,23 @@
 
 This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [changelog](CHANGELOG.md).
 
-## v5
+## 6.0.0
+
+Legacy range options have been removed ([Level/community#86](https://github.com/Level/community/issues/86)). If you previously did:
+
+```js
+db.iterator({ start: 'a', end: 'z' })
+```
+
+An error would now be thrown and you must instead do:
+
+```js
+db.iterator({ gte: 'a', lte: 'z' })
+```
+
+This release also drops support of Node.js 6 and 8 ([Level/community#98](https://github.com/Level/community/issues/98)).
+
+## 5.0.0
 
 This is a rewrite to N-API - which is a huge milestone, achieved without an impact on write performance - and an upgrade to `abstract-leveldown` v6, which solves long-standing issues around serialization and type support.
 
@@ -58,15 +74,15 @@ db.close(function (err) {
 
 A future release will do the same for other operations like `get` and `batch`.
 
-## v4
+## 4.0.0
 
 Dropped support for node 4. No other breaking changes.
 
-## v3.0.1
+## 3.0.1
 
 If you're using node v10 you'll need at least `leveldown@2.0.1` to successfully compile. In addition, if you want prebuilt binaries you'll need at least `leveldown@3.0.1`.
 
-## v3
+## 3.0.0
 
 #### `.batch(array)` enforces objects
 

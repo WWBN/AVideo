@@ -52,7 +52,7 @@ export { createTimeRanges as createTimeRange };
  */
 export type TimeRangeIndex = Function;
 /**
- * An object that contains ranges of time, which mimics {@link TimeRanges }.
+ * An object that contains ranges of time, which mimics {@link TimeRanges}.
  */
 export type TimeRange = {
     /**

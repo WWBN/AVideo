@@ -1,6 +1,6 @@
-import videojs from 'video.js';
 import States from '../states.js';
 import adBreak from '../adBreak.js';
+import AdsError from '../consts/errors';
 
 const AdState = States.getState('AdState');
 
@@ -50,7 +50,7 @@ class Midroll extends AdState {
    */
   onAdsError(player) {
     player.ads.error({
-      errorType: videojs.Error.AdsMidrollError
+      errorType: AdsError.AdsMidrollError
     });
 
     // In the future, we may not want to do this automatically.

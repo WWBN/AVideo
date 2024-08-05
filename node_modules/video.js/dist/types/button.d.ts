@@ -23,6 +23,6 @@ declare class Button extends ClickableComponent {
      */
     addChild(child: string | Component, options?: any): Component;
 }
-import ClickableComponent from "./clickable-component.js";
-import Component from "./component";
+import ClickableComponent from './clickable-component.js';
+import Component from './component';
 //# sourceMappingURL=button.d.ts.map

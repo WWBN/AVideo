@@ -15,4 +15,5 @@ export default setupSourceset;
  *        The tech to patch
  */
 declare function setupSourceset(tech: Html5): void;
+import type Html5 from './html5';
 //# sourceMappingURL=setup-sourceset.d.ts.map

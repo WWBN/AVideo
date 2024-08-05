@@ -4,7 +4,7 @@ declare const log: {
     createLogger(subName: string, subDelimiter?: string, subStyles?: string): any;
     createNewLogger(newName: string, newDelimiter?: string, newStyles?: string): any;
     levels: any;
-    level(lvl?: "info" | "error" | "all" | "debug" | "warn" | "off"): string;
+    level(lvl?: "all" | "debug" | "info" | "warn" | "error" | "off"): string;
     history: {
         (): any[];
         filter(fname: string): any[];
@@ -12,9 +12,9 @@ declare const log: {
         disable(): void;
         enable(): void;
     };
-    error(...args: any[]): any;
-    warn(...args: any[]): any;
-    debug(...args: any[]): any;
+    error(...args: any[]): void;
+    warn(...args: any[]): void;
+    debug(...args: any[]): void;
 };
 export const createLogger: (subName: string, subDelimiter?: string, subStyles?: string) => any;
 //# sourceMappingURL=log.d.ts.map

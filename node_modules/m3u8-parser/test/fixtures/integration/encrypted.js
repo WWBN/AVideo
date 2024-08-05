@@ -1,5 +1,6 @@
 module.exports = {
   allowCache: true,
+  dateRanges: [],
   mediaSequence: 7794,
   discontinuitySequence: 0,
   discontinuityStarts: [],

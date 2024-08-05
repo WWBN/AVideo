@@ -1,4 +1,5 @@
 export default MenuItem;
+/** @import Player from '../player' */
 /**
  * The component for a menu item. `<li>`
  *
@@ -8,14 +9,14 @@ declare class MenuItem extends ClickableComponent {
     /**
      * Creates an instance of the this class.
      *
-     * @param { import('../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options={}]
      *        The key/value store of player options.
      *
      */
-    constructor(player: import('../player').default, options?: any);
+    constructor(player: Player, options?: any);
     selectable: any;
     isSelected_: any;
     multiSelectable: any;
@@ -40,5 +41,6 @@ declare class MenuItem extends ClickableComponent {
      */
     selected(selected: boolean): void;
 }
-import ClickableComponent from "../clickable-component.js";
+import ClickableComponent from '../clickable-component.js';
+import type Player from '../player';
 //# sourceMappingURL=menu-item.d.ts.map

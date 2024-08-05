@@ -1,4 +1,5 @@
 export default TextTrackMenuItem;
+/** @import Player from '../../player' */
 /**
  * The specific menu item type for selecting a language within a text track kind
  *
@@ -18,5 +19,5 @@ declare class TextTrackMenuItem extends MenuItem {
     handleTracksChange(event: Event): void;
     handleSelectedLanguageChange(event: any): void;
 }
-import MenuItem from "../../menu/menu-item.js";
+import MenuItem from '../../menu/menu-item.js';
 //# sourceMappingURL=text-track-menu-item.d.ts.map

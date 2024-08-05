@@ -1,4 +1,5 @@
 export default PictureInPictureToggle;
+/** @import Player from './player' */
 /**
  * Toggle Picture-in-Picture mode
  *
@@ -8,7 +9,7 @@ declare class PictureInPictureToggle extends Button {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('./player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
@@ -17,7 +18,7 @@ declare class PictureInPictureToggle extends Button {
      * @listens Player#enterpictureinpicture
      * @listens Player#leavepictureinpicture
      */
-    constructor(player: any, options?: any);
+    constructor(player: document, options?: any);
     /**
      * Displays or hides the button depending on the audio mode detection.
      * Exits picture-in-picture if it is enabled when switching to audio mode.
@@ -57,5 +58,5 @@ declare class PictureInPictureToggle extends Button {
      */
     handleClick(event?: Event): void;
 }
-import Button from "../button.js";
+import Button from '../button.js';
 //# sourceMappingURL=picture-in-picture-toggle.d.ts.map

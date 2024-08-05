@@ -96,5 +96,5 @@ declare class SeekBar extends Slider {
     handleAction(event: KeyboardEvent): void;
     dispose(): void;
 }
-import Slider from "../../slider/slider.js";
+import Slider from '../../slider/slider.js';
 //# sourceMappingURL=seek-bar.d.ts.map

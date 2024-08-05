@@ -14,5 +14,5 @@ declare class Spacer extends Component {
      */
     createEl(tag?: string, props?: {}, attributes?: {}): Element;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
 //# sourceMappingURL=spacer.d.ts.map

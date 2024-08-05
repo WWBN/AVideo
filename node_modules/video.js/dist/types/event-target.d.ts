@@ -6,7 +6,7 @@ export type Event = CustomEvent;
 /**
  * All event listeners should follow the following format.
  */
-export type EventListener = () => any;
+export type EventListener = (this: EventTarget, event: Event, hash?: any) => any;
 /**
  * `EventTarget` is a class that can have the same API as the DOM `EventTarget`. It
  * adds shorthand functions that wrap around lengthy functions. For example:

@@ -1,4 +1,5 @@
 export default SubsCapsButton;
+/** @import Player from '../../player' */
 /**
  * The button component for toggling and selecting captions and/or subtitles
  *
@@ -30,6 +31,6 @@ declare class SubsCapsButton extends TextTrackButton {
      */
     protected controlText_: string;
 }
-import TextTrackButton from "./text-track-button.js";
-import CaptionSettingsMenuItem from "./caption-settings-menu-item.js";
+import TextTrackButton from './text-track-button.js';
+import CaptionSettingsMenuItem from './caption-settings-menu-item.js';
 //# sourceMappingURL=subs-caps-button.d.ts.map

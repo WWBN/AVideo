@@ -1,4 +1,5 @@
 export default TextTrackList;
+/** @import TextTrack from './text-track' */
 /**
  * The current list of {@link TextTrack} for a media file.
  *
@@ -9,15 +10,16 @@ declare class TextTrackList extends TrackList {
     /**
      * Add a {@link TextTrack} to the `TextTrackList`
      *
-     * @param { import('./text-track').default } track
+     * @param {TextTrack} track
      *        The text track to add to the list.
      *
      * @fires TrackList#addtrack
      */
-    addTrack(track: import('./text-track').default): void;
+    addTrack(track: TextTrack): void;
     queueChange_: () => void;
     triggerSelectedlanguagechange_: () => void;
     removeTrack(rtrack: any): void;
 }
-import TrackList from "./track-list";
+import TrackList from './track-list';
+import type TextTrack from './text-track';
 //# sourceMappingURL=text-track-list.d.ts.map

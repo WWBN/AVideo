@@ -1,3 +1,5 @@
+'use strict'
+
 const util = require('util')
 const AbstractIterator = require('abstract-leveldown').AbstractIterator
 const binding = require('./binding')
@@ -23,19 +25,17 @@ Iterator.prototype._seek = function (target) {
 }
 
 Iterator.prototype._next = function (callback) {
-  var that = this
-
   if (this.cache && this.cache.length) {
     process.nextTick(callback, null, this.cache.pop(), this.cache.pop())
   } else if (this.finished) {
     process.nextTick(callback)
   } else {
-    binding.iterator_next(this.context, function (err, array, finished) {
+    binding.iterator_next(this.context, (err, array, finished) => {
       if (err) return callback(err)
 
-      that.cache = array
-      that.finished = finished
-      that._next(callback)
+      this.cache = array
+      this.finished = finished
+      this._next(callback)
     })
   }
 

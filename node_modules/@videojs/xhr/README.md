@@ -246,6 +246,139 @@ xhr({
 true)
 ```
 
+### `xhr.requestInterceptorsStorage` and `xhr.responseInterceptorsStorage`
+
+have the following API:
+```typescript
+export interface NetworkRequest {
+  headers: Record<string, string>;
+  uri: string;
+  metadata: Record<string, unknown>;
+  body?: unknown;
+  retry?: Retry;
+  timeout?: number;
+}
+
+export interface NetworkResponse {
+  headers: Record<string, string>;
+  responseUrl: string;
+  body?: unknown;
+  responseType?: XMLHttpRequestResponseType;
+}
+
+export type Interceptor<T> = (payload: T) => T;
+
+export interface InterceptorsStorage<T> {
+  enable(): void;
+  disable(): void;
+  getIsEnabled(): boolean;
+  reset(): void;
+  addInterceptor(type: string, interceptor: Interceptor<T>): boolean;
+  removeInterceptor(type: string, interceptor: Interceptor<T>): boolean;
+  clearInterceptorsByType(type: string): boolean;
+  clear(): boolean;
+  getForType(type: string): Set<Interceptor<T>>;
+  execute(type: string, payload: T): T;
+}
+
+```
+Usage:
+
+```js
+xhr.requestInterceptorsStorage.enable();
+xhr.responseInterceptorsStorage.enable();
+
+xhr.requestInterceptorsStorage.addInterceptor('segment', (request) => {
+  // read / update NetworkRequest
+  return request;
+});
+
+xhr.responseInterceptorsStorage.addInterceptor('segement', (response) => {
+  // read / update NetworkResponse
+  return response;
+});
+
+xhr({
+  uri: 'https://host/segment',
+  responseType: 'arraybuffer',
+  requestType: 'segement'
+}, function(err, response, responseBody) {
+  // your callback
+});
+
+```
+
+### `xhr.retryManager`
+
+has the following API
+
+```typescript
+export interface Retry {
+  getCurrentDelay(): number;
+  getCurrentMinPossibleDelay(): number;
+  getCurrentMaxPossibleDelay(): number;
+  getCurrentFuzzedDelay(): number;
+  shouldRetry(): boolean;
+  moveToNextAttempt(): void;
+}
+
+export interface RetryOptions {
+  maxAttempts?: number;
+  delayFactor?: number;
+  fuzzFactor?: number;
+  initialDelay?: number;
+}
+
+export interface RetryManager {
+  enable(): void;
+  disable(): void;
+  reset(): void;
+  getMaxAttempts(): number;
+  setMaxAttempts(maxAttempts: number): void;
+  getDelayFactor(): number;
+  setDelayFactor(delayFactor: number): void;
+  getFuzzFactor(): number;
+  setFuzzFactor(fuzzFactor: number): void;
+  getInitialDelay(): number;
+  setInitialDelay(initialDelay: number): void;
+  createRetry(options?: RetryOptions): Retry;
+}
+```
+
+Usage:
+
+```js
+xhr.retryManager.enable();
+
+xhr.retryManager.setMaxAttempts(2);
+
+xhr({
+  uri: 'https://host/segment',
+  responseType: 'arraybuffer',
+  retry: xhr.retryManager.createRetry(),
+}, function(err, response, responseBody) {
+  // your callback
+});
+
+// or override values for specific request:
+xhr({
+  uri: 'https://host/segment',
+  responseType: 'arraybuffer',
+  retry: xhr.retryManager.createRetry({ maxAttempts: 3 }),
+}, function(err, response, responseBody) {
+  // your callback
+});
+
+
+// you can combine interceptors/retry APIs if you dont have direct acces to the request:
+xhr.requestInterceptorsStorage.addInterceptor('segment', (request) => {
+  // read / update NetworkRequest
+  request.retry = xhr.retryManager.createRetry();
+  return request;
+});
+
+
+```
 
 
 ## FAQ

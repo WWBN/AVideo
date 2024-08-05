@@ -1,4 +1,5 @@
 export default MuteToggle;
+/** @import Player from './player' */
 /**
  * A button component for muting the audio.
  *
@@ -8,13 +9,13 @@ declare class MuteToggle extends Button {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('./player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: any, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * This gets called when an `MuteToggle` is "clicked". See
      * {@link ClickableComponent} for more detailed information on what a click can be.
@@ -60,5 +61,5 @@ declare class MuteToggle extends Button {
      */
     private updateControlText_;
 }
-import Button from "../button";
+import Button from '../button';
 //# sourceMappingURL=mute-toggle.d.ts.map

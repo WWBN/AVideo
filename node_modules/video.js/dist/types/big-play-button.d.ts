@@ -30,5 +30,5 @@ declare class BigPlayButton extends Button {
      */
     handleMouseDown(event: MouseEvent): void;
 }
-import Button from "./button.js";
+import Button from './button.js';
 //# sourceMappingURL=big-play-button.d.ts.map

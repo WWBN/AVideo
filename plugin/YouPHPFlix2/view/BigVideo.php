@@ -2,28 +2,31 @@
 global $advancedCustom;
 $uid = uniqid();
 $obj2 = AVideoPlugin::getObjectData("YouPHPFlix2");
-$video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, !$obj2->hidePrivateVideos, false, true);
+
+if (!empty($global['isChannel'])) {
+    $video = Video::getVideo('', Video::SORT_TYPE_CHANNELSUGGESTED, !$obj2->hidePrivateVideos, true);
+}
+if (empty($video)) {
+    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, !$obj2->hidePrivateVideos, false, true);
+}
 if (empty($video)) {
     $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, !$obj2->hidePrivateVideos, true);
 }
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($video)) {
-        ?>
-        <center>
-            <img 
-            src="<?php echo ImagesPlaceHolders::getVideoNotFoundPoster(ImagesPlaceHolders::$RETURN_URL); ?>" 
-            class="img img-responsive ImagesPlaceHoldersDefaultImage">
-        </center>
-        <?php
+?>
+        <div class="text-center">
+            <img src="<?php echo ImagesPlaceHolders::getVideoNotFoundPoster(ImagesPlaceHolders::$RETURN_URL); ?>" class="img img-responsive ImagesPlaceHoldersDefaultImage">
+        </div>
+    <?php
     } else {
         $name = User::getNameIdentificationById($video['users_id']);
         $images = Video::getImageFromFilename($video['filename'], $video['type']);
         $imgGif = $images->thumbsGif;
         $poster = $images->poster;
-        ?>
+    ?>
         <div style="padding-bottom: 40%;"></div>
-        <div class="embed-responsive-16by9" id="bigVideo"
-             style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);
+        <div class="embed-responsive-16by9" id="bigVideo" style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);
              background: url(<?php echo $poster; ?>);
              -webkit-background-size: cover;
              -moz-background-size: cover;
@@ -32,18 +35,16 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
              z-index: 0;
              position: absolute;
              top: 0;
-             width: 100%;" >
-             <?php
-             if (!isMobile() && !empty($video['trailer1'])) {
-                 $percent = 2;
-                 ?>
-                <div id="bg_container" class="" style="height: 100%;" >
-                    <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'); ?>"
-                            frameborder="0"  allowtransparency="true"
-                            allow="autoplay"></iframe>
+             width: 100%;">
+            <?php
+            if (!isMobile() && !empty($video['trailer1'])) {
+                $percent = 2;
+            ?>
+                <div id="bg_container" class="" style="height: 100%;">
+                    <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'); ?>" frameborder="0" allowtransparency="true" allow="autoplay"></iframe>
                 </div>
-                <div id="bg_container_overlay" ></div>
-                <?php
+                <div id="bg_container_overlay"></div>
+            <?php
             } else {
                 $percent = 40;
             }
@@ -57,9 +58,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             ?>
 
             <div class="posterDetails" style="<?php echo $style; ?>">
-                     <?php
-                     include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoInfoDetails.php';
-                     ?>
+                <?php
+                include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoInfoDetails.php';
+                ?>
                 <div class="row hidden-xs">
                     <?php
                     include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoPosterDescription.php';
@@ -72,7 +73,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 </div>
             </div>
         </div>
-        <?php
+    <?php
     }
 } else if (!empty($_GET['showOnly'])) {
     ?>
@@ -81,11 +82,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
 } else {
     $ads1 = getAdsLeaderBoardTop();
     if (!empty($ads1)) {
-        ?>
+    ?>
         <div class="text-center" style="padding: 10px;">
             <?php echo $ads1; ?>
         </div>
-        <?php
+<?php
     }
 }
 ?>

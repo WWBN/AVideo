@@ -63,5 +63,5 @@ declare class TitleBar extends Component {
      */
     dispose(): void;
 }
-import Component from "./component";
+import Component from './component';
 //# sourceMappingURL=title-bar.d.ts.map

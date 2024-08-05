@@ -10,6 +10,7 @@ import videojs from 'video.js';
 
 import {tcData} from './tcf.js';
 import {getCurrentUspString} from './usPrivacy.js';
+import AdsError from './consts/errors.js';
 
 const uriEncodeIfNeeded = function(value, uriEncode) {
   return uriEncode ? encodeURIComponent(value) : value;
@@ -173,7 +174,7 @@ const replaceMacros = function(string, macros, uriEncode, overrides = {}, player
         string = string.replace(regex, uriEncodeIfNeeded(macros[macroName], uriEncode));
       } catch (error) {
         player.ads.error({
-          errorType: videojs.Error.AdsMacroReplacementFailed,
+          errorType: AdsError.AdsMacroReplacementFailed,
           macro: macroName,
           error
         });

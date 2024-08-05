@@ -1,3 +1,16 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/videojs/vhs-utils/compare/v3.0.5...v4.0.0) (2022-08-19)
+
+### Chores
+
+* do not run es-check on publish ([#35](https://github.com/videojs/vhs-utils/issues/35)) ([964080e](https://github.com/videojs/vhs-utils/commit/964080e))
+* remove IE11 support ([#34](https://github.com/videojs/vhs-utils/issues/34)) ([6d979a2](https://github.com/videojs/vhs-utils/commit/6d979a2))
+
+
+### BREAKING CHANGES
+
+* Internet Explorer is no longer supported.
+
 <a name="3.0.5"></a>
 ## [3.0.5](https://github.com/videojs/vhs-utils/compare/v3.0.4...v3.0.5) (2022-03-16)
 

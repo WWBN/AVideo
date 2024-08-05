@@ -2,8 +2,13 @@
 var window = require("global/window")
 var _extends = require("@babel/runtime/helpers/extends");
 var isFunction = require('is-function');
+var InterceptorsStorage = require('./interceptors.js');
+var RetryManager = require("./retry.js");
 
 createXHR.httpHandler = require('./http-handler.js');
+createXHR.requestInterceptorsStorage = new InterceptorsStorage();
+createXHR.responseInterceptorsStorage = new InterceptorsStorage();
+createXHR.retryManager = new RetryManager();
 
 /**
  * @license
@@ -90,6 +95,27 @@ function _createXHR(options) {
         throw new Error("callback argument missing")
     }
 
+    // call all registered request interceptors for a given request type:
+    if (options.requestType && createXHR.requestInterceptorsStorage.getIsEnabled()) {
+        const requestInterceptorPayload = {
+            uri: options.uri || options.url,
+            headers: options.headers || {},
+            body: options.body,
+            metadata: options.metadata || {},
+            retry: options.retry,
+            timeout: options.timeout,
+        }
+
+        const updatedPayload = createXHR.requestInterceptorsStorage.execute(options.requestType, requestInterceptorPayload);
+
+        options.uri = updatedPayload.uri;
+        options.headers = updatedPayload.headers;
+        options.body = updatedPayload.body;
+        options.metadata = updatedPayload.metadata;
+        options.retry = updatedPayload.retry;
+        options.timeout = updatedPayload.timeout;
+    }
+
     var called = false
     var callback = function cbOnce(err, response, body){
         if(!called){
@@ -99,7 +125,9 @@ function _createXHR(options) {
     }
 
     function readystatechange() {
-        if (xhr.readyState === 4) {
+        // do not call load 2 times when response interceptors are enabled
+        // why do we even need this 2nd load?
+        if (xhr.readyState === 4 && !createXHR.responseInterceptorsStorage.getIsEnabled()) {
             setTimeout(loadFunc, 0)
         }
     }
@@ -125,10 +153,39 @@ function _createXHR(options) {
 
     function errorFunc(evt) {
         clearTimeout(timeoutTimer)
+        clearTimeout(options.retryTimeout)
         if(!(evt instanceof Error)){
             evt = new Error("" + (evt || "Unknown XMLHttpRequest Error") )
         }
         evt.statusCode = 0
+
+        // we would like to retry on error:
+        if (!aborted && createXHR.retryManager.getIsEnabled() && options.retry && options.retry.shouldRetry()) {
+            options.retryTimeout = setTimeout(function() {
+                options.retry.moveToNextAttempt();
+                // we want to re-use the same options and the same xhr object:
+                options.xhr = xhr;
+                _createXHR(options);
+            }, options.retry.getCurrentFuzzedDelay());
+
+            return;
+        }
+
+        // call all registered response interceptors for a given request type:
+        if (options.requestType && createXHR.responseInterceptorsStorage.getIsEnabled()) {
+            const responseInterceptorPayload = {
+                headers: failureResponse.headers || {},
+                body: failureResponse.body,
+                responseUrl: xhr.responseURL,
+                responseType: xhr.responseType,
+            }
+
+            const updatedPayload = createXHR.responseInterceptorsStorage.execute(options.requestType, responseInterceptorPayload);
+
+            failureResponse.body = updatedPayload.body;
+            failureResponse.headers = updatedPayload.headers;
+        }
+
         return callback(evt, failureResponse)
     }
 
@@ -137,6 +194,7 @@ function _createXHR(options) {
         if (aborted) return
         var status
         clearTimeout(timeoutTimer)
+        clearTimeout(options.retryTimeout)
         if(options.useXDR && xhr.status===undefined) {
             //IE8 CORS GET successful response doesn't have a status field, but body is fine
             status = 200
@@ -161,6 +219,22 @@ function _createXHR(options) {
         } else {
             err = new Error("Internal XMLHttpRequest Error")
         }
+
+        // call all registered response interceptors for a given request type:
+        if (options.requestType && createXHR.responseInterceptorsStorage.getIsEnabled()) {
+            const responseInterceptorPayload = {
+                headers: response.headers || {},
+                body: response.body,
+                responseUrl: xhr.responseURL,
+                responseType: xhr.responseType,
+            }
+
+            const updatedPayload = createXHR.responseInterceptorsStorage.execute(options.requestType, responseInterceptorPayload);
+
+            response.body = updatedPayload.body;
+            response.headers = updatedPayload.headers;
+        }
+
         return callback(err, response, response.body)
     }
 
@@ -210,6 +284,7 @@ function _createXHR(options) {
     }
     xhr.onabort = function(){
         aborted = true;
+        clearTimeout(options.retryTimeout)
     }
     xhr.ontimeout = errorFunc
     xhr.open(method, uri, !sync, options.username, options.password)

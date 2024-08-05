@@ -1,4 +1,5 @@
 export default AudioTrackMenuItem;
+/** @import Player from '../../player' */
 /**
  * An {@link AudioTrack} {@link MenuItem}
  *
@@ -29,5 +30,5 @@ declare class AudioTrackMenuItem extends MenuItem {
      */
     handleTracksChange(event?: Event): void;
 }
-import MenuItem from "../../menu/menu-item.js";
+import MenuItem from '../../menu/menu-item.js';
 //# sourceMappingURL=audio-track-menu-item.d.ts.map

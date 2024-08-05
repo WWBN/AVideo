@@ -300,7 +300,7 @@ declare namespace Html5 {
      *        - False otherwise
      */
     function supportsNativeAudioTracks(): boolean;
-    const Events: any[];
+    let Events: any[];
     function disposeMediaElement(el: any): void;
     function resetMediaElement(el: any): void;
     namespace nativeSourceHandler {
@@ -346,5 +346,5 @@ declare namespace Html5 {
         function dispose(): void;
     }
 }
-import Tech from "./tech.js";
+import Tech from './tech.js';
 //# sourceMappingURL=html5.d.ts.map

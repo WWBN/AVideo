@@ -3,7 +3,7 @@ export default function createLogger(name: any, delimiter?: string, styles?: str
     /**
      * Create a new subLogger which chains the old name to the new name.
      *
-     * For example, doing `videojs.log.createLogger('player')` and then using that logger will log the following:
+     * For example, doing `mylogger = videojs.log.createLogger('player')` and then using that logger will log the following:
      * ```js
      *  mylogger('foo');
      *  // > VIDEOJS: player: foo
@@ -62,7 +62,7 @@ export default function createLogger(name: any, delimiter?: string, styles?: str
      * @return {string}
      *         The current logging level.
      */
-    level(lvl?: 'all' | 'debug' | 'info' | 'warn' | 'error' | 'off'): string;
+    level(lvl?: "all" | "debug" | "info" | "warn" | "error" | "off"): string;
     /**
      * Returns an array containing everything that has been logged to the history.
      *
@@ -104,14 +104,14 @@ export default function createLogger(name: any, delimiter?: string, styles?: str
      * @param {...*} args
      *        One or more messages or objects that should be logged as an error
      */
-    error(...args: any[]): any;
+    error(...args: any[]): void;
     /**
      * Logs warning messages. Similar to `console.warn`.
      *
      * @param {...*} args
      *        One or more messages or objects that should be logged as a warning.
      */
-    warn(...args: any[]): any;
+    warn(...args: any[]): void;
     /**
      * Logs debug messages. Similar to `console.debug`, but may also act as a comparable
      * log if `console.debug` is not available
@@ -119,6 +119,6 @@ export default function createLogger(name: any, delimiter?: string, styles?: str
      * @param {...*} args
      *        One or more messages or objects that should be logged as debug.
      */
-    debug(...args: any[]): any;
+    debug(...args: any[]): void;
 };
 //# sourceMappingURL=create-logger.d.ts.map

@@ -1,4 +1,8 @@
 export default ChaptersButton;
+/** @import Player from '../../player' */
+/** @import Menu from '../../menu/menu' */
+/** @import TextTrack from '../../tracks/text-track' */
+/** @import TextTrackMenuItem from '../text-track-controls/text-track-menu-item' */
 /**
  * The button component for toggling and selecting chapters
  * Chapters act much differently than other text tracks
@@ -10,7 +14,7 @@ declare class ChaptersButton extends TextTrackButton {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
@@ -19,7 +23,7 @@ declare class ChaptersButton extends TextTrackButton {
      * @param {Function} [ready]
      *        The function to call when this function is ready.
      */
-    constructor(player: import('../../player').default, options?: any, ready?: Function);
+    constructor(player: Player, options?: any, ready?: Function);
     selectCurrentItem_: () => void;
     /**
      * Builds the default DOM `className`.
@@ -68,17 +72,17 @@ declare class ChaptersButton extends TextTrackButton {
     /**
      * Create menu from chapter track
      *
-     * @return { import('../../menu/menu').default }
+     * @return {Menu}
      *         New menu for the chapter buttons
      */
-    createMenu(): import('../../menu/menu').default;
+    createMenu(): Menu;
     /**
      * Create a menu item for each text track
      *
-     * @return  { import('./text-track-menu-item').default[] }
+     * @return  {TextTrackMenuItem[]}
      *         Array of menu items
      */
-    createItems(): import('./text-track-menu-item').default[];
+    createItems(): TextTrackMenuItem[];
     /**
      * `kind` of TextTrack to look for to associate it with this menu.
      *
@@ -94,5 +98,9 @@ declare class ChaptersButton extends TextTrackButton {
      */
     protected controlText_: string;
 }
-import TextTrackButton from "./text-track-button.js";
+import TextTrackButton from './text-track-button.js';
+import type TextTrack from '../../tracks/text-track';
+import type Menu from '../../menu/menu';
+import type TextTrackMenuItem from '../text-track-controls/text-track-menu-item';
+import type Player from '../../player';
 //# sourceMappingURL=chapters-button.d.ts.map

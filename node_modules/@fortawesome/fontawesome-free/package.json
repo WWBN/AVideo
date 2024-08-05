@@ -21,12 +21,9 @@
     "node": ">=6"
   },
   "dependencies": {},
-  "version": "6.5.2",
+  "version": "6.6.0",
   "name": "@fortawesome/fontawesome-free",
   "main": "js/fontawesome.js",
   "style": "css/fontawesome.css",
-  "license": "(CC-BY-4.0 AND OFL-1.1 AND MIT)",
-  "scripts": {
-    "postinstall": "node attribution.js"
-  }
+  "license": "(CC-BY-4.0 AND OFL-1.1 AND MIT)"
 }

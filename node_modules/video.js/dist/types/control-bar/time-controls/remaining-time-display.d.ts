@@ -1,4 +1,5 @@
 export default RemainingTimeDisplay;
+/** @import Player from '../../player' */
 /**
  * Displays the time left in the video
  *
@@ -8,13 +9,13 @@ declare class RemainingTimeDisplay extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options]
      *        The key/value store of player options.
      */
-    constructor(player: import('../../player').default, options?: any);
+    constructor(player: Player, options?: any);
     /**
      * Create the `Component`'s DOM element with the "minus" character prepend to the time
      *
@@ -49,5 +50,6 @@ declare class RemainingTimeDisplay extends Component {
      */
     protected controlText_: string;
 }
-import Component from "../../component.js";
+import Component from '../../component.js';
+import type Player from '../../player';
 //# sourceMappingURL=remaining-time-display.d.ts.map

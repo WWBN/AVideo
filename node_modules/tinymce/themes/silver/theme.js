@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.1.0 (2024-05-08)
+ * TinyMCE version 7.2.1 (2024-07-03)
  */
 
 (function () {
@@ -721,7 +721,7 @@
       const dom = element.dom;
       return dom && dom.hasAttribute ? dom.hasAttribute(key) : false;
     };
-    const remove$7 = (element, key) => {
+    const remove$8 = (element, key) => {
       element.dom.removeAttribute(key);
     };
     const clone$2 = element => foldl(element.dom.attributes, (acc, attr) => {
@@ -792,11 +792,11 @@
       const style = getRaw(element, property);
       return style.isSome();
     };
-    const remove$6 = (element, property) => {
+    const remove$7 = (element, property) => {
       const dom = element.dom;
       internalRemove(dom, property);
       if (is$1(getOpt(element, 'style').map(trim$1), '')) {
-        remove$7(element, 'style');
+        remove$8(element, 'style');
       }
     };
     const reflow = e => e.dom.offsetWidth;
@@ -1328,10 +1328,10 @@
     const empty = element => {
       element.dom.textContent = '';
       each$1(children(element), rogue => {
-        remove$5(rogue);
+        remove$6(rogue);
       });
     };
-    const remove$5 = element => {
+    const remove$6 = element => {
       const dom = element.dom;
       if (dom.parentNode !== null) {
         dom.parentNode.removeChild(dom);
@@ -2574,12 +2574,12 @@
       set$9(element, attr, nu.join(' '));
       return true;
     };
-    const remove$4 = (element, attr, id) => {
+    const remove$5 = (element, attr, id) => {
       const nu = filter$2(read$1(element, attr), v => v !== id);
       if (nu.length > 0) {
         set$9(element, attr, nu.join(' '));
       } else {
-        remove$7(element, attr);
+        remove$8(element, attr);
       }
       return false;
     };
@@ -2587,10 +2587,10 @@
     const supports = element => element.dom.classList !== undefined;
     const get$a = element => read$1(element, 'class');
     const add$3 = (element, clazz) => add$4(element, 'class', clazz);
-    const remove$3 = (element, clazz) => remove$4(element, 'class', clazz);
+    const remove$4 = (element, clazz) => remove$5(element, 'class', clazz);
     const toggle$5 = (element, clazz) => {
       if (contains$2(get$a(element), clazz)) {
-        return remove$3(element, clazz);
+        return remove$4(element, clazz);
       } else {
         return add$3(element, clazz);
       }
@@ -2606,15 +2606,15 @@
     const cleanClass = element => {
       const classList = supports(element) ? element.dom.classList : get$a(element);
       if (classList.length === 0) {
-        remove$7(element, 'class');
+        remove$8(element, 'class');
       }
     };
-    const remove$2 = (element, clazz) => {
+    const remove$3 = (element, clazz) => {
       if (supports(element)) {
         const classList = element.dom.classList;
         classList.remove(clazz);
       } else {
-        remove$3(element, clazz);
+        remove$4(element, clazz);
       }
       cleanClass(element);
     };
@@ -2630,9 +2630,9 @@
         add$2(element, x);
       });
     };
-    const remove$1 = (element, classes) => {
+    const remove$2 = (element, classes) => {
       each$1(classes, x => {
-        remove$2(element, x);
+        remove$3(element, x);
       });
     };
     const toggle$3 = (element, classes) => {
@@ -2680,7 +2680,7 @@
         return parent(element).bind(parent => {
           append$2(parent, marker);
           const offsetParent$1 = offsetParent(marker);
-          remove$5(marker);
+          remove$6(marker);
           return offsetParent$1;
         });
       });
@@ -2690,14 +2690,14 @@
     const appear = (component, contextualInfo) => {
       const elem = component.element;
       add$2(elem, contextualInfo.transitionClass);
-      remove$2(elem, contextualInfo.fadeOutClass);
+      remove$3(elem, contextualInfo.fadeOutClass);
       add$2(elem, contextualInfo.fadeInClass);
       contextualInfo.onShow(component);
     };
     const disappear = (component, contextualInfo) => {
       const elem = component.element;
       add$2(elem, contextualInfo.transitionClass);
-      remove$2(elem, contextualInfo.fadeInClass);
+      remove$3(elem, contextualInfo.fadeInClass);
       add$2(elem, contextualInfo.fadeOutClass);
       contextualInfo.onHide(component);
     };
@@ -2865,7 +2865,7 @@
         'top',
         'bottom',
         'position'
-      ], prop => remove$6(component.element, prop));
+      ], prop => remove$7(component.element, prop));
       config.onUndocked(component);
     };
     const morphToCoord = (component, config, state, position) => {
@@ -2934,7 +2934,7 @@
       });
       state.setVisible(true);
       config.contextual.each(contextInfo => {
-        remove$1(elem, [
+        remove$2(elem, [
           contextInfo.fadeInClass,
           contextInfo.fadeOutClass,
           contextInfo.transitionClass
@@ -2981,7 +2981,7 @@
       runOnSource(transitionend(), (component, simulatedEvent) => {
         dockInfo.contextual.each(contextInfo => {
           if (has(component.element, contextInfo.transitionClass)) {
-            remove$1(component.element, [
+            remove$2(component.element, [
               contextInfo.transitionClass,
               contextInfo.fadeInClass
             ]);
@@ -3599,14 +3599,14 @@
       obsoleted.fold(() => append$2(parent, child), obs => {
         if (!eq(obs, child)) {
           before$1(obs, child);
-          remove$5(obs);
+          remove$6(obs);
         }
       });
     };
     const patchChildrenWith = (parent, nu, f) => {
       const builtChildren = map$2(nu, f);
       const currentChildren = children(parent);
-      each$1(currentChildren.slice(builtChildren.length), remove$5);
+      each$1(currentChildren.slice(builtChildren.length), remove$6);
       return builtChildren;
     };
     const patchSpecChild = (parent, index, spec, build) => {
@@ -3646,7 +3646,7 @@
         toRemove: attrsToRemove
       } = diffKeyValueSet(definition.attributes, existingAttributes);
       const updateAttrs = () => {
-        each$1(attrsToRemove, a => remove$7(obsoleted, a));
+        each$1(attrsToRemove, a => remove$8(obsoleted, a));
         setAll$1(obsoleted, attrsToSet);
       };
       const existingStyles = getAllRaw(obsoleted);
@@ -3655,7 +3655,7 @@
         toRemove: stylesToRemove
       } = diffKeyValueSet(definition.styles, existingStyles);
       const updateStyles = () => {
-        each$1(stylesToRemove, s => remove$6(obsoleted, s));
+        each$1(stylesToRemove, s => remove$7(obsoleted, s));
         setAll(obsoleted, stylesToSet);
       };
       const existingClasses = get$9(obsoleted);
@@ -3663,7 +3663,7 @@
       const classesToAdd = difference(definition.classes, existingClasses);
       const updateClasses = () => {
         add$1(obsoleted, classesToAdd);
-        remove$1(obsoleted, classesToRemove);
+        remove$2(obsoleted, classesToRemove);
       };
       const updateHtml = html => {
         set$6(obsoleted, html);
@@ -3949,7 +3949,7 @@
         set$9(elem, attribute, ariaId);
       };
       const unlink = elem => {
-        remove$7(elem, attribute);
+        remove$8(elem, attribute);
       };
       return {
         id: ariaId,
@@ -4265,7 +4265,7 @@
       set$9(element, placementAttribute, placement);
     };
     const getPlacement = element => getOpt(element, placementAttribute);
-    const reset$1 = element => remove$7(element, placementAttribute);
+    const reset$1 = element => remove$8(element, placementAttribute);
 
     const adt$8 = Adt.generate([
       { fit: ['reposition'] },
@@ -4450,8 +4450,8 @@
           const type = e === null || e === void 0 ? void 0 : e.raw.type;
           if (isNullable(type) || type === transitionend()) {
             clearTimeout(timer);
-            remove$7(element, timerAttr);
-            remove$1(element, transition.classes);
+            remove$8(element, timerAttr);
+            remove$2(element, transition.classes);
           }
         }
       };
@@ -4472,7 +4472,7 @@
       add$1(element, transition.classes);
       getOpt(element, timerAttr).each(timerId => {
         clearTimeout(parseInt(timerId, 10));
-        remove$7(element, timerAttr);
+        remove$8(element, timerAttr);
       });
       setupTransitionListeners(element, transition);
     };
@@ -4494,7 +4494,7 @@
           reflow(element);
         }
       } else {
-        remove$1(element, transition.classes);
+        remove$2(element, transition.classes);
       }
     };
 
@@ -4503,14 +4503,14 @@
       height: getOuter$2(p)
     });
     const layout = (anchorBox, element, bubbles, options) => {
-      remove$6(element, 'max-height');
-      remove$6(element, 'max-width');
+      remove$7(element, 'max-height');
+      remove$7(element, 'max-width');
       const elementBox = elementSize(element);
       return attempts(element, options.preference, anchorBox, elementBox, bubbles, options.bounds);
     };
     const setClasses = (element, decision) => {
       const classInfo = decision.classes;
-      remove$1(element, classInfo.off);
+      remove$2(element, classInfo.off);
       add$1(element, classInfo.on);
     };
     const setHeight = (element, decision, options) => {
@@ -5131,7 +5131,7 @@
             const zeroWidth$1 = SugarElement.fromText(zeroWidth);
             before$1(sel.start, zeroWidth$1);
             const rect = getFirstRect(win, SimSelection.exact(zeroWidth$1, 0, zeroWidth$1, 1));
-            remove$5(zeroWidth$1);
+            remove$6(zeroWidth$1);
             return rect;
           });
           return optRect.bind(rawRect => {
@@ -5277,12 +5277,12 @@
           posState.set(placee.uid, newState);
         });
         oldVisibility.fold(() => {
-          remove$6(element, 'visibility');
+          remove$7(element, 'visibility');
         }, vis => {
           set$8(element, 'visibility', vis);
         });
         if (getRaw(element, 'left').isNone() && getRaw(element, 'top').isNone() && getRaw(element, 'right').isNone() && getRaw(element, 'bottom').isNone() && is$1(getRaw(element, 'position'), 'fixed')) {
-          remove$6(element, 'position');
+          remove$7(element, 'position');
         }
       }, element);
     };
@@ -5295,7 +5295,7 @@
         'right',
         'top',
         'bottom'
-      ], prop => remove$6(element, prop));
+      ], prop => remove$7(element, prop));
       reset$1(element);
       posState.clear(placee.uid);
     };
@@ -5367,7 +5367,7 @@
       append$2(parent.element, child.element);
     };
     const detachChildren$1 = component => {
-      each$1(component.components(), childComp => remove$5(childComp.element));
+      each$1(component.components(), childComp => remove$6(childComp.element));
       empty(component.element);
       component.syncComponents();
     };
@@ -5429,7 +5429,7 @@
     };
     const doDetach = component => {
       fireDetaching(component);
-      remove$5(component.element);
+      remove$6(component.element);
       component.getSystem().removeFromWorld(component);
     };
     const detach = component => {
@@ -5463,7 +5463,7 @@
       each$1(children$1, child => {
         guiSystem.getByDom(child).each(fireDetaching);
       });
-      remove$5(guiSystem.element);
+      remove$6(guiSystem.element);
     };
 
     const rebuild = (sandbox, sConfig, sState, data) => {
@@ -5502,14 +5502,14 @@
     const getState$2 = (_sandbox, _sConfig, sState) => sState.get();
     const store = (sandbox, cssKey, attr, newValue) => {
       getRaw(sandbox.element, cssKey).fold(() => {
-        remove$7(sandbox.element, attr);
+        remove$8(sandbox.element, attr);
       }, v => {
         set$9(sandbox.element, attr, v);
       });
       set$8(sandbox.element, cssKey, newValue);
     };
     const restore = (sandbox, cssKey, attr) => {
-      getOpt(sandbox.element, attr).fold(() => remove$6(sandbox.element, cssKey), oldValue => set$8(sandbox.element, cssKey, oldValue));
+      getOpt(sandbox.element, attr).fold(() => remove$7(sandbox.element, cssKey), oldValue => set$8(sandbox.element, cssKey, oldValue));
     };
     const cloak = (sandbox, sConfig, _sState) => {
       const sink = sConfig.getAttachPoint(sandbox);
@@ -5524,7 +5524,7 @@
     ], pos => getRaw(element, pos).isSome());
     const decloak = (sandbox, sConfig, _sState) => {
       if (!hasPosition(sandbox.element)) {
-        remove$6(sandbox.element, 'position');
+        remove$7(sandbox.element, 'position');
       }
       restore(sandbox, 'visibility', sConfig.cloakVisibilityAttr);
     };
@@ -6249,7 +6249,7 @@
       set$9(component.element, 'disabled', 'disabled');
     };
     const nativeEnable = component => {
-      remove$7(component.element, 'disabled');
+      remove$8(component.element, 'disabled');
     };
     const ariaIsDisabled = component => get$g(component.element, 'aria-disabled') === 'true';
     const ariaDisable = component => {
@@ -6268,7 +6268,7 @@
     };
     const enable = (component, disableConfig, _disableState) => {
       disableConfig.disableClass.each(disableClass => {
-        remove$2(component.element, disableClass);
+        remove$3(component.element, disableClass);
       });
       const f = hasNative(component, disableConfig) ? nativeEnable : ariaEnable;
       f(component);
@@ -6321,7 +6321,7 @@
       each$1(highlighted, h => {
         const shouldSkip = exists(skip, skipComp => eq(skipComp.element, h));
         if (!shouldSkip) {
-          remove$2(h, hConfig.highlightClass);
+          remove$3(h, hConfig.highlightClass);
           component.getSystem().getByDom(h).each(target => {
             hConfig.onDehighlight(component, target);
             emit(target, dehighlight$1());
@@ -6332,7 +6332,7 @@
     const dehighlightAll = (component, hConfig, hState) => dehighlightAllExcept(component, hConfig, hState, []);
     const dehighlight = (component, hConfig, hState, target) => {
       if (isHighlighted(component, hConfig, hState, target)) {
-        remove$2(target.element, hConfig.highlightClass);
+        remove$3(target.element, hConfig.highlightClass);
         hConfig.onDehighlight(component, target);
         emit(target, dehighlight$1());
       }
@@ -7129,7 +7129,7 @@
     const prepend = (component, replaceConfig, replaceState, prependee) => {
       insert(component, prepend$1, prependee);
     };
-    const remove = (component, replaceConfig, replaceState, removee) => {
+    const remove$1 = (component, replaceConfig, replaceState, removee) => {
       const children = contents(component);
       const foundChild = find$5(children, child => eq(removee.element, child.element));
       foundChild.each(detach);
@@ -7154,7 +7154,7 @@
         __proto__: null,
         append: append,
         prepend: prepend,
-        remove: remove,
+        remove: remove$1,
         replaceAt: replaceAt,
         replaceBy: replaceBy,
         set: set$3,
@@ -7265,7 +7265,7 @@
         if (toggleState.get()) {
           add$2(component.element, toggleClass);
         } else {
-          remove$2(component.element, toggleClass);
+          remove$3(component.element, toggleClass);
         }
       });
     };
@@ -7406,9 +7406,9 @@
     const focus$1 = constant$1(focusEvent);
     const toggled = constant$1(toggledEvent);
 
-    const getItemRole = detail => detail.toggling.map(toggling => toggling.exclusive ? 'menuitemradio' : 'menuitemcheckbox').getOr('menuitem');
-    const getTogglingSpec = tConfig => ({
-      aria: { mode: 'checked' },
+    const getItemRole = detail => detail.role.fold(() => detail.toggling.map(toggling => toggling.exclusive ? 'menuitemradio' : 'menuitemcheckbox').getOr('menuitem'), identity);
+    const getTogglingSpec = (tConfig, isOption) => ({
+      aria: { mode: isOption ? 'selected' : 'checked' },
       ...filter$1(tConfig, (_value, name) => name !== 'exclusive'),
       onToggled: (component, state) => {
         if (isFunction(tConfig.onToggled)) {
@@ -7429,7 +7429,7 @@
         }
       },
       behaviours: SketchBehaviours.augment(detail.itemBehaviours, [
-        detail.toggling.fold(Toggling.revoke, tConfig => Toggling.config(getTogglingSpec(tConfig))),
+        detail.toggling.fold(Toggling.revoke, tConfig => Toggling.config(getTogglingSpec(tConfig, detail.role.exists(role => role === 'option')))),
         Focusing.config({
           ignore: detail.ignoreFocus,
           stopMousedown: detail.ignoreFocus,
@@ -7459,6 +7459,7 @@
       required$1('dom'),
       defaulted('hasSubmenu', false),
       option$3('toggling'),
+      option$3('role'),
       SketchBehaviours.field('itemBehaviours', [
         Toggling,
         Focusing,
@@ -7639,6 +7640,7 @@
         }
       })]);
     const schema$m = constant$1([
+      optionString('role'),
       required$1('value'),
       required$1('items'),
       required$1('dom'),
@@ -7673,7 +7675,7 @@
       defaulted('focusManager', dom$2()),
       onHandler('onHighlight'),
       onHandler('onDehighlight'),
-      defaulted('menuRole', true)
+      defaulted('showMenuRole', true)
     ]);
 
     const focus = constant$1('alloy.menu-focus');
@@ -7733,7 +7735,7 @@
       ]),
       components,
       eventOrder: detail.eventOrder,
-      ...detail.menuRole ? { domModification: { attributes: { role: 'menu' } } } : {}
+      ...detail.showMenuRole ? { domModification: { attributes: { role: detail.role.getOr('menu') } } } : {}
     });
 
     const Menu = composite({
@@ -7918,7 +7920,7 @@
       const closeOthers = (container, state, path) => {
         const others = getMenus(state, state.otherMenus(path));
         each$1(others, o => {
-          remove$1(o.element, [detail.markers.backgroundMenu]);
+          remove$2(o.element, [detail.markers.backgroundMenu]);
           if (!detail.stayInDom) {
             Replacing.remove(container, o);
           }
@@ -7956,7 +7958,7 @@
           if (!inBody(activeMenu.element)) {
             Replacing.append(container, premade(activeMenu));
           }
-          remove$1(activeMenu.element, [detail.markers.backgroundMenu]);
+          remove$2(activeMenu.element, [detail.markers.backgroundMenu]);
           setActiveMenuAndItem(container, activeMenu);
           closeOthers(container, state, path);
           return Optional.some(activeMenu);
@@ -11643,6 +11645,7 @@
     const onSetup = defaultedFunction('onSetup', () => noop);
     const optionalName = optionString('name');
     const optionalText = optionString('text');
+    const optionalRole = optionString('role');
     const optionalIcon = optionString('icon');
     const optionalTooltip = optionString('tooltip');
     const optionalLabel = optionString('label');
@@ -11780,6 +11783,7 @@
     const commonMenuItemFields = [
       enabled,
       optionalText,
+      optionalRole,
       optionalShortcut,
       generatedValue('menuitem'),
       defaultedMeta
@@ -12388,8 +12392,8 @@
     const min = Math.min;
     const max = Math.max;
     const round$1 = Math.round;
-    const rgbRegex = /^\s*rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$/i;
-    const rgbaRegex = /^\s*rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?(?:\.\d+)?)\s*\)\s*$/i;
+    const rgbRegex = /^\s*rgb\s*\(\s*(\d+)\s*[,\s]\s*(\d+)\s*[,\s]\s*(\d+)\s*\)\s*$/i;
+    const rgbaRegex = /^\s*rgba\s*\(\s*(\d+)\s*[,\s]\s*(\d+)\s*[,\s]\s*(\d+)\s*[,\s]\s*((?:\d?\.\d+|\d+)%?)\s*\)\s*$/i;
     const rgbaColour = (red, green, blue, alpha) => ({
       red,
       green,
@@ -12471,9 +12475,6 @@
       return rgbaColour(r, g, b, a);
     };
     const fromString = rgbaString => {
-      if (rgbaString === 'transparent') {
-        return Optional.some(rgbaColour(0, 0, 0, 0));
-      }
       const rgbMatch = rgbRegex.exec(rgbaString);
       if (rgbMatch !== null) {
         return Optional.some(fromStringValues(rgbMatch[1], rgbMatch[2], rgbMatch[3], '1'));
@@ -13142,7 +13143,7 @@
         ...menuSpec,
         markers: markers(presets),
         movement: deriveMenuMovement(columns, presets),
-        menuRole: false
+        showMenuRole: false
       };
       return {
         type: 'widget',
@@ -13397,7 +13398,8 @@
           toggleClass: tickedClass,
           toggleOnExecute: false,
           selected: spec.active
-        }
+        },
+        role: spec.role.getOrUndefined()
       });
     };
 
@@ -13601,44 +13603,52 @@
     const openF = (detail, mapFetch, anchor, component, sandbox, externals, highlightOnOpen) => {
       const futureData = fetch(detail, mapFetch, component);
       const getLazySink = getSink(component, detail);
-      return futureData.map(tdata => tdata.bind(data => Optional.from(tieredMenu.sketch({
-        ...externals.menu(),
-        uid: generate$5(''),
-        data,
-        highlightOnOpen,
-        onOpenMenu: (tmenu, menu) => {
-          const sink = getLazySink().getOrDie();
-          Positioning.position(sink, menu, { anchor });
-          Sandboxing.decloak(sandbox);
-        },
-        onOpenSubmenu: (tmenu, item, submenu) => {
-          const sink = getLazySink().getOrDie();
-          Positioning.position(sink, submenu, {
-            anchor: {
-              type: 'submenu',
-              item
-            }
+      return futureData.map(tdata => tdata.bind(data => {
+        const primaryMenu = data.menus[data.primary];
+        Optional.from(primaryMenu).each(menu => {
+          detail.listRole.each(listRole => {
+            menu.role = listRole;
           });
-          Sandboxing.decloak(sandbox);
-        },
-        onRepositionMenu: (tmenu, primaryMenu, submenuTriggers) => {
-          const sink = getLazySink().getOrDie();
-          Positioning.position(sink, primaryMenu, { anchor });
-          each$1(submenuTriggers, st => {
-            Positioning.position(sink, st.triggeredMenu, {
+        });
+        return Optional.from(tieredMenu.sketch({
+          ...externals.menu(),
+          uid: generate$5(''),
+          data,
+          highlightOnOpen,
+          onOpenMenu: (tmenu, menu) => {
+            const sink = getLazySink().getOrDie();
+            Positioning.position(sink, menu, { anchor });
+            Sandboxing.decloak(sandbox);
+          },
+          onOpenSubmenu: (tmenu, item, submenu) => {
+            const sink = getLazySink().getOrDie();
+            Positioning.position(sink, submenu, {
               anchor: {
                 type: 'submenu',
-                item: st.triggeringItem
+                item
               }
             });
-          });
-        },
-        onEscape: () => {
-          Focusing.focus(component);
-          Sandboxing.close(sandbox);
-          return Optional.some(true);
-        }
-      }))));
+            Sandboxing.decloak(sandbox);
+          },
+          onRepositionMenu: (tmenu, primaryMenu, submenuTriggers) => {
+            const sink = getLazySink().getOrDie();
+            Positioning.position(sink, primaryMenu, { anchor });
+            each$1(submenuTriggers, st => {
+              Positioning.position(sink, st.triggeredMenu, {
+                anchor: {
+                  type: 'submenu',
+                  item: st.triggeringItem
+                }
+              });
+            });
+          },
+          onEscape: () => {
+            Focusing.focus(component);
+            Sandboxing.close(sandbox);
+            return Optional.some(true);
+          }
+        }));
+      }));
     };
     const open = (detail, mapFetch, hotspot, sandbox, externals, onOpenSync, highlightOnOpen) => {
       const anchor = getAnchor(detail, hotspot);
@@ -13706,10 +13716,7 @@
         dom: {
           tag: 'div',
           classes: detail.sandboxClasses,
-          attributes: {
-            id: ariaControls.id,
-            role: 'listbox'
-          }
+          attributes: { id: ariaControls.id }
         },
         behaviours: SketchBehaviours.augment(detail.sandboxBehaviours, [
           Representing.config({
@@ -13776,7 +13783,8 @@
       option$3('lazySink'),
       defaulted('matchWidth', false),
       defaulted('useMinWidth', false),
-      option$3('role')
+      option$3('role'),
+      option$3('listRole')
     ].concat(sandboxFields()));
     const parts$e = constant$1([
       external({
@@ -13896,7 +13904,7 @@
         apis,
         domModification: {
           attributes: {
-            'aria-haspopup': 'true',
+            'aria-haspopup': detail.listRole.getOr('true'),
             ...detail.role.fold(() => ({}), role => ({ role })),
             ...detail.dom.tag === 'button' ? { type: lookupAttr('type').getOr('button') } : {}
           }
@@ -14096,8 +14104,8 @@
           editor.dom.remove(autocompleterId, false);
           const editorBody = SugarElement.fromDom(editor.getBody());
           getOpt(editorBody, 'aria-owns').filter(ariaOwnsAttr => ariaOwnsAttr === autocompleterId).each(() => {
-            remove$7(editorBody, 'aria-owns');
-            remove$7(editorBody, 'aria-activedescendant');
+            remove$8(editorBody, 'aria-owns');
+            remove$8(editorBody, 'aria-activedescendant');
           });
         }
       };
@@ -14170,8 +14178,8 @@
         });
         editor.dom.add(docElm, newElm.dom);
         descendant(newElm, '[role="menu"]').each(child => {
-          remove$6(child, 'position');
-          remove$6(child, 'max-height');
+          remove$7(child, 'position');
+          remove$7(child, 'max-height');
         });
       };
       editor.on('AutocompleterStart', ({lookupData}) => {
@@ -14687,7 +14695,7 @@
       };
       const destroy = () => {
         domEvents.unbind();
-        remove$5(root.element);
+        remove$6(root.element);
       };
       const broadcastData = data => {
         const receivers = registry.filter(receive());
@@ -14934,13 +14942,13 @@
         run$1(tap(), onClick),
         run$1(focusin(), runOnItem((comp, se, tgt) => {
           descendant(comp.element, '.' + activeClass).each(currentActive => {
-            remove$2(currentActive, activeClass);
+            remove$3(currentActive, activeClass);
           });
           add$2(tgt, activeClass);
         })),
         run$1(focusout(), runOnItem(comp => {
           descendant(comp.element, '.' + activeClass).each(currentActive => {
-            remove$2(currentActive, activeClass);
+            remove$3(currentActive, activeClass);
             blur$1(currentActive);
           });
         })),
@@ -14970,8 +14978,8 @@
             },
             onEnabled: comp => {
               iterCollectionItems(comp, childElm => {
-                remove$2(childElm, 'tox-collection__item--state-disabled');
-                remove$7(childElm, 'aria-disabled');
+                remove$3(childElm, 'tox-collection__item--state-disabled');
+                remove$8(childElm, 'aria-disabled');
               });
             }
           }),
@@ -15059,7 +15067,7 @@
     };
     const markValid = (component, invalidConfig) => {
       const elem = invalidConfig.getRoot(component).getOr(component.element);
-      remove$2(elem, invalidConfig.invalidClass);
+      remove$3(elem, invalidConfig.invalidClass);
       invalidConfig.notify.each(notifyInfo => {
         if (isAriaElement(component.element)) {
           set$9(component.element, 'aria-invalid', false);
@@ -17158,7 +17166,7 @@
                 onReceive: (comp, message) => {
                   message.newFocus.each(newFocus => {
                     parentElement(comp.element).each(parent => {
-                      const f = eq(comp.element, newFocus) ? add$2 : remove$2;
+                      const f = eq(comp.element, newFocus) ? add$2 : remove$3;
                       f(parent, 'tox-navobj-bordered-focus');
                     });
                   });
@@ -17247,7 +17255,7 @@
           const img = imageComponent.element;
           if (data.url !== get$g(img, 'src')) {
             set$9(img, 'src', data.url);
-            remove$2(frameComponent.element, 'tox-imagepreview__loaded');
+            remove$3(frameComponent.element, 'tox-imagepreview__loaded');
           }
           applyFramePositioning();
           image(img).then(img => {
@@ -17283,11 +17291,11 @@
       };
     };
 
-    const renderLabel$2 = (spec, backstageShared) => {
+    const renderLabel$2 = (spec, backstageShared, getCompByName) => {
       const baseClass = 'tox-label';
       const centerClass = spec.align === 'center' ? [`${ baseClass }--center`] : [];
       const endClass = spec.align === 'end' ? [`${ baseClass }--end`] : [];
-      const label = {
+      const label = record({
         dom: {
           tag: 'label',
           classes: [
@@ -17297,7 +17305,7 @@
           ]
         },
         components: [text$2(backstageShared.providers.translate(spec.label))]
-      };
+      });
       const comps = map$2(spec.items, backstageShared.interpreter);
       return {
         dom: {
@@ -17305,14 +17313,26 @@
           classes: ['tox-form__group']
         },
         components: [
-          label,
+          label.asSpec(),
           ...comps
         ],
         behaviours: derive$1([
           ComposingConfigs.self(),
           Replacing.config({}),
           domHtml(Optional.none()),
-          Keying.config({ mode: 'acyclic' })
+          Keying.config({ mode: 'acyclic' }),
+          config('label', [runOnAttached(comp => {
+              spec.for.each(name => {
+                getCompByName(name).each(target => {
+                  label.getOpt(comp).each(labelComp => {
+                    var _a;
+                    const id = (_a = get$g(target.element, 'id')) !== null && _a !== void 0 ? _a : generate$6('form-field');
+                    set$9(target.element, 'id', id);
+                    set$9(labelComp.element, 'for', id);
+                  });
+                });
+              });
+            })])
         ])
       };
     };
@@ -17384,6 +17404,7 @@
         return Optional.some(true);
       };
       const role = spec.role.fold(() => ({}), role => ({ role }));
+      const listRole = Optional.from(spec.listRole).map(listRole => ({ listRole })).getOr({});
       const ariaLabelAttribute = spec.ariaLabel.fold(() => ({}), ariaLabel => {
         const translatedAriaLabel = sharedBackstage.providers.translate(ariaLabel);
         return { 'aria-label': translatedAriaLabel };
@@ -17397,6 +17418,7 @@
       const memDropdown = record(Dropdown.sketch({
         ...spec.uid ? { uid: spec.uid } : {},
         ...role,
+        ...listRole,
         dom: {
           tag: 'button',
           classes: [
@@ -17482,13 +17504,15 @@
           menu: {
             ...part(false, spec.columns, spec.presets),
             fakeFocus: spec.searchable,
-            onHighlightItem: updateAriaOnHighlight,
-            onCollapseMenu: (tmenuComp, itemCompCausingCollapse, nowActiveMenuComp) => {
-              Highlighting.getHighlighted(nowActiveMenuComp).each(itemComp => {
-                updateAriaOnHighlight(tmenuComp, nowActiveMenuComp, itemComp);
-              });
-            },
-            onDehighlightItem: updateAriaOnDehighlight
+            ...spec.listRole === 'listbox' ? {} : {
+              onHighlightItem: updateAriaOnHighlight,
+              onCollapseMenu: (tmenuComp, itemCompCausingCollapse, nowActiveMenuComp) => {
+                Highlighting.getHighlighted(nowActiveMenuComp).each(itemComp => {
+                  updateAriaOnHighlight(tmenuComp, nowActiveMenuComp, itemComp);
+                });
+              },
+              onDehighlightItem: updateAriaOnDehighlight
+            }
           }
         },
         getAnchorOverrides: () => {
@@ -17598,16 +17622,17 @@
 
     const isSingleListItem = item => !has$2(item, 'items');
     const dataAttribute = 'data-value';
-    const fetchItems = (dropdownComp, name, items, selectedValue) => map$2(items, item => {
+    const fetchItems = (dropdownComp, name, items, selectedValue, hasNestedItems) => map$2(items, item => {
       if (!isSingleListItem(item)) {
         return {
           type: 'nestedmenuitem',
           text: item.text,
-          getSubmenuItems: () => fetchItems(dropdownComp, name, item.items, selectedValue)
+          getSubmenuItems: () => fetchItems(dropdownComp, name, item.items, selectedValue, hasNestedItems)
         };
       } else {
         return {
           type: 'togglemenuitem',
+          ...hasNestedItems ? {} : { role: 'option' },
           text: item.text,
           value: item.value,
           active: item.value === selectedValue,
@@ -17627,6 +17652,7 @@
       }
     });
     const renderListBox = (spec, backstage, initialData) => {
+      const hasNestedItems = exists(spec.items, item => !isSingleListItem(item));
       const providersBackstage = backstage.shared.providers;
       const initialItem = initialData.bind(value => findItemByValue(spec.items, value)).orThunk(() => head(spec.items).filter(isSingleListItem));
       const pLabel = spec.label.map(label => renderLabel$3(label, providersBackstage));
@@ -17638,10 +17664,11 @@
             text: initialItem.map(item => item.text),
             icon: Optional.none(),
             tooltip: Optional.none(),
-            role: Optional.none(),
+            role: someIf(!hasNestedItems, 'combobox'),
+            ...hasNestedItems ? {} : { listRole: 'listbox' },
             ariaLabel: spec.label,
             fetch: (comp, callback) => {
-              const items = fetchItems(comp, spec.name, spec.items, Representing.getValue(comp));
+              const items = fetchItems(comp, spec.name, spec.items, Representing.getValue(comp), hasNestedItems);
               callback(build(items, ItemResponse$1.CLOSE_ON_EXECUTE, backstage, {
                 isHorizontalMenu: false,
                 search: Optional.none()
@@ -18165,6 +18192,12 @@
             name: spec.name,
             value
           });
+        },
+        onChange: (component, thumb, value) => {
+          emitWith(component, formChangeEvent, {
+            name: spec.name,
+            value
+          });
         }
       });
     };
@@ -18325,21 +18358,21 @@
     const getDimension = (slideConfig, elem) => slideConfig.dimension.getDimension(elem);
     const disableTransitions = (component, slideConfig) => {
       const root = getAnimationRoot(component, slideConfig);
-      remove$1(root, [
+      remove$2(root, [
         slideConfig.shrinkingClass,
         slideConfig.growingClass
       ]);
     };
     const setShrunk = (component, slideConfig) => {
-      remove$2(component.element, slideConfig.openClass);
+      remove$3(component.element, slideConfig.openClass);
       add$2(component.element, slideConfig.closedClass);
       set$8(component.element, getDimensionProperty(slideConfig), '0px');
       reflow(component.element);
     };
     const setGrown = (component, slideConfig) => {
-      remove$2(component.element, slideConfig.closedClass);
+      remove$3(component.element, slideConfig.closedClass);
       add$2(component.element, slideConfig.openClass);
-      remove$6(component.element, getDimensionProperty(slideConfig));
+      remove$7(component.element, getDimensionProperty(slideConfig));
     };
     const doImmediateShrink = (component, slideConfig, slideState, _calculatedSize) => {
       slideState.setCollapsed();
@@ -18355,7 +18388,7 @@
       set$8(component.element, getDimensionProperty(slideConfig), size);
       reflow(component.element);
       const root = getAnimationRoot(component, slideConfig);
-      remove$2(root, slideConfig.growingClass);
+      remove$3(root, slideConfig.growingClass);
       add$2(root, slideConfig.shrinkingClass);
       setShrunk(component, slideConfig);
       slideConfig.onStartShrink(component);
@@ -18380,7 +18413,7 @@
       };
       const setStartSize = wasShrinking ? startPartialGrow : startCompleteGrow;
       setStartSize();
-      remove$2(root, slideConfig.shrinkingClass);
+      remove$3(root, slideConfig.shrinkingClass);
       add$2(root, slideConfig.growingClass);
       setGrown(component, slideConfig);
       set$8(component.element, getDimensionProperty(slideConfig), fullSize);
@@ -18389,7 +18422,7 @@
     };
     const refresh$3 = (component, slideConfig, slideState) => {
       if (slideState.isExpanded()) {
-        remove$6(component.element, getDimensionProperty(slideConfig));
+        remove$7(component.element, getDimensionProperty(slideConfig));
         const fullSize = getDimension(slideConfig, component.element);
         set$8(component.element, getDimensionProperty(slideConfig), fullSize);
       }
@@ -18466,7 +18499,7 @@
         if (raw.propertyName === slideConfig.dimension.property) {
           disableTransitions(component, slideConfig);
           if (slideState.isExpanded()) {
-            remove$6(component.element, slideConfig.dimension.property);
+            remove$7(component.element, slideConfig.dimension.property);
           }
           const notify = slideState.isExpanded() ? slideConfig.onGrown : slideConfig.onShrunk;
           notify(component);
@@ -18536,8 +18569,8 @@
           add$2(elm, 'tox-tbtn--enabled');
           set$9(elm, 'aria-pressed', true);
         } else {
-          remove$2(elm, 'tox-tbtn--enabled');
-          remove$7(elm, 'aria-pressed');
+          remove$3(elm, 'tox-tbtn--enabled');
+          remove$8(elm, 'aria-pressed');
         }
       },
       isActive: () => has(component.element, 'tox-tbtn--enabled'),
@@ -19179,7 +19212,7 @@
               return makeSandbox$1(detail, hotspot, {
                 onOpen: () => Toggling.on(hotspot),
                 onClose: () => {
-                  detail.lazyTypeaheadComp.get().each(input => remove$7(input.element, 'aria-activedescendant'));
+                  detail.lazyTypeaheadComp.get().each(input => remove$8(input.element, 'aria-activedescendant'));
                   Toggling.off(hotspot);
                 }
               });
@@ -19263,6 +19296,7 @@
       defaulted('dismissOnBlur', true),
       markers$1(['openClass']),
       option$3('initialData'),
+      option$3('listRole'),
       field('typeaheadBehaviours', [
         Focusing,
         Representing,
@@ -19933,7 +19967,7 @@
               parentElement(component.element).each(element => add$2(element, 'tox-checkbox--disabled'));
             },
             onEnabled: component => {
-              parentElement(component.element).each(element => remove$2(element, 'tox-checkbox--disabled'));
+              parentElement(component.element).each(element => remove$3(element, 'tox-checkbox--disabled'));
             }
           }),
           Tabstopping.config({}),
@@ -19996,14 +20030,22 @@
     };
 
     const renderHtmlPanel = (spec, providersBackstage) => {
+      const classes = [
+        'tox-form__group',
+        ...spec.stretched ? ['tox-form__group--stretched'] : []
+      ];
+      const init = config('htmlpanel', [runOnAttached(comp => {
+          spec.onInit(comp.element.dom);
+        })]);
       if (spec.presets === 'presentation') {
         return Container.sketch({
           dom: {
             tag: 'div',
-            classes: ['tox-form__group'],
+            classes,
             innerHtml: spec.html
           },
-          containerBehaviours: derive$1([Tooltipping.config({
+          containerBehaviours: derive$1([
+            Tooltipping.config({
               ...providersBackstage.tooltips.getConfig({
                 tooltipText: '',
                 onShow: comp => {
@@ -20039,30 +20081,33 @@
                 },
                 bubble: nu$5(0, -2, {})
               })
-            })])
+            }),
+            init
+          ])
         });
       } else {
         return Container.sketch({
           dom: {
             tag: 'div',
-            classes: ['tox-form__group'],
+            classes,
             innerHtml: spec.html,
             attributes: { role: 'document' }
           },
           containerBehaviours: derive$1([
             Tabstopping.config({}),
-            Focusing.config({})
+            Focusing.config({}),
+            init
           ])
         });
       }
     };
 
     const make$2 = render => {
-      return (parts, spec, dialogData, backstage) => get$h(spec, 'name').fold(() => render(spec, backstage, Optional.none()), fieldName => parts.field(fieldName, render(spec, backstage, get$h(dialogData, fieldName))));
+      return (parts, spec, dialogData, backstage, getCompByName) => get$h(spec, 'name').fold(() => render(spec, backstage, Optional.none(), getCompByName), fieldName => parts.field(fieldName, render(spec, backstage, get$h(dialogData, fieldName), getCompByName)));
     };
-    const makeIframe = render => (parts, spec, dialogData, backstage) => {
+    const makeIframe = render => (parts, spec, dialogData, backstage, getCompByName) => {
       const iframeSpec = deepMerge(spec, { source: 'dynamic' });
-      return make$2(render)(parts, iframeSpec, dialogData, backstage);
+      return make$2(render)(parts, iframeSpec, dialogData, backstage, getCompByName);
     };
     const factories = {
       bar: make$2((spec, backstage) => renderBar(spec, backstage.shared)),
@@ -20070,7 +20115,7 @@
       alertbanner: make$2((spec, backstage) => renderAlertBanner(spec, backstage.shared.providers)),
       input: make$2((spec, backstage, data) => renderInput(spec, backstage.shared.providers, data)),
       textarea: make$2((spec, backstage, data) => renderTextarea(spec, backstage.shared.providers, data)),
-      label: make$2((spec, backstage) => renderLabel$2(spec, backstage.shared)),
+      label: make$2((spec, backstage, _data, getCompByName) => renderLabel$2(spec, backstage.shared, getCompByName)),
       iframe: makeIframe((spec, backstage, data) => renderIFrame(spec, backstage.shared.providers, data)),
       button: make$2((spec, backstage) => renderDialogButton(spec, backstage.shared.providers)),
       checkbox: make$2((spec, backstage, data) => renderCheckbox(spec, backstage.shared.providers, data)),
@@ -20094,15 +20139,15 @@
       field: (_name, spec) => spec,
       record: constant$1([])
     };
-    const interpretInForm = (parts, spec, dialogData, oldBackstage) => {
-      const newBackstage = deepMerge(oldBackstage, { shared: { interpreter: childSpec => interpretParts(parts, childSpec, dialogData, newBackstage) } });
-      return interpretParts(parts, spec, dialogData, newBackstage);
+    const interpretInForm = (parts, spec, dialogData, oldBackstage, getCompByName) => {
+      const newBackstage = deepMerge(oldBackstage, { shared: { interpreter: childSpec => interpretParts(parts, childSpec, dialogData, newBackstage, getCompByName) } });
+      return interpretParts(parts, spec, dialogData, newBackstage, getCompByName);
     };
-    const interpretParts = (parts, spec, dialogData, backstage) => get$h(factories, spec.type).fold(() => {
+    const interpretParts = (parts, spec, dialogData, backstage, getCompByName) => get$h(factories, spec.type).fold(() => {
       console.error(`Unknown factory type "${ spec.type }", defaulting to container: `, spec);
       return spec;
-    }, factory => factory(parts, spec, dialogData, backstage));
-    const interpretWithoutForm = (spec, dialogData, backstage) => interpretParts(noFormParts, spec, dialogData, backstage);
+    }, factory => factory(parts, spec, dialogData, backstage, getCompByName));
+    const interpretWithoutForm = (spec, dialogData, backstage, getCompByName) => interpretParts(noFormParts, spec, dialogData, backstage, getCompByName);
 
     const labelPrefix = 'layout-inset';
     const westEdgeX = anchor => anchor.x;
@@ -20626,8 +20671,11 @@
               spec.onShow(comp, tooltip);
             }
           },
-          onHide: () => {
+          onHide: (comp, tooltip) => {
             numActiveTooltips--;
+            if (spec.onHide) {
+              spec.onHide(comp, tooltip);
+            }
           }
         };
       };
@@ -20865,11 +20913,12 @@
         isContextMenuOpen,
         setContextMenuState
       };
+      const getCompByName = _name => Optional.none();
       const popupBackstage = {
         ...commonBackstage,
         shared: {
           ...commonBackstage.shared,
-          interpreter: s => interpretWithoutForm(s, {}, popupBackstage),
+          interpreter: s => interpretWithoutForm(s, {}, popupBackstage, getCompByName),
           getSink: lazySinks.popup
         }
       };
@@ -20877,7 +20926,7 @@
         ...commonBackstage,
         shared: {
           ...commonBackstage.shared,
-          interpreter: s => interpretWithoutForm(s, {}, dialogBackstage),
+          interpreter: s => interpretWithoutForm(s, {}, dialogBackstage, getCompByName),
           getSink: lazySinks.dialog
         }
       };
@@ -21185,20 +21234,20 @@
           set$8(elm, 'width', parentWidth + 'px');
           set$8(parentElem, padding, getOccupiedHeight(elm) + 'px');
         } else {
-          remove$6(elm, 'width');
-          remove$6(parentElem, padding);
+          remove$7(elm, 'width');
+          remove$7(parentElem, padding);
         }
       });
     };
     const updateSinkVisibility = (sinkElem, visible) => {
       if (visible) {
-        remove$2(sinkElem, visibility.fadeOutClass);
+        remove$3(sinkElem, visibility.fadeOutClass);
         add$1(sinkElem, [
           visibility.transitionClass,
           visibility.fadeInClass
         ]);
       } else {
-        remove$2(sinkElem, visibility.fadeInClass);
+        remove$3(sinkElem, visibility.fadeInClass);
         add$1(sinkElem, [
           visibility.fadeOutClass,
           visibility.transitionClass
@@ -21209,10 +21258,10 @@
       const editorContainer = SugarElement.fromDom(editor.getContainer());
       if (docked) {
         add$2(editorContainer, editorStickyOnClass);
-        remove$2(editorContainer, editorStickyOffClass);
+        remove$3(editorContainer, editorStickyOffClass);
       } else {
         add$2(editorContainer, editorStickyOffClass);
-        remove$2(editorContainer, editorStickyOnClass);
+        remove$3(editorContainer, editorStickyOnClass);
       }
     };
     const restoreFocus = (headerElem, focusedElem) => {
@@ -21294,7 +21343,7 @@
               runOnSinkElement(elem => updateSinkVisibility(elem, true));
             },
             onShown: comp => {
-              runOnSinkElement(elem => remove$1(elem, [
+              runOnSinkElement(elem => remove$2(elem, [
                 visibility.transitionClass,
                 visibility.fadeInClass
               ]));
@@ -21308,7 +21357,7 @@
               runOnSinkElement(elem => updateSinkVisibility(elem, false));
             },
             onHidden: () => {
-              runOnSinkElement(elem => remove$1(elem, [visibility.transitionClass]));
+              runOnSinkElement(elem => remove$2(elem, [visibility.transitionClass]));
             },
             ...visibility
           },
@@ -21560,8 +21609,8 @@
       const doShow = (comp, key) => {
         if (!doShowing(comp)) {
           const element = comp.element;
-          remove$6(element, 'display');
-          remove$7(element, 'aria-hidden');
+          remove$7(element, 'display');
+          remove$8(element, 'aria-hidden');
           emitWith(comp, slotVisibility(), {
             name: key,
             visible: true
@@ -21697,7 +21746,7 @@
           Composing.getCurrent(slider).each(slotContainer => {
             SlotContainer.showSlot(slotContainer, configKey);
             Sliding.immediateGrow(slider);
-            remove$6(slider.element, 'width');
+            remove$7(slider.element, 'width');
             updateSidebarRoleOnToggle(sidebar.element, 'region');
           });
         }
@@ -21796,7 +21845,7 @@
             set$8(comp.element, 'width', se.event.width);
           }),
           run$1(autoSize, (comp, _se) => {
-            remove$6(comp.element, 'width');
+            remove$7(comp.element, 'width');
           })
         ])
       ])
@@ -21825,7 +21874,7 @@
       state.blockWith(() => Replacing.remove(root, blocker));
     };
     const unblock = (component, config, state) => {
-      remove$7(component.element, 'aria-busy');
+      remove$8(component.element, 'aria-busy');
       if (state.isBlocked()) {
         config.onUnblock(component);
       }
@@ -21892,10 +21941,10 @@
           getOpt(iframe, tabIndexAttr).each(tabIndex => set$9(iframe, dataTabIndexAttr, tabIndex));
           set$9(iframe, tabIndexAttr, -1);
         } else {
-          remove$7(iframe, tabIndexAttr);
+          remove$8(iframe, tabIndexAttr);
           getOpt(iframe, dataTabIndexAttr).each(tabIndex => {
             set$9(iframe, tabIndexAttr, tabIndex);
-            remove$7(iframe, dataTabIndexAttr);
+            remove$8(iframe, dataTabIndexAttr);
           });
         }
       });
@@ -21905,8 +21954,8 @@
       toggleEditorTabIndex(editor, state);
       if (state) {
         Blocking.block(comp, getBusySpec$1(providerBackstage));
-        remove$6(element, 'display');
-        remove$7(element, 'aria-hidden');
+        remove$7(element, 'display');
+        remove$8(element, 'aria-hidden');
         if (editor.hasFocus()) {
           focusBusyComponent(comp);
         }
@@ -22076,7 +22125,7 @@
         setGroups$1(primary, overflows.within);
         setOverflow(overflows.extra);
       }
-      remove$6(primary.element, 'visibility');
+      remove$7(primary.element, 'visibility');
       reflow(primary.element);
       focusedComp.each(Focusing.focus);
     };
@@ -22817,8 +22866,8 @@
             add$2(elm, 'tox-button--enabled');
             set$9(elm, 'aria-pressed', true);
           } else {
-            remove$2(elm, 'tox-button--enabled');
-            remove$7(elm, 'aria-pressed');
+            remove$3(elm, 'tox-button--enabled');
+            remove$8(elm, 'aria-pressed');
           }
         };
         const isActive = () => has(comp.element, 'tox-button--enabled');
@@ -23021,8 +23070,8 @@
     };
     const showContainer = comp => {
       const element = comp.element;
-      remove$6(element, 'display');
-      remove$7(element, 'aria-hidden');
+      remove$7(element, 'display');
+      remove$8(element, 'aria-hidden');
     };
     const makeViewInstanceApi = slot => ({ getContainer: constant$1(slot) });
     const runOnPaneWithInstanceApi = (slotContainer, name, get) => {
@@ -23105,8 +23154,8 @@
       const toggleStatusbar = editorContainer => {
         sibling(editorContainer, '.tox-statusbar').each(statusBar => {
           if (get$f(statusBar, 'display') === 'none' && get$g(statusBar, 'aria-hidden') === 'true') {
-            remove$6(statusBar, 'display');
-            remove$7(statusBar, 'aria-hidden');
+            remove$7(statusBar, 'display');
+            remove$8(statusBar, 'aria-hidden');
           } else {
             set$8(statusBar, 'display', 'none');
             set$9(statusBar, 'aria-hidden', 'true');
@@ -23210,8 +23259,8 @@
           parts$a.getPart(comp, detail, 'editorContainer').each(editorContainer => {
             const element = editorContainer.element;
             toggleStatusbar(element);
-            remove$6(element, 'display');
-            remove$7(element, 'aria-hidden');
+            remove$7(element, 'display');
+            remove$8(element, 'aria-hidden');
           });
         }
       };
@@ -24479,7 +24528,8 @@
       defaulted('matchWidth', false),
       defaulted('useMinWidth', false),
       defaulted('eventOrder', {}),
-      option$3('role')
+      option$3('role'),
+      option$3('listRole')
     ].concat(sandboxFields()));
     const arrowPart = required({
       factory: Button,
@@ -25122,7 +25172,7 @@
       });
       editor.on('show', () => {
         each$1(uiMotherships, m => {
-          remove$6(m.element, 'display');
+          remove$7(m.element, 'display');
         });
       });
       editor.on('NodeChange', resizeDocument);
@@ -25374,7 +25424,7 @@
           if (toolbarCurrentRightsidePosition >= window.innerWidth - maximumDistanceToEdge || getRaw(mainUi.outerContainer.element, 'width').isSome()) {
             set$8(mainUi.outerContainer.element, 'position', 'absolute');
             set$8(mainUi.outerContainer.element, 'left', '0px');
-            remove$6(mainUi.outerContainer.element, 'width');
+            remove$7(mainUi.outerContainer.element, 'width');
             return true;
           }
         }
@@ -25425,7 +25475,7 @@
         set$8(mainUi.outerContainer.element, 'display', 'flex');
         DOM.addClass(editor.getBody(), 'mce-edit-focus');
         each$1(uiMotherships, m => {
-          remove$6(m.element, 'display');
+          remove$7(m.element, 'display');
         });
         doUpdateMode();
         if (isSplitUiMode(editor)) {
@@ -26066,22 +26116,22 @@
         onShow: comp => {
           stack.set([]);
           InlineView.getContent(comp).each(c => {
-            remove$6(c.element, 'visibility');
+            remove$7(c.element, 'visibility');
           });
-          remove$2(comp.element, resizingClass);
-          remove$6(comp.element, 'width');
+          remove$3(comp.element, resizingClass);
+          remove$7(comp.element, 'width');
         },
         inlineBehaviours: derive$1([
           config('context-toolbar-events', [
             runOnSource(transitionend(), (comp, se) => {
               if (se.event.raw.propertyName === 'width') {
-                remove$2(comp.element, resizingClass);
-                remove$6(comp.element, 'width');
+                remove$3(comp.element, resizingClass);
+                remove$7(comp.element, 'width');
               }
             }),
             run$1(changeSlideEvent, (comp, se) => {
               const elem = comp.element;
-              remove$6(elem, 'width');
+              remove$7(elem, 'width');
               const currentWidth = get$d(elem);
               InlineView.setContent(comp, se.event.contents);
               add$2(elem, resizingClass);
@@ -26176,7 +26226,7 @@
       const hideOrRepositionIfNecessary = () => {
         if (InlineView.isOpen(contextbar)) {
           const contextBarEle = contextbar.element;
-          remove$6(contextBarEle, 'display');
+          remove$7(contextBarEle, 'display');
           if (shouldContextToolbarHide()) {
             set$8(contextBarEle, 'display', 'none');
           } else {
@@ -26251,9 +26301,9 @@
         lastContextPosition.set(position);
         lastTrigger.set(1);
         const contextBarEle = contextbar.element;
-        remove$6(contextBarEle, 'display');
+        remove$7(contextBarEle, 'display');
         if (!isSameLaunchElement(elem)) {
-          remove$2(contextBarEle, transitionClass);
+          remove$3(contextBarEle, transitionClass);
           Positioning.reset(sink, contextbar);
         }
         InlineView.showWithinBounds(contextbar, wrapInPopDialog(toolbarSpec), {
@@ -27362,8 +27412,8 @@
     };
     const clear = (component, snapsInfo) => {
       const element = component.element;
-      remove$7(element, snapsInfo.leftAttr);
-      remove$7(element, snapsInfo.topAttr);
+      remove$8(element, snapsInfo.leftAttr);
+      remove$8(element, snapsInfo.topAttr);
     };
 
     const getCoords = (component, snapInfo, coord, delta) => get$1(component, snapInfo).fold(() => coord, fixed$1 => fixed(fixed$1.left + delta.left, fixed$1.top + delta.top));
@@ -27452,8 +27502,8 @@
     const initialAttribute = 'data-initial-z-index';
     const resetZIndex = blocker => {
       parent(blocker.element).filter(isElement$1).each(root => {
-        getOpt(root, initialAttribute).fold(() => remove$6(root, 'z-index'), zIndex => set$8(root, 'z-index', zIndex));
-        remove$7(root, initialAttribute);
+        getOpt(root, initialAttribute).fold(() => remove$7(root, 'z-index'), zIndex => set$8(root, 'z-index', zIndex));
+        remove$8(root, initialAttribute);
       });
     };
     const changeZIndex = blocker => {
@@ -27876,7 +27926,7 @@
       const bottomRight = build$1(memBottomRight.asSpec());
       const showOrHideHandle = (selector, cell, isAbove, isBelow) => {
         const cellRect = cell.dom.getBoundingClientRect();
-        remove$6(selector.element, 'display');
+        remove$7(selector.element, 'display');
         const viewportHeight = defaultView(SugarElement.fromDom(editor.getBody())).dom.innerHeight;
         const aboveViewport = isAbove(cellRect);
         const belowViewport = isBelow(cellRect, viewportHeight);
@@ -27930,7 +27980,19 @@
       }
     };
 
-    var Logo = "<svg width=\"50px\" height=\"16px\" viewBox=\"0 0 50 16\" xmlns=\"http://www.w3.org/2000/svg\">\n  <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M10.143 0c2.608.015 5.186 2.178 5.186 5.331 0 0 .077 3.812-.084 4.87-.361 2.41-2.164 4.074-4.65 4.496-1.453.284-2.523.49-3.212.623-.373.071-.634.122-.785.152-.184.038-.997.145-1.35.145-2.732 0-5.21-2.04-5.248-5.33 0 0 0-3.514.03-4.442.093-2.4 1.758-4.342 4.926-4.963 0 0 3.875-.752 4.036-.782.368-.07.775-.1 1.15-.1Zm1.826 2.8L5.83 3.989v2.393l-2.455.475v5.968l6.137-1.189V9.243l2.456-.476V2.8ZM5.83 6.382l3.682-.713v3.574l-3.682.713V6.382Zm27.173-1.64-.084-1.066h-2.226v9.132h2.456V7.743c-.008-1.151.998-2.064 2.149-2.072 1.15-.008 1.987.92 1.995 2.072v5.065h2.455V7.359c-.015-2.18-1.657-3.929-3.837-3.913a3.993 3.993 0 0 0-2.908 1.296Zm-6.3-4.266L29.16 0v2.387l-2.456.475V.476Zm0 3.2v9.132h2.456V3.676h-2.456Zm18.179 11.787L49.11 3.676H46.58l-1.612 4.527-.46 1.382-.384-1.382-1.611-4.527H39.98l3.3 9.132L42.15 16l2.732-.537ZM22.867 9.738c0 .752.568 1.075.921 1.075.353 0 .668-.047.998-.154l.537 1.765c-.23.154-.92.537-2.225.537-1.305 0-2.655-.997-2.686-2.686a136.877 136.877 0 0 1 0-4.374H18.8V3.676h1.612v-1.98l2.455-.476v2.456h2.302V5.9h-2.302v3.837Z\"/>\n</svg>\n";
+    var Logo = "<svg height=\"16\" viewBox=\"0 0 80 16\" width=\"80\" xmlns=\"http://www.w3.org/2000/svg\"><g opacity=\".8\"><path d=\"m80 3.537v-2.202h-7.976v11.585h7.976v-2.25h-5.474v-2.621h4.812v-2.069h-4.812v-2.443zm-10.647 6.929c-.493.217-1.13.337-1.864.337s-1.276-.156-1.805-.47a3.732 3.732 0 0 1 -1.3-1.298c-.324-.554-.48-1.191-.48-1.877s.156-1.335.48-1.877a3.635 3.635 0 0 1 1.3-1.299 3.466 3.466 0 0 1 1.805-.481c.65 0 .914.06 1.263.18.36.12.698.277.986.47.289.192.578.384.842.6l.12.085v-2.586l-.023-.024c-.385-.35-.855-.614-1.384-.818-.53-.205-1.155-.313-1.877-.313-.721 0-1.6.144-2.333.445a5.773 5.773 0 0 0 -1.937 1.251 5.929 5.929 0 0 0 -1.324 1.9c-.324.735-.48 1.565-.48 2.455s.156 1.72.48 2.454c.325.734.758 1.383 1.324 1.913.553.53 1.215.938 1.937 1.25a6.286 6.286 0 0 0 2.333.434c.819 0 1.384-.108 1.961-.313.59-.216 1.083-.505 1.468-.866l.024-.024v-2.49l-.12.096c-.41.337-.878.626-1.396.866zm-14.869-4.15-4.8-5.04-.024-.025h-.902v11.67h2.502v-6.847l2.827 3.08.385.409.397-.41 2.791-3.067v6.845h2.502v-11.679h-.902l-4.788 5.052z\"/><path clip-rule=\"evenodd\" d=\"m15.543 5.137c0-3.032-2.466-5.113-4.957-5.137-.36 0-.745.024-1.094.096-.157.024-3.85.758-3.85.758-3.032.602-4.62 2.466-4.704 4.788-.024.89-.024 4.27-.024 4.27.036 3.165 2.406 5.138 5.017 5.126.337 0 1.119-.109 1.287-.145.144-.024.385-.084.746-.144.661-.12 1.684-.325 3.067-.602 2.37-.409 4.103-2.009 4.44-4.33.156-1.023.084-4.692.084-4.692zm-3.213 3.308-2.346.457v2.31l-5.859 1.143v-5.75l2.346-.458v3.441l3.513-.686v-3.44l-3.513.685v-2.297l5.859-1.143v5.75zm20.09-3.296-.083-1.023h-2.13v8.794h2.346v-4.884c0-1.107.95-1.985 2.057-1.997 1.095 0 1.901.89 1.901 1.997v4.884h2.346v-5.245c-.012-2.105-1.588-3.777-3.67-3.765a3.764 3.764 0 0 0 -2.778 1.25l.012-.011zm-6.014-4.102 2.346-.458v2.298l-2.346.457z\" fill-rule=\"evenodd\"/><path d=\"m28.752 4.126h-2.346v8.794h2.346z\"/><path clip-rule=\"evenodd\" d=\"m43.777 15.483 4.043-11.357h-2.418l-1.54 4.355-.445 1.324-.36-1.324-1.54-4.355h-2.418l3.151 8.794-1.083 3.08zm-21.028-5.51c0 .722.541 1.034.878 1.034s.638-.048.95-.144l.518 1.708c-.217.145-.879.518-2.13.518a2.565 2.565 0 0 1 -2.562-2.587c-.024-1.082-.024-2.49 0-4.21h-1.54v-2.142h1.54v-1.912l2.346-.458v2.37h2.201v2.142h-2.2v3.693-.012z\" fill-rule=\"evenodd\"/></g></svg>\n";
+
+    const describedBy = (describedElement, describeElement) => {
+      const describeId = Optional.from(get$g(describedElement, 'id')).getOrThunk(() => {
+        const id = generate$6('aria');
+        set$9(describeElement, 'id', id);
+        return id;
+      });
+      set$9(describedElement, 'aria-describedby', describeId);
+    };
+    const remove = describedElement => {
+      remove$8(describedElement, 'aria-describedby');
+    };
 
     const isHidden = elm => elm.nodeName === 'BR' || !!elm.getAttribute('data-mce-bogus') || elm.getAttribute('data-mce-type') === 'bookmark';
     const renderElementPath = (editor, settings, providersBackstage) => {
@@ -27940,10 +28002,7 @@
         dom: {
           tag: 'div',
           classes: ['tox-statusbar__path-item'],
-          attributes: {
-            'data-index': index,
-            'aria-level': index + 1
-          }
+          attributes: { 'data-index': index }
         },
         components: [text$2(name)],
         action: _btn => {
@@ -27952,6 +28011,20 @@
           editor.nodeChanged();
         },
         buttonBehaviours: derive$1([
+          Tooltipping.config({
+            ...providersBackstage.tooltips.getConfig({
+              tooltipText: providersBackstage.translate([
+                'Select the {0} element',
+                element.nodeName.toLowerCase()
+              ]),
+              onShow: (comp, tooltip) => {
+                describedBy(comp.element, tooltip.element);
+              },
+              onHide: comp => {
+                remove(comp.element);
+              }
+            })
+          }),
           DisablingConfigs.button(providersBackstage.isDisabled),
           receivingConfig()
         ])
@@ -28171,12 +28244,15 @@
                   'href': 'https://www.tiny.cloud/powered-by-tiny?utm_campaign=poweredby&utm_source=tiny&utm_medium=referral&utm_content=v7',
                   'rel': 'noopener',
                   'target': '_blank',
-                  'aria-label': global$5.translate([
-                    'Powered by {0}',
-                    'Tiny'
+                  'aria-label': editor.translate([
+                    'Build with {0}',
+                    'TinyMCE'
                   ])
                 },
-                innerHtml: Logo.trim()
+                innerHtml: editor.translate([
+                  'Build with {0}',
+                  Logo.trim()
+                ])
               },
               behaviours: derive$1([Focusing.config({})])
             }]
@@ -28983,7 +29059,9 @@
       defaultedStringEnum('presets', 'presentation', [
         'presentation',
         'document'
-      ])
+      ]),
+      defaultedFunction('onInit', noop),
+      defaultedBoolean('stretched', false)
     ];
     const htmlPanelSchema = objOf(htmlPanelFields);
 
@@ -29021,7 +29099,8 @@
         'start',
         'center',
         'end'
-      ])
+      ]),
+      optionString('for')
     ];
 
     const listBoxSingleItemFields = [
@@ -29369,13 +29448,13 @@
       return errors.length > 0 ? Result.error(errors) : Result.value(result);
     };
 
-    const renderBodyPanel = (spec, dialogData, backstage) => {
+    const renderBodyPanel = (spec, dialogData, backstage, getCompByName) => {
       const memForm = record(Form.sketch(parts => ({
         dom: {
           tag: 'div',
           classes: ['tox-form'].concat(spec.classes)
         },
-        components: map$2(spec.items, item => interpretInForm(parts, item, dialogData, backstage))
+        components: map$2(spec.items, item => interpretInForm(parts, item, dialogData, backstage, getCompByName))
       })));
       return {
         dom: {
@@ -29718,7 +29797,7 @@
               maxTabHeightOpt.fold(maxTabHeight.clear, maxTabHeight.set);
             });
             updateTabviewHeight(dialog, tabview, maxTabHeight);
-            remove$6(tabview, 'visibility');
+            remove$7(tabview, 'visibility');
             showTab(allTabs, comp);
             requestAnimationFrame(() => {
               updateTabviewHeight(dialog, tabview, maxTabHeight);
@@ -29737,8 +29816,8 @@
             const oldFocus = active$1(getRootNode(tabview));
             set$8(tabview, 'visibility', 'hidden');
             const oldHeight = getRaw(tabview, 'height').map(h => parseInt(h, 10));
-            remove$6(tabview, 'height');
-            remove$6(tabview, 'flex-basis');
+            remove$7(tabview, 'height');
+            remove$7(tabview, 'flex-basis');
             const newHeight = tabview.dom.getBoundingClientRect().height;
             const hasGrown = oldHeight.forall(h => newHeight > h);
             if (hasGrown) {
@@ -29749,7 +29828,7 @@
                 setTabviewHeight(tabview, h);
               });
             }
-            remove$6(tabview, 'visibility');
+            remove$7(tabview, 'visibility');
             oldFocus.each(focus$3);
           });
         })
@@ -29763,7 +29842,7 @@
 
     const SendDataToSectionChannel = 'send-data-to-section';
     const SendDataToViewChannel = 'send-data-to-view';
-    const renderTabPanel = (spec, dialogData, backstage) => {
+    const renderTabPanel = (spec, dialogData, backstage, getCompByName) => {
       const storedValue = Cell({});
       const updateDataWithForm = form => {
         const formData = Representing.getValue(form);
@@ -29791,7 +29870,7 @@
                   tag: 'div',
                   classes: ['tox-form']
                 },
-                components: map$2(tab.items, item => interpretInForm(parts, item, dialogData, backstage)),
+                components: map$2(tab.items, item => interpretInForm(parts, item, dialogData, backstage, getCompByName)),
                 formBehaviours: derive$1([
                   Keying.config({
                     mode: 'acyclic',
@@ -29869,15 +29948,15 @@
       });
     };
 
-    const renderBody = (spec, dialogId, contentId, backstage, ariaAttrs) => {
+    const renderBody = (spec, dialogId, contentId, backstage, ariaAttrs, getCompByName) => {
       const renderComponents = incoming => {
         const body = incoming.body;
         switch (body.type) {
         case 'tabpanel': {
-            return [renderTabPanel(body, incoming.initialData, backstage)];
+            return [renderTabPanel(body, incoming.initialData, backstage, getCompByName)];
           }
         default: {
-            return [renderBodyPanel(body, incoming.initialData, backstage)];
+            return [renderBodyPanel(body, incoming.initialData, backstage, getCompByName)];
           }
         }
       };
@@ -29904,9 +29983,9 @@
         ])
       };
     };
-    const renderInlineBody = (spec, dialogId, contentId, backstage, ariaAttrs) => renderBody(spec, dialogId, Optional.some(contentId), backstage, ariaAttrs);
-    const renderModalBody = (spec, dialogId, backstage) => {
-      const bodySpec = renderBody(spec, dialogId, Optional.none(), backstage, false);
+    const renderInlineBody = (spec, dialogId, contentId, backstage, ariaAttrs, getCompByName) => renderBody(spec, dialogId, Optional.some(contentId), backstage, ariaAttrs, getCompByName);
+    const renderModalBody = (spec, dialogId, backstage, getCompByName) => {
+      const bodySpec = renderBody(spec, dialogId, Optional.none(), backstage, false, getCompByName);
       return ModalDialog.parts.body(bodySpec);
     };
     const renderIframeBody = spec => {
@@ -30067,7 +30146,7 @@
               add$2(body(), scrollLockClass);
             }),
             runOnDetached(() => {
-              remove$2(body(), scrollLockClass);
+              remove$3(body(), scrollLockClass);
             })
           ]),
           ...spec.extraBehaviours
@@ -30209,7 +30288,7 @@
     const updateDialogSizeClass = (size, component) => {
       const dialogBody = SugarElement.fromDom(component.element.dom);
       if (!has(dialogBody, fullscreenClass)) {
-        remove$1(dialogBody, [
+        remove$2(dialogBody, [
           largeDialogClass,
           mediumDialogClass
         ]);
@@ -30535,6 +30614,7 @@
       const internalDialog = dialogInit.internalDialog;
       const header = getHeader(internalDialog.title, dialogId, backstage);
       const dialogSize = Cell(internalDialog.size);
+      const getCompByName$1 = name => getCompByName(modalAccess, name);
       const dialogSizeClasses = getDialogSizeClass(dialogSize.get()).toArray();
       const updateState = (comp, incoming) => {
         dialogSize.set(incoming.internalDialog.size);
@@ -30544,7 +30624,7 @@
       const body = renderModalBody({
         body: internalDialog.body,
         initialData: internalDialog.initialData
-      }, dialogId, backstage);
+      }, dialogId, backstage, getCompByName$1);
       const storedMenuButtons = mapMenuButtons(internalDialog.buttons);
       const objOfCells = extractCellsToObject(storedMenuButtons);
       const footer = someIf(storedMenuButtons.length !== 0, renderModalFooter({ buttons: storedMenuButtons }, dialogId, backstage));
@@ -30592,6 +30672,7 @@
       const dialogLabelId = generate$6('dialog-label');
       const dialogContentId = generate$6('dialog-content');
       const internalDialog = dialogInit.internalDialog;
+      const getCompByName$1 = name => getCompByName(modalAccess, name);
       const dialogSize = Cell(internalDialog.size);
       const dialogSizeClass = getDialogSizeClass(dialogSize.get()).toArray();
       const updateState = (comp, incoming) => {
@@ -30607,7 +30688,7 @@
       const memBody = record(renderInlineBody({
         body: internalDialog.body,
         initialData: internalDialog.initialData
-      }, dialogId, dialogContentId, backstage, ariaAttrs));
+      }, dialogId, dialogContentId, backstage, ariaAttrs, getCompByName$1));
       const storagedMenuButtons = mapMenuButtons(internalDialog.buttons);
       const objOfCells = extractCellsToObject(storagedMenuButtons);
       const optMemFooter = someIf(storagedMenuButtons.length !== 0, record(renderInlineFooter({ buttons: storagedMenuButtons }, dialogId, backstage)));
@@ -30686,7 +30767,7 @@
       const toggleFullscreen$1 = () => {
         toggleFullscreen(dialog, dialogSize.get());
       };
-      const instanceApi = getDialogApi({
+      const modalAccess = {
         getId: constant$1(dialogId),
         getRoot: constant$1(dialog),
         getFooter: () => optMemFooter.map(memFooter => memFooter.get(dialog)),
@@ -30696,7 +30777,8 @@
           return Composing.getCurrent(body).getOr(body);
         },
         toggleFullscreen: toggleFullscreen$1
-      }, extra.redial, objOfCells);
+      };
+      const instanceApi = getDialogApi(modalAccess, extra.redial, objOfCells);
       return {
         dialog,
         instanceApi

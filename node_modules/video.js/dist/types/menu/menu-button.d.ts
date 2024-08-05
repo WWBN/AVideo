@@ -1,4 +1,5 @@
 export default MenuButton;
+/** @import Player from '../player' */
 /**
  * A `MenuButton` class for any popup {@link Menu}.
  *
@@ -8,13 +9,13 @@ declare class MenuButton extends Component {
     /**
      * Creates an instance of this class.
      *
-     * @param { import('../player').default } player
+     * @param {Player} player
      *        The `Player` that this class should be attached to.
      *
      * @param {Object} [options={}]
      *        The key/value store of player options.
      */
-    constructor(player: import('../player').default, options?: any);
+    constructor(player: Player, options?: any);
     menuButton_: Button;
     enabled_: boolean;
     handleMenuKeyUp_: (e: any) => void;
@@ -171,7 +172,8 @@ declare class MenuButton extends Component {
      */
     enable(): void;
 }
-import Component from "../component.js";
-import Button from "../button.js";
-import Menu from "./menu.js";
+import Component from '../component.js';
+import Button from '../button.js';
+import Menu from './menu.js';
+import type Player from '../player';
 //# sourceMappingURL=menu-button.d.ts.map

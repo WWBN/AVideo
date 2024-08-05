@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.1.0 (2024-05-08)
+ * TinyMCE version 7.2.1 (2024-07-03)
  */
 
 (function () {
@@ -6318,7 +6318,6 @@
                 const isCellClosestContentEditable = is(closest(event.target), singleCell, eq$1);
                 if (isNonEditableCell && isCellClosestContentEditable) {
                   annotations.selectRange(container, boxes, singleCell, singleCell);
-                  bridge.selectContents(singleCell);
                 }
               } else if (boxes.length > 1) {
                 annotations.selectRange(container, boxes, cellSel.start, cellSel.finish);

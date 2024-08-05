@@ -3,8 +3,8 @@ export default MediaError;
  * An object containing an error type, as well as other information regarding the error.
  */
 export type ErrorMetadata = {
-    [key: string]: any;
     errorType: string;
+    [key: string]: any;
 };
 /**
  * A Custom `MediaError` class which mimics the standard HTML5 `MediaError` class.
@@ -122,13 +122,13 @@ declare namespace MediaError {
      * *
      */
     type errorTypes = any[];
-    const errorTypes: string[];
-    const defaultMessages: any[];
-    const MEDIA_ERR_CUSTOM: number;
-    const MEDIA_ERR_ABORTED: number;
-    const MEDIA_ERR_NETWORK: number;
-    const MEDIA_ERR_DECODE: number;
-    const MEDIA_ERR_SRC_NOT_SUPPORTED: number;
-    const MEDIA_ERR_ENCRYPTED: number;
+    let errorTypes: string[];
+    let defaultMessages: any[];
+    let MEDIA_ERR_CUSTOM: number;
+    let MEDIA_ERR_ABORTED: number;
+    let MEDIA_ERR_NETWORK: number;
+    let MEDIA_ERR_DECODE: number;
+    let MEDIA_ERR_SRC_NOT_SUPPORTED: number;
+    let MEDIA_ERR_ENCRYPTED: number;
 }
 //# sourceMappingURL=media-error.d.ts.map

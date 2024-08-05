@@ -2,17 +2,26 @@
 if (empty($crc)) {
     $crc = uniqid();
 }
+$suggestedOrPinnedFound = false;
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
+    
+    $_REQUEST['rowCount'] = 20;
+    unsetCurrentPage();
+    if(!empty($global['isChannel'])){
+        $videoRows = Video::getAllVideos(Video::SORT_TYPE_CHANNELSUGGESTED, $global['isChannel']);
+    }
 
-    if (!empty($obj->useSuggestedVideosAsCarouselInBigVideo)) {
+    if (empty($videoRows) && !empty($obj->useSuggestedVideosAsCarouselInBigVideo)) {
         //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
         //$videoRows = Video::getAllVideosLight(Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, false, true);
-        $_REQUEST['rowCount'] = 20;
-        unsetCurrentPage();
+        //$_REQUEST['rowCount'] = 20;
+        //unsetCurrentPage();
         $videoRows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !$obj->hidePrivateVideos, array(), false, false, true, true);
     }
     if (empty($videoRows)) {
         $videoRows = array($video);
+    }else{
+        $suggestedOrPinnedFound = true;
     }
     $class = '';
     $classInner = '';
@@ -27,7 +36,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         }
     </style>
 
-    <div class="clearfix" style="margin: 10px 0;">
+    <div class="clearfix" style="margin: 5px 0 20px 0;">
         <div id="bigVideoCarousel" class="<?php echo $class; ?> " data-ride="carousel">
             <?php
             if (count($videoRows) > 1) {

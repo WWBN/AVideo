@@ -791,15 +791,15 @@ abstract class PluginAbstract {
         
     }
 
-    function onVideoSetTrailer1($video_id, $oldValue, $newValue) {
+    function onVideoSetTrailer1(Video &$videoObj, $newValue) {
         
     }
 
-    function onVideoSetTrailer2($video_id, $oldValue, $newValue) {
+    function onVideoSetTrailer2(Video &$videoObj, $newValue) {
         
     }
 
-    function onVideoSetTrailer3($video_id, $oldValue, $newValue) {
+    function onVideoSetTrailer3(Video &$videoObj, $newValue) {
         
     }
 

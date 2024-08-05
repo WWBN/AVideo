@@ -1,4 +1,5 @@
 export default Menu;
+/** @import Player from '../player' */
 /**
  * The Menu component is used to build popup menus, including subtitle and
  * captions selection menus.
@@ -9,14 +10,14 @@ declare class Menu extends Component {
     /**
      * Create an instance of this class.
      *
-     * @param { import('../player').default } player
+     * @param {Player} player
      *        the player that this component should attach to
      *
      * @param {Object} [options]
      *        Object of option names and values
      *
      */
-    constructor(player: import('../player').default, options?: any);
+    constructor(player: Player, options?: any);
     menuButton_: any;
     focusedChild_: number;
     boundHandleBlur_: (e: any) => void;
@@ -98,5 +99,6 @@ declare class Menu extends Component {
      */
     focus(item?: any | string): void;
 }
-import Component from "../component.js";
+import Component from '../component.js';
+import type Player from '../player';
 //# sourceMappingURL=menu.d.ts.map

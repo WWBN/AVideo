@@ -13,5 +13,5 @@ declare class CustomControlSpacer extends Spacer {
      */
     createEl(): Element;
 }
-import Spacer from "./spacer.js";
+import Spacer from './spacer.js';
 //# sourceMappingURL=custom-control-spacer.d.ts.map

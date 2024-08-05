@@ -3620,6 +3620,26 @@ async function setVideoSuggested(videos_id, isSuggested) {
     })
 }
 
+async function setVideoChannelSuggested(videos_id, isSuggested) {
+    modal.showPleaseWait();
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: webSiteRootURL + 'objects/videoPinOnChannel.php',
+            data: { "id": videos_id, "isSuggested": isSuggested },
+            type: 'post',
+            success: function (data) {
+                modal.hidePleaseWait();
+                avideoResponse(data);
+                resolve(data)
+            },
+            error: function (error) {
+                modal.hidePleaseWait();
+                reject(error)
+            },
+        })
+    })
+}
+
 function toogleVideoSuggested(btn) {
     var videos_id = $(btn).attr('videos_id');
     var isSuggested = $(btn).hasClass('isSuggested');

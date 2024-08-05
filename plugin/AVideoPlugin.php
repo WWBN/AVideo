@@ -2529,7 +2529,7 @@ class AVideoPlugin
         return;
     }
 
-    public static function onVideoSetTrailer1($video_id, $oldValue, $newValue)
+    public static function onVideoSetTrailer1(Video &$videoObj, $newValue)
     {
         global $global;
         if (empty($global)) {
@@ -2546,14 +2546,14 @@ class AVideoPlugin
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->onVideoSetTrailer1($video_id, $oldValue, $newValue);
+                $p->onVideoSetTrailer1($videoObj, $newValue);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
         return;
     }
 
-    public static function onVideoSetTrailer2($video_id, $oldValue, $newValue)
+    public static function onVideoSetTrailer2(Video &$videoObj, $newValue)
     {
         global $global;
         if (empty($global)) {
@@ -2570,14 +2570,14 @@ class AVideoPlugin
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->onVideoSetTrailer2($video_id, $oldValue, $newValue);
+                $p->onVideoSetTrailer2($videoObj, $newValue);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
         return;
     }
 
-    public static function onVideoSetTrailer3($video_id, $oldValue, $newValue)
+    public static function onVideoSetTrailer3(Video &$videoObj, $newValue)
     {
         global $global;
         if (empty($global)) {
@@ -2594,7 +2594,7 @@ class AVideoPlugin
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->onVideoSetTrailer3($video_id, $oldValue, $newValue);
+                $p->onVideoSetTrailer3($videoObj, $newValue);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
