@@ -34,7 +34,7 @@ function getRestreamsRuning()
                 'live_restreams_id' => $live_restreams_id,
                 'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
                 'restream_destination' => $restreamDomain,
-                'line' => $line,
+                //'line' => $line,
             );
             $restreams_ids[] = $live_restreams_id;
             $liveTransmitionHistory_ids[] = $liveTransmitionHistory_id;
