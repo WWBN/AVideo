@@ -1197,10 +1197,10 @@ abstract class CacheHandler
             unset($_SESSION['user']['sessionCache']);
             TimeLogEnd($timeLog, __LINE__);
             if ($clearFirstPageCache) {
-                _error_log("deleteCache clearFirstPageCache");
+                //_error_log("deleteCache clearFirstPageCache");
                 clearCache(true);
             }else{                
-                _error_log("deleteCache not schedule");
+                //_error_log("deleteCache not schedule");
             }
             TimeLogEnd($timeLog, __LINE__);
             $dir = ObjectYPT::getTmpCacheDir() . $prefix;
