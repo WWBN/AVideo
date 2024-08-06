@@ -1187,7 +1187,7 @@ abstract class CacheHandler
         TimeLogStart($timeLog);
         $prefix = $this->getCacheSubdir();
         if (class_exists('CachesInDB')) {
-            _error_log("deleteCache CachesInDB prefix=$prefix");
+            //_error_log("deleteCache CachesInDB prefix=$prefix");
             CacheDB::deleteCacheStartingWith($prefix, $schedule);
         }
         if(!$schedule){
