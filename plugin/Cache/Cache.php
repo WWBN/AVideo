@@ -298,7 +298,7 @@ class Cache extends PluginAbstract {
         }
         $t = (floatval($finish) - floatval($global['cachePluginStart']));
         $total_time = round($t, 4);
-        _error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
+        //_error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
     }
 
     public function getPluginMenu() {
