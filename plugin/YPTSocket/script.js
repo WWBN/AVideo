@@ -95,7 +95,7 @@ function socketConnect() {
         yptSocketResponse = json;
         parseSocketResponse();
         if (json.type == webSocketTypes.MSG_TO_ALL && typeof json.msg == 'object' && Array.isArray(json.msg)) {
-            console.log("Socket onmessage MSG_TO_ALL ", json.msg.length, json);
+            console.log("Socket onmessage "+json.type, json.msg.length, json);
             for (let index = 0; index < json.msg.length; index++) {
                 const element = json.msg[index];
                 processSocketJson(element);

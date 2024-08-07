@@ -13,7 +13,6 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 
 class Message implements MessageComponentInterface {
     static $msgToAll = array();
-    static $msgToAllLogged = array();
     static $mem_usage;
     static $mem;
     protected $clients;
@@ -47,10 +46,6 @@ class Message implements MessageComponentInterface {
             if(!empty(self::$msgToAll)){
                 $this->_msgToAll(self::$msgToAll, \SocketMessageType::MSG_TO_ALL);
                 self::$msgToAll = array();
-            }
-            if(!empty(self::$msgToAllLogged)){
-                $this->_msgToAllLogged(self::$msgToAllLogged, \SocketMessageType::MSG_TO_ALL);
-                self::$msgToAllLogged = array();
             }
         });
     }
@@ -181,7 +176,7 @@ class Message implements MessageComponentInterface {
         _log_message("onClose {$conn->resourceId} has deleted");
         $this->unsetClient($conn, $client);
         if ($this->shouldPropagateInfo($client)) {            
-            $this->msgToAllLogged(array('users_id' => $client['users_id'], 'disconnected'=>$conn->resourceId), \SocketMessageType::NEW_DISCONNECTION);
+            $this->msgToAll(array('users_id' => $client['users_id'], 'disconnected'=>$conn->resourceId), \SocketMessageType::NEW_DISCONNECTION);
         }
         _log_message("Connection {$conn->resourceId} has disconnected");
     }
@@ -512,30 +507,6 @@ class Message implements MessageComponentInterface {
         }
         $end = number_format(microtime(true) - $start, 4);
         _log_message("msgToAll FROM {$type} Total Clients: " . count($rows) . " in {$end} seconds");
-    }
-
-    public function msgToAllLogged($msg, $type = "") {
-        self::$msgToAll[] = array('msg'=>$msg, 'type'=>$type,);
-    }
-
-    public function _msgToAllLogged($msg, $type = "") {
-        $start = microtime(true);
-        $rows = dbGetAll();
-
-        $totals = $this->getTotals();
-
-        foreach ($rows as $key => $client) {
-            if($client['isCommandLine']){
-                //_error_log("msgToAllLogged continue");
-                continue;
-            }
-            if(empty($client['users_id'])){
-                continue;
-            }
-            $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
-        }
-        $end = number_format(microtime(true) - $start, 4);
-        _log_message("msgToAll {$type} Total Clients: " . count($rows) . " in {$end} seconds");
     }
 
     public function msgToAllSameVideo($videos_id, $msg) {
