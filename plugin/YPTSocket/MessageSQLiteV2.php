@@ -513,7 +513,8 @@ class Message implements MessageComponentInterface {
             $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
         }
         $end = number_format(microtime(true) - $start, 4);
-        _log_message("msgToAll FROM {$type} Total Clients: " . count($rows) . " in {$end} seconds");
+        $ago = time() - Message::$msgToAllTimeoutLastTime;
+        _log_message("msgToAll FROM {$type} Total Clients: " . count($rows) . " in {$end} seconds, last msgToAll was {$ago} seconds ago");
     }
 
     public function msgToAllSameVideo($videos_id, $msg) {
