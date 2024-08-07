@@ -95,6 +95,7 @@ function socketConnect() {
         yptSocketResponse = json;
         parseSocketResponse();
         if (json.type == webSocketTypes.MSG_TO_ALL && typeof json.msg == 'object' && Array.isArray(json.msg)) {
+            console.log("Socket onmessage MSG_TO_ALL ", json.msg.length);
             for (let index = 0; index < json.msg.length; index++) {
                 const element = json.msg[index];
                 processSocketJson(element);
@@ -254,7 +255,7 @@ function parseSocketResponse() {
     if (typeof json === 'undefined' || json === false) {
         return false;
     }
-    console.log("parseSocketResponse", json);
+    //console.log("parseSocketResponse", json);
     //console.trace();
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
         if (canShowSocketToast && typeof avideoToastWarning == 'function') {
