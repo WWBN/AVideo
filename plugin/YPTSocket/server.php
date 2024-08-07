@@ -33,7 +33,8 @@ $loop = React\EventLoop\Loop::get();
 if (function_exists('pdo_drivers') && in_array("sqlite", pdo_drivers())) {
     _error_log("Socket server SQLite loading");
     require_once $global['systemRootPath'] . 'plugin/YPTSocket/db.php';
-    require_once $global['systemRootPath'] . 'plugin/YPTSocket/MessageSQLite.php';
+    //require_once $global['systemRootPath'] . 'plugin/YPTSocket/MessageSQLite.php';
+    require_once $global['systemRootPath'] . 'plugin/YPTSocket/MessageSQLiteV2.php';
 } else {
     riseSQLiteError();
     require_once $global['systemRootPath'] . 'plugin/YPTSocket/Message.php';

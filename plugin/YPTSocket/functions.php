@@ -80,6 +80,7 @@ function verifyTokenSocket($token) {
 
 class SocketMessageType {
 
+    const MSG_TO_ALL = "MSG_TO_ALL";
     const OPEN_CONNECTION = "OPEN_CONNECTION";
     const NEW_CONNECTION = "NEW_CONNECTION";
     const NEW_DISCONNECTION = "NEW_DISCONNECTION";
