@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 
 class Message implements MessageComponentInterface {
-    const msgToAllTimeout = 5;
+    const MSG_TO_ALL_TIMEOUT = 5;
     static $msgToAllTimeoutLastTime = time();
     static $msgToAll = array();
     static $mem_usage;
@@ -41,7 +41,7 @@ class Message implements MessageComponentInterface {
 
     public function initPeriodicTask() {
         $loop = Loop::get();
-        $loop->addPeriodicTimer(Message::msgToAllTimeout, function (TimerInterface $timer) {
+        $loop->addPeriodicTimer(Message::MSG_TO_ALL_TIMEOUT, function (TimerInterface $timer) {
             // Your code to execute every 5 seconds
             //echo "Task executed at " . date('Y-m-d H:i:s') . ' '.json_encode(self::$msgToAll).PHP_EOL;
             // You can call other methods or perform any periodic action here
@@ -480,7 +480,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function msgToAll($msg, $type = \SocketMessageType::UNDEFINED) {
-        if(Message::$msgToAllTimeoutLastTime + Message::msgToAllTimeout < time()){
+        if(Message::$msgToAllTimeoutLastTime + Message::MSG_TO_ALL_TIMEOUT < time()){
             $this->_msgToAll( $msg, $type);
         }else{
             self::$msgToAll[] = array('msg'=>$msg, 'type'=>$type);
