@@ -48,8 +48,8 @@ class Message implements MessageComponentInterface {
             if(!empty(self::$msgToAll)){
                 $this->_msgToAll(self::$msgToAll, \SocketMessageType::MSG_TO_ALL);
                 self::$msgToAll = array();
+                Message::$msgToAllTimeoutLastTime = time();
             }
-            Message::$msgToAllTimeoutLastTime = time();
         });
     }
 
