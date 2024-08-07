@@ -13,7 +13,7 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 
 class Message implements MessageComponentInterface {
     const MSG_TO_ALL_TIMEOUT = 5;
-    static $msgToAllTimeoutLastTime = time();
+    static $msgToAllTimeoutLastTime = 0;
     static $msgToAll = array();
     static $mem_usage;
     static $mem;
