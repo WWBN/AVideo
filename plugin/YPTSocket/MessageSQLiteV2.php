@@ -42,7 +42,7 @@ class Message implements MessageComponentInterface {
         $loop = Loop::get();
         $loop->addPeriodicTimer(5, function (TimerInterface $timer) {
             // Your code to execute every 5 seconds
-            echo "Task executed at " . date('Y-m-d H:i:s') . ' '.json_encode(self::$msgToAll).PHP_EOL;
+            //echo "Task executed at " . date('Y-m-d H:i:s') . ' '.json_encode(self::$msgToAll).PHP_EOL;
             // You can call other methods or perform any periodic action here
             if(!empty(self::$msgToAll)){
                 $this->_msgToAll(self::$msgToAll, \SocketMessageType::MSG_TO_ALL);
