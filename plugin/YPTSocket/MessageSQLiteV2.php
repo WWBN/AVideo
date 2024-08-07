@@ -48,7 +48,6 @@ class Message implements MessageComponentInterface {
             if(!empty(self::$msgToAll)){
                 $this->_msgToAll(self::$msgToAll, \SocketMessageType::MSG_TO_ALL);
                 self::$msgToAll = array();
-                Message::$msgToAllTimeoutLastTime = time();
             }
         });
     }
@@ -514,7 +513,8 @@ class Message implements MessageComponentInterface {
         }
         $end = number_format(microtime(true) - $start, 4);
         $ago = time() - Message::$msgToAllTimeoutLastTime;
-        _log_message("msgToAll FROM {$type} Total Clients: " . count($rows) . " in {$end} seconds, last msgToAll was {$ago} seconds ago");
+        _log_message("msgToAll FROM {$type} Total Clients: " . count($rows) . " in {$end} seconds, last msgToAll was {$ago} seconds ago");        
+        Message::$msgToAllTimeoutLastTime = time();
     }
 
     public function msgToAllSameVideo($videos_id, $msg) {
