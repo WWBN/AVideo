@@ -89,6 +89,7 @@ class SocketMessageType {
     const ON_VIDEO_MSG = "ON_VIDEO_MSG";
     const ON_LIVE_MSG = "ON_LIVE_MSG";
     const TESTING = "TESTING";
+    const UNDEFINED = "UNDEFINED";
 
 }
 

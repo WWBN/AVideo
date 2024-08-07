@@ -12,6 +12,8 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 
 class Message implements MessageComponentInterface {
+    const msgToAllTimeout = 5;
+    static $msgToAllTimeoutLastTime = time();
     static $msgToAll = array();
     static $mem_usage;
     static $mem;
@@ -39,7 +41,7 @@ class Message implements MessageComponentInterface {
 
     public function initPeriodicTask() {
         $loop = Loop::get();
-        $loop->addPeriodicTimer(5, function (TimerInterface $timer) {
+        $loop->addPeriodicTimer(Message::msgToAllTimeout, function (TimerInterface $timer) {
             // Your code to execute every 5 seconds
             //echo "Task executed at " . date('Y-m-d H:i:s') . ' '.json_encode(self::$msgToAll).PHP_EOL;
             // You can call other methods or perform any periodic action here
@@ -47,6 +49,7 @@ class Message implements MessageComponentInterface {
                 $this->_msgToAll(self::$msgToAll, \SocketMessageType::MSG_TO_ALL);
                 self::$msgToAll = array();
             }
+            Message::$msgToAllTimeoutLastTime = time();
         });
     }
 
@@ -149,8 +152,8 @@ class Message implements MessageComponentInterface {
                     'room_users_id' => $client['room_users_id'], 
                     'chat_is_banned' => $client['chat_is_banned'], 
                     'resourceId' => $client['resourceId']), 
-                    \SocketMessageType::NEW_CONNECTION, 
-                    true);
+                    \SocketMessageType::NEW_CONNECTION
+                    );
         } else {
             //_log_message("NOT shouldPropagateInfo ");
         }
@@ -476,8 +479,12 @@ class Message implements MessageComponentInterface {
         return $_isLiveUsersEnabled;
     }
 
-    public function msgToAll($msg, $type = "", $includeMe = false) {
-        self::$msgToAll[] = array('msg'=>$msg, 'type'=>$type, 'includeMe'=>$includeMe, );
+    public function msgToAll($msg, $type = \SocketMessageType::UNDEFINED) {
+        if(Message::$msgToAllTimeoutLastTime + Message::msgToAllTimeout < time()){
+            $this->_msgToAll( $msg, $type);
+        }else{
+            self::$msgToAll[] = array('msg'=>$msg, 'type'=>$type);
+        }
     }
 
     public function _msgToAll( $msg, $type = "") {
