@@ -13,7 +13,6 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 
 class Message implements MessageComponentInterface {
     const MSG_TO_ALL_TIMEOUT = 5;
-    static $msgToAllTimeoutLastTime = 0;
     static $msgToAll = array();
     static $mem_usage;
     static $mem;
@@ -479,11 +478,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function msgToAll($msg, $type = \SocketMessageType::UNDEFINED) {
-        if(Message::$msgToAllTimeoutLastTime + Message::MSG_TO_ALL_TIMEOUT < time()){
-            $this->_msgToAll( $msg, $type);
-        }else{
-            self::$msgToAll[] = array('msg'=>$msg, 'type'=>$type);
-        }
+        self::$msgToAll[] = array('msg'=>$msg, 'type'=>$type);
     }
 
     public function _msgToAll( $msg, $type = "") {
@@ -512,9 +507,7 @@ class Message implements MessageComponentInterface {
             $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
         }
         $end = number_format(microtime(true) - $start, 4);
-        $ago = time() - Message::$msgToAllTimeoutLastTime;
-        _log_message("msgToAll FROM {$type} Total Clients: " . count($rows) . " in {$end} seconds, last msgToAll was {$ago} seconds ago");        
-        Message::$msgToAllTimeoutLastTime = time();
+        _log_message("msgToAll FROM {$type} Total Clients: " . count($rows) . " in {$end} seconds"); 
     }
 
     public function msgToAllSameVideo($videos_id, $msg) {
