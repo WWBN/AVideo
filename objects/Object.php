@@ -1190,12 +1190,12 @@ abstract class CacheHandler
             //_error_log("deleteCache CachesInDB prefix=$prefix");
             CacheDB::deleteCacheStartingWith($prefix, $schedule);
         }
+        TimeLogEnd($timeLog, __LINE__);
+        unset($_SESSION['user']['sessionCache']);
+        TimeLogEnd($timeLog, __LINE__);
         if(!$schedule){
             TimeLogEnd($timeLog, __LINE__);
             _session_start();
-            TimeLogEnd($timeLog, __LINE__);
-            unset($_SESSION['user']['sessionCache']);
-            TimeLogEnd($timeLog, __LINE__);
             if ($clearFirstPageCache) {
                 //_error_log("deleteCache clearFirstPageCache");
                 clearCache(true);
