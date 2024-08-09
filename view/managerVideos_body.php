@@ -1721,8 +1721,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     <?php
                     if (empty($advancedCustom->disableCopyEmbed)) {
                     ?>
-                        embedBtn += '<button type="button" class="btn btn-xs btn-default command-embed" id="embedBtn' + row.id + '"  onclick="getEmbedCode(' + row.id + ')" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Copy embed code")); ?>"><span class="fa fa-copy" aria-hidden="true"></span> <span id="copied' + row.id + '" style="display:none;"><?php echo str_replace("'", "\\'", __("Copied")); ?></span></button>'
-                        embedBtn += '<input type="hidden" id="embedInput' + row.id + '" value=\'<?php echo str_replace("{embedURL}", "{$global['webSiteRootURL']}vEmbed/' + row.id + '", str_replace("'", "\"", $advancedCustom->embedCodeTemplate)); ?>\'/>';
+                        embedBtn += '<button type="button" class="btn btn-xs btn-default command-embed" id="embedBtn' + row.id + '"  onclick="getEmbedCode(\'' + row.id + 'C\')" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Copy embed URL")); ?>"><i class="fa-solid fa-link"></i> <span id="copied' + row.id + 'C" style="display:none;"><?php echo str_replace("'", "\\'", __("Copied")); ?></span></button>'
+                        embedBtn += '<input type="hidden" id="embedInput' + row.id + 'C" value=\'<?php echo "{$global['webSiteRootURL']}vEmbed/' + row.id + '"; ?>\'/>';
+
+                        embedBtn += '<button type="button" class="btn btn-xs btn-default command-embed" id="embedBtn' + row.id + '"  onclick="getEmbedCode(' + row.id + ')" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Copy embed code")); ?>"><i class="fa-solid fa-code"></i> <span id="copied' + row.id + '" style="display:none;"><?php echo str_replace("'", "\\'", __("Copied")); ?></span></button>'
+                        embedBtn += '<input type="hidden" id="embedInput' + row.id + '" value=\'<?php echo str_replace(array("{embedURL}", "{videoLengthInSeconds}"), array("{$global['webSiteRootURL']}vEmbed/' + row.id + '", "' + row.duration_in_seconds + '"), str_replace("'", "\"", $advancedCustom->embedCodeTemplate)); ?>\'/>';
                     <?php
                     }
                     ?>
