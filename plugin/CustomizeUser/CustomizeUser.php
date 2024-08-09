@@ -406,6 +406,19 @@ class CustomizeUser extends PluginAbstract
         $obj->onSignUpSubscribeToChannelsIds = '[]';
         self::addDataObjectHelper('onSignUpSubscribeToChannelsIds', 'On Sign Up Subscribe To Channels Ids', 'This field is an json array with ids of users that will be auto-subscribed');
 
+        $o = new stdClass();
+        $o->type = [0 => 'Do not Delete', 1 => '1 Day'];
+        for ($i = 2; $i <= 7; $i++) {
+            $o->type[$i] = "{$i} Days";
+        }
+        for ($i = 10; $i < 30; $i += 5) {
+            $o->type[$i] = "{$i} Days";
+        }
+        for ($i = 30; $i <= 90; $i += 10) {
+            $o->type[$i] = "{$i} Days";
+        }
+        $o->value = 0;
+        $obj->autoDeleteUnverifiedUsersAfterDays = $o;
         return $obj;
     }
 
@@ -1011,5 +1024,28 @@ class CustomizeUser extends PluginAbstract
         $return->userCanNotChangeUserGroup = $obj->userCanNotChangeUserGroup;
 
         return $return;
+    }
+
+    function executeEveryDay()
+    {
+        $obj = AVideoPlugin::getDataObject('CustomizeUser');
+        if (!empty($obj->autoDeleteUnverifiedUsersAfterDays->value)) {
+            self::deleteOldUsers($obj->autoDeleteUnverifiedUsersAfterDays->value);
+        }
+    }
+
+    public static function deleteOldUsers($days)
+    {
+        global $global;
+
+        // Calculate the date before which records should be deleted
+        $dateThreshold = date('Y-m-d H:i:s', strtotime("-{$days} days"));
+
+        // Construct the SQL query to delete records older than the threshold date
+        $sql = "DELETE FROM users WHERE created < ?";
+        $global['lastQuery'] = $sql;
+
+        // Execute the query with the threshold date as the parameter
+        return sqlDAL::writeSql($sql, "s", [$dateThreshold]);
     }
 }
