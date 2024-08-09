@@ -22,6 +22,7 @@ class CacheDB
     {
         if($schedule){
             //insert
+            //_error_log("CacheDB::deleteCacheStartingWith($name) scheduled");
             return Cache_schedule_delete::insert($name);
         }else{
             try {

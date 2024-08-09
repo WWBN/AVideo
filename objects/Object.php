@@ -1186,6 +1186,9 @@ abstract class CacheHandler
         $timeLog = __FILE__ . "::deleteCache ";
         TimeLogStart($timeLog);
         $prefix = $this->getCacheSubdir();
+        if (!class_exists('CachesInDB')) {
+            AVideoPlugin::loadPlugin('Cache');
+        }
         if (class_exists('CachesInDB')) {
             //_error_log("deleteCache CachesInDB prefix=$prefix");
             CacheDB::deleteCacheStartingWith($prefix, $schedule);
@@ -1193,6 +1196,7 @@ abstract class CacheHandler
         TimeLogEnd($timeLog, __LINE__);
         unset($_SESSION['user']['sessionCache']);
         TimeLogEnd($timeLog, __LINE__);
+        $dir = ObjectYPT::getTmpCacheDir() . $prefix;
         if(!$schedule){
             TimeLogEnd($timeLog, __LINE__);
             _session_start();
@@ -1203,7 +1207,6 @@ abstract class CacheHandler
                 //_error_log("deleteCache not schedule");
             }
             TimeLogEnd($timeLog, __LINE__);
-            $dir = ObjectYPT::getTmpCacheDir() . $prefix;
     
             $resp = exec("rm -R {$dir}");
 
@@ -1211,7 +1214,8 @@ abstract class CacheHandler
     
             return true;
         }else{
-            _error_log("deleteCache schedule");
+            $resp = execAsync("rm -R {$dir}");
+            //_error_log("deleteCache schedule ".json_encode(debug_backtrace()));
             return false;
         }
     }

@@ -64,7 +64,7 @@ _error_log("aVideoEncoder.json: start to receive: " . json_encode($_REQUEST));
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", @$_REQUEST['videos_id'], true);
 
-if (!empty($video->getId()) && !empty($_REQUEST['first_request'])) {
+if (!empty($video->getId()) && !empty($_REQUEST['first_request']) && !empty($_REQUEST['downloadURL'])) {
     _error_log("aVideoEncoder.json: There is a new video to replace the existing one, we will delete the current files videos_id = " . $video->getId());
     $video->removeVideoFiles();
 }
@@ -169,6 +169,7 @@ if (!empty($_FILES['video']['tmp_name'])) {
 } else {
     // set encoding
     $video->setStatus(Video::$statusEncoding);
+    //$video->setAutoStatus(Video::$statusActive);
 }
 if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination_local}.jpg")) {
     if (!move_uploaded_file($_FILES['image']['tmp_name'], "{$destination_local}.jpg")) {
@@ -192,7 +193,6 @@ if (!empty($_REQUEST['encoderURL'])) {
 if (!empty($_REQUEST['categories_id'])) {
     $video->setCategories_id($_REQUEST['categories_id']);
 }
-
 $video_id = $video->save();
 $video->updateDurationIfNeed();
 $video->updateHLSDurationIfNeed();

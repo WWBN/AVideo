@@ -905,7 +905,7 @@ if (!class_exists('Video')) {
                     }
                     clearCache(true);
                 } else {
-                    _error_log("Video::setStatus({$status}) [{$this->status}] ");
+                    _error_log("Video::setStatus({$status}) [{$this->status}] ". json_encode(array($_REQUEST, debug_backtrace())));
                 }
             }
             AVideoPlugin::onVideoSetStatus($this->id, $this->status, $status);
@@ -3012,6 +3012,7 @@ if (!class_exists('Video')) {
         {
             $filename = $this->getFilename();
             if (empty($filename)) {
+                _error_log("removeVideoFiles filename is empty ");
                 return false;
             }
             try {
@@ -3024,6 +3025,7 @@ if (!class_exists('Video')) {
                 if (!empty($cdn)) {
                     $cdn_obj = $cdn->getDataObject();
                     if (!empty($cdn_obj->enable_storage) && !empty($this->getSites_id())) {
+                        _error_log("removeVideoFiles CDN Storage ");
                         CDNStorage::deleteRemoteDirectoryFromFilename($filename);
                     }
                 }

@@ -195,9 +195,14 @@ class PlayList extends ObjectYPT
         TimeLogStart($TimeLog1);
         $cacheName = md5($sql . json_encode($values));
         $cacheHandler = new PlayListUserCacheHandler($userId);
+        //playlist cache
         $rows = $cacheHandler->getCache($cacheName, rand(300, 3600));
         if (!empty($rows)) {
-            return object_to_array($rows);
+            //_error_log("playlist getAllFromUser($userId) cache ");
+            $rows = object_to_array($rows);
+            //$rows['return'] = __LINE__;
+            //$rows['userId'] = $userId;
+            return $rows;
         }
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $fullData = sqlDAL::fetchAllAssoc($res);
@@ -578,7 +583,7 @@ class PlayList extends ObjectYPT
         reloadSearchVar();
         $_POST['sort'] = $sort;
 
-
+        //playlist cache
         $cacheHandler = new PlayListCacheHandler($playlists_id);
         $cacheObj = $cacheHandler->getCache(md5($sql), 0);
         $rows = object_to_array($cacheObj);
@@ -634,6 +639,8 @@ class PlayList extends ObjectYPT
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 $rows = [];
             }
+        }else{
+            _error_log("playlist getVideosFromPlaylist($playlists_id) cache ");
         }
         return $rows;
     }
@@ -947,10 +954,10 @@ class PlayList extends ObjectYPT
         $this->id = $playlists_id;
 
         $cacheHandler = new PlayListCacheHandler($this->id);
-        $cacheHandler->deleteCache();
+        $cacheHandler->deleteCache(false, false);
 
         $cacheHandler = new PlayListUserCacheHandler($this->users_id);
-        $cacheHandler->deleteCache();
+        $cacheHandler->deleteCache(false, false);
 
         return $playlists_id;
     }
