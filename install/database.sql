@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `duration` VARCHAR(15) NOT NULL,
   `type` ENUM('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'zip') NOT NULL DEFAULT 'video',
   `videoDownloadedLink` VARCHAR(255) NULL DEFAULT NULL,
-  `order` INT(10) NOT NULL DEFAULT 1,
+  `order` INT(10) UNSIGNED NULL DEFAULT NULL,
   `rotation` SMALLINT(6) NULL DEFAULT 0,
   `zoom` FLOAT NULL DEFAULT 1,
   `youtubeId` VARCHAR(45) NULL DEFAULT NULL,
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `filepath` VARCHAR(255) NULL DEFAULT NULL,
   `filesize` BIGINT(19) UNSIGNED NULL DEFAULT 0,
   `live_transmitions_history_id` INT(11) NULL DEFAULT NULL,
-  `total_seconds_watching` BIGINT UNSIGNED NULL DEFAULT 0,
+  `total_seconds_watching` BIGINT(19) UNSIGNED NULL DEFAULT 0,
   `duration_in_seconds` INT NULL,
   `likes` INT NULL,
   `dislikes` INT NULL,
@@ -182,20 +182,19 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `epg_link` VARCHAR(400) NULL,
   `publish_datetime` DATETIME NULL,
   `notification_datetime` DATETIME NULL,
-  `made_for_kids` TINYINT(1) NULL,
+  `made_for_kids` TINYINT(1) NOT NULL DEFAULT 0,
   `isChannelSuggested` INT(1) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
+  INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
   INDEX `index5` (`order` ASC),
   INDEX `fk_videos_videos1_idx` (`next_videos_id` ASC),
   INDEX `fk_videos_sites1_idx` (`sites_id` ASC),
   INDEX `clean_title_INDEX` (`clean_title` ASC),
-  INDEX `video_filename_INDEX` (`filename` ASC),
   INDEX `video_status_idx` (`status` ASC),
   INDEX `video_type_idx` (`type` ASC),
   INDEX `fk_videos_playlists1` (`serie_playlists_id` ASC),
-  INDEX `videos_status_index` (`status` ASC),
   INDEX `is_suggested_index` (`isSuggested` ASC),
   INDEX `views_count_index` (`views_count` ASC),
   INDEX `filename_index` (`filename` ASC),
@@ -209,8 +208,13 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `index_epg_link` (`epg_link` ASC),
   INDEX `index25_publish` (`publish_datetime` ASC),
   INDEX `index26_publish` (`notification_datetime` ASC),
-  INDEX `index26` (`made_for_kids` ASC),
+  INDEX `index_made_for_kids` (`made_for_kids` ASC),
   INDEX `is_channel_suggested` (`isChannelSuggested` ASC),
+  CONSTRAINT `fk_videos_categories1`
+    FOREIGN KEY (`categories_id`)
+    REFERENCES `categories` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_videos_playlists1`
     FOREIGN KEY (`serie_playlists_id`)
     REFERENCES `playlists` (`id`)
