@@ -14,7 +14,7 @@ $keys = createKeys('Test <test@example.com>', $pass);
                 <textarea class="form-control monospacedKey" rows="5" id="privateKeyToDecryptMsg" placeholder="<?php echo $keys['public']; ?>"></textarea>
                 <h3>
                     <i class="fas fa-lock"></i> <?php echo __('Text to Decrypt') ?>
-                    <button class="btn btn-default pull-right btn-xs" onclick="$('#textToDecrypt').val($('#textEncrypted').val())"><i class="fas fa-copy"></i> <?php echo __('Copy from encripted message') ?></button>
+                    <button class="btn btn-default pull-right btn-xs" onclick="$('#textToDecrypt').val($('#textEncrypted').val())"><i class="fas fa-copy"></i> <?php echo __('Copy from encrypted message') ?></button>
                 </h3>
                 <textarea class="form-control monospacedKey" rows="5" id="textToDecrypt"><?php echo LoginControl::getChallenge(); ?></textarea>
             </div>
