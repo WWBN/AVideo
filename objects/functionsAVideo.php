@@ -196,7 +196,7 @@ function avideoShutdown()
             } else {
                 $o = new stdClass();
                 $o->error = true;
-                $o->msg = ('Under Maintanance');
+                $o->msg = ('Under Maintenance');
                 echo json_encode($o);
             }
         } else {
