@@ -282,16 +282,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.317.1",
+            "version": "3.319.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "dc1e3031c2721a25beb2e8fbb175b576e3d60ab9"
+                "reference": "99b75502221af095f0a5a72b0df7ec44e865e699"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/dc1e3031c2721a25beb2e8fbb175b576e3d60ab9",
-                "reference": "dc1e3031c2721a25beb2e8fbb175b576e3d60ab9",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/99b75502221af095f0a5a72b0df7ec44e865e699",
+                "reference": "99b75502221af095f0a5a72b0df7ec44e865e699",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +344,10 @@
                 ],
                 "psr-4": {
                     "Aws\\": "src/"
-                }
+                },
+                "exclude-from-classmap": [
+                    "src/data/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -371,9 +374,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.317.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.319.2"
             },
-            "time": "2024-08-02T18:09:42+00:00"
+            "time": "2024-08-09T18:32:29+00:00"
         },
         {
             "name": "brick/math",
@@ -1286,7 +1289,7 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.367.0",
+            "version": "v0.368.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
@@ -1324,7 +1327,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.367.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.368.0"
             },
             "time": "2024-07-11T01:08:44+00:00"
         },
@@ -2711,16 +2714,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.39",
+            "version": "3.0.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "211ebc399c6e73c225a018435fe5ae209d1d1485"
+                "reference": "621c73f7dcb310b61de34d1da4c4204e8ace6ceb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/211ebc399c6e73c225a018435fe5ae209d1d1485",
-                "reference": "211ebc399c6e73c225a018435fe5ae209d1d1485",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/621c73f7dcb310b61de34d1da4c4204e8ace6ceb",
+                "reference": "621c73f7dcb310b61de34d1da4c4204e8ace6ceb",
                 "shasum": ""
             },
             "require": {
@@ -2801,7 +2804,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.39"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.41"
             },
             "funding": [
                 {
@@ -2817,7 +2820,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-24T06:27:33+00:00"
+            "time": "2024-08-12T00:13:54+00:00"
         },
         {
             "name": "predis/predis",
@@ -4221,16 +4224,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v15.5.0",
+            "version": "v15.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "d20fbbf2557773106c0ec2198b1b16b40f5081bc"
+                "reference": "4209ec90509656623c8976e70b31c80070e355da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d20fbbf2557773106c0ec2198b1b16b40f5081bc",
-                "reference": "d20fbbf2557773106c0ec2198b1b16b40f5081bc",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/4209ec90509656623c8976e70b31c80070e355da",
+                "reference": "4209ec90509656623c8976e70b31c80070e355da",
                 "shasum": ""
             },
             "require": {
@@ -4274,9 +4277,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v15.5.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v15.6.0"
             },
-            "time": "2024-08-01T21:25:52+00:00"
+            "time": "2024-08-08T23:56:48+00:00"
         },
         {
             "name": "symfony/console",
