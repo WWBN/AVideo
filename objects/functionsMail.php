@@ -118,6 +118,9 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
         foreach ($pieces as $piece) {
             $mail = new \PHPMailer\PHPMailer\PHPMailer();
             setSiteSendMessage($mail);
+            /**
+             * @var \PHPMailer\PHPMailer\PHPMailer $mail
+             */ 
             $mail->setFrom($fromEmail, $fromName);
             $mail->Subject = $subject . " - " . $webSiteTitle;
             $mail->msgHTML($message);
@@ -266,6 +269,9 @@ function sendEmailToSiteOwner($subject, $message)
     try {
         $mail = new \PHPMailer\PHPMailer\PHPMailer();
         setSiteSendMessage($mail);
+        /**
+         * @var \PHPMailer\PHPMailer\PHPMailer $mail
+         */ 
         $mail->setFrom($contactEmail, $webSiteTitle);
         $mail->Subject = $subject . " - " . $webSiteTitle;
         $mail->msgHTML($message);

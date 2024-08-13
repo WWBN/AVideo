@@ -1,30 +1,9 @@
 <?php
-function rokuRating($avideoRating)
-{
-    //('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
-    switch (strtolower($avideoRating)) {
-        case 'g':
-            return 'G';
-            break;
-        case 'pg':
-            return 'PG';
-            break;
-        case 'pg-13':
-            return 'PG13';
-            break;
-        case 'r':
-            return 'R';
-            break;
-        case 'nc-17':
-            return 'NC17';
-            break;
-        case 'ma':
-            return '18+';
-            break;
-        default:
-            return 'G';
-            break;
-    }
+
+require_once __DIR__.'/rokuFunctions.php';
+
+if(empty($rows)){
+    $rows = array();
 }
 
 header('Content-Type: application/json');

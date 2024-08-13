@@ -324,6 +324,7 @@ Options All -Indexes
     RewriteRule    ^rss/?$ feed/index.php   [QSA]
     RewriteRule    ^mrss/?$ feed/index.php?mrss=1   [QSA]
     RewriteRule    ^roku.json$ feed/index.php?roku=1   [QSA]
+    RewriteRule    ^roku.search.json$ feed/index.php?rokuSearch=1   [QSA]
     RewriteRule    ^channel/([^/]+)/roku.json$ feed/index.php?channelName=$1&roku=1    [QSA]
     RewriteRule    ^channel/([^/]+)/feed/?$ feed/index.php?channelName=$1    [QSA]
     RewriteRule    ^channel/([^/]+)/rss/?$ feed/index.php?channelName=$1    [QSA]

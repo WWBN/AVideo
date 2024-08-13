@@ -1077,7 +1077,7 @@ if (typeof gtag !== \"function\") {
     public function delete()
     {
         $this->id = intval($this->id);
-        if (!Permissions::canAdminUsers()) {
+        if (!Permissions::canAdminUsers() && !isCommandLineInterface()) {
             if (self::getId() !== $this->id) {
                 _error_log('Delete user error, users_id does not match: [' . self::getId() . '] !== [' . $this->id . ']');
                 return false;
@@ -2879,7 +2879,7 @@ if (typeof gtag !== \"function\") {
             $resp = sendSiteEmail($user->getEmail(), __('Please Verify Your E-mail ') . ' ' . $webSiteTitle, $msg);
 
             if (!$resp) {
-                _error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
+                _error_log("sendVerificationLink Error");
             } else {
                 _error_log("sendVerificationLink: SUCCESS {$users_id} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 _session_start();

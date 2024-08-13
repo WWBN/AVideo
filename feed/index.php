@@ -2,7 +2,6 @@
 
 //header("Content-Type: application/rss+xml; charset=UTF8");
 
-
 $global['ignoreUserMustBeLoggedIn'] = 1;
 require_once '../videos/configuration.php';
 require_once '../objects/video.php';
@@ -10,6 +9,11 @@ $global['ignoreUserMustBeLoggedIn'] = 1;
 $_POST['sort']["created"] = "DESC";
 $_POST['current'] = 1;
 $_REQUEST['rowCount'] = getRowCount();
+
+if(empty($config)){
+    require_once $global['systemRootPath'] . 'objects/configuration.php';
+    $config = new AVideoConf();
+}
 
 $showOnlyLoggedUserVideos = false;
 $title = $config->getWebSiteTitle();
@@ -83,6 +87,8 @@ if (empty($description)) {
 //var_dump($title, $cacheName, $_REQUEST);exit;
 if (!empty($_REQUEST['roku'])) {
     include $global['systemRootPath'] . 'feed/roku.json.php';
+} elseif (!empty($_REQUEST['rokuSearch'])) {
+    include $global['systemRootPath'] . 'feed/roku.search.json.php';
 } elseif (empty($_REQUEST['mrss'])) {
     include $global['systemRootPath'] . 'feed/rss.php';
 } else {
