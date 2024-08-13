@@ -332,7 +332,7 @@ if (typeof gtag !== \"function\") {
         if (self::isLogged()) {
             return $_SESSION['user']['id'];
         } else {
-            return false;
+            return 0;
         }
     }
 
@@ -351,7 +351,7 @@ if (typeof gtag !== \"function\") {
         if (self::isLogged()) {
             return $_SESSION['user']['email'];
         } else {
-            return false;
+            return '';
         }
     }
 
@@ -385,7 +385,7 @@ if (typeof gtag !== \"function\") {
         if (self::isLogged()) {
             return $_SESSION['user']['name'];
         } else {
-            return false;
+            return '';
         }
     }
 
@@ -394,7 +394,7 @@ if (typeof gtag !== \"function\") {
         if (self::isLogged()) {
             return $_SESSION['user']['user'];
         } else {
-            return false;
+            return '';
         }
     }
 
@@ -557,7 +557,7 @@ if (typeof gtag !== \"function\") {
             //return $_SESSION['user']['password'];
             return @$_SESSION['user']['passhash'];
         } else {
-            return false;
+            return '';
         }
     }
 
@@ -2810,7 +2810,7 @@ if (typeof gtag !== \"function\") {
         }
         $user = new User($users_id);
         if (empty($user)) {
-            return false;
+            return '';
         }
         if (empty($user->getChannelName())) {
             $name = $user->getBdId();
@@ -3113,7 +3113,7 @@ if (typeof gtag !== \"function\") {
         if (self::isLogged()) {
             return $_SESSION['user']['donationLink'];
         } else {
-            return false;
+            return '';
         }
     }
 
