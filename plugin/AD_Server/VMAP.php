@@ -15,6 +15,8 @@ if (empty($_GET['vmap_id'])) {
     $_GET['vmap_id'] = uniqid();
 }
 
+$videos_id = getVideos_id();
+
 $vmaps = AD_Server::getVMAPSFromRequest();
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
@@ -28,6 +30,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
         $AdTagURI = addQueryStringParameter($AdTagURI, 'campaign_has_videos_id', $value['VAST']['campaing']);
         $AdTagURI = addQueryStringParameter($AdTagURI, 'vmap_id', $_GET['vmap_id'] ?? '');
         $AdTagURI = addQueryStringParameter($AdTagURI, 'key', $key);
+        $AdTagURI = addQueryStringParameter($AdTagURI, 'videos_id', $videos_id);
         ?>
         <vmap:AdBreak timeOffset="<?php echo $value['timeOffset']; ?>">
             <vmap:AdSource id="<?php echo $value['idTag']; ?>" allowMultipleAds="true" followRedirects="true" breakId="<?php echo $value['idTag']; ?>-break">

@@ -27,6 +27,7 @@ $o->setPriority(10);
 $o->setUsers_id(User::getId());
 $o->setCpm_max_prints($_POST['maxPrints']);
 $o->setVisibility('listed');
+$o->setReward_per_impression($_POST['reward_per_impression']);
 
 if ($id = $o->save()) {
     $obj->error = false;

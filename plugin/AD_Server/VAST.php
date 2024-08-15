@@ -15,6 +15,8 @@ if (empty($_GET['campaign_has_videos_id'])) {
 $vastCampaingVideos = new VastCampaignsVideos($_GET['campaign_has_videos_id']);
 $video = new Video("", "", $vastCampaingVideos->getVideos_id());
 
+$videos_id = getVideos_id();
+
 $adsCount = 0;
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
@@ -24,8 +26,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
             <AdSystem>AdSense</AdSystem>
             <AdTitle><?php echo $vastCampaingVideos->getAd_title(); ?></AdTitle>
             <Description><![CDATA[<?php echo $vastCampaingVideos->getAd_title(); ?>]]></Description>
-            <Error><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=Error&[ERRORCODE]]]></Error>
-            <Impression><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=Impression&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Impression>
+            <Error><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=Error&[ERRORCODE]]]></Error>
+            <Impression><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=Impression&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Impression>
             <Creatives>
                 <?php
                 if (empty($_REQUEST['imagesOnly'])) {
@@ -54,21 +56,21 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                             <Linear skipoffset="<?php echo $obj->skipoffset->value; ?>">
                                 <Duration><?php echo $video->getDuration(); ?></Duration>
                                 <TrackingEvents>
-                                    <Tracking event="start"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=start&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="firstQuartile"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=firstQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="midpoint"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=midpoint&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="thirdQuartile"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=thirdQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="complete"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=complete&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="mute"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=mute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="unmute"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=unmute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="rewind"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=rewind&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="pause"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=pause&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="resume"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=resume&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="fullscreen"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=fullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="creativeView"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=creativeView&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="exitFullscreen"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=exitFullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="acceptInvitationLinear"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=acceptInvitationLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="closeLinear"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=closeLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="start"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=start&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="firstQuartile"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=firstQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="midpoint"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=midpoint&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="thirdQuartile"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=thirdQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="complete"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=complete&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="mute"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=mute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="unmute"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=unmute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="rewind"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=rewind&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="pause"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=pause&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="resume"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=resume&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="fullscreen"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=fullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="creativeView"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=creativeView&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="exitFullscreen"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=exitFullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="acceptInvitationLinear"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=acceptInvitationLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="closeLinear"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=closeLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
                                 </TrackingEvents>
                                 <?php
                                 if (!empty($vastCampaingVideos)) {
@@ -76,7 +78,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                     if (filter_var($link, FILTER_VALIDATE_URL)) {
                                         ?>
                                         <VideoClicks>
-                                            <ClickThrough id="AdSense"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=ClickThrough&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></ClickThrough>
+                                            <ClickThrough id="AdSense"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=ClickThrough&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></ClickThrough>
                                         </VideoClicks>
                                         <?php
                                     } else {
@@ -108,9 +110,9 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                 <Companion id="<?php echo $_GET['campaign_has_videos_id']; ?>" <?php echo $image_info[3]; ?>>
                                     <StaticResource creativeType="image/png"><![CDATA[<?php echo getURL($logo); ?>]]></StaticResource>
                                     <TrackingEvents>
-                                        <Tracking event="creativeView"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=creativeView&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                        <Tracking event="creativeView"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=creativeView&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
                                     </TrackingEvents>
-                                    <CompanionClickThrough><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=CompanionClickThrough&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></CompanionClickThrough>
+                                    <CompanionClickThrough><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=CompanionClickThrough&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></CompanionClickThrough>
                                 </Companion>
                             </CompanionAds>
                         </Creative>
@@ -126,21 +128,21 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                         <Creative id="NonLinearAds_<?php echo $_GET['campaign_has_videos_id']; ?>" sequence="1">
                             <NonLinearAds>
                                 <TrackingEvents>
-                                    <Tracking event="start"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=start&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="firstQuartile"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=firstQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="midpoint"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=midpoint&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="thirdQuartile"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=thirdQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="complete"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=complete&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="mute"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=mute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="unmute"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=unmute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="rewind"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=rewind&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="pause"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=pause&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="resume"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=resume&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="fullscreen"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=fullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="creativeView"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=creativeView&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="exitFullscreen"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=exitFullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="acceptInvitationLinear"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=acceptInvitationLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
-                                    <Tracking event="closeLinear"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=closeLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="start"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=start&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="firstQuartile"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=firstQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="midpoint"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=midpoint&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="thirdQuartile"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=thirdQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="complete"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=complete&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="mute"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=mute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="unmute"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=unmute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="rewind"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=rewind&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="pause"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=pause&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="resume"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=resume&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="fullscreen"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=fullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="creativeView"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=creativeView&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="exitFullscreen"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=exitFullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="acceptInvitationLinear"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=acceptInvitationLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
+                                    <Tracking event="closeLinear"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=closeLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
                                 </TrackingEvents>
                                 <NonLinear <?php echo $image_info[3]; ?> minSuggestedDuration="<?php echo $Duration; ?>" scalable="true" maintainAspectRatio="false"  skipoffset="<?php echo $obj->skipoffset->value; ?>">
                                     <?php

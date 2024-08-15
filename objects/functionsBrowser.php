@@ -136,8 +136,8 @@ function fakeBrowser($url)
     return $output;
 }
 
-function getUserAgentInfo(){
-    return get_browser_name() . '/' . getOS(). ' ('.(isMobile() ? "Mobile" : "PC").')';
+function getUserAgentInfo($user_agent = ''){
+    return get_browser_name($user_agent) . '/' . getOS($user_agent). ' ('.(isMobile($user_agent) ? "Mobile" : "PC").')';
 }
 
 function get_browser_name($user_agent = "")

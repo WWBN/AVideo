@@ -26,6 +26,7 @@ class VastCampaigns extends ObjectYPT
     protected $cpc_max_price_per_click;
     protected $cpm_max_prints;
     protected $cpm_current_prints;
+    protected $reward_per_impression;
 
     public static function getSearchFieldsNames()
     {
@@ -220,6 +221,16 @@ class VastCampaigns extends ObjectYPT
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function getReward_per_impression()
+    {
+        return floatval($this->reward_per_impression);
+    }
+
+    public function setReward_per_impression($reward_per_impression)
+    {
+        $this->reward_per_impression = floatval($reward_per_impression);
     }
 
     public function save()

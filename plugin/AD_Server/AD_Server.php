@@ -12,6 +12,8 @@ require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaigns
 
 class AD_Server extends PluginAbstract {
 
+    const STATUS_THAT_DETERMINE_AD_WAS_PLAYED = 'start';
+
     public function getTags() {
         return [
             PluginTags::$MONETIZATION,
@@ -35,7 +37,7 @@ class AD_Server extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "3.0";
+        return "4.0";
     }
 
     public function getEmptyDataObject() {
@@ -98,6 +100,10 @@ class AD_Server extends PluginAbstract {
         $obj->autoAddNewVideosInCampaignId = $o;
         self::addDataObjectHelper('autoAddNewVideosInCampaignId', 'Auto Add New Videos In Campaign');
 
+        
+        $obj->onlyRewardLoggedUsers = true;
+        self::addDataObjectHelper('onlyRewardLoggedUsers', 'Rewards for impressions in your campaigns will only be given to logged-in users');
+
         return $obj;
     }
 
@@ -137,52 +143,66 @@ class AD_Server extends PluginAbstract {
 
     public function canLoadAds() {
         global $global;
+        
+        // Check if GoogleAds_IMA plugin is enabled
         if(AVideoPlugin::isEnabledByName('GoogleAds_IMA')){
-            return false;
+            return ['canLoad' => false, 'reason' => 'GoogleAds_IMA plugin is enabled'];
         }
-        //if (empty($_GET['videoName']) && empty($_GET['u'])) {
+        
+        // Get the video ID and check its type
         $videos_id = getVideos_id();
         if (!empty($videos_id)) {
             $video = new Video('', '', $videos_id);
             if($video->getType() !== Video::$videoTypeVideo){
-                return false;
+                return ['canLoad' => false, 'reason' => 'Video type is not standard'];
             }
+            // Check if ads should be shown for this video
             $showAds = AVideoPlugin::showAds($videos_id);
             if (!$showAds) {
-                return false;
+                return ['canLoad' => false, 'reason' => 'Ads are disabled for this video'];
             }
         }
+        
+        // Get the plugin settings object
         $obj = $this->getDataObject();
+        
+        // Check for preroll ads on live streams
         if($obj->prerollLive){
             if (isLive()) {
-                return true;
+                return ['canLoad' => true, 'reason' => ''];
             } else if (isLiveLink()) {
-                return true;
+                return ['canLoad' => true, 'reason' => ''];
             }
         }
-        // count it each 2 seconds
+        
+        // Control ad frequency based on time
         if (empty($_SESSION['lastAdShowed']) || $_SESSION['lastAdShowed'] + 2 <= time()) {
             _session_start();
             $_SESSION['lastAdShowed'] = time();
-
+    
             if (!isset($_SESSION['showAdsCount'])) {
-                //_error_log("Show Ads Count started");
                 $_SESSION['showAdsCount'] = 1;
             } else {
                 $_SESSION['showAdsCount']++;
             }
         }
-        //_error_log("Show Ads Count {$_SESSION['showAdsCount']}");
+        
+        // Check if ads should be shown based on view count
         if (!empty($obj->showAdsOnEachVideoView->value) && $_SESSION['showAdsCount'] % $obj->showAdsOnEachVideoView->value === 0) {
-            return true;
+            return ['canLoad' => true, 'reason' => ''];
         }
-        return false;
+        
+        // Default to not loading ads
+        return ['canLoad' => false, 'reason' => 'Conditions for showing ads are not met'];
     }
+    
 
     public function getHeadCode() {
+        global $_showAds;
         //$obj = $this->getDataObject();
-        if (!$this->canLoadAds()) {
-            return "";
+        $canLoadAds = $this->canLoadAds();
+        if (!$canLoadAds['canLoad']) {
+            return "<!-- AD_Server getHeadCode canLoadAds {$canLoadAds['reason']} ".json_encode($_showAds)." -->";
         }
         global $global;
         $_GET['vmap_id'] = session_id();
@@ -230,9 +250,11 @@ class AD_Server extends PluginAbstract {
     }
 
     public function afterVideoJS() {
+        global $_showAds;
         $obj = $this->getDataObject();
-        if (!$this->canLoadAds()) {
-            return "<!-- AD_Server canNOTLoadAds -->";
+        $canLoadAds = $this->canLoadAds();
+        if (!$canLoadAds['canLoad']) {
+            return "<!-- AD_Server afterVideoJS canLoadAds {$canLoadAds['reason']} ".json_encode($_showAds)." -->";
         }
         /*
         if (empty($_GET['vmap_id'])) {
@@ -243,10 +265,12 @@ class AD_Server extends PluginAbstract {
         $vmap_id = $_GET['vmap_id'] ?? '';
         $vmaps = self::getVMAPSFromRequest();
         $video_length = self::getVideoLength();
+        $videos_id = getVideos_id();
         $vmapURL = "{$global['webSiteRootURL']}plugin/AD_Server/VMAP.php";
         $vmapURL = addQueryStringParameter($vmapURL, 'video_length', $video_length);
         $vmapURL = addQueryStringParameter($vmapURL, 'vmap_id', $vmap_id);
         $vmapURL = addQueryStringParameter($vmapURL, 'random', uniqid());
+        $vmapURL = addQueryStringParameter($vmapURL, 'videos_id', $videos_id);
         $vmapURL = self::addVMAPS($vmapURL, $vmaps);
         //var_dump($vmapURL, $vmaps);exit;
         PlayerSkins::setIMAADTag($vmapURL);

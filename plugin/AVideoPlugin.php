@@ -475,7 +475,7 @@ class AVideoPlugin
                             sqlDAL::executeFile($installSQLFile);
                             return self::isPluginTablesInstalled($name);
                         } else {
-                            //_error_log("isPluginTablesInstalled: You need to install table {$matches[1]} for the plugin ({$name})", AVideoLog::$ERROR);
+                            _error_log("isPluginTablesInstalled: You need to install table {$matches[1]} for the plugin ({$name})", AVideoLog::$ERROR);
                             $isPluginTablesInstalled[$installSQLFile] = false;
                             return $isPluginTablesInstalled[$installSQLFile];
                         }
@@ -1646,7 +1646,7 @@ class AVideoPlugin
             $_showAds = [];
         }
         if (isset($_showAds[$videos_id])) {
-            return $_showAds[$videos_id];
+            return $_showAds[$videos_id][0];
         }
         $plugins = Plugin::getAllEnabled();
         $resp = true;
@@ -1656,14 +1656,17 @@ class AVideoPlugin
             if (is_object($p)) {
                 $showAds = $p->showAds($videos_id);
                 if (!$showAds) {
-                    _error_log("showAds: {$value['dirName']} said NOT to show ads on {$videos_id}");
-                    $_showAds[$videos_id] = false;
+                    $msg = "showAds: {$value['dirName']} said NOT to show ads on {$videos_id}";
+                    _error_log($msg);
+                    $_showAds[$videos_id] = array(false, $msg);
                     return false;
                 }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
-        $_showAds[$videos_id] = $resp;
+        $_showAds[$videos_id] = array();
+        $_showAds[$videos_id][0] = $resp;
+        $_showAds[$videos_id][1] = '';
         return $resp;
     }
 
