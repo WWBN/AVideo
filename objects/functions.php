@@ -4067,10 +4067,14 @@ function html2plainText($html)
     return $text;
 }
 
-function getInputPassword($id, $attributes = 'class="form-control"', $placeholder = '')
+function getInputPassword($id, $attributes = 'class="form-control"', $placeholder = '', $autofill = true)
 {
     if (empty($placeholder)) {
         $placeholder = __("Password");
+    }
+    if(!$autofill){
+        $attributes .= ' autocomplete="new-password" autofill="off"  ';
+        echo '<input type="password" name="fakepassword" id="fakepassword" style="display:none;">';
     }
 ?>
     <div class="input-group">
