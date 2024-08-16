@@ -3,7 +3,7 @@
 use Amp\Deferred;
 use Amp\Loop;
 
-require_once __DIR__.'/functions.php';
+require_once __DIR__ . '/functions.php';
 
 //pkill -9 -f "rw_timeout.*6196bac40f89f" //When -f is set, the full command line is used for pattern matching.
 /**
@@ -85,10 +85,10 @@ if (!empty($_REQUEST['tokenForAction'])) {
         switch ($json->action) {
             case 'log':
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
-                $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);                
-                if(!empty($obj->logName)){
+                $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
+                if (!empty($obj->logName)) {
                     $logFile = $logFileLocation . $obj->logName;
-                    if(file_exists($logFile)){
+                    if (file_exists($logFile)) {
                         $obj->modified = @filemtime($logFile);
                         $obj->secondsAgo = $obj->time - $obj->modified;
                         $obj->isActive = $obj->secondsAgo < 10;
@@ -113,9 +113,9 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 break;
         }
     } else {
-        if(empty($json)){
+        if (empty($json)) {
             $error = '';
-        }else{
+        } else {
             $error = $json->msg;
         }
         //var_dump(!empty($json), isset($json->error), empty($json->error), $json, $_REQUEST['tokenForAction']);exit;
@@ -133,41 +133,52 @@ if ($whichffmpeg !== $ffmpegBinary) {
 
 $isCommandLine = php_sapi_name() === 'cli';
 
-function _addLastSlash($word) {
+function _addLastSlash($word)
+{
     return $word . (_hasLastSlash($word) ? "" : "/");
 }
 
-function _hasLastSlash($word) {
+function _hasLastSlash($word)
+{
     return substr($word, -1) === '/';
 }
 
-function _getLiveKey($token) {
+function _getLiveKey($token)
+{
     global $streamerURL, $isATest;
-    
+
     $obj = new stdClass();
     $obj->error = true;
     $obj->msg = '';
     $obj->newRestreamsDestination = '';
     $obj->content = '';
-    
+
     if ($isATest) {
         return $obj;
     }
-    $obj->content = file_get_contents("{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?token={$token}");
+
+    $getKeyURL = "{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?token={$token}";
+
+    $obj->content = file_get_contents($getKeyURL);
     if (!empty($obj->content)) {
         $json = json_decode($obj->content);
         if (!empty($json) && $json->error === false) {
             if (!empty($json->stream_key) && !empty($json->stream_url)) {
                 $newRestreamsDestination = _addLastSlash($json->stream_url) . $json->stream_key;
-                error_log("Restreamer.json.php _getLiveKey found $newRestreamsDestination");
                 $obj->newRestreamsDestination = $newRestreamsDestination;
+                $obj->live_url = $json->live_url;
+                error_log("Restreamer.json.php _getLiveKey found $newRestreamsDestination live_url={$obj->live_url}");
                 $obj->error = false;
-            } 
-        }else if(!empty($json->rawData)){
+            }
+        } else if (!empty($json->rawData)) {
             $rawData = json_decode($json->rawData);
             $obj->msg = $rawData->message;
-        }else if(!empty($json->msg)){
+            error_log("Restreamer.json.php _getLiveKey URL=$getKeyURL rawData {$json->rawData}");
+        } else if (!empty($json->msg)) {
             $obj->msg = $json->msg;
+            error_log("Restreamer.json.php _getLiveKey URL=$getKeyURL msg ".json_encode($json->msg));
+        } else {
+            error_log("Restreamer.json.php _getLiveKey URL=$getKeyURL unknown " . json_encode($json));
         }
     }
     return $obj;
@@ -176,7 +187,7 @@ function _getLiveKey($token) {
 $errorMessages = array();
 
 if (!$isCommandLine) { // not command line
-    if(empty($robj)){
+    if (empty($robj)) {
         $request = file_get_contents("php://input");
         error_log("Restreamer.json.php php://input {$request}");
         $robj = json_decode($request);
@@ -191,34 +202,41 @@ if (!$isCommandLine) { // not command line
         if (!empty($robj->restreamsToken)) {
             $robj->restreamsToken = _object_to_array($robj->restreamsToken);
             $robj->restreamsDestinations = _object_to_array($robj->restreamsDestinations);
-            error_log("***Restreamer.json.php using restreamsToken ". json_encode($robj->restreamsToken));
+            $robj->live_url = array();
+            error_log("***Restreamer.json.php using restreamsToken " . json_encode($robj->restreamsToken));
             //var_dump($robj->restreamsToken, $robj->restreamsDestinations);exit;
             if (empty($isATest)) {
                 foreach ($robj->restreamsToken as $key => $token) {
-                    
-                    $liveKey = _getLiveKey($token);                    
-                    if(empty($liveKey->error)){
+
+                    $liveKey = _getLiveKey($token);
+                    if (isset($liveKey->live_url)) {
+                        $robj->live_url[$key] = $liveKey->live_url;
+                    }
+                    if (empty($liveKey->error)) {
                         $newRestreamsDestination = $liveKey->newRestreamsDestination;
-                    }else{
-                        error_log("Restreamer.json.php ERROR try again in 3 seconds");
+                    } else {
+                        error_log("Restreamer.json.php ERROR try again in 3 seconds ".json_encode($liveKey));
                         sleep(3);
-                        $liveKey = _getLiveKey($token);                    
-                        if(empty($liveKey->error)){
+                        $liveKey = _getLiveKey($token);
+                        if (isset($liveKey->live_url)) {
+                            $robj->live_url[$key] = $liveKey->live_url;
+                        }
+                        if (empty($liveKey->error)) {
                             $newRestreamsDestination = $liveKey->newRestreamsDestination;
-                        }else{     
-                            if(!is_string($liveKey->msg)){
+                        } else {
+                            if (!is_string($liveKey->msg)) {
                                 $msg = json_encode($liveKey->msg);
-                            }else{
+                            } else {
                                 $msg = ($liveKey->msg);
                             }
-                            $errorMessages[] = nl2br($msg);    
-                            if(!empty($liveKey->content)){
+                            $errorMessages[] = nl2br($msg);
+                            if (!empty($liveKey->content)) {
                                 $jsonInfo = json_decode($liveKey->content);
-                                if(!empty($jsonInfo)){
-                                    if(!empty($jsonInfo->msg)){
-                                        if(!is_string($jsonInfo->msg)){
+                                if (!empty($jsonInfo)) {
+                                    if (!empty($jsonInfo->msg)) {
+                                        if (!is_string($jsonInfo->msg)) {
                                             $msg = json_encode($jsonInfo->msg);
-                                        }else{
+                                        } else {
                                             $msg = ($jsonInfo->msg);
                                         }
                                         $errorMessages[] = nl2br($msg);
@@ -227,9 +245,9 @@ if (!$isCommandLine) { // not command line
                             }
                         }
                     }
-                    
+
                     if (empty($newRestreamsDestination)) {
-                        error_log("Restreamer.json.php ERROR ". json_encode($liveKey));
+                        error_log("Restreamer.json.php ERROR " . json_encode($liveKey));
                         unset($robj->restreamsDestinations[$key]);
                     } else {
                         $robj->restreamsDestinations[$key] = $newRestreamsDestination;
@@ -271,8 +289,8 @@ error_log("Restreamer.json.php Found " . count($robj->restreamsDestinations) . "
 if (!$isCommandLine) {
     // check the token
     if (empty($obj->token)) {
-    $errorMessages[] = "Token is empty";
-    $obj->msg = implode(PHP_EOL, $errorMessages);
+        $errorMessages[] = "Token is empty";
+        $obj->msg = implode(PHP_EOL, $errorMessages);
         error_log("Restreamer.json.php ERROR {$obj->msg}");
         die(json_encode($obj));
     }
@@ -294,13 +312,13 @@ if (!$isCommandLine) {
     $json = json_decode($content);
 
     if (empty($json)) {
-    $errorMessages[] = "Could not verify token";
-    $obj->msg = implode(PHP_EOL, $errorMessages);
+        $errorMessages[] = "Could not verify token";
+        $obj->msg = implode(PHP_EOL, $errorMessages);
         error_log("Restreamer.json.php empty json ERROR {$obj->msg} ({$verifyTokenURL}) ");
         die(json_encode($obj));
     } elseif (!empty($json->error)) {
-    $errorMessages[] = "Token is invalid";
-    $obj->msg = implode(PHP_EOL, $errorMessages);
+        $errorMessages[] = "Token is invalid";
+        $obj->msg = implode(PHP_EOL, $errorMessages);
         error_log("Restreamer.json.php json error ERROR {$obj->msg} ({$verifyTokenURL}) " . json_encode($json));
         die(json_encode($obj));
     }
@@ -326,9 +344,10 @@ error_log("Restreamer.json.php finish async ");
 $obj->error = false;
 die(json_encode($obj));
 
-function runRestream($robj) {
+function runRestream($robj)
+{
     $m3u8 = $robj->m3u8;
-    error_log("runRestream ".json_encode($robj));
+    error_log("runRestream " . json_encode($robj));
     $restreamsDestinations = $robj->restreamsDestinations;
     $logFile = $robj->logFile;
     $users_id = $robj->users_id;
@@ -353,25 +372,28 @@ function runRestream($robj) {
     return $deferred->promise();
 }
 
-function notifyStreamer($robj) {
+function notifyStreamer($robj)
+{
     global $streamerURL;
     $restreamerURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $m3u8 = $robj->m3u8;
-    error_log("notifyStreamer ".json_encode($robj));
+    error_log("notifyStreamer " . json_encode($robj));
     $restreamsDestinations = $robj->restreamsDestinations;
     $logFile = $robj->logFile;
     $users_id = $robj->users_id;
     $responseToken = $robj->responseToken;
 
     $data_string = json_encode(
-            array(
-                'm3u8' => $m3u8,
-                'restreamsDestinations' => $restreamsDestinations,
-                'logFile' => $logFile,
-                'users_id' => $users_id,
-                'responseToken' => $responseToken,
-                'restreamerURL' => $restreamerURL,
-                'live_restreams_id' => $robj->live_restreams_id,)
+        array(
+            'm3u8' => $m3u8,
+            'restreamsDestinations' => $restreamsDestinations,
+            'logFile' => $logFile,
+            'users_id' => $users_id,
+            'responseToken' => $responseToken,
+            'restreamerURL' => $restreamerURL,
+            'live_restreams_id' => $robj->live_restreams_id,
+            'live_url' => $robj->live_url,
+        )
     );
     error_log("Restreamer.json.php notifyStreamer {$data_string}");
 
@@ -379,7 +401,8 @@ function notifyStreamer($robj) {
     return postToURL($url, $data_string);
 }
 
-function verifyTokenForAction($token) {
+function verifyTokenForAction($token)
+{
     global $streamerURL;
     $data_string = json_encode(array('token' => $token));
     error_log("Restreamer.json.php verifyTokenForAction {$data_string}");
@@ -389,7 +412,8 @@ function verifyTokenForAction($token) {
     return postToURL($url, $data_string);
 }
 
-function postToURL($url, $data_string, $timeLimit = 10) {
+function postToURL($url, $data_string, $timeLimit = 10)
+{
     global $global_timeLimit;
     try {
         set_time_limit($timeLimit);
@@ -412,11 +436,13 @@ function postToURL($url, $data_string, $timeLimit = 10) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_AUTOREFERER, true);
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-                [
-                    'Content-Type: application/json',
-                    'Content-Length: ' . strlen($data_string),
-                ]
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            [
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_string),
+            ]
         );
         //$info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $output = curl_exec($ch);
@@ -431,11 +457,13 @@ function postToURL($url, $data_string, $timeLimit = 10) {
     return false;
 }
 
-function clearCommandURL($url) {
+function clearCommandURL($url)
+{
     return preg_replace('/[^0-9a-z:.\/_&?=-]/i', "", $url);
 }
 
-function _isURL200($url, $forceRecheck = false) {
+function _isURL200($url, $forceRecheck = false)
+{
     global $global_timeLimit;
     set_time_limit(5);
     error_log("_isURL200 checking URL {$url}");
@@ -457,14 +485,14 @@ function _isURL200($url, $forceRecheck = false) {
     $result = false;
     foreach ($headers as $value) {
         if (
-                strpos($value, '200') ||
-                strpos($value, '302') ||
-                strpos($value, '304')
+            strpos($value, '200') ||
+            strpos($value, '302') ||
+            strpos($value, '304')
         ) {
             $result = true;
             break;
         } else {
-            error_log('_isURL200: '.$value);
+            error_log('_isURL200: ' . $value);
         }
     }
     set_time_limit($global_timeLimit);
@@ -472,7 +500,8 @@ function _isURL200($url, $forceRecheck = false) {
     return $result;
 }
 
-function _make_path($path) {
+function _make_path($path)
+{
     $created = false;
     if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
         $path = pathinfo($path, PATHINFO_DIRNAME);
@@ -488,7 +517,8 @@ function _make_path($path) {
     return $created;
 }
 
-function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1) {
+function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1)
+{
     global $ffmpegBinary, $isATest;
     $m3u8 = str_replace('vlu.me', 'live', $m3u8);
     if (empty($restreamsDestinations)) {
@@ -498,10 +528,10 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
     $restream = isRestreamRuning($robj->live_restreams_id, $robj->liveTransmitionHistory_id);
     if (!empty($restream)) {
-        error_log("Restreamer.json.php startRestream ERROR it is already runing ".json_encode($restream));
+        error_log("Restreamer.json.php startRestream ERROR it is already runing " . json_encode($restream));
         return false;
-    }else{
-        error_log("Restreamer.json.php startRestream success ".json_encode(array($robj->live_restreams_id, $robj->liveTransmitionHistory_id)));
+    } else {
+        error_log("Restreamer.json.php startRestream success " . json_encode(array($robj->live_restreams_id, $robj->liveTransmitionHistory_id)));
     }
 
     $m3u8 = _addQueryStringParameter($m3u8, 'live_restreams_id', $robj->live_restreams_id);
@@ -535,28 +565,28 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
       }
      *
      */
-    
-      
+
+
     $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" ";
     $FFMPEGComplement = " -max_muxing_queue_size 1024 "
-    . '{audioConfig}'
-    . "-c:v libx264 "
-    . "-pix_fmt yuv420p "  
-    //. "-vf \"scale=-2:720,format=yuv420p\" "
-    . "-r 30 -g 60 "
-    . "-tune zerolatency "
-    . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms
-    . "-b:v 6000k " // Set constant video bitrate
-    . "-minrate 6000k -maxrate 6000k -bufsize 6000k " // Set buffer size to match the bitrate
-    . "-preset veryfast "
-    . "-f flv "
-    . "-fflags +genpts " // Ensure smooth playback
-    . "-strict -2 " // Allow non-compliant AAC audio
-    . "-reconnect 1 " // Enable reconnection in case of a broken pipe
-    . "-reconnect_at_eof 1 " // Reconnect at the end of file
-    . "-reconnect_streamed 1 " // Reconnect for streamed media
-    . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
-    . "\"{restreamsDestinations}\"";
+        . '{audioConfig}'
+        . "-c:v libx264 "
+        . "-pix_fmt yuv420p "
+        //. "-vf \"scale=-2:720,format=yuv420p\" "
+        . "-r 30 -g 60 "
+        . "-tune zerolatency "
+        . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms
+        . "-b:v 6000k " // Set constant video bitrate
+        . "-minrate 6000k -maxrate 6000k -bufsize 6000k " // Set buffer size to match the bitrate
+        . "-preset veryfast "
+        . "-f flv "
+        . "-fflags +genpts " // Ensure smooth playback
+        . "-strict -2 " // Allow non-compliant AAC audio
+        . "-reconnect 1 " // Enable reconnection in case of a broken pipe
+        . "-reconnect_at_eof 1 " // Reconnect at the end of file
+        . "-reconnect_streamed 1 " // Reconnect for streamed media
+        . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
+        . "\"{restreamsDestinations}\"";
 
     if (count($restreamsDestinations) > 1) {
         //$command = "{$ffmpegBinary} -re -i \"{$m3u8}\" ";
@@ -565,8 +595,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             if (!isOpenSSLEnabled() && preg_match("/rtpms:/i", $value)) {
                 error_log("Restreamer.json.php startRestream ERROR #1 FFMPEG openssl is not enabled, ignoring $value ");
                 continue;
-            }            
-            $audioConfig = getAudioConfiguration($value);            
+            }
+            $audioConfig = getAudioConfiguration($value);
             $value = clearCommandURL($value);
             $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}'), array($audioConfig, $value), $FFMPEGComplement);
         }
@@ -596,21 +626,23 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     return true;
 }
 
-function getAudioConfiguration($source){
-    if(preg_match("/facebook.com/i", $source)){
+function getAudioConfiguration($source)
+{
+    if (preg_match("/facebook.com/i", $source)) {
         $audioConfig = '-c:a copy -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k ';
-    }else if(preg_match("/youtube.com/i", $source)){
+    } else if (preg_match("/youtube.com/i", $source)) {
         $audioConfig = '-c:a aac -b:a 128k ';
-    }else{
+    } else {
         $audioConfig = '-c:a copy ';
     }
-    
+
     return $audioConfig;
 }
 
 $isOpenSSLEnabled = null;
 
-function isOpenSSLEnabled() {
+function isOpenSSLEnabled()
+{
     global $isOpenSSLEnabled, $ffmpegBinary;
     if (isset($isOpenSSLEnabled)) {
         return $isOpenSSLEnabled;
@@ -626,12 +658,14 @@ function isOpenSSLEnabled() {
     return $isOpenSSLEnabled;
 }
 
-function whichffmpeg() {
+function whichffmpeg()
+{
     exec("which ffmpeg 2>&1", $output, $return_var);
     return @$output[0];
 }
 
-function getProcess($robj) {
+function getProcess($robj)
+{
     $m3u8 = $robj->m3u8;
     $m3u8 = clearCommandURL($m3u8);
     $liveTransmitionHistory_id = intval($robj->liveTransmitionHistory_id);
@@ -659,7 +693,8 @@ function getProcess($robj) {
     return false;
 }
 
-function killIfIsRunning($robj) {
+function killIfIsRunning($robj)
+{
     $process = getProcess($robj);
     //error_log("Restreamer.json.php killIfIsRunning checking if there is a process running for {$m3u8} ");
     if (!empty($process)) {
@@ -677,11 +712,13 @@ function killIfIsRunning($robj) {
     return false;
 }
 
-function replaceSlashesForPregMatch($str) {
+function replaceSlashesForPregMatch($str)
+{
     return str_replace('/', '.', $str);
 }
 
-function _object_to_array($obj) {
+function _object_to_array($obj)
+{
     //only process if it's an object or array being passed to the function
     if (is_object($obj) || is_array($obj)) {
         $ret = (array) $obj;
@@ -697,7 +734,8 @@ function _object_to_array($obj) {
     }
 }
 
-function _addQueryStringParameter($url, $varname, $value) {
+function _addQueryStringParameter($url, $varname, $value)
+{
     $parsedUrl = parse_url($url);
     if (empty($parsedUrl['host'])) {
         return "";

@@ -3515,6 +3515,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $value['stream_url'] = addLastSlash($value['stream_url']);
             $obj->restreamsDestinations[$value['id']] = "{$value['stream_url']}{$value['stream_key']}";
             $obj->restreamsToken[$value['id']] = encryptString($value['id']);
+            $obj->live_url[$value['id']] = $value['live_url'];
         }
         return $obj;
     }

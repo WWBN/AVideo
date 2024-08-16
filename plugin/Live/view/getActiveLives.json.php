@@ -40,6 +40,9 @@ foreach ($lives as $key => $value) {
             $restream['log_'.$log_key] = $log_value;
         }
         
+        $restream['log_json'] = json_decode($restream['log_json'], true);
+        $restream['live_url'] = !empty($restream['log_json']['live_url'][$restream['id']])?$restream['log_json']['live_url'][$restream['id']]:'';
+
         $lives[$key]['restream'][] = $restream;
     }
 }
