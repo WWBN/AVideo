@@ -83,7 +83,10 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                         <?php
                                     } else {
                                         _error_log("VastCampaignsVideos has not a valid link: {$link}");
+                                        echo "<!-- VideoClicks VastCampaignsVideos has not a valid link: {$link} -->".PHP_EOL;
                                     }
+                                }else{
+                                    echo '<!-- VideoClicks empty vastCampaingVideos -->'.PHP_EOL;
                                 }
                                 ?>
                                 <MediaFiles>
