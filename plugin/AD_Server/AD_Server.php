@@ -228,36 +228,22 @@ class AD_Server extends PluginAbstract {
     public static function getVMAPSFromRequest() {
         if (!empty($_REQUEST['vmaps'])) {
             $vmaps = _json_decode(base64_decode($_REQUEST['vmaps']));
-            if(!empty($vmaps)) {
-                echo '<!-- getVMAPSFromRequest line='.__LINE__.' -->'.PHP_EOL;
-            }
         } 
         if(empty($vmaps)) {
             if(!empty($_REQUEST['video_length'])){
                 $video_length = intval($_REQUEST['video_length']);
-                echo '<!-- getVMAPSFromRequest line='.__LINE__.' -->'.PHP_EOL;
             }else{
                 $video_length = self::getVideoLength();
-                echo '<!-- getVMAPSFromRequest line='.__LINE__.' -->'.PHP_EOL;
             }
             $ad_server = AVideoPlugin::loadPlugin('AD_Server');
             $vmaps = $ad_server->getVMAPs($video_length);
-            echo '<!-- getVMAPSFromRequest line='.__LINE__.' -->'.PHP_EOL;
         }
-        echo '<!-- getVMAPSFromRequest line='.__LINE__.' -->'.PHP_EOL;
         return object_to_array($vmaps);
     }
 
     public static function addVMAPS($url, $vmaps) {
         if (empty($vmaps)) {
             $vmaps = self::getVMAPSFromRequest();
-            if(!empty($vmaps)) {
-                echo '<!-- addVMAPS line='.__LINE__.' '.json_encode(array($url, $vmaps)).' -->'.PHP_EOL;
-            }else{
-                echo '<!-- addVMAPS line='.__LINE__.' '.json_encode(array($url, $vmaps)).' -->'.PHP_EOL;
-            }
-        }else{
-            echo '<!-- addVMAPS line='.__LINE__.' '.json_encode(array($url, $vmaps)).' -->'.PHP_EOL;
         }
         $base64 = base64_encode(_json_encode($vmaps));
         $vmapURL = addQueryStringParameter($url, 'vmaps', $base64);
