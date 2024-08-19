@@ -228,7 +228,8 @@ class AD_Server extends PluginAbstract {
     public static function getVMAPSFromRequest() {
         if (!empty($_REQUEST['vmaps'])) {
             $vmaps = _json_decode(base64_decode($_REQUEST['vmaps']));
-        } else {
+        } 
+        if(empty($vmaps)) {
             if(!empty($_REQUEST['video_length'])){
                 $video_length = intval($_REQUEST['video_length']);
             }else{
