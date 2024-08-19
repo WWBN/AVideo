@@ -490,7 +490,24 @@ if (!User::isAdmin()) {
                 },
                 {
                     "data": "status",
-                    width: 10
+                    width: 10,
+                    "render": function(data, type, full, meta) {
+                        // Convert the given date string to a Date object
+                        const end_date = new Date(full.end_date);
+
+                        // Get the current date and time
+                        const now = new Date();
+
+                        // Compare the dates
+                        if (end_date <= now) {
+                            return 'EXPIRED';
+                        }
+                        if (full.status == 'a') {
+                            return 'active';
+                        } else {
+                            return 'inactive';
+                        }
+                    }
                 },
                 {
                     sortable: false,
