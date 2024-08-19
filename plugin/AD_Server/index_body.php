@@ -500,13 +500,14 @@ if (!User::isAdmin()) {
 
                         // Compare the dates
                         if (end_date <= now) {
-                            return 'EXPIRED';
+                            return '<span class="label label-danger"><i class="fa fa-times-circle"></i> EXPIRED</span>';
                         }
                         if (full.status == 'a') {
-                            return 'active';
+                            return '<span class="label label-success"><i class="fa fa-check-circle"></i> Active</span>';
                         } else {
-                            return 'inactive';
+                            return '<span class="label label-warning"><i class="fa fa-exclamation-circle"></i> Inactive</span>';
                         }
+
                     }
                 },
                 {
