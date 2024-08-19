@@ -253,6 +253,8 @@ class AD_Server extends PluginAbstract {
             $vmaps = self::getVMAPSFromRequest();
             if(!empty($vmaps)) {
                 echo '<!-- addVMAPS line='.__LINE__.' '.json_encode(array($url, $vmaps)).' -->'.PHP_EOL;
+            }else{
+                echo '<!-- addVMAPS line='.__LINE__.' '.json_encode(array($url, $vmaps)).' -->'.PHP_EOL;
             }
         }else{
             echo '<!-- addVMAPS line='.__LINE__.' '.json_encode(array($url, $vmaps)).' -->'.PHP_EOL;
