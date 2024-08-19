@@ -43,6 +43,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     }
     foreach ($vmaps as $key => $value) {
         if (empty($value['VAST']['campaing'])) {
+            echo '<!-- campaing is empty '.json_encode($value).' -->'.PHP_EOL;
             continue;
         }
         $AdTagURI = "{$global['webSiteRootURL']}plugin/AD_Server/VAST.php";
