@@ -19,6 +19,8 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1PurgeDocumentsRequest extends \Google\Model
 {
+  protected $errorConfigType = GoogleCloudDiscoveryengineV1PurgeErrorConfig::class;
+  protected $errorConfigDataType = '';
   /**
    * @var string
    */
@@ -27,7 +29,25 @@ class GoogleCloudDiscoveryengineV1PurgeDocumentsRequest extends \Google\Model
    * @var bool
    */
   public $force;
+  protected $gcsSourceType = GoogleCloudDiscoveryengineV1GcsSource::class;
+  protected $gcsSourceDataType = '';
+  protected $inlineSourceType = GoogleCloudDiscoveryengineV1PurgeDocumentsRequestInlineSource::class;
+  protected $inlineSourceDataType = '';
 
+  /**
+   * @param GoogleCloudDiscoveryengineV1PurgeErrorConfig
+   */
+  public function setErrorConfig(GoogleCloudDiscoveryengineV1PurgeErrorConfig $errorConfig)
+  {
+    $this->errorConfig = $errorConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1PurgeErrorConfig
+   */
+  public function getErrorConfig()
+  {
+    return $this->errorConfig;
+  }
   /**
    * @param string
    */
@@ -55,6 +75,34 @@ class GoogleCloudDiscoveryengineV1PurgeDocumentsRequest extends \Google\Model
   public function getForce()
   {
     return $this->force;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1GcsSource
+   */
+  public function setGcsSource(GoogleCloudDiscoveryengineV1GcsSource $gcsSource)
+  {
+    $this->gcsSource = $gcsSource;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1GcsSource
+   */
+  public function getGcsSource()
+  {
+    return $this->gcsSource;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1PurgeDocumentsRequestInlineSource
+   */
+  public function setInlineSource(GoogleCloudDiscoveryengineV1PurgeDocumentsRequestInlineSource $inlineSource)
+  {
+    $this->inlineSource = $inlineSource;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1PurgeDocumentsRequestInlineSource
+   */
+  public function getInlineSource()
+  {
+    return $this->inlineSource;
   }
 }
 

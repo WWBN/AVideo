@@ -35,6 +35,10 @@ class GoogleCloudDialogflowCxV3beta1EventHandler extends \Google\Model
    * @var string
    */
   public $targetPage;
+  /**
+   * @var string
+   */
+  public $targetPlaybook;
   protected $triggerFulfillmentType = GoogleCloudDialogflowCxV3beta1Fulfillment::class;
   protected $triggerFulfillmentDataType = '';
 
@@ -93,6 +97,20 @@ class GoogleCloudDialogflowCxV3beta1EventHandler extends \Google\Model
   public function getTargetPage()
   {
     return $this->targetPage;
+  }
+  /**
+   * @param string
+   */
+  public function setTargetPlaybook($targetPlaybook)
+  {
+    $this->targetPlaybook = $targetPlaybook;
+  }
+  /**
+   * @return string
+   */
+  public function getTargetPlaybook()
+  {
+    return $this->targetPlaybook;
   }
   /**
    * @param GoogleCloudDialogflowCxV3beta1Fulfillment

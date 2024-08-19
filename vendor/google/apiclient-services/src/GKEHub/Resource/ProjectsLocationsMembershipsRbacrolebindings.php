@@ -17,7 +17,10 @@
 
 namespace Google\Service\GKEHub\Resource;
 
+use Google\Service\GKEHub\GenerateMembershipRBACRoleBindingYAMLResponse;
 use Google\Service\GKEHub\ListMembershipRBACRoleBindingsResponse;
+use Google\Service\GKEHub\Operation;
+use Google\Service\GKEHub\RBACRoleBinding;
 
 /**
  * The "rbacrolebindings" collection of methods.
@@ -29,6 +32,86 @@ use Google\Service\GKEHub\ListMembershipRBACRoleBindingsResponse;
  */
 class ProjectsLocationsMembershipsRbacrolebindings extends \Google\Service\Resource
 {
+  /**
+   * Creates a Membership RBACRoleBinding. (rbacrolebindings.create)
+   *
+   * @param string $parent Required. The parent (project and location) where the
+   * RBACRoleBinding will be created. Specified in the format
+   * `projects/locations/memberships`.
+   * @param RBACRoleBinding $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string rbacrolebindingId Required. Client chosen ID for the
+   * RBACRoleBinding. `rbacrolebinding_id` must be a valid RFC 1123 compliant DNS
+   * label: 1. At most 63 characters in length 2. It must consist of lower case
+   * alphanumeric characters or `-` 3. It must start and end with an alphanumeric
+   * character Which can be expressed as the regex:
+   * `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, RBACRoleBinding $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], Operation::class);
+  }
+  /**
+   * Deletes a Membership RBACRoleBinding. (rbacrolebindings.delete)
+   *
+   * @param string $name Required. The RBACRoleBinding resource name in the format
+   * `projects/locations/memberships/rbacrolebindings`.
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], Operation::class);
+  }
+  /**
+   * Generates a YAML of the RBAC policies for the specified RoleBinding and its
+   * associated impersonation resources.
+   * (rbacrolebindings.generateMembershipRBACRoleBindingYAML)
+   *
+   * @param string $parent Required. The parent (project and location) where the
+   * RBACRoleBinding will be created. Specified in the format
+   * `projects/locations/memberships`.
+   * @param RBACRoleBinding $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string rbacrolebindingId Required. Client chosen ID for the
+   * RBACRoleBinding. `rbacrolebinding_id` must be a valid RFC 1123 compliant DNS
+   * label: 1. At most 63 characters in length 2. It must consist of lower case
+   * alphanumeric characters or `-` 3. It must start and end with an alphanumeric
+   * character Which can be expressed as the regex:
+   * `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters.
+   * @return GenerateMembershipRBACRoleBindingYAMLResponse
+   * @throws \Google\Service\Exception
+   */
+  public function generateMembershipRBACRoleBindingYAML($parent, RBACRoleBinding $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('generateMembershipRBACRoleBindingYAML', [$params], GenerateMembershipRBACRoleBindingYAMLResponse::class);
+  }
+  /**
+   * Returns the details of a Membership RBACRoleBinding. (rbacrolebindings.get)
+   *
+   * @param string $name Required. The RBACRoleBinding resource name in the format
+   * `projects/locations/memberships/rbacrolebindings`.
+   * @param array $optParams Optional parameters.
+   * @return RBACRoleBinding
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], RBACRoleBinding::class);
+  }
   /**
    * Lists all Membership RBACRoleBindings.
    * (rbacrolebindings.listProjectsLocationsMembershipsRbacrolebindings)
@@ -52,6 +135,26 @@ class ProjectsLocationsMembershipsRbacrolebindings extends \Google\Service\Resou
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListMembershipRBACRoleBindingsResponse::class);
+  }
+  /**
+   * Updates a Membership RBACRoleBinding. (rbacrolebindings.patch)
+   *
+   * @param string $name The resource name for the rbacrolebinding `projects/{proj
+   * ect}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}`
+   * or `projects/{project}/locations/{location}/memberships/{membership}/rbacrole
+   * bindings/{rbacrolebinding}`
+   * @param RBACRoleBinding $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The fields to be updated.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, RBACRoleBinding $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
   }
 }
 

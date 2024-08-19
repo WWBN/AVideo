@@ -152,8 +152,8 @@ class ProjectsLocationsEntryGroups extends \Google\Service\Resource
    * Updates an EntryGroup. (entryGroups.patch)
    *
    * @param string $name Output only. The relative resource name of the
-   * EntryGroup, of the form: projects/{project_number}/locations/{location_id}/en
-   * tryGroups/{entry_group_id}.
+   * EntryGroup, in the format projects/{project_id_or_number}/locations/{location
+   * _id}/entryGroups/{entry_group_id}.
    * @param GoogleCloudDataplexV1EntryGroup $postBody
    * @param array $optParams Optional parameters.
    *

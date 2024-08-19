@@ -62,7 +62,7 @@ class ProjectsLocationsAgentsTestCases extends \Google\Service\Resource
    * BatchRunTestCasesResponse (testCases.batchRun)
    *
    * @param string $parent Required. Agent name. Format:
-   * `projects//locations//agents/ `.
+   * `projects//locations//agents/`.
    * @param GoogleCloudDialogflowCxV3BatchRunTestCasesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
@@ -196,7 +196,7 @@ class ProjectsLocationsAgentsTestCases extends \Google\Service\Resource
    *
    * @param string $name The unique identifier of the test case.
    * TestCases.CreateTestCase will populate the name automatically. Otherwise use
-   * format: `projects//locations//agents/ /testCases/`.
+   * format: `projects//locations//agents//testCases/`.
    * @param GoogleCloudDialogflowCxV3TestCase $postBody
    * @param array $optParams Optional parameters.
    *
@@ -219,7 +219,7 @@ class ProjectsLocationsAgentsTestCases extends \Google\Service\Resource
    * (testCases.run)
    *
    * @param string $name Required. Format of test case name to run:
-   * `projects//locations/ /agents//testCases/`.
+   * `projects//locations//agents//testCases/`.
    * @param GoogleCloudDialogflowCxV3RunTestCaseRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation

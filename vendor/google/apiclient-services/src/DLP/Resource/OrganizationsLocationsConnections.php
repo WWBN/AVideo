@@ -19,6 +19,7 @@ namespace Google\Service\DLP\Resource;
 
 use Google\Service\DLP\GooglePrivacyDlpV2Connection;
 use Google\Service\DLP\GooglePrivacyDlpV2CreateConnectionRequest;
+use Google\Service\DLP\GooglePrivacyDlpV2ListConnectionsResponse;
 use Google\Service\DLP\GooglePrivacyDlpV2SearchConnectionsResponse;
 use Google\Service\DLP\GooglePrivacyDlpV2UpdateConnectionRequest;
 use Google\Service\DLP\GoogleProtobufEmpty;
@@ -83,6 +84,30 @@ class OrganizationsLocationsConnections extends \Google\Service\Resource
     return $this->call('get', [$params], GooglePrivacyDlpV2Connection::class);
   }
   /**
+   * Lists Connections in a parent. Use SearchConnections to see all connections
+   * within an organization. (connections.listOrganizationsLocationsConnections)
+   *
+   * @param string $parent Required. Resource name of the organization or project,
+   * for example, `organizations/433245324/locations/europe` or `projects/project-
+   * id/locations/asia`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Supported field/value: `state` -
+   * MISSING|AVAILABLE|ERROR
+   * @opt_param int pageSize Optional. Number of results per page, max 1000.
+   * @opt_param string pageToken Optional. Page token from a previous page to
+   * return the next set of results. If set, all other request fields must match
+   * the original request.
+   * @return GooglePrivacyDlpV2ListConnectionsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listOrganizationsLocationsConnections($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GooglePrivacyDlpV2ListConnectionsResponse::class);
+  }
+  /**
    * Update a Connection. (connections.patch)
    *
    * @param string $name Required. Resource name in the format:
@@ -101,8 +126,9 @@ class OrganizationsLocationsConnections extends \Google\Service\Resource
   /**
    * Searches for Connections in a parent. (connections.search)
    *
-   * @param string $parent Required. Parent name, typically an organization,
-   * without location. For example: `organizations/12345678`.
+   * @param string $parent Required. Resource name of the organization or project
+   * with a wildcard location, for example, `organizations/433245324/locations/-`
+   * or `projects/project-id/locations/-`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. Supported field/value: - `state` -

@@ -62,6 +62,9 @@ class ProjectsLocationsDataPolicies extends \Google\Service\Resource
    * Format is `projects/{project_number}/locations/{location_id}/dataPolicies/{da
    * ta_policy_id}`.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool force Optional. If true, the data policy will be deleted even
+   * when it is referenced by one or more table columns.
    * @return BigquerydatapolicyEmpty
    * @throws \Google\Service\Exception
    */
@@ -144,6 +147,9 @@ class ProjectsLocationsDataPolicies extends \Google\Service\Resource
    * @param DataPolicy $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool allowMissing Optional. If set to true, and the data policy is
+   * not found, a new data policy will be created. In this situation, update_mask
+   * is ignored.
    * @opt_param string updateMask The update mask applies to the resource. For the
    * `FieldMask` definition, see https://developers.google.com/protocol-
    * buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all

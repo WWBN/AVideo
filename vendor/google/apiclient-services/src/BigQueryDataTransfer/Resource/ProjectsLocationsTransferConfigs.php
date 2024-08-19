@@ -46,14 +46,16 @@ class ProjectsLocationsTransferConfigs extends \Google\Service\Resource
    * @param TransferConfig $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string authorizationCode Optional OAuth2 authorization code to use
-   * with this transfer configuration. This is required only if
-   * `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are
-   * needed, as indicated by `CheckValidCreds`. In order to obtain
+   * @opt_param string authorizationCode Deprecated: Authorization code was
+   * required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no
+   * longer used in any data sources. Use `version_info` instead. Optional OAuth2
+   * authorization code to use with this transfer configuration. This is required
+   * only if `transferConfig.dataSourceId` is 'youtube_channel' and new
+   * credentials are needed, as indicated by `CheckValidCreds`. In order to obtain
    * authorization_code, make a request to the following URL: https://bigquery.clo
    * ud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob
    * &response_type=authorization_code&client_id=client_id&scope=data_source_scope
-   * s * The client_id is the OAuth client_id of the a data source as returned by
+   * s * The client_id is the OAuth client_id of the data source as returned by
    * ListDataSources method. * data_source_scopes are the scopes returned by
    * ListDataSources method. Note that this should not be set when
    * `service_account_name` is used to create the transfer config.
@@ -65,16 +67,17 @@ class ProjectsLocationsTransferConfigs extends \Google\Service\Resource
    * latest list of data sources, read about [using service
    * accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-
    * accounts).
-   * @opt_param string versionInfo Optional version info. This is required only if
-   * `transferConfig.dataSourceId` is not 'youtube_channel' and new credentials
-   * are needed, as indicated by `CheckValidCreds`. In order to obtain version
-   * info, make a request to the following URL: https://bigquery.cloud.google.com/
-   * datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type
-   * =version_info&client_id=client_id&scope=data_source_scopes * The client_id is
-   * the OAuth client_id of the a data source as returned by ListDataSources
-   * method. * data_source_scopes are the scopes returned by ListDataSources
-   * method. Note that this should not be set when `service_account_name` is used
-   * to create the transfer config.
+   * @opt_param string versionInfo Optional version info. This parameter replaces
+   * `authorization_code` which is no longer used in any data sources. This is
+   * required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new
+   * credentials are needed, as indicated by `CheckValidCreds`. In order to obtain
+   * version info, make a request to the following URL: https://bigquery.cloud.goo
+   * gle.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&respo
+   * nse_type=version_info&client_id=client_id&scope=data_source_scopes * The
+   * client_id is the OAuth client_id of the data source as returned by
+   * ListDataSources method. * data_source_scopes are the scopes returned by
+   * ListDataSources method. Note that this should not be set when
+   * `service_account_name` is used to create the transfer config.
    * @return TransferConfig
    * @throws \Google\Service\Exception
    */
@@ -158,14 +161,16 @@ class ProjectsLocationsTransferConfigs extends \Google\Service\Resource
    * @param TransferConfig $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string authorizationCode Optional OAuth2 authorization code to use
-   * with this transfer configuration. This is required only if
-   * `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are
-   * needed, as indicated by `CheckValidCreds`. In order to obtain
+   * @opt_param string authorizationCode Deprecated: Authorization code was
+   * required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no
+   * longer used in any data sources. Use `version_info` instead. Optional OAuth2
+   * authorization code to use with this transfer configuration. This is required
+   * only if `transferConfig.dataSourceId` is 'youtube_channel' and new
+   * credentials are needed, as indicated by `CheckValidCreds`. In order to obtain
    * authorization_code, make a request to the following URL: https://bigquery.clo
    * ud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob
    * &response_type=authorization_code&client_id=client_id&scope=data_source_scope
-   * s * The client_id is the OAuth client_id of the a data source as returned by
+   * s * The client_id is the OAuth client_id of the data source as returned by
    * ListDataSources method. * data_source_scopes are the scopes returned by
    * ListDataSources method. Note that this should not be set when
    * `service_account_name` is used to update the transfer config.
@@ -179,16 +184,17 @@ class ProjectsLocationsTransferConfigs extends \Google\Service\Resource
    * accounts).
    * @opt_param string updateMask Required. Required list of fields to be updated
    * in this request.
-   * @opt_param string versionInfo Optional version info. This is required only if
-   * `transferConfig.dataSourceId` is not 'youtube_channel' and new credentials
-   * are needed, as indicated by `CheckValidCreds`. In order to obtain version
-   * info, make a request to the following URL: https://bigquery.cloud.google.com/
-   * datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type
-   * =version_info&client_id=client_id&scope=data_source_scopes * The client_id is
-   * the OAuth client_id of the a data source as returned by ListDataSources
-   * method. * data_source_scopes are the scopes returned by ListDataSources
-   * method. Note that this should not be set when `service_account_name` is used
-   * to update the transfer config.
+   * @opt_param string versionInfo Optional version info. This parameter replaces
+   * `authorization_code` which is no longer used in any data sources. This is
+   * required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new
+   * credentials are needed, as indicated by `CheckValidCreds`. In order to obtain
+   * version info, make a request to the following URL: https://bigquery.cloud.goo
+   * gle.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&respo
+   * nse_type=version_info&client_id=client_id&scope=data_source_scopes * The
+   * client_id is the OAuth client_id of the data source as returned by
+   * ListDataSources method. * data_source_scopes are the scopes returned by
+   * ListDataSources method. Note that this should not be set when
+   * `service_account_name` is used to update the transfer config.
    * @return TransferConfig
    * @throws \Google\Service\Exception
    */

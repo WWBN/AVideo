@@ -31,6 +31,8 @@ class GoogleCloudAiplatformV1MachineSpec extends \Google\Model
    * @var string
    */
   public $machineType;
+  protected $reservationAffinityType = GoogleCloudAiplatformV1ReservationAffinity::class;
+  protected $reservationAffinityDataType = '';
   /**
    * @var string
    */
@@ -77,6 +79,20 @@ class GoogleCloudAiplatformV1MachineSpec extends \Google\Model
   public function getMachineType()
   {
     return $this->machineType;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1ReservationAffinity
+   */
+  public function setReservationAffinity(GoogleCloudAiplatformV1ReservationAffinity $reservationAffinity)
+  {
+    $this->reservationAffinity = $reservationAffinity;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1ReservationAffinity
+   */
+  public function getReservationAffinity()
+  {
+    return $this->reservationAffinity;
   }
   /**
    * @param string

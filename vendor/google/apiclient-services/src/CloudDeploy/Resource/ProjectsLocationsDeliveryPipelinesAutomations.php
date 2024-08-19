@@ -36,8 +36,8 @@ class ProjectsLocationsDeliveryPipelinesAutomations extends \Google\Service\Reso
    * (automations.create)
    *
    * @param string $parent Required. The parent collection in which the
-   * `Automation` should be created. Format should be `projects/{project_id}/locat
-   * ions/{location_name}/deliveryPipelines/{pipeline_name}`.
+   * `Automation` must be created. The format is `projects/{project_id}/locations/
+   * {location_name}/deliveryPipelines/{pipeline_name}`.
    * @param Automation $postBody
    * @param array $optParams Optional parameters.
    *
@@ -68,8 +68,8 @@ class ProjectsLocationsDeliveryPipelinesAutomations extends \Google\Service\Reso
   /**
    * Deletes a single Automation resource. (automations.delete)
    *
-   * @param string $name Required. The name of the `Automation` to delete. Format
-   * should be `projects/{project_id}/locations/{location_name}/deliveryPipelines/
+   * @param string $name Required. The name of the `Automation` to delete. The
+   * format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/
    * {pipeline_name}/automations/{automation_name}`.
    * @param array $optParams Optional parameters.
    *
@@ -170,7 +170,7 @@ class ProjectsLocationsDeliveryPipelinesAutomations extends \Google\Service\Reso
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param string updateMask Required. Field mask is used to specify the
-   * fields to be overwritten in the `Automation` resource by the update. The
+   * fields to be overwritten by the update in the `Automation` resource. The
    * fields specified in the update_mask are relative to the resource, not the
    * full request. A field will be overwritten if it's in the mask. If the user
    * doesn't provide a mask then all fields are overwritten.

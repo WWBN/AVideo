@@ -144,12 +144,10 @@ class MonetizationSubscriptionsBasePlans extends \Google\Service\Resource
     return $this->call('delete', [$params]);
   }
   /**
-   * Migrates subscribers who are receiving an historical subscription price to
-   * the currently-offered price for the specified region. Requests will cause
-   * price change notifications to be sent to users who are currently receiving an
-   * historical price older than the supplied timestamp. Subscribers who do not
-   * agree to the new price will have their subscription ended at the next
-   * renewal. (basePlans.migratePrices)
+   * Migrates subscribers from one or more legacy price cohorts to the current
+   * price. Requests result in Google Play notifying affected subscribers. Only up
+   * to 250 simultaneous legacy price cohorts are supported.
+   * (basePlans.migratePrices)
    *
    * @param string $packageName Required. Package name of the parent app. Must be
    * equal to the package_name field on the Subscription resource.

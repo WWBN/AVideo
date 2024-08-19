@@ -30,6 +30,10 @@ class GoogleCloudAiplatformV1Scheduling extends \Google\Model
   /**
    * @var string
    */
+  public $strategy;
+  /**
+   * @var string
+   */
   public $timeout;
 
   /**
@@ -59,6 +63,20 @@ class GoogleCloudAiplatformV1Scheduling extends \Google\Model
   public function getRestartJobOnWorkerRestart()
   {
     return $this->restartJobOnWorkerRestart;
+  }
+  /**
+   * @param string
+   */
+  public function setStrategy($strategy)
+  {
+    $this->strategy = $strategy;
+  }
+  /**
+   * @return string
+   */
+  public function getStrategy()
+  {
+    return $this->strategy;
   }
   /**
    * @param string

@@ -25,6 +25,10 @@ class ParamValue extends \Google\Collection
    */
   public $arrayVal;
   /**
+   * @var string[]
+   */
+  public $objectVal;
+  /**
    * @var string
    */
   public $stringVal;
@@ -46,6 +50,20 @@ class ParamValue extends \Google\Collection
   public function getArrayVal()
   {
     return $this->arrayVal;
+  }
+  /**
+   * @param string[]
+   */
+  public function setObjectVal($objectVal)
+  {
+    $this->objectVal = $objectVal;
+  }
+  /**
+   * @return string[]
+   */
+  public function getObjectVal()
+  {
+    return $this->objectVal;
   }
   /**
    * @param string

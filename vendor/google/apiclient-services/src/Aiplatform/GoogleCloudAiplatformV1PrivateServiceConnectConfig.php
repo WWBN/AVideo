@@ -28,6 +28,10 @@ class GoogleCloudAiplatformV1PrivateServiceConnectConfig extends \Google\Collect
    * @var string[]
    */
   public $projectAllowlist;
+  /**
+   * @var string
+   */
+  public $serviceAttachment;
 
   /**
    * @param bool
@@ -56,6 +60,20 @@ class GoogleCloudAiplatformV1PrivateServiceConnectConfig extends \Google\Collect
   public function getProjectAllowlist()
   {
     return $this->projectAllowlist;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceAttachment($serviceAttachment)
+  {
+    $this->serviceAttachment = $serviceAttachment;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAttachment()
+  {
+    return $this->serviceAttachment;
   }
 }
 

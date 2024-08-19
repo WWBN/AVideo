@@ -743,6 +743,24 @@ class BeyondCorp extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'shouldThrottle' => [
+              'path' => 'v1/{+name}:shouldThrottle',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'port' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'requestedAmount' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'testIamPermissions' => [
               'path' => 'v1/{+resource}:testIamPermissions',
               'httpMethod' => 'POST',

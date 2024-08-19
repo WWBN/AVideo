@@ -26,6 +26,8 @@ class GoogleCloudAiplatformV1FeatureGroupBigQuery extends \Google\Collection
    * @var string[]
    */
   public $entityIdColumns;
+  protected $timeSeriesType = GoogleCloudAiplatformV1FeatureGroupBigQueryTimeSeries::class;
+  protected $timeSeriesDataType = '';
 
   /**
    * @param GoogleCloudAiplatformV1BigQuerySource
@@ -54,6 +56,20 @@ class GoogleCloudAiplatformV1FeatureGroupBigQuery extends \Google\Collection
   public function getEntityIdColumns()
   {
     return $this->entityIdColumns;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1FeatureGroupBigQueryTimeSeries
+   */
+  public function setTimeSeries(GoogleCloudAiplatformV1FeatureGroupBigQueryTimeSeries $timeSeries)
+  {
+    $this->timeSeries = $timeSeries;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1FeatureGroupBigQueryTimeSeries
+   */
+  public function getTimeSeries()
+  {
+    return $this->timeSeries;
   }
 }
 

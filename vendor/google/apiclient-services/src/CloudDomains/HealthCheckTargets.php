@@ -20,9 +20,27 @@ namespace Google\Service\CloudDomains;
 class HealthCheckTargets extends \Google\Collection
 {
   protected $collection_key = 'internalLoadBalancer';
+  /**
+   * @var string[]
+   */
+  public $externalEndpoints;
   protected $internalLoadBalancerType = LoadBalancerTarget::class;
   protected $internalLoadBalancerDataType = 'array';
 
+  /**
+   * @param string[]
+   */
+  public function setExternalEndpoints($externalEndpoints)
+  {
+    $this->externalEndpoints = $externalEndpoints;
+  }
+  /**
+   * @return string[]
+   */
+  public function getExternalEndpoints()
+  {
+    return $this->externalEndpoints;
+  }
   /**
    * @param LoadBalancerTarget[]
    */

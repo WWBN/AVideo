@@ -23,8 +23,6 @@ class GoogleFirestoreAdminV1WeeklyRecurrence extends \Google\Model
    * @var string
    */
   public $day;
-  protected $timeType = TimeOfDay::class;
-  protected $timeDataType = '';
 
   /**
    * @param string
@@ -39,20 +37,6 @@ class GoogleFirestoreAdminV1WeeklyRecurrence extends \Google\Model
   public function getDay()
   {
     return $this->day;
-  }
-  /**
-   * @param TimeOfDay
-   */
-  public function setTime(TimeOfDay $time)
-  {
-    $this->time = $time;
-  }
-  /**
-   * @return TimeOfDay
-   */
-  public function getTime()
-  {
-    return $this->time;
   }
 }
 

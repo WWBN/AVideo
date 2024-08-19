@@ -41,34 +41,37 @@ class ClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testUpload(string $file, bool $withChecksum, ?string $expectedChecksum)
     {
-        $options = function (array $options) use ($expectedChecksum): bool {
-            if (!is_resource($options['body'])) {
-                return false;
-            }
+        $thenPromise = $this->createMock(\GuzzleHttp\Promise\Promise::class);
+        $thenPromise->expects($this->once())->method('wait');
 
-            if (null === $expectedChecksum) {
-                return !isset($options['headers']['Checksum']);
-            }
-
-            if (!isset($options['headers']['Checksum'])) {
-                return false;
-            }
-
-            if ($expectedChecksum !== $options['headers']['Checksum']) {
-                return false;
-            }
-
-            return true;
-        };
-
-        $response = $this->createMock(\Psr\Http\Message\ResponseInterface::class);
-        $response->expects($this->atLeastOnce())->method('getStatusCode')->willReturn(201);
+        $httpPromise = $this->createMock(\GuzzleHttp\Promise\Promise::class);
+        $httpPromise->expects($this->once())->method('then')->willReturn($thenPromise);
 
         $httpClient = $this->createMock(\GuzzleHttp\Client::class);
-        $httpClient->expects($this->once())->method('request')->with('PUT', 'test/'.$file, $this->callback($options))->willReturn($response);
+        $httpClient->expects($this->once())->method('requestAsync')->with('PUT', 'test/'.$file, $this->callback($this->uploadOptionsCallback($expectedChecksum)))->willReturn($httpPromise);
 
         $client = new Client('abc1234d', 'test', Region::FALKENSTEIN, $httpClient);
         $client->upload(__DIR__.'/_files/'.$file, $file, $withChecksum);
+    }
+
+    /**
+     * @dataProvider uploadDataProvider
+     */
+    public function testUploadAsync(string $file, bool $withChecksum, ?string $expectedChecksum)
+    {
+        $thenPromise = $this->createMock(\GuzzleHttp\Promise\Promise::class);
+        $thenPromise->expects($this->never())->method('wait');
+
+        $httpPromise = $this->createMock(\GuzzleHttp\Promise\Promise::class);
+        $httpPromise->expects($this->once())->method('then')->willReturn($thenPromise);
+
+        $httpClient = $this->createMock(\GuzzleHttp\Client::class);
+        $httpClient->expects($this->once())->method('requestAsync')->with('PUT', 'test/'.$file, $this->callback($this->uploadOptionsCallback($expectedChecksum)))->willReturn($httpPromise);
+
+        $client = new Client('abc1234d', 'test', Region::FALKENSTEIN, $httpClient);
+        $result = $client->uploadAsync(__DIR__.'/_files/'.$file, $file, $withChecksum);
+
+        $this->assertSame($thenPromise, $result);
     }
 
     public static function uploadDataProvider(): array
@@ -145,5 +148,28 @@ class ClientTest extends \PHPUnit\Framework\TestCase
             [true, '', '', '', ''],
             [true, '', '', '01/02/03 04:05:06', '01/02/03 04:05:06'],
         ];
+    }
+
+    private function uploadOptionsCallback(?string $expectedChecksum)
+    {
+        return function (array $options) use ($expectedChecksum): bool {
+            if (!is_resource($options['body'])) {
+                return false;
+            }
+
+            if (null === $expectedChecksum) {
+                return !isset($options['headers']['Checksum']);
+            }
+
+            if (!isset($options['headers']['Checksum'])) {
+                return false;
+            }
+
+            if ($expectedChecksum !== $options['headers']['Checksum']) {
+                return false;
+            }
+
+            return true;
+        };
     }
 }

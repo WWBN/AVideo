@@ -99,7 +99,7 @@ class ProjectsLocationsObservationSources extends \Google\Service\Resource
   }
   /**
    * ListObservationSources gets all ObservationSources for a given project and
-   * location (observationSources.listProjectsLocationsObservationSources)
+   * location. (observationSources.listProjectsLocationsObservationSources)
    *
    * @param string $parent Required. The parent, which owns this collection of
    * ObservationSources. Format: projects/{project}/locations/{location}

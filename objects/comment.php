@@ -240,7 +240,7 @@ class Comment {
                 $row = cleanUpRowFromDatabase($row);
                 $row['comment'] = str_replace('\n', "\n", $row['comment']);
                 $row['commentPlain'] = xss_esc_back($row['comment']);
-                $row['commentHTML'] = nl2br($row['commentPlain']);
+                $row['commentHTML'] = markDownToHTML($row['commentPlain']);
                 $row['responses'] = array();
                 if($includeResponses){
                     $row['responses'] = self::getAllComments($videoId, $row['id'], $video_owner_users_id, $includeResponses);
@@ -412,7 +412,7 @@ class Comment {
         if(empty($row['commentHTML'])){
             $row['comment'] = str_replace('\n', "\n", $row['comment']);
             $row['commentPlain'] = xss_esc_back($row['comment']);
-            $row['commentHTML'] = nl2br($row['commentPlain']);
+            $row['commentHTML'] = markDownToHTML($row['commentPlain']);
         }
 
         $row['identification'] = User::getNameIdentificationById($row['users_id']);

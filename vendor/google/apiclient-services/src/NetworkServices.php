@@ -287,20 +287,6 @@ class NetworkServices extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'getIamPolicy' => [
-              'path' => 'v1/{+resource}:getIamPolicy',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'options.requestedPolicyVersion' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-              ],
             ],'list' => [
               'path' => 'v1/{+parent}/endpointPolicies',
               'httpMethod' => 'GET',
@@ -331,26 +317,6 @@ class NetworkServices extends \Google\Service
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
-                ],
-              ],
-            ],'setIamPolicy' => [
-              'path' => 'v1/{+resource}:setIamPolicy',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'testIamPermissions' => [
-              'path' => 'v1/{+resource}:testIamPermissions',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ],
               ],
             ],
@@ -397,20 +363,6 @@ class NetworkServices extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'getIamPolicy' => [
-              'path' => 'v1/{+resource}:getIamPolicy',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'options.requestedPolicyVersion' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-              ],
             ],'list' => [
               'path' => 'v1/{+parent}/gateways',
               'httpMethod' => 'GET',
@@ -441,26 +393,6 @@ class NetworkServices extends \Google\Service
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
-                ],
-              ],
-            ],'setIamPolicy' => [
-              'path' => 'v1/{+resource}:setIamPolicy',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'testIamPermissions' => [
-              'path' => 'v1/{+resource}:testIamPermissions',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ],
               ],
             ],
@@ -851,20 +783,6 @@ class NetworkServices extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'getIamPolicy' => [
-              'path' => 'v1/{+resource}:getIamPolicy',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'options.requestedPolicyVersion' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-              ],
             ],'list' => [
               'path' => 'v1/{+parent}/meshes',
               'httpMethod' => 'GET',
@@ -895,26 +813,6 @@ class NetworkServices extends \Google\Service
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
-                ],
-              ],
-            ],'setIamPolicy' => [
-              'path' => 'v1/{+resource}:setIamPolicy',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'testIamPermissions' => [
-              'path' => 'v1/{+resource}:testIamPermissions',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ],
               ],
             ],
@@ -1023,20 +921,6 @@ class NetworkServices extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'getIamPolicy' => [
-              'path' => 'v1/{+resource}:getIamPolicy',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'options.requestedPolicyVersion' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-              ],
             ],'list' => [
               'path' => 'v1/{+parent}/serviceBindings',
               'httpMethod' => 'GET',
@@ -1053,26 +937,6 @@ class NetworkServices extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
-                ],
-              ],
-            ],'setIamPolicy' => [
-              'path' => 'v1/{+resource}:setIamPolicy',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'testIamPermissions' => [
-              'path' => 'v1/{+resource}:testIamPermissions',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ],
               ],
             ],

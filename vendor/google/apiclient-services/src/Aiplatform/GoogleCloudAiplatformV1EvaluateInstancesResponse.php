@@ -31,10 +31,14 @@ class GoogleCloudAiplatformV1EvaluateInstancesResponse extends \Google\Model
   protected $fulfillmentResultDataType = '';
   protected $groundednessResultType = GoogleCloudAiplatformV1GroundednessResult::class;
   protected $groundednessResultDataType = '';
+  protected $pairwiseMetricResultType = GoogleCloudAiplatformV1PairwiseMetricResult::class;
+  protected $pairwiseMetricResultDataType = '';
   protected $pairwiseQuestionAnsweringQualityResultType = GoogleCloudAiplatformV1PairwiseQuestionAnsweringQualityResult::class;
   protected $pairwiseQuestionAnsweringQualityResultDataType = '';
   protected $pairwiseSummarizationQualityResultType = GoogleCloudAiplatformV1PairwiseSummarizationQualityResult::class;
   protected $pairwiseSummarizationQualityResultDataType = '';
+  protected $pointwiseMetricResultType = GoogleCloudAiplatformV1PointwiseMetricResult::class;
+  protected $pointwiseMetricResultDataType = '';
   protected $questionAnsweringCorrectnessResultType = GoogleCloudAiplatformV1QuestionAnsweringCorrectnessResult::class;
   protected $questionAnsweringCorrectnessResultDataType = '';
   protected $questionAnsweringHelpfulnessResultType = GoogleCloudAiplatformV1QuestionAnsweringHelpfulnessResult::class;
@@ -147,6 +151,20 @@ class GoogleCloudAiplatformV1EvaluateInstancesResponse extends \Google\Model
     return $this->groundednessResult;
   }
   /**
+   * @param GoogleCloudAiplatformV1PairwiseMetricResult
+   */
+  public function setPairwiseMetricResult(GoogleCloudAiplatformV1PairwiseMetricResult $pairwiseMetricResult)
+  {
+    $this->pairwiseMetricResult = $pairwiseMetricResult;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PairwiseMetricResult
+   */
+  public function getPairwiseMetricResult()
+  {
+    return $this->pairwiseMetricResult;
+  }
+  /**
    * @param GoogleCloudAiplatformV1PairwiseQuestionAnsweringQualityResult
    */
   public function setPairwiseQuestionAnsweringQualityResult(GoogleCloudAiplatformV1PairwiseQuestionAnsweringQualityResult $pairwiseQuestionAnsweringQualityResult)
@@ -173,6 +191,20 @@ class GoogleCloudAiplatformV1EvaluateInstancesResponse extends \Google\Model
   public function getPairwiseSummarizationQualityResult()
   {
     return $this->pairwiseSummarizationQualityResult;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1PointwiseMetricResult
+   */
+  public function setPointwiseMetricResult(GoogleCloudAiplatformV1PointwiseMetricResult $pointwiseMetricResult)
+  {
+    $this->pointwiseMetricResult = $pointwiseMetricResult;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PointwiseMetricResult
+   */
+  public function getPointwiseMetricResult()
+  {
+    return $this->pointwiseMetricResult;
   }
   /**
    * @param GoogleCloudAiplatformV1QuestionAnsweringCorrectnessResult

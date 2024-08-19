@@ -93,14 +93,15 @@ class ProjectsLocationsCertificateIssuanceConfigs extends \Google\Service\Resour
    * certificate should be listed, specified in the format `projects/locations`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Filter expression to restrict the Certificates
-   * Configs returned.
-   * @opt_param string orderBy A list of Certificate Config field names used to
-   * specify the order of the returned results. The default sorting order is
-   * ascending. To specify descending order for a field, add a suffix `" desc"`.
-   * @opt_param int pageSize Maximum number of certificate configs to return per
-   * call.
-   * @opt_param string pageToken The value returned by the last
+   * @opt_param string filter Optional. Filter expression to restrict the
+   * Certificates Configs returned.
+   * @opt_param string orderBy Optional. A list of Certificate Config field names
+   * used to specify the order of the returned results. The default sorting order
+   * is ascending. To specify descending order for a field, add a suffix `"
+   * desc"`.
+   * @opt_param int pageSize Optional. Maximum number of certificate configs to
+   * return per call.
+   * @opt_param string pageToken Optional. The value returned by the last
    * `ListCertificateIssuanceConfigsResponse`. Indicates that this is a
    * continuation of a prior `ListCertificateIssuanceConfigs` call, and that the
    * system should return the next page of data.
@@ -112,6 +113,28 @@ class ProjectsLocationsCertificateIssuanceConfigs extends \Google\Service\Resour
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListCertificateIssuanceConfigsResponse::class);
+  }
+  /**
+   * Updates a CertificateIssuanceConfig. (certificateIssuanceConfigs.patch)
+   *
+   * @param string $name Identifier. A user-defined name of the certificate
+   * issuance config. CertificateIssuanceConfig names must be unique globally and
+   * match pattern `projects/locations/certificateIssuanceConfigs`.
+   * @param CertificateIssuanceConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The update mask applies to the
+   * resource. For the `FieldMask` definition, see
+   * https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#fieldmask.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, CertificateIssuanceConfig $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
   }
 }
 

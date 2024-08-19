@@ -19,6 +19,8 @@ namespace Google\Service\WorkloadManager;
 
 class IsolationExpectations extends \Google\Model
 {
+  protected $requirementOverrideType = RequirementOverride::class;
+  protected $requirementOverrideDataType = '';
   /**
    * @var string
    */
@@ -48,6 +50,20 @@ class IsolationExpectations extends \Google\Model
    */
   public $zsRegionState;
 
+  /**
+   * @param RequirementOverride
+   */
+  public function setRequirementOverride(RequirementOverride $requirementOverride)
+  {
+    $this->requirementOverride = $requirementOverride;
+  }
+  /**
+   * @return RequirementOverride
+   */
+  public function getRequirementOverride()
+  {
+    return $this->requirementOverride;
+  }
   /**
    * @param string
    */

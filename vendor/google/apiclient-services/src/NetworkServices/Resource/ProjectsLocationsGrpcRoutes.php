@@ -106,7 +106,7 @@ class ProjectsLocationsGrpcRoutes extends \Google\Service\Resource
   /**
    * Updates the parameters of a single GrpcRoute. (grpcRoutes.patch)
    *
-   * @param string $name Required. Name of the GrpcRoute resource. It matches
+   * @param string $name Identifier. Name of the GrpcRoute resource. It matches
    * pattern `projects/locations/global/grpcRoutes/`
    * @param GrpcRoute $postBody
    * @param array $optParams Optional parameters.

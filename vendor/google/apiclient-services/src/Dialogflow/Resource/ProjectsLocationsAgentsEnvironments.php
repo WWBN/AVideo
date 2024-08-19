@@ -80,7 +80,7 @@ class ProjectsLocationsAgentsEnvironments extends \Google\Service\Resource
    * (environments.deployFlow)
    *
    * @param string $environment Required. The environment to deploy the flow to.
-   * Format: `projects//locations//agents// environments/`.
+   * Format: `projects//locations//agents//environments/`.
    * @param GoogleCloudDialogflowCxV3DeployFlowRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation

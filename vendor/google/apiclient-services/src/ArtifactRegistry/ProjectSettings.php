@@ -27,6 +27,10 @@ class ProjectSettings extends \Google\Model
    * @var string
    */
   public $name;
+  /**
+   * @var int
+   */
+  public $pullPercent;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class ProjectSettings extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param int
+   */
+  public function setPullPercent($pullPercent)
+  {
+    $this->pullPercent = $pullPercent;
+  }
+  /**
+   * @return int
+   */
+  public function getPullPercent()
+  {
+    return $this->pullPercent;
   }
 }
 

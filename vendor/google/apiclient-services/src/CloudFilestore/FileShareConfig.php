@@ -30,10 +30,6 @@ class FileShareConfig extends \Google\Collection
   public $name;
   protected $nfsExportOptionsType = NfsExportOptions::class;
   protected $nfsExportOptionsDataType = 'array';
-  protected $performanceConfigType = PerformanceConfig::class;
-  protected $performanceConfigDataType = '';
-  protected $performanceLimitsType = PerformanceLimits::class;
-  protected $performanceLimitsDataType = '';
   /**
    * @var string
    */
@@ -80,34 +76,6 @@ class FileShareConfig extends \Google\Collection
   public function getNfsExportOptions()
   {
     return $this->nfsExportOptions;
-  }
-  /**
-   * @param PerformanceConfig
-   */
-  public function setPerformanceConfig(PerformanceConfig $performanceConfig)
-  {
-    $this->performanceConfig = $performanceConfig;
-  }
-  /**
-   * @return PerformanceConfig
-   */
-  public function getPerformanceConfig()
-  {
-    return $this->performanceConfig;
-  }
-  /**
-   * @param PerformanceLimits
-   */
-  public function setPerformanceLimits(PerformanceLimits $performanceLimits)
-  {
-    $this->performanceLimits = $performanceLimits;
-  }
-  /**
-   * @return PerformanceLimits
-   */
-  public function getPerformanceLimits()
-  {
-    return $this->performanceLimits;
   }
   /**
    * @param string

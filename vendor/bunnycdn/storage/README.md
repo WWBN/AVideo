@@ -46,6 +46,9 @@ The checksum can be disabled using the `$withChecksum` parameter:
 $client->upload('/path/to/local/file.txt', 'remote/path/hello-world.txt', false);
 ```
 
+> [!NOTE]
+> Async uploads are supported with `$client->uploadAsync()`. It will return a `GuzzleHttp\Promise\PromiseInterface`.
+
 ---
 
 ### Downloading objects

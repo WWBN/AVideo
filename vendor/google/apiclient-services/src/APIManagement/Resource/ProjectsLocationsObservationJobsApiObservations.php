@@ -18,6 +18,8 @@
 namespace Google\Service\APIManagement\Resource;
 
 use Google\Service\APIManagement\ApiObservation;
+use Google\Service\APIManagement\BatchEditTagsApiObservationsRequest;
+use Google\Service\APIManagement\BatchEditTagsApiObservationsResponse;
 use Google\Service\APIManagement\ListApiObservationsResponse;
 
 /**
@@ -30,6 +32,24 @@ use Google\Service\APIManagement\ListApiObservationsResponse;
  */
 class ProjectsLocationsObservationJobsApiObservations extends \Google\Service\Resource
 {
+  /**
+   * BatchEditTagsApiObservations adds or removes Tags for ApiObservations.
+   * (apiObservations.batchEditTags)
+   *
+   * @param string $parent Required. The parent resource shared by all
+   * ApiObservations being edited. Format:
+   * projects/{project}/locations/{location}/observationJobs/{observation_job}
+   * @param BatchEditTagsApiObservationsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BatchEditTagsApiObservationsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchEditTags($parent, BatchEditTagsApiObservationsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchEditTags', [$params], BatchEditTagsApiObservationsResponse::class);
+  }
   /**
    * GetApiObservation retrieves a single ApiObservation by name.
    * (apiObservations.get)
@@ -49,7 +69,7 @@ class ProjectsLocationsObservationJobsApiObservations extends \Google\Service\Re
   }
   /**
    * ListApiObservations gets all ApiObservations for a given project and location
-   * and ObservationJob
+   * and ObservationJob.
    * (apiObservations.listProjectsLocationsObservationJobsApiObservations)
    *
    * @param string $parent Required. The parent, which owns this collection of

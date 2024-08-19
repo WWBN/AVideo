@@ -42,7 +42,7 @@ class ProjectsLocationsDeliveryPipelines extends \Google\Service\Resource
    * (deliveryPipelines.create)
    *
    * @param string $parent Required. The parent collection in which the
-   * `DeliveryPipeline` should be created. Format should be
+   * `DeliveryPipeline` must be created. The format is
    * `projects/{project_id}/locations/{location_name}`.
    * @param DeliveryPipeline $postBody
    * @param array $optParams Optional parameters.
@@ -75,8 +75,8 @@ class ProjectsLocationsDeliveryPipelines extends \Google\Service\Resource
    * Deletes a single DeliveryPipeline. (deliveryPipelines.delete)
    *
    * @param string $name Required. The name of the `DeliveryPipeline` to delete.
-   * Format should be `projects/{project_id}/locations/{location_name}/deliveryPip
-   * elines/{pipeline_name}`.
+   * The format is `projects/{project_id}/locations/{location_name}/deliveryPipeli
+   * nes/{pipeline_name}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool allowMissing Optional. If set to true, then deleting an
@@ -211,7 +211,7 @@ class ProjectsLocationsDeliveryPipelines extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param string updateMask Required. Field mask is used to specify the
-   * fields to be overwritten in the `DeliveryPipeline` resource by the update.
+   * fields to be overwritten by the update in the `DeliveryPipeline` resource.
    * The fields specified in the update_mask are relative to the resource, not the
    * full request. A field will be overwritten if it's in the mask. If the user
    * doesn't provide a mask then all fields are overwritten.
@@ -232,8 +232,8 @@ class ProjectsLocationsDeliveryPipelines extends \Google\Service\Resource
    * (deliveryPipelines.rollbackTarget)
    *
    * @param string $name Required. The `DeliveryPipeline` for which the rollback
-   * `Rollout` should be created. Format should be `projects/{project_id}/location
-   * s/{location_name}/deliveryPipelines/{pipeline_name}`.
+   * `Rollout` must be created. The format is `projects/{project_id}/locations/{lo
+   * cation_name}/deliveryPipelines/{pipeline_name}`.
    * @param RollbackTargetRequest $postBody
    * @param array $optParams Optional parameters.
    * @return RollbackTargetResponse

@@ -5,7 +5,7 @@
  * (RFC 4880).
  *
  * @package OpenPGP
- * @version 0.6.0
+ * @version 0.7.0
  * @author  Arto Bendiken <arto.bendiken@gmail.com>
  * @author  Stephen Paul Weber <singpolyma@singpolyma.net>
  * @see     http://github.com/bendiken/openpgp-php
@@ -18,7 +18,7 @@
  * @see http://tools.ietf.org/html/rfc4880
  */
 class OpenPGP {
-  const VERSION = array(0, 6, 0);
+  const VERSION = array(0, 7, 0);
 
   /**
    * @see http://tools.ietf.org/html/rfc4880#section-6
@@ -538,7 +538,7 @@ class OpenPGP_Packet {
   }
 
   function header_and_body() {
-    $body = $this->body(); // Get body first, we will need it's length
+    $body = $this->body() ?? ''; // Get body first, we will need it's length
     $tag = chr($this->tag | 0xC0); // First two bits are 1 for new packet format
     $size = chr(255).pack('N', strlen($body)); // Use 5-octet lengths
     return array('header' => $tag.$size, 'body' => $body);
@@ -616,6 +616,10 @@ class OpenPGP_Packet {
 class OpenPGP_AsymmetricSessionKeyPacket extends OpenPGP_Packet {
   public $version, $keyid, $key_algorithm, $encrypted_data;
 
+  public $input;
+
+  public $length;
+
   function __construct($key_algorithm='', $keyid='', $encrypted_data='', $version=3) {
     parent::__construct();
     $this->version = $version;
@@ -665,6 +669,10 @@ class OpenPGP_SignaturePacket extends OpenPGP_Packet {
   public $version, $signature_type, $hash_algorithm, $key_algorithm, $hashed_subpackets, $unhashed_subpackets, $hash_head;
   public $trailer; // This is the literal bytes that get tacked on the end of the message when verifying the signature
 
+  public $input;
+
+  public $length;
+
   function __construct($data=NULL, $key_algorithm=NULL, $hash_algorithm=NULL) {
     parent::__construct();
     $this->version = 4; // Default to version 4 sigs
@@ -697,8 +705,9 @@ class OpenPGP_SignaturePacket extends OpenPGP_Packet {
   function sign_data($signers) {
     $this->trailer = $this->calculate_trailer();
     $signer = $signers[$this->key_algorithm_name()][$this->hash_algorithm_name()];
-    $this->data = call_user_func($signer, $this->data.$this->trailer);
-    $unpacked = unpack('n', substr(implode('',$this->data), 0, 2));
+    $signed = call_user_func($signer, $this->data.$this->trailer);
+    $this->data = array($signed["signed"]);
+    $unpacked = unpack('n', substr($signed["hash"], 0, 2));
     $this->hash_head = reset($unpacked);
   }
 
@@ -873,10 +882,16 @@ class OpenPGP_SignaturePacket extends OpenPGP_Packet {
     }
     $input = substr($input, $length_of_length); // Chop off length header
     $tag = ord($input[0]);
+    // Is the subpacket critical?
+    $criticalFlagMask = 0x80;
+    $typeMask = 0x7F;
+    $isCritical = ($tag & $criticalFlagMask) === $criticalFlagMask;
+    $tag = $tag & $typeMask;
     $class = self::class_for($tag);
     if($class) {
       $packet = new $class();
       $packet->tag = $tag;
+      $packet->isCritical = $isCritical;
       $packet->input = substr($input, 1, $len-1);
       $packet->length = $len-1;
       $packet->read();
@@ -941,6 +956,12 @@ class OpenPGP_SignaturePacket extends OpenPGP_Packet {
 }
 
 class OpenPGP_SignaturePacket_Subpacket extends OpenPGP_Packet {
+  public $input;
+
+  public $isCritical = false;
+
+  public $length;
+
   function __construct($data=NULL) {
     parent::__construct($data);
     $this->tag = array_search(substr(substr(get_class($this), 8+16), 0, -6), OpenPGP_SignaturePacket::$subpacket_types);
@@ -1199,6 +1220,8 @@ class OpenPGP_SignaturePacket_PolicyURIPacket extends OpenPGP_SignaturePacket_Su
 }
 
 class OpenPGP_SignaturePacket_KeyFlagsPacket extends OpenPGP_SignaturePacket_Subpacket {
+  public $flags;
+
   function __construct($flags=array()) {
     parent::__construct();
     $this->flags = $flags;
@@ -1286,6 +1309,10 @@ class OpenPGP_SignaturePacket_EmbeddedSignaturePacket extends OpenPGP_SignatureP
 class OpenPGP_SymmetricSessionKeyPacket extends OpenPGP_Packet {
   public $version, $symmetric_algorithm, $s2k, $encrypted_data;
 
+  public $input;
+
+  public $length;
+
   function __construct($s2k=NULL, $encrypted_data='', $symmetric_algorithm=9, $version=3) {
     parent::__construct();
     $this->version = $version;
@@ -1314,6 +1341,11 @@ class OpenPGP_SymmetricSessionKeyPacket extends OpenPGP_Packet {
  */
 class OpenPGP_OnePassSignaturePacket extends OpenPGP_Packet {
   public $version, $signature_type, $hash_algorithm, $key_algorithm, $key_id, $nested;
+
+  public $input;
+
+  public $length;
+
   function read() {
     $this->version = ord($this->read_byte());
     $this->signature_type = ord($this->read_byte());
@@ -1347,6 +1379,10 @@ class OpenPGP_PublicKeyPacket extends OpenPGP_Packet {
   public $version, $timestamp, $algorithm;
   public $key, $key_id, $fingerprint;
   public $v3_days_of_validity;
+
+  public $input;
+
+  public $length;
 
   function __construct($key=array(), $algorithm='RSA', $timestamp=NULL, $version=4) {
     parent::__construct();
@@ -1544,6 +1580,10 @@ class OpenPGP_PublicKeyPacket extends OpenPGP_Packet {
  * @see http://tools.ietf.org/html/rfc4880#section-12
  */
 class OpenPGP_PublicSubkeyPacket extends OpenPGP_PublicKeyPacket {
+  public $input;
+
+  public $length;
+
   // TODO
 }
 
@@ -1642,6 +1682,10 @@ class OpenPGP_CompressedDataPacket extends OpenPGP_Packet implements IteratorAgg
   /* see http://tools.ietf.org/html/rfc4880#section-9.3 */
   static $algorithms = array(0 => 'Uncompressed', 1 => 'ZIP', 2 => 'ZLIB', 3 => 'BZip2');
 
+  public $input;
+
+  public $length;
+
   function __construct($m=NULL, $algorithm=1) {
     parent::__construct();
     $this->algorithm = $algorithm;
@@ -1730,6 +1774,10 @@ class OpenPGP_CompressedDataPacket extends OpenPGP_Packet implements IteratorAgg
  * @see http://tools.ietf.org/html/rfc4880#section-5.7
  */
 class OpenPGP_EncryptedDataPacket extends OpenPGP_Packet {
+  public $input;
+
+  public $length;
+
   function read() {
     $this->data = $this->input;
   }
@@ -1755,6 +1803,10 @@ class OpenPGP_MarkerPacket extends OpenPGP_Packet {
  */
 class OpenPGP_LiteralDataPacket extends OpenPGP_Packet {
   public $format, $filename, $timestamp;
+
+  public $input;
+
+  public $length;
 
   function __construct($data=NULL, $opt=array()) {
     parent::__construct();
@@ -1800,6 +1852,10 @@ class OpenPGP_LiteralDataPacket extends OpenPGP_Packet {
  * @see http://tools.ietf.org/html/rfc4880#section-5.10
  */
 class OpenPGP_TrustPacket extends OpenPGP_Packet {
+  public $input;
+
+  public $length;
+
   function read() {
     $this->data = $this->input;
   }
@@ -1817,6 +1873,10 @@ class OpenPGP_TrustPacket extends OpenPGP_Packet {
  */
 class OpenPGP_UserIDPacket extends OpenPGP_Packet {
   public $name, $comment, $email;
+
+  public $input;
+
+  public $length;
 
   function __construct($name='', $comment='', $email='') {
     parent::__construct();
@@ -1880,6 +1940,10 @@ class OpenPGP_UserIDPacket extends OpenPGP_Packet {
 class OpenPGP_UserAttributePacket extends OpenPGP_Packet {
   public $packets;
 
+  public $input;
+
+  public $length;
+
   // TODO
 }
 
@@ -1890,6 +1954,10 @@ class OpenPGP_UserAttributePacket extends OpenPGP_Packet {
  */
 class OpenPGP_IntegrityProtectedDataPacket extends OpenPGP_EncryptedDataPacket {
   public $version;
+
+  public $input;
+
+  public $length;
 
   function __construct($data='', $version=1) {
     parent::__construct();

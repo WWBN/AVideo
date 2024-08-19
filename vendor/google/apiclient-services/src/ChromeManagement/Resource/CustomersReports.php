@@ -193,10 +193,10 @@ class CustomersReports extends \Google\Service\Resource
    * in EBNF syntax. Note: OR operations are not supported in this filter.
    * Supported filter fields: * app_name * app_type * install_type *
    * number_of_permissions * total_install_count * latest_profile_active_date *
-   * permission_name * app_id
+   * permission_name * app_id * manifest_versions
    * @opt_param string orderBy Field used to order results. Supported order by
    * fields: * app_name * app_type * install_type * number_of_permissions *
-   * total_install_count * app_id
+   * total_install_count * app_id * manifest_versions
    * @opt_param string orgUnitId The ID of the organizational unit.
    * @opt_param int pageSize Maximum number of results to return. Maximum and
    * default are 100.

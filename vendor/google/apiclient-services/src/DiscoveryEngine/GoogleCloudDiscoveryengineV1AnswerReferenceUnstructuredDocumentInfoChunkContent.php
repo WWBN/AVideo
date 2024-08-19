@@ -27,6 +27,10 @@ class GoogleCloudDiscoveryengineV1AnswerReferenceUnstructuredDocumentInfoChunkCo
    * @var string
    */
   public $pageIdentifier;
+  /**
+   * @var float
+   */
+  public $relevanceScore;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class GoogleCloudDiscoveryengineV1AnswerReferenceUnstructuredDocumentInfoChunkCo
   public function getPageIdentifier()
   {
     return $this->pageIdentifier;
+  }
+  /**
+   * @param float
+   */
+  public function setRelevanceScore($relevanceScore)
+  {
+    $this->relevanceScore = $relevanceScore;
+  }
+  /**
+   * @return float
+   */
+  public function getRelevanceScore()
+  {
+    return $this->relevanceScore;
   }
 }
 

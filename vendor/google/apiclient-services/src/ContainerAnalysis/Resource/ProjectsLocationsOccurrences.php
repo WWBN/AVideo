@@ -17,6 +17,9 @@
 
 namespace Google\Service\ContainerAnalysis\Resource;
 
+use Google\Service\ContainerAnalysis\BatchCreateOccurrencesRequest;
+use Google\Service\ContainerAnalysis\BatchCreateOccurrencesResponse;
+use Google\Service\ContainerAnalysis\ContaineranalysisEmpty;
 use Google\Service\ContainerAnalysis\ListOccurrencesResponse;
 use Google\Service\ContainerAnalysis\Note;
 use Google\Service\ContainerAnalysis\Occurrence;
@@ -32,6 +35,55 @@ use Google\Service\ContainerAnalysis\VulnerabilityOccurrencesSummary;
  */
 class ProjectsLocationsOccurrences extends \Google\Service\Resource
 {
+  /**
+   * Creates new occurrences in batch. (occurrences.batchCreate)
+   *
+   * @param string $parent Required. The name of the project in the form of
+   * `projects/[PROJECT_ID]`, under which the occurrences are to be created.
+   * @param BatchCreateOccurrencesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BatchCreateOccurrencesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchCreate($parent, BatchCreateOccurrencesRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchCreate', [$params], BatchCreateOccurrencesResponse::class);
+  }
+  /**
+   * Creates a new occurrence. (occurrences.create)
+   *
+   * @param string $parent Required. The name of the project in the form of
+   * `projects/[PROJECT_ID]`, under which the occurrence is to be created.
+   * @param Occurrence $postBody
+   * @param array $optParams Optional parameters.
+   * @return Occurrence
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, Occurrence $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], Occurrence::class);
+  }
+  /**
+   * Deletes the specified occurrence. For example, use this method to delete an
+   * occurrence when the occurrence is no longer applicable for the given
+   * resource. (occurrences.delete)
+   *
+   * @param string $name Required. The name of the occurrence in the form of
+   * `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`.
+   * @param array $optParams Optional parameters.
+   * @return ContaineranalysisEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], ContaineranalysisEmpty::class);
+  }
   /**
    * Gets the specified occurrence. (occurrences.get)
    *
@@ -104,6 +156,24 @@ class ProjectsLocationsOccurrences extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListOccurrencesResponse::class);
+  }
+  /**
+   * Updates the specified occurrence. (occurrences.patch)
+   *
+   * @param string $name Required. The name of the occurrence in the form of
+   * `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`.
+   * @param Occurrence $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask The fields to update.
+   * @return Occurrence
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, Occurrence $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Occurrence::class);
   }
 }
 

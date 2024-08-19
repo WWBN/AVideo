@@ -134,7 +134,7 @@ function requestComesFromSafePlace()
 /**
  * for security clean all non secure files from directory
  * @param string $dir
- * @param string $allowedExtensions
+ * @param array $allowedExtensions
  * @return string
  */
 function cleanDirectory($dir, $allowedExtensions = ['key', 'm3u8', 'ts', 'vtt', 'jpg', 'gif', 'mp3', 'webm', 'webp'])
@@ -287,4 +287,30 @@ function isBot($returnTrueIfNoUserAgent=true)
         }
     }
     return $_isBot;
+}
+
+function markDownToHTML($text) {
+    $parsedown = new Parsedown();
+
+    // Convert Markdown to HTML
+    $html = $parsedown->text($text);
+
+    // Convert new lines to <br> tags
+    $html = nl2br($html);
+
+    // Convert URLs to clickable links with target="_blank"
+    $html = preg_replace(
+        '/\b[^"\']https?:\/\/[^\s<]+/i',
+        '<a href="$0" target="_blank" rel="noopener noreferrer">$0</a>',
+        $html
+    );
+    
+    // Add classes to images
+    $html = preg_replace(
+        '/<img([^>]+)>/i',
+        '<img$1 class="img img-responsive">',
+        $html
+    );
+
+    return $html;
 }

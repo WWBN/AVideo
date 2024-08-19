@@ -23,6 +23,10 @@ class EndOfSegmentLocation extends \Google\Model
    * @var string
    */
   public $segmentId;
+  /**
+   * @var string
+   */
+  public $tabId;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class EndOfSegmentLocation extends \Google\Model
   public function getSegmentId()
   {
     return $this->segmentId;
+  }
+  /**
+   * @param string
+   */
+  public function setTabId($tabId)
+  {
+    $this->tabId = $tabId;
+  }
+  /**
+   * @return string
+   */
+  public function getTabId()
+  {
+    return $this->tabId;
   }
 }
 

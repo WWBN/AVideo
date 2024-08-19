@@ -19,6 +19,25 @@ namespace Google\Service\Connectors;
 
 class RefreshAccessTokenRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $refreshToken;
+
+  /**
+   * @param string
+   */
+  public function setRefreshToken($refreshToken)
+  {
+    $this->refreshToken = $refreshToken;
+  }
+  /**
+   * @return string
+   */
+  public function getRefreshToken()
+  {
+    return $this->refreshToken;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

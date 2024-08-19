@@ -29,6 +29,10 @@ class SqlServerHomogeneousMigrationJobConfig extends \Google\Collection
   /**
    * @var bool
    */
+  public $promoteWhenReady;
+  /**
+   * @var bool
+   */
   public $useDiffBackup;
 
   /**
@@ -58,6 +62,20 @@ class SqlServerHomogeneousMigrationJobConfig extends \Google\Collection
   public function getDatabaseBackups()
   {
     return $this->databaseBackups;
+  }
+  /**
+   * @param bool
+   */
+  public function setPromoteWhenReady($promoteWhenReady)
+  {
+    $this->promoteWhenReady = $promoteWhenReady;
+  }
+  /**
+   * @return bool
+   */
+  public function getPromoteWhenReady()
+  {
+    return $this->promoteWhenReady;
   }
   /**
    * @param bool

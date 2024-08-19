@@ -19,6 +19,9 @@ use Aws\ResultInterface;
 use Aws\Retry\QuotaManager;
 use Aws\RetryMiddleware;
 use Aws\RetryMiddlewareV2;
+use Aws\S3\Parser\GetBucketLocationResultMutator;
+use Aws\S3\Parser\S3Parser;
+use Aws\S3\Parser\ValidateResponseChecksumResultMutator;
 use Aws\S3\RegionalEndpoint\ConfigurationProvider;
 use Aws\S3\UseArnRegion\Configuration;
 use Aws\S3\UseArnRegion\ConfigurationInterface;
@@ -437,6 +440,7 @@ class S3Client extends AwsClient implements S3ClientInterface
             InputValidationMiddleware::wrap($this->getApi(), self::$mandatoryAttributes),
             'input_validation_middleware'
         );
+        $stack->appendSign(ExpiresParsingMiddleware::wrap(), 's3.expires_parsing');
         $stack->appendSign(PutObjectUrlMiddleware::wrap(), 's3.put_object_url');
         $stack->appendSign(PermanentRedirectMiddleware::wrap(), 's3.permanent_redirect');
         $stack->appendInit(Middleware::sourceFile($this->getApi()), 's3.source_file');
@@ -444,8 +448,8 @@ class S3Client extends AwsClient implements S3ClientInterface
         $stack->appendInit($this->getLocationConstraintMiddleware(), 's3.location');
         $stack->appendInit($this->getEncodingTypeMiddleware(), 's3.auto_encode');
         $stack->appendInit($this->getHeadObjectMiddleware(), 's3.head_object');
+        $this->processModel($this->isUseEndpointV2());
         if ($this->isUseEndpointV2()) {
-            $this->processEndpointV2Model();
             $stack->after('builder',
                 's3.check_empty_path_with_query',
                 $this->getEmptyPathWithQuery());
@@ -763,28 +767,51 @@ class S3Client extends AwsClient implements S3ClientInterface
     }
 
     /**
-     * Modifies API definition to remove `Bucket` from request URIs.
+     * If EndpointProviderV2 is used, removes `Bucket` from request URIs.
      * This is now handled by the endpoint ruleset.
      *
+     * Additionally adds a synthetic shape `ExpiresString` and modifies
+     * `Expires` type to ensure it remains set to `timestamp`.
+     *
+     * @param array $args
      * @return void
      *
      * @internal
      */
-    private function processEndpointV2Model()
+    private function processModel(bool $isUseEndpointV2): void
     {
         $definition = $this->getApi()->getDefinition();
 
-        foreach($definition['operations'] as &$operation) {
-            if (isset($operation['http']['requestUri'])) {
-                $requestUri = $operation['http']['requestUri'];
-                if ($requestUri === "/{Bucket}") {
-                    $requestUri = str_replace('/{Bucket}', '/', $requestUri);
-                } else {
-                    $requestUri = str_replace('/{Bucket}', '', $requestUri);
+        if ($isUseEndpointV2) {
+            foreach($definition['operations'] as &$operation) {
+                if (isset($operation['http']['requestUri'])) {
+                    $requestUri = $operation['http']['requestUri'];
+                    if ($requestUri === "/{Bucket}") {
+                        $requestUri = str_replace('/{Bucket}', '/', $requestUri);
+                    } else {
+                        $requestUri = str_replace('/{Bucket}', '', $requestUri);
+                    }
+                    $operation['http']['requestUri'] = $requestUri;
                 }
-                $operation['http']['requestUri'] = $requestUri;
             }
         }
+
+        foreach ($definition['shapes'] as $key => &$value) {
+            $suffix = 'Output';
+            if (substr($key, -strlen($suffix)) === $suffix) {
+                if (isset($value['members']['Expires'])) {
+                    $value['members']['Expires']['deprecated'] = true;
+                    $value['members']['ExpiresString'] = [
+                        'shape' => 'ExpiresString',
+                        'location' => 'header',
+                        'locationName' => 'Expires'
+                    ];
+                }
+            }
+        }
+        $definition['shapes']['ExpiresString']['type'] = 'string';
+        $definition['shapes']['Expires']['type'] = 'timestamp';
+
         $this->getApi()->setDefinition($definition);
     }
 
@@ -923,19 +950,21 @@ class S3Client extends AwsClient implements S3ClientInterface
     public static function _applyApiProvider($value, array &$args, HandlerList $list)
     {
         ClientResolver::_apply_api_provider($value, $args);
-        $args['parser'] = new GetBucketLocationParser(
-            new ValidateResponseChecksumParser(
-                new AmbiguousSuccessParser(
-                    new RetryableMalformedResponseParser(
-                        $args['parser'],
-                        $args['exception_class']
-                    ),
-                    $args['error_parser'],
-                    $args['exception_class']
-                ),
-                $args['api']
-            )
+        $s3Parser = new S3Parser(
+            $args['parser'],
+            $args['error_parser'],
+            $args['api'],
+            $args['exception_class']
         );
+        $s3Parser->addS3ResultMutator(
+            'get-bucket-location',
+            new GetBucketLocationResultMutator()
+        );
+        $s3Parser->addS3ResultMutator(
+            'validate-response-checksum',
+            new ValidateResponseChecksumResultMutator($args['api'])
+        );
+        $args['parser'] = $s3Parser;
     }
 
     /**
@@ -1034,6 +1063,29 @@ class S3Client extends AwsClient implements S3ClientInterface
             'message' => $objectLock,
             'shapes' => ['PutObjectRequest', 'UploadPartRequest']
         ];
+
+        // Add `ExpiresString` shape to output structures which contain `Expires`
+        // Deprecate existing `Expires` shapes in output structures
+        // Add/Update documentation for both `ExpiresString` and `Expires`
+        // Ensure `Expires` type remains timestamp
+        foreach ($api['shapes'] as $key => &$value) {
+            $suffix = 'Output';
+            if (substr($key, -strlen($suffix)) === $suffix) {
+                if (isset($value['members']['Expires'])) {
+                    $value['members']['Expires']['deprecated'] = true;
+                    $value['members']['ExpiresString'] = [
+                        'shape' => 'ExpiresString',
+                        'location' => 'header',
+                        'locationName' => 'Expires'
+                    ];
+                    $docs['shapes']['Expires']['refs'][$key . '$Expires']
+                        .= '<p>This output shape has been deprecated. Please refer to <code>ExpiresString</code> instead.</p>.';
+                }
+            }
+        }
+        $api['shapes']['ExpiresString']['type'] = 'string';
+        $docs['shapes']['ExpiresString']['base'] = 'The unparsed string value of the <code>Expires</code> output member.';
+        $api['shapes']['Expires']['type'] = 'timestamp';
 
         return [
             new Service($api, ApiProvider::defaultProvider()),

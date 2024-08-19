@@ -177,10 +177,12 @@ class ProjectsLocationsBackupVaults extends \Google\Service\Resource
   /**
    * Updates the settings of a BackupVault. (backupVaults.patch)
    *
-   * @param string $name Output only. The resource name.
+   * @param string $name Output only. Identifier. The resource name.
    * @param BackupVault $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool force Optional. If set to true, will not check plan duration
+   * against backup vault enforcement duration.
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
    * the server will know to ignore the request if it has already been completed.

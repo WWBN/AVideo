@@ -20,6 +20,8 @@ namespace Google\Service\CloudWorkstations;
 class WorkstationConfig extends \Google\Collection
 {
   protected $collection_key = 'replicaZones';
+  protected $allowedPortsType = PortRange::class;
+  protected $allowedPortsDataType = 'array';
   /**
    * @var string[]
    */
@@ -99,6 +101,20 @@ class WorkstationConfig extends \Google\Collection
    */
   public $updateTime;
 
+  /**
+   * @param PortRange[]
+   */
+  public function setAllowedPorts($allowedPorts)
+  {
+    $this->allowedPorts = $allowedPorts;
+  }
+  /**
+   * @return PortRange[]
+   */
+  public function getAllowedPorts()
+  {
+    return $this->allowedPorts;
+  }
   /**
    * @param string[]
    */

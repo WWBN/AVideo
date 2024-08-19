@@ -27,6 +27,8 @@ class DeleteNamedRangeRequest extends \Google\Model
    * @var string
    */
   public $namedRangeId;
+  protected $tabsCriteriaType = TabsCriteria::class;
+  protected $tabsCriteriaDataType = '';
 
   /**
    * @param string
@@ -55,6 +57,20 @@ class DeleteNamedRangeRequest extends \Google\Model
   public function getNamedRangeId()
   {
     return $this->namedRangeId;
+  }
+  /**
+   * @param TabsCriteria
+   */
+  public function setTabsCriteria(TabsCriteria $tabsCriteria)
+  {
+    $this->tabsCriteria = $tabsCriteria;
+  }
+  /**
+   * @return TabsCriteria
+   */
+  public function getTabsCriteria()
+  {
+    return $this->tabsCriteria;
   }
 }
 

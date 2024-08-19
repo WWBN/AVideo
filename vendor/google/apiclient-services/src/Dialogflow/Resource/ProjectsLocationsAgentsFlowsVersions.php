@@ -41,7 +41,7 @@ class ProjectsLocationsAgentsFlowsVersions extends \Google\Service\Resource
    *
    * @param string $baseVersion Required. Name of the base flow version to compare
    * with the target version. Use version ID `0` to indicate the draft version of
-   * the specified flow. Format: `projects//locations//agents/ /flows//versions/`.
+   * the specified flow. Format: `projects//locations//agents//flows//versions/`.
    * @param GoogleCloudDialogflowCxV3CompareVersionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3CompareVersionsResponse

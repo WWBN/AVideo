@@ -17,8 +17,9 @@
 
 namespace Google\Service\Docs;
 
-class Document extends \Google\Model
+class Document extends \Google\Collection
 {
+  protected $collection_key = 'tabs';
   protected $bodyType = Body::class;
   protected $bodyDataType = '';
   /**
@@ -55,6 +56,8 @@ class Document extends \Google\Model
    * @var string
    */
   public $suggestionsViewMode;
+  protected $tabsType = Tab::class;
+  protected $tabsDataType = 'array';
   /**
    * @var string
    */
@@ -269,6 +272,20 @@ class Document extends \Google\Model
   public function getSuggestionsViewMode()
   {
     return $this->suggestionsViewMode;
+  }
+  /**
+   * @param Tab[]
+   */
+  public function setTabs($tabs)
+  {
+    $this->tabs = $tabs;
+  }
+  /**
+   * @return Tab[]
+   */
+  public function getTabs()
+  {
+    return $this->tabs;
   }
   /**
    * @param string

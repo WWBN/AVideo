@@ -30,8 +30,6 @@ class CloudAiLargeModelsVisionGenerateVideoResponse extends \Google\Collection
    * @var string[]
    */
   public $raiMediaFilteredReasons;
-  protected $reportingMetricsType = IntelligenceCloudAutomlXpsReportingMetrics::class;
-  protected $reportingMetricsDataType = '';
 
   /**
    * @param CloudAiLargeModelsVisionMedia[]
@@ -74,20 +72,6 @@ class CloudAiLargeModelsVisionGenerateVideoResponse extends \Google\Collection
   public function getRaiMediaFilteredReasons()
   {
     return $this->raiMediaFilteredReasons;
-  }
-  /**
-   * @param IntelligenceCloudAutomlXpsReportingMetrics
-   */
-  public function setReportingMetrics(IntelligenceCloudAutomlXpsReportingMetrics $reportingMetrics)
-  {
-    $this->reportingMetrics = $reportingMetrics;
-  }
-  /**
-   * @return IntelligenceCloudAutomlXpsReportingMetrics
-   */
-  public function getReportingMetrics()
-  {
-    return $this->reportingMetrics;
   }
 }
 

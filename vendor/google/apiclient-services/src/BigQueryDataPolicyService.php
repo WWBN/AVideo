@@ -87,6 +87,10 @@ class BigQueryDataPolicyService extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'force' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],'get' => [
               'path' => 'v1/{+name}',
@@ -138,6 +142,10 @@ class BigQueryDataPolicyService extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'allowMissing' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'updateMask' => [
                   'location' => 'query',

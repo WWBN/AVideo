@@ -21,6 +21,10 @@ class Backup extends \Google\Collection
 {
   protected $collection_key = 'referencingDatabases';
   /**
+   * @var string[]
+   */
+  public $backupSchedules;
+  /**
    * @var string
    */
   public $createTime;
@@ -69,6 +73,20 @@ class Backup extends \Google\Collection
    */
   public $versionTime;
 
+  /**
+   * @param string[]
+   */
+  public function setBackupSchedules($backupSchedules)
+  {
+    $this->backupSchedules = $backupSchedules;
+  }
+  /**
+   * @return string[]
+   */
+  public function getBackupSchedules()
+  {
+    return $this->backupSchedules;
+  }
   /**
    * @param string
    */

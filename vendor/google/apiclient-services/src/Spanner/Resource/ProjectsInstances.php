@@ -175,23 +175,23 @@ class ProjectsInstances extends \Google\Service\Resource
    * * DatabaseAdmin.CreateDatabase, * DatabaseAdmin.UpdateDatabaseDdl (Disabled
    * if default_leader is specified in the request.) *
    * DatabaseAdmin.RestoreDatabase * DatabaseAdmin.CreateBackup *
-   * DatabaseAdmin.CopyBackup * Both the source and target instance configs are
-   * subject to hourly compute and storage charges. * The instance may experience
-   * higher read-write latencies and a higher transaction abort rate. However,
-   * moving an instance does not cause any downtime. The returned long-running
-   * operation will have a name of the format `/operations/` and can be used to
-   * track the move instance operation. The metadata field type is
+   * DatabaseAdmin.CopyBackup * Both the source and target instance configurations
+   * are subject to hourly compute and storage charges. * The instance may
+   * experience higher read-write latencies and a higher transaction abort rate.
+   * However, moving an instance does not cause any downtime. The returned long-
+   * running operation will have a name of the format `/operations/` and can be
+   * used to track the move instance operation. The metadata field type is
    * MoveInstanceMetadata. The response field type is Instance, if successful.
    * Cancelling the operation sets its metadata's cancel_time. Cancellation is not
    * immediate since it involves moving any data previously moved to target
-   * instance config back to the original instance config. The same operation can
-   * be used to track the progress of the cancellation. Upon successful completion
-   * of the cancellation, the operation terminates with CANCELLED status. Upon
-   * completion(if not cancelled) of the returned operation: * Instance would be
-   * successfully moved to the target instance config. * You are billed for
-   * compute and storage in target instance config. Authorization requires
-   * `spanner.instances.update` permission on the resource instance. For more
-   * details, please see
+   * instance configuration back to the original instance config. The same
+   * operation can be used to track the progress of the cancellation. Upon
+   * successful completion of the cancellation, the operation terminates with
+   * `CANCELLED` status. Upon completion(if not cancelled) of the returned
+   * operation: * Instance would be successfully moved to the target instance
+   * config. * You are billed for compute and storage in target instance config.
+   * Authorization requires `spanner.instances.update` permission on the resource
+   * instance. For more details, please see
    * [documentation](https://cloud.google.com/spanner/docs/move-instance).
    * (instances.move)
    *

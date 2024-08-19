@@ -92,16 +92,17 @@ class ProjectsLocationsCertificateMapsCertificateMapEntries extends \Google\Serv
    * format `projects/locations/certificateMaps`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Filter expression to restrict the returned
+   * @opt_param string filter Optional. Filter expression to restrict the returned
    * Certificate Map Entries.
-   * @opt_param string orderBy A list of Certificate Map Entry field names used to
-   * specify the order of the returned results. The default sorting order is
-   * ascending. To specify descending order for a field, add a suffix `" desc"`.
-   * @opt_param int pageSize Maximum number of certificate map entries to return.
-   * The service may return fewer than this value. If unspecified, at most 50
-   * certificate map entries will be returned. The maximum value is 1000; values
-   * above 1000 will be coerced to 1000.
-   * @opt_param string pageToken The value returned by the last
+   * @opt_param string orderBy Optional. A list of Certificate Map Entry field
+   * names used to specify the order of the returned results. The default sorting
+   * order is ascending. To specify descending order for a field, add a suffix `"
+   * desc"`.
+   * @opt_param int pageSize Optional. Maximum number of certificate map entries
+   * to return. The service may return fewer than this value. If unspecified, at
+   * most 50 certificate map entries will be returned. The maximum value is 1000;
+   * values above 1000 will be coerced to 1000.
+   * @opt_param string pageToken Optional. The value returned by the last
    * `ListCertificateMapEntriesResponse`. Indicates that this is a continuation of
    * a prior `ListCertificateMapEntries` call, and that the system should return
    * the next page of data.
@@ -117,8 +118,8 @@ class ProjectsLocationsCertificateMapsCertificateMapEntries extends \Google\Serv
   /**
    * Updates a CertificateMapEntry. (certificateMapEntries.patch)
    *
-   * @param string $name A user-defined name of the Certificate Map Entry.
-   * Certificate Map Entry names must be unique globally and match pattern
+   * @param string $name Identifier. A user-defined name of the Certificate Map
+   * Entry. Certificate Map Entry names must be unique globally and match pattern
    * `projects/locations/certificateMaps/certificateMapEntries`.
    * @param CertificateMapEntry $postBody
    * @param array $optParams Optional parameters.

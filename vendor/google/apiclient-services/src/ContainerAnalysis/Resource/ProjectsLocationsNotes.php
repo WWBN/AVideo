@@ -17,6 +17,9 @@
 
 namespace Google\Service\ContainerAnalysis\Resource;
 
+use Google\Service\ContainerAnalysis\BatchCreateNotesRequest;
+use Google\Service\ContainerAnalysis\BatchCreateNotesResponse;
+use Google\Service\ContainerAnalysis\ContaineranalysisEmpty;
 use Google\Service\ContainerAnalysis\ListNotesResponse;
 use Google\Service\ContainerAnalysis\Note;
 
@@ -30,6 +33,55 @@ use Google\Service\ContainerAnalysis\Note;
  */
 class ProjectsLocationsNotes extends \Google\Service\Resource
 {
+  /**
+   * Creates new notes in batch. (notes.batchCreate)
+   *
+   * @param string $parent Required. The name of the project in the form of
+   * `projects/[PROJECT_ID]`, under which the notes are to be created.
+   * @param BatchCreateNotesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BatchCreateNotesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchCreate($parent, BatchCreateNotesRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchCreate', [$params], BatchCreateNotesResponse::class);
+  }
+  /**
+   * Creates a new note. (notes.create)
+   *
+   * @param string $parent Required. The name of the project in the form of
+   * `projects/[PROJECT_ID]`, under which the note is to be created.
+   * @param Note $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string noteId Required. The ID to use for this note.
+   * @return Note
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, Note $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], Note::class);
+  }
+  /**
+   * Deletes the specified note. (notes.delete)
+   *
+   * @param string $name Required. The name of the note in the form of
+   * `projects/[PROVIDER_ID]/notes/[NOTE_ID]`.
+   * @param array $optParams Optional parameters.
+   * @return ContaineranalysisEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], ContaineranalysisEmpty::class);
+  }
   /**
    * Gets the specified note. (notes.get)
    *
@@ -66,6 +118,24 @@ class ProjectsLocationsNotes extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListNotesResponse::class);
+  }
+  /**
+   * Updates the specified note. (notes.patch)
+   *
+   * @param string $name Required. The name of the note in the form of
+   * `projects/[PROVIDER_ID]/notes/[NOTE_ID]`.
+   * @param Note $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask The fields to update.
+   * @return Note
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, Note $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Note::class);
   }
 }
 

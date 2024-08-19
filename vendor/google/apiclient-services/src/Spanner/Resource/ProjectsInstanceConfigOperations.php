@@ -30,8 +30,8 @@ use Google\Service\Spanner\ListInstanceConfigOperationsResponse;
 class ProjectsInstanceConfigOperations extends \Google\Service\Resource
 {
   /**
-   * Lists the user-managed instance config long-running operations in the given
-   * project. An instance config operation has a name of the form
+   * Lists the user-managed instance configuration long-running operations in the
+   * given project. An instance configuration operation has a name of the form
    * `projects//instanceConfigs//operations/`. The long-running operation metadata
    * field type `metadata.type_url` describes the type of the metadata. Operations
    * returned include those that have completed/failed/canceled within the last 7
@@ -40,7 +40,7 @@ class ProjectsInstanceConfigOperations extends \Google\Service\Resource
    * most recently started operation.
    * (instanceConfigOperations.listProjectsInstanceConfigOperations)
    *
-   * @param string $parent Required. The project of the instance config
+   * @param string $parent Required. The project of the instance configuration
    * operations. Values are of the form `projects/`.
    * @param array $optParams Optional parameters.
    *
@@ -66,9 +66,9 @@ class ProjectsInstanceConfigOperations extends \Google\Service\Resource
    * `(metadata.instance_config.name:custom-config) AND` \
    * `(metadata.progress.start_time < \"2021-03-28T14:50:00Z\") AND` \ `(error:*)`
    * - Return operations where: * The operation's metadata type is
-   * CreateInstanceConfigMetadata. * The instance config name contains "custom-
-   * config". * The operation started before 2021-03-28T14:50:00Z. * The operation
-   * resulted in an error.
+   * CreateInstanceConfigMetadata. * The instance configuration name contains
+   * "custom-config". * The operation started before 2021-03-28T14:50:00Z. * The
+   * operation resulted in an error.
    * @opt_param int pageSize Number of operations to be returned in the response.
    * If 0 or less, defaults to the server's maximum allowed page size.
    * @opt_param string pageToken If non-empty, `page_token` should contain a

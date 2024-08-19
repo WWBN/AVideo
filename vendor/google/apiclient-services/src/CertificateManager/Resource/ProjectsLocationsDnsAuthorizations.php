@@ -90,14 +90,15 @@ class ProjectsLocationsDnsAuthorizations extends \Google\Service\Resource
    * `projects/locations`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Filter expression to restrict the Dns Authorizations
-   * returned.
-   * @opt_param string orderBy A list of Dns Authorization field names used to
-   * specify the order of the returned results. The default sorting order is
-   * ascending. To specify descending order for a field, add a suffix `" desc"`.
-   * @opt_param int pageSize Maximum number of dns authorizations to return per
-   * call.
-   * @opt_param string pageToken The value returned by the last
+   * @opt_param string filter Optional. Filter expression to restrict the Dns
+   * Authorizations returned.
+   * @opt_param string orderBy Optional. A list of Dns Authorization field names
+   * used to specify the order of the returned results. The default sorting order
+   * is ascending. To specify descending order for a field, add a suffix `"
+   * desc"`.
+   * @opt_param int pageSize Optional. Maximum number of dns authorizations to
+   * return per call.
+   * @opt_param string pageToken Optional. The value returned by the last
    * `ListDnsAuthorizationsResponse`. Indicates that this is a continuation of a
    * prior `ListDnsAuthorizations` call, and that the system should return the
    * next page of data.
@@ -113,7 +114,7 @@ class ProjectsLocationsDnsAuthorizations extends \Google\Service\Resource
   /**
    * Updates a DnsAuthorization. (dnsAuthorizations.patch)
    *
-   * @param string $name A user-defined name of the dns authorization.
+   * @param string $name Identifier. A user-defined name of the dns authorization.
    * DnsAuthorization names must be unique globally and match pattern
    * `projects/locations/dnsAuthorizations`.
    * @param DnsAuthorization $postBody

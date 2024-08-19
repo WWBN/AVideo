@@ -22,12 +22,30 @@ class GoogleCloudDialogflowCxV3beta1AdvancedSettingsLoggingSettings extends \Goo
   /**
    * @var bool
    */
+  public $enableConsentBasedRedaction;
+  /**
+   * @var bool
+   */
   public $enableInteractionLogging;
   /**
    * @var bool
    */
   public $enableStackdriverLogging;
 
+  /**
+   * @param bool
+   */
+  public function setEnableConsentBasedRedaction($enableConsentBasedRedaction)
+  {
+    $this->enableConsentBasedRedaction = $enableConsentBasedRedaction;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableConsentBasedRedaction()
+  {
+    return $this->enableConsentBasedRedaction;
+  }
   /**
    * @param bool
    */

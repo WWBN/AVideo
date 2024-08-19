@@ -95,6 +95,12 @@ class ProjectsLocationsDataStores extends \Google\Service\Resource
    * field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034)
    * standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT
    * error is returned.
+   * @opt_param bool skipDefaultSchemaCreation A boolean flag indicating whether
+   * to skip the default schema creation for the data store. Only enable this flag
+   * if you are certain that the default schema is incompatible with your use
+   * case. If set to true, you must manually create a schema for the data store
+   * before any documents can be ingested. This flag cannot be specified if
+   * `data_store.starting_schema` is specified.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */

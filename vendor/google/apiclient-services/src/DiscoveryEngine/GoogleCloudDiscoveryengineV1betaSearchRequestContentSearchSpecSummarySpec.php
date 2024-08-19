@@ -26,6 +26,10 @@ class GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpec 
   /**
    * @var bool
    */
+  public $ignoreLowRelevantContent;
+  /**
+   * @var bool
+   */
   public $ignoreNonSummarySeekingQuery;
   /**
    * @var bool
@@ -61,6 +65,20 @@ class GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpec 
   public function getIgnoreAdversarialQuery()
   {
     return $this->ignoreAdversarialQuery;
+  }
+  /**
+   * @param bool
+   */
+  public function setIgnoreLowRelevantContent($ignoreLowRelevantContent)
+  {
+    $this->ignoreLowRelevantContent = $ignoreLowRelevantContent;
+  }
+  /**
+   * @return bool
+   */
+  public function getIgnoreLowRelevantContent()
+  {
+    return $this->ignoreLowRelevantContent;
   }
   /**
    * @param bool

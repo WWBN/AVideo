@@ -28,6 +28,10 @@ class Product extends \Google\Collection
   public $contentLanguage;
   protected $destinationStatusesType = DestinationStatus::class;
   protected $destinationStatusesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $feedLabel;
   protected $issuesType = Issue::class;
   protected $issuesDataType = 'array';
   /**
@@ -88,6 +92,20 @@ class Product extends \Google\Collection
   public function getDestinationStatuses()
   {
     return $this->destinationStatuses;
+  }
+  /**
+   * @param string
+   */
+  public function setFeedLabel($feedLabel)
+  {
+    $this->feedLabel = $feedLabel;
+  }
+  /**
+   * @return string
+   */
+  public function getFeedLabel()
+  {
+    return $this->feedLabel;
   }
   /**
    * @param Issue[]

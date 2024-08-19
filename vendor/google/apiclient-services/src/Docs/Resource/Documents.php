@@ -80,6 +80,13 @@ class Documents extends \Google\Service\Resource
    * @param string $documentId The ID of the document to retrieve.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool includeTabsContent Whether to populate the Document.tabs
+   * field instead of the text content fields like `body` and `documentStyle` on
+   * Document. - When `True`: Document content populates in the Document.tabs
+   * field instead of the text content fields in Document. - When `False`: The
+   * content of the document's first tab populates the content fields in Document
+   * excluding Document.tabs. If a document has only one tab, then that tab is
+   * used to populate the document content. Document.tabs will be empty.
    * @opt_param string suggestionsViewMode The suggestions view mode to apply to
    * the document. This allows viewing the document with all suggestions inline,
    * accepted or rejected. If one is not specified, DEFAULT_FOR_CURRENT_ACCESS is

@@ -10,7 +10,9 @@ in
 	php = [
 		"7.3",
 		"7.4",
-		"8.0"
+		"8.0",
+		"8.1",
+		"8.2"
 	],
 	dist = "xenial",
 	env = [
@@ -22,7 +24,7 @@ in
 			Prelude.List.map Text Exclusion (\(env: Text) ->
 				{ php = php, env = env }
 			) (phpseclib 7 (\(_: Natural) -> True))
-		) ["7.3", "7.4", "8.0"],
+		) ["7.3", "7.4", "8.0", "8.1", "8.2"],
 		fast_finish = True
 	},
 	before_script = ''

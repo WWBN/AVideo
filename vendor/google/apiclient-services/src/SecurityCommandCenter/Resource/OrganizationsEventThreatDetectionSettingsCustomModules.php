@@ -39,9 +39,9 @@ class OrganizationsEventThreatDetectionSettingsCustomModules extends \Google\Ser
    * (customModules.create)
    *
    * @param string $parent Required. The new custom module's parent. Its format
-   * is: * "organizations/{organization}/eventThreatDetectionSettings". *
-   * "folders/{folder}/eventThreatDetectionSettings". *
-   * "projects/{project}/eventThreatDetectionSettings".
+   * is: * `organizations/{organization}/eventThreatDetectionSettings`. *
+   * `folders/{folder}/eventThreatDetectionSettings`. *
+   * `projects/{project}/eventThreatDetectionSettings`.
    * @param EventThreatDetectionCustomModule $postBody
    * @param array $optParams Optional parameters.
    * @return EventThreatDetectionCustomModule
@@ -59,10 +59,10 @@ class OrganizationsEventThreatDetectionSettingsCustomModules extends \Google\Ser
    * for resident custom modules. (customModules.delete)
    *
    * @param string $name Required. Name of the custom module to delete. Its format
-   * is: * "organizations/{organization}/eventThreatDetectionSettings/customModule
-   * s/{module}". *
-   * "folders/{folder}/eventThreatDetectionSettings/customModules/{module}". *
-   * "projects/{project}/eventThreatDetectionSettings/customModules/{module}".
+   * is: * `organizations/{organization}/eventThreatDetectionSettings/customModule
+   * s/{module}`. *
+   * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. *
+   * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`.
    * @param array $optParams Optional parameters.
    * @return SecuritycenterEmpty
    * @throws \Google\Service\Exception
@@ -77,10 +77,10 @@ class OrganizationsEventThreatDetectionSettingsCustomModules extends \Google\Ser
    * Gets an Event Threat Detection custom module. (customModules.get)
    *
    * @param string $name Required. Name of the custom module to get. Its format
-   * is: * "organizations/{organization}/eventThreatDetectionSettings/customModule
-   * s/{module}". *
-   * "folders/{folder}/eventThreatDetectionSettings/customModules/{module}". *
-   * "projects/{project}/eventThreatDetectionSettings/customModules/{module}".
+   * is: * `organizations/{organization}/eventThreatDetectionSettings/customModule
+   * s/{module}`. *
+   * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. *
+   * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`.
    * @param array $optParams Optional parameters.
    * @return EventThreatDetectionCustomModule
    * @throws \Google\Service\Exception
@@ -99,9 +99,9 @@ class OrganizationsEventThreatDetectionSettingsCustomModules extends \Google\Ser
    *
    * @param string $parent Required. Name of the parent to list custom modules
    * under. Its format is: *
-   * "organizations/{organization}/eventThreatDetectionSettings". *
-   * "folders/{folder}/eventThreatDetectionSettings". *
-   * "projects/{project}/eventThreatDetectionSettings".
+   * `organizations/{organization}/eventThreatDetectionSettings`. *
+   * `folders/{folder}/eventThreatDetectionSettings`. *
+   * `projects/{project}/eventThreatDetectionSettings`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of modules to return. The service
@@ -128,9 +128,9 @@ class OrganizationsEventThreatDetectionSettingsCustomModules extends \Google\Ser
    *
    * @param string $parent Required. Name of the parent to list custom modules
    * under. Its format is: *
-   * "organizations/{organization}/eventThreatDetectionSettings". *
-   * "folders/{folder}/eventThreatDetectionSettings". *
-   * "projects/{project}/eventThreatDetectionSettings".
+   * `organizations/{organization}/eventThreatDetectionSettings`. *
+   * `folders/{folder}/eventThreatDetectionSettings`. *
+   * `projects/{project}/eventThreatDetectionSettings`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of modules to return. The service

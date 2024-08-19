@@ -23,6 +23,10 @@ class DeletePositionedObjectRequest extends \Google\Model
    * @var string
    */
   public $objectId;
+  /**
+   * @var string
+   */
+  public $tabId;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class DeletePositionedObjectRequest extends \Google\Model
   public function getObjectId()
   {
     return $this->objectId;
+  }
+  /**
+   * @param string
+   */
+  public function setTabId($tabId)
+  {
+    $this->tabId = $tabId;
+  }
+  /**
+   * @return string
+   */
+  public function getTabId()
+  {
+    return $this->tabId;
   }
 }
 

@@ -39,6 +39,10 @@ class Quota extends \Google\Collection
   /**
    * @var int
    */
+  public $internetHealthChecksPerManagedZone;
+  /**
+   * @var int
+   */
   public $itemsPerRoutingPolicy;
   /**
    * @var string
@@ -174,6 +178,20 @@ class Quota extends \Google\Collection
   public function getGkeClustersPerResponsePolicy()
   {
     return $this->gkeClustersPerResponsePolicy;
+  }
+  /**
+   * @param int
+   */
+  public function setInternetHealthChecksPerManagedZone($internetHealthChecksPerManagedZone)
+  {
+    $this->internetHealthChecksPerManagedZone = $internetHealthChecksPerManagedZone;
+  }
+  /**
+   * @return int
+   */
+  public function getInternetHealthChecksPerManagedZone()
+  {
+    return $this->internetHealthChecksPerManagedZone;
   }
   /**
    * @param int

@@ -26,6 +26,10 @@ class SigninDetail extends \Google\Model
   /**
    * @var string
    */
+  public $defaultStatus;
+  /**
+   * @var string
+   */
   public $qrCode;
   /**
    * @var string
@@ -53,6 +57,20 @@ class SigninDetail extends \Google\Model
   public function getAllowPersonalUsage()
   {
     return $this->allowPersonalUsage;
+  }
+  /**
+   * @param string
+   */
+  public function setDefaultStatus($defaultStatus)
+  {
+    $this->defaultStatus = $defaultStatus;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultStatus()
+  {
+    return $this->defaultStatus;
   }
   /**
    * @param string

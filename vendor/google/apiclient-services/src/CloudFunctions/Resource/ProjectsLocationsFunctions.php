@@ -267,7 +267,7 @@ class ProjectsLocationsFunctions extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask The list of fields to be updated. If no field
-   * mask is provided, all provided fields in the request will be updated.
+   * mask is provided, all fields will be updated.
    * @return Operation
    * @throws \Google\Service\Exception
    */

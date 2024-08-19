@@ -100,6 +100,11 @@ class ProjectsLocationsFeatures extends \Google\Service\Resource
    * @param string $name Required. The Feature resource name in the format
    * `projects/locations/features`
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool returnPartialSuccess Optional. If set to true, the response
+   * will return partial results when some regions are unreachable and the
+   * unreachable field in Feature proto will be populated. If set to false, the
+   * request will fail when some regions are unreachable.
    * @return Feature
    * @throws \Google\Service\Exception
    */
@@ -162,6 +167,10 @@ class ProjectsLocationsFeatures extends \Google\Service\Resource
    * @opt_param string pageToken Token returned by previous call to `ListFeatures`
    * which specifies the position in the list from where to continue listing the
    * resources.
+   * @opt_param bool returnPartialSuccess Optional. If set to true, the response
+   * will return partial results when some regions are unreachable and the
+   * unreachable field in Feature proto will be populated. If set to false, the
+   * request will fail when some regions are unreachable.
    * @return ListFeaturesResponse
    * @throws \Google\Service\Exception
    */

@@ -23,6 +23,10 @@ class GoogleCloudAiplatformV1PublisherModelCallToActionDeployDeployMetadata exte
    * @var string[]
    */
   public $labels;
+  /**
+   * @var string
+   */
+  public $sampleRequest;
 
   /**
    * @param string[]
@@ -37,6 +41,20 @@ class GoogleCloudAiplatformV1PublisherModelCallToActionDeployDeployMetadata exte
   public function getLabels()
   {
     return $this->labels;
+  }
+  /**
+   * @param string
+   */
+  public function setSampleRequest($sampleRequest)
+  {
+    $this->sampleRequest = $sampleRequest;
+  }
+  /**
+   * @return string
+   */
+  public function getSampleRequest()
+  {
+    return $this->sampleRequest;
   }
 }
 

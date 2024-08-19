@@ -102,6 +102,8 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
    * @var string
    */
   public $mute;
+  protected $muteInfoType = GoogleCloudSecuritycenterV2MuteInfo::class;
+  protected $muteInfoDataType = '';
   /**
    * @var string
    */
@@ -604,6 +606,20 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
   public function getMute()
   {
     return $this->mute;
+  }
+  /**
+   * @param GoogleCloudSecuritycenterV2MuteInfo
+   */
+  public function setMuteInfo(GoogleCloudSecuritycenterV2MuteInfo $muteInfo)
+  {
+    $this->muteInfo = $muteInfo;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2MuteInfo
+   */
+  public function getMuteInfo()
+  {
+    return $this->muteInfo;
   }
   /**
    * @param string

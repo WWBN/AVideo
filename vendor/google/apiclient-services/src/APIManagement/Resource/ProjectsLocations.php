@@ -17,6 +17,7 @@
 
 namespace Google\Service\APIManagement\Resource;
 
+use Google\Service\APIManagement\ListApiObservationTagsResponse;
 use Google\Service\APIManagement\ListLocationsResponse;
 use Google\Service\APIManagement\Location;
 
@@ -67,6 +68,31 @@ class ProjectsLocations extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListLocationsResponse::class);
+  }
+  /**
+   * ListApiObservationTags lists all extant tags on any observation in the given
+   * project. (locations.listApiObservationTags)
+   *
+   * @param string $parent Required. The parent, which owns this collection of
+   * tags. Format: projects/{project}/locations/{location}
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int pageSize Optional. The maximum number of tags to return. The
+   * service may return fewer than this value. If unspecified, at most 10 tags
+   * will be returned. The maximum value is 1000; values above 1000 will be
+   * coerced to 1000.
+   * @opt_param string pageToken Optional. A page token, received from a previous
+   * `ListApiObservationTags` call. Provide this to retrieve the subsequent page.
+   * When paginating, all other parameters provided to `ListApiObservationTags`
+   * must match the call that provided the page token.
+   * @return ListApiObservationTagsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listApiObservationTags($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('listApiObservationTags', [$params], ListApiObservationTagsResponse::class);
   }
 }
 

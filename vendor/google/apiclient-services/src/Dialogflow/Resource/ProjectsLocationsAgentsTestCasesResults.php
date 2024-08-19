@@ -51,7 +51,7 @@ class ProjectsLocationsAgentsTestCasesResults extends \Google\Service\Resource
    * (results.listProjectsLocationsAgentsTestCasesResults)
    *
    * @param string $parent Required. The test case to list results for. Format:
-   * `projects//locations//agents// testCases/`. Specify a `-` as a wildcard for
+   * `projects//locations//agents//testCases/`. Specify a `-` as a wildcard for
    * TestCase ID to list results across multiple test cases.
    * @param array $optParams Optional parameters.
    *

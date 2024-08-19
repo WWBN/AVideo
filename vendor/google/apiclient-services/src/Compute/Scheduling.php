@@ -25,6 +25,10 @@ class Scheduling extends \Google\Collection
    */
   public $automaticRestart;
   /**
+   * @var int
+   */
+  public $availabilityDomain;
+  /**
    * @var string
    */
   public $instanceTerminationAction;
@@ -74,6 +78,20 @@ class Scheduling extends \Google\Collection
   public function getAutomaticRestart()
   {
     return $this->automaticRestart;
+  }
+  /**
+   * @param int
+   */
+  public function setAvailabilityDomain($availabilityDomain)
+  {
+    $this->availabilityDomain = $availabilityDomain;
+  }
+  /**
+   * @return int
+   */
+  public function getAvailabilityDomain()
+  {
+    return $this->availabilityDomain;
   }
   /**
    * @param string

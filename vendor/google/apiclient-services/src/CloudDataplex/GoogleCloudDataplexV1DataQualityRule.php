@@ -53,6 +53,10 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
   protected $sqlAssertionDataType = '';
   protected $statisticRangeExpectationType = GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation::class;
   protected $statisticRangeExpectationDataType = '';
+  /**
+   * @var bool
+   */
+  public $suspended;
   protected $tableConditionExpectationType = GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation::class;
   protected $tableConditionExpectationDataType = '';
   public $threshold;
@@ -226,6 +230,20 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
   public function getStatisticRangeExpectation()
   {
     return $this->statisticRangeExpectation;
+  }
+  /**
+   * @param bool
+   */
+  public function setSuspended($suspended)
+  {
+    $this->suspended = $suspended;
+  }
+  /**
+   * @return bool
+   */
+  public function getSuspended()
+  {
+    return $this->suspended;
   }
   /**
    * @param GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation

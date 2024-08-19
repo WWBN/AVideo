@@ -20,6 +20,7 @@ namespace Google\Service\Backupdr\Resource;
 use Google\Service\Backupdr\Backup;
 use Google\Service\Backupdr\ListBackupsResponse;
 use Google\Service\Backupdr\Operation;
+use Google\Service\Backupdr\RestoreBackupRequest;
 
 /**
  * The "backups" collection of methods.
@@ -103,7 +104,7 @@ class ProjectsLocationsBackupVaultsDataSourcesBackups extends \Google\Service\Re
   /**
    * Updates the settings of a Backup. (backups.patch)
    *
-   * @param string $name Output only. Name of the resource.
+   * @param string $name Output only. Identifier. Name of the resource.
    * @param Backup $postBody
    * @param array $optParams Optional parameters.
    *
@@ -131,6 +132,22 @@ class ProjectsLocationsBackupVaultsDataSourcesBackups extends \Google\Service\Re
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * Restore from a Backup (backups.restore)
+   *
+   * @param string $name Required. The resource name of the Backup instance, in
+   * the format 'projects/locations/backupVaults/dataSources/backups/'.
+   * @param RestoreBackupRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function restore($name, RestoreBackupRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('restore', [$params], Operation::class);
   }
 }
 

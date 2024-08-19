@@ -46,6 +46,7 @@ class NetworkSecurity extends \Google\Service
   public $projects_locations;
   public $projects_locations_addressGroups;
   public $projects_locations_authorizationPolicies;
+  public $projects_locations_authzPolicies;
   public $projects_locations_clientTlsPolicies;
   public $projects_locations_firewallEndpointAssociations;
   public $projects_locations_gatewaySecurityPolicies;
@@ -823,6 +824,50 @@ class NetworkSecurity extends \Google\Service
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => 'v1/{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_authzPolicies = new NetworkSecurity\Resource\ProjectsLocationsAuthzPolicies(
+        $this,
+        $this->serviceName,
+        'authzPolicies',
+        [
+          'methods' => [
+            'getIamPolicy' => [
+              'path' => 'v1/{+resource}:getIamPolicy',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'options.requestedPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
                 ],
               ],
             ],'setIamPolicy' => [

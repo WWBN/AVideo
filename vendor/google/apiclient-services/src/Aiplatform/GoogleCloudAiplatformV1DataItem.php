@@ -40,6 +40,14 @@ class GoogleCloudAiplatformV1DataItem extends \Google\Model
    */
   public $payload;
   /**
+   * @var bool
+   */
+  public $satisfiesPzi;
+  /**
+   * @var bool
+   */
+  public $satisfiesPzs;
+  /**
    * @var string
    */
   public $updateTime;
@@ -113,6 +121,34 @@ class GoogleCloudAiplatformV1DataItem extends \Google\Model
   public function getPayload()
   {
     return $this->payload;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzs($satisfiesPzs)
+  {
+    $this->satisfiesPzs = $satisfiesPzs;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzs()
+  {
+    return $this->satisfiesPzs;
   }
   /**
    * @param string

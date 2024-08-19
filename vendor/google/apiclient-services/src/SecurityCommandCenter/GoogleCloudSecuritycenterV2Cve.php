@@ -25,6 +25,10 @@ class GoogleCloudSecuritycenterV2Cve extends \Google\Collection
   /**
    * @var string
    */
+  public $exploitReleaseDate;
+  /**
+   * @var string
+   */
   public $exploitationActivity;
   /**
    * @var string
@@ -62,6 +66,20 @@ class GoogleCloudSecuritycenterV2Cve extends \Google\Collection
   public function getCvssv3()
   {
     return $this->cvssv3;
+  }
+  /**
+   * @param string
+   */
+  public function setExploitReleaseDate($exploitReleaseDate)
+  {
+    $this->exploitReleaseDate = $exploitReleaseDate;
+  }
+  /**
+   * @return string
+   */
+  public function getExploitReleaseDate()
+  {
+    return $this->exploitReleaseDate;
   }
   /**
    * @param string

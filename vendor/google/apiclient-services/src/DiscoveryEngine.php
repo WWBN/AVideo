@@ -84,6 +84,7 @@ class DiscoveryEngine extends \Google\Service
   public $projects_locations_dataStores_suggestionDenyListEntries;
   public $projects_locations_dataStores_userEvents;
   public $projects_locations_groundingConfigs;
+  public $projects_locations_identity_mapping_stores_operations;
   public $projects_locations_operations;
   public $projects_locations_rankingConfigs;
   public $projects_locations_userEvents;
@@ -217,6 +218,10 @@ class DiscoveryEngine extends \Google\Service
                 'dataStoreId' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'skipDefaultSchemaCreation' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
               ],
             ],'delete' => [
@@ -1281,6 +1286,16 @@ class DiscoveryEngine extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'purge' => [
+              'path' => 'v1/{+parent}/userEvents:purge',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'write' => [
               'path' => 'v1/{+parent}/userEvents:write',
               'httpMethod' => 'POST',
@@ -1821,6 +1836,10 @@ class DiscoveryEngine extends \Google\Service
                 'dataStoreId' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'skipDefaultSchemaCreation' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
               ],
             ],'delete' => [
@@ -2731,6 +2750,16 @@ class DiscoveryEngine extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'purge' => [
+              'path' => 'v1/{+parent}/userEvents:purge',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'write' => [
               'path' => 'v1/{+parent}/userEvents:write',
               'httpMethod' => 'POST',
@@ -2763,6 +2792,48 @@ class DiscoveryEngine extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_identity_mapping_stores_operations = new DiscoveryEngine\Resource\ProjectsLocationsIdentityMappingStoresOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}/operations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

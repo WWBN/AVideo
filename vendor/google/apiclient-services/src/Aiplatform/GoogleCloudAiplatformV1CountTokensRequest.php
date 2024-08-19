@@ -19,7 +19,7 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1CountTokensRequest extends \Google\Collection
 {
-  protected $collection_key = 'instances';
+  protected $collection_key = 'tools';
   protected $contentsType = GoogleCloudAiplatformV1Content::class;
   protected $contentsDataType = 'array';
   /**
@@ -30,6 +30,10 @@ class GoogleCloudAiplatformV1CountTokensRequest extends \Google\Collection
    * @var string
    */
   public $model;
+  protected $systemInstructionType = GoogleCloudAiplatformV1Content::class;
+  protected $systemInstructionDataType = '';
+  protected $toolsType = GoogleCloudAiplatformV1Tool::class;
+  protected $toolsDataType = 'array';
 
   /**
    * @param GoogleCloudAiplatformV1Content[]
@@ -72,6 +76,34 @@ class GoogleCloudAiplatformV1CountTokensRequest extends \Google\Collection
   public function getModel()
   {
     return $this->model;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1Content
+   */
+  public function setSystemInstruction(GoogleCloudAiplatformV1Content $systemInstruction)
+  {
+    $this->systemInstruction = $systemInstruction;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1Content
+   */
+  public function getSystemInstruction()
+  {
+    return $this->systemInstruction;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1Tool[]
+   */
+  public function setTools($tools)
+  {
+    $this->tools = $tools;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1Tool[]
+   */
+  public function getTools()
+  {
+    return $this->tools;
   }
 }
 

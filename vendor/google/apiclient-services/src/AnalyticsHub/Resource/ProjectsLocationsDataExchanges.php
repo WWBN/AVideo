@@ -194,7 +194,7 @@ class ProjectsLocationsDataExchanges extends \Google\Service\Resource
     return $this->call('setIamPolicy', [$params], Policy::class);
   }
   /**
-   * Creates a Subscription to a Data Exchange. This is a long-running operation
+   * Creates a Subscription to a Data Clean Room. This is a long-running operation
    * as it will create one or more linked datasets. (dataExchanges.subscribe)
    *
    * @param string $name Required. Resource name of the Data Exchange. e.g.

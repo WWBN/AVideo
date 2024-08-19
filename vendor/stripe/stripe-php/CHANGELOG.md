@@ -1,5 +1,29 @@
 # Changelog
 
+## 15.7.0 - 2024-08-15
+* [#1736](https://github.com/stripe/stripe-php/pull/1736) Update generated code
+
+
+## 15.6.0 - 2024-08-08
+* [#1729](https://github.com/stripe/stripe-php/pull/1729) Update generated code
+  * Add support for `activate`, `all`, `archive`, `create`, `deactivate`, and `retrieve` methods on resource `Billing.Alert`
+  * Add support for `retrieve` method on resource `Tax.Calculation`
+  * Add support for new value `invalid_mandate_reference_prefix_format` on enum `StripeError.code`
+  * Add support for `related_customer` on `Identity.VerificationSession`
+  * Add support for new value `financial_addresses.aba.forwarding` on enums `Treasury.FinancialAccount.active_features[]`, `Treasury.FinancialAccount.pending_features[]`, and `Treasury.FinancialAccount.restricted_features[]`
+
+## 15.5.0 - 2024-08-01
+* [#1727](https://github.com/stripe/stripe-php/pull/1727) Update generated code
+  * Add support for new resources `Billing.AlertTriggered` and `Billing.Alert`
+  * Add support for new value `charge_exceeds_transaction_limit` on enum `StripeError.code`
+  * Add support for new value `billing.alert.triggered` on enum `Event.type`
+
+## 15.4.0 - 2024-07-25
+* [#1726](https://github.com/stripe/stripe-php/pull/1726) Update generated code
+  * Add support for `update` method on resource `Checkout.Session`
+  * Add support for new values `invoice.overdue` and `invoice.will_be_due` on enum `Event.type`
+  * Add support for `twint` on `PaymentMethodConfiguration`
+
 ## 15.3.0 - 2024-07-18
 * [#1724](https://github.com/stripe/stripe-php/pull/1724) Update generated code
   * Add support for new value `issuing_dispute.funds_rescinded` on enum `Event.type`

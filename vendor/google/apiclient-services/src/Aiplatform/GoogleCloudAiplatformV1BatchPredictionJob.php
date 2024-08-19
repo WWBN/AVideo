@@ -85,6 +85,14 @@ class GoogleCloudAiplatformV1BatchPredictionJob extends \Google\Collection
   protected $resourcesConsumedType = GoogleCloudAiplatformV1ResourcesConsumed::class;
   protected $resourcesConsumedDataType = '';
   /**
+   * @var bool
+   */
+  public $satisfiesPzi;
+  /**
+   * @var bool
+   */
+  public $satisfiesPzs;
+  /**
    * @var string
    */
   public $serviceAccount;
@@ -410,6 +418,34 @@ class GoogleCloudAiplatformV1BatchPredictionJob extends \Google\Collection
   public function getResourcesConsumed()
   {
     return $this->resourcesConsumed;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzs($satisfiesPzs)
+  {
+    $this->satisfiesPzs = $satisfiesPzs;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzs()
+  {
+    return $this->satisfiesPzs;
   }
   /**
    * @param string

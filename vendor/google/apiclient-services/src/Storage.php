@@ -346,6 +346,10 @@ class Storage extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'generation' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'ifMetagenerationMatch' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -357,6 +361,10 @@ class Storage extends \Google\Service
                 'projection' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'softDeleted' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'userProject' => [
                   'location' => 'query',
@@ -450,6 +458,10 @@ class Storage extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'softDeleted' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'userProject' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -502,6 +514,25 @@ class Storage extends \Google\Service
                 'projection' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'userProject' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'restore' => [
+              'path' => 'b/{bucket}/restore',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'bucket' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'generation' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'required' => true,
                 ],
                 'userProject' => [
                   'location' => 'query',

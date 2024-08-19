@@ -182,7 +182,17 @@ class RecaptchaEnterprise extends \Google\Service
         'keys',
         [
           'methods' => [
-            'create' => [
+            'addIpOverride' => [
+              'path' => 'v1/{+name}:addIpOverride',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
               'path' => 'v1/{+parent}/keys',
               'httpMethod' => 'POST',
               'parameters' => [

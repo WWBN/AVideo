@@ -22,8 +22,26 @@ class GoogleCloudChannelV1UnregisterSubscriberRequest extends \Google\Model
   /**
    * @var string
    */
+  public $integrator;
+  /**
+   * @var string
+   */
   public $serviceAccount;
 
+  /**
+   * @param string
+   */
+  public function setIntegrator($integrator)
+  {
+    $this->integrator = $integrator;
+  }
+  /**
+   * @return string
+   */
+  public function getIntegrator()
+  {
+    return $this->integrator;
+  }
   /**
    * @param string
    */

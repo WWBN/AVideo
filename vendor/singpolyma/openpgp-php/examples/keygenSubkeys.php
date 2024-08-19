@@ -85,7 +85,9 @@ $sub_sig->hashed_subpackets[] = new OpenPGP_SignaturePacket_SignatureCreationTim
 $sub_sig->hashed_subpackets[] = new OpenPGP_SignaturePacket_KeyFlagsPacket(array(0x0C)); // Encrypt bits
 $sub_sig->hashed_subpackets[] = new OpenPGP_SignaturePacket_IssuerPacket($keyid);
 $sub_sig->data = implode('', $nkey->fingerprint_material()) . implode('', $subkey->fingerprint_material());
-$sub_sig->sign_data(array('RSA' => array('SHA256' => function($data) use($key) {return array($key->sign($data));})));
+$sub_sig->sign_data(array('RSA' => array('SHA256' => function($data) use($key) {
+    return [ "signed" => $key->sign($data), "hash" => $key->getHash()->hash($data) ];
+})));
 
 // Append the subkey signature
 $packets[] = $sub_sig;

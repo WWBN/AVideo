@@ -35,10 +35,10 @@ class ProjectsEventThreatDetectionSettingsEffectiveCustomModules extends \Google
    * (effectiveCustomModules.get)
    *
    * @param string $name Required. The resource name of the effective Event Threat
-   * Detection custom module. Its format is: * "organizations/{organization}/event
-   * ThreatDetectionSettings/effectiveCustomModules/{module}". * "folders/{folder}
-   * /eventThreatDetectionSettings/effectiveCustomModules/{module}". * "projects/{
-   * project}/eventThreatDetectionSettings/effectiveCustomModules/{module}".
+   * Detection custom module. Its format is: * `organizations/{organization}/event
+   * ThreatDetectionSettings/effectiveCustomModules/{module}`. * `folders/{folder}
+   * /eventThreatDetectionSettings/effectiveCustomModules/{module}`. * `projects/{
+   * project}/eventThreatDetectionSettings/effectiveCustomModules/{module}`.
    * @param array $optParams Optional parameters.
    * @return EffectiveEventThreatDetectionCustomModule
    * @throws \Google\Service\Exception
@@ -57,9 +57,9 @@ class ProjectsEventThreatDetectionSettingsEffectiveCustomModules extends \Google
    *
    * @param string $parent Required. Name of the parent to list custom modules
    * for. Its format is: *
-   * "organizations/{organization}/eventThreatDetectionSettings". *
-   * "folders/{folder}/eventThreatDetectionSettings". *
-   * "projects/{project}/eventThreatDetectionSettings".
+   * `organizations/{organization}/eventThreatDetectionSettings`. *
+   * `folders/{folder}/eventThreatDetectionSettings`. *
+   * `projects/{project}/eventThreatDetectionSettings`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of modules to return. The service

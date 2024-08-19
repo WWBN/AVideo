@@ -23,6 +23,10 @@ class DeleteFooterRequest extends \Google\Model
    * @var string
    */
   public $footerId;
+  /**
+   * @var string
+   */
+  public $tabId;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class DeleteFooterRequest extends \Google\Model
   public function getFooterId()
   {
     return $this->footerId;
+  }
+  /**
+   * @param string
+   */
+  public function setTabId($tabId)
+  {
+    $this->tabId = $tabId;
+  }
+  /**
+   * @return string
+   */
+  public function getTabId()
+  {
+    return $this->tabId;
   }
 }
 

@@ -22,6 +22,10 @@ class GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions extends \Google\Mo
   /**
    * @var bool
    */
+  public $accessTransparencyLogsSupportCaseViewer;
+  /**
+   * @var bool
+   */
   public $assuredWorkloadsMonitoring;
   /**
    * @var bool
@@ -32,6 +36,20 @@ class GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions extends \Google\Mo
    */
   public $serviceAccessApprover;
 
+  /**
+   * @param bool
+   */
+  public function setAccessTransparencyLogsSupportCaseViewer($accessTransparencyLogsSupportCaseViewer)
+  {
+    $this->accessTransparencyLogsSupportCaseViewer = $accessTransparencyLogsSupportCaseViewer;
+  }
+  /**
+   * @return bool
+   */
+  public function getAccessTransparencyLogsSupportCaseViewer()
+  {
+    return $this->accessTransparencyLogsSupportCaseViewer;
+  }
   /**
    * @param bool
    */

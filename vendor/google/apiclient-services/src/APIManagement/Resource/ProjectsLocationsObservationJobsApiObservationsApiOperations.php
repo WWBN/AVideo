@@ -48,8 +48,8 @@ class ProjectsLocationsObservationJobsApiObservationsApiOperations extends \Goog
   }
   /**
    * ListApiOperations gets all ApiOperations for a given project and location and
-   * ObservationJob and ApiObservation (apiOperations.listProjectsLocationsObserva
-   * tionJobsApiObservationsApiOperations)
+   * ObservationJob and ApiObservation. (apiOperations.listProjectsLocationsObserv
+   * ationJobsApiObservationsApiOperations)
    *
    * @param string $parent Required. The parent, which owns this collection of
    * ApiOperations. Format: projects/{project}/locations/{location}/observationJob

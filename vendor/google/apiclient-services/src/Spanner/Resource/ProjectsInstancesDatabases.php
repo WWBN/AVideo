@@ -44,17 +44,17 @@ use Google\Service\Spanner\UpdateDatabaseDdlRequest;
 class ProjectsInstancesDatabases extends \Google\Service\Resource
 {
   /**
-   * ChangeQuorum is strictly restricted to databases that use dual region
-   * instance configurations. Initiates a background operation to change quorum a
-   * database from dual-region mode to single-region mode and vice versa. The
-   * returned long-running operation will have a name of the format
+   * `ChangeQuorum` is strictly restricted to databases that use dual-region
+   * instance configurations. Initiates a background operation to change the
+   * quorum of a database from dual-region mode to single-region mode or vice
+   * versa. The returned long-running operation has a name of the format
    * `projects//instances//databases//operations/` and can be used to track
-   * execution of the ChangeQuorum. The metadata field type is
+   * execution of the `ChangeQuorum`. The metadata field type is
    * ChangeQuorumMetadata. Authorization requires `spanner.databases.changequorum`
    * permission on the resource database. (databases.changequorum)
    *
-   * @param string $name Required. Name of the database in which to apply the
-   * ChangeQuorum. Values are of the form `projects//instances//databases/`.
+   * @param string $name Required. Name of the database in which to apply
+   * `ChangeQuorum`. Values are of the form `projects//instances//databases/`.
    * @param ChangeQuorumRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
@@ -67,11 +67,11 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
     return $this->call('changequorum', [$params], Operation::class);
   }
   /**
-   * Creates a new Cloud Spanner database and starts to prepare it for serving.
-   * The returned long-running operation will have a name of the format
-   * `/operations/` and can be used to track preparation of the database. The
-   * metadata field type is CreateDatabaseMetadata. The response field type is
-   * Database, if successful. (databases.create)
+   * Creates a new Spanner database and starts to prepare it for serving. The
+   * returned long-running operation will have a name of the format `/operations/`
+   * and can be used to track preparation of the database. The metadata field type
+   * is CreateDatabaseMetadata. The response field type is Database, if
+   * successful. (databases.create)
    *
    * @param string $parent Required. The name of the instance that will serve the
    * new database. Values are of the form `projects//instances/`.

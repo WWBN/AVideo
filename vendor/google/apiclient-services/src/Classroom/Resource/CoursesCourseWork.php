@@ -128,8 +128,9 @@ class CoursesCourseWork extends \Google\Service\Resource
    * The developer project issuing the request is the same project that created
    * the post.
    * @opt_param string attachmentId Optional. The identifier of the attachment.
-   * This field is required for student users and optional for teacher users. If
-   * not provided in the student case, an error is returned.
+   * This field is required for all requests except when the user is in the
+   * [Attachment Discovery iframe](https://developers.google.com/classroom/add-
+   * ons/get-started/iframes/attachment-discovery-iframe).
    * @opt_param string postId Optional. Deprecated, use item_id instead.
    * @return AddOnContext
    * @throws \Google\Service\Exception

@@ -17,8 +17,9 @@
 
 namespace Google\Service\Compute;
 
-class HealthCheck extends \Google\Model
+class HealthCheck extends \Google\Collection
 {
+  protected $collection_key = 'sourceRegions';
   /**
    * @var int
    */
@@ -65,6 +66,10 @@ class HealthCheck extends \Google\Model
    * @var string
    */
   public $selfLink;
+  /**
+   * @var string[]
+   */
+  public $sourceRegions;
   protected $sslHealthCheckType = SSLHealthCheck::class;
   protected $sslHealthCheckDataType = '';
   protected $tcpHealthCheckType = TCPHealthCheck::class;
@@ -277,6 +282,20 @@ class HealthCheck extends \Google\Model
   public function getSelfLink()
   {
     return $this->selfLink;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSourceRegions($sourceRegions)
+  {
+    $this->sourceRegions = $sourceRegions;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSourceRegions()
+  {
+    return $this->sourceRegions;
   }
   /**
    * @param SSLHealthCheck

@@ -42,6 +42,10 @@ class Bucket extends \Google\Collection
    * @var string
    */
   public $etag;
+  /**
+   * @var string
+   */
+  public $generation;
   protected $hierarchicalNamespaceType = BucketHierarchicalNamespace::class;
   protected $hierarchicalNamespaceDataType = '';
   protected $iamConfigurationType = BucketIamConfiguration::class;
@@ -94,6 +98,10 @@ class Bucket extends \Google\Collection
    * @var string
    */
   public $rpo;
+  /**
+   * @var bool
+   */
+  public $satisfiesPZI;
   /**
    * @var bool
    */
@@ -246,6 +254,20 @@ class Bucket extends \Google\Collection
   public function getEtag()
   {
     return $this->etag;
+  }
+  /**
+   * @param string
+   */
+  public function setGeneration($generation)
+  {
+    $this->generation = $generation;
+  }
+  /**
+   * @return string
+   */
+  public function getGeneration()
+  {
+    return $this->generation;
   }
   /**
    * @param BucketHierarchicalNamespace
@@ -484,6 +506,20 @@ class Bucket extends \Google\Collection
   public function getRpo()
   {
     return $this->rpo;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPZI($satisfiesPZI)
+  {
+    $this->satisfiesPZI = $satisfiesPZI;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPZI()
+  {
+    return $this->satisfiesPZI;
   }
   /**
    * @param bool

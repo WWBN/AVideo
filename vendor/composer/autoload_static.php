@@ -488,6 +488,10 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
             array (
                 0 => __DIR__ . '/..' . '/paypal/rest-api-sdk-php/lib',
             ),
+            'Parsedown' => 
+            array (
+                0 => __DIR__ . '/..' . '/erusev/parsedown',
+            ),
         ),
         'H' => 
         array (

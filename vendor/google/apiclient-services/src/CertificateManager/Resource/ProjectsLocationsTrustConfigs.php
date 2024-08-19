@@ -58,9 +58,9 @@ class ProjectsLocationsTrustConfigs extends \Google\Service\Resource
    * the format `projects/locations/trustConfigs`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string etag The current etag of the TrustConfig. If an etag is
-   * provided and does not match the current etag of the resource, deletion will
-   * be blocked and an ABORTED error will be returned.
+   * @opt_param string etag Optional. The current etag of the TrustConfig. If an
+   * etag is provided and does not match the current etag of the resource,
+   * deletion will be blocked and an ABORTED error will be returned.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -93,13 +93,14 @@ class ProjectsLocationsTrustConfigs extends \Google\Service\Resource
    * TrustConfigs should be listed, specified in the format `projects/locations`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Filter expression to restrict the TrustConfigs
-   * returned.
-   * @opt_param string orderBy A list of TrustConfig field names used to specify
-   * the order of the returned results. The default sorting order is ascending. To
-   * specify descending order for a field, add a suffix `" desc"`.
-   * @opt_param int pageSize Maximum number of TrustConfigs to return per call.
-   * @opt_param string pageToken The value returned by the last
+   * @opt_param string filter Optional. Filter expression to restrict the
+   * TrustConfigs returned.
+   * @opt_param string orderBy Optional. A list of TrustConfig field names used to
+   * specify the order of the returned results. The default sorting order is
+   * ascending. To specify descending order for a field, add a suffix `" desc"`.
+   * @opt_param int pageSize Optional. Maximum number of TrustConfigs to return
+   * per call.
+   * @opt_param string pageToken Optional. The value returned by the last
    * `ListTrustConfigsResponse`. Indicates that this is a continuation of a prior
    * `ListTrustConfigs` call, and that the system should return the next page of
    * data.
@@ -115,8 +116,8 @@ class ProjectsLocationsTrustConfigs extends \Google\Service\Resource
   /**
    * Updates a TrustConfig. (trustConfigs.patch)
    *
-   * @param string $name A user-defined name of the trust config. TrustConfig
-   * names must be unique globally and match pattern
+   * @param string $name Identifier. A user-defined name of the trust config.
+   * TrustConfig names must be unique globally and match pattern
    * `projects/locations/trustConfigs`.
    * @param TrustConfig $postBody
    * @param array $optParams Optional parameters.

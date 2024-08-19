@@ -156,21 +156,21 @@ class ProjectsNotificationChannels extends \Google\Service\Resource
    * GetNotificationChannel operation.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter If provided, this field specifies the criteria that
-   * must be met by notification channels to be included in the response.For more
-   * details, see sorting and filtering
+   * @opt_param string filter Optional. If provided, this field specifies the
+   * criteria that must be met by notification channels to be included in the
+   * response.For more details, see sorting and filtering
    * (https://cloud.google.com/monitoring/api/v3/sorting-and-filtering).
-   * @opt_param string orderBy A comma-separated list of fields by which to sort
-   * the result. Supports the same set of fields as in filter. Entries can be
-   * prefixed with a minus sign to sort in descending rather than ascending
+   * @opt_param string orderBy Optional. A comma-separated list of fields by which
+   * to sort the result. Supports the same set of fields as in filter. Entries can
+   * be prefixed with a minus sign to sort in descending rather than ascending
    * order.For more details, see sorting and filtering
    * (https://cloud.google.com/monitoring/api/v3/sorting-and-filtering).
-   * @opt_param int pageSize The maximum number of results to return in a single
-   * response. If not set to a positive number, a reasonable value will be chosen
-   * by the service.
-   * @opt_param string pageToken If non-empty, page_token must contain a value
-   * returned as the next_page_token in a previous response to request the next
-   * set of results.
+   * @opt_param int pageSize Optional. The maximum number of results to return in
+   * a single response. If not set to a positive number, a reasonable value will
+   * be chosen by the service.
+   * @opt_param string pageToken Optional. If non-empty, page_token must contain a
+   * value returned as the next_page_token in a previous response to request the
+   * next set of results.
    * @return ListNotificationChannelsResponse
    * @throws \Google\Service\Exception
    */
@@ -194,7 +194,7 @@ class ProjectsNotificationChannels extends \Google\Service\Resource
    * @param NotificationChannel $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask The fields to update.
+   * @opt_param string updateMask Optional. The fields to update.
    * @return NotificationChannel
    * @throws \Google\Service\Exception
    */

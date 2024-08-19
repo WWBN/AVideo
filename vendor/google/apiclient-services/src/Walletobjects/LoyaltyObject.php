@@ -69,6 +69,10 @@ class LoyaltyObject extends \Google\Collection
   /**
    * @var string[]
    */
+  public $linkedObjectIds;
+  /**
+   * @var string[]
+   */
   public $linkedOfferIds;
   protected $linksModuleDataType = LinksModuleData::class;
   protected $linksModuleDataDataType = '';
@@ -82,6 +86,8 @@ class LoyaltyObject extends \Google\Collection
   protected $passConstraintsDataType = '';
   protected $rotatingBarcodeType = RotatingBarcode::class;
   protected $rotatingBarcodeDataType = '';
+  protected $saveRestrictionsType = SaveRestrictions::class;
+  protected $saveRestrictionsDataType = '';
   protected $secondaryLoyaltyPointsType = LoyaltyPoints::class;
   protected $secondaryLoyaltyPointsDataType = '';
   /**
@@ -314,6 +320,20 @@ class LoyaltyObject extends \Google\Collection
   /**
    * @param string[]
    */
+  public function setLinkedObjectIds($linkedObjectIds)
+  {
+    $this->linkedObjectIds = $linkedObjectIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLinkedObjectIds()
+  {
+    return $this->linkedObjectIds;
+  }
+  /**
+   * @param string[]
+   */
   public function setLinkedOfferIds($linkedOfferIds)
   {
     $this->linkedOfferIds = $linkedOfferIds;
@@ -408,6 +428,20 @@ class LoyaltyObject extends \Google\Collection
   public function getRotatingBarcode()
   {
     return $this->rotatingBarcode;
+  }
+  /**
+   * @param SaveRestrictions
+   */
+  public function setSaveRestrictions(SaveRestrictions $saveRestrictions)
+  {
+    $this->saveRestrictions = $saveRestrictions;
+  }
+  /**
+   * @return SaveRestrictions
+   */
+  public function getSaveRestrictions()
+  {
+    return $this->saveRestrictions;
   }
   /**
    * @param LoyaltyPoints

@@ -36,9 +36,13 @@ class PublishersModels extends \Google\Service\Resource
    * Format: `publishers/{publisher}/models/{publisher_model}`
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string huggingFaceToken Optional. Token used to access Hugging
+   * Face gated models.
+   * @opt_param bool isHuggingFaceModel Optional. Boolean indicates whether the
+   * requested model is a Hugging Face model.
    * @opt_param string languageCode Optional. The IETF BCP-47 language code
    * representing the language in which the publisher model's text information
-   * should be written in (see go/bcp47).
+   * should be written in.
    * @opt_param string view Optional. PublisherModel view specifying which fields
    * to read.
    * @return GoogleCloudAiplatformV1PublisherModel

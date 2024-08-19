@@ -73,6 +73,7 @@ class Gallery extends PluginAbstract
         $obj->MainContainerFluid = true;
         $obj->hidePrivateVideos = false;
         $obj->BigVideo = true;
+        $obj->showLivesAboveBigVideo = false;
 
 
 

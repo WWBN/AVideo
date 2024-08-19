@@ -17,6 +17,8 @@
 
 namespace Google\Service\RecaptchaEnterprise\Resource;
 
+use Google\Service\RecaptchaEnterprise\GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest;
+use Google\Service\RecaptchaEnterprise\GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse;
 use Google\Service\RecaptchaEnterprise\GoogleCloudRecaptchaenterpriseV1Key;
 use Google\Service\RecaptchaEnterprise\GoogleCloudRecaptchaenterpriseV1ListKeysResponse;
 use Google\Service\RecaptchaEnterprise\GoogleCloudRecaptchaenterpriseV1Metrics;
@@ -34,6 +36,25 @@ use Google\Service\RecaptchaEnterprise\GoogleProtobufEmpty;
  */
 class ProjectsKeys extends \Google\Service\Resource
 {
+  /**
+   * Adds an IP override to a key. The following restrictions hold: * The maximum
+   * number of IP overrides per key is 100. * For any conflict (such as IP already
+   * exists or IP part of an existing IP range), an error will be returned.
+   * (keys.addIpOverride)
+   *
+   * @param string $name Required. The name of the key to which the IP override is
+   * added, in the format `projects/{project}/keys/{key}`.
+   * @param GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse
+   * @throws \Google\Service\Exception
+   */
+  public function addIpOverride($name, GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('addIpOverride', [$params], GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse::class);
+  }
   /**
    * Creates a new reCAPTCHA Enterprise key. (keys.create)
    *

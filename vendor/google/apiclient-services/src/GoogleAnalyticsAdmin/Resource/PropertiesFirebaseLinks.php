@@ -36,7 +36,7 @@ class PropertiesFirebaseLinks extends \Google\Service\Resource
    * (firebaseLinks.create)
    *
    * @param string $parent Required. Format: properties/{property_id} Example:
-   * properties/1234
+   * `properties/1234`
    * @param GoogleAnalyticsAdminV1betaFirebaseLink $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaFirebaseLink
@@ -53,7 +53,7 @@ class PropertiesFirebaseLinks extends \Google\Service\Resource
    *
    * @param string $name Required. Format:
    * properties/{property_id}/firebaseLinks/{firebase_link_id} Example:
-   * properties/1234/firebaseLinks/5678
+   * `properties/1234/firebaseLinks/5678`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    * @throws \Google\Service\Exception
@@ -69,7 +69,7 @@ class PropertiesFirebaseLinks extends \Google\Service\Resource
    * FirebaseLink. (firebaseLinks.listPropertiesFirebaseLinks)
    *
    * @param string $parent Required. Format: properties/{property_id} Example:
-   * properties/1234
+   * `properties/1234`
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of resources to return. The

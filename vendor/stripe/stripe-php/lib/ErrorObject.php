@@ -76,6 +76,7 @@ class ErrorObject extends StripeObject
     const CODE_CHARGE_ALREADY_REFUNDED = 'charge_already_refunded';
     const CODE_CHARGE_DISPUTED = 'charge_disputed';
     const CODE_CHARGE_EXCEEDS_SOURCE_LIMIT = 'charge_exceeds_source_limit';
+    const CODE_CHARGE_EXCEEDS_TRANSACTION_LIMIT = 'charge_exceeds_transaction_limit';
     const CODE_CHARGE_EXPIRED_FOR_CAPTURE = 'charge_expired_for_capture';
     const CODE_CHARGE_INVALID_PARAMETER = 'charge_invalid_parameter';
     const CODE_CHARGE_NOT_REFUNDABLE = 'charge_not_refundable';
@@ -113,6 +114,7 @@ class ErrorObject extends StripeObject
     const CODE_INVALID_CVC = 'invalid_cvc';
     const CODE_INVALID_EXPIRY_MONTH = 'invalid_expiry_month';
     const CODE_INVALID_EXPIRY_YEAR = 'invalid_expiry_year';
+    const CODE_INVALID_MANDATE_REFERENCE_PREFIX_FORMAT = 'invalid_mandate_reference_prefix_format';
     const CODE_INVALID_NUMBER = 'invalid_number';
     const CODE_INVALID_SOURCE_USAGE = 'invalid_source_usage';
     const CODE_INVALID_TAX_LOCATION = 'invalid_tax_location';

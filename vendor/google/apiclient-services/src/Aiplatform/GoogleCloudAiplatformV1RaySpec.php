@@ -27,6 +27,8 @@ class GoogleCloudAiplatformV1RaySpec extends \Google\Model
    * @var string
    */
   public $imageUri;
+  protected $rayLogsSpecType = GoogleCloudAiplatformV1RayLogsSpec::class;
+  protected $rayLogsSpecDataType = '';
   protected $rayMetricSpecType = GoogleCloudAiplatformV1RayMetricSpec::class;
   protected $rayMetricSpecDataType = '';
   /**
@@ -61,6 +63,20 @@ class GoogleCloudAiplatformV1RaySpec extends \Google\Model
   public function getImageUri()
   {
     return $this->imageUri;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1RayLogsSpec
+   */
+  public function setRayLogsSpec(GoogleCloudAiplatformV1RayLogsSpec $rayLogsSpec)
+  {
+    $this->rayLogsSpec = $rayLogsSpec;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RayLogsSpec
+   */
+  public function getRayLogsSpec()
+  {
+    return $this->rayLogsSpec;
   }
   /**
    * @param GoogleCloudAiplatformV1RayMetricSpec

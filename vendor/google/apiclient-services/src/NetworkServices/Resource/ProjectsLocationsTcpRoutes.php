@@ -106,7 +106,7 @@ class ProjectsLocationsTcpRoutes extends \Google\Service\Resource
   /**
    * Updates the parameters of a single TcpRoute. (tcpRoutes.patch)
    *
-   * @param string $name Required. Name of the TcpRoute resource. It matches
+   * @param string $name Identifier. Name of the TcpRoute resource. It matches
    * pattern `projects/locations/global/tcpRoutes/tcp_route_name>`.
    * @param TcpRoute $postBody
    * @param array $optParams Optional parameters.

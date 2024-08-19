@@ -89,13 +89,14 @@ class ProjectsLocationsCertificates extends \Google\Service\Resource
    * certificate should be listed, specified in the format `projects/locations`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Filter expression to restrict the Certificates
-   * returned.
-   * @opt_param string orderBy A list of Certificate field names used to specify
-   * the order of the returned results. The default sorting order is ascending. To
-   * specify descending order for a field, add a suffix `" desc"`.
-   * @opt_param int pageSize Maximum number of certificates to return per call.
-   * @opt_param string pageToken The value returned by the last
+   * @opt_param string filter Optional. Filter expression to restrict the
+   * Certificates returned.
+   * @opt_param string orderBy Optional. A list of Certificate field names used to
+   * specify the order of the returned results. The default sorting order is
+   * ascending. To specify descending order for a field, add a suffix `" desc"`.
+   * @opt_param int pageSize Optional. Maximum number of certificates to return
+   * per call.
+   * @opt_param string pageToken Optional. The value returned by the last
    * `ListCertificatesResponse`. Indicates that this is a continuation of a prior
    * `ListCertificates` call, and that the system should return the next page of
    * data.
@@ -111,8 +112,9 @@ class ProjectsLocationsCertificates extends \Google\Service\Resource
   /**
    * Updates a Certificate. (certificates.patch)
    *
-   * @param string $name A user-defined name of the certificate. Certificate names
-   * must be unique globally and match pattern `projects/locations/certificates`.
+   * @param string $name Identifier. A user-defined name of the certificate.
+   * Certificate names must be unique globally and match pattern
+   * `projects/locations/certificates`.
    * @param Certificate $postBody
    * @param array $optParams Optional parameters.
    *

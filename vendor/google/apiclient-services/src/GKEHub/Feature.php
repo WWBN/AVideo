@@ -17,8 +17,9 @@
 
 namespace Google\Service\GKEHub;
 
-class Feature extends \Google\Model
+class Feature extends \Google\Collection
 {
+  protected $collection_key = 'unreachable';
   /**
    * @var string
    */
@@ -51,6 +52,10 @@ class Feature extends \Google\Model
   protected $specDataType = '';
   protected $stateType = CommonFeatureState::class;
   protected $stateDataType = '';
+  /**
+   * @var string[]
+   */
+  public $unreachable;
   /**
    * @var string
    */
@@ -223,6 +228,20 @@ class Feature extends \Google\Model
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
   /**
    * @param string

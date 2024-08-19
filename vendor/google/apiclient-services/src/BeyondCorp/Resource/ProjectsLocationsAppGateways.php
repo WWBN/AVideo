@@ -24,6 +24,7 @@ use Google\Service\BeyondCorp\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\BeyondCorp\GoogleIamV1TestIamPermissionsResponse;
 use Google\Service\BeyondCorp\GoogleLongrunningOperation;
 use Google\Service\BeyondCorp\ListAppGatewaysResponse;
+use Google\Service\BeyondCorp\ShouldThrottleResponse;
 
 /**
  * The "appGateways" collection of methods.
@@ -193,6 +194,25 @@ class ProjectsLocationsAppGateways extends \Google\Service\Resource
     $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('setIamPolicy', [$params], GoogleIamV1Policy::class);
+  }
+  /**
+   * Calls the Bouncer method ShouldThrottle to check if a request should be
+   * throttled. (appGateways.shouldThrottle)
+   *
+   * @param string $name Required. Name of the resource
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int port Optional. The port that is being throttled
+   * @opt_param string requestedAmount Optional. The current throughput through
+   * the port (mbps)
+   * @return ShouldThrottleResponse
+   * @throws \Google\Service\Exception
+   */
+  public function shouldThrottle($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('shouldThrottle', [$params], ShouldThrottleResponse::class);
   }
   /**
    * Returns permissions that a caller has on the specified resource. If the

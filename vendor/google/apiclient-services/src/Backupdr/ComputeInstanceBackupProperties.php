@@ -55,7 +55,7 @@ class ComputeInstanceBackupProperties extends \Google\Collection
   /**
    * @var string
    */
-  public $sourceInstanceName;
+  public $sourceInstance;
   protected $tagsType = Tags::class;
   protected $tagsDataType = '';
 
@@ -216,16 +216,16 @@ class ComputeInstanceBackupProperties extends \Google\Collection
   /**
    * @param string
    */
-  public function setSourceInstanceName($sourceInstanceName)
+  public function setSourceInstance($sourceInstance)
   {
-    $this->sourceInstanceName = $sourceInstanceName;
+    $this->sourceInstance = $sourceInstance;
   }
   /**
    * @return string
    */
-  public function getSourceInstanceName()
+  public function getSourceInstance()
   {
-    return $this->sourceInstanceName;
+    return $this->sourceInstance;
   }
   /**
    * @param Tags

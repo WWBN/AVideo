@@ -80,7 +80,7 @@ class Accounts extends \Google\Service\Resource
    *
    * @param string $name Required. The name of the settings to lookup. Format:
    * accounts/{account}/dataSharingSettings Example:
-   * "accounts/1000/dataSharingSettings"
+   * `accounts/1000/dataSharingSettings`
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaDataSharingSettings
    * @throws \Google\Service\Exception
@@ -191,7 +191,7 @@ class Accounts extends \Google\Service\Resource
    * specified set of filters. (accounts.searchChangeHistoryEvents)
    *
    * @param string $account Required. The account resource for which to return
-   * change history resources. Format: accounts/{account} Example: "accounts/100"
+   * change history resources. Format: accounts/{account} Example: `accounts/100`
    * @param GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsResponse

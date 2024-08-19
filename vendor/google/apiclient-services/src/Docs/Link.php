@@ -19,10 +19,14 @@ namespace Google\Service\Docs;
 
 class Link extends \Google\Model
 {
+  protected $bookmarkType = BookmarkLink::class;
+  protected $bookmarkDataType = '';
   /**
    * @var string
    */
   public $bookmarkId;
+  protected $headingType = HeadingLink::class;
+  protected $headingDataType = '';
   /**
    * @var string
    */
@@ -30,8 +34,26 @@ class Link extends \Google\Model
   /**
    * @var string
    */
+  public $tabId;
+  /**
+   * @var string
+   */
   public $url;
 
+  /**
+   * @param BookmarkLink
+   */
+  public function setBookmark(BookmarkLink $bookmark)
+  {
+    $this->bookmark = $bookmark;
+  }
+  /**
+   * @return BookmarkLink
+   */
+  public function getBookmark()
+  {
+    return $this->bookmark;
+  }
   /**
    * @param string
    */
@@ -47,6 +69,20 @@ class Link extends \Google\Model
     return $this->bookmarkId;
   }
   /**
+   * @param HeadingLink
+   */
+  public function setHeading(HeadingLink $heading)
+  {
+    $this->heading = $heading;
+  }
+  /**
+   * @return HeadingLink
+   */
+  public function getHeading()
+  {
+    return $this->heading;
+  }
+  /**
    * @param string
    */
   public function setHeadingId($headingId)
@@ -59,6 +95,20 @@ class Link extends \Google\Model
   public function getHeadingId()
   {
     return $this->headingId;
+  }
+  /**
+   * @param string
+   */
+  public function setTabId($tabId)
+  {
+    $this->tabId = $tabId;
+  }
+  /**
+   * @return string
+   */
+  public function getTabId()
+  {
+    return $this->tabId;
   }
   /**
    * @param string

@@ -28,6 +28,10 @@ class InstancesGetEffectiveFirewallsResponseEffectiveFirewallPolicy extends \Goo
    * @var string
    */
   public $name;
+  /**
+   * @var int
+   */
+  public $priority;
   protected $rulesType = FirewallPolicyRule::class;
   protected $rulesDataType = 'array';
   /**
@@ -66,6 +70,20 @@ class InstancesGetEffectiveFirewallsResponseEffectiveFirewallPolicy extends \Goo
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param int
+   */
+  public function setPriority($priority)
+  {
+    $this->priority = $priority;
+  }
+  /**
+   * @return int
+   */
+  public function getPriority()
+  {
+    return $this->priority;
   }
   /**
    * @param FirewallPolicyRule[]

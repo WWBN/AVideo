@@ -38,22 +38,23 @@ class Forecast extends \Google\Service\Resource
    * @opt_param int days Required. A number that indicates how many forecast days
    * to request (minimum value 1, maximum value is 5).
    * @opt_param string languageCode Optional. Allows the client to choose the
-   * language for the response. If data cannot be provided for that language the
+   * language for the response. If data cannot be provided for that language, the
    * API uses the closest match. Allowed values rely on the IETF BCP-47 standard.
-   * Default value is "en".
+   * The default value is "en".
    * @opt_param double location.latitude The latitude in degrees. It must be in
    * the range [-90.0, +90.0].
    * @opt_param double location.longitude The longitude in degrees. It must be in
    * the range [-180.0, +180.0].
    * @opt_param int pageSize Optional. The maximum number of daily info records to
-   * return per page. The default and max value is 5 (5 days of data).
+   * return per page. The default and max value is 5, indicating 5 days of data.
    * @opt_param string pageToken Optional. A page token received from a previous
    * daily call. It is used to retrieve the subsequent page. Note that when
-   * providing a value for the page token all other request parameters provided
+   * providing a value for the page token, all other request parameters provided
    * must match the previous call that provided the page token.
    * @opt_param bool plantsDescription Optional. Contains general information
    * about plants, including details on their seasonality, special shapes and
-   * colors, information about allergic cross-reactions, and plant photos.
+   * colors, information about allergic cross-reactions, and plant photos. The
+   * default value is "true".
    * @return LookupForecastResponse
    * @throws \Google\Service\Exception
    */

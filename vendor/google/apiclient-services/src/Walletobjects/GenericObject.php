@@ -54,16 +54,24 @@ class GenericObject extends \Google\Collection
   public $id;
   protected $imageModulesDataType = ImageModuleData::class;
   protected $imageModulesDataDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $linkedObjectIds;
   protected $linksModuleDataType = LinksModuleData::class;
   protected $linksModuleDataDataType = '';
   protected $logoType = Image::class;
   protected $logoDataType = '';
+  protected $messagesType = Message::class;
+  protected $messagesDataType = 'array';
   protected $notificationsType = Notifications::class;
   protected $notificationsDataType = '';
   protected $passConstraintsType = PassConstraints::class;
   protected $passConstraintsDataType = '';
   protected $rotatingBarcodeType = RotatingBarcode::class;
   protected $rotatingBarcodeDataType = '';
+  protected $saveRestrictionsType = SaveRestrictions::class;
+  protected $saveRestrictionsDataType = '';
   /**
    * @var string
    */
@@ -250,6 +258,20 @@ class GenericObject extends \Google\Collection
     return $this->imageModulesData;
   }
   /**
+   * @param string[]
+   */
+  public function setLinkedObjectIds($linkedObjectIds)
+  {
+    $this->linkedObjectIds = $linkedObjectIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLinkedObjectIds()
+  {
+    return $this->linkedObjectIds;
+  }
+  /**
    * @param LinksModuleData
    */
   public function setLinksModuleData(LinksModuleData $linksModuleData)
@@ -276,6 +298,20 @@ class GenericObject extends \Google\Collection
   public function getLogo()
   {
     return $this->logo;
+  }
+  /**
+   * @param Message[]
+   */
+  public function setMessages($messages)
+  {
+    $this->messages = $messages;
+  }
+  /**
+   * @return Message[]
+   */
+  public function getMessages()
+  {
+    return $this->messages;
   }
   /**
    * @param Notifications
@@ -318,6 +354,20 @@ class GenericObject extends \Google\Collection
   public function getRotatingBarcode()
   {
     return $this->rotatingBarcode;
+  }
+  /**
+   * @param SaveRestrictions
+   */
+  public function setSaveRestrictions(SaveRestrictions $saveRestrictions)
+  {
+    $this->saveRestrictions = $saveRestrictions;
+  }
+  /**
+   * @return SaveRestrictions
+   */
+  public function getSaveRestrictions()
+  {
+    return $this->saveRestrictions;
   }
   /**
    * @param string

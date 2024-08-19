@@ -47,6 +47,10 @@ class IpConfiguration extends \Google\Collection
   /**
    * @var string
    */
+  public $serverCaMode;
+  /**
+   * @var string
+   */
   public $sslMode;
 
   /**
@@ -146,6 +150,20 @@ class IpConfiguration extends \Google\Collection
   public function getRequireSsl()
   {
     return $this->requireSsl;
+  }
+  /**
+   * @param string
+   */
+  public function setServerCaMode($serverCaMode)
+  {
+    $this->serverCaMode = $serverCaMode;
+  }
+  /**
+   * @return string
+   */
+  public function getServerCaMode()
+  {
+    return $this->serverCaMode;
   }
   /**
    * @param string

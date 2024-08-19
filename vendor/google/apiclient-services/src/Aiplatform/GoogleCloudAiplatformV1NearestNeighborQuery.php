@@ -30,6 +30,8 @@ class GoogleCloudAiplatformV1NearestNeighborQuery extends \Google\Collection
    * @var int
    */
   public $neighborCount;
+  protected $numericFiltersType = GoogleCloudAiplatformV1NearestNeighborQueryNumericFilter::class;
+  protected $numericFiltersDataType = 'array';
   protected $parametersType = GoogleCloudAiplatformV1NearestNeighborQueryParameters::class;
   protected $parametersDataType = '';
   /**
@@ -80,6 +82,20 @@ class GoogleCloudAiplatformV1NearestNeighborQuery extends \Google\Collection
   public function getNeighborCount()
   {
     return $this->neighborCount;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1NearestNeighborQueryNumericFilter[]
+   */
+  public function setNumericFilters($numericFilters)
+  {
+    $this->numericFilters = $numericFilters;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1NearestNeighborQueryNumericFilter[]
+   */
+  public function getNumericFilters()
+  {
+    return $this->numericFilters;
   }
   /**
    * @param GoogleCloudAiplatformV1NearestNeighborQueryParameters

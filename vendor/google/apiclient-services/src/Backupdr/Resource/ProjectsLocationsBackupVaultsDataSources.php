@@ -152,7 +152,7 @@ class ProjectsLocationsBackupVaultsDataSources extends \Google\Service\Resource
   /**
    * Updates the settings of a DataSource. (dataSources.patch)
    *
-   * @param string $name Output only. The resource name.
+   * @param string $name Output only. Identifier. The resource name.
    * @param DataSource $postBody
    * @param array $optParams Optional parameters.
    *

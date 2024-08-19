@@ -33,7 +33,7 @@ use Google\Service\DoubleClickBidManager\RunQueryRequest;
 class Queries extends \Google\Service\Resource
 {
   /**
-   * Creates a query. (queries.create)
+   * Creates a new query. (queries.create)
    *
    * @param Query $postBody
    * @param array $optParams Optional parameters.
@@ -47,9 +47,9 @@ class Queries extends \Google\Service\Resource
     return $this->call('create', [$params], Query::class);
   }
   /**
-   * Deletes a query as well as the associated reports. (queries.delete)
+   * Deletes an existing query as well as its generated reports. (queries.delete)
    *
-   * @param string $queryId Required. ID of query to delete.
+   * @param string $queryId Required. The ID of the query to delete.
    * @param array $optParams Optional parameters.
    * @throws \Google\Service\Exception
    */
@@ -62,7 +62,7 @@ class Queries extends \Google\Service\Resource
   /**
    * Retrieves a query. (queries.get)
    *
-   * @param string $queryId Required. ID of query to retrieve.
+   * @param string $queryId Required. The ID of the query to retrieve.
    * @param array $optParams Optional parameters.
    * @return Query
    * @throws \Google\Service\Exception
@@ -78,14 +78,16 @@ class Queries extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string orderBy Name of a field used to order results. The default
-   * sorting order is ascending. To specify descending order for a field, append a
-   * " desc" suffix. For example "metadata.title desc". Sorting is only supported
-   * for the following fields: * `queryId` * `metadata.title`
+   * @opt_param string orderBy Field to sort the list by. Accepts the following
+   * values: * `queryId` (default) * `metadata.title` The default sorting order is
+   * ascending. To specify descending order for a field, add the suffix `desc` to
+   * the field name. For example, `queryId desc`.
    * @opt_param int pageSize Maximum number of results per page. Must be between
    * `1` and `100`. Defaults to `100` if unspecified.
-   * @opt_param string pageToken A page token, received from a previous list call.
-   * Provide this to retrieve the subsequent page of queries.
+   * @opt_param string pageToken A token identifying which page of results the
+   * server should return. Typically, this is the value of nextPageToken, returned
+   * from the previous call to the `queries.list` method. If unspecified, the
+   * first page of results is returned.
    * @return ListQueriesResponse
    * @throws \Google\Service\Exception
    */
@@ -96,15 +98,16 @@ class Queries extends \Google\Service\Resource
     return $this->call('list', [$params], ListQueriesResponse::class);
   }
   /**
-   * Runs a stored query to generate a report. (queries.run)
+   * Runs an existing query to generate a report. (queries.run)
    *
-   * @param string $queryId Required. ID of query to run.
+   * @param string $queryId Required. The ID of the query to run.
    * @param RunQueryRequest $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool synchronous Whether the query should be run synchronously.
-   * When true, this method will not return until the query has finished running.
-   * When false or not specified, this method will return immediately.
+   * When `true`, the request won't return until the resulting report has finished
+   * running. This parameter is `false` by default. Setting this parameter to
+   * `true` is **not recommended**.
    * @return Report
    * @throws \Google\Service\Exception
    */

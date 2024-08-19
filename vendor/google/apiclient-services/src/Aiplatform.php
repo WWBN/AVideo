@@ -104,6 +104,7 @@ class Aiplatform extends \Google\Service
   public $projects_locations_models_operations;
   public $projects_locations_nasJobs;
   public $projects_locations_nasJobs_nasTrialDetails;
+  public $projects_locations_notebookExecutionJobs;
   public $projects_locations_notebookExecutionJobs_operations;
   public $projects_locations_notebookRuntimeTemplates;
   public $projects_locations_notebookRuntimeTemplates_operations;
@@ -5465,6 +5466,84 @@ class Aiplatform extends \Google\Service
           ]
         ]
     );
+    $this->projects_locations_notebookExecutionJobs = new Aiplatform\Resource\ProjectsLocationsNotebookExecutionJobs(
+        $this,
+        $this->serviceName,
+        'notebookExecutionJobs',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/notebookExecutionJobs',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'notebookExecutionJobId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/notebookExecutionJobs',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations_notebookExecutionJobs_operations = new Aiplatform\Resource\ProjectsLocationsNotebookExecutionJobsOperations(
         $this,
         $this->serviceName,
@@ -8138,6 +8217,14 @@ class Aiplatform extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'huggingFaceToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'isHuggingFaceModel' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'languageCode' => [
                   'location' => 'query',

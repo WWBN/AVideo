@@ -31,10 +31,14 @@ class GoogleCloudAiplatformV1EvaluateInstancesRequest extends \Google\Model
   protected $fulfillmentInputDataType = '';
   protected $groundednessInputType = GoogleCloudAiplatformV1GroundednessInput::class;
   protected $groundednessInputDataType = '';
+  protected $pairwiseMetricInputType = GoogleCloudAiplatformV1PairwiseMetricInput::class;
+  protected $pairwiseMetricInputDataType = '';
   protected $pairwiseQuestionAnsweringQualityInputType = GoogleCloudAiplatformV1PairwiseQuestionAnsweringQualityInput::class;
   protected $pairwiseQuestionAnsweringQualityInputDataType = '';
   protected $pairwiseSummarizationQualityInputType = GoogleCloudAiplatformV1PairwiseSummarizationQualityInput::class;
   protected $pairwiseSummarizationQualityInputDataType = '';
+  protected $pointwiseMetricInputType = GoogleCloudAiplatformV1PointwiseMetricInput::class;
+  protected $pointwiseMetricInputDataType = '';
   protected $questionAnsweringCorrectnessInputType = GoogleCloudAiplatformV1QuestionAnsweringCorrectnessInput::class;
   protected $questionAnsweringCorrectnessInputDataType = '';
   protected $questionAnsweringHelpfulnessInputType = GoogleCloudAiplatformV1QuestionAnsweringHelpfulnessInput::class;
@@ -147,6 +151,20 @@ class GoogleCloudAiplatformV1EvaluateInstancesRequest extends \Google\Model
     return $this->groundednessInput;
   }
   /**
+   * @param GoogleCloudAiplatformV1PairwiseMetricInput
+   */
+  public function setPairwiseMetricInput(GoogleCloudAiplatformV1PairwiseMetricInput $pairwiseMetricInput)
+  {
+    $this->pairwiseMetricInput = $pairwiseMetricInput;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PairwiseMetricInput
+   */
+  public function getPairwiseMetricInput()
+  {
+    return $this->pairwiseMetricInput;
+  }
+  /**
    * @param GoogleCloudAiplatformV1PairwiseQuestionAnsweringQualityInput
    */
   public function setPairwiseQuestionAnsweringQualityInput(GoogleCloudAiplatformV1PairwiseQuestionAnsweringQualityInput $pairwiseQuestionAnsweringQualityInput)
@@ -173,6 +191,20 @@ class GoogleCloudAiplatformV1EvaluateInstancesRequest extends \Google\Model
   public function getPairwiseSummarizationQualityInput()
   {
     return $this->pairwiseSummarizationQualityInput;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1PointwiseMetricInput
+   */
+  public function setPointwiseMetricInput(GoogleCloudAiplatformV1PointwiseMetricInput $pointwiseMetricInput)
+  {
+    $this->pointwiseMetricInput = $pointwiseMetricInput;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PointwiseMetricInput
+   */
+  public function getPointwiseMetricInput()
+  {
+    return $this->pointwiseMetricInput;
   }
   /**
    * @param GoogleCloudAiplatformV1QuestionAnsweringCorrectnessInput

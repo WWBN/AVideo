@@ -102,6 +102,8 @@ class Finding extends \Google\Collection
    * @var string
    */
   public $mute;
+  protected $muteInfoType = MuteInfo::class;
+  protected $muteInfoDataType = '';
   /**
    * @var string
    */
@@ -604,6 +606,20 @@ class Finding extends \Google\Collection
   public function getMute()
   {
     return $this->mute;
+  }
+  /**
+   * @param MuteInfo
+   */
+  public function setMuteInfo(MuteInfo $muteInfo)
+  {
+    $this->muteInfo = $muteInfo;
+  }
+  /**
+   * @return MuteInfo
+   */
+  public function getMuteInfo()
+  {
+    return $this->muteInfo;
   }
   /**
    * @param string

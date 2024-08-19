@@ -40,6 +40,8 @@ class TableFieldSchema extends \Google\Collection
    * @var string
    */
   public $foreignTypeDefinition;
+  protected $identityColumnInfoType = IdentityColumnInfo::class;
+  protected $identityColumnInfoDataType = '';
   /**
    * @var string
    */
@@ -156,6 +158,20 @@ class TableFieldSchema extends \Google\Collection
   public function getForeignTypeDefinition()
   {
     return $this->foreignTypeDefinition;
+  }
+  /**
+   * @param IdentityColumnInfo
+   */
+  public function setIdentityColumnInfo(IdentityColumnInfo $identityColumnInfo)
+  {
+    $this->identityColumnInfo = $identityColumnInfo;
+  }
+  /**
+   * @return IdentityColumnInfo
+   */
+  public function getIdentityColumnInfo()
+  {
+    return $this->identityColumnInfo;
   }
   /**
    * @param string

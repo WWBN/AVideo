@@ -436,7 +436,7 @@ will be parsed into `['foo[a]' => '1', 'foo[b]' => '2'])`.
 
 ## `GuzzleHttp\Psr7\Query::build`
 
-`public static function build(array $params, int|false $encoding = PHP_QUERY_RFC3986): string`
+`public static function build(array $params, int|false $encoding = PHP_QUERY_RFC3986, bool $treatBoolsAsInts = true): string`
 
 Build a query string from an array of key value pairs.
 
@@ -501,6 +501,13 @@ a message.
 `public static function readLine(StreamInterface $stream, ?int $maxLength = null): string`
 
 Read a line from the stream up to the maximum allowed buffer length.
+
+
+## `GuzzleHttp\Psr7\Utils::redactUserInfo`
+
+`public static function redactUserInfo(UriInterface $uri): UriInterface`
+
+Redact the password in the user info part of a URI.
 
 
 ## `GuzzleHttp\Psr7\Utils::streamFor`

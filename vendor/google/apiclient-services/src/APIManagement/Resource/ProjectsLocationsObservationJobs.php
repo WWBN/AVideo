@@ -132,8 +132,8 @@ class ProjectsLocationsObservationJobs extends \Google\Service\Resource
     return $this->call('get', [$params], ObservationJob::class);
   }
   /**
-   * ListObservationJobs gets all ObservationJobs for a given project and location
-   * (observationJobs.listProjectsLocationsObservationJobs)
+   * ListObservationJobs gets all ObservationJobs for a given project and
+   * location. (observationJobs.listProjectsLocationsObservationJobs)
    *
    * @param string $parent Required. The parent, which owns this collection of
    * ObservationJobs. Format: projects/{project}/locations/{location}

@@ -112,8 +112,9 @@ class ProjectsHmacKeys extends \Google\Service\Resource
     return $this->call('list', [$params], HmacKeysMetadata::class);
   }
   /**
-   * Updates the state of an HMAC key. See the HMAC Key resource descriptor for
-   * valid states. (hmacKeys.update)
+   * Updates the state of an HMAC key. See the [HMAC Key resource descriptor](http
+   * s://cloud.google.com/storage/docs/json_api/v1/projects/hmacKeys/update#reques
+   * t-body) for valid states. (hmacKeys.update)
    *
    * @param string $projectId Project ID owning the service account of the updated
    * key.

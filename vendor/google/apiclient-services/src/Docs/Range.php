@@ -31,6 +31,10 @@ class Range extends \Google\Model
    * @var int
    */
   public $startIndex;
+  /**
+   * @var string
+   */
+  public $tabId;
 
   /**
    * @param int
@@ -73,6 +77,20 @@ class Range extends \Google\Model
   public function getStartIndex()
   {
     return $this->startIndex;
+  }
+  /**
+   * @param string
+   */
+  public function setTabId($tabId)
+  {
+    $this->tabId = $tabId;
+  }
+  /**
+   * @return string
+   */
+  public function getTabId()
+  {
+    return $this->tabId;
   }
 }
 

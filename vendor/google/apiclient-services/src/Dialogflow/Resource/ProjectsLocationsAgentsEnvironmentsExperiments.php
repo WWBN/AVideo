@@ -104,7 +104,7 @@ class ProjectsLocationsAgentsEnvironmentsExperiments extends \Google\Service\Res
    * Updates the specified Experiment. (experiments.patch)
    *
    * @param string $name The name of the experiment. Format:
-   * projects//locations//agents//environments//experiments/..
+   * projects//locations//agents//environments//experiments/.
    * @param GoogleCloudDialogflowCxV3Experiment $postBody
    * @param array $optParams Optional parameters.
    *

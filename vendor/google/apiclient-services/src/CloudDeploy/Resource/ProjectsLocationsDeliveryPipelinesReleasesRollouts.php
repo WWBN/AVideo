@@ -96,8 +96,8 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
    * Creates a new Rollout in a given project and location. (rollouts.create)
    *
    * @param string $parent Required. The parent collection in which the `Rollout`
-   * should be created. Format should be `projects/{project_id}/locations/{locatio
-   * n_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}`.
+   * must be created. The format is `projects/{project_id}/locations/{location_nam
+   * e}/deliveryPipelines/{pipeline_name}/releases/{release_name}`.
    * @param Rollout $postBody
    * @param array $optParams Optional parameters.
    *

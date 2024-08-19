@@ -23,6 +23,8 @@ class GoogleCloudRecaptchaenterpriseV1Assessment extends \Google\Model
   protected $accountDefenderAssessmentDataType = '';
   protected $accountVerificationType = GoogleCloudRecaptchaenterpriseV1AccountVerificationInfo::class;
   protected $accountVerificationDataType = '';
+  protected $assessmentEnvironmentType = GoogleCloudRecaptchaenterpriseV1AssessmentEnvironment::class;
+  protected $assessmentEnvironmentDataType = '';
   protected $eventType = GoogleCloudRecaptchaenterpriseV1Event::class;
   protected $eventDataType = '';
   protected $firewallPolicyAssessmentType = GoogleCloudRecaptchaenterpriseV1FirewallPolicyAssessment::class;
@@ -71,6 +73,20 @@ class GoogleCloudRecaptchaenterpriseV1Assessment extends \Google\Model
   public function getAccountVerification()
   {
     return $this->accountVerification;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1AssessmentEnvironment
+   */
+  public function setAssessmentEnvironment(GoogleCloudRecaptchaenterpriseV1AssessmentEnvironment $assessmentEnvironment)
+  {
+    $this->assessmentEnvironment = $assessmentEnvironment;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1AssessmentEnvironment
+   */
+  public function getAssessmentEnvironment()
+  {
+    return $this->assessmentEnvironment;
   }
   /**
    * @param GoogleCloudRecaptchaenterpriseV1Event

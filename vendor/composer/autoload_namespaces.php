@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'PayPal' => array($vendorDir . '/paypal/rest-api-sdk-php/lib'),
+    'Parsedown' => array($vendorDir . '/erusev/parsedown'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );

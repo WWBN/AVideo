@@ -106,7 +106,7 @@ class ProjectsLocationsHttpRoutes extends \Google\Service\Resource
   /**
    * Updates the parameters of a single HttpRoute. (httpRoutes.patch)
    *
-   * @param string $name Required. Name of the HttpRoute resource. It matches
+   * @param string $name Identifier. Name of the HttpRoute resource. It matches
    * pattern `projects/locations/global/httpRoutes/http_route_name>`.
    * @param HttpRoute $postBody
    * @param array $optParams Optional parameters.

@@ -46,6 +46,10 @@ class AttachedDisk extends \Google\Collection
    * @var string
    */
   public $diskType;
+  /**
+   * @var string
+   */
+  public $diskTypeDeprecated;
   protected $guestOsFeatureType = GuestOsFeature::class;
   protected $guestOsFeatureDataType = 'array';
   /**
@@ -74,6 +78,10 @@ class AttachedDisk extends \Google\Collection
    * @var string
    */
   public $source;
+  /**
+   * @var string
+   */
+  public $type;
 
   /**
    * @param bool
@@ -172,6 +180,20 @@ class AttachedDisk extends \Google\Collection
   public function getDiskType()
   {
     return $this->diskType;
+  }
+  /**
+   * @param string
+   */
+  public function setDiskTypeDeprecated($diskTypeDeprecated)
+  {
+    $this->diskTypeDeprecated = $diskTypeDeprecated;
+  }
+  /**
+   * @return string
+   */
+  public function getDiskTypeDeprecated()
+  {
+    return $this->diskTypeDeprecated;
   }
   /**
    * @param GuestOsFeature[]
@@ -284,6 +306,20 @@ class AttachedDisk extends \Google\Collection
   public function getSource()
   {
     return $this->source;
+  }
+  /**
+   * @param string
+   */
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+  /**
+   * @return string
+   */
+  public function getType()
+  {
+    return $this->type;
   }
 }
 

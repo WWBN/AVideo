@@ -38,6 +38,7 @@ class CloudDataplex extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
+  public $organizations_locations_encryptionConfigs;
   public $projects_locations;
   public $projects_locations_aspectTypes;
   public $projects_locations_dataAttributeBindings;
@@ -48,6 +49,7 @@ class CloudDataplex extends \Google\Service
   public $projects_locations_entryGroups;
   public $projects_locations_entryGroups_entries;
   public $projects_locations_entryTypes;
+  public $projects_locations_glossaries;
   public $projects_locations_governanceRules;
   public $projects_locations_lakes;
   public $projects_locations_lakes_actions;
@@ -63,6 +65,7 @@ class CloudDataplex extends \Google\Service
   public $projects_locations_lakes_zones_assets_actions;
   public $projects_locations_lakes_zones_entities;
   public $projects_locations_lakes_zones_entities_partitions;
+  public $projects_locations_metadataJobs;
   public $projects_locations_operations;
   public $rootUrlTemplate;
 
@@ -83,6 +86,50 @@ class CloudDataplex extends \Google\Service
     $this->version = 'v1';
     $this->serviceName = 'dataplex';
 
+    $this->organizations_locations_encryptionConfigs = new CloudDataplex\Resource\OrganizationsLocationsEncryptionConfigs(
+        $this,
+        $this->serviceName,
+        'encryptionConfigs',
+        [
+          'methods' => [
+            'getIamPolicy' => [
+              'path' => 'v1/{+resource}:getIamPolicy',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'options.requestedPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => 'v1/{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations = new CloudDataplex\Resource\ProjectsLocations(
         $this,
         $this->serviceName,
@@ -1250,6 +1297,50 @@ class CloudDataplex extends \Google\Service
                 'validateOnly' => [
                   'location' => 'query',
                   'type' => 'boolean',
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => 'v1/{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_glossaries = new CloudDataplex\Resource\ProjectsLocationsGlossaries(
+        $this,
+        $this->serviceName,
+        'glossaries',
+        [
+          'methods' => [
+            'getIamPolicy' => [
+              'path' => 'v1/{+resource}:getIamPolicy',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'options.requestedPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
                 ],
               ],
             ],'setIamPolicy' => [
@@ -2514,6 +2605,76 @@ class CloudDataplex extends \Google\Service
                   'required' => true,
                 ],
                 'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_metadataJobs = new CloudDataplex\Resource\ProjectsLocationsMetadataJobs(
+        $this,
+        $this->serviceName,
+        'metadataJobs',
+        [
+          'methods' => [
+            'cancel' => [
+              'path' => 'v1/{+name}:cancel',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v1/{+parent}/metadataJobs',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'metadataJobId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/metadataJobs',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

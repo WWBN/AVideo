@@ -25,6 +25,8 @@ class ReplaceAllTextRequest extends \Google\Model
    * @var string
    */
   public $replaceText;
+  protected $tabsCriteriaType = TabsCriteria::class;
+  protected $tabsCriteriaDataType = '';
 
   /**
    * @param SubstringMatchCriteria
@@ -53,6 +55,20 @@ class ReplaceAllTextRequest extends \Google\Model
   public function getReplaceText()
   {
     return $this->replaceText;
+  }
+  /**
+   * @param TabsCriteria
+   */
+  public function setTabsCriteria(TabsCriteria $tabsCriteria)
+  {
+    $this->tabsCriteria = $tabsCriteria;
+  }
+  /**
+   * @return TabsCriteria
+   */
+  public function getTabsCriteria()
+  {
+    return $this->tabsCriteria;
   }
 }
 

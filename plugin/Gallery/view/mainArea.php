@@ -1,4 +1,7 @@
 <?php
+
+use Fhaculty\Graph\Edge\Base;
+
 saveRequestVars();
 ?>
 <link href="<?php echo getURL('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
@@ -37,6 +40,9 @@ saveRequestVars();
         }
     }
     if (empty($_GET['search']) && !isInfiniteScroll()) {
+        if ($obj->showLivesAboveBigVideo) {
+            include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaLiveRow.php';
+        }
         include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideoLive.php';
     }
     //var_dump(!empty($video), debug_backtrace());exit;
@@ -48,24 +54,9 @@ saveRequestVars();
             include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
         }
         echo '<center style="margin:5px;">' . getAdsLeaderBoardTop2() . '</center>';
-        if (empty($_REQUEST['catName'])) {
-            $objLive = AVideoPlugin::getDataObject('Live');
-            if (empty($objLive->doNotShowLiveOnVideosList)) {
-            ?>
-                <!-- For Live Videos mainArea -->
-                <div id="liveVideos" class="clear clearfix" style="display: none;">
-                    <h3 class="galleryTitle text-danger"> <i class="fas fa-play-circle"></i> <?php echo __("Live"); ?></h3>
-                    <div class="extraVideos"></div>
-                </div>
-                <!-- For Live Schedule Videos -->
-                <div id="liveScheduleVideos" class="clear clearfix" style="display: none;">
-                    <h3 class="galleryTitle"> <i class="far fa-calendar-alt"></i> <?php echo __($objLive->live_schedule_label); ?></h3>
-                    <div class="extraVideos"></div>
-                </div>
-                <!-- For Live Videos End -->
-                <?php
-            }
-        }
+        
+        include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaLiveRow.php';
+
         echo AVideoPlugin::getGallerySection();
 
         $sections = Gallery::getSectionsOrder();

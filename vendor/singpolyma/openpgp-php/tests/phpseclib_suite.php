@@ -33,10 +33,15 @@ class MessageVerification extends TestCase {
 
   public function testSigningMessages() {
     $wkey = OpenPGP_Message::parse(file_get_contents(dirname(__FILE__) . '/data/helloKey.gpg'));
+    if (function_exists('uopz_set_return')) uopz_set_return('time', 0);
     $data = new OpenPGP_LiteralDataPacket('This is text.', array('format' => 'u', 'filename' => 'stuff.txt'));
     $sign = new OpenPGP_Crypt_RSA($wkey);
     $m = $sign->sign($data)->to_bytes();
     $reparsedM = OpenPGP_Message::parse($m);
+    if (function_exists('uopz_unset_return')) {
+      uopz_unset_return('time');
+      $this->assertSame(4871, $reparsedM[0]->hash_head);
+    }
     $this->assertSame($sign->verify($reparsedM), $reparsedM->signatures());
   }
 

@@ -46,6 +46,10 @@ class GceSetup extends \Google\Collection
    * @var string[]
    */
   public $metadata;
+  /**
+   * @var string
+   */
+  public $minCpuPlatform;
   protected $networkInterfacesType = NetworkInterface::class;
   protected $networkInterfacesDataType = 'array';
   protected $serviceAccountsType = ServiceAccount::class;
@@ -184,6 +188,20 @@ class GceSetup extends \Google\Collection
   public function getMetadata()
   {
     return $this->metadata;
+  }
+  /**
+   * @param string
+   */
+  public function setMinCpuPlatform($minCpuPlatform)
+  {
+    $this->minCpuPlatform = $minCpuPlatform;
+  }
+  /**
+   * @return string
+   */
+  public function getMinCpuPlatform()
+  {
+    return $this->minCpuPlatform;
   }
   /**
    * @param NetworkInterface[]

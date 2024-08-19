@@ -31,6 +31,8 @@ class GoogleCloudDocumentaiV1ProcessorVersion extends \Google\Model
   public $displayName;
   protected $documentSchemaType = GoogleCloudDocumentaiV1DocumentSchema::class;
   protected $documentSchemaDataType = '';
+  protected $genAiModelInfoType = GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo::class;
+  protected $genAiModelInfoDataType = '';
   /**
    * @var bool
    */
@@ -121,6 +123,20 @@ class GoogleCloudDocumentaiV1ProcessorVersion extends \Google\Model
   public function getDocumentSchema()
   {
     return $this->documentSchema;
+  }
+  /**
+   * @param GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo
+   */
+  public function setGenAiModelInfo(GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo $genAiModelInfo)
+  {
+    $this->genAiModelInfo = $genAiModelInfo;
+  }
+  /**
+   * @return GoogleCloudDocumentaiV1ProcessorVersionGenAiModelInfo
+   */
+  public function getGenAiModelInfo()
+  {
+    return $this->genAiModelInfo;
   }
   /**
    * @param bool

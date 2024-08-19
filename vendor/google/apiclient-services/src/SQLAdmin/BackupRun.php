@@ -60,6 +60,10 @@ class BackupRun extends \Google\Model
   /**
    * @var string
    */
+  public $maxChargeableBytes;
+  /**
+   * @var string
+   */
   public $selfLink;
   /**
    * @var string
@@ -235,6 +239,20 @@ class BackupRun extends \Google\Model
   public function getLocation()
   {
     return $this->location;
+  }
+  /**
+   * @param string
+   */
+  public function setMaxChargeableBytes($maxChargeableBytes)
+  {
+    $this->maxChargeableBytes = $maxChargeableBytes;
+  }
+  /**
+   * @return string
+   */
+  public function getMaxChargeableBytes()
+  {
+    return $this->maxChargeableBytes;
   }
   /**
    * @param string

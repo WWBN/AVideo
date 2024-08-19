@@ -23,6 +23,10 @@ class RRSetRoutingPolicy extends \Google\Model
   protected $geoDataType = '';
   protected $geoPolicyType = GeoPolicy::class;
   protected $geoPolicyDataType = '';
+  /**
+   * @var string
+   */
+  public $healthCheck;
   protected $primaryBackupType = PrimaryBackupPolicy::class;
   protected $primaryBackupDataType = '';
   protected $wrrType = WrrPolicy::class;
@@ -57,6 +61,20 @@ class RRSetRoutingPolicy extends \Google\Model
   public function getGeoPolicy()
   {
     return $this->geoPolicy;
+  }
+  /**
+   * @param string
+   */
+  public function setHealthCheck($healthCheck)
+  {
+    $this->healthCheck = $healthCheck;
+  }
+  /**
+   * @return string
+   */
+  public function getHealthCheck()
+  {
+    return $this->healthCheck;
   }
   /**
    * @param PrimaryBackupPolicy

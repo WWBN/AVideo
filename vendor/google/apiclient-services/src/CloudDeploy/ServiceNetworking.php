@@ -30,6 +30,10 @@ class ServiceNetworking extends \Google\Model
   /**
    * @var string
    */
+  public $podSelectorLabel;
+  /**
+   * @var string
+   */
   public $service;
 
   /**
@@ -59,6 +63,20 @@ class ServiceNetworking extends \Google\Model
   public function getDisablePodOverprovisioning()
   {
     return $this->disablePodOverprovisioning;
+  }
+  /**
+   * @param string
+   */
+  public function setPodSelectorLabel($podSelectorLabel)
+  {
+    $this->podSelectorLabel = $podSelectorLabel;
+  }
+  /**
+   * @return string
+   */
+  public function getPodSelectorLabel()
+  {
+    return $this->podSelectorLabel;
   }
   /**
    * @param string

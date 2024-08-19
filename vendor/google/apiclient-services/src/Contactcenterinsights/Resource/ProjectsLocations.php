@@ -17,6 +17,7 @@
 
 namespace Google\Service\Contactcenterinsights\Resource;
 
+use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1EncryptionSpec;
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1Settings;
 
 /**
@@ -29,6 +30,22 @@ use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1Setti
  */
 class ProjectsLocations extends \Google\Service\Resource
 {
+  /**
+   * Gets location-level encryption key specification.
+   * (locations.getEncryptionSpec)
+   *
+   * @param string $name Required. The name of the encryption spec resource to
+   * get.
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudContactcenterinsightsV1EncryptionSpec
+   * @throws \Google\Service\Exception
+   */
+  public function getEncryptionSpec($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getEncryptionSpec', [$params], GoogleCloudContactcenterinsightsV1EncryptionSpec::class);
+  }
   /**
    * Gets project-level settings. (locations.getSettings)
    *

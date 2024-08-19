@@ -41,6 +41,7 @@ class PlayIntegrity extends \Google\Service
   const PLAYINTEGRITY =
       "https://www.googleapis.com/auth/playintegrity";
 
+  public $deviceRecall;
   public $v1;
   public $rootUrlTemplate;
 
@@ -61,6 +62,26 @@ class PlayIntegrity extends \Google\Service
     $this->version = 'v1';
     $this->serviceName = 'playintegrity';
 
+    $this->deviceRecall = new PlayIntegrity\Resource\DeviceRecall(
+        $this,
+        $this->serviceName,
+        'deviceRecall',
+        [
+          'methods' => [
+            'write' => [
+              'path' => 'v1/{+packageName}/deviceRecall:write',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'packageName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->v1 = new PlayIntegrity\Resource\V1(
         $this,
         $this->serviceName,

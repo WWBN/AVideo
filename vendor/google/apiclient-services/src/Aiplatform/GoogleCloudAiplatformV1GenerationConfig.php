@@ -42,6 +42,12 @@ class GoogleCloudAiplatformV1GenerationConfig extends \Google\Collection
   public $responseMimeType;
   protected $responseSchemaType = GoogleCloudAiplatformV1Schema::class;
   protected $responseSchemaDataType = '';
+  protected $routingConfigType = GoogleCloudAiplatformV1GenerationConfigRoutingConfig::class;
+  protected $routingConfigDataType = '';
+  /**
+   * @var int
+   */
+  public $seed;
   /**
    * @var string[]
    */
@@ -142,6 +148,34 @@ class GoogleCloudAiplatformV1GenerationConfig extends \Google\Collection
   public function getResponseSchema()
   {
     return $this->responseSchema;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1GenerationConfigRoutingConfig
+   */
+  public function setRoutingConfig(GoogleCloudAiplatformV1GenerationConfigRoutingConfig $routingConfig)
+  {
+    $this->routingConfig = $routingConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1GenerationConfigRoutingConfig
+   */
+  public function getRoutingConfig()
+  {
+    return $this->routingConfig;
+  }
+  /**
+   * @param int
+   */
+  public function setSeed($seed)
+  {
+    $this->seed = $seed;
+  }
+  /**
+   * @return int
+   */
+  public function getSeed()
+  {
+    return $this->seed;
   }
   /**
    * @param string[]

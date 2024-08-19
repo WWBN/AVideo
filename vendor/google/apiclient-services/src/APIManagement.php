@@ -102,6 +102,24 @@ class APIManagement extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'listApiObservationTags' => [
+              'path' => 'v1alpha/{+parent}:listApiObservationTags',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],
           ]
         ]
@@ -198,7 +216,17 @@ class APIManagement extends \Google\Service
         'apiObservations',
         [
           'methods' => [
-            'get' => [
+            'batchEditTags' => [
+              'path' => 'v1alpha/{+parent}/apiObservations:batchEditTags',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
               'path' => 'v1alpha/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [

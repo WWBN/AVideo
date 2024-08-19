@@ -189,6 +189,10 @@ class GKEHub extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'returnPartialSuccess' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],'getIamPolicy' => [
               'path' => 'v1/{+resource}:getIamPolicy',
@@ -228,6 +232,10 @@ class GKEHub extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'returnPartialSuccess' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
               ],
             ],'patch' => [
@@ -598,7 +606,55 @@ class GKEHub extends \Google\Service
         'rbacrolebindings',
         [
           'methods' => [
-            'list' => [
+            'create' => [
+              'path' => 'v1/{+parent}/rbacrolebindings',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'rbacrolebindingId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'generateMembershipRBACRoleBindingYAML' => [
+              'path' => 'v1/{+parent}/rbacrolebindings:generateMembershipRBACRoleBindingYAML',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'rbacrolebindingId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
               'path' => 'v1/{+parent}/rbacrolebindings',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -612,6 +668,20 @@ class GKEHub extends \Google\Service
                   'type' => 'integer',
                 ],
                 'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

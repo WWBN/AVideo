@@ -75,9 +75,10 @@ class Accounts extends \Google\Service\Resource
    * backend. Contact Cloud Channel support. Return value: A list of service email
    * addresses. (accounts.listSubscribers)
    *
-   * @param string $account Required. Resource name of the account.
+   * @param string $account Optional. Resource name of the account.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string integrator Optional. Resource name of the integrator.
    * @opt_param int pageSize Optional. The maximum number of service accounts to
    * return. The service may return fewer than this value. If unspecified, returns
    * at most 100 service accounts. The maximum value is 1000; the server will
@@ -159,7 +160,7 @@ class Accounts extends \Google\Service\Resource
    * value: The topic name with the registered service email address.
    * (accounts.register)
    *
-   * @param string $account Required. Resource name of the account.
+   * @param string $account Optional. Resource name of the account.
    * @param GoogleCloudChannelV1RegisterSubscriberRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1RegisterSubscriberResponse
@@ -186,7 +187,7 @@ class Accounts extends \Google\Service\Resource
    * unregistered the service email address. Returns a success response if the
    * service email address wasn't registered with the topic. (accounts.unregister)
    *
-   * @param string $account Required. Resource name of the account.
+   * @param string $account Optional. Resource name of the account.
    * @param GoogleCloudChannelV1UnregisterSubscriberRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1UnregisterSubscriberResponse

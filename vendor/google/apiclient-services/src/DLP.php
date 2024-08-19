@@ -391,6 +391,28 @@ class DLP extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'list' => [
+              'path' => 'v2/{+parent}/connections',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'patch' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'PATCH',

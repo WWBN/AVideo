@@ -19,23 +19,6 @@ namespace Google\Service\Firestore;
 
 class GoogleFirestoreAdminV1DailyRecurrence extends \Google\Model
 {
-  protected $timeType = TimeOfDay::class;
-  protected $timeDataType = '';
-
-  /**
-   * @param TimeOfDay
-   */
-  public function setTime(TimeOfDay $time)
-  {
-    $this->time = $time;
-  }
-  /**
-   * @return TimeOfDay
-   */
-  public function getTime()
-  {
-    return $this->time;
-  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

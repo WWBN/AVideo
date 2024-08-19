@@ -46,6 +46,10 @@ class Execution extends \Google\Model
   protected $errorType = Error::class;
   protected $errorDataType = '';
   /**
+   * @var string
+   */
+  public $executionHistoryLevel;
+  /**
    * @var string[]
    */
   public $labels;
@@ -171,6 +175,20 @@ class Execution extends \Google\Model
   public function getError()
   {
     return $this->error;
+  }
+  /**
+   * @param string
+   */
+  public function setExecutionHistoryLevel($executionHistoryLevel)
+  {
+    $this->executionHistoryLevel = $executionHistoryLevel;
+  }
+  /**
+   * @return string
+   */
+  public function getExecutionHistoryLevel()
+  {
+    return $this->executionHistoryLevel;
   }
   /**
    * @param string[]

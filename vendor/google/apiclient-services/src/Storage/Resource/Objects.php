@@ -212,7 +212,8 @@ class Objects extends \Google\Service\Resource
    * whether the object's current metageneration does not match the given value.
    * @opt_param string projection Set of properties to return. Defaults to noAcl.
    * @opt_param bool softDeleted If true, only soft-deleted object versions will
-   * be listed. The default is false. For more information, see Soft Delete.
+   * be listed. The default is false. For more information, see [Soft
+   * Delete](https://cloud.google.com/storage/docs/soft-delete).
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return StorageObject
@@ -328,7 +329,8 @@ class Objects extends \Google\Service\Resource
    * this prefix.
    * @opt_param string projection Set of properties to return. Defaults to noAcl.
    * @opt_param bool softDeleted If true, only soft-deleted object versions will
-   * be listed. The default is false. For more information, see Soft Delete.
+   * be listed. The default is false. For more information, see [Soft
+   * Delete](https://cloud.google.com/storage/docs/soft-delete).
    * @opt_param string startOffset Filter results to objects whose names are
    * lexicographically equal to or after startOffset. If endOffset is also set,
    * the objects listed will have names between startOffset (inclusive) and
@@ -336,7 +338,8 @@ class Objects extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @opt_param bool versions If true, lists all versions of an object as distinct
-   * results. The default is false. For more information, see Object Versioning.
+   * results. The default is false. For more information, see [Object
+   * Versioning](https://cloud.google.com/storage/docs/object-versioning).
    * @return ObjectsModel
    * @throws \Google\Service\Exception
    */
@@ -391,7 +394,8 @@ class Objects extends \Google\Service\Resource
    *
    * @param string $bucket Name of the bucket in which the object resides.
    * @param string $object Name of the object. For information about how to URL
-   * encode object names to be path safe, see Encoding URI Path Parts.
+   * encode object names to be path safe, see [Encoding URI Path
+   * Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding).
    * @param string $generation Selects a specific revision of this object.
    * @param array $optParams Optional parameters.
    *
@@ -620,7 +624,8 @@ class Objects extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @opt_param bool versions If true, lists all versions of an object as distinct
-   * results. The default is false. For more information, see Object Versioning.
+   * results. The default is false. For more information, see [Object
+   * Versioning](https://cloud.google.com/storage/docs/object-versioning).
    * @return Channel
    * @throws \Google\Service\Exception
    */

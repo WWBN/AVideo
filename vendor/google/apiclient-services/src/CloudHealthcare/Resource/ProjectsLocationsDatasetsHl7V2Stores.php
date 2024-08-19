@@ -25,6 +25,7 @@ use Google\Service\CloudHealthcare\ImportMessagesRequest;
 use Google\Service\CloudHealthcare\ListHl7V2StoresResponse;
 use Google\Service\CloudHealthcare\Operation;
 use Google\Service\CloudHealthcare\Policy;
+use Google\Service\CloudHealthcare\RollbackHl7V2MessagesRequest;
 use Google\Service\CloudHealthcare\SetIamPolicyRequest;
 use Google\Service\CloudHealthcare\TestIamPermissionsRequest;
 use Google\Service\CloudHealthcare\TestIamPermissionsResponse;
@@ -264,6 +265,31 @@ class ProjectsLocationsDatasetsHl7V2Stores extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Hl7V2Store::class);
+  }
+  /**
+   * Rolls back messages from the HL7 store to the specified time. This method
+   * returns an Operation that can be used to track the status of the rollback by
+   * calling GetOperation. Immediate fatal errors appear in the error field,
+   * errors are also logged to Cloud Logging (see [Viewing error logs in Cloud
+   * Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)).
+   * Otherwise, when the operation finishes, a detailed response of type
+   * RollbackHl7V2MessagesResponse is returned in the response field. The metadata
+   * field type for this operation is OperationMetadata. (hl7V2Stores.rollback)
+   *
+   * @param string $name Required. The name of the HL7v2 store to rollback, in the
+   * format of
+   * "projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
+   * /hl7V2Stores/{hl7v2_store_id}".
+   * @param RollbackHl7V2MessagesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function rollback($name, RollbackHl7V2MessagesRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('rollback', [$params], Operation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

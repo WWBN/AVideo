@@ -19,6 +19,23 @@ namespace Google\Service\Connectors;
 
 class ExchangeAuthCodeRequest extends \Google\Model
 {
+  protected $authCodeDataType = AuthCodeData::class;
+  protected $authCodeDataDataType = '';
+
+  /**
+   * @param AuthCodeData
+   */
+  public function setAuthCodeData(AuthCodeData $authCodeData)
+  {
+    $this->authCodeData = $authCodeData;
+  }
+  /**
+   * @return AuthCodeData
+   */
+  public function getAuthCodeData()
+  {
+    return $this->authCodeData;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.
