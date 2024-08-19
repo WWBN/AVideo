@@ -60,8 +60,8 @@ if (!User::canComment()) {
         ?>
     });
 
+    var uploadCommentImageURL = webSiteRootURL + 'view/mini-upload-form/imageUpload.json.php';
     $(document).ready(function() {
-        var uploadCommentImageURL = webSiteRootURL + 'view/mini-upload-form/imageUpload.json.php';
 
         $('#uploadImageBtn').on('click', function() {
             $('#commentImageInput').click();

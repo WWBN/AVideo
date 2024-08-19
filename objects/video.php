@@ -3051,6 +3051,12 @@ if (!class_exists('Video')) {
 
 
             $this->removeFiles($filename);
+
+            $commentsImagesDir = self::getStoragePath() . "uploads/comments/{$this->id}/";
+            if(is_dir($commentsImagesDir)){
+                rrmdir($commentsImagesDir);
+            }
+            
             self::deleteThumbs($filename);
         }
 
