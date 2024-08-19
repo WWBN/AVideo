@@ -74,24 +74,7 @@ if (!User::canComment()) {
                 formData.append('comment_image', fileInput);
                 formData.append('videos_id', commentVideos_id); // Send the video ID
 
-                $.ajax({
-                    url: uploadCommentImageURL,
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        var result = JSON.parse(response);
-                        if (!result.error) {
-                            $('#comment').val($('#comment').val() + result.commentText);
-                        } else {
-                            avideoAlertError(result.msg);
-                        }
-                    },
-                    error: function() {
-                        avideoAlertError('An error occurred while uploading the image');
-                    }
-                });
+                commentUploadImage(formData)
             }
         });
 
@@ -105,26 +88,33 @@ if (!User::canComment()) {
                 var formData = new FormData();
                 formData.append('comment_image', fileInput);
                 formData.append('videos_id', commentVideos_id); // Send the video ID
+                commentUploadImage(formData);
 
-                $.ajax({
-                    url: uploadCommentImageURL,
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        var result = JSON.parse(response);
-                        if (!result.error) {
-                            $('#comment').val($('#comment').val() + result.commentText);
-                        } else {
-                            avideoAlertError(result.msg);
-                        }
-                    },
-                    error: function() {
-                        avideoAlertError('An error occurred while uploading the image');
-                    }
-                });
             }
         });
     });
+
+    function commentUploadImage(formData) {
+        modal.showPleaseWait();
+        $.ajax({
+            url: uploadCommentImageURL,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                modal.hidePleaseWait();
+                var result = JSON.parse(response);
+                if (!result.error) {
+                    $('#comment').val($('#comment').val() + result.commentText);
+                } else {
+                    avideoAlertError(result.msg);
+                }
+            },
+            error: function() {
+                modal.hidePleaseWait();
+                avideoAlertError('An error occurred while uploading the image');
+            }
+        });
+    }
 </script>
