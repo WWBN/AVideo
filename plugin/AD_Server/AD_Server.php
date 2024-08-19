@@ -228,7 +228,7 @@ class AD_Server extends PluginAbstract {
     public static function getVMAPSFromRequest() {
         if (!empty($_REQUEST['vmaps'])) {
             $vmaps = _json_decode(base64_decode($_REQUEST['vmaps']));
-            if(empty(!$vmaps)) {
+            if(!empty($vmaps)) {
                 echo '<!-- getVMAPSFromRequest line='.__LINE__.' -->'.PHP_EOL;
             }
         } 
@@ -251,6 +251,11 @@ class AD_Server extends PluginAbstract {
     public static function addVMAPS($url, $vmaps) {
         if (empty($vmaps)) {
             $vmaps = self::getVMAPSFromRequest();
+            if(!empty($vmaps)) {
+                echo '<!-- addVMAPS line='.__LINE__.' '.json_encode(array($url, $vmaps)).' -->'.PHP_EOL;
+            }
+        }else{
+            echo '<!-- addVMAPS line='.__LINE__.' '.json_encode(array($url, $vmaps)).' -->'.PHP_EOL;
         }
         $base64 = base64_encode(_json_encode($vmaps));
         $vmapURL = addQueryStringParameter($url, 'vmaps', $base64);
