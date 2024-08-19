@@ -490,7 +490,6 @@ if (!User::isAdmin()) {
                 },
                 {
                     "data": "status",
-                    width: 10,
                     "render": function(data, type, full, meta) {
                         // Convert the given date string to a Date object
                         const end_date = new Date(full.end_date);
@@ -501,6 +500,9 @@ if (!User::isAdmin()) {
                         // Compare the dates
                         if (end_date <= now) {
                             return '<span class="label label-danger"><i class="fa fa-times-circle"></i> EXPIRED</span>';
+                        }
+                        if (full.printsLeft <= 0) {
+                            return '<span class="label label-default"><i class="fa fa-print"></i> No Prints Left</span>';
                         }
                         if (full.status == 'a') {
                             return '<span class="label label-success"><i class="fa fa-check-circle"></i> Active</span>';
