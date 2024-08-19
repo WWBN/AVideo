@@ -22,6 +22,25 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <vmap:VMAP xmlns:vmap="http://www.iab.net/videosuite/vmap" version="1.0">
     <?php
+    if(empty($vmaps)){
+        if (!empty($_REQUEST['vmaps'])) {
+            $vmaps = _json_decode(base64_decode($_REQUEST['vmaps']));
+        } else{
+            echo '<!-- $_REQUEST[vmaps] is empty -->'.PHP_EOL;
+        }
+        if(empty($vmaps)) {
+            if(!empty($_REQUEST['video_length'])){
+                $video_length = intval($_REQUEST['video_length']);
+            }else{
+                $video_length = self::getVideoLength();
+            }
+            $ad_server = AVideoPlugin::loadPlugin('AD_Server');
+            $vmaps = $ad_server->getVMAPs($video_length);
+        }
+    }
+    if(empty($vmaps)) {
+        echo '<!-- $vmaps is empty -->'.PHP_EOL;
+    }
     foreach ($vmaps as $key => $value) {
         if (empty($value['VAST']['campaing'])) {
             continue;
