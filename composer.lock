@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "418a46bb5dde14a1c57f749acfbd8982",
+    "content-hash": "d533d634209cdb9c65482b398f123942",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -4158,16 +4158,16 @@
         },
         {
             "name": "singpolyma/openpgp-php",
-            "version": "0.6.0",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/singpolyma/openpgp-php.git",
-                "reference": "1c3bdcd2d9c6113c2d6b768e208e7432a48d3a1e"
+                "reference": "b55996c1942bf676d4531c9b4c0ed226f7fe2b60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/singpolyma/openpgp-php/zipball/1c3bdcd2d9c6113c2d6b768e208e7432a48d3a1e",
-                "reference": "1c3bdcd2d9c6113c2d6b768e208e7432a48d3a1e",
+                "url": "https://api.github.com/repos/singpolyma/openpgp-php/zipball/b55996c1942bf676d4531c9b4c0ed226f7fe2b60",
+                "reference": "b55996c1942bf676d4531c9b4c0ed226f7fe2b60",
                 "shasum": ""
             },
             "require": {
@@ -4204,7 +4204,7 @@
             "description": "Pure-PHP implementation of the OpenPGP Message Format (RFC 4880)",
             "support": {
                 "issues": "https://github.com/singpolyma/openpgp-php/issues",
-                "source": "https://github.com/singpolyma/openpgp-php/tree/0.6.0"
+                "source": "https://github.com/singpolyma/openpgp-php/tree/0.7.0"
             },
             "funding": [
                 {
@@ -4220,7 +4220,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-10-31T13:43:21+00:00"
+            "time": "2024-08-12T19:00:23+00:00"
         },
         {
             "name": "stripe/stripe-php",
