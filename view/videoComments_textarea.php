@@ -8,10 +8,10 @@ $maxLen = empty($advancedCustom->commentsMaxLength) ? 200 : $advancedCustom->com
 
 $disabled = '';
 $content = '';
-$commentButtonText = '<i class="fas fa-comment fa-2x"></i> <span class="hidden-md hidden-sm hidden-xs "><br>' . __("Comment") . '</span>';
+$commentButtonText = '<i class="fas fa-comment fa-2x"></i> <span class="hidden-md hidden-sm hidden-xs " ><br>' . __("Comment") . '</span>';
 $button  = '<button class="btn btn-success " id="saveCommentBtn" style="height: 72px;" onclick="saveComment();">' . $commentButtonText . '</button>';
-$button .= '<button class="btn btn-primary" id="uploadImageBtn" style="height: 72px;"><i class="fas fa-image fa-2x"></i></button>';
 $button .= '<input type="file" id="commentImageInput" accept="image/jpeg, image/png, image/gif" style="display: none;">';
+$button .= '<button class="btn btn-primary" id="uploadImageBtn" style="height: 72px;"><i class="fas fa-image fa-2x"></i></button>';
 $js = "setupFormElement('#comment', 5, commentsmaxlen, true, true);";
 if (!User::canComment()) {
     $js = "";
