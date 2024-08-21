@@ -691,7 +691,7 @@ if (!class_exists('Video')) {
                     $cacheHandler->deleteCache();
                 }
                 self::clearCache($this->id);
-                if(!empty($global['notifiedVideos'][$this->id])){
+                if (!empty($global['notifiedVideos'][$this->id])) {
                     // the video was notified mark it as notified already
                     $this->setVideoNotified();
                 }
@@ -905,7 +905,7 @@ if (!class_exists('Video')) {
                     }
                     clearCache(true);
                 } else {
-                    _error_log("Video::setStatus({$status}) [{$this->status}] ". json_encode(array($_REQUEST, debug_backtrace())));
+                    _error_log("Video::setStatus({$status}) [{$this->status}] " . json_encode(array($_REQUEST, debug_backtrace())));
                 }
             }
             AVideoPlugin::onVideoSetStatus($this->id, $this->status, $status);
@@ -3053,10 +3053,10 @@ if (!class_exists('Video')) {
             $this->removeFiles($filename);
 
             $commentsImagesDir = self::getStoragePath() . "uploads/comments/{$this->id}/";
-            if(is_dir($commentsImagesDir)){
+            if (is_dir($commentsImagesDir)) {
                 rrmdir($commentsImagesDir);
             }
-            
+
             self::deleteThumbs($filename);
         }
 
@@ -4840,20 +4840,44 @@ if (!class_exists('Video')) {
 
         public static function getVideosPaths($filename, $includeS3 = false, $try = 0)
         {
-            global $global, $_getVideosPaths;
 
-            $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0) . getRequestUniqueString();
+            $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
             $videoCache = new VideoCacheHandler($filename);
             $cache = $videoCache->getCache($cacheSuffix, 0);
 
-            //$cacheName = "getVideosPaths_$filename" . ($includeS3 ? 1 : 0);
-            //$cache = ObjectYPT::getCache($cacheName, 0);
-            //var_dump($cacheName, $cache, _json_decode($cache));//exit;
+            $tmpCacheFile = sys_get_temp_dir() . "/getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".tmp";
+
             if (!empty($cache)) {
                 $obj = object_to_array(_json_decode($cache));
-                //var_dump($obj);exit;
+                if (!file_exists($tmpCacheFile)) {
+                    file_put_contents($tmpCacheFile, json_encode($cache));
+                }
                 return $obj;
+            } elseif (file_exists($tmpCacheFile)) {
+                // Execute the async process to generate the cache
+                execAsync('php ' . __DIR__ . "/getVideosPaths.json.php {$filename} " . ($includeS3 ? 1 : 0));
+
+                // Return the temporary cache file content if it exists
+                $tmpCacheContent = file_get_contents($tmpCacheFile);
+                return object_to_array(_json_decode($tmpCacheContent));
+            } else {
+                // Call the function to generate the video paths
+                $videos = self::_getVideosPaths($filename, $includeS3, $try);
+
+                // Save the results in the temporary cache file
+                file_put_contents($tmpCacheFile, json_encode($videos));
+
+                // Save the results in the main cache
+                $videoCache->setCache($videos);
+
+                return $videos;
             }
+        }
+
+
+        public static function _getVideosPaths($filename, $includeS3 = false, $try = 0)
+        {
+            global $global;
 
             $types = ['', '_Low', '_SD', '_HD'];
 
@@ -4903,9 +4927,6 @@ if (!class_exists('Video')) {
                 return self::getVideosPathsSearchingDir($filename, $includeS3);
             }
 
-            $videoCache->setCache($videos);
-            //$c = ObjectYPT::setCache($cacheName, $videos);
-            //var_dump($cacheName, $c);exit;
             return $videos;
         }
 

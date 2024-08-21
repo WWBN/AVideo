@@ -608,6 +608,9 @@ class PlayList extends ObjectYPT
                     }
                     TimeLogEnd($timeName2, __LINE__, $tolerance);
                     $row['images'] = $images;
+                    /**
+                     * this getVideosPaths is taking to long for a large playlists
+                     */
                     $row['videos'] = Video::getVideosPaths($row['filename'], true);
                     TimeLogEnd($timeName2, __LINE__, $tolerance);
                     $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
