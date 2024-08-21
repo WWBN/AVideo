@@ -14,6 +14,7 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 class Message implements MessageComponentInterface {
     const MSG_TO_ALL_TIMEOUT = 5;
     static $msgToAll = array();
+    static $isSendingToAll = false;
     static $mem_usage;
     static $mem;
     protected $clients;
@@ -45,8 +46,12 @@ class Message implements MessageComponentInterface {
             //echo "Task executed at " . date('Y-m-d H:i:s') . ' '.json_encode(self::$msgToAll).PHP_EOL;
             // You can call other methods or perform any periodic action here
             if(!empty(self::$msgToAll)){
-                $this->_msgToAll(self::$msgToAll, \SocketMessageType::MSG_TO_ALL);
-                self::$msgToAll = array();
+                if(!Message::$isSendingToAll){
+                    Message::$isSendingToAll = true;
+                    $this->_msgToAll(self::$msgToAll, \SocketMessageType::MSG_TO_ALL);
+                    self::$msgToAll = array();
+                    Message::$isSendingToAll = false;
+                }
             }
         });
     }
