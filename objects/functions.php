@@ -4125,11 +4125,17 @@ function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control
                     $('#copyToClipboard_<?php echo $id; ?>').find('i').addClass("fa-clipboard");
                 }, 3000);
                 copyToClipboard($('#<?php echo $id; ?>').val());
-            })
+            });
+
+            // Auto-select the input text when the input is focused or clicked
+            $('#<?php echo $id; ?>').on('focus click', function() {
+                $(this).select();
+            });
         });
     </script>
 <?php
 }
+
 
 function getButtontCopyToClipboard($elemToCopyId, $attributes = 'class="btn btn-default btn-sm btn-xs pull-right"', $label = "Copy to Clipboard")
 {

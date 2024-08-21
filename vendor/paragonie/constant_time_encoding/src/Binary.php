@@ -75,7 +75,7 @@ abstract class Binary
         #[\SensitiveParameter]
         string $str,
         int $start = 0,
-        ?int $length = null
+        $length = null
     ): string {
         if ($length === 0) {
             return '';

@@ -32,7 +32,7 @@ if (\PHP_VERSION_ID >= 70400 && extension_loaded('curl')) {
             }
 
             if (is_object($value) ? !method_exists($value, '__toString') : !is_scalar($value)) {
-                throw new \TypeError('Cannot assign '.gettype($value).' to property CURLStringFile::$data of type string');
+                throw new TypeError('Cannot assign '.gettype($value).' to property CURLStringFile::$data of type string');
             }
 
             $this->name = 'data://application/octet-stream;base64,'.base64_encode($value);

@@ -49,6 +49,8 @@
         "phpseclib/phpseclib": "^3.0",
         "bunnycdn/storage": "^3.0",
         "chillerlan/php-qrcode": "^5.0",
-        "erusev/parsedown": "^1.7"
+        "erusev/parsedown": "^1.7",
+        "spomky-labs/otphp": "^10.0",
+        "christian-riesen/base32": "^1.6"
     }
 }

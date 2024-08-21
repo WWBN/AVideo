@@ -114,12 +114,57 @@ if (User::canSeeCommentTextarea()) {
     <script>
         var commentTemplate = <?php echo $commentTemplate; ?>;
 
+        function updateTextareaMaxLength(textareaSelector) {
+            var textarea = $(textareaSelector);
+            var currentText = textarea.val();
+            var result = countMarkdownImagesAndCharacters(currentText);
+
+            // Set the new max length for the textarea
+            var newMaxLength = commentsmaxlen + result.totalCharacters;
+            textarea.attr('maxlength', newMaxLength);
+
+            console.log('Updated max length:', newMaxLength);
+        }
+
+        function countMarkdownImagesAndCharacters(inputString) {
+            // Regular expression to match Markdown image syntax
+            var markdownImageRegex = /!\[.*?\]\(.*?\)/g;
+
+            // Find all matches in the input string
+            var matches = inputString.match(markdownImageRegex);
+
+            // Number of images found
+            var numberOfImages = matches ? matches.length : 0;
+
+            // Total number of characters for all Markdown images
+            var totalCharacters = 0;
+
+            if (matches) {
+                matches.forEach(function(match) {
+                    totalCharacters += match.length;
+                });
+            }
+
+            return {
+                numberOfImages: numberOfImages,
+                totalCharacters: totalCharacters
+            };
+        }
+
         function popupCommentTextarea(comments_id, html) {
             var span = document.createElement("span");
             var commentTextArea = $('#comment').clone();
             $(commentTextArea).attr('id', 'popupCommentTextarea');
             $(commentTextArea).html(html);
-            span.innerHTML = $('<div>').append(commentTextArea).html();
+
+            // Add image upload button and input
+            var uploadButton = $('<button class="btn btn-primary" id="uploadImageBtnPopup" style="margin-top: 10px;"><i class="fas fa-image"></i> ' + __('Upload Image') + '</button>');
+            var fileInput = $('<input type="file" id="commentImageInputPopup" accept="image/jpeg, image/png, image/gif" style="display: none;">');
+
+            $(span).append($('<div>').append(commentTextArea).html());
+            $(span).append(fileInput);
+            $(span).append(uploadButton);
+
             swal({
                 title: <?php printJSString('Comment'); ?>,
                 content: span,
@@ -141,12 +186,73 @@ if (User::canSeeCommentTextarea()) {
                         } else {
                             replyComment(comments_id);
                         }
-
                         break;
                 }
             });
-            setupFormElement('#popupCommentTextarea', 5, commentsmaxlen, true, true);
+
+            // Initial update of max length based on content
+            updateTextareaMaxLength('#popupCommentTextarea');
+
+            // Monitor changes to the textarea content to update max length
+            $('#popupCommentTextarea').on('input', function() {
+                updateTextareaMaxLength('#popupCommentTextarea');
+            });
+
+            // Image Upload Logic
+            $('#uploadImageBtnPopup').on('click', function() {
+                $('#commentImageInputPopup').click();
+            });
+
+            $('#commentImageInputPopup').on('change', function() {
+                var fileInput = this.files[0];
+                if (fileInput) {
+                    var formData = new FormData();
+                    formData.append('comment_image', fileInput);
+                    formData.append('videos_id', commentVideos_id); // Send the video ID
+                    commentUploadImagePopup(formData);
+                }
+            });
+
+            $('#popupCommentTextarea').on('dragover', function(e) {
+                e.preventDefault();
+            }).on('drop', function(e) {
+                e.preventDefault();
+                var files = e.originalEvent.dataTransfer.files;
+                if (files.length) {
+                    var fileInput = files[0];
+                    var formData = new FormData();
+                    formData.append('comment_image', fileInput);
+                    formData.append('videos_id', commentVideos_id); // Send the video ID
+                    commentUploadImagePopup(formData);
+                }
+            });
         }
+
+        function commentUploadImagePopup(formData) {
+            modal.showPleaseWait();
+            $.ajax({
+                url: uploadCommentImageURL,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    modal.hidePleaseWait();
+                    var result = JSON.parse(response);
+                    if (!result.error) {
+                        $('#popupCommentTextarea').val($('#popupCommentTextarea').val() + result.commentText);
+                        updateTextareaMaxLength('#popupCommentTextarea'); // Update max length after adding image
+                    } else {
+                        avideoAlertError(result.msg);
+                    }
+                },
+                error: function() {
+                    modal.hidePleaseWait();
+                    avideoAlertError('An error occurred while uploading the image');
+                }
+            });
+        }
+
 
         function getCommentTemplate(itemsArray) {
             var template = commentTemplate;
@@ -233,8 +339,8 @@ if (User::canSeeCommentTextarea()) {
                     var templateRow = processCommentRow(row);
                     template.find(repliesAreaSelector).removeClass('isNotOpen').addClass('isOpen').append(templateRow);
                 }
-            }else{
-                var selector = '#comment_'+itemsArray.id+' > div.media-body > p';
+            } else {
+                var selector = '#comment_' + itemsArray.id + ' > div.media-body > p';
                 $(selector).html(itemsArray.commentHTML);
                 console.log(selector, itemsArray.commentHTML);
             }

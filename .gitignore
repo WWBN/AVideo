@@ -104,3 +104,4 @@ plugin/VideoPlaylistScheduler/
 install/bulkCreateUser.php
 /plugin/CertifyComplete/
 plugin/WebAuthnLogin/
+plugin/UserOTPLogin/

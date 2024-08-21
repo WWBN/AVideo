@@ -61,6 +61,7 @@ return array(
     'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'OneSignal\\' => array($vendorDir . '/norkunas/onesignal-php-api/src'),
+    'OTPHP\\' => array($vendorDir . '/spomky-labs/otphp/src'),
     'Nyholm\\Psr7\\' => array($vendorDir . '/nyholm/psr7/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
@@ -79,8 +80,10 @@ return array(
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'Bunny\\Storage\\' => array($vendorDir . '/bunnycdn/storage/src'),
     'Brick\\Math\\' => array($vendorDir . '/brick/math/src'),
+    'Base32\\' => array($vendorDir . '/christian-riesen/base32/src'),
     'BackblazeB2\\' => array($vendorDir . '/gliterd/backblaze-b2/src'),
     'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
+    'Assert\\' => array($vendorDir . '/beberlei/assert/lib/Assert'),
     'Amp\\' => array($vendorDir . '/amphp/amp/lib'),
     'Abraham\\TwitterOAuth\\' => array($vendorDir . '/abraham/twitteroauth/src'),
 );
