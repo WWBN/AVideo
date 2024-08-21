@@ -214,11 +214,15 @@ class PlayList extends ObjectYPT
         $favoriteCount = 0;
         $watch_laterCount = 0;
         if ($res !== false) {
-            TimeLogEnd($TimeLog1, __LINE__);
+            $TimeLog2 = "playList getAllFromUser foreach ($userId) total=".count($fullData);
+            TimeLogEnd($TimeLog2, __LINE__);
             foreach ($fullData as $row) {
                 //$row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
+                $TimeLog3 = "static::getVideosFromPlaylist({$row['id']})";
+                TimeLogStart($TimeLog3);
                 $row['videos'] = static::getVideosFromPlaylist($row['id'], false);
+                TimeLogEnd($TimeLog3, __LINE__, 0.2);
                 $row['isFavorite'] = false;
                 $row['isWatchLater'] = false;
                 if ($row['status'] === "favorite") {
@@ -233,7 +237,7 @@ class PlayList extends ObjectYPT
                     $rows[] = $row;
                 }
             }
-            TimeLogEnd($TimeLog1, __LINE__);
+            TimeLogEnd($TimeLog2, __LINE__);
             if (!empty($userId)) {
                 if ($try == 0 && ($favoriteCount > 1 || $watch_laterCount > 1)) {
                     self::fixDuplicatePlayList($userId);
