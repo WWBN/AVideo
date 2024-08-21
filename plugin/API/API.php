@@ -865,11 +865,13 @@ class API extends PluginAbstract
         } else {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
+            /*
             if(!empty($_REQUEST['debug'])){
                 global $_lastGetAllSQL;
                 global $lastGetTotalVideos;
                 var_dump($totalRows, $lastGetTotalVideos, $_lastGetAllSQL);exit;
             }
+            */
         }
 
         if (!empty($_REQUEST['catName']) && empty($parameters['videos_id'])) {
