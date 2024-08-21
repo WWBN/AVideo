@@ -8,6 +8,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isLogged()) {
     gotToLoginAndComeBackHere('');
 }
+_session_write_close();
 $global['laodPlaylistScript'] = 1;
 function getPlaylistOwnerUsersId()
 {
