@@ -32,7 +32,7 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7)
     $total_time = round(($finish - $global['start'][$name]), 4);
     $type = AVideoLog::$PERFORMANCE;
     $backtrace = '';
-    $ua = '';
+    $ua = ' IP=' . getRealIpAddr();
 
     if (empty($global['noDebugSlowProcess']) && $total_time > $TimeLogLimit) {
         if ($total_time > 1) {
@@ -43,7 +43,6 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7)
             $backtrace = ' backtrace=' . json_encode(debug_backtrace());
         }
 
-        $ua = ' IP=' . getRealIpAddr();
         if (!empty($_SERVER['HTTP_USER_AGENT'])) {
             if (isBot()) {
                 $ua .= " BOT ";

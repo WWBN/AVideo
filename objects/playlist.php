@@ -238,6 +238,7 @@ class PlayList extends ObjectYPT
                 }
             }
             TimeLogEnd($TimeLog2, __LINE__);
+            TimeLogStart($TimeLog1);
             if (!empty($userId)) {
                 if ($try == 0 && ($favoriteCount > 1 || $watch_laterCount > 1)) {
                     self::fixDuplicatePlayList($userId);
