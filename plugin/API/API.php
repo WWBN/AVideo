@@ -868,7 +868,7 @@ class API extends PluginAbstract
             if(!empty($_REQUEST['debug'])){
                 global $_lastGetAllSQL;
                 global $lastGetTotalVideos;
-                var_dump($totalRows, $lastGetTotalVideos, $_lastGetAllSQL);
+                var_dump($totalRows, $lastGetTotalVideos, $_lastGetAllSQL);exit;
             }
         }
 
