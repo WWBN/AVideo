@@ -591,13 +591,13 @@ class PlayList extends ObjectYPT
         if (empty($rows)) {
             global $global;
 
+            $timeName1 = TimeLogStart("getVideosFromPlaylist {$playlists_id}");
             $res = sqlDAL::readSql($sql, "i", [$playlists_id]);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $rows = [];
             $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
             if ($res !== false) {
-                $timeName1 = TimeLogStart("getVideosFromPlaylist {$playlists_id}");
                 foreach ($fullData as $row) {
                     $row = cleanUpRowFromDatabase($row);
                     $timeName2 = TimeLogStart("getVideosFromPlaylist foreach {$row['id']} {$row['filename']}");
@@ -648,13 +648,13 @@ class PlayList extends ObjectYPT
                     $row['id'] = $row['videos_id'];
                     $rows[] = $row;
                 }
-                TimeLogEnd($timeName1, __LINE__, 1);
 
                 $cacheHandler->setCache($rows);
             } else {
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 $rows = [];
             }
+            TimeLogEnd($timeName1, __LINE__, 1);
         }else{
             _error_log("playlist getVideosFromPlaylist($playlists_id) cache ");
         }
