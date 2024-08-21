@@ -129,6 +129,9 @@ $_page = new Page(array('Manage playlist'));
                         //var_dump($value);
 
                         $rowsSubPlaylists = PlayList::getAllSubPlayLists($value["id"]);
+                        if(empty($rowsSubPlaylists)){
+                            $rowsSubPlaylists = array();
+                        }
                         $totalSubPlaylists = count($rowsSubPlaylists);
 
 
