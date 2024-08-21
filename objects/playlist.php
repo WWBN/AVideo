@@ -247,7 +247,7 @@ class PlayList extends ObjectYPT
                     $return = self::getAllFromUser($userId, $publicOnly, $status, $playlists_id, $try + 1);
                     return $return;
                 }
-                if (empty($_POST['current']) && empty($_REQUEST['searchPlaylist']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
+                if (empty($_POST['current']) && empty($_GET['current']) && empty($_REQUEST['searchPlaylist']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
                     if (empty($favorite)) {
                         $pl = new PlayList(0);
                         $pl->setName("Favorite");
