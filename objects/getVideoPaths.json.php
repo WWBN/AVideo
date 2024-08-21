@@ -2,6 +2,7 @@
 //error_reporting(0);
 //php get_videos_paths.php example_video 0
 header('Content-Type: application/json');
+
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
 }
@@ -15,10 +16,36 @@ if ($argc < 2) {
 $filename = $argv[1];
 $includeS3 = isset($argv[2]) ? (int)$argv[2] : 0;
 
-// Call the function
-$videos = Video::_getVideosPaths($filename, $includeS3);
+// Define a unique lock file for this process
+$lockFile = sys_get_temp_dir() . "/getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".lock";
 
-$cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
-$videoCache = new VideoCacheHandler($filename);
-$videoCache->setCache($videos);
+// Check if the lock file is older than 1 minute
+if (file_exists($lockFile) && (time() - filemtime($lockFile)) > 60) {
+    unlink($lockFile); // Remove the old lock file
+}
 
+// Try to acquire a lock
+$fp = fopen($lockFile, 'c');
+if (!$fp || !flock($fp, LOCK_EX | LOCK_NB)) {
+    die("Process is already running for {$filename} with includeS3={$includeS3}. Exiting.\n");
+}
+
+try {
+    // Update the lock file's modification time to ensure it doesn't get removed due to age
+    touch($lockFile);
+
+    // Call the function
+    $videos = Video::_getVideosPaths($filename, $includeS3);
+
+    $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
+    $videoCache = new VideoCacheHandler($filename);
+    $videoCache->setCache($videos);
+
+} catch (Exception $e) {
+    error_log("Error processing video paths: " . $e->getMessage());
+} finally {
+    // Release the lock and delete the lock file
+    flock($fp, LOCK_UN);
+    fclose($fp);
+    unlink($lockFile);
+}
