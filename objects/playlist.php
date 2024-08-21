@@ -590,7 +590,7 @@ class PlayList extends ObjectYPT
         $rows = object_to_array($cacheObj);
         if (empty($rows)) {
             global $global;
-            $tolerance = 0.1;
+            $tolerance = 0.5;
             $timeName1 = TimeLogStart("getVideosFromPlaylist {$playlists_id}");
             $res = sqlDAL::readSql($sql, "i", [$playlists_id]);
             $fullData = sqlDAL::fetchAllAssoc($res);
@@ -608,9 +608,6 @@ class PlayList extends ObjectYPT
                     }
                     TimeLogEnd($timeName2, __LINE__, $tolerance);
                     $row['images'] = $images;
-                    /**
-                     * this getVideosPaths is taking to long for a large playlists
-                     */
                     $row['videos'] = Video::getVideosPaths($row['filename'], true);
                     TimeLogEnd($timeName2, __LINE__, $tolerance);
                     $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
