@@ -218,7 +218,7 @@ class PlayList extends ObjectYPT
             foreach ($fullData as $row) {
                 //$row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
-                _error_log("static::getVideosFromPlaylist {$row['id']}");
+                _error_log("static::getVideosFromPlaylist {$row['id']} IP=".getRealIpAddr());
                 $row['videos'] = static::getVideosFromPlaylist($row['id'], false);
                 $row['isFavorite'] = false;
                 $row['isWatchLater'] = false;
@@ -597,43 +597,58 @@ class PlayList extends ObjectYPT
             $rows = [];
             $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
             if ($res !== false) {
+                $timeName1 = TimeLogStart("getVideosFromPlaylist {$playlists_id}");
                 foreach ($fullData as $row) {
                     $row = cleanUpRowFromDatabase($row);
+                    $timeName2 = TimeLogStart("getVideosFromPlaylist foreach {$row['id']} {$row['filename']}");
                     $images = Video::getImageFromFilename($row['filename'], $row['type']);
+                    TimeLogEnd($timeName2, __LINE__, 0.5);
                     if (is_object($images) && !empty($images->posterLandscapePath) && !file_exists($images->posterLandscapePath) && !empty($row['serie_playlists_id'])) {
                         $images = self::getRandomImageFromPlayList($row['serie_playlists_id']);
                     }
+                    TimeLogEnd($timeName2, __LINE__, 0.5);
                     $row['images'] = $images;
                     $row['videos'] = Video::getVideosPaths($row['filename'], true);
+                    TimeLogEnd($timeName2, __LINE__, 0.5);
                     $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
+                    TimeLogEnd($timeName2, __LINE__, 0.5);
                     $row['title'] = UTF8encode($row['title']);
                     $row['description'] = UTF8encode(@$row['description']);
                     if ($SubtitleSwitcher) {
                         $row['subtitles'] = getVTTTracks($row['filename'], true);
+                        TimeLogEnd($timeName2, __LINE__, 0.5);
                         foreach ($row['subtitles'] as $value) {
                             $row['subtitlesSRT'][] = convertSRTTrack($value);
+                            TimeLogEnd($timeName2, __LINE__, 0.5);
                         }
                     } else {
                         $row['subtitles'] = [];
                     }
+                    TimeLogEnd($timeName2, __LINE__, 0.5);
                     if ($getExtraInfo) {
+                        TimeLogEnd($timeName2, __LINE__, 0.5);
                         if (!empty($_GET['isChannel'])) {
                             $row['tags'] = Video::getTags($row['id']);
                             $row['pluginBtns'] = AVideoPlugin::getPlayListButtons($playlists_id);
                             $row['humancreate'] = humanTiming(strtotime($row['cre']));
                         }
+                        TimeLogEnd($timeName2, __LINE__, 0.5);
                         $row['tags'] = Video::getTags($row['videos_id']);
+                        TimeLogEnd($timeName2, __LINE__, 0.5);
                         if (AVideoPlugin::isEnabledByName("VideoTags")) {
                             $row['videoTags'] = Tags::getAllFromVideosId($row['videos_id']);
                             $row['videoTagsObject'] = Tags::getObjectFromVideosId($row['videos_id']);
                         }
+                        TimeLogEnd($timeName2, __LINE__, 0.5);
                         if (empty($row['externalOptions'])) {
                             $row['externalOptions'] = json_encode(Video::getBlankExternalOptions());
                         }
+                        TimeLogEnd($timeName2, __LINE__, 0.5);
                     }
                     $row['id'] = $row['videos_id'];
                     $rows[] = $row;
                 }
+                TimeLogEnd($timeName1, __LINE__, 1);
 
                 $cacheHandler->setCache($rows);
             } else {
