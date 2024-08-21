@@ -589,7 +589,7 @@ class PlayList extends ObjectYPT
         $rows = object_to_array($cacheObj);
         if (empty($rows)) {
             global $global;
-            $tolerance = 0.5;
+            $tolerance = 0.1;
             $timeName1 = TimeLogStart("getVideosFromPlaylist {$playlists_id}");
             $res = sqlDAL::readSql($sql, "i", [$playlists_id]);
             $fullData = sqlDAL::fetchAllAssoc($res);
@@ -653,7 +653,7 @@ class PlayList extends ObjectYPT
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 $rows = [];
             }
-            TimeLogEnd($timeName1, __LINE__, 1);
+            TimeLogEnd($timeName1, __LINE__, 0.5);
         }else{
             _error_log("playlist getVideosFromPlaylist($playlists_id) cache ");
         }
