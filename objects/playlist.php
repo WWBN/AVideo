@@ -204,6 +204,7 @@ class PlayList extends ObjectYPT
             //$rows['userId'] = $userId;
             return $rows;
         }
+        _session_write_close();
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $fullData = sqlDAL::fetchAllAssoc($res);
         TimeLogEnd($TimeLog1, __LINE__);
