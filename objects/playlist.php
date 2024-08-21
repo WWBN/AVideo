@@ -218,7 +218,6 @@ class PlayList extends ObjectYPT
             foreach ($fullData as $row) {
                 //$row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
-                _error_log("static::getVideosFromPlaylist {$row['id']} IP=".getRealIpAddr());
                 $row['videos'] = static::getVideosFromPlaylist($row['id'], false);
                 $row['isFavorite'] = false;
                 $row['isWatchLater'] = false;
