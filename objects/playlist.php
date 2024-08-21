@@ -590,7 +590,7 @@ class PlayList extends ObjectYPT
         $rows = object_to_array($cacheObj);
         if (empty($rows)) {
             global $global;
-
+            $tolerance = 0.1;
             $timeName1 = TimeLogStart("getVideosFromPlaylist {$playlists_id}");
             $res = sqlDAL::readSql($sql, "i", [$playlists_id]);
             $fullData = sqlDAL::fetchAllAssoc($res);
@@ -602,48 +602,48 @@ class PlayList extends ObjectYPT
                     $row = cleanUpRowFromDatabase($row);
                     $timeName2 = TimeLogStart("getVideosFromPlaylist foreach {$row['id']} {$row['filename']}");
                     $images = Video::getImageFromFilename($row['filename'], $row['type']);
-                    TimeLogEnd($timeName2, __LINE__, 0.5);
+                    TimeLogEnd($timeName2, __LINE__, $tolerance);
                     if (is_object($images) && !empty($images->posterLandscapePath) && !file_exists($images->posterLandscapePath) && !empty($row['serie_playlists_id'])) {
                         $images = self::getRandomImageFromPlayList($row['serie_playlists_id']);
                     }
-                    TimeLogEnd($timeName2, __LINE__, 0.5);
+                    TimeLogEnd($timeName2, __LINE__, $tolerance);
                     $row['images'] = $images;
                     $row['videos'] = Video::getVideosPaths($row['filename'], true);
-                    TimeLogEnd($timeName2, __LINE__, 0.5);
+                    TimeLogEnd($timeName2, __LINE__, $tolerance);
                     $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
-                    TimeLogEnd($timeName2, __LINE__, 0.5);
+                    TimeLogEnd($timeName2, __LINE__, $tolerance);
                     $row['title'] = UTF8encode($row['title']);
                     $row['description'] = UTF8encode(@$row['description']);
                     if ($SubtitleSwitcher) {
                         $row['subtitles'] = getVTTTracks($row['filename'], true);
-                        TimeLogEnd($timeName2, __LINE__, 0.5);
+                        TimeLogEnd($timeName2, __LINE__, $tolerance);
                         foreach ($row['subtitles'] as $value) {
                             $row['subtitlesSRT'][] = convertSRTTrack($value);
-                            TimeLogEnd($timeName2, __LINE__, 0.5);
+                            TimeLogEnd($timeName2, __LINE__, $tolerance);
                         }
                     } else {
                         $row['subtitles'] = [];
                     }
-                    TimeLogEnd($timeName2, __LINE__, 0.5);
+                    TimeLogEnd($timeName2, __LINE__, $tolerance);
                     if ($getExtraInfo) {
-                        TimeLogEnd($timeName2, __LINE__, 0.5);
+                        TimeLogEnd($timeName2, __LINE__, $tolerance);
                         if (!empty($_GET['isChannel'])) {
                             $row['tags'] = Video::getTags($row['id']);
                             $row['pluginBtns'] = AVideoPlugin::getPlayListButtons($playlists_id);
                             $row['humancreate'] = humanTiming(strtotime($row['cre']));
                         }
-                        TimeLogEnd($timeName2, __LINE__, 0.5);
+                        TimeLogEnd($timeName2, __LINE__, $tolerance);
                         $row['tags'] = Video::getTags($row['videos_id']);
-                        TimeLogEnd($timeName2, __LINE__, 0.5);
+                        TimeLogEnd($timeName2, __LINE__, $tolerance);
                         if (AVideoPlugin::isEnabledByName("VideoTags")) {
                             $row['videoTags'] = Tags::getAllFromVideosId($row['videos_id']);
                             $row['videoTagsObject'] = Tags::getObjectFromVideosId($row['videos_id']);
                         }
-                        TimeLogEnd($timeName2, __LINE__, 0.5);
+                        TimeLogEnd($timeName2, __LINE__, $tolerance);
                         if (empty($row['externalOptions'])) {
                             $row['externalOptions'] = json_encode(Video::getBlankExternalOptions());
                         }
-                        TimeLogEnd($timeName2, __LINE__, 0.5);
+                        TimeLogEnd($timeName2, __LINE__, $tolerance);
                     }
                     $row['id'] = $row['videos_id'];
                     $rows[] = $row;
