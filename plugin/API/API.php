@@ -1580,11 +1580,20 @@ class API extends PluginAbstract
         $obj->user['canStream'] = $obj->user['canStream'] || $obj->user['isAdmin'];
         $obj->user['DonationButtons'] = _json_decode(@$obj->user['DonationButtons']);
 
+
         $obj->livestream = LiveTransmition::createTransmitionIfNeed($user->getBdId());
+
+        $str = "{$obj->livestream['key']}";
+        $encrypt = encryptString($str);
+
         $obj->livestream["users_id"] = $user->getBdId();
         $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
         $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
         $obj->livestream["server_v2"] = Live::getRTMPLinkWithOutKey($user->getBdId());
+        // those are for the ypt mobile app
+        $obj->livestream["server_v3"] = addLastSlash($url);
+        $obj->livestream["key_v3"] = "{$obj->livestream['key']}?s={$encrypt}";
+
         $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
         $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
 
