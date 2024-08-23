@@ -75,6 +75,7 @@ foreach ($unset as $value) {
 }
 
 $objMM->enabledLangs = getEnabledLangs();
+$objMM->flags = Layout::getAvailableFlags();
 $objMM->defaultLang = getLanguage();
 
 @include_once "{$global['systemRootPath']}locale/{$objMM->defaultLang}.php";
