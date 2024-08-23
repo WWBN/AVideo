@@ -43,17 +43,17 @@ if (empty($_GET['p'])) {
         } else {
             _error_log("NGINX ON Publish encryption token error: " . json_encode($objE));
         }
-    }else if (!empty($_GET['s'])) {
-        if (strpos($_GET['s'], '/') !== false) {
-            $parts = explode("/", $_GET['s']);
+    }else if (!empty($_REQUEST['s'])) {
+        if (strpos($_REQUEST['s'], '/') !== false) {
+            $parts = explode("/", $_REQUEST['s']);
             if (!empty($parts[1])) {
                 if (empty($_POST['name'])) {
                     $_POST['name'] = $parts[1];
                 }
             }
-            $_GET['s'] = $parts[0];
+            $_REQUEST['s'] = $parts[0];
         }
-        $name = decryptString($_GET['s']);
+        $name = decryptString($_REQUEST['s']);
         
         if(!empty($name)){
             $lt = LiveTransmition::getFromKey($name);
@@ -70,7 +70,7 @@ if (empty($_GET['p'])) {
                 _error_log("NGINX ON Publish encryption token error livetransmition error: [{$name}] ".json_encode($lt));
             }
         }else{
-            _error_log("NGINX ON Publish could not decrypt $_GET[s]: [{$_GET['s']}] ");
+            _error_log("NGINX ON Publish could not decrypt $_GET[s]: [{$_REQUEST['s']}] ");
         }
 
     }
