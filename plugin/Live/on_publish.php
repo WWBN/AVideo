@@ -57,6 +57,7 @@ if (empty($_GET['p'])) {
         
         if(!empty($name)){
             $lt = LiveTransmition::getFromKey($name);
+            _error_log("NGINX ON Publish encryption getFromKey($name)");
             if(!empty($lt) && !empty($lt['users_id'])){
                 $name = Live::cleanUpKey($_POST['name']);
                 if($name == $lt['key']){
