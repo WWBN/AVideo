@@ -19,6 +19,7 @@ if (empty($url)) {
 $parts = parse_url($url);
 if (!empty($parts["query"])) {
     parse_str($parts["query"], $_GET);
+    parse_str($parts["query"], $_REQUEST);
 }
 
 if (empty($_GET['p'])) {
