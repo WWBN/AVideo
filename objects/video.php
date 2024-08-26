@@ -6157,6 +6157,9 @@ if (!class_exists('Video')) {
         public function setVideoNotified()
         {
             $externalOptions = _json_decode($this->getExternalOptions());
+            if(empty($externalOptions)){
+                $externalOptions = new stdClass();
+            }
             $externalOptions->notified = time();
             $this->setExternalOptions(json_encode($externalOptions));
         }
