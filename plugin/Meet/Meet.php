@@ -513,7 +513,7 @@ Passcode: {password}
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'livestreaming', 'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background',
+                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background','whiteboard',
                 ];
             } else {
                 $return = [
@@ -521,7 +521,7 @@ Passcode: {password}
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background',
+                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background','whiteboard',
                 ];
             }
         } else {
