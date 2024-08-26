@@ -250,7 +250,7 @@ Options All -Indexes
     
     
     # audio and video IDs
-    RewriteRule ^audio/(.[0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1&includeType=audio [QSA]
+    RewriteRule ^audio/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1&includeType=audio [QSA]
     RewriteRule ^audioEmbed/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)? view/videoEmbeded.php?v=$1&includeType=audio [QSA]
     
     # audio regular ID
