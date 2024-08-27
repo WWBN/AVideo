@@ -21,11 +21,11 @@ $(document).ready(function () {
         // Stash the event so it can be triggered later.
         deferredPrompt = e;
         var beforeinstallprompt = Cookies.get('beforeinstallprompt');
-        if (beforeinstallprompt) {
+        if (!empty(beforeinstallprompt)) {
             return false;
         }
-        var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> Add To Home Screen </a>";
-        var options = {text: msg, hideAfter: 20000};
+        var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> " + __('Add To Home Screen') + "</a>";
+        var options = { text: msg, hideAfter: 20000 };
         $.toast(options);
         Cookies.set('beforeinstallprompt', 1, {
             path: '/',
