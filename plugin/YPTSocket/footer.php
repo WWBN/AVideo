@@ -274,9 +274,15 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     var webSocketTypes = <?php echo json_encode($refl->getConstants()); ?>;
 
     $(document).ready(function() {
-        if (!inIframe()) {
-            $('#socket_info_container').fadeIn();
+        <?php
+        if(!isEmbed()){
+            ?>
+            if (!inIframe()) {
+                $('#socket_info_container').fadeIn();
+            }
+            <?php
         }
+        ?>
     });
 
     function onUserSocketConnect(response) {
