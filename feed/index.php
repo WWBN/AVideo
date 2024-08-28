@@ -10,6 +10,12 @@ $_POST['sort']["created"] = "DESC";
 $_POST['current'] = 1;
 $_REQUEST['rowCount'] = getRowCount();
 
+$advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
+
+if(!empty($advancedCustom->disableFeeds)){
+    forbiddenPage('Feeds are disabled');
+}
+
 if(empty($config)){
     require_once $global['systemRootPath'] . 'objects/configuration.php';
     $config = new AVideoConf();

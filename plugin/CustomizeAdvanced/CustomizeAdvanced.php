@@ -486,6 +486,8 @@ Disallow: *action=tagsearch*
 
         $obj->autoConvertVideosToMP3 = false;
         $obj->allowDownloadMP3 = true;
+
+        $obj->disableFeeds = false;
         
         return $obj;
     }
@@ -530,7 +532,6 @@ Disallow: *action=tagsearch*
         }
         return $_directUploadFiletypes;
     }
-    
     
     public function navBar() {
         $obj = $this->getDataObject();
@@ -781,7 +782,7 @@ Disallow: *action=tagsearch*
         return @$externalOptions->redirectVideo;
     }
     
-     public static function setShortSummaryAndMetaDescriptionVideo($videos_id, $ShortSummary, $MetaDescription) {
+    public static function setShortSummaryAndMetaDescriptionVideo($videos_id, $ShortSummary, $MetaDescription) {
         if (!Video::canEdit($videos_id)) {
             return false;
         }
