@@ -63,7 +63,7 @@ $identification = User::getNameIdentificationById($users_id);
     <body>
         <div class="container-fluid">
             <center>
-                <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-circle userImage glowBox">
+                <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-circle userImage glowBox" style="height: 200px; width: 200px;">
                 <h1><?php echo $identification; ?></h1>
                 <div class="clearfix"></div>
                 <div class="showCalling">

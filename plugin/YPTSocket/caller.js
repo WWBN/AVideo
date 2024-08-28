@@ -27,7 +27,7 @@ function callNow(to_users_id, to_identification) {
     setTimeout(function () {
         if (!isUserOnline(to_users_id)) {
             avideoToastError('User is not online anymore');
-            console.log('User is not online anymore',to_users_id, users_id_online);
+            console.log('User is not online anymore', to_users_id, users_id_online);
             return false;
         } else {
             avideoToastSuccess('Calling ...');
@@ -43,7 +43,7 @@ function callNow(to_users_id, to_identification) {
 
 
 function callUserNow(to_users_id) {
-    avideoModalIframeFull(webSiteRootURL + 'plugin/YPTSocket/callUser.php?users_id='+to_users_id);
+    avideoModalIframeFull(webSiteRootURL + 'plugin/YPTSocket/callUser.php?users_id=' + to_users_id);
     return false;
 }
 
@@ -71,7 +71,7 @@ function incomeCall(json) {
         return false;
     }
     if (typeof callerToast[users_id] !== 'undefined') {
-        console.log('incomeCall callerToast already active', users_id);
+        console.log('incomeCall callerToast already active', users_id, json);
         return false;
     }
     imageAndButton = getImageAndButton(json);
@@ -146,7 +146,7 @@ function finishCall(json) {
     if (isCallerToastActive(users_id)) {
         console.log('finishCall', users_id);
         sendSocketMessageToUser(json, 'hangUpCall', users_id);
-        var obj = {users_id: users_id, shouldHangUpCall: 0};
+        var obj = { users_id: users_id, shouldHangUpCall: 0 };
         sendSocketMessageToUser(obj, 'hideCall', my_users_id);
         avideoToastWarning('Finished');
     } else {
@@ -164,7 +164,7 @@ function acceptCall(json) {
     }
     if (isCallerToastActive(users_id)) {
         console.log('acceptCall', users_id);
-        var obj = {users_id: users_id, shouldHangUpCall: 0};
+        var obj = { users_id: users_id, shouldHangUpCall: 0 };
         hideCall(obj);
         modal.showPleaseWait();
         if (!json.to_socketResourceId) {
@@ -174,12 +174,13 @@ function acceptCall(json) {
             sendSocketMessageToResourceId(json, 'callAccepted', json.from_socketResourceId);
             sendSocketMessageToUser(obj, 'hideCall', my_users_id);
         }, 1000);
+        setCallBodyClass('callActive');  // Ensure the class changes correctly
     } else {
-        if(typeof callerToast[users_id] !== 'object'){
+        if (typeof callerToast[users_id] !== 'object') {
             console.log('acceptCall ERROR callerToast[users_id] !== object', users_id);
         }
-        if(typeof callerToast[users_id].close !== 'function'){
-            console.log('typeof callerToast[users_id].close !== function', users_id);            
+        if (typeof callerToast[users_id].close !== 'function') {
+            console.log('typeof callerToast[users_id].close !== function', users_id);
         }
     }
 }
@@ -200,7 +201,7 @@ function callAccepted(json) {
     users_id = json.to_users_id;
     if (isCallerToastActive(users_id)) {
         console.log('callAccepted callerToast', users_id);
-        obj = {users_id: users_id, shouldHangUpCall: 0};
+        obj = { users_id: users_id, shouldHangUpCall: 0 };
         hideCall(obj);
     } else {
         setCallBodyClass('calling');
@@ -335,17 +336,17 @@ function callerCheckUser(users_id) {
 }
 
 async function callerCheckUserTimer() {
-    if(!isReadyToCheckIfIsOnline()){
-        setTimeout(function(){callerCheckUserTimer();},1000);
+    if (!isReadyToCheckIfIsOnline()) {
+        setTimeout(function () { callerCheckUserTimer(); }, 1000);
         return false;
     }
-    
+
     var localCallerCheckUserList = callerCheckUserList;
     callerCheckUserList = [];
-    
+
     for (var i in localCallerCheckUserList) {
         var users_id = localCallerCheckUserList[i];
-        if(typeof users_id == 'function'){
+        if (typeof users_id == 'function') {
             continue;
         }
         if (isUserOnline(users_id)) {
@@ -354,9 +355,9 @@ async function callerCheckUserTimer() {
         } else {
             //console.log('callerCheckUser NO', users_id, users_id_online);
             $('.caller' + users_id).hide();
-        }        
+        }
     }
-    setTimeout(function(){callerCheckUserTimer();},2000);
+    setTimeout(function () { callerCheckUserTimer(); }, 2000);
 }
 
 function setCallBodyClass(name) {
@@ -366,29 +367,33 @@ function setCallBodyClass(name) {
     $('body').removeClass('callActive');
     //$('body').removeClass('callerUserOffline');
     $('body').addClass(name);
+    // Stop all call sounds when transitioning to active call
+    if (name === 'callActive' || name === 'notCalling') {
+        stopAllCallSounds();
+    }
 }
 
-function isCallerToastActive(users_id){
+function isCallerToastActive(users_id) {
     return typeof callerToast[users_id] == 'object' && (typeof callerToast[users_id].close == 'function' || typeof callerToast[users_id].reset == 'function');
 }
 
-function closeCallerToast(users_id){
-    if(typeof callerToast[users_id].reset == 'function'){
+function closeCallerToast(users_id) {
+    if (typeof callerToast[users_id].reset == 'function') {
         callerToast[users_id].reset();
     }
-    if(typeof callerToast[users_id].close == 'function'){
+    if (typeof callerToast[users_id].close == 'function') {
         callerToast[users_id].close();
     }
+    callerToast[users_id] = undefined;
 }
 
 $(document).ready(function () {
     setInterval(function () {
         if (isCalling()) {
             playCallingSound();
-        } else if (isReceivingCall()) {
+        } else if (isReceivingCall() && !$('body').hasClass('callActive')) {
             playCallIncomingSound();
         }
     }, 5000);
     callerCheckUserTimer();
-
 });
