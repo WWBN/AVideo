@@ -20,10 +20,28 @@ namespace Google\Service\GKEOnPrem;
 class BareMetalClusterUpgradePolicy extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $pause;
+  /**
    * @var string
    */
   public $policy;
 
+  /**
+   * @param bool
+   */
+  public function setPause($pause)
+  {
+    $this->pause = $pause;
+  }
+  /**
+   * @return bool
+   */
+  public function getPause()
+  {
+    return $this->pause;
+  }
   /**
    * @param string
    */

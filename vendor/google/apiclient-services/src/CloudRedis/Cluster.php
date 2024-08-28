@@ -28,6 +28,8 @@ class Cluster extends \Google\Collection
    * @var string
    */
   public $createTime;
+  protected $crossClusterReplicationConfigType = CrossClusterReplicationConfig::class;
+  protected $crossClusterReplicationConfigDataType = '';
   /**
    * @var bool
    */
@@ -109,6 +111,20 @@ class Cluster extends \Google\Collection
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param CrossClusterReplicationConfig
+   */
+  public function setCrossClusterReplicationConfig(CrossClusterReplicationConfig $crossClusterReplicationConfig)
+  {
+    $this->crossClusterReplicationConfig = $crossClusterReplicationConfig;
+  }
+  /**
+   * @return CrossClusterReplicationConfig
+   */
+  public function getCrossClusterReplicationConfig()
+  {
+    return $this->crossClusterReplicationConfig;
   }
   /**
    * @param bool

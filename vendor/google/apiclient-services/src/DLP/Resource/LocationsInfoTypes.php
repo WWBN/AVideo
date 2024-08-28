@@ -35,7 +35,7 @@ class LocationsInfoTypes extends \Google\Service\Resource
    * to learn more. (infoTypes.listLocationsInfoTypes)
    *
    * @param string $parent The parent resource name. The format of this value is
-   * as follows: locations/ LOCATION_ID
+   * as follows: `locations/{location_id}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter filter to only return infoTypes supported by certain

@@ -58,6 +58,8 @@ class Cse extends \Google\Service\Resource
    * number of past weeks. * `m[number]`: requests results from the specified
    * number of past months. * `y[number]`: requests results from the specified
    * number of past years.
+   * @opt_param bool enableAlternateSearchHandler Optional. Enables routing of
+   * Programmable Search Engine requests to an alternate search handler.
    * @opt_param string exactTerms Identifies a phrase that all documents in the
    * search results must contain.
    * @opt_param string excludeTerms Identifies a word or phrase that should not

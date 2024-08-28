@@ -26,6 +26,10 @@ class TelephonyInfo extends \Google\Model
   /**
    * @var string
    */
+  public $iccId;
+  /**
+   * @var string
+   */
   public $phoneNumber;
 
   /**
@@ -41,6 +45,20 @@ class TelephonyInfo extends \Google\Model
   public function getCarrierName()
   {
     return $this->carrierName;
+  }
+  /**
+   * @param string
+   */
+  public function setIccId($iccId)
+  {
+    $this->iccId = $iccId;
+  }
+  /**
+   * @return string
+   */
+  public function getIccId()
+  {
+    return $this->iccId;
   }
   /**
    * @param string

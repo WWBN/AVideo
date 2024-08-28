@@ -21,6 +21,7 @@ use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1CompleteQueryResp
 use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1DataStore;
 use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1ListDataStoresResponse;
 use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1SiteSearchEngine;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1TrainCustomModelRequest;
 use Google\Service\DiscoveryEngine\GoogleLongrunningOperation;
 
 /**
@@ -219,6 +220,24 @@ class ProjectsLocationsCollectionsDataStores extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], GoogleCloudDiscoveryengineV1DataStore::class);
+  }
+  /**
+   * Trains a custom model. (dataStores.trainCustomModel)
+   *
+   * @param string $dataStore Required. The resource name of the Data Store, such
+   * as `projects/locations/global/collections/default_collection/dataStores/defau
+   * lt_data_store`. This field is used to identify the data store where to train
+   * the models.
+   * @param GoogleCloudDiscoveryengineV1TrainCustomModelRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function trainCustomModel($dataStore, GoogleCloudDiscoveryengineV1TrainCustomModelRequest $postBody, $optParams = [])
+  {
+    $params = ['dataStore' => $dataStore, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('trainCustomModel', [$params], GoogleLongrunningOperation::class);
   }
 }
 

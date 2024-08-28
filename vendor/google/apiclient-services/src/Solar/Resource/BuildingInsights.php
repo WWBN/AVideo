@@ -36,6 +36,8 @@ class BuildingInsights extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string experiments Optional. Specifies the pre-GA features to
+   * enable.
    * @opt_param double location.latitude The latitude in degrees. It must be in
    * the range [-90.0, +90.0].
    * @opt_param double location.longitude The longitude in degrees. It must be in

@@ -28,6 +28,14 @@ class DisksMigrationVmTargetDefaults extends \Google\Collection
   protected $bootDiskDefaultsDataType = '';
   protected $computeSchedulingType = ComputeScheduling::class;
   protected $computeSchedulingDataType = '';
+  /**
+   * @var bool
+   */
+  public $enableIntegrityMonitoring;
+  /**
+   * @var bool
+   */
+  public $enableVtpm;
   protected $encryptionType = Encryption::class;
   protected $encryptionDataType = '';
   /**
@@ -110,6 +118,34 @@ class DisksMigrationVmTargetDefaults extends \Google\Collection
   public function getComputeScheduling()
   {
     return $this->computeScheduling;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableIntegrityMonitoring($enableIntegrityMonitoring)
+  {
+    $this->enableIntegrityMonitoring = $enableIntegrityMonitoring;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableIntegrityMonitoring()
+  {
+    return $this->enableIntegrityMonitoring;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableVtpm($enableVtpm)
+  {
+    $this->enableVtpm = $enableVtpm;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableVtpm()
+  {
+    return $this->enableVtpm;
   }
   /**
    * @param Encryption

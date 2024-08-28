@@ -28,10 +28,6 @@ class GoogleCloudIntegrationsV1alphaTemplate extends \Google\Collection
    * @var string[]
    */
   public $categories;
-  /**
-   * @var string
-   */
-  public $clientId;
   protected $componentsType = GoogleCloudIntegrationsV1alphaTemplateComponent::class;
   protected $componentsDataType = 'array';
   /**
@@ -112,20 +108,6 @@ class GoogleCloudIntegrationsV1alphaTemplate extends \Google\Collection
   public function getCategories()
   {
     return $this->categories;
-  }
-  /**
-   * @param string
-   */
-  public function setClientId($clientId)
-  {
-    $this->clientId = $clientId;
-  }
-  /**
-   * @return string
-   */
-  public function getClientId()
-  {
-    return $this->clientId;
   }
   /**
    * @param GoogleCloudIntegrationsV1alphaTemplateComponent[]

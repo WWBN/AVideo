@@ -164,36 +164,36 @@ class ProjectsInstances extends \Google\Service\Resource
     return $this->call('list', [$params], ListInstancesResponse::class);
   }
   /**
-   * Moves the instance to the target instance config. The returned long-running
-   * operation can be used to track the progress of moving the instance.
+   * Moves an instance to the target instance configuration. You can use the
+   * returned long-running operation to track the progress of moving the instance.
    * `MoveInstance` returns `FAILED_PRECONDITION` if the instance meets any of the
-   * following criteria: * Has an ongoing move to a different instance config *
-   * Has backups * Has an ongoing update * Is under free trial * Contains any
-   * CMEK-enabled databases While the operation is pending: * All other attempts
-   * to modify the instance, including changes to its compute capacity, are
-   * rejected. * The following database and backup admin operations are rejected:
-   * * DatabaseAdmin.CreateDatabase, * DatabaseAdmin.UpdateDatabaseDdl (Disabled
-   * if default_leader is specified in the request.) *
-   * DatabaseAdmin.RestoreDatabase * DatabaseAdmin.CreateBackup *
-   * DatabaseAdmin.CopyBackup * Both the source and target instance configurations
-   * are subject to hourly compute and storage charges. * The instance may
-   * experience higher read-write latencies and a higher transaction abort rate.
-   * However, moving an instance does not cause any downtime. The returned long-
-   * running operation will have a name of the format `/operations/` and can be
-   * used to track the move instance operation. The metadata field type is
-   * MoveInstanceMetadata. The response field type is Instance, if successful.
-   * Cancelling the operation sets its metadata's cancel_time. Cancellation is not
-   * immediate since it involves moving any data previously moved to target
-   * instance configuration back to the original instance config. The same
-   * operation can be used to track the progress of the cancellation. Upon
-   * successful completion of the cancellation, the operation terminates with
-   * `CANCELLED` status. Upon completion(if not cancelled) of the returned
-   * operation: * Instance would be successfully moved to the target instance
-   * config. * You are billed for compute and storage in target instance config.
-   * Authorization requires `spanner.instances.update` permission on the resource
-   * instance. For more details, please see
-   * [documentation](https://cloud.google.com/spanner/docs/move-instance).
-   * (instances.move)
+   * following criteria: * Is undergoing a move to a different instance
+   * configuration * Has backups * Has an ongoing update * Contains any CMEK-
+   * enabled databases * Is a free trial instance While the operation is pending:
+   * * All other attempts to modify the instance, including changes to its compute
+   * capacity, are rejected. * The following database and backup admin operations
+   * are rejected: * `DatabaseAdmin.CreateDatabase` *
+   * `DatabaseAdmin.UpdateDatabaseDdl` (disabled if default_leader is specified in
+   * the request.) * `DatabaseAdmin.RestoreDatabase` *
+   * `DatabaseAdmin.CreateBackup` * `DatabaseAdmin.CopyBackup` * Both the source
+   * and target instance configurations are subject to hourly compute and storage
+   * charges. * The instance might experience higher read-write latencies and a
+   * higher transaction abort rate. However, moving an instance doesn't cause any
+   * downtime. The returned long-running operation has a name of the format
+   * `/operations/` and can be used to track the move instance operation. The
+   * metadata field type is MoveInstanceMetadata. The response field type is
+   * Instance, if successful. Cancelling the operation sets its metadata's
+   * cancel_time. Cancellation is not immediate because it involves moving any
+   * data previously moved to the target instance configuration back to the
+   * original instance configuration. You can use this operation to track the
+   * progress of the cancellation. Upon successful completion of the cancellation,
+   * the operation terminates with `CANCELLED` status. If not cancelled, upon
+   * completion of the returned operation: * The instance successfully moves to
+   * the target instance configuration. * You are billed for compute and storage
+   * in target instance configuration. Authorization requires the
+   * `spanner.instances.update` permission on the resource instance. For more
+   * details, see [Move an instance](https://cloud.google.com/spanner/docs/move-
+   * instance). (instances.move)
    *
    * @param string $name Required. The instance to move. Values are of the form
    * `projects//instances/`.

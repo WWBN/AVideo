@@ -50,10 +50,6 @@ class BackupVault extends \Google\Model
   /**
    * @var string
    */
-  public $enforcedRetentionDuration;
-  /**
-   * @var string
-   */
   public $etag;
   /**
    * @var string[]
@@ -181,20 +177,6 @@ class BackupVault extends \Google\Model
   public function getEffectiveTime()
   {
     return $this->effectiveTime;
-  }
-  /**
-   * @param string
-   */
-  public function setEnforcedRetentionDuration($enforcedRetentionDuration)
-  {
-    $this->enforcedRetentionDuration = $enforcedRetentionDuration;
-  }
-  /**
-   * @return string
-   */
-  public function getEnforcedRetentionDuration()
-  {
-    return $this->enforcedRetentionDuration;
   }
   /**
    * @param string

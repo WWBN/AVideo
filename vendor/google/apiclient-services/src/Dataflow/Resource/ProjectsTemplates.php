@@ -35,7 +35,11 @@ class ProjectsTemplates extends \Google\Service\Resource
 {
   /**
    * Creates a Cloud Dataflow job from a template. Do not enter confidential
-   * information when you supply string values using the API. (templates.create)
+   * information when you supply string values using the API. To create a job, we
+   * recommend using `projects.locations.templates.create` with a [regional
+   * endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-
+   * endpoints). Using `projects.templates.create` is not recommended, because
+   * your job will always start in `us-central1`. (templates.create)
    *
    * @param string $projectId Required. The ID of the Cloud Platform project that
    * the job belongs to.
@@ -51,7 +55,11 @@ class ProjectsTemplates extends \Google\Service\Resource
     return $this->call('create', [$params], Job::class);
   }
   /**
-   * Get the template associated with a template. (templates.get)
+   * Get the template associated with a template. To get the template, we
+   * recommend using `projects.locations.templates.get` with a [regional endpoint]
+   * (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
+   * `projects.templates.get` is not recommended, because only templates that are
+   * running in `us-central1` are retrieved. (templates.get)
    *
    * @param string $projectId Required. The ID of the Cloud Platform project that
    * the job belongs to.
@@ -74,7 +82,11 @@ class ProjectsTemplates extends \Google\Service\Resource
     return $this->call('get', [$params], GetTemplateResponse::class);
   }
   /**
-   * Launch a template. (templates.launch)
+   * Launches a template. To launch a template, we recommend using
+   * `projects.locations.templates.launch` with a [regional endpoint]
+   * (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
+   * `projects.templates.launch` is not recommended, because jobs launched from
+   * the template will always start in `us-central1`. (templates.launch)
    *
    * @param string $projectId Required. The ID of the Cloud Platform project that
    * the job belongs to.

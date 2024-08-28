@@ -167,7 +167,7 @@ class ProjectsLocationsStreams extends \Google\Service\Resource
   }
   /**
    * Use this method to start, resume or recover a stream with a non default CDC
-   * strategy. NOTE: This feature is currently experimental. (streams.run)
+   * strategy. (streams.run)
    *
    * @param string $name Required. Name of the stream resource to start, in the
    * format: projects/{project_id}/locations/{location}/streams/{stream_name}

@@ -68,8 +68,8 @@ class LiveChatMessages extends \Google\Service\Resource
    * @param string $liveChatId The id of the live chat for which comments should
    * be returned.
    * @param string|array $part The *part* parameter specifies the liveChatComment
-   * resource parts that the API response will include. Supported values are id
-   * and snippet.
+   * resource parts that the API response will include. Supported values are id,
+   * snippet, and authorDetails.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string hl Specifies the localization language in which the system

@@ -20,8 +20,6 @@ namespace Google\Service\Integrations\Resource;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaDownloadExecutionResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecution;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListExecutionsResponse;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaReplayExecutionRequest;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaReplayExecutionResponse;
 
 /**
  * The "executions" collection of methods.
@@ -108,7 +106,12 @@ class ProjectsLocationsIntegrationsExecutions extends \Google\Service\Resource
    * response.
    * @opt_param string readMask Optional. View mask for the response data. If set,
    * only the field specified will be returned as part of the result. If not set,
-   * all fields in event execution info will be filled and returned.
+   * all fields in Execution will be filled and returned. Supported fields:
+   * trigger_id execution_method create_time update_time execution_details
+   * execution_details.state execution_details.execution_snapshots
+   * execution_details.attempt_stats
+   * execution_details.event_execution_snapshots_size request_parameters
+   * cloud_logging_details snapshot_number replay_info
    * @opt_param bool refreshAcl Optional. If true, the service will use the most
    * recent acl information to list event execution infos and renew the acl cache.
    * Note that fetching the most recent acl is synchronous, so it will increase
@@ -128,24 +131,6 @@ class ProjectsLocationsIntegrationsExecutions extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudIntegrationsV1alphaListExecutionsResponse::class);
-  }
-  /**
-   * Re-execute an existing execution, with same request parameters and execution
-   * strategy (executions.replay)
-   *
-   * @param string $name Required. The execution resource name. Format: projects/{
-   * gcp_project_id}/locations/{location}/integrations/{integration}/executions/{e
-   * xecution_id}
-   * @param GoogleCloudIntegrationsV1alphaReplayExecutionRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleCloudIntegrationsV1alphaReplayExecutionResponse
-   * @throws \Google\Service\Exception
-   */
-  public function replay($name, GoogleCloudIntegrationsV1alphaReplayExecutionRequest $postBody, $optParams = [])
-  {
-    $params = ['name' => $name, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('replay', [$params], GoogleCloudIntegrationsV1alphaReplayExecutionResponse::class);
   }
 }
 

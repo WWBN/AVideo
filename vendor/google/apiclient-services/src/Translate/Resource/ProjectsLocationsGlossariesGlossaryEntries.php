@@ -104,7 +104,7 @@ class ProjectsLocationsGlossariesGlossaryEntries extends \Google\Service\Resourc
    * Updates a glossary entry. (glossaryEntries.patch)
    *
    * @param string $name Identifier. The resource name of the entry. Format:
-   * "projects/locations/glossaries/glossaryEntries"
+   * `projects/locations/glossaries/glossaryEntries`
    * @param GlossaryEntry $postBody
    * @param array $optParams Optional parameters.
    * @return GlossaryEntry

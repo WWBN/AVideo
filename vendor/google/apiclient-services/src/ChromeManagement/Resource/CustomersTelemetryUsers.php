@@ -40,7 +40,7 @@ class CustomersTelemetryUsers extends \Google\Service\Resource
    * Supported read_mask paths are: - name - org_unit_id - user_id - user_email -
    * user_device.device_id - user_device.audio_status_report -
    * user_device.device_activity_report - user_device.network_bandwidth_report -
-   * user_device.peripherals_report
+   * user_device.peripherals_report - user_device.app_report
    * @return GoogleChromeManagementV1TelemetryUser
    * @throws \Google\Service\Exception
    */
@@ -66,7 +66,7 @@ class CustomersTelemetryUsers extends \Google\Service\Resource
    * Supported read_mask paths are: - name - org_unit_id - user_id - user_email -
    * user_device.device_id - user_device.audio_status_report -
    * user_device.device_activity_report - user_device.network_bandwidth_report -
-   * user_device.peripherals_report
+   * user_device.peripherals_report - user_device.app_report
    * @return GoogleChromeManagementV1ListTelemetryUsersResponse
    * @throws \Google\Service\Exception
    */

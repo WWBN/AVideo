@@ -125,6 +125,10 @@ class NodeConfig extends \Google\Collection
   /**
    * @var string[]
    */
+  public $storagePools;
+  /**
+   * @var string[]
+   */
   public $tags;
   protected $taintsType = NodeTaint::class;
   protected $taintsDataType = 'array';
@@ -622,6 +626,20 @@ class NodeConfig extends \Google\Collection
   public function getSpot()
   {
     return $this->spot;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStoragePools($storagePools)
+  {
+    $this->storagePools = $storagePools;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStoragePools()
+  {
+    return $this->storagePools;
   }
   /**
    * @param string[]

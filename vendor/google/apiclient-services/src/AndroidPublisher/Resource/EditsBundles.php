@@ -57,9 +57,8 @@ class EditsBundles extends \Google\Service\Resource
    * @param string $editId Identifier of the edit.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool ackBundleInstallationWarning Must be set to true if the app
-   * bundle installation may trigger a warning on user devices (for example, if
-   * installation size may be over a threshold, typically 100 MB).
+   * @opt_param bool ackBundleInstallationWarning Deprecated. The installation
+   * warning has been removed, it's not necessary to set this field anymore.
    * @opt_param string deviceTierConfigId Device tier config (DTC) to be used for
    * generating deliverables (APKs). Contains id of the DTC or "LATEST" for last
    * uploaded DTC.

@@ -49,6 +49,10 @@ class Workflow extends \Google\Collection
    */
   public $description;
   /**
+   * @var string
+   */
+  public $executionHistoryLevel;
+  /**
    * @var string[]
    */
   public $labels;
@@ -184,6 +188,20 @@ class Workflow extends \Google\Collection
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param string
+   */
+  public function setExecutionHistoryLevel($executionHistoryLevel)
+  {
+    $this->executionHistoryLevel = $executionHistoryLevel;
+  }
+  /**
+   * @return string
+   */
+  public function getExecutionHistoryLevel()
+  {
+    return $this->executionHistoryLevel;
   }
   /**
    * @param string[]

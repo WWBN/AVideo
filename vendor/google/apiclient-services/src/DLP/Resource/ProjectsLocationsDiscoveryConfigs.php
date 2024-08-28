@@ -39,8 +39,8 @@ class ProjectsLocationsDiscoveryConfigs extends \Google\Service\Resource
    *
    * @param string $parent Required. Parent resource name. The format of this
    * value varies depending on the scope of the request (project or organization):
-   * + Projects scope: `projects/`PROJECT_ID`/locations/`LOCATION_ID +
-   * Organizations scope: `organizations/`ORG_ID`/locations/`LOCATION_ID The
+   * + Projects scope: `projects/{project_id}/locations/{location_id}` +
+   * Organizations scope: `organizations/{org_id}/locations/{location_id}` The
    * following example `parent` string specifies a parent project with the
    * identifier `example-project`, and specifies the `europe-west3` location for
    * processing data: parent=projects/example-project/locations/europe-west3
@@ -91,7 +91,7 @@ class ProjectsLocationsDiscoveryConfigs extends \Google\Service\Resource
    * (discoveryConfigs.listProjectsLocationsDiscoveryConfigs)
    *
    * @param string $parent Required. Parent resource name. The format of this
-   * value is as follows: `projects/`PROJECT_ID`/locations/`LOCATION_ID The
+   * value is as follows: `projects/{project_id}/locations/{location_id}` The
    * following example `parent` string specifies a parent project with the
    * identifier `example-project`, and specifies the `europe-west3` location for
    * processing data: parent=projects/example-project/locations/europe-west3

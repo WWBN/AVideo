@@ -26,14 +26,6 @@ class BackupRule extends \Google\Model
   /**
    * @var string
    */
-  public $backupVault;
-  /**
-   * @var string
-   */
-  public $backupVaultServiceAccount;
-  /**
-   * @var string
-   */
   public $ruleId;
   protected $standardScheduleType = StandardSchedule::class;
   protected $standardScheduleDataType = '';
@@ -51,34 +43,6 @@ class BackupRule extends \Google\Model
   public function getBackupRetentionDays()
   {
     return $this->backupRetentionDays;
-  }
-  /**
-   * @param string
-   */
-  public function setBackupVault($backupVault)
-  {
-    $this->backupVault = $backupVault;
-  }
-  /**
-   * @return string
-   */
-  public function getBackupVault()
-  {
-    return $this->backupVault;
-  }
-  /**
-   * @param string
-   */
-  public function setBackupVaultServiceAccount($backupVaultServiceAccount)
-  {
-    $this->backupVaultServiceAccount = $backupVaultServiceAccount;
-  }
-  /**
-   * @return string
-   */
-  public function getBackupVaultServiceAccount()
-  {
-    return $this->backupVaultServiceAccount;
   }
   /**
    * @param string

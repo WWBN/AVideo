@@ -43,6 +43,8 @@ class DataLayers extends \Google\Service\Resource
    * `required_quality` is interpreted as the exact required quality and only
    * `MEDIUM` quality imagery is returned if `required_quality` is set to
    * `MEDIUM`.
+   * @opt_param string experiments Optional. Specifies the pre-GA experiments to
+   * enable.
    * @opt_param double location.latitude The latitude in degrees. It must be in
    * the range [-90.0, +90.0].
    * @opt_param double location.longitude The longitude in degrees. It must be in

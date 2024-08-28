@@ -142,8 +142,11 @@ class SpacesMessages extends \Google\Service\Resource
   }
   /**
    * Lists messages in a space that the caller is a member of, including messages
-   * from blocked members and spaces. For an example, see [List
-   * messages](/chat/api/guides/v1/messages/list). Requires [user
+   * from blocked members and spaces. If you list messages from a space with no
+   * messages, the response is an empty object. When using a REST/HTTP interface,
+   * the response contains an empty JSON object, `{}`. For an example, see [List m
+   * essages](https://developers.google.com/workspace/chat/api/guides/v1/messages/
+   * list). Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-user). (messages.listSpacesMessages)
    *

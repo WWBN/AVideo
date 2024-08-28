@@ -52,6 +52,26 @@ class GoogleAdsSearchads360V0CommonSegments extends \Google\Collection
    * @var string
    */
   public $device;
+  /**
+   * @var string
+   */
+  public $geoTargetCity;
+  /**
+   * @var string
+   */
+  public $geoTargetCountry;
+  /**
+   * @var string
+   */
+  public $geoTargetMetro;
+  /**
+   * @var string
+   */
+  public $geoTargetRegion;
+  /**
+   * @var int
+   */
+  public $hour;
   protected $keywordType = GoogleAdsSearchads360V0CommonKeyword::class;
   protected $keywordDataType = '';
   /**
@@ -370,6 +390,76 @@ class GoogleAdsSearchads360V0CommonSegments extends \Google\Collection
   public function getDevice()
   {
     return $this->device;
+  }
+  /**
+   * @param string
+   */
+  public function setGeoTargetCity($geoTargetCity)
+  {
+    $this->geoTargetCity = $geoTargetCity;
+  }
+  /**
+   * @return string
+   */
+  public function getGeoTargetCity()
+  {
+    return $this->geoTargetCity;
+  }
+  /**
+   * @param string
+   */
+  public function setGeoTargetCountry($geoTargetCountry)
+  {
+    $this->geoTargetCountry = $geoTargetCountry;
+  }
+  /**
+   * @return string
+   */
+  public function getGeoTargetCountry()
+  {
+    return $this->geoTargetCountry;
+  }
+  /**
+   * @param string
+   */
+  public function setGeoTargetMetro($geoTargetMetro)
+  {
+    $this->geoTargetMetro = $geoTargetMetro;
+  }
+  /**
+   * @return string
+   */
+  public function getGeoTargetMetro()
+  {
+    return $this->geoTargetMetro;
+  }
+  /**
+   * @param string
+   */
+  public function setGeoTargetRegion($geoTargetRegion)
+  {
+    $this->geoTargetRegion = $geoTargetRegion;
+  }
+  /**
+   * @return string
+   */
+  public function getGeoTargetRegion()
+  {
+    return $this->geoTargetRegion;
+  }
+  /**
+   * @param int
+   */
+  public function setHour($hour)
+  {
+    $this->hour = $hour;
+  }
+  /**
+   * @return int
+   */
+  public function getHour()
+  {
+    return $this->hour;
   }
   /**
    * @param GoogleAdsSearchads360V0CommonKeyword

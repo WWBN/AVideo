@@ -29,6 +29,10 @@ class ComputeEngineTargetDefaults extends \Google\Collection
   /**
    * @var string
    */
+  public $bootConversion;
+  /**
+   * @var string
+   */
   public $bootOption;
   protected $computeSchedulingType = ComputeScheduling::class;
   protected $computeSchedulingDataType = '';
@@ -36,6 +40,14 @@ class ComputeEngineTargetDefaults extends \Google\Collection
    * @var string
    */
   public $diskType;
+  /**
+   * @var bool
+   */
+  public $enableIntegrityMonitoring;
+  /**
+   * @var bool
+   */
+  public $enableVtpm;
   protected $encryptionType = Encryption::class;
   protected $encryptionDataType = '';
   /**
@@ -120,6 +132,20 @@ class ComputeEngineTargetDefaults extends \Google\Collection
   /**
    * @param string
    */
+  public function setBootConversion($bootConversion)
+  {
+    $this->bootConversion = $bootConversion;
+  }
+  /**
+   * @return string
+   */
+  public function getBootConversion()
+  {
+    return $this->bootConversion;
+  }
+  /**
+   * @param string
+   */
   public function setBootOption($bootOption)
   {
     $this->bootOption = $bootOption;
@@ -158,6 +184,34 @@ class ComputeEngineTargetDefaults extends \Google\Collection
   public function getDiskType()
   {
     return $this->diskType;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableIntegrityMonitoring($enableIntegrityMonitoring)
+  {
+    $this->enableIntegrityMonitoring = $enableIntegrityMonitoring;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableIntegrityMonitoring()
+  {
+    return $this->enableIntegrityMonitoring;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableVtpm($enableVtpm)
+  {
+    $this->enableVtpm = $enableVtpm;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableVtpm()
+  {
+    return $this->enableVtpm;
   }
   /**
    * @param Encryption

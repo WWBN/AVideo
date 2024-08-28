@@ -26,6 +26,10 @@ class TrialMetadata extends \Google\Model
   /**
    * @var string
    */
+  public $graceEndTime;
+  /**
+   * @var string
+   */
   public $startTime;
   /**
    * @var string
@@ -45,6 +49,20 @@ class TrialMetadata extends \Google\Model
   public function getEndTime()
   {
     return $this->endTime;
+  }
+  /**
+   * @param string
+   */
+  public function setGraceEndTime($graceEndTime)
+  {
+    $this->graceEndTime = $graceEndTime;
+  }
+  /**
+   * @return string
+   */
+  public function getGraceEndTime()
+  {
+    return $this->graceEndTime;
   }
   /**
    * @param string

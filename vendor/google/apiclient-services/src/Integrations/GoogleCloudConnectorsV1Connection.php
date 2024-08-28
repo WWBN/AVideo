@@ -20,6 +20,10 @@ namespace Google\Service\Integrations;
 class GoogleCloudConnectorsV1Connection extends \Google\Collection
 {
   protected $collection_key = 'destinationConfigs';
+  /**
+   * @var bool
+   */
+  public $asyncOperationsEnabled;
   protected $authConfigType = GoogleCloudConnectorsV1AuthConfig::class;
   protected $authConfigDataType = '';
   protected $billingConfigType = GoogleCloudConnectorsV1BillingConfig::class;
@@ -65,6 +69,10 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   /**
    * @var string
    */
+  public $host;
+  /**
+   * @var string
+   */
   public $imageLocation;
   /**
    * @var bool
@@ -107,8 +115,26 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   /**
    * @var string
    */
+  public $tlsServiceDirectory;
+  /**
+   * @var string
+   */
   public $updateTime;
 
+  /**
+   * @param bool
+   */
+  public function setAsyncOperationsEnabled($asyncOperationsEnabled)
+  {
+    $this->asyncOperationsEnabled = $asyncOperationsEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getAsyncOperationsEnabled()
+  {
+    return $this->asyncOperationsEnabled;
+  }
   /**
    * @param GoogleCloudConnectorsV1AuthConfig
    */
@@ -308,6 +334,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   /**
    * @param string
    */
+  public function setHost($host)
+  {
+    $this->host = $host;
+  }
+  /**
+   * @return string
+   */
+  public function getHost()
+  {
+    return $this->host;
+  }
+  /**
+   * @param string
+   */
   public function setImageLocation($imageLocation)
   {
     $this->imageLocation = $imageLocation;
@@ -486,6 +526,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public function getSuspended()
   {
     return $this->suspended;
+  }
+  /**
+   * @param string
+   */
+  public function setTlsServiceDirectory($tlsServiceDirectory)
+  {
+    $this->tlsServiceDirectory = $tlsServiceDirectory;
+  }
+  /**
+   * @return string
+   */
+  public function getTlsServiceDirectory()
+  {
+    return $this->tlsServiceDirectory;
   }
   /**
    * @param string

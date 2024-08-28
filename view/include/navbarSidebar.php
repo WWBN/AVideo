@@ -1,5 +1,7 @@
 <?php
 global $avideoLayout;
+$tnameSide = TimeLogStart(basename(__FILE__));
+$tToleranceSide = 0.2;
 ?>
 <div id="sidebar" class="list-group-item" style="<?php echo $sidebarStyle; ?>">
     <div id="sideBarContainer">
@@ -20,6 +22,7 @@ global $avideoLayout;
                 </li>
             <?php
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             if (AVideoPlugin::isEnabledByName("PlayLists") && PlayLists::showTVFeatures()) {
             ?>
                 <li>
@@ -46,6 +49,7 @@ global $avideoLayout;
                 </li>
             <?php
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             if (empty($advancedCustom->doNotShowLeftTrendingButton)) {
             ?>
                 <li>
@@ -62,6 +66,7 @@ global $avideoLayout;
                 </li>
             <?php
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             if (User::isSwapBackActive()) {
             ?>
                 <li>
@@ -76,8 +81,9 @@ global $avideoLayout;
                 </li>
             <?php
             }
-            if($avideoLayout->canToogleDarkAndLightMode){
-                ?>
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
+            if ($avideoLayout->canToogleDarkAndLightMode) {
+            ?>
                 <li>
                     <hr>
                 </li>
@@ -86,8 +92,9 @@ global $avideoLayout;
                     include $global['systemRootPath'] . 'plugin/Layout/darkModeSwitch.php';
                     ?>
                 </li>
-                <?php
+            <?php
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             if (Video::videoMadeForKidsExists()) {
             ?>
                 <li>
@@ -102,6 +109,7 @@ global $avideoLayout;
                 </li>
                 <?php
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             //var_dump(Video::videoMadeForKidsExists());exit;
             if (empty($advancedCustomUser->doNotShowLeftProfile)) {
                 if (User::isLogged()) {
@@ -230,7 +238,7 @@ global $avideoLayout;
                                         <i class="fa-solid fa-list"></i>
                                         <span class="menuLabel">
                                             <?php echo __($advancedCustom->CategoryLabel); ?>
-                            </span>
+                                        </span>
                                     </a>
                                 </div>
                             </li>
@@ -268,6 +276,7 @@ global $avideoLayout;
                 <?php
                 }
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             if (User::isAdmin()) {
                 ?>
                 <li>
@@ -309,7 +318,7 @@ global $avideoLayout;
                                 <i class="fa-solid fa-list"></i>
                                 <span class="menuLabel">
                                     <?php echo __($advancedCustom->CategoryLabel); ?>
-                </span>
+                                </span>
                             </a>
                         </li>
                         <li>
@@ -334,7 +343,7 @@ global $avideoLayout;
                                 <i class="fa-solid fa-gear"></i>
                                 <span class="menuLabel">
                                     <?php echo __("Site Configurations"); ?>
-                </span>
+                                </span>
                             </a>
                         </li>
                         <li>
@@ -452,12 +461,14 @@ global $avideoLayout;
             <?php
                 }
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             ?>
 
 
             <?php echo AVideoPlugin::getHTMLMenuLeft(); ?>
 
             <?php
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             if (empty($advancedCustom->doNotShowLeftMenuAudioAndVideoButtons)) {
             ?>
                 <li>
@@ -487,7 +498,9 @@ global $avideoLayout;
                         </span>
                     </a>
                 </li>
-            <?php }
+            <?php
+            }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             ?>
 
             <?php
@@ -510,7 +523,9 @@ global $avideoLayout;
                     </a>
                 </li>
 
-            <?php }
+            <?php
+            }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             ?>
             <?php
             if (!empty($avideoLayout->categoriesTopLeftMenu)) {
@@ -533,37 +548,7 @@ global $avideoLayout;
                 $_rowCount = getRowCount();
                 $_REQUEST['rowCount'] = 1000;
                 $parsed_cats = [];
-                if (!function_exists('mkSub')) {
-
-                    function mkSub($catId)
-                    {
-                        global $global, $parsed_cats;
-                        unset($_GET['parentsOnly']);
-                        $subcats = Category::getChildCategories($catId);
-                        if (!empty($subcats)) {
-                            echo "<ul class=\"nav\" style='margin-bottom: 0px; list-style-type: none;'>";
-                            foreach ($subcats as $subcat) {
-                                if ($subcat['parentId'] != $catId) {
-                                    continue;
-                                }
-                                if (empty($subcat['total'])) {
-                                    continue;
-                                }
-                                if (is_array($parsed_cats) && in_array($subcat['id'], $parsed_cats)) {
-                                    continue;
-                                }
-                                //$parsed_cats[] = $subcat['id'];
-                                echo '<li class="navsub-toggle ' . ($subcat['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
-                                    . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
-                                    . '<i class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></i>  <span class="menuLabel">' . __($subcat['name']) . ' <span class="badge">' . $subcat['total'] . '</span></span>';
-                                echo '</a>';
-                                mkSub($subcat['id']);
-                                echo '</li>';
-                            }
-                            echo "</ul>";
-                        }
-                    }
-                }
+                TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                 if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
                     $post = $_POST;
                     $get = $_GET;
@@ -579,7 +564,9 @@ global $avideoLayout;
                         $sameUserGroupAsMe = User::getId();
                     }
 
+                    TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                     $categories = Category::getAllCategories(false, false, false, $sameUserGroupAsMe);
+                    TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                     foreach ($categories as $value) {
                         if ($value['parentId']) {
                             continue;
@@ -604,14 +591,16 @@ global $avideoLayout;
                             echo ' <span class="badge hideIfCompressed">' . $total . '</span>';
                         }
                         echo '</a>';
-                        mkSub($value['id']);
+                        echo mkSubCategory($value['id']);
                         echo '</li>';
                     }
+                    TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                     $_POST = $post;
                     $_GET = $get;
                 }
 
                 $_REQUEST['rowCount'] = $_rowCount;
+                TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             } else {
                 ?>
                 <li>
@@ -626,7 +615,9 @@ global $avideoLayout;
                     </a>
                 </li>
             <?php
+                TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             ?>
 
             <!-- categories END -->
@@ -648,6 +639,7 @@ global $avideoLayout;
                 </li>
             <?php
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             if (empty($advancedCustom->disablePlayLink)) {
             ?>
                 <li class="nav-item">
@@ -661,6 +653,7 @@ global $avideoLayout;
                 </li>
             <?php
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             if (empty($advancedCustom->disableHelpLeftMenu)) {
             ?>
                 <li>
@@ -674,6 +667,7 @@ global $avideoLayout;
                 </li>
             <?php
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
 
             if (empty($advancedCustom->disableAboutLeftMenu)) {
             ?>
@@ -688,6 +682,7 @@ global $avideoLayout;
                 </li>
             <?php
             }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
 
             if (empty($advancedCustom->disableContactLeftMenu)) {
             ?>
@@ -700,7 +695,9 @@ global $avideoLayout;
                         </span>
                     </a>
                 </li>
-            <?php }
+            <?php
+            }
+            TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
             ?>
         </ul>
     </div>

@@ -37,6 +37,8 @@ class ProjectsLocationsWorkflowsExecutionsStepEntries extends \Google\Service\Re
    * projects/{project}/locations/{location}/workflows/{workflow}/executions/{exec
    * ution}/stepEntries/{step_entry}
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string view Deprecated field.
    * @return StepEntry
    * @throws \Google\Service\Exception
    */
@@ -53,15 +55,15 @@ class ProjectsLocationsWorkflowsExecutionsStepEntries extends \Google\Service\Re
    *
    * @param string $parent Required. Name of the workflow execution to list
    * entries for. Format: projects/{project}/locations/{location}/workflows/{workf
-   * low}/executions/{execution}/stepEntries/
+   * low}/executions/{execution}
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. Filters applied to the
    * `[StepEntries.ListStepEntries]` results. The following fields are supported
    * for filtering: `entryId`, `createTime`, `updateTime`, `routine`, `step`,
-   * `stepType`, `state`. For details, see AIP-160. For example, if you are using
-   * the Google APIs Explorer: `state="SUCCEEDED"` or `createTime>"2023-08-01" AND
-   * state="FAILED"`
+   * `stepType`, `parent`, `state`. For details, see AIP-160. For example, if you
+   * are using the Google APIs Explorer: `state="SUCCEEDED"` or
+   * `createTime>"2023-08-01" AND state="FAILED"`
    * @opt_param string orderBy Optional. Comma-separated list of fields that
    * specify the ordering applied to the `[StepEntries.ListStepEntries]` results.
    * By default the ordering is based on ascending `entryId`. The following fields
@@ -76,6 +78,7 @@ class ProjectsLocationsWorkflowsExecutionsStepEntries extends \Google\Service\Re
    * @opt_param int skip Optional. The number of step entries to skip. It can be
    * used with or without a pageToken. If used with a pageToken, then it indicates
    * the number of step entries to skip starting from the requested page.
+   * @opt_param string view Deprecated field.
    * @return ListStepEntriesResponse
    * @throws \Google\Service\Exception
    */

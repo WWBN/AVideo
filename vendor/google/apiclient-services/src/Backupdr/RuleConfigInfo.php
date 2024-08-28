@@ -19,10 +19,6 @@ namespace Google\Service\Backupdr;
 
 class RuleConfigInfo extends \Google\Model
 {
-  /**
-   * @var string
-   */
-  public $dataSource;
   protected $lastBackupErrorType = Status::class;
   protected $lastBackupErrorDataType = '';
   /**
@@ -38,20 +34,6 @@ class RuleConfigInfo extends \Google\Model
    */
   public $ruleId;
 
-  /**
-   * @param string
-   */
-  public function setDataSource($dataSource)
-  {
-    $this->dataSource = $dataSource;
-  }
-  /**
-   * @return string
-   */
-  public function getDataSource()
-  {
-    return $this->dataSource;
-  }
   /**
    * @param Status
    */

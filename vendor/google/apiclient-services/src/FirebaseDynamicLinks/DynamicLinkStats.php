@@ -19,9 +19,11 @@ namespace Google\Service\FirebaseDynamicLinks;
 
 class DynamicLinkStats extends \Google\Collection
 {
-  protected $collection_key = 'linkEventStats';
+  protected $collection_key = 'warnings';
   protected $linkEventStatsType = DynamicLinkEventStat::class;
   protected $linkEventStatsDataType = 'array';
+  protected $warningsType = DynamicLinkWarning::class;
+  protected $warningsDataType = 'array';
 
   /**
    * @param DynamicLinkEventStat[]
@@ -36,6 +38,20 @@ class DynamicLinkStats extends \Google\Collection
   public function getLinkEventStats()
   {
     return $this->linkEventStats;
+  }
+  /**
+   * @param DynamicLinkWarning[]
+   */
+  public function setWarnings($warnings)
+  {
+    $this->warnings = $warnings;
+  }
+  /**
+   * @return DynamicLinkWarning[]
+   */
+  public function getWarnings()
+  {
+    return $this->warnings;
   }
 }
 

@@ -27,6 +27,8 @@ class ExternalTransaction extends \Google\Model
   protected $currentPreTaxAmountDataType = '';
   protected $currentTaxAmountType = Price::class;
   protected $currentTaxAmountDataType = '';
+  protected $externalOfferInitialAcquisitionDetailsType = ExternalOfferInitialAcquisitionDetails::class;
+  protected $externalOfferInitialAcquisitionDetailsDataType = '';
   /**
    * @var string
    */
@@ -101,6 +103,20 @@ class ExternalTransaction extends \Google\Model
   public function getCurrentTaxAmount()
   {
     return $this->currentTaxAmount;
+  }
+  /**
+   * @param ExternalOfferInitialAcquisitionDetails
+   */
+  public function setExternalOfferInitialAcquisitionDetails(ExternalOfferInitialAcquisitionDetails $externalOfferInitialAcquisitionDetails)
+  {
+    $this->externalOfferInitialAcquisitionDetails = $externalOfferInitialAcquisitionDetails;
+  }
+  /**
+   * @return ExternalOfferInitialAcquisitionDetails
+   */
+  public function getExternalOfferInitialAcquisitionDetails()
+  {
+    return $this->externalOfferInitialAcquisitionDetails;
   }
   /**
    * @param string

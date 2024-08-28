@@ -26,6 +26,12 @@ class ResourceStatus extends \Google\Collection
    * @var string
    */
   public $errorMessage;
+  /**
+   * @var string
+   */
+  public $version;
+  protected $versionsType = Versions::class;
+  protected $versionsDataType = '';
 
   /**
    * @param ResourceCondition[]
@@ -54,6 +60,34 @@ class ResourceStatus extends \Google\Collection
   public function getErrorMessage()
   {
     return $this->errorMessage;
+  }
+  /**
+   * @param string
+   */
+  public function setVersion($version)
+  {
+    $this->version = $version;
+  }
+  /**
+   * @return string
+   */
+  public function getVersion()
+  {
+    return $this->version;
+  }
+  /**
+   * @param Versions
+   */
+  public function setVersions(Versions $versions)
+  {
+    $this->versions = $versions;
+  }
+  /**
+   * @return Versions
+   */
+  public function getVersions()
+  {
+    return $this->versions;
   }
 }
 

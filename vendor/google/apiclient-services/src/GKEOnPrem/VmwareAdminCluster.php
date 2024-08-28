@@ -97,6 +97,8 @@ class VmwareAdminCluster extends \Google\Model
    * @var string
    */
   public $updateTime;
+  protected $validationCheckType = ValidationCheck::class;
+  protected $validationCheckDataType = '';
   protected $vcenterType = VmwareAdminVCenterConfig::class;
   protected $vcenterDataType = '';
 
@@ -449,6 +451,20 @@ class VmwareAdminCluster extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param ValidationCheck
+   */
+  public function setValidationCheck(ValidationCheck $validationCheck)
+  {
+    $this->validationCheck = $validationCheck;
+  }
+  /**
+   * @return ValidationCheck
+   */
+  public function getValidationCheck()
+  {
+    return $this->validationCheck;
   }
   /**
    * @param VmwareAdminVCenterConfig

@@ -22,8 +22,26 @@ class PlaylistStatus extends \Google\Model
   /**
    * @var string
    */
+  public $podcastStatus;
+  /**
+   * @var string
+   */
   public $privacyStatus;
 
+  /**
+   * @param string
+   */
+  public function setPodcastStatus($podcastStatus)
+  {
+    $this->podcastStatus = $podcastStatus;
+  }
+  /**
+   * @return string
+   */
+  public function getPodcastStatus()
+  {
+    return $this->podcastStatus;
+  }
   /**
    * @param string
    */

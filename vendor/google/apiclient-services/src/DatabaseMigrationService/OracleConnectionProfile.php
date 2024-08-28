@@ -29,6 +29,8 @@ class OracleConnectionProfile extends \Google\Model
    * @var string
    */
   public $host;
+  protected $oracleAsmConfigType = OracleAsmConfig::class;
+  protected $oracleAsmConfigDataType = '';
   /**
    * @var string
    */
@@ -93,6 +95,20 @@ class OracleConnectionProfile extends \Google\Model
   public function getHost()
   {
     return $this->host;
+  }
+  /**
+   * @param OracleAsmConfig
+   */
+  public function setOracleAsmConfig(OracleAsmConfig $oracleAsmConfig)
+  {
+    $this->oracleAsmConfig = $oracleAsmConfig;
+  }
+  /**
+   * @return OracleAsmConfig
+   */
+  public function getOracleAsmConfig()
+  {
+    return $this->oracleAsmConfig;
   }
   /**
    * @param string

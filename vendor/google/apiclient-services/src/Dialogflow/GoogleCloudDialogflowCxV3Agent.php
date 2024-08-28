@@ -28,6 +28,8 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
    * @var string
    */
   public $avatarUri;
+  protected $clientCertificateSettingsType = GoogleCloudDialogflowCxV3AgentClientCertificateSettings::class;
+  protected $clientCertificateSettingsDataType = '';
   /**
    * @var string
    */
@@ -128,6 +130,20 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
   public function getAvatarUri()
   {
     return $this->avatarUri;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3AgentClientCertificateSettings
+   */
+  public function setClientCertificateSettings(GoogleCloudDialogflowCxV3AgentClientCertificateSettings $clientCertificateSettings)
+  {
+    $this->clientCertificateSettings = $clientCertificateSettings;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3AgentClientCertificateSettings
+   */
+  public function getClientCertificateSettings()
+  {
+    return $this->clientCertificateSettings;
   }
   /**
    * @param string

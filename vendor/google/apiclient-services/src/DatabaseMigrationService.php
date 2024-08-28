@@ -43,6 +43,7 @@ class DatabaseMigrationService extends \Google\Service
   public $projects_locations_conversionWorkspaces;
   public $projects_locations_conversionWorkspaces_mappingRules;
   public $projects_locations_migrationJobs;
+  public $projects_locations_migrationJobs_objects;
   public $projects_locations_operations;
   public $projects_locations_privateConnections;
   public $rootUrlTemplate;
@@ -824,6 +825,50 @@ class DatabaseMigrationService extends \Google\Service
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_migrationJobs_objects = new DatabaseMigrationService\Resource\ProjectsLocationsMigrationJobsObjects(
+        $this,
+        $this->serviceName,
+        'objects',
+        [
+          'methods' => [
+            'getIamPolicy' => [
+              'path' => 'v1/{+resource}:getIamPolicy',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'options.requestedPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => 'v1/{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

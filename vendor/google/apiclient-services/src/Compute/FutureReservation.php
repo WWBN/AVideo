@@ -67,10 +67,6 @@ class FutureReservation extends \Google\Model
   public $selfLinkWithId;
   protected $shareSettingsType = ShareSettings::class;
   protected $shareSettingsDataType = '';
-  /**
-   * @var bool
-   */
-  public $specificReservationRequired;
   protected $specificSkuPropertiesType = FutureReservationSpecificSKUProperties::class;
   protected $specificSkuPropertiesDataType = '';
   protected $statusType = FutureReservationStatus::class;
@@ -263,20 +259,6 @@ class FutureReservation extends \Google\Model
   public function getShareSettings()
   {
     return $this->shareSettings;
-  }
-  /**
-   * @param bool
-   */
-  public function setSpecificReservationRequired($specificReservationRequired)
-  {
-    $this->specificReservationRequired = $specificReservationRequired;
-  }
-  /**
-   * @return bool
-   */
-  public function getSpecificReservationRequired()
-  {
-    return $this->specificReservationRequired;
   }
   /**
    * @param FutureReservationSpecificSKUProperties

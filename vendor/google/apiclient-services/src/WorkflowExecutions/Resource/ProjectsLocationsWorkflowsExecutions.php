@@ -18,9 +18,11 @@
 namespace Google\Service\WorkflowExecutions\Resource;
 
 use Google\Service\WorkflowExecutions\CancelExecutionRequest;
+use Google\Service\WorkflowExecutions\DeleteExecutionHistoryRequest;
 use Google\Service\WorkflowExecutions\Execution;
 use Google\Service\WorkflowExecutions\ExportDataResponse;
 use Google\Service\WorkflowExecutions\ListExecutionsResponse;
+use Google\Service\WorkflowExecutions\WorkflowexecutionsEmpty;
 
 /**
  * The "executions" collection of methods.
@@ -67,6 +69,24 @@ class ProjectsLocationsWorkflowsExecutions extends \Google\Service\Resource
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('create', [$params], Execution::class);
+  }
+  /**
+   * Deletes all step entries for an execution.
+   * (executions.deleteExecutionHistory)
+   *
+   * @param string $name Required. Name of the execution for which step entries
+   * should be deleted. Format: projects/{project}/locations/{location}/workflows/
+   * {workflow}/executions/{execution}
+   * @param DeleteExecutionHistoryRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return WorkflowexecutionsEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function deleteExecutionHistory($name, DeleteExecutionHistoryRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('deleteExecutionHistory', [$params], WorkflowexecutionsEmpty::class);
   }
   /**
    * Returns all metadata stored about an execution, excluding most data that is

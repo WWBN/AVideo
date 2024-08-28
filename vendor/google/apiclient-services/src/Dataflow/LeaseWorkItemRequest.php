@@ -31,6 +31,10 @@ class LeaseWorkItemRequest extends \Google\Collection
   /**
    * @var string
    */
+  public $projectNumber;
+  /**
+   * @var string
+   */
   public $requestedLeaseDuration;
   /**
    * @var array[]
@@ -76,6 +80,20 @@ class LeaseWorkItemRequest extends \Google\Collection
   public function getLocation()
   {
     return $this->location;
+  }
+  /**
+   * @param string
+   */
+  public function setProjectNumber($projectNumber)
+  {
+    $this->projectNumber = $projectNumber;
+  }
+  /**
+   * @return string
+   */
+  public function getProjectNumber()
+  {
+    return $this->projectNumber;
   }
   /**
    * @param string

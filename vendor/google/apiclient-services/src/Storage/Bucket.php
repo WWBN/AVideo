@@ -46,6 +46,10 @@ class Bucket extends \Google\Collection
    * @var string
    */
   public $generation;
+  /**
+   * @var string
+   */
+  public $hardDeleteTime;
   protected $hierarchicalNamespaceType = BucketHierarchicalNamespace::class;
   protected $hierarchicalNamespaceDataType = '';
   protected $iamConfigurationType = BucketIamConfiguration::class;
@@ -112,6 +116,10 @@ class Bucket extends \Google\Collection
   public $selfLink;
   protected $softDeletePolicyType = BucketSoftDeletePolicy::class;
   protected $softDeletePolicyDataType = '';
+  /**
+   * @var string
+   */
+  public $softDeleteTime;
   /**
    * @var string
    */
@@ -268,6 +276,20 @@ class Bucket extends \Google\Collection
   public function getGeneration()
   {
     return $this->generation;
+  }
+  /**
+   * @param string
+   */
+  public function setHardDeleteTime($hardDeleteTime)
+  {
+    $this->hardDeleteTime = $hardDeleteTime;
+  }
+  /**
+   * @return string
+   */
+  public function getHardDeleteTime()
+  {
+    return $this->hardDeleteTime;
   }
   /**
    * @param BucketHierarchicalNamespace
@@ -562,6 +584,20 @@ class Bucket extends \Google\Collection
   public function getSoftDeletePolicy()
   {
     return $this->softDeletePolicy;
+  }
+  /**
+   * @param string
+   */
+  public function setSoftDeleteTime($softDeleteTime)
+  {
+    $this->softDeleteTime = $softDeleteTime;
+  }
+  /**
+   * @return string
+   */
+  public function getSoftDeleteTime()
+  {
+    return $this->softDeleteTime;
   }
   /**
    * @param string

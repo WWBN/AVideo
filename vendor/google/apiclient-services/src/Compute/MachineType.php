@@ -25,6 +25,10 @@ class MachineType extends \Google\Collection
   /**
    * @var string
    */
+  public $architecture;
+  /**
+   * @var string
+   */
   public $creationTimestamp;
   protected $deprecatedType = DeprecationStatus::class;
   protected $deprecatedDataType = '';
@@ -92,6 +96,20 @@ class MachineType extends \Google\Collection
   public function getAccelerators()
   {
     return $this->accelerators;
+  }
+  /**
+   * @param string
+   */
+  public function setArchitecture($architecture)
+  {
+    $this->architecture = $architecture;
+  }
+  /**
+   * @return string
+   */
+  public function getArchitecture()
+  {
+    return $this->architecture;
   }
   /**
    * @param string

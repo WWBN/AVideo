@@ -62,6 +62,10 @@ class WorkstationConfig extends \Google\Collection
    * @var string
    */
   public $etag;
+  /**
+   * @var bool
+   */
+  public $grantWorkstationAdminRoleOnCreate;
   protected $hostType = Host::class;
   protected $hostDataType = '';
   /**
@@ -72,6 +76,10 @@ class WorkstationConfig extends \Google\Collection
    * @var string[]
    */
   public $labels;
+  /**
+   * @var int
+   */
+  public $maxUsableWorkstations;
   /**
    * @var string
    */
@@ -284,6 +292,20 @@ class WorkstationConfig extends \Google\Collection
     return $this->etag;
   }
   /**
+   * @param bool
+   */
+  public function setGrantWorkstationAdminRoleOnCreate($grantWorkstationAdminRoleOnCreate)
+  {
+    $this->grantWorkstationAdminRoleOnCreate = $grantWorkstationAdminRoleOnCreate;
+  }
+  /**
+   * @return bool
+   */
+  public function getGrantWorkstationAdminRoleOnCreate()
+  {
+    return $this->grantWorkstationAdminRoleOnCreate;
+  }
+  /**
    * @param Host
    */
   public function setHost(Host $host)
@@ -324,6 +346,20 @@ class WorkstationConfig extends \Google\Collection
   public function getLabels()
   {
     return $this->labels;
+  }
+  /**
+   * @param int
+   */
+  public function setMaxUsableWorkstations($maxUsableWorkstations)
+  {
+    $this->maxUsableWorkstations = $maxUsableWorkstations;
+  }
+  /**
+   * @return int
+   */
+  public function getMaxUsableWorkstations()
+  {
+    return $this->maxUsableWorkstations;
   }
   /**
    * @param string

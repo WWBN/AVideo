@@ -44,6 +44,8 @@ class ResourceSearchResult extends \Google\Collection
   public $displayName;
   protected $effectiveTagsType = EffectiveTagDetails::class;
   protected $effectiveTagsDataType = 'array';
+  protected $enrichmentsType = AssetEnrichment::class;
+  protected $enrichmentsDataType = 'array';
   /**
    * @var string[]
    */
@@ -216,6 +218,20 @@ class ResourceSearchResult extends \Google\Collection
   public function getEffectiveTags()
   {
     return $this->effectiveTags;
+  }
+  /**
+   * @param AssetEnrichment[]
+   */
+  public function setEnrichments($enrichments)
+  {
+    $this->enrichments = $enrichments;
+  }
+  /**
+   * @return AssetEnrichment[]
+   */
+  public function getEnrichments()
+  {
+    return $this->enrichments;
   }
   /**
    * @param string[]

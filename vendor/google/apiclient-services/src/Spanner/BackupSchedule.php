@@ -23,6 +23,8 @@ class BackupSchedule extends \Google\Model
   protected $encryptionConfigDataType = '';
   protected $fullBackupSpecType = FullBackupSpec::class;
   protected $fullBackupSpecDataType = '';
+  protected $incrementalBackupSpecType = IncrementalBackupSpec::class;
+  protected $incrementalBackupSpecDataType = '';
   /**
    * @var string
    */
@@ -65,6 +67,20 @@ class BackupSchedule extends \Google\Model
   public function getFullBackupSpec()
   {
     return $this->fullBackupSpec;
+  }
+  /**
+   * @param IncrementalBackupSpec
+   */
+  public function setIncrementalBackupSpec(IncrementalBackupSpec $incrementalBackupSpec)
+  {
+    $this->incrementalBackupSpec = $incrementalBackupSpec;
+  }
+  /**
+   * @return IncrementalBackupSpec
+   */
+  public function getIncrementalBackupSpec()
+  {
+    return $this->incrementalBackupSpec;
   }
   /**
    * @param string

@@ -79,6 +79,12 @@ class Instance extends \Google\Model
    * @var bool
    */
   public $privateIpEnabled;
+  protected $pscConfigType = PscConfig::class;
+  protected $pscConfigDataType = '';
+  /**
+   * @var bool
+   */
+  public $pscEnabled;
   /**
    * @var bool
    */
@@ -363,6 +369,34 @@ class Instance extends \Google\Model
   public function getPrivateIpEnabled()
   {
     return $this->privateIpEnabled;
+  }
+  /**
+   * @param PscConfig
+   */
+  public function setPscConfig(PscConfig $pscConfig)
+  {
+    $this->pscConfig = $pscConfig;
+  }
+  /**
+   * @return PscConfig
+   */
+  public function getPscConfig()
+  {
+    return $this->pscConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setPscEnabled($pscEnabled)
+  {
+    $this->pscEnabled = $pscEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getPscEnabled()
+  {
+    return $this->pscEnabled;
   }
   /**
    * @param bool

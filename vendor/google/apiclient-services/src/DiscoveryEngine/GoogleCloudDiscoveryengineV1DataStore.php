@@ -52,6 +52,8 @@ class GoogleCloudDiscoveryengineV1DataStore extends \Google\Collection
   public $solutionTypes;
   protected $startingSchemaType = GoogleCloudDiscoveryengineV1Schema::class;
   protected $startingSchemaDataType = '';
+  protected $workspaceConfigType = GoogleCloudDiscoveryengineV1WorkspaceConfig::class;
+  protected $workspaceConfigDataType = '';
 
   /**
    * @param string
@@ -178,6 +180,20 @@ class GoogleCloudDiscoveryengineV1DataStore extends \Google\Collection
   public function getStartingSchema()
   {
     return $this->startingSchema;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1WorkspaceConfig
+   */
+  public function setWorkspaceConfig(GoogleCloudDiscoveryengineV1WorkspaceConfig $workspaceConfig)
+  {
+    $this->workspaceConfig = $workspaceConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1WorkspaceConfig
+   */
+  public function getWorkspaceConfig()
+  {
+    return $this->workspaceConfig;
   }
 }
 

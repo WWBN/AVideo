@@ -268,6 +268,16 @@ class AIPlatformNotebooks extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'restore' => [
+              'path' => 'v2/{+name}:restore',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'rollback' => [
               'path' => 'v2/{+name}:rollback',
               'httpMethod' => 'POST',

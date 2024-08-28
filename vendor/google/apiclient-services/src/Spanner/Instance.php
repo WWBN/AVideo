@@ -35,6 +35,10 @@ class Instance extends \Google\Collection
    */
   public $displayName;
   /**
+   * @var string
+   */
+  public $edition;
+  /**
    * @var string[]
    */
   public $endpointUris;
@@ -124,6 +128,20 @@ class Instance extends \Google\Collection
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param string
+   */
+  public function setEdition($edition)
+  {
+    $this->edition = $edition;
+  }
+  /**
+   * @return string
+   */
+  public function getEdition()
+  {
+    return $this->edition;
   }
   /**
    * @param string[]

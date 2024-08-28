@@ -25,6 +25,10 @@ class Site extends \Google\Collection
    */
   public $accountId;
   /**
+   * @var string
+   */
+  public $adServingPlatformId;
+  /**
    * @var bool
    */
   public $approved;
@@ -76,6 +80,20 @@ class Site extends \Google\Collection
   public function getAccountId()
   {
     return $this->accountId;
+  }
+  /**
+   * @param string
+   */
+  public function setAdServingPlatformId($adServingPlatformId)
+  {
+    $this->adServingPlatformId = $adServingPlatformId;
+  }
+  /**
+   * @return string
+   */
+  public function getAdServingPlatformId()
+  {
+    return $this->adServingPlatformId;
   }
   /**
    * @param bool

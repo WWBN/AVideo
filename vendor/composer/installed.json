@@ -288,17 +288,17 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.320.3",
-            "version_normalized": "3.320.3.0",
+            "version": "3.320.7",
+            "version_normalized": "3.320.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "afe137e61b0b536c93a71ce3bb3cdac2e92ae789"
+                "reference": "702b9955160d2dacdf2cdf4d4476fcf95eae1aaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/afe137e61b0b536c93a71ce3bb3cdac2e92ae789",
-                "reference": "afe137e61b0b536c93a71ce3bb3cdac2e92ae789",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/702b9955160d2dacdf2cdf4d4476fcf95eae1aaf",
+                "reference": "702b9955160d2dacdf2cdf4d4476fcf95eae1aaf",
                 "shasum": ""
             },
             "require": {
@@ -339,7 +339,7 @@
                 "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
                 "ext-sockets": "To use client-side monitoring"
             },
-            "time": "2024-08-19T18:05:46+00:00",
+            "time": "2024-08-23T18:13:50+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -383,7 +383,7 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.320.3"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.320.7"
             },
             "install-path": "../aws/aws-sdk-php"
         },
@@ -1528,17 +1528,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.369.0",
-            "version_normalized": "0.369.0.0",
+            "version": "v0.370.0",
+            "version_normalized": "0.370.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "002f610e4c3acf0636b4fb1f46314a2097e1c8b4"
+                "reference": "25ad8515701dd832313d0f5f0a828670d60e541a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/002f610e4c3acf0636b4fb1f46314a2097e1c8b4",
-                "reference": "002f610e4c3acf0636b4fb1f46314a2097e1c8b4",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/25ad8515701dd832313d0f5f0a828670d60e541a",
+                "reference": "25ad8515701dd832313d0f5f0a828670d60e541a",
                 "shasum": ""
             },
             "require": {
@@ -1547,7 +1547,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.6"
             },
-            "time": "2024-08-14T20:31:16+00:00",
+            "time": "2024-08-26T01:04:18+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1569,7 +1569,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.369.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.370.0"
             },
             "install-path": "../google/apiclient-services"
         },

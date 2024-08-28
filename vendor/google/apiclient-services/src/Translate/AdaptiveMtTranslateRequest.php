@@ -28,7 +28,7 @@ class AdaptiveMtTranslateRequest extends \Google\Collection
    * @var string
    */
   public $dataset;
-  protected $glossaryConfigType = TranslateTextGlossaryConfig::class;
+  protected $glossaryConfigType = GlossaryConfig::class;
   protected $glossaryConfigDataType = '';
   protected $referenceSentenceConfigType = ReferenceSentenceConfig::class;
   protected $referenceSentenceConfigDataType = '';
@@ -62,14 +62,14 @@ class AdaptiveMtTranslateRequest extends \Google\Collection
     return $this->dataset;
   }
   /**
-   * @param TranslateTextGlossaryConfig
+   * @param GlossaryConfig
    */
-  public function setGlossaryConfig(TranslateTextGlossaryConfig $glossaryConfig)
+  public function setGlossaryConfig(GlossaryConfig $glossaryConfig)
   {
     $this->glossaryConfig = $glossaryConfig;
   }
   /**
-   * @return TranslateTextGlossaryConfig
+   * @return GlossaryConfig
    */
   public function getGlossaryConfig()
   {

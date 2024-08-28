@@ -27,6 +27,7 @@ use Google\Service\AIPlatformNotebooks\Policy;
 use Google\Service\AIPlatformNotebooks\ReportInstanceInfoSystemRequest;
 use Google\Service\AIPlatformNotebooks\ResetInstanceRequest;
 use Google\Service\AIPlatformNotebooks\ResizeDiskRequest;
+use Google\Service\AIPlatformNotebooks\RestoreInstanceRequest;
 use Google\Service\AIPlatformNotebooks\RollbackInstanceRequest;
 use Google\Service\AIPlatformNotebooks\SetIamPolicyRequest;
 use Google\Service\AIPlatformNotebooks\StartInstanceRequest;
@@ -273,6 +274,22 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
     $params = ['notebookInstance' => $notebookInstance, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('resizeDisk', [$params], Operation::class);
+  }
+  /**
+   * RestoreInstance restores an Instance from a BackupSource. (instances.restore)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param RestoreInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function restore($name, RestoreInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('restore', [$params], Operation::class);
   }
   /**
    * Rollbacks a notebook instance to the previous version. (instances.rollback)

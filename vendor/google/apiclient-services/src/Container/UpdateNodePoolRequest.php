@@ -19,7 +19,7 @@ namespace Google\Service\Container;
 
 class UpdateNodePoolRequest extends \Google\Collection
 {
-  protected $collection_key = 'locations';
+  protected $collection_key = 'storagePools';
   protected $acceleratorsType = AcceleratorConfig::class;
   protected $acceleratorsDataType = 'array';
   /**
@@ -92,6 +92,10 @@ class UpdateNodePoolRequest extends \Google\Collection
   protected $resourceLabelsDataType = '';
   protected $resourceManagerTagsType = ResourceManagerTags::class;
   protected $resourceManagerTagsDataType = '';
+  /**
+   * @var string[]
+   */
+  public $storagePools;
   protected $tagsType = NetworkTags::class;
   protected $tagsDataType = '';
   protected $taintsType = NodeTaints::class;
@@ -456,6 +460,20 @@ class UpdateNodePoolRequest extends \Google\Collection
   public function getResourceManagerTags()
   {
     return $this->resourceManagerTags;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStoragePools($storagePools)
+  {
+    $this->storagePools = $storagePools;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStoragePools()
+  {
+    return $this->storagePools;
   }
   /**
    * @param NetworkTags

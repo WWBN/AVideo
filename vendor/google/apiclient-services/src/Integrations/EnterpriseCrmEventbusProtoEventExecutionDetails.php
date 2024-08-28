@@ -20,6 +20,10 @@ namespace Google\Service\Integrations;
 class EnterpriseCrmEventbusProtoEventExecutionDetails extends \Google\Collection
 {
   protected $collection_key = 'eventExecutionSnapshot';
+  /**
+   * @var string
+   */
+  public $cancelReason;
   protected $eventAttemptStatsType = EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats::class;
   protected $eventAttemptStatsDataType = 'array';
   protected $eventExecutionSnapshotType = EnterpriseCrmEventbusProtoEventExecutionSnapshot::class;
@@ -53,6 +57,20 @@ class EnterpriseCrmEventbusProtoEventExecutionDetails extends \Google\Collection
    */
   public $ryeLockUnheldCount;
 
+  /**
+   * @param string
+   */
+  public function setCancelReason($cancelReason)
+  {
+    $this->cancelReason = $cancelReason;
+  }
+  /**
+   * @return string
+   */
+  public function getCancelReason()
+  {
+    return $this->cancelReason;
+  }
   /**
    * @param EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats[]
    */

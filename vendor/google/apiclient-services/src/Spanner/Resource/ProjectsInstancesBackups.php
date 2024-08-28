@@ -178,10 +178,10 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * `name` * `database` * `state` * `create_time` (and values are of the format
    * YYYY-MM-DDTHH:MM:SSZ) * `expire_time` (and values are of the format YYYY-MM-
    * DDTHH:MM:SSZ) * `version_time` (and values are of the format YYYY-MM-
-   * DDTHH:MM:SSZ) * `size_bytes` You can combine multiple expressions by
-   * enclosing each expression in parentheses. By default, expressions are
-   * combined with AND logic, but you can specify AND, OR, and NOT logic
-   * explicitly. Here are a few examples: * `name:Howl` - The backup's name
+   * DDTHH:MM:SSZ) * `size_bytes` * `backup_schedules` You can combine multiple
+   * expressions by enclosing each expression in parentheses. By default,
+   * expressions are combined with AND logic, but you can specify AND, OR, and NOT
+   * logic explicitly. Here are a few examples: * `name:Howl` - The backup's name
    * contains the string "howl". * `database:prod` - The database's name contains
    * the string "prod". * `state:CREATING` - The backup is pending creation. *
    * `state:READY` - The backup is fully created and ready for use. * `(name:howl)
@@ -189,7 +189,8 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * string "howl" and `create_time` of the backup is before 2018-03-28T14:50:00Z.
    * * `expire_time < \"2018-03-28T14:50:00Z\"` - The backup `expire_time` is
    * before 2018-03-28T14:50:00Z. * `size_bytes > 10000000000` - The backup's size
-   * is greater than 10GB
+   * is greater than 10GB * `backup_schedules:daily` - The backup is created from
+   * a schedule with "daily" in its name.
    * @opt_param int pageSize Number of backups to be returned in the response. If
    * 0 or less, defaults to the server's maximum allowed page size.
    * @opt_param string pageToken If non-empty, `page_token` should contain a

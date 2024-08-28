@@ -85,6 +85,10 @@ class GoogleCloudDiscoveryengineV1betaSearchRequest extends \Google\Collection
    */
   public $regionCode;
   /**
+   * @var string
+   */
+  public $relevanceThreshold;
+  /**
    * @var bool
    */
   public $safeSearch;
@@ -392,6 +396,20 @@ class GoogleCloudDiscoveryengineV1betaSearchRequest extends \Google\Collection
   public function getRegionCode()
   {
     return $this->regionCode;
+  }
+  /**
+   * @param string
+   */
+  public function setRelevanceThreshold($relevanceThreshold)
+  {
+    $this->relevanceThreshold = $relevanceThreshold;
+  }
+  /**
+   * @return string
+   */
+  public function getRelevanceThreshold()
+  {
+    return $this->relevanceThreshold;
   }
   /**
    * @param bool

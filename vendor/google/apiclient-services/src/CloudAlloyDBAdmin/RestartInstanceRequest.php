@@ -17,8 +17,13 @@
 
 namespace Google\Service\CloudAlloyDBAdmin;
 
-class RestartInstanceRequest extends \Google\Model
+class RestartInstanceRequest extends \Google\Collection
 {
+  protected $collection_key = 'nodeIds';
+  /**
+   * @var string[]
+   */
+  public $nodeIds;
   /**
    * @var string
    */
@@ -28,6 +33,20 @@ class RestartInstanceRequest extends \Google\Model
    */
   public $validateOnly;
 
+  /**
+   * @param string[]
+   */
+  public function setNodeIds($nodeIds)
+  {
+    $this->nodeIds = $nodeIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getNodeIds()
+  {
+    return $this->nodeIds;
+  }
   /**
    * @param string
    */

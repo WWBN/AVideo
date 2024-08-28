@@ -17,12 +17,17 @@
 
 namespace Google\Service\SA360;
 
-class GoogleAdsSearchads360V0CommonSearchAds360ResponsiveSearchAdInfo extends \Google\Model
+class GoogleAdsSearchads360V0CommonSearchAds360ResponsiveSearchAdInfo extends \Google\Collection
 {
+  protected $collection_key = 'headlines';
   /**
    * @var string
    */
   public $adTrackingId;
+  protected $descriptionsType = GoogleAdsSearchads360V0CommonAdTextAsset::class;
+  protected $descriptionsDataType = 'array';
+  protected $headlinesType = GoogleAdsSearchads360V0CommonAdTextAsset::class;
+  protected $headlinesDataType = 'array';
   /**
    * @var string
    */
@@ -45,6 +50,34 @@ class GoogleAdsSearchads360V0CommonSearchAds360ResponsiveSearchAdInfo extends \G
   public function getAdTrackingId()
   {
     return $this->adTrackingId;
+  }
+  /**
+   * @param GoogleAdsSearchads360V0CommonAdTextAsset[]
+   */
+  public function setDescriptions($descriptions)
+  {
+    $this->descriptions = $descriptions;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0CommonAdTextAsset[]
+   */
+  public function getDescriptions()
+  {
+    return $this->descriptions;
+  }
+  /**
+   * @param GoogleAdsSearchads360V0CommonAdTextAsset[]
+   */
+  public function setHeadlines($headlines)
+  {
+    $this->headlines = $headlines;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0CommonAdTextAsset[]
+   */
+  public function getHeadlines()
+  {
+    return $this->headlines;
   }
   /**
    * @param string

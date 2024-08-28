@@ -43,7 +43,7 @@ class InfoTypes extends \Google\Service\Resource
    * strings will be returned.
    * @opt_param string locationId Deprecated. This field has no effect.
    * @opt_param string parent The parent resource name. The format of this value
-   * is as follows: locations/ LOCATION_ID
+   * is as follows: `locations/{location_id}`
    * @return GooglePrivacyDlpV2ListInfoTypesResponse
    * @throws \Google\Service\Exception
    */

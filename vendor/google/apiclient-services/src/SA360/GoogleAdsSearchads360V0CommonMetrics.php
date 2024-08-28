@@ -38,6 +38,7 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   public $averageCost;
   public $averageCpc;
   public $averageCpm;
+  public $averageQualityScore;
   /**
    * @var string
    */
@@ -320,6 +321,14 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   public function getAverageCpm()
   {
     return $this->averageCpm;
+  }
+  public function setAverageQualityScore($averageQualityScore)
+  {
+    $this->averageQualityScore = $averageQualityScore;
+  }
+  public function getAverageQualityScore()
+  {
+    return $this->averageQualityScore;
   }
   /**
    * @param string

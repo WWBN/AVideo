@@ -38,8 +38,6 @@ class AwsSourceDetails extends \Google\Collection
    * @var string[]
    */
   public $migrationResourcesUserTags;
-  protected $networkInsightsType = NetworkInsights::class;
-  protected $networkInsightsDataType = '';
   /**
    * @var string
    */
@@ -132,20 +130,6 @@ class AwsSourceDetails extends \Google\Collection
   public function getMigrationResourcesUserTags()
   {
     return $this->migrationResourcesUserTags;
-  }
-  /**
-   * @param NetworkInsights
-   */
-  public function setNetworkInsights(NetworkInsights $networkInsights)
-  {
-    $this->networkInsights = $networkInsights;
-  }
-  /**
-   * @return NetworkInsights
-   */
-  public function getNetworkInsights()
-  {
-    return $this->networkInsights;
   }
   /**
    * @param string

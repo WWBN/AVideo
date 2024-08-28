@@ -22,6 +22,10 @@ class InstancePolicyOrTemplate extends \Google\Model
   /**
    * @var bool
    */
+  public $blockProjectSshKeys;
+  /**
+   * @var bool
+   */
   public $installGpuDrivers;
   /**
    * @var bool
@@ -34,6 +38,20 @@ class InstancePolicyOrTemplate extends \Google\Model
   protected $policyType = InstancePolicy::class;
   protected $policyDataType = '';
 
+  /**
+   * @param bool
+   */
+  public function setBlockProjectSshKeys($blockProjectSshKeys)
+  {
+    $this->blockProjectSshKeys = $blockProjectSshKeys;
+  }
+  /**
+   * @return bool
+   */
+  public function getBlockProjectSshKeys()
+  {
+    return $this->blockProjectSshKeys;
+  }
   /**
    * @param bool
    */

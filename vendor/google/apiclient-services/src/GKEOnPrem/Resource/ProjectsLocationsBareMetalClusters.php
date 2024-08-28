@@ -46,6 +46,11 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * @param BareMetalCluster $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool allowPreflightFailure Optional. If set to true, CLM will
+   * force CCFE to persist the cluster resource in RMS when the creation fails
+   * during standalone preflight checks. In that case the subsequent create call
+   * will fail with "cluster already exists" error and hence a update cluster is
+   * required to fix the cluster.
    * @opt_param string bareMetalClusterId Required. User provided identifier that
    * is used as part of the resource name; must conform to RFC-1034 and
    * additionally restrict to lower-cased letters. This comes out roughly to:
@@ -124,6 +129,8 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * l_cluster}"
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool allowMissing Optional. If true, return BareMetal Cluster
+   * including the one that only exists in RMS.
    * @opt_param string view View for bare metal user cluster. When `BASIC` is
    * specified, only the cluster resource name and admin cluster membership are
    * returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as
@@ -177,6 +184,8 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * the clusters are listed in. Format: "projects/{project}/locations/{location}"
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool allowMissing Optional. If true, return list of BareMetal
+   * Clusters including the ones that only exists in RMS.
    * @opt_param string filter A resource filtering expression following
    * https://google.aip.dev/160. When non-empty, only resource's whose attributes
    * field matches the filter are returned.

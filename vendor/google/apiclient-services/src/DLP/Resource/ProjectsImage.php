@@ -43,8 +43,8 @@ class ProjectsImage extends \Google\Service\Resource
    * depending on whether you have [specified a processing
    * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
    * location): + Projects scope, location specified:
-   * `projects/`PROJECT_ID`/locations/` LOCATION_ID + Projects scope, no location
-   * specified (defaults to global): `projects/`PROJECT_ID The following example
+   * `projects/{project_id}/locations/{location_id}` + Projects scope, no location
+   * specified (defaults to global): `projects/{project_id}` The following example
    * `parent` string specifies a parent project with the identifier `example-
    * project`, and specifies the `europe-west3` location for processing data:
    * parent=projects/example-project/locations/europe-west3

@@ -32,6 +32,10 @@ class GoogleCloudIntegrationsV1alphaIntegrationParameter extends \Google\Model
   /**
    * @var string
    */
+  public $description;
+  /**
+   * @var string
+   */
   public $displayName;
   /**
    * @var string
@@ -103,6 +107,20 @@ class GoogleCloudIntegrationsV1alphaIntegrationParameter extends \Google\Model
   public function getDefaultValue()
   {
     return $this->defaultValue;
+  }
+  /**
+   * @param string
+   */
+  public function setDescription($description)
+  {
+    $this->description = $description;
+  }
+  /**
+   * @return string
+   */
+  public function getDescription()
+  {
+    return $this->description;
   }
   /**
    * @param string

@@ -153,8 +153,7 @@ class ProjectsLocationsIntegrationsVersions extends \Google\Service\Resource
    * Specifically, when parent equals: 1. projects//locations//integrations/,
    * Meaning: "List versions (with filter) for a particular integration". 2.
    * projects//locations//integrations/- Meaning: "List versions (with filter) for
-   * a client within a particular region". 3. projects//locations/-/integrations/-
-   * Meaning: "List versions (with filter) for a client".
+   * a client within a particular region".
    * @param array $optParams Optional parameters.
    *
    * @opt_param string fieldMask The field mask which specifies the particular

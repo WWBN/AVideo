@@ -67,6 +67,10 @@ class Gateway extends \Google\Collection
   /**
    * @var string
    */
+  public $routingMode;
+  /**
+   * @var string
+   */
   public $scope;
   /**
    * @var string
@@ -242,6 +246,20 @@ class Gateway extends \Google\Collection
   public function getPorts()
   {
     return $this->ports;
+  }
+  /**
+   * @param string
+   */
+  public function setRoutingMode($routingMode)
+  {
+    $this->routingMode = $routingMode;
+  }
+  /**
+   * @return string
+   */
+  public function getRoutingMode()
+  {
+    return $this->routingMode;
   }
   /**
    * @param string

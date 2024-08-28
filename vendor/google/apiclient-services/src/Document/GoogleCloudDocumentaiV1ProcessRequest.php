@@ -25,6 +25,10 @@ class GoogleCloudDocumentaiV1ProcessRequest extends \Google\Model
   public $fieldMask;
   protected $gcsDocumentType = GoogleCloudDocumentaiV1GcsDocument::class;
   protected $gcsDocumentDataType = '';
+  /**
+   * @var bool
+   */
+  public $imagelessMode;
   protected $inlineDocumentType = GoogleCloudDocumentaiV1Document::class;
   protected $inlineDocumentDataType = '';
   /**
@@ -67,6 +71,20 @@ class GoogleCloudDocumentaiV1ProcessRequest extends \Google\Model
   public function getGcsDocument()
   {
     return $this->gcsDocument;
+  }
+  /**
+   * @param bool
+   */
+  public function setImagelessMode($imagelessMode)
+  {
+    $this->imagelessMode = $imagelessMode;
+  }
+  /**
+   * @return bool
+   */
+  public function getImagelessMode()
+  {
+    return $this->imagelessMode;
   }
   /**
    * @param GoogleCloudDocumentaiV1Document

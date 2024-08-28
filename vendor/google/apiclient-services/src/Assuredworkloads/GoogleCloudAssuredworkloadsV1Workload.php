@@ -75,6 +75,10 @@ class GoogleCloudAssuredworkloadsV1Workload extends \Google\Collection
   /**
    * @var string
    */
+  public $partnerServicesBillingAccount;
+  /**
+   * @var string
+   */
   public $provisionedResourcesParent;
   /**
    * @var bool
@@ -300,6 +304,20 @@ class GoogleCloudAssuredworkloadsV1Workload extends \Google\Collection
   public function getPartnerPermissions()
   {
     return $this->partnerPermissions;
+  }
+  /**
+   * @param string
+   */
+  public function setPartnerServicesBillingAccount($partnerServicesBillingAccount)
+  {
+    $this->partnerServicesBillingAccount = $partnerServicesBillingAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getPartnerServicesBillingAccount()
+  {
+    return $this->partnerServicesBillingAccount;
   }
   /**
    * @param string

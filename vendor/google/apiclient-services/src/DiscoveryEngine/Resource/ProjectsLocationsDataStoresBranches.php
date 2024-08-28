@@ -17,6 +17,8 @@
 
 namespace Google\Service\DiscoveryEngine\Resource;
 
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1BatchGetDocumentsMetadataResponse;
+
 /**
  * The "branches" collection of methods.
  * Typical usage is:
@@ -27,6 +29,28 @@ namespace Google\Service\DiscoveryEngine\Resource;
  */
 class ProjectsLocationsDataStoresBranches extends \Google\Service\Resource
 {
+  /**
+   * Gets index freshness metadata for Documents. Supported for website search
+   * only. (branches.batchGetDocumentsMetadata)
+   *
+   * @param string $parent Required. The parent branch resource name, such as `pro
+   * jects/{project}/locations/{location}/collections/{collection}/dataStores/{dat
+   * a_store}/branches/{branch}`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string matcher.fhirMatcher.fhirResources Required. The FHIR
+   * resources to match by. Format: projects/{project}/locations/{location}/datase
+   * ts/{dataset}/fhirStores/{fhir_store}/fhir/{resource_type}/{fhir_resource_id}
+   * @opt_param string matcher.urisMatcher.uris The exact URIs to match by.
+   * @return GoogleCloudDiscoveryengineV1BatchGetDocumentsMetadataResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchGetDocumentsMetadata($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchGetDocumentsMetadata', [$params], GoogleCloudDiscoveryengineV1BatchGetDocumentsMetadataResponse::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

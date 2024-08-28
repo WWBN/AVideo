@@ -51,6 +51,10 @@ class GoogleAdsSearchads360V0ResourcesCustomColumn extends \Google\Collection
   /**
    * @var string
    */
+  public $renderType;
+  /**
+   * @var string
+   */
   public $resourceName;
   /**
    * @var string
@@ -154,6 +158,20 @@ class GoogleAdsSearchads360V0ResourcesCustomColumn extends \Google\Collection
   public function getReferencesMetrics()
   {
     return $this->referencesMetrics;
+  }
+  /**
+   * @param string
+   */
+  public function setRenderType($renderType)
+  {
+    $this->renderType = $renderType;
+  }
+  /**
+   * @return string
+   */
+  public function getRenderType()
+  {
+    return $this->renderType;
   }
   /**
    * @param string

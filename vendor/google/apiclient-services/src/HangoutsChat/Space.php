@@ -44,6 +44,12 @@ class Space extends \Google\Model
   /**
    * @var string
    */
+  public $lastActiveTime;
+  protected $membershipCountType = MembershipCount::class;
+  protected $membershipCountDataType = '';
+  /**
+   * @var string
+   */
   public $name;
   /**
    * @var bool
@@ -159,6 +165,34 @@ class Space extends \Google\Model
   public function getImportMode()
   {
     return $this->importMode;
+  }
+  /**
+   * @param string
+   */
+  public function setLastActiveTime($lastActiveTime)
+  {
+    $this->lastActiveTime = $lastActiveTime;
+  }
+  /**
+   * @return string
+   */
+  public function getLastActiveTime()
+  {
+    return $this->lastActiveTime;
+  }
+  /**
+   * @param MembershipCount
+   */
+  public function setMembershipCount(MembershipCount $membershipCount)
+  {
+    $this->membershipCount = $membershipCount;
+  }
+  /**
+   * @return MembershipCount
+   */
+  public function getMembershipCount()
+  {
+    return $this->membershipCount;
   }
   /**
    * @param string

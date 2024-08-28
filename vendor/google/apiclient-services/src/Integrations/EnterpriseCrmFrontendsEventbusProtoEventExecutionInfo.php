@@ -45,6 +45,10 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo extends \Google\Coll
   /**
    * @var string
    */
+  public $integrationVersionUserLabel;
+  /**
+   * @var string
+   */
   public $lastModifiedTime;
   /**
    * @var string
@@ -200,6 +204,20 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo extends \Google\Coll
   public function getExecutionTraceInfo()
   {
     return $this->executionTraceInfo;
+  }
+  /**
+   * @param string
+   */
+  public function setIntegrationVersionUserLabel($integrationVersionUserLabel)
+  {
+    $this->integrationVersionUserLabel = $integrationVersionUserLabel;
+  }
+  /**
+   * @return string
+   */
+  public function getIntegrationVersionUserLabel()
+  {
+    return $this->integrationVersionUserLabel;
   }
   /**
    * @param string

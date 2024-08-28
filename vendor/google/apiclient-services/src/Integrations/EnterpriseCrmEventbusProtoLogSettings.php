@@ -23,8 +23,6 @@ class EnterpriseCrmEventbusProtoLogSettings extends \Google\Model
    * @var string
    */
   public $logFieldName;
-  protected $sanitizeOptionsType = EnterpriseCrmLoggingGwsSanitizeOptions::class;
-  protected $sanitizeOptionsDataType = '';
   /**
    * @var string
    */
@@ -33,8 +31,6 @@ class EnterpriseCrmEventbusProtoLogSettings extends \Google\Model
    * @var string
    */
   public $seedScope;
-  protected $shorteningLimitsType = EnterpriseCrmLoggingGwsFieldLimits::class;
-  protected $shorteningLimitsDataType = '';
 
   /**
    * @param string
@@ -49,20 +45,6 @@ class EnterpriseCrmEventbusProtoLogSettings extends \Google\Model
   public function getLogFieldName()
   {
     return $this->logFieldName;
-  }
-  /**
-   * @param EnterpriseCrmLoggingGwsSanitizeOptions
-   */
-  public function setSanitizeOptions(EnterpriseCrmLoggingGwsSanitizeOptions $sanitizeOptions)
-  {
-    $this->sanitizeOptions = $sanitizeOptions;
-  }
-  /**
-   * @return EnterpriseCrmLoggingGwsSanitizeOptions
-   */
-  public function getSanitizeOptions()
-  {
-    return $this->sanitizeOptions;
   }
   /**
    * @param string
@@ -91,20 +73,6 @@ class EnterpriseCrmEventbusProtoLogSettings extends \Google\Model
   public function getSeedScope()
   {
     return $this->seedScope;
-  }
-  /**
-   * @param EnterpriseCrmLoggingGwsFieldLimits
-   */
-  public function setShorteningLimits(EnterpriseCrmLoggingGwsFieldLimits $shorteningLimits)
-  {
-    $this->shorteningLimits = $shorteningLimits;
-  }
-  /**
-   * @return EnterpriseCrmLoggingGwsFieldLimits
-   */
-  public function getShorteningLimits()
-  {
-    return $this->shorteningLimits;
   }
 }
 

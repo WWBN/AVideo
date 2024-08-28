@@ -65,6 +65,10 @@ class DatabaseResourceHealthSignalData extends \Google\Collection
   /**
    * @var string
    */
+  public $signalSeverity;
+  /**
+   * @var string
+   */
   public $signalType;
   /**
    * @var string
@@ -224,6 +228,20 @@ class DatabaseResourceHealthSignalData extends \Google\Collection
   public function getSignalId()
   {
     return $this->signalId;
+  }
+  /**
+   * @param string
+   */
+  public function setSignalSeverity($signalSeverity)
+  {
+    $this->signalSeverity = $signalSeverity;
+  }
+  /**
+   * @return string
+   */
+  public function getSignalSeverity()
+  {
+    return $this->signalSeverity;
   }
   /**
    * @param string

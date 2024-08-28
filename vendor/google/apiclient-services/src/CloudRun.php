@@ -42,6 +42,7 @@ class CloudRun extends \Google\Service
       "https://www.googleapis.com/auth/cloud-platform";
 
   public $projects_locations;
+  public $projects_locations_builds;
   public $projects_locations_jobs;
   public $projects_locations_jobs_executions;
   public $projects_locations_jobs_executions_tasks;
@@ -108,6 +109,26 @@ class CloudRun extends \Google\Service
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_builds = new CloudRun\Resource\ProjectsLocationsBuilds(
+        $this,
+        $this->serviceName,
+        'builds',
+        [
+          'methods' => [
+            'submit' => [
+              'path' => 'v2/{+parent}/builds:submit',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

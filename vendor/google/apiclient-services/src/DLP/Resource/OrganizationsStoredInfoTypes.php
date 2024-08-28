@@ -43,11 +43,11 @@ class OrganizationsStoredInfoTypes extends \Google\Service\Resource
    * and whether you have [specified a processing
    * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
    * location): + Projects scope, location specified:
-   * `projects/`PROJECT_ID`/locations/` LOCATION_ID + Projects scope, no location
-   * specified (defaults to global): `projects/`PROJECT_ID + Organizations scope,
-   * location specified: `organizations/`ORG_ID`/locations/`LOCATION_ID +
+   * `projects/{project_id}/locations/{location_id}` + Projects scope, no location
+   * specified (defaults to global): `projects/{project_id}` + Organizations
+   * scope, location specified: `organizations/{org_id}/locations/{location_id}` +
    * Organizations scope, no location specified (defaults to global):
-   * `organizations/`ORG_ID The following example `parent` string specifies a
+   * `organizations/{org_id}` The following example `parent` string specifies a
    * parent project with the identifier `example-project`, and specifies the
    * `europe-west3` location for processing data: parent=projects/example-
    * project/locations/europe-west3
@@ -110,8 +110,8 @@ class OrganizationsStoredInfoTypes extends \Google\Service\Resource
    * and whether you have [specified a processing
    * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
    * location): + Projects scope, location specified:
-   * `projects/`PROJECT_ID`/locations/` LOCATION_ID + Projects scope, no location
-   * specified (defaults to global): `projects/`PROJECT_ID The following example
+   * `projects/{project_id}/locations/{location_id}` + Projects scope, no location
+   * specified (defaults to global): `projects/{project_id}` The following example
    * `parent` string specifies a parent project with the identifier `example-
    * project`, and specifies the `europe-west3` location for processing data:
    * parent=projects/example-project/locations/europe-west3

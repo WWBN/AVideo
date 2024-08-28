@@ -83,6 +83,10 @@ class AddSubnetworkRequest extends \Google\Collection
   protected $secondaryIpRangeSpecsType = SecondaryIpRangeSpec::class;
   protected $secondaryIpRangeSpecsDataType = 'array';
   /**
+   * @var bool
+   */
+  public $skipRequestedAddressValidation;
+  /**
    * @var string
    */
   public $subnetwork;
@@ -318,6 +322,20 @@ class AddSubnetworkRequest extends \Google\Collection
   public function getSecondaryIpRangeSpecs()
   {
     return $this->secondaryIpRangeSpecs;
+  }
+  /**
+   * @param bool
+   */
+  public function setSkipRequestedAddressValidation($skipRequestedAddressValidation)
+  {
+    $this->skipRequestedAddressValidation = $skipRequestedAddressValidation;
+  }
+  /**
+   * @return bool
+   */
+  public function getSkipRequestedAddressValidation()
+  {
+    return $this->skipRequestedAddressValidation;
   }
   /**
    * @param string
