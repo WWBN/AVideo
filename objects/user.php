@@ -1106,6 +1106,7 @@ if (typeof gtag !== \"function\") {
                 'live_transmition_history_log',
                 'live_transmitions_history',
                 'email_to_user',
+                'wallet',
             ];
 
             foreach ($arrayTables as $value) {
