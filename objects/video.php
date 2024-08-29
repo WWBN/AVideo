@@ -4846,14 +4846,14 @@ if (!class_exists('Video')) {
             $cache = $videoCache->getCache($cacheSuffix, 0);
 
             $tmpCacheFile = sys_get_temp_dir() . "/getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".tmp";
-            $tmpCacheFile = '/tmp/'.uniqid();
+            
             if (!empty($cache)) {
                 $obj = object_to_array(_json_decode($cache));
                 if (!file_exists($tmpCacheFile)) {
                     file_put_contents($tmpCacheFile, json_encode($cache));
                 }
                 return $obj;
-            } elseif (file_exists($tmpCacheFile)) {
+            } elseif (file_exists($tmpCacheFile) && false) {
                 _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile ".json_encode(ObjectYPT::getLastUsedCacheInfo()));
                 // Execute the async process to generate the cache
                 execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0));

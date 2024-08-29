@@ -31,7 +31,7 @@ try {
     // Update the lock file's modification time to ensure it doesn't get removed due to age
     touch($lockFile);
     //fake a browser here, so it will create a cache for web
-    if(empty($_SERVER['HTTP_USER_AGENT'] )){
+    if (empty($_SERVER['HTTP_USER_AGENT'])) {
         $_SERVER['HTTP_USER_AGENT'] = 'firefox';
     }
     // Call the function
@@ -42,18 +42,19 @@ try {
     $videoCache->setSuffix($cacheSuffix);
     $response = $videoCache->setCache($videos);
 
-    echo json_encode(array($response));
-    /*
+    /**/
 
     // Define the log file path
-    $logFile = '/var/www/html/AVideo/videos/cache/logfile.log';
+    $logFile = '/var/www/html/AVideo/videos/cache/getVideoPaths.json.php.log';
 
     // Define the log message
-    $logMessage = date('Y-m-d H:i:s') . json_encode(array($response)) . PHP_EOL;
+    $logMessage = date('Y-m-d H:i:s') . ' ' . getRealIpAddr() . ' ' . json_encode(array($response)) . PHP_EOL;
 
     // Append the log message to the file
     file_put_contents($logFile, $logMessage, FILE_APPEND | LOCK_EX);
-    */
+
+    echo json_encode(array($response));
+
     /*
     $global['forceGetCache'] = 1;
     $videoCache = new VideoCacheHandler($filename, 0, true);
