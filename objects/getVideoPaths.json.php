@@ -36,7 +36,8 @@ try {
 
     $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
     $videoCache = new VideoCacheHandler($filename);
-    $videoCache->setCache($videos);
+    $response = $videoCache->setCache($videos);
+    echo json_encode($response);
 
 } catch (Exception $e) {
     error_log("Error processing video paths: " . $e->getMessage());
