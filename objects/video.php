@@ -4855,7 +4855,7 @@ if (!class_exists('Video')) {
                 return $obj;
             } elseif (file_exists($tmpCacheFile)) {
                 // Execute the async process to generate the cache
-                execAsync('php ' . __DIR__ . "/getVideosPaths.json.php {$filename} " . ($includeS3 ? 1 : 0));
+                execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0));
 
                 // Return the temporary cache file content if it exists
                 $tmpCacheContent = file_get_contents($tmpCacheFile);
