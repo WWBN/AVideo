@@ -180,6 +180,13 @@ class YPTWallet extends PluginAbstract
                 sqlDal::writeSql(trim($value));
             }
         }
+        if (AVideoPlugin::compareVersion($this->getName(), "5.1") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/YPTWallet/install/updateV5.1.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
         return true;
     }
 
