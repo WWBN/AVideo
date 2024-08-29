@@ -608,6 +608,9 @@ abstract class ObjectYPT implements ObjectInterface
         }
 
         $cachefile = self::getCacheFileName($name, true, $addSubDirs, $ignoreMetadata);
+        if(isCommandLineInterface()){
+            echo 'setCache '.json_encode($name, $addSubDirs, $ignoreMetadata);
+        }
         self::logTime($start, __LINE__, $name);
         make_path($cachefile);
         //_error_log("YPTObject::setCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
