@@ -4868,8 +4868,8 @@ if (!class_exists('Video')) {
                 file_put_contents($tmpCacheFile, json_encode($videos));
 
                 // Save the results in the main cache
-                $videoCache->setCache($videos);
-
+                $resp = $videoCache->setCache($videos);
+                _error_log("getVideosPaths($filename) ".json_encode($resp));
                 return $videos;
             }
         }
