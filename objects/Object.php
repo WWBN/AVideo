@@ -676,6 +676,9 @@ abstract class ObjectYPT implements ObjectInterface
         }
         //if($name=='getVideosURL_V2video_220721204450_v21b7'){var_dump($name);exit;}
         $cachefile = self::getCacheFileName($name, false, $addSubDirs, $ignoreMetadata);
+        if(isCommandLineInterface()){
+            echo 'getCache '.json_encode(array($name, $addSubDirs, $ignoreMetadata)).PHP_EOL;
+        }
         //if($name=='getVideosURL_V2video_220721204450_v21b7'){var_dump($cachefile);exit;}//exit;
         self::setLastUsedCacheFile($cachefile);
         //_error_log("getCache: cachefile [$name] ".$cachefile);
