@@ -1146,6 +1146,10 @@ abstract class CacheHandler
     public function setCache($value)
     {
         $name = $this->getCacheName($this->suffix);
+        
+        if(isCommandLineInterface()){
+            echo "public function setCache($value) name=".$name.PHP_EOL;
+        }
         $return = ObjectYPT::setCacheGlobal($name, $value);
         /*
         if (empty($return) || ($return['type'] == 'file' && empty($return['bytes']))) {
@@ -1162,7 +1166,10 @@ abstract class CacheHandler
             $_getCache = array();
         }
         $this->setSuffix($suffix);
-        $name = $this->getCacheName($this->suffix);
+        $name = $this->getCacheName($this->suffix);        
+        if(isCommandLineInterface()){
+            echo "public function getCache($suffix) ??{$this->suffix}?? name=".$name.PHP_EOL;
+        }
         if (isset($_getCache[$name])) {
             if ($logInfo) {
                 _error_log("getCache($suffix, $lifetime) line=" . __LINE__);
