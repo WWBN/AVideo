@@ -260,9 +260,13 @@ if (empty($objClone->useRsync)) {
     $log->add("Clone (4 of {$totalSteps}): execute rsync ({$rsync})");
 
     exec($cmd . " 2>&1", $output, $return_val);
+    // Log the output and the return value for debugging purposes
+    $log->add("Clone output: " . print_r($output, true));
+    $log->add("Clone return value: " . $return_val);
+
     if ($return_val !== 0) {
-        //$log->add("Clone Error: " . print_r($output, true));
-    }
+        $log->add("Clone Error: Command failed with return value {$return_val}");
+    }   
     $log->add("Clone (5 of {$totalSteps}): rsync finished");
 }
 
