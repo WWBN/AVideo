@@ -38,7 +38,7 @@ try {
     $videoCache = new VideoCacheHandler($filename);
     $response = $videoCache->setCache($videos);
     Cache::saveCache();
-    
+    $global['forceGetCache'] = 1;
     $videoCache = new VideoCacheHandler($filename);
     $cache = $videoCache->getCache($cacheSuffix, 0);
     echo json_encode(array($response,  $cache, ObjectYPT::getLastUsedCacheInfo()));
