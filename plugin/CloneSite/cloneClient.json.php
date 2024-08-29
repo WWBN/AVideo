@@ -18,6 +18,7 @@ require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
+ini_set('memory_limit', '512M');
 error_reporting(E_ALL);
 
 $totalSteps = 7;
@@ -255,7 +256,7 @@ if (empty($objClone->useRsync)) {
     if (empty($port)) {
         $port = 22;
     }
-    $rsync = "sshpass -p '{password}' rsync -avv -e 'ssh  -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} " . Video::getStoragePath() . " --log-file='{$log->file}' ";
+    $rsync = "sshpass -p '{password}' rsync -avv --partial --timeout=300 -e 'ssh  -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} " . Video::getStoragePath() . " --log-file='{$log->file}' ";
     $cmd = str_replace("{password}", $objClone->cloneSiteSSHPassword->value, $rsync);
     $log->add("Clone (4 of {$totalSteps}): execute rsync ({$rsync})");
 
