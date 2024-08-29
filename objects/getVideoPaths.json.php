@@ -45,7 +45,7 @@ try {
     /**/
 
     // Define the log file path
-    $logFile = '/var/www/html/AVideo/videos/cache/getVideoPaths.json.php.log';
+    $logFile = __DIR__.'/../videos/cache/getVideoPaths.json.php.log';
 
     // Define the log message
     $logMessage = date('Y-m-d H:i:s') . ' ' . getRealIpAddr() . ' ' . json_encode(array($response)) . PHP_EOL;
