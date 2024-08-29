@@ -609,7 +609,7 @@ abstract class ObjectYPT implements ObjectInterface
 
         $cachefile = self::getCacheFileName($name, true, $addSubDirs, $ignoreMetadata);
         if(isCommandLineInterface()){
-            echo 'setCache '.json_encode($name, $addSubDirs, $ignoreMetadata);
+            echo 'setCache '.json_encode(array($name, $addSubDirs, $ignoreMetadata)).PHP_EOL;
         }
         self::logTime($start, __LINE__, $name);
         make_path($cachefile);
