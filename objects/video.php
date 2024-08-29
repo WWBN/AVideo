@@ -4857,7 +4857,7 @@ if (!class_exists('Video')) {
             } elseif (empty($global['disableAsyncGetVideosPaths']) && file_exists($tmpCacheFile)) {
                 _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()));
                 // Execute the async process to generate the cache
-                $device = getDeviceName();
+                $device = getDeviceName('web');
                 execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0) . " {$device}");
 
                 // Return the temporary cache file content if it exists
