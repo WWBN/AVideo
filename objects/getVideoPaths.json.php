@@ -39,11 +39,13 @@ try {
     $videoCache->setSuffix($cacheSuffix);
     $response = $videoCache->setCache($videos);
 
+    echo json_encode(array($response, ObjectYPT::getLastUsedCacheInfo()));
+    /*
     $global['forceGetCache'] = 1;
     $videoCache = new VideoCacheHandler($filename, 0, true);
     $cache = $videoCache->getCache($cacheSuffix, 0);
     echo json_encode(array($response,  $cache, ObjectYPT::getLastUsedCacheInfo()));
-
+    */
 } catch (Exception $e) {
     error_log("Error processing video paths: " . $e->getMessage());
 } finally {
