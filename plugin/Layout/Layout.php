@@ -799,7 +799,7 @@ class Layout extends PluginAbstract
         $html = self::organizeHTML($html);
         //_ob_clean();
         _ob_start();
-        echo '<!-- Layout organizeHTML start -->' . PHP_EOL . $html . PHP_EOL . '<!-- Layout organizeHTML END -->';
+        echo $html . PHP_EOL . '<!-- Layout organizeHTML END -->';
     }
 
     static private function removeDuplicated($list)
