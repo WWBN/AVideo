@@ -40,7 +40,7 @@ try {
     Cache::saveCache();
     
     $cache = $videoCache->getCache($cacheSuffix, 0);
-    echo json_encode(array($response,  $cache));
+    echo json_encode(array($response,  $cache, $videos));
 
 } catch (Exception $e) {
     error_log("Error processing video paths: " . $e->getMessage());
