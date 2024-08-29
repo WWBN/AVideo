@@ -661,7 +661,7 @@ class PlayList extends ObjectYPT
             }
             TimeLogEnd($timeName1, __LINE__, 0.5);
         }else{
-            _error_log("playlist getVideosFromPlaylist($playlists_id) cache ");
+            //_error_log("playlist getVideosFromPlaylist($playlists_id) cache ");
         }
         return $rows;
     }
