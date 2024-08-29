@@ -37,6 +37,7 @@ try {
     $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
     $videoCache = new VideoCacheHandler($filename, 0, true);
     $response = $videoCache->setCache($videos);
+    var_dump($cache_setCacheToSaveAtTheEnd);
     Cache::saveCache();
     $global['forceGetCache'] = 1;
     $videoCache = new VideoCacheHandler($filename, 0, true);
