@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS `wallet_log` (
   CONSTRAINT `fk_wallet_log_wallet1`
     FOREIGN KEY (`wallet_id`)
     REFERENCES `wallet` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
