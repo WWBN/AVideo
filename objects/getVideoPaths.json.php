@@ -40,6 +40,17 @@ try {
     $response = $videoCache->setCache($videos);
 
     echo json_encode(array($response));
+
+
+    // Define the log file path
+    $logFile = '/var/www/html/AVideo/videos/cache/logfile.log';
+
+    // Define the log message
+    $logMessage = date('Y-m-d H:i:s') . json_encode(array($response)) . PHP_EOL;
+
+    // Append the log message to the file
+    file_put_contents($logFile, $logMessage, FILE_APPEND | LOCK_EX);
+
     /*
     $global['forceGetCache'] = 1;
     $videoCache = new VideoCacheHandler($filename, 0, true);
