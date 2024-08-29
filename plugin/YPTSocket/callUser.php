@@ -58,6 +58,9 @@ $identification = User::getNameIdentificationById($users_id);
             .callerUserOffline .userImage, .notCalling .userImage{
                 animation: none;
             }
+            #mainFooter{
+                display: none !important;
+            }
         </style>
     </head>
     <body>
