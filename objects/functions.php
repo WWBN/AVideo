@@ -7104,10 +7104,10 @@ function getMVideo($htmlMediaTag)
     return $contents;
 }
 
-function getDeviceName()
+function getDeviceName($returnIfEmptyUA = 'unknown')
 {
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
-        return 'unknown';
+        return $returnIfEmptyUA;
     }
     $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
     if (strpos($userAgent, 'roku') !== false) {
