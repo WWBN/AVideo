@@ -4842,7 +4842,7 @@ if (!class_exists('Video')) {
         {
 
             $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
-            $videoCache = new VideoCacheHandler($filename, 0, true);
+            $videoCache = new VideoCacheHandler($filename);
             $cache = $videoCache->getCache($cacheSuffix, 0);
 
             $tmpCacheFile = sys_get_temp_dir() . "/getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".tmp";

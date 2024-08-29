@@ -35,11 +35,11 @@ try {
     $videos = Video::_getVideosPaths($filename, $includeS3);
 
     $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
-    $videoCache = new VideoCacheHandler($filename, 0, true);
+    $videoCache = new VideoCacheHandler($filename);
     $videoCache->setSuffix($cacheSuffix);
     $response = $videoCache->setCache($videos);
 
-    echo json_encode(array($response, ObjectYPT::getLastUsedCacheInfo()));
+    echo json_encode(array($response));
     /*
     $global['forceGetCache'] = 1;
     $videoCache = new VideoCacheHandler($filename, 0, true);
