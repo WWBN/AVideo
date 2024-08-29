@@ -1148,7 +1148,7 @@ abstract class CacheHandler
         $name = $this->getCacheName($this->suffix);
         
         if(isCommandLineInterface()){
-            echo "public function setCache($value) name=".$name.PHP_EOL;
+            echo "public function setCache($this->suffix) name=".$name.PHP_EOL;
         }
         $return = ObjectYPT::setCacheGlobal($name, $value);
         /*
