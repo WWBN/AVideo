@@ -1168,7 +1168,7 @@ abstract class CacheHandler
         $this->setSuffix($suffix);
         $name = $this->getCacheName($this->suffix);        
         if(isCommandLineInterface()){
-            echo "public function getCache($suffix) ??{$this->suffix}?? name=".$name.PHP_EOL;
+            echo "public function getCache($suffix) name=".$name.PHP_EOL;
         }
         if (isset($_getCache[$name])) {
             if ($logInfo) {
