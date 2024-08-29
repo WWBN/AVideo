@@ -39,6 +39,7 @@ try {
     $response = $videoCache->setCache($videos);
     Cache::saveCache();
     
+    $videoCache = new VideoCacheHandler($filename);
     $cache = $videoCache->getCache($cacheSuffix, 0);
     echo json_encode(array($response,  $cache, $videos));
 
