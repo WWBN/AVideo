@@ -4841,7 +4841,7 @@ if (!class_exists('Video')) {
         public static function getVideosPaths($filename, $includeS3 = false, $try = 0)
         {
 
-            $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
+            $cacheSuffix = "/getVideosPaths_" . ($includeS3 ? 1 : 0);
             $videoCache = new VideoCacheHandler($filename);
             $cache = $videoCache->getCache($cacheSuffix, 0);
 

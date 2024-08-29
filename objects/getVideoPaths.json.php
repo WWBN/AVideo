@@ -34,7 +34,7 @@ try {
     // Call the function
     $videos = Video::_getVideosPaths($filename, $includeS3);
 
-    $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
+    $cacheSuffix = "/getVideosPaths_" . ($includeS3 ? 1 : 0);
     $videoCache = new VideoCacheHandler($filename);
     $response = $videoCache->setCache($videos);
     Cache::saveCache();
