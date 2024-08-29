@@ -488,7 +488,7 @@ abstract class ObjectYPT implements ObjectInterface
 
         $ignoreArray = [
             'vast_campaigns_logs',
-            'videos', 
+            'videos',
             'CachesInDB',
             'cache_schedule_delete',
             'plugins',
@@ -1158,15 +1158,15 @@ abstract class CacheHandler
         $this->setSuffix($suffix);
         $name = $this->getCacheName($this->suffix);
         if (isset($_getCache[$name])) {
-            if($logInfo){
-                _error_log("getCache($suffix, $lifetime) line=".__LINE__);
+            if ($logInfo) {
+                _error_log("getCache($suffix, $lifetime) line=" . __LINE__);
             }
             return $_getCache[$name];
         }
 
         if (!empty($lifetime) && !$this->canRefreshCache()) {
-            if($logInfo){
-                _error_log("{$suffix} lifetime={$lifetime} cache will not be refreshed now line=".__LINE__);
+            if ($logInfo) {
+                _error_log("{$suffix} lifetime={$lifetime} cache will not be refreshed now line=" . __LINE__);
             }
             $lifetime = 0;
         }
@@ -1176,13 +1176,13 @@ abstract class CacheHandler
             self::$cachedResults++;
         }
         $_getCache[$name] = $cache;
-        if($logInfo){
-            _error_log("getCache($suffix, $lifetime) name={$name} line=".__LINE__);
+        if ($logInfo) {
+            _error_log("getCache($suffix, $lifetime) name={$name} line=" . __LINE__);
         }
         return $cache;
     }
 
-    public function deleteCache($clearFirstPageCache = false, $schedule=true)
+    public function deleteCache($clearFirstPageCache = false, $schedule = true)
     {
         $timeLog = __FILE__ . "::deleteCache ";
         TimeLogStart($timeLog);
@@ -1198,23 +1198,23 @@ abstract class CacheHandler
         unset($_SESSION['user']['sessionCache']);
         TimeLogEnd($timeLog, __LINE__);
         $dir = ObjectYPT::getTmpCacheDir() . $prefix;
-        if(!$schedule){
+        if (!$schedule) {
             TimeLogEnd($timeLog, __LINE__);
             _session_start();
             if ($clearFirstPageCache) {
                 //_error_log("deleteCache clearFirstPageCache");
                 clearCache(true);
-            }else{                
+            } else {
                 //_error_log("deleteCache not schedule");
             }
             TimeLogEnd($timeLog, __LINE__);
-    
+
             $resp = exec("rm -R {$dir}");
 
             TimeLogEnd($timeLog, __LINE__);
-    
+
             return true;
-        }else{
+        } else {
             $resp = execAsync("rm -R {$dir}");
             //_error_log("deleteCache schedule ".json_encode(debug_backtrace()));
             return false;
@@ -1308,6 +1308,7 @@ class VideoCacheHandler extends CacheHandler
 
     private $filename;
     private static $cacheRefreshCount = 0;
+    private $forceSaveOnDir = false;
 
     private function getCacheVideoFilename($filename = '', $id = 0)
     {
@@ -1333,14 +1334,20 @@ class VideoCacheHandler extends CacheHandler
         return $filename;
     }
 
-    public function __construct($filename = '', $id = 0)
+    public function __construct($filename = '', $id = 0, $forceSaveOnDir = false)
     {
         $this->filename = $this->getCacheVideoFilename($filename, $id);
+        $this->forceSaveOnDir = $forceSaveOnDir;
     }
 
     protected function getCacheSubdir()
     {
-        return "video/{$this->filename}/";
+
+        $subdir = "video/{$this->filename}/";
+        if ($this->forceSaveOnDir) {
+            $subdir = '/' . $subdir;
+        }
+        return $subdir;
     }
 
     protected function canRefreshCache()
