@@ -615,7 +615,7 @@ abstract class ObjectYPT implements ObjectInterface
         self::logTime($start, __LINE__, $name);
         self::setSessionCache($name, $value);
         self::logTime($start, __LINE__, $name);
-        return ['bytes' => $bytes, 'cachefile' => $cachefile, 'type' => 'file'];
+        return ['bytes' => $bytes, 'cachefile' => $cachefile, 'type' => 'file', 'parameters' => array($name, $addSubDirs, $ignoreMetadata)];
     }
 
     public static function cleanCacheName($name)
