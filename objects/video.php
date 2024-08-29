@@ -4846,7 +4846,7 @@ if (!class_exists('Video')) {
             $cache = $videoCache->getCache($cacheSuffix, 0);
 
             $tmpCacheFile = sys_get_temp_dir() . "/getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".tmp";
-            
+
             if (!empty($cache)) {
                 $obj = object_to_array(_json_decode($cache));
                 if (!file_exists($tmpCacheFile)) {
@@ -4854,9 +4854,10 @@ if (!class_exists('Video')) {
                 }
                 return $obj;
             } elseif (file_exists($tmpCacheFile)) {
-                _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile ".json_encode(ObjectYPT::getLastUsedCacheInfo()));
+                _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()));
                 // Execute the async process to generate the cache
-                execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0));
+                $device = getDeviceName();
+                execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0) . " {$device}");
 
                 // Return the temporary cache file content if it exists
                 $tmpCacheContent = file_get_contents($tmpCacheFile);
@@ -6158,7 +6159,7 @@ if (!class_exists('Video')) {
         public function setVideoNotified()
         {
             $externalOptions = _json_decode($this->getExternalOptions());
-            if(empty($externalOptions)){
+            if (empty($externalOptions)) {
                 $externalOptions = new stdClass();
             }
             $externalOptions->notified = time();

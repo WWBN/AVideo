@@ -7106,6 +7106,10 @@ function getMVideo($htmlMediaTag)
 
 function getDeviceName($returnIfEmptyUA = 'unknown')
 {
+    global $forceDeviceType;
+    if(!empty($forceDeviceType)){
+        return $forceDeviceType;
+    }
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         return $returnIfEmptyUA;
     }

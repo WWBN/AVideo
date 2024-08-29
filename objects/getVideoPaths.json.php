@@ -5,6 +5,10 @@ header('Content-Type: application/json');
 
 require_once __DIR__ . '/../videos/configuration.php';
 
+if(!isCommandLineInterface()){
+    forbiddenPage('Command line only');
+}
+
 if ($argc < 2) {
     die("Usage: php get_videos_paths.php <filename> [includeS3]\n");
 }
@@ -12,6 +16,7 @@ if ($argc < 2) {
 // Get the command-line arguments
 $filename = $argv[1];
 $includeS3 = isset($argv[2]) ? (int)$argv[2] : 0;
+$forceDeviceType = isset($argv[3]) ? $argv[3] : getDeviceName();
 
 // Define a unique lock file for this process
 $lockFile = sys_get_temp_dir() . "/getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".lock";
