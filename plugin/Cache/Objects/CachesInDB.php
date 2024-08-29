@@ -280,7 +280,7 @@ class CachesInDB extends ObjectYPT
                 $result &= $res;
                 $resCommit = mysqlCommit();
                 if(isCommandLineInterface()){
-                    echo "setBulkCache name={$name} ".$sql.' '.json_encode(array($res, $resCommit)).PHP_EOL;
+                    echo "setBulkCache name={$name} ".json_encode($res).PHP_EOL;
                 }
             } catch (\Throwable $th) {
                 mysqlRollback();
