@@ -275,7 +275,10 @@ class CachesInDB extends ObjectYPT
             try {
                 $res = sqlDAL::writeSql($sql, implode('', $formats), $values);  
                 $result &= $res;
-                mysqlCommit();
+                $resCommit = mysqlCommit();
+                if(isCommandLineInterface()){
+                    echo "setBulkCache name={$name} ".$sql.' '.json_encode(array($res, $resCommit)).PHP_EOL;
+                }
             } catch (\Throwable $th) {
                 mysqlRollback();
                 if(isCommandLineInterface()){
