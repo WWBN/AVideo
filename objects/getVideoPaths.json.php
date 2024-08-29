@@ -30,7 +30,10 @@ if (!$fp || !flock($fp, LOCK_EX | LOCK_NB)) {
 try {
     // Update the lock file's modification time to ensure it doesn't get removed due to age
     touch($lockFile);
-
+    //fake a browser here, so it will create a cache for web
+    if(empty($_SERVER['HTTP_USER_AGENT'] )){
+        $_SERVER['HTTP_USER_AGENT'] = 'firefox';
+    }
     // Call the function
     $videos = Video::_getVideosPaths($filename, $includeS3);
 
