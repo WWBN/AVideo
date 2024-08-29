@@ -242,6 +242,9 @@ class CachesInDB extends ObjectYPT
             return false;
         }
     
+        if(isCommandLineInterface()){
+            echo "setBulkCache ".json_encode(array($metadata, $batchSize )).PHP_EOL;
+        }
         global $global;
         $cacheBatches = array_chunk($cacheArray, $batchSize, true);
         $tz = date_default_timezone_get();
