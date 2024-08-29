@@ -3,10 +3,7 @@
 //php get_videos_paths.php example_video 0
 header('Content-Type: application/json');
 
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
-}
-require_once $global['systemRootPath'] . 'videos/configuration.php';
+require_once __DIR__ . '/../videos/configuration.php';
 
 if ($argc < 2) {
     die("Usage: php get_videos_paths.php <filename> [includeS3]\n");
