@@ -233,11 +233,11 @@ function is_ssl_certificate_valid($port = 443, $domain = '127.0.0.1', $timeout =
 function isBot($returnTrueIfNoUserAgent=true)
 {
     global $_isBot;
-    if (empty($_SERVER['HTTP_USER_AGENT'])) {
-        return $returnTrueIfNoUserAgent;
-    }
     if (isCommandLineInterface()) {
         return false;
+    }
+    if (empty($_SERVER['HTTP_USER_AGENT'])) {
+        return $returnTrueIfNoUserAgent;
     }
     if (isAVideoEncoder()) {
         return false;
