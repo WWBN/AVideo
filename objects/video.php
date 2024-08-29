@@ -4846,7 +4846,7 @@ if (!class_exists('Video')) {
             $cache = $videoCache->getCache($cacheSuffix, 0);
 
             $tmpCacheFile = sys_get_temp_dir() . "/getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".tmp";
-
+            $tmpCacheFile = '';
             if (!empty($cache)) {
                 $obj = object_to_array(_json_decode($cache));
                 if (!file_exists($tmpCacheFile)) {
