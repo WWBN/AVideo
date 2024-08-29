@@ -4854,7 +4854,7 @@ if (!class_exists('Video')) {
                 }
                 return $obj;
             } elseif (file_exists($tmpCacheFile)) {
-                //_error_log("getVideosPaths($filename) 1 ".json_encode(ObjectYPT::getLastUsedCacheInfo()));
+                _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile ".json_encode(ObjectYPT::getLastUsedCacheInfo()));
                 // Execute the async process to generate the cache
                 execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0));
 
