@@ -657,10 +657,11 @@ abstract class ObjectYPT implements ObjectInterface
         if (!empty($global['ignoreAllCache'])) {
             return null;
         }
-        self::setLastUsedCacheMode("No cache detected $name, $lifetime, " . intval($ignoreSessionCache));
         if (isCommandLineInterface()) {
+            self::setLastUsedCacheMode("No cache detected isCommandLineInterface $name, $lifetime, " . intval($ignoreSessionCache));
             return null;
         }
+        self::setLastUsedCacheMode("No cache detected $name, $lifetime, " . intval($ignoreSessionCache));
         if (isBot()) {
             $lifetime = 0;
         }
