@@ -4840,7 +4840,8 @@ if (!class_exists('Video')) {
 
         public static function getVideosPaths($filename, $includeS3 = false, $try = 0)
         {
-
+            global $global;
+            
             $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
             $videoCache = new VideoCacheHandler($filename, 0, true);
             $cache = $videoCache->getCache($cacheSuffix, 0);
@@ -4853,7 +4854,7 @@ if (!class_exists('Video')) {
                     file_put_contents($tmpCacheFile, json_encode($cache));
                 }
                 return $obj;
-            } elseif (file_exists($tmpCacheFile)) {
+            } elseif (empty($global['disableAsyncGetVideosPaths']) && file_exists($tmpCacheFile)) {
                 _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()));
                 // Execute the async process to generate the cache
                 $device = getDeviceName();
