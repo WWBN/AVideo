@@ -38,7 +38,9 @@ try {
     $videoCache = new VideoCacheHandler($filename);
     $response = $videoCache->setCache($videos);
     Cache::saveCache();
-    echo json_encode($response);
+    
+    $cache = $videoCache->getCache($cacheSuffix, 0);
+    echo json_encode(array($response,  $cache));
 
 } catch (Exception $e) {
     error_log("Error processing video paths: " . $e->getMessage());
