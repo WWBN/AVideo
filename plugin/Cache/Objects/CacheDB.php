@@ -77,8 +77,14 @@ class CacheDB
     public static function setBulkCache($cacheArray, $metadata)
     {
         if(self::$cacheType == self::$CACHE_ON_MEMORY){
+            if(isCommandLineInterface()){
+                echo "setBulkCache CachesInDBMem".PHP_EOL;
+            }
             return CachesInDBMem::setBulkCache($cacheArray, $metadata);
         }else{
+            if(isCommandLineInterface()){
+                echo "setBulkCache CachesInDB".PHP_EOL;
+            }
             return CachesInDB::setBulkCache($cacheArray, $metadata);
         }
     }

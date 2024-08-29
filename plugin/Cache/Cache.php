@@ -361,12 +361,19 @@ class Cache extends PluginAbstract {
 
     static function saveCache() {
         if (isBot()) {
+            if(isCommandLineInterface()){
+                echo "saveCache isBot".PHP_EOL;
+            }
             return false;
         }
         global $cache_setCacheToSaveAtTheEnd;
         if(!empty($cache_setCacheToSaveAtTheEnd)){
             $metadata = self::getCacheMetaData();
             CacheDB::setBulkCache($cache_setCacheToSaveAtTheEnd, $metadata);
+        }else{
+            if(isCommandLineInterface()){
+                echo "saveCache cache_setCacheToSaveAtTheEnd is empty".PHP_EOL;
+            }
         }
     }
 
