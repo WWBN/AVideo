@@ -4841,7 +4841,7 @@ if (!class_exists('Video')) {
         public static function getVideosPaths($filename, $includeS3 = false, $try = 0)
         {
             global $global;
-            
+
             $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
             $videoCache = new VideoCacheHandler($filename, 0, true);
             $cache = $videoCache->getCache($cacheSuffix, 0);
@@ -7144,6 +7144,70 @@ if (!class_exists('Video')) {
                 }
             }
             return $count;
+        }
+
+        static function isMP3LengthValid($videos_id, $tolerancePercent = 10)
+        {
+            global $global;
+            $result = [
+                'isValid' => false,
+                'msg' => 'Validation not performed',
+                'videoDurationInSeconds' => 0,
+                'mp3DurationInSeconds' => 0,
+                'mp3Path' => '',
+                'mp3Url' => '',
+            ];
+
+            if (!empty($global['disableMP3'])) {
+                $result['msg'] = 'MP3 validation is disabled globally.';
+                return $result;
+            }
+
+            $video = Video::getVideoLight($videos_id);
+            if (empty($video)) {
+                $result['msg'] = 'Video not found.';
+                return $result;
+            }
+
+            $types = [Video::$videoTypeVideo, Video::$videoTypeAudio];
+            if (!in_array($video['type'], $types)) {
+                $result['msg'] = 'Invalid video type for MP3 validation.';
+                return $result;
+            }
+
+            $paths = Video::getSourceFile($video['filename'], ".mp3", true);
+            if (empty($paths)) {
+                $result['msg'] = 'MP3 file not found.';
+                return $result;
+            }
+
+            $result['mp3Path'] = $paths['path'];
+            $result['mp3Url'] = $paths['url'];
+
+            if (filesize($paths['path']) < 20) {
+                // It is a dummy file, try the Storage URL
+                $duration = getDurationFromFile($paths['url']);
+            } else {
+                $duration = getDurationFromFile($paths['path']);
+            }
+
+            $durationInSeconds = durationToSeconds($duration);
+            $videoDuration = intval($video['duration_in_seconds']);
+
+            $result['videoDurationInSeconds'] = $videoDuration;
+            $result['mp3DurationInSeconds'] = $durationInSeconds;
+
+            $diff = abs($videoDuration - $durationInSeconds);
+            $tolerance = $videoDuration * ($tolerancePercent / 100); // Percentage tolerance of $videoDuration
+
+            if ($diff <= $tolerance) {
+                $result['isValid'] = true;
+                $result['msg'] = 'MP3 duration is valid and within the allowed tolerance.';
+            } else {
+                $result['msg'] = "MP3 duration is not valid. Difference in duration exceeds the allowed tolerance. Video duration: {$videoDuration} seconds, MP3 duration: {$durationInSeconds} seconds.";
+            }
+
+            return $result;
         }
     }
 }
