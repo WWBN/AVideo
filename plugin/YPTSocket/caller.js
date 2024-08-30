@@ -15,6 +15,16 @@ function getCallJsonFromUser(to_users_id, to_identification) {
 
 function callNow(to_users_id, to_identification) {
     var timeout;
+    if(typeof users_id_online == 'undefined' ){
+        if (!$('body').hasClass('loading')) {
+            avideoToastInfo('Loading ...');
+        }
+        setCallBodyClass('loading');
+        setTimeout(function () {
+            callNow(to_users_id, to_identification);
+        }, 1000);
+        return false;
+    }
     if ($('body').hasClass('calling')) {
         avideoToastError('Please finish the call first');
         return false;
@@ -22,7 +32,7 @@ function callNow(to_users_id, to_identification) {
         timeout = 1000;
         avideoToastInfo('Please wait ...');
     } else {
-        timeout = 1;
+        timeout = 10;
     }
     setTimeout(function () {
         if (!isUserOnline(to_users_id)) {
@@ -361,6 +371,7 @@ async function callerCheckUserTimer() {
 }
 
 function setCallBodyClass(name) {
+    $('body').removeClass('loading');
     $('body').removeClass('calling');
     $('body').removeClass('callIncoming');
     $('body').removeClass('notCalling');
@@ -368,7 +379,7 @@ function setCallBodyClass(name) {
     //$('body').removeClass('callerUserOffline');
     $('body').addClass(name);
     // Stop all call sounds when transitioning to active call
-    if (name === 'callActive' || name === 'notCalling') {
+    if (name === 'callActive' || name === 'notCalling' || name === 'loading') {
         stopAllCallSounds();
     }
 }

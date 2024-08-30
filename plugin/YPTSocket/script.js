@@ -4,7 +4,7 @@ var yptSocketResponse;
 
 var socketResourceId;
 var socketConnectTimeout;
-var users_id_online = [];
+var users_id_online = undefined;
 
 var socketConnectRetryTimeout = 15000;
 
