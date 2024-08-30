@@ -255,6 +255,7 @@ function convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation)
 
 function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
 {
+    global $global;
     $f = convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation);
     $localFileLock = $f['localFileLock'];
     if ($f['isOld']) {
@@ -326,6 +327,9 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     _mysql_close();
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
     exec($command, $output, $return);
+
+    $global['lasfFFMPEG'] = array($command, $output, $return);
+
     _session_start();
     _mysql_connect();
     _error_log("convertVideoFileWithFFMPEG try[{$try}] output: " . json_encode($output));
