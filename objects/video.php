@@ -7183,10 +7183,10 @@ if (!class_exists('Video')) {
 
             $result['mp3Path'] = $paths['path'];
             $result['mp3Url'] = $paths['url'];
-            if(!file_exists($paths['path'])){
+            if (!file_exists($paths['path'])) {
                 $result['msg'] = 'MP3 does not exists';
                 return $result;
-            }else if (filesize($paths['path']) < 20) {
+            } else if (filesize($paths['path']) < 20) {
                 // It is a dummy file, try the Storage URL
                 $duration = getDurationFromFile($paths['url']);
             } else {
@@ -7207,6 +7207,51 @@ if (!class_exists('Video')) {
                 $result['msg'] = 'MP3 duration is valid and within the allowed tolerance.';
             } else {
                 $result['msg'] = "MP3 duration is not valid. Difference in duration exceeds the allowed tolerance. Video duration: {$videoDuration} seconds, MP3 duration: {$durationInSeconds} seconds.";
+            }
+
+            return $result;
+        }
+
+        static function isVideoFileCorrupted($videos_id)
+        {
+            global $global;
+            $result = [
+                'isValid' => false,
+                'msg' => 'Validation not performed',
+                'videoPath' => '',
+                'videoUrl' => '',
+            ];
+
+            $video = Video::getVideoLight($videos_id);
+            if (empty($video)) {
+                $result['msg'] = 'Video not found.';
+                return $result;
+            }
+
+            $paths = Video::getSourceFile($video['filename'], ".mp4", true);
+            if (empty($paths)) {
+                $result['msg'] = 'Video file not found.';
+                return $result;
+            }
+
+            $result['videoPath'] = $paths['path'];
+            $result['videoUrl'] = $paths['url'];
+            if (!file_exists($paths['path'])) {
+                $result['msg'] = 'Video file does not exist';
+                return $result;
+            }
+
+            // Run FFmpeg to check for corruption
+            $logFile = "/tmp/ffmpeg_check_{$videos_id}.log";
+            $command = get_ffmpeg() . " -v error -i " . escapeshellarg($paths['path']) . " -f null - 2> " . escapeshellarg($logFile);
+            exec($command);
+
+            if (filesize($logFile) > 0) {
+                $result['isValid'] = false;
+                $result['msg'] = 'Video file is corrupted. See log for details. '.$logFile;
+            } else {
+                $result['isValid'] = true;
+                $result['msg'] = 'Video file is valid.';
             }
 
             return $result;
