@@ -65,8 +65,14 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
                 convertVideoFileWithFFMPEG($source['url'], $mp3File, '', $forceTry);
                 if (file_exists($mp3File)) {
                     return Video::getSourceFile($video['filename'], ".mp3", true);
+                }else {
+                    _error_log("convertVideoToMP3FileIfNotExists: file not exists {$mp3File}");
                 }
+            }else {
+                _error_log("convertVideoToMP3FileIfNotExists: sources not found");
             }
+        } else {
+            _error_log("convertVideoToMP3FileIfNotExists: is locked");
         }
         return false;
     } else {
@@ -314,7 +320,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
                 // Extract the audio stream to a temporary file
                 $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -vn -acodec copy {$tempAudioFile}";
                 exec($command, $output, $return);
-        
+
                 // Re-encode the extracted audio stream to MP3 if extraction is successful
                 if ($return === 0) {
                     $command = get_ffmpeg() . " -i {$tempAudioFile} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
@@ -326,7 +332,6 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
                 return false;
                 break;
         }
-        
     } else {
         if ($try === 0 && preg_match('/_offline\.mp4/', $toFileLocation)) {
             $try = 'offline';
