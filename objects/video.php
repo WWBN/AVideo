@@ -7243,7 +7243,8 @@ if (!class_exists('Video')) {
 
             // Run FFmpeg to check for corruption
             $logFile = "/tmp/ffmpeg_check_{$videos_id}.log";
-            $command = get_ffmpeg() . " -v error -i " . escapeshellarg($paths['path']) . " -f null - 2> " . escapeshellarg($logFile);
+            $command = get_ffmpeg() . " -v error -i " . escapeshellarg($paths['path']) . " -f null - 2> " . escapeshellarg($logFile);            
+            $command = removeUserAgentIfNotURL($command);
             exec($command);
             file_put_contents($logFile, PHP_EOL.PHP_EOL.$command);
 
