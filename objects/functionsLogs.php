@@ -102,7 +102,7 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
     }
     global $global;
     if (isCommandLineInterface() && empty($global['doNotPrintLogs'])) {
-        echo '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;
+        //echo '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;
     }
     if (empty($global['noDebug'])) {
         $global['noDebug'] = array();
