@@ -7183,8 +7183,10 @@ if (!class_exists('Video')) {
 
             $result['mp3Path'] = $paths['path'];
             $result['mp3Url'] = $paths['url'];
-
-            if (filesize($paths['path']) < 20) {
+            if(!file_exists($paths['path'])){
+                $result['msg'] = 'MP3 does not exists';
+                return $result;
+            }else if (filesize($paths['path']) < 20) {
                 // It is a dummy file, try the Storage URL
                 $duration = getDurationFromFile($paths['url']);
             } else {

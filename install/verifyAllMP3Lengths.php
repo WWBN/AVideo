@@ -15,7 +15,7 @@ foreach ($videos as $value) {
     if (!$result['isValid']) {
         echo "Converting Videos_id={$value['id']} {$value['title']} - reason:{$result['msg']}" . PHP_EOL;
         if (!empty($result['mp3Path'])) {
-            unlink($result['mp3Path']);
+            @unlink($result['mp3Path']);
         }
 
         for ($i=1; $i <= 7 ; $i++) { 
@@ -24,7 +24,7 @@ foreach ($videos as $value) {
             if ($result2['isValid']) {
                 break;
             }else{
-                unlink($result['mp3Path']);
+                @unlink($result['mp3Path']);
                 echo "ERROR Videos_id={$value['id']} File still invalid, try again $i " . PHP_EOL;
             }
         }
