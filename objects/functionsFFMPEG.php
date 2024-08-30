@@ -295,26 +295,10 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
                 $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 2:
-                // Attempt to re-encode with more aggressive error handling
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -err_detect ignore_err -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
-                break;
-            case 3:
-                // Attempt to re-encode with a lower bitrate to avoid errors
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 96k -ar 44100 -ac 2 {$toFileLocationEscaped}";
-                break;
-            case 4:
-                // Use 'analyzeduration' and 'probesize' to allow FFmpeg more time to analyze the stream
-                $command = get_ffmpeg() . " -analyzeduration 2147483647 -probesize 2147483647 -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
-                break;
-            case 5:
                 // Increase FFmpeg's buffer sizes to handle potentially corrupted data
                 $command = get_ffmpeg() . " -probesize 50M -analyzeduration 100M -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
                 break;
-            case 6:
-                // Force the number of audio channels to a standard configuration
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -ac 2 -c:a libmp3lame -b:a 128k -ar 44100 {$toFileLocationEscaped}";
-                break;
-            case 7:
+            case 3:
                 // Generate a unique name for the temporary audio file
                 $uniqueID = uniqid('temp_audio_', true);
                 $tempAudioFile = escapeshellarg("/tmp/{$uniqueID}.aac");
@@ -372,7 +356,9 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     _mysql_close();
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
     exec($command, $output, $return);
-
+    if(!empty($tempAudioFile)){
+        unlink($tempAudioFile);
+    }
     $global['lastFFMPEG'] = array($command, $output, $return);
 
     _session_start();

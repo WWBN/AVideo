@@ -18,7 +18,7 @@ foreach ($videos as $value) {
             @unlink($result['mp3Path']);
         }
 
-        for ($i=0; $i <= 7 ; $i++) { 
+        for ($i=0; $i <= 3 ; $i++) { 
             $response = convertVideoToMP3FileIfNotExists($value['id'], $i);
             $result2 = Video::isMP3LengthValid($value['id']);
             if ($result2['isValid']) {
