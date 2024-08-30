@@ -25,7 +25,7 @@ foreach ($videos as $value) {
                 break;
             }else{
                 @unlink($result['mp3Path']);
-                echo "ERROR Videos_id={$value['id']} File still invalid, try again $i {$result2['msg']}" . PHP_EOL;
+                echo "ERROR Videos_id={$value['id']} File still invalid, try again $i {$result2['msg']} ".json_encode($global['lastFFMPEG'], JSON_PRETTY_PRINT) . PHP_EOL;
             }
         }
 

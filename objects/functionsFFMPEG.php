@@ -373,7 +373,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
     exec($command, $output, $return);
 
-    $global['lasfFFMPEG'] = array($command, $output, $return);
+    $global['lastFFMPEG'] = array($command, $output, $return);
 
     _session_start();
     _mysql_connect();
