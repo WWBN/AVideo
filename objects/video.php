@@ -7234,6 +7234,10 @@ if (!class_exists('Video')) {
                 return $result;
             }
 
+            if(empty($paths['path'])){
+                $paths = Video::getSourceFile($video['filename'], ".m3u8", true);
+            }
+
             $result['videoPath'] = $paths['path'];
             $result['videoUrl'] = $paths['url'];
             if (!file_exists($paths['path'])) {
