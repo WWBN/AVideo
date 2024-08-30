@@ -39,14 +39,17 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
 {
     global $global;
     if (!empty($global['disableMP3'])) {
+        _error_log('convertVideoToMP3FileIfNotExists: $global[disableMP3] isset');
         return false;
     }
     $video = Video::getVideoLight($videos_id);
     if (empty($video)) {
+        _error_log("convertVideoToMP3FileIfNotExists: videos_id=$videos_id not found");
         return false;
     }
     $types = [Video::$videoTypeVideo, Video::$videoTypeAudio];
     if (!in_array($video['type'], $types)) {
+        _error_log("convertVideoToMP3FileIfNotExists: invalid type {$video['type']}");
         return false;
     }
 
