@@ -12,18 +12,19 @@ $videos = Video::getAllVideosLight('', false, true);
 
 foreach ($videos as $value) {
     $result = Video::isMP3LengthValid($value['id']);
-    if(!$result['isValid']){
-        echo "Converting Videos_id={$value['id']} {$value['title']} - reason:{$result['msg']}". PHP_EOL;
-        if(!empty($result['mp3Path'])){
+    if (!$result['isValid']) {
+        echo "Converting Videos_id={$value['id']} {$value['title']} - reason:{$result['msg']}" . PHP_EOL;
+        if (!empty($result['mp3Path'])) {
             unlink($result['mp3Path']);
         }
         convertVideoToMP3FileIfNotExists($value['id']);
         $result2 = Video::isMP3LengthValid($value['id']);
-        if(!$result2['isValid']){
+        if (!$result2['isValid']) {
+            echo "ERROR Videos_id={$value['id']} File still invalid, try again" . PHP_EOL;
             convertVideoToMP3FileIfNotExists($value['id'], 1);
             $result3 = Video::isMP3LengthValid($value['id']);
-            if(!$result3['isValid']){
-                echo "ERROR Videos_id={$value['id']} ".json_encode(array($result2, $global['lasfFFMPEG'])). PHP_EOL;
+            if (!$result3['isValid']) {
+                echo "ERROR Videos_id={$value['id']} " . json_encode(array($result2, $global['lasfFFMPEG'])) . PHP_EOL;
             }
         }
     }
