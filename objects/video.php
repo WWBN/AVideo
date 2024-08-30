@@ -7244,8 +7244,8 @@ if (!class_exists('Video')) {
             // Run FFmpeg to check for corruption
             $logFile = "/tmp/ffmpeg_check_{$videos_id}.log";
             $command = get_ffmpeg() . " -v error -i " . escapeshellarg($paths['path']) . " -f null - 2> " . escapeshellarg($logFile);
-            file_put_contents($logFile, $command.PHP_EOL.PHP_EOL);
             exec($command);
+            file_put_contents($logFile, PHP_EOL.PHP_EOL.$command);
 
             if (filesize($logFile) > 0) {
                 $result['isValid'] = false;
