@@ -19,8 +19,12 @@ foreach ($videos as $value) {
         }
         convertVideoToMP3FileIfNotExists($value['id']);
         $result2 = Video::isMP3LengthValid($value['id']);
-        if(!$result1['isValid']){
-            echo "ERROR Videos_id={$value['id']} ".json_encode(array($result2, $global['lasfFFMPEG'])). PHP_EOL;
+        if(!$result2['isValid']){
+            convertVideoToMP3FileIfNotExists($value['id'], 1);
+            $result3 = Video::isMP3LengthValid($value['id']);
+            if(!$result3['isValid']){
+                echo "ERROR Videos_id={$value['id']} ".json_encode(array($result2, $global['lasfFFMPEG'])). PHP_EOL;
+            }
         }
     }
 }

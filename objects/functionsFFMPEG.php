@@ -35,7 +35,7 @@ function get_ffprobe()
     return $ffprobe . $complement;
 }
 
-function convertVideoToMP3FileIfNotExists($videos_id)
+function convertVideoToMP3FileIfNotExists($videos_id, $forceTry=0)
 {
     global $global;
     if (!empty($global['disableMP3'])) {
@@ -59,7 +59,7 @@ function convertVideoToMP3FileIfNotExists($videos_id)
 
             if (!empty($sources)) {
                 $source = end($sources);
-                convertVideoFileWithFFMPEG($source['url'], $mp3File);
+                convertVideoFileWithFFMPEG($source['url'], $mp3File, '', $forceTry);
                 if (file_exists($mp3File)) {
                     return Video::getSourceFile($video['filename'], ".mp3", true);
                 }
