@@ -1023,7 +1023,7 @@ function getVideosURLOnly($fileName, $includeOffline = true)
 {
     $allFiles = getVideosURL_V2($fileName); // disable this function soon
     foreach ($allFiles as $key => $value) {
-        if ($value['type'] !== 'video' || (!$includeOffline && preg_match('/offline/i', $key))) {
+        if ($value['type'] !== 'video' || (!$includeOffline && preg_match('/offline/i', $key)) || preg_match('/.lock/i', $key)) {
             unset($allFiles[$key]);
         }
     }
