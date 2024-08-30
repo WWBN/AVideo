@@ -7228,7 +7228,7 @@ if (!class_exists('Video')) {
                 return $result;
             }
 
-            $paths = Video::getFirstSource($video['filename'], true);;
+            $paths = Video::getFirstSource($video['filename'], true);
             if (empty($paths)) {
                 $result['msg'] = 'Video file not found.';
                 return $result;
@@ -7237,20 +7237,20 @@ if (!class_exists('Video')) {
             $result['videoPath'] = $paths['path'];
             $result['videoUrl'] = $paths['url'];
             if (!file_exists($paths['path'])) {
-                $result['msg'] = "Video file does not exist filename={$video['filename']} ".json_encode($paths);
+                $result['msg'] = "Video file does not exist filename={$video['filename']} " . json_encode($paths);
                 return $result;
             }
 
-            // Run FFmpeg to check for corruption
+            // Run FFmpeg to check for corruption quickly by analyzing only the first 10 seconds
             $logFile = "/tmp/ffmpeg_check_{$videos_id}.log";
-            $command = get_ffmpeg() . " -v error -i " . escapeshellarg($paths['path']) . " -f null - 2> " . escapeshellarg($logFile);            
+            $command = get_ffmpeg() . " -v error -t 10 -i " . escapeshellarg($paths['path']) . " -f null - 2> " . escapeshellarg($logFile);
             $command = removeUserAgentIfNotURL($command);
             exec($command);
-            file_put_contents($logFile, PHP_EOL.PHP_EOL.$command);
 
             if (filesize($logFile) > 0) {
+                file_put_contents($logFile, PHP_EOL . PHP_EOL . $command);
                 $result['isValid'] = false;
-                $result['msg'] = 'Video file is corrupted. See log for details. '.$logFile;
+                $result['msg'] = 'Video file is corrupted. See log for details. ' . $logFile;
             } else {
                 $result['isValid'] = true;
                 $result['msg'] = 'Video file is valid.';
