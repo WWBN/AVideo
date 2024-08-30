@@ -18,6 +18,8 @@ foreach ($videos as $value) {
             unlink($result['mp3Path']);
         }
         convertVideoToMP3FileIfNotExists($value['id']);
+        $result2 = Video::isMP3LengthValid($value['id']);
+        echo "New Result Videos_id={$value['id']} ".json_encode($value). PHP_EOL;
     }
 }
 
