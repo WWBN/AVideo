@@ -7241,7 +7241,7 @@ if (!class_exists('Video')) {
             $result['videoPath'] = $paths['path'];
             $result['videoUrl'] = $paths['url'];
             if (!file_exists($paths['path'])) {
-                $result['msg'] = 'Video file does not exist '.json_encode($paths);
+                $result['msg'] = "Video file does not exist filename={$video['filename']} ".json_encode($paths);
                 return $result;
             }
 

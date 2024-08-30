@@ -14,8 +14,9 @@ foreach ($videos as $value) {
     // Check if the video file is corrupted
     $result = Video::isVideoFileCorrupted($value['id']);
     if (!$result['isValid']) {
-        echo "Video ID={$value['id']} Title={$value['title']} - reason: {$result['msg']}" . PHP_EOL;
-        continue;
+        echo "ERROR   Video ID={$value['id']} Title={$value['title']} - reason: {$result['msg']}" . PHP_EOL;
+    }else{
+        echo "SUCCESS Video ID={$value['id']} Title={$value['title']}" . PHP_EOL;
     }
 }
 
