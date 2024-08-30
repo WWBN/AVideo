@@ -35,7 +35,7 @@ function get_ffprobe()
     return $ffprobe . $complement;
 }
 
-function convertVideoToMP3FileIfNotExists($videos_id, $forceTry=0)
+function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
 {
     global $global;
     if (!empty($global['disableMP3'])) {
@@ -277,12 +277,20 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     if ($format == 'mp3') {
         switch ($try) {
             case 0:
-                // Attempt to re-encode the audio stream to MP3
+                // Attempt to re-encode the audio stream to MP3 with standard settings
                 $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 \"{$toFileLocation}\"";
                 break;
             case 1:
                 // If the first attempt fails, try with a different sample rate and bitrate
                 $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 \"{$toFileLocation}\"";
+                break;
+            case 2:
+                // Force input as raw audio and use more robust re-encoding options
+                $command = get_ffmpeg() . " -f lavfi -i \"amovie={$fromFileLocation}:si=0\" -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 \"{$toFileLocation}\"";
+                break;
+            case 3:
+                // Use FFmpeg's built-in error resilience settings
+                $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -err_detect ignore_err -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 \"{$toFileLocation}\"";
                 break;
             default:
                 return false;
