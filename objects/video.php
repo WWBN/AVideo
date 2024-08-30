@@ -7233,7 +7233,7 @@ if (!class_exists('Video')) {
                 $result['msg'] = 'Video file not found.';
                 return $result;
             }
-            
+
             $result['videoPath'] = $paths['path'];
             $result['videoUrl'] = $paths['url'];
             if (!file_exists($paths['path'])) {
@@ -7244,6 +7244,7 @@ if (!class_exists('Video')) {
             // Run FFmpeg to check for corruption
             $logFile = "/tmp/ffmpeg_check_{$videos_id}.log";
             $command = get_ffmpeg() . " -v error -i " . escapeshellarg($paths['path']) . " -f null - 2> " . escapeshellarg($logFile);
+            file_put_contents($logFile, $command.PHP_EOL.PHP_EOL);
             exec($command);
 
             if (filesize($logFile) > 0) {
