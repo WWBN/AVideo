@@ -37,6 +37,7 @@ function get_ffprobe()
 
 function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
 {
+    _error_log("convertVideoToMP3FileIfNotExists: start videos_id=$videos_id try=$forceTry ");
     global $global;
     if (!empty($global['disableMP3'])) {
         _error_log('convertVideoToMP3FileIfNotExists: $global[disableMP3] isset');
