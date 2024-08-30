@@ -161,7 +161,7 @@ function parseFFMPEGProgress($progressFilename)
     if (empty($content)) {
         return $obj;
     }
-    
+
     $obj->fileFound = true;
     //var_dump($content);exit;
     preg_match("/Duration: (.*?), start:/", $content, $matches);
@@ -276,7 +276,12 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     if ($format == 'mp3') {
         switch ($try) {
             case 0:
-                $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -c:a libmp3lame \"{$toFileLocation}\"";
+                // Attempt to re-encode the audio stream to MP3
+                $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 \"{$toFileLocation}\"";
+                break;
+            case 1:
+                // If the first attempt fails, try with a different sample rate and bitrate
+                $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 \"{$toFileLocation}\"";
                 break;
             default:
                 return false;
@@ -316,7 +321,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
         $progressFile = "{$toFileLocation}.log";
     }
     $command = removeUserAgentIfNotURL($command);
-    $command .= " > {$progressFile}";
+    $command .= " > {$progressFile} 2>&1";
     _session_write_close();
     _mysql_close();
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
@@ -329,6 +334,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
 
     return ['return' => $return, 'output' => $output, 'command' => $command, 'fromFileLocation' => $fromFileLocation, 'toFileLocation' => $toFileLocation, 'progressFile' => $progressFile];
 }
+
 
 function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, $outputFile, $aspectRatio)
 {
@@ -398,4 +404,3 @@ function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, 
         return false; // Command failed
     }
 }
-
