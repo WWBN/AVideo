@@ -7247,7 +7247,7 @@ if (!class_exists('Video')) {
             $command = removeUserAgentIfNotURL($command);
             exec($command);
 
-            if (filesize($logFile) > 0) {
+            if (filesize($logFile) > 300) {
                 file_put_contents($logFile, PHP_EOL . PHP_EOL . $command);
                 $result['isValid'] = false;
                 $result['msg'] = 'Video file is corrupted. See log for details. ' . ' filesize=' . (filesize($logFile)) . ' ' . $logFile;
