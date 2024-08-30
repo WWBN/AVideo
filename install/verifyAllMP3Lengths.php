@@ -17,29 +17,18 @@ foreach ($videos as $value) {
         if (!empty($result['mp3Path'])) {
             unlink($result['mp3Path']);
         }
-        convertVideoToMP3FileIfNotExists($value['id']);
-        $result2 = Video::isMP3LengthValid($value['id']);
-        if (!$result2['isValid']) {
-            unlink($result['mp3Path']);
-            echo "ERROR Videos_id={$value['id']} File still invalid, try again 1 " . PHP_EOL;
-            convertVideoToMP3FileIfNotExists($value['id'], 1);
-            $result3 = Video::isMP3LengthValid($value['id']);
-            if (!$result3['isValid']) {
+
+        for ($i=0; $i <= 7 ; $i++) { 
+            $response = convertVideoToMP3FileIfNotExists($value['id'], $i);
+            $result2 = Video::isMP3LengthValid($value['id']);
+            if ($result2['isValid']) {
+                break;
+            }else{
                 unlink($result['mp3Path']);
-                echo "ERROR Videos_id={$value['id']} File still invalid, try again 2 " . PHP_EOL;
-                convertVideoToMP3FileIfNotExists($value['id'], 2);
-                $result3 = Video::isMP3LengthValid($value['id']);
-                if (!$result3['isValid']) {
-                    unlink($result['mp3Path']);
-                    echo "ERROR Videos_id={$value['id']} File still invalid, try again 3 " . PHP_EOL;
-                    convertVideoToMP3FileIfNotExists($value['id'], 3);
-                    $result3 = Video::isMP3LengthValid($value['id']);
-                    if (!$result3['isValid']) {
-                        echo "ERROR Videos_id={$value['id']} " . json_encode(array($result2, $global['lasfFFMPEG'])) . PHP_EOL;
-                    }
-                }
+                echo "ERROR Videos_id={$value['id']} File still invalid, try again $i " . PHP_EOL;
             }
         }
+
     }
 }
 

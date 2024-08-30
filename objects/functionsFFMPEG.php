@@ -277,25 +277,53 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     if ($format == 'mp3') {
         switch ($try) {
             case 0:
-                // Attempt to re-encode the audio stream to MP3 with standard settings
-                $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 \"{$toFileLocation}\"";
+                // Attempt to re-encode the audio stream to MP3 with a standard bitrate
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 1:
-                // If the first attempt fails, try with a different sample rate and bitrate
-                $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 \"{$toFileLocation}\"";
+                // Attempt to re-encode with a higher bitrate and sample rate
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 2:
-                // Force input as raw audio and use more robust re-encoding options
-                $command = get_ffmpeg() . " -f lavfi -i \"amovie={$fromFileLocation}:si=0\" -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 \"{$toFileLocation}\"";
+                // Attempt to re-encode with more aggressive error handling
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -err_detect ignore_err -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 3:
-                // Use FFmpeg's built-in error resilience settings
-                $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -err_detect ignore_err -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 \"{$toFileLocation}\"";
+                // Attempt to re-encode with a lower bitrate to avoid errors
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 96k -ar 44100 -ac 2 {$toFileLocationEscaped}";
+                break;
+            case 4:
+                // Use 'analyzeduration' and 'probesize' to allow FFmpeg more time to analyze the stream
+                $command = get_ffmpeg() . " -analyzeduration 2147483647 -probesize 2147483647 -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
+                break;
+            case 5:
+                // Increase FFmpeg's buffer sizes to handle potentially corrupted data
+                $command = get_ffmpeg() . " -probesize 50M -analyzeduration 100M -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
+                break;
+            case 6:
+                // Force the number of audio channels to a standard configuration
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -ac 2 -c:a libmp3lame -b:a 128k -ar 44100 {$toFileLocationEscaped}";
+                break;
+            case 7:
+                // Generate a unique name for the temporary audio file
+                $uniqueID = uniqid('temp_audio_', true);
+                $tempAudioFile = escapeshellarg("/tmp/{$uniqueID}.aac");
+                // Extract the audio stream to a temporary file
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -vn -acodec copy {$tempAudioFile}";
+                exec($command, $output, $return);
+        
+                // Re-encode the extracted audio stream to MP3 if extraction is successful
+                if ($return === 0) {
+                    $command = get_ffmpeg() . " -i {$tempAudioFile} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
+                } else {
+                    return false;
+                }
                 break;
             default:
                 return false;
                 break;
         }
+        
     } else {
         if ($try === 0 && preg_match('/_offline\.mp4/', $toFileLocation)) {
             $try = 'offline';
