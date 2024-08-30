@@ -20,6 +20,7 @@ foreach ($videos as $value) {
         convertVideoToMP3FileIfNotExists($value['id']);
         $result2 = Video::isMP3LengthValid($value['id']);
         if (!$result2['isValid']) {
+            unlink($result['mp3Path']);
             echo "ERROR Videos_id={$value['id']} File still invalid, try again" . PHP_EOL;
             convertVideoToMP3FileIfNotExists($value['id'], 1);
             $result3 = Video::isMP3LengthValid($value['id']);
