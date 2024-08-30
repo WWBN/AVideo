@@ -7250,7 +7250,7 @@ if (!class_exists('Video')) {
             if (filesize($logFile) > 0) {
                 file_put_contents($logFile, PHP_EOL . PHP_EOL . $command);
                 $result['isValid'] = false;
-                $result['msg'] = 'Video file is corrupted. See log for details. ' . $logFile;
+                $result['msg'] = 'Video file is corrupted. See log for details. ' . ' filesize=' . (filesize($logFile)) . ' ' . $logFile;
             } else {
                 $result['isValid'] = true;
                 $result['msg'] = 'Video file is valid.';
