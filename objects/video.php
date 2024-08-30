@@ -7228,16 +7228,12 @@ if (!class_exists('Video')) {
                 return $result;
             }
 
-            $paths = Video::getSourceFile($video['filename'], ".mp4", true);
+            $paths = Video::getFirstSource($video['filename'], true);;
             if (empty($paths)) {
                 $result['msg'] = 'Video file not found.';
                 return $result;
             }
-
-            if(empty($paths['path'])){
-                $paths = Video::getSourceFile($video['filename'], ".m3u8", true);
-            }
-
+            
             $result['videoPath'] = $paths['path'];
             $result['videoUrl'] = $paths['url'];
             if (!file_exists($paths['path'])) {
