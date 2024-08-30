@@ -101,6 +101,9 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
         return false;
     }
     global $global;
+    if (isCommandLineInterface() && empty($global['doNotPrintLogs'])) {
+        echo '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;
+    }
     if (empty($global['noDebug'])) {
         $global['noDebug'] = array();
     }
@@ -138,11 +141,6 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
             break;
     }
     $str = $prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}";
-    /*
-    if (isCommandLineInterface() && empty($global['doNotPrintLogs'])) {
-        echo '[' . date('Y-m-d H:i:s') . '] ' . $str . PHP_EOL;
-    }
-    */
     error_log($str);
 }
 
