@@ -917,6 +917,10 @@ abstract class PluginAbstract {
         return false;
     }
 
+    function getChannelPageButtons($users_id) {
+        return '';
+    }
+
 }
 
 class PluginPermissionOption {

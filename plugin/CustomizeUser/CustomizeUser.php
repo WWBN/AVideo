@@ -1048,4 +1048,21 @@ class CustomizeUser extends PluginAbstract
         // Execute the query with the threshold date as the parameter
         return sqlDAL::writeSql($sql, "s", [$dateThreshold]);
     }
+
+    function getChannelPageButtons($users_id) {
+        global $advancedCustomUser;
+        $r = '';
+        if (!empty($advancedCustomUser->showChannelFeed)) {
+            $urlChannel = addLastSlash(User::getChannelLink($users_id));
+            $rss = "{$urlChannel}rss";
+            $mrss = "{$urlChannel}mrss";
+            $roku = "{$urlChannel}roku.json";
+            $r .= getFeedButton($rss, $mrss, $roku);
+        }
+        
+        $r .= User::getAddChannelToGalleryButton($users_id);
+        $r .= User::getBlockUserButton($users_id);
+        $r .= Subscribe::getButton($users_id);
+        return $r;
+    }
 }

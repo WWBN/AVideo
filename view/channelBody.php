@@ -256,19 +256,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                 <div class="col-sm-12">
                     <span class="pull-right">
                         <?php
-                        echo getUserOnlineLabel($user_id, 'pull-right', 'padding: 0 5px;');
-                        ?>
-                        <?php
-                        if (!empty($advancedCustomUser->showChannelFeed)) {
-                            $urlChannel = addLastSlash(User::getChannelLink($user_id));
-                            $rss = "{$urlChannel}rss";
-                            $mrss = "{$urlChannel}mrss";
-                            $roku = "{$urlChannel}roku.json";
-                            echo getFeedButton($rss, $mrss, $roku);
-                        }
-                        echo User::getAddChannelToGalleryButton($user_id);
-                        echo User::getBlockUserButton($user_id);
-                        echo Subscribe::getButton($user_id);
+                        echo AVideoPlugin::getChannelPageButtons($user_id);
                         ?>
                     </span>
                 </div>

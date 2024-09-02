@@ -335,4 +335,8 @@ class YPTSocket extends PluginAbstract
         $command = "nohup bash -c 'ulimit -n 1048576 && php {$global['systemRootPath']}plugin/YPTSocket/server.php &'";
         return $command;
     }
+
+    function getChannelPageButtons($users_id) {
+        return getUserOnlineLabel($users_id, 'pull-right', 'padding: 0 5px;');;
+    }
 }

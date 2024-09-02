@@ -2094,6 +2094,21 @@ class AVideoPlugin
         return $r;
     }
 
+    public static function getChannelPageButtons($users_id)
+    {
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->getChannelPageButtons($users_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return $r;
+    }
+
     public static function dataSetup()
     {
         global $global;
