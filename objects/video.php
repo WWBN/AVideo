@@ -4,7 +4,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 global $global, $config, $videosPaths;
 
 if (!isset($global['systemRootPath'])) {
-    require_once '../videos/configuration.php';
+    require_once __DIR__.'/../videos/configuration.php';
 }
 
 require_once $global['systemRootPath'] . 'videos/configuration.php';
