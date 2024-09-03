@@ -105,4 +105,3 @@ install/bulkCreateUser.php
 /plugin/CertifyComplete/
 plugin/WebAuthnLogin/
 plugin/UserOTPLogin/
-plugin/UserConnections/

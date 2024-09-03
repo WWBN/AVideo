@@ -1,0 +1,10 @@
+.connectionStatus button{
+    display: none;
+}
+
+.connectionStatus_ii .showOnConnectionStatus_i,
+.connectionStatus_na .showOnConnectionStatus_n,
+.connectionStatus_an .showOnConnectionStatus_p,
+.connectionStatus_aa .showOnConnectionStatus_a{
+    display: inline-block;
+}
