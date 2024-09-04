@@ -1,5 +1,5 @@
 <?php
-$timeLogHead = TimeLogStart("include/head.php");
+$timeLogHead = TimeLogStart("Log-include/head.php");
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 TimeLogEnd($timeLogHead, __LINE__);
 $head = AVideoPlugin::getHeadCode();

@@ -122,7 +122,11 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
              * @var \PHPMailer\PHPMailer\PHPMailer $mail
              */ 
             $mail->setFrom($fromEmail, $fromName);
-            $mail->Subject = $subject . " - " . $webSiteTitle;
+            if (strpos($subject, $webSiteTitle) === false) {
+                $mail->Subject = $subject . " - " . $webSiteTitle;
+            } else {
+                $mail->Subject = $subject;
+            }
             $mail->msgHTML($message);
             $count = 0;
             foreach ($piece as $value) {
