@@ -209,6 +209,7 @@
                                                     <div class="col-sm-<?php echo $col; ?>">
                                                         <label for="videoStatus"><?php echo __('Video Status'); ?></label>
                                                         <select class="form-control last" id="videoStatus">
+                                                            <!-- defaultVideoStatus <?php echo $advancedCustom->defaultVideoStatus->value; ?> -->
                                                             <?php
                                                             foreach ($statusThatTheUserCanUpdate as $value) {
                                                                 $selected = '';
