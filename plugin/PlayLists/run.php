@@ -1,17 +1,28 @@
 <?php
 require_once __DIR__ . '/../../videos/configuration.php';
 
-if (!isCommandLineInterface() && !User::isAdmin()) {
-    forbiddenPage();
-}
+if (!isCommandLineInterface()) {
+    if (!User::isAdmin()) {
+        forbiddenPage();
+    }
 
-if (!AVideoPlugin::loadPlugin("Rebroadcaster")) {
-    forbiddenPage(__("Rebroadcaster plugin is required"));
-}
+    if (!AVideoPlugin::loadPlugin("Rebroadcaster")) {
+        forbiddenPage(__("Rebroadcaster plugin is required"));
+    }
 
-$obj = AVideoPlugin::getObjectDataIfEnabled("PlayLists");
-if (empty($obj)) {
-    forbiddenPage(__("PlayLists is disabled"));
+    $obj = AVideoPlugin::getObjectDataIfEnabled("PlayLists");
+    if (empty($obj)) {
+        forbiddenPage(__("PlayLists is disabled"));
+    }
+} else {
+    if (!AVideoPlugin::loadPlugin("Rebroadcaster")) {
+        return false;
+    }
+
+    $obj = AVideoPlugin::getObjectDataIfEnabled("PlayLists");
+    if (empty($obj)) {
+        return false;
+    }
 }
 
 require_once $global['systemRootPath'] . 'plugin/PlayLists/Objects/Playlists_schedules.php';
