@@ -211,7 +211,12 @@
                                                         <select class="form-control last" id="videoStatus">
                                                             <?php
                                                             foreach ($statusThatTheUserCanUpdate as $value) {
-                                                                echo "<option value=\"{$value[0]}\">" . __(Video::$statusDesc[$value[0]]) . "</option>";
+                                                                $selected = '';
+                                                                if($value[0] == $advancedCustom->defaultVideoStatus->value){
+                                                                    $selected = 'selected';
+                                                                }
+
+                                                                echo "<option value=\"{$value[0]}\" {$selected}>" . __(Video::$statusDesc[$value[0]]) . "</option>";
                                                             }
                                                             ?>
                                                         </select>
