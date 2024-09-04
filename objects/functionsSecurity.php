@@ -239,6 +239,10 @@ function isBot($returnTrueIfNoUserAgent=true)
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         return $returnTrueIfNoUserAgent;
     }
+    // Google IMA
+    if (preg_match('/GoogleInteractiveMediaAds/i', $_SERVER['HTTP_USER_AGENT'])) {
+        return false;
+    }
     if (isAVideoEncoder()) {
         return false;
     }
