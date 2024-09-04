@@ -1256,7 +1256,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#videoStartSeconds').val('00:00:00');
         $('#videoSkipIntroSecond').val('00:00:00');
         $('#inputVideoPassword').val("");
-        $('#videoStatus').val('a');
+        $('#videoStatus').val('<?php echo $advancedCustom->defaultVideoStatus->value; ?>');
         $('#inputCleanTitle').val("");
         $('#created').val("");
         $('#inputDescription').val("");
