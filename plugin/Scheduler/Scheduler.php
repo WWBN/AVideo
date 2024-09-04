@@ -549,6 +549,21 @@ class Scheduler extends PluginAbstract
         return $result > 0;
     }
 
+    function executeEveryMinute() {
+        $rows = Video::getAllVideosLight(Video::$statusScheduledReleaseDate);
+        foreach ($rows as $key => $value) {
+            $releaseDate = self::getReleaseDateTime($value['id']);
+            if(empty($releaseDate) || strtotime($releaseDate) <= time()){
+                $response = self::releaseVideosNow($value['id']);
+                if(!$response){
+                    _error_log("Scheduler::run error on release video {$value['id']} ");
+                }else{
+                    _error_log("Scheduler::run release video {$value['id']} ");
+                }
+            }
+        }
+        
+    }
 
     function executeEveryDay() {
         $obj = AVideoPlugin::getDataObject('Scheduler');
