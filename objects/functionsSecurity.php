@@ -240,7 +240,7 @@ function isBot($returnTrueIfNoUserAgent=true)
         return $returnTrueIfNoUserAgent;
     }
     // Google IMA
-    if (preg_match('/GoogleInteractiveMediaAds/i', $_SERVER['HTTP_USER_AGENT'])) {
+    if (preg_match('/GoogleInteractiveMediaAds/i', $_SERVER['HTTP_USER_AGENT']) || preg_match('/imasdk/i', $_SERVER['HTTP_USER_AGENT'])) {
         return false;
     }
     if (isAVideoEncoder()) {
