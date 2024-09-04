@@ -550,12 +550,7 @@ class Scheduler extends PluginAbstract
     }
 
     function executeEveryMinute() {
-        $rows = Video::getAllVideosLight(Video::$statusScheduledReleaseDate);
-        if(is_array($rows)){
-            _error_log("Scheduler::executeEveryMinute count=".count($rows));
-        }else{
-            _error_log("Scheduler::executeEveryMinute error =".json_encode($rows));
-        }
+        $rows = Video::getAllVideosLight(Video::$statusScheduledReleaseDate);        
         foreach ($rows as $key => $value) {
             $releaseDate = self::getReleaseDateTime($value['id']);
             if(empty($releaseDate) || strtotime($releaseDate) <= time()){
@@ -565,11 +560,8 @@ class Scheduler extends PluginAbstract
                 }else{
                     _error_log("Scheduler::run release video {$value['id']} ");
                 }
-            }else{
-                _error_log("Scheduler::run releaseDate {$releaseDate} ");
             }
-        }
-        
+        }        
     }
 
     function executeEveryDay() {
