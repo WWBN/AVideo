@@ -7,7 +7,7 @@ $playlist = new PlayList($playlist_id);
 $rowCount = getRowCount();
 $_REQUEST['rowCount'] = 1000;
 
-$playlistVideos = PlayList::getVideosFromPlaylist($playlist_id, true, true);
+$playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
 
 $videoSerie = Video::getVideoFromSeriePlayListsId($playlist_id);
 
