@@ -572,7 +572,7 @@ class PlayList extends ObjectYPT
         return $rows;
     }
 
-    public static function getVideosFromPlaylist($playlists_id, $getExtraInfo = true)
+    public static function getVideosFromPlaylist($playlists_id, $getExtraInfo = true, $forceRecreateCache = false)
     {
         //_error_log("playlist::getVideosFromPlaylist($playlists_id)");
         $sql = "SELECT v.*, p.*,v.created as cre, p.`order` as video_order  "
@@ -591,7 +591,12 @@ class PlayList extends ObjectYPT
 
         //playlist cache
         $cacheHandler = new PlayListCacheHandler($playlists_id);
-        $cacheObj = $cacheHandler->getCache(md5($sql), 0);
+        $suffix = md5($sql);
+        if(empty($forceRecreateCache)){
+            $cacheObj = $cacheHandler->getCache($suffix, 0);
+        }else{
+            $cacheHandler->setSuffix($suffix);
+        }
         $rows = object_to_array($cacheObj);
         if (empty($rows)) {
             global $global;
@@ -1031,7 +1036,7 @@ class PlayList extends ObjectYPT
                 }
             }
         }
-        
+
         $formats = '';
         $values = [];
         if (_empty($add)) {
