@@ -20,7 +20,10 @@ if (!empty($videoSerie)) {
     $users_id = $videoSerie['users_id'];
     $name = $videoSerie['title'];
     $playListObject = AVideoPlugin::getObjectData("PlayLists");
-    $videoSerie = Video::getVideo($videoSerie["id"], "", true);
+    $vid = Video::getVideo($videoSerie["id"], "", true);
+    if(!empty($vid)){
+        $videoSerie = $vid;
+    }
     if (!empty($playListObject->showTrailerInThePlayList) && !empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== false) {
         $videoSerie["type"] = "embed";
         $videoSerie["videoLink"] = $videoSerie["trailer1"];
@@ -32,19 +35,26 @@ if (!empty($videoSerie)) {
     .playlistList .videoLink {
         display: inline-flex;
     }
+    .noPaddingButtons button, .noPaddingButtons a{
+        padding: 1px 5px !important;
+    }
 </style>
 <div class="playlist-nav">
     <nav class="navbar navbar-inverse">
         <ul class="nav navbar-nav">
-            <li class="navbar-header">
-                <a>
-                    <div class="pull-right">
+            <li class="navbar-header" style="padding: 5px;">
+                    <div class="pull-right noPaddingButtons" >
                         <?php
                         //echo PlayLists::getPlayLiveButton($playlist_id);
                         echo PlayLists::scheduleLiveButton($playlist_id);
+                        if(!empty($videoSerie)){
+                            $videos_id = $videoSerie["id"];
+                            $btnClass = 'btn btn-xs btn-default';
+                            include $global['systemRootPath'] . 'plugin/PlayLists/actionButton.php';
+                        }
                         ?>
                     </div>
-                    <h3 class="nopadding">
+                    <h3>
                         <?php
                         echo $name;
                         ?>
@@ -52,12 +62,11 @@ if (!empty($videoSerie)) {
                             echo User::getNameIdentificationById($users_id);
                             ?>)
                     </h3>
-                    <small>
+                    <small class="pull-right">
                         <?php
                         echo ($playlist_index + 1), "/", count($playlistVideos), " ", __("Videos");
                         ?>
                     </small>
-                </a>
             </li>
         </ul>
     </nav>

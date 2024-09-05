@@ -1022,6 +1022,16 @@ class PlayList extends ObjectYPT
             return false;
         }
 
+        if(!_empty($add)){
+            //make sure it is not a serie and you are not adding into itself
+            $vid = Video::getVideoLight($videos_id, true);
+            if(!empty($vid['serie_playlists_id'])){
+                if($vid['serie_playlists_id'] == $this->id){
+                    return false;
+                }
+            }
+        }
+        
         $formats = '';
         $values = [];
         if (_empty($add)) {

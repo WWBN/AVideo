@@ -38,10 +38,12 @@ if(!PlayLists::canManageAllPlaylists() && User::getId() !== $playList->getUsers_
     die(json_encode($obj));
 }
 
-$obj->error = false;
-$obj->status = $playList->addVideo($_REQUEST['videos_id'], $_REQUEST['add']);
+$obj->add = !_empty($_REQUEST['add']);
+$obj->videos_id = intval($_REQUEST['videos_id']);
+$obj->status = $playList->addVideo($obj->videos_id, $obj->add);
 $obj->users_id = $playList->getUsers_id();
 $obj->id = $playList->getId();
+$obj->error = empty($obj->status);
 
 //log_error("videos id: ".$_REQUEST['videos_id']." playlist_id: ".$_REQUEST['playlists_id']);
 die(json_encode($obj));

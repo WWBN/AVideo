@@ -188,6 +188,11 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
             'playlists_id': playlists_id
         },
         success: function (response) {
+            if(response.error){
+                avideoToastError(__('Error on playlist'));
+            }else{
+                avideoToastSuccess(__('Success'));
+            }
             reloadPlayLists();
             //console.log(".playListsIds_" + playlists_id + '_videos_id_' + videos_id);
             $(".playListsIds_" + playlists_id + '_videos_id_' + videos_id).prop("checked", isChecked);

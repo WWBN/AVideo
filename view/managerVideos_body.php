@@ -688,6 +688,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 'playlists_id': playlists_id
             },
             success: function(response) {
+                if(response.error){
+                    avideoToastError(__('Error on playlist'));
+                }else{
+                    avideoToastSuccess(__('Success'));
+                }
                 modal.hidePleaseWait();
             }
         });
