@@ -492,7 +492,7 @@ class PlayList extends ObjectYPT
         return $rows;
     }
 
-    private static function removeCache($videos_id, $schedule=true)
+    static function removeCache($videos_id, $schedule=true)
     {
 
         $cacheHandler = new VideoCacheHandler($videos_id);
@@ -1063,6 +1063,8 @@ class PlayList extends ObjectYPT
             self::deleteCacheDir($this->id, true);
             //_error_log('playlistSort addVideo line=' . __LINE__);
             self::removeCache($videos_id);
+        }else{
+            execAsync("php {$global['systemRootPath']}objects/deletePlaylistCache.php {$this->id} {$videos_id}");
         }
         //_error_log('playlistSort addVideo line=' . __LINE__);
         return $result;
