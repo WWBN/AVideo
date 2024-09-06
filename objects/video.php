@@ -4313,7 +4313,7 @@ if (!class_exists('Video')) {
             $videoFilename = str_replace($videosDir, '', $videoFilename);
             $paths = Video::getPaths($videoFilename, $createDir);
             //var_dump($paths);
-            if (preg_match('/index(_offline)?.(m3u8|mp4)$/', $videoFilename)) {
+            if (preg_match('/index(_offline)?.(m3u8|mp4|mp3)$/', $videoFilename)) {
                 $paths['path'] = rtrim($paths['path'], DIRECTORY_SEPARATOR);
                 $paths['path'] = rtrim($paths['path'], '/');
                 $videoFilename = str_replace($paths['relative'], '', $videoFilename);

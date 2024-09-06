@@ -626,7 +626,12 @@ class CustomizeUser extends PluginAbstract
         global $_lastCanDownloadVideosFromVideoReason;
         $_lastCanDownloadVideosFromVideoReason = '';
         if (!CustomizeUser::canDownloadVideos()) {
-            $_lastCanDownloadVideosFromVideoReason = 'CustomizeUser::canDownloadVideos';
+            $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+            if (!empty($obj->nonAdminCannotDownload)) {
+                $_lastCanDownloadVideosFromVideoReason = 'CustomizeUser::canDownloadVideos nonAdminCannotDownload';
+            } else {
+                $_lastCanDownloadVideosFromVideoReason = 'CustomizeUser::canDownloadVideos site Configuration';
+            }
             return false;
         }
         $video = new Video("", "", $videos_id);
@@ -1049,7 +1054,8 @@ class CustomizeUser extends PluginAbstract
         return sqlDAL::writeSql($sql, "s", [$dateThreshold]);
     }
 
-    function getChannelPageButtons($users_id) {
+    function getChannelPageButtons($users_id)
+    {
         global $advancedCustomUser;
         $r = '';
         if (!empty($advancedCustomUser->showChannelFeed)) {
@@ -1059,7 +1065,7 @@ class CustomizeUser extends PluginAbstract
             $roku = "{$urlChannel}roku.json";
             $r .= getFeedButton($rss, $mrss, $roku);
         }
-        
+
         $r .= User::getAddChannelToGalleryButton($users_id);
         $r .= User::getBlockUserButton($users_id);
         $r .= Subscribe::getButton($users_id);

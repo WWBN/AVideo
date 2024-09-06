@@ -12,8 +12,14 @@ if (empty($_GET['file'])) {
     _error_log("XSENDFILE GET file not found ");
     die('GET file not found');
 }
-
-if($_GET['file']=='index.mp4'){
+if($_GET['file']=='index.mp3'){
+    $url = parse_url($_SERVER["REQUEST_URI"]);
+    $paths = Video::getPaths($url["path"]);
+    $path = "{$paths['path']}index.mp3";
+    $file = "{$paths["relative"]}index.mp3";
+    $path_parts = pathinfo($file);
+    //var_dump(__LINE__, $file, $path, $paths);
+}else if($_GET['file']=='index.mp4'){
     $url = parse_url($_SERVER["REQUEST_URI"]);
     $paths = Video::getPaths($url["path"]);
     $path = "{$paths['path']}index.mp4";
@@ -71,7 +77,7 @@ if(!empty($_REQUEST['cacheDownload'])){
     _error_log("cacheDownload: $path");
 }else{
     $path = Video::getPathToFile($file);
-    //var_dump($path);exit;
+    //var_dump($path, $file);exit;
 }
 //header('Content-Type: application/json');var_dump(__LINE__, $_SERVER["REQUEST_URI"], $file, $path);exit;
 //header('Content-Type: application/json');var_dump($advancedCustom->doNotUseXsendFile);
