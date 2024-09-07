@@ -288,4 +288,12 @@ class CDN extends PluginAbstract
             include $global['systemRootPath'] . 'plugin/CDN/Storage/footer.php';
         }
     }
+
+    static function purgeCache(){
+        $obj = AVideoPlugin::getDataObject('CDN');
+        
+        $url = 'https://youphp.tube/marketplace/CDN/Manager/pullzonesPurgeCache.json.php';
+        $url = addQueryStringParameter($url, 'hash', $obj->key);
+        return url_get_contents($url);
+    }
 }
