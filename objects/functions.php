@@ -3676,9 +3676,6 @@ function getPlayListCurrentVideosId($setVideos_id = true)
         $videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['playlist_id']);
         //_error_log('getPlayListCurrentVideosId line='.__LINE__." playlist_id={$_REQUEST['playlist_id']} playlist_index={$playlist_index} ".json_encode($getVideosIDFromPlaylistLightLastSQL));
         $videos_id = $videosArrayId[$playlist_index];
-        if(!empty($_REQUEST['debug'])){
-            var_dump($videos_id, $playlist_index, $videosArrayId);exit;
-        }
     } else {
         if (empty($playListData[$playlist_index])) {
             //var_dump($playlist_index, $playListData);
