@@ -102,15 +102,12 @@ if (!empty($evideo)) {
 
         $video = $plp->getCurrentVideo();
         if (!empty($video)) {
-            $_getVideos_id = intval($video['id']);
+            $videos_id = $_getVideos_id = intval($video['id']);
             $playlist_index = $plp->getIndex();
             $videosPlayList = $plp->getVideos();
             $autoPlayVideo = $plp->getNextVideo();
             $playlist_id = $plp->getPlaylists_id();
             //var_dump($video);exit;
-        }
-        if(!empty($_REQUEST['debug'])){
-            var_dump($_getVideos_id, $playlist_index, $playlist_id);exit;
         }
     } else {
         $catLink = '';
