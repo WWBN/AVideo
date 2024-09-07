@@ -889,16 +889,11 @@ class PlayList extends ObjectYPT
 
     public static function getVideosIdFromPlaylist($playlists_id)
     {
-        $cacheHandler = new PlayListCacheHandler($playlists_id);
-        $videosId = $cacheHandler->getCache('getVideosFromPlaylist', 0);
-        if (empty($videosId)) {
-            $videosId = [];
+        $videosId = [];
             $rows = static::getVideosIDFromPlaylistLight($playlists_id);
             foreach ($rows as $value) {
                 $videosId[] = $value['videos_id'];
             }
-            $cacheHandler->setCache($videosId);
-        }
         return $videosId;
     }
 
