@@ -3674,14 +3674,14 @@ function getPlayListCurrentVideosId($setVideos_id = true)
     $playlist_index = getPlayListIndex();
     if (empty($playListData) && !empty($_REQUEST['playlist_id']) && class_exists('PlayList')) {
          $videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['playlist_id']);
-        _error_log('getPlayListCurrentVideosId line='.__LINE__." playlist_id={$_REQUEST['playlist_id']} playlist_index={$playlist_index} ".json_encode($getVideosIDFromPlaylistLightLastSQL));
+        //_error_log('getPlayListCurrentVideosId line='.__LINE__." playlist_id={$_REQUEST['playlist_id']} playlist_index={$playlist_index} ".json_encode($getVideosIDFromPlaylistLightLastSQL));
         $videos_id = $videosArrayId[$playlist_index];
     } else {
         if (empty($playListData[$playlist_index])) {
             //var_dump($playlist_index, $playListData);
             return false;
         } else {
-            _error_log('getPlayListCurrentVideosId line='.__LINE__." playlist_id={$_REQUEST['playlist_id']} playlist_index={$playlist_index}");
+            //_error_log('getPlayListCurrentVideosId line='.__LINE__." playlist_id={$_REQUEST['playlist_id']} playlist_index={$playlist_index}");
             $videos_id = $playListData[$playlist_index]->getVideos_id();
         }
     }
