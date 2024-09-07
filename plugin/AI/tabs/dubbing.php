@@ -25,8 +25,8 @@ $hlsIsEnabled = AVideoPlugin::loadPluginIfEnabled('VideoHLS');
                     <p>Use this tool to generate dubbing for your HLS video in the language of your choice. Please note that the video must be in HLS format.</p>
                 </div>
                 <div class="col-sm-3">
-                    <label for="transcribeLang">Select Language for Dubbing:</label>
-                    <select class="form-control" name="transcribeLang" id="transcribeLang" required>
+                    <label for="transcribeDubLang">Select Language for Dubbing:</label>
+                    <select class="form-control" name="transcribeDubLang" id="transcribeDubLang" required>
                         <?php
                         foreach (AI::DubbingLANGS as $key => $value) {
                             echo "<option value=\"{$value['code']}\">{$value['name']}</option>";
@@ -75,7 +75,7 @@ $hlsIsEnabled = AVideoPlugin::loadPluginIfEnabled('VideoHLS');
                 data: {
                     videos_id: <?php echo $videos_id; ?>,
                     type: '<?php echo AI::$typeDubbing; ?>',
-                    language: $('#transcribeLang').val()
+                    language: $('#transcribeDubLang').val()
                 },
                 type: 'post',
                 success: function(response) {
