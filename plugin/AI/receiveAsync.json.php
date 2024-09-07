@@ -18,7 +18,7 @@ if (empty($objAI)) {
 $token = AI::getTokenFromRequest();
 
 if (empty($token)) {
-    _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
+    _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__ . ' ' . json_encode($_REQUEST));
     forbiddenPage('invalid token');
 }
 
@@ -139,14 +139,14 @@ switch ($_REQUEST['type']) {
         break;
     case AI::$typeDubbing:
         _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
-        if (!empty($_REQUEST['response']['relativeFile'])) {
+        if (!empty($_REQUEST['relativeFile'])) {
             _error_log('Start line=' . __LINE__);
             require_once __DIR__ . '/../../plugin/VideoHLS/HLSAudioManager.php';
-            $mp3URL = AI::getMetadataURL() . $_REQUEST['response']['relativeFile'];
+            $mp3URL = AI::getMetadataURL() . $_REQUEST['relativeFile'];
 
             $language = 'Default';
             foreach (AI::DubbingLANGS as $key => $value) {
-                if ($value['code'] == $_REQUEST['response']['language']) {
+                if ($value['code'] == $_REQUEST['language']) {
                     $language = $value['name'];
                 }
             }
