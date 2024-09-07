@@ -533,7 +533,7 @@ class PlayList extends ObjectYPT
 
     public static function getVideosIDFromPlaylistLight($playlists_id)
     {
-        global $global, $getVideosIDFromPlaylistLight;
+        global $global, $getVideosIDFromPlaylistLight, $getVideosIDFromPlaylistLightLastSQL;
 
         if (!isset($getVideosIDFromPlaylistLight)) {
             $getVideosIDFromPlaylistLight = [];
@@ -552,6 +552,7 @@ class PlayList extends ObjectYPT
             $formats = 'i';
             $values = [$playlists_id];
         }
+        $getVideosIDFromPlaylistLightLastSQL = array($sql, $formats, $values);
         $res = sqlDAL::readSql($sql, $formats, $values);
         //var_dump($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
