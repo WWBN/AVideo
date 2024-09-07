@@ -583,7 +583,7 @@ class CDNStorage
         $parts = explode('.', $cdnObj->storage_hostname);
         $apiAccessKey = $cdnObj->storage_password;
         $storageZoneName = $cdnObj->storage_username; // Replace with your storage zone name
-        $storageZoneRegion = trim(strtoupper($parts[0]));
+        $storageZoneRegion = trim(strtolower($parts[0]));
         $fileUploadCount = 0;
         $totalBytesTransferred = 0;
         $total = count($filesToUpload);
