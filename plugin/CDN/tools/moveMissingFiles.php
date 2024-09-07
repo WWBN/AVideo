@@ -63,7 +63,7 @@ if ($res != false) {
                 echo "{$info} videos_id = {$row['id']} empty local files {$row['status']} {$row['filename']}". PHP_EOL;
                 continue;
             }
-            if ($last['acumulativeFilesize']<10000) {
+            if ($last['acumulativeFilesize']<500) {
                 echo "{$info} videos_id = {$row['id']} too small size status={$row['status']} {$last['acumulativeFilesize']} ". humanFileSize($last['acumulativeFilesize']). PHP_EOL;
                 if($last['acumulativeFilesize']<50){
                    CDNStorage::deleteLog($row['id']); 
