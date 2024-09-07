@@ -151,7 +151,8 @@ switch ($_REQUEST['type']) {
                 }
             }
 
-            $jsonDecoded->addAudioTrack = HLSAudioManager::addAudioTrack($token->videos_id, $mp3URL, $language);
+            $jsonDecoded->addAudioTrack = HLSAudioManager::addAudioTrack($token->videos_id, $mp3URL, $language);            
+            $jsonDecoded->error = empty($jsonDecoded->addAudioTrack);
             _error_log('End line=' . __LINE__.' '.json_encode($jsonDecoded->addAudioTrack));
             //$jsonDecoded->lines[] = __LINE__;
         }
