@@ -215,7 +215,7 @@ $_page = new Page(['Video Metatags']);
                         </div>
                         <div id="pDubbing" class="tab-pane fade">
                             <?php
-                            include $global['systemRootPath'] . 'plugin/AI/tabs/Dubbing.php';
+                            include $global['systemRootPath'] . 'plugin/AI/tabs/dubbing.php';
                             ?>
                         </div>
                         <?php
