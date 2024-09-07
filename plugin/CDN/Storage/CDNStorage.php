@@ -584,11 +584,11 @@ class CDNStorage
         $apiAccessKey = $cdnObj->storage_password;
         $storageZoneName = $cdnObj->storage_username; // Replace with your storage zone name
         $storageZoneRegion = trim(strtoupper($parts[0]));
-        $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);
         $fileUploadCount = 0;
         $totalBytesTransferred = 0;
         $total = count($filesToUpload);
-        _error_log("CDNStorage::putUsingAPI total=$total " . json_encode($filesToUpload));
+        _error_log("CDNStorage::putUsingAPI total=$total storageZoneName=$storageZoneName, storageZoneRegion=$storageZoneRegion" . json_encode($filesToUpload));
+        $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);
         foreach ($filesToUpload as $value) {
             if (empty($value)) {
                 _error_log("CDNStorage::putUsingAPI empty local " . json_encode($value));
