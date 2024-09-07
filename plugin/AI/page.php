@@ -34,6 +34,7 @@ $priceForBasic = $objAI->priceForBasic;
 $priceForTranscription = $objAI->priceForTranscription;
 $priceForTranslation = $objAI->priceForTranslation;
 $priceForShorts = $objAI->priceForShorts;
+$priceForDubbing = $objAI->priceForDubbing;
 $priceForAll = $priceForTranscription + $priceForBasic + $priceForShorts;
 
 $priceForBasicText = YPTWallet::formatCurrency($priceForBasic);
@@ -41,6 +42,7 @@ $priceForTranscriptionText = YPTWallet::formatCurrency($priceForTranscription);
 $priceForTranslationText = YPTWallet::formatCurrency($priceForTranslation);
 $priceForShortsText = YPTWallet::formatCurrency($priceForShorts);
 $priceForAllText = YPTWallet::formatCurrency($priceForAll);
+$priceForDubbingText = YPTWallet::formatCurrency($priceForDubbing);
 /*
 if (User::isAdmin()) {
     $_1hour = 60 * 60;
@@ -168,6 +170,12 @@ $_page = new Page(['Video Metatags']);
                                 <?php echo __("Shorts"); ?>
                             </a>
                         </li>
+                        <li>
+                            <a data-toggle="tab" href="#pDubbing">
+                                <i class="fa-solid fa-headphones"></i>
+                                <?php echo __("Dubbing"); ?>
+                            </a>
+                        </li>
                         <?php
                         if (User::isAdmin()) {
                         ?>
@@ -203,6 +211,11 @@ $_page = new Page(['Video Metatags']);
                         <div id="pShorts" class="tab-pane fade">
                             <?php
                             include $global['systemRootPath'] . 'plugin/AI/tabs/shorts.php';
+                            ?>
+                        </div>
+                        <div id="pDubbing" class="tab-pane fade">
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/AI/tabs/Dubbing.php';
                             ?>
                         </div>
                         <?php

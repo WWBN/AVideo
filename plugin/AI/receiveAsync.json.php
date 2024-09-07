@@ -4,7 +4,7 @@ require_once '../../videos/configuration.php';
 header('Content-Type: application/json');
 
 if (empty($_REQUEST['response'])) {
-    _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
+    _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__ . ' ' . json_encode($_REQUEST));
     forbiddenPage('Response is empty');
 }
 
@@ -130,11 +130,30 @@ switch ($_REQUEST['type']) {
                 $jsonDecoded->shorts = $shorts;
                 $jsonDecoded->Ai_responses_json = $o->save();
                 $jsonDecoded->error = empty($jsonDecoded->Ai_responses_json);
-            }else{
+            } else {
                 _error_log('AI: shorts ERROR' . basename(__FILE__) . ' line=' . __LINE__);
             }
-        }else{
+        } else {
             _error_log('AI: ERROR ' . basename(__FILE__) . ' line=' . __LINE__ . json_encode($_REQUEST));
+        }
+        break;
+    case AI::$typeDubbing:
+        _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
+        if (!empty($_REQUEST['response']['relativeFile'])) {
+            _error_log('Start line=' . __LINE__);
+            require_once __DIR__ . '/../../plugin/VideoHLS/HLSAudioManager.php';
+            $mp3URL = AI::getMetadataURL() . $_REQUEST['response']['relativeFile'];
+
+            $language = 'Default';
+            foreach (AI::DubbingLANGS as $key => $value) {
+                if ($value['code'] == $_REQUEST['response']['language']) {
+                    $language = $value['name'];
+                }
+            }
+
+            $jsonDecoded->addAudioTrack = HLSAudioManager::addAudioTrack($token->videos_id, $mp3URL, $language);
+            _error_log('End line=' . __LINE__.' '.json_encode($jsonDecoded->addAudioTrack));
+            //$jsonDecoded->lines[] = __LINE__;
         }
         break;
 

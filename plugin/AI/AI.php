@@ -17,8 +17,9 @@ class AI extends PluginAbstract
     static $typeTranscription = 'transcription';
     static $typeBasic = 'basic';
     static $typeShorts = 'shorts';
+    static $typeDubbing = 'dubbing';
 
-    static $languages = [
+    const LANGS = [
         'en' => 'English',
         'es' => 'Spanish',
         'fr' => 'French',
@@ -49,6 +50,39 @@ class AI extends PluginAbstract
         'fa' => 'Persian',
         'uk' => 'Ukrainian',
         'vi' => 'Vietnamese'
+    ];
+
+
+    const DubbingLANGS = [
+        ['name' => 'English', 'code' => 'en'],
+        ['name' => 'Hindi', 'code' => 'hi'],
+        ['name' => 'Portuguese', 'code' => 'pt'],
+        ['name' => 'Chinese', 'code' => 'zh'],
+        ['name' => 'Spanish', 'code' => 'es'],
+        ['name' => 'French', 'code' => 'fr'],
+        ['name' => 'German', 'code' => 'de'],
+        ['name' => 'Japanese', 'code' => 'ja'],
+        ['name' => 'Arabic', 'code' => 'ar'],
+        ['name' => 'Russian', 'code' => 'ru'],
+        ['name' => 'Korean', 'code' => 'ko'],
+        ['name' => 'Indonesian', 'code' => 'id'],
+        ['name' => 'Italian', 'code' => 'it'],
+        ['name' => 'Dutch', 'code' => 'nl'],
+        ['name' => 'Turkish', 'code' => 'tr'],
+        ['name' => 'Polish', 'code' => 'pl'],
+        ['name' => 'Swedish', 'code' => 'sv'],
+        ['name' => 'Filipino', 'code' => 'fil'],
+        ['name' => 'Malay', 'code' => 'ms'],
+        ['name' => 'Romanian', 'code' => 'ro'],
+        ['name' => 'Ukrainian', 'code' => 'uk'],
+        ['name' => 'Greek', 'code' => 'el'],
+        ['name' => 'Czech', 'code' => 'cs'],
+        ['name' => 'Danish', 'code' => 'da'],
+        ['name' => 'Finnish', 'code' => 'fi'],
+        ['name' => 'Bulgarian', 'code' => 'bg'],
+        ['name' => 'Croatian', 'code' => 'hr'],
+        ['name' => 'Slovak', 'code' => 'sk'],
+        ['name' => 'Tamil', 'code' => 'ta'],
     ];
 
     static $isTest = 0;
@@ -120,6 +154,8 @@ class AI extends PluginAbstract
         self::addDataObjectHelper('priceForTranslation', 'Price for Translation Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
         $obj->priceForShorts = 0;
         self::addDataObjectHelper('priceForShorts', 'Price for Shorts Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
+        $obj->priceForDubbing = 0;
+        self::addDataObjectHelper('priceForDubbing', 'Price for Dubbing Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
 
 
         $obj->autoProcessAll = false;
@@ -304,6 +340,48 @@ class AI extends PluginAbstract
         return $obj;
     }
 
+    static function getVideoDubbingMetadata($videos_id, $lang)
+    {
+        $obj = new stdClass();
+        $obj->error = true;
+        $obj->msg = '';
+        $obj->response = array();
+
+        if (empty($videos_id)) {
+            $obj->msg = 'empty videos id';
+            return $obj;
+        }
+
+        if (!isCommandLineInterface() && !Video::canEdit($videos_id)) {
+            $obj->msg = 'you cannot edit this video';
+            return $obj;
+        }
+
+        $video = new Video('', '', $videos_id);
+        $mp3 = false;
+
+        $paths = AI::getMP3Path($videos_id);
+        $fsize = 0;
+        if ($paths['url']) {
+            $mp3 = $paths['url'];
+            $fsize = filesize($paths['path']);
+        }
+
+        //var_dump($paths);exit;
+        $obj->response = array(
+            'type' => AI::$typeDubbing,
+            'videos_id' => $videos_id,
+            'mp3' => $mp3,
+            'filesize' => $fsize,
+            'language' => $lang,
+            'filesizeHuman' => humanFileSize($fsize),
+            'duration_in_seconds' => $video->getDuration_in_seconds(),
+        );
+
+        $obj->error = false;
+        return $obj;
+    }
+
     static function getTokenForVideo($videos_id, $ai_responses_id, $param)
     {
         global $global;
@@ -422,9 +500,9 @@ class AI extends PluginAbstract
             $pathsLower = self::getMP3LowerPath($videos_id);
             if (!empty($pathsLower)) {
                 $duration = getDurationFromFile($pathsLower['path']);
-                if($duration == "EE:EE:EE" && !empty($pathsLower['url'])){
+                if ($duration == "EE:EE:EE" && !empty($pathsLower['url'])) {
                     $duration = getDurationFromFile($pathsLower['url']);
-                    if($duration == "EE:EE:EE"){
+                    if ($duration == "EE:EE:EE") {
                         $pathsLower['url'] = str_replace('_Low.mp3', '.mp3', $pathsLower['url']);
                         $duration = getDurationFromFile($pathsLower['url']);
                     }
@@ -445,15 +523,15 @@ class AI extends PluginAbstract
         $isValid = false;
         if ($arrayRegular['isValid'] && $arrayLower['isValid']) {
             $f = convertVideoFileWithFFMPEGIsLockedInfo($arrayRegular['paths']['path']);
-            _error_log("convertVideoFileWithFFMPEGIsLockedInfo({$arrayRegular['paths']['path']}) arrayRegular ".json_encode($f));
+            _error_log("convertVideoFileWithFFMPEGIsLockedInfo({$arrayRegular['paths']['path']}) arrayRegular " . json_encode($f));
             if (!$f['isUnlocked']) {
                 $msg = "The original audio is processing";
-            }else{
+            } else {
                 $f = convertVideoFileWithFFMPEGIsLockedInfo($arrayLower['paths']['path']);
-                _error_log("convertVideoFileWithFFMPEGIsLockedInfo({$arrayLower['paths']['path']}) arrayLower ".json_encode($f));
+                _error_log("convertVideoFileWithFFMPEGIsLockedInfo({$arrayLower['paths']['path']}) arrayLower " . json_encode($f));
                 if (!$f['isUnlocked']) {
                     $msg = "The audio is processing";
-                }else{
+                } else {
                     $diff = abs($arrayRegular['durationInSeconds'] - $arrayLower['durationInSeconds']);
                     if ($diff <= 2) {
                         $isValid = true;
@@ -688,6 +766,9 @@ class AI extends PluginAbstract
             case AI::$typeShorts:
                 $price = $obj->priceForShorts;
                 break;
+            case AI::$typeDubbing:
+                $price = $obj->priceForDubbing;
+                break;
         }
         if (empty($price)) {
             _error_log("AI:asyncVideosId there is no price set for it");
@@ -748,6 +829,10 @@ class AI extends PluginAbstract
             case AI::$typeShorts:
                 _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
                 $obj = AI::getVideoShortsMetadata($videos_id);
+                break;
+            case AI::$typeDubbing:
+                _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+                $obj = AI::getVideoDubbingMetadata($videos_id, @$_REQUEST['language']);
                 break;
             default:
                 _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);

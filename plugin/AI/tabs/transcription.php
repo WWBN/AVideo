@@ -36,7 +36,7 @@ $columnCallbackFunctions = ['text'];
                 </div>
                 <?php
                 echo AI::getProgressBarHTML("transcription_{$videos_id}", __('Automatic'));
-                foreach (AI::$languages as $key => $value) {
+                foreach (AI::LANGS as $key => $value) {
                     echo AI::getProgressBarHTML("transcription_{$key}_{$videos_id}", $value);
                 }
                 ?>
@@ -83,7 +83,7 @@ $columnCallbackFunctions = ['text'];
                                 <select class="form-control" name="transcribeLang" id="transcribeLang">
                                     <option value=""><?php echo __("Automatic"); ?></option>
                                     <?php
-                                    foreach (AI::$languages as $key => $value) {
+                                    foreach (AI::LANGS as $key => $value) {
                                         echo "<option value=\"{$key}\">{$value}</option>";
                                     }
                                     ?>

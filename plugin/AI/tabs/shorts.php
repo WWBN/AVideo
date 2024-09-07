@@ -143,4 +143,5 @@ echo AVideoPlugin::afterVideoJS();
     $(document).ready(function() {
         loadAIShorts();
     });
+    var autoplay = false;var forceautoplay = false;var forceNotautoplay = true;
 </script>

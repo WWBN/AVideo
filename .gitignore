@@ -86,7 +86,6 @@ objects/ezyang/
 /plugin/TestOnly/
 view/videoComments_bkp.php
 /.compose/
-test.php
 /plugin/JosephZ/
 /Encoder/
 /.env
@@ -105,4 +104,4 @@ install/bulkCreateUser.php
 /plugin/CertifyComplete/
 plugin/WebAuthnLogin/
 plugin/UserOTPLogin/
-test2.php
+test*

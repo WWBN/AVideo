@@ -4059,7 +4059,7 @@ if (!class_exists('Video')) {
 
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             $cacheName = md5($filename . $type . $includeS3);
-            if (isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName])) {
+            if (isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName]) ) {
                 if (!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])) {
                     return $VideoGetSourceFile[$cacheName];
                 }
@@ -4110,6 +4110,14 @@ if (!class_exists('Video')) {
                 if ($type == ".m3u8") {
                     $source['path'] = self::getStoragePath() . "{$filename}/index{$type}";
                 }
+                $indexMP3Exits = false;
+                if ($type == ".mp3") {
+                    $exits = self::getStoragePath() . "{$filename}/index{$type}";
+                    $indexMP3Exits = file_exists($exits);
+                    if($indexMP3Exits){
+                        $source['path'] = $exits;
+                    }
+                }
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 $cleanFileName = self::getCleanFilenameFromFile($filename);
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
@@ -4133,7 +4141,9 @@ if (!class_exists('Video')) {
                 if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site) && (empty($yptStorage) || $site->getUrl() == 'url/')) {
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
-                    } else {
+                    } else if($indexMP3Exits){
+                        $f = "{$filename}/index{$type}";
+                    }else {
                         $f = "{$paths['relative']}{$filename}{$type}";
                     }
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
@@ -4146,7 +4156,7 @@ if (!class_exists('Video')) {
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                     $source['url'] = "{$siteURL}{$paths['relative']}{$filename}{$type}";
                     $source['url_noCDN'] = $site->getUrl() . "{$paths['relative']}{$filename}{$type}";
-                    if ($type == ".m3u8") {
+                    if ($type == ".m3u8" || $indexMP3Exits) {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                     }
@@ -4154,14 +4164,14 @@ if (!class_exists('Video')) {
                     $advancedCustom->videosCDN = addLastSlash($advancedCustom->videosCDN);
                     $source['url'] = "{$advancedCustom->videosCDN}{$paths['relative']}{$filename}{$type}";
                     $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}";
-                    if ($type == ".m3u8") {
+                    if ($type == ".m3u8" || $indexMP3Exits) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                     }
                 } else {
                     $source['url'] = getCDN() . "{$paths['relative']}{$filename}{$type}";
                     $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}";
-                    if ($type == ".m3u8") {
+                    if ($type == ".m3u8" || $indexMP3Exits) {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                     }
