@@ -41,13 +41,18 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
             $valid = Captcha::validation($_REQUEST['captcha']);
             if ($valid) {
                 if ($user->save()) {
+
+                    if (empty($advancedCustomUser)) {
+                        $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+                    }
+
                     $url = "{$global['webSiteRootURL']}recoverPass";
                     $url = addQueryStringParameter($url, 'user', $_REQUEST['user']);
                     $url = addQueryStringParameter($url, 'recoverpass', $recoverPass);
 
                     $to = $user->getEmail();
-                    $subject = __('Recover Pass from') . ' ' . $config->getWebSiteTitle();
-                    $message = __("You asked for a recover link, click on the provided link") . "<br><a href='{$url}' class='button blue-button'>" . __("Reset password") . "</a><br>IP: " . getRealIpAddr();
+                    $subject = __($advancedCustomUser->recoverPassSubject) . ' ' . $config->getWebSiteTitle();
+                    $message = __($advancedCustomUser->recoverPassText) . "<br><a href='{$url}' class='button blue-button'>" . __("Reset password") . "</a><br>IP: " . getRealIpAddr();
                     $fromEmail = $config->getContactEmail();
                     $resp = sendSiteEmail($to, $subject, $message, $fromEmail);
 

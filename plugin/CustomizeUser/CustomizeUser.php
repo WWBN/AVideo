@@ -290,6 +290,9 @@ class CustomizeUser extends PluginAbstract
         $obj->verificationMailTextLine4 = "All you need to do is to verify your e-mail by clicking the link below";
         $obj->verificationMailButtonLabel = "Verify";
 
+        $obj->recoverPassSubject = "Recover Pass from";
+        $obj->recoverPassText = "You asked for a recover link, click on the provided link";
+        
         $obj->unverifiedEmailsCanNOTLogin = !isset($advancedCustom->unverifiedEmailsCanNOTLogin) ? false : $advancedCustom->unverifiedEmailsCanNOTLogin;
         $obj->unverifiedEmailsCanNOTComment = false;
         $obj->unverifiedEmailsCanNOTLiveStream = true;
