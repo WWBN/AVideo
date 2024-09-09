@@ -92,14 +92,15 @@ switch ($_REQUEST['type']) {
         _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
         if (!empty($_REQUEST['response'])) {
             $jsonDecoded = Ai_transcribe_responses::saveVTT(
-                $_REQUEST['response']['vtt'], 
-                $_REQUEST['response']['language'], 
-                $_REQUEST['response']['duration'], 
-                $_REQUEST['response']['text'], 
-                $_REQUEST['response']['total_price'], 
-                $_REQUEST['response']['size_in_bytes'], 
-                $_REQUEST['response']['mp3'], 
-                $jsonDecoded);
+                $_REQUEST['response']['vtt'],
+                $_REQUEST['response']['language'],
+                $_REQUEST['response']['duration'],
+                $_REQUEST['response']['text'],
+                $_REQUEST['response']['total_price'],
+                $_REQUEST['response']['size_in_bytes'],
+                $_REQUEST['response']['mp3'],
+                $jsonDecoded
+            );
         }
         break;
     case AI::$typeShorts:
@@ -138,20 +139,27 @@ switch ($_REQUEST['type']) {
                 }
             }
 
-            $jsonDecoded->addAudioTrack = HLSAudioManager::addAudioTrack($token->videos_id, $mp3URL, $language);            
+            $jsonDecoded->addAudioTrack = HLSAudioManager::addAudioTrack($token->videos_id, $mp3URL, $language);
             $jsonDecoded->error = empty($jsonDecoded->addAudioTrack);
             $vtt = file_get_contents($vttURL);
             $jsonDecoded = Ai_transcribe_responses::saveVTT(
-                $vtt , 
-                $language, 
-                0, 
-                $vtt, 
-                0, 
-                strlen($vtt), 
-                $mp3URL, 
-                $jsonDecoded);
+                $vtt,
+                $language,
+                0,
+                $vtt,
+                0,
+                strlen($vtt),
+                $mp3URL,
+                $jsonDecoded
+            );
 
-            _error_log('End line=' . __LINE__.' '.json_encode($jsonDecoded->addAudioTrack));
+            $o = new Ai_responses_json(0);
+            $o->setResponse($jsonDecoded);
+            $o->setAi_type(AI::$typeDubbing);
+            $o->setAi_responses_id($token->ai_responses_id);
+            $jsonDecoded->Ai_transcribe_responses = $o->save();
+
+            _error_log('End line=' . __LINE__ . ' ' . json_encode($jsonDecoded->addAudioTrack));
             //$jsonDecoded->lines[] = __LINE__;
         }
         break;

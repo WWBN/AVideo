@@ -13,7 +13,7 @@
             // Convert file size to human-readable format
             $formattedSize = humanFileSize($fileSize);
 
-            echo "<a href='{$url}' class='list-group-item'>";
+            echo "<a href='{$url}' class='list-group-item' target='_blank'>";
             echo "<h4 class='list-group-item-heading'>File: " . basename($path) . "</h4>";
             echo "<p class='list-group-item-text'>Duration: $duration</p>";
             echo "<p class='list-group-item-text'>File Size: $formattedSize</p>";
