@@ -467,9 +467,11 @@ class Cache extends PluginAbstract {
 
         $rows = Cache_schedule_delete::getAll();        
         Cache_schedule_delete::truncateTable();
-        foreach ($rows as $row) {
-            CacheDB::deleteCacheStartingWith($row['name'], false);
-            self::deleteCacheDir($row['name']);
+        if (is_iterable($rows)) {
+            foreach ($rows as $row) {
+                CacheDB::deleteCacheStartingWith($row['name'], false);
+                self::deleteCacheDir($row['name']);
+            }
         }
     }
 
