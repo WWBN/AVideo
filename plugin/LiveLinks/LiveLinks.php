@@ -513,4 +513,24 @@ class LiveLinks extends PluginAbstract {
         return $MediaMetadata;
     }
 
+    static function getImagesPaths($livelinks_id){
+        global $global;
+        $relativeDir = 'videos/LiveLinks/';
+        $pathDir = "{$global['systemRootPath']}{$relativeDir}";
+        $pathURL = "{$global['webSiteRootURL']}{$relativeDir}";
+        if(!is_dir($pathDir)){
+            mkdir($pathDir);
+        }
+        $imgName = "img_{$livelinks_id}.png";
+        $path = "{$pathDir}{$imgName}";
+        $url = "{$pathURL}{$imgName}";
+        $relative = "{$relativeDir}{$imgName}";
+        $exists = file_exists($path);
+        $showURL = $url;
+        if(!$exists){
+            $showURL = "{$global['webSiteRootURL']}plugin/Live/view/OnAir.jpg";
+        }
+        return array('path'=>$path, 'url'=>$url, 'relative'=>$relative, 'exists'=>$exists, 'showURL'=>$showURL);
+    }
+
 }

@@ -2,6 +2,7 @@
 header('Content-Type: application/json');
 require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/LiveLinks/Objects/LiveLinksTable.php';
+header('Content-Type: application/json');
 
 $obj = new stdClass();
 $obj->error = true;
@@ -47,4 +48,13 @@ if($id = $o->save()){
     $o->addUserGorups($_POST['userGroups']);
     $obj->error = false;
 }
+
+if(!empty($id)){
+    if (isset($_REQUEST['image'])) {
+        $paths = LiveLinks::getImagesPaths($id);
+        $obj->path = $paths['path'];
+        $obj->image = saveCroppieImage($obj->path, "image");
+    }
+}
+
 echo json_encode($obj);

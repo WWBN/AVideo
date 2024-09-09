@@ -167,6 +167,10 @@ class LiveLinksTable extends ObjectYPT {
             }
             
             $global['lastQuery'] = $sql;
+            
+            $paths = LiveLinks::getImagesPaths($this->id);
+            @unlink($paths['path']);
+            
             //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql, "i", array($this->id));
         }

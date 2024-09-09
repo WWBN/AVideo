@@ -30,7 +30,15 @@ if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheF
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 _session_write_close();
-$filename = $global['systemRootPath'] . 'plugin/Live/view/OnAir.jpg';
+
+if(!empty($f)){
+    $filename = $global['systemRootPath'] . "videos/LiveLinks/img_{$f}.png";
+}
+
+if(empty($filename) || !file_exists($filename)){
+    $filename = $global['systemRootPath'] . 'plugin/Live/view/OnAir.jpg';
+}
+
 //echo file_get_contents($filename);exit;
 
 require_once $global['systemRootPath'] . 'objects/user.php';
