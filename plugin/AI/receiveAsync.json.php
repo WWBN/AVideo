@@ -141,6 +141,7 @@ switch ($_REQUEST['type']) {
 
             $jsonDecoded->addAudioTrack = HLSAudioManager::addAudioTrack($token->videos_id, $mp3URL, $language);
             $jsonDecoded->error = empty($jsonDecoded->addAudioTrack);
+            $jsonDecoded->response = $_REQUEST['response'];
             $vtt = file_get_contents($vttURL);
             $jsonDecoded = Ai_transcribe_responses::saveVTT(
                 $vtt,
