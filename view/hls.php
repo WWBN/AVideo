@@ -101,6 +101,6 @@ if (isAVideoUserAgent() || isAVideoEncoderOnSameDomain() || $tokenIsValid || !em
     $newContent .= " " . date("Y-m-d H:i:s");
     _error_log($newContent);
 }
-//header("Content-Type: text/plain");
-header("Content-Type: application/vnd.apple.mpegurl");
+header("Content-Type: text/plain");
+//header("Content-Type: application/vnd.apple.mpegurl");
 echo $newContent;
