@@ -5778,7 +5778,7 @@ if (!class_exists('Video')) {
             $this->rrating = $rrating;
         }
 
-        public static function getVideoTypeFromId($videos_id)
+        public static function getVideoTypeFromId($videos_id, $clearCache = false)
         {
             if (empty($videos_id)) {
                 return false;
@@ -5791,7 +5791,7 @@ if (!class_exists('Video')) {
             $cacheSuffix = "getVideoTypeFromId";
             $videoCache = new VideoCacheHandler($video['filename']);
             $cache = $videoCache->getCache($cacheSuffix, 0);
-            if (!empty($cache)) {
+            if (!empty($cache) && empty($clearCache)) {
                 return _json_decode($cache);
             }
 
