@@ -1628,7 +1628,7 @@ $t['or user group selected below'] = 'or user group selected below';
 $t['sec'] = 'sec';
 $t['showOnTV is OFF'] = 'showOnTV is OFF';
 $t['showOnTV is ON'] = 'showOnTV is ON';
-$t['the files. Only the videos-folder should stay untouched.'] = 'the files. Only the videos-folder should stay untouched.';
+$t['Unzip and upload/replace <b>all</b> of the files. Only the videos folder should stay untouched.'] = 'Unzip and upload/replace <b>all</b> of the files. Only the videos folder should stay untouched.';
 $t['the user is inactive'] = 'the user is inactive';
 $t['this help'] = 'this help';
 

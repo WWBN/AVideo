@@ -964,7 +964,7 @@ $t['second'] = '秒';
 $t['seconds'] = '秒';
 $t['siteConfigurations'] = '站点配置';
 $t['space'] = '空格键';
-$t['the files. Only the videos-folder should stay untouched.'] = '文件。只有视频文件夹应该保持不变。';
+$t['Unzip and upload/replace <b>all</b> of the files. Only the videos folder should stay untouched.'] = '解压并上传/替换<b>所有</b>文件。只有视频文件夹应该保持不变。';
 $t['tls OR ssl'] = 'tls 或 ssl';
 $t['user'] = '用户';
 $t['users'] = '用户';
@@ -972,7 +972,7 @@ $t['week'] = '周';
 $t['weeks'] = '周';
 $t['year'] = '年';
 $t['years'] = '年';
-$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl 使用 Python 语言写成,有些系统默认不会安装 Python. 要安装 Python 请输入:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl 使用 Python 语言写成，有些系统默认不会安装 Python。要安装 Python 请输入：';
 
 
 // Previously missing from file.
@@ -1682,8 +1682,6 @@ $t['Like on a lot of plugins, on the right site, you will find a button'] = '就
 $t["This project is in a fast development. If you have done your setup via git (like in the howto's), you can update very easy!"] = "该项目正在快速发展中。如果您已经通过 git 完成了设置（就像在 howto's 中一样），您可以非常轻松地进行更新！";
 $t['It can be, that you will need a database-update after. For this, go as admin to the menu-point'] = '可能是，您之后需要进行数据库更新。为此，以管理员身份进入菜单点';
 $t['Download this file'] = '下载这个文件';
-$t['Unzip and upload/replace the'] = '解压并上传/替换';
-$t['all'] = '全部';
 $t['Some information can help us, to find your problem faster'] = '一些信息可以帮助我们更快地找到您的问题';
 $t['Content of'] = '内容';
 $t['Mediatype'] = '媒体类型';
