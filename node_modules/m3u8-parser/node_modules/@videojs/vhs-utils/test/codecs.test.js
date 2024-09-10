@@ -422,9 +422,11 @@ QUnit.test('works as expected', function(assert) {
 QUnit.module('browserSupportsCodec', {
   beforeEach() {
     this.oldMediaSource = window.MediaSource;
+    this.oldManagedMediaSource = window.ManagedMediaSource;
   },
   afterEach() {
     window.MediaSource = this.oldMediaSource;
+    window.ManagedMediaSource = this.oldManagedMediaSource;
   }
 });
 
@@ -440,6 +442,47 @@ QUnit.test('works as expected', function(assert) {
 
   window.MediaSource = {isTypeSupported: null};
   assert.notOk(browserSupportsCodec('test'), 'no isTypeSupported, browser does not support codec');
+});
+
+QUnit.test('works as expected when ManagedMediaSource supported but checks not requested', function(assert) {
+  window.MediaSource = {isTypeSupported: () => false};
+  window.ManagedMediaSource = {isTypeSupported: () => true};
+  assert.notOk(browserSupportsCodec('test'), 'isTypeSupported false, browser does not support codec, ManangedMediaSource would support, but not requested');
+
+  window.MediaSource = null;
+  window.ManagedMediaSource = {isTypeSupported: () => true};
+  assert.notOk(browserSupportsCodec('test'), 'no MediaSource, browser does not support codec, ManangedMediaSource would support, but not requested');
+
+  window.MediaSource = {isTypeSupported: null};
+  window.ManagedMediaSource = {isTypeSupported: () => true};
+  assert.notOk(browserSupportsCodec('test'), 'no isTypeSupported, browser does not support codec, ManangedMediaSource would support, but not requested');
+});
+
+QUnit.test('works as expected with ManagedMediaSource checks', function(assert) {
+  window.MediaSource = {isTypeSupported: () => false};
+  window.ManagedMediaSource = {isTypeSupported: () => true};
+  assert.ok(browserSupportsCodec('test', true), 'isTypeSupported true, MediaSource does not support codec, but ManangedMediaSource does and was requested');
+
+  window.MediaSource = null;
+  window.ManagedMediaSource = {isTypeSupported: () => true};
+  assert.ok(browserSupportsCodec('test', true), 'isTypeSupported true, no MediaSource, but ManangedMediaSource supports codec and was requested');
+
+  window.MediaSource = {isTypeSupported: null};
+  window.ManagedMediaSource = {isTypeSupported: () => true};
+  assert.ok(browserSupportsCodec('test', true), 'isTypeSupported true, no isTypeSupported on MediaSource, but ManangedMediaSource supports and was requested');
+
+  window.MediaSource = null;
+  window.ManagedMediaSource = {isTypeSupported: () => false};
+  assert.notOk(browserSupportsCodec('test', true), 'isTypeSupported false, no MediaSource and ManagedMediaSource does not support codec');
+
+  window.MediaSource = null;
+  window.ManagedMediaSource = null;
+  assert.notOk(browserSupportsCodec('test', true), 'no MediaSource nor ManagedMediaSource');
+
+  window.MediaSource = null;
+  window.MediaSource = {isTypeSupported: null};
+  assert.notOk(browserSupportsCodec('test', true), 'no isTypeSupported on ManagaedMediaSource, browser does not support codec');
+
 });
 
 QUnit.module('getMimeForCodec');

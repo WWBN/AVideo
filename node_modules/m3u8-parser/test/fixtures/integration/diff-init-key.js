@@ -3,6 +3,7 @@ module.exports = {
   discontinuitySequence: 0,
   discontinuityStarts: [],
   dateRanges: [],
+  iFramePlaylists: [],
   mediaSequence: 7794,
   segments: [
     {

@@ -3,6 +3,7 @@ module.exports = {
   dateRanges: [],
   discontinuitySequence: 0,
   discontinuityStarts: [],
+  iFramePlaylists: [],
   mediaSequence: 0,
   playlistType: 'VOD',
   preloadSegment: {

@@ -1158,6 +1158,126 @@ QUnit.module('m3u8s', function(hooks) {
     assert.equal(this.parser.manifest.independentSegments, true);
   });
 
+  QUnit.test('parses #EXT-X-I-FRAME-STREAM-INF', function(assert) {
+    this.parser.push([
+      '#EXTM3U',
+      '#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=86000,URI="low/iframe.m3u8"',
+      '#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=150000,URI="mid/iframe.m3u8"',
+      '#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=550000,URI="hi/iframe.m3u8"',
+      '#EXT-X-STREAM-INF:BANDWIDTH=1280000',
+      'low/audio-video.m3u8',
+      '#EXT-X-STREAM-INF:BANDWIDTH=2560000',
+      'mid/audio-video.m3u8',
+      '#EXT-X-STREAM-INF:BANDWIDTH=7680000',
+      'hi/audio-video.m3u8',
+      '#EXT-X-STREAM-INF:BANDWIDTH=65000,CODECS="mp4a.40.5"',
+      'audio-only.m3u8'
+    ].join('\n'));
+    this.parser.end();
+
+    assert.equal(this.parser.manifest.iFramePlaylists.length, 3);
+    assert.equal(this.parser.manifest.iFramePlaylists[0].uri, 'low/iframe.m3u8');
+    assert.strictEqual(this.parser.manifest.iFramePlaylists[0].attributes.BANDWIDTH, 86000);
+  });
+
+  QUnit.test('warns when #EXT-X-I-FRAME-STREAM-INF missing BANDWIDTH/URI attributes', function(assert) {
+    this.parser.push([
+      '#EXTM3U',
+      '#EXT-X-I-FRAME-STREAM-INF:URI="low/iframe.m3u8"',
+      '#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=150000,URI="mid/iframe.m3u8"',
+      '#EXT-X-I-FRAME-STREAM-INF:',
+      '#EXT-X-STREAM-INF:BANDWIDTH=1280000',
+      'low/audio-video.m3u8',
+      '#EXT-X-STREAM-INF:BANDWIDTH=2560000',
+      'mid/audio-video.m3u8',
+      '#EXT-X-STREAM-INF:BANDWIDTH=7680000',
+      'hi/audio-video.m3u8',
+      '#EXT-X-STREAM-INF:BANDWIDTH=65000,CODECS="mp4a.40.5"',
+      'audio-only.m3u8'
+    ].join('\n'));
+    this.parser.end();
+
+    const warnings = [
+      '#EXT-X-I-FRAME-STREAM-INF lacks required attribute(s): BANDWIDTH',
+      '#EXT-X-I-FRAME-STREAM-INF lacks required attribute(s): BANDWIDTH, URI'
+    ];
+
+    assert.deepEqual(
+      this.warnings,
+      warnings,
+      'warnings as expected'
+    );
+  });
+
+  QUnit.test('warns when #EXT-X-I-FRAMES-ONLY the minimum version required is not supported', function(assert) {
+    this.parser.push([
+      '#EXTM3U',
+      '#EXT-X-VERSION:3',
+      '#EXT-X-PLAYLIST-TYPE:VOD',
+      '#EXT-X-MEDIA-SEQUENCE:0',
+      '#EXT-X-TARGETDURATION:3',
+      '#EXT-X-I-FRAMES-ONLY',
+      '#EXTINF:2.002,',
+      '001.ts',
+      '#EXTINF:2.002,',
+      '002.ts',
+      '#EXTINF:2.002,',
+      '003.ts',
+      '#EXTINF:2.002,',
+      '004.ts',
+      '#EXTINF:2.002,',
+      '005.ts',
+      '#EXTINF:2.002,',
+      '006.ts',
+      '#EXT-X-ENDLIST'
+    ].join('\n'));
+    this.parser.end();
+
+    const warnings = [
+      'manifest must be at least version 4'
+    ];
+
+    assert.deepEqual(
+      this.warnings,
+      warnings,
+      'warnings as expected'
+    );
+  });
+
+  QUnit.test('warns when #EXT-X-I-FRAMES-ONLY does not contain a version number', function(assert) {
+    this.parser.push([
+      '#EXTM3U',
+      '#EXT-X-PLAYLIST-TYPE:VOD',
+      '#EXT-X-MEDIA-SEQUENCE:0',
+      '#EXT-X-TARGETDURATION:3',
+      '#EXT-X-I-FRAMES-ONLY',
+      '#EXTINF:2.002,',
+      '001.ts',
+      '#EXTINF:2.002,',
+      '002.ts',
+      '#EXTINF:2.002,',
+      '003.ts',
+      '#EXTINF:2.002,',
+      '004.ts',
+      '#EXTINF:2.002,',
+      '005.ts',
+      '#EXTINF:2.002,',
+      '006.ts',
+      '#EXT-X-ENDLIST'
+    ].join('\n'));
+    this.parser.end();
+
+    const warnings = [
+      'manifest must be at least version 4'
+    ];
+
+    assert.deepEqual(
+      this.warnings,
+      warnings,
+      'warnings as expected'
+    );
+  });
+
   QUnit.test('parses #EXT-X-CONTENT-STEERING', function(assert) {
     const expectedContentSteeringObject = {
       serverUri: '/foo?bar=00012',
@@ -1185,6 +1305,155 @@ QUnit.module('m3u8s', function(hooks) {
     this.parser.push('#EXT-X-CONTENT-STEERING:PATHWAY-ID="CDN-A"');
     this.parser.end();
     assert.deepEqual(this.warnings, warning, 'warnings as expected');
+  });
+
+  QUnit.module('define', {
+    // https://datatracker.ietf.org/doc/html/draft-pantos-hls-rfc8216bis#section-4.4.2.3
+    beforeEach() {
+      this.errors = [];
+
+      this.parser.on('error', (err) => this.errors.push(err.message));
+    }
+  });
+
+  QUnit.test('fails on missing attributes', function(assert) {
+    const err = ['EXT-X-DEFINE: No attribute'];
+
+    this.parser.push('#EXT-X-DEFINE:');
+    this.parser.end();
+    assert.deepEqual(this.errors, err, 'errors as expected');
+  });
+
+  QUnit.test('fails on disallowed combinatons', function(assert) {
+    const permutations = [
+      '#EXT-X-DEFINE:NAME="a",QUERYPARAM="b"',
+      '#EXT-X-DEFINE:NAME="a",IMPORT="b"',
+      '#EXT-X-DEFINE:QUERYPARAM="a",IMPORT="b"',
+      '#EXT-X-DEFINE:NAME="a",QUERYPARAM="b",IMPORT="c"'
+    ];
+
+    assert.expect(permutations.length);
+
+    permutations.forEach((p) => {
+      this.parser = new Parser();
+      this.parser.on('error', (e) => {
+        assert.equal(e.message, 'EXT-X-DEFINE: Invalid attributes', `${p} errors as expected`);
+      });
+      this.parser.push(p);
+      this.parser.end();
+    });
+  });
+
+  QUnit.test('query params substituted', function(assert) {
+    this.parser = new Parser({
+      uri: 'https://example.com?aParam=aValue'
+    });
+    this.parser.push([
+      '#EXTM3U',
+      '#EXT-X-DEFINE:QUERYPARAM="aParam"',
+      '#EXTINF:10',
+      'segment.ts?replaced_param={$aParam}'
+    ].join('\n'));
+    this.parser.end();
+
+    assert.equal('aValue', this.parser.manifest.definitions.aParam, 'value of param stored');
+    assert.equal('segment.ts?replaced_param=aValue', this.parser.manifest.segments[0].uri, 'substituted in url');
+  });
+
+  QUnit.test('query params substituted with relative URL', function(assert) {
+    this.parser = new Parser({
+      uri: 'playlist.m3u8?aParam=aValue'
+    });
+    this.parser.push([
+      '#EXTM3U',
+      '#EXT-X-DEFINE:QUERYPARAM="aParam"',
+      '#EXTINF:10',
+      'segment.ts?replaced_param={$aParam}'
+    ].join('\n'));
+    this.parser.end();
+
+    assert.equal('aValue', this.parser.manifest.definitions.aParam, 'value of param stored');
+    assert.equal('segment.ts?replaced_param=aValue', this.parser.manifest.segments[0].uri, 'substituted in url');
+  });
+
+  QUnit.test('fails with missing query params', function(assert) {
+    assert.expect(1);
+    this.parser = new Parser({
+      uri: 'https://example.com?bParam=bValue'
+    });
+    this.parser.on('error', (e) => {
+      assert.equal(e.message, 'EXT-X-DEFINE: No query param aParam');
+    });
+    this.parser.push([
+      '#EXTM3U',
+      '#EXT-X-DEFINE:QUERYPARAM="aParam"',
+      '#EXTINF:10',
+      'segment.ts?replacedparam={$aParam}'
+    ].join('\n'));
+    this.parser.end();
+  });
+
+  QUnit.test('fails on redefinition', function(assert) {
+    const permutations = [
+      ['#EXT-X-DEFINE:NAME="a",VALUE="b"', '#EXT-X-DEFINE:NAME="a",VALUE="c"'],
+      ['#EXT-X-DEFINE:NAME="a",VALUE="b"', '#EXT-X-DEFINE:IMPORT="a"'],
+      ['#EXT-X-DEFINE:NAME="a",VALUE="b"', '#EXT-X-DEFINE:QUERYPARAM="a"'],
+      ['#EXT-X-DEFINE:IMPORT="a"', '#EXT-X-DEFINE:IMPORT="a"'],
+      ['#EXT-X-DEFINE:IMPORT="a"', '#EXT-X-DEFINE:QUERYPARAM="a"'],
+      ['#EXT-X-DEFINE:IMPORT="a"', '#EXT-X-DEFINE:NAME="a",VALUE="c"'],
+      ['#EXT-X-DEFINE:QUERYPARAM="a"', '#EXT-X-DEFINE:IMPORT="a"'],
+      ['#EXT-X-DEFINE:QUERYPARAM="a"', '#EXT-X-DEFINE:QUERYPARAM="a"'],
+      ['#EXT-X-DEFINE:QUERYPARAM="a"', '#EXT-X-DEFINE:NAME="a",VALUE="c"']
+    ];
+
+    assert.expect(permutations.length);
+
+    permutations.forEach((p) => {
+      this.parser = new Parser({
+        uri: 'https:example.com?a=1',
+        mainDefinitions: {
+          a: 2
+        }
+      });
+      this.parser.on('error', (e) => {
+        assert.equal(e.message, 'EXT-X-DEFINE: Duplicate name a', 'errosr on combination');
+      });
+      this.parser.push(p.join('\n'));
+      this.parser.end();
+    });
+  });
+
+  QUnit.test('fails with IMPORT on main playlist', function(assert) {
+    this.parser.on('error', function(e) {
+      assert.equal(e.message, 'EXT-X-DEFINE: No value imported_param to import, or IMPORT used on main playlist', 'fails when missing');
+    });
+    this.parser.push('#EXT-X-DEFINE:IMPORT="imported_param"');
+    this.parser.end();
+  });
+
+  QUnit.test('named and imported substiutions work', function(assert) {
+    this.parser = new Parser({
+      mainDefinitions: {
+        aParam: 'aValue',
+        engLabel: 'Anglais'
+      }
+    });
+    this.parser.push([
+      '#EXTM3U',
+      '#EXT-X-DEFINE:IMPORT="aParam"',
+      '#EXT-X-DEFINE:NAME="bParam",VALUE="bValue"',
+      '#EXT-X-DEFINE:IMPORT="engLabel"',
+      '#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="aac",LANGUAGE="eng",NAME="{$engLabel}",AUTOSELECT=YES,DEFAULT=YES,URI="eng/prog_index.m3u8?bParam={$bParam}"',
+      '#EXTINF:10',
+      'segment.ts?aParam={$aParam}&bParam={$bParam}'
+    ].join('\n'));
+    this.parser.end();
+
+    assert.equal('aValue', this.parser.manifest.definitions.aParam, 'value of param from import stored');
+    assert.equal('bValue', this.parser.manifest.definitions.bParam, 'value of param from name stored');
+    assert.equal('segment.ts?aParam=aValue&bParam=bValue', this.parser.manifest.segments[0].uri, 'substituted in uri');
+    assert.ok(this.parser.manifest.mediaGroups.AUDIO.aac.hasOwnProperty('Anglais'), 'replacement in attribute');
+    assert.equal('eng/prog_index.m3u8?bParam=bValue', this.parser.manifest.mediaGroups.AUDIO.aac.Anglais.uri, 'replacement in uri in attribute');
   });
 
   QUnit.module('integration');

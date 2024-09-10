@@ -1,6 +1,7 @@
 module.exports = {
   allowCache: true,
   dateRanges: [],
+  iFramePlaylists: [],
   mediaSequence: -11,
   playlistType: 'VOD',
   segments: [

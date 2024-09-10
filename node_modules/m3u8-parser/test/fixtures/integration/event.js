@@ -1,6 +1,7 @@
 module.exports = {
   allowCache: true,
   dateRanges: [],
+  iFramePlaylists: [],
   mediaSequence: 0,
   playlistType: 'EVENT',
   segments: [

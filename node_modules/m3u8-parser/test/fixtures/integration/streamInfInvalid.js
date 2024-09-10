@@ -1,6 +1,7 @@
 module.exports = {
   allowCache: true,
   dateRanges: [],
+  iFramePlaylists: [],
   playlists: [
     {
       attributes: {

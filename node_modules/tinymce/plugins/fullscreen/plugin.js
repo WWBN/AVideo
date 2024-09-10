@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.2.1 (2024-07-03)
+ * TinyMCE version 7.3.0 (2024-08-07)
  */
 
 (function () {
@@ -343,7 +343,6 @@
     const isHTMLElement = element => isElement(element) && isPrototypeOf(element.dom);
     const isElement = isType(ELEMENT);
     const isText = isType(TEXT);
-    const isDocument = isType(DOCUMENT);
     const isDocumentFragment = isType(DOCUMENT_FRAGMENT);
 
     const rawSet = (dom, key, value) => {
@@ -378,7 +377,7 @@
       }
     };
 
-    const isSupported$1 = dom => dom.style !== undefined && isFunction(dom.style.getPropertyValue);
+    const isSupported = dom => dom.style !== undefined && isFunction(dom.style.getPropertyValue);
 
     const fromHtml = (html, scope) => {
       const doc = scope || document;
@@ -444,7 +443,6 @@
     const eq = (e1, e2) => e1.dom === e2.dom;
 
     const owner = element => SugarElement.fromDom(element.dom.ownerDocument);
-    const documentOrOwner = dos => isDocument(dos) ? dos : owner(dos);
     const parent = element => Optional.from(element.dom.parentNode).map(SugarElement.fromDom);
     const parents = (element, isRoot) => {
       const stop = isFunction(isRoot) ? isRoot : never;
@@ -470,16 +468,14 @@
     const children = element => map(element.dom.childNodes, SugarElement.fromDom);
 
     const isShadowRoot = dos => isDocumentFragment(dos) && isNonNullable(dos.dom.host);
-    const supported = isFunction(Element.prototype.attachShadow) && isFunction(Node.prototype.getRootNode);
-    const isSupported = constant(supported);
-    const getRootNode = supported ? e => SugarElement.fromDom(e.dom.getRootNode()) : documentOrOwner;
+    const getRootNode = e => SugarElement.fromDom(e.dom.getRootNode());
     const getShadowRoot = e => {
       const r = getRootNode(e);
       return isShadowRoot(r) ? Optional.some(r) : Optional.none();
     };
     const getShadowHost = e => SugarElement.fromDom(e.dom.host);
     const getOriginalEventTarget = event => {
-      if (isSupported() && isNonNullable(event.target)) {
+      if (isNonNullable(event.target)) {
         const el = SugarElement.fromDom(event.target);
         if (isElement(el) && isOpenShadowHost(el)) {
           if (event.composed && event.composedPath) {
@@ -515,7 +511,7 @@
         console.error('Invalid call to CSS.set. Property ', property, ':: Value ', value, ':: Element ', dom);
         throw new Error('CSS value must be a string: ' + value);
       }
-      if (isSupported$1(dom)) {
+      if (isSupported(dom)) {
         dom.style.setProperty(property, value);
       }
     };
@@ -535,7 +531,7 @@
       const r = styles.getPropertyValue(property);
       return r === '' && !inBody(element) ? getUnsafeProperty(dom, property) : r;
     };
-    const getUnsafeProperty = (dom, property) => isSupported$1(dom) ? dom.style.getPropertyValue(property) : '';
+    const getUnsafeProperty = (dom, property) => isSupported(dom) ? dom.style.getPropertyValue(property) : '';
 
     const mkEvent = (target, x, y, stop, prevent, kill, raw) => ({
       target,
@@ -896,7 +892,7 @@
     const PlatformDetection = { detect: detect$1 };
 
     const mediaMatch = query => window.matchMedia(query).matches;
-    let platform = cached(() => PlatformDetection.detect(navigator.userAgent, Optional.from(navigator.userAgentData), mediaMatch));
+    let platform = cached(() => PlatformDetection.detect(window.navigator.userAgent, Optional.from(window.navigator.userAgentData), mediaMatch));
     const detect = () => platform();
 
     const r = (left, top) => {

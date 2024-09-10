@@ -2,6 +2,92 @@ module.exports = {
   allowCache: true,
   dateRanges: [],
   discontinuityStarts: [],
+  iFramePlaylists: [
+    {
+      attributes: {
+        'AVERAGE-BANDWIDTH': 163198,
+        'BANDWIDTH': 166942,
+        'CODECS': 'avc1.64002a',
+        'RESOLUTION': {
+          height: 1080,
+          width: 1920
+        },
+        'URI': 'v6/iframe_index.m3u8'
+      },
+      timeline: 0,
+      uri: 'v6/iframe_index.m3u8'
+    },
+    {
+      attributes: {
+        'AVERAGE-BANDWIDTH': 131314,
+        'BANDWIDTH': 139041,
+        'CODECS': 'avc1.640020',
+        'RESOLUTION': {
+          height: 720,
+          width: 1280
+        },
+        'URI': 'v5/iframe_index.m3u8'
+      },
+      timeline: 0,
+      uri: 'v5/iframe_index.m3u8'
+    },
+    {
+      attributes: {
+        'AVERAGE-BANDWIDTH': 100233,
+        'BANDWIDTH': 101724,
+        'CODECS': 'avc1.640020',
+        'RESOLUTION': {
+          height: 540,
+          width: 960
+        },
+        'URI': 'v4/iframe_index.m3u8'
+      },
+      timeline: 0,
+      uri: 'v4/iframe_index.m3u8'
+    },
+    {
+      attributes: {
+        'AVERAGE-BANDWIDTH': 81002,
+        'BANDWIDTH': 84112,
+        'CODECS': 'avc1.64001e',
+        'RESOLUTION': {
+          height: 432,
+          width: 768
+        },
+        'URI': 'v3/iframe_index.m3u8'
+      },
+      timeline: 0,
+      uri: 'v3/iframe_index.m3u8'
+    },
+    {
+      attributes: {
+        'AVERAGE-BANDWIDTH': 64987,
+        'BANDWIDTH': 65835,
+        'CODECS': 'avc1.64001e',
+        'RESOLUTION': {
+          height: 360,
+          width: 640
+        },
+        'URI': 'v2/iframe_index.m3u8'
+      },
+      timeline: 0,
+      uri: 'v2/iframe_index.m3u8'
+    },
+    {
+      attributes: {
+        'AVERAGE-BANDWIDTH': 41547,
+        'BANDWIDTH': 42106,
+        'CODECS': 'avc1.640015',
+        'RESOLUTION': {
+          height: 270,
+          width: 480
+        },
+        'URI': 'v1/iframe_index.m3u8'
+      },
+      timeline: 0,
+      uri: 'v1/iframe_index.m3u8'
+    }
+  ],
   mediaGroups: {
     'AUDIO': {
       aud1: {

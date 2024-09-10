@@ -1,3 +1,17 @@
+<a name="7.2.0"></a>
+# [7.2.0](https://github.com/videojs/m3u8-parser/compare/v7.1.0...v7.2.0) (2024-08-21)
+
+### Features
+
+* add support for #EXT-X-DEFINE ([#185](https://github.com/videojs/m3u8-parser/issues/185)) ([ba6e7cb](https://github.com/videojs/m3u8-parser/commit/ba6e7cb))
+* add support for #EXT-X-I-FRAME-STREAM-INF ([#171](https://github.com/videojs/m3u8-parser/issues/171)) ([990c6ce](https://github.com/videojs/m3u8-parser/commit/990c6ce)), closes [/datatracker.ietf.org/doc/html/rfc8216#section-4](https://github.com//datatracker.ietf.org/doc/html/rfc8216/issues/section-4) [/datatracker.ietf.org/doc/html/rfc8216#section-4](https://github.com//datatracker.ietf.org/doc/html/rfc8216/issues/section-4)
+* add support for #EXT-X-I-FRAMES-ONLY ([#173](https://github.com/videojs/m3u8-parser/issues/173)) ([e5dbdb6](https://github.com/videojs/m3u8-parser/commit/e5dbdb6)), closes [/datatracker.ietf.org/doc/html/rfc8216#section-4](https://github.com//datatracker.ietf.org/doc/html/rfc8216/issues/section-4) [#171](https://github.com/videojs/m3u8-parser/issues/171)
+
+### Chores
+
+* add content-steering tag to readme ([#177](https://github.com/videojs/m3u8-parser/issues/177)) ([f8c9817](https://github.com/videojs/m3u8-parser/commit/f8c9817))
+* update vhs-utils dependency ([#182](https://github.com/videojs/m3u8-parser/issues/182)) ([c060bc7](https://github.com/videojs/m3u8-parser/commit/c060bc7))
+
 <a name="7.1.0"></a>
 # [7.1.0](https://github.com/videojs/m3u8-parser/compare/v7.0.0...v7.1.0) (2023-08-07)
 

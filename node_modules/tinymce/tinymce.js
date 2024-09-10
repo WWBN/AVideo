@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.2.1 (2024-07-03)
+ * TinyMCE version 7.3.0 (2024-08-07)
  */
 
 (function () {
@@ -955,10 +955,10 @@
     const PlatformDetection = { detect: detect$2 };
 
     const mediaMatch = query => window.matchMedia(query).matches;
-    let platform$4 = cached(() => PlatformDetection.detect(navigator.userAgent, Optional.from(navigator.userAgentData), mediaMatch));
+    let platform$4 = cached(() => PlatformDetection.detect(window.navigator.userAgent, Optional.from(window.navigator.userAgentData), mediaMatch));
     const detect$1 = () => platform$4();
 
-    const userAgent = navigator.userAgent;
+    const userAgent = window.navigator.userAgent;
     const platform$3 = detect$1();
     const browser$3 = platform$3.browser;
     const os$1 = platform$3.os;
@@ -1402,9 +1402,7 @@
     };
 
     const isShadowRoot = dos => isDocumentFragment$1(dos) && isNonNullable(dos.dom.host);
-    const supported = isFunction(Element.prototype.attachShadow) && isFunction(Node.prototype.getRootNode);
-    const isSupported$1 = constant(supported);
-    const getRootNode = supported ? e => SugarElement.fromDom(e.dom.getRootNode()) : documentOrOwner;
+    const getRootNode = e => SugarElement.fromDom(e.dom.getRootNode());
     const getStyleContainer = dos => isShadowRoot(dos) ? dos : getHead(documentOrOwner(dos));
     const getContentContainer = dos => isShadowRoot(dos) ? dos : SugarElement.fromDom(documentOrOwner(dos).dom.body);
     const getShadowRoot = e => {
@@ -1413,7 +1411,7 @@
     };
     const getShadowHost = e => SugarElement.fromDom(e.dom.host);
     const getOriginalEventTarget = event => {
-      if (isSupported$1() && isNonNullable(event.target)) {
+      if (isNonNullable(event.target)) {
         const el = SugarElement.fromDom(event.target);
         if (isElement$7(el) && isOpenShadowHost(el)) {
           if (event.composed && event.composedPath) {
@@ -5455,13 +5453,16 @@
       };
     };
 
+    const clamp$2 = (value, min, max) => Math.min(Math.max(value, min), max);
+    const random = () => window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295;
+
     let unique = 0;
     const generate$1 = prefix => {
       const date = new Date();
       const time = date.getTime();
-      const random = Math.floor(Math.random() * 1000000000);
+      const random$1 = Math.floor(random() * 1000000000);
       unique++;
-      return prefix + '_' + random + unique + String(time);
+      return prefix + '_' + random$1 + unique + String(time);
     };
 
     const add = (element, classes) => {
@@ -5857,8 +5858,6 @@
       return Math.sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
     };
     const overlapY = (r1, r2) => Math.max(0, Math.min(r1.bottom, r2.bottom) - Math.max(r1.top, r2.top));
-
-    const clamp$2 = (value, min, max) => Math.min(Math.max(value, min), max);
 
     const getSelectedNode = range => {
       const startContainer = range.startContainer, startOffset = range.startOffset;
@@ -10022,32 +10021,32 @@
     const SimRange = { create: create$9 };
 
     const caretPositionFromPoint = (doc, x, y) => {
-      var _a, _b;
-      return Optional.from((_b = (_a = doc.dom).caretPositionFromPoint) === null || _b === void 0 ? void 0 : _b.call(_a, x, y)).bind(pos => {
+      var _a;
+      return Optional.from((_a = doc.caretPositionFromPoint) === null || _a === void 0 ? void 0 : _a.call(doc, x, y)).bind(pos => {
         if (pos.offsetNode === null) {
           return Optional.none();
         }
-        const r = doc.dom.createRange();
+        const r = doc.createRange();
         r.setStart(pos.offsetNode, pos.offset);
         r.collapse();
         return Optional.some(r);
       });
     };
     const caretRangeFromPoint = (doc, x, y) => {
-      var _a, _b;
-      return Optional.from((_b = (_a = doc.dom).caretRangeFromPoint) === null || _b === void 0 ? void 0 : _b.call(_a, x, y));
+      var _a;
+      return Optional.from((_a = doc.caretRangeFromPoint) === null || _a === void 0 ? void 0 : _a.call(doc, x, y));
     };
-    const availableSearch = (() => {
-      if (document.caretPositionFromPoint) {
-        return caretPositionFromPoint;
-      } else if (document.caretRangeFromPoint) {
-        return caretRangeFromPoint;
+    const availableSearch = (doc, x, y) => {
+      if (doc.caretPositionFromPoint) {
+        return caretPositionFromPoint(doc, x, y);
+      } else if (doc.caretRangeFromPoint) {
+        return caretRangeFromPoint(doc, x, y);
       } else {
-        return Optional.none;
+        return Optional.none();
       }
-    })();
+    };
     const fromPoint$1 = (win, x, y) => {
-      const doc = SugarElement.fromDom(win.document);
+      const doc = win.document;
       return availableSearch(doc, x, y).map(rng => SimRange.create(SugarElement.fromDom(rng.startContainer), rng.startOffset, SugarElement.fromDom(rng.endContainer), rng.endOffset));
     };
 
@@ -10211,7 +10210,7 @@
       var _a;
       return ((_a = node.previousSibling) === null || _a === void 0 ? void 0 : _a.nodeName) === name;
     };
-    const hasContentEditableFalseParent = (root, node) => {
+    const hasContentEditableFalseParent$1 = (root, node) => {
       let currentNode = node;
       while (currentNode && currentNode !== root) {
         if (isContentEditableFalse$b(currentNode)) {
@@ -10296,7 +10295,7 @@
           if (!collapsed && container === body.lastChild && isTable$2(container)) {
             return Optional.none();
           }
-          if (hasContentEditableFalseParent(body, container) || isCaretContainer$2(container)) {
+          if (hasContentEditableFalseParent$1(body, container) || isCaretContainer$2(container)) {
             return Optional.none();
           }
           if (isDetails(container)) {
@@ -10924,6 +10923,7 @@
     };
 
     const getContentEditableHost = (editor, node) => editor.dom.getParent(node, node => editor.dom.getContentEditable(node) === 'true');
+    const hasContentEditableFalseParent = (editor, node) => editor.dom.getParent(node, node => editor.dom.getContentEditable(node) === 'false') !== null;
     const getCollapsedNode = rng => rng.collapsed ? Optional.from(getNode$1(rng.startContainer, rng.startOffset)).map(SugarElement.fromDom) : Optional.none();
     const getFocusInElement = (root, rng) => getCollapsedNode(rng).bind(node => {
       if (isTableSection(node)) {
@@ -10980,6 +10980,9 @@
       }
       const contentEditableHost = getContentEditableHost(editor, selection.getNode());
       if (contentEditableHost && editor.dom.isChildOf(contentEditableHost, body)) {
+        if (!hasContentEditableFalseParent(editor, contentEditableHost)) {
+          focusBody(body);
+        }
         focusBody(contentEditableHost);
         if (!editor.hasEditableRoot()) {
           restoreBookmark(editor);
@@ -11997,7 +12000,7 @@
         return false;
       }
     };
-    const normalizeNbsps = (root, pos, schema) => {
+    const normalizeNbsps$1 = (root, pos, schema) => {
       const container = pos.container();
       if (!isText$b(container)) {
         return Optional.none();
@@ -12015,7 +12018,7 @@
     const normalizeNbspsInEditor = editor => {
       const root = SugarElement.fromDom(editor.getBody());
       if (editor.selection.isCollapsed()) {
-        normalizeNbsps(root, CaretPosition.fromRangeStart(editor.selection.getRng()), editor.schema).each(pos => {
+        normalizeNbsps$1(root, CaretPosition.fromRangeStart(editor.selection.getRng()), editor.schema).each(pos => {
           editor.selection.setRng(pos.toRange());
         });
       }
@@ -13663,6 +13666,35 @@
         return Optional.none();
       }
     };
+    const normalizeNbsps = node => set(node, get$3(node).replace(new RegExp(`${ nbsp }$`), ' '));
+    const normalizeNbspsBetween = (editor, caretContainer) => {
+      const handler = () => {
+        if (caretContainer !== null && !editor.dom.isEmpty(caretContainer)) {
+          prevSibling(SugarElement.fromDom(caretContainer)).each(node => {
+            if (isText$c(node)) {
+              normalizeNbsps(node);
+            } else {
+              descendant$2(node, e => isText$c(e)).each(textNode => {
+                if (isText$c(textNode)) {
+                  normalizeNbsps(textNode);
+                }
+              });
+            }
+          });
+        }
+      };
+      editor.once('input', e => {
+        if (e.data && !isWhiteSpace(e.data)) {
+          if (!e.isComposing) {
+            handler();
+          } else {
+            editor.once('compositionend', () => {
+              handler();
+            });
+          }
+        }
+      });
+    };
     const applyCaretFormat = (editor, name, vars) => {
       let caretContainer;
       const selection = editor.selection;
@@ -13690,6 +13722,7 @@
           textNode = caretContainer.firstChild;
           selectionRng.insertNode(caretContainer);
           offset = 1;
+          normalizeNbspsBetween(editor, caretContainer);
           editor.formatter.apply(name, vars, caretContainer);
         } else {
           editor.formatter.apply(name, vars, caretContainer);
@@ -13753,6 +13786,7 @@
           removeCaretContainerNode(editor, caretContainer, isNonNullable(caretContainer));
         }
         selection.setCursorLocation(caretTextNode, 1);
+        normalizeNbspsBetween(editor, newCaretContainer);
         if (dom.isEmpty(formatNode)) {
           dom.remove(formatNode);
         }
@@ -17363,6 +17397,8 @@
             }
             if (text.length === 0) {
               node.remove();
+            } else if (text === ' ' && node.prev && node.prev.type === COMMENT && node.next && node.next.type === COMMENT) {
+              node.remove();
             } else {
               node.value = text;
             }
@@ -17432,8 +17468,16 @@
         const mimeType = format === 'xhtml' ? 'application/xhtml+xml' : 'text/html';
         const isSpecialRoot = has$2(schema.getSpecialElements(), rootName.toLowerCase());
         const content = isSpecialRoot ? `<${ rootName }>${ html }</${ rootName }>` : html;
-        const wrappedHtml = format === 'xhtml' ? `<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>${ content }</body></html>` : `<body>${ content }</body>`;
-        const body = parser.parseFromString(wrappedHtml, mimeType).body;
+        const makeWrap = () => {
+          if (format === 'xhtml') {
+            return `<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>${ content }</body></html>`;
+          } else if (/^[\s]*<head/i.test(html) || /^[\s]*<html/i.test(html) || /^[\s]*<!DOCTYPE/i.test(html)) {
+            return `<html>${ content }</html>`;
+          } else {
+            return `<body>${ content }</body>`;
+          }
+        };
+        const body = parser.parseFromString(makeWrap(), mimeType).body;
         sanitizer.sanitizeHtmlElement(body, mimeType);
         return isSpecialRoot ? body.firstChild : body;
       };
@@ -19553,7 +19597,7 @@
           }
           reposition();
         });
-        editor.on('show ResizeEditor NodeChange', () => {
+        editor.on('show ResizeEditor ResizeWindow NodeChange ToggleView FullscreenStateChanged', () => {
           requestAnimationFrame(reposition);
         });
         editor.on('remove', () => {
@@ -19858,7 +19902,7 @@
     let count = 0;
     const seed = () => {
       const rnd = () => {
-        return Math.round(Math.random() * 4294967295).toString(36);
+        return Math.round(random() * 4294967295).toString(36);
       };
       const now = new Date().getTime();
       return 's' + now.toString(36) + rnd() + rnd() + rnd();
@@ -21304,26 +21348,12 @@
     };
     const read$1 = (schema, rootNode, forward, rng) => rng.collapsed ? readFromRange(schema, rootNode, forward, rng) : Optional.none();
 
-    const getChildrenFromNestedUntilBlockBoundary = (block, schema, forwardDelete) => {
-      const allSiblingsInDirection = forwardDelete ? prevSiblings(block).reverse() : nextSiblings(block);
-      const siblingsToMergeIn = findIndex$2(allSiblingsInDirection, element => schema.isBlock(name(element))).fold(constant(allSiblingsInDirection), index => allSiblingsInDirection.slice(0, index));
-      if (forwardDelete) {
-        return siblingsToMergeIn.reverse();
-      }
-      return siblingsToMergeIn;
+    const getChildrenUntilBlockBoundary = (block, schema) => {
+      const children = children$1(block);
+      return findIndex$2(children, el => schema.isBlock(name(el))).fold(constant(children), index => children.slice(0, index));
     };
-    const getChildrenUntilBlockBoundary = (toBlock, fromBlock, schema, forwardDelete, extractsiblingsIfNested) => {
-      if (extractsiblingsIfNested && contains(toBlock, fromBlock)) {
-        return getChildrenFromNestedUntilBlockBoundary(fromBlock, schema, forwardDelete);
-      } else if (extractsiblingsIfNested && contains(fromBlock, toBlock)) {
-        return getChildrenFromNestedUntilBlockBoundary(toBlock, schema, forwardDelete);
-      } else {
-        const children = children$1(fromBlock);
-        return findIndex$2(children, el => schema.isBlock(name(el))).fold(constant(children), index => children.slice(0, index));
-      }
-    };
-    const extractChildren = (toBlock, fromBlock, schema, forwardDelete, extractsiblingsIfNested) => {
-      const children = getChildrenUntilBlockBoundary(toBlock, fromBlock, schema, forwardDelete, extractsiblingsIfNested);
+    const extractChildren = (block, schema) => {
+      const children = getChildrenUntilBlockBoundary(block, schema);
       each$e(children, remove$4);
       return children;
     };
@@ -21332,7 +21362,7 @@
       return find$2(parents.reverse(), element => isEmpty$2(schema, element)).each(remove$4);
     };
     const isEmptyBefore = (schema, el) => filter$5(prevSiblings(el), el => !isEmpty$2(schema, el)).length === 0;
-    const nestedBlockMerge = (rootNode, fromBlock, toBlock, schema, forward, insertionPoint) => {
+    const nestedBlockMerge = (rootNode, fromBlock, toBlock, schema, insertionPoint) => {
       if (isEmpty$2(schema, toBlock)) {
         fillWithPaddingBr(toBlock);
         return firstPositionIn(toBlock.dom);
@@ -21341,14 +21371,14 @@
         before$3(insertionPoint, SugarElement.fromTag('br'));
       }
       const position = prevPosition(toBlock.dom, CaretPosition.before(insertionPoint.dom));
-      each$e(extractChildren(toBlock, fromBlock, schema, forward, false), child => {
+      each$e(extractChildren(fromBlock, schema), child => {
         before$3(insertionPoint, child);
       });
       removeEmptyRoot(schema, rootNode, fromBlock);
       return position;
     };
     const isInline = (schema, node) => schema.isInline(name(node));
-    const sidelongBlockMerge = (rootNode, fromBlock, toBlock, schema, forwardDelete) => {
+    const sidelongBlockMerge = (rootNode, fromBlock, toBlock, schema) => {
       if (isEmpty$2(schema, toBlock)) {
         if (isEmpty$2(schema, fromBlock)) {
           const getInlineToBlockDescendants = el => {
@@ -21366,12 +21396,8 @@
         return firstPositionIn(fromBlock.dom);
       }
       const position = lastPositionIn(toBlock.dom);
-      each$e(extractChildren(toBlock, fromBlock, schema, forwardDelete, true), child => {
-        if (forwardDelete && contains(fromBlock, toBlock)) {
-          prepend(toBlock, child);
-        } else {
-          append$1(toBlock, child);
-        }
+      each$e(extractChildren(fromBlock, schema), child => {
+        append$1(toBlock, child);
       });
       removeEmptyRoot(schema, rootNode, fromBlock);
       return position;
@@ -21384,26 +21410,17 @@
     const trimBr = (first, block) => {
       positionIn(first, block.dom).bind(position => Optional.from(position.getNode())).map(SugarElement.fromDom).filter(isBr$5).each(remove$4);
     };
-    const mergeBlockInto = (rootNode, fromBlock, toBlock, schema, forward) => {
+    const mergeBlockInto = (rootNode, fromBlock, toBlock, schema) => {
       trimBr(true, fromBlock);
       trimBr(false, toBlock);
-      return getInsertionPoint(fromBlock, toBlock).fold(curry(sidelongBlockMerge, rootNode, fromBlock, toBlock, schema, forward), curry(nestedBlockMerge, rootNode, fromBlock, toBlock, schema, forward));
+      return getInsertionPoint(fromBlock, toBlock).fold(curry(sidelongBlockMerge, rootNode, fromBlock, toBlock, schema), curry(nestedBlockMerge, rootNode, fromBlock, toBlock, schema));
     };
-    const mergeBlocks = (rootNode, forward, block1, block2, schema, mergeNotDelete = false) => {
-      if (mergeNotDelete) {
-        if (contains(block2, block1)) {
-          return mergeBlockInto(rootNode, block2, block1, schema, !forward);
-        } else if (contains(block1, block2)) {
-          return mergeBlockInto(rootNode, block1, block2, schema, forward);
-        }
-      }
-      return forward ? mergeBlockInto(rootNode, block2, block1, schema, forward) : mergeBlockInto(rootNode, block1, block2, schema, !forward);
-    };
+    const mergeBlocks = (rootNode, forward, block1, block2, schema) => forward ? mergeBlockInto(rootNode, block2, block1, schema) : mergeBlockInto(rootNode, block1, block2, schema);
 
     const backspaceDelete$a = (editor, forward) => {
       const rootNode = SugarElement.fromDom(editor.getBody());
       const position = read$1(editor.schema, rootNode.dom, forward, editor.selection.getRng()).map(blockBoundary => () => {
-        mergeBlocks(rootNode, forward, blockBoundary.from.block, blockBoundary.to.block, editor.schema, true).each(pos => {
+        mergeBlocks(rootNode, forward, blockBoundary.from.block, blockBoundary.to.block, editor.schema).each(pos => {
           editor.selection.setRng(pos.toRange());
         });
       });
@@ -28303,7 +28320,12 @@
         '?'
       ];
       const keyCodes = [32];
-      const getPatternSet = () => createPatternSet(getTextPatterns(editor), getTextPatternsLookup(editor));
+      const getPatternSet = () => createPatternSet(getTextPatterns(editor).filter(pattern => {
+        if (pattern.type === 'inline-command' || pattern.type === 'block-command') {
+          return editor.queryCommandSupported(pattern.cmd);
+        }
+        return true;
+      }), getTextPatternsLookup(editor));
       const hasDynamicPatterns = () => hasTextPatternsLookup(editor);
       editor.on('keydown', e => {
         if (e.keyCode === 13 && !VK.modifierPressed(e) && editor.selection.isCollapsed()) {
@@ -31518,8 +31540,8 @@
       documentBaseURL: null,
       suffix: null,
       majorVersion: '7',
-      minorVersion: '2.1',
-      releaseDate: '2024-07-03',
+      minorVersion: '3.0',
+      releaseDate: '2024-08-07',
       i18n: I18n,
       activeEditor: null,
       focusedEditor: null,

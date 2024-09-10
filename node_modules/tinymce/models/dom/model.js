@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.2.1 (2024-07-03)
+ * TinyMCE version 7.3.0 (2024-08-07)
  */
 
 (function () {
@@ -749,16 +749,14 @@
     });
 
     const isShadowRoot = dos => isDocumentFragment(dos) && isNonNullable(dos.dom.host);
-    const supported = isFunction(Element.prototype.attachShadow) && isFunction(Node.prototype.getRootNode);
-    const isSupported$1 = constant(supported);
-    const getRootNode = supported ? e => SugarElement.fromDom(e.dom.getRootNode()) : documentOrOwner;
+    const getRootNode = e => SugarElement.fromDom(e.dom.getRootNode());
     const getShadowRoot = e => {
       const r = getRootNode(e);
       return isShadowRoot(r) ? Optional.some(r) : Optional.none();
     };
     const getShadowHost = e => SugarElement.fromDom(e.dom.host);
     const getOriginalEventTarget = event => {
-      if (isSupported$1() && isNonNullable(event.target)) {
+      if (isNonNullable(event.target)) {
         const el = SugarElement.fromDom(event.target);
         if (isElement(el) && isOpenShadowHost(el)) {
           if (event.composed && event.composedPath) {
@@ -1371,7 +1369,7 @@
     const PlatformDetection = { detect: detect$3 };
 
     const mediaMatch = query => window.matchMedia(query).matches;
-    let platform = cached(() => PlatformDetection.detect(navigator.userAgent, Optional.from(navigator.userAgentData), mediaMatch));
+    let platform = cached(() => PlatformDetection.detect(window.navigator.userAgent, Optional.from(window.navigator.userAgentData), mediaMatch));
     const detect$2 = () => platform();
 
     const Dimension = (name, getOffset) => {
@@ -6435,32 +6433,32 @@
     };
 
     const caretPositionFromPoint = (doc, x, y) => {
-      var _a, _b;
-      return Optional.from((_b = (_a = doc.dom).caretPositionFromPoint) === null || _b === void 0 ? void 0 : _b.call(_a, x, y)).bind(pos => {
+      var _a;
+      return Optional.from((_a = doc.caretPositionFromPoint) === null || _a === void 0 ? void 0 : _a.call(doc, x, y)).bind(pos => {
         if (pos.offsetNode === null) {
           return Optional.none();
         }
-        const r = doc.dom.createRange();
+        const r = doc.createRange();
         r.setStart(pos.offsetNode, pos.offset);
         r.collapse();
         return Optional.some(r);
       });
     };
     const caretRangeFromPoint = (doc, x, y) => {
-      var _a, _b;
-      return Optional.from((_b = (_a = doc.dom).caretRangeFromPoint) === null || _b === void 0 ? void 0 : _b.call(_a, x, y));
+      var _a;
+      return Optional.from((_a = doc.caretRangeFromPoint) === null || _a === void 0 ? void 0 : _a.call(doc, x, y));
     };
-    const availableSearch = (() => {
-      if (document.caretPositionFromPoint) {
-        return caretPositionFromPoint;
-      } else if (document.caretRangeFromPoint) {
-        return caretRangeFromPoint;
+    const availableSearch = (doc, x, y) => {
+      if (doc.caretPositionFromPoint) {
+        return caretPositionFromPoint(doc, x, y);
+      } else if (doc.caretRangeFromPoint) {
+        return caretRangeFromPoint(doc, x, y);
       } else {
-        return Optional.none;
+        return Optional.none();
       }
-    })();
+    };
     const fromPoint = (win, x, y) => {
-      const doc = SugarElement.fromDom(win.document);
+      const doc = win.document;
       return availableSearch(doc, x, y).map(rng => SimRange.create(SugarElement.fromDom(rng.startContainer), rng.startOffset, SugarElement.fromDom(rng.endContainer), rng.endOffset));
     };
 

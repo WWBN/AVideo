@@ -997,3 +997,40 @@ QUnit.test('ignores empty lines', function(assert) {
 
   assert.ok(!event, 'no event is triggered');
 });
+
+QUnit.test('parses #EXT-X-I-FRAME-STREAM-INF', function(assert) {
+  const manifest = '#EXT-X-I-FRAME-STREAM-INF:AVERAGE-BANDWIDTH=739757,BANDWIDTH=1895477,VIDEO-RANGE=PQ,CODECS="hvc1.2.4.L150.B0",RESOLUTION=3840x2160,HDCP-LEVEL=TYPE-1,URI="hdr10_2160/iframe_index.m3u8"\n';
+  let element;
+
+  this.parseStream.on('data', function(elem) {
+    element = elem;
+  });
+  this.lineStream.push(manifest);
+
+  assert.ok(element, 'an event was triggered');
+  assert.strictEqual(element.type, 'tag', 'the line type is tag');
+  assert.strictEqual(element.tagType, 'i-frame-playlist', 'the tag type is i-frame-playlist');
+  assert.strictEqual(element.uri, 'hdr10_2160/iframe_index.m3u8', 'the uri text is parsed');
+  assert.strictEqual(element.attributes['AVERAGE-BANDWIDTH'], 739757, 'the average bandwidth is parsed');
+  assert.strictEqual(element.attributes.BANDWIDTH, 1895477, 'the bandwidth is parsed');
+  assert.strictEqual(element.attributes['VIDEO-RANGE'], 'PQ', 'the video range is parsed');
+  assert.strictEqual(element.attributes.CODECS, 'hvc1.2.4.L150.B0', 'the codecs is parsed');
+  assert.strictEqual(element.attributes.RESOLUTION.width, 3840, 'the resolution width is parsed');
+  assert.strictEqual(element.attributes.RESOLUTION.height, 2160, 'the resolution height is parsed');
+  assert.strictEqual(element.attributes['HDCP-LEVEL'], 'TYPE-1', 'the HDCP level is parsed');
+  assert.strictEqual(element.attributes.URI, 'hdr10_2160/iframe_index.m3u8', 'the uri text is parsed');
+});
+
+QUnit.test('parses #EXT-X-I-FRAMES-ONLY', function(assert) {
+  const manifest = '#EXT-X-I-FRAMES-ONLY\n';
+  let element;
+
+  this.parseStream.on('data', function(elem) {
+    element = elem;
+  });
+  this.lineStream.push(manifest);
+
+  assert.ok(element, 'an event was triggered');
+  assert.strictEqual(element.type, 'tag', 'the line type is tag');
+  assert.strictEqual(element.tagType, 'i-frames-only', 'the tag type is i-frames-only');
+});

@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.2.1 (2024-07-03)
+ * TinyMCE version 7.3.0 (2024-08-07)
  */
 
 (function () {
@@ -485,7 +485,7 @@
     const isNotEmpty = s => s.length > 0;
     const isEmpty = s => !isNotEmpty(s);
 
-    const isSupported$1 = dom => dom.style !== undefined && isFunction(dom.style.getPropertyValue);
+    const isSupported = dom => dom.style !== undefined && isFunction(dom.style.getPropertyValue);
 
     const fromHtml$2 = (html, scope) => {
       const doc = scope || document;
@@ -652,9 +652,7 @@
     };
 
     const isShadowRoot = dos => isDocumentFragment(dos) && isNonNullable(dos.dom.host);
-    const supported = isFunction(Element.prototype.attachShadow) && isFunction(Node.prototype.getRootNode);
-    const isSupported = constant$1(supported);
-    const getRootNode = supported ? e => SugarElement.fromDom(e.dom.getRootNode()) : documentOrOwner;
+    const getRootNode = e => SugarElement.fromDom(e.dom.getRootNode());
     const getContentContainer = dos => isShadowRoot(dos) ? dos : SugarElement.fromDom(documentOrOwner(dos).dom.body);
     const isInShadowRoot = e => getShadowRoot(e).isSome();
     const getShadowRoot = e => {
@@ -663,7 +661,7 @@
     };
     const getShadowHost = e => SugarElement.fromDom(e.dom.host);
     const getOriginalEventTarget = event => {
-      if (isSupported() && isNonNullable(event.target)) {
+      if (isNonNullable(event.target)) {
         const el = SugarElement.fromDom(event.target);
         if (isElement$1(el) && isOpenShadowHost(el)) {
           if (event.composed && event.composedPath) {
@@ -734,12 +732,12 @@
         console.error('Invalid call to CSS.set. Property ', property, ':: Value ', value, ':: Element ', dom);
         throw new Error('CSS value must be a string: ' + value);
       }
-      if (isSupported$1(dom)) {
+      if (isSupported(dom)) {
         dom.style.setProperty(property, value);
       }
     };
     const internalRemove = (dom, property) => {
-      if (isSupported$1(dom)) {
+      if (isSupported(dom)) {
         dom.style.removeProperty(property);
       }
     };
@@ -769,7 +767,7 @@
       const r = styles.getPropertyValue(property);
       return r === '' && !inBody(element) ? getUnsafeProperty(dom, property) : r;
     };
-    const getUnsafeProperty = (dom, property) => isSupported$1(dom) ? dom.style.getPropertyValue(property) : '';
+    const getUnsafeProperty = (dom, property) => isSupported(dom) ? dom.style.getPropertyValue(property) : '';
     const getRaw = (element, property) => {
       const dom = element.dom;
       const raw = getUnsafeProperty(dom, property);
@@ -778,7 +776,7 @@
     const getAllRaw = element => {
       const css = {};
       const dom = element.dom;
-      if (isSupported$1(dom)) {
+      if (isSupported(dom)) {
         for (let i = 0; i < dom.style.length; i++) {
           const ruleName = dom.style.item(i);
           css[ruleName] = dom.style[ruleName];
@@ -807,7 +805,7 @@
           throw new Error(name + '.set accepts only positive integer values. Value was ' + h);
         }
         const dom = element.dom;
-        if (isSupported$1(dom)) {
+        if (isSupported(dom)) {
           dom.style[name] = h + 'px';
         }
       };
@@ -1248,7 +1246,7 @@
     const PlatformDetection = { detect: detect$2 };
 
     const mediaMatch = query => window.matchMedia(query).matches;
-    let platform = cached(() => PlatformDetection.detect(navigator.userAgent, Optional.from(navigator.userAgentData), mediaMatch));
+    let platform = cached(() => PlatformDetection.detect(window.navigator.userAgent, Optional.from(window.navigator.userAgentData), mediaMatch));
     const detect$1 = () => platform();
 
     const mkEvent = (target, x, y, stop, prevent, kill, raw) => ({
@@ -3269,13 +3267,26 @@
         events: events$h
     });
 
+    const cycleBy = (value, delta, min, max) => {
+      const r = value + delta;
+      if (r > max) {
+        return min;
+      } else if (r < min) {
+        return max;
+      } else {
+        return r;
+      }
+    };
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+    const random = () => window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295;
+
     let unique = 0;
     const generate$6 = prefix => {
       const date = new Date();
       const time = date.getTime();
-      const random = Math.floor(Math.random() * 1000000000);
+      const random$1 = Math.floor(random() * 1000000000);
       unique++;
-      return prefix + '_' + random + unique + String(time);
+      return prefix + '_' + random$1 + unique + String(time);
     };
 
     const prefix$1 = constant$1('alloy-id-');
@@ -3527,7 +3538,8 @@
           baseBehaviour,
           'disabling',
           'toggling',
-          'representing'
+          'representing',
+          'tooltipping'
         ],
         [input()]: [
           baseBehaviour,
@@ -3993,18 +4005,6 @@
     const north$3 = adt$a.north;
     const east$3 = adt$a.east;
     const west$3 = adt$a.west;
-
-    const cycleBy = (value, delta, min, max) => {
-      const r = value + delta;
-      if (r > max) {
-        return min;
-      } else if (r < min) {
-        return max;
-      } else {
-        return r;
-      }
-    };
-    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
     const getRestriction = (anchor, restriction) => {
       switch (restriction) {
@@ -8779,21 +8779,23 @@
         return false;
       }
     };
-    const detect = popupSinkElem => {
+    const isFullscreen = editor => editor.plugins.fullscreen && editor.plugins.fullscreen.isFullscreen();
+    const detect = (editor, popupSinkElem) => {
       const ancestorsScrollers = ancestors(popupSinkElem, isScroller);
       const scrollers = ancestorsScrollers.length === 0 ? getShadowRoot(popupSinkElem).map(getShadowHost).map(x => ancestors(x, isScroller)).getOr([]) : ancestorsScrollers;
       return head(scrollers).map(element => ({
         element,
-        others: scrollers.slice(1)
+        others: scrollers.slice(1),
+        isFullscreen: () => isFullscreen(editor)
       }));
     };
-    const detectWhenSplitUiMode = (editor, popupSinkElem) => isSplitUiMode(editor) ? detect(popupSinkElem) : Optional.none();
+    const detectWhenSplitUiMode = (editor, popupSinkElem) => isSplitUiMode(editor) ? detect(editor, popupSinkElem) : Optional.none();
     const getBoundsFrom = sc => {
       const scrollableBoxes = [
         ...map$2(sc.others, box$1),
         win()
       ];
-      return constrainByMany(box$1(sc.element), scrollableBoxes);
+      return sc.isFullscreen() ? win() : constrainByMany(box$1(sc.element), scrollableBoxes);
     };
 
     const factory$n = detail => {
@@ -8919,18 +8921,24 @@
     const hideAllExclusive = (component, _tConfig, _tState) => {
       component.getSystem().broadcastOn([ExclusivityChannel], {});
     };
-    const setComponents = (component, tConfig, tState, specs) => {
+    const setComponents = (_component, _tConfig, tState, specs) => {
       tState.getTooltip().each(tooltip => {
         if (tooltip.getSystem().isConnected()) {
           Replacing.set(tooltip, specs);
         }
       });
     };
+    const isEnabled = (_component, _tConfig, tState) => tState.isEnabled();
+    const setEnabled = (_component, _tConfig, tState, enabled) => tState.setEnabled(enabled);
+    const immediateOpenClose = (component, _tConfig, _tState, open) => emit(component, open ? ImmediateShowTooltipEvent : ImmediateHideTooltipEvent);
 
     var TooltippingApis = /*#__PURE__*/Object.freeze({
         __proto__: null,
         hideAllExclusive: hideAllExclusive,
-        setComponents: setComponents
+        immediateOpenClose: immediateOpenClose,
+        isEnabled: isEnabled,
+        setComponents: setComponents,
+        setEnabled: setEnabled
     });
 
     const events$8 = (tooltipConfig, state) => {
@@ -8945,7 +8953,7 @@
         state.clearTimer();
       };
       const show = comp => {
-        if (!state.isShowing()) {
+        if (!state.isShowing() && state.isEnabled()) {
           hideAllExclusive(comp);
           const sink = tooltipConfig.lazySink(comp).getOrDie();
           const popup = comp.getSystem().build({
@@ -9064,6 +9072,9 @@
       };
       return derive$2(flatten([
         [
+          runOnInit(component => {
+            tooltipConfig.onSetup(component);
+          }),
           run$1(ShowTooltipEvent, comp => {
             state.resetTimer(() => {
               show(comp);
@@ -9112,6 +9123,7 @@
       defaulted('tooltipComponents', []),
       defaultedFunction('delayForShow', constant$1(300)),
       defaultedFunction('delayForHide', constant$1(300)),
+      defaultedFunction('onSetup', noop),
       defaultedStringEnum('mode', 'normal', [
         'normal',
         'follow-highlight',
@@ -9146,6 +9158,7 @@
     ];
 
     const init$a = () => {
+      const enabled = Cell(true);
       const timer = value$4();
       const popup = value$4();
       const clearTimer = () => {
@@ -9163,7 +9176,9 @@
         clearTooltip: popup.clear,
         clearTimer,
         resetTimer,
-        readState
+        readState,
+        isEnabled: () => enabled.get(),
+        setEnabled: setToEnabled => enabled.set(setToEnabled)
       });
     };
 
@@ -10951,13 +10966,15 @@
 
     var NotificationManagerImpl = (editor, extras, uiMothership, notificationRegion) => {
       const sharedBackstage = extras.backstage.shared;
+      const getBoundsContainer = () => SugarElement.fromDom(editor.queryCommandValue('ToggleView') === '' ? editor.getContentAreaContainer() : editor.getContainer());
       const getBounds = () => {
-        const contentArea = box$1(SugarElement.fromDom(editor.getContentAreaContainer()));
+        const contentArea = box$1(getBoundsContainer());
         return Optional.some(contentArea);
       };
       const clampComponentsToBounds = components => {
         getBounds().each(bounds => {
           each$1(components, comp => {
+            remove$7(comp.element, 'width');
             if (get$d(comp.element) > bounds.width) {
               set$8(comp.element, 'width', bounds.width + 'px');
             }
@@ -11032,7 +11049,7 @@
               Replacing.config({}),
               ...isStickyToolbar(editor) && !sharedBackstage.header.isPositionedAtTop() ? [] : [Docking.config({
                   contextual: {
-                    lazyContext: () => Optional.some(box$1(SugarElement.fromDom(editor.getContentAreaContainer()))),
+                    lazyContext: () => Optional.some(box$1(getBoundsContainer())),
                     fadeInClass: 'tox-notification-container-dock-fadein',
                     fadeOutClass: 'tox-notification-container-dock-fadeout',
                     transitionClass: 'tox-notification-container-dock-transition'
@@ -12534,6 +12551,12 @@
     const fireFontFamilyTextUpdate = (editor, data) => {
       editor.dispatch('FontFamilyTextUpdate', data);
     };
+    const fireToggleSidebar = editor => {
+      editor.dispatch('ToggleSidebar');
+    };
+    const fireToggleView = editor => {
+      editor.dispatch('ToggleView');
+    };
 
     const composeUnbinders = (f, g) => () => {
       f();
@@ -13265,11 +13288,11 @@
                 }),
                 runWithTarget(cellExecuteEvent, (c, _, e) => {
                   const {row, col} = e.event;
+                  emit(c, sandboxClose());
                   spec.onAction({
                     numRows: row + 1,
                     numColumns: col + 1
                   });
-                  emit(c, sandboxClose());
                 })
               ]),
               Keying.config({
@@ -16196,20 +16219,40 @@
     const invalidInput = generate$6('invalid-input');
     const validatingInput = generate$6('validating-input');
     const translatePrefix = 'colorcustom.rgb.';
-    const rgbFormFactory = (translate, getClass, onValidHexx, onInvalidHexx) => {
-      const invalidation = (label, isValid) => Invalidating.config({
+    const uninitiatedTooltipApi = {
+      isEnabled: always,
+      setEnabled: noop,
+      immediatelyShow: noop,
+      immediatelyHide: noop
+    };
+    const rgbFormFactory = (translate, getClass, onValidHexx, onInvalidHexx, tooltipGetConfig, makeIcon) => {
+      const setTooltipEnabled = (enabled, tooltipApi) => {
+        const api = tooltipApi.get();
+        if (enabled === api.isEnabled()) {
+          return;
+        }
+        api.setEnabled(enabled);
+        if (enabled) {
+          api.immediatelyShow();
+        } else {
+          api.immediatelyHide();
+        }
+      };
+      const invalidation = (label, isValid, tooltipApi) => Invalidating.config({
         invalidClass: getClass('invalid'),
         notify: {
           onValidate: comp => {
             emitWith(comp, validatingInput, { type: label });
           },
           onValid: comp => {
+            setTooltipEnabled(false, tooltipApi);
             emitWith(comp, validInput, {
               type: label,
               value: Representing.getValue(comp)
             });
           },
           onInvalid: comp => {
+            setTooltipEnabled(true, tooltipApi);
             emitWith(comp, invalidInput, {
               type: label,
               value: Representing.getValue(comp)
@@ -16226,6 +16269,7 @@
         }
       });
       const renderTextField = (isValid, name, label, description, data) => {
+        const tooltipApi = Cell(uninitiatedTooltipApi);
         const helptext = translate(translatePrefix + 'range');
         const pLabel = FormField.parts.label({
           dom: {
@@ -16243,8 +16287,39 @@
           },
           inputClasses: [getClass('textfield')],
           inputBehaviours: derive$1([
-            invalidation(name, isValid),
-            Tabstopping.config({})
+            invalidation(name, isValid, tooltipApi),
+            Tabstopping.config({}),
+            Tooltipping.config({
+              ...tooltipGetConfig({
+                tooltipText: '',
+                onSetup: comp => {
+                  tooltipApi.set({
+                    isEnabled: () => {
+                      return Tooltipping.isEnabled(comp);
+                    },
+                    setEnabled: enabled => {
+                      return Tooltipping.setEnabled(comp, enabled);
+                    },
+                    immediatelyShow: () => {
+                      return Tooltipping.immediateOpenClose(comp, true);
+                    },
+                    immediatelyHide: () => {
+                      return Tooltipping.immediateOpenClose(comp, false);
+                    }
+                  });
+                  Tooltipping.setEnabled(comp, false);
+                },
+                onShow: (component, _tooltip) => {
+                  Tooltipping.setComponents(component, [{
+                      dom: {
+                        tag: 'p',
+                        classes: [getClass('rgb-warning-note')]
+                      },
+                      components: [text$2(translate(name === 'hex' ? 'colorcustom.rgb.invalidHex' : 'colorcustom.rgb.invalid'))]
+                    }]);
+                }
+              })
+            })
           ]),
           onSetValue: input => {
             if (Invalidating.isInvalid(input)) {
@@ -16253,16 +16328,27 @@
             }
           }
         });
+        const errorId = generate$6('aria-invalid');
+        const memInvalidIcon = record(makeIcon('invalid', Optional.some(errorId), 'warning'));
+        const memStatus = record({
+          dom: {
+            tag: 'div',
+            classes: [getClass('invalid-icon')]
+          },
+          components: [memInvalidIcon.asSpec()]
+        });
         const comps = [
           pLabel,
-          pField
+          pField,
+          memStatus.asSpec()
         ];
         const concats = name !== 'hex' ? [FormField.parts['aria-descriptor']({ text: helptext })] : [];
         const components = comps.concat(concats);
         return {
           dom: {
             tag: 'div',
-            attributes: { role: 'presentation' }
+            attributes: { role: 'presentation' },
+            classes: [getClass('rgb-container')]
           },
           components
         };
@@ -16532,9 +16618,9 @@
       return saturationBrightnessPaletteSketcher;
     };
 
-    const makeFactory = (translate, getClass) => {
+    const makeFactory = (translate, getClass, tooltipConfig, makeIcon) => {
       const factory = detail => {
-        const rgbForm = rgbFormFactory(translate, getClass, detail.onValidHex, detail.onInvalidHex);
+        const rgbForm = rgbFormFactory(translate, getClass, detail.onValidHex, detail.onInvalidHex, tooltipConfig, makeIcon);
         const sbPalette = paletteFactory(translate, getClass);
         const hueSliderToDegrees = hue => (100 - hue) / 100 * 360;
         const hueDegreesToSlider = hue => 100 - hue / 360 * 100;
@@ -16701,6 +16787,8 @@
       'colorcustom.rgb.hex.label': '#',
       'colorcustom.rgb.hex.description': 'Hex color code',
       'colorcustom.rgb.range': 'Range 0 to 255',
+      'colorcustom.rgb.invalid': 'Numbers only, 0 to 255',
+      'colorcustom.rgb.invalidHex': 'Hexadecimal only, 000000 to FFFFFF',
       'aria.color.picker': 'Color Picker',
       'aria.input.invalid': 'Invalid input'
     };
@@ -16713,7 +16801,19 @@
     };
     const renderColorPicker = (_spec, providerBackstage, initialData) => {
       const getClass = key => 'tox-' + key;
-      const colourPickerFactory = makeFactory(translate$1(providerBackstage), getClass);
+      const renderIcon = (name, errId, icon = name, label = name) => render$3(icon, {
+        tag: 'div',
+        classes: [
+          'tox-icon',
+          'tox-control-wrap__status-icon-' + name
+        ],
+        attributes: {
+          'title': providerBackstage.translate(label),
+          'aria-live': 'polite',
+          ...errId.fold(() => ({}), id => ({ id }))
+        }
+      }, providerBackstage.icons);
+      const colourPickerFactory = makeFactory(translate$1(providerBackstage), getClass, providerBackstage.tooltips.getConfig, renderIcon);
       const onValidHex = form => {
         emitWith(form, formActionEvent, {
           name: 'hex-valid',
@@ -17453,7 +17553,7 @@
             onControlAttached(spec, editorOffCell),
             onControlDetached(spec, editorOffCell)
           ]),
-          config(fixWidthBehaviourName, [runOnAttached((comp, _se) => forceInitialSize(comp))]),
+          config(fixWidthBehaviourName, [runOnAttached((comp, _se) => spec.listRole === 'listbox' ? noop : forceInitialSize(comp))]),
           config('menubutton-update-display-text', [
             run$1(updateMenuText, (comp, se) => {
               optMemDisplayText.bind(mem => mem.getOpt(comp)).each(displayText => {
@@ -18288,7 +18388,8 @@
       const inputMode = spec.inputMode.fold(constant$1({}), mode => ({ inputmode: mode }));
       const inputAttributes = {
         ...placeholder,
-        ...inputMode
+        ...inputMode,
+        'data-mce-name': spec.name
       };
       const pField = FormField.parts.field({
         tag: spec.multiline === true ? 'textarea' : 'input',
@@ -19451,10 +19552,7 @@
           receivingConfig(),
           Tabstopping.config({}),
           ...tooltip.map(t => Tooltipping.config(providersBackstage.tooltips.getConfig({ tooltipText: providersBackstage.translate(t) }))).toArray(),
-          config('button press', [
-            preventDefault('click'),
-            preventDefault('mousedown')
-          ])
+          config('button press', [preventDefault('click')])
         ].concat(extraBehaviours)),
         eventOrder: {
           click: [
@@ -20676,7 +20774,8 @@
             if (spec.onHide) {
               spec.onHide(comp, tooltip);
             }
-          }
+          },
+          onSetup: spec.onSetup
         };
       };
       return {
@@ -25221,7 +25320,7 @@
       setupReadonlyModeSwitch(editor, uiRefs);
       editor.addCommand('ToggleSidebar', (_ui, value) => {
         OuterContainer.toggleSidebar(outerContainer, value);
-        editor.dispatch('ToggleSidebar');
+        fireToggleSidebar(editor);
       });
       editor.addQueryValueHandler('ToggleSidebar', () => {
         var _a;
@@ -25239,6 +25338,7 @@
             editor.nodeChanged();
             OuterContainer.refreshToolbar(outerContainer);
           }
+          fireToggleView(editor);
         }
       });
       editor.addQueryValueHandler('ToggleView', () => {

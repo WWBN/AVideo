@@ -2,6 +2,7 @@ module.exports = {
   allowCache: true,
   dateRanges: [],
   discontinuityStarts: [],
+  iFramePlaylists: [],
   mediaGroups: {
     'AUDIO': {
       aac: {

@@ -5,6 +5,7 @@ module.exports = {
   dateRanges: [],
   discontinuitySequence: 0,
   discontinuityStarts: [],
+  iFramePlaylists: [],
   mediaSequence: 266,
   preloadSegment: {
     map: {uri: 'init.mp4'},

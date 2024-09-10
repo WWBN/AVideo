@@ -17,6 +17,7 @@ if (!buildFromSource()) {
 
 function build () {
   var win32 = os.platform() === 'win32'
+  var shell = win32
   var args = [win32 ? 'node-gyp.cmd' : 'node-gyp', 'rebuild']
 
   try {
@@ -26,9 +27,10 @@ function build () {
       path.join(require.resolve('node-gyp/package.json'), '..', typeof pkg.bin === 'string' ? pkg.bin : pkg.bin['node-gyp']),
       'rebuild'
     ]
+    shell = false
   } catch (_) {}
 
-  proc.spawn(args[0], args.slice(1), { stdio: 'inherit', shell: win32, windowsHide: true }).on('exit', function (code) {
+  proc.spawn(args[0], args.slice(1), { stdio: 'inherit', shell, windowsHide: true }).on('exit', function (code) {
     if (code || !process.argv[3]) process.exit(code)
     exec(process.argv[3]).on('exit', function (code) {
       process.exit(code)

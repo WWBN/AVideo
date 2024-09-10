@@ -1,6 +1,7 @@
 module.exports = {
   allowCache: true,
   dateRanges: [],
+  iFramePlaylists: [],
   mediaSequence: 7794,
   discontinuitySequence: 0,
   discontinuityStarts: [],

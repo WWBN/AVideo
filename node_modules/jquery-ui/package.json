@@ -2,11 +2,11 @@
 	"name": "jquery-ui",
 	"title": "jQuery UI",
 	"description": "A curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.",
-	"version": "1.13.3",
+	"version": "1.14.0",
 	"homepage": "https://jqueryui.com",
 	"author": {
 		"name": "OpenJS Foundation and other contributors",
-		"url": "https://github.com/jquery/jquery-ui/blob/1.13.3/AUTHORS.txt"
+		"url": "https://github.com/jquery/jquery-ui/blob/1.14.0/AUTHORS.txt"
 	},
 	"main": "ui/widget.js",
 	"maintainers": [
@@ -52,7 +52,7 @@
 		"test": "grunt && npm run test:unit -- -h"
 	},
 	"dependencies": {
-		"jquery": ">=1.8.0 <4.0.0"
+		"jquery": ">=1.12.0 <5.0.0"
 	},
 	"devDependencies": {
 		"body-parser": "1.20.2",
@@ -77,7 +77,6 @@
 		"load-grunt-tasks": "5.1.0",
 		"rimraf": "4.4.1",
 		"selenium-webdriver": "4.18.1",
-		"testswarm": "1.1.2",
 		"yargs": "17.7.2"
 	},
 	"keywords": []

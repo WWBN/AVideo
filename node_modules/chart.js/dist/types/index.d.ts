@@ -2344,6 +2344,7 @@ export interface LegendElement<TType extends ChartType> extends Element<AnyObjec
   ctx: CanvasRenderingContext2D;
   legendItems?: LegendItem[];
   options: LegendOptions<TType>;
+  fit(): void;
 }
 
 export interface LegendOptions<TType extends ChartType> {
@@ -2404,11 +2405,6 @@ export interface LegendOptions<TType extends ChartType> {
      * @default fontSize
      */
     boxHeight: number;
-    /**
-     * Padding between the color box and the text
-     * @default 1
-     */
-    boxPadding: number;
     /**
      * Color of label
      * @see Defaults.color
@@ -3581,6 +3577,8 @@ export type RadialLinearScaleOptions = CoreScaleOptions & {
 };
 
 export interface RadialLinearScale<O extends RadialLinearScaleOptions = RadialLinearScaleOptions> extends Scale<O> {
+  xCenter: number;
+  yCenter: number;
   setCenterPoint(leftMovement: number, rightMovement: number, topMovement: number, bottomMovement: number): void;
   getIndexAngle(index: number): number;
   getDistanceFromCenterForValue(value: number): number;
@@ -3744,13 +3742,16 @@ export type ScaleChartOptions<TType extends ChartType = ChartType> = {
   };
 };
 
-export type ChartOptions<TType extends ChartType = ChartType> = DeepPartial<
+export type ChartOptions<TType extends ChartType = ChartType> = Exclude<
+DeepPartial<
 CoreChartOptions<TType> &
 ElementChartOptions<TType> &
 PluginChartOptions<TType> &
 DatasetChartOptions<TType> &
 ScaleChartOptions<TType> &
 ChartTypeRegistry[TType]['chartOptions']
+>,
+DeepPartial<unknown[]>
 >;
 
 export type DefaultDataPoint<TType extends ChartType> = DistributiveArray<ChartTypeRegistry[TType]['defaultDataPoint']>;
@@ -3815,7 +3816,7 @@ export interface ChartConfiguration<
 > {
   type: TType;
   data: ChartData<TType, TData, TLabel>;
-  options?: ChartOptions<TType>;
+  options?: ChartOptions<TType> | undefined;
   plugins?: Plugin<TType>[];
   platform?: typeof BasePlatform;
 }
@@ -3826,6 +3827,6 @@ export interface ChartConfigurationCustomTypesPerDataset<
   TLabel = unknown
 > {
   data: ChartDataCustomTypesPerDataset<TType, TData, TLabel>;
-  options?: ChartOptions<TType>;
+  options?: ChartOptions<TType> | undefined;
   plugins?: Plugin<TType>[];
 }
