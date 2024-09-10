@@ -42,8 +42,10 @@
     margin-bottom: 10px;
 }
 
-.vjs-has-started.vjs-paused .vjs-big-play-button{
-    display: none !important;
+@media all and (min-width: 900px) {
+    .vjs-has-started.vjs-paused .vjs-big-play-button{
+        display: none !important;
+    }
 }
 
 .vjs-has-started.vjs-paused.showBigButton .vjs-big-play-button{
@@ -53,6 +55,9 @@
 @media all and (max-width: 900px) {
     div.vjs-control-bar{
         font-size: 0.9em !important;
+    }
+    #mainVideo > div.vjs-control-bar > div.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button > div > ul{
+        font-size: 1.2em !important;
     }
 }
 @media all and (max-width: 800px) {
