@@ -2,7 +2,7 @@
 $countries = IP2Location::getCountries();
 ?>
 <div class="form-group col-sm-4">
-    <label for="status"><?php echo __("Country"); ?>:</label>
+    <label for="status"><?php echo __("Country"); ?> / <?php echo __("Region"); ?>:</label>
     <select class="form-control input-sm" name="country" id="country">
         <option>All</option>
         <?php

@@ -308,7 +308,7 @@ foreach ($userGroups as $value) {
                     </div>
 
                     <div class="row">
-                        <label class="col-md-4 control-label"><?php echo __("Country"); ?></label>
+                        <label class="col-md-4 control-label"><?php echo __("Country"); ?> / <?php echo __("Region"); ?></label>
                         <div class="col-md-8 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>

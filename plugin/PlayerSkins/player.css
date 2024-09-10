@@ -59,6 +59,9 @@
     #mainVideo > div.vjs-control-bar > div.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button > div > ul{
         font-size: 1.2em !important;
     }
+    #mainVideo > div.vjs-control-bar > div.vjs-menu-button.vjs-menu-button-popup.vjs-control.vjs-button > div > ul li{
+        padding: 6px 1px !important;
+    }
 }
 @media all and (max-width: 800px) {
     div.vjs-control-bar{

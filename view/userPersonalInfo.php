@@ -53,7 +53,7 @@
     $countries = IP2Location::getCountries();
     ?>
     <div class="form-group">
-        <label for="status" class="col-md-4 control-label"><?php echo __("Country"); ?>:</label>
+        <label for="status" class="col-md-4 control-label"><?php echo __("Country"); ?> / <?php echo __("Region"); ?>:</label>
         <div class="col-md-8 inputGroupContainer">
 
             <div class="input-group">
