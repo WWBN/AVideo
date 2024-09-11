@@ -92,7 +92,7 @@ if (isHTMLEmpty($sideAd)) {
     $modeYoutubeBottomClass1 = "col-sm-12 col-md-12 col-lg-10";
     $modeYoutubeBottomClass2 = "hidden ";
 }
-$_page = new Page(array('Live Links'));
+$_page = new Page(array($t['title']));
 $_page->setExtraStyles(array('node_modules/video.js/dist/video-js.min.css'));
 $_page->setExtraScripts(array('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js'));
 ?>
