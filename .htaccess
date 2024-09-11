@@ -227,6 +227,7 @@ Options All -Indexes
     RewriteRule    ^uploadPoster/([0-9]+)/(jpg|gif)$ objects/uploadPoster.php?video_id=$1&type=$2    [NC,L]
 
     #for the Article name
+    RewriteRule ^article/([0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[]]+)?/?$ view/modeYoutube.php?v=$1 [QSA]
     RewriteRule ^article/([0-9a-zA-Z_.-]+)/([^!#$&'(),/:;=?@[]]+)/?$ view/modeYoutube.php?v=$1 [QSA]
     RewriteRule ^article/([0-9a-zA-Z_.-]+)/([^!#$&'(),/:;=?@[]]+)/page/([0-9]+)/??$ view/modeYoutube.php?v=$1&page=$3 [QSA]
     RewriteRule ^article/([^!#$&'(),/:;=?@[]]+)/?$ view/modeYoutube.php?videoName=$1 [QSA]
