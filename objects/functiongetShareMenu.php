@@ -1,4 +1,5 @@
 <?php
+global $global, $advancedCustom;
 $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 $search = ['{permaLink}', '{imgSRC}', '{title}', '{embedURL}', '{videoLengthInSeconds}'];
 $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];

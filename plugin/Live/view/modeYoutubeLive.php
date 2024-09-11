@@ -221,7 +221,7 @@ $_page->setExtraStyles(
                         $link = addQueryStringParameter($link, 'live_schedule', intval($_REQUEST['live_schedule']));
                     }
                     if (isShareEnabled()) {
-                        getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img, "row bgWhite list-group-item menusDiv");
+                        echo getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img, "row bgWhite list-group-item menusDiv");
                     }
                     ?>
                     <div class="row">

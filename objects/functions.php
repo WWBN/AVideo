@@ -4327,8 +4327,33 @@ function getSEOTitle($text, $maxChars = 120)
 function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = "row bgWhite list-group-item menusDiv", $videoLengthInSeconds = 0, $bitLyLink = '')
 {
     global $global, $advancedCustom;
-    include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
+    
+    $varsArray = array(
+        'title' => $title,
+        'permaLink' => $permaLink,
+        'URLFriendly' => $URLFriendly,
+        'embedURL' => $embedURL,
+        'img' => $img,
+        'class' => $class,
+        'videoLengthInSeconds' => $videoLengthInSeconds,
+        'bitLyLink' => $bitLyLink,
+    );
+    return getIncludeFileContent($global['systemRootPath'] . 'objects/functiongetShareMenu.php', $varsArray);
+    //include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
 }
+
+function getShareSocialIcons($title, $url)
+{
+    global $global;
+    
+    $varsArray = array(
+        'title' => $title,
+        'url' => $url,
+    );
+    return getIncludeFileContent($global['systemRootPath'] . 'view/include/social.php', $varsArray);
+    //include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
+}
+
 
 function getCaptcha($uid = "", $forceCaptcha = false)
 {

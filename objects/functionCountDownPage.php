@@ -25,7 +25,9 @@ if (!is_numeric($toTime)) {
             .p-b-9 {padding-bottom: 9px;}
             .p-b-45 {padding-bottom: 45px;}
             .p-b-60 {padding-bottom: 60px;}
+            .p-l-50 {padding-left: 50px;}
             .p-l-75 {padding-left: 75px;}
+            .p-r-50 {padding-right: 50px;}
             .p-r-75 {padding-right: 75px;}
 
             .m-t-15 {margin-top: 15px;}
@@ -595,7 +597,7 @@ if (!is_numeric($toTime)) {
                 }
                 ?>
             </div>
-            <div class="size3 flex-col-sb flex-w p-l-75 p-r-75 p-t-20 p-b-45 respon1">
+            <div class="size3 flex-col-sb flex-w p-l-50 p-r-50 p-t-20 p-b-45 respon1">
 
                 <div class="p-t-20 p-b-60">
                     <div class="wrap-pic1">

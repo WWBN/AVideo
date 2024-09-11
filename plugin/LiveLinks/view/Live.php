@@ -44,7 +44,11 @@ if (empty($t['users_id'])) {
 }
 
 if ($toTime > time()) {
-    $message = "<strong>{$t['title']}</strong><br>{$t['description']}";
+    $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
+    //$linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
+    //$share = getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
+    $share = getShareSocialIcons($t['title'], $link);
+    $message = "<strong>{$t['title']}</strong><div>{$share}</div>{$t['description']}";
     $image = User::getPhoto($t['users_id']);
     $bgImage = LiveLinks::getImage($t['id']);
     $title = $t['title'];
@@ -180,7 +184,7 @@ $_page->setExtraScripts(array('node_modules/videojs-contrib-ads/dist/videojs.ads
                          */
                         $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
                         $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
-                        getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
+                        echo getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
                     }
                     ?>
                     <div class="row">
