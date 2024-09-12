@@ -3009,7 +3009,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             //_error_log("isLiveAndIsReadyFromKey::key: {$key} $name  ".json_encode(array($cache, $json)));
             $json = new stdClass();
             $key = self::getLiveKeyFromRequest($key, $live_index);
-            _error_log("isLiveAndIsReadyFromKey::key: {$key} checking live_servers_id={$live_servers_id} " . $_SERVER['HTTP_USER_AGENT']);
+            _error_log("isLiveAndIsReadyFromKey::key: {$key} checking live_servers_id={$live_servers_id} " . (@$_SERVER['HTTP_USER_AGENT']));
             $isLiveFromKey = self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate);
             $_isLiveAndIsReadyFromKey[$name] = true;
             if (empty($isLiveFromKey)) {
