@@ -5135,6 +5135,36 @@ function getThemesSeparated()
 }
 
 
+function isCurrentThemeDark()
+{
+    global $config;
+    $isDefaultThemeDark = $config->isDefaultThemeDark();
+    if (empty($_COOKIE['themeMode'])) {
+        // it is default theme
+        if($isDefaultThemeDark){
+            return  true;
+        }else{
+            return  false;
+        }
+    } else {
+        // it is alrernative theme
+        if(!$isDefaultThemeDark){
+            return  true;
+        }else{
+            return  false;
+        }
+    }
+}
+
+function getBodyClass()
+{
+    $bodyClass = 'lightTheme';
+    if(isCurrentThemeDark()){
+        $bodyClass = 'darkTheme';
+    }
+    return $bodyClass;
+}
+
 function getCurrentTheme()
 {
     global $config;
