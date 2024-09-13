@@ -1004,6 +1004,10 @@ img.blur {
     color: #4285f4;
 }
 
+.playlist-nav .navbar-header li{
+    color: #FFF;
+}
+
 .opacityBtn {
     opacity: 0.2;
 }
