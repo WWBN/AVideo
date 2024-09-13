@@ -132,6 +132,8 @@ $percent = 90;
                     }
                     $link = PlayLists::getLink($pl['id']);
                     $linkEmbed = PlayLists::getLink($pl['id'], true);
+                    
+                    $videoSerie = Video::getVideoFromSeriePlayListsId($pl['id']);
                 ?>
                     <div class="row topicRow">
                         <h2>
@@ -139,6 +141,17 @@ $percent = 90;
                                 <!-- modeFlixBody line <?php echo __LINE__; ?> -->
                                 <i class="fas fa-list"></i> <?php echo __($pl['name']); ?>
                             </a>
+                            <?php
+                            if(!empty($videoSerie)){
+                                ?>
+                                <span style="margin-left: 10px;">
+                                    <?php
+                                        echo Video::generatePlaylistButtons($videoSerie['id'], 'btn btn-dark btn-xs', 'color: #4285f4; ', false);
+                                    ?>
+                                </span>
+                                <?php
+                            }
+                            ?>
                         </h2>
                         <!-- Date Programs/Playlists 2 -->
                         <?php
