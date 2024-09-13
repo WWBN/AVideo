@@ -111,7 +111,7 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
     $metaTags[] = "<meta property='og:type' content='{$ogType}' />";
     if ($title) {
         $title = getSEOTitle(html2plainText($title));
-        $metaTags[] = "<meta property='og:title' content='{$title}' />";
+        $metaTags[] = "<meta property='og:title' content='".addcslashes("'", $title)."' />";
         $metaTags[] = "<meta name=\"twitter:title\" content=\"{$title}\"/>";
     }
     if ($description) {
@@ -342,8 +342,8 @@ function getOpenGraphLiveLink($liveLink_id)
     $duration_in_seconds = 0;
     $sourceFileURL = $liveLink->getLink();
     $pageURL = LiveLinks::getLinkToLiveFromId($liveLink_id);
-    $pageURLEmbed = LiveLinks::getLinkToLiveFromId($liveLink_id, true);
-    $imgURL = LiveLinks::getImage($liveLink_id);
+    $pageURLEmbed = LiveLinks::getLinkToLiveFromId($liveLink_id, true);    
+    $imgURL = LiveLinks::getImageDafaultOrDynamic($liveLink_id);
     $imgPath = '';
     $extraMetatags = array();
     //var_dump(debug_backtrace());

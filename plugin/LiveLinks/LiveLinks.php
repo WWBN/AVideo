@@ -119,6 +119,18 @@ class LiveLinks extends PluginAbstract {
         return $rows;
     }
 
+    static function getImageDafaultOrDynamic($liveLink_id) {
+        global $global;
+        $relative = "videos/LiveLinks/img_{$liveLink_id}.png";
+        $filename = $global['systemRootPath'] . $relative ;
+        if(file_exists($filename)){
+            $imgURL = getURL($relative);
+        }else{
+            $imgURL = LiveLinks::getImage($liveLink_id);
+        }
+        return $imgURL;
+    }
+
     static function getImage($id) {
         global $global;
         return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=jpg";
