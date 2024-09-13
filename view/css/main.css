@@ -1000,6 +1000,10 @@ img.blur {
     border-color: #000;
 }
 
+.btn-dark.watchLaterBtnAdded, .btn-dark.favoriteBtnAdded {
+    color: #4285f4;
+}
+
 .opacityBtn {
     opacity: 0.2;
 }

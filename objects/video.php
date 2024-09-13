@@ -6602,7 +6602,7 @@ if (!class_exists('Video')) {
             return str_replace($search, $replace, $templateContent);
         }
 
-        public static function generatePlaylistButtons($videos_id, $buttonClass = 'btn btn-dark btn-xs', $iconStyle = 'color: #4285f4;', $isVertical = true)
+        public static function generatePlaylistButtons($videos_id, $buttonClass = 'btn btn-dark btn-xs', $style = 'background-color: #11111199;', $isVertical = true)
         {
             if (empty($videos_id) || !User::isLogged()) {
                 return '';
@@ -6621,8 +6621,8 @@ if (!class_exists('Video')) {
             $favoriteBtnStyle = $isFavorite ? "display: none;" : "";
 
             // Add a layout style to force vertical stacking if required
-            $layoutStyle = $isVertical ? "display: block; margin-bottom: 5px;" : "display: inline-block; margin-right: 5px;";
-            $layoutStyle .= 'display: none;'; 
+            $layoutStyle = $isVertical ? "display: block;" : "display: inline-block; margin-right: 5px;";
+            $layoutStyle .= 'display: none;';
             $placement = 'top';
             if ($isVertical) {
                 $placement = 'left';
@@ -6630,11 +6630,11 @@ if (!class_exists('Video')) {
 
             // Generate the buttons for Watch Later and Favorite
             $buttonsHTML = '
-                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="'.$placement.'" title=' . printJSString("Added On Watch Later", true) . ' style="' . $iconStyle . $watchLaterBtnAddedStyle . $layoutStyle . '">
+                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Added On Watch Later", true) . ' style="' . $style . $watchLaterBtnAddedStyle . $layoutStyle . '">
                     <i class="fas fa-check"></i>
                 </button>
-                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtn watchLaterBtn' . $videos_id . '" data-toggle="tooltip" data-placement="'.$placement.'" title=' . printJSString("Watch Later", true) . ' style="' . $watchLaterBtnStyle . $layoutStyle . '">
-                    <i class="fas fa-clock"></i>
+                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtn watchLaterBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Watch Later", true) . ' style="' . $style . $watchLaterBtnStyle . $layoutStyle . '">
+                    <i class="fas fa-clock faa-spin"></i>
                 </button>';
 
             // Add line break for vertical layout
@@ -6643,10 +6643,10 @@ if (!class_exists('Video')) {
             }
 
             $buttonsHTML .= '
-                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="'.$placement.'" title=' . printJSString("Added On Favorite", true) . ' style="' . $iconStyle . $favoriteBtnAddedStyle . $layoutStyle . '">
+                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Added On Favorite", true) . ' style="' . $style .  $favoriteBtnAddedStyle . $layoutStyle . '">
                     <i class="fas fa-check"></i>
                 </button>
-                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="'.$placement.'" title=' . printJSString("Favorite", true) . ' style="' . $favoriteBtnStyle . $layoutStyle . '">
+                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Favorite", true) . ' style="' . $style .  $favoriteBtnStyle . $layoutStyle . '">
                     <i class="fas fa-heart faa-pulse faa-fast"></i>
                 </button>';
             $buttonsHTML .= '<script>$(function () {reloadPlayLists();});</script>';
@@ -6720,7 +6720,7 @@ if (!class_exists('Video')) {
             $galleryVideoButtons = '<!-- getVideoImagewithHoverAnimationFromVideosId generatePlaylistButtons -->';
 
             $galleryDropDownMenu = Gallery::getVideoDropdownMenu($videos_id);
-            
+
             $galleryVideoButtons .= '<!-- getVideoImagewithHoverAnimationFromVideosId -->';
             $galleryVideoButtons .= '<div class="galleryVideoButtons ' . getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0) . '">';
             $galleryVideoButtons .= self::generatePlaylistButtons($videos_id);
@@ -6728,7 +6728,7 @@ if (!class_exists('Video')) {
                 $galleryVideoButtons .= '<div class="clearfix"></div>
                 <button onclick="avideoModalIframe(webSiteRootURL + \'view/managerVideosLight.php?image=1&avideoIframe=1&videos_id=' . $videos_id . '\');return false;" class="btn btn-dark btn-xs" data-toggle="tooltip" data-placement="left" title=' . printJSString("Edit Thumbnail", true) . '><i class="fas fa-edit"></i></button>';
             }
-            $galleryVideoButtons .= '<div class="clearfix"></div>'.$galleryDropDownMenu ;
+            $galleryVideoButtons .= '<div class="clearfix"></div>' . $galleryDropDownMenu;
             $galleryVideoButtons .= '</div>';
 
             // Get links for the video or playlist

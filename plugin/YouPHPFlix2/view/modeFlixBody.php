@@ -146,10 +146,12 @@ $percent = 90;
                                 ?>
                                 <span style="margin-left: 10px;">
                                     <?php
-                                        echo Video::generatePlaylistButtons($videoSerie['id'], 'btn btn-dark btn-xs', 'color: #4285f4; ', false);
+                                        echo Video::generatePlaylistButtons($videoSerie['id'], 'btn btn-dark btn-xs', 'background-color: #11111199;', false);
                                     ?>
                                 </span>
                                 <?php
+                            }else{
+                                echo '<!-- Playlists_id ['.$pl['id'].'] is not a serie -->';
                             }
                             ?>
                         </h2>
@@ -192,7 +194,7 @@ $percent = 90;
                                 </a>
                                 <span style="margin-left: 10px;">
                                 <?php
-                                    echo Video::generatePlaylistButtons($serie['id'], 'btn btn-dark btn-xs', 'color: #4285f4; ', false);
+                                    echo Video::generatePlaylistButtons($serie['id'], 'btn btn-dark btn-xs', 'background-color: #11111199;', false);
                                 ?>
                                 </span>
                             </h2>
