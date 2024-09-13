@@ -46,7 +46,8 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
 {
     global $global, $config, $advancedCustom;
     $ogType = determineOgType($videoType);
-
+    $title = str_replace('"', '', $title);
+    $description = str_replace('"', '', $description);
     if (empty($customizePluginDescription)) {
         if (AVideoPlugin::isEnabledByName('Customize')) {
             $ec = new ExtraConfig();
@@ -111,11 +112,11 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
     $metaTags[] = "<meta property='og:type' content='{$ogType}' />";
     if ($title) {
         $title = getSEOTitle(html2plainText($title));
-        $metaTags[] = "<meta property='og:title' content='".addcslashes("'", $title)."' />";
+        $metaTags[] = "<meta property=\"og:title\" content=\"{$title}\" />";
         $metaTags[] = "<meta name=\"twitter:title\" content=\"{$title}\"/>";
     }
     if ($description) {
-        $metaTags[] = "<meta property='og:description' content='{$description}' />";
+        $metaTags[] = "<meta property=\"og:description\" content=\"{$description}\" />";
         $metaTags[] = "<meta name=\"twitter:description\" content=\"{$description}\"/>";
     }
     if ($pageURL) {
