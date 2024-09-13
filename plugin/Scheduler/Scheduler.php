@@ -485,6 +485,10 @@ class Scheduler extends PluginAbstract
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
 
+        if(empty($externalOptions->releaseDateTimeZone)){
+            return $externalOptions->releaseDateTime;
+        }
+
         return convertDateFromToTimezone($externalOptions->releaseDateTime, $externalOptions->releaseDateTimeZone, date_default_timezone_get());
     }
 
