@@ -1204,7 +1204,7 @@ abstract class CacheHandler
             AVideoPlugin::loadPlugin('Cache');
         }
         if (class_exists('CachesInDB')) {
-            //_error_log("deleteCache CachesInDB prefix=$prefix");
+            //_error_log("deleteCache CachesInDB prefix=$prefix line=".__LINE__);
             CacheDB::deleteCacheStartingWith($prefix, $schedule);
         }
         TimeLogEnd($timeLog, __LINE__);
@@ -1226,10 +1226,11 @@ abstract class CacheHandler
 
             TimeLogEnd($timeLog, __LINE__);
 
+            //_error_log("deleteCache prefix=$prefix line=".__LINE__);
             return true;
         } else {
             $resp = execAsync("rm -R {$dir}");
-            //_error_log("deleteCache schedule ".json_encode(debug_backtrace()));
+            _error_log("deleteCache not schedule {$dir} ".json_encode(debug_backtrace()));
             return false;
         }
     }

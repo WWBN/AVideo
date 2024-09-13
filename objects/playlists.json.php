@@ -17,5 +17,13 @@ foreach ($row as $key => $value) {
         unset($row[$key]['videos'][$key2]['description']);
     }
 }
+
+$obj = new stdClass();
+$obj->error = false;
+$obj->msg = '';
+$obj->rows = $row;
+$obj->playListGetAllFromUserWasCache = !empty($playListGetAllFromUserWasCache);
+$obj->getVideosFromPlaylistWasCache = !empty($getVideosFromPlaylistWasCache);
+
 //mysqlCommit();
-echo json_encode($row);
+echo json_encode($obj);

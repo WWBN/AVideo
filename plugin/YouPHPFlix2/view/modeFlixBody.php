@@ -136,6 +136,7 @@ $percent = 90;
                     <div class="row topicRow">
                         <h2>
                             <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
+                                <!-- modeFlixBody line <?php echo __LINE__; ?> -->
                                 <i class="fas fa-list"></i> <?php echo __($pl['name']); ?>
                             </a>
                         </h2>
@@ -173,10 +174,14 @@ $percent = 90;
                         <div class="row topicRow">
                             <h2>
                                 <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>" class="<?php echo $canWatchPlayButton; ?>">
-                                    <i class="fas fa-list"></i> <?php
-                                                                echo $serie['title'];
-                                                                ?>
+                                    <!-- modeFlixBody line <?php echo __LINE__; ?> -->
+                                    <i class="fas fa-list"></i> <?php echo $serie['title']; ?>
                                 </a>
+                                <span style="margin-left: 10px;">
+                                <?php
+                                    echo Video::generatePlaylistButtons($serie['id'], 'btn btn-dark btn-xs', 'color: #4285f4; ', false);
+                                ?>
+                                </span>
                             </h2>
                             <!-- Date Programs/Playlists 3 -->
                             <?php

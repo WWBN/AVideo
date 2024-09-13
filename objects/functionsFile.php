@@ -688,7 +688,8 @@ function getTmpDir($subdir = "")
     }
     if (empty($_SESSION['getTmpDir'][$subdir . "_"])) {
         if (empty($global['tmpDir'])) {
-            $tmpDir = sys_get_temp_dir();
+            // disabled it because command line and web were generating different caches
+            //$tmpDir = sys_get_temp_dir();
             if (empty($tmpDir) || !_isWritable($tmpDir)) {
                 $obj = AVideoPlugin::getDataObjectIfEnabled('Cache');
                 $tmpDir = $obj->cacheDir;

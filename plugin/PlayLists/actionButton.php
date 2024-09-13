@@ -4,6 +4,7 @@ $crc = uniqid();
 doNOTOrganizeHTMLIfIsPagination();
 $global['laodPlaylistScript'] = 1;
 ?>
+<!-- <?php echo __FILE__; ?> -->
     <?php if ((empty($_POST['disableAddTo'])) && (( ($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false))) { ?>
        <a href="#" class="<?php echo $btnClass; ?>" id="addBtn<?php echo $videos_id . $crc; ?>" onclick="$(this).webuiPopover();callFunctionOrLoadScript('loadPlayLists', '<?php echo getURL('plugin/PlayLists/script.js'); ?>', '<?php echo $videos_id; ?>', '<?php echo $crc; ?>'); return false;" data-toggle="tooltip" title="<?php echo __("Add to"); ?>">
             <span class="fa fa-plus"></span> 

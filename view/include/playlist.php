@@ -11,6 +11,8 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id, true, true);
 
 $videoSerie = Video::getVideoFromSeriePlayListsId($playlist_id);
 
+//var_dump($videoSerie);
+
 $_REQUEST['rowCount'] = $rowCount;
 
 $users_id = $playlist->getUsers_id();
@@ -41,16 +43,20 @@ if (!empty($videoSerie)) {
 </style>
 <div class="playlist-nav">
     <nav class="navbar navbar-inverse">
-        <ul class="nav navbar-nav">
+        <ul class="nav">
             <li class="navbar-header" style="padding: 5px;">
                     <div class="pull-right noPaddingButtons" >
                         <?php
                         //echo PlayLists::getPlayLiveButton($playlist_id);
+                        echo '<!-- scheduleLiveButton start -->';
                         echo PlayLists::scheduleLiveButton($playlist_id);
+                        echo '<!-- scheduleLiveButton end -->';
                         if(!empty($videoSerie)){
                             $videos_id = $videoSerie["id"];
                             $btnClass = 'btn btn-xs btn-default';
+                            echo '<!-- PlayLists/actionButton start -->';
                             include $global['systemRootPath'] . 'plugin/PlayLists/actionButton.php';
+                            echo '<!-- PlayLists/actionButton end -->';
                         }
                         ?>
                     </div>

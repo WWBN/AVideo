@@ -44,6 +44,7 @@ $obj->status = $playList->addVideo($obj->videos_id, $obj->add);
 $obj->users_id = $playList->getUsers_id();
 $obj->id = $playList->getId();
 $obj->error = empty($obj->status);
+$obj->type = $playList->getStatus();
 
 //log_error("videos id: ".$_REQUEST['videos_id']." playlist_id: ".$_REQUEST['playlists_id']);
 die(json_encode($obj));

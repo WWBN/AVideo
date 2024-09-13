@@ -4,7 +4,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 global $global, $config, $videosPaths;
 
 if (!isset($global['systemRootPath'])) {
-    require_once __DIR__.'/../videos/configuration.php';
+    require_once __DIR__ . '/../videos/configuration.php';
 }
 
 require_once $global['systemRootPath'] . 'videos/configuration.php';
@@ -4059,7 +4059,7 @@ if (!class_exists('Video')) {
 
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             $cacheName = md5($filename . $type . $includeS3);
-            if (isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName]) ) {
+            if (isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName])) {
                 if (!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])) {
                     return $VideoGetSourceFile[$cacheName];
                 }
@@ -4114,7 +4114,7 @@ if (!class_exists('Video')) {
                 if ($type == ".mp3") {
                     $exits = self::getStoragePath() . "{$filename}/index{$type}";
                     $indexMP3Exits = file_exists($exits);
-                    if($indexMP3Exits){
+                    if ($indexMP3Exits) {
                         $source['path'] = $exits;
                     }
                 }
@@ -4141,9 +4141,9 @@ if (!class_exists('Video')) {
                 if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site) && (empty($yptStorage) || $site->getUrl() == 'url/')) {
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
-                    } else if($indexMP3Exits){
+                    } else if ($indexMP3Exits) {
                         $f = "{$filename}/index{$type}";
-                    }else {
+                    } else {
                         $f = "{$paths['relative']}{$filename}{$type}";
                     }
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
@@ -4856,7 +4856,7 @@ if (!class_exists('Video')) {
             $videoCache = new VideoCacheHandler($filename, 0, true);
             $cache = $videoCache->getCache($cacheSuffix, 0);
 
-            $tmpCacheFile = sys_get_temp_dir() . "/getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".tmp";
+            $tmpCacheFile = getVideosDir() . "permanentCache" . DIRECTORY_SEPARATOR . "getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".tmp";
 
             if (!empty($cache)) {
                 $obj = object_to_array(_json_decode($cache));
@@ -6519,8 +6519,8 @@ if (!class_exists('Video')) {
             if (empty($divID)) {
                 $divID = "divVideo-{$videos_id}";
             }
-            $objGallery = AVideoPlugin::getObjectData("Gallery");
-            $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
+
+            // Get video details and link
             $template = $global['systemRootPath'] . 'view/videosListItem.html';
             $templateContent = file_get_contents($template);
             $value = Video::getVideoLight($videos_id);
@@ -6529,51 +6529,33 @@ if (!class_exists('Video')) {
                 $link = addQueryStringParameter($link, 'page', $_GET['page']);
             }
 
+            // Generate the video title
             $title = safeString($value['title']);
 
+            // Get the thumbnail image with hover animation
             $thumbsImage = Video::getVideoImagewithHoverAnimationFromVideosId($value);
 
+            // Generate buttons for logged-in users
             $loggedUserHTML = '';
-            if (User::isLogged() && !empty($program)) {
-                if (AVideoPlugin::isEnabledByName('PlayLists')) {
-                    PlayLists::loadScripts();
-                }
-                $value['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
-                $value['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
-                if (!empty($value['isWatchLater'])) {
-                    $watchLaterBtnAddedStyle = '';
-                    $watchLaterBtnStyle = "display: none;";
-                } else {
-                    $watchLaterBtnAddedStyle = "display: none;";
-                    $watchLaterBtnStyle = '';
-                }
-                if (!empty($value['isFavorite'])) {
-                    $favoriteBtnAddedStyle = '';
-                    $favoriteBtnStyle = "display: none;";
-                } else {
-                    $favoriteBtnAddedStyle = "display: none;";
-                    $favoriteBtnStyle = '';
-                }
-                $loggedUserHTML = '<!-- getVideosListItem --><div class="galleryVideoButtons ">';
-                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['watchLaterId'] . ');return false;" '
-                    . 'class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $value['id'] . '" '
-                    . 'title="' . __("Added On Watch Later") . '" style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> ';
-                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['watchLaterId'] . ');return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn' . $value['id'] . '" title=' . printJSString('Watch Later', true) . ' style="' . $watchLaterBtnStyle . '" ><i class="fas fa-clock"></i></button>';
-                $loggedUserHTML .= '<br>';
-                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $value['id'] . '" title=' . printJSString('Added On Favorite', true) . ' style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>  ';
-                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $value['id'] . '" title=' . printJSString('Favorite', true) . ' style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart" ></i></button>    ';
-                $loggedUserHTML .= '</div>';
-            }
-            //$progress = self::getVideoPogressPercent($value['id']);
-            $category = new Category($value['categories_id']);
+            if (User::isLogged() && AVideoPlugin::isEnabledByName('PlayLists')) {
+                PlayLists::loadScripts();
 
+                // Call the new generatePlaylistButtons function
+                $loggedUserHTML = '<!-- getVideosListItem generatePlaylistButtons -->';
+                //$loggedUserHTML .= self::generatePlaylistButtons($videos_id, 'btn btn-dark btn-xs', 'color: #4285f4;');
+            }
+
+            // Get category information
+            $category = new Category($value['categories_id']);
             $categoryLink = $category->getLink();
             $categoryIcon = $category->getIconClass();
             $category = $category->getName();
-            $tagsHTML = Video::getTagsHTMLLabelIfEnable($value['id']);
-            //var_dump($value['id'], $tagsHTML);exit;
-            $viewsHTML = '';
 
+            // Get video tags
+            $tagsHTML = Video::getTagsHTMLLabelIfEnable($value['id']);
+
+            // Generate views HTML if applicable
+            $viewsHTML = '';
             if (empty($advancedCustom->doNotDisplayViews)) {
                 if (AVideoPlugin::isEnabledByName('LiveUsers')) {
                     $viewsHTML = '<div class="text-muted pull-right" style="display:flex;">' . getLiveUsersLabelVideo($value['id'], $value['views_count']) . '</div>';
@@ -6581,7 +6563,11 @@ if (!class_exists('Video')) {
                     $viewsHTML = '<div class="text-muted pull-right"><i class="fas fa-eye"></i> ' . number_format($value['views_count'], 0) . '</div>';
                 }
             }
+
+            // Get creator information
             $creator = self::getCreatorHTML($value['users_id'], '', true);
+
+            // Replace template placeholders with actual content
             $search = [
                 '{style}',
                 '{divID}',
@@ -6609,63 +6595,119 @@ if (!class_exists('Video')) {
                 $category,
                 $tagsHTML,
                 $viewsHTML,
-                $creator,
+                $creator
             ];
-            $btnHTML = @str_replace(
-                $search,
-                $replace,
-                $templateContent
-            );
-            return $btnHTML;
+
+            // Return the final HTML
+            return str_replace($search, $replace, $templateContent);
         }
 
-        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage = false, $doNotUseAnimatedGif = false)
+        public static function generatePlaylistButtons($videos_id, $buttonClass = 'btn btn-dark btn-xs', $iconStyle = 'color: #4285f4;', $isVertical = true)
+        {
+            if (empty($videos_id) || !User::isLogged()) {
+                return '';
+            }
+
+            // Initialize variables for Watch Later and Favorite buttons
+            $isWatchLater = self::isWatchLater($videos_id);
+            $isFavorite = self::isFavorite($videos_id);
+            $watchLaterId = self::getWatchLaterIdFromUser(User::getId());
+            $favoriteId = self::getFavoriteIdFromUser(User::getId());
+
+            // Determine styles based on whether the video is already in Watch Later or Favorites
+            $watchLaterBtnAddedStyle = $isWatchLater ? "" : "display: none;";
+            $watchLaterBtnStyle = $isWatchLater ? "display: none;" : "";
+            $favoriteBtnAddedStyle = $isFavorite ? "" : "display: none;";
+            $favoriteBtnStyle = $isFavorite ? "display: none;" : "";
+
+            // Add a layout style to force vertical stacking if required
+            $layoutStyle = $isVertical ? "display: block; margin-bottom: 5px;" : "display: inline-block; margin-right: 5px;";
+            $layoutStyle .= 'display: none;'; 
+            $placement = 'top';
+            if ($isVertical) {
+                $placement = 'left';
+            }
+
+            // Generate the buttons for Watch Later and Favorite
+            $buttonsHTML = '
+                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="'.$placement.'" title=' . printJSString("Added On Watch Later", true) . ' style="' . $iconStyle . $watchLaterBtnAddedStyle . $layoutStyle . '">
+                    <i class="fas fa-check"></i>
+                </button>
+                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtn watchLaterBtn' . $videos_id . '" data-toggle="tooltip" data-placement="'.$placement.'" title=' . printJSString("Watch Later", true) . ' style="' . $watchLaterBtnStyle . $layoutStyle . '">
+                    <i class="fas fa-clock"></i>
+                </button>';
+
+            // Add line break for vertical layout
+            if ($isVertical) {
+                $buttonsHTML .= '<div class="clearfix"></div>';
+            }
+
+            $buttonsHTML .= '
+                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="'.$placement.'" title=' . printJSString("Added On Favorite", true) . ' style="' . $iconStyle . $favoriteBtnAddedStyle . $layoutStyle . '">
+                    <i class="fas fa-check"></i>
+                </button>
+                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="'.$placement.'" title=' . printJSString("Favorite", true) . ' style="' . $favoriteBtnStyle . $layoutStyle . '">
+                    <i class="fas fa-heart faa-pulse faa-fast"></i>
+                </button>';
+            $buttonsHTML .= '<script>$(function () {reloadPlayLists();});</script>';
+            return $buttonsHTML;
+        }
+
+
+        public static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage = false, $doNotUseAnimatedGif = false)
         {
             if (empty($videos_id)) {
                 return '';
             }
+
+            // Get video data
             if (is_array($videos_id)) {
                 $video = $videos_id;
                 $videos_id = $video['id'];
             } else {
                 $video = Video::getVideoLight($videos_id);
             }
+
+            // Get video images
             if (empty($video['images'])) {
                 $images = object_to_array(Video::getImageFromFilename($video['filename'], $video['type']));
             } else {
                 $images = object_to_array($video['images']);
             }
+
             if (!is_array($images)) {
                 return '';
             }
-            //var_dump($videos_id, $video, $images);
-            $img = getVideoImagewithHoverAnimation(@$images['poster'], @$images['thumbsGif'], @$video['title'], $preloadImage, $doNotUseAnimatedGif);
-            $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
-            $isserie = Video::isSerie($videos_id);
-            $isserieClass = "";
-            if ($isserie) {
-                $isserieClass = "isserie";
-            }
 
+            // Generate image with hover animation
+            $img = getVideoImagewithHoverAnimation(@$images['poster'], @$images['thumbsGif'], @$video['title'], $preloadImage, $doNotUseAnimatedGif);
+
+            // Check if it's a series
+            $isserie = Video::isSerie($videos_id);
+            $isserieClass = $isserie ? "isserie" : "";
+
+            // Add duration if applicable
             if (isToShowDuration($video['type'])) {
                 $duration = Video::getCleanDuration($video['duration']);
                 if (self::isValidDuration($duration)) {
-                    $img .= "<time class=\"duration\" "
-                        . "itemprop=\"duration\" "
-                        . "datetime=\"" . Video::getItemPropDuration($video['duration']) . "\" >"
-                        . $duration . "</time>";
+                    $img .= "<time class=\"duration\" itemprop=\"duration\" datetime=\"" . Video::getItemPropDuration($video['duration']) . "\" >" . $duration . "</time>";
                 }
             }
+
+            // Add progress bar
             $progress = Video::getVideoPogressPercent($video['id']);
-            //var_dump($video['id'], $progress);
             $progressDiv = "<div class=\"progress\">"
                 . "<div class=\"progress-bar progress-bar-danger\" role=\"progressbar\" "
                 . "style=\"width: {$progress['percent']}%;\" "
                 . "aria-valuenow=\"{$progress['percent']}\" "
                 . "aria-valuemin=\"0\" aria-valuemax=\"100\"></div></div>";
+
+            // Add thumb overlay
             if ($addThumbOverlay) {
                 $img .= AVideoPlugin::thumbsOverlay($videos_id);
             }
+
+            // Alternative link for series
             $alternativeLink = '';
             if ($galeryDetails && !empty($program) && $isserie) {
                 $alternativeLink = PlayLists::getLink($video['serie_playlists_id']);
@@ -6673,49 +6715,23 @@ if (!class_exists('Video')) {
                 $totalPL = count($plids);
                 $img .= '<div class="gallerySerieOverlay"><div class="gallerySerieOverlayTotal">' . $totalPL . '<br><i class="fas fa-list"></i></div><i class="fas fa-play"></i>' . __("Play All") . '</div>';
             }
-            $galleryVideoButtons = '';
-            if (!empty($program) && User::isLogged()) {
-                if (AVideoPlugin::isEnabledByName('PlayLists')) {
-                    PlayLists::loadScripts();
-                }
-                $isFavorite = self::isFavorite($videos_id);
-                $isWatchLater = self::isWatchLater($videos_id);
-                $favoriteId = self::getFavoriteIdFromUser(User::getId());
-                $watchLaterId = self::getWatchLaterIdFromUser(User::getId());
-                if ($isWatchLater) {
-                    $watchLaterBtnAddedStyle = "";
-                    $watchLaterBtnStyle = "display: none;";
-                } else {
-                    $watchLaterBtnAddedStyle = "display: none;";
-                    $watchLaterBtnStyle = "";
-                }
-                if ($isFavorite) {
-                    $favoriteBtnAddedStyle = "";
-                    $favoriteBtnStyle = "display: none;";
-                } else {
-                    $favoriteBtnAddedStyle = "display: none;";
-                    $favoriteBtnStyle = "";
-                }
 
-                $galleryDropDownMenu = Gallery::getVideoDropdownMenu($videos_id);
-                $galleryVideoButtons .= '
-                <!-- getVideoImagewithHoverAnimationFromVideosId --><div class="galleryVideoButtons ' . getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0) . '">
-                    <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Watch Later", true) . ' style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button>
-                    <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Watch Later", true) . ' style="' . $watchLaterBtnStyle . '" ><i class="fas fa-clock"></i></button>
-                    <br>
-                    <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Favorite", true) . ' style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>
-                    <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="left" title=' . printJSString("Favorite", true) . ' style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>
-                    <br>';
+            // Generate buttons using the new function
+            $galleryVideoButtons = '<!-- getVideoImagewithHoverAnimationFromVideosId generatePlaylistButtons -->';
 
-                if (Video::canEdit($videos_id)) {
-                    $galleryVideoButtons .= '
-                    <button onclick="avideoModalIframe(webSiteRootURL + \'view/managerVideosLight.php?image=1&avideoIframe=1&videos_id=' . $videos_id . '\');return false;" class="btn btn-dark btn-xs" data-toggle="tooltip" data-placement="left" title=' . printJSString("Edit Thumbnail", true) . '><i class="fas fa-edit"></i></button>
-                    <br>';
-                }
-
-                $galleryVideoButtons .= $galleryDropDownMenu . '</div>';
+            $galleryDropDownMenu = Gallery::getVideoDropdownMenu($videos_id);
+            
+            $galleryVideoButtons .= '<!-- getVideoImagewithHoverAnimationFromVideosId -->';
+            $galleryVideoButtons .= '<div class="galleryVideoButtons ' . getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0) . '">';
+            $galleryVideoButtons .= self::generatePlaylistButtons($videos_id);
+            if (Video::canEdit($videos_id)) {
+                $galleryVideoButtons .= '<div class="clearfix"></div>
+                <button onclick="avideoModalIframe(webSiteRootURL + \'view/managerVideosLight.php?image=1&avideoIframe=1&videos_id=' . $videos_id . '\');return false;" class="btn btn-dark btn-xs" data-toggle="tooltip" data-placement="left" title=' . printJSString("Edit Thumbnail", true) . '><i class="fas fa-edit"></i></button>';
             }
+            $galleryVideoButtons .= '<div class="clearfix"></div>'.$galleryDropDownMenu ;
+            $galleryVideoButtons .= '</div>';
 
+            // Get links for the video or playlist
             if (!empty($video['playlists_id']) && isset($video['playlist_index'])) {
                 if (!class_exists('PlayLists')) {
                     AVideoPlugin::loadPlugin('PlayLists');
@@ -6727,21 +6743,31 @@ if (!class_exists('Video')) {
                 $embed = Video::getLink($video['id'], $video['clean_title'], true);
             }
 
+            // Build the image link
             $title = safeString($video['title']);
             $a = '<a videos_id="' . $videos_id . '"
-                                       href="' . $href . '"
-                                       embed="' . $embed . '"
-                                       title="' . $title . '" alternativeLink="' . $alternativeLink . '" class="ajaxLoad">';
+                    href="' . $href . '"
+                    embed="' . $embed . '"
+                    title="' . $title . '" alternativeLink="' . $alternativeLink . '" class="ajaxLoad">';
+
+            // Add link to image if applicable
             if ($addLink) {
                 $img = $a . $img . '</a>';
             }
 
+            // Add gallery details if required
             $galeryDetailsHTML = '';
             if ($galeryDetails) {
                 $galeryDetailsHTML = '<strong class="title">' . getSEOTitle($title) . '</strong>';
             }
 
-            return '<div class="thumbsImageContainer ' . $isserieClass . '"><div class="aspectRatio16_9">' . $img . '</div>' . $progressDiv . $galleryVideoButtons . $galeryDetailsHTML . '</div>';
+            // Return final HTML
+            return '<div class="thumbsImageContainer ' . $isserieClass . '">
+                    <div class="aspectRatio16_9">' . $img . '</div>'
+                . $progressDiv
+                . $galleryVideoButtons
+                . $galeryDetailsHTML . '
+                </div>';
         }
 
         public function getTotal_seconds_watching()
