@@ -137,8 +137,8 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
         $metaTags[] = "<meta property=\"og:video\"            content=\"{$sourceFileURL}\" />";
         $metaTags[] = "<meta property=\"og:video:secure_url\" content=\"{$sourceFileURL}\" />";
         $metaTags[] = '<meta property="og:video:type"       content="' . getMetaTagsContentVideoType($sourceFileURL) . '" />';
-        $metaTags[] = '<meta property="og:video:width"      content="1024" />';
-        $metaTags[] = '<meta property="og:video:height"     content="768" />';
+        $metaTags[] = '<meta property="og:video:width"      content="1200" />';
+        $metaTags[] = '<meta property="og:video:height"     content="628" />';
     } else {
         if ($SecureVideosDirectoryIsEnabled) {
             $metaTags[] = '<!-- SecureVideosDirectory plugin is enabled we will not share the video source file -->';
