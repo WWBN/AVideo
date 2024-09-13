@@ -72,8 +72,8 @@ TimeLogStart($timeLog3);
                         <?php if (!empty($imgGif)) { ?>
                             <img style="position: absolute; top: 0; display: none;" src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>"  alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
                         <?php } ?>
-                        <div style="position: absolute; right: 5px; top: 0;">
-                            <?php echo Video::generatePlaylistButtons($value['id'], 'btn btn-dark btn-xs', 'background-color: #11111199;'); ?>
+                        <div style="position: absolute; right: 5px; top: 0;" class="highlitedOnOver">
+                            <?php echo Video::generatePlaylistButtons($value['id'], 'btn btn-dark btn-xs', 'background-color: #111111AA;'); ?>
                         </div>
                         <?php
                         if ($advancedCustom->paidOnlyShowLabels && $obj->paidOnlyLabelOverPoster) {
