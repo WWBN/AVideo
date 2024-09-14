@@ -92,6 +92,9 @@ class PlayList extends ObjectYPT
             return false;
         }
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
+        if(empty($videosArrayId)){
+            return array();
+        }
         $videosP = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true, $videosArrayId, false, true);
         //$videosP = PlayList::sortVideos($videosP, $videosArrayId);
         foreach ($videosP as $key => $value2) {
