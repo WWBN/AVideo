@@ -1,6 +1,7 @@
 <?php
 global $t;
 
+$t['$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)';
 $t['%s Ago'] = '%s 前';
 $t['%s ERROR: You must set a KEY on config'] = '%s 錯誤：您必須設定 KEY';
 $t['%s ERROR: You must set an ID on config'] = '%s 錯誤：您必須設定 ID';
@@ -466,6 +467,7 @@ $t['Player URL'] = '播放器URL';
 $t['Player'] = '播放器';
 $t['Playlist name?'] = '播放清單名稱？';
 $t['Please Verify Your E-mail '] = '請驗證您的電子郵件';
+$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store.';
 $t['Please login to donate'] = '請登錄以捐贈';
 $t['Please login to proceed'] = '請登錄以繼續';
 $t['Please sign in'] = '請登入';
@@ -1279,6 +1281,7 @@ $t['Network'] = 'Network';
 $t['Never'] = 'Never';
 $t['New Meet'] = 'New Meet';
 $t['Next page'] = 'Next page';
+$t['No videos in this playlist yet'] = 'No videos in this playlist yet';
 $t['No write Access on folder'] = 'No write Access on folder';
 $t['Non admin users can NOT download videos'] = 'Non admin users can NOT download videos';
 $t['Non admin users can download videos'] = 'Non admin users can download videos';
@@ -1325,7 +1328,7 @@ $t['Please Login in the window pop up'] = 'Please Login in the window pop up';
 $t['Please Wait ...'] = 'Please Wait ...';
 $t['Please Wait'] = 'Please Wait';
 $t['Please check your email for 2FA confirmation '] = 'Please check your email for 2FA confirmation ';
-$t['Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store';
+$t['Please come back later'] = 'Please come back later';
 $t['Please login first'] = 'Please login first';
 $t['Please provide a title'] = 'Please provide a title';
 $t['Please type your password'] = 'Please type your password';

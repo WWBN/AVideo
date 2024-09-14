@@ -1,6 +1,7 @@
 <?php
 global $t;
 
+$t['$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R$, ATD., formát bude {currency} {value} {currency_symbol} například ($ 10.00 USD) nebo (R$ 10.00 BRL)';
 $t['%s Ago'] = '%s Před';
 $t['%s ERROR: You must set a KEY on config'] = '%s CHYBA: V konfiguraci musíte nastavit KEY (klíč)';
 $t['%s ERROR: You must set an ID on config'] = '%s CHYBA: V konfiguraci musíte nastavit ID';
@@ -756,7 +757,7 @@ $t['Could not move image file %s => [%s]'] = 'Could not move image file %s => [%
 $t['Could not move image file [%s.jpg]'] = 'Could not move image file [%s.jpg]';
 $t['Could not move image file because it does not exits %s => [%s]'] = 'Could not move image file because it does not exits %s => [%s]';
 $t['Could not move webp image file [%s.webp]'] = 'Could not move webp image file [%s.webp]';
-$t['Country'] = 'Country';
+$t['Country'] = 'Země';
 $t['Create Campaign'] = 'Create Campaign';
 $t['Create Conference'] = 'Create Conference';
 $t['Create Room'] = 'Create Room';
@@ -1034,6 +1035,7 @@ $t['New Meet'] = 'New Meet';
 $t['New'] = 'New';
 $t['Next video order'] = 'Next video order';
 $t['No one 17 and under admitted'] = 'No one 17 and under admitted';
+$t['No videos in this playlist yet'] = 'No videos in this playlist yet';
 $t['No write Access on folder'] = 'No write Access on folder';
 $t['Non admin users can NOT download videos'] = 'Non admin users can NOT download videos';
 $t['Non admin users can download videos'] = 'Non admin users can download videos';
@@ -1100,7 +1102,8 @@ $t['Please Verify Your E-mail '] = 'Please Verify Your E-mail ';
 $t['Please Wait ...'] = 'Please Wait ...';
 $t['Please Wait'] = 'Please Wait';
 $t['Please check your email for 2FA confirmation '] = 'Please check your email for 2FA confirmation ';
-$t['Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store';
+$t['Please come back later'] = 'Please come back later';
+$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Odpusťte nám, že vás obtěžujeme, ale tento plugin bohužel ještě nemáte. Neváhejte si jej však zakoupit v našem internetovém obchodě.';
 $t['Please login first'] = 'Please login first';
 $t['Please login to donate'] = 'Please login to donate';
 $t['Please login to proceed'] = 'Please login to proceed';
@@ -1147,7 +1150,7 @@ $t['Recover password could not be saved!'] = 'Recover password could not be save
 $t['Recover password does not match'] = 'Recover password does not match';
 $t['Recover password!'] = 'Recover password!';
 $t['Recurring Payment Id'] = 'Recurring Payment Id';
-$t['Region'] = 'Region';
+$t['Region'] = 'Kraj';
 $t['Regular User'] = 'Regular User';
 $t['Reinstall tables'] = 'Reinstall tables';
 $t['Remove Autoplay Next Video'] = 'Remove Autoplay Next Video';
@@ -1636,7 +1639,6 @@ $t['videosList'] = 'videosList';
 // Extras (might belong to a plugin, or might be outdated and not needed anymore; should confirm).
 $t[' (set to not be listed)'] = ' (nezobrazeno ve veřejném seznamu)';
 $t[' (user is inactive)'] = ' (uživatel je neaktivní)';
-$t['$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R$, ATD., formát bude  {currency} {value} {currency_symbol} například ($ 10.00 USD) nebo (R$ 10.00 BRL)';
 $t['After enabling this, you can directly set some options, like the name, link and active categorie for example.'] = 'Jakmile toto povolíte, budte moci nastavit další možnosti, jako například, jméno, odkaz a aktivní kategirii.';
 $t['After you add any kind of video, you can find it in'] = 'Jakmile přidáte nějaké video, můžete jej vidět v sekci';
 $t['Alphabetical A-Z'] = 'Abecedně A-Z';
@@ -1669,7 +1671,6 @@ $t['On the right site, you find various symbols'] = 'Na pravé straně můžete 
 $t['Option-name'] = 'Jméno volby';
 $t['Organize Program'] = 'Spravovat Programy';
 $t['Please Wait, we are checking the lives'] = 'Vyčkejte prosím, hledáme nové streamy';
-$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Odpusťte nám, že vás obtěžujeme, ale tento plugin bohužel ještě nemáte. Neváhejte si jej však zakoupit v našem internetovém obchodě';
 $t['Profile Photo'] = 'Profilový obrázek';
 $t['Run Update Script'] = 'Spustit aktualizační script';
 $t['Share information about your live'] = 'Sdílet informace o vašem živém přenosu';

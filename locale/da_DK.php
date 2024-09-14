@@ -2,6 +2,7 @@
 global $t;
 
 $t[' and also reset the stream name/key'] = 'og nulstil også streamens navn / nøgle';
+$t['$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R $ osv. Vil formatet være {currency} {value} {currency_symbol} for eksempel ($ 10,00 USD) eller (R $ 10,00 BRL)';
 $t['%s ERROR: You must set a KEY on config'] = '% s FEJL: Du skal indstille en Nøgle til konfiguration';
 $t['%s ERROR: You must set an ID on config'] = '% s FEJL: Du skal indstille et id til konfiguration';
 $t['(filtered from _MAX_ total entries)'] = '(filtreret fra _MAX_ samlede poster)';
@@ -1306,6 +1307,7 @@ $t['My list'] = 'My list';
 $t['Netflix'] = 'Netflix';
 $t['Network Encoders'] = 'Network Encoders';
 $t['Next video order'] = 'Next video order';
+$t['No videos in this playlist yet'] = 'No videos in this playlist yet';
 $t['No write Access on folder'] = 'No write Access on folder';
 $t['Not Admin'] = 'Not Admin';
 $t['Not loaded yet'] = 'Not loaded yet';
@@ -1337,7 +1339,8 @@ $t['Player Skin'] = 'Player Skin';
 $t['Player'] = 'Player';
 $t['Playlist name?'] = 'Playlist name?';
 $t['Playlists or Program Playlists are identified by default as programs of content on the AVideo Platform.<br>'] = 'Playlists or Program Playlists are identified by default as programs of content on the AVideo Platform.<br>';
-$t['Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store';
+$t['Please come back later'] = 'Please come back later';
+$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Tilgiv os for at genere dig, men desværre har du ikke dette plugin endnu. Men tøv ikke med at købe det i vores onlinebutik.';
 $t['Please login to proceed'] = 'Please login to proceed';
 $t['Please sign in'] = 'Please sign in';
 $t['Please, enter your name'] = 'Please, enter your name';
@@ -1635,7 +1638,6 @@ $t['youtube-dl uses Python and some servers do not come with python by default. 
 
 // Extras (might belong to a plugin, or might be outdated and not needed anymore; should confirm).
 $t['Start Live Now'] = 'Start live nu';
-$t['$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R $ osv. Vil formatet være {currency} {value} {currency_symbol} for eksempel ($ 10,00 USD) eller (R $ 10,00 BRL)';
 $t['(Permalink .txt file)'] = '(Permalink .txt-fil)';
 $t['(SEO .txt file)'] = '(SEO .txt-fil)';
 $t['Access denied'] = 'Adgang nægtet';
@@ -1764,7 +1766,6 @@ $t['Permission Denied'] = 'Adgang nægtet';
 $t['Plans'] = 'Planer';
 $t['Please Wait, we are checking the lives'] = 'Vent, vi kontrollerer livene';
 $t['Please choose a plan!'] = 'Vælg en plan!';
-$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Tilgiv os for at genere dig, men desværre har du ikke dette plugin endnu. Men tøv ikke med at købe det i vores onlinebutik';
 $t['Pre approved connection'] = 'Forud godkendt forbindelse';
 $t['Price'] = 'Pris';
 $t['Profile Photo'] = 'Profilbillede';
