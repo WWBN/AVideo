@@ -1,6 +1,7 @@
 <?php
 global $t;
 
+$t['$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)';
 $t['%d Users linked'] = '%d verknüpfte Benutzer';
 $t['%s Ago'] = 'Vor %s';
 $t['%s ERROR: You must set a KEY on config'] = '%s ERROR: Du musst einen KEY (Schlüssel) in der config generieren';
@@ -1133,6 +1134,7 @@ $t['New program'] = 'New program';
 $t['Next page'] = 'Next page';
 $t['Next video'] = 'Next video';
 $t['No more pages to load'] = 'No more pages to load';
+$t['No videos in this playlist yet'] = 'No videos in this playlist yet';
 $t['No write Access on folder'] = 'No write Access on folder';
 $t['Non admin users can NOT download videos'] = 'Non admin users can NOT download videos';
 $t['Non admin users can download videos'] = 'Non admin users can download videos';
@@ -1196,7 +1198,8 @@ $t['Please Login in the window pop up'] = 'Please Login in the window pop up';
 $t['Please Wait ...'] = 'Please Wait ...';
 $t['Please Wait'] = 'Please Wait';
 $t['Please check your email for 2FA confirmation '] = 'Please check your email for 2FA confirmation ';
-$t['Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store';
+$t['Please come back later'] = 'Please come back later';
+$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store.';
 $t['Please login first'] = 'Please login first';
 $t['Please login to donate'] = 'Please login to donate';
 $t['Please login to proceed'] = 'Please login to proceed';
