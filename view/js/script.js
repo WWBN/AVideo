@@ -52,7 +52,7 @@ try {
             } else {
                 tryToPlayMuted(currentTime);
             }
-        }else{
+        } else {
             //console.log('eventer messageEvent', e.data);
         }
         /*
@@ -255,7 +255,7 @@ async function lazyImage() {
                 // called after an element was successfully handled
                 afterLoad: function (element) {
 
-                    if(isMobile()){
+                    if (isMobile()) {
                         $(".thumbsGIF").hide();
                         // disable it on mobile
                         return false;
@@ -490,7 +490,7 @@ function subscribeNotify(email, user_id) {
 
 var _mouseEffectTimeout;
 async function mouseEffect() {
-    if(isMobile()){
+    if (isMobile()) {
         $(".thumbsGIF").hide();
         // disable it on mobile
         return false;
@@ -2399,7 +2399,7 @@ function changeVideoStatus(videos_id, status) {
 }
 
 function avideoAjax(url, data) {
-    avideoAjaxWithResponse(url, data, true, ()=>{});
+    avideoAjaxWithResponse(url, data, true, () => { });
 }
 
 function avideoAjaxWithResponse(url, data, pleaseWait, returnFunction) {
@@ -2992,7 +2992,7 @@ $(document).ready(function () {
     _alertFromGet('success');
     _alertFromGet('toast');
 
-    $(".infoButton").click(function() {
+    $(".infoButton").click(function () {
         var innerDiv = $(this).find("div.hidden");
         avideoAlertInfo(innerDiv.html());
     });
@@ -3363,9 +3363,9 @@ var notifyInputIfIsOutOfBounds_animateClassTImeout;
 function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
     clearTimeout(notifyInputIfIsOutOfBounds_removeClassTImeout);
     clearTimeout(notifyInputIfIsOutOfBounds_animateClassTImeout);
-    
+
     var text = $(selector).val();
-    
+
     // Remove Markdown image syntax from the text
     text = text.replace(/!\[.*?\]\(.*?\)/g, '');
 
@@ -3373,13 +3373,13 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
     var animationInfo = 'animate__headShake';
     var animationError = 'animate__shakeX';
     var animationWarning = 'animate__headShake';
-    
+
     parent.removeClass('has-error has-warning has-info has-success has-feedback');
     $(selector).removeClass(animationInfo + ' ' + animationError + ' ' + animationWarning);
     $(selector).addClass('animate__animated');
     parent.find('.help-block').remove();
     parent.find('.form-control-feedback').remove();
-    
+
     var isRequired = min_length == 0 || !empty($(selector).attr('required'));
     var icon = '';
     var feedback = '';
@@ -3390,7 +3390,7 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
     } else if (isTextOutOfBounds(text, min_length, max_length, isRequired)) {
         var feedbackIcon = 'fas fa-exclamation';
         parent.addClass('has-feedback');
-        
+
         if (!empty(force_length) && text.length >= force_length) {
             text = text.substr(0, force_length);
             $(selector).val(text);
@@ -3413,7 +3413,7 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
                 $(selector).addClass(animationError);
             }, 500);
         }
-        
+
         feedback = '<i class="' + feedbackIcon + ' form-control-feedback" style="right:15px;"></i>';
     } else {
         //console.log('notifyInputIfIsOutOfBounds', text.length, force_length);
@@ -3425,11 +3425,11 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
         icon = '<i class="fas fa-check-circle"></i>';
         parent.addClass('has-success');
     }
-    
+
     notifyInputIfIsOutOfBounds_removeClassTImeout = setTimeout(function () {
         $(selector).removeClass(animationInfo + ' ' + animationError + ' ' + animationWarning);
     }, 1000);
-    
+
     parent.append(feedback + '<small class="help-block">' + icon + ' ' + text.length + ' characters of ' + min_length + '-' + max_length + ' recommended</small>');
 }
 
@@ -4383,36 +4383,36 @@ function getPreviousValue(value, array) {
 function callFunctionOrLoadScript(funcName, jsUrl, ...args) {
     // Check if the function exists
     if (typeof window[funcName] === 'function') {
-      // If the function exists, call it with the provided arguments
-      window[funcName](...args);
+        // If the function exists, call it with the provided arguments
+        window[funcName](...args);
     } else {
-      // Create a script element
-      const script = document.createElement('script');
-      script.src = jsUrl;
-      
-      console.log(`Function ${funcName} not found loading script ${jsUrl}`);
-      // Define what happens when the script is loaded
-      script.onload = function() {
-        // Check again if the function exists after loading the script
-        if (typeof window[funcName] === 'function') {
-          console.log(`Function ${funcName} found after loading script ${jsUrl}`);
-          window[funcName](...args);
-        } else {
-          console.error(`Function ${funcName} does not exist even after loading the script.`);
-        }
-      };
-  
-      // Handle errors in loading the script
-      script.onerror = function() {
-        console.error(`Failed to load the script from ${jsUrl}`);
-      };
-  
-      // Append the script element to the document head
-      document.head.appendChild(script);
+        // Create a script element
+        const script = document.createElement('script');
+        script.src = jsUrl;
+
+        console.log(`Function ${funcName} not found loading script ${jsUrl}`);
+        // Define what happens when the script is loaded
+        script.onload = function () {
+            // Check again if the function exists after loading the script
+            if (typeof window[funcName] === 'function') {
+                console.log(`Function ${funcName} found after loading script ${jsUrl}`);
+                window[funcName](...args);
+            } else {
+                console.error(`Function ${funcName} does not exist even after loading the script.`);
+            }
+        };
+
+        // Handle errors in loading the script
+        script.onerror = function () {
+            console.error(`Failed to load the script from ${jsUrl}`);
+        };
+
+        // Append the script element to the document head
+        document.head.appendChild(script);
     }
-  }
-  
-function actionButtonPlaylistClick(t, videos_id, crc){
+}
+
+function actionButtonPlaylistClick(t, videos_id, crc) {
     $(t).webuiPopover();
-    callFunctionOrLoadScript('loadPlayLists', webSiteRootURL+'plugin/PlayLists/script.js', videos_id, crc); 
+    callFunctionOrLoadScript('loadPlayLists', webSiteRootURL + 'plugin/PlayLists/script.js', videos_id, crc);
 }
