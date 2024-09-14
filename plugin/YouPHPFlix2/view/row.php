@@ -15,6 +15,7 @@ $post = $_POST;
 $timeLog3 = __FILE__ . " - modeFlix Row";
 TimeLogStart($timeLog3);
 ?>
+<!-- row count total videos=<?php echo count($videos); ?> -->
 <div class="carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($dataFlickirty) ?>' style="<?php echo $css; ?>">
     <?php
     TimeLogEnd($timeLog3, __LINE__);
