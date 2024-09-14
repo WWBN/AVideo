@@ -1,6 +1,7 @@
 <?php
 global $t;
 
+$t['$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)';
 $t['465 OR 587'] = '465 या 587';
 $t['A client error occurred [2]: %s'] = 'एक क्लाइंट त्रुटि उत्पन्न हुई [2]: %s';
 $t['A client error occurred: %s'] = 'एक क्लाइंट त्रुटि उत्पन्न हुई: %s';
@@ -409,7 +410,7 @@ $t['Could not move image file %s => [%s]'] = 'Could not move image file %s => [%
 $t['Could not move image file [%s.jpg]'] = 'Could not move image file [%s.jpg]';
 $t['Could not move image file because it does not exits %s => [%s]'] = 'Could not move image file because it does not exits %s => [%s]';
 $t['Could not move webp image file [%s.webp]'] = 'Could not move webp image file [%s.webp]';
-$t['Country'] = 'Country';
+$t['Country'] = 'देश';
 $t['Create Campaign'] = 'Create Campaign';
 $t['Create Conference'] = 'Create Conference';
 $t['Create Room'] = 'Create Room';
@@ -820,6 +821,7 @@ $t['No matching records found'] = 'No matching records found';
 $t['No more pages to load'] = 'No more pages to load';
 $t['No one 17 and under admitted'] = 'No one 17 and under admitted';
 $t['No results found!'] = 'No results found!';
+$t['No videos in this playlist yet'] = 'No videos in this playlist yet';
 $t['No write Access on folder'] = 'No write Access on folder';
 $t['No'] = 'No';
 $t['Non admin users can NOT download videos'] = 'Non admin users can NOT download videos';
@@ -907,7 +909,8 @@ $t['Please Verify Your E-mail '] = 'Please Verify Your E-mail ';
 $t['Please Wait ...'] = 'Please Wait ...';
 $t['Please Wait'] = 'Please Wait';
 $t['Please check your email for 2FA confirmation '] = 'Please check your email for 2FA confirmation ';
-$t['Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store';
+$t['Please come back later'] = 'Please come back later';
+$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store.';
 $t['Please login first'] = 'Please login first';
 $t['Please login to donate'] = 'Please login to donate';
 $t['Please login to proceed'] = 'Please login to proceed';
@@ -970,7 +973,7 @@ $t['Recover password could not be saved!'] = 'Recover password could not be save
 $t['Recover password does not match'] = 'Recover password does not match';
 $t['Recover password!'] = 'Recover password!';
 $t['Recurring Payment Id'] = 'Recurring Payment Id';
-$t['Region'] = 'Region';
+$t['Region'] = 'क्षेत्र';
 $t['Regular Configuration'] = 'Regular Configuration';
 $t['Regular User'] = 'Regular User';
 $t['Reinstall tables'] = 'Reinstall tables';

@@ -1,6 +1,7 @@
 <?php
 global $t;
 
+$t['$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R$, etc, the format will be {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)';
 $t['%s Ago'] = 'Πρίν από %s';
 $t['%s ago'] = 'πρίν από %s';
 $t['465 OR 587'] = '465 ή 587';
@@ -144,6 +145,7 @@ $t['Only verified users can upload'] = 'Μόνο πιστοποιημένοι χ
 $t['Page'] = 'Σελίδα';
 $t['Password'] = 'Κωδικός';
 $t['Permission denied'] = 'Η άδεια απορρίφθηκε';
+$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store.';
 $t['Please login to proceed'] = 'Παρακαλούμε συνδεθείτε για να συνεχίσετε';
 $t['Please sign in'] = 'Παρακαλώ συνδεθείτε';
 $t['Preview'] = 'Προεπισκόπηση';
@@ -444,7 +446,7 @@ $t['Could not move image file %s => [%s]'] = 'Could not move image file %s => [%
 $t['Could not move image file [%s.jpg]'] = 'Could not move image file [%s.jpg]';
 $t['Could not move image file because it does not exits %s => [%s]'] = 'Could not move image file because it does not exits %s => [%s]';
 $t['Could not move webp image file [%s.webp]'] = 'Could not move webp image file [%s.webp]';
-$t['Country'] = 'Country';
+$t['Country'] = 'Χώρα';
 $t['Create Campaign'] = 'Create Campaign';
 $t['Create Conference'] = 'Create Conference';
 $t['Create Room'] = 'Create Room';
@@ -821,6 +823,7 @@ $t['No matching records found'] = 'No matching records found';
 $t['No more pages to load'] = 'No more pages to load';
 $t['No one 17 and under admitted'] = 'No one 17 and under admitted';
 $t['No results found!'] = 'No results found!';
+$t['No videos in this playlist yet'] = 'No videos in this playlist yet';
 $t['No write Access on folder'] = 'No write Access on folder';
 $t['Non admin users can NOT download videos'] = 'Non admin users can NOT download videos';
 $t['Non admin users can download videos'] = 'Non admin users can download videos';
@@ -908,7 +911,7 @@ $t['Please Verify Your E-mail '] = 'Please Verify Your E-mail ';
 $t['Please Wait ...'] = 'Please Wait ...';
 $t['Please Wait'] = 'Please Wait';
 $t['Please check your email for 2FA confirmation '] = 'Please check your email for 2FA confirmation ';
-$t['Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have thisplugin yet. But do not hesitate to purchase it in our online store';
+$t['Please come back later'] = 'Please come back later';
 $t['Please login first'] = 'Please login first';
 $t['Please login to donate'] = 'Please login to donate';
 $t['Please provide a title'] = 'Please provide a title';
@@ -961,7 +964,7 @@ $t['Recently Added'] = 'Recently Added';
 $t['Recommended'] = 'Recommended';
 $t['Recover Other Services Password'] = 'Recover Other Services Password';
 $t['Recurring Payment Id'] = 'Recurring Payment Id';
-$t['Region'] = 'Region';
+$t['Region'] = 'Περιοχή';
 $t['Regular Configuration'] = 'Regular Configuration';
 $t['Regular User'] = 'Regular User';
 $t['Reinstall tables'] = 'Reinstall tables';
