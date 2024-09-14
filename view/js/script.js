@@ -4412,3 +4412,7 @@ function callFunctionOrLoadScript(funcName, jsUrl, ...args) {
     }
   }
   
+function actionButtonPlaylistClick(t, videos_id, crc){
+    $(t).webuiPopover();
+    callFunctionOrLoadScript('loadPlayLists', webSiteRootURL+'plugin/PlayLists/script.js', videos_id, crc); 
+}

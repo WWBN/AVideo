@@ -274,11 +274,6 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
     });
 }
 
-function actionButtonClick(t, videos_id, crc){
-    $(t).webuiPopover();
-    callFunctionOrLoadScript('loadPlayLists', webSiteRootURL+'plugin/PlayLists/script.js', videos_id, crc); 
-}
-
 $(function () {
     if (empty(mediaId)) {
         reloadPlayLists();
