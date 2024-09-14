@@ -7189,6 +7189,8 @@ function getDeviceName($returnIfEmptyUA = 'unknown')
         }
     } elseif (strpos($userAgent, 'silk') !== false) {
         return 'firestick';
+    } elseif (preg_match('/X11; Linux x86_64.*Chrome/', $userAgent) !== false) {
+        return 'androidMobileDesktopMode';
     } else {
         return 'web';
     }
