@@ -2048,7 +2048,10 @@ function isAndroid()
     require_once $global['systemRootPath'] . 'objects/Mobile_Detect.php';
     $detect = new Mobile_Detect();
 
-    return $detect->is('AndroidOS');
+
+    $androidTV = getDeviceName();
+    
+    return $detect->is('AndroidOS') || preg_match('/android/i', $androidTV);
 }
 
 function isChannelPage()
