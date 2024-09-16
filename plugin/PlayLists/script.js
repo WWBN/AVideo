@@ -172,10 +172,9 @@ function reloadPlayListButtons() {
     isReloadPlayListButtonsExecuting = false;
 }
 
-
 var isSyncing = false; // Flag to track if the function is already running
 var syncDelay = 5000;  // Minimum delay of 5 seconds between calls
-var chunkSize = 50;    // Number of videos to process per batch
+var chunkSize = 10;    // Number of playlists to process per chunk (adjust as needed)
 
 async function syncPlaylistWithFetchedPlayLists() {
     if (isSyncing) {
@@ -193,45 +192,43 @@ async function syncPlaylistWithFetchedPlayLists() {
     $('.favoriteBtn').show();
     console.trace("syncPlaylistWithFetchedPlayLists backtrace:", fetchPlayListsRows);
 
-    // Process playlists in smaller chunks
     let playlists = fetchPlayListsRows;
-    let playlistIndex = 0;
+    let totalPlaylists = playlists.length;
+    let currentIndex = 0;
 
-    function processNextChunk() {
-        let end = Math.min(playlistIndex + chunkSize, playlists.length);
+    function processPlaylists() {
+        let start = currentIndex;
+        let end = Math.min(currentIndex + chunkSize, totalPlaylists);
 
-        for (let x = playlistIndex; x < end; x++) {
-            if (typeof (playlists[x]) === 'object') {
-                let playlist = playlists[x];
-                if (typeof (playlist.videos) === 'object') {
-                    let videos = playlist.videos;
-                    for (let y in videos) {
-                        let video = videos[y];
-                        if (!empty(video)) {
-                            setPlaylistStatus(video.id, true, playlist.id, playlist.status);
-                        }
+        for (let x = start; x < end; x++) {
+            let playlist = playlists[x];
+            if (typeof playlist === 'object' && typeof playlist.videos === 'object') {
+                let videos = playlist.videos;
+                for (let y in videos) {
+                    let video = videos[y];
+                    if (!empty(video)) {
+                        setPlaylistStatus(video.id, true, playlist.id, playlist.status);
                     }
                 }
             }
         }
 
-        playlistIndex = end;
+        currentIndex = end;
 
-        // If there are more playlists to process, continue after a short delay
-        if (playlistIndex < playlists.length) {
-            setTimeout(processNextChunk, 10); // Small delay to give control back to the browser
+        if (currentIndex < totalPlaylists) {
+            // Schedule the next chunk after a short delay
+            setTimeout(processPlaylists, 10);
         } else {
-            // All done, reset the syncing flag
+            // All playlists have been processed
             setTimeout(() => {
-                isSyncing = false;
+                isSyncing = false; // Reset the flag after the delay
             }, syncDelay);
         }
     }
 
-    // Start processing
-    processNextChunk();
+    // Start processing playlists
+    processPlaylists();
 }
-
 
 
 async function loadPlayListsResponse(response, videos_id, crc) {
