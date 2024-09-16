@@ -218,6 +218,7 @@ async function syncPlaylistWithFetchedPlayLists() {
         currentIndex = end;
 
         if (currentIndex < totalPlaylists) {
+            console.log('syncPlaylistWithFetchedPlayLists next processPlaylists total videos='+totalVideos);
             // Schedule the next chunk after a short delay
             setTimeout(processPlaylists, 10);
         } else {
