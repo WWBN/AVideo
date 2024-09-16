@@ -173,15 +173,25 @@ function reloadPlayListButtons() {
 }
 
 
+var isSyncing = false; // Flag to track if the function is already running
+var syncDelay = 5000;  // Minimum delay of 5 seconds between calls
+
 async function syncPlaylistWithFetchedPlayLists() {
-    
+    if (isSyncing) {
+        console.log('syncPlaylistWithFetchedPlayLists is already running. Skipping this call.');
+        return;
+    }
+
+    isSyncing = true; // Set the flag to indicate the function is running
+
+    // Your existing logic
     $('.loadingPLBtn').hide();
     $('.watchLaterBtnAdded').hide();
     $('.favoriteBtnAdded').hide();
     $('.watchLaterBtn').show();
     $('.favoriteBtn').show();
+    console.trace("syncPlaylistWithFetchedPlayLists backtrace:", fetchPlayListsRows);
 
-    console.log('syncPlaylistWithFetchedPlayLists', fetchPlayListsRows);
     for (var x in fetchPlayListsRows) {
         if (typeof (fetchPlayListsRows[x]) === 'object') {
             var playlist = fetchPlayListsRows[x];
@@ -196,7 +206,13 @@ async function syncPlaylistWithFetchedPlayLists() {
             }
         }
     }
+
+    // Set a timeout to reset the flag after the delay
+    setTimeout(() => {
+        isSyncing = false; // Reset the flag after 5 seconds
+    }, syncDelay);
 }
+
 
 async function loadPlayListsResponse(response, videos_id, crc) {
     //console.log('loadPlayListsResponse');
