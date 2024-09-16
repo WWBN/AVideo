@@ -173,7 +173,7 @@ function reloadPlayListButtons() {
 }
 
 var isSyncing = false; // Flag to track if the function is already running
-var syncDelay = 5000;  // Minimum delay of 5 seconds between calls
+var syncDelay = 1000;  // Minimum delay of 5 seconds between calls
 var chunkSize = 5;     // Number of playlists to process per chunk (adjust as needed)
 
 async function syncPlaylistWithFetchedPlayLists() {
@@ -231,12 +231,12 @@ async function syncPlaylistWithFetchedPlayLists() {
         // End timing the chunk processing
         let chunkEndTime = performance.now();
         let chunkDuration = (chunkEndTime - chunkStartTime) / 1000; // Convert milliseconds to seconds
-        console.log(`Chunk processed in ${chunkDuration.toFixed(2)} seconds.`);
+        console.log(`syncPlaylistWithFetchedPlayLists Chunk processed in ${chunkDuration.toFixed(2)} seconds.`);
 
         if (currentIndex < totalPlaylists) {
             console.log(`syncPlaylistWithFetchedPlayLists next processPlaylists total videos=${totalVideos}`);
             // Schedule the next chunk after a short delay
-            setTimeout(processPlaylists, 100);
+            setTimeout(processPlaylists, 10);
         } else {
             console.log(`syncPlaylistWithFetchedPlayLists done total videos=${totalVideos}`);
             // All playlists have been processed

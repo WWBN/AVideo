@@ -92,7 +92,9 @@ function m3u8ToMP4($input)
     $parts = explode("/", $outputfilename);
     $resolution = Video::getResolutionFromFilename($input);
     $outputfilename = $parts[0] . "_{$resolution}_.mp4";
-    $outputpath = "{$videosDir}cache/downloads/{$outputfilename}";
+    $outputpathDir = "{$videosDir}downloads/";
+    make_path($outputpathDir);
+    $outputpath = "{$outputpathDir}{$outputfilename}";
     $msg = '';
     $error = true;
     if (empty($outputfilename)) {
