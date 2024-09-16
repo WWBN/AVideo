@@ -182,6 +182,14 @@ async function syncPlaylistWithFetchedPlayLists() {
         return;
     }
 
+    if(empty(fetchPlayListsRows)){
+        console.log('syncPlaylistWithFetchedPlayLists empty fetchPlayListsRows');
+        setTimeout(() => {
+            syncPlaylistWithFetchedPlayLists(); // Reset the flag after the delay
+        }, 1000);
+        return;
+    }
+
     isSyncing = true; // Set the flag to indicate the function is running
 
     // Initial UI updates
@@ -321,12 +329,6 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
 }
 
 function setPlaylistStatus(videos_id, add, playlists_id = 0, type = '', toast = false) {
-
-    $('.loadingPLBtn' + videos_id).hide();
-    $('.watchLaterBtnAdded' + videos_id).hide();
-    $('.favoriteBtnAdded' + videos_id).hide();
-    $('.watchLaterBtn' + videos_id).show();
-    $('.favoriteBtn' + videos_id).show();
 
     if (type == 'favorite') {
         if (add) {
