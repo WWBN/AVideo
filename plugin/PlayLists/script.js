@@ -174,7 +174,7 @@ function reloadPlayListButtons() {
 
 var isSyncing = false; // Flag to track if the function is already running
 var syncDelay = 1000;  // Minimum delay of 5 seconds between calls
-var chunkSize = 5;     // Number of playlists to process per chunk (adjust as needed)
+var chunkSize = 20;     // Number of playlists to process per chunk (adjust as needed)
 
 async function syncPlaylistWithFetchedPlayLists() {
     if (isSyncing) {
