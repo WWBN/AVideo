@@ -174,7 +174,7 @@ function reloadPlayListButtons() {
 
 var isSyncing = false; // Flag to track if the function is already running
 var syncDelay = 5000;  // Minimum delay of 5 seconds between calls
-var chunkSize = 5;    // Number of playlists to process per chunk (adjust as needed)
+var chunkSize = 5;     // Number of playlists to process per chunk (adjust as needed)
 
 async function syncPlaylistWithFetchedPlayLists() {
     if (isSyncing) {
@@ -182,10 +182,10 @@ async function syncPlaylistWithFetchedPlayLists() {
         return;
     }
 
-    if(empty(fetchPlayListsRows)){
+    if (empty(fetchPlayListsRows)) {
         console.log('syncPlaylistWithFetchedPlayLists empty fetchPlayListsRows');
         setTimeout(() => {
-            syncPlaylistWithFetchedPlayLists(); // Reset the flag after the delay
+            syncPlaylistWithFetchedPlayLists(); // Try again after 1 second
         }, 1000);
         return;
     }
@@ -206,6 +206,9 @@ async function syncPlaylistWithFetchedPlayLists() {
     let totalVideos = 0;
 
     function processPlaylists() {
+        // Start timing the chunk processing
+        let chunkStartTime = performance.now();
+
         let start = currentIndex;
         let end = Math.min(currentIndex + chunkSize, totalPlaylists);
 
@@ -225,12 +228,17 @@ async function syncPlaylistWithFetchedPlayLists() {
 
         currentIndex = end;
 
+        // End timing the chunk processing
+        let chunkEndTime = performance.now();
+        let chunkDuration = (chunkEndTime - chunkStartTime) / 1000; // Convert milliseconds to seconds
+        console.log(`Chunk processed in ${chunkDuration.toFixed(2)} seconds.`);
+
         if (currentIndex < totalPlaylists) {
-            console.log('syncPlaylistWithFetchedPlayLists next processPlaylists total videos='+totalVideos);
+            console.log(`syncPlaylistWithFetchedPlayLists next processPlaylists total videos=${totalVideos}`);
             // Schedule the next chunk after a short delay
             setTimeout(processPlaylists, 100);
         } else {
-            console.log('syncPlaylistWithFetchedPlayLists done total videos='+totalVideos);
+            console.log(`syncPlaylistWithFetchedPlayLists done total videos=${totalVideos}`);
             // All playlists have been processed
             setTimeout(() => {
                 isSyncing = false; // Reset the flag after the delay
@@ -241,6 +249,7 @@ async function syncPlaylistWithFetchedPlayLists() {
     // Start processing playlists
     processPlaylists();
 }
+
 
 
 async function loadPlayListsResponse(response, videos_id, crc) {
