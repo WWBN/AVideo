@@ -163,5 +163,10 @@ TimeLogStart($timeLog6);
     getSharePopupButton($value['id']);
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     ?>
+    <span style="margin-left: 5px;">
+    <?php
+        echo Video::generatePlaylistButtons($value['id'], 'btn btn-dark', 'background-color: #11111199; ', false);
+    ?>
+    </span>
 </div>
 <!-- row_info end -->

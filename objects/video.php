@@ -6622,18 +6622,26 @@ if (!class_exists('Video')) {
 
             // Add a layout style to force vertical stacking if required
             $layoutStyle = $isVertical ? "display: block;" : "display: inline-block; margin-right: 5px;";
-            $layoutStyle .= 'display: none;';
             $placement = 'top';
             if ($isVertical) {
                 $placement = 'left';
             }
 
-            // Generate the buttons for Watch Later and Favorite
+            // Generate the buttons for Watch Later, Favorite, and Loading State
             $buttonsHTML = '
-                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Added On Watch Later", true) . ' style="' . $style . $watchLaterBtnAddedStyle . $layoutStyle . '">
+                <button disabled class="' . $buttonClass . ' loadingPLBtn loadingPLBtn' . $videos_id . '" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Loading...", true) . ' style="' . $style . ' ' . $layoutStyle . '">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </button>
+                <button disabled class="' . $buttonClass . ' loadingPLBtn loadingPLBtn' . $videos_id . '" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Loading...", true) . ' style="' . $style . ' ' . $layoutStyle . '">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </button>';
+
+            // Generate the buttons for Watch Later and Favorite
+            $buttonsHTML .= '
+                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Added On Watch Later", true) . ' style="' . $style . $watchLaterBtnAddedStyle . $layoutStyle . ' display: none;">
                     <i class="fas fa-check"></i>
                 </button>
-                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtn watchLaterBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Watch Later", true) . ' style="' . $style . $watchLaterBtnStyle . $layoutStyle . '">
+                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $watchLaterId . '); return false;" class="' . $buttonClass . ' watchLaterBtn watchLaterBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Watch Later", true) . ' style="' . $style . $watchLaterBtnStyle . $layoutStyle . ' display: none;">
                     <i class="fas fa-clock faa-spin"></i>
                 </button>';
 
@@ -6643,10 +6651,10 @@ if (!class_exists('Video')) {
             }
 
             $buttonsHTML .= '
-                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Added On Favorite", true) . ' style="' . $style .  $favoriteBtnAddedStyle . $layoutStyle . '">
+                <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Added On Favorite", true) . ' style="' . $style .  $favoriteBtnAddedStyle . $layoutStyle . ' display: none;">
                     <i class="fas fa-check"></i>
                 </button>
-                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Favorite", true) . ' style="' . $style .  $favoriteBtnStyle . $layoutStyle . '">
+                <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Favorite", true) . ' style="' . $style .  $favoriteBtnStyle . $layoutStyle . ' display: none;">
                     <i class="fas fa-heart faa-pulse faa-fast"></i>
                 </button>';
             $buttonsHTML .= '<script>$(function () {reloadPlayLists();});</script>';

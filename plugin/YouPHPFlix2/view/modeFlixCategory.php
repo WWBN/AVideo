@@ -109,6 +109,7 @@ $videosCounter = 0;
                 <?php
             }
             ?>
+            <!-- mode flix category -->
             <div class="row topicRow">
                 <span class="md-col-12">&nbsp;</span>
                 <?php

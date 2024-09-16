@@ -98,33 +98,46 @@ async function handlePlayLists(videos_id = null, crc = null, clearCache = 0) {
 
 // Unified function to handle AJAX request to playlists endpoint
 var fetchPlayListsRows = [];
+var fetchPlayListsPromise = null; // Variable to store the current Promise
+
 async function fetchPlayLists(clearCache = 0) {
     return new Promise((resolve, reject) => {
         if (!isOnline()) {
             return reject('Offline');
         }
 
-        if(!empty(fetchPlayListsRows) && empty(clearCache)){
+        // Check if we already have data in the cache and no cache clearing is requested
+        if (!empty(fetchPlayListsRows) && empty(clearCache)) {
             console.log('fetchPlayLists cached');
             resolve(fetchPlayListsRows);
             return fetchPlayListsRows;
         }
 
-        console.log('fetchPlayLists');
-        console.trace();
+        // If a request is already in progress, return the same Promise
+        if (fetchPlayListsPromise) {
+            console.log('fetchPlayLists already running, waiting for the same Promise');
+            return fetchPlayListsPromise.then(resolve).catch(reject);
+        }
 
-        $.ajax({
+        // Start a new request and store the Promise
+        console.log('fetchPlayLists starting a new AJAX request');
+        fetchPlayListsPromise = $.ajax({
             url: webSiteRootURL + 'objects/playlists.json.php?clearPlaylistCache=' + clearCache,
             success: function (response) {
                 fetchPlayListsRows = response.rows;
+                syncPlaylistWithFetchedPlayLists();
                 resolve(fetchPlayListsRows);
             },
             error: function (error) {
                 reject(error);
             }
+        }).always(() => {
+            // Reset the promise when the request finishes (either success or failure)
+            fetchPlayListsPromise = null;
         });
     });
 }
+
 
 // reloadPlayLists function utilizing the unified fetchPlayLists
 async function reloadPlayLists(clearCache = 0) {
@@ -145,30 +158,44 @@ function reloadPlayListButtons() {
     // Set flag to prevent further execution within 1 second
     isReloadPlayListButtonsExecuting = true;
 
-    $('.watchLaterBtnAdded').hide();
-    $('.favoriteBtnAdded').hide();
-    $('.watchLaterBtn').show();
-    $('.favoriteBtn').show();
-
     for (var i in playList) {
         if (!playList[i].id || (playList[i].status !== 'watch_later' && playList[i].status !== 'favorite')) {
             continue;
         }
         for (var x in playList[i].videos) {
             if (typeof (playList[i].videos[x]) === 'object') {
-                if (playList[i].status === 'watch_later') {
-                    $('.watchLaterBtn' + playList[i].videos[x].videos_id).hide();
-                    $('.watchLaterBtnAdded' + playList[i].videos[x].videos_id).show();
-                } else if (playList[i].status === 'favorite') {
-                    $('.favoriteBtn' + playList[i].videos[x].videos_id).hide();
-                    $('.favoriteBtnAdded' + playList[i].videos[x].videos_id).show();
-                }
+                setPlaylistStatus(playList[i].videos[x].videos_id, true, playList[i].id, playList[i].status);
             }
         }
     }
     isReloadPlayListButtonsExecuting = false;
 }
 
+
+async function syncPlaylistWithFetchedPlayLists() {
+    
+    $('.loadingPLBtn').hide();
+    $('.watchLaterBtnAdded').hide();
+    $('.favoriteBtnAdded').hide();
+    $('.watchLaterBtn').show();
+    $('.favoriteBtn').show();
+    
+    console.log('syncPlaylistWithFetchedPlayLists', fetchPlayListsRows);
+    for (var x in fetchPlayListsRows) {
+        if (typeof (fetchPlayListsRows[x]) === 'object') {
+            var playlist = fetchPlayListsRows[x];
+            if (typeof (playlist.videos) === 'object') {
+                var videos = playlist.videos;
+                for (var y in videos) {
+                    var video = videos[y];
+                    if (!empty(video)) {
+                        setPlaylistStatus(video.id, true, playlist.id, playlist.status);
+                    }
+                }
+            }
+        }
+    }
+}
 
 async function loadPlayListsResponse(response, videos_id, crc) {
     //console.log('loadPlayListsResponse');
@@ -224,6 +251,7 @@ async function loadPlayListsResponse(response, videos_id, crc) {
 function addVideoToPlayList(videos_id, isChecked, playlists_id) {
     //console.log('addVideoToPlayList');
     modal.showPleaseWait();
+
     $.ajax({
         url: webSiteRootURL + 'objects/playListAddVideo.json.php',
         method: 'POST',
@@ -233,45 +261,66 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
             'playlists_id': playlists_id
         },
         success: function (response) {
+
             if (response.error) {
                 var msg = __('Error on playlist');
-                if(!empty(response.msg)){
+                if (!empty(response.msg)) {
                     msg = response.msg;
                 }
                 avideoAlertError(msg);
             } else {
                 console.log('addVideoToPlayList success', response);
-                if (response.type == 'favorite') {
-                    if (response.add) {
-                        $('.favoriteBtn' + response.videos_id).hide();
-                        $('.favoriteBtnAdded' + response.videos_id).show();
-                        avideoToastSuccess(__('Add to Favorite'));
-                    } else {
-                        $('.favoriteBtn' + response.videos_id).show();
-                        $('.favoriteBtnAdded' + response.videos_id).hide();
-                        avideoToastWarning(__('Removed from Favorite'));
-                    }
-                } else if (response.type == 'watch_later') {
-                    if (response.add) {
-                        $('.watchLaterBtn' + response.videos_id).hide();
-                        $('.watchLaterBtnAdded' + response.videos_id).show();
-                        avideoToastSuccess(__('Add to Watch Later'));
-                    } else {
-                        $('.watchLaterBtn' + response.videos_id).show();
-                        $('.watchLaterBtnAdded' + response.videos_id).hide();
-                        avideoToastWarning(__('Removed from Watch Later'));
-                    }
-                }
+                setPlaylistStatus(response.videos_id, response.add, playlists_id, response.type, true);
             }
             reloadPlayLists(1);
-            //console.log(".playListsIds_" + playlists_id + '_videos_id_' + videos_id);
-            $(".playListsIds_" + playlists_id + '_videos_id_' + videos_id).prop("checked", isChecked);
+
             modal.hidePleaseWait();
             setTimeout(function () {
                 playListsAdding = false
             }, 500);
         }
     });
+}
+
+function setPlaylistStatus(videos_id, add, playlists_id = 0, type = '', toast = false) {
+
+    $('.loadingPLBtn' + videos_id).hide();
+    $('.watchLaterBtnAdded' + videos_id).hide();
+    $('.favoriteBtnAdded' + videos_id).hide();
+    $('.watchLaterBtn' + videos_id).show();
+    $('.favoriteBtn' + videos_id).show();
+
+    if (type == 'favorite') {
+        if (add) {
+            $('.favoriteBtn' + videos_id).hide();
+            $('.favoriteBtnAdded' + videos_id).show();
+            if (toast) {
+                avideoToastSuccess(__('Add to Favorite'));
+            }
+        } else {
+            $('.favoriteBtn' + videos_id).show();
+            $('.favoriteBtnAdded' + videos_id).hide();
+            if (toast) {
+                avideoToastWarning(__('Removed from Favorite'));
+            }
+        }
+    } else if (type == 'watch_later') {
+        if (add) {
+            $('.watchLaterBtn' + videos_id).hide();
+            $('.watchLaterBtnAdded' + videos_id).show();
+            if (toast) {
+                avideoToastSuccess(__('Add to Watch Later'));
+            }
+        } else {
+            $('.watchLaterBtn' + videos_id).show();
+            $('.watchLaterBtnAdded' + videos_id).hide();
+            if (toast) {
+                avideoToastWarning(__('Removed from Watch Later'));
+            }
+        }
+    }
+
+    $(".playListsIds_" + playlists_id + '_videos_id_' + videos_id).prop("checked", add);
 }
 
 $(function () {

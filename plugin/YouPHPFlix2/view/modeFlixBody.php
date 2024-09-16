@@ -27,7 +27,8 @@ $percent = 90;
         //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
         $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos, array(), false, false, true, true);
         if (!empty($videos)) {
-    ?>
+    ?>  
+            <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
             <div class="row topicRow">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
@@ -135,6 +136,7 @@ $percent = 90;
                     
                     $videoSerie = Video::getVideoFromSeriePlayListsId($pl['id']);
                 ?>
+                    <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
                     <div class="row topicRow">
                         <h2>
                             <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
@@ -146,7 +148,7 @@ $percent = 90;
                                 ?>
                                 <span style="margin-left: 10px;">
                                     <?php
-                                        echo Video::generatePlaylistButtons($videoSerie['id'], 'btn btn-dark btn-xs', 'background-color: #11111199;', false);
+                                        echo Video::generatePlaylistButtons($videoSerie['id'], 'btn btn-dark btn-xs', 'background-color: #11111199; ', false);
                                     ?>
                                 </span>
                                 <?php
@@ -186,18 +188,19 @@ $percent = 90;
                             $canWatchPlayButton = "hidden";
                         }
                     ?>
+                        <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
                         <div class="row topicRow">
-                            <h2>
+                            <h2 class="pull-left">
                                 <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>" class="<?php echo $canWatchPlayButton; ?>">
                                     <!-- modeFlixBody line <?php echo __LINE__; ?> -->
                                     <i class="fas fa-list"></i> <?php echo $serie['title']; ?>
                                 </a>
-                                <span style="margin-left: 10px;">
-                                <?php
-                                    echo Video::generatePlaylistButtons($serie['id'], 'btn btn-dark btn-xs', 'background-color: #11111199;', false);
-                                ?>
-                                </span>
                             </h2>
+                            <span style="margin-left: 5px;">
+                                <?php
+                                echo Video::generatePlaylistButtons($serie['id'], 'btn btn-dark', 'background-color: #11111199;', false);
+                                ?>
+                            </span>
                             <!-- Date Programs/Playlists 3 -->
                             <?php
                             $rowPlayListLink = PlayLists::getLink($serie['serie_playlists_id']);
@@ -234,6 +237,7 @@ $percent = 90;
         unset($_POST['sort']['trending']);
         if (!empty($videos)) {
             ?>
+            <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
             <div class="row topicRow">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
@@ -267,6 +271,7 @@ $percent = 90;
         $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
         if (!empty($videos)) {
         ?>
+            <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
             <div class="row topicRow">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
@@ -302,6 +307,7 @@ $percent = 90;
         $_POST['sort']['v.created'] = "DESC";
         $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
         ?>
+        <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
         <div class="row topicRow">
             <span class="md-col-12">&nbsp;</span>
             <h2>
@@ -337,6 +343,7 @@ $percent = 90;
         $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
     ?>
         <span class="md-col-12">&nbsp;</span>
+        <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
         <div class="row topicRow">
             <h2>
                 <i class="glyphicon glyphicon-eye-open"></i> <?php echo __($obj->MostWatchedCustomTitle); ?>
@@ -369,6 +376,7 @@ $percent = 90;
         $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
     ?>
         <span class="md-col-12">&nbsp;</span>
+        <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
         <div class="row topicRow">
             <h2>
                 <i class="fas fa-sort-alpha-down"></i> <?php echo __($obj->SortByNameCustomTitle); ?>
