@@ -109,6 +109,7 @@ async function fetchPlayLists(clearCache = 0) {
         // Check if we already have data in the cache and no cache clearing is requested
         if (!empty(fetchPlayListsRows) && empty(clearCache)) {
             console.log('fetchPlayLists cached');
+            syncPlaylistWithFetchedPlayLists();
             resolve(fetchPlayListsRows);
             return fetchPlayListsRows;
         }
@@ -179,7 +180,7 @@ async function syncPlaylistWithFetchedPlayLists() {
     $('.favoriteBtnAdded').hide();
     $('.watchLaterBtn').show();
     $('.favoriteBtn').show();
-    
+
     console.log('syncPlaylistWithFetchedPlayLists', fetchPlayListsRows);
     for (var x in fetchPlayListsRows) {
         if (typeof (fetchPlayListsRows[x]) === 'object') {
