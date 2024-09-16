@@ -195,6 +195,7 @@ async function syncPlaylistWithFetchedPlayLists() {
     let playlists = fetchPlayListsRows;
     let totalPlaylists = playlists.length;
     let currentIndex = 0;
+    let totalVideos = 0;
 
     function processPlaylists() {
         let start = currentIndex;
@@ -207,6 +208,7 @@ async function syncPlaylistWithFetchedPlayLists() {
                 for (let y in videos) {
                     let video = videos[y];
                     if (!empty(video)) {
+                        totalVideos++;
                         setPlaylistStatus(video.id, true, playlist.id, playlist.status);
                     }
                 }
@@ -219,6 +221,7 @@ async function syncPlaylistWithFetchedPlayLists() {
             // Schedule the next chunk after a short delay
             setTimeout(processPlaylists, 10);
         } else {
+            console.log('syncPlaylistWithFetchedPlayLists done total videos='+totalVideos);
             // All playlists have been processed
             setTimeout(() => {
                 isSyncing = false; // Reset the flag after the delay
