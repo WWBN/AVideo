@@ -142,7 +142,11 @@ if (empty($output)) {
     $feed->configurationFeed->source = new stdClass();
     $feed->configurationFeed->source->id = $global['VizioSourceID'];
     $feed->configurationFeed->source->name = $title;
-    $feed->configurationFeed->apps = $global['VizioApps'] ?? [];  // Ensure apps are included if required
+    $feed->configurationFeed->apps = array(
+        array(
+            'id'=>$global['VizioAppID']
+        )
+    );  // Ensure apps are included if required
 
 
     // Content Feed (productions)
