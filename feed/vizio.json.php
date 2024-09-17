@@ -260,7 +260,7 @@ if (empty($output)) {
     // Availability Feed
     $feed->availabilityFeed = new stdClass();
     $feed->availabilityFeed->sourceId = $feed->configurationFeed->source->id;
-    $feed->availabilityFeed->onDemandOfferings = [
+    $feed->availabilityFeed->onDemandOfferings = [[
         "appId" => [
             $global['VizioAppID']
         ],
@@ -274,7 +274,7 @@ if (empty($output)) {
         "customAttributes" => [
             "id" => "Movie1"
         ]
-    ];
+    ]];
 
     // Cache the generated output
     $output = json_encode($feed, JSON_PRETTY_PRINT);
