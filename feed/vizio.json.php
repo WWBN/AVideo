@@ -276,7 +276,7 @@ if (empty($output)) {
                 "id" => "offeringmovie{$movie->id}",
                 "payStructure" => "Ad-supported",
                 "customAttributes" => [
-                    "id" => $row['id']
+                    "id" => ($row['id'].'')
                 ]
             ];
         }
