@@ -69,7 +69,7 @@ function rowToVizioSearch($row)
     // Duration (in "PT[seconds]S" format)
     $movie->duration = "PT" . durationToSeconds($row['duration']) . "S";
 
-    // Rating (using rokuRatingSearch for compatibility)
+    // Rating (using vizioRatingSearch for compatibility)
     $movie->contentRatings = [
         [
             "id" => "rating_id",
@@ -79,16 +79,20 @@ function rowToVizioSearch($row)
         ]
     ];
 
+    $image = Video::getRokuImage($row['id']);
+    $posterImages = addQueryStringParameter($image, 'unique', uniqid());
+    $widescreenImages = addQueryStringParameter($image, 'unique', uniqid());
+
     // Poster and widescreen images
     $movie->posterImages = [
         [
-            "url" => Video::getRokuImage($row['id'])
+            "url" => $posterImages
         ]
     ];
 
     $movie->widescreenImages = [
         [
-            "url" => Video::getRokuImage($row['id'])  // Optional widescreen image logic
+            "url" => $widescreenImages
         ]
     ];
 
@@ -97,6 +101,9 @@ function rowToVizioSearch($row)
         "dateTime" => date('Y-m-d\TH:i:s\Z', strtotime($row['created'])),
         "precision" => "Day"
     ];
+
+    // Original Air Date (used if release date is not sufficient)
+    $movie->originalAirDate = date('Y-m-d', strtotime($row['created']));
 
     // Directors
     $movie->directors = !empty($row['director']) ? explode(',', $row['director']) : [];
@@ -164,6 +171,18 @@ if (empty($output)) {
             $production->posterImages = [["url" => $movie->posterImages[0]['url']]];
             $production->widescreenImages = [["url" => $movie->widescreenImages[0]['url']]];
 
+            // Add release date (fix for the error)
+            $production->releases = [
+                [
+                    "type" => "Unknown",
+                    "date" => $movie->releaseDate,
+                    "countryId" => "usa"
+                ]
+            ];
+
+            // Add duration (fix for the warning)
+            $production->duration = $movie->duration;
+
             $feed->contentFeed->productions[] = $production;
         }
     }
@@ -182,4 +201,3 @@ if (!is_string($output)) {
 }
 
 die($output);
-
