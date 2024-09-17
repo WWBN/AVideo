@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/rokuFunctions.php';
+
 function getVizioImagePoster($videos_id)
 {
     global $global;
@@ -25,20 +27,19 @@ function getVizioImageWide($videos_id)
     }
     return ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
 }
-
-function vizioRatingSearch($avideoRating)
-{
+function vizioRatingSearch($avideoRating) {
+    // Return rating based on the VIZIO Schema
     switch (strtolower($avideoRating)) {
         case 'g':
             return 'G';
         case 'pg':
             return 'PG';
         case 'pg-13':
-            return 'PG13';
+            return 'PG-13';
         case 'r':
             return 'R';
         case 'nc-17':
-            return 'NC17';
+            return 'NC-17';
         case 'ma':
             return 'UR';
         default:
@@ -46,8 +47,7 @@ function vizioRatingSearch($avideoRating)
     }
 }
 
-function rowToVizioSearch($row)
-{
+function rowToVizioSearch($row) {
     global $global;
 
     if (!is_array($row)) {
@@ -99,45 +99,38 @@ function rowToVizioSearch($row)
     // Rating (using vizioRatingSearch for compatibility)
     $movie->contentRatings = [
         [
-            "id" => "rating_id",
+            "id" => "rating_" . $row['id'],  // Ensure a unique ID
             "ratingBody" => "MPAA",
-            "rating" => !empty($row['rrating']) ? vizioRatingSearch($row['rrating']) : 'TV-G',
+            "rating" => !empty($row['rrating']) ? vizioRatingSearch($row['rrating']) : 'G',
             "isExplicit" => false
         ]
     ];
 
+    // Get poster and widescreen images with correct resolutions
     $posterImages = getVizioImagePoster($row['id']);
-    $posterImages = addQueryStringParameter($posterImages, 'videos_id', $row['id']);
-
     $widescreenImages = getVizioImageWide($row['id']);
-    $widescreenImages = addQueryStringParameter($widescreenImages, 'videos_id', $row['id']);
 
-    // Poster and widescreen images
+    // Poster and widescreen images with required aspect ratios and resolutions
     $movie->posterImages = [
         [
-            "url" => $posterImages
+            "url" => addQueryStringParameter($posterImages, 'videos_id', $row['id'])
         ]
     ];
-
     $movie->widescreenImages = [
         [
-            "url" => $widescreenImages
+            "url" => addQueryStringParameter($widescreenImages, 'videos_id', $row['id'])
         ]
     ];
 
-    // Release date
+    // Release date and original air date
     $movie->releaseDate = [
         "dateTime" => date('Y-m-d\TH:i:s\Z', strtotime($row['created'])),
         "precision" => "Day"
     ];
-
-    // Original Air Date (used if release date is not sufficient)
     $movie->originalAirDate = date('Y-m-d', strtotime($row['created']));
 
-    // Directors
+    // Directors and actors
     $movie->directors = !empty($row['director']) ? explode(',', $row['director']) : [];
-
-    // Actors
     $movie->actors = !empty($row['actors']) ? explode(',', $row['actors']) : [];
 
     // External IDs and source URL
@@ -171,12 +164,12 @@ if (empty($output)) {
     $feed->configurationFeed->source = new stdClass();
     $feed->configurationFeed->source->id = $global['VizioSourceID'];
     $feed->configurationFeed->source->name = $title;
-    $feed->configurationFeed->apps = array(
-        array(
-            'id'=>$global['VizioAppID']
-        )
-    );  // Ensure apps are included if required
-
+    $feed->configurationFeed->apps = [
+        [
+            'id' => $global['VizioAppID'],
+            'priceModels' => ['Ad-supported'],  // Fix for priceModels error
+        ]
+    ];
 
     // Content Feed (productions)
     $feed->contentFeed = new stdClass();
@@ -184,14 +177,14 @@ if (empty($output)) {
     $feed->contentFeed->productions = [];
 
     foreach ($rows as $row) {
-        $movie = rowToVizioSearch($row); // Converting rows to movie details
+        $movie = rowToVizioSearch($row);
         if (!empty($movie)) {
             $production = new stdClass();
             $production->id = $movie->id;
             $production->externalIds = [
                 [
                     "id" => $movie->externalIds[0]->id ?? 'default_id',
-                    "idType" => $movie->externalIds[0]->idType ?? 'Source'  // Make sure there's a default value
+                    "idType" => $movie->externalIds[0]->idType ?? 'Source'
                 ]
             ];
             $production->productionType = "Movie";
@@ -206,31 +199,35 @@ if (empty($output)) {
                 ]
             ];
 
-            // Add genres, ratings, and images
-            $production->genres = $movie->genres ?? ['unknown'];
+            // Add genres as objects
+            $production->genres = [
+                [
+                    "id" => "genre_" . $row['id'],
+                    "value" => [
+                        "rawLocale" => "en-US",
+                        "text" => matchGenre($row['category'])  // Replace with actual genre
+                    ]
+                ]
+            ];
+
+            // Add poster and widescreen images
             $production->posterImages = [["url" => $movie->posterImages[0]['url']]];
             $production->widescreenImages = [["url" => $movie->widescreenImages[0]['url']]];
 
-            // Add release date (fix for the error)
+            // Add release date with valid countryId
             $production->releases = [
                 [
                     "type" => "Unknown",
                     "date" => $movie->releaseDate,
-                    "countryId" => $movie->countryId ?? 'USA'  // Ensure valid ISO country code
+                    "countryId" => 'usa'  // Fixed countryId
                 ]
             ];
 
-            // Add duration (fix for the warning)
+            // Add duration
             $production->duration = $movie->duration;
 
-            $production->contentRatings = [
-                [
-                    "ratingBody" => "MPAA", // Replace with the valid rating body, e.g., MPAA, US TV, etc.
-                    "rating" => vizioRatingSearch($row['rrating']), // Retrieve rating based on the 'rrating' field
-                    "isExplicit" => false // You can adjust this based on whether the content is explicit
-                ]
-            ];
-
+            // Add content ratings
+            $production->contentRatings = $movie->contentRatings;
 
             $feed->contentFeed->productions[] = $production;
         }
@@ -239,8 +236,6 @@ if (empty($output)) {
     // Availability Feed
     $feed->availabilityFeed = new stdClass();
     $feed->availabilityFeed->sourceId = $feed->configurationFeed->source->id;
-    $feed->availabilityFeed->onDemandOfferings = $movie->onDemandOfferings ?? [];  // Add on-demand offerings if available
-
 
     // Cache the generated output
     $output = json_encode($feed, JSON_PRETTY_PRINT);
