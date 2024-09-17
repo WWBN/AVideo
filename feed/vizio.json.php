@@ -184,7 +184,7 @@ if (empty($output)) {
     $feed->configurationFeed->deeplinkTemplates = [
         [
             "id" => "1",
-            "template" => "http://partner.com/[id]",
+            "template" => "https://flixhouse.com/video/[id]",
             "tokenDefinitions" => [
                 [
                     "token" => "id",
