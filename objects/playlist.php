@@ -626,7 +626,7 @@ class PlayList extends ObjectYPT
                     $cacheHandlerVideo = new PlayListCacheHandler($playlists_id);
                     $suffixVideo = "Video{$row['id']}";
                     if (empty($forceRecreateCache)) {
-                        $cacheObjVideo = $cacheHandler->getCache($suffixVideo, 0);
+                        $cacheObjVideo = $cacheHandlerVideo->getCache($suffixVideo, 0);
                     } else {
                         $cacheHandlerVideo->setSuffix($suffixVideo);
                     }
