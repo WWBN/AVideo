@@ -13,43 +13,6 @@ function saveShowOnTV(playlists_id, showOnTV) {
     });
 }
 
-var _loadPL_timeout = [];
-async function loadPL(videos_id, crc) {
-    var uniqid = videos_id + crc;
-    clearTimeout(_loadPL_timeout[uniqid]);
-    if (typeof $('#addBtn' + uniqid).webuiPopover !== 'function' || typeof loadPlayLists !== 'function') {
-        _loadPL_timeout[uniqid] = setTimeout(function () {
-            loadPL(videos_id, crc);
-        }, 1000);
-    } else {
-        loadPlayLists(videos_id, crc);
-        $('#addBtn' + uniqid).webuiPopover();
-        $('#addPlayList' + uniqid).click(function () {
-            modal.showPleaseWait();
-            $.ajax({
-                url: webSiteRootURL + 'objects/playlistAddNew.json.php',
-                method: 'POST',
-                data: {
-                    'videos_id': videos_id,
-                    'status': $('#publicPlayList' + uniqid).is(":checked") ? "public" : "private",
-                    'name': $('#playListName' + uniqid).val()
-                },
-                success: function (response) {
-                    if (response.status > 0) {
-                        playList = [];
-                        reloadPlayLists();
-                        loadPlayLists(videos_id, crc);
-                        $('#playListName' + uniqid).val("");
-                        $('#publicPlayList' + uniqid).prop('checked', true);
-                    }
-                    modal.hidePleaseWait();
-                }
-            });
-            return false;
-        });
-    }
-}
-
 var playListsAdding = false;
 var playListsReloading = false;
 var playList = [];
@@ -58,13 +21,13 @@ var isReloadPlayListButtonsExecuting = false;  // Flag for reloadPlayListButtons
 let loadPlayListsResponseObject = { timestamp: 0, response: false };
 
 // Unified function to handle both reload and load scenarios
-async function handlePlayLists(videos_id = null, crc = null, clearCache = 0) {
+async function handlePlayLists(videos_id = null, clearCache = 0) {
     if ((playListsReloading || isReloadPlayListsExecuting) && !videos_id) {
         return false;
     }
 
-    // Check if we should update the cache (if 5 seconds have passed or cache is cleared)
-    const shouldUpdateCache = loadPlayListsResponseObject.timestamp + 2500 < Date.now() || clearCache;
+    // Check if we should update the cache (if 1 second have passed or cache is cleared)
+    const shouldUpdateCache = loadPlayListsResponseObject.timestamp + 1000 < Date.now() || clearCache;
 
     // Set execution flags
     isReloadPlayListsExecuting = true;
@@ -75,6 +38,8 @@ async function handlePlayLists(videos_id = null, crc = null, clearCache = 0) {
         if (shouldUpdateCache) {
             loadPlayListsResponseObject.timestamp = Date.now();
             loadPlayListsResponseObject.response = await fetchPlayLists(clearCache);
+        }else{
+            console.log('handlePlayLists not update yet');
         }
 
         // If no videos_id, assume we're reloading the playlists (e.g., from reloadPlayLists)
@@ -83,7 +48,7 @@ async function handlePlayLists(videos_id = null, crc = null, clearCache = 0) {
             reloadPlayListButtons();
         } else {
             // Handle loading playlists for a specific video
-            loadPlayListsResponse(loadPlayListsResponseObject.response, videos_id, crc);
+            loadPlayListsResponse(videos_id);
         }
     } catch (error) {
         console.error('Error handling playlists', error);
@@ -97,7 +62,9 @@ async function handlePlayLists(videos_id = null, crc = null, clearCache = 0) {
 }
 
 // Unified function to handle AJAX request to playlists endpoint
-var fetchPlayListsRows = [];
+var fetchPlayListsRows = null;
+var fetchVideosPlaylistsIds = null;
+var fetchVideosPlaylists = null;
 var fetchPlayListsPromise = null; // Variable to store the current Promise
 
 async function fetchPlayLists(clearCache = 0) {
@@ -123,9 +90,12 @@ async function fetchPlayLists(clearCache = 0) {
         // Start a new request and store the Promise
         console.log('fetchPlayLists starting a new AJAX request');
         fetchPlayListsPromise = $.ajax({
-            url: webSiteRootURL + 'objects/playlists.json.php?clearPlaylistCache=' + clearCache,
+            url: webSiteRootURL + 'objects/playlists.json.php?clearPlaylistCache=' + (empty(clearCache)?0:1),
             success: function (response) {
                 fetchPlayListsRows = response.rows;
+                fetchVideosPlaylistsIds = response.videosPlaylistsIds;
+                fetchVideosPlaylists = response.videosPlaylists;            
+                console.log('fetchPlayLists success' ,response, fetchPlayListsRows);
                 syncPlaylistWithFetchedPlayLists();
                 resolve(fetchPlayListsRows);
             },
@@ -139,17 +109,15 @@ async function fetchPlayLists(clearCache = 0) {
     });
 }
 
-
 // reloadPlayLists function utilizing the unified fetchPlayLists
 async function reloadPlayLists(clearCache = 0) {
     handlePlayLists(null, null, clearCache);
 }
 
 // loadPlayLists function utilizing the unified fetchPlayLists
-async function loadPlayLists(videos_id, crc) {
-    handlePlayLists(videos_id, crc);
+async function loadPlayLists(videos_id) {
+    handlePlayLists(videos_id);
 }
-
 
 function reloadPlayListButtons() {
     if (isReloadPlayListButtonsExecuting) {
@@ -172,25 +140,25 @@ function reloadPlayListButtons() {
     isReloadPlayListButtonsExecuting = false;
 }
 
-var isSyncing = false; // Flag to track if the function is already running
-var syncDelay = 1000;  // Minimum delay of 5 seconds between calls
-var chunkSize = 20;     // Number of playlists to process per chunk (adjust as needed)
+var isSyncingPlaylists = false; // Flag to track if the function is already running
+var syncDelay = 1000;  // Minimum delay between calls
 
 async function syncPlaylistWithFetchedPlayLists() {
-    if (isSyncing) {
+    if (isSyncingPlaylists) {
         console.log('syncPlaylistWithFetchedPlayLists is already running. Skipping this call.');
         return;
     }
 
-    if (empty(fetchPlayListsRows)) {
-        console.log('syncPlaylistWithFetchedPlayLists empty fetchPlayListsRows');
+    isSyncingPlaylists = true; // Set the flag to indicate the function is running
+
+    if (fetchPlayListsRows === null || empty(fetchPlayListsRows)) {
+        console.log('syncPlaylistWithFetchedPlayLists fetchPlayListsRows is empty or null');
         setTimeout(() => {
-            syncPlaylistWithFetchedPlayLists(); // Try again after 1 second
-        }, 1000);
+            isSyncingPlaylists = false;
+            syncPlaylistWithFetchedPlayLists(); // Try again after a short delay
+        }, syncDelay);
         return;
     }
-
-    isSyncing = true; // Set the flag to indicate the function is running
 
     // Initial UI updates
     $('.loadingPLBtn').hide();
@@ -201,62 +169,100 @@ async function syncPlaylistWithFetchedPlayLists() {
     console.trace("syncPlaylistWithFetchedPlayLists backtrace:", fetchPlayListsRows);
 
     let playlists = fetchPlayListsRows;
-    let totalPlaylists = playlists.length;
-    let currentIndex = 0;
     let totalVideos = 0;
 
-    function processPlaylists() {
-        // Start timing the chunk processing
-        let chunkStartTime = performance.now();
+    let startTime = performance.now();
 
-        let start = currentIndex;
-        let end = Math.min(currentIndex + chunkSize, totalPlaylists);
+    // Process all playlists and videos in one go
+    playlists.forEach(playlist => {
+        if (typeof playlist === 'object' && typeof playlist.videos === 'object') {
+            playlist.videos.forEach(video => {
+                if (!empty(video)) {
+                    totalVideos++;
+                    setPlaylistStatus(video.id, true, playlist.id, playlist.status);
+                }
+            });
+        }
+    });
 
-        for (let x = start; x < end; x++) {
-            let playlist = playlists[x];
-            if (typeof playlist === 'object' && typeof playlist.videos === 'object') {
-                let videos = playlist.videos;
-                for (let y in videos) {
-                    let video = videos[y];
-                    if (!empty(video)) {
-                        totalVideos++;
-                        setPlaylistStatus(video.id, true, playlist.id, playlist.status);
-                    }
+    let endTime = performance.now();
+    let duration = (endTime - startTime) / 1000; // Convert to seconds
+
+    console.log(`syncPlaylistWithFetchedPlayLists processed ${totalVideos} videos in ${duration.toFixed(2)} seconds.`);
+
+    // Reset the flag after the delay
+    setTimeout(() => {
+        isSyncingPlaylists = false;
+    }, syncDelay);
+}
+
+var isSyncingPlaylistsVideos = false;
+async function syncPlaylistWithFetchedVideos() {
+    if (isSyncingPlaylistsVideos) {
+        console.log('syncPlaylistWithFetchedVideos is already running. Skipping this call.');
+        return;
+    }
+
+    if (fetchVideosPlaylists === null) {
+        console.log('syncPlaylistWithFetchedVideos fetchPlayListsRows is null');
+        fetchPlayLists();
+        setTimeout(() => {
+            syncPlaylistWithFetchedVideos(); // Try again after 1 second
+        }, 1000);
+    }
+
+    if (empty(fetchVideosPlaylists)) {
+        console.log('syncPlaylistWithFetchedVideos empty fetchPlayListsRows');
+        setTimeout(() => {
+            syncPlaylistWithFetchedVideos(); // Try again after 1 second
+        }, 1000);
+        return;
+    }
+
+    isSyncingPlaylistsVideos = true; // Set the flag to indicate the function is running
+
+    //console.trace("syncPlaylistWithFetchedVideos backtrace:", fetchVideosPlaylistsIds);
+
+    for (const videos_id in fetchVideosPlaylistsIds) {
+        if (Object.prototype.hasOwnProperty.call(fetchVideosPlaylistsIds, videos_id)) {
+            const playlists_ids = fetchVideosPlaylistsIds[videos_id];
+            $('.playListsVideosIds' + videos_id).prop("checked", false);
+
+            for (const index in playlists_ids) {
+                if (Object.prototype.hasOwnProperty.call(playlists_ids, index)) {
+                    const playlists_id = playlists_ids[index];
+                    //console.log('syncPlaylistWithFetchedVideos', videos_id, playlists_id);
+                    setPlaylistStatus(videos_id, true, playlists_id);
                 }
             }
         }
-
-        currentIndex = end;
-
-        // End timing the chunk processing
-        let chunkEndTime = performance.now();
-        let chunkDuration = (chunkEndTime - chunkStartTime) / 1000; // Convert milliseconds to seconds
-        console.log(`syncPlaylistWithFetchedPlayLists Chunk processed in ${chunkDuration.toFixed(2)} seconds.`);
-
-        if (currentIndex < totalPlaylists) {
-            console.log(`syncPlaylistWithFetchedPlayLists next processPlaylists total videos=${totalVideos}`);
-            // Schedule the next chunk after a short delay
-            setTimeout(processPlaylists, 10);
-        } else {
-            console.log(`syncPlaylistWithFetchedPlayLists done total videos=${totalVideos}`);
-            // All playlists have been processed
-            setTimeout(() => {
-                isSyncing = false; // Reset the flag after the delay
-            }, syncDelay);
-        }
     }
 
-    // Start processing playlists
-    processPlaylists();
+    setTimeout(() => {
+        isSyncingPlaylistsVideos = false; // Reset the flag after the delay
+    }, syncDelay);
+
 }
 
+async function loadPlayListsResponse(videos_id) {
+
+    if(fetchVideosPlaylists === null || typeof fetchVideosPlaylists == 'undefined'){
+        console.log('loadPlayListsResponse fetchVideosPlaylists empty');
+        setTimeout(() => {
+            loadPlayListsResponse(videos_id); // Try again after 1 second
+        }, 1000);
+        return false;
+    }
 
 
-async function loadPlayListsResponse(response, videos_id, crc) {
+
+    var response = fetchPlayListsRows;
+
     //console.log('loadPlayListsResponse');
-    //console.log(response, videos_id, crc);
+    console.log('loadPlayListsResponse', videos_id, response);
+    //syncPlaylistWithFetchedVideos();
 
-    $('.searchlist' + videos_id + crc).html('');
+    $('.searchlist' + videos_id).html('');
     for (var i in response) {
         if (!response[i].id) {
             continue;
@@ -270,7 +276,7 @@ async function loadPlayListsResponse(response, videos_id, crc) {
         } else if (response[i].status == "favorite") {
             icon = "fas fa-heart"
         }
-        var checked = "";
+        var checked = "";        
         for (var x in response[i].videos) {
             if (typeof (response[i].videos[x]) === 'object' && response[i].videos[x].videos_id == videos_id) {
                 checked = "checked";
@@ -287,11 +293,11 @@ async function loadPlayListsResponse(response, videos_id, crc) {
         itemsArray.videos_id = videos_id;
         itemsArray.randId = randId;
 
-        $(".searchlist" + videos_id + crc).append(arrayToTemplate(itemsArray, listGroupItemTemplate));
+        $(".searchlist" + videos_id).append(arrayToTemplate(itemsArray, listGroupItemTemplate));
 
 
     }
-    $('.searchlist' + videos_id + crc).btsListFilter('#searchinput' + videos_id + crc, { itemChild: '.nameSearch', initial: false });
+    $('.searchlist' + videos_id).btsListFilter('#searchinput' + videos_id, { itemChild: '.nameSearch', initial: false });
     $('.playListsVideosIds' + videos_id).change(function () {
         if (playListsAdding) {
             return false;
@@ -316,7 +322,7 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
             'playlists_id': playlists_id
         },
         success: function (response) {
-
+            fetchPlayLists(1);
             if (response.error) {
                 var msg = __('Error on playlist');
                 if (!empty(response.msg)) {
@@ -325,9 +331,10 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
                 avideoAlertError(msg);
             } else {
                 console.log('addVideoToPlayList success', response);
-                setPlaylistStatus(response.videos_id, response.add, playlists_id, response.type, true);
+                setTimeout(function () {
+                    setPlaylistStatus(response.videos_id, response.add, playlists_id, response.type, true);
+                }, 100);
             }
-            reloadPlayLists(1);
 
             modal.hidePleaseWait();
             setTimeout(function () {
@@ -338,7 +345,12 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
 }
 
 function setPlaylistStatus(videos_id, add, playlists_id = 0, type = '', toast = false) {
-
+    if(typeof videos_id == 'undefined'){
+        return false;
+    }
+    if(toast){
+        console.log('setPlaylistStatus', videos_id, add, playlists_id, type, toast);
+    }
     if (type == 'favorite') {
         if (add) {
             $('.favoriteBtn' + videos_id).hide();
@@ -369,11 +381,13 @@ function setPlaylistStatus(videos_id, add, playlists_id = 0, type = '', toast = 
         }
     }
 
-    $(".playListsIds_" + playlists_id + '_videos_id_' + videos_id).prop("checked", add);
+    var selector = ".playListsIds_" + playlists_id + '_videos_id_' + videos_id;
+
+    $(selector).prop("checked", add);
 }
 
 $(function () {
     if (empty(mediaId)) {
-        reloadPlayLists();
+        fetchPlayLists(0);
     }
 });
