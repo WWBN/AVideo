@@ -110,7 +110,7 @@ export function removeClass(element: Element, ...classesToRemove: string[]): Ele
 /**
  * The callback definition for toggleClass.
  *
- * @callback module:dom~PredicateCallback
+ * @callback PredicateCallback
  * @param    {Element} element
  *           The DOM element of the Component.
  *
@@ -119,8 +119,9 @@ export function removeClass(element: Element, ...classesToRemove: string[]): Ele
  *
  * @return   {boolean|undefined}
  *           If `true` is returned, the `classToToggle` will be added to the
- *           `element`. If `false`, the `classToToggle` will be removed from
- *           the `element`. If `undefined`, the callback will be ignored.
+ *           `element`, but not removed. If `false`, the `classToToggle` will be removed from
+ *           the `element`, but not added. If `undefined`, the callback will be ignored.
+ *
  */
 /**
  * Adds or removes a class name to/from an element depending on an optional
@@ -132,13 +133,13 @@ export function removeClass(element: Element, ...classesToRemove: string[]): Ele
  * @param  {string} classToToggle
  *         The class that should be toggled.
  *
- * @param  {boolean|module:dom~PredicateCallback} [predicate]
+ * @param  {boolean|PredicateCallback} [predicate]
  *         See the return value for {@link module:dom~PredicateCallback}
  *
  * @return {Element}
  *         The element with a class that has been toggled.
  */
-export function toggleClass(element: Element, classToToggle: string, predicate: any): Element;
+export function toggleClass(element: Element, classToToggle: string, predicate?: boolean | PredicateCallback): Element;
 /**
  * Apply attributes to an HTML element.
  *
@@ -429,9 +430,22 @@ export const $: Function;
  */
 export const $$: Function;
 /**
- * :dom~PredicateCallback
+ * The callback definition for toggleClass.
  */
-export type module = (element: Element, classToToggle: string) => boolean | undefined;
+export type PredicateCallback = (element: Element, classToToggle: string) => boolean | undefined;
+/**
+ * :dom~Position
+ */
+export type module = {
+    /**
+     *           Pixels to the left.
+     */
+    left: number;
+    /**
+     *           Pixels from the top.
+     */
+    top: number;
+};
 /**
  * This is a mixed value that describes content to be injected into the DOM
  * via some method. It can be of the following types:
