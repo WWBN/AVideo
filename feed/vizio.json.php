@@ -181,7 +181,21 @@ if (empty($output)) {
         ]
     ];
 
-    $feed->configurationFeed->deeplinkTemplates = [];
+    $feed->configurationFeed->deeplinkTemplates = [
+        /*
+        [
+            "id" => "1",
+            "template" => "http://partner.com/[id]",
+            "tokenDefinitions" => [
+                [
+                    "token" => "id",
+                    "path" => "$.AvailabilityFeed.OnDemandOfferings.CustomAttributes.Id"
+                ]
+            ],
+            "action" => 0
+        ]
+        */
+    ];
 
     // Content Feed (productions)
     $feed->contentFeed = new stdClass();
@@ -249,9 +263,11 @@ if (empty($output)) {
     $feed->availabilityFeed = new stdClass();
     $feed->availabilityFeed->sourceId = $feed->configurationFeed->source->id;
     $feed->availabilityFeed->onDemandOfferings = [
+        /*
         "appId" => [
             $global['VizioAppID']
         ],
+        */
     ];
 
     // Cache the generated output
