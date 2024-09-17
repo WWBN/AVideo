@@ -11,6 +11,7 @@ header('Content-Type: application/json');
 _session_write_close();
 //mysqlBeginTransaction();
 //var_dump($row);exit;
+setRowCount(10000);
 $obj = new stdClass();
 $obj->error = false;
 $obj->msg = '';
