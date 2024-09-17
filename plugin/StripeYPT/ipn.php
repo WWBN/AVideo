@@ -98,6 +98,17 @@ try {
     _error_log("Stripe IPN Invalid signature: ".$e->getMessage());
     http_response_code(400); // PHP 5.4 or greater
     exit();
+} catch (\Exception $e) {
+    // Catch any standard error
+    _error_log("Stripe IPN General Exception: " . $e->getMessage());
+    $ipnFIle = "{$global['systemRootPath']}plugin/DiskUploadQuota/Subscription/Stripe/ipn.php";
+    if(file_exists($ipnFIle)){
+        _error_log("Stripe IPN: try DiskUploadQuota" );
+        require_once $ipnFIle ;
+    }else{
+        http_response_code(500); // General server error
+    }
+    exit();
 }
 
 if ($event->type == "payment_intent.succeeded") {
