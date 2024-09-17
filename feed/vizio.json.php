@@ -200,6 +200,11 @@ if (empty($output)) {
     $feed->contentFeed->sourceId = $feed->configurationFeed->source->id;
     $feed->contentFeed->productions = [];
 
+    // Availability Feed
+    $feed->availabilityFeed = new stdClass();
+    $feed->availabilityFeed->sourceId = $feed->configurationFeed->source->id;
+    $feed->availabilityFeed->onDemandOfferings = [];
+
     foreach ($rows as $row) {
         $movie = rowToVizioSearch($row);
         if (!empty($movie)) {
@@ -254,27 +259,29 @@ if (empty($output)) {
             $production->contentRatings = $movie->contentRatings;
 
             $feed->contentFeed->productions[] = $production;
+
+            $feed->availabilityFeed->onDemandOfferings[] = [
+                "production" => [
+                    "id" => $movie->id,
+                    "scope" => "Movie"
+                ],
+                "appId" => [
+                    $global['VizioAppID']
+                ],
+                "templateId" => "1",
+                "resolutions" => [
+                    "HD 720P"
+                ],
+                "color" => "Standard",
+                "id" => "offeringmovie{$movie->id}",
+                "payStructure" => "Ad-supported",
+                "customAttributes" => [
+                    "id" => $row['id']
+                ]
+            ];
         }
     }
 
-    // Availability Feed
-    $feed->availabilityFeed = new stdClass();
-    $feed->availabilityFeed->sourceId = $feed->configurationFeed->source->id;
-    $feed->availabilityFeed->onDemandOfferings = [[
-        "appId" => [
-            $global['VizioAppID']
-        ],
-        "templateId" => "1",
-        "resolutions" => [
-            "HD 720P"
-        ],
-        "color" => "Standard",
-        "id" => "offeringmovie1",
-        "payStructure" => "Ad-supported",
-        "customAttributes" => [
-            "id" => "Movie1"
-        ]
-    ]];
 
     // Cache the generated output
     $output = json_encode($feed, JSON_PRETTY_PRINT);
