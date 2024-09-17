@@ -1,4 +1,31 @@
 <?php
+
+function getVizioImagePoster($videos_id)
+{
+    global $global;
+    $images = Video::getImageFromID($videos_id);
+    $imagePath = $images->posterPortraitPath;
+    $destinationImage = str_replace(".jpg", "_vizioPoster.jpg", $imagePath);
+    if (ImagesPlaceHolders::isDefaultImage($imagePath) || convertImageIfNotExists($imagePath, $destinationImage, 960, 1440, true)) {
+        $relativePath = str_replace($global['systemRootPath'], '', $destinationImage);
+        return getURL($relativePath);
+    }
+    return ImagesPlaceHolders::getVideoPlaceholderPortrait(ImagesPlaceHolders::$RETURN_URL);
+}
+
+function getVizioImageWide($videos_id)
+{
+    global $global;
+    $images = Video::getImageFromID($videos_id);
+    $imagePath = $images->posterLandscapePath;
+    $destinationImage = str_replace(".jpg", "_vizioWide.jpg", $imagePath);
+    if (ImagesPlaceHolders::isDefaultImage($imagePath) || convertImageIfNotExists($imagePath, $destinationImage, 848, 477, true)) {
+        $relativePath = str_replace($global['systemRootPath'], '', $destinationImage);
+        return getURL($relativePath);
+    }
+    return ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
+}
+
 function vizioRatingSearch($avideoRating)
 {
     switch (strtolower($avideoRating)) {
@@ -79,9 +106,11 @@ function rowToVizioSearch($row)
         ]
     ];
 
-    $image = Video::getRokuImage($row['id']);
-    $posterImages = addQueryStringParameter($image, 'unique', uniqid());
-    $widescreenImages = addQueryStringParameter($image, 'unique', uniqid());
+    $posterImages = getVizioImagePoster($row['id']);
+    $posterImages = addQueryStringParameter($posterImages, 'videos_id', $row['id']);
+
+    $widescreenImages = getVizioImageWide($row['id']);
+    $widescreenImages = addQueryStringParameter($widescreenImages, 'videos_id', $row['id']);
 
     // Poster and widescreen images
     $movie->posterImages = [
