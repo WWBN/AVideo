@@ -1,4 +1,23 @@
 <?php
+function vizioRatingSearch($avideoRating)
+{
+    switch (strtolower($avideoRating)) {
+        case 'g':
+            return 'G';
+        case 'pg':
+            return 'PG';
+        case 'pg-13':
+            return 'PG13';
+        case 'r':
+            return 'R';
+        case 'nc-17':
+            return 'NC17';
+        case 'ma':
+            return 'UR';
+        default:
+            return 'G';
+    }
+}
 
 function rowToVizioSearch($row)
 {
@@ -55,7 +74,7 @@ function rowToVizioSearch($row)
         [
             "id" => "rating_id",
             "ratingBody" => "MPAA",
-            "rating" => !empty($row['rrating']) ? rokuRatingSearch($row['rrating']) : 'TV-G',
+            "rating" => !empty($row['rrating']) ? vizioRatingSearch($row['rrating']) : 'TV-G',
             "isExplicit" => false
         ]
     ];
