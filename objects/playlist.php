@@ -631,7 +631,7 @@ class PlayList extends ObjectYPT
                         $cacheHandlerVideo->setSuffix($suffixVideo);
                     }
                     if (!empty($cacheObjVideo)) {
-                        $r = object_to_array($cacheObj);
+                        $r = object_to_array($cacheObjVideo);
                         if(!empty($r)){
                             $rows[] = $r;
                             continue;
