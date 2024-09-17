@@ -142,6 +142,8 @@ if (empty($output)) {
     $feed->configurationFeed->source = new stdClass();
     $feed->configurationFeed->source->id = $global['VizioSourceID'];
     $feed->configurationFeed->source->name = $title;
+    $feed->configurationFeed->apps = $global['VizioApps'] ?? [];  // Ensure apps are included if required
+
 
     // Content Feed (productions)
     $feed->contentFeed = new stdClass();
@@ -153,7 +155,12 @@ if (empty($output)) {
         if (!empty($movie)) {
             $production = new stdClass();
             $production->id = $movie->id;
-            $production->externalIds = [["id" => $movie->externalIds[0]->id, "idType" => $movie->externalIds[0]->idType]];
+            $production->externalIds = [
+                [
+                    "id" => $movie->externalIds[0]->id ?? 'default_id',
+                    "idType" => $movie->externalIds[0]->idType ?? 'Source'  // Make sure there's a default value
+                ]
+            ];
             $production->productionType = "Movie";
             $production->primaryTitle = [
                 "localizedStrings" => [
@@ -167,7 +174,7 @@ if (empty($output)) {
             ];
 
             // Add genres, ratings, and images
-            $production->genres = $movie->genres;
+            $production->genres = $movie->genres ?? ['unknown'];
             $production->posterImages = [["url" => $movie->posterImages[0]['url']]];
             $production->widescreenImages = [["url" => $movie->widescreenImages[0]['url']]];
 
@@ -176,12 +183,21 @@ if (empty($output)) {
                 [
                     "type" => "Unknown",
                     "date" => $movie->releaseDate,
-                    "countryId" => "usa"
+                    "countryId" => $movie->countryId ?? 'USA'  // Ensure valid ISO country code
                 ]
             ];
 
             // Add duration (fix for the warning)
             $production->duration = $movie->duration;
+
+            $production->contentRatings = [
+                [
+                    "ratingBody" => "MPAA", // Replace with the valid rating body, e.g., MPAA, US TV, etc.
+                    "rating" => vizioRatingSearch($row['rrating']), // Retrieve rating based on the 'rrating' field
+                    "isExplicit" => false // You can adjust this based on whether the content is explicit
+                ]
+            ];
+
 
             $feed->contentFeed->productions[] = $production;
         }
@@ -190,6 +206,8 @@ if (empty($output)) {
     // Availability Feed
     $feed->availabilityFeed = new stdClass();
     $feed->availabilityFeed->sourceId = $feed->configurationFeed->source->id;
+    $feed->availabilityFeed->onDemandOfferings = $movie->onDemandOfferings ?? [];  // Add on-demand offerings if available
+
 
     // Cache the generated output
     $output = json_encode($feed, JSON_PRETTY_PRINT);
