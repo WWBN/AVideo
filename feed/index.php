@@ -95,6 +95,8 @@ if (!empty($_REQUEST['roku'])) {
     include $global['systemRootPath'] . 'feed/roku.json.php';
 } elseif (!empty($_REQUEST['rokuSearch'])) {
     include $global['systemRootPath'] . 'feed/roku.search.json.php';
+} elseif (!empty($_REQUEST['vizio'])) {
+    include $global['systemRootPath'] . 'feed/vizio.json.php';
 } elseif (empty($_REQUEST['mrss'])) {
     include $global['systemRootPath'] . 'feed/rss.php';
 } else {
