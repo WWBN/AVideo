@@ -101,9 +101,9 @@ try {
 } catch (\Exception $e) {
     // Catch any standard error
     _error_log("Stripe IPN General Exception: " . $e->getMessage());
-    $ipnFIle = "{$global['systemRootPath']}plugin/DiskUploadQuota/Subscription/Stripe/ipn.php";
     if(file_exists($ipnFIle)){
         _error_log("Stripe IPN: try DiskUploadQuota" );
+        $ipnFIle = "{$global['systemRootPath']}plugin/DiskUploadQuota/Subscription/Stripe/ipn.php";
         require_once $ipnFIle ;
     }else{
         http_response_code(500); // General server error

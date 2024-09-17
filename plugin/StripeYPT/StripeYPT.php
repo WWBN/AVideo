@@ -524,7 +524,7 @@ class StripeYPT extends PluginAbstract
 
         _error_log("setUpSubscription: parameters " . json_encode($parameters));
         $Subscription = \Stripe\Subscription::create($parameters);
-        
+
         StripeYPT::updateSubscriptionMetadata($Subscription->id, $subMetadata);
         _error_log("setUpSubscription: result " . json_encode($Subscription));
         return $Subscription;
@@ -542,7 +542,8 @@ class StripeYPT extends PluginAbstract
             _error_log('updateCustomerMetadata: ' . json_encode($metadata));
             self::_start();
             return \Stripe\Customer::update(
-                $stripe_costumer_id,['metadata'=>$metadata]
+                $stripe_costumer_id,
+                ['metadata' => $metadata]
             );
         } catch (\Stripe\Exception\InvalidRequestException $e) {
             _error_log('updateCustomerMetadata: Error updating customer: ' . $e->getMessage());
@@ -567,7 +568,7 @@ class StripeYPT extends PluginAbstract
             self::_start();
             return \Stripe\Subscription::update(
                 $stripe_subscription_id,
-                ['metadata'=>$metadata]
+                ['metadata' => $metadata]
             );
         } catch (\Stripe\Exception\InvalidRequestException $e) {
             _error_log('updateSubscriptionMetadata: Error updating customer: ' . $e->getMessage());
@@ -597,6 +598,7 @@ class StripeYPT extends PluginAbstract
 
     function processSubscriptionIPN($payload)
     {
+        global $global;
         if (!is_object($payload) || empty($payload->data->object->customer)) {
             _error_log("processSubscriptionIPN: ERROR", AVideoLog::$ERROR);
             return false;
@@ -609,10 +611,16 @@ class StripeYPT extends PluginAbstract
             return false;
         }
         $payment_amount = self::getAmountPaidFromPayload($payload);
-        if (!class_exists('Subscription')) {
-            _error_log("processSubscriptionIPN: ERROR Subscription not found " . json_encode(array($payload, $metadata)), AVideoLog::$WARNING);
-            if (!empty($metadata['users_id'])) {
-                $pluginS->addBalance($metadata['users_id'], $payment_amount, "Stripe recurrent (no plan detected): " . $payload->data->object->description, json_encode($payload));
+        if (!AVideoPlugin::isEnabledByName('Subscription') || !class_exists('Subscription')) {
+            if (!AVideoPlugin::isEnabledByName('DiskUploadQuota') || !class_exists('DiskUploadQuota')) {
+                _error_log("processSubscriptionIPN: ERROR Subscription not found " . json_encode(array($payload, $metadata)), AVideoLog::$WARNING);
+                if (!empty($metadata['users_id'])) {
+                    $pluginS->addBalance($metadata['users_id'], $payment_amount, "Stripe recurrent (no plan detected): " . $payload->data->object->description, json_encode($payload));
+                }
+            } else {                
+                $ipnFIle = "{$global['systemRootPath']}plugin/DiskUploadQuota/Subscription/Stripe/ipn.php";
+                require_once $ipnFIle ;
+                exit;
             }
         } else {
             $plan = Subscription::getOrCreateStripeSubscription($metadata['users_id'], $metadata['plans_id'], $payload->data->object->customer);
@@ -657,7 +665,7 @@ class StripeYPT extends PluginAbstract
                 return array("users_id" => $value->users_id, "plans_id" => $value->plans_id);
             }
         }
-        if(!empty($payload->users_id)){
+        if (!empty($payload->users_id)) {
             return array("users_id" => $payload->users_id, "plans_id" => @$payload->plans_id);
         }
         return false;
@@ -684,33 +692,33 @@ class StripeYPT extends PluginAbstract
     {
         return $payload->data->object->customer;
     }
-    
+
     static function getMetadataOrFromSubscription($payload)
     {
         $obj = self::getMetadata($payload);
         if (empty($obj) || empty($obj['plans_id'])) {
             _error_log('getMetadataOrFromSubscription not found, try from subscription ID');
             $subscription_id = self::getSubscriptionId($payload);
-            if(!empty($subscription_id)){
+            if (!empty($subscription_id)) {
                 _error_log('getMetadataOrFromSubscription subscription_id found ' . $subscription_id);
                 $subscription = self::retrieveSubscriptions($subscription_id);
                 if (!empty($subscription)) {
                     $obj = self::getMetadata($subscription->metadata);
                 }
-            }else{
+            } else {
                 _error_log('getMetadataOrFromSubscription subscription_id NOT found ');
             }
         }
         if (empty($obj)) {
             _error_log('getMetadataOrFromSubscription not found, try from customer ID');
             $customer_id = self::getCustomerId($payload);
-            
+
             $c = \Stripe\Customer::retrieve($customer_id);
-            
+
             if (!empty($c)) {
-                _error_log("getMetadataOrFromSubscription Customer::retrieve [$customer_id] => ". json_encode($c->metadata));
+                _error_log("getMetadataOrFromSubscription Customer::retrieve [$customer_id] => " . json_encode($c->metadata));
                 $obj = self::getMetadata($c->metadata);
-                _error_log("getMetadataOrFromSubscription Customer::retrieve done ". json_encode($obj));
+                _error_log("getMetadataOrFromSubscription Customer::retrieve done " . json_encode($obj));
             }
         }
         return $obj;
@@ -743,7 +751,7 @@ class StripeYPT extends PluginAbstract
         if (!empty($users_id)) {
             _error_log("Stripe processSinglePaymentIPN users_id={$users_id} payment_amount={$payment_amount} {$payload->data->object->description}");
             $pluginS->addBalance($users_id, $payment_amount, "Stripe single payment: " . $payload->data->object->description, json_encode($payload));
-        }else{
+        } else {
             _error_log("Stripe processSinglePaymentIPN users_id is empty payment_amount={$payment_amount}");
         }
     }
