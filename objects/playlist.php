@@ -632,7 +632,7 @@ class PlayList extends ObjectYPT
                     }
                     if (!empty($cacheObjVideo)) {
                         $r = object_to_array($cacheObjVideo);
-                        if(!empty($r)){
+                        if(!empty($r) && !empty($r['id'])){
                             $rows[] = $r;
                             continue;
                         }
