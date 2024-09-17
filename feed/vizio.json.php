@@ -181,17 +181,7 @@ if (empty($output)) {
         ]
     ];
 
-    $feed->configurationFeed->deeplinkTemplates = [[
-        "id" => "1",
-        "template" => "http://partner.com/[id]",
-        "tokenDefinitions" => [
-            [
-                "token" => "id",
-                "path" => "$.AvailabilityFeed.OnDemandOfferings.CustomAttributes.Id"
-            ]
-        ],
-        "action" => 0
-    ]];
+    $feed->configurationFeed->deeplinkTemplates = [];
 
     // Content Feed (productions)
     $feed->contentFeed = new stdClass();
