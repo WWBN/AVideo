@@ -171,6 +171,16 @@ if (empty($output)) {
         ]
     ];
 
+    $feed->configurationFeed->countries = [
+        [
+            'id' => 'usa',
+            'isoCode' => 'USA',
+            'isoType' => 'ISO 3166-1 alpha-3',
+        ]
+    ];
+
+    $feed->configurationFeed->deeplinkTemplates = [];
+
     // Content Feed (productions)
     $feed->contentFeed = new stdClass();
     $feed->contentFeed->sourceId = $feed->configurationFeed->source->id;
