@@ -631,8 +631,11 @@ class PlayList extends ObjectYPT
                         $cacheHandlerVideo->setSuffix($suffixVideo);
                     }
                     if (!empty($cacheObjVideo)) {
-                        $rows[] = object_to_array($cacheObj);
-                        continue;
+                        $r = object_to_array($cacheObj);
+                        if(!empty($r)){
+                            $rows[] = $r;
+                            continue;
+                        }
                     }
                     $row = cleanUpRowFromDatabase($row);
                     $timeName2 = TimeLogStart("getVideosFromPlaylist foreach {$row['id']} {$row['filename']}");
