@@ -6602,7 +6602,7 @@ if (!class_exists('Video')) {
             return str_replace($search, $replace, $templateContent);
         }
 
-        public static function generatePlaylistButtons($videos_id, $buttonClass = 'btn btn-dark btn-xs', $style = 'background-color: #11111199;', $isVertical = true)
+        public static function generatePlaylistButtons($videos_id, $buttonClass = 'btn btn-dark btn-xs', $style = '', $isVertical = true)
         {
             if (empty($videos_id) || !User::isLogged()) {
                 return '';
