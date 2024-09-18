@@ -8,7 +8,7 @@ if (!User::canUpload()) {
 $videos_id = getVideos_id();
 
 $_page = new Page(array('Upload Video'));
-$_page->setExtraStyles(array('view/css/DataTables/datatables.min.css', 'view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css', 'view/css/social.css'));
+$_page->setExtraStyles(array('view/css/DataTables/datatables.min.css', 'view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css', 'view/css/social.css', 'plugin/Gallery/style.css'));
 $_page->setExtraScripts(array('view/css/DataTables/datatables.min.js', 'plugin/SocialMediaPublisher/script.js'));
 
 $video = new Video('', '', $videos_id);

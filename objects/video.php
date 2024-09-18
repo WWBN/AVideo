@@ -6657,7 +6657,7 @@ if (!class_exists('Video')) {
                 <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . '); return false;" class="' . $buttonClass . ' favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="' . $placement . '" title=' . printJSString("Favorite", true) . ' style="' . $style .  $favoriteBtnStyle . $layoutStyle . ' display: none;">
                     <i class="fas fa-heart faa-pulse faa-fast"></i>
                 </button>';
-            $buttonsHTML .= '<script>$(function () {reloadPlayLists();});</script>';
+            $buttonsHTML .= '<script>$(function () {callFunctionOrLoadScript(\'reloadPlayLists\', webSiteRootURL + \'plugin/PlayLists/script.js\');});</script>';
             return $buttonsHTML;
         }
 

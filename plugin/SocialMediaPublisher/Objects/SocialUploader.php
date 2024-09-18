@@ -31,7 +31,8 @@ class SocialUploader
                     $json = json_decode($pub->getJson());
                     $urn = $json->{'restream.ypt.me'}->linkedin->urn;
                     $id = $json->{'restream.ypt.me'}->linkedin->profile_id;
-                    return SocialUploader::uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $visibility, $isShort);
+                    $upload = SocialUploader::uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $visibility, $isShort);
+                    return $upload;
                     break;
             }
         } catch (\Throwable $th) {
@@ -52,9 +53,30 @@ class SocialUploader
         return false;
     }
 
-    private static function uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $visibility = 'public', $isShort = false)
+    private static function uploadLinkedIn($accessToken, $authorUrn, $id, $videoPath, $title, $description, $visibility = 'PUBLIC', $isShort = false)
     {
-        return LinkedInUploader::upload($accessToken, $urn, $id, $videoPath, $title, $description);
+        // Step 1: Upload the video
+        $uploadResult = LinkedInUploader::upload($accessToken, $authorUrn, $id, $videoPath, $title, $description);
+
+        // Step 2: Check for errors in the upload result
+        if ($uploadResult['error']) {
+            $uploadResult['msg'][] = 'Video upload failed';
+            return  $uploadResult;
+        }
+        $videoUrn = $uploadResult['videoURN'];
+        // Step 4: Publish the video
+        $publishResult = LinkedInUploader::publishVideo($accessToken, $authorUrn, $videoUrn, $title, $description, $visibility, $isShort);
+        $uploadResult['publishResult'] = $publishResult;
+        // Step 5: Check for errors in the publish result
+        if ($publishResult['error']) {
+            $uploadResult['error'] = true;
+            $uploadResult['msg'][] = 'Video publish failed: ' . $publishResult['message'];
+            $uploadResult['msg'][] = json_encode($publishResult['response']);
+        } else {
+            $uploadResult['msg'][] = 'Video published successfully!';
+        }
+
+        return  $uploadResult;
     }
     private static function uploadYouTube($accessToken, $videoPath, $title, $description, $visibility = 'public', $isShort = false)
     {
@@ -343,7 +365,7 @@ class FacebookUploader
 
 class LinkedInUploader
 {
-    //version number in the format YYYYMM
+    // Version number in the format YYYYMM
     const versionNumber = '202404';
 
     static function extractRangeFromFile($videoPath, $firstByte, $lastByte)
@@ -351,6 +373,7 @@ class LinkedInUploader
         // Open the video file
         $fileHandle = fopen($videoPath, 'rb');
         if (!$fileHandle) {
+            _error_log("Failed to open video file: $videoPath");
             return false; // Failed to open file
         }
 
@@ -369,6 +392,7 @@ class LinkedInUploader
         // Create a temporary file to store the range content
         $tmpFilePath = tempnam(sys_get_temp_dir(), 'video_range_');
         if (!$tmpFilePath) {
+            _error_log("Failed to create temporary file for video range.");
             return false; // Failed to create temporary file
         }
 
@@ -379,73 +403,113 @@ class LinkedInUploader
         return $tmpFilePath;
     }
 
-
-
     static function upload($accessToken, $urn, $id, $videoPath, $title, $description)
     {
         $return = [
             'error' => true,
-            'msg' => '',
+            'msg' => [],
             'initResponse' => null,
-            'uploadResponse' => null,
+            'uploadResponse' => [],
             'finalizeResponse' => null
         ];
 
         $fileSizeBytes = filesize($videoPath);
+        _error_log("LinkedInUploader: File size in bytes: $fileSizeBytes");
 
         // Initialize upload session
-        $initResponse = LinkedInUploader::initializeLinkedInUploadSession($accessToken, $urn, $fileSizeBytes);
+        $initResponse = self::initializeLinkedInUploadSession($accessToken, $urn, $fileSizeBytes);
         $return['initResponse'] = $initResponse;
-        // Check if the initialization was successful
-        if (isset($initResponse) && isset($initResponse['value']) && !empty($initResponse['value']['uploadInstructions'])) {
-            $return['uploadResponse'] = array();
-            $return['msg'] = array();
-            $return['uploadedPartIds'] = array();
 
-            foreach ($initResponse['value']['uploadInstructions'] as $key => $value) {
+        // Log the initial response
+        _error_log("LinkedInUploader: Initialize Upload Session Response:\n" . print_r($initResponse, true));
 
-                $tmpFile = self::extractRangeFromFile($videoPath, $value['firstByte'], $value['lastByte']);
-                $uploadResponse = LinkedInUploader::uploadVideoToLinkedIn($value['uploadUrl'], $tmpFile);
-                //var_dump($value['firstByte'], $value['lastByte'], $tmpFile, $uploadResponse);
-                $return['uploadResponse'][] = $uploadResponse;
-                if (isset($uploadResponse['error']) && $uploadResponse['error']) {
-                    $return['msg'][] = "Error uploading video httpcode:" . $uploadResponse['httpcode'];
-                }
-            }
-            if (!empty($return['uploadResponse'])) {
-                $errorFound = false;
-                foreach ($return['uploadResponse'] as $key => $value) {
-                    if ($value['error']) {
-                        $errorFound = true;
-                        $return['uploadedPartIds'] = array();
-                        break;
-                    } else {
-                        $return['uploadedPartIds'][] = $value['etag'];
-                    }
-                }
-                $return['error'] = $errorFound;
-            }
-            if (!empty($return['uploadedPartIds'])) {
-                $return['finalizeResponse'] = LinkedInUploader::finalizeLinkedInUploadSession($accessToken, $initResponse['value']['video'], $return['uploadedPartIds']);
-            }
-        } else {
-            $return['msg'][] = "Failed to initialize upload session";
+        if ($initResponse['error']) {
+            $return['msg'][] = "Failed to initialize upload session: " . $initResponse['message'];
+            _error_log("LinkedInUploader: Error initializing upload session: " . $initResponse['message']);
+            return $return;
         }
 
+        if (empty($initResponse['response']['value']['uploadInstructions'])) {
+            $return['msg'][] = "No upload instructions received.";
+            _error_log("LinkedInUploader: No upload instructions in initResponse.");
+            return $return;
+        }
+
+        // Extract uploadToken and videoURN
+        $uploadToken = $initResponse['response']['value']['uploadToken'];
+        $videoURN = $initResponse['response']['value']['video'];
+
+        // Log the uploadToken and videoURN
+        _error_log("LinkedInUploader: Upload Token: $uploadToken");
+        _error_log("LinkedInUploader: Video URN: $videoURN");
+
+        $uploadInstructions = $initResponse['response']['value']['uploadInstructions'];
+
+        $uploadedPartIds = [];
+        foreach ($uploadInstructions as $instruction) {
+            _error_log("LinkedInUploader: Uploading part: " . print_r($instruction, true));
+            $tmpFile = self::extractRangeFromFile($videoPath, $instruction['firstByte'], $instruction['lastByte']);
+
+            if (!$tmpFile) {
+                $return['msg'][] = "Failed to extract range from file.";
+                _error_log("LinkedInUploader: Failed to extract range from file.");
+                return $return;
+            }
+
+            $uploadResponse = self::uploadVideoToLinkedIn($instruction['uploadUrl'], $tmpFile);
+            $return['uploadResponse'][] = $uploadResponse;
+
+            // Log the upload response
+            _error_log("LinkedInUploader: Upload Response:\n" . print_r($uploadResponse, true));
+
+            if ($uploadResponse['error']) {
+                $return['msg'][] = "Error uploading video part: " . $uploadResponse['msg'];
+                _error_log("LinkedInUploader: Error uploading video part: " . $uploadResponse['msg']);
+                return $return; // Exit on first upload error
+            } else {
+                $uploadedPartIds[] = $uploadResponse['etag'];
+            }
+
+            // Remove temporary file
+            unlink($tmpFile);
+        }
+
+        $return['uploadedPartIds'] = $uploadedPartIds;
+        $return['videoURN'] = $videoURN;
+
+        // Log the uploadedPartIds
+        _error_log("LinkedInUploader: Uploaded Part IDs:\n" . print_r($uploadedPartIds, true));
+
+        // Finalize upload session with uploadToken
+        $finalizeResponse = self::finalizeLinkedInUploadSession($accessToken, $videoURN, $uploadToken, $uploadedPartIds);
+        $return['finalizeResponse'] = $finalizeResponse;
+
+        // Log the finalize response
+        _error_log("LinkedInUploader: Finalize Upload Session Response:\n" . print_r($finalizeResponse, true));
+
+        if ($finalizeResponse['error']) {
+            $return['msg'][] = "Failed to finalize upload session: " . $finalizeResponse['message'];
+            _error_log("LinkedInUploader: Error finalizing upload session: " . $finalizeResponse['message']);
+        } else {
+            $return['error'] = false;
+        }
 
         return $return;
     }
 
-    static function finalizeLinkedInUploadSession($accessToken, $videoURN, $uploadedPartIds)
+    static function finalizeLinkedInUploadSession($accessToken, $videoURN, $uploadToken, $uploadedPartIds)
     {
         $url = "https://api.linkedin.com/rest/videos?action=finalizeUpload";
         $data = json_encode([
             "finalizeUploadRequest" => [
                 "video" => $videoURN,
-                "uploadToken" => '',
+                "uploadToken" => $uploadToken,
                 "uploadedPartIds" => $uploadedPartIds
             ]
         ]);
+
+        // Log the request data
+        _error_log("Finalize Upload Session Request Data:\n" . $data);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -453,29 +517,46 @@ class LinkedInUploader
             "Content-Type: application/json",
             "Authorization: Bearer {$accessToken}",
             "X-RestLi-Protocol-Version: 2.0.0",
-            "LinkedIn-Version: " . LinkedInUploader::versionNumber
+            "LinkedIn-Version: " . self::versionNumber
         ]);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Get HTTP response code
+
+        // Log the raw response
+        _error_log("Finalize Upload Session Raw Response:\n" . $response);
+
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        _error_log("Finalize Upload Session HTTP Code: $httpCode");
 
         if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
             curl_close($ch);
-            return ['error' => true, 'message' => curl_error($ch)];
+            _error_log("cURL error in finalizeLinkedInUploadSession: $error_msg");
+            return ['error' => true, 'message' => $error_msg];
         }
         curl_close($ch);
 
+        // Parse the response
+        $responseArray = json_decode($response, true);
+
+        // Log the parsed response
+        _error_log("Finalize Upload Session Parsed Response:\n" . print_r($responseArray, true));
+
         // Check if HTTP status code is 200
         if ($httpCode === 200) {
-            return ['error' => false, 'response' => object_to_array(_json_decode($response, true))];
+            return ['error' => false, 'response' => $responseArray];
         } else {
-            return ['error' => true, 'message' => 'HTTP error code: ' . $httpCode];
+            _error_log("Finalize upload session failed with HTTP code: $httpCode");
+            return [
+                'error' => true,
+                'message' => 'HTTP error code: ' . $httpCode,
+                'response' => $responseArray
+            ];
         }
     }
-
 
     static function initializeLinkedInUploadSession($accessToken, $urn, $fileSizeBytes)
     {
@@ -489,44 +570,167 @@ class LinkedInUploader
             ]
         ]);
 
+        // Log the request data
+        _error_log("Initialize Upload Session Request Data:\n" . $data);
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Content-Type: application/json",
             "Authorization: Bearer {$accessToken}",
             "X-RestLi-Protocol-Version: 2.0.0",
-            "LinkedIn-Version: " . LinkedInUploader::versionNumber
+            "LinkedIn-Version: " . self::versionNumber
         ]);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+
+        // Log the raw response
+        _error_log("Initialize Upload Session Raw Response:\n" . $response);
+
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        _error_log("Initialize Upload Session HTTP Code: $httpCode");
+
         if (curl_errno($ch)) {
-            return ['error' => true, 'message' => curl_error($ch)];
+            $error_msg = curl_error($ch);
+            curl_close($ch);
+            _error_log("cURL error in initializeLinkedInUploadSession: $error_msg");
+            return ['error' => true, 'message' => $error_msg];
         }
         curl_close($ch);
 
-        return object_to_array(_json_decode($response, true));
+        // Parse the response
+        $responseArray = json_decode($response, true);
+
+        // Log the parsed response
+        _error_log("Initialize Upload Session Parsed Response:\n" . print_r($responseArray, true));
+
+        // Check if HTTP status code is 200
+        if ($httpCode === 200) {
+            return ['error' => false, 'response' => $responseArray];
+        } else {
+            _error_log("Initialize upload session failed with HTTP code: $httpCode");
+            return [
+                'error' => true,
+                'message' => 'HTTP error code: ' . $httpCode,
+                'response' => $responseArray
+            ];
+        }
     }
 
     static function uploadVideoToLinkedIn($uploadUrl, $filePath)
     {
-
         $shellCmd = 'curl -v -H "Content-Type:application/octet-stream" --upload-file "' .
             $filePath . '" "' .
             $uploadUrl . '" 2>&1';
-        //var_dump( $shellCmd);
+
+        // Log the shell command
+        _error_log("Upload Video Shell Command:\n" . $shellCmd);
+
         exec($shellCmd, $o);
+
+        // Log the output
+        _error_log("Upload Video Command Output:\n" . implode("\n", $o));
+
         $matches = [];
-        preg_match('/(etag:)(\s?)(.*)(\n)/', implode("\n", $o), $matches);
-        $etag = $matches[3];
+        preg_match('/(etag:)(\s?)(.*)(\n)/i', implode("\n", $o), $matches);
+        $etag = isset($matches[3]) ? trim($matches[3]) : null;
+
+        // Log the extracted ETag
+        _error_log("Extracted ETag: $etag");
+
         return [
             'uploadUrl' => $uploadUrl,
             'error' => empty($etag),
-            'msg' => empty($etag) ? '' : 'File uploaded successfully.',
+            'msg' => empty($etag) ? 'Failed to upload part.' : 'File uploaded successfully.',
             'etag' => $etag,
             'header' => implode(PHP_EOL, $o)
         ];
+    }
+
+    /*
+    Visibility restrictions on content. Type of MemberNetworkVisibility which has the values of:
+    CONNECTIONS - Represents 1st degree network of owner.
+    PUBLIC - Anyone can view this.
+    LOGGED_IN - Viewable by logged in members only.
+    CONTAINER - Visibility is delegated to the owner of the container entity. For example, posts within a group are delegated to the groups authorization API for visibility authorization.
+    */
+    static function publishVideo($accessToken, $authorUrn, $videoUrn, $title, $description, $visibility = 'PUBLIC', $isShort = false)
+    {
+        $url = "https://api.linkedin.com/rest/posts";
+
+        $data = [
+            "author" => $authorUrn,
+            "commentary" => $description,
+            "visibility" => "PUBLIC",
+            "distribution" => [
+                "feedDistribution" => "MAIN_FEED",
+                "targetEntities" => [],
+                "thirdPartyDistributionChannels" => []
+            ],
+            "content" => [
+                "media" => [
+                    "title" => $title,
+                    "id" => $videoUrn
+                ]
+            ],
+            "lifecycleState" => "PUBLISHED",
+            "isReshareDisabledByAuthor" => false
+        ];
+
+        $dataString = json_encode($data);
+
+        // Log the request data
+        _error_log("Publish Video Request Data:\n" . $dataString);
+
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer {$accessToken}",
+            "Content-Type: application/json",
+            "LinkedIn-Version: " . self::versionNumber,
+            "X-RestLi-Protocol-Version: 2.0.0"
+        ]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+
+        // Log the raw response
+        _error_log("Publish Video Raw Response:\n" . $response);
+
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Get HTTP response code
+        _error_log("Publish Video HTTP Code: $httpCode");
+
+        if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
+            curl_close($ch);
+            _error_log("cURL error in publishVideo: $error_msg");
+            return ['error' => true, 'message' => $error_msg];
+        }
+
+        curl_close($ch);
+
+        // Parse the response
+        $responseArray = json_decode($response, true);
+
+        // Log the parsed response
+        _error_log("Publish Video Parsed Response:\n" . print_r($responseArray, true));
+
+        // Check if HTTP status code is 201 (Created)
+        if ($httpCode === 201) {
+            return ['error' => false,'httpCode' => $httpCode, 'response' => $responseArray];
+        } else {
+            _error_log("Publish video failed with HTTP code: $httpCode");
+            return [
+                'error' => true,
+                'message' => 'HTTP error code: ' . $httpCode,
+                'httpCode' => $httpCode,
+                'response' => $responseArray
+            ];
+        }
     }
 }
