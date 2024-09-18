@@ -545,4 +545,17 @@ class LiveLinks extends PluginAbstract {
         return array('path'=>$path, 'url'=>$url, 'relative'=>$relative, 'exists'=>$exists, 'showURL'=>$showURL);
     }
 
+    static function isLiveLinkDateValid($livelinks_id){
+        $liveLink = new LiveLinksTable($livelinks_id);
+        $startDate = convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getStart_date());
+        if(strtotime($startDate) > time()){
+            return false;
+        }
+        $endDate = convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getEnd_date());
+        if(strtotime($endDate) < time()){
+            return false;
+        }
+        return true;
+    }
+
 }
