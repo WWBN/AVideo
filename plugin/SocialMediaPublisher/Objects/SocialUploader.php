@@ -547,11 +547,16 @@ class LinkedInUploader
 
         // Check if HTTP status code is 200
         if ($httpCode === 200) {
-            return ['error' => false, 'response' => $responseArray];
+            return [
+                'error' => false,
+                'httpCode' => $httpCode,
+                'response' => $responseArray
+            ];
         } else {
             _error_log("Finalize upload session failed with HTTP code: $httpCode");
             return [
                 'error' => true,
+                'httpCode' => $httpCode,
                 'message' => 'HTTP error code: ' . $httpCode,
                 'response' => $responseArray
             ];
@@ -687,6 +692,7 @@ class LinkedInUploader
 
         $ch = curl_init($url);
 
+        // Collect headers and response
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer {$accessToken}",
             "Content-Type: application/json",
@@ -696,11 +702,18 @@ class LinkedInUploader
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true); // Get headers and response body
 
         $response = curl_exec($ch);
 
-        // Log the raw response
-        _error_log("Publish Video Raw Response:\n" . $response);
+        // Separate headers and body
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headers = substr($response, 0, $header_size); // Extract headers
+        $body = substr($response, $header_size); // Extract response body
+
+        // Log headers and body separately
+        _error_log("Publish Video Headers:\n" . $headers);
+        _error_log("Publish Video Body:\n" . $body);
 
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Get HTTP response code
         _error_log("Publish Video HTTP Code: $httpCode");
@@ -714,21 +727,36 @@ class LinkedInUploader
 
         curl_close($ch);
 
-        // Parse the response
-        $responseArray = json_decode($response, true);
+        // Parse the headers to find x-restli-id
+        $xRestLiId = null;
+        if (preg_match('/x-restli-id: (.*)\r/', $headers, $matches)) {
+            $xRestLiId = trim($matches[1]); // Get x-restli-id from headers
+        }
+
+        // Log the x-restli-id
+        _error_log("x-restli-id: " . $xRestLiId);
+
+        // Parse the response body
+        $responseArray = json_decode($body, true);
 
         // Log the parsed response
         _error_log("Publish Video Parsed Response:\n" . print_r($responseArray, true));
 
         // Check if HTTP status code is 201 (Created)
         if ($httpCode === 201) {
-            return ['error' => false,'httpCode' => $httpCode, 'response' => $responseArray];
+            return [
+                'error' => false,
+                'httpCode' => $httpCode,
+                'xRestLiId' => $xRestLiId,
+                'response' => $responseArray
+            ];
         } else {
             _error_log("Publish video failed with HTTP code: $httpCode");
             return [
                 'error' => true,
                 'message' => 'HTTP error code: ' . $httpCode,
                 'httpCode' => $httpCode,
+                'xRestLiId' => $xRestLiId,
                 'response' => $responseArray
             ];
         }

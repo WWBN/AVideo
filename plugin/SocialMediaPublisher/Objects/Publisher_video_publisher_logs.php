@@ -218,6 +218,12 @@ class Publisher_video_publisher_logs extends ObjectYPT
                         $msg[] = "<a href='{$link}' target='_blank'>{$link}</a>";
                     }
                     break;
+                case SocialMediaPublisher::SOCIAL_TYPE_LINKEDIN["name"]:
+                    if (!empty($row['json']->response->publishResult) && !empty($row['json']->response->publishResult->xRestLiId)) {
+                        $link = "https://www.linkedin.com/feed/update/" . $row['json']->response->publishResult->xRestLiId;
+                        $msg[] = "<a href='{$link}' target='_blank'>{$link}</a>";
+                    }
+                    break;
             }
             $row['msg'] = implode('<br>', $msg);
         }
