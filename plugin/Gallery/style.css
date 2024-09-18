@@ -197,6 +197,14 @@ a.h6.galleryLink > strong{
     width: 25px;
     height: 25px;
 } 
+
+.galleryVideoButtons div.dropdown.text-center.open > ul button {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    margin: auto;
+    padding: 5px 10px;
+}
 .galleryVideo:hover  .galleryVideoButtons,
 .thumbsImageContainer:hover  .galleryVideoButtons,
 .galleryVideo:active  .galleryVideoButtons,

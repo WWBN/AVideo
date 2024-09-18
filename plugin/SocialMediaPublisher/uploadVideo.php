@@ -24,6 +24,7 @@ if (empty($videos_id)) {
     .social-network .btn {
         margin: 20px 0;
     }
+
 </style>
 <div class="container-fluid">
     <div class="panel panel-default ">
