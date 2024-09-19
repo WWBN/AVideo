@@ -14,14 +14,9 @@ if (!User::isAdmin()) {
         <div class="panel-heading">
             <i class="fas fa-link"></i> <?php echo __("Configure your Ads"); ?>
             <div class="pull-right" style="width: 200px;">
-                <div class="material-switch ">
-                    <?php echo __("Enable Ads Plugin"); ?> &nbsp;&nbsp;&nbsp;
-                    <input name="enable1" id="enable1" type="checkbox" value="0" class="pluginSwitch" <?php
-                                                                                                        if (is_object($plugin)) {
-                                                                                                            echo " checked='checked' ";
-                                                                                                        }
-                                                                                                        ?> />
-                    <label for="enable1" class="label-success"></label>
+                <?php echo __("Enable Ads Plugin"); ?> &nbsp;&nbsp;&nbsp;
+                <div class="pull-right">
+                    <?php echo AVideoPlugin::getSwitchButton("AD_Server"); ?>
                 </div>
             </div>
         </div>
@@ -295,22 +290,6 @@ if (!User::isAdmin()) {
                     text: 'Campaigns'
                 }
             }
-        });
-        $(".pluginSwitch").on("change", function(e) {
-            modal.showPleaseWait();
-            $.ajax({
-                url: webSiteRootURL + 'objects/pluginSwitch.json.php',
-                data: {
-                    "uuid": "3f2a707f-3c06-4b78-90f9-a22f2fda92ef",
-                    "name": "AD_Server",
-                    "dir": "AD_Server",
-                    "enable": $('#enable1').is(":checked")
-                },
-                type: 'post',
-                success: function(response) {
-                    modal.hidePleaseWait();
-                }
-            });
         });
 
         $("#inputVideo").autocomplete({
