@@ -43,7 +43,7 @@
                 {
                     label: 'Free',
                     data: [(freeSpace / (1024 * 1024 * 1024)).toFixed(2)],
-                    backgroundColor: '#36A2EB33'
+                    backgroundColor: '#36A2EB22'
                 }
             ]
         };
