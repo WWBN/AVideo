@@ -118,7 +118,7 @@ function cleanupDownloadsDirectory($resolution = 720)
             $fsize = filesize($filePath);
 
             // Check if it's a file and does not match the resolution pattern (e.g., '480_.mp4')
-            $pattern = '/' . $resolution . '_\.mp4$/';
+            $pattern = '/' . $resolution . '_.mp4$/';
             if (is_file($filePath) && (preg_match($pattern, $entry) || empty($fsize))) {
                 // Attempt to delete the file
                 if (unlink($filePath)) {
