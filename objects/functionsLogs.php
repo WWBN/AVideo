@@ -89,7 +89,7 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
     if (!is_string($message)) {
         $message = json_encode($message);
     }
-    if (isSchedulerRun()) {
+    if (isSchedulerRun() || !empty($global['printLogs'])) {
         echo $message . PHP_EOL;
         return false;
     }
