@@ -29,20 +29,21 @@
         // Stacked Bar Chart Data
         var stackedBarChartData = {
             labels: [''], // Empty label to remove 'Disk Usage' text
-            datasets: [{
-                    label: 'Free',
-                    data: [(freeSpace / (1024 * 1024 * 1024)).toFixed(2)],
-                    backgroundColor: '#36A2EB'
-                },
+            datasets: [
                 {
-                    label: 'Used',
+                    label: 'System',
                     data: [(actualUsedSpace / (1024 * 1024 * 1024)).toFixed(2)],
-                    backgroundColor: '#FF6384'
+                    backgroundColor: '#BBAA22AA'
                 },
                 {
                     label: 'Videos',
                     data: [(directoryUsage / (1024 * 1024 * 1024)).toFixed(2)],
-                    backgroundColor: '#FFCE56'
+                    backgroundColor: '#FFCE56AA'
+                },
+                {
+                    label: 'Free',
+                    data: [(freeSpace / (1024 * 1024 * 1024)).toFixed(2)],
+                    backgroundColor: '#36A2EBAA'
                 }
             ]
         };
