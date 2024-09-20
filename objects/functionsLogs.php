@@ -85,7 +85,7 @@ function _error_log_debug($message, $show_args = false)
 
 function _error_log($message, $type = 0, $doNotRepeat = false)
 {
-
+    global $global;
     if (!is_string($message)) {
         $message = json_encode($message);
     }
@@ -100,7 +100,6 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
     if ($doNotRepeat) {
         return false;
     }
-    global $global;
     if (isCommandLineInterface() && empty($global['doNotPrintLogs'])) {
         //echo '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;
     }
