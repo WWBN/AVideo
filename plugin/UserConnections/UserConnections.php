@@ -223,10 +223,10 @@ class UserConnections extends PluginAbstract
     public static function getConnectionButtons($users_id)
     {
         if (!User::isLogged()) {
-            return '';
+            return "<!-- getConnectionButtons($users_id) not logged -->";
         }
         if ($users_id == User::getId()) {
-            return '';
+            return "<!-- getConnectionButtons($users_id) this is your users IO -->";
         }
 
         $status = UserConnections::getMyConnectionStatus($users_id);

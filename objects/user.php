@@ -3219,7 +3219,7 @@ if (typeof gtag !== \"function\") {
         if (!$canBlock->result) {
             return "<!-- {$canBlock->msg} -->";
         }
-        return ReportVideo::actionButtonBlockUser($users_id);
+        return "<!-- getActionBlockUserButton($users_id) -->".ReportVideo::actionButtonBlockUser($users_id);
     }
 
     public static function userCanBlockUser($users_id, $ignoreIfIsAlreadyBLocked = false)
@@ -3555,9 +3555,16 @@ if (typeof gtag !== \"function\") {
                     ?>
                 </div>
             </div>
-            <div class="panel-footer channelsFooter" style="font-size: 0.8em">
-                <div class=" text-muted">
+            <div class="panel-footer channelsFooter clearfix" style="font-size: 0.8em">
+                <div class=" text-muted pull-left">
                     <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($users_id)), " ", __("Views in the last 30 days"); ?>
+                </div>
+                <div class="pull-right">
+                    <?php
+                    if(class_exists('UserConnections')){
+                        echo UserConnections::getConnectionButtons($users_id); 
+                    } 
+                    ?>
                 </div>
             </div>
         </div>

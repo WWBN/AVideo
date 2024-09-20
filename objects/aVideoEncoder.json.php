@@ -27,6 +27,8 @@ allowOrigin();
 $global['bypassSameDomainCheck'] = 1;
 if (empty($_REQUEST)) {
     $obj->msg = ("Your POST data is empty, maybe your video file is too big for the host");
+    $obj->SERVER_ADDR = $_SERVER['SERVER_ADDR'];
+    $obj->dir = __DIR__;
     _error_log($obj->msg);
     die(json_encode($obj));
 }
