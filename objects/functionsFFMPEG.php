@@ -126,7 +126,7 @@ function cleanupDownloadsDirectory($resolution = 720)
                     _error_log("cleanupDownloadsDirectory: Failed to delete file: {$filePath}");
                 }
             }else{
-                _error_log("cleanupDownloadsDirectory:do not delete: {$filePath} ".humanFileSize($fsize));
+                _error_log("cleanupDownloadsDirectory:do not delete [$entry]: {$filePath} ".humanFileSize($fsize).' '.json_encode(array(is_file($filePath), preg_match('/' . $resolution . '_\.mp4$/', $entry),  empty($fsize))));
             }
         }
         // Close the directory handle
