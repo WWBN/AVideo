@@ -33,17 +33,17 @@
                 {
                     label: 'System',
                     data: [(actualUsedSpace / (1024 * 1024 * 1024)).toFixed(2)],
-                    backgroundColor: '#BBAA22AA'
+                    backgroundColor: '#36A2EB99'
                 },
                 {
                     label: 'Videos',
                     data: [(directoryUsage / (1024 * 1024 * 1024)).toFixed(2)],
-                    backgroundColor: '#FFCE56AA'
+                    backgroundColor: '#36A2EBAA'
                 },
                 {
                     label: 'Free',
                     data: [(freeSpace / (1024 * 1024 * 1024)).toFixed(2)],
-                    backgroundColor: '#36A2EBAA'
+                    backgroundColor: '#36A2EB55'
                 }
             ]
         };
