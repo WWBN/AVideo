@@ -113,19 +113,20 @@ function cleanupDownloadsDirectory($resolution = 720)
             }
 
             // Full path of the current file/directory
-            $filePath = $directory . '/' . $entry;
+            $filePath = $directory . $entry;
+
+            $fsize = filesize($filePath);
 
             // Check if it's a file and does not match the resolution pattern (e.g., '480_.mp4')
-            if (is_file($filePath) && (preg_match('/' . $resolution . '_\.mp4$/', $entry) || empty(filesize($filePath)))) {
+            if (is_file($filePath) && (preg_match('/' . $resolution . '_\.mp4$/', $entry) || empty($fsize))) {
                 // Attempt to delete the file
-
                 if (unlink($filePath)) {
                     _error_log("cleanupDownloadsDirectory: Deleted file: {$filePath}");
                 } else {
                     _error_log("cleanupDownloadsDirectory: Failed to delete file: {$filePath}");
                 }
             }else{
-                _error_log("cleanupDownloadsDirectory:do not delete: {$filePath}");
+                _error_log("cleanupDownloadsDirectory:do not delete: {$filePath} ".humanFileSize($fsize));
             }
         }
         // Close the directory handle
