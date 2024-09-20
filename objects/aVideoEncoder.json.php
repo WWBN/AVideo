@@ -67,7 +67,7 @@ _error_log("aVideoEncoder.json: start to receive: " . json_encode($_REQUEST));
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", @$_REQUEST['videos_id'], true);
 
-if (!empty($video->getId()) && !empty($_REQUEST['first_request']) && !empty($_REQUEST['downloadURL'])) {    
+if (!empty($video->getId()) && !empty($_REQUEST['first_request']) && !empty($_REQUEST['downloadURL'])) {
     $obj->lines[] = __LINE__;
     _error_log("aVideoEncoder.json: There is a new video to replace the existing one, we will delete the current files videos_id = " . $video->getId());
     $video->removeVideoFiles();
@@ -142,7 +142,11 @@ if (!empty($_FILES)) {
         if (empty($_FILES['video']['tmp_name'])) {
             $obj->lines[] = __LINE__;
             _error_log("aVideoEncoder.json: ********  Download ERROR " . $_REQUEST['downloadURL']);
+        } else {
+            $obj->lines[] = __LINE__;
         }
+    } else {
+        $obj->lines[] = __LINE__;
     }
 }
 
@@ -162,10 +166,10 @@ if (!empty($_FILES['video']['error'])) {
     if (!empty($_REQUEST['downloadURL'])) {
         $obj->lines[] = __LINE__;
         $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_REQUEST['downloadURL']);
-    }else{
+    } else {
         $obj->lines[] = __LINE__;
     }
-}else{
+} else {
     $obj->lines[] = __LINE__;
 }
 $_REQUEST['chunkFile'] = str_replace('../', '', $_REQUEST['chunkFile']);
