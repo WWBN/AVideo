@@ -38,7 +38,7 @@ async function handlePlayLists(videos_id = null, clearCache = 0) {
         if (shouldUpdateCache) {
             loadPlayListsResponseObject.timestamp = Date.now();
             loadPlayListsResponseObject.response = await fetchPlayLists(clearCache);
-        }else{
+        } else {
             console.log('handlePlayLists not update yet');
         }
 
@@ -90,12 +90,12 @@ async function fetchPlayLists(clearCache = 0) {
         // Start a new request and store the Promise
         console.log('fetchPlayLists starting a new AJAX request');
         fetchPlayListsPromise = $.ajax({
-            url: webSiteRootURL + 'objects/playlists.json.php?clearPlaylistCache=' + (empty(clearCache)?0:1),
+            url: webSiteRootURL + 'objects/playlists.json.php?clearPlaylistCache=' + (empty(clearCache) ? 0 : 1),
             success: function (response) {
                 fetchPlayListsRows = response.rows;
                 fetchVideosPlaylistsIds = response.videosPlaylistsIds;
-                fetchVideosPlaylists = response.videosPlaylists;            
-                console.log('fetchPlayLists success' ,response, fetchPlayListsRows);
+                fetchVideosPlaylists = response.videosPlaylists;
+                console.log('fetchPlayLists success', response, fetchPlayListsRows);
                 syncPlaylistWithFetchedPlayLists();
                 resolve(fetchPlayListsRows);
             },
@@ -246,7 +246,7 @@ async function syncPlaylistWithFetchedVideos() {
 
 async function loadPlayListsResponse(videos_id) {
 
-    if(fetchVideosPlaylists === null || typeof fetchVideosPlaylists == 'undefined'){
+    if (fetchVideosPlaylists === null || typeof fetchVideosPlaylists == 'undefined') {
         console.log('loadPlayListsResponse fetchVideosPlaylists empty');
         setTimeout(() => {
             loadPlayListsResponse(videos_id); // Try again after 1 second
@@ -276,7 +276,7 @@ async function loadPlayListsResponse(videos_id) {
         } else if (response[i].status == "favorite") {
             icon = "fas fa-heart"
         }
-        var checked = "";        
+        var checked = "";
         for (var x in response[i].videos) {
             if (typeof (response[i].videos[x]) === 'object' && response[i].videos[x].videos_id == videos_id) {
                 checked = "checked";
@@ -345,10 +345,10 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
 }
 
 function setPlaylistStatus(videos_id, add, playlists_id = 0, type = '', toast = false) {
-    if(typeof videos_id == 'undefined'){
+    if (typeof videos_id == 'undefined') {
         return false;
     }
-    if(toast){
+    if (toast) {
         console.log('setPlaylistStatus', videos_id, add, playlists_id, type, toast);
     }
     if (type == 'favorite') {
@@ -385,6 +385,46 @@ function setPlaylistStatus(videos_id, add, playlists_id = 0, type = '', toast = 
 
     $(selector).prop("checked", add);
 }
+
+function createNewProgram(playlistName, isPublic, videos_id = 0) {
+
+    // Check if the playlist name is provided
+    if (empty(playlistName)) {
+        avideoAlertError(__('Please provide a title'));
+        return false;
+    }
+
+    modal.showPleaseWait();
+    // AJAX request to create a new playlist
+    $.ajax({
+        url: webSiteRootURL + 'objects/playlistAddNew.json.php',
+        method: 'POST',
+        data: {
+            'status': isPublic ? "public" : 'private',
+            'name': playlistName.trim(), // Use the provided playlist name
+        },
+        success: function (response) {
+            if (response.status > 0) {
+                avideoToastSuccess(playlistName + ' ' + __('saved'));
+                fetchPlayLists(1).then(function () {
+                    $('.playListName').val('');
+                    modal.hidePleaseWait();
+                    if (!empty(videos_id)) {
+                        loadPlayListsResponse(videos_id);
+                        $('.searchlist'+videos_id).scrollTop($('.searchlist'+videos_id)[0].scrollHeight);
+                    }
+                });
+            } else {
+                avideoAlertError(__('Unable to create the program. Please try again'));
+            }
+        },
+        error: function () {
+            avideoAlertError(__('An error occurred. Please try again'));
+        }
+    });
+    return false;
+}
+
 
 $(function () {
     if (empty(mediaId)) {

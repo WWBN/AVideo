@@ -10,7 +10,10 @@ $global['laodPlaylistScript'] = 1;
         <?php echo __("Add to"); ?>
     </a>
     <div class="webui-popover-content">
-        <?php if (User::isLogged()) { ?>
+        <?php
+        if (User::isLogged()) {
+            $uniqId = uniqid();
+        ?>
             <form role="form">
                 <div class="form-group">
                     <input class="form-control" id="searchinput<?php echo $videos_id; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
@@ -19,17 +22,23 @@ $global['laodPlaylistScript'] = 1;
             </form>
             <div>
                 <div class="form-group">
-                    <input id="playListName<?php echo $videos_id; ?>" class="form-control" placeholder="<?php echo __("Create a New"); ?> <?php echo $obj->name; ?>">
+                    <input id="playListName<?php echo $videos_id; ?>_<?php echo $uniqId; ?>" class="form-control playListName" placeholder="<?php echo __("Create a New"); ?> <?php echo $obj->name; ?>">
                 </div>
                 <div class="form-group">
                     <?php echo __("Make it public"); ?>
                     <div class="material-switch pull-right">
-                        <input id="publicPlayList<?php echo $videos_id; ?>" name="publicPlayList" type="checkbox" checked="checked" />
-                        <label for="publicPlayList<?php echo $videos_id; ?>" class="label-success"></label>
+                        <input id="publicPlayList<?php echo $videos_id; ?>_<?php echo $uniqId; ?>" name="publicPlayList" type="checkbox" checked="checked" />
+                        <label for="publicPlayList<?php echo $videos_id; ?>_<?php echo $uniqId; ?>" class="label-success"></label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-success btn-block" id="addPlayList<?php echo $videos_id; ?>"><?php echo __("Create a New"); ?> <?php echo $obj->name; ?></button>
+                    <button
+                        class="btn btn-success btn-block"
+                        type="button"
+                        id="addPlayList<?php echo $videos_id; ?>"
+                        onclick="createNewProgram($('#playListName<?php echo $videos_id; ?>_<?php echo $uniqId; ?>').val(), $('#publicPlayList<?php echo $videos_id; ?>_<?php echo $uniqId; ?>').is(':checked'), <?php echo $videos_id; ?>);return false;">
+                        <?php echo __("Create a New"); ?> <?php echo $obj->name; ?>
+                    </button>
                 </div>
             </div>
         <?php } else { ?>
