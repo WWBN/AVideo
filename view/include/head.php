@@ -53,7 +53,7 @@ foreach ($custom as $key => $value) {
 }
 
 $theme = getCurrentTheme();
-
+$isCurrentThemeDark = isCurrentThemeDark();
 if (empty($config)) {
     $config = new AVideoConf();
 }
@@ -131,6 +131,11 @@ if(!empty($theme)){
     ?>
     <link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
     <?php
+    if($isCurrentThemeDark){
+        ?>
+        <link href="<?php echo getURL('view/css/dark.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
+        <?php
+    }
 }
 if (empty($global['userBootstrapLatest'])) {
     $filename = Video::getStoragePath() . "cache/custom.css";
@@ -170,6 +175,7 @@ if (isRTL()) {
     var my_identification = <?php echo json_encode(User::getNameIdentification()); ?>;
     var mediaId = <?php echo json_encode(getVideos_id()); ?>;
     var player;
+    var isCurrentThemeDark = <?php echo !empty($isCurrentThemeDark)?1:0 ; ?>;
 </script>
 
 <script id="infoForNonCachedPages">

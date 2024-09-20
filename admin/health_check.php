@@ -190,7 +190,7 @@ if (Scheduler::isActive()) {
     $messages['Server'][] = "Scheduler plugin crontab is runing";
 } else {
     $reason = Scheduler::whyIsActive();
-    $messages['Server'][] = ["Scheduler plugin crontab is NOT runing", Scheduler::getCronHelp().'<br>'.$reason];
+    $messages['Server'][] = ["Scheduler plugin crontab is NOT runing", Scheduler::getCronHelp() . '<br>' . $reason];
 }
 
 $ports = json_decode(checkPorts());
@@ -213,7 +213,7 @@ foreach ($ports['ports'] as $key => $value) {
 <div class="panel panel-default" id="healthCheck">
     <div class="panel-heading">
         <?php
-        echo '<h1>' . PHP_OS ;
+        echo '<h1>' . PHP_OS;
         if (isDocker()) {
             echo ' <small>(Docker)</small>';
         }
@@ -221,9 +221,10 @@ foreach ($ports['ports'] as $key => $value) {
         ?>
     </div>
     <div class="panel-body">
-
+        <?php include __DIR__ . '/disk_usage.php'; ?>
+    </div>
+    <div class="panel-footer">
         <div class="row">
-
             <div class="col-lg-8 col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">

@@ -1056,25 +1056,35 @@ function getVideosDirectoryUsageInfo() {
     $realPath = realpath($dir);
 
     // Get disk usage information using 'du' command
-    $command = "du -sh $realPath 2>&1";
-    $usage = shell_exec($command);
+    $command = "du -s $realPath 2>&1"; // Removed 'h' to get the usage in bytes
+    $usageOutput = shell_exec($command);
+    $usageBytes = intval(preg_split('/\s+/', $usageOutput)[0] * 1024); // Convert from KB to bytes
 
     // Get the total space and free space on the partition
     $totalSpace = disk_total_space($realPath);
     $freeSpace = disk_free_space($realPath);
     $usedSpace = $totalSpace - $freeSpace;
+    $usedPercentage = ($usedSpace / $totalSpace) * 100;
 
-    // Format the size values
+    // Format the size values and percentage
     $totalSpaceFormatted = humanFileSize($totalSpace);
     $freeSpaceFormatted = humanFileSize($freeSpace);
     $usedSpaceFormatted = humanFileSize($usedSpace);
+    $usedPercentageFormatted = sprintf('%.2f%%', $usedPercentage);
 
     return [
         'is_symbolic_link' => $isSymbolicLink,
         'real_path' => $realPath,
-        'directory_usage' => trim($usage),
+        'directory_usage' => trim($usageOutput),
+        'directory_bytes_used' => $usageBytes,  // Total bytes used by the directory
+        'total_space_bytes' => $totalSpace,     // Total bytes in the partition
+        'free_space_bytes' => $freeSpace,       // Free bytes in the partition
+        'used_space_bytes' => $usedSpace,       // Used bytes in the partition
+        'directory_used' => humanFileSize($usageBytes),  
         'total_space' => $totalSpaceFormatted,
         'free_space' => $freeSpaceFormatted,
-        'used_space' => $usedSpaceFormatted
+        'used_space' => $usedSpaceFormatted,
+        'used_percentage' => $usedPercentageFormatted,
+        'used_percentage_number' => $usedPercentage
     ];
 }
