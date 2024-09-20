@@ -162,7 +162,11 @@ if (!empty($_FILES['video']['error'])) {
     if (!empty($_REQUEST['downloadURL'])) {
         $obj->lines[] = __LINE__;
         $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_REQUEST['downloadURL']);
+    }else{
+        $obj->lines[] = __LINE__;
     }
+}else{
+    $obj->lines[] = __LINE__;
 }
 $_REQUEST['chunkFile'] = str_replace('../', '', $_REQUEST['chunkFile']);
 if (empty($_FILES['video']['tmp_name']) && isValidURLOrPath($_REQUEST['chunkFile'])) {
