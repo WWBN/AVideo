@@ -1041,3 +1041,40 @@ function fixPath($path, $addLastSlash = false)
     }
     return $path;
 }
+
+function getVideosDirectoryUsageInfo() {
+    $dir = getVideosDir();
+    // Verify if the directory exists
+    if (!file_exists($dir)) {
+        return "Directory does not exist.";
+    }
+
+    // Check if the directory is a symbolic link
+    $isSymbolicLink = is_link($dir);
+
+    // Get the real path of the directory
+    $realPath = realpath($dir);
+
+    // Get disk usage information using 'du' command
+    $command = "du -sh $realPath 2>&1";
+    $usage = shell_exec($command);
+
+    // Get the total space and free space on the partition
+    $totalSpace = disk_total_space($realPath);
+    $freeSpace = disk_free_space($realPath);
+    $usedSpace = $totalSpace - $freeSpace;
+
+    // Format the size values
+    $totalSpaceFormatted = humanFileSize($totalSpace);
+    $freeSpaceFormatted = humanFileSize($freeSpace);
+    $usedSpaceFormatted = humanFileSize($usedSpace);
+
+    return [
+        'is_symbolic_link' => $isSymbolicLink,
+        'real_path' => $realPath,
+        'directory_usage' => trim($usage),
+        'total_space' => $totalSpaceFormatted,
+        'free_space' => $freeSpaceFormatted,
+        'used_space' => $usedSpaceFormatted
+    ];
+}
