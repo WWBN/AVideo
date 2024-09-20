@@ -10,6 +10,7 @@ if (empty($global)) {
 $obj = new stdClass();
 $obj->error = true;
 $obj->lines = array();
+$obj->errorMSG = array();
 
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
@@ -276,9 +277,9 @@ die(json_encode($obj));
 
 function downloadVideoFromDownloadURL($downloadURL)
 {
-    global $global;
+    global $global, $obj;
     $downloadURL = trim($downloadURL);
-    _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
+    __errlog("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($downloadURL);
     $strlen = strlen($file);
     $minLen = 20000;
@@ -286,11 +287,11 @@ function downloadVideoFromDownloadURL($downloadURL)
         $minLen = 5000;
     }
     if ($strlen < $minLen) {
-        _error_log("aVideoEncoder.json: this is not a video " . $downloadURL . " strlen={$strlen} " . humanFileSize($strlen));
+        __errlog("aVideoEncoder.json: this is not a video " . $downloadURL . " strlen={$strlen} " . humanFileSize($strlen));
         //it is not a video
         return false;
     }
-    _error_log("aVideoEncoder.json: Got the download " . $downloadURL . ' ' . humanFileSize($strlen));
+    __errlog("aVideoEncoder.json: Got the download " . $downloadURL . ' ' . humanFileSize($strlen));
     if ($file) {
         $_FILES['video']['name'] = basename($downloadURL);
         //$temp = getTmpDir('zip') . $_FILES['video']['name'];
@@ -299,16 +300,22 @@ function downloadVideoFromDownloadURL($downloadURL)
         $bytesSaved = file_put_contents($temp, $file);
 
         if ($bytesSaved) {
-            _error_log("aVideoEncoder.json: saved " . $temp  . ' ' . humanFileSize($bytesSaved));
+            __errlog("aVideoEncoder.json: saved " . $temp  . ' ' . humanFileSize($bytesSaved));
             return $temp;
         } else {
             $dir = dirname($temp);
             if (!is_writable($dir)) {
-                _error_log("aVideoEncoder.json: ERROR on save file " . $temp . ". Directory is not writable. To make the directory writable and set www-data as owner, use the following commands: sudo chmod -R 775 " . $dir . " && sudo chown -R www-data:www-data " . $dir);
+                __errlog("aVideoEncoder.json: ERROR on save file " . $temp . ". Directory is not writable. To make the directory writable and set www-data as owner, use the following commands: sudo chmod -R 775 " . $dir . " && sudo chown -R www-data:www-data " . $dir);
             } else {
-                _error_log("aVideoEncoder.json: ERROR on save file " . $temp . ". Directory is writable, but the file could not be saved. Possible causes could be disk space issues, file permission issues, or file system errors.");
+                __errlog("aVideoEncoder.json: ERROR on save file " . $temp . ". Directory is writable, but the file could not be saved. Possible causes could be disk space issues, file permission issues, or file system errors.");
             }
         }
     }
     return false;
+}
+
+function __errlog($txt){
+    global $global, $obj;
+    $obj->errorMSG[] = $txt;
+    _error_log($txt, AVideoLog::$ERROR);
 }
