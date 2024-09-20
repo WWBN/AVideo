@@ -287,11 +287,11 @@ function downloadVideoFromDownloadURL($downloadURL)
         $minLen = 5000;
     }
     if ($strlen < $minLen) {
-        __errlog("aVideoEncoder.json: this is not a video " . $downloadURL . " strlen={$strlen} " . humanFileSize($strlen));
+        __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL this is not a video " . $downloadURL . " strlen={$strlen} " . humanFileSize($strlen));
         //it is not a video
         return false;
     }
-    __errlog("aVideoEncoder.json: Got the download " . $downloadURL . ' ' . humanFileSize($strlen));
+    __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL Got the download " . $downloadURL . ' ' . humanFileSize($strlen));
     if ($file) {
         $_FILES['video']['name'] = basename($downloadURL);
         //$temp = getTmpDir('zip') . $_FILES['video']['name'];
@@ -300,14 +300,14 @@ function downloadVideoFromDownloadURL($downloadURL)
         $bytesSaved = file_put_contents($temp, $file);
 
         if ($bytesSaved) {
-            __errlog("aVideoEncoder.json: saved " . $temp  . ' ' . humanFileSize($bytesSaved));
+            __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL saved " . $temp  . ' ' . humanFileSize($bytesSaved));
             return $temp;
         } else {
             $dir = dirname($temp);
             if (!is_writable($dir)) {
-                __errlog("aVideoEncoder.json: ERROR on save file " . $temp . ". Directory is not writable. To make the directory writable and set www-data as owner, use the following commands: sudo chmod -R 775 " . $dir . " && sudo chown -R www-data:www-data " . $dir);
+                __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL ERROR on save file " . $temp . ". Directory is not writable. To make the directory writable and set www-data as owner, use the following commands: sudo chmod -R 775 " . $dir . " && sudo chown -R www-data:www-data " . $dir);
             } else {
-                __errlog("aVideoEncoder.json: ERROR on save file " . $temp . ". Directory is writable, but the file could not be saved. Possible causes could be disk space issues, file permission issues, or file system errors.");
+                __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL ERROR on save file " . $temp . ". Directory is writable, but the file could not be saved. Possible causes could be disk space issues, file permission issues, or file system errors.");
             }
         }
     }

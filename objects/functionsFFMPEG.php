@@ -85,6 +85,53 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
     }
 }
 
+/**
+ * Cleans up the specified directory by deleting files that do not match the given resolution pattern.
+ * To schedule this function as a cron job, add the following line to the crontab file:
+ *
+ * 0 * * * * php /var/www/html/AVideo/install/cleanup_downloads.php
+ *
+ * @param int $resolution The resolution to keep (default is 720).
+ */
+function cleanupDownloadsDirectory($resolution = 720)
+{
+    
+    $videosDir = getVideosDir();
+    $directory = "{$videosDir}downloads/";
+    // Check if the directory exists
+    if (!is_dir($directory)) {
+        _error_log("cleanupDownloadsDirectory: Directory does not exist: {$directory}");
+        return;
+    }
+
+    // Open the directory
+    if ($handle = opendir($directory)) {
+        while (false !== ($entry = readdir($handle))) {
+            // Skip . and .. directories
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
+
+            // Full path of the current file/directory
+            $filePath = $directory . '/' . $entry;
+
+            // Check if it's a file and does not match the resolution pattern (e.g., '480_.mp4')
+            if (is_file($filePath) && !preg_match('/' . $resolution . '_\.mp4$/', $entry)) {
+                // Attempt to delete the file
+                if (unlink($filePath)) {
+                    _error_log("cleanupDownloadsDirectory: Deleted file: {$filePath}");
+                } else {
+                    _error_log("cleanupDownloadsDirectory: Failed to delete file: {$filePath}");
+                }
+            }
+        }
+        // Close the directory handle
+        closedir($handle);
+    } else {
+        _error_log("cleanupDownloadsDirectory: Failed to open directory: {$directory}");
+    }
+}
+
 function m3u8ToMP4($input)
 {
     $videosDir = getVideosDir();
