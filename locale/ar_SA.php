@@ -225,7 +225,6 @@ $t['Advertising Manager'] = 'Advertising Manager';
 $t['Advertising Title'] = 'Advertising Title';
 $t['After enabling this, you can directly set some options, like the name, linkand active categorie for example.'] = 'After enabling this, you can directly set some options, like the name, linkand active categorie for example.';
 $t['After sign up we will automatic send a verification email'] = 'After sign up we will automatic send a verification email';
-$t['Agenda 21'] = 'Agenda 21';
 $t['Ago'] = 'Ago';
 $t['Agreement ID'] = 'Agreement ID';
 $t['Agreement Id'] = 'Agreement Id';
