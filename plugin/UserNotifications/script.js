@@ -3,7 +3,7 @@ function getTemplateFromArray(itemsArray) {
         return false;
     }
     var template = user_notification_template;
-    
+    //console.log('getTemplateFromArray', itemsArray);
     template = template.replace(new RegExp('{placeholder}', 'g'), user_notification_template_placeholder_image);
     for (var search in itemsArray) {
         var replace = itemsArray[search];

@@ -4,73 +4,77 @@ $o = AVideoPlugin::loadPlugin('Live');
 $buttonTitle = $o->getButtonTitle();
 $obj = $o->getDataObject();
 $isLive = isLive();
-if(empty($isLive)){
+if (empty($isLive)) {
     $liveInfo = array();
     $liveInfo['isLive'] = false;
-}else{
+} else {
     $liveInfo = Live::getInfo($isLive['key'], $isLive['live_servers_id']);
 }
 if (User::canStream()) {
     if (empty($obj->doNotShowGoLiveButton)) {
-        ?>
+?>
         <li>
-            <a id="TopCopyKeysButton" href="<?php echo "{$global['webSiteRootURL']}plugin/Live"; ?>" class="faa-parent animated-hover btn btn-danger navbar-btn" 
-               data-toggle="tooltip" title="<?php echo __("Broadcast a Live Stream"); ?>" 
-               data-placement="bottom" >
+            <a id="TopCopyKeysButton" href="<?php echo "{$global['webSiteRootURL']}plugin/Live"; ?>" class="faa-parent animated-hover btn btn-danger navbar-btn"
+                data-toggle="tooltip" title="<?php echo __("Broadcast a Live Stream"); ?>"
+                data-placement="bottom">
                 <i class="fa fa-circle faa-flash"></i> <span class="hidden-md hidden-sm hidden-mdx"><?php echo __($buttonTitle); ?></span>
             </a>
         </li>
-        <?php
+    <?php
     }
     if (empty($obj->hideTopCopyKeysButton)) {
-        ?>
+    ?>
         <li>
-            <button id="TopCopyKeysButton" onclick="copyToClipboard('<?php echo Live::getRTMPLink(User::getId()); ?>')" class="faa-parent animated-hover btn btn-primary navbar-btn" data-toggle="tooltip" title="<?php echo __($obj->topCopyKeysButtonTitle); ?>" data-placement="bottom" >
+            <button id="TopCopyKeysButton" onclick="copyToClipboard('<?php echo Live::getRTMPLink(User::getId()); ?>')" class="faa-parent animated-hover btn btn-primary navbar-btn" data-toggle="tooltip" title="<?php echo __($obj->topCopyKeysButtonTitle); ?>" data-placement="bottom">
                 <i class="far fa-copy faa-ring"></i> <span class="hidden-md hidden-sm hidden-mdx"><?php echo __($obj->topCopyKeysButtonTitle); ?></span>
             </button>
         </li>
-        <?php
+<?php
     }
 }
 ?>
 <style>
-    .liveVideo{
+    .liveVideo {
         position: relative;
     }
-    .liveVideo .liveNow, .liveVideo .liveFuture{
+
+    .liveVideo .liveNow,
+    .liveVideo .liveFuture {
         position: absolute;
         bottom: 5px;
         right: 5px;
     }
-    #availableLiveStream{
+
+    #availableLiveStream {
         width: 350px;
         overflow: hidden;
         max-height: 75vh;
         overflow-y: auto;
     }
-    #availableLiveStream li a div{
+
+    #availableLiveStream li a div {
         overflow: hidden;
     }
 
     <?php
     if (!empty($obj->hideTopButton)) {
-        ?>
-        #TopLiveNotificationButton{
-            display: none !important;
-        }
-        <?php
+    ?>#TopLiveNotificationButton {
+        display: none !important;
+    }
+
+    <?php
     }
     ?>
 </style>
 
 <script>
     async function refreshGetLiveImage(selector) {
-        $(selector).find('.thumbsImage img').each(function (index) {
+        $(selector).find('.thumbsImage img').each(function(index) {
             var src = $(this).attr('src');
             src = addGetParam(src, 'cache', Math.random());
             $(this).attr('src', src);
         });
-        setTimeout(function () {
+        setTimeout(function() {
             $(selector).slideDown();
         }, 1000); // give some time to load the new images
     }
@@ -81,7 +85,7 @@ if (User::canStream()) {
             return false;
         }
         _processLiveStats_processingNow = 1;
-        setTimeout(function () {
+        setTimeout(function() {
             _processLiveStats_processingNow = 0;
         }, 200);
         if (typeof response !== 'undefined') {
@@ -105,14 +109,14 @@ if (User::canStream()) {
             $('.onlineApplications').text($('#availableLiveStream > div').length);
         }
 
-        setTimeout(function () {
-<?php
-if (!empty($obj->playLiveInFullScreenOnIframe)) {
-    echo 'if (typeof linksToFullscreen === \'function\') {linksToFullscreen(\'.liveVideo a, #availableLiveStream a\');}';
-} elseif (!empty($obj->playLiveInFullScreen)) {
-    echo 'if (typeof linksToEmbed === \'function\') {linksToEmbed(\'.liveVideo a, #availableLiveStream a\');}';
-}
-?>
+        setTimeout(function() {
+            <?php
+            if (!empty($obj->playLiveInFullScreenOnIframe)) {
+                echo 'if (typeof linksToFullscreen === \'function\') {linksToFullscreen(\'.liveVideo a, #availableLiveStream a\');}';
+            } elseif (!empty($obj->playLiveInFullScreen)) {
+                echo 'if (typeof linksToEmbed === \'function\') {linksToEmbed(\'.liveVideo a, #availableLiveStream a\');}';
+            }
+            ?>
         }, 200);
     }
 
@@ -123,7 +127,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         availableLiveStreamIsLoading();
         $.ajax({
             url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu',
-            success: function (response) {
+            success: function(response) {
                 //console.log('getStatsMenu processLiveStats', response);
                 processLiveStats(response);
                 if (avideoSocketIsActive()) {
@@ -132,7 +136,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
                 }
                 if (recurrentCall) {
                     var timeOut = <?php echo $obj->requestStatsInterval * 1000; ?>;
-                    setTimeout(function () {
+                    setTimeout(function() {
                         getStatsMenu(true);
                     }, timeOut);
                 }
@@ -200,6 +204,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         $('#availableLiveStream').empty();
     }
     var hideWhenExpireClasses = [];
+
     function hideWhenExpire(application) {
         var className = application.className;
         // 604.800 = 1 WEEK
@@ -207,7 +212,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             var expires_in_seconds = application.expires - _serverTime;
             console.log('hideWhenExpire', expires_in_seconds, className);
             hideWhenExpireClasses.push(className);
-            setTimeout(function () {
+            setTimeout(function() {
                 console.log('hideWhenExpire now', className);
                 $('.' + className).slideUp();
                 $('.onlineApplications').text($('.onlineApplications').text() - 1);
@@ -223,7 +228,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         user = application.user;
         photo = application.photo;
 
-        if(/Restream test/.test(title)){
+        if (/Restream test/.test(title)) {
             return false;
         }
 
@@ -271,20 +276,20 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             }
 
             var html;
-<?php
-if (isVideo()) {
-    ?>
+            <?php
+            if (isVideo()) {
+            ?>
                 html = application.htmlExtraVideoListItem;
-    <?php
-} elseif (isLive()) {
-    ?>
+            <?php
+            } elseif (isLive()) {
+            ?>
                 html = application.htmlExtraVideoPage;
-    <?php
-} else {
-    ?>
+            <?php
+            } else {
+            ?>
                 html = application.htmlExtra;
-<?php }
-?>
+            <?php }
+            ?>
             var id = $(html).attr('id').replace(/[&=]/g, '');
 
             if ($('#' + id).length) {
@@ -302,7 +307,7 @@ if (isVideo()) {
             }
             processUserNotificationFromApplication(application);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 lazyImage();
             }, 1000);
             if (callback) {
@@ -312,14 +317,14 @@ if (isVideo()) {
             //console.log('application.html is undefined');
         }
         clearTimeout(linksToEmbedTimeout);
-        linksToEmbedTimeout = setTimeout(function () {
-<?php
-if (!empty($obj->playLiveInFullScreenOnIframe)) {
-    echo 'if (typeof linksToFullscreen === \'function\') {linksToFullscreen(\'.liveVideo a, #availableLiveStream a\');}';
-} elseif (!empty($obj->playLiveInFullScreen)) {
-    echo 'if (typeof linksToEmbed === \'function\') {linksToEmbed(\'.liveVideo a, #availableLiveStream a\');}';
-}
-?>
+        linksToEmbedTimeout = setTimeout(function() {
+            <?php
+            if (!empty($obj->playLiveInFullScreenOnIframe)) {
+                echo 'if (typeof linksToFullscreen === \'function\') {linksToFullscreen(\'.liveVideo a, #availableLiveStream a\');}';
+            } elseif (!empty($obj->playLiveInFullScreen)) {
+                echo 'if (typeof linksToEmbed === \'function\') {linksToEmbed(\'.liveVideo a, #availableLiveStream a\');}';
+            }
+            ?>
             avideoSocket();
         }, 500);
         if (application.users && typeof application.users.views !== 'undefined') {
@@ -336,7 +341,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         itemsArray.image = application.poster;
         itemsArray.title = application.title;
         itemsArray.href = application.href;
-        itemsArray.element_class = application.className;
+        itemsArray.element_class = application.className + ' ' + application.type + '_app';
         itemsArray.element_id = application.className;
         itemsArray.icon = 'fas fa-video';
         itemsArray.type = 'info';
@@ -344,14 +349,14 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         addTemplateFromArray(itemsArray, false);
     }
 
-<?php
-include_once("{$global['systemRootPath']}plugin/Live/view/socket.js");
-?>
+    <?php
+    include_once("{$global['systemRootPath']}plugin/Live/view/socket.js");
+    ?>
 
     async function hideExtraVideosIfEmpty() {
-        $('#liveScheduleVideos .extraVideos').each(function (index, currentElement) {
+        $('#liveScheduleVideos .extraVideos').each(function(index, currentElement) {
             var somethingIsVisible = false;
-            $(this).children('div').each(function (index2, currentElement2) {
+            $(this).children('div').each(function(index2, currentElement2) {
                 if ($(this).is(":visible")) {
                     somethingIsVisible = true;
                     return false;
@@ -361,9 +366,9 @@ include_once("{$global['systemRootPath']}plugin/Live/view/socket.js");
                 $('#liveScheduleVideos').slideUp();
             }
         });
-        $('#liveVideos .extraVideos').each(function (index, currentElement) {
+        $('#liveVideos .extraVideos').each(function(index, currentElement) {
             var somethingIsVisible = false;
-            $(this).children('div').each(function (index2, currentElement2) {
+            $(this).children('div').each(function(index2, currentElement2) {
                 if ($(this).is(":visible")) {
                     somethingIsVisible = true;
                     return false;
@@ -375,36 +380,36 @@ include_once("{$global['systemRootPath']}plugin/Live/view/socket.js");
         });
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         if (typeof avideoSocketIsActive == 'function' && !avideoSocketIsActive()) {
             availableLiveStreamIsLoading();
             getStatsMenu(true);
         }
-<?php
-//var_dump(isLive(),$times,$liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);exit;
-if (AVideoPlugin::isEnabledByName('YPTSocket')) {
-    //echo 'console.log(\'YPTSocket processLiveStats\');';
-    echo 'processLiveStats(' . json_encode(getStatsNotifications()) . ');';
-}
-if (isLive()) {
-    if ($liveInfo['isLive']) {
-        $times = Live::getPrerollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
-        if ($liveInfo['startedSecondsAgo'] < $times->liveImgTimeInSeconds) {
-            echo "setTimeout(function(){showImage('prerollPoster', '{$liveInfo['key']}');},1500);";
-        } else {
-            echo "/* prerollPoster will notplay */";
-        }
-    } else {
-        $times = Live::getPostrollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
+        <?php
         //var_dump(isLive(),$times,$liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);exit;
-        if (!empty($liveInfo['finishedSecondsAgo']) && $liveInfo['finishedSecondsAgo'] < $times->liveImgTimeInSeconds) {
-            echo "setTimeout(function(){showImage('postrollPoster', '{$liveInfo['key']}');},1500);";
-        } else {
-            echo "/* postrollPoster will notplay */";
+        if (AVideoPlugin::isEnabledByName('YPTSocket')) {
+            //echo 'console.log(\'YPTSocket processLiveStats\');';
+            echo 'processLiveStats(' . json_encode(getStatsNotifications()) . ');';
         }
-    }
-}
-?>
+        if (isLive()) {
+            if ($liveInfo['isLive']) {
+                $times = Live::getPrerollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
+                if ($liveInfo['startedSecondsAgo'] < $times->liveImgTimeInSeconds) {
+                    echo "setTimeout(function(){showImage('prerollPoster', '{$liveInfo['key']}');},1500);";
+                } else {
+                    echo "/* prerollPoster will notplay */";
+                }
+            } else {
+                $times = Live::getPostrollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
+                //var_dump(isLive(),$times,$liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);exit;
+                if (!empty($liveInfo['finishedSecondsAgo']) && $liveInfo['finishedSecondsAgo'] < $times->liveImgTimeInSeconds) {
+                    echo "setTimeout(function(){showImage('postrollPoster', '{$liveInfo['key']}');},1500);";
+                } else {
+                    echo "/* postrollPoster will notplay */";
+                }
+            }
+        }
+        ?>
     });
 </script>
 <script src="<?php echo getURL('plugin/Live/view/live.js'); ?>" type="text/javascript"></script>

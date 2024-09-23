@@ -104,6 +104,10 @@ class UserNotifications extends PluginAbstract {
         $template = self::getTemplate();
         
         $template = str_replace("{placeholder}",  ImagesPlaceHolders::getVideoAnimationLandscape(ImagesPlaceHolders::$RETURN_URL), $template);
+        if(empty($itemsArray['element_class'])){
+            $itemsArray['element_class'] = '';
+        }
+
         foreach ($itemsArray as $search => $replace) {
             if ($search == 'icon') {
                 $replace = '<i class="' . $replace . '"></i>';
