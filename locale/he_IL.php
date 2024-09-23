@@ -26,6 +26,7 @@ $t['A service error occurred: %s'] = 'אירעה שגיאת שירות:% s';
 $t['ADs Editor'] = 'עורך מודעות';
 $t['ADs plugin'] = 'עורך תוספים';
 $t['API plugin not enabled'] = 'תוסף API אינו זמין';
+$t['API'] = 'API';
 $t['About Us'] = 'אודות';
 $t['About'] = 'אודות';
 $t['Actions'] = 'פעולות';
@@ -71,7 +72,6 @@ $t['Advertising Manager'] = 'מנהל פרסום';
 $t['Advertising Title'] = 'כותרת פרסום';
 $t['After enabling this, you can directly set some options, like the name, linkand active categorie for example.'] = 'לאחר הפיכת אפשרות זו לזמינה, באפשרותך להגדיר ישירות אפשרויות מסוימות, כגון השם, קישור וקטגוריה פעילה לדוגמה.';
 $t['After sign up we will automatic send a verification email'] = 'לאחר ההרשמה נשלח אוטומטית דוא"ל אימות';
-$t['Agenda 21'] = "אג'נדה 21";
 $t['Ago'] = 'לפני';
 $t['Agreement ID'] = 'קוד הסכם';
 $t['Agreement Id'] = 'קוד הסכם';
@@ -308,8 +308,8 @@ $t['Destination Port'] = 'יציאת יעד';
 $t['Detect language from IP'] = 'זיהוי שפה מ- IP';
 $t['Device'] = 'מכשיר';
 $t['Devices Stream Info'] = 'מידע על זרם מכשירים';
-$t['Direct Import Local Videos'] = 'ייבוא ​​ישיר וידאו מקומי';
-$t['Direct Import all'] = 'ייבוא ​​ישיר של כל';
+$t['Direct Import Local Videos'] = 'ייבוא ישיר וידאו מקומי';
+$t['Direct Import all'] = 'ייבוא ישיר של כל';
 $t['Direct upload'] = 'העלאה ישירה';
 $t['Disable AVideo Google Analytics'] = 'השבת את';
 $t['Disable Youtube-Upload'] = 'השבת את העלאת Youtube';
@@ -1410,7 +1410,7 @@ $t['You must specify a valid email'] = 'עליך לציין הודעת דואר 
 $t['You need a video to generate statistics'] = 'אתה צריך וידאו כדי ליצור נתונים סטטיסטיים';
 $t['You need to enable it to be able to use PayPal to add funds on your wallet'] = 'אתה צריך לאפשר לו להיות מסוגל להשתמש PayPal כדי להוסיף כספים על הארנק שלך';
 $t['You need to enable'] = 'עליך להפוך את ההפעלה לזמינה';
-$t['You need to inform what is your user!'] = 'אתה צריך להודיע ​​מה הוא המשתמש שלך!';
+$t['You need to inform what is your user!'] = 'אתה צריך להודיע מה הוא המשתמש שלך!';
 $t['You need to install'] = 'אתה צריך להתקין';
 $t['You need to make the plugin dir writable before upload, run this command and refresh this page'] = 'אתה צריך לעשות את plugin דיר writable לפני ההעלאה, להפעיל את הפקודה ולרענן את הדף';
 $t['You need to make your locale folder writable'] = 'אתה צריך לעשות את התיקייה המקומית לכתיבה';
@@ -1572,7 +1572,6 @@ $t['youtube-dl uses Python and some servers do not come with python by default. 
 
 
 // Previously missing from file.
-$t['API'] = 'API';
 $t['AVideo URL'] = 'AVideo URL';
 $t['Add To Serie'] = 'Add To Serie';
 $t['Articles'] = 'Articles';

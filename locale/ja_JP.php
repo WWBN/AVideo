@@ -907,7 +907,6 @@ $t['Ads deleted!'] = 'Ads deleted!';
 $t['Ads'] = 'Ads';
 $t['Advanced'] = 'Advanced';
 $t['After enabling this, you can directly set some options, like the name, linkand active categorie for example.'] = 'After enabling this, you can directly set some options, like the name, linkand active categorie for example.';
-$t['Agenda 21'] = 'Agenda 21';
 $t['Agreement ID'] = 'Agreement ID';
 $t['Agreement Id'] = 'Agreement Id';
 $t['Alert'] = 'Alert';

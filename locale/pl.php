@@ -26,6 +26,7 @@ $t['A service error occurred: %s'] = 'Wystąpił błąd serwisu: %s';
 $t['ADs Editor'] = 'Edytor reklam';
 $t['ADs plugin'] = 'Wtyczka reklm';
 $t['API plugin not enabled'] = 'Wtyczka API nie jest włączona';
+$t['API'] = 'API';
 $t['AVideo URL'] = 'Adres URL AVideo';
 $t['About Us'] = 'O nas';
 $t['About'] = 'O mnie';
@@ -73,7 +74,7 @@ $t['Advertising Manager'] = 'Manager reklamy';
 $t['Advertising Title'] = 'Tytuł reklamy';
 $t['After enabling this, you can directly set some options, like the name, linkand active categorie for example.'] = 'Po włączeniu tej funkcji można bezpośrednio ustawić niektóre opcje, na przykład takie jak nazwa, link i aktywna kategoria.';
 $t['After sign up we will automatic send a verification email'] = 'Po rejestracji automatycznie wyślemy e-mail weryfikacyjny';
-$t['Ago'] = ' temu';
+$t['Ago'] = 'Temu';
 $t['Agreement ID'] = 'Umowa ID';
 $t['Agreement Id'] = 'Umowa Id';
 $t['Alert'] = 'Alarm';
@@ -105,6 +106,7 @@ $t['Attach'] = 'Dołącz';
 $t['Attention'] = 'Uwaga';
 $t['Audio and Video'] = 'Audio i wideo';
 $t['Audio only'] = 'Tylko audio';
+$t['Audio'] = 'Audio';
 $t['Audio-Gallery by Date'] = 'Audio-galeria po dacie';
 $t['Authenticated users can comment videos'] = 'Zalogowani użytkownicy mogą komentować pliki wideo';
 $t['Authenticated users can upload videos'] = 'Zalogowani użytkownicy mogą przesyłać pliki wideo';
@@ -1580,9 +1582,6 @@ $t['youtube-dl uses Python and some servers do not come with python by default. 
 
 
 // Previously missing from file.
-$t['API'] = 'API';
-$t['Agenda 21'] = 'Agenda 21';
-$t['Audio'] = 'Audio';
 $t['Australian Dollar = AUD, Brazilian Real = BRL, Canadian Dollar = CAD,Euro =EUR, U.S. Dollar = USD, etc'] = 'Australian Dollar = AUD, Brazilian Real = BRL, Canadian Dollar = CAD,Euro =EUR, U.S. Dollar = USD, etc';
 $t['CDN'] = 'CDN';
 $t['Chat'] = 'Chat';
