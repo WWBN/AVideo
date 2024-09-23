@@ -121,7 +121,7 @@
 <div class="panel panel-default ">
     <div class="panel-heading"><?php echo __("Live Events"); ?></div>
     <div class="panel-body">
-        <table id="exampleLinks" class="display" width="100%" cellspacing="0">
+        <table id="exampleLinks" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>Owner</th>
