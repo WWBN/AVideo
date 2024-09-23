@@ -554,7 +554,7 @@ class Live extends PluginAbstract
             'poster' => $imgJPG,
             'imgGif' => $imgGIF,
             'categories_id' => intval($lt['categories_id']),
-            'className' => $uid,
+            'className' => "$uid {$type}_app",
             'comingsoon' => $comingsoon,
             'description' => $description,
             'timezone' => date_default_timezone_get(),

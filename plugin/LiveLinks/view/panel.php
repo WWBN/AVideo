@@ -55,6 +55,18 @@
                                         echo Layout::getCategorySelect('categories_id');
                                         ?>
                                     </div>
+                                    <?php
+                                    if(User::isAdmin()){
+                                    ?>
+                                    <div class="form-group col-sm-12">
+                                        <label for="title"><?php echo __("User"); ?>:</label>
+                                        <?php
+                                        $updateUserAutocomplete = Layout::getUserAutocomplete(User::getId(), 'users_id');
+                                        ?>
+                                    </div>
+                                    <?php
+                                    }
+                                    ?>
                                     <div class="form-group col-sm-6">
                                         <label for="linkType"><?php echo __("Type"); ?>:</label>
                                         <select class="form-control input-sm" name="type" id="linkType">
@@ -112,6 +124,7 @@
         <table id="exampleLinks" class="display" width="100%" cellspacing="0">
             <thead>
                 <tr>
+                    <th>Owner</th>
                     <th>Title</th>
                     <th>Start</th>
                     <th>End</th>
@@ -122,6 +135,7 @@
             </thead>
             <tfoot>
                 <tr>
+                    <th>Owner</th>
                     <th>Title</th>
                     <th>Start</th>
                     <th>End</th>
@@ -154,6 +168,11 @@
         tableLinks = $('#exampleLinks').DataTable({
             "ajax": webSiteRootURL + "plugin/LiveLinks/view/liveLinks.json.php",
             "columns": [{
+                    "data": "users_id",
+                    "render": function(data, type, row) {
+                        return row.identification;
+                    }
+                }, {
                     "data": "title"
                 },
                 {
@@ -215,7 +234,7 @@
                         modal.showPleaseWait();
                         $.ajax({
                             type: "POST",
-                            url: "<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/delete_liveLink.json.php",
+                            url: webSiteRootURL + "plugin/LiveLinks/view/delete_liveLink.json.php",
                             data: data
 
                         }).done(function(resposta) {
@@ -245,6 +264,12 @@
             $('select[name="categories_id"]').trigger('change');
             $('#linkStatus').val(data.status);
             $(".userGroups").prop("checked", false);
+            $('#users_id').val(data.users_id);
+            <?php 
+            if(!empty($updateUserAutocomplete)){
+                echo $updateUserAutocomplete; 
+            }
+            ?>
             for (const index in data.user_groups) {
                 $("#group" + data.user_groups[index].id).prop("checked", true);
             }
@@ -279,6 +304,11 @@
                 } else {
                     avideoToastSuccess(__("Your link has been saved!"));
                     $("#liveLinksForm").trigger("reset");
+                    <?php 
+                    if(!empty($updateUserAutocomplete)){
+                        echo $updateUserAutocomplete; 
+                    }
+                    ?>
                 }
                 tableLinks.ajax.reload();
                 $('#linkId').val('');

@@ -42,6 +42,12 @@ $o->setStatus($_POST['status']);
 $o->setTitle($_POST['title']);
 $o->setType($_POST['type']);
 
+if(User::isAdmin()){
+    if(!empty($_REQUEST['users_id'])){
+        $o->setUsers_id($_REQUEST['users_id']);
+    }
+}
+
 if($id = $o->save()){
     $o = new LiveLinksTable($id);
     $o->deleteAllUserGorups();
