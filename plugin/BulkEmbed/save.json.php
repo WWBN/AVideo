@@ -85,8 +85,14 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
         $poster = Video::getPathToFile("{$paths['filename']}.jpg");
         $thumbs = $value['thumbs'];
         if (!empty($thumbs)) {
-            $bytes = file_put_contents($poster, url_get_contents($thumbs));
-            _error_log("thumbs={$thumbs} poster=$poster bytes=$bytes ");
+            $contentThumbs = url_get_contents($thumbs);
+            if (!empty($contentThumbs)) {
+                make_path($poster);
+                $bytes = file_put_contents($poster, $contentThumbs);
+                _error_log("thumbs={$thumbs} poster=$poster bytes=$bytes strlen=".strlen($contentThumbs));
+            } else {
+                _error_log("ERROR thumbs={$thumbs} poster=$poster");
+            }
         } else {
             _error_log("ERROR thumbs={$thumbs} poster=$poster");
         }
