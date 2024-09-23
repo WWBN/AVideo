@@ -6,7 +6,8 @@
  * 
  * @param string $ISO8601
  */
-function ISO8601ToSeconds($ISO8601) {
+function ISO8601ToSeconds($ISO8601)
+{
     preg_match('/\d{1,2}[H]/', $ISO8601, $hours);
     preg_match('/\d{1,2}[M]/', $ISO8601, $minutes);
     preg_match('/\d{1,2}[S]/', $ISO8601, $seconds);
@@ -30,7 +31,8 @@ function ISO8601ToSeconds($ISO8601) {
     return $toltalSeconds;
 }
 
-function ISO8601ToDuration($ISO8601) {
+function ISO8601ToDuration($ISO8601)
+{
     $seconds = ISO8601ToSeconds($ISO8601);
     return secondsToVideoTime($seconds);
 }
@@ -55,7 +57,7 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
     $obj->msg[] = __("Permission denied");
     $obj->msg[] = "User can not upload videos";
 } else if (!empty($_POST['itemsToSave'])) {
-    
+
     if (!empty($_POST['playListName'])) {
         require_once $global['systemRootPath'] . 'objects/playlist.php';
         $playList = new PlayList(0);
@@ -80,8 +82,14 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
         $videos->setDescription($value['description']);
         $videos->setClean_title($value['title']);
         $videos->setDuration(ISO8601ToDuration($value['duration']));
-        $poster = Video::getPathToFile("{$video['filename']}.jpg");
-        file_put_contents($poster, url_get_contents($value['thumbs']));
+        $poster = Video::getPathToFile("{$paths['filename']}.jpg");
+        $thumbs = $value['thumbs'];
+        if (!empty($thumbs)) {
+            $bytes = file_put_contents($poster, url_get_contents($thumbs));
+            _error_log("thumbs={$thumbs} poster=$poster bytes=$bytes ");
+        } else {
+            _error_log("ERROR thumbs={$thumbs} poster=$poster");
+        }
         $videos->setVideoLink($value['link']);
         $videos->setType('embed');
 
@@ -95,8 +103,8 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
                 continue;
             }
         }
-        
-        if(!empty($resp) && !empty($obj->playListId)){
+
+        if (!empty($resp) && !empty($obj->playListId)) {
             $playList = new PlayList($obj->playListId);
             $playList->addVideo($resp, true);
         }
