@@ -4480,11 +4480,14 @@ class LiveStreamObject
 
     public function getIndex($allowOnlineIndex = false)
     {
+        global $global;
         $objLive = AVideoPlugin::getDataObject("Live");
         $live_index = '';
         if (!empty($objLive->allowMultipleLivesPerUser)) {
-            if (empty($allowOnlineIndex)) {
+            if (empty($allowOnlineIndex) && empty($global['getLatestValidNotOnlineLiveIndexRequested'])) {
+                $global['getLatestValidNotOnlineLiveIndexRequested'] = 1; 
                 $live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
+                $global['getLatestValidNotOnlineLiveIndexRequested'] = 0; 
             } else {
                 $live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
             }
