@@ -18,6 +18,7 @@ $chatIsEnabled = AVideoPlugin::isEnabledByName('Chat2');
 foreach ($response->data as $key => $value) {
     $value['buttons'] = UserConnections::getConnectionButtons($value['friend_users_id']);
     $value['callButton'] =  getUserOnlineLabel($value['friend_users_id']);
+    $value['channelLink'] =  User::getChannelLink($value['friend_users_id']);
     if($chatIsEnabled){
         $value['chatButton'] =  Chat2::getUserChatButton($value['friend_users_id']);
     }else{

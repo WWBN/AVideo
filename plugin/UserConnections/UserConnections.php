@@ -211,8 +211,16 @@ class UserConnections extends PluginAbstract
     }
 
     public function getFooterCode()
-    {
-        return '<script src="' . getURL('plugin/UserConnections/script.js') . '"></script>';
+    {        
+        global $global;
+
+        $obj = $this->getDataObject();
+        $content = '<script src="' . getURL('plugin/UserConnections/script.js') . '"></script>';
+        
+        $file = $global['systemRootPath'] . 'plugin/UserConnections/View/menu.php';
+        $content .= getIncludeFileContent($file);
+
+        return $content;
     }
 
     public function getHeadCode()
@@ -292,4 +300,5 @@ class UserConnections extends PluginAbstract
         //sendSocketSuccessMessageToUsers_id($msg, $friend_users_id);
         return UserNotifications::createNotification($title, $msg, $friend_users_id, $image, $href, $type, $element_id, $icon);
     }
+    
 }

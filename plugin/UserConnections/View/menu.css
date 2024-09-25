@@ -1,0 +1,149 @@
+#connectionList > li{
+    padding: 5px;
+}
+
+#connectionList > li > div > div{
+    display: flex;
+}
+
+#connectionList > li > div > div > .label{
+    align-content: center;
+}
+
+#connectionMenu-toolbar-overlay, #connectionMenu-toolbar-toggle{
+    box-shadow: 10px 0 15px -5px rgba(0, 0, 0, 1);
+}
+
+#connectionMenu-toolbar > .connectionMenu-toolbar-toggle > .button{
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 5px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    transition:all 0.2s linear;
+    width: 70px;
+    display: none;
+}
+
+#connectionMenu-toolbar.active > .connectionMenu-toolbar-toggle > .button{
+    width: 50px;
+}
+
+#connectionMenu-toolbar-overlay img{
+    width: 16px; 
+    height: 16px; 
+    margin-right: 5px;
+}
+
+#connectionMenu-toolbar > .connectionMenu-toolbar-toggle > .inactiveIcon{
+    margin: 10px;
+}
+#connectionMenu-toolbar:hover > .connectionMenu-toolbar-toggle > .button,
+#connectionMenu-toolbar.active > .connectionMenu-toolbar-toggle .button{
+    display: block;
+}
+#connectionMenu-toolbar:hover > .connectionMenu-toolbar-toggle > .inactiveIcon,
+#connectionMenu-toolbar.active > .connectionMenu-toolbar-toggle .inactiveIcon,
+#connectionMenu-toolbar .showWhenActive{
+    display: none;
+}
+
+#connectionMenu-toolbar.active .hideWhenActive{
+    display: none;
+}
+#connectionMenu-toolbar.active .showWhenActive{
+    display: block;
+}
+
+#connectionMenu-toolbar .connectionMenu-toolbar-toggle{
+    position: absolute;
+    left: 300px;
+    z-index: 9999;
+    padding: 0;
+    border-radius: 0 35px 35px 0;
+    border-left: none;
+    opacity: 0.5;
+    top: 300px;
+}
+
+#connectionMenu-toolbar #connectionMenu-toolbar-overlay .list-group{
+    height: 100vh;
+    overflow-y: auto;
+    top: 0;
+}
+
+#connectionMenu-toolbar:hover > .connectionMenu-toolbar-toggle,
+#connectionMenu-toolbar.active > .connectionMenu-toolbar-toggle{
+    left: 300px;
+    opacity: 1;
+}
+
+#connectionMenu-toolbar > div#connectionMenu-toolbar-overlay > div.list-group > a:nth-child(1){
+    border-top-left-radius: 0;
+}
+
+#connectionMenu-toolbar > .connectionMenu-toolbar-toggle:hover .button,
+#connectionMenu-toolbar.active > .connectionMenu-toolbar-toggle .button{
+    opacity: 1;
+}
+
+#connectionMenu-toolbar{
+    width: 300px;
+    position: fixed;
+    height: 100vh;
+    left: -300px;
+    top: 0;
+    transition:left 0.3s ease-in-out;
+    z-index: 9999;
+}
+#connectionMenu-toolbar.active{
+    left: 0;
+}
+
+.connectionMenu-grayscale{
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    -webkit-filter: grayscale(1);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: gray;
+}
+.connectionMenu-high-contrast{
+    filter: contrast(150%);
+    -webkit-filter: contrast(150%);
+    -webkit-filter: contrast(1.5);
+    -moz-filter: contrast(150%);
+    -ms-filter: contrast(150%);
+    -o-filter: contrast(150%);
+}
+
+.connectionMenu-negative-contrast{
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+    -webkit-filter: invert(1);
+    -moz-filter: invert(100%);
+    -ms-filter: invert(100%);
+    -o-filter: invert(100%);
+}
+.connectionMenu-links-underline a{
+    text-decoration: underline !important;
+}
+
+.connectionMenu-readable-font{
+    font-family: Verdana,Arial,Helvetica,sans-serif !important;
+}
+
+    
