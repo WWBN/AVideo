@@ -10,7 +10,11 @@
     align-content: center;
 }
 
-#connectionMenu-toolbar-overlay, #connectionMenu-toolbar-toggle{
+#connectionMenu-toolbar-overlay{
+    box-shadow: 0 0 20px 15px rgba(0, 0, 0, 0.5);
+}
+
+#connectionMenu-toolbar-toggle{
     box-shadow: 10px 0 15px -5px rgba(0, 0, 0, 1);
 }
 

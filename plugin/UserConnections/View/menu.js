@@ -40,8 +40,8 @@ function toggleConnectionMenu() {
         $('#connectionMenu-toolbar-overlay').show();
     } else {
         setTimeout(() => {
-            $('#connectionMenu-toolbar-overlay').hide();
-        }, 1000);
+            $('#connectionMenu-toolbar-overlay').fadeOut();
+        }, 600);
     }
 }
 
