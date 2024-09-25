@@ -1,16 +1,84 @@
 <?php
 include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
 $percent = 90;
+$styleBG =  "
+background-color: rgb({$obj->backgroundRGB});
+background: -webkit-linear-gradient(bottom, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+background: -o-linear-gradient(top, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+background: linear-gradient(top, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+background: -moz-linear-gradient(to top, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+";
+
 ?>
-<div id="carouselRows" style="
-     background-color: rgb(<?php echo $obj->backgroundRGB; ?>);
-     background: -webkit-linear-gradient(bottom, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-     background: -o-linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-     background: linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-     background: -moz-linear-gradient(to top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
+<div id="carouselRows" style="<?php echo $styleBG; ?>">
     <?php
     unsetCurrentPage();
     $_REQUEST['rowCount'] = $obj->maxVideos;
+
+    if (User::isLogged()) {
+        $search = getSearchVar();
+        if (empty($search)) {
+            $plObj = AVideoPlugin::getDataObjectIfEnabled('PlayLists');
+            if (!empty($plObj)) {
+                $dataFlickirty = new stdClass();
+                $dataFlickirty->wrapAround = true;
+                $dataFlickirty->pageDots = !empty($obj->pageDots);
+                $dataFlickirty->lazyLoad = 15;
+                $dataFlickirty->setGallerySize = false;
+                $dataFlickirty->cellAlign = 'left';
+                $dataFlickirty->groupCells = true;
+                if ($obj->PlayListAutoPlay) {
+                    $dataFlickirty->autoPlay = 10000;
+                }
+                $playlists_id = PlayList::getWatchLaterIdFromUser(User::getId());
+                $rowCount = getRowCount();
+                $videos = PlayList::getAllFromPlaylistsID($playlists_id);
+                if (!empty($videos)) {
+                    $link = PlayLists::getLink($playlists_id);
+                    $linkEmbed = PlayLists::getLink($playlists_id, true);
+                    ?>
+
+                    <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
+                    <div class="row topicRow">
+                        <h2>
+                            <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
+                                <!-- modeFlixBody line <?php echo __LINE__; ?> -->
+                                <i class="fas fa-clock"></i> <?php echo __('Watch Later'); ?>
+                            </a>
+                        </h2>
+                        <!-- Date Programs/Playlists 2 -->
+                        <?php
+                        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                        ?>
+                    </div>
+                    <?php
+                }
+
+                $playlists_id = PlayList::getFavoriteIdFromUser(User::getId());
+                $rowCount = getRowCount();
+                $videos = PlayList::getAllFromPlaylistsID($playlists_id);
+                if (!empty($videos)) {
+                    $link = PlayLists::getLink($playlists_id);
+                    $linkEmbed = PlayLists::getLink($playlists_id, true);
+                    ?>
+                    <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
+                    <div class="row topicRow">
+                        <h2>
+                            <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
+                                <!-- modeFlixBody line <?php echo __LINE__; ?> -->
+                                <i class="fas fa-heart"></i> <?php echo __('Favorites'); ?>
+                            </a>
+                        </h2>
+                        <!-- Date Programs/Playlists 2 -->
+                        <?php
+                        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                        ?>
+                    </div>
+                    <?php
+                }
+            }
+        }
+    }
 
     if ($obj->Suggested) {
         $dataFlickirty = new stdClass();
@@ -27,7 +95,7 @@ $percent = 90;
         //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
         $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos, array(), false, false, true, true);
         if (!empty($videos)) {
-    ?>  
+            ?>
             <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
             <div class="row topicRow">
                 <h2>
@@ -41,7 +109,7 @@ $percent = 90;
                 ?>
             </div>
 
-            <?php
+        <?php
         }
     }
     $channels = $users_id_array = array();
@@ -50,7 +118,7 @@ $percent = 90;
         $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
         $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
     }
-    
+
     foreach ($obj as $key => $value) {
         if ($value === true && preg_match('/Channel_([0-9]+)_$/', $key, $matches)) {
             $users_id = intval($matches[1]);
@@ -76,34 +144,34 @@ $percent = 90;
             $dataFlickirty->autoPlay = 10000;
         }
         $countChannels = 0;
-            foreach ($channels as $channel) {
-                if ($countChannels > 5) {
-                    break;
-                }
-                $_POST['sort']['created'] = "DESC";
-                $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, $channel['id']);
-                unset($_POST['sort']['created']);
-                if (empty($videos)) {
-                    continue;
-                }
-                $countChannels++;
-                $link = User::getChannelLinkFromChannelName($channel["channelName"]);
-            ?>
-                <div class="row topicRow channelRow channel_<?php echo $channel["id"]; ?>">
-                    <h2>
-                        <a href="<?php echo $link; ?>">
-                            <img src="<?php echo User::getPhoto($channel["id"]); ?>" class="img img-responsive pull-left" style="max-width: 18px; max-height: 18px; margin-right: 5px;">
-                            <?php echo $channel["channelName"]; ?>
-                        </a>
-                    </h2>
-                    <!-- Date Programs/Playlists 1 -->
-                    <?php
-                    include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
-                    ?>
-                </div>
-
-                <?php
+        foreach ($channels as $channel) {
+            if ($countChannels > 5) {
+                break;
             }
+            $_POST['sort']['created'] = "DESC";
+            $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, $channel['id']);
+            unset($_POST['sort']['created']);
+            if (empty($videos)) {
+                continue;
+            }
+            $countChannels++;
+            $link = User::getChannelLinkFromChannelName($channel["channelName"]);
+        ?>
+            <div class="row topicRow channelRow channel_<?php echo $channel["id"]; ?>">
+                <h2>
+                    <a href="<?php echo $link; ?>">
+                        <img src="<?php echo User::getPhoto($channel["id"]); ?>" class="img img-responsive pull-left" style="max-width: 18px; max-height: 18px; margin-right: 5px;">
+                        <?php echo $channel["channelName"]; ?>
+                    </a>
+                </h2>
+                <!-- Date Programs/Playlists 1 -->
+                <?php
+                include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                ?>
+            </div>
+
+            <?php
+        }
     }
 
 
@@ -133,9 +201,9 @@ $percent = 90;
                     }
                     $link = PlayLists::getLink($pl['id']);
                     $linkEmbed = PlayLists::getLink($pl['id'], true);
-                    
+
                     $videoSerie = Video::getVideoFromSeriePlayListsId($pl['id']);
-                ?>
+            ?>
                     <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
                     <div class="row topicRow">
                         <h2>
@@ -144,16 +212,16 @@ $percent = 90;
                                 <i class="fas fa-list"></i> <?php echo __($pl['name']); ?>
                             </a>
                             <?php
-                            if(!empty($videoSerie)){
-                                ?>
+                            if (!empty($videoSerie)) {
+                            ?>
                                 <span style="margin-left: 10px;">
                                     <?php
-                                        echo Video::generatePlaylistButtons($videoSerie['id'], 'btn btn-dark btn-xs', 'background-color: #11111199; ', false);
+                                    echo Video::generatePlaylistButtons($videoSerie['id'], 'btn btn-dark btn-xs', 'background-color: #11111199; ', false);
                                     ?>
                                 </span>
-                                <?php
-                            }else{
-                                echo '<!-- Playlists_id ['.$pl['id'].'] is not a serie -->';
+                            <?php
+                            } else {
+                                echo '<!-- Playlists_id [' . $pl['id'] . '] is not a serie -->';
                             }
                             ?>
                         </h2>
