@@ -83,8 +83,8 @@ function loadConnectionsList() {
                                     <img src="${webSiteRootURL}user/${connection.friend_users_id}/foto.png" class="img img-responsive img-rounded pull-left" alt="User Photo">
                                     <strong>${connection.friend}</strong>
                                 </a>
-                                ${connection.callButton}
                                 ${connection.chatButton}
+                                ${connection.callButton}
                             </div>
                         </li>`;
                     $connectionList.append(listItem);
