@@ -714,7 +714,11 @@ class AI extends PluginAbstract
         _error_log('AI:videoCut start ' . $ai->getJson() . "{$obj->startTimeInSeconds} => {$obj->endTimeInSeconds}");
         $vid = Video::getVideoLight($obj->videos_id);
         $sources = getVideosURLOnly($vid['filename'], false);
-        $source = end($sources);
+        if(!empty($sources['m3u8'])){
+            $source = $sources['m3u8'];
+        }else{
+            $source = end($sources);
+        }
         if (!empty($source)) {
             _error_log('AI:videoCut source found  ' . $source["url"]);
             $duration_in_seconds = $obj->endTimeInSeconds - $obj->startTimeInSeconds;
