@@ -571,7 +571,7 @@ class AI extends PluginAbstract
                 }
                 $fromFileLocationEscaped = escapeshellarg($mp3s['regular']['paths']['path']);
                 $toFileLocationEscaped = escapeshellarg($mp3s['lower']['paths']['path']);
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -ar 16000 -ac 1 -b:a 16k {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -ar 16000 -ac 1 -b:a 64k {$toFileLocationEscaped}";
                 $command = removeUserAgentIfNotURL($command);
                 exec($command, $output);
                 _error_log('getLowerMP3: ' . json_encode($output));
