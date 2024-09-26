@@ -5,9 +5,13 @@ if (empty($type->m3u8)) {
 ?>
     <div class="alert alert-warning">
         <strong>Note:</strong> This feature is only available for a video in HLS format. If you're not familiar with these requirements, please contact support for assistance.
+        <?php
+        foreach ($type as $key => $value) {
+            echo "<div><strong>{$key}</strong>: ".(empty($value)?'YES':'NO')."</div>";
+        }
+        ?>
     </div>
 <?php
-var_dump($type);
     return;
 }
 ?>
