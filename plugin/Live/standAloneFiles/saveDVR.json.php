@@ -1,5 +1,50 @@
 <?php
 
+// Define the copyDirectory function
+function copyDirectory($src, $dst) {
+    if (!file_exists($src)) {
+        error_log("copyDirectory: Source file or directory does not exist: $src");
+        return false;
+    }
+    if (is_dir($src)) {
+        @mkdir($dst, 0777, true);
+        $dir = opendir($src);
+        if (!$dir) {
+            error_log("copyDirectory: Failed to open directory: $src");
+            return false;
+        }
+        while (false !== ($file = readdir($dir))) {
+            if ($file != '.' && $file != '..') {
+                $srcPath = $src . DIRECTORY_SEPARATOR . $file;
+                $dstPath = $dst . DIRECTORY_SEPARATOR . $file;
+                if (is_dir($srcPath)) {
+                    if (!copyDirectory($srcPath, $dstPath)) {
+                        return false;
+                    }
+                } else {
+                    if (!copy($srcPath, $dstPath)) {
+                        error_log("copyDirectory: Failed to copy file $srcPath to $dstPath");
+                        return false;
+                    }
+                    chmod($dstPath, 0777);
+                }
+            }
+        }
+        closedir($dir);
+        return true;
+    } else {
+        // $src is a file
+        @mkdir(dirname($dst), 0777, true);
+        if (copy($src, $dst)) {
+            chmod($dst, 0777);
+            return true;
+        } else {
+            error_log("copyDirectory: Failed to copy file $src to $dst");
+            return false;
+        }
+    }
+}
+
 function setLastSegments($DVRFile, $total)
 {
     $parts = explode(DIRECTORY_SEPARATOR, $DVRFile);
@@ -90,18 +135,59 @@ $tmpDVRDir = $record_path . $file . uniqid();
 
 $isAdaptive = !is_dir($DVRFile);
 
+$escaped_tmpDVRDir = escapeshellarg($tmpDVRDir);
+
 if (!$isAdaptive) {
-    $copyDir = "cp -R {$DVRFile} {$tmpDVRDir} && chmod -R 777 {$tmpDVRDir} ";
+    $escaped_DVRFile = escapeshellarg($DVRFile);
+    $copyDir = "cp -R {$escaped_DVRFile} {$escaped_tmpDVRDir} && chmod -R 777 {$escaped_tmpDVRDir}";
     error_log("saveDVR: copy dir 1 [{$copyDir}]");
-    $DVRFile = "{$tmpDVRDir}" . DIRECTORY_SEPARATOR . 'index.m3u8';
-//$DVRFile .= DIRECTORY_SEPARATOR . 'index.m3u8';
+    $DVRFileTarget = "{$tmpDVRDir}" . DIRECTORY_SEPARATOR . 'index.m3u8';
 } else {
-    $copyDir = "mkdir {$tmpDVRDir} && cp -R {$DVRFile}* {$tmpDVRDir} && chmod -R 777 {$tmpDVRDir} ";
+    $escaped_DVRFile = escapeshellarg($DVRFile);
+    // Append '*' after escaping the path
+    $copyDir = "mkdir -p {$escaped_tmpDVRDir} && cp -R {$escaped_DVRFile}* {$escaped_tmpDVRDir} && chmod -R 777 {$escaped_tmpDVRDir}";
     error_log("saveDVR: copy dir 2 [{$copyDir}]");
-    $DVRFile = "{$tmpDVRDir}" . DIRECTORY_SEPARATOR . "{$key}.m3u8";
-    //$DVRFile .= ".m3u8";
+    $DVRFileTarget = "{$tmpDVRDir}" . DIRECTORY_SEPARATOR . "{$key}.m3u8";
 }
-exec($copyDir);
+
+// Initialize output and return code variables
+$output = [];
+$return_var = 0;
+
+// Execute the command and capture the output and return code
+exec($copyDir, $output, $return_var);
+
+// Check if exec failed
+if ($return_var !== 0) {
+    error_log("saveDVR: ERROR executing command: {$copyDir}");
+    error_log("saveDVR: Command output: " . implode("\n", $output));
+    error_log("saveDVR: Command return code: {$return_var}");
+    
+    // Try using copyDirectory function
+    error_log("saveDVR: Trying to copy directory using PHP functions");
+    if (copyDirectory($DVRFile, $tmpDVRDir)) {
+        error_log("saveDVR: Directory copied successfully using PHP functions");
+    } else {
+        error_log("saveDVR: ERROR copying directory using PHP functions");
+    }
+} else {
+    error_log("saveDVR: Command executed successfully");
+}
+
+// Check if the target directory and file exist
+if (!is_dir($tmpDVRDir)) {
+    error_log("saveDVR: ERROR dir does not exist $tmpDVRDir");
+} else {
+    error_log("saveDVR: SUCCESS dir exists $tmpDVRDir");
+}
+
+if (!is_file($DVRFileTarget)) {
+    error_log("saveDVR: ERROR file does not exist $DVRFileTarget");
+} else {
+    error_log("saveDVR: SUCCESS file exists $DVRFileTarget");
+}
+
+
 $howManySegments = 0;
 if (!empty($_REQUEST['howManySegments'])) {
     $howManySegments = intval($_REQUEST['howManySegments']);
@@ -109,13 +195,13 @@ if (!empty($_REQUEST['howManySegments'])) {
 
 error_log("saveDVR: copy dir done howManySegments = {$howManySegments}");
 if (!$isAdaptive) {
-    //file_put_contents(PHP_EOL . '#EXT-X-ENDLIST', $DVRFile, FILE_APPEND);
+    //file_put_contents(PHP_EOL . '#EXT-X-ENDLIST', $DVRFileTarget, FILE_APPEND);
     if (!empty($howManySegments)) {
         error_log("saveDVR: howManySegments [{$howManySegments}]");
-        setLastSegments($DVRFile, $howManySegments);
+        setLastSegments($DVRFileTarget, $howManySegments);
     }
     $endLine = PHP_EOL . '#EXT-X-ENDLIST';
-    $appendCommand = "echo \"{$endLine}\" >> {$DVRFile}";
+    $appendCommand = "echo \"{$endLine}\" >> {$DVRFileTarget}";
     error_log("saveDVR: append [{$appendCommand}]");
     exec($appendCommand);
 } else {
@@ -143,12 +229,12 @@ if (!$isAdaptive) {
     }
 }
 
-if (!file_exists($DVRFile)) {
-    error_log("saveDVR: m3u8 File does not exists {$DVRFile} ");
-    die("saveDVR: m3u8 File does not exists {$DVRFile} ");
+if (!file_exists($DVRFileTarget)) {
+    error_log("saveDVR: m3u8 File does not exists {$DVRFileTarget} ");
+    die("saveDVR: m3u8 File does not exists {$DVRFileTarget} ");
 }
 
-$ffmpeg = "ffmpeg -i {$DVRFile} -c copy -bsf:a aac_adtstoasc {$filename} -y";
+$ffmpeg = "ffmpeg -i {$DVRFileTarget} -c copy -bsf:a aac_adtstoasc {$filename} -y";
 
 error_log("saveDVR: FFMPEG {$ffmpeg}");
 exec($ffmpeg);
