@@ -567,7 +567,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
      */
 
 
-    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" ";
+    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\"  -preset veryfast ";
     $FFMPEGComplement = " -max_muxing_queue_size 1024 "
         . '{audioConfig}'
         . "-c:v libx264 "
