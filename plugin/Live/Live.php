@@ -381,7 +381,7 @@ class Live extends PluginAbstract
                 'imgGIF' => '',
                 'type' => 'LiveDB',
                 'LiveUsersLabelLive' => $LiveUsersLabelLive,
-                'uid' => 'LiveObject_' . $value['id'],
+                'uid' => "live_{$value['live_servers_id']}_{$value['key']}",
                 'callback' => '',
                 'startsOnDate' => '',
                 'class' => "live_{$value['key']}",
@@ -856,8 +856,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 . 'var liveImageBGTemplate = ' . json_encode($liveImageBGTemplate) . ';'
                 . 'var isLive = ' . json_encode(isLive()) . ';'
                 . '</script>';
-            $js .= '<link href="' . getURL('plugin/Live/view/live.css') . '" rel="stylesheet" type="text/css"/>';
         }
+        $js .= '<link href="' . getURL('plugin/Live/view/live.css') . '" rel="stylesheet" type="text/css"/>';
 
         return $js . $css;
     }
