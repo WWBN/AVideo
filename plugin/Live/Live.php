@@ -379,7 +379,7 @@ class Live extends PluginAbstract
                 'link' => $link,
                 'imgJPG' => self::getPoster($value['users_id'], $value['live_servers_id']),
                 'imgGIF' => '',
-                'type' => 'LiveDB',
+                'type' => 'live',
                 'LiveUsersLabelLive' => $LiveUsersLabelLive,
                 'uid' => "live_{$value['live_servers_id']}_{$value['key']}",
                 'callback' => '',
@@ -389,7 +389,7 @@ class Live extends PluginAbstract
             );
 
             $app = self::getLiveApplicationModelArray($_array);
-            $app['live_servers_id'] = $value['live_servers_id'];
+            $app['live_servers_id'] = intval($value['live_servers_id']);
             $app['key'] = $value['key'];
             $app['live_transmitions_history_id'] = $value['id'];
             $app['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
@@ -4400,6 +4400,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (!empty($obj->autoFishLiveEveryHour)) {
             exec('php ' . $global['systemRootPath'] . 'plugin/Live/view/finishAll.json.php');
         }
+    }
+
+    static function getLiveControls($live_key, $live_servers_id = 0){
+        global $global;
+        include $global['systemRootPath'] . 'plugin/Live/myLiveControls.php';     
     }
 
 }
