@@ -157,7 +157,7 @@ $return_var = 0;
 // Execute the command and capture the output and return code
 exec($copyDir, $output, $return_var);
 
-// Check if exec failed
+// Check if the exec command failed and try to use PHP functions instead
 if ($return_var !== 0) {
     error_log("saveDVR: ERROR executing command: {$copyDir}");
     error_log("saveDVR: Command output: " . implode("\n", $output));
@@ -187,15 +187,8 @@ if (!is_file($DVRFileTarget)) {
     error_log("saveDVR: SUCCESS file exists $DVRFileTarget");
 }
 
-
-$howManySegments = 0;
-if (!empty($_REQUEST['howManySegments'])) {
-    $howManySegments = intval($_REQUEST['howManySegments']);
-}
-
-error_log("saveDVR: copy dir done howManySegments = {$howManySegments}");
+// Process the M3U8 file to set the last segments and append the end list
 if (!$isAdaptive) {
-    //file_put_contents(PHP_EOL . '#EXT-X-ENDLIST', $DVRFileTarget, FILE_APPEND);
     if (!empty($howManySegments)) {
         error_log("saveDVR: howManySegments [{$howManySegments}]");
         setLastSegments($DVRFileTarget, $howManySegments);
@@ -203,11 +196,13 @@ if (!$isAdaptive) {
     $endLine = PHP_EOL . '#EXT-X-ENDLIST';
     $appendCommand = "echo \"{$endLine}\" >> {$DVRFileTarget}";
     error_log("saveDVR: append [{$appendCommand}]");
-    exec($appendCommand);
+    exec($appendCommand, $output, $return_var);
+    if ($return_var !== 0) {
+        error_log("saveDVR: ERROR appending end list: " . implode("\n", $output));
+    }
 } else {
     $dir = $tmpDVRDir . DIRECTORY_SEPARATOR;
     error_log("saveDVR: adaptive {$dir}");
-
     $list = scandir($dir);
     foreach ($list as $value) {
         if ($value != '..' && $value != ".") {
@@ -218,29 +213,40 @@ if (!$isAdaptive) {
                     error_log("saveDVR: howManySegments [{$howManySegments}]");
                     setLastSegments($indexFile, $howManySegments);
                 }
-
                 $endLine = PHP_EOL . '#EXT-X-ENDLIST';
                 $appendCommand = "echo \"{$endLine}\" >> {$indexFile}";
                 error_log("saveDVR: append [{$appendCommand}]");
-                exec($appendCommand);
-                //file_put_contents(PHP_EOL . '#EXT-X-ENDLIST', $indexFile, FILE_APPEND);
+                exec($appendCommand, $output, $return_var);
+                if ($return_var !== 0) {
+                    error_log("saveDVR: ERROR appending end list to adaptive index file: " . implode("\n", $output));
+                }
             }
         }
     }
 }
 
+// Verify that the final target file exists before proceeding
 if (!file_exists($DVRFileTarget)) {
-    error_log("saveDVR: m3u8 File does not exists {$DVRFileTarget} ");
-    die("saveDVR: m3u8 File does not exists {$DVRFileTarget} ");
+    error_log("saveDVR: m3u8 File does not exist {$DVRFileTarget}");
+    die("saveDVR: m3u8 File does not exist {$DVRFileTarget}");
 }
 
+// FFmpeg command to convert M3U8 to MP4
 $ffmpeg = "ffmpeg -i {$DVRFileTarget} -c copy -bsf:a aac_adtstoasc {$filename} -y";
-
 error_log("saveDVR: FFMPEG {$ffmpeg}");
-exec($ffmpeg);
+exec($ffmpeg, $output, $return_var);
+if ($return_var !== 0) {
+    error_log("saveDVR: ERROR executing FFmpeg: " . implode("\n", $output));
+} else {
+    error_log("saveDVR: FFMPEG done successfully");
+}
 
-error_log("saveDVR: FFMPEG done");
-
-$removeDir = "rm -R {$tmpDVRDir} ";
+// Cleanup temporary directory
+$removeDir = "rm -R {$tmpDVRDir}";
 error_log("saveDVR: remove dir {$removeDir}");
-exec($removeDir);
+exec($removeDir, $output, $return_var);
+if ($return_var !== 0) {
+    error_log("saveDVR: ERROR removing temporary directory: " . implode("\n", $output));
+} else {
+    error_log("saveDVR: Temporary directory removed successfully");
+}
