@@ -372,7 +372,7 @@ class Live extends PluginAbstract
             $title = self::getTitleFromKey($value['key'], $value['title']);
 
             $users_id = LiveTransmitionHistory::getUsers_idOrCompany($value['id']);
-
+            $value['live_servers_id'] = intval($value['live_servers_id']);
             $_array = array(
                 'users_id' => $users_id,
                 'title' => $title,
