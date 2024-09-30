@@ -899,7 +899,13 @@ if (!class_exists('Video')) {
                     );
                     if (!in_array($this->status, $doNotNotify) && $status == Video::$statusActive) {
                         _error_log("Video::setStatus({$status}) AVideoPlugin::onNewVideo ");
-                        if($_SERVER['SCRIPT_NAME'] !== '/objects/aVideoEncoder.json.php'){
+                        $notTriggerOnNewVideo = array(
+                            '/objects/aVideoEncoder.json.php',
+                            '/AVideo/plugin/Live/on_record_done.php',
+                            '/plugin/Live/on_record_done.php'
+                        );
+
+                        if(in_array($_SERVER['SCRIPT_NAME'], $notTriggerOnNewVideo)){
                             AVideoPlugin::onNewVideo($this->id);
                         }else{                            
                             _error_log("Video::setStatus({$status}) do not trigger onNewVideo on file aVideoEncoder.json.php ");
@@ -6725,7 +6731,7 @@ if (!class_exists('Video')) {
                 $alternativeLink = PlayLists::getLink($video['serie_playlists_id']);
                 $plids = PlayList::getVideosIDFromPlaylistLight($video['serie_playlists_id']);
                 $totalPL = count($plids);
-                $img .= '<div class="gallerySerieOverlay"><div class="gallerySerieOverlayTotal">' . $totalPL . '<br><i class="fas fa-list"></i></div><i class="fas fa-play"></i>' . __("Play All") . '</div>';
+                $img .= '<div class="gallerySerieOverlay"><!-- video --><div class="gallerySerieOverlayTotal">' . $totalPL . '<br><i class="fas fa-list"></i></div><i class="fas fa-play"></i>' . __("Play All") . '</div>';
             }
 
             // Generate buttons using the new function
