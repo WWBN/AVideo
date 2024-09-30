@@ -484,7 +484,9 @@ class Scheduler extends PluginAbstract
     {
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
-
+        if(empty($externalOptions)){
+            $externalOptions = new stdClass();
+        }
         if(empty($externalOptions->releaseDateTimeZone)){
             return $externalOptions->releaseDateTime;
         }
