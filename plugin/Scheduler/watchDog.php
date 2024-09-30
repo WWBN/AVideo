@@ -66,65 +66,12 @@ function secureAVideoFolder($folderPath = '/var/www/html/AVideo/videos')
     }
 
     // Define the current version of the .htaccess file
-    $htaccessVersion = '5.2';
+    $htaccessVersion = '5.5';
 
     // Define the .htaccess content with updated security rules
-    $htaccessContent = <<<HTACCESS
-# version $htaccessVersion
-# SQL was required for the clone plugin
-
-# Deny access to all sensitive file types and prevent execution
-<FilesMatch "(?i)\.(php[a-z0-9]?|phtml|sh|log|lock|bat|bin|cmd|com|cpl|exe|gadget|inf1|ins|inx|isu|job|jse|lnk|msc|msi|msp|mst|paf|pif|ps1|reg|rgs|scr|sct|shb|shs|u3p|vb|vbe|vbs|vbscript|ws|wsf|wsh|bak|config|inc|bkp)$">
-    <IfModule !authz_core_module>
-        Order Allow,Deny
-        Deny from all
-    </IfModule>
-    <IfModule authz_core_module>
-        Require all denied
-    </IfModule>
-</FilesMatch>
-
-# Allow access to specific file types only
-<FilesMatch "(?i)\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|ts|txt|mp4|mp3|m3u8|webp|key|css|tff|woff|woff2|webm|js|ttf|sql)$">
-    <IfModule !authz_core_module>
-        Order Allow,Deny
-        Allow from all
-    </IfModule>
-    <IfModule authz_core_module>
-        Require all granted
-    </IfModule>
-</FilesMatch>
-
-# Deny access to all hidden files and directories (those starting with a dot)
-<FilesMatch "^\.">
-    <IfModule !authz_core_module>
-        Order Allow,Deny
-        Deny from all
-    </IfModule>
-    <IfModule authz_core_module>
-        Require all denied
-    </IfModule>
-</FilesMatch>
-
-# Prevent directory listing
-Options -Indexes
-
-# Prevent script execution by changing MIME type to text/plain
-RemoveHandler .php .phtml .py .cgi .pl .sh
-AddType text/plain .php .phtml .py .cgi .pl .sh
-
-# Deny access to all .php files explicitly
-<Files "*.php">
-    <IfModule !authz_core_module>
-        Order Allow,Deny
-        Deny from all
-    </IfModule>
-    <IfModule authz_core_module>
-        Require all denied
-    </IfModule>
-</Files>
-HTACCESS;
-
+    $htaccessContent = "# version $htaccessVersion
+# SQL was required for the clone plugin" . PHP_EOL;
+    $htaccessContent .= file_get_contents(__DIR__.'/htaccess.sample.txt');
     // Path to .htaccess file
     $htaccessFile = $folderPath . '/.htaccess';
 
@@ -148,7 +95,7 @@ HTACCESS;
     // If the .htaccess needs to be updated, write the new content
     if ($updateHtaccess) {
         file_put_contents($htaccessFile, $htaccessContent);
-        _error_log( "Updated .htaccess to version $htaccessVersion.\n");
+        _error_log("Updated .htaccess to version $htaccessVersion.\n");
     }
 
     // Ensure Apache can read and write to this folder
