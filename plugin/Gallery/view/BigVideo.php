@@ -96,7 +96,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     <?php
                                     if (!empty($program) && $videoRow['type'] == 'serie' && !empty($videoRow['serie_playlists_id'])) {
                                     ?>
-                                        <div class="gallerySerieOverlay">
+                                        <div class="gallerySerieOverlay" onclick="$(this).closest('.thumbsImageContainer').find('.aspectRatio16_9 > a').click();"><!-- BigVideo -->
                                             <div class="gallerySerieOverlayTotal">
                                                 <?php
                                                 $plids = PlayList::getVideosIDFromPlaylistLight($videoRow['serie_playlists_id']);
