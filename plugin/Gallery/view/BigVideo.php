@@ -97,8 +97,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     if (!empty($program) && $videoRow['type'] == 'serie' && !empty($videoRow['serie_playlists_id'])) {
                                     ?>
                                         <div class="gallerySerieOverlay" 
-                                        style="cursor: pointer;" 
-                                        onclick="$(this).parent().find('.thumbsImageContainer > .aspectRatio16_9 > a').click();">
+                                        style="pointer-events: none;" >
                                         <!-- BigVideo -->
                                             <div class="gallerySerieOverlayTotal">
                                                 <?php
