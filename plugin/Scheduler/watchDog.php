@@ -66,7 +66,7 @@ function secureAVideoFolder($folderPath = '/var/www/html/AVideo/videos')
     }
 
     // Define the current version of the .htaccess file
-    $htaccessVersion = '5.5';
+    $htaccessVersion = '5.7';
 
     // Define the .htaccess content with updated security rules
     $htaccessContent = "# version $htaccessVersion
