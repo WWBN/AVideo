@@ -567,8 +567,10 @@ $tToleranceSide = 0.2;
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                     $categories = Category::getAllCategories(false, false, false, $sameUserGroupAsMe);
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
+                    echo "<!-- categories found ".count($categories)." -->";
                     foreach ($categories as $value) {
                         if ($value['parentId']) {
+                            echo "<!-- categories parentId is present {$value['parentId']} -->";
                             continue;
                         }
                         if ($advancedCustom->ShowAllVideosOnCategory) {
@@ -577,9 +579,11 @@ $tToleranceSide = 0.2;
                             $total = $value['total'];
                         }
                         if (empty($total)) {
+                            echo "<!-- categories empty total -->";
                             continue;
                         }
                         if (in_array($value['id'], $parsed_cats)) {
+                            echo "<!-- categories category already added -->";
                             continue;
                         }
                         //$parsed_cats[] = $value['id'];
@@ -597,6 +601,8 @@ $tToleranceSide = 0.2;
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                     $_POST = $post;
                     $_GET = $get;
+                }else{
+                    echo "<!-- categories doNotDisplayCategoryLeftMenu -->";
                 }
 
                 $_REQUEST['rowCount'] = $_rowCount;
