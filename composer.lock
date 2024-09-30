@@ -282,16 +282,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.322.2",
+            "version": "3.322.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "6a329cf111a4e54f2ca0e87ce07dd0b9e0befdad"
+                "reference": "ea3563a7f10fa562796f712fa306c1dca41a45d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6a329cf111a4e54f2ca0e87ce07dd0b9e0befdad",
-                "reference": "6a329cf111a4e54f2ca0e87ce07dd0b9e0befdad",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ea3563a7f10fa562796f712fa306c1dca41a45d7",
+                "reference": "ea3563a7f10fa562796f712fa306c1dca41a45d7",
                 "shasum": ""
             },
             "require": {
@@ -374,9 +374,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.322.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.322.7"
             },
-            "time": "2024-09-20T18:08:53+00:00"
+            "time": "2024-09-27T18:34:08+00:00"
         },
         {
             "name": "beberlei/assert",
