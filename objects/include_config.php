@@ -108,9 +108,12 @@ session_name($global['session_name']);
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
 $global['docker_vars'] = '/var/www/docker_vars.json';
-if (file_exists($global['docker_vars'])) {
+
+if (file_exists($global['docker_vars']) && defined('STDOUT')) {
+    // Log to stdout only if docker_vars.json exists and stdout is available
     $global['logfile'] = 'php://stdout';
 } else if (empty($global['logfile'])) {
+    // Fall back to file-based logging if stdout is not available
     $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
 }
 
