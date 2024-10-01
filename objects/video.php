@@ -905,7 +905,7 @@ if (!class_exists('Video')) {
                             '/plugin/Live/on_record_done.php'
                         );
 
-                        if(in_array($_SERVER['SCRIPT_NAME'], $notTriggerOnNewVideo)){
+                        if(!in_array($_SERVER['SCRIPT_NAME'], $notTriggerOnNewVideo)){
                             AVideoPlugin::onNewVideo($this->id);
                         }else{                            
                             _error_log("Video::setStatus({$status}) do not trigger onNewVideo on file aVideoEncoder.json.php ");
