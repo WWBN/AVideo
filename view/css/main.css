@@ -18,11 +18,11 @@ body.fullscreen {
     overflow: hidden;
 }
 
-#_avideoPageContentLoading{
+#_avideoPageContentLoading {
     display: none;
 }
 
-body._avideoPageContentLoading #_avideoPageContentLoading{
+body._avideoPageContentLoading #_avideoPageContentLoading {
     display: unset;
     position: fixed;
     top: 0;
@@ -1000,11 +1000,12 @@ img.blur {
     border-color: #000;
 }
 
-.btn-dark.watchLaterBtnAdded, .btn-dark.favoriteBtnAdded {
+.btn-dark.watchLaterBtnAdded,
+.btn-dark.favoriteBtnAdded {
     color: #4285f4;
 }
 
-.playlist-nav .navbar-header{
+.playlist-nav .navbar-header {
     color: #FFF;
 }
 
@@ -1115,7 +1116,8 @@ img.blur {
     filter: alpha(opacity=100);
 }
 
-.fa, .fas{
+.fa,
+.fas {
     display: inline-block;
 }
 
@@ -2002,12 +2004,12 @@ button.btn-sm.hamburger svg {
     display: block;
 }
 
-.carousel-cell .highlitedOnOver{
+.carousel-cell .highlitedOnOver {
     opacity: 0.7;
     filter: alpha(opacity=70);
 }
 
-.carousel-cell:hover .highlitedOnOver{
+.carousel-cell:hover .highlitedOnOver {
     opacity: 1;
     filter: alpha(opacity=100);
 }
@@ -2020,12 +2022,12 @@ body.ypt-is-compressed #videoCol {
     float: none;
 }
 
-#bigVideoCarousel div > div.galleryVideoButtons > div > ul > li > button,
-#modeYoutubeBottomContent div.galleryVideoButtons ul li > button{
+#bigVideoCarousel div>div.galleryVideoButtons>div>ul>li>button,
+#modeYoutubeBottomContent div.galleryVideoButtons ul li>button {
     display: inline-block;
 }
 
-#bigVideoCarousel div.galleryVideoButtons > div > ul{
+#bigVideoCarousel div.galleryVideoButtons>div>ul {
     padding: 10px;
 }
 
@@ -2057,12 +2059,12 @@ body.ypt-is-compressed #videoCol {
     display: none;
 }
 
-.gallerySection{
+.gallerySection {
     z-index: 1;
     margin-bottom: 50px;
 }
 
-.loadInfiniteScrollButton .scroller-status{
+.loadInfiniteScrollButton .scroller-status {
     display: none;
 }
 
@@ -2070,25 +2072,33 @@ body.ypt-is-compressed #videoCol {
     display: none;
 }
 
-.displayJsonAsHtml .panel{
+.displayJsonAsHtml .panel {
     background-color: transparent;
 }
-.displayJsonAsHtml .panel .panel-heading{
+
+.displayJsonAsHtml .panel .panel-heading {
     padding: 0;
 }
 
-.displayJsonAsHtml .panel .panel-body{
+.displayJsonAsHtml .panel .panel-body {
     padding: 3px 6px;
 }
 
-.largeSocialIcon{
+.largeSocialIcon {
     font-size: 2em;
 }
 
-.input-group.largeSocialIcon i{
+.input-group.largeSocialIcon i {
     font-size: 1.5em;
 }
 
-.mediumSocialIcon{
+.mediumSocialIcon {
     font-size: 1.5em;
+}
+
+.blur-background {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

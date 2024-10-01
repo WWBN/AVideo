@@ -21,7 +21,7 @@ $global['connectionAdded'] = 1;
         </div>
     </div>
     <div id="connectionMenu-toolbar-overlay" class="" style="display: none;">
-        <ul class="list-group bg-primary" id="connectionList">
+        <ul class="list-group blur-background" id="connectionList">
             <!-- Dynamic list of connections will be populated here -->
         </ul>
     </div>
