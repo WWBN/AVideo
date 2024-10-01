@@ -47,6 +47,9 @@ foreach ($rows as $row) {
             'price' => 0,
         )
     );
+    $element['runtime'] = intval($row['duration_in_seconds']);
+    $element['release_year'] = JustWatch::getReleaseYear($row['id']);
+    $element['crew_members'] = JustWatch::getCrewMembers($row['id']);
 
     $element['images'] = array();
     $posters = Video::getMediaSessionPosters($row['id']);
@@ -61,7 +64,6 @@ foreach ($rows as $row) {
         $array['contents'][] = $element;
     }
 }
-
 
 $array['last_modified'] = $formattedDate;
 
