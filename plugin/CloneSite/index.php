@@ -29,7 +29,7 @@ $_page->setExtraStyles(
             <i class="fas fa-clone"></i> <?php echo __("Manage Clones"); ?>
         </div>
         <div class="panel-body">
-            <table id="campaignTable" class="display" width="100%" cellspacing="0">
+            <table id="campaignTable" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th><?php echo __("URL"); ?></th>
