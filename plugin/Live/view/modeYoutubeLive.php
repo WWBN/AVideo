@@ -21,7 +21,7 @@ if (!empty($_GET['c'])) {
 }
 
 $livet = LiveTransmition::getFromRequest();
-//var_dump($livet);exit;
+//var_dump($livet, $_REQUEST);exit;
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 Live::checkIfPasswordIsGood($livet['key']);
 
@@ -212,7 +212,10 @@ $_page->setExtraStyles(
                                     });
                                 });
                             </script>
-                            <?php echo AVideoPlugin::getWatchActionButton(0); ?>
+                            <?php 
+                            echo AVideoPlugin::getWatchActionButton(0); 
+                            Live::getLiveControls($livet['key_with_index'], $livet['live_servers_id']);                            
+                            ?>
                         </div>
                     </div>
                     <?php
@@ -243,7 +246,5 @@ $_page->setExtraStyles(
 <?php
 include $global['systemRootPath'] . 'view/include/video.min.js.php';
 echo AVideoPlugin::afterVideoJS();
-?>
-<?php
 $_page->print();
 ?>

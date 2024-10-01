@@ -69,8 +69,10 @@ function secureAVideoFolder($folderPath = '/var/www/html/AVideo/videos')
     $htaccessVersion = '5.7';
 
     // Define the .htaccess content with updated security rules
-    $htaccessContent = "# version $htaccessVersion
-# SQL was required for the clone plugin" . PHP_EOL;
+    $htaccessContent = "# version $htaccessVersion". PHP_EOL;
+    $htaccessContent .= "# SQL was required for the clone plugin" . PHP_EOL;
+    $htaccessContent .= "# generated in ".date('Y-m-d H:i:s') . PHP_EOL;
+
     $htaccessContent .= file_get_contents(__DIR__.'/htaccess.sample.txt');
     // Path to .htaccess file
     $htaccessFile = $folderPath . '/.htaccess';
@@ -81,9 +83,10 @@ function secureAVideoFolder($folderPath = '/var/www/html/AVideo/videos')
         // Read the current .htaccess file content
         $currentContent = file_get_contents($htaccessFile);
         // Check if the version in the file matches the current version
-        if (!strpos($currentContent, "# version $htaccessVersion")) {
+        $version = "# version $htaccessVersion";
+        if (strpos($currentContent, $version) === false) {
             $updateHtaccess = true;
-            _error_log(".htaccess version mismatch. Updating to version $htaccessVersion.\n");
+            _error_log(".htaccess version mismatch $version. Updating to version $htaccessVersion.\n");
         } else {
             _error_log(".htaccess file is already up-to-date.\n");
         }

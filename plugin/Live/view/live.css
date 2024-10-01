@@ -1,0 +1,23 @@
+
+/* Default state when body does not have IAmOnline or IAmNOTOnline classes */
+.ShowIfIAmOnline, .ShowIfIAmNOTOnline {
+    display: none; /* Hide elements by default */
+}
+
+/* Show elements only if the body has class 'IAmOnline' */
+body.IAmOnline .ShowIfIAmOnline {
+    display: block !important; /* Show the element */
+}
+
+body.IAmOnline .HideIfIAmOnline {
+    display: none !important; /* Hide the element */
+}
+
+/* Show elements only if the body has class 'IAmNOTOnline' */
+body.IAmNOTOnline .ShowIfIAmNOTOnline {
+    display: block !important; /* Show the element */
+}
+
+body.IAmNOTOnline .HideIfIAmNOTOnline {
+    display: none !important; /* Hide the element */
+}

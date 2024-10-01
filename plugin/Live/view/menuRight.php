@@ -79,8 +79,49 @@ if (User::canStream()) {
         }, 1000); // give some time to load the new images
     }
 
+    var IAmOnline = false;
+    var my_current_live_key = 0;
+    var my_current_live_servers_id = 0;
+    async function amILive(stats) {
+        IAmOnline = false;
+        for (var i in stats) {
+            if (typeof stats[i] !== 'object') {
+                continue;
+            }
+            var stat = stats[i];
+            console.log('amILive', stat);
+            if (stat.type == 'live' || stat.type == "LiveObject") {
+                if (stat.users_id == my_users_id) {
+                    my_current_live_key = stat.key;
+                    my_current_live_servers_id = stat.live_servers_id;
+                    IAmOnline = true;
+                    break;
+                }
+            }
+        }
+        console.log('amILive', IAmOnline, stats);
+        $('body').each(function() {
+            var classes = $(this).attr('class').split(' ').filter(function(c) {
+                return !c.startsWith('body_live_');
+            });
+            $(this).attr('class', classes.join(' '));
+        });
+
+        if (IAmOnline) {
+            $('body').addClass('IAmOnline');
+            $('body').removeClass('IAmNOTOnline');
+            $('body').addClass('body_live_' + my_current_live_servers_id + '_' + my_current_live_key);
+        } else {
+            $('body').removeClass('IAmOnline');
+            $('body').addClass('IAmNOTOnline');
+            live_transmitions_history_id = 0;
+        }
+    }
+
     var _processLiveStats_processingNow = 0;
+    var lastProcessLiveStats = [];
     async function processLiveStats(response) {
+        lastProcessLiveStats = response;
         if (_processLiveStats_processingNow) {
             return false;
         }
@@ -89,6 +130,8 @@ if (User::canStream()) {
             _processLiveStats_processingNow = 0;
         }, 200);
         if (typeof response !== 'undefined') {
+            console.trace('processApplication add notificationLiveItemRemoveThis');
+            $('.stats_app').addClass('notificationLiveItemRemoveThis');
             if (isArray(response)) {
                 for (var i in response) {
                     if (typeof response[i] !== 'object') {
@@ -101,6 +144,7 @@ if (User::canStream()) {
                 //console.log('processLiveStats not array', response);
                 processApplicationLive(response);
             }
+            $('.notificationLiveItemRemoveThis').remove();
             if (!response.countLiveStream) {
                 availableLiveStreamNotFound();
             } else {
@@ -108,6 +152,7 @@ if (User::canStream()) {
             }
             $('.onlineApplications').text($('#availableLiveStream > div').length);
         }
+
 
         setTimeout(function() {
             <?php
@@ -154,6 +199,7 @@ if (User::canStream()) {
                 }
             }
 
+            amILive(response.applications);
             if (typeof onlineLabelOnline == 'function' && response.applications.length) {
                 //console.log('processApplicationLive 1', response.applications, response.applications.length);
                 for (i = 0; i < response.applications.length; i++) {
@@ -162,7 +208,9 @@ if (User::canStream()) {
                         return false;
                     }
                     processApplication(response.applications[i]);
+                    $('#' + response.applications[i].className).removeClass('notificationLiveItemRemoveThis');
                     if (!response.applications[i].comingsoon) {
+                        console.log('processApplicationLive', response.applications[i]);
                         if (typeof response.applications[i].live_cleanKey !== 'undefined') {
                             selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
                             onlineLabelOnline(selector);
@@ -262,7 +310,10 @@ if (User::canStream()) {
                 ////console.log('processApplication remove class .live_' + key);
                 $('.live_' + key).remove();
             }
-            if (!$('#' + notificatioID).length) {
+            var selector = '#' + notificatioID;
+            $(selector).removeClass('notificationLiveItemRemoveThis');
+            console.log('processApplication notificatioID ', selector);
+            if (!$(selector).length) {
                 notificationHTML.attr('id', notificatioID);
                 if (application.comingsoon) {
                     //console.log('application.comingsoon 1', application.comingsoon, application.method);
@@ -292,7 +343,10 @@ if (User::canStream()) {
             ?>
             var id = $(html).attr('id').replace(/[&=]/g, '');
 
-            if ($('#' + id).length) {
+            var selector = '#' + id;
+            $(selector).removeClass('notificationLiveItemRemoveThis');
+            console.log('processApplication key ', selector);
+            if ($(selector).length) {
                 //console.log('processApplication key found', id);
                 return false;
             }
@@ -341,7 +395,7 @@ if (User::canStream()) {
         itemsArray.image = application.poster;
         itemsArray.title = application.title;
         itemsArray.href = application.href;
-        itemsArray.element_class = application.className + ' ' + application.type + '_app';
+        itemsArray.element_class = application.className + ' ' + application.type + '_app' + ' stats_app';
         itemsArray.element_id = application.className;
         itemsArray.icon = 'fas fa-video';
         itemsArray.type = 'info';

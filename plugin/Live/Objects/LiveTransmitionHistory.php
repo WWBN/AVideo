@@ -211,7 +211,7 @@ class LiveTransmitionHistory extends ObjectYPT
         $users_id = $lth->getUsers_id();
         $key = $lth->getKey();
         $title = $lth->getTitle();
-        $live_servers_id = $lth->getLive_servers_id();
+        $live_servers_id = intval($lth->getLive_servers_id());
         $playlists_id_live = 0;
 
         $type = 'LiveObject';
@@ -252,6 +252,7 @@ class LiveTransmitionHistory extends ObjectYPT
 
         $obj = Live::getLiveApplicationModelArray($array);
         $obj['key'] = $key;
+        $obj['live_servers_id'] = $live_servers_id;
         $obj['live_transmitions_history_id'] = $liveTransmitionHistory_id;
         $obj['isPrivate'] = self::isPrivate($liveTransmitionHistory_id);
         $obj['isPasswordProtected'] = self::isPasswordProtected($liveTransmitionHistory_id);
@@ -402,7 +403,7 @@ class LiveTransmitionHistory extends ObjectYPT
             $sql .= " AND (total_viewers>0 OR (SELECT count(id) FROM  live_transmition_history_log WHERE live_transmitions_history_id=lth.id )>0) ";
         }
         $limit = intval($limit);
-        if(!empty($limit)){
+        if (!empty($limit)) {
             $sql .= "ORDER BY 
             CASE 
                 WHEN finished IS NULL THEN 0 
@@ -410,7 +411,7 @@ class LiveTransmitionHistory extends ObjectYPT
             END, 
             modified DESC
             LIMIT {$limit}";
-        }else{
+        } else {
             $sql .= self::getSqlFromPost();
         }
         //echo $sql;exit;
@@ -419,8 +420,8 @@ class LiveTransmitionHistory extends ObjectYPT
         sqlDAL::close($res);
         $rows = [];
         if ($res != false) {
-            foreach ($fullData as $row) {                
-                $row['activeStatus'] = empty($row['finished'])?__('Active'):__('Inactive');
+            foreach ($fullData as $row) {
+                $row['activeStatus'] = empty($row['finished']) ? __('Active') : __('Inactive');
                 if (empty($row['total_viewers'])) {
                     $row['total_viewers'] = $row['total_viewers_from_history'];
                 }
@@ -497,7 +498,7 @@ class LiveTransmitionHistory extends ObjectYPT
             $row = $data;
         } else {
             if (is_int($active)) {
-                _error_log("LiveTransmitionHistory::getLatest not found ($key, $live_servers_id, $active, $users_id, $categories_id) ".$sql);
+                _error_log("LiveTransmitionHistory::getLatest not found ($key, $live_servers_id, $active, $users_id, $categories_id) " . $sql);
             }
             $row = false;
         }
@@ -516,7 +517,7 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function finishFromTransmitionHistoryId($live_transmitions_history_id)
     {
-        if(isBot(false)){
+        if (isBot(false)) {
             return false;
         }
         global $global;
@@ -529,7 +530,7 @@ class LiveTransmitionHistory extends ObjectYPT
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$live_transmitions_history_id} ";
 
         $insert_row = sqlDAL::writeSql($sql);
-        _error_log("LiveTransmitionHistory::finishFromTransmitionHistoryId: live_transmitions_history_id=$live_transmitions_history_id users_id=".  User::getId() .' IP='. getRealIpAddr(). ' ' . $_SERVER['HTTP_USER_AGENT'] . ' '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log("LiveTransmitionHistory::finishFromTransmitionHistoryId: live_transmitions_history_id=$live_transmitions_history_id users_id=" .  User::getId() . ' IP=' . getRealIpAddr() . ' ' . $_SERVER['HTTP_USER_AGENT'] . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
 
         _mysql_commit();
 
@@ -557,7 +558,7 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function unfinishFromTransmitionHistoryId($live_transmitions_history_id)
     {
-        if(isBot(false)){
+        if (isBot(false)) {
             //_error_log("LiveTransmitionHistory::unfinishFromTransmitionHistoryId: isBot ");
             return false;
         }
@@ -576,7 +577,7 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function finishALL($olderThan = '')
     {
-        if(isBot(false)){
+        if (isBot(false)) {
             return false;
         }
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE finished IS NULL ";
@@ -833,7 +834,7 @@ class LiveTransmitionHistory extends ObjectYPT
         if (empty($this->id)) {
             $activeLive = self::getLatest($this->key, $this->live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
             if (!empty($activeLive)) {
-                if($activeLive['key'] == $this->key){
+                if ($activeLive['key'] == $this->key) {
                     //_error_log("LiveTransmitionHistory::save: active live found $this->key, $this->live_servers_id " . json_encode($activeLive));
                     foreach ($activeLive as $key => $value) {
                         if (empty($this->$key)) {
@@ -843,8 +844,8 @@ class LiveTransmitionHistory extends ObjectYPT
                     }
                     self::unfinishFromTransmitionHistoryId($activeLive['id']);
                     $this->finished = null;
-                }else{
-                // _error_log("LiveTransmitionHistory::save: active live NOT match $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
+                } else {
+                    // _error_log("LiveTransmitionHistory::save: active live NOT match $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
                 }
             } else {
                 //_error_log("LiveTransmitionHistory::save: active live NOT found $this->key, $this->live_servers_id " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));

@@ -140,7 +140,7 @@ class LiveTransmition extends ObjectYPT {
         return true;
     }
 
-    public static function getFromDbByUser($user_id, $refreshCache = false) {
+    public static function getFromDbByUser($user_id, $refreshCache = false, $allowOnlineIndex = false) {
         global $global;
         if (!self::isTableInstalled(static::getTableName())) {
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
@@ -162,7 +162,7 @@ class LiveTransmition extends ObjectYPT {
                 $data['live_servers_id'] = Live::getLiveServersIdRequest();
                 $liveStreamObject = new LiveStreamObject($data['key'], $data['live_servers_id']);
             }
-            $data['key_with_index'] = $liveStreamObject->getKeyWithIndex(true);
+            $data['key_with_index'] = $liveStreamObject->getKeyWithIndex(true, $allowOnlineIndex);
             $data['live_index'] = $liveStreamObject->getIndex();
 
             $user = $data;
@@ -223,7 +223,7 @@ class LiveTransmition extends ObjectYPT {
             return LiveTransmition::getFromDbByUserName($_REQUEST['u']);
         } elseif (!empty($_REQUEST['c'])) {
             //_error_log('LiveTransmition::getFromRequest line'.__LINE__);
-            return LiveTransmition::getFromDbByChannelName($_REQUEST['c']);
+            return LiveTransmition::getFromDbByChannelName($_REQUEST['c'], true);
         }
         //_error_log('LiveTransmition::getFromRequest line'.__LINE__);
         return false;
@@ -249,7 +249,7 @@ class LiveTransmition extends ObjectYPT {
         }
     }
 
-    public static function getFromDbByChannelName($channelName) {
+    public static function getFromDbByChannelName($channelName, $allowOnlineIndex = false) {
         global $global;
         _mysql_connect();
         $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
@@ -261,7 +261,7 @@ class LiveTransmition extends ObjectYPT {
             if (empty($user)) {
                 return false;
             }
-            return static::getFromDbByUser($user['id']);
+            return static::getFromDbByUser($user['id'], false, $allowOnlineIndex);
         } else {
             return false;
         }

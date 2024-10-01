@@ -289,6 +289,9 @@ class Message implements MessageComponentInterface {
                     $this->msgToResourceId($json, $json['resourceId']);
                 } else if (!empty($json['to_users_id'])) {
                     $this->msgToUsers_id($json, $json['to_users_id']);
+                } else if (!empty($json['json']['redirectLive'])) {
+                    _log_message("onMessage:msgToAllSameLive: " . json_encode($json));
+                    $this->msgToAllSameLive($json['json']['redirectLive']['live_key'], $json['json']['redirectLive']['live_servers_id'], $json);
                 } else {
                     $this->msgToAll($json);
                 }
@@ -350,6 +353,7 @@ class Message implements MessageComponentInterface {
             unset($msg['webSocketToken']);
         }
         if (empty($type)) {
+            _log_message("msgToResourceId: empty message type ");
             $type = \SocketMessageType::DEFAULT_MESSAGE;
         }
 
@@ -404,7 +408,7 @@ class Message implements MessageComponentInterface {
         $obj['mem'] = Message::$mem;
 
         $msgToSend = json_encode($obj);
-        //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type} users_id={$obj['users_id']}");
+        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type} users_id={$obj['users_id']}");
         $this->clients[$resourceId]->send($msgToSend);
         return true;
     }
@@ -542,13 +546,17 @@ class Message implements MessageComponentInterface {
             $this->msgToArray($msg);
         }
 
+        $live_servers_id = intval($live_servers_id);
+
         $rows = dbGetAllResourcesIdFromLive($live_key, $live_servers_id);
         $totals = $this->getTotals();
         
+        _log_message("msgToAllSameLive: {$live_key}_{$live_servers_id} total=".count($rows).' '.json_encode($msg));
         foreach ($rows as $value) {
-            if($value['isCommandLine']){
+            if(!empty($value['isCommandLine'])){
                 continue;
             }
+            _log_message("msgToAllSameLive: {$value['resourceId']} ");
             $this->msgToResourceId($msg, $value['resourceId'], \SocketMessageType::ON_LIVE_MSG, $totals);
         }
     }

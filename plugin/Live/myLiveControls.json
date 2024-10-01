@@ -1,0 +1,14 @@
+[
+    {
+        "element": "#sendViewersControls",
+        "intro": "Welcome to the Viewer Redirect feature! This allows you to send your live viewers to another stream or page when you're ending your broadcast."
+    },
+    {
+        "element": "#promptForUrlBtn",
+        "intro": "First, click this button to select or enter a URL where you want to redirect your viewers. You can choose from a list of active streams or enter a custom URL."
+    },
+    {
+        "element": "#sendViewersButtons",
+        "intro": "When you're ready to redirect your viewers, click this button. Note: This will also stop your live stream."
+    }
+]

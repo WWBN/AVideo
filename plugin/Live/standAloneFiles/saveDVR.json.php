@@ -1,82 +1,4 @@
 <?php
-
-// Define the copyDirectory function
-function copyDirectory($src, $dst) {
-    if (!file_exists($src)) {
-        error_log("copyDirectory: Source file or directory does not exist: $src");
-        return false;
-    }
-    if (is_dir($src)) {
-        @mkdir($dst, 0777, true);
-        $dir = opendir($src);
-        if (!$dir) {
-            error_log("copyDirectory: Failed to open directory: $src");
-            return false;
-        }
-        while (false !== ($file = readdir($dir))) {
-            if ($file != '.' && $file != '..') {
-                $srcPath = $src . DIRECTORY_SEPARATOR . $file;
-                $dstPath = $dst . DIRECTORY_SEPARATOR . $file;
-                if (is_dir($srcPath)) {
-                    if (!copyDirectory($srcPath, $dstPath)) {
-                        return false;
-                    }
-                } else {
-                    if (!copy($srcPath, $dstPath)) {
-                        error_log("copyDirectory: Failed to copy file $srcPath to $dstPath");
-                        return false;
-                    }
-                    chmod($dstPath, 0777);
-                }
-            }
-        }
-        closedir($dir);
-        return true;
-    } else {
-        // $src is a file
-        @mkdir(dirname($dst), 0777, true);
-        if (copy($src, $dst)) {
-            chmod($dst, 0777);
-            return true;
-        } else {
-            error_log("copyDirectory: Failed to copy file $src to $dst");
-            return false;
-        }
-    }
-}
-
-function setLastSegments($DVRFile, $total)
-{
-    $parts = explode(DIRECTORY_SEPARATOR, $DVRFile);
-    array_pop($parts);
-    $dir = implode(DIRECTORY_SEPARATOR, $parts) . DIRECTORY_SEPARATOR;
-
-    $text = file_get_contents($DVRFile);
-
-    error_log("setLastSegments 1 $dir $DVRFile, $total " . json_encode($text));
-    if (empty($total)) {
-        return $text;
-    }
-
-    $array = preg_split('/$\R?^/m', $text);
-    for ($i = count($array) - 1; $i >= 0; $i--) {
-        if (preg_match('/[0-9]+.ts$/', $array[$i])) {
-            if ($total) {
-                $total--;
-            } else {
-                unset($array[$i]);
-                unset($array[$i - 1]);
-            }
-            $i--;
-        }
-    }
-
-    $newcontent = implode(PHP_EOL, $array);
-    error_log("setLastSegments 2 " . json_encode($newcontent));
-    $bytes = file_put_contents($DVRFile, $newcontent);
-    error_log("setLastSegments 3 " . $bytes);
-}
-
 // this file MUST be on the same directory as getRecordedFile.php
 
 $hls_path = "/HLS/live/"; //update this URL
@@ -249,4 +171,82 @@ if ($return_var !== 0) {
     error_log("saveDVR: ERROR removing temporary directory: " . implode("\n", $output));
 } else {
     error_log("saveDVR: Temporary directory removed successfully");
+}
+
+
+// Define the copyDirectory function
+function copyDirectory($src, $dst) {
+    if (!file_exists($src)) {
+        error_log("copyDirectory: Source file or directory does not exist: $src");
+        return false;
+    }
+    if (is_dir($src)) {
+        @mkdir($dst, 0777, true);
+        $dir = opendir($src);
+        if (!$dir) {
+            error_log("copyDirectory: Failed to open directory: $src");
+            return false;
+        }
+        while (false !== ($file = readdir($dir))) {
+            if ($file != '.' && $file != '..') {
+                $srcPath = $src . DIRECTORY_SEPARATOR . $file;
+                $dstPath = $dst . DIRECTORY_SEPARATOR . $file;
+                if (is_dir($srcPath)) {
+                    if (!copyDirectory($srcPath, $dstPath)) {
+                        return false;
+                    }
+                } else {
+                    if (!copy($srcPath, $dstPath)) {
+                        error_log("copyDirectory: Failed to copy file $srcPath to $dstPath");
+                        return false;
+                    }
+                    chmod($dstPath, 0777);
+                }
+            }
+        }
+        closedir($dir);
+        return true;
+    } else {
+        // $src is a file
+        @mkdir(dirname($dst), 0777, true);
+        if (copy($src, $dst)) {
+            chmod($dst, 0777);
+            return true;
+        } else {
+            error_log("copyDirectory: Failed to copy file $src to $dst");
+            return false;
+        }
+    }
+}
+
+function setLastSegments($DVRFile, $total)
+{
+    $parts = explode(DIRECTORY_SEPARATOR, $DVRFile);
+    array_pop($parts);
+    $dir = implode(DIRECTORY_SEPARATOR, $parts) . DIRECTORY_SEPARATOR;
+
+    $text = file_get_contents($DVRFile);
+
+    error_log("setLastSegments 1 $dir $DVRFile, $total " . json_encode($text));
+    if (empty($total)) {
+        return $text;
+    }
+
+    $array = preg_split('/$\R?^/m', $text);
+    for ($i = count($array) - 1; $i >= 0; $i--) {
+        if (preg_match('/[0-9]+.ts$/', $array[$i])) {
+            if ($total) {
+                $total--;
+            } else {
+                unset($array[$i]);
+                unset($array[$i - 1]);
+            }
+            $i--;
+        }
+    }
+
+    $newcontent = implode(PHP_EOL, $array);
+    error_log("setLastSegments 2 " . json_encode($newcontent));
+    $bytes = file_put_contents($DVRFile, $newcontent);
+    error_log("setLastSegments 3 " . $bytes);
 }

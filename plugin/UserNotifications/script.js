@@ -37,7 +37,10 @@ function addTemplateFromArray(itemsArray, prepend) {
         return false;
     }
     //console.log('addTemplateFromArray', itemsArray);
+    console.trace('processApplication addTemplateFromArray ', itemsArray);
     if (!empty(itemsArray.element_id) && $('#' + (itemsArray.element_id)).length) {
+        var selector = '#' + (itemsArray.element_id);
+        $(selector).removeClass('notificationLiveItemRemoveThis');
         return false;
     }
     var template = getTemplateFromArray(itemsArray);

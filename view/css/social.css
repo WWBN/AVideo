@@ -112,7 +112,7 @@ ul.social-network li {
 
 /* Define a base class for common styles */
 .social-network a, .social-network button{
-    border-color: var(--hover-color) !important;
+    border: #FFFFFF55 1px solid;
     color: var(--hover-color); /* Change text color on hover */
     box-shadow: 0 0 1px 1px var(--hover-color); /* Outer glow effect */
     transition: box-shadow 0.3s ease; /* Smooth transition for the glow effect */

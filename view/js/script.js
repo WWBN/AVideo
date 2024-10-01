@@ -1307,7 +1307,7 @@ async function avideoConfirmCallBack(msg, confirmCallBackFunction, cancelCallBac
 
 async function avideoConfirm(msg) {
     var span = document.createElement("span");
-    span.innerHTML = __(msg);
+    span.innerHTML = __(msg, true);
     var response = await swal({
         title: 'Confrim',
         content: span,
@@ -4331,6 +4331,10 @@ function startTour(stepsFileRelativePath) {
     if (typeof introJs === 'undefined') {
         // Load Intro.js CSS
         $('head').append('<link rel="stylesheet" href="' + webSiteRootURL + 'node_modules/intro.js/minified/introjs.min.css" type="text/css" />');
+
+        if (isCurrentThemeDark) {
+            $('head').append('<link rel="stylesheet" href="' + webSiteRootURL + 'node_modules/intro.js/themes/introjs-modern.css" type="text/css" />');
+        }
 
         // Load Intro.js JavaScript
         $.getScript(webSiteRootURL + 'node_modules/intro.js/minified/intro.min.js', function () {

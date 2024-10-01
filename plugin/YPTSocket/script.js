@@ -9,12 +9,19 @@ var users_id_online = undefined;
 var socketConnectRetryTimeout = 15000;
 
 function processSocketJson(json){
+    if (json.type == webSocketTypes.UNDEFINED) {
+        console.log("processSocketJson UNDEFINED", json);
+        if(typeof json.msg === 'object' && typeof json.msg.callback === 'string'){
+            console.log("Socket onmessage UNDEFINED process subobject", json.msg);
+            return processSocketJson(json.msg)
+        }
+    }
     if (json.type == webSocketTypes.ON_VIDEO_MSG) {
-        console.log("Socket onmessage ON_VIDEO_MSG", json);
+        console.log("processSocketJson ON_VIDEO_MSG", json);
         $('.videoUsersOnline, .videoUsersOnline_' + json.videos_id).text(json.total);
     }
     if (json.type == webSocketTypes.ON_LIVE_MSG && typeof json.is_live !== 'undefined') {
-        console.log("Socket onmessage ON_LIVE_MSG", json);
+        console.log("processSocketJson ON_LIVE_MSG", json);
         var selector = '#liveViewStatusID_' + json.live_key.key + '_' + json.live_key.live_servers_id;
         if (json.is_live) {
             onlineLabelOnline(selector);
@@ -23,27 +30,27 @@ function processSocketJson(json){
         }
     }
     if (json.type == webSocketTypes.NEW_CONNECTION) {
-        //console.log("Socket onmessage NEW_CONNECTION", json);
+        //console.log("processSocketJson NEW_CONNECTION", json);
         if (typeof onUserSocketConnect === 'function') {
             onUserSocketConnect(json);
         }
     } else if (json.type == webSocketTypes.NEW_DISCONNECTION) {
-        //console.log("Socket onmessage NEW_DISCONNECTION", json);
+        //console.log("processSocketJson NEW_DISCONNECTION", json);
         if (typeof onUserSocketDisconnect === 'function') {
             onUserSocketDisconnect(json);
         }
     } else {
         var myfunc;
         if (json.callback) {
-            //console.log("Socket onmessage json.callback ", json.resourceId, json.callback);
+            //console.log("processSocketJson json.callback ", json.resourceId, json.callback);
             var code = "if(typeof " + json.callback + " == 'function'){myfunc = " + json.callback + ";}else{myfunc = defaultCallback;}";
-            //console.log(code);
+            console.log('processSocketJson: code='+code);
             eval(code);
         } else {
-            //console.log("onmessage: callback not found", json);
+            //console.log("processSocketJson: callback not found", json);
             myfunc = defaultCallback;
         }
-        //console.log("onmessage: callback ", myfunc, json);
+        //console.log("onmessage: callback ", myfunc, json.msg);
         myfunc(json.msg);
     }
 }

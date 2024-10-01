@@ -2,6 +2,7 @@
 global $socialAdded, $global;
 $titleSocial = @$title;
 $urlShort = @$url;
+
 if (empty($video['id']) && !empty(getVideos_id())) {
     $video['id'] = getVideos_id();
 }
@@ -16,6 +17,19 @@ if (!empty($video['id'])) {
     }
 }
 
+if(empty($urlShort)){
+    $live = isLive();
+    if(!empty($live)){
+        $livet = LiveTransmition::getFromRequest();
+        $titleSocial = $livet['title'];
+        $urlShort = Live::getLinkToLiveFromUsers_idAndLiveServer($livet['users_id'], $livet['live_servers_id'], $livet['live_index'], $live['live_schedule'] );
+    }
+    //var_dump($livet['users_id'], $livet['live_servers_id'], $livet['live_index'], $live['live_schedule'] , $urlShort, $titleSocial,  $live, $livet, debug_backtrace());exit;
+}
+if(empty($urlShort)){
+    echo '<!-- could not create social URL -->';
+    return;
+}
 if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
@@ -24,6 +38,7 @@ $titleSocial = getSEOTitle($titleSocial);
 //$originalURL = $urlSocial;
 $urlSocial = urlencode($url);
 //set the $urlSocial and the $titleSocial before include this
+
 
 if(!isset($global)){
     $global = [];

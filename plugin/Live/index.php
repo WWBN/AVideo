@@ -39,7 +39,7 @@ if (!empty($_GET['u'])) {
             $link = addQueryStringParameter($link, 'return_line', $info['return_line']);
             //var_dump($link, $info['otherLivesSameUser'][0]);exit;
             //var_dump($link,$info['users_id'], $info['otherLivesSameUser']);exit;
-            _error_log("Redirecting to {$link} info=".json_encode($info).' $_REQUEST='.json_encode($_REQUEST));
+            _error_log("Redirecting to {$link} info=" . json_encode($info) . ' $_REQUEST=' . json_encode($_REQUEST));
             header("Location: {$link}");
             exit;
             /*
@@ -84,6 +84,7 @@ if (!empty($_GET['users_id']) && User::isAdmin()) {
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
+//var_dump($trasnmition);exit;
 $getLiveKey = ['key' => $trasnmition['key'], 'live_servers_id' => Live::getLiveServersIdRequest()];
 setLiveKey($trasnmition['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 if (!empty($_GET['resetKey'])) {
@@ -165,11 +166,11 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                     if (User::isAdmin()) {
                     ?>
                         <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/view/editor.php');" class="btn btn-primary pull-right"><i class="fa fa-edit"></i> Edit Live Servers</button>
-                    <?php
+                <?php
                     }
                 }
                 if (Live::canStreamWithMeet()) {
-                    ?>
+                ?>
                     <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Meet/');" class="btn btn-default pull-right">
                         <i class="fas fa-comments"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Start a Live Stream Meeting"); ?></span><span class="hidden-lg"><?php echo __("Meeting"); ?></span>
                     </button>
@@ -199,6 +200,9 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                 $getLiveKey['live_servers_id'] = $_REQUEST['live_servers_id'];
                 $getLiveKey['live_index'] = @$_REQUEST['live_index'];
                 $poster = Live::getPosterImage(User::getId(), $_REQUEST['live_servers_id']);
+
+                $liveStreamObject = new LiveStreamObject($trasnmition['key'], $trasnmition['live_servers_id']);
+                Live::getLiveControls($liveStreamObject->getKeyWithIndex(true,true), $trasnmition['live_servers_id']);   
                 ?>
             </ul>
         </div>
@@ -243,7 +247,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
         });
 
         $.ajax({
-            url: webSiteRootURL+'plugin/Live/saveLive.php',
+            url: webSiteRootURL + 'plugin/Live/saveLive.php',
             data: {
                 "title": $('#title').val(),
                 "description": $('#description').val(),
