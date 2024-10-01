@@ -38,11 +38,7 @@ th:hover, .select2-dropdown{
 .swal-modal{
     background-color: #2e3338;
 }
-#socket_info_container .socketItem, #socket_info_container{
-    background-color: rgba(0,0,0,0.5) !important;
-}
 #socket_info_container div {
-    text-shadow: 0 0 2px #000 !important;
     color: #AAA !important;
 }
 .swal-icon, .swal-icon:before, .swal-icon:after, .swal-icon--success__hide-corners{

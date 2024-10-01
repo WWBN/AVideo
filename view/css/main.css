@@ -1175,7 +1175,6 @@ li.dropdown-submenu>ul>li>a {
 
 .socket_connected {
     color: #FFF;
-    animation: socketGlow 1s infinite alternate;
 }
 
 .socket_connected_icon {

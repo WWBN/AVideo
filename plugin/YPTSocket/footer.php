@@ -27,7 +27,6 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
 ?>
     <style>
         #socket_info_container>div {
-            text-shadow: 0 0 2px #FFF;
             padding: 5px;
             font-size: 11px;
         }
@@ -81,16 +80,8 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             color: #00000077;
         }
 
-        #socket_info_container .socketItem span {
-            opacity: 0.5;
-        }
-
         #socket_info_container.socketMinimized .socketItem {
             display: none;
-        }
-
-        #socket_info_container .socketItem {
-            background-color: rgba(255, 255, 255, 0.8);
         }
 
         .socketTitle,
@@ -155,7 +146,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             display: inline-block;
         }
     </style>
-    <div id="socket_info_container" class="socket_info <?php echo $socket_info_container_class; ?> <?php echo getCSSAnimationClassAndStyle('animate__bounceIn', 'socket_info'); ?>" style="display: none;">
+    <div id="socket_info_container" class="socket_info blur-background <?php echo $socket_info_container_class; ?> <?php echo getCSSAnimationClassAndStyle('animate__bounceIn', 'socket_info'); ?>" style="display: none;">
         <div class="socketHeader ">
             <?php
             echo getSocketConnectionLabel();

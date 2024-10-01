@@ -2913,6 +2913,8 @@ function getPleaseWait() {
     })();
 }
 
+var TotalPageLoadSeconds = 0;
+
 $(document).ready(function () {
     getServerTime();
     checkDescriptionArea();
@@ -2996,6 +2998,10 @@ $(document).ready(function () {
         var innerDiv = $(this).find("div.hidden");
         avideoAlertInfo(innerDiv.html());
     });
+    
+    setInterval(function () {
+        TotalPageLoadSeconds++;
+    }, 1000);
 });
 
 /*!
@@ -4420,4 +4426,9 @@ function actionButtonPlaylistClick(t, videos_id) {
     console.log('actionButtonPlaylistClick', videos_id);
     $(t).webuiPopover();
     callFunctionOrLoadScript('loadPlayLists', webSiteRootURL + 'plugin/PlayLists/script.js', videos_id);
+}
+
+// Function to get total seconds anytime
+function getTotalPageLoadSeconds() {
+    return TotalPageLoadSeconds;
 }
