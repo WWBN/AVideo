@@ -285,7 +285,7 @@ if ($r['action'] == "authAccount") {
         }
     }
     // ClearCache
-    include($global['systemRootPath']."objects/configurationClearCache.json.php?FirstPage=1");
+    clearCache(true);
 
 } else if ($r['action'] == "requestResetKeys") {
 
