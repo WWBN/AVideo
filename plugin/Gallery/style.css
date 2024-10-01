@@ -85,6 +85,23 @@ h3.galleryTitle{
     margin: 2px 0;
 }
 
+.galeryDetails .photo_identification{
+    display: inline-flex;
+    width: 100%;
+}
+
+.galeryDetails .photo_identification img{
+    max-width: 20px;
+    margin-right: 5px;
+}
+
+.galeryDetails .photo_identification .liveUser{
+    overflow: hidden;
+    white-space: nowrap; /* Prevents the text from wrapping to the next line */
+    text-overflow: ellipsis; /* Adds the ellipsis when the text overflows */
+    max-width: 100%; /* Set a width to trigger the ellipsis when content exceeds it */
+}
+
 .firstRow .galeryDetails div{
     font-size: 1em;
 }
@@ -298,6 +315,7 @@ a.h6.galleryLink > strong{
 }
 .channelPhotoDescription{
     width: calc(100% - 65px);
+    overflow: hidden;
 }
 
 .notShowChannel .channelPhotoDescription{
