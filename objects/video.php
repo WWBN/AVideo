@@ -900,16 +900,15 @@ if (!class_exists('Video')) {
                     if (!in_array($this->status, $doNotNotify) && $status == Video::$statusActive) {
                         _error_log("Video::setStatus({$status}) AVideoPlugin::onNewVideo ");
                         $notTriggerOnNewVideo = array(
-                            '/objects/aVideoEncoder.json.php',
-                            '/AVideo/plugin/Live/on_record_done.php',
-                            '/plugin/Live/on_record_done.php'
+                            'aVideoEncoder.json.php',
+                            'on_record_done.php'
                         );
-
-                        if(!in_array($_SERVER['SCRIPT_NAME'], $notTriggerOnNewVideo)){
+                        
+                        if (!in_array(basename($_SERVER['SCRIPT_NAME']), $notTriggerOnNewVideo)) {
                             AVideoPlugin::onNewVideo($this->id);
-                        }else{                            
-                            _error_log("Video::setStatus({$status}) do not trigger onNewVideo on file aVideoEncoder.json.php ");
-                        }
+                        } else {
+                            _error_log("Video::setStatus({$status}) do not trigger onNewVideo on file " . basename($_SERVER['SCRIPT_NAME']));
+                        }                        
                     } else {
                         _error_log("Video::setStatus({$status}) clearCache only ");
                     }
