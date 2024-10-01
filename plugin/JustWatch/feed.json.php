@@ -27,7 +27,12 @@ $array['contents'] = array();
 //setRowCount(2);
 
 $rows = Video::getAllVideosLight();
+$addedElements = array();
 foreach ($rows as $row) {
+    if(in_array($row['id'], $addedElements)){
+        continue;
+    }
+    $addedElements[] = $row['id'];
     $element = array();
     $element['id'] = '' . $row['id'];
     //$element['object_type'] = 'movie';
