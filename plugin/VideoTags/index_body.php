@@ -85,7 +85,7 @@ if (!User::isAdmin()) {
                 {
                     sortable: false,
                     data: null,
-                    defaultContent: $('#btnModelLinks').html(), "width": "100px"
+                    defaultContent: $('#btnModelLinks').html(), "width": "80px"
                 }
             ],
             select: true,
