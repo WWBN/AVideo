@@ -2102,3 +2102,8 @@ body.ypt-is-compressed #videoCol {
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+.swal-overlay--show-modal{
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
