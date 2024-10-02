@@ -6067,12 +6067,23 @@ function getCDN($type = 'CDN', $id = 0)
             $_getCDNURL[$index] = CDN::getURL($type, $id);
         }
     }
+
     if ($type == 'CDN') {
         if (!empty($global['ignoreCDN'])) {
             return $global['webSiteRootURL'];
-        } elseif (!empty($advancedCustom) && !empty($advancedCustom->videosCDN) && isValidURL($advancedCustom->videosCDN)) {
+        } else if (!empty($advancedCustom) && !empty($advancedCustom->videosCDN) && isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
-        } elseif (empty($_getCDNURL[$index])) {
+        } else {
+            $obj1 = AVideoPlugin::getDataObject('AWS_S3');
+            $obj2 = AVideoPlugin::getDataObject('Blackblaze_B2');
+            if (!empty($obj1) && isValidURL($obj1->CDN_Link)) {
+                $_getCDNURL[$index] = addLastSlash($obj1->CDN_Link);
+            } else if (!empty($obj2) && isValidURL($obj2->CDN_Link)) {
+                $_getCDNURL[$index] = addLastSlash($obj2->CDN_Link);
+            } 
+        }
+        
+        if (empty($_getCDNURL[$index])) {
             $_getCDNURL[$index] = $global['webSiteRootURL'];
         }
     }

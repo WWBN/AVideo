@@ -4186,6 +4186,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
+                //var_dump(__LINE__, $type);exit;
                 /* need it because getDurationFromFile */
                 if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip|m3u8)$/i', $type)) {
                     if (isDummyFile($source['path'])) {
