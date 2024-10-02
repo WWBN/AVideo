@@ -10,31 +10,29 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 
-CREATE TABLE IF NOT EXISTS `LiveLinks` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `livelinks` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `description` TEXT NOT NULL,
   `link` TEXT NOT NULL,
-  `start_date` DATETIME NULL,
-  `end_date` DATETIME NULL,
-  `type` ENUM('public', 'unlisted', 'logged_only') NULL,
-  `created` DATETIME NULL,
-  `modified` DATETIME NULL,
+  `start_date` DATETIME NULL DEFAULT NULL,
+  `end_date` DATETIME NULL DEFAULT NULL,
+  `type` ENUM('public', 'unlisted', 'logged_only') NULL DEFAULT NULL,
+  `created` DATETIME NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL,
   `status` ENUM('a', 'i') NULL DEFAULT 'a',
-  `users_id` INT NOT NULL,
-  `categories_id` INT NULL ,
+  `users_id` INT(11) NOT NULL,
+  `categories_id` INT(11) NULL DEFAULT NULL,
+  `timezone` VARCHAR(255) NULL,
+  `start_php_time` BIGINT NULL,
+  `end_php_time` BIGINT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_LiveLinks_users_idx` (`users_id` ASC),
   CONSTRAINT `fk_LiveLinks_users2`
-      FOREIGN KEY (`users_id`)
-      REFERENCES `users` (`id`)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-  CONSTRAINT `fk_livelinks_categories1`
-      FOREIGN KEY (`categories_id`)
-      REFERENCES `categories` (`id`)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE)
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `livelinks_has_users_groups` (

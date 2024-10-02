@@ -46,7 +46,7 @@ class LiveLinks extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "4.1";
+        return "4.2";
     }
 
     public function canAddLinks() {
@@ -79,7 +79,7 @@ class LiveLinks extends PluginAbstract {
         $sql = "SELECT * FROM  LiveLinks WHERE 1=1 ";
 
         if (!empty($future)) {
-            $sql .= " AND end_date >= now() ";
+            $sql .= " AND end_php_time >= ".time().' ';
         }
 
         if (!empty($activeOnly)) {
@@ -87,7 +87,7 @@ class LiveLinks extends PluginAbstract {
         }
 
         if (!empty($notStarted)) {
-            $sql .= " AND start_date >= now() ";
+            $sql .= " AND (start_php_time >= ".time().') ';
         }
 
         if (!empty($users_id)) {
@@ -98,7 +98,7 @@ class LiveLinks extends PluginAbstract {
             $sql .= " AND categories_id = " . intval($categories_id);
         }
 
-        $sql .= " ORDER BY start_date ";
+        $sql .= " ORDER BY start_php_time";
         //echo $sql;//exit;
         
         /**
@@ -110,6 +110,9 @@ class LiveLinks extends PluginAbstract {
         $rows = array();
         if ($res) {
             while ($row = $res->fetch_assoc()) {
+                if(empty($row['start_php_time'])){
+                    LiveLinksTable::updatePhpTimestampById($row['id']);
+                }
                 $row['link'] = str_replace('&amp;', '&', $row['link']);
                 $rows[] = $row;
             }
@@ -175,7 +178,7 @@ class LiveLinks extends PluginAbstract {
                 'LiveUsersLabelLive'=>$label,
                 'uid'=>'liveLink_'.$value['id'],
                 'callback'=>'',
-                'startsOnDate'=>convertFromDefaultTimezoneTimeToMyTimezone($value['start_date']),
+                'startsOnDate'=>date('Y-m-d H:i:s', $value['start_php_time']),
                 'class'=>'',
                 'description'=>$value['description']
             );
@@ -186,40 +189,13 @@ class LiveLinks extends PluginAbstract {
             $row['liveLinks_id'] = $value['id'];
             $row['start_date'] = $value['start_date'];
             $row['end_date'] = $value['end_date'];
-            $row['end_date_my_timezone'] = convertFromDefaultTimezoneTimeToMyTimezone($value['end_date']);
+            $row['end_date_my_timezone'] = date('Y-m-d H:i:s', $value['end_php_time']);
             $row['expires'] = strtotime($row['end_date_my_timezone']);
             $array[] = $row;
             
         }
         //var_dump($rows, $array);exit;
         return $array;
-    }
-
-    public function updateScript() {
-        global $global;
-        if (AVideoPlugin::compareVersion($this->getName(), "2") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV2.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "3.1") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV3.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "4.1") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV4.1.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-
-        return true;
     }
 
     public function getHeadCode() {
@@ -547,14 +523,15 @@ class LiveLinks extends PluginAbstract {
 
     static function isLiveLinkDateValid($livelinks_id){
         $liveLink = new LiveLinksTable($livelinks_id);
-        $startDate = convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getStart_date());
-        if(strtotime($startDate) > time()){
+
+        if($liveLink->getStart_php_time() > time()){
             return false;
         }
-        $endDate = convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getEnd_date());
-        if(strtotime($endDate) < time()){
+
+        if($liveLink->getEnd_php_time() < time()){
             return false;
         }
+
         return true;
     }
 

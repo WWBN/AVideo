@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveLinksTable extends ObjectYPT {
 
-    protected $id, $title, $description, $link, $start_date, $end_date, $type, $status, $users_id, $categories_id;
+    protected $id, $title, $description, $link, $start_date, $end_date, $type, $status, $users_id, $categories_id, $timezone, $start_php_time, $end_php_time;
 
     static function getSearchFieldsNames() {
         return array('title', 'description');
@@ -88,10 +88,12 @@ class LiveLinksTable extends ObjectYPT {
     }
 
     function setStart_date($start_date) {
+        $this->setStart_php_time(strtotime($start_date));
         $this->start_date = $start_date;
     }
 
     function setEnd_date($end_date) {
+        $this->setEnd_php_time(strtotime($end_date));
         $this->end_date = $end_date;
     }
 
@@ -134,6 +136,9 @@ class LiveLinksTable extends ObjectYPT {
         $rows = array();
         if ($res != false) {
             foreach ($fullData as $row) {
+                if(empty($row['start_php_time'])){
+                    LiveLinksTable::updatePhpTimestampById($row['id']);
+                }
                 $row['user_groups'] = self::getUserGorups($row['id']);
                 $row['link'] = str_replace('&amp;', '&', $row['link']);
                 $rows[] = $row;
@@ -244,5 +249,75 @@ class LiveLinksTable extends ObjectYPT {
         }
         return $rows;
     }
+
+    function getTimezone() {
+        return $this->timezone;
+    }
+    
+    function setTimezone($timezone) {
+        $this->timezone = $timezone;
+    }
+
+    function getStart_php_time() {
+        return $this->start_php_time;
+    }
+    
+    function setStart_php_time($start_php_time) {
+        $this->start_php_time = $start_php_time;
+    }
+
+    function getEnd_php_time() {
+        return $this->end_php_time;
+    }
+    
+    function setEnd_php_time($end_php_time) {
+        $this->end_php_time = $end_php_time;
+    }
+
+    public static function updatePhpTimestampById($id) {
+        global $global;
+    
+        if (empty($id)) {
+            _error_log("ID is required for updating PHP timestamps", AVideoLog::$ERROR);
+            return false;
+        }
+    
+        // Fetch the record with the provided id from the livelinks table
+        $sql = "SELECT `start_date`, `end_date` FROM `livelinks` WHERE `id` = ?";
+        $res = sqlDAL::readSql($sql, "i", array($id));
+        
+        if ($res) {
+            $row = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+    
+            if (!empty($row)) {
+                $startDateTime = $row['start_date'];
+                $endDateTime = $row['end_date'];
+    
+                // Convert the datetime to Unix timestamps (PHP time)
+                $startPhpTime = !empty($startDateTime) ? strtotime($startDateTime) : null;
+                $endPhpTime = !empty($endDateTime) ? strtotime($endDateTime) : null;
+    
+                // Update the record with the converted PHP timestamps
+                $sqlUpdate = "UPDATE `livelinks` SET `start_php_time` = ?, `end_php_time` = ? WHERE `id` = ?";
+                $result = sqlDAL::writeSql($sqlUpdate, "iii", array($startPhpTime, $endPhpTime, $id));
+    
+                if ($result) {
+                    return true;
+                } else {
+                    _error_log("Failed to update PHP timestamps for id: {$id}", AVideoLog::$ERROR);
+                    return false;
+                }
+            } else {
+                _error_log("Record not found for id: {$id}", AVideoLog::$ERROR);
+                return false;
+            }
+        } else {
+            _error_log("Failed to fetch record from livelinks table for id: {$id}", AVideoLog::$ERROR);
+            return false;
+        }
+    }
+    
+    
 
 }
