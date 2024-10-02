@@ -94,6 +94,7 @@ function redirectLive(json, countdown = 15) {
     }
 
     var viewerUrl = json.redirectLive && json.redirectLive.viewerUrl;
+    var customMessage = json.redirectLive && json.redirectLive.customMessage;
     if (!viewerUrl) {
         console.error("Viewer URL not found.");
         return;
@@ -114,11 +115,11 @@ function redirectLive(json, countdown = 15) {
 
             // Calculate the progress percentage
             var progressPercent = ((initialCountdown - countdown) / initialCountdown) * 100;
-            
+
             // Update the progress bar in the avideoConfirm modal with smooth transition
             $('#countdownProgressBar').css({
                 'width': progressPercent + '%',
-                'transition': 'width 1s linear' 
+                'transition': 'width 1s linear'
             });
 
             if (countdown <= 0) {
@@ -129,7 +130,7 @@ function redirectLive(json, countdown = 15) {
     }
 
     // Use avideoConfirm to ask for user confirmation and include a progress bar
-    avideoConfirm(__("You will be redirected to the following URL:") + "<br><strong>" + viewerUrl + "</strong><br><div class='progress' style='height: 10px;'><div id='countdownProgressBar' class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>").then(function (confirmed) {
+    avideoConfirm(customMessage + '<hr>' + __("You will be redirected to the following URL:") + "<br><strong>" + viewerUrl + "</strong><br><div class='progress' style='height: 10px;'><div id='countdownProgressBar' class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>").then(function (confirmed) {
         if (confirmed) {
             clearInterval(countdownInterval); // Stop countdown if user confirms
             redirectToUrl(viewerUrl);

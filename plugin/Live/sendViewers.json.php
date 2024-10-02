@@ -23,6 +23,7 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
 $obj = new stdClass();
 $obj->row = $row;
 $obj->viewerUrl = $_REQUEST['viewerUrl'];
+$obj->customMessage = $_REQUEST['customMessage'];
 $obj->live_key = $_REQUEST['live_key'];
 $obj->live_servers_id = intval(@$_REQUEST['live_servers_id']);
 

@@ -86,6 +86,9 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
                 <div class="form-group">
                     <input type="text" class="form-control" id="customUrl" placeholder="https://example.com/custom">
                 </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="customMessage" placeholder="<?php echo __('Enter a custom message for your viewers'); ?>"><?php echo __('I hope you enjoyed the stream! As a bonus, we\'ll be sending you to a special page now'); ?>.</textarea>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success btn-block" id="saveUrlBtn">
@@ -98,11 +101,13 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
 
 <script>
     var viewerUrl = '';
+    var customMessage = '';
 
     $(document).ready(function() {
         // Disable Send Viewers button initially// Load viewerUrl from the cookie if it exists
         if (Cookies.get('viewerUrl')) {
             viewerUrl = Cookies.get('viewerUrl');
+            customMessage = Cookies.get('customMessage');
             $('#customUrl').val(viewerUrl); // Update the displayed URL
             $('.currentUrlText').text(viewerUrl); // Update the displayed URL
             $('#sendViewersBtn').prop('disabled', false); // Enable Send Viewers button if URL is present
@@ -159,6 +164,7 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
         $('#saveUrlBtn').click(function() {
             var selectedUrl = $('#urlList .list-group-item.active').find('.media-url').text().trim();
             var customUrl = $('#customUrl').val().trim();
+            var _customMessage = $('#customMessage').val().trim();
 
             // Determine which URL to use
             if (customUrl !== '') {
@@ -167,8 +173,10 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
                     return;
                 }
                 viewerUrl = customUrl;
+                customMessage = _customMessage;
             } else if (selectedUrl !== '') {
                 viewerUrl = selectedUrl;
+                customMessage = _customMessage;
             } else {
                 avideoAlertError(__("Please select or enter a URL."));
                 return;
@@ -221,6 +229,7 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
             type: 'POST',
             data: {
                 'viewerUrl': viewerUrl,
+                'customMessage': $('#customMessage').val(),
                 'live_key': '<?php echo $live_key; ?>',
                 'live_servers_id': '<?php echo $live_servers_id;?>'
             },
@@ -229,7 +238,7 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
                 if (response.error) {
                     avideoAlertError(response.msg);
                 } else {
-                    avideoAlertSuccess(__("Viewers sent successfully!"));
+                    avideoToastSuccess(__("Viewers sent successfully!"));
                     // Optionally, disable the button after sending
                     $('#sendViewersBtn').prop('disabled', true);
                 }
