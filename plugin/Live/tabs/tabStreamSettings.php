@@ -37,10 +37,17 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
         border-bottom-left-radius: 0;
     }
 </style>
-<div class="panel panel-default <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
-    <div class="panel-heading"><i class="fas fa-hdd"></i> <?php echo __("RTMP Settings"); ?> (<?php echo $channelName; ?>)</div>
+<div class="panel panel-default <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>" id="RTMPSettings">
+    <div class="panel-heading">
+        <i class="fas fa-hdd"></i> <?php echo __("RTMP Settings"); ?> (<?php echo $channelName; ?>)
+        <div class="pull-right">
+        <?php
+        echo getTourHelpButton('plugin/Live/tabs/help.json', 'btn btn-default btn-xs', 'Live Configuration Help');
+        ?>
+        </div>
+    </div>
     <div class="panel-body" style="overflow: hidden;">
-        <div class="form-group">
+        <div class="form-group" id="ServerURL">
             <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
             <?php
             getInputCopyToClipboard('server', Live::getRTMPLinkWithOutKey(User::getId()));
@@ -49,7 +56,7 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
             <small class="label label-info"><i class="fa fa-warning"></i> <?php echo __("If you change your password the Server URL parameters will be changed too."); ?></small>
             -->
         </div>
-        <div class="form-group">
+        <div class="form-group" id="ServerName">
             <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Stream name/key"); ?>: </label>
             <div class="input-group">
                 <span class="input-group-btn">
@@ -75,7 +82,7 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
         }
         ?>
 
-        <div class="form-group <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
+        <div class="form-group <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>"  id="ServerURLName">
             <label for="serverAndStreamkey"><i class="fa fa-key"></i> <?php echo __("Server URL"); ?> + <?php echo __("Stream name/key"); ?>:</label>
             <?php
             getInputCopyToClipboard('serverAndStreamkey', Live::getRTMPLink(User::getId()));
@@ -88,7 +95,7 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
         <li class="active">
             <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a>
         </li>
-        <li class="">
+        <li id="tabLiveImages">
             <?php
             $url = "{$global['webSiteRootURL']}plugin/Live/view/Live_schedule/uploadPoster.php";
             $url = addQueryStringParameter($url, 'live_schedule_id', @$_REQUEST['live_schedule_id']);
@@ -99,7 +106,7 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
         <?php
         if (empty($objLive->hideUserGroups)) {
         ?>
-            <li class="">
+            <li id="tabLiveUserGroups">
                 <a data-toggle="tab" href="#tabUserGroups"><i class="fas fa-users"></i> <?php echo __("User Groups"); ?></a>
             </li>
         <?php
@@ -115,11 +122,11 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
                     <div class="row">
                         <div class="col-sm-6">
 
-                            <div class="form-group">
+                            <div class="form-group" id="LiveTitleField">
                                 <label for="title"><?php echo __("Title"); ?>:</label>
                                 <input type="text" class="form-control" id="title" value="<?php echo $trasnmition['title'] ?>">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="LivePasswordProtect">
                                 <label for="title"><?php echo __("Password Protect"); ?>:</label>
                                 <?php
                                 echo getInputPassword('password_livestream', 'class="form-control" value="' . $trasnmition['password'] . '"', __("Password Protect"), false);
@@ -132,7 +139,7 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
                             <?php
                             } else {
                             ?>
-                                <div class="form-group">
+                                <div class="form-group" id="publiclyListed">
                                     <span class="fa fa-globe"></span> <?php echo __("Make Stream Publicly Listed"); ?>
                                     <div class="material-switch pull-right">
                                         <input id="listed" type="checkbox" value="1" <?php echo !empty($trasnmition['public']) ? "checked" : ""; ?> onchange="saveStream();" />
@@ -177,13 +184,13 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
                         </div>
                         <div class="col-sm-6">
 
-                            <div class="form-group">
+                            <div class="form-group" id="LiveCategory">
                                 <label for="title"><?php echo __("Category"); ?>:</label>
                                 <?php
                                 echo Layout::getCategorySelect('categories_id', $trasnmition['categories_id']);
                                 ?>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="LiveDescription">
                                 <label for="description"><?php echo __("Description"); ?>:</label>
                                 <textarea rows="6" class="form-control" id="description"><?php echo $trasnmition['description'] ?></textarea>
                             </div>

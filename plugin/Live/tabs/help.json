@@ -1,0 +1,54 @@
+[
+    {
+        "element": "#RTMPSettings",
+        "intro": "This section allows you to manage your RTMP settings and control your live stream. Here you can copy your server URL, stream key, and more."
+    },
+    {
+        "element": "#ServerURL",
+        "intro": "Click here to copy your RTMP server URL to the clipboard. You'll need this URL to set up your stream in broadcasting software like OBS."
+    },
+    {
+        "element": "#ServerName",
+        "intro": "Click here to copy your stream key to the clipboard. This is required by your broadcasting software to identify your stream."
+    },
+    {
+        "element": "#ServerURLName",
+        "intro": "This combines both the server URL and stream key into one string. Click here to copy both to the clipboard for easy setup."
+    },
+    {
+        "element": "#tabStreamMetaData",
+        "intro": "In this tab, you can configure your stream metadata, including the title, password protection, images, user groups and stream listing."
+    },
+    {
+        "element": "#LiveTitleField",
+        "intro": "You can change your live title here."
+    },
+    {
+        "element": "#LiveCategory",
+        "intro": "You can change your live category here."
+    },
+    {
+        "element": "#LivePasswordProtect",
+        "intro": "You can password-protect your live stream by entering a password here. Only users with the password will be able to watch."
+    },
+    {
+        "element": "#LiveDescription",
+        "intro": "Use this field to add a description for your live stream. This description will be displayed to your viewers."
+    },
+    {
+        "element": "#publiclyListed",
+        "intro": "Toggle this switch to make your stream publicly listed. If disabled, the stream will not appear in public listings."
+    },
+    {
+        "element": "#btnSaveStream",
+        "intro": "After setting your stream metadata, click here to save your changes."
+    },
+    {
+        "element": "#tabLiveImages",
+        "intro": "In this tab, you can add custom images in your live."
+    },
+    {
+        "element": "#tabLiveUserGroups",
+        "intro": "In this tab, you can control which user groups are allowed to view your stream. Uncheck all to make it public, or select groups to limit access."
+    }
+]

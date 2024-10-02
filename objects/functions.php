@@ -7281,7 +7281,11 @@ function getTourHelpButton($stepsFileRelativePath, $class = 'btn btn-default', $
     */
     $label = '';
     if($showLabel){
-        $label = __('Help');
+        if(is_string($showLabel)){
+            $label = __($showLabel);
+        }else{
+            $label = __('Help');
+        }
     }
     return "<button class=\"startTourBtn {$class}\" onclick=\"startTour('{$stepsFileRelativePath}')\"><i class=\"fa-solid fa-circle-question\"></i> {$label}</button>";
 }
