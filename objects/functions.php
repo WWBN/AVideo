@@ -6071,19 +6071,13 @@ function getCDN($type = 'CDN', $id = 0)
     if ($type == 'CDN') {
         if (!empty($global['ignoreCDN'])) {
             return $global['webSiteRootURL'];
-        } else if (!empty($advancedCustom) && !empty($advancedCustom->videosCDN) && isValidURL($advancedCustom->videosCDN)) {
+        } elseif (!empty($advancedCustom) && !empty($advancedCustom->videosCDN) && isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
-        } else {
-            $obj1 = AVideoPlugin::getDataObjectIfEnabled('AWS_S3');
-            $obj2 = AVideoPlugin::getDataObjectIfEnabled('Blackblaze_B2');
-            if (!empty($obj1) && isValidURL($obj1->CDN_Link)) {
-                $_getCDNURL[$index] = addLastSlash($obj1->CDN_Link);
-            } else if (!empty($obj2) && isValidURL($obj2->CDN_Link)) {
-                $_getCDNURL[$index] = addLastSlash($obj2->CDN_Link);
-            } 
-        }
-        
-        if (empty($_getCDNURL[$index])) {
+        } elseif ($obj = AVideoPlugin::getDataObject('AWS_S3') && isValidURL($obj->CDN_Link)) {
+            $_getCDNURL[$index] = addLastSlash($obj->CDN_Link);
+        } elseif  ($obj = AVideoPlugin::getDataObject('Blackblaze_B2') && isValidURL($obj->CDN_Link)) {
+            $_getCDNURL[$index] = addLastSlash($obj->CDN_Link);
+        } elseif (empty($_getCDNURL[$index])) {
             $_getCDNURL[$index] = $global['webSiteRootURL'];
         }
     }
