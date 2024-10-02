@@ -7,8 +7,13 @@ if (!Live::canRestream()) {
     return false;
 }
 ?>
-<div class="panel panel-default">
-    <div class="panel-heading tabbable-line">
+<div class="panel panel-default" id="LiveRestreamPanel">
+    <div class="panel-heading clearfix">
+        <div class="pull-right">
+            <?php
+            echo getTourHelpButton('plugin/Live/view/Live_restreams/help.json', 'btn btn-default btn-xs', 'Restream Help');
+            ?>
+        </div>
     </div>
     <div class="panel-body">
         <?php
@@ -20,11 +25,11 @@ if (!Live::canRestream()) {
         include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/getLiveKey.php';
         ?>
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-primary" onclick="testRestreamer();">
+            <button type="button" class="btn btn-primary" id="livePanelTest" onclick="testRestreamer();">
                 <i class="fas fa-check"></i>
                 <?php echo __('Test'); ?>
             </button>
-            <button type="button" class="btn btn-success" onclick="avideoModalIframe(webSiteRootURL+'plugin/Live/view/Live_restreams/activeLives.php');">
+            <button type="button" class="btn btn-success" id="livePanelActiveLives" onclick="avideoModalIframe(webSiteRootURL+'plugin/Live/view/Live_restreams/activeLives.php');">
                 <i class="fas fa-wifi"></i>
                 <?php echo __('Active Lives'); ?>
             </button>

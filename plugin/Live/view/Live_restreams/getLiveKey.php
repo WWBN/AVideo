@@ -9,7 +9,7 @@ if (!Live::canRestream()) {
     return false;
 }
 ?>
-<div class="social-network">
+<div class="social-network" id="LiveKeysDivs">
     <button type="button" class="btn btn-default icoFacebook" onclick="openRestream('facebook')">
         <i class="fab fa-facebook-f mediumSocialIcon"></i><br>
         Facebook

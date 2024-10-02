@@ -1,0 +1,50 @@
+[
+    {
+        "element": "#LiveRestreamPanel",
+        "intro": "It allows users to simultaneously stream video content to multiple platforms and social networks"
+    },
+    {
+        "element": "#panelLive_restreamsForm",
+        "intro": "This form allows you to set up a new restreaming configuration. You can add details like name, stream URL, and stream key."
+    },
+    {
+        "element": "#Live_restreamsnameDiv",
+        "intro": "Enter the name for this restream. This can be any name that helps you identify the restream destination."
+    },
+    {
+        "element": "#Live_restreamsstatusDiv",
+        "intro": "Select whether this restream configuration is active or inactive."
+    },
+    {
+        "element": "#Live_restreamsstream_urlDiv",
+        "intro": "Enter the stream URL where your stream will be sent. This is provided by the platform you want to restream to, like YouTube or Facebook."
+    },
+    {
+        "element": "#Live_restreamsstream_keyDiv",
+        "intro": "Enter the stream key provided by the platform to authenticate your stream. Make sure it matches the platform you're restreaming to."
+    },
+    {
+        "element": "#newLive_restreamsLink",
+        "intro": "Click here to create a new restream configuration."
+    },
+    {
+        "element": "#saveLive_restreamsLink",
+        "intro": "Click here to save restream configuration."
+    },
+    {
+        "element": "#Live_restreamsTable",
+        "intro": "This table lists all of your existing restream configurations. You can view, edit, or delete them from here."
+    },
+    {
+        "element": "#LiveKeysDivs",
+        "intro": "Use these buttons to quickly set up a restream to popular platforms like Facebook, YouTube, or Twitch."
+    },
+    {
+        "element": "#livePanelTest",
+        "intro": "Click this button to test your restream setup and ensure everything is working correctly."
+    },
+    {
+        "element": "#livePanelActiveLives",
+        "intro": "Click here to view the currently active live streams."
+    }
+]

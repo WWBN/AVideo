@@ -8,29 +8,27 @@ if (!Live::canRestream()) {
 }
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo getURL('view/css/DataTables/datatables.min.css'); ?>"/>
-<i class="fas fa-question-circle pull-right" data-toggle="tooltip" data-placement="left" title="<?php echo __("It allows users to simultaneously stream video content to multiple platforms and social networks"); ?>"></i>
 <div class="row">
     <div class="col-sm-12  <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'restream', 0.1); ?>">
         <form id="panelLive_restreamsForm">
             <div class="row">
                 <input type="hidden" name="id" id="Live_restreamsid" value="" >
-
-                <div class="form-group col-sm-6">
+                <div class="form-group col-sm-6" id="Live_restreamsnameDiv">
                     <label for="Live_restreamsname"><?php echo __("Name"); ?>:</label>
                     <input type="text" id="Live_restreamsname" name="name" class="form-control input-sm" placeholder="<?php echo __("Name"); ?>" required="true">
                 </div>
-                <div class="form-group col-sm-6">
+                <div class="form-group col-sm-6" id="Live_restreamsstatusDiv">
                     <label for="status"><?php echo __("Status"); ?>:</label>
                     <select class="form-control input-sm" name="status" id="Live_restreamsstatus">
                         <option value="a"><?php echo __("Active"); ?></option>
                         <option value="i"><?php echo __("Inactive"); ?></option>
                     </select>
                 </div>
-                <div class="form-group col-sm-6">
+                <div class="form-group col-sm-6" id="Live_restreamsstream_urlDiv">
                     <label for="Live_restreamsstream_url"><?php echo __("Stream Url"); ?>:</label>
                     <input type="text" id="Live_restreamsstream_url" name="stream_url" class="form-control input-sm" placeholder="<?php echo __("Stream Url"); ?>" required="true">
                 </div>
-                <div class="form-group col-sm-6">
+                <div class="form-group col-sm-6" id="Live_restreamsstream_keyDiv">
                     <label for="Live_restreamsstream_key"><?php echo __("Stream Key"); ?>:</label>
                     <input type="text" id="Live_restreamsstream_key" name="stream_key" class="form-control input-sm" placeholder="<?php echo __("Stream Key"); ?>" required="true">
                 </div>
@@ -42,7 +40,7 @@ if (!Live::canRestream()) {
                 <div class="form-group col-sm-12 ">
                     <div class="btn-group pull-right">
                         <span class="btn btn-success" id="newLive_restreamsLink" onclick="clearLive_restreamsForm()"><i class="fas fa-plus"></i> <?php echo __("New"); ?></span>
-                        <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> <?php echo __("Save"); ?></button>
+                        <button class="btn btn-primary" type="submit" id="saveLive_restreamsLink" ><i class="fas fa-save"></i> <?php echo __("Save"); ?></button>
                     </div>
                 </div>
             </div>

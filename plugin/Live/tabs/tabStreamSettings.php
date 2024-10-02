@@ -41,9 +41,9 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
     <div class="panel-heading">
         <i class="fas fa-hdd"></i> <?php echo __("RTMP Settings"); ?> (<?php echo $channelName; ?>)
         <div class="pull-right">
-        <?php
-        echo getTourHelpButton('plugin/Live/tabs/help.json', 'btn btn-default btn-xs', 'Live Configuration Help');
-        ?>
+            <?php
+            echo getTourHelpButton('plugin/Live/tabs/help.json', 'btn btn-default btn-xs', 'Live Configuration Help');
+            ?>
         </div>
     </div>
     <div class="panel-body" style="overflow: hidden;">

@@ -16,7 +16,7 @@ if(!User::canStream()){
     forbiddenPage('You cannot stream');
 }
 
-_error_log('Testing reestream users_id=['.User::getId().'] '.json_error(debug_backtrace()));
+_error_log('Testing reestream users_id=['.User::getId().'] '.json_encode(debug_backtrace()));
 
 $lth = new LiveTransmitionHistory();
 $lth->setTitle('Restream test '.date('Y-m-d H:i:s'));
