@@ -6067,16 +6067,11 @@ function getCDN($type = 'CDN', $id = 0)
             $_getCDNURL[$index] = CDN::getURL($type, $id);
         }
     }
-
     if ($type == 'CDN') {
         if (!empty($global['ignoreCDN'])) {
             return $global['webSiteRootURL'];
         } elseif (!empty($advancedCustom) && !empty($advancedCustom->videosCDN) && isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
-        } elseif ($obj = AVideoPlugin::getDataObject('AWS_S3') && isValidURL($obj->CDN_Link)) {
-            $_getCDNURL[$index] = addLastSlash($obj->CDN_Link);
-        } elseif  ($obj = AVideoPlugin::getDataObject('Blackblaze_B2') && isValidURL($obj->CDN_Link)) {
-            $_getCDNURL[$index] = addLastSlash($obj->CDN_Link);
         } elseif (empty($_getCDNURL[$index])) {
             $_getCDNURL[$index] = $global['webSiteRootURL'];
         }
