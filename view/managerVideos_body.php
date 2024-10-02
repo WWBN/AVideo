@@ -175,79 +175,53 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
 
                 <div class="btn-group btn-block">
                     <?php if (Permissions::canAdminVideos()) { ?>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn  btn-sm btn-xs btn-warning">
+                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn  btn-sm btn-xs btn-warning" id="userGroupsButton">
                             <span class="fa fa-users"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("User Groups"); ?></span>
                         </a>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-sm btn-xs btn-primary">
+                        <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-sm btn-xs btn-primary" id="usersButton">
                             <span class="fa fa-user"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Users"); ?></span>
                         </a>
                     <?php } ?>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-sm btn-xs btn-info">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-sm btn-xs btn-info" id="videoChartButton">
                         <i class="fas fa-chart-bar"></i>
                         <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Video Chart"); ?></span>
                     </a>
-                    <?php
-                    if (Permissions::canAdminVideos()) {
-                    ?>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/" class="btn btn-sm btn-xs btn-danger">
+                    <?php if (Permissions::canAdminVideos()) { ?>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/" class="btn btn-sm btn-xs btn-danger" id="advertisingManagerButton">
                             <span class="far fa-money-bill-alt"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Advertising Manager"); ?></span>
                         </a>
-                    <?php }
-                    ?>
-                    <?php
-                    unset($_GET['parentsOnly']);
-                    $categories = Category::getAllCategories(Permissions::canAdminVideos() ? false : true);
-                    array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
-                    if (User::canUpload()) {
-                        if (empty($advancedCustom->doNotShowEncoderButton)) {
-                            if (!empty($config->getEncoderURL())) {
-                            }
-                    ?>
-                            <form id="formEncoderVideosM" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
-                                <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
-                                <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
-                                <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
-                            </form>
-                            <a href="#" onclick="$('#formEncoderVideosM').submit(); return false;" class="btn btn-sm btn-xs btn-default">
-                                <span class="fa fa-cog"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?></span>
-                            </a>
-                        <?php
-                        }
-                        if (CustomizeAdvanced::showDirectUploadButton()) {
-                        ?>
-                            <button class="btn btn-sm btn-xs btn-default" onclick="newDirectUploadVideo();" id="uploadMp4" data-toggle="tooltip" title="<?php echo __("Upload files without encode"), ' ', implode(', ', CustomizeAdvanced::directUploadFiletypes()); ?>">
-                                <span class="fa fa-upload"></span>
-                                <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></span>
-                            </button>
-                        <?php
-                        }
-                        if (empty($advancedCustom->doNotShowEmbedButton)) {
-                        ?>
-                            <button class="btn btn-sm btn-xs btn-default" id="linkExternalVideo">
-                                <span class="fa fa-link"></span>
-                                <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Embed a video link"); ?></span>
-                            </button>
-                        <?php
-                        }
-                        if (AVideoPlugin::isEnabledByName("Articles")) {
-                        ?>
-                            <button class="btn btn-sm btn-xs btn-default" id="addArticle" onclick="newArticle()">
-                                <i class="far fa-newspaper"></i>
-                                <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Add Article"); ?></span>
-                            </button>
-                        <?php
-                        }
-                        if (Permissions::canAdminVideos()) {
-                        ?>
-                            <button class="btn btn-sm btn-xs btn-default" onclick="avideoModalIframeFullScreen(webSiteRootURL+'view/managerVideosOrganize.php');">
-                                <i class="fas fa-sort-amount-up-alt"></i>
-                                <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Sort Videos"); ?></span>
-                            </button>
-                    <?php
-                        }
-                    }
-                    ?>
+                    <?php } ?>
+
+                    <form id="formEncoderVideosM" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
+                        <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
+                        <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
+                        <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
+                    </form>
+                    <a href="#" onclick="$('#formEncoderVideosM').submit(); return false;" class="btn btn-sm btn-xs btn-default" id="encodeVideoButton">
+                        <span class="fa fa-cog"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?></span>
+                    </a>
+
+                    <button class="btn btn-sm btn-xs btn-default" onclick="newDirectUploadVideo();" id="uploadMp4Button" data-toggle="tooltip" title="<?php echo __("Upload files without encode"), ' ', implode(', ', CustomizeAdvanced::directUploadFiletypes()); ?>">
+                        <span class="fa fa-upload"></span>
+                        <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></span>
+                    </button>
+
+                    <button class="btn btn-sm btn-xs btn-default" id="embedVideoLinkButton">
+                        <span class="fa fa-link"></span>
+                        <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Embed a video link"); ?></span>
+                    </button>
+
+                    <button class="btn btn-sm btn-xs btn-default" id="addArticleButton" onclick="newArticle()">
+                        <i class="far fa-newspaper"></i>
+                        <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Add Article"); ?></span>
+                    </button>
+
+                    <button class="btn btn-sm btn-xs btn-default" id="sortVideosButton" onclick="avideoModalIframeFullScreen(webSiteRootURL+'view/managerVideosOrganize.php');">
+                        <i class="fas fa-sort-amount-up-alt"></i>
+                        <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Sort Videos"); ?></span>
+                    </button>
                 </div>
+
             </div>
         </div>
         <div class="panel panel-default">
@@ -291,56 +265,49 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
                 <button class="btn btn-default" id="checkBtn">
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
-                <?php
-                if ($advancedCustom->videosManegerBulkActionButtons) {
+                <?php if ($advancedCustom->videosManegerBulkActionButtons) {
                     if (!empty($categories)) {
-                        if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canAdminVideos()) {
-                ?>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canAdminVideos()) { ?>
+                            <div class="btn-group" id="categoriesBtnGroup">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="categoriesBtn">
                                     <i class="far fa-object-group"></i>
-                                    <span class="hidden-md hidden-sm hidden-xs">
-                                        <?php echo __('Categories'); ?>
-                                    </span>
+                                    <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Categories'); ?></span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <?php
-                                    foreach ($categories as $value) {
-                                        echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
-                                    }
-                                    ?>
+                                    <?php foreach ($categories as $value) {
+                                        echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\"><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
+                                    } ?>
                                 </ul>
                             </div>
-                    <?php
-                        }
-                    }
-                    ?>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <i class="far fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Status'); ?></span> <span class="caret"></span></button>
+                    <?php }
+                    } ?>
+
+                    <div class="btn-group" id="statusBtnGroup">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="statusBtn">
+                            <i class="far fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Status'); ?></span>
+                            <span class="caret"></span>
+                        </button>
                         <ul class="dropdown-menu" role="menu">
-                            <?php
-                            foreach ($statusThatTheUserCanUpdate as $value) {
+                            <?php foreach ($statusThatTheUserCanUpdate as $value) {
                                 $statusIndex = $value[0];
                                 $statusColor = $value[1];
                                 echo "<li><a href=\"#\" onclick=\"changeStatus('" . $statusIndex . "'); return false;\" style=\"color: {$statusColor}\">"
                                     . Video::$statusIcons[$statusIndex] . ' ' . __(Video::$statusDesc[$statusIndex]) . "</a></li>";
-                            }
-                            ?>
+                            } ?>
                         </ul>
                     </div>
-                    <?php
-                    if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdminVideos()) {
-                        $userGroups = UserGroups::getAllUsersGroups();
-                    ?>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <i class="fas fa-users"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Add User Group'); ?></span> <span class="caret"></span></button>
+
+                    <?php if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdminVideos()) {
+                        $userGroups = UserGroups::getAllUsersGroups(); ?>
+
+                        <div class="btn-group" id="addUserGroupBtnGroup">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="addUserGroupBtn">
+                                <i class="fas fa-users"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Add User Group'); ?></span>
+                                <span class="caret"></span>
+                            </button>
                             <ul class="dropdown-menu" role="menu">
-                                <?php
-                                foreach ($userGroups as $value) {
-                                ?>
+                                <?php foreach ($userGroups as $value) { ?>
                                     <li>
                                         <a href="#" onclick="userGroupSave(<?php echo $value['id']; ?>, 1); return false;">
                                             <span class="fa fa-lock"></span>
@@ -348,17 +315,17 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
                                             <?php echo $value['group_name']; ?>
                                         </a>
                                     </li>
-                                <?php }
-                                ?>
+                                <?php } ?>
                             </ul>
                         </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <i class="fas fa-user-slash"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Remove User Group'); ?></span> <span class="caret"></span></button>
+
+                        <div class="btn-group" id="removeUserGroupBtnGroup">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="removeUserGroupBtn">
+                                <i class="fas fa-user-slash"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Remove User Group'); ?></span>
+                                <span class="caret"></span>
+                            </button>
                             <ul class="dropdown-menu" role="menu">
-                                <?php
-                                foreach ($userGroups as $value) {
-                                ?>
+                                <?php foreach ($userGroups as $value) { ?>
                                     <li>
                                         <a href="#" onclick="userGroupSave(<?php echo $value['id']; ?>, 0); return false;">
                                             <span class="fa fa-lock"></span>
@@ -366,35 +333,36 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
                                             <?php echo $value['group_name']; ?>
                                         </a>
                                     </li>
-                                <?php }
-                                ?>
+                                <?php } ?>
                             </ul>
                         </div>
-                    <?php
-                    }
-                    if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwapVideosOnlyForAdmin) || Permissions::canAdminVideos())) {
-                    ?>
+                    <?php } ?>
+
+                    <?php if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwapVideosOnlyForAdmin) || Permissions::canAdminVideos())) { ?>
                         <button class="btn btn-primary" id="swapBtn">
                             <i class="fas fa-random"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Swap Video File'); ?></span>
                         </button>
-                    <?php
-                    }
-                    if (Permissions::canAdminVideos()) {
-                    ?>
+                    <?php } ?>
+
+                    <?php if (Permissions::canAdminVideos()) { ?>
                         <button class="btn btn-primary" id="updateAllUsage">
                             <i class="fas fa-chart-line"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Update all videos disk usage'); ?></span>
                         </button>
-                    <?php
-                    }
-                    if (AVideoPlugin::isEnabledByName('CDN') && CDN::userCanMoveVideoStorage()) {
+                    <?php } ?>
+
+                    <?php if (AVideoPlugin::isEnabledByName('CDN') && CDN::userCanMoveVideoStorage()) {
                         include $global['systemRootPath'] . 'plugin/CDN/Storage/getVideoManagerButton.php';
-                    }
-                    ?>
+                    } ?>
+
                     <button class="btn btn-danger" id="deleteBtn">
                         <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Delete'); ?></span>
                     </button>
+                <?php } ?>
+            </div>
+
+            <div class="pull-right">
                 <?php
-                }
+                echo getTourHelpButton('view/managerVideos_body.help.json', 'btn btn-default', false);
                 ?>
             </div>
         </div>
@@ -688,9 +656,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 'playlists_id': playlists_id
             },
             success: function(response) {
-                if(response.error){
+                if (response.error) {
                     avideoToastError(__('Error on playlist'));
-                }else{
+                } else {
                     avideoToastSuccess(__('Success'));
                 }
                 modal.hidePleaseWait();

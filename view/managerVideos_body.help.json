@@ -1,0 +1,107 @@
+[
+    {
+        "element": "#userGroupsButton",
+        "intro": "This button allows you to manage User Groups in your platform.",
+        "position": "bottom"
+    },
+    {
+        "element": "#usersButton",
+        "intro": "This button provides access to the Users management page.",
+        "position": "bottom"
+    },
+    {
+        "element": "#videoChartButton",
+        "intro": "Use this button to view the Video Chart statistics.",
+        "position": "bottom"
+    },
+    {
+        "element": "#advertisingManagerButton",
+        "intro": "This button opens the Advertising Manager for managing ads on your platform.",
+        "position": "bottom"
+    },
+    {
+        "element": "#encodeVideoButton",
+        "intro": "Click here to encode video and audio using the encoding service.",
+        "position": "bottom"
+    },
+    {
+        "element": "#uploadMp4Button",
+        "intro": "This button lets you upload files directly without encoding, including formats like pdf, images, zip, mp4, and mp3.",
+        "position": "bottom"
+    },
+    {
+        "element": "#embedVideoLinkButton",
+        "intro": "Use this button to embed a video link from external sources.",
+        "position": "bottom"
+    },
+    {
+        "element": "#addArticleButton",
+        "intro": "Click here to add a new article to your platform.",
+        "position": "bottom"
+    },
+    {
+        "element": "#sortVideosButton",
+        "intro": "This button allows you to sort your videos for better organization.",
+        "position": "bottom"
+    },
+    {
+        "element": "#checkBtn",
+        "intro": "This button allows you to select or deselect all videos in the grid manager.",
+        "position": "bottom"
+    },
+    {
+        "element": "#statusBtnGroup",
+        "intro": "Here you can change the status of the selected videos to Active, Inactive, Unlisted, or Unpublished.",
+        "position": "bottom"
+    },
+    {
+        "element": "#addUserGroupBtnGroup",
+        "intro": "This option allows you to add the selected videos to a specific user group for controlled access.",
+        "position": "bottom"
+    },
+    {
+        "element": "#removeUserGroupBtnGroup",
+        "intro": "This option allows you to remove the selected videos from a specific user group.",
+        "position": "bottom"
+    },
+    {
+        "element": "#swapBtn",
+        "intro": "Use this button to swap the video file for another one while keeping the current video metadata.",
+        "position": "bottom"
+    },
+    {
+        "element": "#updateAllUsage",
+        "intro": "Click here to update the disk usage for all videos, providing updated storage statistics.",
+        "position": "bottom"
+    },
+    {
+        "element": "#deleteBtn",
+        "intro": "This button allows you to delete the selected videos from the system.",
+        "position": "bottom"
+    },
+    {
+        "element": "#filterButtonsVideoManagerCategory",
+        "intro": "Use this dropdown to filter videos by categories. You can search and select the category you want to filter.",
+        "position": "bottom"
+    },
+    {
+        "element": "#filterButtonsVideoManager",
+        "intro": "Filter videos by status such as Active, Inactive, Encoding, and more.",
+        "position": "bottom"
+    },
+    {
+        "element": "#filterTypeButtonsVideoManager",
+        "intro": "Use this dropdown to filter videos by type. You can choose between video, embed, image, article, or series.",
+        "position": "bottom"
+    },
+    {
+        "element": "#filterSearchButtonsVideoManager",
+        "intro": "Customize your search fields here. You can select which fields to search for when you are filtering videos.",
+        "position": "bottom"
+    },
+    {
+        "element": "#compactMode",
+        "intro": "Enable or disable compact mode to adjust the display of the video list.",
+        "position": "bottom"
+    }
+]

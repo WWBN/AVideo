@@ -2998,7 +2998,7 @@ $(document).ready(function () {
         var innerDiv = $(this).find("div.hidden");
         avideoAlertInfo(innerDiv.html());
     });
-    
+
     setInterval(function () {
         TotalPageLoadSeconds++;
     }, 1000);
@@ -4358,15 +4358,26 @@ function startTour(stepsFileRelativePath) {
             success: function (response) {
                 // Initialize the tour with the fetched data
                 var tour = introJs();
-                tour.setOptions({
-                    steps: response
+                var filteredSteps = $.grep(response, function (step) {
+                    var $element = $(step.element);
+                    // Only include steps where the element exists and is fully visible (not in a hidden parent)
+                    return $element.length > 0 && isElementVisible($element);
                 });
+
+                tour.setOptions({
+                    steps: filteredSteps
+                });
+
                 tour.start();
             },
             error: function (xhr, status, error) {
                 console.log("Error fetching tour data: " + error);
             }
         });
+    }
+    function isElementVisible($element) {
+        // Check if the element itself and its parent chain are visible
+        return $element.is(':visible') && $element.closest(':hidden').length === 0;
     }
 }
 
