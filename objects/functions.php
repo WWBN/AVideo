@@ -6074,8 +6074,8 @@ function getCDN($type = 'CDN', $id = 0)
         } else if (!empty($advancedCustom) && !empty($advancedCustom->videosCDN) && isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
         } else {
-            $obj1 = AVideoPlugin::getDataObject('AWS_S3');
-            $obj2 = AVideoPlugin::getDataObject('Blackblaze_B2');
+            $obj1 = AVideoPlugin::getDataObjectIfEnabled('AWS_S3');
+            $obj2 = AVideoPlugin::getDataObjectIfEnabled('Blackblaze_B2');
             if (!empty($obj1) && isValidURL($obj1->CDN_Link)) {
                 $_getCDNURL[$index] = addLastSlash($obj1->CDN_Link);
             } else if (!empty($obj2) && isValidURL($obj2->CDN_Link)) {
