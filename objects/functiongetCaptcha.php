@@ -7,12 +7,19 @@ if ($forceCaptcha) {
     $url = addQueryStringParameter($url, 'forceCaptcha', 1);
 }
 ?>
-<div class="input-group">
+<style>
+@media (max-width: 575.98px) {
+    .captchaDiv {
+        display: inline-block;
+    }
+}
+</style>
+<div class="input-group captchaDiv">
     <span class="input-group-addon">
         <img src="<?php echo $url; ?>" id="<?php echo $uid; ?>" style="border-radius: 8px;">
     </span>
     <span class="input-group-addon">
-        <button class="btn btn-xs btn-success" id="btnReload<?php echo $uid; ?>" type="button">
+        <button class="btn btn-success" id="btnReload<?php echo $uid; ?>" type="button">
             <i class="fa-solid fa-rotate"></i>
         </button>
     </span>
