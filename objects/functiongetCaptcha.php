@@ -12,9 +12,9 @@ if ($forceCaptcha) {
         <img src="<?php echo $url; ?>" id="<?php echo $uid; ?>" style="border-radius: 8px;">
     </span>
     <span class="input-group-addon">
-        <span class="btn btn-xs btn-success" id="btnReload<?php echo $uid; ?>">
-            <i class="fa-solid fa-arrows-rotate"></i>
-        </span>
+        <button class="btn btn-xs btn-success" id="btnReload<?php echo $uid; ?>" type="button">
+            <i class="fa-solid fa-rotate"></i>
+        </button>
     </span>
     <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="<?php echo $uid; ?>Text">
 </div>

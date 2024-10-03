@@ -56,7 +56,7 @@ if (!empty($_GET['action'])) {
         <link rel="icon" href="view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/@fortawesome/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <style>
 
 

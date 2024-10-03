@@ -63,7 +63,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     <title><?php echo $video['title'] . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
     <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
 
-    <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo getURL('node_modules/@fortawesome/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
 
     <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css" />
 

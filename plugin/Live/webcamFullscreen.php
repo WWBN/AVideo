@@ -45,7 +45,7 @@ $controls = Live::getAllControlls($streamName);
         <link rel="icon" href="<?php echo getURL('view/img/favicon.ico'); ?>">
         <title><?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/@fortawesome/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getURL('plugin/Live/webRTC.css'); ?>" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
         <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css"/>

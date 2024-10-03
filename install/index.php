@@ -12,7 +12,7 @@ require_once '../locale/function.php';
         <link href="../view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
         <link href="../view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
-        <link href="../node_modules/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
         <link href="../view/css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
         <style>
             .bootstrap-select{

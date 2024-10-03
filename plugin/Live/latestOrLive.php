@@ -167,7 +167,7 @@ if (!empty($_REQUEST['isClosed'])) {
     <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">
     <title><?php echo $objectToReturnToParentIframe->title; ?></title>
     <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo getURL('node_modules/@fortawesome/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
     <style>
         body {

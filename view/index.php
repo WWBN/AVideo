@@ -46,7 +46,7 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
         <link rel="shortcut icon" href="<?php echo getURL('videos/favicon.ico'); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
         <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/@fortawesome/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <style>
             html{
                 overflow: auto;
