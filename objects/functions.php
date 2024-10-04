@@ -4365,13 +4365,38 @@ function getCaptcha($uid = "", $forceCaptcha = false)
         $uid = "capcha_" . uniqid();
     }
     $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functiongetCaptcha.php', ['uid' => $uid, 'forceCaptcha' => $forceCaptcha]);
-    $parts = explode('<script>', $contents);
+    
+    $result = [
+        'style' => '',
+        'html' => '',
+        'script' => ''
+    ];
+
+    // Match the style block
+    preg_match('/<style>(.*?)<\/style>/s', $contents, $styleMatch);
+    if (!empty($styleMatch[1])) {
+        $result['style'] = trim($styleMatch[1]);
+    }
+
+    // Match the HTML block
+    preg_match('/<div.*?<\/div>/s', $contents, $htmlMatch);
+    if (!empty($htmlMatch[0])) {
+        $result['html'] = trim($htmlMatch[0]);
+    }
+
+    // Match the script block
+    preg_match('/<script>(.*?)<\/script>/s', $contents, $scriptMatch);
+    if (!empty($scriptMatch[1])) {
+        $result['script'] = trim($scriptMatch[1]);
+    }
+    
     return [
         'content' => $contents,
         'btnReloadCapcha' => "$('#btnReload{$uid}').trigger('click');",
         'captchaText' => "$('#{$uid}Text').val()",
-        'html' => $parts[0],
-        'script' => str_replace('</script>', '', $parts[1])
+        'html' => $result['html'],
+        'script' => $result['script'],
+        'style' => $result['style']
     ];
 }
 
