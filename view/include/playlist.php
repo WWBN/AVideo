@@ -49,13 +49,6 @@ if (!empty($videoSerie)) {
         width: 100%;
     }
 
-    .plImage {
-        width: 250px;
-        height: 100px;
-        margin-left: 5px;
-        position: relative;
-    }
-
     .plRemoveBtn {
         position: absolute;
         right: 0;
@@ -70,6 +63,26 @@ if (!empty($videoSerie)) {
         width: 70%;
         margin-right: 10px;
         overflow: hidden;
+    }
+
+    .plImage {
+        width: 250px;
+        height: 100px;
+        margin-left: 5px;
+        position: relative;    
+        display: flex;
+        justify-content: center;
+    }
+
+    .plImage>img {
+        max-height: 100%;
+    }
+
+    .plImage .progress {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        margin: 0 !important;
     }
 </style>
 <div class="playlist-nav">
