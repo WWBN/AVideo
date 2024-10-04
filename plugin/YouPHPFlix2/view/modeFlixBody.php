@@ -30,51 +30,53 @@ background: -moz-linear-gradient(to top, rgba({$obj->backgroundRGB},1) {$percent
                 if ($obj->PlayListAutoPlay) {
                     $dataFlickirty->autoPlay = 10000;
                 }
-                $playlists_id = PlayList::getWatchLaterIdFromUser(User::getId());
-                $rowCount = getRowCount();
-                $videos = PlayList::getAllFromPlaylistsID($playlists_id);
-                if (!empty($videos)) {
-                    $link = PlayLists::getLink($playlists_id);
-                    $linkEmbed = PlayLists::getLink($playlists_id, true);
-                    ?>
-
-                    <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
-                    <div class="row topicRow">
-                        <h2>
-                            <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
-                                <!-- modeFlixBody line <?php echo __LINE__; ?> -->
-                                <i class="fas fa-clock"></i> <?php echo __('Watch Later'); ?>
-                            </a>
-                        </h2>
-                        <!-- Date Programs/Playlists 2 -->
-                        <?php
-                        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                if ($obj->WatchLater) {
+                    $playlists_id = PlayList::getWatchLaterIdFromUser(User::getId());
+                    $rowCount = getRowCount();
+                    $videos = PlayList::getAllFromPlaylistsID($playlists_id);
+                    if (!empty($videos)) {
+                        $link = PlayLists::getLink($playlists_id);
+                        $linkEmbed = PlayLists::getLink($playlists_id, true);
                         ?>
-                    </div>
+                        <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
+                        <div class="row topicRow">
+                            <h2>
+                                <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
+                                    <!-- modeFlixBody line <?php echo __LINE__; ?> -->
+                                    <i class="fas fa-clock"></i> <?php echo __('Watch Later'); ?>
+                                </a>
+                            </h2>
+                            <!-- Date Programs/Playlists 2 -->
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            ?>
+                        </div>
                     <?php
+                    }
                 }
-
-                $playlists_id = PlayList::getFavoriteIdFromUser(User::getId());
-                $rowCount = getRowCount();
-                $videos = PlayList::getAllFromPlaylistsID($playlists_id);
-                if (!empty($videos)) {
-                    $link = PlayLists::getLink($playlists_id);
-                    $linkEmbed = PlayLists::getLink($playlists_id, true);
-                    ?>
-                    <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
-                    <div class="row topicRow">
-                        <h2>
-                            <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
-                                <!-- modeFlixBody line <?php echo __LINE__; ?> -->
-                                <i class="fas fa-heart"></i> <?php echo __('Favorites'); ?>
-                            </a>
-                        </h2>
-                        <!-- Date Programs/Playlists 2 -->
-                        <?php
-                        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                if ($obj->Favorites) {
+                    $playlists_id = PlayList::getFavoriteIdFromUser(User::getId());
+                    $rowCount = getRowCount();
+                    $videos = PlayList::getAllFromPlaylistsID($playlists_id);
+                    if (!empty($videos)) {
+                        $link = PlayLists::getLink($playlists_id);
+                        $linkEmbed = PlayLists::getLink($playlists_id, true);
                         ?>
-                    </div>
-                    <?php
+                        <!-- modeFlixBody line=<?php echo __LINE__; ?> -->
+                        <div class="row topicRow">
+                            <h2>
+                                <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
+                                    <!-- modeFlixBody line <?php echo __LINE__; ?> -->
+                                    <i class="fas fa-heart"></i> <?php echo __('Favorites'); ?>
+                                </a>
+                            </h2>
+                            <!-- Date Programs/Playlists 2 -->
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            ?>
+                        </div>
+                        <?php
+                    }
                 }
             }
         }
