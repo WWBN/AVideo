@@ -1531,6 +1531,38 @@ class AVideoPlugin
         return $resp;
     }
 
+    public static function userCanLivestream($users_id)
+    {
+        if (empty($users_id)) {
+            return false;
+        }
+        $resp = false;
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $can = $p->userCanLivestream($users_id);
+                if (!empty($can)) {
+                    if ($can < 0) {
+                        if (!empty($users_id)) {
+                            _error_log("userCanLivestream: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT upload a video ");
+                        }
+                        $resp = false;
+                    }
+                    if ($can > 0) {
+                        if (!empty($users_id)) {
+                            _error_log("userCanLivestream: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can upload a video ");
+                        }
+                        return true;
+                    }
+                }
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return $resp;
+    }
+
     public static function userCanWatchVideo($users_id, $videos_id)
     {
         global $userCanWatchVideoFunction;

@@ -10,6 +10,7 @@ if (empty($isLive)) {
 } else {
     $liveInfo = Live::getInfo($isLive['key'], $isLive['live_servers_id']);
 }
+
 if (User::canStream()) {
     if (empty($obj->doNotShowGoLiveButton)) {
 ?>

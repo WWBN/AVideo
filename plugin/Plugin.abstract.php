@@ -574,6 +574,15 @@ abstract class PluginAbstract {
     public function userCanUpload($users_id) {
         return 0;
     }
+    
+    /**
+     * 
+     * @param string $users_id
+     * @return 0 = I dont know, -1 = can not upload, 1 = can upload
+     */
+    public function userCanLivestream($users_id) {
+        return 0;
+    }
 
     /**
      * 

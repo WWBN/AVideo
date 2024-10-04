@@ -1505,7 +1505,8 @@ if (typeof gtag !== \"function\") {
     public static function canStream()
     {
         self::recreateLoginFromCookie();
-        return !empty($_SESSION['user']['isAdmin']) || !empty($_SESSION['user']['canStream']);
+
+        return !empty($_SESSION['user']['isAdmin']) || !empty($_SESSION['user']['canStream']) || AVideoPlugin::userCanLivestream($_SESSION['user']['id']);
     }
 
     public static function externalOptions($id)
@@ -2525,7 +2526,7 @@ if (typeof gtag !== \"function\") {
         if (self::isLogged() && !empty($_SESSION['user']['canUpload'])) {
             return true;
         }
-        return self::isAdmin();
+        return self::isAdmin() || AVideoPlugin::userCanUpload(User::getId());
     }
 
     public static function canViewChart()
