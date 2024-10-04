@@ -992,6 +992,8 @@ class PlayList extends ObjectYPT
 
         _error_log('Playlist::save ' . json_encode(debug_backtrace()));
 
+        AVideoPlugin::loadPlugin('PlayLists');
+
         $this->clearEmptyLists();
         if (empty($this->getUsers_id()) || !PlayLists::canManageAllPlaylists()) {
             $users_id = User::getId();
