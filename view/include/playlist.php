@@ -23,7 +23,7 @@ if (!empty($videoSerie)) {
     $name = $videoSerie['title'];
     $playListObject = AVideoPlugin::getObjectData("PlayLists");
     $vid = Video::getVideo($videoSerie["id"], "", true);
-    if(!empty($vid)){
+    if (!empty($vid)) {
         $videoSerie = $vid;
     }
     if (!empty($playListObject->showTrailerInThePlayList) && !empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== false) {
@@ -36,43 +36,74 @@ if (!empty($videoSerie)) {
 <style>
     .playlistList .videoLink {
         display: inline-flex;
+        padding: 12px 12px 12px 2px;
+        width: 100%;
     }
-    .noPaddingButtons button, .noPaddingButtons a{
+
+    .noPaddingButtons button,
+    .noPaddingButtons a {
         padding: 1px 5px !important;
+    }
+
+    .playlist-nav>.navbar-inverse.playlistList>ul {
+        width: 100%;
+    }
+
+    .plImage {
+        width: 250px;
+        height: 100px;
+        margin-left: 5px;
+        position: relative;
+    }
+
+    .plRemoveBtn {
+        position: absolute;
+        right: 0;
+        top: 5px;
+    }
+
+    .plIndicator {
+        width: 25px;
+    }
+
+    .playlist-nav>.navbar-inverse.playlistList .videosDetails {
+        width: 70%;
+        margin-right: 10px;
+        overflow: hidden;
     }
 </style>
 <div class="playlist-nav">
     <nav class="navbar navbar-inverse">
         <ul class="nav">
             <li class="navbar-header" style="padding: 5px;">
-                    <div class="pull-right noPaddingButtons" >
-                        <?php
-                        //echo PlayLists::getPlayLiveButton($playlist_id);
-                        echo '<!-- scheduleLiveButton start -->';
-                        echo PlayLists::scheduleLiveButton($playlist_id);
-                        echo '<!-- scheduleLiveButton end -->';
-                        if(!empty($videoSerie)){
-                            $videos_id = $videoSerie["id"];
-                            $btnClass = 'btn btn-xs btn-default';
-                            echo '<!-- PlayLists/actionButton start -->';
-                            include $global['systemRootPath'] . 'plugin/PlayLists/actionButton.php';
-                            echo '<!-- PlayLists/actionButton end -->';
-                        }
-                        ?>
-                    </div>
-                    <h3>
-                        <?php
-                        echo $name;
-                        ?>
-                        (<?php
-                            echo User::getNameIdentificationById($users_id);
-                            ?>)
-                    </h3>
-                    <small class="pull-right">
-                        <?php
-                        echo ($playlist_index + 1), "/", count($playlistVideos), " ", __("Videos");
-                        ?>
-                    </small>
+                <div class="pull-right noPaddingButtons">
+                    <?php
+                    //echo PlayLists::getPlayLiveButton($playlist_id);
+                    echo '<!-- scheduleLiveButton start -->';
+                    echo PlayLists::scheduleLiveButton($playlist_id);
+                    echo '<!-- scheduleLiveButton end -->';
+                    if (!empty($videoSerie)) {
+                        $videos_id = $videoSerie["id"];
+                        $btnClass = 'btn btn-xs btn-default';
+                        echo '<!-- PlayLists/actionButton start -->';
+                        include $global['systemRootPath'] . 'plugin/PlayLists/actionButton.php';
+                        echo '<!-- PlayLists/actionButton end -->';
+                    }
+                    ?>
+                </div>
+                <h3>
+                    <?php
+                    echo $name;
+                    ?>
+                    (<?php
+                        echo User::getNameIdentificationById($users_id);
+                        ?>)
+                </h3>
+                <small class="pull-right">
+                    <?php
+                    echo ($playlist_index + 1), "/", count($playlistVideos), " ", __("Videos");
+                    ?>
+                </small>
             </li>
         </ul>
     </nav>
@@ -87,16 +118,16 @@ if (!empty($videoSerie)) {
                 if ($count == $playlist_index) {
                     $class .= " active";
                     $indicator = '<span class="fa fa-play text-danger"></span>';
-                } 
-                
+                }
+                $uid = 'pl_' . uniqid();
                 $plURL = PlayLists::getURL($playlist_id, $count, $value["channelName"], $playlist->getName(), $value['clean_title']);
-                ?>
-                <li class="<?php echo $class; ?>">
-                    <a href="<?php echo $plURL; ?>" title="<?php echo str_replace('"', '', $value['title']); ?>" class="videoLink row">
-                        <div class="col-md-1 col-sm-1 col-xs-1">
+            ?>
+                <li class="<?php echo $class; ?>" id="<?php echo $uid; ?>">
+                    <a href="<?php echo $plURL; ?>" title="<?php echo str_replace('"', '', $value['title']); ?>" class="videoLink" style="    padding: 12px 12px 12px 2px;">
+                        <div class="pull-left plIndicator">
                             <?php echo $indicator; ?>
                         </div>
-                        <div class="col-md-3 col-sm-3 col-xs-3 nopadding">
+                        <div class="pull-left plImage">
                             <?php
                             if (($value['type'] !== "audio") && ($value['type'] !== "linkAudio")) {
                                 if (empty($value['images']['poster'])) {
@@ -107,7 +138,7 @@ if (!empty($videoSerie)) {
                             } else {
                                 $img = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
                             } ?>
-                            <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img-responsive" height="130" itemprop="thumbnail" />
+                            <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive" itemprop="thumbnail" />
 
                             <?php
                             if ($value['type'] !== 'pdf' && $value['type'] !== 'article' && $value['type'] !== 'serie') {
@@ -119,7 +150,7 @@ if (!empty($videoSerie)) {
                             <?php
                             } ?>
                         </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 videosDetails">
+                        <div class="pull-left videosDetails">
                             <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
                             <div class="details row" itemprop="description">
                                 <div>
@@ -134,10 +165,12 @@ if (!empty($videoSerie)) {
                                     </div>
                                 <?php
                                 } ?>
-
                             </div>
                         </div>
                     </a>
+                    <button class="btn btn-link btn-xs plRemoveBtn" type="button" onclick="removeFromPlayList(<?php echo $value['id']; ?>, '<?php echo $uid; ?>')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </li>
             <?php
                 $count++;
@@ -148,8 +181,45 @@ if (!empty($videoSerie)) {
 </div>
 <script>
     $(function() {
-        var ul = $(".playlistList ul"); 
-        var li = ul.find("li.active"); 
+        var ul = $(".playlistList ul");
+        var li = ul.find("li.active");
         ul.scrollTop(ul.scrollTop() + li.position().top);
     });
+
+    async function removeFromPlayList(videos_id, liID) {
+        // Confirm before removing the video from the playlist
+        const confirmed = await avideoConfirm('Are you sure you want to remove this video from the playlist?');
+
+        if (confirmed) {
+            modal.showPleaseWait();
+
+            $.ajax({
+                url: webSiteRootURL + 'objects/playListAddVideo.json.php',
+                method: 'POST',
+                data: {
+                    'videos_id': videos_id,
+                    'add': 0,
+                    'playlists_id': <?php echo $playlist_id; ?>
+                },
+                success: function(response) {
+                    fetchPlayLists(1);
+                    if (response.error) {
+                        var msg = __('Error on playlist');
+                        if (!empty(response.msg)) {
+                            msg = response.msg;
+                        }
+                        avideoAlertError(msg);
+                    } else {
+                        $('#' + liID).slideUp();
+                        console.log('addVideoToPlayList success', response);
+                        setTimeout(function() {
+                            setPlaylistStatus(response.videos_id, response.add, playlists_id, response.type, true);
+                        }, 100);
+                    }
+
+                    modal.hidePleaseWait();
+                }
+            });
+        }
+    }
 </script>
