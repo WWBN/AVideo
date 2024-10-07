@@ -34,7 +34,7 @@
     "js-circle-progress": "^0.2.4",
     "js-cookie": "^3.0.5",
     "keycode": "^2.2.1",
-    "moment-timezone": "^0.5.45",
+    "moment-timezone": "^0.5.46",
     "nosleep.js": "^0.12.0",
     "pouchdb": "^9.0.0",
     "sweetalert": "^2.1.2",
