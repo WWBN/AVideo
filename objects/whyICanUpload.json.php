@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__.'../videos/configuration.php';
 
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
@@ -8,6 +7,9 @@ global $global, $config;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
+
+require_once __DIR__.'/../videos/configuration.php';
+
 error_reporting(E_ALL);
 
 AVideoPlugin::loadPlugin('Permissions');
