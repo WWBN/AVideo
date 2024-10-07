@@ -216,9 +216,9 @@ class YPTWallet extends PluginAbstract
         $value = number_format($value, $decimalPrecision);
 
         if ($addHTML) {
-            return "{$currency_symbol} <span class=\"walletBalance\">{$value}</span> {$currency}";
+            return "{$currency_symbol}<span class=\"walletBalance\">{$value}</span> {$currency}";
         } else {
-            return "{$currency_symbol} {$value} {$currency}";
+            return "{$currency_symbol}{$value} {$currency}";
         }
     }
 
