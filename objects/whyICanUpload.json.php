@@ -29,7 +29,7 @@ $plugins = Plugin::getAllEnabled();
 foreach ($plugins as $value) {
     $p = static::loadPlugin($value['dirName']);
     if (is_object($p)) {
-        $response->userCanUploadPlugins[] = $p->userCanUpload($users_id);
+        $response->userCanUploadPlugins[$value['dirName']] = $p->userCanUpload($users_id);
     }
 }
 echo json_encode($response);
