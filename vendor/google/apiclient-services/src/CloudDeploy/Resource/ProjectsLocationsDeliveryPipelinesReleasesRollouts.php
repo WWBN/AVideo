@@ -101,6 +101,9 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
    * @param Rollout $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string overrideDeployPolicy Optional. Deploy policies to override.
+   * Format is
+   * `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`.
    * @opt_param string requestId Optional. A request ID to identify requests.
    * Specify a unique request ID so that if you must retry your request, the
    * server knows to ignore the request if it has already been completed. The

@@ -43,6 +43,8 @@ class Video extends \Google\Model
   protected $localizationsDataType = 'map';
   protected $monetizationDetailsType = VideoMonetizationDetails::class;
   protected $monetizationDetailsDataType = '';
+  protected $paidProductPlacementDetailsType = VideoPaidProductPlacementDetails::class;
+  protected $paidProductPlacementDetailsDataType = '';
   protected $playerType = VideoPlayer::class;
   protected $playerDataType = '';
   protected $processingDetailsType = VideoProcessingDetails::class;
@@ -187,6 +189,20 @@ class Video extends \Google\Model
   public function getMonetizationDetails()
   {
     return $this->monetizationDetails;
+  }
+  /**
+   * @param VideoPaidProductPlacementDetails
+   */
+  public function setPaidProductPlacementDetails(VideoPaidProductPlacementDetails $paidProductPlacementDetails)
+  {
+    $this->paidProductPlacementDetails = $paidProductPlacementDetails;
+  }
+  /**
+   * @return VideoPaidProductPlacementDetails
+   */
+  public function getPaidProductPlacementDetails()
+  {
+    return $this->paidProductPlacementDetails;
   }
   /**
    * @param VideoPlayer

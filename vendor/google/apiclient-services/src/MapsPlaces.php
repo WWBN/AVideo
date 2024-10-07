@@ -46,6 +46,9 @@ class MapsPlaces extends \Google\Service
   /** Private Service: https://www.googleapis.com/auth/maps-platform.places.details. */
   const MAPS_PLATFORM_PLACES_DETAILS =
       "https://www.googleapis.com/auth/maps-platform.places.details";
+  /** Private Service: https://www.googleapis.com/auth/maps-platform.places.getphotomedia. */
+  const MAPS_PLATFORM_PLACES_GETPHOTOMEDIA =
+      "https://www.googleapis.com/auth/maps-platform.places.getphotomedia";
   /** Private Service: https://www.googleapis.com/auth/maps-platform.places.nearbysearch. */
   const MAPS_PLATFORM_PLACES_NEARBYSEARCH =
       "https://www.googleapis.com/auth/maps-platform.places.nearbysearch";

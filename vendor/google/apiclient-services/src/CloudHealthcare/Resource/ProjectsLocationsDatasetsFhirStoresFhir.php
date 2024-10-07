@@ -32,6 +32,146 @@ use Google\Service\CloudHealthcare\SearchResourcesRequest;
 class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
 {
   /**
+   * Creates a FHIR Binary resource. This method can be used to create a Binary
+   * resource either by using one of the accepted FHIR JSON content types, or as a
+   * raw data stream. If a resource is created with this method using the FHIR
+   * content type this method's behavior is the same as
+   * [`fhir.create`](https://cloud.google.com/healthcare-api/docs/reference/rest/v
+   * 1/projects.locations.datasets.fhirStores.fhir/create). If a resource type
+   * other than Binary is used in the request it's treated in the same way as non-
+   * FHIR data (e.g., images, zip archives, pdf files, documents). When a non-FHIR
+   * content type is used in the request, a Binary resource will be generated, and
+   * the uploaded data will be stored in the `content` field (`DSTU2` and `STU3`),
+   * or the `data` field (`R4`). The Binary resource's `contentType` will be
+   * filled in using the value of the `Content-Type` header, and the
+   * `securityContext` field (not present in `DSTU2`) will be populated from the
+   * `X-Security-Context` header if it exists. At this time `securityContext` has
+   * no special behavior in the Cloud Healthcare API. Note: the limit on data
+   * ingested through this method is 2 GB. For best performance, use a non-FHIR
+   * data type instead of wrapping the data in a Binary resource. Some of the
+   * Healthcare API features, such as [exporting to
+   * BigQuery](https://cloud.google.com/healthcare-api/docs/how-tos/fhir-export-
+   * bigquery) or [Pub/Sub notifications](https://cloud.google.com/healthcare-
+   * api/docs/fhir-
+   * pubsub#behavior_when_a_fhir_resource_is_too_large_or_traffic_is_high) with
+   * full resource content, do not support Binary resources that are larger than
+   * 10 MB. In these cases the resource's `data` field will be omitted. Instead,
+   * the "http://hl7.org/fhir/StructureDefinition/data-absent-reason" extension
+   * will be present to indicate that including the data is `unsupported`. On
+   * success, an empty `201 Created` response is returned. The newly created
+   * resource's ID and version are returned in the Location header. Using `Prefer:
+   * representation=resource` is not allowed for this method. The definition of
+   * the Binary REST API can be found at https://hl7.org/fhir/binary.html#rest.
+   * (fhir.BinaryCreate)
+   *
+   * @param string $parent Required. The name of the FHIR store this resource
+   * belongs to.
+   * @param HttpBody $postBody
+   * @param array $optParams Optional parameters.
+   * @return HttpBody
+   * @throws \Google\Service\Exception
+   */
+  public function BinaryCreate($parent, HttpBody $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('Binary-create', [$params], HttpBody::class);
+  }
+  /**
+   * Gets the contents of a FHIR Binary resource. This method can be used to
+   * retrieve a Binary resource either by using the FHIR JSON mimetype as the
+   * value for the Accept header, or as a raw data stream. If the FHIR Accept type
+   * is used this method will return a Binary resource with the data
+   * base64-encoded, regardless of how the resource was created. The resource data
+   * can be retrieved in base64-decoded form if the Accept type of the request
+   * matches the value of the resource's `contentType` field. The definition of
+   * the Binary REST API can be found at https://hl7.org/fhir/binary.html#rest.
+   * (fhir.BinaryRead)
+   *
+   * @param string $name Required. The name of the Binary resource to retrieve.
+   * @param array $optParams Optional parameters.
+   * @return HttpBody
+   * @throws \Google\Service\Exception
+   */
+  public function BinaryRead($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('Binary-read', [$params], HttpBody::class);
+  }
+  /**
+   * Updates the entire contents of a Binary resource. If the specified resource
+   * does not exist and the FHIR store has enable_update_create set, creates the
+   * resource with the client-specified ID. It is strongly advised not to include
+   * or encode any sensitive data such as patient identifiers in client-specified
+   * resource IDs. Those IDs are part of the FHIR resource path recorded in Cloud
+   * Audit Logs and Pub/Sub notifications. Those IDs can also be contained in
+   * reference fields within other resources. This method can be used to update a
+   * Binary resource either by using one of the accepted FHIR JSON content types,
+   * or as a raw data stream. If a resource is updated with this method using the
+   * FHIR content type this method's behavior is the same as `update`. If a
+   * resource type other than Binary is used in the request it will be treated in
+   * the same way as non-FHIR data. When a non-FHIR content type is used in the
+   * request, a Binary resource will be generated using the ID from the resource
+   * path, and the uploaded data will be stored in the `content` field (`DSTU2`
+   * and `STU3`), or the `data` field (`R4`). The Binary resource's `contentType`
+   * will be filled in using the value of the `Content-Type` header, and the
+   * `securityContext` field (not present in `DSTU2`) will be populated from the
+   * `X-Security-Context` header if it exists. At this time `securityContext` has
+   * no special behavior in the Cloud Healthcare API. Note: the limit on data
+   * ingested through this method is 2 GB. For best performance, use a non-FHIR
+   * data type instead of wrapping the data in a Binary resource. Some of the
+   * Healthcare API features, such as [exporting to
+   * BigQuery](https://cloud.google.com/healthcare-api/docs/how-tos/fhir-export-
+   * bigquery) or [Pub/Sub notifications](https://cloud.google.com/healthcare-
+   * api/docs/fhir-
+   * pubsub#behavior_when_a_fhir_resource_is_too_large_or_traffic_is_high) with
+   * full resource content, do not support Binary resources that are larger than
+   * 10 MB. In these cases the resource's `data` field will be omitted. Instead,
+   * the "http://hl7.org/fhir/StructureDefinition/data-absent-reason" extension
+   * will be present to indicate that including the data is `unsupported`. On
+   * success, an empty 200 OK response will be returned, or a 201 Created if the
+   * resource did not exit. The resource's ID and version are returned in the
+   * Location header. Using `Prefer: representation=resource` is not allowed for
+   * this method. The definition of the Binary REST API can be found at
+   * https://hl7.org/fhir/binary.html#rest. (fhir.BinaryUpdate)
+   *
+   * @param string $name Required. The name of the resource to update.
+   * @param HttpBody $postBody
+   * @param array $optParams Optional parameters.
+   * @return HttpBody
+   * @throws \Google\Service\Exception
+   */
+  public function BinaryUpdate($name, HttpBody $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('Binary-update', [$params], HttpBody::class);
+  }
+  /**
+   * Gets the contents of a version (current or historical) of a FHIR Binary
+   * resource by version ID. This method can be used to retrieve a Binary resource
+   * version either by using the FHIR JSON mimetype as the value for the Accept
+   * header, or as a raw data stream. If the FHIR Accept type is used this method
+   * will return a Binary resource with the data base64-encoded, regardless of how
+   * the resource version was created. The resource data can be retrieved in
+   * base64-decoded form if the Accept type of the request matches the value of
+   * the resource version's `contentType` field. The definition of the Binary REST
+   * API can be found at https://hl7.org/fhir/binary.html#rest. (fhir.BinaryVread)
+   *
+   * @param string $name Required. The name of the Binary resource version to
+   * retrieve.
+   * @param array $optParams Optional parameters.
+   * @return HttpBody
+   * @throws \Google\Service\Exception
+   */
+  public function BinaryVread($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('Binary-vread', [$params], HttpBody::class);
+  }
+  /**
    * Retrieves a Patient resource and resources related to that patient.
    * Implements the FHIR extended operation Patient-everything
    * ([DSTU2](http://hl7.org/implement/standards/fhir/DSTU2/patient-

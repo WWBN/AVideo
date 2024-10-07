@@ -29,6 +29,8 @@ class GoogleCloudAiplatformV1FunctionDeclaration extends \Google\Model
   public $name;
   protected $parametersType = GoogleCloudAiplatformV1Schema::class;
   protected $parametersDataType = '';
+  protected $responseType = GoogleCloudAiplatformV1Schema::class;
+  protected $responseDataType = '';
 
   /**
    * @param string
@@ -71,6 +73,20 @@ class GoogleCloudAiplatformV1FunctionDeclaration extends \Google\Model
   public function getParameters()
   {
     return $this->parameters;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1Schema
+   */
+  public function setResponse(GoogleCloudAiplatformV1Schema $response)
+  {
+    $this->response = $response;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1Schema
+   */
+  public function getResponse()
+  {
+    return $this->response;
   }
 }
 

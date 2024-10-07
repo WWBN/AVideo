@@ -53,6 +53,10 @@ class GoogleCloudConnectorsV1ConnectorVersionInfraConfig extends \Google\Model
    * @var string
    */
   public $sharedDeployment;
+  /**
+   * @var string
+   */
+  public $tlsMigrationState;
 
   /**
    * @param string
@@ -193,6 +197,20 @@ class GoogleCloudConnectorsV1ConnectorVersionInfraConfig extends \Google\Model
   public function getSharedDeployment()
   {
     return $this->sharedDeployment;
+  }
+  /**
+   * @param string
+   */
+  public function setTlsMigrationState($tlsMigrationState)
+  {
+    $this->tlsMigrationState = $tlsMigrationState;
+  }
+  /**
+   * @return string
+   */
+  public function getTlsMigrationState()
+  {
+    return $this->tlsMigrationState;
   }
 }
 

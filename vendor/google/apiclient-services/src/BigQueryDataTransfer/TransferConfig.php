@@ -47,6 +47,8 @@ class TransferConfig extends \Google\Model
   protected $emailPreferencesDataType = '';
   protected $encryptionConfigurationType = EncryptionConfiguration::class;
   protected $encryptionConfigurationDataType = '';
+  protected $errorType = Status::class;
+  protected $errorDataType = '';
   /**
    * @var string
    */
@@ -71,6 +73,8 @@ class TransferConfig extends \Google\Model
   public $schedule;
   protected $scheduleOptionsType = ScheduleOptions::class;
   protected $scheduleOptionsDataType = '';
+  protected $scheduleOptionsV2Type = ScheduleOptionsV2::class;
+  protected $scheduleOptionsV2DataType = '';
   /**
    * @var string
    */
@@ -197,6 +201,20 @@ class TransferConfig extends \Google\Model
     return $this->encryptionConfiguration;
   }
   /**
+   * @param Status
+   */
+  public function setError(Status $error)
+  {
+    $this->error = $error;
+  }
+  /**
+   * @return Status
+   */
+  public function getError()
+  {
+    return $this->error;
+  }
+  /**
    * @param string
    */
   public function setName($name)
@@ -293,6 +311,20 @@ class TransferConfig extends \Google\Model
   public function getScheduleOptions()
   {
     return $this->scheduleOptions;
+  }
+  /**
+   * @param ScheduleOptionsV2
+   */
+  public function setScheduleOptionsV2(ScheduleOptionsV2 $scheduleOptionsV2)
+  {
+    $this->scheduleOptionsV2 = $scheduleOptionsV2;
+  }
+  /**
+   * @return ScheduleOptionsV2
+   */
+  public function getScheduleOptionsV2()
+  {
+    return $this->scheduleOptionsV2;
   }
   /**
    * @param string

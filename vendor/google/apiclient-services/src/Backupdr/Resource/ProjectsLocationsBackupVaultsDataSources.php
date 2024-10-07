@@ -152,7 +152,11 @@ class ProjectsLocationsBackupVaultsDataSources extends \Google\Service\Resource
   /**
    * Updates the settings of a DataSource. (dataSources.patch)
    *
-   * @param string $name Output only. Identifier. The resource name.
+   * @param string $name Output only. Identifier. Name of the datasource to
+   * create. It must have the format`"projects/{project}/locations/{location}/back
+   * upVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be
+   * changed after creation. It must be between 3-63 characters long and must be
+   * unique within the backup vault.
    * @param DataSource $postBody
    * @param array $optParams Optional parameters.
    *

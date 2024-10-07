@@ -17,12 +17,17 @@
 
 namespace Google\Service\CloudDeploy;
 
-class IgnoreJobRequest extends \Google\Model
+class IgnoreJobRequest extends \Google\Collection
 {
+  protected $collection_key = 'overrideDeployPolicy';
   /**
    * @var string
    */
   public $jobId;
+  /**
+   * @var string[]
+   */
+  public $overrideDeployPolicy;
   /**
    * @var string
    */
@@ -41,6 +46,20 @@ class IgnoreJobRequest extends \Google\Model
   public function getJobId()
   {
     return $this->jobId;
+  }
+  /**
+   * @param string[]
+   */
+  public function setOverrideDeployPolicy($overrideDeployPolicy)
+  {
+    $this->overrideDeployPolicy = $overrideDeployPolicy;
+  }
+  /**
+   * @return string[]
+   */
+  public function getOverrideDeployPolicy()
+  {
+    return $this->overrideDeployPolicy;
   }
   /**
    * @param string

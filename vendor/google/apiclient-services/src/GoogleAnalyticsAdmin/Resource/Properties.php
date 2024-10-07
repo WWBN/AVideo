@@ -55,8 +55,8 @@ class Properties extends \Google\Service\Resource
     return $this->call('acknowledgeUserDataCollection', [$params], GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionResponse::class);
   }
   /**
-   * Creates an "GA4" property with the specified location and attributes.
-   * (properties.create)
+   * Creates a Google Analytics property with the specified location and
+   * attributes. (properties.create)
    *
    * @param GoogleAnalyticsAdminV1betaProperty $postBody
    * @param array $optParams Optional parameters.
@@ -76,7 +76,7 @@ class Properties extends \Google\Service\Resource
    * before the expiration time, the Property and all child resources (eg:
    * GoogleAdsLinks, Streams, AccessBindings) will be permanently purged.
    * https://support.google.com/analytics/answer/6154772 Returns an error if the
-   * target is not found, or is not a GA4 Property. (properties.delete)
+   * target is not found. (properties.delete)
    *
    * @param string $name Required. The name of the Property to soft-delete.
    * Format: properties/{property_id} Example: "properties/1000"
@@ -91,7 +91,7 @@ class Properties extends \Google\Service\Resource
     return $this->call('delete', [$params], GoogleAnalyticsAdminV1betaProperty::class);
   }
   /**
-   * Lookup for a single "GA4" Property. (properties.get)
+   * Lookup for a single GA Property. (properties.get)
    *
    * @param string $name Required. The name of the property to lookup. Format:
    * properties/{property_id} Example: "properties/1000"
@@ -123,11 +123,10 @@ class Properties extends \Google\Service\Resource
     return $this->call('getDataRetentionSettings', [$params], GoogleAnalyticsAdminV1betaDataRetentionSettings::class);
   }
   /**
-   * Returns child Properties under the specified parent Account. Only "GA4"
-   * properties will be returned. Properties will be excluded if the caller does
-   * not have access. Soft-deleted (ie: "trashed") properties are excluded by
-   * default. Returns an empty list if no relevant properties are found.
-   * (properties.listProperties)
+   * Returns child Properties under the specified parent Account. Properties will
+   * be excluded if the caller does not have access. Soft-deleted (ie: "trashed")
+   * properties are excluded by default. Returns an empty list if no relevant
+   * properties are found. (properties.listProperties)
    *
    * @param array $optParams Optional parameters.
    *
@@ -190,20 +189,24 @@ class Properties extends \Google\Service\Resource
    * for a property. Reports may be requested for any property, but dimensions
    * that aren't related to quota can only be requested on Google Analytics 360
    * properties. This method is only available to Administrators. These data
-   * access records include GA4 UI Reporting, GA4 UI Explorations, GA4 Data API,
-   * and other products like Firebase & Admob that can retrieve data from Google
+   * access records include GA UI Reporting, GA UI Explorations, GA Data API, and
+   * other products like Firebase & Admob that can retrieve data from Google
    * Analytics through a linkage. These records don't include property
    * configuration changes like adding a stream or changing a property's time
    * zone. For configuration change history, see [searchChangeHistoryEvents](https
    * ://developers.google.com/analytics/devguides/config/admin/v1/rest/v1alpha/acc
-   * ounts/searchChangeHistoryEvents). (properties.runAccessReport)
+   * ounts/searchChangeHistoryEvents). To give your feedback on this API, complete
+   * the [Google Analytics Access Reports feedback](https://docs.google.com/forms/
+   * d/e/1FAIpQLSdmEBUrMzAEdiEKk5TV5dEHvDUZDRlgWYdQdAeSdtR4hVjEhw/viewform) form.
+   * (properties.runAccessReport)
    *
    * @param string $entity The Data Access Report supports requesting at the
    * property level or account level. If requested at the account level, Data
    * Access Reports include all access for all properties under that account. To
    * request at the property level, entity should be for example 'properties/123'
-   * if "123" is your GA4 property ID. To request at the account level, entity
-   * should be for example 'accounts/1234' if "1234" is your GA4 Account ID.
+   * if "123" is your Google Analytics property ID. To request at the account
+   * level, entity should be for example 'accounts/1234' if "1234" is your Google
+   * Analytics Account ID.
    * @param GoogleAnalyticsAdminV1betaRunAccessReportRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaRunAccessReportResponse

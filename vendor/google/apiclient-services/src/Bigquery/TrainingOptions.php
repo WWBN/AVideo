@@ -79,6 +79,10 @@ class TrainingOptions extends \Google\Collection
   /**
    * @var string
    */
+  public $contributionMetric;
+  /**
+   * @var string
+   */
   public $dartNormalizeType;
   /**
    * @var string
@@ -97,6 +101,10 @@ class TrainingOptions extends \Google\Collection
    * @var bool
    */
   public $decomposeTimeSeries;
+  /**
+   * @var string[]
+   */
+  public $dimensionIdColumns;
   /**
    * @var string
    */
@@ -158,6 +166,10 @@ class TrainingOptions extends \Google\Collection
   /**
    * @var string
    */
+  public $isTestColumn;
+  /**
+   * @var string
+   */
   public $itemColumn;
   /**
    * @var string
@@ -196,6 +208,7 @@ class TrainingOptions extends \Google\Collection
    * @var string
    */
   public $maxTreeDepth;
+  public $minAprioriSupport;
   public $minRelativeProgress;
   public $minSplitLoss;
   /**
@@ -526,6 +539,20 @@ class TrainingOptions extends \Google\Collection
   /**
    * @param string
    */
+  public function setContributionMetric($contributionMetric)
+  {
+    $this->contributionMetric = $contributionMetric;
+  }
+  /**
+   * @return string
+   */
+  public function getContributionMetric()
+  {
+    return $this->contributionMetric;
+  }
+  /**
+   * @param string
+   */
   public function setDartNormalizeType($dartNormalizeType)
   {
     $this->dartNormalizeType = $dartNormalizeType;
@@ -600,6 +627,20 @@ class TrainingOptions extends \Google\Collection
   public function getDecomposeTimeSeries()
   {
     return $this->decomposeTimeSeries;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDimensionIdColumns($dimensionIdColumns)
+  {
+    $this->dimensionIdColumns = $dimensionIdColumns;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDimensionIdColumns()
+  {
+    return $this->dimensionIdColumns;
   }
   /**
    * @param string
@@ -816,6 +857,20 @@ class TrainingOptions extends \Google\Collection
   /**
    * @param string
    */
+  public function setIsTestColumn($isTestColumn)
+  {
+    $this->isTestColumn = $isTestColumn;
+  }
+  /**
+   * @return string
+   */
+  public function getIsTestColumn()
+  {
+    return $this->isTestColumn;
+  }
+  /**
+   * @param string
+   */
   public function setItemColumn($itemColumn)
   {
     $this->itemColumn = $itemColumn;
@@ -978,6 +1033,14 @@ class TrainingOptions extends \Google\Collection
   public function getMaxTreeDepth()
   {
     return $this->maxTreeDepth;
+  }
+  public function setMinAprioriSupport($minAprioriSupport)
+  {
+    $this->minAprioriSupport = $minAprioriSupport;
+  }
+  public function getMinAprioriSupport()
+  {
+    return $this->minAprioriSupport;
   }
   public function setMinRelativeProgress($minRelativeProgress)
   {

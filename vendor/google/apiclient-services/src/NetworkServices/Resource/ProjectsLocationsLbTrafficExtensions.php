@@ -157,7 +157,7 @@ class ProjectsLocationsLbTrafficExtensions extends \Google\Service\Resource
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param string updateMask Optional. Used to specify the fields to be
    * overwritten in the `LbTrafficExtension` resource by the update. The fields
-   * specified in the update_mask are relative to the resource, not the full
+   * specified in the `update_mask` are relative to the resource, not the full
    * request. A field is overwritten if it is in the mask. If the user does not
    * specify a mask, then all fields are overwritten.
    * @return Operation

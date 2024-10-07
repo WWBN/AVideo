@@ -36,6 +36,10 @@ class Cluster extends \Google\Collection
   public $deletionProtectionEnabled;
   protected $discoveryEndpointsType = DiscoveryEndpoint::class;
   protected $discoveryEndpointsDataType = 'array';
+  protected $maintenancePolicyType = ClusterMaintenancePolicy::class;
+  protected $maintenancePolicyDataType = '';
+  protected $maintenanceScheduleType = ClusterMaintenanceSchedule::class;
+  protected $maintenanceScheduleDataType = '';
   /**
    * @var string
    */
@@ -153,6 +157,34 @@ class Cluster extends \Google\Collection
   public function getDiscoveryEndpoints()
   {
     return $this->discoveryEndpoints;
+  }
+  /**
+   * @param ClusterMaintenancePolicy
+   */
+  public function setMaintenancePolicy(ClusterMaintenancePolicy $maintenancePolicy)
+  {
+    $this->maintenancePolicy = $maintenancePolicy;
+  }
+  /**
+   * @return ClusterMaintenancePolicy
+   */
+  public function getMaintenancePolicy()
+  {
+    return $this->maintenancePolicy;
+  }
+  /**
+   * @param ClusterMaintenanceSchedule
+   */
+  public function setMaintenanceSchedule(ClusterMaintenanceSchedule $maintenanceSchedule)
+  {
+    $this->maintenanceSchedule = $maintenanceSchedule;
+  }
+  /**
+   * @return ClusterMaintenanceSchedule
+   */
+  public function getMaintenanceSchedule()
+  {
+    return $this->maintenanceSchedule;
   }
   /**
    * @param string

@@ -27,6 +27,8 @@ class Connection extends \Google\Model
    * @var string
    */
   public $createTime;
+  protected $cryptoKeyConfigType = CryptoKeyConfig::class;
+  protected $cryptoKeyConfigDataType = '';
   /**
    * @var string
    */
@@ -41,6 +43,12 @@ class Connection extends \Google\Model
   public $etag;
   protected $githubConfigType = GitHubConfig::class;
   protected $githubConfigDataType = '';
+  protected $githubEnterpriseConfigType = GitHubEnterpriseConfig::class;
+  protected $githubEnterpriseConfigDataType = '';
+  protected $gitlabConfigType = GitLabConfig::class;
+  protected $gitlabConfigDataType = '';
+  protected $gitlabEnterpriseConfigType = GitLabEnterpriseConfig::class;
+  protected $gitlabEnterpriseConfigDataType = '';
   protected $installationStateType = InstallationState::class;
   protected $installationStateDataType = '';
   /**
@@ -91,6 +99,20 @@ class Connection extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param CryptoKeyConfig
+   */
+  public function setCryptoKeyConfig(CryptoKeyConfig $cryptoKeyConfig)
+  {
+    $this->cryptoKeyConfig = $cryptoKeyConfig;
+  }
+  /**
+   * @return CryptoKeyConfig
+   */
+  public function getCryptoKeyConfig()
+  {
+    return $this->cryptoKeyConfig;
   }
   /**
    * @param string
@@ -147,6 +169,48 @@ class Connection extends \Google\Model
   public function getGithubConfig()
   {
     return $this->githubConfig;
+  }
+  /**
+   * @param GitHubEnterpriseConfig
+   */
+  public function setGithubEnterpriseConfig(GitHubEnterpriseConfig $githubEnterpriseConfig)
+  {
+    $this->githubEnterpriseConfig = $githubEnterpriseConfig;
+  }
+  /**
+   * @return GitHubEnterpriseConfig
+   */
+  public function getGithubEnterpriseConfig()
+  {
+    return $this->githubEnterpriseConfig;
+  }
+  /**
+   * @param GitLabConfig
+   */
+  public function setGitlabConfig(GitLabConfig $gitlabConfig)
+  {
+    $this->gitlabConfig = $gitlabConfig;
+  }
+  /**
+   * @return GitLabConfig
+   */
+  public function getGitlabConfig()
+  {
+    return $this->gitlabConfig;
+  }
+  /**
+   * @param GitLabEnterpriseConfig
+   */
+  public function setGitlabEnterpriseConfig(GitLabEnterpriseConfig $gitlabEnterpriseConfig)
+  {
+    $this->gitlabEnterpriseConfig = $gitlabEnterpriseConfig;
+  }
+  /**
+   * @return GitLabEnterpriseConfig
+   */
+  public function getGitlabEnterpriseConfig()
+  {
+    return $this->gitlabEnterpriseConfig;
   }
   /**
    * @param InstallationState

@@ -26,6 +26,10 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public $asyncOperationsEnabled;
   protected $authConfigType = GoogleCloudConnectorsV1AuthConfig::class;
   protected $authConfigDataType = '';
+  /**
+   * @var bool
+   */
+  public $authOverrideEnabled;
   protected $billingConfigType = GoogleCloudConnectorsV1BillingConfig::class;
   protected $billingConfigDataType = '';
   protected $configVariablesType = GoogleCloudConnectorsV1ConfigVariable::class;
@@ -148,6 +152,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public function getAuthConfig()
   {
     return $this->authConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setAuthOverrideEnabled($authOverrideEnabled)
+  {
+    $this->authOverrideEnabled = $authOverrideEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getAuthOverrideEnabled()
+  {
+    return $this->authOverrideEnabled;
   }
   /**
    * @param GoogleCloudConnectorsV1BillingConfig

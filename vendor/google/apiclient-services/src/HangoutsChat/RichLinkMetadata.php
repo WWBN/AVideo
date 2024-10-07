@@ -19,6 +19,8 @@ namespace Google\Service\HangoutsChat;
 
 class RichLinkMetadata extends \Google\Model
 {
+  protected $chatSpaceLinkDataType = ChatSpaceLinkData::class;
+  protected $chatSpaceLinkDataDataType = '';
   protected $driveLinkDataType = DriveLinkData::class;
   protected $driveLinkDataDataType = '';
   /**
@@ -30,6 +32,20 @@ class RichLinkMetadata extends \Google\Model
    */
   public $uri;
 
+  /**
+   * @param ChatSpaceLinkData
+   */
+  public function setChatSpaceLinkData(ChatSpaceLinkData $chatSpaceLinkData)
+  {
+    $this->chatSpaceLinkData = $chatSpaceLinkData;
+  }
+  /**
+   * @return ChatSpaceLinkData
+   */
+  public function getChatSpaceLinkData()
+  {
+    return $this->chatSpaceLinkData;
+  }
   /**
    * @param DriveLinkData
    */

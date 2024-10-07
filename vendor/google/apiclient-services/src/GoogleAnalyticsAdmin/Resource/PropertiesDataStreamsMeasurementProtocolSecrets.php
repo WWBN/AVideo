@@ -64,7 +64,7 @@ class PropertiesDataStreamsMeasurementProtocolSecrets extends \Google\Service\Re
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
   }
   /**
-   * Lookup for a single "GA4" MeasurementProtocolSecret.
+   * Lookup for a single MeasurementProtocolSecret.
    * (measurementProtocolSecrets.get)
    *
    * @param string $name Required. The name of the measurement protocol secret to

@@ -21,6 +21,8 @@ class RemoteRepositoryConfig extends \Google\Model
 {
   protected $aptRepositoryType = AptRepository::class;
   protected $aptRepositoryDataType = '';
+  protected $commonRepositoryType = CommonRemoteRepository::class;
+  protected $commonRepositoryDataType = '';
   /**
    * @var string
    */
@@ -55,6 +57,20 @@ class RemoteRepositoryConfig extends \Google\Model
   public function getAptRepository()
   {
     return $this->aptRepository;
+  }
+  /**
+   * @param CommonRemoteRepository
+   */
+  public function setCommonRepository(CommonRemoteRepository $commonRepository)
+  {
+    $this->commonRepository = $commonRepository;
+  }
+  /**
+   * @return CommonRemoteRepository
+   */
+  public function getCommonRepository()
+  {
+    return $this->commonRepository;
   }
   /**
    * @param string

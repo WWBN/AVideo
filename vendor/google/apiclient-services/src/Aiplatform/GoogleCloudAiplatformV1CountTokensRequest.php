@@ -22,6 +22,8 @@ class GoogleCloudAiplatformV1CountTokensRequest extends \Google\Collection
   protected $collection_key = 'tools';
   protected $contentsType = GoogleCloudAiplatformV1Content::class;
   protected $contentsDataType = 'array';
+  protected $generationConfigType = GoogleCloudAiplatformV1GenerationConfig::class;
+  protected $generationConfigDataType = '';
   /**
    * @var array[]
    */
@@ -48,6 +50,20 @@ class GoogleCloudAiplatformV1CountTokensRequest extends \Google\Collection
   public function getContents()
   {
     return $this->contents;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1GenerationConfig
+   */
+  public function setGenerationConfig(GoogleCloudAiplatformV1GenerationConfig $generationConfig)
+  {
+    $this->generationConfig = $generationConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1GenerationConfig
+   */
+  public function getGenerationConfig()
+  {
+    return $this->generationConfig;
   }
   /**
    * @param array[]

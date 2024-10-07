@@ -40,6 +40,14 @@ class Instance extends \Google\Model
   protected $encryptionConfigType = EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
   /**
+   * @var bool
+   */
+  public $fipsEnabled;
+  /**
+   * @var bool
+   */
+  public $geminiEnabled;
+  /**
    * @var string
    */
   public $ingressPrivateIp;
@@ -201,6 +209,34 @@ class Instance extends \Google\Model
   public function getEncryptionConfig()
   {
     return $this->encryptionConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setFipsEnabled($fipsEnabled)
+  {
+    $this->fipsEnabled = $fipsEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getFipsEnabled()
+  {
+    return $this->fipsEnabled;
+  }
+  /**
+   * @param bool
+   */
+  public function setGeminiEnabled($geminiEnabled)
+  {
+    $this->geminiEnabled = $geminiEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getGeminiEnabled()
+  {
+    return $this->geminiEnabled;
   }
   /**
    * @param string

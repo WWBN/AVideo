@@ -206,9 +206,11 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
   /**
    * Generate content with multimodal inputs. (endpoints.generateContent)
    *
-   * @param string $model Required. The name of the publisher model requested to
-   * serve the prediction. Format:
-   * `projects/{project}/locations/{location}/publishers/models`
+   * @param string $model Required. The fully qualified name of the publisher
+   * model or tuned model endpoint to use. Publisher model format:
+   * `projects/{project}/locations/{location}/publishers/models` Tuned model
+   * endpoint format:
+   * `projects/{project}/locations/{location}/endpoints/{endpoint}`
    * @param GoogleCloudAiplatformV1GenerateContentRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAiplatformV1GenerateContentResponse
@@ -368,9 +370,11 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
    * Generate content with multimodal inputs with streaming support.
    * (endpoints.streamGenerateContent)
    *
-   * @param string $model Required. The name of the publisher model requested to
-   * serve the prediction. Format:
-   * `projects/{project}/locations/{location}/publishers/models`
+   * @param string $model Required. The fully qualified name of the publisher
+   * model or tuned model endpoint to use. Publisher model format:
+   * `projects/{project}/locations/{location}/publishers/models` Tuned model
+   * endpoint format:
+   * `projects/{project}/locations/{location}/endpoints/{endpoint}`
    * @param GoogleCloudAiplatformV1GenerateContentRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAiplatformV1GenerateContentResponse

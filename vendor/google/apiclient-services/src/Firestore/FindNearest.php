@@ -24,6 +24,11 @@ class FindNearest extends \Google\Model
    */
   public $distanceMeasure;
   /**
+   * @var string
+   */
+  public $distanceResultField;
+  public $distanceThreshold;
+  /**
    * @var int
    */
   public $limit;
@@ -45,6 +50,28 @@ class FindNearest extends \Google\Model
   public function getDistanceMeasure()
   {
     return $this->distanceMeasure;
+  }
+  /**
+   * @param string
+   */
+  public function setDistanceResultField($distanceResultField)
+  {
+    $this->distanceResultField = $distanceResultField;
+  }
+  /**
+   * @return string
+   */
+  public function getDistanceResultField()
+  {
+    return $this->distanceResultField;
+  }
+  public function setDistanceThreshold($distanceThreshold)
+  {
+    $this->distanceThreshold = $distanceThreshold;
+  }
+  public function getDistanceThreshold()
+  {
+    return $this->distanceThreshold;
   }
   /**
    * @param int

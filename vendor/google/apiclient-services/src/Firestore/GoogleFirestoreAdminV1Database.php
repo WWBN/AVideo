@@ -69,6 +69,8 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
    * @var string
    */
   public $previousId;
+  protected $sourceInfoType = GoogleFirestoreAdminV1SourceInfo::class;
+  protected $sourceInfoDataType = '';
   /**
    * @var string
    */
@@ -267,6 +269,20 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   public function getPreviousId()
   {
     return $this->previousId;
+  }
+  /**
+   * @param GoogleFirestoreAdminV1SourceInfo
+   */
+  public function setSourceInfo(GoogleFirestoreAdminV1SourceInfo $sourceInfo)
+  {
+    $this->sourceInfo = $sourceInfo;
+  }
+  /**
+   * @return GoogleFirestoreAdminV1SourceInfo
+   */
+  public function getSourceInfo()
+  {
+    return $this->sourceInfo;
   }
   /**
    * @param string

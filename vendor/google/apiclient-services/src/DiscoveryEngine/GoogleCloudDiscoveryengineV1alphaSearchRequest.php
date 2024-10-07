@@ -72,6 +72,8 @@ class GoogleCloudDiscoveryengineV1alphaSearchRequest extends \Google\Collection
    * @var array[]
    */
   public $params;
+  protected $personalizationSpecType = GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec::class;
+  protected $personalizationSpecDataType = '';
   /**
    * @var string
    */
@@ -356,6 +358,20 @@ class GoogleCloudDiscoveryengineV1alphaSearchRequest extends \Google\Collection
   public function getParams()
   {
     return $this->params;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec
+   */
+  public function setPersonalizationSpec(GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec $personalizationSpec)
+  {
+    $this->personalizationSpec = $personalizationSpec;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec
+   */
+  public function getPersonalizationSpec()
+  {
+    return $this->personalizationSpec;
   }
   /**
    * @param string

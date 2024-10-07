@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.8.2
+
+- Fix deprecation warnings in PHP 8.4
+
+## 1.8.1
+
+- Fix error handling in Stream::getContents()
+
 ## 1.8.0
 
 - Deprecate HttplugFactory, use Psr17Factory instead

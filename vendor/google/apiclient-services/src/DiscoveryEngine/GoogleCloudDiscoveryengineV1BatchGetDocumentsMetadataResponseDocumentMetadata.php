@@ -32,7 +32,7 @@ class GoogleCloudDiscoveryengineV1BatchGetDocumentsMetadataResponseDocumentMetad
   /**
    * @var string
    */
-  public $status;
+  public $state;
 
   /**
    * @param string
@@ -79,16 +79,16 @@ class GoogleCloudDiscoveryengineV1BatchGetDocumentsMetadataResponseDocumentMetad
   /**
    * @param string
    */
-  public function setStatus($status)
+  public function setState($state)
   {
-    $this->status = $status;
+    $this->state = $state;
   }
   /**
    * @return string
    */
-  public function getStatus()
+  public function getState()
   {
-    return $this->status;
+    return $this->state;
   }
 }
 

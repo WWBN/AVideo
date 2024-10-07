@@ -36,9 +36,15 @@ class SpacesMembers extends \Google\Service\Resource
    * membership, if the specified member has their auto-accept policy turned off,
    * then they're invited, and must accept the space invitation before joining.
    * Otherwise, creating a membership adds the member directly to the specified
-   * space. Requires [user
+   * space. Supports the following types of
+   * [authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). For example usage, see: - [Invite or add a user to a
+   * authorize-chat-app) with [administrator
+   * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
+   * Preview](https://developers.google.com/workspace/preview) - [User
+   * authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize-chat-user) For example usage, see: - [Invite or add a user to a
    * space](https://developers.google.com/workspace/chat/create-members#create-
    * user-membership). - [Invite or add a Google Group to a
    * space](https://developers.google.com/workspace/chat/create-members#create-
@@ -51,11 +57,9 @@ class SpacesMembers extends \Google\Service\Resource
    * @param Membership $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool useAdminAccess [Developer
-   * Preview](https://developers.google.com/workspace/preview). When `true`, the
-   * method runs using the user's Google Workspace administrator privileges. The
-   * calling user must be a Google Workspace administrator with the [manage chat
-   * and spaces conversations
+   * @opt_param bool useAdminAccess When `true`, the method runs using the user's
+   * Google Workspace administrator privileges. The calling user must be a Google
+   * Workspace administrator with the [manage chat and spaces conversations
    * privilege](https://support.google.com/a/answer/13369245). Requires the
    * `chat.admin.memberships` [OAuth 2.0
    * scope](https://developers.google.com/workspace/chat/authenticate-
@@ -74,9 +78,15 @@ class SpacesMembers extends \Google\Service\Resource
   /**
    * Deletes a membership. For an example, see [Remove a user or a Google Chat app
    * from a space](https://developers.google.com/workspace/chat/delete-members).
-   * Requires [user
+   * Supports the following types of
+   * [authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (members.delete)
+   * authorize-chat-app) with [administrator
+   * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
+   * Preview](https://developers.google.com/workspace/preview) - [User
+   * authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize-chat-user) (members.delete)
    *
    * @param string $name Required. Resource name of the membership to delete. Chat
    * apps can delete human users' or their own memberships. Chat apps can't delete
@@ -89,11 +99,9 @@ class SpacesMembers extends \Google\Service\Resource
    * `spaces/{space}/members/{member}` or `spaces/{space}/members/app`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool useAdminAccess [Developer
-   * Preview](https://developers.google.com/workspace/preview). When `true`, the
-   * method runs using the user's Google Workspace administrator privileges. The
-   * calling user must be a Google Workspace administrator with the [manage chat
-   * and spaces conversations
+   * @opt_param bool useAdminAccess When `true`, the method runs using the user's
+   * Google Workspace administrator privileges. The calling user must be a Google
+   * Workspace administrator with the [manage chat and spaces conversations
    * privilege](https://support.google.com/a/answer/13369245). Requires the
    * `chat.admin.memberships` [OAuth 2.0
    * scope](https://developers.google.com/workspace/chat/authenticate-
@@ -112,31 +120,27 @@ class SpacesMembers extends \Google\Service\Resource
    * Returns details about a membership. For an example, see [Get details about a
    * user's or Google Chat app's
    * membership](https://developers.google.com/workspace/chat/get-members).
-   * Requires
+   * Supports the following types of
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize). Supports [app
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) and [user
+   * authorize-chat-app) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (members.get)
+   * authorize-chat-user) (members.get)
    *
    * @param string $name Required. Resource name of the membership to retrieve. To
    * get the app's own membership [by using user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-user), you can optionally use `spaces/{space}/members/app`.
-   * Format: `spaces/{space}/members/{member}` or `spaces/{space}/members/app`
-   * When [authenticated as a
-   * user](https://developers.google.com/workspace/chat/authenticate-authorize-
-   * chat-user), you can use the user's email as an alias for `{member}`. For
-   * example, `spaces/{space}/members/example@gmail.com` where `example@gmail.com`
-   * is the email of the Google Chat user.
+   * Format: `spaces/{space}/members/{member}` or `spaces/{space}/members/app` You
+   * can use the user's email as an alias for `{member}`. For example,
+   * `spaces/{space}/members/example@gmail.com` where `example@gmail.com` is the
+   * email of the Google Chat user.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool useAdminAccess [Developer
-   * Preview](https://developers.google.com/workspace/preview). When `true`, the
-   * method runs using the user's Google Workspace administrator privileges. The
-   * calling user must be a Google Workspace administrator with the [manage chat
-   * and spaces conversations
+   * @opt_param bool useAdminAccess When `true`, the method runs using the user's
+   * Google Workspace administrator privileges. The calling user must be a Google
+   * Workspace administrator with the [manage chat and spaces conversations
    * privilege](https://support.google.com/a/answer/13369245). Requires the
    * `chat.admin.memberships` or `chat.admin.memberships.readonly` [OAuth 2.0
    * scopes](https://developers.google.com/workspace/chat/authenticate-
@@ -161,13 +165,13 @@ class SpacesMembers extends \Google\Service\Resource
    * with [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-user) lists memberships in spaces that the authenticated user
-   * has access to. Requires
+   * has access to. Supports the following types of
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize). Supports [app
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) and [user
+   * authorize-chat-app) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (members.listSpacesMembers)
+   * authorize-chat-user) (members.listSpacesMembers)
    *
    * @param string $parent Required. The resource name of the space for which to
    * fetch a membership list. Format: spaces/{space}
@@ -178,11 +182,11 @@ class SpacesMembers extends \Google\Service\Resource
    * /reference/rest/v1/spaces.members#membershiprole)) and type ([`member.type`](
    * https://developers.google.com/workspace/chat/api/reference/rest/v1/User#type)
    * ). To filter by role, set `role` to `ROLE_MEMBER` or `ROLE_MANAGER`. To
-   * filter by type, set `member.type` to `HUMAN` or `BOT`. Developer Preview: You
-   * can also filter for `member.type` using the `!=` operator. To filter by both
-   * role and type, use the `AND` operator. To filter by either role or type, use
-   * the `OR` operator. Either `member.type = "HUMAN"` or `member.type != "BOT"`
-   * is required when `use_admin_access` is set to true. Other member type filters
+   * filter by type, set `member.type` to `HUMAN` or `BOT`. You can also filter
+   * for `member.type` using the `!=` operator. To filter by both role and type,
+   * use the `AND` operator. To filter by either role or type, use the `OR`
+   * operator. Either `member.type = "HUMAN"` or `member.type != "BOT"` is
+   * required when `use_admin_access` is set to true. Other member type filters
    * will be rejected. For example, the following queries are valid: ``` role =
    * "ROLE_MANAGER" OR role = "ROLE_MEMBER" member.type = "HUMAN" AND role =
    * "ROLE_MANAGER" member.type != "BOT" ``` The following queries are invalid:
@@ -209,11 +213,9 @@ class SpacesMembers extends \Google\Service\Resource
    * aren't returned. Currently requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-user).
-   * @opt_param bool useAdminAccess [Developer
-   * Preview](https://developers.google.com/workspace/preview). When `true`, the
-   * method runs using the user's Google Workspace administrator privileges. The
-   * calling user must be a Google Workspace administrator with the [manage chat
-   * and spaces conversations
+   * @opt_param bool useAdminAccess When `true`, the method runs using the user's
+   * Google Workspace administrator privileges. The calling user must be a Google
+   * Workspace administrator with the [manage chat and spaces conversations
    * privilege](https://support.google.com/a/answer/13369245). Requires either the
    * `chat.admin.memberships.readonly` or `chat.admin.memberships` [OAuth 2.0
    * scope](https://developers.google.com/workspace/chat/authenticate-
@@ -230,10 +232,16 @@ class SpacesMembers extends \Google\Service\Resource
   }
   /**
    * Updates a membership. For an example, see [Update a user's membership in a
-   * space](https://developers.google.com/workspace/chat/update-members). Requires
-   * [user
+   * space](https://developers.google.com/workspace/chat/update-members). Supports
+   * the following types of
+   * [authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (members.patch)
+   * authorize-chat-app) with [administrator
+   * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
+   * Preview](https://developers.google.com/workspace/preview) - [User
+   * authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize-chat-user) (members.patch)
    *
    * @param string $name Resource name of the membership, assigned by the server.
    * Format: `spaces/{space}/members/{member}`
@@ -243,11 +251,9 @@ class SpacesMembers extends \Google\Service\Resource
    * @opt_param string updateMask Required. The field paths to update. Separate
    * multiple values with commas or use `*` to update all field paths. Currently
    * supported field paths: - `role`
-   * @opt_param bool useAdminAccess [Developer
-   * Preview](https://developers.google.com/workspace/preview). When `true`, the
-   * method runs using the user's Google Workspace administrator privileges. The
-   * calling user must be a Google Workspace administrator with the [manage chat
-   * and spaces conversations
+   * @opt_param bool useAdminAccess When `true`, the method runs using the user's
+   * Google Workspace administrator privileges. The calling user must be a Google
+   * Workspace administrator with the [manage chat and spaces conversations
    * privilege](https://support.google.com/a/answer/13369245). Requires the
    * `chat.admin.memberships` [OAuth 2.0
    * scope](https://developers.google.com/workspace/chat/authenticate-

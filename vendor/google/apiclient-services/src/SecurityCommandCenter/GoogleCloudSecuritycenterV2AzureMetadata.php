@@ -26,6 +26,8 @@ class GoogleCloudSecuritycenterV2AzureMetadata extends \Google\Collection
   protected $resourceGroupDataType = '';
   protected $subscriptionType = GoogleCloudSecuritycenterV2AzureSubscription::class;
   protected $subscriptionDataType = '';
+  protected $tenantType = GoogleCloudSecuritycenterV2AzureTenant::class;
+  protected $tenantDataType = '';
 
   /**
    * @param GoogleCloudSecuritycenterV2AzureManagementGroup[]
@@ -68,6 +70,20 @@ class GoogleCloudSecuritycenterV2AzureMetadata extends \Google\Collection
   public function getSubscription()
   {
     return $this->subscription;
+  }
+  /**
+   * @param GoogleCloudSecuritycenterV2AzureTenant
+   */
+  public function setTenant(GoogleCloudSecuritycenterV2AzureTenant $tenant)
+  {
+    $this->tenant = $tenant;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2AzureTenant
+   */
+  public function getTenant()
+  {
+    return $this->tenant;
   }
 }
 

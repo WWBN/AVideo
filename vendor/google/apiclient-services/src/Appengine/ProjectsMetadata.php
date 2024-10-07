@@ -17,8 +17,9 @@
 
 namespace Google\Service\Appengine;
 
-class ProjectsMetadata extends \Google\Model
+class ProjectsMetadata extends \Google\Collection
 {
+  protected $collection_key = 'gceTag';
   /**
    * @var string
    */
@@ -31,6 +32,8 @@ class ProjectsMetadata extends \Google\Model
    * @var string
    */
   public $consumerProjectState;
+  protected $gceTagType = GceTag::class;
+  protected $gceTagDataType = 'array';
   /**
    * @var string
    */
@@ -93,6 +96,20 @@ class ProjectsMetadata extends \Google\Model
   public function getConsumerProjectState()
   {
     return $this->consumerProjectState;
+  }
+  /**
+   * @param GceTag[]
+   */
+  public function setGceTag($gceTag)
+  {
+    $this->gceTag = $gceTag;
+  }
+  /**
+   * @return GceTag[]
+   */
+  public function getGceTag()
+  {
+    return $this->gceTag;
   }
   /**
    * @param string

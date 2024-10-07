@@ -20,6 +20,10 @@ namespace Google\Service\CloudRedis;
 class AvailabilityConfiguration extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $automaticFailoverRoutingConfigured;
+  /**
    * @var string
    */
   public $availabilityType;
@@ -36,6 +40,20 @@ class AvailabilityConfiguration extends \Google\Model
    */
   public $promotableReplicaConfigured;
 
+  /**
+   * @param bool
+   */
+  public function setAutomaticFailoverRoutingConfigured($automaticFailoverRoutingConfigured)
+  {
+    $this->automaticFailoverRoutingConfigured = $automaticFailoverRoutingConfigured;
+  }
+  /**
+   * @return bool
+   */
+  public function getAutomaticFailoverRoutingConfigured()
+  {
+    return $this->automaticFailoverRoutingConfigured;
+  }
   /**
    * @param string
    */

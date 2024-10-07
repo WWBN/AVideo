@@ -71,8 +71,11 @@ class ProjectsLocations extends \Google\Service\Resource
     return $this->call('list', [$params], GoogleCloudLocationListLocationsResponse::class);
   }
   /**
-   * Looks up a single Entry by name using the permission on the source system.
-   * (locations.lookupEntry)
+   * Looks up a single Entry by name using the permission on the source
+   * system.Caution: The BigQuery metadata that is stored in Dataplex Catalog is
+   * changing. For more information, see Changes to BigQuery metadata stored in
+   * Dataplex Catalog (https://cloud.google.com/dataplex/docs/biqquery-metadata-
+   * changes). (locations.lookupEntry)
    *
    * @param string $name Required. The project to which the request should be
    * attributed in the following form: projects/{project}/locations/{location}.

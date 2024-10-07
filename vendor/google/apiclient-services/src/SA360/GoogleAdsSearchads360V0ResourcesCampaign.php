@@ -63,6 +63,10 @@ class GoogleAdsSearchads360V0ResourcesCampaign extends \Google\Collection
   protected $dynamicSearchAdsSettingType = GoogleAdsSearchads360V0ResourcesCampaignDynamicSearchAdsSetting::class;
   protected $dynamicSearchAdsSettingDataType = '';
   /**
+   * @var string[]
+   */
+  public $effectiveLabels;
+  /**
    * @var string
    */
   public $endDate;
@@ -312,6 +316,20 @@ class GoogleAdsSearchads360V0ResourcesCampaign extends \Google\Collection
   public function getDynamicSearchAdsSetting()
   {
     return $this->dynamicSearchAdsSetting;
+  }
+  /**
+   * @param string[]
+   */
+  public function setEffectiveLabels($effectiveLabels)
+  {
+    $this->effectiveLabels = $effectiveLabels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getEffectiveLabels()
+  {
+    return $this->effectiveLabels;
   }
   /**
    * @param string

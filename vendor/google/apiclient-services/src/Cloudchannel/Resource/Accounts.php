@@ -78,7 +78,6 @@ class Accounts extends \Google\Service\Resource
    * @param string $account Optional. Resource name of the account.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string integrator Optional. Resource name of the integrator.
    * @opt_param int pageSize Optional. The maximum number of service accounts to
    * return. The service may return fewer than this value. If unspecified, returns
    * at most 100 service accounts. The maximum value is 1000; the server will

@@ -30,6 +30,10 @@ class EnterpriseCrmEventbusProtoConnectorsConnection extends \Google\Model
   /**
    * @var string
    */
+  public $host;
+  /**
+   * @var string
+   */
   public $serviceName;
 
   /**
@@ -59,6 +63,20 @@ class EnterpriseCrmEventbusProtoConnectorsConnection extends \Google\Model
   public function getConnectorVersion()
   {
     return $this->connectorVersion;
+  }
+  /**
+   * @param string
+   */
+  public function setHost($host)
+  {
+    $this->host = $host;
+  }
+  /**
+   * @return string
+   */
+  public function getHost()
+  {
+    return $this->host;
   }
   /**
    * @param string

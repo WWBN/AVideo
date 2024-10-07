@@ -27,6 +27,10 @@ class MachineConfiguration extends \Google\Model
    * @var string
    */
   public $memorySizeInBytes;
+  /**
+   * @var int
+   */
+  public $shardCount;
 
   /**
    * @param int
@@ -55,6 +59,20 @@ class MachineConfiguration extends \Google\Model
   public function getMemorySizeInBytes()
   {
     return $this->memorySizeInBytes;
+  }
+  /**
+   * @param int
+   */
+  public function setShardCount($shardCount)
+  {
+    $this->shardCount = $shardCount;
+  }
+  /**
+   * @return int
+   */
+  public function getShardCount()
+  {
+    return $this->shardCount;
   }
 }
 

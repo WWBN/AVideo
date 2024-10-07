@@ -34,11 +34,19 @@ class DeviceIdentifier extends \Google\Model
   /**
    * @var string
    */
+  public $imei2;
+  /**
+   * @var string
+   */
   public $manufacturer;
   /**
    * @var string
    */
   public $meid;
+  /**
+   * @var string
+   */
+  public $meid2;
   /**
    * @var string
    */
@@ -93,6 +101,20 @@ class DeviceIdentifier extends \Google\Model
   /**
    * @param string
    */
+  public function setImei2($imei2)
+  {
+    $this->imei2 = $imei2;
+  }
+  /**
+   * @return string
+   */
+  public function getImei2()
+  {
+    return $this->imei2;
+  }
+  /**
+   * @param string
+   */
   public function setManufacturer($manufacturer)
   {
     $this->manufacturer = $manufacturer;
@@ -117,6 +139,20 @@ class DeviceIdentifier extends \Google\Model
   public function getMeid()
   {
     return $this->meid;
+  }
+  /**
+   * @param string
+   */
+  public function setMeid2($meid2)
+  {
+    $this->meid2 = $meid2;
+  }
+  /**
+   * @return string
+   */
+  public function getMeid2()
+  {
+    return $this->meid2;
   }
   /**
    * @param string

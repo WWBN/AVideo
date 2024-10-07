@@ -175,7 +175,11 @@ class Texttospeech extends \Google\Service
         'voices',
         [
           'methods' => [
-            'list' => [
+            'generateVoiceCloningKey' => [
+              'path' => 'v1/voices:generateVoiceCloningKey',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'list' => [
               'path' => 'v1/voices',
               'httpMethod' => 'GET',
               'parameters' => [

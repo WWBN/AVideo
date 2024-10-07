@@ -45,6 +45,8 @@ class SessionTemplate extends \Google\Model
   public $name;
   protected $runtimeConfigType = RuntimeConfig::class;
   protected $runtimeConfigDataType = '';
+  protected $sparkConnectSessionType = SparkConnectConfig::class;
+  protected $sparkConnectSessionDataType = '';
   /**
    * @var string
    */
@@ -165,6 +167,20 @@ class SessionTemplate extends \Google\Model
   public function getRuntimeConfig()
   {
     return $this->runtimeConfig;
+  }
+  /**
+   * @param SparkConnectConfig
+   */
+  public function setSparkConnectSession(SparkConnectConfig $sparkConnectSession)
+  {
+    $this->sparkConnectSession = $sparkConnectSession;
+  }
+  /**
+   * @return SparkConnectConfig
+   */
+  public function getSparkConnectSession()
+  {
+    return $this->sparkConnectSession;
   }
   /**
    * @param string

@@ -21,10 +21,28 @@ class GoogleCloudDiscoveryengineV1RecrawlUrisRequest extends \Google\Collection
 {
   protected $collection_key = 'uris';
   /**
+   * @var string
+   */
+  public $siteCredential;
+  /**
    * @var string[]
    */
   public $uris;
 
+  /**
+   * @param string
+   */
+  public function setSiteCredential($siteCredential)
+  {
+    $this->siteCredential = $siteCredential;
+  }
+  /**
+   * @return string
+   */
+  public function getSiteCredential()
+  {
+    return $this->siteCredential;
+  }
   /**
    * @param string[]
    */

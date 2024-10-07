@@ -25,6 +25,8 @@ class GooglePrivacyDlpV2DiscoveryTarget extends \Google\Model
   protected $cloudSqlTargetDataType = '';
   protected $cloudStorageTargetType = GooglePrivacyDlpV2CloudStorageDiscoveryTarget::class;
   protected $cloudStorageTargetDataType = '';
+  protected $otherCloudTargetType = GooglePrivacyDlpV2OtherCloudDiscoveryTarget::class;
+  protected $otherCloudTargetDataType = '';
   protected $secretsTargetType = GooglePrivacyDlpV2SecretsDiscoveryTarget::class;
   protected $secretsTargetDataType = '';
 
@@ -69,6 +71,20 @@ class GooglePrivacyDlpV2DiscoveryTarget extends \Google\Model
   public function getCloudStorageTarget()
   {
     return $this->cloudStorageTarget;
+  }
+  /**
+   * @param GooglePrivacyDlpV2OtherCloudDiscoveryTarget
+   */
+  public function setOtherCloudTarget(GooglePrivacyDlpV2OtherCloudDiscoveryTarget $otherCloudTarget)
+  {
+    $this->otherCloudTarget = $otherCloudTarget;
+  }
+  /**
+   * @return GooglePrivacyDlpV2OtherCloudDiscoveryTarget
+   */
+  public function getOtherCloudTarget()
+  {
+    return $this->otherCloudTarget;
   }
   /**
    * @param GooglePrivacyDlpV2SecretsDiscoveryTarget

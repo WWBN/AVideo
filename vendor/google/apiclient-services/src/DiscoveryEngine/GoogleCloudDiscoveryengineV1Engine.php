@@ -35,6 +35,10 @@ class GoogleCloudDiscoveryengineV1Engine extends \Google\Collection
    */
   public $dataStoreIds;
   /**
+   * @var bool
+   */
+  public $disableAnalytics;
+  /**
    * @var string
    */
   public $displayName;
@@ -126,6 +130,20 @@ class GoogleCloudDiscoveryengineV1Engine extends \Google\Collection
   public function getDataStoreIds()
   {
     return $this->dataStoreIds;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisableAnalytics($disableAnalytics)
+  {
+    $this->disableAnalytics = $disableAnalytics;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableAnalytics()
+  {
+    return $this->disableAnalytics;
   }
   /**
    * @param string

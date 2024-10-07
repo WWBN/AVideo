@@ -520,6 +520,16 @@ class Storage extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'relocate' => [
+              'path' => 'b/{bucket}/relocate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'bucket' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'restore' => [
               'path' => 'b/{bucket}/restore',
               'httpMethod' => 'POST',
@@ -1487,6 +1497,10 @@ class Storage extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'restoreToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'softDeleted' => [
                   'location' => 'query',
                   'type' => 'boolean',
@@ -1722,6 +1736,10 @@ class Storage extends \Google\Service
                   'type' => 'string',
                 ],
                 'projection' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'restoreToken' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

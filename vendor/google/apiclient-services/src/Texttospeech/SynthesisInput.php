@@ -19,6 +19,8 @@ namespace Google\Service\Texttospeech;
 
 class SynthesisInput extends \Google\Model
 {
+  protected $customPronunciationsType = CustomPronunciations::class;
+  protected $customPronunciationsDataType = '';
   /**
    * @var string
    */
@@ -28,6 +30,20 @@ class SynthesisInput extends \Google\Model
    */
   public $text;
 
+  /**
+   * @param CustomPronunciations
+   */
+  public function setCustomPronunciations(CustomPronunciations $customPronunciations)
+  {
+    $this->customPronunciations = $customPronunciations;
+  }
+  /**
+   * @return CustomPronunciations
+   */
+  public function getCustomPronunciations()
+  {
+    return $this->customPronunciations;
+  }
   /**
    * @param string
    */

@@ -17,8 +17,9 @@
 
 namespace Google\Service\DatabaseMigrationService;
 
-class PrimaryInstanceSettings extends \Google\Model
+class PrimaryInstanceSettings extends \Google\Collection
 {
+  protected $collection_key = 'outboundPublicIpAddresses';
   /**
    * @var string[]
    */
@@ -27,12 +28,18 @@ class PrimaryInstanceSettings extends \Google\Model
    * @var string
    */
   public $id;
+  protected $instanceNetworkConfigType = InstanceNetworkConfig::class;
+  protected $instanceNetworkConfigDataType = '';
   /**
    * @var string[]
    */
   public $labels;
   protected $machineConfigType = MachineConfig::class;
   protected $machineConfigDataType = '';
+  /**
+   * @var string[]
+   */
+  public $outboundPublicIpAddresses;
   /**
    * @var string
    */
@@ -67,6 +74,20 @@ class PrimaryInstanceSettings extends \Google\Model
     return $this->id;
   }
   /**
+   * @param InstanceNetworkConfig
+   */
+  public function setInstanceNetworkConfig(InstanceNetworkConfig $instanceNetworkConfig)
+  {
+    $this->instanceNetworkConfig = $instanceNetworkConfig;
+  }
+  /**
+   * @return InstanceNetworkConfig
+   */
+  public function getInstanceNetworkConfig()
+  {
+    return $this->instanceNetworkConfig;
+  }
+  /**
    * @param string[]
    */
   public function setLabels($labels)
@@ -93,6 +114,20 @@ class PrimaryInstanceSettings extends \Google\Model
   public function getMachineConfig()
   {
     return $this->machineConfig;
+  }
+  /**
+   * @param string[]
+   */
+  public function setOutboundPublicIpAddresses($outboundPublicIpAddresses)
+  {
+    $this->outboundPublicIpAddresses = $outboundPublicIpAddresses;
+  }
+  /**
+   * @return string[]
+   */
+  public function getOutboundPublicIpAddresses()
+  {
+    return $this->outboundPublicIpAddresses;
   }
   /**
    * @param string

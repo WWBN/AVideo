@@ -30,6 +30,8 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
    * @var string
    */
   public $canonicalFilter;
+  protected $conversationalSearchSpecType = GoogleCloudRetailV2SearchRequestConversationalSearchSpec::class;
+  protected $conversationalSearchSpecDataType = '';
   protected $dynamicFacetSpecType = GoogleCloudRetailV2SearchRequestDynamicFacetSpec::class;
   protected $dynamicFacetSpecDataType = '';
   /**
@@ -80,6 +82,8 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
   public $searchMode;
   protected $spellCorrectionSpecType = GoogleCloudRetailV2SearchRequestSpellCorrectionSpec::class;
   protected $spellCorrectionSpecDataType = '';
+  protected $tileNavigationSpecType = GoogleCloudRetailV2SearchRequestTileNavigationSpec::class;
+  protected $tileNavigationSpecDataType = '';
   protected $userInfoType = GoogleCloudRetailV2UserInfo::class;
   protected $userInfoDataType = '';
   /**
@@ -132,6 +136,20 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
   public function getCanonicalFilter()
   {
     return $this->canonicalFilter;
+  }
+  /**
+   * @param GoogleCloudRetailV2SearchRequestConversationalSearchSpec
+   */
+  public function setConversationalSearchSpec(GoogleCloudRetailV2SearchRequestConversationalSearchSpec $conversationalSearchSpec)
+  {
+    $this->conversationalSearchSpec = $conversationalSearchSpec;
+  }
+  /**
+   * @return GoogleCloudRetailV2SearchRequestConversationalSearchSpec
+   */
+  public function getConversationalSearchSpec()
+  {
+    return $this->conversationalSearchSpec;
   }
   /**
    * @param GoogleCloudRetailV2SearchRequestDynamicFacetSpec
@@ -342,6 +360,20 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
   public function getSpellCorrectionSpec()
   {
     return $this->spellCorrectionSpec;
+  }
+  /**
+   * @param GoogleCloudRetailV2SearchRequestTileNavigationSpec
+   */
+  public function setTileNavigationSpec(GoogleCloudRetailV2SearchRequestTileNavigationSpec $tileNavigationSpec)
+  {
+    $this->tileNavigationSpec = $tileNavigationSpec;
+  }
+  /**
+   * @return GoogleCloudRetailV2SearchRequestTileNavigationSpec
+   */
+  public function getTileNavigationSpec()
+  {
+    return $this->tileNavigationSpec;
   }
   /**
    * @param GoogleCloudRetailV2UserInfo

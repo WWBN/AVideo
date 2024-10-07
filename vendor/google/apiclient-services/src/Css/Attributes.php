@@ -102,6 +102,8 @@ class Attributes extends \Google\Collection
    * @var string
    */
   public $headlineOfferCondition;
+  protected $headlineOfferInstallmentType = HeadlineOfferInstallment::class;
+  protected $headlineOfferInstallmentDataType = '';
   /**
    * @var string
    */
@@ -114,6 +116,8 @@ class Attributes extends \Google\Collection
   protected $headlineOfferPriceDataType = '';
   protected $headlineOfferShippingPriceType = Price::class;
   protected $headlineOfferShippingPriceDataType = '';
+  protected $headlineOfferSubscriptionCostType = HeadlineOfferSubscriptionCost::class;
+  protected $headlineOfferSubscriptionCostDataType = '';
   protected $highPriceType = Price::class;
   protected $highPriceDataType = '';
   /**
@@ -488,6 +492,20 @@ class Attributes extends \Google\Collection
     return $this->headlineOfferCondition;
   }
   /**
+   * @param HeadlineOfferInstallment
+   */
+  public function setHeadlineOfferInstallment(HeadlineOfferInstallment $headlineOfferInstallment)
+  {
+    $this->headlineOfferInstallment = $headlineOfferInstallment;
+  }
+  /**
+   * @return HeadlineOfferInstallment
+   */
+  public function getHeadlineOfferInstallment()
+  {
+    return $this->headlineOfferInstallment;
+  }
+  /**
    * @param string
    */
   public function setHeadlineOfferLink($headlineOfferLink)
@@ -542,6 +560,20 @@ class Attributes extends \Google\Collection
   public function getHeadlineOfferShippingPrice()
   {
     return $this->headlineOfferShippingPrice;
+  }
+  /**
+   * @param HeadlineOfferSubscriptionCost
+   */
+  public function setHeadlineOfferSubscriptionCost(HeadlineOfferSubscriptionCost $headlineOfferSubscriptionCost)
+  {
+    $this->headlineOfferSubscriptionCost = $headlineOfferSubscriptionCost;
+  }
+  /**
+   * @return HeadlineOfferSubscriptionCost
+   */
+  public function getHeadlineOfferSubscriptionCost()
+  {
+    return $this->headlineOfferSubscriptionCost;
   }
   /**
    * @param Price

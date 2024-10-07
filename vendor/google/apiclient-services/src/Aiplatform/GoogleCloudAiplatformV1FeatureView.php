@@ -55,6 +55,8 @@ class GoogleCloudAiplatformV1FeatureView extends \Google\Model
    * @var string
    */
   public $updateTime;
+  protected $vertexRagSourceType = GoogleCloudAiplatformV1FeatureViewVertexRagSource::class;
+  protected $vertexRagSourceDataType = '';
 
   /**
    * @param GoogleCloudAiplatformV1FeatureViewBigQuerySource
@@ -209,6 +211,20 @@ class GoogleCloudAiplatformV1FeatureView extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1FeatureViewVertexRagSource
+   */
+  public function setVertexRagSource(GoogleCloudAiplatformV1FeatureViewVertexRagSource $vertexRagSource)
+  {
+    $this->vertexRagSource = $vertexRagSource;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1FeatureViewVertexRagSource
+   */
+  public function getVertexRagSource()
+  {
+    return $this->vertexRagSource;
   }
 }
 

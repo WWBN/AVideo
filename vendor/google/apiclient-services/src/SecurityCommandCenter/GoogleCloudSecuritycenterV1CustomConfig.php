@@ -19,6 +19,8 @@ namespace Google\Service\SecurityCommandCenter;
 
 class GoogleCloudSecuritycenterV1CustomConfig extends \Google\Model
 {
+  protected $celPolicyType = CelPolicySpec::class;
+  protected $celPolicyDataType = '';
   protected $customOutputType = GoogleCloudSecuritycenterV1CustomOutputSpec::class;
   protected $customOutputDataType = '';
   /**
@@ -38,6 +40,20 @@ class GoogleCloudSecuritycenterV1CustomConfig extends \Google\Model
    */
   public $severity;
 
+  /**
+   * @param CelPolicySpec
+   */
+  public function setCelPolicy(CelPolicySpec $celPolicy)
+  {
+    $this->celPolicy = $celPolicy;
+  }
+  /**
+   * @return CelPolicySpec
+   */
+  public function getCelPolicy()
+  {
+    return $this->celPolicy;
+  }
   /**
    * @param GoogleCloudSecuritycenterV1CustomOutputSpec
    */

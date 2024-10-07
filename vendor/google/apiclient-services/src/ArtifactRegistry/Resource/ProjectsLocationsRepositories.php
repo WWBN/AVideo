@@ -124,6 +124,18 @@ class ProjectsLocationsRepositories extends \Google\Service\Resource
    * repositories will be listed.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string filter Optional. An expression for filtering the results of
+   * the request. Filter rules are case insensitive. The fields eligible for
+   * filtering are: * `name` Examples of using a filter: To filter the results of
+   * your request to repositories with the name `my-repo` in project `my-project`
+   * in the `us-central` region, append the following filter expression to your
+   * request: * `name="projects/my-project/locations/us-central1/repositories/my-
+   * repo"` You can also use wildcards to match any number of characters before or
+   * after the value: * `name="projects/my-project/locations/us-
+   * central1/repositories/my-*"` * `name="projects/my-project/locations/us-
+   * central1/repositoriesrepo"` * `name="projects/my-project/locations/us-
+   * central1/repositoriesrepo*"`
+   * @opt_param string orderBy Optional. The field to order the results by.
    * @opt_param int pageSize The maximum number of repositories to return. Maximum
    * page size is 1,000.
    * @opt_param string pageToken The next_page_token value returned from a

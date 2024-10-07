@@ -19,7 +19,7 @@ namespace Google\Service\Walletobjects;
 
 class OfferClass extends \Google\Collection
 {
-  protected $collection_key = 'textModulesData';
+  protected $collection_key = 'valueAddedModuleData';
   /**
    * @var bool
    */
@@ -126,6 +126,8 @@ class OfferClass extends \Google\Collection
   public $title;
   protected $titleImageType = Image::class;
   protected $titleImageDataType = '';
+  protected $valueAddedModuleDataType = ValueAddedModuleData::class;
+  protected $valueAddedModuleDataDataType = 'array';
   /**
    * @var string
    */
@@ -656,6 +658,20 @@ class OfferClass extends \Google\Collection
   public function getTitleImage()
   {
     return $this->titleImage;
+  }
+  /**
+   * @param ValueAddedModuleData[]
+   */
+  public function setValueAddedModuleData($valueAddedModuleData)
+  {
+    $this->valueAddedModuleData = $valueAddedModuleData;
+  }
+  /**
+   * @return ValueAddedModuleData[]
+   */
+  public function getValueAddedModuleData()
+  {
+    return $this->valueAddedModuleData;
   }
   /**
    * @param string

@@ -42,7 +42,7 @@ class ProjectsKeys extends \Google\Service\Resource
   /**
    * Adds an IP override to a key. The following restrictions hold: * The maximum
    * number of IP overrides per key is 100. * For any conflict (such as IP already
-   * exists or IP part of an existing IP range), an error will be returned.
+   * exists or IP part of an existing IP range), an error is returned.
    * (keys.addIpOverride)
    *
    * @param string $name Required. The name of the key to which the IP override is
@@ -61,8 +61,8 @@ class ProjectsKeys extends \Google\Service\Resource
   /**
    * Creates a new reCAPTCHA Enterprise key. (keys.create)
    *
-   * @param string $parent Required. The name of the project in which the key will
-   * be created, in the format `projects/{project}`.
+   * @param string $parent Required. The name of the project in which the key is
+   * created, in the format `projects/{project}`.
    * @param GoogleCloudRecaptchaenterpriseV1Key $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRecaptchaenterpriseV1Key
@@ -125,7 +125,7 @@ class ProjectsKeys extends \Google\Service\Resource
    * (keys.listProjectsKeys)
    *
    * @param string $parent Required. The name of the project that contains the
-   * keys that will be listed, in the format `projects/{project}`.
+   * keys that is listed, in the format `projects/{project}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Optional. The maximum number of keys to return.
@@ -192,7 +192,7 @@ class ProjectsKeys extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Optional. The mask to control which fields of
-   * the key get updated. If the mask is not present, all fields will be updated.
+   * the key get updated. If the mask is not present, all fields are updated.
    * @return GoogleCloudRecaptchaenterpriseV1Key
    * @throws \Google\Service\Exception
    */
@@ -204,10 +204,9 @@ class ProjectsKeys extends \Google\Service\Resource
   }
   /**
    * Removes an IP override from a key. The following restrictions hold: * If the
-   * IP isn't found in an existing IP override, a `NOT_FOUND` error will be
-   * returned. * If the IP is found in an existing IP override, but the override
-   * type does not match, a `NOT_FOUND` error will be returned.
-   * (keys.removeIpOverride)
+   * IP isn't found in an existing IP override, a `NOT_FOUND` error is returned. *
+   * If the IP is found in an existing IP override, but the override type does not
+   * match, a `NOT_FOUND` error is returned. (keys.removeIpOverride)
    *
    * @param string $name Required. The name of the key from which the IP override
    * is removed, in the format `projects/{project}/keys/{key}`.

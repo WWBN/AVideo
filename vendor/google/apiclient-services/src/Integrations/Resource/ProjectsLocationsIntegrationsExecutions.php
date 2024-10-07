@@ -17,9 +17,13 @@
 
 namespace Google\Service\Integrations\Resource;
 
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaCancelExecutionRequest;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaCancelExecutionResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaDownloadExecutionResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecution;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListExecutionsResponse;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaReplayExecutionRequest;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaReplayExecutionResponse;
 
 /**
  * The "executions" collection of methods.
@@ -31,6 +35,25 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListExecutionsResp
  */
 class ProjectsLocationsIntegrationsExecutions extends \Google\Service\Resource
 {
+  /**
+   * Cancellation of an execution and associated sub-executions. This will not
+   * cancel an IN_PROCESS or completed(SUCCESSFUL, FAILED or CANCELLED)
+   * executions. (executions.cancel)
+   *
+   * @param string $name Required. The execution resource name. Format: projects/{
+   * gcp_project_id}/locations/{location}/products/{product}/integrations/{integra
+   * tion_id}/executions/{execution_id}
+   * @param GoogleCloudIntegrationsV1alphaCancelExecutionRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudIntegrationsV1alphaCancelExecutionResponse
+   * @throws \Google\Service\Exception
+   */
+  public function cancel($name, GoogleCloudIntegrationsV1alphaCancelExecutionRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('cancel', [$params], GoogleCloudIntegrationsV1alphaCancelExecutionResponse::class);
+  }
   /**
    * Download the execution. (executions.download)
    *
@@ -131,6 +154,24 @@ class ProjectsLocationsIntegrationsExecutions extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudIntegrationsV1alphaListExecutionsResponse::class);
+  }
+  /**
+   * Re-execute an existing execution, with same request parameters and execution
+   * strategy (executions.replay)
+   *
+   * @param string $name Required. The execution resource name. Format: projects/{
+   * gcp_project_id}/locations/{location}/integrations/{integration}/executions/{e
+   * xecution_id}
+   * @param GoogleCloudIntegrationsV1alphaReplayExecutionRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudIntegrationsV1alphaReplayExecutionResponse
+   * @throws \Google\Service\Exception
+   */
+  public function replay($name, GoogleCloudIntegrationsV1alphaReplayExecutionRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('replay', [$params], GoogleCloudIntegrationsV1alphaReplayExecutionResponse::class);
   }
 }
 

@@ -36,6 +36,10 @@ class Cluster extends \Google\Model
    */
   public $name;
   /**
+   * @var string
+   */
+  public $nodeScalingFactor;
+  /**
    * @var int
    */
   public $serveNodes;
@@ -113,6 +117,20 @@ class Cluster extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setNodeScalingFactor($nodeScalingFactor)
+  {
+    $this->nodeScalingFactor = $nodeScalingFactor;
+  }
+  /**
+   * @return string
+   */
+  public function getNodeScalingFactor()
+  {
+    return $this->nodeScalingFactor;
   }
   /**
    * @param int

@@ -59,6 +59,10 @@ class GitRepositoryLink extends \Google\Model
    * @var string
    */
   public $updateTime;
+  /**
+   * @var string
+   */
+  public $webhookId;
 
   /**
    * @param string[]
@@ -199,6 +203,20 @@ class GitRepositoryLink extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param string
+   */
+  public function setWebhookId($webhookId)
+  {
+    $this->webhookId = $webhookId;
+  }
+  /**
+   * @return string
+   */
+  public function getWebhookId()
+  {
+    return $this->webhookId;
   }
 }
 

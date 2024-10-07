@@ -90,8 +90,8 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
    * first. (userEvents.purge)
    *
    * @param string $parent Required. The resource name of the catalog under which
-   * the events are created. The format is `projects/${projectId}/locations/global
-   * /collections/{$collectionId}/dataStores/${dataStoreId}`
+   * the events are created. The format is `projects/{project}/locations/global/co
+   * llections/{collection}/dataStores/{dataStore}`.
    * @param GoogleCloudDiscoveryengineV1PurgeUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation

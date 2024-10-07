@@ -36,14 +36,14 @@ class CoursesCourseWorkAddOnAttachmentsStudentSubmissions extends \Google\Servic
    * identified resources does not exist. (studentSubmissions.get)
    *
    * @param string $courseId Required. Identifier of the course.
-   * @param string $itemId Identifier of the announcement, courseWork, or
-   * courseWorkMaterial under which the attachment is attached. This field is
+   * @param string $itemId Identifier of the `Announcement`, `CourseWork`, or
+   * `CourseWorkMaterial` under which the attachment is attached. This field is
    * required, but is not marked as such while we are migrating from post_id.
    * @param string $attachmentId Required. Identifier of the attachment.
    * @param string $submissionId Required. Identifier of the student’s submission.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string postId Optional. Deprecated, use item_id instead.
+   * @opt_param string postId Optional. Deprecated, use `item_id` instead.
    * @return AddOnAttachmentStudentSubmission
    * @throws \Google\Service\Exception
    */
@@ -62,15 +62,15 @@ class CoursesCourseWorkAddOnAttachmentsStudentSubmissions extends \Google\Servic
    * does not exist. (studentSubmissions.patch)
    *
    * @param string $courseId Required. Identifier of the course.
-   * @param string $itemId Identifier of the announcement, courseWork, or
-   * courseWorkMaterial under which the attachment is attached. This field is
+   * @param string $itemId Identifier of the `Announcement`, `CourseWork`, or
+   * `CourseWorkMaterial` under which the attachment is attached. This field is
    * required, but is not marked as such while we are migrating from post_id.
    * @param string $attachmentId Required. Identifier of the attachment.
    * @param string $submissionId Required. Identifier of the student's submission.
    * @param AddOnAttachmentStudentSubmission $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string postId Optional. Deprecated, use item_id instead.
+   * @opt_param string postId Optional. Deprecated, use `item_id` instead.
    * @opt_param string updateMask Required. Mask that identifies which fields on
    * the attachment to update. The update fails if invalid fields are specified.
    * If a field supports empty values, it can be cleared by specifying it in the

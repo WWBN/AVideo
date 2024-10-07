@@ -100,7 +100,8 @@ class Groups extends \Google\Service\Resource
    * descending order. Only of use when orderBy is also used
    * @opt_param string userKey Email or immutable ID of the user if only those
    * groups are to be listed, the given user is a member of. If it's an ID, it
-   * should match with the ID of the user object.
+   * should match with the ID of the user object. Cannot be used with the
+   * `customer` parameter.
    * @return GroupsModel
    * @throws \Google\Service\Exception
    */

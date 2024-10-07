@@ -28,6 +28,8 @@ class GoogleCloudIntegrationsV1alphaTestTaskConfig extends \Google\Collection
    * @var string
    */
   public $task;
+  protected $taskConfigType = GoogleCloudIntegrationsV1alphaTaskConfig::class;
+  protected $taskConfigDataType = '';
   /**
    * @var string
    */
@@ -74,6 +76,20 @@ class GoogleCloudIntegrationsV1alphaTestTaskConfig extends \Google\Collection
   public function getTask()
   {
     return $this->task;
+  }
+  /**
+   * @param GoogleCloudIntegrationsV1alphaTaskConfig
+   */
+  public function setTaskConfig(GoogleCloudIntegrationsV1alphaTaskConfig $taskConfig)
+  {
+    $this->taskConfig = $taskConfig;
+  }
+  /**
+   * @return GoogleCloudIntegrationsV1alphaTaskConfig
+   */
+  public function getTaskConfig()
+  {
+    return $this->taskConfig;
   }
   /**
    * @param string

@@ -77,6 +77,10 @@ class GoogleCloudRunV2Service extends \Google\Collection
    */
   public $ingress;
   /**
+   * @var bool
+   */
+  public $invokerIamDisabled;
+  /**
    * @var string[]
    */
   public $labels;
@@ -348,6 +352,20 @@ class GoogleCloudRunV2Service extends \Google\Collection
   public function getIngress()
   {
     return $this->ingress;
+  }
+  /**
+   * @param bool
+   */
+  public function setInvokerIamDisabled($invokerIamDisabled)
+  {
+    $this->invokerIamDisabled = $invokerIamDisabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getInvokerIamDisabled()
+  {
+    return $this->invokerIamDisabled;
   }
   /**
    * @param string[]

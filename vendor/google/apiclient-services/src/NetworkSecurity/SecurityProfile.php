@@ -23,6 +23,8 @@ class SecurityProfile extends \Google\Model
    * @var string
    */
   public $createTime;
+  protected $customMirroringProfileType = CustomMirroringProfile::class;
+  protected $customMirroringProfileDataType = '';
   /**
    * @var string
    */
@@ -63,6 +65,20 @@ class SecurityProfile extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param CustomMirroringProfile
+   */
+  public function setCustomMirroringProfile(CustomMirroringProfile $customMirroringProfile)
+  {
+    $this->customMirroringProfile = $customMirroringProfile;
+  }
+  /**
+   * @return CustomMirroringProfile
+   */
+  public function getCustomMirroringProfile()
+  {
+    return $this->customMirroringProfile;
   }
   /**
    * @param string

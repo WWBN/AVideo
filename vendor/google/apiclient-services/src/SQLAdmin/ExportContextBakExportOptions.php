@@ -32,6 +32,14 @@ class ExportContextBakExportOptions extends \Google\Model
    */
   public $differentialBase;
   /**
+   * @var string
+   */
+  public $exportLogEndTime;
+  /**
+   * @var string
+   */
+  public $exportLogStartTime;
+  /**
    * @var int
    */
   public $stripeCount;
@@ -81,6 +89,34 @@ class ExportContextBakExportOptions extends \Google\Model
   public function getDifferentialBase()
   {
     return $this->differentialBase;
+  }
+  /**
+   * @param string
+   */
+  public function setExportLogEndTime($exportLogEndTime)
+  {
+    $this->exportLogEndTime = $exportLogEndTime;
+  }
+  /**
+   * @return string
+   */
+  public function getExportLogEndTime()
+  {
+    return $this->exportLogEndTime;
+  }
+  /**
+   * @param string
+   */
+  public function setExportLogStartTime($exportLogStartTime)
+  {
+    $this->exportLogStartTime = $exportLogStartTime;
+  }
+  /**
+   * @return string
+   */
+  public function getExportLogStartTime()
+  {
+    return $this->exportLogStartTime;
   }
   /**
    * @param int

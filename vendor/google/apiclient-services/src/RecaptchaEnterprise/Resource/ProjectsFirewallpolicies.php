@@ -38,8 +38,8 @@ class ProjectsFirewallpolicies extends \Google\Service\Resource
    * Enterprise actions can be executed. A project may have a maximum of 1000
    * policies. (firewallpolicies.create)
    *
-   * @param string $parent Required. The name of the project this policy will
-   * apply to, in the format `projects/{project}`.
+   * @param string $parent Required. The name of the project this policy applies
+   * to, in the format `projects/{project}`.
    * @param GoogleCloudRecaptchaenterpriseV1FirewallPolicy $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRecaptchaenterpriseV1FirewallPolicy
@@ -111,8 +111,7 @@ class ProjectsFirewallpolicies extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Optional. The mask to control which fields of
-   * the policy get updated. If the mask is not present, all fields will be
-   * updated.
+   * the policy get updated. If the mask is not present, all fields are updated.
    * @return GoogleCloudRecaptchaenterpriseV1FirewallPolicy
    * @throws \Google\Service\Exception
    */

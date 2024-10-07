@@ -33,8 +33,8 @@ class ProjectsLocationsDataStoresSessionsAnswers extends \Google\Service\Resourc
    * Gets a Answer. (answers.get)
    *
    * @param string $name Required. The resource name of the Answer to get. Format:
-   * `projects/{project_number}/locations/{location_id}/collections/{collection}/e
-   * ngines/{engine_id}/sessions/{session_id}/answers/{answer_id}`
+   * `projects/{project}/locations/{location}/collections/{collection}/engines/{en
+   * gine_id}/sessions/{session_id}/answers/{answer_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDiscoveryengineV1Answer
    * @throws \Google\Service\Exception

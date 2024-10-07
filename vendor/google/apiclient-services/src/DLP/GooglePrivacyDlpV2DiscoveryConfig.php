@@ -46,6 +46,8 @@ class GooglePrivacyDlpV2DiscoveryConfig extends \Google\Collection
   public $name;
   protected $orgConfigType = GooglePrivacyDlpV2OrgConfig::class;
   protected $orgConfigDataType = '';
+  protected $otherCloudStartingLocationType = GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation::class;
+  protected $otherCloudStartingLocationDataType = '';
   /**
    * @var string
    */
@@ -168,6 +170,20 @@ class GooglePrivacyDlpV2DiscoveryConfig extends \Google\Collection
   public function getOrgConfig()
   {
     return $this->orgConfig;
+  }
+  /**
+   * @param GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation
+   */
+  public function setOtherCloudStartingLocation(GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation $otherCloudStartingLocation)
+  {
+    $this->otherCloudStartingLocation = $otherCloudStartingLocation;
+  }
+  /**
+   * @return GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation
+   */
+  public function getOtherCloudStartingLocation()
+  {
+    return $this->otherCloudStartingLocation;
   }
   /**
    * @param string

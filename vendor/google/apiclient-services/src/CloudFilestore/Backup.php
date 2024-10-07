@@ -38,6 +38,10 @@ class Backup extends \Google\Model
   /**
    * @var string
    */
+  public $fileSystemProtocol;
+  /**
+   * @var string
+   */
   public $kmsKey;
   /**
    * @var string[]
@@ -135,6 +139,20 @@ class Backup extends \Google\Model
   public function getDownloadBytes()
   {
     return $this->downloadBytes;
+  }
+  /**
+   * @param string
+   */
+  public function setFileSystemProtocol($fileSystemProtocol)
+  {
+    $this->fileSystemProtocol = $fileSystemProtocol;
+  }
+  /**
+   * @return string
+   */
+  public function getFileSystemProtocol()
+  {
+    return $this->fileSystemProtocol;
   }
   /**
    * @param string

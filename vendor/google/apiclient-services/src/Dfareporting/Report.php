@@ -27,6 +27,8 @@ class Report extends \Google\Model
   protected $criteriaDataType = '';
   protected $crossDimensionReachCriteriaType = ReportCrossDimensionReachCriteria::class;
   protected $crossDimensionReachCriteriaDataType = '';
+  protected $crossMediaReachCriteriaType = ReportCrossMediaReachCriteria::class;
+  protected $crossMediaReachCriteriaDataType = '';
   protected $deliveryType = ReportDelivery::class;
   protected $deliveryDataType = '';
   /**
@@ -119,6 +121,20 @@ class Report extends \Google\Model
   public function getCrossDimensionReachCriteria()
   {
     return $this->crossDimensionReachCriteria;
+  }
+  /**
+   * @param ReportCrossMediaReachCriteria
+   */
+  public function setCrossMediaReachCriteria(ReportCrossMediaReachCriteria $crossMediaReachCriteria)
+  {
+    $this->crossMediaReachCriteria = $crossMediaReachCriteria;
+  }
+  /**
+   * @return ReportCrossMediaReachCriteria
+   */
+  public function getCrossMediaReachCriteria()
+  {
+    return $this->crossMediaReachCriteria;
   }
   /**
    * @param ReportDelivery

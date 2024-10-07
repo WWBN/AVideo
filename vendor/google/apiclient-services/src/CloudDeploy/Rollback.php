@@ -23,6 +23,10 @@ class Rollback extends \Google\Model
    * @var string
    */
   public $destinationPhase;
+  /**
+   * @var bool
+   */
+  public $disableRollbackIfRolloutPending;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class Rollback extends \Google\Model
   public function getDestinationPhase()
   {
     return $this->destinationPhase;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisableRollbackIfRolloutPending($disableRollbackIfRolloutPending)
+  {
+    $this->disableRollbackIfRolloutPending = $disableRollbackIfRolloutPending;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableRollbackIfRolloutPending()
+  {
+    return $this->disableRollbackIfRolloutPending;
   }
 }
 

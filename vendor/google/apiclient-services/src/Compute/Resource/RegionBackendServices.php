@@ -223,8 +223,8 @@ class RegionBackendServices extends \Google\Service\Resource
     return $this->call('list', [$params], BackendServiceList::class);
   }
   /**
-   * Retrieves an aggregated list of all usable backend services in the specified
-   * project in the given region. (regionBackendServices.listUsable)
+   * Retrieves a list of all usable backend services in the specified project in
+   * the given region. (regionBackendServices.listUsable)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region scoping this request. It must be a

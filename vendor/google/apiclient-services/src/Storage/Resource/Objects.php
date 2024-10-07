@@ -211,6 +211,11 @@ class Objects extends \Google\Service\Resource
    * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on
    * whether the object's current metageneration does not match the given value.
    * @opt_param string projection Set of properties to return. Defaults to noAcl.
+   * @opt_param string restoreToken Restore token used to differentiate soft-
+   * deleted objects with the same name and generation. Only applicable for
+   * hierarchical namespace buckets and if softDeleted is set to true. This
+   * parameter is optional, and is only required in the rare case when there are
+   * multiple soft-deleted objects with the same name and generation.
    * @opt_param bool softDeleted If true, only soft-deleted object versions will
    * be listed. The default is false. For more information, see [Soft
    * Delete](https://cloud.google.com/storage/docs/soft-delete).
@@ -414,6 +419,11 @@ class Objects extends \Google\Service\Resource
    * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on
    * whether none of the object's live metagenerations match the given value.
    * @opt_param string projection Set of properties to return. Defaults to full.
+   * @opt_param string restoreToken Restore token used to differentiate sof-
+   * deleted objects with the same name and generation. Only applicable for
+   * hierarchical namespace buckets. This parameter is optional, and is only
+   * required in the rare case when there are multiple soft-deleted objects with
+   * the same name and generation.
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return StorageObject

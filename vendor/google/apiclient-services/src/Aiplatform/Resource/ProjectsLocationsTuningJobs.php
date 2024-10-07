@@ -19,7 +19,9 @@ namespace Google\Service\Aiplatform\Resource;
 
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1CancelTuningJobRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListTuningJobsResponse;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1RebaseTunedModelRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1TuningJob;
+use Google\Service\Aiplatform\GoogleLongrunningOperation;
 use Google\Service\Aiplatform\GoogleProtobufEmpty;
 
 /**
@@ -107,6 +109,22 @@ class ProjectsLocationsTuningJobs extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudAiplatformV1ListTuningJobsResponse::class);
+  }
+  /**
+   * Rebase a TunedModel. (tuningJobs.rebaseTunedModel)
+   *
+   * @param string $parent Required. The resource name of the Location into which
+   * to rebase the Model. Format: `projects/{project}/locations/{location}`
+   * @param GoogleCloudAiplatformV1RebaseTunedModelRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function rebaseTunedModel($parent, GoogleCloudAiplatformV1RebaseTunedModelRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('rebaseTunedModel', [$params], GoogleLongrunningOperation::class);
   }
 }
 

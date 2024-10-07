@@ -27,6 +27,10 @@ class ClassificationCategory extends \Google\Model
    * @var string
    */
   public $name;
+  /**
+   * @var float
+   */
+  public $severity;
 
   /**
    * @param float
@@ -55,6 +59,20 @@ class ClassificationCategory extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param float
+   */
+  public function setSeverity($severity)
+  {
+    $this->severity = $severity;
+  }
+  /**
+   * @return float
+   */
+  public function getSeverity()
+  {
+    return $this->severity;
   }
 }
 

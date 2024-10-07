@@ -22,6 +22,8 @@ class AgentTaskSpec extends \Google\Collection
   protected $collection_key = 'runnables';
   protected $environmentType = AgentEnvironment::class;
   protected $environmentDataType = '';
+  protected $loggingOptionType = AgentTaskLoggingOption::class;
+  protected $loggingOptionDataType = '';
   /**
    * @var string
    */
@@ -44,6 +46,20 @@ class AgentTaskSpec extends \Google\Collection
   public function getEnvironment()
   {
     return $this->environment;
+  }
+  /**
+   * @param AgentTaskLoggingOption
+   */
+  public function setLoggingOption(AgentTaskLoggingOption $loggingOption)
+  {
+    $this->loggingOption = $loggingOption;
+  }
+  /**
+   * @return AgentTaskLoggingOption
+   */
+  public function getLoggingOption()
+  {
+    return $this->loggingOption;
   }
   /**
    * @param string

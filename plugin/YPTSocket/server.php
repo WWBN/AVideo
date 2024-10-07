@@ -1,20 +1,28 @@
 <?php
-$global['debugMemmory'] = 1;
+require __DIR__ . '/../../vendor/autoload.php';
 
 use React\EventLoop\Loop;
-use React\Async\async;
+use React\Socket\SecureServer;
+use React\Socket\Server as ReactServer;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use Socket\Message;
+use React\Stream\ReadableStreamInterface;
+
+$global['debugMemmory'] = 1;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL & ~E_DEPRECATED);
-//use React\Socket\Server as Reactor;
+
 if (empty($_SERVER['HTTP_HOST'])) {
     $_SERVER['HTTP_HOST'] = 'localhost';
 }
+
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 _ob_end_clean();
 ini_set('display_errors', 1);
@@ -29,11 +37,10 @@ function riseSQLiteError()
     echo (";extension=pdo_sqlite.so") . PHP_EOL;
 }
 
-$loop = React\EventLoop\Loop::get();
+$loop = Loop::get();
 if (function_exists('pdo_drivers') && in_array("sqlite", pdo_drivers())) {
     _error_log("Socket server SQLite loading");
     require_once $global['systemRootPath'] . 'plugin/YPTSocket/db.php';
-    //require_once $global['systemRootPath'] . 'plugin/YPTSocket/MessageSQLite.php';
     require_once $global['systemRootPath'] . 'plugin/YPTSocket/MessageSQLiteV2.php';
 } else {
     riseSQLiteError();
@@ -53,7 +60,6 @@ function findValidCertificate($url)
     $certPath = '';
     $keyPath = '';
 
-    // Check for an exact match folder first (e.g., /etc/letsencrypt/live/example.com)
     if (is_dir($letsencryptDir . $domain)) {
         $certPath = $letsencryptDir . $domain . '/fullchain.pem';
         $keyPath = $letsencryptDir . $domain . '/privkey.pem';
@@ -62,7 +68,6 @@ function findValidCertificate($url)
         }
     }
 
-    // If no valid certificate found for the specific domain, check all folders with subdomains
     $directories = glob($letsencryptDir . $domain . '-*');
     foreach ($directories as $dir) {
         if (is_dir($dir)) {
@@ -74,7 +79,6 @@ function findValidCertificate($url)
         }
     }
 
-    // If no valid certificate found, return an empty array or handle the case accordingly
     return [];
 }
 
@@ -84,10 +88,7 @@ function isCertificateValid($certPath)
         return false;
     }
 
-    // Get the current timestamp
     $currentTimestamp = time();
-
-    // Check if the openssl command is available
     $opensslCommand = 'openssl';
     $output = [];
     exec($opensslCommand . ' x509 -noout -dates -in ' . escapeshellarg($certPath), $output, $returnValue);
@@ -96,7 +97,6 @@ function isCertificateValid($certPath)
         $validFrom = strtotime($matches[1]);
         $validTo = strtotime($matches[2]);
 
-        // Check if the certificate is currently valid (notBefore <= current <= notAfter)
         if ($validFrom <= $currentTimestamp && $currentTimestamp <= $validTo) {
             return true;
         }
@@ -105,21 +105,18 @@ function isCertificateValid($certPath)
     return false;
 }
 
-
 $SocketDataObj = AVideoPlugin::getDataObject("YPTSocket");
 $SocketDataObj->serverVersion = YPTSocket::getServerVersion();
 
 @ob_end_flush();
 _mysql_close();
 _session_write_close();
-exec('ulimit -n 20480'); // to handle over 1 k connections
+exec('ulimit -n 20480');
 $SocketDataObj->port = intval($SocketDataObj->port);
 _error_log("Starting Socket server at port {$SocketDataObj->port}");
 
-//killProcessOnPort();
 $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
 echo "Starting AVideo Socket server version {$SocketDataObj->serverVersion} on port {$SocketDataObj->port}" . PHP_EOL;
-
 
 if (!isCertificateValid($SocketDataObj->server_crt_file)) {
     echo "Certificate is invalid {$SocketDataObj->server_crt_file}" . PHP_EOL;
@@ -168,10 +165,38 @@ if ((strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) 
     }
     echo "DO NOT CLOSE THIS TERMINAL " . PHP_EOL;
 
+    // Create WebSocket Server
+    $webSock = new ReactServer($SocketDataObj->uri . ':' . $SocketDataObj->port, $loop);
+    $webSock = new SecureServer($webSock, $loop, $parameters);
 
-    $webSock = new React\Socket\Server($SocketDataObj->uri . ':' . $SocketDataObj->port, $loop);
-    $webSock = new React\Socket\SecureServer($webSock, $loop, $parameters);
-    $webServer = new Ratchet\Server\IoServer(
+    // Handle HTTP requests using guzzlehttp/psr7
+    $httpServer = function (ServerRequestInterface $request) {
+        return new Response(
+            200,
+            ['Content-Type' => 'text/plain'],
+            "Socket server is running. SSL is valid."
+        );
+    };
+
+    // Handle incoming connections and handle HTTP requests
+    $webSock->on('connection', function ($conn) use ($httpServer) {
+        $conn->on('data', function ($data) use ($conn, $httpServer) {
+            // Simulate an HTTP request and return a response indicating the server status
+            $response = $httpServer(new ServerRequest('GET', '/'));
+
+            // Send an HTTP-compliant response back to the client
+            $headers = "HTTP/1.1 200 OK\r\n";
+            $headers .= "Content-Type: text/plain\r\n";
+            $headers .= "Content-Length: " . strlen((string) $response->getBody()) . "\r\n";
+            $headers .= "Connection: close\r\n\r\n";
+
+            $conn->write($headers . $response->getBody());
+            $conn->end();
+        });
+    });
+
+    // Create WebSocket server instance
+    $webServer = new IoServer(
         new HttpServer(
             new WsServer(
                 new Message()
@@ -180,5 +205,6 @@ if ((strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) 
         $webSock
     );
 
+    // Run the loop
     $loop->run();
 }

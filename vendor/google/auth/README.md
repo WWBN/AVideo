@@ -300,11 +300,32 @@ $memoryCache = new MemoryCacheItemPool;
 $middleware = ApplicationDefaultCredentials::getCredentials($scope, cache: $memoryCache);
 ```
 
+### FileSystemCacheItemPool Cache
+The `FileSystemCacheItemPool` class is a `PSR-6` compliant cache that stores its
+serialized objects on disk, caching data between processes and making it possible 
+to use data between different requests.
+
+```php
+use Google\Auth\Cache\FileSystemCacheItemPool;
+use Google\Auth\ApplicationDefaultCredentials;
+
+// Create a Cache pool instance
+$cache = new FileSystemCacheItemPool(__DIR__ . '/cache');
+
+// Pass your Cache to the Auth Library
+$credentials = ApplicationDefaultCredentials::getCredentials($scope, cache: $cache);
+
+// This token will be cached and be able to be used for the next request
+$token = $credentials->fetchAuthToken();
+```
+
 ### Integrating with a third party cache
 You can use a third party that follows the `PSR-6` interface of your choice.
 
 ```php
-use Symphony\Component\Cache\Adapter\FileststenAdapter;
+// run "composer require symfony/cache"
+use Google\Auth\ApplicationDefaultCredentials;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 // Create the cache instance
 $filesystemCache = new FilesystemAdapter();

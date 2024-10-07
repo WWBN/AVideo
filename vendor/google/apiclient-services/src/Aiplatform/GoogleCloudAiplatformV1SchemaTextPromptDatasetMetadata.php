@@ -35,6 +35,10 @@ class GoogleCloudAiplatformV1SchemaTextPromptDatasetMetadata extends \Google\Col
    */
   public $hasPromptVariable;
   /**
+   * @var bool
+   */
+  public $logprobs;
+  /**
    * @var string
    */
   public $maxOutputTokens;
@@ -46,6 +50,14 @@ class GoogleCloudAiplatformV1SchemaTextPromptDatasetMetadata extends \Google\Col
    * @var string
    */
   public $promptType;
+  /**
+   * @var bool
+   */
+  public $seedEnabled;
+  /**
+   * @var string
+   */
+  public $seedValue;
   /**
    * @var string[]
    */
@@ -132,6 +144,20 @@ class GoogleCloudAiplatformV1SchemaTextPromptDatasetMetadata extends \Google\Col
     return $this->hasPromptVariable;
   }
   /**
+   * @param bool
+   */
+  public function setLogprobs($logprobs)
+  {
+    $this->logprobs = $logprobs;
+  }
+  /**
+   * @return bool
+   */
+  public function getLogprobs()
+  {
+    return $this->logprobs;
+  }
+  /**
    * @param string
    */
   public function setMaxOutputTokens($maxOutputTokens)
@@ -172,6 +198,34 @@ class GoogleCloudAiplatformV1SchemaTextPromptDatasetMetadata extends \Google\Col
   public function getPromptType()
   {
     return $this->promptType;
+  }
+  /**
+   * @param bool
+   */
+  public function setSeedEnabled($seedEnabled)
+  {
+    $this->seedEnabled = $seedEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getSeedEnabled()
+  {
+    return $this->seedEnabled;
+  }
+  /**
+   * @param string
+   */
+  public function setSeedValue($seedValue)
+  {
+    $this->seedValue = $seedValue;
+  }
+  /**
+   * @return string
+   */
+  public function getSeedValue()
+  {
+    return $this->seedValue;
   }
   /**
    * @param string[]

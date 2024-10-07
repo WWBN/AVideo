@@ -119,10 +119,17 @@ class OrganizationsGcpUserAccessBindings extends \Google\Service\Resource
    * @param GcpUserAccessBinding $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool appendScopedAccessSettings Optional. This field will be used
+   * to control whether or not scoped access settings are appended to the existing
+   * list of scoped access settings. If true, the scoped access settings in the
+   * request will be appended to the existing list of scoped access settings. If
+   * false, the scoped access settings in the request replace the existing list of
+   * scoped access settings.
    * @opt_param string updateMask Required. Only the fields specified in this mask
    * are updated. Because name and group_key cannot be changed, update_mask is
    * required and may only contain the following fields: `access_levels`,
-   * `dry_run_access_levels`. update_mask { paths: "access_levels" }
+   * `dry_run_access_levels`, `reauth_settings`, `scoped_access_settings`.
+   * update_mask { paths: "access_levels" }
    * @return Operation
    * @throws \Google\Service\Exception
    */

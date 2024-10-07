@@ -267,7 +267,7 @@ class ProjectsLocationsDatasetsHl7V2Stores extends \Google\Service\Resource
     return $this->call('patch', [$params], Hl7V2Store::class);
   }
   /**
-   * Rolls back messages from the HL7 store to the specified time. This method
+   * Rolls back messages from the HL7v2 store to the specified time. This method
    * returns an Operation that can be used to track the status of the rollback by
    * calling GetOperation. Immediate fatal errors appear in the error field,
    * errors are also logged to Cloud Logging (see [Viewing error logs in Cloud

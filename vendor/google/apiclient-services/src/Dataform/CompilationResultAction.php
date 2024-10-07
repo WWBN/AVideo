@@ -23,6 +23,8 @@ class CompilationResultAction extends \Google\Model
   protected $assertionDataType = '';
   protected $canonicalTargetType = Target::class;
   protected $canonicalTargetDataType = '';
+  protected $dataPreparationType = DataPreparation::class;
+  protected $dataPreparationDataType = '';
   protected $declarationType = Declaration::class;
   protected $declarationDataType = '';
   /**
@@ -65,6 +67,20 @@ class CompilationResultAction extends \Google\Model
   public function getCanonicalTarget()
   {
     return $this->canonicalTarget;
+  }
+  /**
+   * @param DataPreparation
+   */
+  public function setDataPreparation(DataPreparation $dataPreparation)
+  {
+    $this->dataPreparation = $dataPreparation;
+  }
+  /**
+   * @return DataPreparation
+   */
+  public function getDataPreparation()
+  {
+    return $this->dataPreparation;
   }
   /**
    * @param Declaration

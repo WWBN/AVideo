@@ -21,6 +21,10 @@ class IngestionDataSourceSettings extends \Google\Model
 {
   protected $awsKinesisType = AwsKinesis::class;
   protected $awsKinesisDataType = '';
+  protected $cloudStorageType = CloudStorage::class;
+  protected $cloudStorageDataType = '';
+  protected $platformLogsSettingsType = PlatformLogsSettings::class;
+  protected $platformLogsSettingsDataType = '';
 
   /**
    * @param AwsKinesis
@@ -35,6 +39,34 @@ class IngestionDataSourceSettings extends \Google\Model
   public function getAwsKinesis()
   {
     return $this->awsKinesis;
+  }
+  /**
+   * @param CloudStorage
+   */
+  public function setCloudStorage(CloudStorage $cloudStorage)
+  {
+    $this->cloudStorage = $cloudStorage;
+  }
+  /**
+   * @return CloudStorage
+   */
+  public function getCloudStorage()
+  {
+    return $this->cloudStorage;
+  }
+  /**
+   * @param PlatformLogsSettings
+   */
+  public function setPlatformLogsSettings(PlatformLogsSettings $platformLogsSettings)
+  {
+    $this->platformLogsSettings = $platformLogsSettings;
+  }
+  /**
+   * @return PlatformLogsSettings
+   */
+  public function getPlatformLogsSettings()
+  {
+    return $this->platformLogsSettings;
   }
 }
 

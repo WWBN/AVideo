@@ -54,7 +54,7 @@ class ProjectsAssessments extends \Google\Service\Resource
    * (assessments.create)
    *
    * @param string $parent Required. The name of the project in which the
-   * assessment will be created, in the format `projects/{project}`.
+   * assessment is created, in the format `projects/{project}`.
    * @param GoogleCloudRecaptchaenterpriseV1Assessment $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRecaptchaenterpriseV1Assessment

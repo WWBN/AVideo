@@ -29,6 +29,8 @@ class GoogleCloudDiscoveryengineV1Document extends \Google\Model
    * @var string
    */
   public $id;
+  protected $indexStatusType = GoogleCloudDiscoveryengineV1DocumentIndexStatus::class;
+  protected $indexStatusDataType = '';
   /**
    * @var string
    */
@@ -95,6 +97,20 @@ class GoogleCloudDiscoveryengineV1Document extends \Google\Model
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1DocumentIndexStatus
+   */
+  public function setIndexStatus(GoogleCloudDiscoveryengineV1DocumentIndexStatus $indexStatus)
+  {
+    $this->indexStatus = $indexStatus;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1DocumentIndexStatus
+   */
+  public function getIndexStatus()
+  {
+    return $this->indexStatus;
   }
   /**
    * @param string

@@ -88,16 +88,18 @@ class Locations extends \Google\Service\Resource
    * 9999, or 0 to specify a date without a year.
    * @opt_param string dailySubEntityType.dayOfWeek Represents the day of the
    * week. Eg: MONDAY. Currently supported DailyMetrics = NONE.
-   * @opt_param int dailySubEntityType.timeOfDay.hours Hours of day in 24 hour
-   * format. Should be from 0 to 23. An API may choose to allow the value
-   * "24:00:00" for scenarios like business closing time.
-   * @opt_param int dailySubEntityType.timeOfDay.minutes Minutes of hour of day.
-   * Must be from 0 to 59.
-   * @opt_param int dailySubEntityType.timeOfDay.nanos Fractions of seconds in
-   * nanoseconds. Must be from 0 to 999,999,999.
-   * @opt_param int dailySubEntityType.timeOfDay.seconds Seconds of minutes of the
-   * time. Must normally be from 0 to 59. An API may allow the value 60 if it
-   * allows leap-seconds.
+   * @opt_param int dailySubEntityType.timeOfDay.hours Hours of a day in 24 hour
+   * format. Must be greater than or equal to 0 and typically must be less than or
+   * equal to 23. An API may choose to allow the value "24:00:00" for scenarios
+   * like business closing time.
+   * @opt_param int dailySubEntityType.timeOfDay.minutes Minutes of an hour. Must
+   * be greater than or equal to 0 and less than or equal to 59.
+   * @opt_param int dailySubEntityType.timeOfDay.nanos Fractions of seconds, in
+   * nanoseconds. Must be greater than or equal to 0 and less than or equal to
+   * 999,999,999.
+   * @opt_param int dailySubEntityType.timeOfDay.seconds Seconds of a minute. Must
+   * be greater than or equal to 0 and typically must be less than or equal to 59.
+   * An API may allow the value 60 if it allows leap-seconds.
    * @return GetDailyMetricsTimeSeriesResponse
    * @throws \Google\Service\Exception
    */

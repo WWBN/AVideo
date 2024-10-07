@@ -41,7 +41,7 @@ class CoursesPosts extends \Google\Service\Resource
    * not exist. (posts.getAddOnContext)
    *
    * @param string $courseId Required. Identifier of the course.
-   * @param string $postId Optional. Deprecated, use item_id instead.
+   * @param string $postId Optional. Deprecated, use `item_id` instead.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string addOnToken Optional. Token that authorizes the request. The
@@ -54,8 +54,8 @@ class CoursesPosts extends \Google\Service\Resource
    * This field is required for all requests except when the user is in the
    * [Attachment Discovery iframe](https://developers.google.com/classroom/add-
    * ons/get-started/iframes/attachment-discovery-iframe).
-   * @opt_param string itemId Identifier of the announcement, courseWork, or
-   * courseWorkMaterial under which the attachment is attached. This field is
+   * @opt_param string itemId Identifier of the `Announcement`, `CourseWork`, or
+   * `CourseWorkMaterial` under which the attachment is attached. This field is
    * required, but is not marked as such while we are migrating from post_id.
    * @return AddOnContext
    * @throws \Google\Service\Exception

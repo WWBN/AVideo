@@ -37,6 +37,9 @@ use Google\Client;
  */
 class DataPortability extends \Google\Service
 {
+  /** Move a copy of the Google Alerts subscriptions you created.. */
+  const DATAPORTABILITY_ALERTS_SUBSCRIPTIONS =
+      "https://www.googleapis.com/auth/dataportability.alerts.subscriptions";
   /** Move a copy of messages between you and the businesses you have conversations with across Google services.. */
   const DATAPORTABILITY_BUSINESSMESSAGING_CONVERSATIONS =
       "https://www.googleapis.com/auth/dataportability.businessmessaging.conversations";
@@ -187,6 +190,9 @@ class DataPortability extends \Google\Service
   /** Move a copy of information about your YouTube channel.. */
   const DATAPORTABILITY_YOUTUBE_CHANNEL =
       "https://www.googleapis.com/auth/dataportability.youtube.channel";
+  /** Move a copy of your YouTube clips metadata.. */
+  const DATAPORTABILITY_YOUTUBE_CLIPS =
+      "https://www.googleapis.com/auth/dataportability.youtube.clips";
   /** Move a copy of your YouTube comments.. */
   const DATAPORTABILITY_YOUTUBE_COMMENTS =
       "https://www.googleapis.com/auth/dataportability.youtube.comments";

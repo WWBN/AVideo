@@ -18,11 +18,11 @@
 namespace Google\Service\DiscoveryEngine\Resource;
 
 /**
- * The "identity_mapping_stores" collection of methods.
+ * The "identityMappingStores" collection of methods.
  * Typical usage is:
  *  <code>
  *   $discoveryengineService = new Google\Service\DiscoveryEngine(...);
- *   $identity_mapping_stores = $discoveryengineService->projects_locations_identity_mapping_stores;
+ *   $identityMappingStores = $discoveryengineService->projects_locations_identityMappingStores;
  *  </code>
  */
 class ProjectsLocationsIdentityMappingStores extends \Google\Service\Resource

@@ -19,7 +19,7 @@ namespace Google\Service\Walletobjects;
 
 class TransitObject extends \Google\Collection
 {
-  protected $collection_key = 'ticketLegs';
+  protected $collection_key = 'valueAddedModuleData';
   protected $activationStatusType = ActivationStatus::class;
   protected $activationStatusDataType = '';
   protected $appLinkDataType = AppLinkData::class;
@@ -130,6 +130,8 @@ class TransitObject extends \Google\Collection
   public $tripType;
   protected $validTimeIntervalType = TimeInterval::class;
   protected $validTimeIntervalDataType = '';
+  protected $valueAddedModuleDataType = ValueAddedModuleData::class;
+  protected $valueAddedModuleDataDataType = 'array';
   /**
    * @var string
    */
@@ -680,6 +682,20 @@ class TransitObject extends \Google\Collection
   public function getValidTimeInterval()
   {
     return $this->validTimeInterval;
+  }
+  /**
+   * @param ValueAddedModuleData[]
+   */
+  public function setValueAddedModuleData($valueAddedModuleData)
+  {
+    $this->valueAddedModuleData = $valueAddedModuleData;
+  }
+  /**
+   * @return ValueAddedModuleData[]
+   */
+  public function getValueAddedModuleData()
+  {
+    return $this->valueAddedModuleData;
   }
   /**
    * @param string

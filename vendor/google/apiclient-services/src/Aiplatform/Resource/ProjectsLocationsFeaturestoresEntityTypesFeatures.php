@@ -35,9 +35,11 @@ class ProjectsLocationsFeaturestoresEntityTypesFeatures extends \Google\Service\
   /**
    * Creates a batch of Features in a given EntityType. (features.batchCreate)
    *
-   * @param string $parent Required. The resource name of the EntityType to create
-   * the batch of Features under. Format: `projects/{project}/locations/{location}
-   * /featurestores/{featurestore}/entityTypes/{entity_type}`
+   * @param string $parent Required. The resource name of the
+   * EntityType/FeatureGroup to create the batch of Features under. Format: `proje
+   * cts/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{
+   * entity_type}`
+   * `projects/{project}/locations/{location}/featureGroups/{feature_group}`
    * @param GoogleCloudAiplatformV1BatchCreateFeaturesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation

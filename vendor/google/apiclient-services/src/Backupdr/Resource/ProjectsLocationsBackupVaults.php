@@ -35,6 +35,7 @@ use Google\Service\Backupdr\TestIamPermissionsResponse;
 class ProjectsLocationsBackupVaults extends \Google\Service\Resource
 {
   /**
+   * Creates a new BackupVault in a given project and location.
    * (backupVaults.create)
    *
    * @param string $parent Required. Value for parent.
@@ -137,6 +138,9 @@ class ProjectsLocationsBackupVaults extends \Google\Service\Resource
    * the format
    * 'projects/{project_id}/locations/{location}/backupVaults/{resource_name}'
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string view Optional. Reserved for future use to provide a BASIC &
+   * FULL view of Backup Vault
    * @return BackupVault
    * @throws \Google\Service\Exception
    */
@@ -165,6 +169,8 @@ class ProjectsLocationsBackupVaults extends \Google\Service\Resource
    * default.
    * @opt_param string pageToken Optional. A token identifying a page of results
    * the server should return.
+   * @opt_param string view Optional. Reserved for future use to provide a BASIC &
+   * FULL view of Backup Vault.
    * @return ListBackupVaultsResponse
    * @throws \Google\Service\Exception
    */
@@ -177,7 +183,11 @@ class ProjectsLocationsBackupVaults extends \Google\Service\Resource
   /**
    * Updates the settings of a BackupVault. (backupVaults.patch)
    *
-   * @param string $name Output only. Identifier. The resource name.
+   * @param string $name Output only. Identifier. Name of the backup vault to
+   * create. It must have the
+   * format`"projects/{project}/locations/{location}/backupVaults/{backupvault}"`.
+   * `{backupvault}` cannot be changed after creation. It must be between 3-63
+   * characters long and must be unique within the project and location.
    * @param BackupVault $postBody
    * @param array $optParams Optional parameters.
    *

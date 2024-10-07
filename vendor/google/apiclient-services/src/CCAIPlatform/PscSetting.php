@@ -19,11 +19,15 @@ namespace Google\Service\CCAIPlatform;
 
 class PscSetting extends \Google\Collection
 {
-  protected $collection_key = 'allowedConsumerProjectIds';
+  protected $collection_key = 'producerProjectIds';
   /**
    * @var string[]
    */
   public $allowedConsumerProjectIds;
+  /**
+   * @var string[]
+   */
+  public $producerProjectIds;
 
   /**
    * @param string[]
@@ -38,6 +42,20 @@ class PscSetting extends \Google\Collection
   public function getAllowedConsumerProjectIds()
   {
     return $this->allowedConsumerProjectIds;
+  }
+  /**
+   * @param string[]
+   */
+  public function setProducerProjectIds($producerProjectIds)
+  {
+    $this->producerProjectIds = $producerProjectIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getProducerProjectIds()
+  {
+    return $this->producerProjectIds;
   }
 }
 

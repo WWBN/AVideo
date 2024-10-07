@@ -36,6 +36,10 @@ class AdvancedMachineFeatures extends \Google\Model
    */
   public $threadsPerCore;
   /**
+   * @var string
+   */
+  public $turboMode;
+  /**
    * @var int
    */
   public $visibleCoreCount;
@@ -95,6 +99,20 @@ class AdvancedMachineFeatures extends \Google\Model
   public function getThreadsPerCore()
   {
     return $this->threadsPerCore;
+  }
+  /**
+   * @param string
+   */
+  public function setTurboMode($turboMode)
+  {
+    $this->turboMode = $turboMode;
+  }
+  /**
+   * @return string
+   */
+  public function getTurboMode()
+  {
+    return $this->turboMode;
   }
   /**
    * @param int

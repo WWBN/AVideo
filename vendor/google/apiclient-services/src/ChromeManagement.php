@@ -42,7 +42,7 @@ class ChromeManagement extends \Google\Service
   /** See reports about devices and Chrome browsers managed within your organization. */
   const CHROME_MANAGEMENT_REPORTS_READONLY =
       "https://www.googleapis.com/auth/chrome.management.reports.readonly";
-  /** See basic device and telemetry information collected from Chrome OS devices or users managed within your organization. */
+  /** See basic device and telemetry information collected from ChromeOS devices or users managed within your organization. */
   const CHROME_MANAGEMENT_TELEMETRY_READONLY =
       "https://www.googleapis.com/auth/chrome.management.telemetry.readonly";
 

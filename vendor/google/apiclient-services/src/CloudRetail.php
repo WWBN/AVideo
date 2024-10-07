@@ -47,6 +47,8 @@ class CloudRetail extends \Google\Service
   public $projects_locations_catalogs_branches_products;
   public $projects_locations_catalogs_completionData;
   public $projects_locations_catalogs_controls;
+  public $projects_locations_catalogs_generativeQuestion;
+  public $projects_locations_catalogs_generativeQuestions;
   public $projects_locations_catalogs_models;
   public $projects_locations_catalogs_operations;
   public $projects_locations_catalogs_placements;
@@ -162,6 +164,16 @@ class CloudRetail extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'getGenerativeQuestionFeature' => [
+              'path' => 'v2/{+catalog}/generativeQuestionFeature',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'catalog' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'list' => [
               'path' => 'v2/{+parent}/catalogs',
               'httpMethod' => 'GET',
@@ -223,6 +235,34 @@ class CloudRetail extends \Google\Service
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'updateGenerativeQuestion' => [
+              'path' => 'v2/{+catalog}/generativeQuestion',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'catalog' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'updateGenerativeQuestionFeature' => [
+              'path' => 'v2/{+catalog}/generativeQuestionFeature',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'catalog' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -548,6 +588,46 @@ class CloudRetail extends \Google\Service
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_catalogs_generativeQuestion = new CloudRetail\Resource\ProjectsLocationsCatalogsGenerativeQuestion(
+        $this,
+        $this->serviceName,
+        'generativeQuestion',
+        [
+          'methods' => [
+            'batchUpdate' => [
+              'path' => 'v2/{+parent}/generativeQuestion:batchUpdate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_catalogs_generativeQuestions = new CloudRetail\Resource\ProjectsLocationsCatalogsGenerativeQuestions(
+        $this,
+        $this->serviceName,
+        'generativeQuestions',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2/{+parent}/generativeQuestions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],

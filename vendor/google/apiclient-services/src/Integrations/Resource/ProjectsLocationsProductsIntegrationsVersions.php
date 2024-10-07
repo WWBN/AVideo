@@ -147,8 +147,8 @@ class ProjectsLocationsProductsIntegrationsVersions extends \Google\Service\Reso
    * cannot be performed on repeated fields like `task_config`.
    * @opt_param string orderBy The results would be returned in order you
    * specified here. Currently supported sort keys are: Descending sort order for
-   * "last_modified_time", "created_time", "snapshot_number" Ascending sort order
-   * for "name".
+   * "last\_modified\_time", "created\_time", and "snapshot\_number". Ascending
+   * sort order for `name`.
    * @opt_param int pageSize The maximum number of versions to return. The service
    * may return fewer than this value. If unspecified, at most 50 versions will be
    * returned. The maximum value is 1000; values above 1000 will be coerced to

@@ -105,6 +105,8 @@ class Dfareporting extends \Google\Service
   public $subaccounts;
   public $targetableRemarketingLists;
   public $targetingTemplates;
+  public $tvCampaignDetails;
+  public $tvCampaignSummaries;
   public $userProfiles;
   public $userRolePermissionGroups;
   public $userRolePermissions;
@@ -4657,6 +4659,63 @@ class Dfareporting extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->tvCampaignDetails = new Dfareporting\Resource\TvCampaignDetails(
+        $this,
+        $this->serviceName,
+        'tvCampaignDetails',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'userprofiles/{+profileId}/tvCampaignDetails/{+id}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'profileId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'id' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'accountId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->tvCampaignSummaries = new Dfareporting\Resource\TvCampaignSummaries(
+        $this,
+        $this->serviceName,
+        'tvCampaignSummaries',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'userprofiles/{+profileId}/tvCampaignSummaries',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'profileId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'accountId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'name' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

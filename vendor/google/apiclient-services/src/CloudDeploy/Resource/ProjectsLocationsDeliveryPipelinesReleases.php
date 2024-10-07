@@ -59,6 +59,9 @@ class ProjectsLocationsDeliveryPipelinesReleases extends \Google\Service\Resourc
    * @param Release $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string overrideDeployPolicy Optional. Deploy policies to override.
+   * Format is
+   * `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`.
    * @opt_param string releaseId Required. ID of the `Release`.
    * @opt_param string requestId Optional. A request ID to identify requests.
    * Specify a unique request ID so that if you must retry your request, the

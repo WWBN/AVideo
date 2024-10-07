@@ -26,6 +26,10 @@ class SecurityProfileGroup extends \Google\Model
   /**
    * @var string
    */
+  public $customMirroringProfile;
+  /**
+   * @var string
+   */
   public $description;
   /**
    * @var string
@@ -61,6 +65,20 @@ class SecurityProfileGroup extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setCustomMirroringProfile($customMirroringProfile)
+  {
+    $this->customMirroringProfile = $customMirroringProfile;
+  }
+  /**
+   * @return string
+   */
+  public function getCustomMirroringProfile()
+  {
+    return $this->customMirroringProfile;
   }
   /**
    * @param string

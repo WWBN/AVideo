@@ -30,6 +30,10 @@ class GoogleCloudDiscoveryengineV1AnswerQueryRequestAnswerGenerationSpec extends
   /**
    * @var bool
    */
+  public $ignoreJailBreakingQuery;
+  /**
+   * @var bool
+   */
   public $ignoreLowRelevantContent;
   /**
    * @var bool
@@ -71,6 +75,20 @@ class GoogleCloudDiscoveryengineV1AnswerQueryRequestAnswerGenerationSpec extends
   public function getIgnoreAdversarialQuery()
   {
     return $this->ignoreAdversarialQuery;
+  }
+  /**
+   * @param bool
+   */
+  public function setIgnoreJailBreakingQuery($ignoreJailBreakingQuery)
+  {
+    $this->ignoreJailBreakingQuery = $ignoreJailBreakingQuery;
+  }
+  /**
+   * @return bool
+   */
+  public function getIgnoreJailBreakingQuery()
+  {
+    return $this->ignoreJailBreakingQuery;
   }
   /**
    * @param bool

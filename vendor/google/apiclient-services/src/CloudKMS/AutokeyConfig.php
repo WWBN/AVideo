@@ -27,6 +27,10 @@ class AutokeyConfig extends \Google\Model
    * @var string
    */
   public $name;
+  /**
+   * @var string
+   */
+  public $state;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class AutokeyConfig extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setState($state)
+  {
+    $this->state = $state;
+  }
+  /**
+   * @return string
+   */
+  public function getState()
+  {
+    return $this->state;
   }
 }
 

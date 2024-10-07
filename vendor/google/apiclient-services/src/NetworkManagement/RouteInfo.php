@@ -23,6 +23,14 @@ class RouteInfo extends \Google\Collection
   /**
    * @var string
    */
+  public $advertisedRouteNextHopUri;
+  /**
+   * @var string
+   */
+  public $advertisedRouteSourceRouterUri;
+  /**
+   * @var string
+   */
   public $destIpRange;
   /**
    * @var string[]
@@ -67,6 +75,10 @@ class RouteInfo extends \Google\Collection
   /**
    * @var string
    */
+  public $region;
+  /**
+   * @var string
+   */
   public $routeScope;
   /**
    * @var string
@@ -85,6 +97,34 @@ class RouteInfo extends \Google\Collection
    */
   public $uri;
 
+  /**
+   * @param string
+   */
+  public function setAdvertisedRouteNextHopUri($advertisedRouteNextHopUri)
+  {
+    $this->advertisedRouteNextHopUri = $advertisedRouteNextHopUri;
+  }
+  /**
+   * @return string
+   */
+  public function getAdvertisedRouteNextHopUri()
+  {
+    return $this->advertisedRouteNextHopUri;
+  }
+  /**
+   * @param string
+   */
+  public function setAdvertisedRouteSourceRouterUri($advertisedRouteSourceRouterUri)
+  {
+    $this->advertisedRouteSourceRouterUri = $advertisedRouteSourceRouterUri;
+  }
+  /**
+   * @return string
+   */
+  public function getAdvertisedRouteSourceRouterUri()
+  {
+    return $this->advertisedRouteSourceRouterUri;
+  }
   /**
    * @param string
    */
@@ -238,6 +278,20 @@ class RouteInfo extends \Google\Collection
   public function getProtocols()
   {
     return $this->protocols;
+  }
+  /**
+   * @param string
+   */
+  public function setRegion($region)
+  {
+    $this->region = $region;
+  }
+  /**
+   * @return string
+   */
+  public function getRegion()
+  {
+    return $this->region;
   }
   /**
    * @param string

@@ -29,6 +29,8 @@ class GoogleCloudRecaptchaenterpriseV1Key extends \Google\Model
    * @var string
    */
   public $displayName;
+  protected $expressSettingsType = GoogleCloudRecaptchaenterpriseV1ExpressKeySettings::class;
+  protected $expressSettingsDataType = '';
   protected $iosSettingsType = GoogleCloudRecaptchaenterpriseV1IOSKeySettings::class;
   protected $iosSettingsDataType = '';
   /**
@@ -87,6 +89,20 @@ class GoogleCloudRecaptchaenterpriseV1Key extends \Google\Model
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1ExpressKeySettings
+   */
+  public function setExpressSettings(GoogleCloudRecaptchaenterpriseV1ExpressKeySettings $expressSettings)
+  {
+    $this->expressSettings = $expressSettings;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1ExpressKeySettings
+   */
+  public function getExpressSettings()
+  {
+    return $this->expressSettings;
   }
   /**
    * @param GoogleCloudRecaptchaenterpriseV1IOSKeySettings

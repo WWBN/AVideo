@@ -22,6 +22,8 @@ use Google\Service\CloudRetail\GoogleCloudRetailV2Catalog;
 use Google\Service\CloudRetail\GoogleCloudRetailV2CompleteQueryResponse;
 use Google\Service\CloudRetail\GoogleCloudRetailV2CompletionConfig;
 use Google\Service\CloudRetail\GoogleCloudRetailV2ExportAnalyticsMetricsRequest;
+use Google\Service\CloudRetail\GoogleCloudRetailV2GenerativeQuestionConfig;
+use Google\Service\CloudRetail\GoogleCloudRetailV2GenerativeQuestionsFeatureConfig;
 use Google\Service\CloudRetail\GoogleCloudRetailV2GetDefaultBranchResponse;
 use Google\Service\CloudRetail\GoogleCloudRetailV2ListCatalogsResponse;
 use Google\Service\CloudRetail\GoogleCloudRetailV2SetDefaultBranchRequest;
@@ -166,6 +168,22 @@ class ProjectsLocationsCatalogs extends \Google\Service\Resource
     return $this->call('getDefaultBranch', [$params], GoogleCloudRetailV2GetDefaultBranchResponse::class);
   }
   /**
+   * Manages overal generative question feature state -- enables toggling feature
+   * on and off. (catalogs.getGenerativeQuestionFeature)
+   *
+   * @param string $catalog Required. Resource name of the parent catalog. Format:
+   * projects/{project}/locations/{location}/catalogs/{catalog}
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudRetailV2GenerativeQuestionsFeatureConfig
+   * @throws \Google\Service\Exception
+   */
+  public function getGenerativeQuestionFeature($catalog, $optParams = [])
+  {
+    $params = ['catalog' => $catalog];
+    $params = array_merge($params, $optParams);
+    return $this->call('getGenerativeQuestionFeature', [$params], GoogleCloudRetailV2GenerativeQuestionsFeatureConfig::class);
+  }
+  /**
    * Lists all the Catalogs associated with the project.
    * (catalogs.listProjectsLocationsCatalogs)
    *
@@ -295,6 +313,49 @@ class ProjectsLocationsCatalogs extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('updateCompletionConfig', [$params], GoogleCloudRetailV2CompletionConfig::class);
+  }
+  /**
+   * Allows management of individual questions.
+   * (catalogs.updateGenerativeQuestion)
+   *
+   * @param string $catalog Required. Resource name of the catalog. Format:
+   * projects/{project}/locations/{location}/catalogs/{catalog}
+   * @param GoogleCloudRetailV2GenerativeQuestionConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Optional. Indicates which fields in the provided
+   * GenerativeQuestionConfig to update. The following are NOT supported: *
+   * GenerativeQuestionConfig.frequency If not set or empty, all supported fields
+   * are updated.
+   * @return GoogleCloudRetailV2GenerativeQuestionConfig
+   * @throws \Google\Service\Exception
+   */
+  public function updateGenerativeQuestion($catalog, GoogleCloudRetailV2GenerativeQuestionConfig $postBody, $optParams = [])
+  {
+    $params = ['catalog' => $catalog, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateGenerativeQuestion', [$params], GoogleCloudRetailV2GenerativeQuestionConfig::class);
+  }
+  /**
+   * Manages overal generative question feature state -- enables toggling feature
+   * on and off. (catalogs.updateGenerativeQuestionFeature)
+   *
+   * @param string $catalog Required. Resource name of the affected catalog.
+   * Format: projects/{project}/locations/{location}/catalogs/{catalog}
+   * @param GoogleCloudRetailV2GenerativeQuestionsFeatureConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Optional. Indicates which fields in the provided
+   * GenerativeQuestionsFeatureConfig to update. If not set or empty, all
+   * supported fields are updated.
+   * @return GoogleCloudRetailV2GenerativeQuestionsFeatureConfig
+   * @throws \Google\Service\Exception
+   */
+  public function updateGenerativeQuestionFeature($catalog, GoogleCloudRetailV2GenerativeQuestionsFeatureConfig $postBody, $optParams = [])
+  {
+    $params = ['catalog' => $catalog, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateGenerativeQuestionFeature', [$params], GoogleCloudRetailV2GenerativeQuestionsFeatureConfig::class);
   }
 }
 

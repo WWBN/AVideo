@@ -28,6 +28,8 @@ class CommonLanguageSettings extends \Google\Collection
    * @var string
    */
   public $referenceDocsUri;
+  protected $selectiveGapicGenerationType = SelectiveGapicGeneration::class;
+  protected $selectiveGapicGenerationDataType = '';
 
   /**
    * @param string[]
@@ -56,6 +58,20 @@ class CommonLanguageSettings extends \Google\Collection
   public function getReferenceDocsUri()
   {
     return $this->referenceDocsUri;
+  }
+  /**
+   * @param SelectiveGapicGeneration
+   */
+  public function setSelectiveGapicGeneration(SelectiveGapicGeneration $selectiveGapicGeneration)
+  {
+    $this->selectiveGapicGeneration = $selectiveGapicGeneration;
+  }
+  /**
+   * @return SelectiveGapicGeneration
+   */
+  public function getSelectiveGapicGeneration()
+  {
+    return $this->selectiveGapicGeneration;
   }
 }
 

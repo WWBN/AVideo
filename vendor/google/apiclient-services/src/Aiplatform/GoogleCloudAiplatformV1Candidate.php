@@ -39,6 +39,8 @@ class GoogleCloudAiplatformV1Candidate extends \Google\Collection
    * @var int
    */
   public $index;
+  protected $logprobsResultType = GoogleCloudAiplatformV1LogprobsResult::class;
+  protected $logprobsResultDataType = '';
   protected $safetyRatingsType = GoogleCloudAiplatformV1SafetyRating::class;
   protected $safetyRatingsDataType = 'array';
 
@@ -133,6 +135,20 @@ class GoogleCloudAiplatformV1Candidate extends \Google\Collection
   public function getIndex()
   {
     return $this->index;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1LogprobsResult
+   */
+  public function setLogprobsResult(GoogleCloudAiplatformV1LogprobsResult $logprobsResult)
+  {
+    $this->logprobsResult = $logprobsResult;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1LogprobsResult
+   */
+  public function getLogprobsResult()
+  {
+    return $this->logprobsResult;
   }
   /**
    * @param GoogleCloudAiplatformV1SafetyRating[]

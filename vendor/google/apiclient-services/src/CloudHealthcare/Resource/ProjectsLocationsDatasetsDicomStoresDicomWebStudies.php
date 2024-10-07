@@ -17,6 +17,8 @@
 
 namespace Google\Service\CloudHealthcare\Resource;
 
+use Google\Service\CloudHealthcare\Operation;
+use Google\Service\CloudHealthcare\SetBlobStorageSettingsRequest;
 use Google\Service\CloudHealthcare\StudyMetrics;
 
 /**
@@ -44,6 +46,31 @@ class ProjectsLocationsDatasetsDicomStoresDicomWebStudies extends \Google\Servic
     $params = ['study' => $study];
     $params = array_merge($params, $optParams);
     return $this->call('getStudyMetrics', [$params], StudyMetrics::class);
+  }
+  /**
+   * SetBlobStorageSettings sets the blob storage settings of the specified
+   * resources. (studies.setBlobStorageSettings)
+   *
+   * @param string $resource Required. The path of the resource to update the blob
+   * storage settings in the format of `projects/{projectID}/locations/{locationID
+   * }/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}
+   * `, `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomSto
+   * res/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/`, or `proj
+   * ects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dic
+   * omStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instance
+   * UID}`. If `filter_config` is specified, set the value of `resource` to the
+   * resource name of a DICOM store in the format `projects/{projectID}/locations/
+   * {locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`.
+   * @param SetBlobStorageSettingsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function setBlobStorageSettings($resource, SetBlobStorageSettingsRequest $postBody, $optParams = [])
+  {
+    $params = ['resource' => $resource, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('setBlobStorageSettings', [$params], Operation::class);
   }
 }
 

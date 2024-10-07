@@ -32,15 +32,23 @@ use Google\Service\HangoutsChat\Message;
 class SpacesMessages extends \Google\Service\Resource
 {
   /**
-   * Creates a message in a Google Chat space. The maximum message size, including
-   * text and cards, is 32,000 bytes. For an example, see [Send a
-   * message](https://developers.google.com/workspace/chat/create-messages).
-   * Calling this method requires
-   * [authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize) and supports the following authentication types: - For text
-   * messages, user authentication or app authentication are supported. - For card
-   * messages, only app authentication is supported. (Only Chat apps can create
-   * card messages.) (messages.create)
+   * Creates a message in a Google Chat space. For an example, see [Send a
+   * message](https://developers.google.com/workspace/chat/create-messages). The
+   * `create()` method requires either user or app authentication. Chat attributes
+   * the message sender differently depending on the type of authentication that
+   * you use in your request. The following image shows how Chat attributes a
+   * message when you use app authentication. Chat displays the Chat app as the
+   * message sender. The content of the message can contain text (`text`), cards
+   * (`cardsV2`), and accessory widgets (`accessoryWidgets`). ![Message sent with
+   * app
+   * authentication](https://developers.google.com/workspace/chat/images/message-
+   * app-auth.svg) The following image shows how Chat attributes a message when
+   * you use user authentication. Chat displays the user as the message sender and
+   * attributes the Chat app to the message by displaying its name. The content of
+   * message can only contain text (`text`). ![Message sent with user
+   * authentication](https://developers.google.com/workspace/chat/images/message-
+   * user-auth.svg) The maximum message size, including the message contents, is
+   * 32,000 bytes. (messages.create)
    *
    * @param string $parent Required. The resource name of the space in which to
    * create a message. Format: `spaces/{space}`
@@ -80,13 +88,13 @@ class SpacesMessages extends \Google\Service\Resource
   /**
    * Deletes a message. For an example, see [Delete a
    * message](https://developers.google.com/workspace/chat/delete-messages).
-   * Requires
+   * Supports the following types of
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize). Supports [app
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) and [user
+   * authorize-chat-app) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). When using app authentication, requests can only delete
+   * authorize-chat-user) When using app authentication, requests can only delete
    * messages created by the calling Chat app. (messages.delete)
    *
    * @param string $name Required. Resource name of the message. Format:
@@ -115,13 +123,14 @@ class SpacesMessages extends \Google\Service\Resource
   }
   /**
    * Returns details about a message. For an example, see [Get details about a
-   * message](https://developers.google.com/workspace/chat/get-messages). Requires
+   * message](https://developers.google.com/workspace/chat/get-messages). Supports
+   * the following types of
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize). Supports [app
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) and [user
+   * authorize-chat-app) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). Note: Might return a message from a blocked member or
+   * authorize-chat-user) Note: Might return a message from a blocked member or
    * space. (messages.get)
    *
    * @param string $name Required. Resource name of the message. Format:
@@ -205,13 +214,13 @@ class SpacesMessages extends \Google\Service\Resource
    * methods. The `patch` method uses a `patch` request while the `update` method
    * uses a `put` request. We recommend using the `patch` method. For an example,
    * see [Update a message](https://developers.google.com/workspace/chat/update-
-   * messages). Requires
+   * messages). Supports the following types of
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize). Supports [app
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) and [user
+   * authorize-chat-app) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). When using app authentication, requests can only update
+   * authorize-chat-user) When using app authentication, requests can only update
    * messages created by the calling Chat app. (messages.patch)
    *
    * @param string $name Resource name of the message. Format:
@@ -253,13 +262,13 @@ class SpacesMessages extends \Google\Service\Resource
    * methods. The `patch` method uses a `patch` request while the `update` method
    * uses a `put` request. We recommend using the `patch` method. For an example,
    * see [Update a message](https://developers.google.com/workspace/chat/update-
-   * messages). Requires
+   * messages). Supports the following types of
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize). Supports [app
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) and [user
+   * authorize-chat-app) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). When using app authentication, requests can only update
+   * authorize-chat-user) When using app authentication, requests can only update
    * messages created by the calling Chat app. (messages.update)
    *
    * @param string $name Resource name of the message. Format:

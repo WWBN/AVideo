@@ -20,6 +20,10 @@ namespace Google\Service\Backupdr;
 class BackupVault extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $accessRestriction;
+  /**
    * @var string[]
    */
   public $annotations;
@@ -80,6 +84,20 @@ class BackupVault extends \Google\Model
    */
   public $updateTime;
 
+  /**
+   * @param string
+   */
+  public function setAccessRestriction($accessRestriction)
+  {
+    $this->accessRestriction = $accessRestriction;
+  }
+  /**
+   * @return string
+   */
+  public function getAccessRestriction()
+  {
+    return $this->accessRestriction;
+  }
   /**
    * @param string[]
    */

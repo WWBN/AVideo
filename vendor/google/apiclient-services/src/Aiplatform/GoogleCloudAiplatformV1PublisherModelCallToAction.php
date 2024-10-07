@@ -25,6 +25,8 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
   protected $deployDataType = '';
   protected $deployGkeType = GoogleCloudAiplatformV1PublisherModelCallToActionDeployGke::class;
   protected $deployGkeDataType = '';
+  protected $multiDeployVertexType = GoogleCloudAiplatformV1PublisherModelCallToActionDeployVertex::class;
+  protected $multiDeployVertexDataType = '';
   protected $openEvaluationPipelineType = GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences::class;
   protected $openEvaluationPipelineDataType = '';
   protected $openFineTuningPipelineType = GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences::class;
@@ -87,6 +89,20 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
   public function getDeployGke()
   {
     return $this->deployGke;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionDeployVertex
+   */
+  public function setMultiDeployVertex(GoogleCloudAiplatformV1PublisherModelCallToActionDeployVertex $multiDeployVertex)
+  {
+    $this->multiDeployVertex = $multiDeployVertex;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PublisherModelCallToActionDeployVertex
+   */
+  public function getMultiDeployVertex()
+  {
+    return $this->multiDeployVertex;
   }
   /**
    * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences

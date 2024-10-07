@@ -23,6 +23,10 @@ class GooglePrivacyDlpV2DataProfileAction extends \Google\Model
   protected $exportDataDataType = '';
   protected $pubSubNotificationType = GooglePrivacyDlpV2PubSubNotification::class;
   protected $pubSubNotificationDataType = '';
+  protected $publishToChronicleType = GooglePrivacyDlpV2PublishToChronicle::class;
+  protected $publishToChronicleDataType = '';
+  protected $publishToSccType = GooglePrivacyDlpV2PublishToSecurityCommandCenter::class;
+  protected $publishToSccDataType = '';
   protected $tagResourcesType = GooglePrivacyDlpV2TagResources::class;
   protected $tagResourcesDataType = '';
 
@@ -53,6 +57,34 @@ class GooglePrivacyDlpV2DataProfileAction extends \Google\Model
   public function getPubSubNotification()
   {
     return $this->pubSubNotification;
+  }
+  /**
+   * @param GooglePrivacyDlpV2PublishToChronicle
+   */
+  public function setPublishToChronicle(GooglePrivacyDlpV2PublishToChronicle $publishToChronicle)
+  {
+    $this->publishToChronicle = $publishToChronicle;
+  }
+  /**
+   * @return GooglePrivacyDlpV2PublishToChronicle
+   */
+  public function getPublishToChronicle()
+  {
+    return $this->publishToChronicle;
+  }
+  /**
+   * @param GooglePrivacyDlpV2PublishToSecurityCommandCenter
+   */
+  public function setPublishToScc(GooglePrivacyDlpV2PublishToSecurityCommandCenter $publishToScc)
+  {
+    $this->publishToScc = $publishToScc;
+  }
+  /**
+   * @return GooglePrivacyDlpV2PublishToSecurityCommandCenter
+   */
+  public function getPublishToScc()
+  {
+    return $this->publishToScc;
   }
   /**
    * @param GooglePrivacyDlpV2TagResources

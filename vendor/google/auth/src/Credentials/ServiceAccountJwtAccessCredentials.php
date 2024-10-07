@@ -218,6 +218,18 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements
     }
 
     /**
+     * Get the private key from the keyfile.
+     *
+     * In this case, it returns the keyfile's private_key key, needed for JWT signing.
+     *
+     * @return string
+     */
+    public function getPrivateKey()
+    {
+        return $this->auth->getSigningKey();
+    }
+
+    /**
      * Get the quota project used for this API request
      *
      * @return string|null

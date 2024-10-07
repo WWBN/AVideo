@@ -212,7 +212,11 @@ class ProjectsTimeSeries extends \Google\Service\Resource
     return $this->call('list', [$params], ListTimeSeriesResponse::class);
   }
   /**
-   * Queries time series using Monitoring Query Language. (timeSeries.query)
+   * Queries time series by using Monitoring Query Language (MQL). We recommend
+   * using PromQL instead of MQL. For more information about the status of MQL,
+   * see the MQL deprecation notice
+   * (https://cloud.google.com/stackdriver/docs/deprecations/mql).
+   * (timeSeries.query)
    *
    * @param string $name Required. The project
    * (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute

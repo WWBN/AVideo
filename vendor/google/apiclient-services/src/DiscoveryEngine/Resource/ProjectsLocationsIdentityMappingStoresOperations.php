@@ -25,7 +25,7 @@ use Google\Service\DiscoveryEngine\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $discoveryengineService = new Google\Service\DiscoveryEngine(...);
- *   $operations = $discoveryengineService->projects_locations_identity_mapping_stores_operations;
+ *   $operations = $discoveryengineService->projects_locations_identityMappingStores_operations;
  *  </code>
  */
 class ProjectsLocationsIdentityMappingStoresOperations extends \Google\Service\Resource

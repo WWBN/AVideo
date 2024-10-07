@@ -34,6 +34,8 @@ class Cluster extends \Google\Collection
    * @var string
    */
   public $clusterIpv4Cidr;
+  protected $compliancePostureConfigType = CompliancePostureConfig::class;
+  protected $compliancePostureConfigDataType = '';
   protected $conditionsType = StatusCondition::class;
   protected $conditionsDataType = 'array';
   protected $confidentialNodesType = ConfidentialNodes::class;
@@ -222,6 +224,8 @@ class Cluster extends \Google\Collection
    * @var string
    */
   public $tpuIpv4CidrBlock;
+  protected $userManagedKeysConfigType = UserManagedKeysConfig::class;
+  protected $userManagedKeysConfigDataType = '';
   protected $verticalPodAutoscalingType = VerticalPodAutoscaling::class;
   protected $verticalPodAutoscalingDataType = '';
   protected $workloadIdentityConfigType = WorkloadIdentityConfig::class;
@@ -314,6 +318,20 @@ class Cluster extends \Google\Collection
   public function getClusterIpv4Cidr()
   {
     return $this->clusterIpv4Cidr;
+  }
+  /**
+   * @param CompliancePostureConfig
+   */
+  public function setCompliancePostureConfig(CompliancePostureConfig $compliancePostureConfig)
+  {
+    $this->compliancePostureConfig = $compliancePostureConfig;
+  }
+  /**
+   * @return CompliancePostureConfig
+   */
+  public function getCompliancePostureConfig()
+  {
+    return $this->compliancePostureConfig;
   }
   /**
    * @param StatusCondition[]
@@ -1196,6 +1214,20 @@ class Cluster extends \Google\Collection
   public function getTpuIpv4CidrBlock()
   {
     return $this->tpuIpv4CidrBlock;
+  }
+  /**
+   * @param UserManagedKeysConfig
+   */
+  public function setUserManagedKeysConfig(UserManagedKeysConfig $userManagedKeysConfig)
+  {
+    $this->userManagedKeysConfig = $userManagedKeysConfig;
+  }
+  /**
+   * @return UserManagedKeysConfig
+   */
+  public function getUserManagedKeysConfig()
+  {
+    return $this->userManagedKeysConfig;
   }
   /**
    * @param VerticalPodAutoscaling

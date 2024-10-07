@@ -56,6 +56,8 @@ class GoogleCloudAiplatformV1DeployedIndex extends \Google\Collection
   public $indexSyncTime;
   protected $privateEndpointsType = GoogleCloudAiplatformV1IndexPrivateEndpoints::class;
   protected $privateEndpointsDataType = '';
+  protected $pscAutomationConfigsType = GoogleCloudAiplatformV1PSCAutomationConfig::class;
+  protected $pscAutomationConfigsDataType = 'array';
   /**
    * @var string[]
    */
@@ -214,6 +216,20 @@ class GoogleCloudAiplatformV1DeployedIndex extends \Google\Collection
   public function getPrivateEndpoints()
   {
     return $this->privateEndpoints;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1PSCAutomationConfig[]
+   */
+  public function setPscAutomationConfigs($pscAutomationConfigs)
+  {
+    $this->pscAutomationConfigs = $pscAutomationConfigs;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PSCAutomationConfig[]
+   */
+  public function getPscAutomationConfigs()
+  {
+    return $this->pscAutomationConfigs;
   }
   /**
    * @param string[]

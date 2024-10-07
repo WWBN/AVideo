@@ -24,6 +24,10 @@ class GoogleCloudAiplatformV1GenerateContentRequest extends \Google\Collection
   protected $contentsDataType = 'array';
   protected $generationConfigType = GoogleCloudAiplatformV1GenerationConfig::class;
   protected $generationConfigDataType = '';
+  /**
+   * @var string[]
+   */
+  public $labels;
   protected $safetySettingsType = GoogleCloudAiplatformV1SafetySetting::class;
   protected $safetySettingsDataType = 'array';
   protected $systemInstructionType = GoogleCloudAiplatformV1Content::class;
@@ -60,6 +64,20 @@ class GoogleCloudAiplatformV1GenerateContentRequest extends \Google\Collection
   public function getGenerationConfig()
   {
     return $this->generationConfig;
+  }
+  /**
+   * @param string[]
+   */
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLabels()
+  {
+    return $this->labels;
   }
   /**
    * @param GoogleCloudAiplatformV1SafetySetting[]

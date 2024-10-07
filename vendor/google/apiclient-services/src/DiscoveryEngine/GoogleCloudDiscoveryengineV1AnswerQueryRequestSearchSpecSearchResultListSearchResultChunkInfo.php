@@ -27,6 +27,8 @@ class GoogleCloudDiscoveryengineV1AnswerQueryRequestSearchSpecSearchResultListSe
    * @var string
    */
   public $content;
+  protected $documentMetadataType = GoogleCloudDiscoveryengineV1AnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata::class;
+  protected $documentMetadataDataType = '';
 
   /**
    * @param string
@@ -55,6 +57,20 @@ class GoogleCloudDiscoveryengineV1AnswerQueryRequestSearchSpecSearchResultListSe
   public function getContent()
   {
     return $this->content;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1AnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata
+   */
+  public function setDocumentMetadata(GoogleCloudDiscoveryengineV1AnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata $documentMetadata)
+  {
+    $this->documentMetadata = $documentMetadata;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1AnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata
+   */
+  public function getDocumentMetadata()
+  {
+    return $this->documentMetadata;
   }
 }
 

@@ -36,8 +36,8 @@ class ProjectsLocationsDataStoresSessions extends \Google\Service\Resource
    * error is returned. (sessions.create)
    *
    * @param string $parent Required. Full resource name of parent data store.
-   * Format: `projects/{project_number}/locations/{location_id}/collections/{colle
-   * ction}/dataStores/{data_store_id}`
+   * Format: `projects/{project}/locations/{location}/collections/{collection}/dat
+   * aStores/{data_store_id}`
    * @param GoogleCloudDiscoveryengineV1Session $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDiscoveryengineV1Session
@@ -54,8 +54,8 @@ class ProjectsLocationsDataStoresSessions extends \Google\Service\Resource
    * is returned. (sessions.delete)
    *
    * @param string $name Required. The resource name of the Session to delete.
-   * Format: `projects/{project_number}/locations/{location_id}/collections/{colle
-   * ction}/dataStores/{data_store_id}/sessions/{session_id}`
+   * Format: `projects/{project}/locations/{location}/collections/{collection}/dat
+   * aStores/{data_store_id}/sessions/{session_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    * @throws \Google\Service\Exception
@@ -70,8 +70,8 @@ class ProjectsLocationsDataStoresSessions extends \Google\Service\Resource
    * Gets a Session. (sessions.get)
    *
    * @param string $name Required. The resource name of the Session to get.
-   * Format: `projects/{project_number}/locations/{location_id}/collections/{colle
-   * ction}/dataStores/{data_store_id}/sessions/{session_id}`
+   * Format: `projects/{project}/locations/{location}/collections/{collection}/dat
+   * aStores/{data_store_id}/sessions/{session_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDiscoveryengineV1Session
    * @throws \Google\Service\Exception
@@ -87,8 +87,8 @@ class ProjectsLocationsDataStoresSessions extends \Google\Service\Resource
    * (sessions.listProjectsLocationsDataStoresSessions)
    *
    * @param string $parent Required. The data store resource name. Format: `projec
-   * ts/{project_number}/locations/{location_id}/collections/{collection}/dataStor
-   * es/{data_store_id}`
+   * ts/{project}/locations/{location}/collections/{collection}/dataStores/{data_s
+   * tore_id}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter A filter to apply on the list results. The supported

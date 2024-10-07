@@ -23,6 +23,10 @@ class GoogleCloudRunV2SubmitBuildResponse extends \Google\Model
    * @var string
    */
   public $baseImageUri;
+  /**
+   * @var string
+   */
+  public $baseImageWarning;
   protected $buildOperationType = GoogleLongrunningOperation::class;
   protected $buildOperationDataType = '';
 
@@ -39,6 +43,20 @@ class GoogleCloudRunV2SubmitBuildResponse extends \Google\Model
   public function getBaseImageUri()
   {
     return $this->baseImageUri;
+  }
+  /**
+   * @param string
+   */
+  public function setBaseImageWarning($baseImageWarning)
+  {
+    $this->baseImageWarning = $baseImageWarning;
+  }
+  /**
+   * @return string
+   */
+  public function getBaseImageWarning()
+  {
+    return $this->baseImageWarning;
   }
   /**
    * @param GoogleLongrunningOperation

@@ -56,6 +56,10 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
   protected $machineConfigurationDataType = '';
   protected $primaryResourceIdType = StorageDatabasecenterPartnerapiV1mainDatabaseResourceId::class;
   protected $primaryResourceIdDataType = '';
+  /**
+   * @var string
+   */
+  public $primaryResourceLocation;
   protected $productType = StorageDatabasecenterProtoCommonProduct::class;
   protected $productDataType = '';
   /**
@@ -66,6 +70,8 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
    * @var string
    */
   public $resourceName;
+  protected $tagsSetType = StorageDatabasecenterPartnerapiV1mainTags::class;
+  protected $tagsSetDataType = '';
   /**
    * @var string
    */
@@ -256,6 +262,20 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
     return $this->primaryResourceId;
   }
   /**
+   * @param string
+   */
+  public function setPrimaryResourceLocation($primaryResourceLocation)
+  {
+    $this->primaryResourceLocation = $primaryResourceLocation;
+  }
+  /**
+   * @return string
+   */
+  public function getPrimaryResourceLocation()
+  {
+    return $this->primaryResourceLocation;
+  }
+  /**
    * @param StorageDatabasecenterProtoCommonProduct
    */
   public function setProduct(StorageDatabasecenterProtoCommonProduct $product)
@@ -296,6 +316,20 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
   public function getResourceName()
   {
     return $this->resourceName;
+  }
+  /**
+   * @param StorageDatabasecenterPartnerapiV1mainTags
+   */
+  public function setTagsSet(StorageDatabasecenterPartnerapiV1mainTags $tagsSet)
+  {
+    $this->tagsSet = $tagsSet;
+  }
+  /**
+   * @return StorageDatabasecenterPartnerapiV1mainTags
+   */
+  public function getTagsSet()
+  {
+    return $this->tagsSet;
   }
   /**
    * @param string

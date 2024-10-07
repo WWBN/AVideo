@@ -20,6 +20,8 @@ namespace Google\Service\Aiplatform;
 class GoogleCloudAiplatformV1Schema extends \Google\Collection
 {
   protected $collection_key = 'required';
+  protected $anyOfType = GoogleCloudAiplatformV1Schema::class;
+  protected $anyOfDataType = 'array';
   /**
    * @var array
    */
@@ -81,6 +83,10 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
   /**
    * @var string[]
    */
+  public $propertyOrdering;
+  /**
+   * @var string[]
+   */
   public $required;
   /**
    * @var string
@@ -91,6 +97,20 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
    */
   public $type;
 
+  /**
+   * @param GoogleCloudAiplatformV1Schema[]
+   */
+  public function setAnyOf($anyOf)
+  {
+    $this->anyOf = $anyOf;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1Schema[]
+   */
+  public function getAnyOf()
+  {
+    return $this->anyOf;
+  }
   /**
    * @param array
    */
@@ -316,6 +336,20 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
   public function getProperties()
   {
     return $this->properties;
+  }
+  /**
+   * @param string[]
+   */
+  public function setPropertyOrdering($propertyOrdering)
+  {
+    $this->propertyOrdering = $propertyOrdering;
+  }
+  /**
+   * @return string[]
+   */
+  public function getPropertyOrdering()
+  {
+    return $this->propertyOrdering;
   }
   /**
    * @param string[]

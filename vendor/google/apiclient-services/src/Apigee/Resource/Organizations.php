@@ -17,6 +17,7 @@
 
 namespace Google\Service\Apigee\Resource;
 
+use Google\Service\Apigee\GoogleCloudApigeeV1ControlPlaneAccess;
 use Google\Service\Apigee\GoogleCloudApigeeV1GetSyncAuthorizationRequest;
 use Google\Service\Apigee\GoogleCloudApigeeV1IngressConfig;
 use Google\Service\Apigee\GoogleCloudApigeeV1ListOrganizationsResponse;
@@ -80,8 +81,8 @@ class Organizations extends \Google\Service\Resource
    * operation completes. During this period, the Organization may be restored to
    * its last known state. After this period, the Organization will no longer be
    * able to be restored. **Note: During the data retention period specified using
-   * this field, the Apigee organization cannot be recreated in the same GCP
-   * project.**
+   * this field, the Apigee organization cannot be recreated in the same Google
+   * Cloud project.**
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
@@ -107,6 +108,24 @@ class Organizations extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], GoogleCloudApigeeV1Organization::class);
+  }
+  /**
+   * Lists the service accounts allowed to access Apigee control plane directly
+   * for limited functionality. **Note**: Available to Apigee hybrid only.
+   * (organizations.getControlPlaneAccess)
+   *
+   * @param string $name Required. Resource name of the Control Plane Access. Use
+   * the following structure in your request:
+   * `organizations/{org}/controlPlaneAccess`
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudApigeeV1ControlPlaneAccess
+   * @throws \Google\Service\Exception
+   */
+  public function getControlPlaneAccess($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getControlPlaneAccess', [$params], GoogleCloudApigeeV1ControlPlaneAccess::class);
   }
   /**
    * Gets the deployed ingress configuration for an organization.
@@ -278,6 +297,29 @@ class Organizations extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('update', [$params], GoogleCloudApigeeV1Organization::class);
+  }
+  /**
+   * Updates the permissions required to allow Apigee runtime-plane components
+   * access to the control plane. Currently, the permissions required are to: 1.
+   * Allow runtime components to publish analytics data to the control plane.
+   * **Note**: Available to Apigee hybrid only.
+   * (organizations.updateControlPlaneAccess)
+   *
+   * @param string $name Identifier. The resource name of the ControlPlaneAccess.
+   * Format: "organizations/{org}/controlPlaneAccess"
+   * @param GoogleCloudApigeeV1ControlPlaneAccess $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask List of fields to be updated. Fields that can be
+   * updated: synchronizer_identities, publisher_identities.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function updateControlPlaneAccess($name, GoogleCloudApigeeV1ControlPlaneAccess $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateControlPlaneAccess', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * UpdateSecuritySettings updates the current security settings for API

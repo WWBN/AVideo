@@ -39,7 +39,7 @@ class CoursesPostsAddOnAttachments extends \Google\Service\Resource
    * identified resources does not exist. (addOnAttachments.create)
    *
    * @param string $courseId Required. Identifier of the course.
-   * @param string $postId Optional. Deprecated, use item_id instead.
+   * @param string $postId Optional. Deprecated, use `item_id` instead.
    * @param AddOnAttachment $postBody
    * @param array $optParams Optional parameters.
    *
@@ -50,8 +50,8 @@ class CoursesPostsAddOnAttachments extends \Google\Service\Resource
    * creation. Returns an error if not provided for partner-first attachment
    * creation and the developer projects that created the attachment and its
    * parent stream item do not match.
-   * @opt_param string itemId Identifier of the announcement, courseWork, or
-   * courseWorkMaterial under which to create the attachment. This field is
+   * @opt_param string itemId Identifier of the `Announcement`, `CourseWork`, or
+   * `CourseWorkMaterial` under which to create the attachment. This field is
    * required, but is not marked as such while we are migrating from post_id.
    * @return AddOnAttachment
    * @throws \Google\Service\Exception
@@ -70,12 +70,12 @@ class CoursesPostsAddOnAttachments extends \Google\Service\Resource
    * (addOnAttachments.delete)
    *
    * @param string $courseId Required. Identifier of the course.
-   * @param string $postId Optional. Deprecated, use item_id instead.
+   * @param string $postId Optional. Deprecated, use `item_id` instead.
    * @param string $attachmentId Required. Identifier of the attachment.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string itemId Identifier of the announcement, courseWork, or
-   * courseWorkMaterial under which the attachment is attached. This field is
+   * @opt_param string itemId Identifier of the `Announcement`, `CourseWork`, or
+   * `CourseWorkMaterial` under which the attachment is attached. This field is
    * required, but is not marked as such while we are migrating from post_id.
    * @return ClassroomEmpty
    * @throws \Google\Service\Exception
@@ -94,12 +94,12 @@ class CoursesPostsAddOnAttachments extends \Google\Service\Resource
    * identified resources does not exist. (addOnAttachments.get)
    *
    * @param string $courseId Required. Identifier of the course.
-   * @param string $postId Optional. Deprecated, use item_id instead.
+   * @param string $postId Optional. Deprecated, use `item_id` instead.
    * @param string $attachmentId Required. Identifier of the attachment.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string itemId Identifier of the announcement, courseWork, or
-   * courseWorkMaterial under which the attachment is attached. This field is
+   * @opt_param string itemId Identifier of the `Announcement`, `CourseWork`, or
+   * `CourseWorkMaterial` under which the attachment is attached. This field is
    * required, but is not marked as such while we are migrating from post_id.
    * @return AddOnAttachment
    * @throws \Google\Service\Exception
@@ -120,11 +120,11 @@ class CoursesPostsAddOnAttachments extends \Google\Service\Resource
    *
    * @param string $courseId Required. Identifier of the course.
    * @param string $postId Optional. Identifier of the post under the course whose
-   * attachments to enumerate. Deprecated, use item_id instead.
+   * attachments to enumerate. Deprecated, use `item_id` instead.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string itemId Identifier of the announcement, courseWork, or
-   * courseWorkMaterial whose attachments should be enumerated. This field is
+   * @opt_param string itemId Identifier of the `Announcement`, `CourseWork`, or
+   * `CourseWorkMaterial` whose attachments should be enumerated. This field is
    * required, but is not marked as such while we are migrating from post_id.
    * @opt_param int pageSize The maximum number of attachments to return. The
    * service may return fewer than this value. If unspecified, at most 20

@@ -567,6 +567,10 @@ class AccessContextManager extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'appendScopedAccessSettings' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',

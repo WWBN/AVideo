@@ -297,8 +297,8 @@ class Events extends \Google\Service\Resource
   }
   /**
    * Moves an event to another calendar, i.e. changes an event's organizer. Note
-   * that only default events can be moved; outOfOffice, focusTime,
-   * workingLocation and fromGmail events cannot be moved. (events.move)
+   * that only default events can be moved; birthday, focusTime, fromGmail,
+   * outOfOffice and workingLocation events cannot be moved. (events.move)
    *
    * @param string $calendarId Calendar identifier of the source calendar where
    * the event currently is on.

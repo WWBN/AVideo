@@ -23,6 +23,10 @@ class GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpec extends \Google
    * @var string
    */
   public $dataStore;
+  /**
+   * @var string
+   */
+  public $filter;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpec extends \Google
   public function getDataStore()
   {
     return $this->dataStore;
+  }
+  /**
+   * @param string
+   */
+  public function setFilter($filter)
+  {
+    $this->filter = $filter;
+  }
+  /**
+   * @return string
+   */
+  public function getFilter()
+  {
+    return $this->filter;
   }
 }
 

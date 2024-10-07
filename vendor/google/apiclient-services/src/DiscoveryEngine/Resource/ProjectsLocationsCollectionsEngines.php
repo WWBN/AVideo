@@ -113,8 +113,8 @@ class ProjectsLocationsCollectionsEngines extends \Google\Service\Resource
    *
    * @param string $name Immutable. The fully qualified resource name of the
    * engine. This field must be a UTF-8 encoded string with a length limit of 1024
-   * characters. Format: `projects/{project_number}/locations/{location}/collectio
-   * ns/{collection}/engines/{engine}` engine should be 1-63 characters, and valid
+   * characters. Format: `projects/{project}/locations/{location}/collections/{col
+   * lection}/engines/{engine}` engine should be 1-63 characters, and valid
    * characters are /a-z0-9. Otherwise, an INVALID_ARGUMENT error is returned.
    * @param GoogleCloudDiscoveryengineV1Engine $postBody
    * @param array $optParams Optional parameters.

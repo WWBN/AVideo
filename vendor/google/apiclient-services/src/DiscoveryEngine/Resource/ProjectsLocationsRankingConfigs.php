@@ -35,8 +35,8 @@ class ProjectsLocationsRankingConfigs extends \Google\Service\Resource
    * (rankingConfigs.rank)
    *
    * @param string $rankingConfig Required. The resource name of the rank service
-   * config, such as `projects/{project_num}/locations/{location_id}/rankingConfig
-   * s/default_ranking_config`.
+   * config, such as `projects/{project_num}/locations/{location}/rankingConfigs/d
+   * efault_ranking_config`.
    * @param GoogleCloudDiscoveryengineV1RankRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDiscoveryengineV1RankResponse

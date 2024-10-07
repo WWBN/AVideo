@@ -42,6 +42,8 @@ class Spoke extends \Google\Collection
   public $labels;
   protected $linkedInterconnectAttachmentsType = LinkedInterconnectAttachments::class;
   protected $linkedInterconnectAttachmentsDataType = '';
+  protected $linkedProducerVpcNetworkType = LinkedProducerVpcNetwork::class;
+  protected $linkedProducerVpcNetworkDataType = '';
   protected $linkedRouterApplianceInstancesType = LinkedRouterApplianceInstances::class;
   protected $linkedRouterApplianceInstancesDataType = '';
   protected $linkedVpcNetworkType = LinkedVpcNetwork::class;
@@ -154,6 +156,20 @@ class Spoke extends \Google\Collection
   public function getLinkedInterconnectAttachments()
   {
     return $this->linkedInterconnectAttachments;
+  }
+  /**
+   * @param LinkedProducerVpcNetwork
+   */
+  public function setLinkedProducerVpcNetwork(LinkedProducerVpcNetwork $linkedProducerVpcNetwork)
+  {
+    $this->linkedProducerVpcNetwork = $linkedProducerVpcNetwork;
+  }
+  /**
+   * @return LinkedProducerVpcNetwork
+   */
+  public function getLinkedProducerVpcNetwork()
+  {
+    return $this->linkedProducerVpcNetwork;
   }
   /**
    * @param LinkedRouterApplianceInstances

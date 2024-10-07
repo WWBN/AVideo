@@ -43,6 +43,8 @@ class LighthouseAuditResultV5 extends \Google\Model
    * @var string
    */
   public $id;
+  protected $metricSavingsType = MetricSavings::class;
+  protected $metricSavingsDataType = '';
   /**
    * @var string
    */
@@ -148,6 +150,20 @@ class LighthouseAuditResultV5 extends \Google\Model
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param MetricSavings
+   */
+  public function setMetricSavings(MetricSavings $metricSavings)
+  {
+    $this->metricSavings = $metricSavings;
+  }
+  /**
+   * @return MetricSavings
+   */
+  public function getMetricSavings()
+  {
+    return $this->metricSavings;
   }
   /**
    * @param string

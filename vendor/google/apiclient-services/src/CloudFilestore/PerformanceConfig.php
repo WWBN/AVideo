@@ -21,12 +21,8 @@ class PerformanceConfig extends \Google\Model
 {
   protected $fixedIopsType = FixedIOPS::class;
   protected $fixedIopsDataType = '';
-  /**
-   * @var bool
-   */
-  public $iopsByCapacity;
-  protected $iopsPerGbType = IOPSPerGB::class;
-  protected $iopsPerGbDataType = '';
+  protected $iopsPerTbType = IOPSPerTB::class;
+  protected $iopsPerTbDataType = '';
 
   /**
    * @param FixedIOPS
@@ -43,32 +39,18 @@ class PerformanceConfig extends \Google\Model
     return $this->fixedIops;
   }
   /**
-   * @param bool
+   * @param IOPSPerTB
    */
-  public function setIopsByCapacity($iopsByCapacity)
+  public function setIopsPerTb(IOPSPerTB $iopsPerTb)
   {
-    $this->iopsByCapacity = $iopsByCapacity;
+    $this->iopsPerTb = $iopsPerTb;
   }
   /**
-   * @return bool
+   * @return IOPSPerTB
    */
-  public function getIopsByCapacity()
+  public function getIopsPerTb()
   {
-    return $this->iopsByCapacity;
-  }
-  /**
-   * @param IOPSPerGB
-   */
-  public function setIopsPerGb(IOPSPerGB $iopsPerGb)
-  {
-    $this->iopsPerGb = $iopsPerGb;
-  }
-  /**
-   * @return IOPSPerGB
-   */
-  public function getIopsPerGb()
-  {
-    return $this->iopsPerGb;
+    return $this->iopsPerTb;
   }
 }
 

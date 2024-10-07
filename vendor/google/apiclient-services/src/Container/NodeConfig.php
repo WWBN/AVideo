@@ -41,6 +41,10 @@ class NodeConfig extends \Google\Collection
    */
   public $diskType;
   /**
+   * @var string
+   */
+  public $effectiveCgroupMode;
+  /**
    * @var bool
    */
   public $enableConfidentialStorage;
@@ -234,6 +238,20 @@ class NodeConfig extends \Google\Collection
   public function getDiskType()
   {
     return $this->diskType;
+  }
+  /**
+   * @param string
+   */
+  public function setEffectiveCgroupMode($effectiveCgroupMode)
+  {
+    $this->effectiveCgroupMode = $effectiveCgroupMode;
+  }
+  /**
+   * @return string
+   */
+  public function getEffectiveCgroupMode()
+  {
+    return $this->effectiveCgroupMode;
   }
   /**
    * @param bool

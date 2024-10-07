@@ -51,6 +51,10 @@ class GoogleCloudDiscoveryengineV1alphaFieldConfig extends \Google\Collection
   /**
    * @var string
    */
+  public $metatagName;
+  /**
+   * @var string
+   */
   public $recsFilterableOption;
   /**
    * @var string
@@ -162,6 +166,20 @@ class GoogleCloudDiscoveryengineV1alphaFieldConfig extends \Google\Collection
   public function getKeyPropertyType()
   {
     return $this->keyPropertyType;
+  }
+  /**
+   * @param string
+   */
+  public function setMetatagName($metatagName)
+  {
+    $this->metatagName = $metatagName;
+  }
+  /**
+   * @return string
+   */
+  public function getMetatagName()
+  {
+    return $this->metatagName;
   }
   /**
    * @param string

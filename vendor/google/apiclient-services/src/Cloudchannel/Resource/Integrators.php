@@ -75,7 +75,7 @@ class Integrators extends \Google\Service\Resource
    * backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related
    * to a technical issue in the backend. Contact Cloud Channel support. Return
    * value: The topic name with the registered service email address.
-   * (integrators.register)
+   * (integrators.registerSubscriber)
    *
    * @param string $integrator Optional. Resource name of the integrator.
    * @param array $optParams Optional parameters.
@@ -86,11 +86,11 @@ class Integrators extends \Google\Service\Resource
    * @return GoogleCloudChannelV1RegisterSubscriberResponse
    * @throws \Google\Service\Exception
    */
-  public function register($integrator, $optParams = [])
+  public function registerSubscriber($integrator, $optParams = [])
   {
     $params = ['integrator' => $integrator];
     $params = array_merge($params, $optParams);
-    return $this->call('register', [$params], GoogleCloudChannelV1RegisterSubscriberResponse::class);
+    return $this->call('registerSubscriber', [$params], GoogleCloudChannelV1RegisterSubscriberResponse::class);
   }
   /**
    * Unregisters a service account with subscriber privileges on the Cloud Pub/Sub
@@ -106,7 +106,7 @@ class Integrators extends \Google\Service\Resource
    * backend. Contact Cloud Channel support. Return value: The topic name that
    * unregistered the service email address. Returns a success response if the
    * service email address wasn't registered with the topic.
-   * (integrators.unregister)
+   * (integrators.unregisterSubscriber)
    *
    * @param string $integrator Optional. Resource name of the integrator.
    * @param array $optParams Optional parameters.
@@ -117,11 +117,11 @@ class Integrators extends \Google\Service\Resource
    * @return GoogleCloudChannelV1UnregisterSubscriberResponse
    * @throws \Google\Service\Exception
    */
-  public function unregister($integrator, $optParams = [])
+  public function unregisterSubscriber($integrator, $optParams = [])
   {
     $params = ['integrator' => $integrator];
     $params = array_merge($params, $optParams);
-    return $this->call('unregister', [$params], GoogleCloudChannelV1UnregisterSubscriberResponse::class);
+    return $this->call('unregisterSubscriber', [$params], GoogleCloudChannelV1UnregisterSubscriberResponse::class);
   }
 }
 

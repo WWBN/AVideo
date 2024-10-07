@@ -54,6 +54,8 @@ class GoogleMapsPlacesV1SearchNearbyRequest extends \Google\Collection
    * @var string
    */
   public $regionCode;
+  protected $routingParametersType = GoogleMapsPlacesV1RoutingParameters::class;
+  protected $routingParametersDataType = '';
 
   /**
    * @param string[]
@@ -180,6 +182,20 @@ class GoogleMapsPlacesV1SearchNearbyRequest extends \Google\Collection
   public function getRegionCode()
   {
     return $this->regionCode;
+  }
+  /**
+   * @param GoogleMapsPlacesV1RoutingParameters
+   */
+  public function setRoutingParameters(GoogleMapsPlacesV1RoutingParameters $routingParameters)
+  {
+    $this->routingParameters = $routingParameters;
+  }
+  /**
+   * @return GoogleMapsPlacesV1RoutingParameters
+   */
+  public function getRoutingParameters()
+  {
+    return $this->routingParameters;
   }
 }
 

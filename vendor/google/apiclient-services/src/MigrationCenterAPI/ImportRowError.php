@@ -20,6 +20,8 @@ namespace Google\Service\MigrationCenterAPI;
 class ImportRowError extends \Google\Collection
 {
   protected $collection_key = 'errors';
+  protected $csvErrorType = ImportRowErrorCsvErrorDetails::class;
+  protected $csvErrorDataType = '';
   protected $errorsType = ImportError::class;
   protected $errorsDataType = 'array';
   /**
@@ -34,7 +36,23 @@ class ImportRowError extends \Google\Collection
    * @var string
    */
   public $vmUuid;
+  protected $xlsxErrorType = ImportRowErrorXlsxErrorDetails::class;
+  protected $xlsxErrorDataType = '';
 
+  /**
+   * @param ImportRowErrorCsvErrorDetails
+   */
+  public function setCsvError(ImportRowErrorCsvErrorDetails $csvError)
+  {
+    $this->csvError = $csvError;
+  }
+  /**
+   * @return ImportRowErrorCsvErrorDetails
+   */
+  public function getCsvError()
+  {
+    return $this->csvError;
+  }
   /**
    * @param ImportError[]
    */
@@ -90,6 +108,20 @@ class ImportRowError extends \Google\Collection
   public function getVmUuid()
   {
     return $this->vmUuid;
+  }
+  /**
+   * @param ImportRowErrorXlsxErrorDetails
+   */
+  public function setXlsxError(ImportRowErrorXlsxErrorDetails $xlsxError)
+  {
+    $this->xlsxError = $xlsxError;
+  }
+  /**
+   * @return ImportRowErrorXlsxErrorDetails
+   */
+  public function getXlsxError()
+  {
+    return $this->xlsxError;
   }
 }
 

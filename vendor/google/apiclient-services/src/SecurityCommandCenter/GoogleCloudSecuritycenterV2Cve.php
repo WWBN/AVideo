@@ -33,6 +33,10 @@ class GoogleCloudSecuritycenterV2Cve extends \Google\Collection
   /**
    * @var string
    */
+  public $firstExploitationDate;
+  /**
+   * @var string
+   */
   public $id;
   /**
    * @var string
@@ -94,6 +98,20 @@ class GoogleCloudSecuritycenterV2Cve extends \Google\Collection
   public function getExploitationActivity()
   {
     return $this->exploitationActivity;
+  }
+  /**
+   * @param string
+   */
+  public function setFirstExploitationDate($firstExploitationDate)
+  {
+    $this->firstExploitationDate = $firstExploitationDate;
+  }
+  /**
+   * @return string
+   */
+  public function getFirstExploitationDate()
+  {
+    return $this->firstExploitationDate;
   }
   /**
    * @param string

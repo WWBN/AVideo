@@ -25,6 +25,10 @@ class User extends \Google\Collection
    */
   public $databaseRoles;
   /**
+   * @var bool
+   */
+  public $keepExtraRoles;
+  /**
    * @var string
    */
   public $name;
@@ -50,6 +54,20 @@ class User extends \Google\Collection
   public function getDatabaseRoles()
   {
     return $this->databaseRoles;
+  }
+  /**
+   * @param bool
+   */
+  public function setKeepExtraRoles($keepExtraRoles)
+  {
+    $this->keepExtraRoles = $keepExtraRoles;
+  }
+  /**
+   * @return bool
+   */
+  public function getKeepExtraRoles()
+  {
+    return $this->keepExtraRoles;
   }
   /**
    * @param string

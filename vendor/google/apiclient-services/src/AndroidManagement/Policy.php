@@ -49,6 +49,10 @@ class Policy extends \Google\Collection
   /**
    * @var string
    */
+  public $assistContentPolicy;
+  /**
+   * @var string
+   */
   public $autoDateAndTimeZone;
   /**
    * @var bool
@@ -450,6 +454,20 @@ class Policy extends \Google\Collection
   public function getApplications()
   {
     return $this->applications;
+  }
+  /**
+   * @param string
+   */
+  public function setAssistContentPolicy($assistContentPolicy)
+  {
+    $this->assistContentPolicy = $assistContentPolicy;
+  }
+  /**
+   * @return string
+   */
+  public function getAssistContentPolicy()
+  {
+    return $this->assistContentPolicy;
   }
   /**
    * @param string

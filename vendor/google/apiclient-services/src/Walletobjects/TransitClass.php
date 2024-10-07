@@ -19,7 +19,7 @@ namespace Google\Service\Walletobjects;
 
 class TransitClass extends \Google\Collection
 {
-  protected $collection_key = 'textModulesData';
+  protected $collection_key = 'valueAddedModuleData';
   protected $activationOptionsType = ActivationOptions::class;
   protected $activationOptionsDataType = '';
   /**
@@ -140,6 +140,8 @@ class TransitClass extends \Google\Collection
    * @var string
    */
   public $transitType;
+  protected $valueAddedModuleDataType = ValueAddedModuleData::class;
+  protected $valueAddedModuleDataDataType = 'array';
   /**
    * @var string
    */
@@ -826,6 +828,20 @@ class TransitClass extends \Google\Collection
   public function getTransitType()
   {
     return $this->transitType;
+  }
+  /**
+   * @param ValueAddedModuleData[]
+   */
+  public function setValueAddedModuleData($valueAddedModuleData)
+  {
+    $this->valueAddedModuleData = $valueAddedModuleData;
+  }
+  /**
+   * @return ValueAddedModuleData[]
+   */
+  public function getValueAddedModuleData()
+  {
+    return $this->valueAddedModuleData;
   }
   /**
    * @param string

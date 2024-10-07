@@ -31,11 +31,19 @@ class GoogleCloudAiplatformV1GenerationConfig extends \Google\Collection
   /**
    * @var int
    */
+  public $logprobs;
+  /**
+   * @var int
+   */
   public $maxOutputTokens;
   /**
    * @var float
    */
   public $presencePenalty;
+  /**
+   * @var bool
+   */
+  public $responseLogprobs;
   /**
    * @var string
    */
@@ -96,6 +104,20 @@ class GoogleCloudAiplatformV1GenerationConfig extends \Google\Collection
   /**
    * @param int
    */
+  public function setLogprobs($logprobs)
+  {
+    $this->logprobs = $logprobs;
+  }
+  /**
+   * @return int
+   */
+  public function getLogprobs()
+  {
+    return $this->logprobs;
+  }
+  /**
+   * @param int
+   */
   public function setMaxOutputTokens($maxOutputTokens)
   {
     $this->maxOutputTokens = $maxOutputTokens;
@@ -120,6 +142,20 @@ class GoogleCloudAiplatformV1GenerationConfig extends \Google\Collection
   public function getPresencePenalty()
   {
     return $this->presencePenalty;
+  }
+  /**
+   * @param bool
+   */
+  public function setResponseLogprobs($responseLogprobs)
+  {
+    $this->responseLogprobs = $responseLogprobs;
+  }
+  /**
+   * @return bool
+   */
+  public function getResponseLogprobs()
+  {
+    return $this->responseLogprobs;
   }
   /**
    * @param string

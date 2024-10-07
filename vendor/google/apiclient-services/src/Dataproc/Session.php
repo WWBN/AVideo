@@ -48,6 +48,8 @@ class Session extends \Google\Collection
    * @var string
    */
   public $sessionTemplate;
+  protected $sparkConnectSessionType = SparkConnectConfig::class;
+  protected $sparkConnectSessionDataType = '';
   /**
    * @var string
    */
@@ -196,6 +198,20 @@ class Session extends \Google\Collection
   public function getSessionTemplate()
   {
     return $this->sessionTemplate;
+  }
+  /**
+   * @param SparkConnectConfig
+   */
+  public function setSparkConnectSession(SparkConnectConfig $sparkConnectSession)
+  {
+    $this->sparkConnectSession = $sparkConnectSession;
+  }
+  /**
+   * @return SparkConnectConfig
+   */
+  public function getSparkConnectSession()
+  {
+    return $this->sparkConnectSession;
   }
   /**
    * @param string

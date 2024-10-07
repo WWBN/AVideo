@@ -24,6 +24,8 @@ class MultiClusterRoutingUseAny extends \Google\Collection
    * @var string[]
    */
   public $clusterIds;
+  protected $rowAffinityType = RowAffinity::class;
+  protected $rowAffinityDataType = '';
 
   /**
    * @param string[]
@@ -38,6 +40,20 @@ class MultiClusterRoutingUseAny extends \Google\Collection
   public function getClusterIds()
   {
     return $this->clusterIds;
+  }
+  /**
+   * @param RowAffinity
+   */
+  public function setRowAffinity(RowAffinity $rowAffinity)
+  {
+    $this->rowAffinity = $rowAffinity;
+  }
+  /**
+   * @return RowAffinity
+   */
+  public function getRowAffinity()
+  {
+    return $this->rowAffinity;
   }
 }
 

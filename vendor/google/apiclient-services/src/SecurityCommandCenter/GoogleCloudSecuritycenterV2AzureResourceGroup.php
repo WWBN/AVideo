@@ -22,8 +22,26 @@ class GoogleCloudSecuritycenterV2AzureResourceGroup extends \Google\Model
   /**
    * @var string
    */
+  public $id;
+  /**
+   * @var string
+   */
   public $name;
 
+  /**
+   * @param string
+   */
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+  /**
+   * @return string
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
   /**
    * @param string
    */

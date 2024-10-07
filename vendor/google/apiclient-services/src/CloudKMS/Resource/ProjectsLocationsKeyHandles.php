@@ -80,6 +80,13 @@ class ProjectsLocationsKeyHandles extends \Google\Service\Resource
    *
    * @opt_param string filter Optional. Filter to apply when listing KeyHandles,
    * e.g. `resource_type_selector="{SERVICE}.googleapis.com/{TYPE}"`.
+   * @opt_param int pageSize Optional. Optional limit on the number of KeyHandles
+   * to include in the response. The service may return fewer than this value.
+   * Further KeyHandles can subsequently be obtained by including the
+   * ListKeyHandlesResponse.next_page_token in a subsequent request. If
+   * unspecified, at most 100 KeyHandles will be returned.
+   * @opt_param string pageToken Optional. Optional pagination token, returned
+   * earlier via ListKeyHandlesResponse.next_page_token.
    * @return ListKeyHandlesResponse
    * @throws \Google\Service\Exception
    */

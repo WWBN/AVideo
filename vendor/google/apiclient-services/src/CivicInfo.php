@@ -65,7 +65,16 @@ class CivicInfo extends \Google\Service
         'divisions',
         [
           'methods' => [
-            'search' => [
+            'queryDivisionByAddress' => [
+              'path' => 'civicinfo/v2/divisionsByAddress',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'address' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'search' => [
               'path' => 'civicinfo/v2/divisions',
               'httpMethod' => 'GET',
               'parameters' => [

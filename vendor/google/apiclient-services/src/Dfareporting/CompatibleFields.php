@@ -21,6 +21,8 @@ class CompatibleFields extends \Google\Model
 {
   protected $crossDimensionReachReportCompatibleFieldsType = CrossDimensionReachReportCompatibleFields::class;
   protected $crossDimensionReachReportCompatibleFieldsDataType = '';
+  protected $crossMediaReachReportCompatibleFieldsType = CrossMediaReachReportCompatibleFields::class;
+  protected $crossMediaReachReportCompatibleFieldsDataType = '';
   protected $floodlightReportCompatibleFieldsType = FloodlightReportCompatibleFields::class;
   protected $floodlightReportCompatibleFieldsDataType = '';
   /**
@@ -47,6 +49,20 @@ class CompatibleFields extends \Google\Model
   public function getCrossDimensionReachReportCompatibleFields()
   {
     return $this->crossDimensionReachReportCompatibleFields;
+  }
+  /**
+   * @param CrossMediaReachReportCompatibleFields
+   */
+  public function setCrossMediaReachReportCompatibleFields(CrossMediaReachReportCompatibleFields $crossMediaReachReportCompatibleFields)
+  {
+    $this->crossMediaReachReportCompatibleFields = $crossMediaReachReportCompatibleFields;
+  }
+  /**
+   * @return CrossMediaReachReportCompatibleFields
+   */
+  public function getCrossMediaReachReportCompatibleFields()
+  {
+    return $this->crossMediaReachReportCompatibleFields;
   }
   /**
    * @param FloodlightReportCompatibleFields

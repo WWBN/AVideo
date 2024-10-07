@@ -24,6 +24,7 @@ use Google\Service\Drive\GeneratedIds;
 use Google\Service\Drive\LabelList;
 use Google\Service\Drive\ModifyLabelsRequest;
 use Google\Service\Drive\ModifyLabelsResponse;
+use Google\Service\Drive\Operation as OperationModel;
 
 /**
  * The "files" collection of methods.
@@ -152,6 +153,32 @@ class Files extends \Google\Service\Resource
     return $this->call('delete', [$params]);
   }
   /**
+   * Downloads content of a file. Operations are valid for 24 hours from the time
+   * of creation. (files.download)
+   *
+   * @param string $fileId Required. The ID of the file to download.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string mimeType Optional. The MIME type the file should be
+   * downloaded as. This field can only be set when downloading Google Workspace
+   * documents. See [Export MIME types for Google Workspace
+   * documents](/drive/api/guides/ref-export-formats) for the list of supported
+   * MIME types. If not set, a Google Workspace document is downloaded with a
+   * default MIME type. The default MIME type might change in the future.
+   * @opt_param string revisionId Optional. The revision ID of the file to
+   * download. This field can only be set when downloading blob files, Google
+   * Docs, and Google Sheets. Returns `INVALID_ARGUMENT` if downloading a specific
+   * revision on the file is unsupported.
+   * @return OperationModel
+   * @throws \Google\Service\Exception
+   */
+  public function download($fileId, $optParams = [])
+  {
+    $params = ['fileId' => $fileId];
+    $params = array_merge($params, $optParams);
+    return $this->call('download', [$params], OperationModel::class);
+  }
+  /**
    * Permanently deletes all of the user's trashed files. (files.emptyTrash)
    *
    * @param array $optParams Optional parameters.
@@ -267,12 +294,20 @@ class Files extends \Google\Service\Resource
    * permissions to include in the response. Only 'published' is supported.
    * @opt_param bool includeTeamDriveItems Deprecated: Use
    * `includeItemsFromAllDrives` instead.
-   * @opt_param string orderBy A comma-separated list of sort keys. Valid keys are
-   * 'createdTime', 'folder', 'modifiedByMeTime', 'modifiedTime', 'name',
-   * 'name_natural', 'quotaBytesUsed', 'recency', 'sharedWithMeTime', 'starred',
-   * and 'viewedByMeTime'. Each key sorts ascending by default, but can be
-   * reversed with the 'desc' modifier. Example usage:
-   * ?orderBy=folder,modifiedTime desc,name.
+   * @opt_param string orderBy A comma-separated list of sort keys. Valid keys
+   * are: * `createdTime`: When the file was created. * `folder`: The folder ID.
+   * This field is sorted using alphabetical ordering. * `modifiedByMeTime`: The
+   * last time the file was modified by the user. * `modifiedTime`: The last time
+   * the file was modified by anyone. * `name`: The name of the file. This field
+   * is sorted using alphabetical ordering, so 1, 12, 2, 22. * `name_natural`: The
+   * name of the file. This field is sorted using natural sort ordering, so 1, 2,
+   * 12, 22. * `quotaBytesUsed`: The number of storage quota bytes used by the
+   * file. * `recency`: The most recent timestamp from the file's date-time
+   * fields. * `sharedWithMeTime`: When the file was shared with the user, if
+   * applicable. * `starred`: Whether the user has starred the file. *
+   * `viewedByMeTime`: The last time the file was viewed by the user. Each key
+   * sorts ascending by default, but can be reversed with the 'desc' modifier.
+   * Example usage: `?orderBy=folder,modifiedTime desc,name`.
    * @opt_param int pageSize The maximum number of files to return per page.
    * Partial or empty result pages are possible even before the end of the files
    * list has been reached.

@@ -88,8 +88,8 @@ class ProjectsLocationsRepositoriesPackagesTags extends \Google\Service\Resource
    * @opt_param string filter An expression for filtering the results of the
    * request. Filter rules are case insensitive. The fields eligible for filtering
    * are: * `name` * `version` Examples of using a filter: To filter the results
-   * of your request to tags with the name "my-tag" in package "my-package" in
-   * repository "my-repo" in project "my-project" in the us-central region, append
+   * of your request to tags with the name `my-tag` in package `my-package` in
+   * repository `my-repo` in project "`y-project` in the us-central region, append
    * the following filter expression to your request: * `name="projects/my-
    * project/locations/us-central1/repositories/my-repo/packages/my-
    * package/tags/my-tag"` You can also use wildcards to match any number of

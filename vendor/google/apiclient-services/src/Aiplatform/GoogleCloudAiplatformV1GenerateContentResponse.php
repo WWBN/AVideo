@@ -22,6 +22,10 @@ class GoogleCloudAiplatformV1GenerateContentResponse extends \Google\Collection
   protected $collection_key = 'candidates';
   protected $candidatesType = GoogleCloudAiplatformV1Candidate::class;
   protected $candidatesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $modelVersion;
   protected $promptFeedbackType = GoogleCloudAiplatformV1GenerateContentResponsePromptFeedback::class;
   protected $promptFeedbackDataType = '';
   protected $usageMetadataType = GoogleCloudAiplatformV1GenerateContentResponseUsageMetadata::class;
@@ -40,6 +44,20 @@ class GoogleCloudAiplatformV1GenerateContentResponse extends \Google\Collection
   public function getCandidates()
   {
     return $this->candidates;
+  }
+  /**
+   * @param string
+   */
+  public function setModelVersion($modelVersion)
+  {
+    $this->modelVersion = $modelVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getModelVersion()
+  {
+    return $this->modelVersion;
   }
   /**
    * @param GoogleCloudAiplatformV1GenerateContentResponsePromptFeedback

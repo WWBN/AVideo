@@ -347,7 +347,37 @@ class SQLAdmin extends \Google\Service
         'instances',
         [
           'methods' => [
-            'acquireSsrsLease' => [
+            'ListServerCertificates' => [
+              'path' => 'v1/projects/{project}/instances/{instance}/listServerCertificates',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'instance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'RotateServerCertificate' => [
+              'path' => 'v1/projects/{project}/instances/{instance}/rotateServerCertificate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'instance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'acquireSsrsLease' => [
               'path' => 'v1/projects/{project}/instances/{instance}/acquireSsrsLease',
               'httpMethod' => 'POST',
               'parameters' => [
@@ -364,6 +394,21 @@ class SQLAdmin extends \Google\Service
               ],
             ],'addServerCa' => [
               'path' => 'v1/projects/{project}/instances/{instance}/addServerCa',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'instance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'addServerCertificate' => [
+              'path' => 'v1/projects/{project}/instances/{instance}/addServerCertificate',
               'httpMethod' => 'POST',
               'parameters' => [
                 'project' => [
@@ -405,6 +450,22 @@ class SQLAdmin extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'enableFinalBackup' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'finalBackupDescription' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'finalBackupExpiryTime' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'finalBackupTtlDays' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],'demote' => [
@@ -795,6 +856,10 @@ class SQLAdmin extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'instance' => [
                   'location' => 'query',

@@ -19,6 +19,25 @@ namespace Google\Service\Integrations;
 
 class GoogleCloudIntegrationsV1alphaCancelExecutionRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $cancelReason;
+
+  /**
+   * @param string
+   */
+  public function setCancelReason($cancelReason)
+  {
+    $this->cancelReason = $cancelReason;
+  }
+  /**
+   * @return string
+   */
+  public function getCancelReason()
+  {
+    return $this->cancelReason;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

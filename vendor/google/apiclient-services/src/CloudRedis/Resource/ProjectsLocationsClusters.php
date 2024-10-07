@@ -21,6 +21,7 @@ use Google\Service\CloudRedis\CertificateAuthority;
 use Google\Service\CloudRedis\Cluster;
 use Google\Service\CloudRedis\ListClustersResponse;
 use Google\Service\CloudRedis\Operation;
+use Google\Service\CloudRedis\RescheduleClusterMaintenanceRequest;
 
 /**
  * The "clusters" collection of methods.
@@ -167,6 +168,24 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * Reschedules upcoming maintenance event.
+   * (clusters.rescheduleClusterMaintenance)
+   *
+   * @param string $name Required. Redis Cluster instance resource name using the
+   * form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}`
+   * where `location_id` refers to a GCP region.
+   * @param RescheduleClusterMaintenanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function rescheduleClusterMaintenance($name, RescheduleClusterMaintenanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('rescheduleClusterMaintenance', [$params], Operation::class);
   }
 }
 

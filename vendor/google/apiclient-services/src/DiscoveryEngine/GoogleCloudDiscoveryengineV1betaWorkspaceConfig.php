@@ -26,6 +26,14 @@ class GoogleCloudDiscoveryengineV1betaWorkspaceConfig extends \Google\Model
   /**
    * @var string
    */
+  public $superAdminEmailAddress;
+  /**
+   * @var string
+   */
+  public $superAdminServiceAccount;
+  /**
+   * @var string
+   */
   public $type;
 
   /**
@@ -41,6 +49,34 @@ class GoogleCloudDiscoveryengineV1betaWorkspaceConfig extends \Google\Model
   public function getDasherCustomerId()
   {
     return $this->dasherCustomerId;
+  }
+  /**
+   * @param string
+   */
+  public function setSuperAdminEmailAddress($superAdminEmailAddress)
+  {
+    $this->superAdminEmailAddress = $superAdminEmailAddress;
+  }
+  /**
+   * @return string
+   */
+  public function getSuperAdminEmailAddress()
+  {
+    return $this->superAdminEmailAddress;
+  }
+  /**
+   * @param string
+   */
+  public function setSuperAdminServiceAccount($superAdminServiceAccount)
+  {
+    $this->superAdminServiceAccount = $superAdminServiceAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getSuperAdminServiceAccount()
+  {
+    return $this->superAdminServiceAccount;
   }
   /**
    * @param string

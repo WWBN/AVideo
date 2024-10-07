@@ -37,9 +37,9 @@ class ProjectsLocationsDataStoresControls extends \Google\Service\Resource
    * already exists, an ALREADY_EXISTS error is returned. (controls.create)
    *
    * @param string $parent Required. Full resource name of parent data store.
-   * Format: `projects/{project_number}/locations/{location_id}/collections/{colle
-   * ction_id}/dataStores/{data_store_id}` or `projects/{project_number}/locations
-   * /{location_id}/collections/{collection_id}/engines/{engine_id}`.
+   * Format: `projects/{project}/locations/{location}/collections/{collection_id}/
+   * dataStores/{data_store_id}` or `projects/{project}/locations/{location}/colle
+   * ctions/{collection_id}/engines/{engine_id}`.
    * @param GoogleCloudDiscoveryengineV1Control $postBody
    * @param array $optParams Optional parameters.
    *
@@ -60,8 +60,8 @@ class ProjectsLocationsDataStoresControls extends \Google\Service\Resource
    * is returned. (controls.delete)
    *
    * @param string $name Required. The resource name of the Control to delete.
-   * Format: `projects/{project_number}/locations/{location_id}/collections/{colle
-   * ction_id}/dataStores/{data_store_id}/controls/{control_id}`
+   * Format: `projects/{project}/locations/{location}/collections/{collection_id}/
+   * dataStores/{data_store_id}/controls/{control_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    * @throws \Google\Service\Exception
@@ -76,8 +76,8 @@ class ProjectsLocationsDataStoresControls extends \Google\Service\Resource
    * Gets a Control. (controls.get)
    *
    * @param string $name Required. The resource name of the Control to get.
-   * Format: `projects/{project_number}/locations/{location_id}/collections/{colle
-   * ction_id}/dataStores/{data_store_id}/controls/{control_id}`
+   * Format: `projects/{project}/locations/{location}/collections/{collection_id}/
+   * dataStores/{data_store_id}/controls/{control_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDiscoveryengineV1Control
    * @throws \Google\Service\Exception
@@ -93,9 +93,9 @@ class ProjectsLocationsDataStoresControls extends \Google\Service\Resource
    * (controls.listProjectsLocationsDataStoresControls)
    *
    * @param string $parent Required. The data store resource name. Format: `projec
-   * ts/{project_number}/locations/{location_id}/collections/{collection_id}/dataS
-   * tores/{data_store_id}` or `projects/{project_number}/locations/{location_id}/
-   * collections/{collection_id}/engines/{engine_id}`.
+   * ts/{project}/locations/{location}/collections/{collection_id}/dataStores/{dat
+   * a_store_id}` or `projects/{project}/locations/{location}/collections/{collect
+   * ion_id}/engines/{engine_id}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. A filter to apply on the list results.
