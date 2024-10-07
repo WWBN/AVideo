@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__.'../videos/configuration.php';
+
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
