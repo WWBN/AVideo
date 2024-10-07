@@ -42,6 +42,9 @@ if (!isPortOpen($address, $port)) {
     _log("Sucess: Port {$port} is open on {$address}");
 }
 
+// Use the function
+checkSSL($address);  // For the domain's SSL check
+checkSSL('127.0.0.1');  // For the localhost SSL check
 
 _log("Testing Socket connection");
 
@@ -263,3 +266,34 @@ function printIfComplete() {
         _log($msg);
     }
 }
+
+function checkSSL($host) {
+    $url = "https://{$host}";
+    _log("Checking SSL for {$host}");
+    
+    // Initialize a cURL session
+    $ch = curl_init();
+    
+    // Set options for the cURL request
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_NOBODY, true); // we only want the headers
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // verify SSL cert
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // verify if SSL matches hostname
+
+    // Execute the request
+    $response = curl_exec($ch);
+    
+    if ($response === false) {
+        // Handle SSL error
+        $error = curl_error($ch);
+        _log("SSL issue detected: {$error}");
+    } else {
+        // SSL appears to be fine
+        _log("SSL is valid for {$host}");
+    }
+    
+    // Close the cURL session
+    curl_close($ch);
+}
+

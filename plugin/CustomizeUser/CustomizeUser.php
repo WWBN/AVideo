@@ -1067,7 +1067,7 @@ class CustomizeUser extends PluginAbstract
                 // Check if deletion was successful
                 if (!$deleteResult) {
                     // If deletion fails, echo user ID, username, and name
-                    echo "Failed to delete user: ID={$user['id']}, Username={$user['user']}, Name={$user['name']}\n";
+                    echo "Failed to delete user: ID={$user['id']}, Username={$user['user']}, Name={$user['name']}".PHP_EOL;
                 }
             }
         }
