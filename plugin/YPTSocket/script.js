@@ -165,6 +165,13 @@ function socketConnect() {
         onSocketClose();
     };
 
+    function checkNetworkConnection() {
+        if (!navigator.onLine) {
+            console.error('It seems you are offline. Check your internet connection.');
+        } else {
+            console.log('Network appears to be online.');
+        }
+    }
 
     conn.onerror = function (err) {
         socketConnectRequested = 0;
