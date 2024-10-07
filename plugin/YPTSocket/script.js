@@ -8,10 +8,10 @@ var users_id_online = undefined;
 
 var socketConnectRetryTimeout = 15000;
 
-function processSocketJson(json){
+function processSocketJson(json) {
     if (json.type == webSocketTypes.UNDEFINED) {
         console.log("processSocketJson UNDEFINED", json);
-        if(typeof json.msg === 'object' && typeof json.msg.callback === 'string'){
+        if (typeof json.msg === 'object' && typeof json.msg.callback === 'string') {
             console.log("Socket onmessage UNDEFINED process subobject", json.msg);
             return processSocketJson(json.msg)
         }
@@ -44,7 +44,7 @@ function processSocketJson(json){
         if (json.callback) {
             //console.log("processSocketJson json.callback ", json.resourceId, json.callback);
             var code = "if(typeof " + json.callback + " == 'function'){myfunc = " + json.callback + ";}else{myfunc = defaultCallback;}";
-            console.log('processSocketJson: code='+code);
+            console.log('processSocketJson: code=' + code);
             eval(code);
         } else {
             //console.log("processSocketJson: callback not found", json);
@@ -57,12 +57,13 @@ function processSocketJson(json){
 
 function socketConnect() {
     if (socketConnectRequested) {
-        //console.log('socketConnect: already requested');
+        console.log('socketConnect: already requested');
         return false;
     }
     clearTimeout(socketConnectTimeout);
+
     if (!isOnline()) {
-        //console.log('socketConnect: Not Online');
+        console.log('socketConnect: Not Online');
         socketConnectRequested = 0;
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
@@ -72,56 +73,72 @@ function socketConnect() {
 
     socketConnectRequested = 1;
     var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
-    ////console.log('Trying to reconnect on socket... ');
+    console.log('socketConnect: Trying to reconnect with URL:', url);
+
     if (!isValidURL(url)) {
         socketConnectRequested = 0;
-        //console.log("socketConnect: Invalid URL ", url);
+        console.log("socketConnect: Invalid URL:", url);
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
         }, 30000);
         return false;
     }
+
     conn = new WebSocket(url);
     setSocketIconStatus('loading');
-    try {
-        conn.onopen = function (e) {
-            socketConnectRequested = 0;
-            socketConnectRetryTimeout = 2000;
-            clearTimeout(socketConnectTimeout);
-            console.log("socketConnect: Socket onopen");
-            onSocketOpen();
-            return false;
-        };
-    } catch (e) {
-        console.log("socketConnect: Error onopen", e);
-    }
+
+    conn.onopen = function (e) {
+        socketConnectRequested = 0;
+        socketConnectRetryTimeout = 2000;
+        clearTimeout(socketConnectTimeout);
+        console.log("socketConnect: Socket connection established. onopen event triggered.");
+        onSocketOpen();
+        return false;
+    };
+
     conn.onmessage = function (e) {
-        var json = JSON.parse(e.data);
-        //console.log("Socket onmessage conn.onmessage", json);
-        socketResourceId = json.resourceId;
-        yptSocketResponse = json;
-        parseSocketResponse();
-        if (json.type == webSocketTypes.MSG_TO_ALL && typeof json.msg == 'object' && Array.isArray(json.msg)) {
-            console.log("Socket onmessage "+json.type, json.msg.length, json);
-            for (let index = 0; index < json.msg.length; index++) {
-                const element = json.msg[index];
-                processSocketJson(element);
+        try {
+            var json = JSON.parse(e.data);
+            console.log("Socket onmessage received:", json);
+            socketResourceId = json.resourceId;
+            yptSocketResponse = json;
+            parseSocketResponse();
+
+            if (json.type == webSocketTypes.MSG_TO_ALL && Array.isArray(json.msg)) {
+                console.log("Socket onmessage contains", json.msg.length, "messages.");
+                json.msg.forEach(function (element) {
+                    processSocketJson(element);
+                });
+            } else {
+                processSocketJson(json);
             }
-        } else {
-            processSocketJson(json);
+        } catch (parseError) {
+            console.error("Error parsing socket message:", e.data, parseError);
         }
     };
+
     conn.onclose = function (e) {
         socketConnectRequested = 0;
-        console.log('Socket is closed. Reconnect will be attempted in ' + socketConnectRetryTimeout + ' seconds.', e.reason);
+        console.log('Socket is closed. Reason:', e.reason, '. Reconnect will be attempted in', socketConnectRetryTimeout / 1000, 'seconds.', 'Code:', e.code);
+        if (e.code !== 1000) { // Not a normal closure
+            console.error('Socket onclose event: Abnormal closure with code:', e.code, 'and reason:', e.reason);
+        }
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
         }, socketConnectRetryTimeout);
         onSocketClose();
     };
+
     conn.onerror = function (err) {
         socketConnectRequested = 0;
-        console.error('Socket encountered error: ', err, 'Closing socket');
+        console.error('Socket encountered error: ', err.message, 'URL:', url);
+        if (err.target.readyState === WebSocket.CLOSED) {
+            console.error('WebSocket is in CLOSED state. Likely a network or server issue.');
+        } else if (err.target.readyState === WebSocket.CLOSING) {
+            console.error('WebSocket is in CLOSING state. Could be a graceful shutdown or an error in closure.');
+        } else if (err.target.readyState === WebSocket.CONNECTING) {
+            console.error('WebSocket is in CONNECTING state. Check server status or network issues.');
+        }
         conn.close();
     };
 }
@@ -267,12 +284,12 @@ function parseSocketResponse() {
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
         if (canShowSocketToast && typeof avideoToastWarning == 'function') {
             avideoToastWarning("Please restart your socket server. You are running (v" + json.webSocketServerVersion + ") and your client is expecting (v" + webSocketServerVersion + ")");
-    
+
             // Set the flag to false
             canShowSocketToast = false;
-    
+
             // Reset the flag after 5 minutes
-            setTimeout(function() {
+            setTimeout(function () {
                 canShowSocketToast = true;
             }, 300000); // 300,000 milliseconds = 5 minutes
         }
