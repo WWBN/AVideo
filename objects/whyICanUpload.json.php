@@ -27,7 +27,7 @@ $response->userCanUpload = AVideoPlugin::userCanUpload(User::getId());
 $response->userCanUploadPlugins = array();
 $plugins = Plugin::getAllEnabled();
 foreach ($plugins as $value) {
-    $p = static::loadPlugin($value['dirName']);
+    $p = AVideoPlugin::loadPlugin($value['dirName']);
     if (is_object($p)) {
         $response->userCanUploadPlugins[$value['dirName']] = $p->userCanUpload($users_id);
     }
