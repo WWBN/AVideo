@@ -34,5 +34,5 @@ foreach ($plugins as $value) {
 }
 
 
-$response->finalDecision = $response->canModerateVideos  || $response->isAdmin || ($response->onlyVerifiedEmailCanUpload && $response->isVerified) || $response->canUpload || $response->userCanUpload;
+$response->finalDecision = $response->canModerateVideos  || $response->isAdmin || $response->canUpload || $response->userCanUpload;
 echo json_encode($response);
