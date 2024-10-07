@@ -12,6 +12,6 @@ $response->userCanUpload = AVideoPlugin::userCanUpload(User::getId());
 $response->onlyVerifiedEmailCanUpload = $advancedCustomUser->onlyVerifiedEmailCanUpload;
 $response->isVerified = User::isVerified();
 $response->getAuthCanUploadVideos = $config->getAuthCanUploadVideos();
-$response->canUpload = self::isLogged() && !empty($_SESSION['user']['canUpload']);
+$response->canUpload = User::isLogged() && !empty($_SESSION['user']['canUpload']);
 
 echo json_encode($response);
