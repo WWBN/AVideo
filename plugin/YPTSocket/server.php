@@ -163,37 +163,66 @@ if ((strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) 
     foreach ($parameters as $key => $value) {
         echo "Parameter [{$key}]: $value " . PHP_EOL;
     }
+    echo "Starting ... {$SocketDataObj->uri}:{$SocketDataObj->port}" . PHP_EOL;
     echo "DO NOT CLOSE THIS TERMINAL " . PHP_EOL;
 
     // Create WebSocket Server
     $webSock = new ReactServer($SocketDataObj->uri . ':' . $SocketDataObj->port, $loop);
     $webSock = new SecureServer($webSock, $loop, $parameters);
 
-    // Handle HTTP requests using guzzlehttp/psr7
+    // Handle HTTP requests using guzzlehttp/psr7 and add CORS headers
     $httpServer = function (ServerRequestInterface $request) {
         return new Response(
             200,
-            ['Content-Type' => 'text/plain'],
+            [
+                'Content-Type' => 'text/plain',
+                'Access-Control-Allow-Origin' => '*', // Allow all origins
+                'Access-Control-Allow-Methods' => 'GET, POST, OPTIONS', // Allow all necessary methods
+                'Access-Control-Allow-Headers' => 'Content-Type, Authorization', // Allow any headers needed
+                'Access-Control-Allow-Credentials' => 'true', // Allow credentials if necessary
+            ],
             "Socket server is running. SSL is valid."
         );
     };
 
     // Handle incoming connections and handle HTTP requests
+    // Handle incoming connections and differentiate between WebSocket and HTTP requests
     $webSock->on('connection', function ($conn) use ($httpServer) {
         $conn->on('data', function ($data) use ($conn, $httpServer) {
-            // Simulate an HTTP request and return a response indicating the server status
-            $response = $httpServer(new ServerRequest('GET', '/'));
+            // Parse headers from the incoming connection
+            $headers = [];
+            foreach (explode("\r\n", $data) as $line) {
+                if (strpos($line, ':') !== false) {
+                    list($key, $value) = explode(':', $line, 2);
+                    $headers[trim($key)] = trim($value);
+                }
+            }
 
-            // Send an HTTP-compliant response back to the client
-            $headers = "HTTP/1.1 200 OK\r\n";
-            $headers .= "Content-Type: text/plain\r\n";
-            $headers .= "Content-Length: " . strlen((string) $response->getBody()) . "\r\n";
-            $headers .= "Connection: close\r\n\r\n";
+            // Check if the Upgrade header is present and indicates a WebSocket connection
+            if (isset($headers['Upgrade']) && strtolower($headers['Upgrade']) === 'websocket') {
+                // It's a WebSocket connection; do nothing here, as WebSocket connections are handled elsewhere
+                return;
+            } else {
+                // It's an HTTP request, simulate an HTTP request and return a response
+                $response = $httpServer(new ServerRequest('GET', '/'));
 
-            $conn->write($headers . $response->getBody());
-            $conn->end();
+                // Send an HTTP-compliant response back to the client, with CORS headers included
+                $httpHeaders = "HTTP/1.1 200 OK\r\n";
+                $httpHeaders .= "Content-Type: text/plain\r\n";
+                $httpHeaders .= "Access-Control-Allow-Origin: *\r\n"; // Allow all origins
+                $httpHeaders .= "Access-Control-Allow-Methods: GET, POST, OPTIONS\r\n"; // Allow all methods
+                $httpHeaders .= "Access-Control-Allow-Headers: Content-Type, Authorization\r\n"; // Allow necessary headers
+                $httpHeaders .= "Access-Control-Allow-Credentials: true\r\n"; // Allow credentials if needed
+                $httpHeaders .= "Content-Length: " . strlen((string) $response->getBody()) . "\r\n";
+                $httpHeaders .= "Connection: close\r\n\r\n";
+
+                $conn->write($httpHeaders . $response->getBody());
+                $conn->end();
+            }
         });
     });
+
+
 
     // Create WebSocket server instance
     $webServer = new IoServer(

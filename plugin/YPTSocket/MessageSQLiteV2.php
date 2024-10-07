@@ -415,6 +415,7 @@ class Message implements MessageComponentInterface {
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
         dbDeleteConnection($conn->resourceId);
+        _error_log("resourceId={$conn->resourceId} close on line ".__LINE__);
         $conn->close();
     }
 
@@ -500,6 +501,7 @@ class Message implements MessageComponentInterface {
             if($client['time']+$this->disconnectAfter < $time){
                 //_error_log("resourceId={$client['resourceId']} is too old, close it");
                 if(!empty($this->clients[$client['resourceId']])){
+                    _error_log("resourceId={$client['resourceId']} close on line ".__LINE__);
                     $this->clients[$client['resourceId']]->close();
                 }
                 unset($this->clients[$client['resourceId']]);
