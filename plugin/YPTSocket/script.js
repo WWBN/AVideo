@@ -173,6 +173,26 @@ function socketConnect() {
         }
     }
 
+    function checkSSLIssues(url) {
+        try {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url.replace('wss://', 'https://'), true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log('SSL seems to be working fine for URL:', url);
+                } else {
+                    console.error('SSL issue detected: HTTP status', xhr.status, 'for URL:', url);
+                }
+            };
+            xhr.onerror = function () {
+                console.error('Failed to check SSL. There might be a problem with the certificate.');
+            };
+            xhr.send();
+        } catch (e) {
+            console.error('Error while checking SSL issues:', e.message);
+        }
+    }    
+
     conn.onerror = function (err) {
         socketConnectRequested = 0;
         console.error('Socket encountered error: ', err.message, 'URL:', url);
