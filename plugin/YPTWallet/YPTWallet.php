@@ -44,7 +44,7 @@ class YPTWallet extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "5.1";
+        return "5.2";
     }
 
 
@@ -150,13 +150,23 @@ class YPTWallet extends PluginAbstract
         $obj->enableManualWithdrawFundsPage = true;
         $obj->enableAutoWithdrawFundsPagePaypal = false;
         $obj->withdrawFundsOptions = "[5,10,20,50,100,1000]";
+
+        $o = new stdClass();
+        $o->type = array();
+        for ($i = 0; $i < 100; $i++) {
+            $o->type[$i] = "{$i}%";
+        }
+        $o->value = 10;
+        $obj->withdrawFundsSiteCutPercentage = $o;
+        self::addDataObjectHelper('withdrawFundsSiteCutPercentage', 'Withdraw Funds Site Cut Percentage', 'This percentage helps cover transaction fees charged by payment gateways when users load their wallets or make withdrawals.');
+
         $obj->manualWithdrawFundsMenuTitle = "Withdraw Funds";
         $obj->manualWithdrawFundsPageButton = "Request Withdraw";
         $obj->manualWithdrawFundsNotifyEmail = "yourEmail@yourDomain.com";
-        
+
         //$obj->manualWithdrawFundsminimum = 1;
         //$obj->manualWithdrawFundsmaximum = 100;
-        
+
         $obj->manualWithdrawFundsTransferToUserId = 1;
 
         $plugins = self::getAvailablePlugins();
@@ -168,26 +178,6 @@ class YPTWallet extends PluginAbstract
         }
 
         return $obj;
-    }
-
-    public function updateScript()
-    {
-        global $global;
-        if (AVideoPlugin::compareVersion($this->getName(), "4.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/YPTWallet/install/updateV4.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "5.1") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/YPTWallet/install/updateV5.1.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        return true;
     }
 
     public function getBalance($users_id)
@@ -704,31 +694,77 @@ class YPTWallet extends PluginAbstract
         $emailsArray = array_unique($emailsArray);
 
         global $global, $config;
+        sendSiteEmail($emailsArray, $subject, $body, $config->getContactEmail(), $config->getWebSiteTitle());
+    }
+    /* TODO */
+    public static function transactionNotification($from_users_id, $to_users_id, $value, $status)
+    {
+        global $global;
+        $identification = User::getNameIdentificationById($from_users_id);
+        $element_id = "transactionNotification" . uniqid();
 
-        //Create a new PHPMailer instance
-        $mail = new \PHPMailer\PHPMailer\PHPMailer;
-        setSiteSendMessage($mail);
-        //Set who the message is to be sent from
-        $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
-        //Set who the message is to be sent to
-        foreach ($emailsArray as $value) {
-            if (empty($value)) {
-                continue;
-            }
-            $mail->addBCC($value);
-        }
-        //Set the subject line
-        $mail->Subject = $subject;
-        $mail->msgHTML($body);
+        // Set default values for title, message, icon, and type
+        $title = 'Transaction Notification';
+        $msg = 'Transaction update';
+        $icon = 'fa-solid fa-info-circle';
+        $type = UserNotifications::type_info;
 
-        //send the message, check for errors
-        if (!$mail->send()) {
-            _error_log("Wallet email FAIL [{$subject}] {$mail->ErrorInfo}");
-            return false;
-        } else {
-            _error_log("Wallet email sent [{$subject}]");
-            return true;
+        $valueFormated = YPTWallet::formatCurrency($value);
+        $href = "{$global['webSiteRootURL']}plugin/YPTWallet/view/history.php";
+
+        // Handle different statuses
+        switch ($status) {
+            case 'pending':
+                $title = 'Transaction Pending';
+                $msg = 'Your have a pending transaction of ' . $valueFormated ;
+                $icon = 'fa-solid fa-hourglass-half'; // Icon for pending
+                $type = UserNotifications::type_warning;
+                $href = "{$global['webSiteRootURL']}plugin/YPTWallet/view/pendingRequests.php";
+                break;
+            case 'canceled':
+                $title = 'Transaction Canceled';
+                $msg = 'Your transaction of ' . $valueFormated . ' was canceled';
+                $icon = 'fa-solid fa-times-circle'; // Icon for canceled
+                $type = UserNotifications::type_danger;
+                break;
+            case 'success':
+                $title = 'Transaction Successful';
+                $msg = 'Your transaction of ' . $valueFormated . ' was successful complete';
+                $icon = 'fa-solid fa-check-circle'; // Icon for success
+                $type = UserNotifications::type_success;
+                break;
+            case 'credit':
+                // If it is a credit
+                $title = 'Funds Received';
+                $msg = 'You have received a credit of ' . $valueFormated . ' from ' . $identification ;
+                $icon = 'fa-solid fa-hand-holding-usd'; // Credit icon
+                $type = UserNotifications::type_success;
+                break;
+            case 'debit':
+                // If it is a debit
+                $title = 'Funds Deducted';
+                $msg = 'A debit of ' . $valueFormated . ' has been processed to ' . $identification ;
+                $icon = 'fa-solid fa-money-bill-wave'; // Debit icon
+                $type = UserNotifications::type_danger;
+                break;
+            default:
+                $msg = 'Unknown status update for your transaction.';
+                break;
         }
+
+        // Create the notification
+        return self::createNotification($from_users_id, $to_users_id, $title, $msg, $type, $element_id, $icon, $href);
+    }
+
+
+    /* TODO */
+    public static function createNotification($from_users_id, $to_users_id, $title, $msg, $type, $element_id, $icon, $href)
+    {
+        global $global;
+        $image = User::getPhoto($from_users_id, false, true);
+        $element_id = "{$element_id}_{$from_users_id}_{$to_users_id}";
+        //sendSocketSuccessMessageToUsers_id($msg, $friend_users_id);
+        return UserNotifications::createNotification($title, $msg, $to_users_id, $image, $href, $type, $element_id, $icon);
     }
 
     /**
@@ -743,46 +779,73 @@ class YPTWallet extends PluginAbstract
         $walletLog = new WalletLog($wallet_log_id);
         $wallet = new Wallet($walletLog->getWallet_id());
         $oldStatus = $walletLog->getStatus();
+        $value = $walletLog->getValue();
+        $json = json_decode($walletLog->getJson_data());
+
+        if (!empty($json->value) && $json->value > $value) {
+            $value = $json->value;
+        }
+
         if ($walletLog->getType() == self::MANUAL_WITHDRAW) {
+            // Notify status change
             if ($new_status != $oldStatus) {
+                if ($new_status == "canceled") {
+                    // Notification for canceled withdrawal
+                    self::transactionNotification($obj->manualWithdrawFundsTransferToUserId, $wallet->getUsers_id(), $value, 'canceled');
+                } elseif ($new_status == "success") {
+                    // Notification for successful withdrawal
+                    self::transactionNotification($obj->manualWithdrawFundsTransferToUserId, $wallet->getUsers_id(), $value, 'success');
+                } elseif ($new_status == "pending") {
+                    // Notification for pending withdrawal
+                    self::transactionNotification($obj->manualWithdrawFundsTransferToUserId, $wallet->getUsers_id(), $value, 'pending');
+                }
+
                 if ($oldStatus == "success" || $oldStatus == "pending") {
                     if ($new_status == "canceled") {
-                        // return the value
-                        return self::transferBalance($obj->manualWithdrawFundsTransferToUserId, $wallet->getUsers_id(), $walletLog->getValue());
+                        // Return the value on cancel
+                        return self::transferBalance($obj->manualWithdrawFundsTransferToUserId, $wallet->getUsers_id(), $value);
                     } else {
-                        // keep the value
+                        // Keep the value on other statuses
                         return true;
                     }
                 }
-                // get the value again
+
                 if ($oldStatus == "canceled") {
-                    return self::transferBalance($wallet->getUsers_id(), $obj->manualWithdrawFundsTransferToUserId, $walletLog->getValue());
+                    // Transfer value when moving from canceled to another status
+                    return self::transferBalance($wallet->getUsers_id(), $obj->manualWithdrawFundsTransferToUserId, $value);
                 }
             }
         } elseif ($walletLog->getType() == self::MANUAL_ADD) {
+            // Handle MANUAL_ADD notifications
             if ($oldStatus == "pending") {
                 if ($new_status == "canceled") {
-                    // do nothing
+                    // Notify canceled add funds
+                    self::transactionNotification($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $value, 'canceled');
                     return true;
                 } elseif ($new_status == "success") {
-                    // transfer the value
-                    return self::transferBalance($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $walletLog->getValue());
+                    // Notify successful add funds
+                    self::transactionNotification($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $value, 'success');
+                    return self::transferBalance($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $value);
                 }
             } elseif ($oldStatus == "success") {
-                //get the money back
-                return self::transferBalance($wallet->getUsers_id(), $obj->manualAddFundsTransferFromUserId, $walletLog->getValue());
+                // Get the money back on cancel
+                return self::transferBalance($wallet->getUsers_id(), $obj->manualAddFundsTransferFromUserId, $value);
             } elseif ($oldStatus == "canceled") {
                 if ($new_status == "pending") {
-                    // do nothing
+                    // Do nothing
                     return true;
                 } elseif ($new_status == "success") {
-                    // transfer the value
-                    return self::transferBalance($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $walletLog->getValue());
+                    // Notify success on manual add funds
+                    self::transactionNotification($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $value, 'success');
+                    return self::transferBalance($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $value);
                 }
             }
         }
+
+        // Default return if no status change occurs
         return true;
     }
+
 
     public static function getUserBalance($users_id = 0)
     {

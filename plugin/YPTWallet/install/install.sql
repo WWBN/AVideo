@@ -29,6 +29,8 @@ CREATE TABLE IF NOT EXISTS `wallet_log` (
   `wallet_id` INT NOT NULL,
   `status` ENUM('pending', 'success', 'canceled') NOT NULL DEFAULT 'success',
   `type` VARCHAR(45) NULL,
+  `information` TEXT NULL DEFAULT NULL,
+  `json_data` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_wallet_log_wallet1_idx` (`wallet_id` ASC),
   INDEX `wallet_log_type` (`type` ASC),

@@ -158,6 +158,7 @@ class WalletLog extends ObjectYPT {
     }
 
     static function addLog($wallet_id, $value, $description="", $json_data="{}", $status="success", $type="", $information=''){
+        global $global;
         $log = new WalletLog(0);
         $log->setWallet_id($wallet_id);
         $log->setValue($value);
@@ -166,14 +167,19 @@ class WalletLog extends ObjectYPT {
         $log->setStatus($status);
         $log->setType($type);
         $log->setInformation($information);
-        return $log->save();
+        _error_log('Wallet add log start');
+        $id = $log->save();
+        if(empty($id)){
+            //var_dump($wallet_id, $value, $description, $json_data, $status, $type, $information, $global['lastQuery'], $global['mysqli']->error, debug_backtrace());
+        }
+        _error_log('Wallet add log end '.$id);
+        return $id;
     }
 
     function save() {
         global $global;
-        $this->description = ($this->description);
-        $this->information = ($this->information);
-        return parent::save();
+        $id = parent::save();
+        return $id;
     }
 
 

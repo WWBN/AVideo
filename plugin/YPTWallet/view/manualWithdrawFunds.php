@@ -10,6 +10,8 @@ if (!User::isLogged()) {
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
 $options = _json_decode($obj->withdrawFundsOptions);
+$withdrawFundsSiteCutPercentage = isset($obj->withdrawFundsSiteCutPercentage->value) ? floatval($obj->withdrawFundsSiteCutPercentage->value) : 0;
+
 $_page = new Page(array('Withdraw Funds'));
 ?>
 <div class="container">
@@ -33,7 +35,7 @@ $_page = new Page(array('Withdraw Funds'));
                 <div class="col-sm-6">
                     <?php
                     if (!empty($_GET['status'])) {
-                        $text = "unknow";
+                        $text = "unknown";
                         $class = "danger";
                         switch ($_GET['status']) {
                             case "fail":
@@ -60,8 +62,13 @@ $_page = new Page(array('Withdraw Funds'));
                         <select class="form-control" id="value">
                             <?php
                             foreach ($options as $value) {
+                                // Calculate fee and final value
+                                $fee = ($value * $withdrawFundsSiteCutPercentage) / 100;
+                                $finalValue = $value - $fee;
                             ?>
-                                <option value="<?php echo $value; ?>"><?php echo $obj->currency_symbol; ?> <?php echo $value; ?> <?php echo $obj->currency; ?></option>
+                                <option value="<?php echo $value; ?>" data-fee="<?php echo $fee; ?>" data-final-value="<?php echo $finalValue; ?>">
+                                    <?php echo $obj->currency_symbol; ?> <?php echo $value; ?> <?php echo $obj->currency; ?> (<?php echo __("Fee:"); ?> <?php echo $obj->currency_symbol; ?> <?php echo number_format($fee, 2); ?>, <?php echo __("Final:"); ?> <?php echo $obj->currency_symbol; ?> <?php echo number_format($finalValue, 2); ?>)
+                                </option>
                             <?php
                             }
                             ?>
@@ -82,6 +89,7 @@ $_page = new Page(array('Withdraw Funds'));
 </div>
 <script>
     $(document).ready(function() {
+
         $('#manualWithdrawFundsPageButton').click(function() {
             modal.showPleaseWait();
             $.ajax({

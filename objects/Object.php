@@ -293,6 +293,7 @@ abstract class ObjectYPT implements ObjectInterface
             return false;
         }
         if (!isCommandLineInterface() && !self::ignoreTableSecurityCheck() && isUntrustedRequest("SAVE " . static::getTableName())) {
+            _error_log("Save error, table " . static::getTableName() . " something ", AVideoLog::$ERROR);
             return false;
         }
         global $global;
@@ -399,7 +400,8 @@ abstract class ObjectYPT implements ObjectInterface
         //error_log("save: $sql [$formats]".json_encode($values));
         //var_dump(static::getTableName(), $sql, $values);
         //if(static::getTableName() == 'videos'){ echo $sql;var_dump($values); var_dump(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));}//return false;
-        //echo $sql;var_dump($this, $values);exit;
+        //echo $sql;var_dump($this, $values, $global['mysqli']->error);exit;
+        $global['lastQuery'] = array('sql'=>$sql, 'formats'=>$formats, 'values'=>$values );
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
         /**
