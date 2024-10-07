@@ -292,7 +292,7 @@ class CustomizeUser extends PluginAbstract
 
         $obj->recoverPassSubject = "Recover Pass from";
         $obj->recoverPassText = "You asked for a recover link, click on the provided link";
-        
+
         $obj->unverifiedEmailsCanNOTLogin = !isset($advancedCustom->unverifiedEmailsCanNOTLogin) ? false : $advancedCustom->unverifiedEmailsCanNOTLogin;
         $obj->unverifiedEmailsCanNOTComment = false;
         $obj->unverifiedEmailsCanNOTLiveStream = true;
@@ -1046,16 +1046,33 @@ class CustomizeUser extends PluginAbstract
     {
         global $global;
 
-        // Calculate the date before which records should be deleted
+        // Calculate the date before which records should be selected
         $dateThreshold = date('Y-m-d H:i:s', strtotime("-{$days} days"));
 
-        // Construct the SQL query to delete records older than the threshold date
-        $sql = "DELETE FROM users WHERE created < ? AND (emailVerified is NULL OR emailVerified = 0)";
+        // Construct the SQL query to select users older than the threshold date
+        $sql = "SELECT id, user, name FROM users WHERE created < ? AND (emailVerified is NULL OR emailVerified = 0)";
         $global['lastQuery'] = $sql;
 
-        // Execute the query with the threshold date as the parameter
-        return sqlDAL::writeSql($sql, "s", [$dateThreshold]);
+        // Fetch users that match the criteria
+        $res = sqlDAL::readSql($sql, "s", [$dateThreshold]);
+        $users = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+
+        if ($users !== false) {
+            // Loop through each user and attempt to delete
+            foreach ($users as $user) {
+                $deleteSql = "DELETE FROM users WHERE id = ?";
+                $deleteResult = sqlDAL::writeSql($deleteSql, "i", [$user['id']]);
+
+                // Check if deletion was successful
+                if (!$deleteResult) {
+                    // If deletion fails, echo user ID, username, and name
+                    echo "Failed to delete user: ID={$user['id']}, Username={$user['user']}, Name={$user['name']}\n";
+                }
+            }
+        }
     }
+
 
     function getChannelPageButtons($users_id)
     {
