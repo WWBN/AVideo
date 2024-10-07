@@ -89,7 +89,7 @@ function socketConnect() {
 
     conn.onopen = function (e) {
         socketConnectRequested = 0;
-        socketConnectRetryTimeout = 2000;
+        socketConnectRetryTimeout = 2000; // Reset retry timer
         clearTimeout(socketConnectTimeout);
         console.log("socketConnect: Socket connection established. onopen event triggered.");
         onSocketOpen();
@@ -119,10 +119,10 @@ function socketConnect() {
 
     conn.onclose = function (e) {
         socketConnectRequested = 0;
-    
+
         if (e.code === 1006) {
             console.error('WebSocket closed unexpectedly with code 1006. Investigating possible causes...');
-    
+
             // Check the WebSocket readyState to understand the closure phase
             switch (conn.readyState) {
                 case WebSocket.CONNECTING:
@@ -138,20 +138,20 @@ function socketConnect() {
                     console.error('WebSocket was already in CLOSED state.');
                     break;
             }
-    
+
             console.error('Likely causes for error code 1006:');
             console.error('1. Network issues (e.g., connection interrupted or blocked by a firewall).');
             console.error('2. SSL/TLS handshake failure (for wss:// connections).');
             console.error('3. Server-side issues (e.g., server crashed, closed connection unexpectedly).');
             console.error('4. Incorrect WebSocket URL (e.g., invalid hostname or path).');
             console.error('Retrying connection in ' + socketConnectRetryTimeout / 1000 + ' seconds.');
-    
+
             // Retry connection with exponential backoff
             socketConnectTimeout = setTimeout(function () {
                 socketConnectRetryTimeout = Math.min(socketConnectRetryTimeout * 2, 60000); // Increase timeout up to 1 minute
                 socketConnect();
             }, socketConnectRetryTimeout);
-    
+
             // Optionally, add checks for connection timeouts, SSL issues, or network connectivity
             checkNetworkConnection();
             checkSSLIssues(webSocketURL);
@@ -161,10 +161,9 @@ function socketConnect() {
                 socketConnect();
             }, socketConnectRetryTimeout);
         }
-    
+
         onSocketClose();
     };
-    
 
     function checkNetworkConnection() {
         if (!navigator.onLine) {
@@ -192,7 +191,7 @@ function socketConnect() {
         } catch (e) {
             console.error('Error while checking SSL issues:', e.message);
         }
-    }    
+    }
 
     conn.onerror = function (err) {
         socketConnectRequested = 0;

@@ -172,18 +172,34 @@ if ((strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) 
 
     // Handle HTTP requests using guzzlehttp/psr7 and add CORS headers
     $httpServer = function (ServerRequestInterface $request) {
+        // Check for OPTIONS request (preflight)
+        if ($request->getMethod() === 'OPTIONS') {
+            return new Response(
+                200,
+                [
+                    'Content-Type' => 'text/plain',
+                    'Access-Control-Allow-Origin' => '*', // Allow all origins
+                    'Access-Control-Allow-Methods' => 'GET, POST, OPTIONS', // Allow all necessary methods
+                    'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With', // Allow any headers needed
+                    'Access-Control-Allow-Credentials' => 'true', // Allow credentials if necessary
+                ],
+                "CORS preflight handled."
+            );
+        }
+    
         return new Response(
             200,
             [
                 'Content-Type' => 'text/plain',
                 'Access-Control-Allow-Origin' => '*', // Allow all origins
                 'Access-Control-Allow-Methods' => 'GET, POST, OPTIONS', // Allow all necessary methods
-                'Access-Control-Allow-Headers' => 'Content-Type, Authorization', // Allow any headers needed
+                'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With', // Allow any headers needed
                 'Access-Control-Allow-Credentials' => 'true', // Allow credentials if necessary
             ],
             "Socket server is running. SSL is valid."
         );
     };
+    
 
     // Handle incoming connections and handle HTTP requests
     // Handle incoming connections and differentiate between WebSocket and HTTP requests
