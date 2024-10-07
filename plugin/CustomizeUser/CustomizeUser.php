@@ -1050,7 +1050,7 @@ class CustomizeUser extends PluginAbstract
         $dateThreshold = date('Y-m-d H:i:s', strtotime("-{$days} days"));
 
         // Construct the SQL query to delete records older than the threshold date
-        $sql = "DELETE FROM users WHERE created < ?";
+        $sql = "DELETE FROM users WHERE created < ? AND (emailVerified is NULL OR emailVerified = 0)";
         $global['lastQuery'] = $sql;
 
         // Execute the query with the threshold date as the parameter
