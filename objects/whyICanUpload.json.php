@@ -32,4 +32,7 @@ foreach ($plugins as $value) {
         $response->userCanUploadPlugins[$value['dirName']] = $p->userCanUpload($users_id);
     }
 }
+
+
+$response->finalDecision = $response->canModerateVideos  || $response->isAdmin || ($response->onlyVerifiedEmailCanUpload && $response->isVerified) || $response->canUpload || $response->userCanUpload;
 echo json_encode($response);
