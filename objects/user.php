@@ -2512,7 +2512,7 @@ if (typeof gtag !== \"function\") {
         if (User::isAdmin()) {
             return true;
         }
-        if (empty($doNotCheckPlugins) && !AVideoPlugin::userCanUpload(User::getId())) {
+        if (empty($doNotCheckPlugins) && !AVideoPlugin::userCanUpload(User::getId(), true)) {
             return false;
         }
 
@@ -2526,7 +2526,7 @@ if (typeof gtag !== \"function\") {
         if (self::isLogged() && !empty($_SESSION['user']['canUpload'])) {
             return true;
         }
-        return self::isAdmin() || AVideoPlugin::userCanUpload(User::getId());
+        return self::isAdmin() || AVideoPlugin::userCanUpload(User::getId(), false);
     }
 
     public static function canViewChart()

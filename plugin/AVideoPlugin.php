@@ -1499,12 +1499,11 @@ class AVideoPlugin
         return $array;
     }
 
-    public static function userCanUpload($users_id)
+    public static function userCanUpload($users_id, $resp = false)
     {
         if (empty($users_id)) {
             return false;
         }
-        $resp = false;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
