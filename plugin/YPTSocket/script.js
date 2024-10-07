@@ -119,15 +119,52 @@ function socketConnect() {
 
     conn.onclose = function (e) {
         socketConnectRequested = 0;
-        console.log('Socket is closed. Reason:', e.reason, '. Reconnect will be attempted in', socketConnectRetryTimeout / 1000, 'seconds.', 'Code:', e.code);
-        if (e.code !== 1000) { // Not a normal closure
-            console.error('Socket onclose event: Abnormal closure with code:', e.code, 'and reason:', e.reason);
+
+        if (e.code === 1006) {
+            console.error('WebSocket closed unexpectedly with code 1006. Investigating possible causes...');
+
+            // Check the WebSocket readyState to understand the closure phase
+            switch (conn.readyState) {
+                case WebSocket.CONNECTING:
+                    console.error('WebSocket was in CONNECTING state. The connection attempt failed.');
+                    break;
+                case WebSocket.OPEN:
+                    console.error('WebSocket was in OPEN state. Connection was unexpectedly closed.');
+                    break;
+                case WebSocket.CLOSING:
+                    console.error('WebSocket was in CLOSING state. It might have been closed due to an error.');
+                    break;
+                case WebSocket.CLOSED:
+                    console.error('WebSocket was already in CLOSED state.');
+                    break;
+            }
+
+            console.error('Likely causes for error code 1006:');
+            console.error('1. Network issues (e.g., connection interrupted or blocked by a firewall).');
+            console.error('2. SSL/TLS handshake failure (for wss:// connections).');
+            console.error('3. Server-side issues (e.g., server crashed, closed connection unexpectedly).');
+            console.error('4. Incorrect WebSocket URL (e.g., invalid hostname or path).');
+            console.error('Retrying connection in ' + socketConnectRetryTimeout / 1000 + ' seconds.');
+
+            // Retry connection with exponential backoff
+            socketConnectTimeout = setTimeout(function () {
+                socketConnectRetryTimeout = Math.min(socketConnectRetryTimeout * 2, 60000); // Increase timeout up to 1 minute
+                socketConnect();
+            }, socketConnectRetryTimeout);
+
+            // Optionally, add checks for connection timeouts, SSL issues, or network connectivity
+            checkNetworkConnection();
+            checkSSLIssues(webSocketURL);
+        } else {
+            console.log('Socket closed normally with code: ' + e.code + '. Reason: ' + (e.reason || 'No reason provided.'));
+            socketConnectTimeout = setTimeout(function () {
+                socketConnect();
+            }, socketConnectRetryTimeout);
         }
-        socketConnectTimeout = setTimeout(function () {
-            socketConnect();
-        }, socketConnectRetryTimeout);
+
         onSocketClose();
     };
+
 
     conn.onerror = function (err) {
         socketConnectRequested = 0;
