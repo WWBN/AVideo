@@ -1504,7 +1504,7 @@ class AVideoPlugin
         if (empty($users_id)) {
             return false;
         }
-        $resp = true;
+        $resp = false;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
