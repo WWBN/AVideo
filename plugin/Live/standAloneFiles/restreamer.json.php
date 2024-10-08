@@ -590,24 +590,16 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     if (count($restreamsDestinations) > 1) {
         $command = $FFMPEGcommand;
         foreach ($restreamsDestinations as $value) {
-            if (!isOpenSSLEnabled() && preg_match("/rtmps:/i", $value)) {
-                error_log("Restreamer.json.php startRestream ERROR #1 FFMPEG openssl is not enabled, ignoring $value ");
-                continue;
-            }
             $audioConfig = getAudioConfiguration($value);
             $value = clearCommandURL($value);
             $tls_verify = preg_match("/rtmps:/i", $value) ? "-tls_verify 0 " : "";
             $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'), array($audioConfig, $value, $tls_verify), $FFMPEGComplement);
         }
     } else {
-        if (!isOpenSSLEnabled() && preg_match("/rtmps:/i", $restreamsDestinations[0])) {
-            error_log("Restreamer.json.php startRestream ERROR #2 FFMPEG openssl is not enabled, ignoring {$restreamsDestinations[0]} ");
-        } else {
-            $audioConfig = getAudioConfiguration($restreamsDestinations[0]);
-            $tls_verify = preg_match("/rtmps:/i", $restreamsDestinations[0]) ? "-tls_verify 0 " : "";
-            $command = $FFMPEGcommand;
-            $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'), array($audioConfig, $restreamsDestinations[0], $tls_verify), $FFMPEGComplement);
-        }
+        $audioConfig = getAudioConfiguration($restreamsDestinations[0]);
+        $tls_verify = preg_match("/rtmps:/i", $restreamsDestinations[0]) ? "-tls_verify 0 " : "";
+        $command = $FFMPEGcommand;
+        $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'), array($audioConfig, $restreamsDestinations[0], $tls_verify), $FFMPEGComplement);
     }
 
     if (empty($command) || !preg_match("/-f flv/i", $command)) {
