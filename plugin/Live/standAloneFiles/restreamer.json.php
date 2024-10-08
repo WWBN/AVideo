@@ -176,7 +176,7 @@ function _getLiveKey($token)
             error_log("Restreamer.json.php _getLiveKey URL=$getKeyURL rawData {$json->rawData}");
         } else if (!empty($json->msg)) {
             $obj->msg = $json->msg;
-            error_log("Restreamer.json.php _getLiveKey URL=$getKeyURL msg ".json_encode($json->msg));
+            error_log("Restreamer.json.php _getLiveKey URL=$getKeyURL msg " . json_encode($json->msg));
         } else {
             error_log("Restreamer.json.php _getLiveKey URL=$getKeyURL unknown " . json_encode($json));
         }
@@ -215,7 +215,7 @@ if (!$isCommandLine) { // not command line
                     if (empty($liveKey->error)) {
                         $newRestreamsDestination = $liveKey->newRestreamsDestination;
                     } else {
-                        error_log("Restreamer.json.php ERROR try again in 3 seconds ".json_encode($liveKey));
+                        error_log("Restreamer.json.php ERROR try again in 3 seconds " . json_encode($liveKey));
                         sleep(3);
                         $liveKey = _getLiveKey($token);
                         if (isset($liveKey->live_url)) {
@@ -567,33 +567,34 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
      */
 
 
-     $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" -preset veryfast ";
+    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" -preset veryfast ";
 
-     $FFMPEGComplement = " -max_muxing_queue_size 2048 " // Increased the muxing queue size for stability
-         . '{audioConfig}'
-         . "-c:v libx264 "
-         . "-pix_fmt yuv420p "
-         //. "-vf \"scale=-2:720,format=yuv420p\" "
-         . "-r 30 -g 60 "
-         . "-tune zerolatency "
-         . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms
-         . "-b:v 6000k " // Set constant video bitrate
-         . "-minrate 6000k -maxrate 6000k -bufsize 12000k " // Increased buffer size for better handling of network fluctuations
-         . "-preset veryfast "
-         . "-f flv "
-         . "-fflags +genpts " // Ensure smooth playback
-         . "-strict -2 " // Allow non-compliant AAC audio
-         . "-reconnect 1 " // Enable reconnection in case of a broken pipe
-         . "-reconnect_at_eof 1 " // Reconnect at the end of file
-         . "-reconnect_streamed 1 " // Reconnect for streamed media
-         . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
-         . "-reconnect_on_network_error 1 " // Retry on network errors
-         . "-probesize 50M " // Increased probing size to handle larger HLS segments
-         . "-analyzeduration 200M " // Increase analysis duration to handle network issues
-         . "-rtmp_buffer 10000 " // Increase RTMP buffer size for smoother streaming
-         . "-rtmp_live live " // Ensure RTMP live streaming mode
-         . "\"{restreamsDestinations}\"";
-     
+    $FFMPEGComplement = " -max_muxing_queue_size 2048 " // Increased the muxing queue size for stability
+        . '{audioConfig}'
+        . "-c:v libx264 "
+        . "-pix_fmt yuv420p "
+        //. "-vf \"scale=-2:720,format=yuv420p\" "
+        . "-r 30 -g 60 "
+        . "-tune zerolatency "
+        . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms
+        . "-b:v 6000k " // Set constant video bitrate
+        . "-minrate 6000k -maxrate 6000k -bufsize 12000k " // Increased buffer size for better handling of network fluctuations
+        . "-preset veryfast "
+        . "-f flv "
+        . "-fflags +genpts " // Ensure smooth playback
+        . "-strict -2 " // Allow non-compliant AAC audio
+        . "-reconnect 1 " // Enable reconnection in case of a broken pipe
+        . "-reconnect_at_eof 1 " // Reconnect at the end of file
+        . "-reconnect_streamed 1 " // Reconnect for streamed media
+        . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
+        . "-reconnect_on_network_error 1 " // Retry on network errors
+        . "-probesize 50M " // Increased probing size to handle larger HLS segments
+        . "-analyzeduration 200M " // Increase analysis duration to handle network issues
+        . "-rtmp_buffer 20000 " // Increased RTMP buffer size for smoother streaming
+        . "-rtmp_live live " // Ensure RTMP live streaming mode
+        . "-tls_verify 0 " // Disable SSL/TLS certificate validation (optional, based on your trust in the source)
+        . "\"{restreamsDestinations}\"";
+
 
     if (count($restreamsDestinations) > 1) {
         //$command = "{$ffmpegBinary} -re -i \"{$m3u8}\" ";
