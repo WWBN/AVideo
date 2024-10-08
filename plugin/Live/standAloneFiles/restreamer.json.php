@@ -528,7 +528,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
     $restream = isRestreamRuning($robj->live_restreams_id, $robj->liveTransmitionHistory_id);
     if (!empty($restream)) {
-        error_log("Restreamer.json.php startRestream ERROR it is already runing " . json_encode($restream));
+        error_log("Restreamer.json.php startRestream ERROR it is already running " . json_encode($restream));
         return false;
     } else {
         error_log("Restreamer.json.php startRestream success " . json_encode(array($robj->live_restreams_id, $robj->liveTransmitionHistory_id)));
@@ -556,16 +556,6 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     }
 
     error_log("Restreamer.json.php startRestream _isURL200 tries= " . json_encode($tries));
-    //sleep(5);
-    /*
-      $command = "ffmpeg -i {$m3u8} ";
-      foreach ($restreamsDestinations as $value) {
-      $value = clearCommandURL($value);
-      $command .= ' -max_muxing_queue_size 1024 -f flv "' . $value . '" ';
-      }
-     *
-     */
-
 
     $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" -preset veryfast ";
 
@@ -584,7 +574,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . "-fflags +genpts " // Ensure smooth playback
         . "-strict -2 " // Allow non-compliant AAC audio
         . "-reconnect 1 " // Enable reconnection in case of a broken pipe
-        . "-reconnect_at_eof 1 " // Reconnect at the end of file
+        . "-reconnect_at_eof 0 " // Stop reconnecting at the end of file/input data
         . "-reconnect_streamed 1 " // Reconnect for streamed media
         . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
         . "-reconnect_on_network_error 1 " // Retry on network errors
@@ -596,40 +586,30 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . "\"{restreamsDestinations}\"";
 
 
+
     if (count($restreamsDestinations) > 1) {
-        //$command = "{$ffmpegBinary} -re -i \"{$m3u8}\" ";
         $command = $FFMPEGcommand;
         foreach ($restreamsDestinations as $value) {
-            if (!isOpenSSLEnabled() && preg_match("/rtpms:/i", $value)) {
+            if (!isOpenSSLEnabled() && preg_match("/rtmps:/i", $value)) {
                 error_log("Restreamer.json.php startRestream ERROR #1 FFMPEG openssl is not enabled, ignoring $value ");
                 continue;
             }
             $audioConfig = getAudioConfiguration($value);
             $value = clearCommandURL($value);
-            $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}'), array($audioConfig, $value), $FFMPEGComplement);
-            if (preg_match("/rtmps:/i", $value)) {
-                $tls_verify = "-tls_verify 0 "; 
-            }else{
-                $tls_verify = ""; 
-            }
-            $command = str_replace(array('{tls_verify}'), array($tls_verify), $command);
+            $tls_verify = preg_match("/rtmps:/i", $value) ? "-tls_verify 0 " : "";
+            $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'), array($audioConfig, $value, $tls_verify), $FFMPEGComplement);
         }
     } else {
-        if (!isOpenSSLEnabled() && preg_match("/rtpms:/i", $restreamsDestinations[0])) {
+        if (!isOpenSSLEnabled() && preg_match("/rtmps:/i", $restreamsDestinations[0])) {
             error_log("Restreamer.json.php startRestream ERROR #2 FFMPEG openssl is not enabled, ignoring {$restreamsDestinations[0]} ");
         } else {
             $audioConfig = getAudioConfiguration($restreamsDestinations[0]);
-            //$command = "ffmpeg -re -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
+            $tls_verify = preg_match("/rtmps:/i", $restreamsDestinations[0]) ? "-tls_verify 0 " : "";
             $command = $FFMPEGcommand;
-            $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}'), array($audioConfig, $restreamsDestinations[0]), $FFMPEGComplement);
-            if (preg_match("/rtmps:/i", $restreamsDestinations[0])) {
-                $tls_verify = "-tls_verify 0 "; 
-            }else{
-                $tls_verify = ""; 
-            }
-            $command = str_replace(array('{tls_verify}'), array($tls_verify), $command);
+            $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'), array($audioConfig, $restreamsDestinations[0], $tls_verify), $FFMPEGComplement);
         }
     }
+
     if (empty($command) || !preg_match("/-f flv/i", $command)) {
         error_log("Restreamer.json.php startRestream ERROR command is empty ");
     } else {
@@ -641,10 +621,12 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         }
         error_log("Restreamer.json.php startRestream finish");
     }
+
     $robj->logFile = $logFile;
     notifyStreamer($robj);
     return true;
 }
+
 
 function getAudioConfiguration($source)
 {
