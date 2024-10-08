@@ -592,7 +592,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . "-analyzeduration 200M " // Increase analysis duration to handle network issues
         . "-rtmp_buffer 20000 " // Increased RTMP buffer size for smoother streaming
         . "-rtmp_live live " // Ensure RTMP live streaming mode
-        . "-tls_verify 0 " // Disable SSL/TLS certificate validation (optional, based on your trust in the source)
+        . "{tls_verify} " // Disable SSL/TLS certificate validation (optional, based on your trust in the source)
         . "\"{restreamsDestinations}\"";
 
 
@@ -607,6 +607,12 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             $audioConfig = getAudioConfiguration($value);
             $value = clearCommandURL($value);
             $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}'), array($audioConfig, $value), $FFMPEGComplement);
+            if (preg_match("/rtmps:/i", $value)) {
+                $tls_verify = "-tls_verify 0 "; 
+            }else{
+                $tls_verify = ""; 
+            }
+            $command = str_replace(array('{tls_verify}'), array($tls_verify), $command);
         }
     } else {
         if (!isOpenSSLEnabled() && preg_match("/rtpms:/i", $restreamsDestinations[0])) {
@@ -616,6 +622,12 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             //$command = "ffmpeg -re -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
             $command = $FFMPEGcommand;
             $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}'), array($audioConfig, $restreamsDestinations[0]), $FFMPEGComplement);
+            if (preg_match("/rtmps:/i", $restreamsDestinations[0])) {
+                $tls_verify = "-tls_verify 0 "; 
+            }else{
+                $tls_verify = ""; 
+            }
+            $command = str_replace(array('{tls_verify}'), array($tls_verify), $command);
         }
     }
     if (empty($command) || !preg_match("/-f flv/i", $command)) {
