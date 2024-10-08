@@ -567,26 +567,33 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
      */
 
 
-    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" -preset veryfast ";
-    $FFMPEGComplement = " -max_muxing_queue_size 1024 "
-        . '{audioConfig}'
-        . "-c:v libx264 "
-        . "-pix_fmt yuv420p "
-        //. "-vf \"scale=-2:720,format=yuv420p\" "
-        . "-r 30 -g 60 "
-        . "-tune zerolatency "
-        . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms
-        . "-b:v 6000k " // Set constant video bitrate
-        . "-minrate 6000k -maxrate 6000k -bufsize 6000k " // Set buffer size to match the bitrate
-        . "-preset veryfast "
-        . "-f flv "
-        . "-fflags +genpts " // Ensure smooth playback
-        . "-strict -2 " // Allow non-compliant AAC audio
-        . "-reconnect 1 " // Enable reconnection in case of a broken pipe
-        . "-reconnect_at_eof 1 " // Reconnect at the end of file
-        . "-reconnect_streamed 1 " // Reconnect for streamed media
-        . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
-        . "\"{restreamsDestinations}\"";
+     $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" -preset veryfast ";
+
+     $FFMPEGComplement = " -max_muxing_queue_size 2048 " // Increased the muxing queue size for stability
+         . '{audioConfig}'
+         . "-c:v libx264 "
+         . "-pix_fmt yuv420p "
+         //. "-vf \"scale=-2:720,format=yuv420p\" "
+         . "-r 30 -g 60 "
+         . "-tune zerolatency "
+         . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms
+         . "-b:v 6000k " // Set constant video bitrate
+         . "-minrate 6000k -maxrate 6000k -bufsize 12000k " // Increased buffer size for better handling of network fluctuations
+         . "-preset veryfast "
+         . "-f flv "
+         . "-fflags +genpts " // Ensure smooth playback
+         . "-strict -2 " // Allow non-compliant AAC audio
+         . "-reconnect 1 " // Enable reconnection in case of a broken pipe
+         . "-reconnect_at_eof 1 " // Reconnect at the end of file
+         . "-reconnect_streamed 1 " // Reconnect for streamed media
+         . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
+         . "-reconnect_on_network_error 1 " // Retry on network errors
+         . "-probesize 50M " // Increased probing size to handle larger HLS segments
+         . "-analyzeduration 200M " // Increase analysis duration to handle network issues
+         . "-rtmp_buffer 10000 " // Increase RTMP buffer size for smoother streaming
+         . "-rtmp_live live " // Ensure RTMP live streaming mode
+         . "\"{restreamsDestinations}\"";
+     
 
     if (count($restreamsDestinations) > 1) {
         //$command = "{$ffmpegBinary} -re -i \"{$m3u8}\" ";
