@@ -692,7 +692,9 @@ function getTmpDir($subdir = "")
             //$tmpDir = sys_get_temp_dir();
             if (empty($tmpDir) || !_isWritable($tmpDir)) {
                 $obj = AVideoPlugin::getDataObjectIfEnabled('Cache');
-                $tmpDir = $obj->cacheDir;
+                if(!empty($obj)){
+                    $tmpDir = $obj->cacheDir;
+                }
                 if (empty($tmpDir) || !_isWritable($tmpDir)) {
                     $tmpDir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
                 }
