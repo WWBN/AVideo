@@ -576,7 +576,6 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . "-reconnect 1 " // Enable reconnection in case of a broken pipe
         . "-reconnect_at_eof 0 " // Stop reconnecting at the end of file/input data
         . "-reconnect_streamed 0 " // Disable reconnect for non-seekable streams
-        . "-reconnect_max_retries 5 " // Maximum number of reconnection attempts
         . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
         . "-reconnect_on_network_error 1 " // Retry on network errors
         . "-probesize 50M " // Increased probing size to handle larger HLS segments
