@@ -50,7 +50,7 @@ player.on('adsready', function () {
 
     adsManager.addEventListener(google.ima.AdEvent.Type.FIRST_QUARTILE, function () {
         console.log('ADS: IMA SDK: Ad reached first quartile.');
-        //logAdEvent('AdFirstQuartile');
+        logAdEvent('AdFirstQuartile');
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.MIDPOINT, function () {
@@ -60,7 +60,7 @@ player.on('adsready', function () {
 
     adsManager.addEventListener(google.ima.AdEvent.Type.THIRD_QUARTILE, function () {
         console.log('ADS: IMA SDK: Ad reached third quartile.');
-        //logAdEvent('AdThirdQuartile');
+        logAdEvent('AdThirdQuartile');
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, function () {
@@ -70,12 +70,12 @@ player.on('adsready', function () {
 
     adsManager.addEventListener(google.ima.AdEvent.Type.PAUSED, function () {
         console.log('ADS: IMA SDK: Ad paused.');
-        //logAdEvent('AdPaused');
+        logAdEvent('AdPaused');
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.RESUMED, function () {
         console.log('ADS: IMA SDK: Ad resumed.');
-        //logAdEvent('AdResumed');
+        logAdEvent('AdResumed');
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, function () {
