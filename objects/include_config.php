@@ -158,6 +158,7 @@ $global['dont_show_us_flag'] = false;
 
 if (empty($doNotStartSessionIncludeConfig)) {
     _session_start();
+    storeAndGetExternalReferrer();
     // DDOS protection can be disabled in video/configuration.php
     if (!empty($global['enableDDOSprotection'])) {
         ddosProtection();

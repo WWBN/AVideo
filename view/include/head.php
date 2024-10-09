@@ -176,6 +176,7 @@ if (isRTL()) {
     var mediaId = <?php echo json_encode(getVideos_id()); ?>;
     var player;
     var isCurrentThemeDark = <?php echo !empty($isCurrentThemeDark)?1:0 ; ?>;
+    var externalReferrer = '<?php echo storeAndGetExternalReferrer(); ?>';    
 </script>
 
 <script id="infoForNonCachedPages">

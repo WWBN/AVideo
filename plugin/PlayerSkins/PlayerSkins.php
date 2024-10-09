@@ -604,9 +604,8 @@ class PlayerSkins extends PluginAbstract
             $js .= "var _adTagUrl = '{$IMAADTag}'; var player; ";
             $js .= "var startEvent = 'click';";
         }
-        $js .= "$(document).ready(function () {";
-        $js .= "
-        originalVideo = $('#mainVideo').clone();
+        $js .= PHP_EOL." $(document).ready(function () { ".PHP_EOL;
+        $js .= "originalVideo = $('#mainVideo').clone();
         if (typeof player === 'undefined' && $('#mainVideo').length) {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");";
         //var_dump($IMAADTag, isVideoPlayerHasProgressBar());exit;

@@ -1,11 +1,33 @@
 var adsRetry = 0;
 setInterval(function () { fixAdSize(); }, 300);
+
+async function logAdEvent(eventType) {
+    console.log('Logging event:', eventType);
+    var video_position = player.currentTime();
+    $.ajax({
+        url: webSiteRootURL+'plugin/AD_Server/log.php',
+        type: 'POST',
+        data: {
+            label: eventType,
+            videos_id: videos_id,
+            video_position: video_position
+        },
+        success: function(response) {
+            console.log('Event logged successfully:', response);
+        },
+        error: function(xhr, status, error) {
+            console.error('Failed to log event:', error);
+        }
+    });
+}
+
 player.on('adsready', function () {
-    console.log('adsready');
+    console.log('ADS: adsready');
+    
+    // Set listener for ad break ready
     player.ima.setAdBreakReadyListener(function (e) {
         if (!_adWasPlayed) {
-            console.log('ADs !_adWasPlayed player.ima.playAdBreak();', e);
-            //player.ima.requestAds();
+            console.log('ADS: !_adWasPlayed player.ima.playAdBreak();', e);
             player.on('play', function () {
                 if (!_adWasPlayed) {
                     player.ima.playAdBreak();
@@ -13,64 +35,81 @@ player.on('adsready', function () {
                 }
             });
         } else {
-            console.log('ADs _adWasPlayed player.ima.playAdBreak();', e);
+            console.log('ADS: _adWasPlayed player.ima.playAdBreak();', e);
             player.ima.playAdBreak();
         }
     });
-});
-player.on('ads-ad-started', function () {
-    console.log('ADS: ads-ad-started');
-});
-player.on('ads-manager', function (a) {
-    console.log('ADS: ads-manager', a);
-});
-player.on('ads-loader', function (a) {
-    console.log('ADS: ads-loader', a);
-});
-player.on('ads-request', function (a) {
-    console.log('ADS: ads-request', a);
-});
 
-// Event fired when an ad starts playing
-player.on('adstart', function() {
-    console.log('ADS: playback has started.');
-});
+    // Listen to IMA SDK ad events
+    var adsManager = player.ima.getAdsManager();
 
-// Event fired when an ad is paused
-player.on('adpause', function() {
-    console.log('ADS: playback has been paused.');
-});
+    adsManager.addEventListener(google.ima.AdEvent.Type.STARTED, function () {
+        console.log('ADS: IMA SDK: Ad started.');
+        logAdEvent('AdStarted');
+    });
 
-// Event fired when an ad is resumed
-player.on('adresume', function() {
-    console.log('ADS: playback has been resumed.');
-});
+    adsManager.addEventListener(google.ima.AdEvent.Type.FIRST_QUARTILE, function () {
+        console.log('ADS: IMA SDK: Ad reached first quartile.');
+        //logAdEvent('AdFirstQuartile');
+    });
 
-// Event fired when an ad finishes playing
-player.on('adend', function() {
-    console.log('ADS: playback has finished.');
-    player.play();
-});
+    adsManager.addEventListener(google.ima.AdEvent.Type.MIDPOINT, function () {
+        console.log('ADS: IMA SDK: Ad reached midpoint.');
+        logAdEvent('AdMidpoint');
+    });
 
-// Event fired when an ad is clicked
-player.on('adclick', function() {
-    console.log('ADS: was clicked.');
-});
+    adsManager.addEventListener(google.ima.AdEvent.Type.THIRD_QUARTILE, function () {
+        console.log('ADS: IMA SDK: Ad reached third quartile.');
+        //logAdEvent('AdThirdQuartile');
+    });
 
-// Event fired when an ad is clicked
-player.on('readyforpreroll', function() {
-    console.log('ADS: readyforpreroll');
-    //player.ima.requestAds();
+    adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, function () {
+        console.log('ADS: IMA SDK: Ad completed.');
+        logAdEvent('AdCompleted');
+    });
+
+    adsManager.addEventListener(google.ima.AdEvent.Type.PAUSED, function () {
+        console.log('ADS: IMA SDK: Ad paused.');
+        //logAdEvent('AdPaused');
+    });
+
+    adsManager.addEventListener(google.ima.AdEvent.Type.RESUMED, function () {
+        console.log('ADS: IMA SDK: Ad resumed.');
+        //logAdEvent('AdResumed');
+    });
+
+    adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, function () {
+        console.log('ADS: IMA SDK: Ad skipped.');
+        logAdEvent('AdSkipped');
+    });
+
+    adsManager.addEventListener(google.ima.AdEvent.Type.CLICK, function () {
+        console.log('ADS: IMA SDK: Ad clicked.');
+        logAdEvent('AdClicked');
+    });
+
+    adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, function (event) {
+        console.error('ADS: IMA SDK: Ad error occurred:', event.getError());
+        logAdEvent('AdError', { error: event.getError() });
+
+        if (adsRetry === 0) {
+            adsRetry++;
+            preloadVmapAndUpdateAdTag(_adTagUrl); // Retry ad if error
+        }
+    });
 });
 
 // Event fired if there's an error during ad playback
 player.on('adserror', function(event) {
     console.log('ADS: error:', event.data.AdError);
+    logAdEvent('AdError', { error: event.data.AdError });
     
-    if(adsRetry==0){
+    if (adsRetry === 0) {
         adsRetry++;
-        //player.ima.requestAds();
         preloadVmapAndUpdateAdTag(_adTagUrl);
     }
 });
-player.one(startEvent, function () { player.ima.initializeAdDisplayContainer(); });
+
+player.one(startEvent, function () {
+    player.ima.initializeAdDisplayContainer();
+});

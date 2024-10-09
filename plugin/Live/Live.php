@@ -4391,6 +4391,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         Live::checkAllFromStats(true);
         $end = microtime(true) - $start;
         //_error_log("Live::executeEveryMinute complete in {$end} seconds");
+        include __DIR__.'/standAloneFiles/kill_ffmpeg_restream.php';
     }
 
     function executeEveryHour()

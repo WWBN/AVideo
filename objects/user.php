@@ -1211,10 +1211,11 @@ if (typeof gtag !== \"function\") {
 
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
-            _session_regenerate_id();
+            // this was regenerating the session all the time, making harder to save info in the session
+            //_session_regenerate_id();
             _session_write_close();
 
-            _error_log("User:login finish with success users_id= {$_SESSION['user']['id']} {$_SERVER['HTTP_USER_AGENT']} IP=" . getRealIpAddr());
+            _error_log("User:login finish with success users_id= {$_SESSION['user']['id']} {$_SERVER['HTTP_USER_AGENT']} IP=" . getRealIpAddr().json_encode(debug_backtrace()));
             return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);

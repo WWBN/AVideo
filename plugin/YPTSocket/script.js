@@ -139,11 +139,6 @@ function socketConnect() {
                     break;
             }
 
-            console.error('Likely causes for error code 1006:');
-            console.error('1. Network issues (e.g., connection interrupted or blocked by a firewall).');
-            console.error('2. SSL/TLS handshake failure (for wss:// connections).');
-            console.error('3. Server-side issues (e.g., server crashed, closed connection unexpectedly).');
-            console.error('4. Incorrect WebSocket URL (e.g., invalid hostname or path).');
             console.error('Retrying connection in ' + socketConnectRetryTimeout / 1000 + ' seconds.');
 
             // Retry connection with exponential backoff
@@ -180,18 +175,24 @@ function socketConnect() {
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     console.log('SSL seems to be working fine for URL:', url);
+                    // No SSL issue, recommend clearing cookies if problem persists
+                    console.log('If you continue to experience issues, try clearing your browser cookies.');
                 } else {
                     console.error('SSL issue detected: HTTP status', xhr.status, 'for URL:', url);
+                    console.log('The problem might be related to SSL configuration. Please verify your SSL certificates.');
                 }
             };
             xhr.onerror = function () {
                 console.error('Failed to check SSL. There might be a problem with the certificate.');
+                console.log('The issue seems to be related to SSL. Please verify your SSL configuration.');
             };
             xhr.send();
         } catch (e) {
             console.error('Error while checking SSL issues:', e.message);
+            console.log('It could be an SSL-related issue. Please verify the SSL configuration.');
         }
     }
+
 
     conn.onerror = function (err) {
         socketConnectRequested = 0;

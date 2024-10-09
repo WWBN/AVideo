@@ -15,6 +15,28 @@ class VastCampaignsLogs extends ObjectYPT
     protected $user_agent;
     protected $videos_id;
     protected $json;
+    protected $video_position;
+    protected $external_referrer;
+
+    public function getVideo_position()
+    {
+        return $this->video_position;
+    }
+
+    public function setVideo_position($video_position)
+    {
+        $this->video_position = intval($video_position);
+    }
+
+    public function getExternal_referrer()
+    {
+        return $this->external_referrer;
+    }
+
+    public function setExternal_referrer($external_referrer)
+    {
+        $this->external_referrer = $external_referrer;
+    }
 
     public static function getSearchFieldsNames()
     {
@@ -71,7 +93,7 @@ class VastCampaignsLogs extends ObjectYPT
         return $this->ip;
     }
 
-    
+
     public function getVideos_id()
     {
         return $this->videos_id;
@@ -85,13 +107,22 @@ class VastCampaignsLogs extends ObjectYPT
 
     public function save()
     {
-        _error_log("ADSLOG {$this->type}".json_encode(array(debug_backtrace(), User::getId(), $_SERVER)));
+        _error_log("ADSLOG {$this->type}" . json_encode(array(debug_backtrace(), User::getId(), $_SERVER)));
         $this->ip = getRealIpAddr();
         $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+        if (empty($this->vast_campaigns_has_videos_id)) {
+            $this->vast_campaigns_has_videos_id = 'null';
+        }
+
+        if (empty($this->users_id)) {
+            $this->users_id = 'null';
+        }
+
         $vast_campaigns_logs_id = parent::save();
         $obj = AVideoPlugin::getDataObject('AD_Server');
-        if($this->type == AD_Server::STATUS_THAT_DETERMINE_AD_WAS_PLAYED ){
-            if($obj->onlyRewardLoggedUsers && !User::isLogged()){
+        if ($this->type == AD_Server::STATUS_THAT_DETERMINE_AD_WAS_PLAYED) {
+            if ($obj->onlyRewardLoggedUsers && !User::isLogged()) {
                 // only reward logged users
                 return $vast_campaigns_logs_id;
             }
@@ -100,20 +131,21 @@ class VastCampaignsLogs extends ObjectYPT
         return $vast_campaigns_logs_id;
     }
 
-    static function reward($vast_campaigns_logs_id){
+    static function reward($vast_campaigns_logs_id)
+    {
         $log = new VastCampaignsLogs($vast_campaigns_logs_id);
         $vast_campaigns_has_videos_id = $log->getVast_campaigns_has_videos_id();
         $vast_campaign_videos = new VastCampaignsVideos($vast_campaigns_has_videos_id);
         $vast_campaigns_id = $vast_campaign_videos->getVast_campaigns_id();
         $vast_campaign = new VastCampaigns($vast_campaigns_id);
         $reward_per_impression = $vast_campaign->getReward_per_impression();
-        if(!empty($reward_per_impression)){
+        if (!empty($reward_per_impression)) {
             $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
             $videos_id = $vast_campaign_videos->getVideos_id();
             $video = new Video('', '', $videos_id);
             $campaignName = $vast_campaign->getName();
             $users_id = $video->getUsers_id();
-            $array = array('vast_campaigns_has_videos_id'=>$vast_campaigns_has_videos_id);
+            $array = array('vast_campaigns_has_videos_id' => $vast_campaigns_has_videos_id);
             $plugin->addBalance($users_id, $reward_per_impression, "AD Reward from Campaign [$campaignName] video={$videos_id} users_id={$users_id}", $array);
         }
     }
@@ -143,11 +175,11 @@ class VastCampaignsLogs extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $data = [];
-        if ($res!=false) {
+        if ($res != false) {
             foreach ($fullData as $row) {
                 $data[$row['type']] = $row['total'];
             }
-        } 
+        }
         return $data;
     }
 
@@ -155,28 +187,29 @@ class VastCampaignsLogs extends ObjectYPT
     {
         global $global;
         $sql = "SELECT `type`, count(vast_campaigns_id) as total FROM vast_campaigns_logs vcl "
-                . " LEFT JOIN vast_campaigns_has_videos vchv ON vast_campaigns_has_videos_id = vchv.id "
-                . " WHERE vast_campaigns_id = $vast_campaigns_id GROUP BY `type`";
+            . " LEFT JOIN vast_campaigns_has_videos vchv ON vast_campaigns_has_videos_id = vchv.id "
+            . " WHERE vast_campaigns_id = $vast_campaigns_id GROUP BY `type`";
         //echo $sql."\n";
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $data = [];
-        if ($res!=false) {
+        if ($res != false) {
             foreach ($fullData as $row) {
                 $data[$row['type']] = $row['total'];
             }
-        } 
+        }
         return $data;
     }
 
-    static function getCampaignLogs($vast_campaigns_id, $start_date, $end_date) {
+    static function getCampaignLogs($vast_campaigns_id, $start_date, $end_date)
+    {
         global $global;
-    
+
         // Ensure dates are in the correct format (Y-m-d H:i:s)
         $start_date = date('Y-m-d 00:00:00', strtotime($start_date));
         $end_date = date('Y-m-d 23:59:59', strtotime($end_date));
-    
+
         // Prepare the SQL query
         $sql = "SELECT 
                     logs.*, 
@@ -187,14 +220,220 @@ class VastCampaignsLogs extends ObjectYPT
                     vast_campaigns_has_videos vchv ON logs.vast_campaigns_has_videos_id = vchv.id
                 WHERE 
                     vchv.vast_campaigns_id = ? 
-                    AND logs.type = '".AD_Server::STATUS_THAT_DETERMINE_AD_WAS_PLAYED."' 
+                    AND logs.type = '" . AD_Server::STATUS_THAT_DETERMINE_AD_WAS_PLAYED . "' 
                     AND logs.created BETWEEN ? AND ?";
-    
+
         // Execute the query
         $res = sqlDAL::readSql($sql, 'iss', array($vast_campaigns_id, $start_date, $end_date));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         return $fullData;
     }
-    
+
+    public static function getAdsByVideoAndPeriod($vast_campaigns_id, $startDate = null, $endDate = null, $videos_id = null, $event_type = null, $campaign_type = 'all')
+    {
+        global $global;
+        $formats = '';
+        $values = [];
+
+        $sql = "SELECT v.title as video_title, vcl.videos_id, COUNT(vcl.id) as total_ads, vc.name as campaign_name
+            FROM vast_campaigns_logs vcl
+            LEFT JOIN videos v ON v.id = vcl.videos_id
+            LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
+            LEFT JOIN vast_campaigns vc ON vc.id = vchv.vast_campaigns_id
+            WHERE 1 = 1";
+
+        if (!empty($vast_campaigns_id)) {
+            $sql .= " AND vchv.vast_campaigns_id = ? ";
+            $formats .= 'i';
+            $values[] = $vast_campaigns_id;
+        }
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $sql .= " AND vcl.created_php_time BETWEEN ? AND ?";
+            $formats .= 'ii';
+            $values[] = _strtotime($startDate);
+            $values[] = _strtotime($endDate);
+        }
+
+        if (!empty($videos_id)) {
+            $sql .= " AND vcl.videos_id = ? ";
+            $formats .= 'i';
+            $values[] = $videos_id;
+        }
+
+        // Optional event type filter
+        if (!empty($event_type)) {
+            $sql .= " AND vcl.type = ? ";
+            $formats .= 's';
+            $values[] = $event_type;
+        }
+
+        // Apply filter based on the campaign type
+        if ($campaign_type === 'own') {
+            // Filter for own campaigns (non-null vast_campaigns_has_videos_id)
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NOT NULL ";
+        } elseif ($campaign_type === 'third-party') {
+            // Filter for third-party campaigns (null vast_campaigns_has_videos_id)
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL ";
+        }
+
+        $sql .= " GROUP BY vcl.videos_id ORDER BY total_ads DESC";
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+
+        return $fullData;
+    }
+
+    public static function getAdTypesByPeriod($vast_campaigns_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all')
+    {
+        global $global;
+        $formats = '';
+        $values = [];
+
+        $sql = "SELECT vcl.type, COUNT(vcl.id) as total_ads, vc.name as campaign_name
+            FROM vast_campaigns_logs vcl
+            LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
+            LEFT JOIN vast_campaigns vc ON vc.id = vchv.vast_campaigns_id
+            WHERE 1 = 1";
+
+        if (!empty($vast_campaigns_id)) {
+            $sql .= " AND vchv.vast_campaigns_id = ? ";
+            $formats .= 'i';
+            $values[] = $vast_campaigns_id;
+        }
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $sql .= " AND vcl.created_php_time BETWEEN ? AND ?";
+            $formats .= 'ii';
+            $values[] = _strtotime($startDate);
+            $values[] = _strtotime($endDate);
+        }
+
+        // Optional event type filter
+        if (!empty($event_type)) {
+            $sql .= " AND vcl.type = ? ";
+            $formats .= 's';
+            $values[] = $event_type;
+        }
+
+        // Apply filter based on the campaign type
+        if ($campaign_type === 'own') {
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NOT NULL "; // Only own campaigns
+        } elseif ($campaign_type === 'third-party') {
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL "; // Only third-party campaigns
+        }
+
+        $sql .= " GROUP BY vcl.type ORDER BY total_ads DESC";
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+
+        return $fullData;
+    }
+
+    public static function getAdsByUserAndEventType($users_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all')
+    {
+        global $global;
+        $formats = '';
+        $values = [];
+
+        $sql = "SELECT vcl.type, COUNT(vcl.id) as total_ads, vc.name as campaign_name
+            FROM vast_campaigns_logs vcl
+            LEFT JOIN videos v ON v.id = vcl.videos_id
+            LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
+            LEFT JOIN vast_campaigns vc ON vc.id = vchv.vast_campaigns_id
+            WHERE v.users_id = ?";
+
+        $formats .= 'i';
+        $values[] = $users_id;
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $sql .= " AND vcl.created_php_time BETWEEN ? AND ?";
+            $formats .= 'ii';
+            $values[] = _strtotime($startDate);
+            $values[] = _strtotime($endDate);
+        }
+
+        // Optional event type filter
+        if (!empty($event_type)) {
+            $sql .= " AND vcl.type = ? ";
+            $formats .= 's';
+            $values[] = $event_type;
+        }
+
+        // Apply filter based on the campaign type
+        if ($campaign_type === 'own') {
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NOT NULL "; // Only own campaigns
+        } elseif ($campaign_type === 'third-party') {
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL "; // Only third-party campaigns
+        }
+
+        $sql .= " GROUP BY vcl.type ORDER BY total_ads DESC";
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+
+        return $fullData;
+    }
+
+    public static function getAdsByVideoAndEventType($videos_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all')
+    {
+        global $global;
+        $formats = '';
+        $values = [];
+
+        $sql = "SELECT vcl.type, COUNT(vcl.id) as total_ads, vc.name as campaign_name
+            FROM vast_campaigns_logs vcl
+            LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
+            LEFT JOIN vast_campaigns vc ON vc.id = vchv.vast_campaigns_id
+            WHERE vcl.videos_id = ?";
+
+        $formats .= 'i';
+        $values[] = $videos_id;
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $sql .= " AND vcl.created_php_time BETWEEN ? AND ?";
+            $formats .= 'ii';
+            $values[] = _strtotime($startDate);
+            $values[] = _strtotime($endDate);
+        }
+
+        // Optional event type filter
+        if (!empty($event_type)) {
+            $sql .= " AND vcl.type = ? ";
+            $formats .= 's';
+            $values[] = $event_type;
+        }
+
+        // Apply filter based on the campaign type
+        if ($campaign_type === 'own') {
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NOT NULL "; // Only own campaigns
+        } elseif ($campaign_type === 'third-party') {
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL "; // Only third-party campaigns
+        }
+
+        $sql .= " GROUP BY vcl.type ORDER BY total_ads DESC";
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+
+        return $fullData;
+    }
+
+    public static function getEventType()
+    {
+        global $global;
+        $formats = '';
+        $values = [];
+
+        $sql = "SELECT distinct vcl.type
+                FROM vast_campaigns_logs vcl";
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+
+        return $fullData;
+    }
 }

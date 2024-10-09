@@ -2050,7 +2050,7 @@ function isAndroid()
 
 
     $androidTV = getDeviceName();
-    
+
     return $detect->is('AndroidOS') || preg_match('/android/i', $androidTV);
 }
 
@@ -4330,7 +4330,7 @@ function getSEOTitle($text, $maxChars = 120)
 function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = "row bgWhite list-group-item menusDiv", $videoLengthInSeconds = 0, $bitLyLink = '')
 {
     global $global, $advancedCustom;
-    
+
     $varsArray = array(
         'title' => $title,
         'permaLink' => $permaLink,
@@ -4348,7 +4348,7 @@ function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class 
 function getShareSocialIcons($title, $url)
 {
     global $global;
-    
+
     $varsArray = array(
         'title' => $title,
         'url' => $url,
@@ -4365,7 +4365,7 @@ function getCaptcha($uid = "", $forceCaptcha = false)
         $uid = "capcha_" . uniqid();
     }
     $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functiongetCaptcha.php', ['uid' => $uid, 'forceCaptcha' => $forceCaptcha]);
-    
+
     $result = [
         'style' => '',
         'html' => '',
@@ -4389,7 +4389,7 @@ function getCaptcha($uid = "", $forceCaptcha = false)
     if (!empty($scriptMatch[1])) {
         $result['script'] = trim($scriptMatch[1]);
     }
-    
+
     return [
         'content' => $contents,
         'btnReloadCapcha' => "$('#btnReload{$uid}').trigger('click');",
@@ -5169,16 +5169,16 @@ function isCurrentThemeDark()
     $isDefaultThemeDark = $config->isDefaultThemeDark();
     if (empty($_COOKIE['themeMode'])) {
         // it is default theme
-        if($isDefaultThemeDark){
+        if ($isDefaultThemeDark) {
             return  true;
-        }else{
+        } else {
             return  false;
         }
     } else {
         // it is alrernative theme
-        if(!$isDefaultThemeDark){
+        if (!$isDefaultThemeDark) {
             return  true;
-        }else{
+        } else {
             return  false;
         }
     }
@@ -5187,7 +5187,7 @@ function isCurrentThemeDark()
 function getBodyClass()
 {
     $bodyClass = 'lightTheme';
-    if(isCurrentThemeDark()){
+    if (isCurrentThemeDark()) {
         $bodyClass = 'darkTheme';
     }
     return $bodyClass;
@@ -7193,7 +7193,7 @@ function getMVideo($htmlMediaTag)
 function getDeviceName($returnIfEmptyUA = 'unknown')
 {
     global $forceDeviceType;
-    if(!empty($forceDeviceType)){
+    if (!empty($forceDeviceType)) {
         return $forceDeviceType;
     }
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
@@ -7305,10 +7305,10 @@ function getTourHelpButton($stepsFileRelativePath, $class = 'btn btn-default', $
     ]
     */
     $label = '';
-    if($showLabel){
-        if(is_string($showLabel)){
+    if ($showLabel) {
+        if (is_string($showLabel)) {
             $label = __($showLabel);
-        }else{
+        } else {
             $label = __('Help');
         }
     }
@@ -7329,7 +7329,7 @@ function mkSubCategory($catId)
 
     $cacheName = "mkSubCategory_{$catId}";
     $cache = ObjectYPT::getCache($cacheName, rand(300, 600));
-    if(!empty($cache)){
+    if (!empty($cache)) {
         return $cache;
     }
     $subcats = Category::getChildCategories($catId);
@@ -7356,10 +7356,54 @@ function mkSubCategory($catId)
         }
         $html .=  "</ul>";
     }
-    
+
     ObjectYPT::setCache($cacheName, $html);
     return $html;
 }
+
+
+/**
+ * Check if the user came from an external link, sanitize the referrer, store it in the session, and return it.
+ * Returns the sanitized external referrer or the existing referrer stored in the session.
+ */
+function storeAndGetExternalReferrer()
+{
+    global $global;
+
+    if (!isset($global['external_referrer'])) {
+        if (!preg_match('/GoogleInteractiveMediaAds/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/imasdk/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/imasdk/i', $_SERVER['HTTP_REFERER'])) {
+            // Get the current domain
+            $currentDomain = $_SERVER['HTTP_HOST'];
+
+            // Get the referrer URL, if available
+            $referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+
+            _session_start();
+            if (!empty($referrer)) {
+                // Sanitize the referrer URL to remove illegal characters
+                $sanitizedReferrer = filter_var($referrer, FILTER_SANITIZE_URL);
+                // Parse the referrer's host (domain) if referrer exists
+                $referrerHost = parse_url($sanitizedReferrer, PHP_URL_HOST);
+
+                // Check if the referrer is an external link (not the same as current domain)
+                if ($referrerHost && $referrerHost !== $currentDomain) {
+                    // Check if the session does not have an external referrer or if it's different from the current one
+                    if (!isset($_SESSION['external_referrer']) || $_SESSION['external_referrer'] !== $sanitizedReferrer) {
+                        if (!empty($sanitizedReferrer)) {
+                            _error_log('external_referrer changed' . json_encode(debug_backtrace()), AVideoLog::$ERROR);
+                            // Store the sanitized and escaped external referrer in the session
+                            $_SESSION['external_referrer'] = htmlspecialchars($sanitizedReferrer, ENT_QUOTES, 'UTF-8');
+                        }
+                    }
+                }
+            }
+        }
+
+        $global['external_referrer'] = isset($_SESSION['external_referrer']) ? $_SESSION['external_referrer'] : '';
+    }
+    return $global['external_referrer'];
+}
+
 
 require_once __DIR__ . '/functionsSecurity.php';
 require_once __DIR__ . '/functionsMySQL.php';
