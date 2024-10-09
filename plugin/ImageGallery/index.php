@@ -21,7 +21,7 @@ Video::unsetAddView($video['id']);
 AVideoPlugin::getEmbed($video['id']);
 
 if (empty($video)) {
-    $msg = 'Video not found';
+    $msg = __('Video not found');
     if (User::isAdmin()) {
         $msg = "{$msg} " . json_encode($_GET);
     }

@@ -28,7 +28,7 @@ $videos_id = intval($vars["v"]);
 $video = Video::getVideo($videos_id);
 
 if (empty($video)) {
-    forbiddenPage("Video not found");
+    forbiddenPage(__("Video not found"));
 }
 
 $format = 'json';
