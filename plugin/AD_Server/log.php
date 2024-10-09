@@ -39,7 +39,7 @@ if(!empty($response->campaign_has_videos_id)){
         $campaign = new VastCampaigns($campaignVideo->getVast_campaigns_id());
         $campaign->addView();
     }
-    if ($response->label === 'ClickThrough') {
+    if ($response->label === AD_Server::AD_CLICKED) {
         // get the URL
         $link = $campaignVideo->getLink();
         if (filter_var($link, FILTER_VALIDATE_URL)) {

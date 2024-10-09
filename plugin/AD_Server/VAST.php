@@ -61,51 +61,52 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                         <Creative id="Linear_<?php echo $_GET['campaign_has_videos_id']; ?>" sequence="1">
                             <Linear skipoffset="<?php echo $obj->skipoffset->value; ?>">
                                 <Duration><?php echo $video->getDuration(); ?></Duration>
+                                
                                 <TrackingEvents>
                                     <Tracking event="start">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=start&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_STARTED; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="firstQuartile">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=firstQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_FIRST_QUARTILE; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="midpoint">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=midpoint&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_MIDPOINT; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="thirdQuartile">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=thirdQuartile&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_THIRD_QUARTILE; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="complete">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=complete&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_COMPLETED; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="mute">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=mute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_MUTED; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="unmute">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=unmute&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_UNMUTED; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="rewind">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=rewind&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_REWIND; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="pause">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=pause&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_PAUSED; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="resume">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=resume&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_RESUMED; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="fullscreen">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=fullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_FULLSCREEN; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="creativeView">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=creativeView&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_CREATIVE_VIEW; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="exitFullscreen">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=exitFullscreen&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_EXIT_FULLSCREEN; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="acceptInvitationLinear">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=acceptInvitationLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_ACCEPT_INVITATION_LINEAR; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                     <Tracking event="closeLinear">
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=closeLinear&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_CLOSE_LINEAR; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </Tracking>
                                 </TrackingEvents>
                                 <?php
@@ -115,7 +116,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                 ?>
                                         <VideoClicks>
                                             <ClickThrough id="AdSense">
-                                                <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=ClickThrough&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                                <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_CLICKED; ?>&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                             </ClickThrough>
                                         </VideoClicks>
                                 <?php
@@ -154,11 +155,11 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                     </StaticResource>
                                     <TrackingEvents>
                                         <Tracking event="creativeView">
-                                            <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=creativeView&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                            <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_CREATIVE_VIEW; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                         </Tracking>
                                     </TrackingEvents>
                                     <CompanionClickThrough>
-                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=CompanionClickThrough&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
+                                        <![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?videos_id=<?php echo $videos_id; ?>&label=<?php echo AD_Server::AD_CLICKED; ?>&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]>
                                     </CompanionClickThrough>
                                 </Companion>
                             </CompanionAds>
