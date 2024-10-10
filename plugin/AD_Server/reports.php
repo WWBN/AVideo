@@ -38,13 +38,14 @@ foreach ($types as $key => $value) {
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="form-group">
-                            <label for="date-range" class="control-label"><?php echo __('Select Range'); ?></label>
+                            <label for="date-range" class="control-label"><?php echo __('Select Date Range'); ?></label>
                             <select id="date-range" class="form-control">
-                                <option value="custom"><?php echo __('Custom'); ?></option>
-                                <option value="thisMonth"><?php echo __('This Month'); ?></option>
-                                <option value="thisWeek"><?php echo __('This Week'); ?></option>
-                                <option value="last2Months"><?php echo __('Last 2 Months'); ?></option>
-                                <option value="thisYear"><?php echo __('This Year'); ?></option>
+                                <optgroup label="<?php echo __('Preset Ranges'); ?>">
+                                    <option value="thisWeek"><?php echo __('This Week'); ?></option>
+                                    <option value="thisMonth"><?php echo __('This Month'); ?></option>
+                                    <option value="last2Months"><?php echo __('Last 2 Months'); ?></option>
+                                    <option value="thisYear"><?php echo __('This Year'); ?></option>
+                                </optgroup>
                             </select>
                         </div>
                     </div>
@@ -63,22 +64,25 @@ foreach ($types as $key => $value) {
                         </div>
                     </div>
                 </div>
-                <!-- Row for Campaign Type Selection -->
+
+                <!-- Row for Campaign Type and Event Type Selection -->
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <label for="campaign-type" class="control-label"><?php echo __('Campaign Source'); ?></label>
+                            <label for="campaign-type" class="control-label"><?php echo __('Select Campaign Source'); ?></label>
                             <select id="campaign-type" class="form-control">
-                                <option value="all"><?php echo __('All Campaigns'); ?></option>
-                                <option value="own">AD_server</option>
-                                <option value="third-party">GoogleAds_IMA</option>
+                                <optgroup label="<?php echo __('Campaign Type'); ?>">
+                                    <option value="all"><?php echo __('All Campaigns'); ?></option>
+                                    <option value="own"><?php echo __('Own Videos'); ?> (AD_Server)</option>
+                                    <option value="third-party"><?php echo __('Third Party Ads'); ?> (GoogleAds_IMA)</option>
+                                </optgroup>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <label for="event-type" class="control-label"><?php echo __('Event Type'); ?></label>
+                            <label for="event-type" class="control-label"><?php echo __('Select Event Type'); ?></label>
                             <select id="event-type" class="form-control">
                                 <option value=""><?php echo __('All Event Types'); ?></option>
                                 <?php foreach ($eventTypes as $eventType) : ?>
@@ -88,45 +92,46 @@ foreach ($types as $key => $value) {
                         </div>
                     </div>
 
+                    <!-- Report Type Selection -->
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <label for="report-type" class="control-label"><?php echo __('Report Type'); ?></label>
+                            <label for="report-type" class="control-label"><?php echo __('Select Report Type'); ?></label>
                             <select id="report-type" class="form-control" required>
-                                <option value="adsByVideo"><?php echo __('Ads Per Video'); ?></option>
-                                <option value="adTypes"><?php echo __('Ad Types Overview'); ?></option>
-                                <option value="adsForSingleVideo"><?php echo __('Ads for a Single Video'); ?></option>
-                                <option value="adsByUser"><?php echo __('Ads by User'); ?></option>
-                                <option value="listVideosByUser"><?php echo __('List Videos and Total Ads by User'); ?></option> <!-- New Option -->
+                                <optgroup label="<?php echo __('Report Types'); ?>">
+                                    <option value="adsByVideo"><?php echo __('Ads Per Video'); ?></option>
+                                    <option value="adTypes"><?php echo __('Ad Types Overview'); ?></option>
+                                    <option value="adsForSingleVideo"><?php echo __('Ads for a Single Video'); ?></option>
+                                    <option value="adsByUser"><?php echo __('Ads by User'); ?></option>
+                                    <option value="listVideosByUser"><?php echo __('List Videos and Total Ads by User'); ?></option>
+                                </optgroup>
                             </select>
                         </div>
                     </div>
 
+                    <!-- Video and User Select Containers (Hidden Initially) -->
                     <div class="col-md-3 col-sm-6" id="videos-select-container" style="display:none;">
                         <div class="form-group">
                             <label for="videos_id" class="control-label"><?php echo __('Select Video'); ?>:</label>
-                            <?php
-                            $autoComplete = Layout::getVideoAutocomplete(0, 'videos_id');
-                            ?>
+                            <?php echo Layout::getVideoAutocomplete(0, 'videos_id'); ?>
                         </div>
                     </div>
-
 
                     <div class="col-md-3 col-sm-6" id="users-select-container" style="display:none;">
                         <div class="form-group">
-                            <label for="users_id" class="control-label"><?php echo __('User'); ?>:</label>
-                            <?php
-                            $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'users_id');
-                            ?>
+                            <label for="users_id" class="control-label"><?php echo __('Select User'); ?>:</label>
+                            <?php echo Layout::getUserAutocomplete(0, 'users_id'); ?>
                         </div>
                     </div>
                 </div>
-                <!-- Row for Submit Button -->
+
+                <!-- Submit Button Row -->
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <button type="submit" class="btn btn-primary btn-block"><?php echo __('Generate Report'); ?></button>
                     </div>
                 </div>
             </form>
+
         </div>
         <div class="panel-body">
             <div class="row">
