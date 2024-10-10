@@ -112,14 +112,14 @@ foreach ($types as $key => $value) {
                     <div class="col-md-3 col-sm-6" id="videos-select-container" style="display:none;">
                         <div class="form-group">
                             <label for="videos_id" class="control-label"><?php echo __('Select Video'); ?>:</label>
-                            <?php echo Layout::getVideoAutocomplete(0, 'videos_id'); ?>
+                            <?php $autoComplete = Layout::getVideoAutocomplete(0, 'videos_id'); ?>
                         </div>
                     </div>
 
                     <div class="col-md-3 col-sm-6" id="users-select-container" style="display:none;">
                         <div class="form-group">
                             <label for="users_id" class="control-label"><?php echo __('Select User'); ?>:</label>
-                            <?php echo Layout::getUserAutocomplete(0, 'users_id'); ?>
+                            <?php $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'users_id'); ?>
                         </div>
                     </div>
                 </div>
