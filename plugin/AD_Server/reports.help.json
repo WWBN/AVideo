@@ -1,0 +1,67 @@
+[
+    {
+        "element": "#report-form",
+        "intro": "This is the form where you can filter your ad report by date range, campaign source, event type, and report type.",
+        "position": "top"
+    },
+    {
+        "element": "#date-range",
+        "intro": "Select a date range for your report. You can choose from preset ranges or manually enter a custom date range below.",
+        "position": "right"
+    },
+    {
+        "element": "#start-date",
+        "intro": "If you select a custom date range, use this field to specify the start date for your report.",
+        "position": "right"
+    },
+    {
+        "element": "#end-date",
+        "intro": "Specify the end date here for your custom date range.",
+        "position": "right"
+    },
+    {
+        "element": "#campaign-type",
+        "intro": "Choose the source of the ad campaigns. You can select ads from your own videos or third-party sources like Google Ads.",
+        "position": "right"
+    },
+    {
+        "element": "#event-type",
+        "intro": "Select the type of ad event you want to analyze (e.g., AdStarted, AdClicked, AdCompleted). You can also leave it blank to include all event types.",
+        "position": "right"
+    },
+    {
+        "element": "#report-type",
+        "intro": "Choose the type of report you want to generate. Different options will display various views of your ad data.",
+        "position": "right"
+    },
+    {
+        "element": "#videos-select-container",
+        "intro": "If you're generating a report for a specific video, use this field to search for and select the video.",
+        "position": "right"
+    },
+    {
+        "element": "#users-select-container",
+        "intro": "If you're generating a report for a specific user, search for and select the user here.",
+        "position": "right"
+    },
+    {
+        "element": "#genReports",
+        "intro": "After setting your filters, click here to generate the report.",
+        "position": "top"
+    },
+    {
+        "element": "#reportChart",
+        "intro": "This is the chart that visualizes the ad events based on your selected filters. You can hover over or click on the bars to see more details.",
+        "position": "top"
+    },
+    {
+        "element": "#reportTable",
+        "intro": "Here is the detailed table of ad data. Each row represents an event, user, or video depending on your report type.",
+        "position": "top"
+    },
+    {
+        "element": "#download-csv-btn",
+        "intro": "Click this button to download the report as a CSV file for further analysis.",
+        "position": "top"
+    }
+]

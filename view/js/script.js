@@ -4332,54 +4332,82 @@ function displayJsonAsHtml(jsonObjectOrString) {
 }
 
 function startTour(stepsFileRelativePath) {
+    console.log('Tour starting with steps file:', stepsFileRelativePath);
+    
     let id = stepsFileRelativePath.replace(/[^a-zA-Z0-9]/g, '');
+    console.log('Generated ID:', id);
+
     // Check if Intro.js is already loaded
     if (typeof introJs === 'undefined') {
+        console.log('Intro.js is not loaded, loading Intro.js now...');
+        
         // Load Intro.js CSS
         $('head').append('<link rel="stylesheet" href="' + webSiteRootURL + 'node_modules/intro.js/minified/introjs.min.css" type="text/css" />');
+        console.log('Intro.js CSS loaded.');
 
         if (isCurrentThemeDark) {
+            console.log('Applying dark theme for Intro.js.');
             $('head').append('<link rel="stylesheet" href="' + webSiteRootURL + 'node_modules/intro.js/themes/introjs-modern.css" type="text/css" />');
         }
 
         // Load Intro.js JavaScript
+        console.log('Loading Intro.js JavaScript...');
         $.getScript(webSiteRootURL + 'node_modules/intro.js/minified/intro.min.js', function () {
+            console.log('Intro.js JavaScript loaded successfully.');
             loadAndStartTour(stepsFileRelativePath);
+        }).fail(function(jqxhr, settings, exception) {
+            console.error('Failed to load Intro.js script:', exception);
         });
     } else {
+        console.log('Intro.js is already loaded, starting the tour directly...');
         loadAndStartTour(stepsFileRelativePath);
     }
+
     function loadAndStartTour(stepsFileRelativePath) {
+        console.log('Loading tour steps from:', webSiteRootURL + stepsFileRelativePath);
+        
         // Fetch the tour steps from a server
         $.ajax({
             url: webSiteRootURL + stepsFileRelativePath, // URL to the server-side script that returns JSON
             type: 'GET',
             dataType: 'json',
             success: function (response) {
+                console.log('Tour steps fetched successfully:', response);
+
                 // Initialize the tour with the fetched data
                 var tour = introJs();
+                console.log('Filtering tour steps based on element visibility.');
+
                 var filteredSteps = $.grep(response, function (step) {
                     var $element = $(step.element);
-                    // Only include steps where the element exists and is fully visible (not in a hidden parent)
-                    return $element.length > 0 && isElementVisible($element);
+                    var isVisible = $element.length > 0 && isElementVisible($element);
+                    console.log('Step element:', step.element, 'Visible:', isVisible);
+                    return isVisible;
                 });
+
+                console.log('Filtered steps:', filteredSteps);
 
                 tour.setOptions({
                     steps: filteredSteps
                 });
 
+                console.log('Starting the tour...');
                 tour.start();
             },
             error: function (xhr, status, error) {
-                console.log("Error fetching tour data: " + error);
+                console.error('Error fetching tour data:', error);
             }
         });
     }
+
     function isElementVisible($element) {
+        var visibility = $element.is(':visible') && $element.closest(':hidden').length === 0;
+        console.log('Element visibility check for', $element, ':', visibility);
         // Check if the element itself and its parent chain are visible
-        return $element.is(':visible') && $element.closest(':hidden').length === 0;
+        return visibility;
     }
 }
+
 
 function findIndex(value, array) {
     return array.indexOf(value);

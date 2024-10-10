@@ -7312,7 +7312,7 @@ function getTourHelpButton($stepsFileRelativePath, $class = 'btn btn-default', $
             $label = __('Help');
         }
     }
-    return "<button class=\"startTourBtn {$class}\" onclick=\"startTour('{$stepsFileRelativePath}')\"><i class=\"fa-solid fa-circle-question\"></i> {$label}</button>";
+    return "<button type=\"button\" class=\"startTourBtn {$class}\" onclick=\"startTour('{$stepsFileRelativePath}')\"><i class=\"fa-solid fa-circle-question\"></i> {$label}</button>";
 }
 
 function getInfoButton($info)

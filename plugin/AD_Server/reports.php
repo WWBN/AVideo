@@ -126,8 +126,13 @@ foreach ($types as $key => $value) {
 
                 <!-- Submit Button Row -->
                 <div class="row">
-                    <div class="col-md-12 text-center">
-                        <button type="submit" class="btn btn-primary btn-block"><?php echo __('Generate Report'); ?></button>
+                    <div class="col-md-4 text-center">
+                        <?php
+                        echo getTourHelpButton('plugin/AD_Server/reports.help.json', 'btn btn-default btn-block');
+                        ?>
+                    </div>
+                    <div class="col-md-8 text-center">
+                        <button type="submit" class="btn btn-primary btn-block" id="genReports"><i class="fas fa-chart-bar"></i> <?php echo __('Generate Report'); ?></button>
                     </div>
                 </div>
             </form>
@@ -158,7 +163,7 @@ foreach ($types as $key => $value) {
                 </tbody>
             </table>
             <!-- Add a button to download CSV -->
-            <button id="download-csv-btn" class="btn btn-success btn-block"><?php echo __('Download CSV'); ?></button>
+            <button id="download-csv-btn" class="btn btn-success btn-block"><i class="fas fa-file-csv"></i> <?php echo __('Download CSV'); ?></button>
 
         </div>
     </div>
@@ -276,7 +281,7 @@ foreach ($types as $key => $value) {
             videoLabel.push('[' + item.videos_id + '] ' + item.video_title);
         } else if (typeof item.videos_id !== 'undefined' && !empty(item.videos_id)) {
             videoLabel.push('[' + item.videos_id + ']');
-        } 
+        }
 
         if (typeof item.channelName !== 'undefined' && !empty(item.channelName)) {
             videoLabel.push('[' + item.users_id + '] ' + item.channelName);
@@ -285,7 +290,7 @@ foreach ($types as $key => $value) {
         if (typeof item.campaign_name !== 'undefined' && !empty(item.campaign_name)) {
             videoLabel.push(item.campaign_name);
             videoLabel.push(item.type);
-        }else if (typeof item.type !== 'undefined' && !empty(item.type)) {
+        } else if (typeof item.type !== 'undefined' && !empty(item.type)) {
             if (empty(videoLabel)) {
                 videoLabel.push('Google Ads IMA');
             }
@@ -293,7 +298,7 @@ foreach ($types as $key => $value) {
         }
 
         videoLabel = videoLabel.map(function(label) {
-            if(typeof label == 'undefined'){
+            if (typeof label == 'undefined') {
                 return '';
             }
             return label.length > 40 ? label.substring(0, 40) + '...' : label;
