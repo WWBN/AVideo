@@ -278,17 +278,16 @@ foreach ($types as $key => $value) {
             videoLabel.push('[' + item.videos_id + ']');
         } else if (typeof item.campaign_name !== 'undefined' && !empty(item.campaign_name)) {
             videoLabel.push(item.campaign_name);
-        }
-
-        if (typeof item.type !== 'undefined' && !empty(item.type)) {
+            videoLabel.push(item.type);
+        }else if (typeof item.type !== 'undefined' && !empty(item.type)) {
             if (empty(videoLabel)) {
                 videoLabel.push('Google Ads IMA');
             }
             videoLabel.push(item.type);
-        }
-        if (typeof item.channelName !== 'undefined' && !empty(item.channelName)) {
+        }else if (typeof item.channelName !== 'undefined' && !empty(item.channelName)) {
             videoLabel.push('[' + item.users_id + '] ' + item.channelName);
         }
+
         videoLabel = videoLabel.map(function(label) {
             return label.length > 40 ? label.substring(0, 40) + '...' : label;
         });
@@ -505,7 +504,7 @@ foreach ($types as $key => $value) {
                     },
                     x: {
                         ticks: {
-                            display: false // Hide the X-axis labels
+                            //display: false // Hide the X-axis labels
                         }
                     }
                 },
