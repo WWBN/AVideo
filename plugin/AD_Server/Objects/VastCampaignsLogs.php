@@ -286,7 +286,6 @@ class VastCampaignsLogs extends ObjectYPT
         return $fullData;
     }
 
-
     public static function getAdTypesByPeriod($vast_campaigns_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all')
     {
         global $global;
@@ -422,6 +421,56 @@ class VastCampaignsLogs extends ObjectYPT
 
         return $fullData;
     }
+
+    public static function getAdsByVideoForUser($users_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all')
+    {
+        global $global;
+        $formats = '';
+        $values = [];
+    
+        // Query to fetch advertisement events related to videos by a specific user
+        $sql = "SELECT v.title AS video_title, vcl.videos_id, COUNT(vcl.id) AS total_ads, vc.name AS campaign_name
+                FROM vast_campaigns_logs vcl
+                LEFT JOIN videos v ON v.id = vcl.videos_id
+                LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
+                LEFT JOIN vast_campaigns vc ON vc.id = vchv.vast_campaigns_id
+                WHERE v.users_id = ?";
+    
+        $formats .= 'i';
+        $values[] = $users_id;
+    
+        // Filter events by provided period
+        if (!empty($startDate) && !empty($endDate)) {
+            $sql .= " AND vcl.created_php_time BETWEEN ? AND ?";
+            $formats .= 'ii';
+            $values[] = strtotime($startDate);
+            $values[] = strtotime($endDate);
+        }
+    
+        // Optional filter for event type
+        if (!empty($event_type)) {
+            $sql .= " AND vcl.type = ?";
+            $formats .= 's';
+            $values[] = $event_type;
+        }
+    
+        // Filter based on campaign type
+        if ($campaign_type === 'own') {
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NOT NULL";
+        } elseif ($campaign_type === 'third-party') {
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL";
+        }
+    
+        // Group results by video to get total advertisement events per video
+        $sql .= " GROUP BY vcl.videos_id, v.title, vc.name ORDER BY total_ads DESC";
+    
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+    
+        return $fullData;
+    }
+    
 
     public static function getEventType()
     {

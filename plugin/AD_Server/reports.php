@@ -24,7 +24,13 @@ foreach ($types as $key => $value) {
 
 ?>
 <div class="container-fluid">
-
+    <style>
+        .clickable-video {
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: underline;
+        }
+    </style>
     <div class="panel panel-default">
         <div class="panel-heading">
             <form id="report-form" class="text-center">
@@ -90,9 +96,11 @@ foreach ($types as $key => $value) {
                                 <option value="adTypes"><?php echo __('Ad Types Overview'); ?></option>
                                 <option value="adsForSingleVideo"><?php echo __('Ads for a Single Video'); ?></option>
                                 <option value="adsByUser"><?php echo __('Ads by User'); ?></option>
+                                <option value="listVideosByUser"><?php echo __('List Videos and Total Ads by User'); ?></option> <!-- New Option -->
                             </select>
                         </div>
                     </div>
+
                     <div class="col-md-3 col-sm-6" id="videos-select-container" style="display:none;">
                         <div class="form-group">
                             <label for="videos_id" class="control-label"><?php echo __('Select Video'); ?>:</label>
@@ -101,6 +109,7 @@ foreach ($types as $key => $value) {
                             ?>
                         </div>
                     </div>
+
 
                     <div class="col-md-3 col-sm-6" id="users-select-container" style="display:none;">
                         <div class="form-group">
@@ -118,15 +127,19 @@ foreach ($types as $key => $value) {
                     </div>
                 </div>
             </form>
-
-
         </div>
         <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 id="selected-filters" class="text-center"></h4> <!-- Filter Info -->
+                    <h4 id="total-sum" class="text-center"></h4> <!-- Total Sum -->
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
             <div class="chart-container" style="position: relative; width:100%; height:auto; max-height:400px;">
                 <canvas id="reportChart"></canvas>
             </div>
-
-
             <table id="reportTable" class="table table-bordered table-responsive table-striped table-hover table-condensed" style="margin-top: 20px;">
                 <thead>
                     <tr>
@@ -143,6 +156,75 @@ foreach ($types as $key => $value) {
 </div>
 
 <script>
+    function setVideoField(videos_id) {
+        if (empty(videos_id)) {
+            return false;
+        }
+        // Change the report type to "Ads for a Single Video"
+        $('#report-type').val('adsForSingleVideo').trigger('change');
+        $('#videos_id').val(videos_id);
+        // Submit the form to regenerate the report
+        $('#report-form').submit();
+        <?php
+        echo ($autoComplete);
+        ?>
+    }
+
+    function displaySelectedFilters(reportType, startDate, endDate, eventType, campaignType) {
+        var filterText = '';
+
+        // Adding filter details in a compact format
+        filterText += '<strong>Report Type:</strong> ' + $('#report-type option:selected').text() + '<br>';
+        filterText += '<strong>Date Range:</strong> ' + startDate + ' to ' + endDate + '<br>';
+
+        // Display Event Type only if it is not empty
+        if (eventType) {
+            filterText += '<strong>Event Type:</strong> ' + $('#event-type option:selected').text() + '<br>';
+        }
+
+        // Display Campaign Type only if it is not 'all'
+        if (campaignType !== 'all') {
+            filterText += '<strong>Campaign Type:</strong> ' + $('#campaign-type option:selected').text();
+        }
+
+        // Update the selected filters section with the constructed HTML
+        $('#selected-filters').html(filterText);
+    }
+
+    function calculateTotalSum(data) {
+        var totalSum = 0;
+
+        // Calculate the total sum of ads
+        data.forEach(function(item) {
+            totalSum += parseInt(item.total_ads) || 0;
+        });
+
+        // Display the total sum with formatting
+        $('#total-sum').html('<strong>Total Ads:</strong> ' + totalSum);
+    }
+
+
+    function createLabel(item) {
+        var videoLabel = '';
+        if (typeof item.video_title !== 'undefined' && !empty(item.video_title)) {
+            videoLabel = '[' + item.videos_id + '] ' + item.video_title;
+        } else if (typeof item.videos_id !== 'undefined' && !empty(item.videos_id)) {
+            videoLabel = '[' + item.videos_id + ']';
+        } else if (typeof item.campaign_name !== 'undefined' && !empty(item.campaign_name)) {
+            videoLabel = item.campaign_name;
+        }
+
+        if (typeof item.type !== 'undefined' && !empty(item.type)) {
+            if (empty(videoLabel)) {
+                videoLabel = 'Google Ads IMA';
+            }
+            videoLabel = [item.type, videoLabel];
+        } else {
+            videoLabel = videoLabel.substring(0, 20);
+        }
+        return videoLabel;
+    }
+
     $(document).ready(function() {
         // Initialize dates
         function setDefaultDates() {
@@ -190,12 +272,12 @@ foreach ($types as $key => $value) {
         // Show/hide fields based on report type
         $('#report-type').change(function() {
             var reportType = $(this).val();
-            if (reportType === 'adsForSingleVideo') {
-                $('#videos-select-container').show();
-                $('#users-select-container').hide();
-            } else if (reportType === 'adsByUser') {
+            if (reportType === 'adsByUser' || reportType === 'listVideosByUser') { // Handle both 'adsByUser' and 'listVideosByUser'
                 $('#videos-select-container').hide();
                 $('#users-select-container').show();
+            } else if (reportType === 'adsForSingleVideo') {
+                $('#videos-select-container').show();
+                $('#users-select-container').hide();
             } else {
                 $('#videos-select-container').hide();
                 $('#users-select-container').hide();
@@ -216,35 +298,51 @@ foreach ($types as $key => $value) {
             var startDate = $('#start-date').val();
             var endDate = $('#end-date').val();
             var reportType = $('#report-type').val();
-            var eventType = $('#event-type').val(); // Get selected event type
-            var campaignType = $('#campaign-type').val(); // Get selected campaign type
-            var videosId = $('#videos_id').val();
+            var eventType = $('#event-type').val();
+            var campaignType = $('#campaign-type').val();
             var usersId = $('#users_id').val();
+            var videosId = 0;
+
+
+            // Validate inputs based on report type
+            if (reportType === 'adsForSingleVideo') {
+                videosId = $('#videos_id').val();
+                if ((!videosId || videosId < 1)) {
+                    avideoAlertError('Please select a valid video');
+                    return; // Stop form submission
+                }
+            }
+
+            if ((reportType === 'adsByUser' || reportType === 'listVideosByUser') && (!usersId || usersId < 1)) {
+                avideoAlertError('Please select a valid user');
+                return; // Stop form submission
+            }
+
 
             var requestData = {
                 startDate: startDate,
                 endDate: endDate,
                 reportType: reportType,
-                eventType: eventType, // Include the event type in the request
-                campaignType: campaignType // Include the campaign type in the request
+                eventType: eventType,
+                campaignType: campaignType,
+                users_id: usersId,
+                videos_id: videosId
             };
-
-            if (reportType === 'adsForSingleVideo') {
-                requestData.videos_id = videosId;
-            } else if (reportType === 'adsByUser') {
-                requestData.users_id = usersId;
-            }
+            // Display the selected filters
+            displaySelectedFilters(reportType, startDate, endDate, eventType, campaignType);
 
             $.ajax({
-                url: webSiteRootURL + 'plugin/AD_Server/reports.json.php',
+                url: webSiteRootURL + 'plugin/AD_Server/reports.json.php', // Ensure this URL is correct and can handle the request
                 method: 'POST',
                 data: requestData,
                 success: function(response) {
                     generateChart(response, reportType);
                     populateTable(response);
+                    calculateTotalSum(response); // Calculate the total sum of ads
                 }
             });
         });
+
 
         $('#report-form').submit();
         var reportChartInstance = null; // Variable to hold the chart instance
@@ -255,19 +353,19 @@ foreach ($types as $key => $value) {
             var labels = [];
             var values = [];
             var backgroundColors = [];
-
-            // Log the response data for debugging
-            console.log("Response Data:", data);
+            var videoIds = []; // Array to store video IDs for corresponding columns
 
             // Check if there is an existing chart instance and destroy it before creating a new one
             if (reportChartInstance !== null) {
                 reportChartInstance.destroy();
             }
 
-            // Process the response based on report type
+            // Process the response data
             data.forEach(function(item, index) {
-                labels.push(item.type || 'Video ' + item.videos_id);
+                var videoLabel = createLabel(item);
+                labels.push(videoLabel);
                 values.push(item.total_ads);
+                videoIds.push(item.videos_id); // Store video IDs
                 backgroundColors.push(getRandomColor());
             });
 
@@ -284,7 +382,7 @@ foreach ($types as $key => $value) {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: __('Total'),
+                        label: __('Total Ads'),
                         data: values,
                         backgroundColor: backgroundColors,
                         borderColor: 'rgba(75, 192, 192, 1)',
@@ -303,19 +401,57 @@ foreach ($types as $key => $value) {
                         legend: {
                             display: false // This hides the top label (legend)
                         }
+                    },
+                    onClick: function(event, elements) {
+                        if (elements.length > 0) {
+                            // Get the index of the clicked bar
+                            var clickedIndex = elements[0].index;
+                            var selectedVideoId = videoIds[clickedIndex]; // Retrieve the corresponding video ID
+
+                            // Set the #videos_id to the clicked video's ID
+                            setVideoField(selectedVideoId);
+                        }
+                    },
+                    hover: {
+                        onHover: function(event, chartElement) {
+                            event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                        }
                     }
                 }
             });
-
         }
 
         function populateTable(data) {
             reportTable.clear();
+
             data.forEach(function(item) {
-                reportTable.row.add([item.type || 'Video ' + item.videos_id, item.total_ads]);
+                var videoLabel = createLabel(item);
+                var totalAds = item.total_ads;
+
+                // Create a row and make the first column clickable if it's a video
+                var row = $('<tr>');
+                var videoCell = $('<td>').text(videoLabel);
+
+                if (item.videos_id) {
+                    videoCell.addClass('clickable-video').css('cursor', 'pointer').data('videosId', item.videos_id);
+                }
+
+                var totalCell = $('<td>').text(totalAds);
+                row.append(videoCell).append(totalCell);
+                reportTable.row.add(row);
             });
+
             reportTable.draw();
+
+            // Attach click event to video cells
+            $('.clickable-video').on('click', function() {
+                var selectedVideoId = $(this).data('videosId');
+                // Set the #videos_id to the clicked video's ID
+                setVideoField(selectedVideoId);
+            });
         }
+
+
 
         function getRandomColor() {
             var letters = '0123456789ABCDEF';

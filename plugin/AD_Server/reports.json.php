@@ -4,43 +4,61 @@ header('Content-Type: application/json');
 
 require_once '../../videos/configuration.php';
 
-// Fetch request parameters
-$startDate = $_REQUEST['startDate'] . ' 00:00:00';
-$endDate = $_REQUEST['endDate'] . ' 23:59:59';
-$reportType = $_REQUEST['reportType'];
+// Fetch request parameters with safety checks
+$startDate = !empty($_REQUEST['startDate']) ? $_REQUEST['startDate'] . ' 00:00:00' : null;
+$endDate = !empty($_REQUEST['endDate']) ? $_REQUEST['endDate'] . ' 23:59:59' : null;
+$reportType = isset($_REQUEST['reportType']) ? $_REQUEST['reportType'] : null;
 
-$vast_campaigns_id = intval(@$_REQUEST['vast_campaigns_id']); // Campaign ID (optional)
-$videos_id = isset($_REQUEST['videos_id']) ? intval($_REQUEST['videos_id']) : null; // Video ID (optional)
-$users_id = isset($_REQUEST['users_id']) ? intval($_REQUEST['users_id']) : null; // User ID (optional)
-$event_type = isset($_REQUEST['eventType']) ? $_REQUEST['eventType'] : null; // Event type filter (optional)
-$campaign_type = isset($_REQUEST['campaignType']) ? $_REQUEST['campaignType'] : 'all'; // Campaign type filter (optional)
+// Additional request parameters with default fallbacks and validation
+$vast_campaigns_id = intval(@$_REQUEST['vast_campaigns_id']); // Optional campaign ID
+$videos_id = isset($_REQUEST['videos_id']) ? intval($_REQUEST['videos_id']) : null; // Optional video ID
+$users_id = isset($_REQUEST['users_id']) ? intval($_REQUEST['users_id']) : null; // Optional user ID
+$event_type = isset($_REQUEST['eventType']) ? $_REQUEST['eventType'] : null; // Optional event type
+$campaign_type = isset($_REQUEST['campaignType']) ? $_REQUEST['campaignType'] : 'all'; // Default to 'all' if not specified
 
 $reportData = [];
 
 // Generate report based on selected report type
-if ($reportType === 'adsByVideo') {
-    // Get ads by video, with optional filtering by video ID, event type, and campaign type
-    $reportData = VastCampaignsLogs::getAdsByVideoAndPeriod($vast_campaigns_id, $startDate, $endDate, $videos_id, $event_type, $campaign_type);
+switch ($reportType) {
+    case 'adsByVideo':
+        // Get ads by video, with optional filtering
+        $reportData = VastCampaignsLogs::getAdsByVideoAndPeriod($vast_campaigns_id, $startDate, $endDate, $videos_id, $event_type, $campaign_type);
+        break;
 
-} elseif ($reportType === 'adTypes') {
-    // Get ad types overview, optionally filtering by event type and campaign type
-    $reportData = VastCampaignsLogs::getAdTypesByPeriod($vast_campaigns_id, $startDate, $endDate, $event_type, $campaign_type);
+    case 'adTypes':
+        // Get ad types overview, optionally filtering by event type and campaign type
+        $reportData = VastCampaignsLogs::getAdTypesByPeriod($vast_campaigns_id, $startDate, $endDate, $event_type, $campaign_type);
+        break;
 
-} elseif ($reportType === 'adsByUser') {
-    // Get ads by user, filtering by user ID, event type, and campaign type
-    if (!empty($users_id)) {
-        $reportData = VastCampaignsLogs::getAdsByUserAndEventType($users_id, $startDate, $endDate, $event_type, $campaign_type); // Fetch ads by user with event types
-    } else {
-        $reportData = ['error' => 'Missing users_id parameter'];
-    }
+    case 'adsByUser':
+        // Ensure user ID is provided for fetching ads by user
+        if (!empty($users_id)) {
+            $reportData = VastCampaignsLogs::getAdsByVideoForUser($users_id, $startDate, $endDate, $event_type, $campaign_type);
+        } else {
+            $reportData = ['error' => 'Missing users_id parameter'];
+        }
+        break;
+    case 'listVideosByUser':
+        // Ensure user ID is provided for fetching ads by user
+        if (!empty($users_id)) {
+            $reportData = VastCampaignsLogs::getAdsByVideoForUser($users_id, $startDate, $endDate, $event_type, $campaign_type);
+        } else {
+            $reportData = ['error' => 'Missing users_id parameter'];
+        }
+        break;
 
-} elseif ($reportType === 'adsForSingleVideo') {
-    // Get ads for a single video, broken down by event types and campaign type
-    if (!empty($videos_id)) {
-        $reportData = VastCampaignsLogs::getAdsByVideoAndEventType($videos_id, $startDate, $endDate, $event_type, $campaign_type); // Fetch ads for a single video with event types
-    } else {
-        $reportData = ['error' => 'Missing videos_id parameter'];
-    }
+    case 'adsForSingleVideo':
+        // Ensure video ID is provided for fetching ads for a single video
+        if (!empty($videos_id)) {
+            $reportData = VastCampaignsLogs::getAdsByVideoAndEventType($videos_id, $startDate, $endDate, $event_type, $campaign_type);
+        } else {
+            $reportData = ['error' => 'Missing videos_id parameter'];
+        }
+        break;
+
+    default:
+        $reportData = ['error' => 'Invalid or missing reportType parameter'];
+        break;
 }
 
 // Return the JSON response
