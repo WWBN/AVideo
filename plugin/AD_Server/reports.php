@@ -156,6 +156,29 @@ foreach ($types as $key => $value) {
 </div>
 
 <script>
+    const eventColors = {
+        'AdStarted': '#00bfff', // Light Blue (Start of the ad)
+        'AdFirstQuartile': '#4682b4', // Steel Blue (Progress through ad)
+        'AdMidpoint': '#1e90ff', // Dodger Blue (Halfway through ad)
+        'AdThirdQuartile': '#4169e1', // Royal Blue (Near completion of ad)
+        'AdCompleted': '#32cd32', // Lime Green (Ad fully completed)
+        'AdPaused': '#ffcc00', // Amber (Pausing the ad)
+        'AdResumed': '#00ced1', // Dark Turquoise (Resuming the ad)
+        'AdSkipped': '#ff8c00', // Dark Orange (Ad skipped)
+        'AdClicked': '#00fa9a', // Medium Spring Green (Clicking on ad)
+        'AdError': '#ff0000', // Red (Indicates an error)
+        'AdMuted': '#b0c4de', // Light Steel Blue (Muted ad)
+        'AdUnmuted': '#32cd32', // Lime Green (Unmuted ad)
+        'AdRewind': '#800080', // Purple (Rewinding the ad)
+        'AdFullscreen': '#4682b4', // Steel Blue (Entering fullscreen)
+        'AdCreativeView': '#20b2aa', // Light Sea Green (Viewing creative ad)
+        'AdExitFullscreen': '#ff6347', // Tomato (Exiting fullscreen)
+        'AdAcceptInvitationLinear': '#ffd700', // Gold (Accepting linear ad invitation)
+        'AdCloseLinear': '#696969' // Dim Grey (Closing linear ad)
+    };
+
+
+
     function setVideoField(videos_id) {
         if (empty(videos_id)) {
             return false;
@@ -366,7 +389,11 @@ foreach ($types as $key => $value) {
                 labels.push(videoLabel);
                 values.push(item.total_ads);
                 videoIds.push(item.videos_id); // Store video IDs
-                backgroundColors.push(getRandomColor());
+
+                // Assign color based on event type, use default color if none found
+                var eventType = item.type;
+                var color = eventColors[eventType] || getRandomColor(); // Use event color or fallback to random
+                backgroundColors.push(color);
             });
 
             // If there's no data, show a friendly message
@@ -420,6 +447,7 @@ foreach ($types as $key => $value) {
                 }
             });
         }
+
 
         function populateTable(data) {
             reportTable.clear();
