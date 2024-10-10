@@ -424,7 +424,7 @@ foreach ($types as $key => $value) {
             var row = $('<tr>');
 
             // Create the video cell with fallback for no video title
-            var videoCell = $('<td>').text(item.video_title || videoLabel);
+            var videoCell = $('<td>').html(createLabel(item).join('<br>'));
             if (item.videos_id) {
                 videoCell.addClass('clickable-video').css('cursor', 'pointer').data('videosId', item.videos_id);
             }
