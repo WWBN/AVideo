@@ -290,7 +290,7 @@ foreach ($types as $key => $value) {
             videoLabel.push('[' + item.users_id + '] ' + item.channelName);
         }
         videoLabel = videoLabel.map(function(label) {
-            return label.length > 20 ? label.substring(0, 20) + '...' : label;
+            return label.length > 40 ? label.substring(0, 40) + '...' : label;
         });
         return videoLabel;
     }
@@ -502,6 +502,11 @@ foreach ($types as $key => $value) {
                 scales: {
                     y: {
                         beginAtZero: true
+                    },
+                    x: {
+                        ticks: {
+                            display: false // Hide the X-axis labels
+                        }
                     }
                 },
                 plugins: {
