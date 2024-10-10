@@ -246,7 +246,7 @@ foreach ($types as $key => $value) {
             });
         });
 
-
+        $('#report-form').submit();
         var reportChartInstance = null; // Variable to hold the chart instance
 
         function generateChart(data, reportType) {
