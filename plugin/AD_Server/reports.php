@@ -293,6 +293,9 @@ foreach ($types as $key => $value) {
         }
 
         videoLabel = videoLabel.map(function(label) {
+            if(typeof label == 'undefined'){
+                return '';
+            }
             return label.length > 40 ? label.substring(0, 40) + '...' : label;
         });
         return videoLabel;
