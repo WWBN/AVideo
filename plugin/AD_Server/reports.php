@@ -150,12 +150,16 @@ foreach ($types as $key => $value) {
                     <tr>
                         <th><?php echo __('Label'); ?></th>
                         <th><?php echo __('Total'); ?></th>
+                        <th><?php echo __('User'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Data will be populated dynamically -->
                 </tbody>
             </table>
+            <!-- Add a button to download CSV -->
+            <button id="download-csv-btn" class="btn btn-success btn-block"><?php echo __('Download CSV'); ?></button>
+
         </div>
     </div>
 </div>
@@ -182,10 +186,50 @@ foreach ($types as $key => $value) {
         'AdCloseLinear': '#696969' // Dim Grey (Closing linear ad)
     };
 
+    var reportChartInstance = null;
+    var reportTable; // Declare reportTable variable globally
+    var lastReportTableData;
+
+    function jsonToCSV(jsonData) {
+        const csvRows = [];
+
+        // Get the headers from the first element of the JSON data
+        const headers = Object.keys(jsonData[0]);
+        csvRows.push(headers.join(',')); // Add headers as the first row in the CSV
+
+        // Loop through the JSON data and convert each row to CSV format
+        jsonData.forEach(item => {
+            const values = headers.map(header => {
+                // Handle undefined or null values
+                const escapeValue = item[header] == null ? '' : item[header].toString().replace(/"/g, '""');
+                return `"${escapeValue}"`; // Add quotes around the value
+            });
+            csvRows.push(values.join(',')); // Add the row to the CSV
+        });
+
+        return csvRows.join('\n'); // Join rows with newlines to form the final CSV string
+    }
+
+    function downloadCSV(csvContent, filename = 'report.csv') {
+        const blob = new Blob([csvContent], {
+            type: 'text/csv'
+        });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+
+        // Append the link to the body, trigger the download, and then remove the link
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 
 
     function setVideoField(videos_id) {
         if (empty(videos_id)) {
+            return false;
+        }
+        if ($('#videos_id').val() == videos_id) {
             return false;
         }
         // Change the report type to "Ads for a Single Video"
@@ -198,25 +242,19 @@ foreach ($types as $key => $value) {
         ?>
     }
 
-    function displaySelectedFilters(reportType, startDate, endDate, eventType, campaignType) {
-        var filterText = '';
-
-        // Adding filter details in a compact format
-        filterText += '<strong>Report Type:</strong> ' + $('#report-type option:selected').text() + '<br>';
-        filterText += '<strong>Date Range:</strong> ' + startDate + ' to ' + endDate + '<br>';
-
-        // Display Event Type only if it is not empty
-        if (eventType) {
-            filterText += '<strong>Event Type:</strong> ' + $('#event-type option:selected').text() + '<br>';
+    function setEventType(selectedEventType) {
+        if (empty(selectedEventType)) {
+            return false;
         }
-
-        // Display Campaign Type only if it is not 'all'
-        if (campaignType !== 'all') {
-            filterText += '<strong>Campaign Type:</strong> ' + $('#campaign-type option:selected').text();
+        if ($('#report-type').val() === 'adsByVideo') {
+            return false;
         }
+        $('#report-type').val('adsByVideo');
+        // Automatically set the #event-type dropdown to the clicked event type
+        $('#event-type').val(selectedEventType);
 
-        // Update the selected filters section with the constructed HTML
-        $('#selected-filters').html(filterText);
+        // Trigger the form submission
+        $('#report-form').submit();
     }
 
     function calculateTotalSum(data) {
@@ -233,90 +271,280 @@ foreach ($types as $key => $value) {
 
 
     function createLabel(item) {
-        var videoLabel = '';
+        var videoLabel = [];
         if (typeof item.video_title !== 'undefined' && !empty(item.video_title)) {
-            videoLabel = '[' + item.videos_id + '] ' + item.video_title;
+            videoLabel.push('[' + item.videos_id + '] ' + item.video_title);
         } else if (typeof item.videos_id !== 'undefined' && !empty(item.videos_id)) {
-            videoLabel = '[' + item.videos_id + ']';
+            videoLabel.push('[' + item.videos_id + ']');
         } else if (typeof item.campaign_name !== 'undefined' && !empty(item.campaign_name)) {
-            videoLabel = item.campaign_name;
+            videoLabel.push(item.campaign_name);
         }
 
         if (typeof item.type !== 'undefined' && !empty(item.type)) {
             if (empty(videoLabel)) {
-                videoLabel = 'Google Ads IMA';
+                videoLabel.push('Google Ads IMA');
             }
-            videoLabel = [item.type, videoLabel];
-        } else {
-            videoLabel = videoLabel.substring(0, 20);
+            videoLabel.push(item.type);
         }
+        if (typeof item.channelName !== 'undefined' && !empty(item.channelName)) {
+            videoLabel.push('[' + item.users_id + '] ' + item.channelName);
+        }
+        videoLabel = videoLabel.map(function(label) {
+            return label.length > 20 ? label.substring(0, 20) + '...' : label;
+        });
         return videoLabel;
     }
 
-    $(document).ready(function() {
-        // Initialize dates
-        function setDefaultDates() {
-            var today = new Date();
-            var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    // Function to handle the user click event and trigger listVideosByUser report
+    function setUserField(users_id) {
+        if (empty(users_id)) {
+            return false;
+        }
+        // Change the report type to "List Videos and Total Ads by User"
+        $('#report-type').val('listVideosByUser').trigger('change');
+        $('#users_id').val(users_id);
+        // Submit the form to regenerate the report for the selected user
+        $('#report-form').submit();
+        <?php
+        echo ($updateUserAutocomplete);
+        ?>
+    }
 
-            $('#start-date').val(firstDayOfMonth.toISOString().substr(0, 10));
-            $('#end-date').val(today.toISOString().substr(0, 10));
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    // Function to set default dates
+    function setDefaultDates() {
+        var today = new Date();
+        var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        $('#start-date').val(firstDayOfMonth.toISOString().substr(0, 10));
+        $('#end-date').val(today.toISOString().substr(0, 10));
+    }
+
+    // Function to handle date range changes
+    function handleDateRangeChange() {
+        var today = new Date();
+        var startDate, endDate;
+
+        switch ($('#date-range').val()) {
+            case 'thisMonth':
+                startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                endDate = today;
+                break;
+            case 'thisWeek':
+                var firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+                startDate = firstDayOfWeek;
+                endDate = new Date();
+                break;
+            case 'last2Months':
+                startDate = new Date(today.getFullYear(), today.getMonth() - 2, 1);
+                endDate = today;
+                break;
+            case 'thisYear':
+                startDate = new Date(today.getFullYear(), 0, 1);
+                endDate = today;
+                break;
+            case 'custom':
+            default:
+                return; // Do nothing for custom
         }
 
-        setDefaultDates(); // Set default dates to the first day of this month and today
+        $('#start-date').val(startDate.toISOString().substr(0, 10));
+        $('#end-date').val(endDate.toISOString().substr(0, 10));
+    }
+
+    // Function to handle report type changes
+    function handleReportTypeChange() {
+        var reportType = $('#report-type').val();
+        if (reportType === 'adsByUser' || reportType === 'listVideosByUser') {
+            $('#videos-select-container').hide();
+            $('#users-select-container').show();
+        } else if (reportType === 'adsForSingleVideo') {
+            $('#videos-select-container').show();
+            $('#users-select-container').hide();
+        } else {
+            $('#videos-select-container').hide();
+            $('#users-select-container').hide();
+        }
+    }
+
+    // Function to display selected filters
+    function displaySelectedFilters(reportType, startDate, endDate, eventType, campaignType) {
+        var filterText = '';
+
+        filterText += '<strong>Report Type:</strong> ' + $('#report-type option:selected').text() + '<br>';
+        filterText += '<strong>Date Range:</strong> ' + startDate + ' to ' + endDate + '<br>';
+
+        if (eventType) {
+            filterText += '<strong>Event Type:</strong> ' + $('#event-type option:selected').text() + '<br>';
+        }
+
+        if (campaignType !== 'all') {
+            filterText += '<strong>Campaign Type:</strong> ' + $('#campaign-type option:selected').text();
+        }
+
+        $('#selected-filters').html(filterText);
+    }
+
+    // Function to populate the DataTable with new data
+    function populateTable(data) {
+        // Clear the table and remove any lingering data
+        reportTable.clear().draw(); // Clear the DataTable before adding new data
+
+        console.log('populateTable', data); // Log the data to check it's new data
+        lastReportTableData = data;
+        // Loop through the new data and add it to the table
+        data.forEach(function(item) {
+            var videoLabel = createLabel(item);
+            var totalAds = item.total_ads;
+            var userCellContent = '';
+
+            // Generate the user link or display "Unknown User"
+            if (item.users_id && item.channelName) {
+                userCellContent = `<a href="#" class="clickable-user" data-users-id="${item.users_id}">[${item.users_id}] ${item.channelName}</a>`;
+            } else if (item.users_id) {
+                userCellContent = `<a href="#" class="clickable-user" data-users-id="${item.users_id}">[${item.users_id}]</a>`;
+            } else {
+                userCellContent = ' -- ';
+            }
+
+            // Create a row element for the table
+            var row = $('<tr>');
+
+            // Create the video cell with fallback for no video title
+            var videoCell = $('<td>').text(item.video_title || videoLabel);
+            if (item.videos_id) {
+                videoCell.addClass('clickable-video').css('cursor', 'pointer').data('videosId', item.videos_id);
+            }
+
+            // Create the total ads cell
+            var totalCell = $('<td>').text(totalAds);
+
+            // Create the user cell with the clickable content
+            var userCell = $('<td>').html(userCellContent);
+
+            // Append the cells to the row
+            row.append(videoCell).append(totalCell).append(userCell);
+
+            // Add the row to the DataTable
+            reportTable.row.add(row); // No need to call [0], just use the jQuery object
+        });
+
+        // Redraw the table to show the new data
+        reportTable.draw();
+
+        // Reattach click events to new clickable elements after rows are added
+        $('.clickable-video').on('click', function() {
+            var selectedVideoId = $(this).data('videosId');
+            setVideoField(selectedVideoId); // Trigger Ads for the selected video
+        });
+
+        $('.clickable-user').on('click', function(e) {
+            e.preventDefault();
+            var selectedUserId = $(this).data('users-id');
+            setUserField(selectedUserId); // Trigger the listVideosByUser report
+        });
+    }
+
+    // Function to generate the chart
+    function generateChart(data, reportType) {
+        var ctx = document.getElementById('reportChart').getContext('2d');
+        var chartType = 'bar';
+        var labels = [];
+        var values = [];
+        var backgroundColors = [];
+        var videoIds = [];
+        var eventTypes = [];
+
+        if (reportChartInstance !== null && typeof reportChartInstance !== 'undefined') {
+            reportChartInstance.destroy();
+        }
+
+        data.forEach(function(item) {
+            var videoLabel = createLabel(item);
+            labels.push(videoLabel);
+            values.push(item.total_ads);
+            videoIds.push(item.videos_id);
+
+            var eventType = item.type;
+            eventTypes.push(eventType); // Store the event type for each column
+            var color = eventColors[eventType] || getRandomColor();
+            backgroundColors.push(color);
+        });
+
+        if (labels.length === 0) {
+            labels.push("No data available");
+            values.push(0);
+            backgroundColors.push('#ddd');
+        }
+
+        reportChartInstance = new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: __('Total Ads'),
+                    data: values,
+                    backgroundColor: backgroundColors,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                onClick: function(event, elements) {
+                    if (elements.length > 0) {
+                        var clickedIndex = elements[0].index;
+                        var selectedVideoId = videoIds[clickedIndex];
+                        var selectedEventType = eventTypes[clickedIndex];
+                        setVideoField(selectedVideoId);
+                        setEventType(selectedEventType);
+                    }
+                },
+                hover: {
+                    onHover: function(event, chartElement) {
+                        event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                    }
+                }
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        reportTable = $('#reportTable').DataTable({
+            paging: true,
+            searching: false,
+            ordering: false
+        });
+
+        // Set default dates when the page loads
+        setDefaultDates();
 
         // Handle date range selection
         $('#date-range').change(function() {
-            var today = new Date();
-            var startDate, endDate;
-
-            switch ($(this).val()) {
-                case 'thisMonth':
-                    startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-                    endDate = today;
-                    break;
-                case 'thisWeek':
-                    var firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
-                    startDate = firstDayOfWeek;
-                    endDate = new Date();
-                    break;
-                case 'last2Months':
-                    startDate = new Date(today.getFullYear(), today.getMonth() - 2, 1);
-                    endDate = today;
-                    break;
-                case 'thisYear':
-                    startDate = new Date(today.getFullYear(), 0, 1);
-                    endDate = today;
-                    break;
-                case 'custom':
-                default:
-                    return; // Do nothing for custom
-            }
-
-            $('#start-date').val(startDate.toISOString().substr(0, 10));
-            $('#end-date').val(endDate.toISOString().substr(0, 10));
+            handleDateRangeChange();
         });
 
         // Show/hide fields based on report type
         $('#report-type').change(function() {
-            var reportType = $(this).val();
-            if (reportType === 'adsByUser' || reportType === 'listVideosByUser') { // Handle both 'adsByUser' and 'listVideosByUser'
-                $('#videos-select-container').hide();
-                $('#users-select-container').show();
-            } else if (reportType === 'adsForSingleVideo') {
-                $('#videos-select-container').show();
-                $('#users-select-container').hide();
-            } else {
-                $('#videos-select-container').hide();
-                $('#users-select-container').hide();
-            }
-        });
-
-        // Initialize DataTable
-        var reportTable = $('#reportTable').DataTable({
-            paging: true,
-            searching: false,
-            ordering: false
+            handleReportTypeChange();
         });
 
         // Submit form to get report
@@ -330,7 +558,6 @@ foreach ($types as $key => $value) {
             var campaignType = $('#campaign-type').val();
             var usersId = $('#users_id').val();
             var videosId = 0;
-
 
             // Validate inputs based on report type
             if (reportType === 'adsForSingleVideo') {
@@ -346,7 +573,6 @@ foreach ($types as $key => $value) {
                 return; // Stop form submission
             }
 
-
             var requestData = {
                 startDate: startDate,
                 endDate: endDate,
@@ -356,6 +582,7 @@ foreach ($types as $key => $value) {
                 users_id: usersId,
                 videos_id: videosId
             };
+
             // Display the selected filters
             displaySelectedFilters(reportType, startDate, endDate, eventType, campaignType);
 
@@ -365,135 +592,21 @@ foreach ($types as $key => $value) {
                 data: requestData,
                 success: function(response) {
                     generateChart(response, reportType);
+
                     populateTable(response);
                     calculateTotalSum(response); // Calculate the total sum of ads
+
+                    // Enable the download button with the JSON response data
+                    $('#download-csv-btn').off('click').on('click', function() {
+                        const csvContent = jsonToCSV(response); // Convert the JSON response to CSV
+                        downloadCSV(csvContent); // Trigger the CSV download
+                    });
                 }
             });
         });
 
-
+        // Trigger the form submission when the page loads
         $('#report-form').submit();
-        var reportChartInstance = null; // Variable to hold the chart instance
-
-        function generateChart(data, reportType) {
-            var ctx = document.getElementById('reportChart').getContext('2d');
-            var chartType = 'bar';
-            var labels = [];
-            var values = [];
-            var backgroundColors = [];
-            var videoIds = []; // Array to store video IDs for corresponding columns
-
-            // Check if there is an existing chart instance and destroy it before creating a new one
-            if (reportChartInstance !== null) {
-                reportChartInstance.destroy();
-            }
-
-            // Process the response data
-            data.forEach(function(item, index) {
-                var videoLabel = createLabel(item);
-                labels.push(videoLabel);
-                values.push(item.total_ads);
-                videoIds.push(item.videos_id); // Store video IDs
-
-                // Assign color based on event type, use default color if none found
-                var eventType = item.type;
-                var color = eventColors[eventType] || getRandomColor(); // Use event color or fallback to random
-                backgroundColors.push(color);
-            });
-
-            // If there's no data, show a friendly message
-            if (labels.length === 0) {
-                labels.push("No data available");
-                values.push(0);
-                backgroundColors.push('#ddd');
-            }
-
-            // Create the new chart instance and assign it to the reportChartInstance variable
-            reportChartInstance = new Chart(ctx, {
-                type: chartType,
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: __('Total Ads'),
-                        data: values,
-                        backgroundColor: backgroundColors,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false, // Allows for flexible height
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false // This hides the top label (legend)
-                        }
-                    },
-                    onClick: function(event, elements) {
-                        if (elements.length > 0) {
-                            // Get the index of the clicked bar
-                            var clickedIndex = elements[0].index;
-                            var selectedVideoId = videoIds[clickedIndex]; // Retrieve the corresponding video ID
-
-                            // Set the #videos_id to the clicked video's ID
-                            setVideoField(selectedVideoId);
-                        }
-                    },
-                    hover: {
-                        onHover: function(event, chartElement) {
-                            event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
-                        }
-                    }
-                }
-            });
-        }
-
-
-        function populateTable(data) {
-            reportTable.clear();
-
-            data.forEach(function(item) {
-                var videoLabel = createLabel(item);
-                var totalAds = item.total_ads;
-
-                // Create a row and make the first column clickable if it's a video
-                var row = $('<tr>');
-                var videoCell = $('<td>').text(videoLabel);
-
-                if (item.videos_id) {
-                    videoCell.addClass('clickable-video').css('cursor', 'pointer').data('videosId', item.videos_id);
-                }
-
-                var totalCell = $('<td>').text(totalAds);
-                row.append(videoCell).append(totalCell);
-                reportTable.row.add(row);
-            });
-
-            reportTable.draw();
-
-            // Attach click event to video cells
-            $('.clickable-video').on('click', function() {
-                var selectedVideoId = $(this).data('videosId');
-                // Set the #videos_id to the clicked video's ID
-                setVideoField(selectedVideoId);
-            });
-        }
-
-
-
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
     });
 </script>
 <?php

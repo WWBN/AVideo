@@ -236,9 +236,10 @@ class VastCampaignsLogs extends ObjectYPT
         $formats = '';
         $values = [];
 
-        $sql = "SELECT v.title as video_title, vcl.videos_id, COUNT(vcl.id) as total_ads, vc.name as campaign_name
+        $sql = "SELECT v.title as video_title, u.channelName, v.users_id, vcl.videos_id, COUNT(vcl.id) as total_ads, vc.name as campaign_name
         FROM vast_campaigns_logs vcl
         LEFT JOIN videos v ON v.id = vcl.videos_id
+        LEFT JOIN users u ON u.id = v.users_id
         LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
         LEFT JOIN vast_campaigns vc ON vc.id = vchv.vast_campaigns_id
         WHERE 1 = 1";
@@ -339,7 +340,7 @@ class VastCampaignsLogs extends ObjectYPT
         $formats = '';
         $values = [];
 
-        $sql = "SELECT vcl.type, COUNT(vcl.id) as total_ads, vc.name as campaign_name
+        $sql = "SELECT vcl.type, COUNT(vcl.id) as total_ads, vc.name as campaign_name, v.users_id
             FROM vast_campaigns_logs vcl
             LEFT JOIN videos v ON v.id = vcl.videos_id
             LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
@@ -429,7 +430,7 @@ class VastCampaignsLogs extends ObjectYPT
         $values = [];
     
         // Query to fetch advertisement events related to videos by a specific user
-        $sql = "SELECT v.title AS video_title, vcl.videos_id, COUNT(vcl.id) AS total_ads, vc.name AS campaign_name
+        $sql = "SELECT v.title AS video_title, vcl.videos_id, COUNT(vcl.id) AS total_ads, vc.name AS campaign_name, v.users_id
                 FROM vast_campaigns_logs vcl
                 LEFT JOIN videos v ON v.id = vcl.videos_id
                 LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
@@ -470,7 +471,6 @@ class VastCampaignsLogs extends ObjectYPT
     
         return $fullData;
     }
-    
 
     public static function getEventType()
     {
