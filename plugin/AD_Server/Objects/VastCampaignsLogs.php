@@ -237,14 +237,14 @@ class VastCampaignsLogs extends ObjectYPT
         $values = [];
 
         $sql = "SELECT v.title as video_title, vcl.videos_id, COUNT(vcl.id) as total_ads, vc.name as campaign_name
-            FROM vast_campaigns_logs vcl
-            LEFT JOIN videos v ON v.id = vcl.videos_id
-            LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
-            LEFT JOIN vast_campaigns vc ON vc.id = vchv.vast_campaigns_id
-            WHERE 1 = 1";
+        FROM vast_campaigns_logs vcl
+        LEFT JOIN videos v ON v.id = vcl.videos_id
+        LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
+        LEFT JOIN vast_campaigns vc ON vc.id = vchv.vast_campaigns_id
+        WHERE 1 = 1";
 
         if (!empty($vast_campaigns_id)) {
-            $sql .= " AND vchv.vast_campaigns_id = ? ";
+            $sql .= " AND vchv.vast_campaigns_id = ?";
             $formats .= 'i';
             $values[] = $vast_campaigns_id;
         }
@@ -252,39 +252,40 @@ class VastCampaignsLogs extends ObjectYPT
         if (!empty($startDate) && !empty($endDate)) {
             $sql .= " AND vcl.created_php_time BETWEEN ? AND ?";
             $formats .= 'ii';
-            $values[] = _strtotime($startDate);
+            $values[] = _strtotime($startDate); // Assuming _strtotime() converts date string to UNIX timestamp
             $values[] = _strtotime($endDate);
         }
 
         if (!empty($videos_id)) {
-            $sql .= " AND vcl.videos_id = ? ";
+            $sql .= " AND vcl.videos_id = ?";
             $formats .= 'i';
             $values[] = $videos_id;
         }
 
         // Optional event type filter
         if (!empty($event_type)) {
-            $sql .= " AND vcl.type = ? ";
+            $sql .= " AND vcl.type = ?";
             $formats .= 's';
             $values[] = $event_type;
         }
 
         // Apply filter based on the campaign type
         if ($campaign_type === 'own') {
-            // Filter for own campaigns (non-null vast_campaigns_has_videos_id)
-            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NOT NULL ";
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NOT NULL";
         } elseif ($campaign_type === 'third-party') {
-            // Filter for third-party campaigns (null vast_campaigns_has_videos_id)
-            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL ";
+            $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL";
         }
 
-        $sql .= " GROUP BY vcl.videos_id ORDER BY total_ads DESC";
+        // Properly group by all non-aggregated fields to comply with ONLY_FULL_GROUP_BY SQL mode
+        $sql .= " GROUP BY vcl.videos_id, v.title, vc.name ORDER BY total_ads DESC";
+
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
 
         return $fullData;
     }
+
 
     public static function getAdTypesByPeriod($vast_campaigns_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all')
     {
@@ -325,7 +326,7 @@ class VastCampaignsLogs extends ObjectYPT
             $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL "; // Only third-party campaigns
         }
 
-        $sql .= " GROUP BY vcl.type ORDER BY total_ads DESC";
+        $sql .= " GROUP BY vcl.type, vc.name ORDER BY total_ads DESC";
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -370,7 +371,7 @@ class VastCampaignsLogs extends ObjectYPT
             $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL "; // Only third-party campaigns
         }
 
-        $sql .= " GROUP BY vcl.type ORDER BY total_ads DESC";
+        $sql .= " GROUP BY vcl.type, vc.name ORDER BY total_ads DESC";
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -414,7 +415,7 @@ class VastCampaignsLogs extends ObjectYPT
             $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL "; // Only third-party campaigns
         }
 
-        $sql .= " GROUP BY vcl.type ORDER BY total_ads DESC";
+        $sql .= " GROUP BY vcl.type, vc.name ORDER BY total_ads DESC";
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
