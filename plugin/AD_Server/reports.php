@@ -276,7 +276,13 @@ foreach ($types as $key => $value) {
             videoLabel.push('[' + item.videos_id + '] ' + item.video_title);
         } else if (typeof item.videos_id !== 'undefined' && !empty(item.videos_id)) {
             videoLabel.push('[' + item.videos_id + ']');
-        } else if (typeof item.campaign_name !== 'undefined' && !empty(item.campaign_name)) {
+        } 
+
+        if (typeof item.channelName !== 'undefined' && !empty(item.channelName)) {
+            videoLabel.push('[' + item.users_id + '] ' + item.channelName);
+        }
+
+        if (typeof item.campaign_name !== 'undefined' && !empty(item.campaign_name)) {
             videoLabel.push(item.campaign_name);
             videoLabel.push(item.type);
         }else if (typeof item.type !== 'undefined' && !empty(item.type)) {
@@ -284,8 +290,6 @@ foreach ($types as $key => $value) {
                 videoLabel.push('Google Ads IMA');
             }
             videoLabel.push(item.type);
-        }else if (typeof item.channelName !== 'undefined' && !empty(item.channelName)) {
-            videoLabel.push('[' + item.users_id + '] ' + item.channelName);
         }
 
         videoLabel = videoLabel.map(function(label) {
