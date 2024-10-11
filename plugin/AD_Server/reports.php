@@ -578,7 +578,7 @@ foreach ($types as $key => $value) {
                 },
                 plugins: {
                     legend: {
-                        display: true
+                        display: false
                     }
                 }
             }
