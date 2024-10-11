@@ -538,7 +538,7 @@ foreach ($types as $key => $value) {
                     x: {
                         ticks: {
                             font: {
-                                size: 9 // Optional: Reduce font size
+                                size: 11 // Optional: Reduce font size
                             }
                         }
                     }
