@@ -559,17 +559,22 @@ foreach ($types as $key => $value) {
         var pieValues = [];
         var pieColors = [];
         var othersTotal = 0;
-        var threshold = 5; // Set the threshold for grouping small values
+        var percentageThreshold = 0.05; // Set the percentage threshold (e.g., 5% of the largest value)
+
+        // Get the largest value in the dataset
+        var maxValue = Math.max(...data.map(item => item.total_ads));
 
         data.forEach(function(item) {
-            if (item.total_ads >= threshold) {
+            if (item.total_ads >= maxValue * percentageThreshold) {
+                // If the value is greater than or equal to the threshold (5% of max value), show it
                 var label = createLabel(item).join(' ');
                 pieLabels.push(label);
                 pieValues.push(item.total_ads);
                 var color = eventColors[item.type] || getRandomColor();
                 pieColors.push(color);
             } else {
-                othersTotal += item.total_ads; // Sum the small values
+                // If the value is smaller than the threshold, group it into "Others"
+                othersTotal += item.total_ads;
             }
         });
 
