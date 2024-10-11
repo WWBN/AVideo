@@ -613,13 +613,16 @@ foreach ($types as $key => $value) {
                 plugins: {
                     legend: {
                         display: true,
-                        position: 'bottom'
+                        position: 'right', // Set the position to the right
+                        labels: {
+                            boxWidth: 20, // Customize the width of the box
+                            padding: 20 // Customize padding between legend items
+                        }
                     }
                 }
             }
         });
     }
-
 
     $(document).ready(function() {
         reportTable = $('#reportTable').DataTable({
