@@ -4391,7 +4391,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         Live::checkAllFromStats(true);
         $end = microtime(true) - $start;
         //_error_log("Live::executeEveryMinute complete in {$end} seconds");
-        include __DIR__.'/standAloneFiles/kill_ffmpeg_restream.php';
+        include __DIR__ . '/standAloneFiles/kill_ffmpeg_restream.php';
     }
 
     function executeEveryHour()
@@ -4403,11 +4403,31 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
     }
 
-    static function getLiveControls($live_key, $live_servers_id = 0){
+    static function getLiveControls($live_key, $live_servers_id = 0)
+    {
         global $global;
-        include $global['systemRootPath'] . 'plugin/Live/myLiveControls.php';     
+        include $global['systemRootPath'] . 'plugin/Live/myLiveControls.php';
     }
 
+    public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id)
+    {
+        $custom = User::getRedirectCustomUrl($users_id);
+        if (isValidURL($custom['url'])) {
+            if (!empty($custom['autoRedirect'])) {
+                $lt = new LiveTransmitionHistory($live_transmitions_history_id);
+                $key = $lt->getKey();
+                $row = LiveTransmition::keyExists($key);
+                $obj = new stdClass();
+                $obj->row = $row;
+                $obj->viewerUrl = $custom['url'];
+                $obj->customMessage = $custom['msg'];
+                $obj->live_key = $key;
+                $obj->live_servers_id = intval($live_servers_id);
+                $obj->sendSocketMessage = sendSocketMessage(array('redirectLive' => $obj), 'redirectLive', 0);
+                _error_log('on_publish_done::redirectLive '.json_encode($obj));
+            }
+        }
+    }
 }
 
 class LiveImageType
@@ -4491,9 +4511,9 @@ class LiveStreamObject
         $live_index = '';
         if (!empty($objLive->allowMultipleLivesPerUser)) {
             if (empty($allowOnlineIndex) && empty($global['getLatestValidNotOnlineLiveIndexRequested'])) {
-                $global['getLatestValidNotOnlineLiveIndexRequested'] = 1; 
+                $global['getLatestValidNotOnlineLiveIndexRequested'] = 1;
                 $live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
-                $global['getLatestValidNotOnlineLiveIndexRequested'] = 0; 
+                $global['getLatestValidNotOnlineLiveIndexRequested'] = 0;
             } else {
                 $live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
             }

@@ -3516,6 +3516,31 @@ if (typeof gtag !== \"function\") {
         return $user->addExternalOptions('DonationButtons', $value);
     }
 
+    public static function getRedirectCustomUrl($users_id = '')
+    {
+        global $config;
+        if (empty($users_id)) {
+            $users_id = User::getId();
+        }
+        $user = new User($users_id);
+        $value = $user->getExternalOptions('redirectCustomUrl');
+        $json = _json_decode($value, true);
+        if (empty($json)) {
+            return ['url'=>'', 'msg'=>'', 'autoRedirect'=>0];
+        }
+        return $json;
+    }
+
+    public static function setRedirectCustomUrl($users_id, $value)
+    {
+        $user = new User($users_id);
+        if (!is_string($value)) {
+            $value = _json_encode($value);
+        }
+        return $user->addExternalOptions('redirectCustomUrl', $value);
+    }
+
+
     static function getChannelPanel($users_id)
     {
         $u = new User($users_id);

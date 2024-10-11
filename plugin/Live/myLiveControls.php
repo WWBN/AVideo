@@ -8,28 +8,31 @@ if (!empty($live_key)) {
 }
 
 $row = LiveTransmition::keyExists($live_key);
-if(empty($row)){
+if (empty($row)) {
     echo '<!-- Live key not found myLiveControls.php -->';
     return;
 }
-if(User::getId() != $row['users_id'] && !User::isAdmin()){
+if (User::getId() != $row['users_id'] && !User::isAdmin()) {
     echo '<!-- This live does not belong to you myLiveControls.php -->';
     return;
 }
+
+$custom = User::getRedirectCustomUrl(User::getId());
 ?>
 <style>
-    .currentUrlTextContainer{
-        position: absolute; 
-        right: 5px; 
-        bottom: 1px; 
+    .currentUrlTextContainer {
+        position: absolute;
+        right: 5px;
+        bottom: 1px;
         font-size: 0.7em;
     }
-    .currentUrlTextTopContainer{
-        margin-top: -6px; 
+
+    .currentUrlTextTopContainer {
+        margin-top: -6px;
         margin-bottom: 6px;
     }
 
-    #sendViewersControls button{
+    #sendViewersControls button {
         position: relative;
     }
 </style>
@@ -50,7 +53,7 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
                 data-toggle="tooltip"
                 title="<?php echo __('Send all viewers from your livestream to the specified URL'); ?>">
                 <div class="currentUrlTextTopContainer">
-                    <?php echo __("Redirect Viewers"); ?> 
+                    <?php echo __("Redirect Viewers"); ?>
                     <i class="fa-solid fa-diamond-turn-right"></i>
                 </div>
                 <!-- Display the current URL -->
@@ -65,7 +68,7 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
                     <?php echo __("You are not live right now"); ?>
                 </div>
                 <!-- Display the current URL -->
-                <div  class="currentUrlTextContainer">
+                <div class="currentUrlTextContainer">
                     <span class="currentUrlText"><?php echo __("No URL set"); ?></span>
                 </div>
             </button>
@@ -84,6 +87,10 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
                 </div>
                 <hr>
                 <div class="form-group">
+                    <input type="checkbox" id="autoRedirect" value="1">
+                    <label for="autoRedirect"><?php echo __('Auto-redirect at the end of the livestream'); ?></label>
+                </div>
+                <div class="form-group">
                     <input type="text" class="form-control" id="customUrl" placeholder="https://example.com/custom">
                 </div>
                 <div class="form-group">
@@ -100,18 +107,22 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
 </div>
 
 <script>
-    var viewerUrl = '';
-    var customMessage = '';
+    var viewerUrl = <?php echo json_encode($custom['url']); ?>;
+    var customMessage = <?php echo json_encode($custom['msg']); ?>;
+    var autoRedirect = <?php echo json_encode($custom['autoRedirect']); ?>; // Default is false
+
+    function updateRedirectInfoFromVariables() {
+        if (!empty(viewerUrl)) {
+            $('#customUrl').val(viewerUrl); // Update the displayed URL
+            $('#customMessage').val(customMessage); // Update the displayed URL
+            $('.currentUrlText').text(viewerUrl); // Update the displayed URL
+            $('#sendViewersBtn').prop('disabled', empty(viewerUrl)); // Enable Send Viewers button if URL is present
+            $('#autoRedirect').prop('checked', autoRedirect);
+        }
+    }
 
     $(document).ready(function() {
-        // Disable Send Viewers button initially// Load viewerUrl from the cookie if it exists
-        if (Cookies.get('viewerUrl')) {
-            viewerUrl = Cookies.get('viewerUrl');
-            customMessage = Cookies.get('customMessage');
-            $('#customUrl').val(viewerUrl); // Update the displayed URL
-            $('.currentUrlText').text(viewerUrl); // Update the displayed URL
-            $('#sendViewersBtn').prop('disabled', false); // Enable Send Viewers button if URL is present
-        }
+        updateRedirectInfoFromVariables();
     });
 
     // Function to prompt for the viewer URL and store it
@@ -127,18 +138,18 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
 
             // Create a new list item for each URL
             var listItem = `
-                <button type="button" class="list-group-item list-group-item-action">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="${imgSrc}" class="media-object" style="width: 50px; height: auto;">
-                        </div>
-                        <div class="media-body">
-                            <strong class="media-heading">${title}</strong>
-                            <p class="media-url">${url}</p>
-                        </div>
+            <button type="button" class="list-group-item list-group-item-action">
+                <div class="media">
+                    <div class="media-left">
+                        <img src="${imgSrc}" class="media-object" style="width: 50px; height: auto;">
                     </div>
-                </button>
-            `;
+                    <div class="media-body">
+                        <strong class="media-heading">${title}</strong>
+                        <p class="media-url">${url}</p>
+                    </div>
+                </div>
+            </button>
+        `;
             $('#urlList').append(listItem);
         });
 
@@ -181,24 +192,41 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
                 avideoAlertError(__("Please select or enter a URL."));
                 return;
             }
+            saveCustomURL(viewerUrl, customMessage);
 
-            // Save viewerUrl to cookie with expiration of 365 days
-            Cookies.set('viewerUrl', viewerUrl, {
-                path: '/',
-                expires: 365
-            });
-
-            // Save and update the UI
-            console.log("Viewer URL saved:", viewerUrl);
-            $('#sendViewersBtn').prop('disabled', false); // Enable Send Viewers button
-            avideoToastSuccess(__("URL saved! Now you can redirect viewers to the specified URL."));
-            $('.currentUrlText').text(viewerUrl); // Update the displayed URL
-
-            // Close the modal
-            $('#urlModal').modal('hide');
         });
     }
 
+
+    function saveCustomURL(viewerUrl, customMessage) {
+        var autoRedirect = $('#autoRedirect').is(':checked'); // Check if auto-redirect is enabled
+
+        // Save viewerUrl to database using AJAX
+        $.ajax({
+            url: webSiteRootURL + 'plugin/Live/myLiveControls.save.json.php',
+            type: 'POST',
+            data: {
+                'customUrl': viewerUrl,
+                'customMessage': customMessage,
+                'autoRedirect': autoRedirect
+            },
+            success: function(response) {
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                } else {
+                    avideoToastSuccess(__("URL saved! Now you can redirect viewers to the specified URL."));
+                    $('#urlModal').modal('hide'); // Close the modal
+                    viewerUrl = response.redirectCustomUrl;
+                    customMessage = response.redirectCustomMessage;
+                    autoRedirect = response.autoRedirect;
+                    updateRedirectInfoFromVariables();
+                }
+            },
+            error: function() {
+                avideoAlertError(__("An error occurred while saving the URL."));
+            }
+        });
+    }
 
     // Function to confirm before sending viewers
     async function confirmSendViewers() {
@@ -231,7 +259,7 @@ if(User::getId() != $row['users_id'] && !User::isAdmin()){
                 'viewerUrl': viewerUrl,
                 'customMessage': $('#customMessage').val(),
                 'live_key': '<?php echo $live_key; ?>',
-                'live_servers_id': '<?php echo $live_servers_id;?>'
+                'live_servers_id': '<?php echo $live_servers_id; ?>'
             },
             success: function(response) {
                 console.log("Send viewers response:", response);

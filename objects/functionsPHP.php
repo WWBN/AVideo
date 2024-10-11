@@ -222,7 +222,7 @@ function _json_encode($object)
     return $json;
 }
 
-function _json_decode($object)
+function _json_decode($object, ?bool $associative = false,)
 {
     global $global;
     if (empty($object)) {
@@ -237,10 +237,10 @@ function _json_decode($object)
             $object = $content;
         }
     }
-    $json = json_decode($object);
+    $json = json_decode($object, $associative);
     if ($json === null) {
         $object = str_replace(["\r", "\n"], ['\r', '\n'], $object);
-        return json_decode($object);
+        return json_decode($object, $associative);
     } else {
         return $json;
     }
