@@ -14,13 +14,17 @@ if (empty($name)) {
 }
 ?>
 <div class="clearfix"></div>
-<div class="col-xs-2 text-center" style="padding-right: 2px;">
-    <img id="videoAutocomplete-img<?php echo $id; ?>" src="<?php echo $video_image; ?>" class="img img-responsive " style="max-height: 50px; margin-bottom: 5px; display: inline-flex;" alt="video Photo">
+<div class="col-xs-2 text-center"  style="padding: 0;">
+    <img id="videoAutocomplete-img<?php echo $id; ?>" src="<?php echo $video_image; ?>" class="img img-responsive" 
+        style="min-height: 35px; min-width: 50px; max-height: 50px; width: 100%; object-fit: contain; margin-bottom: 5px; display: inline-flex;" 
+        alt="video Photo">
 </div>
-<div class="col-xs-10" style="padding-left: 2px;">
+<div class="col-xs-10">
     <input id="videoAutocomplete<?php echo $id; ?>" placeholder="<?php echo __("video"); ?>" class="form-control" name="video<?php echo $id; ?>" value="<?php echo $name; ?>">
     <input type="hidden" id="<?php echo $id; ?>" value="<?php echo $default_videos_id; ?>" name="<?php echo $id; ?>">
 </div>
+
+
 <div class="clearfix"></div>
 <script>
     function updateVideoAutocomplete<?php echo $id; ?>() {

@@ -13,15 +13,17 @@ if (empty($name)) {
     $default_users_id = 0;
 }
 ?>
-<div class="clearfix">
-    <div class="col-xs-2 text-center" style="padding-right: 2px;">
-        <img id="user-img<?php echo $id; ?>" src="<?php echo $user_image; ?>" class="img img-responsive " style="max-height: 50px; margin-bottom: 5px; display: inline-flex;" alt="User Photo">
-    </div>
-    <div class="col-xs-10" style="padding-left: 2px;">
-        <input id="user<?php echo $id; ?>" placeholder="<?php echo __("User"); ?>" class="form-control" name="user<?php echo $id; ?>" value="<?php echo $name; ?>">
-        <input type="hidden" id="<?php echo $id; ?>" value="<?php echo $default_users_id; ?>" name="<?php echo $id; ?>">
-    </div>
+<div class="clearfix"></div>
+<div class="col-xs-2 text-center" style="padding: 0;">
+    <img id="user-img<?php echo $id; ?>" src="<?php echo $user_image; ?>" class="img img-responsive "
+        style="width: 35px; height: 35px;  object-fit: contain; margin-bottom: 5px; display: inline-flex;"
+        alt="User Photo">
 </div>
+<div class="col-xs-10">
+    <input id="user<?php echo $id; ?>" placeholder="<?php echo __("User"); ?>" class="form-control" name="user<?php echo $id; ?>" value="<?php echo $name; ?>">
+    <input type="hidden" id="<?php echo $id; ?>" value="<?php echo $default_users_id; ?>" name="<?php echo $id; ?>">
+</div>
+<div class="clearfix"></div>
 <script>
     function updateUserAutocomplete<?php echo $id; ?>() {
         var data = <?php echo _json_encode((object) $parameters); ?>;
