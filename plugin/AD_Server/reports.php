@@ -518,6 +518,7 @@ foreach ($types as $key => $value) {
                 maintainAspectRatio: false,
                 scales: {
                     y: {
+                        type: 'logarithmic', // Use logarithmic scale
                         beginAtZero: true
                     },
                     x: {
