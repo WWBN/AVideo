@@ -36,7 +36,7 @@ $hlsIsEnabled = AVideoPlugin::loadPluginIfEnabled('VideoHLS');
                         <i class="fas fa-microphone-alt"></i> <?php echo __('Generate Dubbing') ?>
                         <?php
                         if (!empty($priceForDubbing)) {
-                            echo "<br><span class=\"label label-success\">{$priceForDubbingText}</span>";
+                            echo "<br><span class=\"label label-success\">{$priceForDubbingText} per second</span>";
                         }
                         ?>
                     </button>
