@@ -528,7 +528,7 @@ foreach ($types as $key => $value) {
             values.push(item.total_ads);
             videoIds.push(item.videos_id);
 
-            var baseColor = getColorForElement(label); // Get consistent color for the element
+            var baseColor = getColorForElement(empty(item.type)?videoLabel.join(''):item.type); // Get consistent color for the element
             backgroundColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
             borderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
         });
@@ -608,7 +608,7 @@ foreach ($types as $key => $value) {
             if (item.total_ads >= maxValue * percentageThreshold) {
                 pieLabels.push(label);
                 pieValues.push(item.total_ads);
-                var baseColor = getColorForElement(label); // Get consistent color for the element
+                var baseColor = getColorForElement(empty(item.type)?videoLabel.join(''):item.type); // Get consistent color for the element
                 pieColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
                 pieBorderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
             } else {
