@@ -332,7 +332,7 @@ foreach ($types as $key => $value) {
             if (typeof label == 'undefined') {
                 return '';
             }
-            return label.length > 40 ? label.substring(0, 25) + '...' : label;
+            return label.length > 40 ? label.substring(0, 20) + '...' : label;
         });
         return videoLabel;
     }
