@@ -558,14 +558,27 @@ foreach ($types as $key => $value) {
         var pieLabels = [];
         var pieValues = [];
         var pieColors = [];
+        var othersTotal = 0;
+        var threshold = 5; // Set the threshold for grouping small values
 
         data.forEach(function(item) {
-            var label = createLabel(item).join(' ');
-            pieLabels.push(label);
-            pieValues.push(item.total_ads);
-            var color = eventColors[item.type] || getRandomColor();
-            pieColors.push(color);
+            if (item.total_ads >= threshold) {
+                var label = createLabel(item).join(' ');
+                pieLabels.push(label);
+                pieValues.push(item.total_ads);
+                var color = eventColors[item.type] || getRandomColor();
+                pieColors.push(color);
+            } else {
+                othersTotal += item.total_ads; // Sum the small values
+            }
         });
+
+        // If there are small values, add them as "Others"
+        if (othersTotal > 0) {
+            pieLabels.push('Others');
+            pieValues.push(othersTotal);
+            pieColors.push('#999999'); // Use a default color for "Others"
+        }
 
         if (pieChartInstance !== null && typeof pieChartInstance !== 'undefined') {
             pieChartInstance.destroy();
@@ -592,6 +605,7 @@ foreach ($types as $key => $value) {
             }
         });
     }
+
     $(document).ready(function() {
         reportTable = $('#reportTable').DataTable({
             paging: true,
