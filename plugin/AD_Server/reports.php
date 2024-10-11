@@ -559,7 +559,7 @@ foreach ($types as $key => $value) {
         var pieValues = [];
         var pieColors = [];
         var othersTotal = 0;
-        var percentageThreshold = 0.05; // Set the percentage threshold (e.g., 5% of the largest value)
+        var percentageThreshold = 0.02; // Set the percentage threshold (e.g., 5% of the largest value)
 
         // Get the largest value in the dataset
         var maxValue = Math.max(...data.map(item => item.total_ads));
