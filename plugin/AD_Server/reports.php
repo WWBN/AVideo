@@ -182,25 +182,26 @@ foreach ($types as $key => $value) {
 
 <script>
     const eventColors = {
-        'AdStarted': '#00bfff', // Light Blue (Start of the ad)
-        'AdFirstQuartile': '#4682b4', // Steel Blue (Progress through ad)
-        'AdMidpoint': '#1e90ff', // Dodger Blue (Halfway through ad)
-        'AdThirdQuartile': '#4169e1', // Royal Blue (Near completion of ad)
-        'AdCompleted': '#32cd32', // Lime Green (Ad fully completed)
-        'AdPaused': '#ffcc00', // Amber (Pausing the ad)
-        'AdResumed': '#00ced1', // Dark Turquoise (Resuming the ad)
-        'AdSkipped': '#ff8c00', // Dark Orange (Ad skipped)
-        'AdClicked': '#00fa9a', // Medium Spring Green (Clicking on ad)
-        'AdError': '#ff0000', // Red (Indicates an error)
-        'AdMuted': '#b0c4de', // Light Steel Blue (Muted ad)
-        'AdUnmuted': '#32cd32', // Lime Green (Unmuted ad)
-        'AdRewind': '#800080', // Purple (Rewinding the ad)
-        'AdFullscreen': '#4682b4', // Steel Blue (Entering fullscreen)
-        'AdCreativeView': '#20b2aa', // Light Sea Green (Viewing creative ad)
-        'AdExitFullscreen': '#ff6347', // Tomato (Exiting fullscreen)
-        'AdAcceptInvitationLinear': '#ffd700', // Gold (Accepting linear ad invitation)
-        'AdCloseLinear': '#696969' // Dim Grey (Closing linear ad)
+        'AdStarted': 'rgba(0, 191, 255, 0.5)', // Light Blue (Start of the ad)
+        'AdFirstQuartile': 'rgba(70, 130, 180, 0.5)', // Steel Blue (Progress through ad)
+        'AdMidpoint': 'rgba(30, 144, 255, 0.5)', // Dodger Blue (Halfway through ad)
+        'AdThirdQuartile': 'rgba(65, 105, 225, 0.5)', // Royal Blue (Near completion of ad)
+        'AdCompleted': 'rgba(50, 205, 50, 0.5)', // Lime Green (Ad fully completed)
+        'AdPaused': 'rgba(255, 204, 0, 0.5)', // Amber (Pausing the ad)
+        'AdResumed': 'rgba(0, 206, 209, 0.5)', // Dark Turquoise (Resuming the ad)
+        'AdSkipped': 'rgba(255, 140, 0, 0.5)', // Dark Orange (Ad skipped)
+        'AdClicked': 'rgba(0, 250, 154, 0.5)', // Medium Spring Green (Clicking on ad)
+        'AdError': 'rgba(255, 0, 0, 0.5)', // Red (Indicates an error)
+        'AdMuted': 'rgba(176, 196, 222, 0.5)', // Light Steel Blue (Muted ad)
+        'AdUnmuted': 'rgba(50, 205, 50, 0.5)', // Lime Green (Unmuted ad)
+        'AdRewind': 'rgba(128, 0, 128, 0.5)', // Purple (Rewinding the ad)
+        'AdFullscreen': 'rgba(70, 130, 180, 0.5)', // Steel Blue (Entering fullscreen)
+        'AdCreativeView': 'rgba(32, 178, 170, 0.5)', // Light Sea Green (Viewing creative ad)
+        'AdExitFullscreen': 'rgba(255, 99, 71, 0.5)', // Tomato (Exiting fullscreen)
+        'AdAcceptInvitationLinear': 'rgba(255, 215, 0, 0.5)', // Gold (Accepting linear ad invitation)
+        'AdCloseLinear': 'rgba(105, 105, 105, 0.5)' // Dim Grey (Closing linear ad)
     };
+
 
     var reportChartInstance = null;
     var pieChartInstance = null;
@@ -339,8 +340,13 @@ foreach ($types as $key => $value) {
         for (var i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * 16)];
         }
-        return color;
+        // Convert the hex color to an RGBA string with 50% transparency
+        var r = parseInt(color.slice(1, 3), 16);
+        var g = parseInt(color.slice(3, 5), 16);
+        var b = parseInt(color.slice(5, 7), 16);
+        return `rgba(${r}, ${g}, ${b}, 0.5)`; // 50% transparent color
     }
+
 
     // Function to set default dates
     function setDefaultDates() {
@@ -475,13 +481,13 @@ foreach ($types as $key => $value) {
         });
     }
 
-    // Function to generate the chart
     function generateChart(data, reportType) {
         var ctx = document.getElementById('reportChart').getContext('2d');
         var chartType = 'bar';
         var labels = [];
         var values = [];
         var backgroundColors = [];
+        var borderColors = [];
         var videoIds = [];
         var eventTypes = [];
 
@@ -497,14 +503,16 @@ foreach ($types as $key => $value) {
 
             var eventType = item.type;
             eventTypes.push(eventType); // Store the event type for each column
-            var color = eventColors[eventType] || getRandomColor();
-            backgroundColors.push(color);
+            var baseColor = eventColors[eventType] || getRandomColor();
+            backgroundColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
+            borderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
         });
 
         if (labels.length === 0) {
             labels.push("No data available");
             values.push(0);
-            backgroundColors.push('#ddd');
+            backgroundColors.push('rgba(0, 0, 0, 0.5)');
+            borderColors.push('rgba(0, 0, 0, 1)');
         }
 
         reportChartInstance = new Chart(ctx, {
@@ -515,8 +523,8 @@ foreach ($types as $key => $value) {
                     label: __('Total Ads'),
                     data: values,
                     backgroundColor: backgroundColors,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
+                    borderColor: borderColors,
+                    borderWidth: 2 // Set border thickness
                 }]
             },
             options: {
@@ -532,22 +540,12 @@ foreach ($types as $key => $value) {
                             font: {
                                 size: 9 // Optional: Reduce font size
                             }
-                            //display: false // Hide X-axis labels
                         }
                     }
                 },
                 plugins: {
                     legend: {
                         display: false
-                    }
-                },
-                onClick: function(event, elements) {
-                    if (elements.length > 0) {
-                        var clickedIndex = elements[0].index;
-                        var selectedVideoId = videoIds[clickedIndex];
-                        var selectedEventType = eventTypes[clickedIndex];
-                        setVideoField(selectedVideoId);
-                        setEventType(selectedEventType);
                     }
                 },
                 hover: {
@@ -564,8 +562,9 @@ foreach ($types as $key => $value) {
         var pieLabels = [];
         var pieValues = [];
         var pieColors = [];
+        var pieBorderColors = [];
         var othersTotal = 0;
-        var percentageThreshold = 0.02; // Set the percentage threshold (e.g., 5% of the largest value)
+        var percentageThreshold = 0.02; // Set the percentage threshold (e.g., 2% of the largest value)
 
         // Get the largest value in the dataset
         var maxValue = Math.max(...data.map(item => item.total_ads));
@@ -576,8 +575,9 @@ foreach ($types as $key => $value) {
                 var label = createLabel(item).join(' ');
                 pieLabels.push(label);
                 pieValues.push(item.total_ads);
-                var color = eventColors[item.type] || getRandomColor();
-                pieColors.push(color);
+                var baseColor = eventColors[item.type] || getRandomColor();
+                pieColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
+                pieBorderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
             } else {
                 // If the value is smaller than the threshold, group it into "Others"
                 othersTotal += item.total_ads;
@@ -588,7 +588,8 @@ foreach ($types as $key => $value) {
         if (othersTotal > 0) {
             pieLabels.push('Others');
             pieValues.push(othersTotal);
-            pieColors.push('#999999'); // Use a default color for "Others"
+            pieColors.push('rgba(153, 153, 153, 0.5)'); // Default color for "Others"
+            pieBorderColors.push('rgba(153, 153, 153, 1)'); // Solid border for "Others"
         }
 
         if (pieChartInstance !== null && typeof pieChartInstance !== 'undefined') {
@@ -601,7 +602,9 @@ foreach ($types as $key => $value) {
                 labels: pieLabels,
                 datasets: [{
                     data: pieValues,
-                    backgroundColor: pieColors
+                    backgroundColor: pieColors,
+                    borderColor: pieBorderColors,
+                    borderWidth: 2 // Set border thickness
                 }]
             },
             options: {
@@ -616,6 +619,7 @@ foreach ($types as $key => $value) {
             }
         });
     }
+
 
     $(document).ready(function() {
         reportTable = $('#reportTable').DataTable({
