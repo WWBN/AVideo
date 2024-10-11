@@ -1,0 +1,27 @@
+[
+    {
+        "element": "#urlList",
+        "intro": "This is the list of available live streams. Select a stream to get its URL.",
+        "position": "bottom"
+    },
+    {
+        "element": "#autoRedirectGroup",
+        "intro": "Check this box if you want to enable auto-redirect when the livestream ends.",
+        "position": "right"
+    },
+    {
+        "element": "#customUrlGroup",
+        "intro": "Enter the custom URL here to manually redirect your viewers to a specific page.",
+        "position": "bottom"
+    },
+    {
+        "element": "#customMessageGroup",
+        "intro": "Write a custom message that viewers will see before they are redirected. If left empty, a default message will be displayed.",
+        "position": "bottom"
+    },
+    {
+        "element": "#modalFooterSave",
+        "intro": "Click here to save your changes.",
+        "position": "top"
+    }
+]

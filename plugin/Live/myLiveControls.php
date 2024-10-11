@@ -82,29 +82,39 @@ $custom = User::getRedirectCustomUrl(User::getId());
 <div class="modal fade" id="urlModal" tabindex="-1" role="dialog" aria-labelledby="urlModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-body">
-                <div class="list-group" id="urlList">
+            <div class="modal-body" id="modalBody">
+                <div class="list-group" id="urlList" data-step="1" data-intro="This is the list of available live streams. Select a stream to get its URL.">
                 </div>
                 <hr>
-                <div class="form-group">
+                <div class="form-group" id="autoRedirectGroup" data-step="2" data-intro="Check this box if you want to enable auto-redirect when the livestream ends.">
                     <input type="checkbox" id="autoRedirect" value="1">
                     <label for="autoRedirect"><?php echo __('Auto-redirect at the end of the livestream'); ?></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="customUrlGroup" data-step="3" data-intro="Enter the custom URL here to manually redirect your viewers to a specific page.">
                     <input type="text" class="form-control" id="customUrl" placeholder="https://example.com/custom">
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="customMessageGroup" data-step="4" data-intro="Write a custom message that viewers will see before they are redirected. If left empty, a default message will be displayed.">
                     <textarea class="form-control" id="customMessage" placeholder="<?php echo __('Enter a custom message for your viewers'); ?>"><?php echo __('I hope you enjoyed the stream! As a bonus, we\'ll be sending you to a special page now'); ?>.</textarea>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-block" id="saveUrlBtn">
-                    <i class="fas fa-save"></i> <?php echo __('Save'); ?>
-                </button>
+            <div class="modal-footer" data-step="5" data-intro="Click here to save your changes.">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <?php
+                        echo getTourHelpButton('plugin/Live/myLiveControls.modal.json', 'btn btn-default btn-block');
+                        ?>
+                    </div>
+                    <div class="col-sm-8" id="modalFooterSave" >
+                        <button type="button" class="btn btn-success btn-block" id="saveUrlBtn">
+                            <i class="fas fa-save"></i> <?php echo __('Save'); ?>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     var viewerUrl = <?php echo json_encode($custom['url']); ?>;
