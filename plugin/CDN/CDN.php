@@ -289,9 +289,10 @@ class CDN extends PluginAbstract
         }
     }
 
-    static function purgeCache(){
+    static function purgeCache()
+    {
         $obj = AVideoPlugin::getDataObject('CDN');
-        
+
         $url = 'https://youphp.tube/marketplace/CDN/Manager/pullzonesPurgeCache.json.php';
         $url = addQueryStringParameter($url, 'hash', $obj->key);
         return url_get_contents($url);

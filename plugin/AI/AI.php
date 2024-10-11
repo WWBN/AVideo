@@ -155,7 +155,7 @@ class AI extends PluginAbstract
         $obj->priceForShorts = 0;
         self::addDataObjectHelper('priceForShorts', 'Price for Shorts Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
         $obj->priceForDubbing = 0;
-        self::addDataObjectHelper('priceForDubbing', 'Price for Dubbing Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
+        self::addDataObjectHelper('priceForDubbing', 'Price per second for Dubbing Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
 
 
         $obj->autoProcessAll = false;
@@ -771,7 +771,13 @@ class AI extends PluginAbstract
                 $price = $obj->priceForShorts;
                 break;
             case AI::$typeDubbing:
-                $price = $obj->priceForDubbing;
+                $video = new Video('', '', $videos_id);
+                $duration_in_seconds = $video->getDuration_in_seconds();
+                if(empty($duration_in_seconds)){
+                    _error_log("The video {$videos_id} has not duration set, the price will be calculated over 10 minutes", AVideoLog::$ERROR);
+                    $duration_in_seconds = 600; // 10 minutes 
+                }
+                $price = $obj->priceForDubbing * $duration_in_seconds;
                 break;
         }
         if (empty($price)) {
