@@ -34,9 +34,9 @@ foreach ($types as $key => $value) {
     <div class="panel panel-default">
         <div class="panel-heading">
 
-            <div class="row">
-                <div class="col-md-9">
-                    <form id="report-form" class="text-center">
+            <form id="report-form">
+                <div class="row">
+                    <div class="col-md-8">
                         <!-- Row for Date Range Selection -->
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
@@ -127,33 +127,39 @@ foreach ($types as $key => $value) {
                             </div>
                         </div>
 
-                        <!-- Submit Button Row -->
-                        <div class="row">
-                            <div class="col-md-4 text-center">
-                                <?php
-                                echo getTourHelpButton('plugin/AD_Server/reports.help.json', 'btn btn-default btn-block');
-                                ?>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 id="selected-filters"></h4> <!-- Filter Info -->
                             </div>
-                            <div class="col-md-8 text-center">
-                                <button type="submit" class="btn btn-primary btn-block" id="genReports"><i class="fas fa-chart-bar"></i> <?php echo __('Generate Report'); ?></button>
+                            <div class="panel-body">
+                                <h2 id="total-sum"></h2> <!-- Total Sum -->
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-3 text-center">
+                        <?php
+                        echo getTourHelpButton('plugin/AD_Server/reports.help.json', 'btn btn-default btn-block');
+                        ?>
+                    </div>
+                    <div class="col-md-9 text-center">
+                        <button type="submit" class="btn btn-primary btn-block" id="genReports"><i class="fas fa-chart-bar"></i> <?php echo __('Generate Report'); ?></button>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <h4 id="selected-filters" class="text-center"></h4> <!-- Filter Info -->
-                    <h4 id="total-sum" class="text-center"></h4> <!-- Total Sum -->
-                </div>
-            </div>
+            </form>
 
         </div>
         <div class="panel-body">
             <div class="chart-container" style="position: relative; width:100%; height:auto; height:300px;">
                 <canvas id="reportChart"></canvas>
             </div>
+            <div class="clearfix"></div>
             <div class="chart-container" style="position: relative; width:100%; height:auto; height:300px;">
                 <canvas id="pieChart"></canvas> <!-- New pie chart -->
             </div>
+            <div class="clearfix"></div>
             <table id="reportTable" class="table table-bordered table-responsive table-striped table-hover table-condensed" style="margin-top: 40px;">
                 <thead>
                     <tr>
