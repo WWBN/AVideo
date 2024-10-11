@@ -211,6 +211,7 @@ $custom = User::getRedirectCustomUrl(User::getId());
     function saveCustomURL(viewerUrl, customMessage) {
         var autoRedirect = $('#autoRedirect').is(':checked'); // Check if auto-redirect is enabled
 
+        modal.showPleaseWait();
         // Save viewerUrl to database using AJAX
         $.ajax({
             url: webSiteRootURL + 'plugin/Live/myLiveControls.save.json.php',
@@ -221,6 +222,7 @@ $custom = User::getRedirectCustomUrl(User::getId());
                 'autoRedirect': autoRedirect
             },
             success: function(response) {
+                modal.hidePleaseWait();
                 if (response.error) {
                     avideoAlertError(response.msg);
                 } else {
@@ -233,6 +235,7 @@ $custom = User::getRedirectCustomUrl(User::getId());
                 }
             },
             error: function() {
+                modal.hidePleaseWait();
                 avideoAlertError(__("An error occurred while saving the URL."));
             }
         });
@@ -261,6 +264,7 @@ $custom = User::getRedirectCustomUrl(User::getId());
             avideoAlertError(__("Invalid URL"));
             return;
         }
+        modal.showPleaseWait();
         console.log("Sending viewers to:", viewerUrl);
         $.ajax({
             url: webSiteRootURL + 'plugin/Live/sendViewers.json.php',
@@ -273,6 +277,7 @@ $custom = User::getRedirectCustomUrl(User::getId());
             },
             success: function(response) {
                 console.log("Send viewers response:", response);
+                modal.hidePleaseWait();
                 if (response.error) {
                     avideoAlertError(response.msg);
                 } else {
@@ -282,6 +287,7 @@ $custom = User::getRedirectCustomUrl(User::getId());
                 }
             },
             error: function() {
+                modal.hidePleaseWait();
                 avideoAlertError(__("An error occurred while sending viewers."));
             }
         });
