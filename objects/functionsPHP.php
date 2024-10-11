@@ -222,7 +222,7 @@ function _json_encode($object)
     return $json;
 }
 
-function _json_decode($object, ?bool $associative = false,)
+function _json_decode($object, $associative = false,)
 {
     global $global;
     if (empty($object)) {

@@ -566,7 +566,7 @@ foreach ($types as $key => $value) {
 
         data.forEach(function(item) {
             if (item.total_ads >= maxValue * percentageThreshold) {
-                // If the value is greater than or equal to the threshold (5% of max value), show it
+                // If the value is greater than or equal to the threshold (2% of max value), show it
                 var label = createLabel(item).join(' ');
                 pieLabels.push(label);
                 pieValues.push(item.total_ads);
