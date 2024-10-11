@@ -33,124 +33,128 @@ foreach ($types as $key => $value) {
     </style>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <form id="report-form" class="text-center">
-                <!-- Row for Date Range Selection -->
-                <div class="row">
-                    <div class="col-md-4 col-sm-12">
-                        <div class="form-group">
-                            <label for="date-range" class="control-label"><?php echo __('Select Date Range'); ?></label>
-                            <select id="date-range" class="form-control">
-                                <optgroup label="<?php echo __('Preset Ranges'); ?>">
-                                    <option value="thisWeek"><?php echo __('This Week'); ?></option>
-                                    <option value="thisMonth"><?php echo __('This Month'); ?></option>
-                                    <option value="last2Months"><?php echo __('Last 2 Months'); ?></option>
-                                    <option value="thisYear"><?php echo __('This Year'); ?></option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
 
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group">
-                            <label for="start-date" class="control-label"><?php echo __('Start Date'); ?></label>
-                            <input type="date" id="start-date" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group">
-                            <label for="end-date" class="control-label"><?php echo __('End Date'); ?></label>
-                            <input type="date" id="end-date" class="form-control" required>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row for Campaign Type and Event Type Selection -->
-                <div class="row">
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <label for="campaign-type" class="control-label"><?php echo __('Select Campaign Source'); ?></label>
-                            <select id="campaign-type" class="form-control">
-                                <optgroup label="<?php echo __('Campaign Type'); ?>">
-                                    <option value="all"><?php echo __('All Campaigns'); ?></option>
-                                    <option value="own"><?php echo __('Own Videos'); ?> (AD_Server)</option>
-                                    <option value="third-party"><?php echo __('Third Party Ads'); ?> (GoogleAds_IMA)</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <label for="event-type" class="control-label"><?php echo __('Select Event Type'); ?></label>
-                            <select id="event-type" class="form-control">
-                                <option value=""><?php echo __('All Event Types'); ?></option>
-                                <?php foreach ($eventTypes as $eventType) : ?>
-                                    <option value="<?= $eventType ?>"><?= $eventType ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Report Type Selection -->
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <label for="report-type" class="control-label"><?php echo __('Select Report Type'); ?></label>
-                            <select id="report-type" class="form-control" required>
-                                <optgroup label="<?php echo __('Report Types'); ?>">
-                                    <option value="adsByVideo"><?php echo __('Ads Per Video'); ?></option>
-                                    <option value="adTypes"><?php echo __('Ad Types Overview'); ?></option>
-                                    <option value="adsForSingleVideo"><?php echo __('Ads for a Single Video'); ?></option>
-                                    <option value="adsByUser"><?php echo __('Ads by User'); ?></option>
-                                    <option value="listVideosByUser"><?php echo __('List Videos and Total Ads by User'); ?></option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Video and User Select Containers (Hidden Initially) -->
-                    <div class="col-md-3 col-sm-6" id="videos-select-container" style="display:none;">
-                        <div class="form-group">
-                            <label for="videos_id" class="control-label"><?php echo __('Select Video'); ?>:</label>
-                            <?php $autoComplete = Layout::getVideoAutocomplete(0, 'videos_id'); ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6" id="users-select-container" style="display:none;">
-                        <div class="form-group">
-                            <label for="users_id" class="control-label"><?php echo __('Select User'); ?>:</label>
-                            <?php $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'users_id'); ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Submit Button Row -->
-                <div class="row">
-                    <div class="col-md-4 text-center">
-                        <?php
-                        echo getTourHelpButton('plugin/AD_Server/reports.help.json', 'btn btn-default btn-block');
-                        ?>
-                    </div>
-                    <div class="col-md-8 text-center">
-                        <button type="submit" class="btn btn-primary btn-block" id="genReports"><i class="fas fa-chart-bar"></i> <?php echo __('Generate Report'); ?></button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-        <div class="panel-body">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-9">
+                    <form id="report-form" class="text-center">
+                        <!-- Row for Date Range Selection -->
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="date-range" class="control-label"><?php echo __('Select Date Range'); ?></label>
+                                    <select id="date-range" class="form-control">
+                                        <optgroup label="<?php echo __('Preset Ranges'); ?>">
+                                            <option value="thisWeek"><?php echo __('This Week'); ?></option>
+                                            <option value="thisMonth"><?php echo __('This Month'); ?></option>
+                                            <option value="last2Months"><?php echo __('Last 2 Months'); ?></option>
+                                            <option value="thisYear"><?php echo __('This Year'); ?></option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    <label for="start-date" class="control-label"><?php echo __('Start Date'); ?></label>
+                                    <input type="date" id="start-date" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    <label for="end-date" class="control-label"><?php echo __('End Date'); ?></label>
+                                    <input type="date" id="end-date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row for Campaign Type and Event Type Selection -->
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="campaign-type" class="control-label"><?php echo __('Select Campaign Source'); ?></label>
+                                    <select id="campaign-type" class="form-control">
+                                        <optgroup label="<?php echo __('Campaign Type'); ?>">
+                                            <option value="all"><?php echo __('All Campaigns'); ?></option>
+                                            <option value="own"><?php echo __('Own Videos'); ?> (AD_Server)</option>
+                                            <option value="third-party"><?php echo __('Third Party Ads'); ?> (GoogleAds_IMA)</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="event-type" class="control-label"><?php echo __('Select Event Type'); ?></label>
+                                    <select id="event-type" class="form-control">
+                                        <option value=""><?php echo __('All Event Types'); ?></option>
+                                        <?php foreach ($eventTypes as $eventType) : ?>
+                                            <option value="<?= $eventType ?>"><?= $eventType ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Report Type Selection -->
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="report-type" class="control-label"><?php echo __('Select Report Type'); ?></label>
+                                    <select id="report-type" class="form-control" required>
+                                        <optgroup label="<?php echo __('Report Types'); ?>">
+                                            <option value="adsByVideo"><?php echo __('Ads Per Video'); ?></option>
+                                            <option value="adTypes"><?php echo __('Ad Types Overview'); ?></option>
+                                            <option value="adsForSingleVideo"><?php echo __('Ads for a Single Video'); ?></option>
+                                            <option value="adsByUser"><?php echo __('Ads by User'); ?></option>
+                                            <option value="listVideosByUser"><?php echo __('List Videos and Total Ads by User'); ?></option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Video and User Select Containers (Hidden Initially) -->
+                            <div class="col-md-3 col-sm-6" id="videos-select-container" style="display:none;">
+                                <div class="form-group">
+                                    <label for="videos_id" class="control-label"><?php echo __('Select Video'); ?>:</label>
+                                    <?php $autoComplete = Layout::getVideoAutocomplete(0, 'videos_id'); ?>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6" id="users-select-container" style="display:none;">
+                                <div class="form-group">
+                                    <label for="users_id" class="control-label"><?php echo __('Select User'); ?>:</label>
+                                    <?php $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'users_id'); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button Row -->
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <?php
+                                echo getTourHelpButton('plugin/AD_Server/reports.help.json', 'btn btn-default btn-block');
+                                ?>
+                            </div>
+                            <div class="col-md-8 text-center">
+                                <button type="submit" class="btn btn-primary btn-block" id="genReports"><i class="fas fa-chart-bar"></i> <?php echo __('Generate Report'); ?></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3">
                     <h4 id="selected-filters" class="text-center"></h4> <!-- Filter Info -->
                     <h4 id="total-sum" class="text-center"></h4> <!-- Total Sum -->
                 </div>
             </div>
+
         </div>
-        <div class="panel-footer">
-            <div class="chart-container" style="position: relative; width:100%; height:auto; max-height:400px;">
+        <div class="panel-body">
+            <div class="chart-container" style="position: relative; width:100%; height:auto; height:300px;">
                 <canvas id="reportChart"></canvas>
             </div>
-            <table id="reportTable" class="table table-bordered table-responsive table-striped table-hover table-condensed" style="margin-top: 20px;">
+            <div class="chart-container" style="position: relative; width:100%; height:auto; height:300px;">
+                <canvas id="pieChart"></canvas> <!-- New pie chart -->
+            </div>
+            <table id="reportTable" class="table table-bordered table-responsive table-striped table-hover table-condensed" style="margin-top: 40px;">
                 <thead>
                     <tr>
                         <th><?php echo __('Label'); ?></th>
@@ -162,9 +166,10 @@ foreach ($types as $key => $value) {
                     <!-- Data will be populated dynamically -->
                 </tbody>
             </table>
+        </div>
+        <div class="panel-footer">
             <!-- Add a button to download CSV -->
             <button id="download-csv-btn" class="btn btn-success btn-block"><i class="fas fa-file-csv"></i> <?php echo __('Download CSV'); ?></button>
-
         </div>
     </div>
 </div>
@@ -192,6 +197,7 @@ foreach ($types as $key => $value) {
     };
 
     var reportChartInstance = null;
+    var pieChartInstance = null;
     var reportTable; // Declare reportTable variable globally
     var lastReportTableData;
 
@@ -516,7 +522,10 @@ foreach ($types as $key => $value) {
                     },
                     x: {
                         ticks: {
-                            //display: false // Hide the X-axis labels
+                            font: {
+                                size: 9 // Optional: Reduce font size
+                            }
+                            //display: false // Hide X-axis labels
                         }
                     }
                 },
@@ -543,6 +552,45 @@ foreach ($types as $key => $value) {
         });
     }
 
+    function generatePieChart(data) {
+        var ctxPie = document.getElementById('pieChart').getContext('2d');
+        var pieLabels = [];
+        var pieValues = [];
+        var pieColors = [];
+
+        data.forEach(function(item) {
+            var label = createLabel(item).join(' ');
+            pieLabels.push(label);
+            pieValues.push(item.total_ads);
+            var color = eventColors[item.type] || getRandomColor();
+            pieColors.push(color);
+        });
+
+        if (pieChartInstance !== null && typeof pieChartInstance !== 'undefined') {
+            pieChartInstance.destroy();
+        }
+
+        pieChartInstance = new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: pieLabels,
+                datasets: [{
+                    data: pieValues,
+                    backgroundColor: pieColors
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
     $(document).ready(function() {
         reportTable = $('#reportTable').DataTable({
             paging: true,
@@ -608,6 +656,8 @@ foreach ($types as $key => $value) {
                 data: requestData,
                 success: function(response) {
                     generateChart(response, reportType);
+                    // Generate Pie Chart
+                    generatePieChart(response);
 
                     populateTable(response);
                     calculateTotalSum(response); // Calculate the total sum of ads
