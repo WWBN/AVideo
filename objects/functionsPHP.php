@@ -339,7 +339,7 @@ function _session_start(array $options = [])
             $start = microtime(true);
             //_error_log('session_start 1');
             $session = @session_start($options);
-            _error_log('session_id '. session_id().' line='.__LINE__.' IP:'.getRealIpAddr().json_encode($options));
+            //_error_log('session_id '. session_id().' line='.__LINE__.' IP:'.getRealIpAddr().json_encode($options));
             //_error_log('session_start 2');
             $takes = microtime(true) - $start;
             if($takes > 1){
