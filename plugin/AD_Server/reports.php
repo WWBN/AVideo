@@ -202,11 +202,28 @@ foreach ($types as $key => $value) {
         'AdCloseLinear': 'rgba(105, 105, 105, 0.5)' // Dim Grey (Closing linear ad)
     };
 
-
+    var colorCache = {}; // Cache for dynamically generated colors
     var reportChartInstance = null;
     var pieChartInstance = null;
     var reportTable; // Declare reportTable variable globally
     var lastReportTableData;
+
+    function getColorForElement(type) {
+        // Check if the type already has a predefined color
+        if (eventColors[type]) {
+            return eventColors[type];
+        }
+
+        // If the type is not in the predefined list, check the cache
+        if (colorCache[type]) {
+            return colorCache[type];
+        }
+
+        // Generate a random color and store it in the cache
+        var newColor = getRandomColor();
+        colorCache[type] = newColor;
+        return newColor;
+    }
 
     function jsonToCSV(jsonData) {
         const csvRows = [];
@@ -346,7 +363,6 @@ foreach ($types as $key => $value) {
         var b = parseInt(color.slice(5, 7), 16);
         return `rgba(${r}, ${g}, ${b}, 0.5)`; // 50% transparent color
     }
-
 
     // Function to set default dates
     function setDefaultDates() {
@@ -503,7 +519,7 @@ foreach ($types as $key => $value) {
 
             var eventType = item.type;
             eventTypes.push(eventType); // Store the event type for each column
-            var baseColor = eventColors[eventType] || getRandomColor();
+            var baseColor = getColorForElement(videoLabel.join('')); // Get consistent color for the element
             backgroundColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
             borderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
         });
@@ -572,10 +588,11 @@ foreach ($types as $key => $value) {
         data.forEach(function(item) {
             if (item.total_ads >= maxValue * percentageThreshold) {
                 // If the value is greater than or equal to the threshold (2% of max value), show it
-                var label = createLabel(item).join(' ');
+                var videoLabel = createLabel(item);
+                var label = videoLabel.join(' ');
                 pieLabels.push(label);
                 pieValues.push(item.total_ads);
-                var baseColor = eventColors[item.type] || getRandomColor();
+                var baseColor = getColorForElement(videoLabel.join('')); // Get consistent color for the element
                 pieColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
                 pieBorderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
             } else {
