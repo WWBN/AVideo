@@ -208,6 +208,7 @@ foreach ($types as $key => $value) {
     var reportTable; // Declare reportTable variable globally
     var lastReportTableData;
 
+
     function getColorForElement(type) {
         // Check if the type already has a predefined color
         if (eventColors[type]) {
@@ -497,7 +498,13 @@ foreach ($types as $key => $value) {
         });
     }
 
-    function generateChart(data, reportType) {
+    // Function to generate the bar chart
+    var hiddenItems = {}; // Track hidden items by label
+
+    var hiddenItems = {}; // Track hidden items by label
+
+    // Function to generate the bar chart with support for hiding/showing elements
+    function generateChart(data, reportType, hiddenItems = {}) {
         var ctx = document.getElementById('reportChart').getContext('2d');
         var chartType = 'bar';
         var labels = [];
@@ -505,7 +512,6 @@ foreach ($types as $key => $value) {
         var backgroundColors = [];
         var borderColors = [];
         var videoIds = [];
-        var eventTypes = [];
 
         if (reportChartInstance !== null && typeof reportChartInstance !== 'undefined') {
             reportChartInstance.destroy();
@@ -513,13 +519,16 @@ foreach ($types as $key => $value) {
 
         data.forEach(function(item) {
             var videoLabel = createLabel(item);
+            var label = videoLabel.join(' ');
+
+            // Skip items that are currently hidden
+            if (hiddenItems[label]) return;
+
             labels.push(videoLabel);
             values.push(item.total_ads);
             videoIds.push(item.videos_id);
 
-            var eventType = item.type;
-            eventTypes.push(eventType); // Store the event type for each column
-            var baseColor = getColorForElement(videoLabel.join('')); // Get consistent color for the element
+            var baseColor = getColorForElement(label); // Get consistent color for the element
             backgroundColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
             borderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
         });
@@ -548,8 +557,16 @@ foreach ($types as $key => $value) {
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        type: 'logarithmic', // Use logarithmic scale
-                        beginAtZero: true
+                        //type: 'logarithmic', // Use logarithmic scale
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                if (Number.isInteger(value)) {
+                                    return value; // Show only integer numbers
+                                }
+                                return null; // Skip non-integer numbers
+                            }
+                        }
                     },
                     x: {
                         ticks: {
@@ -561,18 +578,14 @@ foreach ($types as $key => $value) {
                 },
                 plugins: {
                     legend: {
-                        display: false
-                    }
-                },
-                hover: {
-                    onHover: function(event, chartElement) {
-                        event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                        display: true
                     }
                 }
             }
         });
     }
 
+    // Function to generate the pie chart with hide/show functionality based on legend clicks
     function generatePieChart(data) {
         var ctxPie = document.getElementById('pieChart').getContext('2d');
         var pieLabels = [];
@@ -580,28 +593,29 @@ foreach ($types as $key => $value) {
         var pieColors = [];
         var pieBorderColors = [];
         var othersTotal = 0;
-        var percentageThreshold = 0.02; // Set the percentage threshold (e.g., 2% of the largest value)
+        var percentageThreshold = 0.01; // Set the percentage threshold (e.g., 1% of the largest value)
 
         // Get the largest value in the dataset
         var maxValue = Math.max(...data.map(item => item.total_ads));
 
         data.forEach(function(item) {
+            var videoLabel = createLabel(item);
+            var label = videoLabel.join(' ');
+
+            // Skip hidden items
+            if (hiddenItems[label]) return;
+
             if (item.total_ads >= maxValue * percentageThreshold) {
-                // If the value is greater than or equal to the threshold (2% of max value), show it
-                var videoLabel = createLabel(item);
-                var label = videoLabel.join(' ');
                 pieLabels.push(label);
                 pieValues.push(item.total_ads);
-                var baseColor = getColorForElement(videoLabel.join('')); // Get consistent color for the element
+                var baseColor = getColorForElement(label); // Get consistent color for the element
                 pieColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
                 pieBorderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
             } else {
-                // If the value is smaller than the threshold, group it into "Others"
                 othersTotal += item.total_ads;
             }
         });
 
-        // If there are small values, add them as "Others"
         if (othersTotal > 0) {
             pieLabels.push('Others');
             pieValues.push(othersTotal);
@@ -634,6 +648,14 @@ foreach ($types as $key => $value) {
                         labels: {
                             boxWidth: 20, // Customize the width of the box
                             padding: 20 // Customize padding between legend items
+                        },
+                        onClick: function(e, legendItem) {
+                            var index = legendItem.index;
+                            pieChartInstance.toggleDataVisibility(index); // toggles the item in all datasets, at index 2
+                            pieChartInstance.update();
+
+                            reportChartInstance.toggleDataVisibility(index); // toggles the item in all datasets, at index 2
+                            reportChartInstance.update();
                         }
                     }
                 }
@@ -705,7 +727,7 @@ foreach ($types as $key => $value) {
                 method: 'POST',
                 data: requestData,
                 success: function(response) {
-                    generateChart(response, reportType);
+                    generateChart(response, reportType, hiddenItems); // Pass hidden items to the bar chart
                     // Generate Pie Chart
                     generatePieChart(response);
 
