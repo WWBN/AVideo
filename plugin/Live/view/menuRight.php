@@ -90,7 +90,7 @@ if (User::canStream()) {
                 continue;
             }
             var stat = stats[i];
-            console.log('amILive', stat);
+            //console.log('amILive', stat);
             if (stat.type == 'live' || stat.type == "LiveObject") {
                 if (stat.users_id == my_users_id) {
                     my_current_live_key = stat.key;
@@ -100,7 +100,7 @@ if (User::canStream()) {
                 }
             }
         }
-        console.log('amILive', IAmOnline, stats);
+        //console.log('amILive', IAmOnline, stats);
         $('body').each(function() {
             var classes = $(this).attr('class').split(' ').filter(function(c) {
                 return !c.startsWith('body_live_');
@@ -131,7 +131,7 @@ if (User::canStream()) {
             _processLiveStats_processingNow = 0;
         }, 200);
         if (typeof response !== 'undefined') {
-            console.trace('processApplication add notificationLiveItemRemoveThis');
+            //console.trace('processApplication add notificationLiveItemRemoveThis');
             $('.stats_app').addClass('notificationLiveItemRemoveThis');
             if (isArray(response)) {
                 for (var i in response) {
@@ -211,7 +211,7 @@ if (User::canStream()) {
                     processApplication(response.applications[i]);
                     $('#' + response.applications[i].className).removeClass('notificationLiveItemRemoveThis');
                     if (!response.applications[i].comingsoon) {
-                        console.log('processApplicationLive', response.applications[i]);
+                        //console.log('processApplicationLive', response.applications[i]);
                         if (typeof response.applications[i].live_cleanKey !== 'undefined') {
                             selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
                             onlineLabelOnline(selector);
@@ -313,7 +313,7 @@ if (User::canStream()) {
             }
             var selector = '#' + notificatioID;
             $(selector).removeClass('notificationLiveItemRemoveThis');
-            console.log('processApplication notificatioID ', selector);
+            //console.log('processApplication notificatioID ', selector);
             if (!$(selector).length) {
                 notificationHTML.attr('id', notificatioID);
                 if (application.comingsoon) {
@@ -346,7 +346,7 @@ if (User::canStream()) {
 
             var selector = '#' + id;
             $(selector).removeClass('notificationLiveItemRemoveThis');
-            console.log('processApplication key ', selector);
+            //console.log('processApplication key ', selector);
             if ($(selector).length) {
                 //console.log('processApplication key found', id);
                 return false;

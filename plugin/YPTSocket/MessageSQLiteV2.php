@@ -13,6 +13,7 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 
 class Message implements MessageComponentInterface {
     const MSG_TO_ALL_TIMEOUT = 5;
+    static $lastMessageToAllDuration = 0;
     static $msgToAll = array();
     static $isSendingToAll = false;
     static $mem_usage;
@@ -401,7 +402,8 @@ class Message implements MessageComponentInterface {
 
         $autoUpdateOnHTML = array_merge($info, $return);
         $obj['autoUpdateOnHTML'] = $autoUpdateOnHTML;
-
+        $obj['lastMessageToAllDuration'] = self::$lastMessageToAllDuration;
+        
         //$obj['users_uri'] = $return['users_uri'];
         $obj['resourceId'] = $resourceId;
         $obj['users_id_online'] = dbGetUniqueUsers();
@@ -517,7 +519,8 @@ class Message implements MessageComponentInterface {
             }
             $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
         }
-        $end = number_format(microtime(true) - $start, 4);
+        self::$lastMessageToAllDuration = microtime(true) - $start;
+        $end = number_format(self::$lastMessageToAllDuration, 4);
         _log_message("msgToAll FROM {$type} Total Clients: " . count($rows) . " in {$end} seconds"); 
     }
 
