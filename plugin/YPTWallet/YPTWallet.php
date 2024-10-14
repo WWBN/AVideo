@@ -453,12 +453,12 @@ class YPTWallet extends PluginAbstract
         _error_log("transferBalance: $users_id_from, $users_id_to, $value, $forceDescription, $forceTransfer");
         if (!User::isAdmin()) {
             if ($users_id_from != User::getId() && !$forceTransfer) {
-                _error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value");
+                _error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value ".json_encode(debug_backtrace()));
                 return false;
             }
         }
         if (!User::idExists($users_id_from) || !User::idExists($users_id_to)) {
-            _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value");
+            _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value  ".json_encode(debug_backtrace()));
             return false;
         }
         $value = floatval($value);
@@ -469,7 +469,7 @@ class YPTWallet extends PluginAbstract
         $balance = $wallet->getBalance();
         $newBalance = $balance - $value;
         if ($newBalance < 0) {
-            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value (Balance: {$balance}) (New Balance: {$newBalance})");
+            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value (Balance: {$balance}) (New Balance: {$newBalance}) ".json_encode(debug_backtrace()));
             return false;
         }
         $identificationFrom = User::getNameIdentificationById($users_id_from);
