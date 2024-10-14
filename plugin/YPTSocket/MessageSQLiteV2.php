@@ -344,6 +344,7 @@ class Message implements MessageComponentInterface
             _log_message("msgToResourceId: resourceId=({$resourceId}) is empty");
             return false;
         }
+        $startTime = microtime(true);
 
         $row = dbGetRowFromResourcesId($resourceId);
 
@@ -426,8 +427,11 @@ class Message implements MessageComponentInterface
         $obj['mem'] = Message::$mem;
 
         $msgToSend = json_encode($obj);
-        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type} users_id={$obj['users_id']}");
         $this->clients[$resourceId]->send($msgToSend);
+        // End timing and calculate the duration
+        $endTime = microtime(true);
+        $duration = $endTime - $startTime;
+        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type} users_id={$obj['users_id']} duration=$duration");
         return true;
     }
 
