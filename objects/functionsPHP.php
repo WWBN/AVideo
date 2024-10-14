@@ -311,26 +311,40 @@ function _session_start(array $options = [])
 {
     try {
         session_start_preload();
+        
+        // Start session first, then check the session ID
         if (isset($_GET['PHPSESSID']) && !_empty($_GET['PHPSESSID'])) {
             $PHPSESSID = $_GET['PHPSESSID'];
             unset($_GET['PHPSESSID']);
+            
+            // Start the session with the options
+            $session = @session_start($options);
+            
+            // Now, check if session ID matches after session start
+            if ($PHPSESSID === session_id()) {
+                // Session ID already matches, do nothing
+                return $session;
+            }
+            
             if (!User::isLogged()) {
                 if ($PHPSESSID !== session_id()) {
                     _session_write_close();
                     session_id($PHPSESSID);
                     //_error_log("captcha: session_id changed to {$PHPSESSID}");
                 }
-                //memcachedSession();
+                
+                // Restart session after changing the session ID
                 $session = @session_start($options);
-
+                
                 if (preg_match('/objects\/getCaptcha\.php/i', $_SERVER['SCRIPT_NAME'])) {
                     $regenerateSessionId = false;
                 }
+                
                 if (!blackListRegenerateSession()) {
-                    _error_log("captcha: session_id regenerated new  session_id=" . session_id());
+                    _error_log("captcha: session_id regenerated new session_id=" . session_id());
                     _session_regenerate_id();
-
                 }
+                
                 return $session;
             } else {
                 //_error_log("captcha: user logged we will not change the session ID PHPSESSID={$PHPSESSID} session_id=" . session_id());
@@ -343,8 +357,8 @@ function _session_start(array $options = [])
             //_error_log('session_id '. session_id().' line='.__LINE__.' IP:'.getRealIpAddr().json_encode($options));
             //_error_log('session_start 2');
             $takes = microtime(true) - $start;
-            if($takes > 1){
-                _error_log('session_start takes '.$takes.' seconds to open', AVideoLog::$PERFORMANCE);
+            if ($takes > 1) {
+                _error_log('session_start takes ' . $takes . ' seconds to open', AVideoLog::$PERFORMANCE);
                 _error_log(json_encode(debug_backtrace()), AVideoLog::$PERFORMANCE);
                 //exit;
             }
@@ -355,6 +369,7 @@ function _session_start(array $options = [])
         return false;
     }
 }
+
 
 function _session_regenerate_id()
 {
