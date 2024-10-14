@@ -328,6 +328,10 @@ class YPTSocket extends PluginAbstract
         return true;
     }
 
+    function executeEveryDay() {
+        self::restart();
+    }
+
     
     static public function getStartServerCommand()
     {
