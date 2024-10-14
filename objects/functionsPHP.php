@@ -360,6 +360,7 @@ function _session_start(array $options = [])
 
 function _session_regenerate_id($users_id = 0, $force = false)
 {
+    return false;
     $users_id = intval($users_id);
     $prefix = "UID_{$users_id}_";
 
