@@ -328,7 +328,7 @@ function _session_start(array $options = [])
                 }
                 if (!blackListRegenerateSession()) {
                     _error_log("captcha: session_id regenerated new  session_id=" . session_id());
-                    _session_regenerate_id();
+                    _session_regenerate_id(User::getId(), true);
                 }
                 return $session;
             } else {
@@ -355,13 +355,36 @@ function _session_start(array $options = [])
     }
 }
 
-function _session_regenerate_id()
+function _session_regenerate_id($users_id=0, $force = false)
 {
     $session = $_SESSION;
-    session_regenerate_id(true);
-    _resetcookie('PHPSESSID', session_id());
-    _resetcookie(session_name(), session_id());
-    $_SESSION = $session;
+
+    $users_id = intval($users_id);
+
+    $prefix = "UID_{$users_id}_";
+
+    // If force is true or the session ID does not start with the correct prefix, regenerate it
+    if ($force || strpos(session_id(), $prefix) !== 0) {
+        // Create a new session ID with the prefix and timestamp
+        $newSessionId = $prefix . time() . '_' . bin2hex(random_bytes(8)); // Add random bytes for security
+
+        $_SESSION = array();
+
+        // Regenerate the session ID and preserve the current session data
+        session_regenerate_id(true);
+        
+        // Set the new session ID manually
+        session_id($newSessionId);
+
+        // Reset the cookies with the new session ID
+        _resetcookie('PHPSESSID', session_id());
+        _resetcookie(session_name(), session_id());
+
+        // Restore session data
+        $_SESSION = $session;
+        
+        _error_log("Session ID regenerated with prefix: " . session_id());
+    }
 }
 
 function uniqidV4()

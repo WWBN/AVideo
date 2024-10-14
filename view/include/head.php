@@ -37,7 +37,7 @@ if (!empty($poster) && !empty($video['description'])) {
 TimeLogEnd($timeLogHead, __LINE__);
 if (!empty($_REQUEST['catName'])) {
     $category = Category::getCategoryByName($_REQUEST['catName']);
-    if(!empty($category)){
+    if (!empty($category)) {
         $description = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags("{$category['description']}"));
         $custom = [];
         $custom[] = $description;
@@ -69,11 +69,11 @@ if (!empty($head_videos_id)) {
     echo $tags['head'];
 }
 
-if(!isCommandLineInterface()){
+if (!isCommandLineInterface()) {
     $swRegister = getURL('view/js/swRegister.js');
     $swRegister = addQueryStringParameter($swRegister, 'webSiteRootURL', $global['webSiteRootURL']);
 ?>
-<script class="doNotSepareteTag" src="<?php echo $swRegister; ?>" type="text/javascript"></script>
+    <script class="doNotSepareteTag" src="<?php echo $swRegister; ?>" type="text/javascript"></script>
 <?php
 }
 ?>
@@ -93,14 +93,14 @@ if(!isCommandLineInterface()){
 <?php
 if (!isBot()) {
 ?>
-    <link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css"  />
-    <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css"  />
-    <link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css"  />
-    <link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css"  />
-    <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css"  />
-    <link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css"  />
-    <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"   />
-    <script src="<?php echo getURL('locale/function.js.php'); ?>&lang=<?php echo revertLangString(getLanguage()); ?>" ></script>
+    <link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css" />
+    <script src="<?php echo getURL('locale/function.js.php'); ?>&lang=<?php echo revertLangString(getLanguage()); ?>"></script>
 <?php
 }
 if (!isVideo()) {
@@ -114,27 +114,27 @@ if (!isVideo()) {
     $metaDescription .= getSEOComplement(["addAutoPrefix" => false]);
     $metaDescription = getSEODescription($metaDescription);
     echo '<meta name="description" content="' . $metaDescription . '">';
-}else if(isEmbed()){
+} else if (isEmbed()) {
     echo '<style>body{background-color: #000;}</style>';
 }
 //var_dump($metaDescription);var_dump(debug_backtrace());exit;
 if (empty($advancedCustom->disableAnimations)) {
 ?>
-    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
 }
 include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
 ?>
 <?php
 TimeLogEnd($timeLogHead, __LINE__);
-if(!empty($theme)){
-    ?>
+if (!empty($theme)) {
+?>
     <link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
     <?php
-    if($isCurrentThemeDark){
-        ?>
+    if ($isCurrentThemeDark) {
+    ?>
         <link href="<?php echo getURL('view/css/dark.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
-        <?php
+<?php
     }
 }
 if (empty($global['userBootstrapLatest'])) {
@@ -163,7 +163,7 @@ if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exis
 TimeLogEnd($timeLogHead, __LINE__);
 if (isRTL()) {
 ?>
-    <link href="<?php echo getURL('view/css/rtl.css'); ?>" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo getURL('view/css/rtl.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
 }
 ?>
@@ -175,8 +175,8 @@ if (isRTL()) {
     var my_identification = <?php echo json_encode(User::getNameIdentification()); ?>;
     var mediaId = <?php echo json_encode(getVideos_id()); ?>;
     var player;
-    var isCurrentThemeDark = <?php echo !empty($isCurrentThemeDark)?1:0 ; ?>;
-    var externalReferrer = '<?php echo storeAndGetExternalReferrer(); ?>';    
+    var isCurrentThemeDark = <?php echo !empty($isCurrentThemeDark) ? 1 : 0; ?>;
+    var externalReferrer = '<?php echo storeAndGetExternalReferrer(); ?>';
 </script>
 
 <script id="infoForNonCachedPages">
@@ -188,7 +188,29 @@ if (isRTL()) {
     var _serverSystemTimezone = "<?php echo (getSystemTimezone()); ?>";
     var avideoModalIframeFullScreenCloseButton = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 2, 'class="btn btn-default pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
     var avideoModalIframeFullScreenCloseButtonSmall = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 4, 'class="btn btn-default btn-sm pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
-    var PHPSESSID = "<?php echo session_id(); ?>";
+    // Create a variable to hold the session ID
+    var PHPSESSID = null;
+
+    // Function to load the session ID via AJAX
+    function loadPHPSessionID() {
+        fetch('objects/phpsessionid.json.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                PHPSESSID = data.phpsessid; // Assign the session ID to the variable
+                console.log('PHPSESSID loaded:', PHPSESSID); // You can remove this in production
+            })
+            .catch(error => {
+                console.error('Error loading PHPSESSID:', error);
+            });
+    }
+    // Load the session ID as fast as possible
+    window.addEventListener('DOMContentLoaded', loadPHPSessionID);
 </script>
 <?php
 if (!isOffline() && !$config->getDisable_analytics()) {

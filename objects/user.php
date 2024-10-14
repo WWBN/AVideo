@@ -1152,14 +1152,16 @@ if (typeof gtag !== \"function\") {
     {
         global $global, $advancedCustom, $advancedCustomUser, $config;
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+        
         if (!class_exists('AVideoPlugin')) {
             _error_log("ERROR login($noPass, $encodedPass, $ignoreEmailVerification) " . json_encode(debug_backtrace()));
             return self::SYSTEM_ERROR;
         }
+        
         if (User::isLogged()) {
-            //_error_log('User:login is already logged '.json_encode($_SESSION['user']['id']));
             return self::USER_LOGGED;
         }
+        
         if (class_exists('AVideoPlugin')) {
             if (empty($advancedCustomUser)) {
                 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
@@ -1168,25 +1170,25 @@ if (typeof gtag !== \"function\") {
                 $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
             }
         }
-
+        
         if (strtolower($encodedPass) === 'false') {
             $encodedPass = false;
         }
-        //_error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user " . getRealIpAddr());
+    
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
-
+    
         if (!isAVideoMobileApp() && !isAVideoEncoder() && !self::checkLoginAttempts()) {
             _error_log('login Captcha error ' . $_SERVER['HTTP_USER_AGENT']);
             return self::CAPTCHA_ERROR;
         }
+    
         ObjectYPT::clearSessionCache();
         _session_start();
-        // check for multiple logins attempts to prevent hacking end
-        // if user is not verified
+    
         if (empty($ignoreEmailVerification) && !empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
             unset($_SESSION['user']);
             self::sendVerificationLink($user['id']);
@@ -1195,7 +1197,7 @@ if (typeof gtag !== \"function\") {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
             $rememberme = 0;
-
+    
             if ((!empty($_REQUEST['rememberme']) && $_REQUEST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
                 $valid = '+ 1 year';
                 $expires = strtotime($valid);
@@ -1206,16 +1208,18 @@ if (typeof gtag !== \"function\") {
                 $expires = 0;
                 $passhash = self::getUserHash($user['id'], $valid);
             }
-
+    
             self::setUserCookie($rememberme, $user['id'], $user['user'], $passhash, $expires);
-
+    
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
-            // this was regenerating the session all the time, making harder to save info in the session
-            //_session_regenerate_id();
+    
+            // Call custom session regenerate logic
+            _session_regenerate_id($_SESSION['user']['id']); 
+            
             _session_write_close();
-
-            _error_log("User:login finish with success users_id= {$_SESSION['user']['id']} {$_SERVER['HTTP_USER_AGENT']} IP=" . getRealIpAddr().json_encode(debug_backtrace()));
+    
+            _error_log("User:login finish with success users_id= {$_SESSION['user']['id']} {$_SERVER['HTTP_USER_AGENT']} IP=" . getRealIpAddr() . json_encode(debug_backtrace()));
             return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);
