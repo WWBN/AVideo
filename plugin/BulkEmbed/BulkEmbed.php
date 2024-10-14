@@ -37,6 +37,7 @@ class BulkEmbed extends PluginAbstract {
 
         $obj->API_KEY = "AIzaSyCIqxE86BawU33Um2HEGtX4PcrUWeCh_6o";
         $obj->onlyAdminCanBulkEmbed = true;
+        $obj->useOriginalYoutubeDate = true;
         return $obj;
     }    
     

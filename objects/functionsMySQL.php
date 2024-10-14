@@ -82,6 +82,26 @@ function getDatabaseTime()
     return $_getDatabaseTime;
 }
 
+/**
+ * Convert a valid ISO 8601 date to MySQL format (Y-m-d H:i:s).
+ * If the date is invalid, return an empty string.
+ *
+ * @param string $date
+ * @return string
+ */
+function convertToMySQLDate(string $date): string
+{
+    // Try to parse the date with DateTime
+    try {
+        $dateTime = new DateTime($date);
+        // Return the date in MySQL format
+        return $dateTime->format('Y-m-d H:i:s');
+    } catch (Exception $e) {
+        // If the date is invalid, return an empty string
+        return '';
+    }
+}
+
 
 function getMySQLDate()
 {

@@ -26,9 +26,9 @@ function ISO8601ToSeconds($ISO8601)
     $minutes = intval(@$minutes);
     $seconds = intval(@$seconds);
 
-    $toltalSeconds = ($hours * 60 * 60) + ($minutes * 60) + $seconds;
+    $totalSeconds = ($hours * 60 * 60) + ($minutes * 60) + $seconds;
 
-    return $toltalSeconds;
+    return $totalSeconds;
 }
 
 function ISO8601ToDuration($ISO8601)
@@ -47,7 +47,6 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = array();
 $obj->playListId = 0;
-
 
 $objo = AVideoPlugin::getObjectDataIfEnabled('BulkEmbed');
 if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
@@ -82,6 +81,12 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
         $videos->setDescription($value['description']);
         $videos->setClean_title($value['title']);
         $videos->setDuration(ISO8601ToDuration($value['duration']));
+        
+        // Set the original video date if available in the form data
+        if (!empty($value['date']) && $objo->useOriginalYoutubeDate) {
+            $videos->setCreated($value['date']); // Set the original creation date of the video
+        }
+
         $poster = Video::getPathToFile("{$paths['filename']}.jpg");
         $thumbs = $value['thumbs'];
         if (!empty($thumbs)) {
@@ -89,7 +94,7 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
             if (!empty($contentThumbs)) {
                 make_path($poster);
                 $bytes = file_put_contents($poster, $contentThumbs);
-                _error_log("thumbs={$thumbs} poster=$poster bytes=$bytes strlen=".strlen($contentThumbs));
+                _error_log("thumbs={$thumbs} poster=$poster bytes=$bytes strlen=" . strlen($contentThumbs));
             } else {
                 _error_log("ERROR thumbs={$thumbs} poster=$poster");
             }
@@ -119,7 +124,7 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
 
         AVideoPlugin::saveVideosAddNew($_POST, $resp);
 
-        $obj->msg[] = Video::getVideoLight($resp);
+        $obj->msg[] = array('video'=>Video::getVideoLight($resp), 'value'=>$value, 'videos_id'=>$resp);
     }
 
     $obj->error = false;

@@ -165,8 +165,9 @@ $_page = new Page(array('Search'));
                         item.title = data.items[0].snippet.title;
                         item.description = data.items[0].snippet.description;
                         item.duration = data.items[0].contentDetails.duration;
-                        console.log(data.items[0].snippet);
                         item.thumbs = data.items[0].snippet.thumbnails.high.url;
+                        item.date = data.items[0].snippet.publishedAt;
+                        console.log(data.items[0].snippet, item);
                         itemsToSave.push(item);
                     }
                 });
@@ -180,9 +181,9 @@ $_page = new Page(array('Search'));
                 type: 'post',
                 success: function(response) {
                     if (!response.error) {
-                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your videos have been saved!"); ?>", "success");
+                        avideoAlertSuccess(__("Your videos have been saved!"));
                     } else {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg.join("<br>"), "error");
+                        avideoAlertError(response.msg.join("<br>"));
                     }
                     modal.hidePleaseWait();
                 }
@@ -417,7 +418,7 @@ $_page = new Page(array('Search'));
             '<img src="' + thumb + '">' +
             '</div>' +
             '<div class="list-right">' +
-            '<h3><input type="checkbox" value="' + videoID + '" name="videoCheckbox"><a target="_blank" href="https://youtube.com/embed/' + videoID + '?rel=0">' + title + '</a></h3>' +
+            '<h3><input type="checkbox" value="' + videoID + '" name="videoCheckbox"> <a target="_blank" href="https://youtube.com/embed/' + videoID + '?rel=0">' + title + '</a></h3>' +
             '<small>By <span class="cTitle">' + channelTitle + '</span> on ' + videoDate + '</small>' +
             '<p>' + description + '</p>' +
             '</div>' +
