@@ -560,12 +560,13 @@ class Message implements MessageComponentInterface
             $duration = $endTime - $startTime;
 
             // If it takes longer than 0.01 seconds, add to lastMessageToAllDurationMessages
-            if ($duration > 0.01) {
+            if ($duration > 0.05) {
                 _log_message("resourceId={$client['resourceId']} took {$duration} seconds to send the message.");
                 self::$lastMessageToAllDurationMessages[] = [
                     'resourceId' => $client['resourceId'],
                     'duration' => $duration
                 ];
+                $this->clients[$client['resourceId']]->close();
             }
         }
 
