@@ -418,7 +418,8 @@ class Message implements MessageComponentInterface
         $autoUpdateOnHTML = array_merge($info, $return);
         $obj['autoUpdateOnHTML'] = $autoUpdateOnHTML;
         $obj['lastMessageToAllDuration'] = self::$lastMessageToAllDuration;
-
+        $obj['lastMessageToAllDurationMessages'] = self::$lastMessageToAllDurationMessages;
+        
         //$obj['users_uri'] = $return['users_uri'];
         $obj['resourceId'] = $resourceId;
         $obj['users_id_online'] = dbGetUniqueUsers();
