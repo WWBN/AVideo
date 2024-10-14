@@ -86,4 +86,15 @@ AddType text/plain .php .phtml .py .cgi .pl .sh
         RewriteRule ^([_A-Za-z0-9.-]+/)?([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ ../view/xsendfile.php?file=$2&folder=$1 [QSA,END]
         RewriteRule ^cache/download/([_A-Za-z0-9.-]+/)?([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ ../view/xsendfile.php?file=$2&cacheDownload=1 [QSA,END]
     </IfModule>
+
+    # Special redirect for videos/userPhoto/photo[0-9]+.png to user/[0-9]+/foto.png if not found
+    RewriteCond %{REQUEST_URI} ^/videos/userPhoto/photo([0-9]+)\.png$
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ /user/%1/foto.png [L,R=302]
+
+    # if image does not exist
+    RewriteCond %{REQUEST_URI} \.(webp|jpg|jpeg|gif|png|ico)$ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule (.*)$ ../img/image404.php?image=$1 [NC,L]
 </IfModule>
