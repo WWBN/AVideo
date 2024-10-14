@@ -1216,7 +1216,7 @@ if (typeof gtag !== \"function\") {
     
             // Call custom session regenerate logic
             // this was regenerating the session all the time, making harder to save info in the session
-            _session_regenerate_id(); 
+            _session_regenerate_id($user['id']); 
             
             _session_write_close();
     
