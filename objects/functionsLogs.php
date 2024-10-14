@@ -90,8 +90,8 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
         $message = json_encode($message);
     }
     if (isSchedulerRun() || !empty($global['printLogs'])) {
-        echo $message . PHP_EOL;
-        return false;
+        //echo $message . PHP_EOL;
+        //return false;
     }
     if (empty($doNotRepeat)) {
         // do not log it too many times when you are using HLS format, other wise it will fill the log file with the same error

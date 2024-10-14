@@ -88,6 +88,7 @@ if (!isCommandLineInterface()) {
 <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
 <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
 <meta name="robots" content="index, follow" />
+<script src="<?php echo getURL('view/js/session.js'); ?>" type="text/javascript"></script>
 
 <link href="<?php echo getURL('node_modules/@fortawesome/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
@@ -188,29 +189,6 @@ if (isRTL()) {
     var _serverSystemTimezone = "<?php echo (getSystemTimezone()); ?>";
     var avideoModalIframeFullScreenCloseButton = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 2, 'class="btn btn-default pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
     var avideoModalIframeFullScreenCloseButtonSmall = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 4, 'class="btn btn-default btn-sm pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
-    // Create a variable to hold the session ID
-    var PHPSESSID = null;
-
-    // Function to load the session ID via AJAX
-    function loadPHPSessionID() {
-        fetch('objects/phpsessionid.json.php', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Cache-Control': 'no-cache'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                PHPSESSID = data.phpsessid; // Assign the session ID to the variable
-                console.log('PHPSESSID loaded:', PHPSESSID); // You can remove this in production
-            })
-            .catch(error => {
-                console.error('Error loading PHPSESSID:', error);
-            });
-    }
-    // Load the session ID as fast as possible
-    window.addEventListener('DOMContentLoaded', loadPHPSessionID);
 </script>
 <?php
 if (!isOffline() && !$config->getDisable_analytics()) {

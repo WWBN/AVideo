@@ -1215,7 +1215,8 @@ if (typeof gtag !== \"function\") {
             $_SESSION['loginAttempts'] = 0;
     
             // Call custom session regenerate logic
-            _session_regenerate_id($_SESSION['user']['id']); 
+            // this was regenerating the session all the time, making harder to save info in the session
+            _session_regenerate_id(); 
             
             _session_write_close();
     

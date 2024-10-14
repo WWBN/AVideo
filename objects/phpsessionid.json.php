@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-
+$doNotConnectDatabaseIncludeConfig = 1;
 require_once __DIR__.'/../videos/configuration.php';
 header('Content-Type: application/json');
 
