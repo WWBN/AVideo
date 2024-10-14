@@ -328,7 +328,7 @@ function _session_start(array $options = [])
                 }
                 if (!blackListRegenerateSession()) {
                     _error_log("captcha: session_id regenerated new  session_id=" . session_id());
-                    _session_regenerate_id(isset($_SESSION['user']) && isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 0, true);
+                    _session_regenerate_id();
 
                 }
                 return $session;
@@ -340,8 +340,6 @@ function _session_start(array $options = [])
             $start = microtime(true);
             //_error_log('session_start 1');
             $session = @session_start($options);
-            _session_regenerate_id(isset($_SESSION['user']) && isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 0);
-
             //_error_log('session_id '. session_id().' line='.__LINE__.' IP:'.getRealIpAddr().json_encode($options));
             //_error_log('session_start 2');
             $takes = microtime(true) - $start;
@@ -358,43 +356,13 @@ function _session_start(array $options = [])
     }
 }
 
-function _session_regenerate_id($users_id = 0, $force = false)
+function _session_regenerate_id()
 {
-    return false;
-    $users_id = intval($users_id);
-    $prefix = "UID_{$users_id}_";
-
-    // If force is true or the session ID does not start with the correct prefix, rename it
-    if ($force || strpos(session_id(), $prefix) !== 0) {
-        // Call the renaming function to generate a new session ID with the given prefix and user ID
-        rename_session_id($users_id);
-
-        _error_log("Session ID regenerated with prefix: " . session_id());
-    }
-}
-
-// New function to rename session ID
-function rename_session_id($users_id = 0)
-{
-    $session = $_SESSION; // Store the current session data
-    
-    // Generate the new session ID with the prefix and user ID
-    $newSessionId = 'UID_' . $users_id . '_' . time() . '_' . bin2hex(random_bytes(8));
-
-    session_write_close(); // Write the session data and close it to allow session ID change
-
-    // Change the session ID
-    session_id($newSessionId);
-
-    session_start(); // Restart the session with the new session ID
-
-    $_SESSION = $session; // Restore the session data
-
-    // Reset the session cookie to use the new session ID
+    $session = $_SESSION;
+    session_regenerate_id(true);
     _resetcookie('PHPSESSID', session_id());
     _resetcookie(session_name(), session_id());
-
-    _error_log("Session ID renamed to: " . session_id());
+    $_SESSION = $session;
 }
 
 function uniqidV4()
