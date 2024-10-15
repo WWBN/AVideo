@@ -13,6 +13,10 @@ $metaDescription = $title = getSEOTitle($video['title']);
 $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false, false);
 
 $_page = new Page(array('Confirm Rating'));
+
+
+//$video['rrating'] = 'nc-17';
+
 ?>
 <style>
     #bg {

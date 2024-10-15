@@ -1,9 +1,9 @@
-<h2>Viewer Discretion Advised</h2>
+<h2><?php echo __('Viewer Discretion Advised'); ?></h2>
 
-<strong>Warning</strong><br>
+<strong><?php echo __('Warning'); ?></strong><br>
 
-For Adults Only<br>
+<?php echo __('For Adults Only'); ?><br>
 
-The following movie contains materials that are not suitable for children 17 and under.<br>
+<?php echo __('The following movie contains materials that are not suitable for children 17 and under.'); ?><br>
 
-Viewer Discretion Advised
+<?php echo __('Viewer Discretion Advised'); ?>
