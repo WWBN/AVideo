@@ -453,12 +453,12 @@ class YPTWallet extends PluginAbstract
         _error_log("transferBalance: $users_id_from, $users_id_to, $value, $forceDescription, $forceTransfer");
         if (!User::isAdmin()) {
             if ($users_id_from != User::getId() && !$forceTransfer) {
-                _error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value ".json_encode(debug_backtrace()));
+                _error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value " . json_encode(debug_backtrace()));
                 return false;
             }
         }
         if (!User::idExists($users_id_from) || !User::idExists($users_id_to)) {
-            _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value  ".json_encode(debug_backtrace()));
+            _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value  " . json_encode(debug_backtrace()));
             return false;
         }
         $value = floatval($value);
@@ -469,7 +469,7 @@ class YPTWallet extends PluginAbstract
         $balance = $wallet->getBalance();
         $newBalance = $balance - $value;
         if ($newBalance < 0) {
-            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value (Balance: {$balance}) (New Balance: {$newBalance}) ".json_encode(debug_backtrace()));
+            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value (Balance: {$balance}) (New Balance: {$newBalance}) " . json_encode(debug_backtrace()));
             return false;
         }
         $identificationFrom = User::getNameIdentificationById($users_id_from);
@@ -716,7 +716,7 @@ class YPTWallet extends PluginAbstract
         switch ($status) {
             case 'pending':
                 $title = 'Transaction Pending';
-                $msg = 'Your have a pending transaction of ' . $valueFormated ;
+                $msg = 'Your have a pending transaction of ' . $valueFormated;
                 $icon = 'fa-solid fa-hourglass-half'; // Icon for pending
                 $type = UserNotifications::type_warning;
                 $href = "{$global['webSiteRootURL']}plugin/YPTWallet/view/pendingRequests.php";
@@ -736,14 +736,14 @@ class YPTWallet extends PluginAbstract
             case 'credit':
                 // If it is a credit
                 $title = 'Funds Received';
-                $msg = 'You have received a credit of ' . $valueFormated . ' from ' . $identification ;
+                $msg = 'You have received a credit of ' . $valueFormated . ' from ' . $identification;
                 $icon = 'fa-solid fa-hand-holding-usd'; // Credit icon
                 $type = UserNotifications::type_success;
                 break;
             case 'debit':
                 // If it is a debit
                 $title = 'Funds Deducted';
-                $msg = 'A debit of ' . $valueFormated . ' has been processed to ' . $identification ;
+                $msg = 'A debit of ' . $valueFormated . ' has been processed to ' . $identification;
                 $icon = 'fa-solid fa-money-bill-wave'; // Debit icon
                 $type = UserNotifications::type_danger;
                 break;
@@ -885,10 +885,32 @@ class YPTWallet extends PluginAbstract
         self::setAddFundsSuccessRedirectURL(getRedirectToVideo($videos_id));
     }
 
+    public static function showAdminMessage(){
+        global $global;
+        if (User::isAdmin()) {
+            if (empty($global['getWalletConfigurationHTMLAdminMessageShowed'])) {
+                echo '<div class="alert alert-info" role="alert">
+                    <i class="fa fa-info-circle"></i> 
+                    <strong>Admin Notice:</strong> This message is visible only to administrators.
+                </div>';
+                $global['getWalletConfigurationHTMLAdminMessageShowed'] = 1;
+            }
+        }
+    }
+
     public function getWalletConfigurationHTML($users_id, $wallet, $walletDataObject)
     {
         global $global;
         if (empty($walletDataObject->CryptoWalletEnabled)) {
+            if (User::isAdmin()) {
+                YPTWallet::showAdminMessage();
+                echo '<div class="alert alert-warning" role="alert">
+                    <i class="fa fa-exclamation-triangle"></i> 
+                    YPTWallet configuration will only appear if <strong>CryptoWalletEnabled</strong> is enabled in the plugin parameters. 
+                    <br>If you have an empty configuration menu, please hide this button by checking the <strong>hideConfiguration</strong> option in the YPTWallet parameters.
+                </div>';
+
+            }
             return '';
         }
         include_once $global['systemRootPath'] . 'plugin/YPTWallet/getWalletConfigurationHTML.php';
