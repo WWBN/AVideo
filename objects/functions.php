@@ -7390,7 +7390,7 @@ function storeAndGetExternalReferrer()
                     // Check if the session does not have an external referrer or if it's different from the current one
                     if (!isset($_SESSION['external_referrer']) || $_SESSION['external_referrer'] !== $sanitizedReferrer) {
                         if (!empty($sanitizedReferrer)) {
-                            _error_log('external_referrer changed' . json_encode(debug_backtrace()), AVideoLog::$ERROR);
+                            _error_log('external_referrer changed' . json_encode(debug_backtrace()));
                             // Store the sanitized and escaped external referrer in the session
                             $_SESSION['external_referrer'] = htmlspecialchars($sanitizedReferrer, ENT_QUOTES, 'UTF-8');
                         }
