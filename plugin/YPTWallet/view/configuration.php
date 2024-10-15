@@ -15,7 +15,11 @@ $wallet->setUsers_id(User::getId());
 $_page = new Page(array('Configuration'));
 ?>
 <div class="container">
-    <?php echo AVideoPlugin::getWalletConfigurationHTML(User::getId(), $wallet, $walletDataObject); ?>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <?php echo AVideoPlugin::getWalletConfigurationHTML(User::getId(), $wallet, $walletDataObject); ?>
+        </div>
+    </div>
 </div>
 <?php
 $_page->print();
