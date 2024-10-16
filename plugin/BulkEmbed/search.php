@@ -199,7 +199,7 @@ $_page = new Page(array('Search'));
             },
             success: function(response) {
                 if (response.error) {
-                    avideoAlertError(response.error);
+                    avideoAlertError(response.msg);
                 } else {
                     processData(response.data);
                     // Store search results globally

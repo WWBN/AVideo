@@ -3,14 +3,14 @@ require_once '../../videos/configuration.php';
 header('Content-Type: application/json');
 
 if (!User::isLogged()) {
-    die(json_encode(['error' => 'You must be logged in to search']));
+    die(json_encode(['error' => true, 'msg'=>'You must be logged in to search']));
 }
 
 $query = $_POST['query'] ?? '';
 $pageToken = $_POST['pageToken'] ?? '';
 
 if (empty($query)) {
-    die(json_encode(['error' => 'Search query cannot be empty']));
+    die(json_encode(['error' => true, 'msg'=>'Search query cannot be empty']));
 }
 
 $obj = AVideoPlugin::getObjectData("BulkEmbed");
@@ -23,11 +23,17 @@ if (!empty($pageToken)) {
     $youtubeApiUrl .= "&pageToken=" . $pageToken;
 }
 
-$response = file_get_contents($youtubeApiUrl);
+$response = url_get_contents($youtubeApiUrl);
 $responseData = json_decode($response, true);
 
 if (empty($responseData) || !isset($responseData['items'])) {
-    die(json_encode(['error' => 'Failed to retrieve data from YouTube', $responseData]));
+    _error_log('Failed to retrieve data from YouTube ' . $youtubeApiUrl);
+    $msg = 'Failed to retrieve data from YouTube';
+    if(!empty($responseData['error']) && !empty($responseData['error']['message'])){
+        $msg .= '<br>'.$responseData['error']['message'];
+    }
+
+    die(json_encode(['error' => true, 'msg'=>$msg]));
 }
 
 // Prepare the result array to include the embedding status
