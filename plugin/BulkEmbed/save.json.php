@@ -108,12 +108,15 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
         try {
             $resp = $videos->save(true);
         } catch (Exception $exc) {
+            _error_log("First save attempt failed: " . $exc->getMessage());
             try {
                 $resp = $videos->save(true);
             } catch (Exception $exc) {
-                continue;
+                _error_log("Second save attempt failed: " . $exc->getMessage());
+                continue;  // Skip to the next video if saving fails
             }
         }
+        
 
         if (!empty($resp) && !empty($obj->playListId)) {
             $playList = new PlayList($obj->playListId);
