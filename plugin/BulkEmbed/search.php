@@ -126,10 +126,12 @@ $_page = new Page(array('Search'));
 <script>
     var playListName = '';
 
+    var searchResults = {}; // Global variable to store the search results
+
     $(function() {
         $('#search-form').submit(function(e) {
             e.preventDefault();
-            search(); // Call the new search function
+            search(); // Call the search function
         });
 
         $('#getAll').click(function() {
@@ -181,14 +183,13 @@ $_page = new Page(array('Search'));
         return false;
     }
 
+    // Function to handle search and store results globally
     function search(pageToken = '') {
-        // Clear previous results
         $('#results').html('');
         $('#buttons').html('');
 
         var query = $('#query').val();
 
-        // Make AJAX call to the PHP search page
         $.ajax({
             url: webSiteRootURL + 'plugin/BulkEmbed/search.json.php',
             type: 'POST',
@@ -197,21 +198,22 @@ $_page = new Page(array('Search'));
                 pageToken: pageToken
             },
             success: function(response) {
-                //console.log(response); // Log the full response here
                 if (response.error) {
                     avideoAlertError(response.error);
                 } else {
                     processData(response.data);
+                    // Store search results globally
+                    searchResults = response.data.items.reduce(function(map, item) {
+                        map[item.link] = item;
+                        return map;
+                    }, {});
                 }
             },
             error: function(xhr, status, error) {
                 console.log("An error occurred: " + error);
             }
         });
-
     }
-
-
 
     function processData(data) {
         // Check if items array exists
@@ -266,7 +268,7 @@ $_page = new Page(array('Search'));
         if (item.isEmbedded) {
             // If the video is embedded, show only the title and indicate it's already embedded
             output += '<i class="fa-regular fa-square-check"></i> <a target="_blank" href="' + item.link + '" target="_blank">' + item.title + '</a>';
-            output += '<p><a class="btn btn-danger" href="' + webSiteRootURL + 'video/' + item.embeddedVideos_Id + '">'+__('Already embedded')+'</strong></a>';
+            output += '<p><a class="btn btn-danger" href="' + webSiteRootURL + 'video/' + item.embeddedVideos_Id + '">' + __('Already embedded') + '</strong></a>';
         } else {
             // If the video is not embedded, include a checkbox for embedding
             output += '<input type="checkbox" value="' + item.link + '" name="videoCheckbox"> ';
@@ -302,34 +304,36 @@ $_page = new Page(array('Search'));
         return buttons;
     }
 
-    // Save selected videos
+
+    // Function to save selected videos
     function saveIt(videoLink) {
         modal.showPleaseWait();
-        setTimeout(function() {
-            var itemsToSave = [];
-            $.each(videoLink, function(index, link) {
-                itemsToSave.push({
-                    link: link
-                });
-            });
 
-            $.ajax({
-                url: webSiteRootURL + 'plugin/BulkEmbed/save.json.php',
-                data: {
-                    "itemsToSave": itemsToSave,
-                    playListName: playListName
-                },
-                type: 'POST',
-                success: function(response) {
-                    if (!response.error) {
-                        avideoAlertSuccess(__("Your videos have been saved!"));
-                    } else {
-                        avideoAlertError(response.msg.join("<br>"));
-                    }
-                    modal.hidePleaseWait();
+        // Collect the video details for the selected videos
+        var itemsToSave = [];
+        $.each(videoLink, function(index, link) {
+            if (searchResults[link]) {
+                itemsToSave.push(searchResults[link]); // Push the video details from the search results
+            }
+        });
+
+        // Send the data to save.json.php
+        $.ajax({
+            url: webSiteRootURL + 'plugin/BulkEmbed/save.json.php',
+            type: 'POST',
+            data: {
+                "itemsToSave": itemsToSave,
+                playListName: playListName
+            },
+            success: function(response) {
+                if (!response.error) {
+                    avideoAlertSuccess(__("Your videos have been saved!"));
+                } else {
+                    avideoAlertError(response.msg.join("<br>"));
                 }
-            });
-        }, 500);
+                modal.hidePleaseWait();
+            }
+        });
     }
 </script>
 

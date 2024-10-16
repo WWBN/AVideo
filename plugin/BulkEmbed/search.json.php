@@ -27,7 +27,7 @@ $response = file_get_contents($youtubeApiUrl);
 $responseData = json_decode($response, true);
 
 if (empty($responseData) || !isset($responseData['items'])) {
-    die(json_encode(['error' => 'Failed to retrieve data from YouTube']));
+    die(json_encode(['error' => 'Failed to retrieve data from YouTube', $responseData]));
 }
 
 // Prepare the result array to include the embedding status
