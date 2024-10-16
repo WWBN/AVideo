@@ -168,6 +168,7 @@ if (!empty($_REQUEST['isClosed'])) {
     <title><?php echo $objectToReturnToParentIframe->title; ?></title>
     <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo getURL('node_modules/@fortawesome/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo getURL('view/css/main.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo getURL('view/js/session.js'); ?>" type="text/javascript"></script>
     <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
     <style>
@@ -189,6 +190,7 @@ if (!empty($_REQUEST['isClosed'])) {
         }
     </style>
     <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css" />
+    
     <?php
     echo AVideoPlugin::afterVideoJS();
     ?>

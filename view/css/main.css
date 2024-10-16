@@ -1043,7 +1043,7 @@ img.blur {
 }
 
 #mainVideo_ima-controls-div {
-    max-height: 3.7em;
+    max-height: 3.7em !important;
 }
 
 .vjs-menu-item,
