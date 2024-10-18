@@ -30,13 +30,17 @@ foreach ($referrers as $key => $value) {
         // Parse the URL to get the host (domain)
         $parsedUrl = parse_url($value['external_referrer'], PHP_URL_HOST);
         if ($parsedUrl) {
-            $referrersTypes[] = $parsedUrl;
+            // Remove 'www.' prefix if it exists
+            $domain = preg_replace('/^www\./', '', $parsedUrl);
+            $referrersTypes[] = $domain;
         }
     }
 }
 
-// Make sure the $referrersTypes is unique
+// Make sure the $referrersTypes is unique and sorted alphabetically
 $referrersTypes = array_unique($referrersTypes);
+sort($referrersTypes);
+
 
 
 ?>
