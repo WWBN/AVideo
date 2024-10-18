@@ -230,7 +230,7 @@ class VastCampaignsLogs extends ObjectYPT
         return $fullData;
     }
 
-    public static function getAdsByVideoAndPeriod($vast_campaigns_id, $startDate = null, $endDate = null, $videos_id = null, $event_type = null, $campaign_type = 'all')
+    public static function getAdsByVideoAndPeriod($vast_campaigns_id, $startDate = null, $endDate = null, $videos_id = null, $event_type = null, $campaign_type = 'all', $external_referrer = null)
     {
         global $global;
         $formats = '';
@@ -269,6 +269,12 @@ class VastCampaignsLogs extends ObjectYPT
             $formats .= 's';
             $values[] = $event_type;
         }
+        
+        if (!empty($external_referrer)) {
+            $sql .= " AND vcl.external_referrer LIKE ? ";
+            $formats .= 's';
+            $values[] = '%' . $external_referrer . '%';
+        }
 
         // Apply filter based on the campaign type
         if ($campaign_type === 'own') {
@@ -287,7 +293,7 @@ class VastCampaignsLogs extends ObjectYPT
         return $fullData;
     }
 
-    public static function getAdTypesByPeriod($vast_campaigns_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all')
+    public static function getAdTypesByPeriod($vast_campaigns_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all', $external_referrer = null)
     {
         global $global;
         $formats = '';
@@ -317,6 +323,12 @@ class VastCampaignsLogs extends ObjectYPT
             $sql .= " AND vcl.type = ? ";
             $formats .= 's';
             $values[] = $event_type;
+        }
+        
+        if (!empty($external_referrer)) {
+            $sql .= " AND vcl.external_referrer LIKE ? ";
+            $formats .= 's';
+            $values[] = '%' . $external_referrer . '%';
         }
 
         // Apply filter based on the campaign type
@@ -379,7 +391,7 @@ class VastCampaignsLogs extends ObjectYPT
         return $fullData;
     }
 
-    public static function getAdsByVideoAndEventType($videos_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all')
+    public static function getAdsByVideoAndEventType($videos_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all', $external_referrer = null)
     {
         global $global;
         $formats = '';
@@ -407,6 +419,13 @@ class VastCampaignsLogs extends ObjectYPT
             $formats .= 's';
             $values[] = $event_type;
         }
+        
+        // Optional event type filter
+        if (!empty($external_referrer)) {
+            $sql .= " AND vcl.external_referrer LIKE ? ";
+            $formats .= 's';
+            $values[] = '%' . $external_referrer . '%';
+        }
 
         // Apply filter based on the campaign type
         if ($campaign_type === 'own') {
@@ -423,7 +442,7 @@ class VastCampaignsLogs extends ObjectYPT
         return $fullData;
     }
 
-    public static function getAdsByVideoForUser($users_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all')
+    public static function getAdsByVideoForUser($users_id, $startDate = null, $endDate = null, $event_type = null, $campaign_type = 'all', $external_referrer = null)
     {
         global $global;
         $formats = '';
@@ -453,6 +472,12 @@ class VastCampaignsLogs extends ObjectYPT
             $sql .= " AND vcl.type = ?";
             $formats .= 's';
             $values[] = $event_type;
+        }
+        
+        if (!empty($external_referrer)) {
+            $sql .= " AND vcl.external_referrer LIKE ? ";
+            $formats .= 's';
+            $values[] = '%' . $external_referrer . '%';
         }
     
         // Filter based on campaign type

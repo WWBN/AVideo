@@ -450,7 +450,7 @@ $referrersTypes = array_unique($referrersTypes);
     }
 
     // Function to display selected filters
-    function displaySelectedFilters(reportType, startDate, endDate, eventType, campaignType) {
+    function displaySelectedFilters(reportType, startDate, endDate, eventType, campaignType, referrerType) {
         var filterText = '';
 
         filterText += '<strong>Report Type:</strong> ' + $('#report-type option:selected').text() + '<br>';
@@ -458,6 +458,10 @@ $referrersTypes = array_unique($referrersTypes);
 
         if (eventType) {
             filterText += '<strong>Event Type:</strong> ' + $('#event-type option:selected').text() + '<br>';
+        }
+
+        if (referrerType) {
+            filterText += '<strong>Referrer Type:</strong> ' + $('#referrer-type option:selected').text() + '<br>';
         }
 
         if (campaignType !== 'all') {
@@ -720,6 +724,7 @@ $referrersTypes = array_unique($referrersTypes);
             var endDate = $('#end-date').val();
             var reportType = $('#report-type').val();
             var eventType = $('#event-type').val();
+            var referrerType = $('#referrer-type').val();
             var campaignType = $('#campaign-type').val();
             var usersId = $('#users_id').val();
             var videosId = 0;
@@ -743,13 +748,14 @@ $referrersTypes = array_unique($referrersTypes);
                 endDate: endDate,
                 reportType: reportType,
                 eventType: eventType,
+                referrerType: referrerType,
                 campaignType: campaignType,
                 users_id: usersId,
                 videos_id: videosId
             };
 
             // Display the selected filters
-            displaySelectedFilters(reportType, startDate, endDate, eventType, campaignType);
+            displaySelectedFilters(reportType, startDate, endDate, eventType, campaignType, referrerType);
 
             $.ajax({
                 url: webSiteRootURL + 'plugin/AD_Server/reports.json.php', // Ensure this URL is correct and can handle the request
