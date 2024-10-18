@@ -54,7 +54,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     software-properties-common \
     unzip \
     wget \
-    sshpass && \
+    sshpass \
     mysql-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
