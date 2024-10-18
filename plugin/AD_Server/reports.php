@@ -24,11 +24,20 @@ foreach ($types as $key => $value) {
 
 $referrers = VastCampaignsLogs::getExternalReferrer();
 $referrersTypes = [];
+
 foreach ($referrers as $key => $value) {
-    if(!empty($value['external_referrer'])){
-        $referrersTypes[] = $value['external_referrer'];
+    if (!empty($value['external_referrer'])) {
+        // Parse the URL to get the host (domain)
+        $parsedUrl = parse_url($value['external_referrer'], PHP_URL_HOST);
+        if ($parsedUrl) {
+            $referrersTypes[] = $parsedUrl;
+        }
     }
 }
+
+// Make sure the $referrersTypes is unique
+$referrersTypes = array_unique($referrersTypes);
+
 
 ?>
 <div class="container-fluid">
@@ -49,7 +58,7 @@ foreach ($referrers as $key => $value) {
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <label for="date-range" class="control-label"><?php echo __('Select Date Range'); ?></label>
+                                    <label for="date-range" class="control-label"><?php echo __('Date Range'); ?></label>
                                     <select id="date-range" class="form-control">
                                         <optgroup label="<?php echo __('Preset Ranges'); ?>">
                                             <option value="thisWeek"><?php echo __('This Week'); ?></option>
@@ -80,7 +89,7 @@ foreach ($referrers as $key => $value) {
                         <div class="row">
                             <div class="col-md-2 col-sm-6">
                                 <div class="form-group">
-                                    <label for="campaign-type" class="control-label"><?php echo __('Select Campaign Source'); ?></label>
+                                    <label for="campaign-type" class="control-label"><?php echo __('Campaign Source'); ?></label>
                                     <select id="campaign-type" class="form-control">
                                         <optgroup label="<?php echo __('Campaign Type'); ?>">
                                             <option value="all"><?php echo __('All Campaigns'); ?></option>
@@ -105,7 +114,7 @@ foreach ($referrers as $key => $value) {
 
                             <div class="col-md-2 col-sm-6">
                                 <div class="form-group">
-                                    <label for="referrer-type" class="control-label"><?php echo __('Select Referrer'); ?></label>
+                                    <label for="referrer-type" class="control-label"><?php echo __('Referrer'); ?></label>
                                     <select id="referrer-type" class="form-control">
                                         <option value=""><?php echo __('All Referrers'); ?></option>
                                         <?php foreach ($referrersTypes as $referrer) : ?>
@@ -118,7 +127,7 @@ foreach ($referrers as $key => $value) {
                             <!-- Report Type Selection -->
                             <div class="col-md-2 col-sm-6">
                                 <div class="form-group">
-                                    <label for="report-type" class="control-label"><?php echo __('Select Report Type'); ?></label>
+                                    <label for="report-type" class="control-label"><?php echo __('Report Type'); ?></label>
                                     <select id="report-type" class="form-control" required>
                                         <optgroup label="<?php echo __('Report Types'); ?>">
                                             <option value="adsByVideo"><?php echo __('Ads Per Video'); ?></option>
@@ -134,14 +143,14 @@ foreach ($referrers as $key => $value) {
                             <!-- Video and User Select Containers (Hidden Initially) -->
                             <div class="col-md-4 col-sm-6" id="videos-select-container" style="display:none;">
                                 <div class="form-group">
-                                    <label for="videos_id" class="control-label"><?php echo __('Select Video'); ?>:</label>
+                                    <label for="videos_id" class="control-label"><?php echo __('Video'); ?>:</label>
                                     <?php $autoComplete = Layout::getVideoAutocomplete(0, 'videos_id'); ?>
                                 </div>
                             </div>
 
                             <div class="col-md-4 col-sm-6" id="users-select-container" style="display:none;">
                                 <div class="form-group">
-                                    <label for="users_id" class="control-label"><?php echo __('Select User'); ?>:</label>
+                                    <label for="users_id" class="control-label"><?php echo __('User'); ?>:</label>
                                     <?php $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'users_id'); ?>
                                 </div>
                             </div>
