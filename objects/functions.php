@@ -4443,6 +4443,14 @@ function isContentTypeXML()
     return preg_match('/xml/i', $contentType);
 }
 
+function successJsonMessage($message){
+    $obj = new stdClass();
+    $obj->error = false;
+    $obj->msg = $message;
+    header('Content-Type: application/json');
+    die(json_encode($obj));
+}
+
 function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '', $namespace = '', $pageCode = '403 Forbidden')
 {
     global $global;

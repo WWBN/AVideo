@@ -55,6 +55,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     wget \
     sshpass && \
+    mysql-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install Apache and Apache modules

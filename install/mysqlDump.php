@@ -1,56 +1,21 @@
 <?php
-//streamer config
 require_once __DIR__.'/../videos/configuration.php';
 
 if (php_sapi_name() !== 'cli') {
-    return die('Command Line only');
+    die('Command Line only');
 }
 
-ob_end_flush();
+// Example usage
+$filePath = Video::getStoragePath() . 'mysqldump-' . date('YmdHis') . '.sql';
+$extraOptions = []; // You can add custom options here if needed
 
-$prefix = 'mysqldump';
-if(!empty($restore)){
-    $prefix = 'mysqldumpBackup';
+// Call the function to dump the database
+$result = dumpMySQLDatabase($filePath, $extraOptions);
+
+if ($result === false) {
+    _error_log("Failed to create database dump.");
+} else {
+    _error_log("Database dump created successfully: " . $result);
 }
-
-$file = Video::getStoragePath().$prefix.'-'.date('YmdHis').'.sql';
-$excludeTables = ['CachesInDB', 'audit'];  // tables to exclude from the dump
-
-// Create a connection to the database to retrieve all table names
-$connection = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort);
-
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
-
-$res = sqlDAL::readSql("SHOW TABLES");
-$row = sqlDAL::fetchAllAssoc($res);
-foreach ($row as $value) {    
-    $firstElement = reset($value);
-    if (!in_array($firstElement, $excludeTables)) {
-        $tables[] = $firstElement;
-    }else{        
-        echo "Exclude from dump $firstElement".PHP_EOL;
-    }
-}
-
-if(empty($mysqlPort)){
-    $mysqlPort = 3306;
-}
-
-// Use the mysqldump command to get the database dump
-$dumpCommand = "mysqldump --host=$mysqlHost --port=$mysqlPort --user='$mysqlUser' --password='$mysqlPass' "
-             . "--default-character-set=utf8mb4 --column-statistics=0 $mysqlDatabase $tableList > {$file}";
-
-// Execute the command
-system($dumpCommand, $output);
-
-// Check the result
-if ($output !== 0) {
-    echo $dumpCommand.PHP_EOL;
-    die("Error occurred while taking the database dump.");
-}
-
-echo "Database dumped successfully to {$file}".PHP_EOL;
 
 ?>

@@ -719,6 +719,11 @@ class StripeYPT extends PluginAbstract
                 _error_log("getMetadataOrFromSubscription Customer::retrieve [$customer_id] => " . json_encode($c->metadata));
                 $obj = self::getMetadata($c->metadata);
                 _error_log("getMetadataOrFromSubscription Customer::retrieve done " . json_encode($obj));
+                if(empty($obj) && !empty($c->email)){
+                    _error_log("getMetadataOrFromSubscription try from email " . json_encode($c->email));
+                    $user = User::getUserFromEmail($c->email);
+                    $obj = array('users_id'=>$user['id']);
+                }
             }
         }
         return $obj;
