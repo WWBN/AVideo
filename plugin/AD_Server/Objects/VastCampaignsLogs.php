@@ -486,4 +486,19 @@ class VastCampaignsLogs extends ObjectYPT
 
         return $fullData;
     }
+
+    public static function getExternalReferrer()
+    {
+        global $global;
+        $formats = '';
+        $values = [];
+
+        $sql = "SELECT distinct vcl.external_referrer
+                FROM vast_campaigns_logs vcl";
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+
+        return $fullData;
+    }
 }

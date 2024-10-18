@@ -22,6 +22,14 @@ foreach ($types as $key => $value) {
     $eventTypes[] = $value['type'];
 }
 
+$referrers = VastCampaignsLogs::getExternalReferrer();
+$referrersTypes = [];
+foreach ($referrers as $key => $value) {
+    if(!empty($value['external_referrer'])){
+        $referrersTypes[] = $value['external_referrer'];
+    }
+}
+
 ?>
 <div class="container-fluid">
     <style>
@@ -70,7 +78,7 @@ foreach ($types as $key => $value) {
 
                         <!-- Row for Campaign Type and Event Type Selection -->
                         <div class="row">
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-2 col-sm-6">
                                 <div class="form-group">
                                     <label for="campaign-type" class="control-label"><?php echo __('Select Campaign Source'); ?></label>
                                     <select id="campaign-type" class="form-control">
@@ -83,7 +91,7 @@ foreach ($types as $key => $value) {
                                 </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-2 col-sm-6">
                                 <div class="form-group">
                                     <label for="event-type" class="control-label"><?php echo __('Select Event Type'); ?></label>
                                     <select id="event-type" class="form-control">
@@ -95,8 +103,20 @@ foreach ($types as $key => $value) {
                                 </div>
                             </div>
 
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="referrer-type" class="control-label"><?php echo __('Select Referrer'); ?></label>
+                                    <select id="referrer-type" class="form-control">
+                                        <option value=""><?php echo __('All Referrers'); ?></option>
+                                        <?php foreach ($referrersTypes as $referrer) : ?>
+                                            <option value="<?= $referrer ?>"><?= $referrer ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+
                             <!-- Report Type Selection -->
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-2 col-sm-6">
                                 <div class="form-group">
                                     <label for="report-type" class="control-label"><?php echo __('Select Report Type'); ?></label>
                                     <select id="report-type" class="form-control" required>
@@ -112,14 +132,14 @@ foreach ($types as $key => $value) {
                             </div>
 
                             <!-- Video and User Select Containers (Hidden Initially) -->
-                            <div class="col-md-3 col-sm-6" id="videos-select-container" style="display:none;">
+                            <div class="col-md-4 col-sm-6" id="videos-select-container" style="display:none;">
                                 <div class="form-group">
                                     <label for="videos_id" class="control-label"><?php echo __('Select Video'); ?>:</label>
                                     <?php $autoComplete = Layout::getVideoAutocomplete(0, 'videos_id'); ?>
                                 </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-6" id="users-select-container" style="display:none;">
+                            <div class="col-md-4 col-sm-6" id="users-select-container" style="display:none;">
                                 <div class="form-group">
                                     <label for="users_id" class="control-label"><?php echo __('Select User'); ?>:</label>
                                     <?php $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'users_id'); ?>
