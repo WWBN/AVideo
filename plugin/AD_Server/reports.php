@@ -25,18 +25,32 @@ foreach ($types as $key => $value) {
 $referrers = VastCampaignsLogs::getExternalReferrer();
 $referrersTypes = [];
 
-foreach ($referrers as $key => $value) {
+// Extract domains and normalize them
+foreach ($referrers as $value) {
     if (!empty($value['external_referrer'])) {
         // Parse the URL to get the host (domain)
         $parsedUrl = parse_url($value['external_referrer'], PHP_URL_HOST);
         if ($parsedUrl) {
-            $referrersTypes[] = $parsedUrl;
+            // Extract the base domain (e.g., google.com from www.google.com)
+            $parts = explode('.', $parsedUrl);
+            $domainCount = count($parts);
+            if ($domainCount > 2) {
+                // Take the last two parts as the base domain (e.g., google.com)
+                $baseDomain = $parts[$domainCount - 2] . '.' . $parts[$domainCount - 1];
+            } else {
+                $baseDomain = $parsedUrl;
+            }
+
+            // Add to the referrers array
+            $referrersTypes[$baseDomain][] = $parsedUrl;
         }
     }
 }
 
-// Make sure the $referrersTypes is unique
-$referrersTypes = array_unique($referrersTypes);
+// Ensure each domain group is unique
+foreach ($referrersTypes as $baseDomain => $domains) {
+    $referrersTypes[$baseDomain] = array_unique($domains);
+}
 
 
 ?>
@@ -117,8 +131,12 @@ $referrersTypes = array_unique($referrersTypes);
                                     <label for="referrer-type" class="control-label"><?php echo __('Referrer'); ?></label>
                                     <select id="referrer-type" class="form-control">
                                         <option value=""><?php echo __('All Referrers'); ?></option>
-                                        <?php foreach ($referrersTypes as $referrer) : ?>
-                                            <option value="<?= $referrer ?>"><?= $referrer ?></option>
+                                        <?php foreach ($referrersTypes as $baseDomain => $domains) : ?>
+                                            <optgroup label="<?= ucfirst($baseDomain) ?>">
+                                                <?php foreach ($domains as $domain) : ?>
+                                                    <option value="<?= $domain ?>"><?= $domain ?></option>
+                                                <?php endforeach; ?>
+                                            </optgroup>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -557,7 +575,7 @@ $referrersTypes = array_unique($referrersTypes);
             values.push(item.total_ads);
             videoIds.push(item.videos_id);
 
-            var baseColor = getColorForElement(empty(item.type)?videoLabel.join(''):item.type); // Get consistent color for the element
+            var baseColor = getColorForElement(empty(item.type) ? videoLabel.join('') : item.type); // Get consistent color for the element
             backgroundColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
             borderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
         });
@@ -637,7 +655,7 @@ $referrersTypes = array_unique($referrersTypes);
             if (item.total_ads >= maxValue * percentageThreshold) {
                 pieLabels.push(label);
                 pieValues.push(item.total_ads);
-                var baseColor = getColorForElement(empty(item.type)?videoLabel.join(''):item.type); // Get consistent color for the element
+                var baseColor = getColorForElement(empty(item.type) ? videoLabel.join('') : item.type); // Get consistent color for the element
                 pieColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
                 pieBorderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
             } else {
