@@ -49,12 +49,10 @@ $obj->msg = array();
 $obj->playListId = 0;
 
 $objo = AVideoPlugin::getObjectDataIfEnabled('BulkEmbed');
-if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
+
+if(!BulkEmbed::canBulkEmbed()){
     $obj->msg[] = __("Permission denied");
     $obj->msg[] = "Plugin disabled";
-} else if (!User::canUpload()) {
-    $obj->msg[] = __("Permission denied");
-    $obj->msg[] = "User can not upload videos";
 } else if (!empty($_POST['itemsToSave'])) {
 
     if (!empty($_POST['playListName'])) {

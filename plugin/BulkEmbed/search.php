@@ -1,9 +1,10 @@
 <?php
 require_once '../../videos/configuration.php';
-if (!User::isLogged()) {
-    forbiddenPage("You can not do this");
-    exit;
+
+if(!BulkEmbed::canBulkEmbed()){
+    forbiddenPage('You cannot do this');
 }
+
 $obj = AVideoPlugin::getObjectData("BulkEmbed");
 
 $_page = new Page(array('Search'));

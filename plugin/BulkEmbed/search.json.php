@@ -2,8 +2,8 @@
 require_once '../../videos/configuration.php';
 header('Content-Type: application/json');
 
-if (!User::isLogged()) {
-    die(json_encode(['error' => true, 'msg'=>'You must be logged in to search']));
+if(!BulkEmbed::canBulkEmbed()){
+    forbiddenPage('You cannot search');
 }
 
 $query = $_POST['query'] ?? '';

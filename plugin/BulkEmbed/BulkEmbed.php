@@ -3,6 +3,8 @@
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class BulkEmbed extends PluginAbstract {
+
+    const PERMISSION_BULK_EMBED = 0;
     
     public function getTags() {
         return array(
@@ -50,12 +52,39 @@ class BulkEmbed extends PluginAbstract {
     public function getUploadMenuButton(){
         global $global;
         $obj = $this->getDataObject();
-        if(($obj->onlyAdminCanBulkEmbed && !User::isAdmin()) || !User::canUpload()){
+        
+        if(BulkEmbed::canBulkEmbed()){
+            return '<li><a  href="#" onclick="avideoModalIframeFull(webSiteRootURL+\'plugin/BulkEmbed/search.php\');return false;" class="faa-parent animated-hover"><span class="fas fa-link faa-burst"></span> '.__("Bulk Embed").'</a></li>';
+        }else{
             return '';
         }
-        
-        return '<li><a  href="#" onclick="avideoModalIframeFull(webSiteRootURL+\'plugin/BulkEmbed/search.php\');return false;" class="faa-parent animated-hover"><span class="fas fa-link faa-burst"></span> '.__("Bulk Embed").'</a></li>';
     }
 
 
+    function getPermissionsOptions()
+    {
+        $permissions = array();
+
+        $permissions[] = new PluginPermissionOption(self::PERMISSION_BULK_EMBED, __("Can Bulk Embed"), "Members of the designated user group will have access Bulk Embed videos", 'BulkEmbed');
+        return $permissions;
+    }
+
+    static function canBulkEmbed()
+    {
+
+        if (User::isAdmin() || isCommandLineInterface()) {
+            return true;
+        }
+        
+        if(!User::isLogged()){
+            return false;
+        }
+
+        $objo = AVideoPlugin::getObjectData("BulkEmbed");
+        if($objo->onlyAdminCanBulkEmbed && !User::isAdmin()){
+            return false;
+        }
+
+        return Permissions::hasPermission(self::PERMISSION_BULK_EMBED, 'BulkEmbed');
+    }
 }
