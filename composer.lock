@@ -282,16 +282,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.324.1",
+            "version": "3.324.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "5b824a9b8015a38f18c53b023975c0f63c7bd3dc"
+                "reference": "7412a44da62fd607efbaac4084e69d6621f29de1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5b824a9b8015a38f18c53b023975c0f63c7bd3dc",
-                "reference": "5b824a9b8015a38f18c53b023975c0f63c7bd3dc",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7412a44da62fd607efbaac4084e69d6621f29de1",
+                "reference": "7412a44da62fd607efbaac4084e69d6621f29de1",
                 "shasum": ""
             },
             "require": {
@@ -374,9 +374,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.324.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.324.6"
             },
-            "time": "2024-10-11T18:22:01+00:00"
+            "time": "2024-10-18T18:06:33+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -1695,16 +1695,16 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8"
+                "reference": "f9c436286ab2892c7db7be8c8da4ef61ccf7b455"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8",
-                "reference": "6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/f9c436286ab2892c7db7be8c8da4ef61ccf7b455",
+                "reference": "f9c436286ab2892c7db7be8c8da4ef61ccf7b455",
                 "shasum": ""
             },
             "require": {
@@ -1758,7 +1758,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/2.0.3"
+                "source": "https://github.com/guzzle/promises/tree/2.0.4"
             },
             "funding": [
                 {
@@ -1774,7 +1774,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-18T10:29:17+00:00"
+            "time": "2024-10-17T10:06:22+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
