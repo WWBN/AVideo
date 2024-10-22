@@ -409,15 +409,15 @@ class Meet_schedule extends ObjectYPT {
         return parent::save();
     }
 
-    static function getFromTopic($topic, $refreshCache = false)
+    static function getFromName($name, $refreshCache = false)
     {
         global $global;
         if (!class_exists('sqlDAL')) {
             return false;
         }
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  topic = ? ORDER BY id DESC LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  name = ? ORDER BY id DESC LIMIT 1";
         //var_dump($sql, $id);
-        $res = sqlDAL::readSql($sql, "s", [$topic]);
+        $res = sqlDAL::readSql($sql, "s", [$name]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
