@@ -496,7 +496,6 @@ Passcode: {password}
 
     public static function getButtons($meet_schedule_id)
     {
-        return [];
         /*
           return [
           'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
