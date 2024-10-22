@@ -15,7 +15,7 @@ if (empty($obj)) {
 if(!empty($_GET['redirectUri'])){
     $parts = explode('/', addLastSlash($_GET['redirectUri']));
     $name = $parts[count($parts)-2];
-    if(!empty($topic)){
+    if(!empty($name)){
         error_log('Meet topic: '.$name);
         $row = Meet_schedule::getFromName($name);
         if(!empty($row )){
