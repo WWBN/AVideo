@@ -513,7 +513,8 @@ Passcode: {password}
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'livestreaming', 'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background','whiteboard',
+                    'tileview', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'videobackgroundblur','select-background','whiteboard',
+                    'noisesuppression','participants-pane','reactions','toggle-camera',
                     'invite', 'security', 'isCustomJitsi'
                 ];
             } else {
@@ -522,7 +523,8 @@ Passcode: {password}
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background','whiteboard',
+                    'tileview', 'download', 'help', 'mute-everyone', 'mute-video-everyone','videobackgroundblur','select-background','whiteboard',
+                    'noisesuppression','participants-pane','reactions','toggle-camera',
                     'invite', 'security', 'isNOTCustomJitsi'
                 ];
             }
@@ -531,7 +533,8 @@ Passcode: {password}
                 'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                 'fodeviceselection', 'hangup', 'profile', 'chat', 'etherpad', 'settings', 'raisehand',
                 'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background',
+                'tileview', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'videobackgroundblur','select-background',
+                'noisesuppression','toggle-camera',
             ];
         }
         
