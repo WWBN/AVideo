@@ -514,6 +514,7 @@ Passcode: {password}
                     'livestreaming', 'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background','whiteboard',
+                    'invite', 'security', 'isCustomJitsi'
                 ];
             } else {
                 $return = [
@@ -522,6 +523,7 @@ Passcode: {password}
                     'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background','whiteboard',
+                    'invite', 'security', 'isNOTCustomJitsi'
                 ];
             }
         } else {
