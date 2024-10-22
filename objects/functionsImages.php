@@ -1096,3 +1096,14 @@ function isImageNotFound($imgURL){
     
     return ImagesPlaceHolders::isDefaultImage($imgURL);
 }
+
+function createColorfulTextSpans($string)
+{
+    $output = '<span class="colorful-text">';
+    for ($i = 0; $i < strlen($string); $i++) {
+        $char = htmlspecialchars($string[$i]);
+        $output .= "<span>$char</span>";
+    }
+    $output .= '</span>';
+    return $output;
+}

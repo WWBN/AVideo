@@ -1,6 +1,10 @@
+<link href="<?php echo getURL('view/css/colorfulText.css'); ?>" rel="stylesheet" type="text/css" />
 <style>
     .modal-content div.row>div {
         padding-bottom: 15px;
+    }
+    .krajee-default.file-preview-frame .kv-file-content{
+        width: 100%;
     }
 </style>
 <div class="modal-dialog" role="document">
@@ -283,12 +287,14 @@
                                 <div class="row">
                                     <div class="col-md-2 clearfix">
                                         <label class="control-label" for="madeForKids">
-                                            <?php echo __("Made for kids"); ?>
+                                        <?php
+                                            echo createColorfulTextSpans(__("Made for kids"));
+                                        ?>
                                         </label>
                                         <br>
                                         <div class="material-switch">
                                             <input id="madeForKids" type="checkbox" value="">
-                                            <label for="madeForKids" class="label-primary"></label>
+                                            <label for="madeForKids" class="label-success"></label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
