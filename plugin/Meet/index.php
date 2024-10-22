@@ -18,6 +18,7 @@ if(!empty($_GET['redirectUri'])){
     if(!empty($topic)){
         $row = Meet_schedule::getFromTopic($topic);
         $link = Meet::getMeetLink($row['id']);
+        error_log('Meet redirect: '.$link);
         header("Location: $link");
         exit;
     }
