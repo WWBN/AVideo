@@ -3548,6 +3548,7 @@ if (typeof gtag !== \"function\") {
 
     static function getChannelPanel($users_id)
     {
+        global $advancedCustom;
         $u = new User($users_id);
         $objGallery = AVideoPlugin::getObjectData("Gallery");
         $get = ['channelName' => $u->getChannelName()];
@@ -3564,7 +3565,10 @@ if (typeof gtag !== \"function\") {
         if (empty($uploadedVideos)) {
             return '';
         }
-?>
+        if(empty($advancedCustom)){
+            $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
+        }
+        ?>
         <div class="panel panel-default">
             <div class="panel-heading" style="position: relative;">
                 <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />
@@ -3588,9 +3592,15 @@ if (typeof gtag !== \"function\") {
                 </div>
             </div>
             <div class="panel-footer channelsFooter clearfix" style="font-size: 0.8em">
+                <?php
+                if (empty($advancedCustom->doNotDisplayViews)) {
+                ?>
                 <div class=" text-muted pull-left">
                     <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($users_id)), " ", __("Views in the last 30 days"); ?>
                 </div>
+                <?php
+                }
+                ?>
                 <div class="pull-right">
                     <?php
                     if(class_exists('UserConnections')){
