@@ -12,6 +12,17 @@ if (empty($obj)) {
     forbiddenPage("Plugin disabled");
 }
 
+if(!empty($_GET['redirectUri'])){
+    $parts = explode('/', addLastSlash($_GET['redirectUri']));
+    $topic = $parts[count($parts)-2];
+    if(!empty($topic)){
+        $row = Meet_schedule::getFromTopic($topic);
+        $link = Meet::getMeetLink($row['id']);
+        header("Location: $link");
+        exit;
+    }
+}
+
 if (!User::isLogged()) {
     forbiddenPage("You can not do this");
 }
