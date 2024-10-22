@@ -16,11 +16,16 @@ if(!empty($_GET['redirectUri'])){
     $parts = explode('/', addLastSlash($_GET['redirectUri']));
     $topic = $parts[count($parts)-2];
     if(!empty($topic)){
+        error_log('Meet topic: '.$topic);
         $row = Meet_schedule::getFromTopic($topic);
-        $link = Meet::getMeetLink($row['id']);
-        error_log('Meet redirect: '.$link);
-        header("Location: $link");
-        exit;
+        if(!empty($row )){
+            $link = Meet::getMeetLink($row['id']);
+            error_log('Meet redirect: '.$link);
+            header("Location: $link");
+            exit;
+        }else{
+            error_log('Meet row is empty: '.$topic);
+        }
     }
 }
 
