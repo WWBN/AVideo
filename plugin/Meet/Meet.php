@@ -109,7 +109,6 @@ Passcode: {password}
         if (empty($users_id)) {
             $user = [
                 "affiliation"=> ($isModerator?'owner':'member'),
-                "lobby"=> ($isModerator?false:true),
             ];
         } else {
             $u = new User($users_id);
@@ -119,8 +118,10 @@ Passcode: {password}
                 "email" => $u->getEmail(),
                 "id" => $users_id,
                 "affiliation"=> ($isModerator?'owner':'member'),
-                "lobby"=> ($isModerator?false:true),
             ];
+        }
+        if(!$isModerator){
+            $user['lobby'] = true;
         }
 
         $jitsiPayload = [
