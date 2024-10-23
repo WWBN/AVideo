@@ -496,6 +496,10 @@ Passcode: {password}
 
     public static function getButtons($meet_schedule_id)
     {
+        $return = [
+            'microphone', 'camera',
+            'livestreaming', 
+        ];
         /*
           return [
           'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
@@ -515,7 +519,7 @@ Passcode: {password}
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'videobackgroundblur','select-background','whiteboard',
                     'noisesuppression','participants-pane','reactions','toggle-camera',
-                    'invite', 'security', 'isCustomJitsi'
+                    'invite', 'security', 'isCustomJitsi', 'shareaudio'
                 ];
             } else {
                 $return = [
@@ -525,7 +529,7 @@ Passcode: {password}
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone', 'mute-video-everyone','videobackgroundblur','select-background','whiteboard',
                     'noisesuppression','participants-pane','reactions','toggle-camera',
-                    'invite', 'security', 'isNOTCustomJitsi'
+                    'invite', 'security', 'isNOTCustomJitsi', 'shareaudio'
                 ];
             }
         } else {
