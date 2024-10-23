@@ -124,6 +124,11 @@ Passcode: {password}
             $user['lobby'] = true;
         }
 
+        if(!empty($_REQUEST['debug'])){
+            var_dump($user);
+            exit;
+        }
+
         $jitsiPayload = [
             "context" => [
                 "user" => $user,
