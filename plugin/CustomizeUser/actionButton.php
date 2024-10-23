@@ -6,20 +6,20 @@ if ($obj->allowDonationLink && !empty($video['users_id'])) {
     $u = new User($video['users_id']);
     $donationLink = $u->getDonationLink();
     if (!empty($donationLink)) {
-        ?>
-        <a class="btn btn-success no-outline" href="<?php echo $donationLink; ?>" target="_blank"  data-toggle="tooltip" data-placement="bottom"  title="<?php echo __($obj->donationButtonLabel); ?>">
+?>
+        <a class="btn btn-success no-outline" href="<?php echo $donationLink; ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __($obj->donationButtonLabel); ?>">
             <i class="fas fa-donate faa-tada animated"></i> <small class="hidden-sm hidden-xs"><?php echo __($obj->donationButtonLabel); ?> <i class="fas fa-external-link-alt"></i></small>
-        </a>    
-        <?php
+        </a>
+    <?php
     }
 }
 if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && class_exists("YPTWallet")) {
     if (!User::isLogged()) {
-        ?>
-        <a class="btn btn-warning no-outline" href="<?php echo $global['webSiteRootURL']; ?>user"  data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("Please login to donate"); ?>">
+    ?>
+        <a class="btn btn-warning no-outline" href="<?php echo $global['webSiteRootURL']; ?>user" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Please login to donate"); ?>">
             <i class="fas fa-donate faa-tada animated"></i> <small class="hidden-sm hidden-xs"><?php echo __("Please login to donate"); ?></small>
-        </a>    
-        <?php
+        </a>
+    <?php
     } elseif (class_exists("YPTWallet")) {
         $u = new User($video['users_id']);
         $uid = uniqid();
@@ -31,17 +31,22 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                 $_REQUEST['live_transmitions_history_id'] = $lt['id'];
             }
         }
-        ?>
-        <button class="btn btn-success no-outline" onclick="openDonationMoodal<?php echo $uid; ?>();"  data-toggle="tooltip" data-placement="bottom"  title="<?php echo __($obj->donationWalletButtonLabel); ?>">
+    ?><style>
+            #divChatInputDonation .emojionearea,
+            #divChatInputDonation .emojionearea.focused {
+                border-width: 1px;
+            }
+        </style>
+        <button class="btn btn-success no-outline" onclick="openDonationMoodal<?php echo $uid; ?>();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __($obj->donationWalletButtonLabel); ?>">
             <i class="fas fa-donate"></i> <small class="hidden-sm hidden-xs"><?php echo __($obj->donationWalletButtonLabel); ?></small>
-        </button>   
-        <div id="donationModal<?php echo $uid; ?>" class="modal fade" tabindex="-1" role="dialog" >
+        </button>
+        <div id="donationModal<?php echo $uid; ?>" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">
-                            <img src="<?php echo $u->getPhotoDB(); ?>" class="img img-circle img-responsive " style="height: 30px; float: left;" > 
+                            <img src="<?php echo $u->getPhotoDB(); ?>" class="img img-circle img-responsive " style="height: 30px; float: left;">
                             <strong style="margin: 10px 0 0 10px;"><?php echo $u->getNameIdentificationBd(); ?>
                             </strong>
                         </h4>
@@ -67,14 +72,14 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                     $column = 6;
                                 }
                                 foreach ($donationButtons as $value) {
-                                    ?>
+                            ?>
                                     <div class="col-md-<?php echo $column; ?>">
                                         <button type="button" class="btn btn-primary btn-block" onclick="submitDonationButton<?php echo $uid; ?>(<?php echo $value->index; ?>)">
                                             <?php echo $value->label; ?>
                                             - <?php echo YPTWallet::formatCurrency($value->value, false, false, ''); ?>
-                                        </button>   
-                                    </div> 
-                                    <?php
+                                        </button>
+                                    </div>
+                            <?php
                                 }
                             }
                             ?>
@@ -82,13 +87,13 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                 <div class="col-md-12 inputGroupContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-donate"></i></span>
-                                        <input id="donationValue<?php echo $uid; ?>" placeholder="<?php echo __("Value to donate"); ?>" class="form-control"  type="number" value="" step="<?php echo YPTWallet::getStep(); ?>" required >
+                                        <input id="donationValue<?php echo $uid; ?>" placeholder="<?php echo __("Value to donate"); ?>" class="form-control" type="number" value="" step="<?php echo YPTWallet::getStep(); ?>" required>
                                     </div>
                                 </div>
                             </div>
                             <?php
                             if (empty($obj->disableCaptchaOnWalletDirectTransferDonation)) {
-                                ?>
+                            ?>
                                 <div class="form-group" id="donationCaptcha<?php echo $uid; ?>">
                                     <div class="col-md-12 ">
                                         <?php echo $captcha['content']; ?>
@@ -96,21 +101,27 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                 </div>
                             <?php }
                             ?>
+
+                            <div class="form-group">
+                                <div class="col-sm-12" id="divChatInputDonation" style="display: flex;">
+                                    <input id="chatInputDonation" maxlength="<?php echo $obj->charLimit; ?>" style="display: none;">
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success btn-block" onclick="submitDonation<?php echo $uid; ?>();" ><i class="fas fa-hand-holding-usd"></i> <?php echo __("Confirm Donation"); ?></button>
+                        <button class="btn btn-success btn-block" onclick="submitDonation<?php echo $uid; ?>();"><i class="fas fa-hand-holding-usd"></i> <?php echo __("Confirm Donation"); ?></button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <script>
-
             function openDonationMoodal<?php echo $uid; ?>() {
                 <?php echo $captcha['btnReloadCapcha']; ?>
                 $('#donationModal<?php echo $uid; ?>').modal();
                 $('#donationValue<?php echo $uid; ?>').focus();
-                setTimeout(function () {
+                $('#chatInputDonation').data("emojioneArea").setText('');
+                setTimeout(function() {
                     $('#donationValue<?php echo $uid; ?>').focus();
                 }, 500);
             }
@@ -118,16 +129,17 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
             function submitDonation<?php echo $uid; ?>() {
                 modal.showPleaseWait();
                 $.ajax({
-                    url: webSiteRootURL+'plugin/CustomizeUser/donate.json.php',
+                    url: webSiteRootURL + 'plugin/CustomizeUser/donate.json.php',
                     data: {
                         "value": $('#donationValue<?php echo $uid; ?>').val(),
                         "videos_id": <?php echo intval(@$video['id']); ?>,
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
                         "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
-                        "captcha": <?php echo $captcha['captchaText']; ?>
+                        "captcha": <?php echo $captcha['captchaText']; ?>,
+                        "message": $('#chatInputDonation').data("emojioneArea").getText()
                     },
                     type: 'post',
-                    success: function (response) {
+                    success: function(response) {
                         <?php echo $captcha['btnReloadCapcha']; ?>
                         modal.hidePleaseWait();
                         if (response.error) {
@@ -144,7 +156,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
             function submitDonationButton<?php echo $uid; ?>(buttonIndex) {
                 modal.showPleaseWait();
                 $.ajax({
-                    url: webSiteRootURL+'plugin/CustomizeUser/donate.json.php',
+                    url: webSiteRootURL + 'plugin/CustomizeUser/donate.json.php',
                     data: {
                         "buttonIndex": buttonIndex,
                         "videos_id": <?php echo intval(@$video['id']); ?>,
@@ -153,7 +165,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "captcha": <?php echo $captcha['captchaText']; ?>
                     },
                     type: 'post',
-                    success: function (response) {
+                    success: function(response) {
                         <?php echo $captcha['btnReloadCapcha']; ?>
                         modal.hidePleaseWait();
                         if (response.error) {
@@ -166,15 +178,32 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                     }
                 });
             }
-            $(document).ready(function () {
-                $("#donationForm<?php echo $uid; ?>").submit(function (e) {
+            $(document).ready(function() {
+                $("#donationForm<?php echo $uid; ?>").submit(function(e) {
                     e.preventDefault();
                     submitDonation<?php echo $uid; ?>();
                     return false;
                 });
+                addAtMention('#chatInputDonation');
+                $("#chatInputDonation").emojioneArea({
+                    useInternalCDN: false,
+                    placeholder: __("Type your message here"),
+                    events: {
+                        keyup: function(editor, event) {
+                            // catches everything but enter
+                            if (event.which == 13) {
+                                if (!addAtMentionActive) {
+                                    $('#submitChatDonation').trigger('click');
+                                }
+                            } else {
+                                //alert("Key pressed: " + event.which);
+                            }
+                        }
+                    }
+                });
             });
         </script>
-        <?php
+<?php
     }
 }
 ?>
