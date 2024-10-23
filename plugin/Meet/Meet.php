@@ -496,30 +496,6 @@ Passcode: {password}
 
     public static function getButtons($meet_schedule_id)
     {
-        return [
-            'camera',
-            'chat',
-            'closedcaptions',
-            'desktop',
-            'download',
-            'embedmeeting',
-            'etherpad',
-            'feedback',
-            'filmstrip',
-            'fullscreen',
-            'hangup',
-            'help',
-            'highlight',
-            'invite',
-            'linktosalesforce',
-            'livestreaming',
-            'microphone',
-            'mute-everyone',
-            'mute-video-everyone',
-            'participants-pane',
-            'profile',
-            'raisehand',
-        ];
         /*
           return [
           'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
@@ -535,7 +511,7 @@ Passcode: {password}
                 $return = [
                     'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                     'fodeviceselection', 'hangup', 'profile', 'chat',
-                    'livestreaming', 'etherpad', 'settings', 'raisehand',
+                    'livestreaming', 'recording','etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'videobackgroundblur','select-background','whiteboard',
                     'noisesuppression','participants-pane','reactions','toggle-camera',
