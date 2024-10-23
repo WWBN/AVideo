@@ -520,18 +520,6 @@ Passcode: {password}
             'profile',
             'raisehand',
             'recording',
-            'security',
-            'select-background',
-            'settings',
-            'shareaudio',
-            'noisesuppression',
-            'sharedvideo',
-            'shortcuts',
-            'stats',
-            'tileview',
-            'toggle-camera',
-            'videoquality',
-            'whiteboard'
         ];
         /*
           return [
