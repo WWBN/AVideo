@@ -107,7 +107,10 @@ Passcode: {password}
         $isModerator = self::isModerator($meet_schedule_id);
         
         if (empty($users_id)) {
-            $user = ["affiliation"=> ($isModerator?'owner':'member')];
+            $user = [
+                "affiliation"=> ($isModerator?'owner':'member'),
+                "lobby"=> ($isModerator?false:true),
+            ];
         } else {
             $u = new User($users_id);
             $user = [
@@ -116,6 +119,7 @@ Passcode: {password}
                 "email" => $u->getEmail(),
                 "id" => $users_id,
                 "affiliation"=> ($isModerator?'owner':'member'),
+                "lobby"=> ($isModerator?false:true),
             ];
         }
 
