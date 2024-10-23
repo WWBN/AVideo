@@ -519,7 +519,6 @@ Passcode: {password}
             'participants-pane',
             'profile',
             'raisehand',
-            'recording',
         ];
         /*
           return [
