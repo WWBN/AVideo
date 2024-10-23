@@ -108,9 +108,9 @@ Passcode: {password}
         
         if (empty($users_id)) {
             $user = [
-                "affiliation"=> ($isModerator?'owner':'member'),
                 "name" => '',
                 "email" => '',
+                "affiliation"=> ($isModerator?'owner':'member'),
             ];
         } else {
             $u = new User($users_id);
