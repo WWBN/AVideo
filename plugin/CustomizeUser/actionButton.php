@@ -162,7 +162,8 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "videos_id": <?php echo intval(@$video['id']); ?>,
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
                         "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
-                        "captcha": <?php echo $captcha['captchaText']; ?>
+                        "captcha": <?php echo $captcha['captchaText']; ?>,
+                        "message": $('#chatInputDonation').data("emojioneArea").getText()
                     },
                     type: 'post',
                     success: function(response) {
