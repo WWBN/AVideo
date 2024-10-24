@@ -2600,13 +2600,13 @@ function playAudio(mp3) {
         if (promise !== undefined) {
             ////console.log('pling promise', promise);
             promise.then((response) => {
-                ////console.log('pling audio played', response);
+                console.log('pling audio played', response);
                 plingEnabled = false;
                 setTimeout(function () {
                     plingEnabled = true;
                 }, 3000);
             }).catch(error => {
-                ////console.log('pling audio disabled', error);
+                console.log('pling audio disabled', error);
                 if (showEnableAudioMessage) {
                     showEnableAudioMessage = false;
                     avideoAlertInfo('Click here to enable audio');
