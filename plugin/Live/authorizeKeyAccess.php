@@ -106,11 +106,13 @@ if ($isCached) {
             error_log($msg . json_encode(array($_SERVER, $matches)));
             echo $msg;
         } else {
+            $bytes = file_put_contents($tmpFilePath, time());
             $msg = 'authorizeKeyAccess: Authorized key=' . $key;
             error_log($msg);
             echo $msg;
         }
     } else {
+        $bytes = file_put_contents($tmpFilePath, time());
         $msg = 'authorizeKeyAccess: VideoHLS is not present ';
         error_log($msg);
         echo $msg;
