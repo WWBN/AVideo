@@ -30,11 +30,11 @@ function getClientIdentifier()
     return md5($_SERVER['HTTP_USER_AGENT'] . _getRealIpAddr());
 }
 
-function getTmpFilePath($key)
+function getTmpFilePath($liveKey)
 {
     $clientIdentifier = getClientIdentifier();
     $tmpDir = sys_get_temp_dir();
-    return "{$tmpDir}/{$clientIdentifier}_{$key}_v1.tmp";
+    return "{$tmpDir}/{$clientIdentifier}_{$liveKey}_v1.tmp";
 }
 
 // Get client information and the requested key file
@@ -53,13 +53,13 @@ $token = '';
 // Match the pattern with the URI
 if (preg_match($pattern, $uri, $matches)) {
     // $matches[1] contains the key
-    $key = $matches[1];
+    $liveKey = $matches[1];
     // $matches[2] contains the token
     $token = $matches[2];
 }
 $isCached = false;
-if (!empty($key)) {
-    $tmpFilePath = getTmpFilePath($key);
+if (!empty($liveKey)) {
+    $tmpFilePath = getTmpFilePath($liveKey);
 }
 
 if (!empty($tmpFilePath) && file_exists($tmpFilePath)) {
@@ -73,18 +73,18 @@ if (!empty($tmpFilePath) && file_exists($tmpFilePath)) {
     if ($diff < 0) {
         $isCached = false;
         if (!empty($_REQUEST['debug'])) {
-            error_log("Process download protection cache expired time=$content keyFile=$keyFile $tmpFilePath ");
+            error_log("Process download protection cache expired time=$content keyFile=$liveKeyFile $tmpFilePath ");
         }
     } else {
         if (!empty($_REQUEST['debug'])) {
-            error_log("Process download protection cache still valid diff={$diff} keyFile=$keyFile $tmpFilePath ");
+            error_log("Process download protection cache still valid diff={$diff} keyFile=$liveKeyFile $tmpFilePath ");
         }
         $isCached = true;
     }
 }
 
 if ($isCached) {
-    $msg = 'authorizeKeyAccess: cached Authorized key=' . $key;
+    $msg = 'authorizeKeyAccess: cached Authorized key=' . $liveKey;
     error_log($msg);
     echo $msg;
 } else {
@@ -105,7 +105,7 @@ if ($isCached) {
             if (!empty($tmpFilePath)) {
                 $bytes = file_put_contents($tmpFilePath, time());
             }
-            $msg = 'authorizeKeyAccess: Authorized key=' . $key . ' uri=' . $uri;
+            $msg = 'authorizeKeyAccess: Authorized key=' . $liveKey . ' uri=' . $uri;
             error_log($msg);
             echo $msg;
         }
