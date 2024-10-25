@@ -153,7 +153,7 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
         $metaTags[] = "<meta property=\"og:video\"            content=\"{$pageURL}\" />";
         $metaTags[] = "<meta property=\"og:video:secure_url\" content=\"{$pageURL}\" />";
     }
-    if (!empty($advancedCustom->twitter_player)) {
+    if (!empty($advancedCustom->twitter_player) && !empty($pageURLEmbed)) {
         $metaTags[] = '<meta name="twitter:card" content="player" />';
         $metaTags[] = "<meta name=\"twitter:player\" content=\"{$pageURLEmbed}\" />";
         if (!$SecureVideosDirectoryIsEnabled && !empty($sourceFileURL)) {
