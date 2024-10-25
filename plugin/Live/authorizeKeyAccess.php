@@ -49,7 +49,7 @@ $uri = $_SERVER["HTTP_X_ORIGINAL_URI"];
 
 // Define a regular expression to capture the key and token parts
 $pattern = '#/live/([^/]+)/[0-9]+\.key\?token=([^&]+)#i';
-
+$token = '';
 // Match the pattern with the URI
 if (preg_match($pattern, $uri, $matches)) {
     // $matches[1] contains the key
@@ -93,11 +93,8 @@ if ($isCached) {
     require_once dirname(__FILE__) . '/../../videos/configuration.php';
     AVideoPlugin::loadPluginIfEnabled('VideoHLS');
     if (class_exists('VideoHLS')) {
-        if (!empty($token)) {
-            // Example logic: verify based on IP, user agent, or requested key
-            if (VideoHLS::verifyToken($token)) {
-                $authorized = true;
-            }
+        if (VideoHLS::verifyToken($token)) {
+            $authorized = true;
         }
         if (!$authorized) {
             http_response_code(403);
