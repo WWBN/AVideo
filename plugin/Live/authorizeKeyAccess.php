@@ -48,7 +48,7 @@ $authorized = false; // Set this based on your logic
 $uri = $_SERVER["HTTP_X_ORIGINAL_URI"];
 
 // Define a regular expression to capture the key and token parts
-$pattern = '#/live/([^/]+)/[0-9]+\.key\?token=([^&]+)#i';
+$pattern = '#/live/([^/]+)/[0-9]+\.key(\?token=([^&]+))?#i';
 $token = '';
 // Match the pattern with the URI
 if (preg_match($pattern, $uri, $matches)) {
