@@ -99,11 +99,11 @@ if ($isCached) {
                 $authorized = true;
             }
         }
-        error_log('authorizeKeyAccess: ' . json_encode(array($key, $array, $user_agent)));
         if (!$authorized) {
             http_response_code(403);
             $msg = 'authorizeKeyAccess: Access denied ';
             error_log($msg . json_encode(array($_SERVER, $matches)));
+            error_log('authorizeKeyAccess ERROR: ' . json_encode(array($key, $array, $user_agent)));
             echo $msg;
         } else {
             $bytes = file_put_contents($tmpFilePath, time());
