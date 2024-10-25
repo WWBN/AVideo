@@ -53,7 +53,7 @@ RUN mkdir ~/build && \
       git clone https://github.com/arut/nginx-rtmp-module.git && \
       git clone https://github.com/nginx/nginx.git && \
       cd nginx && \
-      ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && \
+      ./auto/configure --with-http_ssl_module --with-http_stub_status_module --with-http_auth_request_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && \
       make && \
       make install
 

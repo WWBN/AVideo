@@ -16,7 +16,7 @@ function getTemplateFromArray(itemsArray) {
             replace = webSiteRootURL + replace;
         } else if (search == 'element_class' && !empty(itemsArray.id)) {
             replace += " UserNotificationsJS_" + itemsArray.id;
-        } else if (search == 'created' && typeof _serverSystemTimezone !== 'undefined') {
+    } else if (search == 'created' && typeof _serverSystemTimezone !== 'undefined' && typeof moment != 'undefined') {
             try {
                 m = moment.tz(itemsArray.created, _serverSystemTimezone).local();
                 replace = m.fromNow();

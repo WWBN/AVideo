@@ -315,7 +315,8 @@ abstract class ObjectYPT implements ObjectInterface
                     if (
                         !empty($this->created) && (User::isAdmin() ||
                             isCommandLineInterface() ||
-                            (class_exists('API') && API::isAPISecretValid())
+                            (class_exists('API') && API::isAPISecretValid()) || 
+                            !empty($global['allowModifyCreated'])
                         )
                     ) {
                         $this->created = preg_replace('/[^0-9: \/-]/', '', $this->created);

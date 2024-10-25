@@ -82,6 +82,7 @@ if(!BulkEmbed::canBulkEmbed()){
         
         // Set the original video date if available in the form data
         if (!empty($value['date']) && $objo->useOriginalYoutubeDate) {
+            $global['allowModifyCreated'] = 1;
             $videos->setCreated($value['date']); // Set the original creation date of the video
         }
 
