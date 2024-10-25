@@ -60,14 +60,9 @@ if (preg_match($pattern, $uri, $matches)) {
 $isCached = false;
 if (!empty($key)) {
     $tmpFilePath = getTmpFilePath($key);
-}else{
-    http_response_code(403);
-    $msg = 'authorizeKeyAccess: Access denied invalid key ';
-    error_log($msg . json_encode(array($_SERVER, $uri)));
-    echo $msg;
 }
 
-if (file_exists($tmpFilePath)) {
+if (!empty($tmpFilePath) && file_exists($tmpFilePath)) {
     $tolerance = 300; // 5 min
     $content = (file_get_contents($tmpFilePath));
     $time = intval($content);
