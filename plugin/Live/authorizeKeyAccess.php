@@ -102,10 +102,10 @@ if ($isCached) {
             error_log($msg . json_encode(array($_SERVER, $matches)));
             echo $msg;
         } else {
-            if(!empty($tmpFilePath)){
+            if (!empty($tmpFilePath)) {
                 $bytes = file_put_contents($tmpFilePath, time());
             }
-            $msg = 'authorizeKeyAccess: Authorized key=' . $key;
+            $msg = 'authorizeKeyAccess: Authorized key=' . $key . ' uri=' . $uri;
             error_log($msg);
             echo $msg;
         }
