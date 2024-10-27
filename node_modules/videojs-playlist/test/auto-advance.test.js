@@ -11,13 +11,17 @@ QUnit.test('set up ended listener if one does not exist yet', function(assert) {
   const ones = [];
 
   player.one = function(type) {
-    ones.push(type);
+    if (Array.isArray(type)) {
+      ones.push(...type);
+    } else {
+      ones.push(type);
+    }
   };
 
   autoadvance.setup(player, 0);
 
-  assert.equal(ones.length, 1, 'there should have been only one one event added');
-  assert.equal(ones[0], 'ended', 'the event we want to one is "ended"');
+  assert.equal(ones.length, 3, 'there should have been three event added');
+  assert.deepEqual(ones, ['ended', 'abort', 'error'], 'the events we want to one is "ended", "abort" and "error"');
 });
 
 QUnit.test('off previous listener if exists before adding a new one', function(assert) {
@@ -26,25 +30,39 @@ QUnit.test('off previous listener if exists before adding a new one', function(a
   const offs = [];
 
   player.one = function(type) {
-    ones.push(type);
+    if (Array.isArray(type)) {
+      ones.push(...type);
+    } else {
+      ones.push(type);
+    }
   };
 
   player.off = function(type) {
-    offs.push(type);
+    if (Array.isArray(type)) {
+      offs.push(...type);
+    } else {
+      offs.push(type);
+    }
   };
 
   autoadvance.setup(player, 0);
-  assert.equal(ones.length, 1, 'there should have been only one one event added');
-  assert.equal(ones[0], 'ended', 'the event we want to one is "ended"');
+  assert.equal(ones.length, 3, 'there should have been only three one events added');
+  assert.deepEqual(ones, ['ended', 'abort', 'error'], 'the events we want to one is "ended", "abort" and "error"');
   assert.equal(offs.length, 0, 'we should not have off-ed anything yet');
 
   autoadvance.setup(player, 10);
 
-  assert.equal(ones.length, 2, 'there should have been only two one event added');
-  assert.equal(ones[0], 'ended', 'the event we want to one is "ended"');
-  assert.equal(ones[1], 'ended', 'the event we want to one is "ended"');
-  assert.equal(offs.length, 1, 'there should have been only one off event added');
-  assert.equal(offs[0], 'ended', 'the event we want to off is "ended"');
+  assert.equal(ones.length, 6, 'there should have been six one event added');
+  assert.equal(ones[0], 'ended', 'first event to one is "ended"');
+  assert.equal(ones[1], 'abort', 'second event to one is "abort"');
+  assert.equal(ones[2], 'error', 'third event to one is "error"');
+
+  assert.equal(ones[3], 'ended', 'fourth event to one is "ended"');
+  assert.equal(ones[4], 'abort', 'fifth event to one is "abort"');
+  assert.equal(ones[5], 'error', 'sixth event to one is "error"');
+
+  assert.equal(offs.length, 3, 'there should have been three off event added');
+  assert.deepEqual(offs.sort(), ['ended', 'abort', 'error'].sort(), 'the events we want to off is "ended", "abort" and "error"');
 });
 
 QUnit.test('do nothing if timeout is weird', function(assert) {
@@ -78,11 +96,19 @@ QUnit.test('reset if timeout is weird after we advance', function(assert) {
   const offs = [];
 
   player.one = function(type) {
-    ones.push(type);
+    if (Array.isArray(type)) {
+      ones.push(...type);
+    } else {
+      ones.push(type);
+    }
   };
 
   player.off = function(type) {
-    offs.push(type);
+    if (Array.isArray(type)) {
+      offs.push(...type);
+    } else {
+      offs.push(type);
+    }
   };
 
   autoadvance.setup(player, 0);
@@ -102,8 +128,8 @@ QUnit.test('reset if timeout is weird after we advance', function(assert) {
   autoadvance.setup(player, 0);
   autoadvance.setup(player, -Infinity);
 
-  assert.equal(offs.length, 8, 'we reset the advance 8 times');
-  assert.equal(ones.length, 8, 'we autoadvanced 8 times');
+  assert.equal(offs.length, 24, 'we reset the advance 8 times, removing 3 events each time');
+  assert.equal(ones.length, 24, 'we autoadvanced 8 times, adding 3 events each time');
 });
 
 QUnit.test('reset if we have already started advancing', function(assert) {

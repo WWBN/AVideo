@@ -1,3 +1,14 @@
+<a name="5.2.0"></a>
+# [5.2.0](https://github.com/brightcove/videojs-playlist/compare/v5.1.2...v5.2.0) (2024-10-07)
+
+### Features
+
+* add isAutoadvancing flag to indicate auto-advancing state ([#267](https://github.com/brightcove/videojs-playlist/issues/267)) ([0d7a41a](https://github.com/brightcove/videojs-playlist/commit/0d7a41a))
+
+### Bug Fixes
+
+* properly remove event listeners in auto-advance.js and update tests ([#268](https://github.com/brightcove/videojs-playlist/issues/268)) ([2a455cd](https://github.com/brightcove/videojs-playlist/commit/2a455cd))
+
 <a name="5.1.2"></a>
 ## [5.1.2](https://github.com/brightcove/videojs-playlist/compare/v5.1.1...v5.1.2) (2024-05-20)
 

@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.3.0 (2024-08-07)
+ * TinyMCE version 7.4.1 (TBD)
  */
 
 (function () {
@@ -750,6 +750,7 @@
 
     const isShadowRoot = dos => isDocumentFragment(dos) && isNonNullable(dos.dom.host);
     const getRootNode = e => SugarElement.fromDom(e.dom.getRootNode());
+    const getContentContainer = dos => isShadowRoot(dos) ? dos : SugarElement.fromDom(documentOrOwner(dos).dom.body);
     const getShadowRoot = e => {
       const r = getRootNode(e);
       return isShadowRoot(r) ? Optional.some(r) : Optional.none();
@@ -3024,13 +3025,32 @@
       });
     };
     const serializeElements = (editor, elements) => map$1(elements, elm => editor.selection.serializer.serialize(elm.dom, {})).join('');
-    const getTextContent = elements => map$1(elements, element => element.dom.innerText).join('');
+    const getTextContent = (editor, replicaElements) => {
+      const doc = editor.getDoc();
+      const dos = getRootNode(SugarElement.fromDom(editor.getBody()));
+      const offscreenDiv = SugarElement.fromTag('div', doc);
+      set$2(offscreenDiv, 'data-mce-bogus', 'all');
+      setAll(offscreenDiv, {
+        position: 'fixed',
+        left: '-9999999px',
+        top: '0',
+        overflow: 'hidden',
+        opacity: '0'
+      });
+      const root = getContentContainer(dos);
+      append(offscreenDiv, replicaElements);
+      append$1(root, offscreenDiv);
+      const textContent = offscreenDiv.dom.innerText;
+      remove$6(offscreenDiv);
+      return textContent;
+    };
     const registerEvents = (editor, actions) => {
       editor.on('BeforeGetContent', e => {
         const multiCellContext = cells => {
           e.preventDefault();
-          extractSelected(cells).each(elements => {
-            e.content = e.format === 'text' ? getTextContent(elements) : serializeElements(editor, elements);
+          extractSelected(cells).each(replicaElements => {
+            const content = e.format === 'text' ? getTextContent(editor, replicaElements) : serializeElements(editor, replicaElements);
+            e.content = content;
           });
         };
         if (e.selection === true) {
@@ -7938,7 +7958,9 @@
         if (hasTableObjectResizing(editor) && hasTableResizeBars(editor)) {
           const resizing = lazyResizingBehaviour();
           const sz = TableResize.create(rawWire, resizing, lazySizing);
-          sz.on();
+          if (!editor.mode.isReadOnly()) {
+            sz.on();
+          }
           sz.events.startDrag.bind(_event => {
             selectionRng.set(editor.selection.getRng());
           });
@@ -7962,7 +7984,7 @@
       });
       editor.on('ObjectResizeStart', e => {
         const targetElm = e.target;
-        if (isTable(targetElm)) {
+        if (isTable(targetElm) && !editor.mode.isReadOnly()) {
           const table = SugarElement.fromDom(targetElm);
           each$2(editor.dom.select('.mce-clonedresizable'), clone => {
             editor.dom.addClass(clone, 'mce-' + getTableColumnResizingBehaviour(editor) + '-columns');
@@ -7996,8 +8018,10 @@
       editor.on('SwitchMode', () => {
         tableResize.on(resize => {
           if (editor.mode.isReadOnly()) {
+            resize.off();
             resize.hideBars();
           } else {
+            resize.on();
             resize.showBars();
           }
         });

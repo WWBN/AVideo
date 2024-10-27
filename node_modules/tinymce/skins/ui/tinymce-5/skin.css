@@ -706,55 +706,20 @@ button::-moz-focus-inner {
   border-radius: 3px;
   padding: 4px;
 }
-.tox .tox-collection--list .tox-collection__item--enabled {
+.tox .tox-collection--list .tox-collection__item--enabled:not(.tox-collection__item--state-disabled) {
   background-color: #fff;
   color: #222f3e;
 }
-.tox .tox-collection--list .tox-collection__item--active {
+.tox .tox-collection--list .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
   background-color: #dee0e2;
-}
-.tox .tox-collection--toolbar .tox-collection__item--enabled,
-.tox .tox-collection--toolbar .tox-collection__item--enabled.tox-collection__item--active,
-.tox .tox-collection--toolbar .tox-collection__item--enabled.tox-collection__item--active:hover {
-  background-color: #c8cbcf;
   color: #222f3e;
 }
 @media (forced-colors: active) {
-  .tox .tox-collection--toolbar .tox-collection__item--enabled,
-  .tox .tox-collection--toolbar .tox-collection__item--enabled.tox-collection__item--active,
-  .tox .tox-collection--toolbar .tox-collection__item--enabled.tox-collection__item--active:hover {
-    border-radius: 3px;
-    outline: solid 1px;
+  .tox .tox-collection--list .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
+    border: solid 1px;
   }
 }
-.tox .tox-collection--toolbar .tox-collection__item--active {
-  background-color: #fff;
-  position: relative;
-}
-.tox .tox-collection--toolbar .tox-collection__item--active:hover {
-  background-color: #dee0e2;
-  color: #222f3e;
-}
-.tox .tox-collection--toolbar .tox-collection__item--active:focus {
-  background-color: #dee0e2;
-  color: #222f3e;
-}
-.tox .tox-collection--toolbar .tox-collection__item--active:focus::after {
-  border-radius: 3px;
-  bottom: 0;
-  box-shadow: 0 0 0 0 transparent ;
-  content: '';
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-@media (forced-colors: active) {
-  .tox .tox-collection--toolbar .tox-collection__item--active:focus::after {
-    border: 2px solid highlight;
-  }
-}
-.tox .tox-collection--grid .tox-collection__item--enabled {
+.tox .tox-collection--grid .tox-collection__item--enabled:not(.tox-collection__item--state-disabled) {
   background-color: #c8cbcf;
   color: #222f3e;
 }
@@ -779,16 +744,43 @@ button::-moz-focus-inner {
     border: 2px solid highlight;
   }
 }
-.tox .tox-collection--list .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
+.tox .tox-collection--toolbar .tox-collection__item--enabled:not(.tox-collection__item--state-disabled) {
+  background-color: #c8cbcf;
   color: #222f3e;
 }
 @media (forced-colors: active) {
-  .tox .tox-collection--list .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
-    border: solid 1px;
+  .tox .tox-collection--toolbar .tox-collection__item--enabled:not(.tox-collection__item--state-disabled) {
+    border-radius: 3px;
+    outline: solid 1px;
   }
 }
 .tox .tox-collection--toolbar .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
   color: #222f3e;
+  background-color: #fff;
+  position: relative;
+}
+.tox .tox-collection--toolbar .tox-collection__item--active:not(.tox-collection__item--state-disabled):hover {
+  background-color: #dee0e2;
+  color: #222f3e;
+}
+.tox .tox-collection--toolbar .tox-collection__item--active:not(.tox-collection__item--state-disabled):focus {
+  background-color: #dee0e2;
+  color: #222f3e;
+}
+.tox .tox-collection--toolbar .tox-collection__item--active:not(.tox-collection__item--state-disabled):focus::after {
+  border-radius: 3px;
+  bottom: 0;
+  box-shadow: 0 0 0 0 transparent ;
+  content: '';
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+@media (forced-colors: active) {
+  .tox .tox-collection--toolbar .tox-collection__item--active:not(.tox-collection__item--state-disabled):focus::after {
+    border: 2px solid highlight;
+  }
 }
 @media (forced-colors: active) {
   .tox .tox-collection--toolbar .tox-collection__item--active:not(.tox-collection__item--state-disabled):hover {
@@ -1190,20 +1182,74 @@ button::-moz-focus-inner {
 .tox[dir=rtl] .tox-swatches__picker-btn {
   margin-right: auto;
 }
-.tox .tox-comment-thread {
-  background: #fff;
-  position: relative;
+.tox {
+  /* Animation for deleting a comment */
+  /* A comment fades to 0 when it is being deleted, then is removed */
 }
-.tox .tox-comment-thread > *:not(:first-child) {
-  margin-top: 8px;
+.tox .tox-conversations {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+  /* This is to give the sidebar a consistent width. Need a solution for this */
+  min-width: 300px;
+  max-width: 300px;
+  width: 300px;
+}
+.tox .tox-conversations__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 4px 8px 0px rgba(34, 47, 62, 0.1);
+  padding: 8px 12px;
+  background: #fff;
+}
+.tox .tox-conversations__title {
+  font-size: 20px;
+  font-weight: 400;
+  padding: 8px 0 8px 0;
+  color: #222f3e;
+  line-height: 28px;
 }
 .tox .tox-comment {
   background: #fff;
   border: 1px solid #cccccc;
   border-radius: 3px;
-  box-shadow: 0 4px 8px 0 rgba(34, 47, 62, 0.1);
   padding: 8px 8px 16px 8px;
   position: relative;
+}
+.tox .tox-comment:hover {
+  box-shadow: 0 4px 8px 0 rgba(34, 47, 62, 0.1);
+}
+.tox .tox-comment.tox-comment--selected {
+  background-color: #fff2c9;
+  border: 1px solid #ffcf30;
+  box-shadow: 0px 4px 8px 0px rgba(34, 47, 62, 0.1);
+}
+.tox .tox-comment.tox-comment--selected:focus {
+  border: 2px solid transparent;
+  margin: -1px;
+}
+.tox .tox-comment.tox-comment--selected:focus:not(:first-child) {
+  margin-top: 7px;
+}
+.tox .tox-comment.tox-comment--selected .tox-comment__single {
+  margin-bottom: 12px;
+}
+.tox .tox-comment.tox-comment--selected .tox-comment__single:focus {
+  position: relative;
+}
+.tox .tox-comment.tox-comment--selected .tox-comment__single:focus::after {
+  top: -9px;
+  pointer-events: none;
+  position: absolute;
+  content: "";
+  display: block;
+  bottom: -9px;
+  left: -9px;
+  right: -9px;
+  border-radius: 6px;
+  border: 2px solid transparent;
 }
 .tox .tox-comment__header {
   align-items: center;
@@ -1225,11 +1271,54 @@ button::-moz-focus-inner {
   margin-top: 8px;
   position: relative;
   text-transform: initial;
+  transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+  white-space: pre-wrap;
+  /* We remove the transitions when wanting to measure and jump straight to collapsed or expanded */
+}
+.tox .tox-comment__body.tox-comment__body--expanded {
+  max-height: 100em;
+  transition: max-height 1s ease-in-out;
+}
+.tox .tox-comment__body.tox-comment__body--pending {
+  transition: max-height 0s;
+}
+.tox .tox-comment__body p {
+  margin: 0;
 }
 .tox .tox-comment__body textarea {
   resize: none;
   white-space: normal;
   width: 100%;
+}
+.tox .tox-comment__loading-text {
+  align-items: center;
+  color: #222f3e;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.tox .tox-comment__loading-text > div {
+  padding-bottom: 16px;
+}
+.tox .tox-comment__overlaytext {
+  bottom: 0;
+  flex-direction: column;
+  font-size: 14px;
+  left: 0;
+  padding: 1em;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+.tox .tox-comment__overlaytext p {
+  background-color: #fff;
+  box-shadow: 0 0 8px 8px #fff;
+  color: #222f3e;
+  text-align: center;
+}
+.tox .tox-comment__overlaytext div:nth-of-type(2) {
+  font-size: 0.8em;
 }
 .tox .tox-comment__expander {
   padding-top: 8px;
@@ -1238,13 +1327,33 @@ button::-moz-focus-inner {
   color: rgba(34, 47, 62, 0.7);
   font-size: 14px;
   font-style: normal;
+  /* Need a focus highlight on the show more/less button */
 }
-.tox .tox-comment__body p {
-  margin: 0;
+.tox .tox-comment__expander p:focus {
+  font-weight: bold;
 }
 .tox .tox-comment__buttonspacing {
   padding-top: 16px;
   text-align: center;
+}
+.tox .tox-tbtn.tox-comment__mention-btn {
+  display: flex;
+  width: 34px;
+  height: 34px;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background-color: transparent;
+}
+.tox .tox-comment-thread {
+  background: #fff;
+  position: relative;
+  border-radius: 6px;
+  background-color: transparent;
+}
+.tox .tox-comment-thread > *:not(:first-child) {
+  margin-top: 8px;
 }
 .tox .tox-comment-thread__overlay::after {
   background: #fff;
@@ -1299,36 +1408,6 @@ button::-moz-focus-inner {
   top: 0;
   z-index: 5;
 }
-.tox .tox-comment__loading-text {
-  align-items: center;
-  color: #222f3e;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-.tox .tox-comment__loading-text > div {
-  padding-bottom: 16px;
-}
-.tox .tox-comment__overlaytext {
-  bottom: 0;
-  flex-direction: column;
-  font-size: 14px;
-  left: 0;
-  padding: 1em;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 10;
-}
-.tox .tox-comment__overlaytext p {
-  background-color: #fff;
-  box-shadow: 0 0 8px 8px #fff;
-  color: #222f3e;
-  text-align: center;
-}
-.tox .tox-comment__overlaytext div:nth-of-type(2) {
-  font-size: 0.8em;
-}
 .tox .tox-comment__busy-spinner {
   align-items: center;
   background-color: #fff;
@@ -1346,9 +1425,54 @@ button::-moz-focus-inner {
   flex-direction: column;
   flex-shrink: 1;
   overflow: auto;
+  padding: 12px;
+  scroll-behavior: smooth;
 }
-.tox .tox-conversations {
-  margin: 8px;
+.tox .tox-comment--disappearing {
+  transition: opacity 0.5s ease;
+}
+.tox .tox-comment[data-transitioning-destination="deleting"] {
+  opacity: 0;
+}
+.tox .tox-skeleton .tox-skeleton__line {
+  height: 16px;
+  width: 100%;
+  background: linear-gradient(to right, rgba(240, 240, 240, 0.5) 8%, rgba(240, 240, 240, 0.7) 18%, rgba(240, 240, 240, 0.5) 33%);
+  animation: wave 2s infinite ease-out;
+}
+.tox .tox-skeleton .tox-skeleton__circle {
+  height: 36px;
+  width: 36px;
+  margin-right: 8px;
+  border-radius: 100%;
+  background: linear-gradient(to right, rgba(240, 240, 240, 0.5) 8%, rgba(240, 240, 240, 0.7) 18%, rgba(240, 240, 240, 0.5) 33%);
+  animation: wave 2s infinite ease-out;
+}
+@keyframes wave {
+  0% {
+    background-position: -268px 0;
+  }
+  100% {
+    background-position: 268px 0;
+  }
+}
+.tox .tox-ring-loader {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .tox:not([dir=rtl]) .tox-comment__edit {
   margin-left: 8px;
@@ -3025,7 +3149,7 @@ body.tox-dialog__disable-scroll {
   min-height: 0;
 }
 .tox .tox-sidebar {
-  background-color: #fff;
+  background-color: #f0f0f0;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -3305,6 +3429,9 @@ body.tox-dialog__disable-scroll {
   .tox .tox-statusbar__resize-handle:focus-visible::after {
     border: 2px solid highlight;
   }
+}
+.tox .tox-statusbar__resize-handle:only-child {
+  margin-left: auto;
 }
 .tox:not([dir=rtl]) .tox-statusbar__path > * {
   margin-right: 4px;
@@ -3860,8 +3987,8 @@ body.tox-dialog__disable-scroll {
 .tox .tox-toolbar-overlord > .tox-toolbar,
 .tox .tox-toolbar-overlord > .tox-toolbar__primary,
 .tox .tox-toolbar-overlord > .tox-toolbar__overflow {
-  background-position: center top 0;
-  background-size: calc(100% - 4px * 2) calc(100% - 0);
+  background-position: center top 0px;
+  background-size: calc(100% - 4px * 2) calc(100% - 0px);
 }
 .tox .tox-toolbar__overflow.tox-toolbar__overflow--closed {
   height: 0;
@@ -4204,6 +4331,11 @@ body.tox-dialog__disable-scroll {
 }
 .tox .tox-tree .tox-tree--leaf__label:hover:has(.tox-mbtn:hover) .tox-chevron svg {
   fill: #222f3e;
+}
+.tox .tox-tree .tox-icon-custom-state {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
 }
 .tox .tox-tree .tox-tree--directory__children {
   overflow: hidden;

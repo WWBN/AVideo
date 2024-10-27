@@ -1,5 +1,5 @@
 /*!
- * Chart.js v4.4.4
+ * Chart.js v4.4.5
  * https://www.chartjs.org
  * (c) 2024 Chart.js Contributors
  * Released under the MIT License
@@ -693,6 +693,7 @@ class DatasetController {
         this._resyncElements(resetNewElements);
         if (stackChanged || oldStacked !== meta._stacked) {
             updateStacks(this, meta._parsed);
+            meta._stacked = isStacked(meta.vScale, meta);
         }
     }
  configure() {
@@ -5516,7 +5517,7 @@ function needContext(proxy, names) {
     return false;
 }
 
-var version = "4.4.4";
+var version = "4.4.5";
 
 const KNOWN_POSITIONS = [
     'top',
@@ -7355,6 +7356,9 @@ function containsColorsDefinitions(descriptors) {
 function containsColorsDefinition(descriptor) {
     return descriptor && (descriptor.borderColor || descriptor.backgroundColor);
 }
+function containsDefaultColorsDefenitions() {
+    return defaults.borderColor !== 'rgba(0,0,0,0.1)' || defaults.backgroundColor !== 'rgba(0,0,0,0.1)';
+}
 var plugin_colors = {
     id: 'colors',
     defaults: {
@@ -7367,7 +7371,8 @@ var plugin_colors = {
         }
         const { data: { datasets  } , options: chartOptions  } = chart.config;
         const { elements  } = chartOptions;
-        if (!options.forceOverride && (containsColorsDefinitions(datasets) || containsColorsDefinition(chartOptions) || elements && containsColorsDefinitions(elements))) {
+        const containsColorDefenition = containsColorsDefinitions(datasets) || containsColorsDefinition(chartOptions) || elements && containsColorsDefinitions(elements) || containsDefaultColorsDefenitions();
+        if (!options.forceOverride && containsColorDefenition) {
             return;
         }
         const colorizer = getColorizer(chart);
@@ -10665,7 +10670,7 @@ function drawRadiusLine(scale, gridLineOpts, radius, labelCount, borderOpts) {
     ctx.save();
     ctx.strokeStyle = color;
     ctx.lineWidth = lineWidth;
-    ctx.setLineDash(borderOpts.dash);
+    ctx.setLineDash(borderOpts.dash || []);
     ctx.lineDashOffset = borderOpts.dashOffset;
     ctx.beginPath();
     pathRadiusLine(scale, radius, circular, labelCount);

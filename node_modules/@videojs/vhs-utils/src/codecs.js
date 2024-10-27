@@ -202,9 +202,26 @@ export const getMimeForCodec = (codecString) => {
   return `${type}/${container};codecs="${codecString}"`;
 };
 
-export const browserSupportsCodec = (codecString = '') => window.MediaSource &&
+/**
+ * Tests whether the codec is supported by MediaSource. Optionally also tests ManagedMediaSource.
+ *
+ * @param {string} codecString
+ *        Codec to test
+ * @param {boolean} [withMMS]
+ *        Whether to check if ManagedMediaSource supports it
+ * @return {boolean}
+ *          Codec is supported
+ */
+export const browserSupportsCodec = (codecString = '', withMMS = false) => (
+  window.MediaSource &&
   window.MediaSource.isTypeSupported &&
-  window.MediaSource.isTypeSupported(getMimeForCodec(codecString)) || false;
+  window.MediaSource.isTypeSupported(getMimeForCodec(codecString))
+) || (
+  withMMS &&
+  window.ManagedMediaSource &&
+  window.ManagedMediaSource.isTypeSupported &&
+  window.ManagedMediaSource.isTypeSupported(getMimeForCodec(codecString))
+) || false;
 
 export const muxerSupportsCodec = (codecString = '') => codecString.toLowerCase().split(',').every((codec) => {
   codec = codec.trim();
