@@ -2741,12 +2741,17 @@ function addAtMention(selector) {
     var emojioneArea = false;
     if (typeof $(selector).data("emojioneArea") !== 'undefined') {
         emojioneArea = selector;
-        selector = '.emojionearea-editor';
+        var parentID = $(selector).parent().attr('id');
+        if (!empty(parentID)) {
+            parentID = '#' + parentID;
+        }
+        selector = parentID + ' .emojionearea-editor';
     }
     //console.log('addAtMention(selector)', selector, emojioneArea);
     var SpaceKeyCode = ' '.charCodeAt(0);
     var AtMatcher = /^@.+/i;
     $(selector).on("keydown", function (event) {
+        //console.log('addAtMention keydown', $(this).autocomplete("instance").menu.active, event.keyCode);
         if (!$(this).autocomplete("instance").menu.active) {
             if (
                 event.keyCode === SpaceKeyCode ||
@@ -2754,12 +2759,15 @@ function addAtMention(selector) {
                 event.keyCode === $.ui.keyCode.ENTER ||
                 event.keyCode === $.ui.keyCode.ESCAPE) {
                 $(this).autocomplete("close");
+                //console.log('addAtMention keydown autocomplete close');
             }
         } else {
             if ((event.keyCode === $.ui.keyCode.TAB)) {
                 event.preventDefault();
+                //console.log('addAtMention keydown preventDefault');
             }
         }
+        //console.log('addAtMention keydown segue o baile');
     })
         .autocomplete({
             minLength: 2,
@@ -2769,7 +2777,7 @@ function addAtMention(selector) {
                 stringStart = request.term.substring(0, pos.end);
 
                 var term = stringStart.split(/\s+/).pop();
-                //console.log('autocomplete', request.term, term, AtMatcher.test(term));
+                //console.log('autocomplete addAtMention', request.term, term, AtMatcher.test(term));
                 if (AtMatcher.test(term)) {
                     $.ajax({
                         url: webSiteRootURL + "objects/mention.json.php",
@@ -2812,15 +2820,22 @@ function addAtMention(selector) {
 
                 this.value = replaceLast(word, '@' + ui.item.value, stringStart) + stringEnd;
                 if (emojioneArea) {
-                    $(emojioneArea).data("emojioneArea").setText(this.value);
+                    $(emojioneArea).data("emojioneArea").setText(this.value + "\u00A0");
                     setTimeout(function () {
-                        contentEditableElement = document.getElementsByClassName("emojionearea-editor")[0];
-                        range = document.createRange();//Create a range (a range is a like the selection but invisible)
-                        range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
-                        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
-                        selection = window.getSelection();//get the selection object (allows you to change selection)
-                        selection.removeAllRanges();//remove any selections already made
-                        selection.addRange(range);//make the range you have just created the visible selection
+                        let $contentEditableElement = $(selector).first(); // Select the first element with the class
+
+                        // Focus the element
+                        $contentEditableElement.focus();
+
+                        // Create and set the range at the end of the content
+                        let range = document.createRange();
+                        range.selectNodeContents($contentEditableElement.get(0)); // Select the entire content
+                        range.collapse(false); // Collapse the range to the end of the content
+
+                        let selection = window.getSelection();
+                        selection.removeAllRanges(); // Clear existing selections
+                        selection.addRange(range); // Apply the range to move the cursor to the end
+
                     }, 50);
                 }
                 return false;
@@ -4333,14 +4348,14 @@ function displayJsonAsHtml(jsonObjectOrString) {
 
 function startTour(stepsFileRelativePath) {
     console.log('Tour starting with steps file:', stepsFileRelativePath);
-    
+
     let id = stepsFileRelativePath.replace(/[^a-zA-Z0-9]/g, '');
     console.log('Generated ID:', id);
 
     // Check if Intro.js is already loaded
     if (typeof introJs === 'undefined') {
         console.log('Intro.js is not loaded, loading Intro.js now...');
-        
+
         // Load Intro.js CSS
         $('head').append('<link rel="stylesheet" href="' + webSiteRootURL + 'node_modules/intro.js/minified/introjs.min.css" type="text/css" />');
         console.log('Intro.js CSS loaded.');
@@ -4355,7 +4370,7 @@ function startTour(stepsFileRelativePath) {
         $.getScript(webSiteRootURL + 'node_modules/intro.js/minified/intro.min.js', function () {
             console.log('Intro.js JavaScript loaded successfully.');
             loadAndStartTour(stepsFileRelativePath);
-        }).fail(function(jqxhr, settings, exception) {
+        }).fail(function (jqxhr, settings, exception) {
             console.error('Failed to load Intro.js script:', exception);
         });
     } else {
@@ -4365,7 +4380,7 @@ function startTour(stepsFileRelativePath) {
 
     function loadAndStartTour(stepsFileRelativePath) {
         console.log('Loading tour steps from:', webSiteRootURL + stepsFileRelativePath);
-        
+
         // Fetch the tour steps from a server
         $.ajax({
             url: webSiteRootURL + stepsFileRelativePath, // URL to the server-side script that returns JSON
