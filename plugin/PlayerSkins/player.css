@@ -52,9 +52,12 @@
     margin-bottom: 10px;
 }
 
-div.vjs-menu-button:last-of-type>div>ul {
-left: -6em !important;
-}
+.vjs-menu-button > .vjs-menu {
+    position: absolute;
+    right: 0;
+    transform: translateX(-30%);
+  }
+  
 
 @media all and (min-width: 900px) {
     .vjs-has-started.vjs-paused .vjs-big-play-button {
