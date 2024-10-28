@@ -20,6 +20,7 @@ class CDNStorage
     {
         $obj = AVideoPlugin::getDataObject('CDN');
         if (empty($obj->storage_hostname)) {
+            //var_dump(debug_backtrace());
             die('CDNStorage storage_hostname is empty ');
         }
         $CDNstorage = new \FtpClient\FtpClient();
@@ -201,8 +202,11 @@ class CDNStorage
     public static function getFilesListInfo($local_path, $storage_pullzone, $videos_id, $skipDummyFiles = true)
     {
         global $global;
-        if ($skipDummyFiles && filesize($local_path) < 20) {
+        if ($skipDummyFiles && is_string($local_path) && filesize($local_path) < 20) {
             return false;
+        }else if(!is_string($local_path)){
+            echo 'ERROR'.PHP_EOL;
+            var_dump($local_path, debug_backtrace());
         }
         if (empty($local_path)) {
             return false;
@@ -1125,34 +1129,38 @@ class CDNStorage
         if (!empty($_getFilesList_CDNSTORAGE[$videos_id])) {
             return $_getFilesList_CDNSTORAGE[$videos_id];
         }
-        $obj = AVideoPlugin::getDataObject('CDN');
+    
         $pz = self::getPZ();
         $files = self::getLocalFolder($videos_id);
-        $video = Video::getVideoLight($videos_id);
         $filesList = [];
         $acumulative = 0;
+    
+        // Iterate over root files or directories
         foreach ($files as $value) {
-            if (is_array($value)) {
-                foreach ($value as $value2) {
-                    $file = self::getFilesListInfo($value2, $pz, $videos_id, $skipDummyFiles);
-                    if (!empty($file)) {
-                        $acumulative += $file['local_filesize'];
-                        $file['acumulativeFilesize'] = $acumulative;
-                        $filesList[$file['relative']] = $file;
-                    }
-                }
-            } else {
-                $file = self::getFilesListInfo($value, $pz, $videos_id, $skipDummyFiles);
-                if (!empty($file)) {
-                    $acumulative += $file['local_filesize'];
-                    $file['acumulativeFilesize'] = $acumulative;
-                    $filesList[$file['relative']] = $file;
-                }
-            }
+            self::processFileOrDirectory($value, $filesList, $acumulative, $pz, $videos_id, $skipDummyFiles);
         }
+    
         $_getFilesList_CDNSTORAGE[$videos_id] = $filesList;
         return $filesList;
     }
+    
+    // Recursive function to process files and directories
+    private static function processFileOrDirectory($value, &$filesList, &$acumulative, $pz, $videos_id, $skipDummyFiles)
+    {
+        if (is_array($value)) {
+            foreach ($value as $subValue) {
+                self::processFileOrDirectory($subValue, $filesList, $acumulative, $pz, $videos_id, $skipDummyFiles);
+            }
+        } else {
+            $file = self::getFilesListInfo($value, $pz, $videos_id, $skipDummyFiles);
+            if (!empty($file)) {
+                $acumulative += $file['local_filesize'];
+                $file['acumulativeFilesize'] = $acumulative;
+                $filesList[$file['relative']] = $file;
+            }
+        }
+    }
+    
 
     public function getAddress($filename)
     {
