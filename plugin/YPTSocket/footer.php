@@ -145,6 +145,10 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         .socketUserDiv.visible .fa-caret-up {
             display: inline-block;
         }
+
+        #socket_info_container{
+            border: solid 2px #CCCCCC11;
+        }
     </style>
     <div id="socket_info_container" class="socket_info blur-background <?php echo $socket_info_container_class; ?> <?php echo getCSSAnimationClassAndStyle('animate__bounceIn', 'socket_info'); ?>" style="display: none;">
         <div class="socketHeader ">

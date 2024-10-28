@@ -149,6 +149,13 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
     body.compact #grid img {
         max-height: 50px !important;
     }
+
+    body.compact #grid {
+        font-size: 12px !important;
+    }
+    body.compact #grid .titleBtn{
+        font-size: 0.8em !important;
+    }
 </style>
 <script>
     var filterStatus = '';
@@ -1827,7 +1834,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     var _thumbnail = '<button type="button" class="btn btn-default btn-block btn-sm btn-xs edit-thumbs" onclick="avideoModalIframe(webSiteRootURL +\'view/managerVideosLight.php?image=1&videos_id=' + row.id + '\')"   data-toggle="tooltip" title="<?php echo __('Custom Thumbnail'); ?>"><i class="far fa-image"></i> <?php echo __('Custom Thumbnail'); ?></button>';
                     var _download = '';
                     if (downloadhighest) {
-                        _download = '<a href=' + downloadhighest + ' class="btn btn-default btn-block downloadhigest" data-toggle="tooltip" title="<?php echo __('Download'); ?>"><i class="fas fa-download"></i> <?php echo __('Download'); ?></a>';
+                        _download = '<a href=' + downloadhighest + ' class="btn btn-default btn-sm btn-xs  btn-block downloadhigest" data-toggle="tooltip" title="<?php echo __('Download'); ?>"><i class="fas fa-download"></i> <?php echo __('Download'); ?></a>';
                     }
 
                     var bigButtons = _edit + _thumbnail + _download;
@@ -2174,15 +2181,15 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             <?php
             if (!empty($_GET['link'])) {
             ?>
-                $('#linkExternalVideo').trigger('click');
+                $('#embedVideoLinkButton').trigger('click');
             <?php
             } elseif (!empty($_GET['article'])) {
             ?>
-                $('#addArticle').trigger('click');
+                $('#addArticleButton').trigger('click');
             <?php
             } elseif (!empty($_GET['upload'])) {
             ?>
-                $('#uploadMp4').trigger('click');
+                $('#uploadMp4Button').trigger('click');
             <?php
             }
             ?>
