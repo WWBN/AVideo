@@ -82,8 +82,11 @@ if(!BulkEmbed::canBulkEmbed()){
         
         // Set the original video date if available in the form data
         if (!empty($value['date']) && $objo->useOriginalYoutubeDate) {
+            //_error_log("Do save original date");
             $global['allowModifyCreated'] = 1;
             $videos->setCreated($value['date']); // Set the original creation date of the video
+        }else{
+            //_error_log("Do not save original date");
         }
 
         $poster = Video::getPathToFile("{$paths['filename']}.jpg");

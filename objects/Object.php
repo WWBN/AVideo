@@ -356,7 +356,7 @@ abstract class ObjectYPT implements ObjectInterface
             foreach ($fieldsName as $value) {
                 if (is_string($value) && (strtolower($value) == 'created' || strtolower($value) == 'modified')) {
                     if (strtolower($value) == 'created') {
-                        if (empty($this->created) || (!User::isAdmin() && !isCommandLineInterface())) {
+                        if (empty($this->created) || (!User::isAdmin() && !isCommandLineInterface() && empty($global['allowModifyCreated']))) {
                             $fields[] = " now() ";
                         } else {
                             $this->created = preg_replace('/[^0-9: \/-]/', '', $this->created);
@@ -399,7 +399,7 @@ abstract class ObjectYPT implements ObjectInterface
             $sql .= " VALUES (" . implode(", ", $fields) . ")";
         }
         //error_log("save: $sql [$formats]".json_encode($values));
-        //var_dump(static::getTableName(), $sql, $values);
+        //var_dump(static::getTableName(), $sql, $values);exit;
         //if(static::getTableName() == 'videos'){ echo $sql;var_dump($values); var_dump(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));}//return false;
         //echo $sql;var_dump($this, $values, $global['mysqli']->error);exit;
         $global['lastQuery'] = array('sql'=>$sql, 'formats'=>$formats, 'values'=>$values );

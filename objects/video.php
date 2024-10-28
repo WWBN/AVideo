@@ -231,6 +231,7 @@ if (!class_exists('Video')) {
         public function setCreated($created): void
         {
             $this->created = convertToMySQLDate($created);
+            _error_log("created date set from {$created} to {$this->created}");
         }
 
         function getUsers_id_company(): int
