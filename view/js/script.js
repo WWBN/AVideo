@@ -4057,6 +4057,15 @@ function addCloseButtonInPage() {
     }
 }
 
+function closeFullScreenOrHistoryBack(){
+    if (window.self !== window.top) {
+        window.parent.postMessage('closeFullscreen', '*');
+    } else {
+        console.log('close history.back');
+        window.history.back();
+    }
+}
+
 function addCloseButton(elementToAppend) {
     // If either function exists, add a close button inside videojs
     if (window.self !== window.top) {
@@ -4069,12 +4078,7 @@ function addCloseButton(elementToAppend) {
         closeButton.html('<i class="fas fa-times"></i>');
         // Add event listener
         closeButton.on('click', function () {
-            if (window.self !== window.top) {
-                window.parent.postMessage('closeFullscreen', '*');
-            } else {
-                console.log('close history.back');
-                window.history.back();
-            }
+            closeFullScreenOrHistoryBack();
         });
         // Append the close button to the Video.js player
         elementToAppend.append(closeButton);
