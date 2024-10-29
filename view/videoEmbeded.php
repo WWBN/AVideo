@@ -547,7 +547,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         var topInfoTimeout;
 
         $(document).ready(function() {
-            addCloseButtonInVideo();
+            addCloseButtonInVideo(<?php echo json_encode(!empty($_REQUEST['forceCloseButton'])); ?>);
             $("iframe").mouseout(function(e) {
                 topInfoTimeout = setTimeout(function() {
                     $('#mainVideo').removeClass("vjs-user-active");

@@ -4031,15 +4031,15 @@ function openFullscreenVideo(url, urlBar) {
     fullscreenIframe.appendTo('body');
 }
 
-function addCloseButtonInVideo() {
+function addCloseButtonInVideo(forceButton = false) {
     try {
         // If either function exists, add a close button inside videojs
-        if (window.self !== window.top) {
+        if (window.self !== window.top || forceButton) {
             if (typeof player !== 'object') {
-                setTimeout(function () { addCloseButtonInVideo(); }, 2000);
+                setTimeout(function () { addCloseButtonInVideo(forceButton); }, 2000);
                 return false;
             }
-            addCloseButton($(player.el()));
+            addCloseButton($(player.el()), forceButton);
         }
     } catch (error) {
 
@@ -4066,9 +4066,9 @@ function closeFullScreenOrHistoryBack(){
     }
 }
 
-function addCloseButton(elementToAppend) {
+function addCloseButton(elementToAppend, forceButton = false) {
     // If either function exists, add a close button inside videojs
-    if (window.self !== window.top) {
+    if (window.self !== window.top || forceButton) {
         var closeButton = $('<button>', {
             'id': 'CloseButtonInVideo',
         });
