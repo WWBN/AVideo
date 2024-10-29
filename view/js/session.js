@@ -6,8 +6,7 @@ function loadPHPSessionID() {
     fetch(webSiteRootURL + 'objects/phpsessionid.json.php', {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-cache'
+            'Content-Type': 'application/json'
         }
     })
         .then(response => response.json())
