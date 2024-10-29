@@ -88,7 +88,7 @@ function secureAVideoFolder($folderPath = '/var/www/html/AVideo/videos')
             $updateHtaccess = true;
             _error_log(".htaccess version mismatch $version. Updating to version $htaccessVersion.\n");
         } else {
-            _error_log(".htaccess file is already up-to-date.\n");
+            //_error_log(".htaccess file is already up-to-date.\n");
         }
     } else {
         $updateHtaccess = true;
@@ -109,7 +109,7 @@ function secureAVideoFolder($folderPath = '/var/www/html/AVideo/videos')
     shell_exec("find $folderPath -type f -exec chmod 644 {} +");
     shell_exec("find $folderPath -type d -exec chmod 755 {} +");
 
-    _error_log("Folder and subfolders are now secure.\n");
+    //_error_log("Folder and subfolders are now secure.\n");
     return true;
 }
 
