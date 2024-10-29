@@ -3148,12 +3148,13 @@ function decryptString($string)
     return encrypt_decrypt($string, 'decrypt');
 }
 
-function getToken($timeout = 0, $salt = "")
+function getToken($timeout = 0, $salt = "", $videos_id = 0)
 {
     global $global;
     $obj = new stdClass();
     $obj->salt = $global['salt'] . $salt;
     $obj->timezone = date_default_timezone_get();
+    $obj->videos_id = $videos_id;
 
     if (!empty($timeout)) {
         $obj->time = time();
@@ -3186,6 +3187,11 @@ function verifyToken($token, $salt = "")
         _error_log("verifyToken salt fail");
         return false;
     }
+    if(!empty($obj->videos_id) && $obj->videos_id != getVideos_id()){
+        _error_log("This is not to this videos ID");
+        return false;
+    }
+
     $old_timezone = date_default_timezone_get();
     date_default_timezone_set($obj->timezone);
     $time = time();
