@@ -3892,7 +3892,7 @@ async function sendAVideoMobileMessage(type, value) {
                     console.log('sendAVideoMobileMessage executed', name, response, type, value);
                     break;
                 } else {
-                    console.log('sendAVideoMobileMessage not found', name, type, value);
+                    //console.log('sendAVideoMobileMessage not found', name, type, value);
                 }
             }
         } else {
