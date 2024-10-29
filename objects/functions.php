@@ -2542,6 +2542,7 @@ function allowOrigin()
 {
     global $global;
     cleanUpAccessControlHeader();
+
     $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? @$_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
     if (empty($HTTP_ORIGIN)) {
         $server = parse_url($global['webSiteRootURL']);
@@ -2549,12 +2550,21 @@ function allowOrigin()
     } else {
         header("Access-Control-Allow-Origin: " . $HTTP_ORIGIN);
     }
+
+    // Allow access from private networks, if needed
     header('Access-Control-Allow-Private-Network: true');
-    header('Access-Control-Request-Private-Network: true');
-    //header("Access-Control-Allow-Credentials: true");
-    header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT");
-    header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+
+    // Allow credentials (cookies, authorization headers, etc.) if needed
+    // Uncomment if required
+    // header("Access-Control-Allow-Credentials: true");
+
+    // Specify allowed methods
+    header("Access-Control-Allow-Methods: GET, HEAD, OPTIONS, POST, PUT");
+
+    // Specify allowed headers, including cache-control
+    header("Access-Control-Allow-Headers: Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, cache-control");
 }
+
 
 function cleanUpAccessControlHeader()
 {
