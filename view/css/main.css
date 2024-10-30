@@ -919,7 +919,7 @@ img.blur {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6); /* Stronger shadow on hover */
 }
 
-#CloseButtonInVideo {
+body.rtl #CloseButtonInVideo {
     right: auto;
     left: 30px;
     top: 30px;

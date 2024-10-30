@@ -554,6 +554,13 @@ if (User::hasBlockedUser($video['users_id'])) {
                 }, 500);
             });
             <?php
+            if (!empty($_REQUEST['closeOnEnd']))  {
+            ?>
+                player.on('ended', function() {
+                    $('#CloseButtonInVideo').trigger('click');
+                });
+            <?php
+            }
             if ($hideProgressBarAndUnPause) {
             ?>
                 player.on('pause', function() {
