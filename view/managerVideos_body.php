@@ -273,6 +273,7 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
                 <?php if ($advancedCustom->videosManegerBulkActionButtons) {
+                    $categories = Category::getAllCategories(true); 
                     if (!empty($categories)) {
                         if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canAdminVideos()) { ?>
                             <div class="btn-group" id="categoriesBtnGroup">
