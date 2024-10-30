@@ -15,23 +15,23 @@ AVideo is a versatile and advanced video streaming platform tailored for individ
 
 ## 🌟 Key Features of AVideo
 
-1. **🎥 Video Playback and Management**: Experience top-tier video playback with AVideo, supporting self-hosted multiresolution videos for optimal viewing across devices. Enhance your content with [subtitles](https://github.com/WWBN/AVideo/wiki/Video-Transcription-for-the-SubtitleSwitcher-Plugin) and [AI-driven transcription](https://github.com/WWBN/AVideo/wiki/AI-Plugin) for increased engagement and accessibility. [Learn More](https://github.com/WWBN/AVideo/wiki/About-Video-Upload#3-embed-a-video-link).
+1. **🔒 Advanced Security & Content Protection**: Safeguard your video content with AVideo’s [encrypted HLS streaming](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin), protecting both on-demand and live streams. Encryption keys are securely managed to ensure only authorized players can access your content, offering a strong defense against unauthorized access.
 
-2. **💰 Monetization Options**: Tap into new revenue streams with AVideo's versatile [subscription models](https://github.com/WWBN/AVideo/wiki/Subscription-Plugin) and [Pay-Per-View (PPV) plans](https://github.com/WWBN/AVideo/wiki/PayPerView-Plugin). Maximize the earning potential of your video content. [Learn More](https://github.com/WWBN/AVideo/wiki/Monetization:-How-To-Make-Money-on-AVideo-Platform).
+2. **📡 Secure Livestreaming with Recording**: Host live events with confidence using AVideo’s [secure livestreaming](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream) capabilities, backed by encrypted HLS protection. Engage viewers in real-time, record live streams for future access, and enhance interaction through integrated [chat features](https://github.com/WWBN/AVideo/wiki/Chat2-Plugin) for a more immersive experience.
 
-3. **📡 Livestreaming and Interaction**: Engage your audience with AVideo's [live streaming](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream) capabilities. Record live sessions for later access and foster interaction with an integrated [chat feature](https://github.com/WWBN/AVideo/wiki/Chat2-Plugin).
+3. **🔄 Restreaming & Multi-Platform Broadcasting**: Extend your livestream’s reach by rebroadcasting content across multiple platforms simultaneously. [Restreaming capabilities](https://github.com/WWBN/AVideo/wiki/Live-Plugin#restream) make it easy to connect with audiences wherever they are.
 
-4. **👥 User Channels and Playlists**: Enable users to create their own channels and playlists, encouraging organized and thematic content curation. [Learn More](https://github.com/WWBN/AVideo/wiki/Program-(Playlist)-to-series).
+4. **📋 User-Generated Channels & Playlists**: Empower users to create custom channels and playlists, helping organize and promote thematic content curation. Boost engagement and community-building by letting viewers personalize their viewing experience.
 
-5. **🔄 Content Rebroadcasting**: Widen your audience with the [rebroadcasting](https://github.com/WWBN/AVideo/wiki/Rebroadcaster-Plugin) of VOD content and playlists, ensuring accessibility at any time.
+5. **💰 Monetization Options**: Maximize revenue with AVideo’s flexible [subscription](https://github.com/WWBN/AVideo/wiki/Subscription-Plugin) and [Pay-Per-View](https://github.com/WWBN/AVideo/wiki/PayPerView-Plugin) options. Expand monetization opportunities, allowing users to support premium content and exclusive live events.
 
-6. **📢 Advertising and Promotion**: Craft bespoke [video ads](https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin) from your content or use [VAST video ads](https://github.com/WWBN/AVideo/wiki/Plugin:-GoogleAds_IMA---Videos-Ads-on-your-page) for extended reach.
+6. **📢 Ad Integration & Promotion**: Increase revenue with targeted [video ad placements](https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin) and support for [VAST and VMAP ads](https://github.com/WWBN/AVideo/wiki/Plugin:-GoogleAds_IMA---Videos-Ads-on-your-page), enhancing your platform's profitability and reach.
 
-7. **🔗 Third-Party App Integration**: Augment your platform's capabilities with AVideo's [API](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API) for developing connected third-party applications.
+7. **☁️ Scalable Cloud Storage**: Rely on secure and scalable storage solutions with options like S3, B2, FTP, and more, ensuring seamless video delivery even during high traffic peaks. [Learn More](https://github.com/WWBN/AVideo/wiki/Storage-Options).
 
-8. **☁️ Remote Video Storage**: Ensure secure and scalable video storage solutions with cloud services like S3, B2, FTP, and more. [Learn More](https://github.com/WWBN/AVideo/wiki/Storage-Options).
+8. **🔗 Third-Party Integration & API**: Extend platform capabilities by connecting third-party apps with AVideo’s [API](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API), offering flexibility for tailored integrations and custom development.
 
-9. **🔒 Video Protection and Offline Viewing**: Protect your content with [HLS encryption](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin) and provide [offline video saving](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin) options for convenience. [Learn More](#).
+9. **📥 Offline Viewing & Secure Downloads**: Allow viewers to download and watch videos offline with AVideo’s [offline video saving](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin) feature, while maintaining strict [content protection](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin#download-protection) to prevent unauthorized distribution. 
 
 ## Your Comprehensive Video Streaming Solution
 
