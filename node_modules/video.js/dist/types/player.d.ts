@@ -482,7 +482,8 @@ declare class Player extends Component {
      */
     private handleTechClick_;
     /**
-     * Handle a double-click on the media element to enter/exit fullscreen
+     * Handle a double-click on the media element to enter/exit fullscreen,
+     * or exit documentPictureInPicture mode
      *
      * @param {Event} event
      *        the event that caused this function to trigger
@@ -1137,6 +1138,29 @@ declare class Player extends Component {
      * @private
      */
     private src_;
+    /**
+     * Add a <source> element to the <video> element.
+     *
+     * @param {string} srcUrl
+     *        The URL of the video source.
+     *
+     * @param {string} [mimeType]
+     *        The MIME type of the video source. Optional but recommended.
+     *
+     * @return {boolean}
+     *         Returns true if the source element was successfully added, false otherwise.
+     */
+    addSourceElement(srcUrl: string, mimeType?: string): boolean;
+    /**
+     * Remove a <source> element from the <video> element by its URL.
+     *
+     * @param {string} srcUrl
+     *        The URL of the source to remove.
+     *
+     * @return {boolean}
+     *         Returns true if the source element was successfully removed, false otherwise.
+     */
+    removeSourceElement(srcUrl: string): boolean;
     /**
      * Begin loading the src data.
      */

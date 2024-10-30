@@ -1,11 +1,11 @@
-/*! @name mpd-parser @version 1.3.0 @license Apache-2.0 */
+/*! @name mpd-parser @version 1.3.1 @license Apache-2.0 */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@xmldom/xmldom')) :
   typeof define === 'function' && define.amd ? define(['exports', '@xmldom/xmldom'], factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.mpdParser = {}, global.window));
 }(this, (function (exports, xmldom) { 'use strict';
 
-  var version = "1.3.0";
+  var version = "1.3.1";
 
   const isObject = obj => {
     return !!obj && typeof obj === 'object';
@@ -1203,10 +1203,11 @@
   const organizeVttPlaylists = (playlists, sidxMapping = {}) => {
     return playlists.reduce((a, playlist) => {
       const label = playlist.attributes.label || playlist.attributes.lang || 'text';
+      const language = playlist.attributes.lang || 'und';
 
       if (!a[label]) {
         a[label] = {
-          language: label,
+          language,
           default: false,
           autoselect: false,
           playlists: [],

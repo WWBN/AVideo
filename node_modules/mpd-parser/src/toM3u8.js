@@ -246,10 +246,11 @@ export const organizeAudioPlaylists = (playlists, sidxMapping = {}, isAudioOnly 
 export const organizeVttPlaylists = (playlists, sidxMapping = {}) => {
   return playlists.reduce((a, playlist) => {
     const label = playlist.attributes.label || playlist.attributes.lang || 'text';
+    const language = playlist.attributes.lang || 'und';
 
     if (!a[label]) {
       a[label] = {
-        language: label,
+        language,
         default: false,
         autoselect: false,
         playlists: [],

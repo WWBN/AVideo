@@ -60,9 +60,9 @@ class PlayerSkins extends PluginAbstract
         $obj->showSocialShareOnEmbed = true;
         $obj->showLoopButton = true;
         $obj->showPictureInPicture = true;
-        
+
         $o = new stdClass();
-        $o->type = array(0=>'Show In all devices', 1=>'Show In Mobile Only', 2=>'Show In Desktop Only');
+        $o->type = array(0 => 'Show In all devices', 1 => 'Show In Mobile Only', 2 => 'Show In Desktop Only');
         $o->value = 0;
         $obj->showFullscreenToggle = $o;
 
@@ -92,6 +92,9 @@ class PlayerSkins extends PluginAbstract
         $obj->hideButtonFromPlayerIfIsSmallAutoplay = true;
 
         $obj->autoGenerateAndCacheEPG = false;
+
+        $obj->chromeCast = false;
+        $obj->airPlay = false;
 
         return $obj;
     }
@@ -268,7 +271,7 @@ class PlayerSkins extends PluginAbstract
             $js .= "<script>var isLive = true;</script>";
         }
         if (isVideo() || !empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
-            
+
             if (self::showSkipIntro()) {
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/skipIntro.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
@@ -314,7 +317,7 @@ class PlayerSkins extends PluginAbstract
                 $css .= "{display: none !important;}";
                 $css .= "} </style>";
             }
-            if (self::includeFullscreenBlock()) { 
+            if (self::includeFullscreenBlock()) {
                 $css .= "<style>";
                 $css .= ".video-js .vjs-fullscreen-control {display: none;}";
                 $css .= "</style>";
@@ -325,25 +328,25 @@ class PlayerSkins extends PluginAbstract
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"
                     . ".player-logo{
-  outline: none;
-  filter: grayscale(100%);
-  width:100px !important;
-}
-.player-logo:hover{
-  filter: none;
-  -webkit-filter: drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.5));
-  filter: drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.5));
-}
-.player-logo:before {
-    display: inline-block;
-    content: url({$logo});
-    transform: scale({$obj->showLogoAdjustScale});
-  position: relative;
-  left:{$obj->showLogoAdjustLeft};
-  top:{$obj->showLogoAdjustTop};
-    
-}"
-                    . "</style>";
+                            outline: none;
+                            filter: grayscale(100%);
+                            width:100px !important;
+                            }
+                            .player-logo:hover{
+                            filter: none;
+                            -webkit-filter: drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.5));
+                            filter: drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.5));
+                            }
+                            .player-logo:before {
+                                display: inline-block;
+                                content: url({$logo});
+                                transform: scale({$obj->showLogoAdjustScale});
+                            position: relative;
+                            left:{$obj->showLogoAdjustLeft};
+                            top:{$obj->showLogoAdjustTop};
+                                
+                            }
+                        </style>";
             }
 
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
@@ -361,6 +364,41 @@ class PlayerSkins extends PluginAbstract
         $url = urlencode(getSelfURI());
         $oembed = '<link href="' . getCDN() . 'oembed/?format=json&url=' . $url . '" rel="alternate" type="application/json+oembed" />';
         $oembed .= '<link href="' . getCDN() . 'oembed/?format=xml&url=' . $url . '" rel="alternate" type="application/xml+oembed" />';
+
+
+        $plugins = new stdClass();
+        $onPlayerReady = '';
+        $getDataSetup = ', controls: true';
+        $addStartPlayerJS = false;
+
+        if ($obj->chromeCast) {
+            if (isVideoOrAudioNotEmbed()) {
+                $css .= '<link href="' . getURL('node_modules/@silvermine/videojs-chromecast/dist/silvermine-videojs-chromecast.css') . '" rel="stylesheet" type="text/css"/>';
+                $css .= "<style>.vjs-chromecast-button .vjs-icon-placeholder {width: 20px;height: 20px;}</style>";
+                $js .= '<script>window.SILVERMINE_VIDEOJS_CHROMECAST_CONFIG = {preloadWebComponents: true};</script>';
+                $js .= '<script src="' . getURL('node_modules/@silvermine/videojs-chromecast/dist/silvermine-videojs-chromecast.min.js') . '"></script>';
+                $js .= '<script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" type="text/javascript"></script>';
+                $onPlayerReady .= 'player.chromecast();player.on(\'play\', function () {player.chromecast();});';
+                $getDataSetup .= ", techOrder: ['chromecast', 'html5'] ";
+                $plugins->chromecast = new stdClass();
+                $addStartPlayerJS = true;
+            }
+        }
+
+        if ($obj->airPlay) {
+            if (isVideoOrAudioNotEmbed()) {
+                $css .= '<link href="' . getURL('node_modules/@silvermine/videojs-airplay/dist/silvermine-videojs-airplay.css') . '" rel="stylesheet" type="text/css"/>';
+                $js .= '<script src="' . getURL('node_modules/@silvermine/videojs-airplay/dist/silvermine-videojs-airplay.min.js') . '"></script>';
+                $plugins->airPlay = new stdClass();
+                $plugins->airPlay->addButtonToControlBar = true;
+                $addStartPlayerJS = true;
+            }
+        }
+
+        if ($addStartPlayerJS) {
+            //var_dump($onPlayerReady, $getDataSetup . ", plugins: " . json_encode($plugins));exit;
+            echo '<script>'.PlayerSkins::getStartPlayerJS($onPlayerReady, $getDataSetup . ", plugins: " . json_encode($plugins)).'</script>';
+        }
 
         return $js . $css . $oembed;
     }
@@ -385,12 +423,13 @@ class PlayerSkins extends PluginAbstract
          */
     }
 
-    static function showSkipIntro(){
+    static function showSkipIntro()
+    {
         $videos_id = getVideos_id();
         $video = Video::getVideoLight($videos_id);
         $video['externalOptions'] = _json_decode($video['externalOptions']);
 
-        if(!empty($video['externalOptions']->videoSkipIntroSecond)){
+        if (!empty($video['externalOptions']->videoSkipIntroSecond)) {
             return parseDurationToSeconds($video['externalOptions']->videoSkipIntroSecond);
         }
         return 0;
@@ -427,7 +466,7 @@ class PlayerSkins extends PluginAbstract
             if ($obj->showPictureInPicture) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/pipButton.js"));
             }
-            if (self::includeFullscreenBlock()) { 
+            if (self::includeFullscreenBlock()) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/fullscrenCheck.js"));
             }
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
@@ -496,17 +535,18 @@ class PlayerSkins extends PluginAbstract
         if (self::$hasMarks) {
             $js .= '<link href="' . getURL('plugin/AD_Server/videojs-markers/videojs.markers.css') . '" rel="stylesheet" type="text/css"/>';
             $js .= '<script src="' . getURL('plugin/AD_Server/videojs-markers/videojs-markers.js') . '"></script>';
-        }
+        }        
 
         return $js;
     }
 
-    static function includeFullscreenBlock(){
+    static function includeFullscreenBlock()
+    {
         //$o->type = array(0=>'Show In all devices', 1=>'Show In Mobile Only', 2=>'Show In Desktop Only');
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         //var_dump($obj->showFullscreenToggle->value);exit;
         if (!empty($obj->showFullscreenToggle->value)) {
-            if (($obj->showFullscreenToggle->value==1 && !isMobile()) || $obj->showFullscreenToggle->value==2) {
+            if (($obj->showFullscreenToggle->value == 1 && !isMobile()) || $obj->showFullscreenToggle->value == 2) {
                 return true;
             }
         }
@@ -540,7 +580,7 @@ class PlayerSkins extends PluginAbstract
         if (!$obj->showPictureInPicture) {
             $controlBar[] = 'pictureInPictureToggle: false';
         }
-        if (self::includeFullscreenBlock()) {            
+        if (self::includeFullscreenBlock()) {
             //$controlBar[] = "fullscreenToggle: false";
         }
         if (!empty($controlBar)) {
@@ -604,7 +644,7 @@ class PlayerSkins extends PluginAbstract
             $js .= "var _adTagUrl = '{$IMAADTag}'; var player; ";
             $js .= "var startEvent = 'click';";
         }
-        $js .= PHP_EOL." $(document).ready(function () { ".PHP_EOL;
+        $js .= PHP_EOL . " $(document).ready(function () { " . PHP_EOL;
         $js .= "originalVideo = $('#mainVideo').clone();
         if (typeof player === 'undefined' && $('#mainVideo').length) {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");";

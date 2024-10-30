@@ -1,3 +1,10 @@
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/videojs/mpd-parser/compare/v1.3.0...v1.3.1) (2024-10-09)
+
+### Bug Fixes
+
+* ensure vtt tracks language is set correctly ([#181](https://github.com/videojs/mpd-parser/issues/181)) ([b48d2a5](https://github.com/videojs/mpd-parser/commit/b48d2a5))
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/videojs/mpd-parser/compare/v1.2.2...v1.3.0) (2023-12-08)
 

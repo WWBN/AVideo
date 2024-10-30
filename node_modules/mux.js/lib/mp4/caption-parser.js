@@ -13,9 +13,8 @@ var discardEmulationPreventionBytes = require('../tools/caption-packet-parser').
 var CaptionStream = require('../m2ts/caption-stream').CaptionStream;
 var findBox = require('../mp4/find-box.js');
 var parseTfdt = require('../tools/parse-tfdt.js');
-var parseTrun = require('../tools/parse-trun.js');
 var parseTfhd = require('../tools/parse-tfhd.js');
-var window = require('global/window');
+var { getMdatTrafPairs, parseSamples } = require('./samples.js');
 
 /**
   * Maps an offset in the mdat to a sample based on the the size of the samples.
@@ -119,62 +118,6 @@ var findSeiNals = function(avcStream, samples, trackId) {
 };
 
 /**
-  * Parses sample information out of Track Run Boxes and calculates
-  * the absolute presentation and decode timestamps of each sample.
-  *
-  * @param {Array<Uint8Array>} truns - The Trun Run boxes to be parsed
-  * @param {Number|BigInt} baseMediaDecodeTime - base media decode time from tfdt
-      @see ISO-BMFF-12/2015, Section 8.8.12
-  * @param {Object} tfhd - The parsed Track Fragment Header
-  *   @see inspect.parseTfhd
-  * @return {Object[]} the parsed samples
-  *
-  * @see ISO-BMFF-12/2015, Section 8.8.8
- **/
-var parseSamples = function(truns, baseMediaDecodeTime, tfhd) {
-  var currentDts = baseMediaDecodeTime;
-  var defaultSampleDuration = tfhd.defaultSampleDuration || 0;
-  var defaultSampleSize = tfhd.defaultSampleSize || 0;
-  var trackId = tfhd.trackId;
-  var allSamples = [];
-
-  truns.forEach(function(trun) {
-    // Note: We currently do not parse the sample table as well
-    // as the trun. It's possible some sources will require this.
-    // moov > trak > mdia > minf > stbl
-    var trackRun = parseTrun(trun);
-    var samples = trackRun.samples;
-
-    samples.forEach(function(sample) {
-      if (sample.duration === undefined) {
-        sample.duration = defaultSampleDuration;
-      }
-      if (sample.size === undefined) {
-        sample.size = defaultSampleSize;
-      }
-      sample.trackId = trackId;
-      sample.dts = currentDts;
-      if (sample.compositionTimeOffset === undefined) {
-        sample.compositionTimeOffset = 0;
-      }
-
-      if (typeof currentDts === 'bigint') {
-        sample.pts = currentDts + window.BigInt(sample.compositionTimeOffset);
-        currentDts += window.BigInt(sample.duration);
-
-      } else {
-        sample.pts = currentDts + sample.compositionTimeOffset;
-        currentDts += sample.duration;
-      }
-    });
-
-    allSamples = allSamples.concat(samples);
-  });
-
-  return allSamples;
-};
-
-/**
   * Parses out caption nals from an FMP4 segment's video tracks.
   *
   * @param {Uint8Array} segment - The bytes of a single segment
@@ -183,21 +126,8 @@ var parseSamples = function(truns, baseMediaDecodeTime, tfhd) {
   *   a list of seiNals found in that track
  **/
 var parseCaptionNals = function(segment, videoTrackId) {
-  // To get the samples
-  var trafs = findBox(segment, ['moof', 'traf']);
-  // To get SEI NAL units
-  var mdats = findBox(segment, ['mdat']);
   var captionNals = {};
-  var mdatTrafPairs = [];
-
-  // Pair up each traf with a mdat as moofs and mdats are in pairs
-  mdats.forEach(function(mdat, index) {
-    var matchingTraf = trafs[index];
-    mdatTrafPairs.push({
-      mdat: mdat,
-      traf: matchingTraf
-    });
-  });
+  var mdatTrafPairs = getMdatTrafPairs(segment);
 
   mdatTrafPairs.forEach(function(pair) {
     var mdat = pair.mdat;

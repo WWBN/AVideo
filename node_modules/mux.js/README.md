@@ -125,6 +125,12 @@ Set to `true` to remux audio and video into a single MP4 segment.
 
 This module reads CEA-608 captions out of FMP4 segments.
 
+#### WebVTTParser
+
+`muxjs.mp4.WebVTTParser`
+
+This module reads WebVTT text out of FMP4 segments.
+
 #### Tools
 
 `muxjs.mp4.tools`

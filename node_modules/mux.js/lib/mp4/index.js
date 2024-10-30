@@ -10,5 +10,6 @@ module.exports = {
   Transmuxer: require('./transmuxer').Transmuxer,
   AudioSegmentStream: require('./transmuxer').AudioSegmentStream,
   VideoSegmentStream: require('./transmuxer').VideoSegmentStream,
-  CaptionParser: require('./caption-parser')
+  CaptionParser: require('./caption-parser'),
+  WebVttParser: require('./webvtt-parser')
 };

@@ -129,7 +129,7 @@ QUnit.test('playlists', function(assert) {
           text: {
             autoselect: false,
             default: false,
-            language: 'text',
+            language: 'und',
             playlists: [{
               attributes: {
                 BANDWIDTH: 20000,
@@ -334,6 +334,22 @@ QUnit.test('playlists with content steering and resolvable URLs', function(asser
         sourceDuration: 0,
         type: 'dyanmic'
       }
+    },
+    {
+      attributes: {
+        bandwidth: 256,
+        baseUrl: 'https://cdn3.example.com/vtt',
+        clientOffset: 0,
+        id: 'fr',
+        label: 'french',
+        lang: 'fr',
+        mimeType: 'text/vtt',
+        periodStart: 0,
+        role: {},
+        serviceLocation: 'beta',
+        sourceDuration: 0,
+        type: 'dyanmic'
+      }
     }
   ];
 
@@ -353,6 +369,45 @@ QUnit.test('playlists with content steering and resolvable URLs', function(asser
       ['CLOSED-CAPTIONS']: {},
       SUBTITLES: {
         subs: {
+          french: {
+            autoselect: false,
+            default: false,
+            language: 'fr',
+            playlists: [
+              {
+                attributes: {
+                  BANDWIDTH: 256,
+                  NAME: 'fr',
+                  ['PROGRAM-ID']: 1,
+                  serviceLocation: 'beta'
+                },
+                discontinuitySequence: 0,
+                discontinuityStarts: [],
+                endList: false,
+                mediaSequence: 0,
+                resolvedUri: 'https://cdn3.example.com/vtt',
+                segments: [
+                  {
+                    duration: 0,
+                    number: 0,
+                    resolvedUri: 'https://cdn3.example.com/vtt',
+                    timeline: 0,
+                    uri: 'https://cdn3.example.com/vtt'
+                  }
+                ],
+                targetDuration: 0,
+                timeline: 0,
+                timelineStarts: [
+                  {
+                    start: 0,
+                    timeline: 0
+                  }
+                ],
+                uri: ''
+              }
+            ],
+            uri: ''
+          },
           en: {
             autoselect: false,
             default: false,
@@ -1060,7 +1115,7 @@ QUnit.test('playlists with segments', function(assert) {
           text: {
             autoselect: false,
             default: false,
-            language: 'text',
+            language: 'und',
             playlists: [{
               attributes: {
                 BANDWIDTH: 20000,
@@ -1893,7 +1948,7 @@ QUnit.test('eventStreams with playlists', function(assert) {
           text: {
             autoselect: false,
             default: false,
-            language: 'text',
+            language: 'und',
             playlists: [{
               attributes: {
                 BANDWIDTH: 20000,

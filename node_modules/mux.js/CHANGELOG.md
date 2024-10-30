@@ -1,3 +1,10 @@
+<a name="7.1.0"></a>
+# [7.1.0](https://github.com/videojs/mux.js/compare/v7.0.3...v7.1.0) (2024-10-11)
+
+### Features
+
+* parse WebVTT from fmp4 segments. ([#445](https://github.com/videojs/mux.js/issues/445)) ([432b036](https://github.com/videojs/mux.js/commit/432b036))
+
 <a name="7.0.3"></a>
 ## [7.0.3](https://github.com/videojs/mux.js/compare/v7.0.2...v7.0.3) (2024-03-12)
 
