@@ -4059,9 +4059,19 @@ function addCloseButtonInPage() {
 
 function closeFullScreenOrHistoryBack(){
     if (window.self !== window.top) {
+        console.log('closeFullScreenOrHistoryBack execute in parent');
         window.parent.postMessage('closeFullscreen', '*');
     } else {
-        console.log('close history.back');
+        if(urlParams.has('originURL64')){
+            var url64 = urlParams.get('originURL64');
+            var url = atob(url64);
+            if(isValidURL(url)){
+                console.log('closeFullScreenOrHistoryBack document.location ', url);
+                document.location = url;
+                return true;
+            }
+        }
+        console.log('closeFullScreenOrHistoryBack close history.back');
         window.history.back();
     }
 }
