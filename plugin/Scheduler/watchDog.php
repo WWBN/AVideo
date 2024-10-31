@@ -102,12 +102,12 @@ function secureAVideoFolder($folderPath = '/var/www/html/AVideo/videos')
     }
 
     // Ensure Apache can read and write to this folder
-    shell_exec("chown -R www-data:www-data $folderPath");
-    shell_exec("chmod -R 755 $folderPath");
+    //shell_exec("chown -R www-data:www-data $folderPath");
+    //shell_exec("chmod -R 755 $folderPath");
 
     // Apply necessary permissions recursively to ensure security and performance
-    shell_exec("find $folderPath -type f -exec chmod 644 {} +");
-    shell_exec("find $folderPath -type d -exec chmod 755 {} +");
+    //shell_exec("find $folderPath -type f -exec chmod 644 {} +");
+    //shell_exec("find $folderPath -type d -exec chmod 755 {} +");
 
     //_error_log("Folder and subfolders are now secure.\n");
     return true;
