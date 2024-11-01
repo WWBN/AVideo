@@ -237,6 +237,10 @@ class AVideoPlugin
         if (self::isDebuging(__FUNCTION__)) {
             return '<!-- AVideoPlugin::' . __FUNCTION__ . ' disabled -->';
         }
+        if(!empty($global['getFooterCodeAdded'])){
+            return '<!-- AVideoPlugin::' . __FUNCTION__ . ' already added -->';
+        }
+        $global['getFooterCodeAdded'] = 1;
         $plugins = Plugin::getAllEnabled();
         $str = "";
         /**
