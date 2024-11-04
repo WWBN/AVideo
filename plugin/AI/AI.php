@@ -108,6 +108,7 @@ class AI extends PluginAbstract
             $domain = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
         }
         self::$isTest = ($domain == "vlu.me");
+        //return self::$url;
         return self::$isTest ? self::$url_test : self::$url;
     }
 

@@ -120,7 +120,7 @@ function getDirSize($dir, $forceNew = false)
 
     _error_log("getDirSize: start {$dir}");
 
-    if (isWindows()) {
+    if (isWindowsServer()) {
         $return = foldersize($dir);
         $_getDirSize[$dir] = $return;
         return $return;
@@ -155,7 +155,7 @@ function rrmdirCommandLine($dir, $async = false)
 {
     if (is_dir($dir)) {
         $dir = escapeshellarg($dir);
-        if (isWindows()) {
+        if (isWindowsServer()) {
             $command = ('rd /s /q ' . $dir);
         } else {
             $command = ('rm -fR ' . $dir);
@@ -347,7 +347,7 @@ function execAsync($command, $keyword = null)
         $keyword = preg_replace('/[^a-zA-Z0-9_-]/', '_', $keyword);
     }
 
-    if (isWindows()) {
+    if (isWindowsServer()) {
         if ($keyword) {
             // Add the keyword as a comment to the command for Windows
             $commandWithKeyword = "start /B cmd /c \"$command & REM $keyword\" > NUL 2>&1";
@@ -464,7 +464,7 @@ function killProcess($pid)
 
     _error_log("killProcess($pid)");
 
-    if (isWindows()) {
+    if (isWindowsServer()) {
         $cmd = "taskkill /F /PID $pid";
     } else {
         $cmd = "kill -9 $pid";

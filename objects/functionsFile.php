@@ -1032,7 +1032,7 @@ function fixPath($path, $addLastSlash = false)
     if (empty($path)) {
         return false;
     }
-    if (isWindows()) {
+    if (isWindowsServer()) {
         $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
         $path = str_replace('\\\\\\', DIRECTORY_SEPARATOR, $path);
     } else {

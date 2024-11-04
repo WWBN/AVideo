@@ -18,7 +18,7 @@ if(empty($_REQUEST['custom'])){
     $dir = "{$global['systemRootPath']}videos/locale/";
     make_path($dir);
 }
-if (!is_writable($dir) && !isWindows()) {
+if (!is_writable($dir) && !isWindowsServer()) {
     $obj->status = 0;
     $obj->error = sprintf(__("Your %s locale dir is not writable"), $global['systemRootPath']);
     die(json_encode($obj));

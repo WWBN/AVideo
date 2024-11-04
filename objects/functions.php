@@ -5225,9 +5225,21 @@ function getCurrentTheme()
     }
 }
 
-function isWindows()
+function isWindowsServer()
 {
     return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+}
+
+function isWindows() {
+    global $global;
+    // Check if the HTTP_USER_AGENT is set
+    if (isset($_SERVER['HTTP_USER_AGENT'])) {
+        // Look for 'Windows' in the user agent string
+        if (stripos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== false) {
+            return true;
+        }
+    }
+    return !empty($global['isWindows']);
 }
 
 function isURL200($url, $forceRecheck = false)
@@ -5854,7 +5866,7 @@ function getSystemTimezone()
         return $_getSystemTimezoneName;
     }
 
-    if (isWindows()) {
+    if (isWindowsServer()) {
         $cmd = 'tzutil /g';
     } else {
         $cmd = 'cat /etc/timezone';
