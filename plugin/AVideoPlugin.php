@@ -3205,6 +3205,27 @@ class AVideoPlugin
         $_useDownloadProtectionReason[] = __LINE__;
         return false;
     }
+
+    public static function decodeAToken()
+    {
+        $atoken = getAToken();
+        if(empty($atoken)){
+            return false;
+        }
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $resp = $p->decodeAToken();
+                if(!empty($resp)){
+                    return $resp;
+                }
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return false;
+    }
 }
 
 class YouPHPTubePlugin extends AVideoPlugin

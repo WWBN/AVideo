@@ -318,3 +318,131 @@ function markDownToHTML($text) {
 
     return $html;
 }
+
+
+
+function getAToken()
+{
+    if (!empty($_SERVER['HTTP_ATOKEN'])) {
+        return $_SERVER['HTTP_ATOKEN'];
+    }
+    if (!empty($_REQUEST['atoken'])) {
+        return $_REQUEST['atoken'];
+    }
+    if (!empty($_REQUEST['token'])) {
+        $string = decryptString($_REQUEST['token']);
+        if (!empty($string)) {
+            $obj = _json_decode($string);
+            if (!empty($obj->atoken)) {
+                return $obj->atoken;
+            }
+        }
+    }    
+    if (preg_match('/atoken=\(([a-z0-9=]+)\)/i', $_SERVER['HTTP_USER_AGENT'], $matches)) {
+        if (!empty($matches[1])) {
+            return $matches[1];
+        }
+    }
+    return '';
+}
+
+
+function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '', $namespace = '', $pageCode = '403 Forbidden')
+{
+    global $global;
+    if (!empty($unlockPassword)) {
+        if (empty($namespace)) {
+            $namespace = $_SERVER["SCRIPT_FILENAME"];
+        }
+        if (!empty($_REQUEST['unlockPassword'])) {
+            if ($_REQUEST['unlockPassword'] == $unlockPassword) {
+                _session_start();
+                if (!isset($_SESSION['user']['forbiddenPage'])) {
+                    $_SESSION['user']['forbiddenPage'] = [];
+                }
+                $_SESSION['user']['forbiddenPage'][$namespace] = $_REQUEST['unlockPassword'];
+            }
+        }
+        if (!empty($_SESSION['user']['forbiddenPage'][$namespace]) && $unlockPassword === $_SESSION['user']['forbiddenPage'][$namespace]) {
+            return true;
+        }
+    }
+    $_REQUEST['403ErrorMsg'] = $message;
+    if ($logMessage) {
+        _error_log($message);
+    }
+
+    header('HTTP/1.0 ' . $pageCode);
+    if (empty($unlockPassword) && isContentTypeJson()) {
+        header("Content-Type: application/json");
+        $obj = new stdClass();
+        $obj->error = true;
+        $obj->msg = $message;
+        $obj->forbiddenPage = true;
+        die(json_encode($obj));
+    } else {
+        if (empty($unlockPassword) && !User::isLogged()) {
+            $message .= ', ' . __('please login');
+            gotToLoginAndComeBackHere($message);
+        } else {
+            header("Content-Type: text/html");
+            include $global['systemRootPath'] . 'view/forbiddenPage.php';
+        }
+    }
+    exit;
+}
+
+function videoNotFound($message, $logMessage = false)
+{
+    //var_dump(debug_backtrace());exit;
+    global $global;
+    $_REQUEST['404ErrorMsg'] = $message;
+    if ($logMessage) {
+        _error_log($message);
+    }
+    include $global['systemRootPath'] . 'view/videoNotFound.php';
+    exit;
+}
+
+function isForbidden()
+{
+    global $global;
+    if (!empty($global['isForbidden'])) {
+        return true;
+    }
+    return false;
+}
+
+function includeSecurityChecks() {
+    $directory = __DIR__.'/../plugin/';
+    // Ensure the directory exists
+    if (!is_dir($directory)) {
+        die("Directory does not exist.");
+    }
+
+    // Scan the plugins directory
+    $subdirs = scandir($directory);
+    
+    // Loop through each item in the plugins directory
+    foreach ($subdirs as $subdir) {
+        // Skip . and .. entries
+        if ($subdir === '.' || $subdir === '..') {
+            continue;
+        }
+        
+        // Create the full path for each subdirectory
+        $subdirPath = $directory . DIRECTORY_SEPARATOR . $subdir;
+        
+        // Check if it is a directory
+        if (is_dir($subdirPath)) {
+            // Path to securityCheck.php in the current subdirectory
+            $securityCheckFile = $subdirPath . DIRECTORY_SEPARATOR . 'securityCheck.php';
+            
+            // Check if securityCheck.php exists in the subdirectory
+            if (file_exists($securityCheckFile)) {
+                // Include the securityCheck.php file
+                include $securityCheckFile;
+            }
+        }
+    }
+}

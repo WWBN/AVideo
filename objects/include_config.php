@@ -27,6 +27,8 @@ if (!empty($doNotIncludeConfig)) {
     require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
     require_once $global['systemRootPath'] . 'objects/functions.php';
     require_once $global['systemRootPath'] . 'objects/images.php';
+
+    includeSecurityChecks();
     return false;
 }
 
@@ -165,6 +167,8 @@ if (empty($doNotStartSessionIncludeConfig)) {
     }
 }
 
+
+includeSecurityChecks();
 includeConfigLog(__LINE__);
 // set the referrer for aVideo
 $url1['host'] = '';

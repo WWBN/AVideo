@@ -930,6 +930,10 @@ abstract class PluginAbstract {
         return '';
     }
 
+    function decodeAToken() {
+        return false;
+    }
+
 }
 
 class PluginPermissionOption {
