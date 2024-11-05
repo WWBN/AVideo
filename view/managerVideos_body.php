@@ -1559,7 +1559,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             editVideo(_editVideo);
         }
 
-        $('#linkExternalVideo').click(function() {
+        $('#embedVideoLinkButton').click(function() {
             newVideoLink();
         });
         $("#checkBtn").click(function() {
