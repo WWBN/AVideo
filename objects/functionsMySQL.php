@@ -385,6 +385,11 @@ function dumpMySQLDatabase($filePath, $extraOptions = [], &$status = [], $bfile 
 
 function updateLockFile($status, $bfile)
 {
+    
+    if(empty($bfile)){
+        return false;
+    }
+    
     // Check if the 'startTime' is already set, if not, set it to the current time
     if (!isset($status['startTime'])) {
         $status['startTime'] = date("Y-m-d H:i:s"); // Set the start time when the process starts
