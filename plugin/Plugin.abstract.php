@@ -934,6 +934,10 @@ abstract class PluginAbstract {
         return false;
     }
 
+    function replacePlaceHolders($string, $videos_id) {
+        return $string;
+    }
+
 }
 
 class PluginPermissionOption {

@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__.'/../videos/configuration.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 if (php_sapi_name() !== 'cli') {
     die('Command Line only');

@@ -3226,6 +3226,20 @@ class AVideoPlugin
         }
         return false;
     }
+
+    public static function replacePlaceHolders($string, $videos_id)
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $string = $p->replacePlaceHolders($string, $videos_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return $string;
+    }
 }
 
 class YouPHPTubePlugin extends AVideoPlugin
