@@ -107,7 +107,7 @@ class VastCampaignsLogs extends ObjectYPT
 
     public function save()
     {
-        _error_log("ADSLOG {$this->type}" . json_encode(array(debug_backtrace(), User::getId(), $_SERVER)));
+        //_error_log("ADSLOG {$this->type}" . json_encode(array(debug_backtrace(), User::getId(), $_SERVER)));
         $this->ip = getRealIpAddr();
         $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
 
