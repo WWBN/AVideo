@@ -67,6 +67,7 @@ sort($referrersTypes);
                                         <optgroup label="<?php echo __('Preset Ranges'); ?>">
                                             <option value="thisWeek"><?php echo __('This Week'); ?></option>
                                             <option value="thisMonth"><?php echo __('This Month'); ?></option>
+                                            <option value="lastMonth"><?php echo __('Last Month'); ?></option>
                                             <option value="last2Months"><?php echo __('Last 2 Months'); ?></option>
                                             <option value="thisYear"><?php echo __('This Year'); ?></option>
                                         </optgroup>
@@ -262,24 +263,47 @@ sort($referrersTypes);
     function jsonToCSV(jsonData) {
         const csvRows = [];
 
-        // Get the headers from the first element of the JSON data
-        const headers = Object.keys(jsonData[0]);
-        csvRows.push(headers.join(',')); // Add headers as the first row in the CSV
+        // Add filter information as the first rows in the CSV
+        const filters = {
+            'Report Type': $('#report-type option:selected').text(),
+            'Date Range': `${$('#start-date').val()} to ${$('#end-date').val()}`,
+            'Event Type': $('#event-type option:selected').text() || 'All Event Types',
+            'Referrer Type': $('#referrer-type option:selected').text() || 'All Referrers',
+            'Campaign Type': $('#campaign-type option:selected').text() || 'All Campaigns'
+        };
 
-        // Loop through the JSON data and convert each row to CSV format
+        // Add each filter as a separate line
+        for (const [key, value] of Object.entries(filters)) {
+            csvRows.push(`${key},${value}`);
+        }
+
+        csvRows.push(''); // Add a blank line for separation
+
+        // Add headers from the first element of the JSON data
+        const headers = Object.keys(jsonData[0]);
+        csvRows.push(headers.join(',')); // Headers row
+
+        // Convert each JSON row to CSV format
         jsonData.forEach(item => {
             const values = headers.map(header => {
-                // Handle undefined or null values
                 const escapeValue = item[header] == null ? '' : item[header].toString().replace(/"/g, '""');
-                return `"${escapeValue}"`; // Add quotes around the value
+                return `"${escapeValue}"`;
             });
-            csvRows.push(values.join(',')); // Add the row to the CSV
+            csvRows.push(values.join(','));
         });
 
-        return csvRows.join('\n'); // Join rows with newlines to form the final CSV string
+        return csvRows.join('\n');
     }
 
-    function downloadCSV(csvContent, filename = 'report.csv') {
+
+    function downloadCSV(csvContent) {
+        // Generate a filename based on the report type and date range
+        const reportType = $('#report-type option:selected').text().replace(/\s+/g, '_');
+        const startDate = $('#start-date').val();
+        const endDate = $('#end-date').val();
+        const filename = `report_${reportType}_${startDate}_to_${endDate}.csv`;
+
+        // Create and trigger the CSV download
         const blob = new Blob([csvContent], {
             type: 'text/csv'
         });
@@ -287,7 +311,6 @@ sort($referrersTypes);
         link.href = URL.createObjectURL(blob);
         link.download = filename;
 
-        // Append the link to the body, trigger the download, and then remove the link
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -420,6 +443,10 @@ sort($referrersTypes);
                 var firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
                 startDate = firstDayOfWeek;
                 endDate = new Date();
+                break;
+            case 'lastMonth':
+                startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of the previous month
                 break;
             case 'last2Months':
                 startDate = new Date(today.getFullYear(), today.getMonth() - 2, 1);
@@ -565,7 +592,7 @@ sort($referrersTypes);
             values.push(item.total_ads);
             videoIds.push(item.videos_id);
 
-            var baseColor = getColorForElement(empty(item.type)?videoLabel.join(''):item.type); // Get consistent color for the element
+            var baseColor = getColorForElement(empty(item.type) ? videoLabel.join('') : item.type); // Get consistent color for the element
             backgroundColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
             borderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
         });
@@ -645,7 +672,7 @@ sort($referrersTypes);
             if (item.total_ads >= maxValue * percentageThreshold) {
                 pieLabels.push(label);
                 pieValues.push(item.total_ads);
-                var baseColor = getColorForElement(empty(item.type)?videoLabel.join(''):item.type); // Get consistent color for the element
+                var baseColor = getColorForElement(empty(item.type) ? videoLabel.join('') : item.type); // Get consistent color for the element
                 pieColors.push(baseColor.replace('1)', '0.5)')); // Set background color to 50% transparent
                 pieBorderColors.push(baseColor.replace('0.5)', '1)')); // Set border color as solid
             } else {

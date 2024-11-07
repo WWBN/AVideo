@@ -55,7 +55,8 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
             $obj->BigVideo = false;
             
             include_once $global['systemRootPath'] . 'view/include/categoryTop.php';
-            ?>         
+            ?>
+            <!-- category.php -->
             <div class="clear clearfix">
                 <h3 class="galleryTitle">
                     <i class="fas fa-plus"></i>

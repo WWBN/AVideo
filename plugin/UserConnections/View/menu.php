@@ -1,4 +1,7 @@
 <?php
+if(!User::isLogged()){
+    return false;
+}
 if (isIframe() || isConfirmationPage() || isEmbed() || !empty($global['connectionAdded'])) {
     return false;
 }
