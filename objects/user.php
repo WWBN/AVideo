@@ -2723,7 +2723,10 @@ if (typeof gtag !== \"function\") {
     public function getChannelName()
     {
         if (empty($this->channelName)) {
-            $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);
+            if(empty($this->user)){
+                return 'Unknow Channel Name';
+            }
+            $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);            
             $this->save();
         }
         return $this->channelName;
@@ -3550,6 +3553,10 @@ if (typeof gtag !== \"function\") {
     {
         global $advancedCustom;
         $u = new User($users_id);
+        if(empty($u->getUser())){
+            echo "<!-- user ID not found {$users_id} -->";
+            return false;
+        }
         $objGallery = AVideoPlugin::getObjectData("Gallery");
         $get = ['channelName' => $u->getChannelName()];
         $current = getCurrentPage();
