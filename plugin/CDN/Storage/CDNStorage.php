@@ -204,8 +204,8 @@ class CDNStorage
         global $global;
         if ($skipDummyFiles && is_string($local_path) && filesize($local_path) < 20) {
             return false;
-        }else if(!is_string($local_path)){
-            echo 'ERROR'.PHP_EOL;
+        } else if (!is_string($local_path)) {
+            echo 'ERROR' . PHP_EOL;
             var_dump($local_path, debug_backtrace());
         }
         if (empty($local_path)) {
@@ -1016,7 +1016,6 @@ class CDNStorage
 
     public static function createDummyFiles($videos_id)
     {
-
         $obj = AVideoPlugin::getObjectData('CDN');
 
         if (!empty($obj->storage_keep_original_files)) {
@@ -1024,8 +1023,8 @@ class CDNStorage
         }
 
         $msg = "createDummyFiles($videos_id) ";
-
         self::addToLog($videos_id, $msg);
+
         global $_getFilesListBoth, $_getFilesListRemote, $_getFilesList_CDNSTORAGE;
         unset($_getFilesListBoth);
         unset($_getFilesListRemote);
@@ -1033,23 +1032,43 @@ class CDNStorage
 
         $list = self::getFilesListBoth($videos_id);
         $filesAffected = 0;
+        $allRemote = true; // Flag to check if all local files are on the remote
+
+        // First pass: Check if all local files have corresponding remote files
         foreach ($list as $key => $value) {
             if (empty($value['local']) || empty($value['local']['local_filesize']) || $value['local']['local_filesize'] <= 20) {
                 continue;
-            } elseif (@$value['local']['local_filesize'] == @$value['remote']['remote_filesize']) {
-                $msg = "createDummyFiles {$value['local']['local_path']} ";
+            } elseif (empty($value['remote']) || $value['local']['local_filesize'] != $value['remote']['remote_filesize']) {
+                // Log the file that is missing or has a size mismatch on the remote
+                $msg = "File not on remote or size mismatch: {$value['local']['local_path']}, Local size: {$value['local']['local_filesize']}, Remote size: " . (!empty($value['remote']['remote_filesize']) ? $value['remote']['remote_filesize'] : 'N/A');
                 self::addToLog($videos_id, $msg);
-                self::createDummy($value['local']['local_path']);
-                $filesAffected++;
+                $allRemote = false; // Set to false if any file does not match
+                break; // Exit the loop if any file is missing on the remote
             }
         }
-        $msg = "createDummyFiles  filesAffected=$filesAffected";
+
+        // Second pass: Create dummy files only if all files are on the remote
+        if ($allRemote) {
+            foreach ($list as $key => $value) {
+                if (!empty($value['local']) && !empty($value['local']['local_filesize']) && $value['local']['local_filesize'] > 20) {
+                    $msg = "createDummyFiles {$value['local']['local_path']} ";
+                    self::addToLog($videos_id, $msg);
+                    self::createDummy($value['local']['local_path']);
+                    $filesAffected++;
+                }
+            }
+        }
+
+        $msg = "createDummyFiles filesAffected=$filesAffected";
         self::addToLog($videos_id, $msg);
+
         if ($filesAffected) {
             Video::clearCache($videos_id);
         }
+
         return $filesAffected;
     }
+
 
     public static function sendSocketNotification($videos_id, $msg)
     {
@@ -1129,21 +1148,21 @@ class CDNStorage
         if (!empty($_getFilesList_CDNSTORAGE[$videos_id])) {
             return $_getFilesList_CDNSTORAGE[$videos_id];
         }
-    
+
         $pz = self::getPZ();
         $files = self::getLocalFolder($videos_id);
         $filesList = [];
         $acumulative = 0;
-    
+
         // Iterate over root files or directories
         foreach ($files as $value) {
             self::processFileOrDirectory($value, $filesList, $acumulative, $pz, $videos_id, $skipDummyFiles);
         }
-    
+
         $_getFilesList_CDNSTORAGE[$videos_id] = $filesList;
         return $filesList;
     }
-    
+
     // Recursive function to process files and directories
     private static function processFileOrDirectory($value, &$filesList, &$acumulative, $pz, $videos_id, $skipDummyFiles)
     {
@@ -1160,7 +1179,7 @@ class CDNStorage
             }
         }
     }
-    
+
 
     public function getAddress($filename)
     {
