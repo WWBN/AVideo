@@ -186,22 +186,24 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                     return false;
                 });
                 addAtMention('#chatInputDonation');
-                $("#chatInputDonation").emojioneArea({
-                    useInternalCDN: false,
-                    placeholder: __("Type your message here"),
-                    events: {
-                        keyup: function(editor, event) {
-                            // catches everything but enter
-                            if (event.which == 13) {
-                                if (!addAtMentionActive) {
-                                    $('#submitChatDonation').trigger('click');
+                if (typeof $("#chatInputDonation").emojioneArea != 'undefined') {
+                    $("#chatInputDonation").emojioneArea({
+                        useInternalCDN: false,
+                        placeholder: __("Type your message here"),
+                        events: {
+                            keyup: function(editor, event) {
+                                // catches everything but enter
+                                if (event.which == 13) {
+                                    if (!addAtMentionActive) {
+                                        $('#submitChatDonation').trigger('click');
+                                    }
+                                } else {
+                                    //alert("Key pressed: " + event.which);
                                 }
-                            } else {
-                                //alert("Key pressed: " + event.which);
                             }
                         }
-                    }
-                });
+                    });
+                }
             });
         </script>
 <?php

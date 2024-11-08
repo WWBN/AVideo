@@ -1258,8 +1258,9 @@ if (typeof gtag !== \"function\") {
         if (!empty($_COOKIE['credentials'])) {
             $string = decryptString($_COOKIE['credentials']);
             $array = json_decode($string);
-            if ($array->ip !== getRealIpAddr()) {
-                _error_log("getUserCookieCredentials ip does not match {$array->ip}");
+            $ipNow = getRealIpAddr();
+            if ($array->ip !== $ipNow) {
+                _error_log("getUserCookieCredentials ip does not match {$array->ip} != $ipNow");
                 return false;
             }
         }
