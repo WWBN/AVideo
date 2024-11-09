@@ -574,7 +574,6 @@ class Scheduler extends PluginAbstract
                 }
             }
         }
-        $this->deleteOldFiles();
     }
 
     function executeEveryDay()
