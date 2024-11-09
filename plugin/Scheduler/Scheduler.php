@@ -21,12 +21,13 @@ class Scheduler extends PluginAbstract
             $desc .= self::getCronHelp();
         }
         $desc .= '<br>';
-        $desc .= getIncludeFileContent($global['systemRootPath'].'plugin/Scheduler/View/activeLabel.php');
+        $desc .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Scheduler/View/activeLabel.php');
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
         return $desc;
     }
 
-    static function getCronHelp(){
+    static function getCronHelp()
+    {
         global $global;
         $desc = "To use the Scheduler Plugin, you MUST add it on your crontab";
         $desc .= "</strong>";
@@ -52,7 +53,7 @@ class Scheduler extends PluginAbstract
     public function getEmptyDataObject()
     {
         $obj = new stdClass();
-        
+
         $obj->watchDogSocket = true;
         $obj->watchDogLiveServer = true;
         $obj->watchDogLiveServerSSL = true;
@@ -61,7 +62,7 @@ class Scheduler extends PluginAbstract
 
         $obj->disableReleaseDate = false;
         self::addDataObjectHelper('disableReleaseDate', 'Disable Release Date');
-        
+
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;
@@ -79,22 +80,23 @@ class Scheduler extends PluginAbstract
          */
         return $obj;
     }
-    
-    static function sendEmails(){
+
+    static function sendEmails()
+    {
         $obj = AVideoPlugin::getDataObjectIfEnabled('Scheduler');
-        if($obj->sendEmails){
+        if ($obj->sendEmails) {
             $messages = Email_to_user::getAllEmailsToSend();
             $total = count($messages);
-            if($total > 0){
-                echo 'Scheduler::sendEmails found '.count($messages).PHP_EOL;
+            if ($total > 0) {
+                echo 'Scheduler::sendEmails found ' . count($messages) . PHP_EOL;
                 foreach ($messages as $value) {
                     $to = explode(',', $value['emails']);
                     // Make sure the emails in $to are unique
                     $to = array_unique($to);
-    
+
                     $subject = $value['subject'];
                     $message = $value['message'];
-                    echo "Scheduler::sendEmails [{$subject}] found emails ".count($to).PHP_EOL;
+                    echo "Scheduler::sendEmails [{$subject}] found emails " . count($to) . PHP_EOL;
                     //var_dump($to);
                     sendSiteEmailAsync($to, $subject, $message);
                     $ids = explode(',', $value['ids']);
@@ -124,25 +126,25 @@ class Scheduler extends PluginAbstract
         $videos_id = $e->getVideos_id();
         if (!empty($videos_id)) { // make it active
             $response = self::releaseVideosNow($videos_id);
-            if(!$response){
+            if (!$response) {
                 _error_log("Scheduler::run error on release video {$videos_id} ");
                 return false;
-            }else{
-                return $e->setExecuted(array('videos_id'=>$videos_id, 'response'=>$response));
+            } else {
+                return $e->setExecuted(array('videos_id' => $videos_id, 'response' => $response));
             }
         }
 
         $type = $e->getType();
         $parameters = $e->getParameters();
-        if($type == 'SocketRestart'){
-            if(AVideoPlugin::isEnabledByName('YPTSocket')){
+        if ($type == 'SocketRestart') {
+            if (AVideoPlugin::isEnabledByName('YPTSocket')) {
                 YPTSocket::restart();
                 $json = _json_decode($parameters);
                 $users_id = $json->users_id;
                 _error_log("Scheduler::SocketRestart users_id={$users_id}");
                 //sleep(5);
                 //YPTSocket::send('Socket restarted', "", $users_id);
-                return $e->setExecuted(array('YPTSocket'=>time()));
+                return $e->setExecuted(array('YPTSocket' => time()));
             }
         }
 
@@ -411,25 +413,28 @@ class Scheduler extends PluginAbstract
 
         //$status = $video->setStatus(Video::$statusActive);
         $status = $video->setStatus($advancedCustom->defaultVideoStatus->value);
-        
+
         return $status;
     }
 
-    private static function convertIfTimezoneIsPassed($releaseDate){
-        if(empty($releaseDate)){
+    private static function convertIfTimezoneIsPassed($releaseDate)
+    {
+        if (empty($releaseDate)) {
             return $releaseDate;
         }
-        if(empty($_REQUEST['timezone'])){
+        if (empty($_REQUEST['timezone'])) {
             return $releaseDate;
         }
         return convertDateFromToTimezone($releaseDate, $_REQUEST['timezone'], date_default_timezone_get());
     }
 
-    public static function saveVideosAddNew($post, $videos_id){
+    public static function saveVideosAddNew($post, $videos_id)
+    {
         return self::addNewVideoToRelease($videos_id, @$post['releaseDate'], @$post['releaseDateTime'], @$post['releaseTime']);
     }
 
-    public function afterNewVideo($videos_id){
+    public function afterNewVideo($videos_id)
+    {
         return self::addNewVideoToRelease($videos_id, @$_REQUEST['releaseDate'], @$_REQUEST['releaseDateTime'], @$_REQUEST['releaseTime']);
     }
 
@@ -437,7 +442,7 @@ class Scheduler extends PluginAbstract
     {
         if (!empty($releaseDate)) {
             if ($releaseDate !== 'now') {
-                if(empty($releaseTime) || !is_numeric($releaseTime)){
+                if (empty($releaseTime) || !is_numeric($releaseTime)) {
                     if ($releaseDate == 'in-1-hour') {
                         $releaseTime = strtotime('+1 hour');
                     } else if (!empty($releaseDateTime)) {
@@ -484,10 +489,10 @@ class Scheduler extends PluginAbstract
     {
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
-        if(empty($externalOptions) || !is_object($externalOptions)){
+        if (empty($externalOptions) || !is_object($externalOptions)) {
             $externalOptions = new stdClass();
         }
-        if(empty($externalOptions->releaseDateTimeZone)){
+        if (empty($externalOptions->releaseDateTimeZone)) {
             return $externalOptions->releaseDateTime;
         }
 
@@ -503,14 +508,14 @@ class Scheduler extends PluginAbstract
     public static function setLastVisit()
     {
         $lastVisitFile = self::getLastVisitFile();
-        if(_file_put_contents($lastVisitFile, time())){
+        if (_file_put_contents($lastVisitFile, time())) {
             @chmod($lastVisitFile, 0777);
             $size = filesize($lastVisitFile);
-            if(empty($size)){
-                _error_log('setLastVisit error on create file '.$lastVisitFile);
+            if (empty($size)) {
+                _error_log('setLastVisit error on create file ' . $lastVisitFile);
             }
-            return array('file'=>$lastVisitFile, 'size'=>$size);
-        }else{
+            return array('file' => $lastVisitFile, 'size' => $size);
+        } else {
             return false;
         }
     }
@@ -535,8 +540,8 @@ class Scheduler extends PluginAbstract
         $TwoMinutes = 120;
         $time = time();
         $result = $lastVisitTime + $TwoMinutes - $time;
-        if($result > 0){
-            return "Last visit time is older then 2 minutes lastVisitTime=$lastVisitTime (".date('H:i:s', $lastVisitTime)."), time=$time (".date('H:i:s', $time).")";
+        if ($result > 0) {
+            return "Last visit time is older then 2 minutes lastVisitTime=$lastVisitTime (" . date('H:i:s', $lastVisitTime) . "), time=$time (" . date('H:i:s', $time) . ")";
         }
 
         return '';
@@ -555,25 +560,83 @@ class Scheduler extends PluginAbstract
         return $result > 0;
     }
 
-    function executeEveryMinute() {
-        $rows = Video::getAllVideosLight(Video::$statusScheduledReleaseDate);        
+    function executeEveryMinute()
+    {
+        $rows = Video::getAllVideosLight(Video::$statusScheduledReleaseDate);
         foreach ($rows as $key => $value) {
             $releaseDate = self::getReleaseDateTime($value['id']);
-            if(empty($releaseDate) || strtotime($releaseDate) <= time()){
+            if (empty($releaseDate) || strtotime($releaseDate) <= time()) {
                 $response = self::releaseVideosNow($value['id']);
-                if(!$response){
+                if (!$response) {
                     _error_log("Scheduler::run error on release video {$value['id']} ");
-                }else{
+                } else {
                     _error_log("Scheduler::run release video {$value['id']} ");
                 }
             }
-        }        
+        }
     }
 
-    function executeEveryDay() {
+    function executeEveryDay()
+    {
         $obj = AVideoPlugin::getDataObject('Scheduler');
-        if(!empty($obj->deleteOldUselessVideos)){
+        if (!empty($obj->deleteOldUselessVideos)) {
             Video::deleteUselessOldVideos(30);
         }
+
+        // Run the function to delete files older than 7 days from /var/www/tmp
+        $this->deleteOldFiles();
+    }
+
+
+
+    function deleteOldFiles($directory = '/var/www/tmp', $days = 7)
+    {
+        // Check if the directory exists
+        if (!is_dir($directory)) {
+            _error_log("Directory does not exist: $directory");
+            return false;
+        }
+
+        // Get current time
+        $now = time();
+
+        // Define the time limit in seconds (days * 24 * 60 * 60)
+        $timeLimit = $days * 24 * 60 * 60;
+
+        // Open the directory
+        if ($handle = opendir($directory)) {
+            // Loop through each file in the directory
+            while (false !== ($file = readdir($handle))) {
+                // Skip "." and ".."
+                if ($file === '.' || $file === '..') {
+                    continue;
+                }
+
+                // Full path to the file
+                $filePath = $directory . '/' . $file;
+
+                // Check if it is a file and not a directory
+                if (is_file($filePath)) {
+                    // Get the file's modification time
+                    $fileModTime = filemtime($filePath);
+
+                    // If the file is older than the defined time limit, delete it
+                    if ($now - $fileModTime > $timeLimit) {
+                        if (unlink($filePath)) {
+                            _error_log("Deleted old file: $filePath");
+                        } else {
+                            _error_log("Failed to delete file: $filePath");
+                        }
+                    }
+                }
+            }
+            // Close the directory
+            closedir($handle);
+        } else {
+            _error_log("Failed to open directory: $directory");
+            return false;
+        }
+
+        return true;
     }
 }

@@ -115,3 +115,4 @@ function secureAVideoFolder($folderPath = '/var/www/html/AVideo/videos')
 
 // Run the function to secure the AVideo videos folder
 secureAVideoFolder();
+
