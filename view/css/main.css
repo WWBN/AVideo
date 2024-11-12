@@ -2116,3 +2116,8 @@ body.ypt-is-compressed #videoCol {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
+
+.AdsDebug{
+    border: 2px dashed red;
+    padding: 10px;
+}

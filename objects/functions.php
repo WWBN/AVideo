@@ -2621,58 +2621,14 @@ function rrmdir($dir)
     }
 }
 
-/**
- * You can now configure it on the configuration.php
- * @return boolean
- */
-function ddosProtection()
+function getAdsDebugTag($adCode)
 {
-    global $global;
-    $maxCon = empty($global['ddosMaxConnections']) ? 40 : $global['ddosMaxConnections'];
-    $secondTimeout = empty($global['ddosSecondTimeout']) ? 5 : $global['ddosSecondTimeout'];
-    $whitelistedFiles = [
-        'playlists.json.php',
-        'playlistsFromUserVideos.json.php',
-        'image404.php',
-        'downloadProtection.php',
-    ];
-
-    if (in_array(basename($_SERVER["SCRIPT_FILENAME"]), $whitelistedFiles)) {
-        return true;
+    if(!empty($_REQUEST['AdsDebug']) && User::isAdmin()){
+        $function = debug_backtrace()[1]["function"];
+        $function = str_replace('get', '', $function);
+        $adCode = "<div class=\"AdsDebug\">{$function}<br>$adCode</div>";
     }
-
-    $time = time();
-    if (!isset($_SESSION['bruteForceBlock']) || empty($_SESSION['bruteForceBlock'])) {
-        $_SESSION['bruteForceBlock'] = [];
-        $_SESSION['bruteForceBlock'][] = $time;
-        return true;
-    }
-
-    $_SESSION['bruteForceBlock'][] = $time;
-
-    //remove requests that are older than secondTimeout
-    foreach ($_SESSION['bruteForceBlock'] as $key => $request_time) {
-        if ($request_time < $time - $secondTimeout) {
-            unset($_SESSION['bruteForceBlock'][$key]);
-        }
-    }
-
-    //progressive timeout-> more requests, longer timeout
-    $active_connections = count($_SESSION['bruteForceBlock']);
-    $timeoutReal = ($active_connections / $maxCon) < 1 ? 0 : ($active_connections / $maxCon) * $secondTimeout;
-    if ($timeoutReal) {
-        _error_log("ddosProtection:: progressive timeout timeoutReal = ($timeoutReal) active_connections = ($active_connections) maxCon = ($maxCon) ", AVideoLog::$SECURITY);
-    }
-    sleep($timeoutReal);
-
-    //with strict mode, penalize "attacker" with sleep() above, log and then die
-    if ($global['strictDDOSprotection'] && $timeoutReal > 0) {
-        $str = "bruteForceBlock: maxCon: $maxCon => secondTimeout: $secondTimeout | IP: " . getRealIpAddr() . " | count:" . count($_SESSION['bruteForceBlock']);
-        _error_log($str);
-        die($str);
-    }
-
-    return true;
+    return  $adCode;
 }
 
 function getAdsLeaderBoardBigVideo()
@@ -2682,7 +2638,7 @@ function getAdsLeaderBoardBigVideo()
     if (!empty($ad)) {
         $adCode = ADs::getAdsCode('leaderBoardBigVideo');
     }
-    return $adCode;
+    return getAdsDebugTag($adCode);
 }
 
 function getAdsLeaderBoardTop()
@@ -2692,7 +2648,7 @@ function getAdsLeaderBoardTop()
     if (!empty($ad)) {
         $adCode = ADs::getAdsCode('leaderBoardTop');
     }
-    return $adCode;
+    return  getAdsDebugTag($adCode);
 }
 
 function getAdsChannelLeaderBoardTop()
@@ -2702,7 +2658,7 @@ function getAdsChannelLeaderBoardTop()
     if (!empty($ad)) {
         $adCode = ADs::getAdsCode('channelLeaderBoardTop');
     }
-    return $adCode;
+    return  getAdsDebugTag($adCode);
 }
 
 function getAdsLeaderBoardTop2()
@@ -2712,7 +2668,7 @@ function getAdsLeaderBoardTop2()
     if (!empty($ad)) {
         $adCode = ADs::getAdsCode('leaderBoardTop2');
     }
-    return $adCode;
+    return  getAdsDebugTag($adCode);
 }
 
 function getAdsLeaderBoardMiddle()
@@ -2722,7 +2678,7 @@ function getAdsLeaderBoardMiddle()
     if (!empty($ad)) {
         $adCode = ADs::getAdsCode('leaderBoardMiddle');
     }
-    return $adCode;
+    return  getAdsDebugTag($adCode);
 }
 
 function getAdsLeaderBoardFooter()
@@ -2732,7 +2688,7 @@ function getAdsLeaderBoardFooter()
     if (!empty($ad)) {
         $adCode = ADs::getAdsCode('leaderBoardFooter');
     }
-    return $adCode;
+    return  getAdsDebugTag($adCode);
 }
 
 function getAdsSideRectangle()
@@ -2742,7 +2698,7 @@ function getAdsSideRectangle()
     if (!empty($ad)) {
         $adCode = ADs::getAdsCode('sideRectangle');
     }
-    return $adCode;
+    return  getAdsDebugTag($adCode);
 }
 
 function isToHidePrivateVideos()

@@ -446,3 +446,58 @@ function includeSecurityChecks() {
         }
     }
 }
+
+
+/**
+ * You can now configure it on the configuration.php
+ * @return boolean
+ */
+function ddosProtection()
+{
+    global $global;
+    $maxCon = empty($global['ddosMaxConnections']) ? 40 : $global['ddosMaxConnections'];
+    $secondTimeout = empty($global['ddosSecondTimeout']) ? 5 : $global['ddosSecondTimeout'];
+    $whitelistedFiles = [
+        'playlists.json.php',
+        'playlistsFromUserVideos.json.php',
+        'image404.php',
+        'downloadProtection.php',
+    ];
+
+    if (in_array(basename($_SERVER["SCRIPT_FILENAME"]), $whitelistedFiles)) {
+        return true;
+    }
+
+    $time = time();
+    if (!isset($_SESSION['bruteForceBlock']) || empty($_SESSION['bruteForceBlock'])) {
+        $_SESSION['bruteForceBlock'] = [];
+        $_SESSION['bruteForceBlock'][] = $time;
+        return true;
+    }
+
+    $_SESSION['bruteForceBlock'][] = $time;
+
+    //remove requests that are older than secondTimeout
+    foreach ($_SESSION['bruteForceBlock'] as $key => $request_time) {
+        if ($request_time < $time - $secondTimeout) {
+            unset($_SESSION['bruteForceBlock'][$key]);
+        }
+    }
+
+    //progressive timeout-> more requests, longer timeout
+    $active_connections = count($_SESSION['bruteForceBlock']);
+    $timeoutReal = ($active_connections / $maxCon) < 1 ? 0 : ($active_connections / $maxCon) * $secondTimeout;
+    if ($timeoutReal) {
+        _error_log("ddosProtection:: progressive timeout timeoutReal = ($timeoutReal) active_connections = ($active_connections) maxCon = ($maxCon) ", AVideoLog::$SECURITY);
+    }
+    sleep($timeoutReal);
+
+    //with strict mode, penalize "attacker" with sleep() above, log and then die
+    if ($global['strictDDOSprotection'] && $timeoutReal > 0) {
+        $str = "bruteForceBlock: maxCon: $maxCon => secondTimeout: $secondTimeout | IP: " . getRealIpAddr() . " | count:" . count($_SESSION['bruteForceBlock']);
+        _error_log($str);
+        die($str);
+    }
+
+    return true;
+}
