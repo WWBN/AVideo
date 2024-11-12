@@ -1,4 +1,4 @@
-<button class="btn btn-default btn-block btn-xs" data-toggle="collapse" data-target="#performanceSettings" aria-expanded="false" aria-controls="performanceSettings">
+<button class="btn btn-default btn-block btn-xs" id="performanceSettingsBTN" data-toggle="collapse" data-target="#performanceSettings" aria-expanded="false" aria-controls="performanceSettings">
     <i class="fas fa-tachometer-alt"></i> 
     <?php echo __("Optimal performance settings"); ?>
     <i class="fas fa-caret-down"></i>

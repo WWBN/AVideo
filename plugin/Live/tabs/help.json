@@ -16,6 +16,10 @@
         "intro": "This combines both the server URL and stream key into one string. Click here to copy both to the clipboard for easy setup."
     },
     {
+        "element": "#performanceSettingsBTN",
+        "intro": "Click here to view recommended settings for optimal streaming performance, including video resolution, bitrate, and audio specifications. Following these guidelines helps ensure a high-quality, buffer-free live streaming experience."
+    },
+    {
         "element": "#tabStreamMetaData",
         "intro": "In this tab, you can configure your stream metadata, including the title, password protection, images, user groups and stream listing."
     },
