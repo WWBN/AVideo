@@ -7,6 +7,7 @@ if (!User::isAdmin()) {
     forbiddenPage("You can not do this");
     exit;
 }
+$ad_server_location = AVideoPlugin::loadPluginIfEnabled('AD_Server_Location');
 ?>
 
 <div class="container-fluid">
