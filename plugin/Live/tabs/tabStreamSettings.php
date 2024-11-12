@@ -46,7 +46,8 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
             ?>
         </div>
     </div>
-    <div class="panel-body" style="overflow: hidden;">
+    <div class="panel-body" style="overflow: hidden;" >        
+
         <div class="form-group" id="ServerURL">
             <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
             <?php
@@ -89,6 +90,10 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
             ?>
         </div>
     </div>
+    <div class="panel-footer">        
+        <!-- Insert the recommended settings panel here -->
+        <?php include __DIR__.'/recommended_stream_settings.php'; ?>  
+    </div>
 </div>
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
     <ul class="nav nav-tabs">
@@ -117,7 +122,9 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
         <div id="tabStreamMetaData" class="tab-pane fade in active">
 
             <div class="panel panel-default">
-                <div class="panel-heading"><i class="fas fa-cog"></i> <?php echo __("Stream Settings"); ?></div>
+                <div class="panel-heading">
+                    <i class="fas fa-cog"></i> <?php echo __("Stream Settings"); ?>        
+                </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-6">

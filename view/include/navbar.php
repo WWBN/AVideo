@@ -80,7 +80,7 @@ if (!$includeDefaultNavBar) {
     return false;
 }
 
-if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javascript
+if (!empty($_GET['avideoIframe']) && empty($_GET['ajaxLoad'])) { // comes from avideoModalIframe(url) javascript
     ?>
     <style>
         body,

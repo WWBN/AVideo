@@ -6,6 +6,7 @@ function queryAndProcessURL(url) {
         $('body').addClass('_avideoPageContentLoading');
         console.log('a.ajaxLoad _avideoPageContent is present locally');
         var urlA = addQueryStringParameter(url, 'avideoIframe', 1);
+        var urlA = addQueryStringParameter(url, 'ajaxLoad', 1);
         $.ajax({
             url: urlA,
             type: 'GET',
@@ -23,31 +24,33 @@ function queryAndProcessURL(url) {
                     addNewScriptFiles(tempDiv).done(function () {
                         // Only execute replaceInlineJS if replacePrincipalContainer was successful
                         const replaceResult = replacePrincipalContainer(tempDiv);
-                        if(replaceResult){
+                        if (replaceResult) {
                             // Add new CSS files
                             addNewCSSFiles(tempDiv);
-        
+
                             // Change the page title
                             changePageTitle(tempDiv);
-        
+
                             // Replace all <meta> tags
                             replaceMetaTags(tempDiv);
-
-                            replaceInlineJS(tempDiv);
                             
+                            addNewScriptFiles(tempDiv);
+
+                            replaceInlineCSS(tempDiv);
+
                             makeAjaxLoad();
                             // Change the current URL (using the History API for SPA behavior)
                             history.pushState({}, '', url);
-                        }else{
+                        } else {
                             console.log('a.ajaxLoad replacePrincipalContainer fail');
                             document.location = url;
                         }
-                        
+
                         $('body').removeClass('_avideoPageContentLoading');
                     });
 
                 }
-                
+
             }
         });
     } else {
@@ -56,17 +59,48 @@ function queryAndProcessURL(url) {
     }
 }
 
-// Add new CSS files that are not already present
 function addNewCSSFiles(tempDiv) {
-    $('link[rel="stylesheet"]').each(function () {
-        const currentHref = $(this).attr('href');
-        tempDiv.find('link[rel="stylesheet"]').each(function () {
-            if (currentHref !== $(this).attr('href') && !$('head').find(`link[href="${$(this).attr('href')}"]`).length) {
-                $('head').append($(this).clone());
+    // Remove the 'addNewCSSFiles' class from all existing <link> tags in <head>
+    $('link[rel="stylesheet"]').removeClass('addNewCSSFiles');
+
+    // Remove all <style> tags in <head> to avoid duplicates before adding new ones from tempDiv
+    $('head style').remove();
+
+    // Helper function to get the base URL without query parameters
+    function getBaseURL(href) {
+        return href.split('?')[0];
+    }
+
+    // Check each CSS link in tempDiv
+    tempDiv.find('link[rel="stylesheet"]').each(function () {
+        const tempHref = getBaseURL($(this).attr('href'));
+        
+        // Find the corresponding CSS link in <head> (ignoring parameters)
+        let existsInHead = false;
+        $('head link[rel="stylesheet"]').each(function () {
+            if (getBaseURL($(this).attr('href')) === tempHref) {
+                $(this).addClass('addNewCSSFiles');
+                existsInHead = true;
+                return false; // Break the loop once a match is found
             }
         });
+
+        // If the CSS file is not in <head>, append it and add 'addNewCSSFiles' class
+        if (!existsInHead) {
+            const newStyle = $(this).clone().addClass('addNewCSSFiles');
+            $('head').append(newStyle);
+        }
     });
+
+    // Add <style> tags from tempDiv to <head>
+    tempDiv.find('style').each(function () {
+        $('head').append($(this).clone());
+    });
+
+    // Remove any <link> tags in <head> that are not marked with 'addNewCSSFiles' (i.e., not in tempDiv)
+    // $('head link[rel="stylesheet"]:not(.addNewCSSFiles)').remove();
 }
+
 
 // Replace the .principalContainer HTML or the entire body's content
 function replacePrincipalContainer(tempDiv) {
@@ -76,20 +110,7 @@ function replacePrincipalContainer(tempDiv) {
     if (newPrincipalContainer) {
         // Replace the content of #_avideoPageContent with newPrincipalContainer
         $('#_avideoPageContent').html(newPrincipalContainer);
-        
-        // Clone body classes from tempDiv and replace existing body classes
-        // const tempBodyClasses = tempDiv.find('body').attr('class');
-        //$('body').attr('class', tempBodyClasses);
 
-        // Continue with additional operations
-        // 4. Add new script files
-        addNewScriptFiles(tempDiv);
-    
-        // 5. Replace inline CSS
-        replaceInlineCSS(tempDiv);
-    
-        // 6. Replace inline JS
-        replaceInlineJS(tempDiv);
         return true;
     }
     return false;
@@ -97,32 +118,56 @@ function replacePrincipalContainer(tempDiv) {
 
 function addNewScriptFiles(tempDiv) {
     const promises = [];
+
+    // Add inline script tags without src attributes first
+    tempDiv.find('script:not([src])').each(function () {
+        const scriptContent = $(this).html();
+        let scriptExists = false;
+
+        // Check if the same inline script content already exists in the body
+        $('body script:not([src])').each(function () {
+            if ($(this).html().trim() === scriptContent.trim()) {
+                scriptExists = true;
+                return false; // Stop the loop if a match is found
+            }
+        });
+
+        // Append the inline script if it doesn't exist in the body
+        if (!scriptExists) {
+            try {
+                $('body').append($(this).clone());
+            } catch (error) {
+                console.log('addNewScriptFiles body script:not([src])', error);
+            }
+        }
+    });
+
+    // Add external scripts with src attributes after inline scripts
     $('script[src]').each(function () {
         const currentSrc = $(this).attr('src');
         tempDiv.find('script[src]').each(function () {
-            if (currentSrc !== $(this).attr('src') && !$('body').find(`script[src="${$(this).attr('src')}"]`).length) {
-                // Load script asynchronously and push the promise to the promises array
-                const promise = $.getScript($(this).attr('src'));
-                promises.push(promise);
-                $('body').append($(this).clone());
+            const newSrc = $(this).attr('src');
+            if (currentSrc !== newSrc && !$('body').find(`script[src="${newSrc}"]`).length) {
+                try {
+                    const promise = $.getScript(newSrc);  // Load script asynchronously
+                    promises.push(promise);
+                    $('body').append($(this).clone());
+                } catch (error) {
+                    console.log('addNewScriptFiles script[src]', error);
+                }
             }
         });
     });
 
-    // Return a promise that resolves when all scripts are loaded
+    // Return a promise that resolves when all external scripts are loaded
     return $.when.apply($, promises);
 }
+
 
 // Replace inline CSS
 function replaceInlineCSS(tempDiv) {
     const newStyle = tempDiv.find('style').text();
     $('head').find('style').text(newStyle);
-}
-
-// Replace inline JS
-function replaceInlineJS(tempDiv) {
-    const newScript = tempDiv.find('script:not([src])').text();
-    $('body').append(`<script>${newScript}</script>`);
 }
 
 // Change the page title
@@ -139,7 +184,7 @@ function replaceMetaTags(tempDiv) {
     });
 }
 
-function makeAjaxLoad(){
+function makeAjaxLoad() {
     // Bind function to all <a> tags with class .ajaxLoad
     $('a.ajaxLoad').each(function () {
         $(this).on('click', function (event) {
