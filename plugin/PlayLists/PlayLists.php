@@ -1344,7 +1344,7 @@ class PlayListPlayer
                 }
                 $messagesFromPlayList[] = "Playlist playListSource videos_id={$video['id']} [{$video['title']}] type {$video['type']} filename={$video['filename']}";
                 //var_dump($value2);
-                $playListSources[] = new playListSource($value2['url'], $video['type'] === Video::$videoTypeEmbed);
+                $playListSources[] = new playListSource($value2['url'], $value2['videos_id'], $video['type'] === Video::$videoTypeEmbed);
             }
             if (empty($playListSources)) {
                 $messagesFromPlayList[] = "videos_id={$video['videos_id']} [{$value2['title']}]  empty playlist source ";

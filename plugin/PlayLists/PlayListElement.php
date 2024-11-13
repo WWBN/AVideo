@@ -133,14 +133,15 @@ class PlayListElement {
 
 class playListSource {
 
-    public $src, $type, $label;
+    public $src, $type, $label, $videos_id;
     static $videoHLSObj;
     
-    function __construct($src, $youtube = false) {
+    function __construct($src, $videos_id, $youtube = false) {
         $TimeLogLimit = 0.1;
         $timelogname = __FILE__.'::playListSource::__construct';
         TimeLogStart($timelogname);
         $this->src = $src;
+        $this->videos_id = intval($videos_id);
         
         $this->label = getResolutionFromFilename($src, false);
         TimeLogEnd($timelogname, __LINE__, $TimeLogLimit);
@@ -163,7 +164,7 @@ class playListSource {
             TimeLogEnd($timelogname, __LINE__, $TimeLogLimit);
             if(!empty(playListSource::$videoHLSObj->downloadProtection)){
                 if(!preg_match('/token=/', $this->src)){
-                    $this->src = addQueryStringParameter($this->src, 'token', VideoHLS::getToken());
+                    $this->src = addQueryStringParameter($this->src, 'token', VideoHLS::getToken($this->videos_id));
                 }
             }
         }

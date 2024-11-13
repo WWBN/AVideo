@@ -50,7 +50,7 @@ foreach ($playList as $key => $value) {
         if ($value2['type'] !== 'video' && $value2['type'] !== 'audio' && $value2['type'] !== 'serie') {
             continue;
         }
-        $playListSources[] = new playListSource($value2['url'], $value['type'] === 'embed');
+        $playListSources[] = new playListSource($value2['url'], $value2['videos_id'], $value['type'] === Video::$videoTypeEmbed);
     }
     if (empty($playListSources)) {
         $messagesFromPlayList[] = "videos_id={$value['videos_id']} empty playlist source ";
