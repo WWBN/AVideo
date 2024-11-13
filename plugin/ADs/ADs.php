@@ -378,6 +378,7 @@ class ADs extends PluginAbstract
     public static function getAdsCode($type)
     {
         global $global;
+        $global['lastAdsCodeType'] = $type;
         if (isInfiniteScroll()) {
             return false;
         }

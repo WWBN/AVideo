@@ -2623,10 +2623,12 @@ function rrmdir($dir)
 
 function getAdsDebugTag($adCode)
 {
+    global $global;
     if(!empty($_REQUEST['AdsDebug']) && User::isAdmin()){
         $function = debug_backtrace()[1]["function"];
         $function = str_replace('get', '', $function);
-        $adCode = "<div class=\"AdsDebug\">{$function}<br>$adCode</div>";
+        $reason = ADs::getAdsCodeReason($global['lastAdsCodeType']);
+        $adCode = "<div class=\"AdsDebug\">{$function}<br>{$reason}<br>$adCode</div>";
     }
     return  $adCode;
 }
