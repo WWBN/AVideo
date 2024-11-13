@@ -55,7 +55,7 @@ class ADs extends PluginAbstract
     public static function getDataObjectAdvanced()
     {
         $array = array();
-        
+
         foreach (ADS::AdsPositions as $value) {
             $array[] = $value[0];
             $array[] = "{$value[0]}Label";
@@ -395,7 +395,7 @@ class ADs extends PluginAbstract
         if (!empty($ad)) {
             $showOnVideoPlayerPage = true;
             eval("\$showOnVideoPlayerPage = \$obj->{$type}ShowOnVideoPlayerPage;");
-            if(!$showOnVideoPlayerPage && isVideo()){
+            if (!$showOnVideoPlayerPage && isVideo()) {
                 return false;
             }
             self::debug(__LINE__);
@@ -424,37 +424,56 @@ class ADs extends PluginAbstract
     public static function getAdsCodeReason($type)
     {
         $reasons = array();
+
+        // Check if the viewer is a bot
         if (isBot()) {
-            $reasons[] = 'Is a bot';
+            $reasons[] = 'The viewer is a bot, ads are not shown to bots.';
         }
-        $videos_id = 0;
+
+        // Get the video ID, if available
+        $videos_id = getVideos_id();
         if (empty($videos_id)) {
-            $videos_id = getVideos_id();
+            $reasons[] = 'No video ID found, this might prevent ads from displaying.';
+        } else {
+            $reasons[] = 'Video ID detected: ' . $videos_id;
         }
-        $reasons[] = 'videos_id=' . $videos_id;
+
+        // Check if the ADs plugin is enabled
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
-        if (!empty($ad)) {
+        if (empty($ad)) {
+            $reasons[] = 'The ADs plugin is disabled, ads cannot be displayed without this plugin.';
+        } else {
+            // Adjust ad type for mobile if applicable
             if (isMobile()) {
-                $type = $type . 'Mobile';
+                $type .= 'Mobile';
+                $reasons[] = 'User is on a mobile device, adjusting ad type to: ' . $type;
+            } else {
+                $reasons[] = 'User is on a non-mobile device, ad type: ' . $type;
             }
+
+            // Check if the content is a live stream
             if (!empty($live) && !empty($live['users_id'])) {
-                $reasons[] = 'from live users_id=' . $live['users_id'];
+                $reasons[] = 'Content is a live stream from user ID: ' . $live['users_id'];
                 $adC = self::getAdsFromUsersId($type, $live['users_id']);
             } else {
-                $reasons[] = 'not from live videos_id=' . $videos_id;
+                $reasons[] = 'Content is not live, attempting to retrieve ads based on video ID: ' . $videos_id;
                 $adC = self::getAdsFromVideosId($type, $videos_id);
             }
-            $reasons[] = 'type=' . $type;
-            $reasons[] = 'label=' . $adC['label'];
-            if (!empty($live) && !empty($live['users_id'])) {
-                $reasons[] = 'It was a live';
+
+            // Add the ad type and label for further clarification
+            $reasons[] = 'Ad type: ' . $type;
+            if (!empty($adC['label'])) {
+                $reasons[] = 'Ad label found: ' . $adC['label'];
+            } else {
+                $reasons[] = 'No specific ad label found for this content.';
             }
+
+            // Check if the ad code is empty
             if (empty($adC['adCode'])) {
-                $reasons[] = 'adCode is empty';
+                $reasons[] = 'No ad code found, likely no ads available to display.';
             }
-        } else {
-            $reasons[] = 'ADs plugin disabled';
         }
+
         return $reasons;
     }
 
@@ -483,7 +502,7 @@ class ADs extends PluginAbstract
             return $label;
         }
     }
-    
+
     public static function getAdsHTML($type, $is_regular_user = false)
     {
         global $global;
