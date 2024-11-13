@@ -379,47 +379,76 @@ class ADs extends PluginAbstract
     {
         global $global;
         $global['lastAdsCodeType'] = $type;
+        $global['lastAdsCodeReason'] = ''; // Initialize last reason as an empty string
+
+        // Check for infinite scroll
         if (isInfiniteScroll()) {
+            $global['lastAdsCodeReason'] = 'Infinite scroll is enabled, ads are disabled in this mode.';
             return false;
         }
+
+        // Check if viewer is a bot
         if (isBot()) {
+            $global['lastAdsCodeReason'] = 'Viewer is a bot, ads are not shown to bots.';
             self::debug(__LINE__);
             return false;
         }
-        $videos_id = 0;
+
+        $videos_id = getVideos_id();
         if (empty($videos_id)) {
-            $videos_id = getVideos_id();
+            $global['lastAdsCodeReason'] = 'No video ID found, unable to retrieve ads for specific content.';
         }
+
+        // Check if ADs plugin is enabled
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
         $adCode = '';
-        if (!empty($ad)) {
-            $showOnVideoPlayerPage = true;
-            eval("\$showOnVideoPlayerPage = \$obj->{$type}ShowOnVideoPlayerPage;");
-            if (!$showOnVideoPlayerPage && isVideo()) {
-                return false;
-            }
-            self::debug(__LINE__);
-            if (isMobile()) {
-                $type = $type . 'Mobile';
-            }
-            $users_id = getUsers_idOwnerFromRequest();
-            //var_dump($users_id);exit;
-            $adC =  self::getAdsFromUsersId($type, $users_id);
-            if (_empty($adC['adCode'])) {
-                self::debug(__LINE__);
-                $adC = self::getAdsHTML($type);
-                if (!_empty($adC['html'])) {
-                    return $adC['html'];
-                }
-            } else {
-                self::debug(__LINE__);
-            }
-            $adCode = ADs::giveGoogleATimeout($adC['adCode']);
-            $adCode = ADs::addLabel($adCode, $adC['label']);
+        if (empty($ad)) {
+            $global['lastAdsCodeReason'] = 'ADs plugin is disabled, ads cannot be displayed without this plugin.';
+            return false;
+        }
+
+        // Determine if ads should be shown on video player page
+        $showOnVideoPlayerPage = true;
+        // Check if ads are configured to show on the video player page for the specified ad type
+        eval("\$showOnVideoPlayerPage = \$ad->{$type}ShowOnVideoPlayerPage;");
+        if (!$showOnVideoPlayerPage && isVideo()) {
+            $global['lastAdsCodeReason'] = 'Ads are configured not to show on the video player page for this ad type. '
+                . '<br>To enable ads here, go to the Ads plugin settings and set the parameter '
+                . "{$type}ShowOnVideoPlayerPage to true if you want to display ads on the video page.";
+            return false;
         }
         self::debug(__LINE__);
+
+        // Adjust ad type for mobile if applicable
+        if (isMobile()) {
+            $type .= 'Mobile';
+        }
+
+        // Retrieve ads based on user ID or video ID
+        $users_id = getUsers_idOwnerFromRequest();
+        $adC = self::getAdsFromUsersId($type, $users_id);
+        if (_empty($adC['adCode'])) {
+            self::debug(__LINE__);
+            $adC = self::getAdsHTML($type);
+            if (!_empty($adC['html'])) {
+                return $adC['html'];
+            } else {
+                $global['lastAdsCodeReason'] = 'No ad code found for this content type and user ID.';
+                return false;
+            }
+        } else {
+            self::debug(__LINE__);
+        }
+
+        // Finalize ad code if found, adding label and Google timeout if applicable
+        $adCode = ADs::giveGoogleATimeout($adC['adCode']);
+        $adCode = ADs::addLabel($adCode, $adC['label']);
+        $global['lastAdsCodeReason'] = 'Ad code successfully generated.';
+        self::debug(__LINE__);
+
         return $adCode;
     }
+
 
     public static function getAdsCodeReason($type)
     {
@@ -433,7 +462,7 @@ class ADs extends PluginAbstract
         // Get the video ID, if available
         $videos_id = getVideos_id();
         if (empty($videos_id)) {
-            $reasons[] = 'No video ID found, this might prevent ads from displaying.';
+            $reasons[] = 'No video ID found';
         } else {
             $reasons[] = 'Video ID detected: ' . $videos_id;
         }

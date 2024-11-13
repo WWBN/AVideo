@@ -2627,8 +2627,7 @@ function getAdsDebugTag($adCode)
     if(!empty($_REQUEST['AdsDebug']) && User::isAdmin()){
         $function = debug_backtrace()[1]["function"];
         $function = str_replace('get', '', $function);
-        $reason = ADs::getAdsCodeReason($global['lastAdsCodeType']);
-        $adCode = "<div class=\"AdsDebug\">{$function}<br>".implode('<br>', $reason)."<br>$adCode</div>";
+        $adCode = "<div class=\"AdsDebug\">{$function}<br>{$global['lastAdsCodeReason']}<br>$adCode</div>";
     }
     return  $adCode;
 }
