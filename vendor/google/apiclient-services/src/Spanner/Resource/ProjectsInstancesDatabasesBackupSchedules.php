@@ -91,7 +91,9 @@ class ProjectsInstancesDatabasesBackupSchedules extends \Google\Service\Resource
    * empty policy if a database or backup exists but does not have a policy set.
    * Authorization requires `spanner.databases.getIamPolicy` permission on
    * resource. For backups, authorization requires `spanner.backups.getIamPolicy`
-   * permission on resource. (backupSchedules.getIamPolicy)
+   * permission on resource. For backup schedules, authorization requires
+   * `spanner.backupSchedules.getIamPolicy` permission on resource.
+   * (backupSchedules.getIamPolicy)
    *
    * @param string $resource REQUIRED: The Cloud Spanner resource for which the
    * policy is being retrieved. The format is `projects//instances/` for instance
@@ -160,8 +162,9 @@ class ProjectsInstancesDatabasesBackupSchedules extends \Google\Service\Resource
    * Sets the access control policy on a database or backup resource. Replaces any
    * existing policy. Authorization requires `spanner.databases.setIamPolicy`
    * permission on resource. For backups, authorization requires
-   * `spanner.backups.setIamPolicy` permission on resource.
-   * (backupSchedules.setIamPolicy)
+   * `spanner.backups.setIamPolicy` permission on resource. For backup schedules,
+   * authorization requires `spanner.backupSchedules.setIamPolicy` permission on
+   * resource. (backupSchedules.setIamPolicy)
    *
    * @param string $resource REQUIRED: The Cloud Spanner resource for which the
    * policy is being set. The format is `projects//instances/` for instance
@@ -184,7 +187,10 @@ class ProjectsInstancesDatabasesBackupSchedules extends \Google\Service\Resource
    * permission on the containing Cloud Spanner instance. Otherwise returns an
    * empty set of permissions. Calling this method on a backup that does not exist
    * will result in a NOT_FOUND error if the user has `spanner.backups.list`
-   * permission on the containing instance. (backupSchedules.testIamPermissions)
+   * permission on the containing instance. Calling this method on a backup
+   * schedule that does not exist will result in a NOT_FOUND error if the user has
+   * `spanner.backupSchedules.list` permission on the containing database.
+   * (backupSchedules.testIamPermissions)
    *
    * @param string $resource REQUIRED: The Cloud Spanner resource for which
    * permissions are being tested. The format is `projects//instances/` for

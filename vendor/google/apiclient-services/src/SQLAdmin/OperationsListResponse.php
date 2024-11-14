@@ -19,7 +19,7 @@ namespace Google\Service\SQLAdmin;
 
 class OperationsListResponse extends \Google\Collection
 {
-  protected $collection_key = 'warnings';
+  protected $collection_key = 'items';
   protected $itemsType = Operation::class;
   protected $itemsDataType = 'array';
   /**
@@ -30,8 +30,6 @@ class OperationsListResponse extends \Google\Collection
    * @var string
    */
   public $nextPageToken;
-  protected $warningsType = ApiWarning::class;
-  protected $warningsDataType = 'array';
 
   /**
    * @param Operation[]
@@ -74,20 +72,6 @@ class OperationsListResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
-  }
-  /**
-   * @param ApiWarning[]
-   */
-  public function setWarnings($warnings)
-  {
-    $this->warnings = $warnings;
-  }
-  /**
-   * @return ApiWarning[]
-   */
-  public function getWarnings()
-  {
-    return $this->warnings;
   }
 }
 

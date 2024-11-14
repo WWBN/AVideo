@@ -30,6 +30,10 @@ class MasterAuthorizedNetworksConfig extends \Google\Collection
    * @var bool
    */
   public $gcpPublicCidrsAccessEnabled;
+  /**
+   * @var bool
+   */
+  public $privateEndpointEnforcementEnabled;
 
   /**
    * @param CidrBlock[]
@@ -72,6 +76,20 @@ class MasterAuthorizedNetworksConfig extends \Google\Collection
   public function getGcpPublicCidrsAccessEnabled()
   {
     return $this->gcpPublicCidrsAccessEnabled;
+  }
+  /**
+   * @param bool
+   */
+  public function setPrivateEndpointEnforcementEnabled($privateEndpointEnforcementEnabled)
+  {
+    $this->privateEndpointEnforcementEnabled = $privateEndpointEnforcementEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getPrivateEndpointEnforcementEnabled()
+  {
+    return $this->privateEndpointEnforcementEnabled;
   }
 }
 

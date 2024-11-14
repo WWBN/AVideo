@@ -17,6 +17,7 @@
 
 namespace Google\Service\Storage\Resource;
 
+use Google\Service\Storage\AdvanceRelocateBucketOperationRequest;
 use Google\Service\Storage\GoogleLongrunningListOperationsResponse;
 use Google\Service\Storage\GoogleLongrunningOperation;
 
@@ -30,6 +31,25 @@ use Google\Service\Storage\GoogleLongrunningOperation;
  */
 class Operations extends \Google\Service\Resource
 {
+  /**
+   * Starts asynchronous advancement of the relocate bucket operation in the case
+   * of required write downtime, to allow it to lock the bucket at the source
+   * location, and proceed with the bucket location swap. The server makes a best
+   * effort to advance the relocate bucket operation, but success is not
+   * guaranteed. (operations.advanceRelocateBucket)
+   *
+   * @param string $bucket Name of the bucket to advance the relocate for.
+   * @param string $operationId ID of the operation resource.
+   * @param AdvanceRelocateBucketOperationRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
+   */
+  public function advanceRelocateBucket($bucket, $operationId, AdvanceRelocateBucketOperationRequest $postBody, $optParams = [])
+  {
+    $params = ['bucket' => $bucket, 'operationId' => $operationId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('advanceRelocateBucket', [$params]);
+  }
   /**
    * Starts asynchronous cancellation on a long-running operation. The server
    * makes a best effort to cancel the operation, but success is not guaranteed.

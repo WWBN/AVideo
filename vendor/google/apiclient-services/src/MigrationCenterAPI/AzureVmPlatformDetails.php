@@ -22,6 +22,10 @@ class AzureVmPlatformDetails extends \Google\Model
   /**
    * @var string
    */
+  public $hyperthreading;
+  /**
+   * @var string
+   */
   public $location;
   /**
    * @var string
@@ -32,6 +36,20 @@ class AzureVmPlatformDetails extends \Google\Model
    */
   public $provisioningState;
 
+  /**
+   * @param string
+   */
+  public function setHyperthreading($hyperthreading)
+  {
+    $this->hyperthreading = $hyperthreading;
+  }
+  /**
+   * @return string
+   */
+  public function getHyperthreading()
+  {
+    return $this->hyperthreading;
+  }
   /**
    * @param string
    */

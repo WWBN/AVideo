@@ -70,8 +70,6 @@ class ShoppingContent extends \Google\Service
   public $returnaddress;
   public $returnpolicy;
   public $returnpolicyonline;
-  public $settlementreports;
-  public $settlementtransactions;
   public $shippingsettings;
   public $shoppingadsprogram;
   public $rootUrlTemplate;
@@ -2236,95 +2234,6 @@ class ShoppingContent extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->settlementreports = new ShoppingContent\Resource\Settlementreports(
-        $this,
-        $this->serviceName,
-        'settlementreports',
-        [
-          'methods' => [
-            'get' => [
-              'path' => '{merchantId}/settlementreports/{settlementId}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'settlementId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
-              'path' => '{merchantId}/settlementreports',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'maxResults' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'transferEndDate' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'transferStartDate' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->settlementtransactions = new ShoppingContent\Resource\Settlementtransactions(
-        $this,
-        $this->serviceName,
-        'settlementtransactions',
-        [
-          'methods' => [
-            'list' => [
-              'path' => '{merchantId}/settlementreports/{settlementId}/transactions',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'settlementId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'maxResults' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'transactionIds' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                  'repeated' => true,
                 ],
               ],
             ],

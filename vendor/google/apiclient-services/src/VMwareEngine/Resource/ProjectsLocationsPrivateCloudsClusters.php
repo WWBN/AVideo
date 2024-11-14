@@ -186,8 +186,8 @@ class ProjectsLocationsPrivateCloudsClusters extends \Google\Service\Resource
    * you can't update the resource. Use the operation status to determine when the
    * processing fully completes. (clusters.patch)
    *
-   * @param string $name Output only. The resource name of this cluster. Resource
-   * names are schemeless URIs that follow the conventions in
+   * @param string $name Output only. Identifier. The resource name of this
+   * cluster. Resource names are schemeless URIs that follow the conventions in
    * https://cloud.google.com/apis/design/resource_names. For example:
    * `projects/my-project/locations/us-central1-a/privateClouds/my-
    * cloud/clusters/my-cluster`

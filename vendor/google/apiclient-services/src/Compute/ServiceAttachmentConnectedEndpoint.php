@@ -30,6 +30,10 @@ class ServiceAttachmentConnectedEndpoint extends \Google\Model
   /**
    * @var string
    */
+  public $propagatedConnectionCount;
+  /**
+   * @var string
+   */
   public $pscConnectionId;
   /**
    * @var string
@@ -63,6 +67,20 @@ class ServiceAttachmentConnectedEndpoint extends \Google\Model
   public function getEndpoint()
   {
     return $this->endpoint;
+  }
+  /**
+   * @param string
+   */
+  public function setPropagatedConnectionCount($propagatedConnectionCount)
+  {
+    $this->propagatedConnectionCount = $propagatedConnectionCount;
+  }
+  /**
+   * @return string
+   */
+  public function getPropagatedConnectionCount()
+  {
+    return $this->propagatedConnectionCount;
   }
   /**
    * @param string

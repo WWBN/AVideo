@@ -78,6 +78,10 @@ class EventTicketObject extends \Google\Collection
   protected $locationsDataType = 'array';
   protected $messagesType = Message::class;
   protected $messagesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $notifyPreference;
   protected $passConstraintsType = PassConstraints::class;
   protected $passConstraintsDataType = '';
   protected $reservationInfoType = EventReservationInfo::class;
@@ -396,6 +400,20 @@ class EventTicketObject extends \Google\Collection
   public function getMessages()
   {
     return $this->messages;
+  }
+  /**
+   * @param string
+   */
+  public function setNotifyPreference($notifyPreference)
+  {
+    $this->notifyPreference = $notifyPreference;
+  }
+  /**
+   * @return string
+   */
+  public function getNotifyPreference()
+  {
+    return $this->notifyPreference;
   }
   /**
    * @param PassConstraints

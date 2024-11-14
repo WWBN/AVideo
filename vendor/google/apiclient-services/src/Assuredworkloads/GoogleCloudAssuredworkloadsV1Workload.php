@@ -94,6 +94,8 @@ class GoogleCloudAssuredworkloadsV1Workload extends \Google\Collection
    * @var bool
    */
   public $violationNotificationsEnabled;
+  protected $workloadOptionsType = GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions::class;
+  protected $workloadOptionsDataType = '';
 
   /**
    * @param string
@@ -402,6 +404,20 @@ class GoogleCloudAssuredworkloadsV1Workload extends \Google\Collection
   public function getViolationNotificationsEnabled()
   {
     return $this->violationNotificationsEnabled;
+  }
+  /**
+   * @param GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions
+   */
+  public function setWorkloadOptions(GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions $workloadOptions)
+  {
+    $this->workloadOptions = $workloadOptions;
+  }
+  /**
+   * @return GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions
+   */
+  public function getWorkloadOptions()
+  {
+    return $this->workloadOptions;
   }
 }
 

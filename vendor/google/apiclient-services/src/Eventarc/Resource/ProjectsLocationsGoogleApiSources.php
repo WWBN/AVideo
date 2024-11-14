@@ -17,6 +17,9 @@
 
 namespace Google\Service\Eventarc\Resource;
 
+use Google\Service\Eventarc\GoogleApiSource;
+use Google\Service\Eventarc\GoogleLongrunningOperation;
+use Google\Service\Eventarc\ListGoogleApiSourcesResponse;
 use Google\Service\Eventarc\Policy;
 use Google\Service\Eventarc\SetIamPolicyRequest;
 use Google\Service\Eventarc\TestIamPermissionsRequest;
@@ -32,6 +35,65 @@ use Google\Service\Eventarc\TestIamPermissionsResponse;
  */
 class ProjectsLocationsGoogleApiSources extends \Google\Service\Resource
 {
+  /**
+   * Create a new GoogleApiSource in a particular project and location.
+   * (googleApiSources.create)
+   *
+   * @param string $parent Required. The parent collection in which to add this
+   * google api source.
+   * @param GoogleApiSource $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string googleApiSourceId Required. The user-provided ID to be
+   * assigned to the GoogleApiSource. It should match the format
+   * (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$).
+   * @opt_param bool validateOnly Optional. If set, validate the request and
+   * preview the review, but do not post it.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, GoogleApiSource $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Delete a single GoogleApiSource. (googleApiSources.delete)
+   *
+   * @param string $name Required. The name of the GoogleApiSource to be deleted.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool allowMissing Optional. If set to true, and the MessageBus is
+   * not found, the request will succeed but no action will be taken on the
+   * server.
+   * @opt_param string etag Optional. If provided, the MessageBus will only be
+   * deleted if the etag matches the current etag on the resource.
+   * @opt_param bool validateOnly Optional. If set, validate the request and
+   * preview the review, but do not post it.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Get a single GoogleApiSource. (googleApiSources.get)
+   *
+   * @param string $name Required. The name of the google api source to get.
+   * @param array $optParams Optional parameters.
+   * @return GoogleApiSource
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleApiSource::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set.
@@ -63,6 +125,61 @@ class ProjectsLocationsGoogleApiSources extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * List GoogleApiSources.
+   * (googleApiSources.listProjectsLocationsGoogleApiSources)
+   *
+   * @param string $parent Required. The parent collection to list
+   * GoogleApiSources on.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. The filter field that the list request
+   * will filter on. Possible filtersare described in https://google.aip.dev/160.
+   * @opt_param string orderBy Optional. The sorting order of the resources
+   * returned. Value should be a comma-separated list of fields. The default
+   * sorting order is ascending. To specify descending order for a field, append a
+   * `desc` suffix; for example: `name desc, update_time`.
+   * @opt_param int pageSize Optional. The maximum number of results to return on
+   * each page. Note: The service may send fewer.
+   * @opt_param string pageToken Optional. The page token; provide the value from
+   * the `next_page_token` field in a previous call to retrieve the subsequent
+   * page. When paginating, all other parameters provided must match the previous
+   * call that provided the page token.
+   * @return ListGoogleApiSourcesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsGoogleApiSources($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], ListGoogleApiSourcesResponse::class);
+  }
+  /**
+   * Update a single GoogleApiSource. (googleApiSources.patch)
+   *
+   * @param string $name Identifier. Resource name of the form
+   * projects/{project}/locations/{location}/googleApiSources/{google_api_source}
+   * @param GoogleApiSource $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool allowMissing Optional. If set to true, and the
+   * GoogleApiSource is not found, a new GoogleApiSource will be created. In this
+   * situation, `update_mask` is ignored.
+   * @opt_param string updateMask Optional. The fields to be updated; only fields
+   * explicitly provided are updated. If no field mask is provided, all provided
+   * fields in the request are updated. To update all fields, provide a field mask
+   * of "*".
+   * @opt_param bool validateOnly Optional. If set, validate the request and
+   * preview the review, but do not post it.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleApiSource $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

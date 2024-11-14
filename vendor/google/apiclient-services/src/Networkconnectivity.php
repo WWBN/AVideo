@@ -264,6 +264,36 @@ class Networkconnectivity extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'queryStatus' => [
+              'path' => 'v1/{+name}:queryStatus',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'groupBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'rejectSpoke' => [
               'path' => 'v1/{+name}:rejectSpoke',
               'httpMethod' => 'POST',

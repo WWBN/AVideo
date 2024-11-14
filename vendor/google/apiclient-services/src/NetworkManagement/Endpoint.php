@@ -40,6 +40,10 @@ class Endpoint extends \Google\Model
   /**
    * @var string
    */
+  public $fqdn;
+  /**
+   * @var string
+   */
   public $gkeMasterCluster;
   /**
    * @var string
@@ -165,6 +169,20 @@ class Endpoint extends \Google\Model
   public function getForwardingRuleTarget()
   {
     return $this->forwardingRuleTarget;
+  }
+  /**
+   * @param string
+   */
+  public function setFqdn($fqdn)
+  {
+    $this->fqdn = $fqdn;
+  }
+  /**
+   * @return string
+   */
+  public function getFqdn()
+  {
+    return $this->fqdn;
   }
   /**
    * @param string

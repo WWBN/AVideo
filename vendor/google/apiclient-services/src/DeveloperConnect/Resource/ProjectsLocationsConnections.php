@@ -18,10 +18,12 @@
 namespace Google\Service\DeveloperConnect\Resource;
 
 use Google\Service\DeveloperConnect\Connection;
+use Google\Service\DeveloperConnect\DeveloperconnectEmpty;
 use Google\Service\DeveloperConnect\FetchGitHubInstallationsResponse;
 use Google\Service\DeveloperConnect\FetchLinkableGitRepositoriesResponse;
 use Google\Service\DeveloperConnect\ListConnectionsResponse;
 use Google\Service\DeveloperConnect\Operation;
+use Google\Service\DeveloperConnect\ProcessGitHubEnterpriseWebhookRequest;
 
 /**
  * The "connections" collection of methods.
@@ -197,11 +199,11 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * clients from accidentally creating duplicate commitments. The request ID must
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
-   * @opt_param string updateMask Optional. Required. Field mask is used to
-   * specify the fields to be overwritten in the Connection resource by the
-   * update. The fields specified in the update_mask are relative to the resource,
-   * not the full request. A field will be overwritten if it is in the mask. If
-   * the user does not provide a mask then all fields will be overwritten.
+   * @opt_param string updateMask Required. Field mask is used to specify the
+   * fields to be overwritten in the Connection resource by the update. The fields
+   * specified in the update_mask are relative to the resource, not the full
+   * request. A field will be overwritten if it is in the mask. If the user does
+   * not provide a mask then all fields will be overwritten.
    * @opt_param bool validateOnly Optional. If set, validate the request, but do
    * not actually post it.
    * @return Operation
@@ -212,6 +214,23 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * ProcessGitHubEnterpriseWebhook is called by the external GitHub Enterprise
+   * instances for notifying events. (connections.processGitHubEnterpriseWebhook)
+   *
+   * @param string $parent Required. Project and location where the webhook will
+   * be received. Format: `projects/locations`.
+   * @param ProcessGitHubEnterpriseWebhookRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return DeveloperconnectEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function processGitHubEnterpriseWebhook($parent, ProcessGitHubEnterpriseWebhookRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('processGitHubEnterpriseWebhook', [$params], DeveloperconnectEmpty::class);
   }
 }
 

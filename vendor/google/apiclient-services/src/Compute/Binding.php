@@ -20,10 +20,6 @@ namespace Google\Service\Compute;
 class Binding extends \Google\Collection
 {
   protected $collection_key = 'members';
-  /**
-   * @var string
-   */
-  public $bindingId;
   protected $conditionType = Expr::class;
   protected $conditionDataType = '';
   /**
@@ -35,20 +31,6 @@ class Binding extends \Google\Collection
    */
   public $role;
 
-  /**
-   * @param string
-   */
-  public function setBindingId($bindingId)
-  {
-    $this->bindingId = $bindingId;
-  }
-  /**
-   * @return string
-   */
-  public function getBindingId()
-  {
-    return $this->bindingId;
-  }
   /**
    * @param Expr
    */

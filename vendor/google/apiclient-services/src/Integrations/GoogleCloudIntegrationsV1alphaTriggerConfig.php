@@ -32,10 +32,8 @@ class GoogleCloudIntegrationsV1alphaTriggerConfig extends \Google\Collection
    * @var string
    */
   public $errorCatcherId;
-  /**
-   * @var string[]
-   */
-  public $inputVariables;
+  protected $inputVariablesType = GoogleCloudIntegrationsV1alphaTriggerConfigVariables::class;
+  protected $inputVariablesDataType = '';
   /**
    * @var string
    */
@@ -44,10 +42,8 @@ class GoogleCloudIntegrationsV1alphaTriggerConfig extends \Google\Collection
    * @var string
    */
   public $nextTasksExecutionPolicy;
-  /**
-   * @var string[]
-   */
-  public $outputVariables;
+  protected $outputVariablesType = GoogleCloudIntegrationsV1alphaTriggerConfigVariables::class;
+  protected $outputVariablesDataType = '';
   protected $positionType = GoogleCloudIntegrationsV1alphaCoordinate::class;
   protected $positionDataType = '';
   /**
@@ -130,14 +126,14 @@ class GoogleCloudIntegrationsV1alphaTriggerConfig extends \Google\Collection
     return $this->errorCatcherId;
   }
   /**
-   * @param string[]
+   * @param GoogleCloudIntegrationsV1alphaTriggerConfigVariables
    */
-  public function setInputVariables($inputVariables)
+  public function setInputVariables(GoogleCloudIntegrationsV1alphaTriggerConfigVariables $inputVariables)
   {
     $this->inputVariables = $inputVariables;
   }
   /**
-   * @return string[]
+   * @return GoogleCloudIntegrationsV1alphaTriggerConfigVariables
    */
   public function getInputVariables()
   {
@@ -172,14 +168,14 @@ class GoogleCloudIntegrationsV1alphaTriggerConfig extends \Google\Collection
     return $this->nextTasksExecutionPolicy;
   }
   /**
-   * @param string[]
+   * @param GoogleCloudIntegrationsV1alphaTriggerConfigVariables
    */
-  public function setOutputVariables($outputVariables)
+  public function setOutputVariables(GoogleCloudIntegrationsV1alphaTriggerConfigVariables $outputVariables)
   {
     $this->outputVariables = $outputVariables;
   }
   /**
-   * @return string[]
+   * @return GoogleCloudIntegrationsV1alphaTriggerConfigVariables
    */
   public function getOutputVariables()
   {

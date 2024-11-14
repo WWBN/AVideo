@@ -105,6 +105,10 @@ class Cluster extends \Google\Model
    * @var string
    */
   public $subscriptionType;
+  /**
+   * @var string[]
+   */
+  public $tags;
   protected $trialMetadataType = TrialMetadata::class;
   protected $trialMetadataDataType = '';
   /**
@@ -521,6 +525,20 @@ class Cluster extends \Google\Model
   public function getSubscriptionType()
   {
     return $this->subscriptionType;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
   /**
    * @param TrialMetadata

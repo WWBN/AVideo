@@ -31,23 +31,24 @@ use Google\Service\FirebaseManagement\Operation;
 class ProjectsDefaultLocation extends \Google\Service\Resource
 {
   /**
-   * **DEPRECATED.** _Instead, use the applicable resource-specific REST API to
-   * set the location for each resource used in your Project._ Sets the default
-   * Google Cloud Platform (GCP) resource location for the specified
-   * FirebaseProject. This method creates an App Engine application with a
-   * [default Cloud Storage bucket](https://cloud.google.com/appengine/docs/standa
-   * rd/python/googlecloudstorageclient/setting-up-cloud-
-   * storage#activating_a_cloud_storage_bucket), located in the specified
-   * [`locationId`](#body.request_body.FIELDS.location_id). This location must be
-   * one of the available [GCP resource
-   * locations](https://firebase.google.com/docs/projects/locations). After the
-   * default GCP resource location is finalized, or if it was already set, it
-   * cannot be changed. The default GCP resource location for the specified
-   * `FirebaseProject` might already be set because either the underlying GCP
-   * `Project` already has an App Engine application or `FinalizeDefaultLocation`
-   * was previously called with a specified `locationId`. Any new calls to
-   * `FinalizeDefaultLocation` with a *different* specified `locationId` will
-   * return a 409 error. The result of this call is an
+   * **DECOMMISSIONED.** **If called, this endpoint will return a 404 error.**
+   * _Instead, use the applicable resource-specific REST API to set the location
+   * for each resource used in your Project._ Sets the ["location for default
+   * Google Cloud
+   * resources"](https://firebase.google.com/docs/projects/locations#default-
+   * cloud-location) for the specified FirebaseProject. This method creates a
+   * Google App Engine application with a [default Cloud Storage bucket](https://c
+   * loud.google.com/appengine/docs/standard/python/googlecloudstorageclient/setti
+   * ng-up-cloud-storage#activating_a_cloud_storage_bucket), located in the
+   * specified [`locationId`](#body.request_body.FIELDS.location_id). This
+   * location must be one of the available [App Engine
+   * locations](https://cloud.google.com/about/locations#region). After the
+   * location for default Google Cloud resources is finalized, or if it was
+   * already set, it cannot be changed. The location for default Google Cloud
+   * resources for the specified `FirebaseProject` might already be set because
+   * either the underlying Google Cloud `Project` already has an App Engine
+   * application or `FinalizeDefaultLocation` was previously called with a
+   * specified `locationId`. The result of this call is an
    * [`Operation`](../../v1beta1/operations), which can be used to track the
    * provisioning process. The
    * [`response`](../../v1beta1/operations#Operation.FIELDS.response) type of the
@@ -63,10 +64,11 @@ class ProjectsDefaultLocation extends \Google\Service\Resource
    * (defaultLocation.finalize)
    *
    * @param string $parent The resource name of the FirebaseProject for which the
-   * default GCP resource location will be set, in the format:
-   * projects/PROJECT_IDENTIFIER Refer to the `FirebaseProject`
-   * [`name`](../projects#FirebaseProject.FIELDS.name) field for details about
-   * PROJECT_IDENTIFIER values.
+   * ["location for default Google Cloud
+   * resources"](https://firebase.google.com/docs/projects/locations#default-
+   * cloud-location) will be set, in the format: projects/PROJECT_IDENTIFIER Refer
+   * to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name)
+   * field for details about PROJECT_IDENTIFIER values.
    * @param FinalizeDefaultLocationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation

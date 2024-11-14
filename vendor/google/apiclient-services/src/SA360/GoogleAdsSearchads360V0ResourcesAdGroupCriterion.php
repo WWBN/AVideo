@@ -44,6 +44,10 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
    */
   public $effectiveCpcBidMicros;
   /**
+   * @var string[]
+   */
+  public $effectiveLabels;
+  /**
    * @var string
    */
   public $engineId;
@@ -195,6 +199,20 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
   public function getEffectiveCpcBidMicros()
   {
     return $this->effectiveCpcBidMicros;
+  }
+  /**
+   * @param string[]
+   */
+  public function setEffectiveLabels($effectiveLabels)
+  {
+    $this->effectiveLabels = $effectiveLabels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getEffectiveLabels()
+  {
+    return $this->effectiveLabels;
   }
   /**
    * @param string

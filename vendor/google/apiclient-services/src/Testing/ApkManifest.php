@@ -19,7 +19,7 @@ namespace Google\Service\Testing;
 
 class ApkManifest extends \Google\Collection
 {
-  protected $collection_key = 'usesPermission';
+  protected $collection_key = 'usesPermissionTags';
   /**
    * @var string
    */
@@ -52,6 +52,8 @@ class ApkManifest extends \Google\Collection
    * @var string[]
    */
   public $usesPermission;
+  protected $usesPermissionTagsType = UsesPermissionTag::class;
+  protected $usesPermissionTagsDataType = 'array';
   /**
    * @var string
    */
@@ -200,6 +202,20 @@ class ApkManifest extends \Google\Collection
   public function getUsesPermission()
   {
     return $this->usesPermission;
+  }
+  /**
+   * @param UsesPermissionTag[]
+   */
+  public function setUsesPermissionTags($usesPermissionTags)
+  {
+    $this->usesPermissionTags = $usesPermissionTags;
+  }
+  /**
+   * @return UsesPermissionTag[]
+   */
+  public function getUsesPermissionTags()
+  {
+    return $this->usesPermissionTags;
   }
   /**
    * @param string

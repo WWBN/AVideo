@@ -86,6 +86,16 @@ class IAMCredentials extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'getAllowedLocations' => [
+              'path' => 'v1/{+name}/allowedLocations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'signBlob' => [
               'path' => 'v1/{+name}:signBlob',
               'httpMethod' => 'POST',

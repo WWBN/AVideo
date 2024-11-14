@@ -19,7 +19,9 @@ namespace Google\Service\BeyondCorp;
 
 class GoogleCloudBeyondcorpSecuritygatewaysV1SetPeeringRequest extends \Google\Collection
 {
-  protected $collection_key = 'vpcPeerings';
+  protected $collection_key = 'peerings';
+  protected $peeringsType = GoogleCloudBeyondcorpSecuritygatewaysV1Peering::class;
+  protected $peeringsDataType = 'array';
   /**
    * @var string
    */
@@ -28,9 +30,21 @@ class GoogleCloudBeyondcorpSecuritygatewaysV1SetPeeringRequest extends \Google\C
    * @var bool
    */
   public $validateOnly;
-  protected $vpcPeeringsType = GoogleCloudBeyondcorpSecuritygatewaysV1Peering::class;
-  protected $vpcPeeringsDataType = 'array';
 
+  /**
+   * @param GoogleCloudBeyondcorpSecuritygatewaysV1Peering[]
+   */
+  public function setPeerings($peerings)
+  {
+    $this->peerings = $peerings;
+  }
+  /**
+   * @return GoogleCloudBeyondcorpSecuritygatewaysV1Peering[]
+   */
+  public function getPeerings()
+  {
+    return $this->peerings;
+  }
   /**
    * @param string
    */
@@ -58,20 +72,6 @@ class GoogleCloudBeyondcorpSecuritygatewaysV1SetPeeringRequest extends \Google\C
   public function getValidateOnly()
   {
     return $this->validateOnly;
-  }
-  /**
-   * @param GoogleCloudBeyondcorpSecuritygatewaysV1Peering[]
-   */
-  public function setVpcPeerings($vpcPeerings)
-  {
-    $this->vpcPeerings = $vpcPeerings;
-  }
-  /**
-   * @return GoogleCloudBeyondcorpSecuritygatewaysV1Peering[]
-   */
-  public function getVpcPeerings()
-  {
-    return $this->vpcPeerings;
   }
 }
 

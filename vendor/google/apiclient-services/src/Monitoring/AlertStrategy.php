@@ -19,13 +19,17 @@ namespace Google\Service\Monitoring;
 
 class AlertStrategy extends \Google\Collection
 {
-  protected $collection_key = 'notificationChannelStrategy';
+  protected $collection_key = 'notificationPrompts';
   /**
    * @var string
    */
   public $autoClose;
   protected $notificationChannelStrategyType = NotificationChannelStrategy::class;
   protected $notificationChannelStrategyDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $notificationPrompts;
   protected $notificationRateLimitType = NotificationRateLimit::class;
   protected $notificationRateLimitDataType = '';
 
@@ -56,6 +60,20 @@ class AlertStrategy extends \Google\Collection
   public function getNotificationChannelStrategy()
   {
     return $this->notificationChannelStrategy;
+  }
+  /**
+   * @param string[]
+   */
+  public function setNotificationPrompts($notificationPrompts)
+  {
+    $this->notificationPrompts = $notificationPrompts;
+  }
+  /**
+   * @return string[]
+   */
+  public function getNotificationPrompts()
+  {
+    return $this->notificationPrompts;
   }
   /**
    * @param NotificationRateLimit

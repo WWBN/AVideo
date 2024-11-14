@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	backupGlobals="false"
+	backupStaticAttributes="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	processIsolation="false"
+	stopOnFailure="false"
+	verbose="true"
+	bootstrap="src/SQLParser.php">
+
+	<php>
+		<ini name="intl.default_locale" value="en"/>
+		<ini name="intl.error_level" value="0"/>
+		<ini name="memory_limit" value="-1"/>
+		<ini name="date.timezone" value="America/Los_Angeles"/>
+	</php>
+
+	<testsuites>
+		<testsuite name="unit">
+			<directory suffix=".php">tests</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist>
+			<directory suffix=".php">src</directory>
+		</whitelist>
+	</filter>
+</phpunit>

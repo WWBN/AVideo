@@ -45,6 +45,10 @@ class PscConnection extends \Google\Model
   /**
    * @var string
    */
+  public $ipVersion;
+  /**
+   * @var string
+   */
   public $producerInstanceId;
   /**
    * @var string[]
@@ -164,6 +168,20 @@ class PscConnection extends \Google\Model
   public function getGceOperation()
   {
     return $this->gceOperation;
+  }
+  /**
+   * @param string
+   */
+  public function setIpVersion($ipVersion)
+  {
+    $this->ipVersion = $ipVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getIpVersion()
+  {
+    return $this->ipVersion;
   }
   /**
    * @param string

@@ -122,6 +122,10 @@ class Bigquery extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'accessPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
                 'datasetView' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -135,6 +139,10 @@ class Bigquery extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'accessPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
                 ],
               ],
             ],'list' => [
@@ -177,6 +185,10 @@ class Bigquery extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'accessPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
               ],
             ],'undelete' => [
               'path' => 'projects/{+projectId}/datasets/{+datasetId}:undelete',
@@ -206,6 +218,10 @@ class Bigquery extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'accessPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
                 ],
               ],
             ],

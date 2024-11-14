@@ -30,20 +30,22 @@ use Google\Service\FirebaseManagement\ListAvailableLocationsResponse;
 class ProjectsAvailableLocations extends \Google\Service\Resource
 {
   /**
-   * **DEPRECATED.** _Instead, use the applicable resource-specific REST API (or
-   * associated documentation, as needed) to determine valid locations for each
-   * resource used in your Project._ Lists the valid Google Cloud Platform (GCP)
-   * resource locations for the specified Project (including a FirebaseProject).
-   * One of these locations can be selected as the Project's [_default_ GCP
-   * resource location](https://firebase.google.com/docs/projects/locations),
-   * which is the geographical location where the Project's resources, such as
-   * Cloud Firestore, will be provisioned by default. However, if the default GCP
-   * resource location has already been set for the Project, then this setting
-   * cannot be changed. This call checks for any possible [location
-   * restrictions](https://cloud.google.com/resource-manager/docs/organization-
-   * policy/defining-locations) for the specified Project and, thus, might return
-   * a subset of all possible GCP resource locations. To list all GCP resource
-   * locations (regardless of any restrictions), call the endpoint without
+   * **DECOMMISSIONED.** **If called, this endpoint will return a 404 error.**
+   * _Instead, use the applicable resource-specific REST API (or associated
+   * documentation, as needed) to determine valid locations for each resource used
+   * in your Project._ Lists the valid ["locations for default Google Cloud
+   * resources"](https://firebase.google.com/docs/projects/locations#default-
+   * cloud-location) for the specified Project (including a FirebaseProject). One
+   * of these locations can be selected as the Project's location for default
+   * Google Cloud resources, which is the geographical location where the
+   * Project's resources associated with Google App Engine (such as the default
+   * Cloud Firestore instance) will be provisioned by default. However, if the
+   * location for default Google Cloud resources has already been set for the
+   * Project, then this setting cannot be changed. This call checks for any
+   * possible [location restrictions](https://cloud.google.com/resource-
+   * manager/docs/organization-policy/defining-locations) for the specified
+   * Project and, thus, might return a subset of all possible locations. To list
+   * all locations (regardless of any restrictions), call the endpoint without
    * specifying a unique project identifier (that is,
    * `/v1beta1/{parent=projects/-}/listAvailableLocations`). To call
    * `ListAvailableLocations` with a specified project, a member must be at
@@ -51,8 +53,10 @@ class ProjectsAvailableLocations extends \Google\Service\Resource
    * require any specific project permissions.
    * (availableLocations.listProjectsAvailableLocations)
    *
-   * @param string $parent The FirebaseProject for which to list GCP resource
-   * locations, in the format: projects/PROJECT_IDENTIFIER Refer to the
+   * @param string $parent The FirebaseProject for which to list [locations for
+   * default Google Cloud
+   * resources](https://firebase.google.com/docs/projects/locations#default-cloud-
+   * location), in the format: projects/PROJECT_IDENTIFIER Refer to the
    * `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for
    * details about PROJECT_IDENTIFIER values. If no unique project identifier is
    * specified (that is, `projects/-`), the returned list does not take into

@@ -90,6 +90,10 @@ class Backup extends \Google\Model
    */
   public $state;
   /**
+   * @var string[]
+   */
+  public $tags;
+  /**
    * @var string
    */
   public $type;
@@ -367,6 +371,20 @@ class Backup extends \Google\Model
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
   /**
    * @param string

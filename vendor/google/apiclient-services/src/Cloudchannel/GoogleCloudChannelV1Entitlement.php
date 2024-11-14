@@ -42,6 +42,10 @@ class GoogleCloudChannelV1Entitlement extends \Google\Collection
   public $offer;
   protected $parametersType = GoogleCloudChannelV1Parameter::class;
   protected $parametersDataType = 'array';
+  /**
+   * @var string
+   */
+  public $priceReferenceId;
   protected $provisionedServiceType = GoogleCloudChannelV1ProvisionedService::class;
   protected $provisionedServiceDataType = '';
   /**
@@ -160,6 +164,20 @@ class GoogleCloudChannelV1Entitlement extends \Google\Collection
   public function getParameters()
   {
     return $this->parameters;
+  }
+  /**
+   * @param string
+   */
+  public function setPriceReferenceId($priceReferenceId)
+  {
+    $this->priceReferenceId = $priceReferenceId;
+  }
+  /**
+   * @return string
+   */
+  public function getPriceReferenceId()
+  {
+    return $this->priceReferenceId;
   }
   /**
    * @param GoogleCloudChannelV1ProvisionedService

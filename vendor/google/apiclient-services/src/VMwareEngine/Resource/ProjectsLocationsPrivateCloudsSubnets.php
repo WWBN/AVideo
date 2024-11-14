@@ -81,8 +81,8 @@ class ProjectsLocationsPrivateCloudsSubnets extends \Google\Service\Resource
    * a successful `google.longrunning.Operation` (LRO). The returned LRO will only
    * have `done` and `response` fields. (subnets.patch)
    *
-   * @param string $name Output only. The resource name of this subnet. Resource
-   * names are schemeless URIs that follow the conventions in
+   * @param string $name Output only. Identifier. The resource name of this
+   * subnet. Resource names are schemeless URIs that follow the conventions in
    * https://cloud.google.com/apis/design/resource_names. For example:
    * `projects/my-project/locations/us-central1-a/privateClouds/my-
    * cloud/subnets/my-subnet`

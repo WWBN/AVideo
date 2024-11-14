@@ -33,6 +33,8 @@ class CloudAiLargeModelsVisionImage extends \Google\Model
   public $image;
   protected $imageRaiScoresType = CloudAiLargeModelsVisionImageRAIScores::class;
   protected $imageRaiScoresDataType = '';
+  protected $imageSizeType = CloudAiLargeModelsVisionImageImageSize::class;
+  protected $imageSizeDataType = '';
   protected $raiInfoType = CloudAiLargeModelsVisionRaiInfo::class;
   protected $raiInfoDataType = '';
   protected $semanticFilterResponseType = CloudAiLargeModelsVisionSemanticFilterResponse::class;
@@ -101,6 +103,20 @@ class CloudAiLargeModelsVisionImage extends \Google\Model
   public function getImageRaiScores()
   {
     return $this->imageRaiScores;
+  }
+  /**
+   * @param CloudAiLargeModelsVisionImageImageSize
+   */
+  public function setImageSize(CloudAiLargeModelsVisionImageImageSize $imageSize)
+  {
+    $this->imageSize = $imageSize;
+  }
+  /**
+   * @return CloudAiLargeModelsVisionImageImageSize
+   */
+  public function getImageSize()
+  {
+    return $this->imageSize;
   }
   /**
    * @param CloudAiLargeModelsVisionRaiInfo

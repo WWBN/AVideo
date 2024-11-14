@@ -19,6 +19,10 @@ namespace Google\Service\Dataform;
 
 class Workspace extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $createTime;
   protected $dataEncryptionStateType = DataEncryptionState::class;
   protected $dataEncryptionStateDataType = '';
   /**
@@ -26,6 +30,20 @@ class Workspace extends \Google\Model
    */
   public $name;
 
+  /**
+   * @param string
+   */
+  public function setCreateTime($createTime)
+  {
+    $this->createTime = $createTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCreateTime()
+  {
+    return $this->createTime;
+  }
   /**
    * @param DataEncryptionState
    */

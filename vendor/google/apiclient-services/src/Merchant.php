@@ -20,7 +20,7 @@ namespace Google\Service;
 use Google\Client;
 
 /**
- * Service definition for Merchant (reports_v1beta).
+ * Service definition for Merchant (reviews_v1beta).
  *
  * <p>
  * Programmatically manage your Merchant Center Accounts.</p>
@@ -38,7 +38,8 @@ class Merchant extends \Google\Service
   const CONTENT =
       "https://www.googleapis.com/auth/content";
 
-  public $accounts_reports;
+  public $accounts_merchantReviews;
+  public $accounts_productReviews;
   public $rootUrlTemplate;
 
   /**
@@ -55,23 +56,127 @@ class Merchant extends \Google\Service
     $this->rootUrlTemplate = $rootUrl ?: 'https://merchantapi.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
-    $this->version = 'reports_v1beta';
+    $this->version = 'reviews_v1beta';
     $this->serviceName = 'merchantapi';
 
-    $this->accounts_reports = new Merchant\Resource\AccountsReports(
+    $this->accounts_merchantReviews = new Merchant\Resource\AccountsMerchantReviews(
         $this,
         $this->serviceName,
-        'reports',
+        'merchantReviews',
         [
           'methods' => [
-            'search' => [
-              'path' => 'reports/v1beta/{+parent}/reports:search',
+            'delete' => [
+              'path' => 'reviews/v1beta/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'reviews/v1beta/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'insert' => [
+              'path' => 'reviews/v1beta/{+parent}/merchantReviews:insert',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'dataSource' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'reviews/v1beta/{+parent}/merchantReviews',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->accounts_productReviews = new Merchant\Resource\AccountsProductReviews(
+        $this,
+        $this->serviceName,
+        'productReviews',
+        [
+          'methods' => [
+            'delete' => [
+              'path' => 'reviews/v1beta/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'reviews/v1beta/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'insert' => [
+              'path' => 'reviews/v1beta/{+parent}/productReviews:insert',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'dataSource' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'reviews/v1beta/{+parent}/productReviews',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

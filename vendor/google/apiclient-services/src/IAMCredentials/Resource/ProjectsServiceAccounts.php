@@ -21,6 +21,7 @@ use Google\Service\IAMCredentials\GenerateAccessTokenRequest;
 use Google\Service\IAMCredentials\GenerateAccessTokenResponse;
 use Google\Service\IAMCredentials\GenerateIdTokenRequest;
 use Google\Service\IAMCredentials\GenerateIdTokenResponse;
+use Google\Service\IAMCredentials\ServiceAccountAllowedLocations;
 use Google\Service\IAMCredentials\SignBlobRequest;
 use Google\Service\IAMCredentials\SignBlobResponse;
 use Google\Service\IAMCredentials\SignJwtRequest;
@@ -73,6 +74,21 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('generateIdToken', [$params], GenerateIdTokenResponse::class);
+  }
+  /**
+   * Returns the trust boundary info for a given service account.
+   * (serviceAccounts.getAllowedLocations)
+   *
+   * @param string $name Required. Resource name of service account.
+   * @param array $optParams Optional parameters.
+   * @return ServiceAccountAllowedLocations
+   * @throws \Google\Service\Exception
+   */
+  public function getAllowedLocations($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getAllowedLocations', [$params], ServiceAccountAllowedLocations::class);
   }
   /**
    * Signs a blob using a service account's system-managed private key.

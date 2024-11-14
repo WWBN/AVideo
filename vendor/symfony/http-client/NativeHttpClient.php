@@ -138,7 +138,15 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
             // Memoize the last progress to ease calling the callback periodically when no network transfer happens
             $lastProgress = [0, 0];
             $maxDuration = 0 < $options['max_duration'] ? $options['max_duration'] : \INF;
-            $onProgress = static function (...$progress) use ($onProgress, &$lastProgress, &$info, $maxDuration) {
+            $multi = $this->multi;
+            $resolve = static function (string $host, ?string $ip = null) use ($multi): ?string {
+                if (null !== $ip) {
+                    $multi->dnsCache[$host] = $ip;
+                }
+
+                return $multi->dnsCache[$host] ?? null;
+            };
+            $onProgress = static function (...$progress) use ($onProgress, &$lastProgress, &$info, $maxDuration, $resolve) {
                 if ($info['total_time'] >= $maxDuration) {
                     throw new TransportException(sprintf('Max duration was reached for "%s".', implode('', $info['url'])));
                 }
@@ -154,7 +162,7 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
                     $lastProgress = $progress ?: $lastProgress;
                 }
 
-                $onProgress($lastProgress[0], $lastProgress[1], $progressInfo);
+                $onProgress($lastProgress[0], $lastProgress[1], $progressInfo, $resolve);
             };
         } elseif (0 < $options['max_duration']) {
             $maxDuration = $options['max_duration'];
@@ -416,7 +424,7 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
 
             [$host, $port] = self::parseHostPort($url, $info);
 
-            if (false !== (parse_url($location, \PHP_URL_HOST) ?? false)) {
+            if (false !== (parse_url($location.'#', \PHP_URL_HOST) ?? false)) {
                 // Authorization and Cookie headers MUST NOT follow except for the initial host name
                 $requestHeaders = $redirectHeaders['host'] === $host ? $redirectHeaders['with_auth'] : $redirectHeaders['no_auth'];
                 $requestHeaders[] = 'Host: '.$host.$port;

@@ -1996,7 +1996,22 @@ class Storage extends \Google\Service
         'operations',
         [
           'methods' => [
-            'cancel' => [
+            'advanceRelocateBucket' => [
+              'path' => 'b/{bucket}/operations/{operationId}/advanceRelocateBucket',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'bucket' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'operationId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'cancel' => [
               'path' => 'b/{bucket}/operations/{operationId}/cancel',
               'httpMethod' => 'POST',
               'parameters' => [

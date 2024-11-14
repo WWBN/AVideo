@@ -46,6 +46,8 @@ class GoogleCloudAiplatformV1SchemaTextPromptDatasetMetadata extends \Google\Col
    * @var string
    */
   public $note;
+  protected $promptApiSchemaType = GoogleCloudAiplatformV1SchemaPromptApiSchema::class;
+  protected $promptApiSchemaDataType = '';
   /**
    * @var string
    */
@@ -184,6 +186,20 @@ class GoogleCloudAiplatformV1SchemaTextPromptDatasetMetadata extends \Google\Col
   public function getNote()
   {
     return $this->note;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1SchemaPromptApiSchema
+   */
+  public function setPromptApiSchema(GoogleCloudAiplatformV1SchemaPromptApiSchema $promptApiSchema)
+  {
+    $this->promptApiSchema = $promptApiSchema;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1SchemaPromptApiSchema
+   */
+  public function getPromptApiSchema()
+  {
+    return $this->promptApiSchema;
   }
   /**
    * @param string

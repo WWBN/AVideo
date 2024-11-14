@@ -17,6 +17,9 @@
 
 namespace Google\Service\DataCatalog\Resource;
 
+use Google\Service\DataCatalog\GoogleCloudDatacatalogV1MigrationConfig;
+use Google\Service\DataCatalog\GoogleCloudDatacatalogV1SetConfigRequest;
+
 /**
  * The "locations" collection of methods.
  * Typical usage is:
@@ -27,6 +30,42 @@ namespace Google\Service\DataCatalog\Resource;
  */
 class ProjectsLocations extends \Google\Service\Resource
 {
+  /**
+   * Retrieves the effective configuration related to the migration from Data
+   * Catalog to Dataplex for a specific organization or project. If there is no
+   * specific configuration set for the resource, the setting is checked
+   * hierarchicahlly through the ancestors of the resource, starting from the
+   * resource itself. (locations.retrieveEffectiveConfig)
+   *
+   * @param string $name Required. The resource whose effective config is being
+   * retrieved.
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDatacatalogV1MigrationConfig
+   * @throws \Google\Service\Exception
+   */
+  public function retrieveEffectiveConfig($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('retrieveEffectiveConfig', [$params], GoogleCloudDatacatalogV1MigrationConfig::class);
+  }
+  /**
+   * Sets the configuration related to the migration to Dataplex for an
+   * organization or project. (locations.setConfig)
+   *
+   * @param string $name Required. The organization or project whose config is
+   * being specified.
+   * @param GoogleCloudDatacatalogV1SetConfigRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDatacatalogV1MigrationConfig
+   * @throws \Google\Service\Exception
+   */
+  public function setConfig($name, GoogleCloudDatacatalogV1SetConfigRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('setConfig', [$params], GoogleCloudDatacatalogV1MigrationConfig::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

@@ -45,6 +45,7 @@ class Aiplatform extends \Google\Service
   public $datasets;
   public $datasets_datasetVersions;
   public $endpoints;
+  public $projects;
   public $projects_locations;
   public $projects_locations_batchPredictionJobs;
   public $projects_locations_customJobs;
@@ -65,6 +66,7 @@ class Aiplatform extends \Google\Service
   public $projects_locations_deploymentResourcePools;
   public $projects_locations_deploymentResourcePools_operations;
   public $projects_locations_endpoints;
+  public $projects_locations_endpoints_chat;
   public $projects_locations_endpoints_operations;
   public $projects_locations_featureGroups;
   public $projects_locations_featureGroups_features;
@@ -384,6 +386,36 @@ class Aiplatform extends \Google\Service
               'httpMethod' => 'POST',
               'parameters' => [
                 'model' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects = new Aiplatform\Resource\Projects(
+        $this,
+        $this->serviceName,
+        'projects',
+        [
+          'methods' => [
+            'getCacheConfig' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'updateCacheConfig' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -1888,6 +1920,16 @@ class Aiplatform extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'fetchPredictOperation' => [
+              'path' => 'v1/{+endpoint}:fetchPredictOperation',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'endpoint' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'generateContent' => [
               'path' => 'v1/{+model}:generateContent',
               'httpMethod' => 'POST',
@@ -1972,6 +2014,16 @@ class Aiplatform extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'predictLongRunning' => [
+              'path' => 'v1/{+endpoint}:predictLongRunning',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'endpoint' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'rawPredict' => [
               'path' => 'v1/{+endpoint}:rawPredict',
               'httpMethod' => 'POST',
@@ -2014,6 +2066,26 @@ class Aiplatform extends \Google\Service
               ],
             ],'undeployModel' => [
               'path' => 'v1/{+endpoint}:undeployModel',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'endpoint' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_endpoints_chat = new Aiplatform\Resource\ProjectsLocationsEndpointsChat(
+        $this,
+        $this->serviceName,
+        'chat',
+        [
+          'methods' => [
+            'completions' => [
+              'path' => 'v1/{+endpoint}/chat/completions',
               'httpMethod' => 'POST',
               'parameters' => [
                 'endpoint' => [
@@ -2196,7 +2268,17 @@ class Aiplatform extends \Google\Service
         'features',
         [
           'methods' => [
-            'create' => [
+            'batchCreate' => [
+              'path' => 'v1/{+parent}/features:batchCreate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
               'path' => 'v1/{+parent}/features',
               'httpMethod' => 'POST',
               'parameters' => [
@@ -6214,6 +6296,16 @@ class Aiplatform extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'stop' => [
+              'path' => 'v1/{+name}:stop',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'upgrade' => [
               'path' => 'v1/{+name}:upgrade',
               'httpMethod' => 'POST',
@@ -6748,6 +6840,16 @@ class Aiplatform extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'fetchPredictOperation' => [
+              'path' => 'v1/{+endpoint}:fetchPredictOperation',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'endpoint' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'generateContent' => [
               'path' => 'v1/{+model}:generateContent',
               'httpMethod' => 'POST',
@@ -6760,6 +6862,16 @@ class Aiplatform extends \Google\Service
               ],
             ],'predict' => [
               'path' => 'v1/{+endpoint}:predict',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'endpoint' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'predictLongRunning' => [
+              'path' => 'v1/{+endpoint}:predictLongRunning',
               'httpMethod' => 'POST',
               'parameters' => [
                 'endpoint' => [

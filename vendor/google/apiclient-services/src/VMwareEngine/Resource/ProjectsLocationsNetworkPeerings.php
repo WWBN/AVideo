@@ -173,9 +173,9 @@ class ProjectsLocationsNetworkPeerings extends \Google\Service\Resource
    * updated. Only fields specified in `updateMask` are applied. NetworkPeering is
    * a global resource and location can only be global. (networkPeerings.patch)
    *
-   * @param string $name Output only. The resource name of the network peering.
-   * NetworkPeering is a global resource and location can only be global. Resource
-   * names are scheme-less URIs that follow the conventions in
+   * @param string $name Output only. Identifier. The resource name of the network
+   * peering. NetworkPeering is a global resource and location can only be global.
+   * Resource names are scheme-less URIs that follow the conventions in
    * https://cloud.google.com/apis/design/resource_names. For example:
    * `projects/my-project/locations/global/networkPeerings/my-peering`
    * @param NetworkPeering $postBody

@@ -71,9 +71,6 @@ class Operations extends \Google\Service\Resource
    * @param string $project Project ID of the project that contains the instance.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Optional. A filter string that follows the rules of
-   * EBNF grammar (https://google.aip.dev/assets/misc/ebnf-filtering.txt). Cloud
-   * SQL provides filters for status, operationType, and startTime.
    * @opt_param string instance Cloud SQL instance ID. This does not include the
    * project ID.
    * @opt_param string maxResults Maximum number of operations per response.

@@ -17,8 +17,92 @@
 
 namespace Google\Service\GKEHub;
 
-class ServiceMeshState extends \Google\Model
+class ServiceMeshState extends \Google\Collection
 {
+  protected $collection_key = 'conditions';
+  protected $analysisMessagesType = ServiceMeshAnalysisMessage::class;
+  protected $analysisMessagesDataType = 'array';
+  protected $conditionsType = ServiceMeshCondition::class;
+  protected $conditionsDataType = 'array';
+  /**
+   * @var string
+   */
+  public $configApiVersion;
+  protected $controlPlaneManagementType = ServiceMeshControlPlaneManagement::class;
+  protected $controlPlaneManagementDataType = '';
+  protected $dataPlaneManagementType = ServiceMeshDataPlaneManagement::class;
+  protected $dataPlaneManagementDataType = '';
+
+  /**
+   * @param ServiceMeshAnalysisMessage[]
+   */
+  public function setAnalysisMessages($analysisMessages)
+  {
+    $this->analysisMessages = $analysisMessages;
+  }
+  /**
+   * @return ServiceMeshAnalysisMessage[]
+   */
+  public function getAnalysisMessages()
+  {
+    return $this->analysisMessages;
+  }
+  /**
+   * @param ServiceMeshCondition[]
+   */
+  public function setConditions($conditions)
+  {
+    $this->conditions = $conditions;
+  }
+  /**
+   * @return ServiceMeshCondition[]
+   */
+  public function getConditions()
+  {
+    return $this->conditions;
+  }
+  /**
+   * @param string
+   */
+  public function setConfigApiVersion($configApiVersion)
+  {
+    $this->configApiVersion = $configApiVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getConfigApiVersion()
+  {
+    return $this->configApiVersion;
+  }
+  /**
+   * @param ServiceMeshControlPlaneManagement
+   */
+  public function setControlPlaneManagement(ServiceMeshControlPlaneManagement $controlPlaneManagement)
+  {
+    $this->controlPlaneManagement = $controlPlaneManagement;
+  }
+  /**
+   * @return ServiceMeshControlPlaneManagement
+   */
+  public function getControlPlaneManagement()
+  {
+    return $this->controlPlaneManagement;
+  }
+  /**
+   * @param ServiceMeshDataPlaneManagement
+   */
+  public function setDataPlaneManagement(ServiceMeshDataPlaneManagement $dataPlaneManagement)
+  {
+    $this->dataPlaneManagement = $dataPlaneManagement;
+  }
+  /**
+   * @return ServiceMeshDataPlaneManagement
+   */
+  public function getDataPlaneManagement()
+  {
+    return $this->dataPlaneManagement;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

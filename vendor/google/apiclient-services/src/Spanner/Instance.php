@@ -19,7 +19,7 @@ namespace Google\Service\Spanner;
 
 class Instance extends \Google\Collection
 {
-  protected $collection_key = 'endpointUris';
+  protected $collection_key = 'replicaComputeCapacity';
   protected $autoscalingConfigType = AutoscalingConfig::class;
   protected $autoscalingConfigDataType = '';
   /**
@@ -30,6 +30,10 @@ class Instance extends \Google\Collection
    * @var string
    */
   public $createTime;
+  /**
+   * @var string
+   */
+  public $defaultBackupScheduleType;
   /**
    * @var string
    */
@@ -64,6 +68,8 @@ class Instance extends \Google\Collection
    * @var int
    */
   public $processingUnits;
+  protected $replicaComputeCapacityType = ReplicaComputeCapacity::class;
+  protected $replicaComputeCapacityDataType = 'array';
   /**
    * @var string
    */
@@ -114,6 +120,20 @@ class Instance extends \Google\Collection
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setDefaultBackupScheduleType($defaultBackupScheduleType)
+  {
+    $this->defaultBackupScheduleType = $defaultBackupScheduleType;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultBackupScheduleType()
+  {
+    return $this->defaultBackupScheduleType;
   }
   /**
    * @param string
@@ -240,6 +260,20 @@ class Instance extends \Google\Collection
   public function getProcessingUnits()
   {
     return $this->processingUnits;
+  }
+  /**
+   * @param ReplicaComputeCapacity[]
+   */
+  public function setReplicaComputeCapacity($replicaComputeCapacity)
+  {
+    $this->replicaComputeCapacity = $replicaComputeCapacity;
+  }
+  /**
+   * @return ReplicaComputeCapacity[]
+   */
+  public function getReplicaComputeCapacity()
+  {
+    return $this->replicaComputeCapacity;
   }
   /**
    * @param string

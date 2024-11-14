@@ -21,6 +21,7 @@ use Google\Service\Aiplatform\GoogleCloudAiplatformV1AssignNotebookRuntimeReques
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListNotebookRuntimesResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1NotebookRuntime;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1StartNotebookRuntimeRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1StopNotebookRuntimeRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1UpgradeNotebookRuntimeRequest;
 use Google\Service\Aiplatform\GoogleLongrunningOperation;
 
@@ -153,6 +154,24 @@ class ProjectsLocationsNotebookRuntimes extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('start', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Stops a NotebookRuntime. (notebookRuntimes.stop)
+   *
+   * @param string $name Required. The name of the NotebookRuntime resource to be
+   * stopped. Instead of checking whether the name is in valid NotebookRuntime
+   * resource name format, directly throw NotFound exception if there is no such
+   * NotebookRuntime in spanner.
+   * @param GoogleCloudAiplatformV1StopNotebookRuntimeRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function stop($name, GoogleCloudAiplatformV1StopNotebookRuntimeRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('stop', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Upgrades a NotebookRuntime. (notebookRuntimes.upgrade)

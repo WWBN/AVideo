@@ -19,60 +19,134 @@ namespace Google\Service\GKEHub;
 
 class FeatureState extends \Google\Model
 {
-  /**
-   * @var string
-   */
-  public $code;
-  /**
-   * @var string
-   */
-  public $description;
-  /**
-   * @var string
-   */
-  public $updateTime;
+  protected $appdevexperienceType = AppDevExperienceState::class;
+  protected $appdevexperienceDataType = '';
+  protected $clusterupgradeType = ClusterUpgradeState::class;
+  protected $clusterupgradeDataType = '';
+  protected $configmanagementType = ConfigManagementState::class;
+  protected $configmanagementDataType = '';
+  protected $identityserviceType = IdentityServiceState::class;
+  protected $identityserviceDataType = '';
+  protected $meteringType = MeteringState::class;
+  protected $meteringDataType = '';
+  protected $policycontrollerType = PolicyControllerState::class;
+  protected $policycontrollerDataType = '';
+  protected $servicemeshType = ServiceMeshState::class;
+  protected $servicemeshDataType = '';
+  protected $stateType = State::class;
+  protected $stateDataType = '';
 
   /**
-   * @param string
+   * @param AppDevExperienceState
    */
-  public function setCode($code)
+  public function setAppdevexperience(AppDevExperienceState $appdevexperience)
   {
-    $this->code = $code;
+    $this->appdevexperience = $appdevexperience;
   }
   /**
-   * @return string
+   * @return AppDevExperienceState
    */
-  public function getCode()
+  public function getAppdevexperience()
   {
-    return $this->code;
+    return $this->appdevexperience;
   }
   /**
-   * @param string
+   * @param ClusterUpgradeState
    */
-  public function setDescription($description)
+  public function setClusterupgrade(ClusterUpgradeState $clusterupgrade)
   {
-    $this->description = $description;
+    $this->clusterupgrade = $clusterupgrade;
   }
   /**
-   * @return string
+   * @return ClusterUpgradeState
    */
-  public function getDescription()
+  public function getClusterupgrade()
   {
-    return $this->description;
+    return $this->clusterupgrade;
   }
   /**
-   * @param string
+   * @param ConfigManagementState
    */
-  public function setUpdateTime($updateTime)
+  public function setConfigmanagement(ConfigManagementState $configmanagement)
   {
-    $this->updateTime = $updateTime;
+    $this->configmanagement = $configmanagement;
   }
   /**
-   * @return string
+   * @return ConfigManagementState
    */
-  public function getUpdateTime()
+  public function getConfigmanagement()
   {
-    return $this->updateTime;
+    return $this->configmanagement;
+  }
+  /**
+   * @param IdentityServiceState
+   */
+  public function setIdentityservice(IdentityServiceState $identityservice)
+  {
+    $this->identityservice = $identityservice;
+  }
+  /**
+   * @return IdentityServiceState
+   */
+  public function getIdentityservice()
+  {
+    return $this->identityservice;
+  }
+  /**
+   * @param MeteringState
+   */
+  public function setMetering(MeteringState $metering)
+  {
+    $this->metering = $metering;
+  }
+  /**
+   * @return MeteringState
+   */
+  public function getMetering()
+  {
+    return $this->metering;
+  }
+  /**
+   * @param PolicyControllerState
+   */
+  public function setPolicycontroller(PolicyControllerState $policycontroller)
+  {
+    $this->policycontroller = $policycontroller;
+  }
+  /**
+   * @return PolicyControllerState
+   */
+  public function getPolicycontroller()
+  {
+    return $this->policycontroller;
+  }
+  /**
+   * @param ServiceMeshState
+   */
+  public function setServicemesh(ServiceMeshState $servicemesh)
+  {
+    $this->servicemesh = $servicemesh;
+  }
+  /**
+   * @return ServiceMeshState
+   */
+  public function getServicemesh()
+  {
+    return $this->servicemesh;
+  }
+  /**
+   * @param State
+   */
+  public function setState(State $state)
+  {
+    $this->state = $state;
+  }
+  /**
+   * @return State
+   */
+  public function getState()
+  {
+    return $this->state;
   }
 }
 

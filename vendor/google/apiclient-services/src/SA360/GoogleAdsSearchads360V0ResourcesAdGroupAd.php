@@ -27,6 +27,10 @@ class GoogleAdsSearchads360V0ResourcesAdGroupAd extends \Google\Collection
    */
   public $creationTime;
   /**
+   * @var string[]
+   */
+  public $effectiveLabels;
+  /**
    * @var string
    */
   public $engineId;
@@ -78,6 +82,20 @@ class GoogleAdsSearchads360V0ResourcesAdGroupAd extends \Google\Collection
   public function getCreationTime()
   {
     return $this->creationTime;
+  }
+  /**
+   * @param string[]
+   */
+  public function setEffectiveLabels($effectiveLabels)
+  {
+    $this->effectiveLabels = $effectiveLabels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getEffectiveLabels()
+  {
+    return $this->effectiveLabels;
   }
   /**
    * @param string

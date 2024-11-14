@@ -35,6 +35,10 @@ class Commitment extends \Google\Collection
   /**
    * @var string
    */
+  public $customEndTimestamp;
+  /**
+   * @var string
+   */
   public $description;
   /**
    * @var string
@@ -72,6 +76,8 @@ class Commitment extends \Google\Collection
   public $region;
   protected $reservationsType = Reservation::class;
   protected $reservationsDataType = 'array';
+  protected $resourceStatusType = CommitmentResourceStatus::class;
+  protected $resourceStatusDataType = '';
   protected $resourcesType = ResourceCommitment::class;
   protected $resourcesDataType = 'array';
   /**
@@ -140,6 +146,20 @@ class Commitment extends \Google\Collection
   public function getCreationTimestamp()
   {
     return $this->creationTimestamp;
+  }
+  /**
+   * @param string
+   */
+  public function setCustomEndTimestamp($customEndTimestamp)
+  {
+    $this->customEndTimestamp = $customEndTimestamp;
+  }
+  /**
+   * @return string
+   */
+  public function getCustomEndTimestamp()
+  {
+    return $this->customEndTimestamp;
   }
   /**
    * @param string
@@ -294,6 +314,20 @@ class Commitment extends \Google\Collection
   public function getReservations()
   {
     return $this->reservations;
+  }
+  /**
+   * @param CommitmentResourceStatus
+   */
+  public function setResourceStatus(CommitmentResourceStatus $resourceStatus)
+  {
+    $this->resourceStatus = $resourceStatus;
+  }
+  /**
+   * @return CommitmentResourceStatus
+   */
+  public function getResourceStatus()
+  {
+    return $this->resourceStatus;
   }
   /**
    * @param ResourceCommitment[]

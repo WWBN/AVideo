@@ -23,6 +23,8 @@ class SubscribeDataExchangeRequest extends \Google\Model
    * @var string
    */
   public $destination;
+  protected $destinationDatasetType = DestinationDataset::class;
+  protected $destinationDatasetDataType = '';
   /**
    * @var string
    */
@@ -45,6 +47,20 @@ class SubscribeDataExchangeRequest extends \Google\Model
   public function getDestination()
   {
     return $this->destination;
+  }
+  /**
+   * @param DestinationDataset
+   */
+  public function setDestinationDataset(DestinationDataset $destinationDataset)
+  {
+    $this->destinationDataset = $destinationDataset;
+  }
+  /**
+   * @return DestinationDataset
+   */
+  public function getDestinationDataset()
+  {
+    return $this->destinationDataset;
   }
   /**
    * @param string

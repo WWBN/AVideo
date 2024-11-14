@@ -17,12 +17,21 @@
 
 namespace Google\Service\DeploymentManager;
 
-class ResourceUpdateErrorErrors extends \Google\Model
+class ResourceUpdateErrorErrors extends \Google\Collection
 {
+  protected $collection_key = 'errorDetails';
+  /**
+   * @var string[]
+   */
+  public $arguments;
   /**
    * @var string
    */
   public $code;
+  protected $debugInfoType = DebugInfo::class;
+  protected $debugInfoDataType = '';
+  protected $errorDetailsType = ResourceUpdateErrorErrorsErrorDetails::class;
+  protected $errorDetailsDataType = 'array';
   /**
    * @var string
    */
@@ -32,6 +41,20 @@ class ResourceUpdateErrorErrors extends \Google\Model
    */
   public $message;
 
+  /**
+   * @param string[]
+   */
+  public function setArguments($arguments)
+  {
+    $this->arguments = $arguments;
+  }
+  /**
+   * @return string[]
+   */
+  public function getArguments()
+  {
+    return $this->arguments;
+  }
   /**
    * @param string
    */
@@ -45,6 +68,34 @@ class ResourceUpdateErrorErrors extends \Google\Model
   public function getCode()
   {
     return $this->code;
+  }
+  /**
+   * @param DebugInfo
+   */
+  public function setDebugInfo(DebugInfo $debugInfo)
+  {
+    $this->debugInfo = $debugInfo;
+  }
+  /**
+   * @return DebugInfo
+   */
+  public function getDebugInfo()
+  {
+    return $this->debugInfo;
+  }
+  /**
+   * @param ResourceUpdateErrorErrorsErrorDetails[]
+   */
+  public function setErrorDetails($errorDetails)
+  {
+    $this->errorDetails = $errorDetails;
+  }
+  /**
+   * @return ResourceUpdateErrorErrorsErrorDetails[]
+   */
+  public function getErrorDetails()
+  {
+    return $this->errorDetails;
   }
   /**
    * @param string

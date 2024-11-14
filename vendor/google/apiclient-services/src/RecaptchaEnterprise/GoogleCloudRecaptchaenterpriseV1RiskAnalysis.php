@@ -21,6 +21,10 @@ class GoogleCloudRecaptchaenterpriseV1RiskAnalysis extends \Google\Collection
 {
   protected $collection_key = 'reasons';
   /**
+   * @var string
+   */
+  public $challenge;
+  /**
    * @var string[]
    */
   public $extendedVerdictReasons;
@@ -33,6 +37,20 @@ class GoogleCloudRecaptchaenterpriseV1RiskAnalysis extends \Google\Collection
    */
   public $score;
 
+  /**
+   * @param string
+   */
+  public function setChallenge($challenge)
+  {
+    $this->challenge = $challenge;
+  }
+  /**
+   * @return string
+   */
+  public function getChallenge()
+  {
+    return $this->challenge;
+  }
   /**
    * @param string[]
    */

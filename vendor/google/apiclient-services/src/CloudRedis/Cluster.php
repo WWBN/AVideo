@@ -19,11 +19,13 @@ namespace Google\Service\CloudRedis;
 
 class Cluster extends \Google\Collection
 {
-  protected $collection_key = 'pscConnections';
+  protected $collection_key = 'pscServiceAttachments';
   /**
    * @var string
    */
   public $authorizationMode;
+  protected $clusterEndpointsType = ClusterEndpoint::class;
+  protected $clusterEndpointsDataType = 'array';
   /**
    * @var string
    */
@@ -55,6 +57,8 @@ class Cluster extends \Google\Collection
   protected $pscConfigsDataType = 'array';
   protected $pscConnectionsType = PscConnection::class;
   protected $pscConnectionsDataType = 'array';
+  protected $pscServiceAttachmentsType = PscServiceAttachment::class;
+  protected $pscServiceAttachmentsDataType = 'array';
   /**
    * @var string[]
    */
@@ -101,6 +105,20 @@ class Cluster extends \Google\Collection
   public function getAuthorizationMode()
   {
     return $this->authorizationMode;
+  }
+  /**
+   * @param ClusterEndpoint[]
+   */
+  public function setClusterEndpoints($clusterEndpoints)
+  {
+    $this->clusterEndpoints = $clusterEndpoints;
+  }
+  /**
+   * @return ClusterEndpoint[]
+   */
+  public function getClusterEndpoints()
+  {
+    return $this->clusterEndpoints;
   }
   /**
    * @param string
@@ -263,6 +281,20 @@ class Cluster extends \Google\Collection
   public function getPscConnections()
   {
     return $this->pscConnections;
+  }
+  /**
+   * @param PscServiceAttachment[]
+   */
+  public function setPscServiceAttachments($pscServiceAttachments)
+  {
+    $this->pscServiceAttachments = $pscServiceAttachments;
+  }
+  /**
+   * @return PscServiceAttachment[]
+   */
+  public function getPscServiceAttachments()
+  {
+    return $this->pscServiceAttachments;
   }
   /**
    * @param string[]

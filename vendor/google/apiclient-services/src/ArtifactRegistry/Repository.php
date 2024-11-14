@@ -81,6 +81,8 @@ class Repository extends \Google\Model
   public $updateTime;
   protected $virtualRepositoryConfigType = VirtualRepositoryConfig::class;
   protected $virtualRepositoryConfigDataType = '';
+  protected $vulnerabilityScanningConfigType = VulnerabilityScanningConfig::class;
+  protected $vulnerabilityScanningConfigDataType = '';
 
   /**
    * @param CleanupPolicy[]
@@ -333,6 +335,20 @@ class Repository extends \Google\Model
   public function getVirtualRepositoryConfig()
   {
     return $this->virtualRepositoryConfig;
+  }
+  /**
+   * @param VulnerabilityScanningConfig
+   */
+  public function setVulnerabilityScanningConfig(VulnerabilityScanningConfig $vulnerabilityScanningConfig)
+  {
+    $this->vulnerabilityScanningConfig = $vulnerabilityScanningConfig;
+  }
+  /**
+   * @return VulnerabilityScanningConfig
+   */
+  public function getVulnerabilityScanningConfig()
+  {
+    return $this->vulnerabilityScanningConfig;
   }
 }
 

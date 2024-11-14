@@ -38,10 +38,12 @@ class Spaces extends \Google\Service\Resource
   /**
    * Completes the [import
    * process](https://developers.google.com/workspace/chat/import-data) for the
-   * specified space and makes it visible to users. Requires app authentication
-   * and domain-wide delegation. For more information, see [Authorize Google Chat
-   * apps to import data](https://developers.google.com/workspace/chat/authorize-
-   * import). (spaces.completeImport)
+   * specified space and makes it visible to users. Requires [app
+   * authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize-chat-app) and domain-wide delegation. For more information, see
+   * [Authorize Google Chat apps to import
+   * data](https://developers.google.com/workspace/chat/authorize-import).
+   * (spaces.completeImport)
    *
    * @param string $name Required. Resource name of the import mode space. Format:
    * `spaces/{space}`
@@ -106,17 +108,19 @@ class Spaces extends \Google\Service\Resource
    * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
    * Preview](https://developers.google.com/workspace/preview) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) (spaces.delete)
+   * authorize-chat-user) You can authenticate and authorize this method with
+   * administrator privileges by setting the `use_admin_access` field in the
+   * request. (spaces.delete)
    *
    * @param string $name Required. Resource name of the space to delete. Format:
    * `spaces/{space}`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool useAdminAccess When `true`, the method runs using the user's
-   * Google Workspace administrator privileges. The calling user must be a Google
-   * Workspace administrator with the [manage chat and spaces conversations
-   * privilege](https://support.google.com/a/answer/13369245). Requires the
-   * `chat.admin.delete` [OAuth 2.0
+   * @opt_param bool useAdminAccess Optional. When `true`, the method runs using
+   * the user's Google Workspace administrator privileges. The calling user must
+   * be a Google Workspace administrator with the [manage chat and spaces
+   * conversations privilege](https://support.google.com/a/answer/13369245).
+   * Requires the `chat.admin.delete` [OAuth 2.0
    * scope](https://developers.google.com/workspace/chat/authenticate-
    * authorize#chat-api-scopes).
    * @return ChatEmpty
@@ -178,17 +182,19 @@ class Spaces extends \Google\Service\Resource
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-app) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) (spaces.get)
+   * authorize-chat-user) You can authenticate and authorize this method with
+   * administrator privileges by setting the `use_admin_access` field in the
+   * request. (spaces.get)
    *
    * @param string $name Required. Resource name of the space, in the form
    * `spaces/{space}`. Format: `spaces/{space}`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool useAdminAccess When `true`, the method runs using the user's
-   * Google Workspace administrator privileges. The calling user must be a Google
-   * Workspace administrator with the [manage chat and spaces conversations
-   * privilege](https://support.google.com/a/answer/13369245). Requires the
-   * `chat.admin.spaces` or `chat.admin.spaces.readonly` [OAuth 2.0
+   * @opt_param bool useAdminAccess Optional. When `true`, the method runs using
+   * the user's Google Workspace administrator privileges. The calling user must
+   * be a Google Workspace administrator with the [manage chat and spaces
+   * conversations privilege](https://support.google.com/a/answer/13369245).
+   * Requires the `chat.admin.spaces` or `chat.admin.spaces.readonly` [OAuth 2.0
    * scopes](https://developers.google.com/workspace/chat/authenticate-
    * authorize#chat-api-scopes).
    * @return Space
@@ -210,12 +216,10 @@ class Spaces extends \Google\Service\Resource
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-app) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) Lists spaces visible to the caller or authenticated
-   * user. Group chats and DMs aren't listed until the first message is sent. To
-   * list all named spaces by Google Workspace organization, use the [`spaces.sear
-   * ch()`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spa
-   * ces/search) method using Workspace administrator privileges instead.
-   * (spaces.listSpaces)
+   * authorize-chat-user) To list all named spaces by Google Workspace
+   * organization, use the [`spaces.search()`](https://developers.google.com/works
+   * pace/chat/api/reference/rest/v1/spaces/search) method using Workspace
+   * administrator privileges instead. (spaces.listSpaces)
    *
    * @param array $optParams Optional parameters.
    *
@@ -260,33 +264,66 @@ class Spaces extends \Google\Service\Resource
    * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
    * Preview](https://developers.google.com/workspace/preview) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) (spaces.patch)
+   * authorize-chat-user) You can authenticate and authorize this method with
+   * administrator privileges by setting the `use_admin_access` field in the
+   * request. (spaces.patch)
    *
-   * @param string $name Resource name of the space. Format: `spaces/{space}`
-   * Where `{space}` represents the system-assigned ID for the space. You can
-   * obtain the space ID by calling the [`spaces.list()`](https://developers.googl
-   * e.com/workspace/chat/api/reference/rest/v1/spaces/list) method or from the
-   * space URL. For example, if the space URL is
+   * @param string $name Identifier. Resource name of the space. Format:
+   * `spaces/{space}` Where `{space}` represents the system-assigned ID for the
+   * space. You can obtain the space ID by calling the [`spaces.list()`](https://d
+   * evelopers.google.com/workspace/chat/api/reference/rest/v1/spaces/list) method
+   * or from the space URL. For example, if the space URL is
    * `https://mail.google.com/mail/u/0/#chat/space/AAAAAAAAA`, the space ID is
    * `AAAAAAAAA`.
    * @param Space $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask - Supports changing the [permission
-   * settings](https://support.google.com/chat/answer/13340792) of a space,
-   * supported field paths include:
-   * `permission_settings.manage_members_and_groups`,
-   * `permission_settings.modify_space_details`,
-   * `permission_settings.toggle_history`,
-   * `permission_settings.use_at_mention_all`, `permission_settings.manage_apps`,
-   * `permission_settings.manage_webhooks`, `permission_settings.reply_messages`
-   * (Warning: mutually exclusive with all other non-permission settings field
-   * paths). `permission_settings` is not supported with admin access.
-   * @opt_param bool useAdminAccess When `true`, the method runs using the user's
-   * Google Workspace administrator privileges. The calling user must be a Google
-   * Workspace administrator with the [manage chat and spaces conversations
-   * privilege](https://support.google.com/a/answer/13369245). Requires the
-   * `chat.admin.spaces` [OAuth 2.0
+   * @opt_param string updateMask Required. The updated field paths, comma
+   * separated if there are multiple. You can update the following fields for a
+   * space: `space_details`: Updates the space's description. Supports up to 150
+   * characters. `display_name`: Only supports updating the display name for
+   * spaces where `spaceType` field is `SPACE`. If you receive the error message
+   * `ALREADY_EXISTS`, try a different value. An existing space within the Google
+   * Workspace organization might already use this display name. `space_type`:
+   * Only supports changing a `GROUP_CHAT` space type to `SPACE`. Include
+   * `display_name` together with `space_type` in the update mask and ensure that
+   * the specified space has a non-empty display name and the `SPACE` space type.
+   * Including the `space_type` mask and the `SPACE` type in the specified space
+   * when updating the display name is optional if the existing space already has
+   * the `SPACE` type. Trying to update the space type in other ways results in an
+   * invalid argument error. `space_type` is not supported with `useAdminAccess`.
+   * `space_history_state`: Updates [space history
+   * settings](https://support.google.com/chat/answer/7664687) by turning history
+   * on or off for the space. Only supported if history settings are enabled for
+   * the Google Workspace organization. To update the space history state, you
+   * must omit all other field masks in your request. `space_history_state` is not
+   * supported with `useAdminAccess`. `access_settings.audience`: Updates the
+   * [access setting](https://support.google.com/chat/answer/11971020) of who can
+   * discover the space, join the space, and preview the messages in named space
+   * where `spaceType` field is `SPACE`. If the existing space has a target
+   * audience, you can remove the audience and restrict space access by omitting a
+   * value for this field mask. To update access settings for a space, the
+   * authenticating user must be a space manager and omit all other field masks in
+   * your request. You can't update this field if the space is in [import
+   * mode](https://developers.google.com/workspace/chat/import-data-overview). To
+   * learn more, see [Make a space discoverable to specific
+   * users](https://developers.google.com/workspace/chat/space-target-audience).
+   * `access_settings.audience` is not supported with `useAdminAccess`.
+   * `permission_settings`: Supports changing the [permission
+   * settings](https://support.google.com/chat/answer/13340792) of a space. When
+   * updating permission settings, you can only specify `permissionSettings` field
+   * masks; you cannot update other field masks at the same time.
+   * `permissionSettings` is not supported with `useAdminAccess`. The supported
+   * field masks include: - `permission_settings.manageMembersAndGroups` -
+   * `permission_settings.modifySpaceDetails` -
+   * `permission_settings.toggleHistory` - `permission_settings.useAtMentionAll` -
+   * `permission_settings.manageApps` - `permission_settings.manageWebhooks` -
+   * `permission_settings.replyMessages`
+   * @opt_param bool useAdminAccess Optional. When `true`, the method runs using
+   * the user's Google Workspace administrator privileges. The calling user must
+   * be a Google Workspace administrator with the [manage chat and spaces
+   * conversations privilege](https://support.google.com/a/answer/13369245).
+   * Requires the `chat.admin.spaces` [OAuth 2.0
    * scope](https://developers.google.com/workspace/chat/authenticate-
    * authorize#chat-api-scopes). Some `FieldMask` values are not supported using
    * admin access. For details, see the description of `update_mask`.

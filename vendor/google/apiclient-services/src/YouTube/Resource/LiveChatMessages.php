@@ -75,7 +75,8 @@ class LiveChatMessages extends \Google\Service\Resource
    * @opt_param string hl Specifies the localization language in which the system
    * messages should be returned.
    * @opt_param string maxResults The *maxResults* parameter specifies the maximum
-   * number of items that should be returned in the result set.
+   * number of items that should be returned in the result set. Not used in the
+   * streaming RPC.
    * @opt_param string pageToken The *pageToken* parameter identifies a specific
    * page in the result set that should be returned. In an API response, the
    * nextPageToken property identify other pages that could be retrieved.

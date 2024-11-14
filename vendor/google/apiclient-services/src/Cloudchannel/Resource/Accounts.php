@@ -64,20 +64,23 @@ class Accounts extends \Google\Service\Resource
     return $this->call('checkCloudIdentityAccountsExist', [$params], GoogleCloudChannelV1CheckCloudIdentityAccountsExistResponse::class);
   }
   /**
-   * Lists service accounts with subscriber privileges on the Cloud Pub/Sub topic
-   * created for this Channel Services account. Possible error codes: *
-   * PERMISSION_DENIED: The reseller account making the request and the provided
-   * reseller account are different, or the impersonated user is not a super
-   * admin. * INVALID_ARGUMENT: Required request parameters are missing or
+   * Lists service accounts with subscriber privileges on the Pub/Sub topic
+   * created for this Channel Services account or integrator. Possible error
+   * codes: * PERMISSION_DENIED: The reseller account making the request and the
+   * provided reseller account are different, or the impersonated user is not a
+   * super admin. * INVALID_ARGUMENT: Required request parameters are missing or
    * invalid. * NOT_FOUND: The topic resource doesn't exist. * INTERNAL: Any non-
    * user error related to a technical issue in the backend. Contact Cloud Channel
    * support. * UNKNOWN: Any non-user error related to a technical issue in the
    * backend. Contact Cloud Channel support. Return value: A list of service email
    * addresses. (accounts.listSubscribers)
    *
-   * @param string $account Optional. Resource name of the account.
+   * @param string $account Optional. Resource name of the account. Required if
+   * integrator is not provided. Otherwise, leave this field empty/unset.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string integrator Optional. Resource name of the integrator.
+   * Required if account is not provided. Otherwise, leave this field empty/unset.
    * @opt_param int pageSize Optional. The maximum number of service accounts to
    * return. The service may return fewer than this value. If unspecified, returns
    * at most 100 service accounts. The maximum value is 1000; the server will
@@ -147,10 +150,10 @@ class Accounts extends \Google\Service\Resource
     return $this->call('listTransferableSkus', [$params], GoogleCloudChannelV1ListTransferableSkusResponse::class);
   }
   /**
-   * Registers a service account with subscriber privileges on the Cloud Pub/Sub
-   * topic for this Channel Services account. After you create a subscriber, you
-   * get the events through SubscriberEvent Possible error codes: *
-   * PERMISSION_DENIED: The reseller account making the request and the provided
+   * Registers a service account with subscriber privileges on the Pub/Sub topic
+   * for this Channel Services account or integrator. After you create a
+   * subscriber, you get the events through SubscriberEvent Possible error codes:
+   * * PERMISSION_DENIED: The reseller account making the request and the provided
    * reseller account are different, or the impersonated user is not a super
    * admin. * INVALID_ARGUMENT: Required request parameters are missing or
    * invalid. * INTERNAL: Any non-user error related to a technical issue in the
@@ -159,7 +162,8 @@ class Accounts extends \Google\Service\Resource
    * value: The topic name with the registered service email address.
    * (accounts.register)
    *
-   * @param string $account Optional. Resource name of the account.
+   * @param string $account Optional. Resource name of the account. Required if
+   * integrator is not provided. Otherwise, leave this field empty/unset.
    * @param GoogleCloudChannelV1RegisterSubscriberRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1RegisterSubscriberResponse
@@ -172,10 +176,10 @@ class Accounts extends \Google\Service\Resource
     return $this->call('register', [$params], GoogleCloudChannelV1RegisterSubscriberResponse::class);
   }
   /**
-   * Unregisters a service account with subscriber privileges on the Cloud Pub/Sub
-   * topic created for this Channel Services account. If there are no service
-   * accounts left with subscriber privileges, this deletes the topic. You can
-   * call ListSubscribers to check for these accounts. Possible error codes: *
+   * Unregisters a service account with subscriber privileges on the Pub/Sub topic
+   * created for this Channel Services account or integrator. If there are no
+   * service accounts left with subscriber privileges, this deletes the topic. You
+   * can call ListSubscribers to check for these accounts. Possible error codes: *
    * PERMISSION_DENIED: The reseller account making the request and the provided
    * reseller account are different, or the impersonated user is not a super
    * admin. * INVALID_ARGUMENT: Required request parameters are missing or
@@ -186,7 +190,8 @@ class Accounts extends \Google\Service\Resource
    * unregistered the service email address. Returns a success response if the
    * service email address wasn't registered with the topic. (accounts.unregister)
    *
-   * @param string $account Optional. Resource name of the account.
+   * @param string $account Optional. Resource name of the account. Required if
+   * integrator is not provided. Otherwise, leave this field empty/unset.
    * @param GoogleCloudChannelV1UnregisterSubscriberRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1UnregisterSubscriberResponse

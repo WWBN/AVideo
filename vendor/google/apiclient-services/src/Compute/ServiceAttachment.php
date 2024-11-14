@@ -72,6 +72,10 @@ class ServiceAttachment extends \Google\Collection
    * @var string
    */
   public $producerForwardingRule;
+  /**
+   * @var string
+   */
+  public $propagatedConnectionLimit;
   protected $pscServiceAttachmentIdType = Uint128::class;
   protected $pscServiceAttachmentIdDataType = '';
   /**
@@ -286,6 +290,20 @@ class ServiceAttachment extends \Google\Collection
   public function getProducerForwardingRule()
   {
     return $this->producerForwardingRule;
+  }
+  /**
+   * @param string
+   */
+  public function setPropagatedConnectionLimit($propagatedConnectionLimit)
+  {
+    $this->propagatedConnectionLimit = $propagatedConnectionLimit;
+  }
+  /**
+   * @return string
+   */
+  public function getPropagatedConnectionLimit()
+  {
+    return $this->propagatedConnectionLimit;
   }
   /**
    * @param Uint128

@@ -21,6 +21,8 @@ class GoogleAppsCardV1Widgets extends \Google\Model
 {
   protected $buttonListType = GoogleAppsCardV1ButtonList::class;
   protected $buttonListDataType = '';
+  protected $chipListType = GoogleAppsCardV1ChipList::class;
+  protected $chipListDataType = '';
   protected $dateTimePickerType = GoogleAppsCardV1DateTimePicker::class;
   protected $dateTimePickerDataType = '';
   protected $decoratedTextType = GoogleAppsCardV1DecoratedText::class;
@@ -47,6 +49,20 @@ class GoogleAppsCardV1Widgets extends \Google\Model
   public function getButtonList()
   {
     return $this->buttonList;
+  }
+  /**
+   * @param GoogleAppsCardV1ChipList
+   */
+  public function setChipList(GoogleAppsCardV1ChipList $chipList)
+  {
+    $this->chipList = $chipList;
+  }
+  /**
+   * @return GoogleAppsCardV1ChipList
+   */
+  public function getChipList()
+  {
+    return $this->chipList;
   }
   /**
    * @param GoogleAppsCardV1DateTimePicker

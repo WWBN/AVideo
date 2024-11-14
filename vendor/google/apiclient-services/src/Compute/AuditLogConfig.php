@@ -25,10 +25,6 @@ class AuditLogConfig extends \Google\Collection
    */
   public $exemptedMembers;
   /**
-   * @var bool
-   */
-  public $ignoreChildExemptions;
-  /**
    * @var string
    */
   public $logType;
@@ -46,20 +42,6 @@ class AuditLogConfig extends \Google\Collection
   public function getExemptedMembers()
   {
     return $this->exemptedMembers;
-  }
-  /**
-   * @param bool
-   */
-  public function setIgnoreChildExemptions($ignoreChildExemptions)
-  {
-    $this->ignoreChildExemptions = $ignoreChildExemptions;
-  }
-  /**
-   * @return bool
-   */
-  public function getIgnoreChildExemptions()
-  {
-    return $this->ignoreChildExemptions;
   }
   /**
    * @param string

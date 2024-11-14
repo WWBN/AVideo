@@ -24,6 +24,8 @@ class ResourceUtilizationReport extends \Google\Collection
   protected $containersDataType = 'map';
   protected $cpuTimeType = CPUTime::class;
   protected $cpuTimeDataType = 'array';
+  protected $gpuUsageType = GPUUsage::class;
+  protected $gpuUsageDataType = 'array';
   protected $memoryInfoType = MemInfo::class;
   protected $memoryInfoDataType = 'array';
 
@@ -54,6 +56,20 @@ class ResourceUtilizationReport extends \Google\Collection
   public function getCpuTime()
   {
     return $this->cpuTime;
+  }
+  /**
+   * @param GPUUsage[]
+   */
+  public function setGpuUsage($gpuUsage)
+  {
+    $this->gpuUsage = $gpuUsage;
+  }
+  /**
+   * @return GPUUsage[]
+   */
+  public function getGpuUsage()
+  {
+    return $this->gpuUsage;
   }
   /**
    * @param MemInfo[]

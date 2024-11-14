@@ -53,6 +53,7 @@
         "spomky-labs/otphp": "^10.0",
         "christian-riesen/base32": "^1.6",
         "react/socket": "^1.16",
-        "react/event-loop": "^1.5"
+        "react/event-loop": "^1.5",
+        "iamcal/sql-parser": "^0.5.0"
     }
 }

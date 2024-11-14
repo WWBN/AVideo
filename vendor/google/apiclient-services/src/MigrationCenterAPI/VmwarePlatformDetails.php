@@ -22,6 +22,10 @@ class VmwarePlatformDetails extends \Google\Model
   /**
    * @var string
    */
+  public $esxHyperthreading;
+  /**
+   * @var string
+   */
   public $esxVersion;
   /**
    * @var string
@@ -44,6 +48,20 @@ class VmwarePlatformDetails extends \Google\Model
    */
   public $vcenterVmId;
 
+  /**
+   * @param string
+   */
+  public function setEsxHyperthreading($esxHyperthreading)
+  {
+    $this->esxHyperthreading = $esxHyperthreading;
+  }
+  /**
+   * @return string
+   */
+  public function getEsxHyperthreading()
+  {
+    return $this->esxHyperthreading;
+  }
   /**
    * @param string
    */

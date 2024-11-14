@@ -31,6 +31,8 @@ class GatewayServiceMesh extends \Google\Model
    * @var string
    */
   public $podSelectorLabel;
+  protected $routeDestinationsType = RouteDestinations::class;
+  protected $routeDestinationsDataType = '';
   /**
    * @var string
    */
@@ -85,6 +87,20 @@ class GatewayServiceMesh extends \Google\Model
   public function getPodSelectorLabel()
   {
     return $this->podSelectorLabel;
+  }
+  /**
+   * @param RouteDestinations
+   */
+  public function setRouteDestinations(RouteDestinations $routeDestinations)
+  {
+    $this->routeDestinations = $routeDestinations;
+  }
+  /**
+   * @return RouteDestinations
+   */
+  public function getRouteDestinations()
+  {
+    return $this->routeDestinations;
   }
   /**
    * @param string

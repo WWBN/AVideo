@@ -35,6 +35,10 @@ class StorageDatabasecenterPartnerapiV1mainRetentionSettings extends \Google\Mod
    * @var string
    */
   public $timeBasedRetention;
+  /**
+   * @var string
+   */
+  public $timestampBasedRetentionTime;
 
   /**
    * @param string
@@ -91,6 +95,20 @@ class StorageDatabasecenterPartnerapiV1mainRetentionSettings extends \Google\Mod
   public function getTimeBasedRetention()
   {
     return $this->timeBasedRetention;
+  }
+  /**
+   * @param string
+   */
+  public function setTimestampBasedRetentionTime($timestampBasedRetentionTime)
+  {
+    $this->timestampBasedRetentionTime = $timestampBasedRetentionTime;
+  }
+  /**
+   * @return string
+   */
+  public function getTimestampBasedRetentionTime()
+  {
+    return $this->timestampBasedRetentionTime;
   }
 }
 

@@ -174,10 +174,10 @@ class ProjectsLocationsPrivateCloudsExternalAddresses extends \Google\Service\Re
    * that period of time, you can't update the resource. Use the operation status
    * to determine when the processing fully completes. (externalAddresses.patch)
    *
-   * @param string $name Output only. The resource name of this external IP
-   * address. Resource names are schemeless URIs that follow the conventions in
-   * https://cloud.google.com/apis/design/resource_names. For example:
-   * `projects/my-project/locations/us-central1-a/privateClouds/my-
+   * @param string $name Output only. Identifier. The resource name of this
+   * external IP address. Resource names are schemeless URIs that follow the
+   * conventions in https://cloud.google.com/apis/design/resource_names. For
+   * example: `projects/my-project/locations/us-central1-a/privateClouds/my-
    * cloud/externalAddresses/my-address`
    * @param ExternalAddress $postBody
    * @param array $optParams Optional parameters.

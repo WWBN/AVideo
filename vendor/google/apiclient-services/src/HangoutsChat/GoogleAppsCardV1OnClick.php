@@ -27,6 +27,8 @@ class GoogleAppsCardV1OnClick extends \Google\Model
   protected $openDynamicLinkActionDataType = '';
   protected $openLinkType = GoogleAppsCardV1OpenLink::class;
   protected $openLinkDataType = '';
+  protected $overflowMenuType = GoogleAppsCardV1OverflowMenu::class;
+  protected $overflowMenuDataType = '';
 
   /**
    * @param GoogleAppsCardV1Action
@@ -83,6 +85,20 @@ class GoogleAppsCardV1OnClick extends \Google\Model
   public function getOpenLink()
   {
     return $this->openLink;
+  }
+  /**
+   * @param GoogleAppsCardV1OverflowMenu
+   */
+  public function setOverflowMenu(GoogleAppsCardV1OverflowMenu $overflowMenu)
+  {
+    $this->overflowMenu = $overflowMenu;
+  }
+  /**
+   * @return GoogleAppsCardV1OverflowMenu
+   */
+  public function getOverflowMenu()
+  {
+    return $this->overflowMenu;
   }
 }
 

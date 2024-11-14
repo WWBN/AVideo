@@ -21,6 +21,14 @@ class GoogleMapsPlacesV1PlaceOpeningHours extends \Google\Collection
 {
   protected $collection_key = 'weekdayDescriptions';
   /**
+   * @var string
+   */
+  public $nextCloseTime;
+  /**
+   * @var string
+   */
+  public $nextOpenTime;
+  /**
    * @var bool
    */
   public $openNow;
@@ -37,6 +45,34 @@ class GoogleMapsPlacesV1PlaceOpeningHours extends \Google\Collection
    */
   public $weekdayDescriptions;
 
+  /**
+   * @param string
+   */
+  public function setNextCloseTime($nextCloseTime)
+  {
+    $this->nextCloseTime = $nextCloseTime;
+  }
+  /**
+   * @return string
+   */
+  public function getNextCloseTime()
+  {
+    return $this->nextCloseTime;
+  }
+  /**
+   * @param string
+   */
+  public function setNextOpenTime($nextOpenTime)
+  {
+    $this->nextOpenTime = $nextOpenTime;
+  }
+  /**
+   * @return string
+   */
+  public function getNextOpenTime()
+  {
+    return $this->nextOpenTime;
+  }
   /**
    * @param bool
    */

@@ -50,8 +50,8 @@ class AccountsSkuGroups extends \Google\Service\Resource
    * maximum of 1000 SKU groups. The maximum value is 1000; values above 1000 will
    * be coerced to 1000.
    * @opt_param string pageToken Optional. A token identifying a page of results
-   * beyond the first page. Obtained through ListSkuGroups.next_page_token of the
-   * previous CloudChannelService.ListSkuGroups call.
+   * beyond the first page. Obtained through ListSkuGroupsResponse.next_page_token
+   * of the previous CloudChannelService.ListSkuGroups call.
    * @return GoogleCloudChannelV1ListSkuGroupsResponse
    * @throws \Google\Service\Exception
    */

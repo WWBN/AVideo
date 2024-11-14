@@ -36,6 +36,8 @@ class Operations extends \Google\Service\Resource
    * @param string $project The project ID for this request.
    * @param string $operation The name of the operation for this request.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool header.bypassBillingFilter
    * @return Operation
    * @throws \Google\Service\Exception
    */

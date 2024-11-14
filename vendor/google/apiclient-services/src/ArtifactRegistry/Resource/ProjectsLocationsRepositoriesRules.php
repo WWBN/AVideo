@@ -102,7 +102,7 @@ class ProjectsLocationsRepositoriesRules extends \Google\Service\Resource
    * Updates a rule. (rules.patch)
    *
    * @param string $name The name of the rule, for example:
-   * "projects/p1/locations/us-central1/repositories/repo1/rules/rule1".
+   * `projects/p1/locations/us-central1/repositories/repo1/rules/rule1`.
    * @param GoogleDevtoolsArtifactregistryV1Rule $postBody
    * @param array $optParams Optional parameters.
    *

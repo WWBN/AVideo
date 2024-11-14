@@ -27,7 +27,7 @@ class GoogleCloudBeyondcorpSecuritygatewaysV1Peering extends \Google\Collection
   /**
    * @var string
    */
-  public $targetVpcNetwork;
+  public $targetNetwork;
 
   /**
    * @param string[]
@@ -46,16 +46,16 @@ class GoogleCloudBeyondcorpSecuritygatewaysV1Peering extends \Google\Collection
   /**
    * @param string
    */
-  public function setTargetVpcNetwork($targetVpcNetwork)
+  public function setTargetNetwork($targetNetwork)
   {
-    $this->targetVpcNetwork = $targetVpcNetwork;
+    $this->targetNetwork = $targetNetwork;
   }
   /**
    * @return string
    */
-  public function getTargetVpcNetwork()
+  public function getTargetNetwork()
   {
-    return $this->targetVpcNetwork;
+    return $this->targetNetwork;
   }
 }
 

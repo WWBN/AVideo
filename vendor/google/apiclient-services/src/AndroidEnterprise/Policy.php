@@ -33,6 +33,10 @@ class Policy extends \Google\Collection
   /**
    * @var string
    */
+  public $policyId;
+  /**
+   * @var string
+   */
   public $productAvailabilityPolicy;
   protected $productPolicyType = ProductPolicy::class;
   protected $productPolicyDataType = 'array';
@@ -78,6 +82,20 @@ class Policy extends \Google\Collection
   public function getMaintenanceWindow()
   {
     return $this->maintenanceWindow;
+  }
+  /**
+   * @param string
+   */
+  public function setPolicyId($policyId)
+  {
+    $this->policyId = $policyId;
+  }
+  /**
+   * @return string
+   */
+  public function getPolicyId()
+  {
+    return $this->policyId;
   }
   /**
    * @param string

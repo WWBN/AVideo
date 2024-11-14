@@ -64,7 +64,7 @@ class AccountsLabels extends \Google\Service\Resource
     return $this->call('delete', [$params], CssEmpty::class);
   }
   /**
-   * Lists the labels assigned to an account. (labels.listAccountsLabels)
+   * Lists the labels owned by an account. (labels.listAccountsLabels)
    *
    * @param string $parent Required. The parent account. Format:
    * accounts/{account}

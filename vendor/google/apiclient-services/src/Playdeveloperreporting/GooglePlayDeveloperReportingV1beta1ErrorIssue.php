@@ -20,6 +20,8 @@ namespace Google\Service\Playdeveloperreporting;
 class GooglePlayDeveloperReportingV1beta1ErrorIssue extends \Google\Collection
 {
   protected $collection_key = 'sampleErrorReports';
+  protected $annotationsType = GooglePlayDeveloperReportingV1beta1IssueAnnotation::class;
+  protected $annotationsDataType = 'array';
   /**
    * @var string
    */
@@ -67,6 +69,20 @@ class GooglePlayDeveloperReportingV1beta1ErrorIssue extends \Google\Collection
    */
   public $type;
 
+  /**
+   * @param GooglePlayDeveloperReportingV1beta1IssueAnnotation[]
+   */
+  public function setAnnotations($annotations)
+  {
+    $this->annotations = $annotations;
+  }
+  /**
+   * @return GooglePlayDeveloperReportingV1beta1IssueAnnotation[]
+   */
+  public function getAnnotations()
+  {
+    return $this->annotations;
+  }
   /**
    * @param string
    */

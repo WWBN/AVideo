@@ -82,6 +82,10 @@ class LoyaltyObject extends \Google\Collection
   protected $loyaltyPointsDataType = '';
   protected $messagesType = Message::class;
   protected $messagesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $notifyPreference;
   protected $passConstraintsType = PassConstraints::class;
   protected $passConstraintsDataType = '';
   protected $rotatingBarcodeType = RotatingBarcode::class;
@@ -402,6 +406,20 @@ class LoyaltyObject extends \Google\Collection
   public function getMessages()
   {
     return $this->messages;
+  }
+  /**
+   * @param string
+   */
+  public function setNotifyPreference($notifyPreference)
+  {
+    $this->notifyPreference = $notifyPreference;
+  }
+  /**
+   * @return string
+   */
+  public function getNotifyPreference()
+  {
+    return $this->notifyPreference;
   }
   /**
    * @param PassConstraints

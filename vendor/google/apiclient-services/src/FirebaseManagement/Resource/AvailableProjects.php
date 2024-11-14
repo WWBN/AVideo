@@ -30,14 +30,13 @@ use Google\Service\FirebaseManagement\ListAvailableProjectsResponse;
 class AvailableProjects extends \Google\Service\Resource
 {
   /**
-   * Lists each [Google Cloud Platform (GCP) `Project`]
-   * (https://cloud.google.com/resource-manager/reference/rest/v1/projects) that
-   * can have Firebase resources added to it. A Project will only be listed if: -
-   * The caller has sufficient [Google IAM](https://cloud.google.com/iam)
-   * permissions to call AddFirebase. - The Project is not already a
-   * FirebaseProject. - The Project is not in an Organization which has policies
-   * that prevent Firebase resources from being added.
-   * (availableProjects.listAvailableProjects)
+   * Lists each [Google Cloud `Project`](https://cloud.google.com/resource-
+   * manager/reference/rest/v1/projects) that can have Firebase resources added
+   * and Firebase services enabled. A Project will only be listed if: - The caller
+   * has sufficient [Google IAM](https://cloud.google.com/iam) permissions to call
+   * AddFirebase. - The Project is not already a FirebaseProject. - The Project is
+   * not in an Organization which has policies that prevent Firebase resources
+   * from being added.  (availableProjects.listAvailableProjects)
    *
    * @param array $optParams Optional parameters.
    *

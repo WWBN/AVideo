@@ -24,6 +24,10 @@ class Assignment extends \Google\Model
    */
   public $assignee;
   /**
+   * @var bool
+   */
+  public $enableGeminiInBigquery;
+  /**
    * @var string
    */
   public $jobType;
@@ -49,6 +53,20 @@ class Assignment extends \Google\Model
   public function getAssignee()
   {
     return $this->assignee;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableGeminiInBigquery($enableGeminiInBigquery)
+  {
+    $this->enableGeminiInBigquery = $enableGeminiInBigquery;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableGeminiInBigquery()
+  {
+    return $this->enableGeminiInBigquery;
   }
   /**
    * @param string

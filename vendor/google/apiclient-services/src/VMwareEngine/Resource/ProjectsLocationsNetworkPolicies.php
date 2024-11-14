@@ -204,10 +204,11 @@ class ProjectsLocationsNetworkPolicies extends \Google\Service\Resource
    * update the resource. Use the operation status to determine when the
    * processing fully completes. (networkPolicies.patch)
    *
-   * @param string $name Output only. The resource name of this network policy.
-   * Resource names are schemeless URIs that follow the conventions in
-   * https://cloud.google.com/apis/design/resource_names. For example:
-   * `projects/my-project/locations/us-central1/networkPolicies/my-network-policy`
+   * @param string $name Output only. Identifier. The resource name of this
+   * network policy. Resource names are schemeless URIs that follow the
+   * conventions in https://cloud.google.com/apis/design/resource_names. For
+   * example: `projects/my-project/locations/us-central1/networkPolicies/my-
+   * network-policy`
    * @param NetworkPolicy $postBody
    * @param array $optParams Optional parameters.
    *

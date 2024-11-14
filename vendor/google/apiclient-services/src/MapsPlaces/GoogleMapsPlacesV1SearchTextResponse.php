@@ -30,6 +30,10 @@ class GoogleMapsPlacesV1SearchTextResponse extends \Google\Collection
   protected $placesDataType = 'array';
   protected $routingSummariesType = GoogleMapsPlacesV1RoutingSummary::class;
   protected $routingSummariesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $searchUri;
 
   /**
    * @param GoogleMapsPlacesV1ContextualContent[]
@@ -86,6 +90,20 @@ class GoogleMapsPlacesV1SearchTextResponse extends \Google\Collection
   public function getRoutingSummaries()
   {
     return $this->routingSummaries;
+  }
+  /**
+   * @param string
+   */
+  public function setSearchUri($searchUri)
+  {
+    $this->searchUri = $searchUri;
+  }
+  /**
+   * @return string
+   */
+  public function getSearchUri()
+  {
+    return $this->searchUri;
   }
 }
 

@@ -34,7 +34,8 @@ class OrganizationsSecurityProfilesV2 extends \Google\Service\Resource
   /**
    * Create a security profile v2. (securityProfilesV2.create)
    *
-   * @param string $parent Required. The parent resource name.
+   * @param string $parent Required. The parent resource name. Format:
+   * `organizations/{org}`
    * @param GoogleCloudApigeeV1SecurityProfileV2 $postBody
    * @param array $optParams Optional parameters.
    *
@@ -52,6 +53,7 @@ class OrganizationsSecurityProfilesV2 extends \Google\Service\Resource
    * Delete a security profile v2. (securityProfilesV2.delete)
    *
    * @param string $name Required. The name of the security profile v2 to delete.
+   * Format: `organizations/{org}/securityProfilesV2/{profile}`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    * @throws \Google\Service\Exception
@@ -65,7 +67,8 @@ class OrganizationsSecurityProfilesV2 extends \Google\Service\Resource
   /**
    * Get a security profile v2. (securityProfilesV2.get)
    *
-   * @param string $name Required. The security profile id.
+   * @param string $name Required. The name of the security profile v2 to get.
+   * Format: `organizations/{org}/securityProfilesV2/{profile}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityProfileV2
    * @throws \Google\Service\Exception
@@ -104,7 +107,8 @@ class OrganizationsSecurityProfilesV2 extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1SecurityProfileV2 $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask Required. The list of fields to update.
+   * @opt_param string updateMask Optional. The list of fields to update. Valid
+   * fields to update are `description` and `profileAssessmentConfigs`.
    * @return GoogleCloudApigeeV1SecurityProfileV2
    * @throws \Google\Service\Exception
    */

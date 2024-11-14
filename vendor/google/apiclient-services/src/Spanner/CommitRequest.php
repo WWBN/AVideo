@@ -26,6 +26,8 @@ class CommitRequest extends \Google\Collection
   public $maxCommitDelay;
   protected $mutationsType = Mutation::class;
   protected $mutationsDataType = 'array';
+  protected $precommitTokenType = MultiplexedSessionPrecommitToken::class;
+  protected $precommitTokenDataType = '';
   protected $requestOptionsType = RequestOptions::class;
   protected $requestOptionsDataType = '';
   /**
@@ -66,6 +68,20 @@ class CommitRequest extends \Google\Collection
   public function getMutations()
   {
     return $this->mutations;
+  }
+  /**
+   * @param MultiplexedSessionPrecommitToken
+   */
+  public function setPrecommitToken(MultiplexedSessionPrecommitToken $precommitToken)
+  {
+    $this->precommitToken = $precommitToken;
+  }
+  /**
+   * @return MultiplexedSessionPrecommitToken
+   */
+  public function getPrecommitToken()
+  {
+    return $this->precommitToken;
   }
   /**
    * @param RequestOptions

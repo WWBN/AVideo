@@ -23,6 +23,8 @@ class GoogleCloudAiplatformV1NotebookExecutionJob extends \Google\Model
    * @var string
    */
   public $createTime;
+  protected $customEnvironmentSpecType = GoogleCloudAiplatformV1NotebookExecutionJobCustomEnvironmentSpec::class;
+  protected $customEnvironmentSpecDataType = '';
   protected $dataformRepositorySourceType = GoogleCloudAiplatformV1NotebookExecutionJobDataformRepositorySource::class;
   protected $dataformRepositorySourceDataType = '';
   protected $directNotebookSourceType = GoogleCloudAiplatformV1NotebookExecutionJobDirectNotebookSource::class;
@@ -91,6 +93,20 @@ class GoogleCloudAiplatformV1NotebookExecutionJob extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1NotebookExecutionJobCustomEnvironmentSpec
+   */
+  public function setCustomEnvironmentSpec(GoogleCloudAiplatformV1NotebookExecutionJobCustomEnvironmentSpec $customEnvironmentSpec)
+  {
+    $this->customEnvironmentSpec = $customEnvironmentSpec;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1NotebookExecutionJobCustomEnvironmentSpec
+   */
+  public function getCustomEnvironmentSpec()
+  {
+    return $this->customEnvironmentSpec;
   }
   /**
    * @param GoogleCloudAiplatformV1NotebookExecutionJobDataformRepositorySource

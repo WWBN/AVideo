@@ -21,6 +21,10 @@ class GoogleCloudAiplatformV1GenerationConfig extends \Google\Collection
 {
   protected $collection_key = 'stopSequences';
   /**
+   * @var bool
+   */
+  public $audioTimestamp;
+  /**
    * @var int
    */
   public $candidateCount;
@@ -73,6 +77,20 @@ class GoogleCloudAiplatformV1GenerationConfig extends \Google\Collection
    */
   public $topP;
 
+  /**
+   * @param bool
+   */
+  public function setAudioTimestamp($audioTimestamp)
+  {
+    $this->audioTimestamp = $audioTimestamp;
+  }
+  /**
+   * @return bool
+   */
+  public function getAudioTimestamp()
+  {
+    return $this->audioTimestamp;
+  }
   /**
    * @param int
    */

@@ -17,8 +17,6 @@
 
 namespace Google\Service\Texttospeech\Resource;
 
-use Google\Service\Texttospeech\GenerateVoiceCloningKeyRequest;
-use Google\Service\Texttospeech\GenerateVoiceCloningKeyResponse;
 use Google\Service\Texttospeech\ListVoicesResponse;
 
 /**
@@ -31,23 +29,6 @@ use Google\Service\Texttospeech\ListVoicesResponse;
  */
 class Voices extends \Google\Service\Resource
 {
-  /**
-   * Generates voice clone key given a short voice prompt. This method validates
-   * the voice prompts with a series of checks against the voice talent statement
-   * to verify the voice clone is safe to generate.
-   * (voices.generateVoiceCloningKey)
-   *
-   * @param GenerateVoiceCloningKeyRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GenerateVoiceCloningKeyResponse
-   * @throws \Google\Service\Exception
-   */
-  public function generateVoiceCloningKey(GenerateVoiceCloningKeyRequest $postBody, $optParams = [])
-  {
-    $params = ['postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('generateVoiceCloningKey', [$params], GenerateVoiceCloningKeyResponse::class);
-  }
   /**
    * Returns a list of Voice supported for synthesis. (voices.listVoices)
    *

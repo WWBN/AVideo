@@ -17,6 +17,7 @@
 
 namespace Google\Service\CloudControlsPartnerService\Resource;
 
+use Google\Service\CloudControlsPartnerService\CloudcontrolspartnerEmpty;
 use Google\Service\CloudControlsPartnerService\Customer;
 use Google\Service\CloudControlsPartnerService\ListCustomersResponse;
 
@@ -30,6 +31,41 @@ use Google\Service\CloudControlsPartnerService\ListCustomersResponse;
  */
 class OrganizationsLocationsCustomers extends \Google\Service\Resource
 {
+  /**
+   * Creates a new customer. (customers.create)
+   *
+   * @param string $parent Required. Parent resource Format:
+   * `organizations/{organization}/locations/{location}`
+   * @param Customer $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string customerId Required. The customer id to use for the
+   * customer, which will become the final component of the customer's resource
+   * name. The specified value must be a valid Google cloud organization id.
+   * @return Customer
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, Customer $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], Customer::class);
+  }
+  /**
+   * Delete details of a single customer (customers.delete)
+   *
+   * @param string $name Required. name of the resource to be deleted format:
+   * name=organizations/locations/customers
+   * @param array $optParams Optional parameters.
+   * @return CloudcontrolspartnerEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], CloudcontrolspartnerEmpty::class);
+  }
   /**
    * Gets details of a single customer (customers.get)
    *
@@ -68,6 +104,24 @@ class OrganizationsLocationsCustomers extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListCustomersResponse::class);
+  }
+  /**
+   * Update details of a single customer (customers.patch)
+   *
+   * @param string $name Identifier. Format:
+   * `organizations/{organization}/locations/{location}/customers/{customer}`
+   * @param Customer $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Optional. The list of fields to update
+   * @return Customer
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, Customer $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Customer::class);
   }
 }
 

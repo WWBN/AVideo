@@ -75,6 +75,10 @@ class WorkstationCluster extends \Google\Collection
    */
   public $subnetwork;
   /**
+   * @var string[]
+   */
+  public $tags;
+  /**
    * @var string
    */
   public $uid;
@@ -292,6 +296,20 @@ class WorkstationCluster extends \Google\Collection
   public function getSubnetwork()
   {
     return $this->subnetwork;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
   /**
    * @param string

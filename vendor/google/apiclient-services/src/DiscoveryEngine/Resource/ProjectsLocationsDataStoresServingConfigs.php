@@ -97,6 +97,34 @@ class ProjectsLocationsDataStoresServingConfigs extends \Google\Service\Resource
     $params = array_merge($params, $optParams);
     return $this->call('search', [$params], GoogleCloudDiscoveryengineV1SearchResponse::class);
   }
+  /**
+   * Performs a search. Similar to the SearchService.Search method, but a lite
+   * version that allows API key for authentication, where OAuth and IAM checks
+   * are not required. Only public website search is supported by this method. If
+   * data stores and engines not associated with public website search are
+   * specified, a `FAILED_PRECONDITION` error is returned. This method can be used
+   * for easy onboarding without having to implement an authentication backend.
+   * However, it is strongly recommended to use SearchService.Search instead with
+   * required OAuth and IAM checks to provide better data security.
+   * (servingConfigs.searchLite)
+   *
+   * @param string $servingConfig Required. The resource name of the Search
+   * serving config, such as `projects/locations/global/collections/default_collec
+   * tion/engines/servingConfigs/default_serving_config`, or `projects/locations/g
+   * lobal/collections/default_collection/dataStores/default_data_store/servingCon
+   * figs/default_serving_config`. This field is used to identify the serving
+   * configuration name, set of models used to make the search.
+   * @param GoogleCloudDiscoveryengineV1SearchRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDiscoveryengineV1SearchResponse
+   * @throws \Google\Service\Exception
+   */
+  public function searchLite($servingConfig, GoogleCloudDiscoveryengineV1SearchRequest $postBody, $optParams = [])
+  {
+    $params = ['servingConfig' => $servingConfig, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('searchLite', [$params], GoogleCloudDiscoveryengineV1SearchResponse::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

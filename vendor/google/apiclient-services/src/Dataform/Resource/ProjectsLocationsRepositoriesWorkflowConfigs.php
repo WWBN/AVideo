@@ -92,8 +92,9 @@ class ProjectsLocationsRepositoriesWorkflowConfigs extends \Google\Service\Resou
    * server will pick an appropriate default.
    * @opt_param string pageToken Optional. Page token received from a previous
    * `ListWorkflowConfigs` call. Provide this to retrieve the subsequent page.
-   * When paginating, all other parameters provided to `ListWorkflowConfigs` must
-   * match the call that provided the page token.
+   * When paginating, all other parameters provided to `ListWorkflowConfigs`, with
+   * the exception of `page_size`, must match the call that provided the page
+   * token.
    * @return ListWorkflowConfigsResponse
    * @throws \Google\Service\Exception
    */

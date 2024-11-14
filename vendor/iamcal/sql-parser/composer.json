@@ -1,0 +1,29 @@
+{
+	"name": "iamcal/sql-parser",
+	"description": "MySQL schema parser",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Cal Henderson",
+			"email": "cal@iamcal.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"iamcal\\": "src"
+		}
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^5|^6|^7|^8|^9",
+		"php-coveralls/php-coveralls": "^1.0"
+	},
+	"scripts": {
+		"test": "vendor/bin/phpunit -c phpunit.xml.dist",
+		"test-coverage": "vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/logs/clover.xml"
+	},
+	"scripts-descriptions": {
+		"test": "Run tests",
+		"test-coverage": "Run tests with coverage"
+	}
+}

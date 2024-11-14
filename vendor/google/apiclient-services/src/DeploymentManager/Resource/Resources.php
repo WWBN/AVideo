@@ -37,6 +37,8 @@ class Resources extends \Google\Service\Resource
    * @param string $deployment The name of the deployment for this request.
    * @param string $resource The name of the resource for this request.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool header.bypassBillingFilter
    * @return DeploymentmanagerResource
    * @throws \Google\Service\Exception
    */

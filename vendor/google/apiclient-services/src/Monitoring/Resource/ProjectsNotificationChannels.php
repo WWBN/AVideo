@@ -74,8 +74,8 @@ class ProjectsNotificationChannels extends \Google\Service\Resource
    *
    * @opt_param bool force If true, the notification channel will be deleted
    * regardless of its use in alert policies (the policies will be updated to
-   * remove the channel). If false, channels that are still referenced by an
-   * existing alerting policy will fail to be deleted in a delete operation.
+   * remove the channel). If false, this operation will fail if the notification
+   * channel is referenced by existing alerting policies.
    * @return MonitoringEmpty
    * @throws \Google\Service\Exception
    */

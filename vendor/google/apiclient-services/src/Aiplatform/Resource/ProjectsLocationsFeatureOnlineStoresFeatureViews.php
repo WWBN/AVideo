@@ -206,7 +206,7 @@ class ProjectsLocationsFeatureOnlineStoresFeatureViews extends \Google\Service\R
    * fields: * `labels` * `service_agent_type` * `big_query_source` *
    * `big_query_source.uri` * `big_query_source.entity_id_columns` *
    * `feature_registry_source` * `feature_registry_source.feature_groups` *
-   * `sync_config` * `sync_config.cron`
+   * `sync_config` * `sync_config.cron` * `optimized_config.automatic_resources`
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */

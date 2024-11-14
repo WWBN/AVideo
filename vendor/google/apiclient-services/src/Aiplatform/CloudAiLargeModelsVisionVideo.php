@@ -22,12 +22,48 @@ class CloudAiLargeModelsVisionVideo extends \Google\Model
   /**
    * @var string
    */
+  public $encodedVideo;
+  /**
+   * @var string
+   */
+  public $encoding;
+  /**
+   * @var string
+   */
   public $uri;
   /**
    * @var string
    */
   public $video;
 
+  /**
+   * @param string
+   */
+  public function setEncodedVideo($encodedVideo)
+  {
+    $this->encodedVideo = $encodedVideo;
+  }
+  /**
+   * @return string
+   */
+  public function getEncodedVideo()
+  {
+    return $this->encodedVideo;
+  }
+  /**
+   * @param string
+   */
+  public function setEncoding($encoding)
+  {
+    $this->encoding = $encoding;
+  }
+  /**
+   * @return string
+   */
+  public function getEncoding()
+  {
+    return $this->encoding;
+  }
   /**
    * @param string
    */

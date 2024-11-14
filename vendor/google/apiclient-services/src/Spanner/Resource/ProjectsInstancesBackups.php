@@ -91,15 +91,15 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * @opt_param string encryptionConfig.kmsKeyNames Optional. Specifies the KMS
    * configuration for the one or more keys used to protect the backup. Values are
    * of the form `projects//locations//keyRings//cryptoKeys/`. The keys referenced
-   * by kms_key_names must fully cover all regions of the backup's instance
-   * configuration. Some examples: * For single region instance configs, specify a
-   * single regional location KMS key. * For multi-regional instance configs of
-   * type GOOGLE_MANAGED, either specify a multi-regional location KMS key or
-   * multiple regional location KMS keys that cover all regions in the instance
-   * config. * For an instance config of type USER_MANAGED, please specify only
-   * regional location KMS keys to cover each region in the instance config.
-   * Multi-regional location KMS keys are not supported for USER_MANAGED instance
-   * configs.
+   * by `kms_key_names` must fully cover all regions of the backup's instance
+   * configuration. Some examples: * For regional (single-region) instance
+   * configurations, specify a regional location KMS key. * For multi-region
+   * instance configurations of type `GOOGLE_MANAGED`, either specify a multi-
+   * region location KMS key or multiple regional location KMS keys that cover all
+   * regions in the instance configuration. * For an instance configuration of
+   * type `USER_MANAGED`, specify only regional location KMS keys to cover each
+   * region in the instance configuration. Multi-region location KMS keys aren't
+   * supported for `USER_MANAGED` type instance configurations.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -144,7 +144,9 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * empty policy if a database or backup exists but does not have a policy set.
    * Authorization requires `spanner.databases.getIamPolicy` permission on
    * resource. For backups, authorization requires `spanner.backups.getIamPolicy`
-   * permission on resource. (backups.getIamPolicy)
+   * permission on resource. For backup schedules, authorization requires
+   * `spanner.backupSchedules.getIamPolicy` permission on resource.
+   * (backups.getIamPolicy)
    *
    * @param string $resource REQUIRED: The Cloud Spanner resource for which the
    * policy is being retrieved. The format is `projects//instances/` for instance
@@ -237,7 +239,9 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * Sets the access control policy on a database or backup resource. Replaces any
    * existing policy. Authorization requires `spanner.databases.setIamPolicy`
    * permission on resource. For backups, authorization requires
-   * `spanner.backups.setIamPolicy` permission on resource. (backups.setIamPolicy)
+   * `spanner.backups.setIamPolicy` permission on resource. For backup schedules,
+   * authorization requires `spanner.backupSchedules.setIamPolicy` permission on
+   * resource. (backups.setIamPolicy)
    *
    * @param string $resource REQUIRED: The Cloud Spanner resource for which the
    * policy is being set. The format is `projects//instances/` for instance
@@ -260,7 +264,10 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * permission on the containing Cloud Spanner instance. Otherwise returns an
    * empty set of permissions. Calling this method on a backup that does not exist
    * will result in a NOT_FOUND error if the user has `spanner.backups.list`
-   * permission on the containing instance. (backups.testIamPermissions)
+   * permission on the containing instance. Calling this method on a backup
+   * schedule that does not exist will result in a NOT_FOUND error if the user has
+   * `spanner.backupSchedules.list` permission on the containing database.
+   * (backups.testIamPermissions)
    *
    * @param string $resource REQUIRED: The Cloud Spanner resource for which
    * permissions are being tested. The format is `projects//instances/` for

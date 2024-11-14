@@ -169,8 +169,8 @@ class ProjectsLocationsApplications extends \Google\Service\Resource
    * Updates an Application in a host project and location. (applications.patch)
    *
    * @param string $name Identifier. The resource name of an Application. Format:
-   * "projects/{host-project-id}/locations/{location}/applications/{application-
-   * id}"
+   * `"projects/{host-project-id}/locations/{location}/applications/{application-
+   * id}"`
    * @param Application $postBody
    * @param array $optParams Optional parameters.
    *

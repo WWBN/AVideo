@@ -57,6 +57,10 @@ class GoogleCloudDiscoveryengineV1alphaSearchRequest extends \Google\Collection
    */
   public $offset;
   /**
+   * @var int
+   */
+  public $oneBoxPageSize;
+  /**
    * @var string
    */
   public $orderBy;
@@ -302,6 +306,20 @@ class GoogleCloudDiscoveryengineV1alphaSearchRequest extends \Google\Collection
   public function getOffset()
   {
     return $this->offset;
+  }
+  /**
+   * @param int
+   */
+  public function setOneBoxPageSize($oneBoxPageSize)
+  {
+    $this->oneBoxPageSize = $oneBoxPageSize;
+  }
+  /**
+   * @return int
+   */
+  public function getOneBoxPageSize()
+  {
+    return $this->oneBoxPageSize;
   }
   /**
    * @param string

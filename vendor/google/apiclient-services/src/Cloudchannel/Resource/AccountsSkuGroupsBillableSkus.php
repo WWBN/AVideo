@@ -51,7 +51,7 @@ class AccountsSkuGroupsBillableSkus extends \Google\Service\Resource
    * coerced to 100000.
    * @opt_param string pageToken Optional. A token identifying a page of results
    * beyond the first page. Obtained through
-   * ListSkuGroupBillableSkus.next_page_token of the previous
+   * ListSkuGroupBillableSkusResponse.next_page_token of the previous
    * CloudChannelService.ListSkuGroupBillableSkus call.
    * @return GoogleCloudChannelV1ListSkuGroupBillableSkusResponse
    * @throws \Google\Service\Exception

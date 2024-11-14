@@ -41,6 +41,8 @@ class GoogleCloudAiplatformV1FeatureView extends \Google\Model
    * @var string
    */
   public $name;
+  protected $optimizedConfigType = GoogleCloudAiplatformV1FeatureViewOptimizedConfig::class;
+  protected $optimizedConfigDataType = '';
   /**
    * @var bool
    */
@@ -155,6 +157,20 @@ class GoogleCloudAiplatformV1FeatureView extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1FeatureViewOptimizedConfig
+   */
+  public function setOptimizedConfig(GoogleCloudAiplatformV1FeatureViewOptimizedConfig $optimizedConfig)
+  {
+    $this->optimizedConfig = $optimizedConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1FeatureViewOptimizedConfig
+   */
+  public function getOptimizedConfig()
+  {
+    return $this->optimizedConfig;
   }
   /**
    * @param bool

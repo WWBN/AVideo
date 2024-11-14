@@ -51,8 +51,8 @@ final class AsyncResponse implements ResponseInterface, StreamableInterface
 
         if (null !== $onProgress = $options['on_progress'] ?? null) {
             $thisInfo = &$this->info;
-            $options['on_progress'] = static function (int $dlNow, int $dlSize, array $info) use (&$thisInfo, $onProgress) {
-                $onProgress($dlNow, $dlSize, $thisInfo + $info);
+            $options['on_progress'] = static function (int $dlNow, int $dlSize, array $info, ?\Closure $resolve = null) use (&$thisInfo, $onProgress) {
+                $onProgress($dlNow, $dlSize, $thisInfo + $info, $resolve);
             };
         }
         $this->response = $client->request($method, $url, ['buffer' => false] + $options);

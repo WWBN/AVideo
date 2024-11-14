@@ -40,6 +40,8 @@ class Cluster extends \Google\Collection
   protected $conditionsDataType = 'array';
   protected $confidentialNodesType = ConfidentialNodes::class;
   protected $confidentialNodesDataType = '';
+  protected $controlPlaneEndpointsConfigType = ControlPlaneEndpointsConfig::class;
+  protected $controlPlaneEndpointsConfigDataType = '';
   protected $costManagementConfigType = CostManagementConfig::class;
   protected $costManagementConfigDataType = '';
   /**
@@ -360,6 +362,20 @@ class Cluster extends \Google\Collection
   public function getConfidentialNodes()
   {
     return $this->confidentialNodes;
+  }
+  /**
+   * @param ControlPlaneEndpointsConfig
+   */
+  public function setControlPlaneEndpointsConfig(ControlPlaneEndpointsConfig $controlPlaneEndpointsConfig)
+  {
+    $this->controlPlaneEndpointsConfig = $controlPlaneEndpointsConfig;
+  }
+  /**
+   * @return ControlPlaneEndpointsConfig
+   */
+  public function getControlPlaneEndpointsConfig()
+  {
+    return $this->controlPlaneEndpointsConfig;
   }
   /**
    * @param CostManagementConfig

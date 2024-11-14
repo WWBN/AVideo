@@ -177,10 +177,11 @@ class ProjectsLocationsVmwareEngineNetworks extends \Google\Service\Resource
    * updated: `description`. Only fields specified in `updateMask` are applied.
    * (vmwareEngineNetworks.patch)
    *
-   * @param string $name Output only. The resource name of the VMware Engine
-   * network. Resource names are schemeless URIs that follow the conventions in
-   * https://cloud.google.com/apis/design/resource_names. For example:
-   * `projects/my-project/locations/global/vmwareEngineNetworks/my-network`
+   * @param string $name Output only. Identifier. The resource name of the VMware
+   * Engine network. Resource names are schemeless URIs that follow the
+   * conventions in https://cloud.google.com/apis/design/resource_names. For
+   * example: `projects/my-project/locations/global/vmwareEngineNetworks/my-
+   * network`
    * @param VmwareEngineNetwork $postBody
    * @param array $optParams Optional parameters.
    *

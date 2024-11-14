@@ -19,6 +19,79 @@ namespace Google\Service\GKEHub;
 
 class ServiceMeshSpec extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $configApi;
+  /**
+   * @var string
+   */
+  public $controlPlane;
+  /**
+   * @var string
+   */
+  public $defaultChannel;
+  /**
+   * @var string
+   */
+  public $management;
+
+  /**
+   * @param string
+   */
+  public function setConfigApi($configApi)
+  {
+    $this->configApi = $configApi;
+  }
+  /**
+   * @return string
+   */
+  public function getConfigApi()
+  {
+    return $this->configApi;
+  }
+  /**
+   * @param string
+   */
+  public function setControlPlane($controlPlane)
+  {
+    $this->controlPlane = $controlPlane;
+  }
+  /**
+   * @return string
+   */
+  public function getControlPlane()
+  {
+    return $this->controlPlane;
+  }
+  /**
+   * @param string
+   */
+  public function setDefaultChannel($defaultChannel)
+  {
+    $this->defaultChannel = $defaultChannel;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultChannel()
+  {
+    return $this->defaultChannel;
+  }
+  /**
+   * @param string
+   */
+  public function setManagement($management)
+  {
+    $this->management = $management;
+  }
+  /**
+   * @return string
+   */
+  public function getManagement()
+  {
+    return $this->management;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

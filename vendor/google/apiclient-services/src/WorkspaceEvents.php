@@ -62,6 +62,21 @@ class WorkspaceEvents extends \Google\Service
   /** View chat and spaces in Google Chat. */
   const CHAT_SPACES_READONLY =
       "https://www.googleapis.com/auth/chat.spaces.readonly";
+  /** See, edit, create, and delete all of your Google Drive files. */
+  const DRIVE =
+      "https://www.googleapis.com/auth/drive";
+  /** See, edit, create, and delete only the specific Google Drive files you use with this app. */
+  const DRIVE_FILE =
+      "https://www.googleapis.com/auth/drive.file";
+  /** View and manage metadata of files in your Google Drive. */
+  const DRIVE_METADATA =
+      "https://www.googleapis.com/auth/drive.metadata";
+  /** See information about your Google Drive files. */
+  const DRIVE_METADATA_READONLY =
+      "https://www.googleapis.com/auth/drive.metadata.readonly";
+  /** See and download all your Google Drive files. */
+  const DRIVE_READONLY =
+      "https://www.googleapis.com/auth/drive.readonly";
   /** Create, edit, and see information about your Google Meet conferences created by the app.. */
   const MEETINGS_SPACE_CREATED =
       "https://www.googleapis.com/auth/meetings.space.created";

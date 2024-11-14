@@ -24,6 +24,8 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
   protected $accessibilityOptionsDataType = '';
   protected $addressComponentsType = GoogleMapsPlacesV1PlaceAddressComponent::class;
   protected $addressComponentsDataType = 'array';
+  protected $addressDescriptorType = GoogleMapsPlacesV1AddressDescriptor::class;
+  protected $addressDescriptorDataType = '';
   /**
    * @var string
    */
@@ -40,6 +42,8 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
    * @var string
    */
   public $businessStatus;
+  protected $containingPlacesType = GoogleMapsPlacesV1PlaceContainingPlace::class;
+  protected $containingPlacesDataType = 'array';
   /**
    * @var bool
    */
@@ -82,6 +86,8 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
    * @var bool
    */
   public $goodForWatchingSports;
+  protected $googleMapsLinksType = GoogleMapsPlacesV1PlaceGoogleMapsLinks::class;
+  protected $googleMapsLinksDataType = '';
   /**
    * @var string
    */
@@ -136,12 +142,18 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
    * @var string
    */
   public $priceLevel;
+  protected $priceRangeType = GoogleMapsPlacesV1PriceRange::class;
+  protected $priceRangeDataType = '';
   /**
    * @var string
    */
   public $primaryType;
   protected $primaryTypeDisplayNameType = GoogleTypeLocalizedText::class;
   protected $primaryTypeDisplayNameDataType = '';
+  /**
+   * @var bool
+   */
+  public $pureServiceAreaBusiness;
   public $rating;
   protected $regularOpeningHoursType = GoogleMapsPlacesV1PlaceOpeningHours::class;
   protected $regularOpeningHoursDataType = '';
@@ -255,6 +267,20 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
     return $this->addressComponents;
   }
   /**
+   * @param GoogleMapsPlacesV1AddressDescriptor
+   */
+  public function setAddressDescriptor(GoogleMapsPlacesV1AddressDescriptor $addressDescriptor)
+  {
+    $this->addressDescriptor = $addressDescriptor;
+  }
+  /**
+   * @return GoogleMapsPlacesV1AddressDescriptor
+   */
+  public function getAddressDescriptor()
+  {
+    return $this->addressDescriptor;
+  }
+  /**
    * @param string
    */
   public function setAdrFormatAddress($adrFormatAddress)
@@ -323,6 +349,20 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
   public function getBusinessStatus()
   {
     return $this->businessStatus;
+  }
+  /**
+   * @param GoogleMapsPlacesV1PlaceContainingPlace[]
+   */
+  public function setContainingPlaces($containingPlaces)
+  {
+    $this->containingPlaces = $containingPlaces;
+  }
+  /**
+   * @return GoogleMapsPlacesV1PlaceContainingPlace[]
+   */
+  public function getContainingPlaces()
+  {
+    return $this->containingPlaces;
   }
   /**
    * @param bool
@@ -519,6 +559,20 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
   public function getGoodForWatchingSports()
   {
     return $this->goodForWatchingSports;
+  }
+  /**
+   * @param GoogleMapsPlacesV1PlaceGoogleMapsLinks
+   */
+  public function setGoogleMapsLinks(GoogleMapsPlacesV1PlaceGoogleMapsLinks $googleMapsLinks)
+  {
+    $this->googleMapsLinks = $googleMapsLinks;
+  }
+  /**
+   * @return GoogleMapsPlacesV1PlaceGoogleMapsLinks
+   */
+  public function getGoogleMapsLinks()
+  {
+    return $this->googleMapsLinks;
   }
   /**
    * @param string
@@ -745,6 +799,20 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
     return $this->priceLevel;
   }
   /**
+   * @param GoogleMapsPlacesV1PriceRange
+   */
+  public function setPriceRange(GoogleMapsPlacesV1PriceRange $priceRange)
+  {
+    $this->priceRange = $priceRange;
+  }
+  /**
+   * @return GoogleMapsPlacesV1PriceRange
+   */
+  public function getPriceRange()
+  {
+    return $this->priceRange;
+  }
+  /**
    * @param string
    */
   public function setPrimaryType($primaryType)
@@ -771,6 +839,20 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
   public function getPrimaryTypeDisplayName()
   {
     return $this->primaryTypeDisplayName;
+  }
+  /**
+   * @param bool
+   */
+  public function setPureServiceAreaBusiness($pureServiceAreaBusiness)
+  {
+    $this->pureServiceAreaBusiness = $pureServiceAreaBusiness;
+  }
+  /**
+   * @return bool
+   */
+  public function getPureServiceAreaBusiness()
+  {
+    return $this->pureServiceAreaBusiness;
   }
   public function setRating($rating)
   {

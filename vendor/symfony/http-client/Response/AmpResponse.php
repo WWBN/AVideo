@@ -89,10 +89,17 @@ final class AmpResponse implements ResponseInterface, StreamableInterface
         $info['max_duration'] = $options['max_duration'];
         $info['debug'] = '';
 
+        $resolve = static function (string $host, ?string $ip = null) use ($multi): ?string {
+            if (null !== $ip) {
+                $multi->dnsCache[$host] = $ip;
+            }
+
+            return $multi->dnsCache[$host] ?? null;
+        };
         $onProgress = $options['on_progress'] ?? static function () {};
-        $onProgress = $this->onProgress = static function () use (&$info, $onProgress) {
+        $onProgress = $this->onProgress = static function () use (&$info, $onProgress, $resolve) {
             $info['total_time'] = microtime(true) - $info['start_time'];
-            $onProgress((int) $info['size_download'], ((int) (1 + $info['download_content_length']) ?: 1) - 1, (array) $info);
+            $onProgress((int) $info['size_download'], ((int) (1 + $info['download_content_length']) ?: 1) - 1, (array) $info, $resolve);
         };
 
         $pauseDeferred = new Deferred();

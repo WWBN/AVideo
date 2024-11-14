@@ -318,6 +318,10 @@ class Backupdr extends \Google\Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ],
+                'ignoreBackupPlanReferences' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'requestId' => [
                   'location' => 'query',
                   'type' => 'string',

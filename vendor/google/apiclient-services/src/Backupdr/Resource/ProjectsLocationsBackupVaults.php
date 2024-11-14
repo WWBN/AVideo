@@ -80,6 +80,9 @@ class ProjectsLocationsBackupVaults extends \Google\Service\Resource
    * be blocked.
    * @opt_param bool force Optional. If set to true, any data source from this
    * backup vault will also be deleted.
+   * @opt_param bool ignoreBackupPlanReferences Optional. If set to true,
+   * backupvault deletion will proceed even if there are backup plans referencing
+   * the backupvault. The default is 'false'.
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
    * the server will know to ignore the request if it has already been completed.

@@ -36,12 +36,12 @@ class GcpUserAccessBinding extends \Google\Collection
    * @var string
    */
   public $name;
-  protected $reauthSettingsType = ReauthSettings::class;
-  protected $reauthSettingsDataType = '';
   protected $restrictedClientApplicationsType = Application::class;
   protected $restrictedClientApplicationsDataType = 'array';
   protected $scopedAccessSettingsType = ScopedAccessSettings::class;
   protected $scopedAccessSettingsDataType = 'array';
+  protected $sessionSettingsType = SessionSettings::class;
+  protected $sessionSettingsDataType = '';
 
   /**
    * @param string[]
@@ -100,20 +100,6 @@ class GcpUserAccessBinding extends \Google\Collection
     return $this->name;
   }
   /**
-   * @param ReauthSettings
-   */
-  public function setReauthSettings(ReauthSettings $reauthSettings)
-  {
-    $this->reauthSettings = $reauthSettings;
-  }
-  /**
-   * @return ReauthSettings
-   */
-  public function getReauthSettings()
-  {
-    return $this->reauthSettings;
-  }
-  /**
    * @param Application[]
    */
   public function setRestrictedClientApplications($restrictedClientApplications)
@@ -140,6 +126,20 @@ class GcpUserAccessBinding extends \Google\Collection
   public function getScopedAccessSettings()
   {
     return $this->scopedAccessSettings;
+  }
+  /**
+   * @param SessionSettings
+   */
+  public function setSessionSettings(SessionSettings $sessionSettings)
+  {
+    $this->sessionSettings = $sessionSettings;
+  }
+  /**
+   * @return SessionSettings
+   */
+  public function getSessionSettings()
+  {
+    return $this->sessionSettings;
   }
 }
 

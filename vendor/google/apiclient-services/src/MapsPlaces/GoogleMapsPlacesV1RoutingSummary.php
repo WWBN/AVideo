@@ -20,9 +20,27 @@ namespace Google\Service\MapsPlaces;
 class GoogleMapsPlacesV1RoutingSummary extends \Google\Collection
 {
   protected $collection_key = 'legs';
+  /**
+   * @var string
+   */
+  public $directionsUri;
   protected $legsType = GoogleMapsPlacesV1RoutingSummaryLeg::class;
   protected $legsDataType = 'array';
 
+  /**
+   * @param string
+   */
+  public function setDirectionsUri($directionsUri)
+  {
+    $this->directionsUri = $directionsUri;
+  }
+  /**
+   * @return string
+   */
+  public function getDirectionsUri()
+  {
+    return $this->directionsUri;
+  }
   /**
    * @param GoogleMapsPlacesV1RoutingSummaryLeg[]
    */

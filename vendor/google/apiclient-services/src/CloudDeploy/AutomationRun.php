@@ -69,6 +69,8 @@ class AutomationRun extends \Google\Model
    * @var string
    */
   public $targetId;
+  protected $timedPromoteReleaseOperationType = TimedPromoteReleaseOperation::class;
+  protected $timedPromoteReleaseOperationDataType = '';
   /**
    * @var string
    */
@@ -287,6 +289,20 @@ class AutomationRun extends \Google\Model
   public function getTargetId()
   {
     return $this->targetId;
+  }
+  /**
+   * @param TimedPromoteReleaseOperation
+   */
+  public function setTimedPromoteReleaseOperation(TimedPromoteReleaseOperation $timedPromoteReleaseOperation)
+  {
+    $this->timedPromoteReleaseOperation = $timedPromoteReleaseOperation;
+  }
+  /**
+   * @return TimedPromoteReleaseOperation
+   */
+  public function getTimedPromoteReleaseOperation()
+  {
+    return $this->timedPromoteReleaseOperation;
   }
   /**
    * @param string

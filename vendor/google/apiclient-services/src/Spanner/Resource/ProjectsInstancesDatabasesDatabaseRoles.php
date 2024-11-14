@@ -59,7 +59,10 @@ class ProjectsInstancesDatabasesDatabaseRoles extends \Google\Service\Resource
    * permission on the containing Cloud Spanner instance. Otherwise returns an
    * empty set of permissions. Calling this method on a backup that does not exist
    * will result in a NOT_FOUND error if the user has `spanner.backups.list`
-   * permission on the containing instance. (databaseRoles.testIamPermissions)
+   * permission on the containing instance. Calling this method on a backup
+   * schedule that does not exist will result in a NOT_FOUND error if the user has
+   * `spanner.backupSchedules.list` permission on the containing database.
+   * (databaseRoles.testIamPermissions)
    *
    * @param string $resource REQUIRED: The Cloud Spanner resource for which
    * permissions are being tested. The format is `projects//instances/` for

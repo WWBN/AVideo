@@ -101,6 +101,10 @@ class GiftCardClass extends \Google\Collection
   /**
    * @var string
    */
+  public $notifyPreference;
+  /**
+   * @var string
+   */
   public $pinLabel;
   protected $programLogoType = Image::class;
   protected $programLogoDataType = '';
@@ -510,6 +514,20 @@ class GiftCardClass extends \Google\Collection
   public function getMultipleDevicesAndHoldersAllowedStatus()
   {
     return $this->multipleDevicesAndHoldersAllowedStatus;
+  }
+  /**
+   * @param string
+   */
+  public function setNotifyPreference($notifyPreference)
+  {
+    $this->notifyPreference = $notifyPreference;
+  }
+  /**
+   * @return string
+   */
+  public function getNotifyPreference()
+  {
+    return $this->notifyPreference;
   }
   /**
    * @param string

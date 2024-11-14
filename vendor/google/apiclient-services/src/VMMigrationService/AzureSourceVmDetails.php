@@ -23,6 +23,10 @@ class AzureSourceVmDetails extends \Google\Collection
   /**
    * @var string
    */
+  public $architecture;
+  /**
+   * @var string
+   */
   public $committedStorageBytes;
   protected $disksType = AzureDiskDetails::class;
   protected $disksDataType = 'array';
@@ -33,6 +37,20 @@ class AzureSourceVmDetails extends \Google\Collection
   protected $vmCapabilitiesInfoType = VmCapabilities::class;
   protected $vmCapabilitiesInfoDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setArchitecture($architecture)
+  {
+    $this->architecture = $architecture;
+  }
+  /**
+   * @return string
+   */
+  public function getArchitecture()
+  {
+    return $this->architecture;
+  }
   /**
    * @param string
    */

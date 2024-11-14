@@ -79,8 +79,9 @@ class ProjectsLocationsRepositoriesCompilationResults extends \Google\Service\Re
    * server will pick an appropriate default.
    * @opt_param string pageToken Optional. Page token received from a previous
    * `ListCompilationResults` call. Provide this to retrieve the subsequent page.
-   * When paginating, all other parameters provided to `ListCompilationResults`
-   * must match the call that provided the page token.
+   * When paginating, all other parameters provided to `ListCompilationResults`,
+   * with the exception of `page_size`, must match the call that provided the page
+   * token.
    * @return ListCompilationResultsResponse
    * @throws \Google\Service\Exception
    */
@@ -105,8 +106,8 @@ class ProjectsLocationsRepositoriesCompilationResults extends \Google\Service\Re
    * @opt_param string pageToken Optional. Page token received from a previous
    * `QueryCompilationResultActions` call. Provide this to retrieve the subsequent
    * page. When paginating, all other parameters provided to
-   * `QueryCompilationResultActions` must match the call that provided the page
-   * token.
+   * `QueryCompilationResultActions`, with the exception of `page_size`, must
+   * match the call that provided the page token.
    * @return QueryCompilationResultActionsResponse
    * @throws \Google\Service\Exception
    */

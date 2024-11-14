@@ -136,8 +136,8 @@ class ProjectsLocationsApplicationsServices extends \Google\Service\Resource
    * Updates a Service in an Application. (services.patch)
    *
    * @param string $name Identifier. The resource name of a Service. Format:
-   * "projects/{host-project-id}/locations/{location}/applications/{application-
-   * id}/services/{service-id}"
+   * `"projects/{host-project-id}/locations/{location}/applications/{application-
+   * id}/services/{service-id}"`
    * @param Service $postBody
    * @param array $optParams Optional parameters.
    *

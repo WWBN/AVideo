@@ -21,6 +21,10 @@ class GoogleCloudChannelV1TransferableOffer extends \Google\Model
 {
   protected $offerType = GoogleCloudChannelV1Offer::class;
   protected $offerDataType = '';
+  /**
+   * @var string
+   */
+  public $priceReferenceId;
 
   /**
    * @param GoogleCloudChannelV1Offer
@@ -35,6 +39,20 @@ class GoogleCloudChannelV1TransferableOffer extends \Google\Model
   public function getOffer()
   {
     return $this->offer;
+  }
+  /**
+   * @param string
+   */
+  public function setPriceReferenceId($priceReferenceId)
+  {
+    $this->priceReferenceId = $priceReferenceId;
+  }
+  /**
+   * @return string
+   */
+  public function getPriceReferenceId()
+  {
+    return $this->priceReferenceId;
   }
 }
 

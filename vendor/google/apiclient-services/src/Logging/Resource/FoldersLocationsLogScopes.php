@@ -111,8 +111,9 @@ class FoldersLocationsLogScopes extends \Google\Service\Resource
   /**
    * Updates a log scope. (logScopes.patch)
    *
-   * @param string $name Output only. The resource name of the log scope.For
-   * example:projects/my-project/locations/global/logScopes/my-log-scope
+   * @param string $name Output only. The resource name of the log scope.Log
+   * scopes are only available in the global location. For example:projects/my-
+   * project/locations/global/logScopes/my-log-scope
    * @param LogScope $postBody
    * @param array $optParams Optional parameters.
    *

@@ -19,8 +19,12 @@ namespace Google\Service\Datastream;
 
 class MysqlSourceConfig extends \Google\Model
 {
+  protected $binaryLogPositionType = BinaryLogPosition::class;
+  protected $binaryLogPositionDataType = '';
   protected $excludeObjectsType = MysqlRdbms::class;
   protected $excludeObjectsDataType = '';
+  protected $gtidType = Gtid::class;
+  protected $gtidDataType = '';
   protected $includeObjectsType = MysqlRdbms::class;
   protected $includeObjectsDataType = '';
   /**
@@ -32,6 +36,20 @@ class MysqlSourceConfig extends \Google\Model
    */
   public $maxConcurrentCdcTasks;
 
+  /**
+   * @param BinaryLogPosition
+   */
+  public function setBinaryLogPosition(BinaryLogPosition $binaryLogPosition)
+  {
+    $this->binaryLogPosition = $binaryLogPosition;
+  }
+  /**
+   * @return BinaryLogPosition
+   */
+  public function getBinaryLogPosition()
+  {
+    return $this->binaryLogPosition;
+  }
   /**
    * @param MysqlRdbms
    */
@@ -45,6 +63,20 @@ class MysqlSourceConfig extends \Google\Model
   public function getExcludeObjects()
   {
     return $this->excludeObjects;
+  }
+  /**
+   * @param Gtid
+   */
+  public function setGtid(Gtid $gtid)
+  {
+    $this->gtid = $gtid;
+  }
+  /**
+   * @return Gtid
+   */
+  public function getGtid()
+  {
+    return $this->gtid;
   }
   /**
    * @param MysqlRdbms

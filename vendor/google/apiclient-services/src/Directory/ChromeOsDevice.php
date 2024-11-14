@@ -70,6 +70,8 @@ class ChromeOsDevice extends \Google\Collection
    * @var string
    */
   public $deviceLicenseType;
+  protected $diskSpaceUsageType = ByteUsage::class;
+  protected $diskSpaceUsageDataType = '';
   protected $diskVolumeReportsType = ChromeOsDeviceDiskVolumeReports::class;
   protected $diskVolumeReportsDataType = 'array';
   /**
@@ -408,6 +410,20 @@ class ChromeOsDevice extends \Google\Collection
   public function getDeviceLicenseType()
   {
     return $this->deviceLicenseType;
+  }
+  /**
+   * @param ByteUsage
+   */
+  public function setDiskSpaceUsage(ByteUsage $diskSpaceUsage)
+  {
+    $this->diskSpaceUsage = $diskSpaceUsage;
+  }
+  /**
+   * @return ByteUsage
+   */
+  public function getDiskSpaceUsage()
+  {
+    return $this->diskSpaceUsage;
   }
   /**
    * @param ChromeOsDeviceDiskVolumeReports[]

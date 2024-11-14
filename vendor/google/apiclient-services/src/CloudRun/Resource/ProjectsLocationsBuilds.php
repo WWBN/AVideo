@@ -35,7 +35,7 @@ class ProjectsLocationsBuilds extends \Google\Service\Resource
    *
    * @param string $parent Required. The project and location to build in.
    * Location must be a region, e.g., 'us-central1' or 'global' if the global
-   * builder is to be used. Format: projects/{project}/locations/{location}
+   * builder is to be used. Format: `projects/{project}/locations/{location}`
    * @param GoogleCloudRunV2SubmitBuildRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRunV2SubmitBuildResponse

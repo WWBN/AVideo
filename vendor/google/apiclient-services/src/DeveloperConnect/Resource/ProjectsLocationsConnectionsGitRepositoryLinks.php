@@ -17,6 +17,7 @@
 
 namespace Google\Service\DeveloperConnect\Resource;
 
+use Google\Service\DeveloperConnect\DeveloperconnectEmpty;
 use Google\Service\DeveloperConnect\FetchGitRefsResponse;
 use Google\Service\DeveloperConnect\FetchReadTokenRequest;
 use Google\Service\DeveloperConnect\FetchReadTokenResponse;
@@ -25,6 +26,8 @@ use Google\Service\DeveloperConnect\FetchReadWriteTokenResponse;
 use Google\Service\DeveloperConnect\GitRepositoryLink;
 use Google\Service\DeveloperConnect\ListGitRepositoryLinksResponse;
 use Google\Service\DeveloperConnect\Operation;
+use Google\Service\DeveloperConnect\ProcessGitLabEnterpriseWebhookRequest;
+use Google\Service\DeveloperConnect\ProcessGitLabWebhookRequest;
 
 /**
  * The "gitRepositoryLinks" collection of methods.
@@ -199,6 +202,43 @@ class ProjectsLocationsConnectionsGitRepositoryLinks extends \Google\Service\Res
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListGitRepositoryLinksResponse::class);
+  }
+  /**
+   * ProcessGitLabEnterpriseWebhook is called by the external GitLab Enterprise
+   * instances for notifying events.
+   * (gitRepositoryLinks.processGitLabEnterpriseWebhook)
+   *
+   * @param string $name Required. The GitRepositoryLink resource where the
+   * webhook will be received. Format:
+   * `projects/locations/connections/gitRepositoryLinks`.
+   * @param ProcessGitLabEnterpriseWebhookRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return DeveloperconnectEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function processGitLabEnterpriseWebhook($name, ProcessGitLabEnterpriseWebhookRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('processGitLabEnterpriseWebhook', [$params], DeveloperconnectEmpty::class);
+  }
+  /**
+   * ProcessGitLabWebhook is called by the GitLab.com for notifying events.
+   * (gitRepositoryLinks.processGitLabWebhook)
+   *
+   * @param string $name Required. The GitRepositoryLink resource where the
+   * webhook will be received. Format:
+   * `projects/locations/connections/gitRepositoryLinks`.
+   * @param ProcessGitLabWebhookRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return DeveloperconnectEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function processGitLabWebhook($name, ProcessGitLabWebhookRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('processGitLabWebhook', [$params], DeveloperconnectEmpty::class);
   }
 }
 

@@ -50,6 +50,8 @@ class GoogleCloudDiscoveryengineV1UserEvent extends \Google\Collection
    * @var string
    */
   public $eventType;
+  protected $feedbackType = GoogleCloudDiscoveryengineV1Feedback::class;
+  protected $feedbackDataType = '';
   /**
    * @var string
    */
@@ -60,6 +62,8 @@ class GoogleCloudDiscoveryengineV1UserEvent extends \Google\Collection
   protected $pageInfoDataType = '';
   protected $panelType = GoogleCloudDiscoveryengineV1PanelInfo::class;
   protected $panelDataType = '';
+  protected $panelsType = GoogleCloudDiscoveryengineV1PanelInfo::class;
+  protected $panelsDataType = 'array';
   /**
    * @var string[]
    */
@@ -210,6 +214,20 @@ class GoogleCloudDiscoveryengineV1UserEvent extends \Google\Collection
     return $this->eventType;
   }
   /**
+   * @param GoogleCloudDiscoveryengineV1Feedback
+   */
+  public function setFeedback(GoogleCloudDiscoveryengineV1Feedback $feedback)
+  {
+    $this->feedback = $feedback;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1Feedback
+   */
+  public function getFeedback()
+  {
+    return $this->feedback;
+  }
+  /**
    * @param string
    */
   public function setFilter($filter)
@@ -264,6 +282,20 @@ class GoogleCloudDiscoveryengineV1UserEvent extends \Google\Collection
   public function getPanel()
   {
     return $this->panel;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1PanelInfo[]
+   */
+  public function setPanels($panels)
+  {
+    $this->panels = $panels;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1PanelInfo[]
+   */
+  public function getPanels()
+  {
+    return $this->panels;
   }
   /**
    * @param string[]

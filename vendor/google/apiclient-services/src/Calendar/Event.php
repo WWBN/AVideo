@@ -32,6 +32,8 @@ class Event extends \Google\Collection
    * @var bool
    */
   public $attendeesOmitted;
+  protected $birthdayPropertiesType = EventBirthdayProperties::class;
+  protected $birthdayPropertiesDataType = '';
   /**
    * @var string
    */
@@ -214,6 +216,20 @@ class Event extends \Google\Collection
   public function getAttendeesOmitted()
   {
     return $this->attendeesOmitted;
+  }
+  /**
+   * @param EventBirthdayProperties
+   */
+  public function setBirthdayProperties(EventBirthdayProperties $birthdayProperties)
+  {
+    $this->birthdayProperties = $birthdayProperties;
+  }
+  /**
+   * @return EventBirthdayProperties
+   */
+  public function getBirthdayProperties()
+  {
+    return $this->birthdayProperties;
   }
   /**
    * @param string

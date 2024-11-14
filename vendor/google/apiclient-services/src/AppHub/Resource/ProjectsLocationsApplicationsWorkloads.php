@@ -136,8 +136,8 @@ class ProjectsLocationsApplicationsWorkloads extends \Google\Service\Resource
    * Updates a Workload in an Application. (workloads.patch)
    *
    * @param string $name Identifier. The resource name of the Workload. Format:
-   * "projects/{host-project-id}/locations/{location}/applications/{application-
-   * id}/workloads/{workload-id}"
+   * `"projects/{host-project-id}/locations/{location}/applications/{application-
+   * id}/workloads/{workload-id}"`
    * @param Workload $postBody
    * @param array $optParams Optional parameters.
    *

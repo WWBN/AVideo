@@ -48,6 +48,8 @@ class InstanceGroupManager extends \Google\Collection
    * @var string
    */
   public $id;
+  protected $instanceFlexibilityPolicyType = InstanceGroupManagerInstanceFlexibilityPolicy::class;
+  protected $instanceFlexibilityPolicyDataType = '';
   /**
    * @var string
    */
@@ -234,6 +236,20 @@ class InstanceGroupManager extends \Google\Collection
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param InstanceGroupManagerInstanceFlexibilityPolicy
+   */
+  public function setInstanceFlexibilityPolicy(InstanceGroupManagerInstanceFlexibilityPolicy $instanceFlexibilityPolicy)
+  {
+    $this->instanceFlexibilityPolicy = $instanceFlexibilityPolicy;
+  }
+  /**
+   * @return InstanceGroupManagerInstanceFlexibilityPolicy
+   */
+  public function getInstanceFlexibilityPolicy()
+  {
+    return $this->instanceFlexibilityPolicy;
   }
   /**
    * @param string

@@ -64,6 +64,8 @@ class GoogleChromeManagementV1InstalledApp extends \Google\Collection
    * @var string[]
    */
   public $permissions;
+  protected $riskAssessmentType = GoogleChromeManagementV1RiskAssessmentData::class;
+  protected $riskAssessmentDataType = '';
 
   /**
    * @param string
@@ -218,6 +220,20 @@ class GoogleChromeManagementV1InstalledApp extends \Google\Collection
   public function getPermissions()
   {
     return $this->permissions;
+  }
+  /**
+   * @param GoogleChromeManagementV1RiskAssessmentData
+   */
+  public function setRiskAssessment(GoogleChromeManagementV1RiskAssessmentData $riskAssessment)
+  {
+    $this->riskAssessment = $riskAssessment;
+  }
+  /**
+   * @return GoogleChromeManagementV1RiskAssessmentData
+   */
+  public function getRiskAssessment()
+  {
+    return $this->riskAssessment;
   }
 }
 

@@ -28,6 +28,8 @@ class GoogleCloudContactcenterinsightsV1AnnotatorSelector extends \Google\Collec
    * @var string[]
    */
   public $phraseMatchers;
+  protected $qaConfigType = GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig::class;
+  protected $qaConfigDataType = '';
   /**
    * @var bool
    */
@@ -48,6 +50,10 @@ class GoogleCloudContactcenterinsightsV1AnnotatorSelector extends \Google\Collec
    * @var bool
    */
   public $runPhraseMatcherAnnotator;
+  /**
+   * @var bool
+   */
+  public $runQaAnnotator;
   /**
    * @var bool
    */
@@ -90,6 +96,20 @@ class GoogleCloudContactcenterinsightsV1AnnotatorSelector extends \Google\Collec
   public function getPhraseMatchers()
   {
     return $this->phraseMatchers;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig
+   */
+  public function setQaConfig(GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig $qaConfig)
+  {
+    $this->qaConfig = $qaConfig;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig
+   */
+  public function getQaConfig()
+  {
+    return $this->qaConfig;
   }
   /**
    * @param bool
@@ -160,6 +180,20 @@ class GoogleCloudContactcenterinsightsV1AnnotatorSelector extends \Google\Collec
   public function getRunPhraseMatcherAnnotator()
   {
     return $this->runPhraseMatcherAnnotator;
+  }
+  /**
+   * @param bool
+   */
+  public function setRunQaAnnotator($runQaAnnotator)
+  {
+    $this->runQaAnnotator = $runQaAnnotator;
+  }
+  /**
+   * @return bool
+   */
+  public function getRunQaAnnotator()
+  {
+    return $this->runQaAnnotator;
   }
   /**
    * @param bool

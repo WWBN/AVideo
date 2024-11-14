@@ -30,6 +30,10 @@ class ConsumerPscConfig extends \Google\Model
   /**
    * @var string
    */
+  public $ipVersion;
+  /**
+   * @var string
+   */
   public $network;
   /**
    * @var string
@@ -79,6 +83,20 @@ class ConsumerPscConfig extends \Google\Model
   public function getDisableGlobalAccess()
   {
     return $this->disableGlobalAccess;
+  }
+  /**
+   * @param string
+   */
+  public function setIpVersion($ipVersion)
+  {
+    $this->ipVersion = $ipVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getIpVersion()
+  {
+    return $this->ipVersion;
   }
   /**
    * @param string

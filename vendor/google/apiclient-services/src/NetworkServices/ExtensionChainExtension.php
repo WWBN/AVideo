@@ -33,6 +33,10 @@ class ExtensionChainExtension extends \Google\Collection
    */
   public $forwardHeaders;
   /**
+   * @var array[]
+   */
+  public $metadata;
+  /**
    * @var string
    */
   public $name;
@@ -90,6 +94,20 @@ class ExtensionChainExtension extends \Google\Collection
   public function getForwardHeaders()
   {
     return $this->forwardHeaders;
+  }
+  /**
+   * @param array[]
+   */
+  public function setMetadata($metadata)
+  {
+    $this->metadata = $metadata;
+  }
+  /**
+   * @return array[]
+   */
+  public function getMetadata()
+  {
+    return $this->metadata;
   }
   /**
    * @param string

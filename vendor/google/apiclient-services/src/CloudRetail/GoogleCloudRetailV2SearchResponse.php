@@ -44,6 +44,8 @@ class GoogleCloudRetailV2SearchResponse extends \Google\Collection
    * @var string
    */
   public $nextPageToken;
+  protected $pinControlMetadataType = GoogleCloudRetailV2PinControlMetadata::class;
+  protected $pinControlMetadataDataType = '';
   protected $queryExpansionInfoType = GoogleCloudRetailV2SearchResponseQueryExpansionInfo::class;
   protected $queryExpansionInfoDataType = '';
   /**
@@ -170,6 +172,20 @@ class GoogleCloudRetailV2SearchResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param GoogleCloudRetailV2PinControlMetadata
+   */
+  public function setPinControlMetadata(GoogleCloudRetailV2PinControlMetadata $pinControlMetadata)
+  {
+    $this->pinControlMetadata = $pinControlMetadata;
+  }
+  /**
+   * @return GoogleCloudRetailV2PinControlMetadata
+   */
+  public function getPinControlMetadata()
+  {
+    return $this->pinControlMetadata;
   }
   /**
    * @param GoogleCloudRetailV2SearchResponseQueryExpansionInfo

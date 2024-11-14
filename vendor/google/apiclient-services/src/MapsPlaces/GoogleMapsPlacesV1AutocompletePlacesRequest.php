@@ -23,6 +23,10 @@ class GoogleMapsPlacesV1AutocompletePlacesRequest extends \Google\Collection
   /**
    * @var bool
    */
+  public $includePureServiceAreaBusinesses;
+  /**
+   * @var bool
+   */
   public $includeQueryPredictions;
   /**
    * @var string[]
@@ -59,6 +63,20 @@ class GoogleMapsPlacesV1AutocompletePlacesRequest extends \Google\Collection
    */
   public $sessionToken;
 
+  /**
+   * @param bool
+   */
+  public function setIncludePureServiceAreaBusinesses($includePureServiceAreaBusinesses)
+  {
+    $this->includePureServiceAreaBusinesses = $includePureServiceAreaBusinesses;
+  }
+  /**
+   * @return bool
+   */
+  public function getIncludePureServiceAreaBusinesses()
+  {
+    return $this->includePureServiceAreaBusinesses;
+  }
   /**
    * @param bool
    */

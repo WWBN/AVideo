@@ -24,6 +24,8 @@ class GoogleCloudAiplatformV1GroundingMetadata extends \Google\Collection
   protected $groundingChunksDataType = 'array';
   protected $groundingSupportsType = GoogleCloudAiplatformV1GroundingSupport::class;
   protected $groundingSupportsDataType = 'array';
+  protected $retrievalMetadataType = GoogleCloudAiplatformV1RetrievalMetadata::class;
+  protected $retrievalMetadataDataType = '';
   protected $searchEntryPointType = GoogleCloudAiplatformV1SearchEntryPoint::class;
   protected $searchEntryPointDataType = '';
   /**
@@ -58,6 +60,20 @@ class GoogleCloudAiplatformV1GroundingMetadata extends \Google\Collection
   public function getGroundingSupports()
   {
     return $this->groundingSupports;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1RetrievalMetadata
+   */
+  public function setRetrievalMetadata(GoogleCloudAiplatformV1RetrievalMetadata $retrievalMetadata)
+  {
+    $this->retrievalMetadata = $retrievalMetadata;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RetrievalMetadata
+   */
+  public function getRetrievalMetadata()
+  {
+    return $this->retrievalMetadata;
   }
   /**
    * @param GoogleCloudAiplatformV1SearchEntryPoint

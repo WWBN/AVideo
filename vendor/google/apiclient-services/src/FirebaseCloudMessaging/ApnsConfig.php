@@ -26,6 +26,10 @@ class ApnsConfig extends \Google\Model
    */
   public $headers;
   /**
+   * @var string
+   */
+  public $liveActivityToken;
+  /**
    * @var array[]
    */
   public $payload;
@@ -57,6 +61,20 @@ class ApnsConfig extends \Google\Model
   public function getHeaders()
   {
     return $this->headers;
+  }
+  /**
+   * @param string
+   */
+  public function setLiveActivityToken($liveActivityToken)
+  {
+    $this->liveActivityToken = $liveActivityToken;
+  }
+  /**
+   * @return string
+   */
+  public function getLiveActivityToken()
+  {
+    return $this->liveActivityToken;
   }
   /**
    * @param array[]

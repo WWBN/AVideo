@@ -241,9 +241,9 @@ class ProjectsLocationsPrivateClouds extends \Google\Service\Resource
    * update the resource. Use the operation status to determine when the
    * processing fully completes. (privateClouds.patch)
    *
-   * @param string $name Output only. The resource name of this private cloud.
-   * Resource names are schemeless URIs that follow the conventions in
-   * https://cloud.google.com/apis/design/resource_names. For example:
+   * @param string $name Output only. Identifier. The resource name of this
+   * private cloud. Resource names are schemeless URIs that follow the conventions
+   * in https://cloud.google.com/apis/design/resource_names. For example:
    * `projects/my-project/locations/us-central1-a/privateClouds/my-cloud`
    * @param PrivateCloud $postBody
    * @param array $optParams Optional parameters.
@@ -413,8 +413,8 @@ class ProjectsLocationsPrivateClouds extends \Google\Service\Resource
    * domains. Only fields specified in `update_mask` are applied.
    * (privateClouds.updateDnsForwarding)
    *
-   * @param string $name Output only. The resource name of this DNS profile.
-   * Resource names are schemeless URIs that follow the conventions in
+   * @param string $name Output only. Identifier. The resource name of this DNS
+   * profile. Resource names are schemeless URIs that follow the conventions in
    * https://cloud.google.com/apis/design/resource_names. For example:
    * `projects/my-project/locations/us-central1-a/privateClouds/my-
    * cloud/dnsForwarding`

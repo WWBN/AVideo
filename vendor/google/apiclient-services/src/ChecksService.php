@@ -41,6 +41,7 @@ class ChecksService extends \Google\Service
   public $accounts_apps_operations;
   public $accounts_apps_reports;
   public $accounts_repos_operations;
+  public $aisafety;
   public $media;
   public $rootUrlTemplate;
 
@@ -237,6 +238,20 @@ class ChecksService extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],
+          ]
+        ]
+    );
+    $this->aisafety = new ChecksService\Resource\Aisafety(
+        $this,
+        $this->serviceName,
+        'aisafety',
+        [
+          'methods' => [
+            'classifyContent' => [
+              'path' => 'v1alpha/aisafety:classifyContent',
+              'httpMethod' => 'POST',
+              'parameters' => [],
             ],
           ]
         ]

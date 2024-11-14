@@ -17,13 +17,30 @@
 
 namespace Google\Service\Spanner;
 
-class AutoscalingConfig extends \Google\Model
+class AutoscalingConfig extends \Google\Collection
 {
+  protected $collection_key = 'asymmetricAutoscalingOptions';
+  protected $asymmetricAutoscalingOptionsType = AsymmetricAutoscalingOption::class;
+  protected $asymmetricAutoscalingOptionsDataType = 'array';
   protected $autoscalingLimitsType = AutoscalingLimits::class;
   protected $autoscalingLimitsDataType = '';
   protected $autoscalingTargetsType = AutoscalingTargets::class;
   protected $autoscalingTargetsDataType = '';
 
+  /**
+   * @param AsymmetricAutoscalingOption[]
+   */
+  public function setAsymmetricAutoscalingOptions($asymmetricAutoscalingOptions)
+  {
+    $this->asymmetricAutoscalingOptions = $asymmetricAutoscalingOptions;
+  }
+  /**
+   * @return AsymmetricAutoscalingOption[]
+   */
+  public function getAsymmetricAutoscalingOptions()
+  {
+    return $this->asymmetricAutoscalingOptions;
+  }
   /**
    * @param AutoscalingLimits
    */

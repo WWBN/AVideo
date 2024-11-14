@@ -22,8 +22,26 @@ class ReadWrite extends \Google\Model
   /**
    * @var string
    */
+  public $multiplexedSessionPreviousTransactionId;
+  /**
+   * @var string
+   */
   public $readLockMode;
 
+  /**
+   * @param string
+   */
+  public function setMultiplexedSessionPreviousTransactionId($multiplexedSessionPreviousTransactionId)
+  {
+    $this->multiplexedSessionPreviousTransactionId = $multiplexedSessionPreviousTransactionId;
+  }
+  /**
+   * @return string
+   */
+  public function getMultiplexedSessionPreviousTransactionId()
+  {
+    return $this->multiplexedSessionPreviousTransactionId;
+  }
   /**
    * @param string
    */

@@ -115,13 +115,20 @@ final class CurlResponse implements ResponseInterface, StreamableInterface
         curl_pause($ch, \CURLPAUSE_CONT);
 
         if ($onProgress = $options['on_progress']) {
+            $resolve = static function (string $host, ?string $ip = null) use ($multi): ?string {
+                if (null !== $ip) {
+                    $multi->dnsCache->hostnames[$host] = $ip;
+                }
+
+                return $multi->dnsCache->hostnames[$host] ?? null;
+            };
             $url = isset($info['url']) ? ['url' => $info['url']] : [];
             curl_setopt($ch, \CURLOPT_NOPROGRESS, false);
-            curl_setopt($ch, \CURLOPT_PROGRESSFUNCTION, static function ($ch, $dlSize, $dlNow) use ($onProgress, &$info, $url, $multi, $debugBuffer) {
+            curl_setopt($ch, \CURLOPT_PROGRESSFUNCTION, static function ($ch, $dlSize, $dlNow) use ($onProgress, &$info, $url, $multi, $debugBuffer, $resolve) {
                 try {
                     rewind($debugBuffer);
                     $debug = ['debug' => stream_get_contents($debugBuffer)];
-                    $onProgress($dlNow, $dlSize, $url + curl_getinfo($ch) + $info + $debug);
+                    $onProgress($dlNow, $dlSize, $url + curl_getinfo($ch) + $info + $debug, $resolve);
                 } catch (\Throwable $e) {
                     $multi->handlesActivity[(int) $ch][] = null;
                     $multi->handlesActivity[(int) $ch][] = $e;

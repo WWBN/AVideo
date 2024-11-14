@@ -17,7 +17,7 @@
 
 namespace Google\Service\YouTube\Resource;
 
-use Google\Service\YouTube\LiveChatMessage;
+use Google\Service\YouTube\LiveChatMessageListResponse;
 
 /**
  * The "messages" collection of methods.
@@ -30,22 +30,34 @@ use Google\Service\YouTube\LiveChatMessage;
 class YoutubeV3LiveChatMessages extends \Google\Service\Resource
 {
   /**
-   * Transition a durable chat event. (messages.transition)
+   * Allows a user to load live chat through a server-streamed RPC.
+   * (messages.stream)
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string id The ID that uniquely identify the chat message event to
-   * transition.
-   * @opt_param string status The status to which the chat event is going to
-   * transition.
-   * @return LiveChatMessage
+   * @opt_param string hl Specifies the localization language in which the system
+   * messages should be returned.
+   * @opt_param string liveChatId The id of the live chat for which comments
+   * should be returned.
+   * @opt_param string maxResults The *maxResults* parameter specifies the maximum
+   * number of items that should be returned in the result set. Not used in the
+   * streaming RPC.
+   * @opt_param string pageToken The *pageToken* parameter identifies a specific
+   * page in the result set that should be returned. In an API response, the
+   * nextPageToken property identify other pages that could be retrieved.
+   * @opt_param string part The *part* parameter specifies the liveChatComment
+   * resource parts that the API response will include. Supported values are id,
+   * snippet, and authorDetails.
+   * @opt_param string profileImageSize Specifies the size of the profile image
+   * that should be returned for each user.
+   * @return LiveChatMessageListResponse
    * @throws \Google\Service\Exception
    */
-  public function transition($optParams = [])
+  public function stream($optParams = [])
   {
     $params = [];
     $params = array_merge($params, $optParams);
-    return $this->call('transition', [$params], LiveChatMessage::class);
+    return $this->call('stream', [$params], LiveChatMessageListResponse::class);
   }
 }
 

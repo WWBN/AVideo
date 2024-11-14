@@ -19,11 +19,27 @@ namespace Google\Service\GKEHub;
 
 class IdentityServiceIdentityServiceOptions extends \Google\Model
 {
+  protected $diagnosticInterfaceType = IdentityServiceDiagnosticInterface::class;
+  protected $diagnosticInterfaceDataType = '';
   /**
    * @var string
    */
   public $sessionDuration;
 
+  /**
+   * @param IdentityServiceDiagnosticInterface
+   */
+  public function setDiagnosticInterface(IdentityServiceDiagnosticInterface $diagnosticInterface)
+  {
+    $this->diagnosticInterface = $diagnosticInterface;
+  }
+  /**
+   * @return IdentityServiceDiagnosticInterface
+   */
+  public function getDiagnosticInterface()
+  {
+    return $this->diagnosticInterface;
+  }
   /**
    * @param string
    */

@@ -23,6 +23,14 @@ class GoogleMapsPlacesV1Photo extends \Google\Collection
   protected $authorAttributionsType = GoogleMapsPlacesV1AuthorAttribution::class;
   protected $authorAttributionsDataType = 'array';
   /**
+   * @var string
+   */
+  public $flagContentUri;
+  /**
+   * @var string
+   */
+  public $googleMapsUri;
+  /**
    * @var int
    */
   public $heightPx;
@@ -48,6 +56,34 @@ class GoogleMapsPlacesV1Photo extends \Google\Collection
   public function getAuthorAttributions()
   {
     return $this->authorAttributions;
+  }
+  /**
+   * @param string
+   */
+  public function setFlagContentUri($flagContentUri)
+  {
+    $this->flagContentUri = $flagContentUri;
+  }
+  /**
+   * @return string
+   */
+  public function getFlagContentUri()
+  {
+    return $this->flagContentUri;
+  }
+  /**
+   * @param string
+   */
+  public function setGoogleMapsUri($googleMapsUri)
+  {
+    $this->googleMapsUri = $googleMapsUri;
+  }
+  /**
+   * @return string
+   */
+  public function getGoogleMapsUri()
+  {
+    return $this->googleMapsUri;
   }
   /**
    * @param int

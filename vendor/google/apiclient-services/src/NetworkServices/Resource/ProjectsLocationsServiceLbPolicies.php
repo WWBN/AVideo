@@ -110,7 +110,7 @@ class ProjectsLocationsServiceLbPolicies extends \Google\Service\Resource
   /**
    * Updates the parameters of a single ServiceLbPolicy. (serviceLbPolicies.patch)
    *
-   * @param string $name Required. Name of the ServiceLbPolicy resource. It
+   * @param string $name Identifier. Name of the ServiceLbPolicy resource. It
    * matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{s
    * ervice_lb_policy_name}`.
    * @param ServiceLbPolicy $postBody

@@ -28,6 +28,8 @@ class Query extends \Google\Collection
   public $endCursor;
   protected $filterType = Filter::class;
   protected $filterDataType = '';
+  protected $findNearestType = FindNearest::class;
+  protected $findNearestDataType = '';
   protected $kindType = KindExpression::class;
   protected $kindDataType = 'array';
   /**
@@ -88,6 +90,20 @@ class Query extends \Google\Collection
   public function getFilter()
   {
     return $this->filter;
+  }
+  /**
+   * @param FindNearest
+   */
+  public function setFindNearest(FindNearest $findNearest)
+  {
+    $this->findNearest = $findNearest;
+  }
+  /**
+   * @return FindNearest
+   */
+  public function getFindNearest()
+  {
+    return $this->findNearest;
   }
   /**
    * @param KindExpression[]

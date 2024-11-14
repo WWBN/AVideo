@@ -117,7 +117,7 @@ class Conversionsources extends \Google\Service\Resource
    * @param ConversionSource $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask Required. List of fields being updated.
+   * @opt_param string updateMask Optional. List of fields being updated.
    * @return ConversionSource
    * @throws \Google\Service\Exception
    */

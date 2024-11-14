@@ -220,7 +220,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
   /**
    * Update a CertificateAuthority. (certificateAuthorities.patch)
    *
-   * @param string $name Output only. The resource name for this
+   * @param string $name Output only. Identifier. The resource name for this
    * CertificateAuthority in the format
    * `projects/locations/caPools/certificateAuthorities`.
    * @param CertificateAuthority $postBody

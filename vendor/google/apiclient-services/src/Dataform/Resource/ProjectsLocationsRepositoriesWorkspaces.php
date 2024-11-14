@@ -236,8 +236,8 @@ class ProjectsLocationsRepositoriesWorkspaces extends \Google\Service\Resource
    * pick an appropriate default.
    * @opt_param string pageToken Optional. Page token received from a previous
    * `ListWorkspaces` call. Provide this to retrieve the subsequent page. When
-   * paginating, all other parameters provided to `ListWorkspaces` must match the
-   * call that provided the page token.
+   * paginating, all other parameters provided to `ListWorkspaces`, with the
+   * exception of `page_size`, must match the call that provided the page token.
    * @return ListWorkspacesResponse
    * @throws \Google\Service\Exception
    */
@@ -337,8 +337,9 @@ class ProjectsLocationsRepositoriesWorkspaces extends \Google\Service\Resource
    * pick an appropriate default.
    * @opt_param string pageToken Optional. Page token received from a previous
    * `QueryDirectoryContents` call. Provide this to retrieve the subsequent page.
-   * When paginating, all other parameters provided to `QueryDirectoryContents`
-   * must match the call that provided the page token.
+   * When paginating, all other parameters provided to `QueryDirectoryContents`,
+   * with the exception of `page_size`, must match the call that provided the page
+   * token.
    * @opt_param string path Optional. The directory's full path including
    * directory name, relative to the workspace root. If left unset, the workspace
    * root is used.
@@ -431,8 +432,8 @@ class ProjectsLocationsRepositoriesWorkspaces extends \Google\Service\Resource
    * will pick an appropriate default.
    * @opt_param string pageToken Optional. Page token received from a previous
    * `SearchFilesRequest` call. Provide this to retrieve the subsequent page. When
-   * paginating, all other parameters provided to `SearchFilesRequest` must match
-   * the call that provided the page token.
+   * paginating, all other parameters provided to `SearchFilesRequest`, with the
+   * exception of `page_size`, must match the call that provided the page token.
    * @return SearchFilesResponse
    * @throws \Google\Service\Exception
    */

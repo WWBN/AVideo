@@ -66,6 +66,8 @@ class ProjectsLocationsMetadataJobs extends \Google\Service\Resource
    *
    * @opt_param string metadataJobId Optional. The metadata job ID. If not
    * provided, a unique ID is generated with the prefix metadata-job-.
+   * @opt_param bool validateOnly Optional. The service validates the request
+   * without performing any mutations. The default is false.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */

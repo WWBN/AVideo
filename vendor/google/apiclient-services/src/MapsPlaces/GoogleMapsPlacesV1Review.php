@@ -24,6 +24,14 @@ class GoogleMapsPlacesV1Review extends \Google\Model
   /**
    * @var string
    */
+  public $flagContentUri;
+  /**
+   * @var string
+   */
+  public $googleMapsUri;
+  /**
+   * @var string
+   */
   public $name;
   protected $originalTextType = GoogleTypeLocalizedText::class;
   protected $originalTextDataType = '';
@@ -52,6 +60,34 @@ class GoogleMapsPlacesV1Review extends \Google\Model
   public function getAuthorAttribution()
   {
     return $this->authorAttribution;
+  }
+  /**
+   * @param string
+   */
+  public function setFlagContentUri($flagContentUri)
+  {
+    $this->flagContentUri = $flagContentUri;
+  }
+  /**
+   * @return string
+   */
+  public function getFlagContentUri()
+  {
+    return $this->flagContentUri;
+  }
+  /**
+   * @param string
+   */
+  public function setGoogleMapsUri($googleMapsUri)
+  {
+    $this->googleMapsUri = $googleMapsUri;
+  }
+  /**
+   * @return string
+   */
+  public function getGoogleMapsUri()
+  {
+    return $this->googleMapsUri;
   }
   /**
    * @param string

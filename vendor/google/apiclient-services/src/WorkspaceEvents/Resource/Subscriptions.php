@@ -147,8 +147,8 @@ class Subscriptions extends \Google\Service\Resource
    * subscription](https://developers.google.com/workspace/events/guides/update-
    * subscription). (subscriptions.patch)
    *
-   * @param string $name Optional. Immutable. Identifier. Resource name of the
-   * subscription. Format: `subscriptions/{subscription}`
+   * @param string $name Identifier. Resource name of the subscription. Format:
+   * `subscriptions/{subscription}`
    * @param Subscription $postBody
    * @param array $optParams Optional parameters.
    *
@@ -174,10 +174,11 @@ class Subscriptions extends \Google\Service\Resource
    * [Developer Preview](https://developers.google.com/workspace/preview):
    * Reactivates a suspended Google Workspace subscription. This method resets
    * your subscription's `State` field to `ACTIVE`. Before you use this method,
-   * you must fix the error that suspended the subscription. To learn how to use
-   * this method, see [Reactivate a Google Workspace subscription](https://develop
-   * ers.google.com/workspace/events/guides/reactivate-subscription).
-   * (subscriptions.reactivate)
+   * you must fix the error that suspended the subscription. This method will
+   * ignore or reject any subscription that isn't currently in a suspended state.
+   * To learn how to use this method, see [Reactivate a Google Workspace subscript
+   * ion](https://developers.google.com/workspace/events/guides/reactivate-
+   * subscription). (subscriptions.reactivate)
    *
    * @param string $name Required. Resource name of the subscription. Format:
    * `subscriptions/{subscription}`
