@@ -105,3 +105,4 @@ install/bulkCreateUser.php
 plugin/WebAuthnLogin/
 plugin/UserOTPLogin/
 test*
+CreatePlugin/plugins/

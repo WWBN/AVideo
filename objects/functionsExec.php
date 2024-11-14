@@ -23,14 +23,14 @@ function getDurationFromFile($file)
     if (!file_exists($videoFile)) {
         $file_headers = @get_headers($videoFile);
         if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
-            error_log('getDurationFromFile try 1, File (' . $videoFile . ') Not Found original='.$file);
+            error_log('getDurationFromFile try 1, File (' . $videoFile . ') Not Found original=' . $file);
             $videoFile = $hls;
         }
     }
     if (!file_exists($videoFile)) {
         $file_headers = @get_headers($videoFile);
         if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
-            error_log('getDurationFromFile try 2, File (' . $videoFile . ') Not Found original='.$file);
+            error_log('getDurationFromFile try 2, File (' . $videoFile . ') Not Found original=' . $file);
             $videoFile = '';
         }
     }
@@ -243,6 +243,82 @@ function unzipDirectory($filename, $destination)
     return $return_val === 0;
 }
 
+function zipDirectory($source, $destination)
+{
+    // Set memory limit and execution time to avoid issues with large files
+    ini_set('memory_limit', '-1');
+    set_time_limit(0);
+
+    // Check if the source directory exists
+    if (!is_dir($source)) {
+        _error_log("zipDirectory: Source directory does not exist: {$source}");
+        return false;
+    }
+
+    // Ensure the destination directory exists, create it if it doesn't
+    $destinationDir = dirname($destination);
+    if (!is_dir($destinationDir)) {
+        if (!mkdir($destinationDir, 0755, true)) {
+            _error_log("zipDirectory: Failed to create destination directory: {$destinationDir}");
+            return false;
+        }
+        _error_log("zipDirectory: Destination directory created: {$destinationDir}");
+    }
+    chmod($source, 0755);
+
+    // Escape the input parameters to prevent command injection attacks
+    $sourceOriginal = rtrim($source, '/'); // Remove trailing slash for consistency
+    $destinationOriginal = $destination;
+    $source = escapeshellarg($source);
+    $destination = escapeshellarg($destination);
+
+    // Build the command for zipping the directory
+    $cmd = "zip -r -q {$destination} {$source} 2>&1";
+
+    // Log the command for debugging purposes
+    _error_log("zipDirectory: {$cmd}");
+
+    // Execute the command and capture the output and return value
+    exec($cmd, $output, $return_val);
+
+    if ($return_val !== 0) {
+        // Log the output and return value
+        _error_log("zipDirectory: Command failed with return value {$return_val}");
+        _error_log("zipDirectory: Command output: " . implode("\n", $output));
+
+        // Try using PHP's ZipArchive class as a fallback
+        if (class_exists('ZipArchive')) {
+            $zip = new ZipArchive();
+            if ($zip->open($destinationOriginal, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+                $dirIterator = new RecursiveDirectoryIterator($sourceOriginal);
+                $files = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::LEAVES_ONLY);
+
+                // Get the base directory name to use as root folder in the zip
+                $baseFolder = basename($sourceOriginal);
+
+                foreach ($files as $name => $file) {
+                    if (!$file->isDir()) {
+                        $filePath = $file->getRealPath();
+                        // Calculate relative path, including the base folder
+                        $relativePath = $baseFolder . '/' . substr($filePath, strlen($sourceOriginal) + 1);
+                        $zip->addFile($filePath, $relativePath);
+                    }
+                }
+
+                $zip->close();
+                _error_log("zipDirectory: Success using ZipArchive for {$destination}");
+            } else {
+                _error_log("zipDirectory: Error opening zip archive using ZipArchive: {$destination}");
+            }
+        } else {
+            _error_log("zipDirectory: Error: ZipArchive class is not available");
+        }
+    } else {
+        _error_log("zipDirectory: Success {$destination}");
+    }
+
+    return file_exists($destinationOriginal);
+}
 
 
 function getPIDUsingPort($port)
@@ -396,7 +472,7 @@ function execAsync($command, $keyword = null)
                     }
                 }
             } else {
-                if(empty($output)){
+                if (empty($output)) {
                     return $output;
                 }
                 $pid = (int)$output[0];
@@ -420,12 +496,12 @@ function findProcess($keyword)
     //var_dump($pgrepOutput);
     if ($retval === 0) {
         foreach ($pgrepOutput as $pgrepPid) {
-            if(preg_match('/pgrep /i', $pgrepPid)){
+            if (preg_match('/pgrep /i', $pgrepPid)) {
                 continue;
             }
-            if(preg_match('/([0-9]+) (.*)/i', $pgrepPid, $matches)){
-                if(!empty($matches[2])){
-                    $output[] = array('pid'=>(int)$matches[1], 'command'=>trim($matches[2]));
+            if (preg_match('/([0-9]+) (.*)/i', $pgrepPid, $matches)) {
+                if (!empty($matches[2])) {
+                    $output[] = array('pid' => (int)$matches[1], 'command' => trim($matches[2]));
                 }
             }
             //$output[] = (int)$pgrepPid;

@@ -68,6 +68,9 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                             <button type="button" class="btn btn-default" id="upload">
                                 <i class="fas fa-plus"></i> <?php echo __("Upload a Plugin"); ?>
                             </button>
+                            <button type="button" class="btn btn-primary" id="createPlugin" onclick="avideoModalIframeFull(webSiteRootURL + 'CreatePlugin/');">
+                                <i class="fas fa-plus-circle"></i> <?php echo __("Create a Plugin"); ?>
+                            </button>
                         </div>
                         <div style="text-align: right; padding: 5px;">
                             <span class="badge" id="PluginTagsTotal">...</span>
