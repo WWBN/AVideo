@@ -1992,6 +1992,9 @@ if (typeof gtag !== \"function\") {
                 return false;
             }
         }
+        if($this->email !== $email){
+            $this->setEmailVerified(0);
+        }
         $this->email = $email;
         return true;
     }
