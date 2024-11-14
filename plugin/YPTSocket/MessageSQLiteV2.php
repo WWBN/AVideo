@@ -560,6 +560,9 @@ class Message implements MessageComponentInterface
             $duration = $endTime - $startTime;
 
             $maxDuration = 0.05;
+            if(self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT/2)){
+                $maxDuration = 0.02;
+            }
             if(self::$lastMessageToAllDuration > self::MSG_TO_ALL_TIMEOUT){
                 $maxDuration = 0.01;
             }
