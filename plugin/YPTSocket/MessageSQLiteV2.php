@@ -572,7 +572,9 @@ class Message implements MessageComponentInterface
 
             // If it takes longer than 0.01 seconds, add to lastMessageToAllDurationMessages
             if ($duration > $maxDuration) {
-                _log_message("resourceId={$client['resourceId']} took {$duration} seconds to send the message  maxDuration=$maxDuration.");
+                $msg = "resourceId={$client['resourceId']} took {$duration} seconds to send the message  maxDuration=$maxDuration.";
+                _log_message($msg);
+                _error_log($msg);
                 self::$lastMessageToAllDurationMessages[] = [
                     'resourceId' => $client['resourceId'],
                     'duration' => $duration
