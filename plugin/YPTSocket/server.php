@@ -1,4 +1,11 @@
 <?php
+/**
+ * apt-get update && apt-get install -y php-pear php-dev libev-dev
+ * pecl install ev
+ * php --ini
+ * extension=ev.so
+ */
+
 require __DIR__ . '/../../vendor/autoload.php';
 
 use React\EventLoop\Loop;

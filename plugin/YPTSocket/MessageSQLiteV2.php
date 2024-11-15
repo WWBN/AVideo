@@ -43,24 +43,6 @@ class Message implements MessageComponentInterface
         $this->initPeriodicTask();
     }
 
-    public function initPeriodicTask()
-    {
-        $loop = Loop::get();
-        $loop->addPeriodicTimer(Message::MSG_TO_ALL_TIMEOUT, function (TimerInterface $timer) {
-            // Your code to execute every 5 seconds
-            //echo "Task executed at " . date('Y-m-d H:i:s') . ' '.json_encode(self::$msgToAll).PHP_EOL;
-            // You can call other methods or perform any periodic action here
-            if (!empty(self::$msgToAll)) {
-                if (!Message::$isSendingToAll) {
-                    Message::$isSendingToAll = true;
-                    $this->_msgToAll(self::$msgToAll, \SocketMessageType::MSG_TO_ALL);
-                    self::$msgToAll = array();
-                    Message::$isSendingToAll = false;
-                }
-            }
-        });
-    }
-
     public function onOpen(ConnectionInterface $conn)
     {
         global $global;
@@ -168,7 +150,7 @@ class Message implements MessageComponentInterface
             //_log_message("NOT shouldPropagateInfo ");
         }
         $end = number_format(microtime(true) - $start, 4);
-        _log_message("Connection opened in {$end} seconds users_id={$client['users_id']} selfURI={$client['selfURI']} isCommandLine={$client['isCommandLine']} page_title={$client['page_title']} browser={$client['browser']} ");
+        //_log_message("Connection opened in {$end} seconds users_id={$client['users_id']} selfURI={$client['selfURI']} isCommandLine={$client['isCommandLine']} page_title={$client['page_title']} browser={$client['browser']} ");
         //if(!empty($client['isCommandLine'])){
         //_error_log("isCommandLine close it {$client['browser']} {$client['selfURI']}", \AVideoLog::$SOCKET);
         //$conn->close();
@@ -185,14 +167,14 @@ class Message implements MessageComponentInterface
         if (empty($client)) {
             $client = array('users_id' => 0);
         }
-        _log_message("onClose {$conn->resourceId} before deleted");
+        //_log_message("onClose {$conn->resourceId} before deleted");
         dbDeleteConnection($conn->resourceId);
-        _log_message("onClose {$conn->resourceId} has deleted");
+        //_log_message("onClose {$conn->resourceId} has deleted");
         $this->unsetClient($conn, $client);
         if ($this->shouldPropagateInfo($client)) {
             $this->msgToAll(array('users_id' => $client['users_id'], 'disconnected' => $conn->resourceId), \SocketMessageType::NEW_DISCONNECTION);
         }
-        _log_message("Connection {$conn->resourceId} has disconnected");
+        //_log_message("Connection {$conn->resourceId} has disconnected");
     }
 
     protected function setClient(ConnectionInterface $conn, $client)
@@ -276,7 +258,7 @@ class Message implements MessageComponentInterface
         //_log_message("onMessage: {$msg}");
         $json = _json_decode($msg);
         if (empty($json)) {
-            _log_message("onMessage ERROR: JSON is empty ");
+            //_log_message("onMessage ERROR: JSON is empty ");
             return false;
         }
         if (empty($json->webSocketToken)) {
@@ -326,7 +308,6 @@ class Message implements MessageComponentInterface
         return true;
     }
 
-
     private function getShouldPropagateInfoLastMessage()
     {
         global $_shouldPropagateInfoLastMessage;
@@ -341,7 +322,7 @@ class Message implements MessageComponentInterface
         }
 
         if (empty($this->clients[$resourceId])) {
-            _log_message("msgToResourceId: resourceId=({$resourceId}) is empty");
+            //_log_message("msgToResourceId: resourceId=({$resourceId}) is empty");
             return false;
         }
         $startTime = microtime(true);
@@ -420,7 +401,7 @@ class Message implements MessageComponentInterface
         $obj['autoUpdateOnHTML'] = $autoUpdateOnHTML;
         $obj['lastMessageToAllDuration'] = self::$lastMessageToAllDuration;
         $obj['lastMessageToAllDurationMessages'] = self::$lastMessageToAllDurationMessages;
-        
+
         //$obj['users_uri'] = $return['users_uri'];
         $obj['resourceId'] = $resourceId;
         $obj['users_id_online'] = dbGetUniqueUsers();
@@ -431,7 +412,7 @@ class Message implements MessageComponentInterface
         // End timing and calculate the duration
         $endTime = microtime(true);
         $duration = $endTime - $startTime;
-        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type} users_id={$obj['users_id']} duration=$duration");
+        //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type} users_id={$obj['users_id']} duration=$duration");
         return true;
     }
 
@@ -439,17 +420,17 @@ class Message implements MessageComponentInterface
     {
         $client = dbGetRowFromResourcesId($conn->resourceId);
         $debug = array(
-            'resourceId'=>$conn->resourceId,
-            'client'=>$client['client'],
-            'ip'=>$client['ip'],
-            'selfURI'=>$client['selfURI'],
+            'resourceId' => $conn->resourceId,
+            'client' => $client['client'],
+            'ip' => $client['ip'],
+            'selfURI' => $client['selfURI'],
             //'debug_backtrace'=>debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-            'code'=>$e->getCode(),
-            'message'=>$e->getMessage(),
+            'code' => $e->getCode(),
+            'message' => $e->getMessage(),
             //'trace'=>$e->getTrace(),
         );
         dbDeleteConnection($conn->resourceId);
-        _error_log("onError ".json_encode($debug), \AVideoLog::$SOCKET);
+        _error_log("onError " . json_encode($debug), \AVideoLog::$SOCKET);
         $conn->close();
     }
 
@@ -530,75 +511,130 @@ class Message implements MessageComponentInterface
         self::$msgToAll[] = array('msg' => $msg, 'type' => $type);
     }
 
+    public function initPeriodicTask()
+    {
+        $loop = Loop::get();
+        $loop->addPeriodicTimer(Message::MSG_TO_ALL_TIMEOUT, function (TimerInterface $timer) {
+            // Your code to execute every 5 seconds
+            //echo "Task executed at " . date('Y-m-d H:i:s') . ' '.json_encode(self::$msgToAll).PHP_EOL;
+            // You can call other methods or perform any periodic action here
+            if (!empty(self::$msgToAll)) {
+                if (!Message::$isSendingToAll) {
+                    //_error_log("initPeriodicTask _msgToAll start ", \AVideoLog::$SOCKET);
+                    $this->_msgToAll(self::$msgToAll, \SocketMessageType::MSG_TO_ALL);
+                    self::$msgToAll = array();
+                    //_error_log("initPeriodicTask _msgToAll end ", \AVideoLog::$SOCKET);
+                }
+            }
+        });
+    }
+
     public function _msgToAll($msg, $type = "")
     {
-        $start = microtime(true);
-        $rows = dbGetAll();
-
-        $totals = $this->getTotals();
+        $loop = Loop::get(); // Get the ReactPHP event loop
+        $rows = dbGetAll(); // Get all clients
+        $totals = $this->getTotals(); // Get totals for the message
         $time = time();
+        $delay = self::MSG_TO_ALL_TIMEOUT/50; // Delay in seconds between iterations
+        $iterationsMaxDuration = self::MSG_TO_ALL_TIMEOUT/20; // Delay in seconds between iterations
+        Message::$isSendingToAll = true;
 
         self::$lastMessageToAllDurationMessages = [];
+        $clients = $rows; // Copy all clients
+        $totalMessages = 0; // Track total messages sent
+        $processStartTime = microtime(true); // Track total processing time
 
-        foreach ($rows as $key => $client) {
-            // Start timing for each client
-            $startTime = microtime(true);
+        // Process clients in timed chunks
+        $loop->addPeriodicTimer($delay, function (TimerInterface $timer) use (
+            &$clients,
+            $msg,
+            $type,
+            $totals,
+            $time,
+            $loop,
+            $iterationsMaxDuration,
+            &$totalMessages,
+            $processStartTime
+        ) {
+            $start = microtime(true); // Start timer for this iteration
+            $countMessages = 0; // Track messages sent in this iteration
 
-            if ($client['time'] + $this->disconnectAfter < $time) {
-                //_error_log("resourceId={$client['resourceId']} is too old, close it", \AVideoLog::$SOCKET);
-                if (!empty($this->clients[$client['resourceId']])) {
-                    _error_log("resourceId={$client['resourceId']} close on line " . __LINE__, \AVideoLog::$SOCKET);
-                    $this->clients[$client['resourceId']]->close();
-                }
-                unset($this->clients[$client['resourceId']]);
-            }
+            while (!empty($clients)) {
+                // Take the first client
+                $client = array_shift($clients);
+                $startTime = microtime(true);
 
-            if ($client['isCommandLine']) {
-                if ($client['time'] + 60 < $time && !empty($this->clients) && !empty($this->clients[$client['resourceId']])) {
-                    _error_log("resourceId={$client['resourceId']} disconnect commandline after 1 min", \AVideoLog::$SOCKET);
-                    $this->clients[$client['resourceId']]->close();
+                // Disconnect old clients
+                if ($client['time'] + $this->disconnectAfter < $time) {
+                    if (!empty($this->clients[$client['resourceId']])) {
+                        _error_log("resourceId={$client['resourceId']} close on line " . __LINE__, \AVideoLog::$SOCKET);
+                        $this->clients[$client['resourceId']]->close();
+                    }
                     unset($this->clients[$client['resourceId']]);
+                    continue;
                 }
-                //_error_log("msgToAll continue");
-                continue;
+
+                // Disconnect command line clients after 1 min
+                if ($client['isCommandLine']) {
+                    if ($client['time'] + 60 < $time && !empty($this->clients[$client['resourceId']])) {
+                        _error_log("resourceId={$client['resourceId']} disconnect commandline after 1 min", \AVideoLog::$SOCKET);
+                        $this->clients[$client['resourceId']]->close();
+                        unset($this->clients[$client['resourceId']]);
+                    }
+                    continue;
+                }
+
+                // Send the message
+                $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
+                $countMessages++;
+                $totalMessages++;
+
+                // Measure message duration
+                $endTime = microtime(true);
+                $duration = $endTime - $startTime;
+
+                $maxDuration = 0.05;
+                if (self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT / 3)) {
+                    $maxDuration = 0.03;
+                }
+                if (self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT / 2)) {
+                    $maxDuration = 0.02;
+                }
+                if (self::$lastMessageToAllDuration > self::MSG_TO_ALL_TIMEOUT) {
+                    $maxDuration = 0.01;
+                }
+
+                // Log and close client if duration exceeds max
+                if ($duration > $maxDuration) {
+                    $msg = "resourceId={$client['resourceId']} took {$duration} seconds to send the message  maxDuration=$maxDuration clients=" . count($this->clients);
+                    _log_message($msg);
+                    _error_log($msg, \AVideoLog::$SOCKET);
+                    self::$lastMessageToAllDurationMessages[] = [
+                        'resourceId' => $client['resourceId'],
+                        'duration' => $duration
+                    ];
+                    $this->clients[$client['resourceId']]->close();
+                }
+
+                // Check elapsed time for this iteration
+                $elapsedTime = microtime(true) - $start;
+                if ($elapsedTime > $iterationsMaxDuration) { // Interrupt if processing takes longer than the delay
+                    _log_message("Interrupting processing after {$elapsedTime} seconds, {$countMessages} messages processed, resuming in the next tick.");
+                    break;
+                }
             }
 
-            // Send the message
-            $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
-
-            // End timing and calculate the duration
-            $endTime = microtime(true);
-            $duration = $endTime - $startTime;
-
-            $maxDuration = 0.05;
-            if(self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT/3)){
-                $maxDuration = 0.03;
+            // Stop the timer when all clients are processed
+            if (empty($clients)) {
+                $loop->cancelTimer($timer);
+                $processEndTime = microtime(true);
+                $totalProcessTime = number_format($processEndTime - $processStartTime, 4);
+                _log_message("All clients processed. Total messages sent: {$totalMessages}. Total process time: {$totalProcessTime} seconds.");
+                Message::$isSendingToAll = false;
             }
-            if(self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT/2)){
-                $maxDuration = 0.02;
-            }
-            if(self::$lastMessageToAllDuration > self::MSG_TO_ALL_TIMEOUT){
-                $maxDuration = 0.01;
-            }
-
-            // If it takes longer than 0.01 seconds, add to lastMessageToAllDurationMessages
-            if ($duration > $maxDuration) {
-                $msg = "resourceId={$client['resourceId']} took {$duration} seconds to send the message  maxDuration=$maxDuration clients=".count($this->clients);
-                _log_message($msg);
-                _error_log($msg, \AVideoLog::$SOCKET);
-                self::$lastMessageToAllDurationMessages[] = [
-                    'resourceId' => $client['resourceId'],
-                    'duration' => $duration
-                ];
-                $this->clients[$client['resourceId']]->close();
-            }
-        }
-
-
-        self::$lastMessageToAllDuration = microtime(true) - $start;
-        $end = number_format(self::$lastMessageToAllDuration, 4);
-        _log_message("msgToAll FROM {$type} Total Clients: " . count($rows) . " in {$end} seconds");
+        });
     }
+
 
     public function msgToAllSameVideo($videos_id, $msg)
     {
