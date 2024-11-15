@@ -443,9 +443,9 @@ class Message implements MessageComponentInterface
             'client'=>$client['client'],
             'ip'=>$client['ip'],
             'selfURI'=>$client['selfURI'],
-            'debug_backtrace'=>debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+            //'debug_backtrace'=>debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
             'message'=>$e->getMessage(),
-            'trace'=>$e->getTrace(),
+            //'trace'=>$e->getTrace(),
         );
         dbDeleteConnection($conn->resourceId);
         _error_log("onError ".json_encode($debug), \AVideoLog::$SOCKET);
