@@ -560,16 +560,19 @@ class Message implements MessageComponentInterface
             $duration = $endTime - $startTime;
 
             $maxDuration = 0.05;
-            if(self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT/2)){
+            if(self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT/3)){
                 $maxDuration = 0.02;
             }
-            if(self::$lastMessageToAllDuration > self::MSG_TO_ALL_TIMEOUT){
+            if(self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT/2)){
                 $maxDuration = 0.01;
+            }
+            if(self::$lastMessageToAllDuration > self::MSG_TO_ALL_TIMEOUT){
+                $maxDuration = 0.007;
             }
 
             // If it takes longer than 0.01 seconds, add to lastMessageToAllDurationMessages
             if ($duration > $maxDuration) {
-                _log_message("resourceId={$client['resourceId']} took {$duration} seconds to send the message.");
+                _log_message("resourceId={$client['resourceId']} took {$duration} seconds to send the message  maxDuration=$maxDuration.");
                 self::$lastMessageToAllDurationMessages[] = [
                     'resourceId' => $client['resourceId'],
                     'duration' => $duration
