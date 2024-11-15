@@ -439,12 +439,16 @@ class Message implements MessageComponentInterface
     {
         $client = dbGetRowFromResourcesId($conn->resourceId);
         $debug = array(
+            'resourceId'=>$conn->resourceId,
             'client'=>$client['client'],
             'ip'=>$client['ip'],
             'selfURI'=>$client['selfURI'],
+            'debug_backtrace'=>debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+            'message'=>$e->getMessage(),
+            'trace'=>$e->getTrace(),
         );
         dbDeleteConnection($conn->resourceId);
-        _error_log("resourceId={$conn->resourceId} close on line " . __LINE__.' ['.$e->getMessage().'] '.json_encode($debug), \AVideoLog::$SOCKET);
+        _error_log("onError ".json_encode($debug), \AVideoLog::$SOCKET);
         $conn->close();
     }
 
