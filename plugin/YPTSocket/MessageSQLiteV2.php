@@ -535,8 +535,8 @@ class Message implements MessageComponentInterface
         $rows = dbGetAll(); // Get all clients
         $totals = $this->getTotals(); // Get totals for the message
         $time = time();
-        $delay = self::MSG_TO_ALL_TIMEOUT/50; // Delay in seconds between iterations
-        $iterationsMaxDuration = self::MSG_TO_ALL_TIMEOUT/20; // Delay in seconds between iterations
+        $delay = self::MSG_TO_ALL_TIMEOUT/100; // Delay in seconds between iterations
+        $iterationsMaxDuration = self::MSG_TO_ALL_TIMEOUT/50; // Delay in seconds between iterations
         Message::$isSendingToAll = true;
 
         self::$lastMessageToAllDurationMessages = [];
@@ -628,7 +628,8 @@ class Message implements MessageComponentInterface
             if (empty($clients)) {
                 $loop->cancelTimer($timer);
                 $processEndTime = microtime(true);
-                $totalProcessTime = number_format($processEndTime - $processStartTime, 4);
+                self::$lastMessageToAllDuration = $processEndTime - $processStartTime;
+                $totalProcessTime = number_format(self::$lastMessageToAllDuration, 4);
                 _log_message("All clients processed. Total messages sent: {$totalMessages}. Total process time: {$totalProcessTime} seconds.");
                 Message::$isSendingToAll = false;
             }
