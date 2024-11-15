@@ -437,8 +437,9 @@ class Message implements MessageComponentInterface
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
+        $client = dbGetRowFromResourcesId($conn->resourceId);
         dbDeleteConnection($conn->resourceId);
-        _error_log("resourceId={$conn->resourceId} close on line " . __LINE__, \AVideoLog::$SOCKET);
+        _error_log("resourceId={$conn->resourceId} close on line " . __LINE__.' ['.$e->getMessage().'] '.json_encode($client), \AVideoLog::$SOCKET);
         $conn->close();
     }
 
