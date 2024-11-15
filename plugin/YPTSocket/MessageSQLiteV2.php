@@ -438,8 +438,13 @@ class Message implements MessageComponentInterface
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
         $client = dbGetRowFromResourcesId($conn->resourceId);
+        $debug = array(
+            'client'=>$client['client'],
+            'ip'=>$client['ip'],
+            'selfURI'=>$client['selfURI'],
+        );
         dbDeleteConnection($conn->resourceId);
-        _error_log("resourceId={$conn->resourceId} close on line " . __LINE__.' ['.$e->getMessage().'] '.json_encode($client), \AVideoLog::$SOCKET);
+        _error_log("resourceId={$conn->resourceId} close on line " . __LINE__.' ['.$e->getMessage().'] '.json_encode($debug), \AVideoLog::$SOCKET);
         $conn->close();
     }
 
