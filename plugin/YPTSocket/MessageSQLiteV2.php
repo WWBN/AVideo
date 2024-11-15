@@ -444,6 +444,7 @@ class Message implements MessageComponentInterface
             'ip'=>$client['ip'],
             'selfURI'=>$client['selfURI'],
             //'debug_backtrace'=>debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+            'code'=>$e->getCode(),
             'message'=>$e->getMessage(),
             //'trace'=>$e->getTrace(),
         );
