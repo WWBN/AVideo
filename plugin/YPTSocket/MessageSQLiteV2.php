@@ -88,7 +88,7 @@ class Message implements MessageComponentInterface
             $live_key['liveLink'] = '';
         }
 
-        //_error_log(json_encode(array($json, $wsocketGetVars)));
+        //_error_log(json_encode(array($json, $wsocketGetVars)), \AVideoLog::$SOCKET);
         //var_dump($live_key);
         $client = array();
         $client['time'] = time();
@@ -170,7 +170,7 @@ class Message implements MessageComponentInterface
         $end = number_format(microtime(true) - $start, 4);
         _log_message("Connection opened in {$end} seconds users_id={$client['users_id']} selfURI={$client['selfURI']} isCommandLine={$client['isCommandLine']} page_title={$client['page_title']} browser={$client['browser']} ");
         //if(!empty($client['isCommandLine'])){
-        //_error_log("isCommandLine close it {$client['browser']} {$client['selfURI']}");
+        //_error_log("isCommandLine close it {$client['browser']} {$client['selfURI']}", \AVideoLog::$SOCKET);
         //$conn->close();
         //}
     }
@@ -438,7 +438,7 @@ class Message implements MessageComponentInterface
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
         dbDeleteConnection($conn->resourceId);
-        _error_log("resourceId={$conn->resourceId} close on line " . __LINE__);
+        _error_log("resourceId={$conn->resourceId} close on line " . __LINE__, \AVideoLog::$SOCKET);
         $conn->close();
     }
 
@@ -534,9 +534,9 @@ class Message implements MessageComponentInterface
             $startTime = microtime(true);
 
             if ($client['time'] + $this->disconnectAfter < $time) {
-                //_error_log("resourceId={$client['resourceId']} is too old, close it");
+                //_error_log("resourceId={$client['resourceId']} is too old, close it", \AVideoLog::$SOCKET);
                 if (!empty($this->clients[$client['resourceId']])) {
-                    _error_log("resourceId={$client['resourceId']} close on line " . __LINE__);
+                    _error_log("resourceId={$client['resourceId']} close on line " . __LINE__, \AVideoLog::$SOCKET);
                     $this->clients[$client['resourceId']]->close();
                 }
                 unset($this->clients[$client['resourceId']]);
@@ -544,7 +544,7 @@ class Message implements MessageComponentInterface
 
             if ($client['isCommandLine']) {
                 if ($client['time'] + 60 < $time && !empty($this->clients) && !empty($this->clients[$client['resourceId']])) {
-                    _error_log("resourceId={$client['resourceId']} disconnect commandline after 1 min");
+                    _error_log("resourceId={$client['resourceId']} disconnect commandline after 1 min", \AVideoLog::$SOCKET);
                     $this->clients[$client['resourceId']]->close();
                     unset($this->clients[$client['resourceId']]);
                 }
@@ -574,7 +574,7 @@ class Message implements MessageComponentInterface
             if ($duration > $maxDuration) {
                 $msg = "resourceId={$client['resourceId']} took {$duration} seconds to send the message  maxDuration=$maxDuration.";
                 _log_message($msg);
-                _error_log($msg);
+                _error_log($msg, \AVideoLog::$SOCKET);
                 self::$lastMessageToAllDurationMessages[] = [
                     'resourceId' => $client['resourceId'],
                     'duration' => $duration
@@ -601,7 +601,7 @@ class Message implements MessageComponentInterface
         $totals = $this->getTotals();
         foreach (dbGetAllResourcesIdFromVideosId($videos_id) as $client) {
             if ($client['isCommandLine']) {
-                _error_log("msgToAllSameVideo continue");
+                _error_log("msgToAllSameVideo continue", \AVideoLog::$SOCKET);
                 continue;
             }
             $this->msgToResourceId($msg, $client['resourceId'], \SocketMessageType::ON_VIDEO_MSG, $totals);
