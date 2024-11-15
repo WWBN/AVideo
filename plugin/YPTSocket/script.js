@@ -105,7 +105,7 @@ function socketConnect() {
             parseSocketResponse();
 
             if (json.type == webSocketTypes.MSG_TO_ALL && Array.isArray(json.msg)) {
-                console.log("Socket onmessage contains", json.msg.length, "messages. lastMessageToAllDuration="+json.lastMessageToAllDuration+" average time=" + (json.lastMessageToAllDuration / json.users_id_online.length).toFixed(4) + " seconds");
+                console.log("Socket onmessage contains", json.msg.length, "messages. lastMessageToAllDuration="+(json.lastMessageToAllDuration).toFixed(4)+" average time=" + (json.lastMessageToAllDuration / json.users_id_online.length).toFixed(4) + " seconds");
 
                 if (Array.isArray(json.lastMessageToAllDurationMessages) && json.lastMessageToAllDurationMessages.length > 0) {
                     console.log("Socket force to disconnect ", json.lastMessageToAllDurationMessages.length, "users.");
