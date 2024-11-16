@@ -611,6 +611,8 @@ class Message implements MessageComponentInterface
                     _error_log($msg, \AVideoLog::$SOCKET);
                     self::$lastMessageToAllDurationMessages[] = [
                         'resourceId' => $client['resourceId'],
+                        'resourceId' => $client['client'],
+                        'selfURI' => $client['selfURI'],
                         'duration' => $duration
                     ];
                     $this->clients[$client['resourceId']]->close();
