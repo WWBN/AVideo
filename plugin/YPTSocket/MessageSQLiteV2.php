@@ -593,15 +593,15 @@ class Message implements MessageComponentInterface
                 $endTime = microtime(true);
                 $duration = $endTime - $startTime;
 
-                $maxDuration = 0.05;
+                $maxDuration = 0.2;
                 if (self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT / 3)) {
-                    $maxDuration = 0.05;
+                    $maxDuration = 0.15;
                 }
                 if (self::$lastMessageToAllDuration > (self::MSG_TO_ALL_TIMEOUT / 2)) {
-                    $maxDuration = 0.03;
+                    $maxDuration = 0.1;
                 }
                 if (self::$lastMessageToAllDuration > self::MSG_TO_ALL_TIMEOUT) {
-                    $maxDuration = 0.02;
+                    $maxDuration = 0.05;
                 }
 
                 // Log and close client if duration exceeds max
