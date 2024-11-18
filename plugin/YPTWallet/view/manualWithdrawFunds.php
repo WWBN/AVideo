@@ -6,10 +6,18 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 if (!User::isLogged()) {
     gotToLoginAndComeBackHere();
 }
-
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+$balance =  YPTWallet::getUserBalance();
 $obj = $plugin->getDataObject();
-$options = _json_decode($obj->withdrawFundsOptions);
+$_options = _json_decode($obj->withdrawFundsOptions);
+$options = array();
+foreach ($_options as $key => $value) {
+    if ($value < $balance) {
+        $options[] = $value;
+    }
+}
+$options[] = $balance;
+
 $withdrawFundsSiteCutPercentage = isset($obj->withdrawFundsSiteCutPercentage->value) ? floatval($obj->withdrawFundsSiteCutPercentage->value) : 0;
 
 $_page = new Page(array('Withdraw Funds'));
@@ -67,7 +75,17 @@ $_page = new Page(array('Withdraw Funds'));
                                 $finalValue = $value - $fee;
                             ?>
                                 <option value="<?php echo $value; ?>" data-fee="<?php echo $fee; ?>" data-final-value="<?php echo $finalValue; ?>">
-                                    <?php echo $obj->currency_symbol; ?> <?php echo $value; ?> <?php echo $obj->currency; ?> (<?php echo __("Fee:"); ?> <?php echo $obj->currency_symbol; ?> <?php echo number_format($fee, 2); ?>, <?php echo __("Final:"); ?> <?php echo $obj->currency_symbol; ?> <?php echo number_format($finalValue, 2); ?>)
+                                    <?php
+                                    echo YPTWallet::formatCurrency($value);
+                                    ?>
+                                    (
+                                    <?php echo __("Fee:"); ?>
+                                    <?php
+                                    echo YPTWallet::formatCurrency($value);
+                                    ?>
+                                    , <?php echo __("Final:"); ?>
+                                    <?php echo YPTWallet::formatCurrency($finalValue); ?>
+                                    )
                                 </option>
                             <?php
                             }
