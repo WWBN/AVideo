@@ -106,3 +106,4 @@ plugin/WebAuthnLogin/
 plugin/UserOTPLogin/
 test*
 CreatePlugin/plugins/
+vendor/james-heinrich/getid3/demos/
