@@ -100,7 +100,7 @@ if ($isCached) {
             global $verifyTokenReturnFalseReason;
             http_response_code(403);
             $msg = 'authorizeKeyAccess: Access denied ['.$verifyTokenReturnFalseReason.'] ';
-            error_log($msg . json_encode(array($_SERVER, $matches)));
+            error_log($msg . json_encode(array($matches)));
             echo $msg;
         } else {
             if (!empty($tmpFilePath)) {
