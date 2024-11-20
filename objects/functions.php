@@ -168,6 +168,7 @@ function getRealIpAddr()
     }
 
     $headers = [
+        'HTTP_X_REAL_IP',
         'HTTP_CLIENT_IP',
         'HTTP_X_FORWARDED_FOR',
         'REMOTE_ADDR'
