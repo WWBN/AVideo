@@ -55,7 +55,7 @@ if (preg_match($pattern, $uri, $matches)) {
     // $matches[1] contains the key
     $liveKey = $matches[1];
     // $matches[2] contains the token
-    $token = $matches[2];
+    $token = str_replace('?token=', '', $matches[2]);
 }
 $isCached = false;
 if (!empty($liveKey)) {
