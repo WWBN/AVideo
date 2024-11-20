@@ -128,6 +128,11 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
 
             function submitDonation<?php echo $uid; ?>() {
                 modal.showPleaseWait();
+                var message = '';
+                if ($('#chatInputDonation').data("emojioneArea")) {
+                    message = $('#chatInputDonation').data("emojioneArea").getText();
+                }
+
                 $.ajax({
                     url: webSiteRootURL + 'plugin/CustomizeUser/donate.json.php',
                     data: {
@@ -136,7 +141,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
                         "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
                         "captcha": <?php echo $captcha['captchaText']; ?>,
-                        "message": $('#chatInputDonation').data("emojioneArea").getText()
+                        "message": message
                     },
                     type: 'post',
                     success: function(response) {
@@ -155,6 +160,10 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
 
             function submitDonationButton<?php echo $uid; ?>(buttonIndex) {
                 modal.showPleaseWait();
+                var message = '';
+                if ($('#chatInputDonation').data("emojioneArea")) {
+                    message = $('#chatInputDonation').data("emojioneArea").getText();
+                }
                 $.ajax({
                     url: webSiteRootURL + 'plugin/CustomizeUser/donate.json.php',
                     data: {
@@ -163,7 +172,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
                         "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
                         "captcha": <?php echo $captcha['captchaText']; ?>,
-                        "message": $('#chatInputDonation').data("emojioneArea").getText()
+                        "message": message
                     },
                     type: 'post',
                     success: function(response) {
