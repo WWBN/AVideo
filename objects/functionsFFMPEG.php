@@ -56,26 +56,26 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
     $paths = Video::getPaths($video['filename']);
     $mp3HLSFile = "{$paths['path']}index.mp3";
     $mp3File = "{$paths['path']}{$video['filename']}.mp3";
-    if(file_exists($mp3HLSFile) || file_exists($mp3File)){ 
+    if (file_exists($mp3HLSFile) || file_exists($mp3File)) {
         return Video::getSourceFile($video['filename'], ".mp3", true);
-    }else {
+    } else {
         $f = convertVideoFileWithFFMPEGIsLockedInfo($mp3File);
         if ($f['isUnlocked']) {
             _error_log("convertVideoToMP3FileIfNotExists: start videos_id=$videos_id try=$forceTry ");
             $sources = getVideosURLOnly($video['filename'], false);
             if (!empty($sources)) {
-                if(!empty($sources['m3u8'])){
+                if (!empty($sources['m3u8'])) {
                     $source = $sources['m3u8'];
-                }else{
+                } else {
                     $source = end($sources);
                 }
                 convertVideoFileWithFFMPEG($source['url'], $mp3File, '', $forceTry);
                 if (file_exists($mp3File)) {
                     return Video::getSourceFile($video['filename'], ".mp3", true);
-                }else {
+                } else {
                     _error_log("convertVideoToMP3FileIfNotExists: file not exists {$mp3File}");
                 }
-            }else {
+            } else {
                 _error_log("convertVideoToMP3FileIfNotExists: sources not found");
             }
         } else {
@@ -95,7 +95,7 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
  */
 function cleanupDownloadsDirectory($resolution = 720)
 {
-    
+
     $videosDir = getVideosDir();
     $directory = "{$videosDir}downloads/";
     // Check if the directory exists
@@ -126,8 +126,8 @@ function cleanupDownloadsDirectory($resolution = 720)
                 } else {
                     _error_log("cleanupDownloadsDirectory: Failed to delete file: {$filePath}");
                 }
-            }else{
-                _error_log("cleanupDownloadsDirectory:do not delete [$entry][{$pattern}]: {$filePath} ".humanFileSize($fsize).' '.json_encode(array(is_file($filePath), preg_match($pattern, $entry),  empty($fsize))));
+            } else {
+                _error_log("cleanupDownloadsDirectory:do not delete [$entry][{$pattern}]: {$filePath} " . humanFileSize($fsize) . ' ' . json_encode(array(is_file($filePath), preg_match($pattern, $entry),  empty($fsize))));
             }
         }
         // Close the directory handle
@@ -143,27 +143,50 @@ function m3u8ToMP4($input, $makeItPermanent = false)
     $outputfilename = str_replace($videosDir, "", $input);
     $parts = explode("/", $outputfilename);
     $resolution = Video::getResolutionFromFilename($input);
-    $video_filename = $parts[count($parts)-2];
-    if($makeItPermanent){
+    $video_filename = $parts[count($parts) - 2];
+    $lockFile = "/tmp/m3u8ToMP4.lock";
+
+    // Lock file logic
+    if (file_exists($lockFile)) {
+        $lockFileAge = time() - filemtime($lockFile);
+        if ($lockFileAge <= 600) { // 10 minutes = 600 seconds
+            _error_log("m3u8ToMP4: Another process is already running. Lock file age: {$lockFileAge} seconds.");
+            return [
+                'error' => true,
+                'msg' => 'Another process is already running. Please wait and try again.',
+            ];
+        } else {
+            // Lock file is older than 10 minutes, remove it
+            unlink($lockFile);
+        }
+    }
+
+    // Create the lock file
+    file_put_contents($lockFile, time());
+
+    if ($makeItPermanent) {
         $outputfilename = "index.mp4";
         $outputpathDir = "{$videosDir}{$video_filename}/";
-    }else{
+    } else {
         $outputfilename = $video_filename . "_{$resolution}_.mp4";
         $outputpathDir = "{$videosDir}downloads/";
     }
-    //var_dump($outputfilename, $parts, $outputpathDir);exit;
+
     make_path($outputpathDir);
     $outputpath = "{$outputpathDir}{$outputfilename}";
     $msg = '';
     $error = true;
+
     if (empty($outputfilename)) {
         $msg = "downloadHLS: empty outputfilename {$outputfilename}";
         _error_log($msg);
+        unlink($lockFile); // Remove lock file
         return ['error' => $error, 'msg' => $msg];
     }
+
     _error_log("downloadHLS: m3u8ToMP4($input)");
-    //var_dump(!preg_match('/^http/i', $input), filesize($input), preg_match('/.m3u8$/i', $input));
     $ism3u8 = preg_match('/.m3u8$/i', $input);
+
     if (!preg_match('/^http/i', $input) && (filesize($input) <= 10 || $ism3u8)) { // dummy file
         $filepath = pathToRemoteURL($input, true, true);
         if ($ism3u8 && !preg_match('/.m3u8$/i', $filepath)) {
@@ -181,22 +204,21 @@ function m3u8ToMP4($input, $makeItPermanent = false)
     }
 
     if (!file_exists($outputpath)) {
-        //var_dump('m3u8ToMP4 !file_exists', $filepath, $outputpath);
-        //exit;
         $return = convertVideoFileWithFFMPEG($filepath, $outputpath);
-        //var_dump($return);
-        //exit;
+
         if (empty($return)) {
             $msg3 = "downloadHLS: ERROR 2 ";
             $finalMsg = $msg . PHP_EOL . $msg3;
             _error_log($msg3);
+            unlink($lockFile); // Remove lock file
             return ['error' => $error, 'msg' => $finalMsg];
         } else {
+            unlink($lockFile); // Remove lock file
             return [
-                'error' => false, 
-                'msg' => implode(', ', $return['output']), 
-                'path' =>  $return['toFileLocation'], 
-                'filename' =>  basename($return['toFileLocation']), 
+                'error' => false,
+                'msg' => implode(', ', $return['output']),
+                'path' => $return['toFileLocation'],
+                'filename' => basename($return['toFileLocation']),
                 'return' => $return
             ];
         }
@@ -204,9 +226,12 @@ function m3u8ToMP4($input, $makeItPermanent = false)
         $msg = "downloadHLS: outputpath already exists ({$outputpath})";
         _error_log($msg);
     }
+
     $error = false;
+    unlink($lockFile); // Remove lock file
     return ['error' => $error, 'msg' => $msg, 'path' => $outputpath, 'filename' => $outputfilename];
 }
+
 
 function getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation)
 {
@@ -334,7 +359,7 @@ function convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation)
     );
 }
 
-function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
+function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0, $cpuLimit = 80)
 {
     global $global;
     $f = convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation);
@@ -358,26 +383,20 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     if ($format == 'mp3') {
         switch ($try) {
             case 0:
-                // Attempt to re-encode the audio stream to MP3 with a standard bitrate
                 $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 1:
-                // Attempt to re-encode with a higher bitrate and sample rate
                 $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 2:
-                // Increase FFmpeg's buffer sizes to handle potentially corrupted data
                 $command = get_ffmpeg() . " -probesize 50M -analyzeduration 100M -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 3:
-                // Generate a unique name for the temporary audio file
                 $uniqueID = uniqid('temp_audio_', true);
                 $tempAudioFile = escapeshellarg("/tmp/{$uniqueID}.aac");
-                // Extract the audio stream to a temporary file
                 $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -vn -acodec copy {$tempAudioFile}";
                 exec($command, $output, $return);
 
-                // Re-encode the extracted audio stream to MP3 if extraction is successful
                 if ($return === 0) {
                     $command = get_ffmpeg() . " -i {$tempAudioFile} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
                 } else {
@@ -389,30 +408,25 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
                 break;
         }
     } else {
-        if ($try === 0 && preg_match('/_offline\.mp4/', $toFileLocation)) {
-            $try = 'offline';
-            $fromFileLocationEscaped = "\"$fromFileLocation\"";
-            $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -crf 30 {$toFileLocationEscaped}";
-        } else {
-            switch ($try) {
-                case 0:
-                    $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k {$toFileLocationEscaped}";
-                    break;
-                case 1:
-                    $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
-                    break;
-                case 2:
-                    $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
-                    break;
-                case 3:
-                    $command = get_ffmpeg() . " -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
-                    break;
-                default:
-                    return false;
-                    break;
-            }
+        switch ($try) {
+            case 0:
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k {$toFileLocationEscaped}";
+                break;
+            case 1:
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
+                break;
+            case 2:
+                $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                break;
+            case 3:
+                $command = get_ffmpeg() . " -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                break;
+            default:
+                return false;
+                break;
         }
     }
+
     if (!empty($logFile)) {
         $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
     } else {
@@ -421,15 +435,22 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     if (empty($progressFile)) {
         $progressFile = "{$toFileLocation}.log";
     }
+
     $command = removeUserAgentIfNotURL($command);
+
+    // Add CPU limit to the command using cpulimit
+    $command = "cpulimit -l {$cpuLimit} -- {$command}";
+
     $command .= " > {$progressFile} 2>&1";
     _session_write_close();
     _mysql_close();
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
     exec($command, $output, $return);
-    if(!empty($tempAudioFile)){
+
+    if (!empty($tempAudioFile)) {
         unlink($tempAudioFile);
     }
+
     $global['lastFFMPEG'] = array($command, $output, $return);
 
     _session_start();
@@ -440,6 +461,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
 
     return ['return' => $return, 'output' => $output, 'command' => $command, 'fromFileLocation' => $fromFileLocation, 'toFileLocation' => $toFileLocation, 'progressFile' => $progressFile];
 }
+
 
 
 function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, $outputFile, $aspectRatio)
