@@ -27,6 +27,7 @@ if(!empty($_REQUEST['debugLive'])){
             var_dump(__LINE__, Live_servers::getServerIdFromRTMPHost($url));
         }
     }
+    exit;
 }
 
 $htmlMediaTag .= getLiveUsersLabelHTML();
