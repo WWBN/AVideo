@@ -459,8 +459,10 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
 
     // Add CPU limit to the command using cpulimit
     $command = "cpulimit -l {$cpuLimit} -- {$command}";
+    if(!isCommandLineInterface()){
+        $command .= " > {$progressFile} 2>&1";
+    }
 
-    $command .= " > {$progressFile} 2>&1";
     _session_write_close();
     _mysql_close();
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
