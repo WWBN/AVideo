@@ -137,7 +137,7 @@ function cleanupDownloadsDirectory($resolution = 720)
     }
 }
 
-function m3u8ToMP4($input, $makeItPermanent = false)
+function m3u8ToMP4($input, $makeItPermanent = false, $force=false)
 {
     $videosDir = getVideosDir();
     $outputfilename = str_replace($videosDir, "", $input);
@@ -147,7 +147,7 @@ function m3u8ToMP4($input, $makeItPermanent = false)
     $lockFile = "/tmp/m3u8ToMP4.lock";
 
     // Lock file logic
-    if (file_exists($lockFile)) {
+    if (file_exists($lockFile) || $force) {
         $lockFileAge = time() - filemtime($lockFile);
         if ($lockFileAge <= 600) { // 10 minutes = 600 seconds
             _error_log("m3u8ToMP4: Another process is already running. Lock file age: {$lockFileAge} seconds.");
