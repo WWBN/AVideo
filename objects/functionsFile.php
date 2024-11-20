@@ -1090,3 +1090,24 @@ function getVideosDirectoryUsageInfo() {
         'used_percentage_number' => $usedPercentage
     ];
 }
+
+function findMP4File($folderPath)
+{
+    // Ensure the folder path ends with a slash
+    $folderPath = addLastSlash($folderPath);
+
+    // Open the folder and iterate over files
+    if (is_dir($folderPath)) {
+        $files = scandir($folderPath);
+        foreach ($files as $file) {
+            // Check if the file has a .mp4 extension
+            if (pathinfo($file, PATHINFO_EXTENSION) === 'mp4') {
+                // Return the absolute path to the first .mp4 file found
+                return $folderPath . $file;
+            }
+        }
+    }
+
+    // Return false if no .mp4 file is found
+    return false;
+}

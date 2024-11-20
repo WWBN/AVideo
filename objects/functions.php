@@ -959,9 +959,9 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false)
     return $files;
 }
 
-function getVideosURL($fileName, $cache = true)
+function getVideosURL($fileName, $recreateCache = false)
 {
-    return getVideosURL_V2($fileName); // disable this function soon
+    return getVideosURL_V2($fileName, $recreateCache); // disable this function soon
 }
 
 function getVideosURLMP4Only($fileName)

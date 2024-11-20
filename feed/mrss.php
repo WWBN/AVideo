@@ -5,25 +5,36 @@ header("Content-Type: application/rss+xml;");
 $cacheFeedName = "feedCacheMRSS" . json_encode($_REQUEST);
 $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
+$link = "{$link}/mrss";
 if (empty($feed)) {
     _ob_start();
     echo'<?xml version="1.0" encoding="UTF-8"?>'; ?>
     <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"
          xmlns:georss="http://www.georss.org/georss"
-         xmlns:gml="http://www.opengis.net/gml">
+         xmlns:gml="http://www.opengis.net/gml"
+         xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+         xmlns:atom="http://www.w3.org/2005/Atom" >
         <channel>
+            <atom:link href="<?php echo $global['webSiteRootURL'] . ltrim($_SERVER["REQUEST_URI"], "/"); ?>" rel="self" type="application/rss+xml" />
+            
             <title><?php echo feedText($title); ?></title>
             <description><?php echo feedText($description); ?></description>
-            <link><?php echo $link; ?></link>
-            <image>
-            <title><?php echo feedText($title); ?></title>
-            <url><?php echo $logo; ?></url>
-            <link><?php echo $link; ?></link>
-            <width>144</width>
-            <height>40</height>
-            <description>AVideo version rss</description>
-            </image>
+            <link><?php echo $global['webSiteRootURL']; ?></link>            
 
+            <language>en-us</language> 
+            <itunes:image href="<?php echo $logo; ?>" /> 
+            <itunes:explicit>no</itunes:explicit> 
+
+            <itunes:category text="Technology" />
+
+            <image>
+                <title><?php echo feedText($title); ?></title>
+                <url><?php echo $logo; ?></url>
+                <link><?php echo $link; ?></link>
+                <width>144</width>
+                <height>40</height>
+                <description>AVideo version rss</description>
+            </image>
             <?php
             foreach ($rows as $row) {
                 $video = Video::getVideoFromFileName($row['filename']);
@@ -36,18 +47,28 @@ if (empty($feed)) {
                 foreach ($files as $value) {
                     if ($value["type"] === "video" && file_exists($value['path'])) {
                         $path_parts = pathinfo($value['path']);
-                        $value['mime'] = "video/{$path_parts['extension']}";
+                        if($path_parts['extension'] === 'm3u8'){
+                            $resp = VideoHLS::convertM3U8ToMP4($row['id']);
+                            if(!empty($resp)){
+                                $value['url'] = $resp['url'];
+                                $value['path'] = $resp['path'];
+                                $value['mime'] = "video/mp4";
+                            }
+                        }else{
+                            $value['mime'] = "video/{$path_parts['extension']}";
+                        }
+
                         $value['size'] = filesize($value['path']);
                         // replace to validate
                         $value['url'] = str_replace("http://", "https://", $value['url']);
-                        $enclosure = '<enclosure url="' . $value['url'] . '" length="' . $value['size'] . '" type="' . $value['mime'] . '" />';
+                        $enclosure = '<enclosure url="' . str_replace('&', '&amp;', $value['url']) . '" length="' . $value['size'] . '" type="' . $value['mime'] . '" />';
                         break;
                     }
                 } ?>
                 <item>
                     <title><?php echo feedText($row['title']); ?></title>
                     <description><?php echo feedText($row['title']); ?></description>
-                    <link> <?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
+                    <link><![CDATA[<?php echo Video::getLink($row['id'], $row['clean_title']); ?>]]></link>
                     <?php echo $enclosure; ?>
                     <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
                     <guid isPermaLink="true"><?php echo Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink"); ?></guid>
@@ -59,8 +80,6 @@ if (empty($feed)) {
                         <media:description type="html"><![CDATA[<?php echo Video::htmlDescription($row['title']); ?>]]></media:description>
                         <media:thumbnail url="<?php echo Video::getPoster($row['id']); ?>" />
                     </media:content>
-                    <media:embed url="<?php echo str_replace('&', '&amp;', Video::getLinkToVideo($row['id'], $row['clean_title'], true)); ?>"/>
-                    <media:status state="active" />
                 </item>
                 <?php
             } ?>

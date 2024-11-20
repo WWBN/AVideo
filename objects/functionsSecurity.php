@@ -501,3 +501,9 @@ function ddosProtection()
 
     return true;
 }
+
+function escapeshellcmdURL(string $command)
+{
+    return str_replace('\?', '?', escapeshellcmd($command));
+}
+

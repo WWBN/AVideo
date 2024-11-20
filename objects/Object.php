@@ -1152,6 +1152,7 @@ abstract class CacheHandler
         
         if(isCommandLineInterface()){
             echo "public function setCache({$this->suffix}) name=".$name.PHP_EOL;
+            //echo json_encode(debug_backtrace());
         }
         $return = ObjectYPT::setCacheGlobal($name, $value);
         /*
@@ -1172,6 +1173,7 @@ abstract class CacheHandler
         $name = $this->getCacheName($this->suffix);        
         if(isCommandLineInterface()){
             echo "public function getCache($suffix) name=".$name.PHP_EOL;
+            //echo json_encode(debug_backtrace());
         }
         if (isset($_getCache[$name])) {
             if ($logInfo) {

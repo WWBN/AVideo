@@ -37,7 +37,6 @@ function get_ffprobe()
 
 function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
 {
-    _error_log("convertVideoToMP3FileIfNotExists: start videos_id=$videos_id try=$forceTry ");
     global $global;
     if (!empty($global['disableMP3'])) {
         _error_log('convertVideoToMP3FileIfNotExists: $global[disableMP3] isset');
@@ -62,6 +61,7 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
     }else {
         $f = convertVideoFileWithFFMPEGIsLockedInfo($mp3File);
         if ($f['isUnlocked']) {
+            _error_log("convertVideoToMP3FileIfNotExists: start videos_id=$videos_id try=$forceTry ");
             $sources = getVideosURLOnly($video['filename'], false);
             if (!empty($sources)) {
                 if(!empty($sources['m3u8'])){
@@ -137,14 +137,21 @@ function cleanupDownloadsDirectory($resolution = 720)
     }
 }
 
-function m3u8ToMP4($input)
+function m3u8ToMP4($input, $makeItPermanent = false)
 {
     $videosDir = getVideosDir();
     $outputfilename = str_replace($videosDir, "", $input);
     $parts = explode("/", $outputfilename);
     $resolution = Video::getResolutionFromFilename($input);
-    $outputfilename = $parts[0] . "_{$resolution}_.mp4";
-    $outputpathDir = "{$videosDir}downloads/";
+    $video_filename = $parts[count($parts)-2];
+    if($makeItPermanent){
+        $outputfilename = "index.mp4";
+        $outputpathDir = "{$videosDir}{$video_filename}/";
+    }else{
+        $outputfilename = $video_filename . "_{$resolution}_.mp4";
+        $outputpathDir = "{$videosDir}downloads/";
+    }
+    //var_dump($outputfilename, $parts, $outputpathDir);exit;
     make_path($outputpathDir);
     $outputpath = "{$outputpathDir}{$outputfilename}";
     $msg = '';
@@ -166,7 +173,7 @@ function m3u8ToMP4($input)
         $token = getToken(60);
         $filepath = addQueryStringParameter($filepath, 'globalToken', $token);
     } else {
-        $filepath = escapeshellcmd($input);
+        $filepath = escapeshellcmdURL($input);
     }
 
     if (is_dir($filepath)) {
@@ -185,7 +192,13 @@ function m3u8ToMP4($input)
             _error_log($msg3);
             return ['error' => $error, 'msg' => $finalMsg];
         } else {
-            return $return;
+            return [
+                'error' => false, 
+                'msg' => implode(', ', $return['output']), 
+                'path' =>  $return['toFileLocation'], 
+                'filename' =>  basename($return['toFileLocation']), 
+                'return' => $return
+            ];
         }
     } else {
         $msg = "downloadHLS: outputpath already exists ({$outputpath})";

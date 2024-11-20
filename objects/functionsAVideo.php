@@ -162,9 +162,26 @@ function getSelfUserAgent()
 {
     global $global, $AVideoStreamer_UA;
     $agent = $AVideoStreamer_UA . "_";
-    $agent .= md5($global['salt']);
+    $agent .= md5($global['salt'].date('i'));
     return $agent;
 }
+
+function isSelfUserAgent()
+{
+    global $global, $AVideoStreamer_UA;
+
+    // Generate the current and 1-minute previous user agent strings
+    $currentAgent = $AVideoStreamer_UA . "_" . md5($global['salt'] . date('i'));
+    $previousAgent = $AVideoStreamer_UA . "_" . md5($global['salt'] . date('i', strtotime('-1 minute')));
+
+    // Check if the provided user agent matches either the current or previous
+    if ($_SERVER['HTTP_USER_AGENT'] === $currentAgent || $_SERVER['HTTP_USER_AGENT'] === $previousAgent) {
+        return true;
+    }
+
+    return false;
+}
+
 
 function requestComesFromSameDomainAsMyAVideo()
 {
