@@ -14,7 +14,7 @@ $htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getP
                 </video>';
 if(!empty($_REQUEST['debugLive'])){
     $uuid = LiveTransmition::keyNameFix($livet['key']);
-    var_dump(__LINE__, $uuid, $livet['key']);
+    var_dump(__LINE__, $uuid, $livet['key'], $_REQUEST['live_index']);
     exit;
 }
 
