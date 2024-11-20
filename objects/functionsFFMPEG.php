@@ -157,7 +157,7 @@ function m3u8ToMP4($input, $makeItPermanent = false, $force=false)
             ];
         } else {
             // Lock file is older than 10 minutes, remove it
-            unlink($lockFile);
+            @unlink($lockFile);
         }
     }else{
         _error_log("m3u8ToMP4: Another process is already running");

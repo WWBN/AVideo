@@ -598,7 +598,7 @@ class CDNStorage
                 _error_log("CDNStorage::putUsingAPI empty local " . json_encode($value));
                 continue;
             }
-            $filesize = filesize($value);
+            $filesize = @filesize($value);
             if ($filesize > 20) {
                 $fileUploadCount++;
                 $remote_file = CDNStorage::filenameToRemotePath($value);
