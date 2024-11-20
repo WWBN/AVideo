@@ -137,7 +137,7 @@ function cleanupDownloadsDirectory($resolution = 720)
     }
 }
 
-function m3u8ToMP4($input, $makeItPermanent = false, $force=false)
+function m3u8ToMP4($input, $makeItPermanent = false, $force = false)
 {
     $videosDir = getVideosDir();
     $outputfilename = str_replace($videosDir, "", $input);
@@ -159,7 +159,7 @@ function m3u8ToMP4($input, $makeItPermanent = false, $force=false)
             // Lock file is older than 10 minutes, remove it
             @unlink($lockFile);
         }
-    }else{
+    } else {
         _error_log("m3u8ToMP4: Another process is already running");
     }
 
@@ -361,7 +361,7 @@ function convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation)
     );
 }
 
-function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0, $cpuLimit = 80)
+function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
 {
     global $global;
 
@@ -372,8 +372,8 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
         if (!$cpuCores) {
             $cpuCores = (int)shell_exec('sysctl -n hw.ncpu 2>/dev/null'); // macOS
         }
-        if ($cpuCores > 0) {
-            $threads = $cpuCores;
+        if ($cpuCores > 1) {
+            $threads = $cpuCores - 1;
         } else {
             _error_log("convertVideoFileWithFFMPEG: Unable to detect CPU cores. Defaulting to 1 thread.");
         }
@@ -457,9 +457,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
 
     $command = removeUserAgentIfNotURL($command);
 
-    // Add CPU limit to the command using cpulimit
-    $command = "cpulimit -l {$cpuLimit} -- {$command}";
-    if(!isCommandLineInterface()){
+    if (!isCommandLineInterface()) {
         $command .= " > {$progressFile} 2>&1";
     }
 
