@@ -13,7 +13,8 @@ $htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getP
                     <source src="' . Live::getM3U8File($uuid) . '" type="application/x-mpegURL">
                 </video>';
 if(!empty($_REQUEST['debugLive'])){
-    var_dump(__LINE__, $uuid, debug_backtrace());
+    $uuid = LiveTransmition::keyNameFix($livet['key']);
+    var_dump(__LINE__, $uuid, $livet['key']);
     exit;
 }
 
