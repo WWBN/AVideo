@@ -99,7 +99,7 @@ if ($isCached) {
         if (!$authorized) {
             global $verifyTokenReturnFalseReason;
             http_response_code(403);
-            $msg = 'authorizeKeyAccess: Access denied ['.$verifyTokenReturnFalseReason.'] '.json_encode(array($_SERVER, $matches)).getRealIpAddr();
+            $msg = 'authorizeKeyAccess: Access denied ['.$verifyTokenReturnFalseReason.'] '.getRealIpAddr();
             error_log($msg);
             echo $msg;
         } else {
