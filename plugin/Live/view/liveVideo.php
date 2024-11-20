@@ -14,7 +14,7 @@ $htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getP
                 </video>';
 if(!empty($_REQUEST['debugLive'])){
     $live_servers_id = Live::getLiveServersIdRequest();
-    var_dump(__LINE__, $live_servers_id, $_REQUEST['live_servers_id']);
+    var_dump(__LINE__, $live_servers_id, $_REQUEST['live_servers_id'], Live::getM3U8File($uuid), $uuid);
     if (empty($_REQUEST['live_servers_id'])) {
         $url = '';
         if (!empty($_POST['tcurl'])) {
