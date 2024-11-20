@@ -2389,8 +2389,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $obj->disableGif = $p->getDisableGifThumbs();
 
         TimeLogEnd($timeName, __LINE__);
+        $REQUEST = $_REQUEST;
         foreach ($lifeStream as $value) {
             unset($_REQUEST['playlists_id_live']);
+            unset($_REQUEST['live_index']);
             if (!empty($value->name)) {
                 $_playlists_id_live = @$_REQUEST['playlists_id_live'];
                 $row = LiveTransmition::keyExists($value->name);
@@ -2454,7 +2456,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 }
                 if (!empty($live_index)) {
                     $_REQUEST['live_index'] = $live_index;
-                    $_REQUEST['live_index_changed'] = __FILE__;
                 }
 
                 $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value->name, $live_servers_id) : '');
@@ -2518,6 +2519,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $_REQUEST['playlists_id_live'] = $_playlists_id_live;
             }
         }
+        $_REQUEST = $REQUEST;
         TimeLogEnd($timeName, __LINE__);
 
         $obj->countLiveStream = count($obj->applications);
