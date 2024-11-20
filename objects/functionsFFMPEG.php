@@ -159,6 +159,8 @@ function m3u8ToMP4($input, $makeItPermanent = false)
             // Lock file is older than 10 minutes, remove it
             unlink($lockFile);
         }
+    }else{
+        _error_log("m3u8ToMP4: Another process is already running");
     }
 
     // Create the lock file
@@ -445,6 +447,10 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     _session_write_close();
     _mysql_close();
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
+
+    if(isCommandLineInterface()){
+        echo "convertVideoFileWithFFMPEG {$command} ";
+    }
     exec($command, $output, $return);
 
     if (!empty($tempAudioFile)) {
