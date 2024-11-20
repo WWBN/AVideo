@@ -12,6 +12,22 @@ $htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getP
                        id="mainVideo">
                     <source src="' . Live::getM3U8File($uuid) . '" type="application/x-mpegURL">
                 </video>';
+if(!empty($_REQUEST['debug'])){
+    $live_servers_id = self::getLiveServersIdRequest();
+    var_dump(__LINE__, $live_servers_id, $_REQUEST['live_servers_id']);
+    if (empty($_REQUEST['live_servers_id'])) {
+        $url = '';
+        if (!empty($_POST['tcurl'])) {
+            $url = $_POST['tcurl'];
+        }
+        if (empty($url)) {
+            $url = @$_POST['swfurl'];
+        }
+        if (!empty($url)) {
+            var_dump(__LINE__, Live_servers::getServerIdFromRTMPHost($url));
+        }
+    }
+}
 
 $htmlMediaTag .= getLiveUsersLabelHTML();
 echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
