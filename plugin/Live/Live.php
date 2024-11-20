@@ -2454,6 +2454,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 }
                 if (!empty($live_index)) {
                     $_REQUEST['live_index'] = $live_index;
+                    $_REQUEST['live_index_changed'] = __FILE__;
                 }
 
                 $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value->name, $live_servers_id) : '');
