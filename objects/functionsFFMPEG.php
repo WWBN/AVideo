@@ -364,6 +364,23 @@ function convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation)
 function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0, $cpuLimit = 80)
 {
     global $global;
+
+    // Dynamically get the number of CPU cores
+    $threads = 1; // Default to 1 thread
+    if (function_exists('shell_exec')) {
+        $cpuCores = (int)shell_exec('nproc 2>/dev/null'); // Linux
+        if (!$cpuCores) {
+            $cpuCores = (int)shell_exec('sysctl -n hw.ncpu 2>/dev/null'); // macOS
+        }
+        if ($cpuCores > 0) {
+            $threads = $cpuCores;
+        } else {
+            _error_log("convertVideoFileWithFFMPEG: Unable to detect CPU cores. Defaulting to 1 thread.");
+        }
+    } else {
+        _error_log("convertVideoFileWithFFMPEG: shell_exec is disabled. Defaulting to 1 thread.");
+    }
+
     $f = convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation);
     $localFileLock = $f['localFileLock'];
     if ($f['isOld']) {
@@ -385,22 +402,22 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     if ($format == 'mp3') {
         switch ($try) {
             case 0:
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 1:
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 2:
-                $command = get_ffmpeg() . " -probesize 50M -analyzeduration 100M -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -threads {$threads} -probesize 50M -analyzeduration 100M -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
                 break;
             case 3:
                 $uniqueID = uniqid('temp_audio_', true);
                 $tempAudioFile = escapeshellarg("/tmp/{$uniqueID}.aac");
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -vn -acodec copy {$tempAudioFile}";
+                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -vn -acodec copy {$tempAudioFile}";
                 exec($command, $output, $return);
 
                 if ($return === 0) {
-                    $command = get_ffmpeg() . " -i {$tempAudioFile} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
+                    $command = get_ffmpeg() . " -threads {$threads} -i {$tempAudioFile} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
                 } else {
                     return false;
                 }
@@ -412,16 +429,16 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     } else {
         switch ($try) {
             case 0:
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k {$toFileLocationEscaped}";
                 break;
             case 1:
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
                 break;
             case 2:
-                $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -threads {$threads} -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
                 break;
             case 3:
-                $command = get_ffmpeg() . " -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -threads {$threads} -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
                 break;
             default:
                 return false;
@@ -448,7 +465,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     _mysql_close();
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
 
-    if(isCommandLineInterface()){
+    if (isCommandLineInterface()) {
         echo "convertVideoFileWithFFMPEG {$command} ";
     }
     exec($command, $output, $return);
@@ -467,7 +484,6 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
 
     return ['return' => $return, 'output' => $output, 'command' => $command, 'fromFileLocation' => $fromFileLocation, 'toFileLocation' => $toFileLocation, 'progressFile' => $progressFile];
 }
-
 
 
 function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, $outputFile, $aspectRatio)
