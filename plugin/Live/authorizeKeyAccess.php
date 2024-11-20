@@ -97,8 +97,9 @@ if ($isCached) {
             $authorized = true;
         }
         if (!$authorized) {
+            global $verifyTokenReturnFalseReason;
             http_response_code(403);
-            $msg = 'authorizeKeyAccess: Access denied ';
+            $msg = 'authorizeKeyAccess: Access denied ['.$verifyTokenReturnFalseReason.'] ';
             error_log($msg . json_encode(array($_SERVER, $matches)));
             echo $msg;
         } else {
