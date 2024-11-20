@@ -12,11 +12,6 @@ $htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getP
                        id="mainVideo">
                     <source src="' . Live::getM3U8File($uuid) . '" type="application/x-mpegURL">
                 </video>';
-if(!empty($_REQUEST['debugLive'])){
-    $uuid = LiveTransmition::keyNameFix($livet['key']);
-    var_dump(__LINE__, $uuid, $livet['key'], $_REQUEST['live_index'], $_GET, $_REQUEST['live_index_changed']);
-    exit;
-}
 
 $htmlMediaTag .= getLiveUsersLabelHTML();
 echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
