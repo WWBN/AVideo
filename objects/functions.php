@@ -332,7 +332,14 @@ function safeString($text, $strict = false, $try = 0)
     $text = trim($text);
 
     if (empty($try) && empty($text) && function_exists('mb_convert_encoding')) {
-        $originalText = preg_replace('/[^\PC\s]/u', '', $originalText);
+        $originalText2 = preg_replace('/[^\PC\s]/u', '', $originalText);
+        if(empty($originalText2)){
+            $originalText2 = mb_convert_encoding($originalText, 'UTF-8', 'auto');
+            $originalText2 = preg_replace('/[^\PC\s]/u', '', $originalText2);
+        }        
+        if(!empty($originalText2)){
+            $originalText = $originalText2;
+        }
         // Remove leading and trailing whitespace
         $originalText = trim($originalText);
         return safeString(mb_convert_encoding($originalText, 'UTF-8'), $strict, 1);

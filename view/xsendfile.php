@@ -89,10 +89,22 @@ if (file_exists($path)) {
             forbiddenPage("Can't download this");
         }
         if (!empty($_GET['title'])) {
-            $quoted = safeString($_GET['title'], true).".{$path_parts['extension']}";
+            $quoted = safeString($_GET['title'], true);
         } else {
-            $quoted = safeString(basename($_GET['file']), true).".{$path_parts['extension']}";
+            $quoted = safeString(basename($_GET['file']), true);
         }
+
+        $quoted = preg_replace('/[^a-z0-9_.-]/i', '', $quoted);
+
+        if(empty($quoted)){
+            $quoted = 'undefinedName';
+        }
+
+        if(!preg_match('/\.'.$path_parts['extension'].'$/i', $quoted)){
+            $quoted = "{$quoted}.{$path_parts['extension']}";
+        }
+        
+        //var_dump(__LINE__, $quoted, $path_parts);exit;
         //header('Content-Type: application/json');var_dump($quoted);exit;
         header('Content-Description: File Transfer');
         header('Content-Disposition: attachment; filename=' . $quoted);
