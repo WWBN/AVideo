@@ -46,7 +46,7 @@ if (!empty($advancedCustomUser->emailMustBeUnique)) {
                 $msg = "$msg users_id={$userFromEmail['users_id']} user={$userFromEmail['user']} name={$userFromEmail['name']} email={$userFromEmail['email']}";
             }
 
-            forbiddenPage('Email Must be unique');
+            forbiddenPage($msg);
         }
     }
 }
