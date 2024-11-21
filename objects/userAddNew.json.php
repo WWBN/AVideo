@@ -38,7 +38,14 @@ if (empty($_POST['id'])) {
 
 if (!empty($advancedCustomUser->emailMustBeUnique)) {
     if (!empty($_POST['email'])) {
-    if(!User::isEmailUniqeOrFromUser($_POST['email'], @$_POST['id'])){
+        if(!User::isEmailUniqeOrFromUser($_POST['email'], @$_POST['id'])){
+            $msg = 'Email Must be unique';
+
+            if(User::isAdmin()){
+                $userFromEmail = User::getUserFromEmail($email);
+                $msg = "$msg users_id={$userFromEmail['users_id']} user={$userFromEmail['user']} name={$userFromEmail['name']} email={$userFromEmail['email']}";
+            }
+
             forbiddenPage('Email Must be unique');
         }
     }
