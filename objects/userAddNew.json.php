@@ -42,8 +42,8 @@ if (!empty($advancedCustomUser->emailMustBeUnique)) {
             $msg = 'Email Must be unique';
 
             if(User::isAdmin()){
-                $userFromEmail = User::getUserFromEmail($email);
-                $msg = "$msg users_id={$userFromEmail['users_id']} user={$userFromEmail['user']} name={$userFromEmail['name']} email={$userFromEmail['email']}";
+                global $isEmailUniqeOrFromUserReason;
+                $msg = "$msg $isEmailUniqeOrFromUserReason";
             }
 
             forbiddenPage($msg);

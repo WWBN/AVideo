@@ -1968,16 +1968,34 @@ if (typeof gtag !== \"function\") {
 
     static function isEmailUniqeOrFromUser($email, $users_id)
     {
-
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        global $isEmailUniqeOrFromUserReason;
+    
+        if (empty($email)) {
+            $isEmailUniqeOrFromUserReason = "FALSE: empty email address.";
             return false;
         }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $isEmailUniqeOrFromUserReason = "FALSE: Invalid email address. {$email}";
+            return false;
+        }
+    
         $userFromEmail = User::getUserFromEmail($email);
+    
         if (empty($userFromEmail)) {
+            $isEmailUniqeOrFromUserReason = "TRUE: Email is unique and not associated with any user.";
             return true;
         }
-        return $userFromEmail['id'] == $users_id;
+    
+        if ($userFromEmail['id'] == $users_id) {
+            $isEmailUniqeOrFromUserReason = "TRUE: Email belongs to the same user (ID: {$users_id}).";
+            return true;
+        }
+    
+        $isEmailUniqeOrFromUserReason = "FALSE: Email is already associated with a different user (ID: {$userFromEmail['id']}).";
+        return false;
     }
+    
 
     public function setEmail($email)
     {
