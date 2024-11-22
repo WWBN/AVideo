@@ -86,20 +86,23 @@ $current_day = date('j'); // Get the current day of the month (1-31)
 
 // Block to execute every hour
 if ($current_minute == '00') {
-    //echo ("Scheduler executeEveryHour".PHP_EOL); 
+    echo ("Scheduler executeEveryHour".PHP_EOL); 
     AVideoPlugin::executeEveryHour();
+    echo ("Scheduler executeEveryHour done".PHP_EOL); 
 }
 
 // Block to execute every day (at midnight)
 if ($current_hour == '0' && $current_minute == '00') {
-    //echo ("Scheduler executeEveryDay".PHP_EOL); 
+    echo ("Scheduler executeEveryDay".PHP_EOL); 
     AVideoPlugin::executeEveryDay();
+    echo ("Scheduler executeEveryDay done".PHP_EOL); 
 }
 
 // Block to execute every month (at midnight)
 if ($current_day == '1' && $current_hour == '0' && $current_minute == '00') {
-    //echo ("Scheduler executeEveryMonth".PHP_EOL); 
+    echo ("Scheduler executeEveryMonth".PHP_EOL); 
     AVideoPlugin::executeEveryMonth();
+    echo ("Scheduler executeEveryMonth done".PHP_EOL); 
 }
 if (!isCommandLineInterface()) {
     echo '</pre>';
