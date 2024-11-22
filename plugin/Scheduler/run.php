@@ -72,12 +72,17 @@ function _log($msg)
     _error_log("Scheduler::run {$msg}");
 }
 
+echo ("Scheduler watchDog".PHP_EOL); 
 include $global['systemRootPath'] . 'plugin/Scheduler/watchDog.php';
+echo ("Scheduler watchDog done".PHP_EOL); 
 
+echo ("Scheduler sendEmails".PHP_EOL); 
 Scheduler::sendEmails();
+echo ("Scheduler sendEmails done".PHP_EOL); 
 
-//echo ("Scheduler executeEveryMinute".PHP_EOL); 
+echo ("Scheduler executeEveryMinute".PHP_EOL); 
 AVideoPlugin::executeEveryMinute();
+echo ("Scheduler executeEveryMinute done".PHP_EOL); 
 
 // This script runs every minute
 $current_minute = date('i'); // Get the current minute (00-59)
