@@ -88,7 +88,7 @@ foreach ($logFiles as $logFile) {
     // Loop through the last N lines of the log file
     foreach ($logContent as $key => $line) {
         $line = str_replace(array("\r", "\n"), '', $line);
-
+            
         // Check if the line contains "Exiting normally" or "Conversion failed"
         if (strpos($line, 'Exiting normally') !== false || strpos($line, 'Conversion failed') !== false) {
             echo "Skipping ERROR log file $logFile due to message: $line (last modified on $lastModifiedFormatted).\n";
@@ -100,6 +100,7 @@ foreach ($logFiles as $logFile) {
             echo "Skipping SUCCESS log file $logFile due to message: $line (last modified on $lastModifiedFormatted).\n";
             continue 2; // Skip to the next log file
         }
+        echo "kill_ffmpeg_restream.php log file $logFile.\n";
 
         // Check if the line contains 'Opening'
         if (preg_match("/Opening '(.*)' for reading/", $line, $matches)) {
@@ -141,7 +142,7 @@ foreach ($logFiles as $logFile) {
                 preg_match('/^\s*(\d+)/', $processLine, $pidMatch);
                 if (isset($pidMatch[1])) {
                     $pid = $pidMatch[1];
-
+                    echo "Killed FFmpeg process with PID: $pid for URL: $lastUrlOpened".PHP_EOL;
                     // Kill the process
                     shell_exec("kill -9 $pid");
                     echo "Killed FFmpeg process with PID: $pid for URL: $lastUrlOpened (log file last modified on $lastModifiedFormatted).\n";
