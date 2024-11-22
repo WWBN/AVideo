@@ -62,11 +62,11 @@ foreach ($logFiles as $logFile) {
     // Get the last modified time of the log file
     $lastModified = filemtime($logFile);
 
-    if ($fileSize > $maxSize) {
-        echo "kill_ffmpeg_restream.php The file too large logFiles $logFile ".filesize($logFile).PHP_EOL;
+    if ($filesize > $maxSize) {
+        echo "kill_ffmpeg_restream.php The file too large logFiles $logFile {$filesize}".PHP_EOL;
         continue;
     }else{
-        echo "kill_ffmpeg_restream.php logFiles $logFile ".filesize($logFile).PHP_EOL;
+        echo "kill_ffmpeg_restream.php logFiles $logFile {$filesize}".PHP_EOL;
     }
     $lastModifiedFormatted = formatLastModifiedTime($lastModified);
 
