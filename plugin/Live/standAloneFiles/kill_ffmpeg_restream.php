@@ -56,11 +56,18 @@ $logFiles = glob($logDir . 'ffmpeg_restreamer_*.log');
 // Get the current time
 $currentTime = time();
 echo "kill_ffmpeg_restream.php logFiles start.\n";
+$maxSize = 4 * 1024 * 1024; // 4 MB in bytes
 foreach ($logFiles as $logFile) {
-
-    echo "kill_ffmpeg_restream.php logFiles $logFile.\n";
+    $filesize = filesize($logFile);
     // Get the last modified time of the log file
     $lastModified = filemtime($logFile);
+
+    if ($fileSize > $maxSize) {
+        echo "kill_ffmpeg_restream.php The file too large logFiles $logFile ".filesize($logFile).PHP_EOL;
+        continue;
+    }else{
+        echo "kill_ffmpeg_restream.php logFiles $logFile ".filesize($logFile).PHP_EOL;
+    }
     $lastModifiedFormatted = formatLastModifiedTime($lastModified);
 
     // Check if the log file has not been modified for more than 30 days and delete it if true
