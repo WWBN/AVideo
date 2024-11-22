@@ -557,13 +557,21 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
     error_log("Restreamer.json.php startRestream _isURL200 tries= " . json_encode($tries));
 
+    // Check FFmpeg version
+    $ffmpegVersionOutput = [];
+    exec("$ffmpegBinary -version", $ffmpegVersionOutput);
+    preg_match('/ffmpeg version ([0-9]+)\./', $ffmpegVersionOutput[0] ?? '', $matches);
+    $ffmpegMajorVersion = isset($matches[1]) ? (int)$matches[1] : 0;
+
+    // Disable reconnect_on_network_error for FFmpeg versions below 6
+    $disableReconnectOnNetworkError = ($ffmpegMajorVersion < 6);
+
     $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" -preset veryfast ";
 
     $FFMPEGComplement = " -max_muxing_queue_size 2048 " // Increased the muxing queue size for stability
         . '{audioConfig}'
         . "-c:v libx264 "
         . "-pix_fmt yuv420p "
-        //. "-vf \"scale=-2:720,format=yuv420p\" "
         . "-r 30 -g 60 "
         . "-tune zerolatency "
         . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms
@@ -577,15 +585,13 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . "-reconnect_at_eof 1 " // Stop reconnecting at the end of file/input data
         . "-reconnect_streamed 1 " // Disable reconnect for non-seekable streams
         . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
-        . "-reconnect_on_network_error 1 " // Retry on network errors
+        . ($disableReconnectOnNetworkError ? "" : "-reconnect_on_network_error 1 ") // Retry on network errors only if supported
         . "-probesize 50M " // Increased probing size to handle larger HLS segments
         . "-analyzeduration 200M " // Increase analysis duration to handle network issues
         . "-rtmp_buffer 20000 " // Increased RTMP buffer size for smoother streaming
         . "-rtmp_live live " // Ensure RTMP live streaming mode
         . "{tls_verify} " // Disable SSL/TLS certificate validation (optional, based on your trust in the source)
         . "\"{restreamsDestinations}\"";
-
-
 
     if (count($restreamsDestinations) > 1) {
         $command = $FFMPEGcommand;
@@ -618,7 +624,6 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     notifyStreamer($robj);
     return true;
 }
-
 
 function getAudioConfiguration($source)
 {
