@@ -1564,7 +1564,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $cacheHandler->setCache($xml);
         
         if (!empty($force_recreate) || !empty($_REQUEST['debug'])) {
-            _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated done");
+            _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated done ".json_encode(debug_backtrace()));
         }
         //var_dump(__LINE__, $xml);
         $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
