@@ -55,9 +55,10 @@ $logFiles = glob($logDir . 'ffmpeg_restreamer_*.log');
 
 // Get the current time
 $currentTime = time();
-
+echo "kill_ffmpeg_restream.php logFiles start.\n";
 foreach ($logFiles as $logFile) {
 
+    echo "kill_ffmpeg_restream.php logFiles $logFile.\n";
     // Get the last modified time of the log file
     $lastModified = filemtime($logFile);
     $lastModifiedFormatted = formatLastModifiedTime($lastModified);
@@ -152,4 +153,5 @@ foreach ($logFiles as $logFile) {
     }
 }
 
+echo "kill_ffmpeg_restream.php logFiles done.\n";
 ?>
