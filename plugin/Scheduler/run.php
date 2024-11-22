@@ -14,6 +14,7 @@ if (!AVideoPlugin::isEnabledByName('Scheduler')) {
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+ob_end_flush();
 
 $rowActive = Scheduler_commands::getAllActiveOrToRepeat();
 if(empty($rowActive)){
