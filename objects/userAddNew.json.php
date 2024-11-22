@@ -27,7 +27,11 @@ if(!isTokenValid($_REQUEST['securityToken'])){
 
 _session_write_close();
 if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
-    $_POST['email'] = $_POST['user'];
+    if (filter_var($_POST['user'], FILTER_VALIDATE_EMAIL)) {
+        $_POST['email'] = $_POST['user'];
+    }else if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+        $_POST['user'] = $_POST['email'];
+    }
 }
 
 if (empty($_POST['id'])) {
