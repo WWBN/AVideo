@@ -85,6 +85,7 @@ foreach ($logFiles as $logFile) {
     $lastUrlOpened = '';
     $foundTsFile = false;
 
+    echo "kill_ffmpeg_restream.php start.\n";
     // Loop through the last N lines of the log file
     foreach ($logContent as $key => $line) {
         $line = str_replace(array("\r", "\n"), '', $line);
@@ -100,7 +101,6 @@ foreach ($logFiles as $logFile) {
             echo "Skipping SUCCESS log file $logFile due to message: $line (last modified on $lastModifiedFormatted).\n";
             continue 2; // Skip to the next log file
         }
-        echo "kill_ffmpeg_restream.php log file $logFile.\n";
 
         // Check if the line contains 'Opening'
         if (preg_match("/Opening '(.*)' for reading/", $line, $matches)) {
@@ -122,7 +122,7 @@ foreach ($logFiles as $logFile) {
             }
         }
     }
-
+    echo "kill_ffmpeg_restream.php done.\n";
     // If any .ts file is found, do not kill the process
     if ($foundTsFile) {
         echo "Found .ts file in log, process will not be killed for log file: $logFile (last modified on $lastModifiedFormatted).\n";
