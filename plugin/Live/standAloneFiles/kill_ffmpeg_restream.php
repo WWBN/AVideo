@@ -50,6 +50,27 @@ function formatLastModifiedTime($timestamp) {
     return date('Y-m-d H:i:s', $timestamp);
 }
 
+function _humanFileSize($size, $unit = "") {
+    if ((!$unit && $size >= 1 << 40) || $unit == "TB") {
+        return number_format($size / (1 << 40), 2) . "TB";
+    }
+
+    if ((!$unit && $size >= 1 << 30) || $unit == "GB") {
+        return number_format($size / (1 << 30), 2) . "GB";
+    }
+
+    if ((!$unit && $size >= 1 << 20) || $unit == "MB") {
+        return number_format($size / (1 << 20), 2) . "MB";
+    }
+
+    if ((!$unit && $size >= 1 << 10) || $unit == "KB") {
+        return number_format($size / (1 << 10), 2) . "KB";
+    }
+
+    return number_format($size) . " bytes";
+}
+
+
 // Get all log files for FFmpeg restreamers
 $logFiles = glob($logDir . 'ffmpeg_restreamer_*.log');
 
@@ -63,10 +84,10 @@ foreach ($logFiles as $logFile) {
     $lastModified = filemtime($logFile);
 
     if ($filesize > $maxSize) {
-        echo "kill_ffmpeg_restream.php The file too large logFiles $logFile {$filesize}".PHP_EOL;
+        echo "kill_ffmpeg_restream.php The file too large logFiles $logFile "._humanFileSize($filesize).PHP_EOL;
         continue;
     }else{
-        echo "kill_ffmpeg_restream.php logFiles $logFile {$filesize}".PHP_EOL;
+        echo "kill_ffmpeg_restream.php logFiles $logFile "._humanFileSize($filesize).PHP_EOL;
     }
     $lastModifiedFormatted = formatLastModifiedTime($lastModified);
 
