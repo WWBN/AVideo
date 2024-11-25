@@ -95,9 +95,9 @@ if ($isCached) {
     $doNotConnectDatabaseIncludeConfig = 1;
     $doNotStartSessionIncludeConfig = 1;
     require_once dirname(__FILE__) . '/../../videos/configuration.php';
-    AVideoPlugin::loadPluginIfEnabled('VideoHLS');
+    $obj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
     if (class_exists('VideoHLS')) {
-        if ($_SERVER['HTTP_USER_AGENT'] === 'AVideoRestreamer' || VideoHLS::verifyToken($token)) {
+        if ($_SERVER['HTTP_USER_AGENT'] === 'AVideoRestreamer' || empty($obj->downloadProtection) && VideoHLS::verifyToken($token)) {
             $authorized = true;
         }
         if (!$authorized) {
