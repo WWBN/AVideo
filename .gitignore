@@ -108,4 +108,4 @@ test*
 CreatePlugin/plugins/
 vendor/james-heinrich/getid3/demos/
 AVideoStorage/
-plugin/HLSOverlay/
+plugin/VideoHLSOverlay/
