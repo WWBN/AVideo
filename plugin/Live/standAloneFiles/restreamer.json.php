@@ -566,7 +566,17 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     // Disable reconnect_on_network_error for FFmpeg versions below 6
     $disableReconnectOnNetworkError = ($ffmpegMajorVersion < 6);
 
-    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y -i \"{$m3u8}\" -preset veryfast ";
+    $userAgent = 'AVideoRestreamer';
+
+    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y";
+
+    // Check if $m3u8 is a URL
+    if (filter_var($m3u8, FILTER_VALIDATE_URL)) {
+        $FFMPEGcommand .= " -user_agent \"{$userAgent}\"";
+    }
+
+    // Add the input and preset options
+    $FFMPEGcommand .= " -i \"{$m3u8}\" -preset veryfast";
 
     $FFMPEGComplement = " -max_muxing_queue_size 2048 " // Increased the muxing queue size for stability
         . '{audioConfig}'

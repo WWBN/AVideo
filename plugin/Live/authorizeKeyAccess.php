@@ -54,8 +54,12 @@ $token = '';
 if (preg_match($pattern, $uri, $matches)) {
     // $matches[1] contains the key
     $liveKey = $matches[1];
-    // $matches[2] contains the token
-    $token = str_replace('?token=', '', $matches[2]);
+    if(!empty($matches[2])){
+        // $matches[2] contains the token
+        $token = str_replace('?token=', '', $matches[2]);
+    }else{
+        error_log("Token not found ".json_encode(array($uri, $_SERVER)));
+    }
 }
 $isCached = false;
 if (!empty($liveKey)) {
@@ -93,7 +97,7 @@ if ($isCached) {
     require_once dirname(__FILE__) . '/../../videos/configuration.php';
     AVideoPlugin::loadPluginIfEnabled('VideoHLS');
     if (class_exists('VideoHLS')) {
-        if (VideoHLS::verifyToken($token)) {
+        if ($_SERVER['HTTP_USER_AGENT'] === 'AVideoRestreamer' || VideoHLS::verifyToken($token)) {
             $authorized = true;
         }
         if (!$authorized) {
