@@ -1491,6 +1491,7 @@ if (!class_exists('Video')) {
             sqlDAL::close($res);
             if ($res !== false) {
                 require_once $global['systemRootPath'] . 'objects/userGroups.php';
+                
                 if (!empty($video)) {
                     $video = self::getInfo($video);
                 }
@@ -6680,7 +6681,6 @@ if (!class_exists('Video')) {
             if (empty($videos_id)) {
                 return '';
             }
-
             // Get video data
             if (is_array($videos_id)) {
                 $video = $videos_id;

@@ -2121,3 +2121,7 @@ body.ypt-is-compressed #videoCol {
     border: 2px dashed red;
     padding: 10px;
 }
+
+.galleryVideoButtons div.dropdown.text-center.open > ul button{
+    width: 100%;
+}
