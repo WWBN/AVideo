@@ -51,10 +51,14 @@ function matchWithRequest($row)
 }
 
 $liveFound = false;
+$isEnabledPayPerViewLive = AVideoPlugin::isEnabledByName("PayPerViewLive");
 if (AVideoPlugin::isEnabledByName('PlayLists')) {
     // try to get a live that is not a scheduled playlist
     $lives = LiveTransmitionHistory::getActiveLives('', false);
     foreach ($lives as $key => $value) {
+        if ($isEnabledPayPerViewLive && !PayPerViewLive::canUserWatchNow(User::getId(), $value['users_id'])) {
+            continue;
+        }
         if (!Playlists_schedules::iskeyPlayListScheduled($value['key'])) {
             if (matchWithRequest($value)) {
                 $liveVideo = $value;
@@ -65,8 +69,18 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
     }
 }
 if (!$liveFound) {
-    $liveVideo = Live::getLatest(true, $users_id, $categories_id);
+    //$liveVideo = Live::getLatest(true, $users_id, $categories_id);
+
+    $activeLives = LiveTransmitionHistory::getActiveLives();
+    foreach ($activeLives as $key => $value) {
+        if ($isEnabledPayPerViewLive && !PayPerViewLive::canUserWatchNow(User::getId(), $value['users_id'])) {
+            continue;
+        }
+        $liveVideo = $value;
+        break;
+    }
 }
+//var_dump($liveFound, $liveVideo);exit;
 if (!empty($liveVideo)) {
     setLiveKey($liveVideo['key'], $liveVideo['live_servers_id'], $liveVideo['live_index']);
     $poster = getURL(Live::getPosterImage($liveVideo['users_id'], $liveVideo['live_servers_id']));

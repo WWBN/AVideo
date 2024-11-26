@@ -103,8 +103,9 @@ class CDN extends PluginAbstract
         $obj = $this->getDataObject();
 
         $url = "https://youphp.tube/marketplace/CDN/iframe.php?hash={hash}";
-
-        $url = addQueryStringParameter($url, 'hash', $obj->key);
+        if (empty($global['disableAdvancedConfigurations'])) {
+            $url = addQueryStringParameter($url, 'hash', $obj->key);
+        }
         $url = addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
 
         $cdnMenu = str_replace('{url}', $url, $content);
