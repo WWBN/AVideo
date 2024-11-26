@@ -89,7 +89,7 @@ if (!empty($tmpFilePath) && file_exists($tmpFilePath)) {
 
 if ($isCached) {
     $msg = 'authorizeKeyAccess: cached Authorized key=' . $liveKey;
-    error_log($msg);
+    //error_log($msg);
     echo $msg;
 } else {
     $doNotConnectDatabaseIncludeConfig = 1;
