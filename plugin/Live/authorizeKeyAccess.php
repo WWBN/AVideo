@@ -97,14 +97,16 @@ if ($isCached) {
     require_once dirname(__FILE__) . '/../../videos/configuration.php';
     $obj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
     if (class_exists('VideoHLS')) {
-        if ($_SERVER['HTTP_USER_AGENT'] === 'AVideoRestreamer' || empty($obj->downloadProtection) || VideoHLS::verifyToken($token)) {
+        if (empty($_SERVER['HTTP_REFERER']) || !isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {       
+            $authorized = false;
+        }else if ($_SERVER['HTTP_USER_AGENT'] === 'AVideoRestreamer' || empty($obj->downloadProtection) || VideoHLS::verifyToken($token)) {
             $authorized = true;
         }
         if (!$authorized) {
             global $verifyTokenReturnFalseReason;
             http_response_code(403);
             $msg = 'authorizeKeyAccess: Access denied ['.$verifyTokenReturnFalseReason.'] '.getRealIpAddr();
-            error_log($msg);
+            error_log($msg.' '.@$_SERVER['HTTP_REFERER']);
             echo $msg;
         } else {
             if (!empty($tmpFilePath)) {
