@@ -113,7 +113,7 @@ if ($isCached) {
                 $bytes = file_put_contents($tmpFilePath, time());
             }
             $msg = 'authorizeKeyAccess: Authorized key=' . $liveKey . ' uri=' . $uri;
-            error_log($msg);
+            error_log($msg.' '.@$_SERVER['HTTP_REFERER']);
             echo $msg;
         }
     } else {
