@@ -8,7 +8,7 @@ $maxLen = empty($advancedCustom->commentsMaxLength) ? 200 : $advancedCustom->com
 
 $disabled = '';
 $content = '';
-$commentButtonText = '<i class="fas fa-comment fa-2x"></i> <span class="hidden-md hidden-sm hidden-xs " ><br>' . __("Comment") . '</span>';
+$commentButtonText = '<i class="fas fa-comment fa-2x"></i><span class="hidden-md hidden-sm hidden-xs " ><br>' . __("Comment") . '</span>';
 $button  = '<button class="btn btn-success " id="saveCommentBtn" style="height: 72px;" onclick="saveComment();">' . $commentButtonText . '</button>';
 $button .= '<input type="file" id="commentImageInput" accept="image/jpeg, image/png, image/gif" style="display: none;">';
 $button .= '<button class="btn btn-primary" id="uploadImageBtn" style="height: 72px;"><i class="fas fa-image fa-2x"></i></button>';
@@ -38,13 +38,13 @@ if (!User::canComment()) {
         $users_autocomplete = Layout::getUserAutocomplete(0, 'comment_users_id');
     }
     ?>
-    <div class="col-xs-10 col-lg-8" style="padding-right: 1px;">
+    <div class="col-xs-8" style="padding-right: 1px;">
         <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment"
             <?php echo $disabled; ?>><?php
                                         echo $content;
                                         ?></textarea>
     </div>
-    <div class="col-xs-2 col-lg-4" style="padding-left: 1px;">
+    <div class="col-xs-4" style="padding-left: 1px;">
         <div class="btn-group btn-group-justified" role="group">
             <?php echo $button; ?>
         </div>
