@@ -10,6 +10,10 @@ if (!empty($_GET['lang'])) {
 includeLangFile();
 
 function includeLangFile() {
+    global $isStandAlone;
+    if(!empty($isStandAlone)){
+        return false;
+    }
     global $t, $global;
     if(empty($_SESSION) && function_exists('_session_start')){
         _session_start();

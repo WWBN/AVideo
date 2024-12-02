@@ -18,7 +18,6 @@ require_once __DIR__ . '/functions.php';
  * make
  * make install
  */
-$streamerURL = "https://demo.avideo.com/"; // change it to your streamer URL
 // optional you can change the log file location here
 $logFileLocation = '/var/www/tmp/';
 
@@ -66,7 +65,14 @@ if (file_exists($configFile)) {
     include_once $configFile;
     $streamerURL = $global['webSiteRootURL'];
     error_log("Restreamer.json.php is using local configuration");
+} else {
+    require_once __DIR__ . "/../../../objects/functionsStandAlone.php";
 }
+
+if (empty($streamerURL)) {
+    die('streamerURL not defined');
+}
+
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
 if (!empty($_REQUEST['tokenForAction'])) {
@@ -190,8 +196,10 @@ if (!$isCommandLine) { // not command line
     if (empty($robj)) {
         $request = file_get_contents("php://input");
         error_log("Restreamer.json.php php://input {$request}");
-        $robj = json_decode($request);
-        $robj->type = 'decoded from request';
+        if (!empty($request)) {
+            $robj = json_decode($request);
+            $robj->type = 'decoded from request';
+        }
     }
     if (!empty($robj)) {
         if (!empty($robj->test)) {
@@ -262,10 +270,21 @@ if (empty($robj)) {
     $robj = new stdClass();
     $robj->type = 'empty';
     $robj->token = '';
-    $robj->m3u8 = $argv[1];
-    $robj->restreamsDestinations = [$argv[2]];
-    $robj->users_id = 'commandline';
-    $robj->logFile = @$argv[3];
+
+    // Check if running from the command line
+    if (php_sapi_name() === 'cli') {
+        $robj->m3u8 = @$argv[1];
+        $robj->restreamsDestinations = [@$argv[2]];
+        $robj->users_id = 'commandline';
+        $robj->logFile = @$argv[3];
+    } else {
+        // Fallback to URL parameters
+        $robj->m3u8 = isset($_REQUEST['m3u8']) ? $_REQUEST['m3u8'] : '';
+        $robj->restreamsDestinations = isset($_REQUEST['destinations']) ? explode(',', $_REQUEST['destinations']) : [];
+        $robj->users_id = isset($_REQUEST['user_id']) ? $_REQUEST['user_id'] : 'web';
+        $robj->logFile = isset($_REQUEST['logFile']) ? $_REQUEST['logFile'] : '';
+    }
+
     $robj->responseToken = '';
 }
 

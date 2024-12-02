@@ -127,7 +127,7 @@ function _mysql_connect($persistent = false, $try = 0)
 
     foreach ($checkValues as $value) {
         if (!isset($$value)) {
-            _error_log("_mysql_connect Variable NOT set $value");
+            _error_log("_mysql_connect Variable NOT set $value ".json_encode(debug_backtrace()));
         }
     }
 

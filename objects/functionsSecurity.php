@@ -414,6 +414,10 @@ function isForbidden()
 }
 
 function includeSecurityChecks() {
+    global $isStandAlone;
+    if(!empty($isStandAlone)){
+        return false;
+    }
     $directory = __DIR__.'/../plugin/';
     // Ensure the directory exists
     if (!is_dir($directory)) {
