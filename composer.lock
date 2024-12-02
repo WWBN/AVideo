@@ -282,16 +282,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.330.0",
+            "version": "3.332.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "dd1b65a4329f91d5e282a92fab2be7bdf6e2adea"
+                "reference": "3b4972a465b66fe3da461a3febdcc363954a0969"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/dd1b65a4329f91d5e282a92fab2be7bdf6e2adea",
-                "reference": "dd1b65a4329f91d5e282a92fab2be7bdf6e2adea",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3b4972a465b66fe3da461a3febdcc363954a0969",
+                "reference": "3b4972a465b66fe3da461a3febdcc363954a0969",
                 "shasum": ""
             },
             "require": {
@@ -320,7 +320,7 @@
                 "nette/neon": "^2.3",
                 "paragonie/random_compat": ">= 2",
                 "phpunit/phpunit": "^5.6.3 || ^8.5 || ^9.5",
-                "psr/cache": "^1.0",
+                "psr/cache": "^1.0 || ^2.0 || ^3.0",
                 "psr/simple-cache": "^1.0 || ^2.0 || ^3.0",
                 "sebastian/comparator": "^1.2.3 || ^4.0",
                 "yoast/phpunit-polyfills": "^1.0"
@@ -374,9 +374,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.330.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.332.0"
             },
-            "time": "2024-11-22T19:10:26+00:00"
+            "time": "2024-12-02T03:48:16+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -1464,16 +1464,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.383.0",
+            "version": "v0.384.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "0da092376837d363ef0cfa5ef56e43308f7c3763"
+                "reference": "fcb190bb02cea2c939e67867bf9122fd8d02c351"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/0da092376837d363ef0cfa5ef56e43308f7c3763",
-                "reference": "0da092376837d363ef0cfa5ef56e43308f7c3763",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/fcb190bb02cea2c939e67867bf9122fd8d02c351",
+                "reference": "fcb190bb02cea2c939e67867bf9122fd8d02c351",
                 "shasum": ""
             },
             "require": {
@@ -1502,9 +1502,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.383.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.384.0"
             },
-            "time": "2024-11-20T01:10:23+00:00"
+            "time": "2024-11-27T01:08:46+00:00"
         },
         {
             "name": "google/auth",
@@ -4673,16 +4673,16 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v2.5.3",
+            "version": "v2.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "80d075412b557d41002320b96a096ca65aa2c98d"
+                "reference": "605389f2a7e5625f273b53960dc46aeaf9c62918"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/80d075412b557d41002320b96a096ca65aa2c98d",
-                "reference": "80d075412b557d41002320b96a096ca65aa2c98d",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/605389f2a7e5625f273b53960dc46aeaf9c62918",
+                "reference": "605389f2a7e5625f273b53960dc46aeaf9c62918",
                 "shasum": ""
             },
             "require": {
@@ -4720,7 +4720,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.3"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.4"
             },
             "funding": [
                 {
@@ -4736,7 +4736,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-24T14:02:46+00:00"
+            "time": "2024-09-25T14:11:13+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
