@@ -92,6 +92,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
                     $obj->secondsAgo = $resp->secondsAgo;
                     $obj->isActive = $resp->isActive;
                     $obj->remoteLog = true;
+                    $obj->resp = $resp;
                 }else if (!empty($obj->logName)) {
                     $logFile = $logFileLocation . $obj->logName;
                     if (file_exists($logFile)) {
