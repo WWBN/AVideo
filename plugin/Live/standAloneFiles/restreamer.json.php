@@ -81,14 +81,24 @@ if (!empty($_REQUEST['tokenForAction'])) {
         error_log("Restreamer.json.php token verified " . json_encode($json));
         switch ($json->action) {
             case 'log':
+
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
                 $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
-                if (!empty($obj->logName)) {
+
+                $keyword ='restream_'. md5($json->logFile);
+                $resp = getFFMPEGRemoteLog($keyword);
+                if(!empty($resp)){
+                    $obj->modified = $resp->modified;
+                    $obj->secondsAgo = $resp->secondsAgo;
+                    $obj->isActive = $resp->isActive;
+                    $obj->remoteLog = true;
+                }else if (!empty($obj->logName)) {
                     $logFile = $logFileLocation . $obj->logName;
                     if (file_exists($logFile)) {
                         $obj->modified = @filemtime($logFile);
                         $obj->secondsAgo = $obj->time - $obj->modified;
                         $obj->isActive = $obj->secondsAgo < 10;
+                        $obj->remoteLog = false;
                     }
                 }
 

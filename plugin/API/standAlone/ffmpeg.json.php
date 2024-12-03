@@ -198,9 +198,9 @@ $isActive = $secondsAgo < 10;
 
  if (!empty($codeToExec->log)) {
     echo json_encode([
-        'error' => file_exists($logFile),
+        'error' => !file_exists($logFile),
         'msg' => '',
-        'content' => @file_get_contents($logFile),
+        'logFile' => $logFile,
         'time' =>$time,
         'modified' =>$modified,
         'secondsAgo' =>$secondsAgo,
