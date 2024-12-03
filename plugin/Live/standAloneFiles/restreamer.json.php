@@ -58,16 +58,7 @@ $isATest = false;
 
 $logFile = $logFileLocation . "ffmpeg_restreamer_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
 
-$configFile = dirname(__FILE__) . '/../../../videos/configuration.php';
-
-if (file_exists($configFile)) {
-    $doNotIncludeConfig = 1;
-    include_once $configFile;
-    $streamerURL = $global['webSiteRootURL'];
-    error_log("Restreamer.json.php is using local configuration");
-} else {
-    require_once __DIR__ . "/../../../objects/functionsStandAlone.php";
-}
+require_once __DIR__ . "/../../../objects/functionsStandAlone.php";
 
 if (empty($streamerURL)) {
     die('streamerURL not defined');
@@ -644,6 +635,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         _make_path($logFile);
         file_put_contents($logFile, $command . PHP_EOL);
         if (empty($isATest)) {
+            // use remote ffmpeg here
             exec('nohup ' . $command . '  2>> ' . $logFile . ' > /dev/null &');
         }
         error_log("Restreamer.json.php startRestream finish");

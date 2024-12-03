@@ -59,6 +59,7 @@ class API extends PluginAbstract
         global $global;
         $obj = new stdClass();
         $obj->APISecret = md5($global['salt'] . $global['systemRootPath'] . 'API');
+        $obj->standAloneFFMPEG = '';
         return $obj;
     }
 
@@ -2903,6 +2904,22 @@ class API extends PluginAbstract
             }
         }
         return false;
+    }
+
+     /**
+     * @param array $parameters return true if the secret is valid and false if it is not
+     * 'APISecret' mandatory for security reasons - required
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}
+     * @return \ApiObject Returns an ApiObject.
+     */
+    public function get_api_isAPISecretValid($parameters)
+    {
+        global $global;
+        if (!self::isAPISecretValid()) {
+            return new ApiObject("APISecret is invalid");
+        }else{
+            return new ApiObject("APISecret is valid", false);
+        }
     }
 }
 

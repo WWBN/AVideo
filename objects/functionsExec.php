@@ -482,6 +482,23 @@ function execAsync($command, $keyword = null)
     return $pid;
 }
 
+function execFFMPEGAsyncOrRemote($command, $keyword = null)
+{
+    $obj = AVideoPlugin::getDataObjectIfEnabled('API');
+    if(!empty($obj) && !empty($obj->standAloneFFMPEG)){
+        $url = "{$obj->standAloneFFMPEG}";
+        $url = addQueryStringParameter($url, 'APISecret', $obj->APISecret);
+        $url = addQueryStringParameter($url, 'ffmpegCommand', $command);
+        $url = addQueryStringParameter($url, 'keyword', $keyword);
+        _error_log("execFFMPEGAsyncOrRemote: URL $command");
+        _error_log("execFFMPEGAsyncOrRemote: URL $url");
+        return url_get_contents($url);
+    }else{
+        _error_log("execFFMPEGAsyncOrRemote: Async $command");
+        return execAsync($command, $keyword);
+    }
+}
+
 
 // Function to find the process by keyword using the pid file
 function findProcess($keyword)
