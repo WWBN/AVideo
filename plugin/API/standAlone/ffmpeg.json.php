@@ -180,17 +180,7 @@
  if (!empty($keyword)) {
      killProcessFromKeyword($keyword);
  }
- 
- // Validate that ffmpegCommand is not empty after sanitization
- if (empty($ffmpegCommand)) {
-     echo json_encode([
-         'error' => true,
-         'msg' => 'Invalid or empty ffmpeg command',
-         'codeToExec' => $codeToExec,
-     ]);
-     exit;
- }
- 
+
 // Get the system's temporary directory
 $tempDir = "{$global['systemRootPath']}videos/ffmpegLogs/";
 make_path($tempDir);
@@ -201,6 +191,33 @@ $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 // Create a unique log file path
 $logFile = "{$tempDir}ffmpeg_{$keyword}.log";
 
+$time = time();
+$modified = @filemtime($logFile);
+$secondsAgo = $time - $obj->modified;
+$isActive = $secondsAgo < 10;
+
+ if (!empty($codeToExec->log)) {
+    echo json_encode([
+        'error' => file_exists($logFile),
+        'msg' => '',
+        'content' => @file_get_contents($logFile),
+        'time' =>$time,
+        'modified' =>$modified,
+        'secondsAgo' =>$secondsAgo,
+        'isActive' =>$isActive,
+    ]);
+    exit;
+}else 
+ // Validate that ffmpegCommand is not empty after sanitization
+ if (empty($ffmpegCommand)) {
+     echo json_encode([
+         'error' => true,
+         'msg' => 'Invalid or empty ffmpeg command',
+         'codeToExec' => $codeToExec,
+     ]);
+     exit;
+ }
+ 
  
  // Redirect all output to the log file
  $ffmpegCommand .= " > {$logFile} 2>&1";
