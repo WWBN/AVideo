@@ -12,6 +12,11 @@ if (file_exists($configFile)) {
     header("Location: install/index.php");
     exit;
 }
+
+if(!empty($isStandAlone)){
+    die('StandAlone Mode');
+}
+
 //require_once "{$global['systemRootPath']}objects/functions.php";
 
 $paths = getIframePaths();
