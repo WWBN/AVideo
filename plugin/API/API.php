@@ -2907,12 +2907,12 @@ class API extends PluginAbstract
     }
 
      /**
-     * @param array $parameters return true if the secret is valid and false if it is not
+     * return true if the secret is valid and false if it is not
      * 'APISecret' mandatory for security reasons - required
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}
      * @return \ApiObject Returns an ApiObject.
      */
-    public function get_api_isAPISecretValid($parameters)
+    public function get_api_isAPISecretValid()
     {
         global $global;
         if (!self::isAPISecretValid()) {
@@ -2920,6 +2920,17 @@ class API extends PluginAbstract
         }else{
             return new ApiObject("APISecret is valid", false);
         }
+    }
+
+    /**
+     * decrypt a string
+     * 'string' mandatory 
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&string=stringEncryptedToDecrypt
+     * @return \ApiObject Returns an ApiObject.
+     */
+    public function get_api_decryptString()
+    {
+        return new ApiObject(decryptString($_REQUEST['string']), false);
     }
 }
 

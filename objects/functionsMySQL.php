@@ -121,8 +121,11 @@ function getMySQLDate()
 
 function _mysql_connect($persistent = false, $try = 0)
 {
-    global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed, $mysql_connect_is_persistent;
-
+    global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed, $mysql_connect_is_persistent, $isStandAlone;
+    if(!empty($isStandAlone)){
+        _error_log('StandAlone Mode');
+        return false;
+    }
     $checkValues = ['mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase'];
 
     foreach ($checkValues as $value) {

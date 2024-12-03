@@ -487,9 +487,14 @@ function execFFMPEGAsyncOrRemote($command, $keyword = null)
     $obj = AVideoPlugin::getDataObjectIfEnabled('API');
     if(!empty($obj) && !empty($obj->standAloneFFMPEG)){
         $url = "{$obj->standAloneFFMPEG}";
+
+        $codeToExec = array('ffmpegCommand'=>$command, 'keyword'=>$keyword, 'time'=>time());
+
+        $codeToExecEncrypted = encryptString(json_encode($codeToExec));
+
         $url = addQueryStringParameter($url, 'APISecret', $obj->APISecret);
-        $url = addQueryStringParameter($url, 'ffmpegCommand', $command);
-        $url = addQueryStringParameter($url, 'keyword', $keyword);
+        $url = addQueryStringParameter($url, 'codeToExecEncrypted', $codeToExecEncrypted);
+        //var_dump($url);
         _error_log("execFFMPEGAsyncOrRemote: URL $command");
         _error_log("execFFMPEGAsyncOrRemote: URL $url");
         return url_get_contents($url);

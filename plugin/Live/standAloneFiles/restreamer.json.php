@@ -636,7 +636,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         file_put_contents($logFile, $command . PHP_EOL);
         if (empty($isATest)) {
             // use remote ffmpeg here
-            exec('nohup ' . $command . '  2>> ' . $logFile . ' > /dev/null &');
+            execFFMPEGAsyncOrRemote($command . ' > ' . $logFile);
         }
         error_log("Restreamer.json.php startRestream finish");
     }
