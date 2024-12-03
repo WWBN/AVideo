@@ -30,7 +30,6 @@ function loadStandaloneConfiguration()
     if (file_exists($configFile)) {
         require_once $configFile;
         $streamerURL = $global['webSiteRootURL'];
-        error_log("Rebroadcaster.json.php is using local configuration");
         if($isStandAlone){
             if (!isAPIKeyValid()) {
                 die('Invalid API Key');
