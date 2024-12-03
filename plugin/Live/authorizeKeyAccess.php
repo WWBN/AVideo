@@ -97,7 +97,7 @@ if ($isCached) {
     require_once dirname(__FILE__) . '/../../videos/configuration.php';
     $obj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
     if (class_exists('VideoHLS')) {
-        if (empty($_SERVER['HTTP_REFERER']) || !isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {  
+        if ($_SERVER['HTTP_USER_AGENT'] !== 'AVideoRestreamer' && (empty($_SERVER['HTTP_REFERER']) || !isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL']))) {  
             error_log("HTTP_REFERER {$_SERVER['HTTP_REFERER']}, {$global['webSiteRootURL']} ".getRealIpAddr().' '.$_SERVER['HTTP_USER_AGENT']);     
             $authorized = false;
         }else if ($_SERVER['HTTP_USER_AGENT'] === 'AVideoRestreamer' || empty($obj->downloadProtection) || VideoHLS::verifyToken($token)) {

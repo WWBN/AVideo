@@ -206,7 +206,7 @@ $logFile = "{$tempDir}ffmpeg_{$keyword}_{$timestamp}.log";
  $ffmpegCommand .= " > {$logFile} 2>&1";
  
  // Debug output (optional)
- error_log("Constructed FFMPEG Command: $ffmpegCommand");
+ error_log("Constructed FFMPEG Command [$keyword]: $ffmpegCommand");
  
  try {
      $pid = execAsync($ffmpegCommand, $keyword);

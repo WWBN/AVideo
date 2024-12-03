@@ -423,6 +423,8 @@ function execAsync($command, $keyword = null)
         $keyword = preg_replace('/[^a-zA-Z0-9_-]/', '_', $keyword);
     }
 
+    $command = addcslashes($command, '"');
+
     if (isWindowsServer()) {
         if ($keyword) {
             // Add the keyword as a comment to the command for Windows
