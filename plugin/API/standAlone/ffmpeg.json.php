@@ -146,6 +146,7 @@
     
     // Remove dangerous characters
     $command = str_replace('&&', '', $command);
+    $command = str_replace('rtmp://live/', 'rtmp://vlu.me/', $command);
     
     // Remove existing log file redirection (e.g., '> /path/to/log 2>&1' or '> /path/to/log')
     $command = preg_replace('/\s*>.*(?:2>&1)?/', '', $command);
