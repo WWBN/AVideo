@@ -635,7 +635,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         _make_path($logFile);
         file_put_contents($logFile, $command . PHP_EOL);
         if (empty($isATest)) {
-            $keyword = md5(json_encode(array($m3u8, $restreamsDestinations)));
+            $keyword = md5($logFile);
             // use remote ffmpeg here
             execFFMPEGAsyncOrRemote($command . ' > ' . $logFile, 'restream_'.$keyword);
         }

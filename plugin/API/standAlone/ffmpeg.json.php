@@ -118,7 +118,7 @@
              return $json2;
          }
      }
-     //return $json2;
+     return $json2;
      return false;
  }
  
@@ -186,6 +186,7 @@
      echo json_encode([
          'error' => true,
          'msg' => 'Invalid or empty ffmpeg command',
+         'codeToExec' => $codeToExec,
      ]);
      exit;
  }
@@ -198,8 +199,7 @@ make_path($tempDir);
 $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
 // Create a unique log file path
-$timestamp = date('YmdHis');
-$logFile = "{$tempDir}ffmpeg_{$keyword}_{$timestamp}.log";
+$logFile = "{$tempDir}ffmpeg_{$keyword}.log";
 
  
  // Redirect all output to the log file
