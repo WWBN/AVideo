@@ -1,4 +1,5 @@
 <?php
+
 /**
  * FFMPEG Command Execution Script with API Secret Validation
  * -----------------------------------------------------------
@@ -87,68 +88,70 @@
  * Replace `https://yourSite.com/` with your actual website URL.
  */
 
- $global_timeLimit = 300;
- 
- ini_set("memory_limit", -1);
- ini_set('default_socket_timeout', $global_timeLimit);
- set_time_limit($global_timeLimit);
- ini_set('max_execution_time', $global_timeLimit);
- ini_set("memory_limit", "-1");
- 
- header('Content-Type: application/json');
- 
- require_once __DIR__ . "/../../../objects/functionsStandAlone.php";
- 
- if (empty($streamerURL)) {
-     echo json_encode(['error' => true, 'message' => 'streamerURL not defined']);
-     exit;
- }
- 
- function _decryptString($string)
- {
-     global $global;
-     $url = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=decryptString&string={$string}";
- 
-     $content = file_get_contents($url);
-     $json = json_decode($content);
- 
-     if (!empty($json) && empty($json->error)) {
-         $json2 = json_decode($json->message);
-         if ($json2->time > strtotime('30 seconds ago')) {
-             return $json2;
-         }
-     }
-     return $json2;
-     return false;
- }
- 
- // Function to safely get inputs from either command line or request
- function getInput($key, $default = '') {
-     global $argv;
- 
-     // Check if running from command line or HTTP request
-     if (php_sapi_name() === 'cli') {
-         foreach ($argv as $arg) {
-             if (strpos($arg, "{$key}=") === 0) {
-                 return substr($arg, strlen("{$key}="));
-             }
-         }
-     } else {
-         return isset($_REQUEST[$key]) ? $_REQUEST[$key] : $default;
-     }
- 
-     return $default;
- }
- 
- // Validate and sanitize the ffmpegCommand
- function sanitizeFFmpegCommand($command) {
+$global_timeLimit = 300;
+
+ini_set("memory_limit", -1);
+ini_set('default_socket_timeout', $global_timeLimit);
+set_time_limit($global_timeLimit);
+ini_set('max_execution_time', $global_timeLimit);
+ini_set("memory_limit", "-1");
+
+header('Content-Type: application/json');
+
+require_once __DIR__ . "/../../../objects/functionsStandAlone.php";
+
+if (empty($streamerURL)) {
+    echo json_encode(['error' => true, 'message' => 'streamerURL not defined']);
+    exit;
+}
+
+function _decryptString($string)
+{
+    global $global;
+    $url = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=decryptString&string={$string}";
+
+    $content = file_get_contents($url);
+    $json = json_decode($content);
+
+    if (!empty($json) && empty($json->error)) {
+        $json2 = json_decode($json->message);
+        if ($json2->time > strtotime('30 seconds ago')) {
+            return $json2;
+        }
+    }
+    return $json2;
+    return false;
+}
+
+// Function to safely get inputs from either command line or request
+function getInput($key, $default = '')
+{
+    global $argv;
+
+    // Check if running from command line or HTTP request
+    if (php_sapi_name() === 'cli') {
+        foreach ($argv as $arg) {
+            if (strpos($arg, "{$key}=") === 0) {
+                return substr($arg, strlen("{$key}="));
+            }
+        }
+    } else {
+        return isset($_REQUEST[$key]) ? $_REQUEST[$key] : $default;
+    }
+
+    return $default;
+}
+
+// Validate and sanitize the ffmpegCommand
+function sanitizeFFmpegCommand($command)
+{
     $allowedPrefixes = ['ffmpeg', '/usr/bin/ffmpeg', '/bin/ffmpeg'];
-    
+
     // Remove dangerous characters
     $command = str_replace('&&', '', $command);
     $command = str_replace('rtmp://live/', 'rtmp://vlu.me/', $command);
     $command = str_replace('https://live:8443/', 'https://vlu.me:8443/', $command);
-    
+
     // Remove existing log file redirection (e.g., '> /path/to/log 2>&1' or '> /path/to/log')
     $command = preg_replace('/\s*>.*(?:2>&1)?/', '', $command);
     $command = preg_replace('/[;|`<>]/', '', $command);
@@ -164,22 +167,22 @@
     return '';
 }
 
- 
- // Fetch and sanitize inputs
- $codeToExecEncrypted = getInput('codeToExecEncrypted', '');
- $codeToExec = _decryptString($codeToExecEncrypted);
- 
- if (empty($codeToExec)) {
-     die('Invalid Request');
- }
- 
- $ffmpegCommand = sanitizeFFmpegCommand($codeToExec->ffmpegCommand);
- $keyword = preg_replace('/[^a-zA-Z0-9_-]/', '', $codeToExec->keyword);
- 
- // Kill processes associated with the keyword
- if (!empty($keyword)) {
-     killProcessFromKeyword($keyword);
- }
+
+// Fetch and sanitize inputs
+$codeToExecEncrypted = getInput('codeToExecEncrypted', '');
+$codeToExec = _decryptString($codeToExecEncrypted);
+
+if (empty($codeToExec)) {
+    die('Invalid Request');
+}
+
+$ffmpegCommand = sanitizeFFmpegCommand($codeToExec->ffmpegCommand);
+$keyword = preg_replace('/[^a-zA-Z0-9_-]/', '', $codeToExec->keyword);
+
+// Kill processes associated with the keyword
+if (!empty($keyword)) {
+    killProcessFromKeyword($keyword);
+}
 
 // Get the system's temporary directory
 $tempDir = "{$global['systemRootPath']}videos/ffmpegLogs/";
@@ -191,56 +194,65 @@ $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 // Create a unique log file path
 $logFile = "{$tempDir}ffmpeg_{$keyword}.log";
 
-$time = time();
-$modified = @filemtime($logFile);
-$secondsAgo = $time - $obj->modified;
-$isActive = $secondsAgo < 10;
-
- if (!empty($codeToExec->log)) {
+if (!empty($codeToExec->log)) {
+    $time = time();
+    $modified = @filemtime($logFile);
+    $secondsAgo = $time - $obj->modified;
+    $isActive = $secondsAgo < 10;
     echo json_encode([
         'error' => !file_exists($logFile),
         'msg' => '',
         'logFile' => $logFile,
-        'time' =>$time,
-        'modified' =>$modified,
-        'secondsAgo' =>$secondsAgo,
-        'isActive' =>$isActive,
+        'time' => $time,
+        'modified' => $modified,
+        'secondsAgo' => $secondsAgo,
+        'isActive' => $isActive,
     ]);
     exit;
-}else 
- // Validate that ffmpegCommand is not empty after sanitization
- if (empty($ffmpegCommand)) {
-     echo json_encode([
-         'error' => true,
-         'msg' => 'Invalid or empty ffmpeg command',
-         'codeToExec' => $codeToExec,
-     ]);
-     exit;
- }
- 
- 
- // Redirect all output to the log file
- $ffmpegCommand .= " > {$logFile} 2>&1";
- 
- // Debug output (optional)
- error_log("Constructed FFMPEG Command [$keyword]: $ffmpegCommand");
- 
- try {
-     $pid = execAsync($ffmpegCommand, $keyword);
-     echo json_encode([
-         'error' => false,
-         'msg' => 'Command executed',
-         'command' => $ffmpegCommand,
-         'pid' => $pid,
-         'logFile' => $logFile,
-     ]);
- } catch (Exception $e) {
-     echo json_encode([
-         'error' => true,
-         'msg' => 'Failed to execute command',
-         'errorMsg' => $e->getMessage(),
-         'logFile' => $logFile,
-     ]);
- }
- exit;
- 
+} else  if (!empty($codeToExec->stop) && !empty($keyword)) {
+    $cmd = "pkill -f 'ffmpeg.*$keyword'";
+    echo json_encode([
+        'error' => !file_exists($logFile),
+        'msg' => '',
+        'logFile' => $logFile,
+        'kill' => exec("pkill -f 'ffmpeg.*$keyword'"),
+        'keyword' => $keyword,
+        'unlink' => unlink($logFile),
+    ]);
+    exit;
+} else
+    // Validate that ffmpegCommand is not empty after sanitization
+    if (empty($ffmpegCommand)) {
+        echo json_encode([
+            'error' => true,
+            'msg' => 'Invalid or empty ffmpeg command',
+            'codeToExec' => $codeToExec,
+        ]);
+        exit;
+    }
+
+
+// Redirect all output to the log file
+$ffmpegCommand .= " > {$logFile} 2>&1";
+
+// Debug output (optional)
+error_log("Constructed FFMPEG Command [$keyword]: $ffmpegCommand");
+
+try {
+    $pid = execAsync($ffmpegCommand, $keyword);
+    echo json_encode([
+        'error' => false,
+        'msg' => 'Command executed',
+        'command' => $ffmpegCommand,
+        'pid' => $pid,
+        'logFile' => $logFile,
+    ]);
+} catch (Exception $e) {
+    echo json_encode([
+        'error' => true,
+        'msg' => 'Failed to execute command',
+        'errorMsg' => $e->getMessage(),
+        'logFile' => $logFile,
+    ]);
+}
+exit;

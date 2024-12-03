@@ -525,6 +525,25 @@ function getFFMPEGRemoteLog($keyword)
     }
 }
 
+function stopFFMPEGRemote($keyword)
+{
+    $obj = AVideoPlugin::getDataObjectIfEnabled('API');
+    if(!empty($obj) && !empty($obj->standAloneFFMPEG)){
+        $url = "{$obj->standAloneFFMPEG}";
+
+        $codeToExec = array('stop'=>1, 'keyword'=>$keyword, 'time'=>time());
+
+        $codeToExecEncrypted = encryptString(json_encode($codeToExec));
+
+        $url = addQueryStringParameter($url, 'APISecret', $obj->APISecret);
+        $url = addQueryStringParameter($url, 'codeToExecEncrypted', $codeToExecEncrypted);
+        _error_log("execFFMPEGAsyncOrRemote: URL $url");
+        return json_decode(url_get_contents($url));
+    }else{
+        return false;
+    }
+}
+
 // Function to find the process by keyword using the pid file
 function findProcess($keyword)
 {
