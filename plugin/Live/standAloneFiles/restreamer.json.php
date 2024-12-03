@@ -87,7 +87,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
 
                 $keyword ='restream_'. md5($json->logFile);
                 $resp = getFFMPEGRemoteLog($keyword);
-                if(!empty($resp)){
+                if(!empty($resp) && empty($resp->error)){
                     $obj->modified = $resp->modified;
                     $obj->secondsAgo = $resp->secondsAgo;
                     $obj->isActive = $resp->isActive;
