@@ -519,7 +519,7 @@ function getFFMPEGRemoteLog($keyword)
         $url = addQueryStringParameter($url, 'APISecret', $obj->APISecret);
         $url = addQueryStringParameter($url, 'codeToExecEncrypted', $codeToExecEncrypted);
         _error_log("execFFMPEGAsyncOrRemote: URL $url");
-        return url_get_contents($url);
+        return json_decode(url_get_contents($url));
     }else{
         return false;
     }
