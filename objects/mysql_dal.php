@@ -281,7 +281,12 @@ class sqlDAL
     public static function readSql($preparedStatement, $formats = '', $values = [], $refreshCache = false)
     {
         // $refreshCache = true;
-        global $global, $disableMysqlNdMethods, $readSqlCached, $crc, $wasSTMTError;
+        global $global, $disableMysqlNdMethods, $readSqlCached, $crc, $wasSTMTError, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
+
         $wasSTMTError = false;
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         $crc = (md5($preparedStatement . implode($values)));
