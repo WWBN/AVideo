@@ -190,7 +190,8 @@
  }
  
 // Get the system's temporary directory
-$tempDir = sys_get_temp_dir();
+$tempDir = "{$global['systemRootPath']}videos/ffmpegLogs/";
+make_path($tempDir);
 
 // Ensure the temp directory ends with a directory separator
 $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;

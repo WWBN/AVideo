@@ -55,7 +55,6 @@ function loadStandaloneConfiguration()
             $content .= "\$global['salt'] = '" . uniqid() . "';" . PHP_EOL;
             $content .= "\$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';" . PHP_EOL;
             $content .= "\$global['systemRootPath'] = '{$global['systemRootPath']}';" . PHP_EOL;
-            $content .= "\$global['systemRootPath'] = '{$global['systemRootPath']}';" . PHP_EOL;
             $content .= "require_once \$global['systemRootPath'] . 'objects/include_config.php';" . PHP_EOL;
 
             if (file_put_contents($configFile, $content) === false) {
