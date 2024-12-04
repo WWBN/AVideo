@@ -176,8 +176,17 @@ if (empty($codeToExec)) {
     die('Invalid Request');
 }
 
-$ffmpegCommand = sanitizeFFmpegCommand($codeToExec->ffmpegCommand);
-$keyword = preg_replace('/[^a-zA-Z0-9_-]/', '', $codeToExec->keyword);
+if(!empty($codeToExec->ffmpegCommand)){
+    $ffmpegCommand = sanitizeFFmpegCommand($codeToExec->ffmpegCommand);
+}else{
+    $ffmpegCommand = '';
+}
+
+if(!empty($codeToExec->keyword)){
+    $keyword = sanitizeFFmpegCommand($codeToExec->keyword);
+}else{
+    $keyword = '';
+}
 
 // Kill processes associated with the keyword
 if (!empty($keyword)) {
