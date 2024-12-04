@@ -198,9 +198,10 @@ if (!empty($codeToExec->test)) {
     $microtime = microtime(true);
     echo json_encode([
         'error' => false,
-        'msg' => number_format($microtime - $codeToExec->microtime, 4).' seconds to respond',
-        'microtime1' => $codeToExec->microtime,
-        'microtime2' => $microtime,
+        'message' => sprintf('Remote FFmpeg responded successfully in %.4f seconds.', $microtime - $codeToExec->microtime),
+        'request_start_time' => $codeToExec->microtime,
+        'response_end_time' => $microtime,
+        'elapsed_time' => number_format($microtime - $codeToExec->microtime, 4),
     ]);
     exit;
 } else if (!empty($codeToExec->log)) {
