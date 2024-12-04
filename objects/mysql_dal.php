@@ -51,7 +51,11 @@ class sqlDAL
 
     public static function executeFile($filename)
     {
-        global $global;
+        global $global, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
         $templine = '';
         // Read in entire file
         $lines = file($filename);
@@ -96,7 +100,12 @@ class sqlDAL
 
     public static function writeSql($preparedStatement, $formats = "", $values = [], $try=0)
     {
-        global $global, $disableMysqlNdMethods;
+        global $global, $disableMysqlNdMethods, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
+
         if (empty($preparedStatement)) {
             _error_log("writeSql empty(preparedStatement)");
             return false;
@@ -235,7 +244,11 @@ class sqlDAL
 
     public static function writeSqlTry($preparedStatement, $formats = "", $values = [])
     {
-        global $global;
+        global $global, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
         
         /**
          * @var array $global
@@ -423,7 +436,11 @@ class sqlDAL
 
     public static function close($result)
     {
-        global $disableMysqlNdMethods, $global;
+        global $disableMysqlNdMethods, $global, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
         if ((!function_exists('mysqli_fetch_all')) || ($disableMysqlNdMethods !== false)) {
             if (!empty($result->stmt)) {
                 $result->stmt->close();
@@ -439,7 +456,11 @@ class sqlDAL
 
     public static function num_rows($res)
     {
-        global $global, $disableMysqlNdMethods, $crc, $num_row_cache;
+        global $global, $disableMysqlNdMethods, $crc, $num_row_cache, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
         if (!isset($num_row_cache)) {
             $num_row_cache = [];
         }
@@ -474,7 +495,11 @@ class sqlDAL
 
     public static function fetchAllAssoc($result)
     {
-        global $crc, $fetchAllAssoc_cache;
+        global $crc, $fetchAllAssoc_cache, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
         if (!isset($fetchAllAssoc_cache)) {
             $fetchAllAssoc_cache = [];
         }
@@ -496,7 +521,11 @@ class sqlDAL
 
     public static function fetchAssoc($result)
     {
-        global $global, $disableMysqlNdMethods;
+        global $global, $disableMysqlNdMethods, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
         ini_set('memory_limit', '-1');
         // here, a cache is more/too difficult, because fetch gives always a next. with this kind of cache, we would give always the same.
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
@@ -535,7 +564,11 @@ class sqlDAL
 
     public static function fetchAllArray($result)
     {
-        global $crc, $fetchAllArray_cache;
+        global $crc, $fetchAllArray_cache, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
         if (!isset($fetchAllArray_cache)) {
             $fetchAllArray_cache = [];
         }
@@ -560,7 +593,11 @@ class sqlDAL
 
     public static function fetchArray($result)
     {
-        global $global, $disableMysqlNdMethods;
+        global $global, $disableMysqlNdMethods, $isStandAlone;
+
+        if($isStandAlone){
+            return false;
+        }
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
             return $result->fetch_array();
         } else {
