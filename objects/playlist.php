@@ -1338,6 +1338,12 @@ class PlayList extends ObjectYPT
             $values[] = $playlists_id;
         }
 
+        if (!empty($users_id)) {
+            $sql .= " AND pl.users_id = ? ";
+            $formats .= "i";
+            $values[] = $users_id;
+        }
+
         if (!empty($status)) {
             $sql .= " AND status = ? ";
             $formats .= "s";

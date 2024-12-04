@@ -570,7 +570,7 @@ function buildFFMPEGRemoteURL($actionParams)
     return $url;
 }
 
-function execFFMPEGAsyncOrRemote($command, $keyword = null)
+function execFFMPEGAsyncOrRemote($command, $keyword)
 {
     $url = buildFFMPEGRemoteURL(['ffmpegCommand' => $command, 'keyword' => $keyword]);
     if ($url) {
@@ -586,8 +586,9 @@ function execFFMPEGAsyncOrRemote($command, $keyword = null)
 function getFFMPEGRemoteLog($keyword)
 {
     $url = buildFFMPEGRemoteURL(['log' => 1, 'keyword' => $keyword]);
+    //var_dump($url);
     if ($url) {
-        _error_log("getFFMPEGRemoteLog: URL $url");
+        _error_log("getFFMPEGRemoteLog: URL $url ".json_encode(debug_backtrace()));
         return json_decode(url_get_contents($url));
     } else {
         return false;

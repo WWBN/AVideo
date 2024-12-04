@@ -498,7 +498,7 @@ class sqlDAL
         global $crc, $fetchAllAssoc_cache, $isStandAlone;
 
         if($isStandAlone){
-            return false;
+            return array();
         }
         if (!isset($fetchAllAssoc_cache)) {
             $fetchAllAssoc_cache = [];

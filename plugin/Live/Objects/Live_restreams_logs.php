@@ -150,6 +150,7 @@ class Live_restreams_logs extends ObjectYPT
         } else {
             $live_restreams_logs_id = $latest['id'];
         }
+        //var_dump($live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id, $action);
         return self::getURL($live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id, $action);
     }
 

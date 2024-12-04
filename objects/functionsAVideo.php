@@ -6,6 +6,7 @@ $AVideoEncoder_UA = "AVideoEncoder";
 $AVideoEncoderNetwork_UA = "AVideoEncoderNetwork";
 $AVideoStreamer_UA = "AVideoStreamer";
 $AVideoStorage_UA = "AVideoStorage";
+$AVideoRestreamer_UA = "AVideoRestreamer";
 
 function isAVideoMobileApp($user_agent = "")
 {

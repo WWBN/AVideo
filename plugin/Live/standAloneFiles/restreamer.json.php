@@ -77,6 +77,8 @@ if (!empty($_REQUEST['tokenForAction'])) {
     $json = verifyTokenForAction($_REQUEST['tokenForAction']);
     //var_dump($json);exit;
     if (!empty($json) && isset($json->error) && empty($json->error)) {
+        $keyword = 'restream_' . md5(basename($json->logFile));
+        $obj->keyword = $keyword;
         $obj->error = false;
         error_log("Restreamer.json.php token verified " . json_encode($json));
         switch ($json->action) {
@@ -85,15 +87,14 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
                 $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
 
-                $keyword ='restream_'. md5($json->logFile);
                 $resp = getFFMPEGRemoteLog($keyword);
-                if(!empty($resp) && empty($resp->error)){
+                if (!empty($resp) && empty($resp->error)) {
                     $obj->modified = $resp->modified;
                     $obj->secondsAgo = $resp->secondsAgo;
                     $obj->isActive = $resp->isActive;
                     $obj->remoteLog = true;
                     $obj->resp = $resp;
-                }else if (!empty($obj->logName)) {
+                } else if (!empty($obj->logName)) {
                     $logFile = $logFileLocation . $obj->logName;
                     if (file_exists($logFile)) {
                         $obj->modified = @filemtime($logFile);
@@ -107,11 +108,20 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 exit;
                 break;
             case 'stop':
-                $obj->killIfIsRunning = killIfIsRunning($json);
-                $obj->logName = str_replace($logFileLocation, '', $json->logFile);
-                $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
-                $logFile = $logFileLocation . $obj->logName;
-                unlink($logFile);
+
+                $resp = stopFFMPEGRemote($keyword);
+                $obj->remoteResponse = $resp;
+                if (!empty($resp) && empty($resp->error)) {
+                    $obj->remoteKill = true;
+                }else{
+                    $obj->killIfIsRunning = killIfIsRunning($json);
+                    $obj->logName = str_replace($logFileLocation, '', $json->logFile);
+                    $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
+                    $logFile = $logFileLocation . $obj->logName;
+                    $obj->remoteKill = false;
+                    unlink($logFile);
+                }
+
                 echo json_encode($obj);
                 exit;
                 break;
@@ -646,9 +656,10 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         _make_path($logFile);
         file_put_contents($logFile, $command . PHP_EOL);
         if (empty($isATest)) {
-            $keyword = md5($logFile);
+            $keyword = 'restream_' . md5(basename($logFile));
+            $robj->keyword = $keyword;
             // use remote ffmpeg here
-            execFFMPEGAsyncOrRemote($command . ' > ' . $logFile, 'restream_'.$keyword);
+            execFFMPEGAsyncOrRemote($command . ' > ' . $logFile, $keyword);
         }
         error_log("Restreamer.json.php startRestream finish");
     }

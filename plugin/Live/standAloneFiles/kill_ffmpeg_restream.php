@@ -87,7 +87,7 @@ foreach ($logFiles as $logFile) {
         echo "kill_ffmpeg_restream.php The file too large logFiles $logFile "._humanFileSize($filesize).PHP_EOL;
         continue;
     }else{
-        echo "kill_ffmpeg_restream.php logFiles $logFile "._humanFileSize($filesize).PHP_EOL;
+        //echo "kill_ffmpeg_restream.php logFiles $logFile "._humanFileSize($filesize).PHP_EOL;
     }
     $lastModifiedFormatted = formatLastModifiedTime($lastModified);
 
@@ -114,7 +114,7 @@ foreach ($logFiles as $logFile) {
     $lastUrlOpened = '';
     $foundTsFile = false;
 
-    echo "kill_ffmpeg_restream.php start.\n";
+    //echo "kill_ffmpeg_restream.php start.\n";
     // Loop through the last N lines of the log file
     foreach ($logContent as $key => $line) {
         $line = str_replace(array("\r", "\n"), '', $line);
@@ -151,7 +151,7 @@ foreach ($logFiles as $logFile) {
             }
         }
     }
-    echo "kill_ffmpeg_restream.php done.\n";
+    //echo "kill_ffmpeg_restream.php done.\n";
     // If any .ts file is found, do not kill the process
     if ($foundTsFile) {
         echo "Found .ts file in log, process will not be killed for log file: $logFile (last modified on $lastModifiedFormatted).\n";

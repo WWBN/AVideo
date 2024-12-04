@@ -57,7 +57,7 @@ if (empty($obj->url)) {
 }
 
 debugLog(__LINE__);
-unset($obj->url);
+//unset($obj->url);
 
 $obj->end = number_format(microtime(true) - $obj->start, 2);
 die(json_encode($obj));

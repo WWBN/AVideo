@@ -103,7 +103,7 @@ _error_log("Script initiated: FFMPEG command execution script started");
 
 if (empty($streamerURL)) {
     _error_log("Error: streamerURL is not defined");
-    echo json_encode(['error' => true, 'message' => 'streamerURL not defined']);
+    echo json_encode(['error' => true, 'msg' => 'streamerURL not defined']);
     exit;
 }
 
@@ -124,6 +124,7 @@ function _decryptString($string)
         }
     }
     _error_log("Failed to decrypt string or invalid time");
+    //return $json2;
     return false;
 }
 
@@ -154,8 +155,9 @@ function sanitizeFFmpegCommand($command)
 
     // Remove dangerous characters
     $command = str_replace('&&', '', $command);
-    $command = str_replace('rtmp://live/', 'rtmp://vlu.me/', $command);
-    $command = str_replace('https://live:8443/', 'https://vlu.me:8443/', $command);
+    $command = str_replace('rtmp://vlu.me/', 'rtmp://live/', $command);
+    //$command = str_replace('rtmp://live/', 'rtmp://vlu.me/', $command);
+    //$command = str_replace('https://live:8443/', 'https://vlu.me:8443/', $command);
     $command = preg_replace('/\s*>.*(?:2>&1)?/', '', $command);
     $command = preg_replace('/[;|`<>]/', '', $command);
 
@@ -171,34 +173,58 @@ function sanitizeFFmpegCommand($command)
     return '';
 }
 
+function addKeywordToFFmpegCommand(string $command, string $keyword): string {
+    // Escape the keyword to avoid shell injection
+    $escapedKeyword = escapeshellarg($keyword);
+
+    // Break the command into parts to safely insert the metadata
+    $commandParts = explode(' ', $command);
+
+    // Find the index of the output URL (typically the last argument in FFmpeg commands)
+    $outputUrlIndex = array_key_last($commandParts);
+    if (preg_match('/^(rtmp|http|https):\/\//', $commandParts[$outputUrlIndex])) {
+        // Insert metadata before the output URL
+        array_splice($commandParts, $outputUrlIndex, 0, ["-metadata", "keyword=$escapedKeyword"]);
+    } else {
+        // If no URL is found, append metadata at the end
+        $commandParts[] = "-metadata";
+        $commandParts[] = "keyword=$escapedKeyword";
+    }
+
+    // Reconstruct the command
+    return implode(' ', $commandParts);
+}
+
 _error_log("Fetching inputs...");
 $codeToExecEncrypted = getInput('codeToExecEncrypted', '');
 $codeToExec = _decryptString($codeToExecEncrypted);
 
 if (empty($codeToExec)) {
     _error_log("Invalid or missing codeToExecEncrypted");
-    die('Invalid Request');
+    die(json_encode(array('error' => true, 'msg' => 'Invalid or missing code')));
 }
 
 $ffmpegCommand = !empty($codeToExec->ffmpegCommand) ? sanitizeFFmpegCommand($codeToExec->ffmpegCommand) : '';
-$keyword = !empty($codeToExec->keyword) ? preg_replace('/[^a-zA-Z0-9_-]/', '', $codeToExec->keyword) : date('Ymdhmi');
+
+if (empty($codeToExec->keyword)) {
+    _error_log("keyword: is empty");
+    $keyword = date('Ymdhmi');
+} else {
+    _error_log("keyword: found: {$codeToExec->keyword}");
+    $keyword = preg_replace('/[^a-zA-Z0-9_-]/', '', $codeToExec->keyword);
+}
 
 _error_log("Code to Execute: " . json_encode($codeToExec));
 _error_log("Sanitized FFMPEG Command: $ffmpegCommand");
 _error_log("Keyword: $keyword");
 
-// Kill processes associated with the keyword
-if (!empty($keyword)) {
-    _error_log("Killing process with keyword: $keyword");
-    killProcessFromKeyword($keyword);
-}
 
 $tempDir = "{$global['systemRootPath']}videos/ffmpegLogs/";
 make_path($tempDir);
 
 $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 $logFile = "{$tempDir}ffmpeg_{$keyword}.log";
-_error_log("Log file set to: $logFile");
+//_error_log("Log file set to: $logFile");
 
 if (!empty($codeToExec->test)) {
     $microtime = microtime(true);
@@ -229,13 +255,36 @@ if (!empty($codeToExec->test)) {
     exit;
 } else if (!empty($codeToExec->stop) && !empty($keyword)) {
     _error_log("Stop mode triggered for keyword: $keyword");
+
+    // Count the number of processes with the keyword before killing them
+    $countCommand = "pgrep -f 'ffmpeg.*$keyword' | wc -l";
+    $processToKillCount = intval(exec($countCommand));
+
+    // Kill the processes matching the keyword
+    $killCommand = "pkill -f 'ffmpeg.*$keyword'";
+    $killResult = exec($killCommand, $output, $killStatus);
+
+    $processAfterKillCount = intval(exec($countCommand));
+
+    // Attempt to delete the log file
+    $unlinkSuccess = false;
+    if (file_exists($logFile)) {
+        $unlinkSuccess = unlink($logFile);
+    }
+
     echo json_encode([
-        'error' => !file_exists($logFile),
-        'msg' => '',
+        'error' =>$processAfterKillCount !== 0, // Indicate if killing processes was successful
+        'msg' => $processAfterKillCount !== 0 ? 'Processes killed successfully.' : 'Failed to kill processes.',
         'logFile' => $logFile,
-        'kill' => exec("pkill -f 'ffmpeg.*$keyword'"),
+        'kill' => $killResult, // Result of pkill command
         'keyword' => $keyword,
-        'unlink' => unlink($logFile),
+        'unlink' => $unlinkSuccess,
+        'processToKillCount' => $processToKillCount, 
+        'processAfterKillCount' => $processAfterKillCount, // Number of processes killed
+        'countCommand' => $countCommand,
+        'killCommand' => $killCommand,
+        'output' => $output,
+        'killStatus' => $killStatus, 
     ]);
     exit;
 }
@@ -249,6 +298,16 @@ if (empty($ffmpegCommand)) {
     ]);
     exit;
 }
+
+// Kill processes associated with the keyword
+if (!empty($keyword)) {
+    _error_log("Killing process with keyword: $keyword");
+    killProcessFromKeyword($keyword);
+}
+
+$ffmpegCommand = addKeywordToFFmpegCommand($ffmpegCommand, $keyword);
+
+file_put_contents($logFile, $ffmpegCommand.PHP_EOL.PHP_EOL);
 
 $ffmpegCommand .= " > {$logFile} 2>&1";
 _error_log("Executing FFMPEG Command [$keyword]: $ffmpegCommand");

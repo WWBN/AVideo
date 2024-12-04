@@ -585,9 +585,8 @@ class Scheduler extends PluginAbstract
 
         // Run the function to delete files older than 7 days from /var/www/tmp
         $this->deleteOldFiles();
+        self::manageLogFile();
     }
-
-
 
     function deleteOldFiles($directory = '/var/www/tmp', $days = 7)
     {
@@ -638,5 +637,70 @@ class Scheduler extends PluginAbstract
         }
 
         return true;
+    }
+
+    static function manageLogFile()
+    {
+        global $global;
+        $logFilePath = $global['logfile'];
+
+        // Ensure the logfile is not empty and has a .log extension
+        if (empty($logFilePath)) {
+            _error_log("Log file path is empty; no action required.");
+            return;
+        }
+
+        if (pathinfo($logFilePath, PATHINFO_EXTENSION) !== 'log') {
+            _error_log("Log file path is not a .log file; no action required. [$logFilePath]");
+            return;
+        }
+        
+        // Get yesterday's date
+        $yesterdayDate = date('Y-m-d', strtotime('-1 day'));
+
+        // Define the new logfile name with yesterday's date
+        $newLogFileName = $logFilePath . '.' . $yesterdayDate . '.log';
+
+        // Check if the current logfile exists
+        if (file_exists($logFilePath)) {
+            // Move the current logfile to a new file with yesterday's date
+            if (rename($logFilePath, $newLogFileName)) {
+                _error_log("Log file successfully moved to: $newLogFileName");
+            } else {
+                _error_log("Failed to move log file to: $newLogFileName");
+            }
+        } else {
+            _error_log("Log file does not exist: $logFilePath");
+        }
+
+        // Create a new empty logfile
+        if (touch($logFilePath)) {
+            _error_log("New log file created: $logFilePath");
+
+            // Ensure Apache can write to the new log file
+            if (chmod($logFilePath, 0666)) {
+                _error_log("Permissions set to 0666 for: $logFilePath");
+            } else {
+                _error_log("Failed to set permissions for: $logFilePath");
+            }
+        } else {
+            _error_log("Failed to create new log file: $logFilePath");
+        }
+
+        // Delete log files older than 30 days in the same directory
+        $logDir = dirname($logFilePath);
+        $files = glob($logDir . '/*.log'); // Get all .log files in the directory
+
+        $thirtyDaysAgo = time() - (30 * 24 * 60 * 60); // Timestamp for 30 days ago
+
+        foreach ($files as $file) {
+            if (filemtime($file) < $thirtyDaysAgo) {
+                if (unlink($file)) {
+                    _error_log("Deleted old log file: $file");
+                } else {
+                    _error_log("Failed to delete old log file: $file");
+                }
+            }
+        }
     }
 }
