@@ -8,8 +8,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 if (!User::canUpload()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not notify"));
-    exit;
+    forbiddenPage('You can not notify');
 }
 $user_id = User::getId();
 // if admin bring all subscribers
@@ -23,27 +22,20 @@ header('Content-Type: application/json');
 $Subscribes = Subscribe::getAllSubscribes($user_id);
 
 $obj = new stdClass();
-//Create a new PHPMailer instance
-$mail = new \PHPMailer\PHPMailer\PHPMailer();
-setSiteSendMessage($mail);
-//Set who the message is to be sent from
-$mail->setFrom($config->getContactEmail());
-//Set who the message is to be sent to
-//$mail->addAddress($config->getContactEmail());
-foreach ($Subscribes as $value) {
-    $mail->addBCC($value["email"]);
-}
-$obj->total = count($Subscribes);
-//Set the subject line
-$mail->Subject = 'Message From Site ' . $config->getWebSiteTitle();
-$mail->msgHTML($_POST['message']);
+$obj->error = true;
+$obj->msg = '';
 
-//send the message, check for errors
-if (!$mail->send()) {
-    $obj->error = __("Message could not be sent") . " " . $mail->ErrorInfo;
-} else {
-    $obj->success = __("Message sent");
+$to = array();
+foreach ($Subscribes as $value) {
+    $to[] = $value["email"];
 }
+
+$subject = 'Message From Site ' . $config->getWebSiteTitle();
+$message = $_POST['message'];
+
+$resp = sendSiteEmail($to, $subject, $message);
+
+$obj->error = empty($resp);
 
 $json = json_encode($obj);
 

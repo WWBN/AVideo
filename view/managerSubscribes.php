@@ -82,12 +82,7 @@ $_page = new Page(array('Subscribes'));
                 'message': $(tinymce.get('emailMessage').getBody()).html()
             },
             success: function(response) {
-                console.log(response);
-                if (response.error) {
-                    avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
-                } else {
-                    avideoAlert("<?php echo __("Success"); ?>", "<?php echo __("You have sent the notification"); ?>", "success");
-                }
+                avideoResponse(response);
                 modal.hidePleaseWait();
             }
         });
