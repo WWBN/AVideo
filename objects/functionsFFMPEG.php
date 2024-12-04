@@ -554,3 +554,66 @@ function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, 
         return false; // Command failed
     }
 }
+
+
+function buildFFMPEGRemoteURL($actionParams)
+{
+    $obj = AVideoPlugin::getDataObjectIfEnabled('API');
+    if (empty($obj) || empty($obj->standAloneFFMPEG)) {
+        return false;
+    }
+    $url = "{$obj->standAloneFFMPEG}";
+    $actionParams['time'] = time();
+    $encryptedParams = encryptString(json_encode($actionParams));
+    $url = addQueryStringParameter($url, 'APISecret', $obj->APISecret);
+    $url = addQueryStringParameter($url, 'codeToExecEncrypted', $encryptedParams);
+    return $url;
+}
+
+function execFFMPEGAsyncOrRemote($command, $keyword = null)
+{
+    $url = buildFFMPEGRemoteURL(['ffmpegCommand' => $command, 'keyword' => $keyword]);
+    if ($url) {
+        _error_log("execFFMPEGAsyncOrRemote: URL $command");
+        _error_log("execFFMPEGAsyncOrRemote: URL $url");
+        return url_get_contents($url);
+    } else {
+        _error_log("execFFMPEGAsyncOrRemote: Async $command");
+        return execAsync($command, $keyword);
+    }
+}
+
+function getFFMPEGRemoteLog($keyword)
+{
+    $url = buildFFMPEGRemoteURL(['log' => 1, 'keyword' => $keyword]);
+    if ($url) {
+        _error_log("getFFMPEGRemoteLog: URL $url");
+        return json_decode(url_get_contents($url));
+    } else {
+        return false;
+    }
+}
+
+function stopFFMPEGRemote($keyword)
+{
+    $url = buildFFMPEGRemoteURL(['stop' => 1, 'keyword' => $keyword]);
+    if ($url) {
+        _error_log("stopFFMPEGRemote: URL $url");
+        return json_decode(url_get_contents($url));
+    } else {
+        return false;
+    }
+}
+
+function testFFMPEGRemote()
+{
+    $url = buildFFMPEGRemoteURL(['test' => 1, 'microtime' => microtime(true)]);
+    if ($url) {
+        _error_log("testFFMPEGRemote: URL $url");
+        var_dump($url);
+        return json_decode(url_get_contents($url));
+    } else {
+        return false;
+    }
+}
+

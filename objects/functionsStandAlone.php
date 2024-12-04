@@ -32,7 +32,7 @@ function loadStandaloneConfiguration()
         $streamerURL = $global['webSiteRootURL'];
         if($isStandAlone){
             if (!isAPIKeyValid()) {
-                die('Invalid API Key');
+                die(json_encode(array('error'=>true, 'msg'=>'Invalid API Key')));
             }
         }
         return true;

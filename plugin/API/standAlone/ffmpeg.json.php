@@ -194,7 +194,16 @@ $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 // Create a unique log file path
 $logFile = "{$tempDir}ffmpeg_{$keyword}.log";
 
-if (!empty($codeToExec->log)) {
+if (!empty($codeToExec->test)) {
+    $microtime = microtime(true);
+    echo json_encode([
+        'error' => false,
+        'msg' => number_format($microtime - $codeToExec->microtime, 4).' seconds to respond',
+        'microtime1' => $codeToExec->microtime,
+        'microtime2' => $microtime,
+    ]);
+    exit;
+} else if (!empty($codeToExec->log)) {
     $time = time();
     $modified = @filemtime($logFile);
     $secondsAgo = $time - $obj->modified;
