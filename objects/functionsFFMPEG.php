@@ -610,7 +610,6 @@ function testFFMPEGRemote()
     $url = buildFFMPEGRemoteURL(['test' => 1, 'microtime' => microtime(true)]);
     if ($url) {
         _error_log("testFFMPEGRemote: URL $url");
-        var_dump($url);
         return json_decode(url_get_contents($url));
     } else {
         return false;
