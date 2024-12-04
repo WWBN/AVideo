@@ -181,7 +181,7 @@ if (empty($codeToExec)) {
 }
 
 $ffmpegCommand = !empty($codeToExec->ffmpegCommand) ? sanitizeFFmpegCommand($codeToExec->ffmpegCommand) : '';
-$keyword = !empty($codeToExec->keyword) ? preg_replace('/[^a-zA-Z0-9_-]/', '', $codeToExec->keyword) : '';
+$keyword = !empty($codeToExec->keyword) ? preg_replace('/[^a-zA-Z0-9_-]/', '', $codeToExec->keyword) : date('Ymdhmi');
 
 _error_log("Code to Execute: " . json_encode($codeToExec));
 _error_log("Sanitized FFMPEG Command: $ffmpegCommand");
