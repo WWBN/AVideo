@@ -16,7 +16,6 @@ function isAPIKeyValid()
     return !empty($json) && empty($json->error);
 }
 
-// Function to load standalone configuration
 function loadStandaloneConfiguration()
 {
     global $global, $doNotIncludeConfig, $streamerURL;
@@ -27,24 +26,34 @@ function loadStandaloneConfiguration()
     $global['systemRootPath'] = str_replace('\\', '/', $global['systemRootPath']);
     $configFileStandAlone = "{$global['systemRootPath']}videos/standalone.configuration.php";
 
+    error_log("loadStandaloneConfiguration: systemRootPath set to {$global['systemRootPath']}");
+    error_log("loadStandaloneConfiguration: Checking for configuration files.");
+
     if (file_exists($configFile)) {
+        error_log("loadStandaloneConfiguration: Found configuration.php, loading it.");
         require_once $configFile;
         $streamerURL = $global['webSiteRootURL'];
-        if($isStandAlone){
+        error_log("loadStandaloneConfiguration: Streamer URL set to {$streamerURL}");
+
+        if ($isStandAlone) {
+            error_log("loadStandaloneConfiguration: Running in standalone mode. Validating API key.");
             if (!isAPIKeyValid()) {
-                die(json_encode(array('error'=>true, 'msg'=>'Invalid API Key')));
+                error_log("loadStandaloneConfiguration: Invalid API Key.");
+                die(json_encode(array('error' => true, 'msg' => 'Invalid API Key')));
             }
         }
+
         return true;
     }
 
     if (file_exists($configFileStandAlone)) {
+        error_log("loadStandaloneConfiguration: Found standalone.configuration.php, loading it.");
         $doNotIncludeConfig = 1;
         require_once $configFileStandAlone;
         $configFile = "{$global['systemRootPath']}videos/configuration.php";
 
-        // Check if configuration.php exists; if not, create it
         if (!file_exists($configFile)) {
+            error_log("loadStandaloneConfiguration: configuration.php not found. Creating it.");
             $content = "<?php" . PHP_EOL;
             $content .= "global \$global, \$doNotIncludeConfig, \$doNotConnectDatabaseIncludeConfig, \$doNotStartSessionIncludeConfig, \$isStandAlone;" . PHP_EOL;
             $content .= "\$isStandAlone = 1;" . PHP_EOL;
@@ -57,15 +66,21 @@ function loadStandaloneConfiguration()
             $content .= "require_once \$global['systemRootPath'] . 'objects/include_config.php';" . PHP_EOL;
 
             if (file_put_contents($configFile, $content) === false) {
+                error_log("loadStandaloneConfiguration: Failed to create configuration.php at $configFile");
                 die("Failed to create the configuration file at $configFile");
             }
-            error_log("configuration.php created at $configFile");
+
+            error_log("loadStandaloneConfiguration: configuration.php successfully created at $configFile");
+        } else {
+            error_log("loadStandaloneConfiguration: configuration.php already exists at $configFile");
         }
 
         require_once $configFile;
+        return true;
     }
+
+    error_log("loadStandaloneConfiguration: No valid configuration file found.");
     
-    // If no configuration file exists, output a message
     $webSiteRootURL = 'https://yourSite.com/';
     header('Content-Type: text/html');
 
