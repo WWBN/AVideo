@@ -155,7 +155,7 @@ class UserGroups{
             }
             //$category = $res->fetch_all(MYSQLI_ASSOC);
         } else {
-            $arr = false;
+            $arr = array();
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $arr;
