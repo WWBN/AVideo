@@ -183,7 +183,7 @@ if(!empty($codeToExec->ffmpegCommand)){
 }
 
 if(!empty($codeToExec->keyword)){
-    $keyword = sanitizeFFmpegCommand($codeToExec->keyword);
+    $keyword = preg_replace('/[^a-zA-Z0-9_-]/', '', $codeToExec->keyword);
 }else{
     $keyword = '';
 }
