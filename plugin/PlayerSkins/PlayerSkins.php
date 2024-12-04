@@ -863,7 +863,7 @@ class PlayerSkins extends PluginAbstract
         //$tags = ObjectYPT::getCache($name, 0);
         if (empty($tags)) {
             //_error_log("Cache not found $name");
-            $video = new Video("", "", $videos_id);
+            $video = new Video("", "", $videos_id, true);
             $fileName = $video->getFilename();
             //_error_log("getVideoTags($videos_id) $fileName ".$video->getType());
             $resolution = $video->getVideoHigestResolution();
