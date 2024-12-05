@@ -1,14 +1,11 @@
 <?php
 global $global, $config;
-if (!isset($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
-}
+require_once __DIR__.'/../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/comment.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
-
 setRowCount(10);
 
 //setDefaultSort('id', 'DESC');
