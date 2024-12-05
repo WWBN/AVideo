@@ -15,5 +15,6 @@ $htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getP
 
 $htmlMediaTag .= getLiveUsersLabelHTML();
 echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
+//include $global['systemRootPath'] . 'plugin/PlayerSkins/buffering.debug.php';
 ?>
 <!-- Live finish -->

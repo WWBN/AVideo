@@ -8,4 +8,5 @@ echo PlayerSkins::getMediaTag($video['filename']);
 <!-- video finish -->
 <?php
 include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
+//include $global['systemRootPath'] . 'plugin/PlayerSkins/buffering.debug.php';
 ?>
