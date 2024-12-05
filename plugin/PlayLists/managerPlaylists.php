@@ -80,8 +80,12 @@ $_page = new Page(array('Manage playlist'));
                             <?php echo __('Collections'); ?></span></a>
                 </li>
                 <li class="pl_filter" onclick="pl_filter('videos', $(this));" data-toggle="tooltip" title="<?php echo __('Show all that include a list of videos'); ?>">
-                    <a href="#"><span class="label label-default"><i class="fas fa-film"></i>
-                            <?php echo __('Videos'); ?></span></a>
+                    <a href="#">
+                        <span class="label label-default">
+                            <i class="fas fa-film"></i>
+                            <?php echo __('Videos'); ?>
+                        </span>
+                    </a>
                 </li>
                 <li class="pull-right">
                     <button type="button" class="btn btn-default pull-right" data-toggle="tooltip" title="<?php echo __('New'); ?>" onclick="createNewProgram();">
@@ -89,7 +93,17 @@ $_page = new Page(array('Manage playlist'));
                     </button>
                 </li>
                 <?php
-
+                $p = AVideoPlugin::loadPluginIfEnabled('VideoPlaylistScheduler');
+                if (!empty($p) && VideoPlaylistScheduler::canUseCalendar()) {
+                ?>
+                    <li>
+                        <button onclick="avideoModalIframeLarge(webSiteRootURL+'plugin/VideoPlaylistScheduler/calendar.php')" class="btn btn-default">
+                            <i class="fas fa-calendar-alt"></i>
+                            <?php echo __('Schedule to play live'); ?>
+                        </button>
+                    </li>
+                <?php
+                }
                 TimeLogEnd($timeName, __LINE__);
                 if (PlayLists::canManageAllPlaylists()) {
                     TimeLogEnd($timeName, __LINE__);
@@ -130,7 +144,7 @@ $_page = new Page(array('Manage playlist'));
                         //var_dump($value);
 
                         $rowsSubPlaylists = PlayList::getAllSubPlayLists($value["id"]);
-                        if(empty($rowsSubPlaylists)){
+                        if (empty($rowsSubPlaylists)) {
                             $rowsSubPlaylists = array();
                         }
                         $totalSubPlaylists = count($rowsSubPlaylists);
@@ -494,8 +508,9 @@ $_page = new Page(array('Manage playlist'));
     }
 
     var createNewProgramIsEditing = false;
+
     function createNewProgram() {
-        if(createNewProgramIsEditing){
+        if (createNewProgramIsEditing) {
             return false;
         }
         swal({
