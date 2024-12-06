@@ -1382,7 +1382,7 @@ button::-moz-focus-inner {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 .tox .tox-comment__gradient::after {
   background: linear-gradient(rgba(255, 255, 255, 0), #fff);
@@ -3296,7 +3296,6 @@ body.tox-dialog__disable-scroll {
   flex: 1 1 auto;
   height: 16px;
   justify-content: space-between;
-  overflow: hidden;
 }
 @media only screen and (min-width: 768px ) {
   .tox .tox-statusbar__text-container.tox-statusbar__text-container-3-cols > .tox-statusbar__help-text,
@@ -3961,9 +3960,9 @@ body.tox-dialog__disable-scroll {
 .tox.tox-platform-touch .tox-split-button__chevron {
   width: 20px;
 }
-.tox .tox-split-button.tox-tbtn--disabled svg #tox-icon-text-color__color,
-.tox .tox-split-button.tox-tbtn--disabled svg #tox-icon-highlight-bg-color__color {
-  opacity: 0.6;
+.tox .tox-split-button.tox-tbtn--disabled svg .tox-icon-text-color__color,
+.tox .tox-split-button.tox-tbtn--disabled svg .tox-icon-highlight-bg-color__color {
+  opacity: 0.3;
 }
 .tox .tox-toolbar-overlord {
   background-color: #fff;

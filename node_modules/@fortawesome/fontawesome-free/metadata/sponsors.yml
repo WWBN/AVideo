@@ -200,6 +200,12 @@ cmplid:
     - cmplid
   label: Cmplid
   url: 'http://cmplid.com'
+crystal-instruments:
+  icons:
+    - chart-fft
+    - chart-sine
+  label: Crystal Instruments
+  url: 'https://www.crystalinstruments.com'
 cuttlefish:
   icons:
     - cuttlefish
@@ -260,12 +266,28 @@ econopublish:
     - hat-cowboy-side
   label: EconoPublish
   url: 'https://www.econopublish.com'
+erbslanddev:
+  icons:
+    - chart-diagram
+    - comment-nodes
+    - file-fragment
+    - file-half-dashed
+    - hexagon-nodes
+    - hexagon-nodes-bolt
+    - square-binary
+  label: ErbslandDEV
+  url: 'https://erbsland.dev'
 fairyloot:
   icons:
     - person-dress-fairy
     - person-fairy
   label: FairyLoot
   url: 'https://us.fairyloot.com'
+files-com:
+  icons:
+    - files-pinwheel
+  label: Files.com
+  url: 'https://files.com'
 firstdraft:
   icons:
     - firstdraft
@@ -574,6 +596,11 @@ megaport:
     - megaport
   label: Megaport
   url: 'https://www.megaport.com'
+menlo-school:
+  icons:
+    - carpool
+  label: Menlo School
+  url: 'https://www.menloschool.org'
 mintbit:
   icons:
     - mintbit
@@ -1386,6 +1413,11 @@ van-raam:
     - tricycle-adult
   label: Van Raam
   url: 'https://www.vanraam.com'
+verasoft:
+  icons:
+    - circles-overlap-3
+  label: Verasoft
+  url: 'https://verasoft.com'
 verifi:
   icons:
     - circle-wifi-circle-wifi

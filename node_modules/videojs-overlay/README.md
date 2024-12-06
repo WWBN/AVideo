@@ -95,6 +95,31 @@ const overlayToRemove = overlay.get()[0];
 overlay.remove(overlayToRemove);
 ```
 
+#### `overlay.reset(Object)`
+
+Once the plugin is initialized, the plugin options can be reset by passing this function an object of options. This will remove the previous configuration and overlays, and update the plugin with the new values. It takes [an options object as input](#plugin-options).
+
+```js
+// First initialization
+const overlay = player.overlay({
+  debug: true,
+  overlays: [{
+    content: 'The video is playing!',
+    start: 'play',
+    end: 'pause'
+  }]
+});
+
+// Update configuration with different overlays
+const overlayToRemove = overlay.reset({
+  debug: false,
+  overlays: [{
+    content: 'Some new overlay content!',
+    start: 'play',
+    end: 'pause'
+  }]
+});
+```
 
 ### Plugin Options
 

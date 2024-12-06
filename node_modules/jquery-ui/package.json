@@ -2,11 +2,11 @@
 	"name": "jquery-ui",
 	"title": "jQuery UI",
 	"description": "A curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.",
-	"version": "1.14.0",
+	"version": "1.14.1",
 	"homepage": "https://jqueryui.com",
 	"author": {
 		"name": "OpenJS Foundation and other contributors",
-		"url": "https://github.com/jquery/jquery-ui/blob/1.14.0/AUTHORS.txt"
+		"url": "https://github.com/jquery/jquery-ui/blob/1.14.1/AUTHORS.txt"
 	},
 	"main": "ui/widget.js",
 	"maintainers": [
@@ -55,17 +55,16 @@
 		"jquery": ">=1.12.0 <5.0.0"
 	},
 	"devDependencies": {
-		"body-parser": "1.20.2",
+		"body-parser": "1.20.3",
 		"browserstack-local": "1.5.5",
 		"commitplease": "3.2.0",
 		"diff": "5.2.0",
 		"eslint-config-jquery": "3.0.2",
 		"exit-hook": "4.0.0",
-		"express": "4.19.2",
+		"express": "4.21.1",
 		"express-body-parser-error-handler": "1.0.7",
 		"grunt": "1.6.1",
 		"grunt-bowercopy": "1.2.5",
-		"grunt-cli": "1.4.3",
 		"grunt-compare-size": "0.4.2",
 		"grunt-contrib-concat": "2.1.0",
 		"grunt-contrib-csslint": "2.0.0",
@@ -73,10 +72,10 @@
 		"grunt-contrib-uglify": "5.2.2",
 		"grunt-eslint": "24.0.1",
 		"grunt-git-authors": "3.2.0",
-		"grunt-html": "16.0.0",
+		"grunt-html": "17.1.0",
 		"load-grunt-tasks": "5.1.0",
-		"rimraf": "4.4.1",
-		"selenium-webdriver": "4.18.1",
+		"rimraf": "6.0.1",
+		"selenium-webdriver": "4.26.0",
 		"yargs": "17.7.2"
 	},
 	"keywords": []

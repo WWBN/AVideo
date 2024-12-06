@@ -4,7 +4,7 @@ import QUnit from 'qunit';
 import sinon from 'sinon';
 import videojs from 'video.js';
 
-import plugin from '../src/plugin';
+import plugin from '../src/index';
 
 const Player = videojs.getComponent('Player');
 const dom = videojs.dom || videojs;
@@ -628,10 +628,10 @@ QUnit.test('attach only to player when attachToControlbar is false', function(as
   );
 });
 
-QUnit.test('can deinitialize the plugin on reinitialization', function(assert) {
+QUnit.test('can reinitialize the plugin on reset', function(assert) {
   assert.expect(3);
 
-  this.player.overlay({
+  const overlayPlugin = this.player.overlay({
     attachToControlBar: true,
     overlays: [{
       start: 'start',
@@ -642,7 +642,7 @@ QUnit.test('can deinitialize the plugin on reinitialization', function(assert) {
     }]
   });
 
-  this.player.overlay({
+  overlayPlugin.reset({
     overlays: [{
       start: 'start',
       align: 'top-left'
@@ -708,7 +708,7 @@ QUnit.test('attach top overlay as previous sibling when attachToControlBar is in
 QUnit.test('attach overlays when attachToControlBar is true', function(assert) {
   assert.expect(4);
 
-  this.player.overlay({
+  const overlayPlugin = this.player.overlay({
     attachToControlBar: true,
     overlays: [{
       start: 'start',
@@ -724,7 +724,7 @@ QUnit.test('attach overlays when attachToControlBar is true', function(assert) {
     'bottom attaches as first child of control bar'
   );
 
-  this.player.overlay({
+  overlayPlugin.reset({
     attachToControlBar: true,
     overlays: [{
       start: 'start',
@@ -740,7 +740,7 @@ QUnit.test('attach overlays when attachToControlBar is true', function(assert) {
     'top attaches as previous sibiling of controlBar'
   );
 
-  this.player.overlay({
+  overlayPlugin.reset({
     attachToControlBar: 'RemainingTimeDisplay',
     overlays: [{
       start: 'start',
@@ -756,7 +756,7 @@ QUnit.test('attach overlays when attachToControlBar is true', function(assert) {
     'bottom attaches as previous sibiling of attachToControlBar component'
   );
 
-  this.player.overlay({
+  overlayPlugin.reset({
     attachToControlBar: 'RemainingTimeDisplay',
     overlays: [{
       start: 'start',
@@ -777,7 +777,7 @@ QUnit.test('attach overlays as last child when no controls are present', functio
   assert.expect(2);
   this.player.controls(false);
 
-  this.player.overlay({
+  const overlayPlugin = this.player.overlay({
     overlays: [{
       start: 'start',
       align: 'bottom'
@@ -792,7 +792,7 @@ QUnit.test('attach overlays as last child when no controls are present', functio
     'bottom attaches as last child of player'
   );
 
-  this.player.overlay({
+  overlayPlugin.reset({
     overlays: [{
       start: 'start',
       align: 'top'

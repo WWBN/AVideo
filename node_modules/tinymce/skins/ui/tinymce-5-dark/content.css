@@ -25,7 +25,7 @@
 .tox-comments-visible span.tox-comment > audio:not([data-mce-selected]),
 .tox-comments-visible span.tox-comment > video:not([data-mce-selected]),
 .tox-comments-visible span.tox-comment span.mce-preview-object:not([data-mce-selected]) {
-  outline: 3px solid #ffe796;
+  outline: 3px solid #4e4f3b;
 }
 .tox-comments-visible .tox-comment[contenteditable="false"][data-mce-annotation-active="true"]:not([data-mce-selected]) {
   outline: 3px solid #ffcf30;
@@ -37,14 +37,14 @@
   outline: 3px solid #ffcf30;
 }
 .tox-comments-visible span.tox-comment:not([data-mce-selected]) {
-  background-color: #ffe796;
+  background-color: #4e4f3b;
   outline: none;
 }
 .tox-comments-visible span.tox-comment[data-mce-annotation-active="true"]:not([data-mce-selected="inline-boundary"]) {
-  background-color: #ffcf30;
+  background-color: #4e4f3b;
 }
 .tox-comments-visible span.tox-comment[data-mce-selected] {
-  background-color: #ffcf30;
+  background-color: #4e4f3b;
   border-radius: 3px;
   box-shadow: 0 0 0 2px #006ce7;
 }

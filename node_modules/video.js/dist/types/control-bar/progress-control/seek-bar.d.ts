@@ -6,6 +6,8 @@ export default SeekBar;
  * @extends Slider
  */
 declare class SeekBar extends Slider {
+    shouldDisableSeekWhileScrubbingOnMobile_: boolean;
+    pendingSeekTime_: any;
     /**
      * Sets the event handlers
      *

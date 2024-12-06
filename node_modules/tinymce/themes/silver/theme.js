@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.4.1 (TBD)
+ * TinyMCE version 7.5.1 (TBD)
  */
 
 (function () {
@@ -12746,12 +12746,18 @@
     const foregroundId = 'forecolor';
     const backgroundId = 'hilitecolor';
     const fallbackCols = 5;
-    const mapColors = colorMap => {
+    const mapColors = colorMap => mapColorsRaw(colorMap.map((color, index) => {
+      if (index % 2 === 0) {
+        return '#' + anyToHex(color).value;
+      }
+      return color;
+    }));
+    const mapColorsRaw = colorMap => {
       const colors = [];
       for (let i = 0; i < colorMap.length; i += 2) {
         colors.push({
           text: colorMap[i + 1],
-          value: '#' + anyToHex(colorMap[i]).value,
+          value: colorMap[i],
           icon: 'checkmark',
           type: 'choiceitem'
         });
@@ -12766,6 +12772,19 @@
         if (isArrayOf(value, isString)) {
           return {
             value: mapColors(value),
+            valid: true
+          };
+        } else {
+          return {
+            valid: false,
+            message: 'Must be an array of strings.'
+          };
+        }
+      };
+      const colorProcessorRaw = value => {
+        if (isArrayOf(value, isString)) {
+          return {
+            value: mapColorsRaw(value),
             valid: true
           };
         } else {
@@ -12837,6 +12856,7 @@
           'White'
         ]
       });
+      registerOption('color_map_raw', { processor: colorProcessorRaw });
       registerOption('color_map_background', { processor: colorProcessor });
       registerOption('color_map_foreground', { processor: colorProcessor });
       registerOption('color_cols', {
@@ -12869,6 +12889,8 @@
         return option$1('color_map_foreground')(editor);
       } else if (id === backgroundId && editor.options.isSet('color_map_background')) {
         return option$1('color_map_background')(editor);
+      } else if (editor.options.isSet('color_map_raw')) {
+        return option$1('color_map_raw')(editor);
       } else {
         return option$1('color_map')(editor);
       }
@@ -16320,17 +16342,15 @@
         const tooltipApi = Cell(uninitiatedTooltipApi);
         const helptext = translate(translatePrefix + 'range');
         const pLabel = FormField.parts.label({
-          dom: {
-            tag: 'label',
-            attributes: { 'aria-label': description }
-          },
+          dom: { tag: 'label' },
           components: [text$2(label)]
         });
         const pField = FormField.parts.field({
           data,
           factory: Input,
           inputAttributes: {
-            type: 'text',
+            'type': 'text',
+            'aria-label': description,
             ...name === 'hex' ? { 'aria-live': 'polite' } : {}
           },
           inputClasses: [getClass('textfield')],
@@ -16827,11 +16847,11 @@
 
     const english = {
       'colorcustom.rgb.red.label': 'R',
-      'colorcustom.rgb.red.description': 'Red component',
+      'colorcustom.rgb.red.description': 'Red channel',
       'colorcustom.rgb.green.label': 'G',
-      'colorcustom.rgb.green.description': 'Green component',
+      'colorcustom.rgb.green.description': 'Green channel',
       'colorcustom.rgb.blue.label': 'B',
-      'colorcustom.rgb.blue.description': 'Blue component',
+      'colorcustom.rgb.blue.description': 'Blue channel',
       'colorcustom.rgb.hex.label': '#',
       'colorcustom.rgb.hex.description': 'Hex color code',
       'colorcustom.rgb.range': 'Range 0 to 255',
@@ -21546,7 +21566,7 @@
             return optScrollingContext.fold(() => {
               const boundsWithoutOffset = win();
               const offset = getStickyToolbarOffset(editor);
-              const top = boundsWithoutOffset.y + (isDockedMode(comp, 'top') ? offset : 0);
+              const top = boundsWithoutOffset.y + (isDockedMode(comp, 'top') && !isFullscreen(editor) ? offset : 0);
               const height = boundsWithoutOffset.height - (isDockedMode(comp, 'bottom') ? offset : 0);
               return {
                 bounds: bounds(boundsWithoutOffset.x, top, boundsWithoutOffset.width, height),
@@ -30621,7 +30641,9 @@
     const initCommonEvents = (fireApiEvent, extras) => [
       runWithTarget(focusin(), onFocus),
       fireApiEvent(formCloseEvent, (_api, spec, _event, self) => {
-        active$1(getRootNode(self.element)).fold(noop, blur$1);
+        if (hasFocus(self.element)) {
+          active$1(getRootNode(self.element)).each(blur$1);
+        }
         extras.onClose();
         spec.onClose();
       }),

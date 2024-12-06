@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.4.1 (TBD)
+ * TinyMCE version 7.5.1 (TBD)
  */
 
 (function () {
@@ -19666,7 +19666,14 @@
             getImplementation().close(notification);
           });
         });
-        editor.addShortcut('alt+F12', 'Focus to notification', () => getTopNotification().map(notificationApi => SugarElement.fromDom(notificationApi.getEl())).each(elm => focus$1(elm)));
+        editor.on('keydown', e => {
+          var _a;
+          const isF12 = ((_a = e.key) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === 'f12' || e.keyCode === 123;
+          if (e.altKey && isF12) {
+            e.preventDefault();
+            getTopNotification().map(notificationApi => SugarElement.fromDom(notificationApi.getEl())).each(elm => focus$1(elm));
+          }
+        });
       };
       registerEvents(editor);
       return {
@@ -23678,7 +23685,7 @@
 
     const isValidTextRange = rng => rng.collapsed && isText$b(rng.startContainer);
     const getText = rng => trim$2(rng.toString().replace(/\u00A0/g, ' '));
-    const isWhitespace = chr => chr !== '' && ' \xA0\f\n\r\t\x0B'.indexOf(chr) !== -1;
+    const isWhitespace = chr => chr !== '' && ' \xA0\uFEFF\f\n\r\t\x0B'.indexOf(chr) !== -1;
 
     const stripTrigger = (text, trigger) => text.substring(trigger.length);
     const findTrigger = (text, index, trigger, includeWhitespace = false) => {
@@ -31616,7 +31623,7 @@
       documentBaseURL: null,
       suffix: null,
       majorVersion: '7',
-      minorVersion: '4.1',
+      minorVersion: '5.1',
       releaseDate: 'TBD',
       i18n: I18n,
       activeEditor: null,

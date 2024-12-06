@@ -1825,6 +1825,7 @@ declare class Player extends Component {
             horizontalSeek: boolean;
         };
         enableSmoothSeeking: boolean;
+        disableSeekWhileScrubbingOnMobile: boolean;
     };
 }
 declare namespace Player {

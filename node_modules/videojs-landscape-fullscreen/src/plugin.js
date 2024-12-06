@@ -1,6 +1,8 @@
 import videojs from 'video.js';
-import {version as VERSION} from '../package.json';
+import packageJson from '../package.json';
 import window from 'global/window';
+
+const VERSION = packageJson.version;
 
 // Default options for the plugin.
 const defaults = {

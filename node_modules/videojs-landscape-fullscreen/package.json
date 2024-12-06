@@ -1,7 +1,7 @@
 {
     "name": "videojs-landscape-fullscreen",
     "author": "Prateek Rastogi",
-    "version": "12.2.0",
+    "version": "12.3.0",
     "license": "MIT",
     "description": "Videojs on Mobile and/or React: Automatically Switch to Landscape on Fullscreen, and Fullscreen on Landscape",
     "main": "src/plugin.js",

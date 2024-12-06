@@ -1212,7 +1212,7 @@ button::-moz-focus-inner {
   line-height: 28px;
 }
 .tox .tox-comment {
-  background: #2b3b4e;
+  background: #222f3e;
   border: 1px solid #000000;
   border-radius: 3px;
   padding: 8px 8px 16px 8px;
@@ -1222,7 +1222,7 @@ button::-moz-focus-inner {
   box-shadow: 0 4px 8px 0 rgba(42, 55, 70, 0.1);
 }
 .tox .tox-comment.tox-comment--selected {
-  background-color: #fff2c9;
+  background-color: #555542;
   border: 1px solid #ffcf30;
   box-shadow: 0px 4px 8px 0px rgba(34, 47, 62, 0.1);
 }
@@ -1312,8 +1312,8 @@ button::-moz-focus-inner {
   z-index: 10;
 }
 .tox .tox-comment__overlaytext p {
-  background-color: #2b3b4e;
-  box-shadow: 0 0 8px 8px #2b3b4e;
+  background-color: #222f3e;
+  box-shadow: 0 0 8px 8px #222f3e;
   color: #fff;
   text-align: center;
 }
@@ -1347,7 +1347,7 @@ button::-moz-focus-inner {
   background-color: transparent;
 }
 .tox .tox-comment-thread {
-  background: #2b3b4e;
+  background: #222f3e;
   position: relative;
   border-radius: 6px;
   background-color: transparent;
@@ -1356,7 +1356,7 @@ button::-moz-focus-inner {
   margin-top: 8px;
 }
 .tox .tox-comment-thread__overlay::after {
-  background: #2b3b4e;
+  background: #222f3e;
   bottom: 0;
   content: "";
   display: flex;
@@ -1382,10 +1382,10 @@ button::-moz-focus-inner {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 .tox .tox-comment__gradient::after {
-  background: linear-gradient(rgba(43, 59, 78, 0), #2b3b4e);
+  background: linear-gradient(rgba(34, 47, 62, 0), #222f3e);
   bottom: 0;
   content: "";
   display: block;
@@ -1395,7 +1395,7 @@ button::-moz-focus-inner {
   width: 100%;
 }
 .tox .tox-comment__overlay {
-  background: #2b3b4e;
+  background: #222f3e;
   bottom: 0;
   display: flex;
   flex-direction: column;
@@ -1410,7 +1410,7 @@ button::-moz-focus-inner {
 }
 .tox .tox-comment__busy-spinner {
   align-items: center;
-  background-color: #2b3b4e;
+  background-color: #222f3e;
   bottom: 0;
   display: flex;
   justify-content: center;
@@ -3296,7 +3296,6 @@ body.tox-dialog__disable-scroll {
   flex: 1 1 auto;
   height: 16px;
   justify-content: space-between;
-  overflow: hidden;
 }
 @media only screen and (min-width: 768px ) {
   .tox .tox-statusbar__text-container.tox-statusbar__text-container-3-cols > .tox-statusbar__help-text,
@@ -3961,9 +3960,9 @@ body.tox-dialog__disable-scroll {
 .tox.tox-platform-touch .tox-split-button__chevron {
   width: 20px;
 }
-.tox .tox-split-button.tox-tbtn--disabled svg #tox-icon-text-color__color,
-.tox .tox-split-button.tox-tbtn--disabled svg #tox-icon-highlight-bg-color__color {
-  opacity: 0.6;
+.tox .tox-split-button.tox-tbtn--disabled svg .tox-icon-text-color__color,
+.tox .tox-split-button.tox-tbtn--disabled svg .tox-icon-highlight-bg-color__color {
+  opacity: 0.3;
 }
 .tox .tox-toolbar-overlord {
   background-color: #222f3e;
