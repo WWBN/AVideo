@@ -867,7 +867,7 @@ function playVideoSegment(startTime, endTime) {
 
 
 function playerPlayIfAutoPlay(currentTime) {
-    console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
+    console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime, isLive);
     if (isWebRTC()) {
         return false;
     }
@@ -1094,6 +1094,7 @@ var startCurrentTime = 0;
 var forceCurrentTime = null;
 function setCurrentTime(currentTime) {
     if(typeof isLive !== 'undefined' && isLive){
+        console.log("setCurrentTime: isLive", currentTime, isLive);
         return false;
     }
     //console.log("setCurrentTime:", currentTime, forceCurrentTime);
