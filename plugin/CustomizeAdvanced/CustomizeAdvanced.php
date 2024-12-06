@@ -816,6 +816,45 @@ Disallow: *action=tagsearch*
         include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/actionButton.php';
     }
 
+    static function autoConvert()
+    {
+        global $global;
+        $sql = "SELECT * FROM  videos WHERE `type` = '" . Video::$videoTypeVideo . "' ORDER BY id DESC ";
+        $res = sqlDAL::readSql($sql, "", [], true);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $transferStatus = [];
+        $transferStatus[] = Video::$statusActive;
+        $transferStatus[] = Video::$statusFansOnly;
+        $transferStatus[] = Video::$statusScheduledReleaseDate;
+        $transferStatus[] = Video::$statusUnlisted;
+        $transferStatus[] = Video::$statusUnlistedButSearchable;
+
+        if ($res != false) {
+            foreach ($fullData as $key => $row) {
+                if (in_array($row['status'], $transferStatus)) {
+                    $folderPath = "{$global['systemRootPath']}videos/{$row['filename']}/";
+                    $mp3 = findMP3File($folderPath);
+                    if (!empty($mp3)) {
+                        _error_log("CustomizeAdvanced::autoConvert {$row['id']} to MP4 $folderPath");
+                        $resp = self::createMP3($row['id']);
+                    } else {
+                        //_error_log('VideoHLS::autoConvert to MP4 (already converted) '.$row['id']." $mp4");
+                    }
+                } else {
+                    //_error_log("VideoHLS::autoConvert to MP4 (wrong status [{$row['status']}]) ".$row['id']);
+                }
+            }
+        }
+    }
+
+
+    function executeEveryHour() {
+        $obj = AVideoPlugin::getDataObject('CustomizeAdvanced');
+        if($obj->autoConvertVideosToMP3){
+            self::autoConvert();
+        }
+    }
 }
 
 class SocialMedias {
