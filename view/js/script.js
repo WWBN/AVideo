@@ -1093,7 +1093,7 @@ var initdone = false;
 var startCurrentTime = 0;
 var forceCurrentTime = null;
 function setCurrentTime(currentTime) {
-    if(isLive){
+    if(typeof isLive !== 'undefined' && isLive){
         return false;
     }
     //console.log("setCurrentTime:", currentTime, forceCurrentTime);
