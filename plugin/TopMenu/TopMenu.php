@@ -45,6 +45,7 @@ class TopMenu extends PluginAbstract {
         }
         $o->value = 4;
         $obj->compactMenuIfIsGreaterThen = $o;
+        $obj->showBackToTopButton = true;
         
         return $obj;
      }
@@ -204,7 +205,14 @@ class TopMenu extends PluginAbstract {
 
     public function getFooterCode(){
         global $global;
+        
+        $obj = $this->getDataObject();
+
         if(!isIframe() && !isEmbed()){
+            echo '<link href="' . getURL('plugin/TopMenu/float.css') . '" rel="stylesheet" type="text/css"/>';
+            if($obj->showBackToTopButton){
+                include $global['systemRootPath'] . 'plugin/TopMenu/floatBackToTop.php';    
+            }
             include $global['systemRootPath'] . 'plugin/TopMenu/floatMenu.php';
         }
     }

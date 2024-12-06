@@ -1,0 +1,50 @@
+.floatingRightBottom {
+    position: fixed;
+    bottom: 35px;
+    right: 35px;
+    z-index: 19999;
+    transition: margin-bottom 0.3s ease;
+}
+
+.back-to-top-on #topMenuFloatMenu{
+    margin-bottom: 70px;
+}
+
+.Chat2StaticRight .floatingRightBottom,
+.chat2Collapsed .floatingRightBottom {
+    display: none;
+    bottom: 90px;
+}
+
+.chat2Collapsed .floatingRightBottom {
+    display: block;
+}
+
+.circle-menu {
+    z-index: 9999;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px 1px black;
+}
+
+.submenu {
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+}
+
+.submenu-item {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    padding-top: 15px;
+    box-shadow: 0 0 15px 1px black;
+}
+
+/* Back to Top Button Styles */
+#back-to-top {
+    display: none;
+    text-align: center;
+}
