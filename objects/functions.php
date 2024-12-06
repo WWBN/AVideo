@@ -1056,7 +1056,9 @@ function getAudioOrVideoURLOnly($fileName, $recreateCache = false)
         _error_log("getAudioOrVideoURLOnly($fileName) " . json_encode($allFiles));
     }
     foreach ($allFiles as $key => $value) {
-        if ($value['type'] !== 'video' && $value['type'] !== 'audio') {
+        if (
+            ($value['type'] !== 'video' && $value['type'] !== 'audio') || 
+            (preg_match('/offline/i', $key) || preg_match('/.lock/i', $key))) {
             unset($allFiles[$key]);
         }
     }

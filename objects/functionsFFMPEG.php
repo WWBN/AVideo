@@ -150,7 +150,7 @@ function m3u8ToMP4($input, $makeItPermanent = false, $force = false)
     if (file_exists($lockFile) || $force) {
         $lockFileAge = time() - filemtime($lockFile);
         if ($lockFileAge <= 600) { // 10 minutes = 600 seconds
-            _error_log("m3u8ToMP4: Another process is already running. Lock file age: {$lockFileAge} seconds.");
+            _error_log("m3u8ToMP4: Another process is already running. Lock file age: {$lockFileAge} seconds. [$lockFile]");
             return [
                 'error' => true,
                 'msg' => 'Another process is already running. Please wait and try again.',
