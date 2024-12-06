@@ -1115,6 +1115,7 @@ function setCurrentTime(currentTime) {
                 return false; // if is trying to play, only update if the time is greater
             }
         }
+        console.log("setCurrentTime 1: ", currentTime, isLive);
         player.currentTime(currentTime);
         initdone = false;
         // wait for video metadata to load, then set time 
