@@ -6,6 +6,10 @@ $video_id = $_REQUEST['video_id'];
 if (!empty($video_id) && Video::canEdit($video_id)) {
     $editVideo = Video::getVideo($video_id, '');
 }
+
+if (empty($advancedCustom)) {
+    $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+}
 ?>
 <style>
     <?php
@@ -153,7 +157,8 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
     body.compact #grid {
         font-size: 12px !important;
     }
-    body.compact #grid .titleBtn{
+
+    body.compact #grid .titleBtn {
         font-size: 0.8em !important;
     }
 </style>
@@ -208,20 +213,36 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
                         <span class="fa fa-cog"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?></span>
                     </a>
 
-                    <button class="btn btn-sm btn-xs btn-default" onclick="newDirectUploadVideo();" id="uploadMp4Button" data-toggle="tooltip" title="<?php echo __("Upload files without encode"), ' ', implode(', ', CustomizeAdvanced::directUploadFiletypes()); ?>">
-                        <span class="fa fa-upload"></span>
-                        <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></span>
-                    </button>
-
-                    <button class="btn btn-sm btn-xs btn-default" id="embedVideoLinkButton">
-                        <span class="fa fa-link"></span>
-                        <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Embed a video link"); ?></span>
-                    </button>
-
-                    <button class="btn btn-sm btn-xs btn-default" id="addArticleButton" onclick="newArticle()">
-                        <i class="far fa-newspaper"></i>
-                        <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Add Article"); ?></span>
-                    </button>
+                    <?php
+                    if (CustomizeAdvanced::showDirectUploadButton()) {
+                    ?>
+                        <button class="btn btn-sm btn-xs btn-default" onclick="newDirectUploadVideo();" id="uploadMp4Button" data-toggle="tooltip" title="<?php echo __("Upload files without encode"), ' ', implode(', ', CustomizeAdvanced::directUploadFiletypes()); ?>">
+                            <span class="fa fa-upload"></span>
+                            <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></span>
+                        </button>
+                    <?php
+                    }
+                    ?>
+                    <?php
+                    if (empty($advancedCustom->doNotShowEmbedButton)) {
+                    ?>
+                        <button class="btn btn-sm btn-xs btn-default" id="embedVideoLinkButton">
+                            <span class="fa fa-link"></span>
+                            <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Embed a video link"); ?></span>
+                        </button>
+                    <?php
+                    }
+                    ?>
+                    <?php
+                    if (AVideoPlugin::isEnabledByName("Articles")) {
+                    ?>
+                        <button class="btn btn-sm btn-xs btn-default" id="addArticleButton" onclick="newArticle()">
+                            <i class="far fa-newspaper"></i>
+                            <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Add Article"); ?></span>
+                        </button>
+                    <?php
+                    }
+                    ?>
 
                     <button class="btn btn-sm btn-xs btn-default" id="sortVideosButton" onclick="avideoModalIframeFullScreen(webSiteRootURL+'view/managerVideosOrganize.php');">
                         <i class="fas fa-sort-amount-up-alt"></i>
@@ -273,7 +294,7 @@ if (!empty($video_id) && Video::canEdit($video_id)) {
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
                 <?php if ($advancedCustom->videosManegerBulkActionButtons) {
-                    $categories = Category::getAllCategories(true); 
+                    $categories = Category::getAllCategories(true);
                     if (!empty($categories)) {
                         if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canAdminVideos()) { ?>
                             <div class="btn-group" id="categoriesBtnGroup">
