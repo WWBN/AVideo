@@ -1463,9 +1463,9 @@ if (!class_exists('Video')) {
                     $sql .= " ORDER BY v.Created DESC ";
                 }
             }
-            if (strpos($sql, 'v.id IN') === false && strpos(mb_strtolower($sql), 'limit') === false) {
+            if (strpos($sql, 'v.id IN') === false && !preg_match('/LIMIT\s+\d+/i', preg_replace('/\([^\)]*\)/', '', $sql))) {
                 $sql .= " LIMIT {$firstClauseLimit}1";
-            }
+            }            
             $lastGetVideoSQL = $sql;
             //echo $sql, "<br>";//var_dump(debug_backtrace());exit;
             $res = sqlDAL::readSql($sql);
