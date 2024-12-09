@@ -21,13 +21,13 @@ $userObj = new User(0, $user, $password);
 $userObj->login(false, true);
 
 if (!User::canUpload()) {
-    $object->msg = "You can not upload [".User::getId()."] ".(User::getUserName());
+    $object->msg = "You can not upload [" . User::getId() . "] " . (User::getUserName());
     die(json_encode($object));
 }
 
 // A list of permitted file extensions
 $allowed = ['mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv', 'mpg', 'mpeg', 'f4v', 'm4v', 'm4a', 'm2p', 'rm', 'vob', 'mkv', 'jpg', 'jpeg', 'gif', 'png', 'webp'];
-_error_log("MOBILE UPLOAD: Starts ".getRealIpAddr());
+_error_log("MOBILE UPLOAD: Starts " . getRealIpAddr() . ' ' . json_encode(getServerLimits()));
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
     _error_log("MOBILE UPLOAD: extension {$extension}");
@@ -61,10 +61,10 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $limitAfterThisFile = $currentStorageUsage + $thisFile;
         if ($maxDuration < $limitAfterThisFile) {
             $object->msg = "Sorry, your storage limit has run out."
-                    . "<br>[Max Duration: {$maxDuration} Seconds]"
-                    . "<br>[Current Srotage Usage: {$currentStorageUsage} Seconds]"
-                    . "<br>[This File Duration: {$thisFile} Seconds]"
-                    . "<br>[Limit after this file: {$limitAfterThisFile} Seconds]";
+                . "<br>[Max Duration: {$maxDuration} Seconds]"
+                . "<br>[Current Srotage Usage: {$currentStorageUsage} Seconds]"
+                . "<br>[This File Duration: {$thisFile} Seconds]"
+                . "<br>[Limit after this file: {$limitAfterThisFile} Seconds]";
 
             if (!empty($_FILES['upl']['videoId'])) {
                 $video = new Video("", "", $_FILES['upl']['videoId']);
@@ -105,7 +105,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $file = "{$paths['path']}{$paths['filename']}.{$extension}";
         if (!move_uploaded_file($_FILES['upl']['tmp_name'], $file)) {
             $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . $file . ")";
-            _error_log("MOBILE UPLOAD IMAGE ERROR: ".  json_encode($object));
+            _error_log("MOBILE UPLOAD IMAGE ERROR: " .  json_encode($object));
             die(json_encode($object));
         }
         $object->error = false;
@@ -114,9 +114,9 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     } else {
         $video->setStatus(Video::$statusEncoding);
 
-        if (!move_uploaded_file($_FILES['upl']['tmp_name'], Video::getStoragePath()."original_" . $filename)) {
-            $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . Video::getStoragePath()."original_" . $filename . ")";
-            _error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
+        if (!move_uploaded_file($_FILES['upl']['tmp_name'], Video::getStoragePath() . "original_" . $filename)) {
+            $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . Video::getStoragePath() . "original_" . $filename . ")";
+            _error_log("MOBILE UPLOAD ERROR: " .  json_encode($object));
             die(json_encode($object));
         }
         $object->videos_id = $video->save();
@@ -126,7 +126,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
     $object->posterSent = false;
 
-    if(!empty($object->videos_id) && !empty($_REQUEST['base64PNG'])){
+    if (!empty($object->videos_id) && !empty($_REQUEST['base64PNG'])) {
         $filePng = "{$paths['path']}{$paths['filename']}.png";
         $fileJpg = "{$paths['path']}{$paths['filename']}.jpg";
         $object->posterSent = saveBase64DataToPNGImage($_REQUEST['base64PNG'], $filePng);
@@ -134,7 +134,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         Video::clearImageCache($paths['filename']);
     }
 
-    _error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
+    _error_log("MOBILE SUCCESS UPLOAD: " .  json_encode($object));
     die(json_encode($object));
 } else {
     _error_log("MOBILE UPLOAD: File Not exists - " . json_encode($_FILES));

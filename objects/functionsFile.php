@@ -36,6 +36,30 @@ function file_upload_max_size()
     return $max_size;
 }
 
+function getServerLimits() {
+    // Get PHP limits
+    $limits = [
+        'upload_max_filesize' => ini_get('upload_max_filesize'),
+        'post_max_size' => ini_get('post_max_size'),
+        'max_execution_time' => ini_get('max_execution_time'),
+        'max_input_time' => ini_get('max_input_time')
+    ];
+
+    // Check for Apache-specific limits if running under Apache
+    if (function_exists('apache_get_version')) {
+        $limits['apache_version'] = apache_get_version();
+    }
+
+    // Check if mod_reqtimeout is enabled
+    if (file_exists('/etc/apache2/mods-enabled/reqtimeout.conf')) {
+        $reqtimeout = file_get_contents('/etc/apache2/mods-enabled/reqtimeout.conf');
+        preg_match_all('/RequestReadTimeout\s+(header=.*?,minrate=.*?|body=.*?,minrate=.*?)/', $reqtimeout, $matches);
+        $limits['apache_reqtimeout'] = isset($matches[0]) ? $matches[0] : 'Not set';
+    }
+
+    return $limits;
+}
+
 function parse_size($size)
 {
     $unit = preg_replace('/[^bkmgtpezy]/i', '', $size); // Remove the non-unit characters from the size.
