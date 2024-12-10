@@ -176,7 +176,7 @@ if (!empty($evideo)) {
             if (!empty($video['id'])) {
                 $autoPlayVideo = Video::getRandom($video['id'], 'suggested');
                 if(!empty($_GET['debug'])){
-                    //var_dump(__FILE__, __LINE__);
+                    var_dump(__FILE__, __LINE__, $lastGetVideoSQL);
                 }
                 //var_dump($autoPlayVideo['id']);exit;
                 if (empty($autoPlayVideo['id'])) {
