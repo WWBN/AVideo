@@ -175,6 +175,30 @@ if (empty($meet_schedule_id)) {
             // Log the event details for debugging
             console.log('participantJoined: Event triggered:', participan);
         });
+        // Listener for the breakoutRoomsUpdated event
+        api.addListener('breakoutRoomsUpdated', (event) => {
+            console.log('breakoutRoomsUpdated:', event);
+        });
+
+        // Listener for the dataChannelOpened event
+        api.addListener('dataChannelOpened', (event) => {
+            console.log('dataChannelOpened:', event);
+        });
+
+        // Listener for the endpointTextMessageReceived event
+        api.addListener('endpointTextMessageReceived', (event) => {
+            console.log('endpointTextMessageReceived:', event);
+        });
+
+        // Listener for the nonParticipantMessageReceived event
+        api.addListener('nonParticipantMessageReceived', (event) => {
+            console.log('nonParticipantMessageReceived:', event);
+        });
+
+        // Listener for the log event
+        api.addListener('log', (event) => {
+            console.log('log event:', event);
+        });
 
 
         <?php
