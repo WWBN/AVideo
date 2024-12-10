@@ -177,27 +177,27 @@ if (empty($meet_schedule_id)) {
         });
         // Listener for the breakoutRoomsUpdated event
         api.addListener('breakoutRoomsUpdated', (event) => {
-            console.log('breakoutRoomsUpdated:', event);
+            console.log('breakoutRoomsUpdated: Event triggered:', event);
         });
 
         // Listener for the dataChannelOpened event
         api.addListener('dataChannelOpened', (event) => {
-            console.log('dataChannelOpened:', event);
+            console.log('dataChannelOpened: Event triggered:', event);
         });
 
         // Listener for the endpointTextMessageReceived event
         api.addListener('endpointTextMessageReceived', (event) => {
-            console.log('endpointTextMessageReceived:', event);
+            console.log('endpointTextMessageReceived: Event triggered:', event);
         });
 
         // Listener for the nonParticipantMessageReceived event
         api.addListener('nonParticipantMessageReceived', (event) => {
-            console.log('nonParticipantMessageReceived:', event);
+            console.log('nonParticipantMessageReceived: Event triggered:', event);
         });
 
         // Listener for the log event
         api.addListener('log', (event) => {
-            console.log('log event:', event);
+            console.log('log event: Event triggered:', event);
         });
 
 
