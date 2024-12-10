@@ -175,6 +175,11 @@ if (empty($meet_schedule_id)) {
             // Log the event details for debugging
             console.log('participantJoined: Event triggered:', participan);
         });
+
+        api.addListener('participantUpdated', (event) => {
+            console.log('participantUpdated event:', event);
+        });
+
         // Listener for the breakoutRoomsUpdated event
         api.addListener('breakoutRoomsUpdated', (event) => {
             console.log('breakoutRoomsUpdated: Event triggered:', event);
