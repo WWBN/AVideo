@@ -169,10 +169,19 @@ if (empty($meet_schedule_id)) {
             readyToClose: readyToClose,
         });
 
+        let myUserID;
+
+        // Listen for when the local participant joins the conference
+        api.addListener('videoConferenceJoined', (event) => {
+            console.log('videoConferenceJoined', event);
+            myUserID = event.id; // Save the local participant's ID
+        });
+
+        // Listen for participants joining the conference
         api.addListener('participantJoined', (participant) => {
-            console.log('participantJoined', participant, api._myUserID);
+            console.log('participantJoined', participant, myUserID);
             // Check if the participant is the local participant
-            if (participant.id === api._myUserID) {
+            if (participant.id === myUserID) {
                 console.log('participantJoined will change');
                 let currentName = participant.displayName || "";
 
