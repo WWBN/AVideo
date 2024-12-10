@@ -172,7 +172,7 @@ if (empty($meet_schedule_id)) {
         api.addListener('participantJoined', (participant) => {
             console.log('participantJoined', participant);
             // Check if the participant is the local participant
-            if (participant.id === 'local') {
+            if (participant.id === api._myUserID) {
                 let currentName = participant.displayName || "";
 
                 // Check if the display name looks like a phone number
