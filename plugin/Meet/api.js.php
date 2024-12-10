@@ -171,50 +171,9 @@ if (empty($meet_schedule_id)) {
 
         let myUserID;
 
-        api.executeCommand('displayName', 'Loading...'); // Set temporary display name
-
-        api.addListener('videoConferenceJoined', (event) => {
+        api.addListener('participantJoined', (participan) => {
             // Log the event details for debugging
-            console.log('videoConferenceJoined: Event triggered:', event);
-
-            // Extract necessary details
-            const roomName = event.roomName;
-            const userId = event.id; // Local participant's ID
-            const displayName = event.displayName; // Current display name
-
-            // Log extracted details
-            console.log(`videoConferenceJoined: Local user joined room: ${roomName}`);
-            console.log(`videoConferenceJoined: Local participant ID: ${userId}`);
-            console.log(`videoConferenceJoined: Current display name: ${displayName}`);
-
-            // Check if the display name looks like a phone number
-            const phonePattern = /^[0-9()\-\s]+$/;
-            if (phonePattern.test(displayName)) {
-                console.log('videoConferenceJoined: Display name looks like a phone number, updating it.');
-
-                // Remove all non-numeric characters
-                const numbers = displayName.replace(/\D/g, '');
-
-                // Format the phone number to ** ****-**XX
-                let newName = '';
-                if (numbers.length >= 4) {
-                    newName = `** ****-**${numbers.slice(-2)}`;
-                } else {
-                    newName = '**'; // Fallback for short numbers
-                }
-
-                // Log the new display name
-                console.log(`videoConferenceJoined: Updated display name: ${newName}`);
-
-                // Update the display name
-                api.executeCommand('displayName', newName);
-            } else {
-                console.log('videoConferenceJoined: Display name does not look like a phone number, keeping original.');
-
-                // Log and retain the original display name
-                console.log(`videoConferenceJoined: Retaining display name: ${displayName}`);
-                api.executeCommand('displayName', displayName);
-            }
+            console.log('participantJoined: Event triggered:', participan);
         });
 
 
