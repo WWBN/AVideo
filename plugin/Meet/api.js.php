@@ -170,14 +170,16 @@ if (empty($meet_schedule_id)) {
         });
 
         api.addListener('participantJoined', (participant) => {
-            console.log('participantJoined', participant);
+            console.log('participantJoined', participant, api._myUserID);
             // Check if the participant is the local participant
             if (participant.id === api._myUserID) {
+                console.log('participantJoined will change');
                 let currentName = participant.displayName || "";
 
                 // Check if the display name looks like a phone number
                 const phonePattern = /^[0-9()\-\s]+$/;
                 if (phonePattern.test(currentName)) {
+                    console.log('participantJoined will change confirmed');
                     // Remove all non-numeric characters
                     const numbers = currentName.replace(/\D/g, '');
 
