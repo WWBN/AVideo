@@ -171,44 +171,52 @@ if (empty($meet_schedule_id)) {
 
         let myUserID;
 
-        // Set a loading name initially
-        api.executeCommand('displayName', 'Loading...');
+        api.executeCommand('displayName', 'Loading...'); // Set temporary display name
 
-        // Listen for when the local participant successfully joins the conference
         api.addListener('videoConferenceJoined', (event) => {
-            console.log('videoConferenceJoined', event);
-            myUserID = event.id; // Save the local participant's ID
+            // Log the event details for debugging
+            console.log('videoConferenceJoined: Event triggered:', event);
 
-            // Get the current display name of the local participant
-            api.getParticipantsInfo().then((participants) => {
-                const localParticipant = participants.find(p => p.participantId === myUserID);
-                if (localParticipant) {
-                    let currentName = localParticipant.displayName || "";
+            // Extract necessary details
+            const roomName = event.roomName;
+            const userId = event.id; // Local participant's ID
+            const displayName = event.displayName; // Current display name
 
-                    // Check if the display name looks like a phone number
-                    const phonePattern = /^[0-9()\-\s]+$/;
-                    if (phonePattern.test(currentName)) {
-                        console.log('Updating display name for local participant');
-                        // Remove all non-numeric characters
-                        const numbers = currentName.replace(/\D/g, '');
+            // Log extracted details
+            console.log(`videoConferenceJoined: Local user joined room: ${roomName}`);
+            console.log(`videoConferenceJoined: Local participant ID: ${userId}`);
+            console.log(`videoConferenceJoined: Current display name: ${displayName}`);
 
-                        // Format the phone number to ** ****-**XX
-                        if (numbers.length >= 4) {
-                            currentName = `** ****-**${numbers.slice(-2)}`;
-                        } else {
-                            currentName = '**';
-                        }
+            // Check if the display name looks like a phone number
+            const phonePattern = /^[0-9()\-\s]+$/;
+            if (phonePattern.test(displayName)) {
+                console.log('videoConferenceJoined: Display name looks like a phone number, updating it.');
 
-                        // Update the display name for the local participant
-                        api.executeCommand('displayName', currentName);
-                    } else {
-                        // Restore the original display name if not a phone number
-                        console.log('Restoring original display name');
-                        api.executeCommand('displayName', currentName);
-                    }
+                // Remove all non-numeric characters
+                const numbers = displayName.replace(/\D/g, '');
+
+                // Format the phone number to ** ****-**XX
+                let newName = '';
+                if (numbers.length >= 4) {
+                    newName = `** ****-**${numbers.slice(-2)}`;
+                } else {
+                    newName = '**'; // Fallback for short numbers
                 }
-            });
+
+                // Log the new display name
+                console.log(`videoConferenceJoined: Updated display name: ${newName}`);
+
+                // Update the display name
+                api.executeCommand('displayName', newName);
+            } else {
+                console.log('videoConferenceJoined: Display name does not look like a phone number, keeping original.');
+
+                // Log and retain the original display name
+                console.log(`videoConferenceJoined: Retaining display name: ${displayName}`);
+                api.executeCommand('displayName', displayName);
+            }
         });
+
 
         <?php
         if (!empty($rtmpLink) && !empty($_REQUEST['startLiveMeet'])) {
