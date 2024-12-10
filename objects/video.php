@@ -1464,7 +1464,7 @@ if (!class_exists('Video')) {
                 }
             }
             if (strpos($sql, 'v.id IN') === false && !preg_match('/LIMIT\s+\d+/i', preg_replace('/\([^\)]*\)/', '', $sql))) {
-                $sql .= " LIMIT {$firstClauseLimit}1 -- added firstClauseLimit ";
+                $sql .= " LIMIT {$firstClauseLimit}1";
             }            
             $lastGetVideoSQL = $sql;
             //echo $sql, "<br>";//var_dump(debug_backtrace());exit;
