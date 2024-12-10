@@ -171,40 +171,44 @@ if (empty($meet_schedule_id)) {
 
         let myUserID;
 
-        // Listen for when the local participant joins the conference
+        // Set a loading name initially
+        api.executeCommand('displayName', 'Loading...');
+
+        // Listen for when the local participant successfully joins the conference
         api.addListener('videoConferenceJoined', (event) => {
             console.log('videoConferenceJoined', event);
             myUserID = event.id; // Save the local participant's ID
-        });
 
-        // Listen for participants joining the conference
-        api.addListener('participantJoined', (participant) => {
-            console.log('participantJoined', participant, myUserID);
-            // Check if the participant is the local participant
-            if (participant.id === myUserID) {
-                console.log('participantJoined will change');
-                let currentName = participant.displayName || "";
+            // Get the current display name of the local participant
+            api.getParticipantsInfo().then((participants) => {
+                const localParticipant = participants.find(p => p.participantId === myUserID);
+                if (localParticipant) {
+                    let currentName = localParticipant.displayName || "";
 
-                // Check if the display name looks like a phone number
-                const phonePattern = /^[0-9()\-\s]+$/;
-                if (phonePattern.test(currentName)) {
-                    console.log('participantJoined will change confirmed');
-                    // Remove all non-numeric characters
-                    const numbers = currentName.replace(/\D/g, '');
+                    // Check if the display name looks like a phone number
+                    const phonePattern = /^[0-9()\-\s]+$/;
+                    if (phonePattern.test(currentName)) {
+                        console.log('Updating display name for local participant');
+                        // Remove all non-numeric characters
+                        const numbers = currentName.replace(/\D/g, '');
 
-                    // Format the phone number to ** ****-**XX
-                    if (numbers.length >= 4) {
-                        currentName = `** ****-**${numbers.slice(-2)}`;
+                        // Format the phone number to ** ****-**XX
+                        if (numbers.length >= 4) {
+                            currentName = `** ****-**${numbers.slice(-2)}`;
+                        } else {
+                            currentName = '**';
+                        }
+
+                        // Update the display name for the local participant
+                        api.executeCommand('displayName', currentName);
                     } else {
-                        currentName = '**';
+                        // Restore the original display name if not a phone number
+                        console.log('Restoring original display name');
+                        api.executeCommand('displayName', currentName);
                     }
                 }
-
-                // Set the new display name for the local participant
-                api.executeCommand('displayName', currentName);
-            }
+            });
         });
-
 
         <?php
         if (!empty($rtmpLink) && !empty($_REQUEST['startLiveMeet'])) {
