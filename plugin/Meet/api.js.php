@@ -179,6 +179,10 @@ if (empty($meet_schedule_id)) {
         api.addListener('breakoutRoomsUpdated', (event) => {
             console.log('breakoutRoomsUpdated: Event triggered:', event);
         });
+        // Listener for the breakoutRoomsUpdated event
+        api.addListener('notificationTriggered', (event) => {
+            console.log('notificationTriggered: Event triggered:', event);
+        });
 
         // Listener for the dataChannelOpened event
         api.addListener('dataChannelOpened', (event) => {
