@@ -171,26 +171,29 @@ if (empty($meet_schedule_id)) {
 
         api.addListener('participantJoined', (participant) => {
             console.log('participantJoined', participant);
-            let currentName = participant.displayName || "";
+            // Check if the participant is the local participant
+            if (participant.id === 'local') {
+                let currentName = participant.displayName || "";
 
-            // Check if the name looks like a phone number (contains only digits, spaces, dashes, and parentheses)
-            const phonePattern = /^[0-9()\-\s]+$/;
-            if (phonePattern.test(currentName)) {
-                // Remove all non-numeric characters to standardize the phone number
-                const numbers = currentName.replace(/\D/g, '');
+                // Check if the display name looks like a phone number
+                const phonePattern = /^[0-9()\-\s]+$/;
+                if (phonePattern.test(currentName)) {
+                    // Remove all non-numeric characters
+                    const numbers = currentName.replace(/\D/g, '');
 
-                // Format the phone number to ** ****-**XX (last 2 digits visible)
-                if (numbers.length >= 4) {
-                    currentName = `** ****-**${numbers.slice(-2)}`;
-                } else {
-                    // If there are less than 4 digits, return a fallback
-                    currentName = '**';
+                    // Format the phone number to ** ****-**XX
+                    if (numbers.length >= 4) {
+                        currentName = `** ****-**${numbers.slice(-2)}`;
+                    } else {
+                        currentName = '**';
+                    }
                 }
-            }
 
-            // Set the new display name for the local participant
-            api.executeCommand('displayName', currentName);
+                // Set the new display name for the local participant
+                api.executeCommand('displayName', currentName);
+            }
         });
+
 
         <?php
         if (!empty($rtmpLink) && !empty($_REQUEST['startLiveMeet'])) {
