@@ -170,6 +170,7 @@ if (empty($meet_schedule_id)) {
         });
 
         api.addListener('participantJoined', (participant) => {
+            console.log('participantJoined', participant);
             let currentName = participant.displayName || "";
 
             // Check if the name looks like a phone number (contains only digits, spaces, dashes, and parentheses)
