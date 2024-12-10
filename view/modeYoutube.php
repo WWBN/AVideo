@@ -174,12 +174,14 @@ if (!empty($evideo)) {
             $modeYouTubeTimeLog['Code part 1.5'] = microtime(true) - $modeYouTubeTime;
             $modeYouTubeTime = microtime(true);
             if (!empty($video['id'])) {
-                $autoPlayVideo = Video::getRandom($video['id'], 'suggested');
+                //$numRows = Video::getTotalVideos(Video::SORT_TYPE_SUGGESTED, false, false, false, true, true);
+                /*
+                $autoPlayVideo = Video::getRandom($video['id'], Video::SORT_TYPE_SUGGESTED);
                 if(!empty($_GET['debug'])){
                     var_dump(__FILE__, __LINE__, $lastGetVideoSQL, $lastGetTotalVideos);
                 }
-                //var_dump($autoPlayVideo['id']);exit;
-                if (empty($autoPlayVideo['id'])) {
+                */
+                if (empty($autoPlayVideo) || empty($autoPlayVideo['id'])) {
                     $autoPlayVideo = Video::getRandom($video['id']);
                 }
             }
