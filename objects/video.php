@@ -1924,6 +1924,7 @@ if (!class_exists('Video')) {
             if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
                 $sql .= self::getSQLByStatus(Video::SORT_TYPE_VIEWABLE, true);
                 $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
+                $sql .= self::getSqlLimit();
             } else {
                 $sortType = Video::SORT_TYPE_VIEWABLE;
                 if ($suggestedOnly) {
@@ -1957,7 +1958,6 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-
             //var_dump($max_duration_in_seconds);echo $sql; //exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             //if($status == Video::SORT_TYPE_VIEWABLE){ var_dump($sql);exit;}

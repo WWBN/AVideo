@@ -92,6 +92,11 @@ saveRequestVars();
                         $rowCount = getRowCount();
                         setRowCount($obj->PlayListsRowCount);
                         foreach ($plRows as $pl) {
+                            $videos = PlayList::getAllFromPlaylistsID($pl['id']);
+                            if(empty($videos)){
+                                echo "<!-- there is no video for this playlist id = {$pl['id']} -->";
+                                continue;
+                            }
                         ?>
                             <!-- For Playlist -->
                             <div class="clear clearfix">
@@ -100,10 +105,6 @@ saveRequestVars();
                                         <i class="fas fa-list"></i> <?php echo __($pl['name']); ?>
                                     </a>
                                 </h3>
-                                <?php
-                                $videos = PlayList::getAllFromPlaylistsID($pl['id']);
-                                // need to add dechex because some times it return an negative value and make it fails on javascript playlists
-                                ?>
                                 <div class="gallerySectionContent">
                                     <?php
                                     $countCols = createGallerySection($videos);
