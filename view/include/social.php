@@ -35,6 +35,7 @@ if (empty($advancedCustom)) {
 }
 
 $titleSocial = getSEOTitle($titleSocial);
+$titleSocial = str_replace('#', '', $titleSocial);
 //$originalURL = $urlSocial;
 $urlSocial = urlencode($url);
 //set the $urlSocial and the $titleSocial before include this
