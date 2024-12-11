@@ -373,8 +373,10 @@ function convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation)
 
 function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
 {
-    global $global;
-
+    global $global, $advancedCustom;
+    if (empty($advancedCustom)) {
+        $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
+    }
     // Dynamically get the number of CPU cores
     $threads = 1; // Default to 1 thread
     if (function_exists('shell_exec')) {
@@ -439,7 +441,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     } else {
         switch ($try) {
             case 0:
-                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} {$advancedCustom->ffmpegParameters} {$toFileLocationEscaped}";
                 break;
             case 1:
                 $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";

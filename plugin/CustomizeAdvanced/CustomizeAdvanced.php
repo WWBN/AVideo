@@ -168,6 +168,7 @@ class CustomizeAdvanced extends PluginAbstract {
             'showChannelPhotoOnVideoItem',
             'showChannelNameOnVideoItem',
             'canonicalURLType',
+            'ffmpegParameters',
             );
     }
     
@@ -488,6 +489,8 @@ Disallow: *action=tagsearch*
         $obj->allowDownloadMP3 = true;
 
         $obj->disableFeeds = false;
+
+        $obj->ffmpegParameters = "-c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k";   
         
         return $obj;
     }
