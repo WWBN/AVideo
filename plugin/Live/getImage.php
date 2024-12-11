@@ -61,7 +61,7 @@ if (!empty($_GET['c'])) {
 $livet = LiveTransmition::getFromRequest();
 //header('Content-Type: text/plain');var_dump(Live::isLive($livet['users_id']), $livet);exit;
 if (!empty($_REQUEST['live_schedule']) && !empty($livet['scheduled_time']) && isTimeForFuture($livet['scheduled_time'], $livet['timezone'])) {
-    $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule']);
+    $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule'], 0);
     $uploadedPoster = $array['path'];
     header('Content-Type: image/jpg');
     if(!file_exists($cacheFileImageNameResized)){

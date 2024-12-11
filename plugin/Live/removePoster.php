@@ -28,7 +28,7 @@ if (empty($live)) {
 
 header('Content-Type: application/json');
 // A list of permitted file extensions
-$obj->file = Live::_getPosterImage(User::getId(), $live_servers_id);
+$obj->file = Live::_getPosterImage(User::getId(), $live_servers_id, $ppv_schedule_id);
 $obj->fileThumbs = Live::_getPosterThumbsImage(User::getId(), $live_servers_id);
 $obj->newPoster = 'plugin/Live/view/OnAir.jpg';
 

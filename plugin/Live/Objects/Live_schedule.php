@@ -126,15 +126,19 @@ class Live_schedule extends ObjectYPT
         return $rows;
     }
 
-    public static function getPosterPaths($live_schedule_id, $posterType=0)
+    public static function getPosterPaths($live_schedule_id, $ppv_schedule_id, $posterType=0)
     {
         $live_schedule_id = intval($live_schedule_id);
+        $ppv_schedule_id = intval($ppv_schedule_id);
         $posterType = intval($posterType);
-        if (empty($live_schedule_id)) {
+        if (empty($live_schedule_id) && empty($ppv_schedule_id)) {
             return false;
         }
         if(!empty($posterType)){
             $live_schedule_id = "{$live_schedule_id}_{$posterType}";
+        }
+        if(!empty($ppv_schedule_id)){
+            $live_schedule_id = "ppv_{$ppv_schedule_id}_{$posterType}";
         }
 
         $subdir = "live_schedule_posters";
@@ -156,8 +160,8 @@ class Live_schedule extends ObjectYPT
         return $array;
     }
 
-    public static function getPosterURL($live_schedule_id, $posterType=0){
-        $paths = self::getPosterPaths($live_schedule_id, $posterType);
+    public static function getPosterURL($live_schedule_id, $ppv_schedule_id, $posterType=0){
+        $paths = self::getPosterPaths($live_schedule_id, $ppv_schedule_id, $posterType);
         if (file_exists($paths['path'])) {
             return $paths['url'];
         } else {
@@ -204,7 +208,7 @@ class Live_schedule extends ObjectYPT
                 $row['future'] = isTimeForFuture($row['scheduled_time'], $row['timezone']);
                 $row['secondsIntervalHuman'] = secondsIntervalHuman($row['scheduled_time'], $row['timezone']);
                 //var_dump($row['secondsIntervalHuman']);exit;
-                $row['posterURL'] = self::getPosterURL($row['id']);
+                $row['posterURL'] = self::getPosterURL($row['id'], 0);
                 $row['serverURL'] = Live::getServerURL($row['key'], $row['users_id']);
                 if(empty($row['json'])){
                     $row['json'] = array();
@@ -249,7 +253,7 @@ class Live_schedule extends ObjectYPT
             foreach ($fullData as $row) {
                 $row['future'] = isTimeForFuture($row['scheduled_time'], $row['timezone']);
                 $row['secondsIntervalHuman'] = secondsIntervalHuman($row['scheduled_time'], $row['timezone']);
-                $row['posterURL'] = self::getPosterURL($row['id']);
+                $row['posterURL'] = self::getPosterURL($row['id'], 0);
                 $row['serverURL'] = Live::getServerURL($row['key'], $row['users_id']);
                 $rows[] = $row;
             }

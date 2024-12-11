@@ -362,7 +362,7 @@ function getOpenGraphLiveSchedule($live_schedule_id)
     $title = $liveS->getTitle();
     $description = '';
     $duration_in_seconds = 0;
-    $poster = Live_schedule::getPosterURL($live_schedule_id);
+    $poster = Live_schedule::getPosterURL($live_schedule_id, 0);
     $liveStreamObject = new LiveStreamObject($liveS->getKey(), $liveS->getLive_servers_id(), 0, 0, @$_REQUEST['live_schedule']);
     $sourceFileURL = $liveStreamObject->getM3U8(true);
     $pageURL = $liveStreamObject->getURL();
@@ -380,7 +380,7 @@ function getOpenGraphLive()
     $isLive = isLive();
     $liveT = LiveTransmition::getFromKey($isLive['cleanKey']);
     $users_id = $liveT['users_id'];
-    $poster = Live::getPosterImage($users_id, $isLive['live_servers_id'], $isLive['live_schedule']);
+    $poster = Live::getRegularPosterImage($users_id, $isLive['live_servers_id'], $isLive['live_schedule'], 0);
     $liveStreamObject = new LiveStreamObject($isLive['cleanKey'], $isLive['live_servers_id'], $isLive['live_index'], 0);
     echo PHP_EOL . "<!-- OpenGraph Live users_id={$users_id} ".json_encode($isLive)." -->" . PHP_EOL;
     $videoType = '';

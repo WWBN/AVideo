@@ -982,7 +982,7 @@ class API extends PluginAbstract
                 $rows[$key]['isSubscribed'] = Subscribe::isSubscribed($rows[$key]['users_id']);
             }
 
-            
+
             $sub = self::getSubtitle($value['filename']);
 
             $rows[$key]['subtitles_available'] = $sub['subtitles_available'];
@@ -1464,15 +1464,15 @@ class API extends PluginAbstract
             $live_schedule_id = $o->save();
             if ($live_schedule_id) {
                 if (!empty($parameters['base64PNGImageRegular'])) {
-                    $image = Live_schedule::getPosterPaths($live_schedule_id, Live::$posterType_regular);
+                    $image = Live_schedule::getPosterPaths($live_schedule_id, 0, Live::$posterType_regular);
                     saveBase64DataToPNGImage($parameters['base64PNGImageRegular'], $image['path']);
                 }
                 if (!empty($parameters['base64PNGImagePreRoll'])) {
-                    $image = Live_schedule::getPosterPaths($live_schedule_id, Live::$posterType_preroll);
+                    $image = Live_schedule::getPosterPaths($live_schedule_id, 0, Live::$posterType_preroll);
                     saveBase64DataToPNGImage($parameters['base64PNGImagePreRoll'], $image['path']);
                 }
                 if (!empty($parameters['base64PNGImagePostRoll'])) {
-                    $image = Live_schedule::getPosterPaths($live_schedule_id, Live::$posterType_postroll);
+                    $image = Live_schedule::getPosterPaths($live_schedule_id, 0, Live::$posterType_postroll);
                     saveBase64DataToPNGImage($parameters['base64PNGImagePostRoll'], $image['path']);
                 }
 
@@ -1597,7 +1597,7 @@ class API extends PluginAbstract
         $obj->livestream["server_v3"] = addLastSlash($url);
         $obj->livestream["key_v3"] = "{$obj->livestream['key_with_index']}?s={$encrypt}";
 
-        $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
+        $obj->livestream["poster"] = $global['webSiteRootURL'] . Live::getRegularPosterImage($user->getBdId(), $obj->livestream["live_servers_id"], 0, 0);
         $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
 
         $obj->livestream["activeLives"] = array();
@@ -2151,7 +2151,7 @@ class API extends PluginAbstract
         new Like($like, $parameters['videos_id']);
 
         $obj = Like::getLikes($parameters['videos_id']);
-        if(empty($obj)){
+        if (empty($obj)) {
             $obj = new stdClass();
         }
 
@@ -2834,12 +2834,12 @@ class API extends PluginAbstract
             return new ApiObject("You must login first");
         }
         $msg = '';
-        $obj = new stdClass();        
+        $obj = new stdClass();
 
         $user = new User(0);
         $user->loadSelfUser();
         $user->setBirth_date($_REQUEST['birth_date']);
-        $obj->users_id = $user->save();        
+        $obj->users_id = $user->save();
         $obj->error = empty($obj->users_id);
         User::updateSessionInfo();
 
@@ -2859,13 +2859,13 @@ class API extends PluginAbstract
         if (!self::isAPISecretValid()) {
             return new ApiObject("APISecret is required");
         }
-        $obj = new stdClass();  
+        $obj = new stdClass();
         $obj->users_id = intval($_REQUEST['users_id']);
         if (empty($obj->users_id)) {
             return new ApiObject("Users ID is required");
         }
         $user = new User($obj->users_id);
-        $obj->email_verified = !empty($user->getEmailVerified());        
+        $obj->email_verified = !empty($user->getEmailVerified());
 
         return new ApiObject('', false, $obj);
     }
@@ -2883,12 +2883,12 @@ class API extends PluginAbstract
         if (!self::isAPISecretValid()) {
             return new ApiObject("APISecret is required");
         }
-        $obj = new stdClass();  
+        $obj = new stdClass();
         $obj->users_id = intval($_REQUEST['users_id']);
         if (empty($obj->users_id)) {
             return new ApiObject("Users ID is required");
         }
-        $user = new User($obj->users_id);     
+        $user = new User($obj->users_id);
         $obj->sent = User::sendVerificationLink($obj->users_id);
         return new ApiObject('', false, $obj);
     }
@@ -2906,7 +2906,7 @@ class API extends PluginAbstract
         return false;
     }
 
-     /**
+    /**
      * return true if the secret is valid and false if it is not
      * 'APISecret' mandatory for security reasons - required
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}
@@ -2917,7 +2917,7 @@ class API extends PluginAbstract
         global $global;
         if (!self::isAPISecretValid()) {
             return new ApiObject("APISecret is invalid");
-        }else{
+        } else {
             return new ApiObject("APISecret is valid", false);
         }
     }

@@ -6510,7 +6510,7 @@ function getMediaSession()
     if ($liveLink = isLiveLink()) {
         $MediaMetadata = LiveLinks::getMediaSession($liveLink);
     } elseif ($live = isLive()) {
-        $MediaMetadata = Live::getMediaSession($live['key'], $live['live_servers_id'], @$live['live_schedule_id']);
+        $MediaMetadata = Live::getMediaSession($live['key'], $live['live_servers_id'], @$live['live_schedule_id'], 0);
     } elseif (!empty($videos_id)) {
         if (!empty($videos_id)) {
             $MediaMetadata = Video::getMediaSession($videos_id);
@@ -6520,7 +6520,7 @@ function getMediaSession()
     } elseif (!empty($_REQUEST['videos_id'])) {
         $MediaMetadata = Video::getMediaSession($_REQUEST['videos_id']);
     } elseif (!empty($_REQUEST['key'])) {
-        $MediaMetadata = Live::getMediaSession($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_schedule_id']);
+        $MediaMetadata = Live::getMediaSession($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_schedule_id'], 0);
     }
     if (empty($MediaMetadata) || empty($MediaMetadata->title)) {
         $MediaMetadata = new stdClass();

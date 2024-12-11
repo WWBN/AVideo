@@ -71,7 +71,7 @@ if (!empty($_REQUEST['live_schedule'])) {
     $ls = new Live_schedule($_REQUEST['live_schedule']);
     $liveTitle = $ls->getTitle();
     $liveDescription = $ls->getDescription();
-    //$liveImg = Live_schedule::getPosterURL($_REQUEST['live_schedule']);
+    //$liveImg = Live_schedule::getPosterURL($_REQUEST['live_schedule'], 0);
     $liveUrl = addQueryStringParameter($liveUrl, 'live_schedule', intval($_REQUEST['live_schedule']));
     $img = addQueryStringParameter($img, 'live_schedule', intval($_REQUEST['live_schedule']));
     $img = addQueryStringParameter($img, 'cache', uniqid());

@@ -300,7 +300,7 @@ class Live extends PluginAbstract
                 'users_id' => $users_id,
                 'title' => $title,
                 'link' => $link,
-                'imgJPG' => Live_schedule::getPosterURL($value['id']),
+                'imgJPG' => Live_schedule::getPosterURL($value['id'], 0),
                 'imgGIF' => '',
                 'type' => 'scheduleLive',
                 'LiveUsersLabelLive' => $LiveUsersLabelLive,
@@ -377,7 +377,7 @@ class Live extends PluginAbstract
                 'users_id' => $users_id,
                 'title' => $title,
                 'link' => $link,
-                'imgJPG' => self::getPoster($value['users_id'], $value['live_servers_id']),
+                'imgJPG' => self::getPoster($value['users_id'], $value['live_servers_id'], ''),
                 'imgGIF' => '',
                 'type' => 'live',
                 'LiveUsersLabelLive' => $LiveUsersLabelLive,
@@ -823,20 +823,20 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $liveImgCloseTimeInSecondsPostroll = 'false';
             $liveImgTimeInSecondsPostroll = 'false';
             //var_dump('',$live, self::prerollPosterExists($live['users_id'], $live['live_servers_id'], $live['live_schedule']));exit;
-            if (self::prerollPosterExists($live['users_id'], $live['live_servers_id'], $live['live_schedule'])) {
+            if (self::prerollPosterExists($live['users_id'], $live['live_servers_id'], $live['live_schedule'], 0)) {
 
-                $path = self::getPrerollPosterImage($live['users_id'], $live['live_servers_id'], $live['live_schedule']);
+                $path = self::getPrerollPosterImage($live['users_id'], $live['live_servers_id'], $live['live_schedule'], 0);
                 $prerollPoster = "'" . getURL($path) . "'";
 
-                $times = self::getPrerollPosterImageTimes($live['users_id'], $live['live_servers_id'], $live['live_schedule']);
+                $times = self::getPrerollPosterImageTimes($live['users_id'], $live['live_servers_id'], $live['live_schedule'], 0);
                 $liveImgCloseTimeInSecondsPreroll = $times->liveImgCloseTimeInSeconds;
                 $liveImgTimeInSecondsPreroll = $times->liveImgTimeInSeconds;
                 //var_dump($times);
             }
-            if (self::postrollPosterExists($live['users_id'], $live['live_servers_id'], $live['live_schedule'])) {
-                $postrollPoster = "'" . getURL(self::getPostrollPosterImage($live['users_id'], $live['live_servers_id'], $live['live_schedule'])) . "'";
+            if (self::postrollPosterExists($live['users_id'], $live['live_servers_id'], $live['live_schedule'], 0)) {
+                $postrollPoster = "'" . getURL(self::getPostrollPosterImage($live['users_id'], $live['live_servers_id'], $live['live_schedule'], 0)) . "'";
 
-                $times = self::getPostrollPosterImageTimes($live['users_id'], $live['live_servers_id'], $live['live_schedule']);
+                $times = self::getPostrollPosterImageTimes($live['users_id'], $live['live_servers_id'], $live['live_schedule'], 0);
                 $liveImgCloseTimeInSecondsPostroll = $times->liveImgCloseTimeInSeconds;
                 $liveImgTimeInSecondsPostroll = $times->liveImgTimeInSeconds;
                 //var_dump($times);
@@ -3133,7 +3133,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $url;
     }
 
-    public static function getPosterImage($users_id, $live_servers_id, $live_schedule_id = 0, $posterType = 0)
+    private static function getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id, $posterType)
     {
         global $global;
         if (empty($users_id)) {
@@ -3156,7 +3156,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($users_id)) {
             return false;
         }
-        $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id, $posterType);
+        $file = self::_getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id, $posterType);
         //var_dump($file);
         if (!file_exists($global['systemRootPath'] . $file)) {
             if (!empty($live_schedule_id)) {
@@ -3177,17 +3177,22 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $file;
     }
 
-    public static function getPrerollPosterImage($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0)
+    public static function getRegularPosterImage($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id)
     {
-        return self::getPosterImage($users_id, $live_servers_id, $live_schedule_id, self::$posterType_preroll);
+        return self::getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id, self::$posterType_regular);
+    }
+
+    public static function getPrerollPosterImage($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id)
+    {
+        return self::getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id, self::$posterType_preroll);
     }
     /**
      * @return object
      */
-    public static function getPrerollPosterImageTimes($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0)
+    public static function getPrerollPosterImageTimes($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id)
     {
         global $global;
-        $path = self::getPrerollPosterImage($users_id, $live_servers_id, $live_schedule_id);
+        $path = self::getPrerollPosterImage($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id);
         $jsonPath = $global['systemRootPath'] . str_replace('.jpg', '.json', $path);
 
         if (file_exists($jsonPath)) {
@@ -3201,15 +3206,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $times;
     }
 
-    public static function getPostrollPosterImage($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0)
+    public static function getPostrollPosterImage($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id)
     {
-        return self::getPosterImage($users_id, $live_servers_id, $live_schedule_id, self::$posterType_postroll);
+        return self::getPosterImage($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id, self::$posterType_postroll);
     }
 
-    public static function getPostrollPosterImageTimes($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0)
+    public static function getPostrollPosterImageTimes($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id)
     {
         global $global;
-        $path = self::getPostrollPosterImage($users_id, $live_servers_id, $live_schedule_id);
+        $path = self::getPostrollPosterImage($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id);
         $jsonPath = $global['systemRootPath'] . str_replace('.jpg', '.json', $path);
         if (file_exists($jsonPath)) {
             $times = _json_decode($jsonPath);
@@ -3222,7 +3227,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $times;
     }
 
-    public static function posterExists($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0, $posterType = 0)
+    public static function posterExists($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id, $posterType)
     {
         global $global;
 
@@ -3247,23 +3252,23 @@ Click <a href=\"{link}\">here</a> to join our live.";
             return false;
         }
 
-        $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id, $posterType);
+        $file = self::_getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id, $posterType);
         return file_exists("{$global['systemRootPath']}{$file}");
     }
 
-    public static function prerollPosterExists($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0)
+    public static function prerollPosterExists($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id)
     {
-        return self::posterExists($users_id, $live_servers_id, $live_schedule_id, self::$posterType_preroll);
+        return self::posterExists($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id, self::$posterType_preroll);
     }
 
-    public static function postrollPosterExists($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0)
+    public static function postrollPosterExists($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id)
     {
-        return self::posterExists($users_id, $live_servers_id, $live_schedule_id, self::$posterType_postroll);
+        return self::posterExists($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id, self::$posterType_postroll);
     }
 
     public static function getPosterImageOrFalse($users_id, $live_servers_id)
     {
-        $poster = self::getPosterImage($users_id, $live_servers_id);
+        $poster = self::getRegularPosterImage($users_id, $live_servers_id, 0, 0);
         if (preg_match('/OnAir.jpg$/', $poster)) {
             return false;
         }
@@ -3275,10 +3280,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
     {
         global $global;
 
-        return self::getLivePosterImageRelativePath($users_id, $live_servers_id, $playlists_id_live, $live_index, $format, $live_schedule_id, true);
+        return self::getLivePosterImageRelativePath($users_id, $live_servers_id, 0, $playlists_id_live, $live_index, $format, $live_schedule_id, true);
     }
 
-    public static function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format = 'jpg', $live_schedule_id = 0, $returnURL = false)
+    public static function getLivePosterImageRelativePath($users_id, $live_servers_id, $ppv_schedule_id, $playlists_id_live = 0, $live_index = '', $format = 'jpg', $live_schedule_id = 0, $returnURL = false)
     {
         global $global;
         if (empty($live_servers_id)) {
@@ -3289,7 +3294,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             if ($format !== 'jpg') {
                 return false;
             }
-            $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id);
+            $file = self::_getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id);
 
             if (!file_exists($global['systemRootPath'] . $file)) {
                 $file = self::getOnAirImage(false);
@@ -3327,7 +3332,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($_REQUEST['live_schedule'])) {
             $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
         } else {
-            $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule']);
+            $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule'], 0);
             $file = $array['relative_path'];
         }
 
@@ -3344,7 +3349,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $file;
     }
 
-    public static function getPoster($users_id, $live_servers_id, $key = '')
+    public static function getPoster($users_id, $live_servers_id, $key)
     {
         global $_getPoster;
         if (!isset($_getPoster)) {
@@ -3370,13 +3375,13 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $live_index = $parameters['live_index'];
         $playlists_id_live = $parameters['playlists_id_live'];
         if (self::isLiveAndIsReadyFromKey($lh['key'], $lh['live_servers_id'])) {
-            $_getPoster[$index] = self::getLivePosterImageRelativePath($users_id, $live_servers_id, $playlists_id_live, $live_index);
+            $_getPoster[$index] = self::getLivePosterImageRelativePath($users_id, $live_servers_id, 0, $playlists_id_live, $live_index);
             //_error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' is live and ready');
             return $_getPoster[$index];
         } else {
             if (self::isKeyLiveInStats($lh['key'], $lh['live_servers_id'])) {
                 //_error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' key is in the stats');
-                $_getPoster[$index] = self::getPosterImage($users_id, $live_servers_id, $live_index);
+                $_getPoster[$index] = self::getRegularPosterImage($users_id, $live_servers_id, 0, 0);
             } else {
                 //_error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' key is NOT in the stats');
                 $_getPoster[$index] = $poster;
@@ -3415,16 +3420,17 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $img;
     }
 
-    public static function _getPosterImage($users_id, $live_servers_id, $live_schedule_id = 0, $posterType = 0)
+    public static function _getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id = 0, $posterType = 0)
     {
 
         $users_id = intval($users_id);
+        $ppv_schedule_id = intval($ppv_schedule_id);
         $live_servers_id = intval($live_servers_id);
         $live_schedule_id = intval($live_schedule_id);
         $posterType = intval($posterType);
 
-        if (!empty($live_schedule_id)) {
-            $paths = Live_schedule::getPosterPaths($live_schedule_id, $posterType);
+        if (!empty($live_schedule_id) || !empty($ppv_schedule_id)) {
+            $paths = Live_schedule::getPosterPaths($live_schedule_id, $ppv_schedule_id, $posterType);
             return $paths['relative_path'];
         }
         $type = '';
@@ -4004,10 +4010,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return true;
     }
 
-    public static function getMediaSession($key, $live_servers_id, $live_schedule_id = 0)
+    public static function getMediaSession($key, $live_servers_id, $live_schedule_id, $ppv_schedule_id)
     {
         $lt = LiveTransmition::getFromKey($key);
-        $posters = self::getMediaSessionPosters($lt['users_id'], $lt['live_servers_id'], $lt['live_schedule_id']);
+        $posters = self::getMediaSessionPosters($lt['users_id'], $lt['live_servers_id'], $lt['live_schedule_id'], $ppv_schedule_id);
         if (empty($posters)) {
             $posters = array();
         }
@@ -4025,11 +4031,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $MediaMetadata;
     }
 
-    public static function getMediaSessionPosters($users_id, $live_servers_id, $live_schedule_id = 0)
+    public static function getMediaSessionPosters($users_id, $live_servers_id, $live_schedule_id, $ppv_schedule_id)
     {
         global $global;
 
-        $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id);
+        $file = self::_getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id);
         $imagePath = $global['systemRootPath'] . $file;
         //var_dump($imagePath);exit;
         if (file_exists($imagePath)) {

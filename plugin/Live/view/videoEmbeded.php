@@ -45,7 +45,7 @@ if (!empty($_REQUEST['live_schedule'])) {
     global $getLiveKey;
     $getLiveKey = ['key' => $ls->getKey(), 'live_servers_id' => intval($ls->getLive_servers_id()), 'live_index' => '', 'cleanKey' => ''];
 }
-$poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'], @$_REQUEST['live_schedule']);
+$poster = Live::getRegularPosterImage($livet['users_id'], $_REQUEST['live_servers_id'], @$_REQUEST['live_schedule'], @$_REQUEST['ppv_schedule_id']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">

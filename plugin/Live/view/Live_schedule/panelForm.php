@@ -155,7 +155,7 @@ $objLive = AVideoPlugin::getDataObject('Live');
                     Schedule_plans[schedule.id] = schedule;
                     var $clone = $($('#Live_schedulebtnModelList').html());
                     var id = 'scheduled_' + schedule.id;
-                    var text = '<div class="pull-left" style="margin-right:10px;" ><img class="img img-responsive" src="' + schedule.posterURL + '" style="max-height:70px;" id="schedule_poster_' + schedule.id + '" /></div>' +
+                    var text = '<div class="pull-left" style="margin-right:10px;" ><img class="img img-responsive" src="' + schedule.posterURL + '" style="max-height:70px;" id="schedule_poster_' + schedule.id + '_0" /></div>' +
                         '<strong>' + schedule.title + '</strong>' +
                         '<div style="font-size: 0.9em;"> ' +
                         schedule.secondsIntervalHuman +

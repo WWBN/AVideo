@@ -37,7 +37,7 @@ $user_id = $u->getBdId();
 $video['users_id'] = $user_id;
 AVideoPlugin::getModeYouTubeLive($user_id);
 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
-$poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'], @$_REQUEST['live_schedule']);
+$poster = Live::getRegularPosterImage($livet['users_id'], $_REQUEST['live_servers_id'], @$_REQUEST['live_schedule'], @$_REQUEST['ppv_schedule_id']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">

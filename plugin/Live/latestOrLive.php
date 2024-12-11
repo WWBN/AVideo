@@ -83,7 +83,7 @@ if (!$liveFound) {
 //var_dump($liveFound, $liveVideo);exit;
 if (!empty($liveVideo)) {
     setLiveKey($liveVideo['key'], $liveVideo['live_servers_id'], $liveVideo['live_index']);
-    $poster = getURL(Live::getPosterImage($liveVideo['users_id'], $liveVideo['live_servers_id']));
+    $poster = getURL(Live::getRegularPosterImage($liveVideo['users_id'], $liveVideo['live_servers_id'], 0, 0));
     $m3u8 = Live::getM3U8File($liveVideo['key']);
     if (!empty($m3u8)) {
         $sources = "<source src=\"{$m3u8}\" type=\"application/x-mpegURL\">";
@@ -94,7 +94,7 @@ if (!empty($liveVideo)) {
         $objectToReturnToParentIframe->videoHumanTime = __('Now');
         $objectToReturnToParentIframe->creator = User::getNameIdentificationById($liveVideo['users_id']);
 
-        $objectToReturnToParentIframe->mediaSession = Live::getMediaSession($liveVideo['key'], $liveVideo['live_servers_id']);
+        $objectToReturnToParentIframe->mediaSession = Live::getMediaSession($liveVideo['key'], $liveVideo['live_servers_id'], 0, 0);
         $objectToReturnToParentIframe->live_transmitions_id = intval($liveVideo['live_transmitions_id']);
         $objectToReturnToParentIframe->live_transmitions_history_id = intval($liveVideo['live_transmitions_history_id']);
         $objectToReturnToParentIframe->users_id = intval($liveVideo['users_id']);

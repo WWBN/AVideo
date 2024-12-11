@@ -199,7 +199,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
                 $getLiveKey['live_servers_id'] = $_REQUEST['live_servers_id'];
                 $getLiveKey['live_index'] = @$_REQUEST['live_index'];
-                $poster = Live::getPosterImage(User::getId(), $_REQUEST['live_servers_id']);
+                $poster = Live::getRegularPosterImage(User::getId(), $_REQUEST['live_servers_id'], 0, 0);
 
                 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $trasnmition['live_servers_id']);
                 Live::getLiveControls($liveStreamObject->getKeyWithIndex(true,true), $trasnmition['live_servers_id']);   

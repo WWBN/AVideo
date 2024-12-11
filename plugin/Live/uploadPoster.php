@@ -34,10 +34,10 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     }
 
     if (empty($live_schedule_id)) {
-        $obj->file = Live::_getPosterImage(User::getId(), $live_servers_id);
+        $obj->file = Live::_getPosterImage(User::getId(), $live_servers_id, 0);
         $obj->fileThumbs = Live::_getPosterThumbsImage(User::getId(), $live_servers_id);
     } else {
-        $paths = Live_schedule::getPosterPaths($live_schedule_id);
+        $paths = Live_schedule::getPosterPaths($live_schedule_id, 0);
         $obj->file = str_replace($global['systemRootPath'], '', $paths['path']);
         $obj->fileThumbs = str_replace($global['systemRootPath'], '', $paths['path_thumbs']);
     }

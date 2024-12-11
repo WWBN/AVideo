@@ -3,12 +3,17 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../../../../videos/configuration.php';
 }
+
 if (!User::canStream()) {
-    forbiddenPage("You cant do this 1");
+    forbiddenPage("You cant livestream");
 }
 
+$ppv_schedule_id = intval($_REQUEST['ppv_schedule_id'] ?? 0);
 $live_schedule_id = intval($_REQUEST['live_schedule_id'] ?? 0);
 $live_servers_id = intval($_REQUEST['live_servers_id'] ?? 0);
+
+$posterFor = 'Live';
+
 $callBackJSFunction = 'saveLivePoster';
 if (!empty($live_schedule_id)) {
     $row = new Live_schedule($live_schedule_id);
@@ -18,16 +23,29 @@ if (!empty($live_schedule_id)) {
     $callBackJSFunction = 'saveSchedulePoster';
 }
 
-if (!User::canStream()) {
-    forbiddenPage("You cant livestream");
+if (!empty($ppv_schedule_id)) {
+    $p = AVideoPlugin::loadPluginIfEnabled('PayPerViewLive');
+
+    if(empty($p)){
+        forbiddenPage("PayPerViewLive is disabled");
+    }
+
+    $row = new Ppvlive_schedule($ppv_schedule_id);
+    if (!User::isAdmin() && $row->getUsers_id() != User::getId()) {
+        forbiddenPage("You cant do this");
+    }
+    $callBackJSFunction = 'saveSchedulePosterPPV';
+    $posterFor = 'Live PPV';
+    
 }
-$poster = Live::getPosterImage(User::getId(), $live_servers_id ?? '', $live_schedule_id);
+//var_dump(User::getId(), $live_servers_id ?? '', $live_schedule_id, $ppv_schedule_id);
+$poster = Live::getRegularPosterImage(User::getId(), $live_servers_id ?? '', $live_schedule_id, $ppv_schedule_id );
 //var_dump($poster, User::getId(), $live_servers_id ?? '', $live_schedule_id);exit;
 $image = getURL($poster);
-$poster = Live::getPrerollPosterImage(User::getId(), $live_servers_id ?? '', $live_schedule_id);
+$poster = Live::getPrerollPosterImage(User::getId(), $live_servers_id ?? '', $live_schedule_id, $ppv_schedule_id);
 //var_dump($poster, User::getId(), $live_servers_id ?? '', $live_schedule_id, Live::$posterType_preroll);exit;
 $image_preroll = getURL($poster);
-$poster = Live::getPostrollPosterImage(User::getId(), $live_servers_id ?? '', $live_schedule_id);
+$poster = Live::getPostrollPosterImage(User::getId(), $live_servers_id ?? '', $live_schedule_id, $ppv_schedule_id);
 //var_dump($poster, User::getId(), $live_servers_id ?? '', $live_schedule_id);exit;
 $image_postroll = getURL($poster);
 
@@ -130,6 +148,7 @@ $_page = new Page(array('Upload Poster'));
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <?php echo __('Save Poster'); ?>
+                    (<?php echo $posterFor; ?>)
                 </div>
                 <div class="panel-body">
                     <?php
@@ -157,6 +176,7 @@ $_page = new Page(array('Upload Poster'));
                 posterType: posterType,
                 liveImgCloseTimeInSeconds: $('#liveImgCloseTimeInSeconds').val(),
                 liveImgTimeInSeconds: $('#liveImgTimeInSeconds').val(),
+                ppv_schedule_id: <?php echo $ppv_schedule_id; ?>,
                 live_schedule_id: <?php echo $live_schedule_id; ?>,
                 live_servers_id: <?php echo $live_servers_id; ?>,
                 image: image,
@@ -167,7 +187,7 @@ $_page = new Page(array('Upload Poster'));
                 avideoResponse(response);
                 if (response && !response.error) {
                     if (closeWindowAfterImageSave) {
-                        var scheduleElem = $('#schedule_poster_<?php echo $live_schedule_id; ?>', window.parent.document);
+                        var scheduleElem = $('#schedule_poster_<?php echo $live_schedule_id; ?>_<?php echo $ppv_schedule_id; ?>', window.parent.document);
                         $(scheduleElem).attr('src', addGetParam($(scheduleElem).attr('src'), 'cache', Math.random()));
                         avideoModalIframeClose();
                     }

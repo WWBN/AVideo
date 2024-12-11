@@ -448,14 +448,14 @@ if (User::canStream()) {
         }
         if (isLive()) {
             if ($liveInfo['isLive']) {
-                $times = Live::getPrerollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
+                $times = Live::getPrerollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id'], 0);
                 if ($liveInfo['startedSecondsAgo'] < $times->liveImgTimeInSeconds) {
                     echo "setTimeout(function(){showImage('prerollPoster', '{$liveInfo['key']}');},1500);";
                 } else {
                     echo "/* prerollPoster will notplay */";
                 }
             } else {
-                $times = Live::getPostrollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
+                $times = Live::getPostrollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id'], 0);
                 //var_dump(isLive(),$times,$liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);exit;
                 if (!empty($liveInfo['finishedSecondsAgo']) && $liveInfo['finishedSecondsAgo'] < $times->liveImgTimeInSeconds) {
                     echo "setTimeout(function(){showImage('postrollPoster', '{$liveInfo['key']}');},1500);";
