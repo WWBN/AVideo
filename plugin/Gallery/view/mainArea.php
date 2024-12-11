@@ -4,7 +4,7 @@ use Fhaculty\Graph\Edge\Base;
 
 saveRequestVars();
 ?>
-<link href="<?php echo getURL('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css" />
 <div class="row mainArea">
     <?php
     if (!empty($currentCat)) {
@@ -33,7 +33,7 @@ saveRequestVars();
                         ?>
                     </div>
                 </div>
-            <?php
+                <?php
                 global $contentSearchFound;
                 $contentSearchFound = true;
             }
@@ -54,7 +54,7 @@ saveRequestVars();
             include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
         }
         echo '<center style="margin:5px;">' . getAdsLeaderBoardTop2() . '</center>';
-        
+
         include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaLiveRow.php';
 
         echo AVideoPlugin::getGallerySection();
@@ -84,7 +84,7 @@ saveRequestVars();
                 if ($value['name'] == 'Suggested') {
                     createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star", true);
                 } else 
-                if(empty(getSearchVar()) && empty($_GET['showOnly']) && $value['name'] == 'PlayLists'){
+                if (empty(getSearchVar()) && empty($_GET['showOnly']) && $value['name'] == 'PlayLists') {
                     $objPl = AVideoPlugin::getDataObject('PlayLists');
                     $plRows = PlayList::getAllToShowOnFirstPage();
                     //var_dump(count($plRows));exit;
@@ -93,16 +93,22 @@ saveRequestVars();
                         setRowCount($obj->PlayListsRowCount);
                         foreach ($plRows as $pl) {
                             $videos = PlayList::getAllFromPlaylistsID($pl['id']);
-                            if(empty($videos)){
+                            if (empty($videos)) {
                                 echo "<!-- there is no video for this playlist id = {$pl['id']} -->";
                                 continue;
                             }
-                        ?>
+                            $playlistTotalInfo = PlayList::getTotalDurationAndTotalVideosFromPlaylist($pl['id']);
+                ?>
                             <!-- For Playlist -->
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
-                                    <a href="<?php echo "{$global['webSiteRootURL']}viewProgram/{$pl['id']}/" . urlencode($pl['name']); ?>">
+                                    <a href="<?php echo "{$global['webSiteRootURL']}viewProgram/{$pl['id']}/" . urlencode($pl['name']); ?>" class="faa-parent animated-hover">
                                         <i class="fas fa-list"></i> <?php echo __($pl['name']); ?>
+                                        <i class="fas fa-arrow-right faa-horizontal"></i>
+                                        <span class="badge">
+                                            (<?php echo $playlistTotalInfo['totalVideos']; ?> <?php echo __('videos'); ?>)
+                                            <?php echo secondsToTime($playlistTotalInfo['duration_in_seconds'], '%02d'); ?>
+                                        </span>                                        
                                     </a>
                                 </h3>
                                 <div class="gallerySectionContent">
@@ -111,11 +117,11 @@ saveRequestVars();
                                     ?>
                                 </div>
                             </div>
-                        <?php
+        <?php
                         }
                         setRowCount($rowCount);
                     }
-                }else 
+                } else 
                 if ($value['name'] == 'Trending') {
                     createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line", true);
                 } else
