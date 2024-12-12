@@ -4163,6 +4163,8 @@ if (!class_exists('Video')) {
                         $f = "{$filename}/index{$type}";
                     } else if ($indexMP3Exits) {
                         $f = "{$filename}/index{$type}";
+                    }  else if ($indexMP4Exits) {
+                        $f = "{$filename}/index{$type}";
                     } else {
                         $f = "{$paths['relative']}{$filename}{$type}";
                     }
@@ -4179,6 +4181,9 @@ if (!class_exists('Video')) {
                     if ($type == ".m3u8" || $indexMP3Exits) {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
+                    }else if ($indexMP4Exits) {
+                        $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
+                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                     }
                 } elseif (!empty($advancedCustom->videosCDN) && $canUseCDN) {
                     $advancedCustom->videosCDN = addLastSlash($advancedCustom->videosCDN);
@@ -4187,11 +4192,17 @@ if (!class_exists('Video')) {
                     if ($type == ".m3u8" || $indexMP3Exits) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
+                    }else if ($indexMP4Exits) {
+                        $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
+                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                     }
                 } else {
                     $source['url'] = getCDN() . "{$paths['relative']}{$filename}{$type}";
                     $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}";
                     if ($type == ".m3u8" || $indexMP3Exits) {
+                        $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
+                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
+                    }else if ($indexMP4Exits) {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                     }
