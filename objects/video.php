@@ -4996,9 +4996,8 @@ if (!class_exists('Video')) {
             $allowedExtensions = array('mp4');
             $dirHandle = opendir($dir);
             if(empty($dirHandle)){
-                echo "Could not open dir $dir";
-                var_dump(debug_backtrace());
-                exit;
+                _error_log("Could not open dir $dir", AVideoLog::$ERROR);
+                return array();
             }
             while ($file = readdir($dirHandle)) {
                 if ($file == '.' || $file == '..') {
