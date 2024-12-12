@@ -1380,6 +1380,9 @@ function getSources($fileName, $returnArray = false, $try = 0)
     if ($returnArray) {
         $return = array_merge($videoSources, $audioTracks, $subtitleTracks,  $captionsTracks);
     } else {
+        // remove index.mp4
+        $videoSources = preg_replace('/<source src=".*index.mp4.*" type="video\/mp4" label="Low" res="360">/', '<!-- index.mp4 removed -->', $videoSources);
+        //var_dump($videoSources);exit;
         $return = $videoSources . $audioTracks  . PHP_EOL . $subtitleTracks  . PHP_EOL . $captionsTracks;
     }
 

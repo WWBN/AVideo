@@ -149,11 +149,13 @@ class PlayerSkins extends PluginAbstract
                 if ($video['type'] == Video::$videoTypeVideo) {
                     $sources = getSources($video['filename']);
                     //var_dump($video['filename'], $sources);exit;
-                    $htmlMediaTag .= "<!-- Video title={$video['title']} {$video['filename']} -->" . $sources; //var_dump($sources);exit;
+                    $htmlMediaTag .= PHP_EOL . "<!-- Video title={$video['title']} {$video['filename']} -->";
+                    $htmlMediaTag .= PHP_EOL . $sources; //var_dump($sources);exit;
                 } else { // video link
                     $url = AVideoPlugin::modifyURL($video['videoLink'], $video['id']);
                     //var_dump($video['videoLink'], $url);exit;
-                    $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$url}' type='" . mime_content_type_per_filename($video['videoLink']) . "' >";
+                    $htmlMediaTag .= PHP_EOL . "<!-- Video Link {$video['title']} {$video['filename']} -->";
+                    $htmlMediaTag .= PHP_EOL . "<source src='{$url}' type='" . mime_content_type_per_filename($video['videoLink']) . "' >";
                     $html .= "<script>$(document).ready(function () {\$('time.duration').hide();});</script>";
                 }
                 $htmlMediaTag .= '<p>' . __("If you can't view this video, your browser does not support HTML5 videos") . '</p><p class="vjs-no-js">' . __("To view this video please enable JavaScript, and consider upgrading to a web browser that") . '<a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a></p></video>';
@@ -397,7 +399,7 @@ class PlayerSkins extends PluginAbstract
 
         if ($addStartPlayerJS) {
             //var_dump($onPlayerReady, $getDataSetup . ", plugins: " . json_encode($plugins));exit;
-            echo '<script>'.PlayerSkins::getStartPlayerJS($onPlayerReady, $getDataSetup . ", plugins: " . json_encode($plugins)).'</script>';
+            echo '<script>' . PlayerSkins::getStartPlayerJS($onPlayerReady, $getDataSetup . ", plugins: " . json_encode($plugins)) . '</script>';
         }
 
         return $js . $css . $oembed;
@@ -535,7 +537,7 @@ class PlayerSkins extends PluginAbstract
         if (self::$hasMarks) {
             $js .= '<link href="' . getURL('plugin/AD_Server/videojs-markers/videojs.markers.css') . '" rel="stylesheet" type="text/css"/>';
             $js .= '<script src="' . getURL('plugin/AD_Server/videojs-markers/videojs-markers.js') . '"></script>';
-        }        
+        }
 
         return $js;
     }
