@@ -867,7 +867,7 @@ function playVideoSegment(startTime, endTime) {
 
 
 function playerPlayIfAutoPlay(currentTime) {
-    console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime, isLive);
+    console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
     if (isWebRTC()) {
         return false;
     }
@@ -4504,4 +4504,14 @@ function actionButtonPlaylistClick(t, videos_id) {
 // Function to get total seconds anytime
 function getTotalPageLoadSeconds() {
     return TotalPageLoadSeconds;
+}
+
+function getVideosId(){
+    if(typeof videos_id != 'undefined'){
+        return videos_id;
+    }
+    if(typeof mediaId != 'undefined'){
+        return mediaId;
+    }
+    return 0;
 }

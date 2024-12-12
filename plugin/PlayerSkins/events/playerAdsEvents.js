@@ -9,7 +9,7 @@ async function logAdEvent(eventType) {
         type: 'POST',
         data: {
             label: eventType,
-            videos_id: videos_id,
+            videos_id: getVideosId(),
             video_position: video_position
         },
         success: function(response) {
