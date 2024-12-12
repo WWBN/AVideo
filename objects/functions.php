@@ -1171,12 +1171,12 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
             }
             if ($parts['filename'] == 'index') {
                 $parts['filename'] = str_replace(Video::getPathToFile($parts['dirname']), '', $parts['dirname']);
+                $parts['filename'] = str_replace(getVideosDir(), '', $parts['filename']);
             }
-
             //$timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             //TimeLogStart($timeName2);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
-
+            
             /*
             if(empty($recreateCache) && $fileName == "video_230816233020_vb81e"){
                 var_dump($fileName, $source);exit;
@@ -1216,8 +1216,13 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
                 }
             }
 
+            $_filename = "{$parts['filename']}.{$parts['extension']}";
+            if($parts['basename'] == 'index.mp4' ){
+                $_filename = "index.mp4";
+            }
+
             $_file = [
-                'filename' => "{$parts['filename']}.{$parts['extension']}",
+                'filename' => $_filename,
                 'path' => $file,
                 'url' => $source['url'],
                 'url_noCDN' => @$source['url_noCDN'],

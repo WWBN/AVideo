@@ -4057,6 +4057,7 @@ if (!class_exists('Video')) {
             //if (!isValidFormats($type)) {
             //return array();
             //}
+            $filename = str_replace(getVideosDir(), '', $filename);
 
             $timeLog1Limit = 0.2;
             $timeLog1 = "getSourceFile($filename, $type, $includeS3)";
@@ -4121,11 +4122,19 @@ if (!class_exists('Video')) {
                 if ($type == ".m3u8") {
                     $source['path'] = self::getStoragePath() . "{$filename}/index{$type}";
                 }
+                $indexMP4Exits = false;
                 $indexMP3Exits = false;
                 if ($type == ".mp3") {
                     $exits = self::getStoragePath() . "{$filename}/index{$type}";
                     $indexMP3Exits = file_exists($exits);
                     if ($indexMP3Exits) {
+                        $source['path'] = $exits;
+                    }
+                }
+                if ($type == ".mp4") {
+                    $exits = self::getStoragePath() . "{$filename}/index{$type}";
+                    $indexMP4Exits = file_exists($exits);
+                    if ($indexMP4Exits) {
                         $source['path'] = $exits;
                     }
                 }

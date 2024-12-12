@@ -807,10 +807,10 @@ function globVideosDir($filename, $filesOnly = false, $recreateCache = false)
         $cleanfilename = '';
     }
 
-    $pattern = "/{$cleanfilename}.*";
+    $pattern = "/({$cleanfilename}|index).*";
     if (!empty($filesOnly)) {
         $formats = getValidFormats();
-        $pattern .= ".(" . implode("|", $formats) . ")";
+        $pattern .= ".(" . implode("|", $formats) . ")$";
     }
     $pattern .= "/";
     //_error_log("_glob($dir, $pattern)");
