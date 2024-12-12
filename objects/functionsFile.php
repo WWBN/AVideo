@@ -1084,7 +1084,7 @@ function getVideosDirectoryUsageInfo() {
     // Get disk usage information using 'du' command
     $command = "du -s $realPath 2>&1"; // Removed 'h' to get the usage in bytes
     $usageOutput = shell_exec($command);
-    $usageBytes = intval(preg_split('/\s+/', $usageOutput)[0] * 1024); // Convert from KB to bytes
+    $usageBytes = intval(preg_split('/\s+/', $usageOutput)[0]) * 1024; // Convert from KB to bytes
 
     // Get the total space and free space on the partition
     $totalSpace = disk_total_space($realPath);
