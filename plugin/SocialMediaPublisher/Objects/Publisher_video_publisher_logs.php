@@ -224,6 +224,12 @@ class Publisher_video_publisher_logs extends ObjectYPT
                         $msg[] = "<a href='{$link}' target='_blank'>{$link}</a>";
                     }
                     break;
+                case SocialMediaPublisher::SOCIAL_TYPE_FACEBOOK["name"]:
+                    if (!empty($row['json']->response->VideoUploadResponse) && !empty($row['json']->response->VideoUploadResponse->id)) {
+                        $link = "https://www.facebook.com/watch/?v=" . $row['json']->response->VideoUploadResponse->id;
+                        $msg[] = "<a href='{$link}' target='_blank'>{$link}</a>";
+                    }
+                    break;
             }
             $row['msg'] = implode('<br>', $msg);
         }

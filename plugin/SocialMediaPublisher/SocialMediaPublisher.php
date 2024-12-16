@@ -235,12 +235,14 @@ class SocialMediaPublisher extends PluginAbstract
     public static function upload($publisher_user_preferences_id, $videos_id)
     {
         $video = new Video('', '', $videos_id);
-        $paths = Video::getFirstSource($video->getFilename());
-        if (empty($paths)) {
+        //$paths = Video::getFirstSource($video->getFilename());
+        $paths = getVideosURLMP4Only($video->getFilename());
+        //var_dump($paths['mp4']);exit;
+        if (empty($paths['mp4'])) {
             _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) video paths are empty");
             return false;
         }
-        if (!file_exists($paths['path'])) {
+        if (!file_exists($paths['mp4']['path'])) {
             _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) video path does not exist");
             return false;
         }
@@ -255,11 +257,11 @@ class SocialMediaPublisher extends PluginAbstract
 
         $providerName = $o->getProviderName();
 
-        $fromFileLocation = $paths['url'];
-        if (!isDummyFile($paths['path'])) {
-            $videoPath = $paths['path'];
+        $fromFileLocation = $paths['mp4']['url'];
+        if (!isDummyFile($paths['mp4']['path'])) {
+            $videoPath = $paths['mp4']['path'];
         } else {
-            $videoPathToYouTube = $videoPath = ($paths['path'] . '.toYouTube.mp4');
+            $videoPathToYouTube = $videoPath = ($paths['mp4']['path'] . '.toYouTube.mp4');
         }
         if (!file_exists($videoPath)) {
             _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName start conversion ");
