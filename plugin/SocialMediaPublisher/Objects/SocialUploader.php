@@ -135,8 +135,10 @@ class SocialUploader
     private static function uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $visibility = 'public', $isShort = false)
     {
         if ($isShort) {
+            _error_log("SocialMediaPublisher::uploadFacebook Short");
             return FacebookUploader::uploadFacebookReels($accessToken, $pageId, $videoPath, $title, $description);
         } else {
+            _error_log("SocialMediaPublisher::uploadFacebook Video");
             return FacebookUploader::uploadFacebookVideo($accessToken, $pageId, $videoPath, $title, $description);
         }
     }
@@ -337,7 +339,7 @@ class FacebookUploader
         return json_decode($response, true);
     }
 
-    static function uploadDirectHostedVideo($pageId, $accessToken, $videoUrl)
+    static function uploadDirectHostedVideo($pageId, $accessToken, $videoUrl, $description = '')
     {
         $url = "https://graph.facebook.com/{$pageId}/videos";
         $postData = [
@@ -345,6 +347,8 @@ class FacebookUploader
             'access_token' => $accessToken,
             'file_url' => $videoUrl
         ];
+
+        _error_log("SocialMediaPublisher::uploadDirectHostedVideo $url ".json_encode($postData));
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
