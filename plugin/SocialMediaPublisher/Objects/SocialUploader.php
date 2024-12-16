@@ -11,6 +11,7 @@ class SocialUploader
             return array('error' => true, 'msg' => 'Empty access token', 'line' => __LINE__);
         }
         $pub = new Publisher_user_preferences($publisher_user_preferences_id);
+        _error_log("SocialMediaPublisher::upload provider=".$pub->getProviderName());
         try {
             switch ($pub->getProviderName()) {
                 case SocialMediaPublisher::SOCIAL_TYPE_YOUTUBE['name']:
@@ -19,6 +20,7 @@ class SocialUploader
                 case SocialMediaPublisher::SOCIAL_TYPE_FACEBOOK['name']:
                     $json = json_decode($pub->getJson());
                     $pageId = $json->{'restream.ypt.me'}->facebook->broadcaster_id;
+                    _error_log("SocialMediaPublisher::upload json=".json_encode($json));
                     return SocialUploader::uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $visibility, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM['name']:
