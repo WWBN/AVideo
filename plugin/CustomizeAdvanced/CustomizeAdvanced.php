@@ -134,6 +134,7 @@ class CustomizeAdvanced extends PluginAbstract {
             'CategoryLabel',
             'ShowAllVideosOnCategory',
             'hideCategoryVideosCount',
+            'categoryLiveCount',
             'hideEditAdvancedFromVideosManager',
             'paidOnlyUsersTellWhatVideoIs',
             'paidOnlyShowLabels',
@@ -359,6 +360,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->ShowAllVideosOnCategory = false;
         $obj->hideCategoryVideosCount = false;
         $obj->hideEditAdvancedFromVideosManager = false;
+        $obj->categoryLiveCount = true;
 
         //ver 7.1
         $obj->paidOnlyUsersTellWhatVideoIs = false;
