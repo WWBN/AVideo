@@ -862,6 +862,14 @@ class Category
             return 0;
         }
 
+        global $advancedCustom;
+        if (empty($advancedCustom)) {
+            $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+        }
+        if(empty($advancedCustom->categoryLiveCount)){
+            return 0;
+        }
+
         global $global;
 
         $cacheHandler = new CategoryCacheHandler($categories_id);
