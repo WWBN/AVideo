@@ -174,7 +174,7 @@ class FacebookUploader
         global  $global;
         // Upload a local video directly
         $videoUrl = str_replace(getVideosDir(), $global['webSiteRootURL'], $videoPath);
-        $VideoUploadResponse = FacebookUploader::uploadDirectHostedVideo($pageId, $accessToken, $videoUrl);
+        $VideoUploadResponse = FacebookUploader::uploadDirectHostedVideo($pageId, $accessToken, $videoUrl, $title,PHP_EOL.$description);
         //$VideoUploadResponse = FacebookUploader::uploadDirectLocalVideo($pageId, $accessToken, $videoPath);
 
         $return = [
@@ -300,7 +300,7 @@ class FacebookUploader
         return json_decode($response, true);
     }
 
-    static function uploadDirectLocalVideo($pageId, $accessToken, $filePath)
+    static function uploadDirectLocalVideo($pageId, $accessToken, $filePath, $description = '')
     {
         $fileSize = filesize($filePath);
         if ($fileSize > 1 * 1024 * 1024 * 1024) {
@@ -337,8 +337,9 @@ class FacebookUploader
 
     static function uploadDirectHostedVideo($pageId, $accessToken, $videoUrl)
     {
-        $url = "https://graph-video.facebook.com/v19.0/{$pageId}/videos";
+        $url = "https://graph.facebook.com/{$pageId}/videos";
         $postData = [
+            'description' => $description,
             'access_token' => $accessToken,
             'file_url' => $videoUrl
         ];
