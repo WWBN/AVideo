@@ -47,13 +47,15 @@ function getPagination($total, $link = "", $maxVisible = 10, $infinityScrollGetF
 {
     global $global, $advancedCustom;
     if ($total < 2) {
-        return '<!-- getPagination total < 2 (' . json_encode($total) . ') -->';
+        return '<!-- getPagination total < 2 (' . json_encode(array('total'=>$total, 'maxVisible'=>$maxVisible, 'total'=>$total, )) . ') -->';
     }
 
     $page = getCurrentPage();
     if ($total < $page) {
         $page = $total;
     }
+    
+    //var_dump($page, $total, getCurrentPage());exit;
 
     $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
 
@@ -87,7 +89,7 @@ function getPagination($total, $link = "", $maxVisible = 10, $infinityScrollGetF
             . _getPageItem($link, $page, $uid, true)
             . "</ul></nav>";
     }
-    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page ' . $page . ' maxVisible = ' . $maxVisible . ' ' . $link . ' -->';
+    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- ' . json_encode(array('total'=>$total, 'maxVisible'=>$maxVisible, 'page'=>$page, 'link'=>$link, )) . ' -->';
     $start = 1;
     $end = $maxVisible;
 

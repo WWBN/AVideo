@@ -68,7 +68,7 @@ if ($ownerCanUplaodVideos) {
 //var_dump($ownerCanUplaodVideos, $uploadedTotalVideos, $uploadedVideos, $lastGetTotalVideos, $user->getCanUpload(), $user->getIsAdmin(), $user_id, $user->getUser());exit;
 TimeLogEnd($timeLog, __LINE__);
 $totalPages = ceil($uploadedTotalVideos / $rowCount);
-
+//var_dump($totalPages, $uploadedTotalVideos, $rowCount);exit;
 unset($_POST['sort']);
 unset($_POST['rowCount']);
 unset($_POST['current']);
@@ -440,6 +440,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         <div class="panel-body">
                                             <?php
                                             $video = false;
+                                            //var_dump(getCurrentPage());
                                             if ($advancedCustomUser->showBigVideoOnChannelVideosTab && !empty($uploadedVideos[0])) {
                                                 $video = $uploadedVideos[0];
                                                 $obj = new stdClass();
@@ -450,6 +451,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                                     unset($uploadedVideos[0]);
                                                 }
                                             }
+                                            //var_dump(getCurrentPage());exit;
                                             ?>
                                             <div class="row">
                                                 <?php
@@ -461,7 +463,10 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         </div>
 
                                         <div class="panel-footer">
-                                            <?php echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
+                                            <?php 
+                                            //var_dump($totalPages);
+                                            echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); 
+                                            ?>
                                         </div>
                                     </div>
                                 </div>

@@ -18,6 +18,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         //unsetCurrentPage();
         $videoRows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !$obj->hidePrivateVideos, array(), false, false, true, true);
     }
+    resetCurrentPage();
     if (empty($videoRows)) {
         $videoRows = array($video);
     }else{

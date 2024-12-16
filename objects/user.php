@@ -2176,6 +2176,7 @@ if (typeof gtag !== \"function\") {
     public static function getAllUsers($ignoreAdmin = false, $searchFields = ['name', 'email', 'user', 'channelName', 'about'], $status = "", $isAdmin = null, $isCompany = null, $canUpload = null)
     {
         if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
+            _error_log('You are not admin and cannot list all users');
             //echo __LINE__;
             return false;
         }

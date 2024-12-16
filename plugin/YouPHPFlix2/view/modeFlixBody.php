@@ -524,5 +524,6 @@ background: -moz-linear-gradient(to top, rgba({$obj->backgroundRGB},1) {$percent
     unset($_POST['sort']);
     unset($_REQUEST['current']);
     unset($_REQUEST['rowCount']);
+    resetCurrentPage();
     ?>
 </div>
