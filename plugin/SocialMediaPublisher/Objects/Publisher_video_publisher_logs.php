@@ -8,6 +8,12 @@ class Publisher_video_publisher_logs extends ObjectYPT
     protected $id, $publish_datetimestamp, $status, $details, $videos_id, $users_id,
         $publisher_social_medias_id, $timezone;
 
+    const STATUS_UNVERIFIED = 'u';
+    const STATUS_VERIFIED = 'v';
+    const STATUS_ACTIVE = 'a';
+    const STATUS_INACTIVE = 'i';
+    const STATUS_PROCESSING = 'p';
+
     static function getSearchFieldsNames()
     {
         return array('details', 'timezone');
@@ -199,6 +205,7 @@ class Publisher_video_publisher_logs extends ObjectYPT
 
     static function getInfo($row)
     {
+        global $global;
 
         $row['publish'] = date('Y-m-d H:i:s', $row['publish_datetimestamp']);
         $row['json'] = json_decode($row['details']);
@@ -230,6 +237,18 @@ class Publisher_video_publisher_logs extends ObjectYPT
                         $msg[] = "<a href='{$link}' target='_blank'>{$link}</a>";
                     }
                     break;
+                case SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM["name"]:
+                    if(!empty($row['json']->mediaResponse->permalink)){
+                        $msg[] = "<a href='{$row['json']->mediaResponse->permalink}' target='_blank'>{$row['json']->mediaResponse->permalink}</a>";
+                    }else if ($row['status'] === self::STATUS_UNVERIFIED) {
+                        $msg[] = '<i class="fa fa-spinner fa-spin"></i> <strong>Video is being processed:</strong> Your video is currently being processed for publishing on Instagram. Please wait.';
+                    } elseif ($row['status'] === self::STATUS_VERIFIED) {
+                        $msg[] = '<i class="fa fa-check-circle"></i> <strong>Video successfully published:</strong> Your video has been verified and uploaded to Instagram.';
+                    } else {
+                        $msg[] = '<i class="fa fa-exclamation-triangle"></i> <strong>status:</strong> ' . $row['status'] . '';
+                    }
+
+                    break;
             }
             $row['msg'] = implode('<br>', $msg);
         }
@@ -250,5 +269,13 @@ class Publisher_video_publisher_logs extends ObjectYPT
         $countRow = sqlDAL::num_rows($res);
         sqlDAL::close($res);
         return $countRow;
+    }
+
+    public function save()
+    {
+        if (empty($this->status)) {
+            $this->status = self::STATUS_UNVERIFIED;
+        }
+        return parent::save();
     }
 }

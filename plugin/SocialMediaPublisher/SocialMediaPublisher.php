@@ -50,9 +50,9 @@ class SocialMediaPublisher extends PluginAbstract
         self::SOCIAL_TYPE_LINKEDIN['name'] => self::SOCIAL_TYPE_LINKEDIN,
     );
 
-    //const RESTREAMER_URL = 'https://restream.ypt.me/';
+    const RESTREAMER_URL = 'https://restream.ypt.me/';
     //const RESTREAMER_URL = 'http://localhost:81/Restreamer/';
-    const RESTREAMER_URL = 'https://vlu.me:444/Restreamer/';
+    //const RESTREAMER_URL = 'https://vlu.me:444/Restreamer/';
 
     public function getTags()
     {
@@ -296,7 +296,7 @@ class SocialMediaPublisher extends PluginAbstract
         return $response;
     }
 
-    private static function saveLog($publisher_social_medias_id, $videos_id, $details, $users_id = 0, $status = '')
+    private static function saveLog($publisher_social_medias_id, $videos_id, $details, $users_id = 0, $status = Publisher_video_publisher_logs::STATUS_UNVERIFIED)
     {
         if (empty($users_id)) {
             $users_id = User::getId();
@@ -345,5 +345,56 @@ class SocialMediaPublisher extends PluginAbstract
             ' <i class="fa-regular fa-share-from-square"></i> ' . __("Share on Social Media") . '</button>';
 
         return $btn;
+    }
+
+    static function scanInstagam()
+    {
+        global $global;
+        $sql = "SELECT psm.*, pvpl.* FROM publisher_video_publisher_logs pvpl LEFT JOIN publisher_social_medias psm ON publisher_social_medias_id = psm.id  
+        WHERE pvpl.status='" . Publisher_video_publisher_logs::STATUS_UNVERIFIED . "' 
+        AND name = '" . SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM["name"] . "' ORDER BY pvpl.id DESC LIMIT 100 ";
+
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        //var_dump($sql, $fullData);
+        if (!empty($fullData)) {
+            foreach ($fullData as $key => $row) {
+                $json = json_decode($row["details"]);
+
+                $accessToken = $json->response->accessToken;
+                $containerId = $json->response->containerId;
+                $instagramAccountId = $json->response->instagramAccountId;
+
+                $obj = InstagramUploader::publishMediaIfIsReady($accessToken, $containerId, $instagramAccountId);
+
+                if ((isset($obj['error']) && $obj['error'] === false) || $obj["waitForMediaProcessing"]["response"]["status_code"] === "PUBLISHED") {
+
+                    //var_dump($obj);
+                    if (!empty($obj['publishResponse'])) {
+                        $json->publishResponse = $obj['publishResponse'];
+                    }
+                    if (!empty($obj['mediaResponse'])) {
+                        $json->mediaResponse = $obj['mediaResponse'];
+                    }
+
+                    $smp = new Publisher_video_publisher_logs($row['id'], true);
+                    $smp->setDetails($json);
+                    $smp->setStatus(Publisher_video_publisher_logs::STATUS_VERIFIED);
+                    if ($smp->save()) {
+                        $poster = Video::getPoster($row["videos_id"],);
+                        $img = "<img src='{$poster}' class='img img-responsive'>";
+                        sendSocketMessageToUsers_id('Video published on instagram<br>' . $img, $row["users_id"], 'avideoToastSuccess');
+                    }
+                }
+                return $obj;
+            }
+        }
+        return false;
+    }
+
+    function executeEveryMinute()
+    {
+        self::scanInstagam();
     }
 }

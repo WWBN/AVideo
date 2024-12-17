@@ -23,7 +23,7 @@ class UserGroups{
         }
     }
 
-    public function load($id)
+    public function load($id, $refreshCache = false)
     {
         $user = self::getUserGroupsDb($id);
         if (empty($user)) {

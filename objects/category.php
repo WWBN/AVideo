@@ -118,7 +118,7 @@ class Category
         }
     }
 
-    public function load($id)
+    public function load($id, $refreshCache = false)
     {
         $row = self::getCategory($id);
         if (empty($row)) {

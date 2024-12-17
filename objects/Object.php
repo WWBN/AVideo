@@ -16,11 +16,11 @@ abstract class ObjectYPT implements ObjectInterface
     protected $id;
     protected $created;
 
-    public function __construct($id = "")
+    public function __construct($id = "", $refreshCache = false)
     {
         if (!empty($id)) {
             // get data from id
-            $this->load($id);
+            $this->load($id, $refreshCache);
         }
     }
 
@@ -29,9 +29,9 @@ abstract class ObjectYPT implements ObjectInterface
         return [];
     }
 
-    public function load($id)
+    public function load($id, $refreshCache = false)
     {
-        $row = self::getFromDb($id);
+        $row = self::getFromDb($id, $refreshCache);
         if (empty($row)) {
             return false;
         }

@@ -59,10 +59,10 @@ class AVideoConf extends ObjectYPT{
         }
     }
 
-    public function load($id='')
+    public function load($id='', $refreshCache = false)
     {
         global $global;
-        return parent::load(1);
+        return parent::load(1, $refreshCache);
     }
 
     public function save(){

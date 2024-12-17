@@ -277,7 +277,7 @@ if (typeof gtag !== \"function\") {
         return $eo[$id];
     }
 
-    public function load($id)
+    public function load($id, $refreshCache = false)
     {
         $id = intval($id);
         if (empty($id)) {

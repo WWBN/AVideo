@@ -67,7 +67,7 @@ class Comment {
         return $this->videos_id;
     }
 
-    public function load($id) {
+    public function load($id, $refreshCache = false) {
         $row = self::getComment($id);
         if (empty($row)) {
             return false;

@@ -39,7 +39,7 @@ class Subscribe extends ObjectYPT{
         }
     }
 
-    public function load($id)
+    public function load($id, $refreshCache = false)
     {
         $obj = self::getSubscribe($id);
         if (empty($obj)) {

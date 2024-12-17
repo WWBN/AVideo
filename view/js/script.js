@@ -1388,7 +1388,7 @@ function avideoAlertAJAXHTML(url) {
     modal.showPleaseWait();
     $.ajax({
         url: url,
-        success: function (response) {
+        complete: function (response) {
             avideoAlertText(response);
             modal.hidePleaseWait();
         }
@@ -1399,7 +1399,7 @@ function avideoAlertAJAX(url) {
     modal.showPleaseWait();
     $.ajax({
         url: url,
-        success: function (response) {
+        complete: function (response) {
             avideoResponse(response);
             modal.hidePleaseWait();
         }
