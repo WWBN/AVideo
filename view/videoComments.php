@@ -322,7 +322,7 @@ if (User::canSeeCommentTextarea()) {
             }
             itemsArray.videoLink = '#';
             itemsArray.videoTitle = '';
-            if (typeof itemsArray.video != 'undefined') {
+            if (typeof itemsArray.video != 'undefined' && !empty(itemsArray.video)) {
                 itemsArray.videoLink = itemsArray.video.link;
                 itemsArray.videoTitle = itemsArray.video.title;
             }
