@@ -6,11 +6,10 @@ require_once '../../objects/user.php';
 $obj = new stdClass();
 $obj->error = true;
 if (!User::canStream()) {
-    $obj->msg = __('Permission denied');
-    die(json_encode($obj));
+    forbiddenPage('Permission denied');
 }
 
-$categories_id = intval(@$_POST['categories_id']);
+$categories_id = intval(@$_REQUEST['categories_id']);
 if (empty($categories_id)) {
     $categories_id = 1;
 }
@@ -25,20 +24,28 @@ if (User::isAdmin()) {
 
 $l = new LiveTransmition(0);
 $l->loadByUser(User::getId());
-$l->setTitle($_POST['title']);
-$l->setDescription($_POST['description']);
-$l->setPassword($_POST['password']);
-$l->setKey($_POST['key']);
+$l->setTitle($_REQUEST['title']);
+$l->setDescription($_REQUEST['description']);
+$l->setPassword($_REQUEST['password']);
+$l->setKey($_REQUEST['key']);
 $l->setCategories_id($categories_id);
 $l->setPublicAutomatic();
 $l->setSaveTransmitionAutomatic();
 $l->setUsers_id($users_id);
 $id = $l->save();
+if(empty($id)){
+    forbiddenPage('Error on save');
+}
+
+$resp = array('error'=>false, 'msg'=>'Saved', 'userGroups'=>array());
+
 $l = new LiveTransmition($id);
 $l->deleteGroupsTrasmition();
-if (!empty($_POST['userGroups'])) {
-    foreach ($_POST['userGroups'] as $value) {
+if (!empty($_REQUEST['userGroups'])) {
+    _error_log("LiveTransmition::save users_id=".User::getId().' IP='.getRealIpAddr().' saving usergroups '.json_encode(debug_backtrace()));
+    foreach ($_REQUEST['userGroups'] as $value) {
+        $resp['userGroups'][] = $value;
         $l->insertGroup($value);
     }
 }
-echo '{"status":"'.$id.'"}';
+echo json_encode($resp);

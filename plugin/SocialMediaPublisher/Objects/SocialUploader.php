@@ -24,6 +24,13 @@ class SocialUploader
                     return SocialUploader::uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $visibility, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM['name']:
+                    $pub = Publisher_user_preferences::getFromDb($publisher_user_preferences_id);
+                    if (!empty($pub)) {
+                        $json = json_decode($pub['json']);
+                        if (!empty($json) && !empty($json->{"restream.ypt.me"}->instagram) && !empty($json->{"restream.ypt.me"}->instagram->access_token)) {
+                            $accessToken = $json->{"restream.ypt.me"}->instagram->access_token;
+                        }
+                    }
                     return SocialUploader::uploadInstagram($accessToken, $videoPath, $title, $description, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_TWITCH['name']:
@@ -186,7 +193,7 @@ class FacebookUploader
         // Upload a local video directly
         $videoUrl = str_replace($global['systemRootPath'], $global['webSiteRootURL'], $videoPath);
 
-        $videoUrl = addQueryStringParameter($videoUrl, 'globalToken', getToken(9930));
+        $videoUrl = addQueryStringParameter($videoUrl, 'globalToken', getToken(30));
 
         $VideoUploadResponse = FacebookUploader::uploadDirectHostedVideo($pageId, $accessToken, $videoUrl, $title, PHP_EOL . $description);
         //$VideoUploadResponse = FacebookUploader::uploadDirectLocalVideo($pageId, $accessToken, $videoPath);
@@ -403,7 +410,6 @@ class FacebookUploader
         ];
         die(json_encode($return));
     }
-
 
     static function uploadDirectHostedVideo($pageId, $accessToken, $videoUrl, $description = '')
     {
@@ -843,44 +849,37 @@ class InstagramUploader
      * Upload a video to Instagram.
      *
      * @param string $accessToken Instagram access token.
-     * @param string $videoPath Local path to the video file.
+     * @param string $videoPath video file.
      * @param string $caption Caption for the video.
-     * @param bool $isReel Whether the upload is for Instagram Reels.
+     * @param string $userId Instagram user ID.
      * @return array Response from the Instagram API.
      */
-    public static function upload($accessToken, $videoPath, $caption, $isReel = false)
+    public static function upload($accessToken, $videoPath, $caption, $userId)
     {
+        global $global;
         $return = [
             'error' => true,
             'msg' => '',
             'initResponse' => null,
-            'uploadResponse' => null,
             'publishResponse' => null
         ];
+        $videoUrl = str_replace($global['systemRootPath'], $global['webSiteRootURL'], $videoPath);
 
-        // Step 1: Initialize the upload
-        $initResponse = self::initializeInstagramUpload($accessToken, $isReel);
+        $videoUrl = addQueryStringParameter($videoUrl, 'globalToken', getToken(30));
+
+        // Step 1: Initialize the upload with video_url
+        $initResponse = self::initializeInstagramUpload($accessToken, $userId, $videoUrl, $caption);
         $return['initResponse'] = $initResponse;
 
         if ($initResponse['error']) {
-            $return['msg'] = "Failed to initialize Instagram upload: " . $initResponse['message'];
+            $return['msg'] = "Failed to initialize Instagram upload: " . $initResponse['msg'];
             return $return;
         }
 
-        $uploadUrl = $initResponse['uploadUrl'];
         $containerId = $initResponse['containerId'];
 
-        // Step 2: Upload the video file
-        $uploadResponse = self::uploadVideoToInstagram($uploadUrl, $videoPath);
-        $return['uploadResponse'] = $uploadResponse;
-
-        if ($uploadResponse['error']) {
-            $return['msg'] = "Error uploading video to Instagram: " . $uploadResponse['msg'];
-            return $return;
-        }
-
-        // Step 3: Publish the video
-        $publishResponse = self::publishInstagramVideo($accessToken, $containerId, $caption);
+        // Step 2: Publish the video
+        $publishResponse = self::publishInstagramVideo($accessToken, $containerId, $userId);
         $return['publishResponse'] = $publishResponse;
 
         if ($publishResponse['error']) {
@@ -893,100 +892,71 @@ class InstagramUploader
         return $return;
     }
 
-    private static function initializeInstagramUpload($accessToken, $isReel)
+    private static function initializeInstagramUpload($accessToken, $userId, $videoUrl, $caption)
     {
-        $url = $isReel
-            ? "https://graph.facebook.com/v17.0/me/media?media_type=VIDEO"
-            : "https://graph.instagram.com/v17.0/me/media?media_type=VIDEO";
+        $url = "https://graph.facebook.com/$userId/media";
 
         $data = [
+            'media_type' => 'VIDEO',
+            'video_url' => $videoUrl,
+            'caption' => $caption,
             'access_token' => $accessToken,
         ];
+        $response = self::makeCurlRequest($url, $data);
+        //var_dump($url, $data, $response);exit;
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        $responseArray = json_decode($response, true);
-
-        if ($httpCode !== 200 || empty($responseArray['id'])) {
+        if ($response['httpCode'] !== 200 || empty($response['response']['id'])) {
             return [
                 'error' => true,
-                'message' => $responseArray['error']['message'] ?? 'Failed to initialize upload.'
+                'msg' => $response['response']['error']['message'] ?? 'Failed to initialize upload.'
             ];
         }
 
         return [
             'error' => false,
-            'containerId' => $responseArray['id'],
-            'uploadUrl' => $responseArray['video_url']
+            'containerId' => $response['response']['id']
         ];
     }
 
-    private static function uploadVideoToInstagram($uploadUrl, $videoPath)
+    private static function publishInstagramVideo($accessToken, $containerId, $userId)
     {
-        $fileSize = filesize($videoPath);
-
-        $ch = curl_init($uploadUrl);
-        curl_setopt($ch, CURLOPT_PUT, true);
-        curl_setopt($ch, CURLOPT_INFILE, fopen($videoPath, 'r'));
-        curl_setopt($ch, CURLOPT_INFILESIZE, $fileSize);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        if ($httpCode !== 200) {
-            return [
-                'error' => true,
-                'msg' => 'Failed to upload video file.'
-            ];
-        }
-
-        return [
-            'error' => false,
-            'msg' => 'Video uploaded successfully.'
-        ];
-    }
-
-    private static function publishInstagramVideo($accessToken, $containerId, $caption)
-    {
-        $url = "https://graph.facebook.com/v17.0/me/media_publish";
+        $url = "https://graph.facebook.com/v17.0/$userId/media_publish";
 
         $data = [
-            'access_token' => $accessToken,
             'creation_id' => $containerId,
-            'caption' => $caption
+            'access_token' => $accessToken
         ];
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = self::makeCurlRequest($url, $data);
 
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        $responseArray = json_decode($response, true);
-
-        if ($httpCode !== 200) {
+        if ($response['httpCode'] !== 200) {
             return [
                 'error' => true,
-                'msg' => $responseArray['error']['message'] ?? 'Failed to publish video.'
+                'msg' => $response['response']['error']['message'] ?? 'Failed to publish video.'
             ];
         }
 
         return [
             'error' => false,
             'msg' => 'Video published successfully.',
-            'response' => $responseArray
+            'response' => $response['response']
+        ];
+    }
+
+    private static function makeCurlRequest($url, $data)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return [
+            'response' => json_decode($response, true),
+            'httpCode' => $httpCode
         ];
     }
 }

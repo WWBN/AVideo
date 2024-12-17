@@ -1220,6 +1220,9 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
             if($parts['basename'] == 'index.mp4' ){
                 $_filename = "index.mp4";
             }
+            if($parts['basename'] == 'index.mp3' ){
+                $_filename = "index.mp3";
+            }
 
             $_file = [
                 'filename' => $_filename,

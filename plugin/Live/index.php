@@ -260,7 +260,8 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                 password: $('#password_livestream').val()
             },
             type: 'post',
-            success: function(response) {
+            complete: function(resp) {
+                avideoResponse(resp);
                 modal.hidePleaseWait();
             }
         });
