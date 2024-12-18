@@ -86,14 +86,15 @@ function getSocketConnectionLabel()
             </span>
             <span class="socket_icon socket_not_loading socket_disconnected_icon">
                 <span class="fa-stack">
-  <i class="fas fa-slash fa-stack-1x"></i>
-  <i class="fas fa-plug fa-stack-1x"></i>
-</span> ' . __('Disconnected') . '
+                    <i class="fas fa-slash fa-stack-1x"></i>
+                    <i class="fas fa-plug fa-stack-1x"></i>
+                </span> ' . __('Disconnected') . '
             </span>
             <span class="socket_icon socket_not_loading socket_connected_icon">
                 <span class="fa-stack">
-  <i class="fas fa-plug fa-stack-1x"></i>
-</span>  ' . __('Connected') . '
+                    <i class="fas fa-plug fa-stack-1x"></i>
+                </span>  ' . __('Connected') . ' 
+                <span class="total_users_online" style="margin-left: 10px;"><i class="fas fa-spinner fa-spin"></i></span>
             </span>
         </span>';
     return $html;
