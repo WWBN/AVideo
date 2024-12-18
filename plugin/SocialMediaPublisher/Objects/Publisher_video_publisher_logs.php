@@ -238,10 +238,11 @@ class Publisher_video_publisher_logs extends ObjectYPT
                     }
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM["name"]:
-                    if(!empty($row['json']->mediaResponse->permalink)){
+                    if (!empty($row['json']->mediaResponse->permalink)) {
                         $msg[] = "<a href='{$row['json']->mediaResponse->permalink}' target='_blank'>{$row['json']->mediaResponse->permalink}</a>";
-                    }else if ($row['status'] === self::STATUS_UNVERIFIED) {
+                    } else if ($row['status'] === self::STATUS_UNVERIFIED) {
                         $msg[] = '<i class="fa fa-spinner fa-spin"></i> <strong>Video is being processed:</strong> Your video is currently being processed for publishing on Instagram. Please wait.';
+                        $msg[] = '<button class="btn btn-primary btn-xs" onclick="checkInstagram(\'' . $row['json']->response->accessToken . '\', \'' . $row['json']->response->containerId . '\', \'' . $row['json']->response->instagramAccountId . '\')"><i class="fas fa-check-circle"></i> ' . __('Check now') . '</button>';
                     } elseif ($row['status'] === self::STATUS_VERIFIED) {
                         $msg[] = '<i class="fa fa-check-circle"></i> <strong>Video successfully published:</strong> Your video has been verified and uploaded to Instagram.';
                     } else {

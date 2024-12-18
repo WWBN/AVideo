@@ -24,7 +24,6 @@ if (empty($videos_id)) {
     .social-network .btn {
         margin: 20px 0;
     }
-
 </style>
 <div class="container-fluid">
     <div class="panel panel-default ">
@@ -73,6 +72,7 @@ if (empty($videos_id)) {
 </div>
 <script>
     $(document).ready(function() {});
+
 </script>
 <?php
 $_page->print();

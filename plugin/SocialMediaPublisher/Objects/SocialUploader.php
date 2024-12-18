@@ -2,7 +2,7 @@
 
 class SocialUploader
 {
-    public static function upload($publisher_user_preferences_id, $videoPath, $title, $description, $visibility = 'public', $isShort = false)
+    public static function upload($publisher_user_preferences_id, $videoPathMP4, $title, $description, $visibility = 'public', $isShort = false)
     {
         $title = strip_tags($title);
         $description = strip_tags($description);
@@ -12,16 +12,18 @@ class SocialUploader
         }
         $pub = new Publisher_user_preferences($publisher_user_preferences_id);
         _error_log("SocialMediaPublisher::upload provider=" . $pub->getProviderName());
+        
+        $videoPathMP4['url'] = addQueryStringParameter($videoPathMP4['url'], 'globalToken', getToken(30));
         try {
             switch ($pub->getProviderName()) {
                 case SocialMediaPublisher::SOCIAL_TYPE_YOUTUBE['name']:
-                    return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $visibility, $isShort);
+                    return SocialUploader::uploadYouTube($accessToken, $videoPathMP4['path'], $title, $description, $visibility, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_FACEBOOK['name']:
                     $json = json_decode($pub->getJson());
                     $pageId = $json->{'restream.ypt.me'}->facebook->broadcaster_id;
                     _error_log("SocialMediaPublisher::upload json=" . json_encode($json));
-                    return SocialUploader::uploadFacebook($accessToken, $pageId, $videoPath, $title, $description, $visibility, $isShort);
+                    return SocialUploader::uploadFacebook($accessToken, $pageId, $videoPathMP4['url'], $title, $description, $visibility, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM['name']:
                     $pub = Publisher_user_preferences::getFromDb($publisher_user_preferences_id);
@@ -34,7 +36,7 @@ class SocialUploader
                             $broadcaster_id = $json->{"restream.ypt.me"}->instagram->broadcaster_id;
                         }
                     }
-                    return SocialUploader::uploadInstagram($accessToken, $videoPath, $title, $description, $broadcaster_id);
+                    return SocialUploader::uploadInstagram($accessToken, $videoPathMP4['url'], $title, $description, $broadcaster_id);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_TWITCH['name']:
                     //return SocialUploader::uploadYouTube($accessToken, $videoPath, $title, $description, $visibility, $isShort);
@@ -43,7 +45,7 @@ class SocialUploader
                     $json = json_decode($pub->getJson());
                     $urn = $json->{'restream.ypt.me'}->linkedin->urn;
                     $id = $json->{'restream.ypt.me'}->linkedin->profile_id;
-                    $upload = SocialUploader::uploadLinkedIn($accessToken, $urn, $id, $videoPath, $title, $description, $visibility, $isShort);
+                    $upload = SocialUploader::uploadLinkedIn($accessToken, $urn, $id, $videoPathMP4['path'], $title, $description, $visibility, $isShort);
                     return $upload;
                     break;
             }
@@ -195,8 +197,6 @@ class FacebookUploader
         global  $global;
         // Upload a local video directly
         $videoUrl = str_replace($global['systemRootPath'], $global['webSiteRootURL'], $videoPath);
-
-        $videoUrl = addQueryStringParameter($videoUrl, 'globalToken', getToken(30));
 
         $VideoUploadResponse = FacebookUploader::uploadDirectHostedVideo($pageId, $accessToken, $videoUrl, $title, PHP_EOL . $description);
         //$VideoUploadResponse = FacebookUploader::uploadDirectLocalVideo($pageId, $accessToken, $videoPath);

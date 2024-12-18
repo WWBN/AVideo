@@ -257,7 +257,7 @@ class SocialMediaPublisher extends PluginAbstract
         }
 
         $providerName = $o->getProviderName();
-
+        /*
         $fromFileLocation = $paths['mp4']['url'];
         if (!isDummyFile($paths['mp4']['path'])) {
             $videoPath = $paths['mp4']['path'];
@@ -270,7 +270,7 @@ class SocialMediaPublisher extends PluginAbstract
             _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName end conversion ");
         }
         _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName Upload start ");
-
+        */
         if (!empty($_REQUEST['title'])) {
             $title = $_REQUEST['title'];
         } else {
@@ -287,10 +287,7 @@ class SocialMediaPublisher extends PluginAbstract
             $visibility = 'public';
         }
 
-        $response = SocialUploader::upload($publisher_user_preferences_id, $videoPath, $title, $description, $visibility);
-        if (!empty($videoPathToYouTube)) {
-            //unlink($videoPathToYouTube);
-        }
+        $response = SocialUploader::upload($publisher_user_preferences_id, $paths['mp4'], $title, $description, $visibility);
         _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName complete " . json_encode($response));
         self::saveLog($publisher_social_medias_id, $videos_id, array('publisher_user_preferences_id' => $publisher_user_preferences_id, 'response' => $response));
         return $response;

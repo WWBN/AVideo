@@ -96,3 +96,22 @@ function reloadSocialAccountsTables() {
     }
 
 }
+    
+function checkInstagram(accessToken, containerId, instagramAccountId) {
+    var url = webSiteRootURL + 'plugin/SocialMediaPublisher/publishInstagram.json.php';
+    url = addQueryStringParameter(url, 'accessToken', accessToken);
+    url = addQueryStringParameter(url, 'containerId', containerId);
+    url = addQueryStringParameter(url, 'instagramAccountId', instagramAccountId);
+    modal.showPleaseWait();
+    $.ajax({
+        url: url,
+        complete: function(response) {
+            modal.hidePleaseWait();
+            if (response.error) {
+                avideoAlertError(response.msg);
+            } else {                
+                reloadSocialAccountsTables();
+            }
+        }
+    });
+}

@@ -1186,7 +1186,7 @@ class CDNStorage
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $file = Video::getPathToFile($filename);
-        $address = ['path' => $file, 'url' => $this->getURL($filename)];
+        $address = ['path' => $file, 'url' => self::getURL($filename)];
         return $address;
     }
 
