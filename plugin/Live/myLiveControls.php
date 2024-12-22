@@ -209,7 +209,7 @@ $custom = User::getRedirectCustomUrl(User::getId());
 
 
     function saveCustomURL(viewerUrl, customMessage) {
-        var autoRedirect = $('#autoRedirect').is(':checked'); // Check if auto-redirect is enabled
+        autoRedirect = $('#autoRedirect').is(':checked'); // Check if auto-redirect is enabled
 
         modal.showPleaseWait();
         // Save viewerUrl to database using AJAX

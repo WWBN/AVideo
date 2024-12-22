@@ -158,7 +158,7 @@ function sanitizeFFmpegCommand($command)
     $command = str_replace('rtmp://vlu.me/', 'rtmp://live/', $command);
     //$command = str_replace('rtmp://live/', 'rtmp://vlu.me/', $command);
     //$command = str_replace('https://live:8443/', 'https://vlu.me:8443/', $command);
-    $command = preg_replace('/\s*>.*(?:2>&1)?/', '', $command);
+    $command = preg_replace('/\s*&?>.*(?:2>&1)?/', '', $command);
     $command = preg_replace('/[;|`<>]/', '', $command);
 
     // Ensure it starts with an allowed prefix

@@ -296,6 +296,8 @@ class CDN extends PluginAbstract
 
         $url = 'https://youphp.tube/marketplace/CDN/Manager/pullzonesPurgeCache.json.php';
         $url = addQueryStringParameter($url, 'hash', $obj->key);
+        
+        _error_log("CDN::purgeCache ".json_encode(debug_backtrace()));
         return url_get_contents($url);
     }
 }
