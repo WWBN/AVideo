@@ -1585,7 +1585,7 @@ if (typeof gtag !== \"function\") {
             $_thisUserCanStreamReasonMessage = 'User status is inactive';
             return false;
         }
-        $can = !empty($this->isAdmin) || !empty($this->canStream);
+        $can = !empty($this->isAdmin) || !empty($this->canStream) || AVideoPlugin::userCanLivestream($this->id);
         if (empty($can)) {
             $reasons = [];
             if (empty($this->isAdmin)) {
