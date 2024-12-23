@@ -65,6 +65,7 @@ class YouPHPFlix2 extends PluginAbstract
         $obj->SortByNameCustomTitle = 'Alphabetical';
         $obj->SortByNameAutoPlay = true;
         $obj->Categories = true;
+        $obj->CategoriesShowOnlySuggested = false;
         $obj->CategoriesAutoPlay = true;
         $obj->maxVideos = 20;
         $obj->BigVideo = true;
@@ -269,7 +270,7 @@ class YouPHPFlix2 extends PluginAbstract
             if ($obj->Categories) {
                 $countSections++;
                 cleanSearchVar();
-                $categories = Category::getAllCategories(false, true);
+                $categories = Category::getAllCategories(false, true, $obj->CategoriesShowOnlySuggested);
                 reloadSearchVar();
                 foreach ($categories as $value2) {
                     $type = 'Category';

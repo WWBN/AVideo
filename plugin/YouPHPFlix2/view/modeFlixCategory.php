@@ -68,7 +68,7 @@ $videosCounter = 0;
             $hideTitle = 1;
             $categories = array(Category::getCategoryByName($_REQUEST['catName']));
         } else {
-            $categories = Category::getAllCategories(false, true);
+            $categories = Category::getAllCategories(false, true, $obj->CategoriesShowOnlySuggested);
             unsetCurrentPage();
         }
         if (empty($categories)) {
