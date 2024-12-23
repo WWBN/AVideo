@@ -282,16 +282,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.334.6",
+            "version": "3.336.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "2b0be3aded849d3b7bb0b53ea3295c7cecdeeee7"
+                "reference": "954bfdfc048840ca34afe2a2e1cbcff6681989c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2b0be3aded849d3b7bb0b53ea3295c7cecdeeee7",
-                "reference": "2b0be3aded849d3b7bb0b53ea3295c7cecdeeee7",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/954bfdfc048840ca34afe2a2e1cbcff6681989c4",
+                "reference": "954bfdfc048840ca34afe2a2e1cbcff6681989c4",
                 "shasum": ""
             },
             "require": {
@@ -374,9 +374,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.334.6"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.336.2"
             },
-            "time": "2024-12-13T19:18:29+00:00"
+            "time": "2024-12-20T19:05:10+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -1395,16 +1395,16 @@
         },
         {
             "name": "google/apiclient",
-            "version": "v2.18.1",
+            "version": "v2.18.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client.git",
-                "reference": "3f6cb1a970fe2d210823a79de8d5dbae405a9616"
+                "reference": "d8d201ba8a189a3cd7fb34e4da569f2ed440eee7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/3f6cb1a970fe2d210823a79de8d5dbae405a9616",
-                "reference": "3f6cb1a970fe2d210823a79de8d5dbae405a9616",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/d8d201ba8a189a3cd7fb34e4da569f2ed440eee7",
+                "reference": "d8d201ba8a189a3cd7fb34e4da569f2ed440eee7",
                 "shasum": ""
             },
             "require": {
@@ -1458,22 +1458,22 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client/issues",
-                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.18.1"
+                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.18.2"
             },
-            "time": "2024-11-24T13:21:03+00:00"
+            "time": "2024-12-16T22:52:40+00:00"
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.386.0",
+            "version": "v0.387.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "cd08601dd729977f7198c72cd10d05901833bec0"
+                "reference": "89b7126578e0aaf6d5584d6ef7c7af165766c850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/cd08601dd729977f7198c72cd10d05901833bec0",
-                "reference": "cd08601dd729977f7198c72cd10d05901833bec0",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/89b7126578e0aaf6d5584d6ef7c7af165766c850",
+                "reference": "89b7126578e0aaf6d5584d6ef7c7af165766c850",
                 "shasum": ""
             },
             "require": {
@@ -1502,9 +1502,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.386.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.387.0"
             },
-            "time": "2024-12-16T01:04:20+00:00"
+            "time": "2024-12-21T01:06:13+00:00"
         },
         {
             "name": "google/auth",
@@ -4515,16 +4515,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v16.3.0",
+            "version": "v16.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "48af6bc64ca8157b3fdce100e856069963bac466"
+                "reference": "4aa86099f888db9368f5f778f29feb14e6294dfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/48af6bc64ca8157b3fdce100e856069963bac466",
-                "reference": "48af6bc64ca8157b3fdce100e856069963bac466",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/4aa86099f888db9368f5f778f29feb14e6294dfb",
+                "reference": "4aa86099f888db9368f5f778f29feb14e6294dfb",
                 "shasum": ""
             },
             "require": {
@@ -4568,9 +4568,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v16.3.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v16.4.0"
             },
-            "time": "2024-11-20T23:30:16+00:00"
+            "time": "2024-12-18T23:42:15+00:00"
         },
         {
             "name": "symfony/console",
