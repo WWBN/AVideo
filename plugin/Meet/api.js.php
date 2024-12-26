@@ -128,7 +128,10 @@ if (empty($meet_schedule_id)) {
                 disableInviteFunctions: true,
                 openBridgeChannel: 'websocket',
                 liveStreamingEnabled: true,
-                fileRecordingsEnabled: false
+                fileRecordingsEnabled: false,
+                deploymentInfo: {
+                    sharingUrl: window.location.href
+                }
             },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,
