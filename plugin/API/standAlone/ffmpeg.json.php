@@ -310,7 +310,7 @@ $ffmpegCommand = addKeywordToFFmpegCommand($ffmpegCommand, $keyword);
 file_put_contents($logFile, $ffmpegCommand.PHP_EOL.PHP_EOL);
 
 $ffmpegCommand .= " > {$logFile} 2>&1";
-_error_log("Executing FFMPEG Command [$keyword]: $ffmpegCommand");
+_error_log("Executing FFMPEG Command [$keyword]: $ffmpegCommand ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
 
 try {
     $pid = execAsync($ffmpegCommand, $keyword);

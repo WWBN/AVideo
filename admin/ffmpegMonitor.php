@@ -31,6 +31,7 @@ function getFfmpegProcesses()
                 'pidEncrypted' => encryptString($parts[1]),
                 'cpu' => $parts[2],
                 'mem' => $parts[3],
+                'runtime' => $parts[9], // Extracts the elapsed time (e.g., "00:05:32")
                 'command' => $parts[10],
             ];
         }
@@ -38,6 +39,7 @@ function getFfmpegProcesses()
 
     return $processes;
 }
+
 
 // Handle AJAX requests
 if (isset($_GET['action']) && $_GET['action'] === 'fetch') {
@@ -74,22 +76,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
     exit;
 }
 
-// Load the page
-$_page = new Page('FFmpeg Process Manager');
-$_page->setExtraScripts(array('node_modules/chart.js/dist/chart.umd.js', 'view/css/DataTables/datatables.min.js'));
-
-$_page->setExtraStyles(
-    array(
-        'view/css/DataTables/datatables.min.css'
-    )
-);
-
 ?>
+<script src="<?php echo getURL('node_modules/chart.js/dist/chart.umd.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>" type="text/javascript"></script>
+<link href="<?php echo getURL('view/css/DataTables/datatables.min.css'); ?>" rel="stylesheet" type="text/css" />
+
 <div class="container-fluid">
     <div class="panel panel-default">
 
         <div class="panel-heading">
-            <h1 class="text-center">FFmpeg Process Manager</h1>
+            <h1 class="text-center">FFmpeg Monitor</h1>
         </div>
 
         <div class="panel-body">
@@ -118,6 +114,7 @@ $_page->setExtraStyles(
                         <th>PID</th>
                         <th>CPU%</th>
                         <th>MEM%</th>
+                        <th>Runtime</th> <!-- New Column -->
                         <th>Command</th>
                         <th>Action</th>
                     </tr>
@@ -141,6 +138,7 @@ $_page->setExtraStyles(
         // Initialize DataTable
         const table = $('#processTable').DataTable({
             "columns": [
+                null,
                 null,
                 null,
                 null,
@@ -203,7 +201,7 @@ $_page->setExtraStyles(
         // Fetch processes and update the table and charts
         function fetchCPUProcesses() {
             $.ajax({
-                url: webSiteRootURL + 'view/ffmpegMonitor.php?action=fetch',
+                url: webSiteRootURL + 'admin/ffmpegMonitor.php?action=fetch',
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -215,7 +213,7 @@ $_page->setExtraStyles(
                     processRAM.length = 0;
 
                     data.forEach(process => {
-                        table.row.add([process.user, process.pid, process.cpu, process.mem, process.command, `<button class="btn btn-danger btn-kill btn-block" data-pid="${process.pidEncrypted}">Kill</button>`]);
+                        table.row.add([process.user, process.pid, process.cpu, process.mem,process.runtime, process.command, `<button class="btn btn-danger btn-kill btn-block" data-pid="${process.pidEncrypted}">Kill</button>`]);
 
                         totalCPU += parseFloat(process.cpu);
                         totalRAM += parseFloat(process.mem);
@@ -243,6 +241,9 @@ $_page->setExtraStyles(
                     historicalLine.data.datasets[0].data = historicalCPU;
                     historicalLine.data.datasets[1].data = historicalRAM;
                     historicalLine.update();
+                    setTimeout(() => {
+                        fetchCPUProcesses();
+                    }, 2000);
                 },
                 error: function() {
                     alert('Failed to fetch process data.');
@@ -250,13 +251,7 @@ $_page->setExtraStyles(
             });
         }
 
-        // Refresh data every 5 seconds
-        setInterval(fetchCPUProcesses, 5000);
-
         // Initial fetch
         fetchCPUProcesses();
     });
 </script>
-
-<?php
-$_page->print();

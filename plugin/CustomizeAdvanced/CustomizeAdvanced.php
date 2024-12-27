@@ -747,7 +747,7 @@ Disallow: *action=tagsearch*
         if (!Permissions::canAdminVideos()) {
             return false;
         }
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $users_id = $video->getUsers_id();
         $user = new User($users_id);
         return $user->addExternalOptions('doNotShowAdsOnThisChannel', $doNotShowAdsOnThisChannel);

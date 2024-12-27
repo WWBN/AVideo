@@ -129,7 +129,7 @@ if (empty($meet_schedule_id)) {
                 openBridgeChannel: 'websocket',
                 liveStreamingEnabled: true,
                 fileRecordingsEnabled: false,
-                inviteUrl: window.location.href
+                //inviteUrl: window.location.href
             },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,

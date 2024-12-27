@@ -3050,6 +3050,7 @@ function clearCache($firstPageOnly = false)
 
 function clearAllUsersSessionCache()
 {
+    _error_log("clearAllUsersSessionCache ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     sendSocketMessageToAll(time(), 'socketClearSessionCache');
 }
 

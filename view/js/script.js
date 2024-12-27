@@ -1946,7 +1946,14 @@ async function checkDescriptionArea() {
         }
     });
 }
+
+var clearCacheExecuted = false;
 function clearCache(showPleaseWait, FirstPage, sessionOnly) {
+    if(clearCacheExecuted){
+        return false;
+    }
+    clearCacheExecuted = true;
+    console.trace();
     if (showPleaseWait) {
         modal.showPleaseWait();
     }
@@ -1956,6 +1963,9 @@ function clearCache(showPleaseWait, FirstPage, sessionOnly) {
             if (showPleaseWait) {
                 avideoResponse(response);
                 modal.hidePleaseWait();
+                setTimeout(() => {
+                    clearCacheExecuted = false; 
+                }, 1000);
             }
         }
     });

@@ -100,6 +100,9 @@ $itens[] = $menu;
 $menu = new MenuAdmin(__("Health Check"), "fas fa-notes-medical", "health_check");
 $itens[] = $menu;
 
+$menu = new MenuAdmin(__("FFmpeg Monitor"), "fas fa-film", "ffmpeg_monitor");
+$itens[] = $menu;
+
 $_GET['page'] = xss_esc(@$_GET['page']);
 
 $includeHead = '';
@@ -184,6 +187,9 @@ switch ($_GET['page']) {
     case "health_check":
         $includeBody = $global['systemRootPath'] . 'admin/health_check.php';
         break;
+    case "ffmpeg_monitor":
+        $includeBody = $global['systemRootPath'] . 'admin/ffmpegMonitor.php';
+        break;
     default:
         $includeHead = $global['systemRootPath'] . 'view/charts_head.php';
         $includeBody = $global['systemRootPath'] . 'view/charts_body.php';
@@ -197,31 +203,38 @@ if (!empty($includeHead) && file_exists($includeHead)) {
 
 ?>
 <style>
-@media (max-width: 767px) {
-    .affix {
-        position: static;
+    @media (max-width: 767px) {
+        .affix {
+            position: static;
+        }
     }
-}
-.leftMenu .panel-body {
-    padding: 0px;
-}
-.adminLeftMenu.panel-default i, .adminLeftMenu.panel-default{
-    -webkit-transition: opacity 0.5s ease-in-out;
-    -moz-transition: opacity 0.5s ease-in-out;
-    transition: opacity 0.5s ease-in-out;
-}
-.adminLeftMenu.panel-default i{
-    opacity: 0.2;
-}
-.adminLeftMenu:hover.panel-default i{
-    opacity: 1;
-}
-.adminLeftMenu.panel-default{
-    opacity: 0.6;
-}
-.adminLeftMenu:hover.panel-default{
-    opacity: 1;
-}
+
+    .leftMenu .panel-body {
+        padding: 0px;
+    }
+
+    .adminLeftMenu.panel-default i,
+    .adminLeftMenu.panel-default {
+        -webkit-transition: opacity 0.5s ease-in-out;
+        -moz-transition: opacity 0.5s ease-in-out;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .adminLeftMenu.panel-default i {
+        opacity: 0.2;
+    }
+
+    .adminLeftMenu:hover.panel-default i {
+        opacity: 1;
+    }
+
+    .adminLeftMenu.panel-default {
+        opacity: 0.6;
+    }
+
+    .adminLeftMenu:hover.panel-default {
+        opacity: 1;
+    }
 </style>
 <div class="container-fluid">
     <br>

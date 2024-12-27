@@ -9,7 +9,7 @@ $obj->liveTransmitionHistory_id = 0;
 
 _error_log("NGINX ON Publish POST: " . json_encode($_POST));
 _error_log("NGINX ON Publish GET: " . json_encode($_GET));
-_error_log("NGINX ON Publish php://input" . file_get_contents("php://input"));
+_error_log("NGINX ON Publish php://input " . file_get_contents("php://input"));
 
 // get GET parameters
 $url = $_POST['tcurl'];
