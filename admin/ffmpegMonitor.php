@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
         // Initialize DataTable
         const table = $('#processTable').DataTable({
             "columns": [{
-                    "width": "15px"
+                    "width": "20px"
                 }, // User column
                 {
                     "width": "15px"
