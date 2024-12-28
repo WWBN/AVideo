@@ -31,14 +31,34 @@ function getFfmpegProcesses()
                 'pidEncrypted' => encryptString($parts[1]),
                 'cpu' => $parts[2],
                 'mem' => $parts[3],
-                'runtime' => $parts[9], // Extracts the elapsed time (e.g., "00:05:32")
+                'runtime' => $parts[9],
                 'command' => $parts[10],
             ];
         }
     }
 
-    return $processes;
+    // Get memory usage
+    $memOutput = [];
+    exec("free -m", $memOutput);
+    preg_match('/^Mem:\s+(\d+)\s+(\d+)\s+/', $memOutput[1], $memMatches);
+    $totalMem = isset($memMatches[1]) ? $memMatches[1] : 0;
+    $usedMem = isset($memMatches[2]) ? $memMatches[2] : 0;
+    $memUsagePercent = $totalMem > 0 ? round(($usedMem / $totalMem) * 100, 2) : 0;
+
+    // Get CPU usage
+    $cpuOutput = [];
+    exec("top -bn1 | grep 'Cpu(s)'", $cpuOutput);
+    preg_match('/(\d+\.\d+)\s+id/', $cpuOutput[0], $cpuMatches);
+    $cpuIdle = isset($cpuMatches[1]) ? $cpuMatches[1] : 100;
+    $cpuUsagePercent = 100 - $cpuIdle;
+
+    return [
+        'totalCPU' => $cpuUsagePercent,
+        'totalMem' => $memUsagePercent,
+        'processes' => $processes
+    ];
 }
+
 
 
 // Handle AJAX requests
@@ -127,6 +147,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
 </div>
 
 <script>
+    var updateDuration = 1000;
+    var updateMaxHistory = 60;
     $(document).ready(function() {
         const csrfToken = '<?= $csrfToken; ?>';
         const historicalCPU = [];
@@ -173,7 +195,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
                 }]
             },
             options: {
-                responsive: true
+                responsive: true,
+                animation: {
+                    duration: updateDuration, // 2-second animation
+                    easing: 'easeInOutQuart' // Easing effect for the animation
+                }
             }
         });
 
@@ -187,7 +213,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
                 }]
             },
             options: {
-                responsive: true
+                responsive: true,
+                animation: {
+                    duration: updateDuration, // 2-second animation
+                    easing: 'easeInOutQuart' // Easing effect for the animation
+                }
             }
         });
 
@@ -206,7 +236,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
                 }]
             },
             options: {
-                responsive: true
+                responsive: true,
+                animation: {
+                    duration: updateDuration, // 2-second animation
+                    easing: 'easeInOutQuart' // Easing effect for the animation
+                }
             }
         });
 
@@ -218,28 +252,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
                 dataType: 'json',
                 success: function(data) {
                     table.clear();
-                    let totalCPU = 0;
-                    let totalRAM = 0;
-                    processNames.length = 0;
-                    processCPU.length = 0;
-                    processRAM.length = 0;
 
-                    data.forEach(process => {
-                        table.row.add([process.user, process.pid, process.cpu, process.mem, process.runtime, process.command, `<button class="btn btn-danger btn-kill btn-block" data-pid="${process.pidEncrypted}">Kill</button>`]);
-
-                        totalCPU += parseFloat(process.cpu);
-                        totalRAM += parseFloat(process.mem);
-
-                        processNames.push(`PID: ${process.pid}`);
-                        processCPU.push(parseFloat(process.cpu));
-                        processRAM.push(parseFloat(process.mem));
-                    });
+                    // If there are processes, add them to the table
+                    if (data.processes.length > 0) {
+                        data.processes.forEach(process => {
+                            table.row.add([
+                                process.user,
+                                process.pid,
+                                process.cpu,
+                                process.mem,
+                                process.runtime,
+                                process.command,
+                                `<button class="btn btn-danger btn-kill btn-block" data-pid="${process.pidEncrypted}">Kill</button>`
+                            ]);
+                        });
+                    } else {
+                        // Add a placeholder row if no processes exist
+                        table.row.add(['-', '-', '-', '-', '-', 'No FFmpeg processes running', '-']);
+                    }
 
                     table.draw();
 
                     // Update Doughnut Charts
-                    const avgCPU = totalCPU / data.length || 0;
-                    const avgRAM = totalRAM / data.length || 0;
+                    const avgCPU = data.totalCPU || 0;
+                    const avgRAM = data.totalMem || 0;
                     cpuChart.data.datasets[0].data = [avgCPU, 100 - avgCPU];
                     ramChart.data.datasets[0].data = [avgRAM, 100 - avgRAM];
                     cpuChart.update();
@@ -247,15 +283,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
 
                     // Update Historical Line Chart
                     const now = new Date().toLocaleTimeString();
+
+                    // Push new data
                     historicalCPU.push(avgCPU);
                     historicalRAM.push(avgRAM);
                     historicalLine.data.labels.push(now);
+
+                    // Maintain a maximum of 10 elements
+                    if (historicalCPU.length > updateMaxHistory) {
+                        historicalCPU.shift(); // Remove the oldest CPU data
+                    }
+                    if (historicalRAM.length > updateMaxHistory) {
+                        historicalRAM.shift(); // Remove the oldest RAM data
+                    }
+                    if (historicalLine.data.labels.length > updateMaxHistory) {
+                        historicalLine.data.labels.shift(); // Remove the oldest label
+                    }
+
+                    // Update the chart
                     historicalLine.data.datasets[0].data = historicalCPU;
                     historicalLine.data.datasets[1].data = historicalRAM;
                     historicalLine.update();
                     setTimeout(() => {
                         fetchCPUProcesses();
-                    }, 2000);
+                    }, updateDuration);
                 },
                 error: function() {
                     alert('Failed to fetch process data.');
