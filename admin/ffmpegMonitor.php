@@ -19,7 +19,7 @@ function getFfmpegProcesses()
 {
     $output = [];
     exec("/bin/ps aux | grep ffmpeg | grep -v grep", $output);
-    _error_log(print_r($output, true)); // Log the output for debugging
+    //_error_log(print_r($output, true)); // Log the output for debugging
     $processes = [];
 
     foreach ($output as $line) {
@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
             options: {
                 responsive: true,
                 animation: {
-                    duration: updateDuration, // 2-second animation
+                    duration: updateDuration, 
                     easing: 'easeInOutQuart' // Easing effect for the animation
                 }
             }
