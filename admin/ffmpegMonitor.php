@@ -138,29 +138,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
         // Initialize DataTable
         const table = $('#processTable').DataTable({
             "columns": [{
-                    "width": "10%"
+                    "width": "20px"
                 }, // User column
                 {
-                    "width": "10%"
+                    "width": "20px"
                 }, // PID column
                 {
-                    "width": "10%"
+                    "width": "20px"
                 }, // CPU% column
                 {
-                    "width": "10%"
+                    "width": "20px"
                 }, // MEM% column
                 {
-                    "width": "10%"
+                    "width": "20px"
                 }, // Runtime column
+                null, // Command column
                 {
-                    "width": "40%"
-                }, // Command column
-                {
-                    "width": "10%",
+                    "width": "50px",
                     "orderable": false
                 } // Action column
             ]
         });
+
 
 
         // Initialize Charts
