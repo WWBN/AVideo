@@ -137,18 +137,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
 
         // Initialize DataTable
         const table = $('#processTable').DataTable({
-            "columns": [
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
+            "columns": [{
+                    "width": "10%"
+                }, // User column
                 {
+                    "width": "10%"
+                }, // PID column
+                {
+                    "width": "10%"
+                }, // CPU% column
+                {
+                    "width": "10%"
+                }, // MEM% column
+                {
+                    "width": "10%"
+                }, // Runtime column
+                {
+                    "width": "40%"
+                }, // Command column
+                {
+                    "width": "10%",
                     "orderable": false
-                }
+                } // Action column
             ]
         });
+
 
         // Initialize Charts
         const cpuChart = new Chart(document.getElementById('cpuDoughnut').getContext('2d'), {
@@ -213,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
                     processRAM.length = 0;
 
                     data.forEach(process => {
-                        table.row.add([process.user, process.pid, process.cpu, process.mem,process.runtime, process.command, `<button class="btn btn-danger btn-kill btn-block" data-pid="${process.pidEncrypted}">Kill</button>`]);
+                        table.row.add([process.user, process.pid, process.cpu, process.mem, process.runtime, process.command, `<button class="btn btn-danger btn-kill btn-block" data-pid="${process.pidEncrypted}">Kill</button>`]);
 
                         totalCPU += parseFloat(process.cpu);
                         totalRAM += parseFloat(process.mem);
