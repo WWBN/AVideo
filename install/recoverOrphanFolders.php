@@ -45,6 +45,7 @@ foreach ($folders as $folder) {
             $mysqlDate = "20{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}";
 
             if($year !== 24){
+                echo "ERROR $mysqlDate [{$folder}] line=".__LINE__ . PHP_EOL;
                 continue;                
             }
             $new_video = new Video($folder, $folder, 0, false);
@@ -56,9 +57,9 @@ foreach ($folders as $folder) {
 
             $id = $new_video->save(false, true);
             if ($id) {
-                echo "$mysqlDate [{$folder}]" . PHP_EOL;
+                echo "$mysqlDate [{$folder}] line=".__LINE__  . PHP_EOL;
             } else {
-                echo "$mysqlDate [{$folder}] ERROR" . PHP_EOL;
+                echo "$mysqlDate [{$folder}] ERROR line=".__LINE__  . PHP_EOL;
             }
         }
     }
