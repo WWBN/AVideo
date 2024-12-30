@@ -13,6 +13,8 @@ if (!is_dir($basePath)) {
     die("Directory does not exist: $basePath\n");
 }
 
+ob_end_flush();
+
 // Scan the base directory
 $folders = scandir($basePath);
 
@@ -30,7 +32,18 @@ foreach ($folders as $folder) {
     if (is_dir($fullPath) && (str_starts_with($folder, 'v_') || str_starts_with($folder, 'video_'))) {
         $video = Video::getVideoFromFileNameLight($folder);
         if(empty($video)){
-            echo "{$basePath} [$folder]".PHP_EOL;
+            $parts = explode('_', $folder);
+            $date = $parts[1];
+            preg_match('/([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/', $date, $matches);
+            $year = $matches[1];
+            $month = $matches[2];
+            $day = $matches[3];
+            $hour = $matches[4];
+            $minute = $matches[5];
+            $second = $matches[6];
+
+            $mysqlDate = "{$year}/{$month}/{$day} {$hour}:{$minute}:{$second}";
+            echo "$mysqlDate [{$folder}]".PHP_EOL;
         }
     }
 }
