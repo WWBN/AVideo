@@ -44,11 +44,9 @@ foreach ($folders as $folder) {
 
             $mysqlDate = "20{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}";
 
-            if($year == 24){
-                echo "$folder $mysqlDate" .PHP_EOL;
-                
+            if($year !== 24){
+                continue;                
             }
-            continue;
             $new_video = new Video($folder, $folder, 0, false);
             $new_video->setCreated($mysqlDate);
             $new_video->setCategories_id(1);
