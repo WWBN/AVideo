@@ -42,7 +42,7 @@ foreach ($folders as $folder) {
             $minute = $matches[5];
             $second = $matches[6];
 
-            if($year != 24){
+            if($year == 24){
                 echo $folder.PHP_EOL;
                 
             }
