@@ -27,6 +27,7 @@ foreach ($folders as $folder) {
     if ($folder === '.' || $folder === '..') {
         continue;
     }
+    $count++;
 
     // Build the full path
     $fullPath = $basePath . $folder;
@@ -35,7 +36,6 @@ foreach ($folders as $folder) {
         $info = "[{$count}/{$countDirs}] ";
         $video = Video::getVideoFromFileNameLight($folder);
         if (empty($video)) {
-            $count++;
             $parts = explode('_', $folder);
             $date = $parts[1];
             preg_match('/([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/', $date, $matches);
