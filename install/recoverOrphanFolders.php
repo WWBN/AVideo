@@ -32,8 +32,6 @@ foreach ($folders as $folder) {
     if (is_dir($fullPath) && (str_starts_with($folder, 'v_') || str_starts_with($folder, 'video_'))) {
         $video = Video::getVideoFromFileNameLight($folder);
         if (empty($video)) {
-            var_dump($folder, $video);
-            continue;
             $parts = explode('_', $folder);
             $date = $parts[1];
             preg_match('/([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/', $date, $matches);
