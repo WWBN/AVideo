@@ -44,6 +44,14 @@ foreach ($folders as $folder) {
 
             $mysqlDate = "{$year}/{$month}/{$day} {$hour}:{$minute}:{$second}";
             echo "$mysqlDate [{$folder}]".PHP_EOL;
+            $new_video = new Video($folder, $folder, 0, false);
+            $new_video->setCreated($mysqlDate);
+            $new_video->setCategories_id(1);
+            $new_video->setUsers_id(1);
+            $new_video->setStatus(Video::$statusActive);
+            $new_video->setType(Video::$videoTypeVideo);
+            
+            $new_video->save(false, true);
         }
     }
 }
