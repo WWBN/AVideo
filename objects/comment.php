@@ -241,6 +241,7 @@ class Comment {
                 $row['comment'] = str_replace('\n', "\n", $row['comment']);
                 $row['commentPlain'] = xss_esc_back($row['comment']);
                 $row['commentHTML'] = markDownToHTML(str_replace('`', "'", $row['commentPlain']));
+                $row['commentHTML'] = linkifyTimestamps($row['commentHTML']);
                 $row['responses'] = array();
                 if($includeResponses){
                     $row['responses'] = self::getAllComments($videoId, $row['id'], $video_owner_users_id, $includeResponses);
@@ -417,6 +418,7 @@ class Comment {
 
         $row['identification'] = User::getNameIdentificationById($row['users_id']);
         $row['commentWithLinks'] = self::fixCommentText(textToLink($row['commentHTML']));
+        $row['commentWithLinks'] = linkifyTimestamps($row['commentWithLinks']);
         $row['humanTiming'] = humanTiming(strtotime($row['created']));
         $row['channelLink'] = User::getChannelLink($row['users_id']);
         $row['photo'] = User::getPhoto($row['users_id']);

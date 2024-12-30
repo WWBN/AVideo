@@ -319,7 +319,28 @@ function markDownToHTML($text) {
     return $html;
 }
 
+function linkifyTimestamps($text) {
+    // Regular expression to match timestamps (HH:MM:SS or MM:SS)
+    $pattern = '/\b(?:\d{1,2}:)?\d{1,2}:\d{2}\b/';
 
+    // Callback function to replace the timestamp with a clickable link
+    $callback = function ($matches) {
+        $timestamp = $matches[0];
+
+        // Convert timestamp to seconds for Video.js
+        $parts = array_reverse(explode(':', $timestamp));
+        $seconds = 0;
+        foreach ($parts as $index => $part) {
+            $seconds += (int)$part * pow(60, $index);
+        }
+
+        // Return the clickable link
+        return "<a href='javascript:void(0)' onclick=\"player.currentTime($seconds);\">$timestamp</a>";
+    };
+
+    // Replace timestamps with links
+    return preg_replace_callback($pattern, $callback, $text);
+}
 
 function getAToken()
 {
