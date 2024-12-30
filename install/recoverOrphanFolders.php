@@ -24,7 +24,7 @@ $countDirs = count($folders);
 // Loop through each item in the directory
 foreach ($folders as $folder) {
     // Skip special directories "." and ".."
-    if ($folder === '.' || $folder === '..') {
+    if ($folder === '.' || $folder === '..' || preg_match('/_converted.mp4/', $folder)) {
         continue;
     }
     $count++;
