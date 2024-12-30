@@ -53,7 +53,7 @@ foreach ($folders as $folder) {
 
             $id = $new_video->save(false, true);
             if ($id) {
-                echo "$mysqlDate [{$folder}] line=".__LINE__  . PHP_EOL;
+                echo "$mysqlDate [{$folder}] id={$id} line=".__LINE__  . PHP_EOL;
             } else {
                 echo "$mysqlDate [{$folder}] ERROR line=".__LINE__  . PHP_EOL;
             }
