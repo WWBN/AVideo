@@ -31,6 +31,8 @@ foreach ($folders as $folder) {
     // Check if it's a directory and starts with "v_" or "video_"
     if (is_dir($fullPath) && (str_starts_with($folder, 'v_') || str_starts_with($folder, 'video_'))) {
         $video = Video::getVideoFromFileNameLight($folder);
+        var_dump($folder, $video);
+        continue;
         if (empty($video)) {
             $parts = explode('_', $folder);
             $date = $parts[1];
