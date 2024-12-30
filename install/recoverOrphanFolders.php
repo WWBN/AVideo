@@ -42,7 +42,7 @@ foreach ($folders as $folder) {
             $minute = $matches[5];
             $second = $matches[6];
 
-            $mysqlDate = "{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}";
+            $mysqlDate = "20{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}";
             echo "$mysqlDate [{$folder}]".PHP_EOL;
             $new_video = new Video($folder, $folder, 0, false);
             $new_video->setCreated($mysqlDate);
