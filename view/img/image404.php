@@ -4,6 +4,11 @@ include(dirname(__FILE__) . '/image404Raw.php');
 $doNotIncludeConfig = 1;
 // Load configuration
 $configFile = dirname(__FILE__) . '/../../videos/configuration.php';
+
+if(!file_exists($configFile)){
+    return;
+}
+
 require_once $configFile;
 
 //_session_write_close();
