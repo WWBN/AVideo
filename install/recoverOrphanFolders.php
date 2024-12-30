@@ -45,7 +45,7 @@ foreach ($folders as $folder) {
             $mysqlDate = "20{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}";
 
             if($year !== 24){
-                echo "ERROR $mysqlDate [{$folder}] line=".__LINE__ . PHP_EOL;
+                echo "ERROR year=$year $mysqlDate [{$folder}] line=".__LINE__ . PHP_EOL;
                 continue;                
             }
             $new_video = new Video($folder, $folder, 0, false);
