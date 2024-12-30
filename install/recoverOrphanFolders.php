@@ -17,6 +17,9 @@ ob_end_flush();
 
 // Scan the base directory
 $folders = scandir($basePath);
+$count = 0;
+
+$countDirs = count($folders);
 
 // Loop through each item in the directory
 foreach ($folders as $folder) {
@@ -27,11 +30,12 @@ foreach ($folders as $folder) {
 
     // Build the full path
     $fullPath = $basePath . $folder;
-
     // Check if it's a directory and starts with "v_" or "video_"
     if (is_dir($fullPath) && (str_starts_with($folder, 'v_') || str_starts_with($folder, 'video_'))) {
+        $info = "[{$count}/{$countDirs}] ";
         $video = Video::getVideoFromFileNameLight($folder);
         if (empty($video)) {
+            $count++;
             $parts = explode('_', $folder);
             $date = $parts[1];
             preg_match('/([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/', $date, $matches);
@@ -53,9 +57,9 @@ foreach ($folders as $folder) {
 
             $id = $new_video->save(false, true);
             if ($id) {
-                echo "$mysqlDate [{$folder}] id={$id} line=".__LINE__  . PHP_EOL;
+                echo "$info $mysqlDate [{$folder}] id={$id} line=".__LINE__  . PHP_EOL;
             } else {
-                echo "$mysqlDate [{$folder}] ERROR line=".__LINE__  . PHP_EOL;
+                echo "$info $mysqlDate [{$folder}] ERROR line=".__LINE__  . PHP_EOL;
             }
         }
     }
