@@ -31,7 +31,7 @@ foreach ($folders as $folder) {
     // Check if it's a directory and starts with "v_" or "video_"
     if (is_dir($fullPath) && (str_starts_with($folder, 'v_') || str_starts_with($folder, 'video_'))) {
         $video = Video::getVideoFromFileNameLight($folder);
-        if(empty($video)){
+        if (empty($video)) {
             $parts = explode('_', $folder);
             $date = $parts[1];
             preg_match('/([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/', $date, $matches);
@@ -43,17 +43,19 @@ foreach ($folders as $folder) {
             $second = $matches[6];
 
             $mysqlDate = "20{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}";
-            echo "$mysqlDate [{$folder}]".PHP_EOL;
             $new_video = new Video($folder, $folder, 0, false);
             $new_video->setCreated($mysqlDate);
             $new_video->setCategories_id(1);
             $new_video->setUsers_id(1);
             $new_video->setStatus(Video::$statusActive);
             $new_video->setType(Video::$videoTypeVideo);
-            
-            $new_video->save(false, true);
+
+            $id = $new_video->save(false, true);
+            if ($id) {
+                echo "$mysqlDate [{$folder}]" . PHP_EOL;
+            } else {
+                echo "$mysqlDate [{$folder}] ERROR" . PHP_EOL;
+            }
         }
     }
 }
-
-?>
