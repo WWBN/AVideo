@@ -3187,6 +3187,23 @@ class AVideoPlugin
         return true;
     }
 
+    public static function canNotifyVideo($key)
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                if(!$p->canNotifyVideo($key)){
+                    _error_log("{$value['dirName']} said you cannot notify this key $key");
+                    return false;
+                }
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return true;
+    }
+
     public static function videoHLSProtectionByPass($videos_id)
     {
         global $_useDownloadProtectionReason;

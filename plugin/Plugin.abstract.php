@@ -918,6 +918,10 @@ abstract class PluginAbstract {
     function canRecordVideo($key) {
         return true;
     }
+    
+    function canNotifyVideo($key) {
+        return true;
+    }
 
     function videoHLSProtectionByPass($videos_id) {
         return false;
