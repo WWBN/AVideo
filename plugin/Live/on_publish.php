@@ -175,11 +175,11 @@ if (!empty($obj) && empty($obj->error)) {
      *
      */
     _error_log("NGINX ON Publish success ({$obj->liveTransmitionHistory_id}, {$obj->row['users_id']}, {$_POST['name']}, {$live_servers_id})");
-
+    /*
     $dropURL = Live::getDropURL($_POST['name'], $live_servers_id);
     $dropResponse = url_get_contents($dropURL);
-
     _error_log("NGINX ON Publish drop current {$dropResponse} {$dropURL}");
+    */
     $code = 200;
     http_response_code($code);
     header("HTTP/1.1 {$code} OK");
