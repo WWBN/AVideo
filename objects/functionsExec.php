@@ -518,7 +518,7 @@ function findProcess($keyword)
 
 
 // Function to kill the process by keyword using the pid file
-function killProcessFromKeyword($keyword, $ageInSeconds = 60)
+function killProcessFromKeyword($keyword, $ageInSeconds = 0)
 {
     _error_log("killProcessFromKeyword: Starting to search for processes with keyword '$keyword'");
     $pids = findProcess($keyword);
