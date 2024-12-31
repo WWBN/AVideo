@@ -518,13 +518,21 @@ function findProcess($keyword)
 
 
 // Function to kill the process by keyword using the pid file
-function killProcessFromKeyword($keyword)
+function killProcessFromKeyword($keyword, $ageInSeconds = 60)
 {
+    _error_log("killProcessFromKeyword: Starting to search for processes with keyword '$keyword'");
     $pids = findProcess($keyword);
     _error_log("killProcessFromKeyword($keyword) findProcess " . json_encode($pids));
     foreach ($pids as $pid) {
-        killProcess($pid);
+        _error_log("killProcessFromKeyword: Checking if process $pid is older than $ageInSeconds seconds.");
+        if (isProcessOlderThan($pid, $ageInSeconds)) {
+            _error_log("killProcessFromKeyword: Process $pid is older than $ageInSeconds seconds. Attempting to kill it.");
+            killProcess($pid);
+        } else {
+            _error_log("killProcessFromKeyword: Skipping process $pid as it is less than $ageInSeconds seconds old.");
+        }
     }
+    _error_log("killProcessFromKeyword: Finished processing for keyword '$keyword'");
 }
 
 function killProcess($pid)
@@ -539,14 +547,14 @@ function killProcess($pid)
         return false;
     }
 
-    _error_log("killProcess($pid)");
+    _error_log("killProcess: Attempting to kill process $pid");
 
     if (isWindowsServer()) {
         $cmd = "taskkill /F /PID $pid";
     } else {
         $cmd = "kill -9 $pid";
     }
-    _error_log("Executing command: $cmd");
+    _error_log("killProcess: Executing command: $cmd");
 
     exec($cmd, $output, $retval);
 
@@ -557,4 +565,47 @@ function killProcess($pid)
         _error_log("killProcess: Failed to kill process $pid. Command output: " . json_encode($output) . " Return value: $retval");
         return false;
     }
+}
+
+function isProcessOlderThan($pid, $ageInSeconds)
+{
+    $pid = intval($pid);
+    if (empty($pid)) {
+        _error_log("isProcessOlderThan: Invalid PID $pid");
+        return false;
+    }
+
+    _error_log("isProcessOlderThan: Checking if process $pid is older than $ageInSeconds seconds.");
+
+    if (isWindowsServer()) {
+        // For Windows, use the "wmic" command to get the process creation time
+        $cmd = "wmic process where processid=$pid get CreationDate /value";
+        _error_log("isProcessOlderThan: Executing command: $cmd");
+        exec($cmd, $output, $retval);
+        _error_log("isProcessOlderThan: Command output: " . json_encode($output) . " Return value: $retval");
+        if ($retval === 0 && !empty($output)) {
+            foreach ($output as $line) {
+                if (strpos($line, "CreationDate=") === 0) {
+                    $creationDate = substr($line, strlen("CreationDate="));
+                    $timestamp = strtotime(substr($creationDate, 0, 14));
+                    _error_log("isProcessOlderThan: Process $pid creation timestamp: $timestamp");
+                    return (time() - $timestamp) >= $ageInSeconds;
+                }
+            }
+        }
+    } else {
+        // For Unix/Linux, use the "ps" command to get the process start time
+        $cmd = "ps -o etimes= -p $pid";
+        _error_log("isProcessOlderThan: Executing command: $cmd");
+        exec($cmd, $output, $retval);
+        _error_log("isProcessOlderThan: Command output: " . json_encode($output) . " Return value: $retval");
+        if ($retval === 0 && !empty($output)) {
+            $elapsedTime = intval(trim($output[0])); // Elapsed time in seconds
+            _error_log("isProcessOlderThan: Process $pid elapsed time: $elapsedTime seconds");
+            return $elapsedTime >= $ageInSeconds;
+        }
+    }
+
+    _error_log("isProcessOlderThan: Unable to determine age of process $pid");
+    return false;
 }
