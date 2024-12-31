@@ -169,7 +169,6 @@ class YPTSocket extends PluginAbstract
                     // Check the size of the value
                     $size = strlen(serialize($value));
                     if ($size > $maxSize && $key != 'webSocketToken' && $key != 'msg') {
-                        var_dump("cleanupSocketSendObj $key {$size}");
                         unset($data->$key);
                     }
                 }

@@ -303,6 +303,7 @@ if (empty($ffmpegCommand)) {
 if (!empty($keyword)) {
     _error_log("Killing process with keyword: $keyword");
     killProcessFromKeyword($keyword);
+    sleep(5);
 }
 
 $ffmpegCommand = addKeywordToFFmpegCommand($ffmpegCommand, $keyword);
