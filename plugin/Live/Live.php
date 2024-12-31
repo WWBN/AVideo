@@ -3813,13 +3813,13 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $array['iskeyPlayListScheduled'] = Playlists_schedules::iskeyPlayListScheduled($array['key']);
             }
         }
-        clearAllUsersSessionCache();
+        //clearAllUsersSessionCache();
         if (empty($array['stats'])) {
             $array['stats'] = getStatsNotifications();
         }
-        _error_log("NGINX Live::on_publish_socket_notification sendSocketMessageToAll Start");
+        _error_log("NGINX Live::on_publish_socket_notification sendSocketMessageToAll Start {$callBack}");
         $socketObj = sendSocketMessageToAll($array, $callBack);
-        _error_log("NGINX Live::on_publish_socket_notification SocketMessageToAll END");
+        _error_log("NGINX Live::on_publish_socket_notification SocketMessageToAll END {$callBack}");
         return $socketObj;
     }
 

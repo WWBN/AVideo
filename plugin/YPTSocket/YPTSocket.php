@@ -20,9 +20,9 @@ class YPTSocket extends PluginAbstract
         global $global;
         $desc = '<span class="socket_info" style="float: right; margin:0 10px;">' . getSocketConnectionLabel() . '</span><script>if(isSocketActive()){setSocketIconStatus(\'connected\');}</script> ';
         $desc .= "Socket Plugin, WebSockets allow for a higher amount of efficiency compared to REST because they do not require the HTTP request/response overhead for each message sent and received<br>";
-        $desc .= "<br>To start it on server now <code>sudo ".YPTSocket::getStartServerCommand()."</code>";
+        $desc .= "<br>To start it on server now <code>sudo " . YPTSocket::getStartServerCommand() . "</code>";
         $desc .= "<br>To test use <code>php {$global['systemRootPath']}plugin/YPTSocket/test.php</code>";
-        $desc .= "<br>To start it on server reboot add it on your crontab (Ubuntu 18+) <code>sudo crontab -eu root</code> than add this code on the last line <code>@reboot sleep 60;".YPTSocket::getStartServerCommand()."</code>";
+        $desc .= "<br>To start it on server reboot add it on your crontab (Ubuntu 18+) <code>sudo crontab -eu root</code> than add this code on the last line <code>@reboot sleep 60;" . YPTSocket::getStartServerCommand() . "</code>";
         $desc .= "<br>If you use Certbot to renew your SSL use (Ubuntu 18+) <code>sudo crontab -eu root</code> than add this code on the last line <code>0 1 * * * nohup php {$global['systemRootPath']}plugin/YPTSocket/serverCertbot.php &</code>";
         $help = "<br>run this command start the server <small><a href='https://github.com/WWBN/AVideo/wiki/Socket-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
 
@@ -150,6 +150,36 @@ class YPTSocket extends PluginAbstract
         execAsync($command);
     }
 
+    /**
+     * Clean up a given object by removing properties that exceed a specified size.
+     *
+     * @param object|array $data The object or array to clean up.
+     * @param int $maxSize The maximum allowed size for any parameter (in bytes).
+     * @return object|array The cleaned object or array.
+     */
+    static function cleanupSocketSendObj($data, $maxSize = 2048)
+    {
+        // Iterate through each property if it's an object or array
+        if (is_object($data) || is_array($data)) {
+            foreach ($data as $key => &$value) {
+                // If the value is an object or array, recursively clean it
+                if (is_object($value) || is_array($value)) {
+                    $value = self::cleanupSocketSendObj($value, $maxSize);
+                } else {
+                    // Check the size of the value
+                    $size = strlen(serialize($value));
+                    if ($size > $maxSize && $key != 'webSocketToken' && $key != 'msg') {
+                        var_dump("cleanupSocketSendObj $key {$size}");
+                        unset($data->$key);
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+
     public static function send($msg, $callbackJSFunction = "", $users_id = "", $send_to_uri_pattern = "")
     {
         global $global, $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj, $SocketURL;
@@ -184,28 +214,36 @@ class YPTSocket extends PluginAbstract
         \Ratchet\Client\connect($SocketURL)->then(function ($conn) use ($SocketSendUsers_id, $SocketSendObj, $SocketSendResponseObj) {
             global $SocketSendResponseObj;
 
-            _error_log("Socket line=" . __LINE__);
+            _error_log("Socket {$SocketSendResponseObj->callbackJSFunction} line=" . __LINE__);
             $conn->on('message', function ($msg) use ($conn, $SocketSendResponseObj) {
-                _error_log("Socket on message line=" . __LINE__ . ' ' . json_encode($msg));
+                _error_log("Socket on message {$SocketSendResponseObj->callbackJSFunction}  line=" . __LINE__);
 
                 $SocketSendResponseObj->error = false;
                 $SocketSendResponseObj->msg = $msg;
             });
-
+            $conn->on('open', function () use ($conn) {
+                _error_log("Socket connection opened successfully.");
+            });
             // Log when the connection is closed
             $conn->on('close', function ($code = null, $reason = null) {
                 _error_log("Socket connection closed. Code: $code, Reason: $reason line=" . __LINE__);
             });
 
             $sendMessages = function ($users, $index = 0) use ($conn, $SocketSendObj, &$sendMessages) {
-                _error_log("Socket sendMessages $index line=" . __LINE__);
+                _error_log("Socket sendMessages $index line=" . __LINE__ . ' users=' . json_encode($users));
                 if ($index < count($users)) {
                     _error_log("Socket sendMessages $index line=" . __LINE__);
                     $SocketSendObj->to_users_id = $users[$index];
-                    $conn->send(json_encode($SocketSendObj), function () use ($users, $index, $sendMessages) {
-                        _error_log("Socket sendMessages $index total=" . count($users) . " line=" . __LINE__);
-                        //$sendMessages($users, $index + 1);
-                    });
+                    $SocketSendObj = self::cleanupSocketSendObj($SocketSendObj);
+                    $message = json_encode($SocketSendObj);
+                    if ($message === false) {
+                        _error_log("Socket sendMessages: JSON encoding failed. Error: " . json_last_error_msg());
+                    } else {
+                        _error_log("Socket sendMessages: Sending message ");
+                        $conn->send($message, function () use ($users, $index, $sendMessages) {
+                            _error_log("Socket sendMessages $index total=" . count($users) . " line=" . __LINE__);
+                        });
+                    }
                     if ($index + 1 >= count($users)) {
                         _error_log("Socket close $index total=" . count($users) . " line=" . __LINE__);
                         $conn->close();
@@ -219,7 +257,7 @@ class YPTSocket extends PluginAbstract
                 }
                 _error_log("Socket sendMessages $index line=" . __LINE__);
             };
-            _error_log("Socket connect line=" . __LINE__);
+            _error_log("Socket connect  {$SocketSendResponseObj->callbackJSFunction}  line=" . __LINE__);
 
             $sendMessages($SocketSendUsers_id);
         }, function ($e) {
@@ -227,7 +265,7 @@ class YPTSocket extends PluginAbstract
             _error_log("Could not connect: {$e->getMessage()} {$SocketURL} line=" . __LINE__, AVideoLog::$ERROR);
         });
 
-        _error_log("Socket SocketSendResponseObj line=" . __LINE__);
+        _error_log("Socket SocketSendResponseObj  {$SocketSendResponseObj->callbackJSFunction}  line=" . __LINE__);
         return $SocketSendResponseObj;
     }
 
@@ -328,11 +366,12 @@ class YPTSocket extends PluginAbstract
         return true;
     }
 
-    function executeEveryDay() {
+    function executeEveryDay()
+    {
         self::restart();
     }
 
-    
+
     static public function getStartServerCommand()
     {
         global $global;
@@ -340,7 +379,8 @@ class YPTSocket extends PluginAbstract
         return $command;
     }
 
-    function getChannelPageButtons($users_id) {
+    function getChannelPageButtons($users_id)
+    {
         return getUserOnlineLabel($users_id, 'pull-right', 'padding: 0 5px;');;
     }
 }

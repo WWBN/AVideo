@@ -132,7 +132,7 @@ class Message implements MessageComponentInterface
         if ($client['browser'] == \SocketMessageType::TESTING) {
             _log_message("Test detected and received from ($conn->resourceId) " . PHP_EOL . "\e[1;32;40m*** SUCCESS TEST CONNECION {$json->test_msg} ***\e[0m");
             $this->msgToResourceId($json, $conn->resourceId, \SocketMessageType::TESTING);
-        } else if ($this->shouldPropagateInfo($client)) {
+        } else if ($this->shouldPropagateInfo($client) && !$this->isDeviceCommandLine($client['yptDeviceId'])) {
             $this->msgToAll(
                 array(
                     'users_id' => $client['users_id'],
@@ -147,7 +147,11 @@ class Message implements MessageComponentInterface
                 \SocketMessageType::NEW_CONNECTION
             );
         } else {
-            //_log_message("NOT shouldPropagateInfo ");
+            global $_shouldPropagateInfoLastMessage;
+            _log_message("NOT shouldPropagateInfo {$_shouldPropagateInfoLastMessage}");
+            if($this->isDeviceCommandLine($client['yptDeviceId'])){
+                //var_dump($json,$wsocketGetVars);
+            }
         }
         $end = number_format(microtime(true) - $start, 4);
         //_log_message("Connection opened in {$end} seconds users_id={$client['users_id']} selfURI={$client['selfURI']} isCommandLine={$client['isCommandLine']} page_title={$client['page_title']} browser={$client['browser']} ");
@@ -171,7 +175,7 @@ class Message implements MessageComponentInterface
         dbDeleteConnection($conn->resourceId);
         //_log_message("onClose {$conn->resourceId} has deleted");
         $this->unsetClient($conn, $client);
-        if ($this->shouldPropagateInfo($client)) {
+        if ($this->shouldPropagateInfo($client) && !$this->isDeviceCommandLine($client['yptDeviceId'])) {
             $this->msgToAll(array('users_id' => $client['users_id'], 'disconnected' => $conn->resourceId), \SocketMessageType::NEW_DISCONNECTION);
         }
         //_log_message("Connection {$conn->resourceId} has disconnected");
@@ -294,12 +298,21 @@ class Message implements MessageComponentInterface
         }
     }
 
+    private function isDeviceCommandLine($yptDeviceId)
+    {
+        return preg_match('/^commandLine-0$/',$yptDeviceId);
+    }
+
     private function shouldPropagateInfo($row)
     {
         global $_shouldPropagateInfoLastMessage;
         if (!empty($row['yptDeviceId']) && preg_match('/^unknowDevice.*/', $row['yptDeviceId'])) {
-            $_shouldPropagateInfoLastMessage = 'unknowDevice';
+            $_shouldPropagateInfoLastMessage = 'unknowDevice '.$row['yptDeviceId'];
             return false;
+        }
+        if (!empty($row['yptDeviceId']) && $this->isDeviceCommandLine($row['yptDeviceId'])) {
+            $_shouldPropagateInfoLastMessage = 'commandLine '.$row['yptDeviceId'];
+            return true;
         }
         if (!empty($row['selfURI']) && preg_match('/.*getConfiguration.json.php$/', $row['selfURI'])) {
             $_shouldPropagateInfoLastMessage = 'getConfiguration';
@@ -322,7 +335,7 @@ class Message implements MessageComponentInterface
         }
 
         if (empty($this->clients[$resourceId])) {
-            //_log_message("msgToResourceId: resourceId=({$resourceId}) is empty");
+            _log_message("msgToResourceId: resourceId=({$resourceId}) is empty");
             return false;
         }
         $startTime = microtime(true);
@@ -344,6 +357,7 @@ class Message implements MessageComponentInterface
             return false;
         }
 
+        _log_message("msgToResourceId: go ".json_encode($msg));
         if (!is_array($msg)) {
             $this->msgToArray($msg);
         }

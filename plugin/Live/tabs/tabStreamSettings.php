@@ -29,7 +29,7 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
         $key = $rb['cleankey'];
     }
 }
-//var_dump(getLiveKey(), $islive, $key);exit;
+//var_dump(getLiveKey(), $islive, $key, User::getId());exit;
 ?>
 <style>
     #streamkey {

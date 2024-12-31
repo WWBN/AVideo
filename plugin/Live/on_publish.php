@@ -199,10 +199,12 @@ if (!empty($obj) && empty($obj->error)) {
             $command = get_php(). " {$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php '$users_id' '$m3u8' '{$obj->liveTransmitionHistory_id}'";
             _error_log("NGINX Live::on_publish YPTSocket start  ($command)");
             $pid = execAsync($command);
-            _error_log("NGINX Live::on_publish YPTSocket end {$pid}");
+            _error_log("NGINX Live::on_publish YPTSocket end ".json_encode($pid));
         }
         $cacheHandler = new LiveCacheHandler();
         $cacheHandler->deleteCache();
+    }else{
+        _error_log("NGINX Live::on_publish YPTSocket not enabled");
     }
     //exit;
 } else {
