@@ -301,6 +301,7 @@ if (empty($ffmpegCommand)) {
 
 // Kill processes associated with the keyword
 if (!empty($keyword)) {
+    // if I kill it it will infinite loop the VideoPlaylistScheduler because the on_publish done
     //_error_log("Killing process with keyword: $keyword");
     //killProcessFromKeyword($keyword, 60);
     //sleep(5);
