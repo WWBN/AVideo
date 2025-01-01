@@ -3892,6 +3892,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($live_index)) {
             return 1;
         }
+        if(AVideoPlugin::isEnabled('VideoPlaylistScheduler') && VideoPlaylistScheduler::iskeyShowScheduled("$key-$live_index")){
+            // it is a VideoPlaylistScheduler do not change it
+            return $live_index;
+        }
         if (!Live::iskeyOnline("{$key}-{$live_index}")) {
             return $live_index;
         } else {
