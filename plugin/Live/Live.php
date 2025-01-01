@@ -1518,7 +1518,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public function getStatsObject($live_servers_id = 0, $force_recreate = false, $tries = 0)
     {
-        global $global;
+        global $global, $_getStatsObject_force_recreate_executed;
+
+        if($force_recreate){
+            if(!empty($_getStatsObject_force_recreate_executed)){
+                // already forced, ignore it
+                $force_recreate = false;
+            }
+            $_getStatsObject_force_recreate_executed = true;
+        }
 
         if (!empty($global['disableGetStatsObject'])) {
             return [];
