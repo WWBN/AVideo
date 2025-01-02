@@ -1720,3 +1720,17 @@ $t['Your subscription has been saved!'] = 'המנוי שלך נשמר!';
 $t['Your video has been promoted'] = 'הסרטון שלך כבר מקודם';
 $t['cat'] = 'חתול';
 $t['language'] = 'שפה';
+
+
+$t['Friend Request Sent, Awaiting Approval'] = 'בקשת חברות נשלחה, ממתין לאישור';
+$t['Shorts'] = 'קצרים';
+$t['Send Friend Request'] = 'שליחת בקשת חברות';
+$t['Remove first page'] = 'הסר מדף ראשי';
+$t['view more'] = 'קרא עוד';
+$t['Most Recent'] = 'התווסף לאחרונה';
+$t['Science and Technology'] = 'טכנולוגיה ומדעים';
+$t['playlists'] = 'פלייליסטים';
+$t['culture-and-arts'] = 'תרבות ואומנות';
+$t['Articles'] = 'מאמרים';
+$t['News'] = 'חדשות';
+$t['books'] = 'ספרים';
