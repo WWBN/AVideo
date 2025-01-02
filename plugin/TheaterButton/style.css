@@ -41,10 +41,10 @@
 }
 
 .show-when-is-expanded, .show-when-is-compressed{
-    display: none !important;
+    display: none;
 }
 
 .ypt-is-expanded .show-when-is-expanded,
 .ypt-is-compressed .show-when-is-compressed{
-    display: inline-block !important;
+    display: inline-block;
 }
