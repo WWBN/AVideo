@@ -397,17 +397,15 @@
 
                             modal.showPleaseWait();
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL'] . "objects/categoryDelete.json.php"; ?>',
+                                url: webSiteRootURL+'objects/categoryDelete.json.php',
                                 data: {
                                     "id": row.id
                                 },
                                 type: 'post',
                                 success: function(response) {
-                                    if (response.status === "1") {
+                                    avideoResponse(response);
+                                    if(empty(response.error)){
                                         $("#grid").bootgrid("reload");
-                                        avideoToast("<?php echo __("Your category has been deleted!"); ?>");
-                                    } else {
-                                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been deleted!"); ?>", "error");
                                     }
                                     modal.hidePleaseWait();
                                 }

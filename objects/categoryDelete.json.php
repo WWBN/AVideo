@@ -14,4 +14,7 @@ require_once 'category.php';
 $obj = new Category($_POST['id']);
 
 $response = $obj->delete();
-echo '{"status":"' . $response . '"}';
+
+$resp = array('error'=> empty($response), 'msg'=>$categoryDeleteMessage);
+
+echo json_encode($resp);

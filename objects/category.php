@@ -913,16 +913,21 @@ class Category
 
     public function delete()
     {
+        global $categoryDeleteMessage;
+        $categoryDeleteMessage = '';
         if (!self::canCreateCategory()) {
+            $categoryDeleteMessage = 'You cannot delete a category';
             return false;
         }
 
         if (!self::userCanEditCategory($this->id)) {
+            $categoryDeleteMessage = 'This category does not belong to you';
             return false;
         }
 
         // cannot delete default category
         if ($this->id == 1) {
+            $categoryDeleteMessage = 'You cannot delete the main category';
             return false;
         }
 
@@ -934,9 +939,12 @@ class Category
             if ($categories_id) {
                 $sql = "UPDATE videos SET categories_id = ? WHERE categories_id = ?";
                 sqlDAL::writeSql($sql, "ii", [$categories_id, $this->id]);
+                $sql = "UPDATE live_transmitions SET categories_id = ? WHERE categories_id = ?";
+                sqlDAL::writeSql($sql, "ii", [$categories_id, $this->id]);
             }
             $sql = "DELETE FROM categories WHERE id = ?";
         } else {
+            $categoryDeleteMessage = 'Id is empty';
             return false;
         }
         self::deleteAssets($this->id);
