@@ -1093,30 +1093,59 @@ interface ContextFormButtonInstanceApi extends BaseToolbarButtonInstanceApi {
 }
 interface ContextFormToggleButtonInstanceApi extends BaseToolbarToggleButtonInstanceApi {
 }
-interface ContextFormButtonSpec extends BaseToolbarButtonSpec<ContextFormButtonInstanceApi> {
+interface ContextFormButtonSpec<T> extends BaseToolbarButtonSpec<ContextFormButtonInstanceApi> {
     type?: 'contextformbutton';
     primary?: boolean;
-    onAction: (formApi: ContextFormInstanceApi, api: ContextFormButtonInstanceApi) => void;
+    align?: 'start' | 'end';
+    onAction: (formApi: ContextFormInstanceApi<T>, api: ContextFormButtonInstanceApi) => void;
 }
-interface ContextFormToggleButtonSpec extends BaseToolbarToggleButtonSpec<ContextFormToggleButtonInstanceApi> {
+interface ContextFormToggleButtonSpec<T> extends BaseToolbarToggleButtonSpec<ContextFormToggleButtonInstanceApi> {
     type?: 'contextformtogglebutton';
-    onAction: (formApi: ContextFormInstanceApi, buttonApi: ContextFormToggleButtonInstanceApi) => void;
     primary?: boolean;
+    align?: 'start' | 'end';
+    onAction: (formApi: ContextFormInstanceApi<T>, buttonApi: ContextFormToggleButtonInstanceApi) => void;
 }
-interface ContextFormInstanceApi {
+interface ContextFormInstanceApi<T> {
+    setInputEnabled: (state: boolean) => void;
+    isInputEnabled: () => boolean;
     hide: () => void;
-    getValue: () => string;
+    back: () => void;
+    getValue: () => T;
+    setValue: (value: T) => void;
 }
-interface ContextFormSpec extends ContextBarSpec {
-    type?: 'contextform';
-    initValue?: () => string;
+interface SizeData {
+    width: string;
+    height: string;
+}
+interface BaseContextFormSpec<T> extends ContextBarSpec {
+    initValue?: () => T;
     label?: string;
     launch?: ContextFormLaunchButtonApi | ContextFormLaunchToggleButtonSpec;
-    commands: Array<ContextFormToggleButtonSpec | ContextFormButtonSpec>;
+    commands: Array<ContextFormToggleButtonSpec<T> | ContextFormButtonSpec<T>>;
+    onInput?: (api: ContextFormInstanceApi<T>) => void;
+    onSetup?: (api: ContextFormInstanceApi<T>) => (api: ContextFormInstanceApi<T>) => void;
+}
+interface ContextInputFormSpec extends BaseContextFormSpec<string> {
+    type?: 'contextform';
+    placeholder?: string;
+}
+interface ContextSliderFormSpec extends BaseContextFormSpec<number> {
+    type: 'contextsliderform';
+    min?: () => number;
+    max?: () => number;
+}
+interface ContextSizeInputFormSpec extends BaseContextFormSpec<SizeData> {
+    type: 'contextsizeinputform';
+}
+type ContextFormSpec = ContextInputFormSpec | ContextSliderFormSpec | ContextSizeInputFormSpec;
+interface ToolbarGroupSpec {
+    name?: string;
+    label?: string;
+    items: string[];
 }
 interface ContextToolbarSpec extends ContextBarSpec {
     type?: 'contexttoolbar';
-    items: string;
+    items: string | ToolbarGroupSpec[];
 }
 type PublicDialog_d_AlertBannerSpec = AlertBannerSpec;
 type PublicDialog_d_BarSpec = BarSpec;
@@ -1177,10 +1206,10 @@ type PublicInlineContent_d_AutocompleterInstanceApi = AutocompleterInstanceApi;
 type PublicInlineContent_d_ContextPosition = ContextPosition;
 type PublicInlineContent_d_ContextScope = ContextScope;
 type PublicInlineContent_d_ContextFormSpec = ContextFormSpec;
-type PublicInlineContent_d_ContextFormInstanceApi = ContextFormInstanceApi;
-type PublicInlineContent_d_ContextFormButtonSpec = ContextFormButtonSpec;
+type PublicInlineContent_d_ContextFormInstanceApi<T> = ContextFormInstanceApi<T>;
+type PublicInlineContent_d_ContextFormButtonSpec<T> = ContextFormButtonSpec<T>;
 type PublicInlineContent_d_ContextFormButtonInstanceApi = ContextFormButtonInstanceApi;
-type PublicInlineContent_d_ContextFormToggleButtonSpec = ContextFormToggleButtonSpec;
+type PublicInlineContent_d_ContextFormToggleButtonSpec<T> = ContextFormToggleButtonSpec<T>;
 type PublicInlineContent_d_ContextFormToggleButtonInstanceApi = ContextFormToggleButtonInstanceApi;
 type PublicInlineContent_d_ContextToolbarSpec = ContextToolbarSpec;
 type PublicInlineContent_d_SeparatorItemSpec = SeparatorItemSpec;
@@ -1620,6 +1649,9 @@ interface BeforeOpenNotificationEvent {
 interface OpenNotificationEvent {
     notification: NotificationApi;
 }
+interface DisabledStateChangeEvent {
+    readonly state: boolean;
+}
 interface EditorEventMap extends Omit<NativeEventMap, 'blur' | 'focus'> {
     'activate': {
         relatedTarget: Editor | null;
@@ -1763,10 +1795,11 @@ type EventTypes_d_TableEventData = TableEventData;
 type EventTypes_d_TableModifiedEvent = TableModifiedEvent;
 type EventTypes_d_BeforeOpenNotificationEvent = BeforeOpenNotificationEvent;
 type EventTypes_d_OpenNotificationEvent = OpenNotificationEvent;
+type EventTypes_d_DisabledStateChangeEvent = DisabledStateChangeEvent;
 type EventTypes_d_EditorEventMap = EditorEventMap;
 type EventTypes_d_EditorManagerEventMap = EditorManagerEventMap;
 declare namespace EventTypes_d {
-    export { EventTypes_d_ExecCommandEvent as ExecCommandEvent, EventTypes_d_BeforeGetContentEvent as BeforeGetContentEvent, EventTypes_d_GetContentEvent as GetContentEvent, EventTypes_d_BeforeSetContentEvent as BeforeSetContentEvent, EventTypes_d_SetContentEvent as SetContentEvent, EventTypes_d_SaveContentEvent as SaveContentEvent, EventTypes_d_NewBlockEvent as NewBlockEvent, EventTypes_d_NodeChangeEvent as NodeChangeEvent, EventTypes_d_FormatEvent as FormatEvent, EventTypes_d_ObjectResizeEvent as ObjectResizeEvent, EventTypes_d_ObjectSelectedEvent as ObjectSelectedEvent, EventTypes_d_ScrollIntoViewEvent as ScrollIntoViewEvent, EventTypes_d_SetSelectionRangeEvent as SetSelectionRangeEvent, EventTypes_d_ShowCaretEvent as ShowCaretEvent, EventTypes_d_SwitchModeEvent as SwitchModeEvent, EventTypes_d_ChangeEvent as ChangeEvent, EventTypes_d_AddUndoEvent as AddUndoEvent, EventTypes_d_UndoRedoEvent as UndoRedoEvent, EventTypes_d_WindowEvent as WindowEvent, EventTypes_d_ProgressStateEvent as ProgressStateEvent, EventTypes_d_AfterProgressStateEvent as AfterProgressStateEvent, EventTypes_d_PlaceholderToggleEvent as PlaceholderToggleEvent, EventTypes_d_LoadErrorEvent as LoadErrorEvent, EventTypes_d_PreProcessEvent as PreProcessEvent, EventTypes_d_PostProcessEvent as PostProcessEvent, EventTypes_d_PastePlainTextToggleEvent as PastePlainTextToggleEvent, EventTypes_d_PastePreProcessEvent as PastePreProcessEvent, EventTypes_d_PastePostProcessEvent as PastePostProcessEvent, EventTypes_d_EditableRootStateChangeEvent as EditableRootStateChangeEvent, EventTypes_d_NewTableRowEvent as NewTableRowEvent, EventTypes_d_NewTableCellEvent as NewTableCellEvent, EventTypes_d_TableEventData as TableEventData, EventTypes_d_TableModifiedEvent as TableModifiedEvent, EventTypes_d_BeforeOpenNotificationEvent as BeforeOpenNotificationEvent, EventTypes_d_OpenNotificationEvent as OpenNotificationEvent, EventTypes_d_EditorEventMap as EditorEventMap, EventTypes_d_EditorManagerEventMap as EditorManagerEventMap, };
+    export { EventTypes_d_ExecCommandEvent as ExecCommandEvent, EventTypes_d_BeforeGetContentEvent as BeforeGetContentEvent, EventTypes_d_GetContentEvent as GetContentEvent, EventTypes_d_BeforeSetContentEvent as BeforeSetContentEvent, EventTypes_d_SetContentEvent as SetContentEvent, EventTypes_d_SaveContentEvent as SaveContentEvent, EventTypes_d_NewBlockEvent as NewBlockEvent, EventTypes_d_NodeChangeEvent as NodeChangeEvent, EventTypes_d_FormatEvent as FormatEvent, EventTypes_d_ObjectResizeEvent as ObjectResizeEvent, EventTypes_d_ObjectSelectedEvent as ObjectSelectedEvent, EventTypes_d_ScrollIntoViewEvent as ScrollIntoViewEvent, EventTypes_d_SetSelectionRangeEvent as SetSelectionRangeEvent, EventTypes_d_ShowCaretEvent as ShowCaretEvent, EventTypes_d_SwitchModeEvent as SwitchModeEvent, EventTypes_d_ChangeEvent as ChangeEvent, EventTypes_d_AddUndoEvent as AddUndoEvent, EventTypes_d_UndoRedoEvent as UndoRedoEvent, EventTypes_d_WindowEvent as WindowEvent, EventTypes_d_ProgressStateEvent as ProgressStateEvent, EventTypes_d_AfterProgressStateEvent as AfterProgressStateEvent, EventTypes_d_PlaceholderToggleEvent as PlaceholderToggleEvent, EventTypes_d_LoadErrorEvent as LoadErrorEvent, EventTypes_d_PreProcessEvent as PreProcessEvent, EventTypes_d_PostProcessEvent as PostProcessEvent, EventTypes_d_PastePlainTextToggleEvent as PastePlainTextToggleEvent, EventTypes_d_PastePreProcessEvent as PastePreProcessEvent, EventTypes_d_PastePostProcessEvent as PastePostProcessEvent, EventTypes_d_EditableRootStateChangeEvent as EditableRootStateChangeEvent, EventTypes_d_NewTableRowEvent as NewTableRowEvent, EventTypes_d_NewTableCellEvent as NewTableCellEvent, EventTypes_d_TableEventData as TableEventData, EventTypes_d_TableModifiedEvent as TableModifiedEvent, EventTypes_d_BeforeOpenNotificationEvent as BeforeOpenNotificationEvent, EventTypes_d_OpenNotificationEvent as OpenNotificationEvent, EventTypes_d_DisabledStateChangeEvent as DisabledStateChangeEvent, EventTypes_d_EditorEventMap as EditorEventMap, EventTypes_d_EditorManagerEventMap as EditorManagerEventMap, };
 }
 type Format_d_Formats = Formats;
 type Format_d_Format = Format;
@@ -1835,6 +1868,7 @@ type URLConverter = (url: string, name: string, elm?: string | Element) => strin
 type URLConverterCallback = (url: string, node: Node | string | undefined, on_save: boolean, name: string) => string;
 interface ToolbarGroup {
     name?: string;
+    label?: string;
     items: string[];
 }
 type ToolbarMode = 'floating' | 'sliding' | 'scrolling' | 'wrap';
@@ -2045,6 +2079,7 @@ interface BaseEditorOptions {
     width?: number | string;
     xss_sanitization?: boolean;
     license_key?: string;
+    disabled?: boolean;
     disable_nodechange?: boolean;
     forced_plugins?: string | string[];
     plugin_base_urls?: Record<string, string>;
@@ -2145,6 +2180,7 @@ interface EditorOptions extends NormalizedEditorOptions {
     visual_table_class: string;
     width: number | string;
     xss_sanitization: boolean;
+    disabled: boolean;
 }
 type StyleMap = Record<string, string | number>;
 interface StylesSettings {

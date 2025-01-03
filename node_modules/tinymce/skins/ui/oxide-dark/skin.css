@@ -97,19 +97,40 @@ button::-moz-focus-inner {
 .tox[dir=rtl] .tox-icon--flip svg {
   transform: rotateY(180deg);
 }
+@keyframes tox-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .tox .accessibility-issue__header {
   align-items: center;
   display: flex;
   margin-bottom: 4px;
 }
+.tox #accessibility-issue__subheader {
+  font-size: 16px;
+  color: #fff;
+}
+.tox .accessbility-sr-only {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(0 0 99.9% 99.9%);
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  padding: 0;
+  border: 0;
+}
 .tox .accessibility-issue__description {
   align-items: stretch;
   border-radius: 6px;
-  display: flex;
   justify-content: space-between;
 }
 .tox .accessibility-issue__description > div {
-  padding-bottom: 4px;
+  padding-bottom: 16px;
 }
 .tox .accessibility-issue__description > div > div {
   align-items: center;
@@ -119,18 +140,29 @@ button::-moz-focus-inner {
 .tox .accessibility-issue__description > div > div .tox-icon svg {
   display: block;
 }
-.tox .accessibility-issue__repair {
+.tox #accessibility-issue__contentID {
   margin-top: 16px;
+  margin-bottom: 16px;
+}
+.tox #accessibility-issue__contentID span:first-child {
+  font-weight: bold;
+}
+.tox #accessibility-issue__document {
+  padding-bottom: 8px;
+}
+.tox .accessibility-issue__repair {
+  margin-top: 8px;
 }
 .tox .tox-dialog__body-content .accessibility-issue--info .accessibility-issue__description {
-  background-color: rgba(0, 101, 216, 0.4);
+  background-color: #1f354f;
   color: #fff;
 }
 .tox .tox-dialog__body-content .accessibility-issue--info .tox-form__group h2 {
-  color: #fff;
+  font-size: 14px;
+  color: #99c4f5;
 }
-.tox .tox-dialog__body-content .accessibility-issue--info .tox-icon svg {
-  fill: #fff;
+.tox .tox-dialog__body-content .accessibility-issue--info .tox-icon.accessibility-issue__icon svg {
+  fill: #99c4f5;
 }
 .tox .tox-dialog__body-content .accessibility-issue--info a.tox-button--naked.tox-button--icon {
   background-color: #006ce7;
@@ -147,14 +179,15 @@ button::-moz-focus-inner {
   /* stylelint-disable-next-line no-descending-specificity */
 }
 .tox .tox-dialog__body-content .accessibility-issue--warn .accessibility-issue__description {
-  background-color: rgba(255, 165, 0, 0.5);
+  background-color: #383f38;
   color: #fff;
 }
 .tox .tox-dialog__body-content .accessibility-issue--warn .tox-form__group h2 {
-  color: #fff;
+  font-size: 14px;
+  color: #ffeb99;
 }
-.tox .tox-dialog__body-content .accessibility-issue--warn .tox-icon svg {
-  fill: #fff;
+.tox .tox-dialog__body-content .accessibility-issue--warn .tox-icon.accessibility-issue__icon svg {
+  fill: #ffeb99;
 }
 .tox .tox-dialog__body-content .accessibility-issue--warn a.tox-button--naked.tox-button--icon {
   background-color: #FFE89D;
@@ -173,14 +206,15 @@ button::-moz-focus-inner {
   /* stylelint-disable-next-line no-descending-specificity */
 }
 .tox .tox-dialog__body-content .accessibility-issue--error .accessibility-issue__description {
-  background-color: rgba(204, 0, 0, 0.5);
+  background-color: #332a38;
   color: #fff;
 }
 .tox .tox-dialog__body-content .accessibility-issue--error .tox-form__group h2 {
-  color: #fff;
+  font-size: 14px;
+  color: #eb9999;
 }
-.tox .tox-dialog__body-content .accessibility-issue--error .tox-icon svg {
-  fill: #fff;
+.tox .tox-dialog__body-content .accessibility-issue--error .tox-icon.accessibility-issue__icon svg {
+  fill: #eb9999;
 }
 .tox .tox-dialog__body-content .accessibility-issue--error a.tox-button--naked.tox-button--icon {
   background-color: #F2BFBF;
@@ -205,12 +239,11 @@ button::-moz-focus-inner {
 .tox .tox-dialog__body-content .accessibility-issue--success .tox-form__group h2 {
   color: #fff;
 }
-.tox .tox-dialog__body-content .accessibility-issue--success .tox-icon svg {
+.tox .tox-dialog__body-content .accessibility-issue--success .tox-icon.accessibility-issue__icon svg {
   fill: #fff;
 }
 .tox .tox-dialog__body-content .accessibility-issue__header .tox-form__group h1,
 .tox .tox-dialog__body-content .tox-form__group .accessibility-issue__description h2 {
-  font-size: 14px;
   margin-top: 0;
 }
 .tox:not([dir=rtl]) .tox-dialog__body-content .accessibility-issue__header .tox-button {
@@ -220,7 +253,7 @@ button::-moz-focus-inner {
   margin-left: auto;
 }
 .tox:not([dir=rtl]) .tox-dialog__body-content .accessibility-issue__description {
-  padding: 4px 4px 4px 8px;
+  padding: 8px;
 }
 .tox[dir=rtl] .tox-dialog__body-content .accessibility-issue__header .tox-button {
   margin-right: 4px;
@@ -498,6 +531,11 @@ button::-moz-focus-inner {
 .tox .tox-button.tox-button--secondary.tox-button--icon .tox-icon svg {
   display: block;
   fill: currentColor;
+}
+.tox-context-form__group .tox-button--icon,
+.tox-context-form__group .tox-button.tox-button--icon {
+  margin: 6px 1px 5px 0;
+  padding: 0;
 }
 .tox .tox-button-link {
   background: 0;
@@ -1213,7 +1251,7 @@ button::-moz-focus-inner {
 }
 .tox .tox-comment {
   background: #222F3E;
-  border: 1px solid #161f29;
+  border: 1px solid #222F3E;
   border-radius: 6px;
   padding: 8px 8px 16px 8px;
   position: relative;
@@ -1264,7 +1302,7 @@ button::-moz-focus-inner {
 }
 .tox .tox-comment__body {
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
   font-weight: normal;
   line-height: 1.3;
@@ -1289,6 +1327,7 @@ button::-moz-focus-inner {
   resize: none;
   white-space: normal;
   width: 100%;
+  font-size: 16px;
 }
 .tox .tox-comment__loading-text {
   align-items: center;
@@ -1464,15 +1503,7 @@ button::-moz-focus-inner {
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  animation: tox-rotation 1s linear infinite;
 }
 .tox:not([dir=rtl]) .tox-comment__edit {
   margin-left: 8px;
@@ -2328,10 +2359,16 @@ body.tox-dialog__disable-scroll {
   outline: none;
 }
 .tox .tox-toolbar-textfield {
-  border-width: 0;
   margin-bottom: 3px;
   margin-top: 2px;
   max-width: 250px;
+  min-height: unset;
+  height: 28px;
+}
+.tox .tox-toolbar-textfield[disabled] {
+  background-color: #222f3e;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: not-allowed;
 }
 .tox .tox-naked-btn {
   background-color: transparent;
@@ -2347,6 +2384,9 @@ body.tox-dialog__disable-scroll {
 .tox .tox-naked-btn svg {
   display: block;
   fill: #fff;
+}
+.tox .tox-textfield-size {
+  width: 80px;
 }
 .tox:not([dir=rtl]) .tox-toolbar-textfield + * {
   margin-left: 4px;
@@ -3226,6 +3266,71 @@ body.tox-dialog__disable-scroll {
 .tox .tox-form__controls-h-stack > .tox-slider + .tox-form__group {
   margin-inline-start: 32px;
 }
+.tox .tox-toolbar-slider {
+  align-items: center;
+  display: inline-flex;
+  height: 16px;
+}
+.tox .tox-toolbar-slider__input {
+  appearance: none;
+  background: #161f29;
+  border-radius: 16px;
+  width: 130px;
+  height: 2px;
+}
+.tox .tox-toolbar-slider__input::-webkit-slider-runnable-track {
+  background-color: transparent;
+  height: 16px;
+}
+.tox .tox-toolbar-slider__input::-moz-range-track {
+  background-color: transparent;
+  height: 16px;
+}
+.tox .tox-toolbar-slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #006ce7;
+  border-radius: 16px;
+  border: none;
+  height: 16px;
+  width: 16px;
+}
+.tox .tox-toolbar-slider__input::-moz-range-thumb {
+  appearance: none;
+  background-color: #006ce7;
+  border-radius: 16px;
+  border: none;
+  height: 16px;
+  width: 16px;
+}
+.tox .tox-toolbar-slider__input:focus-visible {
+  outline: none;
+}
+.tox .tox-toolbar-slider__input:focus::-webkit-slider-thumb {
+  background-color: #0060ce;
+  box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px #006ce7;
+}
+.tox .tox-toolbar-slider__input:focus::-moz-range-thumb {
+  background-color: #0060ce;
+  box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px #006ce7;
+}
+.tox .tox-toolbar-slider__input:hover::-webkit-slider-thumb {
+  background-color: #0060ce;
+}
+.tox .tox-toolbar-slider__input:hover::-moz-range-thumb {
+  background-color: #0060ce;
+}
+.tox .tox-toolbar-slider__input:active::-webkit-slider-thumb {
+  background-color: #0054b4;
+}
+.tox .tox-toolbar-slider__input:active::-moz-range-thumb {
+  background-color: #0054b4;
+}
+.tox .tox-toolbar-slider__input[disabled]::-webkit-slider-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.tox .tox-toolbar-slider__input[disabled]::-moz-range-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 .tox .tox-source-code {
   overflow: auto;
 }
@@ -3659,6 +3764,12 @@ body.tox-dialog__disable-scroll {
   margin-bottom: 4px;
   white-space: nowrap;
 }
+.tox .tox-label--context-toolbar {
+  margin: 6px 1px 5px 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 .tox .tox-number-input {
   background: #2f4055;
   border-radius: 3px;
@@ -4059,6 +4170,10 @@ body.tox-dialog__disable-scroll {
   background-position: center top 43px;
   background-size: calc(100% - 11px * 2) calc(100% - 51px);
   padding: 4px 0;
+}
+.tox-context-form__group {
+  display: flex;
+  align-items: center;
 }
 .tox .tox-toolbar__group {
   align-items: center;

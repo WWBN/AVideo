@@ -714,6 +714,7 @@ function getTmpDir($subdir = "")
         if (empty($global['tmpDir'])) {
             // disabled it because command line and web were generating different caches
             //$tmpDir = sys_get_temp_dir();
+            $tmpDir = '/var/www/tmp/';
             if (empty($tmpDir) || !_isWritable($tmpDir)) {
                 $obj = AVideoPlugin::getDataObjectIfEnabled('Cache');
                 if(!empty($obj)){

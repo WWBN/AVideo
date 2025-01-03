@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.5.1 (TBD)
+ * TinyMCE version 7.6.0 (2024-12-11)
  */
 
 (function () {
@@ -484,6 +484,10 @@
     const trim$1 = blank(/^\s+|\s+$/g);
     const isNotEmpty = s => s.length > 0;
     const isEmpty = s => !isNotEmpty(s);
+    const toFloat = value => {
+      const num = parseFloat(value);
+      return isNaN(num) ? Optional.none() : Optional.some(num);
+    };
 
     const isSupported = dom => dom.style !== undefined && isFunction(dom.style.getPropertyValue);
 
@@ -6273,7 +6277,7 @@
       f(component);
       disableConfig.onEnabled(component);
     };
-    const isDisabled = (component, disableConfig) => hasNative(component, disableConfig) ? nativeIsDisabled(component) : ariaIsDisabled(component);
+    const isDisabled$1 = (component, disableConfig) => hasNative(component, disableConfig) ? nativeIsDisabled(component) : ariaIsDisabled(component);
     const set$4 = (component, disableConfig, disableState, disabled) => {
       const f = disabled ? disable : enable;
       f(component, disableConfig);
@@ -6283,14 +6287,14 @@
         __proto__: null,
         enable: enable,
         disable: disable,
-        isDisabled: isDisabled,
+        isDisabled: isDisabled$1,
         onLoad: onLoad$1,
         set: set$4
     });
 
     const exhibit$5 = (base, disableConfig) => nu$8({ classes: disableConfig.disabled() ? disableConfig.disableClass.toArray() : [] });
     const events$d = (disableConfig, disableState) => derive$2([
-      abort(execute$5(), (component, _simulatedEvent) => isDisabled(component, disableConfig)),
+      abort(execute$5(), (component, _simulatedEvent) => isDisabled$1(component, disableConfig)),
       loadEvent(disableConfig, disableState, onLoad$1)
     ]);
 
@@ -6789,7 +6793,7 @@
       defaulted('captureTab', false),
       initSize()
     ];
-    const focusIn$3 = (component, gridConfig, _gridState) => {
+    const focusIn$4 = (component, gridConfig, _gridState) => {
       descendant(component.element, gridConfig.selector).each(first => {
         gridConfig.focusManager.set(component, first);
       });
@@ -6822,7 +6826,7 @@
       rule(inSet(ESCAPE), doEscape$1),
       rule(inSet(SPACE), stopEventForFirefox)
     ]);
-    var FlatgridType = typical(schema$u, flatgrid$1, getKeydownRules$4, getKeyupRules$4, () => Optional.some(focusIn$3));
+    var FlatgridType = typical(schema$u, flatgrid$1, getKeydownRules$4, getKeyupRules$4, () => Optional.some(focusIn$4));
 
     const f = (container, selector, current, delta, getNewIndex) => {
       const isDisabledButton = candidate => name$3(candidate) === 'button' && get$g(candidate, 'disabled') === 'disabled';
@@ -6854,7 +6858,7 @@
     ];
     const findCurrent = (component, flowConfig) => flowConfig.focusManager.get(component).bind(elem => closest$1(elem, flowConfig.selector));
     const execute$2 = (component, simulatedEvent, flowConfig) => findCurrent(component, flowConfig).bind(focused => flowConfig.execute(component, simulatedEvent, focused));
-    const focusIn$2 = (component, flowConfig, _state) => {
+    const focusIn$3 = (component, flowConfig, _state) => {
       flowConfig.getInitial(component).orThunk(() => descendant(component.element, flowConfig.selector)).each(first => {
         flowConfig.focusManager.set(component, first);
       });
@@ -6877,7 +6881,7 @@
       rule(inSet(SPACE), stopEventForFirefox),
       rule(inSet(ESCAPE), doEscape)
     ]);
-    var FlowType = typical(schema$t, NoState.init, getKeydownRules$3, getKeyupRules$3, () => Optional.some(focusIn$2));
+    var FlowType = typical(schema$t, NoState.init, getKeydownRules$3, getKeyupRules$3, () => Optional.some(focusIn$3));
 
     const toCell = (matrix, rowIndex, columnIndex) => Optional.from(matrix[rowIndex]).bind(row => Optional.from(row[columnIndex]).map(cell => ({
       rowIndex,
@@ -6926,7 +6930,7 @@
       defaulted('previousSelector', Optional.none),
       defaulted('execute', defaultExecute)
     ];
-    const focusIn$1 = (component, matrixConfig, _state) => {
+    const focusIn$2 = (component, matrixConfig, _state) => {
       const focused = matrixConfig.previousSelector(component).orThunk(() => {
         const selectors = matrixConfig.selectors;
         return descendant(component.element, selectors.cell);
@@ -6962,7 +6966,7 @@
       rule(inSet(SPACE.concat(ENTER)), execute$1)
     ]);
     const getKeyupRules$2 = constant$1([rule(inSet(SPACE), stopEventForFirefox)]);
-    var MatrixType = typical(schema$s, NoState.init, getKeydownRules$2, getKeyupRules$2, () => Optional.some(focusIn$1));
+    var MatrixType = typical(schema$s, NoState.init, getKeydownRules$2, getKeyupRules$2, () => Optional.some(focusIn$2));
 
     const schema$r = [
       required$1('selector'),
@@ -6970,7 +6974,7 @@
       defaulted('moveOnTab', false)
     ];
     const execute = (component, simulatedEvent, menuConfig) => menuConfig.focusManager.get(component).bind(focused => menuConfig.execute(component, simulatedEvent, focused));
-    const focusIn = (component, menuConfig, _state) => {
+    const focusIn$1 = (component, menuConfig, _state) => {
       descendant(component.element, menuConfig.selector).each(first => {
         menuConfig.focusManager.set(component, first);
       });
@@ -6994,7 +6998,7 @@
       rule(inSet(SPACE), execute)
     ]);
     const getKeyupRules$1 = constant$1([rule(inSet(SPACE), stopEventForFirefox)]);
-    var MenuType = typical(schema$r, NoState.init, getKeydownRules$1, getKeyupRules$1, () => Optional.some(focusIn));
+    var MenuType = typical(schema$r, NoState.init, getKeydownRules$1, getKeyupRules$1, () => Optional.some(focusIn$1));
 
     const schema$q = [
       onKeyboardHandler('onSpace'),
@@ -8601,6 +8605,7 @@
       });
     };
     const isReadOnly = option$2('readonly');
+    const isDisabled = option$2('disabled');
     const getHeightOption = option$2('height');
     const getWidthOption = option$2('width');
     const getMinWidthOption = wrapOptional(option$2('min_width'));
@@ -8638,6 +8643,7 @@
     const promotionEnabled = option$2('promotion');
     const useHelpAccessibility = option$2('help_accessibility');
     const getDefaultFontStack = option$2('default_font_stack');
+    const getSkin = option$2('skin');
     const isSkinDisabled = editor => editor.options.get('skin') === false;
     const isMenubarEnabled = editor => editor.options.get('menubar') !== false;
     const getSkinUrl = editor => {
@@ -8713,6 +8719,8 @@
         getSkinUrl: getSkinUrl,
         getSkinUrlOption: getSkinUrlOption,
         isReadOnly: isReadOnly,
+        isDisabled: isDisabled,
+        getSkin: getSkin,
         isSkinDisabled: isSkinDisabled,
         getHeightOption: getHeightOption,
         getWidthOption: getWidthOption,
@@ -11283,12 +11291,15 @@
     };
 
     const schema$l = constant$1([
+      defaultedString('type', 'text'),
       option$3('data'),
       defaulted('inputAttributes', {}),
       defaulted('inputStyles', {}),
       defaulted('tag', 'input'),
       defaulted('inputClasses', []),
       onHandler('onSetValue'),
+      defaultedFunction('fromInputValue', identity),
+      defaultedFunction('toInputValue', identity),
       defaulted('styles', {}),
       defaulted('eventOrder', {}),
       field('inputBehaviours', [
@@ -11301,7 +11312,9 @@
         onFocus: !detail.selectOnFocus ? noop : component => {
           const input = component.element;
           const value = get$7(input);
-          input.dom.setSelectionRange(0, value.length);
+          if (detail.type !== 'range') {
+            input.dom.setSelectionRange(0, value.length);
+          }
         }
       })]);
     const behaviours = detail => ({
@@ -11311,12 +11324,12 @@
             mode: 'manual',
             ...detail.data.map(data => ({ initialValue: data })).getOr({}),
             getValue: input => {
-              return get$7(input.element);
+              return detail.fromInputValue(get$7(input.element));
             },
             setValue: (input, data) => {
               const current = get$7(input.element);
               if (current !== data) {
-                set$5(input.element, data);
+                set$5(input.element, detail.toInputValue(data));
               }
             }
           },
@@ -11326,7 +11339,7 @@
     const dom = detail => ({
       tag: detail.tag,
       attributes: {
-        type: 'text',
+        type: detail.type,
         ...detail.inputAttributes
       },
       styles: detail.inputStyles,
@@ -11757,12 +11770,14 @@
 
     const contextButtonFields = baseToolbarButtonFields.concat([
       defaultedType('contextformbutton'),
+      defaultedString('align', 'end'),
       primary,
       onAction,
       customField('original', identity)
     ]);
     const contextToggleButtonFields = baseToolbarToggleButtonFields.concat([
       defaultedType('contextformbutton'),
+      defaultedString('align', 'end'),
       primary,
       onAction,
       customField('original', identity)
@@ -11773,22 +11788,67 @@
       contextformbutton: contextButtonFields,
       contextformtogglebutton: contextToggleButtonFields
     });
-    const contextFormSchema = objOf([
-      defaultedType('contextform'),
-      defaultedFunction('initValue', constant$1('')),
+    const baseContextFormFields = [
       optionalLabel,
       requiredArrayOf('commands', toggleOrNormal),
       optionOf('launch', choose$1('type', {
         contextformbutton: launchButtonFields,
         contextformtogglebutton: launchToggleButtonFields
+      })),
+      defaultedFunction('onInput', noop),
+      defaultedFunction('onSetup', noop)
+    ];
+    const contextFormFields = [
+      ...contextBarFields,
+      ...baseContextFormFields,
+      requiredStringEnum('type', ['contextform']),
+      defaultedFunction('initValue', constant$1('')),
+      optionString('placeholder')
+    ];
+    const contextSliderFormFields = [
+      ...contextBarFields,
+      ...baseContextFormFields,
+      requiredStringEnum('type', ['contextsliderform']),
+      defaultedFunction('initValue', constant$1(0)),
+      defaultedFunction('min', constant$1(0)),
+      defaultedFunction('max', constant$1(100))
+    ];
+    const contextSizeInputFormFields = [
+      ...contextBarFields,
+      ...baseContextFormFields,
+      requiredStringEnum('type', ['contextsizeinputform']),
+      defaultedFunction('initValue', constant$1({
+        width: '',
+        height: ''
       }))
-    ].concat(contextBarFields));
+    ];
+    const contextFormSchema = choose$1('type', {
+      contextform: contextFormFields,
+      contextsliderform: contextSliderFormFields,
+      contextsizeinputform: contextSizeInputFormFields
+    });
     const createContextForm = spec => asRaw('ContextForm', contextFormSchema, spec);
 
     const contextToolbarSchema = objOf([
       defaultedType('contexttoolbar'),
-      requiredString('items')
+      requiredOf('items', oneOf([
+        string,
+        arrOfObj([
+          optionString('name'),
+          optionString('label'),
+          requiredArrayOf('items', string)
+        ])
+      ]))
     ].concat(contextBarFields));
+    const toolbarGroupBackToSpec = toolbarGroup => ({
+      name: toolbarGroup.name.getOrUndefined(),
+      label: toolbarGroup.label.getOrUndefined(),
+      items: toolbarGroup.items
+    });
+    const contextToolbarToSpec = contextToolbar => ({
+      ...contextToolbar,
+      items: isString(contextToolbar.items) ? contextToolbar.items : map$2(contextToolbar.items, toolbarGroupBackToSpec)
+    });
     const createContextToolbar = spec => asRaw('ContextToolbar', contextToolbarSchema, spec);
 
     const cardImageFields = [
@@ -11945,6 +12005,9 @@
       };
     };
     const onControlAttached = (info, editorOffCell) => runOnAttached(comp => {
+      if (isFunction(info.onBeforeSetup)) {
+        info.onBeforeSetup(comp);
+      }
       const run = runWithApi(info, comp);
       run(api => {
         const onDestroy = info.onSetup(api);
@@ -11956,32 +12019,45 @@
     const onControlDetached = (getApi, editorOffCell) => runOnDetached(comp => runWithApi(getApi, comp)(editorOffCell.get()));
 
     const UiStateChannel = 'silver.uistate';
-    const broadcastEvents = (uiRefs, data) => {
+    const messageSetDisabled = 'setDisabled';
+    const messageSetEnabled = 'setEnabled';
+    const messageInit = 'init';
+    const messageSwitchMode = 'switchmode';
+    const modeContextMessages = [
+      messageSwitchMode,
+      messageInit
+    ];
+    const broadcastEvents = (uiRefs, messageType) => {
       const outerContainer = uiRefs.mainUi.outerContainer;
-      const target = outerContainer.element;
       const motherships = [
         uiRefs.mainUi.mothership,
         ...uiRefs.uiMotherships
       ];
-      if (data === 'setDisabled') {
+      if (messageType === messageSetDisabled) {
         each$1(motherships, m => {
-          m.broadcastOn([dismissPopups()], { target });
+          m.broadcastOn([dismissPopups()], { target: outerContainer.element });
         });
       }
       each$1(motherships, m => {
-        m.broadcastOn([UiStateChannel], data);
+        m.broadcastOn([UiStateChannel], messageType);
       });
     };
     const setupEventsForUi = (editor, uiRefs) => {
-      editor.on('init SwitchMode', e => {
-        broadcastEvents(uiRefs, e.type);
+      editor.on('init SwitchMode', event => {
+        broadcastEvents(uiRefs, event.type);
+      });
+      editor.on('DisabledStateChange', event => {
+        if (!event.isDefaultPrevented()) {
+          const messageType = event.state ? messageSetDisabled : messageInit;
+          broadcastEvents(uiRefs, messageType);
+          if (!event.state) {
+            editor.nodeChanged();
+          }
+        }
       });
       editor.on('NodeChange', e => {
-        if (!editor.ui.isEnabled()) {
-          broadcastEvents(uiRefs, 'setDisabled');
-        } else {
-          broadcastEvents(uiRefs, e.type);
-        }
+        const messageType = editor.ui.isEnabled() ? e.type : messageSetDisabled;
+        broadcastEvents(uiRefs, messageType);
       });
       if (isReadOnly(editor)) {
         editor.mode.set('readonly');
@@ -11990,22 +12066,16 @@
     const toggleOnReceive = getContext => Receiving.config({
       channels: {
         [UiStateChannel]: {
-          onReceive: (comp, buttonStateData) => {
-            if (buttonStateData === 'setDisabled' || buttonStateData === 'setEnabled') {
-              Disabling.set(comp, buttonStateData === 'setDisabled');
+          onReceive: (comp, messageType) => {
+            if (messageType === messageSetDisabled || messageType === messageSetEnabled) {
+              Disabling.set(comp, messageType === messageSetDisabled);
               return;
             }
-            const {
-              contextType,
-              shouldDisable: contextShouldDisable
-            } = getContext();
-            if (contextType === 'mode' && !contains$2([
-                'switchmode',
-                'init'
-              ], buttonStateData)) {
+            const {contextType, shouldDisable} = getContext();
+            if (contextType === 'mode' && !contains$2(modeContextMessages, messageType)) {
               return;
             }
-            Disabling.set(comp, contextShouldDisable);
+            Disabling.set(comp, shouldDisable);
           }
         }
       }
@@ -12599,6 +12669,12 @@
     };
     const fireToggleView = editor => {
       editor.dispatch('ToggleView');
+    };
+    const fireContextToolbarClose = editor => {
+      editor.dispatch('ContextToolbarClose');
+    };
+    const fireContextFormSlideBack = editor => {
+      editor.dispatch('ContextFormSlideBack');
     };
 
     const composeUnbinders = (f, g) => () => {
@@ -14977,6 +15053,7 @@
     });
 
     const formChangeEvent = generate$6('form-component-change');
+    const formInputEvent = generate$6('form-component-input');
     const formCloseEvent = generate$6('form-close');
     const formCancelEvent = generate$6('form-cancel');
     const formActionEvent = generate$6('form-action');
@@ -18029,7 +18106,8 @@
       SketchBehaviours.field('coupledFieldBehaviours', [
         Composing,
         Representing
-      ])
+      ]),
+      defaultedFunction('onInput', noop)
     ]);
     const getField = (comp, detail, partName) => getPart(comp, detail, partName).bind(Composing.getCurrent);
     const coupledPart = (selfName, otherName) => required({
@@ -18043,6 +18121,7 @@
                     if (Toggling.isOn(lock)) {
                       detail.onLockedChange(me, other, lock);
                     }
+                    detail.onInput(me);
                   });
                 });
               })])])
@@ -18190,7 +18269,7 @@
       return lift2(cValue, oValue, (cSize, oSize) => convertUnit(cSize, oSize.unit).map(val => oSize.value / val).map(r => ratioSizeConversion(r, oSize.unit)).getOr(noSizeConversion)).getOr(noSizeConversion);
     };
 
-    const renderSizeInput = (spec, providersBackstage) => {
+    const renderSizeInput$1 = (spec, providersBackstage) => {
       let converter = noSizeConversion;
       const ratioEvent = generate$6('ratio-event');
       const makeIcon = iconName => render$3(iconName, {
@@ -18200,6 +18279,8 @@
           'tox-lock-icon__' + iconName
         ]
       }, providersBackstage.icons);
+      const disabled = () => !spec.enabled || spec.context.exists(context => providersBackstage.checkUiComponentContext(context).shouldDisable);
+      const toggleOnReceive$1 = spec.context.map(context => toggleOnReceive(() => providersBackstage.checkUiComponentContext(context)));
       const label = spec.label.getOr('Constrain proportions');
       const translatedLabel = providersBackstage.translate(label);
       const pLock = FormCoupledInputs.parts.lock({
@@ -18221,8 +18302,8 @@
           makeIcon('unlock')
         ],
         buttonBehaviours: derive$1([
-          Disabling.config({ disabled: () => !spec.enabled || providersBackstage.checkUiComponentContext(spec.context).shouldDisable }),
-          toggleOnReceive(() => providersBackstage.checkUiComponentContext(spec.context)),
+          Disabling.config({ disabled }),
+          ...toggleOnReceive$1.toArray(),
           Tabstopping.config({}),
           Tooltipping.config(providersBackstage.tooltips.getConfig({ tooltipText: translatedLabel }))
         ])
@@ -18230,25 +18311,34 @@
       const formGroup = components => ({
         dom: {
           tag: 'div',
-          classes: ['tox-form__group']
+          classes: [spec.inDialog ? 'tox-form__group' : 'tox-context-form__group']
         },
         components
       });
       const getFieldPart = isField1 => FormField.parts.field({
         factory: Input,
-        inputClasses: ['tox-textfield'],
+        inputClasses: spec.inDialog ? ['tox-textfield'] : [
+          'tox-textfield',
+          'tox-toolbar-textfield',
+          'tox-textfield-size'
+        ],
+        data: isField1 ? spec.width : spec.height,
         inputBehaviours: derive$1([
-          Disabling.config({ disabled: () => !spec.enabled || providersBackstage.checkUiComponentContext(spec.context).shouldDisable }),
-          toggleOnReceive(() => providersBackstage.checkUiComponentContext(spec.context)),
+          Disabling.config({ disabled }),
+          ...toggleOnReceive$1.toArray(),
           Tabstopping.config({}),
           config('size-input-events', [
             run$1(focusin(), (component, _simulatedEvent) => {
               emitWith(component, ratioEvent, { isField1 });
             }),
             run$1(change(), (component, _simulatedEvent) => {
-              emitWith(component, formChangeEvent, { name: spec.name });
+              spec.name.each(name => emitWith(component, formChangeEvent, { name }));
             })
-          ])
+          ]),
+          ...spec.onEnter.map(onEnter => Keying.config({
+            mode: 'special',
+            onEnter
+          })).toArray()
         ]),
         selectOnFocus: false
       });
@@ -18267,10 +18357,18 @@
         FormField.parts.label(getLabel('Height')),
         getFieldPart(false)
       ]));
+      const editorOffCell = Cell(noop);
+      const controlLifecycleHandlers = lift2(spec.onSetup, spec.getApi, (onSetup, getApi) => [
+        onControlAttached({
+          onSetup,
+          getApi
+        }, editorOffCell),
+        onControlDetached({ getApi }, editorOffCell)
+      ]).getOr([]);
       return FormCoupledInputs.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-form__group']
+          classes: [spec.inDialog ? 'tox-form__group' : 'tox-context-form__group']
         },
         components: [{
             dom: {
@@ -18297,9 +18395,10 @@
             });
           });
         },
+        onInput: current => emit(current, formInputEvent),
         coupledFieldBehaviours: derive$1([
           Disabling.config({
-            disabled: () => !spec.enabled || providersBackstage.checkUiComponentContext(spec.context).shouldDisable,
+            disabled,
             onDisabled: comp => {
               FormCoupledInputs.getField1(comp).bind(FormField.getField).each(Disabling.disable);
               FormCoupledInputs.getField2(comp).bind(FormField.getField).each(Disabling.disable);
@@ -18312,16 +18411,38 @@
             }
           }),
           toggleOnReceive(() => providersBackstage.checkUiComponentContext('mode:design')),
-          config('size-input-events2', [run$1(ratioEvent, (component, simulatedEvent) => {
+          config('size-input-events', [
+            run$1(ratioEvent, (component, simulatedEvent) => {
               const isField1 = simulatedEvent.event.isField1;
               const optCurrent = isField1 ? FormCoupledInputs.getField1(component) : FormCoupledInputs.getField2(component);
               const optOther = isField1 ? FormCoupledInputs.getField2(component) : FormCoupledInputs.getField1(component);
               const value1 = optCurrent.map(Representing.getValue).getOr('');
               const value2 = optOther.map(Representing.getValue).getOr('');
               converter = makeRatioConverter(value1, value2);
-            })])
+            }),
+            run$1(formInputEvent, component => {
+              spec.onInput.each(onInput => onInput(component));
+            }),
+            ...controlLifecycleHandlers
+          ])
         ])
       });
+    };
+
+    const renderSizeInput = (spec, providersBackstage) => {
+      return renderSizeInput$1({
+        inDialog: true,
+        label: spec.label,
+        enabled: spec.enabled,
+        context: Optional.some(spec.context),
+        name: Optional.some(spec.name),
+        width: '',
+        height: '',
+        onEnter: Optional.none(),
+        onInput: Optional.none(),
+        onSetup: Optional.none(),
+        getApi: Optional.none()
+      }, providersBackstage);
     };
 
     const renderSlider = (spec, providerBackstage, initialData) => {
@@ -18830,7 +18951,7 @@
       components: [text$2(text)]
     });
     const renderCustomStateIcon = (container, components, backstage) => {
-      container.customStateIcon.each(icon => components.push(renderIcon(icon, backstage.shared.providers.icons, container.customStateIconTooltip.fold(() => [], tooltip => [Tooltipping.config(backstage.shared.providers.tooltips.getConfig({ tooltipText: tooltip }))]), ['tox-icon-custom-state'], container.customStateIconTooltip.fold(() => ({}), tooltip => ({ title: tooltip })))));
+      container.customStateIcon.each(icon => components.push(renderIcon(icon, backstage.shared.providers.icons, container.customStateIconTooltip.fold(() => [], tooltip => [Tooltipping.config(backstage.shared.providers.tooltips.getConfig({ tooltipText: tooltip }))]), ['tox-icon-custom-state'])));
     };
     const leafLabelEventsId = generate$6('leaf-label-event-id');
     const renderLeafLabel = ({leaf, onLeafAction, visible, treeId, selectedId, backstage}) => {
@@ -21085,6 +21206,12 @@
         getOption: editor.options.get,
         tooltips: TooltipsBackstage(lazySinks.dialog),
         checkUiComponentContext: specContext => {
+          if (isDisabled(editor)) {
+            return {
+              contextType: 'disabled',
+              shouldDisable: true
+            };
+          }
           const [key, value = ''] = specContext.split(':');
           const contexts = editor.ui.registry.getAll().contexts;
           const enabledInContext = get$h(contexts, key).fold(() => get$h(contexts, 'mode').map(pred => pred('design')).getOr(false), pred => value.charAt(0) === '!' ? !pred(value.slice(1)) : pred(value));
@@ -22868,14 +22995,28 @@
     });
 
     const renderToolbarGroupCommon = toolbarGroup => {
-      const attributes = toolbarGroup.title.fold(() => ({}), title => ({ attributes: { title } }));
+      const attributes = toolbarGroup.label.isNone() ? toolbarGroup.title.fold(() => ({}), title => ({ attributes: { title } })) : toolbarGroup.label.fold(() => ({}), label => ({ attributes: { 'aria-label': label } }));
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-toolbar__group'],
+          classes: ['tox-toolbar__group'].concat(toolbarGroup.label.isSome() ? ['tox-toolbar__group_with_label'] : []),
           ...attributes
         },
-        components: [ToolbarGroup.parts.items({})],
+        components: [
+          ...toolbarGroup.label.map(label => {
+            return {
+              dom: {
+                tag: 'span',
+                classes: [
+                  'tox-label',
+                  'tox-label--context-toolbar'
+                ]
+              },
+              components: [text$2(label)]
+            };
+          }).toArray(),
+          ToolbarGroup.parts.items({})
+        ],
         items: toolbarGroup.items,
         markers: { itemSelector: '*:not(.tox-split-button) > .tox-tbtn:not([disabled]), ' + '.tox-split-button:not([disabled]), ' + '.tox-toolbar-nav-js:not([disabled]), ' + '.tox-number-input:not([disabled])' },
         tgroupBehaviours: derive$1([
@@ -22912,6 +23053,7 @@
         parts: {
           'overflow-group': renderToolbarGroupCommon({
             title: Optional.none(),
+            label: Optional.none(),
             items: []
           }),
           'overflow-button': renderIconButtonSpec({
@@ -23782,6 +23924,14 @@
     };
     const fireSkinLoadError = (editor, err) => () => fireSkinLoadError$1(editor, { message: err });
 
+    const getSkinResourceIdentifier = editor => {
+      const skin = getSkin(editor);
+      if (!skin) {
+        return Optional.none();
+      } else {
+        return Optional.from(skin);
+      }
+    };
     const loadStylesheet = (editor, stylesheetUrl, styleSheetLoader) => {
       editor.on('remove', () => styleSheetLoader.unload(stylesheetUrl));
       return styleSheetLoader.load(stylesheetUrl);
@@ -23790,51 +23940,88 @@
       editor.on('remove', () => styleSheetLoader.unloadRawCss(key));
       return styleSheetLoader.loadRawCss(key, css);
     };
-    const loadUiSkins = async (editor, skinUrl) => {
-      const skinResourceIdentifier = getSkinUrlOption(editor).getOr('default');
-      const skinUiCss = 'ui/' + skinResourceIdentifier + '/skin.css';
-      const css = tinymce.Resource.get(skinUiCss);
-      if (isString(css)) {
-        loadRawCss(editor, skinUiCss, css, editor.ui.styleSheetLoader);
-      } else {
+    const skinIdentifierToResourceKey = (identifier, filename) => 'ui/' + identifier + '/' + filename;
+    const getResourceValue = resourceKey => Optional.from(tinymce.Resource.get(resourceKey)).filter(isString);
+    const determineCSSDecision = (editor, filenameBase, skinUrl = '') => {
+      const resourceKey = getSkinResourceIdentifier(editor).map(identifier => skinIdentifierToResourceKey(identifier, `${ filenameBase }.css`));
+      const resourceValue = resourceKey.bind(getResourceValue);
+      return lift2(resourceKey, resourceValue, (key, css) => {
+        return {
+          _kind: 'load-raw',
+          key,
+          css
+        };
+      }).getOrThunk(() => {
         const suffix = editor.editorManager.suffix;
-        const skinUiCss = skinUrl + `/skin${ suffix }.css`;
-        return loadStylesheet(editor, skinUiCss, editor.ui.styleSheetLoader);
+        const skinUiCssUrl = skinUrl + `/${ filenameBase }${ suffix }.css`;
+        return {
+          _kind: 'load-stylesheet',
+          url: skinUiCssUrl
+        };
+      });
+    };
+    const loadUiSkins = (editor, skinUrl) => {
+      const loader = editor.ui.styleSheetLoader;
+      const decision = determineCSSDecision(editor, 'skin', skinUrl);
+      switch (decision._kind) {
+      case 'load-raw':
+        const {key, css} = decision;
+        loadRawCss(editor, key, css, loader);
+        return Promise.resolve();
+      case 'load-stylesheet':
+        const {url} = decision;
+        return loadStylesheet(editor, url, loader);
+      default:
+        return Promise.resolve();
       }
     };
-    const loadShadowDomUiSkins = async (editor, skinUrl) => {
+    const loadShadowDomUiSkins = (editor, skinUrl) => {
       const isInShadowRoot$1 = isInShadowRoot(SugarElement.fromDom(editor.getElement()));
-      if (isInShadowRoot$1) {
-        const skinResourceIdentifier = getSkinUrlOption(editor).getOr('default');
-        const shadowDomSkinCss = 'ui/' + skinResourceIdentifier + '/skin.shadowdom.css';
-        const css = tinymce.Resource.get(shadowDomSkinCss);
-        if (isString(css)) {
-          loadRawCss(editor, shadowDomSkinCss, css, global$8.DOM.styleSheetLoader);
-        } else {
-          const suffix = editor.editorManager.suffix;
-          const shadowDomSkinCss = skinUrl + `/skin.shadowdom${ suffix }.css`;
-          return loadStylesheet(editor, shadowDomSkinCss, global$8.DOM.styleSheetLoader);
+      if (!isInShadowRoot$1) {
+        return Promise.resolve();
+      } else {
+        const loader = global$8.DOM.styleSheetLoader;
+        const decision = determineCSSDecision(editor, 'skin.shadowdom', skinUrl);
+        switch (decision._kind) {
+        case 'load-raw':
+          const {key, css} = decision;
+          loadRawCss(editor, key, css, loader);
+          return Promise.resolve();
+        case 'load-stylesheet':
+          const {url} = decision;
+          return loadStylesheet(editor, url, loader);
+        default:
+          return Promise.resolve();
         }
+      }
+    };
+    const loadUiContentCSS = (editor, isInline, skinUrl) => {
+      const filenameBase = isInline ? 'content.inline' : 'content';
+      const decision = determineCSSDecision(editor, filenameBase, skinUrl);
+      switch (decision._kind) {
+      case 'load-raw':
+        const {key, css} = decision;
+        if (isInline) {
+          loadRawCss(editor, key, css, editor.ui.styleSheetLoader);
+        } else {
+          editor.on('PostRender', () => {
+            loadRawCss(editor, key, css, editor.dom.styleSheetLoader);
+          });
+        }
+        return Promise.resolve();
+      case 'load-stylesheet':
+        const {url} = decision;
+        if (skinUrl) {
+          editor.contentCSS.push(url);
+        }
+        return Promise.resolve();
+      default:
+        return Promise.resolve();
       }
     };
     const loadUrlSkin = async (isInline, editor) => {
-      const unbundled = () => {
-        const skinResourceIdentifier = getSkinUrl(editor);
-        const suffix = editor.editorManager.suffix;
-        if (skinResourceIdentifier) {
-          editor.contentCSS.push(skinResourceIdentifier + (isInline ? '/content.inline' : '/content') + `${ suffix }.css`);
-        }
-      };
-      getSkinUrlOption(editor).fold(unbundled, skinUrl => {
-        const skinContentCss = 'ui/' + skinUrl + (isInline ? '/content.inline' : '/content') + '.css';
-        const css = tinymce.Resource.get(skinContentCss);
-        if (isString(css)) {
-          loadRawCss(editor, skinContentCss, css, editor.ui.styleSheetLoader);
-        } else {
-          unbundled();
-        }
-      });
       const skinUrl = getSkinUrl(editor);
+      await loadUiContentCSS(editor, isInline, skinUrl);
       if (!isSkinDisabled(editor) && isString(skinUrl)) {
         return Promise.all([
           loadUiSkins(editor, skinUrl),
@@ -24296,11 +24483,11 @@
     const createBespokeNumberInput = (editor, backstage, spec, btnName) => {
       let currentComp = Optional.none();
       const getValueFromCurrentComp = comp => comp.map(alloyComp => Representing.getValue(alloyComp)).getOr('');
-      const onSetup = onSetupEvent(editor, 'NodeChange SwitchMode', api => {
+      const onSetup = onSetupEvent(editor, 'NodeChange SwitchMode DisabledStateChange', api => {
         const comp = api.getComponent();
         currentComp = Optional.some(comp);
         spec.updateInputValue(comp);
-        Disabling.set(comp, !editor.selection.isEditable());
+        Disabling.set(comp, !editor.selection.isEditable() || isDisabled(editor));
       });
       const getApi = comp => ({ getComponent: constant$1(comp) });
       const editorOffCell = Cell(noop);
@@ -24338,8 +24525,8 @@
         const editorOffCellStepButton = Cell(noop);
         const translatedTooltip = backstage.shared.providers.translate(tooltip);
         const altExecuting = generate$6('altExecuting');
-        const onSetup = onSetupEvent(editor, 'NodeChange SwitchMode', api => {
-          Disabling.set(api.getComponent(), !editor.selection.isEditable());
+        const onSetup = onSetupEvent(editor, 'NodeChange SwitchMode DisabledStateChange', api => {
+          Disabling.set(api.getComponent(), !editor.selection.isEditable() || isDisabled(editor));
         });
         const onClick = comp => {
           if (!Disabling.isDisabled(comp)) {
@@ -24962,6 +25149,11 @@
           [attachedToDom()]: [
             commonButtonDisplayEvent,
             'toolbar-group-button-events'
+          ],
+          [detachedFromDom()]: [
+            commonButtonDisplayEvent,
+            'toolbar-group-button-events',
+            'tooltipping'
           ]
         },
         buttonBehaviours: derive$1([
@@ -24995,10 +25187,13 @@
         getApi: getButtonApi,
         onSetup: spec.onSetup
       };
-      const behaviours = [config('toolbar-group-button-events', [
+      const behaviours = [
+        config('toolbar-group-button-events', [
           onControlAttached(specialisation, editorOffCell),
           onControlDetached(specialisation, editorOffCell)
-        ])];
+        ]),
+        ...spec.tooltip.map(t => Tooltipping.config(backstage.shared.providers.tooltips.getConfig({ tooltipText: backstage.shared.providers.translate(t) }))).toArray()
+      ];
       return FloatingToolbarButton.sketch({
         lazySink: sharedBackstage.getSink,
         fetch: () => Future.nu(resolve => {
@@ -25295,7 +25490,7 @@
       const groupsStrings = strToolbar.split('|');
       return map$2(groupsStrings, g => ({ items: g.trim().split(' ') }));
     };
-    const isToolbarGroupSettingArray = toolbar => isArrayOf(toolbar, t => has$2(t, 'name') && has$2(t, 'items'));
+    const isToolbarGroupSettingArray = toolbar => isArrayOf(toolbar, t => (has$2(t, 'name') || has$2(t, 'label')) && has$2(t, 'items'));
     const createToolbar = toolbarConfig => {
       const toolbar = toolbarConfig.toolbar;
       const buttons = toolbarConfig.buttons;
@@ -25328,6 +25523,7 @@
         });
         return {
           title: Optional.from(editor.translate(group.name)),
+          label: someIf(group.label !== undefined, editor.translate(group.label)),
           items
         };
       });
@@ -25883,10 +26079,143 @@
     const showContextToolbarEvent = 'contexttoolbar-show';
     const hideContextToolbarEvent = 'contexttoolbar-hide';
 
-    const getFormApi = input => ({
-      hide: () => emit(input, sandboxClose()),
-      getValue: () => Representing.getValue(input)
+    const contextFormInputSelector = '.tox-toolbar-slider__input,.tox-toolbar-textfield';
+    const focusIn = contextbar => {
+      InlineView.getContent(contextbar).each(comp => {
+        descendant(comp.element, contextFormInputSelector).fold(() => Keying.focusIn(comp), focus$3);
+      });
+    };
+    const focusParent = comp => search(comp.element).each(focus => {
+      ancestor(focus, '[tabindex="-1"]').each(parent => {
+        focus$3(parent);
+      });
     });
+
+    const forwardSlideEvent = generate$6('forward-slide');
+    const backSlideEvent = generate$6('backward-slide');
+    const changeSlideEvent = generate$6('change-slide-event');
+    const resizingClass = 'tox-pop--resizing';
+    const renderContextToolbar = spec => {
+      const stack = Cell([]);
+      return InlineView.sketch({
+        dom: {
+          tag: 'div',
+          classes: ['tox-pop']
+        },
+        fireDismissalEventInstead: { event: 'doNotDismissYet' },
+        onShow: comp => {
+          stack.set([]);
+          InlineView.getContent(comp).each(c => {
+            remove$7(c.element, 'visibility');
+          });
+          remove$3(comp.element, resizingClass);
+          remove$7(comp.element, 'width');
+        },
+        onHide: () => {
+          spec.onHide();
+        },
+        inlineBehaviours: derive$1([
+          config('context-toolbar-events', [
+            runOnSource(transitionend(), (comp, se) => {
+              if (se.event.raw.propertyName === 'width') {
+                remove$3(comp.element, resizingClass);
+                remove$7(comp.element, 'width');
+              }
+            }),
+            run$1(changeSlideEvent, (comp, se) => {
+              const elem = comp.element;
+              remove$7(elem, 'width');
+              const currentWidth = get$d(elem);
+              remove$7(elem, 'left');
+              remove$7(elem, 'right');
+              remove$7(elem, 'max-width');
+              InlineView.setContent(comp, se.event.contents);
+              add$2(elem, resizingClass);
+              const newWidth = get$d(elem);
+              set$8(elem, 'transition', 'none');
+              InlineView.reposition(comp);
+              remove$7(elem, 'transition');
+              set$8(elem, 'width', currentWidth + 'px');
+              se.event.focus.fold(() => focusIn(comp), f => {
+                focus$3(f);
+                if (search(elem).isNone()) {
+                  focusIn(comp);
+                }
+              });
+              setTimeout(() => {
+                set$8(comp.element, 'width', newWidth + 'px');
+              }, 0);
+            }),
+            run$1(forwardSlideEvent, (comp, se) => {
+              InlineView.getContent(comp).each(oldContents => {
+                stack.set(stack.get().concat([{
+                    bar: oldContents,
+                    focus: active$1(getRootNode(comp.element))
+                  }]));
+              });
+              emitWith(comp, changeSlideEvent, {
+                contents: se.event.forwardContents,
+                focus: Optional.none()
+              });
+            }),
+            run$1(backSlideEvent, (comp, _se) => {
+              spec.onBack();
+              last$1(stack.get()).each(last => {
+                stack.set(stack.get().slice(0, stack.get().length - 1));
+                emitWith(comp, changeSlideEvent, {
+                  contents: premade(last.bar),
+                  focus: last.focus
+                });
+              });
+            })
+          ]),
+          Keying.config({
+            mode: 'special',
+            onEscape: comp => last$1(stack.get()).fold(() => spec.onEscape(), _ => {
+              emit(comp, backSlideEvent);
+              return Optional.some(true);
+            })
+          })
+        ]),
+        lazySink: () => Result.value(spec.sink)
+      });
+    };
+
+    const getFormApi = input => {
+      const valueState = value$4();
+      return {
+        setInputEnabled: state => {
+          if (!state) {
+            focusParent(input);
+          }
+          Disabling.set(input, !state);
+        },
+        isInputEnabled: () => !Disabling.isDisabled(input),
+        hide: () => {
+          if (!valueState.isSet()) {
+            valueState.set(Representing.getValue(input));
+          }
+          emit(input, sandboxClose());
+        },
+        back: () => {
+          if (!valueState.isSet()) {
+            valueState.set(Representing.getValue(input));
+          }
+          emit(input, backSlideEvent);
+        },
+        getValue: () => {
+          return valueState.get().getOrThunk(() => Representing.getValue(input));
+        },
+        setValue: value => {
+          if (valueState.isSet()) {
+            valueState.set(value);
+          } else {
+            Representing.setValue(input, value);
+          }
+        }
+      };
+    };
+
     const runOnExecute = (memInput, original) => run$1(internalToolbarButtonExecute, (comp, se) => {
       const input = memInput.get(comp);
       const formApi = getFormApi(input);
@@ -25934,25 +26263,70 @@
       };
     };
 
-    const buildInitGroups = (ctx, providers) => {
-      const inputAttributes = ctx.label.fold(() => ({}), label => ({ 'aria-label': label }));
-      const memInput = record(Input.sketch({
-        inputClasses: [
-          'tox-toolbar-textfield',
-          'tox-toolbar-nav-js'
-        ],
-        data: ctx.initValue(),
-        inputAttributes,
-        selectOnFocus: true,
+    const renderContextFormSizeInput = (ctx, providersBackstage, onEnter) => {
+      const {width, height} = ctx.initValue();
+      return renderSizeInput$1({
+        inDialog: false,
+        label: ctx.label,
+        enabled: true,
+        context: Optional.none(),
+        name: Optional.none(),
+        width,
+        height,
+        onEnter: Optional.some(onEnter),
+        onInput: Optional.some(input => ctx.onInput(getFormApi(input))),
+        onSetup: Optional.some(ctx.onSetup),
+        getApi: Optional.some(getFormApi)
+      }, providersBackstage);
+    };
+
+    const createContextFormFieldFromParts = (pLabel, pField, providers) => FormField.sketch({
+      dom: {
+        tag: 'div',
+        classes: ['tox-context-form__group']
+      },
+      components: [
+        ...pLabel.toArray(),
+        pField
+      ],
+      fieldBehaviours: derive$1([Disabling.config({
+          disabled: () => providers.checkUiComponentContext('mode:design').shouldDisable,
+          onDisabled: comp => {
+            focusParent(comp);
+            FormField.getField(comp).each(Disabling.disable);
+          },
+          onEnabled: comp => {
+            FormField.getField(comp).each(Disabling.enable);
+          }
+        })])
+    });
+
+    const renderContextFormSliderInput = (ctx, providers, onEnter) => {
+      const editorOffCell = Cell(noop);
+      const pLabel = ctx.label.map(label => FormField.parts.label({
+        dom: {
+          tag: 'label',
+          classes: ['tox-label']
+        },
+        components: [text$2(providers.translate(label))]
+      }));
+      const pField = FormField.parts.field({
+        factory: Input,
+        type: 'range',
+        inputClasses: ['tox-toolbar-slider__input'],
+        inputAttributes: {
+          min: String(ctx.min()),
+          max: String(ctx.max())
+        },
+        data: ctx.initValue().toString(),
+        fromInputValue: value => toFloat(value).getOr(ctx.min()),
+        toInputValue: value => String(value),
         inputBehaviours: derive$1([
           Disabling.config({ disabled: () => providers.checkUiComponentContext('mode:design').shouldDisable }),
           toggleOnReceive(() => providers.checkUiComponentContext('mode:design')),
           Keying.config({
             mode: 'special',
-            onEnter: input => commands.findPrimary(input).map(primary => {
-              emitExecute(primary);
-              return true;
-            }),
+            onEnter,
             onLeft: (comp, se) => {
               se.cut();
               return Optional.none();
@@ -25961,20 +26335,112 @@
               se.cut();
               return Optional.none();
             }
-          })
+          }),
+          config('slider-events', [
+            onControlAttached({
+              onSetup: ctx.onSetup,
+              getApi: getFormApi,
+              onBeforeSetup: Keying.focusIn
+            }, editorOffCell),
+            onControlDetached({ getApi: getFormApi }, editorOffCell),
+            run$1(input(), comp => {
+              ctx.onInput(getFormApi(comp));
+            })
+          ])
         ])
+      });
+      return createContextFormFieldFromParts(pLabel, pField, providers);
+    };
+
+    const renderContextFormTextInput = (ctx, providers, onEnter) => {
+      const editorOffCell = Cell(noop);
+      const pLabel = ctx.label.map(label => FormField.parts.label({
+        dom: {
+          tag: 'label',
+          classes: ['tox-label']
+        },
+        components: [text$2(providers.translate(label))]
       }));
-      const commands = generate(memInput, ctx.commands, providers);
-      return [
+      const placeholder = ctx.placeholder.map(p => ({ placeholder: providers.translate(p) })).getOr({});
+      const inputAttributes = { ...placeholder };
+      const pField = FormField.parts.field({
+        factory: Input,
+        inputClasses: [
+          'tox-toolbar-textfield',
+          'tox-toolbar-nav-js'
+        ],
+        inputAttributes,
+        data: ctx.initValue(),
+        selectOnFocus: true,
+        inputBehaviours: derive$1([
+          Disabling.config({ disabled: () => providers.checkUiComponentContext('mode:design').shouldDisable }),
+          toggleOnReceive(() => providers.checkUiComponentContext('mode:design')),
+          Keying.config({
+            mode: 'special',
+            onEnter,
+            onLeft: (comp, se) => {
+              se.cut();
+              return Optional.none();
+            },
+            onRight: (comp, se) => {
+              se.cut();
+              return Optional.none();
+            }
+          }),
+          config('input-events', [
+            onControlAttached({
+              onSetup: ctx.onSetup,
+              getApi: getFormApi,
+              onBeforeSetup: Keying.focusIn
+            }, editorOffCell),
+            onControlDetached({ getApi: getFormApi }, editorOffCell),
+            run$1(input(), comp => {
+              ctx.onInput(getFormApi(comp));
+            })
+          ])
+        ])
+      });
+      return createContextFormFieldFromParts(pLabel, pField, providers);
+    };
+
+    const buildInitGroup = (f, ctx, providers) => {
+      const onEnter = input => {
+        return startCommands.findPrimary(input).orThunk(() => endCommands.findPrimary(input)).map(primary => {
+          emitExecute(primary);
+          return true;
+        });
+      };
+      const memInput = record(f(providers, onEnter));
+      const commandParts = partition$3(ctx.commands, command => command.align === 'start');
+      const startCommands = generate(memInput, commandParts.pass, providers);
+      const endCommands = generate(memInput, commandParts.fail, providers);
+      return filter$2([
         {
           title: Optional.none(),
+          label: Optional.none(),
+          items: startCommands.asSpecs()
+        },
+        {
+          title: Optional.none(),
+          label: Optional.none(),
           items: [memInput.asSpec()]
         },
         {
           title: Optional.none(),
-          items: commands.asSpecs()
+          label: Optional.none(),
+          items: endCommands.asSpecs()
         }
-      ];
+      ], group => group.items.length > 0);
+    };
+    const buildInitGroups = (ctx, providers) => {
+      switch (ctx.type) {
+      case 'contextform':
+        return buildInitGroup(curry(renderContextFormTextInput, ctx), ctx, providers);
+      case 'contextsliderform':
+        return buildInitGroup(curry(renderContextFormSliderInput, ctx), ctx, providers);
+      case 'contextsizeinputform':
+        return buildInitGroup(curry(renderContextFormSizeInput, ctx), ctx, providers);
+      }
     };
     const renderContextForm = (toolbarType, ctx, providers) => renderToolbar({
       type: toolbarType,
@@ -26313,7 +26779,7 @@
       const keys$1 = keys(contextToolbars);
       each$1(keys$1, key => {
         const toolbarApi = contextToolbars[key];
-        if (toolbarApi.type === 'contextform') {
+        if (toolbarApi.type === 'contextform' || toolbarApi.type === 'contextsliderform' || toolbarApi.type === 'contextsizeinputform') {
           registerForm(key, toolbarApi);
         } else if (toolbarApi.type === 'contexttoolbar') {
           registerToolbar(key, toolbarApi);
@@ -26328,89 +26794,6 @@
       };
     };
 
-    const forwardSlideEvent = generate$6('forward-slide');
-    const backSlideEvent = generate$6('backward-slide');
-    const changeSlideEvent = generate$6('change-slide-event');
-    const resizingClass = 'tox-pop--resizing';
-    const renderContextToolbar = spec => {
-      const stack = Cell([]);
-      return InlineView.sketch({
-        dom: {
-          tag: 'div',
-          classes: ['tox-pop']
-        },
-        fireDismissalEventInstead: { event: 'doNotDismissYet' },
-        onShow: comp => {
-          stack.set([]);
-          InlineView.getContent(comp).each(c => {
-            remove$7(c.element, 'visibility');
-          });
-          remove$3(comp.element, resizingClass);
-          remove$7(comp.element, 'width');
-        },
-        inlineBehaviours: derive$1([
-          config('context-toolbar-events', [
-            runOnSource(transitionend(), (comp, se) => {
-              if (se.event.raw.propertyName === 'width') {
-                remove$3(comp.element, resizingClass);
-                remove$7(comp.element, 'width');
-              }
-            }),
-            run$1(changeSlideEvent, (comp, se) => {
-              const elem = comp.element;
-              remove$7(elem, 'width');
-              const currentWidth = get$d(elem);
-              InlineView.setContent(comp, se.event.contents);
-              add$2(elem, resizingClass);
-              const newWidth = get$d(elem);
-              set$8(elem, 'width', currentWidth + 'px');
-              InlineView.getContent(comp).each(newContents => {
-                se.event.focus.bind(f => {
-                  focus$3(f);
-                  return search(elem);
-                }).orThunk(() => {
-                  Keying.focusIn(newContents);
-                  return active$1(getRootNode(elem));
-                });
-              });
-              setTimeout(() => {
-                set$8(comp.element, 'width', newWidth + 'px');
-              }, 0);
-            }),
-            run$1(forwardSlideEvent, (comp, se) => {
-              InlineView.getContent(comp).each(oldContents => {
-                stack.set(stack.get().concat([{
-                    bar: oldContents,
-                    focus: active$1(getRootNode(comp.element))
-                  }]));
-              });
-              emitWith(comp, changeSlideEvent, {
-                contents: se.event.forwardContents,
-                focus: Optional.none()
-              });
-            }),
-            run$1(backSlideEvent, (comp, _se) => {
-              last$1(stack.get()).each(last => {
-                stack.set(stack.get().slice(0, stack.get().length - 1));
-                emitWith(comp, changeSlideEvent, {
-                  contents: premade(last.bar),
-                  focus: last.focus
-                });
-              });
-            })
-          ]),
-          Keying.config({
-            mode: 'special',
-            onEscape: comp => last$1(stack.get()).fold(() => spec.onEscape(), _ => {
-              emit(comp, backSlideEvent);
-              return Optional.some(true);
-            })
-          })
-        ]),
-        lazySink: () => Result.value(spec.sink)
-      });
-    };
-
     const transitionClass = 'tox-pop--transition';
     const register$a = (editor, registryContextToolbars, sink, extras) => {
       const backstage = extras.backstage;
@@ -26423,7 +26806,14 @@
         sink,
         onEscape: () => {
           editor.focus();
+          fireContextToolbarClose(editor);
           return Optional.some(true);
+        },
+        onHide: () => {
+          fireContextToolbarClose(editor);
+        },
+        onBack: () => {
+          fireContextFormSlideBack(editor);
         }
       }));
       const getBounds = () => {
@@ -26484,11 +26874,13 @@
         const alloySpec = buildToolbar([toolbarApi]);
         emitWith(contextbar, forwardSlideEvent, { forwardContents: wrapInPopDialog(alloySpec) });
       }));
-      const buildContextToolbarGroups = (allButtons, ctx) => identifyButtons(editor, {
-        buttons: allButtons,
-        toolbar: ctx.items,
-        allowToolbarGroups: false
-      }, extras.backstage, Optional.some(['form:']));
+      const buildContextToolbarGroups = (allButtons, ctx) => {
+        return identifyButtons(editor, {
+          buttons: allButtons,
+          toolbar: ctx.items,
+          allowToolbarGroups: false
+        }, extras.backstage, Optional.some(['form:']));
+      };
       const buildContextFormGroups = (ctx, providers) => ContextForm.buildInitGroups(ctx, providers);
       const buildToolbar = toolbars => {
         const {buttons} = editor.ui.registry.getAll();
@@ -26498,7 +26890,7 @@
           ...scopes.formNavigators
         };
         const toolbarType = getToolbarMode(editor) === ToolbarMode$1.scrolling ? ToolbarMode$1.scrolling : ToolbarMode$1.default;
-        const initGroups = flatten(map$2(toolbars, ctx => ctx.type === 'contexttoolbar' ? buildContextToolbarGroups(allButtons, ctx) : buildContextFormGroups(ctx, sharedBackstage.providers)));
+        const initGroups = flatten(map$2(toolbars, ctx => ctx.type === 'contexttoolbar' ? buildContextToolbarGroups(allButtons, contextToolbarToSpec(ctx)) : buildContextFormGroups(ctx, sharedBackstage.providers)));
         return renderToolbar({
           type: toolbarType,
           uid: generate$6('context-toolbar'),
@@ -26568,7 +26960,7 @@
           const scopes = getScopes();
           get$h(scopes.lookupTable, e.toolbarKey).each(ctx => {
             launchContext([ctx], someIf(e.target !== editor, e.target));
-            InlineView.getContent(contextbar).each(Keying.focusIn);
+            focusIn(contextbar);
           });
         });
         editor.on('focusout', _e => {
@@ -26580,6 +26972,11 @@
         });
         editor.on('SwitchMode', () => {
           if (editor.mode.isReadOnly()) {
+            close();
+          }
+        });
+        editor.on('DisabledStateChange', e => {
+          if (e.state) {
             close();
           }
         });

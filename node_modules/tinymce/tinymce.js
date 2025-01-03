@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.5.1 (TBD)
+ * TinyMCE version 7.6.0 (2024-12-11)
  */
 
 (function () {
@@ -1178,7 +1178,7 @@
         throw new Error('Attribute value was not simple');
       }
     };
-    const set$3 = (element, key, value) => {
+    const set$4 = (element, key, value) => {
       rawSet(element.dom, key, value);
     };
     const setAll$1 = (element, attrs) => {
@@ -1215,13 +1215,13 @@
     const add$4 = (element, attr, id) => {
       const old = read$4(element, attr);
       const nu = old.concat([id]);
-      set$3(element, attr, nu.join(' '));
+      set$4(element, attr, nu.join(' '));
       return true;
     };
     const remove$8 = (element, attr, id) => {
       const nu = filter$5(read$4(element, attr), v => v !== id);
       if (nu.length > 0) {
-        set$3(element, attr, nu.join(' '));
+        set$4(element, attr, nu.join(' '));
       } else {
         remove$9(element, attr);
       }
@@ -1508,6 +1508,9 @@
       }
     };
     const getRaw$1 = element => element.dom.contentEditable;
+    const set$3 = (element, editable) => {
+      element.dom.contentEditable = editable ? 'true' : 'false';
+    };
 
     const isSupported = dom => dom.style !== undefined && isFunction(dom.style.getPropertyValue);
 
@@ -2426,16 +2429,16 @@
           id: state.id
         });
         if (settings.contentCssCors) {
-          set$3(linkElem, 'crossOrigin', 'anonymous');
+          set$4(linkElem, 'crossOrigin', 'anonymous');
         }
         if (settings.referrerPolicy) {
-          set$3(linkElem, 'referrerpolicy', settings.referrerPolicy);
+          set$4(linkElem, 'referrerpolicy', settings.referrerPolicy);
         }
         link = linkElem.dom;
         link.onload = passed;
         link.onerror = failed;
         addStyle(linkElem);
-        set$3(linkElem, 'href', urlWithSuffix);
+        set$4(linkElem, 'href', urlWithSuffix);
       });
       const loadRawCss = (key, css) => {
         const state = getOrCreateState(key);
@@ -2443,9 +2446,10 @@
         state.count++;
         const styleElem = SugarElement.fromTag('style', doc.dom);
         setAll$1(styleElem, {
-          rel: 'stylesheet',
-          type: 'text/css',
-          id: state.id
+          'rel': 'stylesheet',
+          'type': 'text/css',
+          'id': state.id,
+          'data-mce-key': key
         });
         styleElem.dom.innerHTML = css;
         addStyle(styleElem);
@@ -4148,7 +4152,7 @@
       if (isNullable(value) || value === '') {
         remove$9(elm, name);
       } else {
-        set$3(elm, name, value);
+        set$4(elm, name, value);
       }
     };
     const camelCaseToHyphens = name => name.replace(/[A-Z]/g, v => '-' + v.toLowerCase());
@@ -5356,7 +5360,7 @@
       const toggleActiveAttr = (uid, state) => {
         each$e(findMarkers(editor, uid), elem => {
           if (state) {
-            set$3(elem, dataAnnotationActive(), 'true');
+            set$4(elem, dataAnnotationActive(), 'true');
           } else {
             remove$9(elem, dataAnnotationActive());
           }
@@ -5655,7 +5659,7 @@
     };
     const createPaddingBr = () => {
       const br = SugarElement.fromTag('br');
-      set$3(br, 'data-mce-bogus', '1');
+      set$4(br, 'data-mce-bogus', '1');
       return br;
     };
     const fillWithPaddingBr = elm => {
@@ -6826,6 +6830,90 @@
       };
     };
 
+    const firePreProcess = (editor, args) => editor.dispatch('PreProcess', args);
+    const firePostProcess = (editor, args) => editor.dispatch('PostProcess', args);
+    const fireRemove = editor => {
+      editor.dispatch('remove');
+    };
+    const fireDetach = editor => {
+      editor.dispatch('detach');
+    };
+    const fireSwitchMode = (editor, mode) => {
+      editor.dispatch('SwitchMode', { mode });
+    };
+    const fireObjectResizeStart = (editor, target, width, height, origin) => {
+      editor.dispatch('ObjectResizeStart', {
+        target,
+        width,
+        height,
+        origin
+      });
+    };
+    const fireObjectResized = (editor, target, width, height, origin) => {
+      editor.dispatch('ObjectResized', {
+        target,
+        width,
+        height,
+        origin
+      });
+    };
+    const firePreInit = editor => {
+      editor.dispatch('PreInit');
+    };
+    const firePostRender = editor => {
+      editor.dispatch('PostRender');
+    };
+    const fireInit = editor => {
+      editor.dispatch('Init');
+    };
+    const firePlaceholderToggle = (editor, state) => {
+      editor.dispatch('PlaceholderToggle', { state });
+    };
+    const fireError = (editor, errorType, error) => {
+      editor.dispatch(errorType, error);
+    };
+    const fireFormatApply = (editor, format, node, vars) => {
+      editor.dispatch('FormatApply', {
+        format,
+        node,
+        vars
+      });
+    };
+    const fireFormatRemove = (editor, format, node, vars) => {
+      editor.dispatch('FormatRemove', {
+        format,
+        node,
+        vars
+      });
+    };
+    const fireBeforeSetContent = (editor, args) => editor.dispatch('BeforeSetContent', args);
+    const fireSetContent = (editor, args) => editor.dispatch('SetContent', args);
+    const fireBeforeGetContent = (editor, args) => editor.dispatch('BeforeGetContent', args);
+    const fireGetContent = (editor, args) => editor.dispatch('GetContent', args);
+    const fireAutocompleterStart = (editor, args) => {
+      editor.dispatch('AutocompleterStart', args);
+    };
+    const fireAutocompleterUpdate = (editor, args) => {
+      editor.dispatch('AutocompleterUpdate', args);
+    };
+    const fireAutocompleterUpdateActiveRange = (editor, args) => {
+      editor.dispatch('AutocompleterUpdateActiveRange', args);
+    };
+    const fireAutocompleterEnd = editor => {
+      editor.dispatch('AutocompleterEnd');
+    };
+    const firePastePreProcess = (editor, html, internal) => editor.dispatch('PastePreProcess', {
+      content: html,
+      internal
+    });
+    const firePastePostProcess = (editor, node, internal) => editor.dispatch('PastePostProcess', {
+      node,
+      internal
+    });
+    const firePastePlainTextToggle = (editor, state) => editor.dispatch('PastePlainTextToggle', { state });
+    const fireEditableRootStateChange = (editor, state) => editor.dispatch('EditableRootStateChange', { state });
+    const fireDisabledStateChange = (editor, state) => editor.dispatch('DisabledStateChange', { state });
+
     const deviceDetection$1 = detect$1().deviceType;
     const isTouch = deviceDetection$1.isTouch();
     const DOM$a = DOMUtils.DOM;
@@ -7217,6 +7305,26 @@
       });
       registerOption('disable_nodechange', {
         processor: 'boolean',
+        default: false
+      });
+      registerOption('disabled', {
+        processor: value => {
+          if (isBoolean(value)) {
+            if (editor.initialized && isDisabled$1(editor) !== value) {
+              Promise.resolve().then(() => {
+                fireDisabledStateChange(editor, value);
+              });
+            }
+            return {
+              valid: true,
+              value
+            };
+          }
+          return {
+            valid: false,
+            message: 'The value must be a boolean.'
+          };
+        },
         default: false
       });
       registerOption('readonly', {
@@ -7738,6 +7846,7 @@
     const shouldConvertUnsafeEmbeds = option('convert_unsafe_embeds');
     const getLicenseKey = option('license_key');
     const getApiKey = option('api_key');
+    const isDisabled$1 = option('disabled');
 
     const isElement$3 = isElement$6;
     const isText$5 = isText$b;
@@ -9303,18 +9412,18 @@
     const applyAnnotation = (elem, masterUId, data, annotationName, decorate, directAnnotation) => {
       const {uid = masterUId, ...otherData} = data;
       add$2(elem, annotation());
-      set$3(elem, `${ dataAnnotationId() }`, uid);
-      set$3(elem, `${ dataAnnotation() }`, annotationName);
+      set$4(elem, `${ dataAnnotationId() }`, uid);
+      set$4(elem, `${ dataAnnotation() }`, annotationName);
       const {attributes = {}, classes = []} = decorate(uid, otherData);
       setAll$1(elem, attributes);
       add(elem, classes);
       if (directAnnotation) {
         if (classes.length > 0) {
-          set$3(elem, `${ dataAnnotationClasses() }`, classes.join(','));
+          set$4(elem, `${ dataAnnotationClasses() }`, classes.join(','));
         }
         const attributeNames = keys(attributes);
         if (attributeNames.length > 0) {
-          set$3(elem, `${ dataAnnotationAttributes() }`, attributeNames.join(','));
+          set$4(elem, `${ dataAnnotationAttributes() }`, attributeNames.join(','));
         }
       }
     };
@@ -9470,88 +9579,399 @@
       }
     };
 
-    const firePreProcess = (editor, args) => editor.dispatch('PreProcess', args);
-    const firePostProcess = (editor, args) => editor.dispatch('PostProcess', args);
-    const fireRemove = editor => {
-      editor.dispatch('remove');
+    const getDocument = () => SugarElement.fromDom(document);
+
+    const focus$1 = (element, preventScroll = false) => element.dom.focus({ preventScroll });
+    const hasFocus$1 = element => {
+      const root = getRootNode(element).dom;
+      return element.dom === root.activeElement;
     };
-    const fireDetach = editor => {
-      editor.dispatch('detach');
-    };
-    const fireSwitchMode = (editor, mode) => {
-      editor.dispatch('SwitchMode', { mode });
-    };
-    const fireObjectResizeStart = (editor, target, width, height, origin) => {
-      editor.dispatch('ObjectResizeStart', {
-        target,
-        width,
-        height,
-        origin
-      });
-    };
-    const fireObjectResized = (editor, target, width, height, origin) => {
-      editor.dispatch('ObjectResized', {
-        target,
-        width,
-        height,
-        origin
-      });
-    };
-    const firePreInit = editor => {
-      editor.dispatch('PreInit');
-    };
-    const firePostRender = editor => {
-      editor.dispatch('PostRender');
-    };
-    const fireInit = editor => {
-      editor.dispatch('Init');
-    };
-    const firePlaceholderToggle = (editor, state) => {
-      editor.dispatch('PlaceholderToggle', { state });
-    };
-    const fireError = (editor, errorType, error) => {
-      editor.dispatch(errorType, error);
-    };
-    const fireFormatApply = (editor, format, node, vars) => {
-      editor.dispatch('FormatApply', {
-        format,
-        node,
-        vars
-      });
-    };
-    const fireFormatRemove = (editor, format, node, vars) => {
-      editor.dispatch('FormatRemove', {
-        format,
-        node,
-        vars
-      });
-    };
-    const fireBeforeSetContent = (editor, args) => editor.dispatch('BeforeSetContent', args);
-    const fireSetContent = (editor, args) => editor.dispatch('SetContent', args);
-    const fireBeforeGetContent = (editor, args) => editor.dispatch('BeforeGetContent', args);
-    const fireGetContent = (editor, args) => editor.dispatch('GetContent', args);
-    const fireAutocompleterStart = (editor, args) => {
-      editor.dispatch('AutocompleterStart', args);
-    };
-    const fireAutocompleterUpdate = (editor, args) => {
-      editor.dispatch('AutocompleterUpdate', args);
-    };
-    const fireAutocompleterUpdateActiveRange = (editor, args) => {
-      editor.dispatch('AutocompleterUpdateActiveRange', args);
-    };
-    const fireAutocompleterEnd = editor => {
-      editor.dispatch('AutocompleterEnd');
-    };
-    const firePastePreProcess = (editor, html, internal) => editor.dispatch('PastePreProcess', {
-      content: html,
-      internal
+    const active$1 = (root = getDocument()) => Optional.from(root.dom.activeElement).map(SugarElement.fromDom);
+    const search = element => active$1(getRootNode(element)).filter(e => element.dom.contains(e.dom));
+
+    const create$9 = (start, soffset, finish, foffset) => ({
+      start,
+      soffset,
+      finish,
+      foffset
     });
-    const firePastePostProcess = (editor, node, internal) => editor.dispatch('PastePostProcess', {
-      node,
-      internal
+    const SimRange = { create: create$9 };
+
+    const adt$3 = Adt.generate([
+      { before: ['element'] },
+      {
+        on: [
+          'element',
+          'offset'
+        ]
+      },
+      { after: ['element'] }
+    ]);
+    const cata = (subject, onBefore, onOn, onAfter) => subject.fold(onBefore, onOn, onAfter);
+    const getStart$2 = situ => situ.fold(identity, identity, identity);
+    const before$1 = adt$3.before;
+    const on = adt$3.on;
+    const after$1 = adt$3.after;
+    const Situ = {
+      before: before$1,
+      on,
+      after: after$1,
+      cata,
+      getStart: getStart$2
+    };
+
+    const adt$2 = Adt.generate([
+      { domRange: ['rng'] },
+      {
+        relative: [
+          'startSitu',
+          'finishSitu'
+        ]
+      },
+      {
+        exact: [
+          'start',
+          'soffset',
+          'finish',
+          'foffset'
+        ]
+      }
+    ]);
+    const exactFromRange = simRange => adt$2.exact(simRange.start, simRange.soffset, simRange.finish, simRange.foffset);
+    const getStart$1 = selection => selection.match({
+      domRange: rng => SugarElement.fromDom(rng.startContainer),
+      relative: (startSitu, _finishSitu) => Situ.getStart(startSitu),
+      exact: (start, _soffset, _finish, _foffset) => start
     });
-    const firePastePlainTextToggle = (editor, state) => editor.dispatch('PastePlainTextToggle', { state });
-    const fireEditableRootStateChange = (editor, state) => editor.dispatch('EditableRootStateChange', { state });
+    const domRange = adt$2.domRange;
+    const relative = adt$2.relative;
+    const exact = adt$2.exact;
+    const getWin = selection => {
+      const start = getStart$1(selection);
+      return defaultView(start);
+    };
+    const range = SimRange.create;
+    const SimSelection = {
+      domRange,
+      relative,
+      exact,
+      exactFromRange,
+      getWin,
+      range
+    };
+
+    const clamp$1 = (offset, element) => {
+      const max = isText$c(element) ? get$3(element).length : children$1(element).length + 1;
+      if (offset > max) {
+        return max;
+      } else if (offset < 0) {
+        return 0;
+      }
+      return offset;
+    };
+    const normalizeRng = rng => SimSelection.range(rng.start, clamp$1(rng.soffset, rng.start), rng.finish, clamp$1(rng.foffset, rng.finish));
+    const isOrContains = (root, elm) => !isRestrictedNode(elm.dom) && (contains(root, elm) || eq(root, elm));
+    const isRngInRoot = root => rng => isOrContains(root, rng.start) && isOrContains(root, rng.finish);
+    const shouldStore = editor => editor.inline || Env.browser.isFirefox();
+    const nativeRangeToSelectionRange = r => SimSelection.range(SugarElement.fromDom(r.startContainer), r.startOffset, SugarElement.fromDom(r.endContainer), r.endOffset);
+    const readRange = win => {
+      const selection = win.getSelection();
+      const rng = !selection || selection.rangeCount === 0 ? Optional.none() : Optional.from(selection.getRangeAt(0));
+      return rng.map(nativeRangeToSelectionRange);
+    };
+    const getBookmark$1 = root => {
+      const win = defaultView(root);
+      return readRange(win.dom).filter(isRngInRoot(root));
+    };
+    const validate = (root, bookmark) => Optional.from(bookmark).filter(isRngInRoot(root)).map(normalizeRng);
+    const bookmarkToNativeRng = bookmark => {
+      const rng = document.createRange();
+      try {
+        rng.setStart(bookmark.start.dom, bookmark.soffset);
+        rng.setEnd(bookmark.finish.dom, bookmark.foffset);
+        return Optional.some(rng);
+      } catch (_) {
+        return Optional.none();
+      }
+    };
+    const store = editor => {
+      const newBookmark = shouldStore(editor) ? getBookmark$1(SugarElement.fromDom(editor.getBody())) : Optional.none();
+      editor.bookmark = newBookmark.isSome() ? newBookmark : editor.bookmark;
+    };
+    const getRng = editor => {
+      const bookmark = editor.bookmark ? editor.bookmark : Optional.none();
+      return bookmark.bind(x => validate(SugarElement.fromDom(editor.getBody()), x)).bind(bookmarkToNativeRng);
+    };
+    const restore = editor => {
+      getRng(editor).each(rng => editor.selection.setRng(rng));
+    };
+
+    const isEditorUIElement$1 = elm => {
+      const className = elm.className.toString();
+      return className.indexOf('tox-') !== -1 || className.indexOf('mce-') !== -1;
+    };
+    const FocusManager = { isEditorUIElement: isEditorUIElement$1 };
+
+    const wrappedSetTimeout = (callback, time) => {
+      if (!isNumber(time)) {
+        time = 0;
+      }
+      return setTimeout(callback, time);
+    };
+    const wrappedSetInterval = (callback, time) => {
+      if (!isNumber(time)) {
+        time = 0;
+      }
+      return setInterval(callback, time);
+    };
+    const Delay = {
+      setEditorTimeout: (editor, callback, time) => {
+        return wrappedSetTimeout(() => {
+          if (!editor.removed) {
+            callback();
+          }
+        }, time);
+      },
+      setEditorInterval: (editor, callback, time) => {
+        const timer = wrappedSetInterval(() => {
+          if (!editor.removed) {
+            callback();
+          } else {
+            clearInterval(timer);
+          }
+        }, time);
+        return timer;
+      }
+    };
+
+    const isManualNodeChange = e => {
+      return e.type === 'nodechange' && e.selectionChange;
+    };
+    const registerPageMouseUp = (editor, throttledStore) => {
+      const mouseUpPage = () => {
+        throttledStore.throttle();
+      };
+      DOMUtils.DOM.bind(document, 'mouseup', mouseUpPage);
+      editor.on('remove', () => {
+        DOMUtils.DOM.unbind(document, 'mouseup', mouseUpPage);
+      });
+    };
+    const registerMouseUp = (editor, throttledStore) => {
+      editor.on('mouseup touchend', _e => {
+        throttledStore.throttle();
+      });
+    };
+    const registerEditorEvents = (editor, throttledStore) => {
+      registerMouseUp(editor, throttledStore);
+      editor.on('keyup NodeChange AfterSetSelectionRange', e => {
+        if (!isManualNodeChange(e)) {
+          store(editor);
+        }
+      });
+    };
+    const register$6 = editor => {
+      const throttledStore = first$1(() => {
+        store(editor);
+      }, 0);
+      editor.on('init', () => {
+        if (editor.inline) {
+          registerPageMouseUp(editor, throttledStore);
+        }
+        registerEditorEvents(editor, throttledStore);
+      });
+      editor.on('remove', () => {
+        throttledStore.cancel();
+      });
+    };
+
+    let documentFocusInHandler;
+    const DOM$9 = DOMUtils.DOM;
+    const isEditorUIElement = elm => {
+      return isElement$6(elm) && FocusManager.isEditorUIElement(elm);
+    };
+    const isEditorContentAreaElement = elm => {
+      const classList = elm.classList;
+      if (classList !== undefined) {
+        return classList.contains('tox-edit-area') || classList.contains('tox-edit-area__iframe') || classList.contains('mce-content-body');
+      } else {
+        return false;
+      }
+    };
+    const isUIElement = (editor, elm) => {
+      const customSelector = getCustomUiSelector(editor);
+      const parent = DOM$9.getParent(elm, elm => {
+        return isEditorUIElement(elm) || (customSelector ? editor.dom.is(elm, customSelector) : false);
+      });
+      return parent !== null;
+    };
+    const getActiveElement = editor => {
+      try {
+        const root = getRootNode(SugarElement.fromDom(editor.getElement()));
+        return active$1(root).fold(() => document.body, x => x.dom);
+      } catch (ex) {
+        return document.body;
+      }
+    };
+    const registerEvents$1 = (editorManager, e) => {
+      const editor = e.editor;
+      register$6(editor);
+      const toggleContentAreaOnFocus = (editor, fn) => {
+        if (shouldHighlightOnFocus(editor) && editor.inline !== true) {
+          const contentArea = SugarElement.fromDom(editor.getContainer());
+          fn(contentArea, 'tox-edit-focus');
+        }
+      };
+      editor.on('focusin', () => {
+        const focusedEditor = editorManager.focusedEditor;
+        if (isEditorContentAreaElement(getActiveElement(editor))) {
+          toggleContentAreaOnFocus(editor, add$2);
+        }
+        if (focusedEditor !== editor) {
+          if (focusedEditor) {
+            focusedEditor.dispatch('blur', { focusedEditor: editor });
+          }
+          editorManager.setActive(editor);
+          editorManager.focusedEditor = editor;
+          editor.dispatch('focus', { blurredEditor: focusedEditor });
+          editor.focus(true);
+        }
+      });
+      editor.on('focusout', () => {
+        Delay.setEditorTimeout(editor, () => {
+          const focusedEditor = editorManager.focusedEditor;
+          if (!isEditorContentAreaElement(getActiveElement(editor)) || focusedEditor !== editor) {
+            toggleContentAreaOnFocus(editor, remove$6);
+          }
+          if (!isUIElement(editor, getActiveElement(editor)) && focusedEditor === editor) {
+            editor.dispatch('blur', { focusedEditor: null });
+            editorManager.focusedEditor = null;
+          }
+        });
+      });
+      if (!documentFocusInHandler) {
+        documentFocusInHandler = e => {
+          const activeEditor = editorManager.activeEditor;
+          if (activeEditor) {
+            getOriginalEventTarget(e).each(target => {
+              const elem = target;
+              if (elem.ownerDocument === document) {
+                if (elem !== document.body && !isUIElement(activeEditor, elem) && editorManager.focusedEditor === activeEditor) {
+                  activeEditor.dispatch('blur', { focusedEditor: null });
+                  editorManager.focusedEditor = null;
+                }
+              }
+            });
+          }
+        };
+        DOM$9.bind(document, 'focusin', documentFocusInHandler);
+      }
+    };
+    const unregisterDocumentEvents = (editorManager, e) => {
+      if (editorManager.focusedEditor === e.editor) {
+        editorManager.focusedEditor = null;
+      }
+      if (!editorManager.activeEditor && documentFocusInHandler) {
+        DOM$9.unbind(document, 'focusin', documentFocusInHandler);
+        documentFocusInHandler = null;
+      }
+    };
+    const setup$w = editorManager => {
+      editorManager.on('AddEditor', curry(registerEvents$1, editorManager));
+      editorManager.on('RemoveEditor', curry(unregisterDocumentEvents, editorManager));
+    };
+
+    const getContentEditableHost = (editor, node) => editor.dom.getParent(node, node => editor.dom.getContentEditable(node) === 'true');
+    const hasContentEditableFalseParent$1 = (editor, node) => editor.dom.getParent(node, node => editor.dom.getContentEditable(node) === 'false') !== null;
+    const getCollapsedNode = rng => rng.collapsed ? Optional.from(getNode$1(rng.startContainer, rng.startOffset)).map(SugarElement.fromDom) : Optional.none();
+    const getFocusInElement = (root, rng) => getCollapsedNode(rng).bind(node => {
+      if (isTableSection(node)) {
+        return Optional.some(node);
+      } else if (!contains(root, node)) {
+        return Optional.some(root);
+      } else {
+        return Optional.none();
+      }
+    });
+    const normalizeSelection = (editor, rng) => {
+      getFocusInElement(SugarElement.fromDom(editor.getBody()), rng).bind(elm => {
+        return firstPositionIn(elm.dom);
+      }).fold(() => {
+        editor.selection.normalize();
+      }, caretPos => editor.selection.setRng(caretPos.toRange()));
+    };
+    const focusBody = body => {
+      if (body.setActive) {
+        try {
+          body.setActive();
+        } catch (ex) {
+          body.focus();
+        }
+      } else {
+        body.focus();
+      }
+    };
+    const hasElementFocus = elm => hasFocus$1(elm) || search(elm).isSome();
+    const hasIframeFocus = editor => isNonNullable(editor.iframeElement) && hasFocus$1(SugarElement.fromDom(editor.iframeElement));
+    const hasInlineFocus = editor => {
+      const rawBody = editor.getBody();
+      return rawBody && hasElementFocus(SugarElement.fromDom(rawBody));
+    };
+    const hasUiFocus = editor => {
+      const dos = getRootNode(SugarElement.fromDom(editor.getElement()));
+      return active$1(dos).filter(elem => !isEditorContentAreaElement(elem.dom) && isUIElement(editor, elem.dom)).isSome();
+    };
+    const hasFocus = editor => editor.inline ? hasInlineFocus(editor) : hasIframeFocus(editor);
+    const hasEditorOrUiFocus = editor => hasFocus(editor) || hasUiFocus(editor);
+    const focusEditor = editor => {
+      const selection = editor.selection;
+      const body = editor.getBody();
+      let rng = selection.getRng();
+      editor.quirks.refreshContentEditable();
+      const restoreBookmark = editor => {
+        getRng(editor).each(bookmarkRng => {
+          editor.selection.setRng(bookmarkRng);
+          rng = bookmarkRng;
+        });
+      };
+      if (!hasFocus(editor) && editor.hasEditableRoot()) {
+        restoreBookmark(editor);
+      }
+      const contentEditableHost = getContentEditableHost(editor, selection.getNode());
+      if (contentEditableHost && editor.dom.isChildOf(contentEditableHost, body)) {
+        if (!hasContentEditableFalseParent$1(editor, contentEditableHost)) {
+          focusBody(body);
+        }
+        focusBody(contentEditableHost);
+        if (!editor.hasEditableRoot()) {
+          restoreBookmark(editor);
+        }
+        normalizeSelection(editor, rng);
+        activateEditor(editor);
+        return;
+      }
+      if (!editor.inline) {
+        if (!Env.browser.isOpera()) {
+          focusBody(body);
+        }
+        editor.getWin().focus();
+      }
+      if (Env.browser.isFirefox() || editor.inline) {
+        focusBody(body);
+        normalizeSelection(editor, rng);
+      }
+      activateEditor(editor);
+    };
+    const activateEditor = editor => editor.editorManager.setActive(editor);
+    const focus = (editor, skipFocus) => {
+      if (editor.removed) {
+        return;
+      }
+      if (skipFocus) {
+        activateEditor(editor);
+      } else {
+        focusEditor(editor);
+      }
+    };
 
     const VK = {
       BACKSPACE: 8,
@@ -9889,7 +10309,7 @@
         each$e(dom.select(`img[${ elementSelectionAttr }],hr[${ elementSelectionAttr }]`), img => {
           img.removeAttribute(elementSelectionAttr);
         });
-        if (isNonNullable(controlElm) && isChildOrEqual(controlElm, rootElement) && editor.hasFocus()) {
+        if (isNonNullable(controlElm) && isChildOrEqual(controlElm, rootElement) && hasEditorOrUiFocus(editor)) {
           disableGeckoResize();
           const startElm = selection.getStart(true);
           if (isChildOrEqual(startElm, controlElm) && isChildOrEqual(selection.getEnd(true), controlElm)) {
@@ -9970,7 +10390,7 @@
       return rng;
     };
 
-    const adt$3 = Adt.generate([
+    const adt$1 = Adt.generate([
       {
         ltr: [
           'start',
@@ -10013,25 +10433,17 @@
       const rng = ranges.ltr();
       if (rng.collapsed) {
         const reversed = ranges.rtl().filter(rev => rev.collapsed === false);
-        return reversed.map(rev => adt$3.rtl(SugarElement.fromDom(rev.endContainer), rev.endOffset, SugarElement.fromDom(rev.startContainer), rev.startOffset)).getOrThunk(() => fromRange(win, adt$3.ltr, rng));
+        return reversed.map(rev => adt$1.rtl(SugarElement.fromDom(rev.endContainer), rev.endOffset, SugarElement.fromDom(rev.startContainer), rev.startOffset)).getOrThunk(() => fromRange(win, adt$1.ltr, rng));
       } else {
-        return fromRange(win, adt$3.ltr, rng);
+        return fromRange(win, adt$1.ltr, rng);
       }
     };
     const diagnose = (win, selection) => {
       const ranges = getRanges(win, selection);
       return doDiagnose(win, ranges);
     };
-    adt$3.ltr;
-    adt$3.rtl;
-
-    const create$9 = (start, soffset, finish, foffset) => ({
-      start,
-      soffset,
-      finish,
-      foffset
-    });
-    const SimRange = { create: create$9 };
+    adt$1.ltr;
+    adt$1.rtl;
 
     const caretPositionFromPoint = (doc, x, y) => {
       var _a;
@@ -10061,69 +10473,6 @@
     const fromPoint$1 = (win, x, y) => {
       const doc = win.document;
       return availableSearch(doc, x, y).map(rng => SimRange.create(SugarElement.fromDom(rng.startContainer), rng.startOffset, SugarElement.fromDom(rng.endContainer), rng.endOffset));
-    };
-
-    const adt$2 = Adt.generate([
-      { before: ['element'] },
-      {
-        on: [
-          'element',
-          'offset'
-        ]
-      },
-      { after: ['element'] }
-    ]);
-    const cata = (subject, onBefore, onOn, onAfter) => subject.fold(onBefore, onOn, onAfter);
-    const getStart$2 = situ => situ.fold(identity, identity, identity);
-    const before$1 = adt$2.before;
-    const on = adt$2.on;
-    const after$1 = adt$2.after;
-    const Situ = {
-      before: before$1,
-      on,
-      after: after$1,
-      cata,
-      getStart: getStart$2
-    };
-
-    const adt$1 = Adt.generate([
-      { domRange: ['rng'] },
-      {
-        relative: [
-          'startSitu',
-          'finishSitu'
-        ]
-      },
-      {
-        exact: [
-          'start',
-          'soffset',
-          'finish',
-          'foffset'
-        ]
-      }
-    ]);
-    const exactFromRange = simRange => adt$1.exact(simRange.start, simRange.soffset, simRange.finish, simRange.foffset);
-    const getStart$1 = selection => selection.match({
-      domRange: rng => SugarElement.fromDom(rng.startContainer),
-      relative: (startSitu, _finishSitu) => Situ.getStart(startSitu),
-      exact: (start, _soffset, _finish, _foffset) => start
-    });
-    const domRange = adt$1.domRange;
-    const relative = adt$1.relative;
-    const exact = adt$1.exact;
-    const getWin = selection => {
-      const start = getStart$1(selection);
-      return defaultView(start);
-    };
-    const range = SimRange.create;
-    const SimSelection = {
-      domRange,
-      relative,
-      exact,
-      exactFromRange,
-      getWin,
-      range
     };
 
     const beforeSpecial = (element, offset) => {
@@ -10223,7 +10572,7 @@
       var _a;
       return ((_a = node.previousSibling) === null || _a === void 0 ? void 0 : _a.nodeName) === name;
     };
-    const hasContentEditableFalseParent$1 = (root, node) => {
+    const hasContentEditableFalseParent = (root, node) => {
       let currentNode = node;
       while (currentNode && currentNode !== root) {
         if (isContentEditableFalse$b(currentNode)) {
@@ -10308,7 +10657,7 @@
           if (!collapsed && container === body.lastChild && isTable$2(container)) {
             return Optional.none();
           }
-          if (hasContentEditableFalseParent$1(body, container) || isCaretContainer$2(container)) {
+          if (hasContentEditableFalseParent(body, container) || isCaretContainer$2(container)) {
             return Optional.none();
           }
           if (isDetails(container)) {
@@ -10507,8 +10856,6 @@
     });
     const get$2 = element => api.get(element);
 
-    const getDocument = () => SugarElement.fromDom(document);
-
     const walkUp = (navigation, doc) => {
       const frame = navigation.view(doc);
       return frame.fold(constant([]), f => {
@@ -10705,327 +11052,6 @@
     const scrollRangeIntoView = (editor, rng, alignToTop) => {
       const scroller = editor.inline ? rangeIntoWindow : rangeIntoFrame;
       scroller(editor, rng, alignToTop);
-    };
-
-    const focus$1 = (element, preventScroll = false) => element.dom.focus({ preventScroll });
-    const hasFocus$1 = element => {
-      const root = getRootNode(element).dom;
-      return element.dom === root.activeElement;
-    };
-    const active$1 = (root = getDocument()) => Optional.from(root.dom.activeElement).map(SugarElement.fromDom);
-    const search = element => active$1(getRootNode(element)).filter(e => element.dom.contains(e.dom));
-
-    const clamp$1 = (offset, element) => {
-      const max = isText$c(element) ? get$3(element).length : children$1(element).length + 1;
-      if (offset > max) {
-        return max;
-      } else if (offset < 0) {
-        return 0;
-      }
-      return offset;
-    };
-    const normalizeRng = rng => SimSelection.range(rng.start, clamp$1(rng.soffset, rng.start), rng.finish, clamp$1(rng.foffset, rng.finish));
-    const isOrContains = (root, elm) => !isRestrictedNode(elm.dom) && (contains(root, elm) || eq(root, elm));
-    const isRngInRoot = root => rng => isOrContains(root, rng.start) && isOrContains(root, rng.finish);
-    const shouldStore = editor => editor.inline || Env.browser.isFirefox();
-    const nativeRangeToSelectionRange = r => SimSelection.range(SugarElement.fromDom(r.startContainer), r.startOffset, SugarElement.fromDom(r.endContainer), r.endOffset);
-    const readRange = win => {
-      const selection = win.getSelection();
-      const rng = !selection || selection.rangeCount === 0 ? Optional.none() : Optional.from(selection.getRangeAt(0));
-      return rng.map(nativeRangeToSelectionRange);
-    };
-    const getBookmark$1 = root => {
-      const win = defaultView(root);
-      return readRange(win.dom).filter(isRngInRoot(root));
-    };
-    const validate = (root, bookmark) => Optional.from(bookmark).filter(isRngInRoot(root)).map(normalizeRng);
-    const bookmarkToNativeRng = bookmark => {
-      const rng = document.createRange();
-      try {
-        rng.setStart(bookmark.start.dom, bookmark.soffset);
-        rng.setEnd(bookmark.finish.dom, bookmark.foffset);
-        return Optional.some(rng);
-      } catch (_) {
-        return Optional.none();
-      }
-    };
-    const store = editor => {
-      const newBookmark = shouldStore(editor) ? getBookmark$1(SugarElement.fromDom(editor.getBody())) : Optional.none();
-      editor.bookmark = newBookmark.isSome() ? newBookmark : editor.bookmark;
-    };
-    const getRng = editor => {
-      const bookmark = editor.bookmark ? editor.bookmark : Optional.none();
-      return bookmark.bind(x => validate(SugarElement.fromDom(editor.getBody()), x)).bind(bookmarkToNativeRng);
-    };
-    const restore = editor => {
-      getRng(editor).each(rng => editor.selection.setRng(rng));
-    };
-
-    const isEditorUIElement$1 = elm => {
-      const className = elm.className.toString();
-      return className.indexOf('tox-') !== -1 || className.indexOf('mce-') !== -1;
-    };
-    const FocusManager = { isEditorUIElement: isEditorUIElement$1 };
-
-    const wrappedSetTimeout = (callback, time) => {
-      if (!isNumber(time)) {
-        time = 0;
-      }
-      return setTimeout(callback, time);
-    };
-    const wrappedSetInterval = (callback, time) => {
-      if (!isNumber(time)) {
-        time = 0;
-      }
-      return setInterval(callback, time);
-    };
-    const Delay = {
-      setEditorTimeout: (editor, callback, time) => {
-        return wrappedSetTimeout(() => {
-          if (!editor.removed) {
-            callback();
-          }
-        }, time);
-      },
-      setEditorInterval: (editor, callback, time) => {
-        const timer = wrappedSetInterval(() => {
-          if (!editor.removed) {
-            callback();
-          } else {
-            clearInterval(timer);
-          }
-        }, time);
-        return timer;
-      }
-    };
-
-    const isManualNodeChange = e => {
-      return e.type === 'nodechange' && e.selectionChange;
-    };
-    const registerPageMouseUp = (editor, throttledStore) => {
-      const mouseUpPage = () => {
-        throttledStore.throttle();
-      };
-      DOMUtils.DOM.bind(document, 'mouseup', mouseUpPage);
-      editor.on('remove', () => {
-        DOMUtils.DOM.unbind(document, 'mouseup', mouseUpPage);
-      });
-    };
-    const registerMouseUp = (editor, throttledStore) => {
-      editor.on('mouseup touchend', _e => {
-        throttledStore.throttle();
-      });
-    };
-    const registerEditorEvents = (editor, throttledStore) => {
-      registerMouseUp(editor, throttledStore);
-      editor.on('keyup NodeChange AfterSetSelectionRange', e => {
-        if (!isManualNodeChange(e)) {
-          store(editor);
-        }
-      });
-    };
-    const register$6 = editor => {
-      const throttledStore = first$1(() => {
-        store(editor);
-      }, 0);
-      editor.on('init', () => {
-        if (editor.inline) {
-          registerPageMouseUp(editor, throttledStore);
-        }
-        registerEditorEvents(editor, throttledStore);
-      });
-      editor.on('remove', () => {
-        throttledStore.cancel();
-      });
-    };
-
-    let documentFocusInHandler;
-    const DOM$9 = DOMUtils.DOM;
-    const isEditorUIElement = elm => {
-      return isElement$6(elm) && FocusManager.isEditorUIElement(elm);
-    };
-    const isEditorContentAreaElement = elm => {
-      const classList = elm.classList;
-      if (classList !== undefined) {
-        return classList.contains('tox-edit-area') || classList.contains('tox-edit-area__iframe') || classList.contains('mce-content-body');
-      } else {
-        return false;
-      }
-    };
-    const isUIElement = (editor, elm) => {
-      const customSelector = getCustomUiSelector(editor);
-      const parent = DOM$9.getParent(elm, elm => {
-        return isEditorUIElement(elm) || (customSelector ? editor.dom.is(elm, customSelector) : false);
-      });
-      return parent !== null;
-    };
-    const getActiveElement = editor => {
-      try {
-        const root = getRootNode(SugarElement.fromDom(editor.getElement()));
-        return active$1(root).fold(() => document.body, x => x.dom);
-      } catch (ex) {
-        return document.body;
-      }
-    };
-    const registerEvents$1 = (editorManager, e) => {
-      const editor = e.editor;
-      register$6(editor);
-      const toggleContentAreaOnFocus = (editor, fn) => {
-        if (shouldHighlightOnFocus(editor) && editor.inline !== true) {
-          const contentArea = SugarElement.fromDom(editor.getContainer());
-          fn(contentArea, 'tox-edit-focus');
-        }
-      };
-      editor.on('focusin', () => {
-        const focusedEditor = editorManager.focusedEditor;
-        if (isEditorContentAreaElement(getActiveElement(editor))) {
-          toggleContentAreaOnFocus(editor, add$2);
-        }
-        if (focusedEditor !== editor) {
-          if (focusedEditor) {
-            focusedEditor.dispatch('blur', { focusedEditor: editor });
-          }
-          editorManager.setActive(editor);
-          editorManager.focusedEditor = editor;
-          editor.dispatch('focus', { blurredEditor: focusedEditor });
-          editor.focus(true);
-        }
-      });
-      editor.on('focusout', () => {
-        Delay.setEditorTimeout(editor, () => {
-          const focusedEditor = editorManager.focusedEditor;
-          if (!isEditorContentAreaElement(getActiveElement(editor)) || focusedEditor !== editor) {
-            toggleContentAreaOnFocus(editor, remove$6);
-          }
-          if (!isUIElement(editor, getActiveElement(editor)) && focusedEditor === editor) {
-            editor.dispatch('blur', { focusedEditor: null });
-            editorManager.focusedEditor = null;
-          }
-        });
-      });
-      if (!documentFocusInHandler) {
-        documentFocusInHandler = e => {
-          const activeEditor = editorManager.activeEditor;
-          if (activeEditor) {
-            getOriginalEventTarget(e).each(target => {
-              const elem = target;
-              if (elem.ownerDocument === document) {
-                if (elem !== document.body && !isUIElement(activeEditor, elem) && editorManager.focusedEditor === activeEditor) {
-                  activeEditor.dispatch('blur', { focusedEditor: null });
-                  editorManager.focusedEditor = null;
-                }
-              }
-            });
-          }
-        };
-        DOM$9.bind(document, 'focusin', documentFocusInHandler);
-      }
-    };
-    const unregisterDocumentEvents = (editorManager, e) => {
-      if (editorManager.focusedEditor === e.editor) {
-        editorManager.focusedEditor = null;
-      }
-      if (!editorManager.activeEditor && documentFocusInHandler) {
-        DOM$9.unbind(document, 'focusin', documentFocusInHandler);
-        documentFocusInHandler = null;
-      }
-    };
-    const setup$w = editorManager => {
-      editorManager.on('AddEditor', curry(registerEvents$1, editorManager));
-      editorManager.on('RemoveEditor', curry(unregisterDocumentEvents, editorManager));
-    };
-
-    const getContentEditableHost = (editor, node) => editor.dom.getParent(node, node => editor.dom.getContentEditable(node) === 'true');
-    const hasContentEditableFalseParent = (editor, node) => editor.dom.getParent(node, node => editor.dom.getContentEditable(node) === 'false') !== null;
-    const getCollapsedNode = rng => rng.collapsed ? Optional.from(getNode$1(rng.startContainer, rng.startOffset)).map(SugarElement.fromDom) : Optional.none();
-    const getFocusInElement = (root, rng) => getCollapsedNode(rng).bind(node => {
-      if (isTableSection(node)) {
-        return Optional.some(node);
-      } else if (!contains(root, node)) {
-        return Optional.some(root);
-      } else {
-        return Optional.none();
-      }
-    });
-    const normalizeSelection = (editor, rng) => {
-      getFocusInElement(SugarElement.fromDom(editor.getBody()), rng).bind(elm => {
-        return firstPositionIn(elm.dom);
-      }).fold(() => {
-        editor.selection.normalize();
-      }, caretPos => editor.selection.setRng(caretPos.toRange()));
-    };
-    const focusBody = body => {
-      if (body.setActive) {
-        try {
-          body.setActive();
-        } catch (ex) {
-          body.focus();
-        }
-      } else {
-        body.focus();
-      }
-    };
-    const hasElementFocus = elm => hasFocus$1(elm) || search(elm).isSome();
-    const hasIframeFocus = editor => isNonNullable(editor.iframeElement) && hasFocus$1(SugarElement.fromDom(editor.iframeElement));
-    const hasInlineFocus = editor => {
-      const rawBody = editor.getBody();
-      return rawBody && hasElementFocus(SugarElement.fromDom(rawBody));
-    };
-    const hasUiFocus = editor => {
-      const dos = getRootNode(SugarElement.fromDom(editor.getElement()));
-      return active$1(dos).filter(elem => !isEditorContentAreaElement(elem.dom) && isUIElement(editor, elem.dom)).isSome();
-    };
-    const hasFocus = editor => editor.inline ? hasInlineFocus(editor) : hasIframeFocus(editor);
-    const hasEditorOrUiFocus = editor => hasFocus(editor) || hasUiFocus(editor);
-    const focusEditor = editor => {
-      const selection = editor.selection;
-      const body = editor.getBody();
-      let rng = selection.getRng();
-      editor.quirks.refreshContentEditable();
-      const restoreBookmark = editor => {
-        getRng(editor).each(bookmarkRng => {
-          editor.selection.setRng(bookmarkRng);
-          rng = bookmarkRng;
-        });
-      };
-      if (!hasFocus(editor) && editor.hasEditableRoot()) {
-        restoreBookmark(editor);
-      }
-      const contentEditableHost = getContentEditableHost(editor, selection.getNode());
-      if (contentEditableHost && editor.dom.isChildOf(contentEditableHost, body)) {
-        if (!hasContentEditableFalseParent(editor, contentEditableHost)) {
-          focusBody(body);
-        }
-        focusBody(contentEditableHost);
-        if (!editor.hasEditableRoot()) {
-          restoreBookmark(editor);
-        }
-        normalizeSelection(editor, rng);
-        activateEditor(editor);
-        return;
-      }
-      if (!editor.inline) {
-        if (!Env.browser.isOpera()) {
-          focusBody(body);
-        }
-        editor.getWin().focus();
-      }
-      if (Env.browser.isFirefox() || editor.inline) {
-        focusBody(body);
-        normalizeSelection(editor, rng);
-      }
-      activateEditor(editor);
-    };
-    const activateEditor = editor => editor.editorManager.setActive(editor);
-    const focus = (editor, skipFocus) => {
-      if (editor.removed) {
-        return;
-      }
-      if (skipFocus) {
-        activateEditor(editor);
-      } else {
-        focusEditor(editor);
-      }
     };
 
     const isEditableRange = (dom, rng) => {
@@ -11521,7 +11547,7 @@
       const doc = editor.getDoc();
       const dos = getRootNode(SugarElement.fromDom(editor.getBody()));
       const offscreenDiv = SugarElement.fromTag('div', doc);
-      set$3(offscreenDiv, 'data-mce-bogus', 'all');
+      set$4(offscreenDiv, 'data-mce-bogus', 'all');
       setAll(offscreenDiv, {
         position: 'fixed',
         left: '-9999999px',
@@ -12466,7 +12492,7 @@
         editor.selection.collapse(true);
       }
       if (selectedCells.length > 1 && exists(selectedCells, cell => eq(cell, selectedNode))) {
-        set$3(selectedNode, 'data-mce-selected', '1');
+        set$4(selectedNode, 'data-mce-selected', '1');
       }
     };
     const emptySingleTableCells = (editor, cells, outsideDetails) => Optional.some(() => {
@@ -15001,13 +15027,21 @@
       const matches = /([a-z0-9+\/=\s]+)/i.exec(data);
       return matches ? matches[1] : '';
     };
+    const decodeData = data => {
+      try {
+        return decodeURIComponent(data);
+      } catch (_a) {
+        return data;
+      }
+    };
     const parseDataUri = uri => {
       const [type, ...rest] = uri.split(',');
       const data = rest.join(',');
       const matches = /data:([^/]+\/[^;]+)(;.+)?/.exec(type);
       if (matches) {
         const base64Encoded = matches[2] === ';base64';
-        const extractedData = base64Encoded ? extractBase64Data(data) : decodeURIComponent(data);
+        const decodedData = decodeData(data);
+        const extractedData = base64Encoded ? extractBase64Data(decodedData) : decodedData;
         return Optional.some({
           type: matches[1],
           data: extractedData,
@@ -17182,11 +17216,11 @@
       }
       if (validate && rule && !isInternalElement) {
         each$e((_c = rule.attributesForced) !== null && _c !== void 0 ? _c : [], attr => {
-          set$3(element, attr.name, attr.value === '{$uid}' ? `mce_${ uid++ }` : attr.value);
+          set$4(element, attr.name, attr.value === '{$uid}' ? `mce_${ uid++ }` : attr.value);
         });
         each$e((_d = rule.attributesDefault) !== null && _d !== void 0 ? _d : [], attr => {
           if (!has$1(element, attr.name)) {
-            set$3(element, attr.name, attr.value === '{$uid}' ? `mce_${ uid++ }` : attr.value);
+            set$4(element, attr.name, attr.value === '{$uid}' ? `mce_${ uid++ }` : attr.value);
           }
         });
         if (rule.attributesRequired && !exists(rule.attributesRequired, attr => has$1(element, attr))) {
@@ -19836,6 +19870,147 @@
       }
     };
 
+    const removeFakeSelection = editor => {
+      Optional.from(editor.selection.getNode()).each(elm => {
+        elm.removeAttribute('data-mce-selected');
+      });
+    };
+    const setEditorCommandState = (editor, cmd, state) => {
+      try {
+        editor.getDoc().execCommand(cmd, false, String(state));
+      } catch (ex) {
+      }
+    };
+    const setCommonEditorCommands = (editor, state) => {
+      setEditorCommandState(editor, 'StyleWithCSS', state);
+      setEditorCommandState(editor, 'enableInlineTableEditing', state);
+      setEditorCommandState(editor, 'enableObjectResizing', state);
+    };
+    const restoreFakeSelection = editor => {
+      editor.selection.setRng(editor.selection.getRng());
+    };
+    const toggleClass = (elm, cls, state) => {
+      if (has(elm, cls) && !state) {
+        remove$6(elm, cls);
+      } else if (state) {
+        add$2(elm, cls);
+      }
+    };
+    const disableEditor = editor => {
+      const body = SugarElement.fromDom(editor.getBody());
+      toggleClass(body, 'mce-content-readonly', true);
+      editor.selection.controlSelection.hideResizeRect();
+      editor._selectionOverrides.hideFakeCaret();
+      removeFakeSelection(editor);
+    };
+    const enableEditor = editor => {
+      const body = SugarElement.fromDom(editor.getBody());
+      toggleClass(body, 'mce-content-readonly', false);
+      if (editor.hasEditableRoot()) {
+        set$3(body, true);
+      }
+      setCommonEditorCommands(editor, false);
+      if (hasEditorOrUiFocus(editor)) {
+        editor.focus();
+      }
+      restoreFakeSelection(editor);
+      editor.nodeChanged();
+    };
+
+    const isDisabled = editor => isDisabled$1(editor);
+    const internalContentEditableAttr = 'data-mce-contenteditable';
+    const switchOffContentEditableTrue = elm => {
+      each$e(descendants(elm, '*[contenteditable="true"]'), elm => {
+        set$4(elm, internalContentEditableAttr, 'true');
+        set$3(elm, false);
+      });
+    };
+    const switchOnContentEditableTrue = elm => {
+      each$e(descendants(elm, `*[${ internalContentEditableAttr }="true"]`), elm => {
+        remove$9(elm, internalContentEditableAttr);
+        set$3(elm, true);
+      });
+    };
+    const toggleDisabled = (editor, state) => {
+      const body = SugarElement.fromDom(editor.getBody());
+      if (state) {
+        disableEditor(editor);
+        set$3(body, false);
+        switchOffContentEditableTrue(body);
+      } else {
+        switchOnContentEditableTrue(body);
+        enableEditor(editor);
+      }
+    };
+    const registerDisabledContentFilters = editor => {
+      if (editor.serializer) {
+        registerFilters(editor);
+      } else {
+        editor.on('PreInit', () => {
+          registerFilters(editor);
+        });
+      }
+    };
+    const registerFilters = editor => {
+      editor.parser.addAttributeFilter('contenteditable', nodes => {
+        if (isDisabled(editor)) {
+          each$e(nodes, node => {
+            node.attr(internalContentEditableAttr, node.attr('contenteditable'));
+            node.attr('contenteditable', 'false');
+          });
+        }
+      });
+      editor.serializer.addAttributeFilter(internalContentEditableAttr, nodes => {
+        if (isDisabled(editor)) {
+          each$e(nodes, node => {
+            node.attr('contenteditable', node.attr(internalContentEditableAttr));
+          });
+        }
+      });
+      editor.serializer.addTempAttr(internalContentEditableAttr);
+    };
+    const isClickEvent = e => e.type === 'click';
+    const allowedEvents = ['copy'];
+    const isAllowedEventInDisabledMode = e => contains$2(allowedEvents, e.type);
+    const getAnchorHrefOpt = (editor, elm) => {
+      const isRoot = elm => eq(elm, SugarElement.fromDom(editor.getBody()));
+      return closest$3(elm, 'a', isRoot).bind(a => getOpt(a, 'href'));
+    };
+    const processDisabledEvents = (editor, e) => {
+      if (isClickEvent(e) && !VK.metaKeyPressed(e)) {
+        const elm = SugarElement.fromDom(e.target);
+        getAnchorHrefOpt(editor, elm).each(href => {
+          e.preventDefault();
+          if (/^#/.test(href)) {
+            const targetEl = editor.dom.select(`${ href },[name="${ removeLeading(href, '#') }"]`);
+            if (targetEl.length) {
+              editor.selection.scrollIntoView(targetEl[0], true);
+            }
+          } else {
+            window.open(href, '_blank', 'rel=noopener noreferrer,menubar=yes,toolbar=yes,location=yes,status=yes,resizable=yes,scrollbars=yes');
+          }
+        });
+      } else if (isAllowedEventInDisabledMode(e)) {
+        editor.dispatch(e.type, e);
+      }
+    };
+    const registerDisabledModeEventHandlers = editor => {
+      editor.on('ShowCaret ObjectSelected', e => {
+        if (isDisabled(editor)) {
+          e.preventDefault();
+        }
+      });
+      editor.on('DisabledStateChange', e => {
+        if (!e.isDefaultPrevented()) {
+          toggleDisabled(editor, e.state);
+        }
+      });
+    };
+    const registerEventsAndFilters$1 = editor => {
+      registerDisabledContentFilters(editor);
+      registerDisabledModeEventHandlers(editor);
+    };
+
     const isContentCssSkinName = url => /^[a-z0-9\-]+$/i.test(url);
     const toContentSkinResourceName = url => 'content/' + url + '/content.css';
     const isBundledCssSkinName = url => tinymce.Resource.has(toContentSkinResourceName(url));
@@ -20432,6 +20607,11 @@
             preview: 'font-family font-size'
           },
           {
+            selector: '.mce-placeholder',
+            styles: { float: 'left' },
+            ceFalseOverride: true
+          },
+          {
             selector: 'table',
             collapsed: false,
             styles: {
@@ -20472,6 +20652,15 @@
               marginRight: 'auto'
             },
             preview: false
+          },
+          {
+            selector: '.mce-placeholder',
+            styles: {
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto'
+            },
+            ceFalseOverride: true
           },
           {
             selector: 'table',
@@ -20521,6 +20710,11 @@
             collapsed: false,
             styles: { float: 'right' },
             preview: 'font-family font-size'
+          },
+          {
+            selector: '.mce-placeholder',
+            styles: { float: 'right' },
+            ceFalseOverride: true
           },
           {
             selector: 'table',
@@ -20680,6 +20874,7 @@
         subscript: { inline: 'sub' },
         superscript: { inline: 'sup' },
         code: { inline: 'code' },
+        samp: { inline: 'samp' },
         link: {
           inline: 'a',
           selector: 'a',
@@ -20739,7 +20934,7 @@
           }
         ]
       };
-      Tools.each('p h1 h2 h3 h4 h5 h6 div address pre dt dd samp'.split(/\s/), name => {
+      Tools.each('p h1 h2 h3 h4 h5 h6 div address pre dt dd'.split(/\s/), name => {
         formats[name] = {
           block: name,
           remove: 'all'
@@ -24076,6 +24271,29 @@
         toString
       };
     };
+    const oneOf = (props, rawF) => {
+      const f = rawF !== undefined ? rawF : identity;
+      const extract = (path, val) => {
+        const errors = [];
+        for (const prop of props) {
+          const res = prop.extract(path, val);
+          if (res.stype === SimpleResultType.Value) {
+            return {
+              stype: SimpleResultType.Value,
+              svalue: f(res.svalue)
+            };
+          }
+          errors.push(res);
+        }
+        return ResultCombine.consolidateArr(errors);
+      };
+      const toString = () => 'oneOf(' + map$3(props, prop => prop.toString()).join(', ') + ')';
+      return {
+        extract,
+        toString
+      };
+    };
+    const arrOfObj = compose(arrOf, objOf);
 
     const valueOf = validator => value(v => validator(v).fold(SimpleResult.serror, SimpleResult.svalue));
     const extractValue = (label, prop, obj) => {
@@ -24106,6 +24324,7 @@
     const validateEnum = values => valueOf(value => contains$2(values, value) ? Result.value(value) : Result.error(`Unsupported value: "${ value }", choose one of "${ values.join(', ') }".`));
     const requiredOf = (key, schema) => field(key, key, required(), schema);
     const requiredString = key => requiredOf(key, string);
+    const requiredStringEnum = (key, values) => field(key, key, required(), validateEnum(values));
     const requiredFunction = key => requiredOf(key, functionProcessor);
     const requiredArrayOf = (key, schema) => field(key, key, required(), arrOf(schema));
     const optionOf = (key, schema) => field(key, key, asOption(), schema);
@@ -24173,12 +24392,14 @@
 
     const contextButtonFields = baseToolbarButtonFields.concat([
       defaultedType('contextformbutton'),
+      defaultedString('align', 'end'),
       primary,
       onAction,
       customField('original', identity)
     ]);
     const contextToggleButtonFields = baseToolbarToggleButtonFields.concat([
       defaultedType('contextformbutton'),
+      defaultedString('align', 'end'),
       primary,
       onAction,
       customField('original', identity)
@@ -24189,15 +24410,56 @@
       contextformbutton: contextButtonFields,
       contextformtogglebutton: contextToggleButtonFields
     });
-    objOf([
-      defaultedType('contextform'),
-      defaultedFunction('initValue', constant('')),
+    const baseContextFormFields = [
       optionalLabel,
       requiredArrayOf('commands', toggleOrNormal),
       optionOf('launch', choose('type', {
         contextformbutton: launchButtonFields,
         contextformtogglebutton: launchToggleButtonFields
+      })),
+      defaultedFunction('onInput', noop),
+      defaultedFunction('onSetup', noop)
+    ];
+    const contextFormFields = [
+      ...contextBarFields,
+      ...baseContextFormFields,
+      requiredStringEnum('type', ['contextform']),
+      defaultedFunction('initValue', constant('')),
+      optionString('placeholder')
+    ];
+    const contextSliderFormFields = [
+      ...contextBarFields,
+      ...baseContextFormFields,
+      requiredStringEnum('type', ['contextsliderform']),
+      defaultedFunction('initValue', constant(0)),
+      defaultedFunction('min', constant(0)),
+      defaultedFunction('max', constant(100))
+    ];
+    const contextSizeInputFormFields = [
+      ...contextBarFields,
+      ...baseContextFormFields,
+      requiredStringEnum('type', ['contextsizeinputform']),
+      defaultedFunction('initValue', constant({
+        width: '',
+        height: ''
       }))
+    ];
+    choose('type', {
+      contextform: contextFormFields,
+      contextsliderform: contextSliderFormFields,
+      contextsizeinputform: contextSizeInputFormFields
+    });
+
+    objOf([
+      defaultedType('contexttoolbar'),
+      requiredOf('items', oneOf([
+        string,
+        arrOfObj([
+          optionString('name'),
+          optionString('label'),
+          requiredArrayOf('items', string)
+        ])
+      ]))
     ].concat(contextBarFields));
 
     const register$2 = editor => {
@@ -25930,7 +26192,7 @@
         const editor = this.editor;
         const selection = editor.selection;
         let node;
-        if (editor.initialized && selection && !shouldDisableNodeChange(editor)) {
+        if (editor.initialized && selection && !shouldDisableNodeChange(editor) && !isDisabled$1(editor)) {
           const root = editor.getBody();
           node = selection.getStart(true) || root;
           if (node.ownerDocument !== editor.getDoc() || !editor.dom.isChildOf(node, root)) {
@@ -27761,7 +28023,7 @@
         const doc = editor.getDoc();
         const realSelectionContainer = descendant$1(body, '#' + realSelectionId).getOrThunk(() => {
           const newContainer = SugarElement.fromHtml('<div data-mce-bogus="all" class="mce-offscreen-selection"></div>', doc);
-          set$3(newContainer, 'id', realSelectionId);
+          set$4(newContainer, 'id', realSelectionId);
           append$1(body, newContainer);
           return newContainer;
         });
@@ -28864,7 +29126,7 @@
       const body = SugarElement.fromDom(editor.getBody());
       const container = getStyleContainer(getRootNode(body));
       const style = SugarElement.fromTag('style');
-      set$3(style, 'type', 'text/css');
+      set$4(style, 'type', 'text/css');
       append$1(style, SugarElement.fromText(text));
       append$1(container, style);
       editor.on('remove', () => {
@@ -29038,6 +29300,9 @@
         initInstanceCallback.call(editor, editor);
       }
       autoFocus(editor);
+      if (isDisabled(editor)) {
+        toggleDisabled(editor, true);
+      }
     };
     const getStyleSheetLoader$1 = editor => editor.inline ? editor.ui.styleSheetLoader : editor.dom.styleSheetLoader;
     const makeStylesheetLoadingPromises = (editor, css, framedFonts) => {
@@ -29165,7 +29430,7 @@
       body.disabled = true;
       editor.readonly = isReadOnly$1(editor);
       editor._editableRoot = hasEditableRoot$1(editor);
-      if (editor.hasEditableRoot()) {
+      if (!isDisabled$1(editor) && editor.hasEditableRoot()) {
         if (editor.inline && DOM$6.getStyle(body, 'position', true) === 'static') {
           body.style.position = 'relative';
         }
@@ -29242,7 +29507,7 @@
     const DOM$5 = DOMUtils.DOM;
     const createIframeElement = (id, title, customAttrs, tabindex) => {
       const iframe = SugarElement.fromTag('iframe');
-      tabindex.each(t => set$3(iframe, 'tabindex', t));
+      tabindex.each(t => set$4(iframe, 'tabindex', t));
       setAll$1(iframe, customAttrs);
       setAll$1(iframe, {
         id: id + '_ifr',
@@ -29424,7 +29689,7 @@
         hide: Optional.from(api.hide).getOr(noop),
         isEnabled: Optional.from(api.isEnabled).getOr(always),
         setEnabled: state => {
-          const shouldSkip = state && editor.mode.get() === 'readonly';
+          const shouldSkip = state && (editor.mode.get() === 'readonly' || isDisabled(editor));
           if (!shouldSkip) {
             Optional.from(api.setEnabled).each(f => f(state));
           }
@@ -29638,8 +29903,10 @@
     const setEditableRoot = (editor, state) => {
       if (editor._editableRoot !== state) {
         editor._editableRoot = state;
-        editor.getBody().contentEditable = String(editor.hasEditableRoot());
-        editor.nodeChanged();
+        if (!isDisabled(editor)) {
+          editor.getBody().contentEditable = String(editor.hasEditableRoot());
+          editor.nodeChanged();
+        }
         fireEditableRootStateChange(editor, state);
       }
     };
@@ -30327,120 +30594,6 @@
       }
     }
 
-    const toggleClass = (elm, cls, state) => {
-      if (has(elm, cls) && !state) {
-        remove$6(elm, cls);
-      } else if (state) {
-        add$2(elm, cls);
-      }
-    };
-    const setEditorCommandState = (editor, cmd, state) => {
-      try {
-        editor.getDoc().execCommand(cmd, false, String(state));
-      } catch (ex) {
-      }
-    };
-    const setContentEditable = (elm, state) => {
-      elm.dom.contentEditable = state ? 'true' : 'false';
-    };
-    const removeFakeSelection = editor => {
-      Optional.from(editor.selection.getNode()).each(elm => {
-        elm.removeAttribute('data-mce-selected');
-      });
-    };
-    const restoreFakeSelection = editor => {
-      editor.selection.setRng(editor.selection.getRng());
-    };
-    const setCommonEditorCommands = (editor, state) => {
-      setEditorCommandState(editor, 'StyleWithCSS', state);
-      setEditorCommandState(editor, 'enableInlineTableEditing', state);
-      setEditorCommandState(editor, 'enableObjectResizing', state);
-    };
-    const setEditorReadonly = editor => {
-      editor.readonly = true;
-      editor.selection.controlSelection.hideResizeRect();
-      editor._selectionOverrides.hideFakeCaret();
-      removeFakeSelection(editor);
-    };
-    const unsetEditorReadonly = (editor, body) => {
-      editor.readonly = false;
-      if (editor.hasEditableRoot()) {
-        setContentEditable(body, true);
-      }
-      setCommonEditorCommands(editor, false);
-      if (hasEditorOrUiFocus(editor)) {
-        editor.focus();
-      }
-      restoreFakeSelection(editor);
-      editor.nodeChanged();
-    };
-    const toggleReadOnly = (editor, state) => {
-      const body = SugarElement.fromDom(editor.getBody());
-      toggleClass(body, 'mce-content-readonly', state);
-      if (state) {
-        setEditorReadonly(editor);
-        if (editor.hasEditableRoot()) {
-          setContentEditable(body, true);
-        }
-      } else {
-        unsetEditorReadonly(editor, body);
-      }
-    };
-    const isReadOnly = editor => editor.readonly;
-    const isClickEvent = e => e.type === 'click';
-    const allowedEvents = ['copy'];
-    const isReadOnlyAllowedEvent = e => contains$2(allowedEvents, e.type);
-    const getAnchorHrefOpt = (editor, elm) => {
-      const isRoot = elm => eq(elm, SugarElement.fromDom(editor.getBody()));
-      return closest$3(elm, 'a', isRoot).bind(a => getOpt(a, 'href'));
-    };
-    const processReadonlyEvents = (editor, e) => {
-      if (isClickEvent(e) && !VK.metaKeyPressed(e)) {
-        const elm = SugarElement.fromDom(e.target);
-        getAnchorHrefOpt(editor, elm).each(href => {
-          e.preventDefault();
-          if (/^#/.test(href)) {
-            const targetEl = editor.dom.select(`${ href },[name="${ removeLeading(href, '#') }"]`);
-            if (targetEl.length) {
-              editor.selection.scrollIntoView(targetEl[0], true);
-            }
-          } else {
-            window.open(href, '_blank', 'rel=noopener noreferrer,menubar=yes,toolbar=yes,location=yes,status=yes,resizable=yes,scrollbars=yes');
-          }
-        });
-      } else if (isReadOnlyAllowedEvent(e)) {
-        editor.dispatch(e.type, e);
-      }
-    };
-    const registerReadOnlySelectionBlockers = editor => {
-      editor.on('beforeinput paste cut dragend dragover draggesture dragdrop drop drag', e => {
-        if (isReadOnly(editor)) {
-          e.preventDefault();
-        }
-      });
-      editor.on('BeforeExecCommand', e => {
-        if ((e.command === 'Undo' || e.command === 'Redo') && isReadOnly(editor)) {
-          e.preventDefault();
-        }
-      });
-      editor.on('input', e => {
-        if (!e.isComposing && isReadOnly(editor)) {
-          const undoLevel = editor.undoManager.add();
-          if (isNonNullable(undoLevel)) {
-            editor.undoManager.undo();
-          }
-        }
-      });
-      editor.on('compositionend', () => {
-        if (isReadOnly(editor)) {
-          const undoLevel = editor.undoManager.add();
-          if (isNonNullable(undoLevel)) {
-            editor.undoManager.undo();
-          }
-        }
-      });
-    };
-
     const nativeEvents = Tools.makeMap('focus blur focusin focusout click dblclick mousedown mouseup mousemove mouseover beforepaste paste cut copy selectionchange ' + 'mouseout mouseenter mouseleave wheel keydown keypress keyup input beforeinput contextmenu dragstart dragend dragover ' + 'draggesture dragdrop drop drag submit ' + 'compositionstart compositionend compositionupdate touchstart touchmove touchend touchcancel', ' ');
     class EventDispatcher {
       static isNative(name) {
@@ -30632,12 +30785,12 @@
       }
       return editor.getBody();
     };
-    const isListening = editor => !editor.hidden;
+    const isListening = editor => !editor.hidden && !isDisabled(editor);
     const fireEvent = (editor, eventName, e) => {
       if (isListening(editor)) {
         editor.dispatch(eventName, e);
-      } else if (isReadOnly(editor)) {
-        processReadonlyEvents(editor, e);
+      } else if (isDisabled(editor)) {
+        processDisabledEvents(editor, e);
       }
     };
     const bindEventDelegate = (editor, eventName) => {
@@ -30886,6 +31039,52 @@
       };
     };
 
+    const setContentEditable = (elm, state) => {
+      elm.dom.contentEditable = state ? 'true' : 'false';
+    };
+    const toggleReadOnly = (editor, state) => {
+      const body = SugarElement.fromDom(editor.getBody());
+      if (state) {
+        editor.readonly = true;
+        if (editor.hasEditableRoot()) {
+          setContentEditable(body, true);
+        }
+        disableEditor(editor);
+      } else {
+        editor.readonly = false;
+        enableEditor(editor);
+      }
+    };
+    const isReadOnly = editor => editor.readonly;
+    const registerReadOnlyInputBlockers = editor => {
+      editor.on('beforeinput paste cut dragend dragover draggesture dragdrop drop drag', e => {
+        if (isReadOnly(editor)) {
+          e.preventDefault();
+        }
+      });
+      editor.on('BeforeExecCommand', e => {
+        if ((e.command === 'Undo' || e.command === 'Redo') && isReadOnly(editor)) {
+          e.preventDefault();
+        }
+      });
+      editor.on('input', e => {
+        if (!e.isComposing && isReadOnly(editor)) {
+          const undoLevel = editor.undoManager.add();
+          if (isNonNullable(undoLevel)) {
+            editor.undoManager.undo();
+          }
+        }
+      });
+      editor.on('compositionend', () => {
+        if (isReadOnly(editor)) {
+          const undoLevel = editor.undoManager.add();
+          if (isNonNullable(undoLevel)) {
+            editor.undoManager.undo();
+          }
+        }
+      });
+    };
+
     const defaultModes = [
       'design',
       'readonly'
@@ -30907,7 +31106,7 @@
       fireSwitchMode(editor, mode);
     };
     const setMode = (editor, availableModes, activeMode, mode) => {
-      if (mode === activeMode.get()) {
+      if (mode === activeMode.get() || editor.initialized && isDisabled(editor)) {
         return;
       } else if (!has$2(availableModes, mode)) {
         throw new Error(`Editor mode '${ mode }' is invalid`);
@@ -30951,7 +31150,8 @@
           editorReadOnly: true
         }
       });
-      registerReadOnlySelectionBlockers(editor);
+      registerReadOnlyInputBlockers(editor);
+      registerEventsAndFilters$1(editor);
       return {
         isReadOnly: () => isReadOnly(editor),
         set: mode => setMode(editor, availableModes.get(), activeMode, mode),
@@ -31135,6 +31335,12 @@
           type
         };
       };
+      const addDefaulted = (collection, type) => (name, spec) => {
+        collection[name.toLowerCase()] = {
+          type,
+          ...spec
+        };
+      };
       const addIcon = (name, svgData) => icons[name.toLowerCase()] = svgData;
       const addContext = (name, pred) => contexts[name.toLowerCase()] = pred;
       return {
@@ -31149,7 +31355,7 @@
         addAutocompleter: add(popups, 'autocompleter'),
         addContextMenu: add(contextMenus, 'contextmenu'),
         addContextToolbar: add(contextToolbars, 'contexttoolbar'),
-        addContextForm: add(contextToolbars, 'contextform'),
+        addContextForm: addDefaulted(contextToolbars, 'contextform'),
         addSidebar: add(sidebars, 'sidebar'),
         addView: add(views, 'views'),
         addIcon,
@@ -31623,8 +31829,8 @@
       documentBaseURL: null,
       suffix: null,
       majorVersion: '7',
-      minorVersion: '5.1',
-      releaseDate: 'TBD',
+      minorVersion: '6.0',
+      releaseDate: '2024-12-11',
       i18n: I18n,
       activeEditor: null,
       focusedEditor: null,

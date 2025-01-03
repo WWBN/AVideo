@@ -204,9 +204,12 @@ abstract class ObjectYPT implements ObjectInterface
         if (empty($_REQUEST['rowCount']) && !empty($_REQUEST['length'])) {
             $_REQUEST['rowCount'] = intval($_REQUEST['length']);
         }
-
         if (empty($_REQUEST['current']) && !empty($_GET['start'])) {
-            $_REQUEST['current'] = ($_GET['start'] / $_GET['length']) + 1;
+            if(empty($_GET['length'])){
+                $_REQUEST['current'] = 1;
+            }else{
+                $_REQUEST['current'] = ($_GET['start'] / $_GET['length']) + 1;
+            }
         } elseif (empty($_REQUEST['current']) && isset($_GET['start'])) {
             $_REQUEST['current'] = 1;
         }

@@ -36327,6 +36327,7 @@ signal-messenger:
   changes:
     - 6.5.0
     - 6.5.1
+    - 6.7.2
   label: Signal Messenger
   search:
     terms: []

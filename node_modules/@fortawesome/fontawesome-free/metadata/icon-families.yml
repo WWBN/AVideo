@@ -44021,6 +44021,7 @@ signal-messenger:
   changes:
     - 6.5.0
     - 6.5.1
+    - 6.7.2
   familyStylesByLicense:
     free:
       - family: classic
