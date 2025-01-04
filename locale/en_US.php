@@ -1,6 +1,18 @@
 <?php
 global $t;
-
+$t['Friend Request Sent, Awaiting Approval'] = 'Friend Request Sent, Awaiting Approval';
+$t['Shorts'] = 'Shorts';
+$t['Send Friend Request'] = 'Send Friend Request';
+$t['Remove first page'] = 'Remove first page';
+$t['view more'] = 'view more';
+$t['Most Recent'] = 'Most Recent';
+$t['Science and Technology'] = 'Science and Technology';
+$t['playlists'] = 'playlists';
+$t['culture-and-arts'] = 'culture-and-arts';
+$t['Articles'] = 'Articles';
+$t['News'] = 'News';
+$t['books'] = 'books';
+$t['Photo gallery'] = 'Photo gallery';
 $t[' You can use the Edit Parameters button to rename it to your choosing.<br>We recommend to keep the Program name '] = ' You can use the Edit Parameters button to rename it to your choosing.<br>We recommend to keep the Program name ';
 $t[" You'll no longer receive emails from us"] = " You'll no longer receive emails from us";
 $t[' and also reset the stream name/key'] = ' and also reset the stream name/key';
