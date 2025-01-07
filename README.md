@@ -110,7 +110,7 @@ Control panels significantly interfere with the necessary system access and proc
 Embarking on the installation of AVideo on your Ubuntu system? You're in the right place. Our comprehensive tutorials are tailored to guide you through every step of the installation process on various Ubuntu versions, including a Docker-based setup. 
 
 🎬 **Video Tutorial**
-- For a foundational understanding, check out our [Video Tutorial](https://tutorials.avideo.com/video/streamer-and-encoder). Though it's based on older versions of AVideo, it provides an excellent introduction to the installation process.
+- For a foundational understanding, check out our [Video Tutorial](https://tutorials.avideo.com/video/10/streamer-and-encoder). Though it's based on older versions of AVideo, it provides an excellent introduction to the installation process.
 
 🐧 **Ubuntu-Specific Installation Guides**
 - Tailor your installation to your specific Ubuntu version:
