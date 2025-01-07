@@ -251,8 +251,19 @@ if (!empty($matches)) {
 
     _error_log("Create dir: {$directory}");
     make_path($directory);
-    if(!is_dir($directory)){
-        die('error on create dir');
+    if (!is_dir($directory)) {
+        mkdir($directory);
+    }
+    if (!is_dir($directory)) {
+        $msg = "could not create dir $directory";
+        _error_log($msg);
+
+        echo json_encode([
+            'error' => true, 
+            'msg' => $msg,
+            'directory' => $directory,
+        ]);
+        exit;
     }
 } else {
     _error_log("matches not found: {$ffmpegCommand}");
