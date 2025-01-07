@@ -397,8 +397,8 @@ if (empty($ffmpegCommand)) {
 
 // Kill processes associated with the keyword
 if (!empty($keyword)) {
-    $countCommand = "pgrep -f 'ffmpeg.*$keyword' | wc -l";
-    $processListCommand = "pgrep -f 'ffmpeg.*$keyword' | xargs -r ps -o pid,cmd -p";
+    $countCommand = "pgrep -f 'ffmpeg.*$keyword' | grep -v $$ | wc -l";
+    $processListCommand = "pgrep -f 'ffmpeg.*$keyword' | grep -v $$ | xargs -r ps -o pid,cmd -p";
 
     $processCount = intval(exec($countCommand));
     $processList = shell_exec($processListCommand);
@@ -413,6 +413,7 @@ if (!empty($keyword)) {
         ]);
         exit;
     }
+
 
     // if I kill it it will infinite loop the VideoPlaylistScheduler because the on_publish done
     //_error_log("Killing process with keyword: $keyword");
