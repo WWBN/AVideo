@@ -1,6 +1,7 @@
 <?php
 
-function checkFileModified($filePath) {
+function checkFileModified($filePath)
+{
     // Check if the file exists
     if (file_exists($filePath)) {
         // Get the last modified time of the file
@@ -36,7 +37,8 @@ function file_upload_max_size()
     return $max_size;
 }
 
-function getServerLimits() {
+function getServerLimits()
+{
     // Get PHP limits
     $limits = [
         'upload_max_filesize' => ini_get('upload_max_filesize'),
@@ -72,7 +74,8 @@ function parse_size($size)
     }
 }
 
-function humanFileSize($size, $unit = "") {
+function humanFileSize($size, $unit = "")
+{
     if ((!$unit && $size >= 1 << 40) || $unit == "TB") {
         return number_format($size / (1 << 40), 2) . "TB";
     }
@@ -110,8 +113,66 @@ function checkVideosDir()
 
 function getVideosDir()
 {
-    return Video::getStoragePath();
+    global $isStandAlone, $global;
+    if(empty($isStandAlone)){
+        return Video::getStoragePath();
+    }else{
+        return "{$global['systemRootPath']}videos/";
+    }
 }
+
+function rrmdir($dir)
+{
+    //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));exit;}
+
+    $dir = str_replace(['//', '\\\\'], DIRECTORY_SEPARATOR, $dir);
+    //_error_log('rrmdir: ' . $dir);
+    if (empty($dir)) {
+        _error_log('rrmdir: the dir was empty');
+        return false;
+    }
+    global $global;
+    $dir = fixPath($dir);
+    $pattern = '/' . addcslashes($dir, DIRECTORY_SEPARATOR) . 'videos[\/\\\]?$/i';
+    if ($dir == getVideosDir() || $dir == "{$global['systemRootPath']}videos" . DIRECTORY_SEPARATOR || preg_match($pattern, $dir)) {
+        _error_log('rrmdir: A script ties to delete the videos Directory [' . $dir . '] ' . json_encode([$dir == getVideosDir(), $dir == "{$global['systemRootPath']}videos" . DIRECTORY_SEPARATOR, preg_match($pattern, $dir)]));
+        return false;
+    }
+    rrmdirCommandLine($dir);
+    if (is_dir($dir)) {
+        //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
+        $objects = @scandir($dir);
+        if (!empty($objects)) {
+            //_error_log('rrmdir: scandir ' . $dir . ' '. json_encode($objects));
+            foreach ($objects as $object) {
+                if ($object !== '.' && $object !== '..') {
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
+                        rrmdir($dir . DIRECTORY_SEPARATOR . $object);
+                    } else {
+                        unlink($dir . DIRECTORY_SEPARATOR . $object);
+                    }
+                }
+            }
+        }
+        if (preg_match('/(\/|^)videos(\/cache)?\/?$/i', $dir)) {
+            _error_log('rrmdir: do not delete videos or cache folder ' . $dir);
+            // do not delete videos or cache folder
+            return false;
+        }
+        if (is_dir($dir)) {
+            if (@rmdir($dir)) {
+                return true;
+            } elseif (is_dir($dir)) {
+                _error_log('rrmdir: could not delete folder ' . $dir);
+                return false;
+            }
+        }
+    } else {
+        //_error_log('rrmdir: The Directory does not exists '.$dir);
+        return true;
+    }
+}
+
 
 function make_path($path)
 {
@@ -717,7 +778,7 @@ function getTmpDir($subdir = "")
             $tmpDir = '/var/www/tmp/';
             if (empty($tmpDir) || !_isWritable($tmpDir)) {
                 $obj = AVideoPlugin::getDataObjectIfEnabled('Cache');
-                if(!empty($obj)){
+                if (!empty($obj)) {
                     $tmpDir = $obj->cacheDir;
                 }
                 if (empty($tmpDir) || !_isWritable($tmpDir)) {
@@ -858,8 +919,8 @@ function getIncludeFileContent($filePath, $varsArray = [], $setCacheName = false
     //$return = "<!-- {$basename} start -->";
     $return = '';
     if (!empty($setCacheName)) {
-        $name = $filePath . '_' . User::getId() . '_' . getLanguage(). '_'.(isForKidsSet()?'kids':'');
-        if(is_string($setCacheName)){
+        $name = $filePath . '_' . User::getId() . '_' . getLanguage() . '_' . (isForKidsSet() ? 'kids' : '');
+        if (is_string($setCacheName)) {
             $name .= $setCacheName;
         }
         //var_dump($name);exit;
@@ -1069,7 +1130,8 @@ function fixPath($path, $addLastSlash = false)
     return $path;
 }
 
-function getVideosDirectoryUsageInfo() {
+function getVideosDirectoryUsageInfo()
+{
     $dir = getVideosDir();
     // Verify if the directory exists
     if (!file_exists($dir)) {
@@ -1107,7 +1169,7 @@ function getVideosDirectoryUsageInfo() {
         'total_space_bytes' => $totalSpace,     // Total bytes in the partition
         'free_space_bytes' => $freeSpace,       // Free bytes in the partition
         'used_space_bytes' => $usedSpace,       // Used bytes in the partition
-        'directory_used' => humanFileSize($usageBytes),  
+        'directory_used' => humanFileSize($usageBytes),
         'total_space' => $totalSpaceFormatted,
         'free_space' => $freeSpaceFormatted,
         'used_space' => $usedSpaceFormatted,

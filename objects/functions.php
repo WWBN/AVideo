@@ -2595,58 +2595,6 @@ function cleanUpAccessControlHeader()
     header('Access-Control-Allow-Origin: ');  // This will essentially "remove" the header
 }
 
-function rrmdir($dir)
-{
-    //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));exit;}
-
-    $dir = str_replace(['//', '\\\\'], DIRECTORY_SEPARATOR, $dir);
-    //_error_log('rrmdir: ' . $dir);
-    if (empty($dir)) {
-        _error_log('rrmdir: the dir was empty');
-        return false;
-    }
-    global $global;
-    $dir = fixPath($dir);
-    $pattern = '/' . addcslashes($dir, DIRECTORY_SEPARATOR) . 'videos[\/\\\]?$/i';
-    if ($dir == getVideosDir() || $dir == "{$global['systemRootPath']}videos" . DIRECTORY_SEPARATOR || preg_match($pattern, $dir)) {
-        _error_log('rrmdir: A script ties to delete the videos Directory [' . $dir . '] ' . json_encode([$dir == getVideosDir(), $dir == "{$global['systemRootPath']}videos" . DIRECTORY_SEPARATOR, preg_match($pattern, $dir)]));
-        return false;
-    }
-    rrmdirCommandLine($dir);
-    if (is_dir($dir)) {
-        //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
-        $objects = @scandir($dir);
-        if (!empty($objects)) {
-            //_error_log('rrmdir: scandir ' . $dir . ' '. json_encode($objects));
-            foreach ($objects as $object) {
-                if ($object !== '.' && $object !== '..') {
-                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
-                        rrmdir($dir . DIRECTORY_SEPARATOR . $object);
-                    } else {
-                        unlink($dir . DIRECTORY_SEPARATOR . $object);
-                    }
-                }
-            }
-        }
-        if (preg_match('/(\/|^)videos(\/cache)?\/?$/i', $dir)) {
-            _error_log('rrmdir: do not delete videos or cache folder ' . $dir);
-            // do not delete videos or cache folder
-            return false;
-        }
-        if (is_dir($dir)) {
-            if (@rmdir($dir)) {
-                return true;
-            } elseif (is_dir($dir)) {
-                _error_log('rrmdir: could not delete folder ' . $dir);
-                return false;
-            }
-        }
-    } else {
-        //_error_log('rrmdir: The Directory does not exists '.$dir);
-        return true;
-    }
-}
-
 function getAdsDebugTag($adCode)
 {
     global $global;
