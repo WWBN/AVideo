@@ -1252,7 +1252,7 @@ abstract class CacheHandler
             return true;
         } else {
             $resp = execAsync("rm -R {$dir}");
-            _error_log("deleteCache not schedule {$dir} ".json_encode(debug_backtrace()));
+            _error_log("deleteCache not schedule {$dir} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             return false;
         }
     }
