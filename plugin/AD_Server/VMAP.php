@@ -3,6 +3,7 @@ header('Content-type: application/xml');
 
 require_once '../../videos/configuration.php';
 allowOrigin();
+header('Access-Control-Allow-Credentials: true');
 $ad_server = AVideoPlugin::loadPluginIfEnabled('AD_Server');
 if (empty($ad_server)) {
     die("not enabled");
