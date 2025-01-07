@@ -77,11 +77,10 @@ if(!empty($_REQUEST['cacheDownload'])){
     _error_log("cacheDownload: $path");
 }else{
     $path = Video::getPathToFile($file);
-    if(!file_exists($path) && !empty($_GET['folder'])){
-        $folder = preg_replace('/[^a-z0-9_-]/i', '', $_GET['folder']);
-        if(!empty($folder)){
-            $path = "{$global['systemRootPath']}videos/{$folder}/{$file}";
-        }
+    $folder = preg_replace('/[^a-z0-9_-]/i', '', @$_GET['folder']);
+    if(!file_exists($path) && !empty($folder)){
+        $file = str_replace("videos/{$folder}/", '', $file);
+        $path = "{$global['systemRootPath']}videos/{$folder}/{$file}";
     }  
     //var_dump($path, $file, $_GET);exit;
 }
