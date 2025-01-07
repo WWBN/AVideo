@@ -8,6 +8,10 @@ _session_write_close();
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
+if(!empty($isStandAlone)){
+    var_dump($_REQUEST);exit;
+}
+
 if (empty($_GET['file'])) {
     _error_log("XSENDFILE GET file not found ");
     die('GET file not found');
