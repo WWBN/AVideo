@@ -203,9 +203,9 @@ if (!empty($notify) && !empty($notifyCode)) {
     $url = "{$global['webSiteRootURL']}plugin/API/notify.ffmpeg.json.php?notify=" . urlencode($notify) . "&notifyCode={$notifyCode}&callback={$callback}";
     $content = file_get_contents($url);
     _error_log("ffmpeg.json Notify URL: $url $content");
-    
-    if(!empty($output['avideoPath'])){
-        _error_log("{$output['avideoPath']} created: ".humanFileSize(filesize($output['avideoPath'])));
+
+    if (!empty($output['avideoPath'])) {
+        _error_log("{$output['avideoPath']} created: " . humanFileSize(filesize($output['avideoPath'])));
     }
     $json = json_decode($content);
     die($content);
@@ -328,7 +328,7 @@ if (!empty($codeToExec->test)) {
     ]);
     exit;
 } else if (!empty($codeToExec->deleteFolder)) {
-    if(empty($isStandAlone)){
+    if (empty($isStandAlone)) {
         echo json_encode([
             'error' => true,
             'msg' => 'This is not a stand alone, do not delete folder',
@@ -354,7 +354,7 @@ if (!empty($codeToExec->test)) {
     ]);
     exit;
 } else if (!empty($codeToExec->deleteFile)) {
-    if(empty($isStandAlone)){
+    if (empty($isStandAlone)) {
         echo json_encode([
             'error' => true,
             'msg' => 'This is not a stand alone, do not delete file',
@@ -398,9 +398,13 @@ if (empty($ffmpegCommand)) {
 // Kill processes associated with the keyword
 if (!empty($keyword)) {
     $countCommand = "pgrep -f 'ffmpeg.*$keyword' | wc -l";
+    $processListCommand = "pgrep -f 'ffmpeg.*$keyword' | xargs -r ps -o pid,cmd -p";
+
     $processCount = intval(exec($countCommand));
-    if($processCount){
-        $msg = "There is something running [$processCount] with keyword [$keyword] already";
+    $processList = shell_exec($processListCommand);
+
+    if ($processCount) {
+        $msg = "There is something running [$processCount] with keyword [$keyword] already:\n" . trim($processList);
         _error_log($msg);
         echo json_encode([
             'error' => true,
@@ -409,6 +413,7 @@ if (!empty($keyword)) {
         ]);
         exit;
     }
+
     // if I kill it it will infinite loop the VideoPlaylistScheduler because the on_publish done
     //_error_log("Killing process with keyword: $keyword");
     //killProcessFromKeyword($keyword, 60);
