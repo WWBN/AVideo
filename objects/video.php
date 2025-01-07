@@ -1352,20 +1352,24 @@ if (!class_exists('Video')) {
             if ($status == Video::SORT_TYPE_VIEWABLE) {
                 $sql .= " AND ( ";
                 $sql .= " v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+                /* If I keep the code below it will appear on first page
                 if (User::isAdmin()) {
                     $sql .= " OR v.status = '" . Video::$statusUnpublished . "' ";
                 } else if (User::isLogged()) {
                     $sql .= " OR (v.status = '" . Video::$statusUnpublished . "' AND v.users_id = '" . User::getId() . "' )";
                 }
+                */
                 $sql .= " )";
             } elseif ($status == Video::SORT_TYPE_VIEWABLENOTUNLISTED) {
                 $sql .= " AND ( ";
                 $sql .= " v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
+                /*If I keep the code below it will appear on first page
                 if (User::isAdmin()) {
                     $sql .= " OR v.status = '" . Video::$statusUnpublished . "' ";
                 } else if (User::isLogged()) {
                     $sql .= " OR (v.status = '" . Video::$statusUnpublished . "' AND v.users_id = '" . User::getId() . "' )";
                 }
+                    */
                 $sql .= " )";
             } elseif (!empty($status) && strlen($status) == 1) {
                 $sql .= " AND v.status = '{$status}'";
