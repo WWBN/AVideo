@@ -295,7 +295,7 @@ if (!empty($evideo)) {
             videoNotFound($html);
         } else {
             AVideoPlugin::getModeYouTube($videos_id);
-            forbiddenPage('We could not load the video');
+            forbiddenPage(__('We could not load the video')." Video ID = {$videos_id}");
         }
     }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
