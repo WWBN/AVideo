@@ -63,126 +63,147 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
         <div class="panel-body">
             <div class="tab-content">
                 <div id="menu0" class="tab-pane fade in active">
-                    <div class="list-group-item">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" id="upload">
-                                <i class="fas fa-plus"></i> <?php echo __("Upload a Plugin"); ?>
-                            </button>
-                            <button type="button" class="btn btn-primary" id="createPlugin" onclick="avideoModalIframeFull(webSiteRootURL + 'CreatePlugin/');">
-                                <i class="fas fa-plus-circle"></i> <?php echo __("Create a Plugin"); ?>
-                            </button>
-                        </div>
-                        <div style="text-align: right; padding: 5px;">
-                            <span class="badge" id="PluginTagsTotal">...</span>
-                            <button class="label label-default checked PluginTags PluginActive" pluginTag="all" id="PluginTagsAll" onclick="resetShowActiveInactiveOnly();PluginTagsReset();">
-                                <i class="fas fa-check-double"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("All"); ?></span>
-                            </button>
-                            <button class="label label-primary checked PluginActive" pluginTag="Installed" id="PluginTagsInstalled" onclick="showActivesOnly();">
-                                <i class="fas fa-check"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Installed"); ?></span>
-                            </button>
-                            <button class="label label-primary checked PluginActive" pluginTag="Uninstalled" id="PluginTagsUninstalled" onclick="showInactiveOnly();">
-                                <i class="fas fa-times"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Uninstalled"); ?></span>
-                            </button>
-                            <?php
-                            $class = new ReflectionClass('PluginTags');
-                            $staticProperties = $class->getStaticProperties();
-                            foreach ($staticProperties as $key => $value) {
-                            ?>
-                                <button class="label label-<?php echo $value[0]; ?> unchecked PluginTags" id="PluginTags<?php echo $value[3]; ?>" pluginTag="<?php echo $value[3]; ?>" onclick="PluginTagsToggle('<?php echo $value[3]; ?>')" data-toggle="tooltip" title="<?php echo __($value[1]); ?>">
-                                    <?php echo $value[2]; ?> <span class="hidden-md hidden-sm hidden-xs"><?php echo __($value[1]); ?></span>
+                    <div class="panel panel-default">
+                        <div class="panel-heading ">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="upload">
+                                    <i class="fas fa-plus"></i> <?php echo __("Upload a Plugin"); ?>
                                 </button>
-                            <?php
-                            }
-                            ?>
+                                <button type="button" class="btn btn-primary" id="createPlugin" onclick="avideoModalIframeFull(webSiteRootURL + 'CreatePlugin/');">
+                                    <i class="fas fa-plus-circle"></i> <?php echo __("Create a Plugin"); ?>
+                                </button>
+                            </div>
+                            <div style="text-align: right; padding: 5px;">
+                                <span class="badge" id="PluginTagsTotal">...</span>
+                                <button class="label label-default checked PluginTags PluginActive" pluginTag="all" id="PluginTagsAll" onclick="resetShowActiveInactiveOnly();PluginTagsReset();">
+                                    <i class="fas fa-check-double"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("All"); ?></span>
+                                </button>
+                                <button class="label label-primary checked PluginActive" pluginTag="Installed" id="PluginTagsInstalled" onclick="showActivesOnly();">
+                                    <i class="fas fa-check"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Installed"); ?></span>
+                                </button>
+                                <button class="label label-primary checked PluginActive" pluginTag="Uninstalled" id="PluginTagsUninstalled" onclick="showInactiveOnly();">
+                                    <i class="fas fa-times"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Uninstalled"); ?></span>
+                                </button>
+                                <?php
+                                $class = new ReflectionClass('PluginTags');
+                                $staticProperties = $class->getStaticProperties();
+                                foreach ($staticProperties as $key => $value) {
+                                ?>
+                                    <button class="label label-<?php echo $value[0]; ?> unchecked PluginTags" id="PluginTags<?php echo $value[3]; ?>" pluginTag="<?php echo $value[3]; ?>" onclick="PluginTagsToggle('<?php echo $value[3]; ?>')" data-toggle="tooltip" title="<?php echo __($value[1]); ?>">
+                                        <?php echo $value[2]; ?> <span class="hidden-md hidden-sm hidden-xs"><?php echo __($value[1]); ?></span>
+                                    </button>
+                                <?php
+                                }
+                                ?>
+                            </div>
                         </div>
-                        <table id="grid" class="table table-condensed table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th data-column-id="name" data-formatter="name" data-width="300px"><?php echo __("Name"); ?></th>
-                                    <th data-column-id="description" data-formatter="description" data-css-class="wrapText hidden-md hidden-sm hidden-xs" data-header-css-class="hidden-md hidden-sm hidden-xs"><?php echo __("description"); ?></th>
-                                    <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="150px"></th>
-                                </tr>
-                            </thead>
-                        </table>
-                        <div id="pluginsFormModal" class="modal fade" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title"><?php echo __("Plugin Form"); ?></h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <ul class="nav nav-tabs">
-                                            <li class="active"><a data-toggle="tab" href="#visual">Visual</a></li>
-                                            <li><a data-toggle="tab" href="#code">Code</a></li>
-                                            <li class="pull-right">
-                                                <label>
-                                                    <input type="checkbox" id="is_advanced" onclick="tooglePluginForceShow(this);">
-                                                    <?php echo __('Show Advanced Options'); ?>
-                                                    <span class="badge">0</span>
-                                                </label>
-                                                <div class="clearfix"></div>
-                                                <label>
-                                                    <input type="checkbox" id="is_deprecated" onclick="tooglePluginForceShow(this);">
-                                                    <?php echo __('Show Deprecated Options'); ?>
-                                                    <span class="badge">0</span>
-                                                </label>
-                                                <div class="clearfix"></div>
-                                                <label>
-                                                    <input type="checkbox" id="is_experimental" onclick="tooglePluginForceShow(this);">
-                                                    <?php echo __('Show Experimental Options'); ?>
-                                                    <span class="badge">0</span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-content">
-                                            <div id="visual" class="tab-pane fade in active">
-                                                <div class="row" id="jsonElements" style="padding: 10px;">Some content.</div>
-                                            </div>
-                                            <div id="code" class="tab-pane fade">
-                                                <form class="form-compact" id="updatePluginForm" onsubmit="">
-                                                    <input type="hidden" id="inputPluginId">
-                                                    <label for="inputData" class="sr-only">Object Data</label>
-                                                    <textarea class="form-control" id="inputData" rows="5" placeholder="Object Data"></textarea>
-                                                </form>
+                        <div class="panel-body ">
+                            <table id="grid" class="table table-condensed table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th data-column-id="name" data-formatter="name" data-width="300px"><?php echo __("Name"); ?></th>
+                                        <th data-column-id="description" data-formatter="description" data-css-class="wrapText hidden-md hidden-sm hidden-xs" data-header-css-class="hidden-md hidden-sm hidden-xs"><?php echo __("description"); ?></th>
+                                        <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="150px"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div id="pluginsFormModal" class="modal fade" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title"><?php echo __("Plugin Form"); ?></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a data-toggle="tab" href="#visual">Visual</a></li>
+                                                <li><a data-toggle="tab" href="#code">Code</a></li>
+                                                <li class="pull-right">
+                                                    <label>
+                                                        <input type="checkbox" id="is_advanced" onclick="tooglePluginForceShow(this);">
+                                                        <?php echo __('Show Advanced Options'); ?>
+                                                        <span class="badge">0</span>
+                                                    </label>
+                                                    <div class="clearfix"></div>
+                                                    <label>
+                                                        <input type="checkbox" id="is_deprecated" onclick="tooglePluginForceShow(this);">
+                                                        <?php echo __('Show Deprecated Options'); ?>
+                                                        <span class="badge">0</span>
+                                                    </label>
+                                                    <div class="clearfix"></div>
+                                                    <label>
+                                                        <input type="checkbox" id="is_experimental" onclick="tooglePluginForceShow(this);">
+                                                        <?php echo __('Show Experimental Options'); ?>
+                                                        <span class="badge">0</span>
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div id="visual" class="tab-pane fade in active">
+                                                    <div class="row" id="jsonElements" style="padding: 10px;">Some content.</div>
+                                                </div>
+                                                <div id="code" class="tab-pane fade">
+                                                    <form class="form-compact" id="updatePluginForm" onsubmit="">
+                                                        <input type="hidden" id="inputPluginId">
+                                                        <label for="inputData" class="sr-only">Object Data</label>
+                                                        <textarea class="form-control" id="inputData" rows="5" placeholder="Object Data"></textarea>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
-                                        <button type="button" class="btn btn-primary" id="savePluginBtn"><?php echo __("Save changes"); ?></button>
-                                    </div>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div>
-                    </div>
-                </div>
-                <div id="menu1" class="tab-pane fade">
-                    <div class="list-group-item">
-                        <div class="panel panel-default">
-                            <div class="panel-heading"><a href="https://youphp.tube/marketplace/?tab=plugin" class="btn btn-default btn-xs"><i class="fa fa-plug"></i> Plugin Store </a></div>
-                            <div class="panel-body">
-                                <ul class="list-group" id="pluginStoreList">
-                                </ul>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
+                                            <button type="button" class="btn btn-primary" id="savePluginBtn"><?php echo __("Save changes"); ?></button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
                             </div>
                         </div>
                     </div>
                 </div>
+                <div id="menu1" class="tab-pane fade">
+                    <div class="panel panel-default">
+                        <div class="panel-heading clearfix">
+                            <div class="btn-group pull-right" role="group" aria-label="Plugin Store Actions">
+                                <a href="https://tutorials.avideo.com/signUp" class="btn btn-success btn-sm">
+                                    <i class="fa fa-user-plus"></i> Register
+                                </a>
+                                <a href="https://youphp.tube/marketplace/" class="btn btn-info btn-sm">
+                                    <i class="fa fa-sign-in"></i> Log In
+                                </a>
+                                <a href="https://youphp.tube/marketplace/?tab=plugin" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-plug"></i> Visit Plugin Store
+                                </a>
+                            </div>
+                            <p>Access our Plugin Store to explore, purchase, or upgrade plugins for your AVideo platform.</p>
+                            <p>
+                                <strong>Need an account?</strong><br>
+                                Register a new account or log in to your existing one
+                            </p>
+
+                        </div>
+                        <div class="panel-body">
+
+                            <ul class="list-group" id="pluginStoreList">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <li class="list-group-item hidden col-md-3" id="pluginStoreListModel">
-                <div class="panel panel-warning panel-sm">
+            <div class="hidden col-md-3" id="pluginStoreListModel">
+                <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="padding: 0;">
                         <div class="the-price">
                             <h1>
                                 USD $<span class="int">0</span>.<small class="cents">00</small>
                             </h1>
                         </div>
-                        <table class="table">
+                        <table class="table" style="margin: 0;">
                             <tr>
-                                <td>
+                                <td class="center" style="text-align: center; vertical-align: middle; height: 70px;">
                                     <img src="" class="img img-responsive img-rounded img-thumbnail zoom" style="height: 70px;">
                                 </td>
                             </tr>
@@ -195,7 +216,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                         <a href="https://youphp.tube/marketplace/?tab=plugin" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
                     </div>
                 </div>
-            </li>
+            </div>
         </div>
     </div>
 </div><!--/.container-->
