@@ -12,6 +12,7 @@ if(!empty($isStandAlone)){
     $folder = preg_replace('/[^0-9a-z_-]/i', '', $_REQUEST['folder']);
     $file = preg_replace('/[^0-9a-z_.-]/i', '', $_REQUEST['file']);
     $path = "{$global['systemRootPath']}videos/$folder/$file";
+    $filesize = filesize($path);
     header('Content-Description: File Transfer');
     //header('Content-Disposition: attachment; filename=' . $quoted);
     header('Content-Transfer-Encoding: binary');
@@ -20,6 +21,8 @@ if(!empty($isStandAlone)){
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
     header('Pragma: public');
     header("X-Sendfile: {$path}");
+    header("Content-type: " . mime_content_type($path));
+    header('Content-Length: ' . $filesize);
     exit;
 }
 
