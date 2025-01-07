@@ -2571,11 +2571,12 @@ if (typeof gtag !== \"function\") {
 
     public static function canCreateMeet()
     {
-        global $global, $config;
-        if (self::isLogged() && !empty($_SESSION['user']['canCreateMeet'])) {
-            return true;
+        $p = AVideoPlugin::isEnabledByName('Meet');
+        if(empty($p)){
+            return false;
         }
-        return self::isAdmin();
+        
+        return Meet::canCreateMeet();
     }
 
     public static function canComment()

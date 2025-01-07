@@ -15,6 +15,8 @@ User::loginFromRequestIfNotLogged();
 //use \Firebase\JWT\JWT;
 class Meet extends PluginAbstract
 {
+    const PERMISSION_CAN_CREATE_MEET = 0;
+
     public function getTags()
     {
         return [
@@ -693,5 +695,27 @@ Passcode: {password}
         $obj = $this->getDataObject();
         $buttonTitle = $obj->buttonTitle;
         include $global['systemRootPath'] . 'plugin/Meet/getUploadMenuButton.php';
+    }
+
+    function getPermissionsOptions()
+    {
+        $permissions = array();
+
+        $permissions[] = new PluginPermissionOption(self::PERMISSION_CAN_CREATE_MEET, __("Can create meetings"), "Members of the designated user group will have access create meetings", 'Meet');
+        return $permissions;
+    }
+
+    static function canCreateMeet()
+    {
+
+        if (User::isAdmin() || isCommandLineInterface()) {
+            return true;
+        }
+        
+        if(!User::isLogged()){
+            return false;
+        }
+
+        return !empty($_SESSION['user']['canCreateMeet']) || Permissions::hasPermission(self::PERMISSION_CAN_CREATE_MEET, 'Meet');
     }
 }
