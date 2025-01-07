@@ -2373,8 +2373,8 @@ if (!class_exists('Video')) {
                 return false;
             }
             TimeLogStart("Video::updateFilesize {$videos_id}");
-            ini_set('max_execution_time', 300); // 5
-            set_time_limit(300);
+            //ini_set('max_execution_time', 300); // 5
+            //set_time_limit(300);
             $video = new Video("", "", $videos_id, true);
             $_type = $video->getType();
             if ($_type !== 'video' && $_type !== 'audio') {

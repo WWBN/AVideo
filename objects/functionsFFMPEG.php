@@ -57,11 +57,11 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
     $mp3HLSFile = "{$paths['path']}index.mp3";
     $mp3File = "{$paths['path']}{$video['filename']}.mp3";
 
-    if($forceTry){
-        if(file_exists($mp3HLSFile)){
+    if ($forceTry) {
+        if (file_exists($mp3HLSFile)) {
             unlink($mp3HLSFile);
         }
-        if(file_exists($mp3File)){
+        if (file_exists($mp3File)) {
             unlink($mp3File);
         }
     }
@@ -245,6 +245,77 @@ function m3u8ToMP4($input, $makeItPermanent = false, $force = false)
 }
 
 
+function m3u8ToMP4RemoteFFMpeg($input, $callback)
+{
+    $videosDir = getVideosDir();
+    $outputfilename = str_replace($videosDir, "", $input);
+    $parts = explode("/", $outputfilename);
+    $resolution = Video::getResolutionFromFilename($input);
+    $video_filename = $parts[count($parts) - 2];
+    
+    $outputfilename = "index.mp4";
+    $outputpathDir = "{$videosDir}{$video_filename}/";
+
+    make_path($outputpathDir);
+    $outputpath = "{$outputpathDir}{$outputfilename}";
+    $msg = '';
+    $error = true;
+
+    if (empty($outputfilename)) {
+        $msg = "downloadHLS: empty outputfilename {$outputfilename}";
+        _error_log($msg);
+        return ['error' => $error, 'msg' => $msg];
+    }
+
+    _error_log("downloadHLS: m3u8ToMP4($input)");
+    $ism3u8 = preg_match('/.m3u8$/i', $input);
+
+    if (!preg_match('/^http/i', $input) && (filesize($input) <= 10 || $ism3u8)) { // dummy file
+        $filepath = pathToRemoteURL($input, true, true);
+        if ($ism3u8 && !preg_match('/.m3u8$/i', $filepath)) {
+            $filepath = addLastSlash($filepath) . 'index.m3u8';
+        }
+
+        $token = getToken(60);
+        $filepath = addQueryStringParameter($filepath, 'globalToken', $token);
+    } else {
+        $filepath = escapeshellcmdURL($input);
+    }
+
+    if (is_dir($filepath)) {
+        $filepath = addLastSlash($filepath) . 'index.m3u8';
+    }
+
+    if (!file_exists($outputpath)) {
+        $return = convertVideoFileWithFFMPEGAsyncOrRemote($filepath, $outputpath, 'm3u8ToMP4RemoteFFMpeg_'.md5($input), $callback);
+
+        if (empty($return)) {
+            $msg3 = "downloadHLS: ERROR 2 ";
+            $finalMsg = $msg . PHP_EOL . $msg3;
+            _error_log($msg3);
+            return ['error' => $error, 
+                'msg' => $finalMsg, 
+                'path' => $outputpath, 
+                'filename' => $outputfilename
+            ];
+        } else {
+            return [
+                'error' => false,
+                'msg' => '',
+                'return' => $return, 
+                'path' => $outputpath, 
+                'filename' => $outputfilename
+            ];
+        }
+    } else {
+        $msg = "downloadHLS: outputpath already exists ({$outputpath})";
+        _error_log($msg);
+    }
+
+    $error = false;
+    return ['error' => $error, 'msg' => $msg, 'path' => $outputpath, 'filename' => $outputfilename];
+}
+
 function getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation)
 {
     $progressFile = $toFileLocation . '.log';
@@ -371,12 +442,10 @@ function convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation)
     );
 }
 
-function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
+function buildFFMPEGCommand($fromFileLocation, $toFileLocation, $try = 0, $cpuUsagePercentage = 80)
 {
-    global $global, $advancedCustom;
-    if (empty($advancedCustom)) {
-        $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
-    }
+    global $advancedCustom;
+
     // Dynamically get the number of CPU cores
     $threads = 1; // Default to 1 thread
     if (function_exists('shell_exec')) {
@@ -384,34 +453,21 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
         if (!$cpuCores) {
             $cpuCores = (int)shell_exec('sysctl -n hw.ncpu 2>/dev/null'); // macOS
         }
-        if ($cpuCores > 1) {
-            $threads = $cpuCores - 1;
+
+        if ($cpuCores > 0) {
+            // Calculate the number of threads based on the percentage
+            $threads = max(1, (int)($cpuCores * ($cpuUsagePercentage / 100)));
         } else {
-            _error_log("convertVideoFileWithFFMPEG: Unable to detect CPU cores. Defaulting to 1 thread.");
+            _error_log("buildFFMPEGCommand: Unable to detect CPU cores. Defaulting to 1 thread.");
         }
-    } else {
-        _error_log("convertVideoFileWithFFMPEG: shell_exec is disabled. Defaulting to 1 thread.");
     }
 
-    $f = convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation);
-    $localFileLock = $f['localFileLock'];
-    if ($f['isOld']) {
-        _error_log("convertVideoFileWithFFMPEG: age: {$f['ageInSeconds']} too long without change, unlock it " . $fromFileLocation . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        @unlink($localFileLock);
-    } elseif ($f['file_exists']) {
-        _error_log("convertVideoFileWithFFMPEG: age: {$f['ageInSeconds']} download from CDN There is a process running for {$fromFileLocation} localFileLock=$localFileLock log=$logFile");
-        return false;
-    } else {
-        _error_log("convertVideoFileWithFFMPEG: creating file: localFileLock: {$localFileLock} toFileLocation: {$toFileLocation}");
-    }
-    make_path($toFileLocation);
-    file_put_contents($localFileLock, time());
     $fromFileLocationEscaped = escapeshellarg($fromFileLocation);
     $toFileLocationEscaped = escapeshellarg($toFileLocation);
-
     $format = pathinfo($toFileLocation, PATHINFO_EXTENSION);
 
-    if ($format == 'mp3') {
+    // Generate the FFmpeg command based on format and try count
+    if ($format === 'mp3') {
         switch ($try) {
             case 0:
                 $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
@@ -419,24 +475,8 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
             case 1:
                 $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 {$toFileLocationEscaped}";
                 break;
-            case 2:
-                $command = get_ffmpeg() . " -threads {$threads} -probesize 50M -analyzeduration 100M -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
-                break;
-            case 3:
-                $uniqueID = uniqid('temp_audio_', true);
-                $tempAudioFile = escapeshellarg("/tmp/{$uniqueID}.aac");
-                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -vn -acodec copy {$tempAudioFile}";
-                exec($command, $output, $return);
-
-                if ($return === 0) {
-                    $command = get_ffmpeg() . " -threads {$threads} -i {$tempAudioFile} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
-                } else {
-                    return false;
-                }
-                break;
             default:
                 return false;
-                break;
         }
     } else {
         switch ($try) {
@@ -446,55 +486,42 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
             case 1:
                 $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
                 break;
-            case 2:
-                $command = get_ffmpeg() . " -threads {$threads} -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
-                break;
-            case 3:
-                $command = get_ffmpeg() . " -threads {$threads} -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
-                break;
             default:
                 return false;
-                break;
         }
     }
 
-    if (!empty($logFile)) {
-        $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
-    } else {
-        $progressFile = $logFile;
-    }
-    if (empty($progressFile)) {
-        $progressFile = "{$toFileLocation}.log";
-    }
+    return $command;
+}
 
-    $command = removeUserAgentIfNotURL($command);
+function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
+{
+    $command = buildFFMPEGCommand($fromFileLocation, $toFileLocation, $try);
 
-    if (!isCommandLineInterface()) {
-        $command .= " > {$progressFile} 2>&1";
+    if (!$command) {
+        _error_log("convertVideoFileWithFFMPEG: Failed to build command");
+        return false;
     }
 
-    _session_write_close();
-    _mysql_close();
-    _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
-
-    if (isCommandLineInterface()) {
-        echo "convertVideoFileWithFFMPEG {$command} ";
-    }
+    $command .= " > {$logFile} 2>&1";
     exec($command, $output, $return);
 
-    if (!empty($tempAudioFile)) {
-        unlink($tempAudioFile);
+    _error_log("convertVideoFileWithFFMPEG: Command executed with return code {$return}");
+    return ['return' => $return, 'output' => $output, 'command' => $command];
+}
+
+function convertVideoFileWithFFMPEGAsyncOrRemote($fromFileLocation, $toFileLocation, $keyword, $callback = '')
+{
+    $command = buildFFMPEGCommand($fromFileLocation, $toFileLocation, 0);
+
+    if (!$command) {
+        _error_log("convertVideoFileWithFFMPEGAsyncOrRemote: Failed to build command");
+        return false;
     }
 
-    $global['lastFFMPEG'] = array($command, $output, $return);
-
-    _session_start();
-    _mysql_connect();
-    _error_log("convertVideoFileWithFFMPEG try[{$try}] output: " . json_encode($output));
-
-    unlink($localFileLock);
-
-    return ['return' => $return, 'output' => $output, 'command' => $command, 'fromFileLocation' => $fromFileLocation, 'toFileLocation' => $toFileLocation, 'progressFile' => $progressFile];
+    $result = execFFMPEGAsyncOrRemote($command, $keyword, $callback);
+    _error_log("convertVideoFileWithFFMPEGAsyncOrRemote: Command executed remotely or asynchronously");
+    return $result;
 }
 
 
@@ -568,7 +595,7 @@ function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, 
 }
 
 
-function buildFFMPEGRemoteURL($actionParams)
+function buildFFMPEGRemoteURL($actionParams, $callback='')
 {
     $obj = AVideoPlugin::getDataObjectIfEnabled('API');
     if (empty($obj) || empty($obj->standAloneFFMPEG)) {
@@ -576,15 +603,17 @@ function buildFFMPEGRemoteURL($actionParams)
     }
     $url = "{$obj->standAloneFFMPEG}";
     $actionParams['time'] = time();
+    $actionParams['notifyCode'] = encryptString(time());
+    $actionParams['callback'] = encryptString($callback);
     $encryptedParams = encryptString(json_encode($actionParams));
     $url = addQueryStringParameter($url, 'APISecret', $obj->APISecret);
     $url = addQueryStringParameter($url, 'codeToExecEncrypted', $encryptedParams);
     return $url;
 }
 
-function execFFMPEGAsyncOrRemote($command, $keyword)
+function execFFMPEGAsyncOrRemote($command, $keyword, $callback)
 {
-    $url = buildFFMPEGRemoteURL(['ffmpegCommand' => $command, 'keyword' => $keyword]);
+    $url = buildFFMPEGRemoteURL(['ffmpegCommand' => $command, 'keyword' => $keyword], $callback);
     if ($url) {
         _error_log("execFFMPEGAsyncOrRemote: URL $command");
         _error_log("execFFMPEGAsyncOrRemote: URL $url");
@@ -600,7 +629,7 @@ function getFFMPEGRemoteLog($keyword)
     $url = buildFFMPEGRemoteURL(['log' => 1, 'keyword' => $keyword]);
     //var_dump($url);
     if ($url) {
-        _error_log("getFFMPEGRemoteLog: URL $url ".json_encode(debug_backtrace()));
+        _error_log("getFFMPEGRemoteLog: URL $url " . json_encode(debug_backtrace()));
         return json_decode(url_get_contents($url));
     } else {
         return false;
@@ -629,3 +658,24 @@ function testFFMPEGRemote()
     }
 }
 
+function deleteFolderFFMPEGRemote($videoFilename)
+{
+    $url = buildFFMPEGRemoteURL(['deleteFolder' => $videoFilename]);
+    if ($url) {
+        _error_log("deleteFolderFFMPEGRemote: URL $url");
+        return json_decode(url_get_contents($url));
+    } else {
+        return false;
+    }
+}
+
+function deleteFileFFMPEGRemote($filePath)
+{
+    $url = buildFFMPEGRemoteURL(['deleteFile' => $filePath]);
+    if ($url) {
+        _error_log("deleteFileFFMPEGRemote: URL $url");
+        return json_decode(url_get_contents($url));
+    } else {
+        return false;
+    }
+}

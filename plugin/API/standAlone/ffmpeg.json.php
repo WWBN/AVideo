@@ -173,7 +173,8 @@ function sanitizeFFmpegCommand($command)
     return '';
 }
 
-function addKeywordToFFmpegCommand(string $command, string $keyword): string {
+function addKeywordToFFmpegCommand(string $command, string $keyword): string
+{
     // Escape the keyword to avoid shell injection
     $escapedKeyword = escapeshellarg($keyword);
 
@@ -195,6 +196,21 @@ function addKeywordToFFmpegCommand(string $command, string $keyword): string {
     return implode(' ', $commandParts);
 }
 
+$notify = getInput('notify', '');
+$notifyCode = getInput('notifyCode', '');
+$callback = getInput('callback', '');
+if (!empty($notify) && !empty($notifyCode)) {
+    $url = "{$global['webSiteRootURL']}plugin/API/notify.ffmpeg.json.php?notify=" . urlencode($notify) . "&notifyCode={$notifyCode}&callback={$callback}";
+    $content = file_get_contents($url);
+    _error_log("ffmpeg.json Notify URL: $url $content");
+    
+    if(!empty($output['avideoPath'])){
+        _error_log("{$output['avideoPath']} created: ".humanFileSize(filesize($output['avideoPath'])));
+    }
+    $json = json_decode($content);
+    die($content);
+}
+
 _error_log("Fetching inputs...");
 $codeToExecEncrypted = getInput('codeToExecEncrypted', '');
 $codeToExec = _decryptString($codeToExecEncrypted);
@@ -214,7 +230,31 @@ if (empty($codeToExec->keyword)) {
     $keyword = preg_replace('/[^a-zA-Z0-9_-]/', '', $codeToExec->keyword);
 }
 
-_error_log("Code to Execute: " . json_encode($codeToExec));
+$output = array();
+$output['avideoPath'] = '';
+$output['avideoRelativePath'] = '';
+$output['avideoFilename'] = '';
+$output['videoBasename'] = '';
+$output['avideoExstension'] = '';
+
+preg_match('/ [\'"]?(\/[0-9a-z_\/-]+\/videos\/([0-9a-z_\/-]+)\/([0-9a-z_-]+\.(mp4|mp3)))[\'"]?/i', $ffmpegCommand, $matches);
+
+if (!empty($matches)) {
+    $output = array();
+    $output['avideoPath'] = $matches[1];
+    $output['avideoRelativePath'] = str_replace($global['systemRootPath'], '', $output['avideoPath']);
+    $output['avideoFilename'] = $matches[2];
+    $output['videoBasename'] = $matches[3];
+    $output['avideoExstension'] = $matches[4];
+
+    $directory = dirname($output['avideoPath']);
+
+    make_path($directory);
+} else {
+    _error_log("matches not found: {$ffmpegCommand}");
+}
+
+_error_log("Code to Execute: " . json_encode(array($output, $codeToExec)));
 _error_log("Sanitized FFMPEG Command: $ffmpegCommand");
 _error_log("Keyword: $keyword");
 
@@ -273,18 +313,74 @@ if (!empty($codeToExec->test)) {
     }
 
     echo json_encode([
-        'error' =>$processAfterKillCount !== 0, // Indicate if killing processes was successful
+        'error' => $processAfterKillCount !== 0, // Indicate if killing processes was successful
         'msg' => $processAfterKillCount !== 0 ? 'Processes killed successfully.' : 'Failed to kill processes.',
         'logFile' => $logFile,
         'kill' => $killResult, // Result of pkill command
         'keyword' => $keyword,
         'unlink' => $unlinkSuccess,
-        'processToKillCount' => $processToKillCount, 
+        'processToKillCount' => $processToKillCount,
         'processAfterKillCount' => $processAfterKillCount, // Number of processes killed
         'countCommand' => $countCommand,
         'killCommand' => $killCommand,
         'output' => $output,
-        'killStatus' => $killStatus, 
+        'killStatus' => $killStatus,
+    ]);
+    exit;
+} else if (!empty($codeToExec->deleteFolder)) {
+    if(empty($isStandAlone)){
+        echo json_encode([
+            'error' => true,
+            'msg' => 'This is not a stand alone, do not delete folder',
+            'deleteFolder' => $codeToExec->deleteFolder,
+        ]);
+        exit;
+    }
+    _error_log("deleteFolder triggered");
+
+    $folderName = preg_replace('/[^a-z0-9_-]/i', '', $codeToExec->deleteFolder);
+    $folderPath = "{$global['systemRootPath']}videos/{$folderName}";
+    $rrmdir = false;
+    if (!empty($folderName) && is_dir($folderPath)) {
+        $rrmdir = rrmdir($folderPath);
+    }
+
+    echo json_encode([
+        'error' => !is_dir($folderPath),
+        'msg' => '',
+        'folderPath' => $folderPath,
+        'folderName' => $folderName,
+        'rrmdir' => $rrmdir,
+    ]);
+    exit;
+} else if (!empty($codeToExec->deleteFile)) {
+    if(empty($isStandAlone)){
+        echo json_encode([
+            'error' => true,
+            'msg' => 'This is not a stand alone, do not delete file',
+            'deleteFile' => $codeToExec->deleteFile,
+        ]);
+        exit;
+    }
+    _error_log("deleteFiler triggered");
+
+    $filePath = str_replace('../', '', $codeToExec->deleteFile);
+    $filePath = preg_replace('/[^a-z0-9_\/-]/i', '', $codeToExec->deleteFile);
+    if (!empty($filePath) && file_exists($filePath)) {
+        $unlink = unlink($folderPath);
+        $folderPath = dirname($filePath); // Get the folder path
+
+        // Check if the folder is empty
+        if (is_dir($folderPath) && count(scandir($folderPath)) === 2) { // 2 because '.' and '..' are always present
+            rmdir($folderPath); // Remove the folder
+        }
+    }
+
+    echo json_encode([
+        'error' => !file_exists($filePath),
+        'msg' => '',
+        'filePath' => $filePath,
+        'unlink' => $unlink,
     ]);
     exit;
 }
@@ -301,6 +397,18 @@ if (empty($ffmpegCommand)) {
 
 // Kill processes associated with the keyword
 if (!empty($keyword)) {
+    $countCommand = "pgrep -f 'ffmpeg.*$keyword' | wc -l";
+    $processCount = intval(exec($countCommand));
+    if($processCount){
+        $msg = "There is something running [$processCount] with keyword [$keyword] already";
+        _error_log($msg);
+        echo json_encode([
+            'error' => true,
+            'msg' => $msg,
+            'codeToExec' => $codeToExec,
+        ]);
+        exit;
+    }
     // if I kill it it will infinite loop the VideoPlaylistScheduler because the on_publish done
     //_error_log("Killing process with keyword: $keyword");
     //killProcessFromKeyword($keyword, 60);
@@ -309,10 +417,17 @@ if (!empty($keyword)) {
 
 $ffmpegCommand = addKeywordToFFmpegCommand($ffmpegCommand, $keyword);
 
-file_put_contents($logFile, $ffmpegCommand.PHP_EOL.PHP_EOL);
-
-$ffmpegCommand .= " > {$logFile} 2>&1";
-_error_log("Executing FFMPEG Command [$keyword]: $ffmpegCommand ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+$ffmpegCommand .= " > {$logFile} ";
+if (!empty($output['avideoPath'])) {
+    if (file_exists($output['avideoPath'])) {
+        unlink($output['avideoPath']);
+    }
+    $outputJson = escapeshellarg(json_encode($output));
+    $ffmpegCommand .= " && php " . escapeshellarg(__DIR__ . "/ffmpeg.json.php") . " notify={$outputJson} notifyCode={$codeToExec->notifyCode} callback={$codeToExec->callback}";
+}
+$ffmpegCommand .= " 2>&1";
+file_put_contents($logFile, $ffmpegCommand . PHP_EOL . PHP_EOL);
+_error_log("Executing FFMPEG Command [$keyword]: $ffmpegCommand " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
 
 try {
     $pid = execAsync($ffmpegCommand, $keyword);

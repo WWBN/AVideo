@@ -346,7 +346,7 @@ abstract class ObjectYPT implements ObjectInterface
                     }
                 } elseif (strtolower($value) == 'timezone') {
                     if (empty($this->$value)) {
-                        $this->$value = date_default_timezone_get();
+                        eval('$this->' . $value . ' = date_default_timezone_get();');
                     }
                     $formats .= 's';
                     $values[] = $this->$value;
@@ -384,20 +384,22 @@ abstract class ObjectYPT implements ObjectInterface
                     }
                 } elseif (is_string($value) && strtolower($value) == 'timezone') {
                     if (empty($this->$value)) {
-                        $this->$value = date_default_timezone_get();
+                        eval('$this->' . $value . ' = date_default_timezone_get();');
+
                     }
                     $formats .= 's';
                     $values[] = $this->$value;
                     $fields[] = " ? ";
                 } elseif (strtolower($value) == 'created_php_time') {
                     if (empty($this->$value)) {
-                        $this->$value = time();
+                        eval('$this->' . $value . ' = time();');
+
                     }
                     $formats .= 'i';
                     $values[] = $this->$value;
                     $fields[] = " ? ";
                 } elseif (strtolower($value) == 'modified_php_time') {
-                    $this->$value = time();
+                    eval('$this->' . $value . ' = time();');
                     $formats .= 'i';
                     $values[] = $this->$value;
                     $fields[] = " ? ";

@@ -77,7 +77,13 @@ if(!empty($_REQUEST['cacheDownload'])){
     _error_log("cacheDownload: $path");
 }else{
     $path = Video::getPathToFile($file);
-    //var_dump($path, $file);exit;
+    if(!file_exists($path) && !empty($_GET['folder'])){
+        $folder = preg_replace('/[^a-z0-9_-]/i', '', $_GET['folder']);
+        if(!empty($folder)){
+            $path = "{$global['systemRootPath']}videos/{$folder}/{$file}";
+        }
+    }  
+    //var_dump($path, $file, $_GET);exit;
 }
 //header('Content-Type: application/json');var_dump(__LINE__, $_SERVER["REQUEST_URI"], $file, $path);exit;
 //header('Content-Type: application/json');var_dump($advancedCustom->doNotUseXsendFile);
