@@ -9,7 +9,18 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 if(!empty($isStandAlone)){
-    var_dump($_REQUEST);exit;
+    $folder = preg_replace('/[^0-9a-z_-]/i', '', $_REQUEST['folder']);
+    $file = preg_replace('/[^0-9a-z_.-]/i', '', $_REQUEST['file']);
+    $path = "{$global['systemRootPath']}videos/$folder/$file";
+    header('Content-Description: File Transfer');
+    //header('Content-Disposition: attachment; filename=' . $quoted);
+    header('Content-Transfer-Encoding: binary');
+    header('Connection: Keep-Alive');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Pragma: public');
+    header("X-Sendfile: {$path}");
+    exit;
 }
 
 if (empty($_GET['file'])) {
