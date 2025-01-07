@@ -360,6 +360,16 @@ if (!empty($codeToExec->test)) {
         $rrmdir = rrmdir($folderPath);
     }
 
+    if (is_dir($folderPath)) {
+        exec("rm -R $folderPath");
+    }
+
+    if (is_dir($folderPath)) {
+        _error_log("deleteFolder error $folderPath");
+    }else{
+        _error_log("deleteFolder success $folderPath");
+    }
+
     echo json_encode([
         'error' => !is_dir($folderPath),
         'msg' => '',
