@@ -101,7 +101,7 @@ $tToleranceSide = 0.2;
                     <hr>
                 </li>
                 <li>
-                    <div>
+                    <div class="clearfix">
                         <?php
                         include $global['systemRootPath'] . 'view/include/forKids.php';
                         ?>

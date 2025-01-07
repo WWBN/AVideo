@@ -45,7 +45,3 @@ a,
 .pull-right {
     float: left !important;
 }
-
-.material-switch {
-    direction: initial;
-}

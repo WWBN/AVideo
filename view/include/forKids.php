@@ -13,7 +13,7 @@ if (!empty($_COOKIE['forKids'])) {
 }
 ?>
 <!-- For Kids Toggle -->
-<label for="forKids" class="row-label singleLineMenu hideIfCompressed">
+<label for="forKids" class="row-label singleLineMenu hideIfCompressed" style="padding: 5px;">
     <?php
     echo createColorfulTextSpans(__('For Kids'));
     ?>
