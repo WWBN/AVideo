@@ -249,7 +249,11 @@ if (!empty($matches)) {
 
     $directory = dirname($output['avideoPath']);
 
+    _error_log("Create dir: {$directory}");
     make_path($directory);
+    if(!is_dir($directory)){
+        die('error on create dir');
+    }
 } else {
     _error_log("matches not found: {$ffmpegCommand}");
 }
