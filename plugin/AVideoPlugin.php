@@ -1646,7 +1646,8 @@ class AVideoPlugin
 
     public static function userCanWatchVideoWithAds($users_id, $videos_id)
     {
-        global $userCanWatchVideoWithAdsFunction;
+        global $userCanWatchVideoWithAdsFunction, $userCanWatchVideoWithAdsReason; // Add global variable for the reason
+
         $users_id = intval($users_id);
         if (!isset($userCanWatchVideoWithAdsFunction)) {
             $userCanWatchVideoWithAdsFunction = [];
@@ -1655,10 +1656,13 @@ class AVideoPlugin
             $userCanWatchVideoWithAdsFunction[$users_id] = [];
         }
         if (isset($userCanWatchVideoWithAdsFunction[$users_id][$videos_id])) {
+            $userCanWatchVideoWithAdsReason = "Cached result found for user $users_id and video $videos_id";
             return $userCanWatchVideoWithAdsFunction[$users_id][$videos_id];
         }
+
         $plugins = Plugin::getAllEnabled();
         $resp = Video::userGroupAndVideoGroupMatch($users_id, $videos_id);
+
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
@@ -1666,22 +1670,33 @@ class AVideoPlugin
                 $can = $p->userCanWatchVideoWithAds($users_id, $videos_id);
                 if (!empty($can)) {
                     $resp = $can > 0 ? true : false;
+
                     if ($resp) {
+                        $userCanWatchVideoWithAdsReason = "Plugin {$value['dirName']} approved access for user $users_id to video $videos_id with ads";
                         if (!empty($users_id)) {
                             _error_log("userCanWatchVideoWithAds the plugin ({$value['dirName']}) said user ({$users_id}) can watch");
                         }
                         $userCanWatchVideoWithAdsFunction[$users_id][$videos_id] = true;
                         return true;
                     } else {
-                        //_error_log("userCanWatchVideoWithAds: users_id = $users_id, videos_id = $videos_id {$value['dirName']} said no");
+                        $userCanWatchVideoWithAdsReason = "Plugin {$value['dirName']} disapproved access for user $users_id to video $videos_id with ads";
+                        _error_log("userCanWatchVideoWithAds: DENIED by plugin ({$value['dirName']}) for user $users_id and video $videos_id");
                     }
                 }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
+        
+        if ($resp) {
+            $userCanWatchVideoWithAdsReason = "User group and video group match for user $users_id and video $videos_id";
+        } else {
+            $userCanWatchVideoWithAdsReason = "No plugins approved access and no user group match for user $users_id and video $videos_id";
+        }
+
         $userCanWatchVideoWithAdsFunction[$users_id][$videos_id] = $resp;
         return $resp;
     }
+
 
     public static function showAds($videos_id)
     {

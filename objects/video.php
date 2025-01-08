@@ -6067,6 +6067,12 @@ if (!class_exists('Video')) {
             // check if the video is not public
             $rows = UserGroups::getVideosAndCategoriesUserGroups($videos_id);
             if (empty($rows)) {
+                if (empty($users_id)) {
+                    $video = new Video('', '', $videos_id);
+                    if($video->getOnly_for_paid()){
+                        return false;
+                    }
+                }
                 return true;
             }
 

@@ -1031,7 +1031,8 @@ if (typeof gtag !== \"function\") {
         if (empty($rows)) {
             $pluginCanWatch = AVideoPlugin::userCanWatchVideo($users_id, $videos_id);
             if (!$pluginCanWatch) {
-                $global['canWatchVideoReason'] = "No user group or plugin restriction prevents access";
+                global $userCanWatchVideoReason;
+                $global['canWatchVideoReason'] = "No: $userCanWatchVideoReason";
                 if ($users_id) {
                     _error_log("User::canWatchVideo Plugin restricts access to user [{$users_id}] ({$videos_id})");
                 }
@@ -1090,7 +1091,8 @@ if (typeof gtag !== \"function\") {
         }
 
         if (AVideoPlugin::userCanWatchVideoWithAds($users_id, $videos_id)) {
-            $global['canWatchVideoReason'] = "canWatchVideoWithAds: User is allowed to watch with ads by a plugin";
+            global $userCanWatchVideoWithAdsReason;
+            $global['canWatchVideoReason'] = "canWatchVideoWithAds: User is allowed to watch with ads by a plugin: {$userCanWatchVideoWithAdsReason}";
             return true;
         }
 

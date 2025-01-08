@@ -8,14 +8,8 @@ if (!isCommandLineInterface()) {
 }
 
 // Prompt for the user ID
-do {
-    echo "Enter the User ID: ";
-    $users_id = trim(fgets(STDIN));
-    if (!is_numeric($users_id) || $users_id <= 0) {
-        echo "Invalid User ID. Please enter a valid positive integer.\n";
-        $users_id = null;
-    }
-} while (empty($users_id));
+echo "Enter the User ID: ";
+$users_id = intval(trim(fgets(STDIN)));
 
 // Prompt for the video ID
 do {
@@ -36,5 +30,14 @@ $reason = $global['canWatchVideoReason'] ?? 'Reason not specified.';
 
 // Display the result
 echo "\nCan User ID {$users_id} watch Video ID {$videos_id}?\n";
+echo $canWatch ? "Yes\n" : "No\n";
+echo "Reason: {$reason}\n";
+
+
+$canWatch = User::canWatchVideoWithAds($videos_id, $users_id, $ignoreCache);
+$reason = $global['canWatchVideoReason'] ?? 'Reason not specified.';
+
+// Display the result
+echo "\nADs: Can User ID {$users_id} watch Video ID {$videos_id}?\n";
 echo $canWatch ? "Yes\n" : "No\n";
 echo "Reason: {$reason}\n";
