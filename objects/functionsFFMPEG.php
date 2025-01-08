@@ -38,62 +38,86 @@ function get_ffprobe()
 function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
 {
     global $global;
+    $global['convertVideoToMP3FileIfNotExistsSteps'] = []; // Initialize an array to track steps
+    $global['convertVideoToMP3FileIfNotExistsFileAlreadyExists'] = false; // Track if MP3 file already exists
+    $global['convertVideoToMP3FilePath'] = ''; // Store the MP3 file path
+
     if (!empty($global['disableMP3'])) {
+        $global['convertVideoToMP3FileIfNotExistsSteps'][] = '$global[disableMP3] isset';
         _error_log('convertVideoToMP3FileIfNotExists: $global[disableMP3] isset');
         return false;
     }
+
     $video = Video::getVideoLight($videos_id);
     if (empty($video)) {
+        $global['convertVideoToMP3FileIfNotExistsSteps'][] = "videos_id=$videos_id not found";
         _error_log("convertVideoToMP3FileIfNotExists: videos_id=$videos_id not found");
         return false;
     }
+    $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Video loaded successfully";
+
     $types = [Video::$videoTypeVideo, Video::$videoTypeAudio];
     if (!in_array($video['type'], $types)) {
+        $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Invalid type: {$video['type']}";
         _error_log("convertVideoToMP3FileIfNotExists: invalid type {$video['type']}");
         return false;
     }
+    $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Valid video type: {$video['type']}";
 
     $paths = Video::getPaths($video['filename']);
     $mp3HLSFile = "{$paths['path']}index.mp3";
     $mp3File = "{$paths['path']}{$video['filename']}.mp3";
+    $global['convertVideoToMP3FilePath'] = $mp3File; // Set the global variable for MP3 file path
+    $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Paths set: MP3 HLS File={$mp3HLSFile}, MP3 File={$mp3File}";
 
     if ($forceTry) {
         if (file_exists($mp3HLSFile)) {
             unlink($mp3HLSFile);
+            $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Force delete MP3 HLS File";
         }
         if (file_exists($mp3File)) {
             unlink($mp3File);
+            $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Force delete MP3 File";
         }
     }
 
     if (file_exists($mp3HLSFile) || file_exists($mp3File)) {
-        return Video::getSourceFile($video['filename'], ".mp3", true);
+        $global['convertVideoToMP3FileIfNotExistsSteps'][] = "MP3 file already exists";
+        $global['convertVideoToMP3FileIfNotExistsFileAlreadyExists'] = true; // Indicate that the file already exists
+        return true; // Treat as successful since the file exists
     } else {
         $f = convertVideoFileWithFFMPEGIsLockedInfo($mp3File);
         if ($f['isUnlocked']) {
+            $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Starting FFmpeg conversion";
             _error_log("convertVideoToMP3FileIfNotExists: start videos_id=$videos_id try=$forceTry ");
             $sources = getVideosURLOnly($video['filename'], false);
+
             if (!empty($sources)) {
-                if (!empty($sources['m3u8'])) {
-                    $source = $sources['m3u8'];
-                } else {
-                    $source = end($sources);
-                }
+                $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Sources found";
+                $source = !empty($sources['m3u8']) ? $sources['m3u8'] : end($sources);
+                $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Using source URL: {$source['url']}";
                 convertVideoFileWithFFMPEG($source['url'], $mp3File, '', $forceTry);
+
                 if (file_exists($mp3File)) {
-                    return Video::getSourceFile($video['filename'], ".mp3", true);
+                    $global['convertVideoToMP3FileIfNotExistsSteps'][] = "MP3 file successfully created";
+                    return true; // Conversion successful
                 } else {
+                    $global['convertVideoToMP3FileIfNotExistsSteps'][] = "MP3 file creation failed: File does not exist";
                     _error_log("convertVideoToMP3FileIfNotExists: file not exists {$mp3File}");
                 }
             } else {
+                $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Sources not found";
                 _error_log("convertVideoToMP3FileIfNotExists: sources not found");
             }
         } else {
+            $global['convertVideoToMP3FileIfNotExistsSteps'][] = "Conversion is locked";
             _error_log("convertVideoToMP3FileIfNotExists: is locked");
         }
-        return false;
+        return false; // Conversion failed
     }
 }
+
+
 
 /**
  * Cleans up the specified directory by deleting files that do not match the given resolution pattern.
@@ -503,7 +527,12 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
         return false;
     }
 
-    $command .= " > {$logFile} 2>&1";
+    if(!empty($logFile)){
+        $command .= " > {$logFile} 2>&1";
+    }
+
+    _error_log("convertVideoFileWithFFMPEG: Command start $command");
+
     exec($command, $output, $return);
 
     _error_log("convertVideoFileWithFFMPEG: Command executed with return code {$return}");
