@@ -317,7 +317,7 @@ if (typeof gtag !== \"function\") {
         $this->load($this->getId());
     }
 
-    
+
     public static function getIdRequestOrSession()
     {
         if (!empty($_REQUEST['users_id'])) {
@@ -563,7 +563,7 @@ if (typeof gtag !== \"function\") {
 
     public function _getName()
     {
-        if(empty($this->name)){
+        if (empty($this->name)) {
             return '';
         }
         return str_replace('"', '', $this->name);
@@ -874,8 +874,22 @@ if (typeof gtag !== \"function\") {
         } else {
             $formats = "ssssiiiisssssssi";
             $values = [
-                $user, $password, $this->email, $name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
-                $status, $this->photoURL, $this->recoverPass, $this->channelName, $this->analyticsCode, $this->externalOptions, $this->phone, $this->emailVerified
+                $user,
+                $password,
+                $this->email,
+                $name,
+                $this->isAdmin,
+                $this->canStream,
+                $this->canUpload,
+                $this->canCreateMeet,
+                $status,
+                $this->photoURL,
+                $this->recoverPass,
+                $this->channelName,
+                $this->analyticsCode,
+                $this->externalOptions,
+                $this->phone,
+                $this->emailVerified
             ];
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, "
                 . " status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions, phone, is_company,emailVerified) "
@@ -956,123 +970,149 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-    public static function canWatchVideo($videos_id)
+    public static function canWatchVideo($videos_id, $users_id = null, $ignoreCache = false)
     {
+        global $global;
+        $global['canWatchVideoReason'] = ''; // Initialize global variable for the reason
         $cacheName = "canWatchVideo$videos_id";
-        if (!User::isLogged()) {
-            $cacheName = "canWatchVideoNOTLOGED$videos_id";
-            $cache = ObjectYPT::getCache($cacheName, 60);
+
+        if (empty($users_id)) {
+            $users_id = User::getId();
         }
-        if (empty($cache)) {
+
+        if (empty($users_id)) {
+            $cacheName = "canWatchVideoNOTLOGGED$videos_id";
+            if (!$ignoreCache) {
+                $cache = ObjectYPT::getCache($cacheName, 60);
+            }
+        }
+        if (empty($cache) && !$ignoreCache) {
             $cache = ObjectYPT::getSessionCache($cacheName, 600);
         }
-        if (isset($cache)) {
+        if (!$ignoreCache && isset($cache)) {
             if ($cache === 'false') {
                 $cache = false;
             }
             return $cache;
         }
         if (empty($videos_id)) {
-            //_error_log("User::canWatchVideo Video is empty ({$videos_id}) ".json_encode(debug_backtrace()));
+            $global['canWatchVideoReason'] = "Video ID is empty";
             return false;
         }
 
-        if (User::isAdmin()) {
+        if (User::isAdmin($users_id)) {
+            $global['canWatchVideoReason'] = "User {$users_id} is an admin";
             return true;
         }
 
         $video = new Video("", "", $videos_id);
         if ($video->getStatus() === 'i') {
+            $global['canWatchVideoReason'] = "Video is inactive";
             _error_log("User::canWatchVideo Video is inactive ({$videos_id})");
             self::setCacheWatchVideo($cacheName, false);
             return false;
         }
         $user = new User($video->getUsers_id());
         if ($user->getStatus() === 'i') {
+            $global['canWatchVideoReason'] = "Video owner is inactive";
             _error_log("User::canWatchVideo User is inactive ({$videos_id})");
             self::setCacheWatchVideo($cacheName, false);
             return false;
         }
 
-        if (AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
+        if (AVideoPlugin::userCanWatchVideo($users_id, $videos_id)) {
+            global $userCanWatchVideoReason;
+            $global['canWatchVideoReason'] = "User is allowed by plugin to watch the video: {$userCanWatchVideoReason}";
             self::setCacheWatchVideo($cacheName, true);
             return true;
         }
 
-        // check if the video is not public
         $rows = UserGroups::getVideosAndCategoriesUserGroups($videos_id);
-
         if (empty($rows)) {
-            // check if any plugin restrict access to this video
-            $pluginCanWatch = AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id);
+            $pluginCanWatch = AVideoPlugin::userCanWatchVideo($users_id, $videos_id);
             if (!$pluginCanWatch) {
-                if (User::isLogged()) {
-                    _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [" . User::getId() . "] can not see ({$videos_id})");
-                } else {
-                    //_error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [not logged] can not see ({$videos_id})");
+                $global['canWatchVideoReason'] = "No user group or plugin restriction prevents access";
+                if ($users_id) {
+                    _error_log("User::canWatchVideo Plugin restricts access to user [{$users_id}] ({$videos_id})");
                 }
                 self::setCacheWatchVideo($cacheName, false);
                 return false;
             } else {
+                $global['canWatchVideoReason'] = "No user group, but video is public";
                 self::setCacheWatchVideo($cacheName, true);
-                return true; // the video is public
+                return true;
             }
         }
 
-        if (!User::isLogged()) {
-            //_error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=" . session_id() . " SCRIPT_NAME=" . $_SERVER["SCRIPT_NAME"] . " IP = " . getRealIpAddr());
-
+        if (!$users_id) {
+            $global['canWatchVideoReason'] = "User is not logged in";
             self::setCacheWatchVideo($cacheName, false);
             return false;
         }
-        // if is not public check if the user is on one of its groups
-        $rowsUser = UserGroups::getUserGroups(User::getId());
 
+        $rowsUser = UserGroups::getUserGroups($users_id);
         foreach ($rows as $value) {
             foreach ($rowsUser as $value2) {
                 if ($value['id'] === $value2['id']) {
+                    $global['canWatchVideoReason'] = "User is in the required user group id {$value['id']}";
                     self::setCacheWatchVideo($cacheName, true);
                     return true;
                 }
             }
         }
+
         if (isVideo()) {
-            _error_log("User::canWatchVideo The user " . User::getId() . " is not on any in the user groups ({$videos_id}) " . json_encode($rows));
+            $global['canWatchVideoReason'] = "User is not in any required user groups";
+            _error_log("User::canWatchVideo The user {$users_id} is not in any user groups ({$videos_id}) " . json_encode($rows));
         }
         self::setCacheWatchVideo($cacheName, false);
         return false;
     }
 
-    public static function canWatchVideoWithAds($videos_id)
+    public static function canWatchVideoWithAds($videos_id, $users_id = null, $ignoreCache = false)
     {
+        global $global;
+        $global['canWatchVideoReason'] = ''; // Initialize global variable for the reason
+
+        if (empty($users_id)) {
+            $users_id = User::getId();
+        }
+
         if (empty($videos_id)) {
-            _error_log("User::canWatchVideo (videos_id is empty) " . $videos_id);
+            $global['canWatchVideoReason'] = "canWatchVideoWithAds: Video ID is empty";
+            _error_log("User::canWatchVideoWithAds Video ID is empty ({$videos_id})");
             return false;
         }
-        if (User::isAdmin()) {
+
+        if (User::isAdmin($users_id)) {
+            $global['canWatchVideoReason'] = "canWatchVideoWithAds: User is an admin";
             return true;
         }
 
-        if (AVideoPlugin::userCanWatchVideoWithAds(User::getId(), $videos_id)) {
-            //_error_log("User::userCanWatchVideoWithAds (can) " . User::getId() . " " . $videos_id);
-            return true;
-        }
-
-        if (!empty($_REQUEST['debug']) && isVideo()) {
-            _error_log("User::userCanWatchVideoWithAds (No can not) " . User::getId() . " " . $videos_id);
-        }
-
-        if (self::canWatchVideo($videos_id)) {
-            //_error_log("User::canWatchVideo (can) " . $videos_id);
+        if (AVideoPlugin::userCanWatchVideoWithAds($users_id, $videos_id)) {
+            $global['canWatchVideoReason'] = "canWatchVideoWithAds: User is allowed to watch with ads by a plugin";
             return true;
         }
 
         if (!empty($_REQUEST['debug']) && isVideo()) {
-            _error_log("User::canWatchVideo (No can not) " . $videos_id);
+            _error_log("User::canWatchVideoWithAds User cannot watch with ads ({$videos_id})");
         }
 
+        if (self::canWatchVideo($videos_id, $users_id, $ignoreCache)) {
+            $global['canWatchVideoReason'] = "canWatchVideoWithAds: User is allowed to watch the video";
+            return true;
+        }
+
+        if (!empty($_REQUEST['debug']) && isVideo()) {
+            _error_log("User::canWatchVideoWithAds User cannot watch video ({$videos_id})");
+        }
+
+        if(empty($global['canWatchVideoReason'])){
+            $global['canWatchVideoReason'] = "canWatchVideoWithAds: User cannot watch the video or ads";
+        }
         return false;
     }
+
 
     public function delete()
     {
@@ -1152,16 +1192,16 @@ if (typeof gtag !== \"function\") {
     {
         global $global, $advancedCustom, $advancedCustomUser, $config;
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-        
+
         if (!class_exists('AVideoPlugin')) {
             _error_log("ERROR login($noPass, $encodedPass, $ignoreEmailVerification) " . json_encode(debug_backtrace()));
             return self::SYSTEM_ERROR;
         }
-        
+
         if (User::isLogged()) {
             return self::USER_LOGGED;
         }
-        
+
         if (class_exists('AVideoPlugin')) {
             if (empty($advancedCustomUser)) {
                 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
@@ -1170,25 +1210,25 @@ if (typeof gtag !== \"function\") {
                 $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
             }
         }
-        
+
         if (strtolower($encodedPass) === 'false') {
             $encodedPass = false;
         }
-    
+
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
-    
+
         if (!isAVideoMobileApp() && !isAVideoEncoder() && !self::checkLoginAttempts()) {
             _error_log('login Captcha error ' . $_SERVER['HTTP_USER_AGENT']);
             return self::CAPTCHA_ERROR;
         }
-    
+
         ObjectYPT::clearSessionCache();
         _session_start();
-    
+
         if (empty($ignoreEmailVerification) && !empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
             unset($_SESSION['user']);
             self::sendVerificationLink($user['id']);
@@ -1197,7 +1237,7 @@ if (typeof gtag !== \"function\") {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
             $rememberme = 0;
-    
+
             if ((!empty($_REQUEST['rememberme']) && $_REQUEST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
                 $valid = '+ 1 year';
                 $expires = strtotime($valid);
@@ -1208,18 +1248,18 @@ if (typeof gtag !== \"function\") {
                 $expires = 0;
                 $passhash = self::getUserHash($user['id'], $valid);
             }
-    
+
             self::setUserCookie($rememberme, $user['id'], $user['user'], $passhash, $expires);
-    
+
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
-    
+
             // Call custom session regenerate logic
             // this was regenerating the session all the time, making harder to save info in the session
             //_session_regenerate_id(); 
-            
+
             _session_write_close();
-    
+
             _error_log("User:login finish with success users_id= {$_SESSION['user']['id']} {$_SERVER['HTTP_USER_AGENT']} IP=" . getRealIpAddr() . json_encode(debug_backtrace()));
             return self::USER_LOGGED;
         } else {
@@ -1852,7 +1892,7 @@ if (typeof gtag !== \"function\") {
         $formats .= 's';
         $values[] = $user;
 
-        if (class_exists('AVideoPlugin') && empty($advancedCustomUser)) {            
+        if (class_exists('AVideoPlugin') && empty($advancedCustomUser)) {
             $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
         }
         if (
@@ -1971,7 +2011,7 @@ if (typeof gtag !== \"function\") {
     static function isEmailUniqeOrFromUser($email, $users_id)
     {
         global $isEmailUniqeOrFromUserReason;
-    
+
         if (empty($email)) {
             $isEmailUniqeOrFromUserReason = "FALSE: empty email address.";
             return false;
@@ -1981,23 +2021,23 @@ if (typeof gtag !== \"function\") {
             $isEmailUniqeOrFromUserReason = "FALSE: Invalid email address. {$email}";
             return false;
         }
-    
+
         $userFromEmail = User::getUserFromEmail($email);
-    
+
         if (empty($userFromEmail)) {
             $isEmailUniqeOrFromUserReason = "TRUE: Email is unique and not associated with any user.";
             return true;
         }
-    
+
         if ($userFromEmail['id'] == $users_id) {
             $isEmailUniqeOrFromUserReason = "TRUE: Email belongs to the same user (ID: {$users_id}).";
             return true;
         }
-    
+
         $isEmailUniqeOrFromUserReason = "FALSE: Email is already associated with a different user (ID: {$userFromEmail['id']}).";
         return false;
     }
-    
+
 
     public function setEmail($email)
     {
@@ -2012,7 +2052,7 @@ if (typeof gtag !== \"function\") {
                 return false;
             }
         }
-        if($this->email !== $email){
+        if ($this->email !== $email) {
             $this->setEmailVerified(0);
         }
         $this->email = $email;
@@ -2572,10 +2612,10 @@ if (typeof gtag !== \"function\") {
     public static function canCreateMeet()
     {
         $p = AVideoPlugin::isEnabledByName('Meet');
-        if(empty($p)){
+        if (empty($p)) {
             return false;
         }
-        
+
         return Meet::canCreateMeet();
     }
 
@@ -2749,10 +2789,10 @@ if (typeof gtag !== \"function\") {
     public function getChannelName()
     {
         if (empty($this->channelName)) {
-            if(empty($this->user)){
+            if (empty($this->user)) {
                 return 'Unknow Channel Name';
             }
-            $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);            
+            $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);
             $this->save();
         }
         return $this->channelName;
@@ -2777,7 +2817,7 @@ if (typeof gtag !== \"function\") {
         return intval($this->emailVerified);
     }
 
-    
+
     public static function _getEmailVerified($users_id = 0)
     {
         global $global, $config;
@@ -3255,7 +3295,7 @@ if (typeof gtag !== \"function\") {
         if (!$canBlock->result) {
             return "<!-- {$canBlock->msg} -->";
         }
-        return "<!-- getActionBlockUserButton($users_id) -->".ReportVideo::actionButtonBlockUser($users_id);
+        return "<!-- getActionBlockUserButton($users_id) -->" . ReportVideo::actionButtonBlockUser($users_id);
     }
 
     public static function userCanBlockUser($users_id, $ignoreIfIsAlreadyBLocked = false)
@@ -3560,7 +3600,7 @@ if (typeof gtag !== \"function\") {
         $value = $user->getExternalOptions('redirectCustomUrl');
         $json = _json_decode($value, true);
         if (empty($json)) {
-            return ['url'=>'', 'msg'=>'', 'autoRedirect'=>0];
+            return ['url' => '', 'msg' => '', 'autoRedirect' => 0];
         }
         return $json;
     }
@@ -3579,7 +3619,7 @@ if (typeof gtag !== \"function\") {
     {
         global $advancedCustom;
         $u = new User($users_id);
-        if(empty($u->getUser())){
+        if (empty($u->getUser())) {
             echo "<!-- user ID not found {$users_id} -->";
             return false;
         }
@@ -3598,10 +3638,10 @@ if (typeof gtag !== \"function\") {
         if (empty($uploadedVideos)) {
             return '';
         }
-        if(empty($advancedCustom)){
+        if (empty($advancedCustom)) {
             $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
         }
-        ?>
+?>
         <div class="panel panel-default">
             <div class="panel-heading" style="position: relative;">
                 <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />
@@ -3628,17 +3668,17 @@ if (typeof gtag !== \"function\") {
                 <?php
                 if (empty($advancedCustom->doNotDisplayViews)) {
                 ?>
-                <div class=" text-muted pull-left">
-                    <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($users_id)), " ", __("Views in the last 30 days"); ?>
-                </div>
+                    <div class=" text-muted pull-left">
+                        <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($users_id)), " ", __("Views in the last 30 days"); ?>
+                    </div>
                 <?php
                 }
                 ?>
                 <div class="pull-right">
                     <?php
-                    if(class_exists('UserConnections')){
-                        echo UserConnections::getConnectionButtons($users_id); 
-                    } 
+                    if (class_exists('UserConnections')) {
+                        echo UserConnections::getConnectionButtons($users_id);
+                    }
                     ?>
                 </div>
             </div>
