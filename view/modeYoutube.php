@@ -125,21 +125,42 @@ if (!empty($evideo)) {
 
         if (empty($video) && !empty($videos_id)) {
             $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, false, false, false, true);
+            if (!empty($video)) {
+                $attemptLog[] = "Video loaded successfully line=".__LINE__;
+            }else{
+                $attemptLog[] = "No video found using Video::getVideo with videos_id = $videos_id and show unlisted $lastGetVideoSQL ";
+            }
             //var_dump($_GET, $video);exit;
             //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
         }
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+        $attemptLog = []; // Initialize the log tracker
+
+        // Add log details as you attempt to load the video
         if (empty($video)) {
             $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, false, false, true, true);
+            if (!empty($video)) {
+                $attemptLog[] = "Video loaded successfully line=".__LINE__;
+            }else{
+                $attemptLog[] = "No video found using Video::getVideo Suggested only and show unlisted $lastGetVideoSQL ";
+            }
         }
 
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, false, false, false, true);
+            if (!empty($video)) {
+                $attemptLog[] = "Video loaded successfully line=".__LINE__;
+            }else{
+                $attemptLog[] = "Fallback attempt using Video::getVideo search all videos and show unlisted  $lastGetVideoSQL";
+            }
         }
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+
         if (empty($video)) {
             $video = AVideoPlugin::getVideo();
+            if (!empty($video)) {
+                $attemptLog[] = "Video loaded successfully line=".__LINE__;
+            }else{
+                $attemptLog[] = "Not found attempt with AVideoPlugin::getVideo failed.  $lastGetVideoSQL";
+            }
         }
 
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
@@ -165,7 +186,7 @@ if (!empty($evideo)) {
             $modeYouTubeTimeLog['Code part 1.2'] = microtime(true) - $modeYouTubeTime;
             $modeYouTubeTime = microtime(true);
             $autoPlayVideo = Video::getVideo($video['next_videos_id']);
-            if(!empty($_GET['debug'])){
+            if (!empty($_GET['debug'])) {
                 //var_dump(__FILE__, __LINE__);
             }
         } else {
@@ -279,24 +300,25 @@ if (!empty($evideo)) {
     } else if (!empty($_GET['videoName'])) {
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
+    // Final check before forbiddenPage
     if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
         if ($_GET['playlist_id'] == 'favorite' || $_GET['playlist_id'] == 'watch-later') {
-            if ($_GET['playlist_id'] == 'favorite') {
-                $msg = __('Your Favorite playlist is waiting to be filled! Start exploring and add the videos you love the most.');
-            } else {
-                $msg = __('Oops! Your Watch Later playlist is empty. Don\'t worry, we have plenty of exciting videos for you to choose from and add here.');
-            }
-            $url = addQueryStringParameter($global['webSiteRootURL'], 'msg', $msg);
-            header("location: {$url}");
-            exit;
+            $attemptLog[] = "Playlist ID '{$playlist_id}' is either 'favorite' or 'watch-later' but no videos were found.";
         } else if (!empty($video['id'])) {
             $response = Video::whyUserCannotWatchVideo(User::getId(), @$video['id']);
             $html = "<ul><li>" . implode('</li><li>', $response->why) . "</li></ul>";
+            $attemptLog[] = "User is not allowed to watch video ID: {$video['id']}. Reasons: " . implode(', ', $response->why);
             videoNotFound($html);
         } else {
+            $attemptLog[] = "Final fallback attempt in AVideoPlugin::getModeYouTube failed for video ID: {$videos_id}";
             AVideoPlugin::getModeYouTube($videos_id);
-            forbiddenPage(__('We could not load the video')." Video ID = {$videos_id}");
         }
+
+        // Log the actions before calling forbiddenPage
+        foreach ($attemptLog as $key => $value) {
+            _error_log("Video load attempts: {$value}");
+        }
+        forbiddenPage(__('We could not load the video') . " Video ID = {$videos_id}");
     }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 }
