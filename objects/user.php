@@ -1006,7 +1006,7 @@ if (typeof gtag !== \"function\") {
         }
 
         $video = new Video("", "", $videos_id);
-        if ($video->getStatus() === 'i') {
+        if ($video->getStatus() === Video::$statusInactive) {
             $global['canWatchVideoReason'] = "Video is inactive";
             _error_log("User::canWatchVideo Video is inactive ({$videos_id})");
             self::setCacheWatchVideo($cacheName, false);
@@ -1088,6 +1088,20 @@ if (typeof gtag !== \"function\") {
         if (User::isAdmin($users_id)) {
             $global['canWatchVideoReason'] = "canWatchVideoWithAds: User is an admin";
             return true;
+        }
+        
+        $video = new Video("", "", $videos_id);
+        if ($video->getStatus() === Video::$statusInactive) {
+            $global['canWatchVideoReason'] = "canWatchVideoWithAds: Video is inactive";
+            _error_log("User::canWatchVideoWithAds Video is inactive ({$videos_id})");
+            return false;
+        }
+
+        $user = new User($video->getUsers_id());
+        if ($user->getStatus() === 'i') {
+            $global['canWatchVideoReason'] = "canWatchVideoWithAds: Video owner is inactive";
+            _error_log("User::canWatchVideoWithAds User is inactive ({$videos_id})");
+            return false;
         }
 
         if (AVideoPlugin::userCanWatchVideoWithAds($users_id, $videos_id)) {
