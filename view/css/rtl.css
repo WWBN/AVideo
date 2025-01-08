@@ -3,7 +3,7 @@
 #bigVideo,
 .mainArea,
 .galleryVideo,
-#sidebar,
+#sideBarContainer > ul > li > div,
 .navbar-header li,
 .panel-heading,
 th,
@@ -44,4 +44,8 @@ a,
 
 .pull-right {
     float: left !important;
+}
+
+.material-switch label{
+    direction: ltr;
 }
