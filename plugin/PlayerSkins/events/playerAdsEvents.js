@@ -81,6 +81,7 @@ player.on('adsready', function () {
     adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, function () {
         console.log('ADS: IMA SDK: Ad skipped.');
         logAdEvent('AdSkipped');
+        player.play();
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.CLICK, function () {

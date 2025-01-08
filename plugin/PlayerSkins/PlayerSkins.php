@@ -652,6 +652,7 @@ class PlayerSkins extends PluginAbstract
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");";
         //var_dump($IMAADTag, isVideoPlayerHasProgressBar());exit;
         if (!empty($IMAADTag) && isVideoPlayerHasProgressBar()) {
+            $autoPlayAdBreaks = false; // this is to make it work on livestreams
             $adTagOptions = array(
                 'id' => 'mainVideo',
                 'adTagUrl' => $IMAADTag,
@@ -660,10 +661,13 @@ class PlayerSkins extends PluginAbstract
                 // 'useStyledNonLinearAds' => true,
                 'forceNonLinearFullSlot' => true,
                 'adLabel' => __('Advertisement'),
-                // 'autoPlayAdBreaks' => false,
+                'autoPlayAdBreaks' => $autoPlayAdBreaks,
             );
             $js .= PHP_EOL . "adTagOptions = " . json_encode($adTagOptions) . ";" . PHP_EOL;
             $js .= "player.ima(adTagOptions);";
+            if(empty($autoPlayAdBreaks)){
+                $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/vmap_ad_scheduler.js') . PHP_EOL;
+            }
             if (isMobile()) {
                 $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerAdsEventsMobile.js') . PHP_EOL;
             }

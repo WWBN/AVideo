@@ -1740,6 +1740,8 @@ class AVideoPlugin
      */
     public static function getVideo()
     {
+        global $_plugin_getVideo;
+        $_plugin_getVideo = '';
         $plugins = Plugin::getAllEnabled();
         $resp = null;
         foreach ($plugins as $value) {
@@ -1748,6 +1750,7 @@ class AVideoPlugin
             if (is_object($p)) {
                 $video = $p->getVideo();
                 if (!empty($video)) {
+                    $_plugin_getVideo = $value['dirName'];
                     return $video;
                 }
             }
