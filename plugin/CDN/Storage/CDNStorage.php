@@ -1352,6 +1352,7 @@ class CDNStorage
         $parts2 = explode('?', $parts1[1]);
         $relativeFilename = $parts2[0];
         $localFile = getVideosDir() . "{$relativeFilename}";
+        $localFile = str_replace('/videos/videos/', '/videos/', $localFile);
         //var_dump($localFile);exit;
         $returnURL = false;
         if (file_exists($localFile)) {
