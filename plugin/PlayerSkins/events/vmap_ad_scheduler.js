@@ -39,6 +39,7 @@ function convertTimeOffsetToSeconds(timeOffset) {
 // Ensure ad display container is initialized on mobile
 function initializeAdContainer() {
     if (player.ima && typeof player.ima.initializeAdDisplayContainer === "function") {
+        console.log(`scheduleAd: initializeAdDisplayContainer`);
         player.ima.initializeAdDisplayContainer();
     }
 }
@@ -46,14 +47,16 @@ function initializeAdContainer() {
 // Schedule ad playback
 function scheduleAd(seconds) {
     if (seconds > 5) {
-        setTimeout(() => {
-            console.log(`Ad will play in 5 seconds at ${seconds} seconds`);
-        }, (seconds - 5) * 1000);
+        for (let index = 5; index > 0; index--) {
+            setTimeout(() => {
+                console.log(`scheduleAd: Ad will play in ${index} seconds at ${seconds} seconds`);
+            }, (seconds - index) * 1000);
+        }
     }
     setTimeout(() => {
-        console.log(`Checking playback state for ad at ${seconds} seconds`);
+        console.log(`scheduleAd: Checking playback state for ad at ${seconds} seconds`);
         if (!player.paused()) {
-            console.log(`Triggering ad at ${seconds} seconds`);
+            console.log(`scheduleAd: Triggering ad at ${seconds} seconds`);
             try {
                 // Ensure the ad container is ready (for mobile)
                 initializeAdContainer();
@@ -61,48 +64,65 @@ function scheduleAd(seconds) {
                 // Request and play ads
                 player.ima.requestAds();
             } catch (error) {
-                console.error(`Error while triggering ad: ${error.message}`);
+                console.error(`scheduleAd: Error while triggering ad: ${error.message}`);
             }
         } else {
-            console.log(`Video is paused, skipping ad at ${seconds} seconds`);
+            if(checkIfAdIsPlaying()){
+                console.log(`scheduleAd: ad is already playing, skipping ad at ${seconds} seconds`);
+            }else{
+                
+                skippedAdsQueue.push(() => {
+                    console.log('Playing skipped ad at the end of the video');
+                    initializeAdContainer();
+                    player.ima.requestAds();
+                });
+                console.log(`scheduleAd: Video is paused, skipping ad at ${seconds} seconds`);
+            }
             // Add logic to handle skipped ads if needed
         }
     }, seconds * 1000);
 }
 
-// Example usage
-player.on('ads-manager', function(response) {
-    console.log('Ads manager ready:', response.adsManager);
-});
-
-player.on('ads-ad-started', () => {
-    console.log('Ad started');
-});
-
-
 // Schedule ad at the end of the video
 function scheduleAdAtEnd() {
     player.on('timeupdate', function handleTimeUpdate() {
-        var remainingTime = player.duration() - player.currentTime();
-        try {
-            if (remainingTime <= 10 && remainingTime > 5) {
-                console.log('Ad will play in 5 seconds at the end of the video');
+        const remainingTime = player.duration() - player.currentTime();
+
+        // Countdown messages for the ad
+        if (remainingTime <= 10 && remainingTime > 5) {
+            const countdown = Math.floor(remainingTime - 5);
+            for (let index = countdown; index > 0; index--) {
+                setTimeout(() => {
+                    console.log(`scheduleAdAtEnd: Ad will play in ${index} seconds at the end of the video`);
+                }, (countdown - index) * 1000);
             }
-            if (remainingTime <= 5 && !player.paused()) {
-                console.log('Triggering ad at the end of the video');
-                player.ima.requestAds();
-                player.ima.playAd();
-                player.off('timeupdate', handleTimeUpdate); // Remove listener after ad is triggered
-            } else if (remainingTime <= 5) {
-                skippedAdsQueue.push(() => {
-                    console.log('Playing skipped ad at the end of the video');
+        }
+
+        // Check if the ad should be triggered
+        if (remainingTime <= 5) {
+            console.log('scheduleAdAtEnd: Checking playback state for ad at the end of the video');
+            try {
+                if (!player.paused()) {
+                    console.log('scheduleAdAtEnd: Triggering ad at the end of the video');
+                    initializeAdContainer();
                     player.ima.requestAds();
-                    player.ima.playAd();
-                });
-                player.off('timeupdate', handleTimeUpdate);
+                    player.off('timeupdate', handleTimeUpdate); // Remove listener after ad is triggered
+                } else {
+                    if (checkIfAdIsPlaying()) {
+                        console.log('scheduleAdAtEnd: Ad is already playing, skipping ad at the end of the video');
+                    } else {
+                        skippedAdsQueue.push(() => {
+                            console.log('Playing skipped ad at the end of the video');
+                            initializeAdContainer();
+                            player.ima.requestAds();
+                        });
+                        console.log('scheduleAdAtEnd: Video is paused, skipping ad at the end of the video');
+                    }
+                    player.off('timeupdate', handleTimeUpdate); // Remove listener
+                }
+            } catch (error) {
+                console.error(`scheduleAdAtEnd: Error while triggering ad: ${error.message}`);
             }
-        } catch (error) {
-            console.error(error);
         }
     });
 }
@@ -114,3 +134,35 @@ player.on('play', () => {
         playSkippedAd();
     }
 });
+
+
+let isAdPlaying = false;
+
+// Listen for ad start event
+player.on('ads-ad-started', () => {
+    isAdPlaying = true;
+    console.log('Ad started playing');
+});
+
+// Listen for ad end event
+player.on('ads-ad-ended', () => {
+    isAdPlaying = false;
+    console.log('Ad finished playing');
+});
+
+// Listen for ad error
+player.on('adserror', () => {
+    isAdPlaying = false;
+    console.log('Ad playback encountered an error');
+});
+
+// Example usage
+player.on('ads-manager', function(response) {
+    console.log('Ads manager ready:', response.adsManager);
+});
+
+// Function to check if an ad is playing
+function checkIfAdIsPlaying() {
+    console.log('Is an ad playing?', isAdPlaying);
+    return isAdPlaying;
+}
