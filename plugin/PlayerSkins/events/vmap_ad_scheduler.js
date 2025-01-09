@@ -36,33 +36,49 @@ function convertTimeOffsetToSeconds(timeOffset) {
             : 0;
 }
 
-// Schedule ad with a check for playback state
+// Ensure ad display container is initialized on mobile
+function initializeAdContainer() {
+    if (player.ima && typeof player.ima.initializeAdDisplayContainer === "function") {
+        player.ima.initializeAdDisplayContainer();
+    }
+}
+
+// Schedule ad playback
 function scheduleAd(seconds) {
     if (seconds > 5) {
         setTimeout(() => {
             console.log(`Ad will play in 5 seconds at ${seconds} seconds`);
         }, (seconds - 5) * 1000);
     }
-
     setTimeout(() => {
-        try {
-            if (!player.paused()) { // Play ad if video is playing
-                console.log(`Triggering ad at ${seconds} seconds`);
+        console.log(`Checking playback state for ad at ${seconds} seconds`);
+        if (!player.paused()) {
+            console.log(`Triggering ad at ${seconds} seconds`);
+            try {
+                // Ensure the ad container is ready (for mobile)
+                initializeAdContainer();
+                
+                // Request and play ads
                 player.ima.requestAds();
-                player.ima.playAd();
-            } else {
-                console.log(`Skipped ad at ${seconds} seconds because the video is paused`);
-                skippedAdsQueue.push(() => {
-                    console.log(`Playing skipped ad scheduled for ${seconds} seconds`);
-                    player.ima.requestAds();
-                    player.ima.playAd();
-                });
+            } catch (error) {
+                console.error(`Error while triggering ad: ${error.message}`);
             }
-        } catch (error) {
-            console.error(error);
+        } else {
+            console.log(`Video is paused, skipping ad at ${seconds} seconds`);
+            // Add logic to handle skipped ads if needed
         }
     }, seconds * 1000);
 }
+
+// Example usage
+player.on('ads-manager', function(response) {
+    console.log('Ads manager ready:', response.adsManager);
+});
+
+player.on('ads-ad-started', () => {
+    console.log('Ad started');
+});
+
 
 // Schedule ad at the end of the video
 function scheduleAdAtEnd() {
