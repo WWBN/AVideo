@@ -578,6 +578,7 @@ class Scheduler extends PluginAbstract
 
     function executeEveryDay()
     {
+        global $global;
         $obj = AVideoPlugin::getDataObject('Scheduler');
         if (!empty($obj->deleteOldUselessVideos)) {
             Video::deleteUselessOldVideos(30);
@@ -586,10 +587,12 @@ class Scheduler extends PluginAbstract
         // Run the function to delete files older than 7 days from /var/www/tmp
         $this->deleteOldFiles();
         self::manageLogFile();
+
     }
 
     function deleteOldFiles($directory = '/var/www/tmp', $days = 7)
     {
+        global $global;
         // Check if the directory exists
         if (!is_dir($directory)) {
             _error_log("Directory does not exist: $directory");
@@ -601,6 +604,8 @@ class Scheduler extends PluginAbstract
 
         // Define the time limit in seconds (days * 24 * 60 * 60)
         $timeLimit = $days * 24 * 60 * 60;
+
+        execAsync("php {$global['systemRootPath']}install/cleanup_systemd-private.php");
 
         // Open the directory
         if ($handle = opendir($directory)) {
