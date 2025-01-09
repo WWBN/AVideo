@@ -66,6 +66,7 @@ player.on('adsready', function () {
     adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, function () {
         console.log('ADS: IMA SDK: Ad completed.');
         logAdEvent('AdCompleted');
+        player.play();
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.PAUSED, function () {
