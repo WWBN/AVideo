@@ -640,7 +640,7 @@ function buildFFMPEGRemoteURL($actionParams, $callback='')
     return $url;
 }
 
-function execFFMPEGAsyncOrRemote($command, $keyword, $callback)
+function execFFMPEGAsyncOrRemote($command, $keyword, $callback='')
 {
     $url = buildFFMPEGRemoteURL(['ffmpegCommand' => $command, 'keyword' => $keyword], $callback);
     if ($url) {
