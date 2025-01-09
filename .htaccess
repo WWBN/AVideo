@@ -52,7 +52,7 @@ Options All -Indexes
 # END Expires
 # BEGIN Caching
 <IfModule mod_headers.c>
-
+    Header set Permissions-Policy "browsing-topics=()"
     # Set Access-Control-Allow-Origin for multiple file types
     <FilesMatch "\.(php|ico|pdf|flv|jpg|jpeg|png|gif|swf|ts|webp|mp3|mp4|woff2|css|html|htm|key|m3u8|vtt|srt)$">
         Header setifempty Access-Control-Allow-Origin "*"
