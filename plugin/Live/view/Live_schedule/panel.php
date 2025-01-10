@@ -58,16 +58,7 @@ global $Schedulecount;
                 <i class="fa fa-trash"></i> <span class=""><?php echo __('Delete Poster'); ?></span>
             </button>
         </div>
-        <div class="btn-group  btn-group-justified futureButtons" style="margin-top: 10px;">
-            <?php
-            if (Live::canStreamWithWebRTC()) {
-            ?>
-                <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title=<?php printJSString(__("Go Live With Webcam")); ?>>
-                    <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class=""><?php echo __("Go Live With Webcam"); ?></span>
-                </button>
-            <?php
-            }
-            ?>
+        <div class="btn-group  btn-group-justified futureButtons" style="margin-top: 10px;">            
             <button class="btn btn-primary" onclick="editSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Edit') ?>">
                 <i class="fa fa-edit"></i> <span class=""><?php echo __('Edit'); ?></span>
             </button>

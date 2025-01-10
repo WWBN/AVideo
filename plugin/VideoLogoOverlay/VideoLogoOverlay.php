@@ -94,7 +94,7 @@ class VideoLogoOverlay extends PluginAbstract {
 
     function getFooterCode() {
         global $global;
-        if (!isVideo() || isWebRTC()) {
+        if (!isVideo()) {
             return '';
         }
         $style = VideoLogoOverlay::getStyle();
@@ -150,9 +150,6 @@ class VideoLogoOverlay extends PluginAbstract {
 
     public function getHeadCode() {
         global $global;
-        if (isWebRTC()) {
-            return '';
-        }
         $url = getURL('plugin/VideoLogoOverlay/style.css');
         return "<link href=\"{$url}\" rel=\"stylesheet\" type=\"text/css\"  media=\"print\" onload=\"this.media='all'\"/>";
     }

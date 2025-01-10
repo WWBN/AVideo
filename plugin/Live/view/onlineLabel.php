@@ -91,9 +91,6 @@ if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id,
                 player.trigger('loadstart');
                 player.posterImage.show();
                 player.bigPlayButton.show();
-                if(!isWebRTC()){
-                    player.currentTime(0);
-                }
                 player.on('play', function () {
                     $('#mainVideo.liveVideo').find('.vjs-poster').fadeOut();
                 });

@@ -1607,7 +1607,6 @@ $t['Watch now'] = 'Assista agora';
 $t['Watching Time'] = 'Tempo de exibição';
 $t['We could not add you on the plan, we also refund you the payment'] = 'Não conseguimos adicionar você ao plano, também reembolsamos o pagamento';
 $t['We go live in...'] = 'Entraremos ao vivo em...';
-$t['WebRTC Player'] = 'Player WebRTC';
 $t['Wednsday'] = 'Quarta-feira';
 $t['When the video is saved like this, it will show up under the menu-point'] = 'Quando o vídeo for salvo assim, ele aparecerá sob o ponto de menu';
 $t['Will start in'] = 'Começará em';

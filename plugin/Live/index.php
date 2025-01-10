@@ -176,13 +176,6 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                     </button>
                 <?php
                 }
-                if (Live::canStreamWithWebRTC()) {
-                ?>
-                    <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right" data-toggle="tooltip" title=<?php printJSString(__("Go Live With Webcam")); ?>>
-                        <i class="fas fa-camera"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Go Live With Webcam"); ?></span><span class="hidden-lg"><?php echo __("Webcam"); ?></span>
-                    </button>
-                    <?php
-                }
                 if (empty($activeServerFound)) {
                     if (!empty($servers[0])) {
                         $_REQUEST['live_servers_id'] = $servers[0]['id'];

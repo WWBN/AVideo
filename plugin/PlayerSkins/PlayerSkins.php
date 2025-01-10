@@ -259,7 +259,7 @@ class PlayerSkins extends PluginAbstract
     public function getHeadCode()
     {
         global $global, $config, $video;
-        if (isWebRTC() || !empty($global['isForbidden'])) {
+        if (!empty($global['isForbidden'])) {
             return '';
         }
         if (is_object($video)) {
@@ -439,9 +439,6 @@ class PlayerSkins extends PluginAbstract
 
     public function getFooterCode()
     {
-        if (isWebRTC()) {
-            return '';
-        }
         global $global, $config, $getStartPlayerJSWasRequested, $video, $url, $title;
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
@@ -619,9 +616,6 @@ class PlayerSkins extends PluginAbstract
 
     static function getStartPlayerJSCode($noReadyFunction = false, $currentTime = 0)
     {
-        if (isWebRTC()) {
-            return '';
-        }
         global $config, $global, $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup, $IMAADTag;
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         $js = "";

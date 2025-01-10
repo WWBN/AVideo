@@ -18,7 +18,6 @@ class Live_servers extends ObjectYPT
     protected $getRemoteFile;
     protected $restreamerURL;
     protected $controlURL;
-    protected $webRTC_server;
 
     public static function getSearchFieldsNames()
     {
@@ -173,16 +172,6 @@ class Live_servers extends ObjectYPT
     public function setControlURL($controlURL)
     {
         $this->controlURL = $controlURL;
-    }
-
-    public function getwebRTC_server()
-    {
-        return $this->webRTC_server;
-    }
-
-    public function setwebRTC_server($webRTC_server)
-    {
-        $this->webRTC_server = addLastSlash($webRTC_server);
     }
 
     public static function getStatsFromId($live_servers_id, $force_recreate = false)

@@ -1,0 +1,65 @@
+/* Make the video cover the entire page */
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video fills the area without distortion */
+    background: black;
+}
+
+.indicator{
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 5px;
+}
+
+/* Live indicator */
+#liveIndicator {
+    background: #FF0000AA;
+    box-shadow: 0 0 5px #FF0000; /* Initial glow */
+    animation: glowPulse 1.5s infinite; /* Apply the glow animation */
+}
+
+#offLineIndicator{
+    background: #CCCCCCAA;
+}
+
+/* Keyframes for glowing pulse animation */
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 0 5px #FF0000; /* Starting soft glow */
+    }
+    50% {
+        box-shadow: 0 0 15px #FF0000; /* Intense glow */
+    }
+    100% {
+        box-shadow: 0 0 5px #FF0000; /* Back to soft glow */
+    }
+}
+
+.showWhenIsLive{
+    display: none !important;
+}
+
+.showWhenIsNotLive{
+    display: block !important;
+}
+
+.isLive .showWhenIsLive{
+    display: block !important;
+}
+
+.isLive .showWhenIsNotLive{
+    display: none !important;
+}
+
+#webcamMediaControls{
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+}

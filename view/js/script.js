@@ -868,9 +868,6 @@ function playVideoSegment(startTime, endTime) {
 
 function playerPlayIfAutoPlay(currentTime) {
     console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
-    if (isWebRTC()) {
-        return false;
-    }
     if (forceCurrentTime !== null) {
         currentTime = forceCurrentTime;
         forceCurrentTime = null;
@@ -902,9 +899,6 @@ function cancelAllPlaybackTimeouts() {
 }
 
 function playerPlayMutedIfAutoPlay(currentTime) {
-    if (isWebRTC()) {
-        return false;
-    }
     if (forceCurrentTime !== null) {
         currentTime = forceCurrentTime;
         forceCurrentTime = null;
@@ -1146,22 +1140,12 @@ function isALiveContent() {
     return false;
 }
 
-function isWebRTC() {
-    if (typeof _isWebRTC !== 'undefined') {
-        return _isWebRTC;
-    }
-    return false;
-}
-
 function isAutoplayEnabled() {
     //consoleLog("Cookies.get('autoplay')", Cookies.get('autoplay'));
     if (typeof forceNotautoplay !== 'undefined' && forceNotautoplay) {
         return false;
     } else if (typeof forceautoplay !== 'undefined' && forceautoplay) {
         return true;
-    } else if (isWebRTC()) {
-        consoleLog("isAutoplayEnabled said No because is WebRTC ");
-        return false;
     } else if (isALiveContent()) {
         consoleLog("isAutoplayEnabled always autoplay live contents");
         return true;

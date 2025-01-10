@@ -29,7 +29,6 @@ $o->setProtectLive(@$_POST['protectLive']);
 $o->setGetRemoteFile($_POST['getRemoteFile']);
 $o->setRestreamerURL($_POST['restreamerURL']);
 $o->setControlURL($_POST['controlURL']);
-$o->setwebRTC_server($_POST['webRTC_server']);
 
 if ($id = $o->save()) {
     $obj->error = false;

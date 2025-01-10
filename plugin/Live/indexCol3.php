@@ -1,8 +1,3 @@
-<?php
-if (!empty($obj->experimentalWebcam)) {
-    include $global['systemRootPath'] . 'plugin/Live/tabs/experimentalWebCam.php';
-}
-?>
 <div class="clear clearfix"></div>
 
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInRight', 'live'); ?>"  id="indexTabs">

@@ -48,8 +48,6 @@ class Live extends PluginAbstract
                 $desc .= "<div class='alert alert-danger'>You MUST update your LiveUsers plugin to version 2.0 or greater</div>";
             }
         }
-        //$desc .= "<br><strong>Start Self hosted WebRTC server:</strong> <code>php {$global['systemRootPath']}plugin/Live/standAloneFiles/WebRTCServer/server.php</code> ";
-        //$desc .= "<br><small><a href='https://github.com/WWBN/AVideo/wiki/WebRTC-Server' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $desc;
     }
 
@@ -617,13 +615,6 @@ class Live extends PluginAbstract
             'requestStatsTimout',
             'cacheStatsTimout',
             'requestStatsInterval',
-        );
-    }
-
-    public static function getDataObjectExperimental()
-    {
-        return array(
-            'experimentalWebcam',
             'webRTC_isDisabled',
             'webRTC_server',
             'webRTC_SelfHostedURL',
@@ -631,10 +622,17 @@ class Live extends PluginAbstract
             'webRTC_KeyPath',
             'webRTC_ChainCertPath',
             'webRTC_PushRTMP',
+            'webRTC_PushRTMP',
+            'webRTC_PushRTMP',
+            'experimentalWebcam',
+        );
+    }
+
+    public static function getDataObjectExperimental()
+    {
+        return array(
             'playLiveInFullScreen',
             'playLiveInFullScreenOnIframe',
-            'webRTC_PushRTMP',
-            'webRTC_PushRTMP',
         );
     }
 
@@ -702,8 +700,6 @@ class Live extends PluginAbstract
         self::addDataObjectHelper('useAadaptiveMode', 'Adaptive mode', 'https://github.com/WWBN/AVideo/wiki/Adaptive-Bitrates-on-Livestream');
         $obj->protectLive = false;
         self::addDataObjectHelper('protectLive', 'Live Protection', 'With this your encryption key will be protected, and only your site player will be able to play your videos, download tools will not be able to download your video. if you want to share your live externally you can use the embed and you will still be protected. but if you want to use the m3u8 file you must disable this');
-        $obj->experimentalWebcam = false;
-        self::addDataObjectHelper('experimentalWebcam', 'Experimental Webcam', 'Requires flash and it is deprecated, will be removed. not recommend to enable it.');
         $obj->doNotShowLiveOnVideosList = false;
         self::addDataObjectHelper('doNotShowLiveOnVideosList', 'Do not show live on videos list', 'We will not show the live thumbs on the main Gallery page');
         $obj->doNotShowOnlineOfflineLabel = false;
@@ -756,31 +752,7 @@ class Live extends PluginAbstract
         $obj->live_schedule_label = 'Upcoming Events';
         self::addDataObjectHelper('live_schedule_label', 'Label for Schedule');
 
-        $obj->webRTC_isDisabled = true;
-        self::addDataObjectHelper('webRTC_isDisabled', 'Disable WebRTC camera', 'https://github.com/WWBN/AVideo/wiki/WebRTC-Server');
-
-        $o = new stdClass();
-        $o->type = [0 => __('Public'), 1 => __('Self Hosted')];
-        $o->value = 0;
-        $obj->webRTC_server = $o;
-        self::addDataObjectHelper('webRTC_server', 'WebRTC Server', 'https://github.com/WWBN/AVideo/wiki/WebRTC-Server');
-
         $ServerHost = getHostOnlyFromURL($global['webSiteRootURL']);
-
-        $obj->webRTC_SelfHostedURL = $ServerHost;
-        self::addDataObjectHelper('webRTC_SelfHostedURL', 'Self Hosted URL', 'Self Hosted only');
-
-        $obj->webRTC_CertPath = '/etc/letsencrypt/live/' . $ServerHost . '/cert.pem';
-        self::addDataObjectHelper('webRTC_CertPath', 'SSL Certificate path', 'Self Hosted only');
-
-        $obj->webRTC_KeyPath = '/etc/letsencrypt/live/' . $ServerHost . '/privkey.pem';
-        self::addDataObjectHelper('webRTC_KeyPath', 'SSL Key path', 'Self Hosted only');
-
-        $obj->webRTC_ChainCertPath = '/etc/letsencrypt/live/' . $ServerHost . '/chain.pem';
-        self::addDataObjectHelper('webRTC_ChainCertPath', 'SSL Certificate Chain path', 'Self Hosted only');
-
-        $obj->webRTC_PushRTMP = false;
-        self::addDataObjectHelper('webRTC_PushRTMP', 'PushRTMP', 'Self Hosted only If it is unchecked we will restream the Webcam instead of pushing it');
 
         $o = new stdClass();
         $o->type = "textarea";
@@ -860,45 +832,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $js .= '<link href="' . getURL('plugin/Live/view/live.css') . '" rel="stylesheet" type="text/css"/>';
 
         return $js . $css;
-    }
-
-    public static function getWebRTCPlayer($live_servers_id = -1)
-    {
-        $player = self::getWebRTCServerURL($live_servers_id);
-        return "{$player}player/";
-    }
-
-    public static function getWebRTCIframeURL($users_id)
-    {
-        global $global;
-        $obj = AVideoPlugin::getObjectData("Live");
-        $iframeURL = Live::getWebRTCPlayer();
-        $iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webSiteRootURL']);
-        $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash($users_id));
-        $iframeURL = addQueryStringParameter($iframeURL, 'server_type', $obj->server_type->value);
-        return $iframeURL;
-    }
-
-    public static function getWebRTCServerURL($live_servers_id = -1)
-    {
-        global $global;
-        $obj = AVideoPlugin::getObjectData("Live");
-
-        if (empty($obj->webRTC_server->value)) {
-            return 'https://webrtc.ypt.me/';
-        }
-
-        if (!empty($obj->useLiveServers)) {
-            if ($live_servers_id < 0) {
-                $live_servers_id = self::getCurrentLiveServersId();
-            }
-            $ls = new Live_servers($live_servers_id);
-            if (!empty($ls->getwebRTC_server())) {
-                return $ls->getwebRTC_server();
-            }
-        }
-
-        return "{$global['webSiteRootURL']}plugin/Live/standAloneFiles/WebRTCServer/";
     }
 
     public function getFooterCode()
@@ -3614,20 +3547,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return false;
     }
 
-    public static function canStreamWithWebRTC()
-    {
-        if (!User::canStream()) {
-            return false;
-        }
-
-        $obj = AVideoPlugin::getObjectDataIfEnabled("Live");
-        if (!empty($obj->webRTC_isDisabled)) {
-            return false;
-        }
-
-        return true;
-    }
-
     public static function canScheduleLive()
     {
         if (!User::canStream()) {
@@ -4372,13 +4291,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function _getUserNotificationButton()
     {
         $obj = AVideoPlugin::getDataObject('Live');
-        if (Live::canStreamWithWebRTC()) {
-?>
-            <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title=<?php printJSString(__("Webcam")); ?>>
-                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __("Webcam"); ?></span>
-            </button>
-        <?php
-        }
         if (Live::canScheduleLive()) {
         ?>
             <button class="btn btn-primary btn-sm" onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>">
