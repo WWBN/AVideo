@@ -56,22 +56,7 @@ function sendStreamToServer(stream) {
             return;
         }
         
-        const options = {
-            mimeType: 'video/webm; codecs=vp8,opus' // Check for Safari compatibility
-        };
-        var mediaRecorder;
-        try {
-            mediaRecorder = new MediaRecorder(stream, options);
-            avideoToastSuccess(`MediaRecorder with options`);
-        } catch (error) {
-            avideoToastError(`Failed to initialize MediaRecorder with options: ${error}`);
-            try {
-                mediaRecorder = new MediaRecorder(stream);
-                avideoToastSuccess(`MediaRecorder NO options`);
-            } catch (error) {
-                avideoToastError(`Failed to initialize MediaRecorder: ${error}`);
-            }
-        }
+        const mediaRecorder = new MediaRecorder(stream);
 
         mediaRecorder.ondataavailable = (event) => {
             if (event.data.size > 0) {
@@ -83,7 +68,7 @@ function sendStreamToServer(stream) {
             console.error('MediaRecorder error:', event.error);
         };
 
-        mediaRecorder.start(1000); // Record and send chunks every second
+        mediaRecorder.start(500); // Record and send chunks every second
         console.log(`MediaRecorder started`);
     } catch (error) {
         console.error('Failed to initialize MediaRecorder:', error);
