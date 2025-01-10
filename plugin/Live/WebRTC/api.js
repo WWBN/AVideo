@@ -62,10 +62,12 @@ function sendStreamToServer(stream) {
         var mediaRecorder;
         try {
             mediaRecorder = new MediaRecorder(stream, options);
+            avideoToastSuccess(`MediaRecorder with options`);
         } catch (error) {
             avideoToastError(`Failed to initialize MediaRecorder with options: ${error}`);
             try {
                 mediaRecorder = new MediaRecorder(stream);
+                avideoToastSuccess(`MediaRecorder NO options`);
             } catch (error) {
                 avideoToastError(`Failed to initialize MediaRecorder: ${error}`);
             }
