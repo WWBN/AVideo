@@ -59,12 +59,16 @@ function sendStreamToServer(stream) {
         const options = {
             mimeType: 'video/webm; codecs=vp8,opus' // Check for Safari compatibility
         };
-        
+        var mediaRecorder;
         try {
-            const mediaRecorder = new MediaRecorder(stream, options);
-            console.log('MediaRecorder initialized with options:', options);
+            mediaRecorder = new MediaRecorder(stream, options);
         } catch (error) {
             avideoToastError(`Failed to initialize MediaRecorder with options: ${error}`);
+            try {
+                mediaRecorder = new MediaRecorder(stream);
+            } catch (error) {
+                avideoToastError(`Failed to initialize MediaRecorder: ${error}`);
+            }
         }
 
         mediaRecorder.ondataavailable = (event) => {
