@@ -125,8 +125,8 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
             // Constraints for selected devices or default devices
             const isLandscape = window.screen.orientation.type.startsWith('landscape');
             const videoConstraints = {
-                //width: { ideal: isLandscape ? 1280 : 720 },
-                //height: { ideal: isLandscape ? 720 : 1280 },
+                width: { ideal: isLandscape ? 1280 : 720 },
+                height: { ideal: isLandscape ? 720 : 1280 },
                 frameRate: { ideal: 30 },
                 //aspectRatio: isLandscape ? 16 / 9 : 9 / 16,
             };

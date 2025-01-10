@@ -2,7 +2,7 @@
 video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the video fills the area without distortion */
+    object-fit: cover; /* Fill the container, even if it means cropping */
     background: black;
 }
 
