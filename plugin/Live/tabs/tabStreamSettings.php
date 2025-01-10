@@ -41,8 +41,6 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
 <?php
 include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.old.php';
 ?>
-
-
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
     <ul class="nav nav-tabs">
         <li class="active">
