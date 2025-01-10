@@ -1,4 +1,4 @@
-const socket = io('https://vlu.me:3000'); // Connect to the Socket.IO server
+const socket = io('https://t.ypt.me:3000'); // Connect to the Socket.IO server
 const peers = {};
 const localVideo = document.getElementById('localVideo');
 let localStream;
