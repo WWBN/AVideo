@@ -132,7 +132,7 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
             
             const audioConstraints = audioDeviceId ? { deviceId: { exact: audioDeviceId } } : true;
             
-            const constraints = {
+            constraints = {
                 video: videoConstraints,
                 audio: audioConstraints,
             };
