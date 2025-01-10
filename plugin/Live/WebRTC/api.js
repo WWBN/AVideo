@@ -55,16 +55,16 @@ function sendStreamToServer(stream) {
             avideoToastError('MediaRecorder API is not supported on this device.');
             return;
         }
-
+        
         const options = {
             mimeType: 'video/webm; codecs=vp8,opus' // Check for Safari compatibility
         };
-        var mediaRecorder;
+        
         try {
-            mediaRecorder = new MediaRecorder(stream, options);
+            const mediaRecorder = new MediaRecorder(stream, options);
             console.log('MediaRecorder initialized with options:', options);
         } catch (error) {
-            avideoTpastErrpr(`Failed to initialize MediaRecorder with options:${error}`);
+            avideoToastError(`Failed to initialize MediaRecorder with options: ${error}`);
         }
 
         mediaRecorder.ondataavailable = (event) => {
@@ -156,15 +156,7 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
         // Start or update the media stream
         const newStream = useScreen
             ? await navigator.mediaDevices.getDisplayMedia(constraints)
-            : await navigator.mediaDevices.getUserMedia(constraints)
-            .then((stream) => {
-                console.log('Media stream obtained:', stream);
-                sendStreamToServer(stream);
-            })
-            .catch((error) => {
-                avideoToastError(`Error accessing media devices: ${error}`);
-                console.error('Error accessing media devices:', error);
-            });
+            : await navigator.mediaDevices.getUserMedia(constraints);
 
         // Stop existing tracks before replacing them
         if (localStream) {
