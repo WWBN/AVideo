@@ -59,9 +59,9 @@ function sendStreamToServer(stream) {
         const options = {
             mimeType: 'video/webm; codecs=vp8,opus' // Check for Safari compatibility
         };
-        
+        var mediaRecorder;
         try {
-            const mediaRecorder = new MediaRecorder(stream, options);
+            mediaRecorder = new MediaRecorder(stream, options);
             console.log('MediaRecorder initialized with options:', options);
         } catch (error) {
             avideoTpastErrpr(`Failed to initialize MediaRecorder with options:${error}`);
