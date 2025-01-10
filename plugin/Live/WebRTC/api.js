@@ -68,7 +68,7 @@ function sendStreamToServer(stream) {
             console.error('MediaRecorder error:', event.error);
         };
 
-        mediaRecorder.start(500); // Record and send chunks every second
+        mediaRecorder.start(250); // Record and send chunks every second
         console.log(`MediaRecorder started`);
     } catch (error) {
         console.error('Failed to initialize MediaRecorder:', error);
