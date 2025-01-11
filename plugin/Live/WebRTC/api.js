@@ -26,28 +26,29 @@ function checkConnections() {
 // Check RTMP status on-demand
 function checkRTMPStatus() {
     console.log("Requesting RTMP status...");
-    socket.emit('check-rtmp-status', { rtmpURL });
+    socket.emit('check-rtmp-status', { rtmpURLEncrypted });
 }
 
 function checkRemainingTime() {
     console.log("Requesting remaining time...");
-    socket.emit('check-live-time', { rtmpURL });
+    socket.emit('check-live-time', { rtmpURLEncrypted });
 }
 
-function startWebcamLive(rtmpURL) {
+function startWebcamLive(rtmpURLEncrypted) {
     // Notify server of new connection
-    socket.emit('join', { rtmpURL, id: socket.id });
+    socket.emit('join', { rtmpURLEncrypted, id: socket.id });
 
     // Send stream to the server for RTMP forwarding
     sendStreamToServer(localStream);
 }
 
 // Stop the live stream
-function stopWebcamLive(rtmpURL) {
-    socket.emit('stop-live', { rtmpURL });
+function stopWebcamLive(rtmpURLEncrypted) {
+    socket.emit('stop-live', { rtmpURLEncrypted });
 }
 
-// Send media chunks with the associated streamKey
+let mediaRecorder; // Declare a global variable to manage the MediaRecorder
+
 function sendStreamToServer(stream) {
     try {
         if (!window.MediaRecorder) {
@@ -56,11 +57,11 @@ function sendStreamToServer(stream) {
             return;
         }
         
-        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder = new MediaRecorder(stream);
 
         mediaRecorder.ondataavailable = (event) => {
             if (event.data.size > 0) {
-                socket.emit('video-chunk', { rtmpURL, chunk: event.data });
+                socket.emit('video-chunk', { rtmpURLEncrypted, chunk: event.data });
             }
         };
 
@@ -68,12 +69,23 @@ function sendStreamToServer(stream) {
             console.error('MediaRecorder error:', event.error);
         };
 
-        mediaRecorder.start(250); // Record and send chunks every second
+        mediaRecorder.start(1000); // Record and send chunks every second
         console.log(`MediaRecorder started`);
     } catch (error) {
         console.error('Failed to initialize MediaRecorder:', error);
     }
 }
+
+// Function to stop the MediaRecorder
+function stopStreamToServer() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop(); // Stop the MediaRecorder
+        console.log('MediaRecorder stopped');
+    } else {
+        console.warn('MediaRecorder is not active or already stopped.');
+    }
+}
+
 
 function setIsLive() {
     document.body.classList.remove('isNotLive');
@@ -85,6 +97,7 @@ function setIsNotLive() {
     document.body.classList.remove('isLive');
     document.body.classList.add('isNotLive');
     isLive = false;
+    stopStreamToServer()
 }
 
 async function getVideoSources() {
@@ -124,13 +137,16 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
         } else {
             // Constraints for selected devices or default devices
             const isLandscape = window.screen.orientation.type.startsWith('landscape');
+            
             const videoConstraints = {
-                width: { ideal: isLandscape ? 1280 : 720 },
-                height: { ideal: isLandscape ? 720 : 1280 },
+                width: { ideal: 1280 },
+                height: { ideal: 720 },
                 frameRate: { ideal: 30 },
-                //aspectRatio: isLandscape ? 16 / 9 : 9 / 16,
+                aspectRatio: isLandscape ? 16 / 9 : 9 / 16,
             };
             
+            console.log('videoConstraints', isLandscape, videoConstraints);
+
             if (videoDeviceId) {
                 videoConstraints.deviceId = { exact: videoDeviceId };
             }
@@ -143,6 +159,8 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
             };
             
         }
+
+        //avideoToast(JSON.stringify(constraints));
 
         // Start or update the media stream
         const newStream = useScreen

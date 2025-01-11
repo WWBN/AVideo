@@ -55,6 +55,7 @@ services:
       - "${SOCKET_PORT:-2053}:${SOCKET_PORT:-2053}"
       - "${HTTP_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"
+      - "3000:3000"
     volumes:
       - "./.compose/HLS:/HLS"
       - "./:/var/www/html/AVideo"
@@ -252,4 +253,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: "${NETWORK_SUBNET:-172.21.1.0/16}"
+        - subnet: "${NETWORK_SUBNET:-172.21.0.0/16}"

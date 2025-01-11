@@ -1,17 +1,13 @@
-<div class="row showWhenIsNotLive">
-    <div class="col-sm-10">
-        <button type="button" id="startLive" class="btn btn-danger btn-block" onclick="startWebcamLive(rtmpURL);">
-            <i class="fa fa-play"></i> Start Live
-        </button>
-
-    </div>
-    <div class="col-sm-2">
-        <button type="button" class="btn btn-default btn-block" onclick="$('#mediaSelector').fadeToggle()">
+<div class="text-center showWhenIsNotLive" style="display: none;">
+    <button type="button" id="startLive" class="btn btn-success oval-menu animate__animated animate__bounceIn" onclick="startWebcamLive(rtmpURLEncrypted);">
+        <i class="fa fa-play"></i> Go Live
+    </button>
+    <button type="button" class="btn btn-default oval-menu animate__animated animate__bounceIn" onclick="$('#mediaSelector').fadeToggle()" style=" -webkit-animation-delay: .2s; animation-delay: .2s;">
         <i class="fa-solid fa-ellipsis-vertical"></i>
-        </button>
-
-    </div>
+    </button>
 </div>
-<button type="button" id="stopLive" class="btn btn-dark showWhenIsLive  btn-block" onclick="stopWebcamLive(rtmpURL);">
-    <i class="fa fa-stop"></i> Stop Live
-</button>
+<div class="text-center showWhenIsLive" style="display: none;">
+    <button type="button" id="stopLive" class="btn btn-danger  oval-menu animate__animated animate__bounceIn" onclick="stopWebcamLive(rtmpURLEncrypted);">
+        <i class="fa fa-stop"></i> Stop
+    </button>
+</div>

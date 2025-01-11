@@ -12,11 +12,6 @@ if (empty($_REQUEST['avideoIframe'])) {
 <?php
 } else {
 ?>
-    <style>
-        #localVideo {
-            height: 100%;
-        }
-    </style>
     <?php
     include __DIR__ . '/video.php';
     ?>
@@ -24,7 +19,7 @@ if (empty($_REQUEST['avideoIframe'])) {
         <?php
         ?>
     </div>
-    <div id="webcamMediaControls">
+    <div id="webcamMediaControls" class="showWhenWebRTCIsReady">
         <?php
         include __DIR__ . '/panel.medias.php';
         include __DIR__ . '/panel.buttons.php';

@@ -1,5 +1,4 @@
-<div class="row" style="display: none; 
-    margin-bottom: 10px;" id="mediaSelector">
+<div class="clearfix" style="display: none; margin-bottom: 10px;" id="mediaSelector">
     <!-- Video Input Selection -->
     <div class="col-sm-3">
         <div class="input-group">

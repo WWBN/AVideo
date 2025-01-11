@@ -1,8 +1,11 @@
+body{
+    background-color: #000;;
+}
 /* Make the video cover the entire page */
 video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Fill the container, even if it means cropping */
+    object-fit: contain; /* Fill the container, even if it means cropping */
     background: black;
 }
 
@@ -58,8 +61,31 @@ video {
     display: none !important;
 }
 
+.showWhenWebRTCIsReady{
+    display: none !important;
+}
+
+.WebRTCReady .showWhenWebRTCIsReady{
+    display: block !important;
+}
 #webcamMediaControls{
     position: fixed;
     bottom: 10px;
     width: 100%;
+}
+
+.oval-menu {
+    height: 50px;
+    min-width: 50px;
+    border-radius: 25px;
+    box-shadow: 0 0 15px 1px black;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.oval-menu i{
+    margin: 0 10px;
 }
