@@ -3042,7 +3042,7 @@ function encrypt_decrypt($string, $action, $useOldSalt = false)
         $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
         $output = base64_encode($output);
     } elseif ($action == 'decrypt') {
-        var_dump($string, base64_decode($string), $global['salt'], $global['saltV2'], $encrypt_method, $key, $iv);
+        //var_dump($string, base64_decode($string), $global['salt'], $global['saltV2'], $encrypt_method, $key, $iv);
         $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
         if (empty($output) && $useOldSalt === false) {
             return encrypt_decrypt($string, $action, true);
