@@ -642,7 +642,7 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function getLatestFromKey($key)
     {
-        global $global;
+        global $global, $_getLatestFromKey;
         if (!self::isTableInstalled(static::getTableName())) {
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
             return false;
@@ -652,7 +652,9 @@ class LiveTransmitionHistory extends ObjectYPT
 
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE `key` LIKE '{$key}%'  ";
 
-        $sql .= " ORDER BY `key` = '{$key}', id DESC LIMIT 1";
+        $sql .= " ORDER BY modified DESC, id DESC LIMIT 1";
+
+        $_getLatestFromKey = $sql;
         //var_dump($sql);exit;
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
