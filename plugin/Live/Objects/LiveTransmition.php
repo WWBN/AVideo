@@ -348,9 +348,20 @@ class LiveTransmition extends ObjectYPT {
     }
 
     public function save() {
+        global $_keyExistsSQL;
         if (empty($this->users_id)) {
             return false;
         }
+
+        $lt = LiveTransmition::getFromKey($this->key);
+        if(!empty($lt)){
+            if($lt['users_id'] != $this->users_id){
+                $oldLt = LiveTransmition::getFromDbByUser($this->users_id);
+                _error_log("LiveTransmition::save ERROR the key [{$this->key}] already associated to users_id=[{$lt['users_id']}] and you are user [{$this->users_id}], reverting the key to [{$oldLt['key']}] $_keyExistsSQL");
+                $this->key = $oldLt['key'];
+            }
+        }
+
         $row = self::getFromDbByUser($this->users_id, true);
         if (!empty($row)) {
             $this->id = $row['id'];
