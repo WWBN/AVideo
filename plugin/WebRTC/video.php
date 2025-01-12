@@ -6,6 +6,11 @@ $forceIndex = 'Webcam';
 $rtmpURL = Live::getRTMPLink(User::getId(), $forceIndex);
 $key = Live::getKeyFromUser(User::getId());
 ?>
+<style>
+    body{
+        overflow: hidden;
+    }
+</style>
 <script class="doNotSepareteTag">
     // Send streamKey to the server when joining
     var rtmpURL = '<?php echo $rtmpURL; ?>';
