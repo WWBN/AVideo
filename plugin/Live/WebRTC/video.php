@@ -8,6 +8,7 @@ $key = Live::getKeyFromUser(User::getId());
 ?>
 <script class="doNotSepareteTag">
     // Send streamKey to the server when joining
+    /* <?php echo $rtmpURL; ?> */
     var rtmpURLEncrypted = '<?php echo encrypt_data($rtmpURL, $global['saltV2']); ?>';
     var WebRTC2RTMPURL = '<?php echo getWebRTC2RTMPURL(); ?>';
 </script>
