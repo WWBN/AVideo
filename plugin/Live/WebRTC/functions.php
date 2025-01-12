@@ -55,3 +55,28 @@ function decrypt_data($ciphertextB64, $salt)
 
     return $plaintext;
 }
+
+function getWebRTCInfo(){
+    global $global;
+    $file = "{$global['systemRootPath']}plugin/Live/WebRTC/WebRTC2RTMP.json";
+    if(!file_exists($file)){
+        return false;
+    }
+    $content = file_get_contents("{$global['systemRootPath']}plugin/Live/WebRTC/WebRTC2RTMP.json");
+    if(empty($content)){
+        return false;
+    }
+    $json = json_decode($content);
+    if(empty($json)){
+        return false;
+    }
+    return $json;
+}
+
+function getWebRTC2RTMPURL(){
+    $json = getWebRTCInfo();
+    if(empty($json)){
+        return '';
+    }
+    return "https://{$json->domain}:{$json->serverPort}";
+}

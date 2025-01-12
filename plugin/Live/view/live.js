@@ -12,6 +12,9 @@ function isInLive(json) {
 
 var prerollPosterAlreadyPlayed = false;
 async function showImage(type, key) {
+    if (typeof player === 'undefined') {
+        return false;
+    }
     if (typeof closeLiveImageRoll == 'function') {
         closeLiveImageRoll();
     }

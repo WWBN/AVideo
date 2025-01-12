@@ -7,7 +7,7 @@
         include __DIR__ . '/video.php';
         ?>
     </div>
-    <div class="panel-footer showWhenWebRTCIsReady">
+    <div class="panel-footer showWhenWebRTCIsConnected">
         <?php
         include __DIR__ . '/panel.medias.php';
         include __DIR__ . '/panel.buttons.php';

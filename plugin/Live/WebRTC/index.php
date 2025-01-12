@@ -19,12 +19,20 @@ if (empty($_REQUEST['avideoIframe'])) {
         <?php
         ?>
     </div>
-    <div id="webcamMediaControls" class="showWhenWebRTCIsReady">
+    <div id="webcamMediaControls" class="showWhenWebRTCIsConnected">
         <?php
         include __DIR__ . '/panel.medias.php';
         include __DIR__ . '/panel.buttons.php';
         ?>
     </div>
+    <div id="webcamMediaControlsMessage" class="alert alert-danger showWhenWebRTCIsNotConnected text-center">
+        <div class="fa-3x">
+            <i class="fa-solid fa-triangle-exclamation fa-fade"></i>
+        </div>
+        <strong>Error:</strong> Unable to connect to the Webcam server.<br>
+        <span>Please verify the server status and resolve any issues.</span>
+    </div>
+
     <script>
         $(document).ready(function() {
             startWebRTC();

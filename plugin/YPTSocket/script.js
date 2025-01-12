@@ -41,17 +41,31 @@ function processSocketJson(json) {
         }
     } else {
         var myfunc;
+        var _details = json;
+        if(typeof json.msg != 'undefined'){
+            _details = json.msg;
+        }
+        if(typeof _details === 'string'){
+            _details = JSON.parse(_details);
+            console.log('processSocketJson: details after', _details);
+        }
         if (json.callback) {
-            //console.log("processSocketJson json.callback ", json.resourceId, json.callback);
-            var code = "if(typeof " + json.callback + " == 'function'){myfunc = " + json.callback + ";}else{myfunc = defaultCallback;}";
-            console.log('processSocketJson: code=' + code);
+            // Check if a function exists with the name in json.callback
+            var code = "if (typeof " + json.callback + " == 'function') { myfunc = " + json.callback + "; } else { myfunc = defaultCallback; }";
+            console.log('processSocketJson: code=' + code, _details);
             eval(code);
+
+            // Trigger the event with the same name as json.callback and pass the JSON object
+            const event = new CustomEvent(json.callback, { detail: _details }); // Pass the JSON as `detail`
+            document.dispatchEvent(event);
         } else {
-            //console.log("processSocketJson: callback not found", json);
+            console.log("processSocketJson: callback not found", json);
             myfunc = defaultCallback;
         }
-        //console.log("onmessage: callback ", myfunc, json.msg);
-        myfunc(json.msg);
+
+        // Call the function and pass the JSON object
+        myfunc(_details);
+
     }
 }
 

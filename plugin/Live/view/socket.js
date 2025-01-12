@@ -1,17 +1,35 @@
-function socketLiveONCallback(json) {
+document.addEventListener('socketLiveONCallback', function(event) {
+    let json = event.detail;
+    if(json === null){
+        console.error('socketLiveONCallback socket EventListener error', event);
+        return false;
+    }
+    console.log('socketLiveONCallback socket EventListener', json);
     if (typeof json === 'string') {
         try {
             json = JSON.parse(json);
         } catch (error) {
             console.error("Invalid JSON string:", error);
-            return null; // or return the original string if you prefer
+            return; // Exit the listener if JSON parsing fails
         }
     }
+
+    if(typeof json.key == 'undefined'){
+        if(typeof json.json !== 'undefined' && typeof json.json.key !== 'undefined' ){
+            json = json.json;
+        }else{
+            console.error("socketLiveONCallback Invalid JSON key not found:", json);
+            return; // Exit the listener if JSON parsing fails
+        }
+    }
+
     console.log('socketLiveONCallback live plugin', json);
+
     if (typeof processLiveStats == 'function') {
         processLiveStats(json.stats);
     }
-    var selector = '.live_' + json.live_servers_id + "_" + json.key;
+
+    let selector = '.live_' + json.live_servers_id + "_" + json.key;
     $(selector).slideDown();
 
     if (typeof onlineLabelOnline == 'function') {
@@ -23,38 +41,58 @@ function socketLiveONCallback(json) {
         onlineLabelOnline(selector);
     }
 
-    // update the chat if the history changes
-    var IframeClass = ".yptchat2IframeClass_" + json.key + "_" + json.live_servers_id;
+    let IframeClass = ".yptchat2IframeClass_" + json.key + "_" + json.live_servers_id;
     if ($(IframeClass).length) {
-        var src = $(IframeClass).attr('src');
+        let src = $(IframeClass).attr('src');
         if (src) {
             avideoToast('Loading new chat');
-            var newSRC = addGetParam(src, 'live_transmitions_history_id', json.live_transmitions_history_id);
+            let newSRC = addGetParam(src, 'live_transmitions_history_id', json.live_transmitions_history_id);
             $(IframeClass).attr('src', newSRC);
         }
     }
+
     if (isInLive(json)) {
         playerPlay();
         showImage('prerollPoster', json.cleanKey);
     }
-}
-function socketLiveOFFCallback(json) {
+});
+
+document.addEventListener('socketLiveOFFCallback', function(event) {
+    let json = event.detail;
+    if(json === null){
+        console.error('socketLiveOFFCallback socket EventListener error', event);
+        console.trace();
+        return false;
+    }
+    console.log('socketLiveOFFCallback socket EventListener', json);
+
     if (typeof json === 'string') {
         try {
             json = JSON.parse(json);
         } catch (error) {
             console.error("Invalid JSON string:", error);
-            return null; // or return the original string if you prefer
+            return; // Exit the listener if JSON parsing fails
         }
     }
+
+    if(typeof json.key == 'undefined'){
+        if(typeof json.json !== 'undefined' && typeof json.json.key !== 'undefined' ){
+            json = json.json;
+        }else{
+            console.error("socketLiveOFFCallback Invalid JSON key not found:", json);
+            return; // Exit the listener if JSON parsing fails
+        }
+    }
+
     console.log('socketLiveOFFCallback live socket', json);
-    var selector = '.live_' + json.live_servers_id + "_" + json.key;
+
+    let selector = '.live_' + json.live_servers_id + "_" + json.key;
     selector += ', .liveVideo_live_' + json.live_servers_id + "_" + json.key;
     selector += ', .live_' + json.key;
-    ////console.log('socketLiveOFFCallback 1', selector);
     $(selector).slideUp("fast", function () {
         $(this).remove();
     });
+
     if (typeof onlineLabelOffline == 'function') {
         selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
         selector += ', .liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
@@ -63,8 +101,8 @@ function socketLiveOFFCallback(json) {
         console.log('socketLiveOFFCallback', selector);
         onlineLabelOffline(selector);
     }
+
     setTimeout(function () {
-        //console.log('socketLiveOFFCallback processLiveStats');
         if (typeof processLiveStats == 'function') {
             processLiveStats(json.stats);
         }
@@ -78,10 +116,12 @@ function socketLiveOFFCallback(json) {
     if (isInLive(json)) {
         showImage('postrollPoster', json.cleanKey);
     }
+
     if (typeof updateUserNotificationCount == 'function') {
         updateUserNotificationCount();
     }
-}
+});
+
 
 function redirectLive(json, countdown = 15) {
     if (typeof json === 'string') {

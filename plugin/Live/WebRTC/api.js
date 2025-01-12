@@ -61,6 +61,7 @@ function sendStreamToServer(stream) {
 
         mediaRecorder.ondataavailable = (event) => {
             if (event.data.size > 0) {
+                //console.log(`video-chunk`);
                 socket.emit('video-chunk', { rtmpURLEncrypted, chunk: event.data });
             }
         };
@@ -86,6 +87,18 @@ function stopStreamToServer() {
     }
 }
 
+
+function setIsWebcamServerConnected() {
+    console.log('Connection success');
+    // Custom logic to handle connection failure
+    $('body').removeClass('WebcamServerNotConnected').addClass('WebcamServerConnected');
+}
+
+function setIsWebcamServerNotConnected() {
+    console.log('Connection error');
+    $('body').removeClass('WebcamServerConnected').addClass('WebcamServerNotConnected');
+    setIsNotLive();
+}
 
 function setIsLive() {
     document.body.classList.remove('isNotLive');
@@ -196,6 +209,16 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
         console.log('Stream started successfully:', newStream);
     } catch (error) {
         console.error('Error starting the stream:', error);
+    }
+}
+
+function toggleMediaSelector() {
+    if (!$('#mediaSelector').is(':visible')) {
+        $('#mediaSelector').fadeIn(); // Fade in #mediaSelector if not visible
+        $('#webrtcChat').hide();      // Hide #webrtcChat
+    } else {
+        $('#webrtcChat').show();      // Show #webrtcChat
+        $('#mediaSelector').fadeOut(); // Fade out #mediaSelector
     }
 }
 
