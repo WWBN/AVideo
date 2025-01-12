@@ -70,12 +70,18 @@ function sendStreamToServer(stream) {
             console.error('MediaRecorder error:', event.error);
         };
 
-        mediaRecorder.start(1000); // Record and send chunks every second
+        const chunkSize = isIPhone() ? 250 : 1000; // 250ms for iPhone, 1000ms for others
+        mediaRecorder.start(chunkSize); // Record and send chunks every second
         console.log(`MediaRecorder started`);
     } catch (error) {
         console.error('Failed to initialize MediaRecorder:', error);
     }
 }
+
+// Detect if the device is an iPhone
+function isIPhone() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
 
 // Function to stop the MediaRecorder
 function stopStreamToServer() {

@@ -109,4 +109,4 @@ CreatePlugin/plugins/
 vendor/james-heinrich/getid3/demos/
 AVideoStorage/
 plugin/VideoHLSOverlay/
-plugin/Live/WebRTC/WebRTC2RTMP.json
+plugin/WebRTC/WebRTC2RTMP.json
