@@ -297,7 +297,7 @@ class LiveTransmition extends ObjectYPT {
         $key = Live::cleanUpKey($key);
         $sql = "SELECT u.*, lt.*, lt.password as live_password FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id AND u.status='a' "
-                . " WHERE  `key` = '$key' LIMIT 1";
+                . " WHERE  `key` = '$key' ORDER BY lt.modified DESC, lt.id DESC LIMIT 1";
         $_keyExistsSQL = $sql;
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
