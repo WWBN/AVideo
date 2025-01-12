@@ -2,7 +2,7 @@
     <div class="panel-heading">
 
     </div>
-    <div class="panel-body" style="position:relative;">
+    <div class="panel-body" style="position:relative; padding: 0;">
         <?php
         include __DIR__ . '/video.php';
         ?>

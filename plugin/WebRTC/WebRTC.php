@@ -27,11 +27,13 @@ class WebRTC extends PluginAbstract
         return "webrtc-e578-4b91-96bb-4baaae5c0884";
     }
 
-    public function getPluginVersion() {
+    public function getPluginVersion()
+    {
         return "1.0";
     }
 
-    public function getEmptyDataObject() {
+    public function getEmptyDataObject()
+    {
         global $global;
         $obj = new stdClass();
 
@@ -40,46 +42,75 @@ class WebRTC extends PluginAbstract
         return $obj;
     }
 
-    function executeEveryMinute() {
+    function executeEveryMinute()
+    {
         self::startIfIsInactive();
     }
 
-    static function startIfIsInactive(){
-        if(!self::checkIfIsActive()){
+    static function startIfIsInactive()
+    {
+        if (!self::checkIfIsActive()) {
             self::startServer();
         }
     }
 
-    static function checkIfIsActive(){
+    static function checkIfIsActive()
+    {
+        $json = self::getJson();
+        if(!empty($json)){
+            return ($json->phpTimestamp > strtotime('-2 min')) ? $json->phpTimestamp : false;
+        }
+        return false;
+    }
+
+
+    public function getPluginMenu() {
+        global $global;
+        $btn = '<button onclick="avideoModalIframe(webSiteRootURL+\'plugin/WebRTC/status.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa-solid fa-list-check"></i> Server Status</button>';
+        return $btn;
+    }
+
+    static function getJson()
+    {
         global $global;
         $file = "{$global['systemRootPath']}plugin/WebRTC/WebRTC2RTMP.json";
-        if(file_exists($file)){
+        if (file_exists($file)) {
             $content = file_get_contents($file);
-            if(!empty($content)){
+            if (!empty($content)) {
                 $json = json_decode($content);
-                if(!empty($json)){
-                    return $json->phpTimestamp > strtotime('-2 min');                    
-                }   
+                if (!empty($json)) {
+                    return $json;
+                }
             }
         }
         return false;
     }
 
-    
-    static function startServer(){
+    static function getLog()
+    {
+        global $global;
+        $file = "{$global['systemRootPath']}videos/WebRTC2RTMP.log";
+        if (file_exists($file)) {
+            return file_get_contents($file);
+        }
+        return false;
+    }
+
+    static function startServer()
+    {
         _error_log('Starting WebRTC Server');
         global $global;
         $obj = AVideoPlugin::getDataObject('WebRTC');
         $file = "{$global['systemRootPath']}plugin/WebRTC/WebRTC2RTMP";
         $log = "{$global['systemRootPath']}videos/WebRTC2RTMP.log";
         $command = "{$file} --port={$obj->port} > $log ";
-    
+
         // Check if the file has executable permissions
         if (!is_executable($file)) {
             // Attempt to give executable permissions
             chmod($file, 0755); // 0755 grants read, write, and execute for the owner, and read and execute for others
         }
-    
+
         // Try to execute the command
         if (is_executable($file)) {
             return execAsync($command);
@@ -88,22 +119,4 @@ class WebRTC extends PluginAbstract
             return false;
         }
     }
-
-    static function killProcessOnPort() {
-        $obj = AVideoPlugin::getDataObject('WebRTC');
-        $port = intval($obj->port);
-        if (!empty($port)) {
-            echo 'Searching for port: ' . $port . PHP_EOL;
-            //$command = 'netstat -ano | findstr ' . $port;
-            //exec($command, $output, $retval);
-            $pid = getPIDUsingPort($port);
-            if (!empty($pid)) {
-                echo 'Server is already runing on port '.$port.' Killing, PID ' . $pid . PHP_EOL;
-                killProcess($pid);
-            } else {
-                echo 'No Need to kill, port NOT found' . PHP_EOL;
-            }
-        }
-    }
-
 }

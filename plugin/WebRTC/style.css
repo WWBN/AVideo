@@ -24,23 +24,24 @@ video {
     border-radius: 5px;
     border: 1px solid #DDD;
     border-radius: 50%;
+    z-index: 10;
 }
 
-#offLineIndicator {
+#offLineIndicator, .offLineIndicator {
     background: #FF000033;
     color: #CCC;
     border-color: #FAA;
 }
 
 /* Live indicator */
-#onLineIndicator {
+#onLineIndicator, .onLineIndicator {
     background: #00000055;
     color: #DDD;
 }
 
 /* Live indicator (Green) */
-#liveIndicator {
-    background: #00FF00AA;
+#liveIndicator, .liveIndicator {
+    background: #00AA00AA;
     box-shadow: 0 0 5px #00FF00;
     /* Initial glow */
     animation: greenGlowPulse 1.5s infinite;

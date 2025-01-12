@@ -6,11 +6,6 @@ $forceIndex = 'Webcam';
 $rtmpURL = Live::getRTMPLink(User::getId(), $forceIndex);
 $key = Live::getKeyFromUser(User::getId());
 ?>
-<style>
-    body{
-        overflow: hidden;
-    }
-</style>
 <script class="doNotSepareteTag">
     // Send streamKey to the server when joining
     var rtmpURL = '<?php echo $rtmpURL; ?>';
@@ -31,3 +26,8 @@ $key = Live::getKeyFromUser(User::getId());
 <script src="<?php echo getURL('node_modules/socket.io-client/dist/socket.io.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('plugin/WebRTC/api.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('plugin/WebRTC/events.js'); ?>" type="text/javascript"></script>
+<script>
+    $(document).ready(function() {
+        requestNotifications();
+    });
+</script>

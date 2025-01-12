@@ -3,7 +3,7 @@
         <i class="fa fa-play"></i> Go Live
     </button>
     <button type="button" class="btn btn-default oval-menu animate__animated animate__bounceIn" onclick="toggleMediaSelector();" style=" -webkit-animation-delay: .2s; animation-delay: .2s;">
-        <i class="fa-solid fa-ellipsis-vertical"></i>
+        <i class="fa-solid fa-gear"></i>
     </button>
 </div>
 <div class="text-center showWhenIsLive" style="display: none;">

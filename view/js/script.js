@@ -1379,6 +1379,22 @@ function avideoAlertAJAXHTML(url) {
     });
 }
 
+function avideoAlertAJAXJson(url) {
+    modal.showPleaseWait();
+    $.ajax({
+        url: url,
+        complete: function (jqXHR) {
+            response = (jqXHR.responseJSON);
+            if(typeof response == 'object' && typeof response.msg !== 'undefined'){
+                avideoAlertText(response.msg);
+            }else{
+                avideoAlertText(response);
+            }
+            modal.hidePleaseWait();
+        }
+    });
+}
+
 function avideoAlertAJAX(url) {
     modal.showPleaseWait();
     $.ajax({

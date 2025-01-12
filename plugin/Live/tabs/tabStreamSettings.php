@@ -39,8 +39,11 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
 </style>
 
 <?php
-include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.old.php';
-//include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.new.php';
+if(AVideoPlugin::isEnabledByName('WebRTC')){
+    include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.webcam.php';
+}else{
+    include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.software.php';
+}
 ?>
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
     <ul class="nav nav-tabs">

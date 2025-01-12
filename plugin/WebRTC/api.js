@@ -93,6 +93,9 @@ function stopStreamToServer() {
     }
 }
 
+function isWebcamServerConnected() {
+    return $('body').hasClass('WebcamServerConnected');
+}
 
 function setIsWebcamServerConnected() {
     console.log('Connection success');
@@ -290,5 +293,4 @@ $(document).ready(function () {
             startWebRTC(); // Call the startWebRTC function
         }
     });
-    requestNotifications();
 });
