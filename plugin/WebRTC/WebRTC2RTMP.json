@@ -1,0 +1,10 @@
+{
+    "version": 1,
+    "domain": "vlu.me",
+    "serverPort": 3000,
+    "time": "2025-01-12 15:01:04",
+    "phpTimestamp": 1736694064,
+    "isPremium": true,
+    "maxRtmpRuntimeMinutes": 120,
+    "maxConcurrentRtmp": 4
+}

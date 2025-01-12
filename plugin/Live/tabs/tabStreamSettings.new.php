@@ -73,7 +73,7 @@
         </div>
         <div id="tabWebcam" class="tab-pane fade ">
             <?php
-            include $global['systemRootPath'] . 'plugin/Live/WebRTC/panel.php';
+            include $global['systemRootPath'] . 'plugin/WebRTC/panel.php';
             ?>
         </div>
     </div>
