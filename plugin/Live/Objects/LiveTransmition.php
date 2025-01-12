@@ -287,7 +287,7 @@ class LiveTransmition extends ObjectYPT {
     }
 
     public static function keyExists($key, $checkSchedule = true) {
-        global $global;
+        global $global, $_keyExistsSQL;
         if (!is_string($key)) {
             return false;
         }
@@ -298,6 +298,7 @@ class LiveTransmition extends ObjectYPT {
         $sql = "SELECT u.*, lt.*, lt.password as live_password FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id AND u.status='a' "
                 . " WHERE  `key` = '$key' LIMIT 1";
+        $_keyExistsSQL = $sql;
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
