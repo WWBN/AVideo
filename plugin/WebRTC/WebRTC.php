@@ -14,7 +14,10 @@ class WebRTC extends PluginAbstract
     }
     public function getDescription()
     {
-        return "";
+        $txt = "Easily stream live videos from your camera or computer with just one click";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/WebRTC-plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+
+        return $txt . $help;
     }
 
     public function getName()

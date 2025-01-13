@@ -70,11 +70,7 @@ $_page = new Page(array('WebRTC Server Status'));
             <h4><i class="fa fa-star"></i> Upgrade to Premium</h4>
         </div>
         <div class="panel-body">
-            <p>Remove the watermark from your livestreams and enjoy increased limits:</p>
-            <ul>
-                <li><i class="fa fa-hourglass"></i> <strong>Max RTMP Runtime:</strong> Unlimited minutes</li>
-                <li><i class="fa fa-cogs"></i> <strong>Max Concurrent RTMP:</strong> 10 processes</li>
-            </ul>
+            <p>Remove the watermark from your livestreams and enjoy increased limits</p>
             <button id="upgrade-button" class="btn btn-success"><i class="fa fa-arrow-up"></i> Upgrade to Premium</button>
         </div>
     </div>
