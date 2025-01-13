@@ -880,6 +880,10 @@ class PlayLists extends PluginAbstract
 
     static function scheduleLiveButton($playlists_id, $showLabel = true, $class = 'btn btn-xs btn-default')
     {
+        if (!self::showPlayLiveButton()) {
+            _error_log("Playlists:scheduleLiveButton: showPlayLiveButton said no");
+            return '<!-- Playlists:scheduleLiveButton: showPlayLiveButton said no -->';
+        }
         // can the user live?
         if (!User::canStream()) {
             _error_log("Playlists:scheduleLiveButton this user cannot stream");
