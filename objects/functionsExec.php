@@ -330,12 +330,12 @@ function isPortOpenInternal($host, $port) {
     return $result === 0;
 }
 
-function isPortOpenExternal($port) {
+function isPortOpenExternal($port, $timeout = 10) {
     global $isPortOpenExternalResponse;
     $ports = array($port);
     //postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
     $isPortOpenExternalResponse = new stdClass();
-    $response = postVariables('https://search.ypt.me/checkPorts.json.php', $ports, false, 4);
+    $response = postVariables('https://search.ypt.me/checkPorts.json.php', $ports, false, $timeout);
     if(!empty($response)){
         $json = json_decode($response);
         if(!empty($json)){
