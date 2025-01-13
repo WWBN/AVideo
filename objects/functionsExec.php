@@ -334,7 +334,13 @@ function isPortOpenExternal($port) {
     $ports = array($port);
     //postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
     $response = postVariables('https://search.ypt.me/checkPorts.json.php', $ports, false, 4);
-    return $response;
+    if(!empty($response)){
+        $json = json_decode($response);
+        if(!empty($json)){
+            $json->ports[0]->isOpen;
+        }
+    }
+    return false;
 }
 
 function getPIDUsingPort($port)
