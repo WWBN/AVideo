@@ -98,12 +98,17 @@ class WebRTC extends PluginAbstract
         return false;
     }
 
+    static function getWebRTC2RTMPFile(){
+        global $global;
+        return "{$global['systemRootPath']}plugin/WebRTC/WebRTC2RTMP";
+    }
+
     static function startServer()
     {
         _error_log('Starting WebRTC Server');
         global $global;
         $obj = AVideoPlugin::getDataObject('WebRTC');
-        $file = "{$global['systemRootPath']}plugin/WebRTC/WebRTC2RTMP";
+        $file = self::getWebRTC2RTMPFile();
         $log = "{$global['systemRootPath']}videos/WebRTC2RTMP.log";
         $command = "{$file} --port={$obj->port} > $log ";
 

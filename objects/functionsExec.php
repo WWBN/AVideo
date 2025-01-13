@@ -320,6 +320,22 @@ function zipDirectory($source, $destination)
     return file_exists($destinationOriginal);
 }
 
+function isPortOpenInternal($host, $port) {
+    $output = [];
+    $result = null;
+    exec("nc -zv {$host} {$port} 2>&1", $output, $result);
+    foreach ($output as $line) {
+        _log($line);
+    }
+    return $result === 0;
+}
+
+function isPortOpenExternal($port) {
+    $ports = array($port);
+    //postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
+    $response = postVariables('https://search.ypt.me/checkPorts.json.php', $ports, false, 4);
+    return $response;
+}
 
 function getPIDUsingPort($port)
 {

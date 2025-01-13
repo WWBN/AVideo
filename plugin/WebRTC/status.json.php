@@ -6,10 +6,14 @@ $objP = AVideoPlugin::getDataObject('WebRTC');
 header('Content-Type: application/json');
 $obj = array('error'=>false, 'msg'=>'');
 
+$file = WebRTC::getWebRTC2RTMPFile();
+
 $obj['port'] = $objP->port;
 $obj['isActive'] = WebRTC::checkIfIsActive();
 $obj['json'] = WebRTC::getJson();
 $obj['log'] = WebRTC::getLog();
-
+$obj['is_executable'] = is_executable($file);
+$obj['portOpenInternally'] = isPortOpenInternal('localhost', $objP->port) ;
+$obj['portOpenExternally'] = isPortOpenExternal($objP->port);
 echo json_encode($obj);
 ?>
