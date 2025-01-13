@@ -10,7 +10,8 @@ th,
 td,
 a,
 .panel-footer,
-.label {
+.label,
+.videoPlaylist .material-switch label{
     direction: rtl;
     unicode-bidi: embed;
 }
@@ -21,7 +22,9 @@ a,
 
 .dropdown-menu,
 .navbar-header li a,
-#sideBarContainer .btn {
+#sideBarContainer .btn,
+#sideBarContainer a,
+.videoPlaylist {
     text-align: right !important;
 }
 
