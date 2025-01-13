@@ -63,7 +63,6 @@ class WebRTC extends PluginAbstract
         return false;
     }
 
-
     public function getPluginMenu() {
         global $global;
         $btn = '<button onclick="avideoModalIframe(webSiteRootURL+\'plugin/WebRTC/status.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa-solid fa-list-check"></i> Server Status</button>';

@@ -107,4 +107,5 @@ socket.on('stream-stopped', ({ rtmpURL, reason }) => {
     console.log(`Stream for ${rtmpURL} stopped: ${reason}`);
     avideoToastWarning(`Stream stopped. Reason: ${reason}`);
     requestNotifications();
+    setIsNotLive();
 });

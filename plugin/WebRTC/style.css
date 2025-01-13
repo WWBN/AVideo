@@ -15,57 +15,55 @@ video {
 .indicator {
     font-family: Arial, Helvetica, sans-serif;
     position: absolute;
-    top: 40px;
-    left: 20px;
+    bottom: 25px;
+    left: 25px;
     color: white;
     font-size: 12px;
     font-weight: bold;
     padding: 2px 4px;
-    border-radius: 5px;
-    border: 1px solid #DDD;
     border-radius: 50%;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
 }
 
+/* Offline Indicator */
 #offLineIndicator, .offLineIndicator {
-    background: #FF000033;
-    color: #CCC;
-    border-color: #FAA;
+    background: #FF4D4D; /* Bright red */
+    color: #FFFFFF;
+    border-color: #FF0000;
 }
 
-/* Live indicator */
+/* Online Indicator (Not Live) */
 #onLineIndicator, .onLineIndicator {
-    background: #00000055;
-    color: #DDD;
+    background: #FFC107; /* Amber */
+    color: #000000;
+    border-color: #FFA000;
 }
 
-/* Live indicator (Green) */
+/* Live Indicator */
 #liveIndicator, .liveIndicator {
-    background: #00AA00AA;
-    box-shadow: 0 0 5px #00FF00;
-    /* Initial glow */
+    background: #4CAF50; /* Bright green */
+    box-shadow: 0 0 8px 2px #4CAF50; /* Strong green glow */
     animation: greenGlowPulse 1.5s infinite;
-    /* Apply the glow animation */
-    border-color: 2px solid #55FF55;
+    border-color: #388E3C;
 }
 
-/* Keyframes for green glowing pulse animation */
+/* Green glow pulse animation */
 @keyframes greenGlowPulse {
     0% {
-        box-shadow: 0 0 5px #00FF00;
-        /* Starting soft glow */
+        box-shadow: 0 0 8px 2px #66BB6A;
     }
-
     50% {
-        box-shadow: 0 0 15px #00FF00;
-        /* Intense glow */
+        box-shadow: 0 0 12px 4px #4CAF50;
     }
-
     100% {
-        box-shadow: 0 0 5px #00FF00;
-        /* Back to soft glow */
+        box-shadow: 0 0 8px 2px #66BB6A;
     }
 }
+
 
 .showWhenIsLive {
     display: none !important;
@@ -84,8 +82,14 @@ video {
 }
 
 .showWhenWebRTCIsConnected,
-.showWhenWebRTCIsNotConnected {
+.showWhenWebRTCIsNotConnected,
+.webCamIsOn .showWhenWebCamIsOff,
+.showWhenWebCamIsOn {
     display: none !important;
+}
+
+.webCamIsOn .showWhenWebCamIsOn{
+    display: inline-flex !important;
 }
 
 .WebcamServerConnected .showWhenWebRTCIsConnected {

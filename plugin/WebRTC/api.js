@@ -56,7 +56,7 @@ function sendStreamToServer(stream) {
             avideoToastError('MediaRecorder API is not supported on this device.');
             return;
         }
-        
+
         mediaRecorder = new MediaRecorder(stream);
 
         mediaRecorder.ondataavailable = (event) => {
@@ -81,7 +81,7 @@ function sendStreamToServer(stream) {
 // Detect if the device is an iPhone
 function isIPhone() {
     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-  }
+}
 
 // Function to stop the MediaRecorder
 function stopStreamToServer() {
@@ -113,6 +113,7 @@ function setIsLive() {
     document.body.classList.remove('isNotLive');
     document.body.classList.add('isLive');
     isLive = true;
+    lockScreenOrientation(); // Lock screen orientation
 }
 
 function setIsNotLive() {
@@ -120,6 +121,7 @@ function setIsNotLive() {
     document.body.classList.add('isNotLive');
     isLive = false;
     stopStreamToServer()
+    unlockScreenOrientation(); // Unlock screen orientation
 }
 
 async function getVideoSources() {
@@ -159,27 +161,27 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
         } else {
             // Constraints for selected devices or default devices
             const isLandscape = window.screen.orientation.type.startsWith('landscape');
-            
+
             const videoConstraints = {
                 width: { ideal: 1280 },
                 height: { ideal: 720 },
                 frameRate: { ideal: 30 },
                 aspectRatio: isLandscape ? 16 / 9 : 9 / 16,
             };
-            
+
             console.log('videoConstraints', isLandscape, videoConstraints);
 
             if (videoDeviceId) {
                 videoConstraints.deviceId = { exact: videoDeviceId };
             }
-            
+
             const audioConstraints = audioDeviceId ? { deviceId: { exact: audioDeviceId } } : true;
-            
+
             constraints = {
                 video: videoConstraints,
                 audio: audioConstraints,
             };
-            
+
         }
 
         //avideoToast(JSON.stringify(constraints));
@@ -214,12 +216,27 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
                 if (audioSender) audioSender.replaceTrack(audioTrack);
             }
         }
-
+        $('body').addClass('webCamIsOn');
         console.log('Stream started successfully:', newStream);
     } catch (error) {
         console.error('Error starting the stream:', error);
     }
 }
+
+function stopWebRTC() {
+    if (localStream) {
+        // Stop all tracks of the stream
+        localStream.getTracks().forEach((track) => track.stop());
+
+        // Optionally clear the video element's stream
+        localVideo.srcObject = null;
+        $('body').removeClass('webCamIsOn');
+        console.log('Camera and microphone stopped.');
+    } else {
+        console.log('No active stream to stop.');
+    }
+}
+
 
 function toggleMediaSelector() {
     if (!$('#mediaSelector').is(':visible')) {
@@ -228,6 +245,27 @@ function toggleMediaSelector() {
     } else {
         $('#webrtcChat').show();      // Show #webrtcChat
         $('#mediaSelector').fadeOut(); // Fade out #mediaSelector
+    }
+}
+
+// Utility to lock screen orientation
+function lockScreenOrientation() {
+    if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('portrait').then(() => {
+            console.log('Screen orientation locked.');
+        }).catch((err) => {
+            console.error('Failed to lock screen orientation:', err);
+        });
+    } else {
+        console.warn('Screen Orientation API is not supported.');
+    }
+}
+
+// Utility to unlock screen orientation
+function unlockScreenOrientation() {
+    if (screen.orientation && screen.orientation.unlock) {
+        screen.orientation.unlock();
+        console.log('Screen orientation unlocked.');
     }
 }
 
@@ -283,6 +321,26 @@ $(document).ready(function () {
             console.log('Media devices updated successfully.');
         } catch (error) {
             console.error('Error applying changes to media devices:', error);
+        }
+    });
+
+    // Apply Changes (Change Video and Audio Sources)
+    $('#stopWebRTC').click(function () {
+        try {
+            stopWebRTC();
+            console.log('Media devices stop successfully.');
+        } catch (error) {
+            console.error('Error on stop', error);
+        }
+    });
+
+    // Apply Changes (Change Video and Audio Sources)
+    $('#startWebRTC').click(function () {
+        try {
+            startWebRTC();
+            console.log('Media devices start successfully.');
+        } catch (error) {
+            console.error('Error on start', error);
         }
     });
 
