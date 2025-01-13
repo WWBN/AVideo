@@ -325,7 +325,7 @@ function isPortOpenInternal($host, $port) {
     $result = null;
     exec("nc -zv {$host} {$port} 2>&1", $output, $result);
     foreach ($output as $line) {
-        _log($line);
+        error_log($line);
     }
     return $result === 0;
 }
