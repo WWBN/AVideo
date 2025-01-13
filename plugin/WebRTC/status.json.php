@@ -15,6 +15,7 @@ $obj['log'] = WebRTC::getLog();
 $obj['is_executable'] = is_executable($file);
 $obj['portOpenInternally'] = isPortOpenInternal('localhost', $objP->port) ;
 $obj['portOpenExternally'] = isPortOpenExternal($objP->port);
+$obj['portOpenExternallyResponse'] = $isPortOpenExternalResponse;
 $obj['file'] = $file;
 $obj['file_exists'] = file_exists($file);
 echo json_encode($obj);

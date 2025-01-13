@@ -331,12 +331,15 @@ function isPortOpenInternal($host, $port) {
 }
 
 function isPortOpenExternal($port) {
+    global $isPortOpenExternalResponse;
     $ports = array($port);
     //postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
+    $isPortOpenExternalResponse = new stdClass();
     $response = postVariables('https://search.ypt.me/checkPorts.json.php', $ports, false, 4);
     if(!empty($response)){
         $json = json_decode($response);
         if(!empty($json)){
+            $isPortOpenExternalResponse = $json;
             $json->ports[0]->isOpen;
         }
     }
