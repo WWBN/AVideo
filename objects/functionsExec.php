@@ -340,7 +340,7 @@ function isPortOpenExternal($port) {
         $json = json_decode($response);
         if(!empty($json)){
             $isPortOpenExternalResponse = $json;
-            $json->ports[0]->isOpen;
+            return $json->ports[0]->isOpen;
         }
     }
     return false;
