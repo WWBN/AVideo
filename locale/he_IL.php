@@ -1,6 +1,16 @@
 <?php
 global $t;
-
+$t['Friend Request Sent, Awaiting Approval'] = 'בקשת חברות נשלחה, ממתין לאישור';
+$t['Shorts'] = 'קצרים';
+$t['Send Friend Request'] = 'שליחת בקשת חברות';
+$t['Remove first page'] = 'הסר מדף ראשי';
+$t['view more'] = 'קרא עוד';
+$t['Most Recent'] = 'התווסף לאחרונה';
+$t['playlists'] = 'פלייליסטים';
+$t['Articles'] = 'מאמרים';
+$t['News'] = 'חדשות';
+$t['Custom ADs'] = 'התאמת מודעות';
+$t['Add to first page'] = 'הוסף לדף הראשי';
 $t[' You can use the Edit Parameters button to rename it to your choosing.<br>We recommend to keep the Program name '] = ' באפשרותך להשתמש בלחצן ערוך פרמטרים כדי לשנות את שמו לפי בחירתך. אנו ממליצים לשמור את שם התוכנית ';
 $t[" You'll no longer receive emails from us"] = ' לא תקבלו מאיתנו יותר מיילים';
 $t[' and also reset the stream name/key'] = ' וכן לאפס את שם הזרם/מפתח הזרם';
