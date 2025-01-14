@@ -48,7 +48,9 @@ class WebRTC extends PluginAbstract
 
     function executeEveryMinute()
     {
-        self::startIfIsInactive();
+        if (empty($obj->autoStartServerIfIsInactive)) {
+            self::startIfIsInactive();
+        }
     }
 
     static function startIfIsInactive()
@@ -61,13 +63,14 @@ class WebRTC extends PluginAbstract
     static function checkIfIsActive()
     {
         $json = self::getJson();
-        if(!empty($json)){
+        if (!empty($json)) {
             return ($json->phpTimestamp > strtotime('-2 min')) ? $json->phpTimestamp : false;
         }
         return false;
     }
 
-    public function getPluginMenu() {
+    public function getPluginMenu()
+    {
         global $global;
         $btn = '<button onclick="avideoModalIframe(webSiteRootURL+\'plugin/WebRTC/status.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa-solid fa-list-check"></i> Server Status</button>';
         return $btn;
@@ -99,12 +102,14 @@ class WebRTC extends PluginAbstract
         return false;
     }
 
-    static function getWebRTC2RTMPFile(){
+    static function getWebRTC2RTMPFile()
+    {
         global $global;
         return "{$global['systemRootPath']}plugin/WebRTC/WebRTC2RTMP";
     }
 
-    static function getWebRTC2RTMPLogFile(){
+    static function getWebRTC2RTMPLogFile()
+    {
         global $global;
         return "{$global['systemRootPath']}videos/WebRTC2RTMP.log";
     }
@@ -114,9 +119,6 @@ class WebRTC extends PluginAbstract
         _error_log('Starting WebRTC Server');
         global $global;
         $obj = AVideoPlugin::getDataObject('WebRTC');
-        if(empty($obj->autoStartServerIfIsInactive)){
-            return false;
-        }
 
         $file = self::getWebRTC2RTMPFile();
         $log = self::getWebRTC2RTMPLogFile();
