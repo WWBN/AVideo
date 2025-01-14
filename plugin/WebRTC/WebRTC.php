@@ -102,6 +102,12 @@ class WebRTC extends PluginAbstract
         return false;
     }
 
+    static function getWebRTC2RTMPAssetFile()
+    {
+        global $global;
+        return "{$global['systemRootPath']}plugin/WebRTC/assets/WebRTC2RTMP";
+    }
+
     static function getWebRTC2RTMPFile()
     {
         global $global;
@@ -121,8 +127,12 @@ class WebRTC extends PluginAbstract
         $obj = AVideoPlugin::getDataObject('WebRTC');
 
         $file = self::getWebRTC2RTMPFile();
+        $fileAsset = self::getWebRTC2RTMPAssetFile();
         $log = self::getWebRTC2RTMPLogFile();
-        $command = "{$file} --port={$obj->port} > $log ";
+
+        if(!file_exists($file)){
+            copy($fileAsset, $file);
+        }
 
         // Check if the file has executable permissions
         if (!is_executable($file)) {
@@ -132,6 +142,7 @@ class WebRTC extends PluginAbstract
 
         // Try to execute the command
         if (is_executable($file)) {
+            $command = "{$file} --port={$obj->port} > $log ";
             return execAsync($command);
         } else {
             error_log("Unable to make {$file} executable.");
