@@ -165,13 +165,13 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                     <div class="panel panel-default">
                         <div class="panel-heading clearfix">
                             <div class="btn-group pull-right" role="group" aria-label="Plugin Store Actions">
-                                <a href="https://tutorials.avideo.com/signUp" class="btn btn-success btn-sm">
+                                <a href="https://tutorials.avideo.com/signUp" class="btn btn-success btn-sm" target="_top">
                                     <i class="fa fa-user-plus"></i> Register
                                 </a>
-                                <a href="https://youphp.tube/marketplace/" class="btn btn-info btn-sm">
+                                <a href="https://youphp.tube/marketplace/" class="btn btn-info btn-sm" target="_top">
                                     <i class="fa fa-sign-in"></i> Log In
                                 </a>
-                                <a href="https://youphp.tube/marketplace/?tab=plugin" class="btn btn-primary btn-sm">
+                                <a href="https://youphp.tube/marketplace/?tab=plugin" class="btn btn-primary btn-sm" target="_top">
                                     <i class="fa fa-plug"></i> Visit Plugin Store
                                 </a>
                             </div>
