@@ -24,6 +24,7 @@ a,
 .navbar-header li a,
 #sideBarContainer .btn,
 #sideBarContainer a,
+#sideBarContainer > ul,
 .videoPlaylist {
     text-align: right !important;
 }
@@ -51,4 +52,5 @@ a,
 
 .material-switch label{
     direction: ltr;
+    margin-left: 5px;
 }
