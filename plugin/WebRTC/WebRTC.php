@@ -79,7 +79,7 @@ class WebRTC extends PluginAbstract
     static function getJson()
     {
         global $global;
-        $file = "{$global['systemRootPath']}plugin/WebRTC/WebRTC2RTMP.json";
+        $file = self::getWebRTC2RTMPJsonFile();
         if (file_exists($file)) {
             $content = file_get_contents($file);
             if (!empty($content)) {
@@ -95,17 +95,29 @@ class WebRTC extends PluginAbstract
     static function getLog()
     {
         global $global;
-        $file = "{$global['systemRootPath']}videos/WebRTC2RTMP.log";
+        $file = self::getWebRTC2RTMPLogFile();
         if (file_exists($file)) {
             return file_get_contents($file);
         }
         return false;
     }
 
+    static function getWebRTC2RTMPAssetVersionFile()
+    {
+        global $global;
+        return "{$global['systemRootPath']}plugin/WebRTC/assets/versionInfo.json";
+    }
+
     static function getWebRTC2RTMPAssetFile()
     {
         global $global;
         return "{$global['systemRootPath']}plugin/WebRTC/assets/WebRTC2RTMP";
+    }
+
+    static function getWebRTC2RTMPJsonFile()
+    {
+        global $global;
+        return "{$global['systemRootPath']}plugin/WebRTC/WebRTC2RTMP.json";
     }
 
     static function getWebRTC2RTMPFile()

@@ -60,6 +60,11 @@ socket.on('live-stopped', ({ rtmpURL, message }) => {
     requestNotifications();
 });
 
+socket.on('stream-will-stop', ({ rtmpURL, message }) => {
+    console.log('stream-will-stop', rtmpURL, message);
+    avideoToastWarning(` ${message}`);
+});
+
 // Handle general errors
 socket.on('error', ({ message }) => {
     console.error(`Error: ${message}`);
