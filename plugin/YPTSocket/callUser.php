@@ -1,4 +1,5 @@
 <?php
+/*Deprecated file will be removed */
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 if (isBot()) {
     die();

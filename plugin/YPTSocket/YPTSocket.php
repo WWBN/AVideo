@@ -47,7 +47,7 @@ class YPTSocket extends PluginAbstract
 
     public static function getServerVersion()
     {
-        return "7.3";
+        return "7.4";
     }
 
     public function updateScript()
@@ -63,6 +63,20 @@ class YPTSocket extends PluginAbstract
     }
 
 
+    public static function getDataObjectDeprecated()
+    {
+        return array(
+            'forceNonSecure',
+            'uri',
+            'debugSocket',
+            'debugAllUsersSocket',
+            'allow_self_signed',
+            'forceNonSecure',
+            'showTotalOnlineUsersPerVideo',
+            'showTotalOnlineUsersPerLive',
+            'showTotalOnlineUsersPerLiveLink',
+        );
+    }
 
     public static function getDataObjectAdvanced()
     {

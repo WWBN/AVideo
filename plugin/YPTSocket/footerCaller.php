@@ -32,4 +32,7 @@ if($response->error){
         padding: 0;
     }
 </style>
+<script src="<?php echo getURL('plugin/WebRTC/call/caller.js'); ?>" type="text/javascript"></script>
+<!--
 <script src="<?php echo getURL('plugin/YPTSocket/caller.js'); ?>" type="text/javascript"></script>
+-->

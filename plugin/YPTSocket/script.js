@@ -45,10 +45,18 @@ function processSocketJson(json) {
         if(typeof json.msg != 'undefined'){
             _details = json.msg;
         }
-        if(typeof _details === 'string'){
-            _details = JSON.parse(_details);
-            console.log('processSocketJson: details after', _details);
+        if (typeof _details === 'string') {
+            try {
+                const parsed = JSON.parse(_details);
+                // If parsing succeeds, use the parsed object
+                _details = parsed;
+                console.log('processSocketJson: Parsed JSON:', _details);
+            } catch (e) {
+                // If parsing fails, keep the original string
+                console.log('processSocketJson: Not a JSON string, keeping as is:', _details);
+            }
         }
+        
         if (json.callback) {
             // Check if a function exists with the name in json.callback
             var code = "if (typeof " + json.callback + " == 'function') { myfunc = " + json.callback + "; } else { myfunc = defaultCallback; }";
@@ -97,15 +105,19 @@ function socketConnect() {
         }, 30000);
         return false;
     }
-
-    conn = new WebSocket(url);
+    try {
+        conn = new WebSocket(url);
+    } catch (error) {
+        console.error('socketConnect', error);
+    }
     setSocketIconStatus('loading');
 
+    console.trace();
     conn.onopen = function (e) {
         socketConnectRequested = 0;
         socketConnectRetryTimeout = 2000; // Reset retry timer
         clearTimeout(socketConnectTimeout);
-        console.log("socketConnect: Socket connection established. onopen event triggered.");
+        console.warn("socketConnect: Socket connection established. onopen event triggered.");
         onSocketOpen();
         return false;
     };
@@ -270,18 +282,6 @@ function sendSocketMessageToUser(msg, callback, to_users_id) {
         }, 1000);
     }
 }
-
-function sendSocketMessageToUser(msg, callback, to_users_id) {
-    if (conn.readyState === 1) {
-        conn.send(JSON.stringify({ msg: msg, webSocketToken: webSocketToken, callback: callback, to_users_id: to_users_id }));
-    } else {
-        //console.log('Socket not ready send message in 1 second');
-        setTimeout(function () {
-            sendSocketMessageToUser(msg, to_users_id, callback);
-        }, 1000);
-    }
-}
-
 function sendSocketMessageToResourceId(msg, callback, resourceId) {
     if (conn.readyState === 1) {
         conn.send(JSON.stringify({ msg: msg, webSocketToken: webSocketToken, callback: callback, resourceId: resourceId }));
@@ -512,17 +512,18 @@ function setUserOnlineStatus(users_id) {
     }
 }
 var getWebSocket;
-$(function () {
-    startSocket();
+$(async function () {
+    await startSocket();
     AutoUpdateOnHTMLTimer();
 });
 var _startSocketTimeout;
 async function startSocket() {
+    console.log('startSocket');
     clearTimeout(_startSocketTimeout);
     if (!isOnline() || typeof webSiteRootURL == 'undefined') {
         //console.log('startSocket: Not Online');
-        _startSocketTimeout = setTimeout(function () {
-            startSocket();
+        _startSocketTimeout = setTimeout(async function () {
+            await startSocket();
         }, 10000);
         return false;
     }

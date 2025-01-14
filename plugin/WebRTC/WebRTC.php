@@ -41,6 +41,7 @@ class WebRTC extends PluginAbstract
         $obj = new stdClass();
 
         $obj->port = 3000;
+        $obj->autoStartServerIfIsInactive = true;
 
         return $obj;
     }
@@ -113,6 +114,10 @@ class WebRTC extends PluginAbstract
         _error_log('Starting WebRTC Server');
         global $global;
         $obj = AVideoPlugin::getDataObject('WebRTC');
+        if(empty($obj->autoStartServerIfIsInactive)){
+            return false;
+        }
+
         $file = self::getWebRTC2RTMPFile();
         $log = self::getWebRTC2RTMPLogFile();
         $command = "{$file} --port={$obj->port} > $log ";

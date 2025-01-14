@@ -212,6 +212,7 @@ if ((strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) 
     // Handle incoming connections and differentiate between WebSocket and HTTP requests
     $webSock->on('connection', function ($conn) use ($httpServer) {
         $conn->on('data', function ($data) use ($conn, $httpServer) {
+            return false; // isto estava dando erro, nao sei por que coloquei aqui
             // Parse headers from the incoming connection
             $headers = [];
             foreach (explode("\r\n", $data) as $line) {
