@@ -114,9 +114,9 @@ function checkVideosDir()
 function getVideosDir()
 {
     global $isStandAlone, $global;
-    if(empty($isStandAlone)){
+    if (empty($isStandAlone)) {
         return Video::getStoragePath();
-    }else{
+    } else {
         return "{$global['systemRootPath']}videos/";
     }
 }
@@ -1219,4 +1219,15 @@ function findMP3File($folderPath)
 
     // Return false if no .mp4 file is found
     return false;
+}
+
+
+// Helper function to read JSON files
+function readJsonFile($filePath)
+{
+    if (!file_exists($filePath)) {
+        return null;
+    }
+    $content = file_get_contents($filePath);
+    return json_decode($content, true);
 }

@@ -48,6 +48,7 @@ class WebRTC extends PluginAbstract
 
     function executeEveryMinute()
     {
+        self::checkAndUpdate();
         if (empty($obj->autoStartServerIfIsInactive)) {
             self::startIfIsInactive();
         }
@@ -56,6 +57,7 @@ class WebRTC extends PluginAbstract
     static function startIfIsInactive()
     {
         if (!self::checkIfIsActive()) {
+            _error_log('WebRTC server is inactive');
             self::startServer();
         }
     }
@@ -132,6 +134,73 @@ class WebRTC extends PluginAbstract
         return "{$global['systemRootPath']}videos/WebRTC2RTMP.log";
     }
 
+    static function updateFileIfNeed()
+    {
+        $json = self::getJson();
+        if (!empty($json)) {
+            return ($json->phpTimestamp > strtotime('-2 min')) ? $json->phpTimestamp : false;
+        }
+        return false;
+    }
+
+    public static function checkAndUpdate() {
+        // Define file paths
+        $availableFilePath = self::getWebRTC2RTMPAssetVersionFile();
+        $sourceExecutablePath = self::getWebRTC2RTMPAssetFile();
+        $executablePath = self::getWebRTC2RTMPFile();
+        $currentFilePath = self::getWebRTC2RTMPJsonFile();
+
+        try {
+            // Read the JSON files
+            $currentData = readJsonFile($currentFilePath);
+            $availableData = readJsonFile($availableFilePath);
+
+            // Skip if any of the JSON files do not exist
+            if (empty($currentData) || empty($availableData)) {
+                _error_log("WebRTC::checkAndUpdate: Required JSON file(s) missing. Skipping update.");
+                return false;
+            }
+
+            // Compare versions
+            if ($currentData['version'] != $availableData['version']) {
+                _error_log("WebRTC::checkAndUpdate: A new version is available Current={$currentData['version']} available={$availableData['version']}. Updating...");
+
+                // Stop the current server
+                _error_log("WebRTC::checkAndUpdate: Stopping current server...");
+                exec("pkill WebRTC2RTMP", $output, $status);
+
+                if ($status !== 0) {
+                    _error_log("WebRTC::checkAndUpdate: Warning: Could not stop the server or it was not running.");
+                }
+                
+                self::stopServer();
+
+                // Remove old executable
+                if (file_exists($executablePath)) {
+                    _error_log("WebRTC::checkAndUpdate: Removing old executable...");
+                    unlink($executablePath);
+                }
+
+                // Copy new executable
+                _error_log("WebRTC::checkAndUpdate: Copying new executable...");
+                copy($sourceExecutablePath, $executablePath);
+
+                // Make new executable runnable
+                _error_log("WebRTC::checkAndUpdate: Making new executable runnable...");
+                chmod($executablePath, 0755);
+
+                _error_log("WebRTC::checkAndUpdate: Update completed successfully!");
+                return true; // Indicates that an update was performed
+            } else {
+                _error_log("WebRTC::checkAndUpdate: You are already running the latest version.");
+                return false; // No update needed
+            }
+        } catch (Exception $e) {
+            _error_log("WebRTC::checkAndUpdate: Error: " . $e->getMessage());
+            return false; // Indicates failure or no update performed
+        }
+    }
+
     static function startServer()
     {
         _error_log('Starting WebRTC Server');
@@ -154,11 +223,25 @@ class WebRTC extends PluginAbstract
 
         // Try to execute the command
         if (is_executable($file)) {
-            $command = "{$file} --port={$obj->port} > $log ";
-            return execAsync($command);
+            if(isLocalPortOpen($obj->port)){
+                error_log("Port $obj->port is already open");
+                return false;
+            }else{
+                error_log("Port $obj->port is not open, start the server");
+                $command = "{$file} --port={$obj->port} > $log ";
+                return execAsync($command);
+            }
         } else {
             error_log("Unable to make {$file} executable.");
             return false;
         }
+    }
+
+    static function stopServer()
+    {
+        _error_log('Starting WebRTC Server');
+        global $global;
+        $obj = AVideoPlugin::getDataObject('WebRTC');
+        return killProcessRuningOnPort($obj->port);
     }
 }
