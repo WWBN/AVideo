@@ -39,7 +39,7 @@ socket.on('reconnect_attempt', () => {
 // Handle live-start
 socket.on('live-start', ({ rtmpURL }) => {
     console.log('live-start', rtmpURL);
-    avideoToastSuccess(`Live streaming started successfully.`);
+    avideoToastSuccess(`<i class="fa-solid fa-sync fa-spin"></i> Live streaming connecting...`);
     setIsLive();
     requestNotifications();
 });
@@ -55,14 +55,14 @@ socket.on('live-resumed', ({ rtmpURL }) => {
 // Handle live-stopped
 socket.on('live-stopped', ({ rtmpURL, message }) => {
     console.log('live-stopped', rtmpURL, message);
-    avideoToastWarning(`Live streaming stopped. Reason: ${message}`);
+    avideoToastWarning(`${message}`);
     setIsNotLive();
     requestNotifications();
 });
 
 socket.on('stream-will-stop', ({ rtmpURL, message }) => {
     console.log('stream-will-stop', rtmpURL, message);
-    avideoToastWarning(` ${message}`);
+    avideoToastWarning(`<i class="fa-solid fa-triangle-exclamation fa-beat-fade"></i> ${message}`, 30000);
 });
 
 // Handle general errors
@@ -110,7 +110,7 @@ socket.on('rtmp-status', ({ rtmpURL, isRunning }) => {
 // Handle stream-stopped
 socket.on('stream-stopped', ({ rtmpURL, reason }) => {
     console.log(`Stream for ${rtmpURL} stopped: ${reason}`);
-    avideoToastWarning(`Stream stopped. Reason: ${reason}`);
+    avideoToastWarning(`Stream stopped. ${reason}`);
     requestNotifications();
     setIsNotLive();
 });

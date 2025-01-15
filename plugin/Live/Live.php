@@ -2556,7 +2556,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $playlists_id_live = $parameters['playlists_id_live'];
         $live_index = $parameters['live_index'];
         if (!empty($live_index) && $live_index !== 'false') {
-            $title .= " ({$live_index})";
+            $title .= " <small class=\"text-muted pull-right\">({$live_index})</small>";
         }
 
         return $title;

@@ -1333,19 +1333,21 @@ function avideoAlertOnceForceConfirm(title, msg, type) {
     });
 }
 
-function _avideoToast(msg, icon) {
+function _avideoToast(msg, icon, displayTime = 0) {
     if (empty(msg)) {
         msg = '';
     }
     try {
-        // Average reading speed: around 200 words per minute (or 3.3 words per second)
-        var wordsPerSecond = 2;
-        var words = msg.split(' ').length;
-        var readingTimeInSeconds = words / wordsPerSecond;
-
-        // Convert reading time to milliseconds and add a buffer time
-        var displayTime = Math.max(readingTimeInSeconds * 1000 + 2000, 7000); // Minimum display time of 7000ms
-
+        if(displayTime == 0){
+            // Average reading speed: around 200 words per minute (or 3.3 words per second)
+            var wordsPerSecond = 2;
+            var words = msg.split(' ').length;
+            var readingTimeInSeconds = words / wordsPerSecond;
+    
+            // Convert reading time to milliseconds and add a buffer time
+            displayTime = Math.max(readingTimeInSeconds * 1000 + 2000, 7000); // Minimum display time of 7000ms
+    
+        }
         var options = { text: msg, hideAfter: displayTime };
         if (icon) {
             options.icon = icon;
@@ -1356,20 +1358,20 @@ function _avideoToast(msg, icon) {
     }
 }
 
-function avideoToast(msg) {
-    _avideoToast(msg, null);
+function avideoToast(msg, displayTime = 0) {
+    _avideoToast(msg, null, displayTime);
 }
-function avideoToastInfo(msg) {
-    _avideoToast(msg, 'info');
+function avideoToastInfo(msg, displayTime = 0) {
+    _avideoToast(msg, 'info', displayTime);
 }
-function avideoToastError(msg) {
-    _avideoToast(msg, 'error');
+function avideoToastError(msg, displayTime = 0) {
+    _avideoToast(msg, 'error', displayTime);
 }
-function avideoToastSuccess(msg) {
-    _avideoToast(msg, 'success');
+function avideoToastSuccess(msg, displayTime = 0) {
+    _avideoToast(msg, 'success', displayTime);
 }
-function avideoToastWarning(msg) {
-    _avideoToast(msg, 'warning');
+function avideoToastWarning(msg, displayTime = 0) {
+    _avideoToast(msg, 'warning', displayTime);
 }
 
 function avideoAlertAJAXHTML(url) {
