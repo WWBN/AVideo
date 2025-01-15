@@ -664,6 +664,20 @@ class Category
         return $category;
     }
 
+    public static function hasSubcategory($parentId)
+    {
+        global $global, $config;
+        $sql = "SELECT count(id) as total FROM categories WHERE parentId=? AND id!=? ";
+
+        $res = sqlDAL::readSql($sql, "i", [$parentId]);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            return intval($result['total']);
+        }
+        return 0;
+    }
+
     public static function getChildCategoriesFromTitle($clean_title)
     {
         $row = self::getCategoryByName($clean_title);
