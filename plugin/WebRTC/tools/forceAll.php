@@ -18,6 +18,6 @@ error_reporting(E_ALL); // Report all PHP errors
 ini_set('display_errors', '1'); // Display errors on the browser
 ini_set('display_startup_errors', '1'); // Display startup errors
 
-WebRTC::checkAndUpdate();
 WebRTC::stopServer();
+WebRTC::checkAndUpdate();
 WebRTC::startServer();
