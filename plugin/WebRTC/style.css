@@ -36,18 +36,16 @@ video {
 }
 
 /* Online Indicator (Not Live) */
-#onLineIndicator, .onLineIndicator {
-    background: #FFC107; /* Amber */
-    color: #000000;
-    border-color: #FFA000;
+#onLineIndicator, .onLineIndicator,
+#liveIndicator, .liveIndicator {
+    background: #4CAF50; /* Bright green */
+    border-color: #388E3C;
 }
 
 /* Live Indicator */
 #liveIndicator, .liveIndicator {
-    background: #4CAF50; /* Bright green */
     box-shadow: 0 0 8px 2px #4CAF50; /* Strong green glow */
     animation: greenGlowPulse 1.5s infinite;
-    border-color: #388E3C;
 }
 
 /* Green glow pulse animation */
