@@ -81,10 +81,7 @@ $identification = User::getNameIdentificationById($users_id);
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo getURL('plugin/WebRTC/call/caller.js'); ?>" type="text/javascript"></script>
-        <!--
         <script src="<?php echo getURL('plugin/YPTSocket/caller.js'); ?>" type="text/javascript"></script>
-        -->
         <script>
                         $(document).ready(function () {
                             setTimeout(function () {

@@ -53,7 +53,7 @@ function callNow(to_users_id, to_identification) {
 
 
 function callUserNow(to_users_id) {
-    avideoModalIframeFull(webSiteRootURL + 'plugin/YPTSocket/callUser.php?users_id=' + to_users_id);
+    avideoModalIframeFull(webSiteRootURL + 'plugin/WebRTC/call/callUser.php?users_id=' + to_users_id);
     return false;
 }
 
