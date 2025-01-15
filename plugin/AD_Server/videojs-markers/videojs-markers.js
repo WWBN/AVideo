@@ -231,6 +231,7 @@
 
         if (!preventDefault) {
           var key = this.getAttribute('data-marker-key');
+          console.log('currentTime video markers');
           player.currentTime(setting.markerTip.time(markersMap[key]));
         }
       });
@@ -459,6 +460,7 @@
         for (var i = 0; i < markersList.length; i++) {
           var markerTime = setting.markerTip.time(markersList[i]);
           if (markerTime > currentTime) {
+            console.log('currentTime video markers 2');
             player.currentTime(markerTime);
             break;
           }
@@ -471,6 +473,7 @@
           var markerTime = setting.markerTip.time(markersList[i]);
           // add a threshold
           if (markerTime + 0.5 < currentTime) {
+            console.log('currentTime video markers 3');
             player.currentTime(markerTime);
             return;
           }

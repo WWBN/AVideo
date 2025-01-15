@@ -203,6 +203,7 @@ echo AVideoPlugin::afterVideoJS();
             return false;
         });
 
+        console.log('currentTime player 1');
         player.currentTime(playerPlaylist[0].videoStartSeconds);
         $("#modeYoutubeBottomContent").load("<?php echo $global['webSiteRootURL']; ?>view/modeYoutubeBottom.php?videos_id=" + playerPlaylist[0].videos_id);
         $(".vjs-playlist-item ").click(function() {
@@ -215,6 +216,7 @@ echo AVideoPlugin::afterVideoJS();
             $("#modeYoutubeBottomContent").load("<?php echo $global['webSiteRootURL']; ?>view/modeYoutubeBottom.php?videos_id=" + playerPlaylist[index].videos_id);
             if (playerPlaylist[index] && playerPlaylist[index].videoStartSeconds) {
                 setTimeout(function() {
+                    console.log('currentTime player 2');
                     player.currentTime(playerPlaylist[index].videoStartSeconds);
                 }, 500);
             }

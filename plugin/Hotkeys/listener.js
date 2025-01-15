@@ -11,9 +11,11 @@ window.addEventListener('message', function(event) {
             }
             break;
         case 'rewind':
+            console.log('currentTime hot key rewind');
             player.currentTime(player.currentTime() - 10);
             break;
         case 'forward':
+            console.log('currentTime hot key forward');
             player.currentTime(player.currentTime() + 10);
             break;
         case 'volumeUp':

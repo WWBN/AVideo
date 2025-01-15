@@ -296,6 +296,7 @@ async function lazyImage() {
 }
 
 var pauseIfIsPlayinAdsInterval;
+
 async function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
@@ -307,12 +308,13 @@ async function setPlayerListners() {
         player.on('play', function () {
             isTryingToPlay = false;
             cancelAllPlaybackTimeouts();
+            /* this was messing um the start playback time
             if (startCurrentTime) {
                 setTimeout(function () {
                     setCurrentTime(startCurrentTime);
                     startCurrentTime = 0;
                 }, 100);
-            }
+            }*/
             //console.log("setPlayerListners: play");
             //userIsControling = true;
             pauseIfIsPlayinAdsInterval = setInterval(function () {
@@ -1109,6 +1111,7 @@ function setCurrentTime(currentTime) {
                 return false; // if is trying to play, only update if the time is greater
             }
         }
+        console.trace();
         console.log("setCurrentTime 1: ", currentTime);
         player.currentTime(currentTime);
         initdone = false;
@@ -1121,6 +1124,7 @@ function setCurrentTime(currentTime) {
         // events: https://www.w3.org/TR/html5/embedded-content-0.html#mediaevents
         player.on("canplaythrough", function () {
             if (!initdone) {
+                console.trace();
                 console.log('setCurrentTime canplaythrough', currentTime);
                 player.currentTime(currentTime);
                 initdone = true;

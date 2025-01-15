@@ -30,10 +30,12 @@ if (empty($MediaMetadata)) {
         });
         setActionHandlerIfSupported('seekbackward', function() {
             /* Code excerpted. */
+            console.log('currentTime mediasession 1');
             player.currentTime(player.currentTime() - 5);
         });
         setActionHandlerIfSupported('seekforward', function() {
             /* Code excerpted. */
+            console.log('currentTime mediasession 1');
             player.currentTime(player.currentTime() + 5);
         });
         setActionHandlerIfSupported('seekto', function() {

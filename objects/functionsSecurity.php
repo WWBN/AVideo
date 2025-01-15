@@ -335,7 +335,7 @@ function linkifyTimestamps($text) {
         }
 
         // Return the clickable link
-        return "<a href='javascript:void(0)' onclick=\"player.currentTime($seconds);\">$timestamp</a>";
+        return "<a href='javascript:void(0)' onclick=\"console.log('objects-functionsSecurity.php player.currentTime');player.currentTime($seconds);\">$timestamp</a>";
     };
 
     // Replace timestamps with links

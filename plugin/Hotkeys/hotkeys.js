@@ -30,9 +30,11 @@ this.el().addEventListener('touchend', function(event) {
         var touchX = event.changedTouches[0].clientX;
         var videoWidth = player.el().clientWidth;
         if (touchX < videoWidth / 2) {
+            console.log('currentTime hot key 1');
             // Double tap on the left half - rewind
             player.currentTime(player.currentTime() - 10);
         } else {
+            console.log('currentTime hot key 2');
             // Double tap on the right half - forward
             player.currentTime(player.currentTime() + 10);
         }

@@ -669,7 +669,7 @@ class Category
         global $global, $config;
         $sql = "SELECT count(id) as total FROM categories WHERE parentId=? AND id!=? ";
 
-        $res = sqlDAL::readSql($sql, "i", [$parentId]);
+        $res = sqlDAL::readSql($sql, "ii", [$parentId, $parentId]);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
