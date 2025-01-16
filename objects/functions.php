@@ -2299,6 +2299,9 @@ function getPorts()
         $ports[8443] = 'NGINX https';
         $ports[1935] = 'RTMP';
     }
+    if ($obj = AVideoPlugin::getDataObjectIfEnabled('WebRTC')) {
+        $ports[$obj->port] = 'WebRTC';
+    }
 
     if ($obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket')) {
         $ports[$obj->port] = 'Socket';
