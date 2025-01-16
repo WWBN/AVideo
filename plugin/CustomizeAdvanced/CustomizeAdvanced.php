@@ -225,6 +225,16 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderAutomaticMP4 = false;
         $obj->doNotShowEncoderAutomaticWebm = false;
         $obj->doNotShowEncoderAutomaticAudio = false;
+
+        $o = new stdClass();
+        $o->type = array(0 => __('Disabled'), 240 => __('Max 240p'), 360 => __('Max 360p'), 480 => __('Max 480p'), 540 => __('Max 540p'), 720 => __('Max 720p'), 1080 => __('Max 1080p'), 1440 => __('Max 1440p'), 2160 => __('Max 2160p'));
+        $o->value = 0;
+        $obj->singleResolution = $o;
+        self::addDataObjectHelper(
+            'singleResolution',
+            'Save MP4 videos in a single resolution',
+            'Select the maximum resolution to save each video. Videos will not be upscaled to higher resolutions (Must enable automatic resolutions)'
+        );
         $obj->saveOriginalVideoResolution = false;
         self::addDataObjectHelper('saveOriginalVideoResolution', 'Save the original video resolution', 'This option will make your encoder at the end trancode the video into the original format resolution');
         $obj->doNotShowExtractAudio = false;
