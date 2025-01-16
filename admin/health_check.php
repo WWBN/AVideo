@@ -193,17 +193,78 @@ if (Scheduler::isActive()) {
     $messages['Server'][] = ["Scheduler plugin crontab is NOT runing", Scheduler::getCronHelp() . '<br>' . $reason];
 }
 
-$ports = json_decode(checkPorts());
-$ports = object_to_array($ports);
+$messages['portsExternal'] = array();
+$messages['portsInternal'] = array();
+
 $varables = getPorts();
-foreach ($ports['ports'] as $key => $value) {
-    $name = $varables[$value['port']];
-    if ($value['isOpen']) {
-        $messages['Server'][] = "{$name} Port {$value['port']} is open";
+foreach ($varables as $port => $name) {
+    $isOpen = isPortOpenExternal($port, 4);
+    if ($isOpen) {
+        $messages['portsExternal'][] = "{$name} (Port {$port}) is externally accessible.";
     } else {
-        $messages['Server'][] = ["{$name} Port {$value['port']} is closed"];
+        $messages['portsExternal'][] = ["{$name} (Port {$port}) is not externally accessible."];
+    }
+    $isOpen = isLocalPortOpen($port);
+    if ($isOpen) {
+        $messages['portsInternal'][] = "{$name} (Port {$port}) is accessible within the local network.";
+    } else {
+        $messages['portsInternal'][] = ["{$name} (Port {$port}) is not accessible within the local network."];
     }
 }
+
+function printMessages($messages, $cols = array(4, 6))
+{
+?>
+    <div class="row">
+        <?php
+        $count = 0;
+        foreach ($messages as $value) {
+            $count++;
+            if (is_array($value)) {
+        ?>
+                <div class="col-lg-<?php echo $cols[0]; ?> col-md-<?php echo $cols[1]; ?> <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-times"></i>
+                        <?php
+                        echo $value[0];
+                        if (!empty($value[1])) {
+                            if (preg_match('/^http/i', $value[1])) {
+                        ?>
+                                <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
+                            <?php
+                            } else {
+                            ?>
+                                <br><code><?php echo $value[1]; ?></code>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            <?php
+            } else {
+            ?>
+                <div class="col-lg-<?php echo $cols[0]; ?> col-md-<?php echo $cols[1]; ?> <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
+                    <div class="alert alert-success">
+                        <i class="fas fa-check"></i> <?php echo $value; ?>
+                    </div>
+                </div>
+        <?php
+            }
+            if ($count % (12 / $cols[1]) === 0) {
+                echo '<div class="clearfix visible-md"></div>';
+            }
+            if ($count % (12 / $cols[0]) === 0) {
+                echo '<div class="clearfix visible-lg"></div>';
+            }
+        }
+
+        ?>
+    </div>
+<?php
+}
+
+
 ?>
 <style>
     #healthCheck .alert {
@@ -228,53 +289,29 @@ foreach ($ports['ports'] as $key => $value) {
             <div class="col-lg-8 col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        Ports
+                    </div>
+                    <div class="panel-body">
+                        <?php
+                        printMessages($messages['portsInternal']);
+                        ?>
+                    </div>
+                    <div class="panel-footer">
+                        <?php
+                        printMessages($messages['portsExternal']);
+                        ?>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         Server
                     </div>
                     <div class="panel-body">
-                        <div class="row">
-                            <?php
-                            $count = 0;
-                            foreach ($messages['Server'] as $value) {
-                                $count++;
-                                if (is_array($value)) {
-                            ?>
-                                    <div class="col-lg-4 col-md-6 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
-                                        <div class="alert alert-danger">
-                                            <i class="fas fa-times"></i> <?php
-                                                                            echo $value[0];
-                                                                            if (!empty($value[1])) {
-                                                                                if (preg_match('/^http/i', $value[1])) {
-                                                                            ?>
-                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
-                                                <?php
-                                                                                } else {
-                                                ?>
-                                                    <br><code><?php echo $value[1]; ?></code>
-                                            <?php
-                                                                                }
-                                                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-                                <?php
-                                } else {
-                                ?>
-                                    <div class="col-lg-4 col-md-6 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
-                                        <div class="alert alert-success">
-                                            <i class="fas fa-check"></i> <?php echo $value; ?>
-                                        </div>
-                                    </div>
-                            <?php
-                                }
-                                if ($count % 2 === 0) {
-                                    echo '<div class="clearfix visible-md"></div>';
-                                }
-                                if ($count % 3 === 0) {
-                                    echo '<div class="clearfix visible-lg"></div>';
-                                }
-                            }
-                            ?>
-                        </div>
+                        <?php
+                        printMessages($messages['Server']);
+                        ?>
+                    </div>
+                    <div class="panel-footer">
                     </div>
                 </div>
             </div>
@@ -285,42 +322,9 @@ foreach ($ports['ports'] as $key => $value) {
                         PHP
                     </div>
                     <div class="panel-body">
-                        <div class="row">
-                            <?php
-                            foreach ($messages['PHP'] as $value) {
-                                if (is_array($value)) {
-                            ?>
-                                    <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
-                                        <div class="alert alert-danger">
-                                            <i class="fas fa-times"></i> <?php
-                                                                            echo $value[0];
-                                                                            if (!empty($value[1])) {
-                                                                                if (preg_match('/^http/i', $value[1])) {
-                                                                            ?>
-                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
-                                                <?php
-                                                                                } else {
-                                                ?>
-                                                    <br><code><?php echo $value[1]; ?></code>
-                                            <?php
-                                                                                }
-                                                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-                                <?php
-                                } else {
-                                ?>
-                                    <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
-                                        <div class="alert alert-success">
-                                            <i class="fas fa-check"></i> <?php echo $value; ?>
-                                        </div>
-                                    </div>
-                            <?php
-                                }
-                            }
-                            ?>
-                        </div>
+                        <?php
+                        printMessages($messages['PHP'], array(12, 12));
+                        ?>
                     </div>
                 </div>
             </div>
@@ -331,42 +335,9 @@ foreach ($ports['ports'] as $key => $value) {
                         Apache
                     </div>
                     <div class="panel-body">
-                        <div class="row">
-                            <?php
-                            foreach ($messages['Apache'] as $value) {
-                                if (is_array($value)) {
-                            ?>
-                                    <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
-                                        <div class="alert alert-danger">
-                                            <i class="fas fa-times"></i> <?php
-                                                                            echo $value[0];
-                                                                            if (!empty($value[1])) {
-                                                                                if (preg_match('/^http/i', $value[1])) {
-                                                                            ?>
-                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
-                                                <?php
-                                                                                } else {
-                                                ?>
-                                                    <br><code><?php echo $value[1]; ?></code>
-                                            <?php
-                                                                                }
-                                                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-                                <?php
-                                } else {
-                                ?>
-                                    <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
-                                        <div class="alert alert-success">
-                                            <i class="fas fa-check"></i> <?php echo $value; ?>
-                                        </div>
-                                    </div>
-                            <?php
-                                }
-                            }
-                            ?>
-                        </div>
+                        <?php
+                        printMessages($messages['Apache'], array(12, 12));
+                        ?>
                     </div>
                 </div>
             </div>

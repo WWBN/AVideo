@@ -2309,18 +2309,6 @@ function getPorts()
     return $ports;
 }
 
-function checkPorts()
-{
-    $variable = getPorts();
-    $ports = array();
-    foreach ($variable as $key => $value) {
-        $ports[] = $key;
-    }
-    //postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
-    $response = postVariables('https://search.ypt.me/checkPorts.json.php', $ports, false, count($ports) * 4);
-    return $response;
-}
-
 function isVerified($url)
 {
     $resultV = verify($url);
