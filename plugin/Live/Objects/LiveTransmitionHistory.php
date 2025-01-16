@@ -256,6 +256,7 @@ class LiveTransmitionHistory extends ObjectYPT
         $obj['live_transmitions_history_id'] = $liveTransmitionHistory_id;
         $obj['isPrivate'] = self::isPrivate($liveTransmitionHistory_id);
         $obj['isPasswordProtected'] = self::isPasswordProtected($liveTransmitionHistory_id);
+        $obj['isRebroadcast'] = self::isRebroadcast($liveTransmitionHistory_id);
         $obj['method'] = 'LiveTransmitionHistory::getApplicationObject';
         $_REQUEST['playlists_id_live'] = $_playlists_id_live;
         return $obj;
@@ -268,6 +269,19 @@ class LiveTransmitionHistory extends ObjectYPT
         if (!empty($key)) {
             $lt = LiveTransmition::getFromKey($key);
             if (empty($lt['public'])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function isRebroadcast($liveTransmitionHistory_id)
+    {
+        $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
+        $key = $lth->getKey();
+        if (!empty($key)) {
+            $lt = LiveTransmition::getFromKey($key);
+            if (empty($lt['isRebroadcast'])) {
                 return true;
             }
         }

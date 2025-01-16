@@ -230,8 +230,12 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
     };
     var params = {};
     var attributes = {};
-
-    function saveStream() {
+    var isSavingStream = false;
+    function saveStream(_this = null) {
+        if(isSavingStream){
+            return false;
+        }
+        isSavingStream = true;
         modal.showPleaseWait();
 
         var selectedUserGroups = [];
@@ -239,6 +243,16 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
             selectedUserGroups.push($(this).val());
         });
 
+        if($(_this).attr('id') == 'recordLive'){
+            if($(_this).is(":checked")){
+                $('#isRebroadcast').prop('checked', false);
+            }
+        }else if($(_this).attr('id') == 'isRebroadcast'){
+            if($(_this).is(":checked")){
+                $('#recordLive').prop('checked', false);
+            }
+        }
+        
         $.ajax({
             url: webSiteRootURL + 'plugin/Live/saveLive.php',
             data: {
@@ -248,6 +262,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                 "key": "<?php echo $trasnmition['key']; ?>",
                 "listed": $('#listed').is(":checked"),
                 "saveTransmition": $('#recordLive').is(":checked"),
+                "isRebroadcast": $('#isRebroadcast').is(":checked"),
                 "userGroups": selectedUserGroups,
                 users_id: '<?php echo $users_id; ?>',
                 password: $('#password_livestream').val()
@@ -256,6 +271,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
             complete: function(resp) {
                 avideoResponse(resp);
                 modal.hidePleaseWait();
+                isSavingStream = false;
             }
         });
     }

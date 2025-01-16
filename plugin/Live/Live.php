@@ -69,180 +69,7 @@ class Live extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "13.0";
-    }
-
-    public function updateScript()
-    {
-        global $global;
-        //update version 2.0
-        $sql = "SELECT 1 FROM live_transmitions_history LIMIT 1";
-        $res = sqlDAL::readSql($sql);
-        $fetch = sqlDAL::fetchAssoc($res);
-        if (!$fetch) {
-            sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV2.0.sql'));
-        }
-        //update version 3.0
-        $sql = "SELECT 1 FROM live_transmition_history_log LIMIT 1";
-        $res = sqlDAL::readSql($sql);
-        $fetch = sqlDAL::fetchAssoc($res);
-        if (!$fetch) {
-            sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV3.0.sql'));
-        }
-        //update version 4.0
-        $sql = "SELECT 1 FROM live_servers LIMIT 1";
-        $res = sqlDAL::readSql($sql);
-        $fetch = sqlDAL::fetchAssoc($res);
-        if (!$fetch) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV4.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        //update version 5.0
-        $sql = "SELECT 1 FROM live_restreams LIMIT 1";
-        $res = sqlDAL::readSql($sql);
-        $fetch = sqlDAL::fetchAssoc($res);
-        if (!$fetch) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV5.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        //update version 5.1
-        if (AVideoPlugin::compareVersion($this->getName(), "5.1") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV5.1.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        //update version 5.2
-        if (AVideoPlugin::compareVersion($this->getName(), "5.2") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV5.2.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "6.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV6.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "7.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV7.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "7.2") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV7.2.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "8.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV8.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "9.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV9.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "10.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "10.1") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.1.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "10.2") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.2.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "10.3") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.3.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "10.4") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.4.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "10.5") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.5.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "11.1") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV11.1.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "11.2") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV11.2.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "12.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV12.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "13.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV13.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            LiveTransmitionHistory::finishALL();
-        }
-        return true;
+        return "14.0";
     }
 
     public function getLivePanel()
@@ -392,6 +219,7 @@ class Live extends PluginAbstract
             $app['live_transmitions_history_id'] = $value['id'];
             $app['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
             $app['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
+            $app['isRebroadcast'] = LiveTransmitionHistory::isRebroadcast($value['id']);
             $app['method'] = 'Live::getLiveApplicationArray::LiveTransmitionHistory';
             $app['isLiveAndIsReadyFromKey'] = $isLiveAndIsReadyFromKey;
             $app['isStatsAccessible'] = $isStatsAccessible;
@@ -694,6 +522,7 @@ class Live extends PluginAbstract
         $obj->hideAdvancedStreamKeys = false;
         $obj->hidePublicListedOption = false;
         $obj->publicListedIsTheDefault = true;
+        $obj->hideIsRebroadcastOption = false;
         $obj->saveLiveIsTheDefault = true;
         self::addDataObjectHelper('saveLiveIsTheDefault', 'Save Live is the Default', 'https://github.com/WWBN/AVideo/wiki/Record-Live-Stream');
         $obj->useAadaptiveMode = false;
@@ -2149,6 +1978,33 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $_isPasswordProtected[$key];
     }
 
+
+    public static function isRebroadcast($key)
+    {
+        global $_isRebroadcast;
+        if (empty($key)) {
+            return false;
+        }
+        if (!isset($_isRebroadcast)) {
+            $_isRebroadcast = array();
+        }
+        if (!isset($_isRebroadcast[$key])) {
+            $lt = self::getLiveTransmitionObjectFromKey($key);
+            if (empty($lt)) {
+                $_isRebroadcast[$key] = false;
+            } else {
+                $rb = $lt->getIsRebroadcast();
+                if (!empty($rb)) {
+                    $_isRebroadcast[$key] = true;
+                } else {
+                    $_isRebroadcast[$key] = false;
+                }
+            }
+        }
+        //var_dump($key, $_isPasswordProtected[$key]);
+        return $_isRebroadcast[$key];
+    }
+
     public static function canManageLiveFromLiveKey($key, $users_id)
     {
         if (empty($users_id)) {
@@ -2443,6 +2299,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $app['key'] = $value->name;
                 $app['isPrivate'] = self::isPrivate($app['key']);
                 $app['isPasswordProtected'] = self::isPasswordProtected($app['key']);
+                $app['isRebroadcast'] = self::isRebroadcast($app['key']);
                 $app['method'] = 'Live::_getStats';
                 $app['titleSet'] = $titleSet . ' => ' . $app['title'];
                 //var_dump($app['isPrivate'],$app['key']);exit;

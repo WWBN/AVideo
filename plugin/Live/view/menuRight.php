@@ -357,8 +357,13 @@ if (User::canStream()) {
                 $('#liveScheduleVideos .extraVideos').append(html);
                 $('#liveScheduleVideos').slideDown();
             } else {
-                $('#liveVideos .extraVideos').prepend(html);
-                $('#liveVideos').slideDown();
+                if(typeof application.isRebroadcast !== 'undefined' && !empty(application.isRebroadcast) && $('#rebroadcastVideos').length){
+                    $('#rebroadcastVideos .extraVideos').prepend(html);
+                    $('#rebroadcastVideos').slideDown();
+                }else{
+                    $('#liveVideos .extraVideos').prepend(html);
+                    $('#liveVideos').slideDown();
+                }
             }
             processUserNotificationFromApplication(application);
 
@@ -433,6 +438,19 @@ if (User::canStream()) {
                 $('#liveVideos').slideUp();
             }
         });
+        $('#rebroadcastVideos .extraVideos').each(function(index, currentElement) {
+            var somethingIsVisible = false;
+            $(this).children('div').each(function(index2, currentElement2) {
+                if ($(this).is(":visible")) {
+                    somethingIsVisible = true;
+                    return false;
+                }
+            });
+            if (!somethingIsVisible) {
+                $('#rebroadcastVideos').slideUp();
+            }
+        });
+
     }
 
     $(document).ready(function() {

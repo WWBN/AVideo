@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `live_transmitions` (
   `categories_id` INT(11) NOT NULL,
   `showOnTV` TINYINT NULL,
   `password` VARCHAR(255) NOT NULL,
+  `isRebroadcast` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_live_transmitions_users1_idx` (`users_id` ASC),
   INDEX `fk_live_transmitions_categories1_idx` (`categories_id` ASC),

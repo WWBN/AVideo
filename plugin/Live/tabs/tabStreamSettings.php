@@ -39,9 +39,9 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
 </style>
 
 <?php
-if(AVideoPlugin::isEnabledByName('WebRTC')){
+if (AVideoPlugin::isEnabledByName('WebRTC')) {
     include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.webcam.php';
-}else{
+} else {
     include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.software.php';
 }
 ?>
@@ -97,10 +97,25 @@ if(AVideoPlugin::isEnabledByName('WebRTC')){
                             } else {
                             ?>
                                 <div class="form-group" id="publiclyListed">
-                                    <span class="fa fa-globe"></span> <?php echo __("Make Stream Publicly Listed"); ?>
+                                    <i class="fas fa-broadcast-tower"></i> <?php echo __("Make Stream Publicly Listed"); ?>
                                     <div class="material-switch pull-right">
-                                        <input id="listed" type="checkbox" value="1" <?php echo !empty($trasnmition['public']) ? "checked" : ""; ?> onchange="saveStream();" />
+                                        <input id="listed" type="checkbox" value="1" <?php echo !empty($trasnmition['public']) ? "checked" : ""; ?> onchange="saveStream(this);" />
                                         <label for="listed" class="label-success"></label>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            if (!empty($objLive->hideIsRebroadcastOption)) {
+                            ?>
+                                <input id="isRebroadcast" type="hidden" value="0" />
+                            <?php
+                            } else {
+                            ?>
+                                <div class="form-group" id="publiclyListed">
+                                    <i class="fas fa-retweet"></i> <?php echo __("Mark this stream as a Rebroadcast"); ?>
+                                    <div class="material-switch pull-right">
+                                        <input id="isRebroadcast" type="checkbox" value="1" <?php echo !empty($trasnmition['isRebroadcast']) ? "checked" : ""; ?> onchange="saveStream(this);" />
+                                        <label for="isRebroadcast" class="label-success"></label>
                                     </div>
                                 </div>
                                 <?php
@@ -118,9 +133,9 @@ if(AVideoPlugin::isEnabledByName('WebRTC')){
                                 if ($SendRecordedToEncoderCanAutoRecord || ($SendRecordedToEncoderCanApprove && $SendRecordedToEncoderObjectData->usersCanSelectAutoRecord)) {
                                 ?>
                                     <div class="form-group">
-                                        <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?>
+                                        <i class="fas fa-circle"></i> <?php echo __("Auto record this live"); ?>
                                         <div class="material-switch pull-right">
-                                            <input id="recordLive" type="checkbox" value="1" <?php echo SendRecordedToEncoder::userApproved(User::getId()) ? "checked" : ""; ?> onchange="saveStream();" />
+                                            <input id="recordLive" type="checkbox" value="1" <?php echo SendRecordedToEncoder::recordOptionIsChecked(User::getId()) ? "checked" : ""; ?> onchange="saveStream(this);" />
                                             <label for="recordLive" class="label-success"></label>
                                         </div>
                                     </div>

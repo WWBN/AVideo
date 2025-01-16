@@ -17,6 +17,7 @@ class LiveTransmition extends ObjectYPT {
     protected $description;
     protected $showOnTV;
     protected $password;
+    protected $isRebroadcast;
 
     public static function getSearchFieldsNames() {
         return ['title'];
@@ -485,6 +486,14 @@ class LiveTransmition extends ObjectYPT {
 
     public function setPassword($password): void {
         $this->password = trim($password);
+    }
+
+    public function getIsRebroadcast() {
+        return !empty($this->isRebroadcast);
+    }
+
+    public function setIsRebroadcast($isRebroadcast): void {
+        $this->isRebroadcast = !_empty($isRebroadcast)?1:0;
     }
 
     public static function canSaveTransmition($users_id) {

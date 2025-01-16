@@ -58,6 +58,7 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     $array['live_transmitions_history_id'] = $liveTransmitionHistory_id;
     $array['isPrivate'] = LiveTransmitionHistory::isPrivate($liveTransmitionHistory_id);
     $array['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($liveTransmitionHistory_id);
+    $array['isRebroadcast'] = LiveTransmitionHistory::isRebroadcast($liveTransmitionHistory_id);
     $array['users_id'] = $users_id;
     if(!empty($array['key'])){
         $array['title'] = Live::getTitleFromKey($array['key'], $array['title']);

@@ -1613,6 +1613,7 @@ class API extends PluginAbstract
                 $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
                 $value['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
                 $value['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
+                $value['isRebroadcast'] = LiveTransmitionHistory::isRebroadcast($value['id']);
                 $obj->livestream["activeLives"][] = $value;
             }
 
