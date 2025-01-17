@@ -10,7 +10,7 @@
 <div id="rebroadcastVideos" class="clear clearfix" style="display: none;">
     <h3 class="galleryTitle text-danger">
         <i class="fas fa-retweet"></i> 
-        <?php echo __("Rebroadcast"); ?>
+        <?php echo __("Rebroadcasts"); ?>
     </h3>
     <div class="extraVideos"></div>
 </div>
