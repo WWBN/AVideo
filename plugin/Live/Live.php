@@ -522,7 +522,7 @@ class Live extends PluginAbstract
         $obj->hideAdvancedStreamKeys = false;
         $obj->hidePublicListedOption = false;
         $obj->publicListedIsTheDefault = true;
-        $obj->hideIsRebroadcastOption = false;
+        $obj->hideIsRebroadcastOption = true;
         $obj->saveLiveIsTheDefault = true;
         self::addDataObjectHelper('saveLiveIsTheDefault', 'Save Live is the Default', 'https://github.com/WWBN/AVideo/wiki/Record-Live-Stream');
         $obj->useAadaptiveMode = false;
