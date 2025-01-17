@@ -1282,8 +1282,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
     {
         global $global, $_getStatsObject_force_recreate_executed;
 
-        if($force_recreate){
-            if(!empty($_getStatsObject_force_recreate_executed)){
+        if ($force_recreate) {
+            if (!empty($_getStatsObject_force_recreate_executed)) {
                 // already forced, ignore it
                 $force_recreate = false;
             }
@@ -1332,9 +1332,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $xml = $this->createCacheStatsObject($live_servers_id, $o->requestStatsTimout);
         $getStatsObject[$live_servers_id] = $xml;
         $cacheHandler->setCache($xml);
-        
+
         if (!empty($force_recreate) || !empty($_REQUEST['debug'])) {
-            _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated done ".json_encode(debug_backtrace()));
+            _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated done " . json_encode(debug_backtrace()));
         }
         //var_dump(__LINE__, $xml);
         $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
@@ -1989,7 +1989,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $_isRebroadcast = array();
         }
         if (!isset($_isRebroadcast[$key])) {
-            $lt = self::getLiveTransmitionObjectFromKey($key);
+            $parts = explode("_", $key);
+            if (empty($parts[0])) {
+                return false;
+            }
+            $livet = LiveTransmition::keyExists($parts[0]);
+            $lt = new LiveTransmition($livet['id']);
             if (empty($lt)) {
                 $_isRebroadcast[$key] = false;
             } else {
@@ -3668,7 +3673,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($live_index)) {
             return 1;
         }
-        if(AVideoPlugin::isEnabled('VideoPlaylistScheduler') && VideoPlaylistScheduler::iskeyShowScheduled("$key-$live_index")){
+        if (AVideoPlugin::isEnabled('VideoPlaylistScheduler') && VideoPlaylistScheduler::iskeyShowScheduled("$key-$live_index")) {
             // it is a VideoPlaylistScheduler do not change it
             return $live_index;
         }
@@ -4149,7 +4154,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     {
         $obj = AVideoPlugin::getDataObject('Live');
         if (Live::canScheduleLive()) {
-        ?>
+?>
             <button class="btn btn-primary btn-sm" onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>">
                 <i class="far fa-calendar"></i> <span class="hidden-sm hidden-xs"><?php echo __('Schedule'); ?></span>
             </button>
@@ -4218,7 +4223,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $obj->live_key = $key;
                 $obj->live_servers_id = intval($live_servers_id);
                 $obj->sendSocketMessage = sendSocketMessage(array('redirectLive' => $obj), 'redirectLive', 0);
-                _error_log('on_publish_done::redirectLive '.json_encode($obj));
+                _error_log('on_publish_done::redirectLive ' . json_encode($obj));
             }
         }
     }
