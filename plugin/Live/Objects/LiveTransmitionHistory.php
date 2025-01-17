@@ -881,7 +881,7 @@ class LiveTransmitionHistory extends ObjectYPT
         $this->total_viewers = intval($this->total_viewers);
 
         $id = parent::save();
-        //_error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) users_id=".User::getId().' IP='.getRealIpAddr().' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         _mysql_commit();
         $cacheHandler = new LiveCacheHandler();
         $cacheHandler->deleteCache();
