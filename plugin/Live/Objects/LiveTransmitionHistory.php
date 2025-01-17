@@ -690,6 +690,9 @@ class LiveTransmitionHistory extends ObjectYPT
     public static function getLastsLiveHistoriesFromUser($users_id, $count = 10, $finishedOnly = false)
     {
         global $global;
+        if(empty($users_id)){
+            return false;
+        }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `users_id` = ? ";
         if ($finishedOnly) {
             $sql .= " AND finished IS NOT NULL ";
@@ -875,6 +878,18 @@ class LiveTransmitionHistory extends ObjectYPT
         }
         if (empty($this->users_id_company)) {
             $this->users_id_company = 'NULL';
+        }
+
+        $latest = self::getLatestFromKey($this->key);
+        if(!empty($latest) && $latest['users_id'] != $this->users_id){
+            _error_log("LiveTransmitionHistory::save: ERROR this key is for user {$latest['users_id']} ($this->users_id, $this->live_servers_id, $this->key) users_id=".User::getId().' IP='.getRealIpAddr().' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            $latest = self::getLatestFromUser($this->users_id);
+            if(empty($latest)){
+                _error_log("LiveTransmitionHistory::save: ERROR again, no latest key found");
+                $this->key = uniqid();
+            }else{
+                $this->key = $latest['key'];
+            }
         }
 
         $this->max_viewers_sametime = intval($this->max_viewers_sametime);

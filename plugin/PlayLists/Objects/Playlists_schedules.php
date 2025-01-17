@@ -304,7 +304,13 @@ class Playlists_schedules extends ObjectYPT
         $parametersText = $ps->getParameters();
         if (!empty($parametersText)) {
             $plsp = _json_decode($parametersText);
+            if(empty($plsp->current_videos_id)){
+                return '';
+            }
             $video = new Video('', '', $plsp->current_videos_id);
+            if(empty($video)){
+                return '';
+            }
             $description .= '<strong>'.$video->getTitle().'</strong><hr>';
             $description .= '<small class="text-muted">'.__('Playing now').' '.($plsp->current_videos_id_index+1)."/{$plsp->totalVideos} loop {$plsp->loop_count}</small>";
             $url = PlayLists::getLink($ps->getPlaylists_id());
