@@ -579,4 +579,10 @@ class Live_schedule extends ObjectYPT
         return !empty($lt->getGroups());
     }
 
+    public function getIsRebroadcast() {
+        $ltRow = LiveTransmition::getFromDbByUser($this->getUsers_id());
+        $lt = new LiveTransmition($ltRow['id']);
+        return !empty($lt->getIsRebroadcast());
+    }
+
 }
