@@ -1,0 +1,1 @@
+ALTER TABLE `LiveLinks` ADD COLUMN `isRebroadcast` TINYINT(1) NULL DEFAULT 0;

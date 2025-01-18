@@ -1,5 +1,8 @@
-<link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css" />
-<link href="<?php echo getCDN(); ?>js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+<?php
+$obj = AVideoPlugin::getDataObject("LiveLinks");
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo getURL('view/css/DataTables/datatables.min.css'); ?>" />
+<link href="<?php echo getURL('js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css" />
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fas fa-link"></i> <?php echo __("Add an external Live Link"); ?>
@@ -49,6 +52,24 @@
                                         <label for="inputLinkEnd"><?php echo __("End on"); ?>:</label>
                                         <input type="text" id="inputLinkEnd" name="end_date" class="form-control datepickerLink input-sm" placeholder="<?php echo __("End on"); ?>" required>
                                     </div>
+                                    <?php
+
+                                    if (!empty($obj->hideIsRebroadcastOption)) {
+                                    ?>
+                                        <input id="isRebroadcast" name="isRebroadcast" type="hidden" value="0" />
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <div class="form-group col-sm-12" id="publiclyListed">
+                                            <i class="fas fa-retweet"></i> <?php echo __("Mark this stream as a Rebroadcast"); ?>
+                                            <div class="material-switch pull-right">
+                                                <input id="isRebroadcast" name="isRebroadcast" type="checkbox" value="1" <?php echo !empty($trasnmition['isRebroadcast']) ? "checked" : ""; ?> />
+                                                <label for="isRebroadcast" class="label-success"></label>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                     <div class="form-group col-sm-12">
                                         <label for="title"><?php echo __("Category"); ?>:</label>
                                         <?php
@@ -56,14 +77,14 @@
                                         ?>
                                     </div>
                                     <?php
-                                    if(User::isAdmin()){
+                                    if (User::isAdmin()) {
                                     ?>
-                                    <div class="form-group col-sm-12">
-                                        <label for="title"><?php echo __("User"); ?>:</label>
-                                        <?php
-                                        $updateUserAutocomplete = Layout::getUserAutocomplete(User::getId(), 'users_id');
-                                        ?>
-                                    </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="title"><?php echo __("User"); ?>:</label>
+                                            <?php
+                                            $updateUserAutocomplete = Layout::getUserAutocomplete(User::getId(), 'users_id');
+                                            ?>
+                                        </div>
                                     <?php
                                     }
                                     ?>
@@ -207,6 +228,7 @@
             $('#linkId').val('');
             $('select[name="categories_id"]').val('');
             $('select[name="categories_id"]').trigger('change');
+            $("#isRebroadcast").prop("checked", false);
             var imageURL = webSiteRootURL + 'plugin/Live/view/OnAir.jpg';
             <?php
             echo $croppie1["restartCroppie"] . "(imageURL)";
@@ -264,10 +286,11 @@
             $('select[name="categories_id"]').trigger('change');
             $('#linkStatus').val(data.status);
             $(".userGroups").prop("checked", false);
+            $("#isRebroadcast").prop("checked", !empty(data.isRebroadcast));
             $('#users_id').val(data.users_id);
-            <?php 
-            if(!empty($updateUserAutocomplete)){
-                echo $updateUserAutocomplete; 
+            <?php
+            if (!empty($updateUserAutocomplete)) {
+                echo $updateUserAutocomplete;
             }
             ?>
             for (const index in data.user_groups) {
@@ -304,9 +327,9 @@
                 } else {
                     avideoToastSuccess(__("Your link has been saved!"));
                     $("#liveLinksForm").trigger("reset");
-                    <?php 
-                    if(!empty($updateUserAutocomplete)){
-                        echo $updateUserAutocomplete; 
+                    <?php
+                    if (!empty($updateUserAutocomplete)) {
+                        echo $updateUserAutocomplete;
                     }
                     ?>
                 }

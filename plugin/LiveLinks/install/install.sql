@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `LiveLinks` (
   `timezone` VARCHAR(255) NULL,
   `start_php_time` BIGINT NULL,
   `end_php_time` BIGINT NULL,
+  `isRebroadcast` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_LiveLinks_users_idx` (`users_id` ASC),
   CONSTRAINT `fk_LiveLinks_users2`

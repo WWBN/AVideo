@@ -41,6 +41,7 @@ $o->setStart_date($_POST['start_date']);
 $o->setStatus($_POST['status']);
 $o->setTitle($_POST['title']);
 $o->setType($_POST['type']);
+$o->setIsRebroadcast($_POST['isRebroadcast']);
 
 if(User::isAdmin()){
     if(!empty($_REQUEST['users_id'])){

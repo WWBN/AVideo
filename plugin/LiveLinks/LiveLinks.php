@@ -37,6 +37,7 @@ class LiveLinks extends PluginAbstract {
         $obj->doNotShowLiveLinksLabel = false;
         $obj->disableProxy = false;
         $obj->hideTopButton = true;
+        $obj->hideIsRebroadcastOption = true;
         self::addDataObjectHelper('hideTopButton', 'Hide Top Button', 'This will hide the button on the top menu bar');
         return $obj;
     }
@@ -46,7 +47,7 @@ class LiveLinks extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "4.2";
+        return "4.3";
     }
 
     public function canAddLinks() {
@@ -191,6 +192,7 @@ class LiveLinks extends PluginAbstract {
             $row['end_date'] = $value['end_date'];
             $row['end_date_my_timezone'] = date('Y-m-d H:i:s', $value['end_php_time']);
             $row['expires'] = strtotime($row['end_date_my_timezone']);
+            $row['isRebroadcast'] = !empty($value['isRebroadcast']);
             $array[] = $row;
             
         }

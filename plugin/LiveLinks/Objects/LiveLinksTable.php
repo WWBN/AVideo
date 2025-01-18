@@ -5,7 +5,8 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveLinksTable extends ObjectYPT {
 
-    protected $id, $title, $description, $link, $start_date, $end_date, $type, $status, $users_id, $categories_id, $timezone, $start_php_time, $end_php_time;
+    protected $id, $title, $description, $link, $start_date, $end_date, $type, $status, $users_id, $categories_id, $timezone, $start_php_time, $end_php_time;    
+    protected $isRebroadcast;
 
     static function getSearchFieldsNames() {
         return array('title', 'description');
@@ -117,6 +118,14 @@ class LiveLinksTable extends ObjectYPT {
         $this->categories_id = intval($categories_id);
     }
 
+    public function getIsRebroadcast() {
+        return !empty($this->isRebroadcast);
+    }
+
+    public function setIsRebroadcast($isRebroadcast): void {
+        $this->isRebroadcast = !_empty($isRebroadcast)?1:0;
+    }
+    
     public static function getAll($users_id = 0) {
         global $global;
         if (!static::isTableInstalled()) {
@@ -132,6 +141,7 @@ class LiveLinksTable extends ObjectYPT {
         $sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
+        //var_dump($sql, $fullData);
         sqlDAL::close($res);
         $rows = array();
         if ($res != false) {
