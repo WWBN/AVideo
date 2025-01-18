@@ -358,18 +358,26 @@ function isLocalPortOpen($port)
 
 function isPortOpenExternal($port, $timeout = 10)
 {
+    global $global;
     global $isPortOpenExternalResponse;
     $ports = array($port);
     //postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
     $isPortOpenExternalResponse = new stdClass();
-    $response = postVariables('https://search.ypt.me/checkPorts.json.php', $ports, false, $timeout);
+    $host = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+    $postURL = 'https://search.ypt.me/checkPorts.json.php';
+    $postURL = addQueryStringParameter($postURL, 'host', $host);
+    $response = postVariables($postURL, $ports, false, $timeout);
     if (!empty($response)) {
         $json = json_decode($response);
         if (!empty($json)) {
             $isPortOpenExternalResponse = $json;
-            return $json->ports[0]->isOpen;
+            $resp = $json->ports[0]->isOpen;
+            if($resp){
+                return true;
+            }
         }
     }
+    _error_log("isPortOpenExternal($port) {$response}");
     return false;
 }
 
