@@ -62,7 +62,7 @@ function isConferenceReady() {
 
 function startYPTScripts() {
     if (window.jQuery) {
-        console.log("startYPTScripts started");
+        console.log("startYPTScripts started OK");
         isJitsiLive();
         setInterval(function () {
             isJitsiLive();
