@@ -715,7 +715,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return $rows;
     }
 
-    public static function getActiveLives($live_servers_id = '', $checkLive = true)
+    public static function getActiveLives($live_servers_id = '', $checkLive = true, $users_id = 0)
     {
         global $global;
         if (!self::isTableInstalled(static::getTableName())) {
@@ -726,6 +726,12 @@ class LiveTransmitionHistory extends ObjectYPT
 
         $formats = "";
         $values = [];
+
+        if(!empty($users_id)){
+            $sql .= ' AND `users_id` = ? ';
+            $formats .= "i";
+            $values[] = $users_id;
+        }
 
         if (strtolower($live_servers_id) == 'null') {
             $sql .= ' AND `live_servers_id` IS NULL ';

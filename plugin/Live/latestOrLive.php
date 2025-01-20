@@ -71,7 +71,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
 if (!$liveFound) {
     //$liveVideo = Live::getLatest(true, $users_id, $categories_id);
 
-    $activeLives = LiveTransmitionHistory::getActiveLives();
+    $activeLives = LiveTransmitionHistory::getActiveLives('', true, $users_id);
     foreach ($activeLives as $key => $value) {
         if ($isEnabledPayPerViewLive && !PayPerViewLive::canUserWatchNow(User::getId(), $value['users_id'])) {
             continue;
