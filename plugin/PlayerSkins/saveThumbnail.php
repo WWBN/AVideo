@@ -1,7 +1,7 @@
 <?php
 $videos_id = getVideos_id();
 ?>
-<button class="btn btn-primary btn-xs" id="captureScreenshot" data-toggle="tooltip"  title="<?php echo __('Save this moment as Thumbnail'); ?>">
+<button class="btn btn-success btn-block btn-lg" id="captureScreenshot" data-toggle="tooltip"  title="<?php echo __('Save this moment as Thumbnail'); ?>">
     <i class="fa fa-camera"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Save this moment as Thumbnail'); ?></span>
 </button>
 

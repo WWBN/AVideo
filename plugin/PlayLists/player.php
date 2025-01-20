@@ -90,10 +90,6 @@ if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
     ?>
     <!-- playlist player -->
     <?php
-    $htmlMediaTag = '<video ' . PlayerSkins::getPlaysinline() . ' preload="auto"
-                                       controls class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" id="mainVideo"
-                                       data-setup=\'{"techOrder": ["youtube","html5"]}\'>
-                                </video>';
     echo PlayerSkins::getMediaTag($video['filename'], $htmlMediaTag);
     ?>
     <!-- playlist player END -->
