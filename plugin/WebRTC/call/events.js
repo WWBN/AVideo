@@ -208,61 +208,137 @@ function createPeerConnection(peerId, localStream) {
     return peerConnection;
 }
 
+
+/**
+ * Create a Mute/Unmute Button for the Microphone.
+ * @param {string} peerId - The peer ID.
+ * @param {MediaStream} stream - The stream associated with the microphone.
+ * @returns {jQuery} - The jQuery button element.
+ */
+function createMicButton(peerId, stream) {
+    const $micButton = $('<button>', {
+        id: `mic-${peerId}`,
+        title: 'Mute/Unmute Microphone'
+    }).addClass('btn btn-link mute-unmute-btn mute-unmute-btn-mic');
+
+    const $micIcon = $('<i>', {
+        class: 'fas fa-microphone' // Default icon for microphone on
+    });
+    $micButton.append($micIcon);
+
+    $micButton.on('click', function () {
+        const audioTracks = stream.getAudioTracks();
+        if (audioTracks.length === 0) {
+            console.warn(`No audio tracks found for peerId: ${peerId}`);
+            return;
+        }
+
+        const audioTrack = audioTracks[0];
+        audioTrack.enabled = !audioTrack.enabled; // Toggle microphone
+
+        console.log(`Microphone for peerId ${peerId} is now ${audioTrack.enabled ? 'unmuted' : 'muted'}`);
+
+        // Update the icon based on the state
+        $micIcon.attr('class', audioTrack.enabled ? 'fas fa-microphone' : 'fas fa-microphone-slash');
+    });
+
+    return $micButton;
+}
+
+/**
+ * Create a Volume Control (Slider and Mute/Unmute Button) for the Speaker.
+ * @param {string} peerId - The peer ID.
+ * @param {HTMLVideoElement} videoElement - The video element associated with the speaker.
+ * @returns {jQuery[]} - An array containing the volume slider and mute/unmute button.
+ */
+function createVolumeControl(peerId, videoElement) {
+    // Volume slider
+    const $volumeControl = $('<input>', {
+        type: 'range',
+        min: 0,
+        max: 1,
+        step: 0.1,
+        value: 1, // Default volume
+        id: `volume-${peerId}`
+    }).addClass('volume-control');
+
+    $volumeControl.on('input', function () {
+        const volume = parseFloat($(this).val());
+        videoElement.volume = volume; // Adjust speaker volume
+        console.log(`Volume for peerId ${peerId} set to ${volume}`);
+    });
+
+    // Mute/unmute button
+    const $speakerButton = $('<button>', {
+        id: `speaker-${peerId}`,
+        title: 'Mute/Unmute Speaker'
+    }).addClass('btn btn-link mute-unmute-btn mute-unmute-btn-speaker');
+
+    const $speakerIcon = $('<i>', {
+        class: 'fas fa-volume-up' // Default icon for speaker on
+    });
+    $speakerButton.append($speakerIcon);
+
+    $speakerButton.on('click', function () {
+        const isMuted = videoElement.muted;
+        videoElement.muted = !isMuted; // Toggle speaker mute
+
+        console.log(`Speaker for peerId ${peerId} is now ${videoElement.muted ? 'muted' : 'unmuted'}`);
+
+        // Update the icon based on the state
+        $speakerIcon.attr('class', videoElement.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up');
+    });
+
+    return [$volumeControl, $speakerButton];
+}
+
+
 /**
  * Add a video element for the specified peer.
  * @param {string} peerId - The peer ID.
  * @param {MediaStream} stream - The remote stream to display.
  * @param {string} className - The CSS class for the video element.
  */
-function addVideo(peerId, stream, className) {
-    // 1. Criar o contêiner para o vídeo e botão
+function addVideo(peerId, stream, className, isLocal=false) {
+    // 1. Create the video wrapper
     const $videoWrapper = $('<div>', {
         id: `wrapper-${peerId}`
-    }).addClass('video-wrapper'); // Adicionar classe opcional
+    }).addClass('video-wrapper'); // Optional class
 
-    // 2. Criar elemento <video> usando jQuery
+    // 2. Create the <video> element
     const $video = $('<video>', {
         id: peerId,
         autoplay: true,
         playsinline: true,
-        controls: false // desativa controles nativos
+        controls: false, // Disable native controls
+        muted: isLocal
     }).addClass(className);
 
-    // Definir o objeto de mídia (MediaStream)
+    // Assign MediaStream to video
     $video[0].srcObject = stream;
 
-    // 3. Criar botão Mute/Unmute usando jQuery com FontAwesome
-    const $muteButton = $('<button>', {
-        id: `mute-${peerId}`
-    }).addClass('btn btn-link mute-unmute-btn');
 
-    // Adicionar ícone inicial (Unmute icon)
-    const $muteIcon = $('<i>', {
-        class: 'fas fa-volume-up' // Icon for unmuted state
-    });
-    $muteButton.append($muteIcon);
-
-    // 4. Evento de clique para alternar mute/unmute
-    $muteButton.on('click', function () {
-        const videoElement = $video[0];
-        // Inverte o estado de 'muted'
-        videoElement.muted = !videoElement.muted;
-
-        // Atualiza o ícone com base no estado
-        $muteIcon.attr('class', videoElement.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up');
-    });
-
-    // Adicionar o botão ao contêiner do vídeo
-    $videoWrapper.append($muteButton);
-
-    // 5. Adicionar <video> e botão ao contêiner
+    // 6. Append elements to video wrapper
     $videoWrapper.append($video);
-    $videoWrapper.append($muteButton);
+    if(!isLocal){
+        const [$volumeControl, $speakerButton] = createVolumeControl(peerId, $video[0]);
+        $videoWrapper.append($volumeControl);
+        $videoWrapper.append($speakerButton);
 
-    // 6. Adicionar o contêiner ao #videoContainer
-    $('#videoContainer').append($videoWrapper);
+
+        //$videoWrapper.append($micButton);
+        //$videoWrapper.append($volumeControl);
+
+        // 7. Add video wrapper to container
+        $('#videoContainer').append($videoWrapper);
+    }else{
+        const $micButton = createMicButton(peerId, stream);
+        $videoWrapper.append($micButton);
+
+        $('#localVideoContainer').append($videoWrapper);
+        $('#localVideo')[0].muted = true;
+    }
 }
-
 
 /**
  * Remove the video element for the specified peer.
@@ -285,15 +361,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         console.log('Call Events: Successfully captured local media');
         joinRoom(roomId, stream);
 
-        // Display local video (your own camera feed)
-        const video = document.createElement('video');
-        video.id = socket.id;
-        video.srcObject = stream;
-        video.autoplay = true;
-        video.playsInline = true;
-        video.muted = true;
-        video.classList.add('localVideo');
-        document.getElementById('localVideoContainer').appendChild(video);
+        addVideo('localVideo', stream, 'localVideo', true);
     })
     .catch((error) => {
         console.error('Call Events: Error accessing media devices:', error);
