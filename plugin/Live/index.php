@@ -44,11 +44,11 @@ if (!empty($_GET['u'])) {
             exit;
             /*
             if (count($info['otherLivesSameUser']) == 1) {
-                
+
             } else {
                 // list all lives available
             }
-             * 
+             *
              */
         }
     }
@@ -78,9 +78,11 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
 $users_id = User::getId();
+/* this is causing a bug some how
 if (!empty($_GET['users_id']) && User::isAdmin()) {
     $users_id = intval($_GET['users_id']);
 }
+*/
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
@@ -195,7 +197,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                 $poster = Live::getRegularPosterImage(User::getId(), $_REQUEST['live_servers_id'], 0, 0);
 
                 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $trasnmition['live_servers_id']);
-                Live::getLiveControls($liveStreamObject->getKeyWithIndex(true,true), $trasnmition['live_servers_id']);   
+                Live::getLiveControls($liveStreamObject->getKeyWithIndex(true,true), $trasnmition['live_servers_id']);
                 ?>
             </ul>
         </div>
@@ -252,7 +254,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                 $('#recordLive').prop('checked', false);
             }
         }
-        
+
         $.ajax({
             url: webSiteRootURL + 'plugin/Live/saveLive.php',
             data: {
