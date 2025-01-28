@@ -129,7 +129,6 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
         <div class="panel-heading tabbable-line">
             <ul class="nav nav-tabs">
                 <?php
-echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 $activeServerFound = false;
                 if (!$obj->useLiveServers) {
                     $liveStreamObject = new LiveStreamObject($trasnmition['key'], 0, @$_REQUEST['live_index'], 0);
@@ -174,7 +173,6 @@ echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 <?php
                     }
                 }
-                echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 if (Live::canStreamWithMeet()) {
                 ?>
                     <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Meet/');" class="btn btn-default pull-right">
@@ -195,15 +193,16 @@ echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 <?php
                     }
                 }
-                echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
                 $getLiveKey['live_servers_id'] = $_REQUEST['live_servers_id'];
                 $getLiveKey['live_index'] = @$_REQUEST['live_index'];
                 $poster = Live::getRegularPosterImage(User::getId(), $_REQUEST['live_servers_id'], 0, 0);
-
                 echo "<!-- change the users_id $users_id line ".__LINE__." -->";
+
                 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $trasnmition['live_servers_id']);
+                echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 Live::getLiveControls($liveStreamObject->getKeyWithIndex(true,true), $trasnmition['live_servers_id']);
+                echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 ?>
             </ul>
         </div>
@@ -212,19 +211,25 @@ echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 <div class="row">
                     <div class="<?php echo $col1Class; ?>">
                         <?php
+echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                         include $global['systemRootPath'] . 'plugin/Live/indexCol1.php';
+                        echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                         ?>
                     </div>
                     <div class="<?php echo $col2Class; ?>" id="yptRightBar">
                         <?php
+echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                         include $global['systemRootPath'] . 'plugin/Live/indexCol2.php';
+                        echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                         ?>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 " id="indexCol2">
                 <?php
+echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 include $global['systemRootPath'] . 'plugin/Live/indexCol3.php';
+                echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 ?>
             </div>
         </div>
