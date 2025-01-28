@@ -78,11 +78,13 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
 $users_id = User::getId();
-/* this is causing a bug some how
 if (!empty($_GET['users_id']) && User::isAdmin()) {
-    $users_id = intval($_GET['users_id']);
+    $new_users_id = intval($_GET['users_id']);
+    echo "<!-- did change the users_id from $users_id to $new_users_id -->";
+    $users_id = $new_users_id;
+}else{
+    echo "<!-- did not change the users_id = $users_id -->";
 }
-*/
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
