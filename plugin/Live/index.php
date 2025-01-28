@@ -88,6 +88,7 @@ if (!empty($_GET['users_id']) && User::isAdmin()) {
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
+echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 //var_dump($trasnmition);exit;
 $getLiveKey = ['key' => $trasnmition['key'], 'live_servers_id' => Live::getLiveServersIdRequest()];
 setLiveKey($trasnmition['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
@@ -97,6 +98,7 @@ if (!empty($_GET['resetKey'])) {
     exit;
 }
 
+echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 $trans = new LiveTransmition($trasnmition['id']);
 $groups = $trans->getGroups();
 
@@ -108,6 +110,7 @@ if (empty($channelName)) {
     $user->setChannelName($channelName);
     $user->save();
 }
+echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 $col1Class = "col-md-12 col-lg-12";
 $col2Class = "hidden";
 $_GET['noChat'] = 1;
@@ -120,8 +123,10 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
 */
 $global['doNotLoadPlayer'] = 1;
 
+echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 $_page = new Page(array('Live'));
 include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
+echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 ?>
 <div class="container-fluid">
 
