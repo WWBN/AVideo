@@ -88,7 +88,6 @@ if (!empty($_GET['users_id']) && User::isAdmin()) {
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
-echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 //var_dump($trasnmition);exit;
 $getLiveKey = ['key' => $trasnmition['key'], 'live_servers_id' => Live::getLiveServersIdRequest()];
 setLiveKey($trasnmition['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
@@ -98,7 +97,6 @@ if (!empty($_GET['resetKey'])) {
     exit;
 }
 
-echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 $trans = new LiveTransmition($trasnmition['id']);
 $groups = $trans->getGroups();
 
@@ -110,7 +108,6 @@ if (empty($channelName)) {
     $user->setChannelName($channelName);
     $user->save();
 }
-echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 $col1Class = "col-md-12 col-lg-12";
 $col2Class = "hidden";
 $_GET['noChat'] = 1;
@@ -123,10 +120,8 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
 */
 $global['doNotLoadPlayer'] = 1;
 
-echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 $_page = new Page(array('Live'));
 include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
-echo "<!-- change the users_id $users_id line ".__LINE__." -->";
 ?>
 <div class="container-fluid">
 
@@ -134,6 +129,7 @@ echo "<!-- change the users_id $users_id line ".__LINE__." -->";
         <div class="panel-heading tabbable-line">
             <ul class="nav nav-tabs">
                 <?php
+echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 $activeServerFound = false;
                 if (!$obj->useLiveServers) {
                     $liveStreamObject = new LiveStreamObject($trasnmition['key'], 0, @$_REQUEST['live_index'], 0);
@@ -178,6 +174,7 @@ echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 <?php
                     }
                 }
+                echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 if (Live::canStreamWithMeet()) {
                 ?>
                     <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Meet/');" class="btn btn-default pull-right">
@@ -198,11 +195,13 @@ echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 <?php
                     }
                 }
+                echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
                 $getLiveKey['live_servers_id'] = $_REQUEST['live_servers_id'];
                 $getLiveKey['live_index'] = @$_REQUEST['live_index'];
                 $poster = Live::getRegularPosterImage(User::getId(), $_REQUEST['live_servers_id'], 0, 0);
 
+                echo "<!-- change the users_id $users_id line ".__LINE__." -->";
                 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $trasnmition['live_servers_id']);
                 Live::getLiveControls($liveStreamObject->getKeyWithIndex(true,true), $trasnmition['live_servers_id']);
                 ?>
