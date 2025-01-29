@@ -11,10 +11,10 @@ function get_ffmpeg($ignoreGPU = false)
         $ffmpeg .= ' --enable-nvenc ';
     }
     if (!empty($global['ffmpeg'])) {
-        _error_log('get_ffmpeg $global[ffmpeg] detected ' . $global['ffmpeg']);
+        //_error_log('get_ffmpeg $global[ffmpeg] detected ' . $global['ffmpeg']);
         $ffmpeg = "{$global['ffmpeg']}{$ffmpeg}";
     } else {
-        _error_log('get_ffmpeg default ' . $ffmpeg . $complement);
+        //_error_log('get_ffmpeg default ' . $ffmpeg . $complement);
     }
     return $ffmpeg . $complement;
 }
@@ -276,7 +276,7 @@ function m3u8ToMP4RemoteFFMpeg($input, $callback)
     $parts = explode("/", $outputfilename);
     $resolution = Video::getResolutionFromFilename($input);
     $video_filename = $parts[count($parts) - 2];
-    
+
     $outputfilename = "index.mp4";
     $outputpathDir = "{$videosDir}{$video_filename}/";
 
@@ -317,17 +317,17 @@ function m3u8ToMP4RemoteFFMpeg($input, $callback)
             $msg3 = "downloadHLS: ERROR 2 ";
             $finalMsg = $msg . PHP_EOL . $msg3;
             _error_log($msg3);
-            return ['error' => $error, 
-                'msg' => $finalMsg, 
-                'path' => $outputpath, 
+            return ['error' => $error,
+                'msg' => $finalMsg,
+                'path' => $outputpath,
                 'filename' => $outputfilename
             ];
         } else {
             return [
                 'error' => false,
                 'msg' => '',
-                'return' => $return, 
-                'path' => $outputpath, 
+                'return' => $return,
+                'path' => $outputpath,
                 'filename' => $outputfilename
             ];
         }
@@ -707,4 +707,27 @@ function deleteFileFFMPEGRemote($filePath)
     } else {
         return false;
     }
+}
+
+function addKeywordToFFmpegCommand(string $command, string $keyword): string
+{
+    // Escape the keyword to avoid shell injection
+    $escapedKeyword = escapeshellarg($keyword);
+
+    // Break the command into parts to safely insert the metadata
+    $commandParts = explode(' ', $command);
+
+    // Find the index of the output URL (typically the last argument in FFmpeg commands)
+    $outputUrlIndex = array_key_last($commandParts);
+    if (preg_match('/^(rtmp|http|https):\/\//', $commandParts[$outputUrlIndex])) {
+        // Insert metadata before the output URL
+        array_splice($commandParts, $outputUrlIndex, 0, ["-metadata", "keyword=$escapedKeyword"]);
+    } else {
+        // If no URL is found, append metadata at the end
+        $commandParts[] = "-metadata";
+        $commandParts[] = "keyword=$escapedKeyword";
+    }
+
+    // Reconstruct the command
+    return implode(' ', $commandParts);
 }

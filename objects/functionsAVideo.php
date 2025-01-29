@@ -162,6 +162,9 @@ function isAVideoStorage($user_agent = "")
 function getSelfUserAgent()
 {
     global $global, $AVideoStreamer_UA;
+    if(empty($AVideoStreamer_UA)){
+        $AVideoStreamer_UA = 'AVideoStreamer';
+    }
     $agent = $AVideoStreamer_UA . "_";
     $agent .= md5($global['salt'].date('i'));
     return $agent;
@@ -170,6 +173,10 @@ function getSelfUserAgent()
 function isSelfUserAgent()
 {
     global $global, $AVideoStreamer_UA;
+
+    if (preg_match('/GStreamer souphttpsrc/', $_SERVER['HTTP_USER_AGENT'])) {
+        return true;
+    }
 
     // Generate the current and 1-minute previous user agent strings
     $currentAgent = $AVideoStreamer_UA . "_" . md5($global['salt'] . date('i'));

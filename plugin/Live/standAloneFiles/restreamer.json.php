@@ -113,7 +113,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 $obj->remoteResponse = $resp;
                 if (!empty($resp) && empty($resp->error)) {
                     $obj->remoteKill = true;
-                }else{
+                } else {
                     $obj->killIfIsRunning = killIfIsRunning($json);
                     $obj->logName = str_replace($logFileLocation, '', $json->logFile);
                     $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
@@ -405,6 +405,9 @@ function runRestream($robj)
 
 function notifyStreamer($robj)
 {
+    if (!empty($robj->doNotNotifyStreamer)) {
+        return false;
+    }
     global $streamerURL;
     $restreamerURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $m3u8 = $robj->m3u8;
@@ -599,14 +602,12 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
     $userAgent = 'AVideoRestreamer';
 
-    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 30 -y";
+    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_at_eof 1 -reconnect_delay_max 30 -y";
 
-    // Check if $m3u8 is a URL
     if (filter_var($m3u8, FILTER_VALIDATE_URL)) {
         $FFMPEGcommand .= " -user_agent \"{$userAgent}\"";
     }
 
-    // Add the input and preset options
     $FFMPEGcommand .= " -i \"{$m3u8}\" -preset veryfast";
 
     $FFMPEGComplement = " -max_muxing_queue_size 2048 " // Increased the muxing queue size for stability
@@ -619,12 +620,13 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . "-b:v 6000k " // Set constant video bitrate
         . "-minrate 6000k -maxrate 6000k -bufsize 12000k " // Increased buffer size for better handling of network fluctuations
         . "-preset veryfast "
+        . "-vf \"scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2\" "
         . "-f flv "
         . "-fflags +genpts " // Ensure smooth playback
         . "-strict -2 " // Allow non-compliant AAC audio
         . "-reconnect 1 " // Enable reconnection in case of a broken pipe
-        . "-reconnect_at_eof 1 " // Stop reconnecting at the end of file/input data
-        . "-reconnect_streamed 1 " // Disable reconnect for non-seekable streams
+        . "-reconnect_at_eof 1 " // Ensure reconnection even after EOF
+        . "-reconnect_streamed 1 " // Allow reconnection for non-seekable streams
         . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
         . ($disableReconnectOnNetworkError ? "" : "-reconnect_on_network_error 1 ") // Retry on network errors only if supported
         . "-probesize 50M " // Increased probing size to handle larger HLS segments
@@ -633,6 +635,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . "-rtmp_live live " // Ensure RTMP live streaming mode
         . "{tls_verify} " // Disable SSL/TLS certificate validation (optional, based on your trust in the source)
         . "\"{restreamsDestinations}\"";
+
 
     if (count($restreamsDestinations) > 1) {
         $command = $FFMPEGcommand;
@@ -659,7 +662,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             $keyword = 'restream_' . md5(basename($logFile));
             $robj->keyword = $keyword;
             // use remote ffmpeg here
-            execFFMPEGAsyncOrRemote($command . ' > ' . $logFile, $keyword);
+            execFFMPEGAsyncOrRemote($command . ' > ' . $logFile . ' 2>&1 ', $keyword);
         }
         error_log("Restreamer.json.php startRestream finish");
     }
@@ -723,7 +726,7 @@ function getProcess($robj)
 
     global $ffmpegBinary;
     exec("ps -ax 2>&1", $output, $return_var);
-    //error_log("Restreamer.json.php:getProcess ". json_encode($output)); 
+    //error_log("Restreamer.json.php:getProcess ". json_encode($output));
     $pattern = "/^([0-9]+).*" . replaceSlashesForPregMatch($ffmpegBinary) . ".*" . replaceSlashesForPregMatch($m3u8) . "/i";
     foreach ($output as $value) {
         //error_log("Restreamer.json.php:getProcess {$pattern}");

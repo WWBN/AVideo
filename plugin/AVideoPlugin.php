@@ -1686,7 +1686,7 @@ class AVideoPlugin
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
-        
+
         if ($resp) {
             $userCanWatchVideoWithAdsReason = "User group and video group match for user $users_id and video $videos_id";
         } else {

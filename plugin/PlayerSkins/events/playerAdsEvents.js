@@ -1,4 +1,3 @@
-var adsRetry = 0;
 setInterval(function () { fixAdSize(); }, 300);
 
 async function logAdEvent(eventType) {
@@ -82,7 +81,7 @@ player.on('adsready', function () {
     adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, function () {
         console.log('ADS: IMA SDK: Ad skipped.');
         logAdEvent('AdSkipped');
-        player.play();
+        //player.play();
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.CLICK, function () {

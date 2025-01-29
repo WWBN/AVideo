@@ -23,7 +23,7 @@ if (User::isAdmin()) {
 }
 
 $l = new LiveTransmition(0);
-$l->loadByUser(User::getId());
+$l->loadByUser($users_id);
 $l->setTitle($_REQUEST['title']);
 $l->setDescription($_REQUEST['description']);
 $l->setPassword($_REQUEST['password']);

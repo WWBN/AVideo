@@ -533,6 +533,8 @@ class API extends PluginAbstract
         }
         $video = new Video('', '', $obj->videos_id);
         $obj->filename = $video->getFilename();
+        $obj->duration_in_seconds = $video->getDuration_in_seconds();
+        $obj->title = $video->getTitle();
         $obj->video_file = Video::getHigherVideoPathFromID($obj->videos_id);
         $obj->sources = getSources($obj->filename, true);
         $obj->images = Video::getImageFromFilename($obj->filename);
@@ -541,8 +543,8 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
-     * 'videos_id' the video id 
-     * 'users_id' the user id 
+     * 'videos_id' the video id
+     * 'users_id' the user id
      * Returns if the user can watch the video
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
      * @return \ApiObject
@@ -573,7 +575,7 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
-     * 'videos_id' the video id 
+     * 'videos_id' the video id
      * 'password' a string with the user password
      * Returns if the password is correct or not, if there is no password it will return true
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
@@ -605,7 +607,7 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
-     * videos_id 
+     * videos_id
      * Returns the payperview plans
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=2
      * @return \ApiObject
@@ -646,8 +648,8 @@ class API extends PluginAbstract
     /**
      * @param array $parameters
      * reduces the wallet balance of a user by the cost of a pay-per-view (PPV) video and returns the updated balance. It checks if the user has sufficient funds to make the purchase
-     * plans_id 
-     * videos_id 
+     * plans_id
+     * videos_id
      * 'user' username of the user
      * 'pass' password  of the user
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=2&plans_id=4
@@ -702,7 +704,7 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
-     * videos_id 
+     * videos_id
      * Returns the payperview plans
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=2
      * @return \ApiObject
@@ -740,8 +742,8 @@ class API extends PluginAbstract
     /**
      * @param array $parameters
      * reduces the wallet balance of a user by the cost of a pay-per-view (PPV) video and returns the updated balance. It checks if the user has sufficient funds to make the purchase
-     * plans_id 
-     * videos_id 
+     * plans_id
+     * videos_id
      * 'user' username of the user
      * 'pass' password  of the user
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&plans_id=2
@@ -797,7 +799,7 @@ class API extends PluginAbstract
     /**
      * @param array $parameters
      * Obs: in the Trending sort also pass the current=1, otherwise it will return a random order
-     * 
+     *
      * ['APISecret' to list all videos]
      * ['sort' database sort column]
      * ['videos_id' the video id (will return only 1 or 0 video)]
@@ -1101,11 +1103,11 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
-     * 
+     *
      * 'videos_id' the video id what you will update
      * ['user' username of the user]
      * ['pass' password  of the user]
-     * ['APISecret' to update the video ]     * 
+     * ['APISecret' to update the video ]     *
      * ['next_videos_id' id for the next suggested video]
      * ['title' String]
      * ['status' String]
@@ -1118,7 +1120,7 @@ class API extends PluginAbstract
      * ['trailer1' a trailer URL]
      * ['rrating' the valid values are 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma']
      * ['created' to change the created your user/pass must be a valid admin or you need to provide the APISecret]
-     * 
+     *
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b
      * @return \ApiObject
      */
@@ -1404,11 +1406,11 @@ class API extends PluginAbstract
      * ['base64PNGImageRegular' a png image base64 encoded]
      * ['base64PNGImagePreRoll' a png image base64 encoded]
      * ['base64PNGImagePostRoll' a png image base64 encoded]
-     * 'title' 
-     * 'description' 
+     * 'title'
+     * 'description'
      * 'scheduled_time' pass it in the YYYY-mm-dd HH:ii:ss format
      * 'status' a for active or i for inactive
-     * 'scheduled_password' 
+     * 'scheduled_password'
      * 'user' username of the user that will login
      * 'pass' password  of the user that will login
      * @return \ApiObject
@@ -1850,8 +1852,8 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
-     * Create new programs 
-     * 'name' the new program name 
+     * Create new programs
+     * 'name' the new program name
      * 'status' the new program status ['public', 'private', 'unlisted', 'favorite', 'watch_later']
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&name=NewPL&status=unlisted
      * @return \ApiObject
@@ -1888,8 +1890,8 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
-     * Delete programs 
-     * 'playlists_id' the id of the program you want to delete 
+     * Delete programs
+     * 'playlists_id' the id of the program you want to delete
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&playlists_id=12
      * @return \ApiObject
      */
@@ -1927,9 +1929,9 @@ class API extends PluginAbstract
     /**
      * @param array $parameters
      * Return all Programs (Playlists) on this site
-     * 'videos_id' 
-     * 'playlists_id' , 
-     * 'add' 1 = will add, 0 = will remove, 
+     * 'videos_id'
+     * 'playlists_id' ,
+     * 'add' 1 = will add, 0 = will remove,
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=11&playlists_id=10&add=1
      * @return \ApiObject
      */
@@ -2742,7 +2744,7 @@ class API extends PluginAbstract
                     $roku->{$section->title} = $array;
                 }
             }
-            //var_dump($roku);exit;            
+            //var_dump($roku);exit;
             $roku->cache = ObjectYPT::setCacheGlobal($name, $roku);
             $roku->cached = false;
         } else {
@@ -2753,13 +2755,13 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
-     * 
+     *
      * Generates a one-time login code for a specific user.
-     * The function takes username and password as parameters and creates a unique login code. 
-     * This code is then saved into a log file within a specified directory. 
+     * The function takes username and password as parameters and creates a unique login code.
+     * This code is then saved into a log file within a specified directory.
      * The code along with user details is encrypted before storing.
      * The code expires in 10 minutes
-     * 
+     *
      * ['user' username of the user]
      * ['pass' password  of the user]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b
@@ -2773,7 +2775,7 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
-     * 
+     *
      * Verifies a one-time login code.
      * The function takes the one-time login code as a parameter. It then fetches and decrypts the associated user information from the log file.
      * If the file or the code does not exist, or the decrypted information is empty, it returns a message indicating the error.
@@ -2925,13 +2927,14 @@ class API extends PluginAbstract
 
     /**
      * decrypt a string
-     * 'string' mandatory 
+     * 'string' mandatory
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&string=stringEncryptedToDecrypt
      * @return \ApiObject Returns an ApiObject.
      */
     public function get_api_decryptString()
     {
-        return new ApiObject(decryptString($_REQUEST['string']), false);
+        $string = decryptString($_REQUEST['string']);
+        return new ApiObject($string, empty($string));
     }
 }
 

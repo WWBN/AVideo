@@ -111,3 +111,5 @@ AVideoStorage/
 plugin/VideoHLSOverlay/
 plugin/WebRTC/WebRTC2RTMP.json
 plugin/WebRTC/WebRTC2RTMP
+plugin/API/standAlone/temp_concat_list.txt
+plugin/API/standAlone/assets/playlist_live_stream_executable

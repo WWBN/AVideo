@@ -55,7 +55,7 @@ if (empty($_GET['p'])) {
             $_REQUEST['s'] = $parts[0];
         }
         $name = decryptString($_REQUEST['s']);
-        
+
         if(!empty($name)){
             $lt = LiveTransmition::getFromKey($name);
             _error_log("NGINX ON Publish encryption getFromKey($name)");
@@ -175,11 +175,11 @@ if (!empty($obj) && empty($obj->error)) {
      *
      */
     _error_log("NGINX ON Publish success ({$obj->liveTransmitionHistory_id}, {$obj->row['users_id']}, {$_POST['name']}, {$live_servers_id})");
-    $dropURL = Live::getDropURL($_POST['name'], $live_servers_id);
-    /*
-    $dropResponse = url_get_contents($dropURL);*/
-    _error_log("NGINX ON Publish dropURL={$dropURL}");
-    
+    /*$dropURL = Live::getDropURL($_POST['name'], $live_servers_id);
+
+    $dropResponse = url_get_contents($dropURL);
+    _error_log("NGINX ON Publish dropURL={$dropURL}");*/
+
     $code = 200;
     http_response_code($code);
     header("HTTP/1.1 {$code} OK");

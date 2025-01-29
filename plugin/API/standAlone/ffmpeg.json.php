@@ -87,17 +87,12 @@
  *
  * Replace `https://yourSite.com/` with your actual website URL.
  */
-$global_timeLimit = 300;
 
-ini_set("memory_limit", -1);
-ini_set('default_socket_timeout', $global_timeLimit);
-set_time_limit($global_timeLimit);
-ini_set('max_execution_time', $global_timeLimit);
-ini_set("memory_limit", "-1");
 
 header('Content-Type: application/json');
 
 require_once __DIR__ . "/../../../objects/functionsStandAlone.php";
+require __DIR__.'/functions.php';
 
 _error_log("Script initiated: FFMPEG command execution script started");
 
@@ -105,95 +100,6 @@ if (empty($streamerURL)) {
     _error_log("Error: streamerURL is not defined");
     echo json_encode(['error' => true, 'msg' => 'streamerURL not defined']);
     exit;
-}
-
-function _decryptString($string)
-{
-    global $global;
-    $url = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=decryptString&string={$string}";
-    _error_log("Decrypting string using URL: $url");
-
-    $content = file_get_contents($url);
-    $json = json_decode($content);
-
-    if (!empty($json) && empty($json->error)) {
-        $json2 = json_decode($json->message);
-        if ($json2->time > strtotime('30 seconds ago')) {
-            _error_log("String decrypted successfully");
-            return $json2;
-        }
-    }
-    _error_log("Failed to decrypt string or invalid time");
-    //return $json2;
-    return false;
-}
-
-// Function to safely get inputs from either command line or request
-function getInput($key, $default = '')
-{
-    global $argv;
-
-    // Check if running from command line or HTTP request
-    if (php_sapi_name() === 'cli') {
-        foreach ($argv as $arg) {
-            if (strpos($arg, "{$key}=") === 0) {
-                return substr($arg, strlen("{$key}="));
-            }
-        }
-    } else {
-        return isset($_REQUEST[$key]) ? $_REQUEST[$key] : $default;
-    }
-
-    return $default;
-}
-
-// Validate and sanitize the ffmpegCommand
-function sanitizeFFmpegCommand($command)
-{
-    $allowedPrefixes = ['ffmpeg', '/usr/bin/ffmpeg', '/bin/ffmpeg'];
-    _error_log("Sanitizing FFMPEG command: $command");
-
-    // Remove dangerous characters
-    $command = str_replace('&&', '', $command);
-    $command = str_replace('rtmp://vlu.me/', 'rtmp://live/', $command);
-    //$command = str_replace('rtmp://live/', 'rtmp://vlu.me/', $command);
-    //$command = str_replace('https://live:8443/', 'https://vlu.me:8443/', $command);
-    $command = preg_replace('/\s*&?>.*(?:2>&1)?/', '', $command);
-    $command = preg_replace('/[;|`<>]/', '', $command);
-
-    // Ensure it starts with an allowed prefix
-    foreach ($allowedPrefixes as $prefix) {
-        if (strpos(trim($command), $prefix) === 0) {
-            _error_log("Command sanitized successfully");
-            return $command;
-        }
-    }
-
-    _error_log("Sanitization failed: Command does not start with an allowed prefix");
-    return '';
-}
-
-function addKeywordToFFmpegCommand(string $command, string $keyword): string
-{
-    // Escape the keyword to avoid shell injection
-    $escapedKeyword = escapeshellarg($keyword);
-
-    // Break the command into parts to safely insert the metadata
-    $commandParts = explode(' ', $command);
-
-    // Find the index of the output URL (typically the last argument in FFmpeg commands)
-    $outputUrlIndex = array_key_last($commandParts);
-    if (preg_match('/^(rtmp|http|https):\/\//', $commandParts[$outputUrlIndex])) {
-        // Insert metadata before the output URL
-        array_splice($commandParts, $outputUrlIndex, 0, ["-metadata", "keyword=$escapedKeyword"]);
-    } else {
-        // If no URL is found, append metadata at the end
-        $commandParts[] = "-metadata";
-        $commandParts[] = "keyword=$escapedKeyword";
-    }
-
-    // Reconstruct the command
-    return implode(' ', $commandParts);
 }
 
 $notify = getInput('notify', '');

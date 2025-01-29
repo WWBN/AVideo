@@ -58,7 +58,7 @@ class LiveTransmitionHistory extends ObjectYPT
     {
         return $this->description;
     }
-    /** 
+    /**
      * @return string
      */
     public function getKey()
@@ -77,7 +77,7 @@ class LiveTransmitionHistory extends ObjectYPT
     }
 
     /**
-     * 
+     *
      * @return int
      */
     public function getUsers_id()
@@ -197,7 +197,7 @@ class LiveTransmitionHistory extends ObjectYPT
         $this->total_viewers = intval($total_viewers);
     }
     /**
-     * 
+     *
      * @param int $liveTransmitionHistory_id
      * @return array
      */
@@ -268,6 +268,13 @@ class LiveTransmitionHistory extends ObjectYPT
         $key = $lth->getKey();
         if (!empty($key)) {
             $lt = LiveTransmition::getFromKey($key);
+            if(AVideoPlugin::isEnabledByName('VideoPlaylistScheduler')){
+                if(VideoPlaylistScheduler::keyIsAPlaylistScheduler($key)){
+                    if(VideoPlaylistScheduler::keyIsAHidden($key)){
+                        return true;
+                    }
+                }
+            }
             if (empty($lt['public'])) {
                 return true;
             }
@@ -418,11 +425,11 @@ class LiveTransmitionHistory extends ObjectYPT
         }
         $limit = intval($limit);
         if (!empty($limit)) {
-            $sql .= "ORDER BY 
-            CASE 
-                WHEN finished IS NULL THEN 0 
-                ELSE 1 
-            END, 
+            $sql .= "ORDER BY
+            CASE
+                WHEN finished IS NULL THEN 0
+                ELSE 1
+            END,
             modified DESC
             LIMIT {$limit}";
         } else {
@@ -468,7 +475,7 @@ class LiveTransmitionHistory extends ObjectYPT
     {
         global $global, $getLatestSQL;
 
-        $sql = "SELECT 
+        $sql = "SELECT
             lth.*,
             lt.id as live_transmitions_id,
             lt.categories_id
@@ -853,7 +860,11 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public function save()
     {
-        global $global;
+        global $global, $LiveTransmitionHistorySaved;
+        if(empty($LiveTransmitionHistorySaved)){
+            $LiveTransmitionHistorySaved = 0;
+        }
+        $LiveTransmitionHistorySaved++;
         //_error_log("LiveTransmitionHistory::save: ". json_encode(debug_backtrace()));
         _mysql_commit();
         if (empty($this->id)) {
@@ -904,8 +915,10 @@ class LiveTransmitionHistory extends ObjectYPT
         $id = parent::save();
         _error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) users_id=".User::getId().' IP='.getRealIpAddr().' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         _mysql_commit();
-        $cacheHandler = new LiveCacheHandler();
-        $cacheHandler->deleteCache();
+        if($LiveTransmitionHistorySaved==1){ // clear only once per session
+            $cacheHandler = new LiveCacheHandler();
+            $cacheHandler->deleteCache();
+        }
         return $id;
     }
 

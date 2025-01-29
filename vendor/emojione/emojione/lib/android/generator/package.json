@@ -2,6 +2,7 @@
   "name": "emojione-android",
   "version": "0.1.0",
   "dependencies": {
+    "emojione-android": "file:",
     "underscore": "^1.7.0"
   }
 }

@@ -156,7 +156,11 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
             // Constraints for screen sharing
             constraints = {
                 video: true,
-                audio: false // Change to true if screen sharing audio is needed
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    sampleRate: 44100
+                }
             };
         } else {
             // Constraints for selected devices or default devices

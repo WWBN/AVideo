@@ -1218,6 +1218,9 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
             }
 
             $_filename = "{$parts['filename']}.{$parts['extension']}";
+            if ($parts['extension'] == 'm3u8') {
+                $_filename = "index.m3u8";
+            }
             if ($parts['basename'] == 'index.mp4') {
                 $_filename = "index.mp4";
                 $source['url'] = str_replace("{$parts['filename']}.mp4", 'index.mp4', $source['url']);
@@ -1277,7 +1280,7 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
     if (empty($files) || empty($files['jpg'])) {
         // sort by resolution
         $files['jpg'] = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_ARRAY);
-    } else 
+    } else
     if (is_array($files)) {
         // sort by resolution
         uasort($files, "sortVideosURL");
@@ -2838,6 +2841,44 @@ function getItemprop($videos_id)
     echo $output;
 }
 
+function parse_url_parameters($url)
+{
+    // Parse the URL and separate the query string
+    $parsedUrl = parse_url($url);
+
+    // Initialize the result array
+    $result = [
+        'base_url' => '',
+        'parameters' => []
+    ];
+
+    // Extract the base URL
+    $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+    if (isset($parsedUrl['port'])) {
+        $baseUrl .= ':' . $parsedUrl['port'];
+    }
+    if (isset($parsedUrl['path'])) {
+        $baseUrl .= $parsedUrl['path'];
+    }
+    $result['base_url'] = $baseUrl;
+
+    // Extract the query string and parse parameters
+    if (isset($parsedUrl['query'])) {
+        parse_str($parsedUrl['query'], $parameters);
+        $result['parameters'] = $parameters;
+    }
+
+    return $result;
+}
+
+function get_contents($url, $timeout = 0){
+    if(strlen($url)>1000){
+        $result = parse_url_parameters($url);
+        return postVariables($result['base_url'], $result['parameters'], false, $timeout);
+    }else{
+        return url_get_contents($url, $timeout);
+    }
+}
 
 function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
 {
@@ -3008,8 +3049,10 @@ function encrypt_decrypt($string, $action, $useOldSalt = false)
     global $global;
     $output = false;
     if (empty($string)) {
+        //_error_log("encrypt_decrypt: Empty input string.");
         return false;
     }
+    //_error_log("encrypt_decrypt: input string: $string");
     $encrypt_method = "AES-256-CBC";
     $secret_iv = $global['systemRootPath'];
     while (strlen($secret_iv) < 16) {
@@ -3018,30 +3061,53 @@ function encrypt_decrypt($string, $action, $useOldSalt = false)
     if (empty($secret_iv)) {
         $secret_iv = '1234567890abcdef';
     }
+
     if ($useOldSalt) {
+        $saltType = 'old';
         $salt = $global['salt'];
     } else {
+        $saltType = 'new';
         $salt = empty($global['saltV2']) ? $global['salt'] : $global['saltV2'];
     }
+
     // hash
     $key = hash('sha256', $salt);
 
-    // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+    // iv - encrypt method AES-256-CBC expects 16 bytes
     $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
     if ($action == 'encrypt') {
         $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+        if ($output === false) {
+            _error_log("encrypt_decrypt: Failed to encrypt. String: {$string}");
+        }
         $output = base64_encode($output);
     } elseif ($action == 'decrypt') {
-        //var_dump($string, base64_decode($string), $global['salt'], $global['saltV2'], $encrypt_method, $key, $iv);
-        $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        $decoded_string = base64_decode($string);
+        if ($decoded_string === false) {
+            _error_log("encrypt_decrypt: Failed to base64 decode the string: {$string}");
+            return false;
+        }
+
+        $output = openssl_decrypt($decoded_string, $encrypt_method, $key, 0, $iv);
+
+        // Try with the old salt if the output is empty and not already using the old salt
         if (empty($output) && $useOldSalt === false) {
+            _error_log("encrypt_decrypt: Failed to decrypt. Debug details:");
+            _error_log("encrypt_decrypt: Encoded string: {$string}");
+            _error_log("encrypt_decrypt: Base64 decoded string: {$decoded_string}");
+            _error_log("encrypt_decrypt: Salt used ($saltType): {$salt}");
+            _error_log("encrypt_decrypt: Encryption method: {$encrypt_method}");
+            _error_log("encrypt_decrypt: Key: {$key}");
+            _error_log("encrypt_decrypt: IV: {$iv}");
+            _error_log("encrypt_decrypt: Retrying decryption with old salt.");
             return encrypt_decrypt($string, $action, true);
         }
     }
 
     return $output;
 }
+
 
 function compressString($string)
 {
@@ -6473,7 +6539,7 @@ function isHTMLEmpty($html_string)
     $html_string_no_tags = strip_specific_tags($html_string_no_comments, ['br', 'p', 'span', 'div'], false);
     $result = trim(str_replace(["\r", "\n"], ['', ''], $html_string_no_tags));
     // Uncomment the below line if you want to debug
-    // var_dump(empty($result), $result, $html_string_no_tags, $html_string_no_comments, $html_string);    
+    // var_dump(empty($result), $result, $html_string_no_tags, $html_string_no_comments, $html_string);
     return empty($result);
 }
 

@@ -396,6 +396,7 @@ class PlayerSkins extends PluginAbstract
                 $addStartPlayerJS = true;
             }
         }
+        $js .= '<script src="' . getURL('plugin/PlayerSkins/events/playerAdsFunctions.js') . '"></script>';
 
         if ($addStartPlayerJS) {
             //var_dump($onPlayerReady, $getDataSetup . ", plugins: " . json_encode($plugins));exit;

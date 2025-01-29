@@ -753,24 +753,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return trim($obj->server);
     }
 
-    public static function getControlOrPublic($key, $live_servers_id = 0)
-    {
-        global $global;
-        if (isDocker()) {
-            return 'http://live:8080/control/drop/publisher';
-        }
-        $obj = AVideoPlugin::getObjectData("Live");
-        if (empty($obj->server_type->value)) {
-            $row = LiveTransmitionHistory::getLatest($key, $live_servers_id);
-            if (!empty($row['domain'])) {
-                $url = "{$row['domain']}control.json.php";
-                return addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
-            }
-        }
-        $domain = self::getControl($live_servers_id);
-        return $domain;
-    }
-
     public static function getAPPName()
     {
         $obj = AVideoPlugin::getObjectData("Live");
@@ -789,12 +771,33 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $app;
     }
 
+    public static function getControlOrPublic($key, $live_servers_id = 0)
+    {
+        global $global;
+        if (isDocker()) {
+            return 'http://live:8080/control/';
+        }
+        $obj = AVideoPlugin::getObjectData("Live");
+        if (empty($obj->server_type->value)) {
+            $row = LiveTransmitionHistory::getLatest($key, $live_servers_id);
+            if (!empty($row['domain'])) {
+                $url = "{$row['domain']}control.json.php";
+                return addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
+            }
+        }
+        $domain = self::getControl($live_servers_id);
+        return $domain;
+    }
+
     public static function getDropURL($key, $live_servers_id = 0)
     {
+        _error_log("getDropURL($key, $live_servers_id)", AVideoLog::$WARNING);
         $obj = AVideoPlugin::getObjectData("Live");
-
-        $app = self::getAPPName();
         $domain = self::getControlOrPublic($key, $live_servers_id);
+        if(isDocker()){
+            $domain .= 'drop/publisher';
+        }
+        $app = self::getAPPName();
         $domain = addQueryStringParameter($domain, 'command', 'drop_publisher');
         $domain = addQueryStringParameter($domain, 'app', $app);
         $domain = addQueryStringParameter($domain, 'name', $key);
@@ -804,8 +807,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getIsRecording($key, $live_servers_id = 0)
     {
-        $app = self::getAPPName();
         $domain = self::getControlOrPublic($key, $live_servers_id);
+        if(isDocker()){
+            $domain .= 'record/status';
+        }
+        $app = self::getAPPName();
         $domain = addQueryStringParameter($domain, 'command', 'is_recording');
         $domain = addQueryStringParameter($domain, 'app', $app);
         $domain = addQueryStringParameter($domain, 'name', $key);
@@ -815,8 +821,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getStartRecordURL($key, $live_servers_id = 0)
     {
-        $app = self::getAPPName();
         $domain = self::getControlOrPublic($key, $live_servers_id);
+        if(isDocker()){
+            $domain .= 'record/stop';
+        }
+        $app = self::getAPPName();
         $domain = addQueryStringParameter($domain, 'command', 'record_start');
         $domain = addQueryStringParameter($domain, 'app', $app);
         $domain = addQueryStringParameter($domain, 'name', $key);
@@ -826,8 +835,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getStopRecordURL($key, $live_servers_id = 0)
     {
-        $app = self::getAPPName();
         $domain = self::getControlOrPublic($key, $live_servers_id);
+        if(isDocker()){
+            $domain .= 'record/status';
+        }
+        $app = self::getAPPName();
         $domain = addQueryStringParameter($domain, 'command', 'record_stop');
         $domain = addQueryStringParameter($domain, 'app', $app);
         $domain = addQueryStringParameter($domain, 'name', $key);
@@ -1332,7 +1344,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $xml = $this->createCacheStatsObject($live_servers_id, $o->requestStatsTimout);
         $getStatsObject[$live_servers_id] = $xml;
         $cacheHandler->setCache($xml);
-        
+
         if (!empty($force_recreate) || !empty($_REQUEST['debug'])) {
             _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated done ".json_encode(debug_backtrace()));
         }
@@ -1722,6 +1734,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function unfinishAllFromStats($force_recreate = false)
     {
+        global $unfinishAllFromStatsDone;
+        if(!empty($unfinishAllFromStatsDone)){
+            return false;
+        }
+        $unfinishAllFromStatsDone = 1;
         $stats = Live::getStatsApplications($force_recreate);
 
         foreach ($stats as $key => $live) {
@@ -1919,7 +1936,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                   $liveServers[$value['live_servers_id']]->countLiveStream++;
                   }
                   }
-                 * 
+                 *
                  */
 
                 usort($liveServers, function ($a, $b) {
@@ -2191,6 +2208,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         TimeLogEnd($timeName, __LINE__);
         $REQUEST = $_REQUEST;
+
+        $VideoPlaylistSchedulerIsEnabled = AVideoPlugin::isEnabledByName('VideoPlaylistScheduler');
+
         foreach ($lifeStream as $value) {
             unset($_REQUEST['playlists_id_live']);
             unset($_REQUEST['live_index']);
@@ -2291,7 +2311,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                   'class'=>'live_' . $value->name,
                   'description'=>''
                   );
-                 * 
+                 *
                  */
 
                 $app = self::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, 'live', $LiveUsersLabelLive, $uid, '', $uid, 'live_' . $value->name);
@@ -2303,7 +2323,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $app['method'] = 'Live::_getStats';
                 $app['titleSet'] = $titleSet . ' => ' . $app['title'];
                 //var_dump($app['isPrivate'],$app['key']);exit;
-                if (!self::isApplicationListed($app['key'])) {
+                if (!self::isApplicationListed($app['key']) || ($VideoPlaylistSchedulerIsEnabled && VideoPlaylistScheduler::iskeyShowScheduled($app['key']))) {
                     $obj->hidden_applications[] = $app;
                 } else {
                     $obj->applications[] = $app;
@@ -3311,6 +3331,30 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($lth->getKey())) {
             return false;
         }
+
+        $rows = Live_restreams::getAllFromUser($lth->getUsers_id());
+        $restreamRowItems = array();
+        foreach ($rows as $value) {
+            $value['stream_url'] = addLastSlash($value['stream_url']);
+            $restreamsDestination = "{$value['stream_url']}{$value['stream_key']}";
+            $id = $value['id'];
+            $live_url = $value['live_url'];
+
+            $restreamRowItems[$value['id']] = self::gettRestreamRowItem($restreamsDestination, $id, $live_url);
+        }
+
+        return self::_getRestreamObject($liveTransmitionHistory_id, $restreamRowItems);
+    }
+
+    public static function _getRestreamObject($liveTransmitionHistory_id, $restreamRowItems)
+    {
+        if (empty($liveTransmitionHistory_id)) {
+            return false;
+        }
+        $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
+        if (empty($lth->getKey())) {
+            return false;
+        }
         $_REQUEST['live_servers_id'] = $lth->getLive_servers_id();
         $obj = new stdClass();
         $obj->m3u8 = self::getM3U8File($lth->getKey(), true);
@@ -3321,15 +3365,25 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $obj->liveTransmitionHistory_id = $liveTransmitionHistory_id;
         $obj->key = $lth->getKey();
 
-        $rows = Live_restreams::getAllFromUser($lth->getUsers_id());
-        foreach ($rows as $value) {
-            $value['stream_url'] = addLastSlash($value['stream_url']);
-            $obj->restreamsDestinations[$value['id']] = "{$value['stream_url']}{$value['stream_key']}";
-            $obj->restreamsToken[$value['id']] = encryptString($value['id']);
-            $obj->live_url[$value['id']] = $value['live_url'];
+        foreach ($restreamRowItems as $key => $value) {
+            $obj->restreamsDestinations[$key] = $value['restreamsDestinations'];
+            if(!empty($value['restreamsToken'])){
+                $obj->restreamsToken[$key] = $value['restreamsToken'];
+            }
+            if(!empty($value['live_url'])){
+                $obj->live_url[$key] = $value['live_url'];
+            }
         }
         return $obj;
     }
+
+
+    public static function gettRestreamRowItem($restreamsDestination, $id, $live_url)
+    {
+        return array('restreamsDestinations'=>$restreamsDestination, 'restreamsToken'=>encryptString($id),  'live_url'=>$live_url );
+    }
+
+
 
     public static function reverseRestream($m3u8, $users_id, $live_servers_id = -1, $forceIndex = false)
     {
@@ -3352,7 +3406,19 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return self::sendRestream($obj);
     }
 
-    private static function sendRestream($obj)
+
+    public static function restreamToDestination($liveTransmitionHistory_id, $restreamsDestination)
+    {
+        $restreamRowItems = array();
+        $id = 0;
+        $live_url = '';
+        $restreamRowItems[$id] = self::gettRestreamRowItem($restreamsDestination, $id, $live_url);
+        $obj = self::_getRestreamObject($liveTransmitionHistory_id, $restreamRowItems);
+        $obj->live_restreams_id = 0;
+        return self::sendRestream($obj);
+    }
+
+    private static function sendRestream($obj, $doNotNotifyStreamer = false)
     {
         _error_log("Live:sendRestream start");
         try {
@@ -3363,6 +3429,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             set_time_limit(30);
 
             $obj->responseToken = encryptString(array('users_id' => $obj->users_id, 'time' => time(), 'liveTransmitionHistory_id' => $obj->liveTransmitionHistory_id));
+            $obj->doNotNotifyStreamer = $doNotNotifyStreamer;
 
             $data_string = json_encode($obj);
             _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));

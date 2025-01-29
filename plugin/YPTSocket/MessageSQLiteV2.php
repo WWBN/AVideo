@@ -357,7 +357,7 @@ class Message implements MessageComponentInterface
             return false;
         }
 
-        _log_message("msgToResourceId: go ".json_encode($msg));
+        //_log_message("msgToResourceId: go ".json_encode($msg));
         if (!is_array($msg)) {
             $this->msgToArray($msg);
         }

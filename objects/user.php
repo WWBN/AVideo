@@ -1089,7 +1089,7 @@ if (typeof gtag !== \"function\") {
             $global['canWatchVideoReason'] = "canWatchVideoWithAds: User is an admin";
             return true;
         }
-        
+
         $video = new Video("", "", $videos_id);
         if ($video->getStatus() === Video::$statusInactive) {
             $global['canWatchVideoReason'] = "canWatchVideoWithAds: Video is inactive";
@@ -1143,9 +1143,9 @@ if (typeof gtag !== \"function\") {
         global $global;
         if (!empty($this->id)) {
 
-            $sql = "DELETE FROM live_transmition_history_log 
+            $sql = "DELETE FROM live_transmition_history_log
             WHERE live_transmitions_history_id IN (
-                SELECT id 
+                SELECT id
                 FROM live_transmitions_history
                 WHERE users_id = ?
             )";
@@ -1272,11 +1272,11 @@ if (typeof gtag !== \"function\") {
 
             // Call custom session regenerate logic
             // this was regenerating the session all the time, making harder to save info in the session
-            //_session_regenerate_id(); 
+            //_session_regenerate_id();
 
             _session_write_close();
 
-            _error_log("User:login finish with success users_id= {$_SESSION['user']['id']} {$_SERVER['HTTP_USER_AGENT']} IP=" . getRealIpAddr() . json_encode(debug_backtrace()));
+            //_error_log("User:login finish with success users_id= {$_SESSION['user']['id']} {$_SERVER['HTTP_USER_AGENT']} IP=" . getRealIpAddr() . json_encode(debug_backtrace()));
             return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);
@@ -1449,11 +1449,11 @@ if (typeof gtag !== \"function\") {
             if ((!empty($userCookie))) {
                 $_REQUEST['rememberme'] = 1;
                 //_error_log("user::recreateLoginFromCookie: SCRIPT_NAME ".json_encode($_SERVER["SCRIPT_NAME"]));
-                _error_log("user::recreateLoginFromCookie: user cookie found: {$userCookie->user} result: " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+                //_error_log("user::recreateLoginFromCookie: user cookie found: {$userCookie->user} result: " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 $user = new User(0, $userCookie->user, false);
                 $user->setPassword($userCookie->pass, true);
                 $resp = $user->login(false, true);
-                _error_log("user::recreateLoginFromCookie: resp=$resp");
+                //_error_log("user::recreateLoginFromCookie: resp=$resp");
 
                 $userCookie = User::getUserCookieCredentials();
                 if (!empty($userCookie) && $user->id != $userCookie->users_id) {
@@ -1463,7 +1463,7 @@ if (typeof gtag !== \"function\") {
                     if (User::USER_LOGGED == $resp) {
                         _error_log("user::recreateLoginFromCookie: do cookie-login: {$userCookie->user} [{$userCookie->id}]  id: " . $_SESSION['user']['id']);
                     } else {
-                        _error_log("user::recreateLoginFromCookie: do cookie-login: user={$userCookie->user} [{$userCookie->id}]  pass={$userCookie->pass} login does not match resp=$resp");
+                        //_error_log("user::recreateLoginFromCookie: do cookie-login: user={$userCookie->user} [{$userCookie->id}]  pass={$userCookie->pass} login does not match resp=$resp");
                         if ($resp != User::SYSTEM_ERROR) {
                             self::logoff();
                         }
@@ -1724,7 +1724,7 @@ if (typeof gtag !== \"function\") {
             $user = false;
             //$user = false;
         }
-        _error_log("User::find line= " . __LINE__);
+        //_error_log("User::find line= " . __LINE__);
         return $user;
     }
 
@@ -3234,7 +3234,7 @@ if (typeof gtag !== \"function\") {
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
             $response = $user->login(false, !empty($_REQUEST['encodedPass']));
             if ($response !== self::USER_LOGGED) {
-                //_error_log("loginFromRequest trying again");                
+                //_error_log("loginFromRequest trying again");
                 $response = $user->login(false, empty($_REQUEST['encodedPass']));
             }
             if ($response) {
