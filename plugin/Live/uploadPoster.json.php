@@ -28,8 +28,8 @@ if (!empty($live_schedule_id) || !empty($ppv_schedule_id)) {
             $obj->image = saveCroppieImage($obj->path, "image");
             $obj->error = false;
         }
-    }else{
-        $obj->msg = ('This live does not belong to you');
+    } else {
+        $obj->msg = ("This live does not belong to you schedule User={" . $row->getUsers_id() . "} you are = {" . User::getId() . "}");
         die(json_encode($obj));
     }
 } else {
@@ -38,13 +38,13 @@ if (!empty($live_schedule_id) || !empty($ppv_schedule_id)) {
     if ($obj->image) {
         $obj->pathThumbs = $global['systemRootPath'] . Live::_getPosterThumbsImage(User::getId(), $live_servers_id, $posterType);
 
-        _error_log("removePoster.php ({$obj->pathThumbs}) unlink line=".__LINE__);
+        _error_log("removePoster.php ({$obj->pathThumbs}) unlink line=" . __LINE__);
         @unlink($obj->pathThumbs);
         $obj->error = false;
     }
 }
 
-if(isset($_REQUEST['liveImgCloseTimeInSeconds']) && isset($_REQUEST['liveImgTimeInSeconds'])){
+if (isset($_REQUEST['liveImgCloseTimeInSeconds']) && isset($_REQUEST['liveImgTimeInSeconds'])) {
     $o = new stdClass();
     $o->liveImgCloseTimeInSeconds = intval($_REQUEST['liveImgCloseTimeInSeconds']);
     $o->liveImgTimeInSeconds = intval($_REQUEST['liveImgTimeInSeconds']);
@@ -53,7 +53,7 @@ if(isset($_REQUEST['liveImgCloseTimeInSeconds']) && isset($_REQUEST['liveImgTime
     $obj->jsonFileBytes = _file_put_contents($obj->jsonFile, $o);
 }
 
-if(empty($obj->error)){
+if (empty($obj->error)) {
     deleteStatsNotifications(true);
 }
 
