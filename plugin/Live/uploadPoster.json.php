@@ -29,7 +29,8 @@ if (!empty($live_schedule_id) || !empty($ppv_schedule_id)) {
             $obj->error = false;
         }
     }else{
-        forbiddenPage('This live does not belong to you');
+        $obj->msg = ('This live does not belong to you');
+        die(json_encode($obj));
     }
 } else {
     $obj->path = $global['systemRootPath'] . Live::_getPosterImage(User::getId(), $live_servers_id, 0, 0, $posterType);
