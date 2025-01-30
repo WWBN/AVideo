@@ -33,7 +33,7 @@ if (!empty($live_schedule_id) || !empty($ppv_schedule_id)) {
             $obj->error = false;
         }
     } else {
-        $obj->msg = ("This live does not belong to you schedule User={" . $row->getUsers_id() . "} you are = {" . User::getId() . "}");
+        $obj->msg = ("This live does not belong to you schedule");
         die(json_encode($obj));
     }
 } else {

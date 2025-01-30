@@ -602,7 +602,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
     $userAgent = 'AVideoRestreamer';
 
-    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_at_eof 1 -reconnect_delay_max 30 -y";
+    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_at_eof 1 -reconnect_delay_max 10 -y";
 
     if (filter_var($m3u8, FILTER_VALIDATE_URL)) {
         $FFMPEGcommand .= " -user_agent \"{$userAgent}\"";
@@ -627,7 +627,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . "-reconnect 1 " // Enable reconnection in case of a broken pipe
         . "-reconnect_at_eof 1 " // Ensure reconnection even after EOF
         . "-reconnect_streamed 1 " // Allow reconnection for non-seekable streams
-        . "-reconnect_delay_max 30 " // Maximum delay between reconnection attempts
+        . "-reconnect_delay_max 10 " // Maximum delay between reconnection attempts
         . ($disableReconnectOnNetworkError ? "" : "-reconnect_on_network_error 1 ") // Retry on network errors only if supported
         . "-probesize 50M " // Increased probing size to handle larger HLS segments
         . "-analyzeduration 200M " // Increase analysis duration to handle network issues
