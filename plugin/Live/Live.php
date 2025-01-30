@@ -2963,7 +2963,16 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     private static function getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id, $posterType)
     {
-        global $global;
+        global $global, $getPosterImageLive;
+
+        if(empty($getPosterImageLive)){
+            $getPosterImageLive = array();
+        }
+        $index = "$users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id, $posterType";
+        if(isset($getPosterImageLive[$index])){
+            return $getPosterImageLive[$index];
+        }
+        $getPosterImageLive[$index] = false;
         if (empty($users_id)) {
             $isLive = isLive();
             if (!empty($isLive)) {
@@ -3002,6 +3011,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
         }
         //var_dump($file);exit;
+        $getPosterImageLive[$index] = $file;
         return $file;
     }
 
