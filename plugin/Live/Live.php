@@ -3003,7 +3003,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     $file = self::getComingSoonImage(false);
                 }
             } else {
-                if (false && LiveTransmitionHistory::isLive($live_schedule_id)) {
+                if (LiveTransmitionHistory::isLive($live_schedule_id)) {
                     $file = self::getOnAirImage(false);
                 } else {
                     $file = self::getOfflineImage(false);
