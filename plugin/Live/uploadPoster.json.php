@@ -28,13 +28,15 @@ if (!empty($live_schedule_id) || !empty($ppv_schedule_id)) {
             $obj->image = saveCroppieImage($obj->path, "image");
             $obj->error = false;
         }
+    }else{
+        forbiddenPage('This live does not belong to you');
     }
 } else {
     $obj->path = $global['systemRootPath'] . Live::_getPosterImage(User::getId(), $live_servers_id, 0, 0, $posterType);
     $obj->image = saveCroppieImage($obj->path, "image");
     if ($obj->image) {
         $obj->pathThumbs = $global['systemRootPath'] . Live::_getPosterThumbsImage(User::getId(), $live_servers_id, $posterType);
-        
+
         _error_log("removePoster.php ({$obj->pathThumbs}) unlink line=".__LINE__);
         @unlink($obj->pathThumbs);
         $obj->error = false;
