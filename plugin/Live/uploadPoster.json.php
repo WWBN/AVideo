@@ -20,7 +20,11 @@ $live_schedule_id = intval($_REQUEST['live_schedule_id'] ?? 0);
 $posterType = intval($_REQUEST['posterType'] ?? 0);
 
 if (!empty($live_schedule_id) || !empty($ppv_schedule_id)) {
-    $row = new Live_schedule($live_schedule_id);
+    if(!empty($live_schedule_id)){
+        $row = new Live_schedule($live_schedule_id);
+    }else{
+        $row = new Ppvlive_schedule($ppv_schedule_id);
+    }
     if (User::isAdmin() || $row->getUsers_id() == User::getId()) {
         if (isset($_REQUEST['image'])) {
             $image = Live_schedule::getPosterPaths($live_schedule_id, $ppv_schedule_id, $posterType);
