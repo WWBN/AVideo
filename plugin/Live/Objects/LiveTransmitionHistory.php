@@ -461,14 +461,23 @@ class LiveTransmitionHistory extends ObjectYPT
 
     public static function isLive($key, $live_servers_id = 0)
     {
-        global $global;
+        global $global, $lthIsLive;
+        if(empty($lthIsLive)){
+            $lthIsLive = array();
+        }
+        $index = "$key, $live_servers_id";
 
+        if(isset($lthIsLive[$index])){
+            return $lthIsLive[$index];
+        }
         $row = self::getActiveLiveFromUser(0, $live_servers_id, $key);
         //var_dump($key, $row);exit;
         if (empty($row)) {
+            $lthIsLive[$index] = false;
             return false;
         }
-        return self::getApplicationObject($row['id']);
+        $lthIsLive[$index] = self::getApplicationObject($row['id']);
+        return $lthIsLive[$index];
     }
 
     public static function getLatest($key = '', $live_servers_id = null, $active = false, $users_id = 0, $categories_id = 0)
