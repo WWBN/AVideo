@@ -42,7 +42,6 @@ if (!$lt->userCanSeeTransmition()) {
     exit;
     //forbiddenPage("You are not allowed see this streaming");
 }
-
 $uuid = LiveTransmition::keyNameFix($livet['key']);
 
 $u = new User(0, $_GET['u'], false);
@@ -212,9 +211,9 @@ $_page->setExtraStyles(
                                     });
                                 });
                             </script>
-                            <?php 
-                            echo AVideoPlugin::getWatchActionButton(0); 
-                            Live::getLiveControls($livet['key_with_index'], $livet['live_servers_id']);                            
+                            <?php
+                            echo AVideoPlugin::getWatchActionButton(0);
+                            Live::getLiveControls($livet['key_with_index'], $livet['live_servers_id']);
                             ?>
                         </div>
                     </div>

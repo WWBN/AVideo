@@ -794,7 +794,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         _error_log("getDropURL($key, $live_servers_id)", AVideoLog::$WARNING);
         $obj = AVideoPlugin::getObjectData("Live");
         $domain = self::getControlOrPublic($key, $live_servers_id);
-        if(isDocker()){
+        if (isDocker()) {
             $domain .= 'drop/publisher';
         }
         $app = self::getAPPName();
@@ -808,7 +808,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function getIsRecording($key, $live_servers_id = 0)
     {
         $domain = self::getControlOrPublic($key, $live_servers_id);
-        if(isDocker()){
+        if (isDocker()) {
             $domain .= 'record/status';
         }
         $app = self::getAPPName();
@@ -822,7 +822,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function getStartRecordURL($key, $live_servers_id = 0)
     {
         $domain = self::getControlOrPublic($key, $live_servers_id);
-        if(isDocker()){
+        if (isDocker()) {
             $domain .= 'record/stop';
         }
         $app = self::getAPPName();
@@ -836,7 +836,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function getStopRecordURL($key, $live_servers_id = 0)
     {
         $domain = self::getControlOrPublic($key, $live_servers_id);
-        if(isDocker()){
+        if (isDocker()) {
             $domain .= 'record/status';
         }
         $app = self::getAPPName();
@@ -1294,8 +1294,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
     {
         global $global, $_getStatsObject_force_recreate_executed;
 
-        if($force_recreate){
-            if(!empty($_getStatsObject_force_recreate_executed)){
+        if ($force_recreate) {
+            if (!empty($_getStatsObject_force_recreate_executed)) {
                 // already forced, ignore it
                 $force_recreate = false;
             }
@@ -1346,7 +1346,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $cacheHandler->setCache($xml);
 
         if (!empty($force_recreate) || !empty($_REQUEST['debug'])) {
-            _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated done ".json_encode(debug_backtrace()));
+            _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated done " . json_encode(debug_backtrace()));
         }
         //var_dump(__LINE__, $xml);
         $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
@@ -1735,7 +1735,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function unfinishAllFromStats($force_recreate = false)
     {
         global $unfinishAllFromStatsDone;
-        if(!empty($unfinishAllFromStatsDone)){
+        if (!empty($unfinishAllFromStatsDone)) {
             return false;
         }
         $unfinishAllFromStatsDone = 1;
@@ -2633,14 +2633,17 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function isKeyLiveInStatsV2($key, $live_servers_id = 0, $live_index = '', $force_recreate = false, $doNotCheckDatabase = true)
     {
-        global $_isLiveFromKey, $global;
+        global $_isLiveFromKey, $global, $_isLiveFromKeyLineFound;
+        $_isLiveFromKeyLineFound = __LINE__;
         if (empty($key) || $key == '-1') {
             _error_log('Live::isKeyLiveInStats key is empty');
+            $_isLiveFromKeyLineFound = __LINE__;
             return false;
         }
 
         if (!empty($global['disableIsKeyLiveInStats'])) {
             _error_log('disableIsKeyLiveInStats');
+            $_isLiveFromKeyLineFound = __LINE__;
             return true;
         }
         $index = "$key, $live_servers_id,$live_index";
@@ -2650,6 +2653,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         if (empty($force_recreate) && isset($_isLiveFromKey[$index])) {
             //_error_log('Live::isKeyLiveInStats key is already set');
+            $_isLiveFromKeyLineFound = __LINE__;
             return $_isLiveFromKey[$index];
         }
 
@@ -2658,12 +2662,17 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if ($doNotCheckDatabase) {
             if (empty($o->server_type->value) || !empty($live_servers_id)) {
                 //_error_log("Live::isLiveFromKey return LiveTransmitionHistory::isLive($key, $live_servers_id)");
+                $_isLiveFromKeyLineFound = __LINE__;
                 return LiveTransmitionHistory::isLive($key, $live_servers_id);
             }
         }
 
         $stats = Live::getStatsApplications($force_recreate);
         $_isLiveFromKey[$index] = false;
+        $keyWithIndex = Live::cleanUpKey($key);
+        if (!empty($live_index)) {
+            $keyWithIndex = "$key-$live_index";
+        }
         foreach ($stats as $value) {
 
             if (!is_array($value) || empty($value) || empty($value['key'])) {
@@ -2671,7 +2680,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
 
             $namesFound[] = "({$value['key']})";
-            if (preg_match("/{$key}.*/", $value['key'])) {
+            if (preg_match("/{$keyWithIndex}.*/", $value['key'])) {
                 if (empty($live_servers_id)) {
                     $_isLiveFromKey[$index] = true;
                     break;
@@ -2682,9 +2691,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     }
                 }
             } else {
-                _error_log("Live::isKeyLiveInStatsV2 /{$key}.*/, {$value['key']}");
+                _error_log("Live::isKeyLiveInStatsV2 /{$keyWithIndex}.*/, {$value['key']}");
             }
         }
+        $_isLiveFromKeyLineFound = __LINE__;
         return $_isLiveFromKey[$index];
     }
 
@@ -3357,20 +3367,22 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $_REQUEST['live_servers_id'] = $lth->getLive_servers_id();
         $obj = new stdClass();
-        $obj->m3u8 = self::getM3U8File($lth->getKey(), true);
+        $key = $lth->getKey();
+
+        $obj->m3u8 = self::getM3U8File($key, true);
         $obj->restreamerURL = self::getRestreamer($lth->getLive_servers_id());
         $obj->restreamsDestinations = [];
         $obj->token = getToken(60);
         $obj->users_id = $lth->getUsers_id();
         $obj->liveTransmitionHistory_id = $liveTransmitionHistory_id;
-        $obj->key = $lth->getKey();
+        $obj->key = $key;
 
         foreach ($restreamRowItems as $key => $value) {
             $obj->restreamsDestinations[$key] = $value['restreamsDestinations'];
-            if(!empty($value['restreamsToken'])){
+            if (!empty($value['restreamsToken'])) {
                 $obj->restreamsToken[$key] = $value['restreamsToken'];
             }
-            if(!empty($value['live_url'])){
+            if (!empty($value['live_url'])) {
                 $obj->live_url[$key] = $value['live_url'];
             }
         }
@@ -3380,7 +3392,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function gettRestreamRowItem($restreamsDestination, $id, $live_url)
     {
-        return array('restreamsDestinations'=>$restreamsDestination, 'restreamsToken'=>encryptString($id),  'live_url'=>$live_url );
+        return array('restreamsDestinations' => $restreamsDestination, 'restreamsToken' => encryptString($id),  'live_url' => $live_url);
     }
 
 
@@ -3409,6 +3421,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function restreamToDestination($liveTransmitionHistory_id, $restreamsDestination)
     {
+        _error_log("restreamToDestination($liveTransmitionHistory_id, $restreamsDestination)");
         $restreamRowItems = array();
         $id = 0;
         $live_url = '';
@@ -3735,7 +3748,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($live_index)) {
             return 1;
         }
-        if(AVideoPlugin::isEnabled('VideoPlaylistScheduler') && VideoPlaylistScheduler::iskeyShowScheduled("$key-$live_index")){
+        if (AVideoPlugin::isEnabled('VideoPlaylistScheduler') && VideoPlaylistScheduler::iskeyShowScheduled("$key-$live_index")) {
             // it is a VideoPlaylistScheduler do not change it
             return $live_index;
         }
@@ -4216,7 +4229,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     {
         $obj = AVideoPlugin::getDataObject('Live');
         if (Live::canScheduleLive()) {
-        ?>
+?>
             <button class="btn btn-primary btn-sm" onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>">
                 <i class="far fa-calendar"></i> <span class="hidden-sm hidden-xs"><?php echo __('Schedule'); ?></span>
             </button>
@@ -4285,7 +4298,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $obj->live_key = $key;
                 $obj->live_servers_id = intval($live_servers_id);
                 $obj->sendSocketMessage = sendSocketMessage(array('redirectLive' => $obj), 'redirectLive', 0);
-                _error_log('on_publish_done::redirectLive '.json_encode($obj));
+                _error_log('on_publish_done::redirectLive ' . json_encode($obj));
             }
         }
     }
