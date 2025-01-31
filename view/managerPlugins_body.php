@@ -475,7 +475,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                             if (row.enabled) {
                                 checked = " checked='checked' ";
                             }
-                            switchBtn = '<div class="material-small material-switch pull-left"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" data-pname="' + row.name + '" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
+                            switchBtn = '<div class="material-small material-switch pull-left"  style="direction: ltr;"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" data-pname="' + row.name + '" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
                         }
 
                     } else {
