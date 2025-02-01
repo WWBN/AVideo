@@ -26,6 +26,7 @@ if (empty($obj->key) || strlen($obj->key) < 50) {
     $server = $objM->server->value;
     if ($server == 'custom') {
         $server = $objM->CUSTOM_JITSI_DOMAIN;
+        $server = explode(':', $server)[0];
     }
     if (empty($server)) {
         $obj->msg = "The server URL is empty";

@@ -49,7 +49,7 @@ class Bookmark extends PluginAbstract
         global $global;
 
         $btn = '';
-        $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoModalIframeFull(webSiteRootURL+\\\'plugin/Bookmark/editorVideo.php?videos_id=\'+ row.id +\'\\\');" ><i class="fas fa-bookmark"></i> Add Bookmarks</button>';
+        $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoModalIframeFull(webSiteRootURL+\\\'plugin/Bookmark/editorVideo.php?videos_id=\'+ row.id +\'\\\');" ><i class="fas fa-bookmark"></i> '.__('Add Bookmarks').'</button>';
         return $btn;
     }
 
@@ -102,31 +102,31 @@ class Bookmark extends PluginAbstract
     {
         $ChaptersData = BookmarkTable::getAllFromVideo($videos_id);
         $Chapters = [];
-        
+
         if (!empty($ChaptersData)) {
             $video = new VIdeo('', '', $videos_id);
             $durationInSeconds = $video->getDuration_in_seconds();
             foreach ($ChaptersData as $index => $item) {
                 $startTime = secondsToTime($item["timeInSeconds"], '%02d');
-    
+
                 // Calculate end time based on the next chapter's start time
                 $endTimeInSeconds = ($index < count($ChaptersData) - 1)
                     ? $ChaptersData[$index + 1]["timeInSeconds"]
                     : $durationInSeconds;
-                
+
                 $endTime = secondsToTime($endTimeInSeconds, '%02d');
-    
+
                 $Chapter = [
                     "@type" => "VideoGameClip",
                     "name" => $item["name"],
                     "startTime" => "PT" . $startTime . "S",
                     "endTime" => "PT" . $endTime . "S"
                 ];
-    
+
                 $Chapters[] = $Chapter;
             }
         }
-    
+
         return $Chapters;
     }
 
@@ -140,7 +140,7 @@ class Bookmark extends PluginAbstract
         foreach ($data as $index => $item) {
             $start_time = $item["timeInSeconds"];
 
-            // Assume each Chapter is 5 seconds long if it's the last one, 
+            // Assume each Chapter is 5 seconds long if it's the last one,
             // or calculate the time until the next Chapter starts
             $end_time = ($index == count($data) - 1) ? $start_time + 5 : $data[$index + 1]["timeInSeconds"] - 1;
 

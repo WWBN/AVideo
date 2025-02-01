@@ -2,7 +2,8 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
-class Meet_schedule extends ObjectYPT {
+class Meet_schedule extends ObjectYPT
+{
 
     protected $id;
     protected $users_id;
@@ -17,17 +18,20 @@ class Meet_schedule extends ObjectYPT {
     protected $meet_code;
     protected $timezone;
 
-    public static function getSearchFieldsNames() {
+    public static function getSearchFieldsNames()
+    {
         return ['password', 'topic', 'name', 'meet_code'];
     }
 
-    public static function getTableName() {
+    public static function getTableName()
+    {
         return 'meet_schedule';
     }
 
-    public static function getAllUsers() {
+    public static function getAllUsers()
+    {
         global $global;
-        if(empty($global)){
+        if (empty($global)) {
             $global = [];
         }
         $table = "users";
@@ -48,15 +52,18 @@ class Meet_schedule extends ObjectYPT {
         return $rows;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = intval($id);
     }
 
-    public function setUsers_id($users_id) {
+    public function setUsers_id($users_id)
+    {
         $this->users_id = intval($users_id);
     }
 
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
@@ -66,47 +73,58 @@ class Meet_schedule extends ObjectYPT {
      * Specific User Groups = 0
      * @return string
      */
-    public function setPublic($public) {
+    public function setPublic($public)
+    {
         $this->public = intval($public);
     }
 
-    public function setLive_stream($live_stream) {
+    public function setLive_stream($live_stream)
+    {
         $this->live_stream = intval($live_stream);
     }
 
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
     }
 
-    public function setTopic($topic) {
+    public function setTopic($topic)
+    {
         $this->topic = xss_esc($topic);
     }
 
-    public function setStarts($starts) {
+    public function setStarts($starts)
+    {
         $this->starts = $starts;
     }
 
-    public function setFinish($finish) {
+    public function setFinish($finish)
+    {
         $this->finish = $finish;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function setMeet_code($meet_code) {
+    public function setMeet_code($meet_code)
+    {
         $this->meet_code = $meet_code;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return intval($this->id);
     }
 
-    public function getUsers_id() {
+    public function getUsers_id()
+    {
         return intval($this->users_id);
     }
 
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
@@ -116,53 +134,66 @@ class Meet_schedule extends ObjectYPT {
      * Specific User Groups = 0
      * @return string
      */
-    public function getPublic() {
+    public function getPublic()
+    {
         return intval($this->public);
     }
 
-    public function getLive_stream() {
+    public function getLive_stream()
+    {
         return intval($this->live_stream);
     }
 
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
-    public function getTopic() {
+    public function getTopic()
+    {
         return $this->topic;
     }
 
-    public function getStarts() {
+    public function getStarts()
+    {
         return $this->starts;
     }
 
-    public function getFinish() {
+    public function getFinish()
+    {
         return $this->finish;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getCleanName() {
-        return cleanURLName($this->name);
+    public function getCleanName()
+    {
+        // I need the id so it will be in the recorded filename
+        return $this->users_id . '-' . cleanURLName($this->name);
     }
 
-    public function getMeet_code() {
+    public function getMeet_code()
+    {
         return $this->meet_code;
     }
 
-    public function getMeetLink() {
+    public function getMeetLink()
+    {
         global $global;
         return $global['webSiteRootURL'] . 'meet/' . $this->getId() . '/' . urlencode($this->getName());
     }
 
-    public function getMeetShortLink() {
+    public function getMeetShortLink()
+    {
         global $global;
         return $global['webSiteRootURL'] . 'meet/' . $this->getId();
     }
 
-    static public function getSQLTime($time, $sort=true){
+    static public function getSQLTime($time, $sort = true)
+    {
         $sort = @$_POST['sort'];
         unset($_POST['sort']);
         $sql = '';
@@ -179,9 +210,9 @@ class Meet_schedule extends ObjectYPT {
             $sql .= " AND {$dateStarts} < CURDATE() ";
             $_POST['sort']['starts'] = "DESC";
         }
-        if($sort){
+        if ($sort) {
             $sql .= self::getSqlFromPost();
-        }else{
+        } else {
             $sql .= self::getSqlSearchFromPost();
         }
         $_POST['sort'] = $sort;
@@ -189,9 +220,10 @@ class Meet_schedule extends ObjectYPT {
         return $sql;
     }
 
-    public static function getAllFromUsersId($users_id, $time = "", $canAttend = false, $hideIfHasPassword = false) {
+    public static function getAllFromUsersId($users_id, $time = "", $canAttend = false, $hideIfHasPassword = false)
+    {
         global $global;
-        if(empty($global)){
+        if (empty($global)) {
             $global = [];
         }
         if (!static::isTableInstalled()) {
@@ -276,7 +308,8 @@ class Meet_schedule extends ObjectYPT {
         return $rows;
     }
 
-    public static function getTotalFromUsersId($users_id, $time = "", $canAttend = false, $hideIfHasPassword = false) {
+    public static function getTotalFromUsersId($users_id, $time = "", $canAttend = false, $hideIfHasPassword = false)
+    {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
@@ -307,7 +340,7 @@ class Meet_schedule extends ObjectYPT {
         $sql .= " )  ";
         if (!empty($time)) {
             $sql .= self::getSQLTime($time, false);
-        }else{
+        } else {
             $sql .= self::getSqlSearchFromPost();
         }
         $res = sqlDAL::readSql($sql);
@@ -316,7 +349,8 @@ class Meet_schedule extends ObjectYPT {
         return $countRow;
     }
 
-    public static function getAll($time = "") {
+    public static function getAll($time = "")
+    {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -359,7 +393,8 @@ class Meet_schedule extends ObjectYPT {
         return $rows;
     }
 
-    public static function getTotal($time = "") {
+    public static function getTotal($time = "")
+    {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
@@ -369,7 +404,7 @@ class Meet_schedule extends ObjectYPT {
         $sql = "SELECT id FROM  " . static::getTableName() . " WHERE 1=1  ";
         if (!empty($time)) {
             $sql .= self::getSQLTime($time, false);
-        }else{
+        } else {
             $sql .= self::getSqlSearchFromPost();
         }
         $res = sqlDAL::readSql($sql);
@@ -378,7 +413,8 @@ class Meet_schedule extends ObjectYPT {
         return $countRow;
     }
 
-    public function canManageSchedule() {
+    public function canManageSchedule()
+    {
         if (User::isAdmin()) {
             return true;
         }
@@ -391,15 +427,18 @@ class Meet_schedule extends ObjectYPT {
         return false;
     }
 
-    public function getTimezone() {
+    public function getTimezone()
+    {
         return $this->timezone;
     }
 
-    private function _setTimezone($timezone) {
+    private function _setTimezone($timezone)
+    {
         $this->timezone = $timezone;
     }
 
-    public function save() {
+    public function save()
+    {
         if (empty($this->finish)) {
             $this->finish = 'null';
         }
@@ -427,5 +466,4 @@ class Meet_schedule extends ObjectYPT {
         }
         return $row;
     }
-
 }

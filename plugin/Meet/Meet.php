@@ -105,9 +105,9 @@ Passcode: {password}
         }
         $m = new Meet_schedule($meet_schedule_id);
         $room = $m->getCleanName();
-        
+
         $isModerator = self::isModerator($meet_schedule_id);
-        
+
         if (empty($users_id)) {
             $user = [
                 "name" => '',
@@ -232,7 +232,7 @@ Passcode: {password}
         global $global;
         $secret = self::getSecret();
         $meetServer = self::getMeetServer();
-        
+
         if(preg_match('/192.168.1/', $global['webSiteRootURL'])){
             $json = new stdClass();
             $json->error = false;
@@ -244,7 +244,7 @@ Passcode: {password}
             $json->jibrisInfo->jibris = [];
             return $json;
         }
-        
+
         if ($meetServer == "https://custom/") {
             $obj = AVideoPlugin::getDataObject("Meet");
             $json = new stdClass();
@@ -268,7 +268,7 @@ Passcode: {password}
             _error_log("serverlabels getMeetServerStatus $url ");
             $content = url_get_contents($url, '', 10, !empty($_REQUEST['debug']));
             _error_log("serverlabels getMeetServerStatus done $url ");
-            
+
             $json = _json_decode($content);
             if (!empty($json)) {
                 $json->time = time();
@@ -529,7 +529,7 @@ Passcode: {password}
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'videobackgroundblur','select-background','whiteboard',
                     'noisesuppression','participants-pane','reactions','toggle-camera',
-                    'invite', 'security', 'isCustomJitsi', 'shareaudio'
+                    'invite', 'security', 'isCustomJitsi', 'shareaudio', 'sharedvideo'
                 ];
             } else {
                 $return = [
@@ -539,7 +539,7 @@ Passcode: {password}
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone', 'mute-video-everyone','videobackgroundblur','select-background','whiteboard',
                     'noisesuppression','participants-pane','reactions','toggle-camera',
-                    'invite', 'security', 'isNOTCustomJitsi', 'shareaudio'
+                    'invite', 'security', 'isNOTCustomJitsi', 'shareaudio', 'sharedvideo'
                 ];
             }
         } else {
@@ -551,7 +551,7 @@ Passcode: {password}
                 'noisesuppression','toggle-camera',
             ];
         }
-        
+
         foreach ($return as $key => $value) {
             if(isset($_REQUEST[$value]) && (empty($_REQUEST[$value]) || strtolower($_REQUEST[$value]) === 'false')){
                 unset($return[$key]);
@@ -657,7 +657,7 @@ Passcode: {password}
         $invitation = preg_replace("/{meetLink}/i", $ms->getMeetLink(), $invitation);
         return $invitation;
     }
-    
+
     public static function getIframeURL($meet_schedule_id){
         $joinURL = self::getJoinURL();
         $joinURL = addLastSlash($joinURL);
@@ -711,7 +711,7 @@ Passcode: {password}
         if (User::isAdmin() || isCommandLineInterface()) {
             return true;
         }
-        
+
         if(!User::isLogged()){
             return false;
         }
