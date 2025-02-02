@@ -1,7 +1,7 @@
 <?php
 if (User::canSeeCommentTextarea()) {
     if (!empty($advancedCustom->commentsNoIndex)) {
-        echo "<!--googleoff: all-->";
+        echo "<!-- advancedCustom->commentsNoIndex-->";
     }
     include $global['systemRootPath'] . 'view/videoComments_textarea.php';
     $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'view/videoComments_template.php'));

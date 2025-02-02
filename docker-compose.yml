@@ -55,7 +55,7 @@ services:
       - "${SOCKET_PORT:-2053}:${SOCKET_PORT:-2053}"
       - "${HTTP_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"
-      - "3000:3000"
+      - "${WEBRTC_PORT:-3000}:${WEBRTC_PORT:-3000}"
     volumes:
       - "./.compose/HLS:/HLS"
       - "./:/var/www/html/AVideo"
@@ -86,7 +86,7 @@ services:
       - app_net
 
   live:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.live
     restart: "unless-stopped"
