@@ -11,39 +11,27 @@ if ($removeVideoList) {
     $modeYoutubeBottomCols2 = 'hidden';
 }
 
-if (!$isCompressed) {
-    ?>
-    <div class="" id="modeYoutubeTop" >
-        <?php
-        require "{$global['systemRootPath']}view/modeYoutubeTop.php";
-        $modeYouTubeTimeLog['After include top '] = microtime(true) - $modeYouTubeTime;
-        $modeYouTubeTime = microtime(true);
-        ?>
-    </div>
+
+?>
+<div class="" id="modeYoutubeTop">
     <?php
-}
-if(is_object($video)){
+    require "{$global['systemRootPath']}view/modeYoutubeTop.php";
+    $modeYouTubeTimeLog['After include top '] = microtime(true) - $modeYouTubeTime;
+    $modeYouTubeTime = microtime(true);
+    ?>
+</div>
+<?php
+if (is_object($video)) {
     $video = Video::getVideoLight($video->getId());
 }
 TimeLogEnd($timeLogNameMYB, __LINE__, $TimeLogLimitMYB);
 if (!empty($video['id'])) {
     TimeLogEnd($timeLogNameMYB, __LINE__, $TimeLogLimitMYB);
-    ?>
+?>
     <div class="row" id="modeYoutubeBottom" style="margin: 0;">
         <div class="col-lg-1"></div>
+        <!-- <?php echo __FILE__; ?> <?php echo __LINE__; ?> -->
         <div class="<?php echo $modeYoutubeBottomCols1; ?>" id="modeYoutubeBottomContent">
-            <?php
-            if ($isCompressed) {
-                ?>
-                <div class="" id="modeYoutubeTop" >
-                    <?php
-                    require "{$global['systemRootPath']}view/modeYoutubeTop.php";
-                    $modeYouTubeTimeLog['After include top '] = microtime(true) - $modeYouTubeTime;
-                    $modeYouTubeTime = microtime(true);
-                    ?>
-                </div>
-            <?php }
-            ?>
             <?php
             TimeLogEnd($timeLogNameMYB, __LINE__, $TimeLogLimitMYB);
             require "{$global['systemRootPath']}view/modeYoutubeBottom.php";
@@ -52,7 +40,7 @@ if (!empty($video['id'])) {
             TimeLogEnd($timeLogNameMYB, __LINE__, $TimeLogLimitMYB);
             ?>
         </div>
-        <div class="<?php echo $modeYoutubeBottomCols2; ?>" id="yptRightBar" >
+        <div class="<?php echo $modeYoutubeBottomCols2; ?>" id="yptRightBar">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <?php
@@ -67,26 +55,14 @@ if (!empty($video['id'])) {
         </div>
         <div class="col-lg-1"></div>
     </div>
-    <?php
+<?php
 } else {
     TimeLogEnd($timeLogNameMYB, __LINE__, $TimeLogLimitMYB);
     require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
-    ?>
+?>
     <div class="row" id="modeYoutubeBottom" style="margin: 0;">
         <div class="col-lg-1"></div>
         <div class="<?php echo $modeYoutubeBottomCols1; ?>" id="modeYoutubeBottomContent">
-            <?php
-            if ($isCompressed) {
-                ?>
-                <div class="" id="modeYoutubeTop" >
-                    <?php
-                    require "{$global['systemRootPath']}view/modeYoutubeTop.php";
-                    $modeYouTubeTimeLog['After include top '] = microtime(true) - $modeYouTubeTime;
-                    $modeYouTubeTime = microtime(true);
-                    ?>
-                </div>
-            <?php }
-            ?>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <?php
@@ -97,7 +73,7 @@ if (!empty($video['id'])) {
                 </div>
             </div>
         </div>
-        <div class="<?php echo $modeYoutubeBottomCols2; ?>" id="yptRightBar" >
+        <div class="<?php echo $modeYoutubeBottomCols2; ?>" id="yptRightBar">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <?php
@@ -110,7 +86,7 @@ if (!empty($video['id'])) {
         </div>
         <div class="col-lg-1"></div>
     </div>
-    <?php
+<?php
     TimeLogEnd($timeLogNameMYB, __LINE__, $TimeLogLimitMYB);
 }
 ?>
