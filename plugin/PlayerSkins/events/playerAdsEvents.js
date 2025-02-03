@@ -22,7 +22,7 @@ async function logAdEvent(eventType) {
 
 player.on('adsready', function () {
     console.log('ADS: adsready');
-    
+
     // Set listener for ad break ready
     player.ima.setAdBreakReadyListener(function (e) {
         if (!_adWasPlayed) {
@@ -43,8 +43,12 @@ player.on('adsready', function () {
     var adsManager = player.ima.getAdsManager();
 
     adsManager.addEventListener(google.ima.AdEvent.Type.STARTED, function () {
-        console.log('ADS: IMA SDK: Ad started.');
+        console.log('ADS: IMA SDK: vmap_ad_scheduler: Ad started.');
         logAdEvent('AdStarted');
+    });
+
+    player.ima.addEventListener(google.ima.AdEvent.Type.LOADED, function() {
+        console.log('ADS: IMA SDK: vmap_ad_scheduler: Ad LOADED.');
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.FIRST_QUARTILE, function () {
@@ -90,7 +94,7 @@ player.on('adsready', function () {
     });
 
     adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, function (event) {
-        console.error('ADS: IMA SDK: Ad error occurred:', event.getError());
+        console.error('ADS: IMA SDK: vmap_ad_scheduler: Ad error occurred:', event.getError());
         logAdEvent('AdError', { error: event.getError() });
 
         if (adsRetry === 0) {
@@ -102,9 +106,9 @@ player.on('adsready', function () {
 
 // Event fired if there's an error during ad playback
 player.on('adserror', function(event) {
-    console.log('ADS: error:', event.data.AdError);
+    console.log('vmap_ad_scheduler: ADS: error:', event.data.AdError);
     logAdEvent('AdError', { error: event.data.AdError });
-    
+
     if (adsRetry === 0) {
         adsRetry++;
         preloadVmapAndUpdateAdTag(_adTagUrl);
