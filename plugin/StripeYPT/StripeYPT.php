@@ -374,7 +374,7 @@ class StripeYPT extends PluginAbstract
           _error_log("StripeYPT::getSubscriptions We could not find the subscription trying to list from subscription $stripe_costumer_id, $plans_id " . json_encode($costumer));
 
          */
-        // I guess only this is enought 
+        // I guess only this is enought
         $subscriptions = \Stripe\Subscription::all(['customer' => $stripe_costumer_id, 'status' => 'active']);
         if (!empty($subscriptions)) {
             foreach ($subscriptions->data as $value) {
@@ -416,11 +416,14 @@ class StripeYPT extends PluginAbstract
 
     public function setUpSubscription($plans_id, $stripeToken)
     {
+        global $setUpSubscriptionErrorResponse;
         if (!User::isLogged()) {
+            $setUpSubscriptionErrorResponse = 'User not logged';
             _error_log("setUpSubscription: User not logged");
             return false;
         }
         if (empty($plans_id)) {
+            $setUpSubscriptionErrorResponse = 'plans_id is empty';
             _error_log("setUpSubscription: plans_id is empty");
             return false;
         }
@@ -429,11 +432,13 @@ class StripeYPT extends PluginAbstract
             $obj = AVideoPlugin::getObjectData('YPTWallet');
 
             if (empty($subs)) {
+                $setUpSubscriptionErrorResponse = 'Plan not found"';
                 _error_log("setUpSubscription: Plan not found");
                 return false;
             }
             $subscription = $this->userHasActiveSubscriptionOnPlan($plans_id);
             if (!empty($subscription)) {
+                $setUpSubscriptionErrorResponse = 'the user already have an active subscription for this plan';
                 _error_log("setUpSubscription: the user already have an active subscription for this plan " . json_encode($subscription));
                 return false;
             } else {
@@ -451,6 +456,7 @@ class StripeYPT extends PluginAbstract
                 $sub['stripe_costumer_id'] = $this->getCostumerId(User::getId(), $stripeToken);
                 if (empty($sub['stripe_costumer_id'])) {
                     _error_log("setUpSubscription: Could not create a Stripe costumer");
+                    $setUpSubscriptionErrorResponse = 'Could not create a Stripe costumer';
                     return false;
                 }
                 Subscription::getOrCreateStripeSubscription(User::getId(), $plans_id, $sub['stripe_costumer_id']);
@@ -617,9 +623,9 @@ class StripeYPT extends PluginAbstract
                 if (!empty($metadata['users_id'])) {
                     $pluginS->addBalance($metadata['users_id'], $payment_amount, "Stripe recurrent (no plan detected): " . $payload->data->object->description, json_encode($payload));
                 }
-            } else {                
+            } else {
                 $ipnFIle = "{$global['systemRootPath']}plugin/DiskUploadQuota/Subscription/Stripe/ipn.php";
-                require_once $ipnFIle ;
+                require_once $ipnFIle;
                 exit;
             }
         } else {
@@ -719,10 +725,10 @@ class StripeYPT extends PluginAbstract
                 _error_log("getMetadataOrFromSubscription Customer::retrieve [$customer_id] => " . json_encode($c->metadata));
                 $obj = self::getMetadata($c->metadata);
                 _error_log("getMetadataOrFromSubscription Customer::retrieve done " . json_encode($obj));
-                if(empty($obj) && !empty($c->email)){
+                if (empty($obj) && !empty($c->email)) {
                     _error_log("getMetadataOrFromSubscription try from email " . json_encode($c->email));
                     $user = User::getUserFromEmail($c->email);
-                    $obj = array('users_id'=>$user['id']);
+                    $obj = array('users_id' => $user['id']);
                 }
             }
         }
@@ -811,6 +817,108 @@ class StripeYPT extends PluginAbstract
 
         return $subscriptions;
     }
+
+    function getAllCreditCards($plans_id)
+    {
+
+        $s = new SubscriptionTable($plans_id);
+        $customer_id = $s->getStripe_costumer_id();
+
+        $this->start();
+
+        // Retrieve the stored Stripe customer ID from the database
+        //$customer_id = getCustomerIdFromDB($users_id);
+        if (empty($customer_id)) {
+            _error_log("getAllCreditCards: No Stripe customer ID found for plan {$plans_id}");
+            return false;
+        }
+
+        try {
+            // Fetch all payment methods (cards) for the customer
+            $cards = \Stripe\Customer::allPaymentMethods($customer_id, ['type' => 'card']);
+
+            return $cards->data;
+        } catch (Exception $e) {
+            _error_log("getAllCreditCards: Error fetching cards - " . $e->getMessage());
+            return false;
+        }
+    }
+
+    function addCard($customer_id, $paymentMethodId)
+    {
+        global $addCardErrorMessage;
+        $addCardErrorMessage = '';
+
+        try {
+            $this->start();
+
+
+            // Retrieve the Payment Method object
+            $paymentMethod = \Stripe\PaymentMethod::retrieve($paymentMethodId);
+
+            // Attach the payment method to the customer
+            $paymentMethod->attach(['customer' => $customer_id]);
+
+            // Optionally, set this as the default payment method for future payments
+            \Stripe\Customer::update(
+                $customer_id,
+                [
+                    'invoice_settings' => ['default_payment_method' => $paymentMethodId]
+                ]
+            );
+
+            return $paymentMethod;
+        } catch (\Stripe\Exception\ApiErrorException $exc) {
+            _error_log("addCard: Error: " . $exc->getMessage());
+            $addCardErrorMessage = $exc->getMessage();
+            return false;
+        }
+    }
+
+    function addCardToSubscription($subscription, $paymentMethod)
+    {
+        try {
+            // Attach the payment method to the customer
+            $paymentMethod->attach(['customer' => $subscription->customer]);
+
+            // Set this payment method as the default for future invoices
+            \Stripe\Customer::update(
+                $subscription->customer,
+                ['invoice_settings' => ['default_payment_method' => $paymentMethod->id]]
+            );
+
+            // Update the subscription to use the new payment method
+            \Stripe\Subscription::update(
+                $subscription->id,
+                ['default_payment_method' => $paymentMethod->id]
+            );
+
+            return true;
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            _error_log("addCardToSubscription: Error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+
+    function deleteCard($customerId, $paymentMethodId)
+    {
+        try {
+            $this->start();
+
+            var_dump(array($customerId, $paymentMethodId));
+            // Retrieve the Payment Method object
+            $paymentMethod = \Stripe\PaymentMethod::retrieve($paymentMethodId);
+            // Detach the payment method from the customer
+            $response = $paymentMethod->detach();
+
+            return $response;
+        } catch (\Stripe\Exception\ApiErrorException $exc) {
+            _error_log("deleteCard: Error: " . $exc->getMessage());
+            return false;
+        }
+    }
+
 
     function cancelSubscriptions($id)
     {

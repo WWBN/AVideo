@@ -35,7 +35,7 @@ $_SESSION['recurrentSubscription']['plans_id'] = $obj->plans_id;
 
 if($obj->plans_id > 0  || !User::isAdmin()){
     $subs = new SubscriptionPlansTable($obj->plans_id);
-        
+
     if(empty($subs)){
         forbiddenPage("Plan Not found");
     }
@@ -52,6 +52,7 @@ $users_id = User::getId();
 //setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
 _error_log("Request subscription setUpSubscription: ".  json_encode($_POST));
 $payment = $plugin->setUpSubscription($obj->plans_id, $_POST['stripeToken']);
+$obj->msg = $setUpSubscriptionErrorResponse;
 $obj->payment = $payment;
 _error_log("Request subscription setUpSubscription Done ");
 if (!empty($payment) && !empty($payment->status) && ($payment->status=="active" || $payment->status=="trialing")) {

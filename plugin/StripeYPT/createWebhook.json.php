@@ -8,7 +8,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 
-_error_log("StripeINTENT Start");
+_error_log("StripeINTENT Webhook Start");
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = AVideoPlugin::getObjectData("YPTWallet");
 $stripe = AVideoPlugin::loadPluginIfEnabled("StripeYPT");

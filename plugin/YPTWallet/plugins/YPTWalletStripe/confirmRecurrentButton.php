@@ -189,12 +189,12 @@ $uid = uniqid();
                 avideoToastInfo(response.msg);
                 confirmSubscriptionPayment(response.payment);
             } else {
-                avideoAlertError("<?php echo __("Error!"); ?>");
+                avideoResponse(response);
                 setTimeout(function() {
                     modal.hidePleaseWait();
                 }, 500);
             }
-            
+
         }
 
         modal.showPleaseWait();

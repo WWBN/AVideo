@@ -78,11 +78,15 @@ function setupLiveAdInterval() {
 }
 
 // Function to check and play ads based on current time
+var checkAndPlayAdsTryCount = 1;
 function checkAndPlayAds() {
     if (!Array.isArray(scheduledAdTimes) || scheduledAdTimes.length === 0) {
-        console.log('No ads scheduled.');
-        setTimeout(checkAndPlayAds, 500);
-        return;
+        checkAndPlayAdsTryCount++;
+        if(checkAndPlayAdsTryCount < 10){
+            console.log('No ads scheduled.');
+            setTimeout(checkAndPlayAds, checkAndPlayAdsTryCount*500);
+            return;
+        }
     }
 
     const currentTime = Math.floor(player.currentTime());
