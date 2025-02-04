@@ -175,7 +175,7 @@ function forceUserClickToPlayAd() {
             zIndex: '10',
             pointerEvents: 'none' // Allows clicks to pass through to the video player
         })
-        .text(__('This video contains ads. To continue, tap or click here to continue'))
+        .text(__('This video contains ads. Tap or click here to continue watching'))
         .appendTo('#mainVideo'); // Append inside the video player container
 
 }
