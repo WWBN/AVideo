@@ -116,7 +116,6 @@ function checkIfAdPlays() {
     setTimeout(() => {
         if (!isAdPlaying) {  // If the ad isn't playing after a delay
             console.log('vmap_ad_scheduler: Ad didn’t play, pausing main video and forcing user interaction.');
-            player.pause();  // Pause the main video
             forceUserClickToPlayAd();  // Force the user to click to play the ad
         }else{
             console.log('vmap_ad_scheduler: Ad is playing.');
@@ -152,6 +151,7 @@ function forceUserClickToPlayAd() {
     if($('#forceUserClickToPlayAdAdOverlay').length){
         return false;
     }
+    player.pause();  // Pause the main video
     setTimeout(() => {
         forceUserClickToPlayAdAdding = true;
     }, 100);
