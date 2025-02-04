@@ -346,7 +346,7 @@ class PlayerSkins extends PluginAbstract
                             position: relative;
                             left:{$obj->showLogoAdjustLeft};
                             top:{$obj->showLogoAdjustTop};
-                                
+
                             }
                         </style>";
             }
@@ -422,7 +422,7 @@ class PlayerSkins extends PluginAbstract
                 include "{$global['systemRootPath']}plugin/PlayerSkins/seo.php";
             }
         }
-         * 
+         *
          */
     }
 
@@ -647,7 +647,7 @@ class PlayerSkins extends PluginAbstract
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");";
         //var_dump($IMAADTag, isVideoPlayerHasProgressBar());exit;
         if (!empty($IMAADTag) && isVideoPlayerHasProgressBar()) {
-            $autoPlayAdBreaks = false; // this is to make it work on livestreams
+            $autoPlayAdBreaks = !(isEmbed() && isLive()); // this is to make it work on livestreams
             $adTagOptions = array(
                 'id' => 'mainVideo',
                 'adTagUrl' => $IMAADTag,
@@ -794,15 +794,15 @@ class PlayerSkins extends PluginAbstract
             var time = Math.round(this.currentTime());
             playerCurrentTime = time;
             var url = '{$url}';
-            
+
             if (url.indexOf('?') > -1) {
                 url += '&t=' + time;
             } else {
                 url += '?t=' + time;
             }
-            
+
             $('#linkCurrentTime, .linkCurrentTime').val(url);
-            
+
             sendAVideoMobileMessage('timeupdate', time);
         });
         ;";
@@ -896,7 +896,7 @@ class PlayerSkins extends PluginAbstract
     }
 
     /**
-     * 
+     *
      * @param array $markersList array(array('timeInSeconds'=>10,'name'=>'abc'),array('timeInSeconds'=>20,'name'=>'abc20'),array('timeInSeconds'=>25,'name'=>'abc25')....);
      * @param int $width
      * @param string $color
