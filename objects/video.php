@@ -533,6 +533,7 @@ if (!class_exists('Video')) {
             if (empty($this->order) || empty($this->id)) {
                 $this->order = 'NULL';
             } else {
+                _error_log('Video::save update order '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 $this->order = intval($this->order);
             }
 
@@ -904,12 +905,12 @@ if (!class_exists('Video')) {
                             'aVideoEncoder.json.php',
                             'on_record_done.php'
                         );
-                        
+
                         if (!in_array(basename($_SERVER['SCRIPT_NAME']), $notTriggerOnNewVideo)) {
                             AVideoPlugin::onNewVideo($this->id);
                         } else {
                             _error_log("Video::setStatus({$status}) do not trigger onNewVideo on file " . basename($_SERVER['SCRIPT_NAME']));
-                        }                        
+                        }
                     } else {
                         _error_log("Video::setStatus({$status}) clearCache only ");
                     }
@@ -1174,7 +1175,7 @@ if (!class_exists('Video')) {
                     if (!empty($_REQUEST['current']) && $_REQUEST['current'] == 1) {
                         $rows = VideoStatistic::getVideosWithMoreViews(Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
                     }
-                    //var_dump($_REQUEST['current'], $rows); 
+                    //var_dump($_REQUEST['current'], $rows);
                     $ids = [];
                     foreach ($rows as $row) {
                         $ids[] = $row['id'];
@@ -1469,7 +1470,7 @@ if (!class_exists('Video')) {
             }
             if (strpos($sql, 'v.id IN') === false && !preg_match('/LIMIT\s+\d+/i', preg_replace('/\([^\)]*\)/', '', $sql))) {
                 $sql .= " LIMIT {$firstClauseLimit}1";
-            }            
+            }
             $lastGetVideoSQL = $sql;
             //echo $sql, "<br>";//var_dump(debug_backtrace());exit;
             $res = sqlDAL::readSql($sql);
@@ -1495,7 +1496,7 @@ if (!class_exists('Video')) {
             sqlDAL::close($res);
             if ($res !== false) {
                 require_once $global['systemRootPath'] . 'objects/userGroups.php';
-                
+
                 if (!empty($video)) {
                     $video = self::getInfo($video);
                 }
@@ -1767,7 +1768,7 @@ if (!class_exists('Video')) {
                 $passwordProtectedOnly = true;
                 $status = '';
             }
-            $sql = "SELECT STRAIGHT_JOIN  u.*, u.externalOptions as userExternalOptions, v.*, c.iconClass, 
+            $sql = "SELECT STRAIGHT_JOIN  u.*, u.externalOptions as userExternalOptions, v.*, c.iconClass,
                     c.name as category, c.order as category_order, c.clean_name as clean_category,c.description as category_description,"
                 . " v.created as videoCreation, v.modified as videoModified "
                 //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
@@ -1870,7 +1871,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            //var_dump($max_duration_in_seconds);echo $sql;exit;            
+            //var_dump($max_duration_in_seconds);echo $sql;exit;
             $sql .= Video::getCatSQL();
 
             if (!empty($_GET['search'])) {
@@ -3379,6 +3380,7 @@ if (!class_exists('Video')) {
             if (!Permissions::canAdminVideos()) {
                 return false;
             }
+            _error_log("video::updateOrder($videos_id, $order) ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $sql = "UPDATE videos SET `order` = ?, modified = now() WHERE id = ?";
             return sqlDAL::writeSql($sql, "ii", [$order, $videos_id]);
         }
@@ -4570,7 +4572,7 @@ if (!class_exists('Video')) {
             }
 
             $path_parts = pathinfo($cleanName);
-            //var_dump($filename, $cleanName, $path_parts);         
+            //var_dump($filename, $cleanName, $path_parts);
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
                 if (!empty($path_parts['filename'])) {
@@ -5397,8 +5399,8 @@ if (!class_exists('Video')) {
             }
             /*
 
-            Previously, the canonical URL was set to the shortened format "https://mysite.com/v/40701". 
-            However, to maintain consistency with the actual structure of our site URLs and to ensure clarity for search engines, 
+            Previously, the canonical URL was set to the shortened format "https://mysite.com/v/40701".
+            However, to maintain consistency with the actual structure of our site URLs and to ensure clarity for search engines,
             we've updated the canonical URL to match the actual URL format: "https://mysite.com/video/40701".
 
             This change is intended to:
