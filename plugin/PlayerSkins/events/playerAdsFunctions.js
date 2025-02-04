@@ -145,6 +145,7 @@ function fixAdPlaying() {
 var forceUserClickToPlayAdAdding = false;
 
 function forceUserClickToPlayAd() {
+    return false;
     if (forceUserClickToPlayAdAdding) {
         return false;
     }
