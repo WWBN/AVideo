@@ -8,8 +8,8 @@ if (typeof _adTagUrl === 'string') {
             var adBreaks = xmlDoc.getElementsByTagName('vmap:AdBreak');
             Array.from(adBreaks).forEach(adBreak => {
                 var timeOffset = adBreak.getAttribute('timeOffset');
-                console.log('vmap_ad_scheduler: timeOffset found', timeOffset);
-
+                //console.log('vmap_ad_scheduler: timeOffset found', timeOffset);
+                console.log('ADs: timeOffset found', timeOffset);
                 if (timeOffset === 'start') {
                     scheduledAdTimes.push(0);
                 } else if (timeOffset === 'end') {
@@ -45,6 +45,7 @@ player.on('ended', () => {
 // Play skipped ads when the video resumes
 player.on('play', () => {
     if(forceUserClickToPlayAdAdding){
+        forceUserClickToPlayAdAdding = false;
         $('#forceUserClickToPlayAdAdOverlay').remove(); // Remove overlay when play button is clicked
         console.log('vmap_ad_scheduler: User clicked play, removing overlay.');
         player.play();
@@ -53,7 +54,6 @@ player.on('play', () => {
     }else{
         console.log('vmap_ad_scheduler: forceUserClickToPlayAdAdding.', forceUserClickToPlayAdAdding);
     }
-    forceUserClickToPlayAdAdding = false;
     while (skippedAdsQueue.length > 0) {
         const playSkippedAd = skippedAdsQueue.shift();
         playSkippedAd();
@@ -82,5 +82,39 @@ player.on('adserror', () => {
 
 // Example usage
 player.on('ads-manager', function (response) {
-    console.log('vmap_ad_scheduler: Ads manager ready:', response.adsManager);
+    var adsManager = response.adsManager;
+    var cuePoints = adsManager.getCuePoints();
+    console.log('vmap_ad_scheduler: Ads manager ready - Cue Points:', cuePoints);
+
+    // Check for empty ad slots inside VMAP
+    if (!cuePoints || cuePoints.length === 0) {
+        console.warn('vmap_ad_scheduler: No ads found inside VMAP, skipping ad slot');
+        player.play(); // Resume video since no ads are available
+    }
+});
+
+
+// Detect when a VAST request is made inside VMAP
+player.on('ads-request', function (event) {
+    console.log('vmap_ad_scheduler: Ad request sent to VAST URL:', event);
+});
+
+// Detect when a VAST response is received inside VMAP
+player.on('ads-response', function (event) {
+    console.log('vmap_ad_scheduler: VAST response received:', event);
+
+    var adsManager = event.adsManager;
+
+    if (!adsManager || !adsManager.getCuePoints || adsManager.getCuePoints().length === 0) {
+        console.warn('vmap_ad_scheduler: VAST response has NO ADS, resuming video');
+        player.play(); // Resume the main video if no ads are available
+    } else {
+        console.log('vmap_ad_scheduler: VAST response contains ads:', adsManager.getCuePoints());
+    }
+});
+
+// Handle errors in case VAST fails to load ads
+player.on('ads-error', function (event) {
+    console.error('vmap_ad_scheduler: VAST Ad Error:', event);
+    player.play(); // Resume video if there's an ad error
 });

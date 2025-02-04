@@ -149,7 +149,12 @@ function forceUserClickToPlayAd() {
     if (forceUserClickToPlayAdAdding) {
         return false;
     }
-    forceUserClickToPlayAdAdding = true;
+    if($('#forceUserClickToPlayAdAdOverlay').length){
+        return false;
+    }
+    setTimeout(() => {
+        forceUserClickToPlayAdAdding = true;
+    }, 100);
     console.log('vmap_ad_scheduler: forceUserClickToPlayAd');
 
     // Create an overlay message

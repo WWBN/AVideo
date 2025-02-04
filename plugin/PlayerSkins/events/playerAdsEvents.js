@@ -47,10 +47,6 @@ player.on('adsready', function () {
         logAdEvent('AdStarted');
     });
 
-    player.ima.addEventListener(google.ima.AdEvent.Type.LOADED, function() {
-        console.log('ADS: IMA SDK: vmap_ad_scheduler: Ad LOADED.');
-    });
-
     adsManager.addEventListener(google.ima.AdEvent.Type.FIRST_QUARTILE, function () {
         console.log('ADS: IMA SDK: Ad reached first quartile.');
         logAdEvent('AdFirstQuartile');
@@ -69,6 +65,7 @@ player.on('adsready', function () {
     adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, function () {
         console.log('ADS: IMA SDK: Ad completed.');
         logAdEvent('AdCompleted');
+        isAdPlaying = false;
         player.play();
     });
 
@@ -102,6 +99,37 @@ player.on('adsready', function () {
             preloadVmapAndUpdateAdTag(_adTagUrl); // Retry ad if error
         }
     });
+
+    adsManager.addEventListener(google.ima.AdEvent.Type.LOADED, function (event) {
+        console.log('vmap_ad_scheduler: Ad loaded successfully');
+    });
+
+    adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function () {
+        console.log('vmap_ad_scheduler: All ads completed');
+        isAdPlaying = false;
+    });
+
+    adsManager.addEventListener(google.ima.AdEvent.Type.AD_ERROR, function (event) {
+        console.error('vmap_ad_scheduler: Error loading ad:', event.getError());
+        isAdPlaying = false;
+        player.play(); // Resume main content if ad fails
+    });
+
+    adsManager.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, function (event) {
+        console.log('vmap_ad_scheduler: Ads Manager Loaded');
+
+        var adsManager = event.getAdsManager(player);
+        var cuePoints = adsManager.getCuePoints();
+
+        if (!cuePoints || cuePoints.length === 0) {
+            console.warn('vmap_ad_scheduler: No ads found in VAST response');
+            isAdPlaying = false;
+            player.play(); // Resume main content
+        } else {
+            console.log('vmap_ad_scheduler: Ad slots found:', cuePoints);
+        }
+    });
+
 });
 
 // Event fired if there's an error during ad playback
