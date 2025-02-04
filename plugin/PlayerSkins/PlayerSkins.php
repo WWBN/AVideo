@@ -647,7 +647,7 @@ class PlayerSkins extends PluginAbstract
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");";
         //var_dump($IMAADTag, isVideoPlayerHasProgressBar());exit;
         if (!empty($IMAADTag) && isVideoPlayerHasProgressBar()) {
-            $autoPlayAdBreaks = !(isEmbed() && isLive()); // this is to make it work on livestreams
+            $autoPlayAdBreaks = true; // this is to make it work on livestreams
             $adTagOptions = array(
                 'id' => 'mainVideo',
                 'adTagUrl' => $IMAADTag,
