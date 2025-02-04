@@ -60,7 +60,7 @@ error_log(__FILE__." line ".__LINE__);
 $userObject = new User($users_id);
 $userObject->login(true, true);
 
-$tmpFile = '/tmp/'.uniqid();
+$tmpFile = getTmpDir().uniqid();
 
 if(move_uploaded_file($_FILES['upl']['tmp_name'], $tmpFile)){
     _error_log(__FILE__." including aVideoQueueEncoder filesize = ".  humanFileSize(filesize($tmpFile)));
