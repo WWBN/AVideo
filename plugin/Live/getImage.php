@@ -24,7 +24,7 @@ if (empty($_REQUEST['format'])) {
 $f = md5(@$_REQUEST['u'] .'_'. @$_REQUEST['live_servers_id'] .'_'. @$_REQUEST['live_index'] .'_'. @$_REQUEST['playlists_id_live']);
 $cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}.{$_REQUEST['format']}";
 $cacheFileImageNameResized = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}_{$facebookSizeRecomendationW}X{$facebookSizeRecomendationH}.{$_REQUEST['format']}";
-if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
+if (empty($_REQUEST['debug']) && file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
     if(file_exists($cacheFileImageNameResized)){
         $content = file_get_contents($cacheFileImageNameResized);
         if (!empty($content)) {
