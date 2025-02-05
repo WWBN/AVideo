@@ -85,7 +85,7 @@ if (empty($livet)) {
         //_error_log('getImage: File NOT exists 1 ' . $uploadedPoster);
     }
 } elseif (!Live::isLive($livet['users_id'])) {
-    $uploadedPoster = $global['systemRootPath'] . Live::getPoster($livet['users_id'], $_REQUEST['live_servers_id']);
+    $uploadedPoster = $global['systemRootPath'] . Live::getPoster($livet['users_id'], $_REQUEST['live_servers_id'], $livet['key']);
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
     if (file_exists($uploadedPoster)) {
         //_error_log('getImage: File NOT exists 2 ' . $uploadedPoster);
@@ -194,8 +194,8 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
         }else{
             echo file_get_contents($cacheFileImageName);
         }
-        
-        
+
+
         //_error_log("Live:getImage  Get default image ");
     }
 }
