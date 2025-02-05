@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-error_log(__FILE__ . " line " . __LINE__);
+error_log(__FILE__ . " line " . __LINE__ . ' REQUEST=' . json_encode($_REQUEST));
 if (!isset($global['systemRootPath'])) {
     error_log(__FILE__ . " line " . __LINE__);
     $configFile = __DIR__ . '/../../videos/configuration.php';
@@ -62,7 +62,7 @@ $userObject->login(true, true);
 
 $tmpFile = getTmpDir() . uniqid();
 
-error_log(__FILE__ . " line " . __LINE__ . ' REQUEST=' . json_encode($_REQUEST));
+error_log(__FILE__ . " line " . __LINE__);
 if (move_uploaded_file($_FILES['upl']['tmp_name'], $tmpFile)) {
     _error_log(__FILE__ . " including aVideoQueueEncoder filesize = " .  humanFileSize(filesize($tmpFile)));
     $_FILES['upl']['tmp_name'] = $tmpFile;

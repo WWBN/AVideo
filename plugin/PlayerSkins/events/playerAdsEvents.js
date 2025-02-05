@@ -41,10 +41,28 @@ player.on('adsready', function () {
 
     // Listen to IMA SDK ad events
     var adsManager = player.ima.getAdsManager();
+    var adsResumePlayerTimeout;
 
     adsManager.addEventListener(google.ima.AdEvent.Type.STARTED, function () {
         console.log('ADS: IMA SDK: vmap_ad_scheduler: Ad started.');
         logAdEvent('AdStarted');
+        clearTimeout(adsResumePlayerTimeout);
+        player.pause();
+    });
+
+    adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, function () {
+        console.log('ADS: IMA SDK: Ad completed.');
+        logAdEvent('AdCompleted');
+        isAdPlaying = false;
+        player.play();
+    });
+
+    adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, function () {
+        console.log('ADS: IMA SDK: Ad skipped.');
+        logAdEvent('AdSkipped');
+        adsResumePlayerTimeout = setTimeout(() => {
+            player.play();
+        }, 1000);
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.FIRST_QUARTILE, function () {
@@ -61,14 +79,6 @@ player.on('adsready', function () {
         console.log('ADS: IMA SDK: Ad reached third quartile.');
         logAdEvent('AdThirdQuartile');
     });
-
-    adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, function () {
-        console.log('ADS: IMA SDK: Ad completed.');
-        logAdEvent('AdCompleted');
-        isAdPlaying = false;
-        player.play();
-    });
-
     adsManager.addEventListener(google.ima.AdEvent.Type.PAUSED, function () {
         console.log('ADS: IMA SDK: Ad paused.');
         logAdEvent('AdPaused');
@@ -77,12 +87,6 @@ player.on('adsready', function () {
     adsManager.addEventListener(google.ima.AdEvent.Type.RESUMED, function () {
         console.log('ADS: IMA SDK: Ad resumed.');
         logAdEvent('AdResumed');
-    });
-
-    adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, function () {
-        console.log('ADS: IMA SDK: Ad skipped.');
-        logAdEvent('AdSkipped');
-        //player.play();
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.CLICK, function () {
