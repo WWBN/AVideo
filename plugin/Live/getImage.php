@@ -131,7 +131,9 @@ if (!empty($_REQUEST['live_index']) && $_REQUEST['live_index'] !== 'false') {
 }
 
 $name = "getLiveImage_{$uuid}_{$_REQUEST['format']}";
-$result = ObjectYPT::getCache($name, $lifetime, true);
+if(empty($_REQUEST['debug'])){
+    $result = ObjectYPT::getCache($name, $lifetime, true);
+}
 
 $socketMessage = [];
 $socketMessage['cacheName1'] = $name;
@@ -187,7 +189,7 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
         if (Live::isDefaultImage($content)) {
             //header('Content-Type: text/plain');var_dump(__LINE__, $url);exit;
             if (!empty($_REQUEST['debug'])) {
-                _error_log("Live:getImage  It is the default image, try to show the poster ");
+                _error_log("Live:getImage  It is the default image, try to show the poster $content ");
             }
             echo $content;
         } else {
