@@ -21,28 +21,28 @@ if (empty($_REQUEST['format'])) {
     header('Content-Type: image/x-png');
 }
 
-$f = md5(@$_REQUEST['u'] .'_'. @$_REQUEST['live_servers_id'] .'_'. @$_REQUEST['live_index'] .'_'. @$_REQUEST['playlists_id_live']);
+$f = md5(@$_REQUEST['u'] . '_' . @$_REQUEST['live_servers_id'] . '_' . @$_REQUEST['live_index'] . '_' . @$_REQUEST['playlists_id_live']);
 $cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}.{$_REQUEST['format']}";
 $cacheFileImageNameResized = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}_{$facebookSizeRecomendationW}X{$facebookSizeRecomendationH}.{$_REQUEST['format']}";
 if (empty($_REQUEST['debug']) && file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
-    if(file_exists($cacheFileImageNameResized)){
+    if (file_exists($cacheFileImageNameResized)) {
         $content = file_get_contents($cacheFileImageNameResized);
         if (!empty($content)) {
             echo $content;
             exit;
         }
-    }else if(file_exists($cacheFileImageName)){
+    } else if (file_exists($cacheFileImageName)) {
         $content = file_get_contents($cacheFileImageName);
         if (!empty($content)) {
             echo $content;
             exit;
         }
     }
-}else{
-    if(file_exists($cacheFileImageName)){
+} else {
+    if (file_exists($cacheFileImageName)) {
         unlink($cacheFileImageName);
     }
-    if(file_exists($cacheFileImageNameResized)){
+    if (file_exists($cacheFileImageNameResized)) {
         unlink($cacheFileImageNameResized);
     }
 }
@@ -64,7 +64,7 @@ if (!empty($_REQUEST['live_schedule']) && !empty($livet['scheduled_time']) && is
     $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule'], 0);
     $uploadedPoster = $array['path'];
     header('Content-Type: image/jpg');
-    if(!file_exists($cacheFileImageNameResized)){
+    if (!file_exists($cacheFileImageNameResized)) {
         //im_resizeV2($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
         scaleUpImage($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
     }
@@ -72,7 +72,10 @@ if (!empty($_REQUEST['live_schedule']) && !empty($livet['scheduled_time']) && is
     _error_log('getImage: live does not start yet');
     exit;
 }
-//_error_log('getImage: start');
+
+if (!empty($_REQUEST['debug'])) {
+    _error_log('getImage: start');
+}
 if (empty($livet)) {
     $uploadedPoster = $global['systemRootPath'] . Live::getOfflineImage(false);
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
@@ -82,21 +85,29 @@ if (empty($livet)) {
         _error_log('getImage: showing offline poster');
         exit;
     } else {
-        //_error_log('getImage: File NOT exists 1 ' . $uploadedPoster);
+        if (!empty($_REQUEST['debug'])) {
+            _error_log('getImage: File NOT exists 1 ' . $uploadedPoster);
+        }
     }
 } elseif (!Live::isLive($livet['users_id'])) {
     $uploadedPoster = $global['systemRootPath'] . Live::getPoster($livet['users_id'], $_REQUEST['live_servers_id'], $livet['key']);
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
     if (file_exists($uploadedPoster)) {
-        //_error_log('getImage: File NOT exists 2 ' . $uploadedPoster);
+        if (!empty($_REQUEST['debug'])) {
+            _error_log('getImage: File NOT exists 2 ' . $uploadedPoster);
+        }
         header('Content-Type: image/jpg');
         echo file_get_contents($uploadedPoster);
         exit;
     } else {
-        //_error_log('getImage: File NOT exists 3 ' . $uploadedPoster);
+        if (!empty($_REQUEST['debug'])) {
+            _error_log('getImage: File NOT exists 3 ' . $uploadedPoster);
+        }
     }
 }
-//_error_log('getImage: continue '. getSelfURI());
+if (!empty($_REQUEST['debug'])) {
+    _error_log('getImage: continue ' . getSelfURI());
+}
 $filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id'], false);
 
 if (Live::isLiveThumbsDisabled()) {
@@ -104,7 +115,7 @@ if (Live::isLiveThumbsDisabled()) {
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
     if (file_exists($uploadedPoster) && !is_dir($uploadedPoster)) {
         header('Content-Type: image/jpg');
-        if(!file_exists($cacheFileImageNameResized)){
+        if (!file_exists($cacheFileImageNameResized)) {
             //im_resizeV2($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
             scaleUpImage($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
         }
@@ -132,7 +143,7 @@ $socketMessage['live_servers_id'] = $_REQUEST['live_servers_id'];
 
 if (!empty($result) && !Live::isDefaultImage($result)) {
     file_put_contents($cacheFileImageName, $result);
-    if(!file_exists($cacheFileImageNameResized)){
+    if (!file_exists($cacheFileImageNameResized)) {
         //im_resizeV2($cacheFileImageName, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
         scaleUpImage($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
     }
@@ -153,14 +164,16 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     $url = addQueryStringParameter($url, 'base64Url', base64_encode($video));
     $url = addQueryStringParameter($url, 'format', $_REQUEST['format']);
 
-    //_error_log("Live:getImage $url");
+    if (!empty($_REQUEST['debug'])) {
+        _error_log("Live:getImage $url");
+    }
     //header('Content-Type: text/plain');var_dump($url);exit;
     _session_write_close();
     _mysql_close();
     $content = url_get_contents($url, '', 2);
 
     if (empty($content)) {
-        if(!file_exists($cacheFileImageNameResized)){
+        if (!file_exists($cacheFileImageNameResized)) {
             //im_resizeV2($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
             scaleUpImage($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
         }
@@ -173,7 +186,9 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     if (!empty($content)) {
         if (Live::isDefaultImage($content)) {
             //header('Content-Type: text/plain');var_dump(__LINE__, $url);exit;
-            //_error_log("Live:getImage  It is the default image, try to show the poster ");
+            if (!empty($_REQUEST['debug'])) {
+                _error_log("Live:getImage  It is the default image, try to show the poster ");
+            }
             echo $content;
         } else {
             //header('Content-Type: text/plain');var_dump(__LINE__, $url);exit;
@@ -186,16 +201,17 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     } else {
         $result = file_get_contents($filename);
         if (!Live::isDefaultImage($result)) {
-            if(!file_exists($cacheFileImageNameResized)){
+            if (!file_exists($cacheFileImageNameResized)) {
                 //im_resizeV2($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
                 scaleUpImage($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
             }
             echo file_get_contents($cacheFileImageNameResized);
-        }else{
+        } else {
             echo file_get_contents($cacheFileImageName);
         }
 
-
-        //_error_log("Live:getImage  Get default image ");
+        if (!empty($_REQUEST['debug'])) {
+            _error_log("Live:getImage  Get default image ");
+        }
     }
 }
