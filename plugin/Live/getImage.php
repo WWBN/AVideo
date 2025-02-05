@@ -186,10 +186,11 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     ob_end_clean();
 
     if (!empty($content)) {
-        if (Live::isDefaultImage($content)) {
+        $isDefaultImage = Live::isDefaultImage($content);
+        if ($isDefaultImage) {
             //header('Content-Type: text/plain');var_dump(__LINE__, $url);exit;
             if (!empty($_REQUEST['debug'])) {
-                _error_log("Live:getImage  It is the default image, try to show the poster $content ");
+                _error_log("Live:getImage  It is the default image, try to show the poster $isDefaultImage");
             }
             echo $content;
         } else {
