@@ -124,11 +124,11 @@ function isAVideoUserAgent($user_agent = "")
     if (empty($user_agent)) {
         return false;
     }
-    global $AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoEncoderNetwork_UA, $AVideoStreamer_UA, $AVideoStorage_UA, $global;
+    global $AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoEncoderNetwork_UA, $AVideoStreamer_UA, $AVideoStorage_UA, $AVideoRestreamer_UA, $global;
 
     // Lavf = ffmpeg
     //$agents = [$AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoEncoderNetwork_UA, $AVideoStreamer_UA, $AVideoStorage_UA, 'Lavf'];
-    $agents = [$AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoEncoderNetwork_UA, $AVideoStreamer_UA, $AVideoStorage_UA];
+    $agents = [$AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoEncoderNetwork_UA, $AVideoStreamer_UA, $AVideoStorage_UA, $AVideoRestreamer_UA];
 
     foreach ($agents as $value) {
         if (preg_match("/{$value}/", $user_agent)) {

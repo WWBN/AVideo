@@ -190,7 +190,7 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
         if ($isDefaultImage) {
             //header('Content-Type: text/plain');var_dump(__LINE__, $url);exit;
             if (!empty($_REQUEST['debug'])) {
-                _error_log("Live:getImage  It is the default image, try to show the poster $isDefaultImage");
+                _error_log("Live:getImage  It is the default image, try to show the poster");
             }
             echo $content;
         } else {
