@@ -94,7 +94,7 @@ if (empty($livet)) {
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
     if (file_exists($uploadedPoster)) {
         if (!empty($_REQUEST['debug'])) {
-            _error_log('getImage: File NOT exists 2 ' . $uploadedPoster);
+            _error_log('getImage: File NOT exists 2 ' . $uploadedPoster .' '.json_encode($livet));
         }
         header('Content-Type: image/jpg');
         echo file_get_contents($uploadedPoster);
