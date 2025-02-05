@@ -16,7 +16,17 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($video)) {
 ?>
         <div class="text-center">
-            <img src="<?php echo ImagesPlaceHolders::getVideoNotFoundPoster(ImagesPlaceHolders::$RETURN_URL); ?>" class="img img-responsive ImagesPlaceHoldersDefaultImage">
+            <img src="<?php echo ImagesPlaceHolders::getVideoNotFoundPoster(ImagesPlaceHolders::$RETURN_URL); ?>" class="img img-responsive center-block ImagesPlaceHoldersDefaultImage" style="max-height: 50vh;">
+        </div>
+        <div class="alert alert-warning text-center">
+            <i class="fas fa-exclamation-circle"></i>
+            <?php echo sprintf(__('No results found for (%s)'), htmlentities($_REQUEST['search'], ENT_QUOTES, 'UTF-8')); ?>
+        </div>
+        <div class="text-center">
+            <p><?php echo __('Try refining your search or explore our latest content'); ?></p>
+            <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-primary">
+                <i class="fas fa-home"></i> <?php echo __('Go to Homepage'); ?>
+            </a>
         </div>
     <?php
     } else {
