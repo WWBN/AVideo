@@ -552,6 +552,6 @@ $videoFound = false;
 </div>
 <?php
 if(!$videoFound){
-    include_once __DIR__.'/plugin/YouPHPFlix2/view/notFoundHTML.php';
+    include_once __DIR__.'/notFoundHTML.php';
 }
 ?>

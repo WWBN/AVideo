@@ -14,7 +14,7 @@ if (empty($video)) {
 }
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($video)) {
-        include_once __DIR__.'/plugin/YouPHPFlix2/view/notFoundHTML.php';
+        include_once __DIR__.'/notFoundHTML.php';
     } else {
         $name = User::getNameIdentificationById($video['users_id']);
         $images = Video::getImageFromFilename($video['filename'], $video['type']);
