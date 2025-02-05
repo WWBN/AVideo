@@ -1,7 +1,7 @@
 <?php
 $search = getSearchVar();
 ?>
-<div class="text-center">
+<div class="text-center" id="searchNotFoundImage">
     <img src="<?php echo ImagesPlaceHolders::getVideoNotFoundPoster(ImagesPlaceHolders::$RETURN_URL); ?>" class="img img-responsive center-block ImagesPlaceHoldersDefaultImage" style="max-height: 50vh;">
 </div>
 <div class="alert alert-warning text-center">
