@@ -678,7 +678,7 @@ class LiveTransmitionHistory extends ObjectYPT
             return false;
         }
 
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE `key` LIKE '{$key}%'  ";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE ";
 
         if(!$strict){
             $parts = Live::getLiveParametersFromKey($key);

@@ -3441,6 +3441,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $live_url = '';
         $restreamRowItems[$id] = self::gettRestreamRowItem($restreamsDestination, $id, $live_url);
         $obj = self::_getRestreamObject($liveTransmitionHistory_id, $restreamRowItems);
+        if(empty($obj)){
+            return false;
+        }
         $obj->live_restreams_id = 0;
         return self::sendRestream($obj);
     }
