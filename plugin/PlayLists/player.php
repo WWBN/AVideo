@@ -10,7 +10,7 @@ $isPlayList = true;
 
 $plp = new PlayListPlayer(@$_GET['playlists_id'], @$_GET['tags_id'], true);
 if (!$plp->canSee()) {
-    forbiddenPage(_('You cannot see this playlist').' '.basename(__FILE__).' '.implode(', ', $plp->canNotSeeReason()));
+    forbiddenPage(_('You cannot see this playlist') . ' ' . basename(__FILE__) . ' ' . implode(', ', $plp->canNotSeeReason()));
 }
 $playListData = $plp->getPlayListData();
 
@@ -150,6 +150,12 @@ echo AVideoPlugin::afterVideoJS();
         var time = Math.round(this.currentTime());
         if (time >= 5 && time % 5 === 0) {
             addView(videos_id, time);
+        }
+        if (this.liveTracker && this.liveTracker.atLiveEdge()) {
+            // Reset speed to 1x when reaching the live edge
+            if (this.playbackRate() !== 1) {
+                this.playbackRate(1);
+            }
         }
     });
 
