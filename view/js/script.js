@@ -1089,7 +1089,7 @@ var initdone = false;
 var startCurrentTime = 0;
 var forceCurrentTime = null;
 function setCurrentTime(currentTime) {
-    if(typeof isLive !== 'undefined' && isLive){
+    if (typeof isLive !== 'undefined' && isLive) {
         console.log("setCurrentTime: isLive", currentTime, isLive);
         return false;
     }
@@ -1115,7 +1115,7 @@ function setCurrentTime(currentTime) {
         console.log("setCurrentTime 1: ", currentTime);
         player.currentTime(currentTime);
         initdone = false;
-        // wait for video metadata to load, then set time 
+        // wait for video metadata to load, then set time
         player.on("loadedmetadata", function () {
             //console.log('setCurrentTime loadedmetadata', currentTime);
             //player.currentTime(currentTime);
@@ -1338,15 +1338,15 @@ function _avideoToast(msg, icon, displayTime = 0) {
         msg = '';
     }
     try {
-        if(displayTime == 0){
+        if (displayTime == 0) {
             // Average reading speed: around 200 words per minute (or 3.3 words per second)
             var wordsPerSecond = 2;
             var words = msg.split(' ').length;
             var readingTimeInSeconds = words / wordsPerSecond;
-    
+
             // Convert reading time to milliseconds and add a buffer time
             displayTime = Math.max(readingTimeInSeconds * 1000 + 2000, 7000); // Minimum display time of 7000ms
-    
+
         }
         var options = { text: msg, hideAfter: displayTime };
         if (icon) {
@@ -1391,9 +1391,9 @@ function avideoAlertAJAXJson(url) {
         url: url,
         complete: function (jqXHR) {
             response = (jqXHR.responseJSON);
-            if(typeof response == 'object' && typeof response.msg !== 'undefined'){
+            if (typeof response == 'object' && typeof response.msg !== 'undefined') {
                 avideoAlertText(response.msg);
-            }else{
+            } else {
                 avideoAlertText(response);
             }
             modal.hidePleaseWait();
@@ -1955,7 +1955,7 @@ async function checkDescriptionArea() {
 
 var clearCacheExecuted = false;
 function clearCache(showPleaseWait, FirstPage, sessionOnly) {
-    if(clearCacheExecuted){
+    if (clearCacheExecuted) {
         return false;
     }
     clearCacheExecuted = true;
@@ -1970,7 +1970,7 @@ function clearCache(showPleaseWait, FirstPage, sessionOnly) {
                 avideoResponse(response);
                 modal.hidePleaseWait();
                 setTimeout(() => {
-                    clearCacheExecuted = false; 
+                    clearCacheExecuted = false;
                 }, 1000);
             }
         }
@@ -3270,7 +3270,7 @@ async function videoJSRecreateSources(defaultSource) {
 }
 
 /**
- * 
+ *
  * MEDIA_ERR_ABORTED (numeric value 1)
  MEDIA_ERR_NETWORK (numeric value 2)
  MEDIA_ERR_DECODE (numeric value 3)
@@ -3748,7 +3748,7 @@ function arrayToTemplate(itemsArray, template) {
  document.location = url;
  }
  }
- 
+
  function avideoLoadPage3(url) {
  console.log('avideoLoadPage3', url);
  avideoPushState(url);
@@ -3785,7 +3785,7 @@ function arrayToTemplate(itemsArray, template) {
  }
  });
  }
- 
+
  function avideoLoadPage2(url) {
  console.log('avideoLoadPage', url);
  avideoPushState(url);
@@ -3795,7 +3795,7 @@ function arrayToTemplate(itemsArray, template) {
  success: function (data) {
  var parser = new DOMParser();
  var htmlDoc = parser.parseFromString(data, "text/html");
- 
+
  $('body').fadeOut('fast', function () {
  var bodyElement = $(htmlDoc).find('body');
  var head = $(htmlDoc).find('head').html();
@@ -3815,8 +3815,8 @@ function arrayToTemplate(itemsArray, template) {
  }
  });
  }
- 
- 
+
+
  async function aHrefToAjax() {
  if(typeof useIframe === 'undefined' || !useIframe){
  return false;
@@ -3835,7 +3835,7 @@ function arrayToTemplate(itemsArray, template) {
  }
  });
  }
- 
+
  function addScripts(scriptsToAdd) {
  var localScripts = $("script");
  for (index in scriptsToAdd) {
@@ -3847,13 +3847,13 @@ function arrayToTemplate(itemsArray, template) {
  try {
  $('body').append(script);
  } catch (e) {
- 
+
  }
  } else {
  var scriptFound = false;
  localScripts.each(function () {
  var _src = $(this).attr('src');
- 
+
  if (src === _src) {
  scriptFound = true;
  return false;
@@ -3944,10 +3944,10 @@ function getUniqueValuesFromArray(items) {
     return [...new Set(items)];
 }
 
-//autoPlayTime 
+//autoPlayTime
 // if === false it will not play
 // if === -1 it will play as the api response (last position)
-// if is any positive int or 0 it will play at that position 
+// if is any positive int or 0 it will play at that position
 function updateVideoPlayer(videos_id, autoPlayTime) {
     modal.showPleaseWait();
     $.ajax({
@@ -4078,15 +4078,15 @@ function addCloseButtonInPage() {
     }
 }
 
-function closeFullScreenOrHistoryBack(){
+function closeFullScreenOrHistoryBack() {
     if (window.self !== window.top) {
         console.log('closeFullScreenOrHistoryBack execute in parent');
         window.parent.postMessage('closeFullscreen', '*');
     } else {
-        if(urlParams.has('originURL64')){
+        if (urlParams.has('originURL64')) {
             var url64 = urlParams.get('originURL64');
             var url = atob(url64);
-            if(isValidURL(url)){
+            if (isValidURL(url)) {
                 console.log('closeFullScreenOrHistoryBack document.location ', url);
                 document.location = url;
                 return true;
@@ -4344,13 +4344,21 @@ function setTinyMCEVal(id, val) {
 }
 
 var _displayJsonAsHtmlCount = 0;
-function displayJsonAsHtml(jsonObjectOrString) {
+function displayJsonAsHtml(jsonObjectOrString, level = 0) {
+    if (level > 3) {
+        return '';
+    }
     // Check if the input is a string and parse it into an object if so
     var jsonObject = (typeof jsonObjectOrString === "string") ? JSON.parse(jsonObjectOrString) : jsonObjectOrString;
 
     var html = '';
-
+    var countLoop = 0;
     $.each(jsonObject, function (key, value) {
+
+        countLoop++;
+        if (countLoop > 10) {
+            return html;
+        }
         var rowHtml = '<div class="displayJsonAsHtml">';
 
         if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
@@ -4363,7 +4371,7 @@ function displayJsonAsHtml(jsonObjectOrString) {
                 '</h4>' +
                 '</div>' +
                 '<div id="' + collapseId + '" class="panel-collapse collapse">' +
-                '<div class="panel-body">' + displayJsonAsHtml(value) + '</div>' +
+                '<div class="panel-body">' + displayJsonAsHtml(value, level+1) + '</div>' +
                 '</div>' +
                 '</div>';
             rowHtml += panelHtml;
@@ -4522,11 +4530,11 @@ function getTotalPageLoadSeconds() {
     return TotalPageLoadSeconds;
 }
 
-function getVideosId(){
-    if(typeof videos_id != 'undefined'){
+function getVideosId() {
+    if (typeof videos_id != 'undefined') {
         return videos_id;
     }
-    if(typeof mediaId != 'undefined'){
+    if (typeof mediaId != 'undefined') {
         return mediaId;
     }
     return 0;
