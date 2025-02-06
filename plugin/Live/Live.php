@@ -2326,7 +2326,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $app['method'] = 'Live::_getStats';
                 $app['titleSet'] = $titleSet . ' => ' . $app['title'];
                 //var_dump($app['isPrivate'],$app['key']);exit;
-                if (!self::isApplicationListed($app['key']) || ($VideoPlaylistSchedulerIsEnabled && VideoPlaylistScheduler::iskeyShowScheduled($app['key']))) {
+                if (!self::isApplicationListed($app['key']) || ($VideoPlaylistSchedulerIsEnabled && VideoPlaylistScheduler::iskeyShowScheduledHidden($app['key']))) {
                     $obj->hidden_applications[] = $app;
                 } else {
                     $obj->applications[] = $app;
@@ -3761,7 +3761,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($live_index)) {
             return 1;
         }
-        if (AVideoPlugin::isEnabled('VideoPlaylistScheduler') && VideoPlaylistScheduler::iskeyShowScheduled("$key-$live_index")) {
+        if (AVideoPlugin::isEnabled('VideoPlaylistScheduler') && VideoPlaylistScheduler::iskeyShowScheduledHidden("$key-$live_index")) {
             // it is a VideoPlaylistScheduler do not change it
             return $live_index;
         }
