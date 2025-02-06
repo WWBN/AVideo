@@ -69,5 +69,5 @@ if (move_uploaded_file($_FILES['upl']['tmp_name'], $tmpFile)) {
     require $global['systemRootPath'] . 'objects/aVideoQueueEncoder.json.php';
     _error_log(__FILE__ . " complete aVideoQueueEncoder ");
 } else {
-    _error_log(__FILE__ . " complete aVideoQueueEncoder ERROR on move file");
+    _error_log(__FILE__ . " complete aVideoQueueEncoder ERROR on move file {$_FILES['upl']['tmp_name']} => $tmpFile");
 }
