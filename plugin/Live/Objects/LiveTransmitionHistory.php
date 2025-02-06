@@ -670,17 +670,23 @@ class LiveTransmitionHistory extends ObjectYPT
         return @$rows[0];
     }
 
-    public static function getLatestFromKey($key)
+    public static function getLatestFromKey($key, $strict = false)
     {
         global $global, $_getLatestFromKey;
         if (!self::isTableInstalled(static::getTableName())) {
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
             return false;
         }
-        $parts = Live::getLiveParametersFromKey($key);
-        $key = $parts['cleanKey'];
 
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE `key` LIKE '{$key}%'  ";
+
+        if(!$strict){
+            $parts = Live::getLiveParametersFromKey($key);
+            $key = $parts['cleanKey'];
+            $sql .= " `key` LIKE '{$key}%' ";
+        }else{
+            $sql .= " `key` = '{$key}' ";
+        }
 
         $sql .= " ORDER BY modified DESC, id DESC LIMIT 1";
 
