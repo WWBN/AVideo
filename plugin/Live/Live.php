@@ -2674,7 +2674,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $_isLiveFromKey[$index] = false;
         $keyWithIndex = Live::cleanUpKey($key);
         if (!empty($live_index)) {
-            $keyWithIndex = "$key-$live_index";
+            $keyC = Live::cleanUpKey($key);
+            $keyWithIndex = "$keyC-$live_index";
         }
         foreach ($stats as $value) {
 
