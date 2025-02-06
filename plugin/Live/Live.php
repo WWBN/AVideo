@@ -581,6 +581,9 @@ class Live extends PluginAbstract
         $obj->live_schedule_label = 'Upcoming Events';
         self::addDataObjectHelper('live_schedule_label', 'Label for Schedule');
 
+        $obj->live_rebroadcasts_label = 'Rebroadcasts';
+        self::addDataObjectHelper('live_rebroadcasts_label', 'Label for Rebroadcasts');
+
         $ServerHost = getHostOnlyFromURL($global['webSiteRootURL']);
 
         $o = new stdClass();
