@@ -1,7 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-error_log(__FILE__ . " line " . __LINE__ . ' REQUEST=' . json_encode($_REQUEST));
 if (!isset($global['systemRootPath'])) {
     error_log(__FILE__ . " line " . __LINE__);
     $configFile = __DIR__ . '/../../videos/configuration.php';
@@ -13,7 +12,7 @@ if (!isset($global['systemRootPath'])) {
     error_log(__FILE__ . " line " . __LINE__);
 }
 
-error_log(__FILE__ . " line " . __LINE__);
+error_log(__FILE__ . " line " . __LINE__ . ' REQUEST=' . json_encode($_REQUEST));
 // Get all request headers
 $headers = getallheaders();
 $token = '';
