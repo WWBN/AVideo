@@ -47,7 +47,7 @@
  * - **Command Validation:**
  *   - Ensures the `ffmpegCommand` starts with `ffmpeg` or an allowed path (`/usr/bin/ffmpeg`, `/bin/ffmpeg`).
  *   - Sanitizes the command by removing potentially dangerous characters (`;`, `&`, `|`, `` ` ``, `<`, `>`).
- * 
+ *
  * - **Kill Process by Keyword:** Allows stopping a previously started process by providing a `keyword`.
  *
  * Output:
@@ -165,7 +165,7 @@ if (!empty($matches)) {
         _error_log($msg);
 
         echo json_encode([
-            'error' => true, 
+            'error' => true,
             'msg' => $msg,
             'directory' => $directory,
         ]);
@@ -212,6 +212,25 @@ if (!empty($codeToExec->test)) {
         'modified' => $modified,
         'secondsAgo' => $secondsAgo,
         'isActive' => $isActive,
+    ]);
+    exit;
+} else if (!empty($codeToExec->list)) {
+    _error_log("List mode triggered");
+    $list = listFFmpegProcesses($codeToExec->keyword);
+    echo json_encode([
+        'error' => false,
+        'msg' => '',
+        'list' => $list,
+    ]);
+    exit;
+} else if (!empty($codeToExec->kill) && is_numeric($codeToExec->kill)) {
+    _error_log("kill mode triggered");
+    $kill = killFFmpegProcess($codeToExec->kill);
+    echo json_encode([
+        'error' => empty($kill),
+        'msg' => '',
+        'kill' => $kill,
+        'pid' => $codeToExec->kill,
     ]);
     exit;
 } else if (!empty($codeToExec->stop) && !empty($keyword)) {
@@ -314,6 +333,31 @@ if (!empty($codeToExec->test)) {
         'unlink' => $unlink,
     ]);
     exit;
+}else if (!empty($codeToExec->isKeywordRunning)) {
+    _error_log("Checking for running FFmpeg process with keyword: $codeToExec->isKeywordRunning");
+
+    $list = listFFmpegProcesses($codeToExec->isKeywordRunning);
+
+    // If a process is found, return the full command
+    if (!empty($list)) {
+        echo json_encode([
+            'error' => false,
+            'msg' => 'FFmpeg process found',
+            'isRunning' => true,
+            'list' => $list,
+            'keyword' => $codeToExec->isKeywordRunning,
+        ]);
+        exit;
+    }
+
+    // No process found
+    echo json_encode([
+        'error' => true,
+        'msg' => 'No FFmpeg process found with the given keyword',
+        'isRunning' => false,
+        'keyword' => $codeToExec->isKeywordRunning,
+    ]);
+    exit;
 }
 
 if (empty($ffmpegCommand)) {
@@ -351,6 +395,8 @@ if (!empty($keyword)) {
     //killProcessFromKeyword($keyword, 60);
     //sleep(5);
 }
+
+//$ffmpegCommand = fixConcatFfmpegCommand($ffmpegCommand);
 
 $ffmpegCommand = addKeywordToFFmpegCommand($ffmpegCommand, $keyword);
 

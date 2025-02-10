@@ -687,6 +687,39 @@ function testFFMPEGRemote()
     }
 }
 
+function listFFMPEGRemote($keyword = '')
+{
+    $url = buildFFMPEGRemoteURL(['list' => 1, 'keyword' => $keyword, 'microtime' => microtime(true)]);
+    if ($url) {
+        _error_log("listFFMPEGRemote: URL $url");
+        return json_decode(url_get_contents($url));
+    } else {
+        return false;
+    }
+}
+
+function killFFMPEGRemote($pid)
+{
+    $url = buildFFMPEGRemoteURL(['kill' => $pid, 'microtime' => microtime(true)]);
+    if ($url) {
+        _error_log("killFFMPEGRemote: URL $url");
+        return json_decode(url_get_contents($url));
+    } else {
+        return false;
+    }
+}
+
+function isKeywordRunningFFMPEGRemote($keyword)
+{
+    $url = buildFFMPEGRemoteURL(['isKeywordRunning' => $keyword, 'microtime' => microtime(true)]);
+    if ($url) {
+        _error_log("isKeywordRunningFFMPEGRemote: URL $url");
+        return json_decode(url_get_contents($url));
+    } else {
+        return false;
+    }
+}
+
 function deleteFolderFFMPEGRemote($videoFilename)
 {
     $url = buildFFMPEGRemoteURL(['deleteFolder' => $videoFilename]);

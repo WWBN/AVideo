@@ -80,3 +80,102 @@ function sanitizeFFmpegCommand($command)
     _error_log("Sanitization failed: Command does not start with an allowed prefix");
     return '';
 }
+
+
+function convertElapsedTimeToSeconds($elapsedTime)
+{
+    $timeParts = explode('-', $elapsedTime);
+
+    if (count($timeParts) == 2) {
+        // Format: DD-HH:MM:SS
+        list($days, $hms) = $timeParts;
+        $days = intval($days) * 86400; // Convert days to seconds
+    } else {
+        // Format: HH:MM:SS
+        $days = 0;
+        $hms = $timeParts[0];
+    }
+
+    list($hours, $minutes, $seconds) = array_pad(explode(':', $hms), 3, '00');
+
+    return $days + (intval($hours) * 3600) + (intval($minutes) * 60) + intval($seconds);
+}
+
+function listFFmpegProcesses($keyword = '')
+{
+    $command = "ps -eo pid,etime,%cpu,%mem,cmd | grep '[f]fmpeg'"; // Get PID, elapsed time, CPU & memory usage
+
+    if (!empty($keyword)) {
+        $command .= " | grep '$keyword'";
+    }
+
+    exec($command, $output, $status);
+
+    $processes = [];
+    foreach ($output as $line) {
+        preg_match('/^\s*(\d+)\s+([\d:-]+)\s+([\d.]+)\s+([\d.]+)\s+(.+)$/', $line, $matches);
+        if (!empty($matches)) {
+            $runningTime = $matches[2]; // Original elapsed time format
+            $runningTimeSeconds = convertElapsedTimeToSeconds($runningTime);
+
+            $processes[] = [
+                'pid' => intval($matches[1]),
+                'running_time' => $runningTime, // Formatted time (e.g., 02:15:30 or 1-12:45:20)
+                'running_time_seconds' => $runningTimeSeconds, // Time in seconds
+                'cpu_usage' => floatval($matches[3]), // CPU usage percentage
+                'memory_usage' => floatval($matches[4]), // Memory usage percentage
+                'command' => $matches[5] // Full command line
+            ];
+        }
+    }
+    return $processes;
+}
+
+function killFFmpegProcess($pid)
+{
+    if (!is_numeric($pid) || $pid <= 0) {
+        return [
+            'error' => true,
+            'msg' => 'Invalid PID'
+        ];
+    }
+
+    $killCommand = "kill -9 " . escapeshellarg($pid);
+    exec($killCommand, $output, $status);
+
+    return [
+        'error' => $status !== 0,
+        'msg' => $status === 0 ? "Process $pid killed successfully." : "Failed to kill process $pid.",
+        'killCommand' => $killCommand,
+        'output' => $output,
+        'status' => $status
+    ];
+}
+
+
+/*
+function fixConcatFfmpegCommand($ffmpegCommand) {
+    $pattern = '/concat=([^\s]+)/';
+
+    if (preg_match($pattern, $ffmpegCommand, $matches)) {
+        $concatFiles = explode('|', $matches[1]);
+        $fixedFiles = [];
+
+        foreach ($concatFiles as $file) {
+            if (preg_match('/^https?:\/\//', $file)) {
+                $localFile = getTmpDir().'concat_'.uniqid();
+                $data = url_get_contents($file);
+                file_put_contents($localFile, $data);
+                $fixedFiles[] = $localFile;
+            } else {
+                $fixedFiles[] = $file;
+            }
+        }
+
+        $newConcat = implode('|', $fixedFiles);
+        $ffmpegCommand = str_replace($matches[1], $newConcat, $ffmpegCommand);
+    }
+
+    return $ffmpegCommand;
+}
+*/
