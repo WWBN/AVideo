@@ -86,11 +86,16 @@ if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)
     document.body.classList.add('pwa');
 }
 
+
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 
 if (urlParams.has('debug')) {
     isDebuging = false;
+}
+
+function getSearchParam(param) {
+    return urlParams.get(param) || "";
 }
 
 function forwardToIframe(data) {

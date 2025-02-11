@@ -71,7 +71,8 @@ $(document).ready(function () {
     $("#buttonSearch").click(function (event) {
         event.stopPropagation();
         if (isSearchOpen()) {
-            closeSearchMenu();
+            modal.showPleaseWait();
+            //closeSearchMenu();
         } else {
             openSearchMenu();
         }
@@ -109,7 +110,6 @@ $(document).ready(function () {
             $(selector).attr('aria-expanded', 'false');
 
             $("#mysearch").css({ display: '' });
-            $("#mysearch").removeClass('animate__bounceOutUp');
         }
     });
 });
@@ -149,26 +149,18 @@ async function openRightMenu() {
     }
     var selector = '#buttonMyNavbar svg';
     $(selector).addClass('active');
-    $("#myNavbar").removeClass('animate__bounceOutRight');
     $("#myNavbar").show();
-    $("#myNavbar").addClass('animate__animated animate__bounceInRight');
 }
 
 async function closeSearchMenu() {
-    $("#mysearch").removeClass('animate__bounceInDown');
-    $("#mysearch").addClass('animate__bounceOutUp');
-    setTimeout(function () {
-        $("#mysearch").hide();
-    }, 500);
+    $("#mysearch").hide();
 }
 async function openSearchMenu() {
     if (isScreeWidthCollapseSize()) {
         closeLeftMenu();
         closeRightMenu();
     }
-    $("#mysearch").removeClass('animate__bounceOutUp');
     $("#mysearch").show();
-    $("#mysearch").addClass('animate__animated animate__bounceInDown');
 }
 
 async function seachFormPlayURL(url) {
@@ -200,7 +192,7 @@ async function seachFormPlayURL(url) {
 }
 
 function isSearchOpen() {
-    return $('#mysearch').hasClass('animate__bounceInDown');
+    return $("#mysearch").is(":visible");
 }
 function isMyNMavbarOpen() {
     return $('#myNavbar').hasClass('animate__bounceInRight');

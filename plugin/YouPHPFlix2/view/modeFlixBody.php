@@ -482,6 +482,7 @@ $videoFound = false;
     <?php
     }
     if ($obj->Categories) {
+        $videoFound = true; // it will be decided inside the infinity scroll
         $url = "{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/modeFlixCategory.php";
         if (!empty($_REQUEST['catName'])) {
             $url = addQueryStringParameter($url, 'catName', $_REQUEST['catName']);
@@ -505,7 +506,7 @@ $videoFound = false;
                 <i class="fas fa-spinner fa-pulse text-muted"></i>
             </div>
         </div>
-        <script src="<?php echo getCDN(); ?>node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js'); ?>" type="text/javascript"></script>
         <script>
             $(document).ready(function() {
                 $container = $('#categoriesContainer').infiniteScroll({

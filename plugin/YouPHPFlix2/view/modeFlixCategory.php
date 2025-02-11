@@ -135,6 +135,7 @@ $videosCounter = 0;
     }
     TimeLogEnd($timeLog, __LINE__);
     if (empty($videosCounter)) {
+        include_once __DIR__.'/notFoundHTML.php';
         echo "</div>";
         return false;
     }
