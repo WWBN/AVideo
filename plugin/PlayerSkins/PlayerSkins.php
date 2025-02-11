@@ -144,7 +144,7 @@ class PlayerSkins extends PluginAbstract
             $images = Video::getImageFromFilename($filename);
             if ($vType == 'video') {
                 $htmlMediaTag = '<video ' . self::getPlaysinline()
-                    . 'preload="auto" poster="' . $images->poster . '" controls controlsList="nodownload"
+                    . 'preload="auto" poster="' . $images->poster . '" controls controlsList="nodownload" crossorigin="anonymous"
                         class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered vjs-16-9" id="mainVideo">';
                 if ($video['type'] == Video::$videoTypeVideo) {
                     $sources = getSources($video['filename']);
