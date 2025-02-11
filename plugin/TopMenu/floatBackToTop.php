@@ -1,5 +1,5 @@
 <!-- Back to Top Button -->
-<div class="floatingRightBottom">
+<div class="floatingRightBottom hideOnPlayShorts">
   <button id="back-to-top" class="btn btn-primary circle-menu" title="Back to Top">
     <i class="fa fa-arrow-up fa-2x"></i>
   </button>

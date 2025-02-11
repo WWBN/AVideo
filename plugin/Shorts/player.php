@@ -27,6 +27,10 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
         overflow: hidden;
     }
 
+    body.playingShorts .hideOnPlayShorts {
+        display: none;
+    }
+
     #ShortsPlayerContent {
         position: fixed;
         top: 0;

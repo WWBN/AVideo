@@ -92,7 +92,7 @@
 header('Content-Type: application/json');
 
 require_once __DIR__ . "/../../../objects/functionsStandAlone.php";
-require __DIR__.'/functions.php';
+require __DIR__ . '/functions.php';
 
 _error_log("Script initiated: FFMPEG command execution script started");
 
@@ -291,7 +291,7 @@ if (!empty($codeToExec->test)) {
 
     if (is_dir($folderPath)) {
         _error_log("deleteFolder error $folderPath");
-    }else{
+    } else {
         _error_log("deleteFolder success $folderPath");
     }
 
@@ -333,7 +333,7 @@ if (!empty($codeToExec->test)) {
         'unlink' => $unlink,
     ]);
     exit;
-}else if (!empty($codeToExec->isKeywordRunning)) {
+} else if (!empty($codeToExec->isKeywordRunning)) {
     _error_log("Checking for running FFmpeg process with keyword: $codeToExec->isKeywordRunning");
 
     $list = listFFmpegProcesses($codeToExec->isKeywordRunning);
