@@ -1,13 +1,13 @@
 <?php
 $videos_id = getVideos_id();
 ?>
-<button class="btn btn-success btn-block btn-lg" id="captureScreenshot" data-toggle="tooltip"  title="<?php echo __('Save this moment as Thumbnail'); ?>">
+<button class="btn btn-success btn-block btn-lg" id="captureScreenshot" data-toggle="tooltip" title="<?php echo __('Save this moment as Thumbnail'); ?>">
     <i class="fa fa-camera"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Save this moment as Thumbnail'); ?></span>
 </button>
 
 <script>
-    $(document).ready(function () {
-        $('#captureScreenshot').on('click', async function () {
+    $(document).ready(function() {
+        $('#captureScreenshot').on('click', async function() {
             player.pause();
             const video = $('#mainVideo_html5_api')[0]; // Get the video element
 
@@ -31,13 +31,19 @@ $videos_id = getVideos_id();
             const isPortrait = canvas.height > canvas.width;
 
             // Convert canvas content to a data URL
-            const dataURL = canvas.toDataURL('image/png');
+            try {
+                const dataURL = canvas.toDataURL('image/png');
+            } catch (e) {
+                console.error("Canvas is tainted due to cross-origin video source.");
+                avideoAlertError("Cannot capture frame due to CORS restrictions.");
+                return;
+            }
 
             // Show confirmation dialog before saving
             const imgHtml = `<div style='text-align: center;'>
                                 <img src='${dataURL}' style='max-width: 100%; max-height: 300px; border: 1px solid #ddd;' />
                              </div>`;
-            const confirmSave = await avideoConfirm(imgHtml+'Do you want to save this frame as the thumbnail?');
+            const confirmSave = await avideoConfirm(imgHtml + 'Do you want to save this frame as the thumbnail?');
             if (!confirmSave) {
                 return; // Exit if the user cancels
             }
@@ -52,7 +58,7 @@ $videos_id = getVideos_id();
                     portrait: isPortrait ? 1 : 0, // Send portrait flag
                 },
                 type: 'post',
-                success: function (response) {
+                success: function(response) {
                     modal.hidePleaseWait();
                     avideoResponse(response);
                 }

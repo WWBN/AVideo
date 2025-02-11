@@ -3,7 +3,7 @@
 $videos_id = getVideos_id();
 $video = Video::getVideoLight($videos_id);
 
-$htmlMediaTag = '<video ' . PlayerSkins::getPlaysinline() . ' preload="auto"
+$htmlMediaTag = '<video ' . PlayerSkins::getPlaysinline() . ' preload="auto"  crossorigin="anonymous"
 controls class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" id="mainVideo"
 data-setup=\'{"techOrder": ["youtube","html5"]}\'>
 </video>';
