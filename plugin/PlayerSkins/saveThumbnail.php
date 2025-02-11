@@ -30,9 +30,10 @@ $videos_id = getVideos_id();
             // Determine if the image is portrait or not
             const isPortrait = canvas.height > canvas.width;
 
+            var dataURL;
             // Convert canvas content to a data URL
             try {
-                const dataURL = canvas.toDataURL('image/png');
+                dataURL = canvas.toDataURL('image/png');
             } catch (e) {
                 console.error("Canvas is tainted due to cross-origin video source.");
                 avideoAlertError("Cannot capture frame due to CORS restrictions.");
