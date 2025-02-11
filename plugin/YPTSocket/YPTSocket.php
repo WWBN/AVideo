@@ -2,7 +2,7 @@
 
 /**
  * to stop
- * find who is using the port 
+ * find who is using the port
  * * lsof -i :25
  * Kill it
  * * kill -9 PID
@@ -57,7 +57,7 @@ class YPTSocket extends PluginAbstract
           if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
           sqlDal::executeFile($global['systemRootPath'] . 'plugin/PayPerView/install/updateV2.0.sql');
           }
-         * 
+         *
          */
         return true;
     }
