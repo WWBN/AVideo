@@ -804,6 +804,12 @@ class PlayerSkins extends PluginAbstract
             $('#linkCurrentTime, .linkCurrentTime').val(url);
 
             sendAVideoMobileMessage('timeupdate', time);
+
+            if (player.liveTracker && player.liveTracker.atLiveEdge()) {
+                if (player.playbackRate() !== 1) {
+                    player.playbackRate(1);
+                }
+            }
         });
         ;";
 
