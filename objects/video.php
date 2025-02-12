@@ -4231,14 +4231,19 @@ if (!class_exists('Video')) {
                         if (!empty($cdn_obj->enable_storage)) {
                             if ($type === '.m3u8') {
                                 $source['url'] = CDNStorage::getURL("{$filename}/index.m3u8");
+                                $source['line'] = __LINE__;
                             } else if($type === '.mp4' && $indexMP4Exits) {
                                 //var_dump("{$filename}/index.mp4");
                                 $source['url'] = CDNStorage::getURL("{$filename}/index.mp4");
+                                $source['line'] = __LINE__;
                             } else {
                                 $source['url'] = CDNStorage::getURL("{$filename}{$type}");
+                                $source['line'] = __LINE__;
+                                $source['indexMP4Exits'] = $indexMP4Exits;
+                                $source['filename'] = $filename;
+                                $source['type'] = $type;
                             }
                             $source['url_noCDN'] = $source['url'];
-                            $source['line'] = __LINE__;
                             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                         } elseif (!empty($aws_s3)) {
                             $source = $aws_s3->getAddress("{$filename}{$type}");
