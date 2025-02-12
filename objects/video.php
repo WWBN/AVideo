@@ -4179,38 +4179,48 @@ if (!class_exists('Video')) {
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                     //$source['url'] = addQueryStringParameter($source['url'], 'cache', uniqid());
                     $source['url_noCDN'] = $source['url'];
+                    $source['line'] = __LINE__;
                 } elseif (!empty($yptStorage) && !empty($site) && $isValidType && $fsize < 20) {
                     $siteURL = getCDNOrURL($site->getUrl(), 'CDN_YPTStorage', $video['sites_id']);
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                     $source['url'] = "{$siteURL}{$paths['relative']}{$filename}{$type}";
                     $source['url_noCDN'] = $site->getUrl() . "{$paths['relative']}{$filename}{$type}";
+                    $source['line'] = __LINE__;
                     if ($type == ".m3u8" || $indexMP3Exits) {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
+                        $source['line'] = __LINE__;
                     }else if ($indexMP4Exits) {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
+                        $source['line'] = __LINE__;
                     }
                 } elseif (!empty($advancedCustom->videosCDN) && $canUseCDN) {
                     $advancedCustom->videosCDN = addLastSlash($advancedCustom->videosCDN);
                     $source['url'] = "{$advancedCustom->videosCDN}{$paths['relative']}{$filename}{$type}";
                     $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}";
+                    $source['line'] = __LINE__;
                     if ($type == ".m3u8" || $indexMP3Exits) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
+                        $source['line'] = __LINE__;
                     }else if ($indexMP4Exits) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
+                        $source['line'] = __LINE__;
                     }
                 } else {
                     $source['url'] = getCDN() . "{$paths['relative']}{$filename}{$type}";
                     $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}";
+                    $source['line'] = __LINE__;
                     if ($type == ".m3u8" || $indexMP3Exits) {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
+                        $source['line'] = __LINE__;
                     }else if ($indexMP4Exits) {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
+                        $source['line'] = __LINE__;
                     }
                 }
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
@@ -4221,24 +4231,31 @@ if (!class_exists('Video')) {
                         if (!empty($cdn_obj->enable_storage)) {
                             if ($type === '.m3u8') {
                                 $source['url'] = CDNStorage::getURL("{$filename}/index.m3u8");
+                            } else if($type === '.mp4' && $indexMP4Exits) {
+                                //var_dump("{$filename}/index.mp4");
+                                $source['url'] = CDNStorage::getURL("{$filename}/index.mp4");
                             } else {
                                 $source['url'] = CDNStorage::getURL("{$filename}{$type}");
                             }
                             $source['url_noCDN'] = $source['url'];
+                            $source['line'] = __LINE__;
                             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                         } elseif (!empty($aws_s3)) {
                             $source = $aws_s3->getAddress("{$filename}{$type}");
                             $source['url_noCDN'] = $source['url'];
+                            $source['line'] = __LINE__;
                             $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_S3');
                             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                         } elseif (!empty($bb_b2)) {
                             $source = $bb_b2->getAddress("{$filename}{$type}");
                             $source['url_noCDN'] = $source['url'];
+                            $source['line'] = __LINE__;
                             $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_B2');
                             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                         } elseif (!empty($ftp)) {
                             $source = $ftp->getAddress("{$filename}{$type}");
                             $source['url_noCDN'] = $source['url'];
+                            $source['line'] = __LINE__;
                             $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_FTP');
                             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                         }
@@ -4272,6 +4289,7 @@ if (!class_exists('Video')) {
                 }
                 $source['url'] = addQueryStringParameter($source['url'], 'cache', $x);
                 $source['url_noCDN'] = addQueryStringParameter($source['url_noCDN'], 'cache', $x);
+                $source['line'] = __LINE__;
             }
             /*
             if($filename == "video_230813150408_va39e" && $type == '.m3u8'){
@@ -4288,6 +4306,7 @@ if (!class_exists('Video')) {
                 }
                 $source['url'] = $secure->addToken($source['url'], $filename);
                 $source['url_noCDN'] = $secure->addToken($source['url_noCDN'], $filename);
+                $source['line'] = __LINE__;
             }
 
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
@@ -4336,7 +4355,6 @@ if (!class_exists('Video')) {
                 return $__getPaths[$videoFilename];
             }
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
-            //var_dump('--'.$cleanVideoFilename, '++'.$videoFilename);
             $videosDir = self::getStoragePath();
 
             $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
@@ -4345,13 +4363,23 @@ if (!class_exists('Video')) {
             if ($createDir) {
                 make_path(addLastSlash($path));
             }
+
             $relative = addLastSlash("videos/{$cleanVideoFilename}");
             if (preg_match('/\.vtt$/', $videoFilename)) {
                 $url = $global['webSiteRootURL'] . "{$relative}";
             } else {
                 $url = getCDN() . "{$relative}";
             }
-            $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative];
+            if($cleanVideoFilename == 'index' && preg_match('/index.mp4$/', $videoFilename)){
+                $folder = str_replace('/index.mp4', '', $videoFilename);
+                $cleanVideoFilename = "$folder/index.mp4";
+                $relative = ("videos/{$cleanVideoFilename}");
+                $path = ("{$videosDir}{$cleanVideoFilename}");
+                $url = getCDN() . "{$cleanVideoFilename}";
+                $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative];
+            }else{
+                $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative];
+            }
             return $__getPaths[$videoFilename];
         }
 

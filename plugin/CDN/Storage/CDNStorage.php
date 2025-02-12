@@ -604,7 +604,7 @@ class CDNStorage
                 $remote_file = CDNStorage::filenameToRemotePath($value);
                 _error_log("CDNStorage::putUsingAPI {$remote_file} ");
                 $client->upload($value, $remote_file);
-                $totalBytesTransferred += $filesize; // Update remaining size 
+                $totalBytesTransferred += $filesize; // Update remaining size
             } else {
                 _error_log("CDNStorage::putUsingAPI invalid filesize [$filesize] " . json_encode($value));
             }
