@@ -86,7 +86,7 @@ class PlayList extends ObjectYPT
         return true;
     }
 
-    public static function getAllFromPlaylistsID($playlists_id)
+    public static function getAllFromPlaylistsID($playlists_id, $recreate = false)
     {
         if (empty($playlists_id)) {
             return false;
@@ -96,7 +96,7 @@ class PlayList extends ObjectYPT
             return array();
         }
         $videosP = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true, $videosArrayId, false, true);
-        
+
         //$videosP = PlayList::sortVideos($videosP, $videosArrayId);
         foreach ($videosP as $key => $value2) {
             if (empty($videosP[$key]['type'])) {
@@ -112,7 +112,7 @@ class PlayList extends ObjectYPT
             $images = Video::getImageFromFilename($videosP[$key]['filename'], $videosP[$key]['type']);
             $videosP[$key]['images'] = $images;
             if ($videosP[$key]['type'] !== Video::$videoTypeLinkVideo) {
-                $videosP[$key]['videos'] = Video::getVideosPaths($videosP[$key]['filename'], true);
+                $videosP[$key]['videos'] = Video::getVideosPaths($videosP[$key]['filename'], true, 0, $recreate);
             }
             $videosP[$key]['playlists_id'] = $playlists_id;
             $videosP[$key]['playlist_index'] = $key;
@@ -188,7 +188,7 @@ class PlayList extends ObjectYPT
 
         $sql .= self::getSqlFromPost("pl.");
 
-        $sql = preg_replace('/ORDER +BY +pl.`created` +DESC/i', 'ORDER BY CASE 
+        $sql = preg_replace('/ORDER +BY +pl.`created` +DESC/i', 'ORDER BY CASE
                             WHEN pl.status = \'favorite\' THEN 1
                             WHEN pl.status = \'watch_later\' THEN 1
                             ELSE 2
@@ -1369,30 +1369,30 @@ class PlayList extends ObjectYPT
     {
         // Modify the name to include " (Clone)"
         $sql = "INSERT INTO playlists (name, created, modified, users_id, status, showOnTV, showOnFirstPage)
-        SELECT 
-            CONCAT(name, ' (Clone)') AS name, 
-            NOW() AS created, 
-            NOW() AS modified, 
-            users_id, 
-            status, 
-            showOnTV, 
+        SELECT
+            CONCAT(name, ' (Clone)') AS name,
+            NOW() AS created,
+            NOW() AS modified,
+            users_id,
+            status,
+            showOnTV,
             showOnFirstPage
-        FROM 
-            playlists 
-        WHERE 
+        FROM
+            playlists
+        WHERE
             id = ?";
 
         $new_playlist_id = sqlDAL::writeSql($sql, 'i', [$playlists_id]);
 
         // Clone the videos associated with the playlist
         $sql = "INSERT INTO playlists_has_videos (playlists_id, videos_id, `order`)
-        SELECT 
-            ? AS playlists_id, 
-            videos_id, 
+        SELECT
+            ? AS playlists_id,
+            videos_id,
             `order`
-        FROM 
-            playlists_has_videos 
-        WHERE 
+        FROM
+            playlists_has_videos
+        WHERE
             playlists_id = ?";
 
         sqlDAL::writeSql($sql, 'ii', [$new_playlist_id, $playlists_id]);
