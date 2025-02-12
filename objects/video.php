@@ -4916,7 +4916,7 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        public static function getVideosPaths($filename, $includeS3 = false, $try = 0)
+        public static function getVideosPaths($filename, $includeS3 = false, $try = 0, $recreate = false)
         {
             global $global;
 
@@ -4926,7 +4926,7 @@ if (!class_exists('Video')) {
 
             $tmpCacheFile = getVideosDir() . "permanentCache" . DIRECTORY_SEPARATOR . "getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".tmp";
 
-            if (!empty($cache)) {
+            if (!empty($cache) && empty($recreate)) {
                 $obj = object_to_array(_json_decode($cache));
                 if (!file_exists($tmpCacheFile)) {
                     file_put_contents($tmpCacheFile, json_encode($cache));
@@ -4935,7 +4935,7 @@ if (!class_exists('Video')) {
                     _error_log("getVideosPaths($filename) line=".__LINE__);
                 }
                 return $obj;
-            } elseif (empty($global['disableAsyncGetVideosPaths']) && file_exists($tmpCacheFile)) {
+            } elseif (empty($global['disableAsyncGetVideosPaths']) && file_exists($tmpCacheFile) && empty($recreate)) {
                 _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()));
                 // Execute the async process to generate the cache
                 $device = getDeviceName('web');
