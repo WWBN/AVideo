@@ -4236,6 +4236,8 @@ if (!class_exists('Video')) {
                                 //var_dump("{$filename}/index.mp4");
                                 $source['url'] = CDNStorage::getURL("{$filename}/index.mp4");
                                 $source['line'] = __LINE__;
+                                $source['filename'] = $filename;
+                                $source['type'] = $type;
                             } else {
                                 $source['url'] = CDNStorage::getURL("{$filename}{$type}");
                                 $source['line'] = __LINE__;
