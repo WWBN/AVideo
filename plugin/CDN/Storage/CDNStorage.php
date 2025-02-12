@@ -1225,6 +1225,8 @@ class CDNStorage
         }
         if (preg_match('/m3u8$/', $filename)) {
             $relativeFilename = $filename;
+        } else if (preg_match('/index.mp4$/', $filename)) {
+            $relativeFilename = $filename;
         } else {
             $relativeFilename = "{$paths['filename']}/{$filename}";
         }
