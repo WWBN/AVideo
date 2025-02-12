@@ -4376,9 +4376,9 @@ if (!class_exists('Video')) {
                 $relative = ("videos/{$cleanVideoFilename}");
                 $path = ("{$videosDir}{$cleanVideoFilename}");
                 $url = getCDN() . "{$cleanVideoFilename}";
-                $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative];
+                $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative, 'videoFilename' => $videoFilename];
             }else{
-                $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative];
+                $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative, 'videoFilename' => $videoFilename];
             }
             return $__getPaths[$videoFilename];
         }
