@@ -1203,7 +1203,11 @@ class CDNStorage
         }
 
         $paths = Video::getPaths($filename);
-        $file = $paths['path'] . $filename;
+        if(!preg_match('/index.mp4$/', $paths['path'])){
+            $file = $paths['path'] . $filename;
+        }else{
+            $file = $paths['path'];
+        }
         if (!file_exists($file)) {
             $file = $paths['path'] . $filename;
         }
