@@ -4931,6 +4931,9 @@ if (!class_exists('Video')) {
                 if (!file_exists($tmpCacheFile)) {
                     file_put_contents($tmpCacheFile, json_encode($cache));
                 }
+                if(!empty($_REQUEST['debug'])){
+                    _error_log("getVideosPaths($filename) line=".__LINE__);
+                }
                 return $obj;
             } elseif (empty($global['disableAsyncGetVideosPaths']) && file_exists($tmpCacheFile)) {
                 _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()));
@@ -4940,6 +4943,9 @@ if (!class_exists('Video')) {
 
                 // Return the temporary cache file content if it exists
                 $tmpCacheContent = file_get_contents($tmpCacheFile);
+                if(!empty($_REQUEST['debug'])){
+                    _error_log("getVideosPaths($filename) line=".__LINE__);
+                }
                 return object_to_array(_json_decode($tmpCacheContent));
             } else {
                 // Call the function to generate the video paths
@@ -4953,6 +4959,9 @@ if (!class_exists('Video')) {
                 // Save the results in the main cache
                 $resp = $videoCache->setCache($videos);
                 //_error_log("getVideosPaths($filename) 2 ".json_encode($resp));
+                if(!empty($_REQUEST['debug'])){
+                    _error_log("getVideosPaths($filename) line=".__LINE__);
+                }
                 return $videos;
             }
         }
