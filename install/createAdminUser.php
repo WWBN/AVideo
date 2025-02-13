@@ -26,6 +26,14 @@ if (!empty($userName) && !empty($userPass)) {
         $user->setName($userName);
         $user->setEmailVerified(1);
         $userId = $user->save();
+        $sql = "UPDATE users SET isAdmin = 1, status = 'a' where id = {$userId}";
+
+        $insert_row = sqlDAL::writeSql($sql);
+        if ($insert_row) {
+            echo "Your user {$userName} is admin now";
+            echo "\n";
+            die();
+        }
     }
 }
 echo "Bye";
