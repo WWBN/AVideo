@@ -16,11 +16,17 @@ $userPass = trim(readline(""));
 
 if (!empty($userName) && !empty($userPass)) {
     $user = new User(0, $userName, $userPass);
-    $user->setIsAdmin(1);
-    $user->setEmail("{$userName}@{$userName}.com");
-    $user->setName($userName);
-    $user->setEmailVerified(1);
-    $userId = $user->save();
+    if (!empty($user->getBdId())) {
+        echo "User already exists {$userName} id=".$user->getBdId();
+        echo "\n";
+        die();
+    } else{
+        $user->setIsAdmin(1);
+        $user->setEmail("{$userName}@{$userName}.com");
+        $user->setName($userName);
+        $user->setEmailVerified(1);
+        $userId = $user->save();
+    }
 }
 echo "Bye";
 echo "\n";
