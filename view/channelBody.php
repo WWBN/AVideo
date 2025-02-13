@@ -327,7 +327,15 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                 </li>
                             <?php
                             }else{
-                                echo PHP_EOL.'<!-- NOT showChannelVideosTab -->'.PHP_EOL;
+                                if(!$advancedCustomUser->showChannelVideosTab){
+                                    echo PHP_EOL.'<!-- NOT showChannelVideosTab -->'.PHP_EOL;
+                                }
+                                if(!$ownerCanUplaodVideos){
+                                    echo PHP_EOL.'<!-- NOT ownerCanUplaodVideos -->'.PHP_EOL;
+                                }
+                                if(empty($uploadedVideos)){
+                                    echo PHP_EOL.'<!-- empty uploadedVideos -->'.PHP_EOL;
+                                }
                             }
                             if (!empty($uploadedTotalArticles)) {
                             ?>
