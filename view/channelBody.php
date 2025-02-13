@@ -29,7 +29,7 @@ if (empty($channelPassword) && !$isMyChannel) {
     $showUnlisted = true;
 }
 
-$ownerCanUplaodVideos = $user->getCanUpload() || $user->getIsAdmin();
+$ownerCanUplaodVideos = $user->getCanUpload() || $user->getIsAdmin() || AVideoPlugin::userCanUpload($user_id);
 //var_dump($ownerCanUplaodVideos, $user_id, $user);exit;
 $type = '';
 if ($ownerCanUplaodVideos && $advancedCustomUser->showArticlesTab && AVideoPlugin::isEnabledByName('Articles')) {
