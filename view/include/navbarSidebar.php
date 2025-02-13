@@ -189,7 +189,7 @@ $tToleranceSide = 0.2;
                             <li>
                                 <div>
                                     <a href="#" class="btn btn-default btn-block disabled" style="border-radius: 0;">
-                                        <i class="fa-solid fa-cross"></i>
+                                        <i class="fa-solid fa-ban"></i>
                                         <span class="menuLabel">
                                             <?php echo __($canUploadMessage); ?>
                                         </span>

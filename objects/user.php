@@ -2604,7 +2604,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified())) {
-            $canUploadMessage = 'Only users with verified email addresses can upload videos';
+            $canUploadMessage = 'Only verified emails can upload videos';
             return false;
         }
 
