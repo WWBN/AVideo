@@ -181,21 +181,23 @@ $tToleranceSide = 0.2;
                                 </a>
                             </div>
                         </li>
-                    <?php
-                    }else{
+                        <?php
+                    } else {
                         global $canUploadMessage;
+                        if (!empty($canUploadMessage)) {
                         ?>
-                        <li>
-                            <div>
-                                <a href="#" class="btn btn-default btn-block disabled" style="border-radius: 0;">
-                                    <i class="fa-solid fa-cross"></i>
-                                    <span class="menuLabel">
-                                        <?php echo __($canUploadMessage); ?>
-                                    </span>
-                                </a>
-                            </div>
-                        </li>
+                            <li>
+                                <div>
+                                    <a href="#" class="btn btn-default btn-block disabled" style="border-radius: 0;">
+                                        <i class="fa-solid fa-cross"></i>
+                                        <span class="menuLabel">
+                                            <?php echo __($canUploadMessage); ?>
+                                        </span>
+                                    </a>
+                                </div>
+                            </li>
                     <?php
+                        }
                     }
                     ?>
                     <li>
@@ -582,7 +584,7 @@ $tToleranceSide = 0.2;
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                     $categories = Category::getAllCategories(false, true, false, $sameUserGroupAsMe);
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
-                    echo "<!-- categories found ".count($categories)." -->";
+                    echo "<!-- categories found " . count($categories) . " -->";
                     foreach ($categories as $value) {
                         if ($value['parentId']) {
                             echo "<!-- categories parentId is present {$value['parentId']} -->";
@@ -616,7 +618,7 @@ $tToleranceSide = 0.2;
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                     $_POST = $post;
                     $_GET = $get;
-                }else{
+                } else {
                     echo "<!-- categories doNotDisplayCategoryLeftMenu -->";
                 }
 
