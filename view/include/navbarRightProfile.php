@@ -16,8 +16,8 @@ if (empty($advancedCustomUser->doNotShowRightProfile) && (User::isLogged() || em
                     if (User::isLogged()) {
                         ?>
                         <button type="button" class="btn btn-default dropdown-toggle navbar-btn pull-left btn-circle"  id="rightProfileButton" style="padding:0;" onclick="toogleRightProfile();">
-                            <img src="<?php echo User::getPhoto(); ?>" 
-                                 style="width: 32px; height: 32px; max-width: 32px;"  
+                            <img src="<?php echo User::getPhoto(); ?>"
+                                 style="width: 32px; height: 32px; max-width: 32px;"
                                  class="img img-responsive img-circle" alt="User Photo"
                                  />
                         </button>
@@ -62,16 +62,16 @@ if (empty($advancedCustomUser->doNotShowRightProfile) && (User::isLogged() || em
                                         $userCookie = User::getUserCookieCredentials();
                                         if ((!empty($userCookie))) {
                                             ?>
-                                            <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
+                                            <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>
                                             <?php
                                         } else {
                                             ?>
-                                            <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
+                                            <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>
                                         <?php }
                                         ?>
                                         <i class="fas fa-sign-out-alt"></i> <?php echo __("Sign out"); ?>
                                     </a>
-                                </li> 
+                                </li>
                             <?php }
                             ?>
 
@@ -88,7 +88,7 @@ if (empty($advancedCustomUser->doNotShowRightProfile) && (User::isLogged() || em
                                 <li>
                                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'mvideos');
                                                         return false;">
-                                        <i class="fa-solid fa-film"></i> 
+                                        <i class="fa-solid fa-film"></i>
                                         <i class="fa-solid fa-headphones"></i>
                                         <?php echo __("My videos"); ?>
                                     </a>
@@ -101,7 +101,7 @@ if (empty($advancedCustomUser->doNotShowRightProfile) && (User::isLogged() || em
                                     <span class="fas fa-play-circle"></span>
                                     <?php echo __($advancedCustomUser->MyChannelLabel); ?>
                                 </a>
-                            </li>    
+                            </li>
                             <?php
                             print AVideoPlugin::navBarProfileButtons();
 
@@ -152,7 +152,7 @@ if (empty($advancedCustomUser->doNotShowRightProfile) && (User::isLogged() || em
                         <?php
                     } else if (empty($advancedCustomUser->signInOnRight)) {
                         ?>
-                        <a class="btn btn-default navbar-btn line_<?php echo __LINE__; ?>" href="<?php echo $global['webSiteRootURL']; ?>user" 
+                        <a class="btn btn-default navbar-btn line_<?php echo __LINE__; ?>" href="<?php echo $global['webSiteRootURL']; ?>user"
                            id="rightLoginButton" style="min-height:34px; padding: 6px 12px; border-width: 1px;"
                            data-html="true" title="<?php echo __("Login"); ?>" data-placement="left">
                             <i class="fas fa-sign-in-alt"></i>
