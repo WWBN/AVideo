@@ -388,7 +388,18 @@ class YPTSocket extends PluginAbstract
     static public function getStartServerCommand()
     {
         global $global;
-        $command = "nohup bash -c 'ulimit -n 1048576 && php {$global['systemRootPath']}plugin/YPTSocket/server.php &'";
+
+        // Check if ulimit is supported
+        $ulimitCheck = "bash -c 'ulimit -n 1048576 >/dev/null 2>&1 && echo supported || echo unsupported'";
+        $isUlimitSupported = trim(shell_exec($ulimitCheck));
+
+        // Construct command based on ulimit support
+        if ($isUlimitSupported === 'supported') {
+            $command = "nohup bash -c 'ulimit -n 1048576 && php {$global['systemRootPath']}plugin/YPTSocket/server.php &'";
+        } else {
+            $command = "nohup bash -c 'php {$global['systemRootPath']}plugin/YPTSocket/server.php &'";
+        }
+
         return $command;
     }
 
