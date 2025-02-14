@@ -161,6 +161,10 @@ if (empty($advancedCustom)) {
     body.compact #grid .titleBtn {
         font-size: 0.8em !important;
     }
+
+    .kv-file-rotate{
+        display: none !important;
+    }
 </style>
 <script>
     var filterStatus = '';
