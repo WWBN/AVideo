@@ -240,3 +240,4 @@ $obj->success = true;
 echo json_encode($obj);
 
 error_log("Installation: ".__LINE__);
+
