@@ -26,19 +26,17 @@ if (User::isLogged()) {
         )
     );
 }
-include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
-?>
+$_page->setIncludeInHead(Array('view/bootstrap/fileinput.php'));
 
-<div class="container-fluid">
-    <?php
-    if (User::isLogged()) {
-        include $global['systemRootPath'] . 'view/userBody.php';
-    } else {
-        include $global['systemRootPath'] . 'view/userLogin.php';
-    }
+$inc = array();
+$inc[] = 'view/container_fluid_header.php';
+if (User::isLogged()) {
+    $inc[] = 'view/userBody.php';
+} else {
+    $inc[] = 'view/userLogin.php';
+}
+$inc[] = 'view/container_fluid_footer.php';
+$_page->setIncludeInBody($inc);
 
-    ?>
-</div><!--/.container-->
-<?php
 $_page->print();
 ?>
