@@ -13,6 +13,6 @@ if (!User::isAdmin()) {
 
 $_page = new Page(array('Configuration'));
 $_page->setIncludeInHead(array('view/configurations_head.php'));
-include $global['systemRootPath'] . 'view/configurations_body.php';
+$_page->setIncludeInBody('view/configurations_body.php');
 $_page->print();
 ?>

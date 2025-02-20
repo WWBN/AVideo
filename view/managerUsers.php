@@ -10,6 +10,6 @@ if (!Permissions::canAdminUsers()) {
 }
 $_page = new Page(array('Users'));
 $_page->setIncludeInHead(array('view/managerUsers_head.php'));
-include $global['systemRootPath'] . 'view/managerUsers_body.php';
+$_page->setIncludeInBody('view/managerUsers_body.php');
 $_page->print();
 ?>

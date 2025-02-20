@@ -11,7 +11,7 @@ if (!Category::canCreateCategory()) {
 }
 $_page = new Page(array('Categories'));
 $_page->setIncludeInHead(array('view/managerCategories_head.php'));
-include $global['systemRootPath'] . 'view/managerCategories_body.php';
+$_page->setIncludeInBody('view/managerCategories_body.php');
 $_page->print();
  ?>
 

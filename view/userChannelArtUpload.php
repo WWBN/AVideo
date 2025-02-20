@@ -18,12 +18,6 @@ $screenHeight = 576;
 
 $factorW = $screenWidth / $finalWidth;
 $_page = new Page(array('Channel Art'));
-?>
-<div class="container">
-    <?php
-    include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
-    ?>
-</div>
-<?php
+$_page->setIncludeInBody('view/userChannelArtUploadInclude.php');
 $_page->print();
 ?>

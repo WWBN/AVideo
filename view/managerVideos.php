@@ -22,6 +22,6 @@ if (!empty($_GET['iframe'])) {
 $_page = new Page(array('Videos'));
 $_page->loadBasicCSSAndJS();
 $_page->setIncludeInHead(array('view/managerVideos_head.php'));
-include $global['systemRootPath'] . 'view/managerVideos_body.php';
+$_page->setIncludeInBody('view/managerVideos_body.php');
 $_page->print();
 ?>
