@@ -1307,7 +1307,7 @@ async function avideoConfirm(msg) {
     var span = document.createElement("span");
     span.innerHTML = __(msg, true);
     var response = await swal({
-        title: 'Confrim',
+        title: 'Confirm',
         content: span,
         icon: 'warning',
         closeOnClickOutside: false,
