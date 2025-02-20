@@ -1,5 +1,1 @@
-<?php
-
-echo '</div><!--/.container-->';
-
-?>
+</div><!--/.container-->
