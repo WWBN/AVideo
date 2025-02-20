@@ -28,15 +28,11 @@ if (User::isLogged()) {
 }
 $_page->setIncludeInHead(Array('view/bootstrap/fileinput.php'));
 
-$inc = array();
-$inc[] = 'view/container_fluid_header.php';
 if (User::isLogged()) {
-    $inc[] = 'view/userBody.php';
+    $_page->setIncludeInBody('view/userBody.php');
 } else {
-    $inc[] = 'view/userLogin.php';
+    $_page->setIncludeInBody('view/userLogin.php');
 }
-$inc[] = 'view/container_fluid_footer.php';
-$_page->setIncludeInBody($inc);
 
 $_page->print();
 ?>

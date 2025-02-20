@@ -9,6 +9,6 @@ if (!User::isAdmin()) {
 }
 $_page = new Page(array('Plugins'));
 $_page->setIncludeInHead(array('view/managerPlugins_head.php'));
-include $global['systemRootPath'] . 'view/managerPlugins_body.php';
+$_page->setIncludeInBody('view/managerPlugins_body.php');
 $_page->print();
 ?>
