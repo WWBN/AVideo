@@ -5853,11 +5853,14 @@ function getSystemTimezone()
 
     if (isWindowsServer()) {
         $cmd = 'tzutil /g';
+        $_getDatabaseTimezoneName = trim(preg_replace('/[^a-z0-9_ \/-]+/si', '', shell_exec($cmd)));
+    } else if (file_exists('/etc/timezone')) { /* Linux */
+        $_getDatabaseTimezoneName = trim(preg_replace('/[^a-z0-9_ \/-]+/si', '', file_get_contents('/etc/timezone')));
+    } else if (file_exists('/etc/localtime')) { /* BSD */
+        $_getDatabaseTimezoneName = preg_replace('/^.*zoneinfo\//', '', readlink('/etc/localtime'));
     } else {
-        $cmd = 'cat /etc/timezone';
+        $_getDatabaseTimezoneName = '';
     }
-
-    $_getDatabaseTimezoneName = trim(preg_replace('/[^a-z0-9_ \/-]+/si', '', shell_exec($cmd)));
 
     $_getDatabaseTimezoneName = fixTimezone($_getDatabaseTimezoneName);
 
