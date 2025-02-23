@@ -18,7 +18,10 @@ require_once '../locale/function.php';
             .bootstrap-select{
                 width: 100% !important;
             }
-
+            .alert{
+                padding: 2px 25px;
+                margin-bottom: 10px;
+            }
         </style>
     </head>
 
@@ -78,18 +81,52 @@ require_once '../locale/function.php';
                                 } ?>
 
                                 <?php
-                                if (class_exists('mysqli')) {
+                                if (function_exists('curl_init')) {
                                     ?>
                                     <div class="alert alert-success">
                                         <i class="fa-regular fa-square-check"></i>
-                                        <strong>php-mysqli module is present.</strong>
+                                        <strong>php-curl module is present.</strong>
                                     </div>
                                     <?php
                                 } else {
                                     ?>
                                     <div class="alert alert-warning">
                                         <i class="fa-solid fa-circle-exclamation"></i>
-                                        <strong>php-mysqli module is required.</strong>
+                                        <strong>php-curl module is required.</strong>
+                                    </div>
+                                    <?php
+                                } ?>
+
+                                <?php
+                                if (function_exists('imagecreate')) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <i class="fa-regular fa-square-check"></i>
+                                        <strong>php-gd module is present.</strong>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="alert alert-warning">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <strong>php-gd module is required.</strong>
+                                    </div>
+                                    <?php
+                                } ?>
+
+                                <?php
+                                if (function_exists('json_encode')) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <i class="fa-regular fa-square-check"></i>
+                                        <strong>php-json module is present.</strong>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="alert alert-warning">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <strong>php-json module is required.</strong>
                                     </div>
                                     <?php
                                 } ?>
@@ -112,18 +149,35 @@ require_once '../locale/function.php';
                                 } ?>
 
                                 <?php
-                                if (function_exists('imagecreate')) {
+                                if (class_exists('mysqli')) {
                                     ?>
                                     <div class="alert alert-success">
                                         <i class="fa-regular fa-square-check"></i>
-                                        <strong>php-gd module is present.</strong>
+                                        <strong>php-mysqli module is present.</strong>
                                     </div>
                                     <?php
                                 } else {
                                     ?>
                                     <div class="alert alert-warning">
                                         <i class="fa-solid fa-circle-exclamation"></i>
-                                        <strong>php-gd module is required.</strong>
+                                        <strong>php-mysqli module is required.</strong>
+                                    </div>
+                                    <?php
+                                } ?>
+
+                                <?php
+                                if (class_exists('ZipArchive')) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <i class="fa-regular fa-square-check"></i>
+                                        <strong>php-zip module is present.</strong>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="alert alert-warning">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <strong>php-zip module is required.</strong>
                                     </div>
                                     <?php
                                 } ?>
