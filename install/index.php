@@ -49,7 +49,7 @@ require_once '../locale/function.php';
                                     ?>
                                     <div class="alert alert-success">
                                         <i class="fa-regular fa-square-check"></i>
-                                        <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?> is Present</strong>
+                                        <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?> is present</strong>
                                     </div>
                                     <?php
                                 } else {
@@ -73,6 +73,74 @@ require_once '../locale/function.php';
                                     <div class="alert alert-warning">
                                         <i class="fa-solid fa-circle-exclamation"></i>
                                         <strong>Your PHP version is <?php echo PHP_VERSION; ?>. PHP 7.3 or newer is required.</strong>
+                                    </div>
+                                    <?php
+                                } ?>
+
+                                <?php
+                                if (class_exists('mysqli')) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <i class="fa-regular fa-square-check"></i>
+                                        <strong>php-mysqli module is present.</strong>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="alert alert-warning">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <strong>php-mysqli module is required.</strong>
+                                    </div>
+                                    <?php
+                                } ?>
+
+                                <?php
+                                if (function_exists('mb_strlen')) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <i class="fa-regular fa-square-check"></i>
+                                        <strong>php-mbstring module is present.</strong>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="alert alert-warning">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <strong>php-mbstring module is required.</strong>
+                                    </div>
+                                    <?php
+                                } ?>
+
+                                <?php
+                                if (function_exists('imagecreate')) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <i class="fa-regular fa-square-check"></i>
+                                        <strong>php-gd module is present.</strong>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="alert alert-warning">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <strong>php-gd module is required.</strong>
+                                    </div>
+                                    <?php
+                                } ?>
+
+                                <?php
+                                if (function_exists('ob_gzhandler')) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <i class="fa-regular fa-square-check"></i>
+                                        <strong>php-zlib module is present.</strong>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="alert alert-warning">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <strong>php-zlib module is required.</strong>
                                     </div>
                                     <?php
                                 } ?>
