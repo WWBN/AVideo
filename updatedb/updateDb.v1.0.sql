@@ -42,7 +42,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 ALTER TABLE `comments` ADD CONSTRAINT `fk_comments_videos1`
-  FOREIGN KEY (`videos_id`)
+  FOREIGN KEY IF NOT EXISTS (`videos_id`)
   REFERENCES `videos` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;

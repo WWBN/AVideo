@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 ALTER TABLE `videos` 
 CHANGE COLUMN `status` `status` ENUM('a', 'i', 'e', 'x', 'd', 'xmp4', 'xwebm', 'xmp3', 'xogg', 'ximg') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error\nd = downloading\nxmp4 = encoding mp4 error \nxwebm = encoding webm error \nxmp3 = encoding mp3 error \nxogg = encoding ogg error \nximg = get image error' ,
-ADD COLUMN `videoDownloadedLink` VARCHAR(255) NULL DEFAULT NULL AFTER `type`;
+ADD COLUMN IF NOT EXISTS  `videoDownloadedLink` VARCHAR(255) NULL DEFAULT NULL AFTER `type`;
 
 ALTER TABLE `categories` 
 CHANGE COLUMN `created` `created` DATETIME NOT NULL ,

@@ -12,7 +12,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 ALTER TABLE `categories` 
 CHANGE COLUMN `created` `created` DATETIME NOT NULL DEFAULT now() ,
 CHANGE COLUMN `modified` `modified` DATETIME NOT NULL DEFAULT now() ,
-ADD COLUMN `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder' AFTER `modified`;
+ADD COLUMN IF NOT EXISTS `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder' AFTER `modified`;
 
 ALTER TABLE `configurations` 
 CHANGE COLUMN `modified` `modified` DATETIME NOT NULL DEFAULT now() ,
