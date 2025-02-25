@@ -193,7 +193,7 @@ function _mysql_commit()
 function _mysql_close()
 {
     global $global, $mysql_connect_was_closed, $mysql_connect_is_persistent;
-    if (!$mysql_connect_is_persistent && _mysql_is_open()) {
+    if (!$mysql_connect_is_persistent && _mysql_is_open() && !isCommandLineInterface()) {
         //_error_log('MySQL Closed '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $mysql_connect_was_closed = 1;
         try {
@@ -364,7 +364,7 @@ function dumpMySQLDatabase($filePath, $extraOptions = [], &$status = [], $bfile 
 
     // Update lock file before executing the dump
     $status['step'] = 'Running mysqldump';
-    
+
     updateLockFile($status, $bfile);
 
     // Execute the command and wait for completion
@@ -388,11 +388,11 @@ function dumpMySQLDatabase($filePath, $extraOptions = [], &$status = [], $bfile 
 
 function updateLockFile($status, $bfile)
 {
-    
+
     if(empty($bfile)){
         return false;
     }
-    
+
     // Check if the 'startTime' is already set, if not, set it to the current time
     if (!isset($status['startTime'])) {
         $status['startTime'] = date("Y-m-d H:i:s"); // Set the start time when the process starts
