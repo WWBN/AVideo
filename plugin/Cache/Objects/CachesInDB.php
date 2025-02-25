@@ -370,7 +370,7 @@ class CachesInDB extends ObjectYPT
         //$sql = "DELETE FROM " . static::getTableName() . " WHERE name LIKE '{$name}%'";
         $sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE) OR name like '{$name}%';";
 
-        _error_log("CachesInDB::_deleteCacheStartingWith($name) $sql");
+        _error_log("CachesInDB::_deleteCacheStartingWith($name) SQL: $sql");
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
         self::readUncomited();
