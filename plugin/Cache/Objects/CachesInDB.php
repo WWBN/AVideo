@@ -13,7 +13,7 @@ class CachesInDB extends ObjectYPT
     protected $expires;
     protected $timezone;
     protected $name;
-    
+
     public static function getSearchFieldsNames()
     {
         return ['domain', 'ishttps', 'user_location', 'timezone', 'name'];
@@ -139,7 +139,7 @@ class CachesInDB extends ObjectYPT
             $values[] = $loggedType;
         }
         $sql .= " ORDER BY id DESC LIMIT 1";
-        
+
         //var_dump($sql, $formats, $values );
         //_error_log(json_encode(array($sql, $values )));
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
@@ -195,7 +195,7 @@ class CachesInDB extends ObjectYPT
         } else {
             $c = new CachesInDB(0);
         }
-        
+
         $name = self::hashName($name);
         $c->setContent($value);
         $c->setName($name);
@@ -208,15 +208,15 @@ class CachesInDB extends ObjectYPT
     }
     private static function prepareCacheItem($name, $cache, $metadata, $tz, $time) {
         $formattedCacheItem = [];
-        
+
         $name = self::hashName($name);
         $content = !is_string($cache) ? json_encode($cache) : $cache;
         if (empty($content)) {
             return null;
         }
-    
+
         $expires = date('Y-m-d H:i:s', strtotime('+1 month'));
-    
+
         // Format for the prepared statement
         $formattedCacheItem['format'] = "ssssssssi";
         $formattedCacheItem['values'] = [
@@ -230,10 +230,10 @@ class CachesInDB extends ObjectYPT
             $tz,
             $time
         ];
-    
+
         return $formattedCacheItem;
     }
-    
+
     public static function setBulkCache($cacheArray, $metadata, $batchSize = 50) {
         if(isBot()){
             return false;
@@ -241,7 +241,7 @@ class CachesInDB extends ObjectYPT
         if (empty($cacheArray)) {
             return false;
         }
-    
+
         if(isCommandLineInterface()){
             echo "setBulkCache ".json_encode(array($metadata, $batchSize )).PHP_EOL;
         }
@@ -250,33 +250,33 @@ class CachesInDB extends ObjectYPT
         $tz = date_default_timezone_get();
         $time = time();
         $result = true;
-    
+
         foreach ($cacheBatches as $batch) {$placeholders = [];
             $formats = [];
             $values = [];
-    
+
             foreach ($batch as $name => $cache) {
                 $cacheItem = self::prepareCacheItem($name, $cache, $metadata, $tz, $time);
                 if ($cacheItem === null) continue;
-    
+
                 $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
                 $formats[] = $cacheItem['format'];
                 $values = array_merge($values, $cacheItem['values']);
             }
-    
+
             $sql = "INSERT INTO " . static::getTableName() . " (name, content, domain, ishttps, user_location, loggedType, expires, timezone, created_php_time, created, modified)
-             VALUES " . implode(", ", $placeholders) . " 
-             ON DUPLICATE KEY UPDATE 
+             VALUES " . implode(", ", $placeholders) . "
+             ON DUPLICATE KEY UPDATE
              content = VALUES(content),
              expires = VALUES(expires),
              created_php_time = VALUES(created_php_time),
              modified = NOW()";
-    
+
             // Start transaction
             mysqlBeginTransaction();
-    
+
             try {
-                $res = sqlDAL::writeSql($sql, implode('', $formats), $values);  
+                $res = sqlDAL::writeSql($sql, implode('', $formats), $values);
                 $result &= $res;
                 $resCommit = mysqlCommit();
                 if(isCommandLineInterface()){
@@ -291,7 +291,7 @@ class CachesInDB extends ObjectYPT
                 //return false;
             }
         }
-    
+
         return $result;
     }
 
@@ -314,7 +314,7 @@ class CachesInDB extends ObjectYPT
         if (empty($name)) {
             return false;
         }
-        
+
         if (!static::isTableInstalled()) {
             return false;
         }
@@ -343,12 +343,21 @@ class CachesInDB extends ObjectYPT
 
     public static function _deleteCacheStartingWith($name)
     {
+        global $_deleteCacheStartingWithList;
+        if(empty($_deleteCacheStartingWithList)){
+            $_deleteCacheStartingWithList = array();
+        }
+        if(!empty($_deleteCacheStartingWithList[$name])){
+            _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
+            return false;
+        }
+        $_deleteCacheStartingWithList[$name] = time();
         if((isBot() && !isCommandLineInterface()) && !preg_match('/plugin\/Live\/on_/', $_SERVER['SCRIPT_NAME'])){
             _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
             return false;
         }
         global $global;
-        if (empty($name)) { 
+        if (empty($name)) {
             _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
             return false;
         }
@@ -360,7 +369,7 @@ class CachesInDB extends ObjectYPT
         self::set_innodb_lock_wait_timeout();
         //$sql = "DELETE FROM " . static::getTableName() . " WHERE name LIKE '{$name}%'";
         $sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE) OR name like '{$name}%';";
-        
+
         _error_log("CachesInDB::_deleteCacheStartingWith($name) $sql");
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
@@ -370,7 +379,7 @@ class CachesInDB extends ObjectYPT
         return $return;
     }
 
-    
+
     public static function _deleteCacheWith($name)
     {
         if(isBot()){
