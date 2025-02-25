@@ -648,7 +648,7 @@ class CustomizeUser extends PluginAbstract
         }
         $users_id = $video->getUsers_id();
         if (!CustomizeUser::canDownloadVideosFromUser($users_id)) {
-            $_lastCanDownloadVideosFromVideoReason = 'CustomizeUser::canDownloadVideosFromUser '.$canDownloadVideosFromUserReason;
+            $_lastCanDownloadVideosFromVideoReason = 'CustomizeUser::canDownloadVideosFromUser - '.$canDownloadVideosFromUserReason;
             return false;
         }
         $category = new Category($video->getCategories_id());
