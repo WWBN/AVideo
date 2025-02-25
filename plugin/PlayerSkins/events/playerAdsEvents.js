@@ -47,7 +47,9 @@ player.on('adsready', function () {
         console.log('ADS: IMA SDK: vmap_ad_scheduler: Ad started.');
         logAdEvent('AdStarted');
         clearTimeout(adsResumePlayerTimeout);
-        player.pause();
+        if(!isIOS()){
+            player.pause();
+        }
     });
 
     adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, function () {

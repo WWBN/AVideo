@@ -4376,7 +4376,7 @@ function displayJsonAsHtml(jsonObjectOrString, level = 0) {
                 '</h4>' +
                 '</div>' +
                 '<div id="' + collapseId + '" class="panel-collapse collapse">' +
-                '<div class="panel-body">' + displayJsonAsHtml(value, level+1) + '</div>' +
+                '<div class="panel-body">' + displayJsonAsHtml(value, level + 1) + '</div>' +
                 '</div>' +
                 '</div>';
             rowHtml += panelHtml;
@@ -4543,4 +4543,8 @@ function getVideosId() {
         return mediaId;
     }
     return 0;
+}
+
+function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
