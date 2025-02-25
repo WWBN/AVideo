@@ -5720,6 +5720,7 @@ if (!class_exists('Video')) {
                 self::deleteThumbs($filename, true);
             }
 
+            _error_log("clearCache($videos_id, $deleteThumbs, $clearFirstPageCache, $async) " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             if ($async) {
                 $videos_id = intval($videos_id);
                 $deleteThumbs = !empty($deleteThumbs) ? 'true' : 'false';
