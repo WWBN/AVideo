@@ -530,7 +530,7 @@ if (!class_exists('Video')) {
 
             $this->views_count = intval($this->views_count);
 
-            if (empty($this->order) || empty($this->id)) {
+            if (empty(intval($this->order)) || empty($this->id)) {
                 $this->order = 'NULL';
             } else {
                 _error_log('Video::save update order '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
