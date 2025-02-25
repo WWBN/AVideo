@@ -33,7 +33,7 @@
      }
      return false;
  }
- 
+
  function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction = "")
  {
      if (empty($users_id)) {
@@ -48,10 +48,10 @@
      foreach ($users_id as $value) {
          $resp[] = sendSocketMessage($msg, $callbackJSFunction, $value);
      }
- 
+
      return $resp;
  }
- 
+
  function sendSocketErrorMessageToUsers_id($msg, $users_id, $callbackJSFunction = "avideoResponse")
  {
      $newMessage = new stdClass();
@@ -59,7 +59,7 @@
      $newMessage->msg = $msg;
      return sendSocketMessageToUsers_id($newMessage, $users_id, $callbackJSFunction);
  }
- 
+
  function sendSocketSuccessMessageToUsers_id($msg, $users_id, $callbackJSFunction = "avideoResponse")
  {
      $newMessage = new stdClass();
@@ -67,17 +67,17 @@
      $newMessage->msg = $msg;
      return sendSocketMessageToUsers_id($newMessage, $users_id, $callbackJSFunction);
  }
- 
+
  function sendSocketMessageToAll($msg, $callbackJSFunction = "", $send_to_uri_pattern = "")
  {
      return sendSocketMessage($msg, $callbackJSFunction, "", $send_to_uri_pattern);
  }
- 
+
  function sendSocketMessageToNone($msg, $callbackJSFunction = "")
  {
      return sendSocketMessage($msg, $callbackJSFunction, -1);
  }
- 
+
 function getSocketConnectionLabel()
 {
     $html = '<span class="socketStatus">
@@ -93,7 +93,7 @@ function getSocketConnectionLabel()
             <span class="socket_icon socket_not_loading socket_connected_icon">
                 <span class="fa-stack">
                     <i class="fas fa-plug fa-stack-1x"></i>
-                </span>  ' . __('Connected') . ' 
+                </span>  ' . __('Connected') . '
                 <span class="total_users_online" style="margin-left: 10px;"><i class="fas fa-spinner fa-spin"></i></span>
             </span>
         </span>';

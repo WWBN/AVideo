@@ -258,6 +258,7 @@ class PlayerSkins extends PluginAbstract
 
     public function getHeadCode()
     {
+        global $isVideoOrAudioNotEmbedReason;
         global $global, $config, $video;
         if (!empty($global['isForbidden'])) {
             return '';
@@ -374,26 +375,32 @@ class PlayerSkins extends PluginAbstract
         $addStartPlayerJS = false;
 
         if ($obj->chromeCast) {
-            if (isVideoOrAudioNotEmbed()) {
+            if (isVideoOrAudioNotEmbed() || isLive()) {
                 $css .= '<link href="' . getURL('node_modules/@silvermine/videojs-chromecast/dist/silvermine-videojs-chromecast.css') . '" rel="stylesheet" type="text/css"/>';
                 $css .= "<style>.vjs-chromecast-button .vjs-icon-placeholder {width: 20px;height: 20px;}</style>";
                 $js .= '<script>window.SILVERMINE_VIDEOJS_CHROMECAST_CONFIG = {preloadWebComponents: true};</script>';
                 $js .= '<script src="' . getURL('node_modules/@silvermine/videojs-chromecast/dist/silvermine-videojs-chromecast.min.js') . '"></script>';
                 $js .= '<script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" type="text/javascript"></script>';
                 $onPlayerReady .= 'player.chromecast();player.on(\'play\', function () {player.chromecast();});';
-                $getDataSetup .= ", techOrder: ['chromecast', 'html5'] ";
+                $getDataSetup .= ", techOrder: ['html5'] ";
                 $plugins->chromecast = new stdClass();
                 $addStartPlayerJS = true;
+            }else{
+                $css .= "<!-- chromeCast $isVideoOrAudioNotEmbedReason -->";
+                $js .= "<!-- chromeCast $isVideoOrAudioNotEmbedReason -->";
             }
         }
 
         if ($obj->airPlay) {
-            if (isVideoOrAudioNotEmbed()) {
+            if (isVideoOrAudioNotEmbed() || isLive()) {
                 $css .= '<link href="' . getURL('node_modules/@silvermine/videojs-airplay/dist/silvermine-videojs-airplay.css') . '" rel="stylesheet" type="text/css"/>';
                 $js .= '<script src="' . getURL('node_modules/@silvermine/videojs-airplay/dist/silvermine-videojs-airplay.min.js') . '"></script>';
                 $plugins->airPlay = new stdClass();
                 $plugins->airPlay->addButtonToControlBar = true;
                 $addStartPlayerJS = true;
+            }else{
+                $css .= "<!-- airPlay $isVideoOrAudioNotEmbedReason -->";
+                $js .= "<!-- airPlay $isVideoOrAudioNotEmbedReason -->";
             }
         }
         $js .= '<script src="' . getURL('plugin/PlayerSkins/events/playerAdsFunctions.js') . '"></script>';

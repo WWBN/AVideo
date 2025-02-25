@@ -1070,6 +1070,9 @@ function getVideos_IdFromFilename($fileName)
 {
     $cleanfilename = Video::getCleanFilenameFromFile($fileName);
     $video = Video::getVideoFromFileNameLight($cleanfilename);
+    if(empty($video)){
+        return 0;
+    }
     return $video['id'];
 }
 
@@ -3717,21 +3720,27 @@ function getPlaylists_id()
 
 function isVideoOrAudioNotEmbed()
 {
+    global $isVideoOrAudioNotEmbedReason;
+    $isVideoOrAudioNotEmbedReason = '';
     if (!isVideo()) {
+        $isVideoOrAudioNotEmbedReason = '!isVideo';
         return false;
     }
     $videos_id = getVideos_id();
     if (empty($videos_id)) {
+        $isVideoOrAudioNotEmbedReason = 'empty($videos_id)';
         return false;
     }
     $v = Video::getVideoLight($videos_id);
     if (empty($v)) {
+        $isVideoOrAudioNotEmbedReason = 'empty($v)';
         return false;
     }
-    $types = ['audio', 'video'];
+    $types = [Video::$videoTypeAudio, Video::$videoTypeVideo];
     if (in_array($v['type'], $types)) {
         return true;
     }
+    $isVideoOrAudioNotEmbedReason = 'Invalid type'.$v['type'];
     return false;
 }
 

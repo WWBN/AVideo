@@ -33,7 +33,7 @@ function dbInsertConnection($array) {
               var_dump($key);
               var_dump($value);
               exit;
-             * 
+             *
              */
         }
         if (is_null($value)) {
@@ -162,6 +162,24 @@ function dbGetAllResourceIdFromSelfURI($selfURI) {
     $sth = $db->prepare($sql);
     $sth->execute();
     $result = $sth->fetchAll();
+    echo PHP_EOL.'-----------------'.PHP_EOL.PHP_EOL.PHP_EOL;
+    var_dump($result);
+    dbGetAllResourceIdAndSelfURI();
+    echo PHP_EOL.'-----------------'.PHP_EOL.PHP_EOL.PHP_EOL;
+    return $result;
+}
+
+
+function dbGetAllResourceIdAndSelfURI() {
+    global $db;
+    $sql = "SELECT resourceId, selfURI FROM `connections` ";
+    echo $sql . PHP_EOL;
+    $sth = $db->prepare($sql);
+    $sth->execute();
+    $result = $sth->fetchAll();
+    echo PHP_EOL.'-----------------'.PHP_EOL.PHP_EOL.PHP_EOL;
+    var_dump($result);
+    echo PHP_EOL.'-----------------'.PHP_EOL.PHP_EOL.PHP_EOL;
     return $result;
 }
 
@@ -204,12 +222,12 @@ function dbGetDBTotals() {
         if (!isset($users_uri[$index][$client['yptDeviceId']][$client['users_id']])) {
             $users_uri[$index][$client['yptDeviceId']][$client['users_id']] = array();
         }
-        
+
         $location = false;
         if(!empty($client['location'])){
             $location = array('country_code'=>$client['country_code'], 'country_name'=>$client['country_name']);
         }
-        
+
         $users_uri[$index][$client['yptDeviceId']][$client['users_id']] = array('resourceId' => $client['resourceId'],
             'users_id' => $client['users_id'],
             'room_users_id' => $client['room_users_id'],
@@ -233,7 +251,7 @@ function dbGetDBTotals() {
             'ip' => $client['ip'],
             'location' => $location,
             'client' => array('browser'=>$client['browser'], 'os'=>$client['os']));
-        
+
         if(!empty($client['videos_id'])){
             $videoIndex = "total_on_videos_id_{$client['videos_id']}";
             if(empty($videos[$videoIndex])){
@@ -269,10 +287,10 @@ function dbGetTotalConnections() {
 
 function dbGetUniqueUsers() {
     global $db;
-    $sql = "SELECT distinct(users_id), 
-            isAdmin, live_key_servers_id, 
-            videos_id, selfURI, country_name, 
-            page_title, resourceId, room_users_id, 
+    $sql = "SELECT distinct(users_id),
+            isAdmin, live_key_servers_id,
+            videos_id, selfURI, country_name,
+            page_title, resourceId, room_users_id,
             chat_is_banned, identification "
             . "FROM `connections`"
             . "WHERE users_id IS NOT NULL AND users_id != '' ";
