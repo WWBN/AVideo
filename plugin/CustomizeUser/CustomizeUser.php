@@ -505,11 +505,17 @@ class CustomizeUser extends PluginAbstract
         }
         if (empty($obj) || empty($obj->userCanAllowFilesDownload)) {
             $can = self::canDownloadVideos();
-            $canDownloadVideosFromUserReason = 'you selected userCanAllowFilesDownload but your site configuration can download option is not checked';
+            if(!$can){
+                $canDownloadVideosFromUserReason = 'your site configuration can download option is not checked';
+            }
             return $can;
         }
         $user = new User($users_id);
-        return !empty($user->getExternalOption('userCanAllowFilesDownload'));
+        $can = !empty($user->getExternalOption('userCanAllowFilesDownload'));
+        if(!$can){
+            $canDownloadVideosFromUserReason = "you selected userCanAllowFilesDownload but the user {$users_id} the option 'Allow Download My Videos' on user profile is not checked";
+        }
+        return $can;
     }
 
     public static function canDownloadVideos()
