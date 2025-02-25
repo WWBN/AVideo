@@ -536,7 +536,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     exec($command, $output, $return);
 
     _error_log("convertVideoFileWithFFMPEG: Command executed with return code {$return}");
-    return ['return' => $return, 'output' => $output, 'command' => $command];
+    return ['return' => $return, 'output' => $output, 'command' => $command, 'toFileLocation' => $toFileLocation];
 }
 
 function convertVideoFileWithFFMPEGAsyncOrRemote($fromFileLocation, $toFileLocation, $keyword, $callback = '')
