@@ -366,7 +366,7 @@ class CachesInDB extends ObjectYPT
             return false;
         }
         $tmpFile = getTmpDir().'_deleteCacheStartingWith'.md5($name);
-        if(file_exists($tmpFile) && file_get_contents($tmpFile) > strtotime('+1 minute')){
+        if(file_exists($tmpFile) && file_get_contents($tmpFile) > strtotime('+10 seconds')){
             _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
             return false;
         }
