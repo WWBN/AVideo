@@ -10,11 +10,11 @@ DROP FOREIGN KEY `fk_videos_sites1`,
 DROP FOREIGN KEY `fk_videos_playlists1`;
 
 ALTER TABLE `videos` 
-ADD INDEX `video_status_idx` (`status` ASC),
-ADD INDEX `video_type_idx` (`type` ASC) ;
+ADD INDEX IF NOT EXISTS `video_status_idx` (`status` ASC),
+ADD INDEX IF NOT EXISTS `video_type_idx` (`type` ASC) ;
 
 ALTER TABLE `likes` 
-ADD INDEX `likes_likes_idx` (`like` ASC);
+ADD INDEX IF NOT EXISTS `likes_likes_idx` (`like` ASC);
 
 UPDATE configurations SET  version = '9.0', modified = now() WHERE id = 1;
 

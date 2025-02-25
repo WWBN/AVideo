@@ -6,7 +6,7 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 ALTER TABLE `categories` 
-ADD INDEX `category_name_idx` (`name` ASC);
+ADD INDEX IF NOT EXISTS `category_name_idx` (`name` ASC);
 
 UPDATE configurations SET  version = '9.1', modified = now() WHERE id = 1;
 

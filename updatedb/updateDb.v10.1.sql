@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `categories_has_users_groups` (
     REFERENCES `users_groups` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = Aria;
 
 -- Allow user add some extra info in JSON format, for example bank info and other thing
 -- This is based on users_extra_info table 
