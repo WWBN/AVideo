@@ -352,6 +352,12 @@ class CachesInDB extends ObjectYPT
             return false;
         }
         $_deleteCacheStartingWithList[$name] = time();
+        $tmpFile = getTmpDir().'_deleteCacheStartingWith'.md5($name);
+        if(file_exists($tmpFile) && file_get_contents($tmpFile) > strtotime('+1 minute')){
+            _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
+            return false;
+        }
+        file_put_contents($tmpFile, time());
         if((isBot() && !isCommandLineInterface()) && !preg_match('/plugin\/Live\/on_/', $_SERVER['SCRIPT_NAME'])){
             _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
             return false;
