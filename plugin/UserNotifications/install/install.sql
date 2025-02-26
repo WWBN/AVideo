@@ -27,4 +27,4 @@ CREATE TABLE IF NOT EXISTS  `user_notifications` (
     REFERENCES  `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = Aria;

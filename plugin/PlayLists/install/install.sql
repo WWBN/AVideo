@@ -18,4 +18,4 @@ CREATE TABLE IF NOT EXISTS `playlists_schedules` (
     REFERENCES `playlists` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = Aria;

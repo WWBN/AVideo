@@ -20,4 +20,4 @@ CREATE TABLE IF NOT EXISTS `users_groups_permissions` (
     REFERENCES `plugins` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = Aria;
