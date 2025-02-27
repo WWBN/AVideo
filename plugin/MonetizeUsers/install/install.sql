@@ -21,4 +21,4 @@ CREATE TABLE IF NOT EXISTS `monetize_user_reward_log` (
     REFERENCES `videos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = Aria;
+ENGINE = InnoDB;

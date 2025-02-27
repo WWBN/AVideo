@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS `bookmarks` (
     REFERENCES `videos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;

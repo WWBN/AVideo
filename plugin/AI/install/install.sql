@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `ai_responses` (
     REFERENCES `videos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `ai_metatags_responses` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `ai_metatags_responses` (
     REFERENCES `ai_responses` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `ai_transcribe_responses` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `ai_transcribe_responses` (
     REFERENCES `ai_responses` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `ai_responses_json` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `ai_responses_json` (
     REFERENCES `ai_responses` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `ai_scheduler` (
   `id` INT NOT NULL AUTO_INCREMENT,

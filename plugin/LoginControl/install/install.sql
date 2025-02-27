@@ -17,4 +17,4 @@ CREATE TABLE IF NOT EXISTS `logincontrol_history` (
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;

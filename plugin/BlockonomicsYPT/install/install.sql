@@ -20,4 +20,4 @@ CREATE TABLE IF NOT EXISTS `blockonomics_order` (
     REFERENCES `users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = Aria;
+ENGINE = InnoDB;

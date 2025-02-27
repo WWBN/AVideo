@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `meet_schedule` (
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `meet_schedule_has_users_groups` (
     REFERENCES `users_groups` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -75,5 +75,5 @@ CREATE TABLE IF NOT EXISTS `meet_join_log` (
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 

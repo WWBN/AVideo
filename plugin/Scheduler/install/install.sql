@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `scheduler_commands` (
     REFERENCES `videos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `emails_messages` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -62,4 +62,4 @@ CREATE TABLE IF NOT EXISTS `email_to_user` (
     REFERENCES `users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = Aria;
+ENGINE = InnoDB;

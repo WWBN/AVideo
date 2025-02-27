@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `publisher_social_medias` (
   `modified` DATETIME NULL,
   `timezone` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `publisher_user_preferences` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `publisher_user_preferences` (
     REFERENCES `publisher_social_medias` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `publisher_video_publisher_logs` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `publisher_video_publisher_logs` (
     REFERENCES `publisher_social_medias` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `publisher_schedule` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -94,4 +94,4 @@ CREATE TABLE IF NOT EXISTS `publisher_schedule` (
     REFERENCES `publisher_social_medias` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = Aria;
+ENGINE = InnoDB;
