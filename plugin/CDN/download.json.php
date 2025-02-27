@@ -56,7 +56,7 @@ if (!User::canWatchVideo($json->videos_id)) {
 
 $resp->deleteRemotely = false;
 $resp->deleteLocally = false;
-$resp->deleteProgress = false;   
+$resp->deleteProgress = false;
 
 $video = Video::getVideoLight($json->videos_id);
 $resp->file = "{$video['filename']}/index.{$json->format}.log";
@@ -92,11 +92,15 @@ if (!$resp->file_exists_on_cdn && empty($_REQUEST['delete']) && file_exists($pro
     if ($cdnObj->enable_storage) {
         $resp->lines[] = __LINE__;
         $remote_path = "{$video['filename']}/index.mp4";
+        $remote_path_mp3 = "{$video['filename']}/index.mp3";
         $client = CDNStorage::getStorageClient();
         $resp->deleteRemotely = $client->delete($remote_path);
+        $resp->deleteRemotely_mp3 = $client->delete($remote_path_mp3);
     }
+    $convertedFile_mp3 = str_replace('/index.mp4', '/index.mp3', $convertedFile);
     $resp->deleteLocally = unlink($convertedFile);
-    $resp->deleteProgress = unlink($progressFile);    
+    $resp->deleteLocally_mp3 = unlink($convertedFile_mp3);
+    $resp->deleteProgress = unlink($progressFile);
 
     $resp->error = empty($resp->deleteRemotely) && empty($resp->deleteLocally);
 } else {
