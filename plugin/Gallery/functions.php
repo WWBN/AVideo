@@ -35,7 +35,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $rowCount = intval($_GET['infiniteScrollRowCount']);
     }
 
-    $uid = "gallery" . uniqid();
+    $uid = "gallery" . _uniqid();
 ?>
     <div class="clear clearfix galeryRowElement" id="<?php echo $uid; ?>">
         <?php

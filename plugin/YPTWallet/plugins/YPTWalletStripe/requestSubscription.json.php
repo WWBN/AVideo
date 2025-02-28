@@ -20,7 +20,7 @@ $obj->msg = "";
 $obj->customer = false;
 $obj->plans_id = intval(@$_REQUEST['plans_id']);
 
-$invoiceNumber = uniqid();
+$invoiceNumber = _uniqid();
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }

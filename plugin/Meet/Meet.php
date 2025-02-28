@@ -601,7 +601,7 @@ Passcode: {password}
     {
         global $global;
         if (empty($id)) {
-            $id = "avideoMeet" . uniqid();
+            $id = "avideoMeet" . _uniqid();
         }
         $svgContent = file_get_contents($global['systemRootPath'] . 'plugin/Meet/buttons/' . $svg);
         $btn = '<div class="toolbox-button aVideoMeet ' . $class . '" tabindex="0" role="button" onclick="' . $onclick . '" id="' . $id . '" style="' . $style . '">'

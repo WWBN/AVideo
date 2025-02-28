@@ -1,6 +1,6 @@
 <?php
 global $tinyMCELibs;
-$tinyMCEuid = uniqid();
+$tinyMCEuid = _uniqid();
 
 // Basic configurations
 $basicValidElements = 'a[role|href|target|data-toggle|data-parent|data-dismiss|aria-expanded|aria-controls|class|title],' .

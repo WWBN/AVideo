@@ -432,7 +432,7 @@ if (typeof gtag !== \"function\") {
         }
         if ($try > 10) {
             _error_log("User:_recommendChannelName too many tries ({$name}) (" . User::getId() . ") ", AVideoLog::$ERROR);
-            return uniqid();
+            return _uniqid();
         }
         if (empty($name)) {
             $name = self::getNameIdentification();
@@ -453,7 +453,7 @@ if (typeof gtag !== \"function\") {
         if (!Permissions::canAdminUsers()) {
             $user = self::getUserFromChannelName($name);
             if ($user && $user['id'] !== $users_id) {
-                return self::_recommendChannelName($name . "_" . uniqid(), $try + 1, $unknown, $users_id);
+                return self::_recommendChannelName($name . "_" . _uniqid(), $try + 1, $unknown, $users_id);
             }
         }
         return $name;
@@ -2480,7 +2480,7 @@ if (typeof gtag !== \"function\") {
         $userId = 0;
         if (!$userId = self::userExists($user)) {
             if (empty($pass)) {
-                $pass = uniqid();
+                $pass = _uniqid();
             }
             $pass = encryptPassword($pass);
             $userObject = new User(0, $user, $pass);
@@ -2535,7 +2535,7 @@ if (typeof gtag !== \"function\") {
     {
         $json = new stdClass();
         $json->id = $id;
-        $json->uniqid = uniqid();
+        $json->uniqid = _uniqid();
         $json->valid = strtotime("+{$secondsValid} seconds");
         _error_log("createRecoverPass " . getRealIpAddr() . ' ' . json_encode($_SERVER));
         return encryptString(json_encode($json));

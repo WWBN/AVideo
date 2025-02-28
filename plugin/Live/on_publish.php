@@ -168,7 +168,7 @@ if (!empty($obj) && empty($obj->error)) {
         _error_log("NGINX ON Publish redirect");
         http_response_code(302);
         header("HTTP/1.0 302 Publish Here");
-        $newKey = $_POST['name'].'-'. uniqid();
+        $newKey = $_POST['name'].'-'. _uniqid();
         header("Location: rtmp://192.168.1.18/live/$newKey/?p={$_GET['p']}");
         exit;
     }

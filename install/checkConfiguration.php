@@ -183,7 +183,7 @@ error_log("Installation: ".__LINE__);
 $mysqli->close();
 
 if (empty($_POST['salt'])) {
-    $_POST['salt'] = uniqid();
+    $_POST['salt'] = _uniqid();
 }
 $content = "<?php
 \$global['configurationVersion'] = 3.1;

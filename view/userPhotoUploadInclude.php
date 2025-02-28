@@ -2,7 +2,7 @@
 $finalWidth = 150;
 $finalHeight = 150;
 $screenWidth = 150;
-$caUid = 'Photo_' . uniqid();
+$caUid = 'Photo_' . _uniqid();
 ?>
 <div class="form-group" id="<?php echo $caUid; ?>">
     <?php

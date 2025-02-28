@@ -40,7 +40,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     }
 
     if (!empty($relativeDestinationDir)) {
-        $name = uniqid();
+        $name = _uniqid();
         $filename = $name . "." . strtolower($extension);
         $relativeDestinationDirFilename = $relativeDestinationDir . $filename;
         $destinationDir = $global['systemRootPath'] . $relativeDestinationDir;

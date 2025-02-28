@@ -1,5 +1,5 @@
 <?php
-$caUid = 'ChannelArt_' . uniqid();
+$caUid = 'ChannelArt_' . _uniqid();
 ?>
 <style>
     #custom-handle {

@@ -18,7 +18,7 @@ if (empty($video)) {
 }
 
 if (empty($_REQUEST['uid'])) {
-    $uid = uniqid();
+    $uid = _uniqid();
 } else {
     $uid = preg_replace('/[^a-z0-0_]/i', '', $_REQUEST['uid']);
 }
@@ -29,7 +29,7 @@ if (empty($_REQUEST['uid'])) {
   $cacheName = "modeFlixSerie" . md5(json_encode($_GET)) . User::getId();
   $cache = ObjectYPT::getCache($cacheName, 600);
   if (!empty($cache)) {
-  echo str_replace('{serie_uid}', uniqid(), $cache);
+  echo str_replace('{serie_uid}', _uniqid(), $cache);
   return false;
   }
   ob_start();
@@ -64,7 +64,7 @@ if (empty($videos)) {
     return;
 }
 
-$uidFlickirty = uniqid();
+$uidFlickirty = _uniqid();
 ?>
 <div class="row topicRow" id="<?php echo $uidFlickirty; ?>-Flickirty">
     <!-- Serie -->
@@ -88,7 +88,7 @@ $rowlinkEmbed = false;
 
   ObjectYPT::setCache($cacheName, $cache);
 
-  echo str_replace('{serie_uid}', uniqid(), $cache);
+  echo str_replace('{serie_uid}', _uniqid(), $cache);
  * 
  */
 ?>

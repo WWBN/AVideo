@@ -65,7 +65,7 @@ function jsonToFormElements($json, $filter = [])
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
         } elseif (is_bool($valueJson)) {
             //var_dump($keyJson, $valueJson, '---<br>');
-            $id = uniqid();
+            $id = _uniqid();
             $input = '<div class="material-switch">
                                 <input data-toggle="toggle" type="checkbox" id="' . $keyJson . $id . '" name="' . $keyJson . '" value="1" ' . ($valueJson ? "checked" : "") . ' >
                                 <label for="' . $keyJson . $id . '" class="label-primary"></label>
@@ -86,7 +86,7 @@ function getPluginSwitch($pluginName)
     } else {
         $plugin = AVideoPlugin::loadPluginIfEnabled($pluginName);
         $pluginForced = AVideoPlugin::loadPlugin($pluginName);
-        $id = uniqid();
+        $id = _uniqid();
         $uuid = $pluginForced->getUUID();
         $input = '<div class="material-switch">
                                 <input class="pluginSwitch" data-toggle="toggle" type="checkbox" id="' . $id . '" uuid="' . $uuid . '" name="' . $pluginName . '" value="1" ' . (!empty($plugin) ? "checked" : "") . ' >

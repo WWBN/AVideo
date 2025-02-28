@@ -18,7 +18,7 @@ if (empty($_REQUEST['plugins_id'])) {
 $obj = AVideoPlugin::getObjectDataIfEnabled("Permissions");
 $permissions = Permissions::getPluginPermissions($_REQUEST['plugins_id']);
 $userGroups = UserGroups::getAllUsersGroupsArray();
-$uid = uniqid();
+$uid = _uniqid();
 ?>
 <div class="panel panel-default">
     <div class="panel-heading tabbable-line">

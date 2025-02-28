@@ -185,7 +185,7 @@ try {
     $pluginTemplate = file_get_contents("templates/plugin.php");
     $pluginData = str_replace(
         ['{pluginName}', '{includeTables}', '{tablename}', '{uid}'],
-        [$pluginName, implode(PHP_EOL, $includeTables), $pluginName, uniqid()],
+        [$pluginName, implode(PHP_EOL, $includeTables), $pluginName, _uniqid()],
         $pluginTemplate
     );
     file_put_contents($pluginFile, $pluginData);

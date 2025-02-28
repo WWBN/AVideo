@@ -276,7 +276,7 @@ function convertImageToOG($source, $destination)
         $sizes = getimagesize($source);
         if ($sizes[0] < $w || $sizes[1] < $h) {
             $tmpDir = getTmpDir();
-            $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
+            $fileConverted = $tmpDir . "_jpg_" . _uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
             im_resize($fileConverted, $destination, $w, $h, 100);            
             //_error_log("convertImageToOG ($destination) unlink line=".__LINE__);
@@ -324,7 +324,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
         //_error_log("convertImageIfNotExists($source, $destination, $width, $height)");
         try {
             $tmpDir = getTmpDir();
-            $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
+            $fileConverted = $tmpDir . "_jpg_" . _uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
             if (file_exists($fileConverted)) {
                 if ($scaleUp) {
@@ -354,7 +354,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
 
 function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation = '', $title = '', $preloadImage = false, $doNotUseAnimatedGif = false)
 {
-    $id = uniqid();
+    $id = _uniqid();
     //getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false, $preloadImage=false)
     $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive', false, $preloadImage) . PHP_EOL;
     if (empty($doNotUseAnimatedGif) && !empty($relativePathHoverAnimation) && empty($_REQUEST['noImgGif'])) {

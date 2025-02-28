@@ -59,7 +59,7 @@ error_log(__FILE__ . " line " . __LINE__);
 $userObject = new User($users_id);
 $userObject->login(true, true);
 
-$tmpFile = getTmpDir() . uniqid();
+$tmpFile = getTmpDir() . _uniqid();
 
 error_log(__FILE__ . " line " . __LINE__);
 if (move_uploaded_file($_FILES['upl']['tmp_name'], $tmpFile)) {

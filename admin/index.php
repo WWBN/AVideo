@@ -247,7 +247,7 @@ if (!empty($includeHead) && file_exists($includeHead)) {
                     $panel = 'panel-primary';
                 }
                 foreach ($itens as $key => $value) {
-                    $uid = uniqid();
+                    $uid = _uniqid();
                     $href = 'data-toggle="collapse" data-parent="#accordion" href="#collapse' . $uid . '"';
                     if (!empty($value->href)) {
                         $href = 'href="' . $global['webSiteRootURL'] . 'admin/?page=' . $value->href . '"';

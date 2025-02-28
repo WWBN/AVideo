@@ -7,7 +7,7 @@ $lis = array();
 if ((!empty($video['description'])) && !empty($obj->Description)) {
     $desc = nl2br(trim($video['description']));
     if (!isHTMLEmpty($desc)) {
-        $duid = uniqid();
+        $duid = _uniqid();
         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $video['title']);
         $descTitle = __("Description");
         $lis[] = "

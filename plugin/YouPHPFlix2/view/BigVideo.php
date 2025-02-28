@@ -1,6 +1,6 @@
 <?php
 global $advancedCustom;
-$uid = uniqid();
+$uid = _uniqid();
 $obj2 = AVideoPlugin::getObjectData("YouPHPFlix2");
 
 if (!empty($global['isChannel'])) {

@@ -53,7 +53,7 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 
 $filename = $record_path . $file . '_' . (date('Y-m-d-H-i-s')) . ".mp4";
 $DVRFile = "{$hls_path}{$key}";
-$tmpDVRDir = $record_path . $file . uniqid();
+$tmpDVRDir = $record_path . $file . _uniqid();
 
 $isAdaptive = !is_dir($DVRFile);
 

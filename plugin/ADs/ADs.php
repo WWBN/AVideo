@@ -166,7 +166,7 @@ class ADs extends PluginAbstract
             return "";
         }
         if (preg_match("/adsbygoogle/i", $adCode)) {
-            $uid = uniqid();
+            $uid = _uniqid();
             $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "document.addEventListener(\"DOMContentLoaded\", function(event) {startGoogleAd('#adContainer{$uid}');});", trim($adCode));
             $adCode = "<div style='min-width:250px;min-height:90px;' id='adContainer{$uid}'>{$adCode}</div>";
         }
@@ -227,7 +227,7 @@ class ADs extends PluginAbstract
             return false;
         }
 
-        $fileName = uniqid();
+        $fileName = _uniqid();
 
         return ['fileName' => $fileName, 'path' => $paths['path'] . $fileName . '.png', 'url' => $paths['url'] . $fileName . '.png', 'txt' => $paths['path'] . $fileName . '.txt'];
     }
@@ -543,7 +543,7 @@ class ADs extends PluginAbstract
             return false;
         }
 
-        $id = 'myCarousel' . $type . uniqid();
+        $id = 'myCarousel' . $type . _uniqid();
 
         $size = self::getSize($type);
 

@@ -68,7 +68,7 @@ $_page = new Page(array('Delete User', $user->getUser()));
             </div>
             <div class="panel-footer">
                 <?php
-                $uid = uniqid();
+                $uid = _uniqid();
                 $captcha = User::getCaptchaForm($uid, true);
                 ?>
                 <div class="form-group" id="captchaDeleteUser">

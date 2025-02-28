@@ -21,7 +21,7 @@ _error_log('Testing reestream users_id=['.User::getId().'] '.json_encode(debug_b
 $lth = new LiveTransmitionHistory();
 $lth->setTitle('Restream test '.date('Y-m-d H:i:s'));
 $lth->setDescription('');
-$lth->setKey(uniqid());
+$lth->setKey(_uniqid());
 $lth->setDomain('localhost');
 $lth->setUsers_id(User::getId());
 $lth->setLive_servers_id(Live::getLiveServersIdRequest());

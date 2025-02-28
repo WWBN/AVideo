@@ -174,7 +174,7 @@ class User_notifications extends ObjectYPT {
 
     public function save() {
         if (empty($this->element_id)) {
-            $this->element_id = 'automatic_id_' . uniqid();
+            $this->element_id = 'automatic_id_' . _uniqid();
         }else{
             if(self::elementIdExists($this->element_id)){
                 return false;
