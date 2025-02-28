@@ -1,14 +1,13 @@
 <?php
 
-global $global;
-
-require_once '../videos/configuration.php';
-
 /*
 secure salt in PHP using standard characters and numbers.
 This code will generate a 10 to 32-character string
 */
 function _uniqid($noUniqid = false) {
+    global $global;
+
+    require_once '../videos/configuration.php';
     if (!$noUniqid && empty($global['noUniqid']))
         return uniqid();
 
