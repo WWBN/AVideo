@@ -201,13 +201,14 @@ if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' &&
 }
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
 \$global['salt'] = '{$_POST['salt']}';
-\$global['saltV2'] = '"._uniqid()."';
+\$global['saltV2'] = '"._uniqid(true)."';
 \$global['disableTimeFix'] = 0;
 \$global['enableDDOSprotection'] = 1;
 \$global['ddosMaxConnections'] = 40;
 \$global['ddosSecondTimeout'] = 5;
 \$global['strictDDOSprotection'] = 0;
 \$global['noDebug'] = 0;
+\$global['noUniqid'] = 0;
 \$global['webSiteRootPath'] = '';
 if(empty(\$global['webSiteRootPath'])){
     preg_match('/https?:\/\/[^\/]+(.*)/i', \$global['webSiteRootURL'], \$matches);
