@@ -1,5 +1,5 @@
 <?php
-$uid = uniqid();
+$uid = _uniqid();
 ?>
 <div class="form-group">
     <label class="col-md-4 control-label"><?php echo __("PayPal payout email"); ?></label>

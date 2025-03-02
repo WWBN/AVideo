@@ -20,7 +20,7 @@ if (empty($_POST['value'])) {
     die(json_encode($obj));
 }
 
-$invoiceNumber = uniqid();
+$invoiceNumber = _uniqid();
 //setUpPayment($total = '1.00', $currency = "USD", $description = "");
 $payment = $plugin->setUpPayment($_POST['value'], $objS->currency, $config->getWebSiteTitle() . " Payment");
 

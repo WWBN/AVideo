@@ -1,5 +1,5 @@
 <?php
-$uniqid = uniqid();
+$uniqid = _uniqid();
 $obj = AVideoPlugin::getObjectData("PayPalYPT");
 
 $params = array('total'=>$total, 'currency'=>$currency, 'frequency'=>$frequency, 'interval'=>$interval, 'name'=>$name, 'json'=>$json, 'trialDays'=>$trialDays, 'addFunds_Success'=>$addFunds_Success);

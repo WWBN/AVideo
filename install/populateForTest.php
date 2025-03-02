@@ -119,7 +119,7 @@ $newVideosIds = array();
 for ($i = 0; $i < $totalVideos; $i++) {
     $date = date('Y/m/d H:i:s');
     $title = "[$i] Auto {$date}";
-    $filename = "testvideo{$i}_" . uniqid();
+    $filename = "testvideo{$i}_" . _uniqid();
     $video = new Video($title, $filename);
 
     $video->setDuration("00:00:45");

@@ -132,7 +132,7 @@ if (!empty($videoSerie)) {
                     $class .= " active";
                     $indicator = '<span class="fa fa-play text-danger"></span>';
                 }
-                $uid = 'pl_' . uniqid();
+                $uid = 'pl_' . _uniqid();
                 $plURL = PlayLists::getURL($playlist_id, $count, $value["channelName"], $playlist->getName(), $value['clean_title']);
             ?>
                 <li class="<?php echo $class; ?>" id="<?php echo $uid; ?>">

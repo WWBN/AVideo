@@ -287,7 +287,7 @@ class PlayLists extends PluginAbstract
             $filename = $video['filename'];
             $v = new Video("", "", $video['id']);
         } else {
-            $filename = 'serie_playlists_' . uniqid();
+            $filename = 'serie_playlists_' . _uniqid();
             $v = new Video("", $filename);
         }
         $v->setTitle($playlist->getName());
@@ -755,7 +755,7 @@ class PlayLists extends PluginAbstract
             return '';
         }
         global $global;
-        $uid = uniqid();
+        $uid = _uniqid();
         $totalDuration = 0;
         foreach ($playListArray as $value) {
             $totalDuration += $value['duration_seconds'];
@@ -810,7 +810,7 @@ class PlayLists extends PluginAbstract
         $className = "class_{$uid}";
         $epgBars = "";
         foreach ($playListArray as $key => $value) {
-            $epgId = "epg_" . uniqid();
+            $epgId = "epg_" . _uniqid();
             $represents_percentage = number_format(($value['duration_seconds'] / $totalDuration) * 100, 2);
             $images = Video::getImageFromFilename($value['filename']);
             $per += $represents_percentage;
@@ -859,7 +859,7 @@ class PlayLists extends PluginAbstract
             return "";
         }
         global $global;
-        $btnId = "btnId" . uniqid();
+        $btnId = "btnId" . _uniqid();
         $label = __("Play Live");
         $tooltip = __("Play this Program live now");
         $liveLink = PlayLists::getLiveLink($playlists_id);

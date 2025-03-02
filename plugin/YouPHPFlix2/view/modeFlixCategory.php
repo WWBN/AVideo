@@ -21,14 +21,14 @@ $cacheName .= isForKidsSet()?'forKids':'';
 
 $cache = ObjectYPT::getCache($cacheName, 600);
 if (!empty($cache)) {
-    echo str_replace('{serie_uid}', uniqid(), $cache);
+    echo str_replace('{serie_uid}', _uniqid(), $cache);
     return false;
 }
 _ob_start();
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 $timeLog = __FILE__ . " - modeFlixCategory";
 
-$uid = uniqid();
+$uid = _uniqid();
 $divUUID = $uid;
 
 $ads2 = getAdsLeaderBoardTop2();
@@ -165,5 +165,5 @@ $cache = _ob_get_clean();
 
 ObjectYPT::setCache($cacheName, $cache);
 
-echo str_replace('{serie_uid}', uniqid(), $cache);
+echo str_replace('{serie_uid}', _uniqid(), $cache);
 ?>
