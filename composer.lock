@@ -3732,23 +3732,23 @@
         },
         {
             "name": "ratchet/pawl",
-            "version": "v0.4.1",
+            "version": "v0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ratchetphp/Pawl.git",
-                "reference": "af70198bab77a582b31169d3cc3982bed25c161f"
+                "reference": "240936677b066c03095c82f22be0fd6e87b49fed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ratchetphp/Pawl/zipball/af70198bab77a582b31169d3cc3982bed25c161f",
-                "reference": "af70198bab77a582b31169d3cc3982bed25c161f",
+                "url": "https://api.github.com/repos/ratchetphp/Pawl/zipball/240936677b066c03095c82f22be0fd6e87b49fed",
+                "reference": "240936677b066c03095c82f22be0fd6e87b49fed",
                 "shasum": ""
             },
             "require": {
                 "evenement/evenement": "^3.0 || ^2.0",
-                "guzzlehttp/psr7": "^2.0 || ^1.7",
-                "php": ">=5.4",
-                "ratchet/rfc6455": "^0.3.1",
+                "guzzlehttp/psr7": "^2.0",
+                "php": ">=7.4",
+                "ratchet/rfc6455": "^0.3.1 || ^0.4.0",
                 "react/socket": "^1.9"
             },
             "require-dev": {
@@ -3780,9 +3780,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ratchetphp/Pawl/issues",
-                "source": "https://github.com/ratchetphp/Pawl/tree/v0.4.1"
+                "source": "https://github.com/ratchetphp/Pawl/tree/v0.4.2"
             },
-            "time": "2021-12-10T14:32:34+00:00"
+            "time": "2025-03-02T20:36:55+00:00"
         },
         {
             "name": "ratchet/rfc6455",
