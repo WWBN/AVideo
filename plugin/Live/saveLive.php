@@ -45,7 +45,7 @@ $resp = array('error'=>false, 'msg'=>'Saved', 'userGroups'=>array(), 'id'=>$id, 
 $l = new LiveTransmition($id);
 $l->deleteGroupsTrasmition();
 if (!empty($_REQUEST['userGroups'])) {
-    _error_log("LiveTransmition::save users_id=".User::getId().' IP='.getRealIpAddr().' saving usergroups '.json_encode(debug_backtrace()));
+    _error_log("LiveTransmition::save key={$_REQUEST['key']} \$users_id={$users_id} User::getId=".User::getId().' IP='.getRealIpAddr().' userGroups='.json_encode($_REQUEST['userGroups']).' saving usergroups '.json_encode(debug_backtrace()));
     foreach ($_REQUEST['userGroups'] as $value) {
         $resp['userGroups'][] = $value;
         $l->insertGroup($value);

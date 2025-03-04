@@ -264,6 +264,7 @@ class API extends PluginAbstract
 
     /**
      * @param array $parameters
+     * 'APISecret' also tell if the APISecret is valid or not
      * Returns the site unique ID
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
      * @return \ApiObject
@@ -273,6 +274,8 @@ class API extends PluginAbstract
         global $global;
         $obj = $this->startResponseObject($parameters);
         $obj->id = getPlatformId();
+        $obj->isAPISecretValid = self::isAPISecretValid();
+
         return new ApiObject("", false, $obj);
     }
 
