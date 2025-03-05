@@ -43,7 +43,6 @@ class MaintenanceMode extends PluginAbstract {
                 $resp->error = true;
                 $resp->msg = $obj->text;
                 $resp->MaintenanceMode = true;
-                $resp->redirectHere = '';
                 echo (json_encode($resp));
             } else if (isContentTypeXML()) {
                 header("Content-Type: application/xml");
@@ -99,6 +98,7 @@ class MaintenanceMode extends PluginAbstract {
         $obj->endIn = date("Y-m-d H:i:s", strtotime("+1 week"));
         $obj->hideClock = false;
         $obj->backgroundImageURL = $global['webSiteRootURL'] . "plugin/MaintenanceMode/images/bg01.jpg";
+        $obj->redirectHere = '';
         return $obj;
     }
 
