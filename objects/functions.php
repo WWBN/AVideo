@@ -19,7 +19,6 @@ if (!function_exists('str_starts_with')) {
     }
 }
 
-
 // Make sure SecureVideosDirectory will be the first
 function cmpPlugin($a, $b)
 {
@@ -713,7 +712,6 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
 
     return $new_url;
 }
-
 
 $canUseCDN = [];
 
@@ -1805,7 +1803,6 @@ function url_get_response($url)
     return $responseObj;
 }
 
-
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
@@ -2021,7 +2018,11 @@ function UTF8encode($data)
     return $data;
 }
 
-function encryptPassword($password, $noSalt = false)
+function encryptPassword(
+    #[\SensitiveParameter]
+    $password,
+    $noSalt = false
+)
 {
     global $advancedCustom, $global, $advancedCustomUser;
     if (!empty($advancedCustomUser->encryptPasswordsWithSalt) && !empty($global['salt']) && empty($noSalt)) {
@@ -2031,7 +2032,12 @@ function encryptPassword($password, $noSalt = false)
     return md5(hash("whirlpool", sha1($password)));
 }
 
-function encryptPasswordVerify($password, $hash, $encodedPass = false)
+function encryptPasswordVerify(
+    #[\SensitiveParameter]
+    $password,
+    $hash,
+    $encodedPass = false
+)
 {
     global $advancedCustom, $global;
     if (!$encodedPass || $encodedPass === 'false') {
@@ -2079,7 +2085,6 @@ function isAndroid()
     global $global;
     require_once $global['systemRootPath'] . 'objects/Mobile_Detect.php';
     $detect = new Mobile_Detect();
-
 
     $androidTV = getDeviceName();
 
@@ -2422,7 +2427,6 @@ function siteMap()
         $xml .= PHP_EOL . '<!-- Categories END total=' . $totalCategories . ' -->' . PHP_EOL;
         TimeLogEnd("siteMap getAllCategories", __LINE__, 0.5);
     }
-
 
     TimeLogStart("siteMap getAllVideos");
     $xml .= '<!-- Videos -->';
@@ -3110,7 +3114,6 @@ function encrypt_decrypt($string, $action, $useOldSalt = false)
 
     return $output;
 }
-
 
 function compressString($string)
 {
@@ -4016,7 +4019,6 @@ function getTrendingLimitDate()
     return $dateDaysLimit;
 }
 
-
 function unsetCurrentPage()
 {
     global $_currentPage;
@@ -4199,7 +4201,6 @@ function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control
 <?php
 }
 
-
 function getButtontCopyToClipboard($elemToCopyId, $attributes = 'class="btn btn-default btn-sm btn-xs pull-right"', $label = "Copy to Clipboard")
 {
     $id = "getButtontCopyToClipboard" . uniqid();
@@ -4349,7 +4350,6 @@ function getShareSocialIcons($title, $url)
     return getIncludeFileContent($global['systemRootPath'] . 'view/include/social.php', $varsArray);
     //include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
 }
-
 
 function getCaptcha($uid = "", $forceCaptcha = false)
 {
@@ -5149,7 +5149,6 @@ function getThemes()
     return $_getThemes;
 }
 
-
 function getThemesSeparated()
 {
     global $_getThemes, $global;
@@ -5168,7 +5167,6 @@ function getThemesSeparated()
     }
     return array('light' => $_getThemesLight, 'dark' => $_getThemesDark);
 }
-
 
 function isCurrentThemeDark()
 {
@@ -5247,7 +5245,6 @@ function isURL200($url, $forceRecheck = false)
             return $object->result;
         }
     }
-
 
     $object = new stdClass();
     $object->url = $url;
@@ -6047,6 +6044,7 @@ function hashToID($hash)
  * @param string $hash
  * @return int
  */
+#[\Deprecated]
 function hashToID_old($hash)
 {
     global $global;
@@ -7182,7 +7180,6 @@ function saveRequestVars()
     }
 }
 
-
 function restoreRequestVars()
 {
     global $savedRequestVars;
@@ -7373,7 +7370,6 @@ function mkSubCategory($catId)
     return $html;
 }
 
-
 /**
  * Check if the user came from an external link, sanitize the referrer, store it in the session, and return it.
  * Returns the sanitized external referrer or the existing referrer stored in the session.
@@ -7415,7 +7411,6 @@ function storeAndGetExternalReferrer()
     }
     return $global['external_referrer'];
 }
-
 
 require_once __DIR__ . '/functionsSecurity.php';
 require_once __DIR__ . '/functionsMySQL.php';
