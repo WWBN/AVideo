@@ -115,7 +115,7 @@ class Cache extends PluginAbstract {
 
 
     public function getStart() {
-        global $global;
+        global $global;var_dump($_SERVER);exit;
         // ignore cache if it is command line
         //var_dump($this->isFirstPage());exit;
         $obj = $this->getDataObject();
@@ -127,9 +127,10 @@ class Cache extends PluginAbstract {
             return true;
         }
         $whitelistedFiles = ['user.php', 'status.php', 'canWatchVideo.json.php', '/login', '/status'];
+        $whitelistedScriptName = ['/plugin/Live/index.php'];
         $blacklistedFiles = ['videosAndroid.json.php'];
-        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
-        if (getVideos_id() || isVideo() || isLive() || isLiveLink() || in_array($baseName, $whitelistedFiles) || in_array($_SERVER['REQUEST_URI'], $whitelistedFiles)) {
+        $baseName = basename($_SERVER["SCRIPT_NAME"]);
+        if (getVideos_id() || isVideo() || isLive() || isLiveLink() || in_array($baseName, $whitelistedFiles) || in_array($_SERVER['REQUEST_URI'], $whitelistedFiles) || in_array($_SERVER['SCRIPT_NAME'], $whitelistedScriptName)) {
             return true;
         }
 
@@ -178,7 +179,7 @@ class Cache extends PluginAbstract {
                     $firstPageCache = optimizeHTMLTags($firstPageCache);
                 }
 
-                echo $firstPageCache . PHP_EOL . '<!-- Cached Page Generated in ' . getScriptRunMicrotimeInSeconds() . ' Seconds [' . User::getId() . '] '.$_SERVER["SCRIPT_FILENAME"].' -->';
+                echo $firstPageCache . PHP_EOL . '<!-- Cached Page Generated in ' . getScriptRunMicrotimeInSeconds() . ' Seconds [' . User::getId() . '] '.$_SERVER["SCRIPT_NAME"].' -->';
                 if ($obj->logPageLoadTime) {
                     $this->end("Cache");
                 }
