@@ -1,5 +1,4 @@
 <?php
-
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
 class Meet_schedule extends ObjectYPT
@@ -83,7 +82,10 @@ class Meet_schedule extends ObjectYPT
         $this->live_stream = intval($live_stream);
     }
 
-    public function setPassword($password)
+    public function setPassword(
+        #[\SensitiveParameter]
+        $password
+    )
     {
         $this->password = $password;
     }

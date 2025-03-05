@@ -665,7 +665,11 @@ Passcode: {password}
         return "{$joinURL}{$roomID}";
     }
 
-    public static function validatePassword($meet_schedule_id, $password)
+    public static function validatePassword(
+        $meet_schedule_id,
+        #[\SensitiveParameter]
+        $password
+    )
     {
         if (User::isAdmin() || self::isModerator($meet_schedule_id)) {
             return true;
