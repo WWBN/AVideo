@@ -68,6 +68,9 @@ class MaintenanceMode extends PluginAbstract {
                 return true;
             }
         }
+        if (!empty($obj->stopVideo) && !empty(getVideos_id())) {
+            return true;
+        }
         $forbidden = array(
             $global['systemRootPath'] . 'view' . DIRECTORY_SEPARATOR . 'index.php',
             $global['systemRootPath'] . 'view' . DIRECTORY_SEPARATOR . 'channels.php',
@@ -91,6 +94,7 @@ class MaintenanceMode extends PluginAbstract {
         $obj->googleLink = '';
         $obj->discordLink = '';
         $obj->stopFeed = true;
+        $obj->stopVideo = true;
         $obj->endIn = date("Y-m-d H:i:s", strtotime("+1 week"));
         $obj->hideClock = false;
         $obj->backgroundImageURL = $global['webSiteRootURL'] . "plugin/MaintenanceMode/images/bg01.jpg";
