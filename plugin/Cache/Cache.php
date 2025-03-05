@@ -178,7 +178,7 @@ class Cache extends PluginAbstract {
                     $firstPageCache = optimizeHTMLTags($firstPageCache);
                 }
 
-                echo $firstPageCache . PHP_EOL . '<!-- Cached Page Generated in ' . getScriptRunMicrotimeInSeconds() . ' Seconds [' . User::getId() . '] '.$baseName.' -->';
+                echo $firstPageCache . PHP_EOL . '<!-- Cached Page Generated in ' . getScriptRunMicrotimeInSeconds() . ' Seconds [' . User::getId() . '] '.$_SERVER["SCRIPT_FILENAME"].' -->';
                 if ($obj->logPageLoadTime) {
                     $this->end("Cache");
                 }
