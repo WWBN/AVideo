@@ -115,7 +115,7 @@ class Cache extends PluginAbstract {
 
 
     public function getStart() {
-        global $global;var_dump($_SERVER);exit;
+        global $global;
         // ignore cache if it is command line
         //var_dump($this->isFirstPage());exit;
         $obj = $this->getDataObject();
