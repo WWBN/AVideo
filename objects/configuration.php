@@ -3,6 +3,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
 includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'objects/user.php';
 includeConfigLog(__LINE__, basename(__FILE__));
@@ -11,9 +12,10 @@ includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'objects/Object.php';
 includeConfigLog(__LINE__, basename(__FILE__));
 
-if(!class_exists('AVideoConf')){
-    
-class AVideoConf extends ObjectYPT{
+if (!class_exists('AVideoConf')) {
+
+class AVideoConf extends ObjectYPT
+{
     protected $id;
     protected $video_resolution;
     protected $webSiteTitle;
@@ -129,7 +131,7 @@ class AVideoConf extends ObjectYPT{
     {
         $this->webSiteTitle = $webSiteTitle;
     }
-    
+
     public function setDescription($description)
     {
         $this->description = $description;
@@ -359,18 +361,19 @@ class AVideoConf extends ObjectYPT{
         $this->autoplay = ($autoplay == 'true' || $autoplay == '1') ? 1 : 0;
     }
 
-    static function updateConfigFile($additions, $replacements, $newVersion) {
+    static function updateConfigFile($additions, $replacements, $newVersion)
+    {
         global $global;
         $filePath = "{$global['systemRootPath']}videos/configuration.php"; // Hardcoded file path
-        
+
         // Check if the file exists
         if (!file_exists($filePath)) {
             return false;
         }
-    
+
         // Read the file into an array
         $lines = file($filePath);
-    
+
         // Check if the configuration version is already the new version
         foreach ($lines as $line) {
             if (preg_match('/\$global\[\'configurationVersion\'\] = ([0-9]+(?:\.[0-9]+)?);/', $line, $matches)) {
@@ -381,10 +384,10 @@ class AVideoConf extends ObjectYPT{
                 break; // Break out of the loop once the version line is found
             }
         }
-        
+
         // Create a backup of the file
         copy($filePath, "{$global['systemRootPath']}videos/configuration_bkp_".date('YmdHis').".php");
-    
+
         // Process each line for replacements
         foreach ($lines as &$line) {
             foreach ($replacements as $pattern => $replacement) {
@@ -393,10 +396,10 @@ class AVideoConf extends ObjectYPT{
                 }
             }
             if(preg_match('/\$global\[\'configurationVersion\'\] = [0-9]+(\.[0-9]+)?;/', $line)){
-                $line = "\$global['configurationVersion'] = {$newVersion};".PHP_EOL;                
+                $line = "\$global['configurationVersion'] = {$newVersion};".PHP_EOL;
             }
         }
-    
+
         // Process each line for additions
         foreach ($additions as $pattern => $addition) {
             foreach ($lines as $index => &$line) {
@@ -406,11 +409,11 @@ class AVideoConf extends ObjectYPT{
                 }
             }
         }
-    
-        // Write the array back to the file    
+
+        // Write the array back to the file
         return file_put_contents($filePath, implode('', $lines));;
     }
-    
+
 
     public function getTheme()
     {
@@ -452,20 +455,12 @@ class AVideoConf extends ObjectYPT{
 
     public function getDefaultTheme()
     {
-        if($this->isDefaultThemeDark()){
-            return  $this->getThemeDark();
-        }else{
-            return  $this->getThemeLight();
-        }
+        return $this->isDefaultThemeDark() ? $this->getThemeDark() : $this->getThemeLight();
     }
 
     public function getAlternativeTheme()
     {
-        if(!$this->isDefaultThemeDark()){
-            return  $this->getThemeDark();
-        }else{
-            return  $this->getThemeLight();
-        }
+        return !$this->isDefaultThemeDark() ? $this->getThemeDark() : $this->getThemeLight();
     }
 
     public function isDefaultThemeDark()
@@ -551,7 +546,10 @@ class AVideoConf extends ObjectYPT{
         $this->smtpUsername = $smtpUsername;
     }
 
-    public function setSmtpPassword($smtpPassword)
+    public function setSmtpPassword(
+        #[\SensitiveParameter]
+        $smtpPassword
+    )
     {
         $this->smtpPassword = $smtpPassword;
     }
@@ -613,7 +611,8 @@ class AVideoConf extends ObjectYPT{
         rrmdir($cacheDir);
     }
 
-    public function getEncoderURL($addCredentials=false){
+    public function getEncoderURL($addCredentials = false)
+    {
         global $global, $getEncoderURL, $advancedCustom;
         if (!empty($global['forceEncoderURL'])) {
             return $global['forceEncoderURL'];
@@ -667,14 +666,14 @@ class AVideoConf extends ObjectYPT{
         return " " . PAGE_TITLE_SEPARATOR . " ";
     }
 
-    public static function getTableName() {
+    public static function getTableName()
+    {
         return 'configurations';
     }
 
 }
 }
 
-
-if(!class_exists('Configuration')){
+if (!class_exists('Configuration')) {
     class Configuration extends AVideoConf{}
 }

@@ -6,16 +6,10 @@ if (empty($global['systemRootPath'])) {
     require_once $global['systemRootPath'] . 'videos/configuration.php';
 }
 
-
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
-
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
-
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
-
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-
-
 
 /**
  *
@@ -24,7 +18,6 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
  */
 class User
 {
-
     protected $properties = [];
     private $id;
     private $user;
@@ -75,7 +68,12 @@ class User
     public static $is_company_status_WAITINGAPPROVAL = 2;
     public static $is_company_status = [0 => 'Not a Company', 1 => 'Active Company', 2 => 'Company waiting for approval'];
 
-    public function __construct($id, $user = "", $password = "")
+    public function __construct(
+        $id,
+        $user = '',
+        #[\SensitiveParameter]
+        $password = ''
+    )
     {
         if (empty($id)) {
             // get the user data from user and pass
@@ -316,7 +314,6 @@ if (typeof gtag !== \"function\") {
     {
         $this->load($this->getId());
     }
-
 
     public static function getIdRequestOrSession()
     {
@@ -1129,7 +1126,6 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
-
     public function delete()
     {
         $this->id = intval($this->id);
@@ -1737,6 +1733,7 @@ if (typeof gtag !== \"function\") {
      * @param string $encodedPass
      * @return boolean
      */
+    #[\Deprecated]
     private function find_Old($user, $pass, $mustBeactive = false, $encodedPass = false)
     {
         global $global;
@@ -2054,7 +2051,6 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
-
     public function setEmail($email)
     {
         global $advancedCustomUser;
@@ -2075,7 +2071,11 @@ if (typeof gtag !== \"function\") {
         return true;
     }
 
-    public function setPassword($password, $doNotEncrypt = false)
+    public function setPassword(
+        #[\SensitiveParameter]
+        $password,
+        $doNotEncrypt = false
+    )
     {
         if (strpos($password, "_user_hash_") === 0) {
             $passwordFromHash = User::getPasswordFromUserHashIfTheItIsValid($password);
@@ -2834,7 +2834,6 @@ if (typeof gtag !== \"function\") {
         return intval($this->emailVerified);
     }
 
-
     public static function _getEmailVerified($users_id = 0)
     {
         global $global, $config;
@@ -2968,7 +2967,6 @@ if (typeof gtag !== \"function\") {
             $msg .= "<br><br>";
             $msg .= "<a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}' style='background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 5px;'>" . __($advancedCustomUser->verificationMailButtonLabel);
             $msg .= "</a>";
-
 
             $resp = sendSiteEmail($user->getEmail(), __('Please Verify Your E-mail ') . ' ' . $webSiteTitle, $msg);
 
@@ -3547,7 +3545,6 @@ if (typeof gtag !== \"function\") {
         return $value;
     }
 
-
     public static function getSocialMediaURL($socialMedia, $users_id = '')
     {
         global $config;
@@ -3630,7 +3627,6 @@ if (typeof gtag !== \"function\") {
         }
         return $user->addExternalOptions('redirectCustomUrl', $value);
     }
-
 
     static function getChannelPanel($users_id)
     {
