@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-
+$global['printLogs'] = 1;
 AVideoPlugin::loadPlugin('Live');
 
 $key = $argv[1];

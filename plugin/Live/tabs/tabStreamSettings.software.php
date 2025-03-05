@@ -22,7 +22,7 @@
                     <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?resetKey=1" data-toggle="tooltip" title="<?php echo __("This also reset the Chat and views counter"); ?>"><i class="fa fa-refresh"></i> <?php echo __("Reset Key"); ?></a>
                 </span>
                 <?php
-                getInputCopyToClipboard('streamkey', $key);
+                getInputCopyToClipboard('streamkey', $keyForStreamSettingTab);
                 ?>
             </div>
         </div>

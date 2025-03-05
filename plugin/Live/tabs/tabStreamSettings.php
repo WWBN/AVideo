@@ -29,6 +29,8 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
         $key = $rb['cleankey'];
     }
 }
+
+$keyForStreamSettingTab = $key;
 //var_dump(getLiveKey(), $islive, $key, User::getId());exit;
 ?>
 <style>

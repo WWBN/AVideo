@@ -826,7 +826,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     {
         $domain = self::getControlOrPublic($key, $live_servers_id);
         if (isDocker()) {
-            $domain .= 'record/stop';
+            $domain .= 'record/start';
         }
         $app = self::getAPPName();
         $domain = addQueryStringParameter($domain, 'command', 'record_start');
