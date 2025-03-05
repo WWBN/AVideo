@@ -148,7 +148,7 @@ function _test_getEncryptedInfo($msg) {
     $msgObj->test_msg = $msg;
     $msgObj->user_name = SocketMessageType::TESTING;
     $msgObj->browser = SocketMessageType::TESTING;
-    $msgObj->yptDeviceId = SocketMessageType::TESTING . "-" . uniqid();
+    $msgObj->yptDeviceId = SocketMessageType::TESTING . "-" . _uniqid();
     $msgObj->token = getToken($timeOut);
     $msgObj->time = time();
     $msgObj->ip = '127.0.0.1';

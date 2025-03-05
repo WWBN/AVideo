@@ -113,7 +113,7 @@ class AdsForJesus extends PluginAbstract {
                 PlayerSkins::setIMAADTag($url);
             } else {
                 $video['duration'] = "01:00:00";
-                $_GET['videoName'] = "Live-" . uniqid();
+                $_GET['videoName'] = "Live-" . _uniqid();
                 $video_length = parseDurationToSeconds($video['duration']);
                 $obj = $this->getDataObject();
                 PlayerSkins::setIMAADTag("https://forjesus.tv/vmap.xml?video_durarion={$video_length}&start={$obj->start}&mid25Percent={$obj->mid25Percent}&mid50Percent={$obj->mid50Percent}&mid75Percent={$obj->mid75Percent}&end={$obj->end}");

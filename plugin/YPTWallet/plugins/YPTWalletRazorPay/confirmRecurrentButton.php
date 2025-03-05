@@ -1,6 +1,6 @@
 <?php
 $obj = AVideoPlugin::getObjectData('StripeYPT');
-$uid = uniqid();
+$uid = _uniqid();
 ?>
 <form method="post" action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletRazorPay/requestSubscription.json.php" style="display:none;" id="RazorPayForm<?php echo $uid; ?>">
     <input type="text" name="value" value="" id="valueRazorPay<?php echo $uid; ?>" autocomplete="off"/>
