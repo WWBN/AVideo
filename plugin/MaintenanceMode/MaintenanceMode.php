@@ -69,7 +69,7 @@ class MaintenanceMode extends PluginAbstract {
                 return true;
             }
         }
-        if (!empty($obj->stopVideo) && !empty(getVideos_id())) {
+        if (!empty($obj->stopVideo) && !empty(getVideos_id()) && !User::isAdmin()) {
             return true;
         }
         $forbidden = array(
