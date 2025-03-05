@@ -43,6 +43,7 @@ class MaintenanceMode extends PluginAbstract {
                 $resp->error = true;
                 $resp->msg = $obj->text;
                 $resp->MaintenanceMode = true;
+                $resp->redirectHere = '';
                 echo (json_encode($resp));
             } else if (isContentTypeXML()) {
                 header("Content-Type: application/xml");

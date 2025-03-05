@@ -4,13 +4,17 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 if(empty($obj)){
     $obj = AVideoPlugin::getDataObject('MaintenanceMode');
 }
-
+if(!empty($resp->redirectHere) && isValidURL($resp->redirectHere)){
+    header("Location: {$resp->redirectHere}", true, 302);
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Coming Soon 1</title>
         <meta charset="UTF-8">
+        <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--===============================================================================================-->
             <?php
@@ -122,7 +126,7 @@ if(empty($obj)){
             </div>
         </div>
 
-        <!--===============================================================================================-->	
+        <!--===============================================================================================-->
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
         <!--===============================================================================================
         <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/bootstrap/js/popper.js"></script>-->
