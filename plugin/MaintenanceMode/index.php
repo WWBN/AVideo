@@ -4,8 +4,8 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 if(empty($obj)){
     $obj = AVideoPlugin::getDataObject('MaintenanceMode');
 }
-if(!empty($resp->redirectHere) && isValidURL($resp->redirectHere)){
-    header("Location: {$resp->redirectHere}", true, 302);
+if(!empty($obj->redirectHere) && isValidURL($obj->redirectHere)){
+    header("Location: {$obj->redirectHere}", true, 302);
     exit;
 }
 ?>
