@@ -33,7 +33,7 @@ $_page = new Page(array('Help'));
                 <p><?php echo __('Done'); ?>!</p>
                 <hr />
                 <h3><?php echo __('Update via ftp/files'); ?></h3>
-                <p><?php echo __('Download this file'); ?>: <a href="https://github.com/WWBN/AVideo/archive/master.zip">github.com/DanielnetoDotCom/AVideo/archive/master.zip</a> (<?php echo __('always the newest'); ?>).</p>
+                <p><?php echo __('Download this file'); ?>: <a href="https://github.com/WWBN/AVideo/archive/master.zip">https://github.com/WWBN/AVideo/archive/master.zip</a> (<?php echo __('always the newest'); ?>).</p>
                 <p><?php echo __('Unzip and upload/replace <b>all</b> of the files. Only the videos folder should stay untouched.'); ?></p>
                 <p><?php echo __('It can be, that you will need a database-update after. For this, go as admin to the menu-point'); ?> "<a href='<?php echo $global['webSiteRootURL']; ?>update'><?php echo __('Update version'); ?></a>".</p>
                 <p><?php echo __('Done'); ?>!</p>
