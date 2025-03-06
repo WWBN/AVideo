@@ -138,6 +138,7 @@ $_page->setExtraScripts(
                 }
                 $templine .= $line;
                 if (substr(trim($line), -1, 1) == ';') {
+                    //echo $templine;echo '<br><br>';
                     if (!$global['mysqli']->query($templine)) {
                         $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
                         echo json_encode($obj);

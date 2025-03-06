@@ -260,25 +260,28 @@ CREATE TABLE IF NOT EXISTS `videos_metadata` (
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
--- -----------------------------------------------------
--- Table `comments`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comments` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `comment` TEXT NOT NULL,
-  `videos_id` INT NOT NULL,
-  `users_id` INT NOT NULL,
+  `videos_id` INT(11) NOT NULL,
+  `users_id` INT(11) NOT NULL,
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
-  `comments_id_pai` INT NULL,
+  `comments_id_pai` INT(11) NULL DEFAULT NULL,
   `pin` INT(1) NOT NULL DEFAULT 0 COMMENT 'If = 1 will be on the top',
+  `live_transmitions_history_id` INT(11) NULL DEFAULT NULL,
+  `created_php_time` BIGINT UNSIGNED NULL,
+  `modified_php_time` BIGINT UNSIGNED NULL,
+  `chat_messages_id` INT(11) UNSIGNED NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_comments_videos1_idx` (`videos_id` ASC),
   INDEX `fk_comments_users1_idx` (`users_id` ASC),
   INDEX `fk_comments_comments1_idx` (`comments_id_pai` ASC),
-  CONSTRAINT `fk_comments_videos1`
-    FOREIGN KEY (`videos_id`)
-    REFERENCES `videos` (`id`)
+  INDEX `fk_comments_live_transmitions_history1_idx` (`live_transmitions_history_id` ASC),
+  INDEX `chat_messages_comments` (`chat_messages_id` ASC),
+  CONSTRAINT `fk_comments_comments1`
+    FOREIGN KEY (`comments_id_pai`)
+    REFERENCES `comments` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_comments_users1`
@@ -286,11 +289,16 @@ CREATE TABLE IF NOT EXISTS `comments` (
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_comments_comments1`
-    FOREIGN KEY (`comments_id_pai`)
-    REFERENCES `comments` (`id`)
+  CONSTRAINT `fk_comments_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_comments_live_transmitions_history1`
+    FOREIGN KEY (`live_transmitions_history_id`)
+    REFERENCES `live_transmitions_history` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE SET NULL)
 ENGINE = InnoDB;
 
 
@@ -593,7 +601,7 @@ CREATE TABLE IF NOT EXISTS `category_type_cache` (
   `categoryId` int(11) NOT NULL,
   `type` int(2) NOT NULL COMMENT '0=both, 1=audio, 2=video' DEFAULT 0,
   `manualSet` int(1) NOT NULL COMMENT '0=auto, 1=manual' DEFAULT 0
-) 
+)
 ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `categories_has_users_groups` (
