@@ -1541,7 +1541,8 @@ class API extends PluginAbstract
             $trans->setTitle($parameters['title']);
             $trans->setPublic($parameters['public']);
             if ($obj->id = $trans->save()) {
-                return new ApiObject("", false, $obj);
+                $trans = LiveTransmition::getFromDb($obj->id, true);
+                return new ApiObject("", false, $trans);
             } else {
                 return new ApiObject("Error on save");
             }
