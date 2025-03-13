@@ -1508,6 +1508,7 @@ class API extends PluginAbstract
      * ['public' 1 = live is listed; 0 = not listed]
      * ['APISecret' if passed will not require user and pass]
      * ['users_id' the user ID]
+     * ['resetKey' send resetKey=1 to reset the key]
      * ['user' username if does not have the APISecret]
      * ['pass' password  if does not have the APISecret]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&users_id=1
@@ -1541,6 +1542,9 @@ class API extends PluginAbstract
             $trans->setTitle($parameters['title']);
             $trans->setPublic($parameters['public']);
             if ($obj->id = $trans->save()) {
+                if($parameters['resetKey']){
+                    LiveTransmition::resetTransmitionKey($parameters['users_id']);
+                }
                 $trans = LiveTransmition::getFromDb($obj->id, true);
                 return new ApiObject("", false, $trans);
             } else {
