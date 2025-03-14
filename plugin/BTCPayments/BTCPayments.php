@@ -55,9 +55,9 @@ class BTCPayments extends PluginAbstract
         $obj = new stdClass();
 
         $obj->siteWallet = "";
-        //$obj->siteWalletTest = "tb1qdv8zs8c9ukr636gcmznz2pa8y5zxg7u8ghufkq";
+        $obj->siteWalletTest = "tb1qdv8zs8c9ukr636gcmznz2pa8y5zxg7u8ghufkq";
         $obj->BTCMarketPlaceKey = "";
-        //$obj->useTestNet = true;
+        $obj->useTestNet = true;
         /*
         $obj->textSample = "text";
         $obj->checkboxSample = true;
@@ -81,7 +81,7 @@ class BTCPayments extends PluginAbstract
         global $global;
 
         $api = AVideoPlugin::getObjectData('API');
-        $url = BTC_MARKETPLACE_URL . 'status.json.php';
+        $url = self::getMarketplaceURL('status.json.php');
         $url = addQueryStringParameter($url, 'siteUrl', $global['webSiteRootURL']);
         $url = addQueryStringParameter($url, 'siteId', getPlatformId());
         $url = addQueryStringParameter($url, 'APISecret', $api->APISecret);
@@ -89,6 +89,57 @@ class BTCPayments extends PluginAbstract
         $btn  = '<button onclick="avideoModalIframeLarge(webSiteRootURL+\'plugin/BTCPayments/View/editor.php\')" class="btn btn-primary btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
         $btn .= '<button onclick="avideoAlertAJAX(\'' . $url . '\');" class="btn btn-primary btn-xs btn-block"><i class="fa-solid fa-list-check"></i> Status</button>';
         return $btn;
+    }
+
+    static function getMarketplaceURL($page)
+    {
+        $url = BTC_MARKETPLACE_URL . $page;
+
+        $obj = AVideoPlugin::getDataObject('BTCPayments');
+        if ($obj->useTestNet) {
+            $url = addQueryStringParameter($url, 'useTestNet', 1);
+        }
+        return $url;
+    }
+
+    static function getBitcoinNetwork(string $address): string {
+        // Base58 Address Prefixes
+        $mainnetPrefixes = ['1', '3', 'bc1']; // Legacy (P2PKH), SegWit (P2SH, Bech32)
+        $testnetPrefixes = ['m', 'n', '2', 'tb1']; // Testnet (P2PKH, P2SH, Bech32)
+        $signetPrefixes  = ['tb1q']; // Signet (Bech32)
+
+        if (preg_match('/^(' . implode('|', $mainnetPrefixes) . ')/', $address)) {
+            return 'Mainnet';
+        } elseif (preg_match('/^(' . implode('|', $testnetPrefixes) . ')/', $address)) {
+            return 'Testnet';
+        } elseif (preg_match('/^(' . implode('|', $signetPrefixes) . ')/', $address)) {
+            return 'Signet';
+        } else {
+            return 'Unknown';
+        }
+    }
+
+    static function isValidAddress(string $address): bool {
+        global $_errorMessageBTCIsValid;
+        $_errorMessageBTCIsValid = '';
+        if(empty($address)){
+            $_errorMessageBTCIsValid = 'Address is empty';
+            return false;
+        }
+        $obj = AVideoPlugin::getDataObject('BTCPayments');
+        $network = self::getBitcoinNetwork($address);
+        if($obj->useTestNet){
+            $resp = $network  === 'Testnet';
+            if(!$resp){
+                $_errorMessageBTCIsValid = "You selected to use the Mainnet, but the provided address [$address] is for {$network} network";
+            }
+        }else{
+            $resp = $network  === 'Mainnet';
+            if(!$resp){
+                $_errorMessageBTCIsValid = "You selected to use the Testnet, but the provided address [$address] is for {$network} network";
+            }
+        }
+        return $resp;
     }
 
     /**
@@ -109,7 +160,7 @@ class BTCPayments extends PluginAbstract
      */
     static function createBTCPayInvoice($amount, $users_id, $walletSplits = [], $metadata = array(), $redirectUrl = null)
     {
-        global $global;
+        global $global, $_errorMessageBTCIsValid;
 
         $objWallet = AVideoPlugin::getObjectData('YPTWallet');
 
@@ -133,12 +184,24 @@ class BTCPayments extends PluginAbstract
         $remainPercentage = 100;
         if (!empty($walletSplits)) {
             foreach ($walletSplits as $key => $value) {
+                if(empty($value['destination'])){
+                    continue;
+                }
+                if(!self::isValidAddress($value['destination'])){
+                    forbiddenPage($_errorMessageBTCIsValid);
+                }
                 $data["walletSplits"][] =  ["destination" => $value['destination'], "percentage" => floatval($value['percentage'])];
                 $remainPercentage -= $value['percentage'];
             }
         }
 
-        $data["walletSplits"][] =  ["destination" => $obj->siteWallet, "percentage" => floatval($remainPercentage)];
+        if($obj->useTestNet){
+            $siteWallet = $obj->siteWalletTest;
+        }else{
+            $siteWallet = $obj->siteWallet;
+        }
+
+        $data["walletSplits"][] =  ["destination" => $siteWallet, "percentage" => floatval($remainPercentage)];
 
         $tmpFileName = _uniqid() . '.btc.json';
 
@@ -149,13 +212,12 @@ class BTCPayments extends PluginAbstract
 
         file_put_contents($tmpFilePath, json_encode($data));
 
-        $url = BTC_MARKETPLACE_URL . 'invoice.json.php';
-
+        $url = self::getMarketplaceURL('invoice.json.php');
         $url = addQueryStringParameter($url, 'BTCMarketPlaceKey', $obj->BTCMarketPlaceKey);
         $url = addQueryStringParameter($url, 'tmpFileName', $tmpFileName);
 
         $content = url_get_contents($url);
-
+        //var_dump($url);
         if (empty($content)) {
             forbiddenPage("Could not get the content from URL {$url}");
         }
@@ -188,8 +250,9 @@ class BTCPayments extends PluginAbstract
 
 
         $invoice = BTCPayments::createBTCPayInvoice($total_cost, $users_id, [], $metadata, $redirectUrl);
-        if($invoice['error']){
-            _error_log('BTC::setUpPayment '.json_encode($invoice), AVideoLog::$ERROR);
+        var_dump($invoice);exit;
+        if ($invoice['error']) {
+            _error_log('BTC::setUpPayment ' . json_encode($invoice), AVideoLog::$ERROR);
             forbiddenPage($invoice['msg']);
             exit;
         }

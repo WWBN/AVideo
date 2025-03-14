@@ -15,7 +15,7 @@ if (empty($_REQUEST['invoiceId'])) {
 
 $resp = new stdClass();
 
-$resp->url = BTC_MARKETPLACE_URL . 'invoice.verify.json.php';
+$resp->url = BTCPayments::getMarketplaceURL('invoice.verify.json.php');
 $resp->url = addQueryStringParameter($resp->url, 'invoiceId', $_REQUEST['invoiceId']);
 $resp->url = addQueryStringParameter($resp->url, 'BTCMarketPlaceKey', $obj->BTCMarketPlaceKey);
 
@@ -70,6 +70,11 @@ if ($resp->btc_invoices_id) {
                     if ($invoice->currency == $obj->currency) {
                         file_put_contents($log, '['.date('Y/m/d H:i:s').'] ADD balance '.$invoice->amount . PHP_EOL, FILE_APPEND);
                         $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+                        $description = number_format($invoice->totalBTCPaid, 8, '.', '') . ' BTC from invoice '.$invoice->id;
+                        if ($invoice->metadata->BTCPAY_NETWORK !== 'Mainnet') {
+                            $description = "[TEST MODE] {$description}";
+                        }
+
                         $plugin->addBalance($invoice->metadata->users_id, $invoice->amount, number_format($invoice->totalBTCPaid, 8, '.', '') . ' BTC from invoice '.$invoice->id, json_encode($invoice));
                     }
                 }
