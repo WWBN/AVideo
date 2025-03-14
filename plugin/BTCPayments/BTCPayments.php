@@ -176,7 +176,7 @@ class BTCPayments extends PluginAbstract
         if (empty($redirectUrl)) {
             $redirectUrl = "{$global['webSiteRootURL']}plugin/BTCPayments/payment-complete.php";
         }
-        $data["checkout"] = ["redirectURL" => $redirectUrl];
+        $data["checkout"] = ["redirectUrl" => $redirectUrl];
 
         $obj = AVideoPlugin::getDataObject('BTCPayments');
 
