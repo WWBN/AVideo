@@ -71,7 +71,7 @@ if ($resp->btc_invoices_id) {
                         file_put_contents($log, '[' . date('Y/m/d H:i:s') . '] ADD balance ' . $invoice->amount . PHP_EOL, FILE_APPEND);
                         $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
                         $url = $invoice->checkoutLink.'/receipt';
-                        $description = number_format($invoice->totalBTCPaid, 8, '.', '') . " BTC from <a href='{$url}' target='_blank'>invoice " . $invoice->id . '</a>';
+                        $description = number_format($invoice->totalBTCPaid, 8, '.', '') . " BTC from invoice <a href='{$url}' target='_blank'>" . $invoice->id . '</a>';
                         if ($invoice->metadata->BTCPAY_NETWORK !== 'Mainnet') {
                             $description = "[TEST MODE] {$description}";
                         }
