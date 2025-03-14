@@ -29,7 +29,7 @@ if (!empty($resp->json)) {
     unset($resp->content);
 }
 
-file_put_contents($log, '['.date('Y/m/d H:i:s').'] '.json_encode($resp) . PHP_EOL, FILE_APPEND);
+file_put_contents($log, '[' . date('Y/m/d H:i:s') . '] ' . json_encode($resp) . PHP_EOL, FILE_APPEND);
 
 $invoice = $resp->json->invoice;
 
@@ -55,7 +55,7 @@ if ($resp->btc_invoices_id) {
         case 'Settled':
             $resp->paymentSaved = Btc_payments::getIdOr0($resp->btc_invoices_id);
             if (empty($resp->paymentSaved)) {
-                file_put_contents($log, '['.date('Y/m/d H:i:s').'] Save Payment' . PHP_EOL, FILE_APPEND);
+                file_put_contents($log, '[' . date('Y/m/d H:i:s') . '] Save Payment' . PHP_EOL, FILE_APPEND);
                 $o = new Btc_payments(0);
                 $o->setBtc_invoices_id($resp->btc_invoices_id);
                 $o->setTransaction_identification(uniqid());
@@ -65,17 +65,18 @@ if ($resp->btc_invoices_id) {
                 $o->setJson($invoice);
 
                 $resp->paymentSaved = $o->save();
-                if($resp->paymentSaved){
+                if ($resp->paymentSaved) {
                     $obj = AVideoPlugin::getObjectData('YPTWallet');
                     if ($invoice->currency == $obj->currency) {
-                        file_put_contents($log, '['.date('Y/m/d H:i:s').'] ADD balance '.$invoice->amount . PHP_EOL, FILE_APPEND);
+                        file_put_contents($log, '[' . date('Y/m/d H:i:s') . '] ADD balance ' . $invoice->amount . PHP_EOL, FILE_APPEND);
                         $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
-                        $description = number_format($invoice->totalBTCPaid, 8, '.', '') . ' BTC from invoice '.$invoice->id;
+                        $url = $invoice->checkoutLink.'/receipt';
+                        $description = number_format($invoice->totalBTCPaid, 8, '.', '') . " BTC from <a href='{$url}' target='_blank'>invoice " . $invoice->id . '</a>';
                         if ($invoice->metadata->BTCPAY_NETWORK !== 'Mainnet') {
                             $description = "[TEST MODE] {$description}";
                         }
 
-                        $plugin->addBalance($invoice->metadata->users_id, $invoice->amount, number_format($invoice->totalBTCPaid, 8, '.', '') . ' BTC from invoice '.$invoice->id, json_encode($invoice));
+                        $plugin->addBalance($invoice->metadata->users_id, $invoice->amount, $description, json_encode($invoice));
                     }
                 }
             } else {
@@ -84,9 +85,9 @@ if ($resp->btc_invoices_id) {
             break;
 
         default:
-            file_put_contents($log, '['.date('Y/m/d H:i:s').'] Status not found to process '.$invoice->status . PHP_EOL, FILE_APPEND);
+            file_put_contents($log, '[' . date('Y/m/d H:i:s') . '] Status not found to process ' . $invoice->status . PHP_EOL, FILE_APPEND);
 
-            $resp->msg = 'Status not found to process '.$invoice->status;
+            $resp->msg = 'Status not found to process ' . $invoice->status;
             break;
     }
 }
