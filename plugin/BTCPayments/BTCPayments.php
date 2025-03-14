@@ -19,6 +19,7 @@ class BTCPayments extends PluginAbstract
             PluginTags::$MONETIZATION,
             PluginTags::$RECOMMENDED,
             PluginTags::$FREE,
+            PluginTags::$UNDERDEVELOPMENT,
         );
     }
 
