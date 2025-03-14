@@ -18,7 +18,7 @@ var playListsReloading = false;
 var playList = [];
 var isReloadPlayListsExecuting = false;  // Flag for reloadPlayLists
 var isReloadPlayListButtonsExecuting = false;  // Flag for reloadPlayListButtons
-let loadPlayListsResponseObject = { timestamp: 0, response: false };
+var loadPlayListsResponseObject = { timestamp: 0, response: false };
 
 // Unified function to handle both reload and load scenarios
 async function handlePlayLists(videos_id = null, clearCache = 0) {

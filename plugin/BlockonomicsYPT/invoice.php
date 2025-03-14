@@ -11,7 +11,7 @@ $obj = AVideoPlugin::getObjectData("BlockonomicsYPT");
 $order_id = $plugin->setUpPayment($_GET['value']);
 $order = new BlockonomicsOrder($order_id);
 $_page = new Page(array('Invoice'));
-$_page->setExtraScripts(array('plugin/BlockonomicsYPT/jquery.qrcode.min.js'))
+$_page->setExtraScripts(array('view/js/jquery.qrcode.min.js'));
 ?>
 <div class="container">
 

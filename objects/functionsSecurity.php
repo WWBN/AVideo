@@ -99,7 +99,7 @@ function isUntrustedRequest($logMsg = '', $approveAVideoUserAgent = true)
         if ($approveAVideoUserAgent && isAVideoUserAgent()) {
             return false;
         } else {
-            _error_log('isUntrustedRequest: ' . json_encode($logMsg), AVideoLog::$SECURITY);
+            _error_log('isUntrustedRequest: ' . json_encode($logMsg). ' add $global[\'bypassSameDomainCheck\'] = 1 to by pass it' , AVideoLog::$SECURITY);
             return true;
         }
     }
@@ -282,7 +282,7 @@ function isBot($returnTrueIfNoUserAgent=true)
         'google',
         'Expanse'
     ];
-    
+
     // See if one of the identifiers is in the UA string.
     foreach ($bot_identifiers as $identifier) {
         if (stripos($user_agent, $identifier) !== false) {
@@ -308,7 +308,7 @@ function markDownToHTML($text) {
         '<a href="$0" target="_blank" rel="noopener noreferrer">$0</a>',
         $html
     );
-    
+
     // Add classes to images
     $html = preg_replace(
         '/<img([^>]+)>/i',
@@ -358,7 +358,7 @@ function getAToken()
                 return $obj->atoken;
             }
         }
-    }    
+    }
     if (preg_match('/atoken=\(([a-z0-9=]+)\)/i', $_SERVER['HTTP_USER_AGENT'], $matches)) {
         if (!empty($matches[1])) {
             return $matches[1];
@@ -447,22 +447,22 @@ function includeSecurityChecks() {
 
     // Scan the plugins directory
     $subdirs = scandir($directory);
-    
+
     // Loop through each item in the plugins directory
     foreach ($subdirs as $subdir) {
         // Skip . and .. entries
         if ($subdir === '.' || $subdir === '..') {
             continue;
         }
-        
+
         // Create the full path for each subdirectory
         $subdirPath = $directory . DIRECTORY_SEPARATOR . $subdir;
-        
+
         // Check if it is a directory
         if (is_dir($subdirPath)) {
             // Path to securityCheck.php in the current subdirectory
             $securityCheckFile = $subdirPath . DIRECTORY_SEPARATOR . 'securityCheck.php';
-            
+
             // Check if securityCheck.php exists in the subdirectory
             if (file_exists($securityCheckFile)) {
                 // Include the securityCheck.php file

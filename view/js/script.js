@@ -1793,11 +1793,15 @@ function json_decode(jsonString) {
 }
 
 function avideoResponse(response) {
-    //console.log('avideoResponse', response);
+    //console.log('avideoResponse 1', response);
     if (typeof response === 'string') {
         response = json_decode(response);
     }
-    //console.log('avideoResponse', response);
+
+    if (typeof response.responseJSON === 'object') {
+        response = response.responseJSON;
+    }
+    //console.log('avideoResponse 2', response);
     if (response.error) {
         if (!response.msg) {
             if (typeof response.error === 'string') {
