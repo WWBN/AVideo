@@ -13,6 +13,15 @@ class BTCPayments extends PluginAbstract
 {
 
 
+    public function getTags()
+    {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE,
+        );
+    }
+
     public function getDescription()
     {
         $desc = "A low-cost, secure way to accept Bitcoin on AVideo.

@@ -22,6 +22,13 @@ class BlockonomicsYPT extends PluginAbstract {
         return $return;
     }
 
+    public function getTags()
+    {
+        return array(
+            PluginTags::$DEPRECATED
+        );
+    }
+
     public function getName() {
         return "BlockonomicsYPT";
     }
@@ -60,14 +67,14 @@ class BlockonomicsYPT extends PluginAbstract {
             return false;
         }
 
-        //Generate new address for this invoice        
+        //Generate new address for this invoice
         $new_address = $this->getNewAddress($obj->APIKey);
-        
+
         if (empty($new_address)) {
             _error_log('Blockonomics ERROR 1: ' . json_last_error_msg(), AVideoLog::$ERROR);
             return false;
         }
-        
+
         //Getting price
         $options = array('http' => array('method' => 'GET'));
         $context = stream_context_create($options);
