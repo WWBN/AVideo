@@ -120,35 +120,16 @@ function getDirSize($dir, $forceNew = false)
 
     _error_log("getDirSize: start {$dir}");
 
-    if (isWindowsServer()) {
-        $return = foldersize($dir);
-        $_getDirSize[$dir] = $return;
-        return $return;
-    } else {
-        $command = "du -sb {$dir}";
-        exec($command . " < /dev/null 2>&1", $output, $return_val);
-        if ($return_val !== 0) {
-            _error_log("getDirSize: ERROR ON Command {$command}");
-            $return = 0;
-            $_getDirSize[$dir] = $return;
-            return $return;
-        } else {
-            if (!empty($output[0])) {
-                preg_match("/^([0-9]+).*/", $output[0], $matches);
-            }
-            if (!empty($matches[1])) {
-                _error_log("getDirSize: found {$matches[1]} from - {$output[0]}");
-                $return = intval($matches[1]);
-                $_getDirSize[$dir] = $return;
-                return $return;
-            }
-
-            _error_log("getDirSize: ERROR on pregmatch {$output[0]}");
-            $return = 0;
-            $_getDirSize[$dir] = $return;
-            return $return;
+    $return = 0;
+    $rdi = new RecursiveDirectoryIterator($dir);
+    $rii = new RecursiveIteratorIterator($rdi);
+    foreach ($rii as $file) {
+        if (is_file($file)) {
+            $return += $file->getSize();
         }
     }
+
+    return $return;
 }
 
 function rrmdirCommandLine($dir, $async = false)
