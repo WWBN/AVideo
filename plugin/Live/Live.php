@@ -2321,6 +2321,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $app['live_servers_id'] = $live_servers_id;
                 $app['key'] = $value->name;
                 $app['isPrivate'] = self::isPrivate($app['key']);
+                $app['m3u8'] = Live::getM3U8File($app['key']);
                 $app['isPasswordProtected'] = self::isPasswordProtected($app['key']);
                 $app['isRebroadcast'] = self::isRebroadcast($app['key']);
                 $app['method'] = 'Live::_getStats';
