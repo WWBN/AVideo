@@ -14,7 +14,7 @@
     position: absolute;
     top: 28px;
     left: 24px;
-    z-index: 10;
+    z-index: 50;
 }
 
 #topMenuUserNotifications span.badge-notify{
@@ -47,7 +47,7 @@
 
 #topMenuUserNotifications > ul .list-group a > div > div.media-body > strong{
     white-space: nowrap;
-    
+
 }
 #topMenuUserNotifications .icon{
     position: absolute;
