@@ -151,18 +151,42 @@ class Btc_invoices extends ObjectYPT
         return 0;
     }
 
-    public static function getAll()
+    public static function getAllFromUser($users_id)
     {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT p.*, i.* FROM  " . static::getTableName() . " i LEFT JOIN btc_payments p ON i.id = btc_invoices_id WHERE 1=1 ";
+        $sql = "SELECT p.*, i.* FROM  " . static::getTableName() . " i LEFT JOIN btc_payments p ON i.id = btc_invoices_id WHERE i.users_id = ? ";
 
         $sql .= self::getSqlFromPost('i.');
-        $res = sqlDAL::readSql($sql);
+        $res = sqlDAL::readSql($sql, 'i', [$users_id]);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         return $fullData;
+    }
+
+    public static function getTotalFromUser($users_id)
+    {
+        //will receive
+        //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
+        global $global;
+        if (!static::isTableInstalled()) {
+            return 0;
+        }
+        $sql = "SELECT id FROM  " . static::getTableName() . " WHERE users_id = ? ";
+        $sql .= self::getSqlSearchFromPost();
+        $res = sqlDAL::readSql($sql, 'i', [$users_id]);
+        $countRow = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+        return $countRow;
+    }
+
+    public function save($notifySocket = false){
+        $save = parent::save();
+        if($save && $notifySocket){
+            sendSocketMessageToUsers_id(json_decode($this->json), $this->users_id,'BTCPayments');
+        }
+        return $save;
     }
 }

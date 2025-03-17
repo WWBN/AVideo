@@ -2125,3 +2125,7 @@ body.ypt-is-compressed #videoCol {
 .galleryVideoButtons div.dropdown.text-center.open > ul button{
     width: 100%;
 }
+
+body > div.jq-toast-wrap{
+    z-index: 99999 !important;
+}

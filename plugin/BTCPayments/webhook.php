@@ -48,7 +48,7 @@ $btcInvoice->setStatus('a');
 $btcInvoice->setUsers_id($invoice->metadata->users_id);
 $btcInvoice->setJson($invoice);
 
-$resp->btc_invoices_id = $btcInvoice->save();
+$resp->btc_invoices_id = $btcInvoice->save(true);
 $resp->status = $invoice->status;
 if ($resp->btc_invoices_id) {
     switch ($invoice->status) {

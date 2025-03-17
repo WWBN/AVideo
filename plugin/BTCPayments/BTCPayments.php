@@ -310,4 +310,13 @@ class BTCPayments extends PluginAbstract
         $resp->error = false;
         return $resp;
     }
+
+    public function getHeadCode()
+    {
+        global $global, $config;
+        $js = '';
+
+        $js .= '<script src="' . getURL('plugin/BTCPayments/script.js') . '" type="text/javascript"></script>';
+        return $js;
+    }
 }
