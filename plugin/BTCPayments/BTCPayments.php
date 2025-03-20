@@ -260,9 +260,9 @@ class BTCPayments extends PluginAbstract
 
 
         $invoice = BTCPayments::createBTCPayInvoice($total_cost, $users_id, [], $metadata, $redirectUrl);
-        //var_dump($invoice);exit;
         if ($invoice['error']) {
             _error_log('BTC::setUpPayment ' . json_encode($invoice), AVideoLog::$ERROR);
+            //var_dump($invoice);exit;
             forbiddenPage($invoice['msg']);
             exit;
         }

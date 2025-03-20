@@ -10,7 +10,11 @@ $global['bypassSameDomainCheck'] = 1;
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWalletBTC");
 $obj = AVideoPlugin::getObjectData("YPTWalletBTC");
 
-$invoice = BTCPayments::setUpPayment($_GET['value'], User::getId(), array('description'=>$_REQUEST['description']), "{$global['webSiteRootURL']}{$_REQUEST['redirectUrl']}");
+if(empty($_REQUEST['orderId'])){
+    $_REQUEST['orderId'] = intval(User::getId()).'-'.date('YmdHis');
+}
+
+$invoice = BTCPayments::setUpPayment($_GET['value'], User::getId(), array('description'=>$_REQUEST['description'], 'orderId' => $_REQUEST['orderId']), "{$global['webSiteRootURL']}{$_REQUEST['redirectUrl']}");
 
 //var_dump($invoice);exit;
 
