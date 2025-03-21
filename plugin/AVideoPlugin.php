@@ -2968,6 +2968,9 @@ class AVideoPlugin
         if (empty($global)) {
             $global = [];
         }
+        if(!empty($global['skipModifyURL'])){
+            return $file;
+        }
         $plugins = Plugin::getAllEnabled();
         if (empty($videos_id)) {
             $videos_id = 0;
