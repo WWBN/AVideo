@@ -5,6 +5,7 @@ ob_end_flush();
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
+$global['skipModifyURL'] = 1;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
