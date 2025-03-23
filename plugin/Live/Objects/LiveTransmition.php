@@ -184,7 +184,7 @@ class LiveTransmition extends ObjectYPT {
             $l = new LiveTransmition(0);
             $l->setTitle("I am Live");
             $l->setDescription("");
-            $l->setKey(uniqid());
+            $l->setKey(_uniqid());
             $l->setCategories_id(1);
             $l->setUsers_id($user_id);
             $l->setPublicAutomatic();
@@ -203,7 +203,7 @@ class LiveTransmition extends ObjectYPT {
         $row = static::getFromDbByUser($user_id);
 
         $l = new LiveTransmition($row['id']);
-        $newKey = uniqid();
+        $newKey = _uniqid();
         $l->setKey($newKey);
         if ($l->save()) {
             return $newKey;

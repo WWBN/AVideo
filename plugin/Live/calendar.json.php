@@ -169,7 +169,7 @@ foreach ($appArray as $app) {
         //var_dump($app['type']);
         $isPlayingNow = empty($app['comingsoon']);
 
-        $id = $app['liveLinks_id'] ?? $app['live_schedule_id'] ?? uniqid('live_');
+        $id = $app['liveLinks_id'] ?? $app['live_schedule_id'] ?? _uniqid('live_');
         
         // Determine start and end timestamps
         $startTimestamp = $isPlayingNow ? time() : strtotime($app['start_date'] ?? $app['scheduled_time'] ?? 'now');
