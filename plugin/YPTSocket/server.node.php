@@ -49,7 +49,7 @@ $localVersion = isset($localData['version']) ? (int)$localData['version'] : 0;
 $remoteVersion = (int)$remoteData['version'];
 
 // 3. Compare and update if needed
-if ($remoteVersion > $localVersion) {
+if ($remoteVersion != $localVersion) {
     echo "⬇️  New version available (local: $localVersion, remote: $remoteVersion). Starting update...\n";
 
     // Download new binary
