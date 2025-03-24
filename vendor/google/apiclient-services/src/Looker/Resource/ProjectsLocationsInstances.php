@@ -22,11 +22,8 @@ use Google\Service\Looker\ImportInstanceRequest;
 use Google\Service\Looker\Instance;
 use Google\Service\Looker\ListInstancesResponse;
 use Google\Service\Looker\Operation;
-use Google\Service\Looker\Policy;
 use Google\Service\Looker\RestartInstanceRequest;
-use Google\Service\Looker\SetIamPolicyRequest;
-use Google\Service\Looker\TestIamPermissionsRequest;
-use Google\Service\Looker\TestIamPermissionsResponse;
+use Google\Service\Looker\RestoreInstanceRequest;
 
 /**
  * The "instances" collection of methods.
@@ -107,37 +104,6 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
     return $this->call('get', [$params], Instance::class);
   }
   /**
-   * Gets the access control policy for a resource. Returns an empty policy if the
-   * resource exists and does not have a policy set. (instances.getIamPolicy)
-   *
-   * @param string $resource REQUIRED: The resource for which the policy is being
-   * requested. See [Resource
-   * names](https://cloud.google.com/apis/design/resource_names) for the
-   * appropriate value for this field.
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param int options.requestedPolicyVersion Optional. The maximum policy
-   * version that will be used to format the policy. Valid values are 0, 1, and 3.
-   * Requests specifying an invalid value will be rejected. Requests for policies
-   * with any conditional role bindings must specify version 3. Policies with no
-   * conditional role bindings may specify any valid value or leave the field
-   * unset. The policy in the response might use the policy version that you
-   * specified, or it might use a lower policy version. For example, if you
-   * specify version 3, but the policy has no conditional role bindings, the
-   * response uses version 1. To learn which resources support conditions in their
-   * IAM policies, see the [IAM
-   * documentation](https://cloud.google.com/iam/help/conditions/resource-
-   * policies).
-   * @return Policy
-   * @throws \Google\Service\Exception
-   */
-  public function getIamPolicy($resource, $optParams = [])
-  {
-    $params = ['resource' => $resource];
-    $params = array_merge($params, $optParams);
-    return $this->call('getIamPolicy', [$params], Policy::class);
-  }
-  /**
    * Import instance. (instances.import)
    *
    * @param string $name Required. Format:
@@ -212,47 +178,20 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
     return $this->call('restart', [$params], Operation::class);
   }
   /**
-   * Sets the access control policy on the specified resource. Replaces any
-   * existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and
-   * `PERMISSION_DENIED` errors. (instances.setIamPolicy)
+   * Restore Looker instance. (instances.restore)
    *
-   * @param string $resource REQUIRED: The resource for which the policy is being
-   * specified. See [Resource
-   * names](https://cloud.google.com/apis/design/resource_names) for the
-   * appropriate value for this field.
-   * @param SetIamPolicyRequest $postBody
+   * @param string $name Required. Instance being restored Format:
+   * projects/{project}/locations/{location}/instances/{instance}
+   * @param RestoreInstanceRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return Policy
+   * @return Operation
    * @throws \Google\Service\Exception
    */
-  public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
+  public function restore($name, RestoreInstanceRequest $postBody, $optParams = [])
   {
-    $params = ['resource' => $resource, 'postBody' => $postBody];
+    $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('setIamPolicy', [$params], Policy::class);
-  }
-  /**
-   * Returns permissions that a caller has on the specified resource. If the
-   * resource does not exist, this will return an empty set of permissions, not a
-   * `NOT_FOUND` error. Note: This operation is designed to be used for building
-   * permission-aware UIs and command-line tools, not for authorization checking.
-   * This operation may "fail open" without warning.
-   * (instances.testIamPermissions)
-   *
-   * @param string $resource REQUIRED: The resource for which the policy detail is
-   * being requested. See [Resource
-   * names](https://cloud.google.com/apis/design/resource_names) for the
-   * appropriate value for this field.
-   * @param TestIamPermissionsRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return TestIamPermissionsResponse
-   * @throws \Google\Service\Exception
-   */
-  public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
-  {
-    $params = ['resource' => $resource, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('testIamPermissions', [$params], TestIamPermissionsResponse::class);
+    return $this->call('restore', [$params], Operation::class);
   }
 }
 

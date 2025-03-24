@@ -19,11 +19,27 @@ namespace Google\Service\PaymentsResellerSubscription;
 
 class GoogleCloudPaymentsResellerSubscriptionV1ProductPayload extends \Google\Model
 {
+  protected $googleHomePayloadType = GoogleCloudPaymentsResellerSubscriptionV1GoogleHomePayload::class;
+  protected $googleHomePayloadDataType = '';
   protected $googleOnePayloadType = GoogleCloudPaymentsResellerSubscriptionV1GoogleOnePayload::class;
   protected $googleOnePayloadDataType = '';
   protected $youtubePayloadType = GoogleCloudPaymentsResellerSubscriptionV1YoutubePayload::class;
   protected $youtubePayloadDataType = '';
 
+  /**
+   * @param GoogleCloudPaymentsResellerSubscriptionV1GoogleHomePayload
+   */
+  public function setGoogleHomePayload(GoogleCloudPaymentsResellerSubscriptionV1GoogleHomePayload $googleHomePayload)
+  {
+    $this->googleHomePayload = $googleHomePayload;
+  }
+  /**
+   * @return GoogleCloudPaymentsResellerSubscriptionV1GoogleHomePayload
+   */
+  public function getGoogleHomePayload()
+  {
+    return $this->googleHomePayload;
+  }
   /**
    * @param GoogleCloudPaymentsResellerSubscriptionV1GoogleOnePayload
    */

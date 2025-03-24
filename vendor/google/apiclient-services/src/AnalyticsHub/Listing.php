@@ -26,6 +26,8 @@ class Listing extends \Google\Collection
    * @var string[]
    */
   public $categories;
+  protected $commercialInfoType = GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo::class;
+  protected $commercialInfoDataType = '';
   protected $dataProviderType = DataProvider::class;
   protected $dataProviderDataType = '';
   /**
@@ -48,6 +50,10 @@ class Listing extends \Google\Collection
    * @var string
    */
   public $icon;
+  /**
+   * @var bool
+   */
+  public $logLinkedDatasetQueryUserEmail;
   /**
    * @var string
    */
@@ -102,6 +108,20 @@ class Listing extends \Google\Collection
   public function getCategories()
   {
     return $this->categories;
+  }
+  /**
+   * @param GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo
+   */
+  public function setCommercialInfo(GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo $commercialInfo)
+  {
+    $this->commercialInfo = $commercialInfo;
+  }
+  /**
+   * @return GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo
+   */
+  public function getCommercialInfo()
+  {
+    return $this->commercialInfo;
   }
   /**
    * @param DataProvider
@@ -186,6 +206,20 @@ class Listing extends \Google\Collection
   public function getIcon()
   {
     return $this->icon;
+  }
+  /**
+   * @param bool
+   */
+  public function setLogLinkedDatasetQueryUserEmail($logLinkedDatasetQueryUserEmail)
+  {
+    $this->logLinkedDatasetQueryUserEmail = $logLinkedDatasetQueryUserEmail;
+  }
+  /**
+   * @return bool
+   */
+  public function getLogLinkedDatasetQueryUserEmail()
+  {
+    return $this->logLinkedDatasetQueryUserEmail;
   }
   /**
    * @param string

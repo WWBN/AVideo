@@ -41,6 +41,8 @@ class ImportContext extends \Google\Model
   public $kind;
   protected $sqlImportOptionsType = ImportContextSqlImportOptions::class;
   protected $sqlImportOptionsDataType = '';
+  protected $tdeImportOptionsType = ImportContextTdeImportOptions::class;
+  protected $tdeImportOptionsDataType = '';
   /**
    * @var string
    */
@@ -143,6 +145,20 @@ class ImportContext extends \Google\Model
   public function getSqlImportOptions()
   {
     return $this->sqlImportOptions;
+  }
+  /**
+   * @param ImportContextTdeImportOptions
+   */
+  public function setTdeImportOptions(ImportContextTdeImportOptions $tdeImportOptions)
+  {
+    $this->tdeImportOptions = $tdeImportOptions;
+  }
+  /**
+   * @return ImportContextTdeImportOptions
+   */
+  public function getTdeImportOptions()
+  {
+    return $this->tdeImportOptions;
   }
   /**
    * @param string

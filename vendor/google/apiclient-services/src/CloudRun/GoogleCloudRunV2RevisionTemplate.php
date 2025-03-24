@@ -33,6 +33,14 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
   /**
    * @var string
    */
+  public $encryptionKeyRevocationAction;
+  /**
+   * @var string
+   */
+  public $encryptionKeyShutdownDuration;
+  /**
+   * @var string
+   */
   public $executionEnvironment;
   /**
    * @var bool
@@ -114,6 +122,34 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
   public function getEncryptionKey()
   {
     return $this->encryptionKey;
+  }
+  /**
+   * @param string
+   */
+  public function setEncryptionKeyRevocationAction($encryptionKeyRevocationAction)
+  {
+    $this->encryptionKeyRevocationAction = $encryptionKeyRevocationAction;
+  }
+  /**
+   * @return string
+   */
+  public function getEncryptionKeyRevocationAction()
+  {
+    return $this->encryptionKeyRevocationAction;
+  }
+  /**
+   * @param string
+   */
+  public function setEncryptionKeyShutdownDuration($encryptionKeyShutdownDuration)
+  {
+    $this->encryptionKeyShutdownDuration = $encryptionKeyShutdownDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getEncryptionKeyShutdownDuration()
+  {
+    return $this->encryptionKeyShutdownDuration;
   }
   /**
    * @param string

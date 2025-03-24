@@ -54,6 +54,10 @@ class GoogleCloudAiplatformV1NotebookExecutionJob extends \Google\Model
    */
   public $jobState;
   /**
+   * @var string
+   */
+  public $kernelName;
+  /**
    * @var string[]
    */
   public $labels;
@@ -79,6 +83,8 @@ class GoogleCloudAiplatformV1NotebookExecutionJob extends \Google\Model
    * @var string
    */
   public $updateTime;
+  protected $workbenchRuntimeType = GoogleCloudAiplatformV1NotebookExecutionJobWorkbenchRuntime::class;
+  protected $workbenchRuntimeDataType = '';
 
   /**
    * @param string
@@ -235,6 +241,20 @@ class GoogleCloudAiplatformV1NotebookExecutionJob extends \Google\Model
     return $this->jobState;
   }
   /**
+   * @param string
+   */
+  public function setKernelName($kernelName)
+  {
+    $this->kernelName = $kernelName;
+  }
+  /**
+   * @return string
+   */
+  public function getKernelName()
+  {
+    return $this->kernelName;
+  }
+  /**
    * @param string[]
    */
   public function setLabels($labels)
@@ -331,6 +351,20 @@ class GoogleCloudAiplatformV1NotebookExecutionJob extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1NotebookExecutionJobWorkbenchRuntime
+   */
+  public function setWorkbenchRuntime(GoogleCloudAiplatformV1NotebookExecutionJobWorkbenchRuntime $workbenchRuntime)
+  {
+    $this->workbenchRuntime = $workbenchRuntime;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1NotebookExecutionJobWorkbenchRuntime
+   */
+  public function getWorkbenchRuntime()
+  {
+    return $this->workbenchRuntime;
   }
 }
 

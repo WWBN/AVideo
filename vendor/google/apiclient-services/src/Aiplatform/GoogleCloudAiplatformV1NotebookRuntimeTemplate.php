@@ -74,6 +74,8 @@ class GoogleCloudAiplatformV1NotebookRuntimeTemplate extends \Google\Collection
   public $serviceAccount;
   protected $shieldedVmConfigType = GoogleCloudAiplatformV1ShieldedVmConfig::class;
   protected $shieldedVmConfigDataType = '';
+  protected $softwareConfigType = GoogleCloudAiplatformV1NotebookSoftwareConfig::class;
+  protected $softwareConfigDataType = '';
   /**
    * @var string
    */
@@ -316,6 +318,20 @@ class GoogleCloudAiplatformV1NotebookRuntimeTemplate extends \Google\Collection
   public function getShieldedVmConfig()
   {
     return $this->shieldedVmConfig;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1NotebookSoftwareConfig
+   */
+  public function setSoftwareConfig(GoogleCloudAiplatformV1NotebookSoftwareConfig $softwareConfig)
+  {
+    $this->softwareConfig = $softwareConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1NotebookSoftwareConfig
+   */
+  public function getSoftwareConfig()
+  {
+    return $this->softwareConfig;
   }
   /**
    * @param string

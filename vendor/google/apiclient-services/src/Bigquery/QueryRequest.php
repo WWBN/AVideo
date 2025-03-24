@@ -32,6 +32,8 @@ class QueryRequest extends \Google\Collection
   public $createSession;
   protected $defaultDatasetType = DatasetReference::class;
   protected $defaultDatasetDataType = '';
+  protected $destinationEncryptionConfigurationType = EncryptionConfiguration::class;
+  protected $destinationEncryptionConfigurationDataType = '';
   /**
    * @var bool
    */
@@ -42,6 +44,10 @@ class QueryRequest extends \Google\Collection
    * @var string
    */
   public $jobCreationMode;
+  /**
+   * @var string
+   */
+  public $jobTimeoutMs;
   /**
    * @var string
    */
@@ -92,6 +98,10 @@ class QueryRequest extends \Google\Collection
    * @var bool
    */
   public $useQueryCache;
+  /**
+   * @var bool
+   */
+  public $writeIncrementalResults;
 
   /**
    * @param ConnectionProperty[]
@@ -150,6 +160,20 @@ class QueryRequest extends \Google\Collection
     return $this->defaultDataset;
   }
   /**
+   * @param EncryptionConfiguration
+   */
+  public function setDestinationEncryptionConfiguration(EncryptionConfiguration $destinationEncryptionConfiguration)
+  {
+    $this->destinationEncryptionConfiguration = $destinationEncryptionConfiguration;
+  }
+  /**
+   * @return EncryptionConfiguration
+   */
+  public function getDestinationEncryptionConfiguration()
+  {
+    return $this->destinationEncryptionConfiguration;
+  }
+  /**
    * @param bool
    */
   public function setDryRun($dryRun)
@@ -190,6 +214,20 @@ class QueryRequest extends \Google\Collection
   public function getJobCreationMode()
   {
     return $this->jobCreationMode;
+  }
+  /**
+   * @param string
+   */
+  public function setJobTimeoutMs($jobTimeoutMs)
+  {
+    $this->jobTimeoutMs = $jobTimeoutMs;
+  }
+  /**
+   * @return string
+   */
+  public function getJobTimeoutMs()
+  {
+    return $this->jobTimeoutMs;
   }
   /**
    * @param string
@@ -372,6 +410,20 @@ class QueryRequest extends \Google\Collection
   public function getUseQueryCache()
   {
     return $this->useQueryCache;
+  }
+  /**
+   * @param bool
+   */
+  public function setWriteIncrementalResults($writeIncrementalResults)
+  {
+    $this->writeIncrementalResults = $writeIncrementalResults;
+  }
+  /**
+   * @return bool
+   */
+  public function getWriteIncrementalResults()
+  {
+    return $this->writeIncrementalResults;
   }
 }
 

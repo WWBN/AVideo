@@ -62,12 +62,12 @@ class ProjectsLocationsTerraformVersions extends \Google\Service\Resource
    * {field} can refer to a proto or JSON field, or a synthetic field. Field names
    * can be camelCase or snake_case.
    * @opt_param string orderBy Optional. Field to use to sort the list.
-   * @opt_param int pageSize Optional. When requesting a page of resources,
-   * 'page_size' specifies number of resources to return. If unspecified, at most
-   * 500 will be returned. The maximum value is 1000.
+   * @opt_param int pageSize Optional. When requesting a page of terraform
+   * versions, 'page_size' specifies number of terraform versions to return. If
+   * unspecified, at most 500 will be returned. The maximum value is 1000.
    * @opt_param string pageToken Optional. Token returned by previous call to
    * 'ListTerraformVersions' which specifies the position in the list from where
-   * to continue listing the resources.
+   * to continue listing the terraform versions.
    * @return ListTerraformVersionsResponse
    * @throws \Google\Service\Exception
    */

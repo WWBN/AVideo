@@ -39,6 +39,10 @@ class SparkWrapperObject extends \Google\Model
   protected $executorSummaryDataType = '';
   protected $jobDataType = JobData::class;
   protected $jobDataDataType = '';
+  protected $nativeBuildInfoUiDataType = NativeBuildInfoUiData::class;
+  protected $nativeBuildInfoUiDataDataType = '';
+  protected $nativeSqlExecutionUiDataType = NativeSqlExecutionUiData::class;
+  protected $nativeSqlExecutionUiDataDataType = '';
   protected $poolDataType = PoolData::class;
   protected $poolDataDataType = '';
   protected $processSummaryType = ProcessSummary::class;
@@ -177,6 +181,34 @@ class SparkWrapperObject extends \Google\Model
   public function getJobData()
   {
     return $this->jobData;
+  }
+  /**
+   * @param NativeBuildInfoUiData
+   */
+  public function setNativeBuildInfoUiData(NativeBuildInfoUiData $nativeBuildInfoUiData)
+  {
+    $this->nativeBuildInfoUiData = $nativeBuildInfoUiData;
+  }
+  /**
+   * @return NativeBuildInfoUiData
+   */
+  public function getNativeBuildInfoUiData()
+  {
+    return $this->nativeBuildInfoUiData;
+  }
+  /**
+   * @param NativeSqlExecutionUiData
+   */
+  public function setNativeSqlExecutionUiData(NativeSqlExecutionUiData $nativeSqlExecutionUiData)
+  {
+    $this->nativeSqlExecutionUiData = $nativeSqlExecutionUiData;
+  }
+  /**
+   * @return NativeSqlExecutionUiData
+   */
+  public function getNativeSqlExecutionUiData()
+  {
+    return $this->nativeSqlExecutionUiData;
   }
   /**
    * @param PoolData

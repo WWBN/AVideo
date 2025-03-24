@@ -63,6 +63,12 @@ class Workstation extends \Google\Model
    * @var bool
    */
   public $reconciling;
+  protected $runtimeHostType = RuntimeHost::class;
+  protected $runtimeHostDataType = '';
+  /**
+   * @var string
+   */
+  public $sourceWorkstation;
   /**
    * @var string
    */
@@ -233,6 +239,34 @@ class Workstation extends \Google\Model
   public function getReconciling()
   {
     return $this->reconciling;
+  }
+  /**
+   * @param RuntimeHost
+   */
+  public function setRuntimeHost(RuntimeHost $runtimeHost)
+  {
+    $this->runtimeHost = $runtimeHost;
+  }
+  /**
+   * @return RuntimeHost
+   */
+  public function getRuntimeHost()
+  {
+    return $this->runtimeHost;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceWorkstation($sourceWorkstation)
+  {
+    $this->sourceWorkstation = $sourceWorkstation;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceWorkstation()
+  {
+    return $this->sourceWorkstation;
   }
   /**
    * @param string

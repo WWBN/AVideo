@@ -251,15 +251,17 @@ class Buckets extends \Google\Service\Resource
    * @param string $generation Generation of a bucket.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string projection Set of properties to return. Defaults to full.
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
+   * @return Bucket
    * @throws \Google\Service\Exception
    */
   public function restore($bucket, $generation, $optParams = [])
   {
     $params = ['bucket' => $bucket, 'generation' => $generation];
     $params = array_merge($params, $optParams);
-    return $this->call('restore', [$params]);
+    return $this->call('restore', [$params], Bucket::class);
   }
   /**
    * Updates an IAM policy for the specified bucket. (buckets.setIamPolicy)

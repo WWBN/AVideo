@@ -20,10 +20,14 @@ namespace Google\Service\CloudHealthcare;
 class FhirStore extends \Google\Collection
 {
   protected $collection_key = 'streamConfigs';
+  protected $bulkExportGcsDestinationType = BulkExportGcsDestination::class;
+  protected $bulkExportGcsDestinationDataType = '';
   /**
    * @var string
    */
   public $complexDataTypeReferenceParsing;
+  protected $consentConfigType = ConsentConfig::class;
+  protected $consentConfigDataType = '';
   /**
    * @var bool
    */
@@ -62,6 +66,20 @@ class FhirStore extends \Google\Collection
   public $version;
 
   /**
+   * @param BulkExportGcsDestination
+   */
+  public function setBulkExportGcsDestination(BulkExportGcsDestination $bulkExportGcsDestination)
+  {
+    $this->bulkExportGcsDestination = $bulkExportGcsDestination;
+  }
+  /**
+   * @return BulkExportGcsDestination
+   */
+  public function getBulkExportGcsDestination()
+  {
+    return $this->bulkExportGcsDestination;
+  }
+  /**
    * @param string
    */
   public function setComplexDataTypeReferenceParsing($complexDataTypeReferenceParsing)
@@ -74,6 +92,20 @@ class FhirStore extends \Google\Collection
   public function getComplexDataTypeReferenceParsing()
   {
     return $this->complexDataTypeReferenceParsing;
+  }
+  /**
+   * @param ConsentConfig
+   */
+  public function setConsentConfig(ConsentConfig $consentConfig)
+  {
+    $this->consentConfig = $consentConfig;
+  }
+  /**
+   * @return ConsentConfig
+   */
+  public function getConsentConfig()
+  {
+    return $this->consentConfig;
   }
   /**
    * @param bool

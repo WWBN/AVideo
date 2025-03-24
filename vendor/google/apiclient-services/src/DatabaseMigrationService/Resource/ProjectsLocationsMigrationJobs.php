@@ -113,6 +113,24 @@ class ProjectsLocationsMigrationJobs extends \Google\Service\Resource
     return $this->call('demoteDestination', [$params], Operation::class);
   }
   /**
+   * Retrieves objects from the source database that can be selected for data
+   * migration. This is applicable for the following migrations: 1. PostgreSQL to
+   * Cloud SQL for PostgreSQL 2. PostgreSQL to AlloyDB for PostgreSQL.
+   * (migrationJobs.fetchSourceObjects)
+   *
+   * @param string $name Required. The resource name for the migration job for
+   * which source objects should be returned.
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function fetchSourceObjects($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('fetchSourceObjects', [$params], Operation::class);
+  }
+  /**
    * Generate a SSH configuration script to configure the reverse SSH
    * connectivity. (migrationJobs.generateSshScript)
    *

@@ -17,6 +17,8 @@
 
 namespace Google\Service\Integrations\Resource;
 
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaGetClientResponse;
 
 /**
@@ -29,6 +31,24 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaGetClientResponse;
  */
 class ProjectsLocations extends \Google\Service\Resource
 {
+  /**
+   * Generate OpenAPI spec for the requested integrations and api triggers
+   * (locations.generateOpenApiSpec)
+   *
+   * @param string $name Required. Project and location from which the
+   * integrations should be fetched. Format:
+   * projects/{project}/location/{location}
+   * @param GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse
+   * @throws \Google\Service\Exception
+   */
+  public function generateOpenApiSpec($name, GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('generateOpenApiSpec', [$params], GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse::class);
+  }
   /**
    * Gets the client configuration for the given project and location resource
    * name (locations.getClients)

@@ -1,0 +1,60 @@
+{
+    "name": "elephantio/elephant.io",
+    "type": "library",
+    "description": "Send events to a socket.io server through PHP",
+    "keywords": ["Nodejs", "WebSocket", "Dialog", "Real Time", "socket.io"],
+    "license": "MIT",
+    "homepage": "https://elephantio.github.io/elephant.io/",
+    "authors": [
+        {
+            "name": "Baptiste Clavié",
+            "email": "baptiste@wisembly.com",
+            "homepage": "http://baptiste.xn--clavi-fsa.net/",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Guillaume Potier",
+            "email": "guillaume@wisembly.com",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Toha",
+            "email": "tohenk@yahoo.com",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Ludovic Barreca",
+            "email": "ludogp2@gmail.com",
+            "role": "Project Founder"
+        },
+        {
+            "name": "Elephant.IO Community",
+            "role": "Contributors :)"
+        }
+    ],
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require": {
+        "php": ">=7.2",
+        "ext-mbstring": "*",
+        "psr/log": "^1.1 || ^3.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpunit/phpunit": "^8.5 || ^9.5",
+        "monolog/monolog": "^2.8 || ^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ElephantIO\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ElephantIO\\": "test/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -21,6 +21,14 @@ class GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig extends \Google\Model
 {
   protected $chunkingConfigType = GoogleCloudDocumentaiV1ProcessOptionsLayoutConfigChunkingConfig::class;
   protected $chunkingConfigDataType = '';
+  /**
+   * @var bool
+   */
+  public $returnBoundingBoxes;
+  /**
+   * @var bool
+   */
+  public $returnImages;
 
   /**
    * @param GoogleCloudDocumentaiV1ProcessOptionsLayoutConfigChunkingConfig
@@ -35,6 +43,34 @@ class GoogleCloudDocumentaiV1ProcessOptionsLayoutConfig extends \Google\Model
   public function getChunkingConfig()
   {
     return $this->chunkingConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setReturnBoundingBoxes($returnBoundingBoxes)
+  {
+    $this->returnBoundingBoxes = $returnBoundingBoxes;
+  }
+  /**
+   * @return bool
+   */
+  public function getReturnBoundingBoxes()
+  {
+    return $this->returnBoundingBoxes;
+  }
+  /**
+   * @param bool
+   */
+  public function setReturnImages($returnImages)
+  {
+    $this->returnImages = $returnImages;
+  }
+  /**
+   * @return bool
+   */
+  public function getReturnImages()
+  {
+    return $this->returnImages;
   }
 }
 

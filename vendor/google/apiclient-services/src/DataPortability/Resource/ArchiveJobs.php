@@ -17,6 +17,8 @@
 
 namespace Google\Service\DataPortability\Resource;
 
+use Google\Service\DataPortability\CancelPortabilityArchiveRequest;
+use Google\Service\DataPortability\CancelPortabilityArchiveResponse;
 use Google\Service\DataPortability\PortabilityArchiveState;
 use Google\Service\DataPortability\RetryPortabilityArchiveRequest;
 use Google\Service\DataPortability\RetryPortabilityArchiveResponse;
@@ -31,6 +33,24 @@ use Google\Service\DataPortability\RetryPortabilityArchiveResponse;
  */
 class ArchiveJobs extends \Google\Service\Resource
 {
+  /**
+   * Cancels a Portability Archive job. (archiveJobs.cancel)
+   *
+   * @param string $name Required. The Archive job ID you're canceling. This is
+   * returned by the InitiatePortabilityArchive response. The format is:
+   * archiveJobs/{archive_job}. Canceling is only executed if the job is in
+   * progress.
+   * @param CancelPortabilityArchiveRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return CancelPortabilityArchiveResponse
+   * @throws \Google\Service\Exception
+   */
+  public function cancel($name, CancelPortabilityArchiveRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('cancel', [$params], CancelPortabilityArchiveResponse::class);
+  }
   /**
    * Retrieves the state of an Archive job for the Portability API.
    * (archiveJobs.getPortabilityArchiveState)

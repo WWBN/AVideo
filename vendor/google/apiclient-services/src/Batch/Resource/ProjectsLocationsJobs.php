@@ -17,6 +17,7 @@
 
 namespace Google\Service\Batch\Resource;
 
+use Google\Service\Batch\CancelJobRequest;
 use Google\Service\Batch\Job;
 use Google\Service\Batch\ListJobsResponse;
 use Google\Service\Batch\Operation;
@@ -31,6 +32,21 @@ use Google\Service\Batch\Operation;
  */
 class ProjectsLocationsJobs extends \Google\Service\Resource
 {
+  /**
+   * Cancel a Job. (jobs.cancel)
+   *
+   * @param string $name Required. Job name.
+   * @param CancelJobRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function cancel($name, CancelJobRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('cancel', [$params], Operation::class);
+  }
   /**
    * Create a Job. (jobs.create)
    *

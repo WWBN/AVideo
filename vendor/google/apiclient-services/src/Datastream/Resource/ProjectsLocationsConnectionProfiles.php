@@ -160,7 +160,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * Use this method to update the parameters of a connection profile.
    * (connectionProfiles.patch)
    *
-   * @param string $name Output only. The resource's name.
+   * @param string $name Output only. Identifier. The resource's name.
    * @param ConnectionProfile $postBody
    * @param array $optParams Optional parameters.
    *

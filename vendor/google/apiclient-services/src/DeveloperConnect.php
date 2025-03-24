@@ -385,6 +385,26 @@ class DeveloperConnect extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'processBitbucketCloudWebhook' => [
+              'path' => 'v1/{+name}:processBitbucketCloudWebhook',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'processBitbucketDataCenterWebhook' => [
+              'path' => 'v1/{+name}:processBitbucketDataCenterWebhook',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'processGitLabEnterpriseWebhook' => [
               'path' => 'v1/{+name}:processGitLabEnterpriseWebhook',
               'httpMethod' => 'POST',

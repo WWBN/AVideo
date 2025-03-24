@@ -46,6 +46,10 @@ class TemplateMetadata extends \Google\Collection
    * @var bool
    */
   public $supportsExactlyOnce;
+  /**
+   * @var string
+   */
+  public $yamlDefinition;
 
   /**
    * @param string
@@ -144,6 +148,20 @@ class TemplateMetadata extends \Google\Collection
   public function getSupportsExactlyOnce()
   {
     return $this->supportsExactlyOnce;
+  }
+  /**
+   * @param string
+   */
+  public function setYamlDefinition($yamlDefinition)
+  {
+    $this->yamlDefinition = $yamlDefinition;
+  }
+  /**
+   * @return string
+   */
+  public function getYamlDefinition()
+  {
+    return $this->yamlDefinition;
   }
 }
 

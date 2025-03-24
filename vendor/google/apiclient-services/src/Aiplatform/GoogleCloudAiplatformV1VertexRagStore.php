@@ -20,32 +20,16 @@ namespace Google\Service\Aiplatform;
 class GoogleCloudAiplatformV1VertexRagStore extends \Google\Collection
 {
   protected $collection_key = 'ragResources';
-  /**
-   * @var string[]
-   */
-  public $ragCorpora;
   protected $ragResourcesType = GoogleCloudAiplatformV1VertexRagStoreRagResource::class;
   protected $ragResourcesDataType = 'array';
+  protected $ragRetrievalConfigType = GoogleCloudAiplatformV1RagRetrievalConfig::class;
+  protected $ragRetrievalConfigDataType = '';
   /**
    * @var int
    */
   public $similarityTopK;
   public $vectorDistanceThreshold;
 
-  /**
-   * @param string[]
-   */
-  public function setRagCorpora($ragCorpora)
-  {
-    $this->ragCorpora = $ragCorpora;
-  }
-  /**
-   * @return string[]
-   */
-  public function getRagCorpora()
-  {
-    return $this->ragCorpora;
-  }
   /**
    * @param GoogleCloudAiplatformV1VertexRagStoreRagResource[]
    */
@@ -59,6 +43,20 @@ class GoogleCloudAiplatformV1VertexRagStore extends \Google\Collection
   public function getRagResources()
   {
     return $this->ragResources;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1RagRetrievalConfig
+   */
+  public function setRagRetrievalConfig(GoogleCloudAiplatformV1RagRetrievalConfig $ragRetrievalConfig)
+  {
+    $this->ragRetrievalConfig = $ragRetrievalConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RagRetrievalConfig
+   */
+  public function getRagRetrievalConfig()
+  {
+    return $this->ragRetrievalConfig;
   }
   /**
    * @param int

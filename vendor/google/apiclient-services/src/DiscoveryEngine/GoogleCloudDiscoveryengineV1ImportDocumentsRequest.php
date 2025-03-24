@@ -37,6 +37,10 @@ class GoogleCloudDiscoveryengineV1ImportDocumentsRequest extends \Google\Model
   protected $fhirStoreSourceDataType = '';
   protected $firestoreSourceType = GoogleCloudDiscoveryengineV1FirestoreSource::class;
   protected $firestoreSourceDataType = '';
+  /**
+   * @var bool
+   */
+  public $forceRefreshContent;
   protected $gcsSourceType = GoogleCloudDiscoveryengineV1GcsSource::class;
   protected $gcsSourceDataType = '';
   /**
@@ -167,6 +171,20 @@ class GoogleCloudDiscoveryengineV1ImportDocumentsRequest extends \Google\Model
   public function getFirestoreSource()
   {
     return $this->firestoreSource;
+  }
+  /**
+   * @param bool
+   */
+  public function setForceRefreshContent($forceRefreshContent)
+  {
+    $this->forceRefreshContent = $forceRefreshContent;
+  }
+  /**
+   * @return bool
+   */
+  public function getForceRefreshContent()
+  {
+    return $this->forceRefreshContent;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1GcsSource

@@ -49,6 +49,16 @@ class ConnectionProfile extends \Google\Model
   protected $postgresqlProfileDataType = '';
   protected $privateConnectivityType = PrivateConnectivity::class;
   protected $privateConnectivityDataType = '';
+  protected $salesforceProfileType = SalesforceProfile::class;
+  protected $salesforceProfileDataType = '';
+  /**
+   * @var bool
+   */
+  public $satisfiesPzi;
+  /**
+   * @var bool
+   */
+  public $satisfiesPzs;
   protected $sqlServerProfileType = SqlServerProfile::class;
   protected $sqlServerProfileDataType = '';
   protected $staticServiceIpConnectivityType = StaticServiceIpConnectivity::class;
@@ -211,6 +221,48 @@ class ConnectionProfile extends \Google\Model
   public function getPrivateConnectivity()
   {
     return $this->privateConnectivity;
+  }
+  /**
+   * @param SalesforceProfile
+   */
+  public function setSalesforceProfile(SalesforceProfile $salesforceProfile)
+  {
+    $this->salesforceProfile = $salesforceProfile;
+  }
+  /**
+   * @return SalesforceProfile
+   */
+  public function getSalesforceProfile()
+  {
+    return $this->salesforceProfile;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzs($satisfiesPzs)
+  {
+    $this->satisfiesPzs = $satisfiesPzs;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzs()
+  {
+    return $this->satisfiesPzs;
   }
   /**
    * @param SqlServerProfile

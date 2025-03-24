@@ -56,7 +56,7 @@ class ProjectsLocationsCollectors extends \Google\Service\Resource
   }
   /**
    * Deletes a single Collector - changes state of collector to "Deleting".
-   * Background jobs does final deletion thorugh producer api. (collectors.delete)
+   * Background jobs does final deletion through producer API. (collectors.delete)
    *
    * @param string $name Required. Name of the resource.
    * @param array $optParams Optional parameters.

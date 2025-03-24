@@ -1,5 +1,7 @@
 includes:
 	- vendor/phpstan/phpstan-phpunit/extension.neon
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- phpstan-baseline.php
 
 parameters:
 	bootstrapFiles:
@@ -10,7 +12,6 @@ parameters:
 	tmpDir: %currentWorkingDirectory%/.phpstan
 	level: 9
 	inferPrivatePropertyTypeFromConstructor: true
-	checkMissingIterableValueType: false
 	checkGenericClassInNonGenericObjectType: true
 	checkUninitializedProperties: true
 	ignoreErrors:

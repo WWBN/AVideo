@@ -26,6 +26,10 @@ class GoogleIdentityAccesscontextmanagerV1ServicePerimeter extends \Google\Model
   /**
    * @var string
    */
+  public $etag;
+  /**
+   * @var string
+   */
   public $name;
   /**
    * @var string
@@ -57,6 +61,20 @@ class GoogleIdentityAccesscontextmanagerV1ServicePerimeter extends \Google\Model
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param string
+   */
+  public function setEtag($etag)
+  {
+    $this->etag = $etag;
+  }
+  /**
+   * @return string
+   */
+  public function getEtag()
+  {
+    return $this->etag;
   }
   /**
    * @param string

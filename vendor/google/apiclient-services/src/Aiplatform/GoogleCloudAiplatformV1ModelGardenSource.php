@@ -23,6 +23,14 @@ class GoogleCloudAiplatformV1ModelGardenSource extends \Google\Model
    * @var string
    */
   public $publicModelName;
+  /**
+   * @var bool
+   */
+  public $skipHfModelCache;
+  /**
+   * @var string
+   */
+  public $versionId;
 
   /**
    * @param string
@@ -37,6 +45,34 @@ class GoogleCloudAiplatformV1ModelGardenSource extends \Google\Model
   public function getPublicModelName()
   {
     return $this->publicModelName;
+  }
+  /**
+   * @param bool
+   */
+  public function setSkipHfModelCache($skipHfModelCache)
+  {
+    $this->skipHfModelCache = $skipHfModelCache;
+  }
+  /**
+   * @return bool
+   */
+  public function getSkipHfModelCache()
+  {
+    return $this->skipHfModelCache;
+  }
+  /**
+   * @param string
+   */
+  public function setVersionId($versionId)
+  {
+    $this->versionId = $versionId;
+  }
+  /**
+   * @return string
+   */
+  public function getVersionId()
+  {
+    return $this->versionId;
   }
 }
 

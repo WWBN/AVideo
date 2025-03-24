@@ -24,8 +24,16 @@ class QueryResponse extends \Google\Collection
    * @var bool
    */
   public $cacheHit;
+  /**
+   * @var string
+   */
+  public $creationTime;
   protected $dmlStatsType = DmlStatistics::class;
   protected $dmlStatsDataType = '';
+  /**
+   * @var string
+   */
+  public $endTime;
   protected $errorsType = ErrorProto::class;
   protected $errorsDataType = 'array';
   /**
@@ -40,6 +48,10 @@ class QueryResponse extends \Google\Collection
    * @var string
    */
   public $kind;
+  /**
+   * @var string
+   */
+  public $location;
   /**
    * @var string
    */
@@ -61,11 +73,23 @@ class QueryResponse extends \Google\Collection
   /**
    * @var string
    */
+  public $startTime;
+  /**
+   * @var string
+   */
+  public $totalBytesBilled;
+  /**
+   * @var string
+   */
   public $totalBytesProcessed;
   /**
    * @var string
    */
   public $totalRows;
+  /**
+   * @var string
+   */
+  public $totalSlotMs;
 
   /**
    * @param bool
@@ -82,6 +106,20 @@ class QueryResponse extends \Google\Collection
     return $this->cacheHit;
   }
   /**
+   * @param string
+   */
+  public function setCreationTime($creationTime)
+  {
+    $this->creationTime = $creationTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCreationTime()
+  {
+    return $this->creationTime;
+  }
+  /**
    * @param DmlStatistics
    */
   public function setDmlStats(DmlStatistics $dmlStats)
@@ -94,6 +132,20 @@ class QueryResponse extends \Google\Collection
   public function getDmlStats()
   {
     return $this->dmlStats;
+  }
+  /**
+   * @param string
+   */
+  public function setEndTime($endTime)
+  {
+    $this->endTime = $endTime;
+  }
+  /**
+   * @return string
+   */
+  public function getEndTime()
+  {
+    return $this->endTime;
   }
   /**
    * @param ErrorProto[]
@@ -164,6 +216,20 @@ class QueryResponse extends \Google\Collection
   public function getKind()
   {
     return $this->kind;
+  }
+  /**
+   * @param string
+   */
+  public function setLocation($location)
+  {
+    $this->location = $location;
+  }
+  /**
+   * @return string
+   */
+  public function getLocation()
+  {
+    return $this->location;
   }
   /**
    * @param string
@@ -252,6 +318,34 @@ class QueryResponse extends \Google\Collection
   /**
    * @param string
    */
+  public function setStartTime($startTime)
+  {
+    $this->startTime = $startTime;
+  }
+  /**
+   * @return string
+   */
+  public function getStartTime()
+  {
+    return $this->startTime;
+  }
+  /**
+   * @param string
+   */
+  public function setTotalBytesBilled($totalBytesBilled)
+  {
+    $this->totalBytesBilled = $totalBytesBilled;
+  }
+  /**
+   * @return string
+   */
+  public function getTotalBytesBilled()
+  {
+    return $this->totalBytesBilled;
+  }
+  /**
+   * @param string
+   */
   public function setTotalBytesProcessed($totalBytesProcessed)
   {
     $this->totalBytesProcessed = $totalBytesProcessed;
@@ -276,6 +370,20 @@ class QueryResponse extends \Google\Collection
   public function getTotalRows()
   {
     return $this->totalRows;
+  }
+  /**
+   * @param string
+   */
+  public function setTotalSlotMs($totalSlotMs)
+  {
+    $this->totalSlotMs = $totalSlotMs;
+  }
+  /**
+   * @return string
+   */
+  public function getTotalSlotMs()
+  {
+    return $this->totalSlotMs;
   }
 }
 

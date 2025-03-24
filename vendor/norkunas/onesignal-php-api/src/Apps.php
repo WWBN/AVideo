@@ -32,6 +32,8 @@ class Apps extends AbstractApi
      * User authentication key must be set.
      *
      * @param string $id ID of your application
+     *
+     * @return array<mixed>
      */
     public function getOne(string $id): array
     {
@@ -45,6 +47,8 @@ class Apps extends AbstractApi
      * Get information about all your created applications.
      *
      * User authentication key must be set.
+     *
+     * @return array<mixed>
      */
     public function getAll(): array
     {
@@ -59,7 +63,9 @@ class Apps extends AbstractApi
      *
      * User authentication key must be set.
      *
-     * @param array $data Application data
+     * @param array<mixed> $data Application data
+     *
+     * @return array<mixed>
      */
     public function add(array $data): array
     {
@@ -78,8 +84,10 @@ class Apps extends AbstractApi
      *
      * User authentication key must be set.
      *
-     * @param string $id   ID of your application
-     * @param array  $data New application data
+     * @param string       $id   ID of your application
+     * @param array<mixed> $data New application data
+     *
+     * @return array<mixed>
      */
     public function update(string $id, array $data): array
     {
@@ -96,10 +104,12 @@ class Apps extends AbstractApi
     /**
      * Create a new segment for application with provided data.
      *
-     * @param string $appId ID of your application
-     * @param array  $data  Segment Data
+     * @param string       $appId ID of your application
+     * @param array<mixed> $data  Segment Data
+     *
+     * @return array<mixed>
      */
-    public function createSegment($appId, array $data): array
+    public function createSegment(string $appId, array $data): array
     {
         $resolvedData = $this->resolverFactory->createSegmentResolver()->resolve($data);
 
@@ -118,6 +128,8 @@ class Apps extends AbstractApi
      *
      * @param string $appId     Application ID
      * @param string $segmentId Segment ID
+     *
+     * @return array<mixed>
      */
     public function deleteSegment(string $appId, string $segmentId): array
     {
@@ -130,8 +142,10 @@ class Apps extends AbstractApi
     /**
      * View the details of all the outcomes associated with your app.
      *
-     * @param string $appId Application ID
-     * @param array  $data  Outcome data filters
+     * @param string       $appId Application ID
+     * @param array<mixed> $data  Outcome data filters
+     *
+     * @return array<mixed>
      */
     public function outcomes(string $appId, array $data): array
     {

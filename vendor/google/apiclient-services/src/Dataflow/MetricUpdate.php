@@ -58,6 +58,10 @@ class MetricUpdate extends \Google\Model
    */
   public $set;
   /**
+   * @var array
+   */
+  public $trie;
+  /**
    * @var string
    */
   public $updateTime;
@@ -201,6 +205,20 @@ class MetricUpdate extends \Google\Model
   public function getSet()
   {
     return $this->set;
+  }
+  /**
+   * @param array
+   */
+  public function setTrie($trie)
+  {
+    $this->trie = $trie;
+  }
+  /**
+   * @return array
+   */
+  public function getTrie()
+  {
+    return $this->trie;
   }
   /**
    * @param string

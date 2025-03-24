@@ -43,6 +43,7 @@ use Google\Service\Aiplatform\GoogleCloudAiplatformV1StreamRawPredictRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1StreamingPredictRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1StreamingPredictResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1UndeployModelRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1UpdateEndpointLongRunningRequest;
 use Google\Service\Aiplatform\GoogleLongrunningOperation;
 
 /**
@@ -460,6 +461,21 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
     $params = ['endpoint' => $endpoint, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('undeployModel', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Updates an Endpoint with a long running operation. (endpoints.update)
+   *
+   * @param string $name Output only. The resource name of the Endpoint.
+   * @param GoogleCloudAiplatformV1UpdateEndpointLongRunningRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function update($name, GoogleCloudAiplatformV1UpdateEndpointLongRunningRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('update', [$params], GoogleLongrunningOperation::class);
   }
 }
 

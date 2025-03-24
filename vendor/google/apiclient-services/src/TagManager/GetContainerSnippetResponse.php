@@ -22,8 +22,26 @@ class GetContainerSnippetResponse extends \Google\Model
   /**
    * @var string
    */
+  public $containerConfig;
+  /**
+   * @var string
+   */
   public $snippet;
 
+  /**
+   * @param string
+   */
+  public function setContainerConfig($containerConfig)
+  {
+    $this->containerConfig = $containerConfig;
+  }
+  /**
+   * @return string
+   */
+  public function getContainerConfig()
+  {
+    return $this->containerConfig;
+  }
   /**
    * @param string
    */

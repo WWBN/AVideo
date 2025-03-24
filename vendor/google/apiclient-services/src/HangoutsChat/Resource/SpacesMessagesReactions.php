@@ -32,10 +32,9 @@ use Google\Service\HangoutsChat\Reaction;
 class SpacesMessagesReactions extends \Google\Service\Resource
 {
   /**
-   * Creates a reaction and adds it to a message. Only unicode emojis are
-   * supported. For an example, see [Add a reaction to a
-   * message](https://developers.google.com/workspace/chat/create-reactions).
-   * Requires [user
+   * Creates a reaction and adds it to a message. For an example, see [Add a
+   * reaction to a message](https://developers.google.com/workspace/chat/create-
+   * reactions). Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-user). (reactions.create)
    *
@@ -53,8 +52,7 @@ class SpacesMessagesReactions extends \Google\Service\Resource
     return $this->call('create', [$params], Reaction::class);
   }
   /**
-   * Deletes a reaction to a message. Only unicode emojis are supported. For an
-   * example, see [Delete a
+   * Deletes a reaction to a message. For an example, see [Delete a
    * reaction](https://developers.google.com/workspace/chat/delete-reactions).
    * Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-

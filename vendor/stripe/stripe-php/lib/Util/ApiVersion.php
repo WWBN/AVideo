@@ -6,5 +6,5 @@ namespace Stripe\Util;
 
 class ApiVersion
 {
-    const CURRENT = '2024-10-28.acacia';
+    const CURRENT = '2025-02-24.acacia';
 }

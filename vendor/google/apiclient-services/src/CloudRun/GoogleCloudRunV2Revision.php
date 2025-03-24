@@ -35,6 +35,10 @@ class GoogleCloudRunV2Revision extends \Google\Collection
   /**
    * @var string
    */
+  public $creator;
+  /**
+   * @var string
+   */
   public $deleteTime;
   /**
    * @var string
@@ -188,6 +192,20 @@ class GoogleCloudRunV2Revision extends \Google\Collection
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setCreator($creator)
+  {
+    $this->creator = $creator;
+  }
+  /**
+   * @return string
+   */
+  public function getCreator()
+  {
+    return $this->creator;
   }
   /**
    * @param string

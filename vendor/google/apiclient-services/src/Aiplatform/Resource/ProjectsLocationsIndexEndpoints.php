@@ -72,7 +72,7 @@ class ProjectsLocationsIndexEndpoints extends \Google\Service\Resource
   }
   /**
    * Deploys an Index into this IndexEndpoint, creating a DeployedIndex within it.
-   * Only non-empty Indexes can be deployed. (indexEndpoints.deployIndex)
+   * (indexEndpoints.deployIndex)
    *
    * @param string $indexEndpoint Required. The name of the IndexEndpoint resource
    * into which to deploy an Index. Format:

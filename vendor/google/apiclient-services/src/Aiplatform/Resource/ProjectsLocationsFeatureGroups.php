@@ -113,9 +113,9 @@ class ProjectsLocationsFeatureGroups extends \Google\Service\Resource
    * FeatureGroups will be returned. The maximum value is 100; any value greater
    * than 100 will be coerced to 100.
    * @opt_param string pageToken A page token, received from a previous
-   * FeatureGroupAdminService.ListFeatureGroups call. Provide this to retrieve the
+   * FeatureRegistryService.ListFeatureGroups call. Provide this to retrieve the
    * subsequent page. When paginating, all other parameters provided to
-   * FeatureGroupAdminService.ListFeatureGroups must match the call that provided
+   * FeatureRegistryService.ListFeatureGroups must match the call that provided
    * the page token.
    * @return GoogleCloudAiplatformV1ListFeatureGroupsResponse
    * @throws \Google\Service\Exception
@@ -141,7 +141,7 @@ class ProjectsLocationsFeatureGroups extends \Google\Service\Resource
    * a mask then only the non-empty fields present in the request will be
    * overwritten. Set the update_mask to `*` to override all fields. Updatable
    * fields: * `labels` * `description` * `big_query` *
-   * `big_query.entity_id_columns`
+   * `big_query.entity_id_columns` * `service_agent_type`
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */

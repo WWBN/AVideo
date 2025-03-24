@@ -183,8 +183,8 @@ class ProjectsLocationsCustomTargetTypes extends \Google\Service\Resource
   /**
    * Updates a single CustomTargetType. (customTargetTypes.patch)
    *
-   * @param string $name Optional. Name of the `CustomTargetType`. Format is `proj
-   * ects/{project}/locations/{location}/customTargetTypes/{customTargetType}`.
+   * @param string $name Identifier. Name of the `CustomTargetType`. Format is `pr
+   * ojects/{project}/locations/{location}/customTargetTypes/{customTargetType}`.
    * The `customTargetType` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`
    * @param CustomTargetType $postBody
    * @param array $optParams Optional parameters.

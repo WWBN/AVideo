@@ -31,6 +31,11 @@ class About extends \Google\Service\Resource
 {
   /**
    * Gets information about the user, the user's Drive, and system capabilities.
+   * For more information, see [Return user
+   * info](https://developers.google.com/drive/api/guides/user-info). Required:
+   * The `fields` parameter must be set. To return the exact fields you need, see
+   * [Return specific
+   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
    * (about.get)
    *
    * @param array $optParams Optional parameters.

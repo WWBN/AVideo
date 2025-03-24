@@ -345,6 +345,8 @@ class Product extends \Google\Collection
   protected $structuredTitleDataType = '';
   protected $subscriptionCostType = ProductSubscriptionCost::class;
   protected $subscriptionCostDataType = '';
+  protected $sustainabilityIncentivesType = ProductSustainabilityIncentive::class;
+  protected $sustainabilityIncentivesDataType = 'array';
   /**
    * @var string
    */
@@ -1681,6 +1683,20 @@ class Product extends \Google\Collection
   public function getSubscriptionCost()
   {
     return $this->subscriptionCost;
+  }
+  /**
+   * @param ProductSustainabilityIncentive[]
+   */
+  public function setSustainabilityIncentives($sustainabilityIncentives)
+  {
+    $this->sustainabilityIncentives = $sustainabilityIncentives;
+  }
+  /**
+   * @return ProductSustainabilityIncentive[]
+   */
+  public function getSustainabilityIncentives()
+  {
+    return $this->sustainabilityIncentives;
   }
   /**
    * @param string

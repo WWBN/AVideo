@@ -19,6 +19,43 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1AdvancedSiteSearchConfig extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $disableAutomaticRefresh;
+  /**
+   * @var bool
+   */
+  public $disableInitialIndex;
+
+  /**
+   * @param bool
+   */
+  public function setDisableAutomaticRefresh($disableAutomaticRefresh)
+  {
+    $this->disableAutomaticRefresh = $disableAutomaticRefresh;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableAutomaticRefresh()
+  {
+    return $this->disableAutomaticRefresh;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisableInitialIndex($disableInitialIndex)
+  {
+    $this->disableInitialIndex = $disableInitialIndex;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableInitialIndex()
+  {
+    return $this->disableInitialIndex;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

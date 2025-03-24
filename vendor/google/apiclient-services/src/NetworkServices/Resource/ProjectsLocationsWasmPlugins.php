@@ -75,8 +75,8 @@ class ProjectsLocationsWasmPlugins extends \Google\Service\Resource
    * `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string view Determine how much data should be returned by the API.
-   * See [AIP-157](https://google.aip.dev/157).
+   * @opt_param string view Determines how much data must be returned in the
+   * response. See [AIP-157](https://google.aip.dev/157).
    * @return WasmPlugin
    * @throws \Google\Service\Exception
    */
@@ -96,8 +96,8 @@ class ProjectsLocationsWasmPlugins extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Maximum number of `WasmPlugin` resources to return
-   * per call. If not specified, at most 50 `WasmPlugin`s are returned. The
-   * maximum value is 1000; values above 1000 are coerced to 1000.
+   * per call. If not specified, at most 50 `WasmPlugin` resources are returned.
+   * The maximum value is 1000; values above 1000 are coerced to 1000.
    * @opt_param string pageToken The value returned by the last
    * `ListWasmPluginsResponse` call. Indicates that this is a continuation of a
    * prior `ListWasmPlugins` call, and that the next page of data is to be

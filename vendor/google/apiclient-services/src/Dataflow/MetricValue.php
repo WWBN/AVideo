@@ -27,6 +27,8 @@ class MetricValue extends \Google\Model
    * @var string[]
    */
   public $metricLabels;
+  protected $valueGauge64Type = DataflowGaugeValue::class;
+  protected $valueGauge64DataType = '';
   protected $valueHistogramType = DataflowHistogramValue::class;
   protected $valueHistogramDataType = '';
   /**
@@ -61,6 +63,20 @@ class MetricValue extends \Google\Model
   public function getMetricLabels()
   {
     return $this->metricLabels;
+  }
+  /**
+   * @param DataflowGaugeValue
+   */
+  public function setValueGauge64(DataflowGaugeValue $valueGauge64)
+  {
+    $this->valueGauge64 = $valueGauge64;
+  }
+  /**
+   * @return DataflowGaugeValue
+   */
+  public function getValueGauge64()
+  {
+    return $this->valueGauge64;
   }
   /**
    * @param DataflowHistogramValue

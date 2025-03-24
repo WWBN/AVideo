@@ -35,6 +35,8 @@ class SubscriptionPurchaseLineItem extends \Google\Model
    * @var string
    */
   public $productId;
+  protected $signupPromotionType = SignupPromotion::class;
+  protected $signupPromotionDataType = '';
 
   /**
    * @param AutoRenewingPlan
@@ -119,6 +121,20 @@ class SubscriptionPurchaseLineItem extends \Google\Model
   public function getProductId()
   {
     return $this->productId;
+  }
+  /**
+   * @param SignupPromotion
+   */
+  public function setSignupPromotion(SignupPromotion $signupPromotion)
+  {
+    $this->signupPromotion = $signupPromotion;
+  }
+  /**
+   * @return SignupPromotion
+   */
+  public function getSignupPromotion()
+  {
+    return $this->signupPromotion;
   }
 }
 

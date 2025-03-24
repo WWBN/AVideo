@@ -10,10 +10,10 @@
       , "files": ["src/functions_include.php"]
     }
   , "require": {
-        "php": ">=5.4"
+        "php": ">=7.4"
       , "evenement/evenement": "^3.0 || ^2.0"
-      , "guzzlehttp/psr7": "^2.0 || ^1.7"
-      , "ratchet/rfc6455": "^0.3.1"
+      , "guzzlehttp/psr7": "^2.0"
+      , "ratchet/rfc6455": "^0.3.1 || ^0.4.0"
       , "react/socket": "^1.9"
     }
   , "require-dev": {

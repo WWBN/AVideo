@@ -19,11 +19,49 @@ namespace Google\Service\Integrations;
 
 class GoogleCloudIntegrationsV1alphaReplayExecutionRequest extends \Google\Model
 {
+  protected $modifiedParametersType = GoogleCloudIntegrationsV1alphaValueType::class;
+  protected $modifiedParametersDataType = 'map';
+  /**
+   * @var string
+   */
+  public $replayMode;
   /**
    * @var string
    */
   public $replayReason;
+  /**
+   * @var string
+   */
+  public $updateMask;
 
+  /**
+   * @param GoogleCloudIntegrationsV1alphaValueType[]
+   */
+  public function setModifiedParameters($modifiedParameters)
+  {
+    $this->modifiedParameters = $modifiedParameters;
+  }
+  /**
+   * @return GoogleCloudIntegrationsV1alphaValueType[]
+   */
+  public function getModifiedParameters()
+  {
+    return $this->modifiedParameters;
+  }
+  /**
+   * @param string
+   */
+  public function setReplayMode($replayMode)
+  {
+    $this->replayMode = $replayMode;
+  }
+  /**
+   * @return string
+   */
+  public function getReplayMode()
+  {
+    return $this->replayMode;
+  }
   /**
    * @param string
    */
@@ -37,6 +75,20 @@ class GoogleCloudIntegrationsV1alphaReplayExecutionRequest extends \Google\Model
   public function getReplayReason()
   {
     return $this->replayReason;
+  }
+  /**
+   * @param string
+   */
+  public function setUpdateMask($updateMask)
+  {
+    $this->updateMask = $updateMask;
+  }
+  /**
+   * @return string
+   */
+  public function getUpdateMask()
+  {
+    return $this->updateMask;
   }
 }
 

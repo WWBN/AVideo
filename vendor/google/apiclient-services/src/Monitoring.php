@@ -523,6 +523,10 @@ class Monitoring extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'activeOnly' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'filter' => [
                   'location' => 'query',
                   'type' => 'string',

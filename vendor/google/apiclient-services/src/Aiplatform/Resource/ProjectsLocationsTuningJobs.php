@@ -99,7 +99,7 @@ class ProjectsLocationsTuningJobs extends \Google\Service\Resource
    * @opt_param string filter Optional. The standard list filter.
    * @opt_param int pageSize Optional. The standard list page size.
    * @opt_param string pageToken Optional. The standard list page token. Typically
-   * obtained via ListTuningJob.next_page_token of the previous
+   * obtained via ListTuningJobsResponse.next_page_token of the previous
    * GenAiTuningService.ListTuningJob][] call.
    * @return GoogleCloudAiplatformV1ListTuningJobsResponse
    * @throws \Google\Service\Exception

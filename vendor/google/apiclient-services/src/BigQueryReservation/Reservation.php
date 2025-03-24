@@ -57,6 +57,8 @@ class Reservation extends \Google\Model
    * @var string
    */
   public $primaryLocation;
+  protected $replicationStatusType = ReplicationStatus::class;
+  protected $replicationStatusDataType = '';
   /**
    * @var string
    */
@@ -209,6 +211,20 @@ class Reservation extends \Google\Model
   public function getPrimaryLocation()
   {
     return $this->primaryLocation;
+  }
+  /**
+   * @param ReplicationStatus
+   */
+  public function setReplicationStatus(ReplicationStatus $replicationStatus)
+  {
+    $this->replicationStatus = $replicationStatus;
+  }
+  /**
+   * @return ReplicationStatus
+   */
+  public function getReplicationStatus()
+  {
+    return $this->replicationStatus;
   }
   /**
    * @param string

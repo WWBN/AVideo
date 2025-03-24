@@ -80,6 +80,8 @@ class LoyaltyObject extends \Google\Collection
   protected $locationsDataType = 'array';
   protected $loyaltyPointsType = LoyaltyPoints::class;
   protected $loyaltyPointsDataType = '';
+  protected $merchantLocationsType = MerchantLocation::class;
+  protected $merchantLocationsDataType = 'array';
   protected $messagesType = Message::class;
   protected $messagesDataType = 'array';
   /**
@@ -392,6 +394,20 @@ class LoyaltyObject extends \Google\Collection
   public function getLoyaltyPoints()
   {
     return $this->loyaltyPoints;
+  }
+  /**
+   * @param MerchantLocation[]
+   */
+  public function setMerchantLocations($merchantLocations)
+  {
+    $this->merchantLocations = $merchantLocations;
+  }
+  /**
+   * @return MerchantLocation[]
+   */
+  public function getMerchantLocations()
+  {
+    return $this->merchantLocations;
   }
   /**
    * @param Message[]

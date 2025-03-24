@@ -18,6 +18,7 @@
 namespace Google\Service\CloudRetail\Resource;
 
 use Google\Service\CloudRetail\GoogleApiHttpBody;
+use Google\Service\CloudRetail\GoogleCloudRetailV2CollectUserEventRequest;
 use Google\Service\CloudRetail\GoogleCloudRetailV2ImportUserEventsRequest;
 use Google\Service\CloudRetail\GoogleCloudRetailV2PurgeUserEventsRequest;
 use Google\Service\CloudRetail\GoogleCloudRetailV2RejoinUserEventsRequest;
@@ -35,37 +36,22 @@ use Google\Service\CloudRetail\GoogleLongrunningOperation;
 class ProjectsLocationsCatalogsUserEvents extends \Google\Service\Resource
 {
   /**
-   * Writes a single user event from the browser. This uses a GET request to due
-   * to browser restriction of POST-ing to a 3rd party domain. This method is used
-   * only by the Retail API JavaScript pixel and Google Tag Manager. Users should
-   * not call this method directly. (userEvents.collect)
+   * Writes a single user event from the browser. For larger user event payload
+   * over 16 KB, the POST method should be used instead, otherwise a 400 Bad
+   * Request error is returned. This method is used only by the Retail API
+   * JavaScript pixel and Google Tag Manager. Users should not call this method
+   * directly. (userEvents.collect)
    *
    * @param string $parent Required. The parent catalog name, such as
    * `projects/1234/locations/global/catalogs/default_catalog`.
+   * @param GoogleCloudRetailV2CollectUserEventRequest $postBody
    * @param array $optParams Optional parameters.
-   *
-   * @opt_param string ets The event timestamp in milliseconds. This prevents
-   * browser caching of otherwise identical get requests. The name is abbreviated
-   * to reduce the payload bytes.
-   * @opt_param string prebuiltRule The prebuilt rule name that can convert a
-   * specific type of raw_json. For example: "ga4_bq" rule for the GA4 user event
-   * schema.
-   * @opt_param string rawJson An arbitrary serialized JSON string that contains
-   * necessary information that can comprise a user event. When this field is
-   * specified, the user_event field will be ignored. Note: line-delimited JSON is
-   * not supported, a single JSON only.
-   * @opt_param string uri The URL including cgi-parameters but excluding the hash
-   * fragment with a length limit of 5,000 characters. This is often more useful
-   * than the referer URL, because many browsers only send the domain for 3rd
-   * party requests.
-   * @opt_param string userEvent Required. URL encoded UserEvent proto with a
-   * length limit of 2,000,000 characters.
    * @return GoogleApiHttpBody
    * @throws \Google\Service\Exception
    */
-  public function collect($parent, $optParams = [])
+  public function collect($parent, GoogleCloudRetailV2CollectUserEventRequest $postBody, $optParams = [])
   {
-    $params = ['parent' => $parent];
+    $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('collect', [$params], GoogleApiHttpBody::class);
   }

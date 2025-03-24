@@ -19,6 +19,61 @@ namespace Google\Service\Walletobjects;
 
 class SetPassUpdateNoticeRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $externalPassId;
+  /**
+   * @var string
+   */
+  public $updateUri;
+  /**
+   * @var string
+   */
+  public $updatedPassJwtSignature;
+
+  /**
+   * @param string
+   */
+  public function setExternalPassId($externalPassId)
+  {
+    $this->externalPassId = $externalPassId;
+  }
+  /**
+   * @return string
+   */
+  public function getExternalPassId()
+  {
+    return $this->externalPassId;
+  }
+  /**
+   * @param string
+   */
+  public function setUpdateUri($updateUri)
+  {
+    $this->updateUri = $updateUri;
+  }
+  /**
+   * @return string
+   */
+  public function getUpdateUri()
+  {
+    return $this->updateUri;
+  }
+  /**
+   * @param string
+   */
+  public function setUpdatedPassJwtSignature($updatedPassJwtSignature)
+  {
+    $this->updatedPassJwtSignature = $updatedPassJwtSignature;
+  }
+  /**
+   * @return string
+   */
+  public function getUpdatedPassJwtSignature()
+  {
+    return $this->updatedPassJwtSignature;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

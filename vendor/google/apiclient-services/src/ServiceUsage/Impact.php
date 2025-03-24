@@ -27,6 +27,10 @@ class Impact extends \Google\Model
    * @var string
    */
   public $impactType;
+  /**
+   * @var string
+   */
+  public $parent;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class Impact extends \Google\Model
   public function getImpactType()
   {
     return $this->impactType;
+  }
+  /**
+   * @param string
+   */
+  public function setParent($parent)
+  {
+    $this->parent = $parent;
+  }
+  /**
+   * @return string
+   */
+  public function getParent()
+  {
+    return $this->parent;
   }
 }
 

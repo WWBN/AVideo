@@ -46,6 +46,8 @@ class Backupdr extends \Google\Service
   public $projects_locations_backupVaults_dataSources_backups;
   public $projects_locations_managementServers;
   public $projects_locations_operations;
+  public $projects_locations_resourceBackupConfigs;
+  public $projects_locations_serviceConfig;
   public $rootUrlTemplate;
 
   /**
@@ -833,6 +835,62 @@ class Backupdr extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_resourceBackupConfigs = new Backupdr\Resource\ProjectsLocationsResourceBackupConfigs(
+        $this,
+        $this->serviceName,
+        'resourceBackupConfigs',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/resourceBackupConfigs',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_serviceConfig = new Backupdr\Resource\ProjectsLocationsServiceConfig(
+        $this,
+        $this->serviceName,
+        'serviceConfig',
+        [
+          'methods' => [
+            'initialize' => [
+              'path' => 'v1/{+name}:initialize',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],

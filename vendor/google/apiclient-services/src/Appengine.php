@@ -55,6 +55,7 @@ class Appengine extends \Google\Service
   public $apps_services_versions;
   public $apps_services_versions_instances;
   public $projects_locations_applications_authorizedDomains;
+  public $projects_locations_applications_services;
   public $projects_locations_applications_services_versions;
   public $rootUrlTemplate;
 
@@ -570,6 +571,10 @@ class Appengine extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'force' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],'get' => [
               'path' => 'v1/apps/{appsId}/services/{servicesId}',
@@ -896,6 +901,45 @@ class Appengine extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_applications_services = new Appengine\Resource\ProjectsLocationsApplicationsServices(
+        $this,
+        $this->serviceName,
+        'services',
+        [
+          'methods' => [
+            'delete' => [
+              'path' => 'v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/services/{servicesId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'projectsId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'locationsId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'applicationsId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'servicesId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'force' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
               ],
             ],

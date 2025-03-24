@@ -11,7 +11,7 @@ use function count;
 
 class Notifications extends AbstractApi
 {
-    private $resolverFactory;
+    private ResolverFactory $resolverFactory;
 
     public function __construct(OneSignal $client, ResolverFactory $resolverFactory)
     {
@@ -25,7 +25,9 @@ class Notifications extends AbstractApi
      *
      * Application authentication key and ID must be set.
      *
-     * @param string $id Notification ID
+     * @param non-empty-string $id Notification ID
+     *
+     * @return array<mixed>
      */
     public function getOne(string $id): array
     {
@@ -40,12 +42,14 @@ class Notifications extends AbstractApi
      *
      * Application authentication key and ID must be set.
      *
-     * @param int $limit  How many notifications to return (max 50)
-     * @param int $offset Results offset (results are sorted by ID)
+     * @param int<0, 50>|null $limit  How many notifications to return (max 50)
+     * @param int|null        $offset Results offset (results are sorted by ID)
      *
      * @phpstan-param int $kind   Kind of notifications returned. Default (not set) is all notification types
+     *
+     * @return array<mixed>
      */
-    public function getAll(int $limit = null, int $offset = null/* , int $kind = null */): array
+    public function getAll(?int $limit = null, ?int $offset = null/* , ?int $kind = null */): array
     {
         if (func_num_args() > 2 && !is_int(func_get_arg(2))) {
             trigger_deprecation('norkunas/onesignal-php-api', '2.1.0', 'Method %s() will have a third `int $kind` argument. Not defining it or passing a non integer value is deprecated.', __METHOD__);
@@ -81,6 +85,10 @@ class Notifications extends AbstractApi
      * Send new notification with provided data.
      *
      * Application authentication key and ID must be set.
+     *
+     * @param array<mixed> $data
+     *
+     * @return array<mixed>
      */
     public function add(array $data): array
     {
@@ -99,7 +107,9 @@ class Notifications extends AbstractApi
      *
      * Application authentication key and ID must be set.
      *
-     * @param string $id Notification ID
+     * @param non-empty-string $id Notification ID
+     *
+     * @return array<mixed>
      */
     public function open(string $id): array
     {
@@ -119,7 +129,9 @@ class Notifications extends AbstractApi
      *
      * Application authentication key and ID must be set.
      *
-     * @param string $id Notification ID
+     * @param non-empty-string $id Notification ID
+     *
+     * @return array<mixed>
      */
     public function cancel(string $id): array
     {
@@ -134,7 +146,10 @@ class Notifications extends AbstractApi
      *
      * Application authentication key and ID must be set.
      *
-     * @param string $id Notification ID
+     * @param non-empty-string $id   Notification ID
+     * @param array<mixed>     $data
+     *
+     * @return array<mixed>
      */
     public function history(string $id, array $data): array
     {

@@ -25,6 +25,8 @@ class SourceConfig extends \Google\Model
   protected $oracleSourceConfigDataType = '';
   protected $postgresqlSourceConfigType = PostgresqlSourceConfig::class;
   protected $postgresqlSourceConfigDataType = '';
+  protected $salesforceSourceConfigType = SalesforceSourceConfig::class;
+  protected $salesforceSourceConfigDataType = '';
   /**
    * @var string
    */
@@ -73,6 +75,20 @@ class SourceConfig extends \Google\Model
   public function getPostgresqlSourceConfig()
   {
     return $this->postgresqlSourceConfig;
+  }
+  /**
+   * @param SalesforceSourceConfig
+   */
+  public function setSalesforceSourceConfig(SalesforceSourceConfig $salesforceSourceConfig)
+  {
+    $this->salesforceSourceConfig = $salesforceSourceConfig;
+  }
+  /**
+   * @return SalesforceSourceConfig
+   */
+  public function getSalesforceSourceConfig()
+  {
+    return $this->salesforceSourceConfig;
   }
   /**
    * @param string

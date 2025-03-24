@@ -17,6 +17,8 @@
 
 namespace Google\Service\Appengine\Resource;
 
+use Google\Service\Appengine\Operation;
+
 /**
  * The "services" collection of methods.
  * Typical usage is:
@@ -27,6 +29,29 @@ namespace Google\Service\Appengine\Resource;
  */
 class ProjectsLocationsApplicationsServices extends \Google\Service\Resource
 {
+  /**
+   * Deletes the specified service and all enclosed versions. (services.delete)
+   *
+   * @param string $projectsId Part of `name`. Name of the resource requested.
+   * Example: apps/myapp/services/default.
+   * @param string $locationsId Part of `name`. See documentation of `projectsId`.
+   * @param string $applicationsId Part of `name`. See documentation of
+   * `projectsId`.
+   * @param string $servicesId Part of `name`. See documentation of `projectsId`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool force Optional. If set to true, any versions of this service
+   * will also be deleted. (Otherwise, the request will only succeed if the
+   * service has no versions.)
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function delete($projectsId, $locationsId, $applicationsId, $servicesId, $optParams = [])
+  {
+    $params = ['projectsId' => $projectsId, 'locationsId' => $locationsId, 'applicationsId' => $applicationsId, 'servicesId' => $servicesId];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], Operation::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

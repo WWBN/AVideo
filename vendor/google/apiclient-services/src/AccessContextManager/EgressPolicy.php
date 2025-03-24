@@ -23,6 +23,10 @@ class EgressPolicy extends \Google\Model
   protected $egressFromDataType = '';
   protected $egressToType = EgressTo::class;
   protected $egressToDataType = '';
+  /**
+   * @var string
+   */
+  public $title;
 
   /**
    * @param EgressFrom
@@ -51,6 +55,20 @@ class EgressPolicy extends \Google\Model
   public function getEgressTo()
   {
     return $this->egressTo;
+  }
+  /**
+   * @param string
+   */
+  public function setTitle($title)
+  {
+    $this->title = $title;
+  }
+  /**
+   * @return string
+   */
+  public function getTitle()
+  {
+    return $this->title;
   }
 }
 

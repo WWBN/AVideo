@@ -44,6 +44,10 @@ class DataExchange extends \Google\Model
    */
   public $listingCount;
   /**
+   * @var bool
+   */
+  public $logLinkedDatasetQueryUserEmail;
+  /**
    * @var string
    */
   public $name;
@@ -137,6 +141,20 @@ class DataExchange extends \Google\Model
   public function getListingCount()
   {
     return $this->listingCount;
+  }
+  /**
+   * @param bool
+   */
+  public function setLogLinkedDatasetQueryUserEmail($logLinkedDatasetQueryUserEmail)
+  {
+    $this->logLinkedDatasetQueryUserEmail = $logLinkedDatasetQueryUserEmail;
+  }
+  /**
+   * @return bool
+   */
+  public function getLogLinkedDatasetQueryUserEmail()
+  {
+    return $this->logLinkedDatasetQueryUserEmail;
   }
   /**
    * @param string

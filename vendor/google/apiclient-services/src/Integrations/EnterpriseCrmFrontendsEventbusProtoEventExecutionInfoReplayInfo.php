@@ -27,6 +27,10 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo extends \G
   /**
    * @var string
    */
+  public $replayMode;
+  /**
+   * @var string
+   */
   public $replayReason;
   /**
    * @var string[]
@@ -46,6 +50,20 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo extends \G
   public function getOriginalExecutionInfoId()
   {
     return $this->originalExecutionInfoId;
+  }
+  /**
+   * @param string
+   */
+  public function setReplayMode($replayMode)
+  {
+    $this->replayMode = $replayMode;
+  }
+  /**
+   * @return string
+   */
+  public function getReplayMode()
+  {
+    return $this->replayMode;
   }
   /**
    * @param string

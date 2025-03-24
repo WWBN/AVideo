@@ -75,6 +75,7 @@ return array(
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
     'Evenement\\' => array($vendorDir . '/evenement/evenement/src'),
     'Emojione\\' => array($vendorDir . '/emojione/emojione/lib/php/src'),
+    'ElephantIO\\' => array($vendorDir . '/elephantio/elephant.io/src'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
     'Carbon\\Doctrine\\' => array($vendorDir . '/carbonphp/carbon-doctrine-types/src/Carbon/Doctrine'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),

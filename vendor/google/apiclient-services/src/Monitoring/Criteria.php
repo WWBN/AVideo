@@ -21,10 +21,28 @@ class Criteria extends \Google\Collection
 {
   protected $collection_key = 'policies';
   /**
+   * @var string
+   */
+  public $filter;
+  /**
    * @var string[]
    */
   public $policies;
 
+  /**
+   * @param string
+   */
+  public function setFilter($filter)
+  {
+    $this->filter = $filter;
+  }
+  /**
+   * @return string
+   */
+  public function getFilter()
+  {
+    return $this->filter;
+  }
   /**
    * @param string[]
    */

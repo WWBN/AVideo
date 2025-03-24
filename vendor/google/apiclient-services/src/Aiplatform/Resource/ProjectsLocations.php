@@ -17,10 +17,18 @@
 
 namespace Google\Service\Aiplatform\Resource;
 
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1AugmentPromptRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1AugmentPromptResponse;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1CorroborateContentRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1CorroborateContentResponse;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1EvaluateDatasetRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1EvaluateInstancesRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1EvaluateInstancesResponse;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1RetrieveContextsRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1RetrieveContextsResponse;
 use Google\Service\Aiplatform\GoogleCloudLocationListLocationsResponse;
 use Google\Service\Aiplatform\GoogleCloudLocationLocation;
+use Google\Service\Aiplatform\GoogleLongrunningOperation;
 
 /**
  * The "locations" collection of methods.
@@ -32,6 +40,60 @@ use Google\Service\Aiplatform\GoogleCloudLocationLocation;
  */
 class ProjectsLocations extends \Google\Service\Resource
 {
+  /**
+   * Given an input prompt, it returns augmented prompt from vertex rag store to
+   * guide LLM towards generating grounded responses. (locations.augmentPrompt)
+   *
+   * @param string $parent Required. The resource name of the Location from which
+   * to augment prompt. The users must have permission to make a call in the
+   * project. Format: `projects/{project}/locations/{location}`.
+   * @param GoogleCloudAiplatformV1AugmentPromptRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAiplatformV1AugmentPromptResponse
+   * @throws \Google\Service\Exception
+   */
+  public function augmentPrompt($parent, GoogleCloudAiplatformV1AugmentPromptRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('augmentPrompt', [$params], GoogleCloudAiplatformV1AugmentPromptResponse::class);
+  }
+  /**
+   * Given an input text, it returns a score that evaluates the factuality of the
+   * text. It also extracts and returns claims from the text and provides
+   * supporting facts. (locations.corroborateContent)
+   *
+   * @param string $parent Required. The resource name of the Location from which
+   * to corroborate text. The users must have permission to make a call in the
+   * project. Format: `projects/{project}/locations/{location}`.
+   * @param GoogleCloudAiplatformV1CorroborateContentRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAiplatformV1CorroborateContentResponse
+   * @throws \Google\Service\Exception
+   */
+  public function corroborateContent($parent, GoogleCloudAiplatformV1CorroborateContentRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('corroborateContent', [$params], GoogleCloudAiplatformV1CorroborateContentResponse::class);
+  }
+  /**
+   * Evaluates a dataset based on a set of given metrics.
+   * (locations.evaluateDataset)
+   *
+   * @param string $location Required. The resource name of the Location to
+   * evaluate the dataset. Format: `projects/{project}/locations/{location}`
+   * @param GoogleCloudAiplatformV1EvaluateDatasetRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function evaluateDataset($location, GoogleCloudAiplatformV1EvaluateDatasetRequest $postBody, $optParams = [])
+  {
+    $params = ['location' => $location, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('evaluateDataset', [$params], GoogleLongrunningOperation::class);
+  }
   /**
    * Evaluates instances based on a given metric. (locations.evaluateInstances)
    *
@@ -85,6 +147,23 @@ class ProjectsLocations extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudLocationListLocationsResponse::class);
+  }
+  /**
+   * Retrieves relevant contexts for a query. (locations.retrieveContexts)
+   *
+   * @param string $parent Required. The resource name of the Location from which
+   * to retrieve RagContexts. The users must have permission to make a call in the
+   * project. Format: `projects/{project}/locations/{location}`.
+   * @param GoogleCloudAiplatformV1RetrieveContextsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAiplatformV1RetrieveContextsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function retrieveContexts($parent, GoogleCloudAiplatformV1RetrieveContextsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('retrieveContexts', [$params], GoogleCloudAiplatformV1RetrieveContextsResponse::class);
   }
 }
 

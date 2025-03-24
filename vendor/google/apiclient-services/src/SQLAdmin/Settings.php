@@ -103,6 +103,10 @@ class Settings extends \Google\Collection
    */
   public $pricingPlan;
   /**
+   * @var int
+   */
+  public $replicationLagMaxSeconds;
+  /**
    * @var string
    */
   public $replicationType;
@@ -496,6 +500,20 @@ class Settings extends \Google\Collection
   public function getPricingPlan()
   {
     return $this->pricingPlan;
+  }
+  /**
+   * @param int
+   */
+  public function setReplicationLagMaxSeconds($replicationLagMaxSeconds)
+  {
+    $this->replicationLagMaxSeconds = $replicationLagMaxSeconds;
+  }
+  /**
+   * @return int
+   */
+  public function getReplicationLagMaxSeconds()
+  {
+    return $this->replicationLagMaxSeconds;
   }
   /**
    * @param string

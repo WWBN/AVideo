@@ -20,6 +20,8 @@ namespace Google\Service\AnalyticsHub;
 class Subscription extends \Google\Collection
 {
   protected $collection_key = 'linkedResources';
+  protected $commercialInfoType = GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo::class;
+  protected $commercialInfoDataType = '';
   /**
    * @var string
    */
@@ -40,6 +42,10 @@ class Subscription extends \Google\Collection
    * @var string
    */
   public $listing;
+  /**
+   * @var bool
+   */
+  public $logLinkedDatasetQueryUserEmail;
   /**
    * @var string
    */
@@ -65,6 +71,20 @@ class Subscription extends \Google\Collection
    */
   public $subscriberContact;
 
+  /**
+   * @param GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo
+   */
+  public function setCommercialInfo(GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo $commercialInfo)
+  {
+    $this->commercialInfo = $commercialInfo;
+  }
+  /**
+   * @return GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo
+   */
+  public function getCommercialInfo()
+  {
+    return $this->commercialInfo;
+  }
   /**
    * @param string
    */
@@ -148,6 +168,20 @@ class Subscription extends \Google\Collection
   public function getListing()
   {
     return $this->listing;
+  }
+  /**
+   * @param bool
+   */
+  public function setLogLinkedDatasetQueryUserEmail($logLinkedDatasetQueryUserEmail)
+  {
+    $this->logLinkedDatasetQueryUserEmail = $logLinkedDatasetQueryUserEmail;
+  }
+  /**
+   * @return bool
+   */
+  public function getLogLinkedDatasetQueryUserEmail()
+  {
+    return $this->logLinkedDatasetQueryUserEmail;
   }
   /**
    * @param string

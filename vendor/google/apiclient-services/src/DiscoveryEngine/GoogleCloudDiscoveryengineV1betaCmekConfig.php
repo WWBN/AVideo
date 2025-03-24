@@ -17,8 +17,9 @@
 
 namespace Google\Service\DiscoveryEngine;
 
-class GoogleCloudDiscoveryengineV1betaCmekConfig extends \Google\Model
+class GoogleCloudDiscoveryengineV1betaCmekConfig extends \Google\Collection
 {
+  protected $collection_key = 'singleRegionKeys';
   /**
    * @var bool
    */
@@ -39,6 +40,8 @@ class GoogleCloudDiscoveryengineV1betaCmekConfig extends \Google\Model
    * @var string
    */
   public $name;
+  protected $singleRegionKeysType = GoogleCloudDiscoveryengineV1betaSingleRegionKey::class;
+  protected $singleRegionKeysDataType = 'array';
   /**
    * @var string
    */
@@ -113,6 +116,20 @@ class GoogleCloudDiscoveryengineV1betaCmekConfig extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1betaSingleRegionKey[]
+   */
+  public function setSingleRegionKeys($singleRegionKeys)
+  {
+    $this->singleRegionKeys = $singleRegionKeys;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1betaSingleRegionKey[]
+   */
+  public function getSingleRegionKeys()
+  {
+    return $this->singleRegionKeys;
   }
   /**
    * @param string

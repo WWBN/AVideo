@@ -83,6 +83,10 @@ class Workflow extends \Google\Collection
   protected $stateErrorType = StateError::class;
   protected $stateErrorDataType = '';
   /**
+   * @var string[]
+   */
+  public $tags;
+  /**
    * @var string
    */
   public $updateTime;
@@ -314,6 +318,20 @@ class Workflow extends \Google\Collection
   public function getStateError()
   {
     return $this->stateError;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
   /**
    * @param string

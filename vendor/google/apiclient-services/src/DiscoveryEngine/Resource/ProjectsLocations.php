@@ -17,6 +17,9 @@
 
 namespace Google\Service\DiscoveryEngine\Resource;
 
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1GenerateGroundedContentRequest;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1GenerateGroundedContentResponse;
+
 /**
  * The "locations" collection of methods.
  * Typical usage is:
@@ -27,6 +30,22 @@ namespace Google\Service\DiscoveryEngine\Resource;
  */
 class ProjectsLocations extends \Google\Service\Resource
 {
+  /**
+   * Generates grounded content. (locations.generateGroundedContent)
+   *
+   * @param string $location Required. Location resource. Format:
+   * `projects/{project}/locations/{location}`.
+   * @param GoogleCloudDiscoveryengineV1GenerateGroundedContentRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDiscoveryengineV1GenerateGroundedContentResponse
+   * @throws \Google\Service\Exception
+   */
+  public function generateGroundedContent($location, GoogleCloudDiscoveryengineV1GenerateGroundedContentRequest $postBody, $optParams = [])
+  {
+    $params = ['location' => $location, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('generateGroundedContent', [$params], GoogleCloudDiscoveryengineV1GenerateGroundedContentResponse::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

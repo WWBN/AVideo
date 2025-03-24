@@ -40,6 +40,8 @@ class GoogleCloudPaymentsResellerSubscriptionV1Subscription extends \Google\Coll
   public $freeTrialEndTime;
   protected $lineItemsType = GoogleCloudPaymentsResellerSubscriptionV1SubscriptionLineItem::class;
   protected $lineItemsDataType = 'array';
+  protected $migrationDetailsType = GoogleCloudPaymentsResellerSubscriptionV1SubscriptionMigrationDetails::class;
+  protected $migrationDetailsDataType = '';
   /**
    * @var string
    */
@@ -170,6 +172,20 @@ class GoogleCloudPaymentsResellerSubscriptionV1Subscription extends \Google\Coll
   public function getLineItems()
   {
     return $this->lineItems;
+  }
+  /**
+   * @param GoogleCloudPaymentsResellerSubscriptionV1SubscriptionMigrationDetails
+   */
+  public function setMigrationDetails(GoogleCloudPaymentsResellerSubscriptionV1SubscriptionMigrationDetails $migrationDetails)
+  {
+    $this->migrationDetails = $migrationDetails;
+  }
+  /**
+   * @return GoogleCloudPaymentsResellerSubscriptionV1SubscriptionMigrationDetails
+   */
+  public function getMigrationDetails()
+  {
+    return $this->migrationDetails;
   }
   /**
    * @param string

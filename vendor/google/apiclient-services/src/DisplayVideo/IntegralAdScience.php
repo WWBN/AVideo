@@ -19,7 +19,7 @@ namespace Google\Service\DisplayVideo;
 
 class IntegralAdScience extends \Google\Collection
 {
-  protected $collection_key = 'customSegmentId';
+  protected $collection_key = 'qualitySyncCustomSegmentId';
   /**
    * @var string[]
    */
@@ -68,6 +68,10 @@ class IntegralAdScience extends \Google\Collection
    * @var string
    */
   public $excludedViolenceRisk;
+  /**
+   * @var string[]
+   */
+  public $qualitySyncCustomSegmentId;
   /**
    * @var string
    */
@@ -244,6 +248,20 @@ class IntegralAdScience extends \Google\Collection
   public function getExcludedViolenceRisk()
   {
     return $this->excludedViolenceRisk;
+  }
+  /**
+   * @param string[]
+   */
+  public function setQualitySyncCustomSegmentId($qualitySyncCustomSegmentId)
+  {
+    $this->qualitySyncCustomSegmentId = $qualitySyncCustomSegmentId;
+  }
+  /**
+   * @return string[]
+   */
+  public function getQualitySyncCustomSegmentId()
+  {
+    return $this->qualitySyncCustomSegmentId;
   }
   /**
    * @param string

@@ -23,6 +23,10 @@ class GoogleCloudAiplatformV1PointwiseMetricSpec extends \Google\Model
    * @var string
    */
   public $metricPromptTemplate;
+  /**
+   * @var string
+   */
+  public $systemInstruction;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class GoogleCloudAiplatformV1PointwiseMetricSpec extends \Google\Model
   public function getMetricPromptTemplate()
   {
     return $this->metricPromptTemplate;
+  }
+  /**
+   * @param string
+   */
+  public function setSystemInstruction($systemInstruction)
+  {
+    $this->systemInstruction = $systemInstruction;
+  }
+  /**
+   * @return string
+   */
+  public function getSystemInstruction()
+  {
+    return $this->systemInstruction;
   }
 }
 

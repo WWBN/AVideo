@@ -19,13 +19,15 @@ namespace Google\Service\WorkloadManager;
 
 class SapDiscoveryResourceInstanceProperties extends \Google\Collection
 {
-  protected $collection_key = 'clusterInstances';
+  protected $collection_key = 'diskMounts';
   protected $appInstancesType = SapDiscoveryResourceInstancePropertiesAppInstance::class;
   protected $appInstancesDataType = 'array';
   /**
    * @var string[]
    */
   public $clusterInstances;
+  protected $diskMountsType = SapDiscoveryResourceInstancePropertiesDiskMount::class;
+  protected $diskMountsDataType = 'array';
   /**
    * @var string
    */
@@ -70,6 +72,20 @@ class SapDiscoveryResourceInstanceProperties extends \Google\Collection
   public function getClusterInstances()
   {
     return $this->clusterInstances;
+  }
+  /**
+   * @param SapDiscoveryResourceInstancePropertiesDiskMount[]
+   */
+  public function setDiskMounts($diskMounts)
+  {
+    $this->diskMounts = $diskMounts;
+  }
+  /**
+   * @return SapDiscoveryResourceInstancePropertiesDiskMount[]
+   */
+  public function getDiskMounts()
+  {
+    return $this->diskMounts;
   }
   /**
    * @param string

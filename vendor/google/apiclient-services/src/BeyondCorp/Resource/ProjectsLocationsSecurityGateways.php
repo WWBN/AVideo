@@ -19,7 +19,6 @@ namespace Google\Service\BeyondCorp\Resource;
 
 use Google\Service\BeyondCorp\GoogleCloudBeyondcorpSecuritygatewaysV1ListSecurityGatewaysResponse;
 use Google\Service\BeyondCorp\GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGateway;
-use Google\Service\BeyondCorp\GoogleCloudBeyondcorpSecuritygatewaysV1SetPeeringRequest;
 use Google\Service\BeyondCorp\GoogleIamV1Policy;
 use Google\Service\BeyondCorp\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\BeyondCorp\GoogleIamV1TestIamPermissionsRequest;
@@ -221,25 +220,6 @@ class ProjectsLocationsSecurityGateways extends \Google\Service\Resource
     $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('setIamPolicy', [$params], GoogleIamV1Policy::class);
-  }
-  /**
-   * This is a custom method to allow customers to create a peering connections
-   * between Google network and customer networks. This is enabled only for the
-   * allowlisted customers. (securityGateways.setPeering)
-   *
-   * @param string $securityGateway Required. BeyondCorp SecurityGateway name
-   * using the form:
-   * `projects/{project}/locations/{location}/securityGateways/{security_gateway}`
-   * @param GoogleCloudBeyondcorpSecuritygatewaysV1SetPeeringRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleLongrunningOperation
-   * @throws \Google\Service\Exception
-   */
-  public function setPeering($securityGateway, GoogleCloudBeyondcorpSecuritygatewaysV1SetPeeringRequest $postBody, $optParams = [])
-  {
-    $params = ['securityGateway' => $securityGateway, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('setPeering', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Returns permissions that a caller has on the specified resource. If the

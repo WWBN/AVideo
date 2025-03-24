@@ -21,6 +21,10 @@ class GoogleCloudDiscoveryengineV1DocumentInfo extends \Google\Collection
 {
   protected $collection_key = 'promotionIds';
   /**
+   * @var float
+   */
+  public $conversionValue;
+  /**
    * @var string
    */
   public $id;
@@ -45,6 +49,20 @@ class GoogleCloudDiscoveryengineV1DocumentInfo extends \Google\Collection
    */
   public $uri;
 
+  /**
+   * @param float
+   */
+  public function setConversionValue($conversionValue)
+  {
+    $this->conversionValue = $conversionValue;
+  }
+  /**
+   * @return float
+   */
+  public function getConversionValue()
+  {
+    return $this->conversionValue;
+  }
   /**
    * @param string
    */

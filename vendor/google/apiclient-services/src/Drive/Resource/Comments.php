@@ -31,7 +31,12 @@ use Google\Service\Drive\CommentList;
 class Comments extends \Google\Service\Resource
 {
   /**
-   * Creates a comment on a file. (comments.create)
+   * Creates a comment on a file. For more information, see [Manage comments and
+   * replies](https://developers.google.com/drive/api/guides/manage-comments).
+   * Required: The `fields` parameter must be set. To return the exact fields you
+   * need, see [Return specific
+   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
+   * (comments.create)
    *
    * @param string $fileId The ID of the file.
    * @param Comment $postBody
@@ -46,7 +51,12 @@ class Comments extends \Google\Service\Resource
     return $this->call('create', [$params], Comment::class);
   }
   /**
-   * Deletes a comment. (comments.delete)
+   * Deletes a comment. For more information, see [Manage comments and
+   * replies](https://developers.google.com/drive/api/guides/manage-comments).
+   * Required: The `fields` parameter must be set. To return the exact fields you
+   * need, see [Return specific
+   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
+   * (comments.delete)
    *
    * @param string $fileId The ID of the file.
    * @param string $commentId The ID of the comment.
@@ -60,7 +70,12 @@ class Comments extends \Google\Service\Resource
     return $this->call('delete', [$params]);
   }
   /**
-   * Gets a comment by ID. (comments.get)
+   * Gets a comment by ID. For more information, see [Manage comments and
+   * replies](https://developers.google.com/drive/api/guides/manage-comments).
+   * Required: The `fields` parameter must be set. To return the exact fields you
+   * need, see [Return specific
+   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
+   * (comments.get)
    *
    * @param string $fileId The ID of the file.
    * @param string $commentId The ID of the comment.
@@ -78,7 +93,12 @@ class Comments extends \Google\Service\Resource
     return $this->call('get', [$params], Comment::class);
   }
   /**
-   * Lists a file's comments. (comments.listComments)
+   * Lists a file's comments. For more information, see [Manage comments and
+   * replies](https://developers.google.com/drive/api/guides/manage-comments).
+   * Required: The `fields` parameter must be set. To return the exact fields you
+   * need, see [Return specific
+   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
+   * (comments.listComments)
    *
    * @param string $fileId The ID of the file.
    * @param array $optParams Optional parameters.
@@ -101,7 +121,12 @@ class Comments extends \Google\Service\Resource
     return $this->call('list', [$params], CommentList::class);
   }
   /**
-   * Updates a comment with patch semantics. (comments.update)
+   * Updates a comment with patch semantics. For more information, see [Manage
+   * comments and replies](https://developers.google.com/drive/api/guides/manage-
+   * comments). Required: The `fields` parameter must be set. To return the exact
+   * fields you need, see [Return specific
+   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
+   * (comments.update)
    *
    * @param string $fileId The ID of the file.
    * @param string $commentId The ID of the comment.

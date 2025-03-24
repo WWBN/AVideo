@@ -61,6 +61,10 @@ class Repository extends \Google\Model
    * @var string
    */
   public $name;
+  /**
+   * @var string
+   */
+  public $registryUri;
   protected $remoteRepositoryConfigType = RemoteRepositoryConfig::class;
   protected $remoteRepositoryConfigDataType = '';
   /**
@@ -251,6 +255,20 @@ class Repository extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setRegistryUri($registryUri)
+  {
+    $this->registryUri = $registryUri;
+  }
+  /**
+   * @return string
+   */
+  public function getRegistryUri()
+  {
+    return $this->registryUri;
   }
   /**
    * @param RemoteRepositoryConfig

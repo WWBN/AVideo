@@ -151,6 +151,10 @@ class StorageObject extends \Google\Collection
   /**
    * @var string
    */
+  public $timeFinalized;
+  /**
+   * @var string
+   */
   public $timeStorageClassUpdated;
   /**
    * @var string
@@ -632,6 +636,20 @@ class StorageObject extends \Google\Collection
   public function getTimeDeleted()
   {
     return $this->timeDeleted;
+  }
+  /**
+   * @param string
+   */
+  public function setTimeFinalized($timeFinalized)
+  {
+    $this->timeFinalized = $timeFinalized;
+  }
+  /**
+   * @return string
+   */
+  public function getTimeFinalized()
+  {
+    return $this->timeFinalized;
   }
   /**
    * @param string

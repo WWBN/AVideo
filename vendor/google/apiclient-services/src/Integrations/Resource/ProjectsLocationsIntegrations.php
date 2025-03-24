@@ -83,6 +83,9 @@ class ProjectsLocationsIntegrations extends \Google\Service\Resource
    * @param ExecuteEventRequestContent $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string GCPCloudEventsMode Optional. LINT: LEGACY_NAMES The query
+   * parameter value for __GCP_CloudEventsMode, set by the Eventarc service when
+   * configuring triggers.
    * @opt_param string triggerId Required. Id of the integration trigger config.
    * The trigger_id is in the format: `integration_connector_trigger/projects/{gcp
    * _project_id}/location/{location}/connections/{connection_name}/subscriptions/

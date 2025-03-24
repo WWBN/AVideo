@@ -64,7 +64,7 @@ class Datasets extends \Google\Service\Resource
    * value will be rejected. Requests for conditional access policy binding in
    * datasets must specify version 3. Dataset with no conditional role bindings in
    * access policy may specify any valid value or leave the field unset. This
-   * field will be maped to [IAM Policy version]
+   * field will be mapped to [IAM Policy version]
    * (https://cloud.google.com/iam/docs/policies#versions) and will be used to
    * fetch policy from IAM. If unset or if 0 or 1 value is used for dataset with
    * conditional bindings, access entry with condition will have role string
@@ -101,7 +101,7 @@ class Datasets extends \Google\Service\Resource
    * must specify version 3. * But dataset with no conditional role bindings in
    * access policy may specify any valid value or leave the field unset. If unset
    * or if 0 or 1 value is used for dataset with conditional bindings, request
-   * will be rejected. This field will be maped to IAM Policy version
+   * will be rejected. This field will be mapped to IAM Policy version
    * (https://cloud.google.com/iam/docs/policies#versions) and will be used to set
    * policy in IAM.
    * @return Dataset
@@ -122,7 +122,7 @@ class Datasets extends \Google\Service\Resource
    *
    * @opt_param bool all Whether to list all datasets, including hidden ones
    * @opt_param string filter An expression for filtering the results of the
-   * request by label. The syntax is `labels.[:]`. Multiple filters can be ANDed
+   * request by label. The syntax is `labels.[:]`. Multiple filters can be AND-ed
    * together by connecting with a space. Example: `labels.department:receiving
    * labels.active`. See [Filtering datasets using
    * labels](https://cloud.google.com/bigquery/docs/filtering-
@@ -164,7 +164,7 @@ class Datasets extends \Google\Service\Resource
    * with no conditional role bindings in access policy may specify any valid
    * value or leave the field unset. If unset or if 0 or 1 value is used for
    * dataset with conditional bindings, request will be rejected. This field will
-   * be maped to IAM Policy version
+   * be mapped to IAM Policy version
    * (https://cloud.google.com/iam/docs/policies#versions) and will be used to set
    * policy in IAM.
    * @return Dataset
@@ -216,7 +216,7 @@ class Datasets extends \Google\Service\Resource
    * with no conditional role bindings in access policy may specify any valid
    * value or leave the field unset. If unset or if 0 or 1 value is used for
    * dataset with conditional bindings, request will be rejected. This field will
-   * be maped to IAM Policy version
+   * be mapped to IAM Policy version
    * (https://cloud.google.com/iam/docs/policies#versions) and will be used to set
    * policy in IAM.
    * @return Dataset

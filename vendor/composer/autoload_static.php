@@ -239,6 +239,7 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         array (
             'Evenement\\' => 10,
             'Emojione\\' => 9,
+            'ElephantIO\\' => 11,
         ),
         'C' => 
         array (
@@ -540,6 +541,10 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         'Emojione\\' => 
         array (
             0 => __DIR__ . '/..' . '/emojione/emojione/lib/php/src',
+        ),
+        'ElephantIO\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/elephantio/elephant.io/src',
         ),
         'Composer\\CaBundle\\' => 
         array (

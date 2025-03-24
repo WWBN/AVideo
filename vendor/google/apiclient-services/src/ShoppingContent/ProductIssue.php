@@ -31,6 +31,10 @@ class ProductIssue extends \Google\Collection
   /**
    * @var string
    */
+  public $prerenderedOutOfCourtDisputeSettlement;
+  /**
+   * @var string
+   */
   public $title;
 
   /**
@@ -74,6 +78,20 @@ class ProductIssue extends \Google\Collection
   public function getPrerenderedContent()
   {
     return $this->prerenderedContent;
+  }
+  /**
+   * @param string
+   */
+  public function setPrerenderedOutOfCourtDisputeSettlement($prerenderedOutOfCourtDisputeSettlement)
+  {
+    $this->prerenderedOutOfCourtDisputeSettlement = $prerenderedOutOfCourtDisputeSettlement;
+  }
+  /**
+   * @return string
+   */
+  public function getPrerenderedOutOfCourtDisputeSettlement()
+  {
+    return $this->prerenderedOutOfCourtDisputeSettlement;
   }
   /**
    * @param string

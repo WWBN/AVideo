@@ -38,6 +38,8 @@ class GoogleCloudDiscoveryengineV1Control extends \Google\Collection
    * @var string
    */
   public $name;
+  protected $promoteActionType = GoogleCloudDiscoveryengineV1ControlPromoteAction::class;
+  protected $promoteActionDataType = '';
   protected $redirectActionType = GoogleCloudDiscoveryengineV1ControlRedirectAction::class;
   protected $redirectActionDataType = '';
   /**
@@ -134,6 +136,20 @@ class GoogleCloudDiscoveryengineV1Control extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1ControlPromoteAction
+   */
+  public function setPromoteAction(GoogleCloudDiscoveryengineV1ControlPromoteAction $promoteAction)
+  {
+    $this->promoteAction = $promoteAction;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1ControlPromoteAction
+   */
+  public function getPromoteAction()
+  {
+    return $this->promoteAction;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1ControlRedirectAction

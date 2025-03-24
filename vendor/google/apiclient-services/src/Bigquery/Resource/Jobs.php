@@ -44,11 +44,11 @@ class Jobs extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string location The geographic location of the job. You must
-   * specify the location to run the job for the following scenarios: * If the
-   * location to run a job is not in the `us` or the `eu` multi-regional location
-   * * If the job's location is in a single region (for example, `us-central1`)
-   * For more information, see
-   * https://cloud.google.com/bigquery/docs/locations#specifying_your_location.
+   * [specify the
+   * location](https://cloud.google.com/bigquery/docs/locations#specify_locations)
+   * to run the job for the following scenarios: * If the location to run a job is
+   * not in the `us` or the `eu` multi-regional location * If the job's location
+   * is in a single region (for example, `us-central1`)
    * @return JobCancelResponse
    * @throws \Google\Service\Exception
    */
@@ -70,9 +70,9 @@ class Jobs extends \Google\Service\Resource
    * jobs is not allowed.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string location The geographic location of the job. Required. See
-   * details at:
-   * https://cloud.google.com/bigquery/docs/locations#specifying_your_location.
+   * @opt_param string location The geographic location of the job. Required. For
+   * more information, see how to [specify locations](https://cloud.google.com/big
+   * query/docs/locations#specify_locations).
    * @throws \Google\Service\Exception
    */
   public function delete($projectId, $jobId, $optParams = [])
@@ -94,8 +94,8 @@ class Jobs extends \Google\Service\Resource
    * specify the location to run the job for the following scenarios: * If the
    * location to run a job is not in the `us` or the `eu` multi-regional location
    * * If the job's location is in a single region (for example, `us-central1`)
-   * For more information, see
-   * https://cloud.google.com/bigquery/docs/locations#specifying_your_location.
+   * For more information, see how to [specify locations](https://cloud.google.com
+   * /bigquery/docs/locations#specify_locations).
    * @return Job
    * @throws \Google\Service\Exception
    */
@@ -118,8 +118,8 @@ class Jobs extends \Google\Service\Resource
    * specify the location to run the job for the following scenarios: * If the
    * location to run a job is not in the `us` or the `eu` multi-regional location
    * * If the job's location is in a single region (for example, `us-central1`)
-   * For more information, see
-   * https://cloud.google.com/bigquery/docs/locations#specifying_your_location.
+   * For more information, see how to [specify locations](https://cloud.google.com
+   * /bigquery/docs/locations#specify_locations).
    * @opt_param string maxResults Maximum number of results to read.
    * @opt_param string pageToken Page token, returned by a previous call, to
    * request the next page of results.

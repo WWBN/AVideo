@@ -19,6 +19,10 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1Part extends \Google\Model
 {
+  protected $codeExecutionResultType = GoogleCloudAiplatformV1CodeExecutionResult::class;
+  protected $codeExecutionResultDataType = '';
+  protected $executableCodeType = GoogleCloudAiplatformV1ExecutableCode::class;
+  protected $executableCodeDataType = '';
   protected $fileDataType = GoogleCloudAiplatformV1FileData::class;
   protected $fileDataDataType = '';
   protected $functionCallType = GoogleCloudAiplatformV1FunctionCall::class;
@@ -34,6 +38,34 @@ class GoogleCloudAiplatformV1Part extends \Google\Model
   protected $videoMetadataType = GoogleCloudAiplatformV1VideoMetadata::class;
   protected $videoMetadataDataType = '';
 
+  /**
+   * @param GoogleCloudAiplatformV1CodeExecutionResult
+   */
+  public function setCodeExecutionResult(GoogleCloudAiplatformV1CodeExecutionResult $codeExecutionResult)
+  {
+    $this->codeExecutionResult = $codeExecutionResult;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1CodeExecutionResult
+   */
+  public function getCodeExecutionResult()
+  {
+    return $this->codeExecutionResult;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1ExecutableCode
+   */
+  public function setExecutableCode(GoogleCloudAiplatformV1ExecutableCode $executableCode)
+  {
+    $this->executableCode = $executableCode;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1ExecutableCode
+   */
+  public function getExecutableCode()
+  {
+    return $this->executableCode;
+  }
   /**
    * @param GoogleCloudAiplatformV1FileData
    */

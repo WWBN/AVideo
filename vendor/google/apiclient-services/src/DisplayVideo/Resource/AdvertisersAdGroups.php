@@ -34,7 +34,7 @@ class AdvertisersAdGroups extends \Google\Service\Resource
   /**
    * Lists assigned targeting options for multiple ad groups across targeting
    * types. Inherited assigned targeting options are not included.
-   * (adGroups.bulkListAdGroupAssignedTargetingOptions)
+   * (adGroups.bulkListAssignedTargetingOptions)
    *
    * @param string $advertiserId Required. The ID of the advertiser the line items
    * belongs to.
@@ -70,11 +70,11 @@ class AdvertisersAdGroups extends \Google\Service\Resource
    * @return BulkListAdGroupAssignedTargetingOptionsResponse
    * @throws \Google\Service\Exception
    */
-  public function bulkListAdGroupAssignedTargetingOptions($advertiserId, $optParams = [])
+  public function bulkListAssignedTargetingOptions($advertiserId, $optParams = [])
   {
     $params = ['advertiserId' => $advertiserId];
     $params = array_merge($params, $optParams);
-    return $this->call('bulkListAdGroupAssignedTargetingOptions', [$params], BulkListAdGroupAssignedTargetingOptionsResponse::class);
+    return $this->call('bulkListAssignedTargetingOptions', [$params], BulkListAdGroupAssignedTargetingOptionsResponse::class);
   }
   /**
    * Gets an ad group. (adGroups.get)

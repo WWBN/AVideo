@@ -52,6 +52,10 @@ class ClusterUpdate extends \Google\Collection
   public $desiredDefaultEnablePrivateNodes;
   protected $desiredDefaultSnatStatusType = DefaultSnatStatus::class;
   protected $desiredDefaultSnatStatusDataType = '';
+  /**
+   * @var bool
+   */
+  public $desiredDisableL4LbFirewallReconciliation;
   protected $desiredDnsConfigType = DNSConfig::class;
   protected $desiredDnsConfigDataType = '';
   /**
@@ -380,6 +384,20 @@ class ClusterUpdate extends \Google\Collection
   public function getDesiredDefaultSnatStatus()
   {
     return $this->desiredDefaultSnatStatus;
+  }
+  /**
+   * @param bool
+   */
+  public function setDesiredDisableL4LbFirewallReconciliation($desiredDisableL4LbFirewallReconciliation)
+  {
+    $this->desiredDisableL4LbFirewallReconciliation = $desiredDisableL4LbFirewallReconciliation;
+  }
+  /**
+   * @return bool
+   */
+  public function getDesiredDisableL4LbFirewallReconciliation()
+  {
+    return $this->desiredDisableL4LbFirewallReconciliation;
   }
   /**
    * @param DNSConfig

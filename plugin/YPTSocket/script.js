@@ -9,6 +9,9 @@ var users_id_online = undefined;
 var socketConnectRetryTimeout = 15000;
 
 function processSocketJson(json) {
+    if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
+        socketAutoUpdateOnHTML(json.autoUpdateOnHTML);
+    }
     if (json.type == webSocketTypes.UNDEFINED) {
         console.log("processSocketJson UNDEFINED", json);
         if (typeof json.msg === 'object' && typeof json.msg.callback === 'string') {
@@ -56,7 +59,7 @@ function processSocketJson(json) {
                 console.log('processSocketJson: Not a JSON string, keeping as is:', _details);
             }
         }
-        
+
         if (json.callback) {
             // Check if a function exists with the name in json.callback
             var code = "if (typeof " + json.callback + " == 'function') { myfunc = " + json.callback + "; } else { myfunc = defaultCallback; }";
@@ -78,6 +81,14 @@ function processSocketJson(json) {
 }
 
 function socketConnect() {
+    if(useSocketIO){
+        return socketConnectIO();
+    }else{
+        return socketConnectOld();
+    }
+}
+
+function socketConnectOld() {
     if (socketConnectRequested) {
         console.log('socketConnect: already requested');
         return false;
@@ -239,6 +250,116 @@ function socketConnect() {
     };
 }
 
+function socketConnectIO() {
+    if (socketConnectRequested) {
+        console.log("socketConnectIO: already requested");
+        return false;
+    }
+    clearTimeout(socketConnectTimeout);
+
+    if (!isOnline()) {
+        console.log("socketConnectIO: Not Online");
+        socketConnectRequested = false;
+        socketConnectTimeout = setTimeout(() => {
+            socketConnectIO();
+        }, 1000);
+        return false;
+    }
+
+    socketConnectRequested = true;
+
+    const url = addGetParam(webSocketURL, "page_title", encodeURIComponent(document.title));
+    console.log("socketConnectIO: Trying to connect to URL:", url);
+
+    if (!isValidURL(url)) {
+        socketConnectRequested = false;
+        console.error("socketConnectIO: Invalid URL:", url);
+        socketConnectTimeout = setTimeout(() => {
+            socketConnectIO();
+        }, 30000);
+        return false;
+    }
+
+    try {
+        socket = io(url, {
+            transports: ["websocket"],
+            reconnection: false, // We handle reconnection manually
+            timeout: 5000 // 5 seconds timeout
+        });
+    } catch (error) {
+        console.error("socketConnectIO Error:", error);
+    }
+
+    setSocketIconStatus("loading");
+
+    socket.on("connect", () => {
+        socketConnectRequested = false;
+        socketConnectRetryTimeout = 2000; // Reset retry timer
+        clearTimeout(socketConnectTimeout);
+        console.warn("socketConnectIO: Socket.IO connection established.");
+        onSocketOpen();
+    });
+
+    socket.on("message", (data) => {
+        if(data.type ==  webSocketTypes.MSG_BATCH && data.messages.length > 0){
+            if(data.autoUpdateOnHTML){
+                socketAutoUpdateOnHTML(data.autoUpdateOnHTML);
+            }
+            console.log("📩 Socket.IO message received MSG_BATCH:", data);
+            data.messages.forEach(function(message, index) {
+                processSocketJson(message);
+            });
+        }else{
+            console.log("📩 Socket.IO message received:", data);
+            processSocketJson(data);
+        }
+    });
+
+    socket.on("broadcast", (data) => {
+        console.log("📩 Received broadcast:", data);
+        processSocketJson(data);
+    });
+
+    socket.on("disconnect", (reason) => {
+        console.error("❌ Socket.IO disconnected. Reason:", reason);
+
+        if (reason === "io server disconnect") {
+            console.warn("Server disconnected the socket, attempting to reconnect...");
+            socket.connect();
+        } else if (reason === "transport close") {
+            console.error("Transport closed. Retrying...");
+            retrySocketConnection();
+        } else {
+            console.error("Unknown disconnection reason. Retrying...");
+            retrySocketConnection();
+        }
+
+        onSocketClose();
+    });
+
+    socket.on("connect_error", (err) => {
+        console.error("⚠️ Socket.IO connection error:", err);
+        retrySocketConnection();
+    });
+
+    socket.on("connect_timeout", () => {
+        console.error("⏳ Connection timeout. Retrying...");
+        retrySocketConnection();
+    });
+
+    function retrySocketConnection() {
+        socketConnectRequested = false;
+        console.warn(`Retrying connection in ${socketConnectRetryTimeout / 1000} seconds...`);
+
+        socketConnectTimeout = setTimeout(() => {
+            socketConnectRetryTimeout = Math.min(socketConnectRetryTimeout * 2, 60000); // Increase up to 1 min
+            socketConnect();
+        }, socketConnectRetryTimeout);
+    }
+
+
+}
+
 function onSocketOpen() {
     setSocketIconStatus('connected');
 }
@@ -294,7 +415,7 @@ function sendSocketMessageToResourceId(msg, callback, resourceId) {
 }
 
 function isSocketActive() {
-    return isOnline() && typeof conn != 'undefined' && conn.readyState === 1;
+    return isOnline() && ((typeof conn != 'undefined' && conn.readyState === 1) || (typeof socket != 'undefined'  && socket.connected));
 }
 
 function defaultCallback(json) {
@@ -312,35 +433,36 @@ function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
         if (typeof autoUpdateOnHTML[prop] !== 'string' && typeof autoUpdateOnHTML[prop] !== 'number') {
             continue;
         }
-        ////console.log('socketAutoUpdateOnHTML 1', prop, globalAutoUpdateOnHTML[prop], autoUpdateOnHTML[prop]);
+        //console.log('socketAutoUpdateOnHTML 1', prop, globalAutoUpdateOnHTML[prop], autoUpdateOnHTML[prop]);
         globalAutoUpdateOnHTML[prop] = autoUpdateOnHTML[prop];
     }
 
-    ////console.log('socketAutoUpdateOnHTML 1', autoUpdateOnHTML, globalAutoUpdateOnHTML);
+    //console.log('socketAutoUpdateOnHTML 2', autoUpdateOnHTML);
+    //console.log('socketAutoUpdateOnHTML 3', globalAutoUpdateOnHTML);
 }
 
 
 async function AutoUpdateOnHTMLTimer() {
     var localAutoUpdateOnHTML = [];
     clearTimeout(socketAutoUpdateOnHTMLTimout);
-    ////console.log('AutoUpdateOnHTMLTimer 1', empty(globalAutoUpdateOnHTML), globalAutoUpdateOnHTML);
+    //console.log('socket AutoUpdateOnHTMLTimer 1', empty(globalAutoUpdateOnHTML), globalAutoUpdateOnHTML);
     if (!empty(globalAutoUpdateOnHTML)) {
         $('.total_on').text(0);
         $('.total_on').parent().removeClass('text-success');
-        ////console.log("AutoUpdateOnHTMLTimer 2", $('.total_on'), globalAutoUpdateOnHTML);
+        //console.log("socket AutoUpdateOnHTMLTimer 2", $('.total_on'), globalAutoUpdateOnHTML);
 
         localAutoUpdateOnHTML = globalAutoUpdateOnHTML;
         globalAutoUpdateOnHTML = [];
-        //console.log('AutoUpdateOnHTMLTimer localAutoUpdateOnHTML 1', globalAutoUpdateOnHTML, localAutoUpdateOnHTML);
+        //console.log('socket AutoUpdateOnHTMLTimer localAutoUpdateOnHTML 1', globalAutoUpdateOnHTML, localAutoUpdateOnHTML);
         for (var prop in localAutoUpdateOnHTML) {
             if (localAutoUpdateOnHTML[prop] === false) {
                 continue;
             }
             var val = localAutoUpdateOnHTML[prop];
             if (typeof val == 'string' || typeof val == 'number') {
-                ////console.log('AutoUpdateOnHTMLTimer 3', prop, val, $('.' + prop).text());
+                //console.log('socket AutoUpdateOnHTMLTimer 3', prop, val, $('.' + prop).text());
                 $('.' + prop).text(val);
-                //console.log('AutoUpdateOnHTMLTimer 4', prop, val, $('.' + prop).text());
+                //console.log('socket AutoUpdateOnHTMLTimer 4', prop, val, $('.' + prop).text());
                 if (parseInt(val) > 0) {
                     //$('.' + prop).parent().addClass('text-success');
                 }

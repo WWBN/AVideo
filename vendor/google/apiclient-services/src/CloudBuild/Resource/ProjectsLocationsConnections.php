@@ -156,6 +156,9 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    *
    * @opt_param int pageSize Number of results to return in the list.
    * @opt_param string pageToken Page start.
+   * @opt_param bool returnPartialSuccess Optional. If set to true, the response
+   * will return partial results when some regions are unreachable. If set to
+   * false, the response will fail if any region is unreachable.
    * @return ListConnectionsResponse
    * @throws \Google\Service\Exception
    */
@@ -200,7 +203,7 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * @param HttpBody $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string webhookKey Arbitrary additional key to find the maching
+   * @opt_param string webhookKey Arbitrary additional key to find the matching
    * repository for a webhook event if needed.
    * @return CloudbuildEmpty
    * @throws \Google\Service\Exception

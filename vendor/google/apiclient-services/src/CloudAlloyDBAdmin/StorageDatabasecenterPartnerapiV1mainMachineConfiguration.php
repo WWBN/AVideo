@@ -31,6 +31,7 @@ class StorageDatabasecenterPartnerapiV1mainMachineConfiguration extends \Google\
    * @var int
    */
   public $shardCount;
+  public $vcpuCount;
 
   /**
    * @param int
@@ -73,6 +74,14 @@ class StorageDatabasecenterPartnerapiV1mainMachineConfiguration extends \Google\
   public function getShardCount()
   {
     return $this->shardCount;
+  }
+  public function setVcpuCount($vcpuCount)
+  {
+    $this->vcpuCount = $vcpuCount;
+  }
+  public function getVcpuCount()
+  {
+    return $this->vcpuCount;
   }
 }
 

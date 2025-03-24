@@ -22,6 +22,10 @@ class Replication extends \Google\Model
   /**
    * @var string
    */
+  public $clusterLocation;
+  /**
+   * @var string
+   */
   public $createTime;
   /**
    * @var string
@@ -37,6 +41,12 @@ class Replication extends \Google\Model
    * @var bool
    */
   public $healthy;
+  protected $hybridPeeringDetailsType = HybridPeeringDetails::class;
+  protected $hybridPeeringDetailsDataType = '';
+  /**
+   * @var string
+   */
+  public $hybridReplicationType;
   /**
    * @var string[]
    */
@@ -72,6 +82,20 @@ class Replication extends \Google\Model
   protected $transferStatsType = TransferStats::class;
   protected $transferStatsDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setClusterLocation($clusterLocation)
+  {
+    $this->clusterLocation = $clusterLocation;
+  }
+  /**
+   * @return string
+   */
+  public function getClusterLocation()
+  {
+    return $this->clusterLocation;
+  }
   /**
    * @param string
    */
@@ -141,6 +165,34 @@ class Replication extends \Google\Model
   public function getHealthy()
   {
     return $this->healthy;
+  }
+  /**
+   * @param HybridPeeringDetails
+   */
+  public function setHybridPeeringDetails(HybridPeeringDetails $hybridPeeringDetails)
+  {
+    $this->hybridPeeringDetails = $hybridPeeringDetails;
+  }
+  /**
+   * @return HybridPeeringDetails
+   */
+  public function getHybridPeeringDetails()
+  {
+    return $this->hybridPeeringDetails;
+  }
+  /**
+   * @param string
+   */
+  public function setHybridReplicationType($hybridReplicationType)
+  {
+    $this->hybridReplicationType = $hybridReplicationType;
+  }
+  /**
+   * @return string
+   */
+  public function getHybridReplicationType()
+  {
+    return $this->hybridReplicationType;
   }
   /**
    * @param string[]

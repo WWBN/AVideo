@@ -22,8 +22,30 @@ class ExperimentalFeatures extends \Google\Model
   /**
    * @var bool
    */
+  public $protobufPythonicTypesEnabled;
+  /**
+   * @var bool
+   */
   public $restAsyncIoEnabled;
+  /**
+   * @var bool
+   */
+  public $unversionedPackageDisabled;
 
+  /**
+   * @param bool
+   */
+  public function setProtobufPythonicTypesEnabled($protobufPythonicTypesEnabled)
+  {
+    $this->protobufPythonicTypesEnabled = $protobufPythonicTypesEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getProtobufPythonicTypesEnabled()
+  {
+    return $this->protobufPythonicTypesEnabled;
+  }
   /**
    * @param bool
    */
@@ -37,6 +59,20 @@ class ExperimentalFeatures extends \Google\Model
   public function getRestAsyncIoEnabled()
   {
     return $this->restAsyncIoEnabled;
+  }
+  /**
+   * @param bool
+   */
+  public function setUnversionedPackageDisabled($unversionedPackageDisabled)
+  {
+    $this->unversionedPackageDisabled = $unversionedPackageDisabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getUnversionedPackageDisabled()
+  {
+    return $this->unversionedPackageDisabled;
   }
 }
 

@@ -20,10 +20,28 @@ namespace Google\Service\DiscoveryEngine;
 class GoogleCloudDiscoveryengineV1AnswerQueryRequestGroundingSpec extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $filteringLevel;
+  /**
    * @var bool
    */
   public $includeGroundingSupports;
 
+  /**
+   * @param string
+   */
+  public function setFilteringLevel($filteringLevel)
+  {
+    $this->filteringLevel = $filteringLevel;
+  }
+  /**
+   * @return string
+   */
+  public function getFilteringLevel()
+  {
+    return $this->filteringLevel;
+  }
   /**
    * @param bool
    */

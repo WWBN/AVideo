@@ -54,6 +54,10 @@ class GoogleCloudAiplatformV1TuningJob extends \Google\Model
   /**
    * @var string
    */
+  public $serviceAccount;
+  /**
+   * @var string
+   */
   public $startTime;
   /**
    * @var string
@@ -199,6 +203,20 @@ class GoogleCloudAiplatformV1TuningJob extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceAccount($serviceAccount)
+  {
+    $this->serviceAccount = $serviceAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAccount()
+  {
+    return $this->serviceAccount;
   }
   /**
    * @param string

@@ -21,6 +21,10 @@ class GoogleCloudAiplatformV1SupervisedTuningDataStats extends \Google\Collectio
 {
   protected $collection_key = 'userDatasetExamples';
   /**
+   * @var string[]
+   */
+  public $droppedExampleReasons;
+  /**
    * @var string
    */
   public $totalBillableCharacterCount;
@@ -57,6 +61,20 @@ class GoogleCloudAiplatformV1SupervisedTuningDataStats extends \Google\Collectio
   protected $userOutputTokenDistributionType = GoogleCloudAiplatformV1SupervisedTuningDatasetDistribution::class;
   protected $userOutputTokenDistributionDataType = '';
 
+  /**
+   * @param string[]
+   */
+  public function setDroppedExampleReasons($droppedExampleReasons)
+  {
+    $this->droppedExampleReasons = $droppedExampleReasons;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDroppedExampleReasons()
+  {
+    return $this->droppedExampleReasons;
+  }
   /**
    * @param string
    */

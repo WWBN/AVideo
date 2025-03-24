@@ -174,7 +174,7 @@ class ProjectsLocationsSchedules extends \Google\Service\Resource
    * Schedule.state to 'ACTIVE'. Only paused Schedule can be resumed. When the
    * Schedule is resumed, new runs will be scheduled starting from the next
    * execution time after the current time based on the time_specification in the
-   * Schedule. If Schedule.catchUp is set up true, all missed runs will be
+   * Schedule. If Schedule.catch_up is set up true, all missed runs will be
    * scheduled for backfill first. (schedules.resume)
    *
    * @param string $name Required. The name of the Schedule resource to be

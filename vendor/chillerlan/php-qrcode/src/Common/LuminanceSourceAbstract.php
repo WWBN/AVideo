@@ -34,7 +34,7 @@ abstract class LuminanceSourceAbstract implements LuminanceSourceInterface{
 	/**
 	 *
 	 */
-	public function __construct(int $width, int $height, SettingsContainerInterface $options = null){
+	public function __construct(int $width, int $height, ?SettingsContainerInterface $options = null){
 		$this->width   = $width;
 		$this->height  = $height;
 		$this->options = ($options ?? new QROptions);
@@ -57,7 +57,10 @@ abstract class LuminanceSourceAbstract implements LuminanceSourceInterface{
 		return $this->height;
 	}
 
-	/** @inheritDoc */
+	/**
+	 * @inheritDoc
+	 * @throws \chillerlan\QRCode\Decoder\QRCodeDecoderException
+	 */
 	public function getRow(int $y):array{
 
 		if($y < 0 || $y >= $this->getHeight()){

@@ -29,7 +29,7 @@ use Google\Client;
  *
  * <p>
  * For more information about this service, see the API
- * <a href="http://developers.google.com/chrome/management/" target="_blank">Documentation</a>
+ * <a href="https://developers.google.com/chrome/management/" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -39,6 +39,12 @@ class ChromeManagement extends \Google\Service
   /** See detailed information about apps installed on Chrome browsers and devices managed by your organization. */
   const CHROME_MANAGEMENT_APPDETAILS_READONLY =
       "https://www.googleapis.com/auth/chrome.management.appdetails.readonly";
+  /** See, edit, delete, and take other necessary actions on Chrome browser profiles managed by your organization. */
+  const CHROME_MANAGEMENT_PROFILES =
+      "https://www.googleapis.com/auth/chrome.management.profiles";
+  /** See Chrome browser profiles managed by your organization. */
+  const CHROME_MANAGEMENT_PROFILES_READONLY =
+      "https://www.googleapis.com/auth/chrome.management.profiles.readonly";
   /** See reports about devices and Chrome browsers managed within your organization. */
   const CHROME_MANAGEMENT_REPORTS_READONLY =
       "https://www.googleapis.com/auth/chrome.management.reports.readonly";
@@ -50,6 +56,7 @@ class ChromeManagement extends \Google\Service
   public $customers_apps_android;
   public $customers_apps_chrome;
   public $customers_apps_web;
+  public $customers_profiles;
   public $customers_reports;
   public $customers_telemetry_devices;
   public $customers_telemetry_events;
@@ -216,6 +223,62 @@ class ChromeManagement extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->customers_profiles = new ChromeManagement\Resource\CustomersProfiles(
+        $this,
+        $this->serviceName,
+        'profiles',
+        [
+          'methods' => [
+            'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/profiles',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

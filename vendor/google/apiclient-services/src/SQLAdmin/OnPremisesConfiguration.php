@@ -17,8 +17,9 @@
 
 namespace Google\Service\SQLAdmin;
 
-class OnPremisesConfiguration extends \Google\Model
+class OnPremisesConfiguration extends \Google\Collection
 {
+  protected $collection_key = 'selectedObjects';
   /**
    * @var string
    */
@@ -47,8 +48,14 @@ class OnPremisesConfiguration extends \Google\Model
    * @var string
    */
   public $password;
+  protected $selectedObjectsType = SelectedObjects::class;
+  protected $selectedObjectsDataType = 'array';
   protected $sourceInstanceType = InstanceReference::class;
   protected $sourceInstanceDataType = '';
+  /**
+   * @var string
+   */
+  public $sslOption;
   /**
    * @var string
    */
@@ -153,6 +160,20 @@ class OnPremisesConfiguration extends \Google\Model
     return $this->password;
   }
   /**
+   * @param SelectedObjects[]
+   */
+  public function setSelectedObjects($selectedObjects)
+  {
+    $this->selectedObjects = $selectedObjects;
+  }
+  /**
+   * @return SelectedObjects[]
+   */
+  public function getSelectedObjects()
+  {
+    return $this->selectedObjects;
+  }
+  /**
    * @param InstanceReference
    */
   public function setSourceInstance(InstanceReference $sourceInstance)
@@ -165,6 +186,20 @@ class OnPremisesConfiguration extends \Google\Model
   public function getSourceInstance()
   {
     return $this->sourceInstance;
+  }
+  /**
+   * @param string
+   */
+  public function setSslOption($sslOption)
+  {
+    $this->sslOption = $sslOption;
+  }
+  /**
+   * @return string
+   */
+  public function getSslOption()
+  {
+    return $this->sslOption;
   }
   /**
    * @param string

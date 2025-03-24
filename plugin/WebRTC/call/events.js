@@ -1,4 +1,4 @@
-const socket = io(WebRTC2RTMPURL); // Connect to the Socket.IO server
+const socketCall = io(WebRTC2RTMPURL); // Connect to the Socket.IO server
 const peers = {}; // Store RTCPeerConnections by peerId
 const remoteStreams = {}; // Store remote MediaStreams by peerId
 let currentRoom = null; // Track the current room the user is in
@@ -10,14 +10,14 @@ let currentRoom = null; // Track the current room the user is in
  */
 function joinRoom(roomId, localStream) {
     currentRoom = roomId;
-    socket.emit('join-room', roomId);
+    socketCall.emit('join-room', roomId);
     console.log(`Call Events: Requesting to join room: ${roomId}`);
 
     // 1. Handle the current list of peers in the room
-    socket.on('peer-list', (peerList) => {
+    socketCall.on('peer-list', (peerList) => {
         console.log(`Call Events: Peers in room ${roomId}:`, peerList);
         peerList.forEach((peerId) => {
-            if (peerId !== socket.id && !peers[peerId]) {
+            if (peerId !== socketCall.id && !peers[peerId]) {
                 console.log(`Call Events: Creating RTCPeerConnection and offer for peerId: ${peerId}`);
                 const peerConnection = createPeerConnection(peerId, localStream);
                 peers[peerId] = peerConnection;
@@ -30,7 +30,7 @@ function joinRoom(roomId, localStream) {
                     })
                     .then(() => {
                         console.log(`Call Events: Sending offer to ${peerId}`);
-                        socket.emit('signal', {
+                        socketCall.emit('signal', {
                             roomId,
                             to: peerId,
                             offer: peers[peerId].localDescription
@@ -44,7 +44,7 @@ function joinRoom(roomId, localStream) {
     });
 
     // 2. Handle notification that a new peer joined the room
-    socket.on('new-peer', (peerId) => {
+    socketCall.on('new-peer', (peerId) => {
         console.log(`Call Events: New peer joined room ${currentRoom}: ${peerId}`);
 
         if (!peers[peerId]) {
@@ -60,7 +60,7 @@ function joinRoom(roomId, localStream) {
                 })
                 .then(() => {
                     console.log(`Call Events: Sending offer to ${peerId}`);
-                    socket.emit('signal', {
+                    socketCall.emit('signal', {
                         roomId: currentRoom,
                         to: peerId,
                         offer: peers[peerId].localDescription
@@ -75,7 +75,7 @@ function joinRoom(roomId, localStream) {
     });
 
     // 3. Handle signaling data (offer, answer, ICE) for the room
-    socket.on('signal', async ({ from, offer, answer, candidate }) => {
+    socketCall.on('signal', async ({ from, offer, answer, candidate }) => {
         console.log(`Call Events: Signal received from ${from} in room ${roomId}`);
 
         // If there is no existing connection for this peer, create one
@@ -100,7 +100,7 @@ function joinRoom(roomId, localStream) {
                 console.log('Call Events: Answer set as LocalDescription');
 
                 // Send the answer back
-                socket.emit('signal', {
+                socketCall.emit('signal', {
                     roomId,
                     to: from,
                     answer: localAnswer
@@ -131,7 +131,7 @@ function joinRoom(roomId, localStream) {
     });
 
     // 4. Handle a peer that disconnected
-    socket.on('peer-disconnected', (peerId) => {
+    socketCall.on('peer-disconnected', (peerId) => {
         console.log(`Call Events: Peer disconnected from room ${roomId}: ${peerId}`);
 
         if (peers[peerId]) {
@@ -172,7 +172,7 @@ function createPeerConnection(peerId, localStream) {
     peerConnection.onicecandidate = (event) => {
         if (event.candidate) {
             //console.log(`Call Events: Sending ICE candidate to ${peerId}:`, event.candidate);
-            socket.emit('signal', {
+            socketCall.emit('signal', {
                 roomId: currentRoom,
                 to: peerId,
                 candidate: event.candidate

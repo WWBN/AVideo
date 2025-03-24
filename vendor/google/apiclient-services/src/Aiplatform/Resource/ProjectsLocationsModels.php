@@ -19,6 +19,7 @@ namespace Google\Service\Aiplatform\Resource;
 
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1CopyModelRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1ExportModelRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListModelVersionCheckpointsResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListModelVersionsResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListModelsResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1MergeVersionAliasesRequest;
@@ -201,6 +202,30 @@ class ProjectsLocationsModels extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudAiplatformV1ListModelsResponse::class);
+  }
+  /**
+   * Lists checkpoints of the specified model version. (models.listCheckpoints)
+   *
+   * @param string $name Required. The name of the model version to list
+   * checkpoints for.
+   * `projects/{project}/locations/{location}/models/{model}@{version}` Example:
+   * `projects/{project}/locations/{location}/models/{model}@2` or
+   * `projects/{project}/locations/{location}/models/{model}@golden` If no version
+   * ID or alias is specified, the latest version will be used.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int pageSize Optional. The standard list page size.
+   * @opt_param string pageToken Optional. The standard list page token. Typically
+   * obtained via next_page_token of the previous ListModelVersionCheckpoints
+   * call.
+   * @return GoogleCloudAiplatformV1ListModelVersionCheckpointsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listCheckpoints($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('listCheckpoints', [$params], GoogleCloudAiplatformV1ListModelVersionCheckpointsResponse::class);
   }
   /**
    * Lists versions of the specified model. (models.listVersions)

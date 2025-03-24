@@ -23,6 +23,10 @@ class InternalResourceMetadata extends \Google\Model
   protected $backupConfigurationDataType = '';
   protected $backupRunType = BackupRun::class;
   protected $backupRunDataType = '';
+  /**
+   * @var bool
+   */
+  public $isDeletionProtectionEnabled;
   protected $productType = Product::class;
   protected $productDataType = '';
   protected $resourceIdType = DatabaseResourceId::class;
@@ -59,6 +63,20 @@ class InternalResourceMetadata extends \Google\Model
   public function getBackupRun()
   {
     return $this->backupRun;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsDeletionProtectionEnabled($isDeletionProtectionEnabled)
+  {
+    $this->isDeletionProtectionEnabled = $isDeletionProtectionEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsDeletionProtectionEnabled()
+  {
+    return $this->isDeletionProtectionEnabled;
   }
   /**
    * @param Product

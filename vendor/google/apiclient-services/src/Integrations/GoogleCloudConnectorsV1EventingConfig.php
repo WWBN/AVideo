@@ -26,6 +26,8 @@ class GoogleCloudConnectorsV1EventingConfig extends \Google\Collection
   protected $authConfigDataType = '';
   protected $deadLetterConfigType = GoogleCloudConnectorsV1EventingConfigDeadLetterConfig::class;
   protected $deadLetterConfigDataType = '';
+  protected $enrichmentConfigType = GoogleCloudConnectorsV1EnrichmentConfig::class;
+  protected $enrichmentConfigDataType = '';
   /**
    * @var bool
    */
@@ -86,6 +88,20 @@ class GoogleCloudConnectorsV1EventingConfig extends \Google\Collection
   public function getDeadLetterConfig()
   {
     return $this->deadLetterConfig;
+  }
+  /**
+   * @param GoogleCloudConnectorsV1EnrichmentConfig
+   */
+  public function setEnrichmentConfig(GoogleCloudConnectorsV1EnrichmentConfig $enrichmentConfig)
+  {
+    $this->enrichmentConfig = $enrichmentConfig;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1EnrichmentConfig
+   */
+  public function getEnrichmentConfig()
+  {
+    return $this->enrichmentConfig;
   }
   /**
    * @param bool

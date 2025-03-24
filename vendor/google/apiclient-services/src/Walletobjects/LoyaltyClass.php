@@ -92,6 +92,8 @@ class LoyaltyClass extends \Google\Collection
   protected $localizedSecondaryRewardsTierLabelDataType = '';
   protected $locationsType = LatLongPoint::class;
   protected $locationsDataType = 'array';
+  protected $merchantLocationsType = MerchantLocation::class;
+  protected $merchantLocationsDataType = 'array';
   protected $messagesType = Message::class;
   protected $messagesDataType = 'array';
   /**
@@ -530,6 +532,20 @@ class LoyaltyClass extends \Google\Collection
   public function getLocations()
   {
     return $this->locations;
+  }
+  /**
+   * @param MerchantLocation[]
+   */
+  public function setMerchantLocations($merchantLocations)
+  {
+    $this->merchantLocations = $merchantLocations;
+  }
+  /**
+   * @return MerchantLocation[]
+   */
+  public function getMerchantLocations()
+  {
+    return $this->merchantLocations;
   }
   /**
    * @param Message[]

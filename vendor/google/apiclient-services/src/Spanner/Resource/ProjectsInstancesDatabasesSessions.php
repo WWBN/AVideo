@@ -213,8 +213,10 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * error. Operations inside read-write transactions might return `ABORTED`. If
    * this occurs, the application should restart the transaction from the
    * beginning. See Transaction for more details. Larger result sets can be
-   * fetched in streaming fashion by calling ExecuteStreamingSql instead.
-   * (sessions.executeSql)
+   * fetched in streaming fashion by calling ExecuteStreamingSql instead. The
+   * query string can be SQL or [Graph Query Language
+   * (GQL)](https://cloud.google.com/spanner/docs/reference/standard-sql/graph-
+   * intro). (sessions.executeSql)
    *
    * @param string $session Required. The session in which the SQL query should be
    * performed.
@@ -233,7 +235,9 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * Like ExecuteSql, except returns the result set as a stream. Unlike
    * ExecuteSql, there is no limit on the size of the returned result set.
    * However, no individual row in the result set can exceed 100 MiB, and no
-   * column value can exceed 10 MiB. (sessions.executeStreamingSql)
+   * column value can exceed 10 MiB. The query string can be SQL or [Graph Query
+   * Language (GQL)](https://cloud.google.com/spanner/docs/reference/standard-
+   * sql/graph-intro). (sessions.executeStreamingSql)
    *
    * @param string $session Required. The session in which the SQL query should be
    * performed.

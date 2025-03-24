@@ -46,7 +46,7 @@ class ProjectsLocationsEnrollments extends \Google\Service\Resource
    *
    * @opt_param string enrollmentId Required. The user-provided ID to be assigned
    * to the Enrollment. It should match the format
-   * (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$).
+   * `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`.
    * @opt_param bool validateOnly Optional. If set, validate the request and
    * preview the review, but do not post it.
    * @return GoogleLongrunningOperation

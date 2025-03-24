@@ -37,6 +37,8 @@ class Webfonts extends \Google\Service\Resource
    *
    * @opt_param string capability Controls the font urls in `Webfont.files`, by
    * default, static ttf fonts are sent.
+   * @opt_param string category Filters by Webfont.category, if category is found
+   * in Webfont.categories. If not set, returns all families.
    * @opt_param string family Filters by Webfont.family, using literal match. If
    * not set, returns all families
    * @opt_param string sort Enables sorting of the list.

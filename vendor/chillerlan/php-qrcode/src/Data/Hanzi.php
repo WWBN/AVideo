@@ -64,6 +64,7 @@ final class Hanzi extends QRDataModeAbstract{
 
 	/**
 	 * @inheritDoc
+	 * @throws \chillerlan\QRCode\Data\QRCodeDataException
 	 */
 	public static function convertEncoding(string $string):string{
 		mb_detect_order([mb_internal_encoding(), 'UTF-8', 'GB2312', 'GB18030', 'CP936', 'EUC-CN', 'HZ']);
@@ -199,7 +200,7 @@ final class Hanzi extends QRDataModeAbstract{
 			$length--;
 		}
 
-		return mb_convert_encoding(implode($buffer), mb_internal_encoding(), self::ENCODING);
+		return mb_convert_encoding(implode('', $buffer), mb_internal_encoding(), self::ENCODING);
 	}
 
 }

@@ -143,6 +143,16 @@ class CloudFunctions extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'detachFunction' => [
+              'path' => 'v2/{+name}:detachFunction',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'generateDownloadUrl' => [
               'path' => 'v2/{+name}:generateDownloadUrl',
               'httpMethod' => 'POST',

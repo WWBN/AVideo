@@ -58,12 +58,16 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
   protected $dataAccessEventsDataType = 'array';
   protected $dataFlowEventsType = GoogleCloudSecuritycenterV2DataFlowEvent::class;
   protected $dataFlowEventsDataType = 'array';
+  protected $dataRetentionDeletionEventsType = GoogleCloudSecuritycenterV2DataRetentionDeletionEvent::class;
+  protected $dataRetentionDeletionEventsDataType = 'array';
   protected $databaseType = GoogleCloudSecuritycenterV2Database::class;
   protected $databaseDataType = '';
   /**
    * @var string
    */
   public $description;
+  protected $diskType = GoogleCloudSecuritycenterV2Disk::class;
+  protected $diskDataType = '';
   /**
    * @var string
    */
@@ -88,6 +92,10 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
   protected $iamBindingsDataType = 'array';
   protected $indicatorType = GoogleCloudSecuritycenterV2Indicator::class;
   protected $indicatorDataType = '';
+  protected $ipRulesType = GoogleCloudSecuritycenterV2IpRules::class;
+  protected $ipRulesDataType = '';
+  protected $jobType = GoogleCloudSecuritycenterV2Job::class;
+  protected $jobDataType = '';
   protected $kernelRootkitType = GoogleCloudSecuritycenterV2KernelRootkit::class;
   protected $kernelRootkitDataType = '';
   protected $kubernetesType = GoogleCloudSecuritycenterV2Kubernetes::class;
@@ -120,6 +128,8 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
    * @var string
    */
   public $name;
+  protected $networksType = GoogleCloudSecuritycenterV2Network::class;
+  protected $networksDataType = 'array';
   /**
    * @var string
    */
@@ -388,6 +398,20 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
     return $this->dataFlowEvents;
   }
   /**
+   * @param GoogleCloudSecuritycenterV2DataRetentionDeletionEvent[]
+   */
+  public function setDataRetentionDeletionEvents($dataRetentionDeletionEvents)
+  {
+    $this->dataRetentionDeletionEvents = $dataRetentionDeletionEvents;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2DataRetentionDeletionEvent[]
+   */
+  public function getDataRetentionDeletionEvents()
+  {
+    return $this->dataRetentionDeletionEvents;
+  }
+  /**
    * @param GoogleCloudSecuritycenterV2Database
    */
   public function setDatabase(GoogleCloudSecuritycenterV2Database $database)
@@ -414,6 +438,20 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param GoogleCloudSecuritycenterV2Disk
+   */
+  public function setDisk(GoogleCloudSecuritycenterV2Disk $disk)
+  {
+    $this->disk = $disk;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2Disk
+   */
+  public function getDisk()
+  {
+    return $this->disk;
   }
   /**
    * @param string
@@ -540,6 +578,34 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
   public function getIndicator()
   {
     return $this->indicator;
+  }
+  /**
+   * @param GoogleCloudSecuritycenterV2IpRules
+   */
+  public function setIpRules(GoogleCloudSecuritycenterV2IpRules $ipRules)
+  {
+    $this->ipRules = $ipRules;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2IpRules
+   */
+  public function getIpRules()
+  {
+    return $this->ipRules;
+  }
+  /**
+   * @param GoogleCloudSecuritycenterV2Job
+   */
+  public function setJob(GoogleCloudSecuritycenterV2Job $job)
+  {
+    $this->job = $job;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2Job
+   */
+  public function getJob()
+  {
+    return $this->job;
   }
   /**
    * @param GoogleCloudSecuritycenterV2KernelRootkit
@@ -694,6 +760,20 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param GoogleCloudSecuritycenterV2Network[]
+   */
+  public function setNetworks($networks)
+  {
+    $this->networks = $networks;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2Network[]
+   */
+  public function getNetworks()
+  {
+    return $this->networks;
   }
   /**
    * @param string

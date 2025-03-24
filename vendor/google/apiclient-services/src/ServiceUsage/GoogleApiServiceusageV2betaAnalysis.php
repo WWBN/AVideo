@@ -19,7 +19,8 @@ namespace Google\Service\ServiceUsage;
 
 class GoogleApiServiceusageV2betaAnalysis extends \Google\Model
 {
-  protected $analysisDataType = '';
+  protected $analysisResultType = GoogleApiServiceusageV2betaAnalysisResult::class;
+  protected $analysisResultDataType = '';
   /**
    * @var string
    */
@@ -36,16 +37,16 @@ class GoogleApiServiceusageV2betaAnalysis extends \Google\Model
   /**
    * @param GoogleApiServiceusageV2betaAnalysisResult
    */
-  public function setAnalysis(GoogleApiServiceusageV2betaAnalysisResult $analysis)
+  public function setAnalysisResult(GoogleApiServiceusageV2betaAnalysisResult $analysisResult)
   {
-    $this->analysis = $analysis;
+    $this->analysisResult = $analysisResult;
   }
   /**
    * @return GoogleApiServiceusageV2betaAnalysisResult
    */
-  public function getAnalysis()
+  public function getAnalysisResult()
   {
-    return $this->analysis;
+    return $this->analysisResult;
   }
   /**
    * @param string

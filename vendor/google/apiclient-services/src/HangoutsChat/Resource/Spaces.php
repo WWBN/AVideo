@@ -59,15 +59,10 @@ class Spaces extends \Google\Service\Resource
     return $this->call('completeImport', [$params], CompleteImportSpaceResponse::class);
   }
   /**
-   * Creates a space with no members. Can be used to create a named space. Spaces
-   * grouped by topics aren't supported. For an example, see [Create a
-   * space](https://developers.google.com/workspace/chat/create-spaces). If you
-   * receive the error message `ALREADY_EXISTS` when creating a space, try a
-   * different `displayName`. An existing space within the Google Workspace
-   * organization might already use this display name. If you're a member of the
-   * [Developer Preview program](https://developers.google.com/workspace/preview),
-   * you can create a group chat in import mode using `spaceType.GROUP_CHAT`.
-   * Supports the following types of
+   * Creates a space. Can be used to create a named space, or a group chat in
+   * `Import mode`. For an example, see [Create a
+   * space](https://developers.google.com/workspace/chat/create-spaces). Supports
+   * the following types of
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
@@ -76,7 +71,14 @@ class Spaces extends \Google\Service\Resource
    * Preview](https://developers.google.com/workspace/preview) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-user) When authenticating as an app, the `space.customer`
-   * field must be set in the request. (spaces.create)
+   * field must be set in the request. Space membership upon creation depends on
+   * whether the space is created in `Import mode`: * **Import mode:** No members
+   * are created. * **All other modes:** The calling user is added as a member.
+   * This is: * The app itself when using app authentication. * The human user
+   * when using user authentication. If you receive the error message
+   * `ALREADY_EXISTS` when creating a space, try a different `displayName`. An
+   * existing space within the Google Workspace organization might already use
+   * this display name. (spaces.create)
    *
    * @param Space $postBody
    * @param array $optParams Optional parameters.

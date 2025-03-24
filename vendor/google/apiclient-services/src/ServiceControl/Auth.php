@@ -35,10 +35,6 @@ class Auth extends \Google\Collection
   /**
    * @var string
    */
-  public $credentialId;
-  /**
-   * @var string
-   */
   public $presenter;
   /**
    * @var string
@@ -86,20 +82,6 @@ class Auth extends \Google\Collection
   public function getClaims()
   {
     return $this->claims;
-  }
-  /**
-   * @param string
-   */
-  public function setCredentialId($credentialId)
-  {
-    $this->credentialId = $credentialId;
-  }
-  /**
-   * @return string
-   */
-  public function getCredentialId()
-  {
-    return $this->credentialId;
   }
   /**
    * @param string

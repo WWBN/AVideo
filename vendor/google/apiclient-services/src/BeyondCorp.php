@@ -1104,16 +1104,6 @@ class BeyondCorp extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'setPeering' => [
-              'path' => 'v1/{+securityGateway}:setPeering',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'securityGateway' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
             ],'testIamPermissions' => [
               'path' => 'v1/{+resource}:testIamPermissions',
               'httpMethod' => 'POST',

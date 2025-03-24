@@ -170,7 +170,7 @@ class ProjectsLocationsCertificateTemplates extends \Google\Service\Resource
   /**
    * Update a CertificateTemplate. (certificateTemplates.patch)
    *
-   * @param string $name Output only. The resource name for this
+   * @param string $name Identifier. The resource name for this
    * CertificateTemplate in the format `projects/locations/certificateTemplates`.
    * @param CertificateTemplate $postBody
    * @param array $optParams Optional parameters.

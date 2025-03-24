@@ -71,6 +71,10 @@ class UpdateNodePoolRequest extends \Google\Collection
   /**
    * @var string
    */
+  public $maxRunDuration;
+  /**
+   * @var string
+   */
   public $name;
   protected $nodeNetworkConfigType = NodeNetworkConfig::class;
   protected $nodeNetworkConfigDataType = '';
@@ -348,6 +352,20 @@ class UpdateNodePoolRequest extends \Google\Collection
   public function getMachineType()
   {
     return $this->machineType;
+  }
+  /**
+   * @param string
+   */
+  public function setMaxRunDuration($maxRunDuration)
+  {
+    $this->maxRunDuration = $maxRunDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getMaxRunDuration()
+  {
+    return $this->maxRunDuration;
   }
   /**
    * @param string

@@ -41,6 +41,7 @@ class ChecksService extends \Google\Service
   public $accounts_apps_operations;
   public $accounts_apps_reports;
   public $accounts_repos_operations;
+  public $accounts_repos_scans;
   public $aisafety;
   public $media;
   public $rootUrlTemplate;
@@ -236,6 +237,58 @@ class ChecksService extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->accounts_repos_scans = new ChecksService\Resource\AccountsReposScans(
+        $this,
+        $this->serviceName,
+        'scans',
+        [
+          'methods' => [
+            'generate' => [
+              'path' => 'v1alpha/{+parent}/scans:generate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1alpha/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1alpha/{+parent}/scans',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

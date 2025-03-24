@@ -26,6 +26,10 @@ class GoogleCloudDiscoveryengineV1DocumentIndexStatus extends \Google\Collection
    * @var string
    */
   public $indexTime;
+  /**
+   * @var string
+   */
+  public $pendingMessage;
 
   /**
    * @param GoogleRpcStatus[]
@@ -54,6 +58,20 @@ class GoogleCloudDiscoveryengineV1DocumentIndexStatus extends \Google\Collection
   public function getIndexTime()
   {
     return $this->indexTime;
+  }
+  /**
+   * @param string
+   */
+  public function setPendingMessage($pendingMessage)
+  {
+    $this->pendingMessage = $pendingMessage;
+  }
+  /**
+   * @return string
+   */
+  public function getPendingMessage()
+  {
+    return $this->pendingMessage;
   }
 }
 

@@ -123,7 +123,8 @@ class Users extends \Google\Service\Resource
    * subscribing)
    * @opt_param int maxResults Maximum number of results to return.
    * @opt_param string orderBy Property to use for sorting results.
-   * @opt_param string pageToken Token to specify next page in the list
+   * @opt_param string pageToken Token to specify next page in the list. The page
+   * token is only valid for three days.
    * @opt_param string projection What subset of fields to fetch for this user.
    * @opt_param string query Query string for searching user fields. For more
    * information on constructing user queries, see [Search for Users](/admin-

@@ -85,6 +85,10 @@ class NodeConfig extends \Google\Collection
    */
   public $machineType;
   /**
+   * @var string
+   */
+  public $maxRunDuration;
+  /**
    * @var string[]
    */
   public $metadata;
@@ -452,6 +456,20 @@ class NodeConfig extends \Google\Collection
   public function getMachineType()
   {
     return $this->machineType;
+  }
+  /**
+   * @param string
+   */
+  public function setMaxRunDuration($maxRunDuration)
+  {
+    $this->maxRunDuration = $maxRunDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getMaxRunDuration()
+  {
+    return $this->maxRunDuration;
   }
   /**
    * @param string[]

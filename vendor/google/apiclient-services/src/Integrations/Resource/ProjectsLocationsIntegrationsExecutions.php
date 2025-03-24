@@ -159,7 +159,7 @@ class ProjectsLocationsIntegrationsExecutions extends \Google\Service\Resource
    * Re-execute an existing execution, with same request parameters and execution
    * strategy. (executions.replay)
    *
-   * @param string $name Required. Next ID: 5 The execution resource name. Format:
+   * @param string $name Required. Next ID: 6 The execution resource name. Format:
    * projects/{gcp_project_id}/locations/{location}/integrations/{integration}/exe
    * cutions/{execution_id}
    * @param GoogleCloudIntegrationsV1alphaReplayExecutionRequest $postBody

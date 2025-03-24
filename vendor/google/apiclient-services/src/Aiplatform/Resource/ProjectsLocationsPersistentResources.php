@@ -95,7 +95,7 @@ class ProjectsLocationsPersistentResources extends \Google\Service\Resource
    *
    * @opt_param int pageSize Optional. The standard list page size.
    * @opt_param string pageToken Optional. The standard list page token. Typically
-   * obtained via ListPersistentResourceResponse.next_page_token of the previous
+   * obtained via ListPersistentResourcesResponse.next_page_token of the previous
    * PersistentResourceService.ListPersistentResource call.
    * @return GoogleCloudAiplatformV1ListPersistentResourcesResponse
    * @throws \Google\Service\Exception

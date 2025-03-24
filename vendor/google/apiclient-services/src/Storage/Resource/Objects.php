@@ -355,6 +355,70 @@ class Objects extends \Google\Service\Resource
     return $this->call('list', [$params], ObjectsModel::class);
   }
   /**
+   * Moves the source object to the destination object in the same bucket.
+   * (objects.move)
+   *
+   * @param string $bucket Name of the bucket in which the object resides.
+   * @param string $sourceObject Name of the source object. For information about
+   * how to URL encode object names to be path safe, see [Encoding URI Path
+   * Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding).
+   * @param string $destinationObject Name of the destination object. For
+   * information about how to URL encode object names to be path safe, see
+   * [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-
+   * endpoints#encoding).
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string ifGenerationMatch Makes the operation conditional on
+   * whether the destination object's current generation matches the given value.
+   * Setting to 0 makes the operation succeed only if there are no live versions
+   * of the object. `ifGenerationMatch` and `ifGenerationNotMatch` conditions are
+   * mutually exclusive: it's an error for both of them to be set in the request.
+   * @opt_param string ifGenerationNotMatch Makes the operation conditional on
+   * whether the destination object's current generation does not match the given
+   * value. If no live object exists, the precondition fails. Setting to 0 makes
+   * the operation succeed only if there is a live version of the
+   * object.`ifGenerationMatch` and `ifGenerationNotMatch` conditions are mutually
+   * exclusive: it's an error for both of them to be set in the request.
+   * @opt_param string ifMetagenerationMatch Makes the operation conditional on
+   * whether the destination object's current metageneration matches the given
+   * value. `ifMetagenerationMatch` and `ifMetagenerationNotMatch` conditions are
+   * mutually exclusive: it's an error for both of them to be set in the request.
+   * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on
+   * whether the destination object's current metageneration does not match the
+   * given value. `ifMetagenerationMatch` and `ifMetagenerationNotMatch`
+   * conditions are mutually exclusive: it's an error for both of them to be set
+   * in the request.
+   * @opt_param string ifSourceGenerationMatch Makes the operation conditional on
+   * whether the source object's current generation matches the given value.
+   * `ifSourceGenerationMatch` and `ifSourceGenerationNotMatch` conditions are
+   * mutually exclusive: it's an error for both of them to be set in the request.
+   * @opt_param string ifSourceGenerationNotMatch Makes the operation conditional
+   * on whether the source object's current generation does not match the given
+   * value. `ifSourceGenerationMatch` and `ifSourceGenerationNotMatch` conditions
+   * are mutually exclusive: it's an error for both of them to be set in the
+   * request.
+   * @opt_param string ifSourceMetagenerationMatch Makes the operation conditional
+   * on whether the source object's current metageneration matches the given
+   * value. `ifSourceMetagenerationMatch` and `ifSourceMetagenerationNotMatch`
+   * conditions are mutually exclusive: it's an error for both of them to be set
+   * in the request.
+   * @opt_param string ifSourceMetagenerationNotMatch Makes the operation
+   * conditional on whether the source object's current metageneration does not
+   * match the given value. `ifSourceMetagenerationMatch` and
+   * `ifSourceMetagenerationNotMatch` conditions are mutually exclusive: it's an
+   * error for both of them to be set in the request.
+   * @opt_param string userProject The project to be billed for this request.
+   * Required for Requester Pays buckets.
+   * @return StorageObject
+   * @throws \Google\Service\Exception
+   */
+  public function move($bucket, $sourceObject, $destinationObject, $optParams = [])
+  {
+    $params = ['bucket' => $bucket, 'sourceObject' => $sourceObject, 'destinationObject' => $destinationObject];
+    $params = array_merge($params, $optParams);
+    return $this->call('move', [$params], StorageObject::class);
+  }
+  /**
    * Patches an object's metadata. (objects.patch)
    *
    * @param string $bucket Name of the bucket in which the object resides.

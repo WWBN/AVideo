@@ -98,6 +98,8 @@ class EventTicketClass extends \Google\Collection
   protected $locationsDataType = 'array';
   protected $logoType = Image::class;
   protected $logoDataType = '';
+  protected $merchantLocationsType = MerchantLocation::class;
+  protected $merchantLocationsDataType = 'array';
   protected $messagesType = Message::class;
   protected $messagesDataType = 'array';
   /**
@@ -556,6 +558,20 @@ class EventTicketClass extends \Google\Collection
   public function getLogo()
   {
     return $this->logo;
+  }
+  /**
+   * @param MerchantLocation[]
+   */
+  public function setMerchantLocations($merchantLocations)
+  {
+    $this->merchantLocations = $merchantLocations;
+  }
+  /**
+   * @return MerchantLocation[]
+   */
+  public function getMerchantLocations()
+  {
+    return $this->merchantLocations;
   }
   /**
    * @param Message[]

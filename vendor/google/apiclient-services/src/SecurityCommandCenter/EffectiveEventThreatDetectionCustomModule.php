@@ -20,6 +20,10 @@ namespace Google\Service\SecurityCommandCenter;
 class EffectiveEventThreatDetectionCustomModule extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $cloudProvider;
+  /**
    * @var array[]
    */
   public $config;
@@ -44,6 +48,20 @@ class EffectiveEventThreatDetectionCustomModule extends \Google\Model
    */
   public $type;
 
+  /**
+   * @param string
+   */
+  public function setCloudProvider($cloudProvider)
+  {
+    $this->cloudProvider = $cloudProvider;
+  }
+  /**
+   * @return string
+   */
+  public function getCloudProvider()
+  {
+    return $this->cloudProvider;
+  }
   /**
    * @param array[]
    */

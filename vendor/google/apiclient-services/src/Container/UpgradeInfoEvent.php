@@ -34,6 +34,14 @@ class UpgradeInfoEvent extends \Google\Model
   /**
    * @var string
    */
+  public $eventType;
+  /**
+   * @var string
+   */
+  public $extendedSupportEndTime;
+  /**
+   * @var string
+   */
   public $operation;
   /**
    * @var string
@@ -43,6 +51,10 @@ class UpgradeInfoEvent extends \Google\Model
    * @var string
    */
   public $resourceType;
+  /**
+   * @var string
+   */
+  public $standardSupportEndTime;
   /**
    * @var string
    */
@@ -101,6 +113,34 @@ class UpgradeInfoEvent extends \Google\Model
   /**
    * @param string
    */
+  public function setEventType($eventType)
+  {
+    $this->eventType = $eventType;
+  }
+  /**
+   * @return string
+   */
+  public function getEventType()
+  {
+    return $this->eventType;
+  }
+  /**
+   * @param string
+   */
+  public function setExtendedSupportEndTime($extendedSupportEndTime)
+  {
+    $this->extendedSupportEndTime = $extendedSupportEndTime;
+  }
+  /**
+   * @return string
+   */
+  public function getExtendedSupportEndTime()
+  {
+    return $this->extendedSupportEndTime;
+  }
+  /**
+   * @param string
+   */
   public function setOperation($operation)
   {
     $this->operation = $operation;
@@ -139,6 +179,20 @@ class UpgradeInfoEvent extends \Google\Model
   public function getResourceType()
   {
     return $this->resourceType;
+  }
+  /**
+   * @param string
+   */
+  public function setStandardSupportEndTime($standardSupportEndTime)
+  {
+    $this->standardSupportEndTime = $standardSupportEndTime;
+  }
+  /**
+   * @return string
+   */
+  public function getStandardSupportEndTime()
+  {
+    return $this->standardSupportEndTime;
   }
   /**
    * @param string

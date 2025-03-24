@@ -23,6 +23,8 @@ class ExportOptions extends \Google\Model
   protected $calendarOptionsDataType = '';
   protected $driveOptionsType = DriveExportOptions::class;
   protected $driveOptionsDataType = '';
+  protected $geminiOptionsType = GeminiExportOptions::class;
+  protected $geminiOptionsDataType = '';
   protected $groupsOptionsType = GroupsExportOptions::class;
   protected $groupsOptionsDataType = '';
   protected $hangoutsChatOptionsType = HangoutsChatExportOptions::class;
@@ -63,6 +65,20 @@ class ExportOptions extends \Google\Model
   public function getDriveOptions()
   {
     return $this->driveOptions;
+  }
+  /**
+   * @param GeminiExportOptions
+   */
+  public function setGeminiOptions(GeminiExportOptions $geminiOptions)
+  {
+    $this->geminiOptions = $geminiOptions;
+  }
+  /**
+   * @return GeminiExportOptions
+   */
+  public function getGeminiOptions()
+  {
+    return $this->geminiOptions;
   }
   /**
    * @param GroupsExportOptions

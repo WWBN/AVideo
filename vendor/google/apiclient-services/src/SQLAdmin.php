@@ -41,6 +41,7 @@ class SQLAdmin extends \Google\Service
   const SQLSERVICE_ADMIN =
       "https://www.googleapis.com/auth/sqlservice.admin";
 
+  public $Backups;
   public $backupRuns;
   public $connect;
   public $databases;
@@ -70,6 +71,82 @@ class SQLAdmin extends \Google\Service
     $this->version = 'v1';
     $this->serviceName = 'sqladmin';
 
+    $this->Backups = new SQLAdmin\Resource\Backups(
+        $this,
+        $this->serviceName,
+        'Backups',
+        [
+          'methods' => [
+            'CreateBackup' => [
+              'path' => 'v1/{+parent}/backups',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'DeleteBackup' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'GetBackup' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'ListBackups' => [
+              'path' => 'v1/{+parent}/backups',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'UpdateBackup' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->backupRuns = new SQLAdmin\Resource\BackupRuns(
         $this,
         $this->serviceName,
@@ -450,6 +527,22 @@ class SQLAdmin extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'enableFinalBackup' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'finalBackupDescription' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'finalBackupExpiryTime' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'finalBackupTtlDays' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],'demote' => [

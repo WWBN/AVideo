@@ -17,12 +17,15 @@
 
 namespace Google\Service\DatabaseMigrationService;
 
-class MaterializedViewEntity extends \Google\Model
+class MaterializedViewEntity extends \Google\Collection
 {
+  protected $collection_key = 'indices';
   /**
    * @var array[]
    */
   public $customFeatures;
+  protected $indicesType = IndexEntity::class;
+  protected $indicesDataType = 'array';
   /**
    * @var string
    */
@@ -41,6 +44,20 @@ class MaterializedViewEntity extends \Google\Model
   public function getCustomFeatures()
   {
     return $this->customFeatures;
+  }
+  /**
+   * @param IndexEntity[]
+   */
+  public function setIndices($indices)
+  {
+    $this->indices = $indices;
+  }
+  /**
+   * @return IndexEntity[]
+   */
+  public function getIndices()
+  {
+    return $this->indices;
   }
   /**
    * @param string

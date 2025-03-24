@@ -126,6 +126,8 @@ class TrainingOptions extends \Google\Collection
    * @var bool
    */
   public $fitIntercept;
+  public $forecastLimitLowerBound;
+  public $forecastLimitUpperBound;
   /**
    * @var string[]
    */
@@ -719,6 +721,22 @@ class TrainingOptions extends \Google\Collection
   public function getFitIntercept()
   {
     return $this->fitIntercept;
+  }
+  public function setForecastLimitLowerBound($forecastLimitLowerBound)
+  {
+    $this->forecastLimitLowerBound = $forecastLimitLowerBound;
+  }
+  public function getForecastLimitLowerBound()
+  {
+    return $this->forecastLimitLowerBound;
+  }
+  public function setForecastLimitUpperBound($forecastLimitUpperBound)
+  {
+    $this->forecastLimitUpperBound = $forecastLimitUpperBound;
+  }
+  public function getForecastLimitUpperBound()
+  {
+    return $this->forecastLimitUpperBound;
   }
   /**
    * @param string[]

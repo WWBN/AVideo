@@ -38,6 +38,10 @@ class LoyaltyProgram extends \Google\Model
   /**
    * @var string
    */
+  public $shippingLabel;
+  /**
+   * @var string
+   */
   public $tierLabel;
 
   /**
@@ -109,6 +113,20 @@ class LoyaltyProgram extends \Google\Model
   public function getProgramLabel()
   {
     return $this->programLabel;
+  }
+  /**
+   * @param string
+   */
+  public function setShippingLabel($shippingLabel)
+  {
+    $this->shippingLabel = $shippingLabel;
+  }
+  /**
+   * @return string
+   */
+  public function getShippingLabel()
+  {
+    return $this->shippingLabel;
   }
   /**
    * @param string

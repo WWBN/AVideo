@@ -55,6 +55,7 @@ class SecurityCommandCenter extends \Google\Service
   public $folders_sources_findings_externalSystems;
   public $organizations;
   public $organizations_assets;
+  public $organizations_attackPaths;
   public $organizations_bigQueryExports;
   public $organizations_eventThreatDetectionSettings;
   public $organizations_eventThreatDetectionSettings_customModules;
@@ -1039,6 +1040,38 @@ class SecurityCommandCenter extends \Google\Service
                   'type' => 'string',
                 ],
                 'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->organizations_attackPaths = new SecurityCommandCenter\Resource\OrganizationsAttackPaths(
+        $this,
+        $this->serviceName,
+        'attackPaths',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/attackPaths',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

@@ -27,6 +27,10 @@ class WorkflowInvocationAction extends \Google\Model
    * @var string
    */
   public $failureReason;
+  /**
+   * @var string
+   */
+  public $internalMetadata;
   protected $invocationTimingType = Interval::class;
   protected $invocationTimingDataType = '';
   protected $notebookActionType = NotebookAction::class;
@@ -79,6 +83,20 @@ class WorkflowInvocationAction extends \Google\Model
   public function getFailureReason()
   {
     return $this->failureReason;
+  }
+  /**
+   * @param string
+   */
+  public function setInternalMetadata($internalMetadata)
+  {
+    $this->internalMetadata = $internalMetadata;
+  }
+  /**
+   * @return string
+   */
+  public function getInternalMetadata()
+  {
+    return $this->internalMetadata;
   }
   /**
    * @param Interval

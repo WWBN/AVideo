@@ -33,6 +33,8 @@ class Insight extends \Google\Model
   public $sentTime;
   protected $sqlserverValidationType = SqlserverValidation::class;
   protected $sqlserverValidationDataType = '';
+  protected $torsoValidationType = TorsoValidation::class;
+  protected $torsoValidationDataType = '';
 
   /**
    * @param string
@@ -103,6 +105,20 @@ class Insight extends \Google\Model
   public function getSqlserverValidation()
   {
     return $this->sqlserverValidation;
+  }
+  /**
+   * @param TorsoValidation
+   */
+  public function setTorsoValidation(TorsoValidation $torsoValidation)
+  {
+    $this->torsoValidation = $torsoValidation;
+  }
+  /**
+   * @return TorsoValidation
+   */
+  public function getTorsoValidation()
+  {
+    return $this->torsoValidation;
   }
 }
 

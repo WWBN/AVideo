@@ -17,6 +17,7 @@
 
 namespace Google\Service\CloudRedis\Resource;
 
+use Google\Service\CloudRedis\BackupClusterRequest;
 use Google\Service\CloudRedis\CertificateAuthority;
 use Google\Service\CloudRedis\Cluster;
 use Google\Service\CloudRedis\ListClustersResponse;
@@ -33,6 +34,33 @@ use Google\Service\CloudRedis\RescheduleClusterMaintenanceRequest;
  */
 class ProjectsLocationsClusters extends \Google\Service\Resource
 {
+  /**
+   * Backup Redis Cluster. If this is the first time a backup is being created, a
+   * backup collection will be created at the backend, and this backup belongs to
+   * this collection. Both collection and backup will have a resource name. Backup
+   * will be executed for each shard. A replica (primary if nonHA) will be
+   * selected to perform the execution. Backup call will be rejected if there is
+   * an ongoing backup or update operation. Be aware that during preview, if the
+   * cluster's internal software version is too old, critical update will be
+   * performed before actual backup. Once the internal software version is updated
+   * to the minimum version required by the backup feature, subsequent backups
+   * will not require critical update. After preview, there will be no critical
+   * update needed for backup. (clusters.backup)
+   *
+   * @param string $name Required. Redis cluster resource name using the form:
+   * `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where
+   * `location_id` refers to a GCP region.
+   * @param BackupClusterRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function backup($name, BackupClusterRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('backup', [$params], Operation::class);
+  }
   /**
    * Creates a Redis cluster based on the specified properties. The creation is
    * executed asynchronously and callers may check the returned operation to track
@@ -53,7 +81,7 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
    * lowercase letters, numbers, and hyphens. * Must start with a letter. * Must
    * be between 1-63 characters. * Must end with a number or a letter. * Must be
    * unique within the customer project / location
-   * @opt_param string requestId Idempotent request UUID.
+   * @opt_param string requestId Optional. Idempotent request UUID.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -72,7 +100,7 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
    * `location_id` refers to a GCP region.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId Idempotent request UUID.
+   * @opt_param string requestId Optional. Idempotent request UUID.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -156,10 +184,11 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
    * @param Cluster $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId Idempotent request UUID.
+   * @opt_param string requestId Optional. Idempotent request UUID.
    * @opt_param string updateMask Required. Mask of fields to update. At least one
    * path must be supplied in this field. The elements of the repeated paths field
-   * may only include these fields from Cluster: * `size_gb` * `replica_count`
+   * may only include these fields from Cluster: * `size_gb` * `replica_count` *
+   * `cluster_endpoints`
    * @return Operation
    * @throws \Google\Service\Exception
    */

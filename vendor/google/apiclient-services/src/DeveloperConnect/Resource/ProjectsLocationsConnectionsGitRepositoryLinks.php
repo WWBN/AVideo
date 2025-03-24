@@ -26,6 +26,8 @@ use Google\Service\DeveloperConnect\FetchReadWriteTokenResponse;
 use Google\Service\DeveloperConnect\GitRepositoryLink;
 use Google\Service\DeveloperConnect\ListGitRepositoryLinksResponse;
 use Google\Service\DeveloperConnect\Operation;
+use Google\Service\DeveloperConnect\ProcessBitbucketCloudWebhookRequest;
+use Google\Service\DeveloperConnect\ProcessBitbucketDataCenterWebhookRequest;
 use Google\Service\DeveloperConnect\ProcessGitLabEnterpriseWebhookRequest;
 use Google\Service\DeveloperConnect\ProcessGitLabWebhookRequest;
 
@@ -202,6 +204,42 @@ class ProjectsLocationsConnectionsGitRepositoryLinks extends \Google\Service\Res
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListGitRepositoryLinksResponse::class);
+  }
+  /**
+   * ProcessBitbucketCloudWebhook is called by the external Bitbucket Cloud
+   * instances for notifying events.
+   * (gitRepositoryLinks.processBitbucketCloudWebhook)
+   *
+   * @param string $name Required. The GitRepositoryLink where the webhook will be
+   * received. Format: `projects/locations/connections/gitRepositoryLinks`.
+   * @param ProcessBitbucketCloudWebhookRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return DeveloperconnectEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function processBitbucketCloudWebhook($name, ProcessBitbucketCloudWebhookRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('processBitbucketCloudWebhook', [$params], DeveloperconnectEmpty::class);
+  }
+  /**
+   * ProcessBitbucketDataCenterWebhook is called by the external Bitbucket Data
+   * Center instances for notifying events.
+   * (gitRepositoryLinks.processBitbucketDataCenterWebhook)
+   *
+   * @param string $name Required. The GitRepositoryLink where the webhook will be
+   * received. Format: `projects/locations/connections/gitRepositoryLinks`.
+   * @param ProcessBitbucketDataCenterWebhookRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return DeveloperconnectEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function processBitbucketDataCenterWebhook($name, ProcessBitbucketDataCenterWebhookRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('processBitbucketDataCenterWebhook', [$params], DeveloperconnectEmpty::class);
   }
   /**
    * ProcessGitLabEnterpriseWebhook is called by the external GitLab Enterprise

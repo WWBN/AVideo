@@ -34,6 +34,8 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Results extends \Google\Collect
    * @var string[]
    */
   public $buildStepOutputs;
+  protected $goModulesType = ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedGoModule::class;
+  protected $goModulesDataType = 'array';
   protected $imagesType = ContaineranalysisGoogleDevtoolsCloudbuildV1BuiltImage::class;
   protected $imagesDataType = 'array';
   protected $mavenArtifactsType = ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedMavenArtifact::class;
@@ -102,6 +104,20 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Results extends \Google\Collect
   public function getBuildStepOutputs()
   {
     return $this->buildStepOutputs;
+  }
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedGoModule[]
+   */
+  public function setGoModules($goModules)
+  {
+    $this->goModules = $goModules;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedGoModule[]
+   */
+  public function getGoModules()
+  {
+    return $this->goModules;
   }
   /**
    * @param ContaineranalysisGoogleDevtoolsCloudbuildV1BuiltImage[]

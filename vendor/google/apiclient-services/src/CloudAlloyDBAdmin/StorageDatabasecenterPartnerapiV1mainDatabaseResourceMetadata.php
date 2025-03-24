@@ -74,6 +74,10 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
    * @var string
    */
   public $resourceName;
+  /**
+   * @var string
+   */
+  public $suspensionReason;
   protected $tagsSetType = StorageDatabasecenterPartnerapiV1mainTags::class;
   protected $tagsSetDataType = '';
   /**
@@ -334,6 +338,20 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
   public function getResourceName()
   {
     return $this->resourceName;
+  }
+  /**
+   * @param string
+   */
+  public function setSuspensionReason($suspensionReason)
+  {
+    $this->suspensionReason = $suspensionReason;
+  }
+  /**
+   * @return string
+   */
+  public function getSuspensionReason()
+  {
+    return $this->suspensionReason;
   }
   /**
    * @param StorageDatabasecenterPartnerapiV1mainTags

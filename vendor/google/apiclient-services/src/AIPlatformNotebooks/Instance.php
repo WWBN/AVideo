@@ -32,6 +32,10 @@ class Instance extends \Google\Collection
    * @var bool
    */
   public $disableProxyAccess;
+  /**
+   * @var bool
+   */
+  public $enableThirdPartyIdentity;
   protected $gceSetupType = GceSetup::class;
   protected $gceSetupDataType = '';
   /**
@@ -126,6 +130,20 @@ class Instance extends \Google\Collection
   public function getDisableProxyAccess()
   {
     return $this->disableProxyAccess;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableThirdPartyIdentity($enableThirdPartyIdentity)
+  {
+    $this->enableThirdPartyIdentity = $enableThirdPartyIdentity;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableThirdPartyIdentity()
+  {
+    return $this->enableThirdPartyIdentity;
   }
   /**
    * @param GceSetup

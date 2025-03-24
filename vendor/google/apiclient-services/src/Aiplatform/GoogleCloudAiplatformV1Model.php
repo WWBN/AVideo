@@ -34,6 +34,10 @@ class GoogleCloudAiplatformV1Model extends \Google\Collection
   public $createTime;
   protected $dataStatsType = GoogleCloudAiplatformV1ModelDataStats::class;
   protected $dataStatsDataType = '';
+  /**
+   * @var string
+   */
+  public $defaultCheckpointId;
   protected $deployedModelsType = GoogleCloudAiplatformV1DeployedModelRef::class;
   protected $deployedModelsDataType = 'array';
   /**
@@ -202,6 +206,20 @@ class GoogleCloudAiplatformV1Model extends \Google\Collection
   public function getDataStats()
   {
     return $this->dataStats;
+  }
+  /**
+   * @param string
+   */
+  public function setDefaultCheckpointId($defaultCheckpointId)
+  {
+    $this->defaultCheckpointId = $defaultCheckpointId;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultCheckpointId()
+  {
+    return $this->defaultCheckpointId;
   }
   /**
    * @param GoogleCloudAiplatformV1DeployedModelRef[]

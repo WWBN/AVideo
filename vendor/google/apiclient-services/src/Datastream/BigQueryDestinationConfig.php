@@ -21,6 +21,8 @@ class BigQueryDestinationConfig extends \Google\Model
 {
   protected $appendOnlyType = AppendOnly::class;
   protected $appendOnlyDataType = '';
+  protected $blmtConfigType = BlmtConfig::class;
+  protected $blmtConfigDataType = '';
   /**
    * @var string
    */
@@ -45,6 +47,20 @@ class BigQueryDestinationConfig extends \Google\Model
   public function getAppendOnly()
   {
     return $this->appendOnly;
+  }
+  /**
+   * @param BlmtConfig
+   */
+  public function setBlmtConfig(BlmtConfig $blmtConfig)
+  {
+    $this->blmtConfig = $blmtConfig;
+  }
+  /**
+   * @return BlmtConfig
+   */
+  public function getBlmtConfig()
+  {
+    return $this->blmtConfig;
   }
   /**
    * @param string

@@ -49,6 +49,7 @@ class Apigee extends \Google\Service
   public $organizations_apiproducts_attributes;
   public $organizations_apiproducts_rateplans;
   public $organizations_apis;
+  public $organizations_apis_debugsessions;
   public $organizations_apis_deployments;
   public $organizations_apis_keyvaluemaps;
   public $organizations_apis_keyvaluemaps_entries;
@@ -710,6 +711,34 @@ class Apigee extends \Google\Service
                   'required' => true,
                 ],
                 'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->organizations_apis_debugsessions = new Apigee\Resource\OrganizationsApisDebugsessions(
+        $this,
+        $this->serviceName,
+        'debugsessions',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/debugsessions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

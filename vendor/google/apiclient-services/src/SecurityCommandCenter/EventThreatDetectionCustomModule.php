@@ -24,6 +24,10 @@ class EventThreatDetectionCustomModule extends \Google\Model
    */
   public $ancestorModule;
   /**
+   * @var string
+   */
+  public $cloudProvider;
+  /**
    * @var array[]
    */
   public $config;
@@ -69,6 +73,20 @@ class EventThreatDetectionCustomModule extends \Google\Model
   public function getAncestorModule()
   {
     return $this->ancestorModule;
+  }
+  /**
+   * @param string
+   */
+  public function setCloudProvider($cloudProvider)
+  {
+    $this->cloudProvider = $cloudProvider;
+  }
+  /**
+   * @return string
+   */
+  public function getCloudProvider()
+  {
+    return $this->cloudProvider;
   }
   /**
    * @param array[]

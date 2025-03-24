@@ -20,6 +20,10 @@ namespace Google\Service\CloudRedis;
 class UpdateInfo extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $targetNodeType;
+  /**
    * @var int
    */
   public $targetReplicaCount;
@@ -28,6 +32,20 @@ class UpdateInfo extends \Google\Model
    */
   public $targetShardCount;
 
+  /**
+   * @param string
+   */
+  public function setTargetNodeType($targetNodeType)
+  {
+    $this->targetNodeType = $targetNodeType;
+  }
+  /**
+   * @return string
+   */
+  public function getTargetNodeType()
+  {
+    return $this->targetNodeType;
+  }
   /**
    * @param int
    */

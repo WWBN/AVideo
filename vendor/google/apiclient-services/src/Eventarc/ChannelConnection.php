@@ -32,6 +32,10 @@ class ChannelConnection extends \Google\Model
    */
   public $createTime;
   /**
+   * @var string[]
+   */
+  public $labels;
+  /**
    * @var string
    */
   public $name;
@@ -85,6 +89,20 @@ class ChannelConnection extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string[]
+   */
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLabels()
+  {
+    return $this->labels;
   }
   /**
    * @param string

@@ -20,6 +20,8 @@ namespace Google\Service\CloudRun;
 class GoogleDevtoolsCloudbuildV1Artifacts extends \Google\Collection
 {
   protected $collection_key = 'pythonPackages';
+  protected $goModulesType = GoogleDevtoolsCloudbuildV1GoModule::class;
+  protected $goModulesDataType = 'array';
   /**
    * @var string[]
    */
@@ -33,6 +35,20 @@ class GoogleDevtoolsCloudbuildV1Artifacts extends \Google\Collection
   protected $pythonPackagesType = GoogleDevtoolsCloudbuildV1PythonPackage::class;
   protected $pythonPackagesDataType = 'array';
 
+  /**
+   * @param GoogleDevtoolsCloudbuildV1GoModule[]
+   */
+  public function setGoModules($goModules)
+  {
+    $this->goModules = $goModules;
+  }
+  /**
+   * @return GoogleDevtoolsCloudbuildV1GoModule[]
+   */
+  public function getGoModules()
+  {
+    return $this->goModules;
+  }
   /**
    * @param string[]
    */

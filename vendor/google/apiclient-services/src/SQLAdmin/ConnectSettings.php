@@ -25,6 +25,10 @@ class ConnectSettings extends \Google\Collection
    */
   public $backendType;
   /**
+   * @var string[]
+   */
+  public $customSubjectAlternativeNames;
+  /**
    * @var string
    */
   public $databaseVersion;
@@ -66,6 +70,20 @@ class ConnectSettings extends \Google\Collection
   public function getBackendType()
   {
     return $this->backendType;
+  }
+  /**
+   * @param string[]
+   */
+  public function setCustomSubjectAlternativeNames($customSubjectAlternativeNames)
+  {
+    $this->customSubjectAlternativeNames = $customSubjectAlternativeNames;
+  }
+  /**
+   * @return string[]
+   */
+  public function getCustomSubjectAlternativeNames()
+  {
+    return $this->customSubjectAlternativeNames;
   }
   /**
    * @param string

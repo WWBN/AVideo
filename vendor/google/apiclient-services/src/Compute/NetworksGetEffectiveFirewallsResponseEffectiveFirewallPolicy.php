@@ -28,6 +28,8 @@ class NetworksGetEffectiveFirewallsResponseEffectiveFirewallPolicy extends \Goog
    * @var string
    */
   public $name;
+  protected $packetMirroringRulesType = FirewallPolicyRule::class;
+  protected $packetMirroringRulesDataType = 'array';
   /**
    * @var int
    */
@@ -70,6 +72,20 @@ class NetworksGetEffectiveFirewallsResponseEffectiveFirewallPolicy extends \Goog
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param FirewallPolicyRule[]
+   */
+  public function setPacketMirroringRules($packetMirroringRules)
+  {
+    $this->packetMirroringRules = $packetMirroringRules;
+  }
+  /**
+   * @return FirewallPolicyRule[]
+   */
+  public function getPacketMirroringRules()
+  {
+    return $this->packetMirroringRules;
   }
   /**
    * @param int

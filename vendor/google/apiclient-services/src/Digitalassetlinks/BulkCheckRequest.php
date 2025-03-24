@@ -21,10 +21,6 @@ class BulkCheckRequest extends \Google\Collection
 {
   protected $collection_key = 'statements';
   /**
-   * @var bool
-   */
-  public $allowGoogleInternalDataSources;
-  /**
    * @var string
    */
   public $defaultRelation;
@@ -32,27 +28,9 @@ class BulkCheckRequest extends \Google\Collection
   protected $defaultSourceDataType = '';
   protected $defaultTargetType = Asset::class;
   protected $defaultTargetDataType = '';
-  /**
-   * @var bool
-   */
-  public $skipCacheLookup;
   protected $statementsType = StatementTemplate::class;
   protected $statementsDataType = 'array';
 
-  /**
-   * @param bool
-   */
-  public function setAllowGoogleInternalDataSources($allowGoogleInternalDataSources)
-  {
-    $this->allowGoogleInternalDataSources = $allowGoogleInternalDataSources;
-  }
-  /**
-   * @return bool
-   */
-  public function getAllowGoogleInternalDataSources()
-  {
-    return $this->allowGoogleInternalDataSources;
-  }
   /**
    * @param string
    */
@@ -94,20 +72,6 @@ class BulkCheckRequest extends \Google\Collection
   public function getDefaultTarget()
   {
     return $this->defaultTarget;
-  }
-  /**
-   * @param bool
-   */
-  public function setSkipCacheLookup($skipCacheLookup)
-  {
-    $this->skipCacheLookup = $skipCacheLookup;
-  }
-  /**
-   * @return bool
-   */
-  public function getSkipCacheLookup()
-  {
-    return $this->skipCacheLookup;
   }
   /**
    * @param StatementTemplate[]

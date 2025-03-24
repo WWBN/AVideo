@@ -181,6 +181,9 @@ class ProjectsLocationsConnectionsRepositories extends \Google\Service\Resource
    * `remote_uri:"https://github.com*"`.
    * @opt_param int pageSize Number of results to return in the list.
    * @opt_param string pageToken Page start.
+   * @opt_param bool returnPartialSuccess Optional. If set to true, the response
+   * will return partial results when some regions are unreachable. If set to
+   * false, the response will fail if any region is unreachable.
    * @return ListRepositoriesResponse
    * @throws \Google\Service\Exception
    */

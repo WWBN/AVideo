@@ -28,9 +28,17 @@ class GoogleCloudSecuritycenterV2Attack extends \Google\Model
    */
   public $volumeBps;
   /**
+   * @var string
+   */
+  public $volumeBpsLong;
+  /**
    * @var int
    */
   public $volumePps;
+  /**
+   * @var string
+   */
+  public $volumePpsLong;
 
   /**
    * @param string
@@ -61,6 +69,20 @@ class GoogleCloudSecuritycenterV2Attack extends \Google\Model
     return $this->volumeBps;
   }
   /**
+   * @param string
+   */
+  public function setVolumeBpsLong($volumeBpsLong)
+  {
+    $this->volumeBpsLong = $volumeBpsLong;
+  }
+  /**
+   * @return string
+   */
+  public function getVolumeBpsLong()
+  {
+    return $this->volumeBpsLong;
+  }
+  /**
    * @param int
    */
   public function setVolumePps($volumePps)
@@ -73,6 +95,20 @@ class GoogleCloudSecuritycenterV2Attack extends \Google\Model
   public function getVolumePps()
   {
     return $this->volumePps;
+  }
+  /**
+   * @param string
+   */
+  public function setVolumePpsLong($volumePpsLong)
+  {
+    $this->volumePpsLong = $volumePpsLong;
+  }
+  /**
+   * @return string
+   */
+  public function getVolumePpsLong()
+  {
+    return $this->volumePpsLong;
   }
 }
 

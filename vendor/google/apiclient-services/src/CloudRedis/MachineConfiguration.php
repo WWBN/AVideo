@@ -31,6 +31,7 @@ class MachineConfiguration extends \Google\Model
    * @var int
    */
   public $shardCount;
+  public $vcpuCount;
 
   /**
    * @param int
@@ -73,6 +74,14 @@ class MachineConfiguration extends \Google\Model
   public function getShardCount()
   {
     return $this->shardCount;
+  }
+  public function setVcpuCount($vcpuCount)
+  {
+    $this->vcpuCount = $vcpuCount;
+  }
+  public function getVcpuCount()
+  {
+    return $this->vcpuCount;
   }
 }
 

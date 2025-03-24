@@ -15,7 +15,7 @@
         "ext-json": "*",
         "chrisjean/php-ico": "^1.0",
         "ezyang/htmlpurifier": "^4.13",
-        "google/apiclient": "^2.11",
+        "google/apiclient": "^2.18",
         "google/apiclient-services": "*",
         "google/auth": "^1.14.3",
         "guzzlehttp/guzzle": "^7.4",
@@ -54,6 +54,7 @@
         "christian-riesen/base32": "^1.6",
         "react/socket": "^1.16",
         "react/event-loop": "^1.5",
-        "iamcal/sql-parser": "^0.5.0"
+        "iamcal/sql-parser": "^0.5.0",
+        "elephantio/elephant.io": "^4.13"
     }
 }

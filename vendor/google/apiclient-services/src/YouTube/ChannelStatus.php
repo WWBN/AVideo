@@ -22,6 +22,10 @@ class ChannelStatus extends \Google\Model
   /**
    * @var bool
    */
+  public $isChannelMonetizationEnabled;
+  /**
+   * @var bool
+   */
   public $isLinked;
   /**
    * @var string
@@ -40,6 +44,20 @@ class ChannelStatus extends \Google\Model
    */
   public $selfDeclaredMadeForKids;
 
+  /**
+   * @param bool
+   */
+  public function setIsChannelMonetizationEnabled($isChannelMonetizationEnabled)
+  {
+    $this->isChannelMonetizationEnabled = $isChannelMonetizationEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsChannelMonetizationEnabled()
+  {
+    return $this->isChannelMonetizationEnabled;
+  }
   /**
    * @param bool
    */

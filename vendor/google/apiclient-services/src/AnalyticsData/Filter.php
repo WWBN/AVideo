@@ -21,6 +21,8 @@ class Filter extends \Google\Model
 {
   protected $betweenFilterType = BetweenFilter::class;
   protected $betweenFilterDataType = '';
+  protected $emptyFilterType = EmptyFilter::class;
+  protected $emptyFilterDataType = '';
   /**
    * @var string
    */
@@ -45,6 +47,20 @@ class Filter extends \Google\Model
   public function getBetweenFilter()
   {
     return $this->betweenFilter;
+  }
+  /**
+   * @param EmptyFilter
+   */
+  public function setEmptyFilter(EmptyFilter $emptyFilter)
+  {
+    $this->emptyFilter = $emptyFilter;
+  }
+  /**
+   * @return EmptyFilter
+   */
+  public function getEmptyFilter()
+  {
+    return $this->emptyFilter;
   }
   /**
    * @param string

@@ -30,6 +30,10 @@ class RoleAssignment extends \Google\Model
   /**
    * @var string
    */
+  public $condition;
+  /**
+   * @var string
+   */
   public $etag;
   /**
    * @var string
@@ -79,6 +83,20 @@ class RoleAssignment extends \Google\Model
   public function getAssigneeType()
   {
     return $this->assigneeType;
+  }
+  /**
+   * @param string
+   */
+  public function setCondition($condition)
+  {
+    $this->condition = $condition;
+  }
+  /**
+   * @return string
+   */
+  public function getCondition()
+  {
+    return $this->condition;
   }
   /**
    * @param string

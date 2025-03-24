@@ -27,7 +27,15 @@ class EntityDdl extends \Google\Collection
   /**
    * @var string
    */
+  public $ddlKind;
+  /**
+   * @var string
+   */
   public $ddlType;
+  /**
+   * @var string
+   */
+  public $editedDdlKind;
   /**
    * @var string
    */
@@ -58,6 +66,20 @@ class EntityDdl extends \Google\Collection
   /**
    * @param string
    */
+  public function setDdlKind($ddlKind)
+  {
+    $this->ddlKind = $ddlKind;
+  }
+  /**
+   * @return string
+   */
+  public function getDdlKind()
+  {
+    return $this->ddlKind;
+  }
+  /**
+   * @param string
+   */
   public function setDdlType($ddlType)
   {
     $this->ddlType = $ddlType;
@@ -68,6 +90,20 @@ class EntityDdl extends \Google\Collection
   public function getDdlType()
   {
     return $this->ddlType;
+  }
+  /**
+   * @param string
+   */
+  public function setEditedDdlKind($editedDdlKind)
+  {
+    $this->editedDdlKind = $editedDdlKind;
+  }
+  /**
+   * @return string
+   */
+  public function getEditedDdlKind()
+  {
+    return $this->editedDdlKind;
   }
   /**
    * @param string

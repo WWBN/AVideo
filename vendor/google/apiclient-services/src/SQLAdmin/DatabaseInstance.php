@@ -69,6 +69,10 @@ class DatabaseInstance extends \Google\Collection
   protected $geminiConfigType = GeminiInstanceConfig::class;
   protected $geminiConfigDataType = '';
   /**
+   * @var bool
+   */
+  public $includeReplicasForMajorVersionUpgrade;
+  /**
    * @var string
    */
   public $instanceType;
@@ -172,6 +176,10 @@ class DatabaseInstance extends \Google\Collection
    * @var bool
    */
   public $switchTransactionLogsToCloudStorageEnabled;
+  /**
+   * @var string[]
+   */
+  public $tags;
   protected $upgradableDatabaseVersionsType = AvailableDatabaseVersion::class;
   protected $upgradableDatabaseVersionsDataType = 'array';
   /**
@@ -374,6 +382,20 @@ class DatabaseInstance extends \Google\Collection
   public function getGeminiConfig()
   {
     return $this->geminiConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setIncludeReplicasForMajorVersionUpgrade($includeReplicasForMajorVersionUpgrade)
+  {
+    $this->includeReplicasForMajorVersionUpgrade = $includeReplicasForMajorVersionUpgrade;
+  }
+  /**
+   * @return bool
+   */
+  public function getIncludeReplicasForMajorVersionUpgrade()
+  {
+    return $this->includeReplicasForMajorVersionUpgrade;
   }
   /**
    * @param string
@@ -794,6 +816,20 @@ class DatabaseInstance extends \Google\Collection
   public function getSwitchTransactionLogsToCloudStorageEnabled()
   {
     return $this->switchTransactionLogsToCloudStorageEnabled;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
   /**
    * @param AvailableDatabaseVersion[]

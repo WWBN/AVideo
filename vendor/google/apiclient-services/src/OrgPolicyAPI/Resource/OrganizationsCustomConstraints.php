@@ -68,12 +68,12 @@ class OrganizationsCustomConstraints extends \Google\Service\Resource
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
   }
   /**
-   * Gets a custom constraint. Returns a `google.rpc.Status` with
-   * `google.rpc.Code.NOT_FOUND` if the custom constraint does not exist.
-   * (customConstraints.get)
+   * Gets a custom or managed constraint. Returns a `google.rpc.Status` with
+   * `google.rpc.Code.NOT_FOUND` if the custom or managed constraint does not
+   * exist. (customConstraints.get)
    *
-   * @param string $name Required. Resource name of the custom constraint. See the
-   * custom constraint entry for naming requirements.
+   * @param string $name Required. Resource name of the custom or managed
+   * constraint. See the custom constraint entry for naming requirements.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudOrgpolicyV2CustomConstraint
    * @throws \Google\Service\Exception

@@ -165,11 +165,13 @@ class Tasks extends \Google\Service\Resource
    * destinationTasklist list. Otherwise the task is moved within its current
    * list. Recurrent tasks cannot currently be moved between lists. Optional.
    * @opt_param string parent New parent task identifier. If the task is moved to
-   * the top level, this parameter is omitted. Assigned tasks can not be set as
+   * the top level, this parameter is omitted. The task set as parent must exist
+   * in the task list and can not be hidden. Assigned tasks can not be set as
    * parent task (have subtasks) or be moved under a parent task (become
    * subtasks). Optional.
    * @opt_param string previous New previous sibling task identifier. If the task
    * is moved to the first position among its siblings, this parameter is omitted.
+   * The task set as previous must exist in the task list and can not be hidden.
    * Optional.
    * @return Task
    * @throws \Google\Service\Exception

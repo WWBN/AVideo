@@ -54,6 +54,8 @@ class GoogleCloudAiplatformV1Endpoint extends \Google\Collection
    * @var string
    */
   public $etag;
+  protected $genAiAdvancedFeaturesConfigType = GoogleCloudAiplatformV1GenAiAdvancedFeaturesConfig::class;
+  protected $genAiAdvancedFeaturesConfigDataType = '';
   /**
    * @var string[]
    */
@@ -230,6 +232,20 @@ class GoogleCloudAiplatformV1Endpoint extends \Google\Collection
   public function getEtag()
   {
     return $this->etag;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1GenAiAdvancedFeaturesConfig
+   */
+  public function setGenAiAdvancedFeaturesConfig(GoogleCloudAiplatformV1GenAiAdvancedFeaturesConfig $genAiAdvancedFeaturesConfig)
+  {
+    $this->genAiAdvancedFeaturesConfig = $genAiAdvancedFeaturesConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1GenAiAdvancedFeaturesConfig
+   */
+  public function getGenAiAdvancedFeaturesConfig()
+  {
+    return $this->genAiAdvancedFeaturesConfig;
   }
   /**
    * @param string[]

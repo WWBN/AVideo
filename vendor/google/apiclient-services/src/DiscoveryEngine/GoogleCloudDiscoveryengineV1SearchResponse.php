@@ -19,7 +19,7 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1SearchResponse extends \Google\Collection
 {
-  protected $collection_key = 'results';
+  protected $collection_key = 'searchLinkPromotions';
   /**
    * @var string
    */
@@ -42,6 +42,8 @@ class GoogleCloudDiscoveryengineV1SearchResponse extends \Google\Collection
   public $redirectUri;
   protected $resultsType = GoogleCloudDiscoveryengineV1SearchResponseSearchResult::class;
   protected $resultsDataType = 'array';
+  protected $searchLinkPromotionsType = GoogleCloudDiscoveryengineV1SearchLinkPromotion::class;
+  protected $searchLinkPromotionsDataType = 'array';
   protected $sessionInfoType = GoogleCloudDiscoveryengineV1SearchResponseSessionInfo::class;
   protected $sessionInfoDataType = '';
   protected $summaryType = GoogleCloudDiscoveryengineV1SearchResponseSummary::class;
@@ -148,6 +150,20 @@ class GoogleCloudDiscoveryengineV1SearchResponse extends \Google\Collection
   public function getResults()
   {
     return $this->results;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1SearchLinkPromotion[]
+   */
+  public function setSearchLinkPromotions($searchLinkPromotions)
+  {
+    $this->searchLinkPromotions = $searchLinkPromotions;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1SearchLinkPromotion[]
+   */
+  public function getSearchLinkPromotions()
+  {
+    return $this->searchLinkPromotions;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1SearchResponseSessionInfo

@@ -27,6 +27,8 @@ class GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpecQueryR
    * @var int
    */
   public $maxRephraseSteps;
+  protected $modelSpecType = GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpec::class;
+  protected $modelSpecDataType = '';
 
   /**
    * @param bool
@@ -55,6 +57,20 @@ class GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpecQueryR
   public function getMaxRephraseSteps()
   {
     return $this->maxRephraseSteps;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpec
+   */
+  public function setModelSpec(GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpec $modelSpec)
+  {
+    $this->modelSpec = $modelSpec;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpec
+   */
+  public function getModelSpec()
+  {
+    return $this->modelSpec;
   }
 }
 

@@ -24,6 +24,10 @@ class PrometheusQueryLanguageCondition extends \Google\Model
    */
   public $alertRule;
   /**
+   * @var bool
+   */
+  public $disableMetricValidation;
+  /**
    * @var string
    */
   public $duration;
@@ -57,6 +61,20 @@ class PrometheusQueryLanguageCondition extends \Google\Model
   public function getAlertRule()
   {
     return $this->alertRule;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisableMetricValidation($disableMetricValidation)
+  {
+    $this->disableMetricValidation = $disableMetricValidation;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableMetricValidation()
+  {
+    return $this->disableMetricValidation;
   }
   /**
    * @param string

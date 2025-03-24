@@ -23,7 +23,15 @@ class PortabilityArchiveState extends \Google\Collection
   /**
    * @var string
    */
+  public $exportTime;
+  /**
+   * @var string
+   */
   public $name;
+  /**
+   * @var string
+   */
+  public $startTime;
   /**
    * @var string
    */
@@ -33,6 +41,20 @@ class PortabilityArchiveState extends \Google\Collection
    */
   public $urls;
 
+  /**
+   * @param string
+   */
+  public function setExportTime($exportTime)
+  {
+    $this->exportTime = $exportTime;
+  }
+  /**
+   * @return string
+   */
+  public function getExportTime()
+  {
+    return $this->exportTime;
+  }
   /**
    * @param string
    */
@@ -46,6 +68,20 @@ class PortabilityArchiveState extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setStartTime($startTime)
+  {
+    $this->startTime = $startTime;
+  }
+  /**
+   * @return string
+   */
+  public function getStartTime()
+  {
+    return $this->startTime;
   }
   /**
    * @param string

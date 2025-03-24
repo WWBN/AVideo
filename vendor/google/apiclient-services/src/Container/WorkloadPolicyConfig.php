@@ -23,6 +23,10 @@ class WorkloadPolicyConfig extends \Google\Model
    * @var bool
    */
   public $allowNetAdmin;
+  /**
+   * @var bool
+   */
+  public $autopilotCompatibilityAuditingEnabled;
 
   /**
    * @param bool
@@ -37,6 +41,20 @@ class WorkloadPolicyConfig extends \Google\Model
   public function getAllowNetAdmin()
   {
     return $this->allowNetAdmin;
+  }
+  /**
+   * @param bool
+   */
+  public function setAutopilotCompatibilityAuditingEnabled($autopilotCompatibilityAuditingEnabled)
+  {
+    $this->autopilotCompatibilityAuditingEnabled = $autopilotCompatibilityAuditingEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getAutopilotCompatibilityAuditingEnabled()
+  {
+    return $this->autopilotCompatibilityAuditingEnabled;
   }
 }
 

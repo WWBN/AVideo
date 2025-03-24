@@ -19,7 +19,7 @@ namespace Google\Service\CloudAlloyDBAdmin;
 
 class PscInstanceConfig extends \Google\Collection
 {
-  protected $collection_key = 'allowedConsumerProjects';
+  protected $collection_key = 'pscInterfaceConfigs';
   /**
    * @var string[]
    */
@@ -28,6 +28,8 @@ class PscInstanceConfig extends \Google\Collection
    * @var string
    */
   public $pscDnsName;
+  protected $pscInterfaceConfigsType = PscInterfaceConfig::class;
+  protected $pscInterfaceConfigsDataType = 'array';
   /**
    * @var string
    */
@@ -60,6 +62,20 @@ class PscInstanceConfig extends \Google\Collection
   public function getPscDnsName()
   {
     return $this->pscDnsName;
+  }
+  /**
+   * @param PscInterfaceConfig[]
+   */
+  public function setPscInterfaceConfigs($pscInterfaceConfigs)
+  {
+    $this->pscInterfaceConfigs = $pscInterfaceConfigs;
+  }
+  /**
+   * @return PscInterfaceConfig[]
+   */
+  public function getPscInterfaceConfigs()
+  {
+    return $this->pscInterfaceConfigs;
   }
   /**
    * @param string

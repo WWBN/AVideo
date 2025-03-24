@@ -49,6 +49,18 @@ class CloudIdentity extends \Google\Service
   /** See any Cloud Identity Groups that you can access, including group members and their emails. */
   const CLOUD_IDENTITY_GROUPS_READONLY =
       "https://www.googleapis.com/auth/cloud-identity.groups.readonly";
+  /** See and edit all of the Inbound SSO profiles and their assignments to any Org Units or Google Groups in your Cloud Identity Organization.. */
+  const CLOUD_IDENTITY_INBOUNDSSO =
+      "https://www.googleapis.com/auth/cloud-identity.inboundsso";
+  /** See all of the Inbound SSO profiles and their assignments to any Org Units or Google Groups in your Cloud Identity Organization.. */
+  const CLOUD_IDENTITY_INBOUNDSSO_READONLY =
+      "https://www.googleapis.com/auth/cloud-identity.inboundsso.readonly";
+  /** See and edit policies in your Cloud Identity Organization.. */
+  const CLOUD_IDENTITY_POLICIES =
+      "https://www.googleapis.com/auth/cloud-identity.policies";
+  /** See policies in your Cloud Identity Organization.. */
+  const CLOUD_IDENTITY_POLICIES_READONLY =
+      "https://www.googleapis.com/auth/cloud-identity.policies.readonly";
   /** See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.. */
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
@@ -62,6 +74,7 @@ class CloudIdentity extends \Google\Service
   public $inboundSamlSsoProfiles;
   public $inboundSamlSsoProfiles_idpCredentials;
   public $inboundSsoAssignments;
+  public $policies;
   public $rootUrlTemplate;
 
   /**
@@ -959,6 +972,43 @@ class CloudIdentity extends \Google\Service
                   'required' => true,
                 ],
                 'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->policies = new CloudIdentity\Resource\Policies(
+        $this,
+        $this->serviceName,
+        'policies',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/policies',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

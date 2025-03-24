@@ -19,6 +19,25 @@ namespace Google\Service\Contactcenterinsights;
 
 class GoogleCloudContactcenterinsightsV1QueryMetricsMetadata extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $resultIsTruncated;
+
+  /**
+   * @param bool
+   */
+  public function setResultIsTruncated($resultIsTruncated)
+  {
+    $this->resultIsTruncated = $resultIsTruncated;
+  }
+  /**
+   * @return bool
+   */
+  public function getResultIsTruncated()
+  {
+    return $this->resultIsTruncated;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

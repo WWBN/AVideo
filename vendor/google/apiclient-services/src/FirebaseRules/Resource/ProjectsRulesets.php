@@ -91,17 +91,17 @@ class ProjectsRulesets extends \Google\Service\Resource
    * `projects/{project_id}`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter `Ruleset` filter. The list method supports filters
-   * with restrictions on `Ruleset.name`. Filters on `Ruleset.create_time` should
-   * use the `date` function which parses strings that conform to the RFC 3339
-   * date/time specifications. Example: `create_time >
+   * @opt_param string filter Optional. `Ruleset` filter. The list method supports
+   * filters with restrictions on `Ruleset.name`. Filters on `Ruleset.create_time`
+   * should use the `date` function which parses strings that conform to the RFC
+   * 3339 date/time specifications. Example: `create_time >
    * date("2017-01-01T00:00:00Z") AND name=UUID-*`
-   * @opt_param int pageSize Page size to load. Maximum of 100. Defaults to 10.
-   * Note: `page_size` is just a hint and the service may choose to load less than
-   * `page_size` due to the size of the output. To traverse all of the releases,
-   * caller should iterate until the `page_token` is empty.
-   * @opt_param string pageToken Next page token for loading the next batch of
-   * `Ruleset` instances.
+   * @opt_param int pageSize Optional. Page size to load. Maximum of 100. Defaults
+   * to 10. Note: `page_size` is just a hint and the service may choose to load
+   * less than `page_size` due to the size of the output. To traverse all of the
+   * releases, caller should iterate until the `page_token` is empty.
+   * @opt_param string pageToken Optional. Next page token for loading the next
+   * batch of `Ruleset` instances.
    * @return ListRulesetsResponse
    * @throws \Google\Service\Exception
    */

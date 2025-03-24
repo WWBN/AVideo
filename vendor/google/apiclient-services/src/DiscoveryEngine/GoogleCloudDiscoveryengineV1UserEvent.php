@@ -31,6 +31,10 @@ class GoogleCloudDiscoveryengineV1UserEvent extends \Google\Collection
   /**
    * @var string
    */
+  public $conversionType;
+  /**
+   * @var string
+   */
   public $dataStore;
   /**
    * @var bool
@@ -50,8 +54,6 @@ class GoogleCloudDiscoveryengineV1UserEvent extends \Google\Collection
    * @var string
    */
   public $eventType;
-  protected $feedbackType = GoogleCloudDiscoveryengineV1Feedback::class;
-  protected $feedbackDataType = '';
   /**
    * @var string
    */
@@ -128,6 +130,20 @@ class GoogleCloudDiscoveryengineV1UserEvent extends \Google\Collection
   public function getCompletionInfo()
   {
     return $this->completionInfo;
+  }
+  /**
+   * @param string
+   */
+  public function setConversionType($conversionType)
+  {
+    $this->conversionType = $conversionType;
+  }
+  /**
+   * @return string
+   */
+  public function getConversionType()
+  {
+    return $this->conversionType;
   }
   /**
    * @param string
@@ -212,20 +228,6 @@ class GoogleCloudDiscoveryengineV1UserEvent extends \Google\Collection
   public function getEventType()
   {
     return $this->eventType;
-  }
-  /**
-   * @param GoogleCloudDiscoveryengineV1Feedback
-   */
-  public function setFeedback(GoogleCloudDiscoveryengineV1Feedback $feedback)
-  {
-    $this->feedback = $feedback;
-  }
-  /**
-   * @return GoogleCloudDiscoveryengineV1Feedback
-   */
-  public function getFeedback()
-  {
-    return $this->feedback;
   }
   /**
    * @param string

@@ -94,8 +94,9 @@ class ProjectsLocationsWasmPluginsVersions extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Maximum number of `WasmPluginVersion` resources to
-   * return per call. If not specified, at most 50 `WasmPluginVersion`s are
-   * returned. The maximum value is 1000; values above 1000 are coerced to 1000.
+   * return per call. If not specified, at most 50 `WasmPluginVersion` resources
+   * are returned. The maximum value is 1000; values above 1000 are coerced to
+   * 1000.
    * @opt_param string pageToken The value returned by the last
    * `ListWasmPluginVersionsResponse` call. Indicates that this is a continuation
    * of a prior `ListWasmPluginVersions` call, and that the next page of data is

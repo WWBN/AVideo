@@ -45,6 +45,10 @@ class ColumnEntity extends \Google\Collection
    */
   public $comment;
   /**
+   * @var bool
+   */
+  public $computed;
+  /**
    * @var array[]
    */
   public $customFeatures;
@@ -176,6 +180,20 @@ class ColumnEntity extends \Google\Collection
   public function getComment()
   {
     return $this->comment;
+  }
+  /**
+   * @param bool
+   */
+  public function setComputed($computed)
+  {
+    $this->computed = $computed;
+  }
+  /**
+   * @return bool
+   */
+  public function getComputed()
+  {
+    return $this->computed;
   }
   /**
    * @param array[]

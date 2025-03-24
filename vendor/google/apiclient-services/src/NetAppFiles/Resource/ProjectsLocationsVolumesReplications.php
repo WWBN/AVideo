@@ -17,12 +17,14 @@
 
 namespace Google\Service\NetAppFiles\Resource;
 
+use Google\Service\NetAppFiles\EstablishPeeringRequest;
 use Google\Service\NetAppFiles\ListReplicationsResponse;
 use Google\Service\NetAppFiles\Operation;
 use Google\Service\NetAppFiles\Replication;
 use Google\Service\NetAppFiles\ResumeReplicationRequest;
 use Google\Service\NetAppFiles\ReverseReplicationDirectionRequest;
 use Google\Service\NetAppFiles\StopReplicationRequest;
+use Google\Service\NetAppFiles\SyncReplicationRequest;
 
 /**
  * The "replications" collection of methods.
@@ -70,6 +72,23 @@ class ProjectsLocationsVolumesReplications extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], Operation::class);
+  }
+  /**
+   * Establish replication peering. (replications.establishPeering)
+   *
+   * @param string $name Required. The resource name of the replication, in the
+   * format of projects/{project_id}/locations/{location}/volumes/{volume_id}/repl
+   * ications/{replication_id}.
+   * @param EstablishPeeringRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function establishPeering($name, EstablishPeeringRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('establishPeering', [$params], Operation::class);
   }
   /**
    * Describe a replication for a volume. (replications.get)
@@ -182,6 +201,24 @@ class ProjectsLocationsVolumesReplications extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('stop', [$params], Operation::class);
+  }
+  /**
+   * Syncs the replication. This will invoke one time volume data transfer from
+   * source to destination. (replications.sync)
+   *
+   * @param string $name Required. The resource name of the replication, in the
+   * format of projects/{project_id}/locations/{location}/volumes/{volume_id}/repl
+   * ications/{replication_id}.
+   * @param SyncReplicationRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function sync($name, SyncReplicationRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('sync', [$params], Operation::class);
   }
 }
 

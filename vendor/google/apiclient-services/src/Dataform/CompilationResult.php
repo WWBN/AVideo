@@ -41,6 +41,10 @@ class CompilationResult extends \Google\Collection
   /**
    * @var string
    */
+  public $internalMetadata;
+  /**
+   * @var string
+   */
   public $name;
   /**
    * @var string
@@ -138,6 +142,20 @@ class CompilationResult extends \Google\Collection
   public function getGitCommitish()
   {
     return $this->gitCommitish;
+  }
+  /**
+   * @param string
+   */
+  public function setInternalMetadata($internalMetadata)
+  {
+    $this->internalMetadata = $internalMetadata;
+  }
+  /**
+   * @return string
+   */
+  public function getInternalMetadata()
+  {
+    return $this->internalMetadata;
   }
   /**
    * @param string

@@ -241,33 +241,32 @@ class ProjectsLocationsNetworkconnectivityGlobalHubs extends \Google\Service\Res
     return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
-   * Query PSC propagation status the status of a Network Connectivity Center hub.
-   * (hubs.queryStatus)
+   * Query the Private Service Connect propagation status of a Network
+   * Connectivity Center hub. (hubs.queryStatus)
    *
    * @param string $name Required. The name of the hub.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. An expression that filters the list of
    * results. The filter can be used to filter the results by the following
-   * fields: * psc_propagation_status.source_spoke *
-   * psc_propagation_status.source_group *
-   * psc_propagation_status.source_forwarding_rule *
-   * psc_propagation_status.target_spoke * psc_propagation_status.target_group *
-   * psc_propagation_status.code * psc_propagation_status.message
-   * @opt_param string groupBy Optional. A field that counts are grouped by. A
-   * comma-separated list of any of these fields: *
-   * psc_propagation_status.source_spoke * psc_propagation_status.source_group *
-   * psc_propagation_status.source_forwarding_rule *
-   * psc_propagation_status.target_spoke * psc_propagation_status.target_group *
-   * psc_propagation_status.code
-   * @opt_param string orderBy Optional. Sort the results in the ascending order
-   * by specific fields returned in the response. A comma-separated list of any of
-   * these fields: * psc_propagation_status.source_spoke *
-   * psc_propagation_status.source_group *
-   * psc_propagation_status.source_forwarding_rule *
-   * psc_propagation_status.target_spoke * psc_propagation_status.target_group *
-   * psc_propagation_status.code If `group_by` is set, the value of the `order_by`
-   * field must be the same as or a subset of the `group_by` field.
+   * fields: * `psc_propagation_status.source_spoke` *
+   * `psc_propagation_status.source_group` *
+   * `psc_propagation_status.source_forwarding_rule` *
+   * `psc_propagation_status.target_spoke` * `psc_propagation_status.target_group`
+   * * `psc_propagation_status.code` * `psc_propagation_status.message`
+   * @opt_param string groupBy Optional. Aggregate the results by the specified
+   * fields. A comma-separated list of any of these fields: *
+   * `psc_propagation_status.source_spoke` * `psc_propagation_status.source_group`
+   * * `psc_propagation_status.source_forwarding_rule` *
+   * `psc_propagation_status.target_spoke` * `psc_propagation_status.target_group`
+   * * `psc_propagation_status.code`
+   * @opt_param string orderBy Optional. Sort the results in ascending order by
+   * the specified fields. A comma-separated list of any of these fields: *
+   * `psc_propagation_status.source_spoke` * `psc_propagation_status.source_group`
+   * * `psc_propagation_status.source_forwarding_rule` *
+   * `psc_propagation_status.target_spoke` * `psc_propagation_status.target_group`
+   * * `psc_propagation_status.code` If `group_by` is set, the value of the
+   * `order_by` field must be the same as or a subset of the `group_by` field.
    * @opt_param int pageSize Optional. The maximum number of results to return per
    * page.
    * @opt_param string pageToken Optional. The page token.

@@ -28,6 +28,10 @@ class AssetFrame extends \Google\Collection
    * @var string
    */
   public $collectionType;
+  protected $databaseDeploymentDetailsType = DatabaseDeploymentDetails::class;
+  protected $databaseDeploymentDetailsDataType = '';
+  protected $databaseDetailsType = DatabaseDetails::class;
+  protected $databaseDetailsDataType = '';
   /**
    * @var string[]
    */
@@ -72,6 +76,34 @@ class AssetFrame extends \Google\Collection
   public function getCollectionType()
   {
     return $this->collectionType;
+  }
+  /**
+   * @param DatabaseDeploymentDetails
+   */
+  public function setDatabaseDeploymentDetails(DatabaseDeploymentDetails $databaseDeploymentDetails)
+  {
+    $this->databaseDeploymentDetails = $databaseDeploymentDetails;
+  }
+  /**
+   * @return DatabaseDeploymentDetails
+   */
+  public function getDatabaseDeploymentDetails()
+  {
+    return $this->databaseDeploymentDetails;
+  }
+  /**
+   * @param DatabaseDetails
+   */
+  public function setDatabaseDetails(DatabaseDetails $databaseDetails)
+  {
+    $this->databaseDetails = $databaseDetails;
+  }
+  /**
+   * @return DatabaseDetails
+   */
+  public function getDatabaseDetails()
+  {
+    return $this->databaseDetails;
   }
   /**
    * @param string[]

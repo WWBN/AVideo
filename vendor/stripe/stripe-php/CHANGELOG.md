@@ -1,7 +1,55 @@
 # Changelog
 
+## 16.6.0 - 2025-02-24
+* [#1809](https://github.com/stripe/stripe-php/pull/1809) Update generated code
+  * Add support for `priority` on `Billing.CreditGrant`
+  * Add support for `collected_information` on `Checkout.Session`
+* [#1816](https://github.com/stripe/stripe-php/pull/1816) add codeowners file
+
+## 16.5.1 - 2025-02-07
+* [#1811](https://github.com/stripe/stripe-php/pull/1811) Include a useful error message when a null byte is found in the URL path
+* [#1810](https://github.com/stripe/stripe-php/pull/1810) Make `httpClient()` a public, static method
+
+## 16.5.0 - 2025-01-27
+* [#1804](https://github.com/stripe/stripe-php/pull/1804) Update generated code
+  * Add support for `close` method on resource `Treasury.FinancialAccount`
+  * Add support for `advice_code` on `StripeError`
+  * Add support for `discounts` on `Checkout.Session`
+  * Add support for new value `pay_by_bank` on enum `PaymentLink.payment_method_types[]`
+  * Add support for `pay_by_bank` on `PaymentMethodConfiguration` and `PaymentMethod`
+  * Add support for new value `pay_by_bank` on enum `PaymentMethod.type`
+  * Add support for `is_default` and `nickname` on `Treasury.FinancialAccount`
+* [#1805](https://github.com/stripe/stripe-php/pull/1805) Restore testCoreEventsGet generated test
+* [#1807](https://github.com/stripe/stripe-php/pull/1807) minor justfile fixes
+* [#1806](https://github.com/stripe/stripe-php/pull/1806) Added CONTRIBUTING.md file
+* [#1802](https://github.com/stripe/stripe-php/pull/1802) ensure dependencies are installed for format and test recipes
+* [#1801](https://github.com/stripe/stripe-php/pull/1801) Add justfile, remove coveralls, and fix AUTOLOAD in CI
+* [#1797](https://github.com/stripe/stripe-php/pull/1797) Added pull request template
+
+## 16.4.0 - 2024-12-18
+* [#1793](https://github.com/stripe/stripe-php/pull/1793) This release changes the pinned API version to `2024-12-18.acacia`.
+  * Add support for `network_advice_code` and `network_decline_code` on `StripeError`
+  * Add support for new values `payout_minimum_balance_hold` and `payout_minimum_balance_release` on enum `BalanceTransaction.type`
+  * Add support for `allow_redisplay` on `Card` and `Source`
+  * Add support for `regulated_status` on `Card`
+  * Add support for new value `request_signature` on enum `Forwarding.Request.replacements[]`
+  * Change type of `LineItem.description` from `string` to `nullable(string)`
+  * Add support for new values `al_tin`, `am_tin`, `ao_tin`, `ba_tin`, `bb_tin`, `bs_tin`, `cd_nif`, `gn_nif`, `kh_tin`, `me_pib`, `mk_vat`, `mr_nif`, `np_pan`, `sn_ninea`, `sr_fin`, `tj_tin`, `ug_tin`, `zm_tin`, and `zw_tin` on enum `TaxId.type`
+
+## 16.3.0 - 2024-11-20
+* [#1786](https://github.com/stripe/stripe-php/pull/1786) This release changes the pinned API version to `2024-11-20.acacia`.
+  * Add support for `respond` test helper method on resource `Issuing.Authorization`
+  * Add support for `adaptive_pricing` on `Checkout.Session`
+  * Add support for new value `subscribe` on enums `Checkout.Session.submit_type` and `PaymentLink.submit_type`
+  * Add support for new value `financial_account_statement` on enum `File.purpose`
+  * Add support for `fraud_challenges` and `verified_by_fraud_challenge` on `Issuing.Authorization`
+  * Add support for `trace_id` on `Payout`
+  * Add support for new value `li_vat` on enum `TaxId.type`
+  * Add support for new value `service_tax` on enum `TaxRate.tax_type`
+  * Change type of `Treasury.InboundTransfer.origin_payment_method` from `string` to `nullable(string)`
+
 ## 16.2.0 - 2024-10-29
-* [#1772](https://github.com/stripe/stripe-php/pull/1772) Update generated code
+* [#1772](https://github.com/stripe/stripe-php/pull/1772) This release changes the pinned API version to `2024-10-28.acacia`.
   * Add support for new resource `V2.EventDestinations`
   * Add support for `create`, `retrieve`, `update`, `list`, `delete`, `disable`, `enable` and `ping` methods on resource `V2.EventDestinations`
   * Add support for `submit_card` test helper method on resource `Issuing.Card`
@@ -22,7 +70,7 @@
 * [#1775](https://github.com/stripe/stripe-php/pull/1775) Deserialize into correct v2 EventData types
   * Fixes a bug where v2 EventData was not being deserialized into the appropriate type for `V1BillingMeterErrorReportTriggeredEvent` and `V1BillingMeterNoMeterFoundEvent`
 * [#1776](https://github.com/stripe/stripe-php/pull/1776) update object tags for meter-related classes
-  
+
   - fixes a bug where the `object` property of the `MeterEvent`, `MeterEventAdjustment`, and `MeterEventSession` didn't match the server.
 * [#1773](https://github.com/stripe/stripe-php/pull/1773) Clean up examples
 * [#1771](https://github.com/stripe/stripe-php/pull/1771) Renamed example file names

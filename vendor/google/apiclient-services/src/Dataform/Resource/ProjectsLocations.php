@@ -84,7 +84,11 @@ class ProjectsLocations extends \Google\Service\Resource
     return $this->call('list', [$params], ListLocationsResponse::class);
   }
   /**
-   * Update default config for a given project and location.
+   * Update default config for a given project and location. **Note:** *This
+   * method does not fully implement*, (see [AIP/134](https://google.aip.dev/134),
+   * in particular: - The wildcard entry (****) is treated as a bad request - When
+   * the **field_mask** is omitted, instead of only updating the set fields, the
+   * request is treated as a full update on all modifiable fields
    * (locations.updateConfig)
    *
    * @param string $name Identifier. The config name.

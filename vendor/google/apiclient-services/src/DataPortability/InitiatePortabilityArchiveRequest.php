@@ -21,10 +21,32 @@ class InitiatePortabilityArchiveRequest extends \Google\Collection
 {
   protected $collection_key = 'resources';
   /**
+   * @var string
+   */
+  public $endTime;
+  /**
    * @var string[]
    */
   public $resources;
+  /**
+   * @var string
+   */
+  public $startTime;
 
+  /**
+   * @param string
+   */
+  public function setEndTime($endTime)
+  {
+    $this->endTime = $endTime;
+  }
+  /**
+   * @return string
+   */
+  public function getEndTime()
+  {
+    return $this->endTime;
+  }
   /**
    * @param string[]
    */
@@ -38,6 +60,20 @@ class InitiatePortabilityArchiveRequest extends \Google\Collection
   public function getResources()
   {
     return $this->resources;
+  }
+  /**
+   * @param string
+   */
+  public function setStartTime($startTime)
+  {
+    $this->startTime = $startTime;
+  }
+  /**
+   * @return string
+   */
+  public function getStartTime()
+  {
+    return $this->startTime;
   }
 }
 

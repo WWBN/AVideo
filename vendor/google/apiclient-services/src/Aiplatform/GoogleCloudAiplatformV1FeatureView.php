@@ -51,6 +51,14 @@ class GoogleCloudAiplatformV1FeatureView extends \Google\Model
    * @var bool
    */
   public $satisfiesPzs;
+  /**
+   * @var string
+   */
+  public $serviceAccountEmail;
+  /**
+   * @var string
+   */
+  public $serviceAgentType;
   protected $syncConfigType = GoogleCloudAiplatformV1FeatureViewSyncConfig::class;
   protected $syncConfigDataType = '';
   /**
@@ -199,6 +207,34 @@ class GoogleCloudAiplatformV1FeatureView extends \Google\Model
   public function getSatisfiesPzs()
   {
     return $this->satisfiesPzs;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceAccountEmail($serviceAccountEmail)
+  {
+    $this->serviceAccountEmail = $serviceAccountEmail;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAccountEmail()
+  {
+    return $this->serviceAccountEmail;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceAgentType($serviceAgentType)
+  {
+    $this->serviceAgentType = $serviceAgentType;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAgentType()
+  {
+    return $this->serviceAgentType;
   }
   /**
    * @param GoogleCloudAiplatformV1FeatureViewSyncConfig

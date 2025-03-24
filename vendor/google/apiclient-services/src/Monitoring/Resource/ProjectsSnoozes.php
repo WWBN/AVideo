@@ -75,9 +75,9 @@ class ProjectsSnoozes extends \Google\Service\Resource
    *
    * @opt_param string filter Optional. Optional filter to restrict results to the
    * given criteria. The following fields are supported. interval.start_time
-   * interval.end_timeFor example: ``` interval.start_time >
+   * interval.end_timeFor example: interval.start_time >
    * "2022-03-11T00:00:00-08:00" AND interval.end_time <
-   * "2022-03-12T00:00:00-08:00" ```
+   * "2022-03-12T00:00:00-08:00"
    * @opt_param int pageSize Optional. The maximum number of results to return for
    * a single query. The server may further constrain the maximum number of
    * results returned in a single page. The value should be in the range 1, 1000.

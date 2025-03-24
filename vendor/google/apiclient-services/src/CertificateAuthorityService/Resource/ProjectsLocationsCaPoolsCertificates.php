@@ -43,7 +43,7 @@ class ProjectsLocationsCaPoolsCertificates extends \Google\Service\Resource
    * @opt_param string certificateId Optional. It must be unique within a location
    * and match the regular expression `[a-zA-Z0-9_-]{1,63}`. This field is
    * required when using a CertificateAuthority in the Enterprise
-   * CertificateAuthority.Tier, but is optional and its value is ignored
+   * CertificateAuthority.tier, but is optional and its value is ignored
    * otherwise.
    * @opt_param string issuingCertificateAuthorityId Optional. The resource ID of
    * the CertificateAuthority that should issue the certificate. This optional
@@ -127,8 +127,8 @@ class ProjectsLocationsCaPoolsCertificates extends \Google\Service\Resource
    * Update a Certificate. Currently, the only field you can update is the labels
    * field. (certificates.patch)
    *
-   * @param string $name Output only. The resource name for this Certificate in
-   * the format `projects/locations/caPools/certificates`.
+   * @param string $name Identifier. The resource name for this Certificate in the
+   * format `projects/locations/caPools/certificates`.
    * @param Certificate $postBody
    * @param array $optParams Optional parameters.
    *

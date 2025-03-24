@@ -37,6 +37,10 @@ class ReleaseConfig extends \Google\Collection
   /**
    * @var string
    */
+  public $internalMetadata;
+  /**
+   * @var string
+   */
   public $name;
   protected $recentScheduledReleaseRecordsType = ScheduledReleaseRecord::class;
   protected $recentScheduledReleaseRecordsDataType = 'array';
@@ -104,6 +108,20 @@ class ReleaseConfig extends \Google\Collection
   public function getGitCommitish()
   {
     return $this->gitCommitish;
+  }
+  /**
+   * @param string
+   */
+  public function setInternalMetadata($internalMetadata)
+  {
+    $this->internalMetadata = $internalMetadata;
+  }
+  /**
+   * @return string
+   */
+  public function getInternalMetadata()
+  {
+    return $this->internalMetadata;
   }
   /**
    * @param string

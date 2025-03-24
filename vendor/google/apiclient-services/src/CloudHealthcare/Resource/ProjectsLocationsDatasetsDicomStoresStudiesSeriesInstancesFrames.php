@@ -75,6 +75,10 @@ class ProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFrames extends \
    * DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/insta
    * nces/{instance_uid}/frames/{frame_list}/rendered`.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string viewport Optional. The viewport setting to use as specified
+   * in https://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_8.3.
+   * 5.html#sect_8.3.5.1.3
    * @return HttpBody
    * @throws \Google\Service\Exception
    */

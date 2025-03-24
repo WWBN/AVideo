@@ -133,7 +133,7 @@ class ProjectsLocationsStreams extends \Google\Service\Resource
   /**
    * Use this method to update the configuration of a stream. (streams.patch)
    *
-   * @param string $name Output only. The stream's name.
+   * @param string $name Output only. Identifier. The stream's name.
    * @param Stream $postBody
    * @param array $optParams Optional parameters.
    *

@@ -74,6 +74,8 @@ class Node extends \Google\Collection
   public $name;
   protected $networkConfigType = NetworkConfig::class;
   protected $networkConfigDataType = '';
+  protected $networkConfigsType = NetworkConfig::class;
+  protected $networkConfigsDataType = 'array';
   protected $networkEndpointsType = NetworkEndpoint::class;
   protected $networkEndpointsDataType = 'array';
   /**
@@ -310,6 +312,20 @@ class Node extends \Google\Collection
   public function getNetworkConfig()
   {
     return $this->networkConfig;
+  }
+  /**
+   * @param NetworkConfig[]
+   */
+  public function setNetworkConfigs($networkConfigs)
+  {
+    $this->networkConfigs = $networkConfigs;
+  }
+  /**
+   * @return NetworkConfig[]
+   */
+  public function getNetworkConfigs()
+  {
+    return $this->networkConfigs;
   }
   /**
    * @param NetworkEndpoint[]

@@ -38,6 +38,10 @@ class SapDiscoveryComponentDatabaseProperties extends \Google\Model
   /**
    * @var string
    */
+  public $landscapeId;
+  /**
+   * @var string
+   */
   public $primaryInstanceUri;
   /**
    * @var string
@@ -99,6 +103,20 @@ class SapDiscoveryComponentDatabaseProperties extends \Google\Model
   public function getInstanceNumber()
   {
     return $this->instanceNumber;
+  }
+  /**
+   * @param string
+   */
+  public function setLandscapeId($landscapeId)
+  {
+    $this->landscapeId = $landscapeId;
+  }
+  /**
+   * @return string
+   */
+  public function getLandscapeId()
+  {
+    return $this->landscapeId;
   }
   /**
    * @param string

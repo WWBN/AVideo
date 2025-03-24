@@ -71,6 +71,10 @@ class ProjectsLocationsDataScans extends \Google\Service\Resource
    * project refers to a project_id or project_number and location_id refers to a
    * GCP region.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool force Optional. If set to true, any child resources of this
+   * data scan will also be deleted. (Otherwise, the request will only work if the
+   * data scan has no child resources.)
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
@@ -181,14 +185,15 @@ class ProjectsLocationsDataScans extends \Google\Service\Resource
   /**
    * Updates a DataScan resource. (dataScans.patch)
    *
-   * @param string $name Output only. The relative resource name of the scan, of
-   * the form: projects/{project}/locations/{location_id}/dataScans/{datascan_id},
-   * where project refers to a project_id or project_number and location_id refers
-   * to a GCP region.
+   * @param string $name Output only. Identifier. The relative resource name of
+   * the scan, of the form:
+   * projects/{project}/locations/{location_id}/dataScans/{datascan_id}, where
+   * project refers to a project_id or project_number and location_id refers to a
+   * GCP region.
    * @param GoogleCloudDataplexV1DataScan $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask Required. Mask of fields to update.
+   * @opt_param string updateMask Optional. Mask of fields to update.
    * @opt_param bool validateOnly Optional. Only validate the request, but do not
    * perform mutations. The default is false.
    * @return GoogleLongrunningOperation

@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "ext-json": "*",
         "psr/http-client": "^1.0",
         "psr/http-client-implementation": "^1.0",
@@ -21,9 +21,9 @@
     },
     "require-dev": {
         "nyholm/psr7": "^1.8.1",
-        "php-cs-fixer/shim": "^v3.40.0",
-        "phpstan/phpstan": "^1.10.46",
-        "phpstan/phpstan-phpunit": "^1.3.15",
+        "php-cs-fixer/shim": "^v3.64.0",
+        "phpstan/phpstan": "^1.12.0",
+        "phpstan/phpstan-phpunit": "^1.4.0",
         "symfony/http-client": "^5.0|^6.2|^7.0",
         "symfony/phpunit-bridge": "^5.3|^6.2|^7.0"
     },

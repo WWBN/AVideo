@@ -112,13 +112,15 @@ class ProjectsLocationsNotebookRuntimes extends \Google\Service\Resource
    * [UI_RESOURCE_STATE_UNSPECIFIED, UI_RESOURCE_STATE_BEING_CREATED,
    * UI_RESOURCE_STATE_ACTIVE, UI_RESOURCE_STATE_BEING_DELETED,
    * UI_RESOURCE_STATE_CREATION_FAILED]. * `notebookRuntimeType` supports = and
-   * !=. notebookRuntimeType enum: [USER_DEFINED, ONE_CLICK]. Some examples: *
+   * !=. notebookRuntimeType enum: [USER_DEFINED, ONE_CLICK]. * `machineType`
+   * supports = and !=. * `acceleratorType` supports = and !=. Some examples: *
    * `notebookRuntime="notebookRuntime123"` * `displayName="myDisplayName"` and
    * `displayName=~"myDisplayNameRegex"` *
    * `notebookRuntimeTemplate="notebookRuntimeTemplate321"` *
    * `healthState=HEALTHY` * `runtimeState=RUNNING` *
    * `runtimeUser="test@google.com"` * `uiState=UI_RESOURCE_STATE_BEING_DELETED` *
-   * `notebookRuntimeType=USER_DEFINED`
+   * `notebookRuntimeType=USER_DEFINED` * `machineType=e2-standard-4` *
+   * `acceleratorType=NVIDIA_TESLA_T4`
    * @opt_param string orderBy Optional. A comma-separated list of fields to order
    * by, sorted in ascending order. Use "desc" after a field name for descending.
    * Supported fields: * `display_name` * `create_time` * `update_time` Example:

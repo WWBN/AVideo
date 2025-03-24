@@ -89,6 +89,10 @@ class GoogleCloudDiscoveryengineV1betaSearchRequest extends \Google\Collection
   /**
    * @var string
    */
+  public $rankingExpressionBackend;
+  /**
+   * @var string
+   */
   public $regionCode;
   /**
    * @var string
@@ -416,6 +420,20 @@ class GoogleCloudDiscoveryengineV1betaSearchRequest extends \Google\Collection
   public function getRankingExpression()
   {
     return $this->rankingExpression;
+  }
+  /**
+   * @param string
+   */
+  public function setRankingExpressionBackend($rankingExpressionBackend)
+  {
+    $this->rankingExpressionBackend = $rankingExpressionBackend;
+  }
+  /**
+   * @return string
+   */
+  public function getRankingExpressionBackend()
+  {
+    return $this->rankingExpressionBackend;
   }
   /**
    * @param string

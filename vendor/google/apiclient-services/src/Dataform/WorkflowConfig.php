@@ -28,6 +28,10 @@ class WorkflowConfig extends \Google\Collection
    * @var string
    */
   public $cronSchedule;
+  /**
+   * @var string
+   */
+  public $internalMetadata;
   protected $invocationConfigType = InvocationConfig::class;
   protected $invocationConfigDataType = '';
   /**
@@ -76,6 +80,20 @@ class WorkflowConfig extends \Google\Collection
   public function getCronSchedule()
   {
     return $this->cronSchedule;
+  }
+  /**
+   * @param string
+   */
+  public function setInternalMetadata($internalMetadata)
+  {
+    $this->internalMetadata = $internalMetadata;
+  }
+  /**
+   * @return string
+   */
+  public function getInternalMetadata()
+  {
+    return $this->internalMetadata;
   }
   /**
    * @param InvocationConfig

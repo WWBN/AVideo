@@ -39,9 +39,12 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
    * used only by the Discovery Engine API JavaScript pixel and Google Tag
    * Manager. Users should not call this method directly. (userEvents.collect)
    *
-   * @param string $parent Required. The parent DataStore resource name, such as `
-   * projects/{project}/locations/{location}/collections/{collection}/dataStores/{
-   * data_store}`.
+   * @param string $parent Required. The parent resource name. If the collect user
+   * event action is applied in DataStore level, the format is: `projects/{project
+   * }/locations/{location}/collections/{collection}/dataStores/{data_store}`. If
+   * the collect user event action is applied in Location level, for example, the
+   * event with Document across multiple DataStore, the format is:
+   * `projects/{project}/locations/{location}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string ets The event timestamp in milliseconds. This prevents

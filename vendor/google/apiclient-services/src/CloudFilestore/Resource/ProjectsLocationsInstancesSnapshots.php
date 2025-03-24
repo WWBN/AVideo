@@ -100,6 +100,8 @@ class ProjectsLocationsInstancesSnapshots extends \Google\Service\Resource
    * @opt_param int pageSize The maximum number of items to return.
    * @opt_param string pageToken The next_page_token value to use if there are
    * additional results to retrieve for this list request.
+   * @opt_param bool returnPartialSuccess Optional. If true, allow partial
+   * responses for multi-regional Aggregated List requests.
    * @return ListSnapshotsResponse
    * @throws \Google\Service\Exception
    */

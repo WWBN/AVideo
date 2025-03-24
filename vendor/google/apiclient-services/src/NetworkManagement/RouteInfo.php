@@ -47,6 +47,10 @@ class RouteInfo extends \Google\Collection
   /**
    * @var string
    */
+  public $nccHubRouteUri;
+  /**
+   * @var string
+   */
   public $nccHubUri;
   /**
    * @var string
@@ -63,7 +67,23 @@ class RouteInfo extends \Google\Collection
   /**
    * @var string
    */
+  public $nextHopNetworkUri;
+  /**
+   * @var string
+   */
   public $nextHopType;
+  /**
+   * @var string
+   */
+  public $nextHopUri;
+  /**
+   * @var string
+   */
+  public $originatingRouteDisplayName;
+  /**
+   * @var string
+   */
+  public $originatingRouteUri;
   /**
    * @var int
    */
@@ -184,6 +204,20 @@ class RouteInfo extends \Google\Collection
   /**
    * @param string
    */
+  public function setNccHubRouteUri($nccHubRouteUri)
+  {
+    $this->nccHubRouteUri = $nccHubRouteUri;
+  }
+  /**
+   * @return string
+   */
+  public function getNccHubRouteUri()
+  {
+    return $this->nccHubRouteUri;
+  }
+  /**
+   * @param string
+   */
   public function setNccHubUri($nccHubUri)
   {
     $this->nccHubUri = $nccHubUri;
@@ -240,6 +274,20 @@ class RouteInfo extends \Google\Collection
   /**
    * @param string
    */
+  public function setNextHopNetworkUri($nextHopNetworkUri)
+  {
+    $this->nextHopNetworkUri = $nextHopNetworkUri;
+  }
+  /**
+   * @return string
+   */
+  public function getNextHopNetworkUri()
+  {
+    return $this->nextHopNetworkUri;
+  }
+  /**
+   * @param string
+   */
   public function setNextHopType($nextHopType)
   {
     $this->nextHopType = $nextHopType;
@@ -250,6 +298,48 @@ class RouteInfo extends \Google\Collection
   public function getNextHopType()
   {
     return $this->nextHopType;
+  }
+  /**
+   * @param string
+   */
+  public function setNextHopUri($nextHopUri)
+  {
+    $this->nextHopUri = $nextHopUri;
+  }
+  /**
+   * @return string
+   */
+  public function getNextHopUri()
+  {
+    return $this->nextHopUri;
+  }
+  /**
+   * @param string
+   */
+  public function setOriginatingRouteDisplayName($originatingRouteDisplayName)
+  {
+    $this->originatingRouteDisplayName = $originatingRouteDisplayName;
+  }
+  /**
+   * @return string
+   */
+  public function getOriginatingRouteDisplayName()
+  {
+    return $this->originatingRouteDisplayName;
+  }
+  /**
+   * @param string
+   */
+  public function setOriginatingRouteUri($originatingRouteUri)
+  {
+    $this->originatingRouteUri = $originatingRouteUri;
+  }
+  /**
+   * @return string
+   */
+  public function getOriginatingRouteUri()
+  {
+    return $this->originatingRouteUri;
   }
   /**
    * @param int

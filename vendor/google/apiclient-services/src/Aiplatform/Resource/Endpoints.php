@@ -23,6 +23,8 @@ use Google\Service\Aiplatform\GoogleCloudAiplatformV1CountTokensRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1CountTokensResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1GenerateContentRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1GenerateContentResponse;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1PredictRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1PredictResponse;
 
 /**
  * The "endpoints" collection of methods.
@@ -85,6 +87,23 @@ class Endpoints extends \Google\Service\Resource
     $params = ['model' => $model, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('generateContent', [$params], GoogleCloudAiplatformV1GenerateContentResponse::class);
+  }
+  /**
+   * Perform an online prediction. (endpoints.predict)
+   *
+   * @param string $endpoint Required. The name of the Endpoint requested to serve
+   * the prediction. Format:
+   * `projects/{project}/locations/{location}/endpoints/{endpoint}`
+   * @param GoogleCloudAiplatformV1PredictRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAiplatformV1PredictResponse
+   * @throws \Google\Service\Exception
+   */
+  public function predict($endpoint, GoogleCloudAiplatformV1PredictRequest $postBody, $optParams = [])
+  {
+    $params = ['endpoint' => $endpoint, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('predict', [$params], GoogleCloudAiplatformV1PredictResponse::class);
   }
   /**
    * Generate content with multimodal inputs with streaming support.

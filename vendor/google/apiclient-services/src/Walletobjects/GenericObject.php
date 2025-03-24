@@ -62,6 +62,8 @@ class GenericObject extends \Google\Collection
   protected $linksModuleDataDataType = '';
   protected $logoType = Image::class;
   protected $logoDataType = '';
+  protected $merchantLocationsType = MerchantLocation::class;
+  protected $merchantLocationsDataType = 'array';
   protected $messagesType = Message::class;
   protected $messagesDataType = 'array';
   protected $notificationsType = Notifications::class;
@@ -300,6 +302,20 @@ class GenericObject extends \Google\Collection
   public function getLogo()
   {
     return $this->logo;
+  }
+  /**
+   * @param MerchantLocation[]
+   */
+  public function setMerchantLocations($merchantLocations)
+  {
+    $this->merchantLocations = $merchantLocations;
+  }
+  /**
+   * @return MerchantLocation[]
+   */
+  public function getMerchantLocations()
+  {
+    return $this->merchantLocations;
   }
   /**
    * @param Message[]

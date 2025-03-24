@@ -19,9 +19,25 @@ namespace Google\Service\CloudRedis;
 
 class ConnectionDetail extends \Google\Model
 {
+  protected $pscAutoConnectionType = PscAutoConnection::class;
+  protected $pscAutoConnectionDataType = '';
   protected $pscConnectionType = PscConnection::class;
   protected $pscConnectionDataType = '';
 
+  /**
+   * @param PscAutoConnection
+   */
+  public function setPscAutoConnection(PscAutoConnection $pscAutoConnection)
+  {
+    $this->pscAutoConnection = $pscAutoConnection;
+  }
+  /**
+   * @return PscAutoConnection
+   */
+  public function getPscAutoConnection()
+  {
+    return $this->pscAutoConnection;
+  }
   /**
    * @param PscConnection
    */

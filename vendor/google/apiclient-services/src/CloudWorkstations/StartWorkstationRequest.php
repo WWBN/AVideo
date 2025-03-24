@@ -22,12 +22,30 @@ class StartWorkstationRequest extends \Google\Model
   /**
    * @var string
    */
+  public $boostConfig;
+  /**
+   * @var string
+   */
   public $etag;
   /**
    * @var bool
    */
   public $validateOnly;
 
+  /**
+   * @param string
+   */
+  public function setBoostConfig($boostConfig)
+  {
+    $this->boostConfig = $boostConfig;
+  }
+  /**
+   * @return string
+   */
+  public function getBoostConfig()
+  {
+    return $this->boostConfig;
+  }
   /**
    * @param string
    */

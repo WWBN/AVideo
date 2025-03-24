@@ -78,6 +78,10 @@ class Application extends \Google\Collection
    * @var string
    */
   public $servingStatus;
+  /**
+   * @var string
+   */
+  public $sslPolicy;
 
   /**
    * @param string
@@ -302,6 +306,20 @@ class Application extends \Google\Collection
   public function getServingStatus()
   {
     return $this->servingStatus;
+  }
+  /**
+   * @param string
+   */
+  public function setSslPolicy($sslPolicy)
+  {
+    $this->sslPolicy = $sslPolicy;
+  }
+  /**
+   * @return string
+   */
+  public function getSslPolicy()
+  {
+    return $this->sslPolicy;
   }
 }
 

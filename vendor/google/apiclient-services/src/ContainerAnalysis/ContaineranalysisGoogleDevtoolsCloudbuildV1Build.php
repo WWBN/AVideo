@@ -34,6 +34,8 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Build extends \Google\Collectio
    * @var string
    */
   public $createTime;
+  protected $dependenciesType = ContaineranalysisGoogleDevtoolsCloudbuildV1Dependency::class;
+  protected $dependenciesDataType = 'array';
   protected $failureInfoType = ContaineranalysisGoogleDevtoolsCloudbuildV1BuildFailureInfo::class;
   protected $failureInfoDataType = '';
   /**
@@ -184,6 +186,20 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Build extends \Google\Collectio
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1Dependency[]
+   */
+  public function setDependencies($dependencies)
+  {
+    $this->dependencies = $dependencies;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1Dependency[]
+   */
+  public function getDependencies()
+  {
+    return $this->dependencies;
   }
   /**
    * @param ContaineranalysisGoogleDevtoolsCloudbuildV1BuildFailureInfo

@@ -23,6 +23,7 @@ use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1RecommendRequest;
 use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1RecommendResponse;
 use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1SearchRequest;
 use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1SearchResponse;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1ServingConfig;
 
 /**
  * The "servingConfigs" collection of methods.
@@ -53,6 +54,28 @@ class ProjectsLocationsDataStoresServingConfigs extends \Google\Service\Resource
     $params = ['servingConfig' => $servingConfig, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('answer', [$params], GoogleCloudDiscoveryengineV1AnswerQueryResponse::class);
+  }
+  /**
+   * Updates a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does
+   * not exist. (servingConfigs.patch)
+   *
+   * @param string $name Immutable. Fully qualified name `projects/{project}/locat
+   * ions/{location}/collections/{collection_id}/engines/{engine_id}/servingConfig
+   * s/{serving_config_id}`
+   * @param GoogleCloudDiscoveryengineV1ServingConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Indicates which fields in the provided
+   * ServingConfig to update. The following are NOT supported: *
+   * ServingConfig.name If not set, all supported fields are updated.
+   * @return GoogleCloudDiscoveryengineV1ServingConfig
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudDiscoveryengineV1ServingConfig $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudDiscoveryengineV1ServingConfig::class);
   }
   /**
    * Makes a recommendation, which requires a contextual user event.
@@ -124,6 +147,28 @@ class ProjectsLocationsDataStoresServingConfigs extends \Google\Service\Resource
     $params = ['servingConfig' => $servingConfig, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('searchLite', [$params], GoogleCloudDiscoveryengineV1SearchResponse::class);
+  }
+  /**
+   * Answer query method (streaming). It takes one AnswerQueryRequest and returns
+   * multiple AnswerQueryResponse messages in a stream.
+   * (servingConfigs.streamAnswer)
+   *
+   * @param string $servingConfig Required. The resource name of the Search
+   * serving config, such as `projects/locations/global/collections/default_collec
+   * tion/engines/servingConfigs/default_serving_config`, or `projects/locations/g
+   * lobal/collections/default_collection/dataStores/servingConfigs/default_servin
+   * g_config`. This field is used to identify the serving configuration name, set
+   * of models used to make the search.
+   * @param GoogleCloudDiscoveryengineV1AnswerQueryRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDiscoveryengineV1AnswerQueryResponse
+   * @throws \Google\Service\Exception
+   */
+  public function streamAnswer($servingConfig, GoogleCloudDiscoveryengineV1AnswerQueryRequest $postBody, $optParams = [])
+  {
+    $params = ['servingConfig' => $servingConfig, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('streamAnswer', [$params], GoogleCloudDiscoveryengineV1AnswerQueryResponse::class);
   }
 }
 

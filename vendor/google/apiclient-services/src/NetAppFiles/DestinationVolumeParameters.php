@@ -31,6 +31,8 @@ class DestinationVolumeParameters extends \Google\Model
    * @var string
    */
   public $storagePool;
+  protected $tieringPolicyType = TieringPolicy::class;
+  protected $tieringPolicyDataType = '';
   /**
    * @var string
    */
@@ -77,6 +79,20 @@ class DestinationVolumeParameters extends \Google\Model
   public function getStoragePool()
   {
     return $this->storagePool;
+  }
+  /**
+   * @param TieringPolicy
+   */
+  public function setTieringPolicy(TieringPolicy $tieringPolicy)
+  {
+    $this->tieringPolicy = $tieringPolicy;
+  }
+  /**
+   * @return TieringPolicy
+   */
+  public function getTieringPolicy()
+  {
+    return $this->tieringPolicy;
   }
   /**
    * @param string

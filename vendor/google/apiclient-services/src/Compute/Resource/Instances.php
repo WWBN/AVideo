@@ -467,7 +467,9 @@ class Instances extends \Google\Service\Resource
    * returned as the `start` property value. You can also provide a negative start
    * position, which translates to the most recent number of bytes written to the
    * serial port. For example, -3 is interpreted as the most recent 3 bytes
-   * written to the serial console.
+   * written to the serial console. Note that the negative start is bounded by the
+   * retained buffer size, and the returned serial console output will not exceed
+   * the max buffer size.
    * @return SerialPortOutput
    * @throws \Google\Service\Exception
    */

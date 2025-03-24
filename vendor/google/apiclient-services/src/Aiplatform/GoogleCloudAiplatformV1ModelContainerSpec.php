@@ -46,6 +46,8 @@ class GoogleCloudAiplatformV1ModelContainerSpec extends \Google\Collection
    * @var string
    */
   public $imageUri;
+  protected $livenessProbeType = GoogleCloudAiplatformV1Probe::class;
+  protected $livenessProbeDataType = '';
   protected $portsType = GoogleCloudAiplatformV1Port::class;
   protected $portsDataType = 'array';
   /**
@@ -170,6 +172,20 @@ class GoogleCloudAiplatformV1ModelContainerSpec extends \Google\Collection
   public function getImageUri()
   {
     return $this->imageUri;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1Probe
+   */
+  public function setLivenessProbe(GoogleCloudAiplatformV1Probe $livenessProbe)
+  {
+    $this->livenessProbe = $livenessProbe;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1Probe
+   */
+  public function getLivenessProbe()
+  {
+    return $this->livenessProbe;
   }
   /**
    * @param GoogleCloudAiplatformV1Port[]

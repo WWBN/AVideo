@@ -44,6 +44,8 @@ class Execution extends \Google\Collection
   public $name;
   protected $noticesType = Notice::class;
   protected $noticesDataType = 'array';
+  protected $resultSummaryType = Summary::class;
+  protected $resultSummaryDataType = '';
   protected $ruleResultsType = RuleExecutionResult::class;
   protected $ruleResultsDataType = 'array';
   /**
@@ -156,6 +158,20 @@ class Execution extends \Google\Collection
   public function getNotices()
   {
     return $this->notices;
+  }
+  /**
+   * @param Summary
+   */
+  public function setResultSummary(Summary $resultSummary)
+  {
+    $this->resultSummary = $resultSummary;
+  }
+  /**
+   * @return Summary
+   */
+  public function getResultSummary()
+  {
+    return $this->resultSummary;
   }
   /**
    * @param RuleExecutionResult[]

@@ -28,7 +28,6 @@ class GoogleCloudContactcenterinsightsV1alpha1QaAnswer extends \Google\Collectio
    * @var string
    */
   public $conversation;
-  public $potentialScore;
   /**
    * @var string
    */
@@ -83,14 +82,6 @@ class GoogleCloudContactcenterinsightsV1alpha1QaAnswer extends \Google\Collectio
   public function getConversation()
   {
     return $this->conversation;
-  }
-  public function setPotentialScore($potentialScore)
-  {
-    $this->potentialScore = $potentialScore;
-  }
-  public function getPotentialScore()
-  {
-    return $this->potentialScore;
   }
   /**
    * @param string

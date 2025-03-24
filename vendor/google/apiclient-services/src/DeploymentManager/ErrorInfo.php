@@ -26,7 +26,7 @@ class ErrorInfo extends \Google\Model
   /**
    * @var string[]
    */
-  public $metadata;
+  public $metadatas;
   /**
    * @var string
    */
@@ -49,16 +49,16 @@ class ErrorInfo extends \Google\Model
   /**
    * @param string[]
    */
-  public function setMetadata($metadata)
+  public function setMetadatas($metadatas)
   {
-    $this->metadata = $metadata;
+    $this->metadatas = $metadatas;
   }
   /**
    * @return string[]
    */
-  public function getMetadata()
+  public function getMetadatas()
   {
-    return $this->metadata;
+    return $this->metadatas;
   }
   /**
    * @param string

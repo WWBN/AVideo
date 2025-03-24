@@ -42,6 +42,8 @@ class ExportContext extends \Google\Collection
   public $offload;
   protected $sqlExportOptionsType = ExportContextSqlExportOptions::class;
   protected $sqlExportOptionsDataType = '';
+  protected $tdeExportOptionsType = ExportContextTdeExportOptions::class;
+  protected $tdeExportOptionsDataType = '';
   /**
    * @var string
    */
@@ -144,6 +146,20 @@ class ExportContext extends \Google\Collection
   public function getSqlExportOptions()
   {
     return $this->sqlExportOptions;
+  }
+  /**
+   * @param ExportContextTdeExportOptions
+   */
+  public function setTdeExportOptions(ExportContextTdeExportOptions $tdeExportOptions)
+  {
+    $this->tdeExportOptions = $tdeExportOptions;
+  }
+  /**
+   * @return ExportContextTdeExportOptions
+   */
+  public function getTdeExportOptions()
+  {
+    return $this->tdeExportOptions;
   }
   /**
    * @param string

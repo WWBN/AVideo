@@ -19,7 +19,7 @@ namespace Google\Service\DLP;
 
 class GooglePrivacyDlpV2FileStoreDataProfile extends \Google\Collection
 {
-  protected $collection_key = 'fileStoreInfoTypeSummaries';
+  protected $collection_key = 'relatedResources';
   protected $configSnapshotType = GooglePrivacyDlpV2DataProfileConfigSnapshot::class;
   protected $configSnapshotDataType = '';
   /**
@@ -80,6 +80,8 @@ class GooglePrivacyDlpV2FileStoreDataProfile extends \Google\Collection
    * @var string
    */
   public $projectId;
+  protected $relatedResourcesType = GooglePrivacyDlpV2RelatedResource::class;
+  protected $relatedResourcesDataType = 'array';
   protected $resourceAttributesType = GooglePrivacyDlpV2Value::class;
   protected $resourceAttributesDataType = 'map';
   /**
@@ -348,6 +350,20 @@ class GooglePrivacyDlpV2FileStoreDataProfile extends \Google\Collection
   public function getProjectId()
   {
     return $this->projectId;
+  }
+  /**
+   * @param GooglePrivacyDlpV2RelatedResource[]
+   */
+  public function setRelatedResources($relatedResources)
+  {
+    $this->relatedResources = $relatedResources;
+  }
+  /**
+   * @return GooglePrivacyDlpV2RelatedResource[]
+   */
+  public function getRelatedResources()
+  {
+    return $this->relatedResources;
   }
   /**
    * @param GooglePrivacyDlpV2Value[]

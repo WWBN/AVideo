@@ -80,22 +80,22 @@ class HangoutsChat extends \Google\Service
   /** View members in Google Chat conversations.. */
   const CHAT_MEMBERSHIPS_READONLY =
       "https://www.googleapis.com/auth/chat.memberships.readonly";
-  /** See, compose, send, update, and delete messages and their associated attachments, and add, see, and delete reactions to messages.. */
+  /** See, compose, send, update, and delete messages as well as their message content; add, see, and delete reactions to messages.. */
   const CHAT_MESSAGES =
       "https://www.googleapis.com/auth/chat.messages";
   /** Compose and send messages in Google Chat. */
   const CHAT_MESSAGES_CREATE =
       "https://www.googleapis.com/auth/chat.messages.create";
-  /** See, add, and delete reactions to messages in Google Chat. */
+  /** See, add, and delete reactions as well as their reaction content to messages in Google Chat. */
   const CHAT_MESSAGES_REACTIONS =
       "https://www.googleapis.com/auth/chat.messages.reactions";
   /** Add reactions to messages in Google Chat. */
   const CHAT_MESSAGES_REACTIONS_CREATE =
       "https://www.googleapis.com/auth/chat.messages.reactions.create";
-  /** View reactions to messages in Google Chat. */
+  /** View reactions as well as their reaction content to messages in Google Chat. */
   const CHAT_MESSAGES_REACTIONS_READONLY =
       "https://www.googleapis.com/auth/chat.messages.reactions.readonly";
-  /** See messages and their associated reactions and attachments in Google Chat. */
+  /** See messages as well as their reactions and message content in Google Chat. */
   const CHAT_MESSAGES_READONLY =
       "https://www.googleapis.com/auth/chat.messages.readonly";
   /** Create conversations and spaces and see or update metadata (including history settings and access settings) in Google Chat. */

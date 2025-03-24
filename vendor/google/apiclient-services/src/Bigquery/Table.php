@@ -80,6 +80,10 @@ class Table extends \Google\Collection
    * @var string
    */
   public $location;
+  /**
+   * @var string
+   */
+  public $managedTableType;
   protected $materializedViewType = MaterializedViewDefinition::class;
   protected $materializedViewDataType = '';
   protected $materializedViewStatusType = MaterializedViewStatus::class;
@@ -434,6 +438,20 @@ class Table extends \Google\Collection
   public function getLocation()
   {
     return $this->location;
+  }
+  /**
+   * @param string
+   */
+  public function setManagedTableType($managedTableType)
+  {
+    $this->managedTableType = $managedTableType;
+  }
+  /**
+   * @return string
+   */
+  public function getManagedTableType()
+  {
+    return $this->managedTableType;
   }
   /**
    * @param MaterializedViewDefinition

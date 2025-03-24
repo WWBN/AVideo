@@ -182,6 +182,15 @@ class Instances extends \Google\Service\Resource
    * @param string $instance Cloud SQL instance ID. This does not include the
    * project ID.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool enableFinalBackup Flag to opt-in for final backup. By
+   * default, it is turned off.
+   * @opt_param string finalBackupDescription Optional. The description of the
+   * final backup.
+   * @opt_param string finalBackupExpiryTime Optional. Final Backup expiration
+   * time. Timestamp in UTC of when this resource is considered expired.
+   * @opt_param string finalBackupTtlDays Optional. Retention period of the final
+   * backup.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -396,12 +405,12 @@ class Instances extends \Google\Service\Resource
    * @param string $instance Cloud SQL read replica instance name.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool failover Set to true to invoke a replica failover to the
-   * designated DR replica. As part of replica failover, the promote operation
-   * attempts to add the original primary instance as a replica of the promoted DR
-   * replica when the original primary instance comes back online. If set to false
-   * or not specified, then the original primary instance becomes an independent
-   * Cloud SQL primary instance. Only applicable to MySQL.
+   * @opt_param bool failover Set to true to invoke a replica failover to the DR
+   * replica. As part of replica failover, the promote operation attempts to add
+   * the original primary instance as a replica of the promoted DR replica when
+   * the original primary instance comes back online. If set to false or not
+   * specified, then the original primary instance becomes an independent Cloud
+   * SQL primary instance.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -551,16 +560,17 @@ class Instances extends \Google\Service\Resource
     return $this->call('stopReplica', [$params], Operation::class);
   }
   /**
-   * Switches over from the primary instance to the designated DR replica
-   * instance. (instances.switchover)
+   * Switches over from the primary instance to the DR replica instance.
+   * (instances.switchover)
    *
    * @param string $project ID of the project that contains the replica.
    * @param string $instance Cloud SQL read replica instance name.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string dbTimeout Optional. (MySQL only) Cloud SQL instance
-   * operations timeout, which is a sum of all database operations. Default value
-   * is 10 minutes and can be modified to a maximum value of 24 hours.
+   * @opt_param string dbTimeout Optional. (MySQL and PostgreSQL only) Cloud SQL
+   * instance operations timeout, which is a sum of all database operations.
+   * Default value is 10 minutes and can be modified to a maximum value of 24
+   * hours.
    * @return Operation
    * @throws \Google\Service\Exception
    */

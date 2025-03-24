@@ -33,6 +33,10 @@ class GoogleCloudAiplatformV1DedicatedResources extends \Google\Collection
    */
   public $minReplicaCount;
   /**
+   * @var int
+   */
+  public $requiredReplicaCount;
+  /**
    * @var bool
    */
   public $spot;
@@ -92,6 +96,20 @@ class GoogleCloudAiplatformV1DedicatedResources extends \Google\Collection
   public function getMinReplicaCount()
   {
     return $this->minReplicaCount;
+  }
+  /**
+   * @param int
+   */
+  public function setRequiredReplicaCount($requiredReplicaCount)
+  {
+    $this->requiredReplicaCount = $requiredReplicaCount;
+  }
+  /**
+   * @return int
+   */
+  public function getRequiredReplicaCount()
+  {
+    return $this->requiredReplicaCount;
   }
   /**
    * @param bool

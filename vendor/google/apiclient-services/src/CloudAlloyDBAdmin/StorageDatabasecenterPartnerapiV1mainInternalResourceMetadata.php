@@ -23,6 +23,10 @@ class StorageDatabasecenterPartnerapiV1mainInternalResourceMetadata extends \Goo
   protected $backupConfigurationDataType = '';
   protected $backupRunType = StorageDatabasecenterPartnerapiV1mainBackupRun::class;
   protected $backupRunDataType = '';
+  /**
+   * @var bool
+   */
+  public $isDeletionProtectionEnabled;
   protected $productType = StorageDatabasecenterProtoCommonProduct::class;
   protected $productDataType = '';
   protected $resourceIdType = StorageDatabasecenterPartnerapiV1mainDatabaseResourceId::class;
@@ -59,6 +63,20 @@ class StorageDatabasecenterPartnerapiV1mainInternalResourceMetadata extends \Goo
   public function getBackupRun()
   {
     return $this->backupRun;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsDeletionProtectionEnabled($isDeletionProtectionEnabled)
+  {
+    $this->isDeletionProtectionEnabled = $isDeletionProtectionEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsDeletionProtectionEnabled()
+  {
+    return $this->isDeletionProtectionEnabled;
   }
   /**
    * @param StorageDatabasecenterProtoCommonProduct

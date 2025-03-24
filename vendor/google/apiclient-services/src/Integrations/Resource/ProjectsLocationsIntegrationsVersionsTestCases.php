@@ -20,6 +20,8 @@ namespace Google\Service\Integrations\Resource;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteTestCaseRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListTestCaseExecutionsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListTestCasesResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaTakeoverTestCaseEditLockRequest;
@@ -89,6 +91,23 @@ class ProjectsLocationsIntegrationsVersionsTestCases extends \Google\Service\Res
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('download', [$params], GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse::class);
+  }
+  /**
+   * Executes all test cases in an integration version. (testCases.execute)
+   *
+   * @param string $parent Required. The parent resource whose test cases are
+   * executed. Format: projects/{project}/locations/{location}/integrations/{integ
+   * ration}/versions/{integration_version}
+   * @param GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function execute($parent, GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('execute', [$params], GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse::class);
   }
   /**
    * Executes functional test (testCases.executeTest)

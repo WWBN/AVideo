@@ -23,6 +23,8 @@ class GrafeasV1FileLocation extends \Google\Model
    * @var string
    */
   public $filePath;
+  protected $layerDetailsType = GrafeasV1LayerDetails::class;
+  protected $layerDetailsDataType = '';
 
   /**
    * @param string
@@ -37,6 +39,20 @@ class GrafeasV1FileLocation extends \Google\Model
   public function getFilePath()
   {
     return $this->filePath;
+  }
+  /**
+   * @param GrafeasV1LayerDetails
+   */
+  public function setLayerDetails(GrafeasV1LayerDetails $layerDetails)
+  {
+    $this->layerDetails = $layerDetails;
+  }
+  /**
+   * @return GrafeasV1LayerDetails
+   */
+  public function getLayerDetails()
+  {
+    return $this->layerDetails;
   }
 }
 

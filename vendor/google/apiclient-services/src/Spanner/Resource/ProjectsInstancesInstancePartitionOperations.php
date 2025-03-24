@@ -74,7 +74,8 @@ class ProjectsInstancesInstancePartitionOperations extends \Google\Service\Resou
    * @opt_param string instancePartitionDeadline Optional. Deadline used while
    * retrieving metadata for instance partition operations. Instance partitions
    * whose operation metadata cannot be retrieved within this deadline will be
-   * added to unreachable in ListInstancePartitionOperationsResponse.
+   * added to unreachable_instance_partitions in
+   * ListInstancePartitionOperationsResponse.
    * @opt_param int pageSize Optional. Number of operations to be returned in the
    * response. If 0 or less, defaults to the server's maximum allowed page size.
    * @opt_param string pageToken Optional. If non-empty, `page_token` should

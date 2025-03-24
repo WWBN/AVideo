@@ -192,7 +192,9 @@ class Accounts extends \Google\Service\Resource
   }
   /**
    * Searches through all changes to an account or its children given the
-   * specified set of filters. (accounts.searchChangeHistoryEvents)
+   * specified set of filters. Only returns the subset of changes supported by the
+   * API. The UI may return additional changes.
+   * (accounts.searchChangeHistoryEvents)
    *
    * @param string $account Required. The account resource for which to return
    * change history resources. Format: accounts/{account} Example: `accounts/100`

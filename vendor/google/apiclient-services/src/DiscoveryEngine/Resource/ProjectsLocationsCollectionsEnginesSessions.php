@@ -73,6 +73,9 @@ class ProjectsLocationsCollectionsEnginesSessions extends \Google\Service\Resour
    * Format: `projects/{project}/locations/{location}/collections/{collection}/dat
    * aStores/{data_store_id}/sessions/{session_id}`
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool includeAnswerDetails Optional. If set to true, the full
+   * session including all answer details will be returned.
    * @return GoogleCloudDiscoveryengineV1Session
    * @throws \Google\Service\Exception
    */
@@ -95,8 +98,10 @@ class ProjectsLocationsCollectionsEnginesSessions extends \Google\Service\Resour
    * features are: user_pseudo_id, state. Example: "user_pseudo_id = some_id"
    * @opt_param string orderBy A comma-separated list of fields to order by,
    * sorted in ascending order. Use "desc" after a field name for descending.
-   * Supported fields: * `update_time` * `create_time` * `session_name` Example:
-   * "update_time desc" "create_time"
+   * Supported fields: * `update_time` * `create_time` * `session_name` *
+   * `is_pinned` Example: * "update_time desc" * "create_time" * "is_pinned
+   * desc,update_time desc": list sessions by is_pinned first, then by
+   * update_time.
    * @opt_param int pageSize Maximum number of results to return. If unspecified,
    * defaults to 50. Max allowed value is 1000.
    * @opt_param string pageToken A page token, received from a previous

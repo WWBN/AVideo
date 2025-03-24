@@ -17,9 +17,11 @@
 
 namespace Google\Service\Bigquery\Resource;
 
+use Google\Service\Bigquery\BatchDeleteRowAccessPoliciesRequest;
 use Google\Service\Bigquery\GetIamPolicyRequest;
 use Google\Service\Bigquery\ListRowAccessPoliciesResponse;
 use Google\Service\Bigquery\Policy;
+use Google\Service\Bigquery\RowAccessPolicy;
 use Google\Service\Bigquery\TestIamPermissionsRequest;
 use Google\Service\Bigquery\TestIamPermissionsResponse;
 
@@ -33,6 +35,68 @@ use Google\Service\Bigquery\TestIamPermissionsResponse;
  */
 class RowAccessPolicies extends \Google\Service\Resource
 {
+  /**
+   * Deletes provided row access policies. (rowAccessPolicies.batchDelete)
+   *
+   * @param string $projectId Required. Project ID of the table to delete the row
+   * access policies.
+   * @param string $datasetId Required. Dataset ID of the table to delete the row
+   * access policies.
+   * @param string $tableId Required. Table ID of the table to delete the row
+   * access policies.
+   * @param BatchDeleteRowAccessPoliciesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
+   */
+  public function batchDelete($projectId, $datasetId, $tableId, BatchDeleteRowAccessPoliciesRequest $postBody, $optParams = [])
+  {
+    $params = ['projectId' => $projectId, 'datasetId' => $datasetId, 'tableId' => $tableId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchDelete', [$params]);
+  }
+  /**
+   * Deletes a row access policy. (rowAccessPolicies.delete)
+   *
+   * @param string $projectId Required. Project ID of the table to delete the row
+   * access policy.
+   * @param string $datasetId Required. Dataset ID of the table to delete the row
+   * access policy.
+   * @param string $tableId Required. Table ID of the table to delete the row
+   * access policy.
+   * @param string $policyId Required. Policy ID of the row access policy.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool force If set to true, it deletes the row access policy even
+   * if it's the last row access policy on the table and the deletion will widen
+   * the access rather narrowing it.
+   * @throws \Google\Service\Exception
+   */
+  public function delete($projectId, $datasetId, $tableId, $policyId, $optParams = [])
+  {
+    $params = ['projectId' => $projectId, 'datasetId' => $datasetId, 'tableId' => $tableId, 'policyId' => $policyId];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params]);
+  }
+  /**
+   * Gets the specified row access policy by policy ID. (rowAccessPolicies.get)
+   *
+   * @param string $projectId Required. Project ID of the table to get the row
+   * access policy.
+   * @param string $datasetId Required. Dataset ID of the table to get the row
+   * access policy.
+   * @param string $tableId Required. Table ID of the table to get the row access
+   * policy.
+   * @param string $policyId Required. Policy ID of the row access policy.
+   * @param array $optParams Optional parameters.
+   * @return RowAccessPolicy
+   * @throws \Google\Service\Exception
+   */
+  public function get($projectId, $datasetId, $tableId, $policyId, $optParams = [])
+  {
+    $params = ['projectId' => $projectId, 'datasetId' => $datasetId, 'tableId' => $tableId, 'policyId' => $policyId];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], RowAccessPolicy::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set.
@@ -52,6 +116,26 @@ class RowAccessPolicies extends \Google\Service\Resource
     $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Creates a row access policy. (rowAccessPolicies.insert)
+   *
+   * @param string $projectId Required. Project ID of the table to get the row
+   * access policy.
+   * @param string $datasetId Required. Dataset ID of the table to get the row
+   * access policy.
+   * @param string $tableId Required. Table ID of the table to get the row access
+   * policy.
+   * @param RowAccessPolicy $postBody
+   * @param array $optParams Optional parameters.
+   * @return RowAccessPolicy
+   * @throws \Google\Service\Exception
+   */
+  public function insert($projectId, $datasetId, $tableId, RowAccessPolicy $postBody, $optParams = [])
+  {
+    $params = ['projectId' => $projectId, 'datasetId' => $datasetId, 'tableId' => $tableId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', [$params], RowAccessPolicy::class);
   }
   /**
    * Lists all row access policies on the specified table.
@@ -100,6 +184,27 @@ class RowAccessPolicies extends \Google\Service\Resource
     $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('testIamPermissions', [$params], TestIamPermissionsResponse::class);
+  }
+  /**
+   * Updates a row access policy. (rowAccessPolicies.update)
+   *
+   * @param string $projectId Required. Project ID of the table to get the row
+   * access policy.
+   * @param string $datasetId Required. Dataset ID of the table to get the row
+   * access policy.
+   * @param string $tableId Required. Table ID of the table to get the row access
+   * policy.
+   * @param string $policyId Required. Policy ID of the row access policy.
+   * @param RowAccessPolicy $postBody
+   * @param array $optParams Optional parameters.
+   * @return RowAccessPolicy
+   * @throws \Google\Service\Exception
+   */
+  public function update($projectId, $datasetId, $tableId, $policyId, RowAccessPolicy $postBody, $optParams = [])
+  {
+    $params = ['projectId' => $projectId, 'datasetId' => $datasetId, 'tableId' => $tableId, 'policyId' => $policyId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('update', [$params], RowAccessPolicy::class);
   }
 }
 

@@ -17,11 +17,15 @@
 
 namespace Google\Service\CloudHealthcare\Resource;
 
+use Google\Service\CloudHealthcare\ApplyAdminConsentsRequest;
+use Google\Service\CloudHealthcare\ApplyConsentsRequest;
 use Google\Service\CloudHealthcare\DeidentifyFhirStoreRequest;
+use Google\Service\CloudHealthcare\ExplainDataAccessResponse;
 use Google\Service\CloudHealthcare\ExportResourcesRequest;
 use Google\Service\CloudHealthcare\FhirStore;
 use Google\Service\CloudHealthcare\FhirStoreMetrics;
 use Google\Service\CloudHealthcare\HealthcareEmpty;
+use Google\Service\CloudHealthcare\HttpBody;
 use Google\Service\CloudHealthcare\ImportResourcesRequest;
 use Google\Service\CloudHealthcare\ListFhirStoresResponse;
 use Google\Service\CloudHealthcare\Operation;
@@ -41,6 +45,135 @@ use Google\Service\CloudHealthcare\TestIamPermissionsResponse;
  */
 class ProjectsLocationsDatasetsFhirStores extends \Google\Service\Resource
 {
+  /**
+   * Applies the admin Consent resources for the FHIR store and reindexes the
+   * underlying resources in the FHIR store according to the aggregate consents.
+   * This method also updates the `consent_config.enforced_admin_consents` field
+   * of the FhirStore unless `validate_only=true` in ApplyAdminConsentsRequest.
+   * Any admin Consent resource change after this operation execution (including
+   * deletion) requires you to call ApplyAdminConsents again for the change to
+   * take effect. This method returns an Operation that can be used to track the
+   * progress of the resources that were reindexed, by calling GetOperation. Upon
+   * completion, the ApplyAdminConsentsResponse additionally contains the number
+   * of resources that were reindexed. If at least one Consent resource contains
+   * an error or fails be be enforced for any reason, the method returns an error
+   * instead of an Operation. No resources will be reindexed and the
+   * `consent_config.enforced_admin_consents` field will be unchanged. To enforce
+   * a consent check for data access, `consent_config.access_enforced` must be set
+   * to true for the FhirStore. (fhirStores.applyAdminConsents)
+   *
+   * @param string $name Required. The name of the FHIR store to enforce, in the
+   * format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/f
+   * hirStores/{fhir_store_id}`.
+   * @param ApplyAdminConsentsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function applyAdminConsents($name, ApplyAdminConsentsRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('applyAdminConsents', [$params], Operation::class);
+  }
+  /**
+   * Apply the Consent resources for the FHIR store and reindex the underlying
+   * resources in the FHIR store according to the aggregate consent. The aggregate
+   * consent of the patient in scope in this request replaces any previous call of
+   * this method. Any Consent resource change after this operation execution
+   * (including deletion) requires you to call ApplyConsents again to have effect.
+   * This method returns an Operation that can be used to track the progress of
+   * the consent resources that were processed by calling GetOperation. Upon
+   * completion, the ApplyConsentsResponse additionally contains the number of
+   * resources that was reindexed. Errors are logged to Cloud Logging (see
+   * [Viewing error logs in Cloud
+   * Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). To
+   * enforce consent check for data access, `consent_config.access_enforced` must
+   * be set to true for the FhirStore. (fhirStores.applyConsents)
+   *
+   * @param string $name Required. The name of the FHIR store to enforce, in the
+   * format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/f
+   * hirStores/{fhir_store_id}`.
+   * @param ApplyConsentsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function applyConsents($name, ApplyConsentsRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('applyConsents', [$params], Operation::class);
+  }
+  /**
+   * Bulk exports a Group resource and resources in the member field, including
+   * related resources for each Patient member. The export for each Patient is
+   * identical to a GetPatientEverything request. Implements the FHIR
+   * implementation guide [$export group of
+   * patients](https://build.fhir.org/ig/HL7/bulk-data/export.html#endpoint---
+   * group-of-patients). The following headers must be set in the request: *
+   * `Accept`: specifies the format of the `OperationOutcome` response. Only
+   * `application/fhir+json` is supported. * `Prefer`: specifies whether the
+   * response is immediate or asynchronous. Must be to `respond-async` because
+   * only asynchronous responses are supported. Specify the destination for the
+   * server to write result files by setting the Cloud Storage location
+   * bulk_export_gcs_destination on the FHIR store. URI of an existing Cloud
+   * Storage directory where the server writes result files, in the format
+   * gs://{bucket-id}/{path/to/destination/dir}. If there is no trailing slash,
+   * the service appends one when composing the object path. The user is
+   * responsible for creating the Cloud Storage bucket referenced. Supports the
+   * following query parameters: * `_type`: string of comma-delimited FHIR
+   * resource types. If provided, only resources of the specified type(s) are
+   * exported. * `_since`: if provided, only resources updated after the specified
+   * time are exported. * `_outputFormat`: optional, specify ndjson to export data
+   * in NDJSON format. Exported file names use the format:
+   * {export_id}_{resource_type}.ndjson. * `organizeOutputBy`: resource type to
+   * organize the output by. Required and must be set to `Patient`. When
+   * specified, output files are organized by instances of the specified resource
+   * type, including the resource, referenced resources, and resources that
+   * contain references to that resource. On success, the `Content-Location`
+   * header of response is set to a URL that you can use to query the status of
+   * the export. The URL is in the format `projects/{project_id}/locations/{locati
+   * on_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{export_id
+   * }`. See get-fhir-operation-status for more information. Errors generated by
+   * the FHIR store contain a JSON-encoded `OperationOutcome` resource describing
+   * the reason for the error. (fhirStores.bulkExportGroup)
+   *
+   * @param string $name Required. Name of the Group resource that is exported, in
+   * format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/f
+   * hirStores/{fhir_store_id}/fhir/Group/{group_id}`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string _since Optional. If provided, only resources updated after
+   * this time are exported. The time uses the format YYYY-MM-
+   * DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or
+   * `2017-01-01T00:00:00Z`. The time must be specified to the second and include
+   * a time zone.
+   * @opt_param string _type Optional. String of comma-delimited FHIR resource
+   * types. If provided, only resources of the specified resource type(s) are
+   * exported.
+   * @opt_param string organizeOutputBy Optional. Required. The FHIR resource type
+   * used to organize exported resources. Only supports "Patient". When organized
+   * by Patient resource, output files are grouped as follows: * Patient file(s)
+   * containing the Patient resources. Each Patient is sequentially followed by
+   * all resources the Patient references, and all resources that reference the
+   * Patient (equivalent to a GetPatientEverything request). * Individual files
+   * grouped by resource type for resources in the Group's member field and the
+   * Group resource itself. Resources may be duplicated across multiple Patients.
+   * For example, if two Patient resources reference the same Organization
+   * resource, it will appear twice, once after each Patient. The Group resource
+   * from the request does not appear in the Patient files.
+   * @opt_param string outputFormat Optional. Output format of the export. This
+   * field is optional and only `application/fhir+ndjson` is supported.
+   * @return HttpBody
+   * @throws \Google\Service\Exception
+   */
+  public function bulkExportGroup($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('bulk-export-group', [$params], HttpBody::class);
+  }
   /**
    * Creates a new FHIR store within the parent dataset. (fhirStores.create)
    *
@@ -98,6 +231,26 @@ class ProjectsLocationsDatasetsFhirStores extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], HealthcareEmpty::class);
+  }
+  /**
+   * Explains all the permitted/denied actor, purpose and environment for a given
+   * resource. (fhirStores.explainDataAccess)
+   *
+   * @param string $name Required. The name of the FHIR store to enforce, in the
+   * format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/f
+   * hirStores/{fhir_store_id}`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string resourceId Required. The ID (`{resourceType}/{id}`) of the
+   * resource to explain data access on.
+   * @return ExplainDataAccessResponse
+   * @throws \Google\Service\Exception
+   */
+  public function explainDataAccess($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('explainDataAccess', [$params], ExplainDataAccessResponse::class);
   }
   /**
    * Export resources from the FHIR store to the specified destination. This

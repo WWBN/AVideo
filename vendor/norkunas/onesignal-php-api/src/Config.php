@@ -6,11 +6,27 @@ namespace OneSignal;
 
 final class Config
 {
-    private $applicationId;
-    private $applicationAuthKey;
-    private $userAuthKey;
+    /**
+     * @var non-empty-string
+     */
+    private string $applicationId;
 
-    public function __construct(string $applicationId, string $applicationAuthKey, string $userAuthKey = null)
+    /**
+     * @var non-empty-string
+     */
+    private string $applicationAuthKey;
+
+    /**
+     * @var non-empty-string|null
+     */
+    private ?string $userAuthKey;
+
+    /**
+     * @param non-empty-string      $applicationId
+     * @param non-empty-string      $applicationAuthKey
+     * @param non-empty-string|null $userAuthKey
+     */
+    public function __construct(string $applicationId, string $applicationAuthKey, ?string $userAuthKey = null)
     {
         $this->applicationId = $applicationId;
         $this->applicationAuthKey = $applicationAuthKey;
@@ -19,6 +35,8 @@ final class Config
 
     /**
      * Get OneSignal application id.
+     *
+     * @return non-empty-string
      */
     public function getApplicationId(): string
     {
@@ -27,6 +45,8 @@ final class Config
 
     /**
      * Get OneSignal application authentication key.
+     *
+     * @return non-empty-string
      */
     public function getApplicationAuthKey(): string
     {
@@ -35,6 +55,8 @@ final class Config
 
     /**
      * Get user authentication key.
+     *
+     * @return non-empty-string|null
      */
     public function getUserAuthKey(): ?string
     {

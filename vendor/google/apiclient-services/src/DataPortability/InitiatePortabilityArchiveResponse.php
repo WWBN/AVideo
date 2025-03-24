@@ -22,8 +22,26 @@ class InitiatePortabilityArchiveResponse extends \Google\Model
   /**
    * @var string
    */
+  public $accessType;
+  /**
+   * @var string
+   */
   public $archiveJobId;
 
+  /**
+   * @param string
+   */
+  public function setAccessType($accessType)
+  {
+    $this->accessType = $accessType;
+  }
+  /**
+   * @return string
+   */
+  public function getAccessType()
+  {
+    return $this->accessType;
+  }
   /**
    * @param string
    */

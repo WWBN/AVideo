@@ -36,7 +36,7 @@ abstract class AbstractApi
      *
      * @phpstan-param int<1, max> $maxDepth
      */
-    protected function createStream($value, int $flags = null, int $maxDepth = 512): StreamInterface
+    protected function createStream($value, ?int $flags = null, int $maxDepth = 512): StreamInterface
     {
         $flags = $flags ?? (JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_PRESERVE_ZERO_FRACTION);
 

@@ -104,8 +104,8 @@ class ProjectsLocationsNotebookExecutionJobs extends \Google\Service\Resource
    * `display_name, create_time desc`.
    * @opt_param int pageSize Optional. The standard list page size.
    * @opt_param string pageToken Optional. The standard list page token. Typically
-   * obtained via ListNotebookExecutionJobs.next_page_token of the previous
-   * NotebookService.ListNotebookExecutionJobs call.
+   * obtained via ListNotebookExecutionJobsResponse.next_page_token of the
+   * previous NotebookService.ListNotebookExecutionJobs call.
    * @opt_param string view Optional. The NotebookExecutionJob view. Defaults to
    * BASIC.
    * @return GoogleCloudAiplatformV1ListNotebookExecutionJobsResponse

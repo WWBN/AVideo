@@ -589,6 +589,10 @@ class CloudDataplex extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'force' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],'generateDataQualityRules' => [
               'path' => 'v1/{+name}:generateDataQualityRules',

@@ -23,6 +23,10 @@ class Documentation extends \Google\Collection
   /**
    * @var string
    */
+  public $additionalIamInfo;
+  /**
+   * @var string
+   */
   public $documentationRootUrl;
   /**
    * @var string
@@ -43,6 +47,20 @@ class Documentation extends \Google\Collection
    */
   public $summary;
 
+  /**
+   * @param string
+   */
+  public function setAdditionalIamInfo($additionalIamInfo)
+  {
+    $this->additionalIamInfo = $additionalIamInfo;
+  }
+  /**
+   * @return string
+   */
+  public function getAdditionalIamInfo()
+  {
+    return $this->additionalIamInfo;
+  }
   /**
    * @param string
    */

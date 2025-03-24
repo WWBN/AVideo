@@ -23,6 +23,8 @@ class CounterUpdate extends \Google\Model
    * @var bool
    */
   public $boolean;
+  protected $boundedTrieType = BoundedTrie::class;
+  protected $boundedTrieDataType = '';
   /**
    * @var bool
    */
@@ -70,6 +72,20 @@ class CounterUpdate extends \Google\Model
   public function getBoolean()
   {
     return $this->boolean;
+  }
+  /**
+   * @param BoundedTrie
+   */
+  public function setBoundedTrie(BoundedTrie $boundedTrie)
+  {
+    $this->boundedTrie = $boundedTrie;
+  }
+  /**
+   * @return BoundedTrie
+   */
+  public function getBoundedTrie()
+  {
+    return $this->boundedTrie;
   }
   /**
    * @param bool

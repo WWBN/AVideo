@@ -27,6 +27,14 @@ class GoogleCloudDiscoveryengineV1alphaAnswerReferenceStructuredDocumentInfo ext
    * @var array[]
    */
   public $structData;
+  /**
+   * @var string
+   */
+  public $title;
+  /**
+   * @var string
+   */
+  public $uri;
 
   /**
    * @param string
@@ -55,6 +63,34 @@ class GoogleCloudDiscoveryengineV1alphaAnswerReferenceStructuredDocumentInfo ext
   public function getStructData()
   {
     return $this->structData;
+  }
+  /**
+   * @param string
+   */
+  public function setTitle($title)
+  {
+    $this->title = $title;
+  }
+  /**
+   * @return string
+   */
+  public function getTitle()
+  {
+    return $this->title;
+  }
+  /**
+   * @param string
+   */
+  public function setUri($uri)
+  {
+    $this->uri = $uri;
+  }
+  /**
+   * @return string
+   */
+  public function getUri()
+  {
+    return $this->uri;
   }
 }
 

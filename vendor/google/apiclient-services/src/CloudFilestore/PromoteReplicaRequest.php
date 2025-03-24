@@ -19,6 +19,25 @@ namespace Google\Service\CloudFilestore;
 
 class PromoteReplicaRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $peerInstance;
+
+  /**
+   * @param string
+   */
+  public function setPeerInstance($peerInstance)
+  {
+    $this->peerInstance = $peerInstance;
+  }
+  /**
+   * @return string
+   */
+  public function getPeerInstance()
+  {
+    return $this->peerInstance;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

@@ -23,7 +23,7 @@ use Google\Client;
  * Service definition for GamesManagement (v1management).
  *
  * <p>
- * The Google Play Game Management API allows developers to manage resources
+ * The Google Play Games Management API allows developers to manage resources
  * from the Google Play Game service.</p>
  *
  * <p>

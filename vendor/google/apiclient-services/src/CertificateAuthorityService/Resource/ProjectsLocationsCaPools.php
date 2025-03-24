@@ -190,8 +190,8 @@ class ProjectsLocationsCaPools extends \Google\Service\Resource
   /**
    * Update a CaPool. (caPools.patch)
    *
-   * @param string $name Output only. Identifier. The resource name for this
-   * CaPool in the format `projects/locations/caPools`.
+   * @param string $name Identifier. The resource name for this CaPool in the
+   * format `projects/locations/caPools`.
    * @param CaPool $postBody
    * @param array $optParams Optional parameters.
    *

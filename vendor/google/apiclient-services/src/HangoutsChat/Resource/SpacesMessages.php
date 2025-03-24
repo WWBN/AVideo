@@ -193,22 +193,20 @@ class SpacesMessages extends \Google\Service\Resource
    * "2013-01-01T00:00:00+00:00" AND thread.name = spaces/AAAAAAAAAAA/threads/123
    * thread.name = spaces/AAAAAAAAAAA/threads/123 ``` Invalid queries are rejected
    * by the server with an `INVALID_ARGUMENT` error.
-   * @opt_param string orderBy Optional. Optional, if resuming from a previous
-   * query. How the list of messages is ordered. Specify a value to order by an
-   * ordering operation. Valid ordering operation values are as follows: - `ASC`
-   * for ascending. - `DESC` for descending. The default ordering is `create_time
-   * ASC`.
+   * @opt_param string orderBy Optional. How the list of messages is ordered.
+   * Specify a value to order by an ordering operation. Valid ordering operation
+   * values are as follows: - `ASC` for ascending. - `DESC` for descending. The
+   * default ordering is `create_time ASC`.
    * @opt_param int pageSize Optional. The maximum number of messages returned.
    * The service might return fewer messages than this value. If unspecified, at
    * most 25 are returned. The maximum value is 1000. If you use a value more than
    * 1000, it's automatically changed to 1000. Negative values return an
    * `INVALID_ARGUMENT` error.
-   * @opt_param string pageToken Optional. Optional, if resuming from a previous
-   * query. A page token received from a previous list messages call. Provide this
-   * parameter to retrieve the subsequent page. When paginating, all other
-   * parameters provided should match the call that provided the page token.
-   * Passing different values to the other parameters might lead to unexpected
-   * results.
+   * @opt_param string pageToken Optional. A page token received from a previous
+   * list messages call. Provide this parameter to retrieve the subsequent page.
+   * When paginating, all other parameters provided should match the call that
+   * provided the page token. Passing different values to the other parameters
+   * might lead to unexpected results.
    * @opt_param bool showDeleted Optional. Whether to include deleted messages.
    * Deleted messages include deleted time and metadata about their deletion, but
    * message content is unavailable.

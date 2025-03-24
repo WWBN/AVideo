@@ -23,6 +23,14 @@ class DiskUsageSample extends \Google\Model
    * @var float
    */
   public $averageIops;
+  /**
+   * @var float
+   */
+  public $averageReadIops;
+  /**
+   * @var float
+   */
+  public $averageWriteIops;
 
   /**
    * @param float
@@ -37,6 +45,34 @@ class DiskUsageSample extends \Google\Model
   public function getAverageIops()
   {
     return $this->averageIops;
+  }
+  /**
+   * @param float
+   */
+  public function setAverageReadIops($averageReadIops)
+  {
+    $this->averageReadIops = $averageReadIops;
+  }
+  /**
+   * @return float
+   */
+  public function getAverageReadIops()
+  {
+    return $this->averageReadIops;
+  }
+  /**
+   * @param float
+   */
+  public function setAverageWriteIops($averageWriteIops)
+  {
+    $this->averageWriteIops = $averageWriteIops;
+  }
+  /**
+   * @return float
+   */
+  public function getAverageWriteIops()
+  {
+    return $this->averageWriteIops;
   }
 }
 

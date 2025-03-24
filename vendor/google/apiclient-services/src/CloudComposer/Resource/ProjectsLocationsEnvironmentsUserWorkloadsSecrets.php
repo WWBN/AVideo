@@ -33,7 +33,7 @@ class ProjectsLocationsEnvironmentsUserWorkloadsSecrets extends \Google\Service\
 {
   /**
    * Creates a user workloads Secret. This method is supported for Cloud Composer
-   * environments in versions composer-3.*.*-airflow-*.*.* and newer.
+   * environments in versions composer-3-airflow-*.*.*-build.* and newer.
    * (userWorkloadsSecrets.create)
    *
    * @param string $parent Required. The environment name to create a Secret for,
@@ -52,7 +52,7 @@ class ProjectsLocationsEnvironmentsUserWorkloadsSecrets extends \Google\Service\
   }
   /**
    * Deletes a user workloads Secret. This method is supported for Cloud Composer
-   * environments in versions composer-3.*.*-airflow-*.*.* and newer.
+   * environments in versions composer-3-airflow-*.*.*-build.* and newer.
    * (userWorkloadsSecrets.delete)
    *
    * @param string $name Required. The Secret to delete, in the form: "projects/{p
@@ -71,7 +71,7 @@ class ProjectsLocationsEnvironmentsUserWorkloadsSecrets extends \Google\Service\
   /**
    * Gets an existing user workloads Secret. Values of the "data" field in the
    * response are cleared. This method is supported for Cloud Composer
-   * environments in versions composer-3.*.*-airflow-*.*.* and newer.
+   * environments in versions composer-3-airflow-*.*.*-build.* and newer.
    * (userWorkloadsSecrets.get)
    *
    * @param string $name Required. The resource name of the Secret to get, in the
@@ -89,7 +89,7 @@ class ProjectsLocationsEnvironmentsUserWorkloadsSecrets extends \Google\Service\
   }
   /**
    * Lists user workloads Secrets. This method is supported for Cloud Composer
-   * environments in versions composer-3.*.*-airflow-*.*.* and newer.
+   * environments in versions composer-3-airflow-*.*.*-build.* and newer.
    * (userWorkloadsSecrets.listProjectsLocationsEnvironmentsUserWorkloadsSecrets)
    *
    * @param string $parent Required. List Secrets in the given environment, in the
@@ -111,7 +111,7 @@ class ProjectsLocationsEnvironmentsUserWorkloadsSecrets extends \Google\Service\
   }
   /**
    * Updates a user workloads Secret. This method is supported for Cloud Composer
-   * environments in versions composer-3.*.*-airflow-*.*.* and newer.
+   * environments in versions composer-3-airflow-*.*.*-build.* and newer.
    * (userWorkloadsSecrets.update)
    *
    * @param string $name Identifier. The resource name of the Secret, in the form:

@@ -40,6 +40,8 @@ class PackageData extends \Google\Collection
    * @var string
    */
   public $hashDigest;
+  protected $layerDetailsType = LayerDetails::class;
+  protected $layerDetailsDataType = '';
   /**
    * @var string[]
    */
@@ -174,6 +176,20 @@ class PackageData extends \Google\Collection
   public function getHashDigest()
   {
     return $this->hashDigest;
+  }
+  /**
+   * @param LayerDetails
+   */
+  public function setLayerDetails(LayerDetails $layerDetails)
+  {
+    $this->layerDetails = $layerDetails;
+  }
+  /**
+   * @return LayerDetails
+   */
+  public function getLayerDetails()
+  {
+    return $this->layerDetails;
   }
   /**
    * @param string[]

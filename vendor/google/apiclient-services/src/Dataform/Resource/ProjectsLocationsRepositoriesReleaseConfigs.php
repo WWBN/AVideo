@@ -104,7 +104,11 @@ class ProjectsLocationsRepositoriesReleaseConfigs extends \Google\Service\Resour
     return $this->call('list', [$params], ListReleaseConfigsResponse::class);
   }
   /**
-   * Updates a single ReleaseConfig. (releaseConfigs.patch)
+   * Updates a single ReleaseConfig. **Note:** *This method does not fully
+   * implement*, (see [AIP/134](https://google.aip.dev/134), in particular: - The
+   * wildcard entry (****) is treated as a bad request - When the **field_mask**
+   * is omitted, instead of only updating the set fields, the request is treated
+   * as a full update on all modifiable fields (releaseConfigs.patch)
    *
    * @param string $name Identifier. The release config's name.
    * @param ReleaseConfig $postBody

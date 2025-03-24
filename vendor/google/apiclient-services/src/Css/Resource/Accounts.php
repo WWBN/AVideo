@@ -64,8 +64,8 @@ class Accounts extends \Google\Service\Resource
    * ID will be returned.
    * @opt_param int pageSize Optional. The maximum number of accounts to return.
    * The service may return fewer than this value. If unspecified, at most 50
-   * accounts will be returned. The maximum value is 1000; values above 1000 will
-   * be coerced to 1000.
+   * accounts will be returned. The maximum value is 100; values above 100 will be
+   * coerced to 100.
    * @opt_param string pageToken Optional. A page token, received from a previous
    * `ListChildAccounts` call. Provide this to retrieve the subsequent page. When
    * paginating, all other parameters provided to `ListChildAccounts` must match

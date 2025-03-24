@@ -23,8 +23,26 @@ class LocationMetadata extends \Google\Collection
   /**
    * @var string[]
    */
+  public $supportedFlexPerformance;
+  /**
+   * @var string[]
+   */
   public $supportedServiceLevels;
 
+  /**
+   * @param string[]
+   */
+  public function setSupportedFlexPerformance($supportedFlexPerformance)
+  {
+    $this->supportedFlexPerformance = $supportedFlexPerformance;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSupportedFlexPerformance()
+  {
+    return $this->supportedFlexPerformance;
+  }
   /**
    * @param string[]
    */

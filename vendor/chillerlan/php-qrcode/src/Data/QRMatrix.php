@@ -175,7 +175,7 @@ class QRMatrix{
 	 *
 	 * @return int[][]|bool[][]
 	 */
-	public function getMatrix(bool $boolean = null):array{
+	public function getMatrix(?bool $boolean = null):array{
 
 		if($boolean !== true){
 			return $this->matrix;
@@ -195,7 +195,7 @@ class QRMatrix{
 	 * @see \chillerlan\QRCode\Data\QRMatrix::getMatrix()
 	 * @codeCoverageIgnore
 	 */
-	public function matrix(bool $boolean = null):array{
+	public function matrix(?bool $boolean = null):array{
 		return $this->getMatrix($boolean);
 	}
 
@@ -387,7 +387,7 @@ class QRMatrix{
 	 *   7 # 3
 	 *   6 5 4
 	 */
-	public function checkNeighbours(int $x, int $y, int $M_TYPE = null):int{
+	public function checkNeighbours(int $x, int $y, ?int $M_TYPE = null):int{
 		$bits = 0;
 
 		foreach($this::neighbours as $bit => [$ix, $iy]){
@@ -463,6 +463,7 @@ class QRMatrix{
 
 		for($c = 0; $c < 3; $c++){
 			for($i = 0; $i < 8; $i++){
+				// phpcs:ignore
 				$this->set( $h[$c][0]      , ($h[$c][1] + $i), false, $this::M_SEPARATOR);
 				$this->set(($v[$c][0] - $i),  $v[$c][1]      , false, $this::M_SEPARATOR);
 			}
@@ -552,7 +553,7 @@ class QRMatrix{
 	 *
 	 * ISO/IEC 18004:2000 Section 8.9
 	 */
-	public function setFormatInfo(MaskPattern $maskPattern = null):self{
+	public function setFormatInfo(?MaskPattern $maskPattern = null):self{
 		$this->maskPattern = $maskPattern;
 		$bits              = 0; // sets all format fields to false (test mode)
 
@@ -678,7 +679,7 @@ class QRMatrix{
 	 *
 	 * @throws \chillerlan\QRCode\Data\QRCodeDataException
 	 */
-	public function setLogoSpace(int $width, int $height = null, int $startX = null, int $startY = null):self{
+	public function setLogoSpace(int $width, ?int $height = null, ?int $startX = null, ?int $startY = null):self{
 		$height ??= $width;
 
 		// if width and height happen to be negative or 0 (default value), just return - nothing to do

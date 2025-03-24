@@ -24,6 +24,10 @@ class GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataRequest extends 
   /**
    * @var string
    */
+  public $exportSchemaVersion;
+  /**
+   * @var string
+   */
   public $filter;
   /**
    * @var string
@@ -51,6 +55,20 @@ class GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataRequest extends 
   public function getBigQueryDestination()
   {
     return $this->bigQueryDestination;
+  }
+  /**
+   * @param string
+   */
+  public function setExportSchemaVersion($exportSchemaVersion)
+  {
+    $this->exportSchemaVersion = $exportSchemaVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getExportSchemaVersion()
+  {
+    return $this->exportSchemaVersion;
   }
   /**
    * @param string

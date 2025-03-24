@@ -109,7 +109,8 @@ class DatasetsDatasetVersions extends \Google\Service\Resource
    * Updates a DatasetVersion. (datasetVersions.patch)
    *
    * @param string $name Output only. Identifier. The resource name of the
-   * DatasetVersion.
+   * DatasetVersion. Format: `projects/{project}/locations/{location}/datasets/{da
+   * taset}/datasetVersions/{dataset_version}`
    * @param GoogleCloudAiplatformV1DatasetVersion $postBody
    * @param array $optParams Optional parameters.
    *

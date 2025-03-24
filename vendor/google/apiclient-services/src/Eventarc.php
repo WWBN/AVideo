@@ -43,6 +43,7 @@ class Eventarc extends \Google\Service
   public $projects_locations_channels;
   public $projects_locations_enrollments;
   public $projects_locations_googleApiSources;
+  public $projects_locations_kafkaSources;
   public $projects_locations_messageBuses;
   public $projects_locations_operations;
   public $projects_locations_pipelines;
@@ -613,6 +614,50 @@ class Eventarc extends \Google\Service
                 'validateOnly' => [
                   'location' => 'query',
                   'type' => 'boolean',
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => 'v1/{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_kafkaSources = new Eventarc\Resource\ProjectsLocationsKafkaSources(
+        $this,
+        $this->serviceName,
+        'kafkaSources',
+        [
+          'methods' => [
+            'getIamPolicy' => [
+              'path' => 'v1/{+resource}:getIamPolicy',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'options.requestedPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
                 ],
               ],
             ],'setIamPolicy' => [

@@ -700,7 +700,17 @@ class Spanner extends \Google\Service
         'databases',
         [
           'methods' => [
-            'changequorum' => [
+            'addSplitPoints' => [
+              'path' => 'v1/{+database}:addSplitPoints',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'database' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'changequorum' => [
               'path' => 'v1/{+name}:changequorum',
               'httpMethod' => 'POST',
               'parameters' => [

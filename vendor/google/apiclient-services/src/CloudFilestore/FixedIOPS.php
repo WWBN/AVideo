@@ -23,10 +23,6 @@ class FixedIOPS extends \Google\Model
    * @var string
    */
   public $maxIops;
-  /**
-   * @var string
-   */
-  public $maxReadIops;
 
   /**
    * @param string
@@ -41,20 +37,6 @@ class FixedIOPS extends \Google\Model
   public function getMaxIops()
   {
     return $this->maxIops;
-  }
-  /**
-   * @param string
-   */
-  public function setMaxReadIops($maxReadIops)
-  {
-    $this->maxReadIops = $maxReadIops;
-  }
-  /**
-   * @return string
-   */
-  public function getMaxReadIops()
-  {
-    return $this->maxReadIops;
   }
 }
 

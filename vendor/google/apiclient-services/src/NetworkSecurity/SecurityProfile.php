@@ -23,6 +23,8 @@ class SecurityProfile extends \Google\Model
    * @var string
    */
   public $createTime;
+  protected $customInterceptProfileType = CustomInterceptProfile::class;
+  protected $customInterceptProfileDataType = '';
   protected $customMirroringProfileType = CustomMirroringProfile::class;
   protected $customMirroringProfileDataType = '';
   /**
@@ -65,6 +67,20 @@ class SecurityProfile extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param CustomInterceptProfile
+   */
+  public function setCustomInterceptProfile(CustomInterceptProfile $customInterceptProfile)
+  {
+    $this->customInterceptProfile = $customInterceptProfile;
+  }
+  /**
+   * @return CustomInterceptProfile
+   */
+  public function getCustomInterceptProfile()
+  {
+    return $this->customInterceptProfile;
   }
   /**
    * @param CustomMirroringProfile

@@ -24,7 +24,7 @@ class Devices extends AbstractApi
     public const HUAWEI = 13;
     public const SMS = 14;
 
-    private $resolverFactory;
+    private ResolverFactory $resolverFactory;
 
     public function __construct(OneSignal $client, ResolverFactory $resolverFactory)
     {
@@ -36,7 +36,9 @@ class Devices extends AbstractApi
     /**
      * Get information about device with provided ID.
      *
-     * @param string $id Device ID
+     * @param non-empty-string $id Device ID
+     *
+     * @return array<mixed>
      */
     public function getOne(string $id): array
     {
@@ -50,10 +52,12 @@ class Devices extends AbstractApi
      *
      * Application auth key must be set.
      *
-     * @param int $limit  How many devices to return. Max is 300. Default is 300
-     * @param int $offset Result offset. Default is 0. Results are sorted by id
+     * @param int<0, 300>|null $limit  How many devices to return. Max is 300. Default is 300
+     * @param int|null         $offset Result offset. Default is 0. Results are sorted by id
+     *
+     * @return array<mixed>
      */
-    public function getAll(int $limit = null, int $offset = null): array
+    public function getAll(?int $limit = null, ?int $offset = null): array
     {
         $query = ['app_id' => $this->client->getConfig()->getApplicationId()];
 
@@ -74,7 +78,9 @@ class Devices extends AbstractApi
     /**
      * Register a device for your application.
      *
-     * @param array $data Device data
+     * @param array<mixed> $data Device data
+     *
+     * @return array<mixed>
      */
     public function add(array $data): array
     {
@@ -90,8 +96,10 @@ class Devices extends AbstractApi
     /**
      * Update existing registered device for your application with provided data.
      *
-     * @param string $id   Device ID
-     * @param array  $data New device data
+     * @param non-empty-string $id   Device ID
+     * @param array<mixed>     $data New device data
+     *
+     * @return array<mixed>
      */
     public function update(string $id, array $data): array
     {
@@ -112,7 +120,9 @@ class Devices extends AbstractApi
      *
      * Application auth key must be set.
      *
-     * @param string $id Device ID
+     * @param non-empty-string $id Device ID
+     *
+     * @return array<mixed>
      */
     public function delete(string $id): array
     {
@@ -125,8 +135,10 @@ class Devices extends AbstractApi
     /**
      * Call on new device session in your app.
      *
-     * @param string $id   Device ID
-     * @param array  $data Device data
+     * @param non-empty-string $id   Device ID
+     * @param array<mixed>     $data Device data
+     *
+     * @return array<mixed>
      */
     public function onSession(string $id, array $data): array
     {
@@ -142,8 +154,10 @@ class Devices extends AbstractApi
     /**
      * Track a new purchase.
      *
-     * @param string $id   Device ID
-     * @param array  $data Device data
+     * @param non-empty-string $id   Device ID
+     * @param array<mixed>     $data Device data
+     *
+     * @return array<mixed>
      */
     public function onPurchase(string $id, array $data): array
     {
@@ -159,8 +173,10 @@ class Devices extends AbstractApi
     /**
      * Increment the device's total session length.
      *
-     * @param string $id   Device ID
-     * @param array  $data Device data
+     * @param non-empty-string $id   Device ID
+     * @param array<mixed>     $data Device data
+     *
+     * @return array<mixed>
      */
     public function onFocus(string $id, array $data): array
     {
@@ -178,13 +194,15 @@ class Devices extends AbstractApi
      *
      * Application auth key must be set.
      *
-     * @param array  $extraFields     Additional fields that you wish to include.
-     *                                Currently supports: "location", "country", "rooted"
-     * @param string $segmentName     A segment name to filter the scv export by.
-     *                                Only devices from that segment will make it into the export
-     * @param int    $lastActiveSince An epoch to filter results to users active after this time
+     * @param array<mixed>          $extraFields     Additional fields that you wish to include.
+     *                                               Currently supports: "location", "country", "rooted"
+     * @param non-empty-string|null $segmentName     A segment name to filter the scv export by.
+     *                                               Only devices from that segment will make it into the export
+     * @param int|null              $lastActiveSince An epoch to filter results to users active after this time
+     *
+     * @return array<mixed>
      */
-    public function csvExport(array $extraFields = [], string $segmentName = null, int $lastActiveSince = null): array
+    public function csvExport(array $extraFields = [], ?string $segmentName = null, ?int $lastActiveSince = null): array
     {
         $request = $this->createRequest('POST', "/players/csv_export?app_id={$this->client->getConfig()->getApplicationId()}");
         $request = $request->withHeader('Authorization', "Basic {$this->client->getConfig()->getApplicationAuthKey()}");
@@ -208,8 +226,10 @@ class Devices extends AbstractApi
     /**
      * Update an existing device's tags using the External User ID.
      *
-     * @param string $externalUserId External User ID
-     * @param array  $data           Tags data
+     * @param non-empty-string $externalUserId External User ID
+     * @param array<mixed>     $data           Tags data
+     *
+     * @return array<mixed>
      */
     public function editTags(string $externalUserId, array $data): array
     {

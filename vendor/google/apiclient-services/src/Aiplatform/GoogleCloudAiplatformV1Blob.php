@@ -26,6 +26,10 @@ class GoogleCloudAiplatformV1Blob extends \Google\Model
   /**
    * @var string
    */
+  public $displayName;
+  /**
+   * @var string
+   */
   public $mimeType;
 
   /**
@@ -41,6 +45,20 @@ class GoogleCloudAiplatformV1Blob extends \Google\Model
   public function getData()
   {
     return $this->data;
+  }
+  /**
+   * @param string
+   */
+  public function setDisplayName($displayName)
+  {
+    $this->displayName = $displayName;
+  }
+  /**
+   * @return string
+   */
+  public function getDisplayName()
+  {
+    return $this->displayName;
   }
   /**
    * @param string

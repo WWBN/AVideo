@@ -21,10 +21,28 @@ class SelectiveGapicGeneration extends \Google\Collection
 {
   protected $collection_key = 'methods';
   /**
+   * @var bool
+   */
+  public $generateOmittedAsInternal;
+  /**
    * @var string[]
    */
   public $methods;
 
+  /**
+   * @param bool
+   */
+  public function setGenerateOmittedAsInternal($generateOmittedAsInternal)
+  {
+    $this->generateOmittedAsInternal = $generateOmittedAsInternal;
+  }
+  /**
+   * @return bool
+   */
+  public function getGenerateOmittedAsInternal()
+  {
+    return $this->generateOmittedAsInternal;
+  }
   /**
    * @param string[]
    */

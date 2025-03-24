@@ -149,8 +149,8 @@ class BuyersProposals extends \Google\Service\Resource
    * specified in the UpdateProposalRequest.update_mask will be updated; Fields
    * noted as 'Immutable' or 'Output only' yet specified in the
    * UpdateProposalRequest.update_mask will be ignored and left unchanged.
-   * Updating a private auction proposal is not allowed and will result in an
-   * error. (proposals.patch)
+   * Updating a private auction proposal is only allowed for buyer private data,
+   * all other fields are immutable. (proposals.patch)
    *
    * @param string $name Immutable. The name of the proposal serving as a unique
    * identifier. Format: buyers/{accountId}/proposals/{proposalId}

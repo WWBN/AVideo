@@ -114,3 +114,4 @@ plugin/WebRTC/WebRTC2RTMP
 plugin/API/standAlone/temp_concat_list.txt
 plugin/API/standAlone/assets/playlist_live_stream_executable
 btc.log
+plugin/YPTSocket/NodeSocket/

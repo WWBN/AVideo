@@ -90,6 +90,7 @@ class SocketMessageType {
     const ON_LIVE_MSG = "ON_LIVE_MSG";
     const TESTING = "TESTING";
     const UNDEFINED = "UNDEFINED";
+    const MSG_BATCH = "MSG_BATCH";
 
 }
 

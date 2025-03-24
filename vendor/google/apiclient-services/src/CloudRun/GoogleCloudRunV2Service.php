@@ -26,6 +26,8 @@ class GoogleCloudRunV2Service extends \Google\Collection
   public $annotations;
   protected $binaryAuthorizationType = GoogleCloudRunV2BinaryAuthorization::class;
   protected $binaryAuthorizationDataType = '';
+  protected $buildConfigType = GoogleCloudRunV2BuildConfig::class;
+  protected $buildConfigDataType = '';
   /**
    * @var string
    */
@@ -170,6 +172,20 @@ class GoogleCloudRunV2Service extends \Google\Collection
   public function getBinaryAuthorization()
   {
     return $this->binaryAuthorization;
+  }
+  /**
+   * @param GoogleCloudRunV2BuildConfig
+   */
+  public function setBuildConfig(GoogleCloudRunV2BuildConfig $buildConfig)
+  {
+    $this->buildConfig = $buildConfig;
+  }
+  /**
+   * @return GoogleCloudRunV2BuildConfig
+   */
+  public function getBuildConfig()
+  {
+    return $this->buildConfig;
   }
   /**
    * @param string

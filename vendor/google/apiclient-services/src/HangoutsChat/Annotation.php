@@ -19,6 +19,8 @@ namespace Google\Service\HangoutsChat;
 
 class Annotation extends \Google\Model
 {
+  protected $customEmojiMetadataType = CustomEmojiMetadata::class;
+  protected $customEmojiMetadataDataType = '';
   /**
    * @var int
    */
@@ -38,6 +40,20 @@ class Annotation extends \Google\Model
   protected $userMentionType = UserMentionMetadata::class;
   protected $userMentionDataType = '';
 
+  /**
+   * @param CustomEmojiMetadata
+   */
+  public function setCustomEmojiMetadata(CustomEmojiMetadata $customEmojiMetadata)
+  {
+    $this->customEmojiMetadata = $customEmojiMetadata;
+  }
+  /**
+   * @return CustomEmojiMetadata
+   */
+  public function getCustomEmojiMetadata()
+  {
+    return $this->customEmojiMetadata;
+  }
   /**
    * @param int
    */

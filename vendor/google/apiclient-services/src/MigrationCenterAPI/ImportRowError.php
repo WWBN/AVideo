@@ -20,6 +20,12 @@ namespace Google\Service\MigrationCenterAPI;
 class ImportRowError extends \Google\Collection
 {
   protected $collection_key = 'errors';
+  protected $archiveErrorType = ImportRowErrorArchiveErrorDetails::class;
+  protected $archiveErrorDataType = '';
+  /**
+   * @var string
+   */
+  public $assetTitle;
   protected $csvErrorType = ImportRowErrorCsvErrorDetails::class;
   protected $csvErrorDataType = '';
   protected $errorsType = ImportError::class;
@@ -39,6 +45,34 @@ class ImportRowError extends \Google\Collection
   protected $xlsxErrorType = ImportRowErrorXlsxErrorDetails::class;
   protected $xlsxErrorDataType = '';
 
+  /**
+   * @param ImportRowErrorArchiveErrorDetails
+   */
+  public function setArchiveError(ImportRowErrorArchiveErrorDetails $archiveError)
+  {
+    $this->archiveError = $archiveError;
+  }
+  /**
+   * @return ImportRowErrorArchiveErrorDetails
+   */
+  public function getArchiveError()
+  {
+    return $this->archiveError;
+  }
+  /**
+   * @param string
+   */
+  public function setAssetTitle($assetTitle)
+  {
+    $this->assetTitle = $assetTitle;
+  }
+  /**
+   * @return string
+   */
+  public function getAssetTitle()
+  {
+    return $this->assetTitle;
+  }
   /**
    * @param ImportRowErrorCsvErrorDetails
    */

@@ -33,7 +33,7 @@ class ProjectsLocationsEnvironmentsUserWorkloadsConfigMaps extends \Google\Servi
 {
   /**
    * Creates a user workloads ConfigMap. This method is supported for Cloud
-   * Composer environments in versions composer-3.*.*-airflow-*.*.* and newer.
+   * Composer environments in versions composer-3-airflow-*.*.*-build.* and newer.
    * (userWorkloadsConfigMaps.create)
    *
    * @param string $parent Required. The environment name to create a ConfigMap
@@ -52,7 +52,7 @@ class ProjectsLocationsEnvironmentsUserWorkloadsConfigMaps extends \Google\Servi
   }
   /**
    * Deletes a user workloads ConfigMap. This method is supported for Cloud
-   * Composer environments in versions composer-3.*.*-airflow-*.*.* and newer.
+   * Composer environments in versions composer-3-airflow-*.*.*-build.* and newer.
    * (userWorkloadsConfigMaps.delete)
    *
    * @param string $name Required. The ConfigMap to delete, in the form: "projects
@@ -70,7 +70,7 @@ class ProjectsLocationsEnvironmentsUserWorkloadsConfigMaps extends \Google\Servi
   }
   /**
    * Gets an existing user workloads ConfigMap. This method is supported for Cloud
-   * Composer environments in versions composer-3.*.*-airflow-*.*.* and newer.
+   * Composer environments in versions composer-3-airflow-*.*.*-build.* and newer.
    * (userWorkloadsConfigMaps.get)
    *
    * @param string $name Required. The resource name of the ConfigMap to get, in
@@ -88,8 +88,8 @@ class ProjectsLocationsEnvironmentsUserWorkloadsConfigMaps extends \Google\Servi
   }
   /**
    * Lists user workloads ConfigMaps. This method is supported for Cloud Composer
-   * environments in versions composer-3.*.*-airflow-*.*.* and newer. (userWorkloa
-   * dsConfigMaps.listProjectsLocationsEnvironmentsUserWorkloadsConfigMaps)
+   * environments in versions composer-3-airflow-*.*.*-build.* and newer. (userWor
+   * kloadsConfigMaps.listProjectsLocationsEnvironmentsUserWorkloadsConfigMaps)
    *
    * @param string $parent Required. List ConfigMaps in the given environment, in
    * the form:
@@ -110,7 +110,7 @@ class ProjectsLocationsEnvironmentsUserWorkloadsConfigMaps extends \Google\Servi
   }
   /**
    * Updates a user workloads ConfigMap. This method is supported for Cloud
-   * Composer environments in versions composer-3.*.*-airflow-*.*.* and newer.
+   * Composer environments in versions composer-3-airflow-*.*.*-build.* and newer.
    * (userWorkloadsConfigMaps.update)
    *
    * @param string $name Identifier. The resource name of the ConfigMap, in the

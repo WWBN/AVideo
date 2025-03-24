@@ -113,7 +113,7 @@ class ProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists e
   /**
    * Update a CertificateRevocationList. (certificateRevocationLists.patch)
    *
-   * @param string $name Output only. The resource name for this
+   * @param string $name Identifier. The resource name for this
    * CertificateRevocationList in the format
    * `projects/locations/caPoolscertificateAuthorities/
    * certificateRevocationLists`.

@@ -17,21 +17,60 @@
 
 namespace Google\Service\Aiplatform;
 
-class GoogleCloudAiplatformV1GenerateContentResponseUsageMetadata extends \Google\Model
+class GoogleCloudAiplatformV1GenerateContentResponseUsageMetadata extends \Google\Collection
 {
+  protected $collection_key = 'promptTokensDetails';
+  protected $cacheTokensDetailsType = GoogleCloudAiplatformV1ModalityTokenCount::class;
+  protected $cacheTokensDetailsDataType = 'array';
+  /**
+   * @var int
+   */
+  public $cachedContentTokenCount;
   /**
    * @var int
    */
   public $candidatesTokenCount;
+  protected $candidatesTokensDetailsType = GoogleCloudAiplatformV1ModalityTokenCount::class;
+  protected $candidatesTokensDetailsDataType = 'array';
   /**
    * @var int
    */
   public $promptTokenCount;
+  protected $promptTokensDetailsType = GoogleCloudAiplatformV1ModalityTokenCount::class;
+  protected $promptTokensDetailsDataType = 'array';
   /**
    * @var int
    */
   public $totalTokenCount;
 
+  /**
+   * @param GoogleCloudAiplatformV1ModalityTokenCount[]
+   */
+  public function setCacheTokensDetails($cacheTokensDetails)
+  {
+    $this->cacheTokensDetails = $cacheTokensDetails;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1ModalityTokenCount[]
+   */
+  public function getCacheTokensDetails()
+  {
+    return $this->cacheTokensDetails;
+  }
+  /**
+   * @param int
+   */
+  public function setCachedContentTokenCount($cachedContentTokenCount)
+  {
+    $this->cachedContentTokenCount = $cachedContentTokenCount;
+  }
+  /**
+   * @return int
+   */
+  public function getCachedContentTokenCount()
+  {
+    return $this->cachedContentTokenCount;
+  }
   /**
    * @param int
    */
@@ -47,6 +86,20 @@ class GoogleCloudAiplatformV1GenerateContentResponseUsageMetadata extends \Googl
     return $this->candidatesTokenCount;
   }
   /**
+   * @param GoogleCloudAiplatformV1ModalityTokenCount[]
+   */
+  public function setCandidatesTokensDetails($candidatesTokensDetails)
+  {
+    $this->candidatesTokensDetails = $candidatesTokensDetails;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1ModalityTokenCount[]
+   */
+  public function getCandidatesTokensDetails()
+  {
+    return $this->candidatesTokensDetails;
+  }
+  /**
    * @param int
    */
   public function setPromptTokenCount($promptTokenCount)
@@ -59,6 +112,20 @@ class GoogleCloudAiplatformV1GenerateContentResponseUsageMetadata extends \Googl
   public function getPromptTokenCount()
   {
     return $this->promptTokenCount;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1ModalityTokenCount[]
+   */
+  public function setPromptTokensDetails($promptTokensDetails)
+  {
+    $this->promptTokensDetails = $promptTokensDetails;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1ModalityTokenCount[]
+   */
+  public function getPromptTokensDetails()
+  {
+    return $this->promptTokensDetails;
   }
   /**
    * @param int

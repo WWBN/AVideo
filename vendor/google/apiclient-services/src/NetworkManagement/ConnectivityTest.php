@@ -58,6 +58,12 @@ class ConnectivityTest extends \Google\Collection
    * @var string[]
    */
   public $relatedProjects;
+  protected $returnReachabilityDetailsType = ReachabilityDetails::class;
+  protected $returnReachabilityDetailsDataType = '';
+  /**
+   * @var bool
+   */
+  public $roundTrip;
   protected $sourceType = Endpoint::class;
   protected $sourceDataType = '';
   /**
@@ -218,6 +224,34 @@ class ConnectivityTest extends \Google\Collection
   public function getRelatedProjects()
   {
     return $this->relatedProjects;
+  }
+  /**
+   * @param ReachabilityDetails
+   */
+  public function setReturnReachabilityDetails(ReachabilityDetails $returnReachabilityDetails)
+  {
+    $this->returnReachabilityDetails = $returnReachabilityDetails;
+  }
+  /**
+   * @return ReachabilityDetails
+   */
+  public function getReturnReachabilityDetails()
+  {
+    return $this->returnReachabilityDetails;
+  }
+  /**
+   * @param bool
+   */
+  public function setRoundTrip($roundTrip)
+  {
+    $this->roundTrip = $roundTrip;
+  }
+  /**
+   * @return bool
+   */
+  public function getRoundTrip()
+  {
+    return $this->roundTrip;
   }
   /**
    * @param Endpoint

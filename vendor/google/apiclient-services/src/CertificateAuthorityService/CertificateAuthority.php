@@ -86,6 +86,8 @@ class CertificateAuthority extends \Google\Collection
    * @var string
    */
   public $updateTime;
+  protected $userDefinedAccessUrlsType = UserDefinedAccessUrls::class;
+  protected $userDefinedAccessUrlsDataType = '';
 
   /**
    * @param AccessUrls
@@ -352,6 +354,20 @@ class CertificateAuthority extends \Google\Collection
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param UserDefinedAccessUrls
+   */
+  public function setUserDefinedAccessUrls(UserDefinedAccessUrls $userDefinedAccessUrls)
+  {
+    $this->userDefinedAccessUrls = $userDefinedAccessUrls;
+  }
+  /**
+   * @return UserDefinedAccessUrls
+   */
+  public function getUserDefinedAccessUrls()
+  {
+    return $this->userDefinedAccessUrls;
   }
 }
 

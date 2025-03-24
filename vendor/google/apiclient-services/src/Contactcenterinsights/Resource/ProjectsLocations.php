@@ -36,7 +36,9 @@ use Google\Service\Contactcenterinsights\GoogleLongrunningOperation;
 class ProjectsLocations extends \Google\Service\Resource
 {
   /**
-   * Download feedback labels in bulk. (locations.bulkDownloadFeedbackLabels)
+   * Download feedback labels in bulk from an external source. Currently supports
+   * exporting Quality AI example conversations with transcripts and question
+   * bodies. (locations.bulkDownloadFeedbackLabels)
    *
    * @param string $parent Required. The parent resource for new feedback labels.
    * @param GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest $postBody
@@ -51,7 +53,9 @@ class ProjectsLocations extends \Google\Service\Resource
     return $this->call('bulkDownloadFeedbackLabels', [$params], GoogleLongrunningOperation::class);
   }
   /**
-   * Upload feedback labels in bulk. (locations.bulkUploadFeedbackLabels)
+   * Upload feedback labels from an external source in bulk. Currently supports
+   * labeling Quality AI example conversations.
+   * (locations.bulkUploadFeedbackLabels)
    *
    * @param string $parent Required. The parent resource for new feedback labels.
    * @param GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest $postBody

@@ -35,6 +35,8 @@ class PostgresqlProfile extends \Google\Model
    * @var int
    */
   public $port;
+  protected $sslConfigType = PostgresqlSslConfig::class;
+  protected $sslConfigDataType = '';
   /**
    * @var string
    */
@@ -95,6 +97,20 @@ class PostgresqlProfile extends \Google\Model
   public function getPort()
   {
     return $this->port;
+  }
+  /**
+   * @param PostgresqlSslConfig
+   */
+  public function setSslConfig(PostgresqlSslConfig $sslConfig)
+  {
+    $this->sslConfig = $sslConfig;
+  }
+  /**
+   * @return PostgresqlSslConfig
+   */
+  public function getSslConfig()
+  {
+    return $this->sslConfig;
   }
   /**
    * @param string

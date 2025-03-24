@@ -38,6 +38,9 @@ class GoogleCloudDiscoveryengineV1alphaAnswer extends \Google\Collection
    * @var string
    */
   public $createTime;
+  public $groundingScore;
+  protected $groundingSupportsType = GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupport::class;
+  protected $groundingSupportsDataType = 'array';
   /**
    * @var string
    */
@@ -50,6 +53,8 @@ class GoogleCloudDiscoveryengineV1alphaAnswer extends \Google\Collection
    * @var string[]
    */
   public $relatedQuestions;
+  protected $safetyRatingsType = GoogleCloudDiscoveryengineV1alphaSafetyRating::class;
+  protected $safetyRatingsDataType = 'array';
   /**
    * @var string
    */
@@ -127,6 +132,28 @@ class GoogleCloudDiscoveryengineV1alphaAnswer extends \Google\Collection
   {
     return $this->createTime;
   }
+  public function setGroundingScore($groundingScore)
+  {
+    $this->groundingScore = $groundingScore;
+  }
+  public function getGroundingScore()
+  {
+    return $this->groundingScore;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupport[]
+   */
+  public function setGroundingSupports($groundingSupports)
+  {
+    $this->groundingSupports = $groundingSupports;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupport[]
+   */
+  public function getGroundingSupports()
+  {
+    return $this->groundingSupports;
+  }
   /**
    * @param string
    */
@@ -182,6 +209,20 @@ class GoogleCloudDiscoveryengineV1alphaAnswer extends \Google\Collection
   public function getRelatedQuestions()
   {
     return $this->relatedQuestions;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaSafetyRating[]
+   */
+  public function setSafetyRatings($safetyRatings)
+  {
+    $this->safetyRatings = $safetyRatings;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaSafetyRating[]
+   */
+  public function getSafetyRatings()
+  {
+    return $this->safetyRatings;
   }
   /**
    * @param string

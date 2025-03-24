@@ -27,8 +27,6 @@ class MembershipFeature extends \Google\Model
    * @var string
    */
   public $deleteTime;
-  protected $featureConfigRefType = FeatureConfigRef::class;
-  protected $featureConfigRefDataType = '';
   /**
    * @var string[]
    */
@@ -75,20 +73,6 @@ class MembershipFeature extends \Google\Model
   public function getDeleteTime()
   {
     return $this->deleteTime;
-  }
-  /**
-   * @param FeatureConfigRef
-   */
-  public function setFeatureConfigRef(FeatureConfigRef $featureConfigRef)
-  {
-    $this->featureConfigRef = $featureConfigRef;
-  }
-  /**
-   * @return FeatureConfigRef
-   */
-  public function getFeatureConfigRef()
-  {
-    return $this->featureConfigRef;
   }
   /**
    * @param string[]

@@ -20,6 +20,10 @@ namespace Google\Service\Aiplatform;
 class GoogleCloudAiplatformV1GenerateContentRequest extends \Google\Collection
 {
   protected $collection_key = 'tools';
+  /**
+   * @var string
+   */
+  public $cachedContent;
   protected $contentsType = GoogleCloudAiplatformV1Content::class;
   protected $contentsDataType = 'array';
   protected $generationConfigType = GoogleCloudAiplatformV1GenerationConfig::class;
@@ -37,6 +41,20 @@ class GoogleCloudAiplatformV1GenerateContentRequest extends \Google\Collection
   protected $toolsType = GoogleCloudAiplatformV1Tool::class;
   protected $toolsDataType = 'array';
 
+  /**
+   * @param string
+   */
+  public function setCachedContent($cachedContent)
+  {
+    $this->cachedContent = $cachedContent;
+  }
+  /**
+   * @return string
+   */
+  public function getCachedContent()
+  {
+    return $this->cachedContent;
+  }
   /**
    * @param GoogleCloudAiplatformV1Content[]
    */

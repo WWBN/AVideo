@@ -21,6 +21,7 @@ use Google\Service\NetAppFiles\ListStoragePoolsResponse;
 use Google\Service\NetAppFiles\Operation;
 use Google\Service\NetAppFiles\StoragePool;
 use Google\Service\NetAppFiles\SwitchActiveReplicaZoneRequest;
+use Google\Service\NetAppFiles\ValidateDirectoryServiceRequest;
 
 /**
  * The "storagePools" collection of methods.
@@ -140,6 +141,22 @@ class ProjectsLocationsStoragePools extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('switch', [$params], Operation::class);
+  }
+  /**
+   * ValidateDirectoryService does a connectivity check for a directory service
+   * policy attached to the storage pool. (storagePools.validateDirectoryService)
+   *
+   * @param string $name Required. Name of the storage pool
+   * @param ValidateDirectoryServiceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function validateDirectoryService($name, ValidateDirectoryServiceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('validateDirectoryService', [$params], Operation::class);
   }
 }
 

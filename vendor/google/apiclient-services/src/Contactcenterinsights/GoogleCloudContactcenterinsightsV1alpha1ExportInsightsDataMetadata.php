@@ -21,6 +21,10 @@ class GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataMetadata extends
 {
   protected $collection_key = 'partialErrors';
   /**
+   * @var int
+   */
+  public $completedExportCount;
+  /**
    * @var string
    */
   public $createTime;
@@ -28,11 +32,29 @@ class GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataMetadata extends
    * @var string
    */
   public $endTime;
+  /**
+   * @var int
+   */
+  public $failedExportCount;
   protected $partialErrorsType = GoogleRpcStatus::class;
   protected $partialErrorsDataType = 'array';
   protected $requestType = GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataRequest::class;
   protected $requestDataType = '';
 
+  /**
+   * @param int
+   */
+  public function setCompletedExportCount($completedExportCount)
+  {
+    $this->completedExportCount = $completedExportCount;
+  }
+  /**
+   * @return int
+   */
+  public function getCompletedExportCount()
+  {
+    return $this->completedExportCount;
+  }
   /**
    * @param string
    */
@@ -60,6 +82,20 @@ class GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataMetadata extends
   public function getEndTime()
   {
     return $this->endTime;
+  }
+  /**
+   * @param int
+   */
+  public function setFailedExportCount($failedExportCount)
+  {
+    $this->failedExportCount = $failedExportCount;
+  }
+  /**
+   * @return int
+   */
+  public function getFailedExportCount()
+  {
+    return $this->failedExportCount;
   }
   /**
    * @param GoogleRpcStatus[]

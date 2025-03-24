@@ -52,7 +52,7 @@ class JWK
      *
      * @uses parseKey
      */
-    public static function parseKeySet(array $jwks, string $defaultAlg = null): array
+    public static function parseKeySet(array $jwks, ?string $defaultAlg = null): array
     {
         $keys = [];
 
@@ -93,7 +93,7 @@ class JWK
      *
      * @uses createPemFromModulusAndExponent
      */
-    public static function parseKey(array $jwk, string $defaultAlg = null): ?Key
+    public static function parseKey(array $jwk, ?string $defaultAlg = null): ?Key
     {
         if (empty($jwk)) {
             throw new InvalidArgumentException('JWK must not be empty');
@@ -212,7 +212,7 @@ class JWK
                 )
             );
 
-        return sprintf(
+        return \sprintf(
             "-----BEGIN PUBLIC KEY-----\n%s\n-----END PUBLIC KEY-----\n",
             wordwrap(base64_encode($pem), 64, "\n", true)
         );

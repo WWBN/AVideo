@@ -24,7 +24,7 @@ use Google\Service\Drive\GeneratedIds;
 use Google\Service\Drive\LabelList;
 use Google\Service\Drive\ModifyLabelsRequest;
 use Google\Service\Drive\ModifyLabelsResponse;
-use Google\Service\Drive\Operation as OperationModel;
+use Google\Service\Drive\Operation;
 
 /**
  * The "files" collection of methods.
@@ -169,14 +169,14 @@ class Files extends \Google\Service\Resource
    * download. This field can only be set when downloading blob files, Google
    * Docs, and Google Sheets. Returns `INVALID_ARGUMENT` if downloading a specific
    * revision on the file is unsupported.
-   * @return OperationModel
+   * @return Operation
    * @throws \Google\Service\Exception
    */
   public function download($fileId, $optParams = [])
   {
     $params = ['fileId' => $fileId];
     $params = array_merge($params, $optParams);
-    return $this->call('download', [$params], OperationModel::class);
+    return $this->call('download', [$params], Operation::class);
   }
   /**
    * Permanently deletes all of the user's trashed files. (files.emptyTrash)

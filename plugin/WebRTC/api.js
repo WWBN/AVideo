@@ -20,23 +20,23 @@ function requestNotifications() {
 
 function checkConnections() {
     console.log("Requesting connection count...");
-    socket.emit('check-connections');
+    socketWebRTC.emit('check-connections');
 }
 
 // Check RTMP status on-demand
 function checkRTMPStatus() {
     console.log("Requesting RTMP status...");
-    socket.emit('check-rtmp-status', { rtmpURLEncrypted });
+    socketWebRTC.emit('check-rtmp-status', { rtmpURLEncrypted });
 }
 
 function checkRemainingTime() {
     console.log("Requesting remaining time...");
-    socket.emit('check-live-time', { rtmpURLEncrypted });
+    socketWebRTC.emit('check-live-time', { rtmpURLEncrypted });
 }
 
 function startWebcamLive(rtmpURLEncrypted) {
     // Notify server of new connection
-    socket.emit('join', { rtmpURLEncrypted, id: socket.id });
+    socketWebRTC.emit('join', { rtmpURLEncrypted, id: socketWebRTC.id });
 
     // Send stream to the server for RTMP forwarding
     sendStreamToServer(localStream);
@@ -44,7 +44,7 @@ function startWebcamLive(rtmpURLEncrypted) {
 
 // Stop the live stream
 function stopWebcamLive(rtmpURLEncrypted) {
-    socket.emit('stop-live', { rtmpURLEncrypted });
+    socketWebRTC.emit('stop-live', { rtmpURLEncrypted });
 }
 
 let mediaRecorder; // Declare a global variable to manage the MediaRecorder
@@ -62,7 +62,7 @@ function sendStreamToServer(stream) {
         mediaRecorder.ondataavailable = (event) => {
             if (event.data.size > 0) {
                 //console.log(`video-chunk`);
-                socket.emit('video-chunk', { rtmpURLEncrypted, chunk: event.data });
+                socketWebRTC.emit('video-chunk', { rtmpURLEncrypted, chunk: event.data });
             }
         };
 

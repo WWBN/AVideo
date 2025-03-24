@@ -17,6 +17,9 @@
 
 namespace Google\Service\DatabaseMigrationService\Resource;
 
+use Google\Service\DatabaseMigrationService\ListMigrationJobObjectsResponse;
+use Google\Service\DatabaseMigrationService\LookupMigrationJobObjectRequest;
+use Google\Service\DatabaseMigrationService\MigrationJobObject;
 use Google\Service\DatabaseMigrationService\Policy;
 use Google\Service\DatabaseMigrationService\SetIamPolicyRequest;
 use Google\Service\DatabaseMigrationService\TestIamPermissionsRequest;
@@ -32,6 +35,21 @@ use Google\Service\DatabaseMigrationService\TestIamPermissionsResponse;
  */
 class ProjectsLocationsMigrationJobsObjects extends \Google\Service\Resource
 {
+  /**
+   * Use this method to get details about a migration job object. (objects.get)
+   *
+   * @param string $name Required. The name of the migration job object resource
+   * to get.
+   * @param array $optParams Optional parameters.
+   * @return MigrationJobObject
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], MigrationJobObject::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (objects.getIamPolicy)
@@ -62,6 +80,47 @@ class ProjectsLocationsMigrationJobsObjects extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Use this method to list the objects of a specific migration job.
+   * (objects.listProjectsLocationsMigrationJobsObjects)
+   *
+   * @param string $parent Required. The parent migration job that owns the
+   * collection of objects.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int pageSize Maximum number of objects to return. Default is 50.
+   * The maximum value is 1000; values above 1000 will be coerced to 1000.
+   * @opt_param string pageToken Page token received from a previous
+   * `ListMigrationJObObjectsRequest` call. Provide this to retrieve the
+   * subsequent page. When paginating, all other parameters provided to
+   * `ListMigrationJobObjectsRequest` must match the call that provided the page
+   * token.
+   * @return ListMigrationJobObjectsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsMigrationJobsObjects($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], ListMigrationJobObjectsResponse::class);
+  }
+  /**
+   * Use this method to look up a migration job object by its source object
+   * identifier. (objects.lookup)
+   *
+   * @param string $parent Required. The parent migration job that owns the
+   * collection of objects.
+   * @param LookupMigrationJobObjectRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return MigrationJobObject
+   * @throws \Google\Service\Exception
+   */
+  public function lookup($parent, LookupMigrationJobObjectRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('lookup', [$params], MigrationJobObject::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

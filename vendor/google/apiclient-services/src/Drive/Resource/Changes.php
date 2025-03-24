@@ -32,8 +32,9 @@ use Google\Service\Drive\StartPageToken;
 class Changes extends \Google\Service\Resource
 {
   /**
-   * Gets the starting pageToken for listing future changes.
-   * (changes.getStartPageToken)
+   * Gets the starting pageToken for listing future changes. For more information,
+   * see [Retrieve changes](https://developers.google.com/drive/api/guides/manage-
+   * changes). (changes.getStartPageToken)
    *
    * @param array $optParams Optional parameters.
    *
@@ -54,7 +55,9 @@ class Changes extends \Google\Service\Resource
     return $this->call('getStartPageToken', [$params], StartPageToken::class);
   }
   /**
-   * Lists the changes for a user or shared drive. (changes.listChanges)
+   * Lists the changes for a user or shared drive. For more information, see
+   * [Retrieve changes](https://developers.google.com/drive/api/guides/manage-
+   * changes). (changes.listChanges)
    *
    * @param string $pageToken The token for continuing a previous list request on
    * the next page. This should be set to the value of 'nextPageToken' from the
@@ -101,7 +104,9 @@ class Changes extends \Google\Service\Resource
     return $this->call('list', [$params], ChangeList::class);
   }
   /**
-   * Subscribes to changes for a user. (changes.watch)
+   * Subscribes to changes for a user. For more information, see [Notifications
+   * for resource changes](https://developers.google.com/drive/api/guides/push).
+   * (changes.watch)
    *
    * @param string $pageToken The token for continuing a previous list request on
    * the next page. This should be set to the value of 'nextPageToken' from the

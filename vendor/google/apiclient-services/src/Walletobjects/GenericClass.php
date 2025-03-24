@@ -38,6 +38,8 @@ class GenericClass extends \Google\Collection
   protected $imageModulesDataDataType = 'array';
   protected $linksModuleDataType = LinksModuleData::class;
   protected $linksModuleDataDataType = '';
+  protected $merchantLocationsType = MerchantLocation::class;
+  protected $merchantLocationsDataType = 'array';
   protected $messagesType = Message::class;
   protected $messagesDataType = 'array';
   /**
@@ -156,6 +158,20 @@ class GenericClass extends \Google\Collection
   public function getLinksModuleData()
   {
     return $this->linksModuleData;
+  }
+  /**
+   * @param MerchantLocation[]
+   */
+  public function setMerchantLocations($merchantLocations)
+  {
+    $this->merchantLocations = $merchantLocations;
+  }
+  /**
+   * @return MerchantLocation[]
+   */
+  public function getMerchantLocations()
+  {
+    return $this->merchantLocations;
   }
   /**
    * @param Message[]

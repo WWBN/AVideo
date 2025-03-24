@@ -34,6 +34,12 @@ use Google\Client;
  */
 class Classroom extends \Google\Service
 {
+  /** See and update its own attachments to posts in Google Classroom. */
+  const CLASSROOM_ADDONS_STUDENT =
+      "https://www.googleapis.com/auth/classroom.addons.student";
+  /** See, create, and update its own attachments to posts in classes you teach in Google Classroom. */
+  const CLASSROOM_ADDONS_TEACHER =
+      "https://www.googleapis.com/auth/classroom.addons.teacher";
   /** View and manage announcements in Google Classroom. */
   const CLASSROOM_ANNOUNCEMENTS =
       "https://www.googleapis.com/auth/classroom.announcements";
@@ -108,6 +114,7 @@ class Classroom extends \Google\Service
   public $courses_courseWork;
   public $courses_courseWork_addOnAttachments;
   public $courses_courseWork_addOnAttachments_studentSubmissions;
+  public $courses_courseWork_rubrics;
   public $courses_courseWork_studentSubmissions;
   public $courses_courseWorkMaterials;
   public $courses_courseWorkMaterials_addOnAttachments;
@@ -686,6 +693,29 @@ class Classroom extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'updateRubric' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{courseWorkId}/rubric',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'courseWorkId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'id' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],
           ]
         ]
@@ -888,6 +918,118 @@ class Classroom extends \Google\Service
                 'postId' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->courses_courseWork_rubrics = new Classroom\Resource\CoursesCourseWorkRubrics(
+        $this,
+        $this->serviceName,
+        'rubrics',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'courseWorkId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'courseWorkId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'id' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'courseWorkId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'id' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'courseWorkId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'courseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'courseWorkId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'id' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
                 'updateMask' => [
                   'location' => 'query',

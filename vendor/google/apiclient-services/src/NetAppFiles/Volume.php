@@ -52,6 +52,8 @@ class Volume extends \Google\Collection
    * @var bool
    */
   public $hasReplication;
+  protected $hybridReplicationParametersType = HybridReplicationParameters::class;
+  protected $hybridReplicationParametersDataType = '';
   /**
    * @var bool
    */
@@ -279,6 +281,20 @@ class Volume extends \Google\Collection
   public function getHasReplication()
   {
     return $this->hasReplication;
+  }
+  /**
+   * @param HybridReplicationParameters
+   */
+  public function setHybridReplicationParameters(HybridReplicationParameters $hybridReplicationParameters)
+  {
+    $this->hybridReplicationParameters = $hybridReplicationParameters;
+  }
+  /**
+   * @return HybridReplicationParameters
+   */
+  public function getHybridReplicationParameters()
+  {
+    return $this->hybridReplicationParameters;
   }
   /**
    * @param bool

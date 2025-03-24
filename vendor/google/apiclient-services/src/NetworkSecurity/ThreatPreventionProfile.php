@@ -20,11 +20,27 @@ namespace Google\Service\NetworkSecurity;
 class ThreatPreventionProfile extends \Google\Collection
 {
   protected $collection_key = 'threatOverrides';
+  protected $antivirusOverridesType = AntivirusOverride::class;
+  protected $antivirusOverridesDataType = 'array';
   protected $severityOverridesType = SeverityOverride::class;
   protected $severityOverridesDataType = 'array';
   protected $threatOverridesType = ThreatOverride::class;
   protected $threatOverridesDataType = 'array';
 
+  /**
+   * @param AntivirusOverride[]
+   */
+  public function setAntivirusOverrides($antivirusOverrides)
+  {
+    $this->antivirusOverrides = $antivirusOverrides;
+  }
+  /**
+   * @return AntivirusOverride[]
+   */
+  public function getAntivirusOverrides()
+  {
+    return $this->antivirusOverrides;
+  }
   /**
    * @param SeverityOverride[]
    */

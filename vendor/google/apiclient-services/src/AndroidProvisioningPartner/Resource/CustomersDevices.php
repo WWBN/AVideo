@@ -75,8 +75,8 @@ class CustomersDevices extends \Google\Service\Resource
    * resource name in the format `customers/[CUSTOMER_ID]`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string pageSize The maximum number of devices to show in a page of
-   * results. Must be between 1 and 100 inclusive.
+   * @opt_param string pageSize Required. The maximum number of devices to show in
+   * a page of results. Must be between 1 and 100 inclusive.
    * @opt_param string pageToken A token specifying which result page to return.
    * @return CustomerListDevicesResponse
    * @throws \Google\Service\Exception

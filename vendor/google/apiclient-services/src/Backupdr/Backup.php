@@ -68,6 +68,14 @@ class Backup extends \Google\Collection
    * @var string
    */
   public $resourceSizeBytes;
+  /**
+   * @var bool
+   */
+  public $satisfiesPzi;
+  /**
+   * @var bool
+   */
+  public $satisfiesPzs;
   protected $serviceLocksType = BackupLock::class;
   protected $serviceLocksDataType = 'array';
   /**
@@ -274,6 +282,34 @@ class Backup extends \Google\Collection
   public function getResourceSizeBytes()
   {
     return $this->resourceSizeBytes;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzs($satisfiesPzs)
+  {
+    $this->satisfiesPzs = $satisfiesPzs;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzs()
+  {
+    return $this->satisfiesPzs;
   }
   /**
    * @param BackupLock[]

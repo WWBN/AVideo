@@ -146,7 +146,7 @@ class ProjectsLocationsDatasets extends \Google\Service\Resource
    * Updates a Dataset. (datasets.patch)
    *
    * @param string $name Output only. Identifier. The resource name of the
-   * Dataset.
+   * Dataset. Format: `projects/{project}/locations/{location}/datasets/{dataset}`
    * @param GoogleCloudAiplatformV1Dataset $postBody
    * @param array $optParams Optional parameters.
    *

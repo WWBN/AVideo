@@ -19,6 +19,23 @@ namespace Google\Service\Contactcenterinsights;
 
 class GoogleCloudContactcenterinsightsV1ImportIssueModelResponse extends \Google\Model
 {
+  protected $issueModelType = GoogleCloudContactcenterinsightsV1IssueModel::class;
+  protected $issueModelDataType = '';
+
+  /**
+   * @param GoogleCloudContactcenterinsightsV1IssueModel
+   */
+  public function setIssueModel(GoogleCloudContactcenterinsightsV1IssueModel $issueModel)
+  {
+    $this->issueModel = $issueModel;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1IssueModel
+   */
+  public function getIssueModel()
+  {
+    return $this->issueModel;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

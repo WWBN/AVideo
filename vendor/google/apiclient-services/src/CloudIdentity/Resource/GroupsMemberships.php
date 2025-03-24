@@ -246,7 +246,7 @@ class GroupsMemberships extends \Google\Service\Resource
    * order_by="group_key" or order_by="group_key asc". Sort by the descending
    * group key: order_by="group_key desc".
    * @opt_param int pageSize The default page size is 200 (max 1000).
-   * @opt_param string pageToken The next_page_token value returned from a
+   * @opt_param string pageToken The `next_page_token` value returned from a
    * previous list request, if any
    * @opt_param string query Required. A CEL expression that MUST include member
    * specification AND label(s). Users can search on label attributes of groups.
@@ -279,7 +279,7 @@ class GroupsMemberships extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The default page size is 200 (max 1000).
-   * @opt_param string pageToken The next_page_token value returned from a
+   * @opt_param string pageToken The `next_page_token` value returned from a
    * previous list request, if any.
    * @opt_param string query Required. A CEL expression that MUST include member
    * specification AND label(s). This is a `required` field. Users can search on
@@ -291,7 +291,7 @@ class GroupsMemberships extends \Google\Service\Resource
    * operators on the parent of the group restricting the search within a
    * particular customer, e.g. `parent == 'customers/{customer_id}'`. The
    * `customer_id` must begin with "C" (for example, 'C046psxkn'). This filtering
-   * is only supported for Admins with groups read permissons on the input
+   * is only supported for Admins with groups read permissions on the input
    * customer. Example query: `member_key_id == 'member_key_id_value' && in labels
    * && parent == 'customers/C046psxkn'`
    * @return SearchTransitiveGroupsResponse
@@ -319,7 +319,7 @@ class GroupsMemberships extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The default page size is 200 (max 1000).
-   * @opt_param string pageToken The next_page_token value returned from a
+   * @opt_param string pageToken The `next_page_token` value returned from a
    * previous list request, if any.
    * @return SearchTransitiveMembershipsResponse
    * @throws \Google\Service\Exception

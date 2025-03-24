@@ -47,7 +47,7 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
    * `securityContext` field (not present in `DSTU2`) will be populated from the
    * `X-Security-Context` header if it exists. At this time `securityContext` has
    * no special behavior in the Cloud Healthcare API. Note: the limit on data
-   * ingested through this method is 2 GB. For best performance, use a non-FHIR
+   * ingested through this method is 1 GB. For best performance, use a non-FHIR
    * data type instead of wrapping the data in a Binary resource. Some of the
    * Healthcare API features, such as [exporting to
    * BigQuery](https://cloud.google.com/healthcare-api/docs/how-tos/fhir-export-
@@ -172,6 +172,57 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
     return $this->call('Binary-vread', [$params], HttpBody::class);
   }
   /**
+   * Returns the consent enforcement status of a single consent resource. On
+   * success, the response body contains a JSON-encoded representation of a
+   * `Parameters` (http://hl7.org/fhir/parameters.html) FHIR resource, containing
+   * the current enforcement status. Does not support DSTU2.
+   * (fhir.ConsentEnforcementStatus)
+   *
+   * @param string $name Required. The name of the consent resource to find
+   * enforcement status, in the format `projects/{project_id}/locations/{location_
+   * id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{consent_id
+   * }`
+   * @param array $optParams Optional parameters.
+   * @return HttpBody
+   * @throws \Google\Service\Exception
+   */
+  public function ConsentEnforcementStatus($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('Consent-enforcement-status', [$params], HttpBody::class);
+  }
+  /**
+   * Returns the consent enforcement status of all consent resources for a
+   * patient. On success, the response body contains a JSON-encoded representation
+   * of a bundle of `Parameters` (http://hl7.org/fhir/parameters.html) FHIR
+   * resources, containing the current enforcement status for each consent
+   * resource of the patient. Does not support DSTU2.
+   * (fhir.PatientConsentEnforcementStatus)
+   *
+   * @param string $name Required. The name of the patient to find enforcement
+   * statuses, in the format `projects/{project_id}/locations/{location_id}/datase
+   * ts/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Patient/{patient_id}`
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int _count Optional. The maximum number of results on a page. If
+   * not specified, 100 is used. May not be larger than 1000.
+   * @opt_param string _page_token Optional. Used to retrieve the first, previous,
+   * next, or last page of consent enforcement statuses when using pagination.
+   * Value should be set to the value of `_page_token` set in next or previous
+   * page links' URLs. Next and previous page are returned in the response
+   * bundle's links field, where `link.relation` is "previous" or "next". Omit
+   * `_page_token` if no previous request has been made.
+   * @return HttpBody
+   * @throws \Google\Service\Exception
+   */
+  public function PatientConsentEnforcementStatus($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('Patient-consent-enforcement-status', [$params], HttpBody::class);
+  }
+  /**
    * Retrieves a Patient resource and resources related to that patient.
    * Implements the FHIR extended operation Patient-everything
    * ([DSTU2](http://hl7.org/implement/standards/fhir/DSTU2/patient-
@@ -284,7 +335,7 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
    * @param HttpBody $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string profile Required. The canonical URL of a profile that this
+   * @opt_param string profile Optional. The canonical URL of a profile that this
    * resource should be validated against. For example, to validate a Patient
    * resource against the US Core Patient profile this parameter would be
    * `http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient`. A
@@ -297,6 +348,58 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
     $params = ['parent' => $parent, 'type' => $type, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('Resource-validate', [$params], HttpBody::class);
+  }
+  /**
+   * Bulk exports all resources from the FHIR store to the specified destination.
+   * Implements the FHIR implementation guide [system level
+   * $export](https://build.fhir.org/ig/HL7/bulk-data/export.html#endpoint---
+   * system-level-export. The following headers must be set in the request: *
+   * `Accept`: specifies the format of the `OperationOutcome` response. Only
+   * `application/fhir+json` is supported. * `Prefer`: specifies whether the
+   * response is immediate or asynchronous. Must be to `respond-async` because
+   * only asynchronous responses are supported. Specify the destination for the
+   * server to write result files by setting the Cloud Storage location
+   * bulk_export_gcs_destination on the FHIR store. URI of an existing Cloud
+   * Storage directory where the server writes result files, in the format
+   * gs://{bucket-id}/{path/to/destination/dir}. If there is no trailing slash,
+   * the service appends one when composing the object path. The user is
+   * responsible for creating the Cloud Storage bucket referenced. Supports the
+   * following query parameters: * `_type`: string of comma-delimited FHIR
+   * resource types. If provided, only the resources of the specified type(s) are
+   * exported. * `_since`: if provided, only the resources that are updated after
+   * the specified time are exported. * `_outputFormat`: optional, specify ndjson
+   * to export data in NDJSON format. Exported file names use the format:
+   * {export_id}_{resource_type}.ndjson. On success, the `Content-Location` header
+   * of the response is set to a URL that the user can use to query the status of
+   * the export. The URL is in the format: `projects/{project_id}/locations/{locat
+   * ion_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{export_i
+   * d}`. See get-fhir-operation-status for more information. Errors generated by
+   * the FHIR store contain a JSON-encoded `OperationOutcome` resource describing
+   * the reason for the error. (fhir.bulkExport)
+   *
+   * @param string $name Required. The name of the FHIR store to export resources
+   * from, in the format `projects/{project_id}/locations/{location_id}/datasets/{
+   * dataset_id}/fhirStores/{fhir_store_id}`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string _since Optional. If provided, only resources updated after
+   * this time are exported. The time uses the format YYYY-MM-
+   * DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or
+   * `2017-01-01T00:00:00Z`. The time must be specified to the second and include
+   * a time zone.
+   * @opt_param string _type Optional. String of comma-delimited FHIR resource
+   * types. If provided, only resources of the specified resource type(s) are
+   * exported.
+   * @opt_param string outputFormat Optional. Output format of the export. This
+   * field is optional and only `application/fhir+ndjson` is supported.
+   * @return HttpBody
+   * @throws \Google\Service\Exception
+   */
+  public function bulkExport($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('bulk-export', [$params], HttpBody::class);
   }
   /**
    * Gets the FHIR capability statement ([STU3](http://hl7.org/implement/standards
@@ -828,7 +931,7 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
    *
    * @param string $parent Required. Name of the FHIR store to retrieve resources
    * from.
-   * @param string $resourceType Required. The FHIR resource type to search, such
+   * @param string $resourceType Optional. The FHIR resource type to search, such
    * as Patient or Observation. For a complete list, see the FHIR Resource Index
    * ([DSTU2](http://hl7.org/implement/standards/fhir/DSTU2/resourcelist.html),
    * [STU3](http://hl7.org/implement/standards/fhir/STU3/resourcelist.html),

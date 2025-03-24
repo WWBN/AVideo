@@ -19,13 +19,17 @@ namespace Google\Service\SQLAdmin;
 
 class IpConfiguration extends \Google\Collection
 {
-  protected $collection_key = 'authorizedNetworks';
+  protected $collection_key = 'customSubjectAlternativeNames';
   /**
    * @var string
    */
   public $allocatedIpRange;
   protected $authorizedNetworksType = AclEntry::class;
   protected $authorizedNetworksDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $customSubjectAlternativeNames;
   /**
    * @var bool
    */
@@ -48,6 +52,10 @@ class IpConfiguration extends \Google\Collection
    * @var string
    */
   public $serverCaMode;
+  /**
+   * @var string
+   */
+  public $serverCaPool;
   /**
    * @var string
    */
@@ -80,6 +88,20 @@ class IpConfiguration extends \Google\Collection
   public function getAuthorizedNetworks()
   {
     return $this->authorizedNetworks;
+  }
+  /**
+   * @param string[]
+   */
+  public function setCustomSubjectAlternativeNames($customSubjectAlternativeNames)
+  {
+    $this->customSubjectAlternativeNames = $customSubjectAlternativeNames;
+  }
+  /**
+   * @return string[]
+   */
+  public function getCustomSubjectAlternativeNames()
+  {
+    return $this->customSubjectAlternativeNames;
   }
   /**
    * @param bool
@@ -164,6 +186,20 @@ class IpConfiguration extends \Google\Collection
   public function getServerCaMode()
   {
     return $this->serverCaMode;
+  }
+  /**
+   * @param string
+   */
+  public function setServerCaPool($serverCaPool)
+  {
+    $this->serverCaPool = $serverCaPool;
+  }
+  /**
+   * @return string
+   */
+  public function getServerCaPool()
+  {
+    return $this->serverCaPool;
   }
   /**
    * @param string

@@ -108,13 +108,16 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string orderBy Optional. Specifies the ordering of results.
+   * Supported values are: relevance (default) last_modified_timestamp
+   * last_modified_timestamp asc
    * @opt_param int pageSize Optional. Number of results in the search page. If
    * <=0, then defaults to 10. Max limit for page_size is 1000. Throws an invalid
    * argument for page_size > 1000.
    * @opt_param string pageToken Optional. Page token received from a previous
    * SearchEntries call. Provide this to retrieve the subsequent page.
    * @opt_param string query Required. The query against which entries in scope
-   * should be matched.
+   * should be matched. The query syntax is defined in Search syntax for Dataplex
+   * Catalog (https://cloud.google.com/dataplex/docs/search-syntax).
    * @opt_param string scope Optional. The scope under which the search should be
    * operating. It must either be organizations/ or projects/. If it is
    * unspecified, it defaults to the organization where the project provided in

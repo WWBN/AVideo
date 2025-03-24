@@ -49,6 +49,7 @@ class NetAppFiles extends \Google\Service
   public $projects_locations_operations;
   public $projects_locations_storagePools;
   public $projects_locations_volumes;
+  public $projects_locations_volumes_quotaRules;
   public $projects_locations_volumes_replications;
   public $projects_locations_volumes_snapshots;
   public $rootUrlTemplate;
@@ -704,6 +705,16 @@ class NetAppFiles extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'validateDirectoryService' => [
+              'path' => 'v1/{+name}:validateDirectoryService',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]
@@ -806,6 +817,90 @@ class NetAppFiles extends \Google\Service
           ]
         ]
     );
+    $this->projects_locations_volumes_quotaRules = new NetAppFiles\Resource\ProjectsLocationsVolumesQuotaRules(
+        $this,
+        $this->serviceName,
+        'quotaRules',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/quotaRules',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'quotaRuleId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/quotaRules',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations_volumes_replications = new NetAppFiles\Resource\ProjectsLocationsVolumesReplications(
         $this,
         $this->serviceName,
@@ -829,6 +924,16 @@ class NetAppFiles extends \Google\Service
             ],'delete' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'establishPeering' => [
+              'path' => 'v1/{+name}:establishPeering',
+              'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
                   'location' => 'path',
@@ -908,6 +1013,16 @@ class NetAppFiles extends \Google\Service
               ],
             ],'stop' => [
               'path' => 'v1/{+name}:stop',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'sync' => [
+              'path' => 'v1/{+name}:sync',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [

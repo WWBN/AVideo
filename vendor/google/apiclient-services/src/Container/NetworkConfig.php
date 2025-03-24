@@ -29,6 +29,10 @@ class NetworkConfig extends \Google\Model
   public $defaultEnablePrivateNodes;
   protected $defaultSnatStatusType = DefaultSnatStatus::class;
   protected $defaultSnatStatusDataType = '';
+  /**
+   * @var bool
+   */
+  public $disableL4LbFirewallReconciliation;
   protected $dnsConfigType = DNSConfig::class;
   protected $dnsConfigDataType = '';
   /**
@@ -115,6 +119,20 @@ class NetworkConfig extends \Google\Model
   public function getDefaultSnatStatus()
   {
     return $this->defaultSnatStatus;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisableL4LbFirewallReconciliation($disableL4LbFirewallReconciliation)
+  {
+    $this->disableL4LbFirewallReconciliation = $disableL4LbFirewallReconciliation;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableL4LbFirewallReconciliation()
+  {
+    return $this->disableL4LbFirewallReconciliation;
   }
   /**
    * @param DNSConfig

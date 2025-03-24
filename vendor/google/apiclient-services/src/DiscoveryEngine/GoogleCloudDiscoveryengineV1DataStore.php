@@ -44,10 +44,20 @@ class GoogleCloudDiscoveryengineV1DataStore extends \Google\Collection
   public $displayName;
   protected $documentProcessingConfigType = GoogleCloudDiscoveryengineV1DocumentProcessingConfig::class;
   protected $documentProcessingConfigDataType = '';
+  protected $healthcareFhirConfigType = GoogleCloudDiscoveryengineV1HealthcareFhirConfig::class;
+  protected $healthcareFhirConfigDataType = '';
+  /**
+   * @var string
+   */
+  public $identityMappingStore;
   /**
    * @var string
    */
   public $industryVertical;
+  /**
+   * @var bool
+   */
+  public $isInfobotFaqDataStore;
   /**
    * @var string
    */
@@ -180,6 +190,34 @@ class GoogleCloudDiscoveryengineV1DataStore extends \Google\Collection
     return $this->documentProcessingConfig;
   }
   /**
+   * @param GoogleCloudDiscoveryengineV1HealthcareFhirConfig
+   */
+  public function setHealthcareFhirConfig(GoogleCloudDiscoveryengineV1HealthcareFhirConfig $healthcareFhirConfig)
+  {
+    $this->healthcareFhirConfig = $healthcareFhirConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1HealthcareFhirConfig
+   */
+  public function getHealthcareFhirConfig()
+  {
+    return $this->healthcareFhirConfig;
+  }
+  /**
+   * @param string
+   */
+  public function setIdentityMappingStore($identityMappingStore)
+  {
+    $this->identityMappingStore = $identityMappingStore;
+  }
+  /**
+   * @return string
+   */
+  public function getIdentityMappingStore()
+  {
+    return $this->identityMappingStore;
+  }
+  /**
    * @param string
    */
   public function setIndustryVertical($industryVertical)
@@ -192,6 +230,20 @@ class GoogleCloudDiscoveryengineV1DataStore extends \Google\Collection
   public function getIndustryVertical()
   {
     return $this->industryVertical;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsInfobotFaqDataStore($isInfobotFaqDataStore)
+  {
+    $this->isInfobotFaqDataStore = $isInfobotFaqDataStore;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsInfobotFaqDataStore()
+  {
+    return $this->isInfobotFaqDataStore;
   }
   /**
    * @param string

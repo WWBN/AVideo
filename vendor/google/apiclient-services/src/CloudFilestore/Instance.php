@@ -21,13 +21,13 @@ class Instance extends \Google\Collection
 {
   protected $collection_key = 'suspensionReasons';
   /**
-   * @var bool
-   */
-  public $configurablePerformanceEnabled;
-  /**
    * @var string
    */
   public $createTime;
+  /**
+   * @var bool
+   */
+  public $customPerformanceSupported;
   /**
    * @var bool
    */
@@ -100,20 +100,6 @@ class Instance extends \Google\Collection
   public $tier;
 
   /**
-   * @param bool
-   */
-  public function setConfigurablePerformanceEnabled($configurablePerformanceEnabled)
-  {
-    $this->configurablePerformanceEnabled = $configurablePerformanceEnabled;
-  }
-  /**
-   * @return bool
-   */
-  public function getConfigurablePerformanceEnabled()
-  {
-    return $this->configurablePerformanceEnabled;
-  }
-  /**
    * @param string
    */
   public function setCreateTime($createTime)
@@ -126,6 +112,20 @@ class Instance extends \Google\Collection
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param bool
+   */
+  public function setCustomPerformanceSupported($customPerformanceSupported)
+  {
+    $this->customPerformanceSupported = $customPerformanceSupported;
+  }
+  /**
+   * @return bool
+   */
+  public function getCustomPerformanceSupported()
+  {
+    return $this->customPerformanceSupported;
   }
   /**
    * @param bool

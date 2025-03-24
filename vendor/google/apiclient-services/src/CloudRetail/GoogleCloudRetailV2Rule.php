@@ -33,6 +33,8 @@ class GoogleCloudRetailV2Rule extends \Google\Model
   protected $ignoreActionDataType = '';
   protected $onewaySynonymsActionType = GoogleCloudRetailV2RuleOnewaySynonymsAction::class;
   protected $onewaySynonymsActionDataType = '';
+  protected $pinActionType = GoogleCloudRetailV2RulePinAction::class;
+  protected $pinActionDataType = '';
   protected $redirectActionType = GoogleCloudRetailV2RuleRedirectAction::class;
   protected $redirectActionDataType = '';
   protected $removeFacetActionType = GoogleCloudRetailV2RuleRemoveFacetAction::class;
@@ -139,6 +141,20 @@ class GoogleCloudRetailV2Rule extends \Google\Model
   public function getOnewaySynonymsAction()
   {
     return $this->onewaySynonymsAction;
+  }
+  /**
+   * @param GoogleCloudRetailV2RulePinAction
+   */
+  public function setPinAction(GoogleCloudRetailV2RulePinAction $pinAction)
+  {
+    $this->pinAction = $pinAction;
+  }
+  /**
+   * @return GoogleCloudRetailV2RulePinAction
+   */
+  public function getPinAction()
+  {
+    return $this->pinAction;
   }
   /**
    * @param GoogleCloudRetailV2RuleRedirectAction

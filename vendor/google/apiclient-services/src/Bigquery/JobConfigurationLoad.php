@@ -53,6 +53,14 @@ class JobConfigurationLoad extends \Google\Collection
    */
   public $createSession;
   /**
+   * @var string
+   */
+  public $dateFormat;
+  /**
+   * @var string
+   */
+  public $datetimeFormat;
+  /**
    * @var string[]
    */
   public $decimalTargetTypes;
@@ -138,8 +146,20 @@ class JobConfigurationLoad extends \Google\Collection
    * @var string[]
    */
   public $sourceUris;
+  /**
+   * @var string
+   */
+  public $timeFormat;
   protected $timePartitioningType = TimePartitioning::class;
   protected $timePartitioningDataType = '';
+  /**
+   * @var string
+   */
+  public $timeZone;
+  /**
+   * @var string
+   */
+  public $timestampFormat;
   /**
    * @var bool
    */
@@ -274,6 +294,34 @@ class JobConfigurationLoad extends \Google\Collection
   public function getCreateSession()
   {
     return $this->createSession;
+  }
+  /**
+   * @param string
+   */
+  public function setDateFormat($dateFormat)
+  {
+    $this->dateFormat = $dateFormat;
+  }
+  /**
+   * @return string
+   */
+  public function getDateFormat()
+  {
+    return $this->dateFormat;
+  }
+  /**
+   * @param string
+   */
+  public function setDatetimeFormat($datetimeFormat)
+  {
+    $this->datetimeFormat = $datetimeFormat;
+  }
+  /**
+   * @return string
+   */
+  public function getDatetimeFormat()
+  {
+    return $this->datetimeFormat;
   }
   /**
    * @param string[]
@@ -626,6 +674,20 @@ class JobConfigurationLoad extends \Google\Collection
     return $this->sourceUris;
   }
   /**
+   * @param string
+   */
+  public function setTimeFormat($timeFormat)
+  {
+    $this->timeFormat = $timeFormat;
+  }
+  /**
+   * @return string
+   */
+  public function getTimeFormat()
+  {
+    return $this->timeFormat;
+  }
+  /**
    * @param TimePartitioning
    */
   public function setTimePartitioning(TimePartitioning $timePartitioning)
@@ -638,6 +700,34 @@ class JobConfigurationLoad extends \Google\Collection
   public function getTimePartitioning()
   {
     return $this->timePartitioning;
+  }
+  /**
+   * @param string
+   */
+  public function setTimeZone($timeZone)
+  {
+    $this->timeZone = $timeZone;
+  }
+  /**
+   * @return string
+   */
+  public function getTimeZone()
+  {
+    return $this->timeZone;
+  }
+  /**
+   * @param string
+   */
+  public function setTimestampFormat($timestampFormat)
+  {
+    $this->timestampFormat = $timestampFormat;
+  }
+  /**
+   * @return string
+   */
+  public function getTimestampFormat()
+  {
+    return $this->timestampFormat;
   }
   /**
    * @param bool

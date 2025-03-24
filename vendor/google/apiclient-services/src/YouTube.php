@@ -85,10 +85,10 @@ class YouTube extends \Google\Service
   public $thumbnails;
   public $videoAbuseReportReasons;
   public $videoCategories;
+  public $videoTrainability;
   public $videos;
   public $watermarks;
   public $youtube_v3;
-  public $youtube_v3_liveChat_messages;
   public $rootUrlTemplate;
 
   /**
@@ -1986,6 +1986,25 @@ class YouTube extends \Google\Service
           ]
         ]
     );
+    $this->videoTrainability = new YouTube\Resource\VideoTrainability(
+        $this,
+        $this->serviceName,
+        'videoTrainability',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'youtube/v3/videoTrainability',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'id' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->videos = new YouTube\Resource\Videos(
         $this,
         $this->serviceName,
@@ -2207,46 +2226,6 @@ class YouTube extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                   'repeated' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->youtube_v3_liveChat_messages = new YouTube\Resource\YoutubeV3LiveChatMessages(
-        $this,
-        $this->serviceName,
-        'messages',
-        [
-          'methods' => [
-            'stream' => [
-              'path' => 'youtube/v3/liveChat/messages/stream',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'hl' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'liveChatId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'maxResults' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'part' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                  'repeated' => true,
-                ],
-                'profileImageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
                 ],
               ],
             ],

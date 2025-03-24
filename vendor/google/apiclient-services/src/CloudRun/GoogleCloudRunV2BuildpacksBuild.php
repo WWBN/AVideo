@@ -42,6 +42,10 @@ class GoogleCloudRunV2BuildpacksBuild extends \Google\Model
   /**
    * @var string
    */
+  public $projectDescriptor;
+  /**
+   * @var string
+   */
   public $runtime;
 
   /**
@@ -113,6 +117,20 @@ class GoogleCloudRunV2BuildpacksBuild extends \Google\Model
   public function getFunctionTarget()
   {
     return $this->functionTarget;
+  }
+  /**
+   * @param string
+   */
+  public function setProjectDescriptor($projectDescriptor)
+  {
+    $this->projectDescriptor = $projectDescriptor;
+  }
+  /**
+   * @return string
+   */
+  public function getProjectDescriptor()
+  {
+    return $this->projectDescriptor;
   }
   /**
    * @param string

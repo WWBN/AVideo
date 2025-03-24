@@ -20,6 +20,8 @@ namespace Google\Service\ContainerAnalysis;
 class ContaineranalysisGoogleDevtoolsCloudbuildV1Artifacts extends \Google\Collection
 {
   protected $collection_key = 'pythonPackages';
+  protected $goModulesType = ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsGoModule::class;
+  protected $goModulesDataType = 'array';
   /**
    * @var string[]
    */
@@ -33,6 +35,20 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Artifacts extends \Google\Colle
   protected $pythonPackagesType = ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsPythonPackage::class;
   protected $pythonPackagesDataType = 'array';
 
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsGoModule[]
+   */
+  public function setGoModules($goModules)
+  {
+    $this->goModules = $goModules;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsGoModule[]
+   */
+  public function getGoModules()
+  {
+    return $this->goModules;
+  }
   /**
    * @param string[]
    */

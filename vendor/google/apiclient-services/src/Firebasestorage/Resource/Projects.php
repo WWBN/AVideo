@@ -17,6 +17,9 @@
 
 namespace Google\Service\Firebasestorage\Resource;
 
+use Google\Service\Firebasestorage\DefaultBucket;
+use Google\Service\Firebasestorage\FirebasestorageEmpty;
+
 /**
  * The "projects" collection of methods.
  * Typical usage is:
@@ -27,6 +30,36 @@ namespace Google\Service\Firebasestorage\Resource;
  */
 class Projects extends \Google\Service\Resource
 {
+  /**
+   * Unlinks and deletes the default bucket. (projects.deleteDefaultBucket)
+   *
+   * @param string $name Required. The name of the default bucket to delete,
+   * `projects/{project_id_or_number}/defaultBucket`.
+   * @param array $optParams Optional parameters.
+   * @return FirebasestorageEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function deleteDefaultBucket($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('deleteDefaultBucket', [$params], FirebasestorageEmpty::class);
+  }
+  /**
+   * Gets the default bucket. (projects.getDefaultBucket)
+   *
+   * @param string $name Required. The name of the default bucket to retrieve,
+   * `projects/{project_id_or_number}/defaultBucket`.
+   * @param array $optParams Optional parameters.
+   * @return DefaultBucket
+   * @throws \Google\Service\Exception
+   */
+  public function getDefaultBucket($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getDefaultBucket', [$params], DefaultBucket::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

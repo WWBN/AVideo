@@ -36,6 +36,10 @@ class PscConnection extends \Google\Model
    */
   public $network;
   /**
+   * @var int
+   */
+  public $port;
+  /**
    * @var string
    */
   public $projectId;
@@ -107,6 +111,20 @@ class PscConnection extends \Google\Model
   public function getNetwork()
   {
     return $this->network;
+  }
+  /**
+   * @param int
+   */
+  public function setPort($port)
+  {
+    $this->port = $port;
+  }
+  /**
+   * @return int
+   */
+  public function getPort()
+  {
+    return $this->port;
   }
   /**
    * @param string

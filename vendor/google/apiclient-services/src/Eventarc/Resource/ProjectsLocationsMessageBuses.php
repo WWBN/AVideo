@@ -47,7 +47,7 @@ class ProjectsLocationsMessageBuses extends \Google\Service\Resource
    *
    * @opt_param string messageBusId Required. The user-provided ID to be assigned
    * to the MessageBus. It should match the format
-   * (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$)
+   * `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`.
    * @opt_param bool validateOnly Optional. If set, validate the request and
    * preview the review, but do not post it.
    * @return GoogleLongrunningOperation
@@ -129,7 +129,8 @@ class ProjectsLocationsMessageBuses extends \Google\Service\Resource
   /**
    * List message buses. (messageBuses.listProjectsLocationsMessageBuses)
    *
-   * @param string $parent Required. The parent collection to list triggers on.
+   * @param string $parent Required. The parent collection to list message buses
+   * on.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. The filter field that the list request

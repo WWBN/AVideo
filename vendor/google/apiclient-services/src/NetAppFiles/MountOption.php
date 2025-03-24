@@ -34,6 +34,10 @@ class MountOption extends \Google\Model
   /**
    * @var string
    */
+  public $ipAddress;
+  /**
+   * @var string
+   */
   public $protocol;
 
   /**
@@ -77,6 +81,20 @@ class MountOption extends \Google\Model
   public function getInstructions()
   {
     return $this->instructions;
+  }
+  /**
+   * @param string
+   */
+  public function setIpAddress($ipAddress)
+  {
+    $this->ipAddress = $ipAddress;
+  }
+  /**
+   * @return string
+   */
+  public function getIpAddress()
+  {
+    return $this->ipAddress;
   }
   /**
    * @param string

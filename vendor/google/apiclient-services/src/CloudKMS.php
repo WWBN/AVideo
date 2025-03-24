@@ -725,6 +725,10 @@ class CloudKMS extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'publicKeyFormat' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'import' => [
               'path' => 'v1/{+parent}/cryptoKeyVersions:import',

@@ -23,6 +23,10 @@ class GoogleIdentityAccesscontextmanagerV1IngressPolicy extends \Google\Model
   protected $ingressFromDataType = '';
   protected $ingressToType = GoogleIdentityAccesscontextmanagerV1IngressTo::class;
   protected $ingressToDataType = '';
+  /**
+   * @var string
+   */
+  public $title;
 
   /**
    * @param GoogleIdentityAccesscontextmanagerV1IngressFrom
@@ -51,6 +55,20 @@ class GoogleIdentityAccesscontextmanagerV1IngressPolicy extends \Google\Model
   public function getIngressTo()
   {
     return $this->ingressTo;
+  }
+  /**
+   * @param string
+   */
+  public function setTitle($title)
+  {
+    $this->title = $title;
+  }
+  /**
+   * @return string
+   */
+  public function getTitle()
+  {
+    return $this->title;
   }
 }
 
