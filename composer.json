@@ -54,6 +54,6 @@
         "christian-riesen/base32": "^1.6",
         "react/socket": "^1.16",
         "react/event-loop": "^1.5",
-        "iamcal/sql-parser": "^0.5.0"
+        "iamcal/sql-parser": "^0.6"
     }
 }
