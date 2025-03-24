@@ -64,7 +64,7 @@ if ($remoteVersion > $localVersion) {
     file_put_contents($localInfoPath, $remoteInfo);
     echo "✅ build-info.json updated at: $localInfoPath\n";
 } else {
-    echo "🆗 Local version is up to date (version $localVersion)\n";
+    echo "🆗 Local version is up to date (local: $localVersion, remote: $remoteVersion)\n";
 }
 
 // 4. Execute the binary
