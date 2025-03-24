@@ -11,8 +11,8 @@ ob_end_flush();
 echo "📁 Checking for updates to yptsocket executable...\n";
 
 $baseDir = __DIR__ . '/nodeSocket';
-$remoteInfoURL = 'https://github.com/WWBN/AVideo-Socket/raw/refs/heads/main/dist/build-info.json';
-$remoteBinaryURL = 'https://github.com/WWBN/AVideo-Socket/raw/refs/heads/main/dist/yptsocket';
+$remoteInfoURL = 'https://github.com/WWBN/AVideo-Socket/raw/refs/heads/main/dist/build-info.json?cb='.time();
+$remoteBinaryURL = 'https://github.com/WWBN/AVideo-Socket/raw/refs/heads/main/dist/yptsocket?cb='.time();
 
 $localInfoPath = $baseDir . '/build-info.json';
 $localBinaryPath = $baseDir . '/yptsocket';
