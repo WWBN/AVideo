@@ -136,7 +136,8 @@ class YPTSocket extends PluginAbstract
         $obj->enableCalls = false;
         self::addDataObjectHelper('enableCalls', 'Enable Meeting Calls', 'This feature requires the meet plugin enabled');
 
-        $obj->socketIO = false;
+        $obj->socketIO = true;
+
         return $obj;
     }
 

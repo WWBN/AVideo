@@ -5,6 +5,8 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
         $timeOut = 43200; // valid for 12 hours
     }
     $msgObj = new stdClass();
+    $msgObj->isCommandLineInterface = isCommandLineInterface();
+    $msgObj->IP =getRealIpAddr();
     $msgObj->from_users_id = User::getId();
     $msgObj->isAdmin = User::isAdmin();
     $msgObj->user_name = User::getNameIdentification();
