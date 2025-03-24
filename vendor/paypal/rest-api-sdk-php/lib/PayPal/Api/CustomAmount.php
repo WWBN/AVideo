@@ -7,7 +7,7 @@ use PayPal\Common\PayPalModel;
 /**
  * Class CustomAmount
  *
- * The custom amount applied on an invoice. If you include a label, the amount cannot be empty.
+ * Custom amount applied on an invoice. If a label is included then the amount cannot be empty.
  *
  * @package PayPal\Api
  *
@@ -17,7 +17,7 @@ use PayPal\Common\PayPalModel;
 class CustomAmount extends PayPalModel
 {
     /**
-     * The custom amount label. Maximum length is 25 characters.
+     * Custom amount label. 25 characters max.
      *
      * @param string $label
      * 
@@ -30,7 +30,7 @@ class CustomAmount extends PayPalModel
     }
 
     /**
-     * The custom amount label. Maximum length is 25 characters.
+     * Custom amount label. 25 characters max.
      *
      * @return string
      */
@@ -40,7 +40,7 @@ class CustomAmount extends PayPalModel
     }
 
     /**
-     * The custom amount value. Valid range is from -999999.99 to 999999.99.
+     * Custom amount value. Range of 0 to 999999.99.
      *
      * @param \PayPal\Api\Currency $amount
      * 
@@ -53,7 +53,7 @@ class CustomAmount extends PayPalModel
     }
 
     /**
-     * The custom amount value. Valid range is from -999999.99 to 999999.99.
+     * Custom amount value. Range of 0 to 999999.99.
      *
      * @return \PayPal\Api\Currency
      */

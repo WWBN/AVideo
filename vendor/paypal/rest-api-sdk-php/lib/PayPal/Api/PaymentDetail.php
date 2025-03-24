@@ -17,12 +17,11 @@ use PayPal\Common\PayPalModel;
  * @property string date
  * @property string method
  * @property string note
- * @property \PayPal\Api\Currency amount
  */
 class PaymentDetail extends PayPalModel
 {
     /**
-     * The PayPal payment detail. Indicates whether payment was made in an invoicing flow through PayPal or externally. In the case of the mark-as-paid API, the supported payment type is `EXTERNAL`. For backward compatibility, the `PAYPAL` payment type is still supported.
+     * PayPal payment detail indicating whether payment was made in an invoicing flow via PayPal or externally. In the case of the mark-as-paid API, payment type is EXTERNAL and this is what is now supported. The PAYPAL value is provided for backward compatibility.
      * Valid Values: ["PAYPAL", "EXTERNAL"]
      *
      * @param string $type
@@ -36,7 +35,7 @@ class PaymentDetail extends PayPalModel
     }
 
     /**
-     * The PayPal payment detail. Indicates whether payment was made in an invoicing flow through PayPal or externally. In the case of the mark-as-paid API, the supported payment type is `EXTERNAL`. For backward compatibility, the `PAYPAL` payment type is still supported.
+     * PayPal payment detail indicating whether payment was made in an invoicing flow via PayPal or externally. In the case of the mark-as-paid API, payment type is EXTERNAL and this is what is now supported. The PAYPAL value is provided for backward compatibility.
      *
      * @return string
      */
@@ -46,7 +45,7 @@ class PaymentDetail extends PayPalModel
     }
 
     /**
-     * The PayPal payment transaction ID. Required with the `PAYPAL` payment type.
+     * PayPal payment transaction id. Mandatory field in case the type value is PAYPAL.
      *
      * @param string $transaction_id
      * 
@@ -59,7 +58,7 @@ class PaymentDetail extends PayPalModel
     }
 
     /**
-     * The PayPal payment transaction ID. Required with the `PAYPAL` payment type.
+     * PayPal payment transaction id. Mandatory field in case the type value is PAYPAL.
      *
      * @return string
      */
@@ -93,7 +92,7 @@ class PaymentDetail extends PayPalModel
     }
 
     /**
-     * The date when the invoice was paid. The date format is *yyyy*-*MM*-*dd* *z* as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Date when the invoice was paid. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $date
      * 
@@ -106,7 +105,7 @@ class PaymentDetail extends PayPalModel
     }
 
     /**
-     * The date when the invoice was paid. The date format is *yyyy*-*MM*-*dd* *z* as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Date when the invoice was paid. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -116,7 +115,7 @@ class PaymentDetail extends PayPalModel
     }
 
     /**
-     * The payment mode or method. Required with the `EXTERNAL` payment type.
+     * Payment mode or method. This field is mandatory if the value of the type field is EXTERNAL.
      * Valid Values: ["BANK_TRANSFER", "CASH", "CHECK", "CREDIT_CARD", "DEBIT_CARD", "PAYPAL", "WIRE_TRANSFER", "OTHER"]
      *
      * @param string $method
@@ -130,7 +129,7 @@ class PaymentDetail extends PayPalModel
     }
 
     /**
-     * The payment mode or method. Required with the `EXTERNAL` payment type.
+     * Payment mode or method. This field is mandatory if the value of the type field is EXTERNAL.
      *
      * @return string
      */
@@ -140,7 +139,7 @@ class PaymentDetail extends PayPalModel
     }
 
     /**
-     * Optional. A note associated with the payment.
+     * Optional note associated with the payment.
      *
      * @param string $note
      * 
@@ -153,36 +152,13 @@ class PaymentDetail extends PayPalModel
     }
 
     /**
-     * Optional. A note associated with the payment.
+     * Optional note associated with the payment.
      *
      * @return string
      */
     public function getNote()
     {
         return $this->note;
-    }
-
-    /**
-     * The amount to record as payment against invoice. If you omit this parameter, the total invoice amount is recorded as payment.
-     *
-     * @param \PayPal\Api\Currency $amount
-     * 
-     * @return $this
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
-        return $this;
-    }
-
-    /**
-     * The amount to record as payment against invoice. If you omit this parameter, the total invoice amount is recorded as payment.
-     *
-     * @return \PayPal\Api\Currency
-     */
-    public function getAmount()
-    {
-        return $this->amount;
     }
 
 }

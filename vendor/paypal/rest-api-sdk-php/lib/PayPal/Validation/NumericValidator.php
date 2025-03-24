@@ -21,6 +21,7 @@ class NumericValidator
     {
         if (trim($argument) != null && !is_numeric($argument)) {
             throw new \InvalidArgumentException("$argumentName is not a valid numeric value");
+
         }
         return true;
     }

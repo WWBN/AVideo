@@ -7,7 +7,7 @@ use PayPal\Common\PayPalModel;
 /**
  * Class MerchantInfo
  *
- * Merchant business information that appears on the invoice.
+ * Business information of the merchant that will appear on the invoice.
  *
  * @package PayPal\Api
  *
@@ -20,13 +20,12 @@ use PayPal\Common\PayPalModel;
  * @property \PayPal\Api\Phone fax
  * @property string website
  * @property string tax_id
- * @property string additional_info_label
  * @property string additional_info
  */
 class MerchantInfo extends PayPalModel
 {
     /**
-     * The merchant email address. Maximum length is 260 characters.
+     * Email address of the merchant. 260 characters max.
      *
      * @param string $email
      * 
@@ -39,7 +38,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant email address. Maximum length is 260 characters.
+     * Email address of the merchant. 260 characters max.
      *
      * @return string
      */
@@ -49,7 +48,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant first name. Maximum length is 30 characters.
+     * First name of the merchant. 30 characters max.
      *
      * @param string $first_name
      * 
@@ -62,7 +61,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant first name. Maximum length is 30 characters.
+     * First name of the merchant. 30 characters max.
      *
      * @return string
      */
@@ -72,7 +71,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant last name. Maximum length is 30 characters.
+     * Last name of the merchant. 30 characters max.
      *
      * @param string $last_name
      * 
@@ -85,7 +84,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant last name. Maximum length is 30 characters.
+     * Last name of the merchant. 30 characters max.
      *
      * @return string
      */
@@ -95,7 +94,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant address.
+     * Address of the merchant.
      *
      * @param \PayPal\Api\InvoiceAddress $address
      * 
@@ -108,7 +107,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant address.
+     * Address of the merchant.
      *
      * @return \PayPal\Api\InvoiceAddress
      */
@@ -118,7 +117,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant company business name. Maximum length is 100 characters.
+     * Company business name of the merchant. 100 characters max.
      *
      * @param string $business_name
      * 
@@ -131,7 +130,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant company business name. Maximum length is 100 characters.
+     * Company business name of the merchant. 100 characters max.
      *
      * @return string
      */
@@ -141,7 +140,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant phone number.
+     * Phone number of the merchant.
      *
      * @param \PayPal\Api\Phone $phone
      * 
@@ -154,7 +153,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant phone number.
+     * Phone number of the merchant.
      *
      * @return \PayPal\Api\Phone
      */
@@ -164,7 +163,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant fax number.
+     * Fax number of the merchant.
      *
      * @param \PayPal\Api\Phone $fax
      * 
@@ -177,7 +176,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant fax number.
+     * Fax number of the merchant.
      *
      * @return \PayPal\Api\Phone
      */
@@ -187,7 +186,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant website. Maximum length is 2048 characters.
+     * Website of the merchant. 2048 characters max.
      *
      * @param string $website
      * 
@@ -200,7 +199,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant website. Maximum length is 2048 characters.
+     * Website of the merchant. 2048 characters max.
      *
      * @return string
      */
@@ -210,7 +209,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant tax ID. Maximum length is 100 characters.
+     * Tax ID of the merchant. 100 characters max.
      *
      * @param string $tax_id
      * 
@@ -223,7 +222,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * The merchant tax ID. Maximum length is 100 characters.
+     * Tax ID of the merchant. 100 characters max.
      *
      * @return string
      */
@@ -233,30 +232,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * Option to provide a label to the additional_info field. 40 characters max.
-     *
-     * @param string $additional_info_label
-     * 
-     * @return $this
-     */
-    public function setAdditionalInfoLabel($additional_info_label)
-    {
-        $this->additional_info_label = $additional_info_label;
-        return $this;
-    }
-
-    /**
-     * Option to provide a label to the additional_info field. 40 characters max.
-     *
-     * @return string
-     */
-    public function getAdditionalInfoLabel()
-    {
-        return $this->additional_info_label;
-    }
-
-    /**
-     * Additional information, such as business hours. Maximum length is 40 characters.
+     * Option to display additional information such as business hours. 40 characters max.
      *
      * @param string $additional_info
      * 
@@ -269,7 +245,7 @@ class MerchantInfo extends PayPalModel
     }
 
     /**
-     * Additional information, such as business hours. Maximum length is 40 characters.
+     * Option to display additional information such as business hours. 40 characters max.
      *
      * @return string
      */

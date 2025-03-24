@@ -9,7 +9,7 @@ use PayPal\Validation\NumericValidator;
 /**
  * Class Cost
  *
- * Cost as a percent or an amount. For example, to specify 10%, enter `10`. Alternatively, to specify an amount of 5, enter `5`.
+ * Cost as a percent. For example, 10% should be entered as 10. Alternatively, cost as an amount. For example, an amount of 5 should be entered as 5.
  *
  * @package PayPal\Api
  *
@@ -44,7 +44,7 @@ class Cost extends PayPalModel
     }
 
     /**
-     * The cost, as an amount. Valid range is from 0 to 1,000,000.
+     * Cost in amount. Range of 0 to 999999.99.
      *
      * @param \PayPal\Api\Currency $amount
      * 
@@ -57,7 +57,7 @@ class Cost extends PayPalModel
     }
 
     /**
-     * The cost, as an amount. Valid range is from 0 to 1,000,000.
+     * Cost in amount. Range of 0 to 999999.99.
      *
      * @return \PayPal\Api\Currency
      */

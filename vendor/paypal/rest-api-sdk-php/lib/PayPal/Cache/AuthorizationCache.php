@@ -20,9 +20,7 @@ abstract class AuthorizationCache
     public static function pull($config = null, $clientId = null)
     {
         // Return if not enabled
-        if (!self::isEnabled($config)) {
-            return null;
-        }
+        if (!self::isEnabled($config)) { return null; }
 
         $tokens = null;
         $cachePath = self::cachePath($config);
@@ -34,7 +32,7 @@ abstract class AuthorizationCache
                 if ($clientId && is_array($tokens) && array_key_exists($clientId, $tokens)) {
                     // If client Id is found, just send in that data only
                     return $tokens[$clientId];
-                } elseif ($clientId) {
+                } else if ($clientId) {
                     // If client Id is provided, but no key in persisted data found matching it.
                     return null;
                 }
@@ -56,9 +54,7 @@ abstract class AuthorizationCache
     public static function push($config = null, $clientId, $accessToken, $tokenCreateTime, $tokenExpiresIn)
     {
         // Return if not enabled
-        if (!self::isEnabled($config)) {
-            return;
-        }
+        if (!self::isEnabled($config)) { return; }
 
         $cachePath = self::cachePath($config);
         if (!is_dir(dirname($cachePath))) {
@@ -78,7 +74,7 @@ abstract class AuthorizationCache
                 'tokenExpiresIn' => $tokenExpiresIn
             );
         }
-        if (!file_put_contents($cachePath, json_encode($tokens))) {
+        if(!file_put_contents($cachePath, json_encode($tokens))) {
             throw new \Exception("Failed to write cache");
         };
     }
@@ -120,4 +116,6 @@ abstract class AuthorizationCache
         $config = ($config && is_array($config)) ? $config : PayPalConfigManager::getInstance()->getConfigHashmap();
         return (array_key_exists($key, $config)) ? trim($config[$key]) : null;
     }
+
+
 }

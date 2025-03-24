@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head><title>sale/RefundSale</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="sale/RefundSale"><meta name="groc-project-path" content="sale/RefundSale.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">sale/RefundSale.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="sale-refund-sample">Sale Refund Sample</h1>
+<p>This sample code demonstrate how you can 
+process a refund on a sale transaction created 
+using the Payments API.
+API used: /v1/payments/sale/{sale-id}/refund</p></div></div><div class="code"><div class="wrapper"><span class="hljs-comment">/**<span class="hljs-phpdoc"> @var</span> Sale $sale */</span>
+<span class="hljs-variable">$sale</span> = <span class="hljs-keyword">require</span> <span class="hljs-string">'GetSale.php'</span>;
+<span class="hljs-variable">$saleId</span> = <span class="hljs-variable">$sale</span>-&gt;getId();
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Amount</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Refund</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Sale</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="refund-amount">Refund amount</h3>
+<p>Includes both the refunded amount (to Payer) 
+and refunded fee (to Payee). Use the $amt-&gt;details
+field to mention fees refund details.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$amt</span> = <span class="hljs-keyword">new</span> Amount();
+<span class="hljs-variable">$amt</span>-&gt;setCurrency(<span class="hljs-string">'USD'</span>)
+    -&gt;setTotal(<span class="hljs-number">0.01</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="refund-object">Refund object</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$refund</span> = <span class="hljs-keyword">new</span> Refund();
+<span class="hljs-variable">$refund</span>-&gt;setAmount(<span class="hljs-variable">$amt</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="sale">Sale</h3>
+<p>A sale transaction.
+Create a Sale object with the
+given sale transaction id.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$sale</span> = <span class="hljs-keyword">new</span> Sale();
+<span class="hljs-variable">$sale</span>-&gt;setId(<span class="hljs-variable">$saleId</span>);
+<span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Create a new apiContext object so we send a new
+PayPal-Request-Id (idempotency) header for this resource</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$apiContext</span> = getApiContext(<span class="hljs-variable">$clientId</span>, <span class="hljs-variable">$clientSecret</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Refund the sale
+(See bootstrap.php for more on <code>ApiContext</code>)</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$refundedSale</span> = <span class="hljs-variable">$sale</span>-&gt;refund(<span class="hljs-variable">$refund</span>, <span class="hljs-variable">$apiContext</span>);
+} <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	ResultPrinter::printError(<span class="hljs-string">"Refund Sale"</span>, <span class="hljs-string">"Sale"</span>, <span class="hljs-variable">$refundedSale</span>-&gt;getId(), <span class="hljs-variable">$refund</span>, <span class="hljs-variable">$ex</span>);
+    <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> ResultPrinter::printResult(<span class="hljs-string">"Refund Sale"</span>, <span class="hljs-string">"Sale"</span>, <span class="hljs-variable">$refundedSale</span>-&gt;getId(), <span class="hljs-variable">$refund</span>, <span class="hljs-variable">$refundedSale</span>);
+
+<span class="hljs-keyword">return</span> <span class="hljs-variable">$refundedSale</span>;</div></div></div></div></body></html>

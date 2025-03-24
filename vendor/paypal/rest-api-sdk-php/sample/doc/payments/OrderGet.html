@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en"><head><title>payments/OrderGet</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="payments/OrderGet"><meta name="groc-project-path" content="payments/OrderGet.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">payments/OrderGet.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="get-order-sample">Get Order Sample</h1>
+<p>Specify an order ID to get details about an order.
+API used: GET /v1/payments/orders/<Order-Id></p></div></div><div class="code"><div class="wrapper"><span class="hljs-comment">/**<span class="hljs-phpdoc"> @var</span> \PayPal\Api\Payment $payment */</span>
+<span class="hljs-variable">$payment</span> = <span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/ExecutePayment.php'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="approval-status">Approval Status</h3>
+<p>Determine if the user approved the payment or not</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">'success'</span>]) &amp;&amp; <span class="hljs-variable">$_GET</span>[<span class="hljs-string">'success'</span>] == <span class="hljs-string">'true'</span>) {
+
+    <span class="hljs-variable">$transactions</span> = <span class="hljs-variable">$payment</span>-&gt;getTransactions();
+    <span class="hljs-variable">$transaction</span> = <span class="hljs-variable">$transactions</span>[<span class="hljs-number">0</span>];
+    <span class="hljs-variable">$relatedResources</span> = <span class="hljs-variable">$transaction</span>-&gt;getRelatedResources();
+    <span class="hljs-variable">$relatedResource</span> = <span class="hljs-variable">$relatedResources</span>[<span class="hljs-number">0</span>];
+    <span class="hljs-variable">$order</span> = <span class="hljs-variable">$relatedResource</span>-&gt;getOrder();
+
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-variable">$result</span> = \PayPal\Api\Order::get(<span class="hljs-variable">$order</span>-&gt;getId(), <span class="hljs-variable">$apiContext</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper">        ResultPrinter::printResult(<span class="hljs-string">"Get Order"</span>, <span class="hljs-string">"Order"</span>, <span class="hljs-variable">$result</span>-&gt;getId(), <span class="hljs-keyword">null</span>, <span class="hljs-variable">$result</span>);
+    } <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	    ResultPrinter::printError(<span class="hljs-string">"Get Order"</span>, <span class="hljs-string">"Order"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$ex</span>);
+        <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-variable">$result</span>;
+
+} <span class="hljs-keyword">else</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper">    ResultPrinter::printResult(<span class="hljs-string">"User Cancelled the Approval"</span>, <span class="hljs-keyword">null</span>);
+    <span class="hljs-keyword">exit</span>;
+}</div></div></div></div></body></html>

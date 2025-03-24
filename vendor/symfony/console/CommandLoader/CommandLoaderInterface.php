@@ -36,7 +36,7 @@ interface CommandLoaderInterface
     public function has(string $name);
 
     /**
-     * @return string[]
+     * @return string[] All registered command names
      */
     public function getNames();
 }

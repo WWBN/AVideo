@@ -10,7 +10,7 @@ use PayPal\Validation\ArgumentValidator;
 /**
  * Class PayoutItem
  *
- * A sender-created definition of a payout to a single recipient.
+ * Sender-created description of a payout to a single recipient.
  *
  * @package PayPal\Api
  *
@@ -23,10 +23,10 @@ use PayPal\Validation\ArgumentValidator;
 class PayoutItem extends PayPalResourceModel
 {
     /**
-     * The type of ID that identifies the payment receiver. Value is:<ul><code>EMAIL</code>. Unencrypted email. Value is a string of up to 127 single-byte characters.</li><li><code>PHONE</code>. Unencrypted phone number.<blockquote><strong>Note:</strong> The PayPal sandbox does not support the <code>PHONE</code> recipient type.</blockquote></li><li><code>PAYPAL_ID</code>. Encrypted PayPal account number.</li></ul>If the <code>sender_batch_header</code> includes the <code>recipient_type</code> attribute, any payout item without its own <code>recipient_type</code> attribute uses the <code>recipient_type</code> value from <code>sender_batch_header</code>. If the <code>sender_batch_header</code> omits the <code>recipient_type</code> attribute, each payout item must include its own <code>recipient_type</code> value.
+     * The type of identification for the payment receiver. If this field is provided, the payout items without a `recipient_type` will use the provided value. If this field is not provided, each payout item must include a value for the `recipient_type`.
      *
      * @param string $recipient_type
-     * 
+     *
      * @return $this
      */
     public function setRecipientType($recipient_type)
@@ -36,7 +36,7 @@ class PayoutItem extends PayPalResourceModel
     }
 
     /**
-     * The type of ID that identifies the payment receiver. Value is:<ul><code>EMAIL</code>. Unencrypted email. Value is a string of up to 127 single-byte characters.</li><li><code>PHONE</code>. Unencrypted phone number.<blockquote><strong>Note:</strong> The PayPal sandbox does not support the <code>PHONE</code> recipient type.</blockquote></li><li><code>PAYPAL_ID</code>. Encrypted PayPal account number.</li></ul>If the <code>sender_batch_header</code> includes the <code>recipient_type</code> attribute, any payout item without its own <code>recipient_type</code> attribute uses the <code>recipient_type</code> value from <code>sender_batch_header</code>. If the <code>sender_batch_header</code> omits the <code>recipient_type</code> attribute, each payout item must include its own <code>recipient_type</code> value.
+     * The type of identification for the payment receiver. If this field is provided, the payout items without a `recipient_type` will use the provided value. If this field is not provided, each payout item must include a value for the `recipient_type`.
      *
      * @return string
      */
@@ -46,10 +46,10 @@ class PayoutItem extends PayPalResourceModel
     }
 
     /**
-     * The amount of money to pay the receiver.
+     * The amount of money to pay a receiver.
      *
      * @param \PayPal\Api\Currency $amount
-     * 
+     *
      * @return $this
      */
     public function setAmount($amount)
@@ -59,7 +59,7 @@ class PayoutItem extends PayPalResourceModel
     }
 
     /**
-     * The amount of money to pay the receiver.
+     * The amount of money to pay a receiver.
      *
      * @return \PayPal\Api\Currency
      */
@@ -69,10 +69,10 @@ class PayoutItem extends PayPalResourceModel
     }
 
     /**
-     * Optional. A sender-specified note for notifications. Value is any string value.
+     * Note for notifications. The note is provided by the payment sender. This note can be any string. 4000 characters max.
      *
      * @param string $note
-     * 
+     *
      * @return $this
      */
     public function setNote($note)
@@ -82,7 +82,7 @@ class PayoutItem extends PayPalResourceModel
     }
 
     /**
-     * Optional. A sender-specified note for notifications. Value is any string value.
+     * Note for notifications. The note is provided by the payment sender. This note can be any string. 4000 characters max.
      *
      * @return string
      */
@@ -92,10 +92,10 @@ class PayoutItem extends PayPalResourceModel
     }
 
     /**
-     * The receiver of the payment. Corresponds to the `recipient_type` value in the request.
+     * The receiver of the payment. In a call response, the format of this value corresponds to the `recipient_type` specified in the request. 127 characters max.
      *
      * @param string $receiver
-     * 
+     *
      * @return $this
      */
     public function setReceiver($receiver)
@@ -105,7 +105,7 @@ class PayoutItem extends PayPalResourceModel
     }
 
     /**
-     * The receiver of the payment. Corresponds to the `recipient_type` value in the request.
+     * The receiver of the payment. In a call response, the format of this value corresponds to the `recipient_type` specified in the request. 127 characters max.
      *
      * @return string
      */
@@ -115,10 +115,10 @@ class PayoutItem extends PayPalResourceModel
     }
 
     /**
-     * A sender-specified ID number. Tracks the batch payout in an accounting system.
+     * A sender-specific ID number, used in an accounting system for tracking purposes. 30 characters max.
      *
      * @param string $sender_item_id
-     * 
+     *
      * @return $this
      */
     public function setSenderItemId($sender_item_id)
@@ -128,7 +128,7 @@ class PayoutItem extends PayPalResourceModel
     }
 
     /**
-     * A sender-specified ID number. Tracks the batch payout in an accounting system.
+     * A sender-specific ID number, used in an accounting system for tracking purposes. 30 characters max.
      *
      * @return string
      */
@@ -186,4 +186,5 @@ class PayoutItem extends PayPalResourceModel
         $ret->fromJson($json);
         return $ret;
     }
+
 }

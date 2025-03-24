@@ -78,9 +78,9 @@ class OauthHandler implements IPayPalHandler
     {
         if (isset($config['oauth.EndPoint'])) {
             $baseEndpoint = $config['oauth.EndPoint'];
-        } elseif (isset($config['service.EndPoint'])) {
+        } else if (isset($config['service.EndPoint'])) {
             $baseEndpoint = $config['service.EndPoint'];
-        } elseif (isset($config['mode'])) {
+        } else if (isset($config['mode'])) {
             switch (strtoupper($config['mode'])) {
                 case 'SANDBOX':
                     $baseEndpoint = PayPalConstants::REST_SANDBOX_ENDPOINT;

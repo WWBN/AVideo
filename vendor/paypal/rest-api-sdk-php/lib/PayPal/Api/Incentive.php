@@ -12,15 +12,15 @@ use PayPal\Validation\UrlValidator;
  *
  * @package PayPal\Api
  *
- * @property string id
- * @property string code
- * @property string name
- * @property string description
+ * @property string               id
+ * @property string               code
+ * @property string               name
+ * @property string               description
  * @property \PayPal\Api\Currency minimum_purchase_amount
- * @property string logo_image_url
- * @property string expiry_date
- * @property string type
- * @property string terms
+ * @property string               logo_image_url
+ * @property string               expiry_date
+ * @property string               type
+ * @property string               terms
  */
 class Incentive extends PayPalModel
 {
@@ -28,7 +28,7 @@ class Incentive extends PayPalModel
      * Identifier of the instrument in PayPal Wallet
      *
      * @param string $id
-     * 
+     *
      * @return $this
      */
     public function setId($id)
@@ -51,7 +51,7 @@ class Incentive extends PayPalModel
      * Code that identifies the incentive.
      *
      * @param string $code
-     * 
+     *
      * @return $this
      */
     public function setCode($code)
@@ -74,7 +74,7 @@ class Incentive extends PayPalModel
      * Name of the incentive.
      *
      * @param string $name
-     * 
+     *
      * @return $this
      */
     public function setName($name)
@@ -97,7 +97,7 @@ class Incentive extends PayPalModel
      * Description of the incentive.
      *
      * @param string $description
-     * 
+     *
      * @return $this
      */
     public function setDescription($description)
@@ -120,7 +120,7 @@ class Incentive extends PayPalModel
      * Indicates incentive is applicable for this minimum purchase amount.
      *
      * @param \PayPal\Api\Currency $minimum_purchase_amount
-     * 
+     *
      * @return $this
      */
     public function setMinimumPurchaseAmount($minimum_purchase_amount)
@@ -167,7 +167,7 @@ class Incentive extends PayPalModel
      * expiry date of the incentive.
      *
      * @param string $expiry_date
-     * 
+     *
      * @return $this
      */
     public function setExpiryDate($expiry_date)
@@ -191,7 +191,7 @@ class Incentive extends PayPalModel
      * Valid Values: ["COUPON", "GIFT_CARD", "MERCHANT_SPECIFIC_BALANCE", "VOUCHER"]
      *
      * @param string $type
-     * 
+     *
      * @return $this
      */
     public function setType($type)
@@ -214,7 +214,7 @@ class Incentive extends PayPalModel
      * URI to the associated terms
      *
      * @param string $terms
-     * 
+     *
      * @return $this
      */
     public function setTerms($terms)

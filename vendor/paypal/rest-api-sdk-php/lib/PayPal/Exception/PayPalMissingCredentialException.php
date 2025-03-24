@@ -33,4 +33,5 @@ class PayPalMissingCredentialException extends \Exception
 
         return $errorMsg;
     }
+
 }

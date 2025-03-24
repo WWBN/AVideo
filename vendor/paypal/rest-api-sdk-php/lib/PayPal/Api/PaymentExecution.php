@@ -11,7 +11,8 @@ use PayPal\Common\PayPalModel;
  *
  * @package PayPal\Api
  *
- * @property string payer_id
+ * @property string                    payer_id
+ * @property string                    carrier_account_id
  * @property \PayPal\Api\Transaction[] transactions
  */
 class PaymentExecution extends PayPalModel
@@ -20,7 +21,7 @@ class PaymentExecution extends PayPalModel
      * The ID of the Payer, passed in the `return_url` by PayPal.
      *
      * @param string $payer_id
-     * 
+     *
      * @return $this
      */
     public function setPayerId($payer_id)
@@ -41,9 +42,9 @@ class PaymentExecution extends PayPalModel
 
     /**
      * Carrier account id for a carrier billing payment. For a carrier billing payment, payer_id is not applicable.
-     * @deprecated Not publicly available
+     *
      * @param string $carrier_account_id
-     * 
+     *
      * @return $this
      */
     public function setCarrierAccountId($carrier_account_id)
@@ -54,7 +55,7 @@ class PaymentExecution extends PayPalModel
 
     /**
      * Carrier account id for a carrier billing payment. For a carrier billing payment, payer_id is not applicable.
-     * @deprecated Not publicly available
+     *
      * @return string
      */
     public function getCarrierAccountId()
@@ -66,7 +67,7 @@ class PaymentExecution extends PayPalModel
      * Transactional details including the amount and item details.
      *
      * @param \PayPal\Api\Transaction[] $transactions
-     * 
+     *
      * @return $this
      */
     public function setTransactions($transactions)

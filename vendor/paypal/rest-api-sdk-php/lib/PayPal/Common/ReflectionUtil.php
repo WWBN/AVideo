@@ -1,7 +1,6 @@
 <?php
 
 namespace PayPal\Common;
-
 use PayPal\Exception\PayPalConfigurationException;
 
 /**
@@ -113,7 +112,7 @@ class ReflectionUtil
         }
 
         // todo: smarter regexp
-        if (!preg_match_all(
+        if ( !preg_match_all(
             '~\@([^\s@\(]+)[\t ]*(?:\(?([^\n@]+)\)?)?~i',
             $refl->getDocComment(),
             $annots,
@@ -121,7 +120,7 @@ class ReflectionUtil
             return null;
         }
         foreach ($annots[1] as $i => $annot) {
-            $annotations[strtolower($annot)] = empty($annots[2][$i]) ? true : rtrim($annots[2][$i], " \t\n\r)");
+            $annotations[strtolower($annot)] = empty($annots[2][$i]) ? TRUE : rtrim($annots[2][$i], " \t\n\r)");
         }
 
         return $annotations;

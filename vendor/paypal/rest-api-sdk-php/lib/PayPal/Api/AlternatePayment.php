@@ -11,8 +11,6 @@ use PayPal\Common\PayPalModel;
  *
  * @package PayPal\Api
  *
- * @deprecated Used for limited release only.
- *
  * @property string alternate_payment_account_id
  * @property string external_customer_id
  * @property string alternate_payment_provider_id

@@ -16,7 +16,6 @@ use PayPal\Common\PayPalModel;
  * @property string funding_account_id
  * @property string display_text
  * @property \PayPal\Api\Amount amount
- * @property string funding_instruction
  */
 class ExternalFunding extends PayPalModel
 {
@@ -135,27 +134,4 @@ class ExternalFunding extends PayPalModel
         return $this->amount;
     }
 
-    /**
-     * Indicates that the Payment should be fully funded by External Funded Incentive
-     * Valid Values: ["FULLY_FUNDED"]
-     *
-     * @param string $funding_instruction
-     *
-     * @return $this
-     */
-    public function setFundingInstruction($funding_instruction)
-    {
-        $this->funding_instruction = $funding_instruction;
-        return $this;
-    }
-
-    /**
-     * Indicates that the Payment should be fully funded by External Funded Incentive
-     *
-     * @return string
-     */
-    public function getFundingInstruction()
-    {
-        return $this->funding_instruction;
-    }
 }

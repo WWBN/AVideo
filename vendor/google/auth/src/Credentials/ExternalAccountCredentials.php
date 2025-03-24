@@ -52,6 +52,8 @@ class ExternalAccountCredentials implements
     private ?string $serviceAccountImpersonationUrl;
     private ?string $workforcePoolUserProject;
     private ?string $projectId;
+    /** @var array<mixed> */
+    private ?array $lastImpersonatedAccessToken;
     private string $universeDomain;
 
     /**
@@ -211,7 +213,7 @@ class ExternalAccountCredentials implements
 
     /**
      * @param string $stsToken
-     * @param callable $httpHandler
+     * @param callable|null $httpHandler
      *
      * @return array<mixed> {
      *     A set of auth related metadata, containing the following
@@ -220,7 +222,7 @@ class ExternalAccountCredentials implements
      *     @type int $expires_at
      * }
      */
-    private function getImpersonatedAccessToken(string $stsToken, callable $httpHandler = null): array
+    private function getImpersonatedAccessToken(string $stsToken, ?callable $httpHandler = null): array
     {
         if (!isset($this->serviceAccountImpersonationUrl)) {
             throw new InvalidArgumentException(
@@ -251,7 +253,9 @@ class ExternalAccountCredentials implements
     }
 
     /**
-     * @param callable $httpHandler
+     * @param callable|null $httpHandler
+     * @param array<mixed> $headers [optional] Metrics headers to be inserted
+     *     into the token endpoint request present.
      *
      * @return array<mixed> {
      *     A set of auth related metadata, containing the following
@@ -263,12 +267,15 @@ class ExternalAccountCredentials implements
      *     @type string $token_type (identity pool only)
      * }
      */
-    public function fetchAuthToken(callable $httpHandler = null)
+    public function fetchAuthToken(?callable $httpHandler = null, array $headers = [])
     {
-        $stsToken = $this->auth->fetchAuthToken($httpHandler);
+        $stsToken = $this->auth->fetchAuthToken($httpHandler, $headers);
 
         if (isset($this->serviceAccountImpersonationUrl)) {
-            return $this->getImpersonatedAccessToken($stsToken['access_token'], $httpHandler);
+            return $this->lastImpersonatedAccessToken = $this->getImpersonatedAccessToken(
+                $stsToken['access_token'],
+                $httpHandler
+            );
         }
 
         return $stsToken;
@@ -299,7 +306,7 @@ class ExternalAccountCredentials implements
 
     public function getLastReceivedToken()
     {
-        return $this->auth->getLastReceivedToken();
+        return $this->lastImpersonatedAccessToken ?? $this->auth->getLastReceivedToken();
     }
 
     /**
@@ -325,13 +332,13 @@ class ExternalAccountCredentials implements
     /**
      * Get the project ID.
      *
-     * @param callable $httpHandler Callback which delivers psr7 request
-     * @param string $accessToken The access token to use to sign the blob. If
+     * @param callable|null $httpHandler Callback which delivers psr7 request
+     * @param string|null $accessToken The access token to use to sign the blob. If
      *        provided, saves a call to the metadata server for a new access
      *        token. **Defaults to** `null`.
      * @return string|null
      */
-    public function getProjectId(callable $httpHandler = null, string $accessToken = null)
+    public function getProjectId(?callable $httpHandler = null, ?string $accessToken = null)
     {
         if (isset($this->projectId)) {
             return $this->projectId;

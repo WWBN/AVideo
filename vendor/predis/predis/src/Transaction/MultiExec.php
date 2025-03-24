@@ -4,7 +4,7 @@
  * This file is part of the Predis package.
  *
  * (c) 2009-2020 Daniele Alessandri
- * (c) 2021-2023 Till Krüss
+ * (c) 2021-2024 Till Krüss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -49,9 +49,9 @@ class MultiExec implements ClientContextInterface
 
     /**
      * @param ClientInterface $client  Client instance used by the transaction.
-     * @param array           $options Initialization options.
+     * @param array|null      $options Initialization options.
      */
-    public function __construct(ClientInterface $client, array $options = null)
+    public function __construct(ClientInterface $client, ?array $options = null)
     {
         $this->assertClient($client);
 

@@ -4,7 +4,7 @@
  * This file is part of the Predis package.
  *
  * (c) 2009-2020 Daniele Alessandri
- * (c) 2021-2023 Till Krüss
+ * (c) 2021-2024 Till Krüss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -117,13 +117,13 @@ class SentinelReplication implements ReplicationInterface
      * @param string                     $service           Name of the service for autodiscovery.
      * @param array                      $sentinels         Sentinel servers connection parameters.
      * @param ConnectionFactoryInterface $connectionFactory Connection factory instance.
-     * @param ReplicationStrategy        $strategy          Replication strategy instance.
+     * @param ReplicationStrategy|null   $strategy          Replication strategy instance.
      */
     public function __construct(
         $service,
         array $sentinels,
         ConnectionFactoryInterface $connectionFactory,
-        ReplicationStrategy $strategy = null
+        ?ReplicationStrategy $strategy = null
     ) {
         $this->sentinels = $sentinels;
         $this->service = $service;
@@ -423,6 +423,11 @@ class SentinelReplication implements ReplicationInterface
             $flags = explode(',', $slave[9]);
 
             if (array_intersect($flags, ['s_down', 'o_down', 'disconnected'])) {
+                continue;
+            }
+
+            // ensure `master-link-status` is ok
+            if (isset($slave[31]) && $slave[31] === 'err') {
                 continue;
             }
 

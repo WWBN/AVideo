@@ -41,11 +41,9 @@ class PayPalResourceModel extends PayPalModel implements IResource
 
     public function getLink($rel)
     {
-        if (is_array($this->links)) {
-            foreach ($this->links as $link) {
-                if ($link->getRel() == $rel) {
-                    return $link->getHref();
-                }
+        foreach ($this->links as $link) {
+            if ($link->getRel() == $rel) {
+                return $link->getHref();
             }
         }
         return null;
@@ -104,17 +102,4 @@ class PayPalResourceModel extends PayPalModel implements IResource
         $json = $restCall->execute($handlers, $url, $method, $payLoad, $headers);
         return $json;
     }
-
-    /**
-     * Updates Access Token using long lived refresh token
-     *
-     * @param string|null $refreshToken
-     * @param ApiContext $apiContext
-     * @return void
-     */
-    public function updateAccessToken($refreshToken, $apiContext)
-    {
-        $apiContext = $apiContext ? $apiContext : new ApiContext(self::$credential);
-        $apiContext->getCredential()->updateAccessToken($apiContext->getConfig(), $refreshToken);
-    }
-}
+} 

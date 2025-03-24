@@ -14,9 +14,10 @@ class ExtendedBankAccount extends BankAccount
 {
     /**
      * Identifier of the direct debit mandate to validate. Currently supported only for EU bank accounts(SEPA).
+     *
      * @deprecated Not publicly available
      * @param string $mandate_reference_number
-     * 
+     *
      * @return $this
      */
     public function setMandateReferenceNumber($mandate_reference_number)
@@ -27,6 +28,7 @@ class ExtendedBankAccount extends BankAccount
 
     /**
      * Identifier of the direct debit mandate to validate. Currently supported only for EU bank accounts(SEPA).
+     *
      * @deprecated Not publicly available
      * @return string
      */

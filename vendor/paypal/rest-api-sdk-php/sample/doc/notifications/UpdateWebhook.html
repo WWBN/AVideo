@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><title>notifications/UpdateWebhook</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="notifications/UpdateWebhook"><meta name="groc-project-path" content="notifications/UpdateWebhook.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">notifications/UpdateWebhook.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="update-webhook-sample">Update Webhook Sample</h1>
+<p>This sample code demonstrate how to use this call to update a webhook; supports the replace operation only, as documented here at:
+<a href="https://developer.paypal.com/webapps/developer/docs/api/#update-a-webhook">https://developer.paypal.com/webapps/developer/docs/api/#update-a-webhook</a>
+API used: PATCH v1/notifications/webhooks/<Webhook-Id></p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="get-webhook-id">Get Webhook ID.</h2>
+<p>In samples we are using CreateWebhook.php sample to get the created instance of webhook.
+However, in real case scenario, we could use just the ID from database or use an already existing webhook.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-comment">/**<span class="hljs-phpdoc"> @var</span> \PayPal\Api\Webhook $webhook */</span>
+<span class="hljs-variable">$webhook</span> = <span class="hljs-keyword">require</span> <span class="hljs-string">'CreateWebhook.php'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Updating the webhook as per given request</p>
+<pre><code> [
+    {
+        &quot;op&quot;:&quot;replace&quot;,
+       &quot;path&quot;:&quot;/url&quot;,
+       &quot;value&quot;:&quot;https://requestb.in/10ujt3c1&quot;
+    },
+    {
+        &quot;op&quot;:&quot;replace&quot;,
+       &quot;path&quot;:&quot;/event_types&quot;,
+       &quot;value&quot;:[
+          {
+              &quot;name&quot;:&quot;PAYMENT.SALE.REFUNDED&quot;
+          }
+       ]
+    }
+ ]</code></pre></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$patch</span> = <span class="hljs-keyword">new</span> \PayPal\Api\Patch();
+<span class="hljs-variable">$patch</span>-&gt;setOp(<span class="hljs-string">"replace"</span>)
+    -&gt;setPath(<span class="hljs-string">"/url"</span>)
+    -&gt;setValue(<span class="hljs-string">"https://requestb.in/10ujt3c1?uniqid="</span>. uniqid());
+
+<span class="hljs-variable">$patch2</span> = <span class="hljs-keyword">new</span> \PayPal\Api\Patch();
+<span class="hljs-variable">$patch2</span>-&gt;setOp(<span class="hljs-string">"replace"</span>)
+    -&gt;setPath(<span class="hljs-string">"/event_types"</span>)
+    -&gt;setValue(json_decode(<span class="hljs-string">'[{"name":"PAYMENT.SALE.REFUNDED"}]'</span>));
+
+<span class="hljs-variable">$patchRequest</span> = <span class="hljs-keyword">new</span> \PayPal\Api\PatchRequest();
+<span class="hljs-variable">$patchRequest</span>-&gt;addPatch(<span class="hljs-variable">$patch</span>)-&gt;addPatch(<span class="hljs-variable">$patch2</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="get-webhook">Get Webhook</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">try</span> {
+    <span class="hljs-variable">$output</span> = <span class="hljs-variable">$webhook</span>-&gt;update(<span class="hljs-variable">$patchRequest</span>, <span class="hljs-variable">$apiContext</span>);
+} <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	ResultPrinter::printError(<span class="hljs-string">"Updated a Webhook"</span>, <span class="hljs-string">"Webhook"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$patchRequest</span>, <span class="hljs-variable">$ex</span>);
+    <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> ResultPrinter::printResult(<span class="hljs-string">"Updated a Webhook"</span>, <span class="hljs-string">"Webhook"</span>, <span class="hljs-variable">$output</span>-&gt;getId(), <span class="hljs-variable">$patchRequest</span>, <span class="hljs-variable">$output</span>);
+
+<span class="hljs-keyword">return</span> <span class="hljs-variable">$output</span>;</div></div></div></div></body></html>

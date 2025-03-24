@@ -12,15 +12,13 @@ use PayPal\Common\PayPalModel;
  * @package PayPal\Api
  *
  * @property string type
- * @property string transaction_id
  * @property string date
  * @property string note
- * @property \PayPal\Api\Currency amount
  */
 class RefundDetail extends PayPalModel
 {
     /**
-     * The PayPal refund type. Indicates whether refund was paid in invoicing flow through PayPal or externally. In the case of mark-as-refunded API, the supported refund type is `EXTERNAL`. For backward compatability, the `PAYPAL` refund type is still supported.
+     * PayPal refund type indicating whether refund was done in invoicing flow via PayPal or externally. In the case of the mark-as-refunded API, refund type is EXTERNAL and this is what is now supported. The PAYPAL value is provided for backward compatibility.
      * Valid Values: ["PAYPAL", "EXTERNAL"]
      *
      * @param string $type
@@ -34,7 +32,7 @@ class RefundDetail extends PayPalModel
     }
 
     /**
-     * The PayPal refund type. Indicates whether refund was paid in invoicing flow through PayPal or externally. In the case of mark-as-refunded API, the supported refund type is `EXTERNAL`. For backward compatability, the `PAYPAL` refund type is still supported.
+     * PayPal refund type indicating whether refund was done in invoicing flow via PayPal or externally. In the case of the mark-as-refunded API, refund type is EXTERNAL and this is what is now supported. The PAYPAL value is provided for backward compatibility.
      *
      * @return string
      */
@@ -44,30 +42,7 @@ class RefundDetail extends PayPalModel
     }
 
     /**
-     * The PayPal refund transaction ID. Required with the `PAYPAL` refund type.
-     *
-     * @param string $transaction_id
-     * 
-     * @return $this
-     */
-    public function setTransactionId($transaction_id)
-    {
-        $this->transaction_id = $transaction_id;
-        return $this;
-    }
-
-    /**
-     * The PayPal refund transaction ID. Required with the `PAYPAL` refund type.
-     *
-     * @return string
-     */
-    public function getTransactionId()
-    {
-        return $this->transaction_id;
-    }
-
-    /**
-     * Date on which the invoice was refunded. Date format: yyyy-MM-dd z. For example, 2014-02-27 PST.
+     * Date when the invoice was marked as refunded. If no date is specified, the current date and time is used as the default. In addition, the date must be after the invoice payment date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $date
      * 
@@ -80,7 +55,7 @@ class RefundDetail extends PayPalModel
     }
 
     /**
-     * Date on which the invoice was refunded. Date format: yyyy-MM-dd z. For example, 2014-02-27 PST.
+     * Date when the invoice was marked as refunded. If no date is specified, the current date and time is used as the default. In addition, the date must be after the invoice payment date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -110,29 +85,6 @@ class RefundDetail extends PayPalModel
     public function getNote()
     {
         return $this->note;
-    }
-
-    /**
-     * Amount to be recorded as refund against invoice. If this field is not passed, the total invoice paid amount is recorded as refund.
-     *
-     * @param \PayPal\Api\Currency $amount
-     * 
-     * @return $this
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
-        return $this;
-    }
-
-    /**
-     * Amount to be recorded as refund against invoice. If this field is not passed, the total invoice paid amount is recorded as refund.
-     *
-     * @return \PayPal\Api\Currency
-     */
-    public function getAmount()
-    {
-        return $this->amount;
     }
 
 }

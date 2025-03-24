@@ -24,7 +24,7 @@ use PayPal\Common\PayPalModel;
 class BillingInfo extends PayPalModel
 {
     /**
-     * The invoice recipient email address. Maximum length is 260 characters.
+     * Email address of the invoice recipient. 260 characters max.
      *
      * @param string $email
      * 
@@ -37,7 +37,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient email address. Maximum length is 260 characters.
+     * Email address of the invoice recipient. 260 characters max.
      *
      * @return string
      */
@@ -47,7 +47,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient first name. Maximum length is 30 characters.
+     * First name of the invoice recipient. 30 characters max.
      *
      * @param string $first_name
      * 
@@ -60,7 +60,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient first name. Maximum length is 30 characters.
+     * First name of the invoice recipient. 30 characters max.
      *
      * @return string
      */
@@ -70,7 +70,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient last name. Maximum length is 30 characters.
+     * Last name of the invoice recipient. 30 characters max.
      *
      * @param string $last_name
      * 
@@ -83,7 +83,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient last name. Maximum length is 30 characters.
+     * Last name of the invoice recipient. 30 characters max.
      *
      * @return string
      */
@@ -93,7 +93,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient company business name. Maximum length is 100 characters.
+     * Company business name of the invoice recipient. 100 characters max.
      *
      * @param string $business_name
      * 
@@ -106,7 +106,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient company business name. Maximum length is 100 characters.
+     * Company business name of the invoice recipient. 100 characters max.
      *
      * @return string
      */
@@ -116,7 +116,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient address.
+     * Address of the invoice recipient.
      *
      * @param \PayPal\Api\InvoiceAddress $address
      * 
@@ -129,7 +129,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient address.
+     * Address of the invoice recipient.
      *
      * @return \PayPal\Api\InvoiceAddress
      */
@@ -139,7 +139,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The language in which the email was sent to the payer. Used only when the payer does not have a PayPal account.
+     * Language of the email sent to the payer. Will only be used if payer doesn't have a PayPal account.
      * Valid Values: ["da_DK", "de_DE", "en_AU", "en_GB", "en_US", "es_ES", "es_XC", "fr_CA", "fr_FR", "fr_XC", "he_IL", "id_ID", "it_IT", "ja_JP", "nl_NL", "no_NO", "pl_PL", "pt_BR", "pt_PT", "ru_RU", "sv_SE", "th_TH", "tr_TR", "zh_CN", "zh_HK", "zh_TW", "zh_XC"]
      *
      * @param string $language
@@ -153,7 +153,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * The language in which the email was sent to the payer. Used only when the payer does not have a PayPal account.
+     * Language of the email sent to the payer. Will only be used if payer doesn't have a PayPal account.
      *
      * @return string
      */
@@ -163,7 +163,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * Additional information, such as business hours. Maximum length is 40 characters.
+     * Option to display additional information such as business hours. 40 characters max.
      *
      * @param string $additional_info
      * 
@@ -176,7 +176,7 @@ class BillingInfo extends PayPalModel
     }
 
     /**
-     * Additional information, such as business hours. Maximum length is 40 characters.
+     * Option to display additional information such as business hours. 40 characters max.
      *
      * @return string
      */

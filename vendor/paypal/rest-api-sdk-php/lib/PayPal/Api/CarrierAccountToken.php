@@ -20,7 +20,7 @@ class CarrierAccountToken extends PayPalModel
      * ID of a previously saved carrier account resource.
      *
      * @param string $carrier_account_id
-     * 
+     *
      * @return $this
      */
     public function setCarrierAccountId($carrier_account_id)
@@ -43,7 +43,7 @@ class CarrierAccountToken extends PayPalModel
      * The unique identifier of the payer used when saving this carrier account instrument.
      *
      * @param string $external_customer_id
-     * 
+     *
      * @return $this
      */
     public function setExternalCustomerId($external_customer_id)

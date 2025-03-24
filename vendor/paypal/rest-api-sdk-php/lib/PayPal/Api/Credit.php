@@ -20,7 +20,7 @@ class Credit extends PayPalModel
      * Unique identifier of credit resource.
      *
      * @param string $id
-     * 
+     *
      * @return $this
      */
     public function setId($id)
@@ -44,7 +44,7 @@ class Credit extends PayPalModel
      * Valid Values: ["BILL_ME_LATER", "PAYPAL_EXTRAS_MASTERCARD", "EBAY_MASTERCARD", "PAYPAL_SMART_CONNECT"]
      *
      * @param string $type
-     * 
+     *
      * @return $this
      */
     public function setType($type)

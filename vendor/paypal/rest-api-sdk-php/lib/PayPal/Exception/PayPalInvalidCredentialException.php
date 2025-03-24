@@ -32,4 +32,5 @@ class PayPalInvalidCredentialException extends \Exception
             . ': <b>' . $this->getMessage() . '</b>';
         return $errorMsg;
     }
+
 }

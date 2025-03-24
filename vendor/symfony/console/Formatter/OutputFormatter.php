@@ -13,8 +13,6 @@ namespace Symfony\Component\Console\Formatter;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-use function Symfony\Component\String\b;
-
 /**
  * Formatter class for console output.
  *
@@ -38,7 +36,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
     /**
      * Escapes "<" and ">" special chars in given text.
      *
-     * @return string
+     * @return string Escaped text
      */
     public static function escape(string $text)
     {
@@ -142,10 +140,6 @@ class OutputFormatter implements WrappableOutputFormatterInterface
      */
     public function formatAndWrap(?string $message, int $width)
     {
-        if (null === $message) {
-            return '';
-        }
-
         $offset = 0;
         $output = '';
         $openTagRegex = '[a-z](?:[^\\\\<>]*+ | \\\\.)*';
@@ -260,7 +254,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         }
 
         preg_match('~(\\n)$~', $text, $matches);
-        $text = $prefix.$this->addLineBreaks($text, $width);
+        $text = $prefix.preg_replace('~([^\\n]{'.$width.'})\\ *~', "\$1\n", $text);
         $text = rtrim($text, "\n").($matches[1] ?? '');
 
         if (!$currentLineLength && '' !== $current && "\n" !== substr($current, -1)) {
@@ -283,12 +277,5 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         }
 
         return implode("\n", $lines);
-    }
-
-    private function addLineBreaks(string $text, int $width): string
-    {
-        $encoding = mb_detect_encoding($text, null, true) ?: 'UTF-8';
-
-        return b($text)->toCodePointString($encoding)->wordwrap($width, "\n", true)->toByteString($encoding);
     }
 }

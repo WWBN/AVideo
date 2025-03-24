@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><title>payments/ExecutePayment</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="payments/ExecutePayment"><meta name="groc-project-path" content="payments/ExecutePayment.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">payments/ExecutePayment.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="execute-payment-sample">Execute Payment Sample</h1>
+<p>This is the second step required to complete
+PayPal checkout. Once user completes the payment, paypal
+redirects the browser to &quot;redirectUrl&quot; provided in the request.
+This sample will show you how to execute the payment
+that has been approved by
+the buyer by logging into paypal site.
+You can optionally update transaction
+information by passing in one or more transactions.
+API used: POST &#39;/v1/payments/payment/<payment-id>/execute&#39;.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../bootstrap.php'</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Amount</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Details</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">ExecutePayment</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Payment</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">PaymentExecution</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Transaction</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="approval-status">Approval Status</h3>
+<p>Determine if the user approved the payment or not</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">'success'</span>]) &amp;&amp; <span class="hljs-variable">$_GET</span>[<span class="hljs-string">'success'</span>] == <span class="hljs-string">'true'</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Get the payment Object by passing paymentId
+payment id was previously stored in session in
+CreatePaymentUsingPayPal.php</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$paymentId</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">'paymentId'</span>];
+    <span class="hljs-variable">$payment</span> = Payment::get(<span class="hljs-variable">$paymentId</span>, <span class="hljs-variable">$apiContext</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="payment-execute">Payment Execute</h3>
+<p>PaymentExecution object includes information necessary
+to execute a PayPal account payment.
+The payer_id is added to the request query parameters
+when the user is redirected from paypal back to your site</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$execution</span> = <span class="hljs-keyword">new</span> PaymentExecution();
+    <span class="hljs-variable">$execution</span>-&gt;setPayerId(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">'PayerID'</span>]);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="optional-changes-to-amount">Optional Changes to Amount</h3>
+<p>If you wish to update the amount that you wish to charge the customer,
+based on the shipping address or any other reason, you could
+do that by passing the transaction object with just <code>amount</code> field in it.
+Here is the example on how we changed the shipping to $1 more than before.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$transaction</span> = <span class="hljs-keyword">new</span> Transaction();
+    <span class="hljs-variable">$amount</span> = <span class="hljs-keyword">new</span> Amount();
+    <span class="hljs-variable">$details</span> = <span class="hljs-keyword">new</span> Details();
+
+    <span class="hljs-variable">$details</span>-&gt;setShipping(<span class="hljs-number">2.2</span>)
+        -&gt;setTax(<span class="hljs-number">1.3</span>)
+        -&gt;setSubtotal(<span class="hljs-number">17.50</span>);
+
+    <span class="hljs-variable">$amount</span>-&gt;setCurrency(<span class="hljs-string">'USD'</span>);
+    <span class="hljs-variable">$amount</span>-&gt;setTotal(<span class="hljs-number">21</span>);
+    <span class="hljs-variable">$amount</span>-&gt;setDetails(<span class="hljs-variable">$details</span>);
+    <span class="hljs-variable">$transaction</span>-&gt;setAmount(<span class="hljs-variable">$amount</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Add the above transaction object inside our Execution object.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$execution</span>-&gt;addTransaction(<span class="hljs-variable">$transaction</span>);
+
+    <span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Execute the payment
+(See bootstrap.php for more on <code>ApiContext</code>)</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-variable">$result</span> = <span class="hljs-variable">$payment</span>-&gt;execute(<span class="hljs-variable">$execution</span>, <span class="hljs-variable">$apiContext</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper">        ResultPrinter::printResult(<span class="hljs-string">"Executed Payment"</span>, <span class="hljs-string">"Payment"</span>, <span class="hljs-variable">$payment</span>-&gt;getId(), <span class="hljs-variable">$execution</span>, <span class="hljs-variable">$result</span>);
+
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-variable">$payment</span> = Payment::get(<span class="hljs-variable">$paymentId</span>, <span class="hljs-variable">$apiContext</span>);
+        } <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	        ResultPrinter::printError(<span class="hljs-string">"Get Payment"</span>, <span class="hljs-string">"Payment"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$ex</span>);
+            <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+        }
+    } <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	    ResultPrinter::printError(<span class="hljs-string">"Executed Payment"</span>, <span class="hljs-string">"Payment"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$ex</span>);
+        <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+    }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper">    ResultPrinter::printResult(<span class="hljs-string">"Get Payment"</span>, <span class="hljs-string">"Payment"</span>, <span class="hljs-variable">$payment</span>-&gt;getId(), <span class="hljs-keyword">null</span>, <span class="hljs-variable">$payment</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-variable">$payment</span>;
+
+
+} <span class="hljs-keyword">else</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper">    ResultPrinter::printResult(<span class="hljs-string">"User Cancelled the Approval"</span>, <span class="hljs-keyword">null</span>);
+    <span class="hljs-keyword">exit</span>;
+}</div></div></div></div></body></html>

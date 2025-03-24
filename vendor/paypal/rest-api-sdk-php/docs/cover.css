@@ -1,0 +1,122 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+/* Footer
+--------------------------------------------------- */
+.footer-links, .footer-links li {
+    display: inline-block;
+    font-size: 110%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.footer-links li {
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.footer-links a {
+    color: #428bca;
+}
+
+/* Custom CSS
+--------------------------------------------------- */
+.body-content {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+    background: #fff url("https://www.paypalobjects.com/webstatic/developer/banners/Braintree_desktop_BG_2X.jpg") repeat-y top right;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.content {
+    margin-top: 30px;
+}
+
+.content .lead {
+    color: #666;
+}
+
+.content .col-md-4 .well {
+    min-height: 175px;
+    background-color: #FDFDFD;
+    border: 1px solid;
+}
+
+.content .col-md-4 .sprite {
+    width: 60px;
+    height: 70px;
+}
+.content .col-md-4 .sprite {
+    float: left;
+    margin: 0 5px 0 0;
+}
+
+.content .col-md-4 .box {
+    float: left;
+    width: 75%;
+}
+.content .col-md-4 .box h3 {
+    color: #428bca;
+    font-size: 24px;
+    margin: 5px;
+}
+
+.content a:hover .col-md-4 .box h3{
+    color: #23527c;
+}
+
+.content a:hover .col-md-4 .well{
+    background-color: #f5f5f5;
+}
+
+.content .col-md-4 .box hr {
+    margin: 0;
+}
+
+
+.content a:hover {
+    text-decoration: none
+}
+
+.content a:hover .mobile {
+    background-position: -90px -124px
+}
+
+.content a:hover .api {
+    background-position: -90px -234px
+}
+
+.content a:hover .sandbox {
+    background-position: -90px -344px
+}
+
+.content .col-md-4 .box p {
+    margin: 5px;
+    color: #666;
+    display: block;
+}

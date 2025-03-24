@@ -3,10 +3,10 @@
   "type": "library",
   "description": "Google Auth Library for PHP",
   "keywords": ["google", "oauth2", "authentication"],
-  "homepage": "http://github.com/google/google-auth-library-php",
+  "homepage": "https://github.com/google/google-auth-library-php",
   "license": "Apache-2.0",
   "support": {
-    "docs": "https://googleapis.github.io/google-auth-library-php/main/"
+    "docs": "https://cloud.google.com/php/docs/reference/auth/latest"
   },
   "require": {
     "php": "^8.0",
@@ -14,7 +14,8 @@
     "guzzlehttp/guzzle": "^7.4.5",
     "guzzlehttp/psr7": "^2.4.5",
     "psr/http-message": "^1.1||^2.0",
-    "psr/cache": "^2.0||^3.0"
+    "psr/cache": "^2.0||^3.0",
+    "psr/log": "^3.0"
   },
   "require-dev": {
     "guzzlehttp/promises": "^2.0",

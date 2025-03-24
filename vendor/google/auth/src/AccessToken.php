@@ -65,12 +65,12 @@ class AccessToken
     private $cache;
 
     /**
-     * @param callable $httpHandler [optional] An HTTP Handler to deliver PSR-7 requests.
-     * @param CacheItemPoolInterface $cache [optional] A PSR-6 compatible cache implementation.
+     * @param callable|null $httpHandler [optional] An HTTP Handler to deliver PSR-7 requests.
+     * @param CacheItemPoolInterface|null $cache [optional] A PSR-6 compatible cache implementation.
      */
     public function __construct(
-        callable $httpHandler = null,
-        CacheItemPoolInterface $cache = null
+        ?callable $httpHandler = null,
+        ?CacheItemPoolInterface $cache = null
     ) {
         $this->httpHandler = $httpHandler
             ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());

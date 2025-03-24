@@ -17,7 +17,7 @@ class OpenIdSession
      * @param array $scope The access privilges that you are requesting for
      *                                  from the user. Pass empty array for all scopes.
      * @param string $clientId client id from developer portal
-     *                                  See https://developer.paypal.com/docs/integration/direct/log-in-with-paypal/detailed/#attributes for more
+     *                                  See https://developer.paypal.com/webapps/developer/docs/integration/direct/log-in-with-paypal/detailed/#attributes for more
      * @param null $nonce
      * @param null $state
      * @param ApiContext $apiContext Optional API Context
@@ -53,7 +53,7 @@ class OpenIdSession
         if ($state) {
             $params['state'] = $state;
         }
-        return sprintf("%s/signin/authorize?%s", self::getBaseUrl($config), http_build_query($params));
+        return sprintf("%s/v1/authorize?%s", self::getBaseUrl($config), http_build_query($params));
     }
 
 
@@ -80,7 +80,7 @@ class OpenIdSession
             'redirect_uri' => $redirectUri,
             'logout' => 'true'
         );
-        return sprintf("%s/webapps/auth/protocol/openidconnect/v1/endsession?%s", self::getBaseUrl($config), http_build_query($params));
+        return sprintf("%s/v1/endsession?%s", self::getBaseUrl($config), http_build_query($params));
     }
 
     /**

@@ -18,7 +18,8 @@ use PayPal\Common\PayPalModel;
 class InputFields extends PayPalModel
 {
     /**
-     * Indicates whether the buyer can enter a note to the merchant on the PayPal page during checkout.
+     * Enables the buyer to enter a note to the merchant on the PayPal page during checkout.
+     * 
      *
      * @param bool $allow_note
      * 
@@ -31,7 +32,7 @@ class InputFields extends PayPalModel
     }
 
     /**
-     * Indicates whether the buyer can enter a note to the merchant on the PayPal page during checkout.
+     * Enables the buyer to enter a note to the merchant on the PayPal page during checkout.
      *
      * @return bool
      */
@@ -41,7 +42,8 @@ class InputFields extends PayPalModel
     }
 
     /**
-     * Indicates whether PayPal displays shipping address fields on the experience pages. Valid value is `0`, `1`, or `2`. Set to `0` to display the shipping address on the PayPal pages. Set to `1` to redact shipping address fields from the PayPal pages. Set to `2` to not pass the shipping address but instead get it from the buyer's account profile. For digital goods, this field is required and value must be `1`.
+     * Determines whether or not PayPal displays shipping address fields on the experience pages. Allowed values: `0`, `1`, or `2`. When set to `0`, PayPal displays the shipping address on the PayPal pages. When set to `1`, PayPal does not display shipping address fields whatsoever. When set to `2`, if you do not pass the shipping address, PayPal obtains it from the buyer's account profile. For digital goods, this field is required, and you must set it to `1`. 
+     * 
      *
      * @param int $no_shipping
      * 
@@ -54,7 +56,7 @@ class InputFields extends PayPalModel
     }
 
     /**
-     * Indicates whether PayPal displays shipping address fields on the experience pages. Valid value is `0`, `1`, or `2`. Set to `0` to display the shipping address on the PayPal pages. Set to `1` to redact shipping address fields from the PayPal pages. Set to `2` to not pass the shipping address but instead get it from the buyer's account profile. For digital goods, this field is required and value must be `1`.
+     * Determines whether or not PayPal displays shipping address fields on the experience pages. Allowed values: `0`, `1`, or `2`. When set to `0`, PayPal displays the shipping address on the PayPal pages. When set to `1`, PayPal does not display shipping address fields whatsoever. When set to `2`, if you do not pass the shipping address, PayPal obtains it from the buyer's account profile. For digital goods, this field is required, and you must set it to `1`. 
      *
      * @return int
      */
@@ -64,7 +66,8 @@ class InputFields extends PayPalModel
     }
 
     /**
-     * Indicates whether to display the shipping address that is passed to this call rather than the one on file with PayPal for this buyer on the PayPal experience pages. Valid value is `0` or `1`. Set to `0` to display the shipping address on file. Set to `1` to display the shipping address supplied to this call; the buyer cannot edit this shipping address.
+     * Determines whether or not the PayPal pages should display the shipping address and not the shipping address on file with PayPal for this buyer. Displaying the PayPal street address on file does not allow the buyer to edit that address. Allowed values: `0` or `1`. When set to `0`, the PayPal pages should not display the shipping address. When set to `1`, the PayPal pages should display the shipping address.
+     * 
      *
      * @param int $address_override
      * 
@@ -77,7 +80,7 @@ class InputFields extends PayPalModel
     }
 
     /**
-     * Indicates whether to display the shipping address that is passed to this call rather than the one on file with PayPal for this buyer on the PayPal experience pages. Valid value is `0` or `1`. Set to `0` to display the shipping address on file. Set to `1` to display the shipping address supplied to this call; the buyer cannot edit this shipping address.
+     * Determines whether or not the PayPal pages should display the shipping address and not the shipping address on file with PayPal for this buyer. Displaying the PayPal street address on file does not allow the buyer to edit that address. Allowed values: `0` or `1`. When set to `0`, the PayPal pages should not display the shipping address. When set to `1`, the PayPal pages should display the shipping address.
      *
      * @return int
      */

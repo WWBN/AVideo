@@ -21,7 +21,6 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\TrimmedBufferOutput;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -39,7 +38,6 @@ class SymfonyStyle extends OutputStyle
     public const MAX_LINE_LENGTH = 120;
 
     private $input;
-    private $output;
     private $questionHelper;
     private $progressBar;
     private $lineLength;
@@ -53,7 +51,7 @@ class SymfonyStyle extends OutputStyle
         $width = (new Terminal())->getWidth() ?: self::MAX_LINE_LENGTH;
         $this->lineLength = min($width - (int) (\DIRECTORY_SEPARATOR === '\\'), self::MAX_LINE_LENGTH);
 
-        parent::__construct($this->output = $output);
+        parent::__construct($output);
     }
 
     /**
@@ -61,7 +59,7 @@ class SymfonyStyle extends OutputStyle
      *
      * @param string|array $messages The message to write in the block
      */
-    public function block($messages, ?string $type = null, ?string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true)
+    public function block($messages, string $type = null, string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true)
     {
         $messages = \is_array($messages) ? array_values($messages) : [$messages];
 
@@ -188,12 +186,15 @@ class SymfonyStyle extends OutputStyle
      */
     public function table(array $headers, array $rows)
     {
-        $this->createTable()
-            ->setHeaders($headers)
-            ->setRows($rows)
-            ->render()
-        ;
+        $style = clone Table::getStyleDefinition('symfony-style-guide');
+        $style->setCellHeaderFormat('<info>%s</info>');
 
+        $table = new Table($this);
+        $table->setHeaders($headers);
+        $table->setRows($rows);
+        $table->setStyle($style);
+
+        $table->render();
         $this->newLine();
     }
 
@@ -202,13 +203,16 @@ class SymfonyStyle extends OutputStyle
      */
     public function horizontalTable(array $headers, array $rows)
     {
-        $this->createTable()
-            ->setHorizontal(true)
-            ->setHeaders($headers)
-            ->setRows($rows)
-            ->render()
-        ;
+        $style = clone Table::getStyleDefinition('symfony-style-guide');
+        $style->setCellHeaderFormat('<info>%s</info>');
 
+        $table = new Table($this);
+        $table->setHeaders($headers);
+        $table->setRows($rows);
+        $table->setStyle($style);
+        $table->setHorizontal(true);
+
+        $table->render();
         $this->newLine();
     }
 
@@ -224,6 +228,10 @@ class SymfonyStyle extends OutputStyle
      */
     public function definitionList(...$list)
     {
+        $style = clone Table::getStyleDefinition('symfony-style-guide');
+        $style->setCellHeaderFormat('<info>%s</info>');
+
+        $table = new Table($this);
         $headers = [];
         $row = [];
         foreach ($list as $value) {
@@ -244,13 +252,19 @@ class SymfonyStyle extends OutputStyle
             $row[] = current($value);
         }
 
-        $this->horizontalTable($headers, [$row]);
+        $table->setHeaders($headers);
+        $table->setRows([$row]);
+        $table->setHorizontal();
+        $table->setStyle($style);
+
+        $table->render();
+        $this->newLine();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function ask(string $question, ?string $default = null, ?callable $validator = null)
+    public function ask(string $question, string $default = null, callable $validator = null)
     {
         $question = new Question($question, $default);
         $question->setValidator($validator);
@@ -261,7 +275,7 @@ class SymfonyStyle extends OutputStyle
     /**
      * {@inheritdoc}
      */
-    public function askHidden(string $question, ?callable $validator = null)
+    public function askHidden(string $question, callable $validator = null)
     {
         $question = new Question($question);
 
@@ -336,16 +350,6 @@ class SymfonyStyle extends OutputStyle
     }
 
     /**
-     * @see ProgressBar::iterate()
-     */
-    public function progressIterate(iterable $iterable, ?int $max = null): iterable
-    {
-        yield from $this->createProgressBar()->iterate($iterable, $max);
-
-        $this->newLine(2);
-    }
-
-    /**
      * @return mixed
      */
     public function askQuestion(Question $question)
@@ -417,15 +421,6 @@ class SymfonyStyle extends OutputStyle
         return new self($this->input, $this->getErrorOutput());
     }
 
-    public function createTable(): Table
-    {
-        $output = $this->output instanceof ConsoleOutputInterface ? $this->output->section() : $this->output;
-        $style = clone Table::getStyleDefinition('symfony-style-guide');
-        $style->setCellHeaderFormat('<info>%s</info>');
-
-        return (new Table($output))->setStyle($style);
-    }
-
     private function getProgressBar(): ProgressBar
     {
         if (!$this->progressBar) {
@@ -440,18 +435,18 @@ class SymfonyStyle extends OutputStyle
         $chars = substr(str_replace(\PHP_EOL, "\n", $this->bufferedOutput->fetch()), -2);
 
         if (!isset($chars[0])) {
-            $this->newLine(); // empty history, so we should start with a new line.
+            $this->newLine(); //empty history, so we should start with a new line.
 
             return;
         }
-        // Prepend new line for each non LF chars (This means no blank line was output before)
+        //Prepend new line for each non LF chars (This means no blank line was output before)
         $this->newLine(2 - substr_count($chars, "\n"));
     }
 
     private function autoPrependText(): void
     {
         $fetched = $this->bufferedOutput->fetch();
-        // Prepend new line if last char isn't EOL:
+        //Prepend new line if last char isn't EOL:
         if (!str_ends_with($fetched, "\n")) {
             $this->newLine();
         }
@@ -463,7 +458,7 @@ class SymfonyStyle extends OutputStyle
         $this->bufferedOutput->write($message, $newLine, $type);
     }
 
-    private function createBlock(iterable $messages, ?string $type = null, ?string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = false): array
+    private function createBlock(iterable $messages, string $type = null, string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = false): array
     {
         $indentLength = 0;
         $prefixLength = Helper::width(Helper::removeDecoration($this->getFormatter(), $prefix));

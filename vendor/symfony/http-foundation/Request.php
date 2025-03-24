@@ -358,12 +358,7 @@ class Request
         $server['PATH_INFO'] = '';
         $server['REQUEST_METHOD'] = strtoupper($method);
 
-        if (false === ($components = parse_url($uri)) && '/' === ($uri[0] ?? '')) {
-            $components = parse_url($uri.'#');
-            unset($components['fragment']);
-        }
-
-        if (false === $components) {
+        if (false === $components = parse_url(\strlen($uri) !== strcspn($uri, '?#') ? $uri : $uri.'#')) {
             throw new BadRequestException('Invalid URI.');
         }
 

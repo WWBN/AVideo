@@ -71,7 +71,7 @@ class PaymentHistory extends PayPalModel
     }
 
     /**
-     * Number of items returned in each range of results. Note that the last results range could have fewer items than the requested number of items. Maximum value: 20.
+     * Number of items returned in each range of results. Note that the last results range could have fewer items than the requested number of items.
      *
      * @param int $count
      * 
@@ -84,7 +84,7 @@ class PaymentHistory extends PayPalModel
     }
 
     /**
-     * Number of items returned in each range of results. Note that the last results range could have fewer items than the requested number of items. Maximum value: 20.
+     * Number of items returned in each range of results. Note that the last results range could have fewer items than the requested number of items.
      *
      * @return int
      */

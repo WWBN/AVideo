@@ -71,7 +71,7 @@ class IAMCredentials
      *
      * @param array<mixed> $metadata metadata hashmap
      * @param string $unusedAuthUri optional auth uri
-     * @param callable $httpHandler callback which delivers psr7 request
+     * @param callable|null $httpHandler callback which delivers psr7 request
      *        Note: this param is unused here, only included here for
      *        consistency with other credentials class
      *
@@ -80,7 +80,7 @@ class IAMCredentials
     public function updateMetadata(
         $metadata,
         $unusedAuthUri = null,
-        callable $httpHandler = null
+        ?callable $httpHandler = null
     ) {
         $metadata_copy = $metadata;
         $metadata_copy[self::SELECTOR_KEY] = $this->selector;

@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"><head><title>billing/CreateBillingAgreementWithPayPal</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="billing/CreateBillingAgreementWithPayPal"><meta name="groc-project-path" content="billing/CreateBillingAgreementWithPayPal.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">billing/CreateBillingAgreementWithPayPal.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="create-billing-agreement-with-paypal-as-payment-source">Create Billing Agreement with PayPal as Payment Source</h1>
+<p>This sample code demonstrate how you can create a billing agreement, as documented here at:
+<a href="https://developer.paypal.com/webapps/developer/docs/api/#create-an-agreement">https://developer.paypal.com/webapps/developer/docs/api/#create-an-agreement</a>
+API used: /v1/payments/billing-agreements</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Retrieving the Plan from the Create Update Sample. This would be used to
+define Plan information to create an agreement. Make sure the plan you are using is in active state.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-comment">/**<span class="hljs-phpdoc"> @var</span> Plan $createdPlan */</span>
+<span class="hljs-variable">$createdPlan</span> = <span class="hljs-keyword">require</span> <span class="hljs-string">'UpdatePlan.php'</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Agreement</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Payer</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Plan</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">ShippingAddress</span>;
+
+<span class="hljs-comment">/* Create a new instance of Agreement object
+{
+    "name": "Base Agreement",
+    "description": "Basic agreement",
+    "start_date": "2015-06-17T9:45:04Z",
+    "plan": {
+      "id": "P-1WJ68935LL406420PUTENA2I"
+    },
+    "payer": {
+      "payment_method": "paypal"
+    },
+    "shipping_address": {
+        "line1": "111 First Street",
+        "city": "Saratoga",
+        "state": "CA",
+        "postal_code": "95070",
+        "country_code": "US"
+    }
+}*/</span>
+<span class="hljs-variable">$agreement</span> = <span class="hljs-keyword">new</span> Agreement();
+
+<span class="hljs-variable">$agreement</span>-&gt;setName(<span class="hljs-string">'Base Agreement'</span>)
+    -&gt;setDescription(<span class="hljs-string">'Basic Agreement'</span>)
+    -&gt;setStartDate(<span class="hljs-string">'2019-06-17T9:45:04Z'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Add Plan ID
+Please note that the plan Id should be only set in this case.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$plan</span> = <span class="hljs-keyword">new</span> Plan();
+<span class="hljs-variable">$plan</span>-&gt;setId(<span class="hljs-variable">$createdPlan</span>-&gt;getId());
+<span class="hljs-variable">$agreement</span>-&gt;setPlan(<span class="hljs-variable">$plan</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Add Payer</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$payer</span> = <span class="hljs-keyword">new</span> Payer();
+<span class="hljs-variable">$payer</span>-&gt;setPaymentMethod(<span class="hljs-string">'paypal'</span>);
+<span class="hljs-variable">$agreement</span>-&gt;setPayer(<span class="hljs-variable">$payer</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Add Shipping Address</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$shippingAddress</span> = <span class="hljs-keyword">new</span> ShippingAddress();
+<span class="hljs-variable">$shippingAddress</span>-&gt;setLine1(<span class="hljs-string">'111 First Street'</span>)
+    -&gt;setCity(<span class="hljs-string">'Saratoga'</span>)
+    -&gt;setState(<span class="hljs-string">'CA'</span>)
+    -&gt;setPostalCode(<span class="hljs-string">'95070'</span>)
+    -&gt;setCountryCode(<span class="hljs-string">'US'</span>);
+<span class="hljs-variable">$agreement</span>-&gt;setShippingAddress(<span class="hljs-variable">$shippingAddress</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>For Sample Purposes Only.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$request</span> = <span class="hljs-keyword">clone</span> <span class="hljs-variable">$agreement</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="create-agreement">Create Agreement</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Please note that as the agreement has not yet activated, we wont be receiving the ID just yet.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$agreement</span> = <span class="hljs-variable">$agreement</span>-&gt;create(<span class="hljs-variable">$apiContext</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="get-redirect-url">Get redirect url</h3>
+<p>The API response provides the url that you must redirect
+the buyer to. Retrieve the url from the $agreement-&gt;getApprovalLink()
+method</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$approvalUrl</span> = <span class="hljs-variable">$agreement</span>-&gt;getApprovalLink();
+
+} <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper">    ResultPrinter::printError(<span class="hljs-string">"Created Billing Agreement."</span>, <span class="hljs-string">"Agreement"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$request</span>, <span class="hljs-variable">$ex</span>);
+    <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> ResultPrinter::printResult(<span class="hljs-string">"Created Billing Agreement. Please visit the URL to Approve."</span>, <span class="hljs-string">"Agreement"</span>, <span class="hljs-string">"&lt;a href='$approvalUrl' &gt;$approvalUrl&lt;/a&gt;"</span>, <span class="hljs-variable">$request</span>, <span class="hljs-variable">$agreement</span>);
+
+<span class="hljs-keyword">return</span> <span class="hljs-variable">$agreement</span>;</div></div></div></div></body></html>

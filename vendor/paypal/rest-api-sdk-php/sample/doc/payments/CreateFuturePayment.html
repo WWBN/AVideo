@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><title>payments/CreateFuturePayment</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="payments/CreateFuturePayment"><meta name="groc-project-path" content="payments/CreateFuturePayment.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">payments/CreateFuturePayment.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="create-payment-using-paypal-as-payment-method">Create Payment using PayPal as payment method</h1>
+<p>This sample code demonstrates how you can process a 
+PayPal Account based Payment.
+API used: /v1/payments/payment</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../bootstrap.php'</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Amount</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">FuturePayment</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Payer</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">RedirectUrls</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Transaction</span>;
+
+session_start();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="payer">Payer</h3>
+<p>A resource representing a Payer that funds a payment
+For paypal account payments, set payment method
+to &#39;paypal&#39;.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$payer</span> = <span class="hljs-keyword">new</span> Payer();
+<span class="hljs-variable">$payer</span>-&gt;setPaymentMethod(<span class="hljs-string">"paypal"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="amount">Amount</h3>
+<p>Lets you specify a payment amount.
+You can also specify additional details
+such as shipping, tax.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$amount</span> = <span class="hljs-keyword">new</span> Amount();
+<span class="hljs-variable">$amount</span>-&gt;setCurrency(<span class="hljs-string">"USD"</span>)
+    -&gt;setTotal(<span class="hljs-string">"0.17"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="transaction">Transaction</h3>
+<p>A transaction defines the contract of a
+payment - what is the payment for and who
+is fulfilling it. </p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$transaction</span> = <span class="hljs-keyword">new</span> Transaction();
+<span class="hljs-variable">$transaction</span>-&gt;setAmount(<span class="hljs-variable">$amount</span>)
+    -&gt;setDescription(<span class="hljs-string">"Payment description"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="redirect-urls">Redirect urls</h3>
+<p>Set the urls that the buyer must be redirected to after 
+payment approval/ cancellation.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$baseUrl</span> = getBaseUrl();
+<span class="hljs-variable">$redirectUrls</span> = <span class="hljs-keyword">new</span> RedirectUrls();
+<span class="hljs-variable">$redirectUrls</span>-&gt;setReturnUrl(<span class="hljs-string">"$baseUrl/ExecutePayment.php?success=true"</span>)
+    -&gt;setCancelUrl(<span class="hljs-string">"$baseUrl/ExecutePayment.php?success=false"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="payment">Payment</h3>
+<p>A Payment Resource; create one using
+the above types and intent set to &#39;sale&#39;</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$payment</span> = <span class="hljs-keyword">new</span> FuturePayment();
+<span class="hljs-variable">$payment</span>-&gt;setIntent(<span class="hljs-string">"authorize"</span>)
+    -&gt;setPayer(<span class="hljs-variable">$payer</span>)
+    -&gt;setRedirectUrls(<span class="hljs-variable">$redirectUrls</span>)
+    -&gt;setTransactions(<span class="hljs-keyword">array</span>(<span class="hljs-variable">$transaction</span>));</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="get-refresh-token">Get Refresh Token</h3>
+<p>You need to get a permanent refresh token from the authorization code, retrieved from the mobile sdk.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>authorization code from mobile sdk</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$authorizationCode</span> = <span class="hljs-string">'EK7_MAKlB4QxW1dWKnvnr_CEdLKnpH3vnGAf155Eg8yO8e_7VaQonsqIbTK9CR7tUsoIN2eCc5raOfaGbZDCT0j6k_BDE8GkyLgk8ulcQyR_3S-fgBzjMzBwNqpj3AALgCVR03zw1iT8HTsxZXp3s2U'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Client Metadata id from mobile sdk
+For more information look for PayPal-Client-Metadata-Id in <a href="https://developer.paypal.com/docs/api/#authentication--headers">https://developer.paypal.com/docs/api/#authentication--headers</a></p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$clientMetadataId</span> = <span class="hljs-string">'123123456'</span>;
+
+<span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Exchange authorization_code for long living refresh token. You should store
+it in a database for later use</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$refreshToken</span> = FuturePayment::getRefreshToken(<span class="hljs-variable">$authorizationCode</span>, <span class="hljs-variable">$apiContext</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Update the access token in apiContext</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$payment</span>-&gt;updateAccessToken(<span class="hljs-variable">$refreshToken</span>, <span class="hljs-variable">$apiContext</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>For Sample Purposes Only.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$request</span> = <span class="hljs-keyword">clone</span> <span class="hljs-variable">$payment</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="create-future-payment">Create Future Payment</h3>
+<p>Create a payment by calling the &#39;create&#39; method
+passing it a valid apiContext.
+(See bootstrap.php for more on <code>ApiContext</code>)
+The return object contains the state and the
+url to which the buyer must be redirected to
+for payment approval
+Please note that currently future payments works only with PayPal as a funding instrument.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$payment</span>-&gt;create(<span class="hljs-variable">$apiContext</span>, <span class="hljs-variable">$clientMetadataId</span>);
+
+} <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	ResultPrinter::printError(<span class="hljs-string">"Future Payment"</span>, <span class="hljs-string">"Payment"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$payment</span>, <span class="hljs-variable">$ex</span>);
+    <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> ResultPrinter::printResult(<span class="hljs-string">"Future Payment"</span>, <span class="hljs-string">"Payment"</span>, <span class="hljs-variable">$payment</span>-&gt;getId(), <span class="hljs-variable">$request</span>, <span class="hljs-variable">$payment</span>);
+
+<span class="hljs-keyword">return</span> <span class="hljs-variable">$payment</span>;</div></div></div></div></body></html>

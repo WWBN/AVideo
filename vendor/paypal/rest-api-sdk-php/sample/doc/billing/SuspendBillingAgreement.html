@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en"><head><title>billing/SuspendBillingAgreement</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="billing/SuspendBillingAgreement"><meta name="groc-project-path" content="billing/SuspendBillingAgreement.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">billing/SuspendBillingAgreement.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="suspend-an-agreement">Suspend an agreement</h1>
+<p>This sample code demonstrate how you can suspend a billing agreement, as documented here at:
+<a href="https://developer.paypal.com/webapps/developer/docs/api/#suspend-an-agreement">https://developer.paypal.com/webapps/developer/docs/api/#suspend-an-agreement</a>
+API used: /v1/payments/billing-agreements/<Agreement-Id>/suspend</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Retrieving the Agreement object from Create Agreement Sample to demonstrate the List</p></div></div><div class="code"><div class="wrapper"><span class="hljs-comment">/**<span class="hljs-phpdoc"> @var</span> Agreement $createdAgreement */</span>
+<span class="hljs-variable">$createdAgreement</span> = <span class="hljs-keyword">require</span> <span class="hljs-string">'CreateBillingAgreementWithCreditCard.php'</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Agreement</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">AgreementStateDescriptor</span>;
+
+<span class="hljs-comment">//Create an Agreement State Descriptor, explaining the reason to suspend.</span>
+<span class="hljs-variable">$agreementStateDescriptor</span> = <span class="hljs-keyword">new</span> AgreementStateDescriptor();
+<span class="hljs-variable">$agreementStateDescriptor</span>-&gt;setNote(<span class="hljs-string">"Suspending the agreement"</span>);
+
+<span class="hljs-keyword">try</span> {
+
+    <span class="hljs-variable">$createdAgreement</span>-&gt;suspend(<span class="hljs-variable">$agreementStateDescriptor</span>, <span class="hljs-variable">$apiContext</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Lets get the updated Agreement Object</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$agreement</span> = Agreement::get(<span class="hljs-variable">$createdAgreement</span>-&gt;getId(), <span class="hljs-variable">$apiContext</span>);
+
+} <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	ResultPrinter::printError(<span class="hljs-string">"Suspended the Agreement"</span>, <span class="hljs-string">"Agreement"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$agreementStateDescriptor</span>, <span class="hljs-variable">$ex</span>);
+    <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> ResultPrinter::printResult(<span class="hljs-string">"Suspended the Agreement"</span>, <span class="hljs-string">"Agreement"</span>, <span class="hljs-variable">$agreement</span>-&gt;getId(), <span class="hljs-variable">$agreementStateDescriptor</span>, <span class="hljs-variable">$agreement</span>);
+
+<span class="hljs-keyword">return</span> <span class="hljs-variable">$agreement</span>;</div></div></div></div></body></html>

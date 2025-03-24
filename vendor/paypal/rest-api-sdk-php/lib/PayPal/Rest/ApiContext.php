@@ -28,7 +28,7 @@ class ApiContext
      * This is a placeholder for holding credential for the request
      * If the value is not set, it would get the value from @\PayPal\Core\PayPalCredentialManager
      *
-     * @var \PayPal\Auth\OAuthTokenCredential
+     * @var \Paypal\Auth\OAuthTokenCredential
      */
     private $credential;
 
@@ -85,24 +85,17 @@ class ApiContext
      */
     public function getRequestId()
     {
-        return $this->requestId;
-    }
+        if ($this->requestId == null) {
+            $this->requestId = $this->generateRequestId();
+        }
 
-    /**
-     * Sets the request ID
-     *
-     * @param string $requestId the PayPal-Request-Id value to use
-     */
-    public function setRequestId($requestId)
-    {
-        $this->requestId = $requestId;
+        return $this->requestId;
     }
 
     /**
      * Resets the requestId that can be used to set the PayPal-request-id
      * header used for idempotency. In cases where you need to make multiple create calls
      * using the same ApiContext object, you need to reset request Id.
-     * @deprecated Call setRequestId with a unique value.
      *
      * @return string
      */
@@ -147,7 +140,6 @@ class ApiContext
      * Generates a unique per request id that
      * can be used to set the PayPal-Request-Id header
      * that is used for idempotency
-     * @deprecated
      *
      * @return string
      */

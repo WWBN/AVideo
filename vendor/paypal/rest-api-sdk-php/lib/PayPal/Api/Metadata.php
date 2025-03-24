@@ -8,7 +8,7 @@ use PayPal\Validation\UrlValidator;
 /**
  * Class Metadata
  *
- * Audit information for the resource.
+ * Audit information of the resource.
  *
  * @package PayPal\Api
  *
@@ -26,7 +26,7 @@ use PayPal\Validation\UrlValidator;
 class Metadata extends PayPalModel
 {
     /**
-     * The date and time when the resource was created.
+     * Date when the resource was created.
      *
      * @param string $created_date
      * 
@@ -39,7 +39,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The date and time when the resource was created.
+     * Date when the resource was created.
      *
      * @return string
      */
@@ -49,7 +49,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The email address of the account that created the resource.
+     * Email address of the account that created the resource.
      *
      * @param string $created_by
      * 
@@ -62,7 +62,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The email address of the account that created the resource.
+     * Email address of the account that created the resource.
      *
      * @return string
      */
@@ -72,7 +72,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The date and time when the resource was cancelled.
+     * Date when the resource was cancelled.
      *
      * @param string $cancelled_date
      * 
@@ -85,7 +85,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The date and time when the resource was cancelled.
+     * Date when the resource was cancelled.
      *
      * @return string
      */
@@ -95,7 +95,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The actor who cancelled the resource.
+     * Actor who cancelled the resource.
      *
      * @param string $cancelled_by
      * 
@@ -108,7 +108,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The actor who cancelled the resource.
+     * Actor who cancelled the resource.
      *
      * @return string
      */
@@ -118,7 +118,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The date and time when the resource was last edited.
+     * Date when the resource was last edited.
      *
      * @param string $last_updated_date
      * 
@@ -131,7 +131,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The date and time when the resource was last edited.
+     * Date when the resource was last edited.
      *
      * @return string
      */
@@ -141,7 +141,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The email address of the account that last edited the resource.
+     * Email address of the account that last edited the resource.
      *
      * @param string $last_updated_by
      * 
@@ -154,7 +154,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The email address of the account that last edited the resource.
+     * Email address of the account that last edited the resource.
      *
      * @return string
      */
@@ -164,7 +164,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The date and time when the resource was first sent.
+     * Date when the resource was first sent.
      *
      * @param string $first_sent_date
      * 
@@ -177,7 +177,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The date and time when the resource was first sent.
+     * Date when the resource was first sent.
      *
      * @return string
      */
@@ -187,7 +187,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The date and time when the resource was last sent.
+     * Date when the resource was last sent.
      *
      * @param string $last_sent_date
      * 
@@ -200,7 +200,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The date and time when the resource was last sent.
+     * Date when the resource was last sent.
      *
      * @return string
      */
@@ -210,7 +210,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The email address of the account that last sent the resource.
+     * Email address of the account that last sent the resource.
      *
      * @param string $last_sent_by
      * 
@@ -223,7 +223,7 @@ class Metadata extends PayPalModel
     }
 
     /**
-     * The email address of the account that last sent the resource.
+     * Email address of the account that last sent the resource.
      *
      * @return string
      */

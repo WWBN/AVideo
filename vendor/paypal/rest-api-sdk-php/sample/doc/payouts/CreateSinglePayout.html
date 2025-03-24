@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><title>payouts/CreateSinglePayout</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="payouts/CreateSinglePayout"><meta name="groc-project-path" content="payouts/CreateSinglePayout.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">payouts/CreateSinglePayout.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="create-single-synchronous-payout-sample">Create Single Synchronous Payout Sample</h1>
+<p>This sample code demonstrate how you can create a synchronous payout sample, as documented here at:
+<a href="https://developer.paypal.com/docs/integration/direct/create-single-payout/">https://developer.paypal.com/docs/integration/direct/create-single-payout/</a>
+API used: /v1/payments/payouts?sync_mode=true</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../bootstrap.php'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Create a new instance of Payout object</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$payouts</span> = <span class="hljs-keyword">new</span> \PayPal\Api\Payout();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This is how our body should look like:</p></div></div><div class="code"><div class="wrapper"><span class="hljs-comment">/*
+ * {
+            "sender_batch_header":{
+                "sender_batch_id":"2014021801",
+                "email_subject":"You have a Payout!"
+            },
+            "items":[
+                {
+                    "recipient_type":"EMAIL",
+                    "amount":{
+                        "value":"1.0",
+                        "currency":"USD"
+                    },
+                    "note":"Thanks for your patronage!",
+                    "sender_item_id":"2014031400023",
+                    "receiver":"shirt-supplier-one@mail.com"
+                }
+            ]
+        }
+ */</span>
+
+<span class="hljs-variable">$senderBatchHeader</span> = <span class="hljs-keyword">new</span> \PayPal\Api\PayoutSenderBatchHeader();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="note">NOTE:</h3>
+<p>You can prevent duplicate batches from being processed. If you specify a <code>sender_batch_id</code> that was used in the last 30 days, the batch will not be processed. For items, you can specify a <code>sender_item_id</code>. If the value for the <code>sender_item_id</code> is a duplicate of a payout item that was processed in the last 30 days, the item will not be processed.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h4 id="batch-header-instance">Batch Header Instance</h4></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$senderBatchHeader</span>-&gt;setSenderBatchId(uniqid())
+    -&gt;setEmailSubject(<span class="hljs-string">"You have a Payout!"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h4 id="sender-item">Sender Item</h4>
+<p>Please note that if you are using single payout with sync mode, you can only pass one Item in the request</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$senderItem</span> = <span class="hljs-keyword">new</span> \PayPal\Api\PayoutItem();
+<span class="hljs-variable">$senderItem</span>-&gt;setRecipientType(<span class="hljs-string">'Email'</span>)
+    -&gt;setNote(<span class="hljs-string">'Thanks for your patronage!'</span>)
+    -&gt;setReceiver(<span class="hljs-string">'shirt-supplier-one@gmail.com'</span>)
+    -&gt;setSenderItemId(<span class="hljs-string">"2014031400023"</span>)
+    -&gt;setAmount(<span class="hljs-keyword">new</span> \PayPal\Api\Currency(<span class="hljs-string">'{
+                        "value":"1.0",
+                        "currency":"USD"
+                    }'</span>));
+
+<span class="hljs-variable">$payouts</span>-&gt;setSenderBatchHeader(<span class="hljs-variable">$senderBatchHeader</span>)
+    -&gt;addItem(<span class="hljs-variable">$senderItem</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>For Sample Purposes Only.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$request</span> = <span class="hljs-keyword">clone</span> <span class="hljs-variable">$payouts</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="create-payout">Create Payout</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">try</span> {
+    <span class="hljs-variable">$output</span> = <span class="hljs-variable">$payouts</span>-&gt;createSynchronous(<span class="hljs-variable">$apiContext</span>);
+} <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	ResultPrinter::printError(<span class="hljs-string">"Created Single Synchronous Payout"</span>, <span class="hljs-string">"Payout"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$request</span>, <span class="hljs-variable">$ex</span>);
+    <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> ResultPrinter::printResult(<span class="hljs-string">"Created Single Synchronous Payout"</span>, <span class="hljs-string">"Payout"</span>, <span class="hljs-variable">$output</span>-&gt;getBatchHeader()-&gt;getPayoutBatchId(), <span class="hljs-variable">$request</span>, <span class="hljs-variable">$output</span>);
+
+<span class="hljs-keyword">return</span> <span class="hljs-variable">$output</span>;</div></div></div></div></body></html>

@@ -3,8 +3,8 @@
 namespace PayPal\Api;
 
 use PayPal\Common\PayPalResourceModel;
-use PayPal\Validation\ArgumentValidator;
 use PayPal\Rest\ApiContext;
+use PayPal\Validation\ArgumentValidator;
 
 /**
  * Class Authorization
@@ -13,23 +13,21 @@ use PayPal\Rest\ApiContext;
  *
  * @package PayPal\Api
  *
- * @property string id
- * @property \PayPal\Api\Amount amount
- * @property string payment_mode
- * @property string state
- * @property string reason_code
- * @property string pending_reason
- * @property string protection_eligibility
- * @property string protection_eligibility_type
+ * @property string                 id
+ * @property \PayPal\Api\Amount     amount
+ * @property string                 payment_mode
+ * @property string                 state
+ * @property string                 reason_code
+ * @property string                 pending_reason
+ * @property string                 protection_eligibility
+ * @property string                 protection_eligibility_type
  * @property \PayPal\Api\FmfDetails fmf_details
- * @property string parent_payment
+ * @property string                 parent_payment
  * @property \PayPal\Api\ProcessorResponse processor_response
- * @property string valid_until
- * @property string create_time
- * @property string update_time
- * @property string reference_id
- * @property string receipt_id
- * @property \PayPal\Api\Links[] links
+ * @property string                 valid_until
+ * @property string                 create_time
+ * @property string                 update_time
+ * @property \PayPal\Api\Links[]    links
  */
 class Authorization extends PayPalResourceModel
 {
@@ -37,7 +35,7 @@ class Authorization extends PayPalResourceModel
      * ID of the authorization transaction.
      *
      * @param string $id
-     * 
+     *
      * @return $this
      */
     public function setId($id)
@@ -60,7 +58,7 @@ class Authorization extends PayPalResourceModel
      * Amount being authorized.
      *
      * @param \PayPal\Api\Amount $amount
-     * 
+     *
      * @return $this
      */
     public function setAmount($amount)
@@ -84,7 +82,7 @@ class Authorization extends PayPalResourceModel
      * Valid Values: ["INSTANT_TRANSFER"]
      *
      * @param string $payment_mode
-     * 
+     *
      * @return $this
      */
     public function setPaymentMode($payment_mode)
@@ -108,7 +106,7 @@ class Authorization extends PayPalResourceModel
      * Valid Values: ["pending", "authorized", "partially_captured", "captured", "expired", "voided"]
      *
      * @param string $state
-     * 
+     *
      * @return $this
      */
     public function setState($state)
@@ -132,7 +130,7 @@ class Authorization extends PayPalResourceModel
      * Valid Values: ["AUTHORIZATION"]
      *
      * @param string $reason_code
-     * 
+     *
      * @return $this
      */
     public function setReasonCode($reason_code)
@@ -156,7 +154,7 @@ class Authorization extends PayPalResourceModel
      * Valid Values: ["AUTHORIZATION"]
      *
      * @param string $pending_reason
-     * 
+     *
      * @return $this
      */
     public function setPendingReason($pending_reason)
@@ -180,7 +178,7 @@ class Authorization extends PayPalResourceModel
      * Valid Values: ["ELIGIBLE", "PARTIALLY_ELIGIBLE", "INELIGIBLE"]
      *
      * @param string $protection_eligibility
-     * 
+     *
      * @return $this
      */
     public function setProtectionEligibility($protection_eligibility)
@@ -204,7 +202,7 @@ class Authorization extends PayPalResourceModel
      * Valid Values: ["ITEM_NOT_RECEIVED_ELIGIBLE", "UNAUTHORIZED_PAYMENT_ELIGIBLE", "ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE"]
      *
      * @param string $protection_eligibility_type
-     * 
+     *
      * @return $this
      */
     public function setProtectionEligibilityType($protection_eligibility_type)
@@ -227,7 +225,7 @@ class Authorization extends PayPalResourceModel
      * Fraud Management Filter (FMF) details applied for the payment that could result in accept, deny, or pending action. Returned in a payment response only if the merchant has enabled FMF in the profile settings and one of the fraud filters was triggered based on those settings. See [Fraud Management Filters Summary](https://developer.paypal.com/docs/classic/fmf/integration-guide/FMFSummary/) for more information.
      *
      * @param \PayPal\Api\FmfDetails $fmf_details
-     * 
+     *
      * @return $this
      */
     public function setFmfDetails($fmf_details)
@@ -250,7 +248,7 @@ class Authorization extends PayPalResourceModel
      * ID of the Payment resource that this transaction is based on.
      *
      * @param string $parent_payment
-     * 
+     *
      * @return $this
      */
     public function setParentPayment($parent_payment)
@@ -296,7 +294,7 @@ class Authorization extends PayPalResourceModel
      * Authorization expiration time and date as defined in [RFC 3339 Section 5.6](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $valid_until
-     * 
+     *
      * @return $this
      */
     public function setValidUntil($valid_until)
@@ -319,7 +317,7 @@ class Authorization extends PayPalResourceModel
      * Time of authorization as defined in [RFC 3339 Section 5.6](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $create_time
-     * 
+     *
      * @return $this
      */
     public function setCreateTime($create_time)
@@ -342,7 +340,7 @@ class Authorization extends PayPalResourceModel
      * Time that the resource was last updated.
      *
      * @param string $update_time
-     * 
+     *
      * @return $this
      */
     public function setUpdateTime($update_time)
@@ -362,57 +360,11 @@ class Authorization extends PayPalResourceModel
     }
 
     /**
-     * Identifier to the purchase or transaction unit corresponding to this authorization transaction.
+     * Retrieve details about a previously created authorization by passing the authorization_id in the request URI.
      *
-     * @param string $reference_id
-     * 
-     * @return $this
-     */
-    public function setReferenceId($reference_id)
-    {
-        $this->reference_id = $reference_id;
-        return $this;
-    }
-
-    /**
-     * Identifier to the purchase or transaction unit corresponding to this authorization transaction.
-     *
-     * @return string
-     */
-    public function getReferenceId()
-    {
-        return $this->reference_id;
-    }
-
-    /**
-     * Receipt id is 16 digit number payment identification number returned for guest users to identify the payment.
-     *
-     * @param string $receipt_id
-     * 
-     * @return $this
-     */
-    public function setReceiptId($receipt_id)
-    {
-        $this->receipt_id = $receipt_id;
-        return $this;
-    }
-
-    /**
-     * Receipt id is 16 digit number payment identification number returned for guest users to identify the payment.
-     *
-     * @return string
-     */
-    public function getReceiptId()
-    {
-        return $this->receipt_id;
-    }
-
-    /**
-     * Shows details for an authorization, by ID.
-     *
-     * @param string $authorizationId
-     * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
-     * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
+     * @param string         $authorizationId
+     * @param ApiContext     $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
+     * @param PayPalRestCall $restCall   is the Rest Call Service that is used to make rest calls
      * @return Authorization
      */
     public static function get($authorizationId, $apiContext = null, $restCall = null)
@@ -433,11 +385,11 @@ class Authorization extends PayPalResourceModel
     }
 
     /**
-     * Captures and processes an authorization, by ID. To use this call, the original payment call must specify an intent of `authorize`.
+     * Capture and process a previously created authorization by passing the authorization_id in the request URI. To use this request, the original payment call must have the intent set to authorize.
      *
-     * @param Capture $capture
-     * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
-     * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
+     * @param Capture        $capture
+     * @param ApiContext     $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
+     * @param PayPalRestCall $restCall   is the Rest Call Service that is used to make rest calls
      * @return Capture
      */
     public function capture($capture, $apiContext = null, $restCall = null)
@@ -459,10 +411,10 @@ class Authorization extends PayPalResourceModel
     }
 
     /**
-     * Voids, or cancels, an authorization, by ID. You cannot void a fully captured authorization.
+     * Void (cancel) a previously authorized payment by passing the authorization_id in the request URI. Note that a fully captured authorization cannot be voided.
      *
-     * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
-     * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
+     * @param ApiContext     $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
+     * @param PayPalRestCall $restCall   is the Rest Call Service that is used to make rest calls
      * @return Authorization
      */
     public function void($apiContext = null, $restCall = null)
@@ -482,10 +434,10 @@ class Authorization extends PayPalResourceModel
     }
 
     /**
-     * Reauthorizes a PayPal account payment, by authorization ID. To ensure that funds are still available, reauthorize a payment after the initial three-day honor period. Supports only the `amount` request parameter.
+     * Reauthorize a PayPal account payment by passing the authorization_id in the request URI. You should reauthorize a payment after the initial 3-day honor period to ensure that funds are still available. Request supports only amount field
      *
-     * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
-     * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
+     * @param ApiContext     $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
+     * @param PayPalRestCall $restCall   is the Rest Call Service that is used to make rest calls
      * @return Authorization
      */
     public function reauthorize($apiContext = null, $restCall = null)

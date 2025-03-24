@@ -17,6 +17,10 @@ use Psr\Log\LogLevel;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+if ((new \ReflectionMethod(AbstractLogger::class, 'log'))->hasReturnType()) {
+    throw new \RuntimeException(sprintf('The "%s" logger is not compatible with psr/log >= 3.0. Try running "composer require psr/log:^2.".', ConsoleLogger::class));
+}
+
 /**
  * PSR-3 compliant console logger.
  *
@@ -110,7 +114,7 @@ class ConsoleLogger extends AbstractLogger
 
         $replacements = [];
         foreach ($context as $key => $val) {
-            if (null === $val || \is_scalar($val) || (\is_object($val) && method_exists($val, '__toString'))) {
+            if (null === $val || is_scalar($val) || (\is_object($val) && method_exists($val, '__toString'))) {
                 $replacements["{{$key}}"] = $val;
             } elseif ($val instanceof \DateTimeInterface) {
                 $replacements["{{$key}}"] = $val->format(\DateTime::RFC3339);

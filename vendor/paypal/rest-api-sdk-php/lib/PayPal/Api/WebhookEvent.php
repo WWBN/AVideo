@@ -12,24 +12,21 @@ use PayPal\Validation\JsonValidator;
 /**
  * Class WebhookEvent
  *
- * A webhook event notification.
+ * Represents a Webhooks event
  *
  * @package PayPal\Api
  *
  * @property string id
  * @property string create_time
  * @property string resource_type
- * @property string event_version
  * @property string event_type
  * @property string summary
- * @property \PayPal\Common\PayPalModel resource
- * @property string status
- * @property mixed[] transmissions
+ * @property mixed resource
  */
 class WebhookEvent extends PayPalResourceModel
 {
     /**
-     * The ID of the webhook event notification.
+     * Identifier of the Webhooks event resource.
      *
      * @param string $id
      * 
@@ -42,7 +39,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * The ID of the webhook event notification.
+     * Identifier of the Webhooks event resource.
      *
      * @return string
      */
@@ -52,7 +49,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * The date and time when the webhook event notification was created.
+     * Time the resource was created.
      *
      * @param string $create_time
      * 
@@ -65,7 +62,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * The date and time when the webhook event notification was created.
+     * Time the resource was created.
      *
      * @return string
      */
@@ -75,7 +72,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * The name of the resource related to the webhook notification event.
+     * Name of the resource contained in resource element.
      *
      * @param string $resource_type
      * 
@@ -88,7 +85,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * The name of the resource related to the webhook notification event.
+     * Name of the resource contained in resource element.
      *
      * @return string
      */
@@ -98,30 +95,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * The version of the event.
-     *
-     * @param string $event_version
-     * 
-     * @return $this
-     */
-    public function setEventVersion($event_version)
-    {
-        $this->event_version = $event_version;
-        return $this;
-    }
-
-    /**
-     * The version of the event.
-     *
-     * @return string
-     */
-    public function getEventVersion()
-    {
-        return $this->event_version;
-    }
-
-    /**
-     * The event that triggered the webhook event notification.
+     * Name of the event type that occurred on resource, identified by data_resource element, to trigger the Webhooks event.
      *
      * @param string $event_type
      * 
@@ -134,7 +108,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * The event that triggered the webhook event notification.
+     * Name of the event type that occurred on resource, identified by data_resource element, to trigger the Webhooks event.
      *
      * @return string
      */
@@ -144,7 +118,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * A summary description for the event notification. For example, `A payment authorization was created.`
+     * A summary description of the event. E.g. A successful payment authorization was created for $$
      *
      * @param string $summary
      * 
@@ -157,7 +131,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * A summary description for the event notification. For example, `A payment authorization was created.`
+     * A summary description of the event. E.g. A successful payment authorization was created for $$
      *
      * @return string
      */
@@ -167,7 +141,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * The resource that triggered the webhook event notification.
+     * This contains the resource that is identified by resource_type element.
      *
      * @param \PayPal\Common\PayPalModel $resource
      * 
@@ -180,7 +154,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * The resource that triggered the webhook event notification.
+     * This contains the resource that is identified by resource_type element.
      *
      * @return \PayPal\Common\PayPalModel
      */
@@ -196,8 +170,6 @@ class WebhookEvent extends PayPalResourceModel
      * to PayPal APIs to retrieve the actual data. This limits the hacker to mimick a fake data, as hacker wont be able to predict the Id correctly.
      *
      * NOTE: PLEASE DO NOT USE THE DATA PROVIDED IN WEBHOOK DIRECTLY, AS HACKER COULD PASS IN FAKE DATA. IT IS VERY IMPORTANT THAT YOU RETRIEVE THE ID AND MAKE A SEPARATE CALL TO PAYPAL API.
-     *
-     * @deprecated Please use `VerifyWebhookSignature->post()` instead.
      *
      * @param string     $body
      * @param ApiContext $apiContext
@@ -255,7 +227,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * Resends a webhook event notification, by ID. Any pending notifications are not resent.
+     * Resends the Webhooks event resource identified by event_id.
      *
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
      * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
@@ -278,7 +250,7 @@ class WebhookEvent extends PayPalResourceModel
     }
 
     /**
-     * Lists webhook event notifications. Use query parameters to filter the response.
+     * Retrieves the list of Webhooks events resources for the application associated with token. The developers can use it to see list of past webhooks events.
      *
      * @param array $params
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
@@ -293,8 +265,6 @@ class WebhookEvent extends PayPalResourceModel
           'page_size' => 1,
           'start_time' => 1,
           'end_time' => 1,
-          'transaction_id' => 1,
-          'event_type' => 1,
       );
         $json = self::executeCall(
             "/v1/notifications/webhooks-events" . "?" . http_build_query(array_intersect_key($params, $allowedParams)),

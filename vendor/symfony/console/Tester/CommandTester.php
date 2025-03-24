@@ -25,6 +25,8 @@ class CommandTester
     use TesterTrait;
 
     private $command;
+    private $input;
+    private $statusCode;
 
     public function __construct(Command $command)
     {

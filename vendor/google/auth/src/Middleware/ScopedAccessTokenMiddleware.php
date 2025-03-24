@@ -54,14 +54,14 @@ class ScopedAccessTokenMiddleware
      *
      * @param callable $tokenFunc a token generator function
      * @param array<string>|string $scopes the token authentication scopes
-     * @param array<mixed> $cacheConfig configuration for the cache when it's present
-     * @param CacheItemPoolInterface $cache an implementation of CacheItemPoolInterface
+     * @param array<mixed>|null $cacheConfig configuration for the cache when it's present
+     * @param CacheItemPoolInterface|null $cache an implementation of CacheItemPoolInterface
      */
     public function __construct(
         callable $tokenFunc,
         $scopes,
-        array $cacheConfig = null,
-        CacheItemPoolInterface $cache = null
+        ?array $cacheConfig = null,
+        ?CacheItemPoolInterface $cache = null
     ) {
         $this->tokenFunc = $tokenFunc;
         if (!(is_string($scopes) || is_array($scopes))) {

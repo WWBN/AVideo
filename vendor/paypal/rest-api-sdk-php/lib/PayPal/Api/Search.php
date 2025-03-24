@@ -30,12 +30,11 @@ use PayPal\Common\PayPalModel;
  * @property \PayPal\Api\number page
  * @property \PayPal\Api\number page_size
  * @property bool total_count_required
- * @property bool archived
  */
 class Search extends PayPalModel
 {
     /**
-     * The initial letters of the email address.
+     * Initial letters of the email address.
      *
      * @param string $email
      * 
@@ -48,7 +47,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The initial letters of the email address.
+     * Initial letters of the email address.
      *
      * @return string
      */
@@ -58,7 +57,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The initial letters of the recipient's first name.
+     * Initial letters of the recipient's first name.
      *
      * @param string $recipient_first_name
      * 
@@ -71,7 +70,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The initial letters of the recipient's first name.
+     * Initial letters of the recipient's first name.
      *
      * @return string
      */
@@ -81,7 +80,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The initial letters of the recipient's last name.
+     * Initial letters of the recipient's last name.
      *
      * @param string $recipient_last_name
      * 
@@ -94,7 +93,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The initial letters of the recipient's last name.
+     * Initial letters of the recipient's last name.
      *
      * @return string
      */
@@ -104,7 +103,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The initial letters of the recipient's business name.
+     * Initial letters of the recipient's business name.
      *
      * @param string $recipient_business_name
      * 
@@ -117,7 +116,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The initial letters of the recipient's business name.
+     * Initial letters of the recipient's business name.
      *
      * @return string
      */
@@ -127,7 +126,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The invoice number.
+     * The invoice number that appears on the invoice.
      *
      * @param string $number
      * 
@@ -140,7 +139,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The invoice number.
+     * The invoice number that appears on the invoice.
      *
      * @return string
      */
@@ -150,7 +149,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The invoice status.
+     * Status of the invoice.
      * Valid Values: ["DRAFT", "SENT", "PAID", "MARKED_AS_PAID", "CANCELLED", "REFUNDED", "PARTIALLY_REFUNDED", "MARKED_AS_REFUNDED"]
      *
      * @param string $status
@@ -164,7 +163,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The invoice status.
+     * Status of the invoice.
      *
      * @return string
      */
@@ -174,7 +173,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The lower limit of the total amount.
+     * Lower limit of total amount.
      *
      * @param \PayPal\Api\Currency $lower_total_amount
      * 
@@ -187,7 +186,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The lower limit of the total amount.
+     * Lower limit of total amount.
      *
      * @return \PayPal\Api\Currency
      */
@@ -197,7 +196,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The upper limit of total amount.
+     * Upper limit of total amount.
      *
      * @param \PayPal\Api\Currency $upper_total_amount
      * 
@@ -210,7 +209,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The upper limit of total amount.
+     * Upper limit of total amount.
      *
      * @return \PayPal\Api\Currency
      */
@@ -220,7 +219,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The start date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Start invoice date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $start_invoice_date
      * 
@@ -233,7 +232,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The start date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Start invoice date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -243,7 +242,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The end date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * End invoice date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $end_invoice_date
      * 
@@ -256,7 +255,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The end date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * End invoice date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -266,7 +265,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The start due date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Start invoice due date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $start_due_date
      * 
@@ -279,7 +278,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The start due date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Start invoice due date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -289,7 +288,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The end due date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * End invoice due date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $end_due_date
      * 
@@ -302,7 +301,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The end due date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * End invoice due date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -312,7 +311,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The start payment date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Start invoice payment date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $start_payment_date
      * 
@@ -325,7 +324,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The start payment date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Start invoice payment date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -335,7 +334,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The end payment date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * End invoice payment date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $end_payment_date
      * 
@@ -348,7 +347,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The end payment date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * End invoice payment date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -358,7 +357,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The start creation date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Start invoice creation date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $start_creation_date
      * 
@@ -371,7 +370,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The start creation date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Start invoice creation date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -381,7 +380,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The end creation date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * End invoice creation date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $end_creation_date
      * 
@@ -394,7 +393,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The end creation date for the invoice. Date format is *yyyy*-*MM*-*dd* *z*, as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * End invoice creation date. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -404,7 +403,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The offset for the search results.
+     * Offset of the search results.
      *
      * @param \PayPal\Api\number $page
      * 
@@ -417,7 +416,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The offset for the search results.
+     * Offset of the search results.
      *
      * @return \PayPal\Api\number
      */
@@ -427,7 +426,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The page size for the search results.
+     * Page size of the search results.
      *
      * @param \PayPal\Api\number $page_size
      * 
@@ -440,7 +439,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * The page size for the search results.
+     * Page size of the search results.
      *
      * @return \PayPal\Api\number
      */
@@ -450,7 +449,7 @@ class Search extends PayPalModel
     }
 
     /**
-     * Indicates whether the total count appears in the response. Default is `false`.
+     * A flag indicating whether total count is required in the response.
      *
      * @param bool $total_count_required
      * 
@@ -463,36 +462,13 @@ class Search extends PayPalModel
     }
 
     /**
-     * Indicates whether the total count appears in the response. Default is `false`.
+     * A flag indicating whether total count is required in the response.
      *
      * @return bool
      */
     public function getTotalCountRequired()
     {
         return $this->total_count_required;
-    }
-
-    /**
-     * A flag indicating whether search is on invoices archived by merchant. true - returns archived / false returns unarchived / null returns all.
-     *
-     * @param bool $archived
-     * 
-     * @return $this
-     */
-    public function setArchived($archived)
-    {
-        $this->archived = $archived;
-        return $this;
-    }
-
-    /**
-     * A flag indicating whether search is on invoices archived by merchant. true - returns archived / false returns unarchived / null returns all.
-     *
-     * @return bool
-     */
-    public function getArchived()
-    {
-        return $this->archived;
     }
 
 }

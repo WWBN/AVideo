@@ -18,11 +18,13 @@ class FuturePayment extends Payment
      *
      * @param null $apiContext
      * @param string|null  $clientMetadataId
-     * @param PayPalRestCall|null $restCall is the Rest Call Service that is used to make rest calls
      * @return $this
      */
-    public function create($apiContext = null, $clientMetadataId = null, $restCall = null)
+    public function create($apiContext = null, $clientMetadataId = null)
     {
+        if ($apiContext == null) {
+            $apiContext = new ApiContext(self::$credential);
+        }
         $headers = array();
         if ($clientMetadataId != null) {
             $headers = array(
@@ -30,16 +32,18 @@ class FuturePayment extends Payment
             );
         }
         $payLoad = $this->toJSON();
-        $json = self::executeCall(
+        $call = new PayPalRestCall($apiContext);
+        $json = $call->execute(
+            array('PayPal\Handler\RestHandler'),
             "/v1/payments/payment",
             "POST",
             $payLoad,
-            $headers,
-            $apiContext,
-            $restCall
+            $headers
         );
         $this->fromJson($json);
+
         return $this;
+
     }
 
     /**
@@ -56,4 +60,16 @@ class FuturePayment extends Payment
         return $credential->getRefreshToken($apiContext->getConfig(), $authorizationCode);
     }
 
+    /**
+     * Updates Access Token using long lived refresh token
+     *
+     * @param string|null $refreshToken
+     * @param ApiContext $apiContext
+     * @return void
+     */
+    public function updateAccessToken($refreshToken, $apiContext)
+    {
+        $apiContext = $apiContext ? $apiContext : new ApiContext(self::$credential);
+        $apiContext->getCredential()->updateAccessToken($apiContext->getConfig(), $refreshToken);
+    }
 }

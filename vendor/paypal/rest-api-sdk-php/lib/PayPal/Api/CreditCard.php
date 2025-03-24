@@ -331,7 +331,7 @@ class CreditCard extends PayPalResourceModel
     }
 
     /**
-     * State of the credit card funding instrument.
+     * State of the funding instrument.
      * Valid Values: ["expired", "ok"]
      *
      * @param string $state
@@ -542,7 +542,6 @@ class CreditCard extends PayPalResourceModel
             'merchant_id' => 1,
             'external_card_id' => 1,
             'external_customer_id' => 1,
-            'total_required' => 1
         );
         $json = self::executeCall(
             "/v1/vault/credit-cards" . "?" . http_build_query(array_intersect_key($params, $allowedParams)),

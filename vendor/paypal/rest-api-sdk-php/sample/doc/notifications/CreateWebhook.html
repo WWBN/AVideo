@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><title>notifications/CreateWebhook</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="notifications/CreateWebhook"><meta name="groc-project-path" content="notifications/CreateWebhook.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">notifications/CreateWebhook.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="create-webhook-sample">Create Webhook Sample</h1>
+<p>This sample code demonstrate how you can create a webhook, as documented here at:
+<a href="https://developer.paypal.com/webapps/developer/docs/api/#create-a-webhook">https://developer.paypal.com/webapps/developer/docs/api/#create-a-webhook</a>
+API used: POST /v1/notifications/webhooks</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../bootstrap.php'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Create a new instance of Webhook object</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$webhook</span> = <span class="hljs-keyword">new</span> \PayPal\Api\Webhook();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="basic-information">Basic Information</h1>
+<pre><code>{
+    &quot;url&quot;:&quot;https://requestb.in/10ujt3c1&quot;,
+    &quot;event_types&quot;:[
+       {
+           &quot;name&quot;:&quot;PAYMENT.AUTHORIZATION.CREATED&quot;
+       },
+       {
+           &quot;name&quot;:&quot;PAYMENT.AUTHORIZATION.VOIDED&quot;
+       }
+    ]
+ }</code></pre>
+<p>Fill up the basic information that is required for the webhook
+The URL should be actually accessible over the internet. Having a localhost here would not work.</p>
+<h4 id="there-is-an-open-source-tool-http-requestb-in-that-allows-you-to-receive-any-web-requests-to-a-url-given-there-">There is an open source tool <a href="http://requestb.in/">http://requestb.in/</a> that allows you to receive any web requests to a url given there.</h4>
+<h4 id="note-please-note-that-you-need-an-https-url-for-paypal-webhooks-you-can-however-override-the-url-with-https-and-accept">NOTE: Please note that you need an https url for paypal webhooks. You can however override the url with https, and accept</h4>
+<p>any warnings your browser might show you. Also, please note that this is entirely for demo purposes, and you should not
+be using this in production</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$webhook</span>-&gt;setUrl(<span class="hljs-string">"https://requestb.in/10ujt3c1?uniqid="</span> . uniqid());</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="event-types">Event Types</h1>
+<p>Event types correspond to what kind of notifications you want to receive on the given URL.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$webhookEventTypes</span> = <span class="hljs-keyword">array</span>();
+<span class="hljs-variable">$webhookEventTypes</span>[] = <span class="hljs-keyword">new</span> \PayPal\Api\WebhookEventType(
+    <span class="hljs-string">'{
+        "name":"PAYMENT.AUTHORIZATION.CREATED"
+    }'</span>
+);
+<span class="hljs-variable">$webhookEventTypes</span>[] = <span class="hljs-keyword">new</span> \PayPal\Api\WebhookEventType(
+    <span class="hljs-string">'{
+        "name":"PAYMENT.AUTHORIZATION.VOIDED"
+    }'</span>
+);
+<span class="hljs-variable">$webhook</span>-&gt;setEventTypes(<span class="hljs-variable">$webhookEventTypes</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>For Sample Purposes Only.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$request</span> = <span class="hljs-keyword">clone</span> <span class="hljs-variable">$webhook</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="create-webhook">Create Webhook</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">try</span> {
+    <span class="hljs-variable">$output</span> = <span class="hljs-variable">$webhook</span>-&gt;create(<span class="hljs-variable">$apiContext</span>);
+} <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="code folded"><div class="wrapper marker"><span class="c1">    // Ignore workflow code segment</span></div><div class="wrapper">    <span class="hljs-comment">// Ignore workflow code segment</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$ex</span> <span class="hljs-keyword">instanceof</span> \PayPal\<span class="hljs-keyword">Exception</span>\PayPalConnectionException) {
+        <span class="hljs-variable">$data</span> = <span class="hljs-variable">$ex</span>-&gt;getData();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper">        ResultPrinter::printError(<span class="hljs-string">"Created Webhook Failed. Checking if it is Webhook Number Limit Exceeded. Trying to delete all existing webhooks"</span>, <span class="hljs-string">"Webhook"</span>, <span class="hljs-string">"Please Use &lt;a style='color: red;' href='DeleteAllWebhooks.php' &gt;Delete All Webhooks&lt;/a&gt; Sample to delete all existing webhooks in sample"</span>, <span class="hljs-variable">$request</span>, <span class="hljs-variable">$ex</span>);
+        <span class="hljs-keyword">if</span> (strpos(<span class="hljs-variable">$data</span>,<span class="hljs-string">'WEBHOOK_NUMBER_LIMIT_EXCEEDED'</span>) !== <span class="hljs-keyword">false</span>) {
+            <span class="hljs-keyword">require</span> <span class="hljs-string">'DeleteAllWebhooks.php'</span>;
+            <span class="hljs-keyword">try</span> {
+                <span class="hljs-variable">$output</span> = <span class="hljs-variable">$webhook</span>-&gt;create(<span class="hljs-variable">$apiContext</span>);
+            } <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper">                ResultPrinter::printError(<span class="hljs-string">"Created Webhook"</span>, <span class="hljs-string">"Webhook"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$request</span>, <span class="hljs-variable">$ex</span>);
+                <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+            }
+        } <span class="hljs-keyword">else</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	        ResultPrinter::printError(<span class="hljs-string">"Created Webhook"</span>, <span class="hljs-string">"Webhook"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$request</span>, <span class="hljs-variable">$ex</span>);
+            <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+        }
+    } <span class="hljs-keyword">else</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper">        ResultPrinter::printError(<span class="hljs-string">"Created Webhook"</span>, <span class="hljs-string">"Webhook"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$request</span>, <span class="hljs-variable">$ex</span>);
+        <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+    }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Print Success Result</p></div></div><div class="code"><div class="wrapper">}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> ResultPrinter::printResult(<span class="hljs-string">"Created Webhook"</span>, <span class="hljs-string">"Webhook"</span>, <span class="hljs-variable">$output</span>-&gt;getId(), <span class="hljs-variable">$request</span>, <span class="hljs-variable">$output</span>);
+
+<span class="hljs-keyword">return</span> <span class="hljs-variable">$output</span>;</div></div></div></div></body></html>

@@ -22,7 +22,7 @@ class FundingDetail extends PayPalModel
      * Expected clearing time
      *
      * @param string $clearing_time
-     * 
+     *
      * @return $this
      */
     public function setClearingTime($clearing_time)
@@ -45,7 +45,7 @@ class FundingDetail extends PayPalModel
      * [DEPRECATED] Hold-off duration of the payment. payment_debit_date should be used instead.
      *
      * @param string $payment_hold_date
-     * 
+     *
      * @return $this
      */
     public function setPaymentHoldDate($payment_hold_date)
@@ -68,7 +68,7 @@ class FundingDetail extends PayPalModel
      * Date when funds will be debited from the payer's account
      *
      * @param string $payment_debit_date
-     * 
+     *
      * @return $this
      */
     public function setPaymentDebitDate($payment_debit_date)
@@ -89,10 +89,10 @@ class FundingDetail extends PayPalModel
 
     /**
      * Processing type of the payment card
-     * Valid Values: ["CUP_SECURE", "PINLESS_DEBIT"]
+     * Valid Values: ["PINLESS_DEBIT"]
      *
      * @param string $processing_type
-     * 
+     *
      * @return $this
      */
     public function setProcessingType($processing_type)

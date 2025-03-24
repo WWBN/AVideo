@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="en"><head><title>invoice/CreateInvoice</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="invoice/CreateInvoice"><meta name="groc-project-path" content="invoice/CreateInvoice.php"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">invoice/CreateInvoice.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="create-invoice-sample">Create Invoice Sample</h1>
+<p>This sample code demonstrate how you can create
+an invoice.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../bootstrap.php'</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Address</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">BillingInfo</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Cost</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Currency</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Invoice</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">InvoiceAddress</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">InvoiceItem</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">MerchantInfo</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">PaymentTerm</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">Phone</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">PayPal</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">ShippingInfo</span>;
+
+<span class="hljs-variable">$invoice</span> = <span class="hljs-keyword">new</span> Invoice();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="invoice-info">Invoice Info</h3>
+<p>Fill in all the information that is
+required for invoice APIs</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$invoice</span>
+    -&gt;setMerchantInfo(<span class="hljs-keyword">new</span> MerchantInfo())
+    -&gt;setBillingInfo(<span class="hljs-keyword">array</span>(<span class="hljs-keyword">new</span> BillingInfo()))
+    -&gt;setNote(<span class="hljs-string">"Medical Invoice 16 Jul, 2013 PST"</span>)
+    -&gt;setPaymentTerm(<span class="hljs-keyword">new</span> PaymentTerm())
+    -&gt;setShippingInfo(<span class="hljs-keyword">new</span> ShippingInfo());</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="merchant-info">Merchant Info</h3>
+<p>A resource representing merchant information that can be
+used to identify merchant</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$invoice</span>-&gt;getMerchantInfo()
+    -&gt;setEmail(<span class="hljs-string">"jaypatel512-facilitator@hotmail.com"</span>)
+    -&gt;setFirstName(<span class="hljs-string">"Dennis"</span>)
+    -&gt;setLastName(<span class="hljs-string">"Doctor"</span>)
+    -&gt;setbusinessName(<span class="hljs-string">"Medical Professionals, LLC"</span>)
+    -&gt;setPhone(<span class="hljs-keyword">new</span> Phone())
+    -&gt;setAddress(<span class="hljs-keyword">new</span> Address());
+
+<span class="hljs-variable">$invoice</span>-&gt;getMerchantInfo()-&gt;getPhone()
+    -&gt;setCountryCode(<span class="hljs-string">"001"</span>)
+    -&gt;setNationalNumber(<span class="hljs-string">"5032141716"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="address-information">Address Information</h3>
+<p>The address used for creating the invoice</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$invoice</span>-&gt;getMerchantInfo()-&gt;getAddress()
+    -&gt;setLine1(<span class="hljs-string">"1234 Main St."</span>)
+    -&gt;setCity(<span class="hljs-string">"Portland"</span>)
+    -&gt;setState(<span class="hljs-string">"OR"</span>)
+    -&gt;setPostalCode(<span class="hljs-string">"97217"</span>)
+    -&gt;setCountryCode(<span class="hljs-string">"US"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="billing-information">Billing Information</h3>
+<p>Set the email address for each billing</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$billing</span> = <span class="hljs-variable">$invoice</span>-&gt;getBillingInfo();
+<span class="hljs-variable">$billing</span>[<span class="hljs-number">0</span>]
+    -&gt;setEmail(<span class="hljs-string">"example@example.com"</span>);
+
+<span class="hljs-variable">$billing</span>[<span class="hljs-number">0</span>]-&gt;setBusinessName(<span class="hljs-string">"Jay Inc"</span>)
+    -&gt;setAdditionalInfo(<span class="hljs-string">"This is the billing Info"</span>)
+    -&gt;setAddress(<span class="hljs-keyword">new</span> InvoiceAddress());
+
+<span class="hljs-variable">$billing</span>[<span class="hljs-number">0</span>]-&gt;getAddress()
+    -&gt;setLine1(<span class="hljs-string">"1234 Main St."</span>)
+    -&gt;setCity(<span class="hljs-string">"Portland"</span>)
+    -&gt;setState(<span class="hljs-string">"OR"</span>)
+    -&gt;setPostalCode(<span class="hljs-string">"97217"</span>)
+    -&gt;setCountryCode(<span class="hljs-string">"US"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="items-list">Items List</h3>
+<p>You could provide the list of all items for
+detailed breakdown of invoice</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$items</span> = <span class="hljs-keyword">array</span>();
+<span class="hljs-variable">$items</span>[<span class="hljs-number">0</span>] = <span class="hljs-keyword">new</span> InvoiceItem();
+<span class="hljs-variable">$items</span>[<span class="hljs-number">0</span>]
+    -&gt;setName(<span class="hljs-string">"Sutures"</span>)
+    -&gt;setQuantity(<span class="hljs-number">100</span>)
+    -&gt;setUnitPrice(<span class="hljs-keyword">new</span> Currency());
+
+<span class="hljs-variable">$items</span>[<span class="hljs-number">0</span>]-&gt;getUnitPrice()
+    -&gt;setCurrency(<span class="hljs-string">"USD"</span>)
+    -&gt;setValue(<span class="hljs-number">5</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h4 id="tax-item">Tax Item</h4>
+<p>You could provide Tax information to each item.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$tax</span> = <span class="hljs-keyword">new</span> \PayPal\Api\Tax();
+<span class="hljs-variable">$tax</span>-&gt;setPercent(<span class="hljs-number">1</span>)-&gt;setName(<span class="hljs-string">"Local Tax on Sutures"</span>);
+<span class="hljs-variable">$items</span>[<span class="hljs-number">0</span>]-&gt;setTax(<span class="hljs-variable">$tax</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Second Item</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$items</span>[<span class="hljs-number">1</span>] = <span class="hljs-keyword">new</span> InvoiceItem();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Lets add some discount to this item.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$item1discount</span> = <span class="hljs-keyword">new</span> Cost();
+<span class="hljs-variable">$item1discount</span>-&gt;setPercent(<span class="hljs-string">"3"</span>);
+<span class="hljs-variable">$items</span>[<span class="hljs-number">1</span>]
+    -&gt;setName(<span class="hljs-string">"Injection"</span>)
+    -&gt;setQuantity(<span class="hljs-number">5</span>)
+    -&gt;setDiscount(<span class="hljs-variable">$item1discount</span>)
+    -&gt;setUnitPrice(<span class="hljs-keyword">new</span> Currency());
+
+<span class="hljs-variable">$items</span>[<span class="hljs-number">1</span>]-&gt;getUnitPrice()
+    -&gt;setCurrency(<span class="hljs-string">"USD"</span>)
+    -&gt;setValue(<span class="hljs-number">5</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h4 id="tax-item">Tax Item</h4>
+<p>You could provide Tax information to each item.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$tax2</span> = <span class="hljs-keyword">new</span> \PayPal\Api\Tax();
+<span class="hljs-variable">$tax2</span>-&gt;setPercent(<span class="hljs-number">3</span>)-&gt;setName(<span class="hljs-string">"Local Tax on Injection"</span>);
+<span class="hljs-variable">$items</span>[<span class="hljs-number">1</span>]-&gt;setTax(<span class="hljs-variable">$tax2</span>);
+
+<span class="hljs-variable">$invoice</span>-&gt;setItems(<span class="hljs-variable">$items</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h4 id="final-discount">Final Discount</h4>
+<p>You can add final discount to the invoice as shown below. You could either use &quot;percent&quot; or &quot;value&quot; when providing the discount</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$cost</span> = <span class="hljs-keyword">new</span> Cost();
+<span class="hljs-variable">$cost</span>-&gt;setPercent(<span class="hljs-string">"2"</span>);
+<span class="hljs-variable">$invoice</span>-&gt;setDiscount(<span class="hljs-variable">$cost</span>);
+
+<span class="hljs-variable">$invoice</span>-&gt;getPaymentTerm()
+    -&gt;setTermType(<span class="hljs-string">"NET_45"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="shipping-information">Shipping Information</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$invoice</span>-&gt;getShippingInfo()
+    -&gt;setFirstName(<span class="hljs-string">"Sally"</span>)
+    -&gt;setLastName(<span class="hljs-string">"Patient"</span>)
+    -&gt;setBusinessName(<span class="hljs-string">"Not applicable"</span>)
+    -&gt;setPhone(<span class="hljs-keyword">new</span> Phone())
+    -&gt;setAddress(<span class="hljs-keyword">new</span> InvoiceAddress());
+
+<span class="hljs-variable">$invoice</span>-&gt;getShippingInfo()-&gt;getPhone()
+    -&gt;setCountryCode(<span class="hljs-string">"001"</span>)
+    -&gt;setNationalNumber(<span class="hljs-string">"5039871234"</span>);
+
+<span class="hljs-variable">$invoice</span>-&gt;getShippingInfo()-&gt;getAddress()
+    -&gt;setLine1(<span class="hljs-string">"1234 Main St."</span>)
+    -&gt;setCity(<span class="hljs-string">"Portland"</span>)
+    -&gt;setState(<span class="hljs-string">"OR"</span>)
+    -&gt;setPostalCode(<span class="hljs-string">"97217"</span>)
+    -&gt;setCountryCode(<span class="hljs-string">"US"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="logo">Logo</h3>
+<p>You can set the logo in the invoice by providing the external URL pointing to a logo</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$invoice</span>-&gt;setLogoUrl(<span class="hljs-string">'https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>For Sample Purposes Only.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$request</span> = <span class="hljs-keyword">clone</span> <span class="hljs-variable">$invoice</span>;
+
+<span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="create-invoice">Create Invoice</h3>
+<p>Create an invoice by calling the invoice-&gt;create() method
+with a valid ApiContext (See bootstrap.php for more on <code>ApiContext</code>)</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$invoice</span>-&gt;create(<span class="hljs-variable">$apiContext</span>);
+} <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> <span class="hljs-variable">$ex</span>) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> 	ResultPrinter::printError(<span class="hljs-string">"Create Invoice"</span>, <span class="hljs-string">"Invoice"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-variable">$request</span>, <span class="hljs-variable">$ex</span>);
+    <span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY</p></div></div><div class="code"><div class="wrapper"> ResultPrinter::printResult(<span class="hljs-string">"Create Invoice"</span>, <span class="hljs-string">"Invoice"</span>, <span class="hljs-variable">$invoice</span>-&gt;getId(), <span class="hljs-variable">$request</span>, <span class="hljs-variable">$invoice</span>);
+
+<span class="hljs-keyword">return</span> <span class="hljs-variable">$invoice</span>;</div></div></div></div></body></html>

@@ -13,8 +13,8 @@ use PayPal\Validation\NumericValidator;
  *
  * @package PayPal\Api
  *
- * @property string currency
- * @property string total
+ * @property string              currency
+ * @property string              total
  * @property \PayPal\Api\Details details
  */
 class Amount extends PayPalModel
@@ -23,7 +23,7 @@ class Amount extends PayPalModel
      * 3-letter [currency code](https://developer.paypal.com/docs/integration/direct/rest_api_payment_country_currency_support/). PayPal does not support all currencies.
      *
      * @param string $currency
-     * 
+     *
      * @return $this
      */
     public function setCurrency($currency)
@@ -46,7 +46,7 @@ class Amount extends PayPalModel
      * Total amount charged from the payer to the payee. In case of a refund, this is the refunded amount to the original payer from the payee. 10 characters max with support for 2 decimal places.
      *
      * @param string|double $total
-     * 
+     *
      * @return $this
      */
     public function setTotal($total)
@@ -71,7 +71,7 @@ class Amount extends PayPalModel
      * Additional details of the payment amount.
      *
      * @param \PayPal\Api\Details $details
-     * 
+     *
      * @return $this
      */
     public function setDetails($details)

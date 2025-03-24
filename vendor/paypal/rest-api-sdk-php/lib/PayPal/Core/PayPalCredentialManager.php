@@ -96,7 +96,7 @@ class PayPalCredentialManager
         $key = $prefix . $suffix;
         $userName = null;
         while (in_array($key, $arrayPartKeys)) {
-            if (isset($credArr[$key . ".ClientId"]) && isset($credArr[$key . ".ClientSecret"])) {
+            if (isset($credArr[$key . ".ClientId"]) && isset($credArr[$key . ".ClientId"])) {
                 $userName = $key;
                 $this->credentialHashmap[$userName] = new OAuthTokenCredential(
                     $credArr[$key . ".ClientId"],
@@ -113,6 +113,7 @@ class PayPalCredentialManager
             $suffix++;
             $key = $prefix . $suffix;
         }
+
     }
 
     /**
@@ -145,7 +146,7 @@ class PayPalCredentialManager
     {
         if ($userId == null && array_key_exists($this->defaultAccountName, $this->credentialHashmap)) {
             $credObj = $this->credentialHashmap[$this->defaultAccountName];
-        } elseif (array_key_exists($userId, $this->credentialHashmap)) {
+        } else if (array_key_exists($userId, $this->credentialHashmap)) {
             $credObj = $this->credentialHashmap[$userId];
         }
 
@@ -163,4 +164,5 @@ class PayPalCredentialManager
     {
         trigger_error('Clone is not allowed.', E_USER_ERROR);
     }
+
 }

@@ -11,12 +11,15 @@ use PayPal\Common\PayPalModel;
  *
  * @package PayPal\Api
  *
+ * @property string email
+ * @property string external_remember_me_id
+ * @property \PayPal\Api\Address billing_address
  */
 class PotentialPayerInfo extends PayPalModel
 {
     /**
      * Email address representing the potential payer.
-     * @deprecated Not publicly available
+     *
      * @param string $email
      * 
      * @return $this
@@ -29,7 +32,7 @@ class PotentialPayerInfo extends PayPalModel
 
     /**
      * Email address representing the potential payer.
-     * @deprecated Not publicly available
+     *
      * @return string
      */
     public function getEmail()
@@ -39,7 +42,7 @@ class PotentialPayerInfo extends PayPalModel
 
     /**
      * ExternalRememberMe id representing the potential payer
-     * @deprecated Not publicly available
+     *
      * @param string $external_remember_me_id
      * 
      * @return $this
@@ -52,7 +55,7 @@ class PotentialPayerInfo extends PayPalModel
 
     /**
      * ExternalRememberMe id representing the potential payer
-     * @deprecated Not publicly available
+     *
      * @return string
      */
     public function getExternalRememberMeId()
@@ -85,7 +88,7 @@ class PotentialPayerInfo extends PayPalModel
 
     /**
      * Billing address of the potential payer.
-     * @deprecated Not publicly available
+     *
      * @param \PayPal\Api\Address $billing_address
      * 
      * @return $this
@@ -98,7 +101,7 @@ class PotentialPayerInfo extends PayPalModel
 
     /**
      * Billing address of the potential payer.
-     * @deprecated Not publicly available
+     *
      * @return \PayPal\Api\Address
      */
     public function getBillingAddress()

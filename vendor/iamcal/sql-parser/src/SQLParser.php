@@ -108,7 +108,7 @@ class SQLParser{
 			#	<unsigned integer> [ <period> [ <unsigned integer> ] ]
 			#	<period> <unsigned integer>
 			#	<unsigned integer> ::= <digit>...
-			if (preg_match('!(\d+\.?\d*|\.\d+)!A', $sql, $m, 0, $pos)){
+			if (preg_match('![-+]?(\d+\.?\d*|\.\d+)!A', $sql, $m, 0, $pos)){
 				$source_map[] = array($pos, strlen($m[0]));
 				$pos += strlen($m[0]);
 				continue;
@@ -727,7 +727,7 @@ class SQLParser{
 				break;
 
 			default:
-				die("Unsupported field type: {$f['type']}");
+				throw new SQLParserSyntaxException("Unsupported field type: {$f['type']}");
 		}
 
 
@@ -760,6 +760,11 @@ class SQLParser{
 
 		# [UNIQUE [KEY] | [PRIMARY] KEY]
 		# [COMMENT 'string']
+		if (count($tokens) >= 1 && StrToUpper($tokens[0]) == 'COMMENT'){
+			$f['comment'] = $this->decode_value($tokens[1]);
+			array_shift($tokens);
+			array_shift($tokens);
+		}
 		# [COLUMN_FORMAT {FIXED|DYNAMIC|DEFAULT}]
 		# [STORAGE {DISK|MEMORY|DEFAULT}]
 		# [reference_definition]

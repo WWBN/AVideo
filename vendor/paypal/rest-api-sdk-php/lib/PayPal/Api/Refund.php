@@ -3,8 +3,8 @@
 namespace PayPal\Api;
 
 use PayPal\Common\PayPalResourceModel;
-use PayPal\Validation\ArgumentValidator;
 use PayPal\Rest\ApiContext;
+use PayPal\Validation\ArgumentValidator;
 
 /**
  * Class Refund
@@ -13,18 +13,16 @@ use PayPal\Rest\ApiContext;
  *
  * @package PayPal\Api
  *
- * @property string id
- * @property \PayPal\Api\Amount amount
- * @property string state
- * @property string reason
- * @property string invoice_number
- * @property string sale_id
- * @property string capture_id
- * @property string parent_payment
- * @property string description
- * @property string create_time
- * @property string update_time
- * @property string reason_code
+ * @property string              id
+ * @property \PayPal\Api\Amount  amount
+ * @property string              state
+ * @property string              reason
+ * @property string              sale_id
+ * @property string              capture_id
+ * @property string              parent_payment
+ * @property string              description
+ * @property string              create_time
+ * @property string              update_time
  * @property \PayPal\Api\Links[] links
  */
 class Refund extends PayPalResourceModel
@@ -33,7 +31,7 @@ class Refund extends PayPalResourceModel
      * ID of the refund transaction. 17 characters max.
      *
      * @param string $id
-     * 
+     *
      * @return $this
      */
     public function setId($id)
@@ -56,7 +54,7 @@ class Refund extends PayPalResourceModel
      * Details including both refunded amount (to payer) and refunded fee (to payee). 10 characters max.
      *
      * @param \PayPal\Api\Amount $amount
-     * 
+     *
      * @return $this
      */
     public function setAmount($amount)
@@ -80,7 +78,7 @@ class Refund extends PayPalResourceModel
      * Valid Values: ["pending", "completed", "failed"]
      *
      * @param string $state
-     * 
+     *
      * @return $this
      */
     public function setState($state)
@@ -103,7 +101,7 @@ class Refund extends PayPalResourceModel
      * Reason description for the Sale transaction being refunded.
      *
      * @param string $reason
-     * 
+     *
      * @return $this
      */
     public function setReason($reason)
@@ -123,33 +121,10 @@ class Refund extends PayPalResourceModel
     }
 
     /**
-     * Your own invoice or tracking ID number. Character length and limitations: 127 single-byte alphanumeric characters.
-     *
-     * @param string $invoice_number
-     * 
-     * @return $this
-     */
-    public function setInvoiceNumber($invoice_number)
-    {
-        $this->invoice_number = $invoice_number;
-        return $this;
-    }
-
-    /**
-     * Your own invoice or tracking ID number. Character length and limitations: 127 single-byte alphanumeric characters.
-     *
-     * @return string
-     */
-    public function getInvoiceNumber()
-    {
-        return $this->invoice_number;
-    }
-
-    /**
-     * ID of the Sale transaction being refunded. 
+     * ID of the Sale transaction being refunded.
      *
      * @param string $sale_id
-     * 
+     *
      * @return $this
      */
     public function setSaleId($sale_id)
@@ -159,7 +134,7 @@ class Refund extends PayPalResourceModel
     }
 
     /**
-     * ID of the Sale transaction being refunded. 
+     * ID of the Sale transaction being refunded.
      *
      * @return string
      */
@@ -172,7 +147,7 @@ class Refund extends PayPalResourceModel
      * ID of the sale transaction being refunded.
      *
      * @param string $capture_id
-     * 
+     *
      * @return $this
      */
     public function setCaptureId($capture_id)
@@ -195,7 +170,7 @@ class Refund extends PayPalResourceModel
      * ID of the payment resource on which this transaction is based.
      *
      * @param string $parent_payment
-     * 
+     *
      * @return $this
      */
     public function setParentPayment($parent_payment)
@@ -218,7 +193,7 @@ class Refund extends PayPalResourceModel
      * Description of what is being refunded for.
      *
      * @param string $description
-     * 
+     *
      * @return $this
      */
     public function setDescription($description)
@@ -241,7 +216,7 @@ class Refund extends PayPalResourceModel
      * Time of refund as defined in [RFC 3339 Section 5.6](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $create_time
-     * 
+     *
      * @return $this
      */
     public function setCreateTime($create_time)
@@ -264,7 +239,7 @@ class Refund extends PayPalResourceModel
      * Time that the resource was last updated.
      *
      * @param string $update_time
-     * 
+     *
      * @return $this
      */
     public function setUpdateTime($update_time)
@@ -284,35 +259,11 @@ class Refund extends PayPalResourceModel
     }
 
     /**
-     * The reason code for the refund state being pending
-     * Valid Values: ["ECHECK"]
+     * Retrieve details about a specific refund by passing the refund_id in the request URI.
      *
-     * @param string $reason_code
-     * 
-     * @return $this
-     */
-    public function setReasonCode($reason_code)
-    {
-        $this->reason_code = $reason_code;
-        return $this;
-    }
-
-    /**
-     * The reason code for the refund state being pending
-     *
-     * @return string
-     */
-    public function getReasonCode()
-    {
-        return $this->reason_code;
-    }
-
-    /**
-     * Shows details for a refund, by ID.
-     *
-     * @param string $refundId
-     * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
-     * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
+     * @param string         $refundId
+     * @param ApiContext     $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
+     * @param PayPalRestCall $restCall   is the Rest Call Service that is used to make rest calls
      * @return Refund
      */
     public static function get($refundId, $apiContext = null, $restCall = null)

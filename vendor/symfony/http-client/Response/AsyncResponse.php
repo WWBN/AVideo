@@ -51,8 +51,8 @@ final class AsyncResponse implements ResponseInterface, StreamableInterface
 
         if (null !== $onProgress = $options['on_progress'] ?? null) {
             $thisInfo = &$this->info;
-            $options['on_progress'] = static function (int $dlNow, int $dlSize, array $info, ?\Closure $resolve = null) use (&$thisInfo, $onProgress) {
-                $onProgress($dlNow, $dlSize, $thisInfo + $info, $resolve);
+            $options['on_progress'] = static function (int $dlNow, int $dlSize, array $info) use (&$thisInfo, $onProgress) {
+                $onProgress($dlNow, $dlSize, $thisInfo + $info);
             };
         }
         $this->response = $client->request($method, $url, ['buffer' => false] + $options);
@@ -117,11 +117,20 @@ final class AsyncResponse implements ResponseInterface, StreamableInterface
 
     public function getInfo(?string $type = null)
     {
+        if ('debug' === ($type ?? 'debug')) {
+            $debug = implode('', array_column($this->info['previous_info'] ?? [], 'debug'));
+            $debug .= $this->response->getInfo('debug');
+
+            if ('debug' === $type) {
+                return $debug;
+            }
+        }
+
         if (null !== $type) {
             return $this->info[$type] ?? $this->response->getInfo($type);
         }
 
-        return $this->info + $this->response->getInfo();
+        return array_merge($this->info + $this->response->getInfo(), ['debug' => $debug]);
     }
 
     public function toStream(bool $throw = true)
@@ -249,6 +258,7 @@ final class AsyncResponse implements ResponseInterface, StreamableInterface
                 return;
             }
 
+            $chunk = null;
             foreach ($client->stream($wrappedResponses, $timeout) as $response => $chunk) {
                 $r = $asyncMap[$response];
 
@@ -291,6 +301,9 @@ final class AsyncResponse implements ResponseInterface, StreamableInterface
                 }
             }
 
+            if (null === $chunk) {
+                throw new \LogicException(\sprintf('"%s" is not compliant with HttpClientInterface: its "stream()" method didn\'t yield any chunks when it should have.', get_debug_type($client)));
+            }
             if (null === $chunk->getError() && $chunk->isLast()) {
                 $r->yieldedState = self::LAST_CHUNK_YIELDED;
             }

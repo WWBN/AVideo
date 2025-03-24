@@ -23,7 +23,7 @@ class FmfDetails extends PayPalModel
      * Valid Values: ["ACCEPT", "PENDING", "DENY", "REPORT"]
      *
      * @param string $filter_type
-     * 
+     *
      * @return $this
      */
     public function setFilterType($filter_type)
@@ -47,7 +47,7 @@ class FmfDetails extends PayPalModel
      * Valid Values: ["AVS_NO_MATCH", "AVS_PARTIAL_MATCH", "AVS_UNAVAILABLE_OR_UNSUPPORTED", "CARD_SECURITY_CODE_MISMATCH", "MAXIMUM_TRANSACTION_AMOUNT", "UNCONFIRMED_ADDRESS", "COUNTRY_MONITOR", "LARGE_ORDER_NUMBER", "BILLING_OR_SHIPPING_ADDRESS_MISMATCH", "RISKY_ZIP_CODE", "SUSPECTED_FREIGHT_FORWARDER_CHECK", "TOTAL_PURCHASE_PRICE_MINIMUM", "IP_ADDRESS_VELOCITY", "RISKY_EMAIL_ADDRESS_DOMAIN_CHECK", "RISKY_BANK_IDENTIFICATION_NUMBER_CHECK", "RISKY_IP_ADDRESS_RANGE", "PAYPAL_FRAUD_MODEL"]
      *
      * @param string $filter_id
-     * 
+     *
      * @return $this
      */
     public function setFilterId($filter_id)
@@ -70,7 +70,7 @@ class FmfDetails extends PayPalModel
      * Name of the filter
      *
      * @param string $name
-     * 
+     *
      * @return $this
      */
     public function setName($name)
@@ -93,7 +93,7 @@ class FmfDetails extends PayPalModel
      * Description of the filter.
      *
      * @param string $description
-     * 
+     *
      * @return $this
      */
     public function setDescription($description)

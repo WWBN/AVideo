@@ -34,16 +34,16 @@ class ApplicationDescription
     private $namespaces;
 
     /**
-     * @var array<string, Command>
+     * @var Command[]
      */
     private $commands;
 
     /**
-     * @var array<string, Command>
+     * @var Command[]
      */
     private $aliases;
 
-    public function __construct(Application $application, ?string $namespace = null, bool $showHidden = false)
+    public function __construct(Application $application, string $namespace = null, bool $showHidden = false)
     {
         $this->application = $application;
         $this->namespace = $namespace;
@@ -131,7 +131,7 @@ class ApplicationDescription
         }
 
         if ($namespacedCommands) {
-            ksort($namespacedCommands, \SORT_STRING);
+            ksort($namespacedCommands);
             foreach ($namespacedCommands as $key => $commandsSet) {
                 ksort($commandsSet);
                 $sortedCommands[$key] = $commandsSet;

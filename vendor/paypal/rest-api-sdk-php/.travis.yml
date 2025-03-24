@@ -1,0 +1,32 @@
+sudo: false
+language: php
+php:
+- 5.3
+- 5.4
+- 5.5
+- 5.6
+- 7.0
+- hhvm
+matrix:
+  allow_failures:
+  - php: hhvm
+  fast_finish: true
+before_script:
+- composer self-update
+- composer install --dev
+- composer require satooshi/php-coveralls:* --dev
+script:
+- mkdir build
+- mkdir build/coverage
+- phpunit
+after_success:
+- php vendor/bin/coveralls -v -c .coveralls.yml
+- if [ $TRAVIS_PHP_VERSION = '5.6' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then sh generate-api.sh; fi
+notifications:
+  email:
+    recipients:
+    - DL-PP-PHP-SDK@paypal.com
+    on_success: change
+env:
+  global:
+    secure: UazgSLMJmrhmO+Do9TDiu8EKop06Xc2Ghi9F/8rx/CLz2FDZ5UDdzDD8uetjfdOnmMV7oadq13FGxJb9YCqTiJPZFpKsGtEr/IcCdpkO2krluLuWw5Veh8YxRG4rcZ+UWS0JpfQ72L9Zp4dMqPRo8SzcfiZV3HMG1uKYKpTSKnM=

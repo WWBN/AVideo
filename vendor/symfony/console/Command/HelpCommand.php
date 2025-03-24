@@ -11,9 +11,6 @@
 
 namespace Symfony\Component\Console\Command;
 
-use Symfony\Component\Console\Completion\CompletionInput;
-use Symfony\Component\Console\Completion\CompletionSuggestions;
-use Symfony\Component\Console\Descriptor\ApplicationDescription;
 use Symfony\Component\Console\Helper\DescriptorHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -82,20 +79,5 @@ EOF
         $this->command = null;
 
         return 0;
-    }
-
-    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
-    {
-        if ($input->mustSuggestArgumentValuesFor('command_name')) {
-            $descriptor = new ApplicationDescription($this->getApplication());
-            $suggestions->suggestValues(array_keys($descriptor->getCommands()));
-
-            return;
-        }
-
-        if ($input->mustSuggestOptionValuesFor('format')) {
-            $helper = new DescriptorHelper();
-            $suggestions->suggestValues($helper->getFormats());
-        }
     }
 }

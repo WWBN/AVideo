@@ -31,7 +31,14 @@ class OAuthTokenCredential extends PayPalResourceModel
      *
      * @var int $expiryBufferTime
      */
-    public static $expiryBufferTime = 120;
+    private static $expiryBufferTime = 120;
+
+    /**
+     * Private Variable
+     *
+     * @var \PayPal\Core\PayPalLoggingManager $logger
+     */
+    private $logger;
 
     /**
      * Client ID as obtained from the developer portal
@@ -46,11 +53,6 @@ class OAuthTokenCredential extends PayPalResourceModel
      * @var string $clientSecret
      */
     private $clientSecret;
-
-    /**
-     * Target subject
-     */
-    private $targetSubject;
 
     /**
      * Generated Access Token
@@ -86,12 +88,12 @@ class OAuthTokenCredential extends PayPalResourceModel
      * @param string $clientId     client id obtained from the developer portal
      * @param string $clientSecret client secret obtained from the developer portal
      */
-    public function __construct($clientId, $clientSecret, $targetSubject = null)
+    public function __construct($clientId, $clientSecret)
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->cipher = new Cipher($this->clientSecret);
-        $this->targetSubject = $targetSubject;
+        $this->logger = PayPalLoggingManager::getInstance(__CLASS__);
     }
 
     /**
@@ -232,11 +234,6 @@ class OAuthTokenCredential extends PayPalResourceModel
     {
         $httpConfig = new PayPalHttpConfig(null, 'POST', $config);
 
-        // if proxy set via config, add it
-        if (!empty($config['http.Proxy'])) {
-            $httpConfig->setHttpProxy($config['http.Proxy']);
-        }
-
         $handlers = array(self::$AUTH_HANDLER);
 
         /** @var IPayPalHandler $handler */
@@ -273,16 +270,15 @@ class OAuthTokenCredential extends PayPalResourceModel
             $params['grant_type'] = 'refresh_token';
             $params['refresh_token'] = $refreshToken;
         }
-        if ($this->targetSubject != null) {
-            $params['target_subject'] = $this->targetSubject;
-        }
         $payload = http_build_query($params);
         $response = $this->getToken($config, $this->clientId, $this->clientSecret, $payload);
 
         if ($response == null || !isset($response["access_token"]) || !isset($response["expires_in"])) {
             $this->accessToken = null;
             $this->tokenExpiresIn = null;
-            PayPalLoggingManager::getInstance(__CLASS__)->warning("Could not generate new Access token. Invalid response from server: ");
+            $this->logger->warning(
+                "Could not generate new Access token. Invalid response from server: "
+            );
             throw new PayPalConnectionException(null, "Could not generate new Access token. Invalid response from server: ");
         } else {
             $this->accessToken = $response["access_token"];

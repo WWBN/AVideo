@@ -13,8 +13,6 @@ namespace Symfony\Component\Console\Command;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Completion\CompletionInput;
-use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\LogicException;
@@ -63,7 +61,7 @@ class Command
     private $helperSet;
 
     /**
-     * @return string|null
+     * @return string|null The default command name or null when no default name is set
      */
     public static function getDefaultName()
     {
@@ -78,6 +76,9 @@ class Command
         return $class === $r->class ? static::$defaultName : null;
     }
 
+    /**
+     * @return string|null The default command description or null when no default description is set
+     */
     public static function getDefaultDescription(): ?string
     {
         $class = static::class;
@@ -96,7 +97,7 @@ class Command
      *
      * @throws LogicException When the command name is empty
      */
-    public function __construct(?string $name = null)
+    public function __construct(string $name = null)
     {
         $this->definition = new InputDefinition();
 
@@ -132,7 +133,7 @@ class Command
         $this->ignoreValidationErrors = true;
     }
 
-    public function setApplication(?Application $application = null)
+    public function setApplication(Application $application = null)
     {
         $this->application = $application;
         if ($application) {
@@ -152,7 +153,7 @@ class Command
     /**
      * Gets the helper set.
      *
-     * @return HelperSet|null
+     * @return HelperSet|null A HelperSet instance
      */
     public function getHelperSet()
     {
@@ -162,7 +163,7 @@ class Command
     /**
      * Gets the application instance for this command.
      *
-     * @return Application|null
+     * @return Application|null An Application instance
      */
     public function getApplication()
     {
@@ -172,7 +173,7 @@ class Command
     /**
      * Checks whether the command is enabled or not in the current environment.
      *
-     * Override this to check for x or y and return false if the command cannot
+     * Override this to check for x or y and return false if the command can not
      * run properly under the current conditions.
      *
      * @return bool
@@ -242,7 +243,7 @@ class Command
      *
      * @return int The command exit code
      *
-     * @throws ExceptionInterface When input binding fails. Bypass this by calling {@link ignoreValidationErrors()}.
+     * @throws \Exception When binding input fails. Bypass this by calling {@link ignoreValidationErrors()}.
      *
      * @see setCode()
      * @see execute()
@@ -303,13 +304,6 @@ class Command
         }
 
         return is_numeric($statusCode) ? (int) $statusCode : 0;
-    }
-
-    /**
-     * Adds suggestions to $suggestions for the current completion input (e.g. option or argument).
-     */
-    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
-    {
     }
 
     /**
@@ -397,7 +391,7 @@ class Command
     /**
      * Gets the InputDefinition attached to this Command.
      *
-     * @return InputDefinition
+     * @return InputDefinition An InputDefinition instance
      */
     public function getDefinition()
     {
@@ -412,7 +406,7 @@ class Command
      *
      * This method is not part of public API and should not be used directly.
      *
-     * @return InputDefinition
+     * @return InputDefinition An InputDefinition instance
      */
     public function getNativeDefinition()
     {
@@ -429,11 +423,11 @@ class Command
      * @param int|null $mode    The argument mode: InputArgument::REQUIRED or InputArgument::OPTIONAL
      * @param mixed    $default The default value (for InputArgument::OPTIONAL mode only)
      *
-     * @return $this
-     *
      * @throws InvalidArgumentException When argument mode is not valid
+     *
+     * @return $this
      */
-    public function addArgument(string $name, ?int $mode = null, string $description = '', $default = null)
+    public function addArgument(string $name, int $mode = null, string $description = '', $default = null)
     {
         $this->definition->addArgument(new InputArgument($name, $mode, $description, $default));
         if (null !== $this->fullDefinition) {
@@ -450,11 +444,11 @@ class Command
      * @param int|null          $mode     The option mode: One of the InputOption::VALUE_* constants
      * @param mixed             $default  The default value (must be null for InputOption::VALUE_NONE)
      *
-     * @return $this
-     *
      * @throws InvalidArgumentException If option mode is invalid or incompatible
+     *
+     * @return $this
      */
-    public function addOption(string $name, $shortcut = null, ?int $mode = null, string $description = '', $default = null)
+    public function addOption(string $name, $shortcut = null, int $mode = null, string $description = '', $default = null)
     {
         $this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default));
         if (null !== $this->fullDefinition) {
@@ -518,7 +512,7 @@ class Command
      *
      * @final since Symfony 5.1
      */
-    public function setHidden(bool $hidden /* = true */)
+    public function setHidden(bool $hidden /*= true*/)
     {
         $this->hidden = $hidden;
 
@@ -548,7 +542,7 @@ class Command
     /**
      * Returns the description for the command.
      *
-     * @return string
+     * @return string The description for the command
      */
     public function getDescription()
     {
@@ -570,7 +564,7 @@ class Command
     /**
      * Returns the help for the command.
      *
-     * @return string
+     * @return string The help for the command
      */
     public function getHelp()
     {
@@ -581,7 +575,7 @@ class Command
      * Returns the processed help for the command replacing the %command.name% and
      * %command.full_name% patterns with the real values dynamically.
      *
-     * @return string
+     * @return string The processed help for the command
      */
     public function getProcessedHelp()
     {
@@ -626,7 +620,7 @@ class Command
     /**
      * Returns the aliases for the command.
      *
-     * @return array
+     * @return array An array of aliases for the command
      */
     public function getAliases()
     {
@@ -638,7 +632,7 @@ class Command
      *
      * @param bool $short Whether to show the short version of the synopsis (with options folded) or not
      *
-     * @return string
+     * @return string The synopsis
      */
     public function getSynopsis(bool $short = false)
     {
@@ -680,7 +674,7 @@ class Command
     /**
      * Gets a helper instance by name.
      *
-     * @return mixed
+     * @return mixed The helper value
      *
      * @throws LogicException           if no HelperSet is defined
      * @throws InvalidArgumentException if the helper is not defined

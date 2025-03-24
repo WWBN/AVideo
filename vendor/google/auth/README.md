@@ -1,15 +1,6 @@
 # Google Auth Library for PHP
 
-<dl>
-  <dt>Homepage</dt><dd><a href="http://www.github.com/google/google-auth-library-php">http://www.github.com/google/google-auth-library-php</a></dd>
-  <dt>Reference Docs</dt><dd><a href="https://googleapis.github.io/google-auth-library-php/main/">https://googleapis.github.io/google-auth-library-php/main/</a></dd>
-  <dt>Authors</dt>
-    <dd><a href="mailto:temiola@google.com">Tim Emiola</a></dd>
-    <dd><a href="mailto:stanleycheung@google.com">Stanley Cheung</a></dd>
-    <dd><a href="mailto:betterbrent@google.com">Brent Shaffer</a></dd>
-  <dt>Copyright</dt><dd>Copyright © 2015 Google, Inc.</dd>
-  <dt>License</dt><dd>Apache 2.0</dd>
-</dl>
+<a href="https://cloud.google.com/php/docs/reference/auth/latest">Reference Docs</a>
 
 ## Description
 
@@ -40,6 +31,14 @@ This library provides an implementation of
 Application Default Credentials provides a simple way to get authorization
 credentials for use in calling Google APIs, and is
 the recommended approach to authorize calls to Cloud APIs.
+
+**Important**: If you accept a credential configuration (credential JSON/File/Stream) from an
+external source for authentication to Google Cloud Platform, you must validate it before providing
+it to any Google API or library. Providing an unvalidated credential configuration to Google APIs
+can compromise the security of your systems and data. For more information, refer to
+[Validate credential configurations from external sources][externally-sourced-credentials].
+
+[externally-sourced-credentials]: https://cloud.google.com/docs/authentication/external/externally-sourced-credentials
 
 ### Set up ADC
 
@@ -302,7 +301,7 @@ $middleware = ApplicationDefaultCredentials::getCredentials($scope, cache: $memo
 
 ### FileSystemCacheItemPool Cache
 The `FileSystemCacheItemPool` class is a `PSR-6` compliant cache that stores its
-serialized objects on disk, caching data between processes and making it possible 
+serialized objects on disk, caching data between processes and making it possible
 to use data between different requests.
 
 ```php

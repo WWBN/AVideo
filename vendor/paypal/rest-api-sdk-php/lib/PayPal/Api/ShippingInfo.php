@@ -20,7 +20,7 @@ use PayPal\Common\PayPalModel;
 class ShippingInfo extends PayPalModel
 {
     /**
-     * The invoice recipient first name. Maximum length is 30 characters.
+     * First name of the invoice recipient. 30 characters max.
      *
      * @param string $first_name
      * 
@@ -33,7 +33,7 @@ class ShippingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient first name. Maximum length is 30 characters.
+     * First name of the invoice recipient. 30 characters max.
      *
      * @return string
      */
@@ -43,7 +43,7 @@ class ShippingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient last name. Maximum length is 30 characters.
+     * Last name of the invoice recipient. 30 characters max.
      *
      * @param string $last_name
      * 
@@ -56,7 +56,7 @@ class ShippingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient last name. Maximum length is 30 characters.
+     * Last name of the invoice recipient. 30 characters max.
      *
      * @return string
      */
@@ -66,7 +66,7 @@ class ShippingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient company business name. Maximum length is 100 characters.
+     * Company business name of the invoice recipient. 100 characters max.
      *
      * @param string $business_name
      * 
@@ -79,7 +79,7 @@ class ShippingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient company business name. Maximum length is 100 characters.
+     * Company business name of the invoice recipient. 100 characters max.
      *
      * @return string
      */
@@ -111,7 +111,7 @@ class ShippingInfo extends PayPalModel
     }
 
     /**
-     * @deprecated Not used anymore
+     *
      *
      * @param string $email
      * @return $this
@@ -123,7 +123,7 @@ class ShippingInfo extends PayPalModel
     }
 
     /**
-     * @deprecated Not used anymore
+     *
      *
      * @return string
      */
@@ -146,7 +146,7 @@ class ShippingInfo extends PayPalModel
     }
 
     /**
-     * The invoice recipient address.
+     * Address of the invoice recipient.
      *
      * @return \PayPal\Api\InvoiceAddress
      */

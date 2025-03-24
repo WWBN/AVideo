@@ -126,7 +126,7 @@ class InputDefinition
      *
      * @param string|int $name The InputArgument name or position
      *
-     * @return InputArgument
+     * @return InputArgument An InputArgument object
      *
      * @throws InvalidArgumentException When argument given doesn't exist
      */
@@ -146,7 +146,7 @@ class InputDefinition
      *
      * @param string|int $name The InputArgument name or position
      *
-     * @return bool
+     * @return bool true if the InputArgument object exists, false otherwise
      */
     public function hasArgument($name)
     {
@@ -158,7 +158,7 @@ class InputDefinition
     /**
      * Gets the array of InputArgument objects.
      *
-     * @return InputArgument[]
+     * @return InputArgument[] An array of InputArgument objects
      */
     public function getArguments()
     {
@@ -168,7 +168,7 @@ class InputDefinition
     /**
      * Returns the number of InputArguments.
      *
-     * @return int
+     * @return int The number of InputArguments
      */
     public function getArgumentCount()
     {
@@ -178,7 +178,7 @@ class InputDefinition
     /**
      * Returns the number of required InputArguments.
      *
-     * @return int
+     * @return int The number of required InputArguments
      */
     public function getArgumentRequiredCount()
     {
@@ -262,7 +262,7 @@ class InputDefinition
     /**
      * Returns an InputOption by name.
      *
-     * @return InputOption
+     * @return InputOption A InputOption object
      *
      * @throws InvalidArgumentException When option given doesn't exist
      */
@@ -281,7 +281,7 @@ class InputDefinition
      * This method can't be used to check if the user included the option when
      * executing the command (use getOption() instead).
      *
-     * @return bool
+     * @return bool true if the InputOption object exists, false otherwise
      */
     public function hasOption(string $name)
     {
@@ -291,7 +291,7 @@ class InputDefinition
     /**
      * Gets the array of InputOption objects.
      *
-     * @return InputOption[]
+     * @return InputOption[] An array of InputOption objects
      */
     public function getOptions()
     {
@@ -301,7 +301,7 @@ class InputDefinition
     /**
      * Returns true if an InputOption object exists by shortcut.
      *
-     * @return bool
+     * @return bool true if the InputOption object exists, false otherwise
      */
     public function hasShortcut(string $name)
     {
@@ -319,7 +319,7 @@ class InputDefinition
     /**
      * Gets an InputOption by shortcut.
      *
-     * @return InputOption
+     * @return InputOption An InputOption object
      */
     public function getOptionForShortcut(string $shortcut)
     {
@@ -374,7 +374,7 @@ class InputDefinition
     /**
      * Gets the synopsis.
      *
-     * @return string
+     * @return string The synopsis
      */
     public function getSynopsis(bool $short = false)
     {

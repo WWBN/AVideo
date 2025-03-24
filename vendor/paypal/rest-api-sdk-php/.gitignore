@@ -15,11 +15,7 @@ atlassian-ide-plugin.xml
 # Composer
 vendor
 composer.lock
-composer.phar
 
 # Project
 var
 tools
-
-# Groc 
-node_modules

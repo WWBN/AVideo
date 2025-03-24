@@ -11,8 +11,6 @@ use PayPal\Common\PayPalModel;
  *
  * @package PayPal\Api
  *
- * @deprecated Used internally only.
- *
  * @property string billing_agreement_id
  */
 class Billing extends PayPalModel

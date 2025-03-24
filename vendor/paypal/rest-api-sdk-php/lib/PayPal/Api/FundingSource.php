@@ -11,24 +11,25 @@ use PayPal\Common\PayPalModel;
  *
  * @package PayPal\Api
  *
- * @property string funding_mode
- * @property string funding_instrument_type
- * @property string soft_descriptor
- * @property \PayPal\Api\Currency amount
- * @property \PayPal\Api\Currency negative_balance_amount
- * @property string legal_text
- * @property \PayPal\Api\FundingDetail funding_detail
- * @property string additional_text
- * @property \PayPal\Api\Links[] links
+ * @property string                        funding_mode
+ * @property string                        funding_instrument_type
+ * @property string                        soft_descriptor
+ * @property \PayPal\Api\Currency          amount
+ * @property \PayPal\Api\Currency          negative_balance_amount
+ * @property string                        legal_text
+ * @property \PayPal\Api\FundingDetail     funding_detail
+ * @property string                        additional_text
+ * @property \PayPal\Api\FundingInstrument extends
+ * @property \PayPal\Api\Links[]           links
  */
-class FundingSource extends FundingInstrument
+class FundingSource extends PayPalModel
 {
     /**
      * specifies funding mode of the instrument
-     * Valid Values: ["INSTANT_TRANSFER", "MANUAL_BANK_TRANSFER", "DELAYED_TRANSFER", "ECHECK", "PAY_UPON_INVOICE"]
+     * Valid Values: ["INSTANT_TRANSFER", "MANUAL_BANK_TRANSFER", "DELAYED_TRANSFER", "ECHECK"]
      *
      * @param string $funding_mode
-     * 
+     *
      * @return $this
      */
     public function setFundingMode($funding_mode)
@@ -49,10 +50,10 @@ class FundingSource extends FundingInstrument
 
     /**
      * Instrument type for this funding source
-     * Valid Values: ["BALANCE", "PAYMENT_CARD", "BANK_ACCOUNT", "CREDIT", "INCENTIVE", "EXTERNAL_FUNDING", "TAB"]
+     * Valid Values: ["BALANCE", "PAYMENT_CARD", "BANK_ACCOUNT", "CREDIT", "INCENTIVE"]
      *
      * @param string $funding_instrument_type
-     * 
+     *
      * @return $this
      */
     public function setFundingInstrumentType($funding_instrument_type)
@@ -75,7 +76,7 @@ class FundingSource extends FundingInstrument
      * Soft descriptor used when charging this funding source.
      *
      * @param string $soft_descriptor
-     * 
+     *
      * @return $this
      */
     public function setSoftDescriptor($soft_descriptor)
@@ -98,7 +99,7 @@ class FundingSource extends FundingInstrument
      * Total anticipated amount of money to be pulled from instrument.
      *
      * @param \PayPal\Api\Currency $amount
-     * 
+     *
      * @return $this
      */
     public function setAmount($amount)
@@ -118,33 +119,33 @@ class FundingSource extends FundingInstrument
     }
 
     /**
-     * Additional amount to be pulled from the instrument to recover a negative balance on the buyer's account that is owed to PayPal.
+     * Additional amount to be pulled from the instrument to recover a negative balance on the buyer
      *
-     * @param \PayPal\Api\Currency $negative_balance_amount
-     * 
+     * @param \PayPal\Api\Currency $amount
+     *
      * @return $this
      */
-    public function setNegativeBalanceAmount($negative_balance_amount)
+    public function setNegativeBalanceAmount($amount)
     {
-        $this->negative_balance_amount = $negative_balance_amount;
+        $this->amount = $amount;
         return $this;
     }
 
     /**
-     * Additional amount to be pulled from the instrument to recover a negative balance on the buyer's account that is owed to PayPal.
+     * Additional amount to be pulled from the instrument to recover a negative balance on the buyer
      *
      * @return \PayPal\Api\Currency
      */
     public function getNegativeBalanceAmount()
     {
-        return $this->negative_balance_amount;
+        return $this->amount;
     }
 
     /**
      * Localized legal text relevant to funding source.
      *
      * @param string $legal_text
-     * 
+     *
      * @return $this
      */
     public function setLegalText($legal_text)
@@ -167,7 +168,7 @@ class FundingSource extends FundingInstrument
      * Additional detail of the funding.
      *
      * @param \PayPal\Api\FundingDetail $funding_detail
-     * 
+     *
      * @return $this
      */
     public function setFundingDetail($funding_detail)
@@ -190,7 +191,7 @@ class FundingSource extends FundingInstrument
      * Additional text relevant to funding source.
      *
      * @param string $additional_text
-     * 
+     *
      * @return $this
      */
     public function setAdditionalText($additional_text)
@@ -214,8 +215,6 @@ class FundingSource extends FundingInstrument
      *
      * @param \PayPal\Api\FundingInstrument $extends
      *
-     * @deprecated Unused
-     *
      * @return $this
      */
     public function setExtends($extends)
@@ -226,8 +225,6 @@ class FundingSource extends FundingInstrument
 
     /**
      * Gets Extends
-     *
-     * @deprecated Unused
      *
      * @return \PayPal\Api\FundingInstrument
      */
@@ -240,7 +237,7 @@ class FundingSource extends FundingInstrument
      * Sets Links
      *
      * @param \PayPal\Api\Links[] $links
-     * 
+     *
      * @return $this
      */
     public function setLinks($links)

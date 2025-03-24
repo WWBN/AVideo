@@ -111,7 +111,7 @@ class Question
     }
 
     /**
-     * In case the response cannot be hidden, whether to fallback on non-hidden question or not.
+     * In case the response can not be hidden, whether to fallback on non-hidden question or not.
      *
      * @return bool
      */
@@ -121,7 +121,7 @@ class Question
     }
 
     /**
-     * Sets whether to fallback on non-hidden question if the response cannot be hidden.
+     * Sets whether to fallback on non-hidden question if the response can not be hidden.
      *
      * @return $this
      */
@@ -186,7 +186,7 @@ class Question
      *
      * @return $this
      */
-    public function setAutocompleterCallback(?callable $callback = null): self
+    public function setAutocompleterCallback(callable $callback = null): self
     {
         if ($this->hidden && null !== $callback) {
             throw new LogicException('A hidden question cannot use the autocompleter.');
@@ -202,7 +202,7 @@ class Question
      *
      * @return $this
      */
-    public function setValidator(?callable $validator = null)
+    public function setValidator(callable $validator = null)
     {
         $this->validator = $validator;
 

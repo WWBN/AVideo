@@ -17,22 +17,17 @@ use PayPal\Validation\UrlValidator;
  *
  * @property string id
  * @property string number
- * @property string template_id
  * @property string uri
  * @property string status
  * @property \PayPal\Api\MerchantInfo merchant_info
  * @property \PayPal\Api\BillingInfo[] billing_info
- * @property \PayPal\Api\Participant[] cc_info
  * @property \PayPal\Api\ShippingInfo shipping_info
  * @property \PayPal\Api\InvoiceItem[] items
  * @property string invoice_date
  * @property \PayPal\Api\PaymentTerm payment_term
- * @property string reference
  * @property \PayPal\Api\Cost discount
  * @property \PayPal\Api\ShippingCost shipping_cost
  * @property \PayPal\Api\CustomAmount custom
- * @property bool allow_partial_payment
- * @property \PayPal\Api\Currency minimum_amount_due
  * @property bool tax_calculated_after_discount
  * @property bool tax_inclusive
  * @property string terms
@@ -43,14 +38,12 @@ use PayPal\Validation\UrlValidator;
  * @property \PayPal\Api\PaymentDetail[] payments
  * @property \PayPal\Api\RefundDetail[] refunds
  * @property \PayPal\Api\Metadata metadata
- * @property \PayPal\Api\PaymentSummary paid_amount
- * @property \PayPal\Api\PaymentSummary refunded_amount
- * @property \PayPal\Api\FileAttachment[] attachments
+ * @property string additional_data
  */
 class Invoice extends PayPalResourceModel
 {
     /**
-     * The unique invoice resource identifier.
+     * Unique invoice resource identifier.
      *
      * @param string $id
      * 
@@ -63,7 +56,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The unique invoice resource identifier.
+     * Unique invoice resource identifier.
      *
      * @return string
      */
@@ -96,29 +89,6 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The template ID used for the invoice. Useful for copy functionality.
-     *
-     * @param string $template_id
-     * 
-     * @return $this
-     */
-    public function setTemplateId($template_id)
-    {
-        $this->template_id = $template_id;
-        return $this;
-    }
-
-    /**
-     * The template ID used for the invoice. Useful for copy functionality.
-     *
-     * @return string
-     */
-    public function getTemplateId()
-    {
-        return $this->template_id;
-    }
-
-    /**
      * URI of the invoice resource.
      *
      * @param string $uri
@@ -143,7 +113,7 @@ class Invoice extends PayPalResourceModel
 
     /**
      * Status of the invoice.
-     * Valid Values: ["DRAFT", "SENT", "PAID", "MARKED_AS_PAID", "CANCELLED", "REFUNDED", "PARTIALLY_REFUNDED", "MARKED_AS_REFUNDED", "UNPAID", "PAYMENT_PENDING"]
+     * Valid Values: ["DRAFT", "SENT", "PAID", "MARKED_AS_PAID", "CANCELLED", "REFUNDED", "PARTIALLY_REFUNDED", "MARKED_AS_REFUNDED"]
      *
      * @param string $status
      * 
@@ -189,7 +159,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The required invoice recipient email address and any optional billing information. One recipient is supported.
+     * Email address of invoice recipient (required) and optional billing information. (Note: We currently only allow one recipient).
      *
      * @param \PayPal\Api\BillingInfo[] $billing_info
      * 
@@ -202,7 +172,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The required invoice recipient email address and any optional billing information. One recipient is supported.
+     * Email address of invoice recipient (required) and optional billing information. (Note: We currently only allow one recipient).
      *
      * @return \PayPal\Api\BillingInfo[]
      */
@@ -242,60 +212,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * For invoices sent by email, one or more email addresses to which to send a Cc: copy of the notification. Supports only email addresses under participant.
-     *
-     * @param \PayPal\Api\Participant[] $cc_info
-     * 
-     * @return $this
-     */
-    public function setCcInfo($cc_info)
-    {
-        $this->cc_info = $cc_info;
-        return $this;
-    }
-
-    /**
-     * For invoices sent by email, one or more email addresses to which to send a Cc: copy of the notification. Supports only email addresses under participant.
-     *
-     * @return \PayPal\Api\Participant[]
-     */
-    public function getCcInfo()
-    {
-        return $this->cc_info;
-    }
-
-    /**
-     * Append CcInfo to the list.
-     *
-     * @param \PayPal\Api\Participant $participant
-     * @return $this
-     */
-    public function addCcInfo($participant)
-    {
-        if (!$this->getCcInfo()) {
-            return $this->setCcInfo(array($participant));
-        } else {
-            return $this->setCcInfo(
-                array_merge($this->getCcInfo(), array($participant))
-            );
-        }
-    }
-
-    /**
-     * Remove CcInfo from the list.
-     *
-     * @param \PayPal\Api\Participant $participant
-     * @return $this
-     */
-    public function removeCcInfo($participant)
-    {
-        return $this->setCcInfo(
-            array_diff($this->getCcInfo(), array($participant))
-        );
-    }
-
-    /**
-     * The shipping information for entities to whom items are being shipped.
+     * Shipping information for entities to whom items are being shipped.
      *
      * @param \PayPal\Api\ShippingInfo $shipping_info
      * 
@@ -308,7 +225,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The shipping information for entities to whom items are being shipped.
+     * Shipping information for entities to whom items are being shipped.
      *
      * @return \PayPal\Api\ShippingInfo
      */
@@ -318,7 +235,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The list of items to include in the invoice. Maximum value is 100 items per invoice.
+     * List of items included in the invoice. 100 items max per invoice.
      *
      * @param \PayPal\Api\InvoiceItem[] $items
      * 
@@ -331,7 +248,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The list of items to include in the invoice. Maximum value is 100 items per invoice.
+     * List of items included in the invoice. 100 items max per invoice.
      *
      * @return \PayPal\Api\InvoiceItem[]
      */
@@ -371,7 +288,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The date when the invoice was enabled. The date format is *yyyy*-*MM*-*dd* *z* as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Date on which the invoice was enabled. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $invoice_date
      * 
@@ -384,7 +301,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The date when the invoice was enabled. The date format is *yyyy*-*MM*-*dd* *z* as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Date on which the invoice was enabled. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -394,7 +311,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Optional. The payment deadline for the invoice. Value is either `term_type` or `due_date` but not both.
+     * Optional field to pass payment deadline for the invoice. Either term_type or due_date can be passed, but not both.
      *
      * @param \PayPal\Api\PaymentTerm $payment_term
      * 
@@ -407,7 +324,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Optional. The payment deadline for the invoice. Value is either `term_type` or `due_date` but not both.
+     * Optional field to pass payment deadline for the invoice. Either term_type or due_date can be passed, but not both.
      *
      * @return \PayPal\Api\PaymentTerm
      */
@@ -417,30 +334,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Reference data, such as PO number, to add to the invoice. Maximum length is 60 characters.
-     *
-     * @param string $reference
-     * 
-     * @return $this
-     */
-    public function setReference($reference)
-    {
-        $this->reference = $reference;
-        return $this;
-    }
-
-    /**
-     * Reference data, such as PO number, to add to the invoice. Maximum length is 60 characters.
-     *
-     * @return string
-     */
-    public function getReference()
-    {
-        return $this->reference;
-    }
-
-    /**
-     * The invoice level discount, as a percent or an amount value.
+     * Invoice level discount in percent or amount.
      *
      * @param \PayPal\Api\Cost $discount
      * 
@@ -453,7 +347,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The invoice level discount, as a percent or an amount value.
+     * Invoice level discount in percent or amount.
      *
      * @return \PayPal\Api\Cost
      */
@@ -463,7 +357,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The shipping cost, as a percent or an amount value.
+     * Shipping cost in percent or amount.
      *
      * @param \PayPal\Api\ShippingCost $shipping_cost
      * 
@@ -476,7 +370,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The shipping cost, as a percent or an amount value.
+     * Shipping cost in percent or amount.
      *
      * @return \PayPal\Api\ShippingCost
      */
@@ -486,7 +380,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The custom amount to apply on an invoice. If you include a label, the amount cannot be empty.
+     * Custom amount applied on an invoice. If a label is included then the amount cannot be empty.
      *
      * @param \PayPal\Api\CustomAmount $custom
      * 
@@ -499,7 +393,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * The custom amount to apply on an invoice. If you include a label, the amount cannot be empty.
+     * Custom amount applied on an invoice. If a label is included then the amount cannot be empty.
      *
      * @return \PayPal\Api\CustomAmount
      */
@@ -509,53 +403,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Indicates whether the invoice allows a partial payment. If set to `false`, invoice must be paid in full. If set to `true`, the invoice allows partial payments. Default is `false`.
-     *
-     * @param bool $allow_partial_payment
-     * 
-     * @return $this
-     */
-    public function setAllowPartialPayment($allow_partial_payment)
-    {
-        $this->allow_partial_payment = $allow_partial_payment;
-        return $this;
-    }
-
-    /**
-     * Indicates whether the invoice allows a partial payment. If set to `false`, invoice must be paid in full. If set to `true`, the invoice allows partial payments. Default is `false`.
-     *
-     * @return bool
-     */
-    public function getAllowPartialPayment()
-    {
-        return $this->allow_partial_payment;
-    }
-
-    /**
-     * If `allow_partial_payment` is set to `true`, the minimum amount allowed for a partial payment.
-     *
-     * @param \PayPal\Api\Currency $minimum_amount_due
-     * 
-     * @return $this
-     */
-    public function setMinimumAmountDue($minimum_amount_due)
-    {
-        $this->minimum_amount_due = $minimum_amount_due;
-        return $this;
-    }
-
-    /**
-     * If `allow_partial_payment` is set to `true`, the minimum amount allowed for a partial payment.
-     *
-     * @return \PayPal\Api\Currency
-     */
-    public function getMinimumAmountDue()
-    {
-        return $this->minimum_amount_due;
-    }
-
-    /**
-     * Indicates whether tax is calculated before or after a discount. If set to `false`, the tax is calculated before a discount. If set to `true`, the tax is calculated after a discount. Default is `false`.
+     * Indicates whether tax is calculated before or after a discount. If false (the default), the tax is calculated before a discount. If true, the tax is calculated after a discount.
      *
      * @param bool $tax_calculated_after_discount
      * 
@@ -568,7 +416,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Indicates whether tax is calculated before or after a discount. If set to `false`, the tax is calculated before a discount. If set to `true`, the tax is calculated after a discount. Default is `false`.
+     * Indicates whether tax is calculated before or after a discount. If false (the default), the tax is calculated before a discount. If true, the tax is calculated after a discount.
      *
      * @return bool
      */
@@ -578,7 +426,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Indicates whether the unit price includes tax. Default is `false`.
+     * A flag indicating whether the unit price includes tax. Default is false
      *
      * @param bool $tax_inclusive
      * 
@@ -591,7 +439,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Indicates whether the unit price includes tax. Default is `false`.
+     * A flag indicating whether the unit price includes tax. Default is false
      *
      * @return bool
      */
@@ -647,7 +495,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * A private bookkeeping memo for the merchant. Maximum length is 150 characters.
+     * Bookkeeping memo that is private to the merchant. 150 characters max.
      *
      * @param string $merchant_memo
      * 
@@ -660,7 +508,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * A private bookkeeping memo for the merchant. Maximum length is 150 characters.
+     * Bookkeeping memo that is private to the merchant. 150 characters max.
      *
      * @return string
      */
@@ -670,7 +518,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Full URL of an external image to use as the logo. Maximum length is 4000 characters.
+     * Full URL of an external image to use as the logo. 4000 characters max.
      *
      * @param string $logo_url
      * @throws \InvalidArgumentException
@@ -684,7 +532,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Full URL of an external image to use as the logo. Maximum length is 4000 characters.
+     * Full URL of an external image to use as the logo. 4000 characters max.
      *
      * @return string
      */
@@ -740,12 +588,12 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Append Payments to the list.
+     * Append PaymentDetails to the list.
      *
      * @param \PayPal\Api\PaymentDetail $paymentDetail
      * @return $this
      */
-    public function addPayment($paymentDetail)
+    public function addPaymentDetail($paymentDetail)
     {
         if (!$this->getPayments()) {
             return $this->setPayments(array($paymentDetail));
@@ -757,12 +605,12 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Remove Payments from the list.
+     * Remove PaymentDetails from the list.
      *
      * @param \PayPal\Api\PaymentDetail $paymentDetail
      * @return $this
      */
-    public function removePayment($paymentDetail)
+    public function removePaymentDetail($paymentDetail)
     {
         return $this->setPayments(
             array_diff($this->getPayments(), array($paymentDetail))
@@ -793,12 +641,12 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Append Refunds to the list.
+     * Append RefundDetails to the list.
      *
      * @param \PayPal\Api\RefundDetail $refundDetail
      * @return $this
      */
-    public function addRefund($refundDetail)
+    public function addRefundDetail($refundDetail)
     {
         if (!$this->getRefunds()) {
             return $this->setRefunds(array($refundDetail));
@@ -810,12 +658,12 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Remove Refunds from the list.
+     * Remove RefundDetails from the list.
      *
      * @param \PayPal\Api\RefundDetail $refundDetail
      * @return $this
      */
-    public function removeRefund($refundDetail)
+    public function removeRefundDetail($refundDetail)
     {
         return $this->setRefunds(
             array_diff($this->getRefunds(), array($refundDetail))
@@ -846,8 +694,8 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Any miscellaneous invoice data. Maximum length is 4000 characters.
-     * @deprecated Not publicly available
+     * Any miscellaneous invoice data. 4000 characters max.
+     *
      * @param string $additional_data
      * 
      * @return $this
@@ -859,8 +707,8 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Any miscellaneous invoice data. Maximum length is 4000 characters.
-     * @deprecated Not publicly available
+     * Any miscellaneous invoice data. 4000 characters max.
+     *
      * @return string
      */
     public function getAdditionalData()
@@ -869,106 +717,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Payment summary of the invoice including amount paid through PayPal and other sources.
-     *
-     * @param \PayPal\Api\PaymentSummary $paid_amount
-     * 
-     * @return $this
-     */
-    public function setPaidAmount($paid_amount)
-    {
-        $this->paid_amount = $paid_amount;
-        return $this;
-    }
-
-    /**
-     * Payment summary of the invoice including amount paid through PayPal and other sources.
-     *
-     * @return \PayPal\Api\PaymentSummary
-     */
-    public function getPaidAmount()
-    {
-        return $this->paid_amount;
-    }
-
-    /**
-     * Payment summary of the invoice including amount refunded through PayPal and other sources.
-     *
-     * @param \PayPal\Api\PaymentSummary $refunded_amount
-     * 
-     * @return $this
-     */
-    public function setRefundedAmount($refunded_amount)
-    {
-        $this->refunded_amount = $refunded_amount;
-        return $this;
-    }
-
-    /**
-     * Payment summary of the invoice including amount refunded through PayPal and other sources.
-     *
-     * @return \PayPal\Api\PaymentSummary
-     */
-    public function getRefundedAmount()
-    {
-        return $this->refunded_amount;
-    }
-
-    /**
-     * List of files attached to the invoice.
-     *
-     * @param \PayPal\Api\FileAttachment[] $attachments
-     * 
-     * @return $this
-     */
-    public function setAttachments($attachments)
-    {
-        $this->attachments = $attachments;
-        return $this;
-    }
-
-    /**
-     * List of files attached to the invoice.
-     *
-     * @return \PayPal\Api\FileAttachment[]
-     */
-    public function getAttachments()
-    {
-        return $this->attachments;
-    }
-
-    /**
-     * Append Attachments to the list.
-     *
-     * @param \PayPal\Api\FileAttachment $fileAttachment
-     * @return $this
-     */
-    public function addAttachment($fileAttachment)
-    {
-        if (!$this->getAttachments()) {
-            return $this->setAttachments(array($fileAttachment));
-        } else {
-            return $this->setAttachments(
-                array_merge($this->getAttachments(), array($fileAttachment))
-            );
-        }
-    }
-
-    /**
-     * Remove Attachments from the list.
-     *
-     * @param \PayPal\Api\FileAttachment $fileAttachment
-     * @return $this
-     */
-    public function removeAttachment($fileAttachment)
-    {
-        return $this->setAttachments(
-            array_diff($this->getAttachments(), array($fileAttachment))
-        );
-    }
-
-    /**
-     * Creates an invoice. Include invoice details including merchant information in the request.
+     * Create a new invoice by passing the details for the invoice, including the merchant_info, to the request URI.
      *
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
      * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
@@ -990,7 +739,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Searches for an invoice or invoices. Include a search object that specifies your search criteria in the request.
+     * Search for a specific invoice or invoices by passing a search object that specifies your search criteria to the request URI.
      *
      * @param Search $search
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
@@ -1015,7 +764,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Sends an invoice, by ID, to a recipient. Optionally, set the `notify_merchant` query parameter to send the merchant an invoice update notification. By default, `notify_merchant` is `true`.
+     * Send a specific invoice to its intended recipient by passing the invoice ID to the request URI. Optionally, you can specify whether to send the merchant an invoice update notification by using the notify_merchant query parameter. By default, notify_merchant is true.
      *
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
      * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
@@ -1037,7 +786,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Sends a reminder about a specific invoice, by ID, to a recipient. Include a notification object that defines the reminder subject and other details in the JSON request body.
+     * Send a reminder about a specific invoice to its intended recipient by providing the ID of the invoice in the request URI. In addition, pass a notification object that specifies the subject of the reminder and other details in the request JSON.
      *
      * @param Notification $notification
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
@@ -1061,7 +810,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Cancels an invoice, by ID.
+     * Cancel an invoice by passing the invoice ID to the request URI.
      *
      * @param CancelNotification $cancelNotification
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
@@ -1085,7 +834,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Marks the status of a specified invoice, by ID, as paid. Include a payment detail object that defines the payment method and other details in the JSON request body.
+     * Mark the status of an invoice as paid by passing the invoice ID to the request URI. In addition, pass a payment detail object that specifies the payment method and other details in the request JSON.
      *
      * @param PaymentDetail $paymentDetail
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
@@ -1109,7 +858,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Marks the status of a specified invoice, by ID, as refunded. Include a refund detail object that defines the refund type and other details in the JSON request body.
+     * Mark the status of an invoice as refunded by passing the invoice ID to the request URI. In addition, pass a refund-detail object that specifies the type of refund and other details in the request JSON.
      *
      * @param RefundDetail $refundDetail
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
@@ -1133,7 +882,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Gets the details for a specified invoice, by ID.
+     * Retrieve the details for a particular invoice by passing the invoice ID to the request URI.
      *
      * @param string $invoiceId
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
@@ -1158,7 +907,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Lists some or all merchant invoices. Filters the response by any specified optional query string parameters.
+     * List some or all invoices for a merchant according to optional query string parameters specified.
      *
      * @param array $params
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
@@ -1190,7 +939,7 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Fully updates an invoice by passing the invoice ID to the request URI. In addition, pass a complete invoice object in the request JSON. Partial updates are not supported.
+     * Fully update an invoice by passing the invoice ID to the request URI. In addition, pass a complete invoice object in the request JSON. Partial updates are not supported.
      *
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
      * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
@@ -1235,52 +984,6 @@ class Invoice extends PayPalResourceModel
     }
 
     /**
-     * Delete external payment.
-     *
-     * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
-     * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
-     * @return bool
-     */
-    public function deleteExternalPayment($transactionId, $apiContext = null, $restCall = null)
-    {
-        ArgumentValidator::validate($this->getId(), "Id");
-        ArgumentValidator::validate($transactionId, "TransactionId");
-        $payLoad = "";
-        self::executeCall(
-            "/v1/invoicing/invoices/{$this->getId()}/payment-records/{$transactionId}",
-            "DELETE",
-            $payLoad,
-            null,
-            $apiContext,
-            $restCall
-        );
-        return true;
-    }
-
-    /**
-     * Delete external refund.
-     *
-     * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
-     * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
-     * @return bool
-     */
-    public function deleteExternalRefund($transactionId, $apiContext = null, $restCall = null)
-    {
-        ArgumentValidator::validate($this->getId(), "Id");
-        ArgumentValidator::validate($transactionId, "TransactionId");
-        $payLoad = "";
-        self::executeCall(
-            "/v1/invoicing/invoices/{$this->getId()}/refund-records/{$transactionId}",
-            "DELETE",
-            $payLoad,
-            null,
-            $apiContext,
-            $restCall
-        );
-        return true;
-    }
-
-    /**
      * Generate a QR code for an invoice by passing the invoice ID to the request URI. The request generates a QR code that is 500 pixels in width and height. You can change the dimensions of the returned code by specifying optional query parameters.
      *
      * @param array $params
@@ -1310,29 +1013,6 @@ class Invoice extends PayPalResourceModel
             $restCall
         );
         $ret = new Image();
-        $ret->fromJson($json);
-        return $ret;
-    }
-
-    /**
-     * Generates the successive invoice number.
-     *
-     * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
-     * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
-     * @return InvoiceNumber
-     */
-    public static function generateNumber($apiContext = null, $restCall = null)
-    {
-        $payLoad = "";
-        $json = self::executeCall(
-            "/v1/invoicing/invoices/next-invoice-number",
-            "POST",
-            $payLoad,
-            null,
-            $apiContext,
-            $restCall
-        );
-        $ret = new InvoiceNumber();
         $ret->fromJson($json);
         return $ret;
     }

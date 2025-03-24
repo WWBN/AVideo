@@ -21,6 +21,7 @@ class PayPalUserAgent
      */
     public static function getValue($sdkName, $sdkVersion)
     {
+
         $featureList = array(
             'platform-ver=' . PHP_VERSION,
             'bit=' . self::_getPHPBit(),

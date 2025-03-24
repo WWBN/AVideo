@@ -5,7 +5,6 @@ namespace PayPal\Api;
 use PayPal\Common\PayPalModel;
 use PayPal\Converter\FormatConverter;
 use PayPal\Validation\NumericValidator;
-use PayPal\Validation\UrlValidator;
 
 /**
  * Class InvoiceItem
@@ -21,12 +20,11 @@ use PayPal\Validation\UrlValidator;
  * @property \PayPal\Api\Tax tax
  * @property string date
  * @property \PayPal\Api\Cost discount
- * @property string unit_of_measure
  */
 class InvoiceItem extends PayPalModel
 {
     /**
-     * Name of the item. 200 characters max.
+     * Name of the item. 60 characters max.
      *
      * @param string $name
      * 
@@ -39,7 +37,7 @@ class InvoiceItem extends PayPalModel
     }
 
     /**
-     * Name of the item. 200 characters max.
+     * Name of the item. 60 characters max.
      *
      * @return string
      */
@@ -72,7 +70,7 @@ class InvoiceItem extends PayPalModel
     }
 
     /**
-     * Quantity of the item. Range of -10000 to 10000.
+     * Quantity of the item. Range of 0 to 9999.999.
      *
      * @param string|double $quantity
      * 
@@ -80,14 +78,14 @@ class InvoiceItem extends PayPalModel
      */
     public function setQuantity($quantity)
     {
-        NumericValidator::validate($quantity, "Quantity");
+        NumericValidator::validate($quantity, "Percent");
         $quantity = FormatConverter::formatToPrice($quantity);
         $this->quantity = $quantity;
         return $this;
     }
 
     /**
-     * Quantity of the item. Range of -10000 to 10000.
+     * Quantity of the item. Range of 0 to 9999.999.
      *
      * @return string
      */
@@ -97,7 +95,7 @@ class InvoiceItem extends PayPalModel
     }
 
     /**
-     * Unit price of the item. Range of -1,000,000 to 1,000,000.
+     * Unit price of the item. Range of -999999.99 to 999999.99.
      *
      * @param \PayPal\Api\Currency $unit_price
      * 
@@ -110,7 +108,7 @@ class InvoiceItem extends PayPalModel
     }
 
     /**
-     * Unit price of the item. Range of -1,000,000 to 1,000,000.
+     * Unit price of the item. Range of -999999.99 to 999999.99.
      *
      * @return \PayPal\Api\Currency
      */
@@ -143,7 +141,7 @@ class InvoiceItem extends PayPalModel
     }
 
     /**
-     * The date when the item or service was provided. The date format is *yyyy*-*MM*-*dd* *z* as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Date on which the item or service was provided. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @param string $date
      * 
@@ -156,7 +154,7 @@ class InvoiceItem extends PayPalModel
     }
 
     /**
-     * The date when the item or service was provided. The date format is *yyyy*-*MM*-*dd* *z* as defined in [Internet Date/Time Format](http://tools.ietf.org/html/rfc3339#section-5.6).
+     * Date on which the item or service was provided. Date format yyyy-MM-dd z, as defined in [ISO8601](http://tools.ietf.org/html/rfc3339#section-5.6).
      *
      * @return string
      */
@@ -166,7 +164,7 @@ class InvoiceItem extends PayPalModel
     }
 
     /**
-     * The item discount, as a percent or an amount value.
+     * Item discount in percent or amount.
      *
      * @param \PayPal\Api\Cost $discount
      * 
@@ -179,61 +177,13 @@ class InvoiceItem extends PayPalModel
     }
 
     /**
-     * The item discount, as a percent or an amount value.
+     * Item discount in percent or amount.
      *
      * @return \PayPal\Api\Cost
      */
     public function getDiscount()
     {
         return $this->discount;
-    }
-
-    /**
-     * The image URL. Maximum length is 4000 characters.
-     * @deprecated Not publicly available
-     * @param string $image_url
-     * @throws \InvalidArgumentException
-     * @return $this
-     */
-    public function setImageUrl($image_url)
-    {
-        UrlValidator::validate($image_url, "ImageUrl");
-        $this->image_url = $image_url;
-        return $this;
-    }
-
-    /**
-     * The image URL. Maximum length is 4000 characters.
-     * @deprecated Not publicly available
-     * @return string
-     */
-    public function getImageUrl()
-    {
-        return $this->image_url;
-    }
-
-    /**
-     * The unit of measure of the item being invoiced.
-     * Valid Values: ["QUANTITY", "HOURS", "AMOUNT"]
-     *
-     * @param string $unit_of_measure
-     * 
-     * @return $this
-     */
-    public function setUnitOfMeasure($unit_of_measure)
-    {
-        $this->unit_of_measure = $unit_of_measure;
-        return $this;
-    }
-
-    /**
-     * The unit of measure of the item being invoiced.
-     *
-     * @return string
-     */
-    public function getUnitOfMeasure()
-    {
-        return $this->unit_of_measure;
     }
 
 }

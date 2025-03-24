@@ -24,9 +24,6 @@ class SingleCommandApplication extends Command
     private $autoExit = true;
     private $running = false;
 
-    /**
-     * @return $this
-     */
     public function setVersion(string $version): self
     {
         $this->version = $version;
@@ -36,8 +33,6 @@ class SingleCommandApplication extends Command
 
     /**
      * @final
-     *
-     * @return $this
      */
     public function setAutoExit(bool $autoExit): self
     {
@@ -46,7 +41,7 @@ class SingleCommandApplication extends Command
         return $this;
     }
 
-    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
+    public function run(InputInterface $input = null, OutputInterface $output = null): int
     {
         if ($this->running) {
             return parent::run($input, $output);
