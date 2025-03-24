@@ -33,6 +33,8 @@ if ($remoteInfo === false) {
 $remoteData = json_decode($remoteInfo, true);
 if (!isset($remoteData['version'])) {
     die("❌ Invalid remote build-info.json format\n");
+}else{
+    echo "Found {$remoteData}".PHP_EOL;
 }
 
 // 2. Read local build-info.json
