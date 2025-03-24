@@ -11,8 +11,8 @@ ob_end_flush();
 echo "📁 Checking for updates to yptsocket executable...\n";
 
 $baseDir = __DIR__ . '/nodeSocket';
-$remoteInfoURL = 'https://github.com/WWBN/AVideo-Socket/raw/refs/heads/main/dist/build-info.json?cb='.time();
-$remoteBinaryURL = 'https://github.com/WWBN/AVideo-Socket/raw/refs/heads/main/dist/yptsocket?cb='.time();
+$remoteInfoURL = 'https://github.com/WWBN/AVideo-Socket/raw/refs/heads/main/dist/build-info.json';
+$remoteBinaryURL = 'https://github.com/WWBN/AVideo-Socket/raw/refs/heads/main/dist/yptsocket';
 
 $localInfoPath = $baseDir . '/build-info.json';
 $localBinaryPath = $baseDir . '/yptsocket';
@@ -34,7 +34,7 @@ $remoteData = json_decode($remoteInfo, true);
 if (!isset($remoteData['version'])) {
     die("❌ Invalid remote build-info.json format\n");
 }else{
-    echo "Found {$remoteData}".PHP_EOL;
+    echo "🌐 Found remote {$remoteInfo}".PHP_EOL;
 }
 
 // 2. Read local build-info.json
