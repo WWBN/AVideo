@@ -283,6 +283,7 @@ function socketConnectIO() {
     try {
         socket = io(url, {
             transports: ["websocket"],
+            timeout: 5000 // 5 seconds timeout
         });
     } catch (error) {
         console.error("socketConnectIO Error:", error);
