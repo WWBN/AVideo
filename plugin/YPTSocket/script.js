@@ -512,8 +512,8 @@ function parseSocketResponse() {
                         const selfURI = userData.selfURI;
                         const resourceId = userData.resourceId;
                         if (!selfURI || !resourceId || ignoreURI.some(uri => selfURI.includes(uri))) continue;
-
-                        updateSocketUserCard(userData, json.ResourceID, validAnchorHrefs);
+                        //console.log('updateSocketUserCard', userData, json);
+                        updateSocketUserCard(userData, json.ResourceID, validAnchorHrefs, 'a1');
                     }
                 }
             }
@@ -528,7 +528,7 @@ function parseSocketResponse() {
                 const resourceId = element.resourceId;
                 if (!selfURI || !resourceId || ignoreURI.some(uri => selfURI.includes(uri))) continue;
 
-                updateSocketUserCard(element, json.ResourceID, validAnchorHrefs);
+                updateSocketUserCard(element, json.ResourceID, validAnchorHrefs, 'a2');
             }
         }
 
@@ -543,7 +543,7 @@ function parseSocketResponse() {
     }
 }
 
-function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs) {
+function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs, className) {
     const selfURI = userData.selfURI;
     const resourceId = userData.resourceId;
     const socketUserDivID = 'socketUser' + userData.users_id;
@@ -587,7 +587,7 @@ function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs) {
     // Atualiza ou adiciona o botão
     if (!$(linkSelector).length) {
         const html = `
-            <a href="${selfURI}" target="_blank" class="btn btn-primary btn-sm btn-block mb-1" data-resource-id="${resourceId}">
+            <a href="${selfURI}" target="_blank" class="${className} btn btn-primary btn-sm btn-block mb-1" data-resource-id="${resourceId}">
                 <i class="far fa-compass"></i> ${finalText}
             </a>`;
         $(`#${socketUserDivID} .socketUserPages`).append(html);
