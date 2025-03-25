@@ -1,16 +1,17 @@
 <?php
 
-function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
+function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "", $sentFrom = 'browser') {
     if (empty($timeOut)) {
         $timeOut = 43200; // valid for 12 hours
     }
     $msgObj = new stdClass();
     $msgObj->isCommandLineInterface = isCommandLineInterface();
-    $msgObj->IP =getRealIpAddr();
+    $msgObj->sentFrom = $sentFrom;
     $msgObj->from_users_id = User::getId();
     $msgObj->isAdmin = User::isAdmin();
     $msgObj->user_name = User::getNameIdentification();
     $msgObj->browser = get_browser_name();
+    $msgObj->os = getOS();
     $msgObj->yptDeviceId = getDeviceID(false);
     $msgObj->token = getToken($timeOut);
     $msgObj->time = time();

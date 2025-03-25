@@ -217,7 +217,7 @@ class YPTSocket extends PluginAbstract
         $SocketSendObj->msg = $msg;
         $SocketSendObj->isCommandLine = isCommandLineInterface();
         $SocketSendObj->json = _json_decode($msg);
-        $SocketSendObj->webSocketToken = getEncryptedInfo(0, $send_to_uri_pattern);
+        $SocketSendObj->webSocketToken = getEncryptedInfo(0, $send_to_uri_pattern, 'php');
         $SocketSendObj->callback = $callbackJSFunction;
 
         // Prepare the response object
@@ -307,7 +307,7 @@ class YPTSocket extends PluginAbstract
         $SocketSendObj->isCommandLine = isCommandLineInterface();
         $SocketSendObj->json = _json_decode($msg);
 
-        $SocketSendObj->webSocketToken = getEncryptedInfo(0, $send_to_uri_pattern);
+        $SocketSendObj->webSocketToken = getEncryptedInfo(0, $send_to_uri_pattern, 'php');
         $SocketSendObj->callback = $callbackJSFunction;
 
         $SocketSendResponseObj = new stdClass();

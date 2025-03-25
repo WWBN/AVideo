@@ -146,7 +146,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             display: inline-block;
         }
 
-        #socket_info_container{
+        #socket_info_container {
             border: solid 2px #CCCCCC11;
         }
     </style>
@@ -160,12 +160,28 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             <button class="btn btn-xs btn-block btn-default" onclick="copyToClipboard('<?php echo addcslashes($command, '\\'); ?>')">Copy code to run on terminal</button>
             <button class="btn btn-xs btn-block btn-primary" onclick="socketConnect()">Try again</button>
         </div>
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>"><i class="fa-solid fa-code-compare"></i> Version <span class="webSocketServerVersion"></span></div>
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>"><i class="fa-solid fa-memory"></i> Memory <span class="socket_mem">0 bytes</span></div>
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>"><i class="fas fa-network-wired"></i> Total Different Devices <span class="total_devices_online">0</span></div>
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>"><i class="fas fa-users"></i> Total Users Online <span class="total_users_online">0</span></div>
+
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>">
+            <i class="fa-solid fa-code-compare"></i> Version <span class="webSocketServerVersion"></span>
+        </div>
+
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>">
+            <i class="fa-solid fa-memory"></i> Memory <span class="socket_mem">0 bytes</span>
+        </div>
+
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>"  data-toggle="tooltip"
+            title="Number of unique users with active WebSocket connections. One connection per real device. Iframes in the same browser are not counted twice.">
+            <i class="fas fa-network-wired"></i> Unique Devices Online <span class="total_devices_online">0</span>
+        </div>
+
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>"  data-toggle="tooltip"
+            title="Total number of active WebSocket connections. A user with multiple devices or multiple tabs/iframes will be counted more than once.">
+            <i class="fas fa-users"></i> Total Connections <span class="total_users_online">0</span>
+        </div>
+
         <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'socket'); ?>" id="socketUsersURI">
         </div>
+
 
         <button onclick="avideoAjax(webSiteRootURL+'plugin/YPTSocket/restart.json.php', {});" class="socketItem btn btn-danger btn-sm btn-xs btn-block"><i class="fas fa-power-off"></i> Restart</button>
     </div>
@@ -268,12 +284,12 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
 
     $(document).ready(function() {
         <?php
-        if(!isEmbed()){
-            ?>
+        if (!isEmbed()) {
+        ?>
             if (!inIframe()) {
                 $('#socket_info_container').fadeIn();
             }
-            <?php
+        <?php
         }
         ?>
     });

@@ -45,7 +45,7 @@ function processSocketJson(json) {
     } else {
         var myfunc;
         var _details = json;
-        if(typeof json.msg != 'undefined'){
+        if (typeof json.msg != 'undefined') {
             _details = json.msg;
         }
         if (typeof _details === 'string') {
@@ -81,9 +81,9 @@ function processSocketJson(json) {
 }
 
 function socketConnect() {
-    if(useSocketIO){
+    if (useSocketIO) {
         return socketConnectIO();
-    }else{
+    } else {
         return socketConnectOld();
     }
 }
@@ -283,8 +283,6 @@ function socketConnectIO() {
     try {
         socket = io(url, {
             transports: ["websocket"],
-            reconnection: false, // We handle reconnection manually
-            timeout: 5000 // 5 seconds timeout
         });
     } catch (error) {
         console.error("socketConnectIO Error:", error);
@@ -301,15 +299,19 @@ function socketConnectIO() {
     });
 
     socket.on("message", (data) => {
-        if(data.type ==  webSocketTypes.MSG_BATCH && data.messages.length > 0){
-            if(data.autoUpdateOnHTML){
+        if (data.type == webSocketTypes.MSG_BATCH && data.messages.length > 0) {
+            socketResourceId = data.resourceId;
+            yptSocketResponse = data;
+            parseSocketResponse();
+
+            if (data.autoUpdateOnHTML) {
                 socketAutoUpdateOnHTML(data.autoUpdateOnHTML);
             }
             console.log("📩 Socket.IO message received MSG_BATCH:", data);
-            data.messages.forEach(function(message, index) {
+            data.messages.forEach(function (message, index) {
                 processSocketJson(message);
             });
-        }else{
+        } else {
             console.log("📩 Socket.IO message received:", data);
             processSocketJson(data);
         }
@@ -328,10 +330,8 @@ function socketConnectIO() {
             socket.connect();
         } else if (reason === "transport close") {
             console.error("Transport closed. Retrying...");
-            retrySocketConnection();
         } else {
             console.error("Unknown disconnection reason. Retrying...");
-            retrySocketConnection();
         }
 
         onSocketClose();
@@ -339,24 +339,11 @@ function socketConnectIO() {
 
     socket.on("connect_error", (err) => {
         console.error("⚠️ Socket.IO connection error:", err);
-        retrySocketConnection();
     });
 
     socket.on("connect_timeout", () => {
         console.error("⏳ Connection timeout. Retrying...");
-        retrySocketConnection();
     });
-
-    function retrySocketConnection() {
-        socketConnectRequested = false;
-        console.warn(`Retrying connection in ${socketConnectRetryTimeout / 1000} seconds...`);
-
-        socketConnectTimeout = setTimeout(() => {
-            socketConnectRetryTimeout = Math.min(socketConnectRetryTimeout * 2, 60000); // Increase up to 1 min
-            socketConnect();
-        }, socketConnectRetryTimeout);
-    }
-
 
 }
 
@@ -415,7 +402,7 @@ function sendSocketMessageToResourceId(msg, callback, resourceId) {
 }
 
 function isSocketActive() {
-    return isOnline() && ((typeof conn != 'undefined' && conn.readyState === 1) || (typeof socket != 'undefined'  && socket.connected));
+    return isOnline() && ((typeof conn != 'undefined' && conn.readyState === 1) || (typeof socket != 'undefined' && socket.connected));
 }
 
 function defaultCallback(json) {
@@ -480,125 +467,139 @@ async function AutoUpdateOnHTMLTimer() {
 
 var canShowSocketToast = true;
 function parseSocketResponse() {
-    json = yptSocketResponse;
+    const json = yptSocketResponse;
     yptSocketResponse = false;
-    if (typeof json === 'undefined' || json === false) {
-        return false;
-    }
-    //console.log("parseSocketResponse", json);
-    //console.trace();
+
+    if (!json) return false;
+
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
-        if (canShowSocketToast && typeof avideoToastWarning == 'function') {
-            avideoToastWarning("Please restart your socket server. You are running (v" + json.webSocketServerVersion + ") and your client is expecting (v" + webSocketServerVersion + ")");
-
-            // Set the flag to false
+        if (canShowSocketToast && typeof avideoToastWarning === 'function') {
+            avideoToastWarning(`Please restart your socket server. You are running (v${json.webSocketServerVersion}) and your client is expecting (v${webSocketServerVersion})`);
             canShowSocketToast = false;
-
-            // Reset the flag after 5 minutes
-            setTimeout(function () {
-                canShowSocketToast = true;
-            }, 300000); // 300,000 milliseconds = 5 minutes
+            setTimeout(() => { canShowSocketToast = true; }, 300000);
         }
     }
-    if (json && typeof json.users_id_online !== 'undefined') {
+
+    if (typeof json.users_id_online !== 'undefined') {
         users_id_online = json.users_id_online;
     }
-    if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
+
+    if (typeof json.autoUpdateOnHTML !== 'undefined') {
         socketAutoUpdateOnHTML(json.autoUpdateOnHTML);
     }
 
-    if (json && typeof json.msg.autoEvalCodeOnHTML !== 'undefined') {
-        ////console.log("autoEvalCodeOnHTML", json.msg.autoEvalCodeOnHTML);
+    if (json.msg?.autoEvalCodeOnHTML !== undefined) {
         eval(json.msg.autoEvalCodeOnHTML);
     }
 
-    $('#socketUsersURI').empty();
+    const ignoreURI = ['latestOrLive.php', 'plugin/Chat2'];
+    const validAnchorHrefs = new Set();
+
     if (json && $('#socket_info_container').length) {
         if (typeof json.users_uri !== 'undefined') {
-            for (var prop in json.users_uri) {
-                if (json.users_uri[prop] === false) {
-                    continue;
-                }
-                for (var prop2 in json.users_uri[prop]) {
-                    if (json.users_uri[prop][prop2] === false || typeof json.users_uri[prop][prop2] !== 'object') {
-                        continue;
-                    }
-                    for (var prop3 in json.users_uri[prop][prop2]) {
-                        if (json.users_uri[prop][prop2][prop3] === false || typeof json.users_uri[prop][prop2][prop3] !== 'object') {
-                            continue;
-                        }
+            for (const group in json.users_uri) {
+                const groupData = json.users_uri[group];
+                if (!groupData) continue;
 
-                        var socketUserDivID = 'socketUser' + json.users_uri[prop][prop2][prop3].users_id;
+                for (const subGroup in groupData) {
+                    const subGroupData = groupData[subGroup];
+                    if (!subGroupData || typeof subGroupData !== 'object') continue;
 
-                        if (!$('#' + socketUserDivID).length) {
-                            var html = '<div class="socketUserDiv" id="' + socketUserDivID + '" >';
-                            html += '<div class="socketUserName" onclick="socketUserNameToggle(\'#' + socketUserDivID + '\');">';
-                            html += '<i class="fas fa-caret-down"></i><i class="fas fa-caret-up"></i>';
-                            if (json.users_uri[prop][prop2].length < 50) {
-                                // html += '<img src="' + webSiteRootURL + 'user/' + json.users_uri[prop][prop2][prop3].users_id + '/foto.png" class="img img-circle img-responsive">';
-                            }
-                            html += json.users_uri[prop][prop2][prop3].user_name + '</div>';
-                            html += '<div class="socketUserPages"></div></div>';
-                            $('#socketUsersURI').append(html);
-                        }
+                    for (const index in subGroupData) {
+                        const userData = subGroupData[index];
+                        if (!userData || typeof userData !== 'object') continue;
 
-                        var text = '';
-                        if (json.ResourceID == json.users_uri[prop][prop2][prop3].resourceId) {
-                            text += '<stcong>(YOU)</strong>';
-                        }
-                        ////console.log(json.users_uri[prop][prop2][prop3], json.users_uri[prop][prop2][prop3].client);
-                        text = ' ' + json.users_uri[prop][prop2][prop3].page_title;
-                        text += '<br><small>(' + json.users_uri[prop][prop2][prop3].client.browser + ' - ' + json.users_uri[prop][prop2][prop3].client.os + ') '
-                            + json.users_uri[prop][prop2][prop3].ip + '</small>';
-                        if (json.users_uri[prop][prop2][prop3].location) {
-                            text += '<br><i class="flagstrap-icon flagstrap-' + json.users_uri[prop][prop2][prop3].location.country_code + '" style="margin-right: 10px;"></i>';
-                            text += ' ' + json.users_uri[prop][prop2][prop3].location.country_name;
-                        }
-                        html = '<a href="' + json.users_uri[prop][prop2][prop3].selfURI + '" target="_blank" class="btn btn-xs btn-default btn-block"><i class="far fa-compass"></i> ' + text + '</a>';
-                        $('#' + socketUserDivID + ' .socketUserPages').append(html);
-                        var isVisible = Cookies.get('#' + socketUserDivID);
-                        if (isVisible && isVisible !== 'false') {
-                            $('#' + socketUserDivID).addClass('visible')
-                        }
+                        const selfURI = userData.selfURI;
+                        const resourceId = userData.resourceId;
+                        if (!selfURI || !resourceId || ignoreURI.some(uri => selfURI.includes(uri))) continue;
+
+                        updateSocketUserCard(userData, json.ResourceID, validAnchorHrefs);
                     }
                 }
-
-
             }
         }
+
         if (typeof json.users_id_online !== 'undefined') {
             for (const key in json.users_id_online) {
-                if (Object.hasOwnProperty.call(json.users_id_online, key)) {
-                    const element = json.users_id_online[key];
+                if (!Object.hasOwnProperty.call(json.users_id_online, key)) continue;
 
-                    var socketUserDivID = 'socketUser' + element.users_id;
-                    if (!$('#' + socketUserDivID).length) {
-                        var html = '<div class="socketUserDiv" id="' + socketUserDivID + '" >';
-                        html += '<div class="socketUserName" onclick="socketUserNameToggle(\'#' + socketUserDivID + '\');">';
-                        html += '<i class="fas fa-caret-down"></i><i class="fas fa-caret-up"></i>';
-                        // html += '<img src="' + webSiteRootURL + 'user/' + element.users_id + '/foto.png" class="img img-circle img-responsive">';
-                        html += element.identification + '</div>';
-                        html += '<div class="socketUserPages"></div></div>';
-                        $('#socketUsersURI').append(html);
-                    }
+                const element = json.users_id_online[key];
+                const selfURI = element.selfURI;
+                const resourceId = element.resourceId;
+                if (!selfURI || !resourceId || ignoreURI.some(uri => selfURI.includes(uri))) continue;
 
-                    var text = '';
-                    if (json.ResourceID == element.resourceId) {
-                        text += '<stcong>(YOU)</strong>';
-                    }
-                    text = ' ' + element.page_title;
-                    html = '<a href="' + element.selfURI + '" target="_blank" class="btn btn-xs btn-default btn-block"><i class="far fa-compass"></i> ' + text + '</a>';
-                    $('#' + socketUserDivID + ' .socketUserPages').append(html);
-                    var isVisible = Cookies.get('#' + socketUserDivID);
-                    if (isVisible && isVisible !== 'false') {
-                        $('#' + socketUserDivID).addClass('visible')
-                    }
-                }
+                updateSocketUserCard(element, json.ResourceID, validAnchorHrefs);
             }
         }
+
+        // 🔴 Remover <a> que não estão mais na resposta do socket
+        $('.socketUserPages a').each(function () {
+            const resourceId = $(this).data('resource-id');
+            const selfURI = $(this).attr('href');
+            if (!validAnchorHrefs.has(`${resourceId}-${selfURI}`)) {
+                $(this).remove();
+            }
+        });
+    }
+}
+
+function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs) {
+    const selfURI = userData.selfURI;
+    const resourceId = userData.resourceId;
+    const socketUserDivID = 'socketUser' + userData.users_id;
+
+    if (!$(`#${socketUserDivID}`).length) {
+        const userName = userData.user_name || userData.identification || 'Unknown';
+        const html = `
+            <div class="socketUserDiv" id="${socketUserDivID}">
+                <div class="socketUserName" onclick="socketUserNameToggle('#${socketUserDivID}');">
+                    <i class="fas fa-caret-down"></i><i class="fas fa-caret-up"></i>
+                    ${userName}
+                </div>
+                <div class="socketUserPages"></div>
+            </div>`;
+        $('#socketUsersURI').append(html);
     }
 
+    let textParts = [];
 
+    if (currentResourceID == userData.resourceId) {
+        textParts.push('<strong>(YOU)</strong>');
+    }
+
+    if (userData.page_title) {
+        textParts.push(userData.page_title);
+    }
+
+    const client = userData.client;
+    if (client?.browser && client?.os && userData.ip) {
+        textParts.push(`<br><small>(${client.browser} - ${client.os}) ${userData.ip}</small>`);
+    }
+
+    const location = userData.location;
+    if (location?.country_code && location.country_code !== '-' && location.country_name) {
+        textParts.push(`<br><i class="flagstrap-icon flagstrap-${location.country_code}" style="margin-right: 10px;"></i> ${location.country_name}`);
+    }
+
+    const finalText = textParts.join(' ');
+    const linkSelector = `.socketUserPages a[data-resource-id="${resourceId}"][href="${selfURI}"]`;
+
+    // Atualiza ou adiciona o botão
+    if (!$(linkSelector).length) {
+        const html = `
+            <a href="${selfURI}" target="_blank" class="btn btn-primary btn-sm btn-block mb-1" data-resource-id="${resourceId}">
+                <i class="far fa-compass"></i> ${finalText}
+            </a>`;
+        $(`#${socketUserDivID} .socketUserPages`).append(html);
+    }
+
+    validAnchorHrefs.add(`${resourceId}-${selfURI}`);
+
+    // Gerencia visibilidade
+    const isVisible = Cookies.get(`#${socketUserDivID}`);
+    if (isVisible && isVisible !== 'false') {
+        $(`#${socketUserDivID}`).addClass('visible');
+    }
 }
 
 
