@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin"
+    restart: "unless-stopped"
+    environment:
+      PMA_HOST: "${DB_MYSQL_HOST}"
+      PMA_PORT: ${DB_MYSQL_PORT}
+      PMA_CONTROLUSER: "${DB_MYSQL_USER}"
+      PMA_CONTROLPASS: "${DB_MYSQL_PASSWORD}"
+      HIDE_PHP_VERSION: "true"
+    ports:
+      - "${PHPMYADMIN_PORT:-8081}:80"
+    depends_on:
+      - database
+    networks:
+      - app_net
+
+  phpmyadmin_encoder:
+    image: "phpmyadmin/phpmyadmin"
+    restart: "unless-stopped"
+    environment:
+      PMA_HOST: "${DB_MYSQL_HOST}_encoder"
+      PMA_PORT: ${DB_MYSQL_PORT}
+      PMA_CONTROLUSER: "${DB_MYSQL_USER}"
+      PMA_CONTROLPASS: "${DB_MYSQL_PASSWORD}"
+      HIDE_PHP_VERSION: "true"
+    ports:
+      - "${PHPMYADMIN_ENCODER_PORT:-8082}:80"
+    depends_on:
+      - database_encoder
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    external: true
