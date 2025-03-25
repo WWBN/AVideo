@@ -466,7 +466,7 @@ async function AutoUpdateOnHTMLTimer() {
 }
 
 var canShowSocketToast = true;
-function parseSocketResponse() {
+async function parseSocketResponse() {
     const json = yptSocketResponse;
     yptSocketResponse = false;
 
@@ -540,10 +540,20 @@ function parseSocketResponse() {
                 $(this).remove();
             }
         });
+
+        $('#socketUsersURI .socketUserDiv').each(function () {
+            // Check if .socketUserPages is empty, remove if true
+            if ($(this).find(`.socketUserPages`).text().trim() === '') {
+                $(this).remove();
+            }
+        });
+
+
+        $('#socketUsersURI').tooltip({ html: true });
     }
 }
 
-function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs, className) {
+async function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs, className) {
     const selfURI = userData.selfURI;
     const resourceId = userData.resourceId;
     const socketUserDivID = 'socketUser' + userData.users_id;
@@ -572,8 +582,9 @@ function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs, cla
     }
 
     const client = userData.client;
+    var tooltip = '';
     if (client?.browser && client?.os && userData.ip) {
-        textParts.push(`<br><small>(${client.browser} - ${client.os}) ${userData.ip}</small>`);
+        tooltip = `(${client.browser} - ${client.os}) ${userData.ip}`;
     }
 
     const location = userData.location;
@@ -587,7 +598,12 @@ function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs, cla
     // Atualiza ou adiciona o botão
     if (!$(linkSelector).length) {
         const html = `
-            <a href="${selfURI}" target="_blank" class="${className} btn btn-primary btn-sm btn-block mb-1" data-resource-id="${resourceId}">
+            <a href="${selfURI}" target="_blank"
+            class="${className} btn btn-primary btn-sm btn-block mb-1"
+            data-resource-id="${resourceId}"
+            data-toggle="tooltip"
+            title="${tooltip}"
+            >
                 <i class="far fa-compass"></i> ${finalText}
             </a>`;
         $(`#${socketUserDivID} .socketUserPages`).append(html);
@@ -600,8 +616,8 @@ function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs, cla
     if (isVisible && isVisible !== 'false') {
         $(`#${socketUserDivID}`).addClass('visible');
     }
-}
 
+}
 
 function socketNewConnection(json) {
     setUserOnlineStatus(json.msg.users_id);
