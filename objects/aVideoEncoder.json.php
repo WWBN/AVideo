@@ -51,7 +51,7 @@ if (!isset($_REQUEST['encodedPass'])) {
 useVideoHashOrLogin();
 if (!User::canUpload()) {
     $obj->msg = __("Permission denied to receive a file") . ': ' . json_encode($_REQUEST);
-    _error_log("aVideoEncoder.json: {$obj->msg} {$canUploadMessage} " . json_encode(User::canNotUploadReason()));
+    _error_log("aVideoEncoder.json: {$obj->msg}  canUploadMessage=[{$canUploadMessage}] " . json_encode(User::canNotUploadReason()));
     _error_log($obj->msg);
     die(json_encode($obj));
 }
