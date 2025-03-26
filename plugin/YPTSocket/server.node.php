@@ -33,7 +33,7 @@ if ($remoteInfo === false) {
 $remoteData = json_decode($remoteInfo, true);
 if (!isset($remoteData['version'])) {
     die("❌ Invalid remote build-info.json format\n");
-}else{
+} else {
     echo "🌐 Found remote {$remoteInfo}".PHP_EOL;
 }
 
@@ -51,6 +51,19 @@ $remoteVersion = (int)$remoteData['version'];
 // 3. Compare and update if needed
 if ($remoteVersion != $localVersion) {
     echo "⬇️  New version available (local: $localVersion, remote: $remoteVersion). Starting update...\n";
+
+    // Kill existing process
+    echo "🛑 Checking for running yptsocket process...\n";
+    $pidOutput = [];
+    exec("pgrep -f '$localBinaryPath'", $pidOutput);
+    if (!empty($pidOutput)) {
+        foreach ($pidOutput as $pid) {
+            echo "🔪 Killing process with PID: $pid\n";
+            exec("kill -9 $pid");
+        }
+    } else {
+        echo "✅ No running yptsocket process found.\n";
+    }
 
     // Download new binary
     echo "⬇️  Downloading new yptsocket binary...\n";
