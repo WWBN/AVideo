@@ -8,16 +8,15 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   echo "entrypoint -- Certificate file: ${TLS_CERTIFICATE_FILE}"
   echo "entrypoint -- Certificate key: ${TLS_CERTIFICATE_KEY}"
 
-  mkdir -p `dirname ${TLS_CERTIFICATE_FILE}`
-  mkdir -p `dirname ${TLS_CERTIFICATE_KEY}`
-  # Set subjectAltName for certificate
+  mkdir -p "$(dirname ${TLS_CERTIFICATE_FILE})"
+  mkdir -p "$(dirname ${TLS_CERTIFICATE_KEY})"
+
   if [ "${SERVER_NAME}" = "localhost" ]; then
     subjectAltName="DNS:localhost,IP:127.0.0.1"
   else
     subjectAltName="DNS:${SERVER_NAME}"
   fi
-  
-  # Create config file for OpenSSL
+
   CONFIG=$(cat <<-EOF
 [dn]
 C=NN
@@ -34,10 +33,9 @@ subjectAltName = ${subjectAltName}
 extendedKeyUsage = serverAuth
 EOF
 )
-  
-  # Generate self-signed certificate with OpenSSL
+
   openssl req -x509 \
-    -out ${TLS_CERTIFICATE_FILE} -keyout ${TLS_CERTIFICATE_KEY} \
+    -out "${TLS_CERTIFICATE_FILE}" -keyout "${TLS_CERTIFICATE_KEY}" \
     -newkey rsa:4096 \
     -nodes \
     -sha256 \
@@ -45,57 +43,55 @@ EOF
     -subj "/C=NN/L=Earth/O=AVideo/OU=Development/CN=${SERVER_NAME}" \
     -extensions EXT \
     -config <(echo "${CONFIG}")
-  
-  # Verify certificate
-  echo "entrypoint -- New Certificate config..."
-  openssl x509 -in ${TLS_CERTIFICATE_FILE} -noout -text || true
 
+  echo "entrypoint -- New Certificate config..."
+  openssl x509 -in "${TLS_CERTIFICATE_FILE}" -noout -text || true
+
+  sed -i 's#TLS_CERTIFICATE_FILE#'"${TLS_CERTIFICATE_FILE}"'#' "${CONFIG_FILE}"
+  sed -i 's#TLS_CERTIFICATE_KEY#'"${TLS_CERTIFICATE_KEY}"'#' "${CONFIG_FILE}"
+
+  if [[ "${SERVER_NAME}" != "localhost" && ! "${SERVER_NAME}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "entrypoint -- Running certbot for ${SERVER_NAME}"
+    certbot --apache --non-interactive --agree-tos --register-unsafely-without-email --redirect --keep-until-expiring -d "${SERVER_NAME}"
+  else
+    echo "Not executing certbot for ${SERVER_NAME}"
+  fi
+else
+  echo "entrypoint -- TLS certificate generation and certbot skipped due to CREATE_TLS_CERTIFICATE=${CREATE_TLS_CERTIFICATE}"
 fi
 
-sed -i 's#SERVER_NAME#'${SERVER_NAME}'#' ${CONFIG_FILE}
-sed -i 's#CONTACT_EMAIL#'${CONTACT_EMAIL}'#' ${CONFIG_FILE}
+mkdir -p /etc/letsencrypt/live/localhost/
+cp "${TLS_CERTIFICATE_FILE}" /etc/letsencrypt/live/localhost/fullchain.pem
+cp "${TLS_CERTIFICATE_KEY}" /etc/letsencrypt/live/localhost/privkey.pem
+
+sed -i 's#SERVER_NAME#'"${SERVER_NAME}"'#' "${CONFIG_FILE}"
+sed -i 's#CONTACT_EMAIL#'"${CONTACT_EMAIL}"'#' "${CONFIG_FILE}"
 
 echo "entrypoint -- Configure Apache..."
-sed -i 's#TLS_CERTIFICATE_FILE#'${TLS_CERTIFICATE_FILE}'#' ${CONFIG_FILE}
-sed -i 's#TLS_CERTIFICATE_KEY#'${TLS_CERTIFICATE_KEY}'#' ${CONFIG_FILE}
-
-mkdir -p /etc/letsencrypt/live/localhost/
-
-cp ${TLS_CERTIFICATE_FILE} /etc/letsencrypt/live/localhost/fullchain.pem
-cp ${TLS_CERTIFICATE_KEY} /etc/letsencrypt/live/localhost/privkey.pem
-
-#echo "entrypoint -- Waiting for database ${DB_MYSQL_HOST} to be up and running"
-#php /usr/local/bin/wait-for-db.php
-#if [ $? -ne 0 ]; then
-#  echo "entrypoint -- Stopping container"
-#  exit 1
-#fi
 
 if [ -f /var/www/html/AVideo/plugin/User_Location/install/install.sql ]; then
   echo "entrypoint -- Using existing location tables..."
 else
   echo "entrypoint -- Create new locations tables..."
-  cd /var/www/html/AVideo/plugin/User_Location/install && unzip install.zip 
-  # Configure AVideo Encoder
+  cd /var/www/html/AVideo/plugin/User_Location/install && unzip install.zip
   cd /var/www/html/AVideo && git config --global advice.detachedHead false && git clone https://github.com/WWBN/AVideo-Encoder.git Encoder
-  # Configure AVideo permissions
   chown -R www-data:www-data /var/www/html/AVideo
 fi
 
 if [ -f /var/www/html/AVideo/Encoder/index.php ]; then
   echo "entrypoint -- Using existing Encoder configuration..."
 else
-  echo "entrypoint -- Create new  Encoder configuration..."
-  # Configure AVideo Encoder
+  echo "entrypoint -- Create new Encoder configuration..."
   cd /var/www/html/AVideo && git config --global advice.detachedHead false && git clone https://github.com/WWBN/AVideo-Encoder.git Encoder
 fi
 
 if [ -d /var/www/html/AVideo/Encoder/videos ]; then
   echo "entrypoint -- Using existing Encoder videos..."
 else
-  echo "entrypoint -- Create new  Encoder videos..."
-  # Configure AVideo Encoder
-  mkdir -p /var/www/html/AVideo/Encoder/videos && chown www-data:www-data /var/www/html/AVideo/Encoder/videos && chmod 777 /var/www/html/AVideo/Encoder/videos
+  echo "entrypoint -- Create new Encoder videos..."
+  mkdir -p /var/www/html/AVideo/Encoder/videos
+  chown www-data:www-data /var/www/html/AVideo/Encoder/videos
+  chmod 777 /var/www/html/AVideo/Encoder/videos
 fi
 
 echo "entrypoint -- Checking configuration..."
@@ -103,22 +99,11 @@ cd /var/www/html/AVideo/install/
 php ./cli.php
 cd /var/www/html/AVideo/
 
-
-if [[ "${SERVER_NAME}" = "localhost" ]] || [[ "${SERVER_NAME}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-  echo "Not executing certbot for ${SERVER_NAME}"
-else
-  echo "entrypoint -- Running certbot for ${SERVER_NAME}"
-  certbot --apache --non-interactive --agree-tos --register-unsafely-without-email --redirect --keep-until-expiring -d ${SERVER_NAME}
-fi
-
-/etc/init.d/apache2 stop
-
 echo "entrypoint -- Writing /var/www/docker_vars.json"
 echo "{\"SOCKET_PORT\":${SOCKET_PORT}, \"HTTP_PORT\":${HTTP_PORT}, \"HTTPS_PORT\":${HTTPS_PORT}, \"SERVER_NAME\":\"${SERVER_NAME}\", \"NGINX_RTMP_PORT\":${NGINX_RTMP_PORT}, \"NGINX_HTTP_PORT\":${NGINX_HTTP_PORT}, \"NGINX_HTTPS_PORT\":${NGINX_HTTPS_PORT}}" > /var/www/docker_vars.json
 
 echo "entrypoint -- Starting socket server..."
 nohup php /var/www/html/AVideo/plugin/YPTSocket/server.php &
-
 
 echo "Clear cache"
 rm -R /var/www/html/AVideo/videos/cache
@@ -151,8 +136,5 @@ bash
 source /etc/bash_completion
 
 echo "entrypoint -- service apache2 start"
-#apache2-foreground
 apachectl -DFOREGROUND
 echo "entrypoint -- service apache2 done"
-
-#eof
