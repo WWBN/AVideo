@@ -9,13 +9,16 @@ use Ratchet\RFC6455\Messaging\MessageBuffer;
 use React\EventLoop\Factory;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers Ratchet\RFC6455\Messaging\MessageBuffer
+ */
 class MessageBufferTest extends TestCase
 {
     /**
      * This is to test that MessageBuffer can handle a large receive
      * buffer with many many frames without blowing the stack (pre-v0.4 issue)
      */
-    public function testProcessingLotsOfFramesInASingleChunk() {
+    public function testProcessingLotsOfFramesInASingleChunk(): void {
         $frame = new Frame('a', true, Frame::OP_TEXT);
 
         $frameRaw = $frame->getContents();
@@ -26,7 +29,7 @@ class MessageBufferTest extends TestCase
 
         $messageBuffer = new MessageBuffer(
             new CloseFrameChecker(),
-            function (Message $message) use (&$messageCount) {
+            function (Message $message) use (&$messageCount): void {
                 $messageCount++;
                 $this->assertEquals('a', $message->getPayload());
             },
@@ -39,7 +42,7 @@ class MessageBufferTest extends TestCase
         $this->assertEquals(1000, $messageCount);
     }
 
-    public function testProcessingMessagesAsynchronouslyWhileBlockingInMessageHandler() {
+    public function testProcessingMessagesAsynchronouslyWhileBlockingInMessageHandler(): void {
         $loop = Factory::create();
 
         $frameA = new Frame('a', true, Frame::OP_TEXT);
@@ -49,7 +52,7 @@ class MessageBufferTest extends TestCase
 
         $messageBuffer = new MessageBuffer(
             new CloseFrameChecker(),
-            function (Message $message) use (&$messageCount, &$bReceived, $loop) {
+            static function (Message $message) use (&$messageCount, &$bReceived, $loop): void {
                 $payload = $message->getPayload();
                 $bReceived = $payload === 'b';
 
@@ -61,7 +64,7 @@ class MessageBufferTest extends TestCase
             false
         );
 
-        $loop->addPeriodicTimer(0.1, function () use ($messageBuffer, $frameB, $loop) {
+        $loop->addPeriodicTimer(0.1, static function () use ($messageBuffer, $frameB, $loop): void {
             $loop->stop();
             $messageBuffer->onData($frameB->getContents());
         });
@@ -71,7 +74,7 @@ class MessageBufferTest extends TestCase
         $this->assertTrue($bReceived);
     }
 
-    public function testInvalidFrameLength() {
+    public function testInvalidFrameLength(): void {
         $frame = new Frame(str_repeat('a', 200), true, Frame::OP_TEXT);
 
         $frameRaw = $frame->getContents();
@@ -93,7 +96,7 @@ class MessageBufferTest extends TestCase
 
         $messageBuffer = new MessageBuffer(
             new CloseFrameChecker(),
-            function (Message $message) use (&$messageCount) {
+            static function (Message $message) use (&$messageCount): void {
                 $messageCount++;
             },
             function (Frame $frame) use (&$controlFrame) {
@@ -109,13 +112,13 @@ class MessageBufferTest extends TestCase
         $messageBuffer->onData($frameRaw);
 
         $this->assertEquals(0, $messageCount);
-        $this->assertTrue($controlFrame instanceof Frame);
+        $this->assertInstanceOf(Frame::class, $controlFrame);
         $this->assertEquals(Frame::OP_CLOSE, $controlFrame->getOpcode());
         $this->assertEquals([Frame::CLOSE_PROTOCOL], array_merge(unpack('n*', substr($controlFrame->getPayload(), 0, 2))));
 
     }
 
-    public function testFrameLengthTooBig() {
+    public function testFrameLengthTooBig(): void {
         $frame = new Frame(str_repeat('a', 200), true, Frame::OP_TEXT);
 
         $frameRaw = $frame->getContents();
@@ -137,10 +140,10 @@ class MessageBufferTest extends TestCase
 
         $messageBuffer = new MessageBuffer(
             new CloseFrameChecker(),
-            function (Message $message) use (&$messageCount) {
+            static function (Message $message) use (&$messageCount): void {
                 $messageCount++;
             },
-            function (Frame $frame) use (&$controlFrame) {
+            function (Frame $frame) use (&$controlFrame): void {
                 $this->assertNull($controlFrame);
                 $controlFrame = $frame;
             },
@@ -153,12 +156,12 @@ class MessageBufferTest extends TestCase
         $messageBuffer->onData($frameRaw);
 
         $this->assertEquals(0, $messageCount);
-        $this->assertTrue($controlFrame instanceof Frame);
+        $this->assertInstanceOf(Frame::class, $controlFrame);
         $this->assertEquals(Frame::OP_CLOSE, $controlFrame->getOpcode());
         $this->assertEquals([Frame::CLOSE_TOO_BIG], array_merge(unpack('n*', substr($controlFrame->getPayload(), 0, 2))));
     }
 
-    public function testFrameLengthBiggerThanMaxMessagePayload() {
+    public function testFrameLengthBiggerThanMaxMessagePayload(): void {
         $frame = new Frame(str_repeat('a', 200), true, Frame::OP_TEXT);
 
         $frameRaw = $frame->getContents();
@@ -169,10 +172,10 @@ class MessageBufferTest extends TestCase
 
         $messageBuffer = new MessageBuffer(
             new CloseFrameChecker(),
-            function (Message $message) use (&$messageCount) {
+            static function (Message $message) use (&$messageCount): void {
                 $messageCount++;
             },
-            function (Frame $frame) use (&$controlFrame) {
+            function (Frame $frame) use (&$controlFrame): void {
                 $this->assertNull($controlFrame);
                 $controlFrame = $frame;
             },
@@ -185,12 +188,12 @@ class MessageBufferTest extends TestCase
         $messageBuffer->onData($frameRaw);
 
         $this->assertEquals(0, $messageCount);
-        $this->assertTrue($controlFrame instanceof Frame);
+        $this->assertInstanceOf(Frame::class, $controlFrame);
         $this->assertEquals(Frame::OP_CLOSE, $controlFrame->getOpcode());
         $this->assertEquals([Frame::CLOSE_TOO_BIG], array_merge(unpack('n*', substr($controlFrame->getPayload(), 0, 2))));
     }
 
-    public function testSecondFrameLengthPushesPastMaxMessagePayload() {
+    public function testSecondFrameLengthPushesPastMaxMessagePayload(): void {
         $frame = new Frame(str_repeat('a', 200), false, Frame::OP_TEXT);
         $firstFrameRaw = $frame->getContents();
         $frame = new Frame(str_repeat('b', 200), true, Frame::OP_TEXT);
@@ -202,10 +205,10 @@ class MessageBufferTest extends TestCase
 
         $messageBuffer = new MessageBuffer(
             new CloseFrameChecker(),
-            function (Message $message) use (&$messageCount) {
+            static function (Message $message) use (&$messageCount): void {
                 $messageCount++;
             },
-            function (Frame $frame) use (&$controlFrame) {
+            function (Frame $frame) use (&$controlFrame): void {
                 $this->assertNull($controlFrame);
                 $controlFrame = $frame;
             },
@@ -220,7 +223,7 @@ class MessageBufferTest extends TestCase
         $messageBuffer->onData(substr($secondFrameRaw, 0, 150));
 
         $this->assertEquals(0, $messageCount);
-        $this->assertTrue($controlFrame instanceof Frame);
+        $this->assertInstanceOf(Frame::class, $controlFrame);
         $this->assertEquals(Frame::OP_CLOSE, $controlFrame->getOpcode());
         $this->assertEquals([Frame::CLOSE_TOO_BIG], array_merge(unpack('n*', substr($controlFrame->getPayload(), 0, 2))));
     }
@@ -258,15 +261,15 @@ class MessageBufferTest extends TestCase
      * @param string $phpConfigurationValue
      * @param int $expectedLimit
      */
-    public function testMemoryLimits($phpConfigurationValue, $expectedLimit) {
-        $method = new \ReflectionMethod('Ratchet\RFC6455\Messaging\MessageBuffer', 'getMemoryLimit');
+    public function testMemoryLimits(string $phpConfigurationValue, int $expectedLimit): void {
+        $method = new \ReflectionMethod(MessageBuffer::class, 'getMemoryLimit');
         $method->setAccessible(true);
         $actualLimit = $method->invoke(null, $phpConfigurationValue);
 
         $this->assertSame($expectedLimit, $actualLimit);
     }
 
-    public function phpConfigurationProvider() {
+    public function phpConfigurationProvider(): array {
         return [
             'without unit type, just bytes' => ['500', 500],
             '1 GB with big "G"' => ['1G', 1 * 1024 * 1024 * 1024],
@@ -281,32 +284,30 @@ class MessageBufferTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testInvalidMaxFramePayloadSizes() {
-        $messageBuffer = new MessageBuffer(
+    public function testInvalidMaxFramePayloadSizes(): void {
+        $this->expectException(\InvalidArgumentException::class);
+
+        new MessageBuffer(
             new CloseFrameChecker(),
-            function (Message $message) {},
-            function (Frame $frame) {},
+            static function (Message $message): void {},
+            static function (Frame $frame): void {},
             false,
             null,
             0,
-            0x8000000000000000
+            -1
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testInvalidMaxMessagePayloadSizes() {
-        $messageBuffer = new MessageBuffer(
+    public function testInvalidMaxMessagePayloadSizes(): void {
+        $this->expectException(\InvalidArgumentException::class);
+
+        new MessageBuffer(
             new CloseFrameChecker(),
-            function (Message $message) {},
-            function (Frame $frame) {},
+            static function (Message $message): void {},
+            static function (Frame $frame): void {},
             false,
             null,
-            0x8000000000000000,
+            -1,
             0
         );
     }
@@ -318,9 +319,8 @@ class MessageBufferTest extends TestCase
      * @param int $expectedLimit
      *
      * @runInSeparateProcess
-     * @requires PHP 7.0
      */
-    public function testIniSizes($phpConfigurationValue, $expectedLimit) {
+    public function testIniSizes(string $phpConfigurationValue, int $expectedLimit): void {
         $value = @ini_set('memory_limit', $phpConfigurationValue);
         if ($value === false) {
            $this->markTestSkipped("Does not support setting the memory_limit lower than current memory_usage");
@@ -328,8 +328,8 @@ class MessageBufferTest extends TestCase
 
         $messageBuffer = new MessageBuffer(
             new CloseFrameChecker(),
-            function (Message $message) {},
-            function (Frame $frame) {},
+            static function (Message $message): void {},
+            static function (Frame $frame): void {},
             false,
             null
         );
@@ -349,9 +349,8 @@ class MessageBufferTest extends TestCase
 
     /**
      * @runInSeparateProcess
-     * @requires PHP 7.0
      */
-    public function testInvalidIniSize() {
+    public function testInvalidIniSize(): void {
         $value = @ini_set('memory_limit', 'lots of memory');
         if ($value === false) {
             $this->markTestSkipped("Does not support setting the memory_limit lower than current memory_usage");

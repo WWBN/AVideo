@@ -160,7 +160,6 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
             'Symfony\\Contracts\\EventDispatcher\\' => 34,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\String\\' => 25,
-            'Symfony\\Component\\Routing\\' => 26,
             'Symfony\\Component\\OptionsResolver\\' => 34,
             'Symfony\\Component\\Mime\\' => 23,
             'Symfony\\Component\\HttpFoundation\\' => 33,
@@ -181,7 +180,6 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
             'React\\Cache\\' => 12,
             'Ratchet\\RFC6455\\' => 16,
             'Ratchet\\Client\\' => 15,
-            'Ratchet\\' => 8,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
         ),
@@ -205,10 +203,6 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         array (
             'OneSignal\\' => 10,
             'OTPHP\\' => 6,
-        ),
-        'N' => 
-        array (
-            'Nyholm\\Psr7\\' => 12,
         ),
         'M' => 
         array (
@@ -344,10 +338,6 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         array (
             0 => __DIR__ . '/..' . '/symfony/string',
         ),
-        'Symfony\\Component\\Routing\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/routing',
-        ),
         'Symfony\\Component\\OptionsResolver\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
@@ -417,10 +407,6 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         array (
             0 => __DIR__ . '/..' . '/ratchet/pawl/src',
         ),
-        'Ratchet\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/cboden/ratchet/src/Ratchet',
-        ),
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
@@ -489,10 +475,6 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         'OTPHP\\' => 
         array (
             0 => __DIR__ . '/..' . '/spomky-labs/otphp/src',
-        ),
-        'Nyholm\\Psr7\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nyholm/psr7/src',
         ),
         'Monolog\\' => 
         array (

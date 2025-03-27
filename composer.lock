@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ca6cb14ba86e1e302c228132ca26cbf",
+    "content-hash": "065c961cc46399bcab2a49230cce8d62",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -618,69 +618,6 @@
                 }
             ],
             "time": "2023-12-11T17:09:12+00:00"
-        },
-        {
-            "name": "cboden/ratchet",
-            "version": "v0.4.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ratchetphp/Ratchet.git",
-                "reference": "5012dc954541b40c5599d286fd40653f5716a38f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ratchetphp/Ratchet/zipball/5012dc954541b40c5599d286fd40653f5716a38f",
-                "reference": "5012dc954541b40c5599d286fd40653f5716a38f",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/psr7": "^1.7|^2.0",
-                "php": ">=5.4.2",
-                "ratchet/rfc6455": "^0.3.1",
-                "react/event-loop": ">=0.4",
-                "react/socket": "^1.0 || ^0.8 || ^0.7 || ^0.6 || ^0.5",
-                "symfony/http-foundation": "^2.6|^3.0|^4.0|^5.0|^6.0",
-                "symfony/routing": "^2.6|^3.0|^4.0|^5.0|^6.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ratchet\\": "src/Ratchet"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Boden",
-                    "email": "cboden@gmail.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Matt Bonneau",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP WebSocket library",
-            "homepage": "http://socketo.me",
-            "keywords": [
-                "Ratchet",
-                "WebSockets",
-                "server",
-                "sockets",
-                "websocket"
-            ],
-            "support": {
-                "chat": "https://gitter.im/reactphp/reactphp",
-                "issues": "https://github.com/ratchetphp/Ratchet/issues",
-                "source": "https://github.com/ratchetphp/Ratchet/tree/v0.4.4"
-            },
-            "time": "2021-12-14T00:20:41+00:00"
         },
         {
             "name": "chillerlan/php-qrcode",
@@ -2528,84 +2465,6 @@
             "time": "2024-09-01T15:54:00+00:00"
         },
         {
-            "name": "nyholm/psr7",
-            "version": "1.8.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Nyholm/psr7.git",
-                "reference": "a71f2b11690f4b24d099d6b16690a90ae14fc6f3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Nyholm/psr7/zipball/a71f2b11690f4b24d099d6b16690a90ae14fc6f3",
-                "reference": "a71f2b11690f4b24d099d6b16690a90ae14fc6f3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.1 || ^2.0"
-            },
-            "provide": {
-                "php-http/message-factory-implementation": "1.0",
-                "psr/http-factory-implementation": "1.0",
-                "psr/http-message-implementation": "1.0"
-            },
-            "require-dev": {
-                "http-interop/http-factory-tests": "^0.9",
-                "php-http/message-factory": "^1.0",
-                "php-http/psr7-integration-tests": "^1.0",
-                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
-                "symfony/error-handler": "^4.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Nyholm\\Psr7\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tobias Nyholm",
-                    "email": "tobias.nyholm@gmail.com"
-                },
-                {
-                    "name": "Martijn van der Ven",
-                    "email": "martijn@vanderven.se"
-                }
-            ],
-            "description": "A fast PHP7 implementation of PSR-7",
-            "homepage": "https://tnyholm.se",
-            "keywords": [
-                "psr-17",
-                "psr-7"
-            ],
-            "support": {
-                "issues": "https://github.com/Nyholm/psr7/issues",
-                "source": "https://github.com/Nyholm/psr7/tree/1.8.2"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/Zegnat",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nyholm",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-09-09T07:06:30+00:00"
-        },
-        {
             "name": "paragonie/constant_time_encoding",
             "version": "v2.7.0",
             "source": {
@@ -3862,24 +3721,26 @@
         },
         {
             "name": "ratchet/rfc6455",
-            "version": "v0.3.1",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ratchetphp/RFC6455.git",
-                "reference": "7c964514e93456a52a99a20fcfa0de242a43ccdb"
+                "reference": "859d95f85dda0912c6d5b936d036d044e3af47ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ratchetphp/RFC6455/zipball/7c964514e93456a52a99a20fcfa0de242a43ccdb",
-                "reference": "7c964514e93456a52a99a20fcfa0de242a43ccdb",
+                "url": "https://api.github.com/repos/ratchetphp/RFC6455/zipball/859d95f85dda0912c6d5b936d036d044e3af47ef",
+                "reference": "859d95f85dda0912c6d5b936d036d044e3af47ef",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/psr7": "^2 || ^1.7",
-                "php": ">=5.4.2"
+                "php": ">=7.4",
+                "psr/http-factory-implementation": "^1.0",
+                "symfony/polyfill-php80": "^1.15"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7",
+                "guzzlehttp/psr7": "^2.7",
+                "phpunit/phpunit": "^9.5",
                 "react/socket": "^1.3"
             },
             "type": "library",
@@ -3913,9 +3774,9 @@
             "support": {
                 "chat": "https://gitter.im/reactphp/reactphp",
                 "issues": "https://github.com/ratchetphp/RFC6455/issues",
-                "source": "https://github.com/ratchetphp/RFC6455/tree/v0.3.1"
+                "source": "https://github.com/ratchetphp/RFC6455/tree/v0.4.0"
             },
-            "time": "2021-12-09T23:20:49+00:00"
+            "time": "2025-02-24T01:18:22+00:00"
         },
         {
             "name": "react/cache",
@@ -6010,96 +5871,6 @@
             "time": "2024-09-09T11:45:10+00:00"
         },
         {
-            "name": "symfony/routing",
-            "version": "v5.4.48",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/routing.git",
-                "reference": "dd08c19879a9b37ff14fd30dcbdf99a4cf045db1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/dd08c19879a9b37ff14fd30dcbdf99a4cf045db1",
-                "reference": "dd08c19879a9b37ff14fd30dcbdf99a4cf045db1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1|^3",
-                "symfony/polyfill-php80": "^1.16"
-            },
-            "conflict": {
-                "doctrine/annotations": "<1.12",
-                "symfony/config": "<5.3",
-                "symfony/dependency-injection": "<4.4",
-                "symfony/yaml": "<4.4"
-            },
-            "require-dev": {
-                "doctrine/annotations": "^1.12|^2",
-                "psr/log": "^1|^2|^3",
-                "symfony/config": "^5.3|^6.0",
-                "symfony/dependency-injection": "^4.4|^5.0|^6.0",
-                "symfony/expression-language": "^4.4|^5.0|^6.0",
-                "symfony/http-foundation": "^4.4|^5.0|^6.0",
-                "symfony/yaml": "^4.4|^5.0|^6.0"
-            },
-            "suggest": {
-                "symfony/config": "For using the all-in-one router or any loader",
-                "symfony/expression-language": "For using expression matching",
-                "symfony/http-foundation": "For using a Symfony Request object",
-                "symfony/yaml": "For using the YAML loader"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Routing\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Maps an HTTP request to a set of configuration variables",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "router",
-                "routing",
-                "uri",
-                "url"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/routing/tree/v5.4.48"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-11-12T18:20:21+00:00"
-        },
-        {
             "name": "symfony/service-contracts",
             "version": "v2.5.4",
             "source": {
@@ -6651,5 +6422,5 @@
     "platform-overrides": {
         "php": "8"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

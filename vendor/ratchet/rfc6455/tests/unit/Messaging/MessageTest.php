@@ -13,20 +13,20 @@ class MessageTest extends TestCase {
     /** @var Message */
     protected $message;
 
-    public function setUp() {
+    protected function setUp(): void {
         $this->message = new Message;
     }
 
-    public function testNoFrames() {
+    public function testNoFrames(): void {
         $this->assertFalse($this->message->isCoalesced());
     }
 
-    public function testNoFramesOpCode() {
-        $this->setExpectedException('UnderflowException');
+    public function testNoFramesOpCode(): void {
+        $this->expectException(\UnderflowException::class);
         $this->message->getOpCode();
     }
 
-    public function testFragmentationPayload() {
+    public function testFragmentationPayload(): void {
         $a = 'Hello ';
         $b = 'World!';
         $f1 = new Frame($a, false);
@@ -36,13 +36,13 @@ class MessageTest extends TestCase {
         $this->assertEquals($a . $b, $this->message->getPayload());
     }
 
-    public function testUnbufferedFragment() {
+    public function testUnbufferedFragment(): void {
         $this->message->addFrame(new Frame('The quick brow', false));
-        $this->setExpectedException('UnderflowException');
+        $this->expectException(\UnderflowException::class);
         $this->message->getPayload();
     }
 
-    public function testGetOpCode() {
+    public function testGetOpCode(): void {
         $this->message
             ->addFrame(new Frame('The quick brow', false, Frame::OP_TEXT))
             ->addFrame(new Frame('n fox jumps ov', false, Frame::OP_CONTINUE))
@@ -51,7 +51,7 @@ class MessageTest extends TestCase {
         $this->assertEquals(Frame::OP_TEXT, $this->message->getOpCode());
     }
 
-    public function testGetUnBufferedPayloadLength() {
+    public function testGetUnBufferedPayloadLength(): void {
         $this->message
             ->addFrame(new Frame('The quick brow', false, Frame::OP_TEXT))
             ->addFrame(new Frame('n fox jumps ov', false, Frame::OP_CONTINUE))

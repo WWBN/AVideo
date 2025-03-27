@@ -4,7 +4,7 @@
     }
   , "outdir": "/reports/servers"
   , "servers": [{
-        "agent": "RatchetRFC/0.3"
+        "agent": "RatchetRFC/0.4"
       , "url": "ws://host.ratchet.internal:9001"
       , "options": {"version": 18}
     }]

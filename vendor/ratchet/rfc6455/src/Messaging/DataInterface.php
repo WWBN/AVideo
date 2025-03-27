@@ -1,34 +1,28 @@
 <?php
 namespace Ratchet\RFC6455\Messaging;
 
-interface DataInterface {
+interface DataInterface extends \Stringable {
     /**
      * Determine if the message is complete or still fragmented
      * @return bool
      */
-    function isCoalesced();
+    public function isCoalesced(): bool;
 
     /**
      * Get the number of bytes the payload is set to be
      * @return int
      */
-    function getPayloadLength();
+    public function getPayloadLength(): int;
 
     /**
      * Get the payload (message) sent from peer
      * @return string
      */
-    function getPayload();
+    public function getPayload(): string;
 
     /**
      * Get raw contents of the message
      * @return string
      */
-    function getContents();
-
-    /**
-     * Should return the unmasked payload received from peer
-     * @return string
-     */
-    function __toString();
+    public function getContents(): string;
 }

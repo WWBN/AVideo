@@ -19,15 +19,13 @@
         "google/apiclient-services": "*",
         "google/auth": "^1.14.3",
         "guzzlehttp/guzzle": "^7.4",
-        "guzzlehttp/psr7": "^2.7",
+        "guzzlehttp/psr7": "^2.0 || ^2.4 || ^2.6 || ^2.7",
         "hybridauth/hybridauth": "^3.3",
         "james-heinrich/getid3": "^1.9",
         "monolog/monolog": "^2.6",
         "phpmailer/phpmailer": "^6.2",
         "psr/cache": "^3.0",
         "psr/http-message": "^2.0",
-        "cboden/ratchet": "^0.4.3",
-        "ratchet/pawl": "^0.4.1",
         "singpolyma/openpgp-php": "^0.7.0",
         "aws/aws-sdk-php": "^3.180",
         "gliterd/backblaze-b2": "^1.1",
@@ -39,7 +37,6 @@
         "emojione/emojione": "^4.5",
         "abraham/twitteroauth": "^7.0",
         "symfony/http-client": "^5.3",
-        "nyholm/psr7": "^1.4",
         "norkunas/onesignal-php-api": "^2.7",
         "stripe/stripe-php": "^16.1",
         "symfony/translation": "^5.3",
@@ -55,6 +52,7 @@
         "react/socket": "^1.16",
         "react/event-loop": "^1.5",
         "elephantio/elephant.io": "^4.13",
-        "iamcal/sql-parser": "^0.6"
+        "iamcal/sql-parser": "^0.6",
+        "ratchet/pawl": "^0.4.3"
     }
 }

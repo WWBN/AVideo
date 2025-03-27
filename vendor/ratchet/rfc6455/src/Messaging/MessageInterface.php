@@ -6,15 +6,15 @@ interface MessageInterface extends DataInterface, \Traversable, \Countable {
      * @param FrameInterface $fragment
      * @return MessageInterface
      */
-    function addFrame(FrameInterface $fragment);
+    public function addFrame(FrameInterface $fragment): self;
 
     /**
      * @return int
      */
-    function getOpcode();
+    public function getOpcode(): int;
 
     /**
      * @return bool
      */
-    function isBinary();
+    public function isBinary(): bool;
 }

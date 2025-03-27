@@ -3,10 +3,13 @@
 namespace Ratchet\RFC6455\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversNothing
+ */
 class AbResultsTest extends TestCase {
-    private function verifyAutobahnResults($fileName) {
+    private function verifyAutobahnResults(string $fileName): void {
         if (!file_exists($fileName)) {
-            return $this->markTestSkipped('Autobahn TestSuite results not found');
+            $this->markTestSkipped('Autobahn TestSuite results not found');
         }
 
         $resultsJson = file_get_contents($fileName);
@@ -22,11 +25,11 @@ class AbResultsTest extends TestCase {
         }
     }
 
-    public function testAutobahnClientResults() {
+    public function testAutobahnClientResults(): void {
         $this->verifyAutobahnResults(__DIR__ . '/ab/reports/clients/index.json');
     }
 
-    public function testAutobahnServerResults() {
+    public function testAutobahnServerResults(): void {
         $this->verifyAutobahnResults(__DIR__ . '/ab/reports/servers/index.json');
     }
 }

@@ -6,33 +6,33 @@ interface FrameInterface extends DataInterface {
      * Add incoming data to the frame from peer
      * @param string
      */
-    function addBuffer($buf);
+    public function addBuffer(string $buf): void;
 
     /**
      * Is this the final frame in a fragmented message?
      * @return bool
      */
-    function isFinal();
+    public function isFinal(): bool;
 
     /**
      * Is the payload masked?
      * @return bool
      */
-    function isMasked();
+    public function isMasked(): bool;
 
     /**
      * @return int
      */
-    function getOpcode();
+    public function getOpcode(): int;
 
     /**
      * @return int
      */
-    //function getReceivedPayloadLength();
+    //public function getReceivedPayloadLength(): int;
 
     /**
      * 32-big string
      * @return string
      */
-    function getMaskingKey();
+    public function getMaskingKey(): string;
 }
