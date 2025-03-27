@@ -414,7 +414,7 @@ class YPTSocket extends PluginAbstract
     {
         $obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
         if (!empty($obj->enableCalls)) {
-            echo 'callerDisconnection(response);';
+            echo 'if(typeof callerDisconnection !== \'undefined\'){callerDisconnection(response);}';
         }
         echo 'socketDisconnection(response);';
         return '';
