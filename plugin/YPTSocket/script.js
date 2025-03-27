@@ -283,7 +283,9 @@ function socketConnectIO() {
     try {
         socket = io(url, {
             transports: ["websocket"],
-            timeout: 5000 // 5 seconds timeout
+            timeout: 10000, // 5 seconds timeout
+            pingTimeout: 60000,
+            pingInterval: 25000
         });
     } catch (error) {
         console.error("socketConnectIO Error:", error);
