@@ -415,7 +415,6 @@ function defaultCallback(json) {
 var socketAutoUpdateOnHTMLTimout;
 var globalAutoUpdateOnHTML = [];
 function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
-    globalAutoUpdateOnHTML = [];
     for (var prop in autoUpdateOnHTML) {
         if (autoUpdateOnHTML[prop] === false) {
             continue;
