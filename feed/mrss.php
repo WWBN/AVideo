@@ -90,11 +90,12 @@ if (empty($feed) || (!empty($_REQUEST['recreate']) && !isBot())) {
     _ob_end_clean();
     //var_dump($cacheFeedName, $feed);exit;
     ObjectYPT::setCache($cacheFeedName, $feed);
-//echo '<!-- NO cache -->';
+    $feedLast = '<!-- NO cache -->';
 } else {
-    //echo '<!-- cache -->';
+    $feedLast = '<!-- cache -->';
 }
 if (!is_string($feed)) {
     $feed = json_encode($feed);
 }
-echo $feed;
+echo $feed.PHP_EOL;
+echo $feedLast;
