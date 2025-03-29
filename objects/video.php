@@ -4951,7 +4951,7 @@ if (!class_exists('Video')) {
                 // Call the function to generate the video paths
                 $videos = self::_getVideosPaths($filename, $includeS3, $try);
 
-                make_path( dirname($tmpCacheFile));
+                make_path($tmpCacheFile);
 
                 // Save the results in the temporary cache file
                 file_put_contents($tmpCacheFile, json_encode($videos));
