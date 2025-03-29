@@ -1203,7 +1203,7 @@ class CDNStorage
         }
 
         $paths = Video::getPaths($filename);
-        if(!preg_match('/index.mp4$/', $paths['path'])){
+        if(!preg_match('/index.mp[34]$/', $paths['path'])){
             $file = $paths['path'] . $filename;
         }else{
             $file = $paths['path'];
@@ -1225,7 +1225,7 @@ class CDNStorage
         }
         if (preg_match('/m3u8$/', $filename)) {
             $relativeFilename = $filename;
-        } else if (preg_match('/index.mp4$/', $filename)) {
+        } else if (preg_match('/index.mp[34]$/', $filename)) {
             $relativeFilename = $filename;
         } else {
             $relativeFilename = "{$paths['filename']}/{$filename}";
