@@ -4190,7 +4190,7 @@ if (!class_exists('Video')) {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
-                    } else if ($indexMP4Exits) {
+                    } else if ($indexMP4Exits || $indexMP3Exits) {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
@@ -4204,7 +4204,7 @@ if (!class_exists('Video')) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
-                    } else if ($indexMP4Exits) {
+                    } else if ($indexMP4Exits || $indexMP3Exits) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
@@ -4217,7 +4217,7 @@ if (!class_exists('Video')) {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
-                    } else if ($indexMP4Exits) {
+                    } else if ($indexMP4Exits || $indexMP3Exits) {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
