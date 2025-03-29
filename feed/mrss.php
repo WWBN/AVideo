@@ -6,7 +6,7 @@ $cacheFeedName = "feedCacheMRSS" . json_encode($_REQUEST);
 $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
 $link = "{$link}/mrss";
-$recreate = (!empty($_REQUEST['recreate']) && !isBot());
+$recreate = recreateCache();
 if (empty($feed) || $recreate) {
     _ob_start();
     echo'<?xml version="1.0" encoding="UTF-8"?>'; ?>

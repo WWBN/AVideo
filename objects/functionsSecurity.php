@@ -532,3 +532,6 @@ function escapeshellcmdURL(string $command)
     return str_replace('\?', '?', escapeshellcmd($command));
 }
 
+function recreateCache(){
+    return (!empty($_REQUEST['recreate']) && !isBot());
+}

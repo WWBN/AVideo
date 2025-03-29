@@ -4907,7 +4907,8 @@ if (!class_exists('Video')) {
 
         public static function getSourceFileURL($filename, $includeS3 = false, $fileType = '')
         {
-            $sources = self::getVideosPaths($filename, $includeS3);
+            $recreate = recreateCache();
+            $sources = self::getVideosPaths($filename, $includeS3, 0, $recreate);
             if (empty($fileType) || $fileType == 'audio') {
                 if (!empty($sources['mp3'])) {
                     return $sources['mp3'];
