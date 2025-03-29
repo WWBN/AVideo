@@ -6,7 +6,8 @@ $cacheFeedName = "feedCacheMRSS" . json_encode($_REQUEST);
 $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
 $link = "{$link}/mrss";
-if (empty($feed) || (!empty($_REQUEST['recreate']) && !isBot())) {
+$recreate = (!empty($_REQUEST['recreate']) && !isBot());
+if (empty($feed) || $recreate) {
     _ob_start();
     echo'<?xml version="1.0" encoding="UTF-8"?>'; ?>
     <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"
@@ -38,7 +39,7 @@ if (empty($feed) || (!empty($_REQUEST['recreate']) && !isBot())) {
             <?php
             foreach ($rows as $row) {
                 $video = Video::getVideoFromFileName($row['filename']);
-                $files = getVideosURL($row['filename']);
+                $files = getVideosURL($row['filename'], $recreate);
                 $enclosure = '';
                 $videoSource = Video::getSourceFileURL($row['filename'], true);
                 if (empty($videoSource)) {
