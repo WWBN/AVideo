@@ -16,14 +16,14 @@ if (empty($feed)) {
          xmlns:atom="http://www.w3.org/2005/Atom" >
         <channel>
             <atom:link href="<?php echo $global['webSiteRootURL'] . ltrim($_SERVER["REQUEST_URI"], "/"); ?>" rel="self" type="application/rss+xml" />
-            
+
             <title><?php echo feedText($title); ?></title>
             <description><?php echo feedText($description); ?></description>
-            <link><?php echo $global['webSiteRootURL']; ?></link>            
+            <link><?php echo $global['webSiteRootURL']; ?></link>
 
-            <language>en-us</language> 
-            <itunes:image href="<?php echo $logo; ?>" /> 
-            <itunes:explicit>no</itunes:explicit> 
+            <language>en-us</language>
+            <itunes:image href="<?php echo $logo; ?>" />
+            <itunes:explicit>no</itunes:explicit>
 
             <itunes:category text="Technology" />
 
@@ -40,7 +40,7 @@ if (empty($feed)) {
                 $video = Video::getVideoFromFileName($row['filename']);
                 $files = getVideosURL($row['filename']);
                 $enclosure = '';
-                $videoSource = Video::getSourceFileURL($row['filename']);
+                $videoSource = Video::getSourceFileURL($row['filename'], true);
                 if (empty($videoSource)) {
                     continue;
                 }
