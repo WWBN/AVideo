@@ -182,13 +182,19 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
                 <div class="panel-heading"><?php echo __("Groups That Can See This Stream"); ?><br><small><?php echo __("Uncheck all to make it public"); ?></small></div>
                 <div class="panel-body">
                     <?php
-                    $ug = UserGroups::getAllUsersGroups();
+                    $ug = $liveGroups = array();
+                    if (empty($objLive->hideUserGroups) && !empty($trasnmition)) {
+                        $trans = new LiveTransmition($trasnmition['id']);
+                        $liveGroups = $trans->getGroups();
+                        $ug = UserGroups::getAllUsersGroups();
+                    }
+
                     foreach ($ug as $value) {
                     ?>
                         <div class="form-group">
                             <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
                             <div class="material-switch pull-right">
-                                <input id="group<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" <?php echo (in_array($value['id'], $groups) ? "checked" : "") ?> />
+                                <input id="group<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" <?php echo (in_array($value['id'], $liveGroups) ? "checked" : "") ?> />
                                 <label for="group<?php echo $value['id']; ?>" class="label-success"></label>
                             </div>
                         </div>

@@ -8,7 +8,7 @@ $obj->error = true;
 if (!User::canStream()) {
     forbiddenPage('Permission denied');
 }
-
+$objLive = AVideoPlugin::getDataObject("Live");
 $categories_id = intval(@$_REQUEST['categories_id']);
 if (empty($categories_id)) {
     $categories_id = 1;
@@ -44,7 +44,8 @@ $resp = array('error'=>false, 'msg'=>'Saved', 'userGroups'=>array(), 'id'=>$id, 
 
 $l = new LiveTransmition($id);
 $l->deleteGroupsTrasmition();
-if (!empty($_REQUEST['userGroups'])) {
+
+if (!empty($_REQUEST['userGroups']) && !$objLive->hideUserGroups) {
     _error_log("LiveTransmition::save key={$_REQUEST['key']} \$users_id={$users_id} User::getId=".User::getId().' IP='.getRealIpAddr().' userGroups='.json_encode($_REQUEST['userGroups']).' saving usergroups '.json_encode(debug_backtrace()));
     foreach ($_REQUEST['userGroups'] as $value) {
         $resp['userGroups'][] = $value;

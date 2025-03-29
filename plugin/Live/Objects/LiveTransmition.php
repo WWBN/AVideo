@@ -52,7 +52,7 @@ class LiveTransmition extends ObjectYPT {
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getKey() {
@@ -429,6 +429,10 @@ class LiveTransmition extends ObjectYPT {
             return true;
         }
 
+        $objLive = AVideoPlugin::getDataObject("Live");
+        if($objLive->hideUserGroups){
+            return true;
+        }
         $transmitionGroups = $this->getGroups();
         if (!empty($transmitionGroups)) {
             _error_log('LiveTransmition::userCanSeeTransmition usergroup not empty '.json_encode($transmitionGroups));
