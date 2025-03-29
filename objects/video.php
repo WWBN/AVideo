@@ -4383,6 +4383,13 @@ if (!class_exists('Video')) {
                 $path = ("{$videosDir}{$cleanVideoFilename}");
                 $url = getCDN() . "{$cleanVideoFilename}";
                 $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative, 'videoFilename' => $videoFilename];
+            } else if ($cleanVideoFilename == 'index' && preg_match('/index.mp3$/', $videoFilename)) {
+                $folder = str_replace('/index.mp3', '', $videoFilename);
+                $cleanVideoFilename = "$folder/index.mp3";
+                $relative = ("videos/{$cleanVideoFilename}");
+                $path = ("{$videosDir}{$cleanVideoFilename}");
+                $url = getCDN() . "{$cleanVideoFilename}";
+                $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative, 'videoFilename' => $videoFilename];
             } else {
                 $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative, 'videoFilename' => $videoFilename];
             }
