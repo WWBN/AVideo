@@ -533,7 +533,7 @@ if (!class_exists('Video')) {
             if (empty(intval($this->order)) || empty($this->id)) {
                 $this->order = 'NULL';
             } else {
-                _error_log('Video::save update order '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+                _error_log('Video::save update order ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 $this->order = intval($this->order);
             }
 
@@ -3380,7 +3380,7 @@ if (!class_exists('Video')) {
             if (!Permissions::canAdminVideos()) {
                 return false;
             }
-            _error_log("video::updateOrder($videos_id, $order) ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            _error_log("video::updateOrder($videos_id, $order) " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $sql = "UPDATE videos SET `order` = ?, modified = now() WHERE id = ?";
             return sqlDAL::writeSql($sql, "ii", [$order, $videos_id]);
         }
@@ -4169,7 +4169,7 @@ if (!class_exists('Video')) {
                         $f = "{$filename}/index{$type}";
                     } else if ($indexMP3Exits) {
                         $f = "{$filename}/index{$type}";
-                    }  else if ($indexMP4Exits) {
+                    } else if ($indexMP4Exits) {
                         $f = "{$filename}/index{$type}";
                     } else {
                         $f = "{$paths['relative']}{$filename}{$type}";
@@ -4190,7 +4190,7 @@ if (!class_exists('Video')) {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
-                    }else if ($indexMP4Exits) {
+                    } else if ($indexMP4Exits) {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
@@ -4204,7 +4204,7 @@ if (!class_exists('Video')) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
-                    }else if ($indexMP4Exits) {
+                    } else if ($indexMP4Exits) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
@@ -4217,7 +4217,7 @@ if (!class_exists('Video')) {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
-                    }else if ($indexMP4Exits) {
+                    } else if ($indexMP4Exits) {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}";
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}";
                         $source['line'] = __LINE__;
@@ -4232,9 +4232,13 @@ if (!class_exists('Video')) {
                             if ($type === '.m3u8') {
                                 $source['url'] = CDNStorage::getURL("{$filename}/index.m3u8");
                                 $source['line'] = __LINE__;
-                            } else if($type === '.mp4' && $indexMP4Exits) {
+                            } else if ($type === '.mp4' && $indexMP4Exits) {
                                 //var_dump("{$filename}/index.mp4");
                                 $source['url'] = CDNStorage::getURL("{$filename}/index.mp4");
+                                $source['line'] = __LINE__;
+                            } else if ($type === '.mp3' && $indexMP3Exits) {
+                                //var_dump("{$filename}/index.mp4");
+                                $source['url'] = CDNStorage::getURL("{$filename}/index.mp3");
                                 $source['line'] = __LINE__;
                             } else {
                                 $source['url'] = CDNStorage::getURL("{$filename}{$type}");
@@ -4372,14 +4376,14 @@ if (!class_exists('Video')) {
             } else {
                 $url = getCDN() . "{$relative}";
             }
-            if($cleanVideoFilename == 'index' && preg_match('/index.mp4$/', $videoFilename)){
+            if ($cleanVideoFilename == 'index' && preg_match('/index.mp4$/', $videoFilename)) {
                 $folder = str_replace('/index.mp4', '', $videoFilename);
                 $cleanVideoFilename = "$folder/index.mp4";
                 $relative = ("videos/{$cleanVideoFilename}");
                 $path = ("{$videosDir}{$cleanVideoFilename}");
                 $url = getCDN() . "{$cleanVideoFilename}";
                 $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative, 'videoFilename' => $videoFilename];
-            }else{
+            } else {
                 $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative, 'videoFilename' => $videoFilename];
             }
             return $__getPaths[$videoFilename];
@@ -4931,8 +4935,8 @@ if (!class_exists('Video')) {
                 if (!file_exists($tmpCacheFile)) {
                     file_put_contents($tmpCacheFile, json_encode($cache));
                 }
-                if(!empty($_REQUEST['debug'])){
-                    _error_log("getVideosPaths($filename) line=".__LINE__);
+                if (!empty($_REQUEST['debug'])) {
+                    _error_log("getVideosPaths($filename) line=" . __LINE__);
                 }
                 return $obj;
             } elseif (empty($global['disableAsyncGetVideosPaths']) && file_exists($tmpCacheFile) && empty($recreate)) {
@@ -4943,8 +4947,8 @@ if (!class_exists('Video')) {
 
                 // Return the temporary cache file content if it exists
                 $tmpCacheContent = file_get_contents($tmpCacheFile);
-                if(!empty($_REQUEST['debug'])){
-                    _error_log("getVideosPaths($filename) line=".__LINE__);
+                if (!empty($_REQUEST['debug'])) {
+                    _error_log("getVideosPaths($filename) line=" . __LINE__);
                 }
                 return object_to_array(_json_decode($tmpCacheContent));
             } else {
@@ -4959,8 +4963,8 @@ if (!class_exists('Video')) {
                 // Save the results in the main cache
                 $resp = $videoCache->setCache($videos);
                 //_error_log("getVideosPaths($filename) 2 ".json_encode($resp));
-                if(!empty($_REQUEST['debug'])){
-                    _error_log("getVideosPaths($filename) line=".__LINE__);
+                if (!empty($_REQUEST['debug'])) {
+                    _error_log("getVideosPaths($filename) line=" . __LINE__);
                 }
                 return $videos;
             }
@@ -5040,7 +5044,7 @@ if (!class_exists('Video')) {
             }
             $allowedExtensions = array('mp4');
             $dirHandle = opendir($dir);
-            if(empty($dirHandle)){
+            if (empty($dirHandle)) {
                 _error_log("Could not open dir $dir", AVideoLog::$ERROR);
                 return array();
             }
@@ -6111,7 +6115,7 @@ if (!class_exists('Video')) {
             if (empty($rows)) {
                 if (empty($users_id)) {
                     $video = new Video('', '', $videos_id);
-                    if($video->getOnly_for_paid()){
+                    if ($video->getOnly_for_paid()) {
                         return false;
                     }
                 }
