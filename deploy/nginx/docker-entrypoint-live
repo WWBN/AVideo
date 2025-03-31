@@ -3,15 +3,16 @@
 echo "Starting AVideo Live..."
 CONFIG_NGINX_FILE=/usr/local/nginx/conf/nginx.conf
 
+mkdir -p `dirname ${TLS_CERTIFICATE_FILE}`
+mkdir -p `dirname ${TLS_CERTIFICATE_KEY}`
+
 if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   echo "Generate Certificate..."
   echo "Certificate file: ${TLS_CERTIFICATE_FILE}"
   echo "Certificate key: ${TLS_CERTIFICATE_KEY}"
 
-  mkdir -p `dirname ${TLS_CERTIFICATE_FILE}`
-  mkdir -p `dirname ${TLS_CERTIFICATE_KEY}`
   subjectAltName="IP:127.0.0.1,DNS:${SERVER_NAME}"
-  
+
   CONFIG=""
   CONFIG="${CONFIG}[dn]\n"
   CONFIG="${CONFIG}C=NN\n"
@@ -27,7 +28,7 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   CONFIG="${CONFIG}subjectAltName=${subjectAltName}\n"
   CONFIG="${CONFIG}extendedKeyUsage=serverAuth\n"
   CONFIG="${CONFIG}\n"
-  
+
   openssl req -x509 \
     -out ${TLS_CERTIFICATE_FILE} -keyout ${TLS_CERTIFICATE_KEY} \
     -newkey rsa:4096 \
@@ -37,7 +38,7 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
     -subj '/C=NN/L=Earth/O=avideo/OU=DEV/CN=localhost' \
     -extensions EXT -config <( \
       printf "${CONFIG}")
-  
+
   echo "New Certificate config..."
   openssl x509 -in ${TLS_CERTIFICATE_FILE} -noout -text || true
 fi
