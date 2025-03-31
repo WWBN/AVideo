@@ -8,8 +8,8 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   echo "Certificate file: ${TLS_CERTIFICATE_FILE}"
   echo "Certificate key: ${TLS_CERTIFICATE_KEY}"
 
-  mkdir -p `dirname ${TLS_CERTIFICATE_FILE}`
-  mkdir -p `dirname ${TLS_CERTIFICATE_KEY}`
+  mkdir -p "$(dirname "${TLS_CERTIFICATE_FILE}")"
+  mkdir -p "$(dirname "${TLS_CERTIFICATE_KEY}")"
   subjectAltName="IP:127.0.0.1,DNS:${SERVER_NAME}"
 
   CONFIG=""
@@ -29,41 +29,50 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   CONFIG="${CONFIG}\n"
 
   openssl req -x509 \
-    -out ${TLS_CERTIFICATE_FILE} -keyout ${TLS_CERTIFICATE_KEY} \
+    -out "${TLS_CERTIFICATE_FILE}" -keyout "${TLS_CERTIFICATE_KEY}" \
     -newkey rsa:4096 \
     -nodes \
     -sha256 \
     -days 3650 \
-    -subj '/C=NN/L=Earth/O=avideo/OU=DEV/CN=localhost' \
-    -extensions EXT -config <( \
-      printf "${CONFIG}")
+    -subj "/C=NN/L=Earth/O=avideo/OU=DEV/CN=localhost" \
+    -extensions EXT -config <(printf "${CONFIG}")
 
   echo "New Certificate config..."
-  openssl x509 -in ${TLS_CERTIFICATE_FILE} -noout -text || true
+  openssl x509 -in "${TLS_CERTIFICATE_FILE}" -noout -text || true
 fi
 
-sed -i 's#server_name localhost _#server_name localhost _ '${SERVER_NAME}'#' ${CONFIG_NGINX_FILE}
+echo "Updating nginx.conf with server name ${SERVER_NAME}"
+sed -i "s#server_name localhost _#server_name localhost _ ${SERVER_NAME}#" "${CONFIG_NGINX_FILE}"
 
-echo "Configure Nginx..."
-sed -i 's#ssl_certificate /etc/apache2/ssl/localhost.crt#ssl_certificate '${TLS_CERTIFICATE_FILE}'#' ${CONFIG_NGINX_FILE}
-sed -i 's#ssl_certificate_key /etc/apache2/ssl/localhost.key#ssl_certificate_key '${TLS_CERTIFICATE_KEY}'#' ${CONFIG_NGINX_FILE}
-# sed -i 's#listen 1935#listen '${NGINX_RTMP_PORT}'#' ${CONFIG_NGINX_FILE}
-# sed -i 's#listen 8080#listen '${NGINX_HTTP_PORT}'#' ${CONFIG_NGINX_FILE}
-# sed -i 's#listen 8443#listen '${NGINX_HTTPS_PORT}'#' ${CONFIG_NGINX_FILE}
+echo "Configure Nginx paths for SSL certs"
+echo "  Replacing ssl_certificate path with ${TLS_CERTIFICATE_FILE}"
+sed -i "s#ssl_certificate TLS_CERTIFICATE_FILE#ssl_certificate ${TLS_CERTIFICATE_FILE}#" "${CONFIG_NGINX_FILE}"
+echo "  Replacing ssl_certificate_key path with ${TLS_CERTIFICATE_KEY}"
+sed -i "s#ssl_certificate_key TLS_CERTIFICATE_KEY#ssl_certificate_key ${TLS_CERTIFICATE_KEY}#" "${CONFIG_NGINX_FILE}"
 
 mkdir -p /etc/letsencrypt/live/localhost/
 
-cp ${TLS_CERTIFICATE_FILE} /etc/letsencrypt/live/localhost/fullchain.pem
-cp ${TLS_CERTIFICATE_KEY} /etc/letsencrypt/live/localhost/privkey.pem
+echo "Copying certificates to /etc/letsencrypt/live/localhost/"
+echo "  From: ${TLS_CERTIFICATE_FILE}"
+echo "  To  : /etc/letsencrypt/live/localhost/fullchain.pem"
+cp "${TLS_CERTIFICATE_FILE}" /etc/letsencrypt/live/localhost/fullchain.pem
 
+echo "  From: ${TLS_CERTIFICATE_KEY}"
+echo "  To  : /etc/letsencrypt/live/localhost/privkey.pem"
+cp "${TLS_CERTIFICATE_KEY}" /etc/letsencrypt/live/localhost/privkey.pem
 
 /usr/local/nginx/sbin/nginx -s stop
-echo "lets encrypt nginx ${SERVER_NAME}"
 mv /usr/sbin/nginx /usr/sbin/nginx.old && cp /usr/local/nginx/sbin/nginx /usr/sbin/nginx
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old && cp /usr/local/nginx/conf/nginx.conf /etc/nginx/nginx.conf
+
 if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
-    certbot --nginx --non-interactive --agree-tos --nginx-server-root /usr/local/nginx/conf --no-redirect --register-unsafely-without-email --keep-until-expiring -d $SERVER_NAME
+  echo "Running Let's Encrypt with certbot for ${SERVER_NAME}"
+  certbot --nginx --non-interactive --agree-tos --nginx-server-root /usr/local/nginx/conf --no-redirect --register-unsafely-without-email --keep-until-expiring -d "${SERVER_NAME}"
+else
+  echo "Skipping Let's Encrypt (CREATE_TLS_CERTIFICATE=${CREATE_TLS_CERTIFICATE})"
 fi
+
+echo "Changing nginx to listen on port 8443"
 sed -i 's/listen 443 ssl/listen 8443 ssl/g' /usr/local/nginx/conf/nginx.conf
 
 echo "crontab starting"
@@ -72,9 +81,5 @@ cron
 bash
 source /etc/bash_completion
 
-#echo "nginx start"
 /usr/local/nginx/sbin/nginx -s stop
 /usr/local/nginx/sbin/nginx -g "daemon off;"
-#/usr/local/nginx/sbin/nginx -s stop && sleep 3 && /usr/local/nginx/sbin/nginx
-
-#eof
