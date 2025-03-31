@@ -83,7 +83,9 @@ services:
           cpus: "${CPUS_LIMIT:-1}"
           memory: "${MEMORY_LIMIT:-2G}"
     networks:
-      - app_net
+      app_net:
+        aliases:
+          - avideo
 
   live:
     build:
