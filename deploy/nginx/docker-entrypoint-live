@@ -61,7 +61,9 @@ cp ${TLS_CERTIFICATE_KEY} /etc/letsencrypt/live/localhost/privkey.pem
 echo "lets encrypt nginx ${SERVER_NAME}"
 mv /usr/sbin/nginx /usr/sbin/nginx.old && cp /usr/local/nginx/sbin/nginx /usr/sbin/nginx
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old && cp /usr/local/nginx/conf/nginx.conf /etc/nginx/nginx.conf
-certbot --nginx --non-interactive --agree-tos --nginx-server-root /usr/local/nginx/conf --no-redirect --register-unsafely-without-email --keep-until-expiring -d $SERVER_NAME
+if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
+    certbot --nginx --non-interactive --agree-tos --nginx-server-root /usr/local/nginx/conf --no-redirect --register-unsafely-without-email --keep-until-expiring -d $SERVER_NAME
+fi
 sed -i 's/listen 443 ssl/listen 8443 ssl/g' /usr/local/nginx/conf/nginx.conf
 
 echo "crontab starting"
