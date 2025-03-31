@@ -61,7 +61,7 @@ services:
       - "./:/var/www/html/AVideo"
       - "./.compose/videos:/var/www/html/AVideo/videos"
       - "./.compose/encoder:/var/www/html/AVideo/Encoder"
-      - "./.compose/letsencrypt:/etc/letsencrypt/"
+      # - "./.compose/letsencrypt:/etc/letsencrypt/"
     depends_on:
       database:
         condition: service_healthy
@@ -92,7 +92,7 @@ services:
     restart: "unless-stopped"
     volumes:
       - "./.compose/HLS:/HLS"
-      - "./.compose/letsencrypt:/etc/letsencrypt/"
+      # - "./.compose/letsencrypt:/etc/letsencrypt/"
     environment:
       SERVER_NAME: "${SERVER_NAME:-localhost}"
       CREATE_TLS_CERTIFICATE: "${CREATE_TLS_CERTIFICATE:-yes}"
