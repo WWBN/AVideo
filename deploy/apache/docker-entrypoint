@@ -133,8 +133,15 @@ echo "Deny from all" > /var/www/html/AVideo/.compose/.htaccess
 echo "entrypoint -- Running updatedb script..."
 cd /var/www/html/AVideo/install && php updatedb.php
 
-echo "entrypoint -- install database ..."
-cd /var/www/html/AVideo/Encoder/ && git pull && cd install && php install.php https://${SERVER_NAME} "${DB_MYSQL_USER}" "${DB_MYSQL_PASSWORD}" "${SYSTEM_ADMIN_PASSWORD}" "${DB_MYSQL_NAME}" "https://${SERVER_NAME}/Encoder/" "${DB_MYSQL_HOST}" "${DB_MYSQL_PORT}"
+echo "entrypoint -- Checking if database '${DB_MYSQL_NAME}' exists..."
+if ! mysql -h "${DB_MYSQL_HOST}" -u "${DB_MYSQL_USER}" -p"${DB_MYSQL_PASSWORD}" -e "USE ${DB_MYSQL_NAME};" 2>/dev/null; then
+  echo "entrypoint -- Database '${DB_MYSQL_NAME}' does not exist. Deleting configuration.php"
+  rm -f /var/www/html/AVideo/Encoder/configuration.php
+  echo "entrypoint -- install database ..."
+  cd /var/www/html/AVideo/Encoder/ && git pull && cd install && php install.php https://${SERVER_NAME} "${DB_MYSQL_USER}" "${DB_MYSQL_PASSWORD}" "${SYSTEM_ADMIN_PASSWORD}" "${DB_MYSQL_NAME}" "https://${SERVER_NAME}/Encoder/" "${DB_MYSQL_HOST}" "${DB_MYSQL_PORT}"
+else
+  echo "entrypoint -- Database '${DB_MYSQL_NAME}' exists. Skipping deletion."
+fi
 
 echo "entrypoint -- Running reencodeAllVideos script..."
 cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
