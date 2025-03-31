@@ -106,7 +106,7 @@ cd /var/www/html/AVideo/
 
 if [[ "${SERVER_NAME}" = "localhost" ]] || [[ "${SERVER_NAME}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   echo "Not executing certbot for ${SERVER_NAME}"
-else
+else if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   echo "entrypoint -- Running certbot for ${SERVER_NAME}"
   certbot --apache --non-interactive --agree-tos --register-unsafely-without-email --redirect --keep-until-expiring -d ${SERVER_NAME}
 fi
