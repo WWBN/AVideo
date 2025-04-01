@@ -79,8 +79,9 @@ if (!empty($dataObj->enableAutoWithdrawFundsPagePaypal)) {
             'finalValue' => $finalValue,
         );
         _error_log('WalletLog::addLog start');
-        $obj->addLog = WalletLog::addLog($wallet_id, $finalValue, $message, json_encode($json), "pending", YPTWallet::MANUAL_WITHDRAW, $emailMessage);
-        
+        $balance = $wallet->getBalance();
+        $obj->addLog = WalletLog::addLog($wallet_id, $finalValue, $balance, $message, json_encode($json), "pending", YPTWallet::MANUAL_WITHDRAW, $emailMessage);
+
         if (!empty($obj->addLog)) {
             _error_log('WalletLog::addLog line='.__LINE__);
             //YPTWallet::transactionNotification(User::getId(), $dataObj->manualWithdrawFundsTransferToUserId, $finalValue, 'pending');

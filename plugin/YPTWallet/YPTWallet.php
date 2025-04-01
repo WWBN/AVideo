@@ -44,7 +44,7 @@ class YPTWallet extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "5.2";
+        return "6.0";
     }
 
 
@@ -381,20 +381,20 @@ class YPTWallet extends PluginAbstract
         $wallet = $this->getOrCreateWallet($users_id);
         $balance = $wallet->getBalance();
         _error_log("YPTWallet::addBalance BEFORE (user_id={$users_id}) (balance={$balance})");
-        $balance += $value;
-        $wallet->setBalance($balance);
+        $newBalance = $balance + $value;
+        $wallet->setBalance($newBalance);
         $wallet_id = $wallet->save();
 
-        WalletLog::addLog($wallet_id, $value, $description, $json_data, "success", "addBalance");
+        WalletLog::addLog($wallet_id, $value, $balance, $description, $json_data, "success", "addBalance");
 
         if (!empty($mainWallet_user_id)) {
             $wallet = $this->getOrCreateWallet($mainWallet_user_id);
             $balance = $wallet->getBalance();
-            $balance += ($value * -1);
-            $wallet->setBalance($balance);
+            $newBalance = $balance + ($value * -1);
+            $wallet->setBalance($newBalance);
             $wallet_id = $wallet->save();
             $user = new User($users_id);
-            WalletLog::addLog($wallet_id, ($value * -1), " From user ($users_id) " . $user->getUser() . " - " . $description, $json_data, "success", "addBalance to main wallet");
+            WalletLog::addLog($wallet_id, ($value * -1), $balance, " From user ($users_id) " . $user->getUser() . " - " . $description, $json_data, "success", "addBalance to main wallet");
         }
 
         $wallet = $this->getOrCreateWallet($users_id);
@@ -413,7 +413,8 @@ class YPTWallet extends PluginAbstract
         $wallet->setBalance($value);
         $wallet_id = $wallet->save();
         $description = "Admin set your balance, from {$balance} to {$value}";
-        WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "saveBalance");
+        _error_log("saveBalance($users_id, $value) " . json_encode(debug_backtrace()));
+        WalletLog::addLog($wallet_id, $value, $balance, $description, "{}", "success", "saveBalance");
     }
 
     public static function transferBalanceToSiteOwner($users_id_from, $value, $description = "", $forceTransfer = false)
@@ -447,59 +448,75 @@ class YPTWallet extends PluginAbstract
         return self::transferBalanceFromSiteOwner(User::getId(), $value);
     }
 
-    public static function transferBalance($users_id_from, $users_id_to, $value, $forceDescription = "", $forceTransfer = false)
+    public static function transferBalance($fromUserId, $toUserId, $amount, $customDescription = "", $forceTransfer = false)
     {
         global $global;
-        _error_log("transferBalance: $users_id_from, $users_id_to, $value, $forceDescription, $forceTransfer");
+        _error_log("transferBalance: $fromUserId, $toUserId, $amount, $customDescription, $forceTransfer");
+
         if (!User::isAdmin()) {
-            if ($users_id_from != User::getId() && !$forceTransfer) {
-                _error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value " . json_encode(debug_backtrace()));
+            if ($fromUserId != User::getId() && !$forceTransfer) {
+                _error_log("transferBalance: not admin, $fromUserId, $toUserId, $amount " . json_encode(debug_backtrace()));
                 return false;
             }
         }
-        if (!User::idExists($users_id_from) || !User::idExists($users_id_to)) {
-            _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value  " . json_encode(debug_backtrace()));
+
+        if (!User::idExists($fromUserId) || !User::idExists($toUserId)) {
+            _error_log("transferBalance: user does not exist, $fromUserId, $toUserId, $amount " . json_encode(debug_backtrace()));
             return false;
         }
-        $value = floatval($value);
-        if ($value <= 0) {
+
+        $amount = floatval($amount);
+        if ($amount <= 0) {
             return false;
         }
-        $wallet = self::getWallet($users_id_from);
-        $balance = $wallet->getBalance();
-        $newBalance = $balance - $value;
-        if ($newBalance < 0) {
-            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value (Balance: {$balance}) (New Balance: {$newBalance}) " . json_encode(debug_backtrace()));
+
+        // Sender wallet
+        $senderWallet = self::getWallet($fromUserId);
+        $senderBalance = $senderWallet->getBalance();
+        $senderNewBalance = $senderBalance - $amount;
+
+        if ($senderNewBalance < 0) {
+            _error_log("transferBalance: insufficient balance, $fromUserId, $toUserId, $amount (Balance: {$senderBalance}) (New Balance: {$senderNewBalance}) " . json_encode(debug_backtrace()));
             return false;
         }
-        $identificationFrom = User::getNameIdentificationById($users_id_from);
-        $identificationTo = User::getNameIdentificationById($users_id_to);
 
-        $wallet->setBalance($newBalance);
-        $wallet_id = $wallet->save();
+        $senderIdentification = User::getNameIdentificationById($fromUserId);
+        $receiverIdentification = User::getNameIdentificationById($toUserId);
 
-        $description = "Transfer Balance {$value} from <strong>YOU</strong> to user <a href='{$global['webSiteRootURL']}channel/{$users_id_to}'>{$identificationTo}</a>";
-        if (!empty($forceDescription)) {
-            $description = $forceDescription;
+        // Update sender balance
+        $senderWallet->setBalance($senderNewBalance);
+        $senderWalletId = $senderWallet->save();
+
+        $descriptionFrom = "Transfer Balance {$amount} from <strong>YOU</strong> to user <a href='{$global['webSiteRootURL']}channel/{$toUserId}'>{$receiverIdentification}</a>";
+        if (!empty($customDescription)) {
+            $descriptionFrom = $customDescription;
         }
 
-        $log_id_from = WalletLog::addLog($wallet_id, "-" . $value, $description, "{}", "success", "transferBalance to");
+        $logIdFrom = WalletLog::addLog($senderWalletId, "-" . $amount, $senderBalance, $descriptionFrom, "{}", "success", "transferBalance to");
 
+        // Receiver wallet
+        $receiverWallet = self::getWallet($toUserId);
+        $receiverBalance = $receiverWallet->getBalance();
+        $receiverNewBalance = $receiverBalance + $amount;
 
-        $wallet = self::getWallet($users_id_to);
-        $balance = $wallet->getBalance();
-        $newBalance = $balance + $value;
-        $wallet->setBalance($newBalance);
-        $wallet_id = $wallet->save();
-        $description = "Transfer Balance {$value} from user <a href='{$global['webSiteRootURL']}channel/{$users_id_from}'>{$identificationFrom}</a> to <strong>YOU</strong>";
-        if (!empty($forceDescription)) {
-            $description = $forceDescription;
+        $receiverWallet->setBalance($receiverNewBalance);
+        $receiverWalletId = $receiverWallet->save();
+
+        $descriptionTo = "Transfer Balance {$amount} from user <a href='{$global['webSiteRootURL']}channel/{$fromUserId}'>{$senderIdentification}</a> to <strong>YOU</strong>";
+        if (!empty($customDescription)) {
+            $descriptionTo = $customDescription;
         }
+
         ObjectYPT::clearSessionCache();
 
-        $log_id_to = WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
-        return array('log_id_from' => $log_id_from, 'log_id_to' => $log_id_to);
+        $logIdTo = WalletLog::addLog($receiverWalletId, $amount, $receiverBalance, $descriptionTo, "{}", "success", "transferBalance from");
+
+        return [
+            'log_id_from' => $logIdFrom,
+            'log_id_to' => $logIdTo,
+        ];
     }
+
 
     public static function transferAndSplitBalanceWithSiteOwner($users_id_from, $users_id_to, $value, $siteowner_percentage, $forceDescription = "")
     {
@@ -885,12 +902,13 @@ class YPTWallet extends PluginAbstract
         self::setAddFundsSuccessRedirectURL(getRedirectToVideo($videos_id));
     }
 
-    public static function showAdminMessage(){
+    public static function showAdminMessage()
+    {
         global $global;
         if (User::isAdmin()) {
             if (empty($global['getWalletConfigurationHTMLAdminMessageShowed'])) {
                 echo '<div class="alert alert-info" role="alert">
-                    <i class="fa fa-info-circle"></i> 
+                    <i class="fa fa-info-circle"></i>
                     <strong>Admin Notice:</strong> This message is visible only to administrators.
                 </div>';
                 $global['getWalletConfigurationHTMLAdminMessageShowed'] = 1;
@@ -905,11 +923,10 @@ class YPTWallet extends PluginAbstract
             if (User::isAdmin()) {
                 YPTWallet::showAdminMessage();
                 echo '<div class="alert alert-warning" role="alert">
-                    <i class="fa fa-exclamation-triangle"></i> 
-                    YPTWallet configuration will only appear if <strong>CryptoWalletEnabled</strong> is enabled in the plugin parameters. 
+                    <i class="fa fa-exclamation-triangle"></i>
+                    YPTWallet configuration will only appear if <strong>CryptoWalletEnabled</strong> is enabled in the plugin parameters.
                     <br>If you have an empty configuration menu, please hide this button by checking the <strong>hideConfiguration</strong> option in the YPTWallet parameters.
                 </div>';
-
             }
             return '';
         }

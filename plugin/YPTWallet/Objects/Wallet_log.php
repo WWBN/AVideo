@@ -8,7 +8,7 @@ require_once $global['systemRootPath'].'plugin/YPTWallet/Objects/Wallet.php';
 
 class WalletLog extends ObjectYPT {
 
-    protected $id, $value, $description, $wallet_id, $json_data, $status, $type, $information;
+    protected $id, $value, $description, $wallet_id, $json_data, $status, $type, $information, $previous_wallet_balance;
 
 
     static function getSearchFieldsNames() {
@@ -66,7 +66,7 @@ class WalletLog extends ObjectYPT {
     function setType($type) {
         $this->type = $type;
     }
-    
+
     function getInformation() {
         return $this->information;
     }
@@ -77,7 +77,16 @@ class WalletLog extends ObjectYPT {
         }
         $this->information = $information;
     }
-    
+
+    function getPrevious_wallet_balance() {
+        return $this->previous_wallet_balance;
+    }
+
+    function setPrevious_wallet_balance($previous_wallet_balance) {
+        $this->previous_wallet_balance = $previous_wallet_balance;
+    }
+
+
     static function getAllFromWallet($wallet_id, $dontReturnEmpty = true, $status="") {
         global $global;
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
@@ -101,9 +110,11 @@ class WalletLog extends ObjectYPT {
         if ($res) {
             while ($row = $res->fetch_assoc()) {
                 $row['valueText'] = YPTWallet::formatCurrency($row['value']);
+                $row['previous_wallet_balance_formated'] = YPTWallet::formatCurrency($row['previous_wallet_balance']);
                 $row['wallet'] = Wallet::getFromWalletId($row['wallet_id']);
                 $row['user'] = $row['wallet']['user'];
                 $row['balance'] = $row['wallet']['balance'];
+                $row['balance_formated'] = YPTWallet::formatCurrency($row['balance']);
                 $row['crypto_wallet_address'] = "";
                 $rows[] = $row;
             }
@@ -157,7 +168,7 @@ class WalletLog extends ObjectYPT {
         return self::getTotalFromWallet($wallet['id'], $dontReturnEmpty);
     }
 
-    static function addLog($wallet_id, $value, $description="", $json_data="{}", $status="success", $type="", $information=''){
+    static function addLog($wallet_id, $value, $previous_wallet_balance, $description="", $json_data="{}", $status="success", $type="", $information=''){
         global $global;
         $log = new WalletLog(0);
         $log->setWallet_id($wallet_id);
@@ -167,6 +178,7 @@ class WalletLog extends ObjectYPT {
         $log->setStatus($status);
         $log->setType($type);
         $log->setInformation($information);
+        $log->setPrevious_wallet_balance($previous_wallet_balance);
         _error_log('Wallet add log start');
         $id = $log->save();
         if(empty($id)){
