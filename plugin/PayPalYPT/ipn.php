@@ -23,7 +23,7 @@ if (empty($_POST["recurring_payment_id"])) {
     _error_log("PayPalIPN: recurring_payment_id EMPTY ");
     $users_id = User::getId();
 
-    $invoiceNumber = uniqid();
+    $invoiceNumber = _uniqid();
 
     $payment = $paypal->execute();
     //var_dump($amount);

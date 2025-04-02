@@ -46,7 +46,7 @@ if (!empty($_SERVER['HTTP_USER_AGENT']) && preg_match("/AVideo(.*)/", $ua)) {
     return ;
 }
 
-$ip = uniqid();
+$ip = _uniqid();
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip = $_SERVER['HTTP_CLIENT_IP'];
 } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {

@@ -146,7 +146,7 @@ includeConfigLog(__LINE__);
 // for update config from old versions 2020-05-11
 if (empty($global['saltV2'])) {
     $additions = [
-        '/\$global\[\'salt\'\].*/' => "\$global['saltV2'] = '"._uniqid()."';", // Add this line below the line that matches the pattern
+        '/\$global\[\'salt\'\].*/' => "\$global['saltV2'] = '"._uniqid(true)."';", // Add this line below the line that matches the pattern
     ];
 
     $replacements = [];

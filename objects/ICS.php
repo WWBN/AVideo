@@ -119,7 +119,7 @@ class ICS {
 
     // Set some default values
     $props['DTSTAMP'] = $this->format_timestamp('now');
-    $props['UID'] = uniqid();
+    $props['UID'] = _uniqid();
 
     // Append properties
     foreach ($props as $k => $v) {
