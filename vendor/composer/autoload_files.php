@@ -25,6 +25,7 @@ return array(
     'a4ecaeafb8cfb009ad0e052c90355e98' => $vendorDir . '/beberlei/assert/lib/Assert/functions.php',
     '1f87db08236948d07391152dccb70f04' => $vendorDir . '/google/apiclient-services/autoload.php',
     'b067bc7112e384b61c701452d53a14a8' => $vendorDir . '/mtdowling/jmespath.php/src/JmesPath.php',
+    '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     '51fcf4e06c07cc00c920b44bcd900e7a' => $vendorDir . '/thecodingmachine/safe/deprecated/apc.php',
     '288267919fedd3829a7732b5fb202197' => $vendorDir . '/thecodingmachine/safe/deprecated/array.php',
     'a88cd08cfbf1600f7d5de6e587eee1fa' => $vendorDir . '/thecodingmachine/safe/deprecated/datetime.php',
@@ -118,5 +119,8 @@ return array(
     '8a9dc1de0ca7e01f3e08231539562f61' => $vendorDir . '/aws/aws-sdk-php/src/functions.php',
     '2cffec82183ee1cea088009cef9a6fc3' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     'a8d3953fd9959404dd22d3dfcd0a79f0' => $vendorDir . '/google/apiclient/src/aliases.php',
+    'c72349b1fe8d0deeedd3a52e8aa814d8' => $vendorDir . '/mockery/mockery/library/helpers.php',
+    'ce9671a430e4846b44e1c68c7611f9f5' => $vendorDir . '/mockery/mockery/library/Mockery.php',
+    'ec07570ca5a812141189b1fa81503674' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
     '3be16222a6efa6dd226a219eaaff823b' => $vendorDir . '/ratchet/pawl/src/functions_include.php',
 );

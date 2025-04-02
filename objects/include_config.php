@@ -1,4 +1,5 @@
 <?php
+global $global, $doNotConnectDatabaseIncludeConfig;
 if (!isset($global['skippPlugins'])) {
     $global['skippPlugins'] = array();
 }

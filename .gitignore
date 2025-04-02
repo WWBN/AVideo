@@ -117,3 +117,5 @@ btc.log
 plugin/YPTSocket/NodeSocket/
 plugin/YPTSocket/AVideo-Socket/
 
+.phpunit.result.cache
+phpunit.xml
