@@ -67,7 +67,7 @@ if (!empty($liveKey)) {
 }
 
 if (!empty($tmpFilePath) && file_exists($tmpFilePath)) {
-    $tolerance = 300; // 5 min
+    $tolerance = 600; // 10 min
     $content = (file_get_contents($tmpFilePath));
     $time = intval($content);
     $now = time();
