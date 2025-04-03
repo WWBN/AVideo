@@ -19,11 +19,12 @@ if (empty($meet_schedule_id)) {
     $meet_schedule_id = intval($meet_schedule_id);
 }
 ?>
-<script src="<?php echo getURL('plugin/Meet/external_api.js'); ?>" type="text/javascript"></script>
+<script src="https://meet.ypt.me/external_api.js" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/sweetalert/dist/sweetalert.min.js'); ?>" type="text/javascript"></script>
 <script>
     var webSiteRootURL = "<?php echo $global['webSiteRootURL']; ?>";
     var webSiteTitle = "<?php echo $config->getWebSiteTitle(); ?>";
+    var isCustomJitsi = "<?php echo Meet::isCustomJitsi(); ?>";
     var lastLiveStatus;
     var eventMethod = window.addEventListener ?
         "addEventListener" :
@@ -115,6 +116,29 @@ if (empty($meet_schedule_id)) {
             return getMeetDisplayName(domain, roomName, jwt, email, TOOLBAR_BUTTONS);
         }
 
+        var configOverwrite = {
+            disableDeepLinking: true,
+            disableInviteFunctions: true,
+            openBridgeChannel: 'websocket',
+            liveStreamingEnabled: true,
+            fileRecordingsEnabled: false,
+            localRecording: {
+                enabled: true,
+                format: 'flac' // ou 'wav'
+            },
+            toolbarButtons: TOOLBAR_BUTTONS,
+            inviteUrl: window.location.href,
+        };
+        if (!isCustomJitsi) {
+            configOverwrite.buttonsWithNotifyClick = [{
+                key: 'recording',
+                preventExecution: true
+            }, {
+                key: 'livestreaming',
+                preventExecution: false
+            }];
+        }
+
         const options = {
             roomName: roomName,
             jwt: jwt,
@@ -123,20 +147,11 @@ if (empty($meet_schedule_id)) {
                 email: email,
                 displayName: displayName
             },
-            ConfigOverwrite: {
-                disableDeepLinking: true,
-                disableInviteFunctions: true,
-                openBridgeChannel: 'websocket',
-                liveStreamingEnabled: true,
-                fileRecordingsEnabled: false,
-                //inviteUrl: window.location.href
-            },
+            configOverwrite: configOverwrite,
             interfaceConfigOverwrite: {
-                TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,
                 DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
                 MOBILE_APP_PROMO: false,
                 HIDE_INVITE_MORE_HEADER: true,
-                //disableAudioLevels: true,
                 requireDisplayName: true,
                 enableLayerSuspension: true,
                 channelLastN: 4,
@@ -162,12 +177,29 @@ if (empty($meet_schedule_id)) {
 
         var src = $(iframe).attr('src');
         var srcParts = src.split("#");
-        var newSRC = srcParts[0] + "&getRTMPLink=<?php echo urlencode($rtmpLink); ?>#" + srcParts[1];
+        var newSRC = srcParts[0] + "&getRTMPLink=<?php echo urlencode($rtmpLink); ?>&webSiteRootURL=<?php echo urlencode($global['webSiteRootURL']); ?>#" + srcParts[1];
         $(iframe).attr('src', newSRC);
 
         api.addEventListeners({
             readyToClose: readyToClose,
         });
+
+        api.addListener('toolbarButtonClicked', function(event) {
+            console.log('toolbarButtonClicked', event);
+            if (event.key === 'recording') {
+                api.executeCommand('showNotification', {
+                    title: 'Recording Unavailable',
+                    description: 'Recording is only available on premium meeting servers.',
+                    timeout: 'medium'
+                });
+            } else if (event.key === 'livestreaming') {
+                api.executeCommand('showNotification', {
+                    description: '⚠️ Public servers allow livestreaming for up to 10 minutes only. For unlimited streaming time, please upgrade to a premium meeting server.',
+                    timeout: 'sticky'
+                });
+            }
+        });
+
 
         let myUserID;
 
@@ -209,6 +241,17 @@ if (empty($meet_schedule_id)) {
             console.log('log event: Event triggered:', event);
         });
 
+        api.addEventListener('recordingStatusChanged', function(event) {
+            if (event.mode === 'file') {
+                // Automatically stop if user tries to start recording
+                api.executeCommand('stopRecording', {
+                    mode: 'file'
+                });
+
+                // Optional: show alert
+                alert('Local recording is disabled on this conference.');
+            }
+        });
 
         <?php
         if (!empty($rtmpLink) && !empty($_REQUEST['startLiveMeet'])) {

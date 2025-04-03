@@ -18,12 +18,6 @@ if (empty($meet->getCleanName())) {
 
 $userCredentials = User::loginFromRequestToGet();
 
-$meetDomain = Meet::getDomain();
-if (empty($meetDomain)) {
-    header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=The Server is Not ready");
-    exit;
-}
-
 $canJoin = Meet::canJoinMeetWithReason($meet_schedule_id);
 if (!$canJoin->canJoin) {
     header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=" . urlencode($canJoin->reason));
