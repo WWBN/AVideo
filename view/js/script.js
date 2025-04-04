@@ -2754,13 +2754,25 @@ function getCursorPos(input) {
 
 function isUserOnline(users_id) {
     users_id = parseInt(users_id);
-    if (typeof users_id_online === 'undefined' || empty(users_id_online) || !Array.isArray(users_id_online)) {
+
+    if (typeof users_id_online === 'undefined' || !users_id_online) {
         console.log('isUserOnline', users_id);
         return false;
     }
 
-    return users_id_online.find((u) => u.users_id == users_id);
+    // Verifica se é array
+    if (Array.isArray(users_id_online)) {
+        return users_id_online.find((u) => u.users_id == users_id);
+    }
+
+    // Verifica se é objeto e tem a chave correspondente
+    if (typeof users_id_online === 'object' && users_id_online.hasOwnProperty(users_id)) {
+        return users_id_online[users_id];
+    }
+
+    return false;
 }
+
 
 function isReadyToCheckIfIsOnline() {
     return typeof users_id_online !== 'undefined' && !empty(users_id_online);

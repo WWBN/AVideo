@@ -313,6 +313,9 @@ function socketConnectIO() {
             console.log("📩 Socket.IO message received MSG_BATCH:", data);
             data.messages.forEach(function (message, index) {
                 processSocketJson(message);
+                if(message.users_id){
+                    setUserOnlineStatus(message.users_id);
+                }
             });
         } else {
             console.log("📩 Socket.IO message received:", data);
