@@ -6,19 +6,20 @@ namespace Stripe\Service;
 
 /**
  * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ *
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
-class CreditNoteService extends \Stripe\Service\AbstractService
+class CreditNoteService extends AbstractService
 {
     /**
      * Returns a list of credit notes.
      *
-     * @param null|array $params
+     * @param null|array{created?: array|int, customer?: string, ending_before?: string, expand?: string[], invoice?: string, limit?: int, starting_after?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Collection<\Stripe\CreditNote>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function all($params = null, $opts = null)
     {
@@ -31,12 +32,12 @@ class CreditNoteService extends \Stripe\Service\AbstractService
      * retrieve the full (paginated) list of line items.
      *
      * @param string $parentId
-     * @param null|array $params
+     * @param null|array{ending_before?: string, expand?: string[], limit?: int, starting_after?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Collection<\Stripe\CreditNoteLineItem>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function allLines($parentId, $params = null, $opts = null)
     {
@@ -48,7 +49,7 @@ class CreditNoteService extends \Stripe\Service\AbstractService
      * <code>status=open</code> invoice, a credit note reduces its
      * <code>amount_due</code>. For a <code>status=paid</code> invoice, a credit note
      * does not affect its <code>amount_due</code>. Instead, it can result in any
-     * combination of the following:.
+     * combination of the following:
      *
      * <ul> <li>Refund: create a new refund (using <code>refund_amount</code>) or link
      * an existing refund (using <code>refund</code>).</li> <li>Customer balance
@@ -65,12 +66,12 @@ class CreditNoteService extends \Stripe\Service\AbstractService
      * <code>post_payment_credit_notes_amount</code> depending on its
      * <code>status</code> at the time of credit note creation.
      *
-     * @param null|array $params
+     * @param null|array{amount?: int, credit_amount?: int, effective_at?: int, email_type?: string, expand?: string[], invoice: string, lines?: (array{amount?: int, description?: string, invoice_line_item?: string, quantity?: int, tax_amounts?: null|array{amount: int, tax_rate: string, taxable_amount: int}[], tax_rates?: null|string[], type: string, unit_amount?: int, unit_amount_decimal?: string})[], memo?: string, metadata?: \Stripe\StripeObject, out_of_band_amount?: int, reason?: string, refund_amount?: int, refunds?: array{amount_refunded?: int, refund?: string}[], shipping_cost?: array{shipping_rate?: string}} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\CreditNote
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function create($params = null, $opts = null)
     {
@@ -80,12 +81,12 @@ class CreditNoteService extends \Stripe\Service\AbstractService
     /**
      * Get a preview of a credit note without creating it.
      *
-     * @param null|array $params
+     * @param null|array{amount?: int, credit_amount?: int, effective_at?: int, email_type?: string, expand?: string[], invoice: string, lines?: (array{amount?: int, description?: string, invoice_line_item?: string, quantity?: int, tax_amounts?: null|array{amount: int, tax_rate: string, taxable_amount: int}[], tax_rates?: null|string[], type: string, unit_amount?: int, unit_amount_decimal?: string})[], memo?: string, metadata?: \Stripe\StripeObject, out_of_band_amount?: int, reason?: string, refund_amount?: int, refunds?: array{amount_refunded?: int, refund?: string}[], shipping_cost?: array{shipping_rate?: string}} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\CreditNote
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function preview($params = null, $opts = null)
     {
@@ -97,12 +98,12 @@ class CreditNoteService extends \Stripe\Service\AbstractService
      * property containing the first handful of those items. This URL you can retrieve
      * the full (paginated) list of line items.
      *
-     * @param null|array $params
+     * @param null|array{amount?: int, credit_amount?: int, effective_at?: int, email_type?: string, ending_before?: string, expand?: string[], invoice: string, limit?: int, lines?: (array{amount?: int, description?: string, invoice_line_item?: string, quantity?: int, tax_amounts?: null|array{amount: int, tax_rate: string, taxable_amount: int}[], tax_rates?: null|string[], type: string, unit_amount?: int, unit_amount_decimal?: string})[], memo?: string, metadata?: \Stripe\StripeObject, out_of_band_amount?: int, reason?: string, refund_amount?: int, refunds?: array{amount_refunded?: int, refund?: string}[], shipping_cost?: array{shipping_rate?: string}, starting_after?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Collection<\Stripe\CreditNoteLineItem>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function previewLines($params = null, $opts = null)
     {
@@ -113,12 +114,12 @@ class CreditNoteService extends \Stripe\Service\AbstractService
      * Retrieves the credit note object with the given identifier.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\CreditNote
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function retrieve($id, $params = null, $opts = null)
     {
@@ -129,12 +130,12 @@ class CreditNoteService extends \Stripe\Service\AbstractService
      * Updates an existing credit note.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[], memo?: string, metadata?: \Stripe\StripeObject} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\CreditNote
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function update($id, $params = null, $opts = null)
     {
@@ -146,12 +147,12 @@ class CreditNoteService extends \Stripe\Service\AbstractService
      * href="/docs/billing/invoices/credit-notes#voiding">voiding credit notes</a>.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\CreditNote
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function voidCreditNote($id, $params = null, $opts = null)
     {

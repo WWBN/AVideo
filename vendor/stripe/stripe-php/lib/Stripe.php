@@ -23,7 +23,7 @@ class Stripe
     public static $apiUploadBase = 'https://files.stripe.com';
 
     /** @var string The version of the Stripe API to use for requests. */
-    public static $apiVersion = \Stripe\Util\ApiVersion::CURRENT;
+    public static $apiVersion = Util\ApiVersion::CURRENT;
 
     /** @var null|string The account ID for connected accounts requests. */
     public static $accountId = null;
@@ -64,7 +64,7 @@ class Stripe
     /** @var float Initial delay between retries, in seconds */
     private static $initialNetworkRetryDelay = 0.5;
 
-    const VERSION = '16.6.0';
+    const VERSION = '17.1.1';
 
     /**
      * @return string the API key used for requests
@@ -230,7 +230,9 @@ class Stripe
     }
 
     /**
-     * @param int $maxNetworkRetries Maximum number of request retries
+     * > NOTE: this value is only read during client creation, so creating a client and _then_ calling this method won't affect your client's behavior.
+     *
+     * @param int $maxNetworkRetries maximum number of request retries
      */
     public static function setMaxNetworkRetries($maxNetworkRetries)
     {

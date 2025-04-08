@@ -6,6 +6,7 @@ namespace Stripe\Service\V2\Billing;
 
 /**
  * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ *
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
 class MeterEventStreamService extends \Stripe\Service\AbstractService
@@ -15,12 +16,12 @@ class MeterEventStreamService extends \Stripe\Service\AbstractService
      * Requires a meter event session for authentication. Supports up to 10,000
      * requests per second in livemode. For even higher rate-limits, contact sales.
      *
-     * @param null|array $params
+     * @param null|array{events: array{event_name: string, identifier?: string, payload: \Stripe\StripeObject, timestamp?: string}[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\TemporarySessionExpiredException
-     *
      * @return void
+     *
+     * @throws \Stripe\Exception\TemporarySessionExpiredException
      */
     public function create($params = null, $opts = null)
     {

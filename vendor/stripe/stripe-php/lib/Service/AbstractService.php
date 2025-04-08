@@ -61,7 +61,7 @@ abstract class AbstractService
         if (null === $params) {
             return null;
         }
-        \array_walk_recursive($params, function (&$value, $key) {
+        \array_walk_recursive($params, static function (&$value, $key) {
             if (null === $value) {
                 $value = '';
             }
@@ -77,22 +77,16 @@ abstract class AbstractService
 
     protected function requestStream($method, $path, $readBodyChunkCallable, $params, $opts)
     {
-        // TODO (MAJOR): Add this method to StripeClientInterface
-        // @phpstan-ignore-next-line
         return $this->getStreamingClient()->requestStream($method, $path, $readBodyChunkCallable, self::formatParams($params), $opts);
     }
 
     protected function requestCollection($method, $path, $params, $opts)
     {
-        // TODO (MAJOR): Add this method to StripeClientInterface
-        // @phpstan-ignore-next-line
         return $this->getClient()->requestCollection($method, $path, self::formatParams($params), $opts);
     }
 
     protected function requestSearchResult($method, $path, $params, $opts)
     {
-        // TODO (MAJOR): Add this method to StripeClientInterface
-        // @phpstan-ignore-next-line
         return $this->getClient()->requestSearchResult($method, $path, self::formatParams($params), $opts);
     }
 

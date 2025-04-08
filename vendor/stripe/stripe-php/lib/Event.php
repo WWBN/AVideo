@@ -44,10 +44,10 @@ namespace Stripe;
  * @property null|string $account The connected account that originates the event.
  * @property null|string $api_version The Stripe API version used to render <code>data</code>. This property is populated only for events on or after October 31, 2014.
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
- * @property \Stripe\StripeObject $data
+ * @property (object{object: StripeObject, previous_attributes?: StripeObject}&StripeObject) $data
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property int $pending_webhooks Number of webhooks that haven't been successfully delivered (for example, to return a 20x response) to the URLs you specify.
- * @property null|\Stripe\StripeObject $request Information on the API request that triggers the event.
+ * @property null|(object{id: null|string, idempotency_key: null|string}&StripeObject) $request Information on the API request that triggers the event.
  * @property string $type Description of the event (for example, <code>invoice.created</code> or <code>charge.refunded</code>).
  */
 class Event extends ApiResource
@@ -65,6 +65,13 @@ class Event extends ApiResource
     const APPLICATION_FEE_REFUND_UPDATED = 'application_fee.refund.updated';
     const BALANCE_AVAILABLE = 'balance.available';
     const BILLING_ALERT_TRIGGERED = 'billing.alert.triggered';
+    const BILLING_CREDIT_BALANCE_TRANSACTION_CREATED = 'billing.credit_balance_transaction.created';
+    const BILLING_CREDIT_GRANT_CREATED = 'billing.credit_grant.created';
+    const BILLING_CREDIT_GRANT_UPDATED = 'billing.credit_grant.updated';
+    const BILLING_METER_CREATED = 'billing.meter.created';
+    const BILLING_METER_DEACTIVATED = 'billing.meter.deactivated';
+    const BILLING_METER_REACTIVATED = 'billing.meter.reactivated';
+    const BILLING_METER_UPDATED = 'billing.meter.updated';
     const BILLING_PORTAL_CONFIGURATION_CREATED = 'billing_portal.configuration.created';
     const BILLING_PORTAL_CONFIGURATION_UPDATED = 'billing_portal.configuration.updated';
     const BILLING_PORTAL_SESSION_CREATED = 'billing_portal.session.created';
@@ -145,6 +152,7 @@ class Event extends ApiResource
     const INVOICE_FINALIZED = 'invoice.finalized';
     const INVOICE_MARKED_UNCOLLECTIBLE = 'invoice.marked_uncollectible';
     const INVOICE_OVERDUE = 'invoice.overdue';
+    const INVOICE_OVERPAID = 'invoice.overpaid';
     const INVOICE_PAID = 'invoice.paid';
     const INVOICE_PAYMENT_ACTION_REQUIRED = 'invoice.payment_action_required';
     const INVOICE_PAYMENT_FAILED = 'invoice.payment_failed';
@@ -305,6 +313,13 @@ class Event extends ApiResource
     const TYPE_APPLICATION_FEE_REFUND_UPDATED = 'application_fee.refund.updated';
     const TYPE_BALANCE_AVAILABLE = 'balance.available';
     const TYPE_BILLING_ALERT_TRIGGERED = 'billing.alert.triggered';
+    const TYPE_BILLING_CREDIT_BALANCE_TRANSACTION_CREATED = 'billing.credit_balance_transaction.created';
+    const TYPE_BILLING_CREDIT_GRANT_CREATED = 'billing.credit_grant.created';
+    const TYPE_BILLING_CREDIT_GRANT_UPDATED = 'billing.credit_grant.updated';
+    const TYPE_BILLING_METER_CREATED = 'billing.meter.created';
+    const TYPE_BILLING_METER_DEACTIVATED = 'billing.meter.deactivated';
+    const TYPE_BILLING_METER_REACTIVATED = 'billing.meter.reactivated';
+    const TYPE_BILLING_METER_UPDATED = 'billing.meter.updated';
     const TYPE_BILLING_PORTAL_CONFIGURATION_CREATED = 'billing_portal.configuration.created';
     const TYPE_BILLING_PORTAL_CONFIGURATION_UPDATED = 'billing_portal.configuration.updated';
     const TYPE_BILLING_PORTAL_SESSION_CREATED = 'billing_portal.session.created';
@@ -385,6 +400,7 @@ class Event extends ApiResource
     const TYPE_INVOICE_FINALIZED = 'invoice.finalized';
     const TYPE_INVOICE_MARKED_UNCOLLECTIBLE = 'invoice.marked_uncollectible';
     const TYPE_INVOICE_OVERDUE = 'invoice.overdue';
+    const TYPE_INVOICE_OVERPAID = 'invoice.overpaid';
     const TYPE_INVOICE_PAID = 'invoice.paid';
     const TYPE_INVOICE_PAYMENT_ACTION_REQUIRED = 'invoice.payment_action_required';
     const TYPE_INVOICE_PAYMENT_FAILED = 'invoice.payment_failed';
@@ -541,18 +557,18 @@ class Event extends ApiResource
      * <code>api_version</code> attribute (not according to your current Stripe API
      * version or <code>Stripe-Version</code> header).
      *
-     * @param null|array $params
+     * @param null|array{created?: array|int, delivery_success?: bool, ending_before?: string, expand?: string[], limit?: int, starting_after?: string, type?: string, types?: string[]} $params
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return Collection<Event> of ApiResources
      *
-     * @return \Stripe\Collection<\Stripe\Event> of ApiResources
+     * @throws Exception\ApiErrorException if the request fails
      */
     public static function all($params = null, $opts = null)
     {
         $url = static::classUrl();
 
-        return static::_requestPage($url, \Stripe\Collection::class, $params, $opts);
+        return static::_requestPage($url, Collection::class, $params, $opts);
     }
 
     /**
@@ -562,13 +578,13 @@ class Event extends ApiResource
      * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return Event
      *
-     * @return \Stripe\Event
+     * @throws Exception\ApiErrorException if the request fails
      */
     public static function retrieve($id, $opts = null)
     {
-        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $opts = Util\RequestOptions::parse($opts);
         $instance = new static($id, $opts);
         $instance->refresh();
 

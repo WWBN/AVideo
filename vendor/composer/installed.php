@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'a573e1543cc1190a160807669d4044da00ada2d3',
+        'reference' => 'c9091acd31f2cda1b5ce3fdd3c634dbcac28cdbf',
         'name' => 'wwbn/avideo',
         'dev' => true,
     ),
@@ -948,12 +948,12 @@
             'dev_requirement' => false,
         ),
         'stripe/stripe-php' => array(
-            'pretty_version' => 'v16.6.0',
-            'version' => '16.6.0.0',
+            'pretty_version' => 'v17.1.1',
+            'version' => '17.1.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../stripe/stripe-php',
             'aliases' => array(),
-            'reference' => 'd6de0a536f00b5c5c74f36b8f4d0d93b035499ff',
+            'reference' => '01ca9b5fdd899b8e4b69f83b85e09d96f6240220',
             'dev_requirement' => false,
         ),
         'symfony/console' => array(
@@ -1214,7 +1214,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'a573e1543cc1190a160807669d4044da00ada2d3',
+            'reference' => 'c9091acd31f2cda1b5ce3fdd3c634dbcac28cdbf',
             'dev_requirement' => false,
         ),
         'zircote/swagger-php' => array(

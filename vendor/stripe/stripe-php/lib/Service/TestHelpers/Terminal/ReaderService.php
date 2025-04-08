@@ -6,6 +6,7 @@ namespace Stripe\Service\TestHelpers\Terminal;
 
 /**
  * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ *
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
 class ReaderService extends \Stripe\Service\AbstractService
@@ -15,12 +16,12 @@ class ReaderService extends \Stripe\Service\AbstractService
      * accepting a payment, saving a card or refunding a transaction.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{amount_tip?: int, card_present?: array{number?: string}, expand?: string[], interac_present?: array{number?: string}, type?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Terminal\Reader
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function presentPaymentMethod($id, $params = null, $opts = null)
     {

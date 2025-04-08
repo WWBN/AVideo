@@ -7,8 +7,8 @@ class ObjectTypes
     /**
      * @var array Mapping from object types to resource classes
      */
-    const mapping =
-        [
+    const mapping
+        = [
             \Stripe\Collection::OBJECT_NAME => \Stripe\Collection::class,
             \Stripe\Issuing\CardDetails::OBJECT_NAME => \Stripe\Issuing\CardDetails::class,
             \Stripe\SearchResult::OBJECT_NAME => \Stripe\SearchResult::class,
@@ -76,6 +76,7 @@ class ObjectTypes
             \Stripe\Invoice::OBJECT_NAME => \Stripe\Invoice::class,
             \Stripe\InvoiceItem::OBJECT_NAME => \Stripe\InvoiceItem::class,
             \Stripe\InvoiceLineItem::OBJECT_NAME => \Stripe\InvoiceLineItem::class,
+            \Stripe\InvoicePayment::OBJECT_NAME => \Stripe\InvoicePayment::class,
             \Stripe\InvoiceRenderingTemplate::OBJECT_NAME => \Stripe\InvoiceRenderingTemplate::class,
             \Stripe\Issuing\Authorization::OBJECT_NAME => \Stripe\Issuing\Authorization::class,
             \Stripe\Issuing\Card::OBJECT_NAME => \Stripe\Issuing\Card::class,
@@ -149,8 +150,6 @@ class ObjectTypes
             \Stripe\Treasury\ReceivedDebit::OBJECT_NAME => \Stripe\Treasury\ReceivedDebit::class,
             \Stripe\Treasury\Transaction::OBJECT_NAME => \Stripe\Treasury\Transaction::class,
             \Stripe\Treasury\TransactionEntry::OBJECT_NAME => \Stripe\Treasury\TransactionEntry::class,
-            \Stripe\UsageRecord::OBJECT_NAME => \Stripe\UsageRecord::class,
-            \Stripe\UsageRecordSummary::OBJECT_NAME => \Stripe\UsageRecordSummary::class,
             \Stripe\WebhookEndpoint::OBJECT_NAME => \Stripe\WebhookEndpoint::class,
             // object classes: The end of the section generated from our OpenAPI spec
         ];

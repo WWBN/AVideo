@@ -6,6 +6,7 @@ namespace Stripe\Service\Forwarding;
 
 /**
  * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ *
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
 class RequestService extends \Stripe\Service\AbstractService
@@ -13,12 +14,12 @@ class RequestService extends \Stripe\Service\AbstractService
     /**
      * Lists all ForwardingRequest objects.
      *
-     * @param null|array $params
+     * @param null|array{created?: array{gt?: int, gte?: int, lt?: int, lte?: int}, ending_before?: string, expand?: string[], limit?: int, starting_after?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Collection<\Stripe\Forwarding\Request>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function all($params = null, $opts = null)
     {
@@ -28,12 +29,12 @@ class RequestService extends \Stripe\Service\AbstractService
     /**
      * Creates a ForwardingRequest object.
      *
-     * @param null|array $params
+     * @param null|array{expand?: string[], metadata?: \Stripe\StripeObject, payment_method: string, replacements: string[], request: array{body?: string, headers?: array{name: string, value: string}[]}, url: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Forwarding\Request
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function create($params = null, $opts = null)
     {
@@ -44,12 +45,12 @@ class RequestService extends \Stripe\Service\AbstractService
      * Retrieves a ForwardingRequest object.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Forwarding\Request
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function retrieve($id, $params = null, $opts = null)
     {

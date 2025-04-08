@@ -122,17 +122,18 @@ class ApiRequestor
      * @param null|array $headers
      * @param 'v1'|'v2' $apiMode
      * @param string[] $usage
-     *
-     * @throws Exception\ApiErrorException
+     * @param null|int $maxNetworkRetries
      *
      * @return array tuple containing (ApiReponse, API key)
+     *
+     * @throws Exception\ApiErrorException
      */
-    public function request($method, $url, $params = null, $headers = null, $apiMode = 'v1', $usage = [])
+    public function request($method, $url, $params = null, $headers = null, $apiMode = 'v1', $usage = [], $maxNetworkRetries = null)
     {
         $params = $params ?: [];
         $headers = $headers ?: [];
-        list($rbody, $rcode, $rheaders, $myApiKey) =
-            $this->_requestRaw($method, $url, $params, $headers, $apiMode, $usage);
+        list($rbody, $rcode, $rheaders, $myApiKey)
+            = $this->_requestRaw($method, $url, $params, $headers, $apiMode, $usage, $maxNetworkRetries);
         $json = $this->_interpretResponse($rbody, $rcode, $rheaders, $apiMode);
         $resp = new ApiResponse($rbody, $rcode, $rheaders, $json);
 
@@ -147,15 +148,16 @@ class ApiRequestor
      * @param null|array $headers
      * @param 'v1'|'v2' $apiMode
      * @param string[] $usage
+     * @param null|int $maxNetworkRetries
      *
      * @throws Exception\ApiErrorException
      */
-    public function requestStream($method, $url, $readBodyChunkCallable, $params = null, $headers = null, $apiMode = 'v1', $usage = [])
+    public function requestStream($method, $url, $readBodyChunkCallable, $params = null, $headers = null, $apiMode = 'v1', $usage = [], $maxNetworkRetries = null)
     {
         $params = $params ?: [];
         $headers = $headers ?: [];
-        list($rbody, $rcode, $rheaders, $myApiKey) =
-            $this->_requestRawStreaming($method, $url, $params, $headers, $apiMode, $usage, $readBodyChunkCallable);
+        list($rbody, $rcode, $rheaders, $myApiKey)
+            = $this->_requestRawStreaming($method, $url, $params, $headers, $apiMode, $usage, $readBodyChunkCallable, $maxNetworkRetries);
         if ($rcode >= 300) {
             $this->_interpretResponse($rbody, $rcode, $rheaders, $apiMode);
         }
@@ -224,8 +226,8 @@ class ApiRequestor
                     return Exception\IdempotencyException::factory($msg, $rcode, $rbody, $resp, $rheaders, $code);
                 }
 
-            // fall through in generic 400 or 404, returns InvalidRequestException by default
-            // no break
+                // fall through in generic 400 or 404, returns InvalidRequestException by default
+                // no break
             case 404:
                 return Exception\InvalidRequestException::factory($msg, $rcode, $rbody, $resp, $rheaders, $code, $param);
 
@@ -266,7 +268,8 @@ class ApiRequestor
         switch ($type) {
             case 'idempotency_error':
                 return Exception\IdempotencyException::factory($msg, $rcode, $rbody, $resp, $rheaders, $code);
-            // The beginning of the section generated from our OpenAPI spec
+
+                // The beginning of the section generated from our OpenAPI spec
             case 'temporary_session_expired':
                 return Exception\TemporarySessionExpiredException::factory(
                     $msg,
@@ -277,7 +280,7 @@ class ApiRequestor
                     $code
                 );
 
-            // The end of the section generated from our OpenAPI spec
+                // The end of the section generated from our OpenAPI spec
             default:
                 return self::_specificV1APIError($rbody, $rcode, $rheaders, $resp, $errorData);
         }
@@ -443,7 +446,7 @@ class ApiRequestor
         if ($params && \is_array($params)) {
             $optionKeysInParams = \array_filter(
                 self::$OPTIONS_KEYS,
-                function ($key) use ($params) {
+                static function ($key) use ($params) {
                     return \array_key_exists($key, $params);
                 }
             );
@@ -506,13 +509,14 @@ class ApiRequestor
      * @param array $headers
      * @param 'v1'|'v2' $apiMode
      * @param string[] $usage
+     * @param null|int $maxNetworkRetries
+     *
+     * @return array
      *
      * @throws Exception\AuthenticationException
      * @throws Exception\ApiConnectionException
-     *
-     * @return array
      */
-    private function _requestRaw($method, $url, $params, $headers, $apiMode, $usage)
+    private function _requestRaw($method, $url, $params, $headers, $apiMode, $usage, $maxNetworkRetries)
     {
         list($absUrl, $rawHeaders, $params, $hasFile, $myApiKey) = $this->_prepareRequest($method, $url, $params, $headers, $apiMode);
 
@@ -530,7 +534,8 @@ class ApiRequestor
             $rawHeaders,
             $params,
             $hasFile,
-            $apiMode
+            $apiMode,
+            $maxNetworkRetries
         );
 
         if (
@@ -556,13 +561,14 @@ class ApiRequestor
      * @param string[] $usage
      * @param callable $readBodyChunkCallable
      * @param 'v1'|'v2' $apiMode
+     * @param int $maxNetworkRetries
+     *
+     * @return array
      *
      * @throws Exception\AuthenticationException
      * @throws Exception\ApiConnectionException
-     *
-     * @return array
      */
-    private function _requestRawStreaming($method, $url, $params, $headers, $apiMode, $usage, $readBodyChunkCallable)
+    private function _requestRawStreaming($method, $url, $params, $headers, $apiMode, $usage, $readBodyChunkCallable, $maxNetworkRetries)
     {
         list($absUrl, $rawHeaders, $params, $hasFile, $myApiKey) = $this->_prepareRequest($method, $url, $params, $headers, $apiMode);
 
@@ -574,7 +580,8 @@ class ApiRequestor
             $rawHeaders,
             $params,
             $hasFile,
-            $readBodyChunkCallable
+            $readBodyChunkCallable,
+            $maxNetworkRetries
         );
 
         if (
@@ -594,9 +601,9 @@ class ApiRequestor
     /**
      * @param resource $resource
      *
-     * @throws Exception\InvalidArgumentException
-     *
      * @return \CURLFile|string
+     *
+     * @throws Exception\InvalidArgumentException
      */
     private function _processResourceParam($resource)
     {
@@ -623,10 +630,10 @@ class ApiRequestor
      * @param array  $rheaders
      * @param 'v1'|'v2'  $apiMode
      *
+     * @return array
+     *
      * @throws Exception\UnexpectedValueException
      * @throws Exception\ApiErrorException
-     *
-     * @return array
      */
     private function _interpretResponse($rbody, $rcode, $rheaders, $apiMode)
     {

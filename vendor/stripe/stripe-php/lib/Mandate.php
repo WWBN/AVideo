@@ -9,13 +9,13 @@ namespace Stripe;
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
- * @property \Stripe\StripeObject $customer_acceptance
+ * @property (object{accepted_at: null|int, offline?: (object{}&StripeObject), online?: (object{ip_address: null|string, user_agent: null|string}&StripeObject), type: string}&StripeObject) $customer_acceptance
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
- * @property null|\Stripe\StripeObject $multi_use
+ * @property null|(object{}&StripeObject) $multi_use
  * @property null|string $on_behalf_of The account (if any) that the mandate is intended for.
- * @property string|\Stripe\PaymentMethod $payment_method ID of the payment method associated with this mandate.
- * @property \Stripe\StripeObject $payment_method_details
- * @property null|\Stripe\StripeObject $single_use
+ * @property PaymentMethod|string $payment_method ID of the payment method associated with this mandate.
+ * @property (object{acss_debit?: (object{default_for?: string[], interval_description: null|string, payment_schedule: string, transaction_type: string}&StripeObject), amazon_pay?: (object{}&StripeObject), au_becs_debit?: (object{url: string}&StripeObject), bacs_debit?: (object{network_status: string, reference: string, revocation_reason: null|string, url: string}&StripeObject), card?: (object{}&StripeObject), cashapp?: (object{}&StripeObject), kakao_pay?: (object{}&StripeObject), kr_card?: (object{}&StripeObject), link?: (object{}&StripeObject), naver_pay?: (object{}&StripeObject), nz_bank_account?: (object{}&StripeObject), paypal?: (object{billing_agreement_id: null|string, payer_id: null|string}&StripeObject), revolut_pay?: (object{}&StripeObject), sepa_debit?: (object{reference: string, url: string}&StripeObject), type: string, us_bank_account?: (object{collection_method?: string}&StripeObject)}&StripeObject) $payment_method_details
+ * @property null|(object{amount: int, currency: string}&StripeObject) $single_use
  * @property string $status The mandate status indicates whether or not you can use it to initiate a payment.
  * @property string $type The type of the mandate.
  */
@@ -36,13 +36,13 @@ class Mandate extends ApiResource
      * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return Mandate
      *
-     * @return \Stripe\Mandate
+     * @throws Exception\ApiErrorException if the request fails
      */
     public static function retrieve($id, $opts = null)
     {
-        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $opts = Util\RequestOptions::parse($opts);
         $instance = new static($id, $opts);
         $instance->refresh();
 

@@ -6,20 +6,21 @@ namespace Stripe\Service;
 
 /**
  * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ *
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
-class ChargeService extends \Stripe\Service\AbstractService
+class ChargeService extends AbstractService
 {
     /**
      * Returns a list of charges you’ve previously created. The charges are returned in
      * sorted order, with the most recent charges appearing first.
      *
-     * @param null|array $params
+     * @param null|array{created?: array|int, customer?: string, ending_before?: string, expand?: string[], limit?: int, payment_intent?: string, starting_after?: string, transfer_group?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Collection<\Stripe\Charge>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function all($params = null, $opts = null)
     {
@@ -38,12 +39,12 @@ class ChargeService extends \Stripe\Service\AbstractService
      * href="/docs/api/payment_intents/capture">Capture a PaymentIntent</a>.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{amount?: int, application_fee?: int, application_fee_amount?: int, expand?: string[], receipt_email?: string, statement_descriptor?: string, statement_descriptor_suffix?: string, transfer_data?: array{amount?: int}, transfer_group?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Charge
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function capture($id, $params = null, $opts = null)
     {
@@ -56,12 +57,12 @@ class ChargeService extends \Stripe\Service\AbstractService
      * payment instead. Confirmation of the PaymentIntent creates the
      * <code>Charge</code> object used to request payment.
      *
-     * @param null|array $params
+     * @param null|array{amount?: int, application_fee?: int, application_fee_amount?: int, capture?: bool, currency?: string, customer?: string, description?: string, destination?: array{account: string, amount?: int}, expand?: string[], metadata?: null|\Stripe\StripeObject, on_behalf_of?: string, radar_options?: array{session?: string}, receipt_email?: string, shipping?: array{address: array{city?: string, country?: string, line1?: string, line2?: string, postal_code?: string, state?: string}, carrier?: string, name: string, phone?: string, tracking_number?: string}, source?: string, statement_descriptor?: string, statement_descriptor_suffix?: string, transfer_data?: array{amount?: int, destination: string}, transfer_group?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Charge
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function create($params = null, $opts = null)
     {
@@ -75,12 +76,12 @@ class ChargeService extends \Stripe\Service\AbstractService
      * when creating or refunding the charge.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Charge
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function retrieve($id, $params = null, $opts = null)
     {
@@ -95,12 +96,12 @@ class ChargeService extends \Stripe\Service\AbstractService
      * Occasionally, propagation of new or updated data can be up to an hour behind
      * during outages. Search functionality is not available to merchants in India.
      *
-     * @param null|array $params
+     * @param null|array{expand?: string[], limit?: int, page?: string, query: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\SearchResult<\Stripe\Charge>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function search($params = null, $opts = null)
     {
@@ -112,12 +113,12 @@ class ChargeService extends \Stripe\Service\AbstractService
      * parameters not provided will be left unchanged.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{customer?: string, description?: string, expand?: string[], fraud_details?: array{user_report: null|string}, metadata?: null|\Stripe\StripeObject, receipt_email?: string, shipping?: array{address: array{city?: string, country?: string, line1?: string, line2?: string, postal_code?: string, state?: string}, carrier?: string, name: string, phone?: string, tracking_number?: string}, transfer_group?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Charge
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function update($id, $params = null, $opts = null)
     {

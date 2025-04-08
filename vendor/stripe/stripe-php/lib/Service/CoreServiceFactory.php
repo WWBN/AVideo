@@ -37,6 +37,7 @@ namespace Stripe\Service;
  * @property Forwarding\ForwardingServiceFactory $forwarding
  * @property Identity\IdentityServiceFactory $identity
  * @property InvoiceItemService $invoiceItems
+ * @property InvoicePaymentService $invoicePayments
  * @property InvoiceRenderingTemplateService $invoiceRenderingTemplates
  * @property InvoiceService $invoices
  * @property Issuing\IssuingServiceFactory $issuing
@@ -78,7 +79,7 @@ namespace Stripe\Service;
  * @property WebhookEndpointService $webhookEndpoints
  * // Doc: The end of the section generated from our OpenAPI spec
  */
-class CoreServiceFactory extends \Stripe\Service\AbstractServiceFactory
+class CoreServiceFactory extends AbstractServiceFactory
 {
     /**
      * @var array<string, string>
@@ -116,6 +117,7 @@ class CoreServiceFactory extends \Stripe\Service\AbstractServiceFactory
         'forwarding' => Forwarding\ForwardingServiceFactory::class,
         'identity' => Identity\IdentityServiceFactory::class,
         'invoiceItems' => InvoiceItemService::class,
+        'invoicePayments' => InvoicePaymentService::class,
         'invoiceRenderingTemplates' => InvoiceRenderingTemplateService::class,
         'invoices' => InvoiceService::class,
         'issuing' => Issuing\IssuingServiceFactory::class,

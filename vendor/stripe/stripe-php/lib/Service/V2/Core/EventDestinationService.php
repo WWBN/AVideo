@@ -6,6 +6,7 @@ namespace Stripe\Service\V2\Core;
 
 /**
  * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ *
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
 class EventDestinationService extends \Stripe\Service\AbstractService
@@ -13,12 +14,12 @@ class EventDestinationService extends \Stripe\Service\AbstractService
     /**
      * Lists all event destinations.
      *
-     * @param null|array $params
+     * @param null|array{include?: string[], limit?: int} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\V2\Collection<\Stripe\V2\EventDestination>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function all($params = null, $opts = null)
     {
@@ -28,12 +29,12 @@ class EventDestinationService extends \Stripe\Service\AbstractService
     /**
      * Create a new event destination.
      *
-     * @param null|array $params
+     * @param null|array{description?: string, enabled_events: string[], event_payload: string, events_from?: string[], include?: string[], metadata?: \Stripe\StripeObject, name: string, snapshot_api_version?: string, type: string, amazon_eventbridge?: array{aws_account_id: string, aws_region: string}, webhook_endpoint?: array{url: string}} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\V2\EventDestination
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function create($params = null, $opts = null)
     {
@@ -47,9 +48,9 @@ class EventDestinationService extends \Stripe\Service\AbstractService
      * @param null|array $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\V2\EventDestination
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function delete($id, $params = null, $opts = null)
     {
@@ -63,9 +64,9 @@ class EventDestinationService extends \Stripe\Service\AbstractService
      * @param null|array $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\V2\EventDestination
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function disable($id, $params = null, $opts = null)
     {
@@ -79,9 +80,9 @@ class EventDestinationService extends \Stripe\Service\AbstractService
      * @param null|array $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\V2\EventDestination
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function enable($id, $params = null, $opts = null)
     {
@@ -95,9 +96,9 @@ class EventDestinationService extends \Stripe\Service\AbstractService
      * @param null|array $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\V2\Event
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function ping($id, $params = null, $opts = null)
     {
@@ -108,12 +109,12 @@ class EventDestinationService extends \Stripe\Service\AbstractService
      * Retrieves the details of an event destination.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{include?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\V2\EventDestination
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function retrieve($id, $params = null, $opts = null)
     {
@@ -124,12 +125,12 @@ class EventDestinationService extends \Stripe\Service\AbstractService
      * Update the details of an event destination.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{description?: string, enabled_events?: string[], include?: string[], metadata?: \Stripe\StripeObject, name?: string, webhook_endpoint?: array{url: string}} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\V2\EventDestination
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function update($id, $params = null, $opts = null)
     {

@@ -16,13 +16,13 @@ namespace Stripe\Treasury;
  * @property null|string $failure_code Reason for the failure. A ReceivedCredit might fail because the receiving FinancialAccount is closed or frozen.
  * @property null|string $financial_account The FinancialAccount that received the funds.
  * @property null|string $hosted_regulatory_receipt_url A <a href="https://stripe.com/docs/treasury/moving-money/regulatory-receipts">hosted transaction receipt</a> URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
- * @property \Stripe\StripeObject $initiating_payment_method_details
- * @property \Stripe\StripeObject $linked_flows
+ * @property (object{balance?: string, billing_details: (object{address: (object{city: null|string, country: null|string, line1: null|string, line2: null|string, postal_code: null|string, state: null|string}&\Stripe\StripeObject), email: null|string, name: null|string}&\Stripe\StripeObject), financial_account?: (object{id: string, network: string}&\Stripe\StripeObject), issuing_card?: string, type: string, us_bank_account?: (object{bank_name: null|string, last4: null|string, routing_number: null|string}&\Stripe\StripeObject)}&\Stripe\StripeObject) $initiating_payment_method_details
+ * @property (object{credit_reversal: null|string, issuing_authorization: null|string, issuing_transaction: null|string, source_flow: null|string, source_flow_details?: null|(object{credit_reversal?: CreditReversal, outbound_payment?: OutboundPayment, outbound_transfer?: OutboundTransfer, payout?: \Stripe\Payout, type: string}&\Stripe\StripeObject), source_flow_type: null|string}&\Stripe\StripeObject) $linked_flows
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property string $network The rails used to send the funds.
- * @property null|\Stripe\StripeObject $reversal_details Details describing when a ReceivedCredit may be reversed.
+ * @property null|(object{deadline: null|int, restricted_reason: null|string}&\Stripe\StripeObject) $reversal_details Details describing when a ReceivedCredit may be reversed.
  * @property string $status Status of the ReceivedCredit. ReceivedCredits are created either <code>succeeded</code> (approved) or <code>failed</code> (declined). If a ReceivedCredit is declined, the failure reason can be found in the <code>failure_code</code> field.
- * @property null|string|\Stripe\Treasury\Transaction $transaction The Transaction associated with this object.
+ * @property null|string|Transaction $transaction The Transaction associated with this object.
  */
 class ReceivedCredit extends \Stripe\ApiResource
 {
@@ -44,12 +44,12 @@ class ReceivedCredit extends \Stripe\ApiResource
     /**
      * Returns a list of ReceivedCredits.
      *
-     * @param null|array $params
+     * @param null|array{ending_before?: string, expand?: string[], financial_account: string, limit?: int, linked_flows?: array{source_flow_type: string}, starting_after?: string, status?: string} $params
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return \Stripe\Collection<ReceivedCredit> of ApiResources
      *
-     * @return \Stripe\Collection<\Stripe\Treasury\ReceivedCredit> of ApiResources
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public static function all($params = null, $opts = null)
     {
@@ -65,9 +65,9 @@ class ReceivedCredit extends \Stripe\ApiResource
      * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return ReceivedCredit
      *
-     * @return \Stripe\Treasury\ReceivedCredit
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public static function retrieve($id, $opts = null)
     {

@@ -6,21 +6,22 @@ namespace Stripe\Service;
 
 /**
  * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ *
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
-class TransferService extends \Stripe\Service\AbstractService
+class TransferService extends AbstractService
 {
     /**
      * Returns a list of existing transfers sent to connected accounts. The transfers
      * are returned in sorted order, with the most recently created transfers appearing
      * first.
      *
-     * @param null|array $params
+     * @param null|array{created?: array|int, destination?: string, ending_before?: string, expand?: string[], limit?: int, starting_after?: string, transfer_group?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Collection<\Stripe\Transfer>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function all($params = null, $opts = null)
     {
@@ -35,12 +36,12 @@ class TransferService extends \Stripe\Service\AbstractService
      * additional reversals.
      *
      * @param string $parentId
-     * @param null|array $params
+     * @param null|array{ending_before?: string, expand?: string[], limit?: int, starting_after?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Collection<\Stripe\TransferReversal>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function allReversals($parentId, $params = null, $opts = null)
     {
@@ -52,12 +53,12 @@ class TransferService extends \Stripe\Service\AbstractService
      * transfer object. Your <a href="#balance">Stripe balance</a> must be able to
      * cover the transfer amount, or you’ll receive an “Insufficient Funds” error.
      *
-     * @param null|array $params
+     * @param null|array{amount?: int, currency: string, description?: string, destination: string, expand?: string[], metadata?: \Stripe\StripeObject, source_transaction?: string, source_type?: string, transfer_group?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Transfer
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function create($params = null, $opts = null)
     {
@@ -75,12 +76,12 @@ class TransferService extends \Stripe\Service\AbstractService
      * reverse more money than is left on a transfer.
      *
      * @param string $parentId
-     * @param null|array $params
+     * @param null|array{amount?: int, description?: string, expand?: string[], metadata?: null|\Stripe\StripeObject, refund_application_fee?: bool} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\TransferReversal
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function createReversal($parentId, $params = null, $opts = null)
     {
@@ -93,12 +94,12 @@ class TransferService extends \Stripe\Service\AbstractService
      * return the corresponding transfer information.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Transfer
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function retrieve($id, $params = null, $opts = null)
     {
@@ -112,12 +113,12 @@ class TransferService extends \Stripe\Service\AbstractService
      *
      * @param string $parentId
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\TransferReversal
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function retrieveReversal($parentId, $id, $params = null, $opts = null)
     {
@@ -131,12 +132,12 @@ class TransferService extends \Stripe\Service\AbstractService
      * This request accepts only metadata as an argument.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{description?: string, expand?: string[], metadata?: null|\Stripe\StripeObject} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Transfer
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function update($id, $params = null, $opts = null)
     {
@@ -151,12 +152,12 @@ class TransferService extends \Stripe\Service\AbstractService
      *
      * @param string $parentId
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[], metadata?: null|\Stripe\StripeObject} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\TransferReversal
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function updateReversal($parentId, $id, $params = null, $opts = null)
     {

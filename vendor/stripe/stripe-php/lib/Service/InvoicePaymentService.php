@@ -9,38 +9,38 @@ namespace Stripe\Service;
  *
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
-class TaxCodeService extends AbstractService
+class InvoicePaymentService extends AbstractService
 {
     /**
-     * A list of <a href="https://stripe.com/docs/tax/tax-categories">all tax codes
-     * available</a> to add to Products in order to allow specific tax calculations.
+     * When retrieving an invoice, there is an includable payments property containing
+     * the first handful of those items. There is also a URL where you can retrieve the
+     * full (paginated) list of payments.
      *
-     * @param null|array{ending_before?: string, expand?: string[], limit?: int, starting_after?: string} $params
+     * @param null|array{ending_before?: string, expand?: string[], invoice?: string, limit?: int, payment?: array{payment_intent?: string, type: string}, starting_after?: string, status?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @return \Stripe\Collection<\Stripe\TaxCode>
+     * @return \Stripe\Collection<\Stripe\InvoicePayment>
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/tax_codes', $params, $opts);
+        return $this->requestCollection('get', '/v1/invoice_payments', $params, $opts);
     }
 
     /**
-     * Retrieves the details of an existing tax code. Supply the unique tax code ID and
-     * Stripe will return the corresponding tax code information.
+     * Retrieves the invoice payment with the given ID.
      *
      * @param string $id
      * @param null|array{expand?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @return \Stripe\TaxCode
+     * @return \Stripe\InvoicePayment
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/tax_codes/%s', $id), $params, $opts);
+        return $this->request('get', $this->buildPath('/v1/invoice_payments/%s', $id), $params, $opts);
     }
 }
