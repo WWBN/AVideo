@@ -404,7 +404,7 @@ class API extends PluginAbstract
             new OA\Parameter(
                 name: "userAgent",
                 in: "query",
-                required: true,
+                required: false,
                 schema: new OA\Schema(type: "string"),
                 description: "User-Agent string from the client request"
             ),
