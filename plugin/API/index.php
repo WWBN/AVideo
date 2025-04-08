@@ -14,7 +14,7 @@ if (!User::isAdmin()) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Swagger UI</title>
+    <title>OpenAPI 3.1 specification</title>
     <link rel="stylesheet" type="text/css" href="./docs/swagger-ui.css" />
     <link rel="stylesheet" type="text/css" href="./docs/index.css" />
     <link rel="stylesheet" type="text/css" href="./swagger.css" />
