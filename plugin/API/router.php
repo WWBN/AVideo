@@ -3,7 +3,7 @@ error_reporting(E_ALL);           // Report all types of errors
 ini_set('display_errors', '1');
 
 if (empty($_REQUEST['APISecret'])) {
-    $_REQUEST['APISecret'] = getBearerToken();
+    $_REQUEST['APISecret'] = _getBearerToken();
 }
 
 //redirectIfPortOpen(3000);
@@ -16,7 +16,10 @@ $method = $_SERVER['REQUEST_METHOD'];
 // Remove query string
 $uri = parse_url($requestUri, PHP_URL_PATH);
 
-// Extrai o valor após /api/
+/*
+ * Check if the request is for the API
+ * Example: /api/PluginName/method
+ */
 $matches = [];
 if (preg_match('#^/api/([^/]+)#', $uri, $matches)) {
     $apiName = $matches[1];
@@ -41,6 +44,12 @@ if (preg_match('#^/api/([^/]+)#', $uri, $matches)) {
     echo json_encode(["error" => "Not Found"]);
 }
 
+/**
+ * Redirects the request to a new port if it is open.
+ *
+ * @param int $newPort The new port to redirect to.
+ * @param int $timeout The timeout for the connection check (default: 1 second).
+ */
 function redirectIfPortOpen($newPort, $timeout = 1)
 {
     $host = $_SERVER['SERVER_NAME'];
@@ -86,11 +95,11 @@ function redirectIfPortOpen($newPort, $timeout = 1)
             $headers['Authorization'] = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
             error_log("🔐 Fallback: Found REDIRECT_HTTP_AUTHORIZATION in \$_SERVER: " . $_SERVER['REDIRECT_HTTP_AUTHORIZATION']);
         } else {
-            // Attempt getBearerToken() as last resort.
-            $bearerToken = getBearerToken();
+            // Attempt _getBearerToken() as last resort.
+            $bearerToken = _getBearerToken();
             if ($bearerToken) {
                 $headers['Authorization'] = "Bearer {$bearerToken}";
-                error_log("🔐 Fallback: Retrieved token via getBearerToken(): Bearer {$bearerToken}");
+                error_log("🔐 Fallback: Retrieved token via _getBearerToken(): Bearer {$bearerToken}");
             }
         }
     }
@@ -146,10 +155,18 @@ function redirectIfPortOpen($newPort, $timeout = 1)
     echo $bodyContent;
     exit;
 }
-
-
-
-function getBearerToken()
+/**
+ * Retrieves the Bearer token from the Authorization header.
+ *
+ * This function attempts to retrieve the Bearer token from various sources:
+ * 1. Apache request headers (if available).
+ * 2. All headers using getallheaders().
+ * 3. Manually builds headers from $_SERVER if both previous methods fail.
+ * 4. Checks for the Authorization header in $_SERVER directly.
+ *
+ * @return string|null The Bearer token if found, null otherwise.
+ */
+function _getBearerToken()
 {
     $headers = [];
 
