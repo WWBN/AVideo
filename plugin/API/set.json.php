@@ -1,5 +1,5 @@
 <?php
-$configFile = '../../videos/configuration.php';
+$configFile = __DIR__.'/../../videos/configuration.php';
 if (!file_exists($configFile)) {
     [$scriptPath] = get_included_files();
     $path = pathinfo($scriptPath);
