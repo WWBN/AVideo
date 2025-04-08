@@ -1,5 +1,5 @@
 <?php
-
+use OpenApi\Attributes as OA;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 class YouPHPFlix2 extends PluginAbstract
@@ -171,6 +171,58 @@ class YouPHPFlix2 extends PluginAbstract
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIPlugin={APIPlugin}&APIName={APIName}
      * @return \ApiObject
      */
+    #[OA\Get(
+        path: "/api/YouPHPFlix2/firstPage",
+        summary: 'Get homepage sections and their corresponding video list endpoints',
+        description: 'Returns configuration for the first page from the YouPHPFlix2 plugin, including sections like Suggested, Trending, Channels, Playlists, etc. Each section includes an endpoint to fetch related videos.',
+        tags: ['YouPHPFlix2'],
+        security: [['APISecret' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Returns a list of sections for the homepage, each with a video list endpoint',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(
+                            property: 'error',
+                            type: 'boolean',
+                            example: false
+                        ),
+                        new OA\Property(
+                            property: 'msg',
+                            type: 'string',
+                            example: ''
+                        ),
+                        new OA\Property(
+                            property: 'response',
+                            type: 'object',
+                            properties: [
+                                new OA\Property(
+                                    property: 'sections',
+                                    type: 'array',
+                                    items: new OA\Items(
+                                        type: 'object',
+                                        properties: [
+                                            new OA\Property(property: 'name', type: 'string', example: 'Suggested'),
+                                            new OA\Property(property: 'title', type: 'string', example: 'Suggested Videos'),
+                                            new OA\Property(property: 'endpoint', type: 'string', example: 'https://yourdomain.com/plugin/API/get.json.php?APIName=video&sort[suggested]=1'),
+                                            new OA\Property(property: 'totalRows', type: 'integer', example: 20)
+                                        ]
+                                    )
+                                ),
+                                new OA\Property(property: 'countSections', type: 'integer', example: 6),
+                                new OA\Property(property: 'countVideos', type: 'integer', example: 120),
+                                new OA\Property(property: 'responseTime', type: 'number', format: 'float', example: 0.201),
+                                new OA\Property(property: 'responseCacheTime', type: 'number', format: 'float', nullable: true)
+                            ]
+                        )
+                    ]
+                )
+            )
+        ]
+    )]
+
     static function API_get_firstPage($parameters)
     {
         global $global;
@@ -302,7 +354,7 @@ class YouPHPFlix2 extends PluginAbstract
         return $object;
     }
 
-    
+
     public static function getAddChannelToYouPHPFlix2Button($users_id)
     {
         global $global, $config;

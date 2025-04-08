@@ -1,11 +1,11 @@
 <?php
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
-    require_once '../videos/configuration.php';
+    require_once __DIR__.'/../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'objects/Object.php';
-require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
-require_once $global['systemRootPath'] . 'objects/user.php';
+require_once __DIR__.'/Object.php';
+require_once __DIR__.'/mysql_dal.php';
+require_once __DIR__.'/user.php';
 
 class Plugin extends ObjectYPT
 {

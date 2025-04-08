@@ -80,7 +80,6 @@ Options All -Indexes
     </FilesMatch>
 
 </IfModule>
-
 # END Caching
 <IfModule mod_rewrite.c>
     RewriteCond %{HTTPS} =on
@@ -90,6 +89,9 @@ Options All -Indexes
 
     RewriteEngine on
     #VideoHLS for DRM
+
+    RewriteRule    ^api/([^/]+)/([^/]+)$ plugin/API/router.php?APIPlugin=$1&APIName=$2 [QSA,L]
+    RewriteRule    ^api/([^/]+)$ plugin/API/router.php?APIName=$1 [QSA,L]
 
     RewriteRule    ^buy/?  plugin/YPTWallet/buy.php [NC,L,QSA]
     RewriteRule    ^id/?  view/id.php [NC,L,QSA]

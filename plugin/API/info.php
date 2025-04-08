@@ -14,29 +14,13 @@ if (empty($plugin)) {
 }
 $obj = AVideoPlugin::getObjectData("API");
 
+$resp = getSystemAPIs();
+$methodsList = $resp['methodsList'];
 
-$methodsList = array();
-
-$reflector = new ReflectionClass('API');
-$class_methods = get_class_methods('API');
-foreach ($class_methods as $key => $method[0]) {
-    if (preg_match("/(get|set)_api_(.*)/", $method[0], $matches)) {
-        $methodsList[] = array($method[0], $reflector, $matches[1], $matches[2], '');
-    }
-}
-
-$plugins = Plugin::getAllEnabled();
-foreach ($plugins as $value) {
-    $p = AVideoPlugin::loadPlugin($value['dirName']);
-    if (class_exists($value['dirName'])) {
-        $class_methods = get_class_methods($value['dirName']);
-        $reflector = new ReflectionClass($value['dirName']);
-        foreach ($class_methods as $key => $method[0]) {
-            if (preg_match("/API_(get|set)_(.*)/", $method[0], $matches)) {
-                $methodsList[] = array($method[0], $reflector, $matches[1], $matches[2], $value['dirName']);
-            }
-        }
-    }
+if (!empty($_REQUEST['json'])) {
+    header('Content-Type: application/json');
+    echo json_encode($resp['response']);
+    exit;
 }
 
 $_page = new Page(array('API'));

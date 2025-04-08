@@ -92,8 +92,8 @@ function _ob_get_clean()
 
 function _setcookie($cookieName, $value, $expires = 0)
 {
-    if($cookieName === 'pass'){
-        _error_log('_setcookie pass changed '.$value);
+    if ($cookieName === 'pass') {
+        _error_log('_setcookie pass changed ' . $value);
     }
     global $config, $global;
     if (empty($expires)) {
@@ -124,7 +124,7 @@ function _setcookie($cookieName, $value, $expires = 0)
         setcookie($cookieName, $value, (int) $expires, "/", $domain);
         setcookie($cookieName, $value, (int) $expires, "/", 'www.' . $domain);
     }
-    $_COOKIE[$cookieName]=$value;
+    $_COOKIE[$cookieName] = $value;
 }
 
 function _unsetcookie($cookieName)
@@ -246,20 +246,22 @@ function _json_decode($object, $associative = false)
     }
 }
 
-function _session_write_close(){    
+function _session_write_close()
+{
     if (isSessionStarted()) {
         //_error_log(json_encode(debug_backtrace()));
         @session_write_close();
     }
 }
 
-function isSessionStarted() {
-    global $customSessionHandle; 
+function isSessionStarted()
+{
+    global $customSessionHandle;
 
-    if(session_status() == PHP_SESSION_NONE){
+    if (session_status() == PHP_SESSION_NONE) {
         return false;
     }
-    if(session_status() == PHP_SESSION_ACTIVE){
+    if (session_status() == PHP_SESSION_ACTIVE) {
         return true;
     }
     // Check if a session variable exists in Memcached
@@ -270,22 +272,23 @@ function isSessionStarted() {
     }
 }
 
-function session_start_preload(){
+function session_start_preload()
+{
     global $_session_start_preload, $global;
-    if(empty($global['systemRootPath'])){
+    if (empty($global['systemRootPath'])) {
         return false;
     }
-    if(!class_exists('AVideoConf')){
+    if (!class_exists('AVideoConf')) {
         require $global['systemRootPath'] . 'objects/configuration.php';
     }
-    if(!isset($_session_start_preload)){
+    if (!isset($_session_start_preload)) {
         $_session_start_preload = 1;
-    }else{
+    } else {
         return false;
     }
 
     $config = new AVideoConf();
-    
+
     // server should keep session data for AT LEAST 1 hour
     ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 
@@ -311,40 +314,40 @@ function _session_start(array $options = [])
 {
     try {
         session_start_preload();
-        
+
         // Start session first, then check the session ID
         if (isset($_GET['PHPSESSID']) && !_empty($_GET['PHPSESSID'])) {
             $PHPSESSID = $_GET['PHPSESSID'];
             unset($_GET['PHPSESSID']);
-            
+
             // Start the session with the options
             $session = @session_start($options);
-            
+
             // Now, check if session ID matches after session start
             if ($PHPSESSID === session_id()) {
                 // Session ID already matches, do nothing
                 return $session;
             }
-            
+
             if (!User::isLogged()) {
                 if ($PHPSESSID !== session_id()) {
                     _session_write_close();
                     session_id($PHPSESSID);
                     //_error_log("captcha: session_id changed to {$PHPSESSID}");
                 }
-                
+
                 // Restart session after changing the session ID
                 $session = @session_start($options);
-                
+
                 if (preg_match('/objects\/getCaptcha\.php/i', $_SERVER['SCRIPT_NAME'])) {
                     $regenerateSessionId = false;
                 }
-                
+
                 if (!blackListRegenerateSession()) {
                     _error_log("captcha: session_id regenerated new session_id=" . session_id());
                     _session_regenerate_id();
                 }
-                
+
                 return $session;
             } else {
                 //_error_log("captcha: user logged we will not change the session ID PHPSESSID={$PHPSESSID} session_id=" . session_id());
@@ -419,3 +422,57 @@ function doesPHPVersioHasOBBug()
 {
     return (version_compare(phpversion(), '8.1.4', '==') || version_compare(phpversion(), '8.0.17', '=='));
 }
+
+
+function getSystemAPIs()
+{
+    global $global;
+    $obj = AVideoPlugin::getObjectData("API");
+    $methodsList = array();
+
+    $reflector = new ReflectionClass('API');
+    $class_methods = get_class_methods('API');
+    foreach ($class_methods as $key => $met) {
+        if (preg_match("/(get|set)_api_(.*)/", $met, $matches)) {
+            $methodsList[] = array($met, $reflector, $matches[1], $matches[2], 'API');
+        }
+    }
+
+    $plugins = Plugin::getAllEnabled();
+    foreach ($plugins as $value) {
+        $p = AVideoPlugin::loadPlugin($value['dirName']);
+        if (class_exists($value['dirName'])) {
+            $class_methods = get_class_methods($value['dirName']);
+            $reflector = new ReflectionClass($value['dirName']);
+            foreach ($class_methods as $key => $met) {
+                if (preg_match("/API_(get|set)_(.*)/", $met, $matches)) {
+                    $methodsList[] = array($met, $reflector, $matches[1], $matches[2], $value['dirName']);
+                }
+            }
+        }
+    }
+
+    $response = array();
+    $plugins = array();
+    foreach ($methodsList as $method) {
+        if (!preg_match("/(get|set)_api_(.*)/", $method[0], $matches)) {
+            if (!preg_match("/API_(get|set)_(.*)/", $method[0], $matches)) {
+                continue;
+            }
+        }
+        $reflector = $method[1];
+        $comment = $reflector->getMethod($method[0])->getDocComment();
+        $comment = str_replace(['{webSiteRootURL}', '{getOrSet}', '{APIPlugin}', '{APIName}', '{APISecret}'], [$global['webSiteRootURL'], $method[2], $method[4], $method[3], $obj->APISecret], $comment);
+        $resp = array(
+            'comment' => $comment,
+            'method' => $method[0],
+            'type' => $method[2],
+            'action' => $method[3],
+            'plugin' => $method[4],
+        );
+        $plugins[$method[4]][$method[0]] = $resp ;
+        $response[] = $resp ;
+    }
+    return array('methodsList' => $methodsList, 'response' => $response, 'plugins' => $plugins);
+}
+

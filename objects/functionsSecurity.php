@@ -535,3 +535,49 @@ function escapeshellcmdURL(string $command)
 function recreateCache(){
     return (!empty($_REQUEST['recreate']) && !isBot());
 }
+
+function getBearerToken()
+{
+    $headers = [];
+
+    // 1. Try apache_request_headers() if available
+    if (function_exists('apache_request_headers')) {
+        $headers = apache_request_headers();
+    }
+
+    // 2. If still empty, try getallheaders()
+    if (empty($headers) && function_exists('getallheaders')) {
+        $headers = getallheaders();
+    }
+
+    // 3. If still empty, manually build headers from $_SERVER
+    if (empty($headers)) {
+        foreach ($_SERVER as $key => $value) {
+            if (stripos($key, 'HTTP_') === 0) {
+                // Convert HTTP_HEADER_NAME to Header-Name
+                $headerName = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))));
+                $headers[$headerName] = $value;
+            }
+        }
+    }
+
+    // 4. Normalize and extract Authorization header
+    foreach ($headers as $name => $value) {
+        if (strcasecmp($name, 'Authorization') === 0 && preg_match('/Bearer\s(\S+)/', $value, $matches)) {
+            return $matches[1]; // Return the token
+        }
+    }
+
+    // 5. Final fallback: check $_SERVER directly
+    if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+        return $matches[1];
+    }
+
+    if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Bearer\s(\S+)/', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches)) {
+        return $matches[1];
+    }
+
+    return null; // Token not found
+}
+
+

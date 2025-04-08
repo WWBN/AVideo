@@ -1,5 +1,5 @@
 <?php
-
+use OpenApi\Attributes as OA;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 require_once $global['systemRootPath'] . 'objects/Channel.php';
@@ -79,8 +79,8 @@ class Gallery extends PluginAbstract
 
         $o = new stdClass();
         $o->type = [
-            Gallery::BigVideoLiveDisabled => 'Disable', 
-            Gallery::BigVideoLiveShowLiveAndVOD => 'Show Live and VOD', 
+            Gallery::BigVideoLiveDisabled => 'Disable',
+            Gallery::BigVideoLiveShowLiveAndVOD => 'Show Live and VOD',
             Gallery::BigVideoLiveShowLiveOnly => 'Show Live Only'
         ];
         $o->value = Gallery::BigVideoLiveShowLiveAndVOD;
@@ -90,7 +90,7 @@ class Gallery extends PluginAbstract
         self::addDataObjectHelper('BigVideoLiveOnFirstPageOnly', 'Big Video Live on First Page Only');
         $obj->BigVideoLiveForLoggedUsersOnly = false;
         self::addDataObjectHelper('BigVideoLiveForLoggedUsersOnly', 'Big Video Live will appear only if the user is logged');
-       
+
         $obj->useSuggestedVideosAsCarouselInBigVideo = true;
         $obj->GifOnBigVideo = true;
         $obj->Description = false;
@@ -358,6 +358,58 @@ class Gallery extends PluginAbstract
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIPlugin={APIPlugin}&APIName={APIName}
      * @return \ApiObject
      */
+    #[OA\Get(
+        path: "/api/Gallery/firstPage",
+        summary: 'Get the homepage configuration and video list endpoints',
+        description: 'Returns homepage sections, each with an endpoint to retrieve a video list. Sections include Suggested, Trending, Shorts, Date Added, etc.',
+        tags: ['Gallery'],
+        security: [['APISecret' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful response with the first page configuration and endpoints',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(
+                            property: 'error',
+                            type: 'boolean',
+                            example: false
+                        ),
+                        new OA\Property(
+                            property: 'msg',
+                            type: 'string',
+                            example: ''
+                        ),
+                        new OA\Property(
+                            property: 'response',
+                            type: 'object',
+                            properties: [
+                                new OA\Property(
+                                    property: 'sections',
+                                    type: 'array',
+                                    items: new OA\Items(
+                                        type: 'object',
+                                        properties: [
+                                            new OA\Property(property: 'name', type: 'string'),
+                                            new OA\Property(property: 'title', type: 'string'),
+                                            new OA\Property(property: 'endpoint', type: 'string'),
+                                            new OA\Property(property: 'totalRows', type: 'integer')
+                                        ]
+                                    )
+                                ),
+                                new OA\Property(property: 'countSections', type: 'integer', example: 5),
+                                new OA\Property(property: 'countVideos', type: 'integer', example: 25),
+                                new OA\Property(property: 'responseTime', type: 'number', format: 'float', example: 0.123),
+                                new OA\Property(property: 'responseCacheTime', type: 'number', format: 'float', example: 0.002)
+                            ]
+                        )
+                    ]
+                )
+            )
+        ]
+    )]
+
     static function API_get_firstPage($parameters){
         global $global;
         $start = microtime(true);
@@ -385,7 +437,7 @@ class Gallery extends PluginAbstract
                     $response->sections[] = $section;
                 } else
                 if ($value['name'] == 'Suggested') {
-    
+
                     $title = !empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested");
                     $rowCount = intval($obj->SuggestedRowCount);
                     $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[suggested]=1";
@@ -494,19 +546,19 @@ class Gallery extends PluginAbstract
             }
             $response->countVideos = $countVideos;
             $response->countSections = $countSections;
-            
+
 
             $finish = microtime(true)-$start;
             $response->responseTime = $finish;
 
             $object = new ApiObject("", false, $response);
-            
+
             ObjectYPT::setCache($cacheName, $object);
         }else{
             $finish = microtime(true)-$start;
             $object->response->responseCacheTime = $finish;
         }
-        
+
         return $object;
     }
 }

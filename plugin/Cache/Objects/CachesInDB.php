@@ -348,7 +348,7 @@ class CachesInDB extends ObjectYPT
             $_deleteCacheStartingWithList = array();
         }
         if(!empty($_deleteCacheStartingWithList[$name])){
-            _error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
+            //_error_log("CachesInDB::_deleteCacheStartingWith($name)  error line=".__LINE__);
             return false;
         }
         $_deleteCacheStartingWithList[$name] = time();

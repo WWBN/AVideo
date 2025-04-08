@@ -3,6 +3,9 @@
 function getDockerVarsFileName()
 {
     global $global;
+    if(empty($global['docker_vars'])){
+        return false;
+    }
     return $global['docker_vars'];
 }
 

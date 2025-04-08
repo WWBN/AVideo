@@ -2579,8 +2579,8 @@ function allowOrigin()
     header('Access-Control-Allow-Private-Network: true');
     header('Access-Control-Request-Private-Network: true');
     //header("Access-Control-Allow-Credentials: true");
-    header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT");
-    header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+    header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT,DELETE");
+    header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,ua-resolution,Authorization");
 }
 
 function cleanUpAccessControlHeader()

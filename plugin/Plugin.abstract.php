@@ -1,7 +1,7 @@
 <?php
 
-require_once $global['systemRootPath'] . 'locale/function.php';
-require_once $global['systemRootPath'] . 'objects/plugin.php';
+require_once __DIR__ . '/../locale/function.php';
+require_once __DIR__ . '/../objects/plugin.php';
 
 abstract class PluginAbstract {
 
@@ -42,10 +42,10 @@ abstract class PluginAbstract {
         $dir = $global['systemRootPath'] . "plugin/{$pluginName}/install/";
         //var_dump($dir);exit;
         if(is_dir($dir)){
-            $files = scandir($dir);        
-        
+            $files = scandir($dir);
+
             $versions = [];
-            
+
             foreach ($files as $file) {
                 if (preg_match($pattern, $file, $matches)) {
                     $versions[] = [
@@ -54,12 +54,12 @@ abstract class PluginAbstract {
                     ];
                 }
             }
-            
+
             // Sort by version (optional)
             usort($versions, function ($a, $b) {
                 return version_compare($a['version'], $b['version']);
             });
-            
+
             // Iterate through sorted files
             foreach ($versions as $entry) {
                 //var_dump($pluginName, $entry['version'], AVideoPlugin::compareVersion($pluginName, $entry['version']) < 0);
@@ -82,10 +82,10 @@ abstract class PluginAbstract {
                     }
                 }
             }
-            $files = scandir($dir);        
-        
+            $files = scandir($dir);
+
             $versions = [];
-            
+
             foreach ($files as $file) {
                 if (preg_match($pattern, $file, $matches)) {
                     $versions[] = [
@@ -94,12 +94,12 @@ abstract class PluginAbstract {
                     ];
                 }
             }
-            
+
             // Sort by version (optional)
             usort($versions, function ($a, $b) {
                 return version_compare($a['version'], $b['version']);
             });
-            
+
             // Iterate through sorted files
             foreach ($versions as $entry) {
                 if (AVideoPlugin::compareVersion($pluginName, $entry['version']) < 0) {
@@ -113,8 +113,8 @@ abstract class PluginAbstract {
                 }
             }
         }
-        
-        return true; 
+
+        return true;
     }
 
     public function getFooterCode() {
@@ -192,7 +192,7 @@ abstract class PluginAbstract {
 
     public function getDataObject() {
         $uuid = $this->getUUID();
-        if (empty(PluginAbstract::$dataObject[$uuid])) {
+        if (empty(PluginAbstract::$dataObject[$uuid]) && class_exists('Plugin')) {
             $obj = Plugin::getPluginByUUID($uuid);
             //echo $obj['object_data'];
             $o = self::getObjectDataFromDatabase($uuid);
@@ -445,7 +445,7 @@ abstract class PluginAbstract {
     }
 
     /**
-     * 
+     *
      * @return string array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));
      */
     public function getLiveApplicationArray() {
@@ -494,7 +494,7 @@ abstract class PluginAbstract {
     }
 
     /**
-     * 
+     *
      * @return string return a list of IDs of the user groups
      */
     public function getDynamicUserGroupsId($users_id) {
@@ -554,7 +554,7 @@ abstract class PluginAbstract {
         foreach ($ready['error'] as $value) {
             $desc .= "<span class='btn btn-warning btn-sm btn-xs'><i class='fa fa-exclamation-triangle'></i> {$value['name']} plugin Not Found</span> ";
         }
-        
+
 
         return $desc;
     }
@@ -564,16 +564,16 @@ abstract class PluginAbstract {
     }
 
     /**
-     * 
+     *
      * @param string $users_id
      * @return 0 = I dont know, -1 = can not upload, 1 = can upload
      */
     public function userCanUpload($users_id) {
         return 0;
     }
-    
+
     /**
-     * 
+     *
      * @param string $users_id
      * @return 0 = I dont know, -1 = can not upload, 1 = can upload
      */
@@ -582,7 +582,7 @@ abstract class PluginAbstract {
     }
 
     /**
-     * 
+     *
      * @param string $users_id
      * @param string $videos_id
      * @return 0 = I dont know, -1 = can not watch, 1 = can watch
@@ -592,7 +592,7 @@ abstract class PluginAbstract {
     }
 
     /**
-     * 
+     *
      * @param string $users_id
      * @param string $videos_id
      * @return 0 = I dont know, -1 = can not watch, 1 = can watch
@@ -722,147 +722,147 @@ abstract class PluginAbstract {
     }
 
     function onUserSocketConnect() {
-        
+
     }
 
     function onUserSocketDisconnect() {
-        
+
     }
 
     function onVideoSetLive_transmitions_history_id($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetEncoderURL($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetFilepath($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetUsers_id($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetSites_id($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetVideo_password($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetClean_title($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetDuration($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetIsSuggested($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetStatus($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetType($video_id, $oldValue, $newValue, $force) {
-        
+
     }
 
     function onVideoSetRotation($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetZoom($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetDescription($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetCategories_id($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetVideoDownloadedLink($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetVideoGroups($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetTrailer1(Video &$videoObj, $newValue) {
-        
+
     }
 
     function onVideoSetTrailer2(Video &$videoObj, $newValue) {
-        
+
     }
 
     function onVideoSetTrailer3(Video &$videoObj, $newValue) {
-        
+
     }
 
     function onVideoSetRate($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetYoutubeId($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetTitle($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetFilename($video_id, $oldValue, $newValue, $force) {
-        
+
     }
 
     function onVideoSetNext_videos_id($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetVideoLink($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetCan_download($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetCan_share($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetOnly_for_paid($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetRrating($video_id, $oldValue, $newValue) {
-        
+
     }
-    
+
     function executeEveryMinute() {
-        
+
     }
-    
+
     function executeEveryHour() {
-        
+
     }
-    
+
     function executeEveryDay() {
-        
+
     }
-    
+
     function executeEveryMonth() {
-        
+
     }
 
     /**
@@ -881,15 +881,15 @@ abstract class PluginAbstract {
     }
 
     function onVideoSetExternalOptions($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetVideoStartSeconds($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function onVideoSetSerie_playlists_id($video_id, $oldValue, $newValue) {
-        
+
     }
 
     function getMobileHomePageURL() {
@@ -914,11 +914,11 @@ abstract class PluginAbstract {
     public function getWalletConfigurationHTML($users_id, $wallet, $walletDataObject) {
         return "";
     }
-    
+
     function canRecordVideo($key) {
         return true;
     }
-    
+
     function canNotifyVideo($key) {
         return true;
     }
