@@ -380,7 +380,8 @@ class API extends PluginAbstract
         $obj->id = getPlatformId();
         $obj->isAPISecretValid = self::isAPISecretValid();
 
-        return $apiResponse->finalize("", false, $obj);
+        $apiResponse->finalize("", false, $obj);
+        return $apiResponse;
     }
 
     /**
