@@ -3,13 +3,9 @@ use OpenApi\Attributes as OA;
 $configFile = __DIR__ . '/../../videos/configuration.php';
 require_once $configFile;
 
-
-$APISecret = '';
-if (User::isAdmin()) {
-    $dataObj = AVideoPlugin::getDataObject('API');
-    //$APISecret = $dataObj->APISecret;
+if (!User::isAdmin()) {
+    forbiddenPage('You need to be an admin to access this page');
 }
-
 
 ?>
 <!-- HTML for static distribution bundle build -->

@@ -7,6 +7,9 @@ require_once $configFile;
 
 use OpenApi\Generator;
 
+if (!User::isAdmin()) {
+    forbiddenPage('You need to be an admin to access this page');
+}
 $plugins = Plugin::getAllEnabled();
 $sources = array();
 
