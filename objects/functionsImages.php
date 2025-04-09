@@ -278,7 +278,7 @@ function convertImageToOG($source, $destination)
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
-            im_resize($fileConverted, $destination, $w, $h, 100);            
+            im_resize($fileConverted, $destination, $w, $h, 100);
             //_error_log("convertImageToOG ($destination) unlink line=".__LINE__);
             @unlink($fileConverted);
         }
@@ -999,7 +999,8 @@ function convertImage($originalImage, $outputImage, $quality, $useExif = false)
         }
     } elseif ($extOutput === 'png') {
         if (function_exists('imagepng')) {
-            $response = imagepng($imageTmp, $outputImage, $quality / 10);
+            $quality = max(-1, min(9, (int) round($quality / 10)));
+            $response = imagepng($imageTmp, $outputImage, $quality);
         } else {
             _error_log("convertImage ERROR: function imagepng does not exists");
         }
@@ -1093,7 +1094,7 @@ function isImageNotFound($imgURL){
     if(empty($imgURL)){
         return true;
     }
-    
+
     return ImagesPlaceHolders::isDefaultImage($imgURL);
 }
 
