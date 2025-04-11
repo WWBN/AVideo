@@ -341,7 +341,8 @@ if (empty($video)) {
                 if (!User::isLogged()) {
                     gotToLoginAndComeBackHere();
                 } else {
-                    $msg = 'ERROR 1: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
+                    $msg = 'ERROR 1: The video ID [' . $vid->getId() . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
+                    _error_log($msg. ' filename=' . $vid->getFilename());
                     videoNotFound($msg);
                 }
                 exit;
