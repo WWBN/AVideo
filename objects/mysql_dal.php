@@ -150,7 +150,7 @@ class sqlDAL
         } catch (mysqli_sql_exception $e) {
             if (preg_match('/Table .*CachesInDB.* doesn\'t exist/i', $e->getMessage())) {
                 _error_log("writeSql: Skipping missing table 'CachesInDB'");
-                return false;
+                return true;
             }
             _error_log("writeSql: Exception in prepare: " . $e->getMessage());
             return false;
