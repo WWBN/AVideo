@@ -140,7 +140,7 @@ function _mysql_connect($persistent = false, $try = 0)
                 _error_log('ERROR: mysqli class not loaded ' . php_ini_loaded_file());
                 die('ERROR: mysqli class not loaded');
             }
-            //_error_log('MySQL Connect IP=' . getRealIpAddr() . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            _error_log('MySQL Connect IP=' . getRealIpAddr() . ' UA=' . getUserAgentInfo() . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
             $mysql_connect_is_persistent = $persistent;
             $global['mysqli'] = new mysqli(($persistent ? 'p:' : '') . $mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
@@ -230,9 +230,9 @@ function canCloseConnection()
 
 function _mysql_close()
 {
-    global $global, $mysql_connect_was_closed, $mysql_connect_is_persistent;
+    global $global, $mysql_connect_was_closed;
     if (canCloseConnection()) {
-        _error_log('MySQL Closed IP' . getRealIpAddr() .' '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log('MySQL Closed IP' . getRealIpAddr() . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $mysql_connect_was_closed = 1;
         try {
             /**
