@@ -334,7 +334,7 @@ class sqlDAL
                  * @var object $global['mysqli']
                  */
                 $readSqlCached[$crc] = "false";
-                if(empty($global['mysqli'])){
+                if(!_mysql_is_open()){
                     _mysql_connect();
                 }
                 try {

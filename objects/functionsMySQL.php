@@ -257,14 +257,28 @@ function _mysql_is_open()
 {
     global $global, $mysql_connect_was_closed;
     try {
-        if (!empty($global['mysqli']) && ($global['mysqli'] instanceof mysqli) && empty($mysql_connect_was_closed)) {
-            if ($global['mysqli']->ping()) {
-                return true;
-            } else {
-                error_log("MySQL connection ping failed: " . $global['mysqli']->error);
-            }
-        } else {
-            error_log("MySQL connection object is either empty, not an instance of mysqli, or has been marked as closed.");
+        // Check that the mysqli object exists and is valid
+        if (empty($global['mysqli']) || !($global['mysqli'] instanceof mysqli)) {
+            error_log("MySQL connection is not available or not an instance of mysqli.");
+            return false;
+        }
+
+        // Check if we've flagged the connection as closed
+        if (!empty($mysql_connect_was_closed)) {
+            error_log("MySQL connection flagged as closed.");
+            return false;
+        }
+
+        // If there is a connection error, log it
+        if ($global['mysqli']->connect_errno) {
+            error_log("MySQL connection error: " . $global['mysqli']->connect_error);
+            return false;
+        }
+
+        // Use ping() to check if the connection is alive
+        if (!$global['mysqli']->ping()) {
+            error_log("MySQL connection ping failed; connection appears to be closed. Error: " . $global['mysqli']->error);
+            return false;
         }
     } catch (Exception $exc) {
         error_log("Exception in _mysql_is_open: " . $exc->getMessage());
