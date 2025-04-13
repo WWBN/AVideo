@@ -140,7 +140,7 @@ function _mysql_connect($persistent = false, $try = 0)
                 _error_log('ERROR: mysqli class not loaded ' . php_ini_loaded_file());
                 die('ERROR: mysqli class not loaded');
             }
-            //_error_log('MySQL Connect IP=' . getRealIpAddr() . ' UA=' . $_SERVER['HTTP_USER_AGENT'] . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            _error_log('MySQL Connect IP=' . getRealIpAddr() . ' UA=' . $_SERVER['HTTP_USER_AGENT'] . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
             $mysql_connect_is_persistent = $persistent;
             $global['mysqli'] = new mysqli(($persistent ? 'p:' : '') . $mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
