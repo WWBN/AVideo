@@ -190,6 +190,17 @@ function _mysql_commit()
     }
 }
 
+function canCloseConnection(){
+    if($_SERVER['SCRIPT_NAME:'] == '/view/modeYoutube.php'){
+        return false;
+    }
+    global $mysql_connect_is_persistent;
+    if (!$mysql_connect_is_persistent && _mysql_is_open() && !isCommandLineInterface() && getRealIpAddr() !== '127.0.0.1') {
+        return true;
+    }
+    return false;
+}
+
 function _mysql_close()
 {
     global $global, $mysql_connect_was_closed, $mysql_connect_is_persistent;
