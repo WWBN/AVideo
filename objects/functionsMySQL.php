@@ -204,7 +204,7 @@ function canCloseConnection(){
 function _mysql_close()
 {
     global $global, $mysql_connect_was_closed, $mysql_connect_is_persistent;
-    if (!$mysql_connect_is_persistent && _mysql_is_open() && !isCommandLineInterface() && getRealIpAddr() !== '127.0.0.1') {
+    if (canCloseConnection()) {
         //_error_log('MySQL Closed '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $mysql_connect_was_closed = 1;
         try {
