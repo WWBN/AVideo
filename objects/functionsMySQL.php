@@ -275,9 +275,12 @@ function _mysql_is_open()
             return false;
         }
 
-        // Use ping() to check if the connection is alive
-        if (!$global['mysqli']->ping()) {
-            error_log("MySQL connection ping failed; connection appears to be closed. Error: " . $global['mysqli']->error);
+        $result = $global['mysqli']->query("SELECT 1");
+        if ($result) {
+            $result->free();
+            return true;
+        } else {
+            error_log("MySQL connection test query failed. Connection appears to be closed. Error: " . $global['mysqli']->error);
             return false;
         }
     } catch (Exception $exc) {
