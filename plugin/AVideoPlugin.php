@@ -1931,7 +1931,8 @@ class AVideoPlugin
 
     public static function getVideoTags($videos_id)
     {
-        global $global, $advancedCustom;
+        global $global, $advancedCustom, $mysql_connect_is_persistent;
+        $mysql_connect_is_persistent = 1;
         $tolerance = 0.1;
         if (empty($videos_id) || !empty($global['disableVideoTags']) || !empty($advancedCustom->disableVideoTags)) {
             return [];
