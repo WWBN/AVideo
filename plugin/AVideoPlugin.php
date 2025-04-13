@@ -1866,7 +1866,7 @@ class AVideoPlugin
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
-        _mysql_close();
+        //_mysql_close();
     }
 
     public static function onUserSocketDisconnect()
@@ -1881,7 +1881,7 @@ class AVideoPlugin
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
-        _mysql_close();
+        //_mysql_close();
     }
 
     public static function thumbsOverlay($videos_id)
