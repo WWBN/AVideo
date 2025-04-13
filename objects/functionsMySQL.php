@@ -259,13 +259,13 @@ function _mysql_is_open()
     try {
         // Check that the mysqli object exists and is valid
         if (empty($global['mysqli']) || !($global['mysqli'] instanceof mysqli)) {
-            error_log("MySQL connection is not available or not an instance of mysqli.");
+            //error_log("MySQL connection is not available or not an instance of mysqli.");
             return false;
         }
 
         // Check if we've flagged the connection as closed
         if (!empty($mysql_connect_was_closed)) {
-            error_log("MySQL connection flagged as closed.");
+            //error_log("MySQL connection flagged as closed.");
             return false;
         }
 
