@@ -122,7 +122,7 @@ function getMySQLDate()
 function _mysql_connect($persistent = false, $try = 0)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed, $mysql_connect_is_persistent, $isStandAlone;
-    if(!empty($isStandAlone)){
+    if (!empty($isStandAlone)) {
         _error_log('StandAlone Mode');
         return false;
     }
@@ -130,7 +130,7 @@ function _mysql_connect($persistent = false, $try = 0)
 
     foreach ($checkValues as $value) {
         if (!isset($$value)) {
-            _error_log("_mysql_connect Variable NOT set $value ".json_encode(debug_backtrace()));
+            _error_log("_mysql_connect Variable NOT set $value " . json_encode(debug_backtrace()));
         }
     }
 
@@ -140,7 +140,7 @@ function _mysql_connect($persistent = false, $try = 0)
                 _error_log('ERROR: mysqli class not loaded ' . php_ini_loaded_file());
                 die('ERROR: mysqli class not loaded');
             }
-            _error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            _error_log('MySQL Connect IP=' . getRealIpAddr() . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
             $mysql_connect_is_persistent = $persistent;
             $global['mysqli'] = new mysqli(($persistent ? 'p:' : '') . $mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
@@ -389,7 +389,7 @@ function dumpMySQLDatabase($filePath, $extraOptions = [], &$status = [], $bfile 
 function updateLockFile($status, $bfile)
 {
 
-    if(empty($bfile)){
+    if (empty($bfile)) {
         return false;
     }
 
