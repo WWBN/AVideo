@@ -334,7 +334,7 @@ class sqlDAL
                  * @var object $global['mysqli']
                  */
                 $readSqlCached[$crc] = "false";
-                _mysql_connect();
+                //_mysql_connect();
                 try {
                     $stmt = $global['mysqli']->prepare($preparedStatement);
                 } catch (Exception $exc) {
