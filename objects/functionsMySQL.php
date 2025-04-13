@@ -140,7 +140,7 @@ function _mysql_connect($persistent = false, $try = 0)
                 _error_log('ERROR: mysqli class not loaded ' . php_ini_loaded_file());
                 die('ERROR: mysqli class not loaded');
             }
-            _error_log('MySQL Connect IP=' . getRealIpAddr() . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            //_error_log('MySQL Connect IP=' . getRealIpAddr() . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
             $mysql_connect_is_persistent = $persistent;
             $global['mysqli'] = new mysqli(($persistent ? 'p:' : '') . $mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
@@ -190,22 +190,49 @@ function _mysql_commit()
     }
 }
 
-function canCloseConnection(){
-    if($_SERVER['SCRIPT_NAME:'] == '/view/modeYoutube.php'){
+/**
+ * Determines if it's safe to close the MySQL connection.
+ *
+ * @return bool True if the connection can be closed, false otherwise.
+ */
+function canCloseConnection()
+{
+    // Do not close connection on the main frontend rendering page
+    if (!empty($_SERVER['SCRIPT_NAME']) && $_SERVER['SCRIPT_NAME'] === '/view/modeYoutube.php') {
         return false;
     }
+
     global $mysql_connect_is_persistent;
-    if (!$mysql_connect_is_persistent && _mysql_is_open() && !isCommandLineInterface() && getRealIpAddr() !== '127.0.0.1') {
-        return true;
+
+    // Don't close if connection is persistent
+    if ($mysql_connect_is_persistent) {
+        return false;
     }
-    return false;
+
+    // Don't close if MySQL is not open
+    if (!_mysql_is_open()) {
+        return false;
+    }
+
+    // Don't close if running in CLI
+    if (isCommandLineInterface()) {
+        return false;
+    }
+
+    // Don't close if request is from localhost
+    if (getRealIpAddr() === '127.0.0.1') {
+        return false;
+    }
+
+    return true;
 }
+
 
 function _mysql_close()
 {
     global $global, $mysql_connect_was_closed, $mysql_connect_is_persistent;
     if (canCloseConnection()) {
-        //_error_log('MySQL Closed '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log('MySQL Closed IP' . getRealIpAddr() .' '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $mysql_connect_was_closed = 1;
         try {
             /**
