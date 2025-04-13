@@ -284,7 +284,7 @@ function _mysql_is_open()
         error_log("Exception in _mysql_is_open: " . $exc->getMessage());
         return false;
     }
-    return false;
+    return true;
 }
 
 
