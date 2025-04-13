@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class Menu extends ObjectYPT {
-    
+
     static $typeLeftMenu = 1;
     static $typeTopMenu = 2;
     static $typeActionMenu = 3;
@@ -18,14 +18,14 @@ class Menu extends ObjectYPT {
     static $typeMobileTabMenuInABrowser = 10;
     static $typeMobileLeftMenuInABrowser = 11;
     static $typeFloatMenu = 12;
-    
+
     static $typeName = array(
-        1=>'Left', 
-        2=>'Top', 
-        3=>'Action', 
-        4=>'Action Per Video', 
-        5=>'Action Per Video For Logged Users Only', 
-        6=>'Action Per Video For Users That can Watch Video', 
+        1=>'Left',
+        2=>'Top',
+        3=>'Action',
+        4=>'Action Per Video',
+        5=>'Action Per Video For Logged Users Only',
+        6=>'Action Per Video For Users That can Watch Video',
         7=>'Action Per Video For Users That can NOT Watch Video',
         8=>'Mobile Tab Menu',
         9=>'Mobile Left Menu',
@@ -42,7 +42,7 @@ class Menu extends ObjectYPT {
     static function getTableName() {
         return 'topMenu';
     }
-    
+
     function setMenuName($menuName) {
         $this->menuName = $menuName;
     }
@@ -70,15 +70,15 @@ class Menu extends ObjectYPT {
     function setType($type) {
         $this->type = $type;
     }
-    
+
     function setIcon($icon) {
         $this->icon = $icon;
     }
-    
+
     function setmenuSeoUrl($menuSeoUrl){
         $this->menuSeoUrl=$menuSeoUrl;
-    }    
-    
+    }
+
     static function getAllActive($type=false) {
         global $global;
         if(empty($global)){
@@ -89,17 +89,17 @@ class Menu extends ObjectYPT {
             $sql .= " AND type = $type ";
         }
         $sql .= " ORDER BY menu_order ";
-        _mysql_connect();
+        //_mysql_connect();
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
             while ($row = $res->fetch_assoc()) {
                 $rows[] = $row;
             }
-        } 
+        }
         return $rows;
     }
-    
+
     function save() {
         global $global;
         if(empty($this->menuName)){
@@ -111,14 +111,14 @@ class Menu extends ObjectYPT {
         if(empty($this->users_groups_id)){
             $this->users_groups_id = 'null';
         }
-        
+
         if(empty($this->menu_order)){
             $this->menu_order = 0;
         }
         if(empty($this->status)){
             $this->status = "active";
         }
-        
+
         if(empty($this->position)){
             $this->position = "right";
         }
@@ -128,11 +128,11 @@ class Menu extends ObjectYPT {
         if(empty($this->menuSeoUrl)){
             $this->menuSeoUrl=$this->menuName;
         }
-        
+
         $this->menuSeoUrl=(preg_replace('/[^a-z0-9]+/', '_', strtolower($this->menuSeoUrl)));
-        
+
         return parent::save();
     }
 
-    
+
 }

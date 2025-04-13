@@ -1856,7 +1856,7 @@ class AVideoPlugin
 
     public static function onUserSocketConnect()
     {
-        _mysql_connect();
+        //_mysql_connect();
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
@@ -1871,7 +1871,7 @@ class AVideoPlugin
 
     public static function onUserSocketDisconnect()
     {
-        _mysql_connect();
+        //_mysql_connect();
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();

@@ -1282,7 +1282,7 @@ if (!class_exists('Video')) {
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
                 }
             }
-            _mysql_connect();
+            //_mysql_connect();
             $sql = "SELECT STRAIGHT_JOIN  u.*, u.externalOptions as userExternalOptions, v.*, "
                 . " nv.title as next_title,"
                 . " nv.clean_title as next_clean_title,"

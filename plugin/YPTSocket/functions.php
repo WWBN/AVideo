@@ -102,7 +102,7 @@ function getTotalViewsLive_key($live_key) {
         return false;
     }
     $live_key = object_to_array($live_key);
-    _mysql_connect();
+    //_mysql_connect();
     $liveUsersEnabled = \AVideoPlugin::isEnabledByName("LiveUsers");
     if ($liveUsersEnabled) {
         $liveUsers = new \LiveOnlineUsers(0);

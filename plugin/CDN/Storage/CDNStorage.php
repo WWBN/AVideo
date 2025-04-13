@@ -282,7 +282,7 @@ class CDNStorage
 
     public static function setSite($videos_id, $isOnTheStorage)
     {
-        _mysql_connect();
+        //_mysql_connect();
         $v = new Video('', '', $videos_id);
         if ($isOnTheStorage) {
             $site = self::getOrCreateSite();

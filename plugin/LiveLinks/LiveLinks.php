@@ -76,7 +76,7 @@ class LiveLinks extends PluginAbstract {
 
     static function getAllActive($future = false, $activeOnly = true, $notStarted = false, $users_id=0, $categories_id=0) {
         global $global;
-        _mysql_connect();
+        //_mysql_connect();
         $sql = "SELECT * FROM  LiveLinks WHERE 1=1 ";
 
         if (!empty($future)) {
@@ -101,11 +101,11 @@ class LiveLinks extends PluginAbstract {
 
         $sql .= " ORDER BY start_php_time";
         //echo $sql;//exit;
-        
+
         /**
-         * 
+         *
          * @var array $global
-         * @var object $global['mysqli'] 
+         * @var object $global['mysqli']
          */
         $res = $global['mysqli']->query($sql);
         $rows = array();
@@ -146,13 +146,13 @@ class LiveLinks extends PluginAbstract {
     }
 
     /**
-     * 
+     *
      * @return string array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));
      */
     public function getLiveApplicationArray() {
         global $global;
-        
-        $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');        
+
+        $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');
         $rows = LiveLinks::getAllActive(true, true);
         $array = array();
         foreach ($rows as $value) {
@@ -165,10 +165,10 @@ class LiveLinks extends PluginAbstract {
                     continue;
                 }
             }
-                        
+
             $label = ($liveUsers ? getLiveUsersLabelLiveLinks($value['id']) : '');
             //var_dump( self::getPosterToLiveFromId($value['id']),$value['id'] );exit;
-            
+
             $_array = array(
                 'users_id'=>$value['users_id'],
                 'title'=>$value['title'],
@@ -183,7 +183,7 @@ class LiveLinks extends PluginAbstract {
                 'class'=>'',
                 'description'=>$value['description']
             );
-            
+
             $row = Live::getLiveApplicationModelArray($_array);
             //var_dump($row);exit;
             $row['categories_id'] = $value['categories_id'];
@@ -194,7 +194,7 @@ class LiveLinks extends PluginAbstract {
             $row['expires'] = strtotime($row['end_date_my_timezone']);
             $row['isRebroadcast'] = !empty($value['isRebroadcast']);
             $array[] = $row;
-            
+
         }
         //var_dump($rows, $array);exit;
         return $array;
@@ -437,7 +437,7 @@ class LiveLinks extends PluginAbstract {
         if (empty($user_groups_ids)) {
             return true;
         }
-        
+
         if (empty($users_id)) {
             return false;
         }
@@ -474,14 +474,14 @@ class LiveLinks extends PluginAbstract {
         $t['description'] = @$video->description;
         return $t;
     }
-    
+
     public static function getMediaSession($id) {
         $ll = new LiveLinksTable($id);
-        
+
         if(empty($ll->getUsers_id())){
             return false;
         }
-        
+
         $posters = array();
         //var_dump($posters);exit;
         $category = Category::getCategory($ll->getCategories_id());
@@ -491,14 +491,14 @@ class LiveLinks extends PluginAbstract {
         $MediaMetadata->artist = User::getNameIdentificationById($ll->getUsers_id());
         $MediaMetadata->album = $category['name'];
         $MediaMetadata->artwork = array();
-        
+
         $poster = LiveLinks::getImage($id);
         $MediaMetadata->artwork[] = array('src' => $poster, 'sizes' => "512x512", 'type' => 'image/jpg');
         /*
         foreach ($posters as $key => $value) {
             $MediaMetadata->artwork[] = array('src' => $value['url'], 'sizes' => "{$key}x{$key}", 'type' => 'image/jpg');
         }
-         * 
+         *
          */
         return $MediaMetadata;
     }
