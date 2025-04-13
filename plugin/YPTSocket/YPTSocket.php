@@ -202,7 +202,6 @@ class YPTSocket extends PluginAbstract
     {
         global $global, $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj, $SocketURL;
 
-        _mysql_close();
         @_session_write_close();
 
         if (!is_string($msg)) {

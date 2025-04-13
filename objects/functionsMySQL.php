@@ -232,7 +232,7 @@ function _mysql_close()
 {
     global $global, $mysql_connect_was_closed;
     if (canCloseConnection()) {
-        _error_log('MySQL Closed IP' . getRealIpAddr() . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log('MySQL Closed IP=' . getRealIpAddr() . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $mysql_connect_was_closed = 1;
         try {
             /**
