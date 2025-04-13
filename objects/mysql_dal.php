@@ -38,7 +38,7 @@ $disableMysqlNdMethods = false;
 
 if(function_exists('isDocker') && isDocker()){
     ini_set('mysql.connect_timeout', 300);
-    ini_set('default_socket_timeout', 300);    
+    ini_set('default_socket_timeout', 300);
 }
 
 /*
@@ -90,14 +90,15 @@ class sqlDAL
         }
     }
 
-    /*
-     * For Sql like INSERT and UPDATE. The special point about this method: You do not need to close it (more direct).
-     * @param string $preparedStatement  The Sql-command
-     * @param string $formats            i=int,d=doube,s=string,b=blob (http://www.php.net/manual/en/mysqli-stmt.bind-param.php)
-     * @param array  $values             A array, containing the values for the prepared statement.
-     * @return boolean                   true on success, false on fail
+    /**
+     * This method is used to write to the database. It is used for INSERT, UPDATE and DELETE.
+     *
+     * @param [String] $preparedStatement The Sql-command
+     * @param string $formats  i=int,d=doube,s=string,b=blob (http://www.php.net/manual/en/mysqli-stmt.bind-param.php)
+     * @param array  $values   A array, containing the values for the prepared statement.
+     * @param integer $try     A integer, used to retry the command if the MySQL server has gone away.
+     * @return void
      */
-
     public static function writeSql($preparedStatement, $formats = "", $values = [], $try=0)
     {
         global $global, $disableMysqlNdMethods, $isStandAlone;
@@ -143,7 +144,19 @@ class sqlDAL
         if (!_mysql_is_open()) {
             _mysql_connect();
         }
-        if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
+
+        try {
+            $stmt = $global['mysqli']->prepare($preparedStatement);
+        } catch (mysqli_sql_exception $e) {
+            if (preg_match('/Table .*CachesInDB.* doesn\'t exist/i', $e->getMessage())) {
+                _error_log("writeSql: Skipping missing table 'CachesInDB'");
+                return false;
+            }
+            _error_log("writeSql: Exception in prepare: " . $e->getMessage());
+            return false;
+        }
+
+        if (!$stmt) {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error .
                 " preparedStatement = " . json_encode($preparedStatement) .
                 " formats = " . json_encode($formats));
@@ -249,7 +262,7 @@ class sqlDAL
         if($isStandAlone){
             return false;
         }
-        
+
         /**
          * @var array $global
          * @var object $global['mysqli']
