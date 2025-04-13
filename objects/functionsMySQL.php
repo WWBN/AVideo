@@ -247,24 +247,33 @@ function _mysql_close()
     }
 }
 
+
+/**
+ * Check if the MySQL connection is open and valid.
+ *
+ * @return bool True if the connection is open, false otherwise.
+ */
 function _mysql_is_open()
 {
     global $global, $mysql_connect_was_closed;
     try {
-        /**
-         *
-         * @var array $global
-         * @var object $global['mysqli']
-         */
-        //if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
-        if (!empty($global['mysqli']) && is_object($global['mysqli']) && empty($mysql_connect_was_closed) && isset($global['mysqli']->server_info) && is_resource($global['mysqli']) && get_resource_type($global['mysqli']) === 'mysql link') {
-            return true;
+        if (!empty($global['mysqli']) && ($global['mysqli'] instanceof mysqli) && empty($mysql_connect_was_closed)) {
+            if ($global['mysqli']->ping()) {
+                return true;
+            } else {
+                error_log("MySQL connection ping failed: " . $global['mysqli']->error);
+            }
+        } else {
+            error_log("MySQL connection object is either empty, not an instance of mysqli, or has been marked as closed.");
         }
     } catch (Exception $exc) {
+        error_log("Exception in _mysql_is_open: " . $exc->getMessage());
         return false;
     }
     return false;
 }
+
+
 
 
 function lockForUpdate($tableName, $condition)
