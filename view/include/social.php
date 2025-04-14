@@ -65,7 +65,7 @@ $social_medias = [
 ?>
 <ul class="social-network social-circle social-bgColor">
     <?php
-    $loaderSequenceName = uniqid();
+    $loaderSequenceName = _uniqid();
     foreach ($global['social_medias'] as $key => $value) {
         eval("\$show = \$advancedCustom->showShareButton_{$key};");
         if (empty($show)) {
@@ -87,6 +87,6 @@ $social_medias = [
 </ul>
 <div style="margin-top: 10px;">
     <?php
-    getInputCopyToClipboard(uniqid(), $urlShort, 'class="form-control" readonly="readonly" style="background-color: #EEE; color: #000;"');
+    getInputCopyToClipboard(_uniqid(), $urlShort, 'class="form-control" readonly="readonly" style="background-color: #EEE; color: #000;"');
     ?>
 </div>

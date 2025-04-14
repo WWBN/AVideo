@@ -918,7 +918,7 @@ class LiveTransmitionHistory extends ObjectYPT
             $latest = self::getLatestFromUser($this->users_id);
             if(empty($latest)){
                 _error_log("LiveTransmitionHistory::save: ERROR again, no latest key found");
-                $this->key = uniqid();
+                $this->key = _uniqid();
             }else{
                 $this->key = $latest['key'];
             }

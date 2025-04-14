@@ -163,7 +163,7 @@ function fixConcatFfmpegCommand($ffmpegCommand) {
 
         foreach ($concatFiles as $file) {
             if (preg_match('/^https?:\/\//', $file)) {
-                $localFile = getTmpDir().'concat_'.uniqid();
+                $localFile = getTmpDir().'concat_'._uniqid();
                 $data = url_get_contents($file);
                 file_put_contents($localFile, $data);
                 $fixedFiles[] = $localFile;

@@ -79,7 +79,7 @@ function createCategorySection($videos)
                 </a>
                 <?php
                 if (!isHTMLEmpty($videos[0]['category_description'])) {
-                    $duid = uniqid();
+                    $duid = _uniqid();
                     $titleAlert = str_replace(array('"', "'"), array('``', "`"), $videos[0]['category']);
                 ?>
                     <a href="#" class="pull-right" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"categoryDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#categoryDescriptionAlertContent<?php echo $duid; ?>").html($("#categoryDescription<?php echo $duid; ?>").html());return false;'><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>

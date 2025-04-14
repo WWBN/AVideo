@@ -740,7 +740,7 @@ function wgetIsLocked($url)
 function isWritable($dir)
 {
     $dir = rtrim($dir, '/') . '/';
-    $file = $dir . uniqid();
+    $file = $dir . _uniqid();
     $result = false;
     $time = time();
     if (@file_put_contents($file, $time)) {
@@ -759,7 +759,7 @@ function _isWritable($dir)
     if (!isWritable($dir)) {
         return false;
     }
-    $tmpFile = "{$dir}" . uniqid();
+    $tmpFile = "{$dir}" . _uniqid();
     $bytes = @file_put_contents($tmpFile, time());
     @unlink($tmpFile);
     return !empty($bytes);
@@ -805,7 +805,7 @@ function getTmpDir($subdir = "")
 
 function getTmpFile()
 {
-    return getTmpDir("tmpFiles") . uniqid();
+    return getTmpDir("tmpFiles") . _uniqid();
 }
 
 function _file_put_contents($filename, $data, $flags = 0, $context = null)

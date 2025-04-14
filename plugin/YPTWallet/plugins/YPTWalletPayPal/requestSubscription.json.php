@@ -15,7 +15,7 @@ $objS = $pluginS->getDataObject();
 $obj= new stdClass();
 $obj->error = true;
 
-$invoiceNumber = uniqid();
+$invoiceNumber = _uniqid();
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
