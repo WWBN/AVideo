@@ -34,7 +34,7 @@ $remoteData = json_decode($remoteInfo, true);
 if (!isset($remoteData['version'])) {
     die("❌ Invalid remote build-info.json format\n");
 } else {
-    echo "🌐 Found remote {$remoteInfo}".PHP_EOL;
+    echo "🌐 Found remote {$remoteInfo}" . PHP_EOL;
 }
 
 // 2. Read local build-info.json
@@ -52,13 +52,13 @@ $remoteVersion = (int)$remoteData['version'];
 if ($remoteVersion != $localVersion) {
     echo "⬇️  New version available (local: $localVersion, remote: $remoteVersion). Starting update...\n";
 
-    // Kill existing process
+    // Kill existing yptsocket process
     echo "🛑 Checking for running yptsocket process...\n";
     $pidOutput = [];
     exec("pgrep -f '$localBinaryPath'", $pidOutput);
     if (!empty($pidOutput)) {
         foreach ($pidOutput as $pid) {
-            echo "🔪 Killing process with PID: $pid\n";
+            echo "🔪 Killing yptsocket process with PID: $pid\n";
             exec("kill -9 $pid");
         }
     } else {
@@ -80,6 +80,19 @@ if ($remoteVersion != $localVersion) {
     echo "✅ build-info.json updated at: $localInfoPath\n";
 } else {
     echo "🆗 Local version is up to date (local: $localVersion, remote: $remoteVersion)\n";
+}
+
+// 🔥 Kill PHP worker processes before starting socket
+echo "🛑 Checking for running PHP worker processes...\n";
+$phpWorkerOutput = [];
+exec("pgrep -f 'php " . __DIR__ . "/worker.php'", $phpWorkerOutput);
+if (!empty($phpWorkerOutput)) {
+    foreach ($phpWorkerOutput as $pid) {
+        echo "🔪 Killing PHP worker process with PID: $pid\n";
+        exec("kill -9 $pid");
+    }
+} else {
+    echo "✅ No running PHP worker process found.\n";
 }
 
 // 4. Execute the binary
