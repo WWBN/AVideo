@@ -418,6 +418,10 @@ class Gallery extends PluginAbstract
         if(empty($object)){
             $obj = AVideoPlugin::getObjectData("Gallery");
             $sections = Gallery::getSectionsOrder();
+            if(!empty($_REQUEST['debug'])){
+                var_dump($sections);
+                die();
+            }
             $response = new stdClass();
             $response->sections = array();
             $countSections = 0;
