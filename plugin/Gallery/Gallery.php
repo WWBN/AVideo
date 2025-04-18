@@ -461,7 +461,7 @@ class Gallery extends PluginAbstract
                     $countVideos += $section->totalRows;
                     $response->sections[] = $section;
                 } else
-                if ($value['name'] == 'Shorts' && empty($_REQUEST['catName'])) {
+                if ($value['name'] == 'Shorts' && empty($_REQUEST['catName']) && AVideoPlugin::isEnabledByName('Shorts')) {
                     $title = !empty($obj->ShortsCustomTitle) ? $obj->ShortsCustomTitle : __("Shorts");
                     $rowCount = intval($obj->ShortsRowCount);
                     $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[shorts]=1";
