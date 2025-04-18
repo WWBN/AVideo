@@ -233,6 +233,7 @@ class YouPHPFlix2 extends PluginAbstract
             $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 
             $response = new stdClass();
+            $response->type = 'Flix';
             $response->sections = array();
             $countSections = 0;
             $countVideos = 0;
