@@ -423,6 +423,7 @@ class Gallery extends PluginAbstract
                 die();
             }
             $response = new stdClass();
+            $response->type = 'Gallery';
             $response->sections = array();
             $countSections = 0;
             $countVideos = 0;
