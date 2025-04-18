@@ -248,7 +248,7 @@ function zipDirectory($source, $destination)
     // Set memory limit and execution time to avoid issues with large files
     ini_set('memory_limit', '-1');
     set_time_limit(0);
-
+    make_path($source);
     // Check if the source directory exists
     if (!is_dir($source)) {
         _error_log("zipDirectory: Source directory does not exist: {$source}");
