@@ -284,6 +284,7 @@ if (User::canStream()) {
         if (!empty(application.expires) && application.expires < _serverTime) {
             return false;
         }
+
         hideWhenExpire(application);
         if (application && typeof application.key == 'string') {
             key = application.key.replace(/[&=]/g, '');
@@ -291,11 +292,11 @@ if (User::canStream()) {
             key = '';
         }
 
-        ////console.log('processApplication', application.className);
         callback = '';
         if (typeof application.callback === 'string') {
             callback = application.callback;
         }
+
         isPrivate = application.isPrivate;
         if (application.type === 'Live') {
             online = application.users.online;
@@ -304,27 +305,24 @@ if (User::canStream()) {
             online = 0;
             views = 0;
         }
+
         if (typeof application.html != 'undefined') {
             var notificationHTML = $(application.html);
             var notificatioID = (notificationHTML.attr('id') + '_notification').replace(/[&=]/g, '');
             if (typeof key !== 'undefined') {
-                ////console.log('processApplication remove class .live_' + key);
                 $('.live_' + key).remove();
             }
             var selector = '#' + notificatioID;
             $(selector).removeClass('notificationLiveItemRemoveThis');
-            //console.log('processApplication notificatioID ', selector);
+
             if (!$(selector).length) {
                 notificationHTML.attr('id', notificatioID);
                 if (application.comingsoon) {
-                    //console.log('application.comingsoon 1', application.comingsoon, application.method);
                     $('#availableLiveStream').append(notificationHTML);
                 } else {
                     $('#availableLiveStream').prepend(notificationHTML);
                 }
                 animateChilds('#availableLiveStream', 'animate__bounceInRight', 0.05);
-            } else {
-                ////console.log('processApplication is already present '+notificatioID, application.className);
             }
 
             var html;
@@ -340,42 +338,43 @@ if (User::canStream()) {
             } else {
             ?>
                 html = application.htmlExtra;
-            <?php }
-            ?>
-            var id = $(html).attr('id').replace(/[&=]/g, '');
+            <?php } ?>
 
+            var id = $(html).attr('id').replace(/[&=]/g, '');
             var selector = '#' + id;
             $(selector).removeClass('notificationLiveItemRemoveThis');
-            //console.log('processApplication key ', selector);
+
             if ($(selector).length) {
-                //console.log('processApplication key found', id);
                 return false;
             }
-            //console.log('processApplication key NOT found', id);
+
             if (application.comingsoon && application.comingsoon > _serverTime) {
-                ////console.log('application.comingsoon 2', application.comingsoon, application.method);
                 $('#liveScheduleVideos .extraVideos').append(html);
                 $('#liveScheduleVideos').slideDown();
+                insertClearfix('#liveScheduleVideos .extraVideos');
             } else {
-                if(typeof application.isRebroadcast !== 'undefined' && !empty(application.isRebroadcast) && $('#rebroadcastVideos').length){
+                if (typeof application.isRebroadcast !== 'undefined' && !empty(application.isRebroadcast) && $('#rebroadcastVideos').length) {
                     $('#rebroadcastVideos .extraVideos').prepend(html);
                     $('#rebroadcastVideos').slideDown();
-                }else{
+                    insertClearfix('#rebroadcastVideos .extraVideos');
+                } else {
                     $('#liveVideos .extraVideos').prepend(html);
                     $('#liveVideos').slideDown();
+                    insertClearfix('#liveVideos .extraVideos');
                 }
             }
+
             processUserNotificationFromApplication(application);
 
             setTimeout(function() {
                 lazyImage();
             }, 1000);
+
             if (callback) {
                 eval("try {" + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
             }
-        } else {
-            //console.log('application.html is undefined');
         }
+
         clearTimeout(linksToEmbedTimeout);
         linksToEmbedTimeout = setTimeout(function() {
             <?php
@@ -387,10 +386,31 @@ if (User::canStream()) {
             ?>
             avideoSocket();
         }, 500);
+
         if (application.users && typeof application.users.views !== 'undefined') {
             $('.views_on_total_on_live_' + application.users.transmition_key + '_' + application.users.live_servers_id).text(application.users.views);
         }
     }
+
+    function insertClearfix(containerSelector) {
+        const $container = $(containerSelector);
+        $container.find('.clearfix').remove(); // remove antigos
+        const $items = $container.find('.liveVideo');
+
+        $items.each(function(index) {
+            const i = index + 1;
+            if (i % 6 === 0) {
+                $(this).after('<div class="clearfix visible-lg-block"></div>');
+            }
+            if (i % 3 === 0) {
+                $(this).after('<div class="clearfix visible-md-block"></div>');
+            }
+            if (i % 2 === 0) {
+                $(this).after('<div class="clearfix visible-sm-block"></div>');
+            }
+        });
+    }
+
 
     function processUserNotificationFromApplication(application) {
         if (typeof addTemplateFromArray !== 'function') {
