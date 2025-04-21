@@ -27,7 +27,7 @@ if (empty($feed)) {
             <sy:updateFrequency>1</sy:updateFrequency>
             <language>en</language>
             <itunes:category text="Technology" />
-            <itunes:explicit>no</itunes:explicit>
+            <itunes:explicit>false</itunes:explicit>
             <itunes:author>
                 <![CDATA[ <?php echo $author; ?> ]]>
             </itunes:author>
