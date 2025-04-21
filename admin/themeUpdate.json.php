@@ -20,6 +20,7 @@ $obj = new stdClass();
 $obj->error = empty($config->save());
 
 $config = new AVideoConf();
+$config->load('', true);
 $obj->themes = $config->getThemes();
 
 echo json_encode($obj);
