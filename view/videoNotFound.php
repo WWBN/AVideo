@@ -26,7 +26,7 @@ $video['category'] = "embed";
 $video['views_count'] = 0;
 $video['filename'] = '';
 
-$_page = new Page(array('Chat Editor'), 'videoNotFound');
+$_page = new Page(array('Video not found'), 'videoNotFound');
 $_page->setExtraStyles(
     array(
         'plugin/Gallery/style.css',
