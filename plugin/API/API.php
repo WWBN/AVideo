@@ -862,7 +862,7 @@ class API extends PluginAbstract
         global $global;
         $obj = $this->startResponseObject($parameters);
         $obj->videos_id = $parameters['videos_id'];
-        if (self::isAPISecretValid()) {
+        if (!self::isAPISecretValid()) {
             if (!User::canWatchVideoWithAds($obj->videos_id)) {
                 return new ApiObject("You cannot watch this video");
             }
@@ -3562,7 +3562,7 @@ class API extends PluginAbstract
     {
         global $global;
 
-        if (self::isAPISecretValid()) {
+        if (!self::isAPISecretValid()) {
             return new ApiObject("Invalid APISecret");
         }
         $name = "get_api_subscribers" . json_encode($parameters);
