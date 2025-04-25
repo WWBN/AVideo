@@ -15,6 +15,20 @@ $page = new Page('Create plugin');
 $pluginsDir = __DIR__ . '/plugins/';
 ?>
 <div class="container">
+    <?php
+    // Check if the plugins directory is writable
+    if (!is_writable($pluginsDir)) {
+        ?>
+        <div class="alert alert-danger">
+            <strong>Warning!</strong> The <code><?php echo $pluginsDir; ?></code> folder is not writable.<br>
+            This folder must be writable to make the plugin creation functionality work correctly.<br>
+            <strong>Command to fix:</strong><br>
+            <code>chmod -R 775 <?php echo $pluginsDir; ?></code><br>
+            If necessary, you may also need to change the folder ownership.
+        </div>
+        <?php
+    }
+    ?>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2><i class="fas fa-plug"></i> Create New Plugin</h2>
