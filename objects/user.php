@@ -2779,7 +2779,7 @@ if (typeof gtag !== \"function\") {
         make_path("{$global['systemRootPath']}{$dir}");
         $suffix = '';
         if (!empty($type)) {
-            $suffix = "_{$type}";
+            $suffix = "_{$type}_";
         }
         global $global;
         $backgroundURL = "{$dir}background{$suffix}.jpg";
@@ -2787,10 +2787,10 @@ if (typeof gtag !== \"function\") {
             $backgroundURL = "{$dir}background{$suffix}.png";
         }
         if (!file_exists($global['systemRootPath'] . $backgroundURL)) {
-            $backgroundURL = "videos/userPhoto/background{$users_id}.jpg";
+            $backgroundURL = "videos/userPhoto/background{$suffix}{$users_id}.jpg";
         }
         if (!file_exists($global['systemRootPath'] . $backgroundURL)) {
-            $backgroundURL = "videos/userPhoto/background{$users_id}.png";
+            $backgroundURL = "videos/userPhoto/background{$suffix}{$users_id}.png";
         }
         if (empty($ignoreGeneric) && !file_exists($global['systemRootPath'] . $backgroundURL)) {
             $backgroundURL = "view/img/background{$suffix}.jpg";
