@@ -36,7 +36,7 @@ $page->setIncludeInHead(array('view/channelHead.php'));
 $page->setIncludeInFooter(array('plugin/YouPHPFlix2/view/modeFlixFooter.php'));
 $page->setIncludeFooter(false);
 ?>
-<!-- <?php echo json_encode($bgSize); ?> -->
+<!-- <?php echo json_encode($bgSize); ?> <?php echo $bgImagePath; ?> -->
 <div class="container<?php echo!empty($channelFluidLayout) ? "-fluid" : ""; ?>">
     <?php
     include $global['systemRootPath'] . 'view/channelBody.php';
