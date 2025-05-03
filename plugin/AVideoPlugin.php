@@ -1372,6 +1372,9 @@ class AVideoPlugin
         if (self::isDebuging(__FUNCTION__)) {
             return '<!-- AVideoPlugin::' . __FUNCTION__ . ' disabled -->';
         }
+        if(!empty($_REQUEST['avideoIframe'])){
+            return '<!-- AVideoPlugin::' . __FUNCTION__ . ' it is a avideoIframe, navbar is disabled -->';
+        }
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "<!-- Plugin::navBar Start -->";
