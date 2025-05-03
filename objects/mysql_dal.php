@@ -313,6 +313,11 @@ class sqlDAL
             return false;
         }
 
+        if($refreshCache){
+            $random = uniqid();
+            $preparedStatement .= " /* {$random} */ ";
+        }
+
         $wasSTMTError = false;
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         $crc = (md5($preparedStatement . implode($values)));

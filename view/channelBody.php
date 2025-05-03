@@ -318,7 +318,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             <?php
                             }
                             if ($showChannelVideosTab) {
-                                echo PHP_EOL.'<!-- showChannelVideosTab -->'.PHP_EOL;
+                                echo PHP_EOL . '<!-- showChannelVideosTab -->' . PHP_EOL;
                             ?>
                                 <li class="nav-item <?php echo getChannelTabClass(true, true); ?>">
                                     <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
@@ -326,15 +326,15 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                     </a>
                                 </li>
                             <?php
-                            }else{
-                                if(!$advancedCustomUser->showChannelVideosTab){
-                                    echo PHP_EOL.'<!-- NOT showChannelVideosTab -->'.PHP_EOL;
+                            } else {
+                                if (!$advancedCustomUser->showChannelVideosTab) {
+                                    echo PHP_EOL . '<!-- NOT showChannelVideosTab -->' . PHP_EOL;
                                 }
-                                if(!$ownerCanUplaodVideos){
-                                    echo PHP_EOL.'<!-- NOT ownerCanUplaodVideos -->'.PHP_EOL;
+                                if (!$ownerCanUplaodVideos) {
+                                    echo PHP_EOL . '<!-- NOT ownerCanUplaodVideos -->' . PHP_EOL;
                                 }
-                                if(empty($uploadedVideos)){
-                                    echo PHP_EOL.'<!-- empty uploadedVideos -->'.PHP_EOL;
+                                if (empty($uploadedVideos)) {
+                                    echo PHP_EOL . '<!-- empty uploadedVideos -->' . PHP_EOL;
                                 }
                             }
                             if (!empty($uploadedTotalArticles)) {
@@ -353,15 +353,15 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         <i class="fas fa-file-audio"></i> <span class="labelUpperCase"><?php echo __('Audio'); ?></span> <span class="badge"><?php echo $uploadedTotalAudio; ?></span>
                                     </a>
                                 </li>
-                                <?php
+                            <?php
                             }
                             if (!empty($uploadedTotalImages)) {
                             ?>
                                 <li class="nav-item <?php echo getChannelTabClass(true, false); ?>">
                                     <a class="nav-link " href="#channelImages" data-toggle="tab" aria-expanded="false">
-                                    <i class="fa-solid fa-images"></i>
-                                    <span class="labelUpperCase"><?php echo __("Images"); ?></span>
-                                    <span class="badge"><?php echo $uploadedTotalImages; ?></span>
+                                        <i class="fa-solid fa-images"></i>
+                                        <span class="labelUpperCase"><?php echo __("Images"); ?></span>
+                                        <span class="badge"><?php echo $uploadedTotalImages; ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -458,7 +458,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                                 $obj->BigVideo = true;
                                                 $obj->Description = false;
                                                 include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
-                                                if(empty($suggestedOrPinnedFound)){
+                                                if (empty($suggestedOrPinnedFound)) {
                                                     unset($uploadedVideos[0]);
                                                 }
                                             }

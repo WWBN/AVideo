@@ -99,7 +99,7 @@ abstract class ObjectYPT implements ObjectInterface
     {
         global $global;
         if (!static::isTableInstalled()) {
-            return false;
+            return array();
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
 

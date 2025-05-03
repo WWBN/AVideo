@@ -52,6 +52,10 @@ try {
             } else {
                 tryToPlayMuted(currentTime);
             }
+        } else if (e.data.avideoModalIframeFull) {
+            avideoModalIframeFull(e.data.avideoModalIframeFull);
+        } else if (e.data.avideoModalIframe) {
+            avideoModalIframe(e.data.avideoModalIframe);
         } else {
             //console.log('eventer messageEvent', e.data);
         }
