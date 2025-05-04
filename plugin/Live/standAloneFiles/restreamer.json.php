@@ -87,7 +87,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
                 $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
 
-                $resp = getFFMPEGRemoteLog($keyword);
+                $resp = getFFMPEGRemoteLog($keyword, $json->restreamStandAloneFFMPEG);
                 if (!empty($resp) && empty($resp->error)) {
                     $obj->modified = $resp->modified;
                     $obj->secondsAgo = $resp->secondsAgo;
@@ -109,7 +109,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 break;
             case 'stop':
 
-                $resp = stopFFMPEGRemote($keyword);
+                $resp = stopFFMPEGRemote($keyword, $json->restreamStandAloneFFMPEG);
                 $obj->remoteResponse = $resp;
                 if (!empty($resp) && empty($resp->error)) {
                     $obj->remoteKill = true;
@@ -553,6 +553,7 @@ function _make_path($path)
 
 function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1)
 {
+    global $json;
     global $ffmpegBinary, $isATest;
     $m3u8 = str_replace('vlu.me', 'live', $m3u8);
     if (empty($restreamsDestinations)) {
@@ -662,7 +663,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             $keyword = 'restream_' . md5(basename($logFile));
             $robj->keyword = $keyword;
             // use remote ffmpeg here
-            execFFMPEGAsyncOrRemote($command . ' > ' . $logFile . ' 2>&1 ', $keyword);
+            execFFMPEGAsyncOrRemote($command . ' > ' . $logFile . ' 2>&1 ', $keyword, '', $json->restreamStandAloneFFMPEG);
         }
         error_log("Restreamer.json.php startRestream finish");
     }
