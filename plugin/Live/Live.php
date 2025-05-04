@@ -508,6 +508,7 @@ class Live extends PluginAbstract
         $o->value = self::CAN_RESTREAM_All_USERS;
         $obj->whoCanRestream = $o;
         self::addDataObjectHelper('whoCanRestream', 'Who can Restream');
+        $obj->restreamStandAloneFFMPEG = '';
 
         $obj->disableDVR = false;
         self::addDataObjectHelper('disableDVR', 'Disable DVR', 'Enable or disable the DVR Feature, you can control the DVR length in your nginx.conf on the parameter hls_playlist_length');

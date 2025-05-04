@@ -624,13 +624,17 @@ function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, 
 }
 
 
-function buildFFMPEGRemoteURL($actionParams, $callback='')
+function buildFFMPEGRemoteURL($actionParams, $callback='', $standAloneFFMPEG='')
 {
     $obj = AVideoPlugin::getDataObjectIfEnabled('API');
     if (empty($obj) || empty($obj->standAloneFFMPEG)) {
         return false;
     }
-    $url = "{$obj->standAloneFFMPEG}";
+    if(empty($standAloneFFMPEG)){
+        $url = $standAloneFFMPEG;
+    }else{
+        $url = "{$obj->standAloneFFMPEG}";
+    }
     $actionParams['time'] = time();
     $actionParams['notifyCode'] = encryptString(time());
     $actionParams['callback'] = encryptString($callback);
@@ -640,9 +644,9 @@ function buildFFMPEGRemoteURL($actionParams, $callback='')
     return $url;
 }
 
-function execFFMPEGAsyncOrRemote($command, $keyword, $callback='')
+function execFFMPEGAsyncOrRemote($command, $keyword, $callback='', $standAloneFFMPEG='')
 {
-    $url = buildFFMPEGRemoteURL(['ffmpegCommand' => $command, 'keyword' => $keyword], $callback);
+    $url = buildFFMPEGRemoteURL(['ffmpegCommand' => $command, 'keyword' => $keyword], $callback, $standAloneFFMPEG);
     if ($url) {
         _error_log("execFFMPEGAsyncOrRemote: URL $command");
         _error_log("execFFMPEGAsyncOrRemote: URL $url");
@@ -653,9 +657,9 @@ function execFFMPEGAsyncOrRemote($command, $keyword, $callback='')
     }
 }
 
-function getFFMPEGRemoteLog($keyword)
+function getFFMPEGRemoteLog($keyword, $standAloneFFMPEG='')
 {
-    $url = buildFFMPEGRemoteURL(['log' => 1, 'keyword' => $keyword]);
+    $url = buildFFMPEGRemoteURL(['log' => 1, 'keyword' => $keyword], '', $standAloneFFMPEG);
     //var_dump($url);
     if ($url) {
         _error_log("getFFMPEGRemoteLog: URL $url " . json_encode(debug_backtrace()));
@@ -665,9 +669,9 @@ function getFFMPEGRemoteLog($keyword)
     }
 }
 
-function stopFFMPEGRemote($keyword)
+function stopFFMPEGRemote($keyword, $standAloneFFMPEG='')
 {
-    $url = buildFFMPEGRemoteURL(['stop' => 1, 'keyword' => $keyword]);
+    $url = buildFFMPEGRemoteURL(['stop' => 1, 'keyword' => $keyword], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("stopFFMPEGRemote: URL $url");
         return json_decode(url_get_contents($url));
@@ -676,9 +680,9 @@ function stopFFMPEGRemote($keyword)
     }
 }
 
-function testFFMPEGRemote()
+function testFFMPEGRemote($standAloneFFMPEG='')
 {
-    $url = buildFFMPEGRemoteURL(['test' => 1, 'microtime' => microtime(true)]);
+    $url = buildFFMPEGRemoteURL(['test' => 1, 'microtime' => microtime(true)], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("testFFMPEGRemote: URL $url");
         return json_decode(url_get_contents($url));
@@ -687,9 +691,9 @@ function testFFMPEGRemote()
     }
 }
 
-function listFFMPEGRemote($keyword = '')
+function listFFMPEGRemote($keyword = '', $standAloneFFMPEG='')
 {
-    $url = buildFFMPEGRemoteURL(['list' => 1, 'keyword' => $keyword, 'microtime' => microtime(true)]);
+    $url = buildFFMPEGRemoteURL(['list' => 1, 'keyword' => $keyword, 'microtime' => microtime(true)], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("listFFMPEGRemote: URL $url");
         return json_decode(url_get_contents($url));
@@ -698,9 +702,9 @@ function listFFMPEGRemote($keyword = '')
     }
 }
 
-function killFFMPEGRemote($pid)
+function killFFMPEGRemote($pid, $standAloneFFMPEG='')
 {
-    $url = buildFFMPEGRemoteURL(['kill' => $pid, 'microtime' => microtime(true)]);
+    $url = buildFFMPEGRemoteURL(['kill' => $pid, 'microtime' => microtime(true)], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("killFFMPEGRemote: URL $url");
         return json_decode(url_get_contents($url));
@@ -709,7 +713,7 @@ function killFFMPEGRemote($pid)
     }
 }
 
-function isKeywordRunningFFMPEGRemote($keyword)
+function isKeywordRunningFFMPEGRemote($keyword, $standAloneFFMPEG='')
 {
     $url = buildFFMPEGRemoteURL(['isKeywordRunning' => $keyword, 'microtime' => microtime(true)]);
     if ($url) {
@@ -720,9 +724,9 @@ function isKeywordRunningFFMPEGRemote($keyword)
     }
 }
 
-function deleteFolderFFMPEGRemote($videoFilename)
+function deleteFolderFFMPEGRemote($videoFilename, $standAloneFFMPEG='')
 {
-    $url = buildFFMPEGRemoteURL(['deleteFolder' => $videoFilename]);
+    $url = buildFFMPEGRemoteURL(['deleteFolder' => $videoFilename], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("deleteFolderFFMPEGRemote: URL $url");
         return json_decode(url_get_contents($url));
@@ -731,9 +735,9 @@ function deleteFolderFFMPEGRemote($videoFilename)
     }
 }
 
-function deleteFileFFMPEGRemote($filePath)
+function deleteFileFFMPEGRemote($filePath, $standAloneFFMPEG='')
 {
-    $url = buildFFMPEGRemoteURL(['deleteFile' => $filePath]);
+    $url = buildFFMPEGRemoteURL(['deleteFile' => $filePath], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("deleteFileFFMPEGRemote: URL $url");
         return json_decode(url_get_contents($url));
