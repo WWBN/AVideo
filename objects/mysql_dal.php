@@ -715,6 +715,7 @@ class sqlDAL
 
 function log_error($err)
 {
+    global $global;
     if (!empty($global['debug']) || isCommandLineInterface()) {
         echo $err;
     }
