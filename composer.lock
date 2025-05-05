@@ -1907,16 +1907,16 @@
         },
         {
             "name": "hybridauth/hybridauth",
-            "version": "v3.11.0",
+            "version": "v3.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hybridauth/hybridauth.git",
-                "reference": "b70b9cbe1c7fa99b5847c5868610a8f024cc7d38"
+                "reference": "9449686baf2593739129a24e515a60908738ea8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/b70b9cbe1c7fa99b5847c5868610a8f024cc7d38",
-                "reference": "b70b9cbe1c7fa99b5847c5868610a8f024cc7d38",
+                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/9449686baf2593739129a24e515a60908738ea8d",
+                "reference": "9449686baf2593739129a24e515a60908738ea8d",
                 "shasum": ""
             },
             "require": {
@@ -1924,7 +1924,7 @@
             },
             "require-dev": {
                 "ext-curl": "*",
-                "phpunit/phpunit": "^4.8.35 || ^6.5 || ^8.0"
+                "phpunit/phpunit": "^4.8.35 || ^6.5 || ^8.0 || ^12.0"
             },
             "suggest": {
                 "firebase/php-jwt": "Needed to support Apple provider",
@@ -1963,9 +1963,9 @@
             "support": {
                 "gitter": "https://gitter.im/hybridauth/hybridauth",
                 "issues": "https://github.com/hybridauth/hybridauth/issues",
-                "source": "https://github.com/hybridauth/hybridauth/tree/v3.11.0"
+                "source": "https://github.com/hybridauth/hybridauth/tree/v3.12.1"
             },
-            "time": "2024-01-02T23:09:56+00:00"
+            "time": "2025-04-22T05:22:57+00:00"
         },
         {
             "name": "iamcal/sql-parser",
