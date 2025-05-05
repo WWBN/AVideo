@@ -175,6 +175,8 @@ if (!empty($matches)) {
     _error_log("matches not found: {$ffmpegCommand}");
 }
 
+$ffmpegCommand = preg_replace('/-threads\s+\d+/', '', $ffmpegCommand);
+
 _error_log("Code to Execute: " . json_encode(array($output, $codeToExec)));
 _error_log("Sanitized FFMPEG Command: $ffmpegCommand");
 _error_log("Keyword: $keyword");
