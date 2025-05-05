@@ -433,6 +433,7 @@ class Live extends PluginAbstract
             'live_schedule_label',
             'hls_path',
             'autoFishLiveEveryHour',
+            'restreamStandAloneFFMPEG',
         );
     }
 
