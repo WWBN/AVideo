@@ -630,7 +630,7 @@ function buildFFMPEGRemoteURL($actionParams, $callback='', $standAloneFFMPEG='')
     if (empty($obj) || empty($obj->standAloneFFMPEG)) {
         return false;
     }
-    if(empty($standAloneFFMPEG)){
+    if(!empty($standAloneFFMPEG)){
         $url = $standAloneFFMPEG;
     }else{
         $url = "{$obj->standAloneFFMPEG}";
