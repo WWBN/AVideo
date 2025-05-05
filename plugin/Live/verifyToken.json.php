@@ -35,12 +35,15 @@ if (!empty($array['time']) && time() - $array['time'] > $twelveHours) {
     die(json_encode($obj));
 }
 
+$liveObj = AVideoPlugin::getDataObject('Live');
+
 _error_log("Live::verifyToken.json.php {$_SERVER['HTTP_REFERER']} ". json_encode($array));
 
 $trasnmition = LiveTransmition::createTransmitionIfNeed($obj->users_id);
 $obj->key = $trasnmition['key'].'_'.time();
 $lso = new LiveStreamObject($obj->key);
 $obj->RTMPLinkWithOutKey = $lso->getRTMPLinkWithOutKey();
+$obj->restreamStandAloneFFMPEG = $liveObj->restreamStandAloneFFMPEG ;
 
 
 $obj->error = false;
