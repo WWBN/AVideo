@@ -24,7 +24,7 @@ if(!empty($_REQUEST['videos_id'])){
     YPTWallet::setAddFundsSuccessRedirectToVideo($_REQUEST['videos_id']);
 }
 
-$invoiceNumber = uniqid();
+$invoiceNumber = _uniqid();
 
 $description = $config->getWebSiteTitle()." Payment";
 

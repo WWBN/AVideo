@@ -12,7 +12,7 @@ $global['laodPlaylistScript'] = 1;
     <div class="webui-popover-content">
         <?php
         if (User::isLogged()) {
-            $uniqId = uniqid();
+            $uniqId = _uniqid();
         ?>
             <form role="form">
                 <div class="form-group">

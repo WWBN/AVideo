@@ -92,7 +92,7 @@ class ImageGallery extends PluginAbstract
             // Generate unique filename to avoid overwriting
             $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             do {
-                $newFilename = uniqid() . '.' . $extension;
+                $newFilename = _uniqid() . '.' . $extension;
                 $newFilePath = $directory . $newFilename;
             } while (file_exists($newFilePath));
 

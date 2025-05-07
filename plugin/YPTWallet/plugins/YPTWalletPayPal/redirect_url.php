@@ -13,7 +13,7 @@ $paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 // how to get the users_ID from the PayPal call back IPN?
 $users_id = User::getId();
 
-$invoiceNumber = uniqid();
+$invoiceNumber = _uniqid();
 
 $payment = $paypal->execute();
 

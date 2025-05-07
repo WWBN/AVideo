@@ -16,7 +16,7 @@ $obj= new stdClass();
 $obj->error = true;
 $obj->msg = '';
 
-$invoiceNumber = uniqid();
+$invoiceNumber = _uniqid();
 
 //$params = array('total'=>$total, 'currency'=>$currency, 'frequency'=>$frequency, 'interval'=>$interval, 'name'=>$name, 'json'=>$json, 'trialDays'=>$trialDays);
 
