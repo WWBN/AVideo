@@ -16,7 +16,7 @@ header('Content-Type: application/json');
 $user_id = User::getId();
 // if admin bring all subscribers
 if (User::isAdmin()) {
-    $user_id = '';
+    //$user_id = '';
 }
 $Subscribes = Subscribe::getAllSubscribes($user_id);
 $total = Subscribe::getTotalSubscribes($user_id);
