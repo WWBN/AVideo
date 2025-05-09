@@ -316,9 +316,9 @@ class Subscribe extends ObjectYPT{
     public static function getTotalSubscribes($user_id = 0)
     {
         global $global;
-        $sql = "SELECT id FROM subscribes WHERE status = 'a' AND subscriber_users_id > 0 ";
+        $sql = "SELECT id FROM subscribes WHERE status = 'a' AND users_id > 0 ";
         if (!empty($user_id)) {
-            $sql .= " AND users_id = '{$user_id}' ";
+            $sql .= " AND subscriber_users_id = '{$user_id}' ";
         }
 
         //$sql .= BootGrid::getSqlSearchFromPost(['email']);
