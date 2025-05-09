@@ -219,12 +219,12 @@ class Subscribe extends ObjectYPT{
                     }
                     //$value['notify'] =
                     $emails[] = $row['email'];
-                    $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
+                    $row['identification'] = User::getNameIdentificationById($row['users_id']);
                     if ($row['identification'] === __("Unknown User")) {
                         $row['identification'] = $row['email'];
                     }
-                    $row['backgroundURL'] = User::getBackground($row['subscriber_id']);
-                    $row['photoURL'] = User::getPhoto($row['subscriber_id']);
+                    $row['backgroundURL'] = User::getBackground($row['users_id']);
+                    $row['photoURL'] = User::getPhoto($row['users_id']);
 
                     $subscribe[] = $row;
                 }
