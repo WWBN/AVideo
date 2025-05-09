@@ -219,20 +219,20 @@ class Subscribe extends ObjectYPT{
                     }
                     //$value['notify'] =
                     $emails[] = $row['email'];
-                    $row['identification'] = User::getNameIdentificationById($row['users_id']);
+                    $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
                     if ($row['identification'] === __("Unknown User")) {
                         $row['identification'] = $row['email'];
                     }
-                    $row['backgroundURL'] = User::getBackground($row['users_id']);
-                    $row['photoURL'] = User::getPhoto($row['users_id']);
+                    $row['backgroundURL'] = User::getBackground($row['subscriber_id']);
+                    $row['photoURL'] = User::getPhoto($row['subscriber_id']);
 
 
-                    $row['channel_identification'] = User::getNameIdentificationById($row['subscriber_id']);
+                    $row['channel_identification'] = User::getNameIdentificationById($row['users_id']);
                     if ($row['channel_identification'] === __("Unknown User")) {
                         $row['channel_identification'] = $row['email'];
                     }
-                    $row['channel_backgroundURL'] = User::getBackground($row['subscriber_id']);
-                    $row['channel_photoURL'] = User::getPhoto($row['subscriber_id']);
+                    $row['channel_backgroundURL'] = User::getBackground($row['users_id']);
+                    $row['channel_photoURL'] = User::getPhoto($row['users_id']);
 
                     $subscribe[] = $row;
                 }
