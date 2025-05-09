@@ -226,6 +226,14 @@ class Subscribe extends ObjectYPT{
                     $row['backgroundURL'] = User::getBackground($row['users_id']);
                     $row['photoURL'] = User::getPhoto($row['users_id']);
 
+
+                    $row['channel_identification'] = User::getNameIdentificationById($row['subscriber_id']);
+                    if ($row['channel_identification'] === __("Unknown User")) {
+                        $row['channel_identification'] = $row['email'];
+                    }
+                    $row['channel_backgroundURL'] = User::getBackground($row['subscriber_id']);
+                    $row['channel_photoURL'] = User::getPhoto($row['subscriber_id']);
+
                     $subscribe[] = $row;
                 }
                 //$subscribe = $res->fetch_all(MYSQLI_ASSOC);

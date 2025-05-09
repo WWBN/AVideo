@@ -32,6 +32,7 @@ $_page = new Page(array('Subscribes'));
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
+                        <th data-column-id="channel_identification"><?php echo __("Channel"); ?></th>
                         <th data-column-id="identification"><?php echo __("My Subscribers"); ?></th>
                         <th data-column-id="created"><?php echo __("Created"); ?></th>
                         <th data-column-id="modified"><?php echo __("Modified"); ?></th>
@@ -98,7 +99,7 @@ $_page = new Page(array('Subscribes'));
                 search: "<?php echo __("Search"); ?>",
             },
             ajax: true,
-            url: "<?php echo $global['webSiteRootURL'] . "objects/subscribes.json.php"; ?>",
+            url: webSiteRootURL+"objects/subscribes.json.php",
             formatters: {
                 "status": function(column, row) {
                     var subscribe = '<button type="button" class="btn btn-xs btn-success command-status" id="subscribe' + row.id + '" data-toggle="tooltip" data-placement="left" title="Unsubscribe"><span class="fa fa-check" aria-hidden="true"></span></button>'
