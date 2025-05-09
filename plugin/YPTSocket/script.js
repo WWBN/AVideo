@@ -8,6 +8,8 @@ var users_id_online = undefined;
 
 var socketConnectRetryTimeout = 15000;
 
+var connWS;
+
 function processSocketJson(json) {
     if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
         socketAutoUpdateOnHTML(json.autoUpdateOnHTML);
@@ -124,7 +126,7 @@ function socketConnectOld() {
     setSocketIconStatus('loading');
 
     console.trace();
-    conn.onopen = function (e) {
+    connWS.onopen = function (e) {
         socketConnectRequested = 0;
         socketConnectRetryTimeout = 2000; // Reset retry timer
         clearTimeout(socketConnectTimeout);
@@ -133,7 +135,7 @@ function socketConnectOld() {
         return false;
     };
 
-    conn.onmessage = function (e) {
+    connWS.onmessage = function (e) {
         try {
             var json = JSON.parse(e.data);
             console.log("Socket onmessage received:", json);
@@ -159,14 +161,14 @@ function socketConnectOld() {
         }
     };
 
-    conn.onclose = function (e) {
+    connWS.onclose = function (e) {
         socketConnectRequested = 0;
 
         if (e.code === 1006) {
             console.error('WebSocket closed unexpectedly with code 1006. Investigating possible causes...');
 
             // Check the WebSocket readyState to understand the closure phase
-            switch (conn.readyState) {
+            switch (connWS.readyState) {
                 case WebSocket.CONNECTING:
                     console.error('WebSocket was in CONNECTING state. The connection attempt failed.');
                     break;
@@ -236,7 +238,7 @@ function socketConnectOld() {
     }
 
 
-    conn.onerror = function (err) {
+    connWS.onerror = function (err) {
         socketConnectRequested = 0;
         console.error('Socket encountered error: ', err, 'URL:', url);
         if (err.target.readyState === WebSocket.CLOSED) {
@@ -246,7 +248,7 @@ function socketConnectOld() {
         } else if (err.target.readyState === WebSocket.CONNECTING) {
             console.error('WebSocket is in CONNECTING state. Check server status or network issues.');
         }
-        conn.close();
+        connWS.close();
     };
 }
 
@@ -386,29 +388,32 @@ function sendSocketMessageToNone(msg, callback) {
     sendSocketMessageToUser(msg, callback, -1);
 }
 
-function sendSocketMessageToUser(msg, callback, to_users_id) {
-    if (conn.readyState === 1) {
-        conn.send(JSON.stringify({ msg: msg, webSocketToken: webSocketToken, callback: callback, to_users_id: to_users_id }));
+function sendSocketMessage(payload) {
+    if (useSocketIO) {
+        if (typeof socket !== 'undefined' && socket.connected) {
+            socket.emit('message', payload);
+        } else {
+            setTimeout(() => sendSocketMessage(payload), 1000);
+        }
     } else {
-        //console.log('Socket not ready send message in 1 second');
-        setTimeout(function () {
-            sendSocketMessageToUser(msg, to_users_id, callback);
-        }, 1000);
-    }
-}
-function sendSocketMessageToResourceId(msg, callback, resourceId) {
-    if (conn.readyState === 1) {
-        conn.send(JSON.stringify({ msg: msg, webSocketToken: webSocketToken, callback: callback, resourceId: resourceId }));
-    } else {
-        //console.log('Socket not ready send message in 1 second');
-        setTimeout(function () {
-            sendSocketMessageToUser(msg, to_users_id, callback);
-        }, 1000);
+        if (connWS && connWS.readyState === 1) {
+            connWS.send(JSON.stringify(payload));
+        } else {
+            setTimeout(() => sendSocketMessage(payload), 1000);
+        }
     }
 }
 
+function sendSocketMessageToUser(msg, callback, to_users_id) {
+    sendSocketMessage({ msg, webSocketToken, callback, to_users_id });
+}
+
+function sendSocketMessageToResourceId(msg, callback, resourceId) {
+    sendSocketMessage({ msg, webSocketToken, callback, resourceId });
+}
+
 function isSocketActive() {
-    return isOnline() && ((typeof conn != 'undefined' && conn.readyState === 1) || (typeof socket != 'undefined' && socket.connected));
+    return isOnline() && ((typeof conn != 'undefined' && connWS.readyState === 1) || (typeof socket != 'undefined' && socket.connected));
 }
 
 function defaultCallback(json) {
