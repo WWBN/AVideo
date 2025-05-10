@@ -228,9 +228,6 @@ class Subscribe extends ObjectYPT{
 
 
                     $row['channel_identification'] = User::getNameIdentificationById($row['users_id']);
-                    if ($row['channel_identification'] === __("Unknown User")) {
-                        $row['channel_identification'] = $row['email'];
-                    }
                     $row['channel_backgroundURL'] = User::getBackground($row['users_id']);
                     $row['channel_photoURL'] = User::getPhoto($row['users_id']);
 

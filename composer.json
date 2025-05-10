@@ -13,7 +13,6 @@
         "php": "^7.3|^8",
         "ext-curl": "*",
         "ext-json": "*",
-        "chrisjean/php-ico": "^1.0",
         "ezyang/htmlpurifier": "^4.13",
         "google/apiclient": "^2.18",
         "google/apiclient-services": "*",

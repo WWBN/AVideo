@@ -95,16 +95,26 @@ if (!empty($_POST['faviconBase64'])) {
             "url" => $global['systemRootPath'] . $photoURL,
         ];
 
-        $sizes = [
-            [16, 16],
-            [24, 24],
-            [32, 32],
-            [48, 48],
-            [144, 144],
-        ];
+        $sizes = [16, 24, 32, 48, 144];
+        $input = $global['systemRootPath'] . $photoURL;
+        $output = $global['systemRootPath'] . $imagePath . 'favicon.ico';
 
-        $ico_lib = new PHP_ICO($global['systemRootPath'] . $photoURL, $sizes);
-        $ico_lib->save_ico($global['systemRootPath'] . $imagePath.'favicon.ico');
+        // Check if the `convert` command is available (ImageMagick)
+        $convertPath = trim(shell_exec('which convert'));
+
+        if (empty($convertPath)) {
+            error_log("[favicon] ImageMagick 'convert' command not found. Please install it using:\n  sudo apt update && sudo apt install imagemagick");
+            echo "Error: ImageMagick is not installed. Please install it with:\n";
+            echo "sudo apt update && sudo apt install imagemagick\n";
+            return;
+        }
+
+        // Prepare auto-resize sizes for favicon
+        $sizesStr = implode(',', $sizes);
+
+        // Build and execute the `convert` command
+        $cmd = escapeshellcmd("convert {$input} -define icon:auto-resize={$sizesStr} {$output}");
+        exec($cmd, $outputLog, $returnCode);
     } else {
         $response2 = [
             "status" => 'error',

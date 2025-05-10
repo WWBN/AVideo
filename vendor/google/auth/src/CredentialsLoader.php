@@ -76,7 +76,7 @@ abstract class CredentialsLoader implements
      */
     public static function fromEnv()
     {
-        $path = getenv(self::ENV_VAR);
+        $path = self::getEnv(self::ENV_VAR);
         if (empty($path)) {
             return null;
         }
@@ -104,7 +104,7 @@ abstract class CredentialsLoader implements
     public static function fromWellKnownFile()
     {
         $rootEnv = self::isOnWindows() ? 'APPDATA' : 'HOME';
-        $path = [getenv($rootEnv)];
+        $path = [self::getEnv($rootEnv)];
         if (!self::isOnWindows()) {
             $path[] = self::NON_WINDOWS_WELL_KNOWN_PATH_BASE;
         }
@@ -215,7 +215,7 @@ abstract class CredentialsLoader implements
      */
     public static function quotaProjectFromEnv()
     {
-        return getenv(self::QUOTA_PROJECT_ENV_VAR) ?: null;
+        return self::getEnv(self::QUOTA_PROJECT_ENV_VAR) ?: null;
     }
 
     /**
@@ -251,7 +251,7 @@ abstract class CredentialsLoader implements
      */
     public static function shouldLoadClientCertSource()
     {
-        return filter_var(getenv(self::MTLS_CERT_ENV_VAR), FILTER_VALIDATE_BOOLEAN);
+        return filter_var(self::getEnv(self::MTLS_CERT_ENV_VAR), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -260,7 +260,7 @@ abstract class CredentialsLoader implements
     private static function loadDefaultClientCertSourceFile()
     {
         $rootEnv = self::isOnWindows() ? 'APPDATA' : 'HOME';
-        $path = sprintf('%s/%s', getenv($rootEnv), self::MTLS_WELL_KNOWN_PATH);
+        $path = sprintf('%s/%s', self::getEnv($rootEnv), self::MTLS_WELL_KNOWN_PATH);
         if (!file_exists($path)) {
             return null;
         }
@@ -291,5 +291,10 @@ abstract class CredentialsLoader implements
     public function getUniverseDomain(): string
     {
         return self::DEFAULT_UNIVERSE_DOMAIN;
+    }
+
+    private static function getEnv(string $env): mixed
+    {
+        return getenv($env) ?: $_ENV[$env] ?? null;
     }
 }
