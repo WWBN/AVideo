@@ -120,3 +120,4 @@ plugin/YPTSocket/AVideo-Socket/
 .phpunit.result.cache
 phpunit.xml
 plugin/API/AVideo-NodeAPIBoost/
+elephantio.log
