@@ -30,84 +30,90 @@ $identification = User::getNameIdentificationById($users_id);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo __("Caller") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-        <link href="<?php echo getURL('view/css/custom/cyborg.css'); ?>" rel="stylesheet" type="text/css"/>
-        <style>
-            body{
-                text-align: center;
-            }
 
-            .calling .hideCalling, .showCalling{
-                display: none;
-            }
-            .calling .showCalling{
-                display: block;
-            }
+<head>
+    <title><?php echo __("Caller") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+    <?php
+    include $global['systemRootPath'] . 'view/include/head.php';
+    ?>
+    <link href="<?php echo getURL('view/css/custom/cyborg.css'); ?>" rel="stylesheet" type="text/css" />
+    <style>
+        body {
+            text-align: center;
+        }
 
-            .callerUserOffline .showCalling,
-            .callerUserOffline .hideCalling{
-                display: none;
-            }
-            .callerUserOffline .container-fluid{
-                opacity: 0.5;
-            }
+        .calling .hideCalling,
+        .showCalling {
+            display: none;
+        }
 
-            .callerUserOffline .userImage, .notCalling .userImage{
-                animation: none;
-            }
-            #mainFooter{
-                display: none !important;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container-fluid">
-            <center>
-                <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-circle userImage glowBox" style="height: 200px; width: 200px;">
-                <h1><?php echo $identification; ?></h1>
-                <div class="clearfix"></div>
-                <div class="showCalling">
-                    <button class="btn btn-danger btn-lg" onclick="hangUpUserNow();"><i class="fas fa-phone-slash faa-ring animated"></i></button>
-                </div>
-                <div class="hideCalling">
-                    <button class="btn btn-success btn-lg" onclick="callUserNow();"><i class="fas fa-phone"></i></button>
-                </div>
-            </center>
-        </div>
-        <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-        <script src="<?php echo getURL('plugin/WebRTC/call/caller.js'); ?>" type="text/javascript"></script>
-        <!--
-        <script src="<?php echo getURL('plugin/YPTSocket/caller.js'); ?>" type="text/javascript"></script>
-        -->
-        <script>
-                        $(document).ready(function () {
-                            setTimeout(function () {
-                                callUserNow();
-                            }, 1000);
+        .calling .showCalling {
+            display: block;
+        }
 
-                        });
+        .callerUserOffline .showCalling,
+        .callerUserOffline .hideCalling {
+            display: none;
+        }
 
-                        function callUserNow() {
-                            callNow(<?php echo $users_id; ?>, <?php echo json_encode($identification); ?>);
-                        }
-                        function hangUpUserNow() {
-                            var json = getCallJsonFromUser(<?php echo $users_id; ?>, <?php echo json_encode($identification); ?>);
-                            hangUpCall(json);
-                            sendSocketMessageToUser(json, 'hangUpCall', <?php echo $users_id; ?>);
-                        }
-                        setInterval(function () {
-                            if (!isUserOnline(<?php echo $users_id; ?>)) {
-                                $('body').addClass('callerUserOffline');
-                            } else {
-                                $('body').removeClass('callerUserOffline');
-                            }
-                        }, 1000);
-        </script>
-    </body>
+        .callerUserOffline .container-fluid {
+            opacity: 0.5;
+        }
+
+        .callerUserOffline .userImage,
+        .notCalling .userImage {
+            animation: none;
+        }
+
+        #mainFooter {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <center>
+            <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-circle userImage glowBox" style="height: 200px; width: 200px;">
+            <h1><?php echo $identification; ?></h1>
+            <div class="clearfix"></div>
+            <div class="showCalling">
+                <button class="btn btn-danger btn-lg" onclick="hangUpUserNow();"><i class="fas fa-phone-slash faa-ring animated"></i></button>
+            </div>
+            <div class="hideCalling">
+                <button class="btn btn-success btn-lg" onclick="callUserNow();"><i class="fas fa-phone"></i></button>
+            </div>
+        </center>
+    </div>
+    <?php
+    include $global['systemRootPath'] . 'view/include/footer.php';
+    ?>
+    <script src="<?php echo getURL('plugin/WebRTC/call/caller.js'); ?>" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                callUserNow();
+            }, 1000);
+
+        });
+
+        function callUserNow() {
+            callNow(<?php echo $users_id; ?>, <?php echo json_encode($identification); ?>);
+        }
+
+        function hangUpUserNow() {
+            var json = getCallJsonFromUser(<?php echo $users_id; ?>, <?php echo json_encode($identification); ?>);
+            hangUpCall(json);
+            sendSocketMessageToUser(json, 'hangUpCall', <?php echo $users_id; ?>);
+        }
+        setInterval(function() {
+            if (!isUserOnline(<?php echo $users_id; ?>)) {
+                $('body').addClass('callerUserOffline');
+            } else {
+                $('body').removeClass('callerUserOffline');
+            }
+        }, 1000);
+    </script>
+</body>
+
 </html>

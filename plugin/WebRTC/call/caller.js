@@ -1,5 +1,6 @@
 var callerToast = [];
 var callingTimeoutSeconds = 30;
+var callStartedHere = false;
 
 function getCallJsonFromUser(to_users_id, to_identification) {
     var json = {
@@ -45,6 +46,7 @@ function callNow(to_users_id, to_identification) {
         }
         var json = getCallJsonFromUser(to_users_id, to_identification);
         console.log('callNow', json);
+        callStartedHere = true;
         sendSocketMessageToUser(json, 'incomeCall', to_users_id);
     }, timeout);
 
@@ -119,7 +121,7 @@ function getImageAndButton(json) {
     imageAndButton += '<div class="clearfix"></div>';
     imageAndButton += '<button class="btn btn-danger btn-circle incomeCallBtn" onclick=\'hangUpCall(' + JSON.stringify(json) + ')\'><i class="fas fa-phone-slash"></i></button>';
     if (isJsonReceivingCall(json)) {
-        imageAndButton += '<button class="btn btn-success btn-circle incomeCallBtn" onclick=\'acceptCall(' + JSON.stringify(json) + ')\'><i class="fas fa-phone"></i></button>';
+        imageAndButton += '<button class="btn btn-success btn-circle incomeCallBtn incomeCallBtnWebRTC" onclick=\'acceptCall(' + JSON.stringify(json) + ')\'><i class="fas fa-phone"></i></button>';
     }
     return imageAndButton;
 }
@@ -165,6 +167,7 @@ function finishCall(json) {
 }
 
 function acceptCall(json) {
+    console.log('acceptCall webrtc', json);
     stopAllAudio();
     users_id = json.from_users_id;
     if (!isUserOnline(users_id)) {
@@ -180,7 +183,9 @@ function acceptCall(json) {
             json.to_socketResourceId = socketResourceId;
         }
         setTimeout(function () {
-            sendSocketMessageToResourceId(json, 'callAccepted', json.from_socketResourceId);
+            console.log('acceptCall callAccepted', json);
+            callStartedHere = true;
+            sendSocketMessageToUser(json, 'callAccepted', json.from_users_id);
             sendSocketMessageToUser(obj, 'hideCall', my_users_id);
         }, 1000);
         setCallBodyClass('callActive');  // Ensure the class changes correctly
@@ -189,7 +194,7 @@ function acceptCall(json) {
             console.log('acceptCall ERROR callerToast[users_id] !== object', users_id);
         }
         if (typeof callerToast[users_id].close !== 'function') {
-            console.log('typeof callerToast[users_id].close !== function', users_id);
+            console.log('acceptCall typeof callerToast[users_id].close !== function', users_id);
         }
     }
 }
@@ -207,6 +212,10 @@ function hideCall(obj) {
 }
 
 function callAccepted(json) {
+    if (!callStartedHere) {
+        console.log('callAccepted ignored, not started here');
+        return;
+    }
     users_id = json.to_users_id;
     if (isCallerToastActive(users_id)) {
         console.log('callAccepted callerToast', users_id);
@@ -228,6 +237,10 @@ function generateRoomId(length = 32) {
 }
 
 function startWebRTCForCall(json) {
+    if (!callStartedHere) {
+        console.log('startWebRTCForCall ignored, not started here');
+        return;
+    }
     modal.showPleaseWait();
     var randomPass = parseInt(Math.random() * 100000);
 
@@ -239,11 +252,17 @@ function startWebRTCForCall(json) {
     var url = webSiteRootURL + 'plugin/WebRTC/call/';
     url = addQueryStringParameter(url, 'roomId', generateRoomId());
     openWebRTCLink(url);
-    sendSocketMessageToResourceId(url, 'openWebRTCLink', json.to_socketResourceId);
-    
+    console.log('startWebRTCForCall', url, json);
+    sendSocketMessageToUser(url, 'openWebRTCLink', json.to_users_id);
+
 }
 var callModalIFrameClosedInterval;
 function openWebRTCLink(linkAndPassword) {
+    if (!callStartedHere) {
+        console.log('openWebRTCLink ignored, not started here');
+        return;
+    }
+    console.trace('WebRTC call openWebRTCLink', linkAndPassword, window.location.href);
     setCallBodyClass('callActive');
     avideoModalIframeFull(linkAndPassword);
     callModalIFrameClosedInterval = setInterval(function () {
@@ -259,6 +278,10 @@ function openWebRTCLink(linkAndPassword) {
 
 var callModalIFrameClosedTimeout;
 function callModalIFrameClosed() {
+    if (!callStartedHere) {
+        console.log('callModalIFrameClosed ignored, not started here');
+        return;
+    }
     clearTimeout(callModalIFrameClosedTimeout);
     clearInterval(callModalIFrameClosedInterval);
     avideoModalIframeFullScreenClose();

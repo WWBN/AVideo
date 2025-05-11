@@ -166,6 +166,7 @@ function finishCall(json) {
 }
 
 function acceptCall(json) {
+    console.log('acceptCall socket', json);
     stopAllAudio();
     users_id = json.from_users_id;
     if (!isUserOnline(users_id)) {

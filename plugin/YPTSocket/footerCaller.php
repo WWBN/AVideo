@@ -33,6 +33,3 @@ if($response->error){
     }
 </style>
 <script src="<?php echo getURL('plugin/WebRTC/call/caller.js'); ?>" type="text/javascript"></script>
-<!--
-<script src="<?php echo getURL('plugin/YPTSocket/caller.js'); ?>" type="text/javascript"></script>
--->
