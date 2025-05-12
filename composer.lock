@@ -916,16 +916,16 @@
         },
         {
             "name": "elephantio/elephant.io",
-            "version": "v4.13.0",
+            "version": "v4.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ElephantIO/elephant.io.git",
-                "reference": "a176c8acece9627ac9dc094ca61129233a2856e8"
+                "reference": "db7c95e32db45b670b7c0cacf021fe6e3aa9da35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ElephantIO/elephant.io/zipball/a176c8acece9627ac9dc094ca61129233a2856e8",
-                "reference": "a176c8acece9627ac9dc094ca61129233a2856e8",
+                "url": "https://api.github.com/repos/ElephantIO/elephant.io/zipball/db7c95e32db45b670b7c0cacf021fe6e3aa9da35",
+                "reference": "db7c95e32db45b670b7c0cacf021fe6e3aa9da35",
                 "shasum": ""
             },
             "require": {
@@ -986,9 +986,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ElephantIO/elephant.io/issues",
-                "source": "https://github.com/ElephantIO/elephant.io/tree/v4.13.0"
+                "source": "https://github.com/ElephantIO/elephant.io/tree/v4.13.1"
             },
-            "time": "2025-03-09T15:29:33+00:00"
+            "time": "2025-05-06T01:55:18+00:00"
         },
         {
             "name": "emojione/assets",
