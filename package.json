@@ -11,7 +11,7 @@
     "@silvermine/videojs-chromecast": "^1.5.0",
     "animate.css": "^4.1.1",
     "blockadblock": "^3.2.1",
-    "bootstrap": "^5.3.5",
+    "bootstrap": "^5.3.6",
     "bootstrap-fileinput": "^5.5.4",
     "chart.js": "^4.4.9",
     "codemirror": "^6.0.1",
