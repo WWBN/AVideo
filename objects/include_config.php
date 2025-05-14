@@ -58,7 +58,7 @@ if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
                     }
                 }
             }
-            die("Bot Found [{$value}] " . $_SERVER['HTTP_USER_AGENT']);
+            die("Bot Found [{$value}] " . date('Y-m-d H:i:s') . ' ' . $_SERVER['HTTP_USER_AGENT']);
         }
     }
 }

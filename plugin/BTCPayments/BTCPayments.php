@@ -180,7 +180,6 @@ class BTCPayments extends PluginAbstract
             "metadata" => $metadata
         ];
 
-
         $data["metadata"]["users_id"] = $users_id;
 
         if (empty($redirectUrl)) {
@@ -266,6 +265,7 @@ class BTCPayments extends PluginAbstract
             forbiddenPage($invoice['msg']);
             exit;
         }
+        //var_dump($invoice);exit;
         $o = new Btc_invoices(0);
         $o->setInvoice_identification($invoice['id']);
         $o->setUsers_id($users_id);
