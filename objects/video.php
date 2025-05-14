@@ -6110,7 +6110,10 @@ if (!class_exists('Video')) {
 
         public static function userGroupAndVideoGroupMatch($users_id, $videos_id)
         {
+            global $_userGroupAndVideoGroupMatchReason;
+            $_userGroupAndVideoGroupMatchReason = '';
             if (empty($videos_id)) {
+                $_userGroupAndVideoGroupMatchReason = 'Empty video ID';
                 return false;
             }
 
@@ -6118,12 +6121,14 @@ if (!class_exists('Video')) {
             if ($ppv) {
                 $ppv->userCanWatchVideo($users_id, $videos_id);
             }
+
             // check if the video is not public
             $rows = UserGroups::getVideosAndCategoriesUserGroups($videos_id);
             if (empty($rows)) {
                 if (empty($users_id)) {
                     $video = new Video('', '', $videos_id);
                     if ($video->getOnly_for_paid()) {
+                        $_userGroupAndVideoGroupMatchReason = 'Video is only for paid users and user is not logged in';
                         return false;
                     }
                 }
@@ -6131,11 +6136,13 @@ if (!class_exists('Video')) {
             }
 
             if (empty($users_id)) {
+                $_userGroupAndVideoGroupMatchReason = 'User not logged in and video has restricted groups';
                 return false;
             }
 
             $rowsUser = UserGroups::getUserGroups(User::getId());
             if (empty($rowsUser)) {
+                $_userGroupAndVideoGroupMatchReason = 'User has no groups';
                 return false;
             }
 
@@ -6146,8 +6153,11 @@ if (!class_exists('Video')) {
                     }
                 }
             }
+
+            $_userGroupAndVideoGroupMatchReason = 'User group does not match any required group';
             return false;
         }
+
 
         public function getExternalOptions()
         {
