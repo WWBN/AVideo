@@ -6140,7 +6140,7 @@ if (!class_exists('Video')) {
                 return false;
             }
 
-            $rowsUser = UserGroups::getUserGroups(User::getId());
+            $rowsUser = UserGroups::getUserGroups($users_id);
             if (empty($rowsUser)) {
                 $_userGroupAndVideoGroupMatchReason = 'User has no groups';
                 return false;
