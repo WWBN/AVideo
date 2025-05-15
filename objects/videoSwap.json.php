@@ -36,6 +36,7 @@ if (!$video2->userCanManageVideo()) {
     die(json_encode($obj));
 }
 
+_error_log("Swap videos START: " . $video1->getId() . " with " . $video2->getId());
 $video1Filename = $video1->getFilename();
 $video1Sites_id = $video1->getSites_id();
 $video1Duration = $video1->getDuration();
@@ -53,15 +54,20 @@ $video2->setSites_id($video1Sites_id);
 $video2->setDuration($video1Duration);
 mysqlBeginTransaction();
 if (!$video1->save()) {
-    $obj->msg = __("Error on save video 1");
+    $obj->msg = __("Error on swap video 1");
+    _error_log($obj->msg);
     die(json_encode($obj));
 }
+_error_log("Swap videos1 SUCCESS: " . $video1->getId());
 if (!$video2->save()) {
-    $obj->msg = __("Error on save video 2");
+    $obj->msg = __("Error on swap video 2");
+    _error_log($obj->msg);
     die(json_encode($obj));
 }
+_error_log("Swap videos2 SUCCESS: " . $video2->getId());
 $video1->setVideoHigestResolution(0);
 $video2->setVideoHigestResolution(0);
 mysqlCommit();
+_error_log("Swap videos END: " . $video1->getId() . " with " . $video2->getId());
 $obj->error = false;
 die(json_encode($obj));
