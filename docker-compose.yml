@@ -188,25 +188,32 @@ services:
     networks:
       - app_net
 
+  # Optimised Memcached service (docker-compose.yml)
   memcached:
     image: memcached:alpine
-    restart: "unless-stopped"
+    restart: unless-stopped
+    # ── Runtime flags ────────────────────────────────────────────────
+    # -m 512   → 512 MiB cache (enough for large PHP sessions)
+    # -c 2048  → 2 048 concurrent connections
+    # -t ${NPROC:-4} → one worker thread per vCPU (default 4)
+    # -R 200   → 200 requests per event loop → lower latency
     command: >
-      sh -c "memcached -m 128 -c 1024 -t ${NPROC:-2} -vv"
+      memcached -m 512 -c 2048 -t ${NPROC:-4} -R 200
     ports:
       - "${MEMCACHE_PORT:-11211}:11211"
     deploy:
       resources:
         limits:
           cpus: '1'
-          memory: "4G"
+          memory: "4G"      # hard limit (container OOM-kills above this)
         reservations:
           cpus: '0.5'
-          memory: '512M'
+          memory: '1G'      # guaranteed reservation (was 512 M)
     networks:
       - app_net
     environment:
-      - NPROC=${NPROC:-2}
+      NPROC: ${NPROC:-4}
+
 
 networks:
   app_net:

@@ -1626,7 +1626,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             $("#swapBtn").click(function() {
                 var vals = getSelectedVideos();
                 if (vals.length !== 2) {
-                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("You MUST select 2 videos to swap"); ?>", "error");
+                    avideoAlertError(__("You MUST select 2 videos to swap"));
                     return false;
                 }
                 modal.showPleaseWait();

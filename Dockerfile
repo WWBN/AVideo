@@ -127,17 +127,40 @@ RUN dos2unix /usr/local/bin/docker-entrypoint && \
     chmod 755 /usr/local/bin/docker-entrypoint && \
     chmod +x /usr/local/bin/docker-entrypoint
 
-# Create a script to handle PHP configuration
-RUN echo '#!/bin/sh' > /usr/local/bin/configure-php.sh && \
-    echo 'PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION . \".\" . PHP_MINOR_VERSION;")' >> /usr/local/bin/configure-php.sh && \
-    echo 'sed -i "s/^post_max_size.*$/post_max_size = 10G/" /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
-    echo 'sed -i "s/^upload_max_filesize.*$/upload_max_filesize = 10G/" /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
-    echo 'sed -i "s/^max_execution_time.*$/max_execution_time = 7200/" /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
-    echo 'sed -i "s/^memory_limit.*$/memory_limit = 512M/" /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
-    echo 'echo "error_log = /dev/stdout" >> /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
-    echo 'echo "session.save_handler = memcached" >> /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
-    echo 'echo "session.save_path = \"memcached:11211\"" >> /etc/php/${PHP_VERSION}/apache2/php.ini' >> /usr/local/bin/configure-php.sh && \
-    chmod +x /usr/local/bin/configure-php.sh
+# 🛠️  Improved RUN block — creates a single script and tunes PHP-Memcached sessions
+RUN cat >/usr/local/bin/configure-php.sh <<'EOS'
+#!/bin/sh
+# Detect active PHP version (e.g., 8.2)
+PHP_VERSION="$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')"
+INI="/etc/php/${PHP_VERSION}/apache2/php.ini"
+
+# ── Upload / execution limits ─────────────────────────────────────────────
+sed -i 's/^post_max_size\s*=.*/post_max_size = 10G/'            "$INI"
+sed -i 's/^upload_max_filesize\s*=.*/upload_max_filesize = 10G/' "$INI"
+sed -i 's/^max_execution_time\s*=.*/max_execution_time = 7200/' "$INI"
+sed -i 's/^memory_limit\s*=.*/memory_limit = 512M/'             "$INI"
+
+# Log PHP errors to STDOUT (visible via `docker logs`)
+echo "error_log = /dev/stdout" >> "$INI"
+
+# ── PHP sessions stored in Memcached ─────────────────────────────────────
+cat >> "$INI" <<'EOF'
+; ---------- PHP sessions via Memcached ----------
+session.save_handler           = memcached
+session.save_path              = "memcached:11211?persistent=1&timeout=2&retry_interval=5"
+
+; Lightweight locking to avoid race conditions without freezing the site
+memcached.sess_locking         = 1
+memcached.sess_lock_expire     = 15       ; release lock after 15 s
+memcached.sess_lock_wait_min   = 1000     ; 1 ms between attempts
+memcached.sess_lock_wait_max   = 50000    ; up to 50 ms back-off
+memcached.sess_consistent_hash = On
+memcached.sess_remove_failed_servers = 1
+EOF
+EOS
+
+RUN chmod +x /usr/local/bin/configure-php.sh
+
 
 # Run the PHP configuration script
 RUN /usr/local/bin/configure-php.sh
