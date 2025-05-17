@@ -6,6 +6,11 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
+$global['printLogs'] = 1;
+$global['debug'] = $_REQUEST['debug'] = 1;
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $isCDNEnabled = AVideoPlugin::isEnabledByName('CDN');
 
 if (empty($isCDNEnabled)) {
