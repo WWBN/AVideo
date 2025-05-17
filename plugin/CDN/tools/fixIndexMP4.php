@@ -39,7 +39,9 @@ foreach ($videos as $key => $value) {
         if(file_exists($mp4)){
             $fileInfo = CDNStorage::getFilesListInfo($mp4, $videos_id);
             $filesize = $fileInfo['local_filesize'] ?? 0;
-            var_dump($fileInfo);
+            if($fileInfo){
+                var_dump($fileInfo);
+            }
         }
     }
 }
