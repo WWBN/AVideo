@@ -33,14 +33,14 @@ foreach ($videos as $key => $value) {
         if (empty($value['sites_id'])) {
             continue;
         }
-
+        $hls = "{$path}{$value['filename']}/index.m3u8";
         $mp4 = "{$path}{$value['filename']}/index.mp4";
 
-        if(file_exists($mp4)){
+        if(file_exists($hls) && file_exists($mp4) && isDummyFile($mp4)){
             $fileInfo = CDNStorage::getFilesListInfo($mp4, $videos_id);
             $filesize = $fileInfo['local_filesize'] ?? 0;
-            if($fileInfo){
-                var_dump($fileInfo);
+            if($filesize < 20){
+                $resp = VideoHLS::convertM3U8ToMP4AndSync($videos_id, 1);
             }
         }
     }
