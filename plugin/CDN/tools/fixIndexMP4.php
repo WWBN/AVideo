@@ -27,24 +27,45 @@ $videos = sqlDAL::fetchAllAssoc($res);
 $total = count($videos);
 $client = CDNStorage::getStorageClient();
 sqlDAL::close($res);
+
+echo "Total videos found: {$total}" . PHP_EOL;
+
 foreach ($videos as $key => $value) {
     $videos_id = $value['id'];
+    $filename = $value['filename'];
+
     if ($value['status'] === Video::$statusActive) {
+        echo "[videos_id: {$videos_id}] Processing '{$filename}'" . PHP_EOL;
+
         if (empty($value['sites_id'])) {
+            echo "[videos_id: {$videos_id}] ➤ Skipped: No sites_id" . PHP_EOL;
             continue;
         }
-        $hls = "{$path}{$value['filename']}/index.m3u8";
-        $mp4 = "{$path}{$value['filename']}/index.mp4";
 
-        if(file_exists($hls) && file_exists($mp4) && isDummyFile($mp4)){
+        $hls = "{$path}{$filename}/index.m3u8";
+        $mp4 = "{$path}{$filename}/index.mp4";
+
+        if (file_exists($hls) && file_exists($mp4) && isDummyFile($mp4)) {
+            echo "[videos_id: {$videos_id}] ➤ Found dummy MP4 and valid HLS" . PHP_EOL;
+
             $fileInfo = CDNStorage::getFilesListInfo($mp4, $videos_id);
             $filesize = $fileInfo['local_filesize'] ?? 0;
-            if($filesize < 20){
+            echo "[videos_id: {$videos_id}]     - MP4 Dummy Size: {$filesize} bytes" . PHP_EOL;
+
+            if ($filesize < 20) {
+                echo "[videos_id: {$videos_id}]     - Starting HLS to MP4 conversion..." . PHP_EOL;
                 $resp = VideoHLS::convertM3U8ToMP4AndSync($videos_id, 1);
+                echo "[videos_id: {$videos_id}]     - Conversion complete. Result: " . json_encode($resp) . PHP_EOL;
+            } else {
+                echo "[videos_id: {$videos_id}]     - File is not dummy (>= 20 bytes), skipping conversion." . PHP_EOL;
             }
+        } else {
+            echo "[videos_id: {$videos_id}] ➤ Skipped: HLS or MP4 file missing, or MP4 is not dummy" . PHP_EOL;
         }
+    } else {
+        echo "[videos_id: {$videos_id}] ➤ Skipped: Video not active" . PHP_EOL;
     }
 }
 
-echo PHP_EOL . " Done! " . PHP_EOL;
+echo PHP_EOL . "Done!" . PHP_EOL;
 die();
