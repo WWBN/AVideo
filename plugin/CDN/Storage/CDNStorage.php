@@ -199,7 +199,7 @@ class CDNStorage
         return $total;
     }
 
-    public static function getFilesListInfo($local_path, $storage_pullzone, $videos_id, $skipDummyFiles = true)
+    public static function getFilesListInfo($local_path, $videos_id, $skipDummyFiles = true)
     {
         global $global;
         if ($skipDummyFiles && is_string($local_path) && filesize($local_path) < 20) {
@@ -1171,7 +1171,7 @@ class CDNStorage
                 self::processFileOrDirectory($subValue, $filesList, $acumulative, $pz, $videos_id, $skipDummyFiles);
             }
         } else {
-            $file = self::getFilesListInfo($value, $pz, $videos_id, $skipDummyFiles);
+            $file = self::getFilesListInfo($value, $videos_id, $skipDummyFiles);
             if (!empty($file)) {
                 $acumulative += $file['local_filesize'];
                 $file['acumulativeFilesize'] = $acumulative;
