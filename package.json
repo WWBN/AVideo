@@ -40,7 +40,7 @@
     "pouchdb": "^9.0.0",
     "socket.io-client": "^4.8.1",
     "sweetalert": "^2.1.2",
-    "tinymce": "^7.8.0",
+    "tinymce": "^7.9.0",
     "tinymce-langs": "^1.0.0",
     "video.js": "^8.22.0",
     "videojs-contrib-ads": "^7.5.2",
