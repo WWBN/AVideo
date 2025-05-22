@@ -31,7 +31,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $duration = Video::getDurationFromFile($_FILES['upl']['tmp_name']);
     $path_parts = pathinfo($_FILES['upl']['name']);
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
-    $filename = uniqid($mainName . "_", true);
+    $filename = _uniqid($mainName . "_", true);
     $videos_id = 0;
     if (!empty($_FILES['upl']['videoId'])) {
         $videos_id = $_FILES['upl']['videoId'];

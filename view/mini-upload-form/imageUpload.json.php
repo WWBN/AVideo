@@ -50,7 +50,7 @@ if (!empty($_FILES['comment_image']) && $_FILES['comment_image']['error'] === UP
     }
 
     // Sanitize file name
-    $newFileName = uniqid('comment_img_') . '_user_' . $users_id . '.' . $fileExt;
+    $newFileName = _uniqid('comment_img_') . '_user_' . $users_id . '.' . $fileExt;
     $destPath = $targetDir . $newFileName;
 
     // Move the uploaded file

@@ -60,7 +60,7 @@ function loadStandaloneConfiguration()
             $content .= "\$doNotIncludeConfig = 1;" . PHP_EOL;
             $content .= "\$doNotConnectDatabaseIncludeConfig = 1;" . PHP_EOL;
             $content .= "\$doNotStartSessionIncludeConfig = 1;" . PHP_EOL;
-            $content .= "\$global['salt'] = '" . uniqid() . "';" . PHP_EOL;
+            $content .= "\$global['salt'] = '" . _uniqid() . "';" . PHP_EOL;
             $content .= "\$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';" . PHP_EOL;
             $content .= "\$global['systemRootPath'] = '{$global['systemRootPath']}';" . PHP_EOL;
             $content .= "require_once \$global['systemRootPath'] . 'objects/include_config.php';" . PHP_EOL;

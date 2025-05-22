@@ -13,7 +13,7 @@ if (empty($_GET['video_length'])) {
 }
 
 if (empty($_GET['vmap_id'])) {
-    $_GET['vmap_id'] = uniqid();
+    $_GET['vmap_id'] = _uniqid();
 }
 
 $videos_id = getVideos_id();

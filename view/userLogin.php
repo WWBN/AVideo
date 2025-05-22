@@ -211,7 +211,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                 //include $value;
             } elseif (is_array($value)) {
                 $loginCount++;
-                $uid = uniqid();
+                $uid = _uniqid();
                 $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=" . ($_GET['redirectUri'] ?? "");
                 $loginBtnLabel = "<span class=\"{$value['parameters']->icon}\"></span> {$value['parameters']->type}";
                 if (!empty($value['dataObject']->buttonLabel)) {

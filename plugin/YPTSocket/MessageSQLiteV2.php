@@ -392,7 +392,7 @@ class Message implements MessageComponentInterface
             $obj['msg'] = $msg;
         }
 
-        $obj['uniqid'] = uniqid();
+        $obj['uniqid'] = _uniqid();
         $obj['users_id'] = $users_id;
         $obj['videos_id'] = $videos_id;
         $obj['live_key'] = $live_key;

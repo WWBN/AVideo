@@ -41,7 +41,7 @@ function getCroppieElement(
     }
     $boundaryWidth = $viewportWidth + $boundary;
     $boundaryHeight = $viewportHeight + $boundary;
-    $uid = uniqid();
+    $uid = _uniqid();
 
     $varsArray = [
         'buttonTitle' => $buttonTitle,

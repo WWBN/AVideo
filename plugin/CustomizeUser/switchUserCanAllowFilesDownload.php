@@ -1,5 +1,5 @@
 <?php
-$uid = uniqid();
+$uid = _uniqid();
 ?>
 <div class="material-switch">
     <input class="playerSwitchDefault" data-toggle="toggle" type="checkbox" value="" id="switch<?php echo $uid; ?>" <?php echo (CustomizeUser::canDownloadVideosFromUser($users_id)) ? "checked" : ""; ?>>
