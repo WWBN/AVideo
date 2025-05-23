@@ -1665,54 +1665,110 @@ if (!class_exists('Video')) {
         public static function getRelatedMovies($videos_id, $limit = 10)
         {
             global $global;
+
+            // Retrieve basic info of the reference video
             $video = self::getVideoLight($videos_id);
             if (empty($video)) {
                 return array();
             }
-            /**
-             *
-             * @var array $global
-             * @var object $global['mysqli']
-             */
-            $sql = "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='a' AND categories_id = {$video['categories_id']} ";
 
-            $sql .= " UNION ";
+            $rows = [];              // Will store the final list of videos
+            $usedVideoIDs = [];      // Will store IDs to avoid duplicates
 
-            $sql .= "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='" . Video::$statusActive . "' ";
+            // Step 1: Fetch videos from the same category
+            $sql = "SELECT * FROM videos v
+            WHERE v.id != {$videos_id}
+              AND v.status='a'
+              AND categories_id = {$video['categories_id']}";
 
+            // Apply filter for kids, if required
             if (isForKidsSet()) {
-                $sql .= " AND made_for_kids = 1 ";
+                $sql .= " AND made_for_kids = 1";
             }
 
-            if (AVideoPlugin::isEnabledByName("VideoTags")) {
-                $sql .= " AND (";
-                $sql .= "v.id IN (select videos_id FROM tags_has_videos WHERE tags_id IN "
-                    . " (SELECT tags_id FROM tags_has_videos WHERE videos_id = {$videos_id}))";
-                $sql .= ")";
-            }
+            $sql .= " ORDER BY RAND() LIMIT {$limit}";
 
-            $sql .= AVideoPlugin::getVideoWhereClause();
-
-            $sql .= "ORDER BY RAND() LIMIT {$limit}";
-            //var_dump($sql);exit;
+            // Execute query
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
-            //var_dump(count($fullData), $sql);
             sqlDAL::close($res);
-            $rows = [];
+
             if ($res !== false) {
                 foreach ($fullData as $row) {
+                    // Add video thumbnail
                     $row['images'] = self::getImageFromFilename($row['filename']);
+                    // Ensure externalOptions is valid
                     if (empty($row['externalOptions'])) {
                         $row['externalOptions'] = json_encode(Video::getBlankExternalOptions());
                     }
                     $rows[] = $row;
+                    $usedVideoIDs[] = $row['id']; // Track used IDs
                 }
             } else {
+                // Query failed: output debug info and stop execution
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+
+            // Step 2: Complement with other videos (different category), avoiding duplicates
+            $remaining = $limit - count($rows);
+            if ($remaining > 0) {
+                // Prepare list of excluded video IDs (already used + current video)
+                $excludeIds = implode(',', array_merge([$videos_id], $usedVideoIDs));
+
+                $sql = "SELECT * FROM videos v
+                WHERE v.id NOT IN ($excludeIds)
+                  AND v.status='a'
+                  AND categories_id != {$video['categories_id']}";
+
+                // Apply kids filter if enabled
+                if (isForKidsSet()) {
+                    $sql .= " AND made_for_kids = 1";
+                }
+
+                // Apply tag filter if plugin is enabled
+                if (AVideoPlugin::isEnabledByName("VideoTags")) {
+                    $sql .= " AND (
+                v.id IN (
+                    SELECT videos_id
+                    FROM tags_has_videos
+                    WHERE tags_id IN (
+                        SELECT tags_id
+                        FROM tags_has_videos
+                        WHERE videos_id = {$videos_id}
+                    )
+                )
+            )";
+                }
+
+                // Apply extra plugin-based filters
+                $sql .= AVideoPlugin::getVideoWhereClause();
+
+                $sql .= " ORDER BY RAND() LIMIT {$remaining}";
+
+                // Execute query
+                $res = sqlDAL::readSql($sql);
+                $extraData = sqlDAL::fetchAllAssoc($res);
+                sqlDAL::close($res);
+
+                if ($res !== false) {
+                    foreach ($extraData as $row) {
+                        // Add video thumbnail
+                        $row['images'] = self::getImageFromFilename($row['filename']);
+                        // Ensure externalOptions is valid
+                        if (empty($row['externalOptions'])) {
+                            $row['externalOptions'] = json_encode(Video::getBlankExternalOptions());
+                        }
+                        $rows[] = $row;
+                    }
+                } else {
+                    // Query failed: output debug info and stop execution
+                    die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                }
+            }
+
             return $rows;
         }
+
 
         /**
          *
