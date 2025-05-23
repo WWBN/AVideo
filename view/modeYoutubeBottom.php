@@ -120,7 +120,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                 ?>
                 <?php
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
-                    echo VideoTags::getLabels($video['id'], false);
+                    echo VideoTags::getLabels($video['id']);
                 }
                 ?>
             </div>
@@ -222,7 +222,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                     <?php
                     if (!empty($video['id']) && empty($advancedCustom->removeThumbsUpAndDown)) {
                     ?>
-                        <a href="#" class="likedislikebtn faa-parent animated-hover btn btn-default no-outline pull-right 
+                        <a href="#" class="likedislikebtn faa-parent animated-hover btn btn-default no-outline pull-right
                         <?php echo (@$video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Don´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                             <span class="fa fa-thumbs-down faa-bounce faa-reverse "></span>
                             <small class="showWhenNotProcessing"><?php echo $video['dislikes']; ?></small>
@@ -230,7 +230,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                                 <i class="fas fa-spinner fa-spin"></i>
                             </div>
                         </a>
-                        <a href="#" class="likedislikebtn faa-parent animated-hover btn btn-default no-outline pull-right 
+                        <a href="#" class="likedislikebtn faa-parent animated-hover btn btn-default no-outline pull-right
                         <?php echo (@$video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                             <span class="fa fa-thumbs-up faa-bounce"></span>
                             <small class="showWhenNotProcessing"><?php echo $video['likes']; ?></small>
