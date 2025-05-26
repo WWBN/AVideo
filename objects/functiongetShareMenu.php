@@ -56,7 +56,7 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                     //$title = urlencode($title);
                     include $global['systemRootPath'] . 'view/include/social.php';
                     $type = 'animate__flipInX';
-                    $loaderSequenceName = uniqid();
+                    $loaderSequenceName = _uniqid();
                     ?>
                 </div>
                 <div class="tab-pane" id="tabEmbed">
@@ -87,7 +87,7 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                 </div>
                 <?php
                 if (empty($advancedCustom->disableEmailSharing)) {
-                    $loaderSequenceName = uniqid();
+                    $loaderSequenceName = _uniqid();
                     ?>
                     <div class="tab-pane" id="tabEmail">
                         <?php if (!User::isLogged()) { ?>
@@ -167,7 +167,7 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                     <?php
                 }
                 if (!empty($permaLink) && $permaLink !== $URLFriendly) {
-                    $loaderSequenceName = uniqid();
+                    $loaderSequenceName = _uniqid();
                     ?>
                     <div class="tab-pane" id="tabPermaLink">
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">

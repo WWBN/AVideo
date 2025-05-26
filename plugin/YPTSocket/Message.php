@@ -303,7 +303,7 @@ class Message implements MessageComponentInterface {
             $obj['msg'] = $msg;
         }
 
-        $obj['uniqid'] = uniqid();
+        $obj['uniqid'] = _uniqid();
         $obj['users_id'] = $users_id;
         $obj['videos_id'] = $videos_id;
         $obj['live_key'] = $live_key;
@@ -425,7 +425,7 @@ class Message implements MessageComponentInterface {
                     $return['users_uri'][$index][$client['yptDeviceId']] = array();
                 }
                 if (empty($client['users_id'])) {
-                    $return['users_uri'][$index][$client['yptDeviceId']][uniqid()] = $client;
+                    $return['users_uri'][$index][$client['yptDeviceId']][_uniqid()] = $client;
                 } else
                 if (!isset($return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']])) {
                     $return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']] = $client;

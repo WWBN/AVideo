@@ -22,7 +22,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
     <?php
     } elseif (class_exists("YPTWallet")) {
         $u = new User($video['users_id']);
-        $uid = uniqid();
+        $uid = _uniqid();
         $captcha = User::getCaptchaForm($uid);
         $live = isLive();
         if (!empty($live)) {

@@ -304,7 +304,7 @@ class AD_Server extends PluginAbstract
         $vmapURL = "{$global['webSiteRootURL']}plugin/AD_Server/VMAP.php";
         $vmapURL = addQueryStringParameter($vmapURL, 'video_length', $video_length);
         $vmapURL = addQueryStringParameter($vmapURL, 'vmap_id', $vmap_id);
-        $vmapURL = addQueryStringParameter($vmapURL, 'random', uniqid());
+        $vmapURL = addQueryStringParameter($vmapURL, 'random', _uniqid());
         $vmapURL = addQueryStringParameter($vmapURL, 'videos_id', $videos_id);
         $vmapURL = self::addVMAPS($vmapURL, $vmaps);
         //var_dump($vmapURL, $vmaps);exit;
