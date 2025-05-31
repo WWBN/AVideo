@@ -1,7 +1,4 @@
 <?php
-
-use Fhaculty\Graph\Edge\Base;
-
 saveRequestVars();
 ?>
 <link href="<?php echo getURL('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css" />
@@ -83,7 +80,7 @@ saveRequestVars();
                 } else
                 if ($value['name'] == 'Suggested') {
                     createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star", true);
-                } else 
+                } else
                 if (empty(getSearchVar()) && empty($_GET['showOnly']) && $value['name'] == 'PlayLists') {
                     $objPl = AVideoPlugin::getDataObject('PlayLists');
                     $plRows = PlayList::getAllToShowOnFirstPage();
@@ -108,7 +105,7 @@ saveRequestVars();
                                         <span class="badge">
                                             (<?php echo $playlistTotalInfo['totalVideos']; ?> <?php echo __('videos'); ?>)
                                             <?php echo secondsToTime($playlistTotalInfo['duration_in_seconds'], '%02d'); ?>
-                                        </span>                                        
+                                        </span>
                                     </a>
                                 </h3>
                                 <div class="gallerySectionContent">
@@ -117,11 +114,11 @@ saveRequestVars();
                                     ?>
                                 </div>
                             </div>
-        <?php
+                <?php
                         }
                         setRowCount($rowCount);
                     }
-                } else 
+                } else
                 if ($value['name'] == 'Trending') {
                     createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line", true);
                 } else
