@@ -3,6 +3,9 @@
 <div class="panel panel-default">
     <div class="panel-heading"><?php echo __('Title and Logo'); ?> </div>
     <div class="panel-body">
+        <?php
+        include $global['systemRootPath'] . 'view/ImageMagick.check.php';
+        ?>
         <form id="updateConfigForm">
             <div class="row">
                 <div class="col-md-6">
@@ -115,7 +118,7 @@
                         type: 'post',
                         success: function(response) {
                             if (response.status === "1") {
-                                avideoAlertSuccess( __("Your configurations has been updated!"));
+                                avideoAlertSuccess(__("Your configurations has been updated!"));
                             } else {
                                 avideoAlertError(__("Your configurations has NOT been updated!"));
                             }

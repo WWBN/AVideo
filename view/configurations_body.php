@@ -292,7 +292,9 @@ if (User::isAdmin()) {
                                             <h2><?php echo __("Logo and Title"); ?></h2>
                                         </div>
                                         <div class="panel-body">
-
+                                            <?php
+                                            include $global['systemRootPath'] . 'view/ImageMagick.check.php';
+                                            ?>
                                             <div class="form-group">
                                                 <label class="col-md-4 control-label"><?php echo __("Web site title"); ?></label>
                                                 <div class="col-md-8 inputGroupContainer">

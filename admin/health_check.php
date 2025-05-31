@@ -38,10 +38,11 @@ $linuxApps[] = ['unzip'];
 $linuxApps[] = ['youtube-dl'];
 $linuxApps[] = ['sshpass', 'https://github.com/WWBN/AVideo/wiki/Clone-Site-Plugin#the-process-with-rsync-support-hls'];
 $linuxApps[] = ['apache2'];
+$linuxApps[] = ['convert', 'sudo apt update && sudo apt install imagemagick'];
 
 $messages = ['Server' => [], 'PHP' => [], 'Apache' => []];
 $version = phpversion();
-$phpMinVersion = '7.3.0';
+$phpMinVersion = '8.0.0';
 if (strnatcmp($version, $phpMinVersion) >= 0) {
     $messages['PHP'][] = "PHP v{$version}";
 } else {
