@@ -35,7 +35,7 @@
     "jquery-ui-dist": "^1.13.3",
     "js-cookie": "^3.0.5",
     "keycode": "^2.2.1",
-    "moment-timezone": "^0.5.48",
+    "moment-timezone": "^0.6.0",
     "nosleep.js": "^0.12.0",
     "pouchdb": "^9.0.0",
     "socket.io-client": "^4.8.1",
