@@ -295,19 +295,17 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
             <?php
             if (!User::hasBLockedUser($user_id)) {
             ?>
+                <div id="channelLive">
+                    <?php
+                    if (!empty($liveVideos)) {
+                            createGallerySection($liveVideos, false);
+                    }
+                    ?>
+                </div>
                 <div class="tabbable-panel">
                     <div class="tabbable-line">
                         <ul class="nav nav-tabs">
                             <?php
-                            if (!empty($liveVideos)) {
-                            ?>
-                                <li class="nav-item <?php echo getChannelTabClass(true, false); ?>">
-                                    <a class="nav-link " href="#channelLive" data-toggle="tab" aria-expanded="false">
-                                        <span class="glow-flash-icon live-icon"></span> <span class="labelUpperCase"><?php echo __('Live Now'); ?></span>
-                                    </a>
-                                </li>
-                            <?php
-                            }
                             if ($showChannelHomeTab) {
                             ?>
                                 <li class="nav-item <?php echo getChannelTabClass(true, false); ?>>">
@@ -382,16 +380,6 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                         </ul>
                         <div class="tab-content clearfix">
                             <?php
-                            if (!empty($liveVideos)) {
-                            ?>
-                                <div class="tab-pane  <?php echo getChannelTabClass(false, false); ?> clearfix " id="channelLive">
-                                    <?php
-                                    createGallerySection($liveVideos, false);
-                                    ?>
-                                </div>
-                            <?php
-                            }
-
                             if ($showChannelHomeTab) {
                                 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                             ?>
