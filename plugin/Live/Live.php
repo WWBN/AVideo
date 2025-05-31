@@ -69,7 +69,7 @@ class Live extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "14.0";
+        return "15.1";
     }
 
     public function getLivePanel()

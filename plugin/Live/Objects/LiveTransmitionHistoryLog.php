@@ -10,6 +10,8 @@ class LiveTransmitionHistoryLog extends ObjectYPT
     protected $live_transmitions_history_id;
     protected $users_id;
     protected $session_id;
+    protected $user_agent;
+    protected $ip;
 
     public static function getSearchFieldsNames()
     {
@@ -34,6 +36,26 @@ class LiveTransmitionHistoryLog extends ObjectYPT
     public function getSession_id()
     {
         return $this->session_id;
+    }
+
+    function getUser_agent()
+    {
+        return $this->user_agent;
+    }
+
+    function setUser_agent($user_agent)
+    {
+        $this->user_agent = $user_agent;
+    }
+
+    function getIp()
+    {
+        return $this->ip;
+    }
+
+    function setIp($ip)
+    {
+        $this->ip = $ip;
     }
 
     public function setLive_transmitions_history_id($live_transmitions_history_id)
@@ -79,6 +101,25 @@ class LiveTransmitionHistoryLog extends ObjectYPT
         return $row;
     }
 
+    public function getTotalFromHistoryAndIP($live_transmitions_history_id, $ip)
+    {
+        global $global;
+        $sql = "SELECT count(id) as total
+            FROM " . static::getTableName() . "
+            WHERE live_transmitions_history_id = ?
+              AND ip = ?
+              AND modified >= DATE_SUB(NOW(), INTERVAL 1 HOUR)";
+        $res = sqlDAL::readSql($sql, "is", [$live_transmitions_history_id, $ip]);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = intval($data['total']);
+        } else {
+            $row = 0;
+        }
+        return $row;
+    }
+
     public static function getAllFromHistory($live_transmitions_history_id)
     {
         global $global;
@@ -88,19 +129,28 @@ class LiveTransmitionHistoryLog extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res!=false) {
+        if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } 
+        }
         return $rows;
     }
 
     public function save()
     {
         $row = $this->getFromHistoryAndSession($this->live_transmitions_history_id, $this->session_id);
+
+        $this->ip = getRealIpAddr();
+        $this->user_agent = @$_SERVER['HTTP_USER_AGENT'];
         if (!empty($row)) {
             $this->id = $row['id'];
+        } else {
+            // check if there are already 5 same ips records on the last hour, if there is do not do anything
+            $total = $this->getTotalFromHistoryAndIP($this->live_transmitions_history_id, $this->ip);
+            if ($total > 5) {
+                _error_log("LiveTransmitionHistoryLog not saved because there are 5+ records from IP {$this->ip} {$this->user_agent}");
+            }
         }
         return parent::save();
     }

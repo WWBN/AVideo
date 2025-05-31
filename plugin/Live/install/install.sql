@@ -112,8 +112,12 @@ CREATE TABLE IF NOT EXISTS `live_transmition_history_log` (
   `session_id` VARCHAR(45) NULL,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
+  `user_agent` VARCHAR(255) NULL DEFAULT NULL,
+  `ip` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_live_transmition_history_log_live_transmitions_history1_idx` (`live_transmitions_history_id` ASC),
+  INDEX `ua_index6_log` (`user_agent` ASC),
+  INDEX `ip_index7_log` (`ip` ASC),
   CONSTRAINT `fk_live_transmition_history_log_live_transmitions_history1`
     FOREIGN KEY (`live_transmitions_history_id`)
     REFERENCES `live_transmitions_history` (`id`)
