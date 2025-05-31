@@ -241,11 +241,11 @@ class YPTSocket extends PluginAbstract
 
             $client->connect();
             _error_log("WebSocket Connected to $SocketURL");
-
-            foreach ($SocketSendUsers_id as $index => $user_id) {
-                _error_log("Sending message to User ID: $user_id");
-
-                $SocketSendObj->to_users_id = $user_id;
+            //_error_log("WebSocket".json_encode($SocketSendUsers_id));
+            $SocketSendUsers_id = array_filter($SocketSendUsers_id);
+            if (empty($SocketSendUsers_id)) {
+                _error_log("Sending message to all");
+                $SocketSendObj->to_users_id = 0;
                 $SocketSendObj = self::cleanupSocketSendObj($SocketSendObj);
                 $message = json_encode($SocketSendObj);
 
@@ -253,7 +253,22 @@ class YPTSocket extends PluginAbstract
                     _error_log("JSON encoding failed: " . json_last_error_msg());
                 } else {
                     $client->emit('message', [$message]);
-                    _error_log("Message sent to User ID: $user_id");
+                    _error_log("Message sent to all -$callbackJSFunction-");
+                }
+            } else {
+                foreach ($SocketSendUsers_id as $index => $user_id) {
+                    _error_log("Sending message to User ID: $user_id");
+
+                    $SocketSendObj->to_users_id = $user_id;
+                    $SocketSendObj = self::cleanupSocketSendObj($SocketSendObj);
+                    $message = json_encode($SocketSendObj);
+
+                    if ($message === false) {
+                        _error_log("JSON encoding failed: " . json_last_error_msg());
+                    } else {
+                        $client->emit('message', [$message]);
+                        _error_log("Message sent to User ID: $user_id message=$message -$callbackJSFunction-");
+                    }
                 }
             }
 
@@ -274,16 +289,16 @@ class YPTSocket extends PluginAbstract
     {
 
         $obj = AVideoPlugin::getDataObject('YPTSocket');
-        $js = '<script>const useSocketIO = '.($obj->socketIO?1:0).';</script>';
+        $js = '<script>const useSocketIO = ' . ($obj->socketIO ? 1 : 0) . ';</script>';
         return $js;
     }
 
     public static function send($msg, $callbackJSFunction = "", $users_id = "", $send_to_uri_pattern = "")
     {
         $obj = AVideoPlugin::getDataObject('YPTSocket');
-        if($obj->socketIO){
+        if ($obj->socketIO) {
             return self::sendIO($msg, $callbackJSFunction, $users_id, $send_to_uri_pattern);
-        }else{
+        } else {
             return self::sendOLD($msg, $callbackJSFunction, $users_id, $send_to_uri_pattern);
         }
     }

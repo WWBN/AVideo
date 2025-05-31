@@ -99,7 +99,7 @@ if ($isCached) {
     if (class_exists('VideoHLS')) {
         global $verifyTokenReturnFalseReason;
         $verifyTokenReturnFalseReason = '';
-        if (!isAVideoUserAgent() && (empty($_SERVER['HTTP_REFERER']) || !isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL']))) {
+        if (!isAVideoUserAgent() && (empty($_SERVER['HTTP_REFERER']) || !isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) && $global['webSiteRootURL'] !== 'http://avideo/') {
             $verifyTokenReturnFalseReason = "HTTP_REFERER={$_SERVER['HTTP_REFERER']}, webSiteRootURL={$global['webSiteRootURL']} IP=".getRealIpAddr().' HTTP_USER_AGENT='.$_SERVER['HTTP_USER_AGENT'];
             $authorized = false;
         }else if (isAVideoUserAgent() || empty($obj->downloadProtection) || VideoHLS::verifyToken($token)) {
