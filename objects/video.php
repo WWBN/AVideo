@@ -5011,7 +5011,7 @@ if (!class_exists('Video')) {
                 $now = time(); // Current timestamp
 
                 // Check if file is 5 minutes (300 seconds) old or more
-                if (($now - $lastModified) >= 300 || empty($tmpCacheContent)) {
+                if (($now - $lastModified) >= 600 || empty($tmpCacheContent)) {
                     // Execute the async process to generate the cache
                     _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()) . ' $lastModified='.date('Y/m/d H:i:s', $lastModified));
                     $device = getDeviceName('web');
