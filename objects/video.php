@@ -5011,7 +5011,7 @@ if (!class_exists('Video')) {
                 // Check if file is 5 minutes (300 seconds) old or more
                 if (($now - $lastModified) >= 300) {
                     // Execute the async process to generate the cache
-                    _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()));
+                    _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()) . ' $lastModified='.date('Y/m/d H:i:s', $lastModified));
                     $device = getDeviceName('web');
                     execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0) . " {$device}" . " {$tmpCacheFile}");
                 }

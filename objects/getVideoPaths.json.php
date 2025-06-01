@@ -49,6 +49,7 @@ try {
     $response = $videoCache->setCache($videos);
 
     if(!empty($tmpCacheFile)){
+        error_log("getVideoPaths.json.php: save cache $tmpCacheFile");
         file_put_contents($tmpCacheFile, json_encode($videos));
     }
 
