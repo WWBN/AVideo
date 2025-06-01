@@ -521,7 +521,7 @@ function execAsync($command, $keyword = null)
         } else {
             $commandWithKeyword = "nohup sh -c \"$command & echo \\$!\" > /dev/null 2>&1 &";
         }
-        _error_log('execAsync Linux: ' . $commandWithKeyword . ' '. $_SERVER['HTTP_USER_AGENT']);
+        _error_log('execAsync Linux: ' . $commandWithKeyword . ' '. $_SERVER['HTTP_USER_AGENT'] . ' '. json_encode(debug_backtrace()));
         exec($commandWithKeyword, $output, $retval);
         _error_log('Command output: ' . json_encode($output));
         _error_log('Return value: ' . $retval);
