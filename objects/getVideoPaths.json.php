@@ -17,6 +17,7 @@ if ($argc < 2) {
 $filename = $argv[1];
 $includeS3 = isset($argv[2]) ? (int)$argv[2] : 0;
 $forceDeviceType = isset($argv[3]) ? $argv[3] : getDeviceName('web');
+$tmpCacheFile = isset($argv[4]) ? $argv[34] : '';
 
 // Define a unique lock file for this process
 $lockFile = sys_get_temp_dir() . "/getVideosPaths_{$filename}_" . ($includeS3 ? 1 : 0) . ".lock";
@@ -46,6 +47,10 @@ try {
     $videoCache = new VideoCacheHandler($filename, 0, true);
     $videoCache->setSuffix($cacheSuffix);
     $response = $videoCache->setCache($videos);
+
+    if(!empty($tmpCacheFile)){
+        file_put_contents($tmpCacheFile, json_encode($videos));
+    }
 
     /**/
 
