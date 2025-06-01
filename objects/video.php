@@ -5004,14 +5004,14 @@ if (!class_exists('Video')) {
                 }
                 return $obj;
             } elseif (empty($global['disableAsyncGetVideosPaths']) && file_exists($tmpCacheFile) && empty($recreate)) {
-                _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()));
-                // Execute the async process to generate the cache
 
                 $lastModified = filemtime($tmpCacheFile); // Timestamp of last modification
                 $now = time(); // Current timestamp
 
                 // Check if file is 5 minutes (300 seconds) old or more
                 if (($now - $lastModified) >= 300) {
+                    // Execute the async process to generate the cache
+                    _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()));
                     $device = getDeviceName('web');
                     execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0) . " {$device}");
                 }
