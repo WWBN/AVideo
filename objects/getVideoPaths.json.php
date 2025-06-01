@@ -43,17 +43,17 @@ try {
     // Call the function
     $videos = Video::_getVideosPaths($filename, $includeS3);
 
-    $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
-    $videoCache = new VideoCacheHandler($filename, 0, true);
-    $videoCache->setSuffix($cacheSuffix);
-    $response = $videoCache->setCache($videos);
-
     if(!empty($tmpCacheFile)){
         $bytes = file_put_contents($tmpCacheFile, json_encode($videos));
         error_log("getVideoPaths.json.php: save cache $tmpCacheFile [$bytes]");
     }else{
         error_log("getVideoPaths.json.php: empty tmpCacheFile ");
     }
+
+    $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
+    $videoCache = new VideoCacheHandler($filename, 0, true);
+    $videoCache->setSuffix($cacheSuffix);
+    $response = $videoCache->setCache($videos);
 
     /**/
 
