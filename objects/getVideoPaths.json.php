@@ -45,9 +45,9 @@ try {
 
     if(!empty($tmpCacheFile)){
         $bytes = file_put_contents($tmpCacheFile, json_encode($videos));
-        error_log("getVideoPaths.json.php: save cache $tmpCacheFile [$bytes]");
+        echo ("getVideoPaths.json.php: save cache $tmpCacheFile [$bytes]");
     }else{
-        error_log("getVideoPaths.json.php: empty tmpCacheFile ");
+        echo ("getVideoPaths.json.php: empty tmpCacheFile ");
     }
 
     $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
@@ -75,7 +75,7 @@ try {
     echo json_encode(array($cache, ObjectYPT::getLastUsedCacheInfo()));
     */
 } catch (Exception $e) {
-    error_log("Error processing video paths: " . $e->getMessage());
+    echo ("Error processing video paths: " . $e->getMessage());
 } finally {
     // Release the lock and delete the lock file
     flock($fp, LOCK_UN);
