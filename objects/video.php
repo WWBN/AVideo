@@ -5013,7 +5013,7 @@ if (!class_exists('Video')) {
                     // Execute the async process to generate the cache
                     _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()) . ' $lastModified='.date('Y/m/d H:i:s', $lastModified));
                     $device = getDeviceName('web');
-                    execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0) . " {$device}" . " {$tmpCacheFile}");
+                    execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0) . " {$device}" . " \"{$tmpCacheFile}\"");
                 }
 
                 // Return the temporary cache file content if it exists
