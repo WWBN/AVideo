@@ -51,6 +51,8 @@ try {
     if(!empty($tmpCacheFile)){
         $bytes = file_put_contents($tmpCacheFile, json_encode($videos));
         error_log("getVideoPaths.json.php: save cache $tmpCacheFile [$bytes]");
+    }else{
+        error_log("getVideoPaths.json.php: empty tmpCacheFile ");
     }
 
     /**/
