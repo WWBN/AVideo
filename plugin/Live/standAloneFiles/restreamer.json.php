@@ -555,6 +555,15 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 {
     global $json;
     global $ffmpegBinary, $isATest;
+
+     // 🔒 Lock file to avoid duplicate restreams
+    $lockFilePath = "/tmp/restream_lock_{$robj->live_restreams_id}_{$robj->liveTransmitionHistory_id}.lock";
+    $lockFileHandle = fopen($lockFilePath, 'c');
+    if (!$lockFileHandle || !flock($lockFileHandle, LOCK_EX | LOCK_NB)) {
+        error_log("Restreamer.json.php startRestream LOCKED: another instance is already running for this stream.");
+        return false;
+    }
+
     $m3u8 = str_replace('vlu.me', 'live', $m3u8);
     if (empty($restreamsDestinations)) {
         error_log("Restreamer.json.php startRestream ERROR empty restreamsDestinations");
@@ -670,6 +679,10 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
     $robj->logFile = $logFile;
     notifyStreamer($robj);
+    // 🔓 Release lock
+    flock($lockFileHandle, LOCK_UN);
+    fclose($lockFileHandle);
+    @unlink($lockFilePath);
     return true;
 }
 
@@ -713,30 +726,41 @@ function whichffmpeg()
 
 function getProcess($robj)
 {
-    $m3u8 = $robj->m3u8;
-    $m3u8 = clearCommandURL($m3u8);
+    global $ffmpegBinary;
+
+    $m3u8 = clearCommandURL($robj->m3u8);
     $liveTransmitionHistory_id = intval($robj->liveTransmitionHistory_id);
     $live_restreams_id = intval($robj->live_restreams_id);
 
+    $patternExtra = '';
     if (!empty($live_restreams_id)) {
-        $m3u8 .= ".*live_restreams_id={$live_restreams_id}";
+        $patternExtra .= "live_restreams_id={$live_restreams_id}";
     }
     if (!empty($liveTransmitionHistory_id)) {
-        $m3u8 .= ".*liveTransmitionHistory_id={$liveTransmitionHistory_id}";
+        $patternExtra .= ".*liveTransmitionHistory_id={$liveTransmitionHistory_id}";
     }
 
-    global $ffmpegBinary;
-    exec("ps -ax 2>&1", $output, $return_var);
-    //error_log("Restreamer.json.php:getProcess ". json_encode($output));
-    $pattern = "/^([0-9]+).*" . replaceSlashesForPregMatch($ffmpegBinary) . ".*" . replaceSlashesForPregMatch($m3u8) . "/i";
-    foreach ($output as $value) {
-        //error_log("Restreamer.json.php:getProcess {$pattern}");
-        if (preg_match($pattern, trim($value), $matches)) {
-            error_log("Restreamer.json.php:getProcess found " . json_encode($value));
-            return $matches;
+    // --------- First check using `pgrep` ----------
+    $pgrepPattern = escapeshellarg("{$ffmpegBinary}.*{$m3u8}.*{$patternExtra}");
+    exec("pgrep -af {$pgrepPattern}", $pgrepOutput);
+    foreach ($pgrepOutput as $line) {
+        if (preg_match('/^(\d+)\s+(.*)$/', trim($line), $matches)) {
+            error_log("Restreamer:getProcess [pgrep] found process: {$line}");
+            return [$matches[1], $matches[2]];
         }
     }
-    error_log("Restreamer.json.php:getProcess NOT found {$pattern}");
+
+    // --------- Fallback check using `ps` ----------
+    exec("ps -ax 2>&1", $psOutput);
+    $pattern = "/^([0-9]+).*" . replaceSlashesForPregMatch($ffmpegBinary) . ".*" . replaceSlashesForPregMatch($m3u8) . ".*" . replaceSlashesForPregMatch($patternExtra) . "/i";
+    foreach ($psOutput as $line) {
+        if (preg_match($pattern, trim($line), $matches)) {
+            error_log("Restreamer:getProcess [ps] found process: {$line}");
+            return [$matches[1], $line];
+        }
+    }
+
+    error_log("Restreamer:getProcess no matching process found using pgrep or ps.");
     return false;
 }
 
