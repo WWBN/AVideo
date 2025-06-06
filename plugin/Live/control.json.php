@@ -97,7 +97,7 @@ switch ($obj->command) {
 }
 
 //$obj->commandURL = Live::getDropURL($l->getKey(), $obj->live_servers_id);
-error_log("control.json.php: $obj->commandURL");
+error_log("control.json.php [{$obj->command}]: $obj->commandURL");
 $obj->response = _json_decode(url_get_contents($obj->commandURL));
 
 if (!empty($obj->response)) {
