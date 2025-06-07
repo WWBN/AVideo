@@ -1097,10 +1097,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
             $ls = new Live_servers($live_servers_id);
             if (!empty($ls->getRestreamerURL())) {
-                return $ls->getRestreamerURL();
+                $url = str_replace('/var/www/html/AVideo/', '/', $ls->getRestreamerURL());
+                return $url;
             }
         }
-        return $obj->restreamerURL;
+        $url = str_replace('/var/www/html/AVideo/', '/', $obj->restreamerURL);
+        return $url;
     }
 
     public static function getControl($live_servers_id = -1)
