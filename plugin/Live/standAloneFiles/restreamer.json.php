@@ -119,7 +119,10 @@ if (!empty($_REQUEST['tokenForAction'])) {
                     $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
                     $logFile = $logFileLocation . $obj->logName;
                     $obj->remoteKill = false;
-                    unlink($logFile);
+                    if (file_exists($logFile)) {
+                        $completedLogFile = $logFile . '.completed';
+                        rename($logFile, $completedLogFile);
+                    }
                 }
 
                 echo json_encode($obj);

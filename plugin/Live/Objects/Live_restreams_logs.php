@@ -131,6 +131,7 @@ class Live_restreams_logs extends ObjectYPT
         } else {
             $url = Live::getRestreamer();
         }
+        $url = str_replace('/var/www/html/AVideo/', '/', $url); // remove the AVideo path from the url
         if (!isValidURL($url)) {
             _error_log("Invalid restreamer URL {$url}, $live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id, $action");
             return false;
