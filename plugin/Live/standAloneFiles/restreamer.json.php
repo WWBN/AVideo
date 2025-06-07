@@ -563,7 +563,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     $lockFilePath = "/tmp/restream_lock_{$robj->live_restreams_id}_{$robj->liveTransmitionHistory_id}.lock";
     $lockFileHandle = fopen($lockFilePath, 'c');
     if (!$lockFileHandle || !flock($lockFileHandle, LOCK_EX | LOCK_NB)) {
-        error_log("Restreamer.json.php startRestream LOCKED: another instance is already running for this stream.");
+        error_log("Restreamer.json.php startRestream LOCKED: another instance is already running for this stream. {$lockFilePath}");
         return false;
     }
 
@@ -598,6 +598,11 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             error_log("Restreamer.json.php startRestream " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
         }
         error_log("Restreamer.json.php startRestream URL ($m3u8) is NOT ready. trying again ({$tries})");
+
+        // 🔓 Release lock
+        flock($lockFileHandle, LOCK_UN);
+        fclose($lockFileHandle);
+        @unlink($lockFilePath);
         sleep($tries);
         return startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries + 1);
     }
