@@ -53,6 +53,8 @@ AVideoPlugin::setObjectData('Gallery', $obj);
 echo "Reordered Channels:\n";
 foreach ($sections as $data) {
     $identification = User::getNameIdentificationById($data['users_id']);
-    echo "User: [{$data['users_id']}]{$identification} | New Order: {$data['new_order']} | Subscribers: {$data['total_subscribers']}\n";
+    $u = new User($users_id);
+    $channelName = $u->getChannelName();
+    echo "User: [{$data['users_id']}][$channelName]{$identification} | New Order: {$data['new_order']} | Subscribers: {$data['total_subscribers']}\n";
     //echo "users_id: {$data['users_id']} | Subscribers: {$data['total_subscribers']} | New Order: {$data['new_order']}\n";
 }
