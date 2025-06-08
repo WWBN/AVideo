@@ -270,14 +270,14 @@ class Gallery extends PluginAbstract
         $sections = array();
         foreach ($obj as $key => $value) {
             if (preg_match('/(.*)Order$/', $key, $matches)) {
-                $index = $value;
+                $index = intval($value);
                 while (isset($sections[$index])) {
                     $index++;
                 }
                 $sections[$index] = array('name' => $matches[1], 'active' => $obj->{$matches[1]});
             }
         }
-        ksort($sections);
+        ksort($sections, SORT_NUMERIC);
         return $sections;
     }
 

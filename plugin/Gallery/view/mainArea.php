@@ -73,6 +73,7 @@ saveRequestVars();
                 $countSections++;
                 if (preg_match('/Channel_([0-9]+)_/', $value['name'], $matches) && empty($_GET['showOnly'])) {
                     $users_id = intval($matches[1]);
+                    echo '<!-- ' . basename(__FILE__) . ' Channel_' . $users_id . ' -->';
                     User::getChannelPanel($users_id);
                 } else
                 if ($value['name'] == 'Shorts' && empty($_GET['showOnly']) && AVideoPlugin::isEnabledByName('Shorts')) {
