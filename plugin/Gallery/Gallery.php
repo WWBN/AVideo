@@ -1,5 +1,7 @@
 <?php
+
 use OpenApi\Attributes as OA;
+
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 require_once $global['systemRootPath'] . 'objects/Channel.php';
@@ -271,13 +273,18 @@ class Gallery extends PluginAbstract
         foreach ($obj as $key => $value) {
             if (preg_match('/(.*)Order$/', $key, $matches)) {
                 $index = intval($value);
-                while (isset($sections[$index])) {
-                    $index++;
-                }
-                $sections[$index] = array('name' => $matches[1], 'active' => $obj->{$matches[1]});
+                $sections[] = array(
+                    'name' => $matches[1],
+                    'active' => $obj->{$matches[1]},
+                    'order' => $index
+                );
             }
         }
-        ksort($sections, SORT_NUMERIC);
+
+        usort($sections, function ($a, $b) {
+            return $a['order'] <=> $b['order'];
+        });
+
         return $sections;
     }
 
@@ -410,12 +417,13 @@ class Gallery extends PluginAbstract
         ]
     )]
 
-    static function API_get_firstPage($parameters){
+    static function API_get_firstPage($parameters)
+    {
         global $global;
         $start = microtime(true);
-        $cacheName = 'Gallery_API_get_firstPage_'.md5(json_encode($parameters)).'_'.User::getId();
+        $cacheName = 'Gallery_API_get_firstPage_' . md5(json_encode($parameters)) . '_' . User::getId();
         $object = ObjectYPT::getCache($cacheName, 3600); // 1 hour
-        if(empty($object)){
+        if (empty($object)) {
             $obj = AVideoPlugin::getObjectData("Gallery");
             $sections = Gallery::getSectionsOrder();
             $response = new stdClass();
@@ -549,18 +557,17 @@ class Gallery extends PluginAbstract
             $response->countSections = $countSections;
 
 
-            $finish = microtime(true)-$start;
+            $finish = microtime(true) - $start;
             $response->responseTime = $finish;
 
             $object = new ApiObject("", false, $response);
 
             ObjectYPT::setCache($cacheName, $object);
-        }else{
-            $finish = microtime(true)-$start;
+        } else {
+            $finish = microtime(true) - $start;
             $object->response->responseCacheTime = $finish;
         }
 
         return $object;
     }
 }
-
