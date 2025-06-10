@@ -832,6 +832,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $app = self::getAPPName();
         $domain = addQueryStringParameter($domain, 'command', 'record_start');
+        $domain = addQueryStringParameter($domain, 'rec', 'video');
         $domain = addQueryStringParameter($domain, 'app', $app);
         $domain = addQueryStringParameter($domain, 'name', $key);
         $domain = addQueryStringParameter($domain, 'token', getToken(60));
@@ -859,7 +860,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         } else {
             $url = self::getStopRecordURL($key, $live_servers_id);
         }
-        $response = url_get_contents($url, '', 5);
+        $response = url_get_contents($url, '', 5, true);
         _error_log("Live:controlRecording {$url} {$live_servers_id} - [{$response}]");
         $obj = new stdClass();
         $obj->error = true;
@@ -899,7 +900,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         _error_log("NGINX Live::controlRecordingAsync start  ($command)");
         $pid = execAsync($command);
-        _error_log("NGINX Live::controlRecordingAsync end {$pid}");
+        _error_log("NGINX Live::controlRecordingAsync end ".json_encode($pid));
         return $pid;
     }
 
