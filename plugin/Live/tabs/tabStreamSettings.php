@@ -141,6 +141,14 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
                                             <label for="recordLive" class="label-success"></label>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <button
+                                        type="button"
+                                        class="btn btn-xs btn-default btn-block"
+                                        onclick="avideoModalIframe(webSiteRootURL + 'plugin/SendRecordedToEncoder/monitor.php');">
+                                            <i class="fas fa-video"></i> <?php echo __("Live Recorder Monitor"); ?>
+                                        </button>
+                                    </div>
                             <?php
                                 } else {
                                     if (!$SendRecordedToEncoderCanAutoRecord) {
