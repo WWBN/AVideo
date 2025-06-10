@@ -684,3 +684,16 @@ function isProcessOlderThan($pid, $ageInSeconds)
     _error_log("isProcessOlderThan: Unable to determine age of process $pid");
     return false;
 }
+
+function setServerTimezone(){
+    $tz = trim(exec('cat /etc/timezone')); // Debian/Ubuntu
+
+    // fallback
+    if (empty($tz)) {
+        $tz = trim(exec('timedatectl | grep "Time zone" | awk \'{print $3}\''));
+    }
+    if (!empty($tz)) {
+        date_default_timezone_set($tz);
+    }
+    return $tz;
+}
