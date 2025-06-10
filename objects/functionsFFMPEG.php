@@ -768,3 +768,26 @@ function addKeywordToFFmpegCommand(string $command, string $keyword): string
     // Reconstruct the command
     return implode(' ', $commandParts);
 }
+
+function getVideoInfo($filePath)
+{
+    $cmd = get_ffprobe() . " -v error -select_streams v:0 -show_entries stream=width,height,bit_rate -of json " . escapeshellarg($filePath);
+    $cmd = removeUserAgentIfNotURL($cmd);
+    $output = shell_exec($cmd);
+    $json = json_decode($output, true);
+
+    $info = [
+        'width' => null,
+        'height' => null,
+        'bitrate' => null
+    ];
+
+    if (!empty($json['streams'][0])) {
+        $stream = $json['streams'][0];
+        $info['width'] = $stream['width'] ?? null;
+        $info['height'] = $stream['height'] ?? null;
+        $info['bitrate'] = isset($stream['bit_rate']) ? intval($stream['bit_rate']) : null;
+    }
+
+    return $info;
+}
