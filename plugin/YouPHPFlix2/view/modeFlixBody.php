@@ -10,6 +10,14 @@ background: -moz-linear-gradient(to top, rgba({$obj->backgroundRGB},1) {$percent
 ";
 $videoFound = false;
 ?>
+<!-- do not remove the channel page to play trailers -->
+<script src="<?php echo getURL('plugin/YouPHPFlix2/view/js/fullscreen.js'); ?>"></script>
+<script>
+    $(function () {
+        if(typeof linksToEmbed === 'function'){
+            linksToEmbed('.galleryLink');
+        }
+    });
 <div id="carouselRows" style="<?php echo $styleBG; ?>">
     <?php
     unsetCurrentPage();
