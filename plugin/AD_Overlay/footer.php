@@ -4,7 +4,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
-                    <?php echo __("Ad Overlay Code"); ?> 
+                    <?php echo __("Ad Overlay Code"); ?>
                     <span class="label label-success adsStatus">Ads Active</span>
                     <span class="label label-danger adsStatus">Ads Inacitive</span>
                 </h4>
@@ -24,7 +24,7 @@
 
 
 <script>
-    
+
     var modalAdsUser = getPleaseWait();
     var ad_overlay_users_id
     function adsUser(users_id){
@@ -61,11 +61,11 @@
             success: function (response) {
                 if (response.error) {
                     avideoAlertError(response.error);
-                    modal.hidePleaseWait();
                 } else {
                     avideoAlertSuccess(__("Your code has been saved!"));
                     adsUser(ad_overlay_users_id);
                 }
+                modal.hidePleaseWait();
                 //modal.hidePleaseWait();
             }
         });
