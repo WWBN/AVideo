@@ -14,7 +14,7 @@ $ad->loadFromUser(User::getId());
             <?php
         } else {
             ?>
-            <span class="label label-danger adsStatus">Ads Inacitive</span>
+            <span class="label label-danger adsStatus">Ads Inactive</span>
             <?php
         }
         ?>
