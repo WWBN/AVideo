@@ -116,7 +116,19 @@ if (!empty($_GET['p']) && strpos($_GET['p'], '/') !== false) {
 $_POST['name'] = preg_replace("/[&=]/", '', $_POST['name']);
 $live_servers_id = Live_servers::getServerIdFromRTMPHost($url);
 $activeLive = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
-$isReconnection = !empty($activeLive);
+
+$isReconnection = false;
+if (!empty($activeLive)) {
+    $createdTime = strtotime($activeLive['created']);
+    $now = time();
+    $secondsSinceCreation = $now - $createdTime;
+
+    // Only consider it a reconnection if the stream wasn't created very recently (e.g., more than 5 seconds ago)
+    if ($secondsSinceCreation > 5) {
+        $isReconnection = true;
+    }
+}
+
 _error_log("isReconnection=".json_encode(array($isReconnection, $activeLive, $_POST['name'], $live_servers_id)));
 /*
     $code = 301;
