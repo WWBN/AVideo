@@ -6,7 +6,7 @@
                 <h4 class="modal-title">
                     <?php echo __("Ad Overlay Code"); ?>
                     <span class="label label-success adsStatus">Ads Active</span>
-                    <span class="label label-danger adsStatus">Ads Inacitive</span>
+                    <span class="label label-danger adsStatus">Ads Inactive</span>
                 </h4>
             </div>
             <div class="modal-body">
