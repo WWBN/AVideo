@@ -120,7 +120,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
             setSiteSendMessage($mail);
             /**
              * @var \PHPMailer\PHPMailer\PHPMailer $mail
-             */ 
+             */
             $mail->setFrom($fromEmail, $fromName);
             if (strpos($subject, $webSiteTitle) === false) {
                 $mail->Subject = $subject . " - " . $webSiteTitle;
@@ -129,11 +129,20 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
             }
             $mail->msgHTML($message);
             $count = 0;
-            foreach ($piece as $value) {
-                $totalCount++;
-                $count++;
-                _error_log("sendSiteEmail::addBCC [{$count}] {$value}");
-                $mail->addBCC($value);
+            if(count($piece) > 1){
+                foreach ($piece as $value) {
+                    $totalCount++;
+                    $count++;
+                    _error_log("sendSiteEmail::addBCC [{$count}] {$value}");
+                    $mail->addBCC($value);
+                }
+            }else{
+                foreach ($piece as $value) {
+                    $totalCount++;
+                    $count++;
+                    _error_log("sendSiteEmail::addAddress [{$count}] {$value}");
+                    $mail->addAddress($value);
+                }
             }
             //_error_log("sendSiteEmail::sending now count=[{$count}] [{$totalCount}/{$totalEmails}]");
 
@@ -275,7 +284,7 @@ function sendEmailToSiteOwner($subject, $message)
         setSiteSendMessage($mail);
         /**
          * @var \PHPMailer\PHPMailer\PHPMailer $mail
-         */ 
+         */
         $mail->setFrom($contactEmail, $webSiteTitle);
         $mail->Subject = $subject . " - " . $webSiteTitle;
         $mail->msgHTML($message);
