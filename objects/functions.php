@@ -1806,6 +1806,10 @@ function url_get_response($url)
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
+    if (isDocker() && str_starts_with($url, $global['webSiteRootURL'])) {
+        // this is a docker and it is pointing to the local host, so we need to change
+        $url = str_replace($global['webSiteRootURL'], 'http://localhost/', $url);
+    }
     if (!isValidURLOrPath($url)) {
         _error_log('url_get_contents Cannot download ' . $url);
         return false;
