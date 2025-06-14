@@ -380,7 +380,8 @@ if (typeof gtag !== \"function\") {
     public static function getName()
     {
         if (self::isLogged()) {
-            return $_SESSION['user']['name'];
+            // prevent XSS by using htmlentities
+            return htmlentities($_SESSION['user']['name']);
         } else {
             return '';
         }
@@ -389,7 +390,7 @@ if (typeof gtag !== \"function\") {
     public static function getUserName()
     {
         if (self::isLogged()) {
-            return $_SESSION['user']['user'];
+            return htmlentities($_SESSION['user']['user']);
         } else {
             return '';
         }
@@ -405,7 +406,7 @@ if (typeof gtag !== \"function\") {
                 $user->save();
             }
 
-            return $_SESSION['user']['channelName'];
+            return htmlentities($_SESSION['user']['channelName']);
         } else {
             return false;
         }
@@ -746,7 +747,7 @@ if (typeof gtag !== \"function\") {
 
     public static function getMail()
     {
-        return self::getEmail_();
+        return htmlentities(self::getEmail_());
     }
 
     public function save($updateUserGroups = false)
