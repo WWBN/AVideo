@@ -114,7 +114,7 @@ class User
 
     function getPhone()
     {
-        return $this->phone;
+        return strip_tags($this->phone);
     }
 
     function setPhone($phone): void
@@ -124,7 +124,7 @@ class User
 
     function getBirth_date()
     {
-        return $this->birth_date;
+        return strip_tags($this->birth_date);
     }
 
     function setBirth_date($birth_date): void
@@ -139,12 +139,12 @@ class User
 
     public function getEmail()
     {
-        return $this->email;
+        return strip_tags($this->email);
     }
 
     public function getUser()
     {
-        return $this->user;
+        return strip_tags($this->user);
     }
 
     public function getAbout()
@@ -159,12 +159,12 @@ class User
 
     public function getPassword()
     {
-        return $this->password;
+        return strip_tags($this->password);
     }
 
     public function getCanStream()
     {
-        return $this->canStream;
+        return strip_tags($this->canStream);
     }
 
     public function setCanStream($canStream)
@@ -174,7 +174,7 @@ class User
 
     public function getCanViewChart()
     {
-        return $this->canViewChart;
+        return strip_tags($this->canViewChart);
     }
 
     public function setCanViewChart($canViewChart)
@@ -184,7 +184,7 @@ class User
 
     public function getCanCreateMeet()
     {
-        return $this->canCreateMeet;
+        return strip_tags($this->canCreateMeet);
     }
 
     public function setCanCreateMeet($canCreateMeet)
@@ -194,7 +194,7 @@ class User
 
     public function getCanUpload()
     {
-        return $this->canUpload;
+        return strip_tags($this->canUpload);
     }
 
     public function setCanUpload($canUpload)
@@ -204,7 +204,7 @@ class User
 
     public function getAnalyticsCode()
     {
-        return $this->analyticsCode;
+        return strip_tags($this->analyticsCode);
     }
 
     public function setAnalyticsCode($analyticsCode)
@@ -248,7 +248,7 @@ if (typeof gtag !== \"function\") {
         }
         $eo[$id] = $value;
         $this->setExternalOptions($eo);
-        return $this->save();
+        return strip_tags($this->save());
     }
 
     public function removeExternalOptions($id)
@@ -256,7 +256,7 @@ if (typeof gtag !== \"function\") {
         $eo = User::decodeExternalOption($this->externalOptions);
         unset($eo[$id]);
         $this->setExternalOptions($eo);
-        return $this->save();
+        return strip_tags($this->save());
     }
 
     public function setExternalOptions($options)
@@ -365,7 +365,7 @@ if (typeof gtag !== \"function\") {
 
     public function getBdId()
     {
-        return $this->id;
+        return strip_tags($this->id);
     }
 
     public static function updateSessionInfo()
@@ -568,7 +568,7 @@ if (typeof gtag !== \"function\") {
 
     public function getBdName()
     {
-        return $this->_getName();
+        return strip_tags($this->_getName());
     }
 
     public static function _getPhoto($id = "")
@@ -1597,7 +1597,7 @@ if (typeof gtag !== \"function\") {
 
     public function _getExternalOptions()
     {
-        return $this->externalOptions;
+        return strip_tags($this->externalOptions);
     }
 
     public static function externalOptionsFromUserID($users_id, $id)
@@ -1705,7 +1705,7 @@ if (typeof gtag !== \"function\") {
                 if (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
                     if (!empty($advancedCustom) && $advancedCustom->enableOldPassHashCheck) {
                         //_error_log("Password check new hash pass does not match, trying MD5");
-                        return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
+                        return strip_tags($this->find_Old($user, $pass, $mustBeactive, $encodedPass));
                     } else {
                         return false;
                     }
@@ -2109,7 +2109,7 @@ if (typeof gtag !== \"function\") {
 
     public function getPhotoURL()
     {
-        return $this->photoURL;
+        return strip_tags($this->photoURL);
     }
 
     public function setPhotoURL($photoURL)
@@ -2514,7 +2514,7 @@ if (typeof gtag !== \"function\") {
      */
     public function getRecoverPass()
     {
-        return $this->recoverPass;
+        return strip_tags($this->recoverPass);
     }
 
     public function setRecoverPass($forceChange = false)
@@ -2523,12 +2523,12 @@ if (typeof gtag !== \"function\") {
         if ($this->isRecoverPassValid($this->recoverPass) && empty($forceChange) && !empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")) {
 
             _error_log("setRecoverPass:isRecoverPassValid {$this->modified}");
-            return $this->recoverPass;
+            return strip_tags($this->recoverPass);
         }
         $this->recoverPass = $this->createRecoverPass($this->id);
 
         _error_log("setRecoverPass:created " . json_encode(!empty($this->recoverPass)));
-        return $this->recoverPass;
+        return strip_tags($this->recoverPass);
     }
 
     private function createRecoverPass($id, $secondsValid = 600)
@@ -2670,7 +2670,7 @@ if (typeof gtag !== \"function\") {
 
     public function getUserGroups()
     {
-        return $this->userGroups;
+        return strip_tags($this->userGroups);
     }
 
     public function setUserGroups($userGroups)
@@ -2682,12 +2682,12 @@ if (typeof gtag !== \"function\") {
 
     public function getIsAdmin()
     {
-        return $this->isAdmin;
+        return strip_tags($this->isAdmin);
     }
 
     public function getStatus()
     {
-        return $this->status;
+        return strip_tags($this->status);
     }
 
     /**
@@ -2766,7 +2766,7 @@ if (typeof gtag !== \"function\") {
     {
         global $global;
         $this->backgroundURL = self::getBackgroundURLFromUserID($this->id, $type, $ignoreGeneric);
-        return $this->backgroundURL;
+        return strip_tags($this->backgroundURL);
     }
 
     public static function getBackgroundURLFromUserID($users_id = 0, $type = '', $ignoreGeneric = false)
@@ -2812,7 +2812,7 @@ if (typeof gtag !== \"function\") {
             $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);
             $this->save();
         }
-        return $this->channelName;
+        return strip_tags($this->channelName);
     }
 
     public static function _getUserChannelName($users_id = 0)
@@ -3045,72 +3045,72 @@ if (typeof gtag !== \"function\") {
 
     public function getFirst_name()
     {
-        return $this->first_name;
+        return strip_tags($this->first_name);
     }
 
     public function getLast_name()
     {
-        return $this->last_name;
+        return strip_tags($this->last_name);
     }
 
     public function getAddress()
     {
-        return $this->address;
+        return strip_tags($this->address);
     }
 
     public function getZip_code()
     {
-        return $this->zip_code;
+        return strip_tags($this->zip_code);
     }
 
     public function getCountry()
     {
-        return $this->country;
+        return strip_tags($this->country);
     }
 
     public function getRegion()
     {
-        return $this->region;
+        return strip_tags($this->region);
     }
 
     public function getCity()
     {
-        return $this->city;
+        return strip_tags($this->city);
     }
 
     public function setFirst_name($first_name)
     {
-        $this->first_name = $first_name;
+        $this->first_name = strip_tags($first_name);
     }
 
     public function setLast_name($last_name)
     {
-        $this->last_name = $last_name;
+        $this->last_name = strip_tags($last_name);
     }
 
     public function setAddress($address)
     {
-        $this->address = $address;
+        $this->address = strip_tags($address);
     }
 
     public function setZip_code($zip_code)
     {
-        $this->zip_code = $zip_code;
+        $this->zip_code = strip_tags($zip_code);
     }
 
     public function setCountry($country)
     {
-        $this->country = $country;
+        $this->country = strip_tags($country);
     }
 
     public function setRegion($region)
     {
-        $this->region = $region;
+        $this->region = strip_tags($region);
     }
 
     public function setCity($city)
     {
-        $this->city = $city;
+        $this->city = strip_tags($city);
     }
 
     public static function getDocumentImage($users_id)
@@ -3183,14 +3183,14 @@ if (typeof gtag !== \"function\") {
 
     public function getDonationLink()
     {
-        return $this->donationLink;
+        return strip_tags($this->donationLink);
     }
 
     public function getDonationLinkIfEnabled()
     {
         global $advancedCustomUser;
         if ($advancedCustomUser->allowDonationLink) {
-            return $this->donationLink;
+            return strip_tags($this->donationLink);
         }
         return false;
     }
@@ -3465,7 +3465,7 @@ if (typeof gtag !== \"function\") {
 
     public function getExtra_info()
     {
-        return $this->extra_info;
+        return strip_tags($this->extra_info);
     }
 
     public function setExtra_info($extra_info)
