@@ -164,7 +164,7 @@ class User
 
     public function getCanStream()
     {
-        return strip_tags($this->canStream);
+        return intval($this->canStream);
     }
 
     public function setCanStream($canStream)
@@ -174,7 +174,7 @@ class User
 
     public function getCanViewChart()
     {
-        return strip_tags($this->canViewChart);
+        return intval($this->canViewChart);
     }
 
     public function setCanViewChart($canViewChart)
@@ -184,7 +184,7 @@ class User
 
     public function getCanCreateMeet()
     {
-        return strip_tags($this->canCreateMeet);
+        return intval($this->canCreateMeet);
     }
 
     public function setCanCreateMeet($canCreateMeet)
@@ -194,7 +194,7 @@ class User
 
     public function getCanUpload()
     {
-        return strip_tags($this->canUpload);
+        return intval($this->canUpload);
     }
 
     public function setCanUpload($canUpload)
@@ -204,7 +204,7 @@ class User
 
     public function getAnalyticsCode()
     {
-        return strip_tags($this->analyticsCode);
+        return ($this->analyticsCode);
     }
 
     public function setAnalyticsCode($analyticsCode)
@@ -248,7 +248,7 @@ if (typeof gtag !== \"function\") {
         }
         $eo[$id] = $value;
         $this->setExternalOptions($eo);
-        return strip_tags($this->save());
+        return intval($this->save());
     }
 
     public function removeExternalOptions($id)
@@ -256,7 +256,7 @@ if (typeof gtag !== \"function\") {
         $eo = User::decodeExternalOption($this->externalOptions);
         unset($eo[$id]);
         $this->setExternalOptions($eo);
-        return strip_tags($this->save());
+        return intval($this->save());
     }
 
     public function setExternalOptions($options)
@@ -365,7 +365,7 @@ if (typeof gtag !== \"function\") {
 
     public function getBdId()
     {
-        return strip_tags($this->id);
+        return intval($this->id);
     }
 
     public static function updateSessionInfo()
@@ -1597,7 +1597,7 @@ if (typeof gtag !== \"function\") {
 
     public function _getExternalOptions()
     {
-        return strip_tags($this->externalOptions);
+        return ($this->externalOptions);
     }
 
     public static function externalOptionsFromUserID($users_id, $id)
@@ -1705,7 +1705,7 @@ if (typeof gtag !== \"function\") {
                 if (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
                     if (!empty($advancedCustom) && $advancedCustom->enableOldPassHashCheck) {
                         //_error_log("Password check new hash pass does not match, trying MD5");
-                        return strip_tags($this->find_Old($user, $pass, $mustBeactive, $encodedPass));
+                        return ($this->find_Old($user, $pass, $mustBeactive, $encodedPass));
                     } else {
                         return false;
                     }
@@ -2670,7 +2670,7 @@ if (typeof gtag !== \"function\") {
 
     public function getUserGroups()
     {
-        return strip_tags($this->userGroups);
+        return $this->userGroups;
     }
 
     public function setUserGroups($userGroups)
@@ -2682,7 +2682,7 @@ if (typeof gtag !== \"function\") {
 
     public function getIsAdmin()
     {
-        return strip_tags($this->isAdmin);
+        return intval($this->isAdmin);
     }
 
     public function getStatus()
