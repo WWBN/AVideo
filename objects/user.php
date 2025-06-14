@@ -346,7 +346,7 @@ if (typeof gtag !== \"function\") {
     public static function getEmail_()
     {
         if (self::isLogged()) {
-            return $_SESSION['user']['email'];
+            return htmlentities($_SESSION['user']['email']);
         } else {
             return '';
         }
