@@ -99,7 +99,11 @@ $_page->setExtraScripts(
 
                 <script>
                     $(document).ready(function() {
-                        $('#updateFile').selectpicker();
+                        try {
+                            $('#updateFile').selectpicker();
+                        } catch (error) {
+                            console.warn('selectpicker not found, ignoring');
+                        }
                     });
                 </script>
             <?php
