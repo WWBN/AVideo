@@ -57,6 +57,91 @@ saveRequestVars();
         echo AVideoPlugin::getGallerySection();
 
         $sections = Gallery::getSectionsOrder();
+        if (!empty($_REQUEST['showOnly'])) {
+
+            function sectionExists($sections, $name)
+            {
+                foreach ($sections as $section) {
+                    if (!empty($section['name']) && $section['name'] === $name) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            switch ($_REQUEST['showOnly']) {
+                case 'TrendingOrder':
+                    if (!sectionExists($sections, 'Trending')) {
+                        $sections[] = array(
+                            'name' => 'Trending',
+                            'active' => true,
+                            'order' => count($sections)
+                        );
+                    }
+                    break;
+
+                case 'dateAddedOrder':
+                    if (!sectionExists($sections, 'DateAdded')) {
+                        $sections[] = array(
+                            'name' => 'DateAdded',
+                            'active' => true,
+                            'order' => count($sections)
+                        );
+                    }
+                    break;
+
+                case 'mostWatchedOrder':
+                    if (!sectionExists($sections, 'MostWatched')) {
+                        $sections[] = array(
+                            'name' => 'MostWatched',
+                            'active' => true,
+                            'order' => count($sections)
+                        );
+                    }
+                    break;
+
+                case 'mostPopularOrder':
+                    if (!sectionExists($sections, 'MostPopular')) {
+                        $sections[] = array(
+                            'name' => 'MostPopular',
+                            'active' => true,
+                            'order' => count($sections)
+                        );
+                    }
+                    break;
+
+                case 'privateContentOrder':
+                    if (!sectionExists($sections, 'PrivateContent')) {
+                        $sections[] = array(
+                            'name' => 'PrivateContent',
+                            'active' => true,
+                            'order' => count($sections)
+                        );
+                    }
+                    break;
+
+                case 'sortByNameOrder':
+                    if (!sectionExists($sections, 'SortByName')) {
+                        $sections[] = array(
+                            'name' => 'SortByName',
+                            'active' => true,
+                            'order' => count($sections)
+                        );
+                    }
+                    break;
+
+                case 'suggestedOrder':
+                    if (!sectionExists($sections, 'Suggested')) {
+                        $sections[] = array(
+                            'name' => 'Suggested',
+                            'active' => true,
+                            'order' => count($sections)
+                        );
+                    }
+                    break;
+            }
+        }
+
         $countSections = 0;
         if (!empty($_REQUEST['catName'])) {
             $currentCat = Category::getCategoryByName($_REQUEST['catName']);

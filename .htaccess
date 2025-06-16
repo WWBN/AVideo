@@ -337,6 +337,23 @@ Options All -Indexes
     RewriteRule    ^channel/?$ view/channel.php    [QSA]
     RewriteRule    ^channels/?$ view/channels.php    [NC,L]
 
+
+    # 1. Trending videos
+    RewriteRule ^trending/?$                     index.php?showOnly=TrendingOrder      [QSA,L]
+    # 2. Recently added videos
+    RewriteRule ^recently-added/?$               index.php?showOnly=dateAddedOrder     [QSA,L]
+    # 3. Most-watched videos
+    RewriteRule ^most-watched/?$                 index.php?showOnly=mostWatchedOrder   [QSA,L]
+    # 4. Most-popular videos
+    RewriteRule ^most-popular/?$                 index.php?showOnly=mostPopularOrder   [QSA,L]
+    # 5. Private content
+    RewriteRule ^private-content/?$              index.php?showOnly=privateContentOrder [QSA,L]
+    # 6. Alphabetical listing
+    RewriteRule ^alphabetical/?$                 index.php?showOnly=sortByNameOrder    [QSA,L]
+    # 7. Suggested for you
+    RewriteRule ^suggested/?$                    index.php?showOnly=suggestedOrder     [QSA,L]
+
+
     #playlist alias
     RewriteRule    ^play/([0-9]+)/([0-9]+) plugin/PlayLists/player.php?playlists_id=$1&playlist_index=$2 [L,QSA]
     RewriteRule    ^play/([0-9]+)          plugin/PlayLists/player.php?playlists_id=$1 [L,QSA]

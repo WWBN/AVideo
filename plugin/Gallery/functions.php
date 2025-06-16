@@ -42,7 +42,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         if (canPrintCategoryTitle($title)) {
         ?>
             <h3 class="galleryTitle">
-                <a href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $getName; ?>">
+                <a href="<?php echo getShowOnlyURL($getName); ?>">
                     <i class="<?php echo $icon; ?>"></i>
                     <?php
                     if (empty($_GET[$getName])) {
@@ -119,6 +119,27 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     <?php
     }
 }
+
+function getShowOnlyURL($showOnly)
+{
+    global $global;
+    $friendlyMap = array(
+        'TrendingOrder'       => 'trending',
+        'dateAddedOrder'      => 'recently-added',
+        'mostWatchedOrder'    => 'most-watched',
+        'mostPopularOrder'    => 'most-popular',
+        'privateContentOrder' => 'private-content',
+        'sortByNameOrder'     => 'alphabetical',
+        'suggestedOrder'      => 'suggested',
+    );
+
+    if (isset($friendlyMap[$showOnly])) {
+        return $global['webSiteRootURL'] . $friendlyMap[$showOnly];
+    }
+
+    return $global['webSiteRootURL'].'?showOnly=' . urlencode($showOnly);
+}
+
 
 function createOrderInfo($getName, $mostWord, $lessWord, $orderString)
 {
