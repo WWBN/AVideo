@@ -59,11 +59,11 @@ if (!empty($_REQUEST['nameIdentification'])) {
     <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
     <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
     <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
-    <script src="<?php echo getCDN(); ?>node_modules/js-cookie/dist/js.cookie.js" type="text/javascript"></script>
+    <script src="<?php echo getURL('node_modules/js-cookie/dist/js.cookie.js'); ?>" type="text/javascript"></script>
     <?php
     include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
     ?>
-    <script src="<?php echo getCDN(); ?>view/js/script.js"></script>
+    <script src="<?php echo getURL('view/js/script.js'); ?>"></script>
     <script>
         var getRTMPLink = '<?php echo Live::getRTMPLink($meet->getUsers_id()); ?>';
     </script>
@@ -106,7 +106,7 @@ if (!empty($_REQUEST['nameIdentification'])) {
 <body>
     <div id="divMeetToIFrame"></div>
     <script>
-        aVideoMeetStart('<?php echo $domain; ?>', '<?php echo preg_replace('/[^\00-\255]+/u', '', $meet->getCleanName()); ?>', '<?php echo Meet::getToken($meet_schedule_id, User::getId()); ?>', '<?php echo User::getEmail_(); ?>', '<?php echo $nameIdentification; ?>', <?php echo json_encode(Meet::getButtons($meet_schedule_id)); ?>);
+        aVideoMeetStart('<?php echo $domain; ?>', '<?php echo rawurlencode($meet->getCleanName()); ?>', '<?php echo Meet::getToken($meet_schedule_id, User::getId()); ?>', '<?php echo User::getEmail_(); ?>', '<?php echo $nameIdentification; ?>', <?php echo json_encode(Meet::getButtons($meet_schedule_id)); ?>);
 
         <?php
         echo implode(PHP_EOL, $apiExecute);

@@ -137,6 +137,7 @@ Passcode: {password}
             var_dump($user);
             exit;
         }
+        $room = rawurlencode($room);
 
         $jitsiPayload = [
             "context" => [
@@ -151,6 +152,7 @@ Passcode: {password}
             "nbf" => strtotime("-24 hours"),
             "moderator" => $isModerator,
         ];
+        //var_dump($jitsiPayload);exit;
         return $jitsiPayload; // HS256
     }
 
