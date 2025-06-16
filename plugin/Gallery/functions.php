@@ -124,7 +124,7 @@ function getShowOnlyURL($showOnly)
 {
     global $global;
     $friendlyMap = array(
-        'TrendingOrder'       => 'trending',
+        'TrendingOrder'       => 'popular-now',
         'dateAddedOrder'      => 'recently-added',
         'mostWatchedOrder'    => 'most-watched',
         'mostPopularOrder'    => 'most-popular',

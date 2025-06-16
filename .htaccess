@@ -339,7 +339,7 @@ Options All -Indexes
 
 
     # 1. Trending videos
-    RewriteRule ^trending/?$                     index.php?showOnly=TrendingOrder      [QSA,L]
+    RewriteRule ^popular-now/?$                     index.php?showOnly=TrendingOrder      [QSA,L]
     # 2. Recently added videos
     RewriteRule ^recently-added/?$               index.php?showOnly=dateAddedOrder     [QSA,L]
     # 3. Most-watched videos
