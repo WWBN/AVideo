@@ -349,6 +349,15 @@ abstract class PluginAbstract {
         return false;
     }
 
+    /**
+     * @param Video $_this Instance of the Video object being saved
+     * @return array{canProceed: bool, msg: string}
+     */
+    public function beforeSaveVideo(Video $_this): array {
+        return ['canProceed' => true, 'msg' => ''];
+    }
+
+
     public function onDeleteVideo($videos_id) {
         return false;
     }

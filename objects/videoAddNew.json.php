@@ -247,6 +247,8 @@ if (!empty($resp)) {
             $obj->setStatus(@$_POST['videoStatus']);
         }
     }
+}else{
+    $msg = $global['lastBeforeSaveVideoMessage'];
 }
 
 if (isset($_REQUEST['playlists_id'])) {
@@ -291,7 +293,7 @@ if ($obj->video['status'] == Video::$statusActive) {
     _error_log('clearFirstPageCache end');
     //clearAllUsersSessionCache();
 }
-// it cannot clear async otherwise it will cause issues on the videos manager list. 
+// it cannot clear async otherwise it will cause issues on the videos manager list.
 $obj->clearCache = Video::clearCache($obj->videos_id, false, false, false);
 $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
 $obj->rowsPath = $rowsPath;

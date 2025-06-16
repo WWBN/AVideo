@@ -915,6 +915,41 @@ class AVideoPlugin
         }
     }
 
+    /**
+     * Execute beforeSaveVideo on all enabled plugins.
+     * If any plugin returns canProceed = false, stop and return immediately.
+     *
+     * @param Video $_this
+     * @return array{canProceed: bool, msg: string}
+     */
+    public static function beforeSaveVideo(Video $_this): array
+    {
+        global $global;
+        $global['lastBeforeSaveVideoMessage'] = '';
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p) && method_exists($p, 'beforeSaveVideo')) {
+                $result = $p->beforeSaveVideo($_this);
+                if (empty($result['canProceed'])) {
+                    self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+                    $global['lastBeforeSaveVideoMessage'] = $result['msg'] ?? 'Blocked by plugin ' . $value['dirName'];
+                    _error_log('AVideoPlugin::beforeSaveVideo ' . $value['dirName'] . ' ' . $global['lastBeforeSaveVideoMessage']);
+                    return [
+                        'canProceed' => false,
+                        'msg' => $global['lastBeforeSaveVideoMessage']
+                    ];
+                }else{
+                    _error_log('AVideoPlugin::beforeSaveVideo ' .  $value['dirName'] . ' ' . $result['msg']);
+                }
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+
+        return ['canProceed' => true, 'msg' => ''];
+    }
+
     public static function onDeleteVideo($videos_id)
     {
         if (empty($videos_id)) {
@@ -1372,7 +1407,7 @@ class AVideoPlugin
         if (self::isDebuging(__FUNCTION__)) {
             return '<!-- AVideoPlugin::' . __FUNCTION__ . ' disabled -->';
         }
-        if(!empty($_REQUEST['avideoIframe'])){
+        if (!empty($_REQUEST['avideoIframe'])) {
             return '<!-- AVideoPlugin::' . __FUNCTION__ . ' it is a avideoIframe, navbar is disabled -->';
         }
         $plugins = Plugin::getAllEnabled();
@@ -2972,7 +3007,7 @@ class AVideoPlugin
         if (empty($global)) {
             $global = [];
         }
-        if(!empty($global['skipModifyURL'])){
+        if (!empty($global['skipModifyURL'])) {
             return $file;
         }
         $plugins = Plugin::getAllEnabled();

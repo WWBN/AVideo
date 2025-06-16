@@ -184,6 +184,8 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `notification_datetime` DATETIME NULL,
   `made_for_kids` TINYINT(1) NOT NULL DEFAULT 0,
   `isChannelSuggested` INT(1) UNSIGNED NOT NULL DEFAULT 0,
+  `created_php_time` BIGINT UNSIGNED NULL,
+  `modified_php_time` BIGINT UNSIGNED NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
   INDEX `fk_videos_users_idx` (`users_id` ASC),

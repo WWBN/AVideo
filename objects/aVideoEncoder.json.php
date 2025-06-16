@@ -235,6 +235,13 @@ if (!empty($_REQUEST['categories_id'])) {
     $video->setCategories_id($_REQUEST['categories_id']);
 }
 $video_id = $video->save();
+
+if(empty($video_id)){
+    $obj->msg = __("Your video has NOT been saved!").' '. $global['lastBeforeSaveVideoMessage'];
+    _error_log("aVideoEncoder.json: " . $obj->msg);
+    die(json_encode($obj));
+}
+
 $video->updateDurationIfNeed();
 $video->updateHLSDurationIfNeed();
 

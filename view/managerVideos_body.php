@@ -162,7 +162,7 @@ if (empty($advancedCustom)) {
         font-size: 0.8em !important;
     }
 
-    .kv-file-rotate{
+    .kv-file-rotate {
         display: none !important;
     }
 </style>
@@ -870,9 +870,13 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     }
 
     function deleteVideo(videos_id) {
+        if (empty(videos_id)) {
+            avideoToastError(__("Video not found"));
+            return false;
+        }
         modal.showPleaseWait();
         $.ajax({
-            url: webSiteRootURL + 'objects/videoDelete.json.php',
+            url: webSiteRootURL + 'deleteVideo',
             data: {
                 "id": videos_id
             },
@@ -1224,9 +1228,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     videos_id = response.videos_id;
                 } else {
                     if (response.error) {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
+                        avideoAlertError(response.error);
+                    } else if (response.msg) {
+                        avideoAlertError(response.msg);
                     } else {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                        avideoAlertError(__("Your video has NOT been saved!"));
                     }
                 }
                 modalSaveVideo.hidePleaseWait();

@@ -474,9 +474,17 @@ if (!class_exists('Video')) {
             global $advancedCustom;
             global $global;
 
+            if ($resp = AVideoPlugin::beforeSaveVideo($this)) {
+                if (!$resp['canProceed']) {
+                    _error_log('Video::save permission denied to save ' . $resp['msg'] . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+                    $global['lastBeforeSaveVideoMessage'] = $resp['msg'];
+                    return false;
+                }
+            }
 
             if (!User::isLogged() && !$allowOfflineUser) {
                 _error_log('Video::save permission denied to save ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+                $global['lastBeforeSaveVideoMessage'] = 'User is not logged in';
                 return false;
             }
             if (empty($this->title)) {
@@ -705,6 +713,7 @@ if (!class_exists('Video')) {
              * @var object $global['mysqli']
              */
             _error_log('Video::save Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            $global['lastBeforeSaveVideoMessage'] = 'Error on save video';
             return false;
         }
 
@@ -5013,7 +5022,7 @@ if (!class_exists('Video')) {
                 // Check if file is 5 minutes (300 seconds) old or more
                 if (($now - $lastModified) >= 600 || empty($tmpCacheContent)) {
                     // Execute the async process to generate the cache
-                    _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()) . ' $lastModified='.date('Y/m/d H:i:s', $lastModified));
+                    _error_log("getVideosPaths($filename) 1 tmpCacheFile=$tmpCacheFile " . json_encode(ObjectYPT::getLastUsedCacheInfo()) . ' $lastModified=' . date('Y/m/d H:i:s', $lastModified));
                     $device = getDeviceName('web');
                     execAsync('php ' . __DIR__ . "/getVideoPaths.json.php {$filename} " . ($includeS3 ? 1 : 0) . " {$device}" . " \"{$tmpCacheFile}\"");
                 }
