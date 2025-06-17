@@ -63,9 +63,11 @@ saveRequestVars();
             {
                 foreach ($sections as $section) {
                     if (!empty($section['name']) && $section['name'] === $name && !empty($section['active'])) {
+                        echo '<!-- sectionExists ' . $name . ' -->';
                         return true;
                     }
                 }
+                echo '<!-- sectionExists ' . $name . ' not found -->';
                 return false;
             }
 
