@@ -38,7 +38,7 @@ $_page = new Page(array('Edit Gallery'));
 
             <form id="upload" method="post" action="<?php echo $global['webSiteRootURL']; ?>plugin/ImageGallery/upload.json.php?videos_id=<?php echo $videos_id; ?>" enctype="multipart/form-data">
                 <div id="drop">
-                    <a><?php echo __("Browse"); ?></a>
+                    <a><?php echo __("Browse files"); ?></a>
                     <input type="file" name="upl" />
                 </div>
 

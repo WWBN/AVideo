@@ -54,7 +54,7 @@
                             <div id="pmedia" class="tab-pane fade in active hideIfIsArticle hideIfIsEmbedLink hideIfIsArticle hideIfIsEditing">
                                 <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
                                     <div id="drop">
-                                        <a><?php echo __("Browse"); ?></a>
+                                        <a><?php echo __("Browse files"); ?></a>
                                         <input type="file" name="upl" />
                                         <input type="hidden" name="videos_id" id="fileUploadVideos_id" />
                                     </div>

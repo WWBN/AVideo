@@ -29,7 +29,7 @@ $_page = new Page(array('List Categories'));
         <div class="col-lg-2 col-md-3">
             <form id="upload" method="post" action="<?php echo $global['webSiteRootURL']; ?>view/list-images.upload.json.php" enctype="multipart/form-data">
                 <div id="drop">
-                    <a><?php echo __("Browse"); ?></a>
+                    <a><?php echo __("Browse files"); ?></a>
                     <input type="file" name="upl" id="fileInput" multiple accept="image/*" />
                 </div>
                 <ul>

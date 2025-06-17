@@ -41,7 +41,7 @@ if (!User::canUpload()) {
                         <div id="drop">
                             <?php echo __("Drop Here"); ?>
 
-                            <a><?php echo __("Browse"); ?></a>
+                            <a><?php echo __("Browse files"); ?></a>
                             <input type="file" name="upl" multiple />
                         </div>
 
@@ -59,7 +59,7 @@ if (!User::canUpload()) {
                             <?php echo __("Your maximum file size is:"), " ", "" . get_max_file_size() . ""; ?>
                         </h1>
                     </div>
-                    
+
                     <div class="alert alert-warning">
                         <h1>
                             <i class="fa-solid fa-circle-exclamation" style="font-size:1em;"></i>
