@@ -900,7 +900,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         _error_log("NGINX Live::controlRecordingAsync start  ($command)");
         $pid = execAsync($command);
-        _error_log("NGINX Live::controlRecordingAsync end ".json_encode($pid));
+        _error_log("NGINX Live::controlRecordingAsync end " . json_encode($pid));
         return $pid;
     }
 
@@ -2975,11 +2975,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
     {
         global $global, $getPosterImageLive;
 
-        if(empty($getPosterImageLive)){
+        if (empty($getPosterImageLive)) {
             $getPosterImageLive = array();
         }
         $index = "$users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id, $posterType";
-        if(isset($getPosterImageLive[$index])){
+        if (isset($getPosterImageLive[$index])) {
             return $getPosterImageLive[$index];
         }
         $getPosterImageLive[$index] = false;
@@ -3268,9 +3268,35 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $img;
     }
 
+    public static function fixOldPosterImage($newDir, $newFile, $oldFile)
+    {
+        global $global;
+
+        $oldFilePath = $global['systemRootPath'] . $oldFile;
+        $newFilePath = $global['systemRootPath'] . $newFile;
+        $newDirPath  = $global['systemRootPath'] . $newDir;
+
+        // Migrate old image if new one does not exist
+        if (!file_exists($newFilePath) && file_exists($oldFilePath)) {
+            if (!is_dir($newDirPath)) {
+                mkdir($newDirPath, 0777, true);
+            }
+            rename($oldFilePath, $newFilePath);
+        }
+
+        // Migrate matching .json file (metadata)
+        $oldJsonPath = str_replace('.jpg', '.json', $oldFilePath);
+        $newJsonPath = str_replace('.jpg', '.json', $newFilePath);
+
+        if (!file_exists($newJsonPath) && file_exists($oldJsonPath)) {
+            rename($oldJsonPath, $newJsonPath);
+        }
+    }
+
+
     public static function _getPosterImage($users_id, $live_servers_id, $ppv_schedule_id, $live_schedule_id = 0, $posterType = 0)
     {
-
+        global $global;
         $users_id = intval($users_id);
         $ppv_schedule_id = intval($ppv_schedule_id);
         $live_servers_id = intval($live_servers_id);
@@ -3281,24 +3307,32 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $paths = Live_schedule::getPosterPaths($live_schedule_id, $ppv_schedule_id, $posterType);
             return $paths['relative_path'];
         }
-        $type = '';
-        if (!empty($posterType)) {
-            $type = "_{$posterType}_";
-        }
-        $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}{$type}.jpg";
-        return $file;
+
+        $type = !empty($posterType) ? "_{$posterType}_" : "";
+        $newDir = "videos/userPhoto/Live/user_{$users_id}";
+        $newFile = "{$newDir}/bg_{$live_servers_id}{$type}.jpg";
+        $oldFile = "{$newDir}_bg_{$live_servers_id}{$type}.jpg";
+        self::fixOldPosterImage($newDir, $newFile, $oldFile);
+
+        return $newFile;
     }
 
     public static function _getPosterThumbsImage($users_id, $live_servers_id, $posterType = 0)
     {
+        global $global;
+        $users_id = intval($users_id);
+        $live_servers_id = intval($live_servers_id);
         $posterType = intval($posterType);
-        $type = '';
-        if (!empty($posterType)) {
-            $type = "_{$posterType}_";
-        }
-        $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}{$type}.jpg";
-        return $file;
+
+        $type = !empty($posterType) ? "_{$posterType}_" : "";
+        $newDir = "videos/userPhoto/Live/user_{$users_id}";
+        $newFile = "{$newDir}/thumbs_{$live_servers_id}{$type}.jpg";
+        $oldFile = "{$newDir}_thumbs_{$live_servers_id}{$type}.jpg";
+        self::fixOldPosterImage($newDir, $newFile, $oldFile);
+
+        return $newFile;
     }
+
 
     public static function _on_publish($liveTransmitionHistory_id, $isReconnection)
     {
@@ -3447,7 +3481,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $live_url = '';
         $restreamRowItems[$id] = self::gettRestreamRowItem($restreamsDestination, $id, $live_url);
         $obj = self::_getRestreamObject($liveTransmitionHistory_id, $restreamRowItems);
-        if(empty($obj)){
+        if (empty($obj)) {
             return false;
         }
         $obj->live_restreams_id = 0;

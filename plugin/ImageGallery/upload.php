@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../videos/configuration.php';
+require_once __DIR__ . '/../../videos/configuration.php';
 
 
 if (!AVideoPlugin::isEnabledByName('ImageGallery')) {
@@ -68,7 +68,10 @@ $_page = new Page(array('Edit Gallery'));
 
         modal.showPleaseWait();
         var url = webSiteRootURL + 'plugin/ImageGallery/delete.json.php';
-        data = {filename:filename, videos_id:<?php echo $videos_id; ?>}
+        data = {
+            filename: filename,
+            videos_id: <?php echo $videos_id; ?>
+        }
         $.ajax({
             url: url,
             data: data,
@@ -95,38 +98,39 @@ $_page = new Page(array('Edit Gallery'));
             }
         });
     }
+
     function displayImages() {
-    $('#imageGallery').empty(); // Clear the gallery first
-    $.each(galleryList, function(i, image) {
-        // Determine if the item is an image or a video
-        var contentHtml;
-        if (image.type === 'video/mp4') {
-            contentHtml = '<video controls class="img-responsive center-block galleryListImg">' +
-                          '<source src="' + image.url + '" type="' + image.type + '">Your browser does not support the video tag.</video>';
-        } else { // Assuming everything else is an image
-            contentHtml = '<img src="' + image.url + '" class="img-responsive center-block galleryListImg" alt="Image">';
-        }
+        $('#imageGallery').empty(); // Clear the gallery first
+        $.each(galleryList, function(i, image) {
+            // Determine if the item is an image or a video
+            var contentHtml;
+            if (image.type === 'video/mp4') {
+                contentHtml = '<video controls class="img-responsive center-block galleryListImg">' +
+                    '<source src="' + image.url + '" type="' + image.type + '">Your browser does not support the video tag.</video>';
+            } else { // Assuming everything else is an image
+                contentHtml = '<img src="' + image.url + '" class="img-responsive center-block galleryListImg" alt="Image">';
+            }
 
-        var html = '<div class="col-xs-12 col-sm-6 col-md-3">' +
-                   '<div class="panel panel-default gallery-item">' +
-                   '<div class="panel-body">' + contentHtml + '</div>' +
-                   '<div class="panel-footer">' +
-                   '<button class="btn btn-danger btn-block delete-btn" onclick="deleteImageGallery(\'' + image.base + '\')"><i class="fa fa-trash"></i> Delete</button>' +
-                   '</div>' +
-                   '</div>' +
-                   '</div>';
+            var html = '<div class="col-xs-12 col-sm-6 col-md-3">' +
+                '<div class="panel panel-default gallery-item">' +
+                '<div class="panel-body">' + contentHtml + '</div>' +
+                '<div class="panel-footer">' +
+                '<button class="btn btn-danger btn-block delete-btn" onclick="deleteImageGallery(\'' + image.base + '\')"><i class="fa fa-trash"></i> Delete</button>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
 
-        $('#imageGallery').append(html);
+            $('#imageGallery').append(html);
 
-        // Add clearfix div after every 2nd item for sm and every 4th item for md
-        if ((i + 1) % 2 === 0) { // For sm screens
-            $('#imageGallery').append('<div class="clearfix visible-sm-block"></div>');
-        }
-        if ((i + 1) % 4 === 0) { // For md screens and up
-            $('#imageGallery').append('<div class="clearfix visible-md-block visible-lg-block"></div>');
-        }
-    });
-}
+            // Add clearfix div after every 2nd item for sm and every 4th item for md
+            if ((i + 1) % 2 === 0) { // For sm screens
+                $('#imageGallery').append('<div class="clearfix visible-sm-block"></div>');
+            }
+            if ((i + 1) % 4 === 0) { // For md screens and up
+                $('#imageGallery').append('<div class="clearfix visible-md-block visible-lg-block"></div>');
+            }
+        });
+    }
 
 
     $(document).ready(function() {

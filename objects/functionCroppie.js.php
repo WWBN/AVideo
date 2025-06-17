@@ -37,7 +37,7 @@ if (empty($croppieFilesAdded)) {
                         clearInterval(checkVisibilityInterval);
                         proceedWithCroppie();
                     }
-                }, 500); 
+                }, 500);
             }
         }
     </script>
@@ -52,9 +52,17 @@ $croppieFilesAdded = 1;
         <small class="text-muted text-center" style="display: block;"><?php echo __('Width'); ?>: <?php echo $resultWidth; ?>px | <?php echo __('Height'); ?>: <?php echo $resultHeight; ?>px</small>
         <div class="clearfix"></div>
         <div class="btn-group btn-group-justified" role="group">
-            <a id="upload-btn<?php echo $uid; ?>" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo $buttonTitle; ?></a>
-            <a id="delete-btn<?php echo $uid; ?>" class="btn btn-danger"><i class="fa fa-trash"></i> <?php echo __('Delete'); ?></a>
+            <a id="upload-btn<?php echo $uid; ?>" class="btn btn-primary" role="button">
+                <i class="fa fa-upload"></i> <?php echo $buttonTitle; ?>
+            </a>
+            <a id="library-btn<?php echo $uid; ?>" class="btn btn-info" role="button">
+                <i class="fa-solid fa-images"></i> <?php echo __('Select from Library'); ?>
+            </a>
+            <a id="delete-btn<?php echo $uid; ?>" class="btn btn-danger" role="button">
+                <i class="fa fa-trash"></i> <?php echo __('Delete'); ?>
+            </a>
         </div>
+
     </div>
     <div class="col-md-12 ">
         <input type="file" id="upload<?php echo $uid; ?>" value="Choose a file" accept="image/*" style="display:none;" />
@@ -144,6 +152,12 @@ $croppieFilesAdded = 1;
             $('#upload<?php echo $uid; ?>').trigger("click");
         });
 
+        $('#library-btn<?php echo $uid; ?>').off('click');
+        $('#library-btn<?php echo $uid; ?>').on('click', function(ev) {
+            avideoModalIframe(webSiteRootURL + 'view/list-images.php?uid=<?php echo $uid; ?>');
+        });
+
+
         $('#delete-btn<?php echo $uid; ?>').off('click');
         $('#delete-btn<?php echo $uid; ?>').on('click', function(ev) {
             restartCroppie<?php echo $uid; ?>('<?php echo getImageTransparent1pxURL(); ?>');
@@ -170,5 +184,28 @@ $croppieFilesAdded = 1;
         setTimeout(function() {
             createCroppie<?php echo $uid; ?>(imageURL);
         }, 1000);
+    }
+
+    if (!window._croppieLibraryListenerAdded) {
+        window._croppieLibraryListenerAdded = true;
+
+        window.addEventListener('message', function(event) {
+            const data = event.data;
+            if (data && data.selectedImageURL && data.croppieUID) {
+                const uid = data.croppieUID;
+                const imageURL = data.selectedImageURL;
+
+                console.log(`Received image for croppie ${uid}: ${imageURL}`);
+
+                // Calls restartCroppie{uid}(imageURL) if it exists
+                const restartFunctionName = 'restartCroppie' + uid;
+                if (typeof window[restartFunctionName] === 'function') {
+                    avideoModalIframeClose();
+                    window[restartFunctionName](imageURL);
+                } else {
+                    console.warn(`Function ${restartFunctionName} not found`);
+                }
+            }
+        });
     }
 </script>

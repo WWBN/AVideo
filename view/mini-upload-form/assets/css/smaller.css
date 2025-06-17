@@ -1,0 +1,50 @@
+/* Compress the upload interface for a smaller, tighter look */
+#upload {
+    padding: 10px;
+    font-size: 11px;
+    margin-bottom: 10px;
+}
+
+#drop {
+    padding: 10px 15px;
+    font-size: 11px;
+}
+
+#drop a {
+    padding: 8px 16px;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+#upload ul {
+    margin: 0 -10px;
+    padding: 0 !important;
+}
+
+#upload ul li {
+    padding: 10px;
+    height: 50px;
+}
+
+#upload ul li p {
+    font-size: 11px;
+    top: 20px;
+    left: 65px !important;
+}
+
+#upload ul li p.action {
+    top: 5px;
+}
+
+#upload ul li canvas {
+    top: 8px;
+    left: 20px;
+    width: 36px !important;
+    height: 36px !important;
+}
+
+#upload ul li span {
+    top: 20px;
+    right: 20px;
+    transform: scale(0.8);
+}
