@@ -2231,7 +2231,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     });
 
     function whyICannotDownload(videos_id) {
-        avideoAlertAJAXHTML(webSiteRootURL + "view/downloadChecker.php?videos_id=" + videos_id);
+        avideoModalIframeSmall(webSiteRootURL + "view/downloadChecker.php?videos_id=" + videos_id);
     }
 
     function toggleVideoStatus(t) {
