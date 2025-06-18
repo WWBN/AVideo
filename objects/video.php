@@ -4441,14 +4441,14 @@ if (!class_exists('Video')) {
             } else {
                 $url = getCDN() . "{$relative}";
             }
-            if ($cleanVideoFilename == 'index' && preg_match('/index.mp4$/', $videoFilename)) {
+            if ((!empty($_REQUEST['forceIndex']) && preg_match('/.mp4$/', $videoFilename)) || ($cleanVideoFilename == 'index' && preg_match('/index.mp4$/', $videoFilename))) {
                 $folder = str_replace('/index.mp4', '', $videoFilename);
                 $cleanVideoFilename = "$folder/index.mp4";
                 $relative = ("videos/{$cleanVideoFilename}");
                 $path = ("{$videosDir}{$cleanVideoFilename}");
                 $url = getCDN() . "{$cleanVideoFilename}";
                 $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative, 'videoFilename' => $videoFilename];
-            } else if ($cleanVideoFilename == 'index' && preg_match('/index.mp3$/', $videoFilename)) {
+            } else if ((!empty($_REQUEST['forceIndex']) && preg_match('/.mp3$/', $videoFilename)) || ($cleanVideoFilename == 'index' && preg_match('/index.mp3$/', $videoFilename))) {
                 $folder = str_replace('/index.mp3', '', $videoFilename);
                 $cleanVideoFilename = "$folder/index.mp3";
                 $relative = ("videos/{$cleanVideoFilename}");

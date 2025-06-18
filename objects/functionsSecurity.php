@@ -137,7 +137,7 @@ function requestComesFromSafePlace()
  * @param array $allowedExtensions
  * @return string
  */
-function cleanDirectory($dir, $allowedExtensions = ['key', 'm3u8', 'ts', 'vtt', 'jpg', 'gif', 'mp3', 'webm', 'webp'])
+function cleanDirectory($dir, $allowedExtensions = ['key', 'm3u8', 'ts', 'vtt', 'jpg', 'gif', 'mp3', 'mp4', 'webm', 'webp'])
 {
     $ffs = scandir($dir);
 

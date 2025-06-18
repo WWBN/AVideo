@@ -64,6 +64,7 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
         'title' => $lt['title'],
         'description' => $lt['description'],
         'parameters64' => base64_encode(json_encode($parametersJson->{'restream.ypt.me'})),
+        'poster_url' => Live::getPosterThumbsImage($lt['users_id'], $lt['live_servers_id']),
     );
 
     if (!empty($_REQUEST['live_schedule_id'])) {
@@ -74,6 +75,11 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
         }
         if (!empty($ls->getDescription())) {
             $array['description'] = $ls->getDescription();
+        }
+
+        $poster_url = $ls->getPosterURL(@$_REQUEST['live_schedule_id'], @$_REQUEST['ppv_schedule_id']);
+        if (!empty($poster_url)) {
+            $array['poster_url'] = $poster_url;
         }
     }
 
