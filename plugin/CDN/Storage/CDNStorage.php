@@ -1406,9 +1406,10 @@ class CDNStorage
                 } else if (!isDummyFile($localFile)) {
                     _error_log("convertCDNHLSVideoToDownload 2: !isDummyFile($localFile)");
                     try {
+                        _error_log("convertCDNHLSVideoToDownload::putUsingAPI");
                         $response = self::putUsingAPI([$localFile]);
                     } catch (\Throwable $th) {
-                        _error_log("CDNStorage::put API error use FTP");
+                        _error_log("convertCDNHLSVideoToDownload::put API error putUsingFTP");
                         $response = self::putUsingFTP([$localFile], 1);
                     }
                     _error_log("convertCDNHLSVideoToDownload done: ($localFile) ".json_encode($response));
