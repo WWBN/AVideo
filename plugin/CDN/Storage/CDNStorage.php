@@ -452,7 +452,16 @@ class CDNStorage
                     continue;
                 }
                 $uploadstart = microtime(true);
-                $response = $client->put($value['relative'], $value['local_path']);
+                //$response = $client->put($value['relative'], $value['local_path']);
+
+                try {
+                    _error_log("convertCDNHLSVideoToDownload::putUsingAPI");
+                    $response = self::putUsingAPI([$value['local_path']]);
+                } catch (\Throwable $th) {
+                    _error_log("convertCDNHLSVideoToDownload::put API error putUsingFTP");
+                    $response = self::putUsingFTP([$value['local_path']], 1);
+                }
+
                 $filesCopied++;
                 $uploadfinish = microtime(true) - $uploadstart;
                 $totalTime += $uploadfinish;
