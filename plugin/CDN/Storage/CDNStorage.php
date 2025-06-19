@@ -1047,7 +1047,14 @@ class CDNStorage
         foreach ($list as $key => $value) {
             if (empty($value['local']) || empty($value['local']['local_filesize']) || $value['local']['local_filesize'] <= 20) {
                 continue;
-            } elseif (empty($value['remote']) || $value['local']['local_filesize'] != $value['remote']['remote_filesize']) {
+            } else if (
+                empty($value['remote']) ||
+                $value['remote']['remote_filesize'] < $value['local']['local_filesize'] ||
+                (
+                    $value['remote']['remote_filesize'] > $value['local']['local_filesize'] &&
+                    ($value['remote']['remote_filesize'] - $value['local']['local_filesize']) / $value['local']['local_filesize'] > 0.001
+                )
+            ) {
                 // Log the file that is missing or has a size mismatch on the remote
                 $msg = "File not on remote or size mismatch: {$value['local']['local_path']}, Local size: {$value['local']['local_filesize']}, Remote size: " . (!empty($value['remote']['remote_filesize']) ? $value['remote']['remote_filesize'] : 'N/A');
                 self::addToLog($videos_id, $msg);
