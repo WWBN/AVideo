@@ -24,6 +24,29 @@ class VideoStatistic extends ObjectYPT
     protected $json;
     protected $rewarded;
     protected $created_php_time;
+    protected $user_agent;
+    protected $app;
+
+    public function getUser_agent()
+    {
+        return $this->user_agent;
+    }
+
+    public function setUser_agent($user_agent)
+    {
+        $this->user_agent = $user_agent;
+    }
+
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    public function setApp($app)
+    {
+        $app = preg_replace('/[^a-zA-Z0-9]/', '', $app);
+        $this->app = $app;
+    }
 
     public static function getSearchFieldsNames()
     {
@@ -115,6 +138,8 @@ class VideoStatistic extends ObjectYPT
             $vs->setUsers_id($users_id);
             $vs->setVideos_id($videos_id);
             $vs->setWhen(date("Y-m-d h:i:s"));
+            $vs->setUser_agent($_SERVER['HTTP_USER_AGENT']);
+            $vs->setApp(@$_REQUEST['platform']);
         } else {
             //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
             $vs = new VideoStatistic($lastStatistic['id']);

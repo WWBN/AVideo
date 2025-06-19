@@ -369,11 +369,13 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
   `modified` DATETIME NULL DEFAULT NULL,
   `lastVideoTime` INT(11) NULL DEFAULT NULL,
   `session_id` VARCHAR(45) NOT NULL,
-  `seconds_watching_video` INT NULL,
-  `json` TEXT NULL,
-  `timezone` VARCHAR(255) NULL,
-  `created_php_time` INT(11) NULL,
+  `seconds_watching_video` INT(11) NULL DEFAULT NULL,
+  `json` TEXT NULL DEFAULT NULL,
+  `timezone` VARCHAR(255) NULL DEFAULT NULL,
+  `created_php_time` INT(11) NULL DEFAULT NULL,
   `rewarded` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  `user_agent` VARCHAR(255) NULL,
+  `app` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC),
   INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC),
@@ -382,6 +384,8 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
   INDEX `sec_watchin_videos` (`seconds_watching_video` ASC),
   INDEX `videos_statistics_php_time` (`created_php_time` ASC),
   INDEX `videos_statistics_rewarded` (`rewarded` ASC),
+  INDEX `video_statistics_ua` (`user_agent` ASC),
+  INDEX `video_statistics_app` (`app` ASC),
   CONSTRAINT `fk_videos_statistics_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
@@ -392,7 +396,9 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
     REFERENCES `videos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 199
+DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
