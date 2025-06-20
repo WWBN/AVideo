@@ -51,9 +51,13 @@ $notifications = AVideoPlugin::getDataObjectIfEnabled('Notifications');
 if(!empty($notifications)){
     $objMM->oneSignalEnabled = !_empty($notifications->oneSignalEnabled);
     $objMM->oneSignalAPPID = $notifications->oneSignalAPPID;
+    $objMM->oneSignalRESTAPIKEY = $notifications->oneSignalRESTAPIKEY;
+    $objMM->oneSignalFIREBASE_SENDER_ID = $notifications->oneSignalFIREBASE_SENDER_ID;
 }else{
     $objMM->oneSignalEnabled = false;
     $objMM->oneSignalAPPID = '';
+    $objMM->oneSignalRESTAPIKEY = '';
+    $objMM->oneSignalFIREBASE_SENDER_ID = '';
 }
 
 $objMM->homePageURL = AVideoPlugin::getMobileHomePageURL();
@@ -66,8 +70,8 @@ $objMM->encoder = $config->getEncoderURL(true);
 $objMM->EULA_original = $objMM->EULA->value;
 $objMM->EULA = nl2br($objMM->EULA->value);
 $objMM->YPTSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
-$unset = array('debugSocket', 'debugAllUsersSocket', 
-'server_crt_file', 'server_key_file', 'allow_self_signed', 'showTotalOnlineUsersPerVideo', 
+$unset = array('debugSocket', 'debugAllUsersSocket',
+'server_crt_file', 'server_key_file', 'allow_self_signed', 'showTotalOnlineUsersPerVideo',
 'showTotalOnlineUsersPerLive', 'showTotalOnlineUsersPerLiveLink', 'enableCalls');
 
 foreach ($unset as $value) {
