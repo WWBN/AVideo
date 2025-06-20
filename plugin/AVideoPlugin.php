@@ -3329,6 +3329,36 @@ class AVideoPlugin
         }
         return $string;
     }
+
+    public static function getCommentsIncludeFile($videos_id)
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $include = $p->getCommentsIncludeFile($videos_id);
+                if (!empty($include)) {
+                    return $include;
+                }
+            }
+        }
+        return '';
+    }
+
+    public static function getBigVideoIncludeFile()
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $include = $p->getBigVideoIncludeFile();
+                if (!empty($include)) {
+                    return $include;
+                }
+            }
+        }
+        return '';
+    }
 }
 
 class YouPHPTubePlugin extends AVideoPlugin {}

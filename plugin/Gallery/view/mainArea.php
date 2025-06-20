@@ -37,10 +37,15 @@ saveRequestVars();
         }
     }
     if (empty($_GET['search']) && !isInfiniteScroll()) {
-        if ($obj->showLivesAboveBigVideo) {
-            include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaLiveRow.php';
+        $include = AVideoPlugin::getBigVideoIncludeFile();
+        if (!empty($include)) {
+            include $include;
+        } else {
+            if ($obj->showLivesAboveBigVideo) {
+                include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaLiveRow.php';
+            }
+            include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideoLive.php';
         }
-        include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideoLive.php';
     }
     //var_dump(!empty($video), debug_backtrace());exit;
     if (!empty($video)) {

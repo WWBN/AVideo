@@ -227,7 +227,7 @@ echo AVideoPlugin::afterVideoJS();
             }
         });
         setTimeout(function() {
-            if (typeof player == 'undefined') {
+            if (typeof player == 'undefined' && typeof videoJsId != 'undefined') {
                 player = videojs(videoJsId);
             }
 

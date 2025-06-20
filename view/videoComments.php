@@ -1,4 +1,11 @@
 <?php
+$videos_id = getVideos_id();
+$include = AVideoPlugin::getCommentsIncludeFile($videos_id);
+if (!empty($include)) {
+    include $include;
+    return;
+}
+
 if (User::canSeeCommentTextarea()) {
     if (!empty($advancedCustom->commentsNoIndex)) {
         echo "<!-- advancedCustom->commentsNoIndex-->";

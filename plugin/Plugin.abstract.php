@@ -948,6 +948,14 @@ abstract class PluginAbstract {
         return $string;
     }
 
+    function getCommentsIncludeFile($videos_id) {
+        return '';
+    }
+
+    function getBigVideoIncludeFile() {
+        return '';
+    }
+
 }
 
 class PluginPermissionOption {
