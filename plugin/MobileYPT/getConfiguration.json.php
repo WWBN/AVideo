@@ -51,12 +51,10 @@ $notifications = AVideoPlugin::getDataObjectIfEnabled('Notifications');
 if(!empty($notifications)){
     $objMM->oneSignalEnabled = !_empty($notifications->oneSignalEnabled);
     $objMM->oneSignalAPPID = $notifications->oneSignalAPPID;
-    $objMM->oneSignalRESTAPIKEY = $notifications->oneSignalRESTAPIKEY;
     $objMM->oneSignalFIREBASE_SENDER_ID = $notifications->oneSignalFIREBASE_SENDER_ID;
 }else{
     $objMM->oneSignalEnabled = false;
     $objMM->oneSignalAPPID = '';
-    $objMM->oneSignalRESTAPIKEY = '';
     $objMM->oneSignalFIREBASE_SENDER_ID = '';
 }
 
