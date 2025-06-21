@@ -667,7 +667,7 @@ $(async function () {
 });
 var _startSocketTimeout;
 async function startSocket() {
-    if(empty(webSocketURL) || typeof webSocketURL === 'undefined') {
+    if(typeof webSocketURL === 'undefined') {
         console.warn('startSocket: webSocketURL is empty or undefined');
         return false;
     }
