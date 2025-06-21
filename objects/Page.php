@@ -237,12 +237,15 @@ class Page
     public function print($include_end = true)
     {
         global $config, $global;
+        if(!empty($global['doNotPrintPage'])){
+            return;
+        }
         $html = _ob_get_clean();
         _ob_start();
         $this->bodyContent = $html;
         $this->getPage();
         if ($include_end) {
-            include $global['systemRootPath'] . 'objects/include_end.php';
+            include_once $global['systemRootPath'] . 'objects/include_end.php';
         }
     }
 

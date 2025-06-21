@@ -293,6 +293,8 @@ class YPTSocket extends PluginAbstract
         }
         $global['requireVideoJSSocket'] = true;
         $obj = AVideoPlugin::getDataObject('YPTSocket');
+        // echo __LINE__, ' useSocketIO ', __FILE__, ' ', __FUNCTION__, ' ', __METHOD__, ' ', __CLASS__, "\n";
+        // var_dump(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
         $js = '<script>const useSocketIO = ' . ($obj->socketIO ? 1 : 0) . ';</script>';
         return $js;
     }

@@ -23,7 +23,9 @@ if (empty($type->m3u8)) {
     </div>
     <div class="col-sm-8">
         <?php
-        include __DIR__ . '/../../../plugin/VideoHLS/languages/index.php';
+        $global['doNotPrintPage'] = true; // do not print the header and footer
+        include_once __DIR__ . '/../../../plugin/VideoHLS/languages/index.php';
+        $global['doNotPrintPage'] = false; // reset the flag
         ?>
     </div>
 </div>
