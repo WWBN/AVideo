@@ -263,6 +263,10 @@ class PlayerSkins extends PluginAbstract
         if (!empty($global['isForbidden'])) {
             return '';
         }
+        if(!empty($global['requireVideoJSPS'])){
+            return '';
+        }
+        $global['requireVideoJSPS'] = true;
         if (is_object($video)) {
             $video = Video::getVideoLight($video->getId());
         }
