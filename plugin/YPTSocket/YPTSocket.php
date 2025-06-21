@@ -288,6 +288,10 @@ class YPTSocket extends PluginAbstract
     public function getHeadCode()
     {
 
+        if(!empty($global['requireVideoJSSocket'])){
+            return '';
+        }
+        $global['requireVideoJSSocket'] = true;
         $obj = AVideoPlugin::getDataObject('YPTSocket');
         $js = '<script>const useSocketIO = ' . ($obj->socketIO ? 1 : 0) . ';</script>';
         return $js;
