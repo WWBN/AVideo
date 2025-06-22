@@ -102,22 +102,26 @@ function getChannelTabClass($isTabButton, $isVideoTab = false, $defaultTab = 'ch
 
     if ($isTabButton) {
         $_getChannelTabClassCount++;
-        if($defaultTabGet === $defaultTab){
+        if ($defaultTabGet === $defaultTab) {
             return ' active ';
-        }else if ($_getChannelTabClassCount == 1 && getCurrentPage() == 1) {
-            return ' active ';
-        } else if ($isVideoTab && getCurrentPage() != 1) {
-            return ' active ';
+        } else if (empty($defaultTab)) {
+            if ($_getChannelTabClassCount == 1 && getCurrentPage() == 1) {
+                return ' active ';
+            } else if ($isVideoTab && getCurrentPage() != 1) {
+                return ' active ';
+            }
         }
         return '';
     } else {
         $_getChannelTabContentClassCount++;
-        if($defaultTabGet === $defaultTab){
+        if ($defaultTabGet === $defaultTab) {
             return ' active fade in ';
-        }else if ($_getChannelTabContentClassCount == 1 && getCurrentPage() == 1) {
-            return ' active fade in ';
-        } else if ($isVideoTab && getCurrentPage() != 1) {
-            return ' active fade in ';
+        } else  if (empty($defaultTab)) {
+            if ($_getChannelTabContentClassCount == 1 && getCurrentPage() == 1) {
+                return ' active fade in ';
+            } else if ($isVideoTab && getCurrentPage() != 1) {
+                return ' active fade in ';
+            }
         }
         return ' fade ';
     }
@@ -305,7 +309,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false, $defaultTab = 'ch
                 <div id="channelLive">
                     <?php
                     if (!empty($liveVideos)) {
-                            createGallerySection($liveVideos, false);
+                        createGallerySection($liveVideos, false);
                     }
                     ?>
                 </div>
