@@ -503,7 +503,10 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         </div>
 
                                         <div class="panel-footer">
-                                            <?php echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
+                                            <?php
+                                            $totalPagesArticles = ceil($uploadedTotalArticles / $rowCount);
+                                            echo getPagination($totalPagesArticles, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_");
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -542,7 +545,10 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         </div>
 
                                         <div class="panel-footer">
-                                            <?php echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
+                                            <?php
+                                            $totalPagesAudio = ceil($uploadedTotalAudio / $rowCount);
+                                            echo getPagination($totalPagesAudio, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_");
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -580,7 +586,10 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         </div>
 
                                         <div class="panel-footer">
-                                            <?php echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
+                                            <?php
+                                            $totalPagesImages = ceil($uploadedTotalImages / $rowCount);
+                                            echo getPagination($totalPagesImages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_");
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
