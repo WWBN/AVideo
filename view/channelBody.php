@@ -86,7 +86,7 @@ $showChannelHomeTab = $advancedCustomUser->showChannelHomeTab && $ownerCanUplaod
 $showChannelVideosTab = $advancedCustomUser->showChannelVideosTab && $ownerCanUplaodVideos && !empty($uploadedVideos);
 $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj);
 
-function getChannelTabClass($isTabButton, $isVideoTab = false)
+function getChannelTabClass($isTabButton, $isVideoTab = false, $defaultTab = 'channelVideos')
 {
     global $_getChannelTabClassCount;
     global $_getChannelTabContentClassCount;
@@ -97,9 +97,14 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
     if (!isset($_getChannelTabContentClassCount)) {
         $_getChannelTabContentClassCount = 0;
     }
+
+    $defaultTabGet = $_GET['tab'] ?? 'channelVideos';
+
     if ($isTabButton) {
         $_getChannelTabClassCount++;
-        if ($_getChannelTabClassCount == 1 && getCurrentPage() == 1) {
+        if($defaultTabGet === $defaultTab){
+            return ' active ';
+        }else if ($_getChannelTabClassCount == 1 && getCurrentPage() == 1) {
             return ' active ';
         } else if ($isVideoTab && getCurrentPage() != 1) {
             return ' active ';
@@ -107,7 +112,9 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
         return '';
     } else {
         $_getChannelTabContentClassCount++;
-        if ($_getChannelTabContentClassCount == 1 && getCurrentPage() == 1) {
+        if($defaultTabGet === $defaultTab){
+            return ' active fade in ';
+        }else if ($_getChannelTabContentClassCount == 1 && getCurrentPage() == 1) {
             return ' active fade in ';
         } else if ($isVideoTab && getCurrentPage() != 1) {
             return ' active fade in ';
@@ -308,7 +315,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             <?php
                             if ($showChannelHomeTab) {
                             ?>
-                                <li class="nav-item <?php echo getChannelTabClass(true, false); ?>>">
+                                <li class="nav-item <?php echo getChannelTabClass(true, false, 'channelHome'); ?>>">
                                     <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false" onclick="setTimeout(function () {flickityReload();}, 500);">
                                         <i class="fas fa-home"></i> <span class="labelUpperCase"><?php echo __('Home'); ?></span>
                                     </a>
@@ -318,7 +325,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             if ($showChannelVideosTab) {
                                 echo PHP_EOL . '<!-- showChannelVideosTab -->' . PHP_EOL;
                             ?>
-                                <li class="nav-item <?php echo getChannelTabClass(true, true); ?>">
+                                <li class="nav-item <?php echo getChannelTabClass(true, true, 'channelVideos'); ?>">
                                     <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
                                         <i class="fas fa-file-video"></i> <span class="labelUpperCase"><?php echo __('Videos'); ?></span> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
                                     </a>
@@ -337,7 +344,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             }
                             if (!empty($uploadedTotalArticles)) {
                             ?>
-                                <li class="nav-item <?php echo getChannelTabClass(true, false); ?>">
+                                <li class="nav-item <?php echo getChannelTabClass(true, false, 'channelArticles'); ?>">
                                     <a class="nav-link " href="#channelArticles" data-toggle="tab" aria-expanded="false">
                                         <i class="far fa-file-alt"></i> <span class="labelUpperCase"><?php echo __('Articles'); ?></span> <span class="badge"><?php echo $uploadedTotalArticles; ?></span>
                                     </a>
@@ -346,7 +353,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             }
                             if (!empty($uploadedTotalAudio)) {
                             ?>
-                                <li class="nav-item <?php echo getChannelTabClass(true, false); ?>">
+                                <li class="nav-item <?php echo getChannelTabClass(true, false, 'channelAudio'); ?>">
                                     <a class="nav-link " href="#channelAudio" data-toggle="tab" aria-expanded="false">
                                         <i class="fas fa-file-audio"></i> <span class="labelUpperCase"><?php echo __('Audio'); ?></span> <span class="badge"><?php echo $uploadedTotalAudio; ?></span>
                                     </a>
@@ -355,7 +362,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             }
                             if (!empty($uploadedTotalImages)) {
                             ?>
-                                <li class="nav-item <?php echo getChannelTabClass(true, false); ?>">
+                                <li class="nav-item <?php echo getChannelTabClass(true, false, 'channelVideos'); ?>">
                                     <a class="nav-link " href="#channelImages" data-toggle="tab" aria-expanded="false">
                                         <i class="fa-solid fa-images"></i>
                                         <span class="labelUpperCase"><?php echo __("Images"); ?></span>
@@ -368,7 +375,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                 $totalPrograms = PlayList::getAllFromUserLight($user_id, true, false, 0, true, true);
                                 if ($totalPrograms) {
                                 ?>
-                                    <li class="nav-item <?php echo getChannelTabClass(true, false); ?>" id="channelPlayListsLi">
+                                    <li class="nav-item <?php echo getChannelTabClass(true, false, 'channelPlayLists'); ?>" id="channelPlayListsLi">
                                         <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
                                             <i class="fas fa-list"></i> <span class="labelUpperCase"><?php echo __($palyListsObj->name); ?></span> <span class="badge"><?php echo count($totalPrograms); ?></span>
                                         </a>
@@ -388,7 +395,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         top: 0 !important;
                                     }
                                 </style>
-                                <div class="tab-pane <?php echo getChannelTabClass(false, false); ?>" id="channelHome">
+                                <div class="tab-pane <?php echo getChannelTabClass(false, false, 'channelHome'); ?>" id="channelHome">
                                     <?php
                                     $obj->BigVideo = true;
                                     $obj->PlayList = false;
@@ -417,7 +424,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             if ($showChannelVideosTab) {
                             ?>
 
-                                <div class="tab-pane <?php echo getChannelTabClass(false, true); ?>" id="channelVideos">
+                                <div class="tab-pane <?php echo getChannelTabClass(false, true, 'channelVideos'); ?>" id="channelVideos">
 
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -464,7 +471,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         <div class="panel-footer">
                                             <?php
                                             //var_dump($totalPages);
-                                            echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_");
+                                            echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_&tab=channelVideos", $rowCount, '', '#channelVideos', true, 'channelVideos');
                                             ?>
                                         </div>
                                     </div>
@@ -474,7 +481,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             if (!empty($uploadedTotalArticles)) {
                             ?>
 
-                                <div class="tab-pane <?php echo getChannelTabClass(false, false); ?>" id="channelArticles">
+                                <div class="tab-pane <?php echo getChannelTabClass(false, false, 'channelArticles'); ?>" id="channelArticles">
 
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -505,7 +512,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         <div class="panel-footer">
                                             <?php
                                             $totalPagesArticles = ceil($uploadedTotalArticles / $rowCount);
-                                            echo getPagination($totalPagesArticles, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_");
+                                            echo getPagination($totalPagesArticles, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_&tab=channelArticles");
                                             ?>
                                         </div>
                                     </div>
@@ -516,7 +523,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             if (!empty($uploadedTotalAudio)) {
                             ?>
 
-                                <div class="tab-pane <?php echo getChannelTabClass(false, false); ?>" id="channelAudio">
+                                <div class="tab-pane <?php echo getChannelTabClass(false, false, 'channelAudio'); ?>" id="channelAudio">
 
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -547,7 +554,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         <div class="panel-footer">
                                             <?php
                                             $totalPagesAudio = ceil($uploadedTotalAudio / $rowCount);
-                                            echo getPagination($totalPagesAudio, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_");
+                                            echo getPagination($totalPagesAudio, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_&tab=channelAudio");
                                             ?>
                                         </div>
                                     </div>
@@ -557,7 +564,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             if (!empty($uploadedTotalImages)) {
                             ?>
 
-                                <div class="tab-pane <?php echo getChannelTabClass(false, false); ?>" id="channelImages">
+                                <div class="tab-pane <?php echo getChannelTabClass(false, false, 'channelImages'); ?>" id="channelImages">
 
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -588,7 +595,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                         <div class="panel-footer">
                                             <?php
                                             $totalPagesImages = ceil($uploadedTotalImages / $rowCount);
-                                            echo getPagination($totalPagesImages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_");
+                                            echo getPagination($totalPagesImages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_&tab=channelImages");
                                             ?>
                                         </div>
                                     </div>
@@ -597,7 +604,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                             }
                             if ($showChannelProgramsTab) {
                             ?>
-                                <div class="tab-pane <?php echo getChannelTabClass(false, false); ?>" id="channelPlayLists" style="min-height: 800px;">
+                                <div class="tab-pane <?php echo getChannelTabClass(false, false, 'channelPlayLists'); ?>" id="channelPlayLists" style="min-height: 800px;">
                                     <div class="panel panel-default">
                                         <div class="panel-heading text-right">
                                             <?php
