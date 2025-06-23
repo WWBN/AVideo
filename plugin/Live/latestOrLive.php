@@ -168,6 +168,8 @@ $bodyClass = '';
 if (!empty($_REQUEST['isClosed'])) {
     $bodyClass = 'is-closed';
 }
+
+$global['overrideNative'] = 1;
 //var_dump($liveVideo, $video['id'], $poster, $sources);exit;
 ?>
 <!DOCTYPE html>
@@ -204,7 +206,7 @@ if (!empty($_REQUEST['isClosed'])) {
         }
     </style>
     <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css" />
-    
+
     <?php
     echo AVideoPlugin::afterVideoJS();
     ?>
