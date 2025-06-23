@@ -23,13 +23,14 @@ TimeLogStart($timeLog3);
         $videosCounter = 0;
     }
     foreach ($videos as $_index => $value) {
-        
+
         $timeLog4Limit = 0.2;
         $timeLog4 = "{$timeLog3} loop {$value['clean_title']}";
         TimeLogStart($timeLog4);
         $uid = "{$uidOriginal}_{$value['id']}";
         $videosCounter++;
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
+
         TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
         $ajaxLoad = '';
         if (!empty($value['serie_playlists_id'])) {
@@ -45,6 +46,7 @@ TimeLogStart($timeLog3);
         $imgGif = $images->thumbsGif;
         $img = $images->thumbsJpg;
         $poster = $images->poster;
+        //var_dump($value['filename'], $value['type'], $img, $images);
         $cssClass = "";
         if (empty($obj->landscapePosters) && !empty($images->posterPortraitThumbs)) {
             $imgGif = $images->gifPortrait;
@@ -58,17 +60,17 @@ TimeLogStart($timeLog3);
         ?>
         <div class="carousel-cell" >
             <div class="tile">
-                <div class="slide thumbsImage _<?php echo $uidOriginal; ?>" crc="<?php echo $uid; ?>" 
+                <div class="slide thumbsImage _<?php echo $uidOriginal; ?>" crc="<?php echo $uid; ?>"
                      uidOriginal="<?php echo $uidOriginal; ?>"
-                     videos_id="<?php echo $value['id']; ?>" 
-                     poster="<?php echo $poster; ?>" 
-                     href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  
-                     video="<?php echo $value['clean_title']; ?>" 
+                     videos_id="<?php echo $value['id']; ?>"
+                     poster="<?php echo $poster; ?>"
+                     href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"
+                     video="<?php echo $value['clean_title']; ?>"
                      iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbed/<?php echo $value['clean_title']; ?>"
                      ajaxLoad="<?php echo $ajaxLoad; ?>">
-                    <div class="tile__media ">
-                        <img alt="<?php echo str_replace('"', '', $value['title']); ?>" 
-                        src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>" 
+                    <div class="tile__media">
+                        <img alt="<?php echo str_replace('"', '', $value['title']); ?>"
+                        src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>"
                         class="tile__img <?php echo $cssClass; ?> thumbsJPG img img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                         <?php if (!empty($imgGif)) { ?>
                             <img style="position: absolute; top: 0; display: none;" src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>"  alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
@@ -120,12 +122,13 @@ foreach ($videos as $_index => $value) {
 
     $uid = "{$uidOriginal}_{$value['id']}";
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
+    //var_dump($value['filename'], $value['type'], $images);
     if (!empty($value['serie_playlists_id'])) {
         if (empty($images) || isImageNotFound($images->poster)) {
             $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
         }
     }
-    
+
     TimeLogEnd($timeLog5, __LINE__, $timeLog5Limit);
     $imgGif = $images->thumbsGif;
     $img = $images->thumbsJpg;
@@ -154,7 +157,7 @@ foreach ($videos as $_index => $value) {
         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_serie.php';
         TimeLogEnd($timeLog5, __LINE__, $timeLog5Limit);
     }
-    
+
 }
 
 TimeLogEnd($timeLog3, __LINE__);

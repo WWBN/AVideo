@@ -64,7 +64,7 @@ TimeLogStart($timeLog6);
         <!-- row video 1 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
             <center>
-                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
+                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive posterPortrait row_info_<?php echo __LINE__; ?>" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
             </center>
         </div>
         <?php
@@ -73,7 +73,7 @@ TimeLogStart($timeLog6);
         <!-- row video 2 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
             <center>
-                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
+                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive row_info_<?php echo __LINE__; ?>" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
             </center>
         </div>
         <?php
@@ -82,7 +82,7 @@ TimeLogStart($timeLog6);
         <!-- row video 3 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
             <center>
-                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
+                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive posterPortrait row_info_<?php echo __LINE__; ?>" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
             </center>
         </div>
         <?php
@@ -91,7 +91,7 @@ TimeLogStart($timeLog6);
         <!-- row video 4 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
             <center>
-                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
+                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive row_info_<?php echo __LINE__; ?>" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
             </center>
         </div>
         <?php
@@ -129,7 +129,7 @@ TimeLogStart($timeLog6);
             $url = "{$global['webSiteRootURL']}user";
             $url = addQueryStringParameter($url, 'redirectUri', $rowLink);
             ?>
-            <a class="btn btn-default" 
+            <a class="btn btn-default"
                href="<?php echo $url; ?>">
                 <i class="fas fa-sign-in-alt"></i>
                 <span class="hidden-xs"><?php echo __("Login"); ?></span>
@@ -140,8 +140,8 @@ TimeLogStart($timeLog6);
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     $_GET = $get;
     ?>
-    <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" 
-       href="<?php echo $rowLink; ?>" 
+    <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>"
+       href="<?php echo $rowLink; ?>"
        embed="<?php echo $rowLinkEmbed; ?>">
         <i class="fa fa-play"></i>
         <span class="hidden-xs"><?php echo __("Play"); ?></span>
