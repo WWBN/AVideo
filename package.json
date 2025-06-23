@@ -14,7 +14,7 @@
     "bootstrap": "^5.3.6",
     "bootstrap-fileinput": "^5.5.4",
     "chart.js": "^4.5.0",
-    "codemirror": "^6.0.1",
+    "codemirror": "^6.0.2",
     "croppie": "^2.6.5",
     "dexie": "^4.0.11",
     "dom-walk": "^0.1.2",
