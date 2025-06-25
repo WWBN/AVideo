@@ -722,9 +722,7 @@ if (User::isAdmin()) {
                     width: 180,
                     height: 180
                 }
-            }).then(function() {
-                faviconCrop.croppie('setZoom', 1);
-            });;
+            });
             setTimeout(function() {
                 faviconCrop.croppie('setZoom', 1);
             }, 1000);
