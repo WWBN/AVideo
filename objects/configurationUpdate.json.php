@@ -90,6 +90,9 @@ if (!empty($_POST['faviconBase64'])) {
     $photoURL = $imagePath . $fileName;
     $bytes = file_put_contents($global['systemRootPath'] . $photoURL, $fileData);
     if ($bytes > 10) {
+
+        pwaIconsArray($global['systemRootPath'] . $photoURL, true);
+
         $response2 = [
             "status" => 'success',
             "url" => $global['systemRootPath'] . $photoURL,

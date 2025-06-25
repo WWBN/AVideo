@@ -18,7 +18,10 @@ $pwa->short_name = $config->getWebSiteTitle();
 $pwa->name = $config->getWebSiteTitle();
 $pwa->description = $config->getWebSiteTitle();
 
-$pwa->icons = pwaIconsArray();
+
+$favicon = Configuration::_getFavicon(true);
+
+$pwa->icons = pwaIconsArray($favicon);
 
 //$pwa->start_url = $global['webSiteRootURL'];
 $pwa->start_url = '/';
@@ -41,7 +44,7 @@ $shortcut->short_name = $config->getWebSiteTitle();
 $shortcut->description = $config->getWebSiteTitle();
 //$shortcut->url = $global['webSiteRootURL'];
 $shortcut->url = '/';
-$shortcut->icons = pwaIconsArray();
+$shortcut->icons = pwaIconsArray($favicon);
 
 $pwa->shortcuts = [$shortcut];
 
@@ -53,35 +56,4 @@ function pwaRelated_applications($platform, $url)
     $obj->platform = $platform;
     $obj->url = $url;
     return $obj;
-}
-
-function pwaIcon($src, $type, $sizes)
-{
-    $icon = new stdClass();
-    $icon->src = $src;
-    $icon->type = $type;
-    $icon->sizes = $sizes;
-    return $icon;
-}
-
-function pwaIconsArray()
-{
-    $icon = [];
-
-    $favicon = Configuration::_getFavicon(true);
-    //$faviconICO = Configuration::_getFavicon(false);
-
-    $sizes = [72, 96, 120, 128, 144, 152, 180, 192, 384, 512];
-
-    foreach ($sizes as $value) {
-        $pwaIcon = "faviconPWA{$value}.png";
-        if (!file_exists(getVideosDir() . $pwaIcon)) {
-            im_resize($favicon['file'], getVideosDir() . $pwaIcon, $value, $value);
-        }
-        $icon[] = pwaIcon(getURL('videos/' . $pwaIcon), 'image/png', "{$value}x{$value}");
-    }
-    //$icon[] = pwaIcon($favicon['url'], 'image/png', '180x180');
-    //$icon[] = pwaIcon($faviconICO['url'], 'image/x-icon', '16x16,24x24,32x32,48x48,144x144');
-
-    return $icon;
 }

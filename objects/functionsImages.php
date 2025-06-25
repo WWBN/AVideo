@@ -1108,3 +1108,42 @@ function createColorfulTextSpans($string)
     $output .= '</span>';
     return $output;
 }
+
+function pwaIconsArray($favicon = '', $forceDelete = false)
+{
+    $icon = [];
+    //$faviconICO = Configuration::_getFavicon(false);
+
+    $sizes = [72, 96, 120, 128, 144, 152, 180, 192, 384, 512];
+
+    if($favicon && $forceDelete){
+        foreach ($sizes as $value) {
+            $pwaIcon = "faviconPWA{$value}.png";
+            if (file_exists(getVideosDir() . $pwaIcon)) {
+                _error_log("pwaIconsArray: deleting $pwaIcon");
+                unlink(getVideosDir() . $pwaIcon);
+            }
+        }
+    }
+
+    foreach ($sizes as $value) {
+        $pwaIcon = "faviconPWA{$value}.png";
+        if ($favicon && !file_exists(getVideosDir() . $pwaIcon)) {
+            im_resize($favicon['file'], getVideosDir() . $pwaIcon, $value, $value);
+        }
+        $icon[] = pwaIcon(getURL('videos/' . $pwaIcon), 'image/png', "{$value}x{$value}");
+    }
+    //$icon[] = pwaIcon($favicon['url'], 'image/png', '180x180');
+    //$icon[] = pwaIcon($faviconICO['url'], 'image/x-icon', '16x16,24x24,32x32,48x48,144x144');
+
+    return $icon;
+}
+
+function pwaIcon($src, $type, $sizes)
+{
+    $icon = new stdClass();
+    $icon->src = $src;
+    $icon->type = $type;
+    $icon->sizes = $sizes;
+    return $icon;
+}
