@@ -1,5 +1,9 @@
 <?php
 if (User::isAdmin()) {
+    $logoWidth = 500;
+    $logoHeight = 140;
+    $faviconWidth = 512;
+    $faviconHeight = 512;
 ?>
     <div class="container-fluid">
         <form class="form-compact form-horizontal" id="updateConfigForm" onsubmit="">
@@ -673,7 +677,10 @@ if (User::isAdmin()) {
             $('#logo-result-btn').on('click', function(ev) {
                 logoCrop.croppie('result', {
                     type: 'canvas',
-                    size: 'viewport'
+                    size: {
+                        width: <?php echo $logoWidth; ?>,
+                        height: <?php echo $logoHeight; ?>
+                    },
                 }).then(function(resp) {
 
                 });
@@ -702,7 +709,10 @@ if (User::isAdmin()) {
             $('#favicon-result-btn').on('click', function(ev) {
                 faviconCrop.croppie('result', {
                     type: 'canvas',
-                    size: 'viewport'
+                    size: {
+                        width: <?php echo $faviconWidth; ?>,
+                        height: <?php echo $faviconHeight; ?>
+                    },
                 }).then(function(resp) {
 
                 });
@@ -738,10 +748,9 @@ if (User::isAdmin()) {
                     logoCrop.croppie('result', {
                         type: 'canvas',
                         size: {
-                            width: 500,
-                            height: 140
+                            width: <?php echo $logoWidth; ?>,
+                            height: <?php echo $logoHeight; ?>
                         },
-                        size: 'viewport'
                     }).then(function(resp) {
                         logoImgBase64 = resp;
                         faviconCrop.croppie('result', {
@@ -750,7 +759,6 @@ if (User::isAdmin()) {
                                 width: 512,
                                 height: 512
                             },
-                            size: 'viewport'
                         }).then(function(resp) {
                             faviconBase64 = resp;
                             $.ajax({
