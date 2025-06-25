@@ -13,7 +13,14 @@ if (!User::isLogged()) {
 }
 
 $userId = User::getId();
-$relativeDir = "videos/userPhoto/Live/user_{$userId}/";
+
+if (!empty($_REQUEST['videos_id'])) {
+    $relativeDir = Video::getVideoLibRelativePath($_REQUEST['videos_id']);
+} else {
+    $relativeDir = "videos/userPhoto/Live/user_{$userId}/";
+}
+
+
 $absoluteDir = __DIR__ . '/../' . $relativeDir;
 
 make_path($relativeDir);

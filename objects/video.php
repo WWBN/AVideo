@@ -7485,6 +7485,80 @@ if (!class_exists('Video')) {
 
             return $result;
         }
+
+        static function saveImageInVideoLib($videos_id, $imageContent, $imageExt = 'png', $prefix = '')
+        {
+            global $global;
+            if (empty($videos_id) || empty($imageContent)) {
+                return false;
+            }
+            $video = Video::getVideoLight($videos_id);
+            if (empty($video)) {
+                return false;
+            }
+
+            $imageExt = preg_replace('/[^a-zA-Z0-9]/', '', $imageExt);
+            $imageName = $prefix .'_'. uniqid() . ".{$imageExt}";
+            $relativeDir = Video::getVideoLibRelativePath($videos_id);
+            $path = "{$global['systemRootPath']}{$relativeDir}{$imageName}";
+
+            if (_file_put_contents($path, $imageContent)) {
+                _error_log("Video::saveImageInVideoLib({$videos_id}, {$imageExt}) saved in {$path}");
+                return true;
+            } else {
+                _error_log("Video::saveImageInVideoLib({$videos_id}, {$imageExt}) could not save in {$path}");
+                return false;
+            }
+
+        }
+
+        static function getVideoLibRelativePath($videos_id)
+        {
+            if (empty($videos_id)) {
+                return false;
+            }
+            $video = Video::getVideoLight($videos_id);
+            if (empty($video)) {
+                return false;
+            }
+
+            $relativeDir = "videos/{$video['filename']}/images/";
+            return $relativeDir;
+
+        }
+
+        static function listAllImagesInVideoLib($videos_id)
+        {
+            global $global;
+            if (empty($videos_id)) {
+                return [];
+            }
+            $video = Video::getVideoLight($videos_id);
+            if (empty($video)) {
+                return [];
+            }
+
+            $relativeDir = Video::getVideoLibRelativePath($videos_id);
+            $path = "{$global['systemRootPath']}{$relativeDir}";
+            if (!is_dir($path)) {
+                return [];
+            }
+
+            $images = [];
+            $files = scandir($path);
+            foreach ($files as $file) {
+                if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $file)) {
+                    $images[] = [
+                        'name' => $file,
+                        'url' => "{$global['webSiteRootURL']}{$relativeDir}{$file}",
+                        'path' => "{$path}{$file}"
+                    ];
+                }
+            }
+            return $images;
+
+
+        }
     }
 }
 // Just to convert permalink into clean_title

@@ -165,6 +165,12 @@ $_page = new Page(['Video Metatags']);
                             </a>
                         </li>
                         <li>
+                            <a data-toggle="tab" href="#pimage">
+                                <i class="fa-solid fa-image"></i>
+                                <?php echo __("Image"); ?>
+                            </a>
+                        </li>
+                        <li>
                             <a data-toggle="tab" href="#pShorts">
                                 <i class="fa-solid fa-scissors"></i>
                                 <?php echo __("Shorts"); ?>
@@ -206,6 +212,11 @@ $_page = new Page(['Video Metatags']);
                         <div id="pbasic" class="tab-pane fade">
                             <?php
                             include $global['systemRootPath'] . 'plugin/AI/tabs/basic.php';
+                            ?>
+                        </div>
+                        <div id="pimage" class="tab-pane fade">
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/AI/tabs/image.php';
                             ?>
                         </div>
                         <div id="pShorts" class="tab-pane fade">

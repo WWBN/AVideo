@@ -31,9 +31,16 @@ $columnCallbackFunctions = ['text'];
     <div class="col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <div class="alert alert-info">
-                    <p><strong>Note:</strong> To ensure accurate transcription, your videos should contain clear speech. Please be aware that videos without any spoken words, or those containing only sounds and instrumental music, cannot be transcribed by our AI system. Make sure your videos have audible and clear speech to take full advantage of this feature.</p>
+                <div class="alert alert-info" style="border-left: 5px solid #31708f; padding-left: 20px;">
+                    <p>
+                        <strong><i class="fas fa-info-circle"></i> Important:</strong> For accurate transcriptions, your videos must contain clear, audible speech.
+                        Please note that videos with no spoken words — or only instrumental music or sound effects — cannot be processed by our AI transcription system.
+                    </p>
+                    <p>
+                        Ensure that speech is present and understandable in your content to fully benefit from this feature.
+                    </p>
                 </div>
+
                 <?php
                 echo AI::getProgressBarHTML("transcription_{$videos_id}", __('Automatic'));
                 foreach (AI::LANGS as $key => $value) {

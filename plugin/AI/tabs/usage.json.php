@@ -40,6 +40,8 @@ foreach ($obj->response as $key => $value) {
     }else if(!empty($value['ai_type'])){
         if($value['ai_type'] === AI::$typeShorts){
             $obj->response[$key]['type'] = __('Shorts');
+        }else if($value['ai_type'] === AI::$typeImage){
+            $obj->response[$key]['type'] = __('Image');
         }else{
             $obj->response[$key]['type'] = "ERROR: {$value['ai_type']} ";
         }

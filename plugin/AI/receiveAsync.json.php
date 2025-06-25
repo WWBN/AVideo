@@ -164,6 +164,26 @@ switch ($_REQUEST['type']) {
             //$jsonDecoded->lines[] = __LINE__;
         }
         break;
+    case AI::$typeImage:
+        error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
+        if (!empty($_REQUEST['response'])) {
+            $o = new Ai_responses_json(0);
+            $o->setResponse($_REQUEST['response']);
+            $o->setAi_type(AI::$typeImage);
+            $o->setAi_responses_id($token->ai_responses_id);
+            if (!empty($_REQUEST['response']['data'][0]['url'])) {
+                $imageContent = file_get_contents($_REQUEST['response']['data'][0]['url']);
+                if (empty($imageContent)) {
+                    _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__ . ' Error fetching image content');
+                } else {
+                    Video::saveImageInVideoLib($token->videos_id, $imageContent, 'png', 'ai');
+                }
+            }
+            $jsonDecoded->msg = $_REQUEST['msg'];
+            $jsonDecoded->Ai_responses_json = $o->save();
+            $jsonDecoded->error = empty($jsonDecoded->Ai_responses_json);
+        }
+        break;
 
     default:
         _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);

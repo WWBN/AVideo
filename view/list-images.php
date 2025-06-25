@@ -1,6 +1,7 @@
 <?php
 global $global, $config;
 require_once __DIR__ . '/../videos/configuration.php';
+$videos_id = getVideos_id();
 $_page = new Page(array('List Categories'));
 ?>
 <link href="<?php echo getURL('view/mini-upload-form/assets/css/style.css'); ?>" rel="stylesheet" />
@@ -9,6 +10,7 @@ $_page = new Page(array('List Categories'));
     .image-col {
         margin-bottom: 15px;
     }
+
     .image-col img {
         margin: 0 !important;
     }
@@ -31,6 +33,7 @@ $_page = new Page(array('List Categories'));
                 <div id="drop">
                     <a><?php echo __("Browse files"); ?></a>
                     <input type="file" name="upl" id="fileInput" multiple accept="image/*" />
+                    <input type="hidden" name="videos_id" value="<?php echo $videos_id; ?>" />
                 </div>
                 <ul>
                     <!-- Upload progress shown here -->
@@ -49,8 +52,15 @@ $_page = new Page(array('List Categories'));
 <script src="<?php echo getURL('view/mini-upload-form/assets/js/jquery.fileupload.js'); ?>"></script>
 
 <script>
+    var videos_id = <?php echo json_encode($videos_id ?: null); ?>;
+
     function loadImages() {
-        $.getJSON(webSiteRootURL + 'view/list-images.json.php', function(images) {
+        const url = webSiteRootURL + 'view/list-images.json.php';
+        const query = videos_id ? {
+            videos_id: videos_id
+        } : {};
+
+        $.getJSON(url, query, function(images) {
             $('#imageGrid').empty();
             images.forEach(function(img) {
                 const col = $('<div class="col-xs-6 col-sm-4 col-md-3 text-center image-col"></div>');
@@ -62,7 +72,8 @@ $_page = new Page(array('List Categories'));
                     avideoConfirm(__('Are you sure you want to delete this image?')).then(function(response) {
                         if (response) {
                             $.post(webSiteRootURL + 'view/list-images.delete.json.php', {
-                                filename: img.filename
+                                filename: img.filename,
+                                videos_id: videos_id
                             }, function(response) {
                                 if (!response.error) {
                                     col.remove();
@@ -81,7 +92,8 @@ $_page = new Page(array('List Categories'));
                     const uid = new URLSearchParams(window.location.search).get('uid');
                     window.parent.postMessage({
                         selectedImageURL: image.data('src'),
-                        croppieUID: uid
+                        croppieUID: uid,
+                        videos_id: videos_id
                     }, '*');
                 });
 
@@ -90,6 +102,7 @@ $_page = new Page(array('List Categories'));
             });
         });
     }
+
 
     $(document).ready(function() {
         $('#drop a').click(function() {

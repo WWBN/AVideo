@@ -1,11 +1,24 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <div class="alert alert-info">
-            <h4><strong>Enhance Your Video SEO with AI</strong></h4>
-            <p>We're excited to announce a new AI-driven feature to enhance your video SEO! This tool will automatically suggest optimized <strong>Titles, Casual Descriptions, Professional Descriptions, Meta Descriptions, Keywords, Summaries, Ratings, and Rating Justifications</strong> for your videos.</p>
-            <p>Our AI analyzes your video's existing title and description to generate these SEO elements. For even more precise and tailored suggestions, we recommend providing a <i class="fas fa-microphone-alt"></i> <?php echo __("Transcription"); ?> of your video. This additional information allows our AI to better understand and optimize your content for search engines, boosting your video's visibility and reach.</p>
-            <p>Start leveraging the power of AI to make your videos stand out in search results!</p>
+        <div class="alert alert-info" style="border-left: 5px solid #31708f; padding-left: 20px;">
+            <h4 class="text-primary" style="margin-top: 0;">
+                <strong><i class="fas fa-rocket"></i> Boost Your Video SEO with AI</strong>
+            </h4>
+            <p>
+                We're pleased to introduce an <strong>AI-powered SEO enhancement tool</strong> for your videos.
+                This new feature intelligently generates optimized:
+                <em>Titles, Descriptions (Casual & Professional), Meta Descriptions, Keywords, Summaries, Ratings, and Justifications</em>.
+            </p>
+            <p>
+                By analyzing your video's current title and description, our AI delivers tailored SEO suggestions
+                to maximize discoverability. For the most accurate results, we recommend including a
+                <i class="fas fa-microphone-alt"></i> <strong><?php echo __("Transcription"); ?></strong> of your video — enabling deeper content understanding.
+            </p>
+            <p>
+                <strong>Start using AI to elevate your content and stand out in search results.</strong>
+            </p>
         </div>
+
         <?php
         echo AI::getProgressBarHTML("basic_{$videos_id}", '');
         ?>
@@ -24,7 +37,7 @@
         <button class="btn btn-success btn-block" onclick="generateAIIdeas()">
             <i class="fa-solid fa-lightbulb"></i> <?php echo __('Generate Basic Ideas') ?>
             <?php
-            if(!empty($priceForBasic)){
+            if (!empty($priceForBasic)) {
                 echo "<br><span class=\"label label-success\">{$priceForBasicText}</span>";
             }
             ?>

@@ -22,6 +22,11 @@
                     loadAIShorts();
                 }
                 break;
+            case '<?php echo AI::$typeImage; ?>':
+                if (typeof loadAIImage == 'function') {
+                    loadAIImage();
+                }
+                break;
             default:
                 break;
         }

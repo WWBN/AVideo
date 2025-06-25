@@ -6,11 +6,18 @@ if (!User::isLogged()) {
 }
 
 $userId = User::getId();
+$videos_id = getVideos_id();
 
 // List of relative directories (must end with slash)
-$relativeDirs = [
-    "videos/userPhoto/Live/user_{$userId}/",
-];
+if($videos_id){
+    $relativeDirs = [
+        Video::getVideoLibRelativePath($videos_id),
+    ];
+}else{
+    $relativeDirs = [
+        "videos/userPhoto/Live/user_{$userId}/",
+    ];
+}
 
 $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 $images = [];
@@ -19,7 +26,7 @@ foreach ($relativeDirs as $relativeDir) {
     $absoluteDir = realpath(__DIR__ . "/../{$relativeDir}");
 
     // Security check: must be valid and inside videos folder
-    if (!$absoluteDir || strpos($absoluteDir, realpath(__DIR__ . '/../videos/userPhoto/Live/')) !== 0) {
+    if (!$absoluteDir || strpos($absoluteDir, realpath(__DIR__ . '/../videos/')) !== 0) {
         continue;
     }
 

@@ -154,7 +154,11 @@ $croppieFilesAdded = 1;
 
         $('#library-btn<?php echo $uid; ?>').off('click');
         $('#library-btn<?php echo $uid; ?>').on('click', function(ev) {
-            avideoModalIframe(webSiteRootURL + 'view/list-images.php?uid=<?php echo $uid; ?>');
+            var url = webSiteRootURL + 'view/list-images.php?uid=<?php echo $uid; ?>';
+            if (typeof mediaId == 'number' && !empty(mediaId)) {
+                url = addQueryStringParameter(url, 'videos_id', mediaId);
+            }
+            avideoModalIframe(url);
         });
 
 

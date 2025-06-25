@@ -168,7 +168,7 @@ $bodyClass = '';
 if (!empty($_REQUEST['isClosed'])) {
     $bodyClass = 'is-closed';
 }
-
+// this is to make sure will not play in fullscreen on ios
 $global['overrideNative'] = 1;
 //var_dump($liveVideo, $video['id'], $poster, $sources);exit;
 ?>

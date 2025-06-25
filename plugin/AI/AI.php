@@ -16,6 +16,7 @@ class AI extends PluginAbstract
     static $typeTranslation = 'translation';
     static $typeTranscription = 'transcription';
     static $typeBasic = 'basic';
+    static $typeImage = 'image';
     static $typeShorts = 'shorts';
     static $typeDubbing = 'dubbing';
 
@@ -687,9 +688,9 @@ class AI extends PluginAbstract
     static function getProgressBarHTML($classname, $text)
     {
         return '
-        <div class="progress progressAI ' . $classname . '" style="display:none;"> 
-            <div class="progress-bar progress-bar-striped progress-bar-animated" 
-            role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">                
+        <div class="progress progressAI ' . $classname . '" style="display:none;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
             <strong class="progressAITitle">' . $text . '</strong>
             </div>
         </div>';
@@ -776,7 +777,7 @@ class AI extends PluginAbstract
                 $duration_in_seconds = $video->getDuration_in_seconds();
                 if(empty($duration_in_seconds)){
                     _error_log("The video {$videos_id} has not duration set, the price will be calculated over 10 minutes", AVideoLog::$ERROR);
-                    $duration_in_seconds = 600; // 10 minutes 
+                    $duration_in_seconds = 600; // 10 minutes
                 }
                 $price = $obj->priceForDubbing * $duration_in_seconds;
                 break;
@@ -814,8 +815,8 @@ class AI extends PluginAbstract
             _error_log("AI:asyncVideosId error the user $users_id has no balance to pay the service $type for videos_id $videos_id ");
             $obj = new stdClass();
             $obj->error = true;
-            $obj->msg = "Transaction failed: Insufficient funds. 
-            You currently do not have enough balance in your account to cover the AI-powered video $type service. 
+            $obj->msg = "Transaction failed: Insufficient funds.
+            You currently do not have enough balance in your account to cover the AI-powered video $type service.
             Please add funds to proceed. Thank you.";
             return $obj;
         }
@@ -844,6 +845,10 @@ class AI extends PluginAbstract
             case AI::$typeDubbing:
                 _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
                 $obj = AI::getVideoDubbingMetadata($videos_id, @$_REQUEST['language']);
+                break;
+            case AI::$typeImage:
+                _error_log('AI:asyncVideosId typeImage ' . basename(__FILE__) . ' line=' . __LINE__);
+                $obj = AI::getVideoBasicMetadata($videos_id);
                 break;
             default:
                 _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
@@ -918,7 +923,7 @@ class AI extends PluginAbstract
         if (empty($content)) {
             $obj = new stdClass();
             $obj->error = true;
-            $obj->msg = "Oops! Our system took a bit longer than expected to process your request. 
+            $obj->msg = "Oops! Our system took a bit longer than expected to process your request.
             Please try again in a few moments. We apologize for any inconvenience and appreciate your patience.";
             return $obj;
         }
