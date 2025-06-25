@@ -43,6 +43,7 @@ class VideoTags extends PluginAbstract {
         $obj->maxChars = 100;
         $obj->disableTagsSubscriptions = false;
         $obj->showTagsOnEmbed = true;
+        $obj->showTagsLabels = true;
         return $obj;
     }
 
@@ -117,7 +118,7 @@ class VideoTags extends PluginAbstract {
     static function getAll($users_id = 0) {
         return Tags::getAllWithSubscriptionRow($users_id);
     }
-    
+
     static function getAllFromVideosId($videos_id) {
         return TagsHasVideos::getAllFromVideosId($videos_id);
     }
@@ -140,7 +141,7 @@ class VideoTags extends PluginAbstract {
     static function getAllVideosIdFromTagsId($tags_id, $limit = 100, $status = Video::SORT_TYPE_VIEWABLE) {
         return TagsHasVideos::getAllVideosIdFromTagsId($tags_id, $limit, $status);
     }
-    
+
     static function getTotalVideosFromTagsId($tags_id, $status = Video::SORT_TYPE_VIEWABLE) {
         return TagsHasVideos::getTotalVideosFromTagsId($tags_id, $status);
     }
@@ -156,7 +157,7 @@ class VideoTags extends PluginAbstract {
         }
         return 0;
     }
-    
+
     static function getAllVideosFromTagsId($tags_id, $limit = 100) {
         return TagsHasVideos::getAllVideosFromTagsId($tags_id, $limit);
     }
@@ -194,14 +195,14 @@ class VideoTags extends PluginAbstract {
 
     static function getTagsInput($tagTypesId, $videos_id=0) {
         global $global;
-    
+
         // Step 1: Query the database for tags associated with videos_id
         $tags = []; // Initialize an array to hold the tags
         if($videos_id > 0) {
             // Assuming you have a function to get tags by video ID
-            $tags = self::getArrayFromVideosId($videos_id, $tagTypesId); 
+            $tags = self::getArrayFromVideosId($videos_id, $tagTypesId);
         }
-    
+
         // Step 2: Convert tags into a suitable format (JSON)
         $tagsJson = json_encode($tags);
         //var_dump($tagsJson, $tags);
@@ -222,7 +223,7 @@ class VideoTags extends PluginAbstract {
                         }
                     });
                     videoTags' . $tagTypesId . '.initialize();
-    
+
                     $(\'#inputTags' . $tagTypesId . '\').tagsinput({
                         maxTags: ' . $obj->maxTags . ',
                         maxChars: ' . $obj->maxChars . ',
@@ -235,7 +236,7 @@ class VideoTags extends PluginAbstract {
                         },
                         freeInput: ' . (self::canCreateTag() ? "true" : "false") . '
                     });
-    
+
                     // Step 3: Preload and fill the input with all tags from the database
                     var preloadedTags = ' . $tagsJson . ';
                     if(preloadedTags && preloadedTags.length) {
@@ -247,7 +248,7 @@ class VideoTags extends PluginAbstract {
                 </script>';
         return $str;
     }
-    
+
 
     static function canCreateTag() {
         $obj = AVideoPlugin::getObjectData("VideoTags");
@@ -256,29 +257,29 @@ class VideoTags extends PluginAbstract {
         }
         return User::isAdmin();
     }
-    
-    
+
+
     static function isUserSubscribed($users_id, $tags_id) {
         global $_isUserSubscribedTags;
-        
+
         if(empty($_isUserSubscribedTags)){
             $_isUserSubscribedTags = array();
         }
-        
+
         if(!isset($_isUserSubscribedTags[$users_id])){
             $UserSubscriptions = Tags_subscriptions::getAllFromUsers_id($users_id);
             $_isUserSubscribedTags[$users_id] = array();
             foreach ($UserSubscriptions as $row) {
                 $_isUserSubscribedTags[$users_id][$row['tags_id']] = $row;
             }
-            
+
         }
         if(empty($_isUserSubscribedTags[$users_id][$tags_id])){
             return false;
         }
         return $_isUserSubscribedTags[$users_id][$tags_id];
     }
-    
+
     public static function getButton($tags_id, $videos_id = 0, $btnClass = 'btn-xs', $btnClassPrimary = 'btn-primary', $btnClassSuccess = 'btn-success', $btnClassDefault = 'btn-default'){
         if(empty($tags_id)){
             return '';
@@ -294,7 +295,7 @@ class VideoTags extends PluginAbstract {
         $subscribe = __("Subscribe");
         $unsubscribe = __("Unsubscribe");
         $tagLink = self::getTagLink($tags_id);
-        
+
         $playAllLink = '#';
         $playAllClass = 'hidden';
         if(AVideoPlugin::isEnabledByName('PlayLists')){
@@ -303,12 +304,12 @@ class VideoTags extends PluginAbstract {
             $playAllLink = PlayLists::getTagLink($tags_id, false, $playlist_index);
             $playAllClass = '';
         }
-        
+
         $subscribeText = $tag->getName();
         $subscribedText = $tag->getName();
         $users_id = User::getId();
         $encryptedIdAndUser = encryptString(array('tags_id'=>$tags_id, 'users_id'=> $users_id));
-        $subscribed = '';         
+        $subscribed = '';
         if (User::isLogged()) {
             $btnFile = $global['systemRootPath'] . 'plugin/VideoTags/subscribeBtn.html';
             $email = User::getMail();
@@ -343,7 +344,7 @@ class VideoTags extends PluginAbstract {
             '{total}',
             '{subscribe}', '{unsubscribe}', '{subscribeText}', '{subscribedText}', '{subscribed}'
         ];
-        
+
         $replace = [
             $btnClass,
             $btnClassPrimary,
@@ -403,8 +404,8 @@ class VideoTags extends PluginAbstract {
         $strT = '<a ' . $tooltip . ' href="' . VideoTags::getTagLink($tags_id) . '" class="label label-primary">' . __($tag->getName()) . '</a> ';
         return $strT;
     }
-    
-    
+
+
 
     static function getAllSubscribersFromVideosId($videos_id) {
         $tags = TagsHasVideos::getAllFromVideosId($videos_id);
@@ -450,9 +451,9 @@ class VideoTags extends PluginAbstract {
             }
             if (!empty($strT)) {
                 $label = "";
-                if ($showType) {
+                if ($obj->showTagsLabels && $showType) {
                     $name = str_replace("_", " ", $type['name']);
-                    $label = "<strong class='label text-muted'>" . __($name) . ": </strong> ";
+                    $label = "<strong class='text-muted tag-label'>" . __($name) . ": </strong> ";
                 }
                 $tagsStrList[] = "{$label}{$strT}";
             }
@@ -522,7 +523,7 @@ class VideoTags extends PluginAbstract {
 
     public function updateScript() {
         global $global;
-        //update version 2.0        
+        //update version 2.0
         if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
             sqlDal::executeFile($global['systemRootPath'] . 'plugin/VideoTags/install/update.sql');
         }
@@ -531,14 +532,14 @@ class VideoTags extends PluginAbstract {
         }
         return true;
     }
-    
+
     public function getHeadCode(): string {
         $css = '<link href="' .getURL('plugin/VideoTags/View/style.css') . '" rel="stylesheet" type="text/css"/>';
         return $css;
     }
     public function getFooterCode(){
         $js = '';
-        $obj = AVideoPlugin::getDataObject('VideoTags');        
+        $obj = AVideoPlugin::getDataObject('VideoTags');
         if($obj->showTagsOnEmbed && isEmbed() && isVideo()){
             $videos_id = getVideos_id();
             if(!empty($videos_id)){
@@ -553,10 +554,10 @@ class VideoTags extends PluginAbstract {
         $js .= '<script src="' .getURL('plugin/VideoTags/View/script.js') . '" type="text/javascript"></script>';
         return $js;
     }
-    
+
     public function getMobileInfo() {
         $obj = $this->getDataObject();
-        $return = new stdClass();        
+        $return = new stdClass();
         $return->videoTagsTypes = TagsTypes::getAll();
         return $return;
     }
