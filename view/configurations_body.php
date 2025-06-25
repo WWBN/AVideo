@@ -593,7 +593,9 @@ if (User::isAdmin()) {
                     c.croppie('bind', {
                         url: e.target.result
                     }).then(function() {
-                        console.log('jQuery bind complete');
+                        setTimeout(() => {
+                            c.croppie('setZoom', 1);
+                        }, 100);
                     });
 
                 }
@@ -680,6 +682,7 @@ if (User::isAdmin()) {
             logoCrop = $('#croppieLogo').croppie({
                 url: '<?php echo $global['webSiteRootURL'], $config->getLogo(true); ?>',
                 enableExif: true,
+                enableOrientation: true,
                 enforceBoundary: false,
                 mouseWheelZoom: false,
                 viewport: {
@@ -708,6 +711,7 @@ if (User::isAdmin()) {
             faviconCrop = $('#croppieFavicon').croppie({
                 url: '<?php echo $config->getFavicon(true); ?>',
                 enableExif: true,
+                enableOrientation: true,
                 enforceBoundary: false,
                 mouseWheelZoom: false,
                 viewport: {
@@ -718,7 +722,9 @@ if (User::isAdmin()) {
                     width: 180,
                     height: 180
                 }
-            });
+            }).then(function() {
+                faviconCrop.croppie('setZoom', 1);
+            });;
             setTimeout(function() {
                 faviconCrop.croppie('setZoom', 1);
             }, 1000);
@@ -733,13 +739,19 @@ if (User::isAdmin()) {
 
                     logoCrop.croppie('result', {
                         type: 'canvas',
-                        size: { width: 500, height: 140 },
+                        size: {
+                            width: 500,
+                            height: 140
+                        },
                         size: 'viewport'
                     }).then(function(resp) {
                         logoImgBase64 = resp;
                         faviconCrop.croppie('result', {
                             type: 'canvas',
-                            size: { width: 512, height: 512 },
+                            size: {
+                                width: 512,
+                                height: 512
+                            },
                             size: 'viewport'
                         }).then(function(resp) {
                             faviconBase64 = resp;
