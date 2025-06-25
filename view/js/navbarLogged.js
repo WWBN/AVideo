@@ -80,8 +80,10 @@ $(document).ready(function () {
     $("#buttonMyNavbar").click(function (event) {
         event.stopPropagation();
         if (isMyNMavbarOpen()) {
+            console.log("buttonMyNavbar logged 1");
             closeRightMenu();
         } else {
+            console.log("buttonMyNavbar logged 2");
             openRightMenu();
         }
     });
@@ -195,7 +197,7 @@ function isSearchOpen() {
     return $("#mysearch").is(":visible");
 }
 function isMyNMavbarOpen() {
-    return $('#myNavbar').hasClass('animate__bounceInRight');
+    return $('#myNavbar').is(':visible');
 }
 async function YPTSidebarToggle() {
     if (YPTSidebarIsOpen()) {
@@ -259,7 +261,7 @@ async function YPTSidebarCompress() {
     youTubeMenuIsCompressed = true;
 }
 async function YPTSidebarUncompress() {
-    console.log('YPTSidebarUncompress');
+    console.trace('YPTSidebarUncompress');
     Cookies.set("menuCompressed", false, { expires: 365, path: '/' });
     $('body').removeClass('compressedMenu');
     setTimeout(function () {
