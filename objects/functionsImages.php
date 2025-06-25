@@ -1132,7 +1132,7 @@ function pwaIconsArray($favicon = '', $forceDelete = false)
     foreach ($sizes as $value) {
         $pwaIcon = "faviconPWA{$value}.png";
         if ($favicon && !file_exists(getVideosDir() . $pwaIcon)) {
-            im_resize($favicon['file'], getVideosDir() . $pwaIcon, $value, $value);
+            im_resize($favicon, getVideosDir() . $pwaIcon, $value, $value);
         }
         $icon[] = pwaIcon(getURL('videos/' . $pwaIcon), 'image/png', "{$value}x{$value}");
     }
