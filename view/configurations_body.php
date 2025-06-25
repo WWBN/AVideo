@@ -733,11 +733,13 @@ if (User::isAdmin()) {
 
                     logoCrop.croppie('result', {
                         type: 'canvas',
+                        size: { width: 500, height: 140 },
                         size: 'viewport'
                     }).then(function(resp) {
                         logoImgBase64 = resp;
                         faviconCrop.croppie('result', {
                             type: 'canvas',
+                            size: { width: 512, height: 512 },
                             size: 'viewport'
                         }).then(function(resp) {
                             faviconBase64 = resp;
