@@ -1111,6 +1111,9 @@ function createColorfulTextSpans($string)
 
 function pwaIconsArray($favicon = '', $forceDelete = false)
 {
+    if(is_array($favicon) && !empty($favicon['file'])){
+        $favicon = $favicon['file'];
+    }
     $icon = [];
     //$faviconICO = Configuration::_getFavicon(false);
 
