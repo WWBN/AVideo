@@ -77,7 +77,7 @@ foreach ($rows as $key => $value) {
 }
 
 $rows = Playlists_schedules::getAllExecuting();
-foreach ($rows as $value) {
+foreach ($rows as $key => $value) {
     if (in_array($value['id'], $processed)) {
         _error_log("Playlist rebroadcast line " . __LINE__);
         continue;
@@ -85,7 +85,7 @@ foreach ($rows as $value) {
     $processed[] = $value['id'];
     if ($value['finish_datetime'] < time()) {
         _error_log("Playlist rebroadcast line " . __LINE__);
-        PlayLists::setScheduleStatus($value['key'], Playlists_schedules::STATUS_COMPLETE);
+        PlayLists::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
         continue;
     }
     $forceIndex = Playlists_schedules::getPlayListScheduledIndex($value['id']);
