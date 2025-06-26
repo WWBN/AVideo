@@ -129,7 +129,7 @@ if (!empty($activeLive)) {
     }
 }
 
-_error_log("isReconnection=".json_encode(array($isReconnection, $activeLive, $_POST['name'], $live_servers_id)));
+_error_log("isReconnection=".json_encode(array($isReconnection, $activeLive, $_POST['name'], $live_servers_id, $getLatestSQL)));
 /*
     $code = 301;
     header("Location: {$_POST['name']}");

@@ -510,7 +510,7 @@ class LiveTransmitionHistory extends ObjectYPT
         }
         if (!empty($active)) {
             if (is_int($active)) {
-                $sql .= " AND (lth.modified_php_time >= " . strtotime("-{$active} minutes") . ") OR  (lth.modified >= DATE_SUB(NOW(), INTERVAL $active MINUTE) OR lth.finished IS NULL)";
+                $sql .= " AND ((lth.modified_php_time >= " . strtotime("-{$active} minutes") . ") OR  (lth.modified >= DATE_SUB(NOW(), INTERVAL $active MINUTE) OR lth.finished IS NULL))";
             } else {
                 $sql .= " AND finished IS NULL ";
             }
