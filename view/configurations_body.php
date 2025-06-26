@@ -596,12 +596,7 @@ if (User::isAdmin()) {
                 reader.onload = function(e) {
                     c.croppie('bind', {
                         url: e.target.result
-                    }).then(function() {
-                        setTimeout(() => {
-                            c.croppie('setZoom', 1);
-                        }, 100);
                     });
-
                 }
 
                 reader.readAsDataURL($(input)[0].files[0]);
@@ -701,9 +696,6 @@ if (User::isAdmin()) {
                     height: 70
                 }
             });
-            setTimeout(function() {
-                logoCrop.croppie('setZoom', 1);
-            }, 1000);
 
 
             $('#favicon-result-btn').on('click', function(ev) {
@@ -733,9 +725,6 @@ if (User::isAdmin()) {
                     height: 180
                 }
             });
-            setTimeout(function() {
-                faviconCrop.croppie('setZoom', 1);
-            }, 1000);
 
 
 
