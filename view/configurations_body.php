@@ -2,8 +2,8 @@
 if (User::isAdmin()) {
     $logoWidth = 500;
     $logoHeight = 140;
-    $faviconWidth = 512;
-    $faviconHeight = 512;
+    $faviconWidth = 1024;
+    $faviconHeight = $faviconWidth;
 ?>
     <div class="container-fluid">
         <form class="form-compact form-horizontal" id="updateConfigForm" onsubmit="">
