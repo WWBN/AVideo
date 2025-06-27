@@ -256,6 +256,10 @@ footer ul.list-inline li {
 
 @media (max-width: 767px) {
 
+    #mainNavBar .dropdown-menu {
+        max-height: calc(100vh - 250px);
+    }
+
     .navbar-form,
     #modeYoutubeBottomContent,
     .principalContainer,
@@ -908,15 +912,18 @@ img.blur {
     border-radius: 50%;
     height: 25px;
     width: 25px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Default shadow */
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Smooth transition */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    /* Default shadow */
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    /* Smooth transition */
 
 }
 
 #CloseButtonInVideo:hover {
     background-color: rgba(255, 255, 255, 1);
     color: #000;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6); /* Stronger shadow on hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+    /* Stronger shadow on hover */
 }
 
 body.rtl #CloseButtonInVideo {
@@ -2112,20 +2119,20 @@ body.ypt-is-compressed #videoCol {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.swal-overlay--show-modal{
+.swal-overlay--show-modal {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
-.AdsDebug{
+.AdsDebug {
     border: 2px dashed red;
     padding: 10px;
 }
 
-.galleryVideoButtons div.dropdown.text-center.open > ul button{
+.galleryVideoButtons div.dropdown.text-center.open>ul button {
     width: 100%;
 }
 
-body > div.jq-toast-wrap{
+body>div.jq-toast-wrap {
     z-index: 99999 !important;
 }
