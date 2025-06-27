@@ -1342,6 +1342,7 @@ function avideoAlertOnceForceConfirm(title, msg, type) {
     });
 }
 
+var toastPosition = null;
 function _avideoToast(msg, icon, displayTime = 0) {
     if (empty(msg)) {
         msg = '';
@@ -1357,7 +1358,10 @@ function _avideoToast(msg, icon, displayTime = 0) {
             displayTime = Math.max(readingTimeInSeconds * 1000 + 2000, 7000); // Minimum display time of 7000ms
 
         }
-        var options = { text: msg, hideAfter: displayTime };
+        var options = { text: msg, hideAfter: displayTime};
+        if(toastPosition && toastPosition !== 'undefined') {
+            options.position = toastPosition;
+        }
         if (icon) {
             options.icon = icon;
         }
