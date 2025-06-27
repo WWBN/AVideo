@@ -33,6 +33,7 @@ $objMM->firstPage = _json_decode($content);
 $objMM->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
 
 $objMM->userMustBeLoggedIn = $customizeUser->userMustBeLoggedIn;
+$objMM->forceLoginToBeTheEmail = $customizeUser->forceLoginToBeTheEmail;
 
 $chat2 = AVideoPlugin::getDataObjectIfEnabled('Chat2');
 if(!empty($chat2)){
