@@ -815,6 +815,45 @@ function getVideosURLPDF($fileName)
     return $files;
 }
 
+
+function getVideosURLSubtitles($fileName)
+{
+    global $global;
+    if (empty($fileName)) {
+        return [];
+    }
+
+    if(!function_exists('getVTTTracks')){
+        return [];
+    }
+
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $start = $time;
+
+    $source = getVTTTracks($fileName, true);
+    $files = array();
+
+    foreach ($source as $key => $value) {
+        $value = object_to_array($value);
+        $files["vtt"] = [
+            'filename' => "{$fileName}.{$value['srclang']}.vtt",
+            'path' => $value['filename'],
+            'url' => $value['src'],
+            'type' => "vtt_{$value['srclang']}",
+        ];
+    }
+
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $finish = $time;
+    $total_time = round(($finish - $start), 4);
+    //_error_log("getVideosURLPDF generated in {$total_time} seconds. fileName: $fileName ");
+    return $files;
+}
+
 function getVideosURLIMAGE($fileName)
 {
     global $global;
@@ -1152,8 +1191,9 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
         $video = ['webm', 'mp4'];
         $audio = ['mp3', 'ogg'];
         $image = ['jpg', 'gif', 'webp'];
+        $subtitle = ['vtt', 'srt'];
 
-        $formats = array_merge($video, $audio, $image);
+        $formats = array_merge($video, $audio, $image, $subtitle);
 
         //$globQuery = getVideosDir()."{$cleanfilename}*.{" . implode(",", $formats) . "}";
         //$filesInDir = glob($globQuery, GLOB_BRACE);
@@ -1178,7 +1218,6 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
             //$timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             //TimeLogStart($timeName2);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
-
             /*
             if(empty($recreateCache) && $fileName == "video_230816233020_vb81e"){
                 var_dump($fileName, $source);exit;
@@ -1216,6 +1255,8 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
                         $resolution = '';
                     }
                 }
+            } elseif (in_array($parts['extension'], $subtitle)) {
+                $type = 'subtitle';
             }
 
             $_filename = "{$parts['filename']}.{$parts['extension']}";
@@ -4720,7 +4761,8 @@ function getValidFormats()
     $video = ['webm', 'mp4', 'm3u8'];
     $audio = ['mp3', 'ogg'];
     $image = ['jpg', 'gif', 'webp'];
-    return array_merge($video, $audio, $image);
+    $subtitle = ['vtt', 'srt'];
+    return array_merge($video, $audio, $image, $subtitle);
 }
 
 function isValidFormats($format)

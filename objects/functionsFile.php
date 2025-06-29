@@ -876,7 +876,7 @@ function globVideosDir($filename, $filesOnly = false, $recreateCache = false)
     }
     $pattern .= "/";
     //_error_log("_glob($dir, $pattern)");
-    //var_dump($dir, $pattern);
+    // var_dump($dir, $pattern);
     return _glob($dir, $pattern, $recreateCache);
 }
 

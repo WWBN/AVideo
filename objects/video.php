@@ -4333,7 +4333,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
-                if (!file_exists($source['path']) || ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10))) {
+                if (!file_exists($source['path']) || ($type !== ".m3u8" && $type !== ".vtt" && $type !== ".srt" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10))) {
                     if (
                         $type !== "_thumbsV2.jpg" &&
                         $type !== "_thumbsSmallV2.jpg" &&
@@ -4677,8 +4677,11 @@ if (!class_exists('Video')) {
                 $cleanName = str_ireplace($value, '', $cleanName);
             }
 
+            $parts = explode('.', $cleanName);
+            $cleanName = $parts[0];
+
             $path_parts = pathinfo($cleanName);
-            //var_dump($filename, $cleanName, $path_parts);
+            //var_dump('___________', $filename, $cleanName, $path_parts);
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
                 if (!empty($path_parts['filename'])) {
