@@ -4678,7 +4678,7 @@ if (!class_exists('Video')) {
             }
 
             $parts = explode('.', $cleanName);
-            $cleanName = $parts[0];
+            $cleanName = str_replace('/index', '', $parts[0]);
 
             $path_parts = pathinfo($cleanName);
             //var_dump('___________', $filename, $cleanName, $path_parts);
