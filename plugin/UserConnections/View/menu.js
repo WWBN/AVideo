@@ -1,3 +1,5 @@
+const { set } = require("video.js/dist/types/tech/middleware");
+
 var currentFontsize = 100;
 var connectionMenuJustDrag = false;
 
@@ -22,6 +24,21 @@ $(function () {
     setConnectionMenuTop();
 
     loadConnectionsList();
+
+    adjustConnectionMenuPosition();
+    setTimeout(function () {
+        adjustConnectionMenuPosition();
+    }, 1000);
+    $(window).resize(function () {
+        if (!connectionMenuJustDrag) {
+            adjustConnectionMenuPosition();
+        }
+    });
+    $(window).scroll(function () {
+        if (!connectionMenuJustDrag) {
+            adjustConnectionMenuPosition();
+        }
+    });
 
     // Close connection menu when clicking outside of it
     $(document).on('click', function (event) {
@@ -58,18 +75,20 @@ function setConnectionMenuTop() {
         console.log('setConnectionMenuTop', connectionMenuTop);
         $("#connectionMenu-toolbar-toggle").css("top", connectionMenuTop + 'px');
     }
+    $("#connectionMenu-toolbar-toggle").show();
 
+}
+
+function adjustConnectionMenuPosition() {
     const divVideo = $('#mvideo');
-    if(divVideo.length > 0){
+    if (divVideo.length > 0) {
         const divConTop = $('#connectionMenu-toolbar-toggle').offset().top;
         const bottom = divVideo.offset().top + divVideo.outerHeight();
 
-        if(divConTop < bottom && divConTop > bottom-100){
+        if (divConTop < bottom && divConTop > bottom - 100) {
             $("#connectionMenu-toolbar-toggle").css("top", (bottom + 10) + 'px');
         }
     }
-
-    $("#connectionMenu-toolbar-toggle").show();
 }
 
 // Function to load connections list via AJAX
