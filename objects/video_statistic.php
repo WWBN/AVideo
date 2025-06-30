@@ -211,6 +211,14 @@ class VideoStatistic extends ObjectYPT
 
         $this->json = ($this->json);
 
+        if(empty($this->user_agent) && !empty($_SERVER['HTTP_USER_AGENT'])){
+            $this->user_agent = ($_SERVER['HTTP_USER_AGENT']);
+        }
+
+        if(empty($this->app) && !empty($_SERVER['platform'])){
+            $this->app = ($_SERVER['platform']);
+        }
+
         if (empty($this->id)) {
             $this->rewarded = 0;
             $row = self::getLastStatistics($this->videos_id, $this->users_id, getRealIpAddr(), session_id());
