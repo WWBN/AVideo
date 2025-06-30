@@ -138,8 +138,6 @@ class VideoStatistic extends ObjectYPT
             $vs->setUsers_id($users_id);
             $vs->setVideos_id($videos_id);
             $vs->setWhen(date("Y-m-d h:i:s"));
-            $vs->setUser_agent($_SERVER['HTTP_USER_AGENT']);
-            $vs->setApp(@$_REQUEST['platform']);
         } else {
             //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
             $vs = new VideoStatistic($lastStatistic['id']);
@@ -215,8 +213,12 @@ class VideoStatistic extends ObjectYPT
             $this->user_agent = ($_SERVER['HTTP_USER_AGENT']);
         }
 
-        if(empty($this->app) && !empty($_SERVER['platform'])){
+        if(empty($this->app)){
+            if(!empty($_SERVER['platform'])){
             $this->app = ($_SERVER['platform']);
+            }else if(!empty($_SERVER['HTTP_USER_AGENT'])){
+                $this->app = getUserAgentInfo($_SERVER['HTTP_USER_AGENT']);
+            }
         }
 
         if (empty($this->id)) {
