@@ -11,6 +11,11 @@ if (!User::isLogged()) {
 $users_id = !empty($_GET['users_id']) ? $_GET['users_id'] : User::getId();
 $_page = new Page(array('History'));
 ?>
+<style>
+.bootgrid-table td{
+    white-space: unset;
+}
+</style>
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading" style="height: 70px;">
