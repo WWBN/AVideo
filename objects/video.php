@@ -4677,8 +4677,11 @@ if (!class_exists('Video')) {
                 $cleanName = str_ireplace($value, '', $cleanName);
             }
 
-            $parts = explode('.', $cleanName);
-            $cleanName = str_replace('/index', '', $parts[0]);
+            if(!preg_match('/_YPTuniqid_/', $cleanName)){
+                // this is to make sure it is backwards compatible with old files
+                $parts = explode('.', $cleanName);
+                $cleanName = str_replace('/index', '', $parts[0]);
+            }
 
             $path_parts = pathinfo($cleanName);
             //var_dump('___________', $filename, $cleanName, $path_parts);
