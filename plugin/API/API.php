@@ -2834,6 +2834,12 @@ class API extends PluginAbstract
         ]
     )]
 
+    public function set_api_user($parameters)
+    {
+        // this is necessary when we post a username and password
+        return $this->get_api_user($parameters);
+    }
+
     public function get_api_user($parameters)
     {
         global $global;
