@@ -10,6 +10,11 @@ if (!User::isAdmin()) {
 
 $_page = new Page(array('Pending Requests'));
 ?>
+<style>
+.bootgrid-table td{
+    white-space: unset;
+}
+</style>
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading">
