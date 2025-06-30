@@ -58,6 +58,17 @@ function setConnectionMenuTop() {
         console.log('setConnectionMenuTop', connectionMenuTop);
         $("#connectionMenu-toolbar-toggle").css("top", connectionMenuTop + 'px');
     }
+
+    const divVideo = $('#mvideo');
+    if(divVideo.length > 0){
+        const divConTop = $('#connectionMenu-toolbar-toggle').offset().top;
+        const bottom = divVideo.offset().top + divVideo.outerHeight();
+
+        if(divConTop < bottom && divConTop > bottom-100){
+            $("#connectionMenu-toolbar-toggle").css("top", (bottom + 10) + 'px');
+        }
+    }
+
     $("#connectionMenu-toolbar-toggle").show();
 }
 
@@ -77,7 +88,7 @@ function loadConnectionsList() {
                 // Iterate through the connections and create list items
                 $.each(connectionsList, function (index, connection) {
                     var listItem = `
-                        <li class="list-group-item d-flex justify-content-between align-items-center">                        
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="btn-group btn-group-justified" role="group">
                                 <a href="${connection.channelLink}" class="btn btn-primary btn-xs">
                                     <img src="${webSiteRootURL}user/${connection.friend_users_id}/foto.png" class="img img-responsive img-rounded pull-left" alt="User Photo">
