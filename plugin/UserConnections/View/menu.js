@@ -1,5 +1,3 @@
-const { set } = require("video.js/dist/types/tech/middleware");
-
 var currentFontsize = 100;
 var connectionMenuJustDrag = false;
 
