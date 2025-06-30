@@ -1549,6 +1549,9 @@ class API extends PluginAbstract
             $rows = Video::getVideoFromCleanTitle($parameters['clean_title']);
             $totalRows = empty($rows) ? 0 : 1;
         } else {
+            if(empty($_GET['sort']) && empty($_REQUEST['sort']) && empty($_POST['sort'])){
+                $_POST['sort'] = array('created' => 'desc');
+            }
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
             /*
