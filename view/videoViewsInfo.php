@@ -89,6 +89,7 @@ $_page->loadBasicCSSAndJS();
                         <th>When</th>
                         <th>Time</th>
                         <th>Location</th>
+                        <th>Device</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -97,6 +98,7 @@ $_page->loadBasicCSSAndJS();
                         <th>When</th>
                         <th>Time</th>
                         <th>Location</th>
+                        <th>Device</th>
                     </tr>
                 </tfoot>
             </table>
@@ -147,6 +149,12 @@ $_page->loadBasicCSSAndJS();
                     orderable: false,
                     render: function(data, type, row) {
                         return row.location_name
+                    }
+                },
+                {
+                    data: 'app',
+                    render: function(data, type, row) {
+                        return row.app
                     }
                 }
             ],
