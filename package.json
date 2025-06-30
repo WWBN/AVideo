@@ -3,7 +3,7 @@
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@fullcalendar/core": "^6.1.17",
     "@fullcalendar/daygrid": "^6.1.18",
-    "@fullcalendar/interaction": "^6.1.17",
+    "@fullcalendar/interaction": "^6.1.18",
     "@fullcalendar/list": "^6.1.17",
     "@fullcalendar/timegrid": "^6.1.17",
     "@fullcalendar/timeline": "^6.1.18",
