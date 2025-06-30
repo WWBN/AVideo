@@ -287,6 +287,9 @@ $global['overrideNative'] = 1;
                 case 'pausePlayer':
                     player.pause();
                     break;
+                case 'playPlayer':
+                    player.play();
+                    break;
                 case 'playerMute':
                     player.muted(true);
                     break;

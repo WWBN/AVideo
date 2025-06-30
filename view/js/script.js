@@ -1500,11 +1500,41 @@ function closeFullscreenVideo() {
 }
 
 // Listen for messages from child frames
+var player = videojs('my-video');
+
 window.addEventListener('message', function (event) {
-    if (event.data === 'closeFullscreen') {
-        closeFullscreenVideo();
+    if (!player) {
+        console.warn('Video.js player is not initialized.');
+        return;
+    }
+
+    switch (event.data) {
+        case 'play':
+            player.play();
+            break;
+        case 'pause':
+            player.pause();
+            break;
+        case 'stop':
+            player.pause();
+            player.currentTime(0);
+            break;
+        case 'mute':
+            player.muted(true);
+            break;
+        case 'unmute':
+            player.muted(false);
+            break;
+        case 'closeFullscreen':
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            break;
+        default:
+            console.log('Unknown command:', event.data);
     }
 });
+
 
 function avideoModalIframeCloseToastSuccess(msg) {
     avideoModalIframeClose();
