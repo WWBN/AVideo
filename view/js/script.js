@@ -1499,9 +1499,6 @@ function closeFullscreenVideo() {
     avideoModalIframeClose();
 }
 
-// Listen for messages from child frames
-var player = videojs('my-video');
-
 window.addEventListener('message', function (event) {
     if (!player) {
         console.warn('Video.js player is not initialized.');
