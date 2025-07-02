@@ -373,7 +373,7 @@ class Category
         }
         $sql = "SELECT * FROM categories c WHERE 1=1 ";
         if($hideNegativeOrder){
-            $sql = " AND (c.order IS NULL OR c.order >= 0) "; // this is a tricky to not display some categories, for example will not show on sidebar
+            $sql .= " AND (c.order IS NULL OR c.order >= 0) "; // this is a tricky to not display some categories, for example will not show on sidebar
         }
 
         if (!empty($_GET['parentsOnly'])) {
