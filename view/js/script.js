@@ -1358,8 +1358,8 @@ function _avideoToast(msg, icon, displayTime = 0) {
             displayTime = Math.max(readingTimeInSeconds * 1000 + 2000, 7000); // Minimum display time of 7000ms
 
         }
-        var options = { text: msg, hideAfter: displayTime};
-        if(toastPosition && toastPosition !== 'undefined') {
+        var options = { text: msg, hideAfter: displayTime };
+        if (toastPosition && toastPosition !== 'undefined') {
             options.position = toastPosition;
         }
         if (icon) {
@@ -1523,9 +1523,7 @@ window.addEventListener('message', function (event) {
             player.muted(false);
             break;
         case 'closeFullscreen':
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            }
+            closeFullscreenVideo();
             break;
         default:
             console.log('Unknown command:', event.data);
