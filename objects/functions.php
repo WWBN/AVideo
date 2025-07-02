@@ -1274,8 +1274,8 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
             }
             if ($parts['basename'] == 'index.mp3') {
                 $_filename = "index.mp3";
-                $source['url'] = str_replace("{$parts['filename']}.mp3", 'index.mp3', $source['url']);
-                $source['url_noCDN'] = str_replace("{$parts['filename']}.mp3", 'index.mp3', $source['url_noCDN']);
+                $source['url'] = str_replace(array("{$parts['filename']}/{$parts['filename']}", "{$parts['filename']}.mp3"), array($parts['filename'], 'index.mp3'), $source['url']);
+                $source['url_noCDN'] = str_replace(array("{$parts['filename']}/{$parts['filename']}", "{$parts['filename']}.mp3"), array($parts['filename'], 'index.mp3'), $source['url_noCDN']);
             }
 
             $_file = [
