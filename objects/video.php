@@ -4232,9 +4232,6 @@ if (!class_exists('Video')) {
                     _error_log("getSourceFile $filename $type");
                 }
                 if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && (!empty($site) || ($indexMP3Exits || $indexMP4Exits)) && (empty($yptStorage) || $site->getUrl() == 'url/')) {
-                    if (!empty($global['debug'])) {
-                        _error_log("getSourceFile $filename $type line=" . __LINE__);
-                    }
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
                     } else if ($indexMP3Exits) {
@@ -4245,6 +4242,9 @@ if (!class_exists('Video')) {
                         $f = "{$paths['relative']}{$filename}{$type}";
                     }
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
+                    if (!empty($global['debug'])) {
+                        _error_log("getSourceFile $filename $f line=" . __LINE__);
+                    }
                     $source['url'] = CDNStorage::getURL($f);
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                     //$source['url'] = addQueryStringParameter($source['url'], 'cache', uniqid());
