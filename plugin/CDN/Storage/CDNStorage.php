@@ -1219,15 +1219,21 @@ class CDNStorage
         }
 
         $paths = Video::getPaths($filename);
-        if(!preg_match('/index.mp[34]$/', $paths['path'])){
-            $file = $paths['path'] . $filename;
+        if(preg_match('/(index.mp[34])$/', $paths['path'], $match) || preg_match('/(index.mp[34])$/', $paths['videoFilename'], $match)){
+            $file = $paths['path'] . $match[0];
         }else{
-            $file = $paths['path'];
-        }
-        if (!file_exists($file)) {
             $file = $paths['path'] . $filename;
         }
         if (!file_exists($file)) {
+            if(!empty($global['debug'] )){
+                _error_log("getURL not found $file line=".__LINE__);
+            }
+            $file = $paths['path'] . $filename;
+        }
+        if (!file_exists($file)) {
+            if(!empty($global['debug'] )){
+                _error_log("getURL not found $file line=".__LINE__);
+            }
             $file = $paths['path'] . 'index.m3u8';
         }
         if (is_dir($file)) {
