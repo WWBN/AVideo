@@ -582,7 +582,7 @@ $tToleranceSide = 0.2;
                     }
 
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
-                    $categories = Category::getAllCategories(false, true, $advancedCustom->CategoryShowOnlySuggested, $sameUserGroupAsMe);
+                    $categories = Category::getAllCategories(false, true, $advancedCustom->CategoryShowOnlySuggested, $sameUserGroupAsMe, true);
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                     echo "<!-- categories found " . count($categories) . " -->";
                     foreach ($categories as $value) {

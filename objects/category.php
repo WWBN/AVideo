@@ -365,14 +365,17 @@ class Category
         //_error_log("deleteCategoryCache: {$cacheDir} = " . json_encode($rrmdir));
     }
 
-    public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false)
+    public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false, $hideNegativeOrder = false)
     {
         global $global, $config;
         if ($config->currentVersionLowerThen('8.4')) {
             return false;
         }
         $sql = "SELECT * FROM categories c WHERE 1=1 ";
-        $sql = " AND (c.order IS NULL OR c.order >= 0) "; // this is a tricky to not display some categories
+        if($hideNegativeOrder){
+            $sql = " AND (c.order IS NULL OR c.order >= 0) "; // this is a tricky to not display some categories, for example will not show on sidebar
+        }
+
         if (!empty($_GET['parentsOnly'])) {
             $sql .= "AND parentId = 0 ";
         }
