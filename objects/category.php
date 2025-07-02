@@ -372,6 +372,7 @@ class Category
             return false;
         }
         $sql = "SELECT * FROM categories c WHERE 1=1 ";
+        $sql = " AND (c.order IS NULL OR c.order >= 0) "; // this is a tricky to not display some categories
         if (!empty($_GET['parentsOnly'])) {
             $sql .= "AND parentId = 0 ";
         }
@@ -454,7 +455,7 @@ class Category
 
         $sql .= BootGrid::getSqlFromPost(['name'], "", " ORDER BY `order`, name ASC ");
         if (!empty($_GET['debug'])) {
-            //echo $sql;exit;   
+            //echo $sql;exit;
         }
 
         $timeLogName = TimeLogStart("getAllCategories");
