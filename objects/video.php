@@ -4229,7 +4229,7 @@ if (!class_exists('Video')) {
                 }
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
 
-                if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && (!empty($site) || ($type == '.mp3' || $type == '.mp4')) && (empty($yptStorage) || $site->getUrl() == 'url/')) {
+                if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && (!empty($site) || ($indexMP3Exits || $indexMP4Exits)) && (empty($yptStorage) || $site->getUrl() == 'url/')) {
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
                     } else if ($indexMP3Exits) {
