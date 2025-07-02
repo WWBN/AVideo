@@ -974,6 +974,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false)
         }
 
         $files["mp3"] = [
+            'original_filename' => $fileName,
             'filename' => $filename,
             'path' => $path,
             'url' => $url,
