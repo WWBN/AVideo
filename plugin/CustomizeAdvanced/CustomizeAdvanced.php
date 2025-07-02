@@ -30,7 +30,7 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getPluginVersion() {
         return "1.0";
     }
-    
+
     public static function getDataObjectDeprecated() {
         return array(
             'EnableMinifyJS',
@@ -41,13 +41,13 @@ class CustomizeAdvanced extends PluginAbstract {
             'embedBackgroundColor',
             );
     }
-    
+
     public static function getDataObjectExperimental() {
         return array(
             'autoPlayAjax',
         );
     }
-    
+
     public static function getDataObjectAdvanced() {
         return array(
             'logoMenuBarURL',
@@ -172,7 +172,7 @@ class CustomizeAdvanced extends PluginAbstract {
             'ffmpegParameters',
             );
     }
-    
+
     public function getEmptyDataObject() {
         global $global, $statusThatTheUserCanUpdate, $advancedCustom;
         $obj = new stdClass();
@@ -244,7 +244,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotUseXsendFile = false;
         $obj->makeVideosInactiveAfterEncode = false;
         $obj->makeVideosUnlistedAfterEncode = false;
-        
+
         $o = new stdClass();
         $o->type = array();
         if(empty($statusThatTheUserCanUpdate)){
@@ -255,9 +255,9 @@ class CustomizeAdvanced extends PluginAbstract {
             $statusColor = $value[1];
             $o->type[$statusIndex] = Video::$statusDesc[$statusIndex];
         }
-        
+
         $dbObject = PluginAbstract::getObjectDataFromDatabase($this->getUUID());
-        
+
         if (!empty($dbObject->makeVideosInactiveAfterEncode)) {
             $o->value = Video::$statusInactive;
         } elseif (!empty($dbObject->makeVideosUnlistedAfterEncode)) {
@@ -267,15 +267,15 @@ class CustomizeAdvanced extends PluginAbstract {
         }
         $obj->defaultVideoStatus = $o;
         self::addDataObjectHelper('defaultVideoStatus', 'Default video status', 'When you submit a video that will be the default status');
-        
+
         $obj->usePermalinks = false;
         self::addDataObjectHelper('usePermalinks', 'Do not show video title on URL', 'This option is not good for SEO, but makes the URL clear');
-              
-        $o = new stdClass();  
+
+        $o = new stdClass();
         $o->type = array(0 => 'Short URL', 1 => 'URL+Channel Name', 2 => 'URL+Channel+Title');
         $o->value = 1;
         $obj->canonicalURLType = $o;
-        
+
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
         $obj->EnableMinifyJS = false;
@@ -367,6 +367,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowLeftTrendingButton = false;
 
         $obj->CategoryLabel = "Categories";
+        $obj->CategoryShowOnlySuggested = false;
         $obj->ShowAllVideosOnCategory = false;
         $obj->hideCategoryVideosCount = false;
         $obj->hideEditAdvancedFromVideosManager = false;
@@ -375,7 +376,7 @@ class CustomizeAdvanced extends PluginAbstract {
         //ver 7.1
         $obj->paidOnlyUsersTellWhatVideoIs = false;
         self::addDataObjectHelper('paidOnlyUsersTellWhatVideoIs', 'Only Paid Users Can see option', 'This will create an option on videos manager to only let paid users to see this video');
-        
+
         $obj->paidOnlyShowLabels = false;
         $obj->paidOnlyLabel = "Premium";
         $obj->paidOnlyFreeLabel = "Free";
@@ -460,40 +461,40 @@ Disallow: *action=tagsearch*
 ";
         $obj->robotsTXT = $o;
         self::addDataObjectHelper('robotsTXT', 'robots.txt file content', 'robots.txt is a plain text file that follows the Robots Exclusion Standard. A robots.txt file consists of one or more rules. Each rule blocks (or allows) access for a given crawler to a specified file path in that website.');
-        
+
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";
         $obj->beforeNavbar = $o;
         self::addDataObjectHelper('beforeNavbar', 'Add some code before the navbar HTML');
-        
-        
+
+
         $o = new stdClass();
         $o->type = array(1 => __("1 Day"), 10 => __("10 Days"), 15 => __("15 Days"), 20 => __("20 Days"), 25 => __("25 Days"), 30 => __("30 Days"), 60 => __("60 Days"));
         $o->value = 30;
         $obj->trendingOnLastDays = $o;
         self::addDataObjectHelper('trendingOnLastDays', 'Trending Days', 'For the result of trending videos, use the statistics contained in the last few days');
 
-        
+
         $obj->removeVideoList = false;
         $o = new stdClass();
         $o->type = array(
-            'titleAZ' => __("Title (A-Z)"), 
-            'titleZA' => __("Title (Z-A)"), 
-            'newest' => __("Date added (newest)"), 
-            'oldest' => __("Date added (oldest)"), 
-            'popular' => __("Most popular"), 
-            'views_count' => __("Most watched"), 
-            'suggested' => __("Suggested"), 
+            'titleAZ' => __("Title (A-Z)"),
+            'titleZA' => __("Title (Z-A)"),
+            'newest' => __("Date added (newest)"),
+            'oldest' => __("Date added (oldest)"),
+            'popular' => __("Most popular"),
+            'views_count' => __("Most watched"),
+            'suggested' => __("Suggested"),
             'trending' => __("Trending")
             );
         $o->value = 'newest';
         $obj->sortVideoListByDefault = $o;
         self::addDataObjectHelper('sortVideoListByDefault', 'Sort Video List By Default');
-        
+
         $obj->showVideoDownloadedLink = false;
         self::addDataObjectHelper('showVideoDownloadedLink', 'Show video Downloaded Link', 'Show the video source URL above the video description');
-        
+
         $obj->videosForKids = true;
 
 
@@ -502,14 +503,14 @@ Disallow: *action=tagsearch*
 
         $obj->disableFeeds = false;
 
-        $obj->ffmpegParameters = "-c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k";   
-        
+        $obj->ffmpegParameters = "-c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k";
+
         return $obj;
     }
-    
+
     static function showDirectUploadButton(){
-        global $_showDirectUploadButton;        
-        if(!isset($_showDirectUploadButton)){        
+        global $_showDirectUploadButton;
+        if(!isset($_showDirectUploadButton)){
             $obj = AVideoPlugin::getDataObject('CustomizeAdvanced');
             if(empty($obj->doNotShowUploadMP4Button)){
                 if(!empty(self::directUploadFiletypes())){
@@ -517,16 +518,16 @@ Disallow: *action=tagsearch*
                 }else{
                     $_showDirectUploadButton = false;
                 }
-            }else{               
+            }else{
                 $_showDirectUploadButton = false;
             }
         }
         return $_showDirectUploadButton;
     }
-    
+
     static function directUploadFiletypes(){
-        global $_directUploadFiletypes;        
-        if(!isset($_directUploadFiletypes)){  
+        global $_directUploadFiletypes;
+        if(!isset($_directUploadFiletypes)){
             $_directUploadFiletypes = array();
             $obj = AVideoPlugin::getDataObject('CustomizeAdvanced');
             if(empty($obj->disablePDFUpload)){
@@ -547,7 +548,7 @@ Disallow: *action=tagsearch*
         }
         return $_directUploadFiletypes;
     }
-    
+
     public function navBar() {
         $obj = $this->getDataObject();
         $str = '';
@@ -566,16 +567,16 @@ Disallow: *action=tagsearch*
 
     public function getModeYouTube($videos_id) {
         global $global, $config;
-        
+
         $redirectVideo = self::getRedirectVideo($videos_id);
         //var_dump($redirectVideo);exit;
         if(!empty($redirectVideo) && !empty($redirectVideo->code) && isValidURL($redirectVideo->url) && getSelfURI() !== $redirectVideo->url){
             header("Location: {$redirectVideo->url}", true, $redirectVideo->code);
             exit;
         }
-        
+
         $obj = $this->getDataObject();
-        
+
         self::createMP3($videos_id);
 
         $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, true);
@@ -694,7 +695,7 @@ Disallow: *action=tagsearch*
         self::createMP3($videos_id);
         return false;
     }
-    
+
     public static function createMP3($videos_id){
         $obj = AVideoPlugin::getDataObject('CustomizeAdvanced');
         if($obj->autoConvertVideosToMP3){
@@ -738,7 +739,7 @@ Disallow: *action=tagsearch*
             self::setShortSummaryAndMetaDescriptionVideo($videos_id,@$post['ShortSummary'], @$post['MetaDescription']);
         }
     }
-    
+
     public static function setDoNotShowAds($videos_id, $doNotShowAdsOnThisVideo) {
         if (!Permissions::canAdminVideos()) {
             return false;
@@ -752,7 +753,7 @@ Disallow: *action=tagsearch*
         $video->setExternalOptions(json_encode($externalOptions));
         return $video->save();
     }
-    
+
     public static function setDoNotShowAdsOnChannel($videos_id, $doNotShowAdsOnThisChannel) {
         if (!Permissions::canAdminVideos()) {
             return false;
@@ -768,7 +769,7 @@ Disallow: *action=tagsearch*
         $externalOptions = _json_decode($video->getExternalOptions());
         return !empty($externalOptions->doNotShowAdsOnThisVideo);
     }
-    
+
     public static function getDoNotShowAdsChannel($videos_id): bool {
         $video = new Video('', '', $videos_id);
         $users_id = $video->getUsers_id();
@@ -776,7 +777,7 @@ Disallow: *action=tagsearch*
         $externalOptions = object_to_array(_json_decode(User::decodeExternalOption($user->_getExternalOptions())));
         return !empty($externalOptions['doNotShowAdsOnThisChannel']);
     }
-    
+
     public static function setRedirectVideo($videos_id, $code, $url) {
         if (!Permissions::canAdminVideos()) {
             return false;
@@ -796,7 +797,7 @@ Disallow: *action=tagsearch*
         $externalOptions = _json_decode($video->getExternalOptions());
         return @$externalOptions->redirectVideo;
     }
-    
+
     public static function setShortSummaryAndMetaDescriptionVideo($videos_id, $ShortSummary, $MetaDescription) {
         if (!Video::canEdit($videos_id)) {
             return false;
@@ -816,11 +817,11 @@ Disallow: *action=tagsearch*
         $externalOptions = _json_decode($video->getExternalOptions());
         return @$externalOptions->SEO;
     }
-    
+
     public function showAds($videos_id): bool {
         return !self::getDoNotShowAdsChannel($videos_id) && !self::getDoNotShowAds($videos_id);
     }
-    
+
     public function getGalleryActionButton($videos_id) {
         global $global;
         include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/actionButtonGallery.php';
@@ -933,7 +934,7 @@ class SocialMedias {
     function setOnclick($onclick): void {
         $this->onclick = $onclick;
     }
-    
+
 }
 
 $global['social_medias'] = array(
