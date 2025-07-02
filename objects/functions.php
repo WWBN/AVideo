@@ -956,6 +956,9 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false)
     if (empty($fileName)) {
         return [];
     }
+    if(!empty($global['debug'])){
+        _error_log("getVideosURLAudio $fileName");
+    }
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
