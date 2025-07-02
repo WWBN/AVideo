@@ -1500,28 +1500,28 @@ function closeFullscreenVideo() {
 }
 
 window.addEventListener('message', function (event) {
-    if (!player) {
-        console.warn('Video.js player is not initialized.');
-        return;
+    if (player) {
+        switch (event.data) {
+            case 'play':
+                player.play();
+                break;
+            case 'pause':
+                player.pause();
+                break;
+            case 'stop':
+                player.pause();
+                player.currentTime(0);
+                break;
+            case 'mute':
+                player.muted(true);
+                break;
+            case 'unmute':
+                player.muted(false);
+                break;
+        }
     }
 
     switch (event.data) {
-        case 'play':
-            player.play();
-            break;
-        case 'pause':
-            player.pause();
-            break;
-        case 'stop':
-            player.pause();
-            player.currentTime(0);
-            break;
-        case 'mute':
-            player.muted(true);
-            break;
-        case 'unmute':
-            player.muted(false);
-            break;
         case 'closeFullscreen':
             closeFullscreenVideo();
             break;
