@@ -4228,8 +4228,13 @@ if (!class_exists('Video')) {
                     $site = new Sites($video['sites_id']);
                 }
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
-
+                if (!empty($global['debug'])) {
+                    _error_log("getSourceFile $filename $type");
+                }
                 if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && (!empty($site) || ($indexMP3Exits || $indexMP4Exits)) && (empty($yptStorage) || $site->getUrl() == 'url/')) {
+                    if (!empty($global['debug'])) {
+                        _error_log("getSourceFile $filename $type line=" . __LINE__);
+                    }
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
                     } else if ($indexMP3Exits) {
@@ -4677,7 +4682,7 @@ if (!class_exists('Video')) {
                 $cleanName = str_ireplace($value, '', $cleanName);
             }
 
-            if(!preg_match('/_YPTuniqid_/', $cleanName)){
+            if (!preg_match('/_YPTuniqid_/', $cleanName)) {
                 // this is to make sure it is backwards compatible with old files
                 $parts = explode('.', $cleanName);
                 $cleanName = str_replace('/index', '', $parts[0]);
@@ -7504,7 +7509,7 @@ if (!class_exists('Video')) {
             }
 
             $imageExt = preg_replace('/[^a-zA-Z0-9]/', '', $imageExt);
-            $imageName = $prefix .'_'. uniqid() . ".{$imageExt}";
+            $imageName = $prefix . '_' . uniqid() . ".{$imageExt}";
             $relativeDir = Video::getVideoLibRelativePath($videos_id);
             $path = "{$global['systemRootPath']}{$relativeDir}{$imageName}";
 
@@ -7515,7 +7520,6 @@ if (!class_exists('Video')) {
                 _error_log("Video::saveImageInVideoLib({$videos_id}, {$imageExt}) could not save in {$path}");
                 return false;
             }
-
         }
 
         static function getVideoLibRelativePath($videos_id)
@@ -7530,7 +7534,6 @@ if (!class_exists('Video')) {
 
             $relativeDir = "videos/{$video['filename']}/images/";
             return $relativeDir;
-
         }
 
         static function listAllImagesInVideoLib($videos_id)
@@ -7562,8 +7565,6 @@ if (!class_exists('Video')) {
                 }
             }
             return $images;
-
-
         }
     }
 }
