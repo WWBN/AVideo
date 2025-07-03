@@ -1681,6 +1681,17 @@ if (!class_exists('Video')) {
                 return array();
             }
 
+            $serie_playlists_id = $video['serie_playlists_id'];
+            if(empty($serie_playlists_id) && !empty($_REQUEST['serie_playlists_id'])){
+                $serie_playlists_id = intval($video['serie_playlists_id']);
+            }
+            if(!empty($serie_playlists_id)){
+                unset($_REQUEST['serie_playlists_id']);
+                $videosArrayId = PlayList::getVideosIdFromPlaylist($serie_playlists_id);
+                $rows = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+                return PlayList::sortVideos($rows, $videosArrayId);
+            }
+
             $rows = [];              // Will store the final list of videos
             $usedVideoIDs = [];      // Will store IDs to avoid duplicates
 
