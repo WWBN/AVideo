@@ -30,6 +30,7 @@ $content = url_get_contents_with_cache($objMM->firstPageEndpoint, 600, "", 0, fa
 
 $objMM->firstPage = _json_decode($content);
 
+$objMM->disableNativeSignUp = $customizeUser->disableNativeSignUp;
 $objMM->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
 
 $objMM->userMustBeLoggedIn = $customizeUser->userMustBeLoggedIn || $objMM->doNotAllowAnonimusAccess;
