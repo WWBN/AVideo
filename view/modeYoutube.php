@@ -283,8 +283,8 @@ if (!empty($evideo)) {
         $s = getVideosURL_V2($autoPlayVideo['filename']);
         $autoPlaySources = getSources($autoPlayVideo['filename'], true);
         $autoPlayURL = $autoPlayVideo['url'];
-        $autoPlayPoster = $s['jpg_thumbsV2']['jpg'];
-        $autoPlayThumbsSprit = $s['jpg_thumbsSprit']['url'];
+        $autoPlayPoster = empty($s['jpg_thumbsV2'])? (empty($s['jpg'])? '' : $s['jpg']['url']) : $s['jpg_thumbsV2']['url'];
+        $autoPlayThumbsSprit = empty($s['jpg_thumbsSprit'])? '' : $s['jpg_thumbsSprit']['url'];
     } else {
         $autoPlaySources = [];
         $autoPlayURL = '';
