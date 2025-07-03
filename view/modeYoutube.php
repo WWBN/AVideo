@@ -280,10 +280,11 @@ if (!empty($evideo)) {
     $modeYouTubeTimeLog['Code part 3'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
     if (!empty($autoPlayVideo) && !empty($autoPlayVideo['filename'])) {
+        $s = getVideosURL_V2($autoPlayVideo['filename']);
         $autoPlaySources = getSources($autoPlayVideo['filename'], true);
         $autoPlayURL = $autoPlayVideo['url'];
-        $autoPlayPoster = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
-        $autoPlayThumbsSprit = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}_thumbsSprit.jpg";
+        $autoPlayPoster = $s['jpg_thumbsV2']['jpg'];
+        $autoPlayThumbsSprit = $s['jpg_thumbsSprit']['url'];
     } else {
         $autoPlaySources = [];
         $autoPlayURL = '';
