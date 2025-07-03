@@ -4000,6 +4000,8 @@ class API extends PluginAbstract
             if(empty($_REQUEST['captcha'])){
                 return new ApiObject("Captcha is required");
             }
+
+            require_once $global['systemRootPath'] . 'objects/captcha.php';
             $valid = Captcha::validation($_REQUEST['captcha']);
             if(!$valid){
                 return new ApiObject("Captcha is wrong");
