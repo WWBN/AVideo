@@ -38,6 +38,7 @@ if (empty($ignoreCaptcha)) {
     $valid = Captcha::validation($_POST['captcha']);
     if (!$valid) {
         $obj->error = __("The captcha is wrong");
+        $obj->error .= ', '.__("Reload the captcha and try again");
         die(json_encode($obj));
     }
 }
