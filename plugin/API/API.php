@@ -3997,7 +3997,13 @@ class API extends PluginAbstract
         $this->getToPost();
         $obj = $this->getDataObject();
         if ($obj->APISecret !== @$_GET['APISecret']) {
-            return new ApiObject("APISecret Not valid");
+            if(empty($_REQUEST['captcha'])){
+                return new ApiObject("Captcha is required");
+            }
+            $valid = Captcha::validation($_REQUEST['captcha']);
+            if(!$valid){
+                return new ApiObject("Captcha is wrong");
+            }
         }
         $ignoreCaptcha = 1;
         if (isset($_REQUEST['emailVerified'])) {
@@ -4014,6 +4020,10 @@ class API extends PluginAbstract
         }
         require_once $global['systemRootPath'] . 'objects/userCreate.json.php';
         exit;
+    }
+
+    public function get_api_signUp($parameters){
+        return $this->set_api_signUp($parameters);
     }
 
     /**
