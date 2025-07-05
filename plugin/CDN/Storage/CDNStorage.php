@@ -1403,10 +1403,10 @@ class CDNStorage
             }
         }
         if ($file_exists && isURL200($url, true)) {
-            if(!preg_match('/cdnstorage.cdn.ypt.me/', $localFile)){
+            if(!preg_match('/cdnstorage.cdn.ypt.me/', $url)){
                 // if the local file is a dummy file, then use the storage url
                 if(isDummyFile($localFile)){
-                    _error_log("convertCDNHLSVideoToDownload: before url ($url)");
+                    _error_log("convertCDNHLSVideoToDownload: before url ($url) - {$localFile}");
                     $url = str_replace('.cdn.ypt.me', 'cdnstorage.cdn.ypt.me', $url);
                     $url = str_replace('/videos/', '/', $url);
                 }
