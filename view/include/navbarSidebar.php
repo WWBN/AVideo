@@ -303,7 +303,7 @@ $tToleranceSide = 0.2;
                     <strong class="text-danger hideIfCompressed"><?php echo __("Admin Menu"); ?></strong>
                     <ul class="nav navbar" style="margin-bottom: 10px;">
                         <li>
-                            <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'admin/');
+                            <a id="adminPanelLink" href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'admin/');
                                         return false;">
                                 <i class="fas fa-star"></i>
                                 <span class="menuLabel">

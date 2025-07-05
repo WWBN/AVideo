@@ -251,6 +251,7 @@ if (!empty($includeHead) && file_exists($includeHead)) {
                     $href = 'data-toggle="collapse" data-parent="#accordion" href="#collapse' . $uid . '"';
                     if (!empty($value->href)) {
                         $href = 'href="' . $global['webSiteRootURL'] . 'admin/?page=' . $value->href . '"';
+                        $href .= ' id="page_' . $value->href . '"';
                     }
                     if (!empty($_REQUEST['page']) && $_REQUEST['page'] == $value->href) {
                         $panel = 'panel-primary';
