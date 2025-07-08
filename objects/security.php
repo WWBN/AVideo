@@ -6,7 +6,7 @@ $securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount', 'page'];
 $securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
 $securityRemoveNonCharsStrict = ['APIName','APIPlugin'];
 $securityRemoveNonChars = ['resolution', 'format', 'videoDirectory', 'chunkFile'];
-$filterURL = ['videoURL', 'siteURL', 'redirectUri', 'encoderURL'];
+$filterURL = ['videoURL', 'siteURL', 'redirectUri', 'encoderURL', 'cancelUri'];
 
 if (!empty($_FILES)) {
     foreach ($_FILES as $key => $value) {
