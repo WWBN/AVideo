@@ -1,10 +1,10 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/functions.php';
 // filter some security here
-$securityFilter = ['jump','videoLink','videoDownloadedLink','duration','error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
+$securityFilter = ['jump', 'videoLink', 'videoDownloadedLink', 'duration', 'error', 'msg', 'info', 'warning', 'success', 'toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
 $securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount', 'page'];
 $securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
-$securityRemoveNonCharsStrict = ['APIName','APIPlugin'];
+$securityRemoveNonCharsStrict = ['APIName', 'APIPlugin'];
 $securityRemoveNonChars = ['resolution', 'format', 'videoDirectory', 'chunkFile'];
 $filterURL = ['videoURL', 'siteURL', 'redirectUri', 'encoderURL', 'cancelUri'];
 
@@ -37,16 +37,23 @@ foreach ($scanVars as $value) {
         }
     }
 
-    foreach ($filterURL as $key => $value) {
-        if (!empty($scanThis[$value])) {
-            if (!filter_var($scanThis[$value], FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $scanThis[$value])) {
-                //_error_log($value.' attack ' . json_encode($_SERVER), AVideoLog::$SECURITY);
-                unset($scanThis[$value]);
-            } else {
-                $scanThis[$value] = str_replace(["'", '"', "<", ">"], ["", "", "", ""], $scanThis[$value]);
-            }
+    foreach ($filterURL as $key => $paramName) {
+        if (empty($scanThis[$paramName])) {
+            continue;
         }
+
+        $url = trim($scanThis[$paramName]);
+
+        // Validate the URL format and ensure it starts with http or https
+        if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $url)) {
+            unset($scanThis[$paramName]);
+            continue;
+        }
+
+        // Sanitize the URL for safe output (escaping <, >, ", ')
+        $scanThis[$paramName] = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
     }
+
 
     foreach ($securityRemoveNonChars as $value) {
         if (!empty($scanThis[$value])) {
@@ -80,12 +87,12 @@ foreach ($scanVars as $value) {
         if (!empty($scanThis[$value])) {
             if (is_string($scanThis[$value])) {
                 $scanThis[$value] = fixQuotesIfSafari($scanThis[$value]);
-                $scanThis[$value] = str_replace(["'","`"], ['', ''], trim($scanThis[$value]));
+                $scanThis[$value] = str_replace(["'", "`"], ['', ''], trim($scanThis[$value]));
             } elseif (is_array($scanThis[$value])) {
                 foreach ($scanThis[$value] as $key => $value2) {
                     if (is_string($scanThis[$value][$key])) {
                         $scanThis[$value] = fixQuotesIfSafari($scanThis[$value]);
-                        $scanThis[$value][$key] = str_replace(["'","`"], ['', ''], trim($scanThis[$value][$key]));
+                        $scanThis[$value][$key] = str_replace(["'", "`"], ['', ''], trim($scanThis[$value][$key]));
                     }
                 }
             }
