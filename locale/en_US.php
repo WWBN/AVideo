@@ -160,6 +160,7 @@ $t['Broadcast a Live Streaming'] = 'Broadcast a Live Streaming';
 $t['Broken Missing files'] = 'Broken Missing files';
 $t['Browse Channels'] = 'Browse Channels';
 $t['Browse'] = 'Browse';
+$t['Browse files'] = 'Browse files';
 $t['Bubbles Only'] = 'Bubbles Only';
 $t['Bulk Embed'] = 'Bulk Embed';
 $t['But only admin can download'] = 'But only admin can download';

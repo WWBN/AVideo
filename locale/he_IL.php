@@ -155,6 +155,7 @@ $t['Broadcast a Live Streaming'] = 'שידור הזרמה חיה';
 $t['Broken Missing files'] = 'קבצים חסרים או פגומים';
 $t['Browse Channels'] = 'עיין בערוצים';
 $t['Browse'] = 'עיון';
+$t['Browse files'] = 'עיון בקבצים';
 $t['Bubbles Only'] = 'בועות בלבד';
 $t['Bulk Embed'] = 'הטמעה בקבוצה';
 $t['But only admin can download'] = 'אבל רק מנהל מערכת יכול להוריד';

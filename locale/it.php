@@ -127,6 +127,7 @@ $t['Broadcast a Live Stream'] = 'Trasmetti un live streaming';
 $t['Broadcast a Live Streaming'] = 'Trasmetti un live streaming';
 $t['Browse Channels'] = 'Sfoglia i canali';
 $t['Browse'] = 'Sfoglia';
+$t['Browse files'] = 'Sfoglia i file';
 $t['Bulk Embed'] = 'Incorporamento in blocco';
 $t['But only admin can download'] = 'Ma solo un amministratore può scaricare';
 $t['Buy This Plugin'] = 'Acquista questo plugin';

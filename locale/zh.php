@@ -93,6 +93,7 @@ $t['Broadcast a Live Stream'] = '直播';
 $t['Broadcast a Live Streaming'] = '播放在线流媒体';
 $t['Browse Channels'] = '浏览频道';
 $t['Browse'] = '浏览';
+$t['Browse files'] = '浏览文件';
 $t['Bulk Embed'] = '批量嵌入';
 $t['Buy This Plugin'] = '购买这个插件';
 $t['Buy the Customize plugin now'] = '立即购买自定义插件';

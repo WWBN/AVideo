@@ -48,6 +48,7 @@ $t['Bottom'] = 'Κάτω μέρος';
 $t['Broadcast a Live Streaming'] = 'Εκπομπή ζωντανής ροής';
 $t['Browse Channels'] = 'Αναζήτηση καναλιών';
 $t['Browse'] = 'Περιηγηθείτε';
+$t['Browse files'] = 'Αναζήτηση αρχείων';
 $t['By name'] = 'Με το όνομα';
 $t['Categories'] = 'Κατηγορίες';
 $t['Category Form'] = 'Φόρμα Κατηγορίας';

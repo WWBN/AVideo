@@ -80,6 +80,7 @@ $t['Both'] = 'Ambos';
 $t['Broadcast a Live Stream'] = 'Transmitir  en vivo';
 $t['Browse Channels'] = 'Navegar por Canales';
 $t['Browse'] = 'Navegar';
+$t['Browse files'] = 'Navegar por archivos';
 $t['Bulk Embed'] = 'Embeber un grupo';
 $t['Buy This Plugin'] = 'Compre este complemento';
 $t['By associating groups with this user, they will be able to see all the videos that are related to this group'] = 'Al asociar grupos con este usuario, podrán ver todos los videos relacionados con este grupo.';
