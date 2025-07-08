@@ -105,6 +105,7 @@ $t['Both'] = 'Begge';
 $t['Broadcast a Live Stream'] = 'Broadcast en Live Stream';
 $t['Browse Channels'] = 'Gennemse kanaler';
 $t['Browse'] = 'Gennemse';
+$t['Browse files'] = 'Gennemse filer';
 $t['Bubbles Only'] = 'Kun bobler';
 $t['Bulk Embed'] = 'Bulk Integrer';
 $t['But only admin can download'] = 'Men kun admin kan downloade';

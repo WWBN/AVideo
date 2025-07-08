@@ -76,6 +76,7 @@ $t['Bottom'] = 'Bas';
 $t['Broadcast a Live Streaming'] = 'Diffuser un streaming en direct';
 $t['Browse Channels'] = 'Parcourir les chaînes';
 $t['Browse'] = 'Parcourir';
+$t['Browse files'] = 'Parcourir les fichiers';
 $t['Buy our Backup Plugin Now'] = 'Acheter notre plugin Backup maintenant';
 $t['Buy the Customize plugin now'] = 'Acheter le plugin Customize maintenant';
 $t['Buy this plugin now'] = 'Acheter ce plugin maintenant';

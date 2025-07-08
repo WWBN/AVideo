@@ -59,6 +59,7 @@ $t['Bottom'] = 'Nederst';
 $t['Broadcast a Live Streaming'] = 'Sända en Live Streaming';
 $t['Browse Channels'] = 'Bläddra bland kanaler';
 $t['Browse'] = 'Bläddra';
+$t['Browse files'] = 'Bläddra bland filer';
 $t['By associating groups with this user, they will be able to see all the videos that are related to this group'] = 'Genom att associera grupper med den här användaren kommer de att kunna se alla videor som är relaterade till denna grupp';
 $t['By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video'] = 'Genom att länka grupper till den här videon kommer den inte längre att vara offentlig och bara användare i samma grupp kommer att kunna se den här videon';
 $t['By name'] = 'Efter namn';

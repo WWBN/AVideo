@@ -81,6 +81,7 @@ $t['Bottom'] = 'Unterseite';
 $t['Broadcast a Live Stream'] = 'Übertrage einen Live-Stream';
 $t['Browse Channels'] = 'Kanäle durchsuchen';
 $t['Browse'] = 'Durchsuchen';
+$t['Browse files'] = 'Dateien durchsuchen';
 $t['Bulk Embed'] = 'Masseneinbettung';
 $t['Buy This Plugin'] = 'Diese Erweiterung kaufen';
 $t['By associating groups with this user, they will be able to see all the videos that are related to this group'] = 'Durch die Zuordnung von Gruppen zu diesem Benutzer, kann dieser alle Videos sehen, die dieser Gruppe zugeordnet sind';

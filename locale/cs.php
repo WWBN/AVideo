@@ -57,6 +57,7 @@ $t['Basic Info'] = 'Základní informace';
 $t['Broadcast a Live Stream'] = 'Vysílat živě';
 $t['Browse Channels'] = 'Procházet kanály';
 $t['Browse'] = 'Procházet';
+$t['Browse files'] = 'Procházet soubory';
 $t['Buy our Backup Plugin Now'] = 'Kupte si náš zálohovací zásuvný modul';
 $t['Buy the Customize plugin now'] = 'Kupte si zásuvný modul Customize';
 $t['Buy this plugin now'] = 'Koupit zásuvný modul';
