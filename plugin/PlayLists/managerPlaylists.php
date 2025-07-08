@@ -117,11 +117,12 @@ $_page = new Page(array('Manage playlist'));
                     TimeLogEnd($timeName, __LINE__);
                 }
                 TimeLogEnd($timeName, __LINE__);
+                $PlaylistOwnerUsersId = empty($_REQUEST['PlaylistOwnerUsersId']) ? '' : intval($_REQUEST['PlaylistOwnerUsersId']);
                 ?>
                 <li class="pull-right ">
                     <form class="navbar-form form-inline input-group" role="search" id="searchFormPlaylist" method="get">
                         <input type="search" id="searchPlaylist" name="searchPlaylist" placeholder="<?php echo __('Search Playlist'); ?>" class="form-control" value="<?php echo htmlspecialchars($_REQUEST['searchPlaylist'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
-                        <input type="hidden" name="PlaylistOwnerUsersId" value="<?php echo @$_REQUEST['PlaylistOwnerUsersId']; ?>">
+                        <input type="hidden" name="PlaylistOwnerUsersId" value="<?php echo $PlaylistOwnerUsersId; ?>">
                         <span class="input-group-append">
                             <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit" id="buttonSearchPlaylist">
                                 <i class="fas fa-search faa-shake"></i>
