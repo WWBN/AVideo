@@ -91,6 +91,17 @@ if (!empty($evideo)) {
         $playListData = $plp->getPlayListData();
         //var_dump($playListData);exit;
         if (empty($playListData)) {
+
+            // check if in the playlist there is some media in the playlist_index and reditect it direct to the media
+            $video = $plp->getCurrentVideo();
+            if (!empty($video)) {
+                $url = Video::getURL($video['id']);;
+                if (!empty($url)) {
+                    header('Location: ' . $url);
+                    exit;
+                }
+            }
+
             if (empty($messagesFromPlayList)) {
                 $messagesFromPlayList = array();
             }
@@ -126,8 +137,8 @@ if (!empty($evideo)) {
         if (empty($video) && !empty($videos_id)) {
             $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, false, false, false, true);
             if (!empty($video)) {
-                $attemptLog[] = "Video loaded successfully line=".__LINE__;
-            }else{
+                $attemptLog[] = "Video loaded successfully line=" . __LINE__;
+            } else {
                 $attemptLog[] = "No video found using Video::getVideo with videos_id = $videos_id and show unlisted $lastGetVideoSQL ";
             }
             //var_dump($_GET, $video);exit;
@@ -139,8 +150,8 @@ if (!empty($evideo)) {
         if (empty($video)) {
             $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, false, false, true, true);
             if (!empty($video)) {
-                $attemptLog[] = "Video loaded successfully line=".__LINE__;
-            }else{
+                $attemptLog[] = "Video loaded successfully line=" . __LINE__;
+            } else {
                 $attemptLog[] = "No video found using Video::getVideo Suggested only and show unlisted $lastGetVideoSQL ";
             }
         }
@@ -148,8 +159,8 @@ if (!empty($evideo)) {
         if (empty($video)) {
             $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, false, false, false, true);
             if (!empty($video)) {
-                $attemptLog[] = "Video loaded successfully line=".__LINE__;
-            }else{
+                $attemptLog[] = "Video loaded successfully line=" . __LINE__;
+            } else {
                 $attemptLog[] = "Fallback attempt using Video::getVideo search all videos and show unlisted  $lastGetVideoSQL";
             }
         }
@@ -157,8 +168,8 @@ if (!empty($evideo)) {
         if (empty($video)) {
             $video = AVideoPlugin::getVideo();
             if (!empty($video)) {
-                $attemptLog[] = "Video loaded successfully line=".__LINE__;
-            }else{
+                $attemptLog[] = "Video loaded successfully line=" . __LINE__;
+            } else {
                 $attemptLog[] = "Not found attempt with AVideoPlugin::getVideo failed.  $lastGetVideoSQL";
             }
         }
@@ -283,8 +294,8 @@ if (!empty($evideo)) {
         $s = getVideosURL_V2($autoPlayVideo['filename']);
         $autoPlaySources = getSources($autoPlayVideo['filename'], true);
         $autoPlayURL = $autoPlayVideo['url'];
-        $autoPlayPoster = empty($s['jpg_thumbsV2'])? (empty($s['jpg'])? '' : $s['jpg']['url']) : $s['jpg_thumbsV2']['url'];
-        $autoPlayThumbsSprit = empty($s['jpg_thumbsSprit'])? '' : $s['jpg_thumbsSprit']['url'];
+        $autoPlayPoster = empty($s['jpg_thumbsV2']) ? (empty($s['jpg']) ? '' : $s['jpg']['url']) : $s['jpg_thumbsV2']['url'];
+        $autoPlayThumbsSprit = empty($s['jpg_thumbsSprit']) ? '' : $s['jpg_thumbsSprit']['url'];
     } else {
         $autoPlaySources = [];
         $autoPlayURL = '';
@@ -343,7 +354,7 @@ if (empty($video)) {
                     gotToLoginAndComeBackHere();
                 } else {
                     $msg = 'ERROR 1: The video ID [' . $vid->getId() . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
-                    _error_log($msg. ' filename=' . $vid->getFilename());
+                    _error_log($msg . ' filename=' . $vid->getFilename());
                     videoNotFound($msg);
                 }
                 exit;
