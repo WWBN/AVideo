@@ -62,6 +62,7 @@ $t['Bottom'] = 'Alt';
 $t['Broadcast a Live Streaming'] = 'Canlı Yayın başlat';
 $t['Browse Channels'] = 'Kanalları Göster';
 $t['Browse'] = 'Gözat';
+$t['Browse files'] = 'Dosyaları göster';
 $t['By associating groups with this user, they will be able to see all the videos that are related to this group'] = 'Grupları bu kullanıcıyla ilişkilendirerek, bu grupla ilgili tüm videoları görebilecekler.';
 $t['By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video'] = 'Grupları bu videoya bağlayarak artık herkese açık olmayacak ve yalnızca aynı gruptaki kullanıcılar bu videoyu izleyebilecek';
 $t['By name'] = 'İsime göre';

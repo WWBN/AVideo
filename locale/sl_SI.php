@@ -57,6 +57,7 @@ $t['Bottom'] = 'Spodaj';
 $t['Broadcast a Live Streaming'] = 'Oddajaj prenos v živo';
 $t['Browse Channels'] = 'Razišči kanale';
 $t['Browse'] = 'Razišči';
+$t['Browse files'] = 'Razišči datotekah';
 $t['By name'] = 'Po imenu';
 $t['Can Stream Videos'] = 'Lahko predvaja video posnetke';
 $t['Can Upload Videos'] = 'Lahko nalaga video posnetke';

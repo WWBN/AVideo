@@ -149,6 +149,7 @@ $t['Broadcast a Live Streaming'] = 'Transmisje na żywo';
 $t['Broken Missing files'] = 'Uszkodzone brakujące pliki';
 $t['Browse Channels'] = 'Przeglądaj kanały';
 $t['Browse'] = 'Przeglądaj';
+$t['Browse files'] = 'Przeglądaj pliki';
 $t['Bubbles Only'] = 'Tylko bąbelki';
 $t['Bulk Embed'] = 'Osadź zbiorczo';
 $t['But only admin can download'] = 'Ale tylko administrator może pobierać';

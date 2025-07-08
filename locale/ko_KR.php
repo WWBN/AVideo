@@ -82,6 +82,7 @@ $t['Bottom'] = '맨 아래';
 $t['Broadcast a Live Stream'] = '라이브 스트림 브로드캐스트';
 $t['Browse Channels'] = '채널 찾아보기';
 $t['Browse'] = '둘러보다';
+$t['Browse files'] = '파일 찾아보기';
 $t['Bulk Embed'] = '벌크 엠베드';
 $t['Buy This Plugin'] = '이 플러그인 구입';
 $t['By associating groups with this user, they will be able to see all the videos that are related to this group'] = '그룹을 이 사용자와 연결하면 이 그룹과 관련된 모든 비디오를 볼 수 있음';

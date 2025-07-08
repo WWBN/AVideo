@@ -142,6 +142,7 @@ $t['Broadcast a Live Stream'] = 'Трансляция в прямом эфире
 $t['Broadcast a Live Streaming'] = 'Транслируйте прямую трансляцию';
 $t['Browse Channels'] = 'Просмотр каналов';
 $t['Browse'] = 'Просмотреть';
+$t['Browse files'] = 'Просмотр файлов';
 $t['Bulk Embed'] = 'Массовая вставка';
 $t['But only admin can download'] = 'Но только администратор может скачать';
 $t['Buy This Plugin'] = 'Купить этот плагин';
