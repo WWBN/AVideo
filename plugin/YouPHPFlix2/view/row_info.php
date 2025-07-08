@@ -2,6 +2,7 @@
 $timeLog6Limit = 0.4;
 $timeLog6 = "row_info.php {$value['clean_title']}";
 TimeLogStart($timeLog6);
+//var_dump(debug_backtrace());
 ?>
 <!-- row_info start -->
 <div class="infoDetails">
@@ -139,6 +140,15 @@ TimeLogStart($timeLog6);
     }
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     $_GET = $get;
+    if($rowLinkType === Video::$videoTypePdf){
+    ?>
+    <button class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>"
+       onclick="avideoModalIframe('<?php echo $rowLinkEmbed; ?>');return false;">
+        <i class="fas fa-file-pdf"></i>
+        <span class="hidden-xs"><?php echo __("Open PDF"); ?></span>
+    </button>
+    <?php
+    }else{
     ?>
     <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>"
        href="<?php echo $rowLink; ?>"
@@ -147,6 +157,7 @@ TimeLogStart($timeLog6);
         <span class="hidden-xs"><?php echo __("Play"); ?></span>
     </a>
     <?php
+    }
     if (!empty($value['trailer1'])) {
         ?>
         <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo parseVideos($value['trailer1'], 1, 0, 0, 0, 1); ?>', '');return false;">

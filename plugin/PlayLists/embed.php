@@ -153,6 +153,15 @@ $playListData_videos_id = getPlayListDataVideosId();
 
 TimeLogEnd($timelogname, __LINE__);
 if (empty($playListData)) {
+    $plp = new PlayListPlayer(@$_GET['playlists_id'], @$_GET['playlists_tags_id']);
+    $video = $plp->getCurrentVideo();
+    if (!empty($video)) {
+        $url = Video::getURL($video['id']);;
+        if (!empty($url)) {
+            header('Location: ' . $url);
+            exit;
+        }
+    }
     forbiddenPage(__("The program is empty"));
 }
 
@@ -410,7 +419,7 @@ TimeLogEnd($timelogname, __LINE__);
                 $('#mainVideo').bind('contextmenu', function () {
                     return false;
                 });
-                
+
                 addCloseButtonInVideo(<?php echo json_encode(!empty($_REQUEST['forceCloseButton'])); ?>);
             });
 

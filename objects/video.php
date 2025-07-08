@@ -5647,7 +5647,7 @@ if (!class_exists('Video')) {
 
         public static function getURL($videos_id)
         {
-            return self::getLink($videos_id, '', isIframe());
+            return self::getLink($videos_id, '', isIframe() || isEmbed());
         }
 
         public static function getLink($videos_id, $clean_title, $embed = false, $get = [])

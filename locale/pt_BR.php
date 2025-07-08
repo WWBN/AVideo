@@ -347,6 +347,7 @@ $t['Only direct mp4-files - if you download it with the link, it should be a mov
 $t['Only verified users can upload'] = 'Somente usuários verificados podem fazer upload';
 $t['Only you can see this, because you are an admin.'] = 'Só você pode ver isso, porque você é um administrador.';
 $t['Open pop-up Login window'] = 'Abrir janela pop-up para login';
+$t['Open PDF'] = 'Abrir PDF';
 $t['Order'] = 'Ordem';
 $t['Organize'] = 'Organizar';
 $t['Other Files'] = 'Outros arquivos';

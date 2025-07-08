@@ -33,7 +33,7 @@ if (empty($_REQUEST['uid'])) {
   return false;
   }
   ob_start();
- * 
+ *
  */
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 
@@ -80,6 +80,7 @@ $uidFlickirty = uniqid();
     startModeFlix('#<?php echo $uidFlickirty; ?>-Flickirty ');
 </script>
 <?php
+$rowLinkType = '';
 $rowlink = false;
 $rowlinkEmbed = false;
 //}
@@ -89,6 +90,6 @@ $rowlinkEmbed = false;
   ObjectYPT::setCache($cacheName, $cache);
 
   echo str_replace('{serie_uid}', uniqid(), $cache);
- * 
+ *
  */
 ?>

@@ -19,6 +19,7 @@
             ?>
                 <h2 class="infoTitle">
                     <?php
+                    $rowLinkType = $value['type'];
                     $rowLink = $link = PlayLists::getLink($value['serie_playlists_id']);
                     $rowLinkEmbed = $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
                     $canWatchPlayButton = "";
