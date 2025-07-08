@@ -46,7 +46,7 @@ showCloseButton();
     $(function() {
         <?php
         if (!empty($_REQUEST['404ErrorMsg'])) {
-            echo "avideoAlertInfo(\"{$_REQUEST['404ErrorMsg']}\");";
+            echo 'avideoAlertInfo(' . json_encode($_REQUEST['404ErrorMsg']) . ');';
         }
         ?>
     });
