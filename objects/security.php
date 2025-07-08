@@ -2,7 +2,7 @@
 require_once $global['systemRootPath'] . 'objects/functions.php';
 // filter some security here
 $securityFilter = ['jump','videoLink','videoDownloadedLink','duration','error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
-$securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount'];
+$securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount', 'page'];
 $securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
 $securityRemoveNonCharsStrict = ['APIName','APIPlugin'];
 $securityRemoveNonChars = ['resolution', 'format', 'videoDirectory', 'chunkFile'];
