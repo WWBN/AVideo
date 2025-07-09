@@ -145,16 +145,13 @@ if (empty($_POST['id'])) {
         $obj->setType($_POST['videoLinkType']);
     }
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
-    $obj->setAutoStatus(Video::$statusActive);
+    $obj->setAutoStatus(Video::$statusInactive);
 }
 
 TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['isArticle'])) {
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
     $obj->setType(Video::$videoTypeArticle);
-    if (empty($_POST['id'])) {
-        $obj->setAutoStatus(Video::$statusActive);
-    }
     $paths = Video::getNewVideoFilename();
     $filename = $paths['filename'];
     $filename = $obj->setFilename($filename);
