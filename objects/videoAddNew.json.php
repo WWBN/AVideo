@@ -28,6 +28,8 @@ if (!is_writable("{$global['systemRootPath']}vendor/ezyang/htmlpurifier/library/
  *
  */
 
+_error_log('videoAddNew.json.php: start '.getRealIpAddr().' '.$_SERVER['HTTP_USER_AGENT']);
+
 TimeLogStart(__FILE__);
 
 $obj = new Video($_POST['title'], "", @$_POST['id'], true);

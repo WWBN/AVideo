@@ -970,7 +970,19 @@ if (!class_exists('Video')) {
                             return $this->setStatus(Video::$statusActiveAndEncoding);
                         } else {
                             if ($this->getTitle() !== "Video automatically booked") {
-                                return $this->setStatus($advancedCustom->defaultVideoStatus->value);
+                                $typesToBeAutoInacive = array(
+                                    Video::$videoTypeEmbed,
+                                    Video::$videoTypeLinkVideo,
+                                    Video::$videoTypePdf,
+                                    Video::$videoTypeArticle,
+                                    Video::$videoTypeZip,
+                                    Video::$videoTypeGallery,
+                                );
+                                if (in_array($this->type, $typesToBeAutoInacive)){
+                                    return $this->setStatus(Video::$statusInactive);
+                                }else{
+                                    return $this->setStatus($advancedCustom->defaultVideoStatus->value);
+                                }
                             } else {
                                 return $this->setStatus(Video::$statusInactive);
                             }
