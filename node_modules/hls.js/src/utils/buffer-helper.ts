@@ -8,7 +8,7 @@
 
 import { logger } from './logger';
 
-type BufferTimeRange = {
+export type BufferTimeRange = {
   start: number;
   end: number;
 };
@@ -22,6 +22,8 @@ export type BufferInfo = {
   start: number;
   end: number;
   nextStart?: number;
+  buffered?: BufferTimeRange[];
+  bufferedIndex: number;
 };
 
 const noopBuffered: TimeRanges = {
@@ -35,21 +37,31 @@ export class BufferHelper {
    * Return true if `media`'s buffered include `position`
    */
   static isBuffered(media: Bufferable, position: number): boolean {
-    try {
-      if (media) {
-        const buffered = BufferHelper.getBuffered(media);
-        for (let i = 0; i < buffered.length; i++) {
-          if (position >= buffered.start(i) && position <= buffered.end(i)) {
-            return true;
-          }
+    if (media) {
+      const buffered = BufferHelper.getBuffered(media);
+      for (let i = buffered.length; i--; ) {
+        if (position >= buffered.start(i) && position <= buffered.end(i)) {
+          return true;
         }
       }
-    } catch (error) {
-      // this is to catch
-      // InvalidStateError: Failed to read the 'buffered' property from 'SourceBuffer':
-      // This SourceBuffer has been removed from the parent media source
     }
     return false;
+  }
+
+  static bufferedRanges(media: Bufferable | null): BufferTimeRange[] {
+    if (media) {
+      const timeRanges = BufferHelper.getBuffered(media);
+      return BufferHelper.timeRangesToArray(timeRanges);
+    }
+    return [];
+  }
+
+  static timeRangesToArray(timeRanges: TimeRanges): BufferTimeRange[] {
+    const buffered: BufferTimeRange[] = [];
+    for (let i = 0; i < timeRanges.length; i++) {
+      buffered.push({ start: timeRanges.start(i), end: timeRanges.end(i) });
+    }
+    return buffered;
   }
 
   static bufferInfo(
@@ -57,52 +69,36 @@ export class BufferHelper {
     pos: number,
     maxHoleDuration: number,
   ): BufferInfo {
-    try {
-      if (media) {
-        const vbuffered = BufferHelper.getBuffered(media);
-        const buffered: BufferTimeRange[] = [];
-        let i: number;
-        for (i = 0; i < vbuffered.length; i++) {
-          buffered.push({ start: vbuffered.start(i), end: vbuffered.end(i) });
-        }
-
-        return this.bufferedInfo(buffered, pos, maxHoleDuration);
+    if (media) {
+      const buffered = BufferHelper.bufferedRanges(media);
+      if (buffered.length) {
+        return BufferHelper.bufferedInfo(buffered, pos, maxHoleDuration);
       }
-    } catch (error) {
-      // this is to catch
-      // InvalidStateError: Failed to read the 'buffered' property from 'SourceBuffer':
-      // This SourceBuffer has been removed from the parent media source
     }
-    return { len: 0, start: pos, end: pos, nextStart: undefined };
+    return { len: 0, start: pos, end: pos, bufferedIndex: -1 };
   }
 
   static bufferedInfo(
     buffered: BufferTimeRange[],
     pos: number,
     maxHoleDuration: number,
-  ): {
-    len: number;
-    start: number;
-    end: number;
-    nextStart?: number;
-  } {
+  ): BufferInfo {
     pos = Math.max(0, pos);
     // sort on buffer.start/smaller end (IE does not always return sorted buffered range)
-    buffered.sort(function (a, b) {
-      const diff = a.start - b.start;
-      if (diff) {
-        return diff;
-      } else {
-        return b.end - a.end;
-      }
-    });
+    if (buffered.length > 1) {
+      buffered.sort((a, b) => a.start - b.start || b.end - a.end);
+    }
 
+    let bufferedIndex: number = -1;
     let buffered2: BufferTimeRange[] = [];
     if (maxHoleDuration) {
       // there might be some small holes between buffer time range
       // consider that holes smaller than maxHoleDuration are irrelevant and build another
       // buffer time range representations that discards those holes
       for (let i = 0; i < buffered.length; i++) {
+        if (pos >= buffered[i].start && pos <= buffered[i].end) {
+          bufferedIndex = i;
+        }
         const buf2len = buffered2.length;
         if (buf2len) {
           const buf2end = buffered2[buf2len - 1].end;
@@ -130,23 +126,25 @@ export class BufferHelper {
 
     let bufferLen = 0;
 
-    // bufferStartNext can possibly be undefined based on the conditional logic below
-    let bufferStartNext: number | undefined;
+    let nextStart: number | undefined;
 
-    // bufferStart and bufferEnd are buffer boundaries around current video position
+    // bufferStart and bufferEnd are buffer boundaries around current playback position (pos)
     let bufferStart: number = pos;
     let bufferEnd: number = pos;
     for (let i = 0; i < buffered2.length; i++) {
       const start = buffered2[i].start;
       const end = buffered2[i].end;
       // logger.log('buf start/end:' + buffered.start(i) + '/' + buffered.end(i));
+      if (bufferedIndex === -1 && pos >= start && pos <= end) {
+        bufferedIndex = i;
+      }
       if (pos + maxHoleDuration >= start && pos < end) {
         // play position is inside this buffer TimeRange, retrieve end of buffer position and buffer length
         bufferStart = start;
         bufferEnd = end;
         bufferLen = bufferEnd - pos;
       } else if (pos + maxHoleDuration < start) {
-        bufferStartNext = start;
+        nextStart = start;
         break;
       }
     }
@@ -154,7 +152,9 @@ export class BufferHelper {
       len: bufferLen,
       start: bufferStart || 0,
       end: bufferEnd || 0,
-      nextStart: bufferStartNext,
+      nextStart,
+      buffered,
+      bufferedIndex,
     };
   }
 
@@ -164,7 +164,7 @@ export class BufferHelper {
    */
   static getBuffered(media: Bufferable): TimeRanges {
     try {
-      return media.buffered;
+      return media.buffered || noopBuffered;
     } catch (e) {
       logger.log('failed to get media.buffered', e);
       return noopBuffered;

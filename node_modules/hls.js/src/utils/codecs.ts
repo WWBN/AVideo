@@ -1,8 +1,13 @@
 import { getMediaSource } from './mediasource-helper';
+import { isHEVC } from './mp4-tools';
+
+export const userAgentHevcSupportIsInaccurate = () => {
+  return /\(Windows.+Firefox\//i.test(navigator.userAgent);
+};
 
 // from http://mp4ra.org/codecs.html
 // values indicate codec selection preference (lower is higher priority)
-const sampleEntryCodesISO = {
+export const sampleEntryCodesISO = {
   audio: {
     a3ds: 1,
     'ac-3': 0.95,
@@ -48,6 +53,7 @@ const sampleEntryCodesISO = {
     avc4: 1,
     avcp: 1,
     av01: 0.8,
+    dav1: 0.8,
     drac: 1,
     dva1: 1,
     dvav: 1,
@@ -107,7 +113,7 @@ function isCodecMediaSourceSupported(
 }
 
 export function mimeTypeForCodec(codec: string, type: CodecType): string {
-  return `${type}/mp4;codecs="${codec}"`;
+  return `${type}/mp4;codecs=${codec}`;
 }
 
 export function videoCodecPreferenceValue(
@@ -121,8 +127,12 @@ export function videoCodecPreferenceValue(
 }
 
 export function codecsSetSelectionPreferenceValue(codecSet: string): number {
+  const limitedHevcSupport = userAgentHevcSupportIsInaccurate();
   return codecSet.split(',').reduce((num, fourCC) => {
-    const preferenceValue = sampleEntryCodesISO.video[fourCC];
+    const lowerPriority = limitedHevcSupport && isHEVC(fourCC);
+    const preferenceValue = lowerPriority
+      ? 9
+      : sampleEntryCodesISO.video[fourCC];
     if (preferenceValue) {
       return (preferenceValue * 2 + num) / (num ? 3 : 2);
     }
@@ -147,12 +157,15 @@ function getCodecCompatibleNameLower(
     return CODEC_COMPATIBLE_NAMES[lowerCaseCodec]!;
   }
 
-  // Idealy fLaC and Opus would be first (spec-compliant) but
-  // some browsers will report that fLaC is supported then fail.
-  // see: https://bugs.chromium.org/p/chromium/issues/detail?id=1422728
   const codecsToCheck = {
+    // Idealy fLaC and Opus would be first (spec-compliant) but
+    // some browsers will report that fLaC is supported then fail.
+    // see: https://bugs.chromium.org/p/chromium/issues/detail?id=1422728
     flac: ['flac', 'fLaC', 'FLAC'],
     opus: ['opus', 'Opus'],
+    // Replace audio codec info if browser does not support mp4a.40.34,
+    // and demuxer can fallback to 'audio/mpeg' or 'audio/mp4;codecs="mp3"'
+    'mp4a.40.34': ['mp3'],
   }[lowerCaseCodec];
 
   for (let i = 0; i < codecsToCheck.length; i++) {
@@ -165,13 +178,18 @@ function getCodecCompatibleNameLower(
     ) {
       CODEC_COMPATIBLE_NAMES[lowerCaseCodec] = codecsToCheck[i];
       return codecsToCheck[i];
+    } else if (
+      codecsToCheck[i] === 'mp3' &&
+      getMediaSource(preferManagedMediaSource)?.isTypeSupported('audio/mpeg')
+    ) {
+      return '';
     }
   }
 
   return lowerCaseCodec;
 }
 
-const AUDIO_CODEC_REGEXP = /flac|opus/i;
+const AUDIO_CODEC_REGEXP = /flac|opus|mp4a\.40\.34/i;
 export function getCodecCompatibleName(
   codec: string,
   preferManagedMediaSource = true,
@@ -184,32 +202,113 @@ export function getCodecCompatibleName(
   );
 }
 
+export function replaceVideoCodec(
+  originalCodecs: string | undefined,
+  newVideoCodec: string | undefined,
+): string | undefined {
+  const codecs: string[] = [];
+  if (originalCodecs) {
+    const allCodecs = originalCodecs.split(',');
+    for (let i = 0; i < allCodecs.length; i++) {
+      if (!isCodecType(allCodecs[i], 'video')) {
+        codecs.push(allCodecs[i]);
+      }
+    }
+  }
+  if (newVideoCodec) {
+    codecs.push(newVideoCodec);
+  }
+  return codecs.join(',');
+}
+
 export function pickMostCompleteCodecName(
-  parsedCodec: string,
+  parsedCodec: string | undefined,
   levelCodec: string | undefined,
 ): string | undefined {
   // Parsing of mp4a codecs strings in mp4-tools from media is incomplete as of d8c6c7a
   // so use level codec is parsed codec is unavailable or incomplete
-  if (parsedCodec && parsedCodec !== 'mp4a') {
-    return parsedCodec;
+  if (
+    parsedCodec &&
+    (parsedCodec.length > 4 ||
+      ['ac-3', 'ec-3', 'alac', 'fLaC', 'Opus'].indexOf(parsedCodec) !== -1)
+  ) {
+    if (
+      isCodecSupportedAsType(parsedCodec, 'audio') ||
+      isCodecSupportedAsType(parsedCodec, 'video')
+    ) {
+      return parsedCodec;
+    }
   }
-  return levelCodec ? levelCodec.split(',')[0] : levelCodec;
+  if (levelCodec) {
+    const levelCodecs = levelCodec.split(',');
+    if (levelCodecs.length > 1) {
+      if (parsedCodec) {
+        for (let i = levelCodecs.length; i--; ) {
+          if (levelCodecs[i].substring(0, 4) === parsedCodec.substring(0, 4)) {
+            return levelCodecs[i];
+          }
+        }
+      }
+      return levelCodecs[0];
+    }
+  }
+  return levelCodec || parsedCodec;
 }
 
-export function convertAVC1ToAVCOTI(codec: string) {
+function isCodecSupportedAsType(codec: string, type: CodecType): boolean {
+  return isCodecType(codec, type) && isCodecMediaSourceSupported(codec, type);
+}
+
+export function convertAVC1ToAVCOTI(videoCodecs: string): string {
   // Convert avc1 codec string from RFC-4281 to RFC-6381 for MediaSource.isTypeSupported
   // Examples: avc1.66.30 to avc1.42001e and avc1.77.30,avc1.66.30 to avc1.4d001e,avc1.42001e.
-  const codecs = codec.split(',');
+  const codecs = videoCodecs.split(',');
   for (let i = 0; i < codecs.length; i++) {
     const avcdata = codecs[i].split('.');
-    if (avcdata.length > 2) {
-      let result = avcdata.shift() + '.';
-      result += parseInt(avcdata.shift() as string).toString(16);
-      result += (
-        '000' + parseInt(avcdata.shift() as string).toString(16)
-      ).slice(-4);
-      codecs[i] = result;
+    // only convert codec strings starting with avc1 (Examples: avc1.64001f,dvh1.05.07)
+    if (avcdata.length > 2 && avcdata[0] === 'avc1') {
+      codecs[i] = `avc1.${parseInt(avcdata[1]).toString(16)}${(
+        '000' + parseInt(avcdata[2]).toString(16)
+      ).slice(-4)}`;
     }
   }
   return codecs.join(',');
+}
+
+export function fillInMissingAV01Params(videoCodec: string): string {
+  // Used to fill in incomplete AV1 playlist CODECS strings for mediaCapabilities.decodingInfo queries
+  if (videoCodec.startsWith('av01.')) {
+    const av1params = videoCodec.split('.');
+    const placeholders = ['0', '111', '01', '01', '01', '0'];
+    for (let i = av1params.length; i > 4 && i < 10; i++) {
+      av1params[i] = placeholders[i - 4];
+    }
+    return av1params.join('.');
+  }
+  return videoCodec;
+}
+
+export interface TypeSupported {
+  mpeg: boolean;
+  mp3: boolean;
+  ac3: boolean;
+}
+
+export function getM2TSSupportedAudioTypes(
+  preferManagedMediaSource: boolean,
+): TypeSupported {
+  const MediaSource = getMediaSource(preferManagedMediaSource) || {
+    isTypeSupported: () => false,
+  };
+  return {
+    mpeg: MediaSource.isTypeSupported('audio/mpeg'),
+    mp3: MediaSource.isTypeSupported('audio/mp4; codecs="mp3"'),
+    ac3: __USE_M2TS_ADVANCED_CODECS__
+      ? MediaSource.isTypeSupported('audio/mp4; codecs="ac-3"')
+      : false,
+  };
+}
+
+export function getCodecsForMimeType(mimeType: string): string {
+  return mimeType.replace(/^.+codecs=["']?([^"']+).*$/, '$1');
 }

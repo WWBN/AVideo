@@ -3,6 +3,21 @@
  */
 
 import { appendUint8Array } from '../utils/mp4-tools';
+import type {
+  DemuxedAC3,
+  DemuxedAudioTrack,
+  DemuxedAVC1,
+  DemuxedHEVC,
+  DemuxedVideoTrack,
+} from '../types/demuxer';
+import type {
+  Mp4SampleFlags,
+  RemuxedAudioTrackSamples,
+  RemuxedVideoTrackSamples,
+} from '../types/remuxer';
+
+type MediaTrackType = DemuxedAudioTrack | DemuxedVideoTrack;
+type RemuxedTrackType = RemuxedAudioTrackSamples | RemuxedVideoTrackSamples;
 
 type HdlrTypes = {
   video: Uint8Array;
@@ -28,6 +43,8 @@ class MP4 {
     MP4.types = {
       avc1: [], // codingname
       avcC: [],
+      hvc1: [],
+      hvcC: [],
       btrt: [],
       dinf: [],
       dref: [],
@@ -263,7 +280,7 @@ class MP4 {
     MP4.DINF = MP4.box(MP4.types.dinf, MP4.box(MP4.types.dref, dref));
   }
 
-  static box(type, ...payload: Uint8Array[]) {
+  static box(type: number[], ...payload: Uint8Array[]) {
     let size = 8;
     let i = payload.length;
     const len = i;
@@ -287,15 +304,15 @@ class MP4 {
     return result;
   }
 
-  static hdlr(type) {
+  static hdlr(type: keyof HdlrTypes) {
     return MP4.box(MP4.types.hdlr, MP4.HDLR_TYPES[type]);
   }
 
-  static mdat(data) {
+  static mdat(data: Uint8Array) {
     return MP4.box(MP4.types.mdat, data);
   }
 
-  static mdhd(timescale, duration) {
+  static mdhd(timescale: number, duration: number) {
     duration *= timescale;
     const upperWordDuration = Math.floor(duration / (UINT32_MAX + 1));
     const lowerWordDuration = Math.floor(duration % (UINT32_MAX + 1));
@@ -342,16 +359,16 @@ class MP4 {
     );
   }
 
-  static mdia(track) {
+  static mdia(track: MediaTrackType) {
     return MP4.box(
       MP4.types.mdia,
-      MP4.mdhd(track.timescale, track.duration),
+      MP4.mdhd(track.timescale || 0, track.duration || 0),
       MP4.hdlr(track.type),
       MP4.minf(track),
     );
   }
 
-  static mfhd(sequenceNumber) {
+  static mfhd(sequenceNumber: number) {
     return MP4.box(
       MP4.types.mfhd,
       new Uint8Array([
@@ -367,7 +384,7 @@ class MP4 {
     );
   }
 
-  static minf(track) {
+  static minf(track: MediaTrackType) {
     if (track.type === 'audio') {
       return MP4.box(
         MP4.types.minf,
@@ -385,7 +402,11 @@ class MP4 {
     }
   }
 
-  static moof(sn, baseMediaDecodeTime, track) {
+  static moof(
+    sn: number,
+    baseMediaDecodeTime: number,
+    track: RemuxedTrackType,
+  ) {
     return MP4.box(
       MP4.types.moof,
       MP4.mfhd(sn),
@@ -393,7 +414,7 @@ class MP4 {
     );
   }
 
-  static moov(tracks) {
+  static moov(tracks: MediaTrackType[]) {
     let i = tracks.length;
     const boxes: Uint8Array[] = [];
 
@@ -403,13 +424,16 @@ class MP4 {
 
     return MP4.box.apply(
       null,
-      [MP4.types.moov, MP4.mvhd(tracks[0].timescale, tracks[0].duration)]
+      [
+        MP4.types.moov,
+        MP4.mvhd(tracks[0].timescale || 0, tracks[0].duration || 0),
+      ]
         .concat(boxes)
         .concat(MP4.mvex(tracks)),
     );
   }
 
-  static mvex(tracks) {
+  static mvex(tracks: MediaTrackType[]) {
     let i = tracks.length;
     const boxes: Uint8Array[] = [];
 
@@ -420,7 +444,7 @@ class MP4 {
     return MP4.box.apply(null, [MP4.types.mvex, ...boxes]);
   }
 
-  static mvhd(timescale, duration) {
+  static mvhd(timescale: number, duration: number) {
     duration *= timescale;
     const upperWordDuration = Math.floor(duration / (UINT32_MAX + 1));
     const lowerWordDuration = Math.floor(duration % (UINT32_MAX + 1));
@@ -541,11 +565,11 @@ class MP4 {
     return MP4.box(MP4.types.mvhd, bytes);
   }
 
-  static sdtp(track) {
+  static sdtp(track: RemuxedTrackType) {
     const samples = track.samples || [];
     const bytes = new Uint8Array(4 + samples.length);
-    let i;
-    let flags;
+    let i: number;
+    let flags: Mp4SampleFlags;
     // leave the full box header (4 bytes) all zero
     // write the sample table
     for (i = 0; i < samples.length; i++) {
@@ -559,7 +583,7 @@ class MP4 {
     return MP4.box(MP4.types.sdtp, bytes);
   }
 
-  static stbl(track) {
+  static stbl(track: MediaTrackType) {
     return MP4.box(
       MP4.types.stbl,
       MP4.stsd(track),
@@ -570,7 +594,7 @@ class MP4 {
     );
   }
 
-  static avc1(track) {
+  static avc1(track: DemuxedAVC1) {
     let sps: number[] = [];
     let pps: number[] = [];
     let i;
@@ -737,47 +761,49 @@ class MP4 {
     );
   }
 
-  static esds(track) {
-    const configlen = track.config.length;
-    return new Uint8Array(
-      [
-        0x00, // version 0
-        0x00,
-        0x00,
-        0x00, // flags
+  static esds(track: DemuxedAudioTrack) {
+    const config = track.config as [number, number];
+    return new Uint8Array([
+      0x00, // version 0
+      0x00,
+      0x00,
+      0x00, // flags
 
-        0x03, // descriptor_type
-        0x17 + configlen, // length
-        0x00,
-        0x01, // es_id
-        0x00, // stream_priority
+      0x03, // descriptor_type
+      0x19, // length
 
-        0x04, // descriptor_type
-        0x0f + configlen, // length
-        0x40, // codec : mpeg4_audio
-        0x15, // stream_type
-        0x00,
-        0x00,
-        0x00, // buffer_size
-        0x00,
-        0x00,
-        0x00,
-        0x00, // maxBitrate
-        0x00,
-        0x00,
-        0x00,
-        0x00, // avgBitrate
+      0x00,
+      0x01, // es_id
 
-        0x05, // descriptor_type
-      ]
-        .concat([configlen])
-        .concat(track.config)
-        .concat([0x06, 0x01, 0x02]),
-    ); // GASpecificConfig)); // length + audio config descriptor
+      0x00, // stream_priority
+
+      0x04, // descriptor_type
+      0x11, // length
+      0x40, // codec : mpeg4_audio
+      0x15, // stream_type
+      0x00,
+      0x00,
+      0x00, // buffer_size
+      0x00,
+      0x00,
+      0x00,
+      0x00, // maxBitrate
+      0x00,
+      0x00,
+      0x00,
+      0x00, // avgBitrate
+
+      0x05, // descriptor_type
+      0x02, // length
+      ...config,
+      0x06,
+      0x01,
+      0x02, // GASpecificConfig)); // length + audio config descriptor
+    ]);
   }
 
-  static audioStsd(track) {
-    const samplerate = track.samplerate;
+  static audioStsd(track: DemuxedAudioTrack) {
+    const samplerate = track.samplerate || 0;
     return new Uint8Array([
       0x00,
       0x00,
@@ -796,7 +822,7 @@ class MP4 {
       0x00,
       0x00, // reserved
       0x00,
-      track.channelCount, // channelcount
+      track.channelCount || 0, // channelcount
       0x00,
       0x10, // sampleSize:16bits
       0x00,
@@ -810,7 +836,7 @@ class MP4 {
     ]);
   }
 
-  static mp4a(track) {
+  static mp4a(track: DemuxedAudioTrack) {
     return MP4.box(
       MP4.types.mp4a,
       MP4.audioStsd(track),
@@ -818,37 +844,69 @@ class MP4 {
     );
   }
 
-  static mp3(track) {
+  static mp3(track: DemuxedAudioTrack) {
     return MP4.box(MP4.types['.mp3'], MP4.audioStsd(track));
   }
 
-  static ac3(track) {
+  static ac3(track: DemuxedAudioTrack) {
     return MP4.box(
       MP4.types['ac-3'],
       MP4.audioStsd(track),
-      MP4.box(MP4.types.dac3, track.config),
+      MP4.box(MP4.types.dac3, track.config as Uint8Array),
     );
   }
 
-  static stsd(track) {
+  static stsd(track: MediaTrackType | DemuxedAC3): Uint8Array {
+    const { segmentCodec } = track;
     if (track.type === 'audio') {
-      if (track.segmentCodec === 'mp3' && track.codec === 'mp3') {
-        return MP4.box(MP4.types.stsd, MP4.STSD, MP4.mp3(track));
+      if (segmentCodec === 'aac') {
+        return MP4.box(MP4.types.stsd, MP4.STSD, MP4.mp4a(track));
       }
-      if (track.segmentCodec === 'ac3') {
+      if (
+        __USE_M2TS_ADVANCED_CODECS__ &&
+        segmentCodec === 'ac3' &&
+        track.config
+      ) {
         return MP4.box(MP4.types.stsd, MP4.STSD, MP4.ac3(track));
       }
-      return MP4.box(MP4.types.stsd, MP4.STSD, MP4.mp4a(track));
+      if (segmentCodec === 'mp3' && track.codec === 'mp3') {
+        return MP4.box(MP4.types.stsd, MP4.STSD, MP4.mp3(track));
+      }
     } else {
-      return MP4.box(MP4.types.stsd, MP4.STSD, MP4.avc1(track));
+      if (track.pps && track.sps) {
+        if (segmentCodec === 'avc') {
+          return MP4.box(
+            MP4.types.stsd,
+            MP4.STSD,
+            MP4.avc1(track as DemuxedAVC1),
+          );
+        }
+        if (
+          __USE_M2TS_ADVANCED_CODECS__ &&
+          segmentCodec === 'hevc' &&
+          track.vps
+        ) {
+          return MP4.box(
+            MP4.types.stsd,
+            MP4.STSD,
+            MP4.hvc1(track as DemuxedHEVC),
+          );
+        }
+      } else {
+        throw new Error(`video track missing pps or sps`);
+      }
     }
+
+    throw new Error(
+      `unsupported ${track.type} segment codec (${segmentCodec}/${track.codec})`,
+    );
   }
 
-  static tkhd(track) {
+  static tkhd(track: MediaTrackType) {
     const id = track.id;
-    const duration = track.duration * track.timescale;
-    const width = track.width;
-    const height = track.height;
+    const duration = (track.duration || 0) * (track.timescale || 0);
+    const width = (track as any).width || 0;
+    const height = (track as any).height || 0;
     const upperWordDuration = Math.floor(duration / (UINT32_MAX + 1));
     const lowerWordDuration = Math.floor(duration % (UINT32_MAX + 1));
     return MP4.box(
@@ -954,7 +1012,7 @@ class MP4 {
     );
   }
 
-  static traf(track, baseMediaDecodeTime) {
+  static traf(track: RemuxedTrackType, baseMediaDecodeTime: number) {
     const sampleDependencyTable = MP4.sdtp(track);
     const id = track.id;
     const upperWordBaseMediaDecodeTime = Math.floor(
@@ -1013,12 +1071,12 @@ class MP4 {
    * Generate a track box.
    * @param track a track definition
    */
-  static trak(track) {
+  static trak(track: MediaTrackType) {
     track.duration = track.duration || 0xffffffff;
     return MP4.box(MP4.types.trak, MP4.tkhd(track), MP4.mdia(track));
   }
 
-  static trex(track) {
+  static trex(track: MediaTrackType) {
     const id = track.id;
     return MP4.box(
       MP4.types.trex,
@@ -1051,7 +1109,7 @@ class MP4 {
     );
   }
 
-  static trun(track, offset) {
+  static trun(track: MediaTrackType, offset: number) {
     const samples = track.samples || [];
     const len = samples.length;
     const arraylen = 12 + 16 * len;
@@ -1114,7 +1172,7 @@ class MP4 {
     return MP4.box(MP4.types.trun, array);
   }
 
-  static initSegment(tracks) {
+  static initSegment(tracks: MediaTrackType[]) {
     if (!MP4.types) {
       MP4.init();
     }
@@ -1122,6 +1180,200 @@ class MP4 {
     const movie = MP4.moov(tracks);
     const result = appendUint8Array(MP4.FTYP, movie);
     return result;
+  }
+
+  static hvc1(track: DemuxedHEVC) {
+    if (!__USE_M2TS_ADVANCED_CODECS__) {
+      return new Uint8Array();
+    }
+    const ps = track.params;
+    const units: Uint8Array[][] = [track.vps, track.sps, track.pps];
+    const NALuLengthSize = 4;
+    const config = new Uint8Array([
+      0x01,
+      (ps.general_profile_space << 6) |
+        (ps.general_tier_flag ? 32 : 0) |
+        ps.general_profile_idc,
+      ps.general_profile_compatibility_flags[0],
+      ps.general_profile_compatibility_flags[1],
+      ps.general_profile_compatibility_flags[2],
+      ps.general_profile_compatibility_flags[3],
+      ps.general_constraint_indicator_flags[0],
+      ps.general_constraint_indicator_flags[1],
+      ps.general_constraint_indicator_flags[2],
+      ps.general_constraint_indicator_flags[3],
+      ps.general_constraint_indicator_flags[4],
+      ps.general_constraint_indicator_flags[5],
+      ps.general_level_idc,
+      240 | (ps.min_spatial_segmentation_idc >> 8),
+      255 & ps.min_spatial_segmentation_idc,
+      252 | ps.parallelismType,
+      252 | ps.chroma_format_idc,
+      248 | ps.bit_depth_luma_minus8,
+      248 | ps.bit_depth_chroma_minus8,
+      0x00,
+      parseInt(ps.frame_rate.fps),
+      (NALuLengthSize - 1) |
+        (ps.temporal_id_nested << 2) |
+        (ps.num_temporal_layers << 3) |
+        (ps.frame_rate.fixed ? 64 : 0),
+      units.length,
+    ]);
+
+    // compute hvcC size in bytes
+    let length = config.length;
+    for (let i = 0; i < units.length; i += 1) {
+      length += 3;
+      for (let j = 0; j < units[i].length; j += 1) {
+        length += 2 + units[i][j].length;
+      }
+    }
+
+    const hvcC = new Uint8Array(length);
+    hvcC.set(config, 0);
+    length = config.length;
+    // append parameter set units: one vps, one or more sps and pps
+    const iMax = units.length - 1;
+    for (let i = 0; i < units.length; i += 1) {
+      hvcC.set(
+        new Uint8Array([
+          (32 + i) | (i === iMax ? 128 : 0),
+          0x00,
+          units[i].length,
+        ]),
+        length,
+      );
+      length += 3;
+      for (let j = 0; j < units[i].length; j += 1) {
+        hvcC.set(
+          new Uint8Array([units[i][j].length >> 8, units[i][j].length & 255]),
+          length,
+        );
+        length += 2;
+        hvcC.set(units[i][j], length);
+        length += units[i][j].length;
+      }
+    }
+    const hvcc = MP4.box(MP4.types.hvcC, hvcC);
+    const width = track.width;
+    const height = track.height;
+    const hSpacing = track.pixelRatio[0];
+    const vSpacing = track.pixelRatio[1];
+
+    return MP4.box(
+      MP4.types.hvc1,
+      new Uint8Array([
+        0x00,
+        0x00,
+        0x00, // reserved
+        0x00,
+        0x00,
+        0x00, // reserved
+        0x00,
+        0x01, // data_reference_index
+        0x00,
+        0x00, // pre_defined
+        0x00,
+        0x00, // reserved
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00, // pre_defined
+        (width >> 8) & 0xff,
+        width & 0xff, // width
+        (height >> 8) & 0xff,
+        height & 0xff, // height
+        0x00,
+        0x48,
+        0x00,
+        0x00, // horizresolution
+        0x00,
+        0x48,
+        0x00,
+        0x00, // vertresolution
+        0x00,
+        0x00,
+        0x00,
+        0x00, // reserved
+        0x00,
+        0x01, // frame_count
+        0x12,
+        0x64,
+        0x61,
+        0x69,
+        0x6c, // dailymotion/hls.js
+        0x79,
+        0x6d,
+        0x6f,
+        0x74,
+        0x69,
+        0x6f,
+        0x6e,
+        0x2f,
+        0x68,
+        0x6c,
+        0x73,
+        0x2e,
+        0x6a,
+        0x73,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00, // compressorname
+        0x00,
+        0x18, // depth = 24
+        0x11,
+        0x11,
+      ]), // pre_defined = -1
+      hvcc,
+      MP4.box(
+        MP4.types.btrt,
+        new Uint8Array([
+          0x00,
+          0x1c,
+          0x9c,
+          0x80, // bufferSizeDB
+          0x00,
+          0x2d,
+          0xc6,
+          0xc0, // maxBitrate
+          0x00,
+          0x2d,
+          0xc6,
+          0xc0,
+        ]),
+      ), // avgBitrate
+      MP4.box(
+        MP4.types.pasp,
+        new Uint8Array([
+          hSpacing >> 24, // hSpacing
+          (hSpacing >> 16) & 0xff,
+          (hSpacing >> 8) & 0xff,
+          hSpacing & 0xff,
+          vSpacing >> 24, // vSpacing
+          (vSpacing >> 16) & 0xff,
+          (vSpacing >> 8) & 0xff,
+          vSpacing & 0xff,
+        ]),
+      ),
+    );
   }
 }
 

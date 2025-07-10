@@ -1,31 +1,12 @@
 import type { AttrList } from './attr-list';
-import type { ParsedMultivariantPlaylist } from '../loader/m3u8-parser';
 import type { LevelDetails } from '../loader/level-details';
+import type { ParsedMultivariantPlaylist } from '../loader/m3u8-parser';
 import type { VariableMap } from '../types/level';
 
 const VARIABLE_REPLACEMENT_REGEX = /\{\$([a-zA-Z0-9-_]+)\}/g;
 
 export function hasVariableReferences(str: string): boolean {
   return VARIABLE_REPLACEMENT_REGEX.test(str);
-}
-
-export function substituteVariablesInAttributes(
-  parsed: Pick<
-    ParsedMultivariantPlaylist | LevelDetails,
-    'variableList' | 'hasVariableRefs' | 'playlistParsingError'
-  >,
-  attr: AttrList,
-  attributeNames: string[],
-) {
-  if (parsed.variableList !== null || parsed.hasVariableRefs) {
-    for (let i = attributeNames.length; i--; ) {
-      const name = attributeNames[i];
-      const value = attr[name];
-      if (value) {
-        attr[name] = substituteVariables(parsed, value);
-      }
-    }
-  }
 }
 
 export function substituteVariables(

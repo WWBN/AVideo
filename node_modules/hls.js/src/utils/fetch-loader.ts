@@ -1,14 +1,16 @@
-import {
-  LoaderCallbacks,
-  LoaderContext,
+import ChunkCache from '../demux/chunk-cache';
+import { isPromise } from '../demux/transmuxer';
+import { LoadStats } from '../loader/load-stats';
+import type { HlsConfig } from '../config';
+import type {
   Loader,
-  LoaderStats,
+  LoaderCallbacks,
   LoaderConfiguration,
+  LoaderContext,
   LoaderOnProgress,
   LoaderResponse,
+  LoaderStats,
 } from '../types/loader';
-import { LoadStats } from '../loader/load-stats';
-import ChunkCache from '../demux/chunk-cache';
 
 export function fetchSupported() {
   if (
@@ -31,9 +33,9 @@ export function fetchSupported() {
 const BYTERANGE = /(\d+)-(\d+)\/(\d+)/;
 
 class FetchLoader implements Loader<LoaderContext> {
-  private fetchSetup: Function;
+  private fetchSetup: NonNullable<HlsConfig['fetchSetup']>;
   private requestTimeout?: number;
-  private request: Request | null = null;
+  private request: Promise<Request> | Request | null = null;
   private response: Response | null = null;
   private controller: AbortController;
   public context: LoaderContext | null = null;
@@ -42,7 +44,7 @@ class FetchLoader implements Loader<LoaderContext> {
   public stats: LoaderStats;
   private loader: Response | null = null;
 
-  constructor(config /* HlsConfig */) {
+  constructor(config: HlsConfig) {
     this.fetchSetup = config.fetchSetup || getRequest;
     this.controller = new self.AbortController();
     this.stats = new LoadStats();
@@ -91,8 +93,6 @@ class FetchLoader implements Loader<LoaderContext> {
     stats.loading.start = self.performance.now();
 
     const initParams = getRequestParameters(context, this.controller.signal);
-    const onProgress: LoaderOnProgress<LoaderContext> | undefined =
-      callbacks.onProgress;
     const isArrayBuffer = context.responseType === 'arraybuffer';
     const LENGTH = isArrayBuffer ? 'byteLength' : 'length';
     const { maxTimeToFirstByteMs, maxLoadTimeMs } = config.loadPolicy;
@@ -107,12 +107,17 @@ class FetchLoader implements Loader<LoaderContext> {
         ? maxTimeToFirstByteMs
         : maxLoadTimeMs;
     this.requestTimeout = self.setTimeout(() => {
-      this.abortInternal();
-      callbacks.onTimeout(stats, context, this.response);
+      if (this.callbacks) {
+        this.abortInternal();
+        this.callbacks.onTimeout(stats, context, this.response);
+      }
     }, config.timeout);
 
-    self
-      .fetch(this.request as Request)
+    const fetchPromise = isPromise(this.request)
+      ? this.request.then(self.fetch)
+      : self.fetch(this.request);
+
+    fetchPromise
       .then((response: Response): Promise<string | ArrayBuffer> => {
         this.response = this.loader = response;
 
@@ -122,8 +127,10 @@ class FetchLoader implements Loader<LoaderContext> {
         config.timeout = maxLoadTimeMs;
         this.requestTimeout = self.setTimeout(
           () => {
-            this.abortInternal();
-            callbacks.onTimeout(stats, context, this.response);
+            if (this.callbacks) {
+              this.abortInternal();
+              this.callbacks.onTimeout(stats, context, this.response);
+            }
           },
           maxLoadTimeMs - (first - stats.loading.start),
         );
@@ -140,6 +147,7 @@ class FetchLoader implements Loader<LoaderContext> {
 
         stats.total = getContentLength(response.headers) || stats.total;
 
+        const onProgress = this.callbacks?.onProgress;
         if (onProgress && Number.isFinite(config.highWaterMark)) {
           return this.loadProgressively(
             response,
@@ -179,11 +187,12 @@ class FetchLoader implements Loader<LoaderContext> {
           code: response.status,
         };
 
+        const onProgress = this.callbacks?.onProgress;
         if (onProgress && !Number.isFinite(config.highWaterMark)) {
           onProgress(stats, context, responseData, response);
         }
 
-        callbacks.onSuccess(loaderResponse, stats, context, response);
+        this.callbacks?.onSuccess(loaderResponse, stats, context, response);
       })
       .catch((error) => {
         self.clearTimeout(this.requestTimeout);
@@ -194,7 +203,7 @@ class FetchLoader implements Loader<LoaderContext> {
         // when destroying, 'error' itself can be undefined
         const code: number = !error ? 0 : error.code || 0;
         const text: string = !error ? null : error.message;
-        callbacks.onError(
+        this.callbacks?.onError(
           { code, text },
           context,
           error ? error.details : null,
@@ -232,12 +241,12 @@ class FetchLoader implements Loader<LoaderContext> {
         .then((data) => {
           if (data.done) {
             if (chunkCache.dataLength) {
-              onProgress(stats, context, chunkCache.flush(), response);
+              onProgress(stats, context, chunkCache.flush().buffer, response);
             }
 
             return Promise.resolve(new ArrayBuffer(0));
           }
-          const chunk: Uint8Array = data.value;
+          const chunk: Uint8Array<ArrayBuffer> = data.value;
           const len = chunk.length;
           stats.loaded += len;
           if (len < highWaterMark || chunkCache.dataLength) {
@@ -246,12 +255,12 @@ class FetchLoader implements Loader<LoaderContext> {
             chunkCache.push(chunk);
             if (chunkCache.dataLength >= highWaterMark) {
               // flush in order to join the typed arrays
-              onProgress(stats, context, chunkCache.flush(), response);
+              onProgress(stats, context, chunkCache.flush().buffer, response);
             }
           } else {
             // If there's nothing cached already, and the chache is large enough
             // just emit the progress event
-            onProgress(stats, context, chunk, response);
+            onProgress(stats, context, chunk.buffer, response);
           }
           return pump();
         })

@@ -18,3 +18,19 @@ We aim to be an inclusive, welcoming community. To make that explicit,
 we have a [code of
 conduct](http://contributor-covenant.org/version/1/1/0/) that applies
 to communication around the project.
+
+## Usage
+
+```javascript
+import {EditorView, basicSetup} from "codemirror"
+
+const view = new EditorView({
+  parent: document.body,
+  doc: "Hello",
+  extensions: [basicSetup /* ... */]
+})
+```
+
+This sets up a basic code editor containing the word "Hello". You'll
+usually want to add at least a [language
+mode](https://codemirror.net/#languages) to your configuration.

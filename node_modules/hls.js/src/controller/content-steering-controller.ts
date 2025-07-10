@@ -1,28 +1,29 @@
+import { ErrorActionFlags, NetworkErrorAction } from './error-controller';
+import { ErrorDetails } from '../errors';
 import { Events } from '../events';
 import { Level } from '../types/level';
-import { reassignFragmentLevelIndexes } from '../utils/level-helper';
-import { AttrList } from '../utils/attr-list';
-import { ErrorActionFlags, NetworkErrorAction } from './error-controller';
-import { logger } from '../utils/logger';
 import {
-  PlaylistContextType,
   type Loader,
   type LoaderCallbacks,
   type LoaderConfiguration,
   type LoaderContext,
   type LoaderResponse,
   type LoaderStats,
+  PlaylistContextType,
 } from '../types/loader';
+import { AttrList } from '../utils/attr-list';
+import { reassignFragmentLevelIndexes } from '../utils/level-helper';
+import { Logger } from '../utils/logger';
+import { stringify } from '../utils/safe-json-stringify';
+import type { RetryConfig } from '../config';
 import type Hls from '../hls';
 import type { NetworkComponentAPI } from '../types/component-api';
 import type {
-  SteeringManifestLoadedData,
   ErrorData,
   ManifestLoadedData,
   ManifestParsedData,
+  SteeringManifestLoadedData,
 } from '../types/events';
-import type { RetryConfig } from '../config';
-
 import type { MediaAttributes, MediaPlaylist } from '../types/media-playlist';
 
 export type SteeringManifest = {
@@ -48,13 +49,15 @@ export type UriReplacement = {
 
 const PATHWAY_PENALTY_DURATION_MS = 300000;
 
-export default class ContentSteeringController implements NetworkComponentAPI {
+export default class ContentSteeringController
+  extends Logger
+  implements NetworkComponentAPI
+{
   private readonly hls: Hls;
-  private log: (msg: any) => void;
   private loader: Loader<LoaderContext> | null = null;
   private uri: string | null = null;
   private pathwayId: string = '.';
-  private pathwayPriority: string[] | null = null;
+  private _pathwayPriority: string[] | null = null;
   private timeToLoad: number = 300;
   private reloadTimer: number = -1;
   private updated: number = 0;
@@ -66,8 +69,8 @@ export default class ContentSteeringController implements NetworkComponentAPI {
   private penalizedPathways: { [pathwayId: string]: number } = {};
 
   constructor(hls: Hls) {
+    super('content-steering', hls.logger);
     this.hls = hls;
-    this.log = logger.log.bind(logger, `[content-steering]:`);
     this.registerListeners();
   }
 
@@ -88,6 +91,23 @@ export default class ContentSteeringController implements NetworkComponentAPI {
     hls.off(Events.MANIFEST_LOADED, this.onManifestLoaded, this);
     hls.off(Events.MANIFEST_PARSED, this.onManifestParsed, this);
     hls.off(Events.ERROR, this.onError, this);
+  }
+
+  pathways() {
+    return (this.levels || []).reduce((pathways, level) => {
+      if (pathways.indexOf(level.pathwayId) === -1) {
+        pathways.push(level.pathwayId);
+      }
+      return pathways;
+    }, [] as string[]);
+  }
+
+  get pathwayPriority(): string[] | null {
+    return this._pathwayPriority;
+  }
+
+  set pathwayPriority(pathwayPriority: string[]) {
+    this.updatePathwayPriority(pathwayPriority);
   }
 
   startLoad() {
@@ -176,7 +196,7 @@ export default class ContentSteeringController implements NetworkComponentAPI {
       errorAction.flags === ErrorActionFlags.MoveAllAlternatesMatchingHost
     ) {
       const levels = this.levels;
-      let pathwayPriority = this.pathwayPriority;
+      let pathwayPriority = this._pathwayPriority;
       let errorPathway = this.pathwayId;
       if (data.context) {
         const { groupId, pathwayId, type } = data.context;
@@ -191,26 +211,25 @@ export default class ContentSteeringController implements NetworkComponentAPI {
       }
       if (!pathwayPriority && levels) {
         // If PATHWAY-PRIORITY was not provided, list pathways for error handling
-        pathwayPriority = levels.reduce((pathways, level) => {
-          if (pathways.indexOf(level.pathwayId) === -1) {
-            pathways.push(level.pathwayId);
-          }
-          return pathways;
-        }, [] as string[]);
+        pathwayPriority = this.pathways();
       }
       if (pathwayPriority && pathwayPriority.length > 1) {
         this.updatePathwayPriority(pathwayPriority);
         errorAction.resolved = this.pathwayId !== errorPathway;
       }
-      if (!errorAction.resolved) {
-        logger.warn(
+      if (data.details === ErrorDetails.BUFFER_APPEND_ERROR && !data.fatal) {
+        // Error will become fatal in buffer-controller when reaching `appendErrorMaxRetry`
+        // Stream-controllers are expected to reduce buffer length even if this is not deemed a QuotaExceededError
+        errorAction.resolved = true;
+      } else if (!errorAction.resolved) {
+        this.warn(
           `Could not resolve ${data.details} ("${
             data.error.message
           }") with content-steering for Pathway: ${errorPathway} levels: ${
             levels ? levels.length : levels
-          } priorities: ${JSON.stringify(
+          } priorities: ${stringify(
             pathwayPriority,
-          )} penalized: ${JSON.stringify(this.penalizedPathways)}`,
+          )} penalized: ${stringify(this.penalizedPathways)}`,
         );
       }
     }
@@ -244,7 +263,7 @@ export default class ContentSteeringController implements NetworkComponentAPI {
   }
 
   private updatePathwayPriority(pathwayPriority: string[]) {
-    this.pathwayPriority = pathwayPriority;
+    this._pathwayPriority = pathwayPriority;
     let levels: Level[] | undefined;
 
     // Evaluate if we should remove the pathway from the penalized list
@@ -441,7 +460,7 @@ export default class ContentSteeringController implements NetworkComponentAPI {
       ) => {
         this.log(`Loaded steering manifest: "${url}"`);
         const steeringData = response.data as SteeringManifest;
-        if (steeringData.VERSION !== 1) {
+        if (steeringData?.VERSION !== 1) {
           this.log(`Steering VERSION ${steeringData.VERSION} not supported!`);
           return;
         }

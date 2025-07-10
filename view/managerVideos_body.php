@@ -11,6 +11,9 @@ if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
 ?>
+<link rel="stylesheet" href="<?php echo getURL('node_modules/flatpickr/dist/flatpickr.min.css'); ?>" type="text/css" />
+<script src="<?php echo getURL('node_modules/flatpickr/dist/flatpickr.min.js'); ?>"></script>
+
 <style>
     <?php
     if (!empty($advancedCustom->hideEditAdvancedFromVideosManager) && !User::isAdmin()) {
@@ -401,6 +404,10 @@ if (empty($advancedCustom)) {
         </div>
         <div class="panel-heading clearfix">
 
+            <div class="btn-group pull-right" id="filterDateButtonsVideoManager" style="margin-left: 10px;">
+                <input type="text" id="dateRangeFilter" class="form-control" placeholder="<?php echo __('Filter by Date Range'); ?>" style="width: 200px;">
+            </div>
+
             <div class="btn-group pull-right" id="filterButtonsVideoManagerCategory">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="activeFilterCategory"><i class="fas fa-list"></i> <?php echo __('All Categories'); ?></span> <span class="caret"></span>
@@ -524,6 +531,7 @@ if (empty($advancedCustom)) {
                 <input class="" data-toggle="toggle" type="checkbox" id="compactMode">
                 <label for="compactMode" class="label-success" style="margin-left: 10px;"></label>
             </div>
+
             <script>
                 $(document).ready(function() {
                     // Check if the compact mode cookie exists and apply the class
@@ -676,6 +684,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     var videos_id = <?php echo intval(@$_GET['video_id']); ?>;
     var isArticle = 0;
     var checkProgressTimeout = [];
+    var filterDateRange = '';
 
 
     function saveVideoOnPlaylist(videos_id, add, playlists_id) {
@@ -1708,11 +1717,15 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             url = addQueryStringParameter(url, 'status', filterStatus);
             url = addQueryStringParameter(url, 'type', filterType);
             url = addQueryStringParameter(url, 'catName', filterCategory);
+            if (filterDateRange) {
+                url = addQueryStringParameter(url, 'dateRange', filterDateRange);
+            }
             $('.searchFieldsNames:checked').each(function(index) {
                 url = addGetParam(url, 'searchFieldsNames[' + index + ']', $(this).val());
             });
             return url;
         }
+
 
         var grid = $("#grid").bootgrid({
             padding: 4,
@@ -2207,6 +2220,23 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         });
         $('.saveVideoBtn').click(function(evt) {
             saveVideo(true);
+        });
+
+        flatpickr("#dateRangeFilter", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            allowInput: true,
+            onClose: function(selectedDates, dateStr) {
+                if (selectedDates.length === 2) {
+                    const start = selectedDates[0].toISOString().split('T')[0];
+                    const end = selectedDates[1].toISOString().split('T')[0];
+                    filterDateRange = `${start}|${end}`;
+                    $('#grid').bootgrid('reload');
+                } else if (selectedDates.length === 0) {
+                    filterDateRange = '';
+                    $('#grid').bootgrid('reload');
+                }
+            }
         });
 
         setTimeout(function() {

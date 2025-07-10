@@ -1,4 +1,4 @@
-import EwmaBandWidthEstimator from '../utils/ewma-bandwidth-estimator';
+import type EwmaBandWidthEstimator from '../utils/ewma-bandwidth-estimator';
 
 export interface ComponentAPI {
   destroy(): void;
@@ -13,7 +13,7 @@ export interface AbrComponentAPI extends ComponentAPI {
 }
 
 export interface NetworkComponentAPI extends ComponentAPI {
-  startLoad(startPosition: number): void;
+  startLoad(startPosition: number, skipSeekToStartPosition?: boolean): void;
   stopLoad(): void;
   pauseBuffering?(): void;
   resumeBuffering?(): void;

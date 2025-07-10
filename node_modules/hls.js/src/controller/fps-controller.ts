@@ -1,9 +1,8 @@
 import { Events } from '../events';
-import { logger } from '../utils/logger';
-import type { ComponentAPI } from '../types/component-api';
+import type StreamController from './stream-controller';
 import type Hls from '../hls';
+import type { ComponentAPI } from '../types/component-api';
 import type { MediaAttachingData } from '../types/events';
-import StreamController from './stream-controller';
 
 class FPSController implements ComponentAPI {
   private hls: Hls;
@@ -28,10 +27,12 @@ class FPSController implements ComponentAPI {
 
   protected registerListeners() {
     this.hls.on(Events.MEDIA_ATTACHING, this.onMediaAttaching, this);
+    this.hls.on(Events.MEDIA_DETACHING, this.onMediaDetaching, this);
   }
 
   protected unregisterListeners() {
     this.hls.off(Events.MEDIA_ATTACHING, this.onMediaAttaching, this);
+    this.hls.off(Events.MEDIA_DETACHING, this.onMediaDetaching, this);
   }
 
   destroy() {
@@ -65,6 +66,10 @@ class FPSController implements ComponentAPI {
     }
   }
 
+  private onMediaDetaching() {
+    this.media = null;
+  }
+
   checkFPS(
     video: HTMLVideoElement,
     decodedFrames: number,
@@ -84,13 +89,13 @@ class FPSController implements ComponentAPI {
           totalDroppedFrames: droppedFrames,
         });
         if (droppedFPS > 0) {
-          // logger.log('checkFPS : droppedFPS/decodedFPS:' + droppedFPS/(1000 * currentDecoded / currentPeriod));
+          // hls.logger.log('checkFPS : droppedFPS/decodedFPS:' + droppedFPS/(1000 * currentDecoded / currentPeriod));
           if (
             currentDropped >
             hls.config.fpsDroppedMonitoringThreshold * currentDecoded
           ) {
             let currentLevel = hls.currentLevel;
-            logger.warn(
+            hls.logger.warn(
               'drop FPS ratio greater than max allowed value for currentLevel: ' +
                 currentLevel,
             );

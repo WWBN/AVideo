@@ -205,9 +205,9 @@ abstract class ObjectYPT implements ObjectInterface
             $_REQUEST['rowCount'] = intval($_REQUEST['length']);
         }
         if (empty($_REQUEST['current']) && !empty($_GET['start'])) {
-            if(empty($_GET['length'])){
+            if (empty($_GET['length'])) {
                 $_REQUEST['current'] = 1;
-            }else{
+            } else {
                 $_REQUEST['current'] = ($_GET['start'] / $_GET['length']) + 1;
             }
         } elseif (empty($_REQUEST['current']) && isset($_GET['start'])) {
@@ -333,12 +333,12 @@ abstract class ObjectYPT implements ObjectInterface
                 } elseif (strtolower($value) == 'modified_php_time') {
                     $fields[] = " {$value} = " . time();
                 } elseif (strtolower($value) == 'created_php_time') {
-                    if(empty($this->created_php_time)){
-                        if(!empty($this->created)){
+                    if (empty($this->created_php_time)) {
+                        if (!empty($this->created)) {
                             $formats .= 'i';
                             $values[] = strtotime($this->created);
                             $fields[] = " `{$value}` = ? ";
-                        }else{
+                        } else {
                             $formats .= 'i';
                             $values[] = time();
                             $fields[] = " `{$value}` = ? ";
@@ -385,7 +385,6 @@ abstract class ObjectYPT implements ObjectInterface
                 } elseif (is_string($value) && strtolower($value) == 'timezone') {
                     if (empty($this->$value)) {
                         eval('$this->' . $value . ' = date_default_timezone_get();');
-
                     }
                     $formats .= 's';
                     $values[] = $this->$value;
@@ -393,7 +392,6 @@ abstract class ObjectYPT implements ObjectInterface
                 } elseif (strtolower($value) == 'created_php_time') {
                     if (empty($this->$value)) {
                         eval('$this->' . $value . ' = time();');
-
                     }
                     $formats .= 'i';
                     $values[] = $this->$value;
@@ -419,7 +417,7 @@ abstract class ObjectYPT implements ObjectInterface
         //var_dump(static::getTableName(), $sql, $values);exit;
         //if(static::getTableName() == 'videos'){ echo $sql;var_dump($values); var_dump(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));}//return false;
         //echo $sql;var_dump($this, $values, $global['mysqli']->error);exit;
-        $global['lastQuery'] = array('sql'=>$sql, 'formats'=>$formats, 'values'=>$values );
+        $global['lastQuery'] = array('sql' => $sql, 'formats' => $formats, 'values' => $values);
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
         /**
@@ -500,6 +498,22 @@ abstract class ObjectYPT implements ObjectInterface
         }
 
         return $result;
+    }
+
+    static function applyDateRangeFilter(&$sql, $dateRangeParam = 'dateRange', $column = 'v.created')
+    {
+        if (!empty($_REQUEST[$dateRangeParam])) {
+            $dates = explode('|', $_REQUEST[$dateRangeParam]);
+            $start = isset($dates[0]) ? preg_replace('/[^0-9\-]/', '', $dates[0]) : '';
+            $end = isset($dates[1]) ? preg_replace('/[^0-9\-]/', '', $dates[1]) : '';
+
+            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $start)) {
+                $sql .= " AND {$column} >= '{$start} 00:00:00' ";
+            }
+            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $end)) {
+                $sql .= " AND {$column} <= '{$end} 23:59:59' ";
+            }
+        }
     }
 
 
@@ -628,8 +642,8 @@ abstract class ObjectYPT implements ObjectInterface
         }
 
         $cachefile = self::getCacheFileName($name, true, $addSubDirs, $ignoreMetadata);
-        if(isCommandLineInterface()){
-            echo 'setCache '.json_encode(array($name, $addSubDirs, $ignoreMetadata)).PHP_EOL;
+        if (isCommandLineInterface()) {
+            echo 'setCache ' . json_encode(array($name, $addSubDirs, $ignoreMetadata)) . PHP_EOL;
         }
         self::logTime($start, __LINE__, $name);
         make_path($cachefile);
@@ -699,8 +713,8 @@ abstract class ObjectYPT implements ObjectInterface
         }
         //if($name=='getVideosURL_V2video_220721204450_v21b7'){var_dump($name);exit;}
         $cachefile = self::getCacheFileName($name, false, $addSubDirs, $ignoreMetadata);
-        if(isCommandLineInterface()){
-            echo 'getCache '.json_encode(array($name, $addSubDirs, $ignoreMetadata)).PHP_EOL;
+        if (isCommandLineInterface()) {
+            echo 'getCache ' . json_encode(array($name, $addSubDirs, $ignoreMetadata)) . PHP_EOL;
         }
         //if($name=='getVideosURL_V2video_220721204450_v21b7'){var_dump($cachefile);exit;}//exit;
         self::setLastUsedCacheFile($cachefile);
@@ -1167,7 +1181,7 @@ abstract class CacheHandler
     {
         $name = $this->getCacheName($this->suffix);
 
-        if(isCommandLineInterface()){
+        if (isCommandLineInterface()) {
             //echo "public function setCache({$this->suffix}) name=".$name.PHP_EOL;
             //echo json_encode(debug_backtrace());
         }
@@ -1188,7 +1202,7 @@ abstract class CacheHandler
         }
         $this->setSuffix($suffix);
         $name = $this->getCacheName($this->suffix);
-        if(isCommandLineInterface()){
+        if (isCommandLineInterface()) {
             //echo "public function getCache($suffix) name=".$name.PHP_EOL;
             //echo json_encode(debug_backtrace());
         }
@@ -1252,7 +1266,7 @@ abstract class CacheHandler
             return true;
         } else {
             $resp = execAsync("rm -R {$dir}");
-            _error_log("deleteCache not schedule {$dir} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            _error_log("deleteCache not schedule {$dir} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             return false;
         }
     }

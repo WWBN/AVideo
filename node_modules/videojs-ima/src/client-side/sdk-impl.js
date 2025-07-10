@@ -369,10 +369,7 @@ SdkImpl.prototype.initAdsManager = function() {
     const initHeight = this.controller.getPlayerHeight();
     this.adsManagerDimensions.width = initWidth;
     this.adsManagerDimensions.height = initHeight;
-    this.adsManager.init(
-        initWidth,
-        initHeight,
-        google.ima.ViewMode.NORMAL);
+    this.adsManager.init(initWidth, initHeight);
     this.adsManager.setVolume(this.controller.getPlayerVolume());
     this.initializeAdDisplayContainer();
   } catch (adError) {
@@ -613,10 +610,7 @@ SdkImpl.prototype.onPlayerReady = function() {
 
 SdkImpl.prototype.onPlayerEnterFullscreen = function() {
   if (this.adsManager) {
-    this.adsManager.resize(
-        window.screen.width,
-        window.screen.height,
-        google.ima.ViewMode.FULLSCREEN);
+    this.adsManager.resize(window.screen.width, window.screen.height);
   }
 };
 
@@ -624,9 +618,7 @@ SdkImpl.prototype.onPlayerEnterFullscreen = function() {
 SdkImpl.prototype.onPlayerExitFullscreen = function() {
   if (this.adsManager) {
     this.adsManager.resize(
-        this.controller.getPlayerWidth(),
-        this.controller.getPlayerHeight(),
-        google.ima.ViewMode.NORMAL);
+        this.controller.getPlayerWidth(), this.controller.getPlayerHeight());
   }
 };
 
@@ -660,7 +652,7 @@ SdkImpl.prototype.onPlayerResize = function(width, height) {
     this.adsManagerDimensions.width = width;
     this.adsManagerDimensions.height = height;
     /* eslint no-undef: 'error' */
-    this.adsManager.resize(width, height, google.ima.ViewMode.NORMAL);
+    this.adsManager.resize(width, height);
   }
 };
 

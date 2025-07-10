@@ -2013,6 +2013,8 @@ if (!class_exists('Video')) {
                 $sql .= " AND (v.video_password IS NOT NULL AND v.video_password != '') ";
             }
 
+            self::applyDateRangeFilter($sql);
+
             $sql .= AVideoPlugin::getVideoWhereClause();
             if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
                 $sql .= self::getSQLByStatus(Video::SORT_TYPE_VIEWABLE, true);
@@ -2822,6 +2824,8 @@ if (!class_exists('Video')) {
             if (!empty($passwordProtectedOnly)) {
                 $sql .= " AND (v.video_password IS NOT NULL AND v.video_password != '') ";
             }
+
+            self::applyDateRangeFilter($sql);
 
             $sql .= AVideoPlugin::getVideoWhereClause();
 

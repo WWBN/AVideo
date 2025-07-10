@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 var view = require('@codemirror/view');
 var state = require('@codemirror/state');
 var language = require('@codemirror/language');

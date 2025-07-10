@@ -37,6 +37,7 @@ HLS.js is written in [ECMAScript6] (`*.js`) and [TypeScript] (`*.ts`) (strongly 
 - Fragmented MP4 container
 - MPEG-2 TS container
   - ITU-T Rec. H.264 and ISO/IEC 14496-10 Elementary Stream
+  - ITU-T Rec. H.265 and ISO/IEC 23008-2 Elementary Stream
   - ISO/IEC 13818-7 ADTS AAC Elementary Stream
   - ISO/IEC 11172-3 / ISO/IEC 13818-3 (MPEG-1/2 Audio Layer III) Elementary Stream
   - ATSC A/52 / AC-3 / Dolby Digital Elementary Stream
@@ -85,20 +86,18 @@ For details on the HLS format and these tags' meanings, see https://datatracker.
 - `#EXT-X-CONTENT-STEERING:<attribute-list>` Content Steering
 - `#EXT-X-DEFINE:<attribute-list>` Variable Substitution (`NAME,VALUE,QUERYPARAM` attributes)
 
-The following properties are added to their respective variants' attribute list but are not implemented in their selection and playback.
-
-- `VIDEO-RANGE` (See [#2489](https://github.com/video-dev/hls.js/issues/2489))
-
 #### Media Playlist tags
 
-- `#EXTM3U`
-- `#EXT-X-VERSION=<n>`
+- `#EXTM3U` (ignored)
+- `#EXT-X-INDEPENDENT-SEGMENTS` (ignored)
+- `#EXT-X-VERSION=<n>` (value is ignored)
 - `#EXTINF:<duration>,[<title>]`
 - `#EXT-X-ENDLIST`
 - `#EXT-X-MEDIA-SEQUENCE=<n>`
 - `#EXT-X-TARGETDURATION=<n>`
 - `#EXT-X-DISCONTINUITY`
 - `#EXT-X-DISCONTINUITY-SEQUENCE=<n>`
+- `#EXT-X-BITRATE`
 - `#EXT-X-BYTERANGE=<n>[@<o>]`
 - `#EXT-X-MAP:<attribute-list>`
 - `#EXT-X-KEY:<attribute-list>` (`KEYFORMAT="identity",METHOD=SAMPLE-AES` is only supports with MPEG-2 TS segments)
@@ -110,14 +109,11 @@ The following properties are added to their respective variants' attribute list 
 - `#EXT-X-SKIP:<attribute-list>` Delta Playlists
 - `#EXT-X-RENDITION-REPORT:<attribute-list>`
 - `#EXT-X-DATERANGE:<attribute-list>` Metadata
+  - HLS EXT-X-DATERANGE Schema for Interstitials
 - `#EXT-X-DEFINE:<attribute-list>` Variable Import and Substitution (`NAME,VALUE,IMPORT,QUERYPARAM` attributes)
 - `#EXT-X-GAP` (Skips loading GAP segments and parts. Skips playback of unbuffered program containing only GAP content and no suitable alternates. See [#2940](https://github.com/video-dev/hls.js/issues/2940))
 
-The following tags are added to their respective fragment's attribute list but are not implemented in streaming and playback.
-
-- `#EXT-X-BITRATE` (Not used in ABR controller)
-
-Parsed but missing feature support
+Parsed but missing feature support:
 
 - `#EXT-X-PRELOAD-HINT:<attribute-list>` (See [#5074](https://github.com/video-dev/hls.js/issues/3988))
   - #5074
@@ -126,8 +122,8 @@ Parsed but missing feature support
 
 For a complete list of issues, see ["Top priorities" in the Release Planning and Backlog project tab](https://github.com/video-dev/hls.js/projects/6). Codec support is dependent on the runtime environment (for example, not all browsers on the same OS support HEVC).
 
-- HLS Interstitials
 - `#EXT-X-I-FRAME-STREAM-INF` I-frame Media Playlist files
+- `REQ-VIDEO-LAYOUT` is not used in variant filtering or selection
 - "identity" format `SAMPLE-AES` method keys with fmp4, aac, mp3, vtt... segments (MPEG-2 TS only)
 - MPEG-2 TS segments with FairPlay Streaming, PlayReady, or Widevine encryption
 - FairPlay Streaming legacy keys (For com.apple.fps.1_0 use native Safari playback)
@@ -302,11 +298,11 @@ HLS.js is supported on:
 - Edge for Windows 10+
 - Safari 9+ for macOS 10.11+
 - Safari for iPadOS 13+
-- Safari for iOS 17.1+
+- Safari for iOS 17.1+ since HLS version [1.5.0](https://github.com/video-dev/hls.js/releases/tag/v1.5.0) using Managed Media Source (MMS) [WebKit blog](https://webkit.org/blog/14735/webkit-features-in-safari-17-1/)
 
 A [Promise polyfill](https://github.com/taylorhakes/promise-polyfill) is required in browsers missing native promise support.
 
-**Please note:** iOS Safari on iPhone does not support the MediaSource API. This includes all browsers on iOS as well as apps using UIWebView and WKWebView.
+**Please note:**
 
 Safari browsers (iOS, iPadOS, and macOS) have built-in HLS support through the plain video "tag" source URL. See the example below (Using HLS.js) to run appropriate feature detection and choose between using HLS.js or natively built-in HLS support.
 
@@ -392,6 +388,28 @@ To check for native browser support first and then fallback to HLS.js, swap thes
 </script>
 ```
 
+#### Ensure correct time in video
+
+HLS transcoding of an original video file often pushes the time of the first frame a bit. If you depend on having an exact match of frame times between original video and HLS stream, you need to account for this:
+
+```javascript
+let tOffset = 0;
+const getAppendedOffset = (eventName, { frag }) => {
+  if (frag.type === 'main' && frag.sn !== 'initSegment' && frag.elementaryStreams.video) {
+    const { start, startDTS, startPTS, maxStartPTS, elementaryStreams } = frag;
+    tOffset = elementaryStreams.video.startPTS - start;
+    hls.off(Hls.Events.BUFFER_APPENDED, getAppendedOffset);
+    console.log('video timestamp offset:', tOffset, { start, startDTS, startPTS, maxStartPTS, elementaryStreams });
+  }
+}
+hls.on(Hls.Events.BUFFER_APPENDED, getAppendedOffset);
+// and account for this offset, for example like this:
+const video = document.querySelector('video');
+video.addEventListener('timeupdate', () => setTime(Math.max(0, video.currentTime - tOffset))
+const seek = (t) => video.currentTime = t + tOffset;
+const getDuration = () => video.duration - tOffset;
+```
+
 For more embed and API examples see [docs/API.md](./docs/API.md).
 
 ## CORS
@@ -424,6 +442,8 @@ The following players integrate HLS.js for HLS playback:
 - [OpenPlayerJS](https://www.openplayerjs.com), as part of the [OpenPlayer project](https://github.com/openplayerjs)
 - [CDNBye](https://github.com/cdnbye/hlsjs-p2p-engine), a p2p engine for hls.js powered by WebRTC Datachannel.
 - [M3U IPTV](http://m3u-ip.tv/browser/)
+- [ArtPlayer](https://artplayer.org/?libs=https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.17/hls.min.js&example=hls)
+- [IPTV Player](https://iptvplayer.stream), A free web-based HLS player that lets you play HLS,DASH and MP4 streams
 
 ### They use HLS.js in production!
 
@@ -438,7 +458,7 @@ The following players integrate HLS.js for HLS playback:
 |                        [<img src="https://player.mtvnservices.com/edge/hosted/Viacom_logo.svg" width="120">](https://www.viacom.com/)                        |             [<img src="https://user-images.githubusercontent.com/1181974/29248959-efabc440-802d-11e7-8050-7c1f4ca6c607.png" width="120">](https://vk.com/)              |                         [<img src="https://avatars0.githubusercontent.com/u/5090060?s=200&v=4" width="120">](https://www.jwplayer.com)                         |                                          [<img src="https://raw.githubusercontent.com/kaltura/kaltura-player-js/master/docs/images/kaltura-logo.svg" width="120">](https://corp.kaltura.com/)                                           |
 |                          [<img src="https://showmax.akamaized.net/e/logo/showmax_black.png" width="120">](https://tech.showmax.com)                          | [<img src="https://static3.1tv.ru/assets/web/logo-ac67852f1625b338f9d1fb96be089d03557d50bfc5790d5f48dc56799f59dec6.svg" width="120" height="120">](https://www.1tv.ru/) |       [<img src="https://user-images.githubusercontent.com/1480052/40482633-c013ebce-5f55-11e8-96d5-b776415de0ce.png" width="120">](https://www.zdf.de)        |                                                                  [<img src="https://cms-static.brid.tv/img/brid-logo-120x120.jpg" width="120">](https://www.brid.tv/)                                                                   |
 |                                                            [cdn77](https://streaming.cdn77.com/)                                                             |                                  [<img src="https://avatars0.githubusercontent.com/u/7442371?s=200&v=4" width="120">](https://r7.com/)                                  | [<img src="https://raw.githubusercontent.com/Novage/p2p-media-loader/gh-pages/images/p2pml-logo.png" width="120">](https://github.com/Novage/p2p-media-loader) |                                                              [<img src="https://avatars3.githubusercontent.com/u/45617200?s=400" width="120">](https://kayosports.com.au)                                                               |
-|    [<img src="https://avatars1.githubusercontent.com/u/5279615?s=400&u=9771a216836c613f1edf4afe71cfc69d4c5657ed&v=4" width="120">](https://flosports.tv)     |                  [<img src="https://www.logolynx.com/images/logolynx/c6/c67a2cb3ad33a82b5518f8ad8f124703.png" width="120">](https://global.axon.com/)                   |                                                                                                                                                                |                                                                                                                                                                                                                                         |
+|    [<img src="https://avatars1.githubusercontent.com/u/5279615?s=400&u=9771a216836c613f1edf4afe71cfc69d4c5657ed&v=4" width="120">](https://flosports.tv)     |                  [<img src="https://www.logolynx.com/images/logolynx/c6/c67a2cb3ad33a82b5518f8ad8f124703.png" width="120">](https://global.axon.com/)                   |                    [<img src="https://static.rutube.ru/static/img/svg/logo_rutube_black_color_154x25.svg" width="120">](https://rutube.ru/)                    |                                                                                                                                                                                                                                         |
 
 ## Chrome/Firefox integration
 

@@ -1,0 +1,12 @@
+export declare const hintsClassName = "introjs-hints";
+export declare const hintClassName = "introjs-hint";
+export declare const arrowClassName = "introjs-arrow";
+export declare const tooltipClassName = "introjs-tooltip";
+export declare const hideHintClassName = "introjs-hidehint";
+export declare const tooltipReferenceLayerClassName = "introjs-tooltipReferenceLayer";
+export declare const tooltipTextClassName = "introjs-tooltiptext";
+export declare const hintReferenceClassName = "introjs-hintReference";
+export declare const hintNoAnimationClassName = "introjs-hint-no-anim";
+export declare const fixedHintClassName = "introjs-fixedhint";
+export declare const hintDotClassName = "introjs-hint-dot";
+export declare const hintPulseClassName = "introjs-hint-pulse";

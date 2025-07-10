@@ -49,7 +49,7 @@ export function addCueToTrack(track: TextTrack, cue: VTTCue) {
   }
 }
 
-export function clearCurrentCues(track: TextTrack) {
+export function clearCurrentCues(track: TextTrack, enterHandler?: () => void) {
   // When track.mode is disabled, track.cues will be null.
   // To guarantee the removal of cues, we need to temporarily
   // change the mode to hidden
@@ -59,6 +59,9 @@ export function clearCurrentCues(track: TextTrack) {
   }
   if (track.cues) {
     for (let i = track.cues.length; i--; ) {
+      if (enterHandler) {
+        track.cues[i].removeEventListener('enter', enterHandler);
+      }
       track.removeCue(track.cues[i]);
     }
   }
@@ -91,14 +94,14 @@ export function removeCuesInRange(
   }
 }
 
-// Find first cue starting after given time.
+// Find first cue starting at or after given time.
 // Modified version of binary search O(log(n)).
-function getFirstCueIndexAfterTime(
+function getFirstCueIndexFromTime(
   cues: TextTrackCueList | TextTrackCue[],
   time: number,
 ): number {
-  // If first cue starts after time, start there
-  if (time < cues[0].startTime) {
+  // If first cue starts at or after time, start there
+  if (time <= cues[0].startTime) {
     return 0;
   }
   // If the last cue ends before time there is no overlap
@@ -109,9 +112,9 @@ function getFirstCueIndexAfterTime(
 
   let left = 0;
   let right = len;
-
+  let mid;
   while (left <= right) {
-    const mid = Math.floor((right + left) / 2);
+    mid = Math.floor((right + left) / 2);
 
     if (time < cues[mid].startTime) {
       right = mid - 1;
@@ -135,7 +138,7 @@ export function getCuesInRange(
   end: number,
 ): TextTrackCue[] {
   const cuesFound: TextTrackCue[] = [];
-  const firstCueInRange = getFirstCueIndexAfterTime(cues, start);
+  const firstCueInRange = getFirstCueIndexFromTime(cues, start);
   if (firstCueInRange > -1) {
     for (let i = firstCueInRange, len = cues.length; i < len; i++) {
       const cue = cues[i];
