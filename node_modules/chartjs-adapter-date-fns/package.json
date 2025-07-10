@@ -1,0 +1,61 @@
+{
+  "name": "chartjs-adapter-date-fns",
+  "homepage": "https://www.chartjs.org",
+  "description": "Chart.js adapter to use date-fns for time functionalities",
+  "version": "3.0.0",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/chartjs-adapter-date-fns.esm.js",
+  "jsdelivr": "dist/chartjs-adapter-date-fns.bundle.min.js",
+  "unpkg": "dist/chartjs-adapter-date-fns.bundle.min.js",
+  "exports": {
+    "import": "./dist/chartjs-adapter-date-fns.esm.js",
+    "require": "./dist/chartjs-adapter-date-fns.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chartjs/chartjs-adapter-date-fns.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "karma start ./karma.conf.cjs --auto-watch --no-single-run --browsers chrome",
+    "lint": "eslint test/**/*.js src/**/*.js",
+    "test": "cross-env NODE_ENV=test concurrently \"npm:test-*\"",
+    "test-lint": "npm run lint",
+    "test-karma": "karma start ./karma.conf.cjs --auto-watch --single-run"
+  },
+  "keywords": [
+    "chart.js",
+    "date",
+    "date-fns",
+    "time"
+  ],
+  "files": [
+    "dist/*.js"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.1.0",
+    "chart.js": "^4.0.1",
+    "chartjs-test-utils": "^0.5.0",
+    "concurrently": "^7.6.0",
+    "cross-env": "^7.0.3",
+    "date-fns": "2.19",
+    "eslint": "^8.29.0",
+    "eslint-config-chartjs": "^0.3.0",
+    "eslint-plugin-es": "^4.1.0",
+    "karma": "^6.1.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.3",
+    "karma-firefox-launcher": "^2.1.0",
+    "karma-jasmine": "^5.1.0",
+    "karma-jasmine-html-reporter": "^2.0.0",
+    "karma-rollup-preprocessor": "7.0.7",
+    "rollup": "^3.7.2",
+    "rollup-plugin-istanbul": "^4.0.0"
+  },
+  "peerDependencies": {
+    "chart.js": ">=2.8.0",
+    "date-fns": ">=2.0.0"
+  }
+}

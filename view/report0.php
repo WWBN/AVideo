@@ -2,7 +2,7 @@
     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 dashboard">
         <?php
         if (User::isAdmin()) {
-            ?>
+        ?>
             <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
                 <div class="panel-heading">
                     <div class="row">
@@ -36,7 +36,7 @@
                     </div>
                 </a>
             </div>
-            <?php
+        <?php
         }
         ?>
         <div class="panel panel-blue <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
@@ -187,7 +187,7 @@
                     <div class="panel-heading">
                         <?php echo __("Today"); ?>
                     </div>
-                    <div class="panel-body" >
+                    <div class="panel-body">
                         <canvas id="myChartToday"></canvas>
                     </div>
                 </div>
@@ -197,7 +197,7 @@
                     <div class="panel-heading">
                         <?php echo __("Last 7 Days"); ?>
                     </div>
-                    <div class="panel-body" >
+                    <div class="panel-body">
                         <canvas id="myChart7"></canvas>
                     </div>
                 </div>
@@ -207,7 +207,7 @@
                     <div class="panel-heading">
                         <?php echo __("Last 15 Days"); ?>
                     </div>
-                    <div class="panel-body" >
+                    <div class="panel-body">
                         <canvas id="myChart15"></canvas>
                     </div>
                 </div>
@@ -217,7 +217,7 @@
                     <div class="panel-heading">
                         <?php echo __("Last 30 Days"); ?>
                     </div>
-                    <div class="panel-body" >
+                    <div class="panel-body">
                         <canvas id="myChart30"></canvas>
                     </div>
                 </div>
@@ -227,16 +227,18 @@
                     <div class="panel-heading">
                         <?php echo __("Last 90 Days"); ?>
                     </div>
-                    <div class="panel-body" >
+                    <div class="panel-body">
                         <canvas id="myChart90"></canvas>
                     </div>
                 </div>
             </div>
+            <?php
+            include $global['systemRootPath'] . 'view/report4.php';
+            ?>
         </div>
     </div>
 </div>
 <script>
-
     function createGraph(labels, data, selector) {
         var ctx = $(selector);
         var backgroundColor = [];
@@ -252,22 +254,22 @@
             data: {
                 labels: labels,
                 datasets: [{
-                        label: '',
-                        data: data,
-                        backgroundColor: backgroundColor,
-                        borderColor: borderColor,
-                        borderWidth: 1
-                    }]
+                    label: '',
+                    data: data,
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
+                    borderWidth: 1
+                }]
             },
             options: {
                 responsive: true,
                 plugins: {
                     tooltip: {
                         callbacks: {
-                            title: function (context) {
+                            title: function(context) {
                                 return context[0].label[0];
                             },
-                            label: function (context) {
+                            label: function(context) {
                                 return context.label[1];
                             }
                         }
@@ -276,11 +278,15 @@
                         position: 'left',
                         display: true,
                         labels: {
-                            generateLabels: function (chart) {
+                            generateLabels: function(chart) {
                                 var data = chart.data;
                                 if (data.labels.length && data.datasets.length) {
-                                    const {labels: {pointStyle}} = chart.legend.options;
-                                    return data.labels.map(function (label, i) {
+                                    const {
+                                        labels: {
+                                            pointStyle
+                                        }
+                                    } = chart.legend.options;
+                                    return data.labels.map(function(label, i) {
                                         const meta = chart.getDatasetMeta(0);
                                         const style = meta.controller.getStyle(i);
 
@@ -331,10 +337,10 @@
         createGraph(labels, data_total_views, selector);
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         $.ajax({
-            url: webSiteRootURL + 'view/report.json.php?isAdminPanel=<?php echo!empty($isAdminPanel) ? 1 : 0; ?>',
-            success: function (response) {
+            url: webSiteRootURL + 'view/report.json.php?isAdminPanel=<?php echo !empty($isAdminPanel) ? 1 : 0; ?>',
+            success: function(response) {
                 if (!response.error) {
                     createVideosGraphs(response.today.videos, '#myChartToday');
                     createVideosGraphs(response.last7Days.videos, '#myChart7');

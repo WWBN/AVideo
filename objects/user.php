@@ -73,8 +73,7 @@ class User
         $user = '',
         #[\SensitiveParameter]
         $password = ''
-    )
-    {
+    ) {
         if (empty($id)) {
             // get the user data from user and pass
             $this->user = $user;
@@ -1121,7 +1120,7 @@ if (typeof gtag !== \"function\") {
             _error_log("User::canWatchVideoWithAds User cannot watch video ({$videos_id})");
         }
 
-        if(empty($global['canWatchVideoReason'])){
+        if (empty($global['canWatchVideoReason'])) {
             $global['canWatchVideoReason'] = "canWatchVideoWithAds: User cannot watch the video or ads";
         }
         return false;
@@ -2076,8 +2075,7 @@ if (typeof gtag !== \"function\") {
         #[\SensitiveParameter]
         $password,
         $doNotEncrypt = false
-    )
-    {
+    ) {
         if (strpos($password, "_user_hash_") === 0) {
             $passwordFromHash = User::getPasswordFromUserHashIfTheItIsValid($password);
             if (!empty($passwordFromHash)) {
@@ -3731,5 +3729,81 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         return $_SESSION['swapUser']['id'];
+    }
+
+    static function getUsersPerDayJSON()
+    {
+        global $global;
+
+        $filePath = $global['systemRootPath'] . 'videos/users_per_day.json';
+        $data = [];
+
+        // Load the existing JSON file if it exists
+        if (file_exists($filePath)) {
+            $json = file_get_contents($filePath);
+            $data = json_decode($json, true) ?? [];
+        }
+
+        // Find the last saved date or use a default start date
+        $lastSavedDate = !empty($data) ? max(array_keys($data)) : '2000-01-01';
+
+        // Fetch only missing days excluding today
+        $sql = "SELECT DATE(created) AS day, COUNT(*) AS total
+            FROM users
+            WHERE created > ? AND created < CURDATE()
+            GROUP BY day
+            ORDER BY day ASC";
+
+        $res = sqlDAL::readSql($sql, "s", [$lastSavedDate]);
+        $rows = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+
+        if ($res !== false && !empty($rows)) {
+            foreach ($rows as $row) {
+                $data[$row['day']] = (int)$row['total'];
+            }
+
+            file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
+        }
+
+        return $data;
+    }
+
+
+    static function getUsersCumulativePerDayJSON()
+    {
+        global $global;
+
+        $filePath = $global['systemRootPath'] . 'videos/users_cumulative_per_day.json';
+        $data = [];
+
+        if (file_exists($filePath)) {
+            $json = file_get_contents($filePath);
+            $data = json_decode($json, true) ?? [];
+        }
+
+        $lastSavedDate = !empty($data) ? max(array_keys($data)) : '2000-01-01';
+        $lastTotal = !empty($data) ? end($data) : 0;
+
+        $sql = "SELECT DATE(created) AS day, COUNT(*) AS daily
+            FROM users
+            WHERE created > ? AND created < CURDATE()
+            GROUP BY day
+            ORDER BY day ASC";
+
+        $res = sqlDAL::readSql($sql, "s", [$lastSavedDate]);
+        $rows = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+
+        if ($res !== false && !empty($rows)) {
+            foreach ($rows as $row) {
+                $lastTotal += (int)$row['daily'];
+                $data[$row['day']] = $lastTotal;
+            }
+
+            file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
+        }
+
+        return $data;
     }
 }
