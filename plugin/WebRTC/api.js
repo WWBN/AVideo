@@ -166,12 +166,8 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
             // Constraints for selected devices or default devices
             const isLandscape = window.screen.orientation.type.startsWith('landscape');
 
-            const videoConstraints = {
-                width: { ideal: 1280 },
-                height: { ideal: 720 },
-                frameRate: { ideal: 30 },
-                aspectRatio: isLandscape ? 16 / 9 : 9 / 16,
-            };
+            const videoConstraints = buildVideoConstraints(videoDeviceId);
+            videoConstraints.aspectRatio = isLandscape ? 16 / 9 : 9 / 16;
 
             console.log('videoConstraints', isLandscape, videoConstraints);
 
@@ -273,6 +269,66 @@ function unlockScreenOrientation() {
     }
 }
 
+// Populate the video/audio source dropdowns
+async function populateSources() {
+    try {
+        // Request camera access to get labels in mobile browsers (required in iOS/Android)
+        await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+
+        const devices = await navigator.mediaDevices.enumerateDevices();
+
+        // Clear existing options
+        $('#videoSource').empty().append('<option value="">Default</option>');
+        $('#audioSource').empty().append('<option value="">Default</option>');
+
+        const videoInputs = devices.filter(device => device.kind === 'videoinput');
+        const audioInputs = devices.filter(device => device.kind === 'audioinput');
+
+        // Populate video sources
+        videoInputs.forEach((device, index) => {
+            $('#videoSource').append(
+                `<option value="${device.deviceId}">${device.label || `Camera ${index + 1}`}</option>`
+            );
+        });
+
+        // If only 1 camera is available or labels are missing, add facingMode fallback options
+        if (videoInputs.length <= 1) {
+            $('#videoSource').append('<option value="facing-user">Front Camera</option>');
+            $('#videoSource').append('<option value="facing-environment">Rear Camera</option>');
+        }
+
+        // Populate audio sources
+        audioInputs.forEach((device, index) => {
+            $('#audioSource').append(
+                `<option value="${device.deviceId}">${device.label || `Mic ${index + 1}`}</option>`
+            );
+        });
+
+    } catch (error) {
+        console.error('Error populating media sources:', error);
+    }
+}
+
+// Build video constraints, supporting facingMode fallback
+function buildVideoConstraints(deviceIdOrFacingMode) {
+    const base = {
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+        frameRate: { ideal: 30 }
+    };
+
+    if (!deviceIdOrFacingMode) return base;
+
+    if (deviceIdOrFacingMode === 'facing-user') {
+        return { ...base, facingMode: { exact: 'user' } };
+    } else if (deviceIdOrFacingMode === 'facing-environment') {
+        return { ...base, facingMode: { exact: 'environment' } };
+    } else {
+        return { ...base, deviceId: { exact: deviceIdOrFacingMode } };
+    }
+}
+
+
 window.addEventListener('orientationchange', () => {
     console.log('Orientation changed.');
     if (isLive) {
@@ -286,28 +342,6 @@ window.addEventListener('orientationchange', () => {
 
 
 $(document).ready(function () {
-    // Populate Video and Audio Sources
-    function populateSources() {
-        navigator.mediaDevices.enumerateDevices().then((devices) => {
-            // Clear existing options
-            $('#videoSource').empty().append('<option value="">Select Video Source</option>');
-            $('#audioSource').empty().append('<option value="">Select Audio Source</option>');
-
-            devices.forEach((device) => {
-                if (device.kind === 'videoinput') {
-                    $('#videoSource').append(
-                        `<option value="${device.deviceId}">${device.label || `Camera ${$('#videoSource option').length}`}</option>`
-                    );
-                } else if (device.kind === 'audioinput') {
-                    $('#audioSource').append(
-                        `<option value="${device.deviceId}">${device.label || `Microphone ${$('#audioSource option').length}`}</option>`
-                    );
-                }
-            });
-        }).catch((error) => console.error('Error enumerating devices:', error));
-    }
-
-    // Initialize sources on load
     populateSources();
 
     // Start Screen Sharing
