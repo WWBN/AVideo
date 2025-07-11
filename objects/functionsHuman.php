@@ -15,8 +15,12 @@ function humanTiming($time, $precision = 0, $useDatabaseTime = true, $addAgo = f
     return secondsToHumanTiming($time, $precision, $addAgo);
 }
 
-function humanTimingOrDate($time, $precision = 0, $useDatabaseTime = true, $addAgo = false){
-    $advancedCustom = getAdvancedCustomizedObjectData();
+function humanTimingOrDate($time, $precision = 0, $useDatabaseTime = true, $addAgo = false)
+{
+    global $advancedCustom;
+    if (empty($advancedCustom)) {
+        $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+    }
 
     if (is_array($time)) {
         $video = $time;
@@ -169,7 +173,8 @@ function secondsIntervalHuman($time, $useDatabaseTime = true)
     }
 }
 
-function secondsToTime($seconds, $precision = '%06.3f') {
+function secondsToTime($seconds, $precision = '%06.3f')
+{
     $hours = floor($seconds / 3600);
     $mins = intval(floor($seconds / 60) % 60);
     $secs = ($seconds % 60);   // 1
@@ -177,7 +182,8 @@ function secondsToTime($seconds, $precision = '%06.3f') {
     return sprintf("%02d:%02d:{$precision}", $hours, $mins, $secs + $decimal);
 }
 
-function timeToSecondsInt($hms) {
+function timeToSecondsInt($hms)
+{
     $a = explode(":", $hms); // split it at the colons
     // minutes are worth 60 seconds. Hours are worth 60 minutes.
 
@@ -230,8 +236,9 @@ function secondsIntervalFromNow($time, $useDatabaseTimeOrTimezoneString = true)
     return secondsInterval($timeNow, $time);
 }
 
-function parseToFloat($numString) {
-    if(!is_string($numString)){
+function parseToFloat($numString)
+{
+    if (!is_string($numString)) {
         return $numString;
     }
     // Normalize the string by removing spaces
