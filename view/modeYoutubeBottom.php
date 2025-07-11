@@ -13,7 +13,7 @@ if (is_array($video)) {
     //var_dump(__LINE__, !empty($advancedCustom->showCreationTimeOnVideoItem));exit;
     if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
         $created = !empty($video['videoCreation']) ? $video['videoCreation'] : $video['created'];
-        $html = '<div class="clearfix"></div><small>' . humanTiming(_strtotime($created)) . '</small>';
+        $html = '<div class="clearfix"></div><small>' . humanTimingOrDate($created) . '</small>';
     } else {
         $html = '<!-- empty showCreationTimeOnVideoItem ' . basename(__FILE__) . ' line=' . __LINE__ . '-->';
     }

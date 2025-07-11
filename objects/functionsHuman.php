@@ -15,6 +15,27 @@ function humanTiming($time, $precision = 0, $useDatabaseTime = true, $addAgo = f
     return secondsToHumanTiming($time, $precision, $addAgo);
 }
 
+function humanTimingOrDate($time, $precision = 0, $useDatabaseTime = true, $addAgo = false){
+    $advancedCustom = getAdvancedCustomizedObjectData();
+
+    if (is_array($time)) {
+        $video = $time;
+        $time = $video['videoCreation'];
+    }
+
+    if (empty($time)) {
+        return '';
+    }
+
+    $time = _strtotime($time);
+
+    if (empty($advancedCustom->showHumanTimingOnVideoItem)) {
+        return date('Y-m-d H:i', $time);
+    }
+
+    return humanTiming($time, $precision, $useDatabaseTime, $addAgo);
+}
+
 /**
  *
  * @param string $time

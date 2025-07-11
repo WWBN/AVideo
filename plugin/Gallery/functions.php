@@ -403,9 +403,7 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
                     ?>
                     <?php
                     if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
-                        $humanTiming = $advancedCustom->showHumanTimingOnVideoItem
-                            ? humanTiming(strtotime($video['videoCreation']), 0, true, true)
-                            : date('Y-m-d H:i', strtotime($video['videoCreation']));
+                        $humanTiming = humanTimingOrDate($video['videoCreation'], 0, true, true);
                     ?>
                         <time datetime="<?php echo $video['videoCreation']; ?>" class="videoHumanTime pull-right">
                             <i class="far fa-clock"></i>
