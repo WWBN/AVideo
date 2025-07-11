@@ -72,7 +72,7 @@ $menu->addItem(new MenuAdmin(__("Backup"), "fas fa-undo-alt", "backup"));
 $itens[] = $menu;
 
 $menu = new MenuAdmin(__("Design"), "fas fa-pen-fancy");
-$menu->addItem(new MenuAdmin(__("First Page Style"), "fas fa-columns", "design_first_browse_page"));
+$menu->addItem(new MenuAdmin(__("First Page Style"), "fas fa-columns", "design_first_page"));
 $menu->addItem(new MenuAdmin(__("Player Skin"), "fas fa-play-circle", "design_player"));
 $menu->addItem(new MenuAdmin(__("Themes"), "fas fa-palette", "design_themes"));
 $menu->addItem(new MenuAdmin(__("Colors"), "fas fa-palette", "design_colors"));
@@ -114,8 +114,8 @@ switch ($_GET['browse_page']) {
     case "premium":
         $includeBody = $global['systemRootPath'] . 'admin/premium.php';
         break;
-    case "design_first_browse_page":
-        $includeBody = $global['systemRootPath'] . 'admin/design_first_browse_page.php';
+    case "design_first_page":
+        $includeBody = $global['systemRootPath'] . 'admin/design_first_page.php';
         break;
     case "design_themes":
         $includeBody = $global['systemRootPath'] . 'admin/design_themes.php';
@@ -196,9 +196,9 @@ switch ($_GET['browse_page']) {
         break;
 }
 
-$_browse_page = new Page(array('Administration'));
+$_page = new Page(array('Administration'));
 if (!empty($includeHead) && file_exists($includeHead)) {
-    $_browse_page->setIncludeInHead(array($includeHead));
+    $_page->setIncludeInHead(array($includeHead));
 }
 
 ?>
@@ -379,5 +379,5 @@ if (!empty($includeHead) && file_exists($includeHead)) {
     });
 </script>
 <?php
-$_browse_page->print();
+$_page->print();
 ?>
