@@ -72,7 +72,7 @@ $menu->addItem(new MenuAdmin(__("Backup"), "fas fa-undo-alt", "backup"));
 $itens[] = $menu;
 
 $menu = new MenuAdmin(__("Design"), "fas fa-pen-fancy");
-$menu->addItem(new MenuAdmin(__("First Page Style"), "fas fa-columns", "design_first_page"));
+$menu->addItem(new MenuAdmin(__("First Page Style"), "fas fa-columns", "design_first_browse_page"));
 $menu->addItem(new MenuAdmin(__("Player Skin"), "fas fa-play-circle", "design_player"));
 $menu->addItem(new MenuAdmin(__("Themes"), "fas fa-palette", "design_themes"));
 $menu->addItem(new MenuAdmin(__("Colors"), "fas fa-palette", "design_colors"));
@@ -103,19 +103,19 @@ $itens[] = $menu;
 $menu = new MenuAdmin(__("FFmpeg Monitor"), "fas fa-film", "ffmpeg_monitor");
 $itens[] = $menu;
 
-$_GET['page'] = xss_esc(@$_GET['page']);
+$_GET['browse_page'] = xss_esc(@$_GET['browse_page']);
 
 $includeHead = '';
 $includeBody = '';
-switch ($_GET['page']) {
+switch ($_GET['browse_page']) {
     case "backup":
         $includeBody = $global['systemRootPath'] . 'admin/backup.php';
         break;
     case "premium":
         $includeBody = $global['systemRootPath'] . 'admin/premium.php';
         break;
-    case "design_first_page":
-        $includeBody = $global['systemRootPath'] . 'admin/design_first_page.php';
+    case "design_first_browse_page":
+        $includeBody = $global['systemRootPath'] . 'admin/design_first_browse_page.php';
         break;
     case "design_themes":
         $includeBody = $global['systemRootPath'] . 'admin/design_themes.php';
@@ -146,9 +146,9 @@ switch ($_GET['page']) {
         $includeBody = $global['systemRootPath'] . 'view/configurations_body.php';
         break;
     case "monetize_subscription":
-        $includeHead = $global['systemRootPath'] . 'plugin/Subscription/page/editor_head.php';
+        $includeHead = $global['systemRootPath'] . 'plugin/Subscription/browse_page/editor_head.php';
         $includeBody = [];
-        $includeBody[] = $global['systemRootPath'] . 'plugin/Subscription/page/editor_body.php';
+        $includeBody[] = $global['systemRootPath'] . 'plugin/Subscription/browse_page/editor_body.php';
         $includeBody[] = $global['systemRootPath'] . 'admin/monetize_subscription.php';
         break;
     case "monetize_vast":
@@ -196,9 +196,9 @@ switch ($_GET['page']) {
         break;
 }
 
-$_page = new Page(array('Administration'));
+$_browse_page = new Page(array('Administration'));
 if (!empty($includeHead) && file_exists($includeHead)) {
-    $_page->setIncludeInHead(array($includeHead));
+    $_browse_page->setIncludeInHead(array($includeHead));
 }
 
 ?>
@@ -243,21 +243,21 @@ if (!empty($includeHead) && file_exists($includeHead)) {
             <div class="panel-group" id="accordion">
                 <?php
                 $panel = 'panel-default';
-                if (empty($_REQUEST['page'])) {
+                if (empty($_REQUEST['browse_page'])) {
                     $panel = 'panel-primary';
                 }
                 foreach ($itens as $key => $value) {
                     $uid = uniqid();
                     $href = 'data-toggle="collapse" data-parent="#accordion" href="#collapse' . $uid . '"';
                     if (!empty($value->href)) {
-                        $href = 'href="' . $global['webSiteRootURL'] . 'admin/?page=' . $value->href . '"';
-                        $href .= ' id="page_' . $value->href . '"';
+                        $href = 'href="' . $global['webSiteRootURL'] . 'admin/?browse_page=' . $value->href . '"';
+                        $href .= ' id="browse_page_' . $value->href . '"';
                     }
-                    if (!empty($_REQUEST['page']) && $_REQUEST['page'] == $value->href) {
+                    if (!empty($_REQUEST['browse_page']) && $_REQUEST['browse_page'] == $value->href) {
                         $panel = 'panel-primary';
                     } else {
                         foreach ($value->itens as $key2 => $value2) {
-                            if (!empty($_REQUEST['page']) && $_REQUEST['page'] === $value2->href) {
+                            if (!empty($_REQUEST['browse_page']) && $_REQUEST['browse_page'] === $value2->href) {
                                 $panel = 'panel-primary';
                             }
                         }
@@ -273,9 +273,9 @@ if (!empty($includeHead) && file_exists($includeHead)) {
                         <?php
                         if (!empty($value->itens)) {
                             $in = '';
-                            if (!empty($_GET['page'])) {
+                            if (!empty($_GET['browse_page'])) {
                                 foreach ($value->itens as $search) {
-                                    if ($_GET['page'] === $search->href) {
+                                    if ($_GET['browse_page'] === $search->href) {
                                         $in = "in";
                                         break;
                                     }
@@ -286,16 +286,16 @@ if (!empty($includeHead) && file_exists($includeHead)) {
                                     <table class="table">
                                         <?php
                                         $active = '';
-                                        if (empty($_GET['page'])) {
+                                        if (empty($_GET['browse_page'])) {
                                             $active = "active";
                                         }
                                         foreach ($value->itens as $key2 => $value2) {
-                                            if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
+                                            if (!empty($_GET['browse_page']) && $_GET['browse_page'] === $value2->href) {
                                                 $active = "active";
                                             } ?>
                                             <tr>
                                                 <td class="<?php echo $active; ?>">
-                                                    <a href="<?php echo "{$global['webSiteRootURL']}admin/?page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
+                                                    <a href="<?php echo "{$global['webSiteRootURL']}admin/?browse_page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
                                                 </td>
                                             </tr>
                                         <?php
@@ -379,5 +379,5 @@ if (!empty($includeHead) && file_exists($includeHead)) {
     });
 </script>
 <?php
-$_page->print();
+$_browse_page->print();
 ?>
