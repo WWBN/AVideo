@@ -112,9 +112,6 @@
                                     enabled: true,
                                     backgroundColor: 'rgba(40, 167, 69, 0.3)'
                                 },
-                                wheel: {
-                                    enabled: true
-                                },
                                 pinch: {
                                     enabled: true
                                 },
@@ -209,9 +206,6 @@
                                 drag: {
                                     enabled: true,
                                     backgroundColor: 'rgba(0, 123, 255, 0.3)'
-                                },
-                                wheel: {
-                                    enabled: true
                                 },
                                 pinch: {
                                     enabled: true
