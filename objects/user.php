@@ -1003,7 +1003,7 @@ if (typeof gtag !== \"function\") {
         }
 
         $video = new Video("", "", $videos_id);
-        if ($video->getStatus() === Video::$statusInactive) {
+        if ($video->getStatus() === Video::STATUS_INACTIVE) {
             $global['canWatchVideoReason'] = "Video is inactive";
             _error_log("User::canWatchVideo Video is inactive ({$videos_id})");
             self::setCacheWatchVideo($cacheName, false);
@@ -1088,7 +1088,7 @@ if (typeof gtag !== \"function\") {
         }
 
         $video = new Video("", "", $videos_id);
-        if ($video->getStatus() === Video::$statusInactive) {
+        if ($video->getStatus() === Video::STATUS_INACTIVE) {
             $global['canWatchVideoReason'] = "canWatchVideoWithAds: Video is inactive";
             _error_log("User::canWatchVideoWithAds Video is inactive ({$videos_id})");
             return false;

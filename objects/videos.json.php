@@ -45,7 +45,7 @@ TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
 foreach ($videos as $key => $value) {
     /*
       $video = new Video('', '', $value['id']);
-      $video->setStatus(Video::$statusActive);
+      $video->setStatus(Video::STATUS_ACTIVE);
       Video::clearCache($value['id']);continue;
      */
     unset($value['password'], $value['recoverPass']);

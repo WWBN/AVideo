@@ -154,7 +154,7 @@ if (empty($_POST['id'])) {
         $obj->setType($_POST['videoLinkType']);
     }
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
-    $obj->setAutoStatus(Video::$statusDraft);
+    $obj->setAutoStatus(Video::STATUS_DRAFT);
 }
 
 TimeLogEnd(__FILE__, __LINE__);
@@ -286,7 +286,7 @@ $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
 $obj->video = Video::getVideoLight($obj->videos_id, true);
 $obj->isNewVideo = $isNewVideo;
-if ($obj->video['status'] == Video::$statusActive) {
+if ($obj->video['status'] == Video::STATUS_ACTIVE) {
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
     _error_log('clearFirstPageCache start');
     $obj->clearFirstPageCache = clearFirstPageCache();

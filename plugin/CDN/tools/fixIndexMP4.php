@@ -39,7 +39,7 @@ foreach ($videos as $key => $value) {
     $videos_id = $value['id'];
     $filename = $value['filename'];
 
-    if ($value['status'] === Video::$statusActive) {
+    if ($value['status'] === Video::STATUS_ACTIVE) {
         echo "[videos_id: {$videos_id}] Processing '{$filename}'" . PHP_EOL;
 
         if (empty($value['sites_id'])) {

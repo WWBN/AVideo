@@ -558,7 +558,7 @@ class PlayList extends ObjectYPT
         if (empty($playlists_id)) {
             $sql = "SELECT 0 as playlists_id, id as videos_id FROM videos p WHERE status = ?  ORDER BY `created` DESC ";
             $formats = 's';
-            $values = [Video::$statusActive];
+            $values = [Video::STATUS_ACTIVE];
         } else {
             $sql = "SELECT * FROM playlists_has_videos p WHERE playlists_id = ? " . self::getOrderBy('p.');
             $formats = 'i';

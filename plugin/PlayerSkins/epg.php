@@ -42,7 +42,7 @@ $videos_id = intval(@$_REQUEST['videos_id']);
 $_GET['rowCount'] = $_REQUEST['rowCount'] = 500;
 $videos = Video::getAllActiveEPGs();
 foreach ($videos as $video) {
-    if ($video['status'] !== Video::$statusActive || !isValidURL($video['epg_link'])) {
+    if ($video['status'] !== Video::STATUS_ACTIVE || !isValidURL($video['epg_link'])) {
         continue;
     }
     //if($video['id']=='3847'){        var_dump($video['status']);exit;}
@@ -312,7 +312,7 @@ function createEPG($channel) {
                       if($_stopTime<$nowTime){
                       continue;
                       }
-                     * 
+                     *
                      */
                     $minutes = getDurationInMinutes($program['start'], $program['stop']);
                     /**

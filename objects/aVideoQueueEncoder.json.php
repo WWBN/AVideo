@@ -76,7 +76,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $video = new Video(preg_replace("/_+/", " ", $path_parts['filename']), $filename, @$_FILES['upl']['videoId'], true);
     $video->setDuration($duration);
     $video->setType($type);
-    $video->setStatus(Video::$statusEncoding);
+    $video->setStatus(Video::STATUS_ENCODING);
 
     $id = $video->save($updateVideoGroups);
     _error_log("AddQueueEncoder Video saved with ID: " . $id);

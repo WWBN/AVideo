@@ -35,7 +35,7 @@ foreach ($videos as $value) {
         //echo "sites_id is not empty {$value['sites_id']}" . PHP_EOL;
         continue;
     }
-    if ($value['status'] !== Video::$statusActive) {
+    if ($value['status'] !== Video::STATUS_ACTIVE) {
         $countStatusNotActive++;
         //echo "The video status is not active {$value['status']}" . PHP_EOL;
         continue;

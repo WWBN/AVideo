@@ -71,55 +71,7 @@ if (!class_exists('Video')) {
         protected $publish_datetime;
         protected $notification_datetime;
         protected $made_for_kids;
-        public static $statusDesc = [
-            'a' => 'Active',
-            'k' => 'Active and Encoding',
-            'i' => 'Inactive',
-            'h' => 'Scheduled Release Date',
-            'e' => 'Encoding',
-            'x' => 'Encoding Error',
-            'd' => 'Downloading',
-            't' => 'Transferring',
-            'u' => 'Unlisted',
-            's' => 'Unlisted but Searchable',
-            'r' => 'Recording',
-            'f' => 'FansOnly',
-            'b' => 'Broken Missing files',
-            'p' => 'Unpublished',
-            'c' => 'Draft'
-        ];
-        public static $statusIcons = [
-            'a' => '<i class=\'fas fa-eye\'></i>',
-            'k' => '<i class=\'fas fa-cog\'></i>',
-            'i' => '<i class=\'fas fa-eye-slash\'></i>',
-            'h' => '<i class=\'fas fa-clock\'></i>',
-            'e' => '<i class=\'fas fa-cog\'></i>',
-            'x' => '<i class=\'fas fa-exclamation-triangle\'></i>',
-            'd' => '<i class=\'fas fa-download\'></i>',
-            't' => '<i class=\'fas fa-sync\'></i>',
-            'u' => '<i class=\'fas fa-eye\' style=\'color: #BBB;\'></i>',
-            's' => '<i class=\'fas fa-search\' style=\'color: #BBB;\'></i>',
-            'r' => '<i class=\'fas fa-circle\'></i>',
-            'f' => '<i class=\'fas fa-star\'></i>',
-            'b' => '<i class=\'fas fa-times\'></i>',
-            'p' => '<i class=\'fas fa-ban\'></i>',
-            'c' => '<i class=\'fas fa-pencil-alt\'></i>'
-        ];
-        public static $statusActive = 'a';
-        public static $statusActiveAndEncoding = 'k';
-        public static $statusInactive = 'i';
-        public static $statusScheduledReleaseDate = 'h';
-        public static $statusEncoding = 'e';
-        public static $statusEncodingError = 'x';
-        public static $statusDownloading = 'd';
-        public static $statusTranfering = 't';
-        public static $statusUnlisted = 'u';
-        public static $statusUnlistedButSearchable = 's';
-        public static $statusRecording = 'r';
-        public static $statusFansOnly = 'f';
-        public static $statusBrokenMissingFiles = 'b';
-        public static $statusUnpublished = 'p';
-        public static $statusDraft = 'c';
+
         public static $rratingOptions = ['', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma'];
         public static $rratingOptionsText = [
             'g' => 'General Audience',
@@ -173,6 +125,95 @@ if (!class_exists('Video')) {
         const SORT_TYPE_NAME = 'name';
         const SORT_TYPE_SHORTS = 'shorts';
         const SORT_TYPE_DATEADDED = 'dateadded';
+
+        // Status constants
+        const STATUS_ACTIVE = 'a';
+        const STATUS_ACTIVE_AND_ENCODING = 'k';
+        const STATUS_INACTIVE = 'i';
+        const STATUS_SCHEDULED_RELEASE_DATE = 'h';
+        const STATUS_ENCODING = 'e';
+        const STATUS_ENCODING_ERROR = 'x';
+        const STATUS_DOWNLOADING = 'd';
+        const STATUS_TRANFERING = 't';
+        const STATUS_UNLISTED = 'u';
+        const STATUS_UNLISTED_BUT_SEARCHABLE = 's';
+        const STATUS_RECORDING = 'r';
+        const STATUS_FANS_ONLY = 'f';
+        const STATUS_BROKEN_MISSING_FILES = 'b';
+        const STATUS_UNPUBLISHED = 'p';
+        const STATUS_DRAFT = 'c';
+
+        // Reuse constants in static arrays
+        public static $statusDesc = [
+            self::STATUS_ACTIVE => 'Active',
+            self::STATUS_ACTIVE_AND_ENCODING => 'Active and Encoding',
+            self::STATUS_INACTIVE => 'Inactive',
+            self::STATUS_SCHEDULED_RELEASE_DATE => 'Scheduled Release Date',
+            self::STATUS_ENCODING => 'Encoding',
+            self::STATUS_ENCODING_ERROR => 'Encoding Error',
+            self::STATUS_DOWNLOADING => 'Downloading',
+            self::STATUS_TRANFERING => 'Transferring',
+            self::STATUS_UNLISTED => 'Unlisted',
+            self::STATUS_UNLISTED_BUT_SEARCHABLE => 'Unlisted but Searchable',
+            self::STATUS_RECORDING => 'Recording',
+            self::STATUS_FANS_ONLY => 'FansOnly',
+            self::STATUS_BROKEN_MISSING_FILES => 'Broken Missing files',
+            self::STATUS_UNPUBLISHED => 'Unpublished',
+            self::STATUS_DRAFT => 'Draft'
+        ];
+
+        public static $statusDescriptions = [
+            self::STATUS_ACTIVE => 'Active: The video is published and visible to users.',
+            self::STATUS_ACTIVE_AND_ENCODING => 'Active and Encoding: The video is published but still being processed/encoded.',
+            self::STATUS_INACTIVE => 'Inactive: The video is hidden and not available to users.',
+            self::STATUS_SCHEDULED_RELEASE_DATE => 'Scheduled Release Date: The video is scheduled to be published at a future date/time.',
+            self::STATUS_ENCODING => 'Encoding: The video is currently being encoded and is not yet available.',
+            self::STATUS_ENCODING_ERROR => 'Encoding Error: There was an error during encoding; the video is not available.',
+            self::STATUS_DOWNLOADING => 'Downloading: The video is being downloaded from an external source.',
+            self::STATUS_TRANFERING => 'Transferring: The video is being transferred between servers or locations.',
+            self::STATUS_UNLISTED => 'Unlisted: The video is not listed publicly but can be accessed via direct link.',
+            self::STATUS_UNLISTED_BUT_SEARCHABLE => 'Unlisted but Searchable: The video is not listed but can be found via search.',
+            self::STATUS_RECORDING => 'Recording: The video is currently being recorded (e.g., live stream).',
+            self::STATUS_FANS_ONLY => 'FansOnly: The video is restricted to fans or subscribers only.',
+            self::STATUS_BROKEN_MISSING_FILES => 'Broken Missing Files: The video is missing files or is corrupted.',
+            self::STATUS_UNPUBLISHED => 'Unpublished: The video is not published and not visible to users.',
+            self::STATUS_DRAFT => 'Draft: The video is a draft and not yet published.',
+        ];
+
+        public static $statusIcons = [
+            self::STATUS_ACTIVE => '<i class=\'fas fa-eye\'></i>',
+            self::STATUS_ACTIVE_AND_ENCODING => '<i class=\'fas fa-cog\'></i>',
+            self::STATUS_INACTIVE => '<i class=\'fas fa-eye-slash\'></i>',
+            self::STATUS_SCHEDULED_RELEASE_DATE => '<i class=\'fas fa-clock\'></i>',
+            self::STATUS_ENCODING => '<i class=\'fas fa-cog\'></i>',
+            self::STATUS_ENCODING_ERROR => '<i class=\'fas fa-exclamation-triangle\'></i>',
+            self::STATUS_DOWNLOADING => '<i class=\'fas fa-download\'></i>',
+            self::STATUS_TRANFERING => '<i class=\'fas fa-sync\'></i>',
+            self::STATUS_UNLISTED => '<i class=\'fas fa-eye\' style=\'color: #BBB;\'></i>',
+            self::STATUS_UNLISTED_BUT_SEARCHABLE => '<i class=\'fas fa-search\' style=\'color: #BBB;\'></i>',
+            self::STATUS_RECORDING => '<i class=\'fas fa-circle\'></i>',
+            self::STATUS_FANS_ONLY => '<i class=\'fas fa-star\'></i>',
+            self::STATUS_BROKEN_MISSING_FILES => '<i class=\'fas fa-times\'></i>',
+            self::STATUS_UNPUBLISHED => '<i class=\'fas fa-ban\'></i>',
+            self::STATUS_DRAFT => '<i class=\'fas fa-pencil-alt\'></i>'
+        ];
+
+        // this block will be removed in the future
+        public static $statusActive = self::STATUS_ACTIVE;
+        public static $statusActiveAndEncoding = self::STATUS_ACTIVE_AND_ENCODING;
+        public static $statusInactive = self::STATUS_INACTIVE;
+        public static $statusScheduledReleaseDate = self::STATUS_SCHEDULED_RELEASE_DATE;
+        public static $statusEncoding = self::STATUS_ENCODING;
+        public static $statusEncodingError = self::STATUS_ENCODING_ERROR;
+        public static $statusDownloading = self::STATUS_DOWNLOADING;
+        public static $statusTranfering = self::STATUS_TRANFERING;
+        public static $statusUnlisted = self::STATUS_UNLISTED;
+        public static $statusUnlistedButSearchable = self::STATUS_UNLISTED_BUT_SEARCHABLE;
+        public static $statusRecording = self::STATUS_RECORDING;
+        public static $statusFansOnly = self::STATUS_FANS_ONLY;
+        public static $statusBrokenMissingFiles = self::STATUS_BROKEN_MISSING_FILES;
+        public static $statusUnpublished = self::STATUS_UNPUBLISHED;
+        public static $statusDraft = self::STATUS_DRAFT;
 
 
         public function __construct($title = "", $filename = "", $id = 0, $refreshCache = false)
@@ -511,9 +552,9 @@ if (!class_exists('Video')) {
             if (empty($this->status) || empty(self::$statusDesc[$this->status])) {
                 _error_log("Video::save status is empty or not valid {$this->status} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 if ($this->type != self::$videoTypeVideo) {
-                    $this->status = Video::$statusActive;
+                    $this->status = Video::STATUS_ACTIVE;
                 } else {
-                    $this->status = Video::$statusEncoding;
+                    $this->status = Video::STATUS_ENCODING;
                 }
             }
 
@@ -873,8 +914,8 @@ if (!class_exists('Video')) {
 
         public function setStatus($status)
         {
-            if ($status === Video::$statusBrokenMissingFiles) {
-                if (empty($this->status) || $this->status !== Video::$statusBrokenMissingFiles) {
+            if ($status === Video::STATUS_BROKEN_MISSING_FILES) {
+                if (empty($this->status) || $this->status !== Video::STATUS_BROKEN_MISSING_FILES) {
                     _error_log("Video::setStatus({$status}) set to statusBrokenMissingFiles id = {$this->id} " . json_encode(debug_backtrace()), AVideoLog::$WARNING);
                 }
             }
@@ -883,14 +924,14 @@ if (!class_exists('Video')) {
                 global $global;
 
                 if (empty($status)) {
-                    $status = Video::$statusActive;
+                    $status = Video::STATUS_ACTIVE;
                 }
                 if (empty(Video::$statusDesc[$status])) {
                     _error_log("Video::setStatus({$status}) NOT found " . json_encode(debug_backtrace()), AVideoLog::$WARNING);
                     return false;
                 }
 
-                if ($this->status == Video::$statusUnpublished) {
+                if ($this->status == Video::STATUS_UNPUBLISHED) {
                     if (!User::isAdmin() && !Permissions::canModerateVideos()) {
                         _error_log("Video::setStatus({$status}) Only modetrators can publish videos ", AVideoLog::$WARNING);
                         return false;
@@ -910,17 +951,17 @@ if (!class_exists('Video')) {
                     return false;
                 }
                 self::clearCache($this->id);
-                if ($this->status == Video::$statusActive || $status == Video::$statusActive && ($this->status != $status)) {
+                if ($this->status == Video::STATUS_ACTIVE || $status == Video::STATUS_ACTIVE && ($this->status != $status)) {
 
                     $doNotNotify = array(
-                        Video::$statusInactive,
-                        Video::$statusUnlisted,
-                        Video::$statusUnlistedButSearchable,
-                        Video::$statusFansOnly,
-                        Video::$statusBrokenMissingFiles,
-                        Video::$statusDraft
+                        Video::STATUS_INACTIVE,
+                        Video::STATUS_UNLISTED,
+                        Video::STATUS_UNLISTED_BUT_SEARCHABLE,
+                        Video::STATUS_FANS_ONLY,
+                        Video::STATUS_BROKEN_MISSING_FILES,
+                        Video::STATUS_DRAFT
                     );
-                    if (!in_array($this->status, $doNotNotify) && $status == Video::$statusActive) {
+                    if (!in_array($this->status, $doNotNotify) && $status == Video::STATUS_ACTIVE) {
                         _error_log("Video::setStatus({$status}) AVideoPlugin::onNewVideo ");
                         $notTriggerOnNewVideo = array(
                             'aVideoEncoder.json.php',
@@ -962,25 +1003,25 @@ if (!class_exists('Video')) {
                 $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
             }
             if (!empty($_POST['fail'])) {
-                return $this->setStatus(Video::$statusEncodingError);
+                return $this->setStatus(Video::STATUS_ENCODING_ERROR);
             } else {
                 if ($advancedCustom->enableVideoModeration) {
-                    return $this->setStatus(Video::$statusUnpublished);
+                    return $this->setStatus(Video::STATUS_UNPUBLISHED);
                 } else if ($this->isScheduledForRelease()) {
-                    return $this->setStatus(Video::$statusScheduledReleaseDate);
+                    return $this->setStatus(Video::STATUS_SCHEDULED_RELEASE_DATE);
                 } else
                 if (!empty($_REQUEST['overrideStatus'])) {
                     return $this->setStatus($_REQUEST['overrideStatus']);
                 } else if (!empty($_REQUEST['releaseDate']) && $_REQUEST['releaseDate'] !== 'now') {
-                    return $this->setStatus(Video::$statusScheduledReleaseDate);
+                    return $this->setStatus(Video::STATUS_SCHEDULED_RELEASE_DATE);
                 } else { // encoder did not provide a status
                     AVideoPlugin::loadPlugin('Scheduler');
                     $row = Scheduler::isActiveFromVideosId($this->id);
                     if (!empty($row)) { // there is a schedule to activate the video
-                        return $this->setStatus(Video::$statusScheduledReleaseDate);
+                        return $this->setStatus(Video::STATUS_SCHEDULED_RELEASE_DATE);
                     } else {
                         if (!empty($_REQUEST['keepEncoding'])) {
-                            return $this->setStatus(Video::$statusActiveAndEncoding);
+                            return $this->setStatus(Video::STATUS_ACTIVE_AND_ENCODING);
                         } else {
                             if ($this->getTitle() !== "Video automatically booked") {
                                 $typesToBeAutoDraft = array(
@@ -991,14 +1032,14 @@ if (!class_exists('Video')) {
                                     Video::$videoTypeZip,
                                     Video::$videoTypeGallery,
                                 );
-                                if (in_array($this->type, $typesToBeAutoDraft)){
-                                    return $this->setStatus(Video::$statusDraft);
-                                }else{
+                                if (in_array($this->type, $typesToBeAutoDraft)) {
+                                    return $this->setStatus(Video::STATUS_DRAFT);
+                                } else {
                                     _error_log("Video::setAutoStatus({$this->type}) set to default status " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                                     return $this->setStatus($advancedCustom->defaultVideoStatus->value);
                                 }
                             } else {
-                                return $this->setStatus(Video::$statusInactive);
+                                return $this->setStatus(Video::STATUS_INACTIVE);
                             }
                         }
                     }
@@ -1147,26 +1188,26 @@ if (!class_exists('Video')) {
             if ($status == Video::SORT_TYPE_VIEWABLE) {
                 if (User::isLogged()) {
                     $sql .= " AND ((v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
-                    $sql .= " OR ((v.status='" . Video::$statusUnlisted . "' OR v.status='" . Video::$statusUnlistedButSearchable . "') ";
+                    $sql .= " OR ((v.status='" . Video::STATUS_UNLISTED . "' OR v.status='" . Video::STATUS_UNLISTED_BUT_SEARCHABLE . "') ";
                     if (!User::isAdmin() && !Permissions::canAdminVideos()) {
                         $sql .= " AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "')";
                     }
                     $sql .= " ))";
-                    $sql .= " OR (v.`order` IS NOT NULL AND (v.status='" . Video::$statusUnlisted . "' OR v.status='" . Video::$statusUnlistedButSearchable . "') )";
+                    $sql .= " OR (v.`order` IS NOT NULL AND (v.status='" . Video::STATUS_UNLISTED . "' OR v.status='" . Video::STATUS_UNLISTED_BUT_SEARCHABLE . "') )";
                     $sql .= " )";
                 } else {
                     $sql .= " AND ( v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-                    $sql .= " OR (v.`order` IS NOT NULL AND (v.status='" . Video::$statusUnlisted . "' OR v.status='" . Video::$statusUnlistedButSearchable . "') )";
+                    $sql .= " OR (v.`order` IS NOT NULL AND (v.status='" . Video::STATUS_UNLISTED . "' OR v.status='" . Video::STATUS_UNLISTED_BUT_SEARCHABLE . "') )";
                     $sql .= " )";
                 }
             } elseif ($status == Video::SORT_TYPE_VIEWABLENOTUNLISTED) {
                 $sql .= " AND ( v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
-                $sql .= " OR (v.`order` IS NOT NULL AND (v.status='" . Video::$statusUnlisted . "' OR v.status='" . Video::$statusUnlistedButSearchable . "') )";
+                $sql .= " OR (v.`order` IS NOT NULL AND (v.status='" . Video::STATUS_UNLISTED . "' OR v.status='" . Video::STATUS_UNLISTED_BUT_SEARCHABLE . "') )";
                 $sql .= " )";
             } elseif ($status == Video::SORT_TYPE_PUBLICONLY) {
-                $sql .= " AND v.status IN ('" . Video::$statusActive . "', '" . Video::$statusActiveAndEncoding . "') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
+                $sql .= " AND v.status IN ('" . Video::STATUS_ACTIVE . "', '" . Video::STATUS_ACTIVE_AND_ENCODING . "') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
             } elseif ($status == Video::SORT_TYPE_PRIVATEONLY) {
-                $sql .= " AND v.status IN ('" . Video::$statusActive . "', '" . Video::$statusActiveAndEncoding . "') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) > 0";
+                $sql .= " AND v.status IN ('" . Video::STATUS_ACTIVE . "', '" . Video::STATUS_ACTIVE_AND_ENCODING . "') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) > 0";
             } elseif ($status == Video::SORT_TYPE_SHORTS) {
                 $ShortsObj = AVideoPlugin::getDataObject("Shorts");
                 if (!empty($ShortsObj)) {
@@ -1197,7 +1238,7 @@ if (!class_exists('Video')) {
 
             switch ($sortType) {
                 case Video::SORT_TYPE_SUGGESTED:
-                    $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
+                    $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::STATUS_ACTIVE . "' ";
                     $sql .= " ORDER BY RAND() ";
                     $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
                     if (strpos(mb_strtolower($sql), 'limit') === false) {
@@ -1390,9 +1431,9 @@ if (!class_exists('Video')) {
                 $sql .= " v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 /* If I keep the code below it will appear on first page
                 if (User::isAdmin()) {
-                    $sql .= " OR v.status = '" . Video::$statusUnpublished . "' ";
+                    $sql .= " OR v.status = '" . Video::STATUS_UNPUBLISHED . "' ";
                 } else if (User::isLogged()) {
-                    $sql .= " OR (v.status = '" . Video::$statusUnpublished . "' AND v.users_id = '" . User::getId() . "' )";
+                    $sql .= " OR (v.status = '" . Video::STATUS_UNPUBLISHED . "' AND v.users_id = '" . User::getId() . "' )";
                 }
                 */
                 $sql .= " )";
@@ -1401,9 +1442,9 @@ if (!class_exists('Video')) {
                 $sql .= " v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
                 /*If I keep the code below it will appear on first page
                 if (User::isAdmin()) {
-                    $sql .= " OR v.status = '" . Video::$statusUnpublished . "' ";
+                    $sql .= " OR v.status = '" . Video::STATUS_UNPUBLISHED . "' ";
                 } else if (User::isLogged()) {
-                    $sql .= " OR (v.status = '" . Video::$statusUnpublished . "' AND v.users_id = '" . User::getId() . "' )";
+                    $sql .= " OR (v.status = '" . Video::STATUS_UNPUBLISHED . "' AND v.users_id = '" . User::getId() . "' )";
                 }
                     */
                 $sql .= " )";
@@ -1467,7 +1508,7 @@ if (!class_exists('Video')) {
             $firstClauseLimit = '';
             if (empty($id)) {
                 if ($suggestedOnly) {
-                    $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
+                    $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::STATUS_ACTIVE . "' ";
                 }
                 if (empty($random) && !empty($_GET['videoName'])) {
                     $videoName = addcslashes($_GET['videoName'], "'");
@@ -1486,7 +1527,7 @@ if (!class_exists('Video')) {
                     //var_dump($rand, $numRows);
                     //$sql .= " ORDER BY RAND() ";
                 } elseif ($suggestedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
-                    $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
+                    $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::STATUS_ACTIVE . "' ";
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
                     if ($numRows <= 2) {
                         $rand = 0;
@@ -1708,10 +1749,10 @@ if (!class_exists('Video')) {
             }
 
             $serie_playlists_id = $video['serie_playlists_id'];
-            if(empty($serie_playlists_id) && !empty($_REQUEST['serie_playlists_id'])){
+            if (empty($serie_playlists_id) && !empty($_REQUEST['serie_playlists_id'])) {
                 $serie_playlists_id = intval($video['serie_playlists_id']);
             }
-            if(!empty($serie_playlists_id)){
+            if (!empty($serie_playlists_id)) {
                 unset($_REQUEST['serie_playlists_id']);
                 $videosArrayId = PlayList::getVideosIdFromPlaylist($serie_playlists_id);
                 $rows = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
@@ -2597,7 +2638,7 @@ if (!class_exists('Video')) {
             if ($status == Video::SORT_TYPE_VIEWABLE) {
                 if (User::isLogged()) {
                     $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
-                    $sql .= " OR (v.status='" . Video::$statusUnlisted . "' ";
+                    $sql .= " OR (v.status='" . Video::STATUS_UNLISTED . "' ";
                     if (!User::isAdmin() && !Permissions::canAdminVideos()) {
                         $sql .= " AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "')";
                     }
@@ -2633,7 +2674,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             if ($suggestedOnly) {
-                $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
+                $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::STATUS_ACTIVE . "' ";
                 $sql .= " ORDER BY RAND() ";
             } else if ($with_order_only) {
                 $sql .= " ORDER BY v.`order` ASC ";
@@ -2861,7 +2902,7 @@ if (!class_exists('Video')) {
             }
 
             if ($suggestedOnly) {
-                $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
+                $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::STATUS_ACTIVE . "' ";
             }
 
             /*
@@ -2961,18 +3002,18 @@ if (!class_exists('Video')) {
 
         public static function getViewableStatus($showUnlisted = false)
         {
-            $viewable = [Video::$statusActive, Video::$statusActiveAndEncoding, Video::$statusFansOnly];
+            $viewable = [Video::STATUS_ACTIVE, Video::STATUS_ACTIVE_AND_ENCODING, Video::STATUS_FANS_ONLY];
             if ($showUnlisted) {
-                $viewable[] = Video::$statusUnlisted;
-                $viewable[] = Video::$statusUnlistedButSearchable;
+                $viewable[] = Video::STATUS_UNLISTED;
+                $viewable[] = Video::STATUS_UNLISTED_BUT_SEARCHABLE;
             } else {
                 $search = getSearchVar();
                 if (!empty($search)) {
-                    $viewable[] = Video::$statusUnlistedButSearchable;
+                    $viewable[] = Video::STATUS_UNLISTED_BUT_SEARCHABLE;
                 }
             }
             if (User::isAdmin()) {
-                $viewable[] = Video::$statusScheduledReleaseDate;
+                $viewable[] = Video::STATUS_SCHEDULED_RELEASE_DATE;
             }
             /*
              * Cannot do that otherwise it will list videos on the list videos menu
@@ -3693,7 +3734,7 @@ if (!class_exists('Video')) {
             $response = array('videos_id' => $videos_id);
             $video = new Video("", "", $videos_id);
             $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
-            $response['fans_only'] = $video->getStatus() === self::$statusFansOnly;
+            $response['fans_only'] = $video->getStatus() === self::STATUS_FANS_ONLY;
             if ($response['fans_only'] && AVideoPlugin::isEnabledByName("FansSubscriptions")) {
                 $response['fans_only_info'] = FansSubscriptions::getPlansFromUsersID($video->getUsers_id());
             }
@@ -4835,7 +4876,7 @@ if (!class_exists('Video')) {
             if ($v['type'] !== 'video') {
                 return [];
             }
-            if ($v['status'] !== self::$statusActive && $v['status'] !== self::$statusUnlisted && $v['status'] !== self::$statusUnlistedButSearchable) {
+            if ($v['status'] !== self::STATUS_ACTIVE && $v['status'] !== self::STATUS_UNLISTED && $v['status'] !== self::STATUS_UNLISTED_BUT_SEARCHABLE) {
                 return [];
             }
             $video = new Video('', '', $v['id']);
@@ -6133,22 +6174,22 @@ if (!class_exists('Video')) {
                 return $response;
             }
 
-            if ($video->getStatus() == Video::$statusInactive) {
+            if ($video->getStatus() == Video::STATUS_INACTIVE) {
                 $response->canWatch = false;
                 $response->why[] = "This video is inactive";
             }
 
-            if ($video->getStatus() == Video::$statusBrokenMissingFiles) {
+            if ($video->getStatus() == Video::STATUS_BROKEN_MISSING_FILES) {
                 $response->canWatch = false;
                 $response->why[] = "This video is broken";
             }
 
-            if ($video->getStatus() == Video::$statusEncoding) {
+            if ($video->getStatus() == Video::STATUS_ENCODING) {
                 $response->canWatch = false;
                 $response->why[] = "This video is encoding, please wait";
             }
 
-            if ($video->getStatus() == Video::$statusTranfering) {
+            if ($video->getStatus() == Video::STATUS_TRANFERING) {
                 $response->canWatch = false;
                 $response->why[] = "This video is still transfering, please wait";
             }
@@ -7137,12 +7178,12 @@ if (!class_exists('Video')) {
                 $_checkIfIsBrokenList[$videos_id] = false;
                 return $_checkIfIsBrokenList[$videos_id];
             }
-            if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted || $video->getStatus() == Video::$statusUnlistedButSearchable) {
+            if ($video->getStatus() == Video::STATUS_ACTIVE || $video->getStatus() == Video::STATUS_UNLISTED || $video->getStatus() == Video::STATUS_UNLISTED_BUT_SEARCHABLE) {
                 if ($video->getType() == Video::$videoTypeAudio || $video->getType() == Video::$videoTypeVideo) {
                     $checkIfIsBroken++;
                     if (self::isMediaFileMissing($video->getFilename())) {
                         _error_log("Video::checkIfIsBroken($videos_id) true " . $video->getFilename() . ' status=[' . $video->getStatus() . ']' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-                        $video->setStatus(Video::$statusBrokenMissingFiles);
+                        $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
                         Video::clearCache($videos_id);
                         $_checkIfIsBrokenList[$videos_id] = true;
                         return $_checkIfIsBrokenList[$videos_id];
@@ -7150,7 +7191,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            $_checkIfIsBrokenList[$videos_id] = $video->getStatus() == Video::$statusBrokenMissingFiles;
+            $_checkIfIsBrokenList[$videos_id] = $video->getStatus() == Video::STATUS_BROKEN_MISSING_FILES;
             return $_checkIfIsBrokenList[$videos_id];
         }
 
@@ -7296,7 +7337,7 @@ if (!class_exists('Video')) {
         static public function getAllActiveEPGs()
         {
             global $config;
-            $sql = "SELECT * FROM `videos` WHERE status = '" . Video::$statusActive . "' "
+            $sql = "SELECT * FROM `videos` WHERE status = '" . Video::STATUS_ACTIVE . "' "
                 . "AND `type` = 'linkVideo' "
                 . "AND epg_link IS NOT NULL "
                 . "AND epg_link != ''";
@@ -7400,11 +7441,11 @@ if (!class_exists('Video')) {
         static function deleteUselessOldVideos($days)
         {
             $arrayStatusToDelete = array(
-                Video::$statusBrokenMissingFiles,
-                Video::$statusDownloading,
-                Video::$statusEncoding,
-                Video::$statusEncodingError,
-                Video::$statusTranfering,
+                Video::STATUS_BROKEN_MISSING_FILES,
+                Video::STATUS_DOWNLOADING,
+                Video::STATUS_ENCODING,
+                Video::STATUS_ENCODING_ERROR,
+                Video::STATUS_TRANFERING,
             );
             $daysAgo = date("Y-m-d H:i:s", strtotime("-{$days} days"));
             $sql = "SELECT * FROM  videos WHERE status IN ('" . implode("', '", $arrayStatusToDelete) . "') AND created < ? ";
@@ -7615,40 +7656,40 @@ if (!empty($_GET['v']) && empty($_GET['videoName'])) {
 }
 global $statusThatShowTheCompleteMenu, $statusSearchFilter, $statusThatTheUserCanUpdate;
 $statusThatShowTheCompleteMenu = [
-    Video::$statusActive,
-    Video::$statusInactive,
-    Video::$statusScheduledReleaseDate,
-    Video::$statusActiveAndEncoding,
-    Video::$statusUnlistedButSearchable,
-    Video::$statusUnlisted,
-    Video::$statusFansOnly,
-    Video::$statusUnpublished,
-    Video::$statusDraft,
+    Video::STATUS_ACTIVE,
+    Video::STATUS_INACTIVE,
+    Video::STATUS_SCHEDULED_RELEASE_DATE,
+    Video::STATUS_ACTIVE_AND_ENCODING,
+    Video::STATUS_UNLISTED_BUT_SEARCHABLE,
+    Video::STATUS_UNLISTED,
+    Video::STATUS_FANS_ONLY,
+    Video::STATUS_UNPUBLISHED,
+    Video::STATUS_DRAFT,
 ];
 
 $statusSearchFilter = [
-    Video::$statusActive,
-    Video::$statusInactive,
-    Video::$statusScheduledReleaseDate,
-    Video::$statusEncoding,
-    Video::$statusTranfering,
-    Video::$statusUnlisted,
-    Video::$statusUnlistedButSearchable,
-    Video::$statusBrokenMissingFiles,
-    Video::$statusUnpublished,
-    Video::$statusDraft,
+    Video::STATUS_ACTIVE,
+    Video::STATUS_INACTIVE,
+    Video::STATUS_SCHEDULED_RELEASE_DATE,
+    Video::STATUS_ENCODING,
+    Video::STATUS_TRANFERING,
+    Video::STATUS_UNLISTED,
+    Video::STATUS_UNLISTED_BUT_SEARCHABLE,
+    Video::STATUS_BROKEN_MISSING_FILES,
+    Video::STATUS_UNPUBLISHED,
+    Video::STATUS_DRAFT,
 ];
 
 $statusThatTheUserCanUpdate = [
-    [Video::$statusDraft, '#00B'],
-    [Video::$statusActive, '#0A0'],
-    [Video::$statusInactive, '#B00'],
-    [Video::$statusUnlisted, '#AAA'],
-    [Video::$statusUnlistedButSearchable, '#888'],
+    [Video::STATUS_DRAFT, '#00B'],
+    [Video::STATUS_ACTIVE, '#0A0'],
+    [Video::STATUS_INACTIVE, '#B00'],
+    [Video::STATUS_UNLISTED, '#AAA'],
+    [Video::STATUS_UNLISTED_BUT_SEARCHABLE, '#888'],
 ];
 
 AVideoPlugin::loadPlugin('Permissions');
 if (User::isAdmin() || Permissions::canModerateVideos()) {
-    $statusThatTheUserCanUpdate[] = [Video::$statusUnpublished, '#B00'];
+    $statusThatTheUserCanUpdate[] = [Video::STATUS_UNPUBLISHED, '#B00'];
 }
 //Video::videoMadeForKidsExists();exit;

@@ -4,7 +4,7 @@
  * php importSiteFromAPI.php https://yoursiteURL.com/ APISecret [users_id] [categories_id]
  * if does not pass users_id it will also import users
  * if does not pass categories id it will also import categories
- * 
+ *
  */
 
 $siteURL = trim(@$argv[1]);
@@ -205,7 +205,7 @@ if ($type !== 'm3u8') {
                             //wget($value->background, "{$global['systemRootPath']}videos/userPhoto/photo{$id}.png", true);
                         } else {
                             _error_log("importUsers: ERROR NOT saved");
-                            $video->setStatus(Video::$statusBrokenMissingFiles);
+                            $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
                         }
                         //exit;
                     }
@@ -289,22 +289,22 @@ while ($hasNewContent) {
                 $video->setDescription($value->description);
                 $video->setUsers_id($users_id);
                 $video->setCategories_id($categories_id);
-                
+
                 $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
                 $size = getDirSize($path);
                 if ($size < 10000000) {
                     if(empty($videos_id)){
-                        $video->setStatus(Video::$statusTranfering);
+                        $video->setStatus(Video::STATUS_TRANFERING);
                         _error_log("importVideo status: transfering ($size) " . humanFileSize($size));
                     }else{
                         if ($size > 1000000) {
-                            $video->setStatus(Video::$statusActive);
+                            $video->setStatus(Video::STATUS_ACTIVE);
                         }
                         _error_log("importVideo status: else ($size) " . humanFileSize($size));
                     }
                 }
                 if(empty($videos_id)){
-                    $video->setStatus(Video::$statusTranfering);
+                    $video->setStatus(Video::STATUS_TRANFERING);
                 }
 
                 _error_log("importVideo: Saving video");
@@ -327,16 +327,16 @@ while ($hasNewContent) {
                         download($value->videos->mp3, $value->filename, $path);
                     }
 
-                    $video->setStatus(Video::$statusActive);
+                    $video->setStatus(Video::STATUS_ACTIVE);
                     if (!empty($value->videos->m3u8)) {
                         if ($size < 10000000) {
                             if(empty($videos_id)){
                                 _error_log("importVideo m3u8: {$value->videos->m3u8->url} APIURL = $APIURL ($size) " . humanFileSize($size));
                                 sendToEncoder($id, $value->videos->m3u8->url);
                             }
-                            
+
                             if(empty($videos_id)){
-                                $video->setStatus(Video::$statusEncoding);
+                                $video->setStatus(Video::STATUS_ENCODING);
                             }
                         } else {
                             _error_log("importVideo m3u8 NOT SEND: ($size) " . humanFileSize($size));
@@ -354,7 +354,7 @@ while ($hasNewContent) {
                     }
                 } else {
                     _error_log("importVideo: ERROR Video NOT saved");
-                    $video->setStatus(Video::$statusBrokenMissingFiles);
+                    $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
                 }
                 $video->save(false, true);
                 //exit;

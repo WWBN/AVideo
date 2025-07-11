@@ -50,7 +50,7 @@ $video = new Video("", "", $_REQUEST['videos_id'], true);
 $obj->video_id = $_REQUEST['videos_id'];
 
 
-$video->setAutoStatus(Video::$statusActive);
+$video->setAutoStatus(Video::STATUS_ACTIVE);
 
 $video_id = $video->save();
 

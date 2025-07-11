@@ -203,8 +203,8 @@ if (!empty($_FILES['video']['tmp_name'])) {
 } else {
     $obj->lines[] = __LINE__;
     // set encoding
-    $video->setStatus(Video::$statusEncoding);
-    //$video->setAutoStatus(Video::$statusActive);
+    $video->setStatus(Video::STATUS_ENCODING);
+    //$video->setAutoStatus(Video::STATUS_ACTIVE);
 }
 if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination_local}.jpg")) {
     $obj->lines[] = __LINE__;

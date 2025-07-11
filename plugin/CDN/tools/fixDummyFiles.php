@@ -27,13 +27,13 @@ $videos = sqlDAL::fetchAllAssoc($res);
 $total = count($videos);
 sqlDAL::close($res);
 foreach ($videos as $key => $value) {
-    if ($value['status'] === Video::$statusActive) {
+    if ($value['status'] === Video::STATUS_ACTIVE) {
         if (empty($value['sites_id'])) {
             continue;
         }
-        
+
         $dir = "{$path}{$value['filename']}/";
-        
+
         $dirsize = getDirSize($dir);
         if($dirsize<$tenMB){
             echo "Directory too small {$dir}  $dirsize<$tenMB ". humanFileSize($dirsize) . PHP_EOL;
@@ -41,7 +41,7 @@ foreach ($videos as $key => $value) {
         }else{
             echo "Directory size is {$dir}  $dirsize ". humanFileSize($dirsize) . PHP_EOL;
         }
-        
+
         $filesAffected = CDNStorage::createDummyFiles($value['id']);
         if (empty($filesAffected)) {
             echo "{$key}/{$total} ERROR " . PHP_EOL;

@@ -131,7 +131,7 @@ for ($i = 0; $i < $totalVideos; $i++) {
     $index = array_rand($cats);
 
     $video->setCategories_id($cats[$index]['id']);
-    $video->setStatus(Video::$statusActive);
+    $video->setStatus(Video::STATUS_ACTIVE);
     $video->setFilesize(2858747);
     $video->setLikes(rand(0, 1000));
     $video->setDislikes(rand(0, 1000));

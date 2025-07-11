@@ -61,7 +61,7 @@ if (!empty($confirm) && strtolower($confirm) === 'y') {
         $count++;
         $title = "Video recovered: ".date("Y-m-d H:i:s", filectime($value[1]));
         $video = new Video($title, $value[0]);
-        $video->setStatus(Video::$statusActive);
+        $video->setStatus(Video::STATUS_ACTIVE);
         $video->setUsers_id(1);
         if ($video->save(false, true)) {
             echo "{$count}/{$total} {$title} created\n";

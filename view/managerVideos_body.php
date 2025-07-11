@@ -458,10 +458,10 @@ if (empty($advancedCustom)) {
                             $statusSearchFilter = array();
                         }
                         if (AVideoPlugin::isEnabled('FansSubscriptions')) {
-                            $statusSearchFilter[] = Video::$statusFansOnly;
+                            $statusSearchFilter[] = Video::STATUS_FANS_ONLY;
                         }
                         if (AVideoPlugin::isEnabled('SendRecordedToEncoder')) {
-                            $statusSearchFilter[] = Video::$statusRecording;
+                            $statusSearchFilter[] = Video::STATUS_RECORDING;
                         }
                         foreach (Video::$statusDesc as $key => $value) {
                             if (!in_array($key, $statusSearchFilter)) {
@@ -1277,7 +1277,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#videoStartSeconds').val('00:00:00');
         $('#videoSkipIntroSecond').val('00:00:00');
         $('#inputVideoPassword').val("");
-        $('#videoStatus').val('<?php echo Video::$statusDraft; ?>');
+        $('#videoStatus').val('<?php echo Video::STATUS_DRAFT; ?>');
         $('#inputCleanTitle').val("");
         $('#created').val("");
         $('#inputDescription').val("");

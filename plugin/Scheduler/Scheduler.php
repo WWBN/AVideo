@@ -411,7 +411,7 @@ class Scheduler extends PluginAbstract
             $e->setExecuted($videos_id);
         }
 
-        //$status = $video->setStatus(Video::$statusActive);
+        //$status = $video->setStatus(Video::STATUS_ACTIVE);
         $status = $video->setStatus($advancedCustom->defaultVideoStatus->value);
 
         return $status;
@@ -456,11 +456,11 @@ class Scheduler extends PluginAbstract
                 $video = new Video('', '', $videos_id);
                 if ($releaseTime > time()) {
                     $releaseDateTime = date('Y-m-d H:i:s', $releaseTime);
-                    $video->setStatus(Video::$statusScheduledReleaseDate);
+                    $video->setStatus(Video::STATUS_SCHEDULED_RELEASE_DATE);
                     self::setReleaseDateTime($videos_id, $releaseDateTime, $releaseTime);
                     self::addVideoToRelease($releaseDateTime, $releaseTime, $videos_id);
                     return true;
-                } else if ($video->getStatus() == Video::$statusScheduledReleaseDate) {
+                } else if ($video->getStatus() == Video::STATUS_SCHEDULED_RELEASE_DATE) {
                     self::releaseVideosNow($videos_id);
                 }
             }
@@ -562,7 +562,7 @@ class Scheduler extends PluginAbstract
 
     function executeEveryMinute()
     {
-        $rows = Video::getAllVideosLight(Video::$statusScheduledReleaseDate);
+        $rows = Video::getAllVideosLight(Video::STATUS_SCHEDULED_RELEASE_DATE);
         foreach ($rows as $key => $value) {
             $releaseDate = self::getReleaseDateTime($value['id']);
             if (empty($releaseDate) || strtotime($releaseDate) <= time()) {

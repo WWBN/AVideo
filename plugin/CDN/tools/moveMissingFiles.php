@@ -41,12 +41,12 @@ $videos_dir = getVideosDir();
 $rows = [];
 
 $transferStatus = [];
-$transferStatus[] = Video::$statusActive;
-$transferStatus[] = Video::$statusFansOnly;
-$transferStatus[] = Video::$statusScheduledReleaseDate;
+$transferStatus[] = Video::STATUS_ACTIVE;
+$transferStatus[] = Video::STATUS_FANS_ONLY;
+$transferStatus[] = Video::STATUS_SCHEDULED_RELEASE_DATE;
 if($alsoMoveUnlisted){
-    $transferStatus[] = Video::$statusUnlisted;
-    $transferStatus[] = Video::$statusUnlistedButSearchable;
+    $transferStatus[] = Video::STATUS_UNLISTED;
+    $transferStatus[] = Video::STATUS_UNLISTED_BUT_SEARCHABLE;
 }
 
 $statusSkipped = array();

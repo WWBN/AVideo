@@ -259,11 +259,11 @@ class CustomizeAdvanced extends PluginAbstract {
         $dbObject = PluginAbstract::getObjectDataFromDatabase($this->getUUID());
 
         if (!empty($dbObject->makeVideosInactiveAfterEncode)) {
-            $o->value = Video::$statusInactive;
+            $o->value = Video::STATUS_INACTIVE;
         } elseif (!empty($dbObject->makeVideosUnlistedAfterEncode)) {
-            $o->value = Video::$statusUnlisted;
+            $o->value = Video::STATUS_UNLISTED;
         }else{
-            $o->value = Video::$statusActive;
+            $o->value = Video::STATUS_ACTIVE;
         }
         $obj->defaultVideoStatus = $o;
         self::addDataObjectHelper('defaultVideoStatus', 'Default video status', 'When you submit a video that will be the default status');
@@ -840,11 +840,11 @@ Disallow: *action=tagsearch*
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $transferStatus = [];
-        $transferStatus[] = Video::$statusActive;
-        $transferStatus[] = Video::$statusFansOnly;
-        $transferStatus[] = Video::$statusScheduledReleaseDate;
-        $transferStatus[] = Video::$statusUnlisted;
-        $transferStatus[] = Video::$statusUnlistedButSearchable;
+        $transferStatus[] = Video::STATUS_ACTIVE;
+        $transferStatus[] = Video::STATUS_FANS_ONLY;
+        $transferStatus[] = Video::STATUS_SCHEDULED_RELEASE_DATE;
+        $transferStatus[] = Video::STATUS_UNLISTED;
+        $transferStatus[] = Video::STATUS_UNLISTED_BUT_SEARCHABLE;
 
         if ($res != false) {
             foreach ($fullData as $key => $row) {

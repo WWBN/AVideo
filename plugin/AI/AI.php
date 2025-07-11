@@ -739,7 +739,7 @@ class AI extends PluginAbstract
 
                 $video = new Video('', '', $newVideos_id);
                 if (file_exists($outputFile)) {
-                    $video->setAutoStatus(Video::$statusActive);
+                    $video->setAutoStatus(Video::STATUS_ACTIVE);
                     AVideoPlugin::onUploadIsDone($newVideos_id);
                     AVideoPlugin::afterNewVideo($newVideos_id);
                     _error_log('AI:videoCut create file success  ' . $outputFile);

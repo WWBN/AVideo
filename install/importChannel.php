@@ -93,8 +93,8 @@ $channelName = $info['channelName'];
 $channelURL = $info['channelURL'];
 
 echo ("importChannel: start {$siteURL} {$channelName}").PHP_EOL;
-            
-            
+
+
 $users_id = 0;
 while (empty($users_id)) {
     $_GET['searchPhrase'] = '';
@@ -161,7 +161,7 @@ while ($hasNewContent && !empty($users_id)) {
                 $video->setUsers_id($users_id);
                 $video->setRrating($value->rrating);
                 $video->setExternalOptions($value->externalOptions);
-                $video->setStatus(Video::$statusTranfering);
+                $video->setStatus(Video::STATUS_TRANFERING);
 
                 echo ("importChannel: Saving video").PHP_EOL;
                 $id = $video->save(false, true);
@@ -184,10 +184,10 @@ while ($hasNewContent && !empty($users_id)) {
                         download($value->videos->mp3, $value->filename, $path);
                     }
 
-                    $video->setStatus(Video::$statusActive);
+                    $video->setStatus(Video::STATUS_ACTIVE);
                 } else {
                     echo ("importChannel: ERROR Video NOT saved").PHP_EOL;
-                    $video->setStatus(Video::$statusBrokenMissingFiles);
+                    $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
                 }
                 $video->save(false, true);
                 //exit;

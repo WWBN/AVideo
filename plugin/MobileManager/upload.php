@@ -100,7 +100,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $video->setVideo_password($_REQUEST['video_password']);
     }
     if ($type == "image") {
-        $video->setStatus(Video::$statusActive);
+        $video->setStatus(Video::STATUS_ACTIVE);
         make_path($paths['path']);
         $file = "{$paths['path']}{$paths['filename']}.{$extension}";
         if (!move_uploaded_file($_FILES['upl']['tmp_name'], $file)) {
@@ -112,7 +112,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $object->msg = "your image was posted";
         $object->videos_id = $video->save();
     } else {
-        $video->setStatus(Video::$statusEncoding);
+        $video->setStatus(Video::STATUS_ENCODING);
 
         if (!move_uploaded_file($_FILES['upl']['tmp_name'], Video::getStoragePath() . "original_" . $filename)) {
             $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . Video::getStoragePath() . "original_" . $filename . ")";

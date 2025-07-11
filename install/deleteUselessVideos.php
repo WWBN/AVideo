@@ -8,11 +8,11 @@ if (!isCommandLineInterface()) {
 }
 
 $arrayStatusToDelete = array(
-    Video::$statusBrokenMissingFiles,
-    Video::$statusDownloading,
-    Video::$statusEncoding,
-    Video::$statusEncodingError,
-    Video::$statusTranfering,
+    Video::STATUS_BROKEN_MISSING_FILES,
+    Video::STATUS_DOWNLOADING,
+    Video::STATUS_ENCODING,
+    Video::STATUS_ENCODING_ERROR,
+    Video::STATUS_TRANFERING,
 );
 
 ob_end_flush();
@@ -37,4 +37,4 @@ if ($res != false) {
             echo "{$total}/{$count} Deleteuseless ERROR  status={$row['status']} title={$row['title']}".PHP_EOL;
         }
     }
-} 
+}

@@ -35,7 +35,7 @@ foreach ($videos as $value) {
         ob_flush();
         continue;
     }
-    if ($value['status'] !== Video::$statusActive) {
+    if ($value['status'] !== Video::STATUS_ACTIVE) {
         $countStatusNotActive++;
         echo "The video status is not active {$value['status']}" . PHP_EOL;
         ob_flush();

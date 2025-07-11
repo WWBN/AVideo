@@ -32,7 +32,7 @@ foreach ($folders as $folder) {
     if (is_dir($fullPath) && (str_starts_with($folder, 'v_') || str_starts_with($folder, 'video_'))) {
         $video = Video::getVideoFromFileNameLight($folder);
         if (!empty($video)) {
-            if ($video['status'] === Video::$statusEncoding) {
+            if ($video['status'] === Video::STATUS_ENCODING) {
                 if (strtotime($video['created']) < strtotime('-2 days')) {
                     if (getDirSize($fullPath) > $_500MB) {
                         $v = new Video('', '', $video['id']);

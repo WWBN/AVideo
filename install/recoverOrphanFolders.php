@@ -52,7 +52,7 @@ foreach ($folders as $folder) {
             $new_video->setCreated($mysqlDate);
             $new_video->setCategories_id(1);
             $new_video->setUsers_id(1);
-            $new_video->setStatus(Video::$statusActive);
+            $new_video->setStatus(Video::STATUS_ACTIVE);
             $new_video->setType(Video::$videoTypeVideo);
 
             $id = $new_video->save(false, true);

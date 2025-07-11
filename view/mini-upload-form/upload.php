@@ -46,7 +46,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $filename = $video->getFilename();
         if ($video->getTitle() === "Video automatically booked") {
             $video->setTitle($title);
-            $video->setStatus(Video::$statusInactive);
+            $video->setStatus(Video::STATUS_INACTIVE);
         }
     }
     //var_dump($videos_id, $_FILES['upl']['name'], $title, $video->getTitle());exit;
@@ -101,7 +101,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $video->setType("zip", true);
     }
 
-    $video->setAutoStatus(Video::$statusInactive);
+    $video->setAutoStatus(Video::STATUS_INACTIVE);
 
     $id = $video->save();
     if ($id) {
@@ -113,7 +113,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $tmp_name = $_FILES['upl']['tmp_name'];
         $filenameMP4 = $filename . "." . $extension;
         decideMoveUploadedToVideos($tmp_name, $filenameMP4, $video->getType());
-        
+
         $obj->title = $video->getTitle();
         $obj->error = false;
         $obj->filename = $filename;
@@ -139,7 +139,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
         if (!empty($_FILES['upl']['tmp_name'])) {
             $obj->lines[] = __LINE__;
-            $video->setAutoStatus(Video::$statusActive);
+            $video->setAutoStatus(Video::STATUS_ACTIVE);
             AVideoPlugin::onUploadIsDone($obj->videos_id);
             AVideoPlugin::afterNewVideo($obj->videos_id);
         }

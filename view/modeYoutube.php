@@ -344,9 +344,9 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 if (empty($video)) {
     if (!empty($_GET['v'])) {
         $vid = new Video('', '', $_GET['v']);
-        if ($vid->getStatus() === Video::$statusBrokenMissingFiles) {
+        if ($vid->getStatus() === Video::STATUS_BROKEN_MISSING_FILES) {
             if (!Video::isMediaFileMissing($vid->getFilename())) {
-                $vid->setStatus(Video::$statusActive);
+                $vid->setStatus(Video::STATUS_ACTIVE);
                 $vid->save();
                 _error_log('Missing files recovered ' . $_GET['v']);
             } else {
@@ -359,7 +359,7 @@ if (empty($video)) {
                 }
                 exit;
             }
-        } else if ($vid->getStatus() === Video::$statusUnpublished) {
+        } else if ($vid->getStatus() === Video::STATUS_UNPUBLISHED) {
             $msg = 'This video is currently unpublished. Please contact an administrator to review and approve it for publication. Thank you for your patience and understanding.';
             videoNotFound($msg);
             exit;

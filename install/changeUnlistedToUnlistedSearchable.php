@@ -8,4 +8,4 @@ if (!isCommandLineInterface()) {
 }
 ob_end_flush();
 $sql = "UPDATE videos SET status = ? WHERE status = ? ";
-sqlDAL::writeSql($sql, 'ss', array(Video::$statusUnlistedButSearchable,  Video::$statusUnlisted));
+sqlDAL::writeSql($sql, 'ss', array(Video::STATUS_UNLISTED_BUT_SEARCHABLE,  Video::STATUS_UNLISTED));

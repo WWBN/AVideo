@@ -22,7 +22,7 @@ echo "Path: {$path}" . PHP_EOL;
 $sites_id_to_check = [];
 
 foreach ($videos as $value) {
-    if ($value['status'] !== Video::$statusBrokenMissingFiles && empty($checkAll)) {
+    if ($value['status'] !== Video::STATUS_BROKEN_MISSING_FILES && empty($checkAll)) {
         continue;
     }
     if ($value['type'] !== Video::$videoTypeVideo) {
@@ -44,8 +44,8 @@ foreach ($sites_id_to_check as $key => $value) {
     if (Video::isMediaFileMissing($filename)) {
         $sources = getVideosURL_V2($filename);
         echo "{$key}/{$total} is missing ". json_encode($sources) . PHP_EOL;
-    } else if($video->getStatus()===Video::$statusBrokenMissingFiles){
-        $video->setStatus(Video::$statusActive);
+    } else if($video->getStatus()===Video::STATUS_BROKEN_MISSING_FILES){
+        $video->setStatus(Video::STATUS_ACTIVE);
         echo "{$key}/{$total} is set to active " . PHP_EOL;
     }
 }

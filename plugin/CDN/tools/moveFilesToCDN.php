@@ -42,7 +42,7 @@ foreach ($videos as $value) {
         //CDNStorage::createDummyFiles($value['id']);
         continue;
     }
-    if ($value['status'] !== Video::$statusActive) {
+    if ($value['status'] !== Video::STATUS_ACTIVE) {
         $countStatusNotActive++;
         //echo "The video status is not active {$value['status']}" . PHP_EOL;
         continue;

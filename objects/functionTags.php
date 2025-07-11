@@ -31,7 +31,7 @@ function getVideoTagsFromVideo($video, $type)
             }
         } else {
             $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
-            if ($video->getStatus() === Video::$statusFansOnly) {
+            if ($video->getStatus() === Video::STATUS_FANS_ONLY) {
                 $objTag->type = "warning";
                 $objTag->text = '<i class="fas fa-star" ></i>';
                 $objTag->tooltip = __("Fans Only");
@@ -84,31 +84,31 @@ function getVideoTagVideoStatus($video, $type)
         $status = $video->getStatus();
         $objTag->text = __(Video::$statusDesc[$status]);
         switch ($status) {
-            case Video::$statusActive:
+            case Video::STATUS_ACTIVE:
                 $objTag->type = "success";
                 break;
-            case Video::$statusActiveAndEncoding:
+            case Video::STATUS_ACTIVE_AND_ENCODING:
                 $objTag->type = "success";
                 break;
-            case Video::$statusInactive:
+            case Video::STATUS_INACTIVE:
                 $objTag->type = "warning";
                 break;
-            case Video::$statusEncoding:
+            case Video::STATUS_ENCODING:
                 $objTag->type = "info";
                 break;
-            case Video::$statusDownloading:
+            case Video::STATUS_DOWNLOADING:
                 $objTag->type = "info";
                 break;
-            case Video::$statusUnlisted:
+            case Video::STATUS_UNLISTED:
                 $objTag->type = "info";
                 break;
-            case Video::$statusUnlistedButSearchable:
+            case Video::STATUS_UNLISTED_BUT_SEARCHABLE:
                 $objTag->type = "info";
                 break;
-            case Video::$statusRecording:
+            case Video::STATUS_RECORDING:
                 $objTag->type = "danger isRecording isRecordingIcon";
                 break;
-            case Video::$statusDraft:
+            case Video::STATUS_DRAFT:
                 $objTag->type = "primary";
                 break;
             default:
