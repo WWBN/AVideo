@@ -85,7 +85,8 @@ if (!class_exists('Video')) {
             'r' => 'Recording',
             'f' => 'FansOnly',
             'b' => 'Broken Missing files',
-            'p' => 'Unpublished'
+            'p' => 'Unpublished',
+            'c' => 'Draft'
         ];
         public static $statusIcons = [
             'a' => '<i class=\'fas fa-eye\'></i>',
@@ -101,7 +102,8 @@ if (!class_exists('Video')) {
             'r' => '<i class=\'fas fa-circle\'></i>',
             'f' => '<i class=\'fas fa-star\'></i>',
             'b' => '<i class=\'fas fa-times\'></i>',
-            'p' => '<i class=\'fas fa-ban\'></i>'
+            'p' => '<i class=\'fas fa-ban\'></i>',
+            'c' => '<i class=\'fas fa-pencil-alt\'></i>'
         ];
         public static $statusActive = 'a';
         public static $statusActiveAndEncoding = 'k';
@@ -117,8 +119,16 @@ if (!class_exists('Video')) {
         public static $statusFansOnly = 'f';
         public static $statusBrokenMissingFiles = 'b';
         public static $statusUnpublished = 'p';
+        public static $statusDraft = 'c';
         public static $rratingOptions = ['', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma'];
-        public static $rratingOptionsText = ['g' => 'General Audience', 'pg' => 'Parental Guidance Suggested', 'pg-13' => 'Parental Strongly Cautioned', 'r' => 'Restricted', 'nc-17' => 'No One 17 and Under Admitted', 'ma' => 'Mature Audience'];
+        public static $rratingOptionsText = [
+            'g' => 'General Audience',
+            'pg' => 'Parental Guidance Suggested',
+            'pg-13' => 'Parental Strongly Cautioned',
+            'r' => 'Restricted',
+            'nc-17' => 'No One 17 and Under Admitted',
+            'ma' => 'Mature Audience'
+        ];
         //ver 3.4
         protected $youtubeId;
         public static $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
@@ -499,6 +509,7 @@ if (!class_exists('Video')) {
             $this->clean_title = self::fixCleanTitle($this->clean_title, 1, $this->id);
 
             if (empty($this->status) || empty(self::$statusDesc[$this->status])) {
+                _error_log("Video::save status is empty or not valid {$this->status} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 if ($this->type != self::$videoTypeVideo) {
                     $this->status = Video::$statusActive;
                 } else {
@@ -646,7 +657,7 @@ if (!class_exists('Video')) {
                 $insert_row = parent::save();
                 if (!empty($insert_row)) {
                     AVideoPlugin::onNewVideo($insert_row);
-                    _error_log('onNewVideo $insert_row = ' . $insert_row);
+                    _error_log('onNewVideo $insert_row = ' . $insert_row . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 } else {
                     _error_log('onNewVideo error $insert_row is empty');
                 }
@@ -891,7 +902,7 @@ if (!class_exists('Video')) {
                  * @var object $global['mysqli']
                  */
                 _error_log("Video::setStatus  " . json_encode($_REQUEST));
-                _error_log("Video::setStatus({$status}) " . json_encode(debug_backtrace()));
+                _error_log("Video::setStatus({$status}) " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 $sql = "UPDATE videos SET status = ?, modified = now() WHERE id = ? ";
                 $res = sqlDAL::writeSql($sql, 'si', [$status, $this->id]);
                 if ($global['mysqli']->errno !== 0) {
@@ -906,7 +917,8 @@ if (!class_exists('Video')) {
                         Video::$statusUnlisted,
                         Video::$statusUnlistedButSearchable,
                         Video::$statusFansOnly,
-                        Video::$statusBrokenMissingFiles
+                        Video::$statusBrokenMissingFiles,
+                        Video::$statusDraft
                     );
                     if (!in_array($this->status, $doNotNotify) && $status == Video::$statusActive) {
                         _error_log("Video::setStatus({$status}) AVideoPlugin::onNewVideo ");
@@ -928,6 +940,7 @@ if (!class_exists('Video')) {
                     _error_log("Video::setStatus({$status}) [{$this->status}] " . json_encode(array($_REQUEST, debug_backtrace())));
                 }
             }
+            //_error_log("Video::setStatus({$status}) AVideoPlugin::onVideoSetStatus id={$this->id} status={$this->status} newStatus={$status} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             AVideoPlugin::onVideoSetStatus($this->id, $this->status, $status);
             $this->status = $status;
             return $status;
@@ -970,7 +983,7 @@ if (!class_exists('Video')) {
                             return $this->setStatus(Video::$statusActiveAndEncoding);
                         } else {
                             if ($this->getTitle() !== "Video automatically booked") {
-                                $typesToBeAutoInacive = array(
+                                $typesToBeAutoDraft = array(
                                     Video::$videoTypeEmbed,
                                     Video::$videoTypeLinkVideo,
                                     Video::$videoTypePdf,
@@ -978,9 +991,10 @@ if (!class_exists('Video')) {
                                     Video::$videoTypeZip,
                                     Video::$videoTypeGallery,
                                 );
-                                if (in_array($this->type, $typesToBeAutoInacive)){
-                                    return $this->setStatus(Video::$statusInactive);
+                                if (in_array($this->type, $typesToBeAutoDraft)){
+                                    return $this->setStatus(Video::$statusDraft);
                                 }else{
+                                    _error_log("Video::setAutoStatus({$this->type}) set to default status " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                                     return $this->setStatus($advancedCustom->defaultVideoStatus->value);
                                 }
                             } else {
@@ -7609,6 +7623,7 @@ $statusThatShowTheCompleteMenu = [
     Video::$statusUnlisted,
     Video::$statusFansOnly,
     Video::$statusUnpublished,
+    Video::$statusDraft,
 ];
 
 $statusSearchFilter = [
@@ -7621,13 +7636,15 @@ $statusSearchFilter = [
     Video::$statusUnlistedButSearchable,
     Video::$statusBrokenMissingFiles,
     Video::$statusUnpublished,
+    Video::$statusDraft,
 ];
 
 $statusThatTheUserCanUpdate = [
+    [Video::$statusDraft, '#00B'],
     [Video::$statusActive, '#0A0'],
     [Video::$statusInactive, '#B00'],
     [Video::$statusUnlisted, '#AAA'],
-    [Video::$statusUnlistedButSearchable, '#BBB'],
+    [Video::$statusUnlistedButSearchable, '#888'],
 ];
 
 AVideoPlugin::loadPlugin('Permissions');

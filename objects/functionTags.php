@@ -108,6 +108,9 @@ function getVideoTagVideoStatus($video, $type)
             case Video::$statusRecording:
                 $objTag->type = "danger isRecording isRecordingIcon";
                 break;
+            case Video::$statusDraft:
+                $objTag->type = "primary";
+                break;
             default:
                 $objTag->type = "danger";
                 break;

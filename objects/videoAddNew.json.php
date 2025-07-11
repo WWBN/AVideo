@@ -139,15 +139,6 @@ if (!_empty($_POST['videoLink'])) {
     _error_log('videoAddNew videoAddNew.json.php: setVideoLink false');
 }
 
-if (empty($_POST['id'])) {
-    if (!empty($_POST['videoLinkType'])) {
-        $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
-        $obj->setType($_POST['videoLinkType']);
-    }
-    $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
-    $obj->setAutoStatus(Video::$statusInactive);
-}
-
 TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['isArticle'])) {
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
@@ -156,6 +147,16 @@ if (!empty($_POST['isArticle'])) {
     $filename = $paths['filename'];
     $filename = $obj->setFilename($filename);
 }
+
+if (empty($_POST['id'])) {
+    if (!empty($_POST['videoLinkType'])) {
+        $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
+        $obj->setType($_POST['videoLinkType']);
+    }
+    $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
+    $obj->setAutoStatus(Video::$statusDraft);
+}
+
 TimeLogEnd(__FILE__, __LINE__);
 $obj->setNext_videos_id($_POST['next_videos_id']);
 if (isset($_POST['description'])) {
