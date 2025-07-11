@@ -329,7 +329,7 @@ if (empty($advancedCustom)) {
                                 $statusIndex = $value[0];
                                 $statusColor = $value[1];
                                 echo "<li><a href=\"#\" onclick=\"changeStatus('" . $statusIndex . "'); return false;\" style=\"color: {$statusColor}\">"
-                                    . Video::$statusIcons[$statusIndex] . ' ' . __(Video::$statusDesc[$statusIndex]) . "</a></li>";
+                                    . Video::$statusIcons[$statusIndex] . ' ' . __(Video::$statusDesc[$statusIndex]) . " <span class=\"hidden-xs\">" . __(Video::$statusDescriptions[$statusIndex]) . "</span></a></li>";
                             } ?>
                         </ul>
                     </div>

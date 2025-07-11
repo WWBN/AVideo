@@ -163,21 +163,21 @@ if (!class_exists('Video')) {
         ];
 
         public static $statusDescriptions = [
-            self::STATUS_ACTIVE => 'Active: The video is published and visible to users.',
-            self::STATUS_ACTIVE_AND_ENCODING => 'Active and Encoding: The video is published but still being processed/encoded.',
-            self::STATUS_INACTIVE => 'Inactive: The video is hidden and not available to users.',
-            self::STATUS_SCHEDULED_RELEASE_DATE => 'Scheduled Release Date: The video is scheduled to be published at a future date/time.',
-            self::STATUS_ENCODING => 'Encoding: The video is currently being encoded and is not yet available.',
-            self::STATUS_ENCODING_ERROR => 'Encoding Error: There was an error during encoding; the video is not available.',
-            self::STATUS_DOWNLOADING => 'Downloading: The video is being downloaded from an external source.',
-            self::STATUS_TRANFERING => 'Transferring: The video is being transferred between servers or locations.',
-            self::STATUS_UNLISTED => 'Unlisted: The video is not listed publicly but can be accessed via direct link.',
-            self::STATUS_UNLISTED_BUT_SEARCHABLE => 'Unlisted but Searchable: The video is not listed but can be found via search.',
-            self::STATUS_RECORDING => 'Recording: The video is currently being recorded (e.g., live stream).',
-            self::STATUS_FANS_ONLY => 'FansOnly: The video is restricted to fans or subscribers only.',
-            self::STATUS_BROKEN_MISSING_FILES => 'Broken Missing Files: The video is missing files or is corrupted.',
-            self::STATUS_UNPUBLISHED => 'Unpublished: The video is not published and not visible to users.',
-            self::STATUS_DRAFT => 'Draft: The video is a draft and not yet published.',
+            self::STATUS_ACTIVE => 'The video is published and visible to users.',
+            self::STATUS_ACTIVE_AND_ENCODING => 'The video is published but still being processed/encoded.',
+            self::STATUS_INACTIVE => 'The video is hidden and not available to users.',
+            self::STATUS_SCHEDULED_RELEASE_DATE => 'The video is scheduled to be published at a future date/time.',
+            self::STATUS_ENCODING => 'The video is currently being encoded and is not yet available.',
+            self::STATUS_ENCODING_ERROR => 'There was an error during encoding; the video is not available.',
+            self::STATUS_DOWNLOADING => 'The video is being downloaded from an external source.',
+            self::STATUS_TRANFERING => 'The video is being transferred between servers or locations.',
+            self::STATUS_UNLISTED => 'The video is not listed publicly but can be accessed via direct link.',
+            self::STATUS_UNLISTED_BUT_SEARCHABLE => 'The video is not listed but can be found via search.',
+            self::STATUS_RECORDING => 'The video is currently being recorded (e.g., live stream).',
+            self::STATUS_FANS_ONLY => 'The video is restricted to fans or subscribers only.',
+            self::STATUS_BROKEN_MISSING_FILES => 'The video is missing files or is corrupted.',
+            self::STATUS_UNPUBLISHED => 'The video is not published and not visible to users.',
+            self::STATUS_DRAFT => 'The video is a draft and not yet published.',
         ];
 
         public static $statusIcons = [
