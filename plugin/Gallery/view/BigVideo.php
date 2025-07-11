@@ -4,7 +4,7 @@ if (empty($crc)) {
 }
 $suggestedOrPinnedFound = false;
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
-    
+
     $_REQUEST['rowCount'] = 20;
     unsetCurrentPage();
     if(!empty($global['isChannel'])){
@@ -97,7 +97,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     <?php
                                     if (!empty($program) && $videoRow['type'] == 'serie' && !empty($videoRow['serie_playlists_id'])) {
                                     ?>
-                                        <div class="gallerySerieOverlay" 
+                                        <div class="gallerySerieOverlay"
                                         style="pointer-events: none;" >
                                         <!-- BigVideo -->
                                             <div class="gallerySerieOverlayTotal">
@@ -184,7 +184,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                             ?>
                                                 <div>
                                                     <i class="far fa-clock"></i>
-                                                    <?php echo humanTiming(strtotime($videoRow['videoCreation']), 0, true, true); ?>
+                                                    <?php echo humanTimingOrDate(strtotime($videoRow['videoCreation']), 0, true, true); ?>
                                                 </div>
                                             <?php
                                             }else{
