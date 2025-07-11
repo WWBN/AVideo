@@ -1,5 +1,5 @@
 <?php
-require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
+require_once $global['systemRootPath'] . 'objects/functionInfiniteScroll.php';
 function showThis($who)
 {
     if (empty($_GET['showOnly'])) {
@@ -92,7 +92,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         if ($countCols) {
         ?>
             <!-- createGallery -->
-            <div class="col-sm-12 gallerySection" >
+            <div class="col-sm-12 gallerySection">
                 <?php
                 $infinityScrollGetFromSelector = "";
                 $infinityScrollAppendIntoSelector = "";
@@ -137,7 +137,7 @@ function getShowOnlyURL($showOnly)
         return $global['webSiteRootURL'] . $friendlyMap[$showOnly];
     }
 
-    return $global['webSiteRootURL'].'?showOnly=' . urlencode($showOnly);
+    return $global['webSiteRootURL'] . '?showOnly=' . urlencode($showOnly);
 }
 
 
@@ -180,7 +180,7 @@ function createGallerySection($videos, $showChannel = true, $ignoreAds = false, 
     $obj = AVideoPlugin::getObjectData("Gallery");
     $zindex = 1000;
     $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
-    if(!is_array($videos)){
+    if (!is_array($videos)) {
         return '';
     }
     $videoCount = count($videos);
@@ -403,15 +403,17 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
                     ?>
                     <?php
                     if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
-                        $humanTiming = humanTiming(strtotime($video['videoCreation']), 0, true, true);
+                        $humanTiming = $advancedCustom->showHumanTimingOnVideoItem
+                            ? humanTiming(strtotime($video['videoCreation']), 0, true, true)
+                            : date('Y-m-d H:i', strtotime($video['videoCreation']));
                     ?>
                         <time datetime="<?php echo $video['videoCreation']; ?>" class="videoHumanTime pull-right">
                             <i class="far fa-clock"></i>
                             <?php echo $humanTiming; ?>
                         </time>
                     <?php
-                    }else{
-                        echo '<!-- empty showCreationTimeOnVideoItem '.basename(__FILE__).' line='.__LINE__.'-->';
+                    } else {
+                        echo '<!-- empty showCreationTimeOnVideoItem ' . basename(__FILE__) . ' line=' . __LINE__ . '-->';
                     }
                     ?>
                 </div>

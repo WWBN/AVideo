@@ -170,6 +170,7 @@ class CustomizeAdvanced extends PluginAbstract {
             'showChannelNameOnVideoItem',
             'canonicalURLType',
             'ffmpegParameters',
+            'showHumanTimingOnVideoItem'
             );
     }
 
@@ -505,6 +506,8 @@ Disallow: *action=tagsearch*
 
         $obj->ffmpegParameters = "-c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k";
 
+        $obj->showHumanTimingOnVideoItem = true;
+        self::addDataObjectHelper('showHumanTimingOnVideoItem', 'Show human timing on video item', 'This will show the time since the video was uploaded in a human readable format, like "2 days ago" instead of the exact date and time');
         return $obj;
     }
 
