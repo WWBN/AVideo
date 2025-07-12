@@ -34,7 +34,7 @@ function humanTimingOrDate($time, $precision = 0, $useDatabaseTime = true, $addA
     $time = _strtotime($time);
 
     if (empty($advancedCustom->showHumanTimingOnVideoItem)) {
-        return date('Y-m-d H:i', $time);
+        return date($advancedCustom->showHumanTimingOnVideoItemDateFormat, $time);
     }
 
     return humanTiming($time, $precision, $useDatabaseTime, $addAgo);

@@ -170,7 +170,8 @@ class CustomizeAdvanced extends PluginAbstract {
             'showChannelNameOnVideoItem',
             'canonicalURLType',
             'ffmpegParameters',
-            'showHumanTimingOnVideoItem'
+            'showHumanTimingOnVideoItem',
+            'showHumanTimingOnVideoItemDateFormat'
             );
     }
 
@@ -508,6 +509,10 @@ Disallow: *action=tagsearch*
 
         $obj->showHumanTimingOnVideoItem = true;
         self::addDataObjectHelper('showHumanTimingOnVideoItem', 'Show human timing on video item', 'This will show the time since the video was uploaded in a human readable format, like "2 days ago" instead of the exact date and time');
+
+        $obj->showHumanTimingOnVideoItemDateFormat = "Y-m-d H:i";
+        self::addDataObjectHelper('showHumanTimingOnVideoItemDateFormat', 'Show human timing on video item date format', 'This will set the date format for the human timing, you can use any format supported by PHP date function, like "Y-m-d H:i:s"');
+
         return $obj;
     }
 
