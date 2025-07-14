@@ -45,6 +45,12 @@ if (empty($_REQUEST['format']) || !in_array($_REQUEST['format'], $global['allowe
     die(json_encode($obj));
 }
 
+if (!preg_match('/^[a-zA-Z0-9_-]+$/', $_REQUEST['format'])) {
+    $obj->msg = "aVideoEncoder.json: ERROR Invalid format characters: {$_REQUEST['format']}";
+    _error_log($obj->msg);
+    die(json_encode($obj));
+}
+
 if (!isset($_REQUEST['encodedPass'])) {
     $_REQUEST['encodedPass'] = 1;
 }
@@ -236,8 +242,8 @@ if (!empty($_REQUEST['categories_id'])) {
 }
 $video_id = $video->save();
 
-if(empty($video_id)){
-    $obj->msg = __("Your video has NOT been saved!").' '. $global['lastBeforeSaveVideoMessage'];
+if (empty($video_id)) {
+    $obj->msg = __("Your video has NOT been saved!") . ' ' . $global['lastBeforeSaveVideoMessage'];
     _error_log("aVideoEncoder.json: " . $obj->msg);
     die(json_encode($obj));
 }
@@ -321,8 +327,12 @@ function downloadVideoFromDownloadURL($downloadURL)
     return false;
 }
 
-function __errlog($txt){
+function __errlog($txt)
+{
     global $global, $obj;
     $obj->errorMSG[] = $txt;
     _error_log($txt, AVideoLog::$ERROR);
 }
+
+secureUnzipDirectory($tmp_name, $dir);
+cleanDirectory($dir);

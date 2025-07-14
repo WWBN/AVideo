@@ -1495,10 +1495,10 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video")
     _error_log("decideMoveUploadedToVideos: {$filename}");
     $path_info = pathinfo($filename);
     if ($type !== "zip" && $path_info['extension'] === 'zip') {
-        _error_log("decideMoveUploadedToVideos: ZIp file {$filename}");
+        _error_log("decideMoveUploadedToVideos: ZIP file {$filename}");
         $paths = Video::getPaths($path_info['filename']);
         $dir = $paths['path'];
-        unzipDirectory($tmp_name, $dir); // unzip it
+        secureUnzipDirectory($tmp_name, $dir); // unzip it
         cleanDirectory($dir);
         if (!empty($aws_s3)) {
             //$aws_s3->move_uploaded_file($tmp_name, $filename);
