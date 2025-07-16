@@ -484,7 +484,7 @@ class PlayerSkins extends PluginAbstract
                 $social = getSocialModal(@$video['id'], @$url, @$title);
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
                 $js .= $social['html'];
-                $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
+                $js .= "<script>function togglePlayerSocial(){showSharing{$social['id']}();}</script>";
             }
 
             if ($skipTime = self::showSkipIntro()) {

@@ -7,10 +7,10 @@ class SocialButton extends Button {
         this.controlText("social");
         setTimeout(function(){avideoTooltip(".social-button","Share");},1000);
     }
-  
+
     handleClick() {
         console.log('socialButton clicked');
-        tooglePlayersocial();
+        togglePlayerSocial();
     }
 }
 

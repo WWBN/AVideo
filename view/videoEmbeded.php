@@ -189,8 +189,12 @@ if (User::hasBlockedUser($video['users_id'])) {
     <script>
         var isEmbed = true;
         window.addEventListener('message', function(event) {
-            if (event.data === 'togglePlayerSocial' && typeof tooglePlayersocial === 'function') {
-                tooglePlayersocial();
+            if (event.data === 'togglePlayerSocial') {
+                if (typeof togglePlayerSocial === 'function') {
+                    togglePlayerSocial();
+                } else {
+                    console.warn('togglePlayerSocial function is not defined');
+                }
             }
         });
     </script>
