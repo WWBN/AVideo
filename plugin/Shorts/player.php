@@ -200,7 +200,11 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
             <script>
                 function shareCarouselShorts() {
                     $('.ShortsPlayerOverlay').hide();
-                    iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');
+                    if (iframe && iframe[0] && iframe[0].contentWindow) {
+                        iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');
+                    } else {
+                        console.warn('iframe not available for postMessage');
+                    }
                 }
             </script>
         <?php
