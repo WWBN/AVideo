@@ -200,8 +200,8 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
             <script>
                 function shareCarouselShorts() {
                     $('.ShortsPlayerOverlay').hide();
-                    if (iframe && iframe[0] && iframe[0].contentWindow) {
-                        iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');
+                    if ($('.ShortsPlayerIframe').length) {
+                        $('.ShortsPlayerIframe')[0].contentWindow.postMessage('togglePlayerSocial', '*');
                     } else {
                         if (typeof togglePlayerSocial === 'function') {
                             togglePlayerSocial();

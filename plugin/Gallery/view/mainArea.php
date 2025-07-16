@@ -39,6 +39,7 @@ saveRequestVars();
     if (empty($_GET['search']) && !isInfiniteScroll()) {
         $include = AVideoPlugin::getBigVideoIncludeFile();
         if (!empty($include)) {
+            echo '<!-- BigVideoIncludeFile: ' . $include . ' -->';
             include $include;
         } else {
             if ($obj->showLivesAboveBigVideo) {
@@ -46,6 +47,8 @@ saveRequestVars();
             }
             include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideoLive.php';
         }
+    }else{
+        echo '<!-- BigVideoLive is not included because search is enabled -->';
     }
     //var_dump(!empty($video), debug_backtrace());exit;
     if (!empty($video)) {

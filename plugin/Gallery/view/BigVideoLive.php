@@ -1,21 +1,25 @@
 <?php
 if ($obj->BigVideoLiveForLoggedUsersOnly) {
-    if(!User::isLogged()){
+    if (!User::isLogged()) {
+        echo '<!-- BigVideoLive is disabled for non-logged users -->';
         return '';
     }
 }
 
 if ($obj->BigVideoLive->value == Gallery::BigVideoLiveDisabled) {
+    echo '<!-- BigVideoLive is disabled -->';
     return '';
 }
 
 if ($obj->BigVideoLiveOnFirstPageOnly && (!isFirstPage() || !empty($_GET['catName']) || !empty($_GET['showOnly']) || !empty($_GET['tags_id']))) {
+    echo '<!-- BigVideoLive is disabled on this page -->';
     return '';
 }
 
 if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
     $liveVideo = Live::getLatest(true);
     if (empty($liveVideo)) {
+        echo '<!-- BigVideoLive is disabled because there is no live video -->';
         return '';
     }
 }
@@ -119,18 +123,18 @@ $urlLiveNow = addQueryStringParameter($urlLiveNow, 'isClosed', 1);
             BigVideoLiveFullscreen(true);
         });
     });
-    
-    window.addEventListener('message', event => {
-            switch (event.data.type) {
-                case 'showBigVideo':
-                    $('#BigVideoLive').slideDown();
-                    break;
-                case 'hideBigVideo':
-                    $('#BigVideoLive').slideUp();
-                    break;
 
-                default:
-                    break;
-            }
-        });
+    window.addEventListener('message', event => {
+        switch (event.data.type) {
+            case 'showBigVideo':
+                $('#BigVideoLive').slideDown();
+                break;
+            case 'hideBigVideo':
+                $('#BigVideoLive').slideUp();
+                break;
+
+            default:
+                break;
+        }
+    });
 </script>
