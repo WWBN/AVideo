@@ -599,8 +599,16 @@ if (User::hasBlockedUser($video['users_id'])) {
     if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
         $social = getSocialModal(@$video['id'], @$url, @$title);
         PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
-        $js .= $social['html'];
+        $js = $social['html'];
         $js .= "<script>function togglePlayerSocial(){showSharing{$social['id']}();}</script>";
+        echo $js;
+    }else{
+        if(!$obj->showShareSocial){
+            echo '<!-- PlayerSkins->showShareSocial is disabled -->';
+        }
+        if(!CustomizeUser::canShareVideosFromVideo(@$video['id'])){
+            echo '<!-- CustomizeUser->canShareVideosFromVideo is false ['.(@$video['id']).'] -->';
+        }
     }
 
     ?>
