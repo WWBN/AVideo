@@ -408,7 +408,12 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
                     width: '100vw',
                     height: '100vh',
                     frameborder: 0,
-                    src: src
+                    src: src,
+                    class: 'ShortsPlayerIframe',
+                    allow: 'autoplay; fullscreen',
+                    allowfullscreen: true,
+                    sandbox: 'allow-same-origin allow-scripts allow-popups allow-forms',
+                    id: 'ShortsPlayerIframe' + index2
                 });
                 var overlay = $('<div/>', {
                     // The attributes for the overlay
