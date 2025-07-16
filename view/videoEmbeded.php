@@ -192,8 +192,10 @@ if (User::hasBlockedUser($video['users_id'])) {
             if (event.data === 'togglePlayerSocial') {
                 if (typeof togglePlayerSocial === 'function') {
                     togglePlayerSocial();
+                } else if (iframe && iframe[0] && iframe[0].contentWindow) {
+                    iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');
                 } else {
-                    console.warn('togglePlayerSocial function is not defined');
+                    console.warn('togglePlayerSocial function is not defined and iframe not available for postMessage');
                 }
             }
         });
