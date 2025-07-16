@@ -595,6 +595,14 @@ if (User::hasBlockedUser($video['users_id'])) {
     </script>
     <?php
     showCloseButton();
+    $obj = AVideoPlugin::getObjectDataIfEnabled('PlayerSkins');
+    if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
+        $social = getSocialModal(@$video['id'], @$url, @$title);
+        PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
+        $js .= $social['html'];
+        $js .= "<script>function togglePlayerSocial(){showSharing{$social['id']}();}</script>";
+    }
+
     ?>
 </body>
 

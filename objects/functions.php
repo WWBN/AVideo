@@ -4896,9 +4896,22 @@ function playHLSasMP4($filepath)
     exit;
 }
 
+function socialModalWasAdded($videos_id){
+    global $global;
+    if (empty($global["socialModalWasAdded_{$videos_id}"])) {
+        return false;
+    }
+    return true;
+}
+
 function getSocialModal($videos_id, $url = "", $title = "")
 {
     global $global;
+    if(socialModalWasAdded($videos_id)){
+        _error_log("getSocialModal($videos_id) already added");
+        return false;
+    }
+    $global["socialModalWasAdded_{$videos_id}"] = 1;
     $video['id'] = $videos_id;
     $sharingUid = uniqid();
     $filePath = $global['systemRootPath'] . 'objects/functionGetSocialModal.php';
