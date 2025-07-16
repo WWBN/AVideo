@@ -189,7 +189,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     <script>
         var isEmbed = true;
         window.addEventListener('message', function(event) {
-            if (event.data === 'togglePlayerSocial') {
+            if (event.data === 'togglePlayerSocial' && typeof tooglePlayersocial === 'function') {
                 tooglePlayersocial();
             }
         });
@@ -529,6 +529,9 @@ if (User::hasBlockedUser($video['users_id'])) {
     $jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.min.js";
     $jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.plugins.min.js";
     $jsFiles[] = "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js";
+    $jsFiles[] = "plugin/PlayerSkins/shareButton.js";
+
+
     ?>
     <?php
     include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
