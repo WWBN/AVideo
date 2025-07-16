@@ -604,10 +604,10 @@ if (User::hasBlockedUser($video['users_id'])) {
         echo $js;
     }else{
         if(!$obj->showShareSocial){
-            echo '<!-- PlayerSkins->showShareSocial is disabled -->';
+            echo '<!-- (togglePlayerSocial) PlayerSkins->showShareSocial is disabled -->';
         }
         if(!CustomizeUser::canShareVideosFromVideo(@$video['id'])){
-            echo '<!-- CustomizeUser->canShareVideosFromVideo is false ['.(@$video['id']).'] -->';
+            echo '<!-- (togglePlayerSocial) CustomizeUser->canShareVideosFromVideo is false ['.(@$video['id']).'] -->';
         }
     }
 
