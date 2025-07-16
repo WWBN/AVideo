@@ -106,7 +106,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
   } */
 $vjsClass = '';
 
-if(!empty($_REQUEST['showBigButton'])){
+if (!empty($_REQUEST['showBigButton'])) {
     $vjsClass .= ' showBigButton';
 }
 
@@ -390,10 +390,10 @@ if (User::hasBlockedUser($video['users_id'])) {
                 addView(<?php echo $video['id']; ?>, 0);
             });
         </script>
-    <?php
+        <?php
     } elseif ($video['type'] == Video::$videoTypeImage) {
         if (AVideoPlugin::isEnabledByName('ImageGallery') && !empty(ImageGallery::listFiles($video['id']))) {
-            ?>
+        ?>
             <!-- ImageGallery <?php echo basename(__FILE__); ?> -->
             <video id="mainVideo" style="display: none; height: 0;width: 0;"></video>
             <iframe style="width: 100%; height: 100%;" class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/ImageGallery/?avideoIframe=1&videos_id=<?php echo $video['id']; ?>"></iframe>
@@ -403,24 +403,24 @@ if (User::hasBlockedUser($video['users_id'])) {
                 });
             </script>
         <?php
-        }else{
+        } else {
             $sources = getVideosURLIMAGE($video['filename']);
         ?>
             <!-- image -->
             <img src="<?php
                         echo $sources["image"]['url']
                         ?>" class="img img-responsive center-block" style="height: 100%;">
-                        <script>
-                                $(document).ready(function() {
-                                    addCloseButtonInPage();
-                                    addView(<?php echo $video['id']; ?>, 0);
-                                });
-                            </script>
+            <script>
+                $(document).ready(function() {
+                    addCloseButtonInPage();
+                    addView(<?php echo $video['id']; ?>, 0);
+                });
+            </script>
         <?php
         }
     } elseif ($video['type'] == Video::$videoTypeZip) {
         $sources = getVideosURLZIP($video['filename']);
-    ?>
+        ?>
         <!-- zip -->
         <div class="panel panel-default">
             <div class="panel-heading"><i class="far fa-file-archive"></i> <?php echo $video['title']; ?></div>
@@ -557,7 +557,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                 }, 500);
             });
             <?php
-            if (!empty($_REQUEST['closeOnEnd']))  {
+            if (!empty($_REQUEST['closeOnEnd'])) {
             ?>
                 player.on('ended', function() {
                     $('#CloseButtonInVideo').trigger('click');

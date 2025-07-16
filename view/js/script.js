@@ -1526,7 +1526,7 @@ window.addEventListener('message', function (event) {
             closeFullscreenVideo();
             break;
         default:
-            console.log('Unknown command:', event.data);
+            // console.log('Unknown command:', event.data);
     }
 });
 
