@@ -203,7 +203,11 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
                     if (iframe && iframe[0] && iframe[0].contentWindow) {
                         iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');
                     } else {
-                        console.warn('iframe not available for postMessage');
+                        if (typeof togglePlayerSocial === 'function') {
+                            togglePlayerSocial();
+                        } else {
+                            console.warn('togglePlayerSocial: iframe not available for postMessage');
+                        }
                     }
                 }
             </script>
