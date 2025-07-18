@@ -1,11 +1,11 @@
 <?php
 global $global;
-require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = dirname(__FILE__) . '/../../../';
 }
 
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
@@ -35,7 +35,7 @@ if (empty($channels)) {
 $totalPages = ceil($total / $itemsPerPage);
 ?>
 <!-- mainAreaChannel start -->
-<div class="mainAreaChannels">  
+<div class="mainAreaChannels">
     <?php
     foreach ($channels as $value) {
         $_POST['disableAddTo'] = 0;
