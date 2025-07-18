@@ -179,7 +179,7 @@ class VideoTags extends PluginAbstract {
         $types = TagsTypes::getAll();
         $array = array();
         foreach ($types as $value) {
-            $array[] = "{id:{$value['id']} , items: $(\"#inputTags{$value['id']}\").tagsinput('items')} ";
+            $array[] = "{id:{$value['id']} , items: (function() { var element = $(\"#inputTags{$value['id']}\"); if (element.length === 0) { console.log('Element #inputTags{$value['id']} not found'); return []; } return element.tagsinput('items'); })()} ";
         }
         return "[" . implode(",", $array) . "]";
     }
@@ -188,7 +188,7 @@ class VideoTags extends PluginAbstract {
         $types = TagsTypes::getAll();
         $str = "";
         foreach ($types as $value) {
-            $str .= "$(\"#inputTags{$value['id']}\").tagsinput('removeAll'); ";
+            $str .= "if ($(\"#inputTags{$value['id']}\").length === 0) { console.log('Element #inputTags{$value['id']} not found for removeAll'); } else { $(\"#inputTags{$value['id']}\").tagsinput('removeAll'); } ";
         }
         return $str;
     }
@@ -241,7 +241,12 @@ class VideoTags extends PluginAbstract {
                     var preloadedTags = ' . $tagsJson . ';
                     if(preloadedTags && preloadedTags.length) {
                         preloadedTags.forEach(function(tag) {
-                            $(\'#inputTags' . $tagTypesId . '\').tagsinput(\'add\', tag);
+                            var element = $(\'#inputTags' . $tagTypesId . '\');
+                            if (element.length === 0) {
+                                console.log(\'Element #inputTags' . $tagTypesId . ' not found for adding tag: \' + tag);
+                            } else {
+                                element.tagsinput(\'add\', tag);
+                            }
                         });
                     }
                 });
@@ -484,7 +489,12 @@ class VideoTags extends PluginAbstract {
     public static function getManagerVideosEdit() {
         $js = "if (typeof row.videoTags !== 'undefined' && row.videoTags.length) {
                                             for (i = 0; i < row.videoTags.length; i++) {
-                                                $('#inputTags' + row.videoTags[i].tag_types_id).tagsinput('add', row.videoTags[i].name);
+                                                var element = $('#inputTags' + row.videoTags[i].tag_types_id);
+                                                if (element.length === 0) {
+                                                    console.log('Element #inputTags' + row.videoTags[i].tag_types_id + ' not found for editing, tag: ' + row.videoTags[i].name);
+                                                } else {
+                                                    element.tagsinput('add', row.videoTags[i].name);
+                                                }
                                             }
                                         }";
         return self::getManagerVideosReset() . $js;
