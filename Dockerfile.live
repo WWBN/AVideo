@@ -62,7 +62,7 @@ RUN cd /usr/local/nginx/html && \
       wget https://youphp.tube/docs/stat.xsl  --no-check-certificate && \
       mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.old && \
       cd /usr/local/nginx/conf/ && \
-      wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/nginx.conf  --no-check-certificate && \
+      # wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/nginx.conf  --no-check-certificate && \
       mkdir /HLS && \
       mkdir /HLS/live && \
       mkdir /HLS/low  && \
