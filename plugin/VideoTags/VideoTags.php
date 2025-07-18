@@ -237,45 +237,6 @@ class VideoTags extends PluginAbstract {
                         freeInput: ' . (self::canCreateTag() ? "true" : "false") . '
                     });
 
-                    // Add event listener for when user tries to add a tag but cannot create new ones
-                    ' . (!self::canCreateTag() ? '
-                    $(\'#inputTags' . $tagTypesId . '\').on(\'beforeItemAdd\', function(event) {
-                        // Check if the item being added is a new tag (not in existing list)
-                        var existingTags = videoTags' . $tagTypesId . '.get(event.item);
-                        if (!existingTags || existingTags.length === 0) {
-                            // This is a new tag attempt - show toast and cancel
-                            if (typeof avideoToastError === \'function\') {
-                                avideoToastError(\'' . __("Only administrators can create new tags") . '\');
-                            } else if (typeof toastr !== \'undefined\') {
-                                toastr.error(\'' . __("Only administrators can create new tags") . '\');
-                            } else {
-                                alert(\'' . __("Only administrators can create new tags") . '\');
-                            }
-                            event.cancel = true;
-                        }
-                    });
-
-                    // Also handle direct input attempts when freeInput is disabled
-                    $(\'#inputTags' . $tagTypesId . '\').siblings(\'.bootstrap-tagsinput\').find(\'input\').on(\'keypress\', function(event) {
-                        if (event.which === 13 || event.which === 44) { // Enter or comma
-                            var inputValue = $(this).val().trim();
-                            if (inputValue) {
-                                var existingTags = videoTags' . $tagTypesId . '.get(inputValue);
-                                if (!existingTags || existingTags.length === 0) {
-                                    event.preventDefault();
-                                    if (typeof avideoToastError === \'function\') {
-                                        avideoToastError(\'' . __("Only administrators can create new tags") . '\');
-                                    } else if (typeof toastr !== \'undefined\') {
-                                        toastr.error(\'' . __("Only administrators can create new tags") . '\');
-                                    } else {
-                                        alert(\'' . __("Only administrators can create new tags") . '\');
-                                    }
-                                    $(this).val(\'\'); // Clear the input
-                                }
-                            }
-                        }
-                    });' : '') . '
-
                     // Step 3: Preload and fill the input with all tags from the database
                     var preloadedTags = ' . $tagsJson . ';
                     if(preloadedTags && preloadedTags.length) {
