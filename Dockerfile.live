@@ -65,6 +65,7 @@ RUN cd /usr/local/nginx/html && \
       # wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/nginx.conf  --no-check-certificate && \
       mkdir /HLS && \
       mkdir /HLS/live && \
+      mkdir /HLS/audio && \
       mkdir /HLS/low  && \
       mkdir /var/www/tmp/ && \
       chmod 777 /var/www/tmp
