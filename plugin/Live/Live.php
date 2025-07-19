@@ -601,6 +601,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $obj->autoFishLiveEveryHour = false;
         self::addDataObjectHelper('autoFishLiveEveryHour', 'Automatically end offline live sessions every hour', 'The server will verify if can access the m3u8 file, and finish the live if cannot');
 
+        $obj->showAudioVideoToggleButton = true;
+        self::addDataObjectHelper('showAudioVideoToggleButton', 'Show Audio/Video Toggle Button', 'Enable the button that allows users to switch between video and audio streams during live transmission');
+
         return $obj;
     }
 
@@ -4359,6 +4362,16 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
         }
     }
+
+    /**
+     * Check if the Audio/Video toggle button should be shown
+     * @return bool
+     */
+    public static function showAudioVideoToggleButton()
+    {
+        $obj = AVideoPlugin::getObjectData("Live");
+        return !empty($obj->showAudioVideoToggleButton);
+    }
 }
 
 class LiveImageType
@@ -4594,4 +4607,5 @@ class LiveStreamObject
         }
         return Live::getServerURL($this->key, $lt['users_id'], $short);
     }
+
 }

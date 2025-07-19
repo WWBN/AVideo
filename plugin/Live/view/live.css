@@ -21,3 +21,31 @@ body.IAmNOTOnline .ShowIfIAmNOTOnline {
 body.IAmNOTOnline .HideIfIAmNOTOnline {
     display: none !important; /* Hide the element */
 }
+
+/* Audio Toggle Button Styles */
+.audio-toggle-button {
+    outline: none;
+}
+
+.audio-toggle-button:hover {
+    background-color: rgba(115, 133, 159, 0.5);
+}
+
+.audio-toggle-button:before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    font-size: 1.2em;
+    line-height: 1.0em;
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
+}
+
+.audio-toggle-button.video-source:before {
+    content: "\f008"; /* Video icon */
+}
+
+.audio-toggle-button.audio-source:before {
+    content: "\f025"; /* Audio icon */
+}
