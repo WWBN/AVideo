@@ -3912,6 +3912,12 @@ class API extends PluginAbstract
      * @param int [$parameters['canStream']] Optional. Set to 1 if the user is allowed to start live streams.
      * @param int [$parameters['canUpload']] Optional. Set to 1 if the user is allowed to upload videos.
      * @param string $parameters['APISecret'] Required. Secret key to authorize the API request.
+     * @param string [$parameters['captcha']] Required when APISecret is not provided. CAPTCHA verification code.
+     *
+     * Security Features:
+     * - Rate limiting: 3 registration attempts per 10 minutes per IP address
+     * - CAPTCHA verification required when APISecret is not provided
+     * - Input validation and sanitization
      *
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&user=admin&pass=123&email=me@mysite.com&name=Yeshua
      *
@@ -3920,7 +3926,7 @@ class API extends PluginAbstract
     #[OA\Post(
         path: "/api/signUp",
         summary: "Register a new user",
-        description: "Registers a new user in the platform. Requires APISecret to authorize the request.",
+        description: "Registers a new user in the platform. Requires APISecret to authorize the request or CAPTCHA verification. Includes rate limiting protection.",
         tags: ["Users"],
         parameters: [
             new OA\Parameter(
@@ -3978,6 +3984,13 @@ class API extends PluginAbstract
                 required: false,
                 schema: new OA\Schema(type: "integer"),
                 description: "Set to 1 to allow user to upload videos."
+            ),
+            new OA\Parameter(
+                name: "captcha",
+                in: "query",
+                required: false,
+                schema: new OA\Schema(type: "string"),
+                description: "CAPTCHA verification code (required when APISecret is not provided)."
             )
         ],
         responses: [
@@ -4007,6 +4020,10 @@ class API extends PluginAbstract
                 return new ApiObject("Captcha is wrong, reload it and try again");
             }
         }
+
+        // Rate limiting for user registration (prevent abuse)
+        $this->checkRateLimit('user_registration', 3, 600); // 3 attempts per 10 minutes
+
         $ignoreCaptcha = 1;
         if (isset($_REQUEST['emailVerified'])) {
             $global['emailVerified'] = intval($_REQUEST['emailVerified']);
@@ -5326,6 +5343,199 @@ class API extends PluginAbstract
         User::updateSessionInfo();
 
         return new ApiObject($msg, $obj->error, $obj);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * Sets a user's status as inactive.
+     *
+     * Required Parameters:
+     * - 'users_id' (int): The ID of the user to set as inactive.
+     *
+     * Authorization Options (one of the following):
+     * - 'APISecret' (string): Valid API secret allows deactivating any user.
+     * - Admin user: Logged-in admin can deactivate any user (except themselves without APISecret).
+     * - Self-deactivation: User can deactivate themselves with 'user', 'pass', and 'captcha' parameters.
+     *
+     * Optional Parameters (for self-deactivation):
+     * - 'user' (string): Username for authentication.
+     * - 'pass' (string): Password for authentication.
+     * - 'captcha' (string): CAPTCHA code for verification (required for self-deactivation).
+     *
+     * @example
+     * {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&users_id=123&APISecret=YOUR_SECRET
+     * {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&users_id=123&user=john&pass=password123&captcha=AB123
+     *
+     * @return \ApiObject
+     * - success: true if the user status is updated successfully to inactive.
+     * - response: object containing the `users_id`, `status`, `previous_status`, `authorization_method`, and `error` flag.
+     * - error: true if authorization fails, users_id is missing, user not found, CAPTCHA invalid, or update fails.
+     */
+    #[OA\Post(
+        path: "/api/user_inactive",
+        summary: "Set User Status as Inactive",
+        description: "Sets the specified user's status as inactive. Authorization: APISecret, Admin privileges, or self-deactivation with credentials and CAPTCHA.",
+        tags: ["Users"],
+        security: [ ['APISecret' => []] ],
+        parameters: [
+            new OA\Parameter(name: "users_id", in: "query", required: true, schema: new OA\Schema(type: "integer"), description: "ID of the user to set as inactive"),
+            new OA\Parameter(name: "user", in: "query", required: false, schema: new OA\Schema(type: "string"), description: "Username for self-deactivation"),
+            new OA\Parameter(name: "pass", in: "query", required: false, schema: new OA\Schema(type: "string"), description: "Password for self-deactivation"),
+            new OA\Parameter(name: "captcha", in: "query", required: false, schema: new OA\Schema(type: "string"), description: "CAPTCHA code for self-deactivation verification")
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                content: new OA\JsonContent(ref: "#/components/schemas/ApiObject"),
+                description: "Returns status of user deactivation"
+            )
+        ]
+    )]
+
+    public function set_api_user_inactive($parameters)
+    {
+        global $global;
+
+        // Input validation
+        if (empty($parameters['users_id'])) {
+            return new ApiObject("users_id parameter is required");
+        }
+
+        $users_id = intval($parameters['users_id']);
+        if ($users_id <= 0) {
+            return new ApiObject("Invalid users_id provided");
+        }
+
+        // Check if target user exists first (prevent information disclosure)
+        $targetUser = new User($users_id);
+        if (empty($targetUser->getUser())) {
+            return new ApiObject("User not found");
+        }
+
+        // Store original status before any modifications
+        $originalStatus = $targetUser->getStatus();
+
+        // Authorization checks (in order of privilege)
+        $hasAPISecret = self::isAPISecretValid();
+        $currentUserId = User::getId(); // Store current user ID before any authentication
+        $isCurrentUserAdmin = User::isAdmin(); // Store current admin status
+        $isSelfDeactivation = false;
+
+        // 1. APISecret has highest privilege
+        if ($hasAPISecret) {
+            $authMethod = 'APISecret';
+        }
+        // 2. Admin can deactivate others (but not themselves without APISecret)
+        elseif ($isCurrentUserAdmin) {
+            if ($currentUserId == $users_id) {
+                return new ApiObject("Admins cannot deactivate themselves. Use APISecret for this action");
+            }
+            $authMethod = 'Admin';
+        }
+        // 3. Self-deactivation with credential validation (isolated)
+        else {
+            // Validate credentials without polluting current session
+            if (empty($parameters['user']) || empty($parameters['pass'])) {
+                return new ApiObject("Access denied. You need to be an admin, provide a valid APISecret, or authenticate as the user being deactivated");
+            }
+
+            // CAPTCHA validation required for self-deactivation without API key
+            if (empty($parameters['captcha'])) {
+                return new ApiObject("CAPTCHA verification is required for self-deactivation");
+            }
+
+            require_once $global['systemRootPath'] . 'objects/captcha.php';
+            $captcha_valid = Captcha::validation($parameters['captcha']);
+            if (!$captcha_valid) {
+                _error_log("API set_api_user_inactive: Invalid CAPTCHA attempt from IP " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
+                return new ApiObject("Invalid CAPTCHA code");
+            }
+
+            // Input sanitization
+            $username = trim(strip_tags($parameters['user']));
+            $password = $parameters['pass'];
+
+            if (empty($username) || empty($password)) {
+                return new ApiObject("Invalid credentials provided");
+            }
+
+            // Validate credentials WITHOUT creating session (isolated check)
+            $tempUser = new User(0, $username, $password);
+            $loginResult = $tempUser->login(false, !empty($parameters['encodedPass']));
+
+            if ($loginResult !== User::USER_LOGGED) {
+                return new ApiObject("Invalid credentials");
+            }
+
+            // Verify the authenticated user matches the target user
+            if ($tempUser->getId() != $users_id) {
+                return new ApiObject("You can only deactivate your own account");
+            }
+
+            $isSelfDeactivation = true;
+            $authMethod = 'SelfDeactivation';
+        }
+
+        // Final authorization check
+        if (!$hasAPISecret && !$isCurrentUserAdmin && !$isSelfDeactivation) {
+            return new ApiObject("Access denied. Insufficient privileges");
+        }
+
+        // Additional security: Prevent deactivating super admin (user ID 1) without APISecret
+        if ($users_id == 1 && !$hasAPISecret) {
+            return new ApiObject("Cannot deactivate super admin without APISecret");
+        }
+
+        // Rate limiting check (prevent abuse)
+        $this->checkRateLimit('user_deactivation', 5, 300); // 5 attempts per 5 minutes
+
+        // Execute the deactivation
+        $targetUser->setStatus('i');
+        $saveResult = $targetUser->save();
+
+        // Prepare response
+        $msg = '';
+        $obj = new stdClass();
+        $obj->users_id = $users_id;
+        $obj->error = empty($saveResult);
+        $obj->status = 'inactive';
+        $obj->previous_status = $originalStatus; // Use stored original status
+        $obj->authorization_method = $authMethod;
+        $obj->timestamp = date('Y-m-d H:i:s');
+
+        if ($obj->error) {
+            $msg = 'Failed to update user status';
+            // Log security event
+            _error_log("SECURITY: Failed user deactivation attempt - User ID: $users_id, Auth: $authMethod, IP: " . $_SERVER['REMOTE_ADDR']);
+        } else {
+            $msg = 'User status successfully set to inactive';
+            // Log successful deactivation for audit
+            _error_log("AUDIT: User deactivated - Target: $users_id, Auth: $authMethod, Executor: $currentUserId, IP: " . $_SERVER['REMOTE_ADDR']);
+        }
+
+        return new ApiObject($msg, $obj->error, $obj);
+    }
+
+    /**
+     * Rate limiting helper method for security-sensitive operations
+     */
+    private function checkRateLimit($operation, $maxAttempts, $timeWindow)
+    {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $key = "rate_limit_{$operation}_{$ip}";
+
+        // Get current attempts count (with proper lifetime)
+        $attempts = ObjectYPT::getCacheGlobal($key, $timeWindow);
+        $attempts = intval($attempts); // Convert null to 0, ensure it's an integer
+
+        if ($attempts >= $maxAttempts) {
+            http_response_code(429);
+            die(json_encode(new ApiObject("Rate limit exceeded. Try again later", true)));
+        }
+
+        // Increment and store with proper lifetime
+        ObjectYPT::setCacheGlobal($key, $attempts + 1);
     }
 
     /**
