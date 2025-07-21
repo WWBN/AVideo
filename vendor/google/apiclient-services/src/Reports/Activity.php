@@ -19,7 +19,7 @@ namespace Google\Service\Reports;
 
 class Activity extends \Google\Collection
 {
-  protected $collection_key = 'events';
+  protected $collection_key = 'resourceDetails';
   protected $actorType = ActivityActor::class;
   protected $actorDataType = '';
   /**
@@ -42,6 +42,8 @@ class Activity extends \Google\Collection
    * @var string
    */
   public $ownerDomain;
+  protected $resourceDetailsType = ResourceDetails::class;
+  protected $resourceDetailsDataType = 'array';
 
   /**
    * @param ActivityActor
@@ -140,6 +142,20 @@ class Activity extends \Google\Collection
   public function getOwnerDomain()
   {
     return $this->ownerDomain;
+  }
+  /**
+   * @param ResourceDetails[]
+   */
+  public function setResourceDetails($resourceDetails)
+  {
+    $this->resourceDetails = $resourceDetails;
+  }
+  /**
+   * @return ResourceDetails[]
+   */
+  public function getResourceDetails()
+  {
+    return $this->resourceDetails;
   }
 }
 

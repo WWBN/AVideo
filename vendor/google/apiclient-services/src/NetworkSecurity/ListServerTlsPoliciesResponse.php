@@ -19,13 +19,17 @@ namespace Google\Service\NetworkSecurity;
 
 class ListServerTlsPoliciesResponse extends \Google\Collection
 {
-  protected $collection_key = 'serverTlsPolicies';
+  protected $collection_key = 'unreachable';
   /**
    * @var string
    */
   public $nextPageToken;
   protected $serverTlsPoliciesType = ServerTlsPolicy::class;
   protected $serverTlsPoliciesDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param string
@@ -54,6 +58,20 @@ class ListServerTlsPoliciesResponse extends \Google\Collection
   public function getServerTlsPolicies()
   {
     return $this->serverTlsPolicies;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

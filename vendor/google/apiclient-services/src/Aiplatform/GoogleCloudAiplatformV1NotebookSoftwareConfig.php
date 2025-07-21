@@ -20,11 +20,27 @@ namespace Google\Service\Aiplatform;
 class GoogleCloudAiplatformV1NotebookSoftwareConfig extends \Google\Collection
 {
   protected $collection_key = 'env';
+  protected $colabImageType = GoogleCloudAiplatformV1ColabImage::class;
+  protected $colabImageDataType = '';
   protected $envType = GoogleCloudAiplatformV1EnvVar::class;
   protected $envDataType = 'array';
   protected $postStartupScriptConfigType = GoogleCloudAiplatformV1PostStartupScriptConfig::class;
   protected $postStartupScriptConfigDataType = '';
 
+  /**
+   * @param GoogleCloudAiplatformV1ColabImage
+   */
+  public function setColabImage(GoogleCloudAiplatformV1ColabImage $colabImage)
+  {
+    $this->colabImage = $colabImage;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1ColabImage
+   */
+  public function getColabImage()
+  {
+    return $this->colabImage;
+  }
   /**
    * @param GoogleCloudAiplatformV1EnvVar[]
    */

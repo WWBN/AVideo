@@ -150,9 +150,10 @@ class Advertisers extends \Google\Service\Resource
    * more than 500 characters. Reference our [filter `LIST` requests](/display-
    * video/api/guides/how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
-   * are: * `displayName` (default) * `entityStatus` * `updateTime` The default
-   * sorting order is ascending. To specify descending order for a field, a suffix
-   * "desc" should be added to the field name. For example, `displayName desc`.
+   * are: * `advertiserId` (default) * `displayName` * `entityStatus` *
+   * `updateTime` The default sorting order is ascending. To specify descending
+   * order for a field, a suffix "desc" should be added to the field name. For
+   * example, `displayName desc`.
    * @opt_param int pageSize Requested page size. Must be between `1` and `200`.
    * If unspecified will default to `100`.
    * @opt_param string pageToken A token identifying a page of results the server

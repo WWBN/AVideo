@@ -23,6 +23,10 @@ class GoogleCloudAiplatformV1ImportRagFilesConfig extends \Google\Model
   protected $gcsSourceDataType = '';
   protected $googleDriveSourceType = GoogleCloudAiplatformV1GoogleDriveSource::class;
   protected $googleDriveSourceDataType = '';
+  protected $importResultBigquerySinkType = GoogleCloudAiplatformV1BigQueryDestination::class;
+  protected $importResultBigquerySinkDataType = '';
+  protected $importResultGcsSinkType = GoogleCloudAiplatformV1GcsDestination::class;
+  protected $importResultGcsSinkDataType = '';
   protected $jiraSourceType = GoogleCloudAiplatformV1JiraSource::class;
   protected $jiraSourceDataType = '';
   /**
@@ -33,8 +37,14 @@ class GoogleCloudAiplatformV1ImportRagFilesConfig extends \Google\Model
   protected $partialFailureBigquerySinkDataType = '';
   protected $partialFailureGcsSinkType = GoogleCloudAiplatformV1GcsDestination::class;
   protected $partialFailureGcsSinkDataType = '';
+  protected $ragFileParsingConfigType = GoogleCloudAiplatformV1RagFileParsingConfig::class;
+  protected $ragFileParsingConfigDataType = '';
   protected $ragFileTransformationConfigType = GoogleCloudAiplatformV1RagFileTransformationConfig::class;
   protected $ragFileTransformationConfigDataType = '';
+  /**
+   * @var bool
+   */
+  public $rebuildAnnIndex;
   protected $sharePointSourcesType = GoogleCloudAiplatformV1SharePointSources::class;
   protected $sharePointSourcesDataType = '';
   protected $slackSourceType = GoogleCloudAiplatformV1SlackSource::class;
@@ -67,6 +77,34 @@ class GoogleCloudAiplatformV1ImportRagFilesConfig extends \Google\Model
   public function getGoogleDriveSource()
   {
     return $this->googleDriveSource;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1BigQueryDestination
+   */
+  public function setImportResultBigquerySink(GoogleCloudAiplatformV1BigQueryDestination $importResultBigquerySink)
+  {
+    $this->importResultBigquerySink = $importResultBigquerySink;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1BigQueryDestination
+   */
+  public function getImportResultBigquerySink()
+  {
+    return $this->importResultBigquerySink;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1GcsDestination
+   */
+  public function setImportResultGcsSink(GoogleCloudAiplatformV1GcsDestination $importResultGcsSink)
+  {
+    $this->importResultGcsSink = $importResultGcsSink;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1GcsDestination
+   */
+  public function getImportResultGcsSink()
+  {
+    return $this->importResultGcsSink;
   }
   /**
    * @param GoogleCloudAiplatformV1JiraSource
@@ -125,6 +163,20 @@ class GoogleCloudAiplatformV1ImportRagFilesConfig extends \Google\Model
     return $this->partialFailureGcsSink;
   }
   /**
+   * @param GoogleCloudAiplatformV1RagFileParsingConfig
+   */
+  public function setRagFileParsingConfig(GoogleCloudAiplatformV1RagFileParsingConfig $ragFileParsingConfig)
+  {
+    $this->ragFileParsingConfig = $ragFileParsingConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RagFileParsingConfig
+   */
+  public function getRagFileParsingConfig()
+  {
+    return $this->ragFileParsingConfig;
+  }
+  /**
    * @param GoogleCloudAiplatformV1RagFileTransformationConfig
    */
   public function setRagFileTransformationConfig(GoogleCloudAiplatformV1RagFileTransformationConfig $ragFileTransformationConfig)
@@ -137,6 +189,20 @@ class GoogleCloudAiplatformV1ImportRagFilesConfig extends \Google\Model
   public function getRagFileTransformationConfig()
   {
     return $this->ragFileTransformationConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setRebuildAnnIndex($rebuildAnnIndex)
+  {
+    $this->rebuildAnnIndex = $rebuildAnnIndex;
+  }
+  /**
+   * @return bool
+   */
+  public function getRebuildAnnIndex()
+  {
+    return $this->rebuildAnnIndex;
   }
   /**
    * @param GoogleCloudAiplatformV1SharePointSources

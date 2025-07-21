@@ -35,7 +35,11 @@ class OrganizationsEnvironmentsSharedflowsDeployments extends \Google\Service\Re
    *
    * @param string $parent Required. Name representing a shared flow in an
    * environment in the following format:
-   * `organizations/{org}/environments/{env}/sharedflows/{sharedflow}`
+   * `organizations/{org}/environments/{env}/sharedflows/{sharedflow}` If the
+   * shared flow resource has the `space` attribute set, IAM permissions are
+   * checked differently . To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ListDeploymentsResponse
    * @throws \Google\Service\Exception

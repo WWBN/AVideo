@@ -34,6 +34,8 @@ class GoogleCloudRunV2TaskTemplate extends \Google\Collection
    * @var int
    */
   public $maxRetries;
+  protected $nodeSelectorType = GoogleCloudRunV2NodeSelector::class;
+  protected $nodeSelectorDataType = '';
   /**
    * @var string
    */
@@ -102,6 +104,20 @@ class GoogleCloudRunV2TaskTemplate extends \Google\Collection
   public function getMaxRetries()
   {
     return $this->maxRetries;
+  }
+  /**
+   * @param GoogleCloudRunV2NodeSelector
+   */
+  public function setNodeSelector(GoogleCloudRunV2NodeSelector $nodeSelector)
+  {
+    $this->nodeSelector = $nodeSelector;
+  }
+  /**
+   * @return GoogleCloudRunV2NodeSelector
+   */
+  public function getNodeSelector()
+  {
+    return $this->nodeSelector;
   }
   /**
    * @param string

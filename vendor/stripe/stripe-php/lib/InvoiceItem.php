@@ -5,14 +5,11 @@
 namespace Stripe;
 
 /**
- * Invoice Items represent the component lines of an <a href="https://stripe.com/docs/api/invoices">invoice</a>. An invoice item is added to an
- * invoice by creating or updating it with an <code>invoice</code> field, at which point it will be included as
- * <a href="https://stripe.com/docs/api/invoices/line_item">an invoice line item</a> within
- * <a href="https://stripe.com/docs/api/invoices/object#invoice_object-lines">invoice.lines</a>.
+ * Invoice Items represent the component lines of an <a href="https://stripe.com/docs/api/invoices">invoice</a>. When you create an invoice item with an <code>invoice</code> field, it is attached to the specified invoice and included as <a href="https://stripe.com/docs/api/invoices/line_item">an invoice line item</a> within <a href="https://stripe.com/docs/api/invoices/object#invoice_object-lines">invoice.lines</a>.
  *
  * Invoice Items can be created before you are ready to actually send the invoice. This can be particularly useful when combined
  * with a <a href="https://stripe.com/docs/api/subscriptions">subscription</a>. Sometimes you want to add a charge or credit to a customer, but actually charge
- * or credit the customer’s card only at the end of a regular billing cycle. This is useful for combining several charges
+ * or credit the customer's card only at the end of a regular billing cycle. This is useful for combining several charges
  * (to minimize per-transaction fees), or for having Stripe tabulate your usage-based billing totals.
  *
  * Related guides: <a href="https://stripe.com/docs/invoicing/integration">Integrate with the Invoicing API</a>, <a href="https://stripe.com/docs/billing/invoices/subscription#adding-upcoming-invoice-items">Subscription Invoices</a>.
@@ -29,7 +26,7 @@ namespace Stripe;
  * @property null|Invoice|string $invoice The ID of the invoice this invoice item belongs to.
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property null|StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
- * @property null|(object{subscription_details: null|(object{subscription: string, subscription_item?: string}&StripeObject), type: string}&StripeObject) $parent The parent that generated this invoice
+ * @property null|(object{subscription_details: null|(object{subscription: string, subscription_item?: string}&StripeObject), type: string}&StripeObject) $parent The parent that generated this invoice item.
  * @property (object{end: int, start: int}&StripeObject) $period
  * @property null|(object{price_details?: (object{price: string, product: string}&StripeObject), type: string, unit_amount_decimal: null|string}&StripeObject) $pricing The pricing information of the invoice item.
  * @property bool $proration Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
@@ -48,7 +45,7 @@ class InvoiceItem extends ApiResource
      * no invoice is specified, the item will be on the next invoice created for the
      * customer specified.
      *
-     * @param null|array{amount?: int, currency?: string, customer: string, description?: string, discountable?: bool, discounts?: null|array{coupon?: string, discount?: string, promotion_code?: string}[], expand?: string[], invoice?: string, metadata?: null|StripeObject, period?: array{end: int, start: int}, price_data?: array{currency: string, product: string, tax_behavior?: string, unit_amount?: int, unit_amount_decimal?: string}, pricing?: array{price?: string}, quantity?: int, subscription?: string, tax_behavior?: string, tax_code?: null|string, tax_rates?: string[], unit_amount_decimal?: string} $params
+     * @param null|array{amount?: int, currency?: string, customer: string, description?: string, discountable?: bool, discounts?: null|array{coupon?: string, discount?: string, promotion_code?: string}[], expand?: string[], invoice?: string, metadata?: null|array<string, string>, period?: array{end: int, start: int}, price_data?: array{currency: string, product: string, tax_behavior?: string, unit_amount?: int, unit_amount_decimal?: string}, pricing?: array{price?: string}, quantity?: int, subscription?: string, tax_behavior?: string, tax_code?: null|string, tax_rates?: string[], unit_amount_decimal?: string} $params
      * @param null|array|string $options
      *
      * @return InvoiceItem the created resource
@@ -133,7 +130,7 @@ class InvoiceItem extends ApiResource
      * closed.
      *
      * @param string $id the ID of the resource to update
-     * @param null|array{amount?: int, description?: string, discountable?: bool, discounts?: null|array{coupon?: string, discount?: string, promotion_code?: string}[], expand?: string[], metadata?: null|StripeObject, period?: array{end: int, start: int}, price_data?: array{currency: string, product: string, tax_behavior?: string, unit_amount?: int, unit_amount_decimal?: string}, pricing?: array{price?: string}, quantity?: int, tax_behavior?: string, tax_code?: null|string, tax_rates?: null|string[], unit_amount_decimal?: string} $params
+     * @param null|array{amount?: int, description?: string, discountable?: bool, discounts?: null|array{coupon?: string, discount?: string, promotion_code?: string}[], expand?: string[], metadata?: null|array<string, string>, period?: array{end: int, start: int}, price_data?: array{currency: string, product: string, tax_behavior?: string, unit_amount?: int, unit_amount_decimal?: string}, pricing?: array{price?: string}, quantity?: int, tax_behavior?: string, tax_code?: null|string, tax_rates?: null|string[], unit_amount_decimal?: string} $params
      * @param null|array|string $opts
      *
      * @return InvoiceItem the updated resource

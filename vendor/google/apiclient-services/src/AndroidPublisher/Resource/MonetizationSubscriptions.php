@@ -105,13 +105,14 @@ class MonetizationSubscriptions extends \Google\Service\Resource
    * field on the Subscription resource.
    * @opt_param string regionsVersion.version Required. A string representing the
    * version of available regions being used for the specified resource. Regional
-   * prices for the resource have to be specified according to the information
-   * published in [this article](https://support.google.com/googleplay/android-
+   * prices and latest supported version for the resource have to be specified
+   * according to the information published in [this
+   * article](https://support.google.com/googleplay/android-
    * developer/answer/10532353). Each time the supported locations substantially
    * change, the version will be incremented. Using this field will ensure that
    * creating and updating the resource with an older region's version and set of
    * regional prices and currencies will succeed even though a new version is
-   * available. The latest version is 2022/02.
+   * available.
    * @return Subscription
    * @throws \Google\Service\Exception
    */
@@ -201,13 +202,14 @@ class MonetizationSubscriptions extends \Google\Service\Resource
    * propagation of this product update. Defaults to latency-sensitive.
    * @opt_param string regionsVersion.version Required. A string representing the
    * version of available regions being used for the specified resource. Regional
-   * prices for the resource have to be specified according to the information
-   * published in [this article](https://support.google.com/googleplay/android-
+   * prices and latest supported version for the resource have to be specified
+   * according to the information published in [this
+   * article](https://support.google.com/googleplay/android-
    * developer/answer/10532353). Each time the supported locations substantially
    * change, the version will be incremented. Using this field will ensure that
    * creating and updating the resource with an older region's version and set of
    * regional prices and currencies will succeed even though a new version is
-   * available. The latest version is 2022/02.
+   * available.
    * @opt_param string updateMask Required. The list of fields to be updated.
    * @return Subscription
    * @throws \Google\Service\Exception

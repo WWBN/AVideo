@@ -63,7 +63,7 @@ class Vimeo
      * @param string|null $access_token Your access token. Can be found on developer.vimeo.com/apps or generated using OAuth 2.
      * @param TusClientFactory|null $tus_client_interface Your tus client that will be used.
      */
-    public function __construct(string $client_id, string $client_secret, string $access_token = null, TusClientFactory $tus_client_factory = null)
+    public function __construct(string $client_id, string $client_secret, ?string $access_token = null, ?TusClientFactory $tus_client_factory = null)
     {
         $this->_client_id = $client_id;
         $this->_client_secret = $client_secret;
@@ -205,7 +205,7 @@ class Vimeo
      * @param string|null $proxy_port Optional number of port.
      * @param string|null $proxy_userpwd Optional `user:password` authentication.
      */
-    public function setProxy(string $proxy_address, string $proxy_port = null, string $proxy_userpwd = null): void
+    public function setProxy(string $proxy_address, ?string $proxy_port = null, ?string $proxy_userpwd = null): void
     {
         $this->CURL_DEFAULTS[CURLOPT_PROXY] = $proxy_address;
         if ($proxy_port) {
@@ -314,11 +314,12 @@ class Vimeo
      * @link https://developer.vimeo.com/api/endpoints/videos#POST/users/{user_id}/videos
      * @param string $file_path Path to the video file to upload.
      * @param array $params Parameters to send when creating a new video (name, privacy restrictions, etc.).
+     * @param int|null $override_chunk_size Optionally override the default chunk size of 100MB.
      * @return string Video URI
      * @throws VimeoRequestException
      * @throws VimeoUploadException
      */
-    public function upload($file_path, array $params = array())
+    public function upload($file_path, array $params = array(), ?int $override_chunk_size = null)
     {
         // Validate that our file is real.
         if (!is_file($file_path)) {
@@ -340,7 +341,7 @@ class Vimeo
             throw new VimeoUploadException('Unable to initiate an upload.' . $attempt_error);
         }
 
-        return $this->perform_upload_tus($file_path, $file_size, $attempt);
+        return $this->perform_upload_tus($file_path, $file_size, $attempt, $override_chunk_size);
     }
 
     /**
@@ -349,11 +350,12 @@ class Vimeo
      * @link https://developer.vimeo.com/api/endpoints/videos#POST/videos/{video_id}/versions
      * @param string $video_uri Video uri of the video file to replace.
      * @param string $file_path Path to the video file to upload.
+     * @param int|null $override_chunk_size Optionally override the default chunk size of 100MB.
      * @return string Video URI
      * @throws VimeoRequestException
      * @throws VimeoUploadException
      */
-    public function replace($video_uri, $file_path, array $params = array())
+    public function replace($video_uri, $file_path, array $params = array(), ?int $override_chunk_size = null)
     {
         //  Validate that our file is real.
         if (!is_file($file_path)) {
@@ -379,7 +381,7 @@ class Vimeo
         // `uri` doesn't come back from `/videos/:id/versions` so we need to manually set it here for uploading.
         $attempt['body']['uri'] = $video_uri;
 
-        return $this->perform_upload_tus($file_path, $file_size, $attempt);
+        return $this->perform_upload_tus($file_path, $file_size, $attempt, $override_chunk_size);
     }
 
     /**
@@ -576,12 +578,16 @@ class Vimeo
      * @param string $file_path Path to the video file to upload.
      * @param int|float $file_size Size of the video file.
      * @param array $attempt Upload attempt data.
+     * @param int|null $override_chunk_size Optionally override the default chunk size of 100MB.
      * @return string
      * @throws VimeoUploadException
      */
-    private function perform_upload_tus(string $file_path, $file_size, array $attempt): string
+    private function perform_upload_tus(string $file_path, $file_size, array $attempt, ?int $override_chunk_size = null): string
     {
-        $default_chunk_size = (100 * 1024 * 1024); // 100 MB
+        $chunk_size = (100 * 1024 * 1024); // 100 MB
+        if ($override_chunk_size) {
+            $chunk_size = $override_chunk_size;
+        }
 
         $url = $attempt['body']['upload']['upload_link'];
         $url_path = parse_url($url)['path'];
@@ -594,7 +600,6 @@ class Vimeo
 
         $bytes_uploaded = 0;
         $failures = 0;
-        $chunk_size = $this->getTusUploadChunkSize($default_chunk_size, (int)$file_size);
 
         $client = $this->_tus_client_factory->getTusClient($base_url, $url);
         $client->setApiPath($api_path);
@@ -620,27 +625,5 @@ class Vimeo
         } while ($bytes_uploaded < $file_size);
 
         return $attempt['body']['uri'];
-    }
-
-    /**
-     * Enforces the notion that a user may supply any `proposed_chunk_size`, as long as it results in 1024 or less
-     * proposed chunks. In the event it does not, then the chunk size becomes the file size divided by 1024.
-     *
-     * @param int $proposed_chunk_size
-     * @param int $file_size
-     * @return int
-     */
-    private function getTusUploadChunkSize(int $proposed_chunk_size, int $file_size): int
-    {
-        $proposed_chunk_size = ($proposed_chunk_size <= 0) ? 1 : $proposed_chunk_size;
-        $chunks = floor($file_size / $proposed_chunk_size);
-        $divides_evenly = $file_size % $proposed_chunk_size === 0;
-        $number_of_chunks_proposed = ($divides_evenly) ? $chunks : $chunks + 1;
-
-        if ($number_of_chunks_proposed > 1024) {
-            return (int)floor($file_size / 1024) + 1;
-        }
-
-        return $proposed_chunk_size;
     }
 }

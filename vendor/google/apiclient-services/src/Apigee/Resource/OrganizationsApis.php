@@ -21,6 +21,7 @@ use Google\Service\Apigee\GoogleApiHttpBody;
 use Google\Service\Apigee\GoogleCloudApigeeV1ApiProxy;
 use Google\Service\Apigee\GoogleCloudApigeeV1ApiProxyRevision;
 use Google\Service\Apigee\GoogleCloudApigeeV1ListApiProxiesResponse;
+use Google\Service\Apigee\GoogleCloudApigeeV1MoveApiProxyRequest;
 
 /**
  * The "apis" collection of methods.
@@ -50,7 +51,11 @@ class OrganizationsApis extends \Google\Service\Resource
    * (apis.create)
    *
    * @param string $parent Required. Name of the organization in the following
-   * format: `organizations/{org}`
+   * format: `organizations/{org}` If the API Proxy resource has the `space`
+   * attribute set, IAM permissions are checked against the Space resource path.
+   * To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param GoogleApiHttpBody $postBody
    * @param array $optParams Optional parameters.
    *
@@ -60,6 +65,10 @@ class OrganizationsApis extends \Google\Service\Resource
    * validate the API proxy configuration bundle without importing it.
    * @opt_param string name Name of the API proxy. Restrict the characters used
    * to: A-Za-z0-9._-
+   * @opt_param string space Optional. The ID of the space associated with this
+   * proxy. Any IAM policies applied to the space will affect access to this
+   * proxy. Note that this field is only respected when creating a new proxy. It
+   * has no effect when creating a new revision for an existing proxy.
    * @opt_param bool validate Ignored. All uploads are validated regardless of the
    * value of this field. Maintained for compatibility with Apigee Edge API.
    * @return GoogleCloudApigeeV1ApiProxyRevision
@@ -77,7 +86,11 @@ class OrganizationsApis extends \Google\Service\Resource
    * (apis.delete)
    *
    * @param string $name Required. Name of the API proxy in the following format:
-   * `organizations/{org}/apis/{api}`
+   * `organizations/{org}/apis/{api}` If the API Proxy resource has the `space`
+   * attribute set, IAM permissions are checked against the Space resource path.
+   * To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProxy
    * @throws \Google\Service\Exception
@@ -92,7 +105,11 @@ class OrganizationsApis extends \Google\Service\Resource
    * Gets an API proxy including a list of existing revisions. (apis.get)
    *
    * @param string $name Required. Name of the API proxy in the following format:
-   * `organizations/{org}/apis/{api}`
+   * `organizations/{org}/apis/{api}` If the API Proxy resource has the `space`
+   * attribute set, IAM permissions are checked against the Space resource path.
+   * To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProxy
    * @throws \Google\Service\Exception
@@ -106,16 +123,24 @@ class OrganizationsApis extends \Google\Service\Resource
   /**
    * Lists the names of all API proxies in an organization. The names returned
    * correspond to the names defined in the configuration files for each API
-   * proxy. (apis.listOrganizationsApis)
+   * proxy. If the resource has the `space` attribute set, the response may not
+   * return all resources. To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview). (apis.listOrganizationsApis)
    *
    * @param string $parent Required. Name of the organization in the following
-   * format: `organizations/{org}`
+   * format: `organizations/{org}` If the resource has the `space` attribute set,
+   * IAM permissions are checked against the Space resource path. To learn more,
+   * read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-
+   * platform/system-administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool includeMetaData Flag that specifies whether to include API
    * proxy metadata in the response.
    * @opt_param bool includeRevisions Flag that specifies whether to include a
    * list of revisions in the response.
+   * @opt_param string space Optional. The space ID to filter the list of proxies
+   * (optional). If unspecified, all proxies in the organization will be listed.
    * @return GoogleCloudApigeeV1ListApiProxiesResponse
    * @throws \Google\Service\Exception
    */
@@ -126,10 +151,30 @@ class OrganizationsApis extends \Google\Service\Resource
     return $this->call('list', [$params], GoogleCloudApigeeV1ListApiProxiesResponse::class);
   }
   /**
+   * Moves an API proxy to a different space. (apis.move)
+   *
+   * @param string $name Required. API proxy to move in the following format:
+   * `organizations/{org}/apis/{api}`
+   * @param GoogleCloudApigeeV1MoveApiProxyRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudApigeeV1ApiProxy
+   * @throws \Google\Service\Exception
+   */
+  public function move($name, GoogleCloudApigeeV1MoveApiProxyRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('move', [$params], GoogleCloudApigeeV1ApiProxy::class);
+  }
+  /**
    * Updates an existing API proxy. (apis.patch)
    *
    * @param string $name Required. API proxy to update in the following format:
-   * `organizations/{org}/apis/{api}`
+   * `organizations/{org}/apis/{api}` If the resource has the `space` attribute
+   * set, IAM permissions are checked against the Space resource path. To learn
+   * more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param GoogleCloudApigeeV1ApiProxy $postBody
    * @param array $optParams Optional parameters.
    *

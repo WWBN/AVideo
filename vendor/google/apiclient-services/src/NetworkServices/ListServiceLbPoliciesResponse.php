@@ -19,13 +19,17 @@ namespace Google\Service\NetworkServices;
 
 class ListServiceLbPoliciesResponse extends \Google\Collection
 {
-  protected $collection_key = 'serviceLbPolicies';
+  protected $collection_key = 'unreachable';
   /**
    * @var string
    */
   public $nextPageToken;
   protected $serviceLbPoliciesType = ServiceLbPolicy::class;
   protected $serviceLbPoliciesDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param string
@@ -54,6 +58,20 @@ class ListServiceLbPoliciesResponse extends \Google\Collection
   public function getServiceLbPolicies()
   {
     return $this->serviceLbPolicies;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

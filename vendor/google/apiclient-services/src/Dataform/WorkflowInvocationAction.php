@@ -23,6 +23,8 @@ class WorkflowInvocationAction extends \Google\Model
   protected $bigqueryActionDataType = '';
   protected $canonicalTargetType = Target::class;
   protected $canonicalTargetDataType = '';
+  protected $dataPreparationActionType = DataPreparationAction::class;
+  protected $dataPreparationActionDataType = '';
   /**
    * @var string
    */
@@ -69,6 +71,20 @@ class WorkflowInvocationAction extends \Google\Model
   public function getCanonicalTarget()
   {
     return $this->canonicalTarget;
+  }
+  /**
+   * @param DataPreparationAction
+   */
+  public function setDataPreparationAction(DataPreparationAction $dataPreparationAction)
+  {
+    $this->dataPreparationAction = $dataPreparationAction;
+  }
+  /**
+   * @return DataPreparationAction
+   */
+  public function getDataPreparationAction()
+  {
+    return $this->dataPreparationAction;
   }
   /**
    * @param string

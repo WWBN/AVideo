@@ -52,6 +52,10 @@ class AlgorithmRulesComparisonValue extends \Google\Model
    * @var string
    */
   public $stringValue;
+  /**
+   * @var string
+   */
+  public $videoPlayerSizeValue;
 
   /**
    * @param bool
@@ -186,6 +190,20 @@ class AlgorithmRulesComparisonValue extends \Google\Model
   public function getStringValue()
   {
     return $this->stringValue;
+  }
+  /**
+   * @param string
+   */
+  public function setVideoPlayerSizeValue($videoPlayerSizeValue)
+  {
+    $this->videoPlayerSizeValue = $videoPlayerSizeValue;
+  }
+  /**
+   * @return string
+   */
+  public function getVideoPlayerSizeValue()
+  {
+    return $this->videoPlayerSizeValue;
   }
 }
 

@@ -49,8 +49,7 @@ class OrganizationsEnvironmentsOptimizedStats extends \Google\Service\Resource
    * fact tables which will be expensive.
    * @opt_param string filter Filter that enables you to drill-down on specific
    * dimension values.
-   * @opt_param string limit Maximum number of result items to return. The default
-   * and maximum value that can be returned is 14400.
+   * @opt_param string limit Maximum number of result items to return.
    * @opt_param string offset Offset value. Use `offset` with `limit` to enable
    * pagination of results. For example, to display results 11-20, set limit to
    * `10` and offset to `10`.
@@ -61,7 +60,7 @@ class OrganizationsEnvironmentsOptimizedStats extends \Google\Service\Resource
    * @opt_param bool sonar Routes the query to API Monitoring for the last hour.
    * @opt_param string sort Flag that specifies whether the sort order should be
    * ascending or descending. Valid values include `DESC` and `ASC`.
-   * @opt_param string sortby Comma-separated list of columns to sort the final
+   * @opt_param string sortby Comma-separated list of metrics to sort the final
    * result.
    * @opt_param string timeRange Required. Time interval for the interactive
    * query. Time range is specified in GMT as `start~end`. For example:

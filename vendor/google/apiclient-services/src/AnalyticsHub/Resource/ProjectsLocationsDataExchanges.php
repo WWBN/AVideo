@@ -43,14 +43,13 @@ class ProjectsLocationsDataExchanges extends \Google\Service\Resource
    * Creates a new data exchange. (dataExchanges.create)
    *
    * @param string $parent Required. The parent resource path of the data
-   * exchange. e.g. `projects/myproject/locations/US`.
+   * exchange. e.g. `projects/myproject/locations/us`.
    * @param DataExchange $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string dataExchangeId Required. The ID of the data exchange. Must
-   * contain only Unicode letters, numbers (0-9), underscores (_). Should not use
-   * characters that require URL-escaping, or characters outside of ASCII, spaces.
-   * Max length: 100 bytes.
+   * contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100
+   * bytes.
    * @return DataExchange
    * @throws \Google\Service\Exception
    */
@@ -65,7 +64,7 @@ class ProjectsLocationsDataExchanges extends \Google\Service\Resource
    *
    * @param string $name Required. The full name of the data exchange resource
    * that you want to delete. For example,
-   * `projects/myproject/locations/US/dataExchanges/123`.
+   * `projects/myproject/locations/us/dataExchanges/123`.
    * @param array $optParams Optional parameters.
    * @return AnalyticshubEmpty
    * @throws \Google\Service\Exception
@@ -80,7 +79,7 @@ class ProjectsLocationsDataExchanges extends \Google\Service\Resource
    * Gets the details of a data exchange. (dataExchanges.get)
    *
    * @param string $name Required. The resource name of the data exchange. e.g.
-   * `projects/myproject/locations/US/dataExchanges/123`.
+   * `projects/myproject/locations/us/dataExchanges/123`.
    * @param array $optParams Optional parameters.
    * @return DataExchange
    * @throws \Google\Service\Exception
@@ -114,7 +113,7 @@ class ProjectsLocationsDataExchanges extends \Google\Service\Resource
    * (dataExchanges.listProjectsLocationsDataExchanges)
    *
    * @param string $parent Required. The parent resource path of the data
-   * exchanges. e.g. `projects/myproject/locations/US`.
+   * exchanges. e.g. `projects/myproject/locations/us`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of results to return in a single
@@ -137,8 +136,8 @@ class ProjectsLocationsDataExchanges extends \Google\Service\Resource
    *
    * @param string $resource Required. Resource name of the requested target. This
    * resource may be either a Listing or a DataExchange. e.g.
-   * projects/123/locations/US/dataExchanges/456 OR e.g.
-   * projects/123/locations/US/dataExchanges/456/listings/789
+   * projects/123/locations/us/dataExchanges/456 OR e.g.
+   * projects/123/locations/us/dataExchanges/456/listings/789
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool includeDeletedSubscriptions If selected, includes deleted
@@ -159,7 +158,7 @@ class ProjectsLocationsDataExchanges extends \Google\Service\Resource
    * Updates an existing data exchange. (dataExchanges.patch)
    *
    * @param string $name Output only. The resource name of the data exchange. e.g.
-   * `projects/myproject/locations/US/dataExchanges/123`.
+   * `projects/myproject/locations/us/dataExchanges/123`.
    * @param DataExchange $postBody
    * @param array $optParams Optional parameters.
    *
@@ -195,10 +194,11 @@ class ProjectsLocationsDataExchanges extends \Google\Service\Resource
   }
   /**
    * Creates a Subscription to a Data Clean Room. This is a long-running operation
-   * as it will create one or more linked datasets. (dataExchanges.subscribe)
+   * as it will create one or more linked datasets. Throws a Bad Request error if
+   * the Data Exchange does not contain any listings. (dataExchanges.subscribe)
    *
    * @param string $name Required. Resource name of the Data Exchange. e.g.
-   * `projects/publisherproject/locations/US/dataExchanges/123`
+   * `projects/publisherproject/locations/us/dataExchanges/123`
    * @param SubscribeDataExchangeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation

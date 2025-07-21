@@ -19,6 +19,25 @@ namespace Google\Service\BigtableAdmin;
 
 class GoogleBigtableAdminV2TypeStringEncodingUtf8Bytes extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $nullEscapeChar;
+
+  /**
+   * @param string
+   */
+  public function setNullEscapeChar($nullEscapeChar)
+  {
+    $this->nullEscapeChar = $nullEscapeChar;
+  }
+  /**
+   * @return string
+   */
+  public function getNullEscapeChar()
+  {
+    return $this->nullEscapeChar;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

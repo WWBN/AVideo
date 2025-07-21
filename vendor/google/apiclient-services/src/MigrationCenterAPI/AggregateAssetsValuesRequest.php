@@ -26,6 +26,10 @@ class AggregateAssetsValuesRequest extends \Google\Collection
    * @var string
    */
   public $filter;
+  /**
+   * @var bool
+   */
+  public $showHidden;
 
   /**
    * @param Aggregation[]
@@ -54,6 +58,20 @@ class AggregateAssetsValuesRequest extends \Google\Collection
   public function getFilter()
   {
     return $this->filter;
+  }
+  /**
+   * @param bool
+   */
+  public function setShowHidden($showHidden)
+  {
+    $this->showHidden = $showHidden;
+  }
+  /**
+   * @return bool
+   */
+  public function getShowHidden()
+  {
+    return $this->showHidden;
   }
 }
 

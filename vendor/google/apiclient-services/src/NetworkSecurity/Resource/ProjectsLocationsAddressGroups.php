@@ -193,6 +193,8 @@ class ProjectsLocationsAddressGroups extends \Google\Service\Resource
    * `ListAddressGroupsResponse` Indicates that this is a continuation of a prior
    * `ListAddressGroups` call, and that the system should return the next page of
    * data.
+   * @opt_param bool returnPartialSuccess Optional. If true, allow partial
+   * responses for multi-regional Aggregated List requests.
    * @return ListAddressGroupsResponse
    * @throws \Google\Service\Exception
    */

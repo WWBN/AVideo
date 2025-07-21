@@ -37,6 +37,8 @@ class ConnectionProfile extends \Google\Model
    * @var string[]
    */
   public $labels;
+  protected $mongodbProfileType = MongodbProfile::class;
+  protected $mongodbProfileDataType = '';
   protected $mysqlProfileType = MysqlProfile::class;
   protected $mysqlProfileDataType = '';
   /**
@@ -151,6 +153,20 @@ class ConnectionProfile extends \Google\Model
   public function getLabels()
   {
     return $this->labels;
+  }
+  /**
+   * @param MongodbProfile
+   */
+  public function setMongodbProfile(MongodbProfile $mongodbProfile)
+  {
+    $this->mongodbProfile = $mongodbProfile;
+  }
+  /**
+   * @return MongodbProfile
+   */
+  public function getMongodbProfile()
+  {
+    return $this->mongodbProfile;
   }
   /**
    * @param MysqlProfile

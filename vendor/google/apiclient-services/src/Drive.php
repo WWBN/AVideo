@@ -27,7 +27,7 @@ use Google\Client;
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://developers.google.com/drive/" target="_blank">Documentation</a>
+ * <a href="https://developers.google.com/workspace/drive/" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -1037,6 +1037,10 @@ class Drive extends \Google\Service
                 'emailMessage' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'enforceExpansiveAccess' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'enforceSingleParent' => [
                   'location' => 'query',

@@ -323,7 +323,8 @@ class CustomersReports extends \Google\Service\Resource
    * @opt_param string appId Unique identifier of the app. For Chrome apps and
    * extensions, the 32-character id (e.g. ehoadneljpdggcbbknedodolkkjodefl). For
    * Android apps, the package name (e.g. com.evernote).
-   * @opt_param string appType Type of the app.
+   * @opt_param string appType Type of the app. Optional. If not provided, an app
+   * type will be inferred from the format of the app ID.
    * @opt_param string filter Query string to filter results, AND-separated fields
    * in EBNF syntax. Note: OR operations are not supported in this filter.
    * Supported filter fields: * last_active_date

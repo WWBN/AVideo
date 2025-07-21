@@ -24,6 +24,10 @@ class PscConfig extends \Google\Collection
    * @var string[]
    */
   public $allowedConsumerProjects;
+  /**
+   * @var string
+   */
+  public $networkAttachmentUri;
   protected $pscAutoConnectionsType = PscAutoConnectionConfig::class;
   protected $pscAutoConnectionsDataType = 'array';
   /**
@@ -44,6 +48,20 @@ class PscConfig extends \Google\Collection
   public function getAllowedConsumerProjects()
   {
     return $this->allowedConsumerProjects;
+  }
+  /**
+   * @param string
+   */
+  public function setNetworkAttachmentUri($networkAttachmentUri)
+  {
+    $this->networkAttachmentUri = $networkAttachmentUri;
+  }
+  /**
+   * @return string
+   */
+  public function getNetworkAttachmentUri()
+  {
+    return $this->networkAttachmentUri;
   }
   /**
    * @param PscAutoConnectionConfig[]

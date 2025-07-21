@@ -17,14 +17,25 @@
 
 namespace Google\Service\DiscoveryEngine;
 
-class GoogleCloudDiscoveryengineV1Chunk extends \Google\Model
+class GoogleCloudDiscoveryengineV1Chunk extends \Google\Collection
 {
+  protected $collection_key = 'dataUrls';
+  /**
+   * @var string[]
+   */
+  public $annotationContents;
+  protected $annotationMetadataType = GoogleCloudDiscoveryengineV1ChunkAnnotationMetadata::class;
+  protected $annotationMetadataDataType = 'array';
   protected $chunkMetadataType = GoogleCloudDiscoveryengineV1ChunkChunkMetadata::class;
   protected $chunkMetadataDataType = '';
   /**
    * @var string
    */
   public $content;
+  /**
+   * @var string[]
+   */
+  public $dataUrls;
   /**
    * @var array[]
    */
@@ -43,6 +54,34 @@ class GoogleCloudDiscoveryengineV1Chunk extends \Google\Model
   protected $pageSpanDataType = '';
   public $relevanceScore;
 
+  /**
+   * @param string[]
+   */
+  public function setAnnotationContents($annotationContents)
+  {
+    $this->annotationContents = $annotationContents;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAnnotationContents()
+  {
+    return $this->annotationContents;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1ChunkAnnotationMetadata[]
+   */
+  public function setAnnotationMetadata($annotationMetadata)
+  {
+    $this->annotationMetadata = $annotationMetadata;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1ChunkAnnotationMetadata[]
+   */
+  public function getAnnotationMetadata()
+  {
+    return $this->annotationMetadata;
+  }
   /**
    * @param GoogleCloudDiscoveryengineV1ChunkChunkMetadata
    */
@@ -70,6 +109,20 @@ class GoogleCloudDiscoveryengineV1Chunk extends \Google\Model
   public function getContent()
   {
     return $this->content;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDataUrls($dataUrls)
+  {
+    $this->dataUrls = $dataUrls;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDataUrls()
+  {
+    return $this->dataUrls;
   }
   /**
    * @param array[]

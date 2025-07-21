@@ -65,7 +65,7 @@ class Subscriptions extends \Google\Service\Resource
    * trial or a flexible plan subscription to an annual commitment plan with
    * monthly or yearly payments. How a plan is updated differs depending on the
    * plan and the products. For more information, see the description in [manage
-   * subscriptions](/admin-sdk/reseller/v1/how-
+   * subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-
    * tos/manage_subscriptions#update_subscription_plan).
    * (subscriptions.changePlan)
    *
@@ -94,7 +94,8 @@ class Subscriptions extends \Google\Service\Resource
   /**
    * Updates a user license's renewal settings. This is applicable for accounts
    * with annual commitment plans only. For more information, see the description
-   * in [manage subscriptions](/admin-sdk/reseller/v1/how-
+   * in [manage
+   * subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-
    * tos/manage_subscriptions#update_renewal).
    * (subscriptions.changeRenewalSettings)
    *
@@ -123,7 +124,8 @@ class Subscriptions extends \Google\Service\Resource
   /**
    * Updates a subscription's user license settings. For more information about
    * updating an annual commitment plan or a flexible plan subscription’s
-   * licenses, see [Manage Subscriptions](/admin-sdk/reseller/v1/how-
+   * licenses, see [Manage
+   * Subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-
    * tos/manage_subscriptions#update_subscription_seat).
    * (subscriptions.changeSeats)
    *
@@ -177,10 +179,12 @@ class Subscriptions extends \Google\Service\Resource
   }
   /**
    * Gets a specific subscription. The `subscriptionId` can be found using the
-   * [Retrieve all reseller subscriptions](/admin-sdk/reseller/v1/how-
+   * [Retrieve all reseller
+   * subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-
    * tos/manage_subscriptions#get_all_subscriptions) method. For more information
    * about retrieving a specific subscription, see the information descrived in
-   * [manage subscriptions](/admin-sdk/reseller/v1/how-
+   * [manage
+   * subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-
    * tos/manage_subscriptions#get_subscription). (subscriptions.get)
    *
    * @param string $customerId This can be either the customer's primary domain
@@ -206,17 +210,20 @@ class Subscriptions extends \Google\Service\Resource
   }
   /**
    * Creates or transfer a subscription. Create a subscription for a customer's
-   * account that you ordered using the [Order a new customer account](/admin-
-   * sdk/reseller/v1/reference/customers/insert.html) method. For more information
-   * about creating a subscription for different payment plans, see [manage
-   * subscriptions](/admin-sdk/reseller/v1/how-
+   * account that you ordered using the [Order a new customer account](https://dev
+   * elopers.google.com/workspace/admin/reseller/v1/reference/customers/insert.htm
+   * l) method. For more information about creating a subscription for different
+   * payment plans, see [manage
+   * subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-
    * tos/manage_subscriptions#create_subscription).\ If you did not order the
    * customer's account using the customer insert method, use the customer's
    * `customerAuthToken` when creating a subscription for that customer. If
    * transferring a G Suite subscription with an associated Google Drive or Google
-   * Vault subscription, use the [batch operation](/admin-sdk/reseller/v1/how-
+   * Vault subscription, use the [batch
+   * operation](https://developers.google.com/workspace/admin/reseller/v1/how-
    * tos/batch.html) to transfer all of these subscriptions. For more information,
-   * see how to [transfer subscriptions](/admin-sdk/reseller/v1/how-
+   * see how to [transfer
+   * subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-
    * tos/manage_subscriptions#transfer_a_subscription). (subscriptions.insert)
    *
    * @param string $customerId This can be either the customer's primary domain
@@ -227,11 +234,9 @@ class Subscriptions extends \Google\Service\Resource
    * @param Subscription $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string action The intented insert action. The usage of this field
-   * is governed by certain policies which are being developed & tested currently.
-   * Hence, these might not work as intended. Once this is fully tested &
-   * available to consume, we will share more information about its usage,
-   * limitations and policy documentation.
+   * @opt_param string action The intented insert action. Advised to set this when
+   * the customer already has a subscription for a different SKU in the same
+   * product.
    * @opt_param string customerAuthToken The `customerAuthToken` query string is
    * required when creating a resold account that transfers a direct customer's
    * subscription or transfers another reseller customer's subscription to your
@@ -239,11 +244,7 @@ class Subscriptions extends \Google\Service\Resource
    * complete the subscription transfer. For more information, see the
    * administrator help center.
    * @opt_param string sourceSkuId The sku_id of the existing subscription to be
-   * upgraded or downgraded. This is required when action is SWITCH. The usage of
-   * this field is governed by certain policies which are being developed & tested
-   * currently. Hence, these might not work as intended. Once this is fully tested
-   * & available to consume, we will share more information about its usage,
-   * limitations and policy documentation.
+   * upgraded or downgraded. This is required when action is SWITCH.
    * @return Subscription
    * @throws \Google\Service\Exception
    */
@@ -258,8 +259,8 @@ class Subscriptions extends \Google\Service\Resource
    * subscriptions, all of a customer's subscriptions, or all of a customer's
    * transferable subscriptions. Optionally, this method can filter the response
    * by a `customerNamePrefix`. For more information, see [manage
-   * subscriptions](/admin-sdk/reseller/v1/how-tos/manage_subscriptions).
-   * (subscriptions.listSubscriptions)
+   * subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-
+   * tos/manage_subscriptions). (subscriptions.listSubscriptions)
    *
    * @param array $optParams Optional parameters.
    *
@@ -299,7 +300,8 @@ class Subscriptions extends \Google\Service\Resource
    * Immediately move a 30-day free trial subscription to a paid service
    * subscription. This method is only applicable if a payment plan has already
    * been set up for the 30-day trial subscription. For more information, see
-   * [manage subscriptions](/admin-sdk/reseller/v1/how-
+   * [manage
+   * subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-
    * tos/manage_subscriptions#paid_service). (subscriptions.startPaidService)
    *
    * @param string $customerId This can be either the customer's primary domain

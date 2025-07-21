@@ -34,7 +34,7 @@ class CoursesPosts extends \Google\Service\Resource
    * maintain the integrity of its own data and permissions model, an add-on
    * should call this to validate query parameters and the requesting user's role
    * whenever the add-on is opened in an
-   * [iframe](https://developers.google.com/classroom/add-ons/get-
+   * [iframe](https://developers.google.com/workspace/classroom/add-ons/get-
    * started/iframes/iframes-overview). This method returns the following error
    * codes: * `PERMISSION_DENIED` for access errors. * `INVALID_ARGUMENT` if the
    * request is malformed. * `NOT_FOUND` if one of the identified resources does
@@ -52,8 +52,9 @@ class CoursesPosts extends \Google\Service\Resource
    * the post.
    * @opt_param string attachmentId Optional. The identifier of the attachment.
    * This field is required for all requests except when the user is in the
-   * [Attachment Discovery iframe](https://developers.google.com/classroom/add-
-   * ons/get-started/iframes/attachment-discovery-iframe).
+   * [Attachment Discovery
+   * iframe](https://developers.google.com/workspace/classroom/add-ons/get-
+   * started/iframes/attachment-discovery-iframe).
    * @opt_param string itemId Identifier of the `Announcement`, `CourseWork`, or
    * `CourseWorkMaterial` under which the attachment is attached. This field is
    * required, but is not marked as such while we are migrating from post_id.

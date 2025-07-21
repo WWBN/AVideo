@@ -36,6 +36,10 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   /**
    * @var string
    */
+  public $databaseEdition;
+  /**
+   * @var string
+   */
   public $deleteProtectionState;
   /**
    * @var string
@@ -49,6 +53,10 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
    * @var string
    */
   public $etag;
+  /**
+   * @var bool
+   */
+  public $freeTier;
   /**
    * @var string
    */
@@ -71,6 +79,10 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   public $previousId;
   protected $sourceInfoType = GoogleFirestoreAdminV1SourceInfo::class;
   protected $sourceInfoDataType = '';
+  /**
+   * @var string[]
+   */
+  public $tags;
   /**
    * @var string
    */
@@ -147,6 +159,20 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   /**
    * @param string
    */
+  public function setDatabaseEdition($databaseEdition)
+  {
+    $this->databaseEdition = $databaseEdition;
+  }
+  /**
+   * @return string
+   */
+  public function getDatabaseEdition()
+  {
+    return $this->databaseEdition;
+  }
+  /**
+   * @param string
+   */
   public function setDeleteProtectionState($deleteProtectionState)
   {
     $this->deleteProtectionState = $deleteProtectionState;
@@ -199,6 +225,20 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   public function getEtag()
   {
     return $this->etag;
+  }
+  /**
+   * @param bool
+   */
+  public function setFreeTier($freeTier)
+  {
+    $this->freeTier = $freeTier;
+  }
+  /**
+   * @return bool
+   */
+  public function getFreeTier()
+  {
+    return $this->freeTier;
   }
   /**
    * @param string
@@ -283,6 +323,20 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   public function getSourceInfo()
   {
     return $this->sourceInfo;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
   /**
    * @param string

@@ -37,7 +37,8 @@ class ProjectsLocationsImage extends \Google\Service\Resource
    * data-images to learn more. When no InfoTypes or CustomInfoTypes are specified
    * in this request, the system will automatically choose what detectors to run.
    * By default this may be all types, but may change over time as detectors are
-   * updated. (image.redact)
+   * updated. Only the first frame of each multiframe image is redacted. Metadata
+   * and other frames are omitted in the response. (image.redact)
    *
    * @param string $parent Parent resource name. The format of this value varies
    * depending on whether you have [specified a processing

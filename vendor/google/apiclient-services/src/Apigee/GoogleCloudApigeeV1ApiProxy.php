@@ -46,6 +46,10 @@ class GoogleCloudApigeeV1ApiProxy extends \Google\Collection
    * @var string[]
    */
   public $revision;
+  /**
+   * @var string
+   */
+  public $space;
 
   /**
    * @param string
@@ -144,6 +148,20 @@ class GoogleCloudApigeeV1ApiProxy extends \Google\Collection
   public function getRevision()
   {
     return $this->revision;
+  }
+  /**
+   * @param string
+   */
+  public function setSpace($space)
+  {
+    $this->space = $space;
+  }
+  /**
+   * @return string
+   */
+  public function getSpace()
+  {
+    return $this->space;
   }
 }
 

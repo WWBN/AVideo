@@ -40,15 +40,22 @@ class OrganizationsEnvironmentsApisRevisions extends \Google\Service\Resource
    * ironments/{env}/apis/{api}/revisions/{rev}/deployments`, two permissions are
    * required: * `apigee.deployments.create` on the resource
    * `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.deploy` on
-   * the resource `organizations/{org}/apis/{api}/revisions/{rev}` Apigee hybrid
-   * validates the dependencies between shared flows and API proxies at deployment
-   * time. For example, if the Flow Callout policy in an API proxy references a
-   * shared flow that either doesn't exist or isn't deployed, the API proxy
-   * deployment fails. (revisions.deploy)
+   * the resource `organizations/{org}/apis/{api}/revisions/{rev}` All successful
+   * API proxy deployments to Apigee are [zero-downtime
+   * deployments](https://cloud.google.com/apigee/docs/api-platform/deploy/ui-
+   * deploy-overview#zero-downtime-deployment). Apigee hybrid validates the
+   * dependencies between shared flows and API proxies at deployment time. For
+   * example, if the Flow Callout policy in an API proxy references a shared flow
+   * that either doesn't exist or isn't deployed, the API proxy deployment fails.
+   * (revisions.deploy)
    *
    * @param string $name Required. Name of the API proxy revision deployment in
    * the following format:
-   * `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}`
+   * `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}` If the
+   * API proxy resource being deployed has the `space` attribute set, IAM
+   * permissions are checked differently . To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool override Flag that specifies whether the new deployment
@@ -87,7 +94,11 @@ class OrganizationsEnvironmentsApisRevisions extends \Google\Service\Resource
    *
    * @param string $name Required. Name representing an API proxy revision in an
    * environment in the following format:
-   * `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}`
+   * `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}` If the
+   * API proxy resource has the `space` attribute set, IAM permissions are checked
+   * differently . To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Deployment
    * @throws \Google\Service\Exception
@@ -108,7 +119,11 @@ class OrganizationsEnvironmentsApisRevisions extends \Google\Service\Resource
    *
    * @param string $name Required. Name of the API proxy revision deployment in
    * the following format:
-   * `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}`
+   * `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}` If the
+   * API proxy resource has the `space` attribute set, IAM permissions are checked
+   * differently . To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool sequencedRollout Flag that specifies whether to enable

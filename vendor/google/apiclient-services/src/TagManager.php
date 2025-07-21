@@ -1122,6 +1122,32 @@ class TagManager extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'import_from_gallery' => [
+              'path' => 'tagmanager/v2/{+parent}/templates:import_from_gallery',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'acknowledgePermissions' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'galleryOwner' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'galleryRepository' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'gallerySha' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'list' => [
               'path' => 'tagmanager/v2/{+parent}/templates',
               'httpMethod' => 'GET',

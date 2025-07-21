@@ -19,15 +19,33 @@ namespace Google\Service\Datastream;
 
 class DiscoverConnectionProfileResponse extends \Google\Model
 {
+  protected $mongodbClusterType = MongodbCluster::class;
+  protected $mongodbClusterDataType = '';
   protected $mysqlRdbmsType = MysqlRdbms::class;
   protected $mysqlRdbmsDataType = '';
   protected $oracleRdbmsType = OracleRdbms::class;
   protected $oracleRdbmsDataType = '';
   protected $postgresqlRdbmsType = PostgresqlRdbms::class;
   protected $postgresqlRdbmsDataType = '';
+  protected $salesforceOrgType = SalesforceOrg::class;
+  protected $salesforceOrgDataType = '';
   protected $sqlServerRdbmsType = SqlServerRdbms::class;
   protected $sqlServerRdbmsDataType = '';
 
+  /**
+   * @param MongodbCluster
+   */
+  public function setMongodbCluster(MongodbCluster $mongodbCluster)
+  {
+    $this->mongodbCluster = $mongodbCluster;
+  }
+  /**
+   * @return MongodbCluster
+   */
+  public function getMongodbCluster()
+  {
+    return $this->mongodbCluster;
+  }
   /**
    * @param MysqlRdbms
    */
@@ -69,6 +87,20 @@ class DiscoverConnectionProfileResponse extends \Google\Model
   public function getPostgresqlRdbms()
   {
     return $this->postgresqlRdbms;
+  }
+  /**
+   * @param SalesforceOrg
+   */
+  public function setSalesforceOrg(SalesforceOrg $salesforceOrg)
+  {
+    $this->salesforceOrg = $salesforceOrg;
+  }
+  /**
+   * @return SalesforceOrg
+   */
+  public function getSalesforceOrg()
+  {
+    return $this->salesforceOrg;
   }
   /**
    * @param SqlServerRdbms

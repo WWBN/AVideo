@@ -18,6 +18,7 @@
 namespace Google\Service\Container\Resource;
 
 use Google\Service\Container\Cluster;
+use Google\Service\Container\ClusterUpgradeInfo;
 use Google\Service\Container\CompleteIPRotationRequest;
 use Google\Service\Container\CreateClusterRequest;
 use Google\Service\Container\ListClustersResponse;
@@ -151,6 +152,25 @@ class ProjectsZonesClusters extends \Google\Service\Resource
     $params = ['projectId' => $projectId, 'zone' => $zone, 'clusterId' => $clusterId];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], Operation::class);
+  }
+  /**
+   * Fetch upgrade information of a specific cluster.
+   * (clusters.fetchClusterUpgradeInfo)
+   *
+   * @param string $name Required. The name (project, location, cluster) of the
+   * cluster to get. Specified in the format `projects/locations/clusters` or
+   * `projects/zones/clusters`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string version API request version that initiates this operation.
+   * @return ClusterUpgradeInfo
+   * @throws \Google\Service\Exception
+   */
+  public function fetchClusterUpgradeInfo($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('fetchClusterUpgradeInfo', [$params], ClusterUpgradeInfo::class);
   }
   /**
    * Gets the details of a specific cluster. (clusters.get)

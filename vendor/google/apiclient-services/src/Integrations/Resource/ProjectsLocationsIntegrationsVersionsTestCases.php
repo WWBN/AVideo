@@ -22,7 +22,6 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteTestCaseReq
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListTestCaseExecutionsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListTestCasesResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaTakeoverTestCaseEditLockRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaTestCase;
@@ -169,47 +168,6 @@ class ProjectsLocationsIntegrationsVersionsTestCases extends \Google\Service\Res
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudIntegrationsV1alphaListTestCasesResponse::class);
-  }
-  /**
-   * Lists the results of all functional test executions. The response includes
-   * the same information as the [execution
-   * log](https://cloud.google.com/application-integration/docs/viewing-logs) in
-   * the Integration UI. (testCases.listExecutions)
-   *
-   * @param string $parent Required. The parent resource name of the test case
-   * execution.
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string filter Optional. Standard filter field, we support
-   * filtering on following fields: test_case_id: the ID of the test case.
-   * CreateTimestamp: the execution created time. event_execution_state: the state
-   * of the executions. execution_id: the id of the execution. trigger_id: the id
-   * of the trigger. parameter_type: the type of the parameters involved in the
-   * execution. All fields support for EQUALS, in additional: CreateTimestamp
-   * support for LESS_THAN, GREATER_THAN ParameterType support for HAS For
-   * example: "parameter_type" HAS \"string\" Also supports operators like AND,
-   * OR, NOT For example, trigger_id=\"id1\" AND test_case_id=\"testCaseId\"
-   * @opt_param string orderBy Optional. The results would be returned in order
-   * you specified here. Currently supporting "last_modified_time" and
-   * "create_time".
-   * @opt_param int pageSize Optional. The size of entries in the response.
-   * @opt_param string pageToken Optional. The token returned in the previous
-   * response.
-   * @opt_param string readMask Optional. View mask for the response data. If set,
-   * only the field specified will be returned as part of the result. If not set,
-   * all fields in event execution info will be filled and returned.
-   * @opt_param bool truncateParams Optional. If true, the service will truncate
-   * the params to only keep the first 1000 characters of string params and empty
-   * the executions in order to make response smaller. Only works for UI and when
-   * the params fields are not filtered out.
-   * @return GoogleCloudIntegrationsV1alphaListTestCaseExecutionsResponse
-   * @throws \Google\Service\Exception
-   */
-  public function listExecutions($parent, $optParams = [])
-  {
-    $params = ['parent' => $parent];
-    $params = array_merge($params, $optParams);
-    return $this->call('listExecutions', [$params], GoogleCloudIntegrationsV1alphaListTestCaseExecutionsResponse::class);
   }
   /**
    * Updates a test case (testCases.patch)

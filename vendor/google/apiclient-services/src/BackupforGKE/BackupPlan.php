@@ -19,6 +19,10 @@ namespace Google\Service\BackupforGKE;
 
 class BackupPlan extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $backupChannel;
   protected $backupConfigType = BackupConfig::class;
   protected $backupConfigDataType = '';
   protected $backupScheduleType = Schedule::class;
@@ -47,6 +51,10 @@ class BackupPlan extends \Google\Model
    * @var string[]
    */
   public $labels;
+  /**
+   * @var string
+   */
+  public $lastSuccessfulBackupTime;
   /**
    * @var string
    */
@@ -82,6 +90,20 @@ class BackupPlan extends \Google\Model
    */
   public $updateTime;
 
+  /**
+   * @param string
+   */
+  public function setBackupChannel($backupChannel)
+  {
+    $this->backupChannel = $backupChannel;
+  }
+  /**
+   * @return string
+   */
+  public function getBackupChannel()
+  {
+    return $this->backupChannel;
+  }
   /**
    * @param BackupConfig
    */
@@ -193,6 +215,20 @@ class BackupPlan extends \Google\Model
   public function getLabels()
   {
     return $this->labels;
+  }
+  /**
+   * @param string
+   */
+  public function setLastSuccessfulBackupTime($lastSuccessfulBackupTime)
+  {
+    $this->lastSuccessfulBackupTime = $lastSuccessfulBackupTime;
+  }
+  /**
+   * @return string
+   */
+  public function getLastSuccessfulBackupTime()
+  {
+    return $this->lastSuccessfulBackupTime;
   }
   /**
    * @param string

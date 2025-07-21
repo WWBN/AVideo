@@ -51,8 +51,7 @@ class OrganizationsHostStats extends \Google\Service\Resource
    * interactive query will be executed.
    * @opt_param string filter Flag that enables drill-down on specific dimension
    * values.
-   * @opt_param string limit Maximum number of result items to return. The default
-   * and maximum value that can be returned is 14400.
+   * @opt_param string limit Maximum number of result items to return.
    * @opt_param string offset Offset value. Use `offset` with `limit` to enable
    * pagination of results. For example, to display results 11-20, set limit to
    * `10` and offset to `10`.
@@ -62,7 +61,7 @@ class OrganizationsHostStats extends \Google\Service\Resource
    * `sum(message_count),sum(error_count)`
    * @opt_param string sort Flag that specifies if the sort order should be
    * ascending or descending. Valid values are `DESC` and `ASC`.
-   * @opt_param string sortby Comma-separated list of columns to sort the final
+   * @opt_param string sortby Comma-separated list of metrics to sort the final
    * result.
    * @opt_param string timeRange Time interval for the interactive query. Time
    * range is specified in GMT as `start~end`. For example: `04/15/2017

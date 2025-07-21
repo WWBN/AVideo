@@ -172,9 +172,9 @@ class CustomersChromePrinters extends \Google\Service\Resource
   /**
    * Updates a `Printer` resource. (printers.patch)
    *
-   * @param string $name The resource name of the Printer object, in the format
-   * customers/{customer-id}/printers/{printer-id} (During printer creation leave
-   * empty)
+   * @param string $name Identifier. The resource name of the Printer object, in
+   * the format customers/{customer-id}/printers/{printer-id} (During printer
+   * creation leave empty)
    * @param Printer $postBody
    * @param array $optParams Optional parameters.
    *

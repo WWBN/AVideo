@@ -32,27 +32,20 @@ use Google\Service\NetworkSecurity\Operation;
 class ProjectsLocationsMirroringDeploymentGroups extends \Google\Service\Resource
 {
   /**
-   * Creates a new MirroringDeploymentGroup in a given project and location.
-   * (mirroringDeploymentGroups.create)
+   * Creates a deployment group in a given project and location. See
+   * https://google.aip.dev/133. (mirroringDeploymentGroups.create)
    *
-   * @param string $parent Required. Value for parent.
+   * @param string $parent Required. The parent resource where this deployment
+   * group will be created. Format: projects/{project}/locations/{location}
    * @param MirroringDeploymentGroup $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string mirroringDeploymentGroupId Required. Id of the requesting
-   * object If auto-generating Id server-side, remove this field and
-   * mirroring_deployment_group_id from the method_signature of Create RPC
-   * @opt_param string requestId Optional. An optional request ID to identify
-   * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes since the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
-   * (00000000-0000-0000-0000-000000000000).
+   * @opt_param string mirroringDeploymentGroupId Required. The ID to use for the
+   * new deployment group, which will become the final component of the deployment
+   * group's resource name.
+   * @opt_param string requestId Optional. A unique identifier for this request.
+   * Must be a UUID4. This request is only idempotent if a `request_id` is
+   * provided. See https://google.aip.dev/155 for more details.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -63,22 +56,15 @@ class ProjectsLocationsMirroringDeploymentGroups extends \Google\Service\Resourc
     return $this->call('create', [$params], Operation::class);
   }
   /**
-   * Deletes a single MirroringDeploymentGroup. (mirroringDeploymentGroups.delete)
+   * Deletes a deployment group. See https://google.aip.dev/135.
+   * (mirroringDeploymentGroups.delete)
    *
-   * @param string $name Required. Name of the resource
+   * @param string $name Required. The deployment group to delete.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId Optional. An optional request ID to identify
-   * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes after the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
-   * (00000000-0000-0000-0000-000000000000).
+   * @opt_param string requestId Optional. A unique identifier for this request.
+   * Must be a UUID4. This request is only idempotent if a `request_id` is
+   * provided. See https://google.aip.dev/155 for more details.
    * @return Operation
    * @throws \Google\Service\Exception
    */
@@ -89,10 +75,12 @@ class ProjectsLocationsMirroringDeploymentGroups extends \Google\Service\Resourc
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Gets details of a single MirroringDeploymentGroup.
+   * Gets a specific deployment group. See https://google.aip.dev/131.
    * (mirroringDeploymentGroups.get)
    *
-   * @param string $name Required. Name of the resource
+   * @param string $name Required. The name of the deployment group to retrieve.
+   * Format: projects/{project}/locations/{location}/mirroringDeploymentGroups/{mi
+   * rroring_deployment_group}
    * @param array $optParams Optional parameters.
    * @return MirroringDeploymentGroup
    * @throws \Google\Service\Exception
@@ -104,20 +92,27 @@ class ProjectsLocationsMirroringDeploymentGroups extends \Google\Service\Resourc
     return $this->call('get', [$params], MirroringDeploymentGroup::class);
   }
   /**
-   * Lists MirroringDeploymentGroups in a given project and location.
+   * Lists deployment groups in a given project and location. See
+   * https://google.aip.dev/132.
    * (mirroringDeploymentGroups.listProjectsLocationsMirroringDeploymentGroups)
    *
-   * @param string $parent Required. Parent value for
-   * ListMirroringDeploymentGroupsRequest
+   * @param string $parent Required. The parent, which owns this collection of
+   * deployment groups. Example: `projects/123456789/locations/global`. See
+   * https://google.aip.dev/132 for more details.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Optional. Filtering results
-   * @opt_param string orderBy Optional. Hint for how to order the results
+   * @opt_param string filter Optional. Filter expression. See
+   * https://google.aip.dev/160#filtering for more details.
+   * @opt_param string orderBy Optional. Sort expression. See
+   * https://google.aip.dev/132#ordering for more details.
    * @opt_param int pageSize Optional. Requested page size. Server may return
    * fewer items than requested. If unspecified, server will pick an appropriate
-   * default.
-   * @opt_param string pageToken Optional. A token identifying a page of results
-   * the server should return.
+   * default. See https://google.aip.dev/158 for more details.
+   * @opt_param string pageToken Optional. A page token, received from a previous
+   * `ListMirroringDeploymentGroups` call. Provide this to retrieve the subsequent
+   * page. When paginating, all other parameters provided to
+   * `ListMirroringDeploymentGroups` must match the call that provided the page
+   * token. See https://google.aip.dev/158 for more details.
    * @return ListMirroringDeploymentGroupsResponse
    * @throws \Google\Service\Exception
    */
@@ -128,7 +123,8 @@ class ProjectsLocationsMirroringDeploymentGroups extends \Google\Service\Resourc
     return $this->call('list', [$params], ListMirroringDeploymentGroupsResponse::class);
   }
   /**
-   * Updates a single MirroringDeploymentGroup. (mirroringDeploymentGroups.patch)
+   * Updates a deployment group. See https://google.aip.dev/134.
+   * (mirroringDeploymentGroups.patch)
    *
    * @param string $name Immutable. Identifier. The resource name of this
    * deployment group, for example:
@@ -137,22 +133,13 @@ class ProjectsLocationsMirroringDeploymentGroups extends \Google\Service\Resourc
    * @param MirroringDeploymentGroup $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId Optional. An optional request ID to identify
-   * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes since the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
-   * (00000000-0000-0000-0000-000000000000).
-   * @opt_param string updateMask Required. Field mask is used to specify the
-   * fields to be overwritten in the MirroringDeploymentGroup resource by the
-   * update. The fields specified in the update_mask are relative to the resource,
-   * not the full request. A field will be overwritten if it is in the mask. If
-   * the user does not provide a mask then all fields will be overwritten.
+   * @opt_param string requestId Optional. A unique identifier for this request.
+   * Must be a UUID4. This request is only idempotent if a `request_id` is
+   * provided. See https://google.aip.dev/155 for more details.
+   * @opt_param string updateMask Optional. The list of fields to update. Fields
+   * are specified relative to the deployment group (e.g. `description`; *not*
+   * `mirroring_deployment_group.description`). See https://google.aip.dev/161 for
+   * more details.
    * @return Operation
    * @throws \Google\Service\Exception
    */

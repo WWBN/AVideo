@@ -36,7 +36,11 @@ class OrganizationsApisRevisions extends \Google\Service\Resource
    * before you can delete it. (revisions.delete)
    *
    * @param string $name Required. API proxy revision in the following format:
-   * `organizations/{org}/apis/{api}/revisions/{rev}`
+   * `organizations/{org}/apis/{api}/revisions/{rev}` If the API Proxy resource
+   * has the `space` attribute set, IAM permissions are checked against the Space
+   * resource path. To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProxyRevision
    * @throws \Google\Service\Exception
@@ -57,7 +61,11 @@ class OrganizationsApisRevisions extends \Google\Service\Resource
    * (revisions.get)
    *
    * @param string $name Required. API proxy revision in the following format:
-   * `organizations/{org}/apis/{api}/revisions/{rev}`
+   * `organizations/{org}/apis/{api}/revisions/{rev}` If the API Proxy resource
+   * has the `space` attribute set, IAM permissions are checked against the Space
+   * resource path. To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    *
    * @opt_param string format Format used when downloading the API proxy
@@ -81,7 +89,11 @@ class OrganizationsApisRevisions extends \Google\Service\Resource
    * stream`. (revisions.updateApiProxyRevision)
    *
    * @param string $name Required. API proxy revision to update in the following
-   * format: `organizations/{org}/apis/{api}/revisions/{rev}`
+   * format: `organizations/{org}/apis/{api}/revisions/{rev}` If the API Proxy
+   * resource has the `space` attribute set, IAM permissions are checked against
+   * the Space resource path. To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param GoogleApiHttpBody $postBody
    * @param array $optParams Optional parameters.
    *

@@ -33,6 +33,10 @@ class GoogleCloudOrgpolicyV2Constraint extends \Google\Model
    * @var string
    */
   public $displayName;
+  /**
+   * @var string
+   */
+  public $equivalentConstraint;
   protected $listConstraintType = GoogleCloudOrgpolicyV2ConstraintListConstraint::class;
   protected $listConstraintDataType = '';
   /**
@@ -103,6 +107,20 @@ class GoogleCloudOrgpolicyV2Constraint extends \Google\Model
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param string
+   */
+  public function setEquivalentConstraint($equivalentConstraint)
+  {
+    $this->equivalentConstraint = $equivalentConstraint;
+  }
+  /**
+   * @return string
+   */
+  public function getEquivalentConstraint()
+  {
+    return $this->equivalentConstraint;
   }
   /**
    * @param GoogleCloudOrgpolicyV2ConstraintListConstraint

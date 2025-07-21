@@ -19,6 +19,8 @@ namespace Google\Service\Datastream;
 
 class SourceConfig extends \Google\Model
 {
+  protected $mongodbSourceConfigType = MongodbSourceConfig::class;
+  protected $mongodbSourceConfigDataType = '';
   protected $mysqlSourceConfigType = MysqlSourceConfig::class;
   protected $mysqlSourceConfigDataType = '';
   protected $oracleSourceConfigType = OracleSourceConfig::class;
@@ -34,6 +36,20 @@ class SourceConfig extends \Google\Model
   protected $sqlServerSourceConfigType = SqlServerSourceConfig::class;
   protected $sqlServerSourceConfigDataType = '';
 
+  /**
+   * @param MongodbSourceConfig
+   */
+  public function setMongodbSourceConfig(MongodbSourceConfig $mongodbSourceConfig)
+  {
+    $this->mongodbSourceConfig = $mongodbSourceConfig;
+  }
+  /**
+   * @return MongodbSourceConfig
+   */
+  public function getMongodbSourceConfig()
+  {
+    return $this->mongodbSourceConfig;
+  }
   /**
    * @param MysqlSourceConfig
    */

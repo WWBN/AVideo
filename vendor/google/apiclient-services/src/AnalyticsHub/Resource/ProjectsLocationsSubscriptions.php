@@ -41,7 +41,7 @@ class ProjectsLocationsSubscriptions extends \Google\Service\Resource
    * Deletes a subscription. (subscriptions.delete)
    *
    * @param string $name Required. Resource name of the subscription to delete.
-   * e.g. projects/123/locations/US/subscriptions/456
+   * e.g. projects/123/locations/us/subscriptions/456
    * @param array $optParams Optional parameters.
    * @return Operation
    * @throws \Google\Service\Exception
@@ -56,7 +56,7 @@ class ProjectsLocationsSubscriptions extends \Google\Service\Resource
    * Gets the details of a Subscription. (subscriptions.get)
    *
    * @param string $name Required. Resource name of the subscription. e.g.
-   * projects/123/locations/US/subscriptions/456
+   * projects/123/locations/us/subscriptions/456
    * @param array $optParams Optional parameters.
    * @return Subscription
    * @throws \Google\Service\Exception
@@ -90,7 +90,7 @@ class ProjectsLocationsSubscriptions extends \Google\Service\Resource
    * (subscriptions.listProjectsLocationsSubscriptions)
    *
    * @param string $parent Required. The parent resource path of the subscription.
-   * e.g. projects/myproject/locations/US
+   * e.g. projects/myproject/locations/us
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter An expression for filtering the results of the
@@ -120,7 +120,7 @@ class ProjectsLocationsSubscriptions extends \Google\Service\Resource
    * may create many linked datasets. (subscriptions.refresh)
    *
    * @param string $name Required. Resource name of the Subscription to refresh.
-   * e.g. `projects/subscriberproject/locations/US/subscriptions/123`
+   * e.g. `projects/subscriberproject/locations/us/subscriptions/123`
    * @param RefreshSubscriptionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
@@ -136,7 +136,7 @@ class ProjectsLocationsSubscriptions extends \Google\Service\Resource
    * Revokes a given subscription. (subscriptions.revoke)
    *
    * @param string $name Required. Resource name of the subscription to revoke.
-   * e.g. projects/123/locations/US/subscriptions/456
+   * e.g. projects/123/locations/us/subscriptions/456
    * @param RevokeSubscriptionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return RevokeSubscriptionResponse

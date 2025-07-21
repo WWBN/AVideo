@@ -52,11 +52,12 @@ class ProjectsLocations extends \Google\Service\Resource
    * applicable.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string extraLocationTypes Optional. A list of extra location types
+   * that should be used as conditions for controlling the visibility of the
+   * locations.
    * @opt_param string filter A filter to narrow down results to a preferred
    * subset. The filtering language accepts strings like `"displayName=tokyo"`,
    * and is documented in more detail in [AIP-160](https://google.aip.dev/160).
-   * @opt_param bool includeUnrevealedLocations If true, the returned list will
-   * include locations which are not yet revealed.
    * @opt_param int pageSize The maximum number of results to return. If not set,
    * the service selects a default.
    * @opt_param string pageToken A page token received from the `next_page_token`

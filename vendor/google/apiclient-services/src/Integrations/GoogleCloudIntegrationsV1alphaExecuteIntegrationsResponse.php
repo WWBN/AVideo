@@ -36,6 +36,8 @@ class GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse extends \Google\
   public $outputParameters;
   protected $parameterEntriesType = EnterpriseCrmFrontendsEventbusProtoParameterEntry::class;
   protected $parameterEntriesDataType = 'array';
+  protected $parametersType = GoogleCloudIntegrationsV1alphaValueType::class;
+  protected $parametersDataType = 'map';
 
   /**
    * @param EnterpriseCrmFrontendsEventbusProtoEventParameters
@@ -106,6 +108,20 @@ class GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse extends \Google\
   public function getParameterEntries()
   {
     return $this->parameterEntries;
+  }
+  /**
+   * @param GoogleCloudIntegrationsV1alphaValueType[]
+   */
+  public function setParameters($parameters)
+  {
+    $this->parameters = $parameters;
+  }
+  /**
+   * @return GoogleCloudIntegrationsV1alphaValueType[]
+   */
+  public function getParameters()
+  {
+    return $this->parameters;
   }
 }
 

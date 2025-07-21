@@ -19,6 +19,8 @@ namespace Google\Service\Reports;
 
 class ActivityActor extends \Google\Model
 {
+  protected $applicationInfoType = ActivityActorApplicationInfo::class;
+  protected $applicationInfoDataType = '';
   /**
    * @var string
    */
@@ -36,6 +38,20 @@ class ActivityActor extends \Google\Model
    */
   public $profileId;
 
+  /**
+   * @param ActivityActorApplicationInfo
+   */
+  public function setApplicationInfo(ActivityActorApplicationInfo $applicationInfo)
+  {
+    $this->applicationInfo = $applicationInfo;
+  }
+  /**
+   * @return ActivityActorApplicationInfo
+   */
+  public function getApplicationInfo()
+  {
+    return $this->applicationInfo;
+  }
   /**
    * @param string
    */

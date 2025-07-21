@@ -35,6 +35,7 @@ use Google\Service\Dataflow\SnapshotJobRequest;
 class ProjectsLocationsJobs extends \Google\Service\Resource
 {
   /**
+   * A Job is a multi-stage computation graph run by the Cloud Dataflow service.
    * Creates a Cloud Dataflow job. To create a job, we recommend using
    * `projects.locations.jobs.create` with a [regional endpoint]
    * (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using

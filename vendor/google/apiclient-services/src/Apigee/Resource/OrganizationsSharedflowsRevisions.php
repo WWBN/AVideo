@@ -36,7 +36,11 @@ class OrganizationsSharedflowsRevisions extends \Google\Service\Resource
    *
    * @param string $name Required. The name of the shared flow revision to delete.
    * Must be of the form: `organizations/{organization_id}/sharedflows/{shared_flo
-   * w_id}/revisions/{revision_id}`
+   * w_id}/revisions/{revision_id}` If the Shared Flow resource has the `space`
+   * attribute set, IAM permissions are checked against the Space resource path.
+   * To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SharedFlowRevision
    * @throws \Google\Service\Exception
@@ -58,7 +62,11 @@ class OrganizationsSharedflowsRevisions extends \Google\Service\Resource
    *
    * @param string $name Required. The name of the shared flow revision to get.
    * Must be of the form: `organizations/{organization_id}/sharedflows/{shared_flo
-   * w_id}/revisions/{revision_id}`
+   * w_id}/revisions/{revision_id}` If the Shared Flow resource has the `space`
+   * attribute set, IAM permissions are checked against the Space resource path.
+   * To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    *
    * @opt_param string format Specify `bundle` to export the contents of the
@@ -81,7 +89,10 @@ class OrganizationsSharedflowsRevisions extends \Google\Service\Resource
    *
    * @param string $name Required. The name of the shared flow revision to update.
    * Must be of the form: `organizations/{organization_id}/sharedflows/{shared_flo
-   * w_id}/revisions/{revision_id}`
+   * w_id}/revisions/{revision_id}` If the resource has the `space` attribute set,
+   * IAM permissions are checked against the Space resource path. To learn more,
+   * read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-
+   * platform/system-administration/spaces/apigee-spaces-overview).
    * @param GoogleApiHttpBody $postBody
    * @param array $optParams Optional parameters.
    *

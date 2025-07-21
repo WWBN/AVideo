@@ -19,6 +19,8 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSource extends \Google\Model
 {
+  protected $enterpriseWebRetrievalSourceType = GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSourceEnterpriseWebRetrievalSource::class;
+  protected $enterpriseWebRetrievalSourceDataType = '';
   protected $googleSearchSourceType = GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSourceGoogleSearchSource::class;
   protected $googleSearchSourceDataType = '';
   protected $inlineSourceType = GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSourceInlineSource::class;
@@ -26,6 +28,20 @@ class GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSource 
   protected $searchSourceType = GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSourceSearchSource::class;
   protected $searchSourceDataType = '';
 
+  /**
+   * @param GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSourceEnterpriseWebRetrievalSource
+   */
+  public function setEnterpriseWebRetrievalSource(GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSourceEnterpriseWebRetrievalSource $enterpriseWebRetrievalSource)
+  {
+    $this->enterpriseWebRetrievalSource = $enterpriseWebRetrievalSource;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSourceEnterpriseWebRetrievalSource
+   */
+  public function getEnterpriseWebRetrievalSource()
+  {
+    return $this->enterpriseWebRetrievalSource;
+  }
   /**
    * @param GoogleCloudDiscoveryengineV1GenerateGroundedContentRequestGroundingSourceGoogleSearchSource
    */

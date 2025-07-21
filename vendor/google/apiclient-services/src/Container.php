@@ -186,6 +186,20 @@ class Container extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'fetchClusterUpgradeInfo' => [
+              'path' => 'v1/{+name}:fetchClusterUpgradeInfo',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'version' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'get' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
@@ -408,6 +422,20 @@ class Container extends \Google\Service
                   'type' => 'string',
                 ],
                 'zone' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'fetchNodePoolUpgradeInfo' => [
+              'path' => 'v1/{+name}:fetchNodePoolUpgradeInfo',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'version' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -704,6 +732,20 @@ class Container extends \Google\Service
                   'required' => true,
                 ],
                 'name' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'fetchClusterUpgradeInfo' => [
+              'path' => 'v1/{+name}:fetchClusterUpgradeInfo',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'version' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -1051,6 +1093,20 @@ class Container extends \Google\Service
                   'required' => true,
                 ],
                 'name' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'fetchNodePoolUpgradeInfo' => [
+              'path' => 'v1/{+name}:fetchNodePoolUpgradeInfo',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'version' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

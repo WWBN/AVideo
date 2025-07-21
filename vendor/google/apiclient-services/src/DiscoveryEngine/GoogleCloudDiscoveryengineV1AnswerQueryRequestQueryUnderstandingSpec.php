@@ -19,11 +19,29 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpec extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $disableSpellCorrection;
   protected $queryClassificationSpecType = GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpec::class;
   protected $queryClassificationSpecDataType = '';
   protected $queryRephraserSpecType = GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpec::class;
   protected $queryRephraserSpecDataType = '';
 
+  /**
+   * @param bool
+   */
+  public function setDisableSpellCorrection($disableSpellCorrection)
+  {
+    $this->disableSpellCorrection = $disableSpellCorrection;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableSpellCorrection()
+  {
+    return $this->disableSpellCorrection;
+  }
   /**
    * @param GoogleCloudDiscoveryengineV1AnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpec
    */

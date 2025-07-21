@@ -19,13 +19,17 @@ namespace Google\Service\NetworkServices;
 
 class ListEndpointPoliciesResponse extends \Google\Collection
 {
-  protected $collection_key = 'endpointPolicies';
+  protected $collection_key = 'unreachable';
   protected $endpointPoliciesType = EndpointPolicy::class;
   protected $endpointPoliciesDataType = 'array';
   /**
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param EndpointPolicy[]
@@ -54,6 +58,20 @@ class ListEndpointPoliciesResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

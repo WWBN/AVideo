@@ -21,10 +21,28 @@ class MergeCapacityCommitmentsRequest extends \Google\Collection
 {
   protected $collection_key = 'capacityCommitmentIds';
   /**
+   * @var string
+   */
+  public $capacityCommitmentId;
+  /**
    * @var string[]
    */
   public $capacityCommitmentIds;
 
+  /**
+   * @param string
+   */
+  public function setCapacityCommitmentId($capacityCommitmentId)
+  {
+    $this->capacityCommitmentId = $capacityCommitmentId;
+  }
+  /**
+   * @return string
+   */
+  public function getCapacityCommitmentId()
+  {
+    return $this->capacityCommitmentId;
+  }
   /**
    * @param string[]
    */

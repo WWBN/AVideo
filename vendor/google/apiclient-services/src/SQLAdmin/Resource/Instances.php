@@ -34,6 +34,7 @@ use Google\Service\SQLAdmin\InstancesRotateServerCaRequest;
 use Google\Service\SQLAdmin\InstancesRotateServerCertificateRequest;
 use Google\Service\SQLAdmin\InstancesTruncateLogRequest;
 use Google\Service\SQLAdmin\Operation;
+use Google\Service\SQLAdmin\PointInTimeRestoreContext;
 use Google\Service\SQLAdmin\SqlInstancesAcquireSsrsLeaseResponse;
 use Google\Service\SQLAdmin\SqlInstancesReleaseSsrsLeaseResponse;
 
@@ -395,6 +396,23 @@ class Instances extends \Google\Service\Resource
     $params = ['project' => $project, 'instance' => $instance, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * Point in time restore for an instance managed by Google Cloud Backup and
+   * Disaster Recovery. (instances.pointInTimeRestore)
+   *
+   * @param string $parent Required. The parent resource where you created this
+   * instance. Format: projects/{project}
+   * @param PointInTimeRestoreContext $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function pointInTimeRestore($parent, PointInTimeRestoreContext $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('pointInTimeRestore', [$params], Operation::class);
   }
   /**
    * Promotes the read replica instance to be an independent Cloud SQL primary

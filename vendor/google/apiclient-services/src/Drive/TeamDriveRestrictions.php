@@ -31,6 +31,8 @@ class TeamDriveRestrictions extends \Google\Model
    * @var bool
    */
   public $domainUsersOnly;
+  protected $downloadRestrictionType = DownloadRestriction::class;
+  protected $downloadRestrictionDataType = '';
   /**
    * @var bool
    */
@@ -81,6 +83,20 @@ class TeamDriveRestrictions extends \Google\Model
   public function getDomainUsersOnly()
   {
     return $this->domainUsersOnly;
+  }
+  /**
+   * @param DownloadRestriction
+   */
+  public function setDownloadRestriction(DownloadRestriction $downloadRestriction)
+  {
+    $this->downloadRestriction = $downloadRestriction;
+  }
+  /**
+   * @return DownloadRestriction
+   */
+  public function getDownloadRestriction()
+  {
+    return $this->downloadRestriction;
   }
   /**
    * @param bool

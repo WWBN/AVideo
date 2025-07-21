@@ -43,14 +43,13 @@ class ProjectsLocationsDataExchangesListings extends \Google\Service\Resource
    * Creates a new listing. (listings.create)
    *
    * @param string $parent Required. The parent resource path of the listing. e.g.
-   * `projects/myproject/locations/US/dataExchanges/123`.
+   * `projects/myproject/locations/us/dataExchanges/123`.
    * @param Listing $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string listingId Required. The ID of the listing to create. Must
-   * contain only Unicode letters, numbers (0-9), underscores (_). Should not use
-   * characters that require URL-escaping, or characters outside of ASCII, spaces.
-   * Max length: 100 bytes.
+   * contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100
+   * bytes.
    * @return Listing
    * @throws \Google\Service\Exception
    */
@@ -64,8 +63,12 @@ class ProjectsLocationsDataExchangesListings extends \Google\Service\Resource
    * Deletes a listing. (listings.delete)
    *
    * @param string $name Required. Resource name of the listing to delete. e.g.
-   * `projects/myproject/locations/US/dataExchanges/123/listings/456`.
+   * `projects/myproject/locations/us/dataExchanges/123/listings/456`.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool deleteCommercial Optional. If the listing is commercial then
+   * this field must be set to true, otherwise a failure is thrown. This acts as a
+   * safety guard to avoid deleting commercial listings accidentally.
    * @return AnalyticshubEmpty
    * @throws \Google\Service\Exception
    */
@@ -79,7 +82,7 @@ class ProjectsLocationsDataExchangesListings extends \Google\Service\Resource
    * Gets the details of a listing. (listings.get)
    *
    * @param string $name Required. The resource name of the listing. e.g.
-   * `projects/myproject/locations/US/dataExchanges/123/listings/456`.
+   * `projects/myproject/locations/us/dataExchanges/123/listings/456`.
    * @param array $optParams Optional parameters.
    * @return Listing
    * @throws \Google\Service\Exception
@@ -113,7 +116,7 @@ class ProjectsLocationsDataExchangesListings extends \Google\Service\Resource
    * (listings.listProjectsLocationsDataExchangesListings)
    *
    * @param string $parent Required. The parent resource path of the listing. e.g.
-   * `projects/myproject/locations/US/dataExchanges/123`.
+   * `projects/myproject/locations/us/dataExchanges/123`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of results to return in a single
@@ -136,8 +139,8 @@ class ProjectsLocationsDataExchangesListings extends \Google\Service\Resource
    *
    * @param string $resource Required. Resource name of the requested target. This
    * resource may be either a Listing or a DataExchange. e.g.
-   * projects/123/locations/US/dataExchanges/456 OR e.g.
-   * projects/123/locations/US/dataExchanges/456/listings/789
+   * projects/123/locations/us/dataExchanges/456 OR e.g.
+   * projects/123/locations/us/dataExchanges/456/listings/789
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool includeDeletedSubscriptions If selected, includes deleted
@@ -158,7 +161,7 @@ class ProjectsLocationsDataExchangesListings extends \Google\Service\Resource
    * Updates an existing listing. (listings.patch)
    *
    * @param string $name Output only. The resource name of the listing. e.g.
-   * `projects/myproject/locations/US/dataExchanges/123/listings/456`
+   * `projects/myproject/locations/us/dataExchanges/123/listings/456`
    * @param Listing $postBody
    * @param array $optParams Optional parameters.
    *
@@ -200,7 +203,7 @@ class ProjectsLocationsDataExchangesListings extends \Google\Service\Resource
    *
    * @param string $name Required. Resource name of the listing that you want to
    * subscribe to. e.g.
-   * `projects/myproject/locations/US/dataExchanges/123/listings/456`.
+   * `projects/myproject/locations/us/dataExchanges/123/listings/456`.
    * @param SubscribeListingRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SubscribeListingResponse

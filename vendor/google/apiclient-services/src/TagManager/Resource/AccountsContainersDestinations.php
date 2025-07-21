@@ -33,9 +33,7 @@ class AccountsContainersDestinations extends \Google\Service\Resource
   /**
    * Gets a Destination. (destinations.get)
    *
-   * @param string $path Google Tag Destination's API relative path. Example: acco
-   * unts/{account_id}/containers/{container_id}/destinations/{destination_link_id
-   * }
+   * @param string $path Google Tag Destination's API relative path.
    * @param array $optParams Optional parameters.
    * @return Destination
    * @throws \Google\Service\Exception
@@ -50,8 +48,7 @@ class AccountsContainersDestinations extends \Google\Service\Resource
    * Adds a Destination to this Container and removes it from the Container to
    * which it is currently linked. (destinations.link)
    *
-   * @param string $parent GTM parent Container's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}
+   * @param string $parent GTM parent Container's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool allowUserPermissionFeatureUpdate Must be set to true to allow
@@ -72,8 +69,7 @@ class AccountsContainersDestinations extends \Google\Service\Resource
    * Lists all Destinations linked to a GTM Container.
    * (destinations.listAccountsContainersDestinations)
    *
-   * @param string $parent GTM parent Container's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}
+   * @param string $parent GTM parent Container's API relative path.
    * @param array $optParams Optional parameters.
    * @return ListDestinationsResponse
    * @throws \Google\Service\Exception

@@ -19,7 +19,7 @@ namespace Google\Service\Backupdr;
 
 class BackupPlan extends \Google\Collection
 {
-  protected $collection_key = 'backupRules';
+  protected $collection_key = 'supportedResourceTypes';
   protected $backupRulesType = BackupRule::class;
   protected $backupRulesDataType = 'array';
   /**
@@ -58,6 +58,10 @@ class BackupPlan extends \Google\Collection
    * @var string
    */
   public $state;
+  /**
+   * @var string[]
+   */
+  public $supportedResourceTypes;
   /**
    * @var string
    */
@@ -202,6 +206,20 @@ class BackupPlan extends \Google\Collection
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSupportedResourceTypes($supportedResourceTypes)
+  {
+    $this->supportedResourceTypes = $supportedResourceTypes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSupportedResourceTypes()
+  {
+    return $this->supportedResourceTypes;
   }
   /**
    * @param string

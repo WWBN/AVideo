@@ -17,12 +17,15 @@
 
 namespace Google\Service\Spanner;
 
-class MoveInstanceRequest extends \Google\Model
+class MoveInstanceRequest extends \Google\Collection
 {
+  protected $collection_key = 'targetDatabaseMoveConfigs';
   /**
    * @var string
    */
   public $targetConfig;
+  protected $targetDatabaseMoveConfigsType = DatabaseMoveConfig::class;
+  protected $targetDatabaseMoveConfigsDataType = 'array';
 
   /**
    * @param string
@@ -37,6 +40,20 @@ class MoveInstanceRequest extends \Google\Model
   public function getTargetConfig()
   {
     return $this->targetConfig;
+  }
+  /**
+   * @param DatabaseMoveConfig[]
+   */
+  public function setTargetDatabaseMoveConfigs($targetDatabaseMoveConfigs)
+  {
+    $this->targetDatabaseMoveConfigs = $targetDatabaseMoveConfigs;
+  }
+  /**
+   * @return DatabaseMoveConfig[]
+   */
+  public function getTargetDatabaseMoveConfigs()
+  {
+    return $this->targetDatabaseMoveConfigs;
   }
 }
 

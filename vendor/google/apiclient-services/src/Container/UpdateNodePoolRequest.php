@@ -44,6 +44,10 @@ class UpdateNodePoolRequest extends \Google\Collection
   public $etag;
   protected $fastSocketType = FastSocket::class;
   protected $fastSocketDataType = '';
+  /**
+   * @var bool
+   */
+  public $flexStart;
   protected $gcfsConfigType = GcfsConfig::class;
   protected $gcfsConfigDataType = '';
   protected $gvnicType = VirtualNIC::class;
@@ -226,6 +230,20 @@ class UpdateNodePoolRequest extends \Google\Collection
   public function getFastSocket()
   {
     return $this->fastSocket;
+  }
+  /**
+   * @param bool
+   */
+  public function setFlexStart($flexStart)
+  {
+    $this->flexStart = $flexStart;
+  }
+  /**
+   * @return bool
+   */
+  public function getFlexStart()
+  {
+    return $this->flexStart;
   }
   /**
    * @param GcfsConfig

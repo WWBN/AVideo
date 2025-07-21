@@ -23,7 +23,7 @@ use Google\Client;
  * Service definition for AreaInsights (v1).
  *
  * <p>
- * Places Insights API.</p>
+ * Places Aggregate API.</p>
  *
  * <p>
  * For more information about this service, see the API

@@ -42,8 +42,8 @@ namespace Stripe;
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
  * @property null|string $account The connected account that originates the event.
- * @property null|string $api_version The Stripe API version used to render <code>data</code>. This property is populated only for events on or after October 31, 2014.
- * @property null|string $context
+ * @property null|string $api_version The Stripe API version used to render <code>data</code> when the event was created. The contents of <code>data</code> never change, so this value remains static regardless of the API version currently in use. This property is populated only for events created on or after October 31, 2014.
+ * @property null|string $context Authentication context needed to fetch the event or related object.
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
  * @property (object{object: StripeObject, previous_attributes?: StripeObject}&StripeObject) $data
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
@@ -157,6 +157,7 @@ class Event extends ApiResource
     const INVOICE_PAID = 'invoice.paid';
     const INVOICE_PAYMENT_ACTION_REQUIRED = 'invoice.payment_action_required';
     const INVOICE_PAYMENT_FAILED = 'invoice.payment_failed';
+    const INVOICE_PAYMENT_PAID = 'invoice_payment.paid';
     const INVOICE_PAYMENT_SUCCEEDED = 'invoice.payment_succeeded';
     const INVOICE_SENT = 'invoice.sent';
     const INVOICE_UPCOMING = 'invoice.upcoming';
@@ -259,6 +260,7 @@ class Event extends ApiResource
     const TAX_SETTINGS_UPDATED = 'tax.settings.updated';
     const TERMINAL_READER_ACTION_FAILED = 'terminal.reader.action_failed';
     const TERMINAL_READER_ACTION_SUCCEEDED = 'terminal.reader.action_succeeded';
+    const TERMINAL_READER_ACTION_UPDATED = 'terminal.reader.action_updated';
     const TEST_HELPERS_TEST_CLOCK_ADVANCING = 'test_helpers.test_clock.advancing';
     const TEST_HELPERS_TEST_CLOCK_CREATED = 'test_helpers.test_clock.created';
     const TEST_HELPERS_TEST_CLOCK_DELETED = 'test_helpers.test_clock.deleted';
@@ -405,6 +407,7 @@ class Event extends ApiResource
     const TYPE_INVOICE_PAID = 'invoice.paid';
     const TYPE_INVOICE_PAYMENT_ACTION_REQUIRED = 'invoice.payment_action_required';
     const TYPE_INVOICE_PAYMENT_FAILED = 'invoice.payment_failed';
+    const TYPE_INVOICE_PAYMENT_PAID = 'invoice_payment.paid';
     const TYPE_INVOICE_PAYMENT_SUCCEEDED = 'invoice.payment_succeeded';
     const TYPE_INVOICE_SENT = 'invoice.sent';
     const TYPE_INVOICE_UPCOMING = 'invoice.upcoming';
@@ -507,6 +510,7 @@ class Event extends ApiResource
     const TYPE_TAX_SETTINGS_UPDATED = 'tax.settings.updated';
     const TYPE_TERMINAL_READER_ACTION_FAILED = 'terminal.reader.action_failed';
     const TYPE_TERMINAL_READER_ACTION_SUCCEEDED = 'terminal.reader.action_succeeded';
+    const TYPE_TERMINAL_READER_ACTION_UPDATED = 'terminal.reader.action_updated';
     const TYPE_TEST_HELPERS_TEST_CLOCK_ADVANCING = 'test_helpers.test_clock.advancing';
     const TYPE_TEST_HELPERS_TEST_CLOCK_CREATED = 'test_helpers.test_clock.created';
     const TYPE_TEST_HELPERS_TEST_CLOCK_DELETED = 'test_helpers.test_clock.deleted';

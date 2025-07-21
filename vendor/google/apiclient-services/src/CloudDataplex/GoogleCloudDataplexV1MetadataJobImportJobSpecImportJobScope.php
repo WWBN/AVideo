@@ -19,7 +19,7 @@ namespace Google\Service\CloudDataplex;
 
 class GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope extends \Google\Collection
 {
-  protected $collection_key = 'entryTypes';
+  protected $collection_key = 'referencedEntryScopes';
   /**
    * @var string[]
    */
@@ -31,7 +31,19 @@ class GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope extends \Googl
   /**
    * @var string[]
    */
+  public $entryLinkTypes;
+  /**
+   * @var string[]
+   */
   public $entryTypes;
+  /**
+   * @var string[]
+   */
+  public $glossaries;
+  /**
+   * @var string[]
+   */
+  public $referencedEntryScopes;
 
   /**
    * @param string[]
@@ -64,6 +76,20 @@ class GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope extends \Googl
   /**
    * @param string[]
    */
+  public function setEntryLinkTypes($entryLinkTypes)
+  {
+    $this->entryLinkTypes = $entryLinkTypes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getEntryLinkTypes()
+  {
+    return $this->entryLinkTypes;
+  }
+  /**
+   * @param string[]
+   */
   public function setEntryTypes($entryTypes)
   {
     $this->entryTypes = $entryTypes;
@@ -74,6 +100,34 @@ class GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope extends \Googl
   public function getEntryTypes()
   {
     return $this->entryTypes;
+  }
+  /**
+   * @param string[]
+   */
+  public function setGlossaries($glossaries)
+  {
+    $this->glossaries = $glossaries;
+  }
+  /**
+   * @return string[]
+   */
+  public function getGlossaries()
+  {
+    return $this->glossaries;
+  }
+  /**
+   * @param string[]
+   */
+  public function setReferencedEntryScopes($referencedEntryScopes)
+  {
+    $this->referencedEntryScopes = $referencedEntryScopes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getReferencedEntryScopes()
+  {
+    return $this->referencedEntryScopes;
   }
 }
 

@@ -19,11 +19,27 @@ namespace Google\Service\Container;
 
 class ManagedPrometheusConfig extends \Google\Model
 {
+  protected $autoMonitoringConfigType = AutoMonitoringConfig::class;
+  protected $autoMonitoringConfigDataType = '';
   /**
    * @var bool
    */
   public $enabled;
 
+  /**
+   * @param AutoMonitoringConfig
+   */
+  public function setAutoMonitoringConfig(AutoMonitoringConfig $autoMonitoringConfig)
+  {
+    $this->autoMonitoringConfig = $autoMonitoringConfig;
+  }
+  /**
+   * @return AutoMonitoringConfig
+   */
+  public function getAutoMonitoringConfig()
+  {
+    return $this->autoMonitoringConfig;
+  }
   /**
    * @param bool
    */

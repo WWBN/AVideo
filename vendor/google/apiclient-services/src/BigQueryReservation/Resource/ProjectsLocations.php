@@ -120,8 +120,8 @@ class ProjectsLocations extends \Google\Service\Resource
    * 0. In order to release BI capacity reservation size must be set to 0.
    * (locations.updateBiReservation)
    *
-   * @param string $name The resource name of the singleton BI reservation.
-   * Reservation names have the form
+   * @param string $name Identifier. The resource name of the singleton BI
+   * reservation. Reservation names have the form
    * `projects/{project_id}/locations/{location_id}/biReservation`.
    * @param BiReservation $postBody
    * @param array $optParams Optional parameters.

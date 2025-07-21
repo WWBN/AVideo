@@ -19,7 +19,7 @@ namespace Google\Service\Compute;
 
 class MachineType extends \Google\Collection
 {
-  protected $collection_key = 'scratchDisks';
+  protected $collection_key = 'accelerators';
   protected $acceleratorsType = MachineTypeAccelerators::class;
   protected $acceleratorsDataType = 'array';
   /**
@@ -72,8 +72,6 @@ class MachineType extends \Google\Collection
    * @var string
    */
   public $name;
-  protected $scratchDisksType = MachineTypeScratchDisks::class;
-  protected $scratchDisksDataType = 'array';
   /**
    * @var string
    */
@@ -278,20 +276,6 @@ class MachineType extends \Google\Collection
   public function getName()
   {
     return $this->name;
-  }
-  /**
-   * @param MachineTypeScratchDisks[]
-   */
-  public function setScratchDisks($scratchDisks)
-  {
-    $this->scratchDisks = $scratchDisks;
-  }
-  /**
-   * @return MachineTypeScratchDisks[]
-   */
-  public function getScratchDisks()
-  {
-    return $this->scratchDisks;
   }
   /**
    * @param string

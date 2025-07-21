@@ -17,8 +17,118 @@
 
 namespace Google\Service\DiscoveryEngine;
 
-class GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig extends \Google\Model
+class GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig extends \Google\Collection
 {
+  protected $collection_key = 'structuredContentTypes';
+  /**
+   * @var bool
+   */
+  public $enableImageAnnotation;
+  /**
+   * @var bool
+   */
+  public $enableTableAnnotation;
+  /**
+   * @var string[]
+   */
+  public $excludeHtmlClasses;
+  /**
+   * @var string[]
+   */
+  public $excludeHtmlElements;
+  /**
+   * @var string[]
+   */
+  public $excludeHtmlIds;
+  /**
+   * @var string[]
+   */
+  public $structuredContentTypes;
+
+  /**
+   * @param bool
+   */
+  public function setEnableImageAnnotation($enableImageAnnotation)
+  {
+    $this->enableImageAnnotation = $enableImageAnnotation;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableImageAnnotation()
+  {
+    return $this->enableImageAnnotation;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableTableAnnotation($enableTableAnnotation)
+  {
+    $this->enableTableAnnotation = $enableTableAnnotation;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableTableAnnotation()
+  {
+    return $this->enableTableAnnotation;
+  }
+  /**
+   * @param string[]
+   */
+  public function setExcludeHtmlClasses($excludeHtmlClasses)
+  {
+    $this->excludeHtmlClasses = $excludeHtmlClasses;
+  }
+  /**
+   * @return string[]
+   */
+  public function getExcludeHtmlClasses()
+  {
+    return $this->excludeHtmlClasses;
+  }
+  /**
+   * @param string[]
+   */
+  public function setExcludeHtmlElements($excludeHtmlElements)
+  {
+    $this->excludeHtmlElements = $excludeHtmlElements;
+  }
+  /**
+   * @return string[]
+   */
+  public function getExcludeHtmlElements()
+  {
+    return $this->excludeHtmlElements;
+  }
+  /**
+   * @param string[]
+   */
+  public function setExcludeHtmlIds($excludeHtmlIds)
+  {
+    $this->excludeHtmlIds = $excludeHtmlIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getExcludeHtmlIds()
+  {
+    return $this->excludeHtmlIds;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStructuredContentTypes($structuredContentTypes)
+  {
+    $this->structuredContentTypes = $structuredContentTypes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStructuredContentTypes()
+  {
+    return $this->structuredContentTypes;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

@@ -45,7 +45,11 @@ class OrganizationsEnvironmentsApisRevisionsDeployments extends \Google\Service\
    *
    * @param string $name Name of the API proxy revision deployment in the
    * following format:
-   * `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}`
+   * `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}` If the
+   * API proxy resource has the `space` attribute set, IAM permissions are checked
+   * differently . To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool override Flag that specifies whether to force the deployment

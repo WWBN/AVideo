@@ -23,6 +23,10 @@ class GoogleCloudDataplexV1MetadataJob extends \Google\Model
    * @var string
    */
   public $createTime;
+  protected $exportResultType = GoogleCloudDataplexV1MetadataJobExportJobResult::class;
+  protected $exportResultDataType = '';
+  protected $exportSpecType = GoogleCloudDataplexV1MetadataJobExportJobSpec::class;
+  protected $exportSpecDataType = '';
   protected $importResultType = GoogleCloudDataplexV1MetadataJobImportJobResult::class;
   protected $importResultDataType = '';
   protected $importSpecType = GoogleCloudDataplexV1MetadataJobImportJobSpec::class;
@@ -63,6 +67,34 @@ class GoogleCloudDataplexV1MetadataJob extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param GoogleCloudDataplexV1MetadataJobExportJobResult
+   */
+  public function setExportResult(GoogleCloudDataplexV1MetadataJobExportJobResult $exportResult)
+  {
+    $this->exportResult = $exportResult;
+  }
+  /**
+   * @return GoogleCloudDataplexV1MetadataJobExportJobResult
+   */
+  public function getExportResult()
+  {
+    return $this->exportResult;
+  }
+  /**
+   * @param GoogleCloudDataplexV1MetadataJobExportJobSpec
+   */
+  public function setExportSpec(GoogleCloudDataplexV1MetadataJobExportJobSpec $exportSpec)
+  {
+    $this->exportSpec = $exportSpec;
+  }
+  /**
+   * @return GoogleCloudDataplexV1MetadataJobExportJobSpec
+   */
+  public function getExportSpec()
+  {
+    return $this->exportSpec;
   }
   /**
    * @param GoogleCloudDataplexV1MetadataJobImportJobResult

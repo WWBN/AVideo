@@ -17,8 +17,8 @@
 
 namespace Google\Service\DiscoveryEngine\Resource;
 
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1GenerateGroundedContentRequest;
-use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1GenerateGroundedContentResponse;
+use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1CmekConfig;
+use Google\Service\DiscoveryEngine\GoogleLongrunningOperation;
 
 /**
  * The "locations" collection of methods.
@@ -31,20 +31,44 @@ use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1GenerateGroundedC
 class ProjectsLocations extends \Google\Service\Resource
 {
   /**
-   * Generates grounded content. (locations.generateGroundedContent)
+   * Gets the CmekConfig. (locations.getCmekConfig)
    *
-   * @param string $location Required. Location resource. Format:
-   * `projects/{project}/locations/{location}`.
-   * @param GoogleCloudDiscoveryengineV1GenerateGroundedContentRequest $postBody
+   * @param string $name Required. Resource name of CmekConfig, such as
+   * `projects/locations/cmekConfig` or `projects/locations/cmekConfigs`. If the
+   * caller does not have permission to access the CmekConfig, regardless of
+   * whether or not it exists, a PERMISSION_DENIED error is returned.
    * @param array $optParams Optional parameters.
-   * @return GoogleCloudDiscoveryengineV1GenerateGroundedContentResponse
+   * @return GoogleCloudDiscoveryengineV1CmekConfig
    * @throws \Google\Service\Exception
    */
-  public function generateGroundedContent($location, GoogleCloudDiscoveryengineV1GenerateGroundedContentRequest $postBody, $optParams = [])
+  public function getCmekConfig($name, $optParams = [])
   {
-    $params = ['location' => $location, 'postBody' => $postBody];
+    $params = ['name' => $name];
     $params = array_merge($params, $optParams);
-    return $this->call('generateGroundedContent', [$params], GoogleCloudDiscoveryengineV1GenerateGroundedContentResponse::class);
+    return $this->call('getCmekConfig', [$params], GoogleCloudDiscoveryengineV1CmekConfig::class);
+  }
+  /**
+   * Provisions a CMEK key for use in a location of a customer's project. This
+   * method will also conduct location validation on the provided cmekConfig to
+   * make sure the key is valid and can be used in the selected location.
+   * (locations.updateCmekConfig)
+   *
+   * @param string $name Required. The name of the CmekConfig of the form
+   * `projects/{project}/locations/{location}/cmekConfig` or
+   * `projects/{project}/locations/{location}/cmekConfigs/{cmekConfig}`.
+   * @param GoogleCloudDiscoveryengineV1CmekConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool setDefault Set the following CmekConfig as the default to be
+   * used for child resources if one is not specified.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function updateCmekConfig($name, GoogleCloudDiscoveryengineV1CmekConfig $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateCmekConfig', [$params], GoogleLongrunningOperation::class);
   }
 }
 

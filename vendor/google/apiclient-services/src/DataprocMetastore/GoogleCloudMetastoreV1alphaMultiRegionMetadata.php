@@ -24,6 +24,14 @@ class GoogleCloudMetastoreV1alphaMultiRegionMetadata extends \Google\Collection
    * @var string[]
    */
   public $constituentRegions;
+  /**
+   * @var string
+   */
+  public $continent;
+  /**
+   * @var string
+   */
+  public $witnessRegion;
 
   /**
    * @param string[]
@@ -38,6 +46,34 @@ class GoogleCloudMetastoreV1alphaMultiRegionMetadata extends \Google\Collection
   public function getConstituentRegions()
   {
     return $this->constituentRegions;
+  }
+  /**
+   * @param string
+   */
+  public function setContinent($continent)
+  {
+    $this->continent = $continent;
+  }
+  /**
+   * @return string
+   */
+  public function getContinent()
+  {
+    return $this->continent;
+  }
+  /**
+   * @param string
+   */
+  public function setWitnessRegion($witnessRegion)
+  {
+    $this->witnessRegion = $witnessRegion;
+  }
+  /**
+   * @return string
+   */
+  public function getWitnessRegion()
+  {
+    return $this->witnessRegion;
   }
 }
 

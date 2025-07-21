@@ -19,6 +19,23 @@ namespace Google\Service\BigtableAdmin;
 
 class GoogleBigtableAdminV2TypeTimestamp extends \Google\Model
 {
+  protected $encodingType = GoogleBigtableAdminV2TypeTimestampEncoding::class;
+  protected $encodingDataType = '';
+
+  /**
+   * @param GoogleBigtableAdminV2TypeTimestampEncoding
+   */
+  public function setEncoding(GoogleBigtableAdminV2TypeTimestampEncoding $encoding)
+  {
+    $this->encoding = $encoding;
+  }
+  /**
+   * @return GoogleBigtableAdminV2TypeTimestampEncoding
+   */
+  public function getEncoding()
+  {
+    return $this->encoding;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

@@ -24,6 +24,8 @@ class ClusterUpdate extends \Google\Collection
   protected $additionalPodRangesConfigDataType = '';
   protected $desiredAddonsConfigType = AddonsConfig::class;
   protected $desiredAddonsConfigDataType = '';
+  protected $desiredAnonymousAuthenticationConfigType = AnonymousAuthenticationConfig::class;
+  protected $desiredAnonymousAuthenticationConfigDataType = '';
   protected $desiredAuthenticatorGroupsConfigType = AuthenticatorGroupsConfig::class;
   protected $desiredAuthenticatorGroupsConfigDataType = '';
   protected $desiredAutopilotWorkloadPolicyConfigType = WorkloadPolicyConfig::class;
@@ -150,6 +152,8 @@ class ClusterUpdate extends \Google\Collection
   protected $desiredNotificationConfigDataType = '';
   protected $desiredParentProductConfigType = ParentProductConfig::class;
   protected $desiredParentProductConfigDataType = '';
+  protected $desiredPodAutoscalingType = PodAutoscaling::class;
+  protected $desiredPodAutoscalingDataType = '';
   protected $desiredPrivateClusterConfigType = PrivateClusterConfig::class;
   protected $desiredPrivateClusterConfigDataType = '';
   /**
@@ -216,6 +220,20 @@ class ClusterUpdate extends \Google\Collection
   public function getDesiredAddonsConfig()
   {
     return $this->desiredAddonsConfig;
+  }
+  /**
+   * @param AnonymousAuthenticationConfig
+   */
+  public function setDesiredAnonymousAuthenticationConfig(AnonymousAuthenticationConfig $desiredAnonymousAuthenticationConfig)
+  {
+    $this->desiredAnonymousAuthenticationConfig = $desiredAnonymousAuthenticationConfig;
+  }
+  /**
+   * @return AnonymousAuthenticationConfig
+   */
+  public function getDesiredAnonymousAuthenticationConfig()
+  {
+    return $this->desiredAnonymousAuthenticationConfig;
   }
   /**
    * @param AuthenticatorGroupsConfig
@@ -888,6 +906,20 @@ class ClusterUpdate extends \Google\Collection
   public function getDesiredParentProductConfig()
   {
     return $this->desiredParentProductConfig;
+  }
+  /**
+   * @param PodAutoscaling
+   */
+  public function setDesiredPodAutoscaling(PodAutoscaling $desiredPodAutoscaling)
+  {
+    $this->desiredPodAutoscaling = $desiredPodAutoscaling;
+  }
+  /**
+   * @return PodAutoscaling
+   */
+  public function getDesiredPodAutoscaling()
+  {
+    return $this->desiredPodAutoscaling;
   }
   /**
    * @param PrivateClusterConfig

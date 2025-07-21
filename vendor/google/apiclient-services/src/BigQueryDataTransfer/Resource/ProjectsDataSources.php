@@ -36,9 +36,12 @@ class ProjectsDataSources extends \Google\Service\Resource
    * Returns true if valid credentials exist for the given data source and
    * requesting user. (dataSources.checkValidCreds)
    *
-   * @param string $name Required. The data source in the form:
-   * `projects/{project_id}/dataSources/{data_source_id}` or
-   * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}`.
+   * @param string $name Required. The name of the data source. If you are using
+   * the regionless method, the location must be `US` and the name should be in
+   * the following form: * `projects/{project_id}/dataSources/{data_source_id}` If
+   * you are using the regionalized method, the name should be in the following
+   * form: *
+   * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}`
    * @param CheckValidCredsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CheckValidCredsResponse
@@ -53,9 +56,11 @@ class ProjectsDataSources extends \Google\Service\Resource
   /**
    * Retrieves a supported data source and returns its settings. (dataSources.get)
    *
-   * @param string $name Required. The field will contain name of the resource
-   * requested, for example: `projects/{project_id}/dataSources/{data_source_id}`
-   * or
+   * @param string $name Required. The name of the resource requested. If you are
+   * using the regionless method, the location must be `US` and the name should be
+   * in the following form: * `projects/{project_id}/dataSources/{data_source_id}`
+   * If you are using the regionalized method, the name should be in the following
+   * form: *
    * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}`
    * @param array $optParams Optional parameters.
    * @return DataSource

@@ -78,6 +78,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * Service `projects/{project_id_or_number}/locations/{location}/services/{servi
    * ce}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locat
    * ions/{location}/jobs/{job}/executions/{execution}` for Execution
+   * {project_id_or_number} may contains domain-scoped project IDs
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRunV2Metadata
    * @throws \Google\Service\Exception

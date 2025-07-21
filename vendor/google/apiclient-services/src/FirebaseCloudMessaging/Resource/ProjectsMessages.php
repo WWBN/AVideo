@@ -36,8 +36,8 @@ class ProjectsMessages extends \Google\Service\Resource
    *
    * @param string $parent Required. It contains the Firebase project id (i.e. the
    * unique identifier for your Firebase project), in the format of
-   * `projects/{project_id}`. For legacy support, the numeric project number with
-   * no padding is also supported in the format of `projects/{project_number}`.
+   * `projects/{project_id}`. The numeric project number with no padding is also
+   * supported in the format of `projects/{project_number}`.
    * @param SendMessageRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Message

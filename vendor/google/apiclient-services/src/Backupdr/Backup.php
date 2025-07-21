@@ -42,6 +42,8 @@ class Backup extends \Google\Collection
    * @var string
    */
   public $description;
+  protected $diskBackupPropertiesType = DiskBackupProperties::class;
+  protected $diskBackupPropertiesDataType = '';
   /**
    * @var string
    */
@@ -184,6 +186,20 @@ class Backup extends \Google\Collection
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param DiskBackupProperties
+   */
+  public function setDiskBackupProperties(DiskBackupProperties $diskBackupProperties)
+  {
+    $this->diskBackupProperties = $diskBackupProperties;
+  }
+  /**
+   * @return DiskBackupProperties
+   */
+  public function getDiskBackupProperties()
+  {
+    return $this->diskBackupProperties;
   }
   /**
    * @param string

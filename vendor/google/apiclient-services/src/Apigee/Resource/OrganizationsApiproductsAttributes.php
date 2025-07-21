@@ -35,7 +35,11 @@ class OrganizationsApiproductsAttributes extends \Google\Service\Resource
    *
    * @param string $name Required. Name of the API product attribute. Use the
    * following structure in your request:
-   * `organizations/{org}/apiproducts/{apiproduct}/attributes/{attribute}`
+   * `organizations/{org}/apiproducts/{apiproduct}/attributes/{attribute}` If the
+   * API Product resource has the `space` attribute set, IAM permissions are
+   * checked against the Space resource path. To learn more, read the [Apigee
+   * Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attribute
    * @throws \Google\Service\Exception
@@ -51,7 +55,11 @@ class OrganizationsApiproductsAttributes extends \Google\Service\Resource
    *
    * @param string $name Required. Name of the API product attribute. Use the
    * following structure in your request:
-   * `organizations/{org}/apiproducts/{apiproduct}/attributes/{attribute}`
+   * `organizations/{org}/apiproducts/{apiproduct}/attributes/{attribute}` If the
+   * API Product resource has the `space` attribute set, IAM permissions are
+   * checked against the Space resource path. To learn more, read the [Apigee
+   * Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attribute
    * @throws \Google\Service\Exception
@@ -67,7 +75,11 @@ class OrganizationsApiproductsAttributes extends \Google\Service\Resource
    * (attributes.listOrganizationsApiproductsAttributes)
    *
    * @param string $parent Required. Name of the API product. Use the following
-   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}`
+   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If
+   * the API Product resource has the `space` attribute set, IAM permissions are
+   * checked against the Space resource path. To learn more, read the [Apigee
+   * Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attributes
    * @throws \Google\Service\Exception
@@ -88,7 +100,11 @@ class OrganizationsApiproductsAttributes extends \Google\Service\Resource
    * seconds. (attributes.updateApiProductAttribute)
    *
    * @param string $name Required. Name of the API product. Use the following
-   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}`
+   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If
+   * the API Product resource has the `space` attribute set, IAM permissions are
+   * checked against the Space resource path. To learn more, read the [Apigee
+   * Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param GoogleCloudApigeeV1Attribute $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attribute

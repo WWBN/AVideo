@@ -23,6 +23,8 @@ class ConvertRegionPricesResponse extends \Google\Model
   protected $convertedOtherRegionsPriceDataType = '';
   protected $convertedRegionPricesType = ConvertedRegionPrice::class;
   protected $convertedRegionPricesDataType = 'map';
+  protected $regionVersionType = RegionsVersion::class;
+  protected $regionVersionDataType = '';
 
   /**
    * @param ConvertedOtherRegionsPrice
@@ -51,6 +53,20 @@ class ConvertRegionPricesResponse extends \Google\Model
   public function getConvertedRegionPrices()
   {
     return $this->convertedRegionPrices;
+  }
+  /**
+   * @param RegionsVersion
+   */
+  public function setRegionVersion(RegionsVersion $regionVersion)
+  {
+    $this->regionVersion = $regionVersion;
+  }
+  /**
+   * @return RegionsVersion
+   */
+  public function getRegionVersion()
+  {
+    return $this->regionVersion;
   }
 }
 

@@ -62,6 +62,10 @@ class VmwareCluster extends \Google\Model
   /**
    * @var bool
    */
+  public $enableAdvancedCluster;
+  /**
+   * @var bool
+   */
   public $enableControlPlaneV2;
   /**
    * @var string
@@ -301,6 +305,20 @@ class VmwareCluster extends \Google\Model
   public function getDisableBundledIngress()
   {
     return $this->disableBundledIngress;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableAdvancedCluster($enableAdvancedCluster)
+  {
+    $this->enableAdvancedCluster = $enableAdvancedCluster;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableAdvancedCluster()
+  {
+    return $this->enableAdvancedCluster;
   }
   /**
    * @param bool

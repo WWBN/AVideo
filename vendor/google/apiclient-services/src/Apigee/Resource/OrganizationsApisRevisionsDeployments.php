@@ -35,7 +35,11 @@ class OrganizationsApisRevisionsDeployments extends \Google\Service\Resource
    *
    * @param string $parent Required. Name of the API proxy revision for which to
    * return deployment information in the following format:
-   * `organizations/{org}/apis/{api}/revisions/{rev}`.
+   * `organizations/{org}/apis/{api}/revisions/{rev}`. If the API proxy resource
+   * has the `space` attribute set, IAM permissions are checked differently . To
+   * learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ListDeploymentsResponse
    * @throws \Google\Service\Exception

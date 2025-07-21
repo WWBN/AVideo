@@ -167,7 +167,7 @@ class Liasettings extends \Google\Service\Resource
     return $this->call('requestinventoryverification', [$params], LiasettingsRequestInventoryVerificationResponse::class);
   }
   /**
-   * Sets the inventory verification contract for the specified country.
+   * Sets the inventory verification contact for the specified country.
    * (liasettings.setinventoryverificationcontact)
    *
    * @param string $merchantId The ID of the managing account. If this parameter

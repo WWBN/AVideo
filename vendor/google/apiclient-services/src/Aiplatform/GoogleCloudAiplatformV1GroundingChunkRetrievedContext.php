@@ -19,6 +19,8 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1GroundingChunkRetrievedContext extends \Google\Model
 {
+  protected $ragChunkType = GoogleCloudAiplatformV1RagChunk::class;
+  protected $ragChunkDataType = '';
   /**
    * @var string
    */
@@ -32,6 +34,20 @@ class GoogleCloudAiplatformV1GroundingChunkRetrievedContext extends \Google\Mode
    */
   public $uri;
 
+  /**
+   * @param GoogleCloudAiplatformV1RagChunk
+   */
+  public function setRagChunk(GoogleCloudAiplatformV1RagChunk $ragChunk)
+  {
+    $this->ragChunk = $ragChunk;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RagChunk
+   */
+  public function getRagChunk()
+  {
+    return $this->ragChunk;
+  }
   /**
    * @param string
    */

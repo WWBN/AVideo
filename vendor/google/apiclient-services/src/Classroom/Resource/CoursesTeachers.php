@@ -33,7 +33,8 @@ class CoursesTeachers extends \Google\Service\Resource
 {
   /**
    * Creates a teacher of a course. Domain administrators are permitted to
-   * [directly add](https://developers.google.com/classroom/guides/manage-users)
+   * [directly
+   * add](https://developers.google.com/workspace/classroom/guides/manage-users)
    * users within their domain as teachers to courses within their domain. Non-
    * admin users should send an Invitation instead. This method returns the
    * following error codes: * `PERMISSION_DENIED` if the requesting user is not

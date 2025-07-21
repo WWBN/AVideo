@@ -160,6 +160,9 @@ class ProjectsLocationsBackupPlansBackups extends \Google\Service\Resource
    * from a previous `ListBackups` call. Provide this to retrieve the subsequent
    * page in a multi-page list of results. When paginating, all other parameters
    * provided to `ListBackups` must match the call that provided the page token.
+   * @opt_param bool returnPartialSuccess Optional. If set to true, the response
+   * will return partial results when some regions are unreachable and the
+   * unreachable field will be populated.
    * @return ListBackupsResponse
    * @throws \Google\Service\Exception
    */

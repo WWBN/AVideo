@@ -17,16 +17,15 @@
 
 namespace Google\Service\MapsPlaces;
 
-class GoogleMapsPlacesV1ContentBlock extends \Google\Model
+class GoogleMapsPlacesV1ContentBlock extends \Google\Collection
 {
+  protected $collection_key = 'referencedPlaces';
   protected $contentType = GoogleTypeLocalizedText::class;
   protected $contentDataType = '';
-  protected $referencesType = GoogleMapsPlacesV1References::class;
-  protected $referencesDataType = '';
   /**
-   * @var string
+   * @var string[]
    */
-  public $topic;
+  public $referencedPlaces;
 
   /**
    * @param GoogleTypeLocalizedText
@@ -43,32 +42,18 @@ class GoogleMapsPlacesV1ContentBlock extends \Google\Model
     return $this->content;
   }
   /**
-   * @param GoogleMapsPlacesV1References
+   * @param string[]
    */
-  public function setReferences(GoogleMapsPlacesV1References $references)
+  public function setReferencedPlaces($referencedPlaces)
   {
-    $this->references = $references;
+    $this->referencedPlaces = $referencedPlaces;
   }
   /**
-   * @return GoogleMapsPlacesV1References
+   * @return string[]
    */
-  public function getReferences()
+  public function getReferencedPlaces()
   {
-    return $this->references;
-  }
-  /**
-   * @param string
-   */
-  public function setTopic($topic)
-  {
-    $this->topic = $topic;
-  }
-  /**
-   * @return string
-   */
-  public function getTopic()
-  {
-    return $this->topic;
+    return $this->referencedPlaces;
   }
 }
 

@@ -96,6 +96,8 @@ class ProjectsLocationsWorkstationClusters extends \Google\Service\Resource
    * @param string $parent Required. Parent resource name.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string filter Optional. Filter the WorkstationClusters to be
+   * listed. Possible filters are described in https://google.aip.dev/160.
    * @opt_param int pageSize Optional. Maximum number of items to return.
    * @opt_param string pageToken Optional. next_page_token value returned from a
    * previous List request, if any.

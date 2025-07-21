@@ -59,6 +59,10 @@ class CourseWork extends \Google\Collection
   /**
    * @var string
    */
+  public $gradingPeriodId;
+  /**
+   * @var string
+   */
   public $id;
   protected $individualStudentsOptionsType = IndividualStudentsOptions::class;
   protected $individualStudentsOptionsDataType = '';
@@ -249,6 +253,20 @@ class CourseWork extends \Google\Collection
   public function getGradeCategory()
   {
     return $this->gradeCategory;
+  }
+  /**
+   * @param string
+   */
+  public function setGradingPeriodId($gradingPeriodId)
+  {
+    $this->gradingPeriodId = $gradingPeriodId;
+  }
+  /**
+   * @return string
+   */
+  public function getGradingPeriodId()
+  {
+    return $this->gradingPeriodId;
   }
   /**
    * @param string

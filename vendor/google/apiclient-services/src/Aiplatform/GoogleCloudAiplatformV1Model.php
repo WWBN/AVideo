@@ -26,6 +26,8 @@ class GoogleCloudAiplatformV1Model extends \Google\Collection
   public $artifactUri;
   protected $baseModelSourceType = GoogleCloudAiplatformV1ModelBaseModelSource::class;
   protected $baseModelSourceDataType = '';
+  protected $checkpointsType = GoogleCloudAiplatformV1Checkpoint::class;
+  protected $checkpointsDataType = 'array';
   protected $containerSpecType = GoogleCloudAiplatformV1ModelContainerSpec::class;
   protected $containerSpecDataType = '';
   /**
@@ -164,6 +166,20 @@ class GoogleCloudAiplatformV1Model extends \Google\Collection
   public function getBaseModelSource()
   {
     return $this->baseModelSource;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1Checkpoint[]
+   */
+  public function setCheckpoints($checkpoints)
+  {
+    $this->checkpoints = $checkpoints;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1Checkpoint[]
+   */
+  public function getCheckpoints()
+  {
+    return $this->checkpoints;
   }
   /**
    * @param GoogleCloudAiplatformV1ModelContainerSpec

@@ -17,8 +17,9 @@
 
 namespace Google\Service\SecurityCommandCenter;
 
-class SecuritycenterFile extends \Google\Model
+class SecuritycenterFile extends \Google\Collection
 {
+  protected $collection_key = 'operations';
   /**
    * @var string
    */
@@ -29,6 +30,8 @@ class SecuritycenterFile extends \Google\Model
    * @var string
    */
   public $hashedSize;
+  protected $operationsType = FileOperation::class;
+  protected $operationsDataType = 'array';
   /**
    * @var bool
    */
@@ -87,6 +90,20 @@ class SecuritycenterFile extends \Google\Model
   public function getHashedSize()
   {
     return $this->hashedSize;
+  }
+  /**
+   * @param FileOperation[]
+   */
+  public function setOperations($operations)
+  {
+    $this->operations = $operations;
+  }
+  /**
+   * @return FileOperation[]
+   */
+  public function getOperations()
+  {
+    return $this->operations;
   }
   /**
    * @param bool

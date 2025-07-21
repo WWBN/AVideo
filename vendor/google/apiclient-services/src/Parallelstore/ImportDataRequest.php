@@ -21,6 +21,8 @@ class ImportDataRequest extends \Google\Model
 {
   protected $destinationParallelstoreType = DestinationParallelstore::class;
   protected $destinationParallelstoreDataType = '';
+  protected $metadataOptionsType = TransferMetadataOptions::class;
+  protected $metadataOptionsDataType = '';
   /**
    * @var string
    */
@@ -45,6 +47,20 @@ class ImportDataRequest extends \Google\Model
   public function getDestinationParallelstore()
   {
     return $this->destinationParallelstore;
+  }
+  /**
+   * @param TransferMetadataOptions
+   */
+  public function setMetadataOptions(TransferMetadataOptions $metadataOptions)
+  {
+    $this->metadataOptions = $metadataOptions;
+  }
+  /**
+   * @return TransferMetadataOptions
+   */
+  public function getMetadataOptions()
+  {
+    return $this->metadataOptions;
   }
   /**
    * @param string

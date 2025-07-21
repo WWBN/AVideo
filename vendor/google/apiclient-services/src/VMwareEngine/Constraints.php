@@ -17,8 +17,11 @@
 
 namespace Google\Service\VMwareEngine;
 
-class Constraints extends \Google\Model
+class Constraints extends \Google\Collection
 {
+  protected $collection_key = 'disallowedIntervals';
+  protected $disallowedIntervalsType = WeeklyTimeInterval::class;
+  protected $disallowedIntervalsDataType = 'array';
   /**
    * @var int
    */
@@ -30,6 +33,20 @@ class Constraints extends \Google\Model
   protected $rescheduleDateRangeType = Interval::class;
   protected $rescheduleDateRangeDataType = '';
 
+  /**
+   * @param WeeklyTimeInterval[]
+   */
+  public function setDisallowedIntervals($disallowedIntervals)
+  {
+    $this->disallowedIntervals = $disallowedIntervals;
+  }
+  /**
+   * @return WeeklyTimeInterval[]
+   */
+  public function getDisallowedIntervals()
+  {
+    return $this->disallowedIntervals;
+  }
   /**
    * @param int
    */

@@ -40,6 +40,10 @@ class GoogleCloudDiscoveryengineV1CmekConfig extends \Google\Collection
    * @var string
    */
   public $name;
+  /**
+   * @var string
+   */
+  public $notebooklmState;
   protected $singleRegionKeysType = GoogleCloudDiscoveryengineV1SingleRegionKey::class;
   protected $singleRegionKeysDataType = 'array';
   /**
@@ -116,6 +120,20 @@ class GoogleCloudDiscoveryengineV1CmekConfig extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setNotebooklmState($notebooklmState)
+  {
+    $this->notebooklmState = $notebooklmState;
+  }
+  /**
+   * @return string
+   */
+  public function getNotebooklmState()
+  {
+    return $this->notebooklmState;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1SingleRegionKey[]

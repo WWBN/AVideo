@@ -37,12 +37,20 @@ class CloudExadataInfrastructureProperties extends \Google\Collection
    */
   public $computeCount;
   /**
+   * @var string
+   */
+  public $computeModel;
+  /**
    * @var int
    */
   public $cpuCount;
   protected $customerContactsType = CustomerContact::class;
   protected $customerContactsDataType = 'array';
   public $dataStorageSizeTb;
+  /**
+   * @var string
+   */
+  public $databaseServerType;
   /**
    * @var int
    */
@@ -113,6 +121,10 @@ class CloudExadataInfrastructureProperties extends \Google\Collection
   /**
    * @var string
    */
+  public $storageServerType;
+  /**
+   * @var string
+   */
   public $storageServerVersion;
   /**
    * @var int
@@ -176,6 +188,20 @@ class CloudExadataInfrastructureProperties extends \Google\Collection
     return $this->computeCount;
   }
   /**
+   * @param string
+   */
+  public function setComputeModel($computeModel)
+  {
+    $this->computeModel = $computeModel;
+  }
+  /**
+   * @return string
+   */
+  public function getComputeModel()
+  {
+    return $this->computeModel;
+  }
+  /**
    * @param int
    */
   public function setCpuCount($cpuCount)
@@ -210,6 +236,20 @@ class CloudExadataInfrastructureProperties extends \Google\Collection
   public function getDataStorageSizeTb()
   {
     return $this->dataStorageSizeTb;
+  }
+  /**
+   * @param string
+   */
+  public function setDatabaseServerType($databaseServerType)
+  {
+    $this->databaseServerType = $databaseServerType;
+  }
+  /**
+   * @return string
+   */
+  public function getDatabaseServerType()
+  {
+    return $this->databaseServerType;
   }
   /**
    * @param int
@@ -456,6 +496,20 @@ class CloudExadataInfrastructureProperties extends \Google\Collection
   public function getStorageCount()
   {
     return $this->storageCount;
+  }
+  /**
+   * @param string
+   */
+  public function setStorageServerType($storageServerType)
+  {
+    $this->storageServerType = $storageServerType;
+  }
+  /**
+   * @return string
+   */
+  public function getStorageServerType()
+  {
+    return $this->storageServerType;
   }
   /**
    * @param string

@@ -33,10 +33,13 @@ class ProjectsTransferConfigsRunsTransferLogs extends \Google\Service\Resource
    * Returns log messages for the transfer run.
    * (transferLogs.listProjectsTransferConfigsRunsTransferLogs)
    *
-   * @param string $parent Required. Transfer run name in the form:
-   * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` or `project
-   * s/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_
-   * id}`
+   * @param string $parent Required. Transfer run name. If you are using the
+   * regionless method, the location must be `US` and the name should be in the
+   * following form: *
+   * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are
+   * using the regionalized method, the name should be in the following form: * `p
+   * rojects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs
+   * /{run_id}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string messageTypes Message types to return. If not populated -

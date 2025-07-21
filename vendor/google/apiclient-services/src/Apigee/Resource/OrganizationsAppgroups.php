@@ -53,9 +53,9 @@ class OrganizationsAppgroups extends \Google\Service\Resource
    * Deletes an AppGroup. All app and API keys associations with the AppGroup are
    * also removed. **Warning**: This API will permanently delete the AppGroup and
    * related artifacts. **Note**: The delete operation is asynchronous. The
-   * AppGroup app is deleted immediately, but its associated resources, such as
-   * apps and API keys, may take anywhere from a few seconds to a few minutes to
-   * be deleted. (appgroups.delete)
+   * AppGroup is deleted immediately, but its associated resources, such as apps
+   * and API keys, may take anywhere from a few seconds to a few minutes to be
+   * deleted. (appgroups.delete)
    *
    * @param string $name Required. Name of the AppGroup. Use the following
    * structure in your request: `organizations/{org}/appgroups/{app_group_name}`

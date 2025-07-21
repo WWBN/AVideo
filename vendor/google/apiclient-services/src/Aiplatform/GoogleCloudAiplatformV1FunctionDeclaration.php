@@ -29,8 +29,16 @@ class GoogleCloudAiplatformV1FunctionDeclaration extends \Google\Model
   public $name;
   protected $parametersType = GoogleCloudAiplatformV1Schema::class;
   protected $parametersDataType = '';
+  /**
+   * @var array
+   */
+  public $parametersJsonSchema;
   protected $responseType = GoogleCloudAiplatformV1Schema::class;
   protected $responseDataType = '';
+  /**
+   * @var array
+   */
+  public $responseJsonSchema;
 
   /**
    * @param string
@@ -75,6 +83,20 @@ class GoogleCloudAiplatformV1FunctionDeclaration extends \Google\Model
     return $this->parameters;
   }
   /**
+   * @param array
+   */
+  public function setParametersJsonSchema($parametersJsonSchema)
+  {
+    $this->parametersJsonSchema = $parametersJsonSchema;
+  }
+  /**
+   * @return array
+   */
+  public function getParametersJsonSchema()
+  {
+    return $this->parametersJsonSchema;
+  }
+  /**
    * @param GoogleCloudAiplatformV1Schema
    */
   public function setResponse(GoogleCloudAiplatformV1Schema $response)
@@ -87,6 +109,20 @@ class GoogleCloudAiplatformV1FunctionDeclaration extends \Google\Model
   public function getResponse()
   {
     return $this->response;
+  }
+  /**
+   * @param array
+   */
+  public function setResponseJsonSchema($responseJsonSchema)
+  {
+    $this->responseJsonSchema = $responseJsonSchema;
+  }
+  /**
+   * @return array
+   */
+  public function getResponseJsonSchema()
+  {
+    return $this->responseJsonSchema;
   }
 }
 

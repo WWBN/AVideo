@@ -19,11 +19,29 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1betaDedicatedCrawlRateTimeSeries extends \Google\Model
 {
+  protected $autoRefreshCrawlErrorRateType = GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries::class;
+  protected $autoRefreshCrawlErrorRateDataType = '';
   protected $autoRefreshCrawlRateType = GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries::class;
   protected $autoRefreshCrawlRateDataType = '';
+  protected $userTriggeredCrawlErrorRateType = GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries::class;
+  protected $userTriggeredCrawlErrorRateDataType = '';
   protected $userTriggeredCrawlRateType = GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries::class;
   protected $userTriggeredCrawlRateDataType = '';
 
+  /**
+   * @param GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries
+   */
+  public function setAutoRefreshCrawlErrorRate(GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries $autoRefreshCrawlErrorRate)
+  {
+    $this->autoRefreshCrawlErrorRate = $autoRefreshCrawlErrorRate;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries
+   */
+  public function getAutoRefreshCrawlErrorRate()
+  {
+    return $this->autoRefreshCrawlErrorRate;
+  }
   /**
    * @param GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries
    */
@@ -37,6 +55,20 @@ class GoogleCloudDiscoveryengineV1betaDedicatedCrawlRateTimeSeries extends \Goog
   public function getAutoRefreshCrawlRate()
   {
     return $this->autoRefreshCrawlRate;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries
+   */
+  public function setUserTriggeredCrawlErrorRate(GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries $userTriggeredCrawlErrorRate)
+  {
+    $this->userTriggeredCrawlErrorRate = $userTriggeredCrawlErrorRate;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries
+   */
+  public function getUserTriggeredCrawlErrorRate()
+  {
+    return $this->userTriggeredCrawlErrorRate;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries

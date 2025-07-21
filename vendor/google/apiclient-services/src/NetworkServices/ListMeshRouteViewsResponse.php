@@ -19,13 +19,17 @@ namespace Google\Service\NetworkServices;
 
 class ListMeshRouteViewsResponse extends \Google\Collection
 {
-  protected $collection_key = 'meshRouteViews';
+  protected $collection_key = 'unreachable';
   protected $meshRouteViewsType = MeshRouteView::class;
   protected $meshRouteViewsDataType = 'array';
   /**
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param MeshRouteView[]
@@ -54,6 +58,20 @@ class ListMeshRouteViewsResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

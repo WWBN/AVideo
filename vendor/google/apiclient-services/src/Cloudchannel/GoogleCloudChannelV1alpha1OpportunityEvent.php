@@ -27,6 +27,10 @@ class GoogleCloudChannelV1alpha1OpportunityEvent extends \Google\Model
    * @var string
    */
   public $opportunity;
+  /**
+   * @var string
+   */
+  public $partner;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class GoogleCloudChannelV1alpha1OpportunityEvent extends \Google\Model
   public function getOpportunity()
   {
     return $this->opportunity;
+  }
+  /**
+   * @param string
+   */
+  public function setPartner($partner)
+  {
+    $this->partner = $partner;
+  }
+  /**
+   * @return string
+   */
+  public function getPartner()
+  {
+    return $this->partner;
   }
 }
 

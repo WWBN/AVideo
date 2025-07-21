@@ -29,6 +29,10 @@ class CloudVmClusterProperties extends \Google\Collection
    */
   public $compartmentId;
   /**
+   * @var string
+   */
+  public $computeModel;
+  /**
    * @var int
    */
   public $cpuCoreCount;
@@ -169,6 +173,20 @@ class CloudVmClusterProperties extends \Google\Collection
   public function getCompartmentId()
   {
     return $this->compartmentId;
+  }
+  /**
+   * @param string
+   */
+  public function setComputeModel($computeModel)
+  {
+    $this->computeModel = $computeModel;
+  }
+  /**
+   * @return string
+   */
+  public function getComputeModel()
+  {
+    return $this->computeModel;
   }
   /**
    * @param int

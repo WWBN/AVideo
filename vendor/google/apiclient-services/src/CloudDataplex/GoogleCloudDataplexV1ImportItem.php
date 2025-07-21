@@ -26,6 +26,8 @@ class GoogleCloudDataplexV1ImportItem extends \Google\Collection
   public $aspectKeys;
   protected $entryType = GoogleCloudDataplexV1Entry::class;
   protected $entryDataType = '';
+  protected $entryLinkType = GoogleCloudDataplexV1EntryLink::class;
+  protected $entryLinkDataType = '';
   /**
    * @var string
    */
@@ -58,6 +60,20 @@ class GoogleCloudDataplexV1ImportItem extends \Google\Collection
   public function getEntry()
   {
     return $this->entry;
+  }
+  /**
+   * @param GoogleCloudDataplexV1EntryLink
+   */
+  public function setEntryLink(GoogleCloudDataplexV1EntryLink $entryLink)
+  {
+    $this->entryLink = $entryLink;
+  }
+  /**
+   * @return GoogleCloudDataplexV1EntryLink
+   */
+  public function getEntryLink()
+  {
+    return $this->entryLink;
   }
   /**
    * @param string

@@ -32,7 +32,8 @@ class Apps extends \Google\Service\Resource
 {
   /**
    * Gets a specific app. For more information, see [Return user
-   * info](https://developers.google.com/drive/api/guides/user-info). (apps.get)
+   * info](https://developers.google.com/workspace/drive/api/guides/user-info).
+   * (apps.get)
    *
    * @param string $appId The ID of the app.
    * @param array $optParams Optional parameters.
@@ -47,7 +48,7 @@ class Apps extends \Google\Service\Resource
   }
   /**
    * Lists a user's installed apps. For more information, see [Return user
-   * info](https://developers.google.com/drive/api/guides/user-info).
+   * info](https://developers.google.com/workspace/drive/api/guides/user-info).
    * (apps.listApps)
    *
    * @param array $optParams Optional parameters.

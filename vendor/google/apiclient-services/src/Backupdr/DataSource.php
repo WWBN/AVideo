@@ -19,6 +19,10 @@ namespace Google\Service\Backupdr;
 
 class DataSource extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $backupBlockedByVaultAccessRestriction;
   protected $backupConfigInfoType = BackupConfigInfo::class;
   protected $backupConfigInfoDataType = '';
   /**
@@ -62,6 +66,20 @@ class DataSource extends \Google\Model
    */
   public $updateTime;
 
+  /**
+   * @param bool
+   */
+  public function setBackupBlockedByVaultAccessRestriction($backupBlockedByVaultAccessRestriction)
+  {
+    $this->backupBlockedByVaultAccessRestriction = $backupBlockedByVaultAccessRestriction;
+  }
+  /**
+   * @return bool
+   */
+  public function getBackupBlockedByVaultAccessRestriction()
+  {
+    return $this->backupBlockedByVaultAccessRestriction;
+  }
   /**
    * @param BackupConfigInfo
    */

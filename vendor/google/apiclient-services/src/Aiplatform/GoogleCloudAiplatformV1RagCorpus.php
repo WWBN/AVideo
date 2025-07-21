@@ -43,6 +43,8 @@ class GoogleCloudAiplatformV1RagCorpus extends \Google\Model
   public $updateTime;
   protected $vectorDbConfigType = GoogleCloudAiplatformV1RagVectorDbConfig::class;
   protected $vectorDbConfigDataType = '';
+  protected $vertexAiSearchConfigType = GoogleCloudAiplatformV1VertexAiSearchConfig::class;
+  protected $vertexAiSearchConfigDataType = '';
 
   /**
    * @param GoogleCloudAiplatformV1CorpusStatus
@@ -141,6 +143,20 @@ class GoogleCloudAiplatformV1RagCorpus extends \Google\Model
   public function getVectorDbConfig()
   {
     return $this->vectorDbConfig;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1VertexAiSearchConfig
+   */
+  public function setVertexAiSearchConfig(GoogleCloudAiplatformV1VertexAiSearchConfig $vertexAiSearchConfig)
+  {
+    $this->vertexAiSearchConfig = $vertexAiSearchConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1VertexAiSearchConfig
+   */
+  public function getVertexAiSearchConfig()
+  {
+    return $this->vertexAiSearchConfig;
   }
 }
 

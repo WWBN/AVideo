@@ -35,7 +35,11 @@ class OrganizationsEnvironmentsApisDeployments extends \Google\Service\Resource
    *
    * @param string $parent Required. Name representing an API proxy in an
    * environment in the following format:
-   * `organizations/{org}/environments/{env}/apis/{api}`
+   * `organizations/{org}/environments/{env}/apis/{api}` If the API proxy resource
+   * has the `space` attribute set, IAM permissions are checked differently . To
+   * learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ListDeploymentsResponse
    * @throws \Google\Service\Exception

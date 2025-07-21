@@ -21,12 +21,32 @@ class GoogleCloudAiplatformV1ReasoningEngineSpec extends \Google\Collection
 {
   protected $collection_key = 'classMethods';
   /**
+   * @var string
+   */
+  public $agentFramework;
+  /**
    * @var array[]
    */
   public $classMethods;
+  protected $deploymentSpecType = GoogleCloudAiplatformV1ReasoningEngineSpecDeploymentSpec::class;
+  protected $deploymentSpecDataType = '';
   protected $packageSpecType = GoogleCloudAiplatformV1ReasoningEngineSpecPackageSpec::class;
   protected $packageSpecDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setAgentFramework($agentFramework)
+  {
+    $this->agentFramework = $agentFramework;
+  }
+  /**
+   * @return string
+   */
+  public function getAgentFramework()
+  {
+    return $this->agentFramework;
+  }
   /**
    * @param array[]
    */
@@ -40,6 +60,20 @@ class GoogleCloudAiplatformV1ReasoningEngineSpec extends \Google\Collection
   public function getClassMethods()
   {
     return $this->classMethods;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1ReasoningEngineSpecDeploymentSpec
+   */
+  public function setDeploymentSpec(GoogleCloudAiplatformV1ReasoningEngineSpecDeploymentSpec $deploymentSpec)
+  {
+    $this->deploymentSpec = $deploymentSpec;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1ReasoningEngineSpecDeploymentSpec
+   */
+  public function getDeploymentSpec()
+  {
+    return $this->deploymentSpec;
   }
   /**
    * @param GoogleCloudAiplatformV1ReasoningEngineSpecPackageSpec

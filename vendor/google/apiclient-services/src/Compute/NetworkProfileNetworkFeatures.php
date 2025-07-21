@@ -19,7 +19,7 @@ namespace Google\Service\Compute;
 
 class NetworkProfileNetworkFeatures extends \Google\Collection
 {
-  protected $collection_key = 'subnetStackTypes';
+  protected $collection_key = 'subnetworkStackTypes';
   /**
    * @var string[]
    */
@@ -47,6 +47,10 @@ class NetworkProfileNetworkFeatures extends \Google\Collection
   /**
    * @var string
    */
+  public $allowDefaultNicAttachment;
+  /**
+   * @var string
+   */
   public $allowExternalIpAccess;
   /**
    * @var string
@@ -55,11 +59,23 @@ class NetworkProfileNetworkFeatures extends \Google\Collection
   /**
    * @var string
    */
+  public $allowIpForwarding;
+  /**
+   * @var string
+   */
   public $allowLoadBalancing;
   /**
    * @var string
    */
   public $allowMultiNicInSameNetwork;
+  /**
+   * @var string
+   */
+  public $allowNcc;
+  /**
+   * @var string
+   */
+  public $allowNetworkMigration;
   /**
    * @var string
    */
@@ -104,6 +120,14 @@ class NetworkProfileNetworkFeatures extends \Google\Collection
    * @var string[]
    */
   public $subnetStackTypes;
+  /**
+   * @var string[]
+   */
+  public $subnetworkPurposes;
+  /**
+   * @var string[]
+   */
+  public $subnetworkStackTypes;
   /**
    * @var string
    */
@@ -196,6 +220,20 @@ class NetworkProfileNetworkFeatures extends \Google\Collection
   /**
    * @param string
    */
+  public function setAllowDefaultNicAttachment($allowDefaultNicAttachment)
+  {
+    $this->allowDefaultNicAttachment = $allowDefaultNicAttachment;
+  }
+  /**
+   * @return string
+   */
+  public function getAllowDefaultNicAttachment()
+  {
+    return $this->allowDefaultNicAttachment;
+  }
+  /**
+   * @param string
+   */
   public function setAllowExternalIpAccess($allowExternalIpAccess)
   {
     $this->allowExternalIpAccess = $allowExternalIpAccess;
@@ -224,6 +262,20 @@ class NetworkProfileNetworkFeatures extends \Google\Collection
   /**
    * @param string
    */
+  public function setAllowIpForwarding($allowIpForwarding)
+  {
+    $this->allowIpForwarding = $allowIpForwarding;
+  }
+  /**
+   * @return string
+   */
+  public function getAllowIpForwarding()
+  {
+    return $this->allowIpForwarding;
+  }
+  /**
+   * @param string
+   */
   public function setAllowLoadBalancing($allowLoadBalancing)
   {
     $this->allowLoadBalancing = $allowLoadBalancing;
@@ -248,6 +300,34 @@ class NetworkProfileNetworkFeatures extends \Google\Collection
   public function getAllowMultiNicInSameNetwork()
   {
     return $this->allowMultiNicInSameNetwork;
+  }
+  /**
+   * @param string
+   */
+  public function setAllowNcc($allowNcc)
+  {
+    $this->allowNcc = $allowNcc;
+  }
+  /**
+   * @return string
+   */
+  public function getAllowNcc()
+  {
+    return $this->allowNcc;
+  }
+  /**
+   * @param string
+   */
+  public function setAllowNetworkMigration($allowNetworkMigration)
+  {
+    $this->allowNetworkMigration = $allowNetworkMigration;
+  }
+  /**
+   * @return string
+   */
+  public function getAllowNetworkMigration()
+  {
+    return $this->allowNetworkMigration;
   }
   /**
    * @param string
@@ -402,6 +482,34 @@ class NetworkProfileNetworkFeatures extends \Google\Collection
   public function getSubnetStackTypes()
   {
     return $this->subnetStackTypes;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSubnetworkPurposes($subnetworkPurposes)
+  {
+    $this->subnetworkPurposes = $subnetworkPurposes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSubnetworkPurposes()
+  {
+    return $this->subnetworkPurposes;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSubnetworkStackTypes($subnetworkStackTypes)
+  {
+    $this->subnetworkStackTypes = $subnetworkStackTypes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSubnetworkStackTypes()
+  {
+    return $this->subnetworkStackTypes;
   }
   /**
    * @param string

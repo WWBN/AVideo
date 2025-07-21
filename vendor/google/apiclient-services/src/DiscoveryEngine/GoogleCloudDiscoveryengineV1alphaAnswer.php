@@ -28,6 +28,8 @@ class GoogleCloudDiscoveryengineV1alphaAnswer extends \Google\Collection
    * @var string
    */
   public $answerText;
+  protected $blobAttachmentsType = GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachment::class;
+  protected $blobAttachmentsDataType = 'array';
   protected $citationsType = GoogleCloudDiscoveryengineV1alphaAnswerCitation::class;
   protected $citationsDataType = 'array';
   /**
@@ -89,6 +91,20 @@ class GoogleCloudDiscoveryengineV1alphaAnswer extends \Google\Collection
   public function getAnswerText()
   {
     return $this->answerText;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachment[]
+   */
+  public function setBlobAttachments($blobAttachments)
+  {
+    $this->blobAttachments = $blobAttachments;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachment[]
+   */
+  public function getBlobAttachments()
+  {
+    return $this->blobAttachments;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1alphaAnswerCitation[]

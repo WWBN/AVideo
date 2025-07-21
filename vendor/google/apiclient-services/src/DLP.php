@@ -49,6 +49,7 @@ class DLP extends \Google\Service
   public $organizations_locations_discoveryConfigs;
   public $organizations_locations_dlpJobs;
   public $organizations_locations_fileStoreDataProfiles;
+  public $organizations_locations_infoTypes;
   public $organizations_locations_inspectTemplates;
   public $organizations_locations_jobTriggers;
   public $organizations_locations_projectDataProfiles;
@@ -69,6 +70,7 @@ class DLP extends \Google\Service
   public $projects_locations_dlpJobs;
   public $projects_locations_fileStoreDataProfiles;
   public $projects_locations_image;
+  public $projects_locations_infoTypes;
   public $projects_locations_inspectTemplates;
   public $projects_locations_jobTriggers;
   public $projects_locations_projectDataProfiles;
@@ -689,6 +691,38 @@ class DLP extends \Google\Service
                   'type' => 'integer',
                 ],
                 'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->organizations_locations_infoTypes = new DLP\Resource\OrganizationsLocationsInfoTypes(
+        $this,
+        $this->serviceName,
+        'infoTypes',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2/{+parent}/infoTypes',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'locationId' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -2003,6 +2037,38 @@ class DLP extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_infoTypes = new DLP\Resource\ProjectsLocationsInfoTypes(
+        $this,
+        $this->serviceName,
+        'infoTypes',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2/{+parent}/infoTypes',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'locationId' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

@@ -23,6 +23,10 @@ class Statement extends \Google\Model
    * @var string
    */
   public $relation;
+  /**
+   * @var array[]
+   */
+  public $relationExtensions;
   protected $sourceType = Asset::class;
   protected $sourceDataType = '';
   protected $targetType = Asset::class;
@@ -41,6 +45,20 @@ class Statement extends \Google\Model
   public function getRelation()
   {
     return $this->relation;
+  }
+  /**
+   * @param array[]
+   */
+  public function setRelationExtensions($relationExtensions)
+  {
+    $this->relationExtensions = $relationExtensions;
+  }
+  /**
+   * @return array[]
+   */
+  public function getRelationExtensions()
+  {
+    return $this->relationExtensions;
   }
   /**
    * @param Asset

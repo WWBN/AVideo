@@ -33,8 +33,7 @@ use Google\Service\ServiceControl\ReportResponse;
 class Services extends \Google\Service\Resource
 {
   /**
-   * Private Preview. This feature is only available for approved services. This
-   * method provides admission control for services that are integrated with
+   * This method provides admission control for services that are integrated with
    * [Service Infrastructure](https://cloud.google.com/service-infrastructure). It
    * checks whether an operation should be allowed based on the service
    * configuration and relevant policies. It must be called before the operation
@@ -67,12 +66,11 @@ class Services extends \Google\Service\Resource
     return $this->call('check', [$params], CheckResponse::class);
   }
   /**
-   * Private Preview. This feature is only available for approved services. This
-   * method provides telemetry reporting for services that are integrated with
-   * [Service Infrastructure](https://cloud.google.com/service-infrastructure). It
-   * reports a list of operations that have occurred on a service. It must be
-   * called after the operations have been executed. For more information, see
-   * [Telemetry Reporting](https://cloud.google.com/service-
+   * This method provides telemetry reporting for services that are integrated
+   * with [Service Infrastructure](https://cloud.google.com/service-
+   * infrastructure). It reports a list of operations that have occurred on a
+   * service. It must be called after the operations have been executed. For more
+   * information, see [Telemetry Reporting](https://cloud.google.com/service-
    * infrastructure/docs/telemetry-reporting). NOTE: The telemetry reporting has a
    * hard limit of 1000 operations and 1MB per Report call. It is recommended to
    * have no more than 100 operations per call. This method requires the

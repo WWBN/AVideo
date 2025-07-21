@@ -19,6 +19,8 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1Fact extends \Google\Model
 {
+  protected $chunkType = GoogleCloudAiplatformV1RagChunk::class;
+  protected $chunkDataType = '';
   /**
    * @var string
    */
@@ -38,6 +40,20 @@ class GoogleCloudAiplatformV1Fact extends \Google\Model
   public $uri;
   public $vectorDistance;
 
+  /**
+   * @param GoogleCloudAiplatformV1RagChunk
+   */
+  public function setChunk(GoogleCloudAiplatformV1RagChunk $chunk)
+  {
+    $this->chunk = $chunk;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RagChunk
+   */
+  public function getChunk()
+  {
+    return $this->chunk;
+  }
   /**
    * @param string
    */

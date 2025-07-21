@@ -23,6 +23,10 @@ class MachineConfig extends \Google\Model
    * @var int
    */
   public $cpuCount;
+  /**
+   * @var string
+   */
+  public $machineType;
 
   /**
    * @param int
@@ -37,6 +41,20 @@ class MachineConfig extends \Google\Model
   public function getCpuCount()
   {
     return $this->cpuCount;
+  }
+  /**
+   * @param string
+   */
+  public function setMachineType($machineType)
+  {
+    $this->machineType = $machineType;
+  }
+  /**
+   * @return string
+   */
+  public function getMachineType()
+  {
+    return $this->machineType;
   }
 }
 

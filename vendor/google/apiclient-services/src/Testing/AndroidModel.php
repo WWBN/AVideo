@@ -21,6 +21,10 @@ class AndroidModel extends \Google\Collection
 {
   protected $collection_key = 'tags';
   /**
+   * @var string[]
+   */
+  public $accessDeniedReasons;
+  /**
    * @var string
    */
   public $brand;
@@ -85,6 +89,20 @@ class AndroidModel extends \Google\Collection
    */
   public $thumbnailUrl;
 
+  /**
+   * @param string[]
+   */
+  public function setAccessDeniedReasons($accessDeniedReasons)
+  {
+    $this->accessDeniedReasons = $accessDeniedReasons;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAccessDeniedReasons()
+  {
+    return $this->accessDeniedReasons;
+  }
   /**
    * @param string
    */

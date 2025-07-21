@@ -20,7 +20,11 @@ namespace Google\Service\BigQueryReservation\Resource;
 use Google\Service\BigQueryReservation\BigqueryreservationEmpty;
 use Google\Service\BigQueryReservation\FailoverReservationRequest;
 use Google\Service\BigQueryReservation\ListReservationsResponse;
+use Google\Service\BigQueryReservation\Policy;
 use Google\Service\BigQueryReservation\Reservation;
+use Google\Service\BigQueryReservation\SetIamPolicyRequest;
+use Google\Service\BigQueryReservation\TestIamPermissionsRequest;
+use Google\Service\BigQueryReservation\TestIamPermissionsResponse;
 
 /**
  * The "reservations" collection of methods.
@@ -104,6 +108,42 @@ class ProjectsLocationsReservations extends \Google\Service\Resource
     return $this->call('get', [$params], Reservation::class);
   }
   /**
+   * Gets the access control policy for a resource. May return: * A`NOT_FOUND`
+   * error if the resource doesn't exist or you don't have the permission to view
+   * it. * An empty policy if the resource exists but doesn't have a set policy.
+   * Supported resources are: - Reservations - ReservationAssignments To call this
+   * method, you must have the following Google IAM permissions: -
+   * `bigqueryreservation.reservations.getIamPolicy` to get policies on
+   * reservations. (reservations.getIamPolicy)
+   *
+   * @param string $resource REQUIRED: The resource for which the policy is being
+   * requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int options.requestedPolicyVersion Optional. The maximum policy
+   * version that will be used to format the policy. Valid values are 0, 1, and 3.
+   * Requests specifying an invalid value will be rejected. Requests for policies
+   * with any conditional role bindings must specify version 3. Policies with no
+   * conditional role bindings may specify any valid value or leave the field
+   * unset. The policy in the response might use the policy version that you
+   * specified, or it might use a lower policy version. For example, if you
+   * specify version 3, but the policy has no conditional role bindings, the
+   * response uses version 1. To learn which resources support conditions in their
+   * IAM policies, see the [IAM
+   * documentation](https://cloud.google.com/iam/help/conditions/resource-
+   * policies).
+   * @return Policy
+   * @throws \Google\Service\Exception
+   */
+  public function getIamPolicy($resource, $optParams = [])
+  {
+    $params = ['resource' => $resource];
+    $params = array_merge($params, $optParams);
+    return $this->call('getIamPolicy', [$params], Policy::class);
+  }
+  /**
    * Lists all the reservations for the project in the specified location.
    * (reservations.listProjectsLocationsReservations)
    *
@@ -126,7 +166,7 @@ class ProjectsLocationsReservations extends \Google\Service\Resource
   /**
    * Updates an existing reservation resource. (reservations.patch)
    *
-   * @param string $name The resource name of the reservation, e.g.,
+   * @param string $name Identifier. The resource name of the reservation, e.g.,
    * `projects/locations/reservations/team1-prod`. The reservation_id must only
    * contain lower case alphanumeric characters or dashes. It must start with a
    * letter and must not end with a dash. Its maximum length is 64 characters.
@@ -143,6 +183,49 @@ class ProjectsLocationsReservations extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Reservation::class);
+  }
+  /**
+   * Sets an access control policy for a resource. Replaces any existing policy.
+   * Supported resources are: - Reservations To call this method, you must have
+   * the following Google IAM permissions: -
+   * `bigqueryreservation.reservations.setIamPolicy` to set policies on
+   * reservations. (reservations.setIamPolicy)
+   *
+   * @param string $resource REQUIRED: The resource for which the policy is being
+   * specified. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
+   * @param SetIamPolicyRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Policy
+   * @throws \Google\Service\Exception
+   */
+  public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
+  {
+    $params = ['resource' => $resource, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('setIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Gets your permissions on a resource. Returns an empty set of permissions if
+   * the resource doesn't exist. Supported resources are: - Reservations No Google
+   * IAM permissions are required to call this method.
+   * (reservations.testIamPermissions)
+   *
+   * @param string $resource REQUIRED: The resource for which the policy detail is
+   * being requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
+   * @param TestIamPermissionsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
+  {
+    $params = ['resource' => $resource, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('testIamPermissions', [$params], TestIamPermissionsResponse::class);
   }
 }
 

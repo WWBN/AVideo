@@ -36,7 +36,14 @@ class SpacesMessagesReactions extends \Google\Service\Resource
    * reaction to a message](https://developers.google.com/workspace/chat/create-
    * reactions). Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (reactions.create)
+   * authorize-chat-user) with one of the following [authorization
+   * scopes](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes): -
+   * `https://www.googleapis.com/auth/chat.messages.reactions.create` -
+   * `https://www.googleapis.com/auth/chat.messages.reactions` -
+   * `https://www.googleapis.com/auth/chat.messages` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only)
+   * (reactions.create)
    *
    * @param string $parent Required. The message where the reaction is created.
    * Format: `spaces/{space}/messages/{message}`
@@ -56,7 +63,13 @@ class SpacesMessagesReactions extends \Google\Service\Resource
    * reaction](https://developers.google.com/workspace/chat/delete-reactions).
    * Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (reactions.delete)
+   * authorize-chat-user) with one of the following [authorization
+   * scopes](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes): -
+   * `https://www.googleapis.com/auth/chat.messages.reactions` -
+   * `https://www.googleapis.com/auth/chat.messages` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only)
+   * (reactions.delete)
    *
    * @param string $name Required. Name of the reaction to delete. Format:
    * `spaces/{space}/messages/{message}/reactions/{reaction}`
@@ -75,7 +88,14 @@ class SpacesMessagesReactions extends \Google\Service\Resource
    * message](https://developers.google.com/workspace/chat/list-reactions).
    * Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (reactions.listSpacesMessagesReactions)
+   * authorize-chat-user) with one of the following [authorization
+   * scopes](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes): -
+   * `https://www.googleapis.com/auth/chat.messages.reactions.readonly` -
+   * `https://www.googleapis.com/auth/chat.messages.reactions` -
+   * `https://www.googleapis.com/auth/chat.messages.readonly` -
+   * `https://www.googleapis.com/auth/chat.messages`
+   * (reactions.listSpacesMessagesReactions)
    *
    * @param string $parent Required. The message users reacted to. Format:
    * `spaces/{space}/messages/{message}`
@@ -100,8 +120,8 @@ class SpacesMessagesReactions extends \Google\Service\Resource
    * AND emoji.custom_emoji.uid = "{uid}" emoji.unicode = "🙂" OR user.name =
    * "users/{user}" emoji.unicode = "🙂" OR emoji.custom_emoji.uid = "{uid}" OR
    * user.name = "users/{user}" emoji.unicode = "🙂" OR emoji.custom_emoji.uid =
-   * "{uid}" AND user.name = "users/{user}" ``` Invalid queries are rejected by
-   * the server with an `INVALID_ARGUMENT` error.
+   * "{uid}" AND user.name = "users/{user}" ``` Invalid queries are rejected with
+   * an `INVALID_ARGUMENT` error.
    * @opt_param int pageSize Optional. The maximum number of reactions returned.
    * The service can return fewer reactions than this value. If unspecified, the
    * default value is 25. The maximum value is 200; values above 200 are changed

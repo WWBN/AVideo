@@ -24,6 +24,10 @@ class SubstringMatchCriteria extends \Google\Model
    */
   public $matchCase;
   /**
+   * @var bool
+   */
+  public $searchByRegex;
+  /**
    * @var string
    */
   public $text;
@@ -41,6 +45,20 @@ class SubstringMatchCriteria extends \Google\Model
   public function getMatchCase()
   {
     return $this->matchCase;
+  }
+  /**
+   * @param bool
+   */
+  public function setSearchByRegex($searchByRegex)
+  {
+    $this->searchByRegex = $searchByRegex;
+  }
+  /**
+   * @return bool
+   */
+  public function getSearchByRegex()
+  {
+    return $this->searchByRegex;
   }
   /**
    * @param string

@@ -47,6 +47,8 @@ class GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec
   protected $modelPromptSpecDataType = '';
   protected $modelSpecType = GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelSpec::class;
   protected $modelSpecDataType = '';
+  protected $multimodalSpecType = GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpec::class;
+  protected $multimodalSpecDataType = '';
   /**
    * @var int
    */
@@ -167,6 +169,20 @@ class GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec
   public function getModelSpec()
   {
     return $this->modelSpec;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpec
+   */
+  public function setMultimodalSpec(GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpec $multimodalSpec)
+  {
+    $this->multimodalSpec = $multimodalSpec;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpec
+   */
+  public function getMultimodalSpec()
+  {
+    return $this->multimodalSpec;
   }
   /**
    * @param int

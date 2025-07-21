@@ -35,6 +35,10 @@ class GoogleCloudDialogflowCxV3beta1WebhookGenericWebServiceOAuthConfig extends 
   /**
    * @var string
    */
+  public $secretVersionForClientSecret;
+  /**
+   * @var string
+   */
   public $tokenEndpoint;
 
   /**
@@ -78,6 +82,20 @@ class GoogleCloudDialogflowCxV3beta1WebhookGenericWebServiceOAuthConfig extends 
   public function getScopes()
   {
     return $this->scopes;
+  }
+  /**
+   * @param string
+   */
+  public function setSecretVersionForClientSecret($secretVersionForClientSecret)
+  {
+    $this->secretVersionForClientSecret = $secretVersionForClientSecret;
+  }
+  /**
+   * @return string
+   */
+  public function getSecretVersionForClientSecret()
+  {
+    return $this->secretVersionForClientSecret;
   }
   /**
    * @param string

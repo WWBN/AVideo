@@ -34,9 +34,10 @@ use Google\Service\AndroidManagement\Operation;
 class EnterprisesDevices extends \Google\Service\Resource
 {
   /**
-   * Deletes a device. This operation wipes the device. Deleted devices do not
-   * show up in enterprises.devices.list calls and a 404 is returned from
-   * enterprises.devices.get. (devices.delete)
+   * Deletes a device. This operation attempts to wipe the device but this is not
+   * guaranteed to succeed if the device is offline for an extended period.
+   * Deleted devices do not show up in enterprises.devices.list calls and a 404 is
+   * returned from enterprises.devices.get. (devices.delete)
    *
    * @param string $name The name of the device in the form
    * enterprises/{enterpriseId}/devices/{deviceId}.

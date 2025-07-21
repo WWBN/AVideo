@@ -20,6 +20,10 @@ namespace Google\Service\DiscoveryEngine;
 class GoogleCloudDiscoveryengineV1CheckGroundingSpec extends \Google\Model
 {
   public $citationThreshold;
+  /**
+   * @var bool
+   */
+  public $enableClaimLevelScore;
 
   public function setCitationThreshold($citationThreshold)
   {
@@ -28,6 +32,20 @@ class GoogleCloudDiscoveryengineV1CheckGroundingSpec extends \Google\Model
   public function getCitationThreshold()
   {
     return $this->citationThreshold;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableClaimLevelScore($enableClaimLevelScore)
+  {
+    $this->enableClaimLevelScore = $enableClaimLevelScore;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableClaimLevelScore()
+  {
+    return $this->enableClaimLevelScore;
   }
 }
 

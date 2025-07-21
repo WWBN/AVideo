@@ -86,9 +86,9 @@ class OrganizationsDevelopers extends \Google\Service\Resource
    * related artifacts. To avoid permanently deleting developers and their
    * artifacts, set the developer status to `inactive` using the
    * SetDeveloperStatus API. **Note**: The delete operation is asynchronous. The
-   * developer app is deleted immediately, but its associated resources, such as
-   * apps and API keys, may take anywhere from a few seconds to a few minutes to
-   * be deleted. (developers.delete)
+   * developer is deleted immediately, but its associated resources, such as apps
+   * and API keys, may take anywhere from a few seconds to a few minutes to be
+   * deleted. (developers.delete)
    *
    * @param string $name Required. Email address of the developer. Use the
    * following structure in your request:

@@ -98,6 +98,8 @@ class GoogleCloudDiscoveryengineV1alphaSearchRequest extends \Google\Collection
    * @var string
    */
   public $regionCode;
+  protected $relevanceScoreSpecType = GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpec::class;
+  protected $relevanceScoreSpecDataType = '';
   /**
    * @var string
    */
@@ -480,6 +482,20 @@ class GoogleCloudDiscoveryengineV1alphaSearchRequest extends \Google\Collection
   public function getRegionCode()
   {
     return $this->regionCode;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpec
+   */
+  public function setRelevanceScoreSpec(GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpec $relevanceScoreSpec)
+  {
+    $this->relevanceScoreSpec = $relevanceScoreSpec;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpec
+   */
+  public function getRelevanceScoreSpec()
+  {
+    return $this->relevanceScoreSpec;
   }
   /**
    * @param string

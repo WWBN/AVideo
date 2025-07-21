@@ -19,9 +19,27 @@ namespace Google\Service\DeploymentManager;
 
 class InstancesBulkInsertOperationMetadata extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $machineType;
   protected $perLocationStatusType = BulkInsertOperationStatus::class;
   protected $perLocationStatusDataType = 'map';
 
+  /**
+   * @param string
+   */
+  public function setMachineType($machineType)
+  {
+    $this->machineType = $machineType;
+  }
+  /**
+   * @return string
+   */
+  public function getMachineType()
+  {
+    return $this->machineType;
+  }
   /**
    * @param BulkInsertOperationStatus[]
    */

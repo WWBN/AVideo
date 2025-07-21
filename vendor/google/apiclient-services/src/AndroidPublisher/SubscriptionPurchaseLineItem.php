@@ -27,6 +27,10 @@ class SubscriptionPurchaseLineItem extends \Google\Model
    * @var string
    */
   public $expiryTime;
+  /**
+   * @var string
+   */
+  public $latestSuccessfulOrderId;
   protected $offerDetailsType = OfferDetails::class;
   protected $offerDetailsDataType = '';
   protected $prepaidPlanType = PrepaidPlan::class;
@@ -79,6 +83,20 @@ class SubscriptionPurchaseLineItem extends \Google\Model
   public function getExpiryTime()
   {
     return $this->expiryTime;
+  }
+  /**
+   * @param string
+   */
+  public function setLatestSuccessfulOrderId($latestSuccessfulOrderId)
+  {
+    $this->latestSuccessfulOrderId = $latestSuccessfulOrderId;
+  }
+  /**
+   * @return string
+   */
+  public function getLatestSuccessfulOrderId()
+  {
+    return $this->latestSuccessfulOrderId;
   }
   /**
    * @param OfferDetails

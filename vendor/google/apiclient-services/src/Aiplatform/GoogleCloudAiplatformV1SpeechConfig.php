@@ -19,9 +19,27 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1SpeechConfig extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $languageCode;
   protected $voiceConfigType = GoogleCloudAiplatformV1VoiceConfig::class;
   protected $voiceConfigDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setLanguageCode($languageCode)
+  {
+    $this->languageCode = $languageCode;
+  }
+  /**
+   * @return string
+   */
+  public function getLanguageCode()
+  {
+    return $this->languageCode;
+  }
   /**
    * @param GoogleCloudAiplatformV1VoiceConfig
    */

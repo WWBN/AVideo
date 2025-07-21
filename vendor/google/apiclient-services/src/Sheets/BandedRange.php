@@ -23,6 +23,10 @@ class BandedRange extends \Google\Model
    * @var int
    */
   public $bandedRangeId;
+  /**
+   * @var string
+   */
+  public $bandedRangeReference;
   protected $columnPropertiesType = BandingProperties::class;
   protected $columnPropertiesDataType = '';
   protected $rangeType = GridRange::class;
@@ -43,6 +47,20 @@ class BandedRange extends \Google\Model
   public function getBandedRangeId()
   {
     return $this->bandedRangeId;
+  }
+  /**
+   * @param string
+   */
+  public function setBandedRangeReference($bandedRangeReference)
+  {
+    $this->bandedRangeReference = $bandedRangeReference;
+  }
+  /**
+   * @return string
+   */
+  public function getBandedRangeReference()
+  {
+    return $this->bandedRangeReference;
   }
   /**
    * @param BandingProperties

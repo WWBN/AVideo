@@ -54,6 +54,9 @@ class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
    * from accidentally creating duplicate commitments. The request ID must be a
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
+   * @opt_param bool validateOnly Optional. When supplied with PSC Interface
+   * config, will get/create the tenant project required for the customer to allow
+   * list and won't actually create the private connection.
    * @return Operation
    * @throws \Google\Service\Exception
    */

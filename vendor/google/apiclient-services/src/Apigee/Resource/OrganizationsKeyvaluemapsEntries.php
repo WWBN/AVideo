@@ -40,7 +40,12 @@ class OrganizationsKeyvaluemapsEntries extends \Google\Service\Resource
    * your request: *
    * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `orga
    * nizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap
-   * }` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+   * }` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the
+   * KeyValueMap is under an API Proxy resource that has the `space` attribute
+   * set, IAM permissions are checked against the Space resource path. To learn
+   * more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param GoogleCloudApigeeV1KeyValueEntry $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1KeyValueEntry
@@ -64,7 +69,12 @@ class OrganizationsKeyvaluemapsEntries extends \Google\Service\Resource
    * your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyval
    * uemap}/entries/{entry}`. * `organizations/{organization}/environments/{enviro
    * nment}/keyvaluemaps/{keyvaluemap}/entries/{entry}` *
-   * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
+   * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. If
+   * the KeyValueMap is under an API Proxy resource that has the `space` attribute
+   * set, IAM permissions are checked against the Space resource path. To learn
+   * more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1KeyValueEntry
    * @throws \Google\Service\Exception
@@ -85,7 +95,12 @@ class OrganizationsKeyvaluemapsEntries extends \Google\Service\Resource
    * your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyval
    * uemap}/entries/{entry}`. * `organizations/{organization}/environments/{enviro
    * nment}/keyvaluemaps/{keyvaluemap}/entries/{entry}` *
-   * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
+   * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. If
+   * the KeyValueMap is under an API Proxy resource that has the `space` attribute
+   * set, IAM permissions are checked against the Space resource path. To learn
+   * more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1KeyValueEntry
    * @throws \Google\Service\Exception
@@ -105,7 +120,12 @@ class OrganizationsKeyvaluemapsEntries extends \Google\Service\Resource
    * list key value maps. Use **one** of the following structures in your request:
    * * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `or
    * ganizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluem
-   * ap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+   * ap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the
+   * KeyValueMap is under an API Proxy resource that has the `space` attribute
+   * set, IAM permissions are checked against the Space resource path. To learn
+   * more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Optional. Maximum number of key value entries to
@@ -131,7 +151,12 @@ class OrganizationsKeyvaluemapsEntries extends \Google\Service\Resource
    * your request: *
    * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `orga
    * nizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap
-   * }` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+   * }` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the
+   * KeyValueMap is under an API Proxy resource that has the `space` attribute
+   * set, IAM permissions are checked against the Space resource path. To learn
+   * more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param GoogleCloudApigeeV1KeyValueEntry $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1KeyValueEntry

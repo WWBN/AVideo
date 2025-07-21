@@ -34,9 +34,9 @@ use Google\Client;
  */
 class PaymentsResellerSubscription extends \Google\Service
 {
-  /** Associate you with your personal info on Google. */
-  const OPENID =
-      "openid";
+  /** See and/or control the devices that you selected. */
+  const SDM_SERVICE =
+      "https://www.googleapis.com/auth/sdm.service";
 
   public $partners_products;
   public $partners_promotions;
@@ -208,6 +208,26 @@ class PaymentsResellerSubscription extends \Google\Service
                 'subscriptionId' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'resume' => [
+              'path' => 'v1/{+name}:resume',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'suspend' => [
+              'path' => 'v1/{+name}:suspend',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'undoCancel' => [

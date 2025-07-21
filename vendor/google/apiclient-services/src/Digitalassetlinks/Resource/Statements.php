@@ -54,6 +54,13 @@ class Statements extends \Google\Service\Resource
    * exactly, or * the query's relation string is empty or missing. Example: A
    * query with relation `delegate_permission/common.handle_all_urls` matches an
    * asset link with relation `delegate_permission/common.handle_all_urls`.
+   * @opt_param bool returnRelationExtensions Whether to return any
+   * relation_extensions payloads specified in the source digital asset links
+   * statements. If this is set to `false` (default), relation_extensions
+   * specified will not be returned, even if they are specified in the DAL
+   * statement file. If set to `true`, the API will propagate relation_extensions
+   * associated with each statement's relation type, if specified in the DAL
+   * statement file.
    * @opt_param string source.androidApp.certificate.sha256Fingerprint The
    * uppercase SHA-265 fingerprint of the certificate. From the PEM certificate,
    * it can be acquired like this: $ keytool -printcert -file $CERTFILE | grep

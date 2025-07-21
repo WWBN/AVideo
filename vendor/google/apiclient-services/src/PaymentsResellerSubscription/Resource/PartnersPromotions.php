@@ -32,9 +32,10 @@ use Google\Service\PaymentsResellerSubscription\GoogleCloudPaymentsResellerSubsc
 class PartnersPromotions extends \Google\Service\Resource
 {
   /**
-   * To find eligible promotions for the current user. The API requires user
-   * authorization via OAuth. The bare minimum oauth scope `openid` is sufficient,
-   * which will skip the consent screen. (promotions.findEligible)
+   * Currently, it is only enabeld for **YouTube**. Finds eligible promotions for
+   * the current user. The API requires user authorization via OAuth. The bare
+   * minimum oauth scope `openid` is sufficient, which will skip the consent
+   * screen. (promotions.findEligible)
    *
    * @param string $parent Required. The parent, the partner that can resell.
    * Format: partners/{partner}
@@ -50,9 +51,9 @@ class PartnersPromotions extends \Google\Service\Resource
     return $this->call('findEligible', [$params], GoogleCloudPaymentsResellerSubscriptionV1FindEligiblePromotionsResponse::class);
   }
   /**
-   * Retrieves the promotions, such as free trial, that can be used by the
-   * partner. - This API doesn't apply to YouTube promotions currently. It should
-   * be autenticated with a service account. (promotions.listPartnersPromotions)
+   * Currently, it doesn't support **YouTube** promotions. Retrieves the
+   * promotions, such as free trial, that can be used by the partner. It should be
+   * autenticated with a service account. (promotions.listPartnersPromotions)
    *
    * @param string $parent Required. The parent, the partner that can resell.
    * Format: partners/{partner}

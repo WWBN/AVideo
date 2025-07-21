@@ -40,6 +40,8 @@ class IAMCredentials extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
+  public $locations_workforcePools;
+  public $projects_locations_workloadIdentityPools;
   public $projects_serviceAccounts;
   public $rootUrlTemplate;
 
@@ -60,6 +62,46 @@ class IAMCredentials extends \Google\Service
     $this->version = 'v1';
     $this->serviceName = 'iamcredentials';
 
+    $this->locations_workforcePools = new IAMCredentials\Resource\LocationsWorkforcePools(
+        $this,
+        $this->serviceName,
+        'workforcePools',
+        [
+          'methods' => [
+            'getAllowedLocations' => [
+              'path' => 'v1/{+name}/allowedLocations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_workloadIdentityPools = new IAMCredentials\Resource\ProjectsLocationsWorkloadIdentityPools(
+        $this,
+        $this->serviceName,
+        'workloadIdentityPools',
+        [
+          'methods' => [
+            'getAllowedLocations' => [
+              'path' => 'v1/{+name}/allowedLocations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_serviceAccounts = new IAMCredentials\Resource\ProjectsServiceAccounts(
         $this,
         $this->serviceName,

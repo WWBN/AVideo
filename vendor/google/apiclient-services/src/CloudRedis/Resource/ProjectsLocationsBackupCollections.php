@@ -35,7 +35,7 @@ class ProjectsLocationsBackupCollections extends \Google\Service\Resource
    *
    * @param string $name Required. Redis backupCollection resource name using the
    * form: `projects/{project_id}/locations/{location_id}/backupCollections/{backu
-   * p_collection_id}` where `location_id` refers to a GCP region.
+   * p_collection_id}` where `location_id` refers to a Google Cloud region.
    * @param array $optParams Optional parameters.
    * @return BackupCollection
    * @throws \Google\Service\Exception
@@ -55,7 +55,7 @@ class ProjectsLocationsBackupCollections extends \Google\Service\Resource
    *
    * @param string $parent Required. The resource name of the backupCollection
    * location using the form: `projects/{project_id}/locations/{location_id}`
-   * where `location_id` refers to a GCP region.
+   * where `location_id` refers to a Google Cloud region.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Optional. The maximum number of items to return. If

@@ -49,8 +49,9 @@ class PresentationsPages extends \Google\Service\Resource
   /**
    * Generates a thumbnail of the latest version of the specified page in the
    * presentation and returns a URL to the thumbnail image. This request counts as
-   * an [expensive read request](/slides/limits) for quota purposes.
-   * (pages.getThumbnail)
+   * an [expensive read
+   * request](https://developers.google.com/workspace/slides/limits) for quota
+   * purposes. (pages.getThumbnail)
    *
    * @param string $presentationId The ID of the presentation to retrieve.
    * @param string $pageObjectId The object ID of the page whose thumbnail to

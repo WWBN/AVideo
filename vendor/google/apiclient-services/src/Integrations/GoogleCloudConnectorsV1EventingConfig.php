@@ -46,6 +46,8 @@ class GoogleCloudConnectorsV1EventingConfig extends \Google\Collection
   protected $proxyDestinationConfigDataType = '';
   protected $registrationDestinationConfigType = GoogleCloudConnectorsV1DestinationConfig::class;
   protected $registrationDestinationConfigDataType = '';
+  protected $sslConfigType = GoogleCloudConnectorsV1SslConfig::class;
+  protected $sslConfigDataType = '';
 
   /**
    * @param GoogleCloudConnectorsV1ConfigVariable[]
@@ -186,6 +188,20 @@ class GoogleCloudConnectorsV1EventingConfig extends \Google\Collection
   public function getRegistrationDestinationConfig()
   {
     return $this->registrationDestinationConfig;
+  }
+  /**
+   * @param GoogleCloudConnectorsV1SslConfig
+   */
+  public function setSslConfig(GoogleCloudConnectorsV1SslConfig $sslConfig)
+  {
+    $this->sslConfig = $sslConfig;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1SslConfig
+   */
+  public function getSslConfig()
+  {
+    return $this->sslConfig;
   }
 }
 

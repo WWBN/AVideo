@@ -19,13 +19,17 @@ namespace Google\Service\NetworkServices;
 
 class ListGrpcRoutesResponse extends \Google\Collection
 {
-  protected $collection_key = 'grpcRoutes';
+  protected $collection_key = 'unreachable';
   protected $grpcRoutesType = GrpcRoute::class;
   protected $grpcRoutesDataType = 'array';
   /**
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param GrpcRoute[]
@@ -54,6 +58,20 @@ class ListGrpcRoutesResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

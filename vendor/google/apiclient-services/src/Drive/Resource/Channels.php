@@ -32,7 +32,7 @@ class Channels extends \Google\Service\Resource
   /**
    * Stops watching resources through this channel. For more information, see
    * [Notifications for resource
-   * changes](https://developers.google.com/drive/api/guides/push).
+   * changes](https://developers.google.com/workspace/drive/api/guides/push).
    * (channels.stop)
    *
    * @param Channel $postBody

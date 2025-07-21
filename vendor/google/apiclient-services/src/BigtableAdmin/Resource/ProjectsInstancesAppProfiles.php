@@ -121,8 +121,9 @@ class ProjectsInstancesAppProfiles extends \Google\Service\Resource
   /**
    * Updates an app profile within an instance. (appProfiles.patch)
    *
-   * @param string $name The unique name of the app profile. Values are of the
-   * form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`.
+   * @param string $name The unique name of the app profile, up to 50 characters
+   * long. Values are of the form
+   * `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`.
    * @param AppProfile $postBody
    * @param array $optParams Optional parameters.
    *

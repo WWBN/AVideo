@@ -64,10 +64,14 @@ class NodeKubeletConfig extends \Google\Collection
    * @var bool
    */
   public $insecureKubeletReadonlyPortEnabled;
+  protected $memoryManagerType = MemoryManager::class;
+  protected $memoryManagerDataType = '';
   /**
    * @var string
    */
   public $podPidsLimit;
+  protected $topologyManagerType = TopologyManager::class;
+  protected $topologyManagerDataType = '';
 
   /**
    * @param string[]
@@ -224,6 +228,20 @@ class NodeKubeletConfig extends \Google\Collection
     return $this->insecureKubeletReadonlyPortEnabled;
   }
   /**
+   * @param MemoryManager
+   */
+  public function setMemoryManager(MemoryManager $memoryManager)
+  {
+    $this->memoryManager = $memoryManager;
+  }
+  /**
+   * @return MemoryManager
+   */
+  public function getMemoryManager()
+  {
+    return $this->memoryManager;
+  }
+  /**
    * @param string
    */
   public function setPodPidsLimit($podPidsLimit)
@@ -236,6 +254,20 @@ class NodeKubeletConfig extends \Google\Collection
   public function getPodPidsLimit()
   {
     return $this->podPidsLimit;
+  }
+  /**
+   * @param TopologyManager
+   */
+  public function setTopologyManager(TopologyManager $topologyManager)
+  {
+    $this->topologyManager = $topologyManager;
+  }
+  /**
+   * @return TopologyManager
+   */
+  public function getTopologyManager()
+  {
+    return $this->topologyManager;
   }
 }
 

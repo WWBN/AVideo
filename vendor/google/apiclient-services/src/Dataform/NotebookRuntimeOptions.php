@@ -22,8 +22,26 @@ class NotebookRuntimeOptions extends \Google\Model
   /**
    * @var string
    */
+  public $aiPlatformNotebookRuntimeTemplate;
+  /**
+   * @var string
+   */
   public $gcsOutputBucket;
 
+  /**
+   * @param string
+   */
+  public function setAiPlatformNotebookRuntimeTemplate($aiPlatformNotebookRuntimeTemplate)
+  {
+    $this->aiPlatformNotebookRuntimeTemplate = $aiPlatformNotebookRuntimeTemplate;
+  }
+  /**
+   * @return string
+   */
+  public function getAiPlatformNotebookRuntimeTemplate()
+  {
+    return $this->aiPlatformNotebookRuntimeTemplate;
+  }
   /**
    * @param string
    */

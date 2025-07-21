@@ -31,15 +31,15 @@ use Google\Service\AreaInsights\ComputeInsightsResponse;
 class V1 extends \Google\Service\Resource
 {
   /**
-   * Compute Insights RPC This method lets you retrieve insights about areas using
-   * a variaty of filter such as: area, place type, operating status, price level
-   * and ratings. Currently "count" and "places" insights are supported. With
-   * "count" insights you can answer questions such as "How many restaurant are
-   * located in California that are operational, are inexpensive and have an
-   * average rating of at least 4 stars" (see `insight` enum for more details).
-   * With "places" insights, you can determine which places match the requested
-   * filter. Clients can then use those place resource names to fetch more details
-   * about each individual place using the Places API. (v1.computeInsights)
+   * This method lets you retrieve insights about areas using a variety of filter
+   * such as: area, place type, operating status, price level and ratings.
+   * Currently "count" and "places" insights are supported. With "count" insights
+   * you can answer questions such as "How many restaurant are located in
+   * California that are operational, are inexpensive and have an average rating
+   * of at least 4 stars" (see `insight` enum for more details). With "places"
+   * insights, you can determine which places match the requested filter. Clients
+   * can then use those place resource names to fetch more details about each
+   * individual place using the Places API. (v1.computeInsights)
    *
    * @param ComputeInsightsRequest $postBody
    * @param array $optParams Optional parameters.

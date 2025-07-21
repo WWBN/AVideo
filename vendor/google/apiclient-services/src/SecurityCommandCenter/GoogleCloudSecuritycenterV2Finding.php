@@ -22,6 +22,8 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
   protected $collection_key = 'processes';
   protected $accessType = GoogleCloudSecuritycenterV2Access::class;
   protected $accessDataType = '';
+  protected $affectedResourcesType = GoogleCloudSecuritycenterV2AffectedResources::class;
+  protected $affectedResourcesDataType = '';
   protected $applicationType = GoogleCloudSecuritycenterV2Application::class;
   protected $applicationDataType = '';
   protected $attackExposureType = GoogleCloudSecuritycenterV2AttackExposure::class;
@@ -36,6 +38,8 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
    * @var string
    */
   public $category;
+  protected $chokepointType = GoogleCloudSecuritycenterV2Chokepoint::class;
+  protected $chokepointDataType = '';
   protected $cloudArmorType = GoogleCloudSecuritycenterV2CloudArmor::class;
   protected $cloudArmorDataType = '';
   protected $cloudDlpDataProfileType = GoogleCloudSecuritycenterV2CloudDlpDataProfile::class;
@@ -188,6 +192,20 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
     return $this->access;
   }
   /**
+   * @param GoogleCloudSecuritycenterV2AffectedResources
+   */
+  public function setAffectedResources(GoogleCloudSecuritycenterV2AffectedResources $affectedResources)
+  {
+    $this->affectedResources = $affectedResources;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2AffectedResources
+   */
+  public function getAffectedResources()
+  {
+    return $this->affectedResources;
+  }
+  /**
    * @param GoogleCloudSecuritycenterV2Application
    */
   public function setApplication(GoogleCloudSecuritycenterV2Application $application)
@@ -256,6 +274,20 @@ class GoogleCloudSecuritycenterV2Finding extends \Google\Collection
   public function getCategory()
   {
     return $this->category;
+  }
+  /**
+   * @param GoogleCloudSecuritycenterV2Chokepoint
+   */
+  public function setChokepoint(GoogleCloudSecuritycenterV2Chokepoint $chokepoint)
+  {
+    $this->chokepoint = $chokepoint;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV2Chokepoint
+   */
+  public function getChokepoint()
+  {
+    return $this->chokepoint;
   }
   /**
    * @param GoogleCloudSecuritycenterV2CloudArmor

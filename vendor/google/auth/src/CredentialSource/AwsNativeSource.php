@@ -356,7 +356,7 @@ class AwsNativeSource implements ExternalAccountCredentialSourceInterface
      */
     private static function utf8Encode(string $string): string
     {
-        return mb_convert_encoding($string, 'UTF-8', 'ISO-8859-1');
+        return (string) mb_convert_encoding($string, 'UTF-8', 'ISO-8859-1');
     }
 
     private static function getSignatureKey(

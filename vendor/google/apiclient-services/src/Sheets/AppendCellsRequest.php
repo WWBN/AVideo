@@ -30,6 +30,10 @@ class AppendCellsRequest extends \Google\Collection
    * @var int
    */
   public $sheetId;
+  /**
+   * @var string
+   */
+  public $tableId;
 
   /**
    * @param string
@@ -72,6 +76,20 @@ class AppendCellsRequest extends \Google\Collection
   public function getSheetId()
   {
     return $this->sheetId;
+  }
+  /**
+   * @param string
+   */
+  public function setTableId($tableId)
+  {
+    $this->tableId = $tableId;
+  }
+  /**
+   * @return string
+   */
+  public function getTableId()
+  {
+    return $this->tableId;
   }
 }
 

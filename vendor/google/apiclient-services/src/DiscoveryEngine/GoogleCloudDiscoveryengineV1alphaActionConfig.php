@@ -27,6 +27,10 @@ class GoogleCloudDiscoveryengineV1alphaActionConfig extends \Google\Model
    * @var bool
    */
   public $isActionConfigured;
+  /**
+   * @var string
+   */
+  public $serviceName;
 
   /**
    * @param array[]
@@ -55,6 +59,20 @@ class GoogleCloudDiscoveryengineV1alphaActionConfig extends \Google\Model
   public function getIsActionConfigured()
   {
     return $this->isActionConfigured;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceName($serviceName)
+  {
+    $this->serviceName = $serviceName;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceName()
+  {
+    return $this->serviceName;
   }
 }
 

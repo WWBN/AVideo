@@ -21,6 +21,8 @@ class GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest extends 
 {
   protected $gcsSourceType = GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSource::class;
   protected $gcsSourceDataType = '';
+  protected $sheetsSourceType = GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource::class;
+  protected $sheetsSourceDataType = '';
   /**
    * @var bool
    */
@@ -39,6 +41,20 @@ class GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest extends 
   public function getGcsSource()
   {
     return $this->gcsSource;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource
+   */
+  public function setSheetsSource(GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource $sheetsSource)
+  {
+    $this->sheetsSource = $sheetsSource;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource
+   */
+  public function getSheetsSource()
+  {
+    return $this->sheetsSource;
   }
   /**
    * @param bool

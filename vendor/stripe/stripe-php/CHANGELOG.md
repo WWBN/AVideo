@@ -1,5 +1,47 @@
 # Changelog
 
+## 17.4.0 - 2025-07-01
+* [#1880](https://github.com/stripe/stripe-php/pull/1880) Update generated code
+  * Add support for `migrate` method on resource `Subscription`
+  * Add support for `collect_payment_method` and `confirm_payment_intent` methods on resource `Terminal.Reader`
+  * Add support for new value `crypto` on enums `ConfirmationToken.payment_method_preview.type` and `PaymentMethod.type`
+  * Change type of `Dispute.enhanced_eligibility_types` from `literal('visa_compelling_evidence_3')` to `enum('visa_compelling_evidence_3'|'visa_compliance')`
+  * Add support for new value `terminal.reader.action_updated` on enum `Event.type`
+  * Add support for `related_person` on `Identity.VerificationSession`
+  * Add support for new value `crypto` on enums `Invoice.payment_settings.payment_method_types` and `Subscription.payment_settings.payment_method_types`
+  * Add support for `crypto` on `PaymentMethod`
+  * Add support for new value `buut` on enum `PaymentMethod.ideal.bank`
+  * Add support for new value `BUUTNL2A` on enum `PaymentMethod.ideal.bic`
+  * Add support for `billing_mode` on `SubscriptionSchedule` and `Subscription`
+  * Add support for new values `collect_payment_method` and `confirm_payment_intent` on enum `Terminal.Reader.action.type`
+  * Add support for snapshot event `TERMINAL_READER_ACTION_UPDATED` with resource `Terminal.Reader`
+* [#1878](https://github.com/stripe/stripe-php/pull/1878) Update generated code
+  * Add constant `CURRENT_MAJOR` in `ApiVersion`
+
+## 17.3.0 - 2025-05-29
+ This release changes the pinned API version to `2025-05-28.basil`.
+
+* [#1871](https://github.com/stripe/stripe-php/pull/1871) Update generated code
+  * Add support for `attach_payment` method on resource `Invoice`
+  * Add support for `collect_inputs` method on resource `Terminal.Reader`
+  * Add support for `succeed_input_collection` and `timeout_input_collection` test helper methods on resource `Terminal.Reader`
+  * Add support for `refund_and_dispute_prefunding` on `Balance`
+  * Add support for `balance_type` on `BalanceTransaction`
+  * Add support for `post_payment_amount` and `pre_payment_amount` on `CreditNote`
+  * Add support for new value `mixed` on enum `CreditNote.type`
+  * Add support for new value `invoice_payment.paid` on enum `Event.type`
+  * Add support for `kakao_pay`, `kr_card`, `naver_pay`, `payco`, and `samsung_pay` on `PaymentMethodConfiguration`
+  * Add support for `billing_thresholds` on `SubscriptionItem` and `Subscription`
+  * Add support for `metadata` on `Tax.CalculationLineItem`
+  * Add support for new value `collect_inputs` on enum `Terminal.Reader.action.type`
+  * Add support for new value `simulated_stripe_s700` on enum `Terminal.Reader.device_type`
+  * Add support for snapshot event `INVOICE_PAYMENT_PAID` with resource `InvoicePayment`
+  * Add support for error code `forwarding_api_upstream_error` on `Invoice.last_finalization_error`, `PaymentIntent.last_payment_error`, `SetupAttempt.setup_error`, `SetupIntent.last_setup_error`, and `StripeError`
+
+## 17.2.1 - 2025-05-19
+* [#1869](https://github.com/stripe/stripe-php/pull/1869) Fixed type of map parameters(eg. metadata, currency_options) from `StripeObject` to `array<KType, VType>` in all methods.
+* [#1866](https://github.com/stripe/stripe-php/pull/1866) Adds CONTRIBUTING.md
+
 ## 17.2.0 - 2025-04-30
 
   This release changes the pinned API version to `2025-04-30.basil`.
@@ -20,7 +62,7 @@
 
 ## 17.1.1 - 2025-04-04
 * [#1847](https://github.com/stripe/stripe-php/pull/1847) Remove stdClass from object shapes
-  * Remove intersection with `stdClass` in resource properties and fixed `instanceof` checks.  
+  * Remove intersection with `stdClass` in resource properties and fixed `instanceof` checks.
 
 ## 17.1.0 - 2025-04-02
 * [#1843](https://github.com/stripe/stripe-php/pull/1843) Add null type in resource fields to non required objects
@@ -38,7 +80,7 @@
 
   ### ⚠️ Breaking changes due to changes in the Stripe API
 
-  Please review details for the breaking changes and alternatives in the [Stripe API changelog](https://docs.stripe.com/changelog/acacia) before upgrading.
+  Please review details for the breaking changes and alternatives in the [Stripe API changelog](https://docs.stripe.com/changelog/basil#2025-03-31.basil) before upgrading.
 
   * Remove support for resources `UsageRecordSummary` and `UsageRecord`
   * Remove support for `create` method on resource `UsageRecord`
@@ -181,7 +223,7 @@
 ## 16.0.0 - 2024-10-01
 * [#1756](https://github.com/stripe/stripe-php/pull/1756) Support for APIs in the new API version 2024-09-30.acacia
 
-  This release changes the pinned API version to `2024-09-30.acacia`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2024-09-30.acacia) and carefully review the API changes before upgrading.
+  This release changes the pinned API version to `2024-09-30.acacia`. Please read the [API Changelog](https://docs.stripe.com/changelog/acacia#2024-09-30.acacia) and carefully review the API changes before upgrading.
 
   ### ⚠️ Breaking changes
 
@@ -262,7 +304,7 @@
 ## 15.0.0 - 2024-06-24
 * [#1714](https://github.com/stripe/stripe-php/pull/1714)
 
-  This release changes the pinned API version to 2024-06-20. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2024-06-20) and carefully review the API changes before upgrading.
+  This release changes the pinned API version to 2024-06-20. Please read the [API Changelog](https://docs.stripe.com/changelog/2024-06-20) and carefully review the API changes before upgrading.
 
   ### ⚠️ Breaking changes
 
@@ -344,7 +386,7 @@
 ## 14.0.0 - 2024-04-10
 * [#1673](https://github.com/stripe/stripe-php/pull/1673)
 
-  * This release changes the pinned API version to `2024-04-10`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2024-04-10) and carefully review the API changes before upgrading.
+  * This release changes the pinned API version to `2024-04-10`. Please read the [API Changelog](https://docs.stripe.com/changelog/2024-04-10) and carefully review the API changes before upgrading.
 
   ### ⚠️ Breaking changes
 
@@ -526,7 +568,7 @@
   * Add support for new value `balance_invalid_parameter` on enum `StripeError.code`
 
 ## 13.0.0 - 2023-10-16
-* This release changes the pinned API version to `2023-10-16`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2023-10-16) and carefully review the API changes before upgrading `stripe-php` package.
+* This release changes the pinned API version to `2023-10-16`. Please read the [API Changelog](https://docs.stripe.com/changelog/2023-10-16) and carefully review the API changes before upgrading `stripe-php` package.
 * [#1593](https://github.com/stripe/stripe-php/pull/1593) Update generated code
   - Added `additional_tos_acceptances` field on `Person`
 
@@ -828,7 +870,7 @@ Please do not use stripe-php v11. It did not correctly apply the [pinning behavi
 ## 10.0.0 - 2022-11-16
 * [#1392](https://github.com/stripe/stripe-php/pull/1392) Next major release changes
 
-Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the Stripe products, read more at https://stripe.com/docs/upgrades#2022-11-15.
+Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the Stripe products, read more at https://docs.stripe.com/changelog/2022-11-15.
 
 "⚠️" symbol highlights breaking changes.
 
@@ -919,7 +961,7 @@ $resource = Price::update('price_123', [
 
 ## 9.0.0 - 2022-08-02
 
-Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the SDK, read more detailed description at https://github.com/stripe/stripe-php/wiki/Migration-guide-for-v9. For changes to the Stripe products, read more at https://stripe.com/docs/upgrades#2022-08-01.
+Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the SDK, read more detailed description at https://github.com/stripe/stripe-php/wiki/Migration-guide-for-v9. For changes to the Stripe products, read more at https://docs.stripe.com/changelog/2022-08-01.
 
 "⚠️" symbol highlights breaking changes.
 
@@ -2632,7 +2674,7 @@ Pull requests included in this release:
 
 ## 1.8.1 - 2013-07-12
 
--   Add support for multiple cards API (Stripe API version 2013-07-12: https://stripe.com/docs/upgrades#2013-07-05)
+-   Add support for multiple cards API (Stripe API version 2013-07-12: https://docs.stripe.com/changelog/2013-07-05)
 
 ## 1.8.0 - 2013-04-11
 

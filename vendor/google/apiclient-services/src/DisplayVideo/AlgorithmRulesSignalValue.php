@@ -19,8 +19,42 @@ namespace Google\Service\DisplayVideo;
 
 class AlgorithmRulesSignalValue extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $activeViewSignal;
+  protected $floodlightActivityConversionSignalType = AlgorithmRulesFloodlightActivityConversionSignal::class;
+  protected $floodlightActivityConversionSignalDataType = '';
   public $number;
 
+  /**
+   * @param string
+   */
+  public function setActiveViewSignal($activeViewSignal)
+  {
+    $this->activeViewSignal = $activeViewSignal;
+  }
+  /**
+   * @return string
+   */
+  public function getActiveViewSignal()
+  {
+    return $this->activeViewSignal;
+  }
+  /**
+   * @param AlgorithmRulesFloodlightActivityConversionSignal
+   */
+  public function setFloodlightActivityConversionSignal(AlgorithmRulesFloodlightActivityConversionSignal $floodlightActivityConversionSignal)
+  {
+    $this->floodlightActivityConversionSignal = $floodlightActivityConversionSignal;
+  }
+  /**
+   * @return AlgorithmRulesFloodlightActivityConversionSignal
+   */
+  public function getFloodlightActivityConversionSignal()
+  {
+    return $this->floodlightActivityConversionSignal;
+  }
   public function setNumber($number)
   {
     $this->number = $number;

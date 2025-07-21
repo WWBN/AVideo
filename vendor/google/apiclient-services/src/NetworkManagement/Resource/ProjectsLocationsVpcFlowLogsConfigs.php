@@ -43,6 +43,7 @@ class ProjectsLocationsVpcFlowLogsConfigs extends \Google\Service\Resource
    *
    * @param string $parent Required. The parent resource of the VPC Flow Logs
    * configuration to create: `projects/{project_id}/locations/global`
+   * `organizations/{organization_id}/locations/global`
    * @param VpcFlowLogsConfig $postBody
    * @param array $optParams Optional parameters.
    *
@@ -60,9 +61,10 @@ class ProjectsLocationsVpcFlowLogsConfigs extends \Google\Service\Resource
   /**
    * Deletes a specific `VpcFlowLogsConfig`. (vpcFlowLogsConfigs.delete)
    *
-   * @param string $name Required. `VpcFlowLogsConfig` resource name using the
-   * form: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_lo
-   * gs_config}`
+   * @param string $name Required. `VpcFlowLogsConfig` resource name using one of
+   * the form: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flo
+   * w_logs_config} `organizations/{organization_id}/locations/global/vpcFlowLogsC
+   * onfigs/{vpc_flow_logs_config}`
    * @param array $optParams Optional parameters.
    * @return Operation
    * @throws \Google\Service\Exception
@@ -78,7 +80,8 @@ class ProjectsLocationsVpcFlowLogsConfigs extends \Google\Service\Resource
    *
    * @param string $name Required. `VpcFlowLogsConfig` resource name using the
    * form: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_lo
-   * gs_config}`
+   * gs_config}` `organizations/{organization_id}/locations/global/vpcFlowLogsConf
+   * igs/{vpc_flow_logs_config}`
    * @param array $optParams Optional parameters.
    * @return VpcFlowLogsConfig
    * @throws \Google\Service\Exception
@@ -95,6 +98,7 @@ class ProjectsLocationsVpcFlowLogsConfigs extends \Google\Service\Resource
    *
    * @param string $parent Required. The parent resource of the VpcFlowLogsConfig:
    * `projects/{project_id}/locations/global`
+   * `organizations/{organization_id}/locations/global`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. Lists the `VpcFlowLogsConfigs` that match
@@ -124,9 +128,10 @@ class ProjectsLocationsVpcFlowLogsConfigs extends \Google\Service\Resource
    * * name * create_time * update_time * labels * description
    * (vpcFlowLogsConfigs.patch)
    *
-   * @param string $name Identifier. Unique name of the configuration using the
-   * form: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_lo
-   * gs_config_id}`
+   * @param string $name Identifier. Unique name of the configuration using one of
+   * the forms: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_fl
+   * ow_logs_config_id}` `organizations/{organization_number}/locations/global/vpc
+   * FlowLogsConfigs/{vpc_flow_logs_config_id}`
    * @param VpcFlowLogsConfig $postBody
    * @param array $optParams Optional parameters.
    *

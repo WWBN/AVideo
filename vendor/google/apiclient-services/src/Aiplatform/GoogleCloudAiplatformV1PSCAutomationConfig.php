@@ -22,12 +22,48 @@ class GoogleCloudAiplatformV1PSCAutomationConfig extends \Google\Model
   /**
    * @var string
    */
+  public $forwardingRule;
+  /**
+   * @var string
+   */
+  public $ipAddress;
+  /**
+   * @var string
+   */
   public $network;
   /**
    * @var string
    */
   public $projectId;
 
+  /**
+   * @param string
+   */
+  public function setForwardingRule($forwardingRule)
+  {
+    $this->forwardingRule = $forwardingRule;
+  }
+  /**
+   * @return string
+   */
+  public function getForwardingRule()
+  {
+    return $this->forwardingRule;
+  }
+  /**
+   * @param string
+   */
+  public function setIpAddress($ipAddress)
+  {
+    $this->ipAddress = $ipAddress;
+  }
+  /**
+   * @return string
+   */
+  public function getIpAddress()
+  {
+    return $this->ipAddress;
+  }
   /**
    * @param string
    */

@@ -19,6 +19,8 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfig extends \Google\Model
 {
+  protected $engineFeaturesConfigType = GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigEngineFeaturesConfig::class;
+  protected $engineFeaturesConfigDataType = '';
   /**
    * @var string
    */
@@ -34,6 +36,20 @@ class GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfig ext
    */
   public $type;
 
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigEngineFeaturesConfig
+   */
+  public function setEngineFeaturesConfig(GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigEngineFeaturesConfig $engineFeaturesConfig)
+  {
+    $this->engineFeaturesConfig = $engineFeaturesConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigEngineFeaturesConfig
+   */
+  public function getEngineFeaturesConfig()
+  {
+    return $this->engineFeaturesConfig;
+  }
   /**
    * @param string
    */

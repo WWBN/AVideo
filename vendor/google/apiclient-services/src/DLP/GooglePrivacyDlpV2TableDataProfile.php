@@ -19,7 +19,7 @@ namespace Google\Service\DLP;
 
 class GooglePrivacyDlpV2TableDataProfile extends \Google\Collection
 {
-  protected $collection_key = 'relatedResources';
+  protected $collection_key = 'tags';
   protected $configSnapshotType = GooglePrivacyDlpV2DataProfileConfigSnapshot::class;
   protected $configSnapshotDataType = '';
   /**
@@ -94,6 +94,8 @@ class GooglePrivacyDlpV2TableDataProfile extends \Google\Collection
    * @var string
    */
   public $rowCount;
+  protected $sampleFindingsTableType = GooglePrivacyDlpV2BigQueryTable::class;
+  protected $sampleFindingsTableDataType = '';
   /**
    * @var string
    */
@@ -112,6 +114,8 @@ class GooglePrivacyDlpV2TableDataProfile extends \Google\Collection
    * @var string
    */
   public $tableSizeBytes;
+  protected $tagsType = GooglePrivacyDlpV2Tag::class;
+  protected $tagsDataType = 'array';
 
   /**
    * @param GooglePrivacyDlpV2DataProfileConfigSnapshot
@@ -422,6 +426,20 @@ class GooglePrivacyDlpV2TableDataProfile extends \Google\Collection
     return $this->rowCount;
   }
   /**
+   * @param GooglePrivacyDlpV2BigQueryTable
+   */
+  public function setSampleFindingsTable(GooglePrivacyDlpV2BigQueryTable $sampleFindingsTable)
+  {
+    $this->sampleFindingsTable = $sampleFindingsTable;
+  }
+  /**
+   * @return GooglePrivacyDlpV2BigQueryTable
+   */
+  public function getSampleFindingsTable()
+  {
+    return $this->sampleFindingsTable;
+  }
+  /**
    * @param string
    */
   public function setScannedColumnCount($scannedColumnCount)
@@ -490,6 +508,20 @@ class GooglePrivacyDlpV2TableDataProfile extends \Google\Collection
   public function getTableSizeBytes()
   {
     return $this->tableSizeBytes;
+  }
+  /**
+   * @param GooglePrivacyDlpV2Tag[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return GooglePrivacyDlpV2Tag[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
 }
 

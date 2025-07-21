@@ -236,6 +236,7 @@ class DataPortability extends \Google\Service
   const DATAPORTABILITY_YOUTUBE_UNLISTED_VIDEOS =
       "https://www.googleapis.com/auth/dataportability.youtube.unlisted_videos";
 
+  public $accessType;
   public $archiveJobs;
   public $authorization;
   public $portabilityArchive;
@@ -258,6 +259,20 @@ class DataPortability extends \Google\Service
     $this->version = 'v1';
     $this->serviceName = 'dataportability';
 
+    $this->accessType = new DataPortability\Resource\AccessType(
+        $this,
+        $this->serviceName,
+        'accessType',
+        [
+          'methods' => [
+            'check' => [
+              'path' => 'v1/accessType:check',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],
+          ]
+        ]
+    );
     $this->archiveJobs = new DataPortability\Resource\ArchiveJobs(
         $this,
         $this->serviceName,

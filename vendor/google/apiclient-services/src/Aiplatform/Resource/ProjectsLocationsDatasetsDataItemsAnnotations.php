@@ -30,9 +30,7 @@ use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListAnnotationsResponse;
 class ProjectsLocationsDatasetsDataItemsAnnotations extends \Google\Service\Resource
 {
   /**
-   * Lists Annotations belongs to a dataitem This RPC is only available in
-   * InternalDatasetService. It is only used for exporting conversation data to
-   * CCAI Insights.
+   * Lists Annotations belongs to a dataitem.
    * (annotations.listProjectsLocationsDatasetsDataItemsAnnotations)
    *
    * @param string $parent Required. The resource name of the DataItem to list

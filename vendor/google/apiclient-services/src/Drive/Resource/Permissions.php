@@ -41,6 +41,8 @@ class Permissions extends \Google\Service\Resource
    *
    * @opt_param string emailMessage A plain text custom message to include in the
    * notification email.
+   * @opt_param bool enforceExpansiveAccess Whether the request should enforce
+   * expansive access rules.
    * @opt_param bool enforceSingleParent Deprecated: See `moveToNewOwnersRoot` for
    * details.
    * @opt_param bool moveToNewOwnersRoot This parameter will only take effect if

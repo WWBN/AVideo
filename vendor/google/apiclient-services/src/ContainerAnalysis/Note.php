@@ -64,6 +64,8 @@ class Note extends \Google\Collection
   protected $relatedUrlDataType = 'array';
   protected $sbomReferenceType = SBOMReferenceNote::class;
   protected $sbomReferenceDataType = '';
+  protected $secretType = SecretNote::class;
+  protected $secretDataType = '';
   /**
    * @var string
    */
@@ -302,6 +304,20 @@ class Note extends \Google\Collection
   public function getSbomReference()
   {
     return $this->sbomReference;
+  }
+  /**
+   * @param SecretNote
+   */
+  public function setSecret(SecretNote $secret)
+  {
+    $this->secret = $secret;
+  }
+  /**
+   * @return SecretNote
+   */
+  public function getSecret()
+  {
+    return $this->secret;
   }
   /**
    * @param string

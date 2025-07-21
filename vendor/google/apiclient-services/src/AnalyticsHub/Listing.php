@@ -20,6 +20,10 @@ namespace Google\Service\AnalyticsHub;
 class Listing extends \Google\Collection
 {
   protected $collection_key = 'categories';
+  /**
+   * @var bool
+   */
+  public $allowOnlyMetadataSharing;
   protected $bigqueryDatasetType = BigQueryDatasetSource::class;
   protected $bigqueryDatasetDataType = '';
   /**
@@ -81,6 +85,20 @@ class Listing extends \Google\Collection
    */
   public $state;
 
+  /**
+   * @param bool
+   */
+  public function setAllowOnlyMetadataSharing($allowOnlyMetadataSharing)
+  {
+    $this->allowOnlyMetadataSharing = $allowOnlyMetadataSharing;
+  }
+  /**
+   * @return bool
+   */
+  public function getAllowOnlyMetadataSharing()
+  {
+    return $this->allowOnlyMetadataSharing;
+  }
   /**
    * @param BigQueryDatasetSource
    */

@@ -89,6 +89,10 @@ class QueryRequest extends \Google\Collection
   /**
    * @var string
    */
+  public $reservation;
+  /**
+   * @var string
+   */
   public $timeoutMs;
   /**
    * @var bool
@@ -368,6 +372,20 @@ class QueryRequest extends \Google\Collection
   public function getRequestId()
   {
     return $this->requestId;
+  }
+  /**
+   * @param string
+   */
+  public function setReservation($reservation)
+  {
+    $this->reservation = $reservation;
+  }
+  /**
+   * @return string
+   */
+  public function getReservation()
+  {
+    return $this->reservation;
   }
   /**
    * @param string

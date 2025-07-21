@@ -22,11 +22,25 @@ class BackupVault extends \Google\Model
   /**
    * @var string
    */
+  public $backupRegion;
+  protected $backupRetentionPolicyType = BackupRetentionPolicy::class;
+  protected $backupRetentionPolicyDataType = '';
+  /**
+   * @var string
+   */
+  public $backupVaultType;
+  /**
+   * @var string
+   */
   public $createTime;
   /**
    * @var string
    */
   public $description;
+  /**
+   * @var string
+   */
+  public $destinationBackupVault;
   /**
    * @var string[]
    */
@@ -38,8 +52,58 @@ class BackupVault extends \Google\Model
   /**
    * @var string
    */
+  public $sourceBackupVault;
+  /**
+   * @var string
+   */
+  public $sourceRegion;
+  /**
+   * @var string
+   */
   public $state;
 
+  /**
+   * @param string
+   */
+  public function setBackupRegion($backupRegion)
+  {
+    $this->backupRegion = $backupRegion;
+  }
+  /**
+   * @return string
+   */
+  public function getBackupRegion()
+  {
+    return $this->backupRegion;
+  }
+  /**
+   * @param BackupRetentionPolicy
+   */
+  public function setBackupRetentionPolicy(BackupRetentionPolicy $backupRetentionPolicy)
+  {
+    $this->backupRetentionPolicy = $backupRetentionPolicy;
+  }
+  /**
+   * @return BackupRetentionPolicy
+   */
+  public function getBackupRetentionPolicy()
+  {
+    return $this->backupRetentionPolicy;
+  }
+  /**
+   * @param string
+   */
+  public function setBackupVaultType($backupVaultType)
+  {
+    $this->backupVaultType = $backupVaultType;
+  }
+  /**
+   * @return string
+   */
+  public function getBackupVaultType()
+  {
+    return $this->backupVaultType;
+  }
   /**
    * @param string
    */
@@ -69,6 +133,20 @@ class BackupVault extends \Google\Model
     return $this->description;
   }
   /**
+   * @param string
+   */
+  public function setDestinationBackupVault($destinationBackupVault)
+  {
+    $this->destinationBackupVault = $destinationBackupVault;
+  }
+  /**
+   * @return string
+   */
+  public function getDestinationBackupVault()
+  {
+    return $this->destinationBackupVault;
+  }
+  /**
    * @param string[]
    */
   public function setLabels($labels)
@@ -95,6 +173,34 @@ class BackupVault extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceBackupVault($sourceBackupVault)
+  {
+    $this->sourceBackupVault = $sourceBackupVault;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceBackupVault()
+  {
+    return $this->sourceBackupVault;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceRegion($sourceRegion)
+  {
+    $this->sourceRegion = $sourceRegion;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceRegion()
+  {
+    return $this->sourceRegion;
   }
   /**
    * @param string

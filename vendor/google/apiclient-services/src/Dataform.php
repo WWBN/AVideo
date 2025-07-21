@@ -35,6 +35,9 @@ use Google\Client;
  */
 class Dataform extends \Google\Service
 {
+  /** View and manage your data in Google BigQuery and see the email address for your Google Account. */
+  const BIGQUERY =
+      "https://www.googleapis.com/auth/bigquery";
   /** See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.. */
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
@@ -99,6 +102,11 @@ class Dataform extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'extraLocationTypes' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
                 ],
                 'filter' => [
                   'location' => 'query',

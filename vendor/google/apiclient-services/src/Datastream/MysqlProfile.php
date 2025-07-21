@@ -31,6 +31,10 @@ class MysqlProfile extends \Google\Model
    * @var int
    */
   public $port;
+  /**
+   * @var string
+   */
+  public $secretManagerStoredPassword;
   protected $sslConfigType = MysqlSslConfig::class;
   protected $sslConfigDataType = '';
   /**
@@ -79,6 +83,20 @@ class MysqlProfile extends \Google\Model
   public function getPort()
   {
     return $this->port;
+  }
+  /**
+   * @param string
+   */
+  public function setSecretManagerStoredPassword($secretManagerStoredPassword)
+  {
+    $this->secretManagerStoredPassword = $secretManagerStoredPassword;
+  }
+  /**
+   * @return string
+   */
+  public function getSecretManagerStoredPassword()
+  {
+    return $this->secretManagerStoredPassword;
   }
   /**
    * @param MysqlSslConfig

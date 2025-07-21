@@ -19,13 +19,17 @@ namespace Google\Service\Reports;
 
 class ActivityEvents extends \Google\Collection
 {
-  protected $collection_key = 'parameters';
+  protected $collection_key = 'resourceIds';
   /**
    * @var string
    */
   public $name;
   protected $parametersType = ActivityEventsParameters::class;
   protected $parametersDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $resourceIds;
   /**
    * @var string
    */
@@ -58,6 +62,20 @@ class ActivityEvents extends \Google\Collection
   public function getParameters()
   {
     return $this->parameters;
+  }
+  /**
+   * @param string[]
+   */
+  public function setResourceIds($resourceIds)
+  {
+    $this->resourceIds = $resourceIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getResourceIds()
+  {
+    return $this->resourceIds;
   }
   /**
    * @param string

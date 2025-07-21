@@ -22,6 +22,10 @@ class GoogleCloudDialogflowCxV3SafetySettings extends \Google\Collection
   protected $collection_key = 'bannedPhrases';
   protected $bannedPhrasesType = GoogleCloudDialogflowCxV3SafetySettingsPhrase::class;
   protected $bannedPhrasesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $defaultBannedPhraseMatchStrategy;
 
   /**
    * @param GoogleCloudDialogflowCxV3SafetySettingsPhrase[]
@@ -36,6 +40,20 @@ class GoogleCloudDialogflowCxV3SafetySettings extends \Google\Collection
   public function getBannedPhrases()
   {
     return $this->bannedPhrases;
+  }
+  /**
+   * @param string
+   */
+  public function setDefaultBannedPhraseMatchStrategy($defaultBannedPhraseMatchStrategy)
+  {
+    $this->defaultBannedPhraseMatchStrategy = $defaultBannedPhraseMatchStrategy;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultBannedPhraseMatchStrategy()
+  {
+    return $this->defaultBannedPhraseMatchStrategy;
   }
 }
 

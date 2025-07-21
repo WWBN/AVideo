@@ -6,7 +6,6 @@
         "start": "node index.js"
     },
     "dependencies": {
-        "elephant-io_example": "file:",
         "socket.io": "^4.8.1"
     }
 }

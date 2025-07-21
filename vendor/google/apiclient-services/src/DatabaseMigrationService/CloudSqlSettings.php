@@ -44,6 +44,14 @@ class CloudSqlSettings extends \Google\Model
   /**
    * @var string
    */
+  public $dataDiskProvisionedIops;
+  /**
+   * @var string
+   */
+  public $dataDiskProvisionedThroughput;
+  /**
+   * @var string
+   */
   public $dataDiskSizeGb;
   /**
    * @var string
@@ -183,6 +191,34 @@ class CloudSqlSettings extends \Google\Model
   public function getDataCacheConfig()
   {
     return $this->dataCacheConfig;
+  }
+  /**
+   * @param string
+   */
+  public function setDataDiskProvisionedIops($dataDiskProvisionedIops)
+  {
+    $this->dataDiskProvisionedIops = $dataDiskProvisionedIops;
+  }
+  /**
+   * @return string
+   */
+  public function getDataDiskProvisionedIops()
+  {
+    return $this->dataDiskProvisionedIops;
+  }
+  /**
+   * @param string
+   */
+  public function setDataDiskProvisionedThroughput($dataDiskProvisionedThroughput)
+  {
+    $this->dataDiskProvisionedThroughput = $dataDiskProvisionedThroughput;
+  }
+  /**
+   * @return string
+   */
+  public function getDataDiskProvisionedThroughput()
+  {
+    return $this->dataDiskProvisionedThroughput;
   }
   /**
    * @param string

@@ -43,6 +43,10 @@ class GoogleFirestoreAdminV1Index extends \Google\Collection
    */
   public $queryScope;
   /**
+   * @var int
+   */
+  public $shardCount;
+  /**
    * @var string
    */
   public $state;
@@ -130,6 +134,20 @@ class GoogleFirestoreAdminV1Index extends \Google\Collection
   public function getQueryScope()
   {
     return $this->queryScope;
+  }
+  /**
+   * @param int
+   */
+  public function setShardCount($shardCount)
+  {
+    $this->shardCount = $shardCount;
+  }
+  /**
+   * @return int
+   */
+  public function getShardCount()
+  {
+    return $this->shardCount;
   }
   /**
    * @param string

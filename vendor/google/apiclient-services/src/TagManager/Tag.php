@@ -27,10 +27,6 @@ class Tag extends \Google\Collection
   /**
    * @var string[]
    */
-  public $blockingRuleId;
-  /**
-   * @var string[]
-   */
   public $blockingTriggerId;
   protected $consentSettingsType = TagConsentSetting::class;
   protected $consentSettingsDataType = '';
@@ -42,10 +38,6 @@ class Tag extends \Google\Collection
    * @var string
    */
   public $fingerprint;
-  /**
-   * @var string[]
-   */
-  public $firingRuleId;
   /**
    * @var string[]
    */
@@ -134,20 +126,6 @@ class Tag extends \Google\Collection
   /**
    * @param string[]
    */
-  public function setBlockingRuleId($blockingRuleId)
-  {
-    $this->blockingRuleId = $blockingRuleId;
-  }
-  /**
-   * @return string[]
-   */
-  public function getBlockingRuleId()
-  {
-    return $this->blockingRuleId;
-  }
-  /**
-   * @param string[]
-   */
   public function setBlockingTriggerId($blockingTriggerId)
   {
     $this->blockingTriggerId = $blockingTriggerId;
@@ -200,20 +178,6 @@ class Tag extends \Google\Collection
   public function getFingerprint()
   {
     return $this->fingerprint;
-  }
-  /**
-   * @param string[]
-   */
-  public function setFiringRuleId($firingRuleId)
-  {
-    $this->firingRuleId = $firingRuleId;
-  }
-  /**
-   * @return string[]
-   */
-  public function getFiringRuleId()
-  {
-    return $this->firingRuleId;
   }
   /**
    * @param string[]

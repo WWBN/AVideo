@@ -68,6 +68,8 @@ class GoogleCloudAiplatformV1NotebookRuntimeTemplate extends \Google\Collection
    * @var string
    */
   public $notebookRuntimeType;
+  protected $reservationAffinityType = GoogleCloudAiplatformV1NotebookReservationAffinity::class;
+  protected $reservationAffinityDataType = '';
   /**
    * @var string
    */
@@ -290,6 +292,20 @@ class GoogleCloudAiplatformV1NotebookRuntimeTemplate extends \Google\Collection
   public function getNotebookRuntimeType()
   {
     return $this->notebookRuntimeType;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1NotebookReservationAffinity
+   */
+  public function setReservationAffinity(GoogleCloudAiplatformV1NotebookReservationAffinity $reservationAffinity)
+  {
+    $this->reservationAffinity = $reservationAffinity;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1NotebookReservationAffinity
+   */
+  public function getReservationAffinity()
+  {
+    return $this->reservationAffinity;
   }
   /**
    * @param string

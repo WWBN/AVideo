@@ -38,9 +38,7 @@ class ProjectsLocationsDataTaxonomies extends \Google\Service\Resource
   /**
    * Create a DataTaxonomy resource. (dataTaxonomies.create)
    *
-   * @param string $parent Required. The resource name of the data taxonomy
-   * location, of the form: projects/{project_number}/locations/{location_id}
-   * where location_id refers to a GCP region.
+   * @param string $parent
    * @param GoogleCloudDataplexV1DataTaxonomy $postBody
    * @param array $optParams Optional parameters.
    *
@@ -82,8 +80,7 @@ class ProjectsLocationsDataTaxonomies extends \Google\Service\Resource
   /**
    * Retrieves a DataTaxonomy resource. (dataTaxonomies.get)
    *
-   * @param string $name Required. The resource name of the DataTaxonomy: projects
-   * /{project_number}/locations/{location_id}/dataTaxonomies/{data_taxonomy_id}
+   * @param string $name
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDataplexV1DataTaxonomy
    * @throws \Google\Service\Exception

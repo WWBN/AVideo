@@ -17,6 +17,9 @@
 
 namespace Google\Service\AndroidPublisher\Resource;
 
+use Google\Service\AndroidPublisher\BatchGetOrdersResponse;
+use Google\Service\AndroidPublisher\Order;
+
 /**
  * The "orders" collection of methods.
  * Typical usage is:
@@ -27,6 +30,45 @@ namespace Google\Service\AndroidPublisher\Resource;
  */
 class Orders extends \Google\Service\Resource
 {
+  /**
+   * Get order details for a list of orders. (orders.batchget)
+   *
+   * @param string $packageName Required. The package name of the application for
+   * which this subscription or in-app item was purchased (for example,
+   * 'com.some.thing').
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string orderIds Required. The list of order IDs to retrieve order
+   * details for. There must be between 1 and 1000 (inclusive) order IDs per
+   * request. If any order ID is not found or does not match the provided package,
+   * the entire request will fail with an error. The order IDs must be distinct.
+   * @return BatchGetOrdersResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchget($packageName, $optParams = [])
+  {
+    $params = ['packageName' => $packageName];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchget', [$params], BatchGetOrdersResponse::class);
+  }
+  /**
+   * Get order details for a single order. (orders.get)
+   *
+   * @param string $packageName Required. The package name of the application for
+   * which this subscription or in-app item was purchased (for example,
+   * 'com.some.thing').
+   * @param string $orderId Required. The order ID provided to the user when the
+   * subscription or in-app order was purchased.
+   * @param array $optParams Optional parameters.
+   * @return Order
+   * @throws \Google\Service\Exception
+   */
+  public function get($packageName, $orderId, $optParams = [])
+  {
+    $params = ['packageName' => $packageName, 'orderId' => $orderId];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], Order::class);
+  }
   /**
    * Refunds a user's subscription or in-app purchase order. Orders older than 3
    * years cannot be refunded. (orders.refund)

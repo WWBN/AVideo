@@ -39,6 +39,8 @@ class TestEnvironmentCatalog extends \Google\Service\Resource
    * be listed.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool includeViewableModels Optional. Whether to include viewable
+   * only models in the response. This is only applicable for Android models.
    * @opt_param string projectId For authorization, the cloud project requesting
    * the TestEnvironmentCatalog.
    * @return TestEnvironmentCatalogModel

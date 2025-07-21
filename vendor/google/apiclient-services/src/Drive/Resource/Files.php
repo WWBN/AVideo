@@ -80,18 +80,18 @@ class Files extends \Google\Service\Resource
    * *Accepted Media MIME types:*`*` Note: Specify a valid MIME type, rather than
    * the literal `*` value. The literal `*` is only used to indicate that any
    * valid MIME type can be uploaded. For more information on uploading files, see
-   * [Upload file data](/drive/api/guides/manage-uploads). Apps creating shortcuts
-   * with `files.create` must specify the MIME type `application/vnd.google-
-   * apps.shortcut`. Apps should specify a file extension in the `name` property
-   * when inserting files with the API. For example, an operation to insert a JPEG
-   * file should specify something like `"name": "cat.jpg"` in the metadata.
-   * Subsequent `GET` requests include the read-only `fileExtension` property
-   * populated with the extension originally specified in the `title` property.
-   * When a Google Drive user requests to download a file, or when the file is
-   * downloaded through the sync client, Drive builds a full filename (with
-   * extension) based on the title. In cases where the extension is missing, Drive
-   * attempts to determine the extension based on the file's MIME type.
-   * (files.create)
+   * [Upload file data](/workspace/drive/api/guides/manage-uploads). Apps creating
+   * shortcuts with `files.create` must specify the MIME type
+   * `application/vnd.google-apps.shortcut`. Apps should specify a file extension
+   * in the `name` property when inserting files with the API. For example, an
+   * operation to insert a JPEG file should specify something like `"name":
+   * "cat.jpg"` in the metadata. Subsequent `GET` requests include the read-only
+   * `fileExtension` property populated with the extension originally specified in
+   * the `title` property. When a Google Drive user requests to download a file,
+   * or when the file is downloaded through the sync client, Drive builds a full
+   * filename (with extension) based on the title. In cases where the extension is
+   * missing, Drive attempts to determine the extension based on the file's MIME
+   * type. (files.create)
    *
    * @param DriveFile $postBody
    * @param array $optParams Optional parameters.
@@ -239,9 +239,9 @@ class Files extends \Google\Service\Resource
    * `alt=media`, then the response includes the file contents in the response
    * body. Downloading content with `alt=media` only works if the file is stored
    * in Drive. To download Google Docs, Sheets, and Slides use
-   * [`files.export`](/drive/api/reference/rest/v3/files/export) instead. For more
-   * information, see [Download & export files](/drive/api/guides/manage-
-   * downloads). (files.get)
+   * [`files.export`](/workspace/drive/api/reference/rest/v3/files/export)
+   * instead. For more information, see [Download & export
+   * files](/workspace/drive/api/guides/manage-downloads). (files.get)
    *
    * @param string $fileId The ID of the file.
    * @param array $optParams Optional parameters.
@@ -270,9 +270,9 @@ class Files extends \Google\Service\Resource
   /**
    * Lists the user's files. This method accepts the `q` parameter, which is a
    * search query combining one or more search terms. For more information, see
-   * the [Search for files & folders](/drive/api/guides/search-files) guide.
-   * *Note:* This method returns *all* files by default, including trashed files.
-   * If you don't want trashed files to appear in the list, use the
+   * the [Search for files & folders](/workspace/drive/api/guides/search-files)
+   * guide. *Note:* This method returns *all* files by default, including trashed
+   * files. If you don't want trashed files to appear in the list, use the
    * `trashed=false` query parameter to remove trashed files from the results.
    * (files.listFiles)
    *
@@ -377,8 +377,8 @@ class Files extends \Google\Service\Resource
    * size:* 5,120 GB - *Accepted Media MIME types:*`*` Note: Specify a valid MIME
    * type, rather than the literal `*` value. The literal `*` is only used to
    * indicate that any valid MIME type can be uploaded. For more information on
-   * uploading files, see [Upload file data](/drive/api/guides/manage-uploads).
-   * (files.update)
+   * uploading files, see [Upload file data](/workspace/drive/api/guides/manage-
+   * uploads). (files.update)
    *
    * @param string $fileId The ID of the file.
    * @param DriveFile $postBody

@@ -27,7 +27,7 @@ use Google\Client;
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://developers.google.com/meet/api" target="_blank">Documentation</a>
+ * <a href="https://developers.google.com/workspace/meet/api" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.

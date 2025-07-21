@@ -26,6 +26,10 @@ class AdvancedMachineFeatures extends \Google\Model
   /**
    * @var string
    */
+  public $performanceMonitoringUnit;
+  /**
+   * @var string
+   */
   public $threadsPerCore;
 
   /**
@@ -41,6 +45,20 @@ class AdvancedMachineFeatures extends \Google\Model
   public function getEnableNestedVirtualization()
   {
     return $this->enableNestedVirtualization;
+  }
+  /**
+   * @param string
+   */
+  public function setPerformanceMonitoringUnit($performanceMonitoringUnit)
+  {
+    $this->performanceMonitoringUnit = $performanceMonitoringUnit;
+  }
+  /**
+   * @return string
+   */
+  public function getPerformanceMonitoringUnit()
+  {
+    return $this->performanceMonitoringUnit;
   }
   /**
    * @param string

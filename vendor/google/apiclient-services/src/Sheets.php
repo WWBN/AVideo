@@ -27,7 +27,7 @@ use Google\Client;
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://developers.google.com/sheets/" target="_blank">Documentation</a>
+ * <a href="https://developers.google.com/workspace/sheets/" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -101,6 +101,10 @@ class Sheets extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'excludeTablesInBandedRanges' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'includeGridData' => [
                   'location' => 'query',

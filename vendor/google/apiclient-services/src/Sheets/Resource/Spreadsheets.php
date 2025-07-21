@@ -77,23 +77,26 @@ class Spreadsheets extends \Google\Service\Resource
    * Returns the spreadsheet at the given ID. The caller must specify the
    * spreadsheet ID. By default, data within grids is not returned. You can
    * include grid data in one of 2 ways: * Specify a [field
-   * mask](https://developers.google.com/sheets/api/guides/field-masks) listing
-   * your desired fields using the `fields` URL parameter in HTTP * Set the
-   * includeGridData URL parameter to true. If a field mask is set, the
+   * mask](https://developers.google.com/workspace/sheets/api/guides/field-masks)
+   * listing your desired fields using the `fields` URL parameter in HTTP * Set
+   * the includeGridData URL parameter to true. If a field mask is set, the
    * `includeGridData` parameter is ignored For large spreadsheets, as a best
    * practice, retrieve only the specific spreadsheet fields that you want. To
    * retrieve only subsets of spreadsheet data, use the ranges URL parameter.
-   * Ranges are specified using [A1 notation](/sheets/api/guides/concepts#cell).
-   * You can define a single cell (for example, `A1`) or multiple cells (for
-   * example, `A1:D5`). You can also get cells from other sheets within the same
-   * spreadsheet (for example, `Sheet2!A1:C4`) or retrieve multiple ranges at once
-   * (for example, `?ranges=A1:D5&ranges=Sheet2!A1:C4`). Limiting the range
-   * returns only the portions of the spreadsheet that intersect the requested
-   * ranges. (spreadsheets.get)
+   * Ranges are specified using [A1 notation](https://developers.google.com/worksp
+   * ace/sheets/api/guides/concepts#cell). You can define a single cell (for
+   * example, `A1`) or multiple cells (for example, `A1:D5`). You can also get
+   * cells from other sheets within the same spreadsheet (for example,
+   * `Sheet2!A1:C4`) or retrieve multiple ranges at once (for example,
+   * `?ranges=A1:D5&ranges=Sheet2!A1:C4`). Limiting the range returns only the
+   * portions of the spreadsheet that intersect the requested ranges.
+   * (spreadsheets.get)
    *
    * @param string $spreadsheetId The spreadsheet to request.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool excludeTablesInBandedRanges True if tables should be excluded
+   * in the banded ranges. False if not set.
    * @opt_param bool includeGridData True if grid data should be returned. This
    * parameter is ignored if a field mask was set in the request.
    * @opt_param string ranges The ranges to retrieve from the spreadsheet.
@@ -114,9 +117,9 @@ class Spreadsheets extends \Google\Service\Resource
    * or more data filters returns the portions of the spreadsheet that intersect
    * ranges matched by any of the filters. By default, data within grids is not
    * returned. You can include grid data one of 2 ways: * Specify a [field
-   * mask](https://developers.google.com/sheets/api/guides/field-masks) listing
-   * your desired fields using the `fields` URL parameter in HTTP * Set the
-   * includeGridData parameter to true. If a field mask is set, the
+   * mask](https://developers.google.com/workspace/sheets/api/guides/field-masks)
+   * listing your desired fields using the `fields` URL parameter in HTTP * Set
+   * the includeGridData parameter to true. If a field mask is set, the
    * `includeGridData` parameter is ignored For large spreadsheets, as a best
    * practice, retrieve only the specific spreadsheet fields that you want.
    * (spreadsheets.getByDataFilter)

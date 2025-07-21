@@ -21,6 +21,8 @@ class ExportDataRequest extends \Google\Model
 {
   protected $destinationGcsBucketType = DestinationGcsBucket::class;
   protected $destinationGcsBucketDataType = '';
+  protected $metadataOptionsType = TransferMetadataOptions::class;
+  protected $metadataOptionsDataType = '';
   /**
    * @var string
    */
@@ -45,6 +47,20 @@ class ExportDataRequest extends \Google\Model
   public function getDestinationGcsBucket()
   {
     return $this->destinationGcsBucket;
+  }
+  /**
+   * @param TransferMetadataOptions
+   */
+  public function setMetadataOptions(TransferMetadataOptions $metadataOptions)
+  {
+    $this->metadataOptions = $metadataOptions;
+  }
+  /**
+   * @return TransferMetadataOptions
+   */
+  public function getMetadataOptions()
+  {
+    return $this->metadataOptions;
   }
   /**
    * @param string

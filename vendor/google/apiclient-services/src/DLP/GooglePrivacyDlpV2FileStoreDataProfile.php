@@ -19,7 +19,7 @@ namespace Google\Service\DLP;
 
 class GooglePrivacyDlpV2FileStoreDataProfile extends \Google\Collection
 {
-  protected $collection_key = 'relatedResources';
+  protected $collection_key = 'tags';
   protected $configSnapshotType = GooglePrivacyDlpV2DataProfileConfigSnapshot::class;
   protected $configSnapshotDataType = '';
   /**
@@ -92,12 +92,16 @@ class GooglePrivacyDlpV2FileStoreDataProfile extends \Google\Collection
    * @var string
    */
   public $resourceVisibility;
+  protected $sampleFindingsTableType = GooglePrivacyDlpV2BigQueryTable::class;
+  protected $sampleFindingsTableDataType = '';
   protected $sensitivityScoreType = GooglePrivacyDlpV2SensitivityScore::class;
   protected $sensitivityScoreDataType = '';
   /**
    * @var string
    */
   public $state;
+  protected $tagsType = GooglePrivacyDlpV2Tag::class;
+  protected $tagsDataType = 'array';
 
   /**
    * @param GooglePrivacyDlpV2DataProfileConfigSnapshot
@@ -408,6 +412,20 @@ class GooglePrivacyDlpV2FileStoreDataProfile extends \Google\Collection
     return $this->resourceVisibility;
   }
   /**
+   * @param GooglePrivacyDlpV2BigQueryTable
+   */
+  public function setSampleFindingsTable(GooglePrivacyDlpV2BigQueryTable $sampleFindingsTable)
+  {
+    $this->sampleFindingsTable = $sampleFindingsTable;
+  }
+  /**
+   * @return GooglePrivacyDlpV2BigQueryTable
+   */
+  public function getSampleFindingsTable()
+  {
+    return $this->sampleFindingsTable;
+  }
+  /**
    * @param GooglePrivacyDlpV2SensitivityScore
    */
   public function setSensitivityScore(GooglePrivacyDlpV2SensitivityScore $sensitivityScore)
@@ -434,6 +452,20 @@ class GooglePrivacyDlpV2FileStoreDataProfile extends \Google\Collection
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param GooglePrivacyDlpV2Tag[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return GooglePrivacyDlpV2Tag[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
 }
 

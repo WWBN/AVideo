@@ -18,6 +18,7 @@
 namespace Google\Service\Assuredworkloads\Resource;
 
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1AnalyzeWorkloadMoveResponse;
+use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1EnableComplianceUpdatesResponse;
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1EnableResourceMonitoringResponse;
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1ListWorkloadsResponse;
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest;
@@ -55,7 +56,7 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * The complete list of asset types is available
    * [here](https://cloud.google.com/asset-inventory/docs/supported-asset-types).
    * @opt_param int pageSize Optional. Page size. If a value is not specified, the
-   * default value of 10 is used.
+   * default value of 10 is used. The maximum value is 50.
    * @opt_param string pageToken Optional. The page token from the previous
    * response. It needs to be passed in the second and following requests.
    * @opt_param string project The source type is a project. Specify the project's
@@ -115,6 +116,28 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
+  /**
+   * This endpoint enables Assured Workloads service to offer compliance updates
+   * for the folder based assured workload. It sets up an Assured Workloads
+   * Service Agent, having permissions to read compliance controls (for example:
+   * Org Policies) applied on the workload. The caller must have
+   * `resourcemanager.folders.getIamPolicy` and
+   * `resourcemanager.folders.setIamPolicy` permissions on the assured workload
+   * folder. (workloads.enableComplianceUpdates)
+   *
+   * @param string $name Required. The `name` field is used to identify the
+   * workload. Format:
+   * organizations/{org_id}/locations/{location_id}/workloads/{workload_id}
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAssuredworkloadsV1EnableComplianceUpdatesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function enableComplianceUpdates($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('enableComplianceUpdates', [$params], GoogleCloudAssuredworkloadsV1EnableComplianceUpdatesResponse::class);
   }
   /**
    * Enable resource violation monitoring for a workload.

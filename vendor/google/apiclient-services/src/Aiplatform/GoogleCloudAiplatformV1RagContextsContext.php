@@ -19,6 +19,8 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1RagContextsContext extends \Google\Model
 {
+  protected $chunkType = GoogleCloudAiplatformV1RagChunk::class;
+  protected $chunkDataType = '';
   public $score;
   /**
    * @var string
@@ -33,6 +35,20 @@ class GoogleCloudAiplatformV1RagContextsContext extends \Google\Model
    */
   public $text;
 
+  /**
+   * @param GoogleCloudAiplatformV1RagChunk
+   */
+  public function setChunk(GoogleCloudAiplatformV1RagChunk $chunk)
+  {
+    $this->chunk = $chunk;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RagChunk
+   */
+  public function getChunk()
+  {
+    return $this->chunk;
+  }
   public function setScore($score)
   {
     $this->score = $score;

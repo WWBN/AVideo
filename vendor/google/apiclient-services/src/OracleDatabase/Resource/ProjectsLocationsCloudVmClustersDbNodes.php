@@ -35,7 +35,7 @@ class ProjectsLocationsCloudVmClustersDbNodes extends \Google\Service\Resource
    *
    * @param string $parent Required. The parent value for database node in the
    * following format:
-   * projects/{project}/locations/{location}/cloudVmClusters/{cloudVmCluster}.
+   * projects/{project}/locations/{location}/cloudVmClusters/{cloudVmCluster}. .
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Optional. The maximum number of items to return. If

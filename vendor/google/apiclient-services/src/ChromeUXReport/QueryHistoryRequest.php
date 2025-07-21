@@ -21,6 +21,10 @@ class QueryHistoryRequest extends \Google\Collection
 {
   protected $collection_key = 'metrics';
   /**
+   * @var int
+   */
+  public $collectionPeriodCount;
+  /**
    * @var string
    */
   public $formFactor;
@@ -37,6 +41,20 @@ class QueryHistoryRequest extends \Google\Collection
    */
   public $url;
 
+  /**
+   * @param int
+   */
+  public function setCollectionPeriodCount($collectionPeriodCount)
+  {
+    $this->collectionPeriodCount = $collectionPeriodCount;
+  }
+  /**
+   * @return int
+   */
+  public function getCollectionPeriodCount()
+  {
+    return $this->collectionPeriodCount;
+  }
   /**
    * @param string
    */

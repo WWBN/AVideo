@@ -38,6 +38,10 @@ class UsageSnapshot extends \Google\Model
   /**
    * @var string
    */
+  public $milliSlot;
+  /**
+   * @var string
+   */
   public $shuffleStorageGb;
   /**
    * @var string
@@ -103,6 +107,20 @@ class UsageSnapshot extends \Google\Model
   public function getMilliDcuPremium()
   {
     return $this->milliDcuPremium;
+  }
+  /**
+   * @param string
+   */
+  public function setMilliSlot($milliSlot)
+  {
+    $this->milliSlot = $milliSlot;
+  }
+  /**
+   * @return string
+   */
+  public function getMilliSlot()
+  {
+    return $this->milliSlot;
   }
   /**
    * @param string

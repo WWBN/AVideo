@@ -19,6 +19,25 @@ namespace Google\Service\BigtableAdmin;
 
 class GoogleBigtableAdminV2TypeBytesEncodingRaw extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $escapeNulls;
+
+  /**
+   * @param bool
+   */
+  public function setEscapeNulls($escapeNulls)
+  {
+    $this->escapeNulls = $escapeNulls;
+  }
+  /**
+   * @return bool
+   */
+  public function getEscapeNulls()
+  {
+    return $this->escapeNulls;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

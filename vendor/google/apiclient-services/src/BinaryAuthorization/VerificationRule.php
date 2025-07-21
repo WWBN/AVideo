@@ -29,6 +29,10 @@ class VerificationRule extends \Google\Collection
   /**
    * @var string
    */
+  public $customConstraints;
+  /**
+   * @var string
+   */
   public $trustedBuilder;
   /**
    * @var string[]
@@ -62,6 +66,20 @@ class VerificationRule extends \Google\Collection
   public function getConfigBasedBuildRequired()
   {
     return $this->configBasedBuildRequired;
+  }
+  /**
+   * @param string
+   */
+  public function setCustomConstraints($customConstraints)
+  {
+    $this->customConstraints = $customConstraints;
+  }
+  /**
+   * @return string
+   */
+  public function getCustomConstraints()
+  {
+    return $this->customConstraints;
   }
   /**
    * @param string

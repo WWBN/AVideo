@@ -39,6 +39,7 @@ class QueryTimelineSample extends \Google\Model
    * @var string
    */
   public $pendingUnits;
+  public $shuffleRamUsageRatio;
   /**
    * @var string
    */
@@ -113,6 +114,14 @@ class QueryTimelineSample extends \Google\Model
   public function getPendingUnits()
   {
     return $this->pendingUnits;
+  }
+  public function setShuffleRamUsageRatio($shuffleRamUsageRatio)
+  {
+    $this->shuffleRamUsageRatio = $shuffleRamUsageRatio;
+  }
+  public function getShuffleRamUsageRatio()
+  {
+    return $this->shuffleRamUsageRatio;
   }
   /**
    * @param string

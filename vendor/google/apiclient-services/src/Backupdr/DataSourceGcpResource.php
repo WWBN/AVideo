@@ -21,6 +21,8 @@ class DataSourceGcpResource extends \Google\Model
 {
   protected $computeInstanceDatasourcePropertiesType = ComputeInstanceDataSourceProperties::class;
   protected $computeInstanceDatasourcePropertiesDataType = '';
+  protected $diskDatasourcePropertiesType = DiskDataSourceProperties::class;
+  protected $diskDatasourcePropertiesDataType = '';
   /**
    * @var string
    */
@@ -47,6 +49,20 @@ class DataSourceGcpResource extends \Google\Model
   public function getComputeInstanceDatasourceProperties()
   {
     return $this->computeInstanceDatasourceProperties;
+  }
+  /**
+   * @param DiskDataSourceProperties
+   */
+  public function setDiskDatasourceProperties(DiskDataSourceProperties $diskDatasourceProperties)
+  {
+    $this->diskDatasourceProperties = $diskDatasourceProperties;
+  }
+  /**
+   * @return DiskDataSourceProperties
+   */
+  public function getDiskDatasourceProperties()
+  {
+    return $this->diskDatasourceProperties;
   }
   /**
    * @param string

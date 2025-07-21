@@ -56,6 +56,10 @@ class VerifyChallengeResponseResult extends \Google\Model
   /**
    * @var string
    */
+  public $profilePermanentId;
+  /**
+   * @var string
+   */
   public $signedPublicKeyAndChallenge;
   /**
    * @var string
@@ -191,6 +195,20 @@ class VerifyChallengeResponseResult extends \Google\Model
   public function getProfileKeyTrustLevel()
   {
     return $this->profileKeyTrustLevel;
+  }
+  /**
+   * @param string
+   */
+  public function setProfilePermanentId($profilePermanentId)
+  {
+    $this->profilePermanentId = $profilePermanentId;
+  }
+  /**
+   * @return string
+   */
+  public function getProfilePermanentId()
+  {
+    return $this->profilePermanentId;
   }
   /**
    * @param string

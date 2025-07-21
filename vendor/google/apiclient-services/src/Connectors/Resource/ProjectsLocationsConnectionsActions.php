@@ -56,6 +56,8 @@ class ProjectsLocationsConnectionsActions extends \Google\Service\Resource
    * @param string $name Required. Resource name of the Action. Format: projects/{
    * project}/locations/{location}/connections/{connection}/actions/{action}
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string view Specified view of the action schema.
    * @return Action
    * @throws \Google\Service\Exception
    */

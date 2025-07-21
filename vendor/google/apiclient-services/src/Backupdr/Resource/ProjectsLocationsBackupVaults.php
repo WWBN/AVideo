@@ -196,6 +196,9 @@ class ProjectsLocationsBackupVaults extends \Google\Service\Resource
    *
    * @opt_param bool force Optional. If set to true, will not check plan duration
    * against backup vault enforcement duration.
+   * @opt_param bool forceUpdateAccessRestriction Optional. If set to true, we
+   * will force update access restriction even if some non compliant data sources
+   * are present. The default is 'false'.
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
    * the server will know to ignore the request if it has already been completed.

@@ -43,7 +43,11 @@ class OrganizationsEnvironmentsSharedflowsRevisions extends \Google\Service\Reso
    *
    * @param string $name Required. Name of the shared flow revision to deploy in
    * the following format: `organizations/{org}/environments/{env}/sharedflows/{sh
-   * aredflow}/revisions/{rev}`
+   * aredflow}/revisions/{rev}` If the shared flow resource being deployed has the
+   * `space` attribute set, IAM permissions are checked differently . To learn
+   * more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool override Flag that specifies whether the new deployment
@@ -70,7 +74,11 @@ class OrganizationsEnvironmentsSharedflowsRevisions extends \Google\Service\Reso
    *
    * @param string $name Required. Name representing a shared flow in an
    * environment in the following format: `organizations/{org}/environments/{env}/
-   * sharedflows/{sharedflow}/revisions/{rev}`
+   * sharedflows/{sharedflow}/revisions/{rev}` If the shared flow resource has the
+   * `space` attribute set, IAM permissions are checked differently . To learn
+   * more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Deployment
    * @throws \Google\Service\Exception
@@ -91,7 +99,10 @@ class OrganizationsEnvironmentsSharedflowsRevisions extends \Google\Service\Reso
    *
    * @param string $name Required. Name of the shared flow revision to undeploy in
    * the following format: `organizations/{org}/environments/{env}/sharedflows/{sh
-   * aredflow}/revisions/{rev}`
+   * aredflow}/revisions/{rev}` If the shared flow resource has the `space`
+   * attribute set, IAM permissions are checked differently . To learn more, read
+   * the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-
+   * platform/system-administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    * @throws \Google\Service\Exception

@@ -20,6 +20,8 @@ namespace Google\Service\Dataproc;
 class ExecutionConfig extends \Google\Collection
 {
   protected $collection_key = 'networkTags';
+  protected $authenticationConfigType = AuthenticationConfig::class;
+  protected $authenticationConfigDataType = '';
   /**
    * @var string
    */
@@ -53,6 +55,20 @@ class ExecutionConfig extends \Google\Collection
    */
   public $ttl;
 
+  /**
+   * @param AuthenticationConfig
+   */
+  public function setAuthenticationConfig(AuthenticationConfig $authenticationConfig)
+  {
+    $this->authenticationConfig = $authenticationConfig;
+  }
+  /**
+   * @return AuthenticationConfig
+   */
+  public function getAuthenticationConfig()
+  {
+    return $this->authenticationConfig;
+  }
   /**
    * @param string
    */

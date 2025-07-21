@@ -36,6 +36,7 @@ class GoogleCloudDiscoveryengineV1CheckGroundingResponseClaim extends \Google\Co
    * @var bool
    */
   public $groundingCheckRequired;
+  public $score;
   /**
    * @var int
    */
@@ -96,6 +97,14 @@ class GoogleCloudDiscoveryengineV1CheckGroundingResponseClaim extends \Google\Co
   public function getGroundingCheckRequired()
   {
     return $this->groundingCheckRequired;
+  }
+  public function setScore($score)
+  {
+    $this->score = $score;
+  }
+  public function getScore()
+  {
+    return $this->score;
   }
   /**
    * @param int

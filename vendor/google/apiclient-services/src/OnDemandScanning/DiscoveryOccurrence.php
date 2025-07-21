@@ -19,7 +19,7 @@ namespace Google\Service\OnDemandScanning;
 
 class DiscoveryOccurrence extends \Google\Collection
 {
-  protected $collection_key = 'analysisError';
+  protected $collection_key = 'files';
   protected $analysisCompletedType = AnalysisCompleted::class;
   protected $analysisCompletedDataType = '';
   protected $analysisErrorType = Status::class;
@@ -42,6 +42,8 @@ class DiscoveryOccurrence extends \Google\Collection
    * @var string
    */
   public $cpe;
+  protected $filesType = OndemandscanningFile::class;
+  protected $filesDataType = 'array';
   /**
    * @var string
    */
@@ -146,6 +148,20 @@ class DiscoveryOccurrence extends \Google\Collection
   public function getCpe()
   {
     return $this->cpe;
+  }
+  /**
+   * @param OndemandscanningFile[]
+   */
+  public function setFiles($files)
+  {
+    $this->files = $files;
+  }
+  /**
+   * @return OndemandscanningFile[]
+   */
+  public function getFiles()
+  {
+    return $this->files;
   }
   /**
    * @param string

@@ -28,6 +28,10 @@ class BulkCheckRequest extends \Google\Collection
   protected $defaultSourceDataType = '';
   protected $defaultTargetType = Asset::class;
   protected $defaultTargetDataType = '';
+  /**
+   * @var bool
+   */
+  public $returnRelationExtensions;
   protected $statementsType = StatementTemplate::class;
   protected $statementsDataType = 'array';
 
@@ -72,6 +76,20 @@ class BulkCheckRequest extends \Google\Collection
   public function getDefaultTarget()
   {
     return $this->defaultTarget;
+  }
+  /**
+   * @param bool
+   */
+  public function setReturnRelationExtensions($returnRelationExtensions)
+  {
+    $this->returnRelationExtensions = $returnRelationExtensions;
+  }
+  /**
+   * @return bool
+   */
+  public function getReturnRelationExtensions()
+  {
+    return $this->returnRelationExtensions;
   }
   /**
    * @param StatementTemplate[]

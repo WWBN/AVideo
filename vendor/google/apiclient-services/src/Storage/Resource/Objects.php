@@ -407,6 +407,7 @@ class Objects extends \Google\Service\Resource
    * match the given value. `ifSourceMetagenerationMatch` and
    * `ifSourceMetagenerationNotMatch` conditions are mutually exclusive: it's an
    * error for both of them to be set in the request.
+   * @opt_param string projection Set of properties to return. Defaults to noAcl.
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return StorageObject

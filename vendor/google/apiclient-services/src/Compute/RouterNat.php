@@ -58,6 +58,8 @@ class RouterNat extends \Google\Collection
    * @var string
    */
   public $name;
+  protected $nat64SubnetworksType = RouterNatSubnetworkToNat64::class;
+  protected $nat64SubnetworksDataType = 'array';
   /**
    * @var string
    */
@@ -72,6 +74,10 @@ class RouterNat extends \Google\Collection
    * @var string
    */
   public $sourceSubnetworkIpRangesToNat;
+  /**
+   * @var string
+   */
+  public $sourceSubnetworkIpRangesToNat64;
   protected $subnetworksType = RouterNatSubnetworkToNat::class;
   protected $subnetworksDataType = 'array';
   /**
@@ -236,6 +242,20 @@ class RouterNat extends \Google\Collection
     return $this->name;
   }
   /**
+   * @param RouterNatSubnetworkToNat64[]
+   */
+  public function setNat64Subnetworks($nat64Subnetworks)
+  {
+    $this->nat64Subnetworks = $nat64Subnetworks;
+  }
+  /**
+   * @return RouterNatSubnetworkToNat64[]
+   */
+  public function getNat64Subnetworks()
+  {
+    return $this->nat64Subnetworks;
+  }
+  /**
    * @param string
    */
   public function setNatIpAllocateOption($natIpAllocateOption)
@@ -290,6 +310,20 @@ class RouterNat extends \Google\Collection
   public function getSourceSubnetworkIpRangesToNat()
   {
     return $this->sourceSubnetworkIpRangesToNat;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceSubnetworkIpRangesToNat64($sourceSubnetworkIpRangesToNat64)
+  {
+    $this->sourceSubnetworkIpRangesToNat64 = $sourceSubnetworkIpRangesToNat64;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceSubnetworkIpRangesToNat64()
+  {
+    return $this->sourceSubnetworkIpRangesToNat64;
   }
   /**
    * @param RouterNatSubnetworkToNat[]

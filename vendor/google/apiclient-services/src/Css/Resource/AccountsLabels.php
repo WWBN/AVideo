@@ -90,7 +90,7 @@ class AccountsLabels extends \Google\Service\Resource
   /**
    * Updates a label. (labels.patch)
    *
-   * @param string $name The resource name of the label. Format:
+   * @param string $name Identifier. The resource name of the label. Format:
    * accounts/{account}/labels/{label}
    * @param AccountLabel $postBody
    * @param array $optParams Optional parameters.

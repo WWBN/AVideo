@@ -19,6 +19,25 @@ namespace Google\Service\AnalyticsHub;
 
 class RevokeSubscriptionRequest extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $revokeCommercial;
+
+  /**
+   * @param bool
+   */
+  public function setRevokeCommercial($revokeCommercial)
+  {
+    $this->revokeCommercial = $revokeCommercial;
+  }
+  /**
+   * @return bool
+   */
+  public function getRevokeCommercial()
+  {
+    return $this->revokeCommercial;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

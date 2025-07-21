@@ -207,10 +207,10 @@ class ProjectsLocationsCollectionsDataStores extends \Google\Service\Resource
   /**
    * Updates a DataStore (dataStores.patch)
    *
-   * @param string $name Immutable. The full resource name of the data store.
-   * Format: `projects/{project}/locations/{location}/collections/{collection_id}/
-   * dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a
-   * length limit of 1024 characters.
+   * @param string $name Immutable. Identifier. The full resource name of the data
+   * store. Format: `projects/{project}/locations/{location}/collections/{collecti
+   * on_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string
+   * with a length limit of 1024 characters.
    * @param GoogleCloudDiscoveryengineV1DataStore $postBody
    * @param array $optParams Optional parameters.
    *

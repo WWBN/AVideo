@@ -39,9 +39,6 @@ class OrganizationsLocationsBucketsLinks extends \Google\Service\Resource
    * @param string $parent Required. The full resource name of the bucket to
    * create a link for.
    * "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"
-   * "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"
-   * "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET
-   * _ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"
    * @param Link $postBody
    * @param array $optParams Optional parameters.
    *

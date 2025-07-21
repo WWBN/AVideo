@@ -33,6 +33,10 @@ class FirewallPolicyRuleMatcher extends \Google\Collection
    */
   public $destIpRanges;
   /**
+   * @var string
+   */
+  public $destNetworkType;
+  /**
    * @var string[]
    */
   public $destRegionCodes;
@@ -54,6 +58,14 @@ class FirewallPolicyRuleMatcher extends \Google\Collection
    * @var string[]
    */
   public $srcIpRanges;
+  /**
+   * @var string
+   */
+  public $srcNetworkType;
+  /**
+   * @var string[]
+   */
+  public $srcNetworks;
   /**
    * @var string[]
    */
@@ -106,6 +118,20 @@ class FirewallPolicyRuleMatcher extends \Google\Collection
   public function getDestIpRanges()
   {
     return $this->destIpRanges;
+  }
+  /**
+   * @param string
+   */
+  public function setDestNetworkType($destNetworkType)
+  {
+    $this->destNetworkType = $destNetworkType;
+  }
+  /**
+   * @return string
+   */
+  public function getDestNetworkType()
+  {
+    return $this->destNetworkType;
   }
   /**
    * @param string[]
@@ -190,6 +216,34 @@ class FirewallPolicyRuleMatcher extends \Google\Collection
   public function getSrcIpRanges()
   {
     return $this->srcIpRanges;
+  }
+  /**
+   * @param string
+   */
+  public function setSrcNetworkType($srcNetworkType)
+  {
+    $this->srcNetworkType = $srcNetworkType;
+  }
+  /**
+   * @return string
+   */
+  public function getSrcNetworkType()
+  {
+    return $this->srcNetworkType;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSrcNetworks($srcNetworks)
+  {
+    $this->srcNetworks = $srcNetworks;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSrcNetworks()
+  {
+    return $this->srcNetworks;
   }
   /**
    * @param string[]

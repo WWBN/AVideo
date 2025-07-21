@@ -32,10 +32,8 @@ class CustomBiddingAlgorithmsScripts extends \Google\Service\Resource
 {
   /**
    * Creates a new custom bidding script. Returns the newly created script if
-   * successful. *Warning*: Starting **April 1, 2025**, requests updating custom
-   * bidding algorithms that are assigned to line items will return an error.
-   * [Read more about this announced change](/display-
-   * video/api/deprecations#features.custom_bidding_floodlight). (scripts.create)
+   * successful. Requests creating a custom bidding script under an algorithm
+   * assigned to a line item will return an error. (scripts.create)
    *
    * @param string $customBiddingAlgorithmId Required. The ID of the custom
    * bidding algorithm that owns the script.

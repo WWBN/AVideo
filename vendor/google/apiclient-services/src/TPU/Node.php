@@ -102,6 +102,8 @@ class Node extends \Google\Collection
    * @var string[]
    */
   public $tags;
+  protected $upcomingMaintenanceType = UpcomingMaintenance::class;
+  protected $upcomingMaintenanceDataType = '';
 
   /**
    * @param AcceleratorConfig
@@ -452,6 +454,20 @@ class Node extends \Google\Collection
   public function getTags()
   {
     return $this->tags;
+  }
+  /**
+   * @param UpcomingMaintenance
+   */
+  public function setUpcomingMaintenance(UpcomingMaintenance $upcomingMaintenance)
+  {
+    $this->upcomingMaintenance = $upcomingMaintenance;
+  }
+  /**
+   * @return UpcomingMaintenance
+   */
+  public function getUpcomingMaintenance()
+  {
+    return $this->upcomingMaintenance;
   }
 }
 

@@ -41,6 +41,8 @@ class Table extends \Google\Model
   public $name;
   protected $restoreInfoType = RestoreInfo::class;
   protected $restoreInfoDataType = '';
+  protected $rowKeySchemaType = GoogleBigtableAdminV2TypeStruct::class;
+  protected $rowKeySchemaDataType = '';
   protected $statsType = TableStats::class;
   protected $statsDataType = '';
 
@@ -155,6 +157,20 @@ class Table extends \Google\Model
   public function getRestoreInfo()
   {
     return $this->restoreInfo;
+  }
+  /**
+   * @param GoogleBigtableAdminV2TypeStruct
+   */
+  public function setRowKeySchema(GoogleBigtableAdminV2TypeStruct $rowKeySchema)
+  {
+    $this->rowKeySchema = $rowKeySchema;
+  }
+  /**
+   * @return GoogleBigtableAdminV2TypeStruct
+   */
+  public function getRowKeySchema()
+  {
+    return $this->rowKeySchema;
   }
   /**
    * @param TableStats

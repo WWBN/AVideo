@@ -29,6 +29,10 @@ class GoogleFirestoreAdminV1RestoreDatabaseRequest extends \Google\Model
   public $databaseId;
   protected $encryptionConfigType = GoogleFirestoreAdminV1EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
+  /**
+   * @var string[]
+   */
+  public $tags;
 
   /**
    * @param string
@@ -71,6 +75,20 @@ class GoogleFirestoreAdminV1RestoreDatabaseRequest extends \Google\Model
   public function getEncryptionConfig()
   {
     return $this->encryptionConfig;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
 }
 

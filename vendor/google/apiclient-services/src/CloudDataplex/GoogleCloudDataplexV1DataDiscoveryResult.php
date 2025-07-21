@@ -21,6 +21,8 @@ class GoogleCloudDataplexV1DataDiscoveryResult extends \Google\Model
 {
   protected $bigqueryPublishingType = GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing::class;
   protected $bigqueryPublishingDataType = '';
+  protected $scanStatisticsType = GoogleCloudDataplexV1DataDiscoveryResultScanStatistics::class;
+  protected $scanStatisticsDataType = '';
 
   /**
    * @param GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing
@@ -35,6 +37,20 @@ class GoogleCloudDataplexV1DataDiscoveryResult extends \Google\Model
   public function getBigqueryPublishing()
   {
     return $this->bigqueryPublishing;
+  }
+  /**
+   * @param GoogleCloudDataplexV1DataDiscoveryResultScanStatistics
+   */
+  public function setScanStatistics(GoogleCloudDataplexV1DataDiscoveryResultScanStatistics $scanStatistics)
+  {
+    $this->scanStatistics = $scanStatistics;
+  }
+  /**
+   * @return GoogleCloudDataplexV1DataDiscoveryResultScanStatistics
+   */
+  public function getScanStatistics()
+  {
+    return $this->scanStatistics;
   }
 }
 

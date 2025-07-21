@@ -36,8 +36,8 @@ class Sdfdownloadtasks extends \Google\Service\Resource
    * SdfDownloadTaskMetadata. If the request is successful, the response type of
    * the operation is SdfDownloadTask. The response will not include the download
    * files, which must be retrieved with media.download. The state of operation
-   * can be retrieved with sdfdownloadtask.operations.get. Any errors can be found
-   * in the error.message. Note that error.details is expected to be empty.
+   * can be retrieved with `sdfdownloadtasks.operations.get`. Any errors can be
+   * found in the error.message. Note that error.details is expected to be empty.
    * (sdfdownloadtasks.create)
    *
    * @param CreateSdfDownloadTaskRequest $postBody

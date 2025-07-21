@@ -19,6 +19,10 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1SupervisedTuningSpec extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $exportLastCheckpointOnly;
   protected $hyperParametersType = GoogleCloudAiplatformV1SupervisedHyperParameters::class;
   protected $hyperParametersDataType = '';
   /**
@@ -30,6 +34,20 @@ class GoogleCloudAiplatformV1SupervisedTuningSpec extends \Google\Model
    */
   public $validationDatasetUri;
 
+  /**
+   * @param bool
+   */
+  public function setExportLastCheckpointOnly($exportLastCheckpointOnly)
+  {
+    $this->exportLastCheckpointOnly = $exportLastCheckpointOnly;
+  }
+  /**
+   * @return bool
+   */
+  public function getExportLastCheckpointOnly()
+  {
+    return $this->exportLastCheckpointOnly;
+  }
   /**
    * @param GoogleCloudAiplatformV1SupervisedHyperParameters
    */

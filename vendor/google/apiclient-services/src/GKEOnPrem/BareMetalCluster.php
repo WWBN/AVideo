@@ -69,6 +69,10 @@ class BareMetalCluster extends \Google\Model
    * @var string
    */
   public $localName;
+  /**
+   * @var string
+   */
+  public $localNamespace;
   protected $maintenanceConfigType = BareMetalMaintenanceConfig::class;
   protected $maintenanceConfigDataType = '';
   protected $maintenanceStatusType = BareMetalMaintenanceStatus::class;
@@ -323,6 +327,20 @@ class BareMetalCluster extends \Google\Model
   public function getLocalName()
   {
     return $this->localName;
+  }
+  /**
+   * @param string
+   */
+  public function setLocalNamespace($localNamespace)
+  {
+    $this->localNamespace = $localNamespace;
+  }
+  /**
+   * @return string
+   */
+  public function getLocalNamespace()
+  {
+    return $this->localNamespace;
   }
   /**
    * @param BareMetalMaintenanceConfig

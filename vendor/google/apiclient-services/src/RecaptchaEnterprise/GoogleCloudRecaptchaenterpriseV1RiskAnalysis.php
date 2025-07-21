@@ -19,7 +19,7 @@ namespace Google\Service\RecaptchaEnterprise;
 
 class GoogleCloudRecaptchaenterpriseV1RiskAnalysis extends \Google\Collection
 {
-  protected $collection_key = 'reasons';
+  protected $collection_key = 'verifiedBots';
   /**
    * @var string
    */
@@ -36,6 +36,8 @@ class GoogleCloudRecaptchaenterpriseV1RiskAnalysis extends \Google\Collection
    * @var float
    */
   public $score;
+  protected $verifiedBotsType = GoogleCloudRecaptchaenterpriseV1Bot::class;
+  protected $verifiedBotsDataType = 'array';
 
   /**
    * @param string
@@ -92,6 +94,20 @@ class GoogleCloudRecaptchaenterpriseV1RiskAnalysis extends \Google\Collection
   public function getScore()
   {
     return $this->score;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1Bot[]
+   */
+  public function setVerifiedBots($verifiedBots)
+  {
+    $this->verifiedBots = $verifiedBots;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1Bot[]
+   */
+  public function getVerifiedBots()
+  {
+    return $this->verifiedBots;
   }
 }
 

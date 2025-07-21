@@ -62,6 +62,8 @@ class BuildStep extends \Google\Collection
   public $name;
   protected $pullTimingType = TimeSpan::class;
   protected $pullTimingDataType = '';
+  protected $resultsType = StepResult::class;
+  protected $resultsDataType = 'array';
   /**
    * @var string
    */
@@ -240,6 +242,20 @@ class BuildStep extends \Google\Collection
   public function getPullTiming()
   {
     return $this->pullTiming;
+  }
+  /**
+   * @param StepResult[]
+   */
+  public function setResults($results)
+  {
+    $this->results = $results;
+  }
+  /**
+   * @return StepResult[]
+   */
+  public function getResults()
+  {
+    return $this->results;
   }
   /**
    * @param string

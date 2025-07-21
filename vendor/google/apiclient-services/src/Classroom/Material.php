@@ -23,8 +23,12 @@ class Material extends \Google\Model
   protected $driveFileDataType = '';
   protected $formType = Form::class;
   protected $formDataType = '';
+  protected $gemType = GeminiGem::class;
+  protected $gemDataType = '';
   protected $linkType = Link::class;
   protected $linkDataType = '';
+  protected $notebookType = NotebookLmNotebook::class;
+  protected $notebookDataType = '';
   protected $youtubeVideoType = YouTubeVideo::class;
   protected $youtubeVideoDataType = '';
 
@@ -57,6 +61,20 @@ class Material extends \Google\Model
     return $this->form;
   }
   /**
+   * @param GeminiGem
+   */
+  public function setGem(GeminiGem $gem)
+  {
+    $this->gem = $gem;
+  }
+  /**
+   * @return GeminiGem
+   */
+  public function getGem()
+  {
+    return $this->gem;
+  }
+  /**
    * @param Link
    */
   public function setLink(Link $link)
@@ -69,6 +87,20 @@ class Material extends \Google\Model
   public function getLink()
   {
     return $this->link;
+  }
+  /**
+   * @param NotebookLmNotebook
+   */
+  public function setNotebook(NotebookLmNotebook $notebook)
+  {
+    $this->notebook = $notebook;
+  }
+  /**
+   * @return NotebookLmNotebook
+   */
+  public function getNotebook()
+  {
+    return $this->notebook;
   }
   /**
    * @param YouTubeVideo

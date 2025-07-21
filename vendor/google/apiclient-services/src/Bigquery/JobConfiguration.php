@@ -43,6 +43,10 @@ class JobConfiguration extends \Google\Model
   protected $loadDataType = '';
   protected $queryType = JobConfigurationQuery::class;
   protected $queryDataType = '';
+  /**
+   * @var string
+   */
+  public $reservation;
 
   /**
    * @param JobConfigurationTableCopy
@@ -155,6 +159,20 @@ class JobConfiguration extends \Google\Model
   public function getQuery()
   {
     return $this->query;
+  }
+  /**
+   * @param string
+   */
+  public function setReservation($reservation)
+  {
+    $this->reservation = $reservation;
+  }
+  /**
+   * @return string
+   */
+  public function getReservation()
+  {
+    return $this->reservation;
   }
 }
 

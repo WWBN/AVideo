@@ -27,6 +27,10 @@ class UptimeCheckConfig extends \Google\Collection
   protected $contentMatchersType = ContentMatcher::class;
   protected $contentMatchersDataType = 'array';
   /**
+   * @var bool
+   */
+  public $disabled;
+  /**
    * @var string
    */
   public $displayName;
@@ -38,6 +42,10 @@ class UptimeCheckConfig extends \Google\Collection
    * @var bool
    */
   public $isInternal;
+  /**
+   * @var bool
+   */
+  public $logCheckFailures;
   protected $monitoredResourceType = MonitoredResource::class;
   protected $monitoredResourceDataType = '';
   /**
@@ -96,6 +104,20 @@ class UptimeCheckConfig extends \Google\Collection
     return $this->contentMatchers;
   }
   /**
+   * @param bool
+   */
+  public function setDisabled($disabled)
+  {
+    $this->disabled = $disabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisabled()
+  {
+    return $this->disabled;
+  }
+  /**
    * @param string
    */
   public function setDisplayName($displayName)
@@ -150,6 +172,20 @@ class UptimeCheckConfig extends \Google\Collection
   public function getIsInternal()
   {
     return $this->isInternal;
+  }
+  /**
+   * @param bool
+   */
+  public function setLogCheckFailures($logCheckFailures)
+  {
+    $this->logCheckFailures = $logCheckFailures;
+  }
+  /**
+   * @return bool
+   */
+  public function getLogCheckFailures()
+  {
+    return $this->logCheckFailures;
   }
   /**
    * @param MonitoredResource

@@ -26,6 +26,10 @@ class GooglePrivacyDlpV2TableReference extends \Google\Model
   /**
    * @var string
    */
+  public $projectId;
+  /**
+   * @var string
+   */
   public $tableId;
 
   /**
@@ -41,6 +45,20 @@ class GooglePrivacyDlpV2TableReference extends \Google\Model
   public function getDatasetId()
   {
     return $this->datasetId;
+  }
+  /**
+   * @param string
+   */
+  public function setProjectId($projectId)
+  {
+    $this->projectId = $projectId;
+  }
+  /**
+   * @return string
+   */
+  public function getProjectId()
+  {
+    return $this->projectId;
   }
   /**
    * @param string

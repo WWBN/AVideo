@@ -85,7 +85,7 @@ class ProjectsLocationsProvisioningConfigs extends \Google\Service\Resource
     return $this->call('patch', [$params], ProvisioningConfig::class);
   }
   /**
-   * Submit a provisiong configuration for a given project.
+   * Submit a provisioning configuration for a given project.
    * (provisioningConfigs.submit)
    *
    * @param string $parent Required. The parent project and location containing

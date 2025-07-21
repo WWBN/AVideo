@@ -37,6 +37,8 @@ class PrivateConnection extends \Google\Model
    * @var string
    */
   public $name;
+  protected $pscInterfaceConfigType = PscInterfaceConfig::class;
+  protected $pscInterfaceConfigDataType = '';
   /**
    * @var bool
    */
@@ -125,6 +127,20 @@ class PrivateConnection extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param PscInterfaceConfig
+   */
+  public function setPscInterfaceConfig(PscInterfaceConfig $pscInterfaceConfig)
+  {
+    $this->pscInterfaceConfig = $pscInterfaceConfig;
+  }
+  /**
+   * @return PscInterfaceConfig
+   */
+  public function getPscInterfaceConfig()
+  {
+    return $this->pscInterfaceConfig;
   }
   /**
    * @param bool

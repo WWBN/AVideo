@@ -30,7 +30,8 @@ use Google\Service\CloudTrace\Span;
 class ProjectsTracesSpans extends \Google\Service\Resource
 {
   /**
-   * Creates a new span. (spans.createSpan)
+   * Creates a new span. If a span ID already exists, an additional copy of the
+   * span will be stored. (spans.createSpan)
    *
    * @param string $name Required. The resource name of the span in the following
    * format: * `projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/[SPAN_ID]`

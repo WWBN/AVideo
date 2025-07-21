@@ -19,6 +19,7 @@ namespace Google\Service\Classroom\Resource;
 
 use Google\Service\Classroom\ClassroomEmpty;
 use Google\Service\Classroom\Course;
+use Google\Service\Classroom\GradingPeriodSettings;
 use Google\Service\Classroom\ListCoursesResponse;
 
 /**
@@ -89,6 +90,24 @@ class Courses extends \Google\Service\Resource
     $params = ['id' => $id];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Course::class);
+  }
+  /**
+   * Returns the grading period settings in a course. This method returns the
+   * following error codes: * `PERMISSION_DENIED` if the requesting user isn't
+   * permitted to access the grading period settings in the requested course or
+   * for access errors. * `NOT_FOUND` if the requested course does not exist.
+   * (courses.getGradingPeriodSettings)
+   *
+   * @param string $courseId Required. The identifier of the course.
+   * @param array $optParams Optional parameters.
+   * @return GradingPeriodSettings
+   * @throws \Google\Service\Exception
+   */
+  public function getGradingPeriodSettings($courseId, $optParams = [])
+  {
+    $params = ['courseId' => $courseId];
+    $params = array_merge($params, $optParams);
+    return $this->call('getGradingPeriodSettings', [$params], GradingPeriodSettings::class);
   }
   /**
    * Returns a list of courses that the requesting user is permitted to view,
@@ -177,6 +196,43 @@ class Courses extends \Google\Service\Resource
     $params = ['id' => $id, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('update', [$params], Course::class);
+  }
+  /**
+   * Updates grading period settings of a course. Individual grading periods can
+   * be added, removed, or modified using this method. The requesting user and
+   * course owner must be eligible to modify Grading Periods. For details, see
+   * [licensing
+   * requirements](https://developers.google.com/workspace/classroom/grading-
+   * periods/manage-grading-periods#licensing_requirements). This method returns
+   * the following error codes: * `PERMISSION_DENIED` if the requesting user is
+   * not permitted to modify the grading period settings in a course or for access
+   * errors: * UserIneligibleToUpdateGradingPeriodSettings * `INVALID_ARGUMENT` if
+   * the request is malformed. * `NOT_FOUND` if the requested course does not
+   * exist. (courses.updateGradingPeriodSettings)
+   *
+   * @param string $courseId Required. The identifier of the course.
+   * @param GradingPeriodSettings $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Mask that identifies which fields in the
+   * GradingPeriodSettings to update. The GradingPeriodSettings `grading_periods`
+   * list will be fully replaced by the grading periods specified in the update
+   * request. For example: * Grading periods included in the list without an ID
+   * are considered additions, and a new ID will be assigned when the request is
+   * made. * Grading periods that currently exist, but are missing from the
+   * request will be considered deletions. * Grading periods with an existing ID
+   * and modified data are considered edits. Unmodified data will be left as is. *
+   * Grading periods included with an unknown ID will result in an error. The
+   * following fields may be specified: * `grading_periods` *
+   * `apply_to_existing_coursework`
+   * @return GradingPeriodSettings
+   * @throws \Google\Service\Exception
+   */
+  public function updateGradingPeriodSettings($courseId, GradingPeriodSettings $postBody, $optParams = [])
+  {
+    $params = ['courseId' => $courseId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateGradingPeriodSettings', [$params], GradingPeriodSettings::class);
   }
 }
 

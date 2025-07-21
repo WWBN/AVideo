@@ -113,7 +113,11 @@ class Activities extends \Google\Service\Resource
    * @opt_param string groupIdFilter Comma separated group ids (obfuscated) on
    * which user activities are filtered, i.e. the response will contain activities
    * for only those users that are a part of at least one of the group ids
-   * mentioned here. Format: "id:abc123,id:xyz456"
+   * mentioned here. Format: "id:abc123,id:xyz456" *Important:* To filter by
+   * groups, you must explicitly add the groups to your filtering groups
+   * allowlist. For more information about adding groups to filtering groups
+   * allowlist, see [Filter results by Google
+   * Group](https://support.google.com/a/answer/11482175)
    * @opt_param int maxResults Determines how many activity records are shown on
    * each response page. For example, if the request sets `maxResults=1` and the
    * report has two activities, the report has two pages. The response's
@@ -221,7 +225,11 @@ class Activities extends \Google\Service\Resource
    * @opt_param string groupIdFilter Comma separated group ids (obfuscated) on
    * which user activities are filtered, i.e. the response will contain activities
    * for only those users that are a part of at least one of the group ids
-   * mentioned here. Format: "id:abc123,id:xyz456"
+   * mentioned here. Format: "id:abc123,id:xyz456" *Important:* To filter by
+   * groups, you must explicitly add the groups to your filtering groups
+   * allowlist. For more information about adding groups to filtering groups
+   * allowlist, see [Filter results by Google
+   * Group](https://support.google.com/a/answer/11482175)
    * @opt_param int maxResults Determines how many activity records are shown on
    * each response page. For example, if the request sets `maxResults=1` and the
    * report has two activities, the report has two pages. The response's

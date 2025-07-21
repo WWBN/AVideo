@@ -81,7 +81,7 @@ class Tasklists extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param int maxResults Maximum number of task lists returned on one page.
-   * Optional. The default is 20 (max allowed: 100).
+   * Optional. The default is 1000 (max allowed: 1000).
    * @opt_param string pageToken Token specifying the result page to return.
    * Optional.
    * @return TaskListsModel

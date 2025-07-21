@@ -46,6 +46,7 @@ class Playdeveloperreporting extends \Google\Service
   public $vitals_errors_issues;
   public $vitals_errors_reports;
   public $vitals_excessivewakeuprate;
+  public $vitals_lmkrate;
   public $vitals_slowrenderingrate;
   public $vitals_slowstartrate;
   public $vitals_stuckbackgroundwakelockrate;
@@ -460,6 +461,36 @@ class Playdeveloperreporting extends \Google\Service
         $this,
         $this->serviceName,
         'excessivewakeuprate',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1beta1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'query' => [
+              'path' => 'v1beta1/{+name}:query',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->vitals_lmkrate = new Playdeveloperreporting\Resource\VitalsLmkrate(
+        $this,
+        $this->serviceName,
+        'lmkrate',
         [
           'methods' => [
             'get' => [

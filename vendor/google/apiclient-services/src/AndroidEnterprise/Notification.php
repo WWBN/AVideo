@@ -29,6 +29,8 @@ class Notification extends \Google\Model
    * @var string
    */
   public $enterpriseId;
+  protected $enterpriseUpgradeEventType = EnterpriseUpgradeEvent::class;
+  protected $enterpriseUpgradeEventDataType = '';
   protected $installFailureEventType = InstallFailureEvent::class;
   protected $installFailureEventDataType = '';
   protected $newDeviceEventType = NewDeviceEvent::class;
@@ -103,6 +105,20 @@ class Notification extends \Google\Model
   public function getEnterpriseId()
   {
     return $this->enterpriseId;
+  }
+  /**
+   * @param EnterpriseUpgradeEvent
+   */
+  public function setEnterpriseUpgradeEvent(EnterpriseUpgradeEvent $enterpriseUpgradeEvent)
+  {
+    $this->enterpriseUpgradeEvent = $enterpriseUpgradeEvent;
+  }
+  /**
+   * @return EnterpriseUpgradeEvent
+   */
+  public function getEnterpriseUpgradeEvent()
+  {
+    return $this->enterpriseUpgradeEvent;
   }
   /**
    * @param InstallFailureEvent

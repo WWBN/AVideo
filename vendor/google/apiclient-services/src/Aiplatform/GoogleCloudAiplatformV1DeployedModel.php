@@ -24,6 +24,10 @@ class GoogleCloudAiplatformV1DeployedModel extends \Google\Model
   /**
    * @var string
    */
+  public $checkpointId;
+  /**
+   * @var string
+   */
   public $createTime;
   protected $dedicatedResourcesType = GoogleCloudAiplatformV1DedicatedResources::class;
   protected $dedicatedResourcesDataType = '';
@@ -91,6 +95,20 @@ class GoogleCloudAiplatformV1DeployedModel extends \Google\Model
   public function getAutomaticResources()
   {
     return $this->automaticResources;
+  }
+  /**
+   * @param string
+   */
+  public function setCheckpointId($checkpointId)
+  {
+    $this->checkpointId = $checkpointId;
+  }
+  /**
+   * @return string
+   */
+  public function getCheckpointId()
+  {
+    return $this->checkpointId;
   }
   /**
    * @param string

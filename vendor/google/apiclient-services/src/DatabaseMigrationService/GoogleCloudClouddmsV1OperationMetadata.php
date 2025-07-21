@@ -32,6 +32,10 @@ class GoogleCloudClouddmsV1OperationMetadata extends \Google\Model
    */
   public $endTime;
   /**
+   * @var string[]
+   */
+  public $metadata;
+  /**
    * @var bool
    */
   public $requestedCancellation;
@@ -89,6 +93,20 @@ class GoogleCloudClouddmsV1OperationMetadata extends \Google\Model
   public function getEndTime()
   {
     return $this->endTime;
+  }
+  /**
+   * @param string[]
+   */
+  public function setMetadata($metadata)
+  {
+    $this->metadata = $metadata;
+  }
+  /**
+   * @return string[]
+   */
+  public function getMetadata()
+  {
+    return $this->metadata;
   }
   /**
    * @param bool

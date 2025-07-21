@@ -42,13 +42,23 @@ class SpacesMembers extends \Google\Service\Resource
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-app) with [administrator
    * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
-   * Preview](https://developers.google.com/workspace/preview) - [User
+   * Preview](https://developers.google.com/workspace/preview) and the
+   * authorization scope: - `https://www.googleapis.com/auth/chat.app.memberships`
+   * - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) You can authenticate and authorize this method with
-   * administrator privileges by setting the `use_admin_access` field in the
-   * request. For example usage, see: - [Invite or add a user to a
-   * space](https://developers.google.com/workspace/chat/create-members#create-
-   * user-membership). - [Invite or add a Google Group to a
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.memberships` -
+   * `https://www.googleapis.com/auth/chat.memberships.app` (to add the calling
+   * app to the space) - `https://www.googleapis.com/auth/chat.import` (import
+   * mode spaces only) - User authentication grants administrator privileges when
+   * an administrator account authenticates, `use_admin_access` is `true`, and the
+   * following authorization scope is used: -
+   * `https://www.googleapis.com/auth/chat.admin.memberships` App authentication
+   * is not supported for the following use cases: - Inviting users external to
+   * the Workspace organization that owns the space. - Adding a Google Group to a
+   * space. - Adding a Chat app to a space. For example usage, see: - [Invite or
+   * add a user to a space](https://developers.google.com/workspace/chat/create-
+   * members#create-user-membership). - [Invite or add a Google Group to a
    * space](https://developers.google.com/workspace/chat/create-members#create-
    * group-membership). - [Add the Chat app to a
    * space](https://developers.google.com/workspace/chat/create-members#create-
@@ -86,17 +96,33 @@ class SpacesMembers extends \Google\Service\Resource
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-app) with [administrator
    * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
-   * Preview](https://developers.google.com/workspace/preview) - [User
+   * Preview](https://developers.google.com/workspace/preview) and the
+   * authorization scope: - `https://www.googleapis.com/auth/chat.app.memberships`
+   * - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) You can authenticate and authorize this method with
-   * administrator privileges by setting the `use_admin_access` field in the
-   * request. (members.delete)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.memberships` -
+   * `https://www.googleapis.com/auth/chat.memberships.app` (to remove the calling
+   * app from the space) - `https://www.googleapis.com/auth/chat.import` (import
+   * mode spaces only) - User authentication grants administrator privileges when
+   * an administrator account authenticates, `use_admin_access` is `true`, and the
+   * following authorization scope is used: -
+   * `https://www.googleapis.com/auth/chat.admin.memberships` App authentication
+   * is not supported for the following use cases: - Removing a Google Group from
+   * a space. - Removing a Chat app from a space. To delete memberships for space
+   * managers, the requester must be a space manager. If you're using [app
+   * authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize-chat-app) the Chat app must be the space creator. (members.delete)
    *
    * @param string $name Required. Resource name of the membership to delete. Chat
    * apps can delete human users' or their own memberships. Chat apps can't delete
    * other apps' memberships. When deleting a human membership, requires the
-   * `chat.memberships` scope and `spaces/{space}/members/{member}` format. You
-   * can use the email as an alias for `{member}`. For example,
+   * `chat.memberships` scope with [user
+   * authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize-chat-user) or the `chat.memberships.app` scope with [app
+   * authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize-chat-app) and the `spaces/{space}/members/{member}` format. You can
+   * use the email as an alias for `{member}`. For example,
    * `spaces/{space}/members/example@gmail.com` where `example@gmail.com` is the
    * email of the Google Chat user. When deleting an app membership, requires the
    * `chat.memberships.app` scope and `spaces/{space}/members/app` format. Format:
@@ -128,11 +154,16 @@ class SpacesMembers extends \Google\Service\Resource
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) - [User
+   * authorize-chat-app) with the authorization scope: -
+   * `https://www.googleapis.com/auth/chat.bot` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) You can authenticate and authorize this method with
-   * administrator privileges by setting the `use_admin_access` field in the
-   * request. (members.get)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.memberships.readonly` -
+   * `https://www.googleapis.com/auth/chat.memberships` - User authentication
+   * grants administrator privileges when an administrator account authenticates,
+   * `use_admin_access` is `true`, and one of the following authorization scopes
+   * is used: - `https://www.googleapis.com/auth/chat.admin.memberships.readonly`
+   * - `https://www.googleapis.com/auth/chat.admin.memberships` (members.get)
    *
    * @param string $name Required. Resource name of the membership to retrieve. To
    * get the app's own membership [by using user
@@ -175,11 +206,19 @@ class SpacesMembers extends \Google\Service\Resource
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) - [User
+   * authorize-chat-app) with the authorization scope: -
+   * `https://www.googleapis.com/auth/chat.bot` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) You can authenticate and authorize this method with
-   * administrator privileges by setting the `use_admin_access` field in the
-   * request. (members.listSpacesMembers)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.memberships.readonly` -
+   * `https://www.googleapis.com/auth/chat.memberships` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only) -
+   * User authentication grants administrator privileges when an administrator
+   * account authenticates, `use_admin_access` is `true`, and one of the following
+   * authorization scopes is used: -
+   * `https://www.googleapis.com/auth/chat.admin.memberships.readonly` -
+   * `https://www.googleapis.com/auth/chat.admin.memberships`
+   * (members.listSpacesMembers)
    *
    * @param string $parent Required. The resource name of the space for which to
    * fetch a membership list. Format: spaces/{space}
@@ -248,11 +287,17 @@ class SpacesMembers extends \Google\Service\Resource
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-app) with [administrator
    * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
-   * Preview](https://developers.google.com/workspace/preview) - [User
+   * Preview](https://developers.google.com/workspace/preview) and the
+   * authorization scope: - `https://www.googleapis.com/auth/chat.app.memberships`
+   * (only in spaces the app created) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) You can authenticate and authorize this method with
-   * administrator privileges by setting the `use_admin_access` field in the
-   * request. (members.patch)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.memberships` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only) -
+   * User authentication grants administrator privileges when an administrator
+   * account authenticates, `use_admin_access` is `true`, and the following
+   * authorization scope is used: -
+   * `https://www.googleapis.com/auth/chat.admin.memberships` (members.patch)
    *
    * @param string $name Identifier. Resource name of the membership, assigned by
    * the server. Format: `spaces/{space}/members/{member}`

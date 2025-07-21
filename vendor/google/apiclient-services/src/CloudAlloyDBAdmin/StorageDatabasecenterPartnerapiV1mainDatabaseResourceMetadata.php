@@ -46,6 +46,8 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
    * @var string
    */
   public $expectedState;
+  protected $gcbdrConfigurationType = StorageDatabasecenterPartnerapiV1mainGCBDRConfiguration::class;
+  protected $gcbdrConfigurationDataType = '';
   protected $idType = StorageDatabasecenterPartnerapiV1mainDatabaseResourceId::class;
   protected $idDataType = '';
   /**
@@ -212,6 +214,20 @@ class StorageDatabasecenterPartnerapiV1mainDatabaseResourceMetadata extends \Goo
   public function getExpectedState()
   {
     return $this->expectedState;
+  }
+  /**
+   * @param StorageDatabasecenterPartnerapiV1mainGCBDRConfiguration
+   */
+  public function setGcbdrConfiguration(StorageDatabasecenterPartnerapiV1mainGCBDRConfiguration $gcbdrConfiguration)
+  {
+    $this->gcbdrConfiguration = $gcbdrConfiguration;
+  }
+  /**
+   * @return StorageDatabasecenterPartnerapiV1mainGCBDRConfiguration
+   */
+  public function getGcbdrConfiguration()
+  {
+    return $this->gcbdrConfiguration;
   }
   /**
    * @param StorageDatabasecenterPartnerapiV1mainDatabaseResourceId

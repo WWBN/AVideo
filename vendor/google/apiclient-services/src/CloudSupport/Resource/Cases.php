@@ -201,7 +201,7 @@ class Cases extends \Google\Service\Resource
    * project/cases/43112854", body={ "displayName": "This is Now a New Title",
    * "priority": "P2", }, ) print(request.execute()) ``` (cases.patch)
    *
-   * @param string $name The resource name for the case.
+   * @param string $name Identifier. The resource name for the case.
    * @param CloudsupportCase $postBody
    * @param array $optParams Optional parameters.
    *

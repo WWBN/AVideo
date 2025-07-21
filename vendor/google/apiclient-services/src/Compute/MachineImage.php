@@ -42,6 +42,14 @@ class MachineImage extends \Google\Collection
    * @var string
    */
   public $kind;
+  /**
+   * @var string
+   */
+  public $labelFingerprint;
+  /**
+   * @var string[]
+   */
+  public $labels;
   protected $machineImageEncryptionKeyType = CustomerEncryptionKey::class;
   protected $machineImageEncryptionKeyDataType = '';
   /**
@@ -166,6 +174,34 @@ class MachineImage extends \Google\Collection
   public function getKind()
   {
     return $this->kind;
+  }
+  /**
+   * @param string
+   */
+  public function setLabelFingerprint($labelFingerprint)
+  {
+    $this->labelFingerprint = $labelFingerprint;
+  }
+  /**
+   * @return string
+   */
+  public function getLabelFingerprint()
+  {
+    return $this->labelFingerprint;
+  }
+  /**
+   * @param string[]
+   */
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLabels()
+  {
+    return $this->labels;
   }
   /**
    * @param CustomerEncryptionKey

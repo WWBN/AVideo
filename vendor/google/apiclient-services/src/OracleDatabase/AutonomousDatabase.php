@@ -17,8 +17,9 @@
 
 namespace Google\Service\OracleDatabase;
 
-class AutonomousDatabase extends \Google\Model
+class AutonomousDatabase extends \Google\Collection
 {
+  protected $collection_key = 'peerAutonomousDatabases';
   /**
    * @var string
    */
@@ -35,6 +36,10 @@ class AutonomousDatabase extends \Google\Model
    * @var string
    */
   public $database;
+  /**
+   * @var string[]
+   */
+  public $disasterRecoverySupportedLocations;
   /**
    * @var string
    */
@@ -55,8 +60,14 @@ class AutonomousDatabase extends \Google\Model
    * @var string
    */
   public $network;
+  /**
+   * @var string[]
+   */
+  public $peerAutonomousDatabases;
   protected $propertiesType = AutonomousDatabaseProperties::class;
   protected $propertiesDataType = '';
+  protected $sourceConfigType = SourceConfig::class;
+  protected $sourceConfigDataType = '';
 
   /**
    * @param string
@@ -113,6 +124,20 @@ class AutonomousDatabase extends \Google\Model
   public function getDatabase()
   {
     return $this->database;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDisasterRecoverySupportedLocations($disasterRecoverySupportedLocations)
+  {
+    $this->disasterRecoverySupportedLocations = $disasterRecoverySupportedLocations;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDisasterRecoverySupportedLocations()
+  {
+    return $this->disasterRecoverySupportedLocations;
   }
   /**
    * @param string
@@ -185,6 +210,20 @@ class AutonomousDatabase extends \Google\Model
     return $this->network;
   }
   /**
+   * @param string[]
+   */
+  public function setPeerAutonomousDatabases($peerAutonomousDatabases)
+  {
+    $this->peerAutonomousDatabases = $peerAutonomousDatabases;
+  }
+  /**
+   * @return string[]
+   */
+  public function getPeerAutonomousDatabases()
+  {
+    return $this->peerAutonomousDatabases;
+  }
+  /**
    * @param AutonomousDatabaseProperties
    */
   public function setProperties(AutonomousDatabaseProperties $properties)
@@ -197,6 +236,20 @@ class AutonomousDatabase extends \Google\Model
   public function getProperties()
   {
     return $this->properties;
+  }
+  /**
+   * @param SourceConfig
+   */
+  public function setSourceConfig(SourceConfig $sourceConfig)
+  {
+    $this->sourceConfig = $sourceConfig;
+  }
+  /**
+   * @return SourceConfig
+   */
+  public function getSourceConfig()
+  {
+    return $this->sourceConfig;
   }
 }
 

@@ -46,6 +46,10 @@ class VmwareAdminCluster extends \Google\Model
    */
   public $description;
   /**
+   * @var bool
+   */
+  public $enableAdvancedCluster;
+  /**
    * @var string
    */
   public $endpoint;
@@ -79,6 +83,8 @@ class VmwareAdminCluster extends \Google\Model
   protected $platformConfigDataType = '';
   protected $preparedSecretsType = VmwareAdminPreparedSecretsConfig::class;
   protected $preparedSecretsDataType = '';
+  protected $privateRegistryConfigType = VmwareAdminPrivateRegistryConfig::class;
+  protected $privateRegistryConfigDataType = '';
   /**
    * @var bool
    */
@@ -227,6 +233,20 @@ class VmwareAdminCluster extends \Google\Model
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableAdvancedCluster($enableAdvancedCluster)
+  {
+    $this->enableAdvancedCluster = $enableAdvancedCluster;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableAdvancedCluster()
+  {
+    return $this->enableAdvancedCluster;
   }
   /**
    * @param string
@@ -381,6 +401,20 @@ class VmwareAdminCluster extends \Google\Model
   public function getPreparedSecrets()
   {
     return $this->preparedSecrets;
+  }
+  /**
+   * @param VmwareAdminPrivateRegistryConfig
+   */
+  public function setPrivateRegistryConfig(VmwareAdminPrivateRegistryConfig $privateRegistryConfig)
+  {
+    $this->privateRegistryConfig = $privateRegistryConfig;
+  }
+  /**
+   * @return VmwareAdminPrivateRegistryConfig
+   */
+  public function getPrivateRegistryConfig()
+  {
+    return $this->privateRegistryConfig;
   }
   /**
    * @param bool

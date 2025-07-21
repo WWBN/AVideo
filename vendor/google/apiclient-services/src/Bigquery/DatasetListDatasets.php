@@ -21,6 +21,8 @@ class DatasetListDatasets extends \Google\Model
 {
   protected $datasetReferenceType = DatasetReference::class;
   protected $datasetReferenceDataType = '';
+  protected $externalDatasetReferenceType = ExternalDatasetReference::class;
+  protected $externalDatasetReferenceDataType = '';
   /**
    * @var string
    */
@@ -55,6 +57,20 @@ class DatasetListDatasets extends \Google\Model
   public function getDatasetReference()
   {
     return $this->datasetReference;
+  }
+  /**
+   * @param ExternalDatasetReference
+   */
+  public function setExternalDatasetReference(ExternalDatasetReference $externalDatasetReference)
+  {
+    $this->externalDatasetReference = $externalDatasetReference;
+  }
+  /**
+   * @return ExternalDatasetReference
+   */
+  public function getExternalDatasetReference()
+  {
+    return $this->externalDatasetReference;
   }
   /**
    * @param string

@@ -31,10 +31,6 @@ class GoogleCloudAiplatformV1MachineSpec extends \Google\Model
    * @var string
    */
   public $machineType;
-  /**
-   * @var int
-   */
-  public $multihostGpuNodeCount;
   protected $reservationAffinityType = GoogleCloudAiplatformV1ReservationAffinity::class;
   protected $reservationAffinityDataType = '';
   /**
@@ -83,20 +79,6 @@ class GoogleCloudAiplatformV1MachineSpec extends \Google\Model
   public function getMachineType()
   {
     return $this->machineType;
-  }
-  /**
-   * @param int
-   */
-  public function setMultihostGpuNodeCount($multihostGpuNodeCount)
-  {
-    $this->multihostGpuNodeCount = $multihostGpuNodeCount;
-  }
-  /**
-   * @return int
-   */
-  public function getMultihostGpuNodeCount()
-  {
-    return $this->multihostGpuNodeCount;
   }
   /**
    * @param GoogleCloudAiplatformV1ReservationAffinity

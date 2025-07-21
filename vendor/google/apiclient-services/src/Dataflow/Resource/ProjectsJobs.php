@@ -62,6 +62,7 @@ class ProjectsJobs extends \Google\Service\Resource
     return $this->call('aggregated', [$params], ListJobsResponse::class);
   }
   /**
+   * A Job is a multi-stage computation graph run by the Cloud Dataflow service.
    * Creates a Cloud Dataflow job. To create a job, we recommend using
    * `projects.locations.jobs.create` with a [regional endpoint]
    * (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using

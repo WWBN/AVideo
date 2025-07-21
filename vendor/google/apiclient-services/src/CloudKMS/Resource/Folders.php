@@ -18,6 +18,7 @@
 namespace Google\Service\CloudKMS\Resource;
 
 use Google\Service\CloudKMS\AutokeyConfig;
+use Google\Service\CloudKMS\KeyAccessJustificationsPolicyConfig;
 
 /**
  * The "folders" collection of methods.
@@ -45,6 +46,22 @@ class Folders extends \Google\Service\Resource
     return $this->call('getAutokeyConfig', [$params], AutokeyConfig::class);
   }
   /**
+   * Gets the KeyAccessJustificationsPolicyConfig for a given
+   * organization/folder/projects. (folders.getKajPolicyConfig)
+   *
+   * @param string $name Required. The name of the
+   * KeyAccessJustificationsPolicyConfig to get.
+   * @param array $optParams Optional parameters.
+   * @return KeyAccessJustificationsPolicyConfig
+   * @throws \Google\Service\Exception
+   */
+  public function getKajPolicyConfig($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getKajPolicyConfig', [$params], KeyAccessJustificationsPolicyConfig::class);
+  }
+  /**
    * Updates the AutokeyConfig for a folder. The caller must have both
    * `cloudkms.autokeyConfigs.update` permission on the parent folder and
    * `cloudkms.cryptoKeys.setIamPolicy` permission on the provided key project. A
@@ -67,6 +84,26 @@ class Folders extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('updateAutokeyConfig', [$params], AutokeyConfig::class);
+  }
+  /**
+   * Updates the KeyAccessJustificationsPolicyConfig for a given
+   * organization/folder/projects. (folders.updateKajPolicyConfig)
+   *
+   * @param string $name Identifier. The resource name for this
+   * KeyAccessJustificationsPolicyConfig in the format of
+   * "{organizations|folders|projects}/kajPolicyConfig".
+   * @param KeyAccessJustificationsPolicyConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Optional. The list of fields to update.
+   * @return KeyAccessJustificationsPolicyConfig
+   * @throws \Google\Service\Exception
+   */
+  public function updateKajPolicyConfig($name, KeyAccessJustificationsPolicyConfig $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateKajPolicyConfig', [$params], KeyAccessJustificationsPolicyConfig::class);
   }
 }
 

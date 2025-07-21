@@ -26,6 +26,10 @@ class GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig ext
   /**
    * @var string
    */
+  public $generator;
+  /**
+   * @var string
+   */
   public $summarizationModel;
 
   /**
@@ -41,6 +45,20 @@ class GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig ext
   public function getConversationProfile()
   {
     return $this->conversationProfile;
+  }
+  /**
+   * @param string
+   */
+  public function setGenerator($generator)
+  {
+    $this->generator = $generator;
+  }
+  /**
+   * @return string
+   */
+  public function getGenerator()
+  {
+    return $this->generator;
   }
   /**
    * @param string

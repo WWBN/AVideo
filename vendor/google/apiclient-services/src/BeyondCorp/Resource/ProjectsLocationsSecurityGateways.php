@@ -190,7 +190,7 @@ class ProjectsLocationsSecurityGateways extends \Google\Service\Resource
    * clients from accidentally creating duplicate commitments. The request ID must
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
-   * @opt_param string updateMask Required. Mutable fields include: display_name,
+   * @opt_param string updateMask Optional. Mutable fields include: display_name,
    * hubs.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception

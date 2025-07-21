@@ -19,13 +19,17 @@ namespace Google\Service\NetworkSecurity;
 
 class ListAddressGroupsResponse extends \Google\Collection
 {
-  protected $collection_key = 'addressGroups';
+  protected $collection_key = 'unreachable';
   protected $addressGroupsType = AddressGroup::class;
   protected $addressGroupsDataType = 'array';
   /**
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param AddressGroup[]
@@ -54,6 +58,20 @@ class ListAddressGroupsResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

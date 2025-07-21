@@ -36,7 +36,7 @@ class ProjectsLocationsServiceBindings extends \Google\Service\Resource
    * (serviceBindings.create)
    *
    * @param string $parent Required. The parent resource of the ServiceBinding.
-   * Must be in the format `projects/locations/global`.
+   * Must be in the format `projects/locations`.
    * @param ServiceBinding $postBody
    * @param array $optParams Optional parameters.
    *
@@ -55,7 +55,7 @@ class ProjectsLocationsServiceBindings extends \Google\Service\Resource
    * Deletes a single ServiceBinding. (serviceBindings.delete)
    *
    * @param string $name Required. A name of the ServiceBinding to delete. Must be
-   * in the format `projects/locations/global/serviceBindings`.
+   * in the format `projects/locations/serviceBindings`.
    * @param array $optParams Optional parameters.
    * @return Operation
    * @throws \Google\Service\Exception
@@ -70,7 +70,7 @@ class ProjectsLocationsServiceBindings extends \Google\Service\Resource
    * Gets details of a single ServiceBinding. (serviceBindings.get)
    *
    * @param string $name Required. A name of the ServiceBinding to get. Must be in
-   * the format `projects/locations/global/serviceBindings`.
+   * the format `projects/locations/serviceBindings`.
    * @param array $optParams Optional parameters.
    * @return ServiceBinding
    * @throws \Google\Service\Exception
@@ -87,7 +87,7 @@ class ProjectsLocationsServiceBindings extends \Google\Service\Resource
    *
    * @param string $parent Required. The project and location from which the
    * ServiceBindings should be listed, specified in the format
-   * `projects/locations/global`.
+   * `projects/locations`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Maximum number of ServiceBindings to return per call.
@@ -103,6 +103,28 @@ class ProjectsLocationsServiceBindings extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListServiceBindingsResponse::class);
+  }
+  /**
+   * Updates the parameters of a single ServiceBinding. (serviceBindings.patch)
+   *
+   * @param string $name Identifier. Name of the ServiceBinding resource. It
+   * matches pattern `projects/locations/serviceBindings/`.
+   * @param ServiceBinding $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Optional. Field mask is used to specify the
+   * fields to be overwritten in the ServiceBinding resource by the update. The
+   * fields specified in the update_mask are relative to the resource, not the
+   * full request. A field will be overwritten if it is in the mask. If the user
+   * does not provide a mask then all fields will be overwritten.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, ServiceBinding $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
   }
 }
 

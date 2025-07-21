@@ -23,6 +23,10 @@ class GoogleCloudAiplatformV1ApiAuthApiKeyConfig extends \Google\Model
    * @var string
    */
   public $apiKeySecretVersion;
+  /**
+   * @var string
+   */
+  public $apiKeyString;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class GoogleCloudAiplatformV1ApiAuthApiKeyConfig extends \Google\Model
   public function getApiKeySecretVersion()
   {
     return $this->apiKeySecretVersion;
+  }
+  /**
+   * @param string
+   */
+  public function setApiKeyString($apiKeyString)
+  {
+    $this->apiKeyString = $apiKeyString;
+  }
+  /**
+   * @return string
+   */
+  public function getApiKeyString()
+  {
+    return $this->apiKeyString;
   }
 }
 

@@ -17,10 +17,13 @@
 
 namespace Google\Service\CloudDataplex\Resource;
 
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1Glossary;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListGlossariesResponse;
 use Google\Service\CloudDataplex\GoogleIamV1Policy;
 use Google\Service\CloudDataplex\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
+use Google\Service\CloudDataplex\GoogleLongrunningOperation;
 
 /**
  * The "glossaries" collection of methods.
@@ -32,6 +35,64 @@ use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
  */
 class ProjectsLocationsGlossaries extends \Google\Service\Resource
 {
+  /**
+   * Creates a new Glossary resource. (glossaries.create)
+   *
+   * @param string $parent Required. The parent resource where this Glossary will
+   * be created. Format: projects/{project_id_or_number}/locations/{location_id}
+   * where location_id refers to a GCP region.
+   * @param GoogleCloudDataplexV1Glossary $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string glossaryId Required. Glossary ID: Glossary identifier.
+   * @opt_param bool validateOnly Optional. Validates the request without actually
+   * creating the Glossary. Default: false.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, GoogleCloudDataplexV1Glossary $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Deletes a Glossary resource. All the categories and terms within the Glossary
+   * must be deleted before the Glossary can be deleted. (glossaries.delete)
+   *
+   * @param string $name Required. The name of the Glossary to delete. Format: pro
+   * jects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string etag Optional. The etag of the Glossary. If this is
+   * provided, it must match the server's etag. If the etag is provided and does
+   * not match the server-computed etag, the request must fail with a ABORTED
+   * error code.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Gets a Glossary resource. (glossaries.get)
+   *
+   * @param string $name Required. The name of the Glossary to retrieve. Format: p
+   * rojects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_i
+   * d}
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1Glossary
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleCloudDataplexV1Glossary::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (glossaries.getIamPolicy)
@@ -61,6 +122,60 @@ class ProjectsLocationsGlossaries extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
+  }
+  /**
+   * Lists Glossary resources in a project and location.
+   * (glossaries.listProjectsLocationsGlossaries)
+   *
+   * @param string $parent Required. The parent, which has this collection of
+   * Glossaries. Format: projects/{project_id_or_number}/locations/{location_id}
+   * where location_id refers to a GCP region.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Filter expression that filters Glossaries
+   * listed in the response. Filters on proto fields of Glossary are supported.
+   * Examples of using a filter are: - display_name="my-glossary" -
+   * categoryCount=1 - termCount=0
+   * @opt_param string orderBy Optional. Order by expression that orders
+   * Glossaries listed in the response. Order by fields are: name or create_time
+   * for the result. If not specified, the ordering is undefined.
+   * @opt_param int pageSize Optional. The maximum number of Glossaries to return.
+   * The service may return fewer than this value. If unspecified, at most 50
+   * Glossaries will be returned. The maximum value is 1000; values above 1000
+   * will be coerced to 1000.
+   * @opt_param string pageToken Optional. A page token, received from a previous
+   * ListGlossaries call. Provide this to retrieve the subsequent page. When
+   * paginating, all other parameters provided to ListGlossaries must match the
+   * call that provided the page token.
+   * @return GoogleCloudDataplexV1ListGlossariesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsGlossaries($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GoogleCloudDataplexV1ListGlossariesResponse::class);
+  }
+  /**
+   * Updates a Glossary resource. (glossaries.patch)
+   *
+   * @param string $name Output only. Identifier. The resource name of the
+   * Glossary. Format: projects/{project_id_or_number}/locations/{location_id}/glo
+   * ssaries/{glossary_id}
+   * @param GoogleCloudDataplexV1Glossary $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The list of fields to update.
+   * @opt_param bool validateOnly Optional. Validates the request without actually
+   * updating the Glossary. Default: false.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudDataplexV1Glossary $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

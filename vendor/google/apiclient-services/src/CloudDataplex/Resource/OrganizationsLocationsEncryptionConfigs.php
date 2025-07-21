@@ -17,10 +17,13 @@
 
 namespace Google\Service\CloudDataplex\Resource;
 
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1EncryptionConfig;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListEncryptionConfigsResponse;
 use Google\Service\CloudDataplex\GoogleIamV1Policy;
 use Google\Service\CloudDataplex\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
+use Google\Service\CloudDataplex\GoogleLongrunningOperation;
 
 /**
  * The "encryptionConfigs" collection of methods.
@@ -32,6 +35,56 @@ use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
  */
 class OrganizationsLocationsEncryptionConfigs extends \Google\Service\Resource
 {
+  /**
+   * Create an EncryptionConfig. (encryptionConfigs.create)
+   *
+   * @param string $parent Required. The location at which the EncryptionConfig is
+   * to be created.
+   * @param GoogleCloudDataplexV1EncryptionConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string encryptionConfigId Required. The ID of the EncryptionConfig
+   * to create. Currently, only a value of "default" is supported.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, GoogleCloudDataplexV1EncryptionConfig $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Delete an EncryptionConfig. (encryptionConfigs.delete)
+   *
+   * @param string $name Required. The name of the EncryptionConfig to delete.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string etag Optional. Etag of the EncryptionConfig. This is a
+   * strong etag.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Get an EncryptionConfig. (encryptionConfigs.get)
+   *
+   * @param string $name Required. The name of the EncryptionConfig to fetch.
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1EncryptionConfig
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleCloudDataplexV1EncryptionConfig::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set.
@@ -62,6 +115,64 @@ class OrganizationsLocationsEncryptionConfigs extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
+  }
+  /**
+   * List EncryptionConfigs.
+   * (encryptionConfigs.listOrganizationsLocationsEncryptionConfigs)
+   *
+   * @param string $parent Required. The location for which the EncryptionConfig
+   * is to be listed.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Filter the EncryptionConfigs to be
+   * returned. Using bare literals: (These values will be matched anywhere it may
+   * appear in the object's field values) * filter=some_value Using fields: (These
+   * values will be matched only in the specified field) *
+   * filter=some_field=some_value Supported fields: * name, key, create_time,
+   * update_time, encryption_state Example: *
+   * filter=name=organizations/123/locations/us-central1/encryptionConfigs/test-
+   * config conjunctions: (AND, OR, NOT) *
+   * filter=name=organizations/123/locations/us-central1/encryptionConfigs/test-
+   * config AND mode=CMEK logical operators: (>, <, >=, <=, !=, =, :), *
+   * filter=create_time>2024-05-01T00:00:00.000Z
+   * @opt_param string orderBy Optional. Order by fields for the result.
+   * @opt_param int pageSize Optional. Maximum number of EncryptionConfigs to
+   * return. The service may return fewer than this value. If unspecified, at most
+   * 10 EncryptionConfigs will be returned. The maximum value is 1000; values
+   * above 1000 will be coerced to 1000.
+   * @opt_param string pageToken Optional. Page token received from a previous
+   * ListEncryptionConfigs call. Provide this to retrieve the subsequent page.
+   * When paginating, the parameters - filter and order_by provided to
+   * ListEncryptionConfigs must match the call that provided the page token.
+   * @return GoogleCloudDataplexV1ListEncryptionConfigsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listOrganizationsLocationsEncryptionConfigs($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GoogleCloudDataplexV1ListEncryptionConfigsResponse::class);
+  }
+  /**
+   * Update an EncryptionConfig. (encryptionConfigs.patch)
+   *
+   * @param string $name Identifier. The resource name of the EncryptionConfig.
+   * Format: organizations/{organization}/locations/{location}/encryptionConfigs/{
+   * encryption_config} Global location is not supported.
+   * @param GoogleCloudDataplexV1EncryptionConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Optional. Mask of fields to update. The service
+   * treats an omitted field mask as an implied field mask equivalent to all
+   * fields that are populated (have a non-empty value).
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudDataplexV1EncryptionConfig $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

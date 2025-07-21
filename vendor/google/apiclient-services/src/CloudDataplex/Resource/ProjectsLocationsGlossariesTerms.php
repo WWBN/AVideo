@@ -17,6 +17,9 @@
 
 namespace Google\Service\CloudDataplex\Resource;
 
+use Google\Service\CloudDataplex\DataplexEmpty;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1GlossaryTerm;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListGlossaryTermsResponse;
 use Google\Service\CloudDataplex\GoogleIamV1Policy;
 use Google\Service\CloudDataplex\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsRequest;
@@ -32,6 +35,57 @@ use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
  */
 class ProjectsLocationsGlossariesTerms extends \Google\Service\Resource
 {
+  /**
+   * Creates a new GlossaryTerm resource. (terms.create)
+   *
+   * @param string $parent Required. The parent resource where the GlossaryTerm
+   * will be created. Format: projects/{project_id_or_number}/locations/{location_
+   * id}/glossaries/{glossary_id} where location_id refers to a GCP region.
+   * @param GoogleCloudDataplexV1GlossaryTerm $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string termId Required. GlossaryTerm identifier.
+   * @return GoogleCloudDataplexV1GlossaryTerm
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, GoogleCloudDataplexV1GlossaryTerm $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleCloudDataplexV1GlossaryTerm::class);
+  }
+  /**
+   * Deletes a GlossaryTerm resource. (terms.delete)
+   *
+   * @param string $name Required. The name of the GlossaryTerm to delete. Format:
+   * projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_
+   * id}/terms/{term_id}
+   * @param array $optParams Optional parameters.
+   * @return DataplexEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], DataplexEmpty::class);
+  }
+  /**
+   * Gets a GlossaryTerm resource. (terms.get)
+   *
+   * @param string $name Required. The name of the GlossaryTerm to retrieve.
+   * Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{g
+   * lossary_id}/terms/{term_id}
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1GlossaryTerm
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleCloudDataplexV1GlossaryTerm::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (terms.getIamPolicy)
@@ -61,6 +115,61 @@ class ProjectsLocationsGlossariesTerms extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
+  }
+  /**
+   * Lists GlossaryTerm resources in a Glossary.
+   * (terms.listProjectsLocationsGlossariesTerms)
+   *
+   * @param string $parent Required. The parent, which has this collection of
+   * GlossaryTerms. Format: projects/{project_id_or_number}/locations/{location_id
+   * }/glossaries/{glossary_id} where location_id refers to a GCP region.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Filter expression that filters
+   * GlossaryTerms listed in the response. Filters are supported on the following
+   * fields: - immediate_parentExamples of using a filter are: - immediate_parent=
+   * "projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary
+   * _id}" - immediate_parent="projects/{project_id_or_number}/locations/{location
+   * _id}/glossaries/{glossary_id}/categories/{category_id}"This will only return
+   * the GlossaryTerms that are directly nested under the specified parent.
+   * @opt_param string orderBy Optional. Order by expression that orders
+   * GlossaryTerms listed in the response. Order by fields are: name or
+   * create_time for the result. If not specified, the ordering is undefined.
+   * @opt_param int pageSize Optional. The maximum number of GlossaryTerms to
+   * return. The service may return fewer than this value. If unspecified, at most
+   * 50 GlossaryTerms will be returned. The maximum value is 1000; values above
+   * 1000 will be coerced to 1000.
+   * @opt_param string pageToken Optional. A page token, received from a previous
+   * ListGlossaryTerms call. Provide this to retrieve the subsequent page. When
+   * paginating, all other parameters provided to ListGlossaryTerms must match the
+   * call that provided the page token.
+   * @return GoogleCloudDataplexV1ListGlossaryTermsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsGlossariesTerms($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GoogleCloudDataplexV1ListGlossaryTermsResponse::class);
+  }
+  /**
+   * Updates a GlossaryTerm resource. (terms.patch)
+   *
+   * @param string $name Output only. Identifier. The resource name of the
+   * GlossaryTerm. Format: projects/{project_id_or_number}/locations/{location_id}
+   * /glossaries/{glossary_id}/terms/{term_id}
+   * @param GoogleCloudDataplexV1GlossaryTerm $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The list of fields to update.
+   * @return GoogleCloudDataplexV1GlossaryTerm
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudDataplexV1GlossaryTerm $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudDataplexV1GlossaryTerm::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

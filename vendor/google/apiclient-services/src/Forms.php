@@ -27,7 +27,7 @@ use Google\Client;
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://developers.google.com/forms/api" target="_blank">Documentation</a>
+ * <a href="https://developers.google.com/workspace/forms/api" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -94,10 +94,25 @@ class Forms extends \Google\Service
             ],'create' => [
               'path' => 'v1/forms',
               'httpMethod' => 'POST',
-              'parameters' => [],
+              'parameters' => [
+                'unpublished' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
             ],'get' => [
               'path' => 'v1/forms/{formId}',
               'httpMethod' => 'GET',
+              'parameters' => [
+                'formId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'setPublishSettings' => [
+              'path' => 'v1/forms/{formId}:setPublishSettings',
+              'httpMethod' => 'POST',
               'parameters' => [
                 'formId' => [
                   'location' => 'path',

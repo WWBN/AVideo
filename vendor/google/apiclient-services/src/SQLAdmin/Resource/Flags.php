@@ -37,6 +37,9 @@ class Flags extends \Google\Service\Resource
    * @opt_param string databaseVersion Database type and version you want to
    * retrieve flags for. By default, this method returns flags for all database
    * types and versions.
+   * @opt_param string flagScope Optional. Specify the scope of flags to be
+   * returned by SqlFlagsListService. Return list of database flags if
+   * unspecified.
    * @return FlagsListResponse
    * @throws \Google\Service\Exception
    */

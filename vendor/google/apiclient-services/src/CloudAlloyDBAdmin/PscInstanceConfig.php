@@ -24,6 +24,8 @@ class PscInstanceConfig extends \Google\Collection
    * @var string[]
    */
   public $allowedConsumerProjects;
+  protected $pscAutoConnectionsType = PscAutoConnectionConfig::class;
+  protected $pscAutoConnectionsDataType = 'array';
   /**
    * @var string
    */
@@ -48,6 +50,20 @@ class PscInstanceConfig extends \Google\Collection
   public function getAllowedConsumerProjects()
   {
     return $this->allowedConsumerProjects;
+  }
+  /**
+   * @param PscAutoConnectionConfig[]
+   */
+  public function setPscAutoConnections($pscAutoConnections)
+  {
+    $this->pscAutoConnections = $pscAutoConnections;
+  }
+  /**
+   * @return PscAutoConnectionConfig[]
+   */
+  public function getPscAutoConnections()
+  {
+    return $this->pscAutoConnections;
   }
   /**
    * @param string

@@ -19,10 +19,18 @@ namespace Google\Service\AndroidManagement;
 
 class DeviceConnectivityManagement extends \Google\Model
 {
+  protected $apnPolicyType = ApnPolicy::class;
+  protected $apnPolicyDataType = '';
+  /**
+   * @var string
+   */
+  public $bluetoothSharing;
   /**
    * @var string
    */
   public $configureWifi;
+  protected $preferentialNetworkServiceSettingsType = PreferentialNetworkServiceSettings::class;
+  protected $preferentialNetworkServiceSettingsDataType = '';
   /**
    * @var string
    */
@@ -41,6 +49,34 @@ class DeviceConnectivityManagement extends \Google\Model
   protected $wifiSsidPolicyDataType = '';
 
   /**
+   * @param ApnPolicy
+   */
+  public function setApnPolicy(ApnPolicy $apnPolicy)
+  {
+    $this->apnPolicy = $apnPolicy;
+  }
+  /**
+   * @return ApnPolicy
+   */
+  public function getApnPolicy()
+  {
+    return $this->apnPolicy;
+  }
+  /**
+   * @param string
+   */
+  public function setBluetoothSharing($bluetoothSharing)
+  {
+    $this->bluetoothSharing = $bluetoothSharing;
+  }
+  /**
+   * @return string
+   */
+  public function getBluetoothSharing()
+  {
+    return $this->bluetoothSharing;
+  }
+  /**
    * @param string
    */
   public function setConfigureWifi($configureWifi)
@@ -53,6 +89,20 @@ class DeviceConnectivityManagement extends \Google\Model
   public function getConfigureWifi()
   {
     return $this->configureWifi;
+  }
+  /**
+   * @param PreferentialNetworkServiceSettings
+   */
+  public function setPreferentialNetworkServiceSettings(PreferentialNetworkServiceSettings $preferentialNetworkServiceSettings)
+  {
+    $this->preferentialNetworkServiceSettings = $preferentialNetworkServiceSettings;
+  }
+  /**
+   * @return PreferentialNetworkServiceSettings
+   */
+  public function getPreferentialNetworkServiceSettings()
+  {
+    return $this->preferentialNetworkServiceSettings;
   }
   /**
    * @param string

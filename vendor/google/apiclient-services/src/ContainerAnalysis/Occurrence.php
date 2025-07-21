@@ -63,6 +63,8 @@ class Occurrence extends \Google\Model
   public $resourceUri;
   protected $sbomReferenceType = SBOMReferenceOccurrence::class;
   protected $sbomReferenceDataType = '';
+  protected $secretType = SecretOccurrence::class;
+  protected $secretDataType = '';
   /**
    * @var string
    */
@@ -295,6 +297,20 @@ class Occurrence extends \Google\Model
   public function getSbomReference()
   {
     return $this->sbomReference;
+  }
+  /**
+   * @param SecretOccurrence
+   */
+  public function setSecret(SecretOccurrence $secret)
+  {
+    $this->secret = $secret;
+  }
+  /**
+   * @return SecretOccurrence
+   */
+  public function getSecret()
+  {
+    return $this->secret;
   }
   /**
    * @param string

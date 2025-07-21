@@ -135,6 +135,42 @@ class ProjectsLocationsBackupPlanAssociations extends \Google\Service\Resource
     return $this->call('list', [$params], ListBackupPlanAssociationsResponse::class);
   }
   /**
+   * Update a BackupPlanAssociation (backupPlanAssociations.patch)
+   *
+   * @param string $name Output only. Identifier. The resource name of
+   * BackupPlanAssociation in below format Format : projects/{project}/locations/{
+   * location}/backupPlanAssociations/{backupPlanAssociationId}
+   * @param BackupPlanAssociation $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId Optional. An optional request ID to identify
+   * requests. Specify a unique request ID so that if you must retry your request,
+   * the server will know to ignore the request if it has already been completed.
+   * The server will guarantee that for at least 60 minutes since the first
+   * request. For example, consider a situation where you make an initial request
+   * and t he request times out. If you make the request again with the same
+   * request ID, the server can check if original operation with the same request
+   * ID was received, and if so, will ignore the second request. This prevents
+   * clients from accidentally creating duplicate commitments. The request ID must
+   * be a valid UUID with the exception that zero UUID is not supported
+   * (00000000-0000-0000-0000-000000000000).
+   * @opt_param string updateMask Required. The list of fields to update. Field
+   * mask is used to specify the fields to be overwritten in the
+   * BackupPlanAssociation resource by the update. The fields specified in the
+   * update_mask are relative to the resource, not the full request. A field will
+   * be overwritten if it is in the mask. If the user does not provide a mask then
+   * the request will fail. Currently backup_plan_association.backup_plan is the
+   * only supported field.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, BackupPlanAssociation $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
+  }
+  /**
    * Triggers a new Backup. (backupPlanAssociations.triggerBackup)
    *
    * @param string $name Required. Name of the backup plan association resource,

@@ -58,6 +58,11 @@ class ProjectsLocationsReasoningEngines extends \Google\Service\Resource
    * deleted. Format:
    * `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}`
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool force Optional. If set to true, child resources of this
+   * reasoning engine will also be deleted. Otherwise, the request will fail with
+   * FAILED_PRECONDITION error when the reasoning engine has undeleted child
+   * resources.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
@@ -108,6 +113,8 @@ class ProjectsLocationsReasoningEngines extends \Google\Service\Resource
    * Updates a reasoning engine. (reasoningEngines.patch)
    *
    * @param string $name Identifier. The resource name of the ReasoningEngine.
+   * Format:
+   * `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}`
    * @param GoogleCloudAiplatformV1ReasoningEngine $postBody
    * @param array $optParams Optional parameters.
    *

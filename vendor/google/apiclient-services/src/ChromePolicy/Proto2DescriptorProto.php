@@ -32,6 +32,10 @@ class Proto2DescriptorProto extends \Google\Collection
   protected $nestedTypeDataType = 'array';
   protected $oneofDeclType = Proto2OneofDescriptorProto::class;
   protected $oneofDeclDataType = 'array';
+  /**
+   * @var string
+   */
+  public $visibility;
 
   /**
    * @param Proto2EnumDescriptorProto[]
@@ -102,6 +106,20 @@ class Proto2DescriptorProto extends \Google\Collection
   public function getOneofDecl()
   {
     return $this->oneofDecl;
+  }
+  /**
+   * @param string
+   */
+  public function setVisibility($visibility)
+  {
+    $this->visibility = $visibility;
+  }
+  /**
+   * @return string
+   */
+  public function getVisibility()
+  {
+    return $this->visibility;
   }
 }
 

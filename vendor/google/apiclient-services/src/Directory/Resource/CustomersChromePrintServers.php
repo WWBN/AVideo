@@ -161,8 +161,8 @@ class CustomersChromePrintServers extends \Google\Service\Resource
   /**
    * Updates a print server's configuration. (printServers.patch)
    *
-   * @param string $name Immutable. Resource name of the print server. Leave empty
-   * when creating. Format:
+   * @param string $name Identifier. Resource name of the print server. Leave
+   * empty when creating. Format:
    * `customers/{customer.id}/printServers/{print_server.id}`
    * @param PrintServer $postBody
    * @param array $optParams Optional parameters.

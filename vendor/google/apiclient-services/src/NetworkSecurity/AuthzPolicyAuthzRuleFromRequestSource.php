@@ -20,25 +20,9 @@ namespace Google\Service\NetworkSecurity;
 class AuthzPolicyAuthzRuleFromRequestSource extends \Google\Collection
 {
   protected $collection_key = 'resources';
-  protected $principalsType = AuthzPolicyAuthzRuleStringMatch::class;
-  protected $principalsDataType = 'array';
   protected $resourcesType = AuthzPolicyAuthzRuleRequestResource::class;
   protected $resourcesDataType = 'array';
 
-  /**
-   * @param AuthzPolicyAuthzRuleStringMatch[]
-   */
-  public function setPrincipals($principals)
-  {
-    $this->principals = $principals;
-  }
-  /**
-   * @return AuthzPolicyAuthzRuleStringMatch[]
-   */
-  public function getPrincipals()
-  {
-    return $this->principals;
-  }
   /**
    * @param AuthzPolicyAuthzRuleRequestResource[]
    */

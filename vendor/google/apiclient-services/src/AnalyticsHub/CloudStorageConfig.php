@@ -53,10 +53,6 @@ class CloudStorageConfig extends \Google\Model
    * @var string
    */
   public $serviceAccountEmail;
-  /**
-   * @var string
-   */
-  public $state;
   protected $textConfigType = TextConfig::class;
   protected $textConfigDataType = '';
 
@@ -185,20 +181,6 @@ class CloudStorageConfig extends \Google\Model
   public function getServiceAccountEmail()
   {
     return $this->serviceAccountEmail;
-  }
-  /**
-   * @param string
-   */
-  public function setState($state)
-  {
-    $this->state = $state;
-  }
-  /**
-   * @return string
-   */
-  public function getState()
-  {
-    return $this->state;
   }
   /**
    * @param TextConfig

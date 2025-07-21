@@ -19,9 +19,11 @@ namespace Google\Service\NetworkSecurity;
 
 class MirroringEndpointGroup extends \Google\Collection
 {
-  protected $collection_key = 'associations';
+  protected $collection_key = 'connectedDeploymentGroups';
   protected $associationsType = MirroringEndpointGroupAssociationDetails::class;
   protected $associationsDataType = 'array';
+  protected $connectedDeploymentGroupsType = MirroringEndpointGroupConnectedDeploymentGroup::class;
+  protected $connectedDeploymentGroupsDataType = 'array';
   /**
    * @var string
    */
@@ -68,6 +70,20 @@ class MirroringEndpointGroup extends \Google\Collection
   public function getAssociations()
   {
     return $this->associations;
+  }
+  /**
+   * @param MirroringEndpointGroupConnectedDeploymentGroup[]
+   */
+  public function setConnectedDeploymentGroups($connectedDeploymentGroups)
+  {
+    $this->connectedDeploymentGroups = $connectedDeploymentGroups;
+  }
+  /**
+   * @return MirroringEndpointGroupConnectedDeploymentGroup[]
+   */
+  public function getConnectedDeploymentGroups()
+  {
+    return $this->connectedDeploymentGroups;
   }
   /**
    * @param string

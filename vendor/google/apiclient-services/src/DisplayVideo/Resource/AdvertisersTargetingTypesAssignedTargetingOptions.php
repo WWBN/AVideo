@@ -82,7 +82,7 @@ class AdvertisersTargetingTypesAssignedTargetingOptions extends \Google\Service\
    * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` * `TARGETING_TYPE_OMID` *
    * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` *
    * `TARGETING_TYPE_YOUTUBE_VIDEO` * `TARGETING_TYPE_YOUTUBE_CHANNEL` *
-   * `TARGETING_TYPE_KEYWORD`
+   * `TARGETING_TYPE_KEYWORD` * `TARGETING_TYPE_CONTENT_THEME_EXCLUSION`
    * @param string $assignedTargetingOptionId Required. An identifier unique to
    * the targeting type in this advertiser that identifies the assigned targeting
    * option being requested.
@@ -106,7 +106,7 @@ class AdvertisersTargetingTypesAssignedTargetingOptions extends \Google\Service\
    * `TARGETING_TYPE_CHANNEL` * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` *
    * `TARGETING_TYPE_OMID` * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` *
    * `TARGETING_TYPE_YOUTUBE_VIDEO` * `TARGETING_TYPE_YOUTUBE_CHANNEL` *
-   * `TARGETING_TYPE_KEYWORD`
+   * `TARGETING_TYPE_KEYWORD` * `TARGETING_TYPE_CONTENT_THEME_EXCLUSION`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Allows filtering by assigned targeting option

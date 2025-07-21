@@ -32,11 +32,11 @@ class Comments extends \Google\Service\Resource
 {
   /**
    * Creates a comment on a file. For more information, see [Manage comments and
-   * replies](https://developers.google.com/drive/api/guides/manage-comments).
-   * Required: The `fields` parameter must be set. To return the exact fields you
-   * need, see [Return specific
-   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
-   * (comments.create)
+   * replies](https://developers.google.com/workspace/drive/api/guides/manage-
+   * comments). Required: The `fields` parameter must be set. To return the exact
+   * fields you need, see [Return specific
+   * fields](https://developers.google.com/workspace/drive/api/guides/fields-
+   * parameter). (comments.create)
    *
    * @param string $fileId The ID of the file.
    * @param Comment $postBody
@@ -52,11 +52,8 @@ class Comments extends \Google\Service\Resource
   }
   /**
    * Deletes a comment. For more information, see [Manage comments and
-   * replies](https://developers.google.com/drive/api/guides/manage-comments).
-   * Required: The `fields` parameter must be set. To return the exact fields you
-   * need, see [Return specific
-   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
-   * (comments.delete)
+   * replies](https://developers.google.com/workspace/drive/api/guides/manage-
+   * comments). (comments.delete)
    *
    * @param string $fileId The ID of the file.
    * @param string $commentId The ID of the comment.
@@ -71,11 +68,11 @@ class Comments extends \Google\Service\Resource
   }
   /**
    * Gets a comment by ID. For more information, see [Manage comments and
-   * replies](https://developers.google.com/drive/api/guides/manage-comments).
-   * Required: The `fields` parameter must be set. To return the exact fields you
-   * need, see [Return specific
-   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
-   * (comments.get)
+   * replies](https://developers.google.com/workspace/drive/api/guides/manage-
+   * comments). Required: The `fields` parameter must be set. To return the exact
+   * fields you need, see [Return specific
+   * fields](https://developers.google.com/workspace/drive/api/guides/fields-
+   * parameter). (comments.get)
    *
    * @param string $fileId The ID of the file.
    * @param string $commentId The ID of the comment.
@@ -94,11 +91,11 @@ class Comments extends \Google\Service\Resource
   }
   /**
    * Lists a file's comments. For more information, see [Manage comments and
-   * replies](https://developers.google.com/drive/api/guides/manage-comments).
-   * Required: The `fields` parameter must be set. To return the exact fields you
-   * need, see [Return specific
-   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
-   * (comments.listComments)
+   * replies](https://developers.google.com/workspace/drive/api/guides/manage-
+   * comments). Required: The `fields` parameter must be set. To return the exact
+   * fields you need, see [Return specific
+   * fields](https://developers.google.com/workspace/drive/api/guides/fields-
+   * parameter). (comments.listComments)
    *
    * @param string $fileId The ID of the file.
    * @param array $optParams Optional parameters.
@@ -122,11 +119,12 @@ class Comments extends \Google\Service\Resource
   }
   /**
    * Updates a comment with patch semantics. For more information, see [Manage
-   * comments and replies](https://developers.google.com/drive/api/guides/manage-
+   * comments and
+   * replies](https://developers.google.com/workspace/drive/api/guides/manage-
    * comments). Required: The `fields` parameter must be set. To return the exact
    * fields you need, see [Return specific
-   * fields](https://developers.google.com/drive/api/guides/fields-parameter).
-   * (comments.update)
+   * fields](https://developers.google.com/workspace/drive/api/guides/fields-
+   * parameter). (comments.update)
    *
    * @param string $fileId The ID of the file.
    * @param string $commentId The ID of the comment.

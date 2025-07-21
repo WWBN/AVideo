@@ -4,7 +4,7 @@
  * This file is part of the Predis package.
  *
  * (c) 2009-2020 Daniele Alessandri
- * (c) 2021-2024 Till Krüss
+ * (c) 2021-2025 Till Krüss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -254,7 +254,7 @@ class RedisCluster implements ClusterInterface, IteratorAggregate, Countable
                 }
 
                 if (!$connection = $this->getRandomConnection()) {
-                    throw new ClientException('No connections left in the pool for `CLUSTER SLOTS`');
+                    throw new ClientException('No connections left in the pool for `CLUSTER SLOTS` (' . $exception->getMessage() . ')');
                 }
 
                 usleep($retryAfter * 1000);
@@ -337,10 +337,19 @@ class RedisCluster implements ClusterInterface, IteratorAggregate, Countable
     {
         $separator = strrpos($connectionID, ':');
 
-        return $this->connections->create([
+        $parameters = [
             'host' => substr($connectionID, 0, $separator),
             'port' => substr($connectionID, $separator + 1),
-        ]);
+        ];
+
+        $existConnection = current($this->pool);
+        if ($existConnection instanceof NodeConnectionInterface) {
+            $existParameters = $existConnection->getParameters()->toArray();
+            unset($existParameters['alias'], $existParameters['slots']);
+            $parameters = array_merge($existParameters, $parameters);
+        }
+
+        return $this->connections->create($parameters);
     }
 
     /**

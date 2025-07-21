@@ -22,6 +22,10 @@ class AutonomousDatabaseProperties extends \Google\Collection
   protected $collection_key = 'supportedCloneRegions';
   public $actualUsedDataStorageSizeTb;
   public $allocatedStorageSizeTb;
+  /**
+   * @var string[]
+   */
+  public $allowlistedIps;
   protected $apexDetailsType = AutonomousDatabaseApex::class;
   protected $apexDetailsDataType = '';
   /**
@@ -61,6 +65,10 @@ class AutonomousDatabaseProperties extends \Google\Collection
   /**
    * @var string
    */
+  public $dataGuardRoleChangedTime;
+  /**
+   * @var string
+   */
   public $dataSafeState;
   /**
    * @var int
@@ -86,6 +94,10 @@ class AutonomousDatabaseProperties extends \Google\Collection
    * @var string
    */
   public $dbWorkload;
+  /**
+   * @var string
+   */
+  public $disasterRecoveryRoleChangedTime;
   /**
    * @var string
    */
@@ -248,6 +260,20 @@ class AutonomousDatabaseProperties extends \Google\Collection
     return $this->allocatedStorageSizeTb;
   }
   /**
+   * @param string[]
+   */
+  public function setAllowlistedIps($allowlistedIps)
+  {
+    $this->allowlistedIps = $allowlistedIps;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAllowlistedIps()
+  {
+    return $this->allowlistedIps;
+  }
+  /**
    * @param AutonomousDatabaseApex
    */
   public function setApexDetails(AutonomousDatabaseApex $apexDetails)
@@ -404,6 +430,20 @@ class AutonomousDatabaseProperties extends \Google\Collection
   /**
    * @param string
    */
+  public function setDataGuardRoleChangedTime($dataGuardRoleChangedTime)
+  {
+    $this->dataGuardRoleChangedTime = $dataGuardRoleChangedTime;
+  }
+  /**
+   * @return string
+   */
+  public function getDataGuardRoleChangedTime()
+  {
+    return $this->dataGuardRoleChangedTime;
+  }
+  /**
+   * @param string
+   */
   public function setDataSafeState($dataSafeState)
   {
     $this->dataSafeState = $dataSafeState;
@@ -498,6 +538,20 @@ class AutonomousDatabaseProperties extends \Google\Collection
   public function getDbWorkload()
   {
     return $this->dbWorkload;
+  }
+  /**
+   * @param string
+   */
+  public function setDisasterRecoveryRoleChangedTime($disasterRecoveryRoleChangedTime)
+  {
+    $this->disasterRecoveryRoleChangedTime = $disasterRecoveryRoleChangedTime;
+  }
+  /**
+   * @return string
+   */
+  public function getDisasterRecoveryRoleChangedTime()
+  {
+    return $this->disasterRecoveryRoleChangedTime;
   }
   /**
    * @param string

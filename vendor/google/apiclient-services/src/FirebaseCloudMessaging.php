@@ -24,7 +24,7 @@ use Google\Client;
  *
  * <p>
  * FCM send API that provides a cross-platform messaging solution to reliably
- * deliver messages at no cost.</p>
+ * deliver messages.</p>
  *
  * <p>
  * For more information about this service, see the API

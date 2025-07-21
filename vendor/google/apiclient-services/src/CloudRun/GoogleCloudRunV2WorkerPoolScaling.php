@@ -23,26 +23,6 @@ class GoogleCloudRunV2WorkerPoolScaling extends \Google\Model
    * @var int
    */
   public $manualInstanceCount;
-  /**
-   * @var int
-   */
-  public $maxInstanceCount;
-  /**
-   * @var int
-   */
-  public $maxSurge;
-  /**
-   * @var int
-   */
-  public $maxUnavailable;
-  /**
-   * @var int
-   */
-  public $minInstanceCount;
-  /**
-   * @var string
-   */
-  public $scalingMode;
 
   /**
    * @param int
@@ -57,76 +37,6 @@ class GoogleCloudRunV2WorkerPoolScaling extends \Google\Model
   public function getManualInstanceCount()
   {
     return $this->manualInstanceCount;
-  }
-  /**
-   * @param int
-   */
-  public function setMaxInstanceCount($maxInstanceCount)
-  {
-    $this->maxInstanceCount = $maxInstanceCount;
-  }
-  /**
-   * @return int
-   */
-  public function getMaxInstanceCount()
-  {
-    return $this->maxInstanceCount;
-  }
-  /**
-   * @param int
-   */
-  public function setMaxSurge($maxSurge)
-  {
-    $this->maxSurge = $maxSurge;
-  }
-  /**
-   * @return int
-   */
-  public function getMaxSurge()
-  {
-    return $this->maxSurge;
-  }
-  /**
-   * @param int
-   */
-  public function setMaxUnavailable($maxUnavailable)
-  {
-    $this->maxUnavailable = $maxUnavailable;
-  }
-  /**
-   * @return int
-   */
-  public function getMaxUnavailable()
-  {
-    return $this->maxUnavailable;
-  }
-  /**
-   * @param int
-   */
-  public function setMinInstanceCount($minInstanceCount)
-  {
-    $this->minInstanceCount = $minInstanceCount;
-  }
-  /**
-   * @return int
-   */
-  public function getMinInstanceCount()
-  {
-    return $this->minInstanceCount;
-  }
-  /**
-   * @param string
-   */
-  public function setScalingMode($scalingMode)
-  {
-    $this->scalingMode = $scalingMode;
-  }
-  /**
-   * @return string
-   */
-  public function getScalingMode()
-  {
-    return $this->scalingMode;
   }
 }
 

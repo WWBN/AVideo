@@ -39,6 +39,8 @@ class ProjectsLocationsRules extends \Google\Service\Resource
    *
    * @opt_param string customRulesBucket The Cloud Storage bucket name for custom
    * rules.
+   * @opt_param string evaluationType Optional. The evaluation type of the rules
+   * will be applied to. The Cloud Storage bucket name for custom rules.
    * @opt_param string filter Filter based on primary_category, secondary_category
    * @opt_param int pageSize Requested page size. Server may return fewer items
    * than requested. If unspecified, server will pick an appropriate default.

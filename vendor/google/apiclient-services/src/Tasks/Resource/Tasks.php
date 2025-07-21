@@ -105,8 +105,8 @@ class Tasks extends \Google\Service\Resource
     return $this->call('insert', [$params], Task::class);
   }
   /**
-   * Returns all tasks in the specified task list. Does not return assigned tasks
-   * be default (from Docs, Chat Spaces). A user can have up to 20,000 non-hidden
+   * Returns all tasks in the specified task list. Doesn't return assigned tasks
+   * by default (from Docs, Chat Spaces). A user can have up to 20,000 non-hidden
    * tasks per list and up to 100,000 tasks in total at a time. (tasks.listTasks)
    *
    * @param string $tasklist Task list identifier.
@@ -163,16 +163,18 @@ class Tasks extends \Google\Service\Resource
    * @opt_param string destinationTasklist Optional. Destination task list
    * identifier. If set, the task is moved from tasklist to the
    * destinationTasklist list. Otherwise the task is moved within its current
-   * list. Recurrent tasks cannot currently be moved between lists. Optional.
-   * @opt_param string parent New parent task identifier. If the task is moved to
-   * the top level, this parameter is omitted. The task set as parent must exist
-   * in the task list and can not be hidden. Assigned tasks can not be set as
-   * parent task (have subtasks) or be moved under a parent task (become
-   * subtasks). Optional.
-   * @opt_param string previous New previous sibling task identifier. If the task
-   * is moved to the first position among its siblings, this parameter is omitted.
-   * The task set as previous must exist in the task list and can not be hidden.
-   * Optional.
+   * list. Recurrent tasks cannot currently be moved between lists.
+   * @opt_param string parent Optional. New parent task identifier. If the task is
+   * moved to the top level, this parameter is omitted. The task set as parent
+   * must exist in the task list and can not be hidden. Exceptions: 1. Assigned
+   * and repeating tasks cannot be set as parent tasks (have subtasks), or be
+   * moved under a parent task (become subtasks). 2. Tasks that are both completed
+   * and hidden cannot be nested, so the parent field must be empty.
+   * @opt_param string previous Optional. New previous sibling task identifier. If
+   * the task is moved to the first position among its siblings, this parameter is
+   * omitted. The task set as previous must exist in the task list and can not be
+   * hidden. Exceptions: 1. Tasks that are both completed and hidden can only be
+   * moved to position 0, so the previous field must be empty.
    * @return Task
    * @throws \Google\Service\Exception
    */

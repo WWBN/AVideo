@@ -29,11 +29,9 @@ use function strlen;
 use function substr;
 
 /**
- * StringCodec encodes and decodes RFC 4122 UUIDs
+ * StringCodec encodes and decodes RFC 9562 (formerly RFC 4122) UUIDs
  *
- * @link http://tools.ietf.org/html/rfc4122
- *
- * @psalm-immutable
+ * @immutable
  */
 class StringCodec implements CodecInterface
 {
@@ -62,9 +60,7 @@ class StringCodec implements CodecInterface
     }
 
     /**
-     * @psalm-return non-empty-string
-     * @psalm-suppress MoreSpecificReturnType we know that the retrieved `string` is never empty
-     * @psalm-suppress LessSpecificReturnStatement we know that the retrieved `string` is never empty
+     * @return non-empty-string
      */
     public function encodeBinary(UuidInterface $uuid): string
     {
@@ -85,9 +81,7 @@ class StringCodec implements CodecInterface
     public function decodeBytes(string $bytes): UuidInterface
     {
         if (strlen($bytes) !== 16) {
-            throw new InvalidArgumentException(
-                '$bytes string should contain 16 characters.'
-            );
+            throw new InvalidArgumentException('$bytes string should contain 16 characters.');
         }
 
         return $this->builder->build($this, $bytes);
@@ -106,11 +100,7 @@ class StringCodec implements CodecInterface
      */
     protected function getBytes(string $encodedUuid): string
     {
-        $parsedUuid = str_replace(
-            ['urn:', 'uuid:', 'URN:', 'UUID:', '{', '}', '-'],
-            '',
-            $encodedUuid
-        );
+        $parsedUuid = str_replace(['urn:', 'uuid:', 'URN:', 'UUID:', '{', '}', '-'], '', $encodedUuid);
 
         $components = [
             substr($parsedUuid, 0, 8),
@@ -121,9 +111,7 @@ class StringCodec implements CodecInterface
         ];
 
         if (!Uuid::isValid(implode('-', $components))) {
-            throw new InvalidUuidStringException(
-                'Invalid UUID string: ' . $encodedUuid
-            );
+            throw new InvalidUuidStringException('Invalid UUID string: ' . $encodedUuid);
         }
 
         return (string) hex2bin($parsedUuid);

@@ -25,6 +25,8 @@ class GooglePrivacyDlpV2DataProfileAction extends \Google\Model
   protected $pubSubNotificationDataType = '';
   protected $publishToChronicleType = GooglePrivacyDlpV2PublishToChronicle::class;
   protected $publishToChronicleDataType = '';
+  protected $publishToDataplexCatalogType = GooglePrivacyDlpV2PublishToDataplexCatalog::class;
+  protected $publishToDataplexCatalogDataType = '';
   protected $publishToSccType = GooglePrivacyDlpV2PublishToSecurityCommandCenter::class;
   protected $publishToSccDataType = '';
   protected $tagResourcesType = GooglePrivacyDlpV2TagResources::class;
@@ -71,6 +73,20 @@ class GooglePrivacyDlpV2DataProfileAction extends \Google\Model
   public function getPublishToChronicle()
   {
     return $this->publishToChronicle;
+  }
+  /**
+   * @param GooglePrivacyDlpV2PublishToDataplexCatalog
+   */
+  public function setPublishToDataplexCatalog(GooglePrivacyDlpV2PublishToDataplexCatalog $publishToDataplexCatalog)
+  {
+    $this->publishToDataplexCatalog = $publishToDataplexCatalog;
+  }
+  /**
+   * @return GooglePrivacyDlpV2PublishToDataplexCatalog
+   */
+  public function getPublishToDataplexCatalog()
+  {
+    return $this->publishToDataplexCatalog;
   }
   /**
    * @param GooglePrivacyDlpV2PublishToSecurityCommandCenter

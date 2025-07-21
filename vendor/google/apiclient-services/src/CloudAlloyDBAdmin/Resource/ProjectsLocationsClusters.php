@@ -24,6 +24,7 @@ use Google\Service\CloudAlloyDBAdmin\ListClustersResponse;
 use Google\Service\CloudAlloyDBAdmin\Operation;
 use Google\Service\CloudAlloyDBAdmin\PromoteClusterRequest;
 use Google\Service\CloudAlloyDBAdmin\RestoreClusterRequest;
+use Google\Service\CloudAlloyDBAdmin\RestoreFromCloudSQLRequest;
 use Google\Service\CloudAlloyDBAdmin\SwitchoverClusterRequest;
 use Google\Service\CloudAlloyDBAdmin\UpgradeClusterRequest;
 
@@ -290,6 +291,23 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('restore', [$params], Operation::class);
+  }
+  /**
+   * Restores an AlloyDB cluster from a CloudSQL resource.
+   * (clusters.restoreFromCloudSQL)
+   *
+   * @param string $parent Required. The location of the new cluster. For the
+   * required format, see the comment on Cluster.name field.
+   * @param RestoreFromCloudSQLRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function restoreFromCloudSQL($parent, RestoreFromCloudSQLRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('restoreFromCloudSQL', [$params], Operation::class);
   }
   /**
    * Switches the roles of PRIMARY and SECONDARY clusters without any data loss.

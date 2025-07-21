@@ -26,6 +26,10 @@ class GoogleCloudDocumentaiV1DocumentSchemaEntityTypeProperty extends \Google\Mo
   /**
    * @var string
    */
+  public $method;
+  /**
+   * @var string
+   */
   public $name;
   /**
    * @var string
@@ -49,6 +53,20 @@ class GoogleCloudDocumentaiV1DocumentSchemaEntityTypeProperty extends \Google\Mo
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param string
+   */
+  public function setMethod($method)
+  {
+    $this->method = $method;
+  }
+  /**
+   * @return string
+   */
+  public function getMethod()
+  {
+    return $this->method;
   }
   /**
    * @param string

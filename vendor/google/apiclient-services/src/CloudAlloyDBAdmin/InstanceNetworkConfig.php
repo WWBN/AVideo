@@ -20,6 +20,10 @@ namespace Google\Service\CloudAlloyDBAdmin;
 class InstanceNetworkConfig extends \Google\Collection
 {
   protected $collection_key = 'authorizedExternalNetworks';
+  /**
+   * @var string
+   */
+  public $allocatedIpRangeOverride;
   protected $authorizedExternalNetworksType = AuthorizedNetwork::class;
   protected $authorizedExternalNetworksDataType = 'array';
   /**
@@ -30,7 +34,25 @@ class InstanceNetworkConfig extends \Google\Collection
    * @var bool
    */
   public $enablePublicIp;
+  /**
+   * @var string
+   */
+  public $network;
 
+  /**
+   * @param string
+   */
+  public function setAllocatedIpRangeOverride($allocatedIpRangeOverride)
+  {
+    $this->allocatedIpRangeOverride = $allocatedIpRangeOverride;
+  }
+  /**
+   * @return string
+   */
+  public function getAllocatedIpRangeOverride()
+  {
+    return $this->allocatedIpRangeOverride;
+  }
   /**
    * @param AuthorizedNetwork[]
    */
@@ -72,6 +94,20 @@ class InstanceNetworkConfig extends \Google\Collection
   public function getEnablePublicIp()
   {
     return $this->enablePublicIp;
+  }
+  /**
+   * @param string
+   */
+  public function setNetwork($network)
+  {
+    $this->network = $network;
+  }
+  /**
+   * @return string
+   */
+  public function getNetwork()
+  {
+    return $this->network;
   }
 }
 

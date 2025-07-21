@@ -53,6 +53,8 @@ class GoogleCloudAiplatformV1EvaluateInstancesResponse extends \Google\Model
   protected $questionAnsweringRelevanceResultDataType = '';
   protected $rougeResultsType = GoogleCloudAiplatformV1RougeResults::class;
   protected $rougeResultsDataType = '';
+  protected $rubricBasedInstructionFollowingResultType = GoogleCloudAiplatformV1RubricBasedInstructionFollowingResult::class;
+  protected $rubricBasedInstructionFollowingResultDataType = '';
   protected $safetyResultType = GoogleCloudAiplatformV1SafetyResult::class;
   protected $safetyResultDataType = '';
   protected $summarizationHelpfulnessResultType = GoogleCloudAiplatformV1SummarizationHelpfulnessResult::class;
@@ -319,6 +321,20 @@ class GoogleCloudAiplatformV1EvaluateInstancesResponse extends \Google\Model
   public function getRougeResults()
   {
     return $this->rougeResults;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1RubricBasedInstructionFollowingResult
+   */
+  public function setRubricBasedInstructionFollowingResult(GoogleCloudAiplatformV1RubricBasedInstructionFollowingResult $rubricBasedInstructionFollowingResult)
+  {
+    $this->rubricBasedInstructionFollowingResult = $rubricBasedInstructionFollowingResult;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RubricBasedInstructionFollowingResult
+   */
+  public function getRubricBasedInstructionFollowingResult()
+  {
+    return $this->rubricBasedInstructionFollowingResult;
   }
   /**
    * @param GoogleCloudAiplatformV1SafetyResult

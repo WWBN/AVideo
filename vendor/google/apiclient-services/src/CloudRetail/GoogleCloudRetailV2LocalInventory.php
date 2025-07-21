@@ -23,10 +23,6 @@ class GoogleCloudRetailV2LocalInventory extends \Google\Collection
   protected $attributesType = GoogleCloudRetailV2CustomAttribute::class;
   protected $attributesDataType = 'map';
   /**
-   * @var string
-   */
-  public $availability;
-  /**
    * @var string[]
    */
   public $fulfillmentTypes;
@@ -50,20 +46,6 @@ class GoogleCloudRetailV2LocalInventory extends \Google\Collection
   public function getAttributes()
   {
     return $this->attributes;
-  }
-  /**
-   * @param string
-   */
-  public function setAvailability($availability)
-  {
-    $this->availability = $availability;
-  }
-  /**
-   * @return string
-   */
-  public function getAvailability()
-  {
-    return $this->availability;
   }
   /**
    * @param string[]

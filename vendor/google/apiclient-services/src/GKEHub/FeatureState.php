@@ -31,6 +31,8 @@ class FeatureState extends \Google\Model
   protected $meteringDataType = '';
   protected $policycontrollerType = PolicyControllerState::class;
   protected $policycontrollerDataType = '';
+  protected $rbacrolebindingactuationType = RBACRoleBindingActuationState::class;
+  protected $rbacrolebindingactuationDataType = '';
   protected $servicemeshType = ServiceMeshState::class;
   protected $servicemeshDataType = '';
   protected $stateType = State::class;
@@ -119,6 +121,20 @@ class FeatureState extends \Google\Model
   public function getPolicycontroller()
   {
     return $this->policycontroller;
+  }
+  /**
+   * @param RBACRoleBindingActuationState
+   */
+  public function setRbacrolebindingactuation(RBACRoleBindingActuationState $rbacrolebindingactuation)
+  {
+    $this->rbacrolebindingactuation = $rbacrolebindingactuation;
+  }
+  /**
+   * @return RBACRoleBindingActuationState
+   */
+  public function getRbacrolebindingactuation()
+  {
+    return $this->rbacrolebindingactuation;
   }
   /**
    * @param ServiceMeshState

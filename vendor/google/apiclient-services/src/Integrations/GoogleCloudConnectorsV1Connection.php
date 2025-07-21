@@ -19,7 +19,7 @@ namespace Google\Service\Integrations;
 
 class GoogleCloudConnectorsV1Connection extends \Google\Collection
 {
-  protected $collection_key = 'destinationConfigs';
+  protected $collection_key = 'trafficShapingConfigs';
   /**
    * @var bool
    */
@@ -62,6 +62,8 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
    * @var string
    */
   public $envoyImageLocation;
+  protected $euaOauthAuthConfigType = GoogleCloudConnectorsV1AuthConfig::class;
+  protected $euaOauthAuthConfigDataType = '';
   protected $eventingConfigType = GoogleCloudConnectorsV1EventingConfig::class;
   protected $eventingConfigDataType = '';
   /**
@@ -70,6 +72,10 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public $eventingEnablementType;
   protected $eventingRuntimeDataType = GoogleCloudConnectorsV1EventingRuntimeData::class;
   protected $eventingRuntimeDataDataType = '';
+  /**
+   * @var bool
+   */
+  public $fallbackOnAdminCredentials;
   /**
    * @var string
    */
@@ -120,6 +126,8 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
    * @var string
    */
   public $tlsServiceDirectory;
+  protected $trafficShapingConfigsType = GoogleCloudConnectorsV1TrafficShapingConfig::class;
+  protected $trafficShapingConfigsDataType = 'array';
   /**
    * @var string
    */
@@ -308,6 +316,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
     return $this->envoyImageLocation;
   }
   /**
+   * @param GoogleCloudConnectorsV1AuthConfig
+   */
+  public function setEuaOauthAuthConfig(GoogleCloudConnectorsV1AuthConfig $euaOauthAuthConfig)
+  {
+    $this->euaOauthAuthConfig = $euaOauthAuthConfig;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1AuthConfig
+   */
+  public function getEuaOauthAuthConfig()
+  {
+    return $this->euaOauthAuthConfig;
+  }
+  /**
    * @param GoogleCloudConnectorsV1EventingConfig
    */
   public function setEventingConfig(GoogleCloudConnectorsV1EventingConfig $eventingConfig)
@@ -348,6 +370,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public function getEventingRuntimeData()
   {
     return $this->eventingRuntimeData;
+  }
+  /**
+   * @param bool
+   */
+  public function setFallbackOnAdminCredentials($fallbackOnAdminCredentials)
+  {
+    $this->fallbackOnAdminCredentials = $fallbackOnAdminCredentials;
+  }
+  /**
+   * @return bool
+   */
+  public function getFallbackOnAdminCredentials()
+  {
+    return $this->fallbackOnAdminCredentials;
   }
   /**
    * @param string
@@ -558,6 +594,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public function getTlsServiceDirectory()
   {
     return $this->tlsServiceDirectory;
+  }
+  /**
+   * @param GoogleCloudConnectorsV1TrafficShapingConfig[]
+   */
+  public function setTrafficShapingConfigs($trafficShapingConfigs)
+  {
+    $this->trafficShapingConfigs = $trafficShapingConfigs;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1TrafficShapingConfig[]
+   */
+  public function getTrafficShapingConfigs()
+  {
+    return $this->trafficShapingConfigs;
   }
   /**
    * @param string

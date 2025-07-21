@@ -141,7 +141,8 @@ class OrganizationsEnvironmentsKeystoresAliases extends \Google\Service\Resource
     return $this->call('getCertificate', [$params], GoogleApiHttpBody::class);
   }
   /**
-   * Updates the certificate in an alias. (aliases.update)
+   * Updates the certificate in an alias. The updated certificate must be in PEM-
+   * or DER-encoded X.509 format. (aliases.update)
    *
    * @param string $name Required. Name of the alias. Use the following format in
    * your request:

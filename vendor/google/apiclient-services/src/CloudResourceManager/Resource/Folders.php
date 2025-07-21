@@ -205,7 +205,7 @@ class Folders extends \Google\Service\Resource
    * explaining this violation will be returned in the Status.details field.
    * (folders.patch)
    *
-   * @param string $name Output only. The resource name of the folder. Its format
+   * @param string $name Identifier. The resource name of the folder. Its format
    * is `folders/{folder_id}`, for example: "folders/1234".
    * @param Folder $postBody
    * @param array $optParams Optional parameters.

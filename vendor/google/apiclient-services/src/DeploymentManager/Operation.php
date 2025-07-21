@@ -88,6 +88,8 @@ class Operation extends \Google\Collection
    * @var string
    */
   public $selfLinkWithId;
+  protected $setAutoscalerLinkOperationMetadataType = SetAutoscalerLinkOperationMetadata::class;
+  protected $setAutoscalerLinkOperationMetadataDataType = '';
   protected $setCommonInstanceMetadataOperationMetadataType = SetCommonInstanceMetadataOperationMetadata::class;
   protected $setCommonInstanceMetadataOperationMetadataDataType = '';
   /**
@@ -372,6 +374,20 @@ class Operation extends \Google\Collection
   public function getSelfLinkWithId()
   {
     return $this->selfLinkWithId;
+  }
+  /**
+   * @param SetAutoscalerLinkOperationMetadata
+   */
+  public function setSetAutoscalerLinkOperationMetadata(SetAutoscalerLinkOperationMetadata $setAutoscalerLinkOperationMetadata)
+  {
+    $this->setAutoscalerLinkOperationMetadata = $setAutoscalerLinkOperationMetadata;
+  }
+  /**
+   * @return SetAutoscalerLinkOperationMetadata
+   */
+  public function getSetAutoscalerLinkOperationMetadata()
+  {
+    return $this->setAutoscalerLinkOperationMetadata;
   }
   /**
    * @param SetCommonInstanceMetadataOperationMetadata

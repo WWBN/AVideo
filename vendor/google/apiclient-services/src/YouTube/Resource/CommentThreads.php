@@ -72,6 +72,7 @@ class CommentThreads extends \Google\Service\Resource
    * page in the result set that should be returned. In an API response, the
    * nextPageToken and prevPageToken properties identify other pages that could be
    * retrieved.
+   * @opt_param string postId Returns the comment threads of the specified post.
    * @opt_param string searchTerms Limits the returned comment threads to those
    * matching the specified key words. Not compatible with the 'id' filter.
    * @opt_param string textFormat The requested text format for the returned

@@ -82,7 +82,7 @@ class Folders extends \Google\Service\Resource
    * @param Folder $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool recursive If true, any parent folder which doesn’t exist will
+   * @opt_param bool recursive If true, any parent folder which doesn't exist will
    * be created automatically.
    * @return Folder
    * @throws \Google\Service\Exception

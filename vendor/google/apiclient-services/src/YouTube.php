@@ -565,6 +565,10 @@ class YouTube extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'postId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'searchTerms' => [
                   'location' => 'query',
                   'type' => 'string',

@@ -49,6 +49,10 @@ class InstanceInfo extends \Google\Collection
    */
   public $pscNetworkAttachmentUri;
   /**
+   * @var bool
+   */
+  public $running;
+  /**
    * @var string
    */
   public $serviceAccount;
@@ -154,6 +158,20 @@ class InstanceInfo extends \Google\Collection
   public function getPscNetworkAttachmentUri()
   {
     return $this->pscNetworkAttachmentUri;
+  }
+  /**
+   * @param bool
+   */
+  public function setRunning($running)
+  {
+    $this->running = $running;
+  }
+  /**
+   * @return bool
+   */
+  public function getRunning()
+  {
+    return $this->running;
   }
   /**
    * @param string

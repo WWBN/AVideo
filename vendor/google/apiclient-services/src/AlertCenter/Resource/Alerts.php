@@ -143,11 +143,10 @@ class Alerts extends \Google\Service\Resource
    * Inferred from the caller identity if not provided. [Find your customer
    * ID](https://support.google.com/cloudidentity/answer/10070793).
    * @opt_param string filter Optional. A query string for filtering alert
-   * results. For more details, see [Query
-   * filters](https://developers.google.com/admin-sdk/alertcenter/guides/query-
-   * filters) and [Supported query filter
-   * fields](https://developers.google.com/admin-sdk/alertcenter/reference/filter-
-   * fields#alerts.list).
+   * results. For more details, see [Query filters](https://developers.google.com/
+   * workspace/admin/alertcenter/guides/query-filters) and [Supported query filter
+   * fields](https://developers.google.com/workspace/admin/alertcenter/reference/f
+   * ilter-fields#alerts.list).
    * @opt_param string orderBy Optional. The sort order of the list results. If
    * not specified results may be returned in arbitrary order. You can sort the
    * results in descending order based on the creation timestamp using

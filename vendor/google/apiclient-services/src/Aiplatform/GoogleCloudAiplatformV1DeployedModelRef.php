@@ -22,12 +22,30 @@ class GoogleCloudAiplatformV1DeployedModelRef extends \Google\Model
   /**
    * @var string
    */
+  public $checkpointId;
+  /**
+   * @var string
+   */
   public $deployedModelId;
   /**
    * @var string
    */
   public $endpoint;
 
+  /**
+   * @param string
+   */
+  public function setCheckpointId($checkpointId)
+  {
+    $this->checkpointId = $checkpointId;
+  }
+  /**
+   * @return string
+   */
+  public function getCheckpointId()
+  {
+    return $this->checkpointId;
+  }
   /**
    * @param string
    */

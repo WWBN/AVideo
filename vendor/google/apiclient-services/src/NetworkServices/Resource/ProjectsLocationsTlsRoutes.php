@@ -94,6 +94,9 @@ class ProjectsLocationsTlsRoutes extends \Google\Service\Resource
    * `ListTlsRoutesResponse` Indicates that this is a continuation of a prior
    * `ListTlsRoutes` call, and that the system should return the next page of
    * data.
+   * @opt_param bool returnPartialSuccess Optional. If true, allow partial
+   * responses for multi-regional Aggregated List requests. Otherwise if one of
+   * the locations is down or unreachable, the Aggregated List request will fail.
    * @return ListTlsRoutesResponse
    * @throws \Google\Service\Exception
    */

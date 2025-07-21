@@ -34,7 +34,7 @@ class OrganizationsLocationsDataExchanges extends \Google\Service\Resource
    * (dataExchanges.listOrganizationsLocationsDataExchanges)
    *
    * @param string $organization Required. The organization resource path of the
-   * projects containing DataExchanges. e.g. `organizations/myorg/locations/US`.
+   * projects containing DataExchanges. e.g. `organizations/myorg/locations/us`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of results to return in a single

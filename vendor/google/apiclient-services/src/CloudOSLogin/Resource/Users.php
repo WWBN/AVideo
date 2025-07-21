@@ -39,10 +39,10 @@ class Users extends \Google\Service\Resource
    * `users/{user}`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string projectId The project ID of the Google Cloud Platform
-   * project.
-   * @opt_param string systemId A system ID for filtering the results of the
-   * request.
+   * @opt_param string projectId Required. The project ID of the Google Cloud
+   * Platform project.
+   * @opt_param string systemId Optional. A system ID for filtering the results of
+   * the request.
    * @return LoginProfile
    * @throws \Google\Service\Exception
    */

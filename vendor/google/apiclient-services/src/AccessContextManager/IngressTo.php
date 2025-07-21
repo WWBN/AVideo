@@ -19,13 +19,17 @@ namespace Google\Service\AccessContextManager;
 
 class IngressTo extends \Google\Collection
 {
-  protected $collection_key = 'resources';
+  protected $collection_key = 'roles';
   protected $operationsType = ApiOperation::class;
   protected $operationsDataType = 'array';
   /**
    * @var string[]
    */
   public $resources;
+  /**
+   * @var string[]
+   */
+  public $roles;
 
   /**
    * @param ApiOperation[]
@@ -54,6 +58,20 @@ class IngressTo extends \Google\Collection
   public function getResources()
   {
     return $this->resources;
+  }
+  /**
+   * @param string[]
+   */
+  public function setRoles($roles)
+  {
+    $this->roles = $roles;
+  }
+  /**
+   * @return string[]
+   */
+  public function getRoles()
+  {
+    return $this->roles;
   }
 }
 

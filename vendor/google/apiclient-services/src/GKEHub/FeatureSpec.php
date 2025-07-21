@@ -29,6 +29,8 @@ class FeatureSpec extends \Google\Model
   protected $originDataType = '';
   protected $policycontrollerType = PolicyControllerSpec::class;
   protected $policycontrollerDataType = '';
+  protected $rbacrolebindingactuationType = RBACRoleBindingActuationSpec::class;
+  protected $rbacrolebindingactuationDataType = '';
   protected $servicemeshType = ServiceMeshSpec::class;
   protected $servicemeshDataType = '';
   protected $workloadcertificateType = WorkloadCertificateSpec::class;
@@ -103,6 +105,20 @@ class FeatureSpec extends \Google\Model
   public function getPolicycontroller()
   {
     return $this->policycontroller;
+  }
+  /**
+   * @param RBACRoleBindingActuationSpec
+   */
+  public function setRbacrolebindingactuation(RBACRoleBindingActuationSpec $rbacrolebindingactuation)
+  {
+    $this->rbacrolebindingactuation = $rbacrolebindingactuation;
+  }
+  /**
+   * @return RBACRoleBindingActuationSpec
+   */
+  public function getRbacrolebindingactuation()
+  {
+    return $this->rbacrolebindingactuation;
   }
   /**
    * @param ServiceMeshSpec

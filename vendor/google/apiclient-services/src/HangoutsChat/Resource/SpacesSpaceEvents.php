@@ -40,10 +40,21 @@ class SpacesSpaceEvents extends \Google\Service\Resource
    * returned in the Space object of the Space event data for this request.
    * Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). To get an event, the authenticated user must be a
-   * member of the space. For an example, see [Get details about an event from a
-   * Google Chat space](https://developers.google.com/workspace/chat/get-space-
-   * event). (spaceEvents.get)
+   * authorize-chat-user) with an [authorization
+   * scope](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes) appropriate for reading the requested data: -
+   * `https://www.googleapis.com/auth/chat.spaces.readonly` -
+   * `https://www.googleapis.com/auth/chat.spaces` -
+   * `https://www.googleapis.com/auth/chat.messages.readonly` -
+   * `https://www.googleapis.com/auth/chat.messages` -
+   * `https://www.googleapis.com/auth/chat.messages.reactions.readonly` -
+   * `https://www.googleapis.com/auth/chat.messages.reactions` -
+   * `https://www.googleapis.com/auth/chat.memberships.readonly` -
+   * `https://www.googleapis.com/auth/chat.memberships` To get an event, the
+   * authenticated user must be a member of the space. For an example, see [Get
+   * details about an event from a Google Chat
+   * space](https://developers.google.com/workspace/chat/get-space-event).
+   * (spaceEvents.get)
    *
    * @param string $name Required. The resource name of the space event. Format:
    * `spaces/{space}/spaceEvents/{spaceEvent}`
@@ -66,8 +77,19 @@ class SpacesSpaceEvents extends \Google\Service\Resource
    * details. If new members were removed during the requested period, the event
    * payload contains an empty `Membership` resource. Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). To list events, the authenticated user must be a member
-   * of the space. For an example, see [List events from a Google Chat
+   * authorize-chat-user) with an [authorization
+   * scope](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes) appropriate for reading the requested data: -
+   * `https://www.googleapis.com/auth/chat.spaces.readonly` -
+   * `https://www.googleapis.com/auth/chat.spaces` -
+   * `https://www.googleapis.com/auth/chat.messages.readonly` -
+   * `https://www.googleapis.com/auth/chat.messages` -
+   * `https://www.googleapis.com/auth/chat.messages.reactions.readonly` -
+   * `https://www.googleapis.com/auth/chat.messages.reactions` -
+   * `https://www.googleapis.com/auth/chat.memberships.readonly` -
+   * `https://www.googleapis.com/auth/chat.memberships` To list events, the
+   * authenticated user must be a member of the space. For an example, see [List
+   * events from a Google Chat
    * space](https://developers.google.com/workspace/chat/list-space-events).
    * (spaceEvents.listSpacesSpaceEvents)
    *

@@ -42,8 +42,8 @@ class ProjectsLocationsResourceBackupConfigs extends \Google\Service\Resource
    * @opt_param string filter Optional. Filtering results.
    * @opt_param string orderBy Optional. Hint for how to order the results.
    * @opt_param int pageSize Optional. Requested page size. Server may return
-   * fewer items than requested. If unspecified, server will pick an appropriate
-   * default.
+   * fewer items than requested. If unspecified, server will use 100 as default.
+   * Maximum value is 500 and values above 500 will be coerced to 500.
    * @opt_param string pageToken Optional. A token identifying a page of results
    * the server should return.
    * @return ListResourceBackupConfigsResponse

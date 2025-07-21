@@ -33,13 +33,20 @@ class SpacesMessages extends \Google\Service\Resource
 {
   /**
    * Creates a message in a Google Chat space. For an example, see [Send a
-   * message](https://developers.google.com/workspace/chat/create-messages). The
-   * `create()` method requires either [user
+   * message](https://developers.google.com/workspace/chat/create-messages).
+   * Supports the following types of
+   * [authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) or [app
-   * authentication](https://developers.google.com/workspace/chat/authorize-
-   * import). Chat attributes the message sender differently depending on the type
-   * of authentication that you use in your request. The following image shows how
+   * authorize-chat-app) with the authorization scope: -
+   * `https://www.googleapis.com/auth/chat.bot` - [User
+   * authentication](https://developers.google.com/workspace/chat/authenticate-
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.messages.create` -
+   * `https://www.googleapis.com/auth/chat.messages` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only) Chat
+   * attributes the message sender differently depending on the type of
+   * authentication that you use in your request. The following image shows how
    * Chat attributes a message when you use app authentication. Chat displays the
    * Chat app as the message sender. The content of the message can contain text
    * (`text`), cards (`cardsV2`), and accessory widgets (`accessoryWidgets`).
@@ -104,10 +111,14 @@ class SpacesMessages extends \Google\Service\Resource
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) - [User
+   * authorize-chat-app) with the authorization scope: -
+   * `https://www.googleapis.com/auth/chat.bot` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) When using app authentication, requests can only delete
-   * messages created by the calling Chat app. (messages.delete)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.messages` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only) When
+   * using app authentication, requests can only delete messages created by the
+   * calling Chat app. (messages.delete)
    *
    * @param string $name Required. Resource name of the message. Format:
    * `spaces/{space}/messages/{message}` If you've set a custom ID for your
@@ -140,10 +151,13 @@ class SpacesMessages extends \Google\Service\Resource
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) - [User
+   * authorize-chat-app) with the authorization scope: -
+   * `https://www.googleapis.com/auth/chat.bot` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) Note: Might return a message from a blocked member or
-   * space. (messages.get)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.messages.readonly` -
+   * `https://www.googleapis.com/auth/chat.messages` Note: Might return a message
+   * from a blocked member or space. (messages.get)
    *
    * @param string $name Required. Resource name of the message. Format:
    * `spaces/{space}/messages/{message}` If you've set a custom ID for your
@@ -169,7 +183,13 @@ class SpacesMessages extends \Google\Service\Resource
    * essages](https://developers.google.com/workspace/chat/api/guides/v1/messages/
    * list). Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (messages.listSpacesMessages)
+   * authorize-chat-user) with one of the following [authorization
+   * scopes](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes): -
+   * `https://www.googleapis.com/auth/chat.messages.readonly` -
+   * `https://www.googleapis.com/auth/chat.messages` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only)
+   * (messages.listSpacesMessages)
    *
    * @param string $parent Required. The resource name of the space to list
    * messages from. Format: `spaces/{space}`
@@ -228,10 +248,14 @@ class SpacesMessages extends \Google\Service\Resource
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) - [User
+   * authorize-chat-app) with the authorization scope: -
+   * `https://www.googleapis.com/auth/chat.bot` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) When using app authentication, requests can only update
-   * messages created by the calling Chat app. (messages.patch)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.messages` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only) When
+   * using app authentication, requests can only update messages created by the
+   * calling Chat app. (messages.patch)
    *
    * @param string $name Identifier. Resource name of the message. Format:
    * `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space
@@ -276,10 +300,14 @@ class SpacesMessages extends \Google\Service\Resource
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) - [User
+   * authorize-chat-app) with the authorization scope: -
+   * `https://www.googleapis.com/auth/chat.bot` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) When using app authentication, requests can only update
-   * messages created by the calling Chat app. (messages.update)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.messages` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only) When
+   * using app authentication, requests can only update messages created by the
+   * calling Chat app. (messages.update)
    *
    * @param string $name Identifier. Resource name of the message. Format:
    * `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space

@@ -49,6 +49,10 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
    */
   public $labels;
   /**
+   * @var string
+   */
+  public $languageCode;
+  /**
    * @var int
    */
   public $offset;
@@ -73,9 +77,17 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
   /**
    * @var string
    */
+  public $placeId;
+  /**
+   * @var string
+   */
   public $query;
   protected $queryExpansionSpecType = GoogleCloudRetailV2SearchRequestQueryExpansionSpec::class;
   protected $queryExpansionSpecDataType = '';
+  /**
+   * @var string
+   */
+  public $regionCode;
   /**
    * @var string
    */
@@ -222,6 +234,20 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
     return $this->labels;
   }
   /**
+   * @param string
+   */
+  public function setLanguageCode($languageCode)
+  {
+    $this->languageCode = $languageCode;
+  }
+  /**
+   * @return string
+   */
+  public function getLanguageCode()
+  {
+    return $this->languageCode;
+  }
+  /**
    * @param int
    */
   public function setOffset($offset)
@@ -308,6 +334,20 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
   /**
    * @param string
    */
+  public function setPlaceId($placeId)
+  {
+    $this->placeId = $placeId;
+  }
+  /**
+   * @return string
+   */
+  public function getPlaceId()
+  {
+    return $this->placeId;
+  }
+  /**
+   * @param string
+   */
   public function setQuery($query)
   {
     $this->query = $query;
@@ -332,6 +372,20 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
   public function getQueryExpansionSpec()
   {
     return $this->queryExpansionSpec;
+  }
+  /**
+   * @param string
+   */
+  public function setRegionCode($regionCode)
+  {
+    $this->regionCode = $regionCode;
+  }
+  /**
+   * @return string
+   */
+  public function getRegionCode()
+  {
+    return $this->regionCode;
   }
   /**
    * @param string

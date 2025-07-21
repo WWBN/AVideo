@@ -17,8 +17,8 @@
 
 namespace Google\Service\CivicInfo\Resource;
 
-use Google\Service\CivicInfo\RepresentativeInfoData;
-use Google\Service\CivicInfo\RepresentativeInfoResponse;
+use Google\Service\CivicInfo\CivicinfoApiprotosV2RepresentativeInfoData;
+use Google\Service\CivicInfo\CivicinfoApiprotosV2RepresentativeInfoResponse;
 
 /**
  * The "representatives" collection of methods.
@@ -47,14 +47,14 @@ class Representatives extends \Google\Service\Resource
    * @opt_param string roles A list of office roles to filter by. Only offices
    * fulfilling one of these roles will be returned. Divisions that don't contain
    * a matching office will not be returned.
-   * @return RepresentativeInfoResponse
+   * @return CivicinfoApiprotosV2RepresentativeInfoResponse
    * @throws \Google\Service\Exception
    */
   public function representativeInfoByAddress($optParams = [])
   {
     $params = [];
     $params = array_merge($params, $optParams);
-    return $this->call('representativeInfoByAddress', [$params], RepresentativeInfoResponse::class);
+    return $this->call('representativeInfoByAddress', [$params], CivicinfoApiprotosV2RepresentativeInfoResponse::class);
   }
   /**
    * Looks up representative information for a single geographic division.
@@ -74,14 +74,14 @@ class Representatives extends \Google\Service\Resource
    * @opt_param string roles A list of office roles to filter by. Only offices
    * fulfilling one of these roles will be returned. Divisions that don't contain
    * a matching office will not be returned.
-   * @return RepresentativeInfoData
+   * @return CivicinfoApiprotosV2RepresentativeInfoData
    * @throws \Google\Service\Exception
    */
   public function representativeInfoByDivision($ocdId, $optParams = [])
   {
     $params = ['ocdId' => $ocdId];
     $params = array_merge($params, $optParams);
-    return $this->call('representativeInfoByDivision', [$params], RepresentativeInfoData::class);
+    return $this->call('representativeInfoByDivision', [$params], CivicinfoApiprotosV2RepresentativeInfoData::class);
   }
 }
 

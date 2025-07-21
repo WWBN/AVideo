@@ -46,11 +46,11 @@ use Google\Service\Spanner\UpdateDatabaseDdlRequest;
 class ProjectsInstancesDatabases extends \Google\Service\Resource
 {
   /**
-   * Adds split points to specified tables, indexes of a database.
+   * Adds split points to specified tables and indexes of a database.
    * (databases.addSplitPoints)
    *
-   * @param string $database Required. The database on whose tables/indexes split
-   * points are to be added. Values are of the form
+   * @param string $database Required. The database on whose tables or indexes the
+   * split points are to be added. Values are of the form
    * `projects//instances//databases/`.
    * @param AddSplitPointsRequest $postBody
    * @param array $optParams Optional parameters.

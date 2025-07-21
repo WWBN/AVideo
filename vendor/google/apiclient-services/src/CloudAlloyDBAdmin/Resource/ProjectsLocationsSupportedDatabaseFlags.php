@@ -44,6 +44,8 @@ class ProjectsLocationsSupportedDatabaseFlags extends \Google\Service\Resource
    * than requested. If unspecified, server will pick an appropriate default.
    * @opt_param string pageToken A token identifying a page of results the server
    * should return.
+   * @opt_param string scope Optional. The scope for which supported flags are
+   * requested. If not specified, default is DATABASE.
    * @return ListSupportedDatabaseFlagsResponse
    * @throws \Google\Service\Exception
    */

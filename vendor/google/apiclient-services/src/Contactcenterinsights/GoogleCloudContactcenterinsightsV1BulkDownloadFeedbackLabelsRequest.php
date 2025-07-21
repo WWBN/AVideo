@@ -42,6 +42,8 @@ class GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest extend
    * @var string
    */
   public $parent;
+  protected $sheetsDestinationType = GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination::class;
+  protected $sheetsDestinationDataType = '';
   /**
    * @var string[]
    */
@@ -130,6 +132,20 @@ class GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest extend
   public function getParent()
   {
     return $this->parent;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination
+   */
+  public function setSheetsDestination(GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination $sheetsDestination)
+  {
+    $this->sheetsDestination = $sheetsDestination;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination
+   */
+  public function getSheetsDestination()
+  {
+    return $this->sheetsDestination;
   }
   /**
    * @param string[]

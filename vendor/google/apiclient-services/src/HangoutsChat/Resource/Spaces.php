@@ -38,10 +38,12 @@ class Spaces extends \Google\Service\Resource
   /**
    * Completes the [import
    * process](https://developers.google.com/workspace/chat/import-data) for the
-   * specified space and makes it visible to users. Requires [app
+   * specified space and makes it visible to users. Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) and domain-wide delegation. For more information, see
-   * [Authorize Google Chat apps to import
+   * authorize-chat-user) and domain-wide delegation with the [authorization
+   * scope](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.import`
+   * For more information, see [Authorize Google Chat apps to import
    * data](https://developers.google.com/workspace/chat/authorize-import).
    * (spaces.completeImport)
    *
@@ -68,17 +70,29 @@ class Spaces extends \Google\Service\Resource
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-app) with [administrator
    * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
-   * Preview](https://developers.google.com/workspace/preview) - [User
+   * Preview](https://developers.google.com/workspace/preview) and one of the
+   * following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.app.spaces.create` -
+   * `https://www.googleapis.com/auth/chat.app.spaces` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) When authenticating as an app, the `space.customer`
-   * field must be set in the request. Space membership upon creation depends on
-   * whether the space is created in `Import mode`: * **Import mode:** No members
-   * are created. * **All other modes:** The calling user is added as a member.
-   * This is: * The app itself when using app authentication. * The human user
-   * when using user authentication. If you receive the error message
-   * `ALREADY_EXISTS` when creating a space, try a different `displayName`. An
-   * existing space within the Google Workspace organization might already use
-   * this display name. (spaces.create)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.spaces.create` -
+   * `https://www.googleapis.com/auth/chat.spaces` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only) When
+   * authenticating as an app, the `space.customer` field must be set in the
+   * request. When authenticating as an app, the Chat app is added as a member of
+   * the space. However, unlike human authentication, the Chat app is not added as
+   * a space manager. By default, the Chat app can be removed from the space by
+   * all space members. To allow only space managers to remove the app from a
+   * space, set `space.permission_settings.manage_apps` to `managers_allowed`.
+   * Space membership upon creation depends on whether the space is created in
+   * `Import mode`: * **Import mode:** No members are created. * **All other
+   * modes:** The calling user is added as a member. This is: * The app itself
+   * when using app authentication. * The human user when using user
+   * authentication. If you receive the error message `ALREADY_EXISTS` when
+   * creating a space, try a different `displayName`. An existing space within the
+   * Google Workspace organization might already use this display name.
+   * (spaces.create)
    *
    * @param Space $postBody
    * @param array $optParams Optional parameters.
@@ -108,11 +122,17 @@ class Spaces extends \Google\Service\Resource
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-app) with [administrator
    * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
-   * Preview](https://developers.google.com/workspace/preview) - [User
+   * Preview](https://developers.google.com/workspace/preview) and the
+   * authorization scope: - `https://www.googleapis.com/auth/chat.app.delete`
+   * (only in spaces the app created) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) You can authenticate and authorize this method with
-   * administrator privileges by setting the `use_admin_access` field in the
-   * request. (spaces.delete)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.delete` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only) -
+   * User authentication grants administrator privileges when an administrator
+   * account authenticates, `use_admin_access` is `true`, and the following
+   * authorization scope is used: -
+   * `https://www.googleapis.com/auth/chat.admin.delete` (spaces.delete)
    *
    * @param string $name Required. Resource name of the space to delete. Format:
    * `spaces/{space}`
@@ -144,13 +164,16 @@ class Spaces extends \Google\Service\Resource
    * user and the calling Chat app. With [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-user), returns the direct message space between the specified
-   * user and the authenticated user. // Supports the following types of
+   * user and the authenticated user. Supports the following types of
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) - [User
+   * authorize-chat-app) with the authorization scope: -
+   * `https://www.googleapis.com/auth/chat.bot` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) (spaces.findDirectMessage)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.spaces.readonly` -
+   * `https://www.googleapis.com/auth/chat.spaces` (spaces.findDirectMessage)
    *
    * @param array $optParams Optional parameters.
    *
@@ -182,11 +205,22 @@ class Spaces extends \Google\Service\Resource
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) - [User
+   * authorize-chat-app) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.bot` -
+   * `https://www.googleapis.com/auth/chat.app.spaces` with [administrator
+   * approval](https://support.google.com/a?p=chat-app-auth) - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) You can authenticate and authorize this method with
-   * administrator privileges by setting the `use_admin_access` field in the
-   * request. (spaces.get)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.spaces.readonly` -
+   * `https://www.googleapis.com/auth/chat.spaces` - User authentication grants
+   * administrator privileges when an administrator account authenticates,
+   * `use_admin_access` is `true`, and one of the following authorization scopes
+   * is used: - `https://www.googleapis.com/auth/chat.admin.spaces.readonly` -
+   * `https://www.googleapis.com/auth/chat.admin.spaces` App authentication has
+   * the following limitations: - `space.access_settings` is only populated when
+   * using the `chat.app.spaces` scope. - `space.predefind_permission_settings`
+   * and `space.permission_settings` are only populated when using the
+   * `chat.app.spaces` scope, and only for spaces the app created. (spaces.get)
    *
    * @param string $name Required. Resource name of the space, in the form
    * `spaces/{space}`. Format: `spaces/{space}`
@@ -216,12 +250,15 @@ class Spaces extends \Google\Service\Resource
    * [authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize): - [App
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-app) - [User
+   * authorize-chat-app) with the authorization scope: -
+   * `https://www.googleapis.com/auth/chat.bot` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) To list all named spaces by Google Workspace
-   * organization, use the [`spaces.search()`](https://developers.google.com/works
-   * pace/chat/api/reference/rest/v1/spaces/search) method using Workspace
-   * administrator privileges instead. (spaces.listSpaces)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.spaces.readonly` -
+   * `https://www.googleapis.com/auth/chat.spaces` To list all named spaces by
+   * Google Workspace organization, use the [`spaces.search()`](https://developers
+   * .google.com/workspace/chat/api/reference/rest/v1/spaces/search) method using
+   * Workspace administrator privileges instead. (spaces.listSpaces)
    *
    * @param array $optParams Optional parameters.
    *
@@ -264,11 +301,22 @@ class Spaces extends \Google\Service\Resource
    * authentication](https://developers.google.com/workspace/chat/authenticate-
    * authorize-chat-app) with [administrator
    * approval](https://support.google.com/a?p=chat-app-auth) in [Developer
-   * Preview](https://developers.google.com/workspace/preview) - [User
+   * Preview](https://developers.google.com/workspace/preview) and one of the
+   * following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.app.spaces` - [User
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user) You can authenticate and authorize this method with
-   * administrator privileges by setting the `use_admin_access` field in the
-   * request. (spaces.patch)
+   * authorize-chat-user) with one of the following authorization scopes: -
+   * `https://www.googleapis.com/auth/chat.spaces` -
+   * `https://www.googleapis.com/auth/chat.import` (import mode spaces only) -
+   * User authentication grants administrator privileges when an administrator
+   * account authenticates, `use_admin_access` is `true`, and the following
+   * authorization scopes is used: -
+   * `https://www.googleapis.com/auth/chat.admin.spaces` App authentication has
+   * the following limitations: - To update either
+   * `space.predefined_permission_settings` or `space.permission_settings`, the
+   * app must be the space creator. - Updating the
+   * `space.access_settings.audience` is not supported for app authentication.
+   * (spaces.patch)
    *
    * @param string $name Identifier. Resource name of the space. Format:
    * `spaces/{space}` Where `{space}` represents the system-assigned ID for the
@@ -342,8 +390,12 @@ class Spaces extends \Google\Service\Resource
    * Returns a list of spaces in a Google Workspace organization based on an
    * administrator's search. Requires [user authentication with administrator
    * privileges](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user#admin-privileges). In the request, set `use_admin_access`
-   * to `true`. (spaces.search)
+   * authorize-chat-user#admin-privileges) and one of the following [authorization
+   * scopes](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes): -
+   * `https://www.googleapis.com/auth/chat.admin.spaces.readonly` -
+   * `https://www.googleapis.com/auth/chat.admin.spaces` In the request, set
+   * `use_admin_access` to `true`. (spaces.search)
    *
    * @param array $optParams Optional parameters.
    *
@@ -460,7 +512,11 @@ class Spaces extends \Google\Service\Resource
    * existing space within the Google Workspace organization might already use
    * this display name. Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (spaces.setup)
+   * authorize-chat-user) with one of the following [authorization
+   * scopes](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes): -
+   * `https://www.googleapis.com/auth/chat.spaces.create` -
+   * `https://www.googleapis.com/auth/chat.spaces` (spaces.setup)
    *
    * @param SetUpSpaceRequest $postBody
    * @param array $optParams Optional parameters.

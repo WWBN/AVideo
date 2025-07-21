@@ -271,6 +271,25 @@ class AndroidEnterprise extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'generateEnterpriseUpgradeUrl' => [
+              'path' => 'androidenterprise/v1/enterprises/{enterpriseId}/generateEnterpriseUpgradeUrl',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'enterpriseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'adminEmail' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'allowedDomains' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+              ],
             ],'generateSignupUrl' => [
               'path' => 'androidenterprise/v1/enterprises/signupUrl',
               'httpMethod' => 'POST',

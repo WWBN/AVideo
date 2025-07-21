@@ -1080,7 +1080,27 @@ class Spanner extends \Google\Service
         'sessions',
         [
           'methods' => [
-            'batchCreate' => [
+            'adaptMessage' => [
+              'path' => 'v1/{+name}:adaptMessage',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'adapter' => [
+              'path' => 'v1/{+parent}/sessions:adapter',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'batchCreate' => [
               'path' => 'v1/{+database}/sessions:batchCreate',
               'httpMethod' => 'POST',
               'parameters' => [

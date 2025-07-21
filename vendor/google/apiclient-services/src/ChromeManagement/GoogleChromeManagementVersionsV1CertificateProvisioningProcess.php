@@ -19,10 +19,6 @@ namespace Google\Service\ChromeManagement;
 
 class GoogleChromeManagementVersionsV1CertificateProvisioningProcess extends \Google\Model
 {
-  /**
-   * @var string
-   */
-  public $caConnectionAdapterConfigReference;
   protected $chromeOsDeviceType = GoogleChromeManagementVersionsV1ChromeOsDevice::class;
   protected $chromeOsDeviceDataType = '';
   protected $chromeOsUserSessionType = GoogleChromeManagementVersionsV1ChromeOsUserSession::class;
@@ -43,10 +39,6 @@ class GoogleChromeManagementVersionsV1CertificateProvisioningProcess extends \Go
    * @var string
    */
   public $name;
-  /**
-   * @var string
-   */
-  public $profileAdapterConfigReference;
   /**
    * @var string
    */
@@ -72,20 +64,6 @@ class GoogleChromeManagementVersionsV1CertificateProvisioningProcess extends \Go
    */
   public $subjectPublicKeyInfo;
 
-  /**
-   * @param string
-   */
-  public function setCaConnectionAdapterConfigReference($caConnectionAdapterConfigReference)
-  {
-    $this->caConnectionAdapterConfigReference = $caConnectionAdapterConfigReference;
-  }
-  /**
-   * @return string
-   */
-  public function getCaConnectionAdapterConfigReference()
-  {
-    return $this->caConnectionAdapterConfigReference;
-  }
   /**
    * @param GoogleChromeManagementVersionsV1ChromeOsDevice
    */
@@ -183,20 +161,6 @@ class GoogleChromeManagementVersionsV1CertificateProvisioningProcess extends \Go
   public function getName()
   {
     return $this->name;
-  }
-  /**
-   * @param string
-   */
-  public function setProfileAdapterConfigReference($profileAdapterConfigReference)
-  {
-    $this->profileAdapterConfigReference = $profileAdapterConfigReference;
-  }
-  /**
-   * @return string
-   */
-  public function getProfileAdapterConfigReference()
-  {
-    return $this->profileAdapterConfigReference;
   }
   /**
    * @param string

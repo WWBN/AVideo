@@ -17,6 +17,9 @@
 
 namespace Google\Service\Appengine\Resource;
 
+use Google\Service\Appengine\Application;
+use Google\Service\Appengine\Operation;
+
 /**
  * The "applications" collection of methods.
  * Typical usage is:
@@ -27,6 +30,32 @@ namespace Google\Service\Appengine\Resource;
  */
 class ProjectsLocationsApplications extends \Google\Service\Resource
 {
+  /**
+   * Updates the specified Application resource. You can update the following
+   * fields: auth_domain - Google authentication domain for controlling user
+   * access to the application. default_cookie_expiration - Cookie expiration
+   * policy for the application. iap - Identity-Aware Proxy properties for the
+   * application. (applications.patch)
+   *
+   * @param string $projectsId Part of `name`. Name of the Application resource to
+   * update. Example: apps/myapp.
+   * @param string $locationsId Part of `name`. See documentation of `projectsId`.
+   * @param string $applicationsId Part of `name`. See documentation of
+   * `projectsId`.
+   * @param Application $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. Standard field mask for the set of
+   * fields to be updated.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($projectsId, $locationsId, $applicationsId, Application $postBody, $optParams = [])
+  {
+    $params = ['projectsId' => $projectsId, 'locationsId' => $locationsId, 'applicationsId' => $applicationsId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

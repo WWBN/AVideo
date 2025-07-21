@@ -105,8 +105,8 @@ class Drives extends \Google\Service\Resource
   /**
    * Lists the user's shared drives. This method accepts the `q` parameter, which
    * is a search query combining one or more search terms. For more information,
-   * see the [Search for shared drives](/drive/api/guides/search-shareddrives)
-   * guide. (drives.listDrives)
+   * see the [Search for shared drives](/workspace/drive/api/guides/search-
+   * shareddrives) guide. (drives.listDrives)
    *
    * @param array $optParams Optional parameters.
    *

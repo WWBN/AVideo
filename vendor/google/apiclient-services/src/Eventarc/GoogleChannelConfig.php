@@ -24,6 +24,10 @@ class GoogleChannelConfig extends \Google\Model
    */
   public $cryptoKeyName;
   /**
+   * @var string[]
+   */
+  public $labels;
+  /**
    * @var string
    */
   public $name;
@@ -45,6 +49,20 @@ class GoogleChannelConfig extends \Google\Model
   public function getCryptoKeyName()
   {
     return $this->cryptoKeyName;
+  }
+  /**
+   * @param string[]
+   */
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLabels()
+  {
+    return $this->labels;
   }
   /**
    * @param string

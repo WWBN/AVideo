@@ -33,7 +33,8 @@ class CoursesStudents extends \Google\Service\Resource
 {
   /**
    * Adds a user as a student of a course. Domain administrators are permitted to
-   * [directly add](https://developers.google.com/classroom/guides/manage-users)
+   * [directly
+   * add](https://developers.google.com/workspace/classroom/guides/manage-users)
    * users within their domain as students to courses within their domain.
    * Students are permitted to add themselves to a course using an enrollment
    * code. This method returns the following error codes: * `PERMISSION_DENIED` if

@@ -35,7 +35,12 @@ class UsersSpacesThreads extends \Google\Service\Resource
    * thread read state](https://developers.google.com/workspace/chat/get-thread-
    * read-state). Requires [user
    * authentication](https://developers.google.com/workspace/chat/authenticate-
-   * authorize-chat-user). (threads.getThreadReadState)
+   * authorize-chat-user) with one of the following [authorization
+   * scopes](https://developers.google.com/workspace/chat/authenticate-
+   * authorize#chat-api-scopes): -
+   * `https://www.googleapis.com/auth/chat.users.readstate.readonly` -
+   * `https://www.googleapis.com/auth/chat.users.readstate`
+   * (threads.getThreadReadState)
    *
    * @param string $name Required. Resource name of the thread read state to
    * retrieve. Only supports getting read state for the calling user. To refer to

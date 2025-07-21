@@ -80,6 +80,14 @@ class Assetlinks extends \Google\Service\Resource
    * query's and the asset link's relation strings must match exactly. Example: A
    * query with relation `delegate_permission/common.handle_all_urls` matches an
    * asset link with relation `delegate_permission/common.handle_all_urls`.
+   * @opt_param bool returnRelationExtensions Whether to return
+   * relation_extensions payloads specified in the source Digital Asset Links
+   * statements linking the requested source and target assets by the requested
+   * relation type. If this is set to `false` (default), relation_extensions
+   * specified will not be returned, even if they are specified in the DAL
+   * statement file. If set to `true`, the API will propagate any and all
+   * relation_extensions, across statements, linking the source and target assets
+   * by the requested relation type, if specified in the DAL statement file.
    * @opt_param string source.androidApp.certificate.sha256Fingerprint The
    * uppercase SHA-265 fingerprint of the certificate. From the PEM certificate,
    * it can be acquired like this: $ keytool -printcert -file $CERTFILE | grep

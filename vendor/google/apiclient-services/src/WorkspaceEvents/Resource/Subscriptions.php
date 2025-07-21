@@ -33,11 +33,10 @@ use Google\Service\WorkspaceEvents\Subscription;
 class Subscriptions extends \Google\Service\Resource
 {
   /**
-   * [Developer Preview](https://developers.google.com/workspace/preview): Creates
-   * a Google Workspace subscription. To learn how to use this method, see [Create
-   * a Google Workspace
+   * Creates a Google Workspace subscription. To learn how to use this method, see
+   * [Create a Google Workspace
    * subscription](https://developers.google.com/workspace/events/guides/create-
-   * subscription). (subscriptions.create)
+   * subscription).  (subscriptions.create)
    *
    * @param Subscription $postBody
    * @param array $optParams Optional parameters.
@@ -54,9 +53,8 @@ class Subscriptions extends \Google\Service\Resource
     return $this->call('create', [$params], Operation::class);
   }
   /**
-   * [Developer Preview](https://developers.google.com/workspace/preview): Deletes
-   * a Google Workspace subscription. To learn how to use this method, see [Delete
-   * a Google Workspace
+   * Deletes a Google Workspace subscription. To learn how to use this method, see
+   * [Delete a Google Workspace
    * subscription](https://developers.google.com/workspace/events/guides/delete-
    * subscription). (subscriptions.delete)
    *
@@ -81,8 +79,7 @@ class Subscriptions extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * [Developer Preview](https://developers.google.com/workspace/preview): Gets
-   * details about a Google Workspace subscription. To learn how to use this
+   * Gets details about a Google Workspace subscription. To learn how to use this
    * method, see [Get details about a Google Workspace
    * subscription](https://developers.google.com/workspace/events/guides/get-
    * subscription). (subscriptions.get)
@@ -100,9 +97,8 @@ class Subscriptions extends \Google\Service\Resource
     return $this->call('get', [$params], Subscription::class);
   }
   /**
-   * [Developer Preview](https://developers.google.com/workspace/preview): Lists
-   * Google Workspace subscriptions. To learn how to use this method, see [List
-   * Google Workspace
+   * Lists Google Workspace subscriptions. To learn how to use this method, see
+   * [List Google Workspace
    * subscriptions](https://developers.google.com/workspace/events/guides/list-
    * subscriptions). (subscriptions.listSubscriptions)
    *
@@ -141,9 +137,8 @@ class Subscriptions extends \Google\Service\Resource
     return $this->call('list', [$params], ListSubscriptionsResponse::class);
   }
   /**
-   * [Developer Preview](https://developers.google.com/workspace/preview): Updates
-   * or renews a Google Workspace subscription. To learn how to use this method,
-   * see [Update or renew a Google Workspace
+   * Updates or renews a Google Workspace subscription. To learn how to use this
+   * method, see [Update or renew a Google Workspace
    * subscription](https://developers.google.com/workspace/events/guides/update-
    * subscription). (subscriptions.patch)
    *
@@ -171,7 +166,6 @@ class Subscriptions extends \Google\Service\Resource
     return $this->call('patch', [$params], Operation::class);
   }
   /**
-   * [Developer Preview](https://developers.google.com/workspace/preview):
    * Reactivates a suspended Google Workspace subscription. This method resets
    * your subscription's `State` field to `ACTIVE`. Before you use this method,
    * you must fix the error that suspended the subscription. This method will

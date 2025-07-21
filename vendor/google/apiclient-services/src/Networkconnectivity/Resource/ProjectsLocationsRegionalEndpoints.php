@@ -41,7 +41,7 @@ class ProjectsLocationsRegionalEndpoints extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string regionalEndpointId Required. Unique id of the Regional
-   * Endpoint to be created.
+   * Endpoint to be created. @pattern: ^[-a-z0-9](?:[-a-z0-9]{0,44})[a-z0-9]$
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
    * the server knows to ignore the request if it has already been completed. The

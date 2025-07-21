@@ -13,6 +13,7 @@
 namespace ElephantIO;
 
 use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * A collection of utilities.
@@ -160,8 +161,21 @@ class Util
             $result = '<' . static::truncate(stream_get_contents($value), 32) . '>';
         } elseif (is_string($value)) {
             $result = '"' . $value . '"';
-        } elseif (is_object($value)) {
+        } elseif (interface_exists('UnitEnum') && $value instanceof \UnitEnum) {
+            if ($value instanceof \BackedEnum) {
+                $result = $value->value;
+            } else {
+                $result = var_export($value, true);
+            }
+        } elseif (is_object($value) && method_exists($value, '__toString')) {
             $result = (string) $value;
+        } elseif (is_object($value)) {
+            $r = new ReflectionClass($value);
+            $values = [];
+            foreach ($r->getProperties(version_compare(PHP_VERSION, '8.1.0', '<') ? ReflectionProperty::IS_PUBLIC : null) as $prop) {
+                $values[$prop->getName()] = $prop->getValue($value);
+            }
+            $result = self::toStr($values);
         } else {
             $result = var_export($value, true);
         }

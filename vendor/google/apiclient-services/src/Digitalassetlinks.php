@@ -76,6 +76,10 @@ class Digitalassetlinks extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'returnRelationExtensions' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'source.androidApp.certificate.sha256Fingerprint' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -118,6 +122,10 @@ class Digitalassetlinks extends \Google\Service
                 'relation' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'returnRelationExtensions' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'source.androidApp.certificate.sha256Fingerprint' => [
                   'location' => 'query',

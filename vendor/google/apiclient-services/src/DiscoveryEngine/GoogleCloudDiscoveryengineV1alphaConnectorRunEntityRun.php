@@ -42,6 +42,12 @@ class GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRun extends \Google\Col
    * @var string
    */
   public $indexedRecordCount;
+  protected $progressType = GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress::class;
+  protected $progressDataType = '';
+  /**
+   * @var string
+   */
+  public $scheduledRecordCount;
   /**
    * @var string
    */
@@ -146,6 +152,34 @@ class GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRun extends \Google\Col
   public function getIndexedRecordCount()
   {
     return $this->indexedRecordCount;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress
+   */
+  public function setProgress(GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress $progress)
+  {
+    $this->progress = $progress;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress
+   */
+  public function getProgress()
+  {
+    return $this->progress;
+  }
+  /**
+   * @param string
+   */
+  public function setScheduledRecordCount($scheduledRecordCount)
+  {
+    $this->scheduledRecordCount = $scheduledRecordCount;
+  }
+  /**
+   * @return string
+   */
+  public function getScheduledRecordCount()
+  {
+    return $this->scheduledRecordCount;
   }
   /**
    * @param string

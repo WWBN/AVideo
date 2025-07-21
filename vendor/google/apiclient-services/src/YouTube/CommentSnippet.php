@@ -56,6 +56,10 @@ class CommentSnippet extends \Google\Model
   /**
    * @var string
    */
+  public $postId;
+  /**
+   * @var string
+   */
   public $publishedAt;
   /**
    * @var string
@@ -203,6 +207,20 @@ class CommentSnippet extends \Google\Model
   public function getParentId()
   {
     return $this->parentId;
+  }
+  /**
+   * @param string
+   */
+  public function setPostId($postId)
+  {
+    $this->postId = $postId;
+  }
+  /**
+   * @return string
+   */
+  public function getPostId()
+  {
+    return $this->postId;
   }
   /**
    * @param string

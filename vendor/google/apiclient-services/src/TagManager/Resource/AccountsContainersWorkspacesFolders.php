@@ -35,8 +35,7 @@ class AccountsContainersWorkspacesFolders extends \Google\Service\Resource
   /**
    * Creates a GTM Folder. (folders.create)
    *
-   * @param string $parent GTM Workspace's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
+   * @param string $parent GTM Workspace's API relative path.
    * @param Folder $postBody
    * @param array $optParams Optional parameters.
    * @return Folder
@@ -51,8 +50,7 @@ class AccountsContainersWorkspacesFolders extends \Google\Service\Resource
   /**
    * Deletes a GTM Folder. (folders.delete)
    *
-   * @param string $path GTM Folder's API relative path. Example: accounts/{accoun
-   * t_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
+   * @param string $path GTM Folder's API relative path.
    * @param array $optParams Optional parameters.
    * @throws \Google\Service\Exception
    */
@@ -65,8 +63,7 @@ class AccountsContainersWorkspacesFolders extends \Google\Service\Resource
   /**
    * List all entities in a GTM Folder. (folders.entities)
    *
-   * @param string $path GTM Folder's API relative path. Example: accounts/{accoun
-   * t_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
+   * @param string $path GTM Folder's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string pageToken Continuation token for fetching the next page of
@@ -83,8 +80,7 @@ class AccountsContainersWorkspacesFolders extends \Google\Service\Resource
   /**
    * Gets a GTM Folder. (folders.get)
    *
-   * @param string $path GTM Folder's API relative path. Example: accounts/{accoun
-   * t_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
+   * @param string $path GTM Folder's API relative path.
    * @param array $optParams Optional parameters.
    * @return Folder
    * @throws \Google\Service\Exception
@@ -99,8 +95,7 @@ class AccountsContainersWorkspacesFolders extends \Google\Service\Resource
    * Lists all GTM Folders of a Container.
    * (folders.listAccountsContainersWorkspacesFolders)
    *
-   * @param string $parent GTM Workspace's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
+   * @param string $parent GTM Workspace's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string pageToken Continuation token for fetching the next page of
@@ -119,8 +114,7 @@ class AccountsContainersWorkspacesFolders extends \Google\Service\Resource
    * this will instead move entities out of the folder they currently belong to.
    * (folders.move_entities_to_folder)
    *
-   * @param string $path GTM Folder's API relative path. Example: accounts/{accoun
-   * t_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
+   * @param string $path GTM Folder's API relative path.
    * @param Folder $postBody
    * @param array $optParams Optional parameters.
    *
@@ -138,8 +132,7 @@ class AccountsContainersWorkspacesFolders extends \Google\Service\Resource
   /**
    * Reverts changes to a GTM Folder in a GTM Workspace. (folders.revert)
    *
-   * @param string $path GTM Folder's API relative path. Example: accounts/{accoun
-   * t_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
+   * @param string $path GTM Folder's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string fingerprint When provided, this fingerprint must match the
@@ -156,8 +149,7 @@ class AccountsContainersWorkspacesFolders extends \Google\Service\Resource
   /**
    * Updates a GTM Folder. (folders.update)
    *
-   * @param string $path GTM Folder's API relative path. Example: accounts/{accoun
-   * t_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
+   * @param string $path GTM Folder's API relative path.
    * @param Folder $postBody
    * @param array $optParams Optional parameters.
    *

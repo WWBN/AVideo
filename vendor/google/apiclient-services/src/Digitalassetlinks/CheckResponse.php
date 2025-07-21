@@ -19,7 +19,7 @@ namespace Google\Service\Digitalassetlinks;
 
 class CheckResponse extends \Google\Collection
 {
-  protected $collection_key = 'errorCode';
+  protected $collection_key = 'relationExtensions';
   /**
    * @var string
    */
@@ -36,6 +36,10 @@ class CheckResponse extends \Google\Collection
    * @var string
    */
   public $maxAge;
+  /**
+   * @var array[]
+   */
+  public $relationExtensions;
 
   /**
    * @param string
@@ -92,6 +96,20 @@ class CheckResponse extends \Google\Collection
   public function getMaxAge()
   {
     return $this->maxAge;
+  }
+  /**
+   * @param array[]
+   */
+  public function setRelationExtensions($relationExtensions)
+  {
+    $this->relationExtensions = $relationExtensions;
+  }
+  /**
+   * @return array[]
+   */
+  public function getRelationExtensions()
+  {
+    return $this->relationExtensions;
   }
 }
 

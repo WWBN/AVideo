@@ -19,7 +19,7 @@ namespace Google\Service\Monitoring;
 
 class ListTimeSeriesResponse extends \Google\Collection
 {
-  protected $collection_key = 'timeSeries';
+  protected $collection_key = 'unreachable';
   protected $executionErrorsType = Status::class;
   protected $executionErrorsDataType = 'array';
   /**
@@ -32,6 +32,10 @@ class ListTimeSeriesResponse extends \Google\Collection
    * @var string
    */
   public $unit;
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param Status[]
@@ -88,6 +92,20 @@ class ListTimeSeriesResponse extends \Google\Collection
   public function getUnit()
   {
     return $this->unit;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

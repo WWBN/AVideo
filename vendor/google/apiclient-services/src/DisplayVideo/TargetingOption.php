@@ -45,6 +45,8 @@ class TargetingOption extends \Google\Model
   protected $contentOutstreamPositionDetailsDataType = '';
   protected $contentStreamTypeDetailsType = ContentStreamTypeTargetingOptionDetails::class;
   protected $contentStreamTypeDetailsDataType = '';
+  protected $contentThemeDetailsType = ContentThemeTargetingOptionDetails::class;
+  protected $contentThemeDetailsDataType = '';
   protected $deviceMakeModelDetailsType = DeviceMakeModelTargetingOptionDetails::class;
   protected $deviceMakeModelDetailsDataType = '';
   protected $deviceTypeDetailsType = DeviceTypeTargetingOptionDetails::class;
@@ -279,6 +281,20 @@ class TargetingOption extends \Google\Model
   public function getContentStreamTypeDetails()
   {
     return $this->contentStreamTypeDetails;
+  }
+  /**
+   * @param ContentThemeTargetingOptionDetails
+   */
+  public function setContentThemeDetails(ContentThemeTargetingOptionDetails $contentThemeDetails)
+  {
+    $this->contentThemeDetails = $contentThemeDetails;
+  }
+  /**
+   * @return ContentThemeTargetingOptionDetails
+   */
+  public function getContentThemeDetails()
+  {
+    return $this->contentThemeDetails;
   }
   /**
    * @param DeviceMakeModelTargetingOptionDetails

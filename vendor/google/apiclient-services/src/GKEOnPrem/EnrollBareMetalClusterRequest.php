@@ -31,6 +31,10 @@ class EnrollBareMetalClusterRequest extends \Google\Model
    * @var string
    */
   public $localName;
+  /**
+   * @var string
+   */
+  public $localNamespace;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class EnrollBareMetalClusterRequest extends \Google\Model
   public function getLocalName()
   {
     return $this->localName;
+  }
+  /**
+   * @param string
+   */
+  public function setLocalNamespace($localNamespace)
+  {
+    $this->localNamespace = $localNamespace;
+  }
+  /**
+   * @return string
+   */
+  public function getLocalNamespace()
+  {
+    return $this->localNamespace;
   }
 }
 

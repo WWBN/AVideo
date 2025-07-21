@@ -291,6 +291,7 @@ class ProjectsLocationsSessionsSparkApplications extends \Google\Service\Resourc
    * s/SESSION_ID/sparkApplications/APPLICATION_ID"
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string jobIds Optional. List of Job IDs to filter by if provided.
    * @opt_param string jobStatus Optional. List only jobs in the specific state.
    * @opt_param int pageSize Optional. Maximum number of jobs to return in each
    * response. The service may return fewer than this. The default page size is
@@ -319,6 +320,8 @@ class ProjectsLocationsSessionsSparkApplications extends \Google\Service\Resourc
    *
    * @opt_param bool details Optional. Lists/ hides details of Spark plan nodes.
    * True is set to list and false to hide.
+   * @opt_param string operationIds Optional. List of Spark Connect operation IDs
+   * to filter by if provided.
    * @opt_param int pageSize Optional. Maximum number of queries to return in each
    * response. The service may return fewer than this. The default page size is
    * 10; the maximum page size is 100.
@@ -413,6 +416,8 @@ class ProjectsLocationsSessionsSparkApplications extends \Google\Service\Resourc
    * SearchSessionSparkApplicationStages call. Provide this token to retrieve the
    * subsequent page.
    * @opt_param string parent Required. Parent (Session) resource reference.
+   * @opt_param string stageIds Optional. List of Stage IDs to filter by if
+   * provided.
    * @opt_param string stageStatus Optional. List only stages in the given state.
    * @opt_param string summaryMetricsMask Optional. The list of summary metrics
    * fields to include. Empty list will default to skip all summary metrics

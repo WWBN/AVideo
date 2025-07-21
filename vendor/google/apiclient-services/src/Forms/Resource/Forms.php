@@ -20,6 +20,8 @@ namespace Google\Service\Forms\Resource;
 use Google\Service\Forms\BatchUpdateFormRequest;
 use Google\Service\Forms\BatchUpdateFormResponse;
 use Google\Service\Forms\Form;
+use Google\Service\Forms\SetPublishSettingsRequest;
+use Google\Service\Forms\SetPublishSettingsResponse;
 
 /**
  * The "forms" collection of methods.
@@ -57,6 +59,10 @@ class Forms extends \Google\Service\Resource
    *
    * @param Form $postBody
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool unpublished Optional. Whether the form is unpublished. If set
+   * to `true`, the form doesn't accept responses. If set to `false` or unset, the
+   * form is published and accepts responses.
    * @return Form
    * @throws \Google\Service\Exception
    */
@@ -79,6 +85,23 @@ class Forms extends \Google\Service\Resource
     $params = ['formId' => $formId];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Form::class);
+  }
+  /**
+   * Updates the publish settings of a form. Legacy forms aren't supported because
+   * they don't have the `publish_settings` field. (forms.setPublishSettings)
+   *
+   * @param string $formId Required. The ID of the form. You can get the id from
+   * Form.form_id field.
+   * @param SetPublishSettingsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return SetPublishSettingsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function setPublishSettings($formId, SetPublishSettingsRequest $postBody, $optParams = [])
+  {
+    $params = ['formId' => $formId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('setPublishSettings', [$params], SetPublishSettingsResponse::class);
   }
 }
 

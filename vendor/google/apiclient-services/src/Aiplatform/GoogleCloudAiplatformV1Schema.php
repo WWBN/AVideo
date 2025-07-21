@@ -20,12 +20,18 @@ namespace Google\Service\Aiplatform;
 class GoogleCloudAiplatformV1Schema extends \Google\Collection
 {
   protected $collection_key = 'required';
+  /**
+   * @var array
+   */
+  public $additionalProperties;
   protected $anyOfType = GoogleCloudAiplatformV1Schema::class;
   protected $anyOfDataType = 'array';
   /**
    * @var array
    */
   public $default;
+  protected $defsType = GoogleCloudAiplatformV1Schema::class;
+  protected $defsDataType = 'map';
   /**
    * @var string
    */
@@ -85,6 +91,10 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
    */
   public $propertyOrdering;
   /**
+   * @var string
+   */
+  public $ref;
+  /**
    * @var string[]
    */
   public $required;
@@ -97,6 +107,20 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
    */
   public $type;
 
+  /**
+   * @param array
+   */
+  public function setAdditionalProperties($additionalProperties)
+  {
+    $this->additionalProperties = $additionalProperties;
+  }
+  /**
+   * @return array
+   */
+  public function getAdditionalProperties()
+  {
+    return $this->additionalProperties;
+  }
   /**
    * @param GoogleCloudAiplatformV1Schema[]
    */
@@ -124,6 +148,20 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
   public function getDefault()
   {
     return $this->default;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1Schema[]
+   */
+  public function setDefs($defs)
+  {
+    $this->defs = $defs;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1Schema[]
+   */
+  public function getDefs()
+  {
+    return $this->defs;
   }
   /**
    * @param string
@@ -350,6 +388,20 @@ class GoogleCloudAiplatformV1Schema extends \Google\Collection
   public function getPropertyOrdering()
   {
     return $this->propertyOrdering;
+  }
+  /**
+   * @param string
+   */
+  public function setRef($ref)
+  {
+    $this->ref = $ref;
+  }
+  /**
+   * @return string
+   */
+  public function getRef()
+  {
+    return $this->ref;
   }
   /**
    * @param string[]

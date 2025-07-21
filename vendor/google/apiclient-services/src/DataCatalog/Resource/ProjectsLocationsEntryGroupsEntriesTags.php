@@ -125,7 +125,9 @@ class ProjectsLocationsEntryGroupsEntriesTags extends \Google\Service\Resource
    * deletes tags not included in the input tag list. `ReconcileTags` returns a
    * long-running operation resource that can be queried with
    * Operations.GetOperation to return ReconcileTagsMetadata and a
-   * ReconcileTagsResponse message. (tags.reconcile)
+   * ReconcileTagsResponse message. Note: SearchCatalog might return stale search
+   * results for up to 24 hours after the `ReconcileTags` operation completes.
+   * (tags.reconcile)
    *
    * @param string $parent Required. Name of Entry to be tagged.
    * @param GoogleCloudDatacatalogV1ReconcileTagsRequest $postBody

@@ -1700,6 +1700,10 @@ class Storage extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'projection' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'userProject' => [
                   'location' => 'query',
                   'type' => 'string',

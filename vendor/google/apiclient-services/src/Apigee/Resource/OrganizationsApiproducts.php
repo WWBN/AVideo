@@ -20,6 +20,7 @@ namespace Google\Service\Apigee\Resource;
 use Google\Service\Apigee\GoogleCloudApigeeV1ApiProduct;
 use Google\Service\Apigee\GoogleCloudApigeeV1Attributes;
 use Google\Service\Apigee\GoogleCloudApigeeV1ListApiProductsResponse;
+use Google\Service\Apigee\GoogleCloudApigeeV1MoveApiProductRequest;
 
 /**
  * The "apiproducts" collection of methods.
@@ -44,7 +45,11 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * than 180 seconds. (apiproducts.attributes)
    *
    * @param string $name Required. Name of the API product. Use the following
-   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}`
+   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If
+   * the API Product resource has the `space` attribute set, IAM permissions are
+   * checked against the Space resource path. To learn more, read the [Apigee
+   * Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param GoogleCloudApigeeV1Attributes $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attributes
@@ -77,7 +82,10 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    *
    * @param string $parent Required. Name of the organization in which the API
    * product will be created. Use the following structure in your request:
-   * `organizations/{org}`
+   * `organizations/{org}` If the resource has the `space` attribute set, IAM
+   * permissions are checked against the Space resource path. To learn more, read
+   * the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-
+   * platform/system-administration/spaces/apigee-spaces-overview).
    * @param GoogleCloudApigeeV1ApiProduct $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProduct
@@ -100,7 +108,11 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * API products to verify the internal name. (apiproducts.delete)
    *
    * @param string $name Required. Name of the API product. Use the following
-   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}`
+   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If
+   * the resource has the `space` attribute set, IAM permissions are checked
+   * against the Space resource path. To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProduct
    * @throws \Google\Service\Exception
@@ -119,7 +131,11 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * name. (apiproducts.get)
    *
    * @param string $name Required. Name of the API product. Use the following
-   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}`
+   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If
+   * the resource has the `space` attribute set, IAM permissions are checked
+   * against the Space resource path. To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProduct
    * @throws \Google\Service\Exception
@@ -134,11 +150,18 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * Lists all API product names for an organization. Filter the list by passing
    * an `attributename` and `attibutevalue`. The maximum number of API products
    * returned is 1000. You can paginate the list of API products returned using
-   * the `startKey` and `count` query parameters.
+   * the `startKey` and `count` query parameters. If the resource has the `space`
+   * attribute set, the response may not return all resources. To learn more, read
+   * the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-
+   * platform/system-administration/spaces/apigee-spaces-overview).
    * (apiproducts.listOrganizationsApiproducts)
    *
    * @param string $parent Required. Name of the organization. Use the following
-   * structure in your request: `organizations/{org}`
+   * structure in your request: `organizations/{org}` If the resource has the
+   * `space` attribute set, IAM permissions are checked against the Space resource
+   * path. To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param array $optParams Optional parameters.
    *
    * @opt_param string attributename Name of the attribute used to filter the
@@ -149,6 +172,12 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * the API call. The limit is 1000.
    * @opt_param bool expand Flag that specifies whether to expand the results. Set
    * to `true` to get expanded details about each API.
+   * @opt_param string space Optional. The Space to list API products for. When
+   * none provided, all the spaces the user has list access, will be used
+   * implicitly, and the same following rules will apply. Can be used in
+   * conjunction with start_key, expand and count for paginated response.
+   * Composite queries with attributename and attributevalue are not supported
+   * yet.
    * @opt_param string startKey Gets a list of API products starting with a
    * specific API product in the list. For example, if you're returning 50 API
    * products at a time (using the `count` query parameter), you can view products
@@ -164,6 +193,22 @@ class OrganizationsApiproducts extends \Google\Service\Resource
     return $this->call('list', [$params], GoogleCloudApigeeV1ListApiProductsResponse::class);
   }
   /**
+   * Moves an API product to a different space. (apiproducts.move)
+   *
+   * @param string $name Required. API product to move in the following format:
+   * `organizations/{org}/apiproducts/{apiproduct}
+   * @param GoogleCloudApigeeV1MoveApiProductRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudApigeeV1ApiProduct
+   * @throws \Google\Service\Exception
+   */
+  public function move($name, GoogleCloudApigeeV1MoveApiProductRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('move', [$params], GoogleCloudApigeeV1ApiProduct::class);
+  }
+  /**
    * Updates an existing API product. You must include all required values,
    * whether or not you are updating them, as well as any optional values that you
    * are updating. The API product name required in the request URL is the
@@ -173,7 +218,11 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * (apiproducts.update)
    *
    * @param string $name Required. Name of the API product. Use the following
-   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}`
+   * structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If
+   * the resource has the `space` attribute set, IAM permissions are checked
+   * against the Space resource path.To learn more, read the [Apigee Spaces
+   * Overview](https://cloud.google.com/apigee/docs/api-platform/system-
+   * administration/spaces/apigee-spaces-overview).
    * @param GoogleCloudApigeeV1ApiProduct $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProduct

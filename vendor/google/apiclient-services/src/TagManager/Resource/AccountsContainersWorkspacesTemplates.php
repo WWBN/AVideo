@@ -34,8 +34,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
   /**
    * Creates a GTM Custom Template. (templates.create)
    *
-   * @param string $parent GTM Workspace's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
+   * @param string $parent GTM Workspace's API relative path.
    * @param CustomTemplate $postBody
    * @param array $optParams Optional parameters.
    * @return CustomTemplate
@@ -50,9 +49,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
   /**
    * Deletes a GTM Template. (templates.delete)
    *
-   * @param string $path GTM Custom Template's API relative path. Example: account
-   * s/{account_id}/containers/{container_id}/workspaces/{workspace_id}/templates/
-   * {template_id}
+   * @param string $path GTM Custom Template's API relative path.
    * @param array $optParams Optional parameters.
    * @throws \Google\Service\Exception
    */
@@ -65,9 +62,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
   /**
    * Gets a GTM Template. (templates.get)
    *
-   * @param string $path GTM Custom Template's API relative path. Example: account
-   * s/{account_id}/containers/{container_id}/workspaces/{workspace_id}/templates/
-   * {template_id}
+   * @param string $path GTM Custom Template's API relative path.
    * @param array $optParams Optional parameters.
    * @return CustomTemplate
    * @throws \Google\Service\Exception
@@ -79,11 +74,33 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
     return $this->call('get', [$params], CustomTemplate::class);
   }
   /**
+   * Imports a GTM Custom Template from Gallery. (templates.import_from_gallery)
+   *
+   * @param string $parent GTM Workspace's API relative path.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool acknowledgePermissions Must be set to true to allow Gallery
+   * template to be imported into the workspace. If this bit is false, the import
+   * operation will fail.
+   * @opt_param string galleryOwner Owner of the Gallery template to import
+   * @opt_param string galleryRepository Repository of the Gallery template to
+   * import
+   * @opt_param string gallerySha SHA version of the Gallery template to import.
+   * Defaulted to the latest SHA version if not provided.
+   * @return CustomTemplate
+   * @throws \Google\Service\Exception
+   */
+  public function import_from_gallery($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('import_from_gallery', [$params], CustomTemplate::class);
+  }
+  /**
    * Lists all GTM Templates of a GTM container workspace.
    * (templates.listAccountsContainersWorkspacesTemplates)
    *
-   * @param string $parent GTM Workspace's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
+   * @param string $parent GTM Workspace's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string pageToken Continuation token for fetching the next page of
@@ -100,9 +117,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
   /**
    * Reverts changes to a GTM Template in a GTM Workspace. (templates.revert)
    *
-   * @param string $path GTM Custom Template's API relative path. Example: account
-   * s/{account_id}/containers/{container_id}/workspaces/{workspace_id}/templates/
-   * {template_id}
+   * @param string $path GTM Custom Template's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string fingerprint When provided, this fingerprint must match the
@@ -119,9 +134,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
   /**
    * Updates a GTM Template. (templates.update)
    *
-   * @param string $path GTM Custom Template's API relative path. Example: account
-   * s/{account_id}/containers/{container_id}/workspaces/{workspace_id}/templates/
-   * {template_id}
+   * @param string $path GTM Custom Template's API relative path.
    * @param CustomTemplate $postBody
    * @param array $optParams Optional parameters.
    *

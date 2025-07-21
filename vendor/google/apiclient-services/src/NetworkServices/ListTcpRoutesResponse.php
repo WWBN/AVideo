@@ -19,13 +19,17 @@ namespace Google\Service\NetworkServices;
 
 class ListTcpRoutesResponse extends \Google\Collection
 {
-  protected $collection_key = 'tcpRoutes';
+  protected $collection_key = 'unreachable';
   /**
    * @var string
    */
   public $nextPageToken;
   protected $tcpRoutesType = TcpRoute::class;
   protected $tcpRoutesDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param string
@@ -54,6 +58,20 @@ class ListTcpRoutesResponse extends \Google\Collection
   public function getTcpRoutes()
   {
     return $this->tcpRoutes;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

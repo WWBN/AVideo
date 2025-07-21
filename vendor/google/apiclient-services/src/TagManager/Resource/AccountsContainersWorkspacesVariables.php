@@ -34,8 +34,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
   /**
    * Creates a GTM Variable. (variables.create)
    *
-   * @param string $parent GTM Workspace's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
+   * @param string $parent GTM Workspace's API relative path.
    * @param Variable $postBody
    * @param array $optParams Optional parameters.
    * @return Variable
@@ -50,9 +49,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
   /**
    * Deletes a GTM Variable. (variables.delete)
    *
-   * @param string $path GTM Variable's API relative path. Example: accounts/{acco
-   * unt_id}/containers/{container_id}/workspaces/{workspace_id}/variables/{variab
-   * le_id}
+   * @param string $path GTM Variable's API relative path.
    * @param array $optParams Optional parameters.
    * @throws \Google\Service\Exception
    */
@@ -65,9 +62,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
   /**
    * Gets a GTM Variable. (variables.get)
    *
-   * @param string $path GTM Variable's API relative path. Example: accounts/{acco
-   * unt_id}/containers/{container_id}/workspaces/{workspace_id}/variables/{variab
-   * le_id}
+   * @param string $path GTM Variable's API relative path.
    * @param array $optParams Optional parameters.
    * @return Variable
    * @throws \Google\Service\Exception
@@ -82,8 +77,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
    * Lists all GTM Variables of a Container.
    * (variables.listAccountsContainersWorkspacesVariables)
    *
-   * @param string $parent GTM Workspace's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
+   * @param string $parent GTM Workspace's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string pageToken Continuation token for fetching the next page of
@@ -100,9 +94,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
   /**
    * Reverts changes to a GTM Variable in a GTM Workspace. (variables.revert)
    *
-   * @param string $path GTM Variable's API relative path. Example: accounts/{acco
-   * unt_id}/containers/{container_id}/workspaces/{workspace_id}/variables/{variab
-   * le_id}
+   * @param string $path GTM Variable's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string fingerprint When provided, this fingerprint must match the
@@ -119,9 +111,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
   /**
    * Updates a GTM Variable. (variables.update)
    *
-   * @param string $path GTM Variable's API relative path. Example: accounts/{acco
-   * unt_id}/containers/{container_id}/workspaces/{workspace_id}/variables/{variab
-   * le_id}
+   * @param string $path GTM Variable's API relative path.
    * @param Variable $postBody
    * @param array $optParams Optional parameters.
    *

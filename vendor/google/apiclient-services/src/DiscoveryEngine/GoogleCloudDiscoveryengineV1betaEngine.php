@@ -43,9 +43,15 @@ class GoogleCloudDiscoveryengineV1betaEngine extends \Google\Collection
    */
   public $displayName;
   /**
+   * @var string[]
+   */
+  public $features;
+  /**
    * @var string
    */
   public $industryVertical;
+  protected $mediaRecommendationEngineConfigType = GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfig::class;
+  protected $mediaRecommendationEngineConfigDataType = '';
   /**
    * @var string
    */
@@ -160,6 +166,20 @@ class GoogleCloudDiscoveryengineV1betaEngine extends \Google\Collection
     return $this->displayName;
   }
   /**
+   * @param string[]
+   */
+  public function setFeatures($features)
+  {
+    $this->features = $features;
+  }
+  /**
+   * @return string[]
+   */
+  public function getFeatures()
+  {
+    return $this->features;
+  }
+  /**
    * @param string
    */
   public function setIndustryVertical($industryVertical)
@@ -172,6 +192,20 @@ class GoogleCloudDiscoveryengineV1betaEngine extends \Google\Collection
   public function getIndustryVertical()
   {
     return $this->industryVertical;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfig
+   */
+  public function setMediaRecommendationEngineConfig(GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfig $mediaRecommendationEngineConfig)
+  {
+    $this->mediaRecommendationEngineConfig = $mediaRecommendationEngineConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfig
+   */
+  public function getMediaRecommendationEngineConfig()
+  {
+    return $this->mediaRecommendationEngineConfig;
   }
   /**
    * @param string

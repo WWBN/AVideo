@@ -19,6 +19,8 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1Document extends \Google\Model
 {
+  protected $aclInfoType = GoogleCloudDiscoveryengineV1DocumentAclInfo::class;
+  protected $aclInfoDataType = '';
   protected $contentType = GoogleCloudDiscoveryengineV1DocumentContent::class;
   protected $contentDataType = '';
   /**
@@ -56,6 +58,20 @@ class GoogleCloudDiscoveryengineV1Document extends \Google\Model
    */
   public $structData;
 
+  /**
+   * @param GoogleCloudDiscoveryengineV1DocumentAclInfo
+   */
+  public function setAclInfo(GoogleCloudDiscoveryengineV1DocumentAclInfo $aclInfo)
+  {
+    $this->aclInfo = $aclInfo;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1DocumentAclInfo
+   */
+  public function getAclInfo()
+  {
+    return $this->aclInfo;
+  }
   /**
    * @param GoogleCloudDiscoveryengineV1DocumentContent
    */

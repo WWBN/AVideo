@@ -23,10 +23,22 @@ class SpaceConfig extends \Google\Model
    * @var string
    */
   public $accessType;
+  protected $artifactConfigType = ArtifactConfig::class;
+  protected $artifactConfigDataType = '';
+  /**
+   * @var string
+   */
+  public $attendanceReportGenerationType;
   /**
    * @var string
    */
   public $entryPointAccess;
+  /**
+   * @var string
+   */
+  public $moderation;
+  protected $moderationRestrictionsType = ModerationRestrictions::class;
+  protected $moderationRestrictionsDataType = '';
 
   /**
    * @param string
@@ -43,6 +55,34 @@ class SpaceConfig extends \Google\Model
     return $this->accessType;
   }
   /**
+   * @param ArtifactConfig
+   */
+  public function setArtifactConfig(ArtifactConfig $artifactConfig)
+  {
+    $this->artifactConfig = $artifactConfig;
+  }
+  /**
+   * @return ArtifactConfig
+   */
+  public function getArtifactConfig()
+  {
+    return $this->artifactConfig;
+  }
+  /**
+   * @param string
+   */
+  public function setAttendanceReportGenerationType($attendanceReportGenerationType)
+  {
+    $this->attendanceReportGenerationType = $attendanceReportGenerationType;
+  }
+  /**
+   * @return string
+   */
+  public function getAttendanceReportGenerationType()
+  {
+    return $this->attendanceReportGenerationType;
+  }
+  /**
    * @param string
    */
   public function setEntryPointAccess($entryPointAccess)
@@ -55,6 +95,34 @@ class SpaceConfig extends \Google\Model
   public function getEntryPointAccess()
   {
     return $this->entryPointAccess;
+  }
+  /**
+   * @param string
+   */
+  public function setModeration($moderation)
+  {
+    $this->moderation = $moderation;
+  }
+  /**
+   * @return string
+   */
+  public function getModeration()
+  {
+    return $this->moderation;
+  }
+  /**
+   * @param ModerationRestrictions
+   */
+  public function setModerationRestrictions(ModerationRestrictions $moderationRestrictions)
+  {
+    $this->moderationRestrictions = $moderationRestrictions;
+  }
+  /**
+   * @return ModerationRestrictions
+   */
+  public function getModerationRestrictions()
+  {
+    return $this->moderationRestrictions;
   }
 }
 

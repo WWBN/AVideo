@@ -69,6 +69,10 @@ class GoogleCloudRunV2Revision extends \Google\Collection
    */
   public $generation;
   /**
+   * @var bool
+   */
+  public $gpuZonalRedundancyDisabled;
+  /**
    * @var string[]
    */
   public $labels;
@@ -318,6 +322,20 @@ class GoogleCloudRunV2Revision extends \Google\Collection
   public function getGeneration()
   {
     return $this->generation;
+  }
+  /**
+   * @param bool
+   */
+  public function setGpuZonalRedundancyDisabled($gpuZonalRedundancyDisabled)
+  {
+    $this->gpuZonalRedundancyDisabled = $gpuZonalRedundancyDisabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getGpuZonalRedundancyDisabled()
+  {
+    return $this->gpuZonalRedundancyDisabled;
   }
   /**
    * @param string[]

@@ -23,6 +23,10 @@ class InstancesRestoreBackupRequest extends \Google\Model
    * @var string
    */
   public $backup;
+  /**
+   * @var string
+   */
+  public $backupdrBackup;
   protected $restoreBackupContextType = RestoreBackupContext::class;
   protected $restoreBackupContextDataType = '';
   protected $restoreInstanceSettingsType = DatabaseInstance::class;
@@ -41,6 +45,20 @@ class InstancesRestoreBackupRequest extends \Google\Model
   public function getBackup()
   {
     return $this->backup;
+  }
+  /**
+   * @param string
+   */
+  public function setBackupdrBackup($backupdrBackup)
+  {
+    $this->backupdrBackup = $backupdrBackup;
+  }
+  /**
+   * @return string
+   */
+  public function getBackupdrBackup()
+  {
+    return $this->backupdrBackup;
   }
   /**
    * @param RestoreBackupContext

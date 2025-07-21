@@ -66,7 +66,7 @@ class EnterprisesWebApps extends \Google\Service\Resource
    * Gets a web app. (webApps.get)
    *
    * @param string $name The name of the web app in the form
-   * enterprises/{enterpriseId}/webApp/{packageName}.
+   * enterprises/{enterpriseId}/webApps/{packageName}.
    * @param array $optParams Optional parameters.
    * @return WebApp
    * @throws \Google\Service\Exception

@@ -24,6 +24,7 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteIntegration
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaTestIntegrationsRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
 use Google\Service\Integrations\GoogleProtobufEmpty;
@@ -83,9 +84,6 @@ class ProjectsLocationsIntegrations extends \Google\Service\Resource
    * @param ExecuteEventRequestContent $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string GCPCloudEventsMode Optional. LINT: LEGACY_NAMES The query
-   * parameter value for __GCP_CloudEventsMode, set by the Eventarc service when
-   * configuring triggers.
    * @opt_param string triggerId Required. Id of the integration trigger config.
    * The trigger_id is in the format: `integration_connector_trigger/projects/{gcp
    * _project_id}/location/{location}/connections/{connection_name}/subscriptions/
@@ -144,6 +142,40 @@ class ProjectsLocationsIntegrations extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('schedule', [$params], GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse::class);
+  }
+  /**
+   * Searches and returns the list of integrations in the specified project.
+   * (integrations.search)
+   *
+   * @param string $parent Required. Project and location from which the
+   * integrations should be listed. Format:
+   * projects/locations/resources/integrations
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool enableNaturalLanguageQueryUnderstanding Optional. Whether to
+   * enable natural language query understanding.
+   * @opt_param string filter Optional. The pre-filter to be applied to the
+   * search. This should follow the expressions defined in
+   * https://cloud.google.com/generative-ai-app-builder/docs/filter-search-
+   * metadata. For example, "status:ANY("ACTIVE")" will return all the resources
+   * whose status contains the "ACTIVE".
+   * @opt_param int pageSize Optional. The maximum number of results to return.
+   * The service may return fewer than this value. If unspecified, at most 10
+   * results will be returned. The maximum value is 100; values above 100 will be
+   * coerced to 100.
+   * @opt_param string pageToken Optional. A page token, received from a previous
+   * `SearchIntegrations` call. Provide this to retrieve the subsequent page. When
+   * paginating, all other parameters provided to `SearchIntegrations` must match
+   * the call that provided the page token.
+   * @opt_param string query Required. The user query
+   * @return GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function search($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('search', [$params], GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse::class);
   }
   /**
    * Execute the integration in draft state (integrations.test)

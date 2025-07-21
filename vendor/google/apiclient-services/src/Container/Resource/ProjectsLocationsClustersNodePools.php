@@ -22,6 +22,7 @@ use Google\Service\Container\ContainerEmpty;
 use Google\Service\Container\CreateNodePoolRequest;
 use Google\Service\Container\ListNodePoolsResponse;
 use Google\Service\Container\NodePool;
+use Google\Service\Container\NodePoolUpgradeInfo;
 use Google\Service\Container\Operation;
 use Google\Service\Container\RollbackNodePoolUpgradeRequest;
 use Google\Service\Container\SetNodePoolAutoscalingRequest;
@@ -102,6 +103,26 @@ class ProjectsLocationsClustersNodePools extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], Operation::class);
+  }
+  /**
+   * Fetch upgrade information of a specific nodepool.
+   * (nodePools.fetchNodePoolUpgradeInfo)
+   *
+   * @param string $name Required. The name (project, location, cluster, nodepool)
+   * of the nodepool to get. Specified in the format
+   * `projects/locations/clusters/nodePools` or
+   * `projects/zones/clusters/nodePools`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string version API request version that initiates this operation.
+   * @return NodePoolUpgradeInfo
+   * @throws \Google\Service\Exception
+   */
+  public function fetchNodePoolUpgradeInfo($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('fetchNodePoolUpgradeInfo', [$params], NodePoolUpgradeInfo::class);
   }
   /**
    * Retrieves the requested node pool. (nodePools.get)

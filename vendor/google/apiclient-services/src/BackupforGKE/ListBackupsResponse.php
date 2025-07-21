@@ -19,13 +19,17 @@ namespace Google\Service\BackupforGKE;
 
 class ListBackupsResponse extends \Google\Collection
 {
-  protected $collection_key = 'backups';
+  protected $collection_key = 'unreachable';
   protected $backupsType = Backup::class;
   protected $backupsDataType = 'array';
   /**
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param Backup[]
@@ -54,6 +58,20 @@ class ListBackupsResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

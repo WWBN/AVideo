@@ -134,6 +134,12 @@ class ProjectsLocationsServerTlsPolicies extends \Google\Service\Resource
    * `ListServerTlsPoliciesResponse` Indicates that this is a continuation of a
    * prior `ListServerTlsPolicies` call, and that the system should return the
    * next page of data.
+   * @opt_param bool returnPartialSuccess Optional. Setting this field to `true`
+   * will opt the request into returning the resources that are reachable, and
+   * into including the names of those that were unreachable in the
+   * [ListServerTlsPoliciesResponse.unreachable] field. This can only be `true`
+   * when reading across collections e.g. when `parent` is set to
+   * `"projects/example/locations/-"`.
    * @return ListServerTlsPoliciesResponse
    * @throws \Google\Service\Exception
    */

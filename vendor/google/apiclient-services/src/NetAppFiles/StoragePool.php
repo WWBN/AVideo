@@ -36,6 +36,10 @@ class StoragePool extends \Google\Model
    */
   public $createTime;
   /**
+   * @var bool
+   */
+  public $customPerformanceEnabled;
+  /**
    * @var string
    */
   public $description;
@@ -95,6 +99,14 @@ class StoragePool extends \Google\Model
    * @var string
    */
   public $stateDetails;
+  /**
+   * @var string
+   */
+  public $totalIops;
+  /**
+   * @var string
+   */
+  public $totalThroughputMibps;
   /**
    * @var string
    */
@@ -163,6 +175,20 @@ class StoragePool extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param bool
+   */
+  public function setCustomPerformanceEnabled($customPerformanceEnabled)
+  {
+    $this->customPerformanceEnabled = $customPerformanceEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getCustomPerformanceEnabled()
+  {
+    return $this->customPerformanceEnabled;
   }
   /**
    * @param string
@@ -373,6 +399,34 @@ class StoragePool extends \Google\Model
   public function getStateDetails()
   {
     return $this->stateDetails;
+  }
+  /**
+   * @param string
+   */
+  public function setTotalIops($totalIops)
+  {
+    $this->totalIops = $totalIops;
+  }
+  /**
+   * @return string
+   */
+  public function getTotalIops()
+  {
+    return $this->totalIops;
+  }
+  /**
+   * @param string
+   */
+  public function setTotalThroughputMibps($totalThroughputMibps)
+  {
+    $this->totalThroughputMibps = $totalThroughputMibps;
+  }
+  /**
+   * @return string
+   */
+  public function getTotalThroughputMibps()
+  {
+    return $this->totalThroughputMibps;
   }
   /**
    * @param string

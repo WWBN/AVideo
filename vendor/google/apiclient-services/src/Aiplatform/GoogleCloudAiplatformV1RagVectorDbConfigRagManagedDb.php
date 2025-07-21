@@ -19,6 +19,39 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDb extends \Google\Model
 {
+  protected $annType = GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDbANN::class;
+  protected $annDataType = '';
+  protected $knnType = GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDbKNN::class;
+  protected $knnDataType = '';
+
+  /**
+   * @param GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDbANN
+   */
+  public function setAnn(GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDbANN $ann)
+  {
+    $this->ann = $ann;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDbANN
+   */
+  public function getAnn()
+  {
+    return $this->ann;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDbKNN
+   */
+  public function setKnn(GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDbKNN $knn)
+  {
+    $this->knn = $knn;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDbKNN
+   */
+  public function getKnn()
+  {
+    return $this->knn;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

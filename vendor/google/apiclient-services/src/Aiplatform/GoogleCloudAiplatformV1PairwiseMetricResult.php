@@ -19,6 +19,8 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1PairwiseMetricResult extends \Google\Model
 {
+  protected $customOutputType = GoogleCloudAiplatformV1CustomOutput::class;
+  protected $customOutputDataType = '';
   /**
    * @var string
    */
@@ -28,6 +30,20 @@ class GoogleCloudAiplatformV1PairwiseMetricResult extends \Google\Model
    */
   public $pairwiseChoice;
 
+  /**
+   * @param GoogleCloudAiplatformV1CustomOutput
+   */
+  public function setCustomOutput(GoogleCloudAiplatformV1CustomOutput $customOutput)
+  {
+    $this->customOutput = $customOutput;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1CustomOutput
+   */
+  public function getCustomOutput()
+  {
+    return $this->customOutput;
+  }
   /**
    * @param string
    */

@@ -54,14 +54,6 @@ class ContainerVersionHeader extends \Google\Model
   /**
    * @var string
    */
-  public $numMacros;
-  /**
-   * @var string
-   */
-  public $numRules;
-  /**
-   * @var string
-   */
   public $numTags;
   /**
    * @var string
@@ -195,34 +187,6 @@ class ContainerVersionHeader extends \Google\Model
   public function getNumGtagConfigs()
   {
     return $this->numGtagConfigs;
-  }
-  /**
-   * @param string
-   */
-  public function setNumMacros($numMacros)
-  {
-    $this->numMacros = $numMacros;
-  }
-  /**
-   * @return string
-   */
-  public function getNumMacros()
-  {
-    return $this->numMacros;
-  }
-  /**
-   * @param string
-   */
-  public function setNumRules($numRules)
-  {
-    $this->numRules = $numRules;
-  }
-  /**
-   * @return string
-   */
-  public function getNumRules()
-  {
-    return $this->numRules;
   }
   /**
    * @param string

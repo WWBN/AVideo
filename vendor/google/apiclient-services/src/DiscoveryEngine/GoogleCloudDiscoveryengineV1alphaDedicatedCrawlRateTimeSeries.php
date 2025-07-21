@@ -19,11 +19,29 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries extends \Google\Model
 {
+  protected $autoRefreshCrawlErrorRateType = GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries::class;
+  protected $autoRefreshCrawlErrorRateDataType = '';
   protected $autoRefreshCrawlRateType = GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries::class;
   protected $autoRefreshCrawlRateDataType = '';
+  protected $userTriggeredCrawlErrorRateType = GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries::class;
+  protected $userTriggeredCrawlErrorRateDataType = '';
   protected $userTriggeredCrawlRateType = GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries::class;
   protected $userTriggeredCrawlRateDataType = '';
 
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries
+   */
+  public function setAutoRefreshCrawlErrorRate(GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries $autoRefreshCrawlErrorRate)
+  {
+    $this->autoRefreshCrawlErrorRate = $autoRefreshCrawlErrorRate;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries
+   */
+  public function getAutoRefreshCrawlErrorRate()
+  {
+    return $this->autoRefreshCrawlErrorRate;
+  }
   /**
    * @param GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries
    */
@@ -37,6 +55,20 @@ class GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries extends \Goo
   public function getAutoRefreshCrawlRate()
   {
     return $this->autoRefreshCrawlRate;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries
+   */
+  public function setUserTriggeredCrawlErrorRate(GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries $userTriggeredCrawlErrorRate)
+  {
+    $this->userTriggeredCrawlErrorRate = $userTriggeredCrawlErrorRate;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries
+   */
+  public function getUserTriggeredCrawlErrorRate()
+  {
+    return $this->userTriggeredCrawlErrorRate;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries

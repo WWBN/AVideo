@@ -1,0 +1,78 @@
+name: Authorize.net PHP CI
+on:
+    push:
+    pull_request:
+    workflow_dispatch:
+env:
+    sdk_php: 'sdk-php'
+    sample_code_php: 'sample-code-php'
+jobs:
+    workflow-job:
+        defaults:
+            run:
+                shell: bash
+        strategy:
+            fail-fast: false
+            matrix:
+                operating-system: [ubuntu-latest, macos-latest, windows-latest]
+                php-version: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+        runs-on: ${{matrix.operating-system}}
+        env:
+            PHP_VERSION: ${{matrix.php-version}}
+        steps:
+            - name: Creating separate folders for SDK and Sample Codes
+              run: |
+                rm -rf $sdk_php
+                rm -rf $sample_code_php
+                mkdir $sdk_php $sample_code_php
+
+            - name: Checkout authorizenet/sdk-php
+              uses: actions/checkout@v4
+              with:
+                  path: ${{env.sdk_php}}
+
+            - name: Checkout authorizenet/sample-code-php
+              uses: actions/checkout@v4
+              with:
+                repository: 'authorizenet/sample-code-php'
+                ref: 'future' # Remove this line before pushing to master branch
+                path: ${{env.sample_code_php}}
+
+            - name: Setup PHP
+              id: php-setup
+              uses: shivammathur/setup-php@v2
+              with:
+                php-version: ${{matrix.php-version}}
+                extensions: mbstring, curl, openssl, zip
+                
+            - name: Composer Validation
+              run: |
+                cd $sdk_php
+                composer validate
+
+                if [[ ${{env.PHP_VERSION}} == "5.6" || ${{env.PHP_VERSION}} == "7.0" ]]; then
+                    echo "PHPUNIT_VERSION=$(echo 5.6.* | cut -c 1-6)" >> "$GITHUB_ENV"
+                elif [[ ${{env.PHP_VERSION}} == "7.1" ]]; then
+                    echo "PHPUNIT_VERSION=$(echo 5.7.* | cut -c 1-6)" >> "$GITHUB_ENV"
+                elif [[ ${{env.PHP_VERSION}} == "7.2" ]]; then
+                    echo "PHPUNIT_VERSION=$(echo 8.5.* | cut -c 1-6)" >> "$GITHUB_ENV"
+                else
+                    echo "PHPUNIT_VERSION=$(echo 9.5.* | cut -c 1-6)" >> "$GITHUB_ENV"
+                fi
+
+            # Cannot use ${{env.PHPUNIT_VERSION}} in the same step where it is defined
+            # Refer: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-of-writing-an-environment-variable-to-github_env
+
+            - name: Composer Update
+              run: |
+                cd $sdk_php
+                composer require "phpunit/phpunit:${{env.PHPUNIT_VERSION}}" --no-update --dev
+                composer update --prefer-dist
+
+            - name: Unit Testing
+              run: |
+                cd $sdk_php
+                cp -R lib ../$sample_code_php/
+                cp -R vendor ../$sample_code_php/
+                cd ../$sample_code_php
+                vendor/phpunit/phpunit/phpunit TestRunner.php .

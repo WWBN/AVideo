@@ -21,6 +21,8 @@ class GooglePrivacyDlpV2Export extends \Google\Model
 {
   protected $profileTableType = GooglePrivacyDlpV2BigQueryTable::class;
   protected $profileTableDataType = '';
+  protected $sampleFindingsTableType = GooglePrivacyDlpV2BigQueryTable::class;
+  protected $sampleFindingsTableDataType = '';
 
   /**
    * @param GooglePrivacyDlpV2BigQueryTable
@@ -35,6 +37,20 @@ class GooglePrivacyDlpV2Export extends \Google\Model
   public function getProfileTable()
   {
     return $this->profileTable;
+  }
+  /**
+   * @param GooglePrivacyDlpV2BigQueryTable
+   */
+  public function setSampleFindingsTable(GooglePrivacyDlpV2BigQueryTable $sampleFindingsTable)
+  {
+    $this->sampleFindingsTable = $sampleFindingsTable;
+  }
+  /**
+   * @return GooglePrivacyDlpV2BigQueryTable
+   */
+  public function getSampleFindingsTable()
+  {
+    return $this->sampleFindingsTable;
   }
 }
 

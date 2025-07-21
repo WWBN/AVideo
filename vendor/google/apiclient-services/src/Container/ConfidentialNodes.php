@@ -20,10 +20,28 @@ namespace Google\Service\Container;
 class ConfidentialNodes extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $confidentialInstanceType;
+  /**
    * @var bool
    */
   public $enabled;
 
+  /**
+   * @param string
+   */
+  public function setConfidentialInstanceType($confidentialInstanceType)
+  {
+    $this->confidentialInstanceType = $confidentialInstanceType;
+  }
+  /**
+   * @return string
+   */
+  public function getConfidentialInstanceType()
+  {
+    return $this->confidentialInstanceType;
+  }
   /**
    * @param bool
    */

@@ -1960,7 +1960,37 @@ class AndroidPublisher extends \Google\Service
         'orders',
         [
           'methods' => [
-            'refund' => [
+            'batchget' => [
+              'path' => 'androidpublisher/v3/applications/{packageName}/orders:batchGet',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'packageName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'orderIds' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'androidpublisher/v3/applications/{packageName}/orders/{orderId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'packageName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'orderId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'refund' => [
               'path' => 'androidpublisher/v3/applications/{packageName}/orders/{orderId}:refund',
               'httpMethod' => 'POST',
               'parameters' => [

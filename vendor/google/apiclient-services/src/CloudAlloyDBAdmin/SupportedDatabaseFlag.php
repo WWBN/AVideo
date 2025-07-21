@@ -35,9 +35,21 @@ class SupportedDatabaseFlag extends \Google\Collection
    */
   public $name;
   /**
+   * @var string
+   */
+  public $recommendedIntegerValue;
+  /**
+   * @var string
+   */
+  public $recommendedStringValue;
+  /**
    * @var bool
    */
   public $requiresDbRestart;
+  /**
+   * @var string
+   */
+  public $scope;
   protected $stringRestrictionsType = StringRestrictions::class;
   protected $stringRestrictionsDataType = '';
   /**
@@ -106,6 +118,34 @@ class SupportedDatabaseFlag extends \Google\Collection
     return $this->name;
   }
   /**
+   * @param string
+   */
+  public function setRecommendedIntegerValue($recommendedIntegerValue)
+  {
+    $this->recommendedIntegerValue = $recommendedIntegerValue;
+  }
+  /**
+   * @return string
+   */
+  public function getRecommendedIntegerValue()
+  {
+    return $this->recommendedIntegerValue;
+  }
+  /**
+   * @param string
+   */
+  public function setRecommendedStringValue($recommendedStringValue)
+  {
+    $this->recommendedStringValue = $recommendedStringValue;
+  }
+  /**
+   * @return string
+   */
+  public function getRecommendedStringValue()
+  {
+    return $this->recommendedStringValue;
+  }
+  /**
    * @param bool
    */
   public function setRequiresDbRestart($requiresDbRestart)
@@ -118,6 +158,20 @@ class SupportedDatabaseFlag extends \Google\Collection
   public function getRequiresDbRestart()
   {
     return $this->requiresDbRestart;
+  }
+  /**
+   * @param string
+   */
+  public function setScope($scope)
+  {
+    $this->scope = $scope;
+  }
+  /**
+   * @return string
+   */
+  public function getScope()
+  {
+    return $this->scope;
   }
   /**
    * @param StringRestrictions

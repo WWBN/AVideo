@@ -34,11 +34,13 @@ class ProjectsTransferConfigsRuns extends \Google\Service\Resource
   /**
    * Deletes the specified transfer run. (runs.delete)
    *
-   * @param string $name Required. The field will contain name of the resource
-   * requested, for example:
-   * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` or `project
-   * s/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_
-   * id}`
+   * @param string $name Required. The name of the resource requested. If you are
+   * using the regionless method, the location must be `US` and the name should be
+   * in the following form: *
+   * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are
+   * using the regionalized method, the name should be in the following form: * `p
+   * rojects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs
+   * /{run_id}`
    * @param array $optParams Optional parameters.
    * @return BigquerydatatransferEmpty
    * @throws \Google\Service\Exception
@@ -52,11 +54,13 @@ class ProjectsTransferConfigsRuns extends \Google\Service\Resource
   /**
    * Returns information about the particular transfer run. (runs.get)
    *
-   * @param string $name Required. The field will contain name of the resource
-   * requested, for example:
-   * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` or `project
-   * s/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_
-   * id}`
+   * @param string $name Required. The name of the resource requested. If you are
+   * using the regionless method, the location must be `US` and the name should be
+   * in the following form: *
+   * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are
+   * using the regionalized method, the name should be in the following form: * `p
+   * rojects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs
+   * /{run_id}`
    * @param array $optParams Optional parameters.
    * @return TransferRun
    * @throws \Google\Service\Exception
@@ -72,9 +76,11 @@ class ProjectsTransferConfigsRuns extends \Google\Service\Resource
    * (runs.listProjectsTransferConfigsRuns)
    *
    * @param string $parent Required. Name of transfer configuration for which
-   * transfer runs should be retrieved. Format of transfer configuration resource
-   * name is: `projects/{project_id}/transferConfigs/{config_id}` or
-   * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}`.
+   * transfer runs should be retrieved. If you are using the regionless method,
+   * the location must be `US` and the name should be in the following form: *
+   * `projects/{project_id}/transferConfigs/{config_id}` If you are using the
+   * regionalized method, the name should be in the following form: *
+   * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Page size. The default page size is the maximum value

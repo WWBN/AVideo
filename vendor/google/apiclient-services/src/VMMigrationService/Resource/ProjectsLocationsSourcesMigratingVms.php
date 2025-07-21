@@ -17,6 +17,7 @@
 
 namespace Google\Service\VMMigrationService\Resource;
 
+use Google\Service\VMMigrationService\ExtendMigrationRequest;
 use Google\Service\VMMigrationService\FinalizeMigrationRequest;
 use Google\Service\VMMigrationService\ListMigratingVmsResponse;
 use Google\Service\VMMigrationService\MigratingVm;
@@ -76,6 +77,21 @@ class ProjectsLocationsSourcesMigratingVms extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], Operation::class);
+  }
+  /**
+   * Extend the migrating VM time to live. (migratingVms.extendMigration)
+   *
+   * @param string $migratingVm Required. The name of the MigratingVm.
+   * @param ExtendMigrationRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function extendMigration($migratingVm, ExtendMigrationRequest $postBody, $optParams = [])
+  {
+    $params = ['migratingVm' => $migratingVm, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('extendMigration', [$params], Operation::class);
   }
   /**
    * Marks a migration as completed, deleting migration resources that are no

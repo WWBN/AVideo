@@ -19,7 +19,7 @@ namespace Google\Service\Compute;
 
 class UsableSubnetworksAggregatedList extends \Google\Collection
 {
-  protected $collection_key = 'items';
+  protected $collection_key = 'unreachables';
   /**
    * @var string
    */
@@ -34,10 +34,16 @@ class UsableSubnetworksAggregatedList extends \Google\Collection
    * @var string
    */
   public $nextPageToken;
+  protected $scopedWarningsType = SubnetworksScopedWarning::class;
+  protected $scopedWarningsDataType = 'array';
   /**
    * @var string
    */
   public $selfLink;
+  /**
+   * @var string[]
+   */
+  public $unreachables;
   protected $warningType = UsableSubnetworksAggregatedListWarning::class;
   protected $warningDataType = '';
 
@@ -98,6 +104,20 @@ class UsableSubnetworksAggregatedList extends \Google\Collection
     return $this->nextPageToken;
   }
   /**
+   * @param SubnetworksScopedWarning[]
+   */
+  public function setScopedWarnings($scopedWarnings)
+  {
+    $this->scopedWarnings = $scopedWarnings;
+  }
+  /**
+   * @return SubnetworksScopedWarning[]
+   */
+  public function getScopedWarnings()
+  {
+    return $this->scopedWarnings;
+  }
+  /**
    * @param string
    */
   public function setSelfLink($selfLink)
@@ -110,6 +130,20 @@ class UsableSubnetworksAggregatedList extends \Google\Collection
   public function getSelfLink()
   {
     return $this->selfLink;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachables($unreachables)
+  {
+    $this->unreachables = $unreachables;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachables()
+  {
+    return $this->unreachables;
   }
   /**
    * @param UsableSubnetworksAggregatedListWarning

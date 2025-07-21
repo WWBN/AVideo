@@ -26,7 +26,15 @@ class GoogleCloudDataplexV1MetadataJobImportJobResult extends \Google\Model
   /**
    * @var string
    */
+  public $createdEntryLinks;
+  /**
+   * @var string
+   */
   public $deletedEntries;
+  /**
+   * @var string
+   */
+  public $deletedEntryLinks;
   /**
    * @var string
    */
@@ -35,6 +43,10 @@ class GoogleCloudDataplexV1MetadataJobImportJobResult extends \Google\Model
    * @var string
    */
   public $unchangedEntries;
+  /**
+   * @var string
+   */
+  public $unchangedEntryLinks;
   /**
    * @var string
    */
@@ -61,6 +73,20 @@ class GoogleCloudDataplexV1MetadataJobImportJobResult extends \Google\Model
   /**
    * @param string
    */
+  public function setCreatedEntryLinks($createdEntryLinks)
+  {
+    $this->createdEntryLinks = $createdEntryLinks;
+  }
+  /**
+   * @return string
+   */
+  public function getCreatedEntryLinks()
+  {
+    return $this->createdEntryLinks;
+  }
+  /**
+   * @param string
+   */
   public function setDeletedEntries($deletedEntries)
   {
     $this->deletedEntries = $deletedEntries;
@@ -71,6 +97,20 @@ class GoogleCloudDataplexV1MetadataJobImportJobResult extends \Google\Model
   public function getDeletedEntries()
   {
     return $this->deletedEntries;
+  }
+  /**
+   * @param string
+   */
+  public function setDeletedEntryLinks($deletedEntryLinks)
+  {
+    $this->deletedEntryLinks = $deletedEntryLinks;
+  }
+  /**
+   * @return string
+   */
+  public function getDeletedEntryLinks()
+  {
+    return $this->deletedEntryLinks;
   }
   /**
    * @param string
@@ -99,6 +139,20 @@ class GoogleCloudDataplexV1MetadataJobImportJobResult extends \Google\Model
   public function getUnchangedEntries()
   {
     return $this->unchangedEntries;
+  }
+  /**
+   * @param string
+   */
+  public function setUnchangedEntryLinks($unchangedEntryLinks)
+  {
+    $this->unchangedEntryLinks = $unchangedEntryLinks;
+  }
+  /**
+   * @return string
+   */
+  public function getUnchangedEntryLinks()
+  {
+    return $this->unchangedEntryLinks;
   }
   /**
    * @param string

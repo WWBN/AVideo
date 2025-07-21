@@ -19,6 +19,8 @@ namespace Google\Service\WorkloadManager;
 
 class CloudResource extends \Google\Model
 {
+  protected $instancePropertiesType = InstanceProperties::class;
+  protected $instancePropertiesDataType = '';
   /**
    * @var string
    */
@@ -28,6 +30,20 @@ class CloudResource extends \Google\Model
    */
   public $name;
 
+  /**
+   * @param InstanceProperties
+   */
+  public function setInstanceProperties(InstanceProperties $instanceProperties)
+  {
+    $this->instanceProperties = $instanceProperties;
+  }
+  /**
+   * @return InstanceProperties
+   */
+  public function getInstanceProperties()
+  {
+    return $this->instanceProperties;
+  }
   /**
    * @param string
    */

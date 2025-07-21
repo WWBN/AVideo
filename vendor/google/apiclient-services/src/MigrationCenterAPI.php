@@ -106,6 +106,11 @@ class MigrationCenterAPI extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'extraLocationTypes' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
                 'filter' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -229,6 +234,10 @@ class MigrationCenterAPI extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'showHidden' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'view' => [
                   'location' => 'query',

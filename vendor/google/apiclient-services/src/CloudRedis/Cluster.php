@@ -70,6 +70,10 @@ class Cluster extends \Google\Collection
    * @var string
    */
   public $nodeType;
+  /**
+   * @var bool
+   */
+  public $ondemandMaintenance;
   protected $persistenceConfigType = ClusterPersistenceConfig::class;
   protected $persistenceConfigDataType = '';
   public $preciseSizeGb;
@@ -349,6 +353,20 @@ class Cluster extends \Google\Collection
   public function getNodeType()
   {
     return $this->nodeType;
+  }
+  /**
+   * @param bool
+   */
+  public function setOndemandMaintenance($ondemandMaintenance)
+  {
+    $this->ondemandMaintenance = $ondemandMaintenance;
+  }
+  /**
+   * @return bool
+   */
+  public function getOndemandMaintenance()
+  {
+    return $this->ondemandMaintenance;
   }
   /**
    * @param ClusterPersistenceConfig

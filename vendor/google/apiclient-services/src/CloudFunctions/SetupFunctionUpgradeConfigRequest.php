@@ -19,6 +19,25 @@ namespace Google\Service\CloudFunctions;
 
 class SetupFunctionUpgradeConfigRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $triggerServiceAccount;
+
+  /**
+   * @param string
+   */
+  public function setTriggerServiceAccount($triggerServiceAccount)
+  {
+    $this->triggerServiceAccount = $triggerServiceAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getTriggerServiceAccount()
+  {
+    return $this->triggerServiceAccount;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

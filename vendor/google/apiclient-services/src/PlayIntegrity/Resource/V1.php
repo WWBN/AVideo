@@ -19,6 +19,8 @@ namespace Google\Service\PlayIntegrity\Resource;
 
 use Google\Service\PlayIntegrity\DecodeIntegrityTokenRequest;
 use Google\Service\PlayIntegrity\DecodeIntegrityTokenResponse;
+use Google\Service\PlayIntegrity\DecodePcIntegrityTokenRequest;
+use Google\Service\PlayIntegrity\DecodePcIntegrityTokenResponse;
 
 /**
  * The "v1" collection of methods.
@@ -46,6 +48,23 @@ class V1 extends \Google\Service\Resource
     $params = ['packageName' => $packageName, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('decodeIntegrityToken', [$params], DecodeIntegrityTokenResponse::class);
+  }
+  /**
+   * Decodes the PC integrity token and returns the PC token payload.
+   * (v1.decodePcIntegrityToken)
+   *
+   * @param string $packageName Package name of the app the attached integrity
+   * token belongs to.
+   * @param DecodePcIntegrityTokenRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return DecodePcIntegrityTokenResponse
+   * @throws \Google\Service\Exception
+   */
+  public function decodePcIntegrityToken($packageName, DecodePcIntegrityTokenRequest $postBody, $optParams = [])
+  {
+    $params = ['packageName' => $packageName, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('decodePcIntegrityToken', [$params], DecodePcIntegrityTokenResponse::class);
   }
 }
 

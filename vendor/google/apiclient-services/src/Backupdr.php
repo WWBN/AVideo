@@ -92,6 +92,11 @@ class Backupdr extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'extraLocationTypes' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
                 'filter' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -175,6 +180,24 @@ class Backupdr extends \Google\Service
                   'type' => 'integer',
                 ],
                 'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -413,6 +436,10 @@ class Backupdr extends \Google\Service
                   'required' => true,
                 ],
                 'force' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'forceUpdateAccessRestriction' => [
                   'location' => 'query',
                   'type' => 'boolean',
                 ],

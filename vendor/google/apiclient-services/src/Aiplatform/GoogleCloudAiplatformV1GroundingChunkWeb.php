@@ -22,12 +22,30 @@ class GoogleCloudAiplatformV1GroundingChunkWeb extends \Google\Model
   /**
    * @var string
    */
+  public $domain;
+  /**
+   * @var string
+   */
   public $title;
   /**
    * @var string
    */
   public $uri;
 
+  /**
+   * @param string
+   */
+  public function setDomain($domain)
+  {
+    $this->domain = $domain;
+  }
+  /**
+   * @return string
+   */
+  public function getDomain()
+  {
+    return $this->domain;
+  }
   /**
    * @param string
    */

@@ -17,8 +17,13 @@
 
 namespace Google\Service\DiscoveryEngine;
 
-class GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoChunkContent extends \Google\Model
+class GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoChunkContent extends \Google\Collection
 {
+  protected $collection_key = 'blobAttachmentIndexes';
+  /**
+   * @var string[]
+   */
+  public $blobAttachmentIndexes;
   /**
    * @var string
    */
@@ -32,6 +37,20 @@ class GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoCh
    */
   public $relevanceScore;
 
+  /**
+   * @param string[]
+   */
+  public function setBlobAttachmentIndexes($blobAttachmentIndexes)
+  {
+    $this->blobAttachmentIndexes = $blobAttachmentIndexes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getBlobAttachmentIndexes()
+  {
+    return $this->blobAttachmentIndexes;
+  }
   /**
    * @param string
    */

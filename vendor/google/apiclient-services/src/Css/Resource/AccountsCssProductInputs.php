@@ -88,7 +88,7 @@ class AccountsCssProductInputs extends \Google\Service\Resource
    * minutes before the processed Css Product can be retrieved.
    * (cssProductInputs.patch)
    *
-   * @param string $name The name of the CSS Product input. Format:
+   * @param string $name Identifier. The name of the CSS Product input. Format:
    * `accounts/{account}/cssProductInputs/{css_product_input}`, where the last
    * section `css_product_input` consists of 3 parts:
    * contentLanguage~feedLabel~offerId. Example:

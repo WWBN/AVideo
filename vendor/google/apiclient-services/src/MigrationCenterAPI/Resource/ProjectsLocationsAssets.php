@@ -141,6 +141,8 @@ class ProjectsLocationsAssets extends \Google\Service\Resource
    * than requested. If unspecified, server will pick an appropriate default.
    * @opt_param string pageToken A token identifying a page of results the server
    * should return.
+   * @opt_param bool showHidden Optional. When this value is set to 'true,' the
+   * response will include all assets, including those that are hidden.
    * @opt_param string view View of the assets. Defaults to BASIC.
    * @return ListAssetsResponse
    * @throws \Google\Service\Exception

@@ -34,8 +34,8 @@ class CoursesCourseWorkRubrics extends \Google\Service\Resource
   /**
    * Creates a rubric. The requesting user and course owner must have rubrics
    * creation capabilities. For details, see [licensing requirements](https://deve
-   * lopers.google.com/classroom/rubrics/limitations#license-requirements). For
-   * further details, see [Rubrics structure and known
+   * lopers.google.com/workspace/classroom/rubrics/limitations#license-
+   * requirements). For further details, see [Rubrics structure and known
    * limitations](/classroom/rubrics/limitations). This request must be made by
    * the Google Cloud console of the [OAuth client
    * ID](https://support.google.com/cloud/answer/6158849) used to create the
@@ -64,15 +64,15 @@ class CoursesCourseWorkRubrics extends \Google\Service\Resource
   /**
    * Deletes a rubric. The requesting user and course owner must have rubrics
    * creation capabilities. For details, see [licensing requirements](https://deve
-   * lopers.google.com/classroom/rubrics/limitations#license-requirements). This
-   * request must be made by the Google Cloud console of the [OAuth client
-   * ID](https://support.google.com/cloud/answer/6158849) used to create the
-   * corresponding rubric. This method returns the following error codes: *
-   * `PERMISSION_DENIED` if the requesting developer project didn't create the
-   * corresponding rubric, or if the requesting user isn't permitted to delete the
-   * requested rubric. * `NOT_FOUND` if no rubric exists with the requested ID or
-   * the user does not have access to the course, course work, or rubric. *
-   * `INVALID_ARGUMENT` if grading has already started on the rubric.
+   * lopers.google.com/workspace/classroom/rubrics/limitations#license-
+   * requirements). This request must be made by the Google Cloud console of the
+   * [OAuth client ID](https://support.google.com/cloud/answer/6158849) used to
+   * create the corresponding rubric. This method returns the following error
+   * codes: * `PERMISSION_DENIED` if the requesting developer project didn't
+   * create the corresponding rubric, or if the requesting user isn't permitted to
+   * delete the requested rubric. * `NOT_FOUND` if no rubric exists with the
+   * requested ID or the user does not have access to the course, course work, or
+   * rubric. * `INVALID_ARGUMENT` if grading has already started on the rubric.
    * (rubrics.delete)
    *
    * @param string $courseId Required. Identifier of the course.
@@ -141,9 +141,9 @@ class CoursesCourseWorkRubrics extends \Google\Service\Resource
    * can be updated. Rubric update capabilities are
    * [limited](/classroom/rubrics/limitations) once grading has started. The
    * requesting user and course owner must have rubrics creation capabilities. For
-   * details, see [licensing requirements](https://developers.google.com/classroom
-   * /rubrics/limitations#license-requirements). This request must be made by the
-   * Google Cloud console of the [OAuth client
+   * details, see [licensing requirements](https://developers.google.com/workspace
+   * /classroom/rubrics/limitations#license-requirements). This request must be
+   * made by the Google Cloud console of the [OAuth client
    * ID](https://support.google.com/cloud/answer/6158849) used to create the
    * parent course work item. This method returns the following error codes: *
    * `PERMISSION_DENIED` if the requesting developer project didn't create the

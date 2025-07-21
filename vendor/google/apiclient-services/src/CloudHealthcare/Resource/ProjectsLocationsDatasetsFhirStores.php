@@ -60,7 +60,8 @@ class ProjectsLocationsDatasetsFhirStores extends \Google\Service\Resource
    * instead of an Operation. No resources will be reindexed and the
    * `consent_config.enforced_admin_consents` field will be unchanged. To enforce
    * a consent check for data access, `consent_config.access_enforced` must be set
-   * to true for the FhirStore. (fhirStores.applyAdminConsents)
+   * to true for the FhirStore. FHIR Consent is not supported in DSTU2 or R5.
+   * (fhirStores.applyAdminConsents)
    *
    * @param string $name Required. The name of the FHIR store to enforce, in the
    * format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/f
@@ -89,7 +90,8 @@ class ProjectsLocationsDatasetsFhirStores extends \Google\Service\Resource
    * [Viewing error logs in Cloud
    * Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). To
    * enforce consent check for data access, `consent_config.access_enforced` must
-   * be set to true for the FhirStore. (fhirStores.applyConsents)
+   * be set to true for the FhirStore. FHIR Consent is not supported in DSTU2 or
+   * R5. (fhirStores.applyConsents)
    *
    * @param string $name Required. The name of the FHIR store to enforce, in the
    * format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/f
@@ -205,7 +207,7 @@ class ProjectsLocationsDatasetsFhirStores extends \Google\Service\Resource
    *
    * @param string $sourceStore Required. Source FHIR store resource name. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /fhirStores/{fhir_store_id}`.
+   * /fhirStores/{fhir_store_id}`. R5 stores are not supported.
    * @param DeidentifyFhirStoreRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
@@ -234,7 +236,8 @@ class ProjectsLocationsDatasetsFhirStores extends \Google\Service\Resource
   }
   /**
    * Explains all the permitted/denied actor, purpose and environment for a given
-   * resource. (fhirStores.explainDataAccess)
+   * resource. FHIR Consent is not supported in DSTU2 or R5.
+   * (fhirStores.explainDataAccess)
    *
    * @param string $name Required. The name of the FHIR store to enforce, in the
    * format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/f

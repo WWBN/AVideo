@@ -87,8 +87,9 @@ class Backups extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Multiple filter queries are separated by spaces. For
-   * example, 'instance:abc type:FINAL. You can filter by type, instance name,
-   * creation time or location.
+   * example, 'instance:abc AND type:FINAL, 'location:us',
+   * 'backupInterval.startTime>=1950-01-01T01:01:25.771Z'. You can filter by type,
+   * instance, backupInterval.startTime (creation time), or location.
    * @opt_param int pageSize The maximum number of backups to return per response.
    * The service might return fewer backups than this value. If a value for this
    * parameter isn't specified, then, at most, 500 backups are returned. The
@@ -112,7 +113,7 @@ class Backups extends \Google\Service\Resource
    * API to update final backups only. (Backups.UpdateBackup)
    *
    * @param string $name Output only. The resource name of the backup. Format:
-   * projects/{project}/backups/{backup}
+   * projects/{project}/backups/{backup}.
    * @param Backup $postBody
    * @param array $optParams Optional parameters.
    *

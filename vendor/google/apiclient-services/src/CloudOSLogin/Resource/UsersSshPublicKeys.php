@@ -88,8 +88,8 @@ class UsersSshPublicKeys extends \Google\Service\Resource
    * @param SshPublicKey $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask Mask to control which fields get updated.
-   * Updates all if not present.
+   * @opt_param string updateMask Optional. Mask to control which fields get
+   * updated. Updates all if not present.
    * @return SshPublicKey
    * @throws \Google\Service\Exception
    */

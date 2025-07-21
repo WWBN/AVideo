@@ -94,6 +94,8 @@ class Route extends \Google\Collection
    * @var string
    */
   public $nextHopVpnTunnel;
+  protected $paramsType = RouteParams::class;
+  protected $paramsDataType = '';
   /**
    * @var string
    */
@@ -382,6 +384,20 @@ class Route extends \Google\Collection
   public function getNextHopVpnTunnel()
   {
     return $this->nextHopVpnTunnel;
+  }
+  /**
+   * @param RouteParams
+   */
+  public function setParams(RouteParams $params)
+  {
+    $this->params = $params;
+  }
+  /**
+   * @return RouteParams
+   */
+  public function getParams()
+  {
+    return $this->params;
   }
   /**
    * @param string

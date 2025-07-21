@@ -34,8 +34,7 @@ class AccountsContainers extends \Google\Service\Resource
   /**
    * Combines Containers. (containers.combine)
    *
-   * @param string $path GTM Container's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}
+   * @param string $path GTM Container's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool allowUserPermissionFeatureUpdate Must be set to true to allow
@@ -57,8 +56,7 @@ class AccountsContainers extends \Google\Service\Resource
   /**
    * Creates a Container. (containers.create)
    *
-   * @param string $parent GTM Account's API relative path. Example:
-   * accounts/{account_id}.
+   * @param string $parent GTM Account's API relative path.
    * @param Container $postBody
    * @param array $optParams Optional parameters.
    * @return Container
@@ -73,8 +71,7 @@ class AccountsContainers extends \Google\Service\Resource
   /**
    * Deletes a Container. (containers.delete)
    *
-   * @param string $path GTM Container's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}
+   * @param string $path GTM Container's API relative path.
    * @param array $optParams Optional parameters.
    * @throws \Google\Service\Exception
    */
@@ -87,8 +84,7 @@ class AccountsContainers extends \Google\Service\Resource
   /**
    * Gets a Container. (containers.get)
    *
-   * @param string $path GTM Container's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}
+   * @param string $path GTM Container's API relative path.
    * @param array $optParams Optional parameters.
    * @return Container
    * @throws \Google\Service\Exception
@@ -103,8 +99,7 @@ class AccountsContainers extends \Google\Service\Resource
    * Lists all Containers that belongs to a GTM Account.
    * (containers.listAccountsContainers)
    *
-   * @param string $parent GTM Account's API relative path. Example:
-   * accounts/{account_id}.
+   * @param string $parent GTM Account's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string pageToken Continuation token for fetching the next page of
@@ -124,12 +119,9 @@ class AccountsContainers extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string destinationId Destination ID linked to a GTM Container,
-   * e.g. AW-123456789. Example:
-   * accounts/containers:lookup?destination_id={destination_id}. Only one of
-   * destination_id or tag_id should be set.
-   * @opt_param string tagId Tag ID for a GTM Container, e.g. GTM-123456789.
-   * Example: accounts/containers:lookup?tag_id={tag_id}. Only one of
-   * destination_id or tag_id should be set.
+   * e.g. AW-123456789. Only one of destination_id or tag_id should be set.
+   * @opt_param string tagId Tag ID for a GTM Container, e.g. GTM-123456789. Only
+   * one of destination_id or tag_id should be set.
    * @return Container
    * @throws \Google\Service\Exception
    */
@@ -142,8 +134,7 @@ class AccountsContainers extends \Google\Service\Resource
   /**
    * Move Tag ID out of a Container. (containers.move_tag_id)
    *
-   * @param string $path GTM Container's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}
+   * @param string $path GTM Container's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool allowUserPermissionFeatureUpdate Must be set to true to allow
@@ -170,8 +161,7 @@ class AccountsContainers extends \Google\Service\Resource
   /**
    * Gets the tagging snippet for a Container. (containers.snippet)
    *
-   * @param string $path Container snippet's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}:snippet
+   * @param string $path Container snippet's API relative path.
    * @param array $optParams Optional parameters.
    * @return GetContainerSnippetResponse
    * @throws \Google\Service\Exception
@@ -185,8 +175,7 @@ class AccountsContainers extends \Google\Service\Resource
   /**
    * Updates a Container. (containers.update)
    *
-   * @param string $path GTM Container's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}
+   * @param string $path GTM Container's API relative path.
    * @param Container $postBody
    * @param array $optParams Optional parameters.
    *

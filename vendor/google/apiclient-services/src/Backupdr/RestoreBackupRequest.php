@@ -23,6 +23,12 @@ class RestoreBackupRequest extends \Google\Model
   protected $computeInstanceRestorePropertiesDataType = '';
   protected $computeInstanceTargetEnvironmentType = ComputeInstanceTargetEnvironment::class;
   protected $computeInstanceTargetEnvironmentDataType = '';
+  protected $diskRestorePropertiesType = DiskRestoreProperties::class;
+  protected $diskRestorePropertiesDataType = '';
+  protected $diskTargetEnvironmentType = DiskTargetEnvironment::class;
+  protected $diskTargetEnvironmentDataType = '';
+  protected $regionDiskTargetEnvironmentType = RegionDiskTargetEnvironment::class;
+  protected $regionDiskTargetEnvironmentDataType = '';
   /**
    * @var string
    */
@@ -55,6 +61,48 @@ class RestoreBackupRequest extends \Google\Model
   public function getComputeInstanceTargetEnvironment()
   {
     return $this->computeInstanceTargetEnvironment;
+  }
+  /**
+   * @param DiskRestoreProperties
+   */
+  public function setDiskRestoreProperties(DiskRestoreProperties $diskRestoreProperties)
+  {
+    $this->diskRestoreProperties = $diskRestoreProperties;
+  }
+  /**
+   * @return DiskRestoreProperties
+   */
+  public function getDiskRestoreProperties()
+  {
+    return $this->diskRestoreProperties;
+  }
+  /**
+   * @param DiskTargetEnvironment
+   */
+  public function setDiskTargetEnvironment(DiskTargetEnvironment $diskTargetEnvironment)
+  {
+    $this->diskTargetEnvironment = $diskTargetEnvironment;
+  }
+  /**
+   * @return DiskTargetEnvironment
+   */
+  public function getDiskTargetEnvironment()
+  {
+    return $this->diskTargetEnvironment;
+  }
+  /**
+   * @param RegionDiskTargetEnvironment
+   */
+  public function setRegionDiskTargetEnvironment(RegionDiskTargetEnvironment $regionDiskTargetEnvironment)
+  {
+    $this->regionDiskTargetEnvironment = $regionDiskTargetEnvironment;
+  }
+  /**
+   * @return RegionDiskTargetEnvironment
+   */
+  public function getRegionDiskTargetEnvironment()
+  {
+    return $this->regionDiskTargetEnvironment;
   }
   /**
    * @param string

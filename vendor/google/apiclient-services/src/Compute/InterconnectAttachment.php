@@ -27,6 +27,10 @@ class InterconnectAttachment extends \Google\Collection
   /**
    * @var string
    */
+  public $attachmentGroup;
+  /**
+   * @var string
+   */
   public $bandwidth;
   /**
    * @var string[]
@@ -188,6 +192,20 @@ class InterconnectAttachment extends \Google\Collection
   public function getAdminEnabled()
   {
     return $this->adminEnabled;
+  }
+  /**
+   * @param string
+   */
+  public function setAttachmentGroup($attachmentGroup)
+  {
+    $this->attachmentGroup = $attachmentGroup;
+  }
+  /**
+   * @return string
+   */
+  public function getAttachmentGroup()
+  {
+    return $this->attachmentGroup;
   }
   /**
    * @param string

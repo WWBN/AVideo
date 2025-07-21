@@ -43,6 +43,10 @@ class GoogleCloudDiscoveryengineV1alphaEngine extends \Google\Collection
    */
   public $displayName;
   /**
+   * @var string[]
+   */
+  public $features;
+  /**
    * @var string
    */
   public $industryVertical;
@@ -164,6 +168,20 @@ class GoogleCloudDiscoveryengineV1alphaEngine extends \Google\Collection
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param string[]
+   */
+  public function setFeatures($features)
+  {
+    $this->features = $features;
+  }
+  /**
+   * @return string[]
+   */
+  public function getFeatures()
+  {
+    return $this->features;
   }
   /**
    * @param string

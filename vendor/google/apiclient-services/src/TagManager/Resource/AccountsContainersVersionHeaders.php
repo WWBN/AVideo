@@ -33,8 +33,7 @@ class AccountsContainersVersionHeaders extends \Google\Service\Resource
   /**
    * Gets the latest container version header (version_headers.latest)
    *
-   * @param string $parent GTM Container's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}
+   * @param string $parent GTM Container's API relative path.
    * @param array $optParams Optional parameters.
    * @return ContainerVersionHeader
    * @throws \Google\Service\Exception
@@ -49,8 +48,7 @@ class AccountsContainersVersionHeaders extends \Google\Service\Resource
    * Lists all Container Versions of a GTM Container.
    * (version_headers.listAccountsContainersVersionHeaders)
    *
-   * @param string $parent GTM Container's API relative path. Example:
-   * accounts/{account_id}/containers/{container_id}
+   * @param string $parent GTM Container's API relative path.
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool includeDeleted Also retrieve deleted (archived) versions when

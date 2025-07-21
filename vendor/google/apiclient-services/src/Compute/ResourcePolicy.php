@@ -61,6 +61,8 @@ class ResourcePolicy extends \Google\Model
    * @var string
    */
   public $status;
+  protected $workloadPolicyType = ResourcePolicyWorkloadPolicy::class;
+  protected $workloadPolicyDataType = '';
 
   /**
    * @param string
@@ -243,6 +245,20 @@ class ResourcePolicy extends \Google\Model
   public function getStatus()
   {
     return $this->status;
+  }
+  /**
+   * @param ResourcePolicyWorkloadPolicy
+   */
+  public function setWorkloadPolicy(ResourcePolicyWorkloadPolicy $workloadPolicy)
+  {
+    $this->workloadPolicy = $workloadPolicy;
+  }
+  /**
+   * @return ResourcePolicyWorkloadPolicy
+   */
+  public function getWorkloadPolicy()
+  {
+    return $this->workloadPolicy;
   }
 }
 

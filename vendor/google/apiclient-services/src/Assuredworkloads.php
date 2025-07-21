@@ -40,6 +40,7 @@ class Assuredworkloads extends \Google\Service
 
   public $organizations_locations_operations;
   public $organizations_locations_workloads;
+  public $organizations_locations_workloads_updates;
   public $organizations_locations_workloads_violations;
   public $rootUrlTemplate;
 
@@ -163,6 +164,16 @@ class Assuredworkloads extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'enableComplianceUpdates' => [
+              'path' => 'v1/{+name}:enableComplianceUpdates',
+              'httpMethod' => 'PUT',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'enableResourceMonitoring' => [
               'path' => 'v1/{+name}:enableResourceMonitoring',
               'httpMethod' => 'POST',
@@ -237,6 +248,44 @@ class Assuredworkloads extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->organizations_locations_workloads_updates = new Assuredworkloads\Resource\OrganizationsLocationsWorkloadsUpdates(
+        $this,
+        $this->serviceName,
+        'updates',
+        [
+          'methods' => [
+            'apply' => [
+              'path' => 'v1/{+name}:apply',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/updates',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

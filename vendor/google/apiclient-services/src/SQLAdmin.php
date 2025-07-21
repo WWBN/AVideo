@@ -413,6 +413,10 @@ class SQLAdmin extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'flagScope' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],
           ]
@@ -692,6 +696,16 @@ class SQLAdmin extends \Google\Service
                   'required' => true,
                 ],
                 'instance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'pointInTimeRestore' => [
+              'path' => 'v1/{+parent}:pointInTimeRestore',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
