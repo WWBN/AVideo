@@ -47,7 +47,7 @@ $totalPages = ceil($total / $itemsPerPage);
     <?php
 //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
     echo getPagination($totalPages, "{$global['webSiteRootURL']}plugin/Gallery/view/mainAreaChannels.php", 10, ".mainAreaChannels", ".mainAreaChannels");
-    echo getPagination($totalPages, "{$global['webSiteRootURL']}plugin/Gallery/view/mainAreaChannels.php");
+    // echo getPagination($totalPages, "{$global['webSiteRootURL']}plugin/Gallery/view/mainAreaChannels.php");
     ?>
 </div>
 <!-- mainAreaChannel end -->
