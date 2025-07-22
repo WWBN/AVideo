@@ -4297,7 +4297,7 @@ if (!class_exists('Video')) {
                 $video = Video::getVideoFromFileNameLight($cleanFileName);
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (empty($video)) {
-                    //_error_log("Video::getSourceFile($filename, $type, $includeS3) ERROR video not found ($cleanFileName)");
+                    _error_log("Video::getSourceFile($filename, $type, $includeS3) ERROR video not found ($cleanFileName)");
                     $VideoGetSourceFile[$cacheName] = false;
                     return false;
                 }
@@ -4767,7 +4767,12 @@ if (!class_exists('Video')) {
             if (!preg_match('/_YPTuniqid_/', $cleanName)) {
                 // this is to make sure it is backwards compatible with old files
                 $parts = explode('.', $cleanName);
-                $cleanName = str_replace('/index', '', $parts[0]);
+                // if parts[1] is only numbers and more then 7 numbers do not change the clean name or backwards compatibility will be broken
+                if (isset($parts[1]) && preg_match('/^[0-9]{7,}$/', $parts[1])) {
+                    // do not change the clean name
+                } else {
+                    $cleanName = str_replace('/index', '', $parts[0]);
+                }
             }
 
             $path_parts = pathinfo($cleanName);
