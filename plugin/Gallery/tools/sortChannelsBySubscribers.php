@@ -33,20 +33,56 @@ uasort($sections, function ($a, $b) {
     return $b['total_subscribers'] <=> $a['total_subscribers'];
 });
 
-// Get all existing order values and sort them
+// Get all available current_order values (sorted ascending)
 $availableOrders = array_column($sections, 'current_order');
 sort($availableOrders);
 
-// Assign the sorted order values to the sorted channels
-$orderIndex = 0;
+// Remove duplicates to ensure unique order values
+$availableOrders = array_unique($availableOrders);
+$availableOrders = array_values($availableOrders); // Re-index array
+
+// If we don't have enough unique orders, generate additional ones
+$totalChannels = count($sections);
+$uniqueOrdersCount = count($availableOrders);
+
+if ($uniqueOrdersCount < $totalChannels) {
+    $maxOrder = max($availableOrders);
+    for ($i = $uniqueOrdersCount; $i < $totalChannels; $i++) {
+        $availableOrders[] = ++$maxOrder;
+    }
+}
+
+// Reassign the lowest available order to the user with most subscribers
+$index = 0;
 foreach ($sections as $key => &$section) {
-    $obj->$key = $availableOrders[$orderIndex];
-    $section['new_order'] = $availableOrders[$orderIndex];
-    $orderIndex++;
+    $newOrder = $availableOrders[$index];
+    $obj->$key = $newOrder;
+    $section['new_order'] = $newOrder;
+    $index++;
 }
 
 // Save the new object data
 AVideoPlugin::setObjectData('Gallery', $obj);
+
+// Final check to ensure no duplicates
+$finalOrders = array_column($sections, 'new_order');
+$duplicates = array_diff_assoc($finalOrders, array_unique($finalOrders));
+
+if (!empty($duplicates)) {
+    echo "WARNING: Duplicate orders detected! Fixing...\n";
+
+    // Fix duplicates by reassigning sequential orders
+    $orderCounter = 1;
+    foreach ($sections as $key => &$section) {
+        $obj->$key = $orderCounter;
+        $section['new_order'] = $orderCounter;
+        $orderCounter++;
+    }
+
+    // Save again with fixed orders
+    AVideoPlugin::setObjectData('Gallery', $obj);
+    echo "Fixed: Assigned sequential orders starting from 1.\n";
+}
 
 // Optional: output results
 echo "Reordered Channels:\n";
