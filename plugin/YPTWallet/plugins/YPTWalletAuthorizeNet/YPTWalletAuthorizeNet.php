@@ -18,16 +18,7 @@ class YPTWalletAuthorizeNet extends YPTWalletPlugin {
 
     public function getRecurrentAprovalButton() {
         global $global;
-        include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletAuthorizeNet/confirmRecurrentButton.php';
-    }
-
-    public function getRecurrentAprovalButtonV2($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = '', $json = '', $addFunds_Success='', $trialDays = 0) {
-        $total = floatval($total);
-        if(empty($total)){
-            return '';
-        }
-        global $global;
-        include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletAuthorizeNet/confirmRecurrentButtonV2.php';
+        include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletAuthorizeNet/confirmButton.php';
     }
 
     public function getEmptyDataObject() {

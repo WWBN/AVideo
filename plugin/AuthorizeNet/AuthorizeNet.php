@@ -1256,6 +1256,9 @@ class AuthorizeNet extends PluginAbstract
         $obj->transactionKey = "";
         $obj->signatureKey   = "";
         $obj->sandbox        = true;
+        $obj->subscriptionButtonLabel = "Subscribe With Credit Card";
+        $obj->paymentButtonLabel = "Pay With Credit Card";
+
         return $obj;
     }
 
