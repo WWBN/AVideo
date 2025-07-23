@@ -1051,7 +1051,7 @@ class AuthorizeNet extends PluginAbstract
                     'metadata'         => $decodedMeta,                 // <- decoded JSON (if any)
                     'submitTimeUTC'    => $submitTime ? $submitTime->format('Y-m-d H:i:s') : null,
                     'customer'         => $txn->getCustomer(),
-                    'users_id'         => $decodedMeta['users_id'] ?? $txn->getCustomer()->getId() ?? null,
+                    'users_id'         => $decodedMeta['users_id'] ?? null,
                     'plans_id'         => $decodedMeta['plans_id'] ?? 0,
                     'raw'              => $txn,
                     'isApproved'       => $isApproved,
