@@ -58,6 +58,13 @@ if (!$analysis['plans_id'] && !empty($txnInfo['plans_id'])) {
 }
 _error_log('[Authorize.Net webhook] Analysis: ' . json_encode($analysis));
 
+if(empty($analysis['users_id']) || empty($analysis['amount'])) {
+    _error_log('[Authorize.Net webhook] Missing user ID or amount in analysis');
+    http_response_code(400);
+    echo 'missing user ID or amount';
+    exit;
+}
+
 $result = AuthorizeNet::processSinglePayment(
             $analysis['users_id'],
             (float)$analysis['amount'],
