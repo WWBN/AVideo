@@ -33,17 +33,16 @@ uasort($sections, function ($a, $b) {
     return $b['total_subscribers'] <=> $a['total_subscribers'];
 });
 
-// Get all available current_order values (sorted ascending)
+// Get all existing order values and sort them
 $availableOrders = array_column($sections, 'current_order');
 sort($availableOrders);
 
-// Reassign the lowest available order to the user with most subscribers
-$index = 0;
+// Assign the sorted order values to the sorted channels
+$orderIndex = 0;
 foreach ($sections as $key => &$section) {
-    $newOrder = $availableOrders[$index];
-    $obj->$key = $newOrder;
-    $section['new_order'] = $newOrder;
-    $index++;
+    $obj->$key = $availableOrders[$orderIndex];
+    $section['new_order'] = $availableOrders[$orderIndex];
+    $orderIndex++;
 }
 
 // Save the new object data
@@ -56,5 +55,4 @@ foreach ($sections as $data) {
     $u = new User($data['users_id']);
     $channelName = $u->getChannelName();
     echo "User: [{$data['users_id']}][$channelName]{$identification} | New Order: {$data['new_order']} | Subscribers: {$data['total_subscribers']}\n";
-    //echo "users_id: {$data['users_id']} | Subscribers: {$data['total_subscribers']} | New Order: {$data['new_order']}\n";
 }
