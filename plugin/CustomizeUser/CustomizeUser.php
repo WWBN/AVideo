@@ -161,13 +161,6 @@ class CustomizeUser extends PluginAbstract
                 'isActive' => true,
             ],
             */
-            'gab' => [
-                'class' => 'icoGab',
-                'icon' => 'fab fa-gab',
-                'label' => __("Gab"),
-                'placeholder' => __("Gab URL"),
-                'isActive' => true,
-            ],
             'clouthub' => [
                 'class' => 'icoCloutHub',
                 'icon' => 'fas fa-cloud',
@@ -206,25 +199,25 @@ class CustomizeUser extends PluginAbstract
                 'label' => __("Shopping Website"),
                 'placeholder' => __("Shopping Website URL"),
             ],
+            'gab' => [
+                'class' => 'icoGab',
+                'icon' => 'fab fa-gab fa-extra',
+                'label' => __("Gab"),
+                'placeholder' => __("Gab URL"),
+                'isActive' => true,
+            ],
             'substack' => [
                 'class' => 'icoSubstack',
-                'icon' => 'fas fa-newspaper',
+                'icon' => 'fas fa-substack fa-extra',
                 'label' => __("Substack"),
                 'placeholder' => __("Substack URL"),
                 'isActive' => true,
             ],
             'rumble' => [
                 'class' => 'icoRumble',
-                'icon' => 'fas fa-video',
+                'icon' => 'fas fa-rumble fa-extra',
                 'label' => __("Rumble"),
                 'placeholder' => __("Rumble URL"),
-                'isActive' => true,
-            ],
-            'volk' => [
-                'class' => 'icoVolk',
-                'icon' => 'fas fa-users',
-                'label' => __("Volk"),
-                'placeholder' => __("Volk URL"),
                 'isActive' => true,
             ],
         ];
