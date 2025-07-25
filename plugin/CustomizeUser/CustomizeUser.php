@@ -115,7 +115,6 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("Reddit URL"),
                 'isActive' => true,
             ],
-            /*
             'telegram' => [
                 'class' => 'icoTelegram',
                 'icon' => 'fab fa-telegram',
@@ -123,6 +122,7 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("Telegram URL"),
                 'isActive' => true,
             ],
+            /*
             'google' => [
                 'class' => 'icoGoogle',
                 'icon' => 'fab fa-google',
@@ -160,6 +160,7 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("RSS URL"),
                 'isActive' => true,
             ],
+            */
             'gab' => [
                 'class' => 'icoGab',
                 'icon' => 'fab fa-gab',
@@ -167,7 +168,6 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("Gab URL"),
                 'isActive' => true,
             ],
-            */
             'clouthub' => [
                 'class' => 'icoCloutHub',
                 'icon' => 'fas fa-cloud',
@@ -205,6 +205,27 @@ class CustomizeUser extends PluginAbstract
                 'icon' => 'fas fa-shopping-cart',
                 'label' => __("Shopping Website"),
                 'placeholder' => __("Shopping Website URL"),
+            ],
+            'substack' => [
+                'class' => 'icoSubstack',
+                'icon' => 'fas fa-newspaper',
+                'label' => __("Substack"),
+                'placeholder' => __("Substack URL"),
+                'isActive' => true,
+            ],
+            'rumble' => [
+                'class' => 'icoRumble',
+                'icon' => 'fas fa-video',
+                'label' => __("Rumble"),
+                'placeholder' => __("Rumble URL"),
+                'isActive' => true,
+            ],
+            'volk' => [
+                'class' => 'icoVolk',
+                'icon' => 'fas fa-users',
+                'label' => __("Volk"),
+                'placeholder' => __("Volk URL"),
+                'isActive' => true,
             ],
         ];
     }

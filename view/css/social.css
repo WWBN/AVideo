@@ -109,6 +109,15 @@ ul.social-network li {
 .social-network .icoYoutube {
     --hover-color: #FF0000;
 }
+.social-network .icoSubstack {
+    --hover-color: #FF6719;
+}
+.social-network .icoRumble {
+    --hover-color: #85C742;
+}
+.social-network .icoVolk {
+    --hover-color: #1B4F72;
+}
 
 /* Define a base class for common styles */
 .social-network a, .social-network button{
