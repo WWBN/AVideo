@@ -1600,7 +1600,7 @@ $t['Your device is confirmed'] = 'Your device is confirmed';
 $t['Your email is invalid'] = 'Your email is invalid';
 $t['Your stream will start soon'] = 'Your stream will start soon';
 $t["Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> "] = "您的影片<a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> 已經上傳到您的<a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube 帳號</a><br>";
-$t['Youtube'] = 'Youtube';
+
 $t['about'] = 'about';
 $t['as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.'] = 'as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.';
 $t['audioOnly'] = 'audioOnly';

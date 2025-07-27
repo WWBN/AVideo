@@ -1599,7 +1599,7 @@ $t['Your code has been saved!'] = 'Your code has been saved!';
 $t['Your device is confirmed'] = 'Your device is confirmed';
 $t['Your email is invalid'] = 'Your email is invalid';
 $t['Your stream will start soon'] = 'Your stream will start soon';
-$t['Youtube'] = 'Youtube';
+
 $t['about'] = 'about';
 $t['as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.'] = 'as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.';
 $t['audioOnly'] = 'audioOnly';

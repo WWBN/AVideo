@@ -1627,7 +1627,7 @@ $t['VAST'] = 'VAST';
 $t['Video ID'] = 'Video ID';
 $t['WWBN'] = 'WWBN';
 $t['YouTube Data API'] = 'YouTube Data API';
-$t['Youtube'] = 'Youtube';
+
 $t['d'] = 'd';
 $t['h'] = 'h';
 $t['info'] = 'info';

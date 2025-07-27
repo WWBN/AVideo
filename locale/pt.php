@@ -1593,7 +1593,7 @@ $t['Your video download is complete, it is encoding now'] = 'Your video download
 $t['Your video is downloading now'] = 'Your video is downloading now';
 $t['Your videos have NOT been deleted!'] = 'Your videos have NOT been deleted!';
 $t['Your videos have been saved!'] = 'Your videos have been saved!';
-$t['Youtube'] = 'Youtube';
+
 $t['about'] = 'about';
 $t['arrow'] = 'arrow';
 $t['as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.'] = 'as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.';

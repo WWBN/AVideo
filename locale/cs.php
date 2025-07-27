@@ -1595,7 +1595,7 @@ $t['Your user is not verified, we sent you a new e-mail'] = 'Your user is not ve
 $t["Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> "] = "Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> ";
 $t['Your video download is complete, it is encoding now'] = 'Your video download is complete, it is encoding now';
 $t['Your videos have been saved!'] = 'Your videos have been saved!';
-$t['Youtube'] = 'Youtube';
+
 $t['Zip Code'] = 'Zip Code';
 $t['about'] = 'about';
 $t['as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.'] = 'as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.';

@@ -1581,7 +1581,7 @@ $t['Your request was sent'] = 'Your request was sent';
 $t['Your stream will start soon'] = 'Your stream will start soon';
 $t['Your user is not verified, we sent you a new e-mail'] = 'Your user is not verified, we sent you a new e-mail';
 $t['Your videos have been saved!'] = 'Your videos have been saved!';
-$t['Youtube'] = 'Youtube';
+
 $t['Zip Code'] = 'Zip Code';
 $t['about'] = 'about';
 $t['always the newest'] = 'always the newest';

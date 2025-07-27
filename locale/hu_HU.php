@@ -1601,7 +1601,7 @@ $t['You%20can%20not%20manage'] = 'You%20can%20not%20manage';
 $t['YouTube Data API'] = 'YouTube Data API';
 $t['Your Media is Muted'] = 'Your Media is Muted';
 $t['Your POST data is empty may be your video file too big for the host'] = 'Your POST data is empty may be your video file too big for the host';
-$t['Youtube'] = 'Youtube';
+
 $t['about'] = 'about';
 $t['audioOnly'] = 'audioOnly';
 $t['categories'] = 'categories';

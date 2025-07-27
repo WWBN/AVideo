@@ -1567,7 +1567,7 @@ $t['Your video has NOT been saved!'] = 'Your video has NOT been saved!';
 $t['Your video is downloading now'] = 'Your video is downloading now';
 $t['Your videos have NOT been deleted!'] = 'Your videos have NOT been deleted!';
 $t['Your videos have been saved!'] = 'Your videos have been saved!';
-$t['Youtube'] = 'Youtube';
+
 $t['Zip Code'] = 'Zip Code';
 $t['about'] = 'about';
 $t['ago'] = 'ago';

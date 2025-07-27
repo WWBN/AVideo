@@ -1603,7 +1603,7 @@ $t['Your user has NOT been deleted!'] = 'Your user has NOT been deleted!';
 $t['Your user has been deleted!'] = 'Your user has been deleted!';
 $t["Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> "] = "Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> ";
 $t['Your videos have NOT been deleted!'] = 'Your videos have NOT been deleted!';
-$t['Youtube'] = 'Youtube';
+
 $t['always the newest'] = 'always the newest';
 $t['as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.'] = 'as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.';
 $t['d'] = 'd';

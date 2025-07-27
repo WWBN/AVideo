@@ -2222,7 +2222,7 @@ $t['Your video download is complete, it is encoding now'] = 'O download do seu v
 $t['Your video is downloading now'] = 'Seu vídeo está sendo baixado agora';
 $t['Your videos have NOT been deleted!'] = 'Seus vídeos NÃO foram excluídos!';
 $t['Your videos have been saved!'] = 'Seus vídeos foram salvos!';
-$t['Youtube'] = 'Youtube';
+
 $t['about'] = 'sobre';
 $t['arrow'] = 'seta';
 $t['as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools.'] = 'como padrão para ser bem indexado no SearchTube e em outras ferramentas de pesquisa e indexação de rede da plataforma AVideo.';

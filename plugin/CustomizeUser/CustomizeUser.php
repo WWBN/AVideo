@@ -34,8 +34,8 @@ class CustomizeUser extends PluginAbstract
             'youtube' => [
                 'class' => 'icoYoutube',
                 'icon' => 'fab fa-youtube',
-                'label' => __("Youtube"),
-                'placeholder' => __("Youtube URL"),
+                'label' => __("YouTube"),
+                'placeholder' => __("YouTube URL"),
                 'isActive' => true,
             ],
             'instagram' => [

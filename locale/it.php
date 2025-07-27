@@ -1605,7 +1605,7 @@ $t['You can not manager plugin Audit'] = 'You can not manager plugin Audit';
 $t['Your Media is Muted'] = 'Your Media is Muted';
 $t['Your POST data is empty may be your video file too big for the host'] = 'Your POST data is empty may be your video file too big for the host';
 $t['Your User ID'] = 'Il tuo ID utente';
-$t['Youtube'] = 'Youtube';
+
 $t['Zip Code'] = 'Zip Code';
 $t['about'] = 'about';
 $t['audioOnly'] = 'audioOnly';

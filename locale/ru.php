@@ -1646,7 +1646,7 @@ $t['PayPalYPT'] = 'PayPalYPT';
 $t['URL Iframe'] = 'URL Iframe';
 $t['URL'] = 'URL';
 $t['WWBN'] = 'WWBN';
-$t['Youtube'] = 'Youtube';
+
 
 
 // Extras (might belong to a plugin, or might be outdated and not needed anymore; should confirm).
