@@ -1365,6 +1365,10 @@ li.dropdown-submenu>ul>li>a {
     background-color: transparent;
 }
 
+div.swal-overlay div.swal-icon{
+    overflow: hidden;
+}
+
 .swal-modal-iframe-full #avideoModalIframeDiv,
 .swal-modal-iframe-full-with-minimize #avideoModalIframeDiv,
 .swal-modal-iframe-full-transparent #avideoModalIframeDiv {
