@@ -1724,7 +1724,6 @@ $t['Contains some adult material. Parents are urged to learn more about the film
 $t['Update Birth Date'] = 'Atualize a data de nascimento';
 
 $t['Admin Notice: This message is visible only to administrators.'] = 'Aviso do Administrador: Esta mensagem é visível apenas para administradores.';
-$t['YPTWallet configuration will only appear if CryptoWalletEnabled is enabled in the plugin parameters.'] = 'A configuração do YPTWallet só aparecerá se CryptoWalletEnabled estiver ativado nos parâmetros do plugin.';
 $t['If you have an empty configuration menu, please hide this button by checking the hideConfiguration option in the YPTWallet parameters.'] = 'Se você tiver um menu de configuração vazio, por favor, oculte este botão marcando a opção hideConfiguration nos parâmetros do YPTWallet.';
 $t['Admin Notice: PayPal YPT configuration will only appear if enableAutoWithdrawFundsPagePaypal is checked in the plugin parameters.'] = 'Aviso do Administrador: A configuração do PayPal YPT só aparecerá se enableAutoWithdrawFundsPagePaypal estiver marcado nos parâmetros do plugin.';
 $t['Sign In Required'] = 'É necessário fazer login';
