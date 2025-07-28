@@ -919,17 +919,6 @@ class YPTWallet extends PluginAbstract
     public function getWalletConfigurationHTML($users_id, $wallet, $walletDataObject)
     {
         global $global;
-        if (empty($walletDataObject->CryptoWalletEnabled)) {
-            if (User::isAdmin()) {
-                YPTWallet::showAdminMessage();
-                echo '<div class="alert alert-warning" role="alert">
-                    <i class="fa fa-exclamation-triangle"></i>
-                    YPTWallet configuration will only appear if <strong>CryptoWalletEnabled</strong> is enabled in the plugin parameters.
-                    <br>If you have an empty configuration menu, please hide this button by checking the <strong>hideConfiguration</strong> option in the YPTWallet parameters.
-                </div>';
-            }
-            return '';
-        }
         include_once $global['systemRootPath'] . 'plugin/YPTWallet/getWalletConfigurationHTML.php';
     }
 
@@ -984,5 +973,150 @@ class YPTWallet extends PluginAbstract
             return true;
         }
         return false;
+    }
+
+    static function setDonationNotificationURL($users_id, $url)
+    {
+        // Sanitize the URL string for safe database storage
+        $url = trim($url);
+
+        // Remove any null bytes and control characters that could cause issues
+        $url = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $url);
+
+        // HTML encode any special characters to prevent XSS when displayed
+        $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+
+        // Limit length to prevent database issues
+        if (strlen($url) > 2048) {
+            _error_log("URL too long. Maximum 2048 characters allowed");
+            return false;
+        }
+
+        $user = new User($users_id);
+        return $user->addExternalOptions('donation_notification_url', $url);
+    }
+
+    static function getDonationNotificationURL($users_id)
+    {
+        $user = new User($users_id);
+        return $user->getExternalOptions('donation_notification_url');
+    }
+
+
+    public function afterDonation($from_users_id, $how_much, $videos_id, $users_id, $extraParameters)
+    {
+        $donation_notification_url = self::getDonationNotificationURL($users_id);
+        $webhookSecret = self::getDonationNotificationSecret($users_id); // Get user's secret
+
+        $obj = AVideoPlugin::getObjectData('YPTWallet');
+
+        $data = array(
+            'from_users_id' => $from_users_id,
+            'from_users_name' => User::getNameIdentificationById($from_users_id),
+            'currency' => $obj->currency,
+            'how_much_human' => YPTWallet::formatCurrency($how_much),
+            'how_much' => $how_much,
+            'message' => $extraParameters['message'] ?? '',
+            'videos_id' => $videos_id,
+            'users_id' => $users_id,
+            'time' => time(),
+            'extraParameters' => $extraParameters
+        );
+
+        if (!empty($donation_notification_url) && isValidURL($donation_notification_url)) {
+            _error_log("Sending donation notification via POST to URL: {$donation_notification_url} for user ID: {$users_id}");
+
+            // Create POST data string
+            $postData = http_build_query($data);
+
+            // Generate signature using user's webhook secret
+            $signature = hash_hmac('sha256', $postData, $webhookSecret);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $donation_notification_url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+            curl_setopt($ch, CURLOPT_NOSIGNAL, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_USERAGENT, getSelfUserAgent());
+
+            // Add signature to headers
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/x-www-form-urlencoded',
+                'X-Webhook-Signature: sha256=' . $signature,
+                'X-Webhook-Timestamp: ' . $data['time']
+            ));
+
+            // Silent execution
+            ob_start();
+            curl_exec($ch);
+            ob_end_clean();
+            curl_close($ch);
+        } else {
+            _error_log("Donation notification URL is not set or invalid for user ID: {$users_id} " . json_encode($data));
+        }
+    }
+
+    /**
+     * Generate a cryptographically secure random string.
+     * @param int $length
+     * @return string
+     */
+    private static function generateRandomString($length = 32)
+    {
+        if (function_exists('random_bytes')) {
+            return bin2hex(random_bytes($length / 2));
+        } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            return bin2hex(openssl_random_pseudo_bytes($length / 2));
+        } else {
+            // fallback (not cryptographically secure)
+            return substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', $length)), 0, $length);
+        }
+    }
+
+    static function setDonationNotificationSecret($users_id, $secret = null)
+    {
+        // If no secret provided, generate a new one
+        if (empty($secret)) {
+            $secret = self::generateRandomString(32);
+        }
+
+        // Sanitize the secret
+        $secret = trim($secret);
+
+        // Limit length for database safety
+        if (strlen($secret) > 255) {
+            _error_log("Webhook secret too long. Maximum 255 characters allowed");
+            return false;
+        }
+
+        // Remove any dangerous characters
+        $secret = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $secret);
+
+        $user = new User($users_id);
+        return $user->addExternalOptions('donation_notification_secret', $secret);
+    }
+
+    static function getDonationNotificationSecret($users_id)
+    {
+        $user = new User($users_id);
+        $secret = $user->getExternalOptions('donation_notification_secret');
+
+        // If no secret exists, generate one
+        if (empty($secret)) {
+            $secret = self::generateRandomString(32);
+            self::setDonationNotificationSecret($users_id, $secret);
+        }
+
+        return $secret;
+    }
+
+    static function regenerateDonationNotificationSecret($users_id)
+    {
+        $newSecret = self::generateRandomString(32);
+        return self::setDonationNotificationSecret($users_id, $newSecret);
     }
 }

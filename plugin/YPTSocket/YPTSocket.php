@@ -75,9 +75,6 @@ class YPTSocket extends PluginAbstract
             'debugAllUsersSocket',
             'allow_self_signed',
             'forceNonSecure',
-            'showTotalOnlineUsersPerVideo',
-            'showTotalOnlineUsersPerLive',
-            'showTotalOnlineUsersPerLiveLink',
         );
     }
 
