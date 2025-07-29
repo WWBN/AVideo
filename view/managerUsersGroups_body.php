@@ -182,7 +182,8 @@
             }).end().find(".command-channels").on("click", function(e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                window.open(webSiteRootURL + 'channels/' + row.id, '_blank');
+                var channelName = row.group_name ? row.group_name.replace(/[^a-zA-Z0-9]/g, '-') : 'group';
+                window.open(webSiteRootURL + 'channels/' + row.id + '/' + channelName, '_blank');
             });
         });
 

@@ -546,6 +546,15 @@ $tToleranceSide = 0.2;
             if (empty($advancedCustom->removeBrowserChannelPerGroupLinkFromMenu)) {
                 $userGroupsWithChannels = Channel::getUserGroupsWithChannels();
                 if (!empty($userGroupsWithChannels)) {
+                    ?>
+                        <!-- Channels by Group -->
+                        <li>
+                            <hr>
+                        </li>
+                        <li>
+                            <strong class="text-danger hideIfCompressed"><?php echo __($advancedCustom->browserChannelPerGroupLinkFromMenuLabel); ?></strong>
+                        </li>
+                    <?php
                     foreach ($userGroupsWithChannels as $group) {
                         ?>
                         <li>

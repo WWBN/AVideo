@@ -281,6 +281,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
         $obj->removeBrowserChannelPerGroupLinkFromMenu = true;
+        $obj->browserChannelPerGroupLinkFromMenuLabel = 'Channels by Group';
         $obj->EnableMinifyJS = false;
         $obj->disableShareAndPlaylist = false;
         $obj->disableShareOnly = false;
