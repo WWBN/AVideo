@@ -539,14 +539,30 @@ $tToleranceSide = 0.2;
                         </span>
                     </a>
                 </li>
-
-            <?php
+                <?php
             }
             TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
-            ?>
-            <?php
+
+            if (empty($advancedCustom->removeBrowserChannelPerGroupLinkFromMenu)) {
+                $userGroupsWithChannels = Channel::getUserGroupsWithChannels();
+                if (!empty($userGroupsWithChannels)) {
+                    foreach ($userGroupsWithChannels as $group) {
+                        ?>
+                        <li>
+                            <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'channels/<?php echo $group['id']; ?>'); return false;">
+                                <i class="fa fa-users"></i>
+                                <span class="menuLabel">
+                                    <?php echo htmlspecialchars($group['group_name']); ?>
+                                </span>
+                            </a>
+                        </li>
+                        <?php
+                    }
+                }
+            }
+
             if (!empty($avideoLayout->categoriesTopLeftMenu)) {
-            ?>
+                ?>
                 <li>
                     <hr>
                 </li>
@@ -583,7 +599,7 @@ $tToleranceSide = 0.2;
 
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
                     $categories = Category::getAllCategories(false, true, $advancedCustom->CategoryShowOnlySuggested, $sameUserGroupAsMe, true);
-                    if(empty($categories)){
+                    if (empty($categories)) {
                         $categories = array();
                     }
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);

@@ -15,12 +15,21 @@ if (isset($_SESSION['channelName'])) {
     unset($_SESSION['channelName']);
 }
 
-$totalChannels = Channel::getTotalChannels();
+$user_groups_id = intval(@$_REQUEST['user_groups_id']);
+
+// Get user group name if user_groups_id is provided
+$userGroupName = '';
+if (!empty($user_groups_id)) {
+    $userGroup = new UserGroups($user_groups_id);
+    $userGroupName = $userGroup->getGroup_name();
+}
+
+$totalChannels = Channel::getTotalChannels(true, $user_groups_id);
 
 $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
 
 $_REQUEST['rowCount'] = 10;
-$channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
+$channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'", [], $user_groups_id);
 
 $totalPages = ceil($totalChannels / $_REQUEST['rowCount']);
 //var_dump($channels, $totalPages, $totalChannels, $_REQUEST['rowCount']);exit;
@@ -67,11 +76,17 @@ $_page->setExtraStyles(
 <div class="container-fluid">
     <div class="panel panel-default">
         <div class="panel-heading">
+            <?php if (!empty($user_groups_id) && !empty($userGroupName)): ?>
+                <h3 class="panel-title" style="margin-bottom: 10px;">
+                    <i class="fa fa-users"></i> <strong><?php echo htmlspecialchars($userGroupName); ?></strong>
+                </h3>
+            <?php endif; ?>
             <form id="search-form" name="search-form" action="<?php echo $global['webSiteRootURL']; ?>channels" method="get">
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
-                        <input type="search" name="searchPhrase" class="form-control input-lg" placeholder="<?php echo __("Search Channels"); ?>" 
+                        <input type="search" name="searchPhrase" class="form-control input-lg" placeholder="<?php echo __("Search Channels"); ?>"
                         value="<?php echo @htmlentities(@$_GET['searchPhrase']); unsetSearch(); ?>" />
+                        <input type="hidden" name="user_groups_id" value="<?php echo $user_groups_id; ?>" />
                         <span class="input-group-btn">
                             <button class="btn btn-info btn-lg" type="submit">
                                 <i class="glyphicon glyphicon-search"></i>
@@ -87,7 +102,7 @@ $_page->setExtraStyles(
                 User::getChannelPanel($value['id']);
             }
 
-            echo getPagination($totalPages, "{$global['webSiteRootURL']}channels?page=_pageNum_");
+            echo getPagination($totalPages, "{$global['webSiteRootURL']}channels?user_groups_id={$user_groups_id}&page=_pageNum_");
             ?>
         </div>
     </div>

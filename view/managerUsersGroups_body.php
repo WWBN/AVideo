@@ -106,7 +106,8 @@
                 "commands": function(column, row) {
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
                     var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="<?php echo __('Delete'); ?>""><i class="fa fa-trash"></i></button>';
-                    return editBtn + deleteBtn;
+                    var channelsBtn = '<button type="button" class="btn btn-xs btn-default command-channels" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('View Channels'); ?>"><i class="fa fa-tv"></i></button>';
+                    return editBtn + deleteBtn + channelsBtn;
                 }
             }
         }).on("loaded.rs.jquery.bootgrid", function() {
@@ -178,6 +179,10 @@
                             });
                         }
                     });
+            }).end().find(".command-channels").on("click", function(e) {
+                var row_index = $(this).closest('tr').index();
+                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                window.open(webSiteRootURL + 'channels/' + row.id, '_blank');
             });
         });
 

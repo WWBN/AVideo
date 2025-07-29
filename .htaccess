@@ -346,6 +346,7 @@ Options All -Indexes
     RewriteRule    ^channel/([^/]+) view/channel.php?channelName=$1    [QSA]
     RewriteRule    ^channel/?$ view/channel.php    [QSA]
     RewriteRule    ^channels/?$ view/channels.php    [NC,L]
+    RewriteRule    ^channels/([0-9]+)/?$ view/channels.php?user_groups_id=$1    [QSA]
 
 
     # 1. Trending videos
