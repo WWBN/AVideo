@@ -558,7 +558,7 @@ $tToleranceSide = 0.2;
                     foreach ($userGroupsWithChannels as $group) {
                         ?>
                         <li>
-                            <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'channels/<?php echo $group['id']; ?>'); return false;">
+                            <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'channels/<?php echo $group['id']; ?>/<?php echo urlencode($group['group_name']); ?>'); return false;">
                                 <i class="fa fa-users"></i>
                                 <span class="menuLabel">
                                     <?php echo htmlspecialchars($group['group_name']); ?>

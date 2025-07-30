@@ -93,20 +93,20 @@
     $(document).ready(function() {
         var grid = $("#grid").bootgrid({
             labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
-                search: "<?php echo __("Search"); ?>",
+                noResults: __("No results found!"),
+                all: __("All"),
+                infos: __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"),
+                loading: __("Loading..."),
+                refresh: __("Refresh"),
+                search: __("Search"),
             },
             ajax: true,
-            url: "<?php echo $global['webSiteRootURL'] . "objects/usersGroups.json.php"; ?>",
+            url: webSiteRootURL + "objects/usersGroups.json.php",
             formatters: {
                 "commands": function(column, row) {
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
-                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="<?php echo __('Delete'); ?>""><i class="fa fa-trash"></i></button>';
-                    var channelsBtn = '<button type="button" class="btn btn-xs btn-default command-channels" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('View Channels'); ?>"><i class="fa fa-tv"></i></button>';
+                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="' + __('Edit') + '"><i class="fa-solid fa-pen-to-square"></i></button>'
+                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="' + __('Delete') + '"><i class="fa fa-trash"></i></button>';
+                    var channelsBtn = '<button type="button" class="btn btn-xs btn-default command-channels" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="' + __('View Channels') + '"><i class="fa fa-tv"></i></button>';
                     return editBtn + deleteBtn + channelsBtn;
                 }
             }
@@ -119,7 +119,6 @@
 
                 $('#inputUserGroupsId').val(row.id);
                 $('#inputName').val(row.group_name);
-
 
                 modal.showPleaseWait();
                 $.ajax({
@@ -145,21 +144,19 @@
                     }
                 });
 
-
             }).end().find(".command-delete").on("click", function(e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
 
                 swal({
-                        title: "<?php echo __("Are you sure?"); ?>",
-                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                        title: __("Are you sure?"),
+                        text: __("You will not be able to recover this action!"),
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
                     })
                     .then(function(willDelete) {
                         if (willDelete) {
-
                             modal.showPleaseWait();
                             $.ajax({
                                 url: webSiteRootURL + 'objects/userGroupsDelete.json.php',
@@ -170,9 +167,9 @@
                                 success: function(response) {
                                     if (response.status === "1") {
                                         $("#grid").bootgrid("reload");
-                                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your group has been deleted!"); ?>", "success");
+                                        avideoAlertSuccess(__("Your group has been deleted!"));
                                     } else {
-                                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your group has NOT been deleted!"); ?>", "error");
+                                        avideoAlertError(__("Your group has NOT been deleted!"));
                                     }
                                     modal.hidePleaseWait();
                                 }
@@ -182,7 +179,7 @@
             }).end().find(".command-channels").on("click", function(e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                var channelName = row.group_name ? row.group_name.replace(/[^a-zA-Z0-9]/g, '-') : 'group';
+                var channelName = row.group_name ? encodeURIComponent(row.group_name) : '';
                 window.open(webSiteRootURL + 'channels/' + row.id + '/' + channelName, '_blank');
             });
         });
@@ -194,7 +191,6 @@
             $("#updateUserGroupsForm").trigger("reset");
             $(".permissions").prop("checked", false);
             $('#groupFormModal').modal();
-
         });
 
         $('#saveUserGroupsBtn').click(function(evt) {
@@ -205,16 +201,16 @@
             evt.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL'] . "objects/userGroupsAddNew.json.php"; ?>',
+                url: webSiteRootURL + "objects/userGroupsAddNew.json.php",
                 data: $(this).serialize(),
                 type: 'post',
                 success: function(response) {
                     if (response.status) {
                         $('#groupFormModal').modal('hide');
                         $("#grid").bootgrid("reload");
-                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your group has been saved!"); ?>", "success");
+                        avideoAlertSuccess(__("Your group has been saved!"));
                     } else {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your group has NOT been saved!"); ?>", "error");
+                        avideoAlertError(__("Your group has NOT been saved!"));
                     }
                     modal.hidePleaseWait();
                 }
