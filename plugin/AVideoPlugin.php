@@ -2097,6 +2097,7 @@ class AVideoPlugin
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                $r .= '/* getManagerVideosEdit ' . $value['dirName'] . '*/'.PHP_EOL;
                 $r .= $p->getManagerVideosEdit();
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);

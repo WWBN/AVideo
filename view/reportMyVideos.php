@@ -1,3 +1,6 @@
+<script src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>" type="text/javascript"></script>
+<link href="<?php echo getURL('view/css/DataTables/datatables.min.css'); ?>" rel="stylesheet" type="text/css" />
+
 <div class="row">
     <div class="form-group col-sm-3">
         <label for="datefromVideosRep" class="col-sm-2 col-form-label"><?php echo __('From'); ?>:</label>

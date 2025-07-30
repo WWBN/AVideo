@@ -798,7 +798,7 @@ class VideoStatistic extends ObjectYPT
 
         $users_id = intval($users_id);
 
-        $sql = "SELECT distinct(s.videos_id) as videos_id, title, filename, type FROM  " . static::getTableName() . " s LEFT JOIN videos v ON s.videos_id = v.id WHERE 1=1 ";
+        $sql = "SELECT distinct(s.videos_id) as videos_id, title, filename, type, v.externalOptions FROM  " . static::getTableName() . " s LEFT JOIN videos v ON s.videos_id = v.id WHERE 1=1 ";
 
         $formats = '';
         $values = [];
