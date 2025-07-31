@@ -171,7 +171,8 @@ function rrmdirCommandLine($dir, $async = false)
 
 
 // Add this function to handle secure ZIP extraction
-function secureUnzipDirectory($zipFile, $destination) {
+function secureUnzipDirectory($zipFile, $destination)
+{
     global $obj;
 
     // Create lock file to prevent race conditions
@@ -242,7 +243,7 @@ function secureUnzipDirectory($zipFile, $destination) {
             if ($file->isFile()) {
                 $extension = strtolower($file->getExtension());
                 if (in_array($extension, $allowedExtensions)) {
-                    $relativePath = str_replace($tempDir . DIRECTORY_SEPARATOR, '', $file->getPathname());
+                    $relativePath = $file->getSubPathName();
                     $destPath = $destination . DIRECTORY_SEPARATOR . $relativePath;
 
                     // Create directory if needed
@@ -263,7 +264,6 @@ function secureUnzipDirectory($zipFile, $destination) {
         removeDirectory($tempDir);
 
         return true;
-
     } catch (Exception $e) {
         __errlog("Secure unzip failed: " . $e->getMessage());
         // Clean up temporary directory if it exists
@@ -280,7 +280,8 @@ function secureUnzipDirectory($zipFile, $destination) {
 }
 
 // Add helper function to remove directory recursively
-function removeDirectory($dir) {
+function removeDirectory($dir)
+{
     if (!is_dir($dir)) {
         return;
     }
@@ -504,7 +505,7 @@ function isPortOpenExternal($port, $timeout = 10)
         if (!empty($json)) {
             $isPortOpenExternalResponse = $json;
             $resp = $json->ports[0]->isOpen;
-            if($resp){
+            if ($resp) {
                 return true;
             }
         }
@@ -549,14 +550,15 @@ function getPIDUsingPort($port)
     return false;
 }
 
-function killProcessRuningOnPort($port) {
+function killProcessRuningOnPort($port)
+{
     if (!empty($port)) {
         _error_log('Searching for port: ' . $port);
         //$command = 'netstat -ano | findstr ' . $port;
         //exec($command, $output, $retval);
         $pid = getPIDUsingPort($port);
         if (!empty($pid)) {
-            _error_log('Server is already runing on port '.$port.' Killing, PID ' . $pid);
+            _error_log('Server is already runing on port ' . $port . ' Killing, PID ' . $pid);
             killProcess($pid);
         } else {
             _error_log('No Need to kill, port NOT found');
@@ -653,7 +655,7 @@ function execAsync($command, $keyword = null)
         } else {
             $commandWithKeyword = "nohup sh -c \"$command & echo \\$!\" > /dev/null 2>&1 &";
         }
-        _error_log('execAsync Linux: ' . $commandWithKeyword . ' ['. $_SERVER['HTTP_USER_AGENT'] . '] ['. getRealIpAddr() . '] ');
+        _error_log('execAsync Linux: ' . $commandWithKeyword . ' [' . $_SERVER['HTTP_USER_AGENT'] . '] [' . getRealIpAddr() . '] ');
         exec($commandWithKeyword, $output, $retval);
         _error_log('Command output: ' . json_encode($output));
         _error_log('Return value: ' . $retval);
@@ -817,7 +819,8 @@ function isProcessOlderThan($pid, $ageInSeconds)
     return false;
 }
 
-function setServerTimezone(){
+function setServerTimezone()
+{
     $tz = trim(exec('cat /etc/timezone')); // Debian/Ubuntu
 
     // fallback
