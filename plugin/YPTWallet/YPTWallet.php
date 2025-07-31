@@ -1007,7 +1007,7 @@ class YPTWallet extends PluginAbstract
 
     public function afterDonation($from_users_id, $how_much, $videos_id, $users_id, $extraParameters)
     {
-        $$extraParameters = object_to_array($extraParameters);
+        $extraParameters = object_to_array($extraParameters);
         $donation_notification_url = self::getDonationNotificationURL($users_id);
         $webhookSecret = self::getDonationNotificationSecret($users_id); // Get user's secret
 
