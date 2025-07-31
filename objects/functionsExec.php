@@ -184,8 +184,8 @@ function secureUnzipDirectory($zipFile, $destination) {
 
     try {
         // Create temporary directory for extraction
-        $tempDir = getTmpDir('/avideo_' . uniqid());
-        if (!mkdir($tempDir, 0755, true)) {
+        $tempDir = getTmpDir('avideo_' . uniqid());
+        if (!is_dir($tempDir) && !mkdir($tempDir, 0755, true)) {
             throw new Exception("Could not create temporary directory {$tempDir}");
         }
 
