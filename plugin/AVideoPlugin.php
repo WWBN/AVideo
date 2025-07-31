@@ -941,7 +941,7 @@ class AVideoPlugin
                         'msg' => $global['lastBeforeSaveVideoMessage']
                     ];
                 }else{
-                    _error_log('AVideoPlugin::beforeSaveVideo ' .  $value['dirName'] . ' ' . $result['msg']);
+                    // _error_log('AVideoPlugin::beforeSaveVideo ' .  $value['dirName'] . ' ' . $result['msg']);
                 }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
