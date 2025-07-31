@@ -169,35 +169,36 @@ function rrmdirCommandLine($dir, $async = false)
     }
 }
 
-
 // Add this function to handle secure ZIP extraction
 function secureUnzipDirectory($zipFile, $destination)
 {
     global $obj;
 
+    error_log("[secureUnzipDirectory] Starting unzip for file: $zipFile");
+
     // Create lock file to prevent race conditions
     $lockFile = $destination . '.lock';
     $fp = fopen($lockFile, 'w');
     if (!flock($fp, LOCK_EX)) {
-        __errlog("Could not acquire lock for ZIP extraction");
+        error_log("[secureUnzipDirectory] Could not acquire lock for ZIP extraction");
         return false;
     }
 
     try {
-        // Create temporary directory for extraction
         $tempDir = getTmpDir('avideo_' . uniqid());
+        error_log("[secureUnzipDirectory] Temporary directory created: $tempDir");
+
         if (!is_dir($tempDir) && !mkdir($tempDir, 0755, true)) {
             throw new Exception("Could not create temporary directory {$tempDir}");
         }
 
-        // Extract to temporary directory first
         $zip = new ZipArchive();
         $result = $zip->open($zipFile);
         if ($result !== TRUE) {
             throw new Exception("Could not open ZIP file: " . $result);
         }
+        error_log("[secureUnzipDirectory] ZIP file opened successfully");
 
-        // Validate each file in the ZIP before extraction
         $allowedExtensions = ['key', 'm3u8', 'ts', 'vtt', 'jpg', 'gif', 'mp3', 'webm', 'webp', 'mp4', 'avi', 'mov', 'flv', 'mkv', 'ogg', 'ogv', 'wav', 'aac', 'mpg', 'mpeg', 'zip', 'txt', 'json', 'xml', 'html', 'css', 'js', 'png', 'svg'];
         $dangerousExtensions = ['php', 'phar', 'phtml', 'php3', 'php4', 'php5', 'inc', 'htaccess', 'htpasswd', 'sh', 'bat', 'exe', 'dll', 'so', 'py', 'rb', 'pl', 'jar', 'class', 'asp', 'aspx', 'jsp', 'jspx', 'cfm', 'cfml', 'cshtml', 'vbhtml', 'cer', 'cerx', 'cgi', 'fcgi', 'rbx', 'pyc', 'pyo', 'swf', 'xap', 'jar', 'war', 'ear', 'apk', 'appx', 'msix', 'deb', 'rpm', 'dmg', 'iso', 'bin', 'cmd', 'com', 'cpl', 'msc', 'msp'];
 
@@ -205,77 +206,80 @@ function secureUnzipDirectory($zipFile, $destination)
             $fileInfo = $zip->statIndex($i);
             $fileName = $fileInfo['name'];
 
-            // Check for path traversal attempts
-            if (strpos($fileName, '..') !== false || strpos($fileName, '/') === 0) {
+            if (strpos($fileName, '..') !== false || strpos($fileName, '/') === 0 || strpos($fileName, '\\') !== false) {
                 $zip->close();
                 throw new Exception("Path traversal attempt detected: " . $fileName);
             }
 
-            // Check file extension
             $extension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
             if (in_array($extension, $dangerousExtensions)) {
                 $zip->close();
                 throw new Exception("Dangerous file extension detected: " . $fileName);
             }
 
-            // Only allow whitelisted extensions
             if (!empty($extension) && !in_array($extension, $allowedExtensions)) {
                 $zip->close();
                 throw new Exception("File extension not allowed: " . $fileName);
             }
+
+            error_log("[secureUnzipDirectory] File validated: $fileName");
         }
 
-        // Extract to temporary directory
         $zip->extractTo($tempDir);
         $zip->close();
+        error_log("[secureUnzipDirectory] Files extracted to temporary folder");
 
-        // Ensure destination directory exists
         if (!is_dir($destination)) {
             mkdir($destination, 0755, true);
+            error_log("[secureUnzipDirectory] Destination directory created: $destination");
         }
 
-        // Move only safe files to final destination
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($tempDir, RecursiveDirectoryIterator::SKIP_DOTS)
+            new RecursiveDirectoryIterator($tempDir, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
         );
 
         foreach ($iterator as $file) {
             if ($file->isFile()) {
                 $extension = strtolower($file->getExtension());
                 if (in_array($extension, $allowedExtensions)) {
-                    $relativePath = $file->getSubPathName();
+                    $absolutePath = $file->getPathname();
+                    $relativePath = str_replace($tempDir, '', $absolutePath);
+                    $relativePath = ltrim($relativePath, DIRECTORY_SEPARATOR);
                     $destPath = $destination . DIRECTORY_SEPARATOR . $relativePath;
 
-                    // Create directory if needed
                     $destDir = dirname($destPath);
                     if (!is_dir($destDir)) {
                         mkdir($destDir, 0755, true);
+                        error_log("[secureUnzipDirectory] Created subdirectory: $destDir");
                     }
 
-                    // Move file
-                    if (!rename($file->getPathname(), $destPath)) {
+                    if (!rename($absolutePath, $destPath)) {
                         throw new Exception("Could not move file: " . $relativePath);
                     }
+                    error_log("[secureUnzipDirectory] Moved file: $relativePath");
                 }
             }
         }
 
-        // Clean up temporary directory
         removeDirectory($tempDir);
+        error_log("[secureUnzipDirectory] Temporary directory cleaned up");
 
         return true;
     } catch (Exception $e) {
-        __errlog("Secure unzip failed: " . $e->getMessage());
-        // Clean up temporary directory if it exists
+        error_log("[secureUnzipDirectory] Error: " . $e->getMessage());
         if (isset($tempDir) && is_dir($tempDir)) {
             removeDirectory($tempDir);
+            error_log("[secureUnzipDirectory] Cleaned up tempDir after error");
         }
         return false;
     } finally {
-        // Always release the lock
         flock($fp, LOCK_UN);
         fclose($fp);
-        unlink($lockFile);
+        if (file_exists($lockFile)) {
+            unlink($lockFile);
+        }
+        error_log("[secureUnzipDirectory] Lock released and finished process");
     }
 }
 
