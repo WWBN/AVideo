@@ -16,6 +16,17 @@ $_page = new Page(array('Transfer Funds'));
         color: #EEE;
         font-weight: bolder;
     }
+
+    /* Add visual feedback styles */
+    .has-success {
+        border-color: #5cb85c !important;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #67b168 !important;
+    }
+
+    .user-selected {
+        background-color: #dff0d8;
+        border-color: #5cb85c;
+    }
 </style>
 <div class="container">
     <div class="row">
@@ -57,13 +68,13 @@ $_page = new Page(array('Transfer Funds'));
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="value"><?php echo __("Transfer Funds"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
-                                    <input type="number" name="value" id="value" placeholder="<?php echo __("Total Amount"); ?>">
+                                    <input type="number" name="value" id="value" placeholder="<?php echo __("Total Amount"); ?>"  class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="users_name"><i class="fa fa-user"></i> <?php echo __("Transfer Funds to"); ?></label>
-                                    <input type="text" id="users_name" placeholder="<?php echo __("Username or Email"); ?>">
+                                    <input type="text" id="users_name" placeholder="<?php echo __("Username or Email"); ?>" class="form-control">
                                     <input type="hidden" name="users_id" id="users_id">
                                 </div>
                             </div>
@@ -105,41 +116,60 @@ $_page = new Page(array('Transfer Funds'));
     $(document).ready(function() {
         $('#transferNow').click(function() {
 
-            swal({
-                    title: "<?php echo __("Are you sure?"); ?>",
-                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then(function(willDelete) {
-                    if (willDelete) {
+            // Add validation before showing confirmation
+            var usersId = $('#users_id').val();
+            var users_name = $('#users_name').val();
+            var value = $('#value').val();
 
-                        modal.showPleaseWait();
-                        $.ajax({
-                            url: webSiteRootURL+'plugin/YPTWallet/view/transferFunds.json.php',
-                            data: {
-                                "value": $('#value').val(),
-                                "users_id": $('#users_id').val(),
-                                "captcha": <?php echo $capcha['captchaText']; ?>
-                            },
-                            type: 'post',
-                            success: function(response) {
-                                $(".walletBalance").text(response.walletBalance);
-                                modal.hidePleaseWait();
-                                if (response.error) {
-                                    setTimeout(function() {
-                                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                                    }, 500);
-                                } else {
-                                    setTimeout(function() {
-                                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Funds successfully transferred"); ?>", "success");
-                                    }, 500);
-                                }
+            if (!usersId || usersId === '') {
+                avideoAlertError(__("Please select a valid user to transfer funds to"));
+                return false;
+            }
+
+            if (!users_name || users_name.trim() === '') {
+                avideoAlertError(__("Please enter a valid username or email"));
+                return false;
+            }
+
+            if (!value || parseFloat(value) <= 0) {
+                avideoAlertError(__("Please enter a valid amount to transfer"));
+                return false;
+            }
+
+            swal({
+                title: __("Are you sure?"),
+                text: __("You will transfer") + " " + value + " " + "<?php echo $obj->currency_symbol; ?>" + " " + __("to") + " " + $('#users_name').val(),
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(function(willDelete) {
+                if (willDelete) {
+                    modal.showPleaseWait();
+                    $.ajax({
+                        url: webSiteRootURL+'plugin/YPTWallet/view/transferFunds.json.php',
+                        data: {
+                            "value": $('#value').val(),
+                            "users_id": $('#users_id').val(),
+                            "captcha": <?php echo $capcha['captchaText']; ?>
+                        },
+                        type: 'post',
+                        success: function(response) {
+                            $(".walletBalance").text(response.walletBalance);
+                            modal.hidePleaseWait();
+                            if (response.error) {
+                                setTimeout(function() {
+                                    avideoAlertError(response.msg);
+                                }, 500);
+                            } else {
+                                setTimeout(function() {
+                                    avideoAlertSuccess(__("Funds successfully transferred"));
+                                }, 500);
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                }
+            });
         });
 
         $("#users_name").autocomplete({
@@ -172,6 +202,27 @@ $_page = new Page(array('Transfer Funds'));
             html = html.replace(new RegExp("{identification}", 'g'), item.identification);
             return $("<li>").append(html).appendTo(ul);
         };
+
+        // Debug function to test autocomplete
+        function testAutocomplete() {
+            console.log("Testing autocomplete...");
+            $.ajax({
+                url: webSiteRootURL+'plugin/YPTWallet/view/users.json.php',
+                type: "POST",
+                data: {
+                    searchPhrase: 'admin'
+                },
+                success: function(data) {
+                    console.log("Autocomplete test response:", data);
+                },
+                error: function(xhr, status, error) {
+                    console.log("Autocomplete test error:", error);
+                }
+            });
+        }
+
+        // Test autocomplete on page load
+        testAutocomplete();
     });
 </script>
 <?php
