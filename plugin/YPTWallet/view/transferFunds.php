@@ -138,7 +138,7 @@ $_page = new Page(array('Transfer Funds'));
 
             swal({
                 title: __("Are you sure?"),
-                text: __("You will transfer") + " " + value + " " + "<?php echo $obj->currency_symbol; ?>" + " " + __("to") + " " + $('#users_name').val(),
+                text: __("You will transfer") + " " + value + " " + "<?php echo $obj->currency_symbol; ?>" + " " + __("to") + " " + users_name,
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
