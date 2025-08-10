@@ -52,6 +52,7 @@ foreach ($scanVars as $value) {
 
         // Sanitize the URL for safe output (escaping <, >, ", ')
         $scanThis[$paramName] = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+        $scanThis[$paramName] = str_replace(['&amp;'], ['&'], trim($scanThis[$paramName]));
     }
 
 
