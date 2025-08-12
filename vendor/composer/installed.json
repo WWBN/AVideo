@@ -1609,8 +1609,8 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.403.0",
-            "version_normalized": "0.403.0.0",
+            "version": "v0.407.0",
+            "version_normalized": "0.407.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
@@ -1650,7 +1650,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.403.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.407.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -2769,17 +2769,17 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.4.0",
-            "version_normalized": "5.4.0.0",
+            "version": "v5.6.0",
+            "version_normalized": "5.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494"
+                "reference": "221b0d0fdf1369c71047ad1d18bb5880017bbc56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/447a020a1f875a434d62f2a401f53b82a396e494",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/221b0d0fdf1369c71047ad1d18bb5880017bbc56",
+                "reference": "221b0d0fdf1369c71047ad1d18bb5880017bbc56",
                 "shasum": ""
             },
             "require": {
@@ -2792,7 +2792,7 @@
                 "ircmaxell/php-yacc": "^0.0.7",
                 "phpunit/phpunit": "^9.0"
             },
-            "time": "2024-12-30T11:07:19+00:00",
+            "time": "2025-07-27T20:03:57+00:00",
             "bin": [
                 "bin/php-parse"
             ],
@@ -2824,7 +2824,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.4.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.6.0"
             },
             "install-path": "../nikic/php-parser"
         },
@@ -6541,17 +6541,17 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v17.4.0",
-            "version_normalized": "17.4.0.0",
+            "version": "v17.5.0",
+            "version_normalized": "17.5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "893946057e43b145826b0dfd7f398673e381e2ae"
+                "reference": "313c7e3ed6af1d6948dc4262d2b9c6ee6b30394b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/893946057e43b145826b0dfd7f398673e381e2ae",
-                "reference": "893946057e43b145826b0dfd7f398673e381e2ae",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/313c7e3ed6af1d6948dc4262d2b9c6ee6b30394b",
+                "reference": "313c7e3ed6af1d6948dc4262d2b9c6ee6b30394b",
                 "shasum": ""
             },
             "require": {
@@ -6565,7 +6565,7 @@
                 "phpstan/phpstan": "^1.2",
                 "phpunit/phpunit": "^5.7 || ^9.0"
             },
-            "time": "2025-07-01T20:23:15+00:00",
+            "time": "2025-07-30T17:16:57+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6597,7 +6597,7 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v17.4.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v17.5.0"
             },
             "install-path": "../stripe/stripe-php"
         },
@@ -8767,17 +8767,17 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "5.1.3",
-            "version_normalized": "5.1.3.0",
+            "version": "5.2.0",
+            "version_normalized": "5.2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "b8ba6bd99805c0ae09a38d1b26c1c92820509bd0"
+                "reference": "b82e160f9dcc9c5c5e59bf9a4904ed4a8ffa86a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/b8ba6bd99805c0ae09a38d1b26c1c92820509bd0",
-                "reference": "b8ba6bd99805c0ae09a38d1b26c1c92820509bd0",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/b82e160f9dcc9c5c5e59bf9a4904ed4a8ffa86a4",
+                "reference": "b82e160f9dcc9c5c5e59bf9a4904ed4a8ffa86a4",
                 "shasum": ""
             },
             "require": {
@@ -8804,7 +8804,7 @@
             "suggest": {
                 "doctrine/annotations": "^2.0"
             },
-            "time": "2025-05-20T03:35:10+00:00",
+            "time": "2025-08-11T04:26:13+00:00",
             "bin": [
                 "bin/openapi"
             ],
@@ -8850,7 +8850,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/5.1.3"
+                "source": "https://github.com/zircote/swagger-php/tree/5.2.0"
             },
             "install-path": "../zircote/swagger-php"
         }

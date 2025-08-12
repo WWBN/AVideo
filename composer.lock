@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fdd19e7ad363174560e7b354dd7bb15",
+    "content-hash": "f2898aa31a620c9a3520dad99305272d",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -2781,6 +2781,7 @@
                 "issues": "https://github.com/paypal/paypalhttp_php/issues",
                 "source": "https://github.com/paypal/paypalhttp_php/tree/1.0.1"
             },
+            "abandoned": true,
             "time": "2021-09-14T21:35:26+00:00"
         },
         {
@@ -8495,7 +8496,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -8503,9 +8504,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

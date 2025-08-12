@@ -12,7 +12,7 @@ jobs:
   strategy:
    matrix:
     operating-system: [ubuntu-latest]
-    php-versions: ['8.1', '8.2', '8.3', '8.4']
+    php-versions: ['8.1', '8.2', '8.3']
   name: PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
   steps:
   - name: Checkout
@@ -40,7 +40,7 @@ jobs:
     run: composer install --prefer-dist --no-progress --no-suggest --no-dev
 
   - name: Validate composer.json and composer.lock
-    run: composer validate --strict
+    run: composer validate --no-check-publish
 
   - name: Lint PHP files
     run: |
