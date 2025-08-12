@@ -110,16 +110,19 @@ if ($forceRecreate || empty($channelsList)) {
                     $channels[$key]['epgData'] = array();
                     foreach ($epgData as $key2 => $program) {
                         if ($program['channel'] != $value['id']) {
+                            _error_log("EPG program channel mismatch: {$program['channel']} != {$value['id']}");
                             continue;
                         }
                         // do not process the same start date
                         if(in_array($program['start'], $usedStartDate)){
+                            _error_log("EPG program start date already processed: {$program['start']}");
                             continue;
                         }
                         $usedStartDate[] = $program['start'];
                         $timeWillStart = strtotime($program['start']);
                         if ($timeWillStart > $_MaxDaysFromNow) {
                             unset($epgData[$key2]);
+                            _error_log("EPG program start time exceeds max limit: {$program['start']}");
                             continue;
                         }
                         $minutes = getDurationInMinutes(date('Y-m-d 00:00:00'), $program['stop']);
