@@ -12,7 +12,7 @@ jobs:
   strategy:
    matrix:
     operating-system: [ubuntu-latest]
-    php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4']
+    php-versions: ['8.1', '8.2', '8.3', '8.4']
   name: PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
   steps:
   - name: Checkout
@@ -22,13 +22,29 @@ jobs:
     uses: shivammathur/setup-php@v2
     with:
      php-version: ${{ matrix.php-versions }}
-     extensions: pcre
+     extensions: pcre, mbstring, xml, curl, gd, mysql, zip, intl # Added common extensions
+     coverage: none # Disable coverage for faster builds
+
+  - name: Get composer cache directory
+    id: composer-cache
+    run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+  - name: Cache composer dependencies
+    uses: actions/cache@v3
+    with:
+      path: ${{ steps.composer-cache.outputs.dir }}
+      key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+      restore-keys: ${{ runner.os }}-composer-
+
+  - name: Install dependencies
+    run: composer install --prefer-dist --no-progress --no-suggest --no-dev
 
   - name: Validate composer.json and composer.lock
-    run: composer validate
+    run: composer validate --strict
 
-  - name: Lint
+  - name: Lint PHP files
     run: |
+     set -e # Exit on any error
      lintPaths=()
      lintPaths+=("${GITHUB_WORKSPACE}/admin")
      lintPaths+=("${GITHUB_WORKSPACE}/feed")
@@ -37,18 +53,18 @@ jobs:
      lintPaths+=("${GITHUB_WORKSPACE}/objects")
      lintPaths+=("${GITHUB_WORKSPACE}/view")
      lintPaths+=("${GITHUB_WORKSPACE}/index.php")
+
+     echo "Starting PHP lint check..."
      for lintPath in "${lintPaths[@]}"
      do
-     for file in `find "$lintPath"`
-     do
-     EXTENSION="${file##*.}"
-     if [ "$EXTENSION" == "php" ] || [ "$EXTENSION" == "phtml" ]
-     then
-     RESULTS=`php -l "$file"`
-     if [ "$RESULTS" != "No syntax errors detected in $file" ]
-     then
-     echo $RESULTS
-     fi
-     fi
+       if [ -e "$lintPath" ]; then
+         echo "Checking: $lintPath"
+         find "$lintPath" -name "*.php" -o -name "*.phtml" | while read -r file
+         do
+           php -l "$file" || exit 1
+         done
+       else
+         echo "Warning: Path $lintPath does not exist"
+       fi
      done
-     done
+     echo "PHP lint check completed successfully!"
