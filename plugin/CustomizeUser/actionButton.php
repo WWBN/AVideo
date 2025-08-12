@@ -37,7 +37,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                 border-width: 1px;
             }
         </style>
-        <button class="btn btn-success no-outline" onclick="openDonationMoodal<?php echo $uid; ?>();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __($obj->donationWalletButtonLabel); ?>">
+        <button class="btn btn-success no-outline donationButton" onclick="openDonationMoodal<?php echo $uid; ?>();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __($obj->donationWalletButtonLabel); ?>">
             <i class="fas fa-donate"></i> <small class="hidden-sm hidden-xs"><?php echo __($obj->donationWalletButtonLabel); ?></small>
         </button>
         <div id="donationModal<?php echo $uid; ?>" class="modal fade" tabindex="-1" role="dialog">
