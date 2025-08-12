@@ -146,7 +146,7 @@ if ($forceRecreate || empty($channelsList)) {
                     }
                 }
                 $file = setEPGCache($programCacheName, $channelsList);
-                _error_log("EPG program cache created videos_id={$this_videos_id} " . json_encode($file));
+                _error_log("EPG program cache created videos_id={$this_videos_id} {$programCacheName}" . json_encode($file));
             } catch (Exception $e) {
                 $error = new \RuntimeException($e);
                 $eMessage = "{$epg['title']}: videos_id={$this_videos_id} epg_link={$epg['epg_link']} ";
