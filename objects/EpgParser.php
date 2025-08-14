@@ -98,7 +98,7 @@ class EpgParser {
      * Parse the date from string in posible formats.
      */
     public function getDate(string $date) {
-
+        $date = str_replace(' 0000', ' +0000', $date);
         try {
             $dt = \DateTime::createFromFormat('YmdHis P', $date, new DateTimeZone('UTC'));
             $dt->setTimezone(new DateTimeZone($this->targetTimeZone));
