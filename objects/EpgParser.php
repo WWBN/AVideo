@@ -15,7 +15,7 @@ class EpgParser {
     private $content;
     //	for temporary file if from content or from url.
     private $isTemp;
-    public $temp_dir = '/tmp'; //unix, change this for windows.
+    public $temp_dir; // Will be set to system temp directory in constructor
     //	channel settings
     private $channels;
     private $channels_groupby = '@id';
@@ -32,6 +32,7 @@ class EpgParser {
 
     public function __construct() {
         $this->targetTimeZone = \date_default_timezone_get();
+        $this->temp_dir = sys_get_temp_dir();
     }
 
     /**
@@ -358,13 +359,14 @@ class EpgParser {
      */
     public function saveTemp(): void {
         if (empty($this->temp_dir)) {
-            $this->temp_dir = '/tmp/';
+            // Use system temp directory - cross-platform compatible
+            $this->temp_dir = sys_get_temp_dir();
         }
 
         $length = 15;
         $filename = substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
 
-        $this->file = $this->temp_dir . '/' . $filename . '.xml';
+        $this->file = $this->temp_dir . DIRECTORY_SEPARATOR . $filename . '.xml';
 
         if (!\file_put_contents($this->file, $this->content)) {
             throw new \RuntimeException("Writing to {$this->file} is not possible.");
@@ -380,12 +382,32 @@ class EpgParser {
      */
     public function checkXml() {
         libxml_use_internal_errors(true);
+
+        // Handle encoding mismatch issues (UTF-16 declaration with UTF-8 content)
+        $content = $this->content;
+
+        // Check if content declares UTF-16 but is actually UTF-8
+        if (preg_match('/encoding=["\']UTF-16["\']/', $content) && mb_check_encoding($content, 'UTF-8')) {
+            // Replace UTF-16 declaration with UTF-8
+            $content = preg_replace('/encoding=["\']UTF-16["\']/', 'encoding="UTF-8"', $content);
+            $this->content = $content;
+        }
+
         $doc = simplexml_load_string($this->content);
         if (!$doc) {
             $errors = libxml_get_errors();
-            @$errors = $errors[0];
-
-            throw new \RuntimeException("Content of this request its not XML: ");
+            if (!empty($errors)) {
+                $error = $errors[0];
+                $errorMsg = "XML parsing error: {$error->message} at line {$error->line}, column {$error->column}";
+                if ($this->onError && is_callable($this->onError)) {
+                    call_user_func($this->onError, $errorMsg, $error);
+                }
+                throw new \RuntimeException($errorMsg);
+            } else {
+                throw new \RuntimeException("Content of this request is not valid XML");
+            }
         }
+
+        libxml_clear_errors();
     }
 }
