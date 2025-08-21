@@ -162,6 +162,7 @@ if (empty($playListData)) {
             exit;
         }
     }
+    _error_log("The program is empty ".json_encode($messagesFromPlayList));
     forbiddenPage(__("The program is empty"));
 }
 
