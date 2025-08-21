@@ -59,7 +59,7 @@ foreach ($playList as $key => $value) {
     }
 
     TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
-    if ($oldValue['type'] === 'serie' && !empty($oldValue['serie_playlists_id'])) {
+    if ($oldValue['type'] === Video::$videoTypeSerie && !empty($oldValue['serie_playlists_id'])) {
         $subPlayList = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
         TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         foreach ($subPlayList as $value) {
@@ -77,7 +77,7 @@ foreach ($playList as $key => $value) {
 
             $playListSources = array();
             foreach ($sources as $value2) {
-                if ($value2['type'] !== 'video' && $value2['type'] !== 'audio') {
+                if ($value2['type'] !== Video::$videoTypeVideo && $value2['type'] !== Video::$videoTypeAudio) {
                     continue;
                 }
                 $playListSources[] = new playListSource($value2['url'], $value2['videos_id']);

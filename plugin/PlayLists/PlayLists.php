@@ -1306,6 +1306,7 @@ class PlayListPlayer
 
     private function fixRows($playList)
     {
+        global $messagesFromPlayList;
         $videos = array();
         foreach ($playList as $key => $value) {
             $videos[$key] = $value;
@@ -1314,6 +1315,7 @@ class PlayListPlayer
             }
             if (!$this->isAdmin && !Video::userGroupAndVideoGroupMatch($this->users_id, $videos[$key]['id'])) {
                 unset($videos[$key]);
+                $messagesFromPlayList[] = "userGroupAndVideoGroupMatch({$this->users_id}, {$videos[$key]['id']})";
                 continue;
             }
             if (!empty($this->playlists_id)) {
