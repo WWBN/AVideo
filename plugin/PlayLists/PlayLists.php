@@ -1331,15 +1331,12 @@ class PlayListPlayer
         $videos = array();
         foreach ($playList as $key => $value) {
             $videos[$key] = $value;
-            if (empty($videos[$key]['id'])) {
-                _error_log("The program is empty videos[$key] " . json_encode($value));
-            }
             if (!empty($value['videos_id'])) {
                 $videos[$key]['id'] = $value['videos_id'];
             }
             if (!$this->isAdmin && !Video::userGroupAndVideoGroupMatch($this->users_id, $videos[$key]['id'])) {
-                unset($videos[$key]);
                 $messagesFromPlayList[] = "userGroupAndVideoGroupMatch({$this->users_id}, {$videos[$key]['id']})";
+                unset($videos[$key]);
                 continue;
             }
             if (!empty($this->playlists_id)) {
