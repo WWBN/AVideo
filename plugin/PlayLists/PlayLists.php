@@ -768,18 +768,28 @@ class PlayLists extends PluginAbstract
         $percentage_left = 100 - floatval($percentage_progress);
         $epgStep = number_format($percentage_left / $durationLeft, 2);
         $searchFor = array(
-            '{playListname}', '{showClock}',
-            '{linkToLive}', '{totalDuration}',
-            '{created}', '{uid}',
-            '{percentage_progress}', '{epgBars}',
-            '{epgStep}', '{generated}',
+            '{playListname}',
+            '{showClock}',
+            '{linkToLive}',
+            '{totalDuration}',
+            '{created}',
+            '{uid}',
+            '{percentage_progress}',
+            '{epgBars}',
+            '{epgStep}',
+            '{generated}',
             '{implode}'
         );
 
         $searchForEPGbars = array(
-            '{thumbsJpg}', '{represents_percentage}',
-            '{className}', '{epgId}', '{title}',
-            '{text}', '{uid}', '{percentage_progress}'
+            '{thumbsJpg}',
+            '{represents_percentage}',
+            '{className}',
+            '{epgId}',
+            '{title}',
+            '{text}',
+            '{uid}',
+            '{percentage_progress}'
         );
 
         $epgTemplate = file_get_contents($global['systemRootPath'] . 'plugin/PlayLists/epg.template.html');
@@ -822,19 +832,29 @@ class PlayLists extends PluginAbstract
             $title = addcslashes("{$img} {$value['title']} {$value['duration']}<br>{$value['start_date']}", '"');
             $text = "{$value['title']}";
             $epgBars .= str_replace($searchForEPGbars, array(
-                $thumbsJpg, $represents_percentage, $className,
-                $epgId, $title,
-                $text, $uid, $percentage_progress
+                $thumbsJpg,
+                $represents_percentage,
+                $className,
+                $epgId,
+                $title,
+                $text,
+                $uid,
+                $percentage_progress
             ), $epgBarsTemplate);
             $js[] = " if(currentTime{$uid}>={$value['start']} && currentTime{$uid}<={$value['stop']}){\$('.{$className}').not('#{$epgId}').removeClass('progress-bar-success').addClass('progress-bar-primary');\$('#{$epgId}').addClass('progress-bar-success').removeClass('progress-bar-primary');}";
         }
         $implode = implode("else", $js);
         return str_replace($searchFor, array(
-            $playListname, $showClock,
-            $linkToLive, $totalDuration_,
-            $created, $uid,
-            $percentage_progress, $epgBars,
-            $epgStep, $generated,
+            $playListname,
+            $showClock,
+            $linkToLive,
+            $totalDuration_,
+            $created,
+            $uid,
+            $percentage_progress,
+            $epgBars,
+            $epgStep,
+            $generated,
             $implode
         ), $epgTemplate);
     }
@@ -910,7 +930,7 @@ class PlayLists extends PluginAbstract
         }
 
         $btn = "<button class=\"{$class}\" onclick=\"avideoModalIframe('$liveLink');\" data-toggle=\"tooltip\" title=\"$label\" ><i class=\"fas fa-broadcast-tower\"></i> $labelText</button>";
-        if(AVideoPlugin::isEnabledByName('VideoPlaylistScheduler')){
+        if (AVideoPlugin::isEnabledByName('VideoPlaylistScheduler')) {
             $liveLink = "{$global['webSiteRootURL']}plugin/VideoPlaylistScheduler/playLiveInLoop.php";
             $liveLink = addQueryStringParameter($liveLink, 'playlists_id', $playlists_id);
             $btn .= "<button class=\"{$class}\" onclick=\"avideoModalIframe('{$liveLink}');\" data-toggle=\"tooltip\" title=\"$label Loop\" ><i class=\"fa-solid fa-infinity\"></i> $labelText</button>";
@@ -1053,11 +1073,12 @@ class PlayLists extends PluginAbstract
         require_once $file;
     }
 
-    static function thereIsARebroadcastPlaying($key){
+    static function thereIsARebroadcastPlaying($key)
+    {
         $parts = Rebroadcaster::isKeyARebroadcast($key);
         $stats = getStatsNotifications();
         foreach ($stats["applications"] as $key => $value) {
-            if(preg_match("/{$parts['cleankey']}-RB-([0-9]+)-{$parts['index']}/i", $value['key'])){
+            if (preg_match("/{$parts['cleankey']}-RB-([0-9]+)-{$parts['index']}/i", $value['key'])) {
                 return true;
             }
         }
@@ -1071,7 +1092,7 @@ class PlayLists extends PluginAbstract
         _error_log("on_publish_done key={$key} live_transmitions_history_id={$live_transmitions_history_id} ");
         $isPlayListScheduled = Playlists_schedules::iskeyPlayListScheduled($key);
         if (!empty($isPlayListScheduled['playlists_schedules'])) {
-            if(!self::thereIsARebroadcastPlaying($key)){
+            if (!self::thereIsARebroadcastPlaying($key)) {
                 $pls = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);
                 if ($pls->getFinish_datetime() > time()) {
                     $ps = Playlists_schedules::getPlaying($isPlayListScheduled['playlists_schedules']);
@@ -1087,7 +1108,7 @@ class PlayLists extends PluginAbstract
                     _error_log("on_publish_done is complete {$pls->getFinish_datetime()} < " . time() . " | " . date('Y/m/d H:i:s', $pls->getFinish_datetime()) . ' < ' . date('Y/m/d H:i:s', time()));
                     self::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
                 }
-            }else{
+            } else {
                 _error_log("on_publish_done  Playlists::thereIsARebroadcastPlaying($key) ");
             }
         } else {
@@ -1111,14 +1132,14 @@ class PlayLists extends PluginAbstract
         return false;
     }
 
-    static function getURL($playlist_id, $count= null, $PLChannelName = '', $plName = '', $current_video_clean_title = '')
+    static function getURL($playlist_id, $count = null, $PLChannelName = '', $plName = '', $current_video_clean_title = '')
     {
         global $global, $total_get_playlists_urls;
         $plURL = "{$global['webSiteRootURL']}program/{$playlist_id}/";
-        if(isset($count) && is_numeric($count)){
+        if (isset($count) && is_numeric($count)) {
             $plURL .= "{$count}/";
         }
-        return $plURL ;
+        return $plURL;
         /*
         if(empty($total_get_playlists_urls)){
             $total_get_playlists_urls = 0;
@@ -1310,6 +1331,9 @@ class PlayListPlayer
         $videos = array();
         foreach ($playList as $key => $value) {
             $videos[$key] = $value;
+            if (empty($videos[$key]['id'])) {
+                _error_log("The program is empty videos[$key] " . json_encode($value));
+            }
             if (!empty($value['videos_id'])) {
                 $videos[$key]['id'] = $value['videos_id'];
             }
