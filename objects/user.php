@@ -1159,6 +1159,7 @@ if (typeof gtag !== \"function\") {
                 'live_transmitions_history',
                 'email_to_user',
                 'wallet',
+                'anet_webhook_log',
             ];
 
             foreach ($arrayTables as $value) {
