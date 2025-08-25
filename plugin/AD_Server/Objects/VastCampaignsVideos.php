@@ -44,7 +44,7 @@ class VastCampaignsVideos extends ObjectYPT
         global $global;
         $vast_campaigns_id = intval($vast_campaigns_id);
         $videos_id = intval($videos_id);
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  vast_campaigns_id = ? , videos_id = ? LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  vast_campaigns_id = ? AND videos_id = ? LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql, "ii", [$vast_campaigns_id, $videos_id]);
         $data = sqlDAL::fetchAssoc($res);
@@ -111,7 +111,7 @@ class VastCampaignsVideos extends ObjectYPT
                 $row['link'] = Video::getLink($row['videos_id'], $row['clean_title']);
                 $rows[] = $row;
             }
-        } 
+        }
         return $rows;
     }
 
@@ -119,8 +119,8 @@ class VastCampaignsVideos extends ObjectYPT
     {
         global $global;
 
-        $sql = "SELECT v.*, c.* from " . static::getTableName() . " c 
-         LEFT JOIN videos v ON v.id = videos_id 
+        $sql = "SELECT v.*, c.* from " . static::getTableName() . " c
+         LEFT JOIN videos v ON v.id = videos_id
          WHERE vast_campaigns_id = ? AND c.status = 'a' ";
 
         $res = sqlDAL::readSql($sql, "i", [$vast_campaigns_id]);
