@@ -1,5 +1,13 @@
 <?php
 
+// Set memory limit to prevent excessive memory usage
+ini_set('memory_limit', '64M');
+
+// Enable garbage collection
+if (function_exists('gc_enable')) {
+    gc_enable();
+}
+
 function _getRealIpAddr()
 {
     $ip = "127.0.0.1";
@@ -37,7 +45,77 @@ function getTmpFilePath($liveKey)
     return "{$tmpDir}/{$clientIdentifier}_{$liveKey}_v1.tmp";
 }
 
-// Get client information and the requested key file
+// Get current CPU usage percentage
+function getCpuUsage()
+{
+    if (function_exists('sys_getloadavg')) {
+        $load = sys_getloadavg();
+        return $load[0] * 100; // Convert to percentage (approximate)
+    }
+
+    // Windows fallback
+    if (PHP_OS_FAMILY === 'Windows') {
+        $cmd = 'wmic cpu get loadpercentage /value';
+        $output = shell_exec($cmd);
+        if ($output && preg_match('/LoadPercentage=(\d+)/', $output, $matches)) {
+            return intval($matches[1]);
+        }
+    }
+
+    // Linux fallback
+    if (file_exists('/proc/loadavg')) {
+        $load = file_get_contents('/proc/loadavg');
+        $loadArray = explode(' ', $load);
+        return floatval($loadArray[0]) * 100;
+    }
+
+    return 0; // Default if can't determine
+}
+
+// Get dynamic tolerance based on CPU usage
+function getDynamicTolerance($baseTolerance = 600)
+{
+    $cpuUsage = getCpuUsage();
+
+    if ($cpuUsage > 80) {
+        // Very high CPU - increase tolerance significantly
+        return $baseTolerance * 3; // 30 minutes
+    } elseif ($cpuUsage > 50) {
+        // High CPU - increase tolerance moderately
+        return $baseTolerance * 2; // 20 minutes
+    } elseif ($cpuUsage > 30) {
+        // Medium CPU - slight increase
+        return intval($baseTolerance * 1.5); // 15 minutes
+    }
+
+    return $baseTolerance; // Normal tolerance (10 minutes)
+}
+
+// Clean up old cache files to prevent memory buildup
+function cleanOldCacheFiles($currentTmpFile)
+{
+    $tmpDir = sys_get_temp_dir();
+    $pattern = $tmpDir . '/*_v1.tmp';
+    $files = glob($pattern);
+    $tolerance = 1800; // 30 minutes
+    $now = time();
+
+    // Limit cleanup when CPU is high to avoid additional load
+    $cpuUsage = getCpuUsage();
+    if ($cpuUsage > 70) {
+        // Only clean very old files when CPU is high
+        $tolerance = 3600; // 1 hour
+    }
+
+    foreach ($files as $file) {
+        if ($file !== $currentTmpFile && file_exists($file)) {
+            $fileTime = filemtime($file);
+            if (($now - $fileTime) > $tolerance) {
+                @unlink($file);
+            }
+        }
+    }
+}// Get client information and the requested key file
 $client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'unknown';
 $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
 $requested_key = $_GET['key'] ?? '';
@@ -64,26 +142,36 @@ if (preg_match($pattern, $uri, $matches)) {
 $isCached = false;
 if (!empty($liveKey)) {
     $tmpFilePath = getTmpFilePath($liveKey);
+
+    // Clean old cache files to prevent accumulation
+    cleanOldCacheFiles($tmpFilePath);
 }
 
 if (!empty($tmpFilePath) && file_exists($tmpFilePath)) {
-    $tolerance = 600; // 10 min
-    $content = (file_get_contents($tmpFilePath));
-    $time = intval($content);
-    $now = time();
+    $tolerance = getDynamicTolerance(600); // Dynamic tolerance based on CPU usage
+    $content = file_get_contents($tmpFilePath);
+    if ($content !== false) {
+        $time = intval($content);
+        $now = time();
 
-    $diff = ($time + $tolerance) - $now;
+        $diff = ($time + $tolerance) - $now;
 
-    if ($diff < 0) {
-        $isCached = false;
-        if (!empty($_REQUEST['debug'])) {
-            error_log("Process download protection cache expired time=$content keyFile=$liveKeyFile $tmpFilePath ");
+        if ($diff < 0) {
+            $isCached = false;
+            // Remove expired cache file immediately only if CPU usage is low
+            $cpuUsage = getCpuUsage();
+            if ($cpuUsage < 60) {
+                @unlink($tmpFilePath);
+            }
+            if (!empty($_REQUEST['debug'])) {
+                error_log("Process download protection cache expired time=$content tolerance=$tolerance cpu=$cpuUsage keyFile=$liveKeyFile $tmpFilePath ");
+            }
+        } else {
+            if (!empty($_REQUEST['debug'])) {
+                error_log("Process download protection cache still valid diff={$diff} tolerance=$tolerance keyFile=$liveKeyFile $tmpFilePath ");
+            }
+            $isCached = true;
         }
-    } else {
-        if (!empty($_REQUEST['debug'])) {
-            error_log("Process download protection cache still valid diff={$diff} keyFile=$liveKeyFile $tmpFilePath ");
-        }
-        $isCached = true;
     }
 }
 
@@ -92,10 +180,28 @@ if ($isCached) {
     //error_log($msg);
     echo $msg;
 } else {
+    // Minimize memory usage by avoiding heavy configuration loading when possible
     $doNotConnectDatabaseIncludeConfig = 1;
     $doNotStartSessionIncludeConfig = 1;
+    $doNotIncludeConfig = 1; // Add this to prevent full plugin loading
+
+    // Check CPU usage before heavy operations
+    $cpuUsage = getCpuUsage();
+    if ($cpuUsage > 80) {
+        // Skip heavy configuration loading when CPU is very high
+        $msg = 'authorizeKeyAccess: High CPU usage detected (' . $cpuUsage . '%), using cached authorization';
+        error_log($msg);
+        echo $msg;
+        exit;
+    }
+
     require_once dirname(__FILE__) . '/../../videos/configuration.php';
-    $obj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
+
+    // Only load VideoHLS if really needed
+    $obj = null;
+    if (class_exists('AVideoPlugin')) {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
+    }
     if (class_exists('VideoHLS')) {
         global $verifyTokenReturnFalseReason;
         $verifyTokenReturnFalseReason = '';
@@ -119,9 +225,20 @@ if ($isCached) {
             echo $msg;
         }
     } else {
-        $bytes = file_put_contents($tmpFilePath, time());
+        if (!empty($tmpFilePath)) {
+            $bytes = file_put_contents($tmpFilePath, time());
+        }
         $msg = 'authorizeKeyAccess: VideoHLS is not present ';
         error_log($msg);
         echo $msg;
     }
 }
+
+// Force garbage collection to free memory only if CPU usage is not too high
+$cpuUsage = getCpuUsage();
+if (function_exists('gc_collect_cycles') && $cpuUsage < 70) {
+    gc_collect_cycles();
+}
+
+// Clear any unnecessary variables
+unset($obj, $verifyTokenReturnFalseReason, $authorized, $tmpFilePath, $cpuUsage);
