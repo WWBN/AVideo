@@ -810,6 +810,7 @@ Disallow: *action=tagsearch*
 
     public static function setShortSummaryAndMetaDescriptionVideo($videos_id, $ShortSummary, $MetaDescription, $checkUserPermission = true) {
         if ($checkUserPermission && !Video::canEdit($videos_id)) {
+            _error_log("setShortSummaryAndMetaDescriptionVideo: User does not have permission to edit video ID {$videos_id}");
             return false;
         }
         $video = new Video('', '', $videos_id, true);
