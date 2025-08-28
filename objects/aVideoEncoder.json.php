@@ -240,6 +240,12 @@ if (!empty($_REQUEST['categories_id'])) {
     $obj->lines[] = __LINE__;
     $video->setCategories_id($_REQUEST['categories_id']);
 }
+
+if(!empty($video->getId())){
+    $obj->lines[] = __LINE__;
+    _error_log("Editing video ID {$video->getId()} ".$video->getExternalOptions());
+}
+
 $video_id = $video->save();
 
 if (empty($video_id)) {
