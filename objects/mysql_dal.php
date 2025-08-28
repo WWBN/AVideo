@@ -202,7 +202,9 @@ class sqlDAL
                 } catch (Exception $exc) {
                     foreach ($values as $key => $value) {
                         if(strlen($value)){
-                            $values[$key] = preg_replace("/[^A-Za-z0-9 ._:-]+/", ' ', $value);
+                            // $values[$key] = preg_replace("/[^A-Za-z0-9 ._:\{\}\[\]-]+/", ' ', $value);
+                            $values[$key] = preg_replace('/[\x00-\x1F\x7F]/u', ' ', $values[$key]);
+                            $values[$key] = preg_replace('/[\x{200B}-\x{200D}\x{FEFF}]/u', '', $values[$key]);
                         }
                     }
                     sqlDAL::eval_mysql_bind($stmt, $formats, $values);
