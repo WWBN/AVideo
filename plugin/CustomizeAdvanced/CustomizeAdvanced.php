@@ -824,7 +824,7 @@ Disallow: *action=tagsearch*
         }
         $externalOptions->SEO = array('ShortSummary'=>$ShortSummary, 'MetaDescription'=>$MetaDescription);
         $video->setExternalOptions(json_encode($externalOptions));
-        return $video->save();
+        return $video->save(false, !$checkUserPermission);
     }
 
     public static function getShortSummaryAndMetaDescriptionVideo($videos_id) {
