@@ -6347,6 +6347,7 @@ if (!class_exists('Video')) {
         {
             $externalOptions = _json_decode($this->getExternalOptions());
             if (!is_object($externalOptions)) {
+                _error_log("setVideoTags: No external options found for video ID {$this->id}");
                 $externalOptions = new stdClass();
             }
             $externalOptions->VideoTags = $tags;
@@ -6366,6 +6367,7 @@ if (!class_exists('Video')) {
         {
             $externalOptions = _json_decode($this->getExternalOptions());
             if (!is_object($externalOptions)) {
+                _error_log("setVideoHigestResolution: No external options found for video ID {$this->id}");
                 $externalOptions = new stdClass();
             }
 
@@ -6415,6 +6417,7 @@ if (!class_exists('Video')) {
         {
             $externalOptions = _json_decode($this->getExternalOptions());
             if (empty($externalOptions)) {
+                _error_log("setPrivacyInfo: No external options found for video ID {$this->id}");
                 $externalOptions = new stdClass();
             }
             $externalOptions->privacyInfo = $object;
@@ -6453,6 +6456,7 @@ if (!class_exists('Video')) {
         {
             $externalOptions = _json_decode($this->getExternalOptions());
             if (empty($externalOptions)) {
+                _error_log("setVideoNotified: No external options found for video ID {$this->id}");
                 $externalOptions = new stdClass();
             }
             $externalOptions->notified = time();

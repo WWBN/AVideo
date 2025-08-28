@@ -65,6 +65,7 @@ $video = new Video("", "", $obj->videos_id, true);
 
 $externalOptions = _json_decode($video->getExternalOptions());
 if (empty($externalOptions)) {
+    _error_log("aVideoEncoderLog.json: No external options found for video ID {$obj->videos_id}");
     $externalOptions = new stdClass();
 }
 if (empty($externalOptions->encoderLog)) {
