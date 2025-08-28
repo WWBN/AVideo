@@ -1160,6 +1160,7 @@ if (typeof gtag !== \"function\") {
                 'email_to_user',
                 'wallet',
                 'anet_webhook_log',
+                'chat_user_ignores'
             ];
 
             foreach ($arrayTables as $value) {
