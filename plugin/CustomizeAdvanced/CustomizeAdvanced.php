@@ -808,8 +808,8 @@ Disallow: *action=tagsearch*
         return @$externalOptions->redirectVideo;
     }
 
-    public static function setShortSummaryAndMetaDescriptionVideo($videos_id, $ShortSummary, $MetaDescription) {
-        if (!Video::canEdit($videos_id)) {
+    public static function setShortSummaryAndMetaDescriptionVideo($videos_id, $ShortSummary, $MetaDescription, $checkUserPermission = true) {
+        if ($checkUserPermission && !Video::canEdit($videos_id)) {
             return false;
         }
         $video = new Video('', '', $videos_id, true);
