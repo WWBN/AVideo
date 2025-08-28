@@ -2974,6 +2974,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
         }
         return $httpcode;
     } else {
+        _error_log("postVariables: {$url} success ".strlen($response));
         curl_close($ch);
         return $response;
     }
