@@ -2974,7 +2974,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
         }
         return $httpcode;
     } else {
-        _error_log("postVariables: {$url} success ".strlen($response));
+        _error_log("postVariables: {$url} success ".(strlen($response) < 1000 ? $response : 'response is too long'));
         curl_close($ch);
         return $response;
     }
