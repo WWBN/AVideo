@@ -710,7 +710,7 @@ if (!class_exists('Video')) {
              */
             //var_dump($this->title, $insert_row);exit;
             if ($insert_row) {
-                _error_log("Video::save ([{$this->sites_id}] {$this->title}) Saved id = {$insert_row} status=([{$this->status}]) {$this->duration} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+                _error_log("Video::save ([{$this->sites_id}] {$this->title}) Saved id = {$insert_row} status=([{$this->status}]) duration={$this->duration} externalOptions={$this->externalOptions}" . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 //Category::clearCacheCount();
                 if (empty($this->id)) {
                     $this->id = $insert_row;
