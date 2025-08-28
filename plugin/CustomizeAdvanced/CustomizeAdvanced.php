@@ -813,6 +813,10 @@ Disallow: *action=tagsearch*
             _error_log("setShortSummaryAndMetaDescriptionVideo: User does not have permission to edit video ID {$videos_id}");
             return false;
         }
+        if(empty($ShortSummary) && empty($MetaDescription)){
+            _error_log("setShortSummaryAndMetaDescriptionVideo: No data to update for video ID {$videos_id}");
+            return false;
+        }
         $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
         if(empty($externalOptions)){
