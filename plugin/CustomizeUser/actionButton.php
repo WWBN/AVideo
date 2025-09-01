@@ -104,7 +104,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
 
                             <div class="form-group">
                                 <div class="col-sm-12" id="divChatInputDonation" style="display: flex;">
-                                    <input id="chatInputDonation" maxlength="<?php echo $obj->charLimit; ?>" style="display: none;">
+                                    <input id="chatInputDonation" maxlength="<?php echo $obj->charLimit; ?>" style="display: none;" value="<?php echo htmlspecialchars(@$obj->defaultDonationMessage); ?>">
                                 </div>
                             </div>
                         </form>
