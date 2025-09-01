@@ -393,6 +393,8 @@ class CustomizeUser extends PluginAbstract
         $obj->allowWalletDirectTransferDonation = false;
         $obj->UsersCanCustomizeWalletDirectTransferDonation = false;
         $obj->donationWalletButtonLabel = ('Donate from your wallet');
+        $obj->defaultDonationMessage = 'Thank you for your great content!';
+        self::addDataObjectHelper('defaultDonationMessage', 'Default Donation Message', 'This message will be shown as the default donation message.');
         $obj->disableCaptchaOnWalletDirectTransferDonation = false;
 
         $obj->showEmailVerifiedMark = true;
