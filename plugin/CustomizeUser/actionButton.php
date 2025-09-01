@@ -120,7 +120,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                 <?php echo $captcha['btnReloadCapcha']; ?>
                 $('#donationModal<?php echo $uid; ?>').modal();
                 $('#donationValue<?php echo $uid; ?>').focus();
-                $('#chatInputDonation').data("emojioneArea").setText('');
+                $('#chatInputDonation').data("emojioneArea").setText("<?php echo htmlspecialchars(@$obj->defaultDonationMessage); ?>");
                 setTimeout(function() {
                     $('#donationValue<?php echo $uid; ?>').focus();
                 }, 500);
