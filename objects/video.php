@@ -4758,7 +4758,32 @@ if (!class_exists('Video')) {
                     $cleanName = preg_replace($value, '$1', $cleanName);
                 }
             }
-            $search = ['_Low', '_SD', '_HD', '_thumbsV2_jpg', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_spectrum', '_tvg', '.notfound', '.Chapters'];
+            $search = [
+                '_Low',
+                '_SD',
+                '_HD',
+                '_thumbsV2_jpg',
+                '_thumbsV2',
+                '_thumbsSmallV2',
+                '_thumbsSprit',
+                '_roku',
+                '_portrait',
+                '_portrait_thumbsV2',
+                '_portrait_thumbsSmallV2',
+                '_spectrum',
+                '_tvg',
+                '.notfound',
+                '_jpg',
+                '_vizioWide',
+                '_vizioPoster',
+                '_96',
+                '_128',
+                '_192',
+                '_256',
+                '_384',
+                '_512',
+                '.en_US',
+            ];
 
             foreach ($search as $value) {
                 $cleanName = str_ireplace($value, '', $cleanName);
