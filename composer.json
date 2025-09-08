@@ -16,7 +16,7 @@
         "ext-json": "*",
         "ezyang/htmlpurifier": "^4.13",
         "google/apiclient": "^2.18",
-        "google/apiclient-services": "^0.409",
+        "google/apiclient-services": "^0.411",
         "google/auth": "^1.14.3",
         "guzzlehttp/guzzle": "^7.4",
         "guzzlehttp/psr7": "^2.0 || ^2.4 || ^2.6 || ^2.7",
