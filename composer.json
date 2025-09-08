@@ -51,7 +51,7 @@
         "christian-riesen/base32": "^1.6",
         "react/socket": "^1.16",
         "react/event-loop": "^1.5",
-        "elephantio/elephant.io": "^4.13",
+        "elephantio/elephant.io": "^5.0",
         "iamcal/sql-parser": "^0.6",
         "ratchet/pawl": "^0.4.3",
         "zircote/swagger-php": "^5.0",
