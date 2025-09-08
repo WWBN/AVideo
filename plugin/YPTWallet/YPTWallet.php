@@ -578,7 +578,7 @@ class YPTWallet extends PluginAbstract
         return true;
     }
 
-    public static function getAvailableRecurrentPayments()
+    public static function getAvailableRecurrentPayments($plans_id)
     {
         global $global;
 
@@ -598,7 +598,7 @@ class YPTWallet extends PluginAbstract
             $file = $subdir . "{$value}.php";
             if (is_dir($subdir) && file_exists($file)) {
                 require_once $file;
-                $eval = "\$obj = new {$value}();\$obj->getRecurrentAprovalButton();";
+                $eval = "\$obj = new {$value}();\$obj->getRecurrentAprovalButton({$plans_id});";
                 eval($eval);
             }
         }

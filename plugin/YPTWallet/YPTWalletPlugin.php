@@ -41,9 +41,9 @@ abstract class YPTWalletPlugin {
         $this->currency = $currency;
     }
 
-    public function getRecurrentAprovalButton() {
+    public function getRecurrentAprovalButton($plans_id) {
     }
-    
+
     public function getRecurrentAprovalButtonV2($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = '', $json = '', $trialDays = 0) {
     }
 

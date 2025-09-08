@@ -2,7 +2,7 @@
 $obj = AVideoPlugin::getObjectData("AuthorizeNet");
 ?>
 <div class="btn-group" role="group" aria-label="Authorize.Net Actions">
-    <button class="btn btn-primary" onclick="startAuthorizeNetAcceptHosted()">
+    <button class="btn btn-primary" onclick="startAuthorizeNetAcceptHosted(<?php echo intval(empty($plans_id) ? @$_GET['plans_id'] : $plans_id); ?>)">
         <i class="fas fa-credit-card"></i>
         <?php
         if (!empty($_REQUEST['plans_id'])) {
@@ -18,9 +18,8 @@ $obj = AVideoPlugin::getObjectData("AuthorizeNet");
 </div>
 
 <script>
-    function startAuthorizeNetAcceptHosted() {
-        const amount = $('#value<?php echo @$_GET['plans_id']; ?>').val();
-        const plans_id = <?php echo intval(@$_GET['plans_id']); ?>;
+    function startAuthorizeNetAcceptHosted(plans_id) {
+        const amount = $('#value' + plans_id).val();
         if (!amount || isNaN(amount) || amount <= 0) {
             if (plans_id <= 0) {
                 avideoAlertError('Invalid data');

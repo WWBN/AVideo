@@ -10,8 +10,8 @@ class YPTWalletPayPal extends YPTWalletPlugin{
         $plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
         $payment = $plugin->setUpPayment(
                 $this->getInvoiceNumber(),
-                $this->getRedirectURL(),
-                $this->getCancelURL(),
+                '',
+                '',
                 $this->getValue(),
                 $this->getCurrency());
         if (!empty($payment)) {
@@ -26,18 +26,18 @@ class YPTWalletPayPal extends YPTWalletPlugin{
     }
 
 
-    public function getRecurrentAprovalButton() {
+    public function getRecurrentAprovalButton($plans_id) {
         global $global;
         include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletPayPal/confirmRecurrentButton.php';
     }
 
     public function getRecurrentAprovalButtonV2($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = '', $json = '', $addFunds_Success='', $trialDays = 0) {
-        
+
         $total = floatval($total);
         if(empty($total)){
             return '';
         }
-        
+
         global $global;
         include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletPayPal/confirmRecurrentButtonV2.php';
     }

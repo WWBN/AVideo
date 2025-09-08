@@ -16,8 +16,8 @@ class YPTWalletBlockonomics extends YPTWalletPlugin{
         $plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
         $payment = $plugin->setUpPayment(
                 $this->getInvoiceNumber(),
-                $this->getRedirectURL(),
-                $this->getCancelURL(),
+                '',
+                '',
                 $this->getValue(),
                 $this->getCurrency());
         if (!empty($payment)) {

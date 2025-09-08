@@ -11,7 +11,7 @@ class YPTWalletBTC extends YPTWalletPlugin{
     }
 
 
-    public function getRecurrentAprovalButton() {
+    public function getRecurrentAprovalButton($plans_id) {
         global $global;
         include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletBTC/confirmRecurrentButton.php';
     }

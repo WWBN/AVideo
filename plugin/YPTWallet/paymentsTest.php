@@ -27,7 +27,7 @@ $_page = new Page(array('Payment tests'));
                         </div>
                         <div class="panel-body">
                             <?php
-                            $myWallet->getAvailableRecurrentPayments();
+                            $myWallet->getAvailableRecurrentPayments($_GET['plans_id']);
                             ?>
                         </div>
                     </div>

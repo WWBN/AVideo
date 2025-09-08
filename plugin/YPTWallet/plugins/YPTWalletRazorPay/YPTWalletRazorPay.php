@@ -10,7 +10,7 @@ class YPTWalletRazorPay extends YPTWalletPlugin{
         include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletRazorPay/confirmButton.php';
     }
 
-    public function getRecurrentAprovalButton() {
+    public function getRecurrentAprovalButton($plans_id) {
         global $global;
         include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletRazorPay/confirmRecurrentButton.php';
     }
