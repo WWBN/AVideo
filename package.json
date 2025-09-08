@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^7.0.0",
+    "@fortawesome/fontawesome-free": "^7.0.1",
     "@fullcalendar/core": "^6.1.19",
     "@fullcalendar/daygrid": "^6.1.18",
     "@fullcalendar/interaction": "^6.1.19",
@@ -11,7 +11,7 @@
     "@silvermine/videojs-chromecast": "^1.5.0",
     "animate.css": "^4.1.1",
     "blockadblock": "^3.2.1",
-    "bootstrap": "^5.3.7",
+    "bootstrap": "^5.3.8",
     "bootstrap-fileinput": "^5.5.4",
     "chart.js": "^4.5.0",
     "chartjs-adapter-date-fns": "^3.0.0",
@@ -28,7 +28,7 @@
     "font-awesome": "^4.7.0",
     "fontawesome-free": "^1.0.4",
     "glightbox": "^3.3.1",
-    "hls.js": "^1.6.10",
+    "hls.js": "^1.6.11",
     "infinite-scroll": "^5.0.0",
     "inputmask": "^5.0.9",
     "intro.js": "^8.3.2",
