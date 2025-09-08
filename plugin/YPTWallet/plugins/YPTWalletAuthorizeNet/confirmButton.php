@@ -19,7 +19,7 @@ $obj = AVideoPlugin::getObjectData("AuthorizeNet");
 
 <script>
     function startAuthorizeNetAcceptHosted(plans_id) {
-        if(plans_id === 0){
+        if(plans_id == 0){
             plans_id = '';
         }
         const amount = $('#value' + plans_id).val();
