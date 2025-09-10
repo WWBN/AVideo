@@ -203,9 +203,9 @@ Options All -Indexes
     RewriteRule ^video/([0-9]+)/poster.png$ view/videoGetPoster.php?videos_id=$1 [QSA]
 
     #Video ID routes
-    RewriteRule ^v/(\.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[]]+/)?$ view/modeYoutube.php?v=$1 [QSA]
-    RewriteRule ^video/(\.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[]]+/)?$ view/modeYoutube.php?v=$1 [QSA]
-    RewriteRule ^vEmbed/(\.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[]]+/)?$ view/videoEmbeded.php?v=$1 [QSA]
+    RewriteRule ^v/(\.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[\]]+/?)?$ view/modeYoutube.php?v=$1 [QSA]
+    RewriteRule ^video/(\.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[\]]+/?)?$ view/modeYoutube.php?v=$1 [QSA]
+    RewriteRule ^vEmbed/(\.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[\]]+/?)?$ view/videoEmbeded.php?v=$1 [QSA]
     RewriteRule ^videoEmbeded/(\.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[]]+/)? view/videoEmbeded.php?v=$1 [QSA]
     RewriteRule ^video/([0-9]+)/([^!#$&'(),/:;=?@[\]]+)/?$ view/modeYoutube.php?v=$1 [QSA]
 
