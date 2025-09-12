@@ -1,11 +1,11 @@
 <?php
 $global_timeLimit = 300;
 
-ini_set("memory_limit", -1);
+
 ini_set('default_socket_timeout', $global_timeLimit);
 set_time_limit($global_timeLimit);
 ini_set('max_execution_time', $global_timeLimit);
-ini_set("memory_limit", "-1");
+ini_set("memory_limit", "4G");
 
 function _decryptString($string)
 {
