@@ -121,6 +121,8 @@ if (file_exists($global['docker_vars'])) {
 }
 
 ini_set('error_log', $global['logfile']);
+ini_set('session.cookie_samesite', 'None');
+ini_set('session.cookie_secure', '1');
 
 if (empty($global['mysqli_charset'])) {
     //$global['mysqli_charset'] = 'latin1';
