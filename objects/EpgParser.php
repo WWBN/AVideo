@@ -99,6 +99,33 @@ class EpgParser {
      */
     public function getDate(string $date) {
         $date = str_replace(' 0000', ' +0000', $date);
+        
+        // Handle ISO 8601 format with milliseconds: "2025-09-22T00:00:00.000 +0000"
+        try {
+            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s.u P', $date, new DateTimeZone('UTC'));
+            if ($dt !== false) {
+                $dt->setTimezone(new DateTimeZone($this->targetTimeZone));
+                return $dt->format('Y-m-d H:i:s');
+            }
+        } catch (\Exception $e) {
+
+        } catch (\Error $e) {
+
+        }
+        
+        // Handle compact format with space-separated timezone: "20250924004920 0000"
+        try {
+            $dt = \DateTime::createFromFormat('YmdHis O', $date, new DateTimeZone('UTC'));
+            if ($dt !== false) {
+                $dt->setTimezone(new DateTimeZone($this->targetTimeZone));
+                return $dt->format('Y-m-d H:i:s');
+            }
+        } catch (\Exception $e) {
+
+        } catch (\Error $e) {
+
+        }
+        
         try {
             $dt = \DateTime::createFromFormat('YmdHis P', $date, new DateTimeZone('UTC'));
             $dt->setTimezone(new DateTimeZone($this->targetTimeZone));
