@@ -137,8 +137,15 @@ function _mysql_connect($persistent = false, $try = 0)
     try {
         if (!_mysql_is_open()) {
             if (!class_exists('mysqli')) {
+                $phpVersion = phpversion();
+                $phpMajorMinor = implode('.', array_slice(explode('.', $phpVersion), 0, 2));
+                $aptCommand = "sudo apt-get update && sudo apt-get install php{$phpMajorMinor}-mysqli";
+
                 _error_log('ERROR: mysqli class not loaded ' . php_ini_loaded_file());
-                die('ERROR: mysqli class not loaded');
+                _error_log("PHP Version: {$phpVersion}");
+                _error_log("To install mysqli extension, run: {$aptCommand}");
+
+                die("ERROR: mysqli class not loaded for PHP {$phpVersion}.\nTo fix this, run: {$aptCommand}");
             }
             //_error_log('MySQL Connect IP=' . getRealIpAddr() . ' UA=' . $_SERVER['HTTP_USER_AGENT'] . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
