@@ -60,7 +60,7 @@ if (!empty($cache)) {
     die(_json_encode($cache));
 }
 
-$obj->can_upload = $user->getCanUpload();
+$obj->can_upload = AVideoPlugin::userCanUpload(User::getId());
 $obj->can_view_charts = $user->getCanViewChart();
 
 if (!$user->getIsAdmin() && empty($obj->can_view_charts)) {
