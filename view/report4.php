@@ -1,3 +1,11 @@
+<?php
+if(!User::isAdmin()) {
+    echo '<!-- Only admin can see the users report -->';
+    return;
+}
+
+?>
+
 <div class="col-md-12 col-sm-12 col-xs-12 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>">
     <div class="panel panel-default">
         <div class="panel-heading">
