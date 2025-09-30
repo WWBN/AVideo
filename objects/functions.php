@@ -5869,7 +5869,7 @@ function outputAndContinueInBackground($msg = '')
     flush();
 }
 
-function cleanUpRowFromDatabase($row)
+function cleanUpRowFromDatabase(&$row)
 {
     if (is_array($row)) {
         foreach ($row as $key => $value) {
