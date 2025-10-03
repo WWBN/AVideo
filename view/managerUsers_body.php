@@ -353,6 +353,8 @@ foreach ($userGroups as $value) {
 <script src="<?php echo getURL('node_modules/flickity-bg-lazyload/bg-lazyload.js'); ?>" type="text/javascript"></script>
 
 <script>
+    const IAMAdmin = <?php echo User::isAdmin() ? "true" : "false"; ?>;
+
     function isAnalytics() {
         str = $('#inputAnalyticsCode').val();
         return true;
@@ -490,6 +492,10 @@ foreach ($userGroups as $value) {
             url: getUserGridURL,
             formatters: {
                 "commands": function(column, row) {
+                    console.log(row);
+                    if(!IAMAdmin && row.isAdmin){
+                        return '';
+                    }
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
                     var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Info'); ?>"><i class="fas fa-info-circle"></i></button>'
                     var liveNowBtn = '<button type="button" class="btn btn-default btn-xs command-copy-livenow" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Copy Live Now URL"); ?>"><i class="fa-regular fa-copy"></i></button>';
