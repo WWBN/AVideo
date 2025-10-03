@@ -121,8 +121,15 @@ if (file_exists($global['docker_vars'])) {
 }
 
 ini_set('error_log', $global['logfile']);
-ini_set('session.cookie_samesite', 'None');
-ini_set('session.cookie_secure', '1');
+
+// Only set secure cookie settings for HTTPS connections
+$isHTTPS = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+           (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+
+if ($isHTTPS) {
+    ini_set('session.cookie_samesite', 'None');
+    ini_set('session.cookie_secure', '1');
+}
 
 if (empty($global['mysqli_charset'])) {
     //$global['mysqli_charset'] = 'latin1';
