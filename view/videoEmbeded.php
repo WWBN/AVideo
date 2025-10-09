@@ -196,6 +196,23 @@ if (User::hasBlockedUser($video['users_id'])) {
                     $('.ShortsPlayerIframe')[0].contentWindow.postMessage('togglePlayerSocial', '*');
                 } else {
                     console.warn('togglePlayerSocial function is not defined and iframe not available for postMessage');
+                    <?php
+                    $objP = AVideoPlugin::getObjectData('PlayerSkins');
+                    $videos_id = getVideos_id();
+                    if(!$objP->showShareSocial){
+                        echo 'console.warn("(togglePlayerSocial) PlayerSkins->showShareSocial is disabled");';
+                    }else{
+                        echo 'console.log("(togglePlayerSocial) PlayerSkins->showShareSocial is enabled");';
+                    }
+
+                    if(empty($videos_id)){
+                        echo 'console.warn("(togglePlayerSocial) videos_id is not set");';
+                    }else if(!CustomizeUser::canShareVideosFromVideo($videos_id)){
+                        echo 'console.warn("(togglePlayerSocial) CustomizeUser->canShareVideosFromVideo is false ['.$videos_id.']");';
+                    }else{
+                        echo 'console.log("(togglePlayerSocial) CustomizeUser->canShareVideosFromVideo is true ['.$videos_id.']");';
+                    }
+                    ?>
                 }
             }
         });
