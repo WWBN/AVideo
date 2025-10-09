@@ -206,7 +206,24 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
                         if (typeof togglePlayerSocial === 'function') {
                             togglePlayerSocial();
                         } else {
-                            console.warn('togglePlayerSocial: iframe not available for postMessage');
+                            console.warn('(togglePlayerSocial): iframe not available for postMessage');
+                            <?php
+                            $objP = AVideoPlugin::getObjectData('PlayerSkins');
+                            $videos_id = getVideos_id();
+                            if(!$objP->showShareSocial){
+                                echo 'console.warn("(togglePlayerSocial) PlayerSkins->showShareSocial is disabled");';
+                            }else{
+                                echo 'console.log("(togglePlayerSocial) PlayerSkins->showShareSocial is enabled");';
+                            }
+
+                            if(empty($videos_id)){
+                                echo 'console.warn("(togglePlayerSocial) videos_id is not set");';
+                            }else if(!CustomizeUser::canShareVideosFromVideo($videos_id)){
+                                echo 'console.warn("(togglePlayerSocial) CustomizeUser->canShareVideosFromVideo is false ['.$videos_id.']");';
+                            }else{
+                                echo 'console.log("(togglePlayerSocial) CustomizeUser->canShareVideosFromVideo is true ['.$videos_id.']");';
+                            }
+                            ?>
                         }
                     }
                 }
