@@ -46,7 +46,7 @@ $priceForDubbingText = YPTWallet::formatCurrency($priceForDubbing);
 /*
 if (User::isAdmin()) {
     $_1hour = 60 * 60;
-    $pricesJson = url_get_contents_with_cache('https://youphp.tube/marketplace/AI/prices.json.php', $_1hour * 6);
+    $pricesJson = url_get_contents_with_cache('https://streamphp.com/marketplace/AI/prices.json.php', $_1hour * 6);
     //$pricesJ = json_decode($pricesJson);
     $pricesJ = ($pricesJson);
     $adminPriceForBasic = $pricesJ->priceForBasic;
@@ -238,7 +238,7 @@ $_page = new Page(['Video Metatags']);
                                 ?>
                             </div>
                             <div id="pPP" class="tab-pane fade ">
-                                <iframe src="https://youphp.tube/marketplace/AI/privacyPolicy.php"></iframe>
+                                <iframe src="https://streamphp.com/marketplace/AI/privacyPolicy.php"></iframe>
                             </div>
                         <?php
                         }

@@ -102,7 +102,7 @@ class CDN extends PluginAbstract
         $content = file_get_contents($fileAPIName);
         $obj = $this->getDataObject();
 
-        $url = "https://youphp.tube/marketplace/CDN/iframe.php?hash={hash}";
+        $url = "https://streamphp.com/marketplace/CDN/iframe.php?hash={hash}";
         if (empty($global['disableAdvancedConfigurations'])) {
             $url = addQueryStringParameter($url, 'hash', $obj->key);
         }
@@ -294,9 +294,9 @@ class CDN extends PluginAbstract
     {
         $obj = AVideoPlugin::getDataObject('CDN');
 
-        $url = 'https://youphp.tube/marketplace/CDN/Manager/pullzonesPurgeCache.json.php';
+        $url = 'https://streamphp.com/marketplace/CDN/Manager/pullzonesPurgeCache.json.php';
         $url = addQueryStringParameter($url, 'hash', $obj->key);
-        
+
         _error_log("CDN::purgeCache ".json_encode(debug_backtrace()));
         return url_get_contents($url);
     }

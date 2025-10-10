@@ -168,10 +168,10 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                                 <a href="https://tutorials.avideo.com/signUp" class="btn btn-success btn-sm" target="_top">
                                     <i class="fa fa-user-plus"></i> Register
                                 </a>
-                                <a href="https://youphp.tube/marketplace/" class="btn btn-info btn-sm" target="_top">
+                                <a href="https://streamphp.com/marketplace/" class="btn btn-info btn-sm" target="_top">
                                     <i class="fa fa-sign-in"></i> Log In
                                 </a>
-                                <a href="https://youphp.tube/marketplace/?tab=plugin" class="btn btn-primary btn-sm" target="_top">
+                                <a href="https://streamphp.com/marketplace/?tab=plugin" class="btn btn-primary btn-sm" target="_top">
                                     <i class="fa fa-plug"></i> Visit Plugin Store
                                 </a>
                             </div>
@@ -213,7 +213,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="https://youphp.tube/marketplace/?tab=plugin" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
+                        <a href="https://streamphp.com/marketplace/?tab=plugin" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
                     </div>
                 </div>
             </div>
@@ -533,7 +533,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                                 tags += '<span class="label label-' + row.tags[i][0] + ' plugin' + row.tags[i][3] + '">' + row.tags[i][2] + ' ' + row.tags[i][1] + '</span> ';
                             } else {
                                 if (row.tags[i] === 'update') {
-                                    tags += '<a class="label label-warning" href="https://youphp.tube/marketplace/" target="_blank">Update Available: v' + row.pluginversionMarketPlace + '</a> ';
+                                    tags += '<a class="label label-warning" href="https://streamphp.com/marketplace/" target="_blank">Update Available: v' + row.pluginversionMarketPlace + '</a> ';
                                 } else {
                                     var cl = "primary";
                                     if (row.tags[i] === 'free') {
@@ -687,7 +687,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
             avideoModalIframeSmall(webSiteRootURL + 'view/managerPluginUpload.php');
         });
         $.ajax({
-            url: 'https://youphp.tube/marketplace/plugins.json?jsonp=1',
+            url: 'https://streamphp.com/marketplace/plugins.json?jsonp=1',
             dataType: 'jsonp',
             success: function(response) {
                 for (i = 0; i < response.rows.length; i++) {

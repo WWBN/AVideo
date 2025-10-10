@@ -145,7 +145,7 @@ $_page = new Page(array('WebRTC Server Status'));
         // Handle the upgrade button
         $("#upgrade-button").click(function () {
             alert("Redirecting to the premium subscription page...");
-            window.location.href = "https://youphp.tube/marketplace/WebRTC2RTMP/";
+            window.location.href = "https://streamphp.com/marketplace/WebRTC2RTMP/";
         });
     });
 </script>

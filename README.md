@@ -31,11 +31,11 @@ AVideo is a versatile and advanced video streaming platform tailored for individ
 
 8. **🔗 Third-Party Integration & API**: Extend platform capabilities by connecting third-party apps with AVideo’s [API](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API), offering flexibility for tailored integrations and custom development.
 
-9. **📥 Offline Viewing & Secure Downloads**: Allow viewers to download and watch videos offline with AVideo’s [offline video saving](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin) feature, while maintaining strict [content protection](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin#download-protection) to prevent unauthorized distribution. 
+9. **📥 Offline Viewing & Secure Downloads**: Allow viewers to download and watch videos offline with AVideo’s [offline video saving](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin) feature, while maintaining strict [content protection](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin#download-protection) to prevent unauthorized distribution.
 
 ## Your Comprehensive Video Streaming Solution
 
-At AVideo, we provide more than just a platform; we offer a comprehensive solution for hosting, managing, monetizing, and expanding your video content. Embrace the future of video streaming and unlock the full potential of your content with AVideo. 
+At AVideo, we provide more than just a platform; we offer a comprehensive solution for hosting, managing, monetizing, and expanding your video content. Embrace the future of video streaming and unlock the full potential of your content with AVideo.
 
 # 📚 How AVideo is Organized
 
@@ -65,22 +65,22 @@ AVideo is dedicated to promoting positive and ethical content creation. As such,
 
 Explore our AVideo Platform through various demo sites, each showcasing different features and functionalities:
 
-- **[AVideo Platform Full-Access Demo](http://demo.avideo.com/)**  
-  Experience full access to our demo site, including admin privileges.  
-  **Admin Access**:  
+- **[AVideo Platform Full-Access Demo](http://demo.avideo.com/)**
+  Experience full access to our demo site, including admin privileges.
+  **Admin Access**:
   - **User**: admin
-  - **Password**: 123  
-  **Non-Admin Access** (for commenting only):  
+  - **Password**: 123
+  **Non-Admin Access** (for commenting only):
   - **User**: test
   - **Password**: test
 
-- **[AVideo Platform Flix Demo](https://flix.avideo.com/)**  
-  Discover the Flix Style site of AVideo Platform. Subscribe with real money via PayPal to access private videos.  
-  **Test User Access**:  
+- **[AVideo Platform Flix Demo](https://flix.avideo.com/)**
+  Discover the Flix Style site of AVideo Platform. Subscribe with real money via PayPal to access private videos.
+  **Test User Access**:
   - **User**: test
   - **Password**: test
 
-- **[AVideo Platform Gallery Demo](https://tutorials.avideo.com/)**  
+- **[AVideo Platform Gallery Demo](https://tutorials.avideo.com/)**
   Explore our Video Gallery, which also serves as a tutorial site. Engage with the content through login, subscription, likes, dislikes, and comments. (Note: Uploading videos is not permitted.)
 
 # 🖥️ Server Requirements
@@ -107,7 +107,7 @@ Control panels significantly interfere with the necessary system access and proc
 
 # Installation Guide for AVideo on Ubuntu
 
-Embarking on the installation of AVideo on your Ubuntu system? You're in the right place. Our comprehensive tutorials are tailored to guide you through every step of the installation process on various Ubuntu versions, including a Docker-based setup. 
+Embarking on the installation of AVideo on your Ubuntu system? You're in the right place. Our comprehensive tutorials are tailored to guide you through every step of the installation process on various Ubuntu versions, including a Docker-based setup.
 
 🎬 **Video Tutorial**
 - For a foundational understanding, check out our [Video Tutorial](https://tutorials.avideo.com/video/10/streamer-and-encoder). Though it's based on older versions of AVideo, it provides an excellent introduction to the installation process.
@@ -135,4 +135,4 @@ Encountered an issue? Don't worry! Our [error identification guide](https://gith
 
 ## 🌟 AVideo Platform Certified Support
 
-Require specialized assistance? Our team of certified AVideo Platform developers is here to help. For professional support and expert consulting on installation, consulting, or plugins, reach out to [Daniel Neto](https://youphp.tube/marketplace/). We're committed to ensuring a seamless and effective AVideo installation and setup.
+Require specialized assistance? Our team of certified AVideo Platform developers is here to help. For professional support and expert consulting on installation, consulting, or plugins, reach out to [Daniel Neto](https://streamphp.com/marketplace/). We're committed to ensuring a seamless and effective AVideo installation and setup.

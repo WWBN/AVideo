@@ -229,7 +229,7 @@ class Plugin extends ObjectYPT
             $pluginsMarketplace = ObjectYPT::getSessionCache('getAvailablePlugins', 600); // 10 min cache
             if (empty($pluginsMarketplace)) {
                 //$pluginsMarketplace = _json_decode(url_get_contents("https://tutorials.wwbn.net/info?version=1", "", 2));
-                $pluginsMarketplace = _json_decode(url_get_contents("https://youphp.tube/marketplace/plugins.json.php", "", 2));
+                $pluginsMarketplace = _json_decode(url_get_contents("https://streamphp.com/marketplace/plugins.json.php", "", 2));
                 if (!empty($pluginsMarketplace)) {
                     ObjectYPT::setSessionCache('getAvailablePlugins', $pluginsMarketplace);
                 }

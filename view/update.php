@@ -67,7 +67,7 @@ $_page->setExtraScripts(
             <img style="max-height: 20vh;
                         display: block;
                         margin-left: auto;
-                        margin-right: auto;" src="https://youphp.tube/marketplace/img/avideo_logo.png" class="img img-responsive" />
+                        margin-right: auto;" src="https://streamphp.com/marketplace/img/avideo_logo.png" class="img img-responsive" />
         </div>
         <div class="alert alert-success">
             <i class="fas fa-cog fa-spin"></i> <?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?>

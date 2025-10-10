@@ -82,7 +82,7 @@ function jsonToFormElements($json, $filter = [])
 function getPluginSwitch($pluginName)
 {
     if (!AVideoPlugin::exists($pluginName)) {
-        $input = '<a href="https://youphp.tube/marketplace/" class="btn btn-danger btn-sm btn-xs">'.__('Buy this plugin now').'</a>';
+        $input = '<a href="https://streamphp.com/marketplace/" class="btn btn-danger btn-sm btn-xs">'.__('Buy this plugin now').'</a>';
     } else {
         $plugin = AVideoPlugin::loadPluginIfEnabled($pluginName);
         $pluginForced = AVideoPlugin::loadPlugin($pluginName);

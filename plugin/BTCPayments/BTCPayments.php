@@ -6,7 +6,7 @@ require_once $global['systemRootPath'] . 'plugin/BTCPayments/Objects/Btc_invoice
 require_once $global['systemRootPath'] . 'plugin/BTCPayments/Objects/Btc_payments.php';
 
 
-define("BTC_MARKETPLACE_URL", "https://youphp.tube/marketplace/BTC/"); // Replace with your BTCPay server URL
+define("BTC_MARKETPLACE_URL", "https://streamphp.com/marketplace/BTC/"); // Replace with your BTCPay server URL
 //define("BTC_MARKETPLACE_URL", "http://192.168.0.2:81/youphptube.com/marketplace/BTC/"); // Replace with your BTCPay server URL
 
 class BTCPayments extends PluginAbstract

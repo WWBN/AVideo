@@ -324,7 +324,7 @@ if (!empty($includeHead) && file_exists($includeHead)) {
             ?>
                             <div class="alert alert-danger">
                                 <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
-                                <a class="btn btn-danger" href="https://youphp.tube/marketplace/"><?php echo __('Plugin Store'); ?></a>
+                                <a class="btn btn-danger" href="https://streamphp.com/marketplace/"><?php echo __('Plugin Store'); ?></a>
                             </div>
                         <?php
                         }
@@ -336,7 +336,7 @@ if (!empty($includeHead) && file_exists($includeHead)) {
                         ?>
                         <div class="alert alert-danger">
                             <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
-                            <a class="btn btn-danger" href="https://youphp.tube/marketplace/"><?php echo __('Plugin Store'); ?></a>
+                            <a class="btn btn-danger" href="https://streamphp.com/marketplace/"><?php echo __('Plugin Store'); ?></a>
                         </div>
             <?php
                     }
