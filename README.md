@@ -9,13 +9,16 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
   <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
 </p>
 
-> [!IMPORTANT]
-### Domain Update Notice
+### [!IMPORTANT] Domain Update Notice
+
 Our previous domains — **youphptube.com** and **youphp.tube** — are being retired following a dispute initiated by **Google LLC (YouTube)**.  
 Although we firmly believe that **YouPHPTube** has always been an **independent, open-source project**, created to empower developers and organizations to host their own video platforms, we have decided to **respect the process and move forward peacefully**.  
+
 🆕 **Please update your bookmarks and references to the new official domain:**  
+
 👉 [https://streamphp.com/](https://streamphp.com/)  
-> Thank you for your continued support and for standing with open-source freedom.
+
+Thank you for your continued support and for standing with open-source freedom.
 
 
 ## Introduction to AVideo
