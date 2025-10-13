@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-LABEL maintainer="Daniel Neto <developer@youphptube.com>" \
+LABEL maintainer="Daniel Neto <developer@streamphp.com>" \
       org.label-schema.schema-version="2.0" \
       org.label-schema.version="2.0.0" \
       org.label-schema.name="avideo-platform" \

@@ -2,4 +2,4 @@
 
 ## Reporting a Vulnerability
 
-Please report security issues to developer@youphptube.com
+Please report security issues to developer@streamphp.com

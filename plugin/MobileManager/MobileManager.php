@@ -84,7 +84,7 @@ class MobileManager extends PluginAbstract
         $obj->showMeet = true;
         $obj->goLiveWithMeet = true;
         $obj->doNotAutoSearch = false;
-        $obj->playStoreApp = 'https://play.google.com/store/apps/details?id=mobile.youphptube.com';
+        $obj->playStoreApp = 'https://play.google.com/store/apps/details?id=mobile.streamphp.com';
         $obj->appleStoreApp = 'https://apps.apple.com/us/app/youphptube/id1337322357';
 
         $obj->pwa_background_color = "#000000";
