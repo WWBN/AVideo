@@ -268,7 +268,7 @@ if (typeof gtag !== \"function\") {
     public function getExternalOption($id)
     {
         $eo = User::decodeExternalOption($this->externalOptions);
-        if (empty($eo[$id])) {
+        if (empty($eo[$id]) && $eo[$id] !== 0 && $eo[$id] !== '0') {
             return null;
         }
         return $eo[$id];
