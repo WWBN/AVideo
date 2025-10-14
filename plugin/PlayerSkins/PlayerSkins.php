@@ -673,6 +673,7 @@ class PlayerSkins extends PluginAbstract
                 'autoPlayAdBreaks' => $autoPlayAdBreaks,
             );
             $js .= PHP_EOL . "adTagOptions = " . json_encode($adTagOptions) . ";" . PHP_EOL;
+            $js .= "console.log('IMA AdTag', adTagOptions);";
             $js .= "player.ima(adTagOptions);";
             if(empty($autoPlayAdBreaks)){
                 $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/vmap_ad_scheduler.js') . PHP_EOL;
@@ -682,7 +683,9 @@ class PlayerSkins extends PluginAbstract
             }
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerAdsEvents.js') . PHP_EOL;
         }
-        $js .= "};" . PHP_EOL;
+        $js .= "}else{
+            console.log('IMA AdTag PlayerSkins: player already defined');
+        };" . PHP_EOL;
 
         $js .= PHP_EOL . "if(typeof player !== 'undefined'){";
         $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReady.js');
