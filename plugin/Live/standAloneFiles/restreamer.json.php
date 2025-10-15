@@ -622,8 +622,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         // throttling de leitura em tempo real (se desejar manter)
         . "-re "
         // ===== INPUT (HTTP/HLS) =====
-        . "-rw_timeout 60000000 "                 // 60s em microssegundos
-        . "-timeout 60000000 "                    // pode ser ignorado por alguns protocolos
+        . "-rw_timeout 120000000 "                 // 120s em microssegundos
+        . "-timeout 120000000 "                    // pode ser ignorado por alguns protocolos
         . "-reconnect 1 -reconnect_streamed 1 "
         . "-reconnect_at_eof 1 -reconnect_delay_max 10 "
         . ($disableReconnectOnNetworkError ? "" : "-reconnect_on_network_error 1 ")
