@@ -558,7 +558,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     global $json;
     global $ffmpegBinary, $isATest;
 
-     // 🔒 Lock file to avoid duplicate restreams
+    // 🔒 Lock file to avoid duplicate restreams
     $lockFilePath = "/tmp/restream_lock_{$robj->live_restreams_id}_{$robj->liveTransmitionHistory_id}.lock";
     $lockFileHandle = fopen($lockFilePath, 'c');
     if (!$lockFileHandle || !flock($lockFileHandle, LOCK_EX | LOCK_NB)) {
@@ -616,43 +616,45 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
     // Disable reconnect_on_network_error for FFmpeg versions below 6
     $disableReconnectOnNetworkError = ($ffmpegMajorVersion < 6);
-
     $userAgent = 'AVideoRestreamer';
 
-    $FFMPEGcommand = "{$ffmpegBinary} -re -rw_timeout 60000000 -reconnect 1 -reconnect_streamed 1 -reconnect_at_eof 1 -reconnect_delay_max 10 -y";
+    $FFMPEGcommand = "{$ffmpegBinary} -hide_banner -y -v info "
+        // throttling de leitura em tempo real (se desejar manter)
+        . "-re "
+        // ===== INPUT (HTTP/HLS) =====
+        . "-rw_timeout 60000000 "                 // 60s em microssegundos
+        . "-timeout 60000000 "                    // pode ser ignorado por alguns protocolos
+        . "-reconnect 1 -reconnect_streamed 1 "
+        . "-reconnect_at_eof 1 -reconnect_delay_max 10 "
+        . ($disableReconnectOnNetworkError ? "" : "-reconnect_on_network_error 1 ")
+        . "-http_persistent 1 -multiple_requests 1 " // mantém conexões HTTP ativas entre segmentos
+        . "-probesize 100M -analyzeduration 300M "
+        . "-thread_queue_size 8192 "
+        . "-fflags +genpts ";
 
     if (filter_var($m3u8, FILTER_VALIDATE_URL)) {
         $FFMPEGcommand .= " -user_agent \"{$userAgent}\"";
     }
 
-    $FFMPEGcommand .= " -i \"{$m3u8}\" -preset veryfast";
+    $FFMPEGcommand .= " -i \"{$m3u8}\" ";
 
-    $FFMPEGComplement = " -max_muxing_queue_size 2048 " // Increased the muxing queue size for stability
-        . '{audioConfig}'
-        . "-c:v libx264 "
-        . "-pix_fmt yuv420p "
-        . "-r 30 -g 60 "
-        . "-tune zerolatency "
-        . "-x264-params \"nal-hrd=cbr\" " // Ensure constant bitrate for compatibility with social media platforms
-        . "-b:v 6000k " // Set constant video bitrate
-        . "-minrate 6000k -maxrate 6000k -bufsize 12000k " // Increased buffer size for better handling of network fluctuations
-        . "-preset veryfast "
-        . "-vf \"scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2\" "
-        . "-f flv "
-        . "-fflags +genpts " // Ensure smooth playback
-        . "-strict -2 " // Allow non-compliant AAC audio
-        . "-reconnect 1 " // Enable reconnection in case of a broken pipe
-        . "-reconnect_at_eof 1 " // Ensure reconnection even after EOF
-        . "-reconnect_streamed 1 " // Allow reconnection for non-seekable streams
-        . "-reconnect_delay_max 10 " // Maximum delay between reconnection attempts
-        . ($disableReconnectOnNetworkError ? "" : "-reconnect_on_network_error 1 ") // Retry on network errors only if supported
-        . "-probesize 50M " // Increased probing size to handle larger HLS segments
-        . "-analyzeduration 200M " // Increase analysis duration to handle network issues
-        . "-rtmp_buffer 20000 " // Increased RTMP buffer size for smoother streaming
-        . "-rtmp_live live " // Ensure RTMP live streaming mode
-        . "{tls_verify} " // Disable SSL/TLS certificate validation (optional, based on your trust in the source)
-        . "\"{restreamsDestinations}\"";
-
+    // ===== ENCODER/OUTPUT =====
+    $FFMPEGComplement =
+        " -vsync cfr "                              // força CFR corretamente
+        . " -max_muxing_queue_size 8192 "             // fila maior p/ picos
+        . " {audioConfig}"
+        . " -c:v libx264 -preset veryfast -tune zerolatency "
+        . " -pix_fmt yuv420p "
+        . " -r 30 -g 60 -sc_threshold 0 "             // GOP fixo 2s
+        . " -x264-params \"keyint=60:min-keyint=60:scenecut=0:nal-hrd=cbr\" "
+        . " -b:v 6000k -minrate 6000k -maxrate 6000k -bufsize 12000k "
+        . " -vf \"scale=1280:720:force_original_aspect_ratio=decrease,"
+        . "pad=1280:720:(ow-iw)/2:(oh-ih)/2,format=yuv420p\" "
+        . " -flvflags no_duration_filesize "
+        . " -strict -2 "
+        . " -f flv "
+        . " {tls_verify} "
+        . " \"{restreamsDestinations}\"";   // sug.: append ?rtmp_live=1 na URL
 
     if (count($restreamsDestinations) > 1) {
         $command = $FFMPEGcommand;
@@ -696,11 +698,16 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 function getAudioConfiguration($source)
 {
     if (preg_match("/facebook.com/i", $source)) {
-        $audioConfig = '-c:a copy -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k ';
+        $audioConfig = '-c:a aac -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k -profile:a aac_low ';
     } else if (preg_match("/youtube.com/i", $source)) {
-        $audioConfig = '-c:a aac -b:a 128k ';
+        // YouTube-optimized audio settings for better compatibility
+        $audioConfig = '-c:a aac -b:a 128k -ar 44100 -ac 2 -profile:a aac_low -aac_coder twoloop ';
+    } else if (preg_match("/twitch\.tv/i", $source)) {
+        // Twitch-optimized audio settings
+        $audioConfig = '-c:a aac -b:a 160k -ar 48000 -ac 2 -profile:a aac_low ';
     } else {
-        $audioConfig = '-c:a copy ';
+        // Default: try to copy audio first, fallback to AAC if needed
+        $audioConfig = '-c:a aac -b:a 128k -ar 44100 -ac 2 -profile:a aac_low ';
     }
 
     return $audioConfig;
