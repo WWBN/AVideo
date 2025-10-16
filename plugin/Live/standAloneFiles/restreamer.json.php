@@ -495,7 +495,20 @@ function postToURL($url, $data_string, $timeLimit = 10)
 
 function clearCommandURL($url)
 {
-    return preg_replace('/[^0-9a-z:.\/_&?=-]/i', "", $url);
+    // Validate URL format first
+    if (empty($url) || !is_string($url)) {
+        return '';
+    }
+
+    // Remove potentially dangerous characters while preserving valid URL characters
+    $cleanUrl = preg_replace('/[^0-9a-z:.\/_&?=-]/i', "", $url);
+
+    // Additional security: ensure it looks like a URL
+    if (!preg_match('/^https?:\/\//', $cleanUrl) && !preg_match('/^rtmps?:\/\//', $cleanUrl)) {
+        error_log("clearCommandURL: Invalid URL format: " . $url);
+    }
+
+    return $cleanUrl;
 }
 
 function _isURL200($url, $forceRecheck = false)
@@ -572,13 +585,15 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         return false;
     }
 
-    $restream = isRestreamRuning($robj->live_restreams_id, $robj->liveTransmitionHistory_id);
-    if (!empty($restream)) {
-        error_log("Restreamer.json.php startRestream ERROR it is already running " . json_encode($restream));
-        return false;
-    } else {
-        error_log("Restreamer.json.php startRestream success " . json_encode(array($robj->live_restreams_id, $robj->liveTransmitionHistory_id)));
+    // Check if restream is already running
+    if (function_exists('isRestreamRuning')) {
+        $restream = isRestreamRuning($robj->live_restreams_id, $robj->liveTransmitionHistory_id);
+        if (!empty($restream)) {
+            error_log("Restreamer.json.php startRestream ERROR it is already running " . json_encode($restream));
+            return false;
+        }
     }
+    error_log("Restreamer.json.php startRestream success " . json_encode(array($robj->live_restreams_id, $robj->liveTransmitionHistory_id)));
 
     $m3u8 = _addQueryStringParameter($m3u8, 'live_restreams_id', $robj->live_restreams_id);
     $m3u8 = _addQueryStringParameter($m3u8, 'liveTransmitionHistory_id', $robj->liveTransmitionHistory_id);
@@ -651,7 +666,6 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . " -vf \"scale=1280:720:force_original_aspect_ratio=decrease,"
         . "pad=1280:720:(ow-iw)/2:(oh-ih)/2,format=yuv420p\" "
         . " -flvflags no_duration_filesize "
-        . " -strict -2 "
         . " -f flv "
         . " {tls_verify} "
         . " \"{restreamsDestinations}\"";   // sug.: append ?rtmp_live=1 na URL
@@ -661,14 +675,28 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         foreach ($restreamsDestinations as $value) {
             $audioConfig = getAudioConfiguration($value);
             $value = clearCommandURL($value);
-            $tls_verify = preg_match("/rtmps:/i", $value) ? "-tls_verify 0 " : "";
-            $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'), array($audioConfig, $value, $tls_verify), $FFMPEGComplement);
+            $tcurl = buildRtmpTcurl($value);
+            $tls_verify = preg_match("/^rtmps:/i", $value) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
+
+            $command .= str_replace(
+                array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'),
+                array($audioConfig, $value, $tls_verify),
+                $FFMPEGComplement
+            );
         }
     } else {
         $audioConfig = getAudioConfiguration($restreamsDestinations[0]);
-        $tls_verify = preg_match("/rtmps:/i", $restreamsDestinations[0]) ? "-tls_verify 0 " : "";
+        $dst = clearCommandURL($restreamsDestinations[0]);
+
+        $tcurl = buildRtmpTcurl($dst);
+        $tls_verify = preg_match("/^rtmps:/i", $dst) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
+
         $command = $FFMPEGcommand;
-        $command .= str_replace(array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'), array($audioConfig, $restreamsDestinations[0], $tls_verify), $FFMPEGComplement);
+        $command .= str_replace(
+            array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'),
+            array($audioConfig, $dst, $tls_verify),
+            $FFMPEGComplement
+        );
     }
 
     if (empty($command) || !preg_match("/-f flv/i", $command)) {
@@ -681,7 +709,13 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             $keyword = 'restream_' . md5(basename($logFile));
             $robj->keyword = $keyword;
             // use remote ffmpeg here
-            execFFMPEGAsyncOrRemote($command . ' > ' . $logFile . ' 2>&1 ', $keyword, '', $json->restreamStandAloneFFMPEG);
+            if (function_exists('execFFMPEGAsyncOrRemote')) {
+                $restreamStandAloneFFMPEG = isset($json->restreamStandAloneFFMPEG) ? $json->restreamStandAloneFFMPEG : false;
+                execFFMPEGAsyncOrRemote($command . ' > ' . $logFile . ' 2>&1 ', $keyword, '', $restreamStandAloneFFMPEG);
+            } else {
+                // Fallback: execute directly
+                exec($command . ' > ' . $logFile . ' 2>&1 &');
+            }
         }
         error_log("Restreamer.json.php startRestream finish");
     }
@@ -695,10 +729,29 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     return true;
 }
 
+function buildRtmpTcurl(string $url): string
+{
+    $p = parse_url($url);
+    if (empty($p['scheme']) || empty($p['host'])) return $url;
+
+    $scheme = $p['scheme'];
+    $host   = $p['host'];
+    $port   = isset($p['port']) ? (':' . $p['port']) : '';
+    $path = $p['path'] ?? '/';
+    $dir = rtrim(dirname($path), '/');
+    if ($dir === '.' || $dir === '') {
+        $basePath = '/';
+    } else {
+        $basePath = $dir . '/';
+    }
+
+    return "{$scheme}://{$host}{$port}{$basePath}";
+}
+
 function getAudioConfiguration($source)
 {
     if (preg_match("/facebook.com/i", $source)) {
-        $audioConfig = '-c:a aac -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k -profile:a aac_low ';
+        $audioConfig = '-c:a aac -ac 2 -ar 44100 -b:a 128k -profile:a aac_low ';
     } else if (preg_match("/youtube.com/i", $source)) {
         // YouTube-optimized audio settings for better compatibility
         $audioConfig = '-c:a aac -b:a 128k -ar 44100 -ac 2 -profile:a aac_low -aac_coder twoloop ';
@@ -755,8 +808,13 @@ function getProcess($robj)
     }
 
     // --------- First check using `pgrep` ----------
-    $pgrepPattern = escapeshellarg("{$ffmpegBinary}.*{$m3u8}.*{$patternExtra}");
-    exec("pgrep -af {$pgrepPattern}", $pgrepOutput);
+    // Sanitize inputs to prevent command injection
+    $safeFfmpegBinary = escapeshellarg($ffmpegBinary);
+    $safeM3u8 = escapeshellarg($m3u8);
+    $safePatternExtra = escapeshellarg($patternExtra);
+
+    $pgrepPattern = "{$safeFfmpegBinary}.*{$safeM3u8}.*{$safePatternExtra}";
+    exec("pgrep -af " . escapeshellarg($pgrepPattern), $pgrepOutput);
     foreach ($pgrepOutput as $line) {
         if (preg_match('/^(\d+)\s+(.*)$/', trim($line), $matches)) {
             error_log("Restreamer:getProcess [pgrep] found process: {$line}");
@@ -782,13 +840,17 @@ function killIfIsRunning($robj)
 {
     $process = getProcess($robj);
     //error_log("Restreamer.json.php killIfIsRunning checking if there is a process running for {$m3u8} ");
-    if (!empty($process)) {
+    if (!empty($process) && is_array($process)) {
         error_log("Restreamer.json.php killIfIsRunning there is a process running " . json_encode($process));
-        $pid = intval($process[1]);
-        if (!empty($pid)) {
+        $pid = intval($process[0]); // Fixed: use index 0 for PID
+        if ($pid > 0) {
             error_log("Restreamer.json.php killIfIsRunning killing {$pid} ");
-            exec("kill -9 {$pid} 2>&1", $output, $return_var);
-            sleep(1);
+            // Sanitize PID to prevent command injection
+            $safePid = filter_var($pid, FILTER_VALIDATE_INT, array("options" => array("min_range" => 1)));
+            if ($safePid !== false) {
+                exec("kill -9 " . escapeshellarg($safePid) . " 2>&1", $output, $return_var);
+                sleep(1);
+            }
         }
         return true;
     } else {
