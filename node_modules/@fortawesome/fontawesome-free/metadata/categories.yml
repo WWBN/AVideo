@@ -26,6 +26,7 @@ accessibility:
   label: Accessibility
 alert:
   icons:
+    - alarm-clock
     - bell
     - bell-slash
     - circle-exclamation
@@ -232,6 +233,7 @@ astronomy:
 automotive:
   icons:
     - bus
+    - bus-side
     - bus-simple
     - car
     - car-battery
@@ -364,6 +366,7 @@ business:
     - chart-simple
     - city
     - clipboard
+    - clipboard-check
     - clipboard-question
     - compass
     - copy
@@ -492,7 +495,6 @@ charity:
     - hands-holding-circle
     - handshake
     - handshake-angle
-    - handshake-simple
     - heart
     - leaf
     - parachute-box
@@ -633,6 +635,7 @@ communication:
     - comment-slash
     - comment-sms
     - comments
+    - ear-deaf
     - ear-listen
     - envelope
     - envelope-circle-check
@@ -655,6 +658,7 @@ communication:
     - mobile-retro
     - mobile-screen
     - mobile-screen-button
+    - mobile-vibrate
     - paper-plane
     - phone
     - phone-flip
@@ -663,6 +667,8 @@ communication:
     - poo
     - quote-left
     - quote-right
+    - single-quote-left
+    - single-quote-right
     - square-envelope
     - square-phone
     - square-phone-flip
@@ -771,12 +777,12 @@ design:
     - ruler-horizontal
     - ruler-vertical
     - scissors
+    - spiral
     - splotch
     - spray-can
     - stamp
     - stapler
     - swatchbook
-    - vector-square
     - wand-magic
     - wand-magic-sparkles
     - web-awesome
@@ -811,6 +817,7 @@ devices-hardware:
     - mobile-retro
     - mobile-screen
     - mobile-screen-button
+    - mobile-vibrate
     - plug
     - power-off
     - print
@@ -1209,6 +1216,7 @@ gender:
     - mars-stroke-up
     - mercury
     - neuter
+    - non-binary
     - person-half-dress
     - transgender
     - venus
@@ -1263,8 +1271,6 @@ hands:
     - hands-praying
     - handshake
     - handshake-angle
-    - handshake-simple
-    - handshake-simple-slash
     - handshake-slash
     - thumbs-down
     - thumbs-up
@@ -1397,6 +1403,7 @@ humanitarian:
     - building-wheat
     - burst
     - bus
+    - bus-side
     - car
     - car-on
     - car-tunnel
@@ -1449,7 +1456,7 @@ humanitarian:
     - hands-bubbles
     - hands-holding-child
     - hands-holding-circle
-    - handshake-simple
+    - handshake
     - headset
     - heart-circle-bolt
     - heart-circle-check
@@ -1690,6 +1697,7 @@ logistics:
     - bridge-lock
     - bridge-water
     - bus
+    - bus-side
     - bus-simple
     - car
     - car-tunnel
@@ -1698,6 +1706,7 @@ logistics:
     - clipboard-check
     - clipboard-list
     - clipboard-question
+    - clipboard-user
     - dolly
     - ferry
     - gas-pump
@@ -2204,7 +2213,6 @@ music-audio:
     - file-audio
     - guitar
     - headphones
-    - headphones-simple
     - microphone
     - microphone-lines
     - microphone-lines-slash
@@ -2336,6 +2344,8 @@ punctuation-symbols:
     - quote-left
     - quote-right
     - section
+    - single-quote-left
+    - single-quote-right
   label: Punctuation + Symbols
 religion:
   icons:
@@ -2506,11 +2516,16 @@ shapes:
     - folder
     - heart
     - heart-crack
+    - hexagon
     - lines-leaning
     - location-pin
+    - octagon
+    - pentagon
     - play
+    - septagon
     - shapes
     - shield
+    - spiral
     - square
     - square-binary
     - star
@@ -2562,6 +2577,7 @@ shopping:
     - nfc-symbol
     - paypal
     - person-booth
+    - qrcode
     - receipt
     - shirt
     - shop
@@ -2733,6 +2749,7 @@ text-formatting:
   label: Text Formatting
 time:
   icons:
+    - alarm-clock
     - bell
     - bell-slash
     - calendar
@@ -2762,6 +2779,7 @@ toggle:
     - microphone-slash
     - plane-up
     - signal
+    - sliders
     - star
     - star-half
     - star-half-stroke
@@ -2775,6 +2793,7 @@ transportation:
     - baby-carriage
     - bicycle
     - bus
+    - bus-side
     - bus-simple
     - cable-car
     - car
@@ -2792,6 +2811,7 @@ transportation:
     - mound
     - paper-plane
     - plane
+    - plane-arrival
     - plane-slash
     - plane-up
     - road
@@ -2824,6 +2844,7 @@ transportation:
   label: Transportation
 travel-hotel:
   icons:
+    - alarm-clock
     - archway
     - baby-carriage
     - ban-smoking
@@ -2833,6 +2854,7 @@ travel-hotel:
     - book-atlas
     - briefcase
     - bus
+    - bus-side
     - bus-simple
     - cable-car
     - car
@@ -2997,8 +3019,6 @@ users-people:
     - user-graduate
     - user-group
     - user-injured
-    - user-large
-    - user-large-slash
     - user-lock
     - user-minus
     - user-ninja
@@ -3090,6 +3110,8 @@ writing:
     - quote-left
     - quote-right
     - signature
+    - single-quote-left
+    - single-quote-right
     - square-pen
     - thumbtack
     - thumbtack-slash

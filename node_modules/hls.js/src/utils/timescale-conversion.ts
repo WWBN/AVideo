@@ -5,6 +5,8 @@ export type RationalTimestamp = {
   timescale: number; // ticks per second
 };
 
+export type TimestampOffset = RationalTimestamp & { trackId: number };
+
 export function toTimescaleFromBase(
   baseTime: number,
   destScale: number,
@@ -36,4 +38,9 @@ export function toMpegTsClockFromTimescale(
   srcScale: number = 1,
 ): number {
   return toTimescaleFromBase(baseTime, MPEG_TS_CLOCK_FREQ_HZ, 1 / srcScale);
+}
+
+export function timestampToString(timestamp: TimestampOffset): string {
+  const { baseTime, timescale, trackId } = timestamp;
+  return `${baseTime / timescale} (${baseTime}/${timescale}) trackId: ${trackId}`;
 }

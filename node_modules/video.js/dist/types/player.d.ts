@@ -1784,6 +1784,57 @@ declare class Player extends Component {
      */
     usingPlugin(name: string): boolean;
     /**
+     * Get the {@link VideoTrackList}
+     *
+     * @link https://html.spec.whatwg.org/multipage/embedded-content.html#videotracklist
+     *
+     * @return {VideoTrackList}
+     *         the current video track list
+     *
+     * @method Player.prototype.videoTracks
+     */
+    videoTracks(): VideoTrackList;
+    /**
+     * Get the {@link AudioTrackList}
+     *
+     * @link https://html.spec.whatwg.org/multipage/embedded-content.html#audiotracklist
+     *
+     * @return {AudioTrackList}
+     *         the current audio track list
+     *
+     * @method Player.prototype.audioTracks
+     */
+    audioTracks(): AudioTrackList;
+    /**
+     * Get the {@link TextTrackList}
+     *
+     * @link http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#dom-media-texttracks
+     *
+     * @return {TextTrackList}
+     *         the current text track list
+     *
+     * @method Player.prototype.textTracks
+     */
+    textTracks(): TextTrackList;
+    /**
+     * Get the remote {@link TextTrackList}
+     *
+     * @return {TextTrackList}
+     *         The current remote text track list
+     *
+     * @method Player.prototype.remoteTextTracks
+     */
+    remoteTextTracks(): TextTrackList;
+    /**
+     * Get the remote {@link HtmlTrackElementList} tracks.
+     *
+     * @return {HtmlTrackElementList}
+     *         The current remote text track element list
+     *
+     * @method Player.prototype.remoteTextTrackEls
+     */
+    remoteTextTrackEls(): HtmlTrackElementList;
+    /**
      * Get or set the `Player`'s crossorigin option. For the HTML5 player, this
      * sets the `crossOrigin` property on the `<video>` tag to control the CORS
      * behavior.
@@ -1826,6 +1877,7 @@ declare class Player extends Component {
         };
         enableSmoothSeeking: boolean;
         disableSeekWhileScrubbingOnMobile: boolean;
+        disableSeekWhileScrubbingOnSTV: boolean;
     };
 }
 declare namespace Player {
@@ -1838,4 +1890,8 @@ import type { TimeRange } from './utils/time';
 import MediaError from './media-error.js';
 import type HtmlTrackElement from './tracks/html-track-element';
 import ModalDialog from './modal-dialog';
+import type VideoTrackList from './tracks/video-track-list';
+import type AudioTrackList from './tracks/audio-track-list';
+import type TextTrackList from './tracks/text-track-list';
+import type HtmlTrackElementList from './tracks/html-track-element-list';
 //# sourceMappingURL=player.d.ts.map

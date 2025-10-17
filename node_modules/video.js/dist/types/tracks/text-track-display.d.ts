@@ -62,11 +62,14 @@ declare class TextTrackDisplay extends Component {
      */
     clearDisplay(): void;
     /**
-     * Update the displayed TextTrack when a either a {@link Player#texttrackchange} or
-     * a {@link Player#fullscreenchange} is fired.
+     * Update the displayed {@link TextTrack} when either a {@link Player#texttrackchange},
+     * a {@link Player#fullscreenchange}, a {@link Player#useractive}, or a
+     * {@link Player#userinactive} is fired.
      *
      * @listens Player#texttrackchange
      * @listens Player#fullscreenchange
+     * @listens Player#useractive
+     * @listens Player#userinactive
      */
     updateDisplay(): void;
     /**

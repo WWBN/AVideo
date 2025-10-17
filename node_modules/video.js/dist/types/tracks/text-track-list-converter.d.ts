@@ -1,7 +1,7 @@
 declare namespace _default {
     export { textTracksToJson };
     export { jsonToTextTracks };
-    export { trackToJson_ };
+    export { trackToJson };
 }
 export default _default;
 /**
@@ -47,6 +47,6 @@ declare function jsonToTextTracks(json: any[], tech: Tech): any;
  *         A serializable javascript representation of the TextTrack.
  * @private
  */
-declare function trackToJson_(track: TextTrack): any;
+declare function trackToJson(track: TextTrack): any;
 import type Tech from '../tech/tech';
 //# sourceMappingURL=text-track-list-converter.d.ts.map

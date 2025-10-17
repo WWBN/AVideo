@@ -206,6 +206,11 @@ crystal-instruments:
     - chart-sine
   label: Crystal Instruments
   url: 'https://www.crystalinstruments.com'
+crystalinstruments:
+  icons:
+    - transducer
+  label: Crystal Instruments
+  url: 'http://www.CrystalInstruments.com/'
 cuttlefish:
   icons:
     - cuttlefish
@@ -556,6 +561,11 @@ libeo:
     - arrow-right-to-arc
   label: Libeo
   url: 'https://libeo.io'
+lychee:
+  icons:
+    - lychee
+  label: Lychee
+  url: 'https://lychee.is'
 max-elman:
   icons:
     - frog
@@ -616,6 +626,16 @@ mizuni:
     - mizuni
   label: Mizuni
   url: 'http://www.mizuni.com'
+morganlopes:
+  icons:
+    - aeropress
+    - chemex
+    - foot-wing
+    - hand-shaka
+    - kettlebell
+    - supportnow
+  label: Morgan Lopes
+  url: 'https://www.morganjlopes.com/fontawesome'
 mrt:
   icons:
     - medrt
@@ -719,6 +739,11 @@ optimism:
     - swap-arrows
   label: Optimism
   url: 'https://www.optimism.io/'
+oxiyen:
+  icons:
+    - pump-impeller
+  label: Oxiyen
+  url: 'https://oxiyen.com/'
 padlet:
   icons:
     - padlet
@@ -978,7 +1003,6 @@ speakap:
 starchive:
   icons:
     - hexagon-vertical-nft
-    - hexagon-vertical-nft-slanted
   label: Starchive
   url: 'https://www.starchive.io'
 stay-linked:
@@ -1089,7 +1113,6 @@ the-us-sunnah-foundation:
     - hands-holding-heart
     - handshake
     - handshake-angle
-    - handshake-simple
     - house-heart
     - leaf
     - leaf-heart

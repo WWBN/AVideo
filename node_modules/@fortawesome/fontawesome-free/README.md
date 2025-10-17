@@ -1,6 +1,6 @@
-# @fortawesome/fontawesome-free - The Official Font Awesome 6 NPM package
+# @fortawesome/fontawesome-free - The Official Font Awesome 7 NPM package
 
-> "I came here to chew bubblegum and install Font Awesome 6 - and I'm all out of bubblegum"
+> "I came here to chew bubblegum and install Font Awesome 7 - and I'm all out of bubblegum"
 
 [![npm](https://img.shields.io/npm/v/@fortawesome/fontawesome-free.svg?style=flat-square)](https://www.npmjs.com/package/@fortawesome/fontawesome-free)
 
@@ -20,10 +20,10 @@ $ yarn add @fortawesome/fontawesome-free
 
 **This package includes all the same files available through our Free and Pro CDN.**
 
-* /js - All JavaScript files associated with Font Awesome 6 SVG with JS
+* /js - All JavaScript files associated with Font Awesome 7 SVG with JS
 * /css - All CSS using the classic Web Fonts with CSS implementation
 * /sprites - SVG icons packaged in a convenient sprite
-* /scss, /less - CSS Pre-processor files for Web Fonts with CSS
+* /scss - CSS Pre-processor files for Web Fonts with CSS
 * /webfonts - Accompanying files for Web Fonts with CSS
 * /svg - Individual icon files in SVG format
 

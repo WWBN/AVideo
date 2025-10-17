@@ -6,8 +6,25 @@ export default SeekBar;
  * @extends Slider
  */
 declare class SeekBar extends Slider {
-    shouldDisableSeekWhileScrubbingOnMobile_: boolean;
-    pendingSeekTime_: any;
+    /**
+     * Creates an instance of this class.
+     *
+     * @param {Player} player
+     *        The `Player` that this class should be attached to.
+     *
+     * @param {Object} [options]
+     *        The key/value store of player options.
+     * @param {number} [options.stepSeconds=5]
+     *        The number of seconds to increment on keyboard control
+     * @param {number} [options.pageMultiplier=12]
+     *        The multiplier of stepSeconds that PgUp/PgDown move the timeline.
+     */
+    constructor(player: Player, options?: {
+        stepSeconds?: number;
+        pageMultiplier?: number;
+    });
+    shouldDisableSeekWhileScrubbing_: boolean;
+    pendingSeekTime_: number;
     /**
      * Sets the event handlers
      *
@@ -62,6 +79,14 @@ declare class SeekBar extends Slider {
      */
     private getCurrentTime_;
     /**
+     * Getter and setter for pendingSeekTime.
+     * Ensures the value is clamped between 0 and duration.
+     *
+     * @param {number|null} [time] - Optional. The new pending seek time, can be a number or null.
+     * @return {number|null} - The current pending seek time.
+     */
+    pendingSeekTime(time?: number | null): number | null;
+    /**
      * Get the percentage of media played so far.
      *
      * @return {number}
@@ -79,6 +104,12 @@ declare class SeekBar extends Slider {
      * @listens mousemove
      */
     handleMouseMove(event: MouseEvent, mouseDown?: boolean): void;
+    /**
+     * Handles pending seek time when `disableSeekWhileScrubbingOnSTV` is enabled.
+     *
+     * @param {number} stepAmount - The number of seconds to step (positive for forward, negative for backward).
+     */
+    handlePendingSeek_(stepAmount: number): void;
     /**
      * Move more quickly fast forward for keyboard-only users
      */
@@ -99,4 +130,5 @@ declare class SeekBar extends Slider {
     dispose(): void;
 }
 import Slider from '../../slider/slider.js';
+import type Player from '../../player';
 //# sourceMappingURL=seek-bar.d.ts.map

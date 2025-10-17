@@ -19,6 +19,13 @@ declare class TextTrackList extends TrackList {
     queueChange_: () => void;
     triggerSelectedlanguagechange_: () => void;
     removeTrack(rtrack: any): void;
+    /**
+     * Creates a serializable array of objects that contains serialized copies
+     * of each text track.
+     *
+     * @return {Object[]} A serializable list of objects for the text track list
+     */
+    toJSON(): any[];
 }
 import TrackList from './track-list';
 import type TextTrack from './text-track';

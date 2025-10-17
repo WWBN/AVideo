@@ -26,8 +26,11 @@ declare class PlayProgressBar extends Component {
      * @param {number} seekBarPoint
      *        A number from 0 to 1, representing a horizontal reference point
      *        from the left edge of the {@link SeekBar}
+     *
+     * @param {Event} [event]
+     *        The `timeupdate` event that caused this function to run.
      */
-    update(seekBarRect: any, seekBarPoint: number): void;
+    update(seekBarRect: any, seekBarPoint: number, event?: Event): void;
     /**
      * Create the the DOM element for this class.
      *

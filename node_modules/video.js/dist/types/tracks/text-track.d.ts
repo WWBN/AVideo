@@ -61,6 +61,13 @@ declare class TextTrack extends Track {
      */
     addCue(originalCue: any): void;
     /**
+     * Creates a copy of the text track and makes it serializable
+     * by removing circular dependencies.
+     *
+     * @return {Object} The track information as a serializable object
+     */
+    toJSON(): any;
+    /**
      * Remove a cue from our internal list
      *
      * @param {TextTrack~Cue} removeCue

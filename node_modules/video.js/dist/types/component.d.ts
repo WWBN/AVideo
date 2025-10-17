@@ -365,10 +365,10 @@ declare class Component {
      * Remove a child `Component` from this `Component`s list of children. Also removes
      * the child `Component`s element from this `Component`s element.
      *
-     * @param {Component} component
-     *        The child `Component` to remove.
+     * @param {string|Component} component
+     *       The name or instance of a child to remove.
      */
-    removeChild(component: Component): void;
+    removeChild(component: string | Component): void;
     /**
      * Add and initialize default child `Component`s based upon options.
      */
