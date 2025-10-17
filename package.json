@@ -13,7 +13,7 @@
     "blockadblock": "^3.2.1",
     "bootstrap": "^5.3.8",
     "bootstrap-fileinput": "^5.5.4",
-    "chart.js": "^4.5.0",
+    "chart.js": "^4.5.1",
     "chartjs-adapter-date-fns": "^3.0.0",
     "chartjs-adapter-moment": "^1.0.1",
     "chartjs-plugin-zoom": "^2.2.0",
