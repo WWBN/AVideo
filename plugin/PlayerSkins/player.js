@@ -12,6 +12,12 @@ function startAudioSpectrumProgress(spectrumImage) {
                 var percentage = style.replace("width:", "");
                 $('#avideo-audio-progress').css('width', percentage.replace(";", ""));
             }, 100);
+
+            if ($(player.el()).hasClass('vjs-error')) {
+                $(player.el()).removeClass('vjs-error');
+                player.error(null);
+            }
+
         });
         player.on('pause', function () {
             //clearInterval(startAudioSpectrumProgressInterval);
@@ -22,7 +28,7 @@ function startAudioSpectrumProgress(spectrumImage) {
 }
 
 function appendOnPlayer(element){
-    if (typeof player !== 'undefined') {        
+    if (typeof player !== 'undefined') {
         $(element).insertBefore($(player.el()).find('.vjs-control-bar'));
     } else {
         setTimeout(function () { appendOnPlayer(element); }, 1000);
