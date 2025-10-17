@@ -13,6 +13,7 @@ function startAudioSpectrumProgress(spectrumImage) {
                 $('#avideo-audio-progress').css('width', percentage.replace(";", ""));
             }, 100);
 
+            // I need to add this because some versions of android chrome keep the error state even after play is pressed, so I cannot see the controls bar
             if ($(player.el()).hasClass('vjs-error')) {
                 $(player.el()).removeClass('vjs-error');
                 player.error(null);
