@@ -68,27 +68,27 @@ function isCrossOrigin(url) {
 async function handleCrossOriginRequest(request) {
     const cacheKey = request.url;
     const cache = await caches.open(staticAssetsCacheName);
-    
+
     // Try to get from cache first
     const cachedResponse = await cache.match(request);
     if (cachedResponse) {
         console.log('Serving from cache:', request.url);
         return cachedResponse;
     }
-    
+
     // If not in cache, fetch with no-cors mode
     try {
         const response = await fetch(request.url, {
             mode: 'no-cors',
             credentials: 'omit'
         });
-        
+
         // Cache the opaque response
         if (response.type === 'opaque') {
             console.log('Caching opaque response:', request.url);
             await cache.put(request, response.clone());
         }
-        
+
         return response;
     } catch (error) {
         console.error('Failed to fetch cross-origin resource:', request.url, error);
@@ -145,7 +145,7 @@ workbox.routing.registerRoute(
             console.log('Handling cross-origin request:', request.url);
             return await handleCrossOriginRequest(request);
         }
-        
+
         // Handle same-origin requests with Workbox strategies
         try {
             if (hasCacheParameter(request.url)) {
