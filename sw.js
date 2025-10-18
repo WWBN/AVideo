@@ -59,43 +59,58 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Custom plugin to handle opaque responses
-const opaqueResponsePlugin = {
-    cacheWillUpdate: async ({ response }) => {
-        // Cache successful responses and opaque responses
-        return response.status === 200 || response.type === 'opaque';
-    },
-    cacheDidUpdate: async ({ cacheName, request, oldResponse, newResponse }) => {
-        // Log cache updates for debugging
-        console.log(`Cache updated for ${request.url} in ${cacheName}`);
-    }
-};
+// Function to check if URL is cross-origin
+function isCrossOrigin(url) {
+    return url.includes('cdn.ypt.me') || !url.startsWith(self.location.origin);
+}
 
-// Custom plugin for cross-origin resources that might return opaque responses
-const crossOriginPlugin = {
-    requestWillFetch: async ({ request }) => {
-        // For cross-origin requests, use no-cors mode to avoid CORS issues
-        if (request.url.includes('cdn.ypt.me') || !request.url.startsWith(self.location.origin)) {
-            return new Request(request.url, {
-                mode: 'no-cors',
-                credentials: 'omit'
-            });
+// Custom handler for cross-origin resources
+async function handleCrossOriginRequest(request) {
+    const cacheKey = request.url;
+    const cache = await caches.open(staticAssetsCacheName);
+    
+    // Try to get from cache first
+    const cachedResponse = await cache.match(request);
+    if (cachedResponse) {
+        console.log('Serving from cache:', request.url);
+        return cachedResponse;
+    }
+    
+    // If not in cache, fetch with no-cors mode
+    try {
+        const response = await fetch(request.url, {
+            mode: 'no-cors',
+            credentials: 'omit'
+        });
+        
+        // Cache the opaque response
+        if (response.type === 'opaque') {
+            console.log('Caching opaque response:', request.url);
+            await cache.put(request, response.clone());
         }
-        return request;
-    },
+        
+        return response;
+    } catch (error) {
+        console.error('Failed to fetch cross-origin resource:', request.url, error);
+        return new Response('', { status: 404 });
+    }
+}
+
+// Standard plugin for same-origin resources
+const standardPlugin = {
     cacheWillUpdate: async ({ response }) => {
-        // Accept opaque responses and successful responses
-        return response.type === 'opaque' || (response.status >= 200 && response.status < 400);
+        return response.status >= 200 && response.status < 400;
     }
 };
 
+// Strategies for same-origin resources only
 const cacheFirst = new workbox.strategies.CacheFirst({
     cacheName: staticAssetsCacheName,
     plugins: [
-        crossOriginPlugin,
+        standardPlugin,
         new workbox.expiration.ExpirationPlugin({
-            maxEntries: _maxEntries, // Adjust this value based on your needs.
-            maxAgeSeconds: _1_WEEK, // 1 week
+            maxEntries: _maxEntries,
+            maxAgeSeconds: _1_WEEK,
         }),
     ]
 });
@@ -103,10 +118,10 @@ const cacheFirst = new workbox.strategies.CacheFirst({
 const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
     cacheName: staticAssetsCacheName,
     plugins: [
-        crossOriginPlugin,
+        standardPlugin,
         new workbox.expiration.ExpirationPlugin({
-            maxEntries: _maxEntries, // Adjust this value based on your needs.
-            maxAgeSeconds: _1_WEEK, // 1 week
+            maxEntries: _maxEntries,
+            maxAgeSeconds: _1_WEEK,
         }),
     ]
 });
@@ -114,10 +129,10 @@ const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
 const networkFirst = new workbox.strategies.NetworkFirst({
     cacheName: staticAssetsCacheName,
     plugins: [
-        crossOriginPlugin,
+        standardPlugin,
         new workbox.expiration.ExpirationPlugin({
-            maxEntries: _maxEntries, // Adjust this value based on your needs.
-            maxAgeSeconds: _1_WEEK, // 1 week
+            maxEntries: _maxEntries,
+            maxAgeSeconds: _1_WEEK,
         }),
     ]
 });
@@ -125,6 +140,13 @@ const networkFirst = new workbox.strategies.NetworkFirst({
 workbox.routing.registerRoute(
     ({ request }) => isRequestValid(request),
     async ({ request, event }) => {
+        // Handle cross-origin requests separately to avoid clone issues
+        if (isCrossOrigin(request.url)) {
+            console.log('Handling cross-origin request:', request.url);
+            return await handleCrossOriginRequest(request);
+        }
+        
+        // Handle same-origin requests with Workbox strategies
         try {
             if (hasCacheParameter(request.url)) {
                 //console.log('cacheFirst', request.url);
@@ -134,7 +156,7 @@ workbox.routing.registerRoute(
                 return await staleWhileRevalidate.handle({ request, event });
             }
         } catch (error) {
-            console.error('registerRoute networkFirst', request.url);
+            console.error('registerRoute networkFirst', request.url, error);
             return await networkFirst.handle({ request, event });
         }
     }
