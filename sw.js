@@ -62,15 +62,37 @@ self.addEventListener('activate', (event) => {
 // Custom plugin to handle opaque responses
 const opaqueResponsePlugin = {
     cacheWillUpdate: async ({ response }) => {
-        // Cache opaque responses and successful responses
+        // Cache successful responses and opaque responses
         return response.status === 200 || response.type === 'opaque';
     },
+    cacheDidUpdate: async ({ cacheName, request, oldResponse, newResponse }) => {
+        // Log cache updates for debugging
+        console.log(`Cache updated for ${request.url} in ${cacheName}`);
+    }
+};
+
+// Custom plugin for cross-origin resources that might return opaque responses
+const crossOriginPlugin = {
+    requestWillFetch: async ({ request }) => {
+        // For cross-origin requests, use no-cors mode to avoid CORS issues
+        if (request.url.includes('cdn.ypt.me') || !request.url.startsWith(self.location.origin)) {
+            return new Request(request.url, {
+                mode: 'no-cors',
+                credentials: 'omit'
+            });
+        }
+        return request;
+    },
+    cacheWillUpdate: async ({ response }) => {
+        // Accept opaque responses and successful responses
+        return response.type === 'opaque' || (response.status >= 200 && response.status < 400);
+    }
 };
 
 const cacheFirst = new workbox.strategies.CacheFirst({
     cacheName: staticAssetsCacheName,
     plugins: [
-        opaqueResponsePlugin,
+        crossOriginPlugin,
         new workbox.expiration.ExpirationPlugin({
             maxEntries: _maxEntries, // Adjust this value based on your needs.
             maxAgeSeconds: _1_WEEK, // 1 week
@@ -81,7 +103,7 @@ const cacheFirst = new workbox.strategies.CacheFirst({
 const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
     cacheName: staticAssetsCacheName,
     plugins: [
-        opaqueResponsePlugin,
+        crossOriginPlugin,
         new workbox.expiration.ExpirationPlugin({
             maxEntries: _maxEntries, // Adjust this value based on your needs.
             maxAgeSeconds: _1_WEEK, // 1 week
@@ -92,7 +114,7 @@ const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
 const networkFirst = new workbox.strategies.NetworkFirst({
     cacheName: staticAssetsCacheName,
     plugins: [
-        opaqueResponsePlugin,
+        crossOriginPlugin,
         new workbox.expiration.ExpirationPlugin({
             maxEntries: _maxEntries, // Adjust this value based on your needs.
             maxAgeSeconds: _1_WEEK, // 1 week
