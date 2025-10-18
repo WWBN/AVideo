@@ -43,10 +43,12 @@ function checkResolutionsLabelFix() {
     }
 }
 
-function checkIfIsPlayingWithErrors() {
-    if (player && $(player.el()).hasClass('vjs-error') && (!player.paused() || player.currentTime() > 0)) {
-        $(player.el()).removeClass('vjs-error');
-        player.error(null);
+function checkIfIsPlayingWithErrors(checkIfIsPlaying = true) {
+    if (player && $(player.el()).hasClass('vjs-error')) {
+        if(!checkIfIsPlaying || (!player.paused() || player.currentTime() > 0) ){
+            $(player.el()).removeClass('vjs-error');
+            player.error(null);
+        }
     }
 }
 

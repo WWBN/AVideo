@@ -803,6 +803,9 @@ class PlayerSkins extends PluginAbstract
             cancelAllPlaybackTimeouts();
             var time = Math.round(this.currentTime());
             sendAVideoMobileMessage('pause', time);
+            setTimeout(function(){
+                checkIfIsPlayingWithErrors(false);
+            }, 1000);
         });
         player.on('volumechange', function () {
             sendAVideoMobileMessage('volumechange', player.volume());
