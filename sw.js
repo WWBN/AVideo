@@ -1,191 +1,163 @@
+/* sw.js — Same-Origin Only (avoids opaque responses for cross-origin) */
+
 importScripts('workbox-v6.5.3/workbox-sw.js');
-
-workbox.setConfig({
-    modulePathPrefix: 'workbox-v6.5.3/',
-    debug: false
-});
-
+workbox.setConfig({ modulePathPrefix: 'workbox-v6.5.3/', debug: false });
 importScripts('workbox-v6.5.3/workbox-expiration.prod.js');
-const webSiteRootURL = this.location.href.split('sw.js?')[0];
+
+const webSiteRootURL = self.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
+
 const CACHE_NAME = 'avideo-cache-ver-3.6';
-const _maxEntries = 400;
-const _1_WEEK = 7 * 24 * 60 * 60;
+const STATIC_ASSETS_CACHE = CACHE_NAME + '-static-assets';
+const MAX_ENTRIES = 400;
+const ONE_WEEK = 7 * 24 * 60 * 60; // seconds
 
-const staticAssetsCacheName = CACHE_NAME + '-static-assets';
-
+// ---------- Helpers ----------
 function hasCacheParameter(url) {
-    return url.includes('cache=');
+  return url.includes('cache=');
 }
 
-function isRequestValid(request) {
-    return (!request.url.match(/\.php/) || request.url.match(/\.js.php/)) && (request.destination === 'script' ||
-    request.destination === 'style' ||
-    request.destination === 'image' ||
-    request.url.match(/\.map/) ||
-    request.url.match(/\.ico/) ||
-    request.url.match(/\.woff2/));
+function isSameOrigin(request) {
+  try { return new URL(request.url).origin === self.location.origin; }
+  catch { return false; }
 }
 
-console.log('sw strategy CACHE_NAME', CACHE_NAME);
+// Only cache same-origin static assets (no PHP except *.js.php)
+function isStaticAsset(request) {
+  if (!isSameOrigin(request)) return false;
+  const url = request.url;
+  const dest = request.destination;
+  const isPhp = /\.php($|\?)/i.test(url);
+  const isJsPhp = /\.js\.php($|\?)/i.test(url);
 
+  return (
+    (!isPhp || isJsPhp) &&
+    (
+      dest === 'script' ||
+      dest === 'style'  ||
+      dest === 'image'  ||
+      /\.map($|\?)/i.test(url) ||
+      /\.ico($|\?)/i.test(url) ||
+      /\.woff2($|\?)/i.test(url)
+    )
+  );
+}
+
+// Only same-origin navigations (HTML)
+function isDocument(request) {
+  return isSameOrigin(request) && request.destination === 'document';
+}
+
+console.log('[SW] CACHE_NAME:', CACHE_NAME);
+
+// ---------- Install ----------
 self.addEventListener('install', (event) => {
-    console.log('Service worker installed');
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(async (cache) => {
-            const cachedResponse = await cache.match(FALLBACK_HTML_URL);
-            if (!cachedResponse) {
-                await cache.add(FALLBACK_HTML_URL);
-            }
-            //console.log('Service worker FALLBACK_HTML_URL added', FALLBACK_HTML_URL);
-            // Add other static assets to precache here
-        })
-    );
+  console.log('[SW] installed');
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(async (cache) => {
+      const cached = await cache.match(FALLBACK_HTML_URL);
+      if (!cached) {
+        try { await cache.add(FALLBACK_HTML_URL); } catch (e) { /* offline page optional */ }
+      }
+    })
+  );
+  self.skipWaiting?.();
 });
 
+// ---------- Activate ----------
 self.addEventListener('activate', (event) => {
-    console.log('Service worker activated');
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cache => {
-                    if (cache !== CACHE_NAME) {
-                        console.log("Service worker: Clearing old cache", cache);
-                        return caches.delete(cache);
-                    }
-                })
-            );
+  console.log('[SW] activated');
+  event.waitUntil(
+    caches.keys().then((names) =>
+      Promise.all(
+        names.map((name) => {
+          if (name !== CACHE_NAME && name !== STATIC_ASSETS_CACHE) {
+            console.log('[SW] delete old cache:', name);
+            return caches.delete(name);
+          }
         })
-    );
+      )
+    )
+  );
+  self.clients?.claim?.();
 });
 
-// Function to check if URL is cross-origin
-function isCrossOrigin(url) {
-    return url.includes('cdn.ypt.me') || !url.startsWith(self.location.origin);
-}
-
-// Custom handler for cross-origin resources
-async function handleCrossOriginRequest(request) {
-    const cacheKey = request.url;
-    const cache = await caches.open(staticAssetsCacheName);
-
-    // Try to get from cache first
-    const cachedResponse = await cache.match(request);
-    if (cachedResponse) {
-        console.log('Serving from cache:', request.url);
-        return cachedResponse;
-    }
-
-    // If not in cache, fetch with no-cors mode
-    try {
-        const response = await fetch(request.url, {
-            mode: 'no-cors',
-            credentials: 'omit'
-        });
-
-        // Cache the opaque response
-        if (response.type === 'opaque') {
-            console.log('Caching opaque response:', request.url);
-            await cache.put(request, response.clone());
-        }
-
-        return response;
-    } catch (error) {
-        console.error('Failed to fetch cross-origin resource:', request.url, error);
-        return new Response('', { status: 404 });
-    }
-}
-
-// Standard plugin for same-origin resources
-const standardPlugin = {
-    cacheWillUpdate: async ({ response }) => {
-        return response.status >= 200 && response.status < 400;
-    }
-};
-
-// Strategies for same-origin resources only
+// ---------- Strategies ----------
 const cacheFirst = new workbox.strategies.CacheFirst({
-    cacheName: staticAssetsCacheName,
-    plugins: [
-        standardPlugin,
-        new workbox.expiration.ExpirationPlugin({
-            maxEntries: _maxEntries,
-            maxAgeSeconds: _1_WEEK,
-        }),
-    ]
+  cacheName: STATIC_ASSETS_CACHE,
+  plugins: [
+    new workbox.cacheableResponse.CacheableResponsePlugin({ statuses: [200] }),
+    new workbox.expiration.ExpirationPlugin({ maxEntries: MAX_ENTRIES, maxAgeSeconds: ONE_WEEK }),
+  ],
 });
 
 const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
-    cacheName: staticAssetsCacheName,
-    plugins: [
-        standardPlugin,
-        new workbox.expiration.ExpirationPlugin({
-            maxEntries: _maxEntries,
-            maxAgeSeconds: _1_WEEK,
-        }),
-    ]
+  cacheName: STATIC_ASSETS_CACHE,
+  plugins: [
+    new workbox.cacheableResponse.CacheableResponsePlugin({ statuses: [200] }),
+    new workbox.expiration.ExpirationPlugin({ maxEntries: MAX_ENTRIES, maxAgeSeconds: ONE_WEEK }),
+  ],
 });
 
-const networkFirst = new workbox.strategies.NetworkFirst({
-    cacheName: staticAssetsCacheName,
-    plugins: [
-        standardPlugin,
-        new workbox.expiration.ExpirationPlugin({
-            maxEntries: _maxEntries,
-            maxAgeSeconds: _1_WEEK,
-        }),
-    ]
+const networkFirstDocs = new workbox.strategies.NetworkFirst({
+  cacheName: CACHE_NAME, // keep docs in main cache
+  plugins: [
+    new workbox.cacheableResponse.CacheableResponsePlugin({ statuses: [200] }),
+    new workbox.expiration.ExpirationPlugin({ maxEntries: MAX_ENTRIES, maxAgeSeconds: ONE_WEEK }),
+  ],
 });
 
+// ---------- Routes ----------
+
+// 1) Same-origin HTML documents → Network First (offline fallback)
 workbox.routing.registerRoute(
-    ({ request }) => isRequestValid(request),
-    async ({ request, event }) => {
-        // Handle cross-origin requests separately to avoid clone issues
-        if (isCrossOrigin(request.url)) {
-            console.log('Handling cross-origin request:', request.url);
-            return await handleCrossOriginRequest(request);
-        }
+  ({ request }) => isDocument(request),
+  async ({ request, event }) => {
+    try {
+      const resp = await networkFirstDocs.handle({ request, event });
+      if (resp) return resp;
+    } catch (e) { /* fall through */ }
 
-        // Handle same-origin requests with Workbox strategies
-        try {
-            if (hasCacheParameter(request.url)) {
-                //console.log('cacheFirst', request.url);
-                return await cacheFirst.handle({ request, event });
-            } else {
-               // console.log('staleWhileRevalidate', request.url);
-                return await staleWhileRevalidate.handle({ request, event });
-            }
-        } catch (error) {
-            console.error('registerRoute networkFirst', request.url, error);
-            return await networkFirst.handle({ request, event });
-        }
-    }
-);
-workbox.routing.setCatchHandler(async ({ event }) => {
-    console.log('setCatchHandler called', event.request.url);
-    if (event.request.destination === 'document') {
-        try {
-            const networkResponse = await fetch(event.request);
-            console.log('networkResponse', networkResponse);
-            if (networkResponse.ok) {
-                const cache = await caches.open(CACHE_NAME);
-                await cache.put(event.request, networkResponse.clone());
-                return networkResponse;
-            }
-        } catch (error) {
-            console.error(error);
-        }
-        // Redirect to the offline page if the user is offline
-        if (navigator.onLine === false) {
-            console.log('User is offline, redirecting to offline page');
-            return Response.redirect(FALLBACK_HTML_URL);
-        }
-        // Return the cached response if it exists
-        const cachedResponse = await caches.match(FALLBACK_HTML_URL);
-        console.log('cachedResponse', cachedResponse);
-        if (cachedResponse) {
-            return cachedResponse;
-        }
-    }
+    // Offline fallback (from install precache)
+    const cached = await caches.match(FALLBACK_HTML_URL);
+    if (cached) return cached;
+
     return Response.error();
+  }
+);
+
+// 2) Same-origin static assets → CacheFirst (when ?cache=...) or StaleWhileRevalidate
+workbox.routing.registerRoute(
+  ({ request }) => isStaticAsset(request),
+  async ({ request, event }) => {
+    const strategy = hasCacheParameter(request.url) ? cacheFirst : staleWhileRevalidate;
+    try {
+      const resp = await strategy.handle({ request, event });
+      return resp;
+    } catch (e) {
+      // As a last resort, try network for the asset
+      try { return await fetch(request); } catch { return Response.error(); }
+    }
+  }
+);
+
+// ---------- Global Catch (only for same-origin navigations) ----------
+workbox.routing.setCatchHandler(async ({ event }) => {
+  const req = event.request;
+
+  if (isDocument(req)) {
+    // If online fetch failed, try cached doc; otherwise offline page.
+    const cache = await caches.open(CACHE_NAME);
+    const cachedDoc = await cache.match(req);
+    if (cachedDoc) return cachedDoc;
+
+    const offline = await caches.match(FALLBACK_HTML_URL);
+    if (offline) return offline;
+  }
+  return Response.error();
 });
+
+// ---------- Safety: do not intercept cross-origin at all ----------
+// Workbox won’t route what we don’t match; since all matchers enforce isSameOrigin(),
+// cross-origin (e.g., CDN) requests pass through to the network unmodified,
+// avoiding opaque responses in non-no-cors contexts.
