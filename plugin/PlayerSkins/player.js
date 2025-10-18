@@ -43,12 +43,86 @@ function checkResolutionsLabelFix() {
     }
 }
 
+var errorClassPrevented = false;
+
+// Core function to remove vjs-error class when video is active
+// Fixes Android Chrome issue where error state hides control bar
+function removeErrorClassIfVideoActive() {
+    if (player && $(player.el()).hasClass('vjs-error')) {
+        if (!player.paused() || player.currentTime() > 0) {
+            $(player.el()).removeClass('vjs-error');
+            player.error(null);
+            console.log('[AVIDEO] Error class removed - video is active');
+            return true;
+        }
+    }
+    return false;
+}
+
+// Simple monitor solution - continuously checks for error class
+function startErrorClassMonitor() {
+    if (!window.errorClassMonitorInterval) {
+        window.errorClassMonitorInterval = setInterval(function() {
+            removeErrorClassIfVideoActive();
+        }, 500); // Check every 500ms
+    }
+}
+
+function stopErrorClassMonitor() {
+    if (window.errorClassMonitorInterval) {
+        clearInterval(window.errorClassMonitorInterval);
+        window.errorClassMonitorInterval = null;
+    }
+}
+
+// Enhanced version to prevent recurring error states
 function checkIfIsPlayingWithErrors(checkIfIsPlaying = true) {
     if (player && $(player.el()).hasClass('vjs-error')) {
         if(!checkIfIsPlaying || (!player.paused() || player.currentTime() > 0) ){
             $(player.el()).removeClass('vjs-error');
             player.error(null);
+
+            // Start monitoring to prevent the class from coming back
+            startErrorClassMonitor();
         }
+    }
+}
+
+// Advanced solution using MutationObserver to intercept class changes
+function preventErrorClass() {
+    if (!errorClassPrevented && player) {
+        errorClassPrevented = true;
+
+        // Observer to intercept when VideoJS adds vjs-error class
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    // Use our core function to handle the error removal
+                    setTimeout(function() {
+                        removeErrorClassIfVideoActive();
+                    }, 10);
+                }
+            });
+        });
+
+        // Watch for changes in the player element's class attribute
+        observer.observe(player.el(), {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        // Stop observing when video ends
+        player.on('ended', function() {
+            observer.disconnect();
+            errorClassPrevented = false;
+        });
+
+        // Handle real errors that occur during playback
+        player.on('error', function() {
+            setTimeout(function() {
+                removeErrorClassIfVideoActive();
+            }, 100);
+        });
     }
 }
 
