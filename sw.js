@@ -59,12 +59,18 @@ self.addEventListener('activate', (event) => {
     );
 });
 
+// Custom plugin to handle opaque responses
+const opaqueResponsePlugin = {
+    cacheWillUpdate: async ({ response }) => {
+        // Cache opaque responses and successful responses
+        return response.status === 200 || response.type === 'opaque';
+    },
+};
+
 const cacheFirst = new workbox.strategies.CacheFirst({
     cacheName: staticAssetsCacheName,
     plugins: [
-        new workbox.cacheableResponse.CacheableResponsePlugin({
-            statuses: [0, 200]
-        }),
+        opaqueResponsePlugin,
         new workbox.expiration.ExpirationPlugin({
             maxEntries: _maxEntries, // Adjust this value based on your needs.
             maxAgeSeconds: _1_WEEK, // 1 week
@@ -75,9 +81,7 @@ const cacheFirst = new workbox.strategies.CacheFirst({
 const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
     cacheName: staticAssetsCacheName,
     plugins: [
-        new workbox.cacheableResponse.CacheableResponsePlugin({
-            statuses: [0, 200]
-        }),
+        opaqueResponsePlugin,
         new workbox.expiration.ExpirationPlugin({
             maxEntries: _maxEntries, // Adjust this value based on your needs.
             maxAgeSeconds: _1_WEEK, // 1 week
@@ -88,9 +92,7 @@ const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
 const networkFirst = new workbox.strategies.NetworkFirst({
     cacheName: staticAssetsCacheName,
     plugins: [
-        new workbox.cacheableResponse.CacheableResponsePlugin({
-            statuses: [0, 200]
-        }),
+        opaqueResponsePlugin,
         new workbox.expiration.ExpirationPlugin({
             maxEntries: _maxEntries, // Adjust this value based on your needs.
             maxAgeSeconds: _1_WEEK, // 1 week
