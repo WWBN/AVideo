@@ -791,6 +791,9 @@ class PlayerSkins extends PluginAbstract
         $js .= "
         player.on('play', function () {
             sendAVideoMobileMessage('play', this.currentTime());
+            setTimeout(function(){
+                checkIfIsPlayingWithErrors();
+            }, 500);
         });
         player.on('ended', function () {
             var time = Math.round(this.currentTime());
