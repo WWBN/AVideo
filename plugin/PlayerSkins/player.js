@@ -1,10 +1,10 @@
 var startAudioSpectrumProgressInterval;
 function startAudioSpectrumProgress(spectrumImage) {
-    if($('#mainVideo .vjs-play-progress').length){
+    if ($('#mainVideo .vjs-play-progress').length) {
         $('#mainVideo .vjs-poster').append('<div id="avideo-audio-progress" style="display:none;"></div>');
         player.on('play', function () {
             $('#avideo-audio-progress').fadeIn();
-            $('#mainVideo .vjs-poster').css('background-image', "url("+spectrumImage+")");
+            $('#mainVideo .vjs-poster').css('background-image', "url(" + spectrumImage + ")");
             $('#mainVideo .vjs-poster').css('background-size', "cover");
             //clearInterval(startAudioSpectrumProgressInterval);
             startAudioSpectrumProgressInterval = setInterval(function () {
@@ -23,15 +23,30 @@ function startAudioSpectrumProgress(spectrumImage) {
         player.on('pause', function () {
             //clearInterval(startAudioSpectrumProgressInterval);
         });
-    }else{
-        setTimeout(function(){startAudioSpectrumProgress(spectrumImage);},500);
+    } else {
+        setTimeout(function () { startAudioSpectrumProgress(spectrumImage); }, 500);
     }
 }
 
-function appendOnPlayer(element){
+function appendOnPlayer(element) {
     if (typeof player !== 'undefined') {
         $(element).insertBefore($(player.el()).find('.vjs-control-bar'));
     } else {
         setTimeout(function () { appendOnPlayer(element); }, 1000);
     }
 }
+
+function checkResolutionsLabelFix() {
+    if (!$('#mainVideo .vjs-quality-selector .vjs-menu-item-text').length) {
+        console.log('[AVIDEO-HLS] Player loadedmetadata reloaded - no quality menu items found');
+        player.load();
+    }
+}
+
+function checkIfIsPlayingWithErrors() {
+    if (player && $(player.el()).hasClass('vjs-error') && (!player.paused() || player.currentTime() > 0)) {
+        $(player.el()).removeClass('vjs-error');
+        player.error(null);
+    }
+}
+

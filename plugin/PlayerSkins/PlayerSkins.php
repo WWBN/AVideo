@@ -330,7 +330,7 @@ class PlayerSkins extends PluginAbstract
                 $css .= "</style>";
             }
 
-            $css .= "<script src=\"" . getURL('plugin/PlayerSkins/player.js') . "\"></script>";
+            $js .= "<script src=\"" . getURL('plugin/PlayerSkins/player.js') . "\"></script>";
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"

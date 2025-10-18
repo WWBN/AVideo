@@ -3343,10 +3343,8 @@ function AvideoJSError(code) {
                 console.log('AvideoJSError reloadVideoJS in 2 sec');
                 setTimeout(function () {
                     //reloadVideoJS();
-                    if (player && $(player.el()).hasClass('vjs-error') && (!player.paused() || player.currentTime() > 0)) {
-                        $(player.el()).removeClass('vjs-error');
-                        player.error(null);
-                    }
+                    checkIfIsPlayingWithErrors();
+                    checkResolutionsLabelFix();
                 }, 2000);
             } else if (AvideoJSErrorReloadedTimes === 1) {
                 console.log('AvideoJSError reloadDefaultHTML5Player');
