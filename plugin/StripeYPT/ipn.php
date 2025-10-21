@@ -7,6 +7,8 @@ if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
+
+// Import Stripe classes
 $global['bypassSameDomainCheck'] = 1;
 require_once $global['systemRootPath'] . 'objects/user.php';
 //_error_log("StripeIPN Start");
@@ -19,9 +21,9 @@ if (empty($stripe)) {
 }
 
 function checkWebhook($payload, $sig_header, $endpoint_secret) {
-    
+
     $parts = explode(',',$endpoint_secret);
-    
+
     foreach ($parts as $secret){
         $secret = trim($secret);
         if(empty($secret)){
@@ -37,12 +39,12 @@ function checkWebhook($payload, $sig_header, $endpoint_secret) {
             // Invalid payload
             _error_log("Stripe IPN Invalid payload {$secret} ".$exc->getMessage());
         }
-        
+
     }
     _error_log("Stripe IPN END Invalid payload {$endpoint_secret}");
     http_response_code(400); // PHP 5.4 or greater
     exit();
-    
+
 }
 
 $stripe->start();
@@ -91,7 +93,7 @@ try {
     _error_log("Stripe IPN Invalid payload: ".$e->getMessage());
     http_response_code(400); // PHP 5.4 or greater
     exit();
-} catch (\Stripe\Error\SignatureVerification $e) {
+} catch (\Stripe\Exception\SignatureVerificationException $e) {
     // Invalid signature
     _error_log("Stripe IPN sig_header [$sig_header]");
     _error_log("Stripe IPN endpoint_secret [$endpoint_secret]");
