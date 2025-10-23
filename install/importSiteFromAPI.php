@@ -636,6 +636,28 @@ while ($hasNewContent) {
                         download($value->videos->mp3, $value->filename, $path);
                     }
 
+                    // Download subtitles VTT files
+                    if (!empty($value->subtitles) && is_array($value->subtitles)) {
+                        _error_log("Found " . count($value->subtitles) . " VTT subtitle files");
+                        foreach ($value->subtitles as $subtitle) {
+                            if (!empty($subtitle->src)) {
+                                _error_log("Downloading VTT subtitle ({$subtitle->srclang}): {$subtitle->src}");
+                                download($subtitle->src, $value->filename, $path);
+                            }
+                        }
+                    }
+
+                    // Download subtitles SRT files
+                    if (!empty($value->subtitlesSRT) && is_array($value->subtitlesSRT)) {
+                        _error_log("Found " . count($value->subtitlesSRT) . " SRT subtitle files");
+                        foreach ($value->subtitlesSRT as $subtitle) {
+                            if (!empty($subtitle->src)) {
+                                _error_log("Downloading SRT subtitle ({$subtitle->srclang}): {$subtitle->src}");
+                                download($subtitle->src, $value->filename, $path);
+                            }
+                        }
+                    }
+
                     // Set video to active
                     try {
                         $video->setStatus(Video::STATUS_ACTIVE);
