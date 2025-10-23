@@ -563,6 +563,11 @@ while ($hasNewContent) {
                     _error_log("importVideo: Video found in database with ID: " . $row['id']);
                     $videos_id = $row['id'];
                     $is_new_video = false;
+                    
+                    // Check current owner of existing video
+                    if (isset($row['users_id'])) {
+                        _error_log("Current video owner: users_id={$row['users_id']}");
+                    }
                 } else {
                     _error_log("importVideo: Video NOT found in database - will create new");
                 }
@@ -642,6 +647,15 @@ while ($hasNewContent) {
                 }
 
                 $video->setCategories_id($categories_id);
+                
+                // Debug: Show what values are set on the video object before saving
+                _error_log("DEBUG: Video object values before save:");
+                _error_log("  - Title: {$value->title}");
+                _error_log("  - Filename: {$value->filename}");
+                _error_log("  - Video ID (for existing): $videos_id");
+                _error_log("  - Users ID to set: $users_id");
+                _error_log("  - Categories ID: $categories_id");
+                _error_log("  - Is new video: " . ($is_new_video ? 'YES' : 'NO'));
 
                 $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
                 $size = getDirSize($path);
@@ -685,9 +699,73 @@ while ($hasNewContent) {
                 }
 
                 _error_log("importVideo: Saving video object...");
-                $id = safeVideoOperation('save', $video, false, true);
+                
+                // For existing videos, let's try a more direct approach first
+                if (!$is_new_video && $videos_id > 0) {
+                    _error_log("Using direct database update for existing video ID: $videos_id");
+                    
+                    // Try direct update first for existing videos
+                    $sql = "UPDATE videos SET 
+                            title = ?, 
+                            description = ?, 
+                            users_id = ?, 
+                            categories_id = ?, 
+                            duration = ?, 
+                            type = ?, 
+                            videoDownloadedLink = ?, 
+                            duration_in_seconds = ?,
+                            created = ?
+                            WHERE id = ?";
+                    
+                    $result = sqlDAL::writeSql($sql, "ssiiississ", [
+                        $value->title,
+                        $value->description, 
+                        $users_id,
+                        $categories_id,
+                        $value->duration,
+                        $value->type,
+                        $value->videoDownloadedLink,
+                        $value->duration_in_seconds,
+                        $value->created,
+                        $videos_id
+                    ]);
+                    
+                    if ($result) {
+                        _error_log("Direct database update SUCCESS for existing video ID: $videos_id");
+                        $id = $videos_id;
+                    } else {
+                        _error_log("Direct database update FAILED, trying object save method...");
+                        $id = safeVideoOperation('save', $video, false, true);
+                    }
+                } else {
+                    // For new videos, use the regular save method
+                    $id = safeVideoOperation('save', $video, false, true);
+                }
+                
                 if ($id) {
                     _error_log("importVideo: SUCCESS - Video saved with ID: {$id} categories_id=$categories_id ($value->clean_category) created=$value->created");
+                    
+                    // Verify that the users_id was actually updated
+                    $savedVideo = Video::getVideoLight($id);
+                    if ($savedVideo && isset($savedVideo['users_id'])) {
+                        if ($savedVideo['users_id'] == $users_id) {
+                            _error_log("VERIFICATION SUCCESS: Video owner correctly set to users_id={$users_id}");
+                        } else {
+                            _error_log("VERIFICATION FAILED: Expected users_id={$users_id}, but database shows users_id={$savedVideo['users_id']}");
+                            _error_log("Attempting direct database update...");
+                            
+                            // Try direct database update as fallback
+                            $sql = "UPDATE videos SET users_id = ? WHERE id = ?";
+                            $result = sqlDAL::writeSql($sql, "ii", [$users_id, $id]);
+                            if ($result) {
+                                _error_log("Direct database update SUCCESS: Set users_id={$users_id} for video ID {$id}");
+                            } else {
+                                _error_log("Direct database update FAILED for video ID {$id}");
+                            }
+                        }
+                    } else {
+                        _error_log("WARNING: Could not verify video save - unable to retrieve saved video data");
+                    }
 
                     if ($is_new_video) {
                         $stats['videos_created']++;
