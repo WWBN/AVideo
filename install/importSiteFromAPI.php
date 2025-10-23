@@ -560,7 +560,8 @@ while ($hasNewContent) {
                 _error_log("Creating/updating video object with users_id=$users_id, categories_id=$categories_id");
                 $video = new Video($value->title, $value->filename, $videos_id);
 
-                $video->setCreated("'$value->created'");
+                _error_log("Setting video created date: {$value->created}");
+                $video->setCreated($value->created);
                 $video->setDuration($value->duration);
                 $video->setType($value->type);
                 $video->setVideoDownloadedLink($value->videoDownloadedLink);
