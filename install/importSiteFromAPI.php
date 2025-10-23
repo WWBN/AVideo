@@ -29,7 +29,7 @@ _error_log("PHP Version: " . phpversion() . ", Memory Limit: " . ini_get('memory
 
 _error_log("Configuration loaded successfully");
 
-// Initialize statistics tracking
+# Initialize statistics tracking
 $stats = [
     'videos_processed' => 0,
     'videos_created' => 0,
@@ -50,7 +50,11 @@ $stats = [
     'users_created' => 0,
     'users_skipped' => 0
 ];
+
+// Configuration: Auto-create missing users
+$auto_create_missing_users = true; // Set to false if you don't want to auto-create users
 _error_log("Statistics tracking initialized");
+_error_log("Auto-create missing users: " . ($auto_create_missing_users ? 'ENABLED' : 'DISABLED'));
 
 if (!isCommandLineInterface()) {
     _error_log("ERROR: Not running in command line interface");
@@ -162,6 +166,47 @@ function safeVideoOperation($operation, $video, ...$args) {
     } catch (Exception $e) {
         _error_log("Exception in video operation '$operation': " . $e->getMessage());
         _error_log("Stack trace: " . $e->getTraceAsString());
+        return false;
+    }
+}
+
+// Function to create a basic user when video owner is missing
+function createBasicUserFromVideoData($email, $channelName) {
+    global $stats;
+
+    if (empty($email) || empty($channelName)) {
+        _error_log("Cannot create user - missing email or channel name");
+        return false;
+    }
+
+    _error_log("Creating basic user from video data: email=$email, channel=$channelName");
+
+    try {
+        $o = new User(0);
+        $o->setUser($channelName); // Use channel name as username
+        $o->setPassword($channelName); // Temporary password (should be changed)
+        $o->setName($channelName); // Use channel name as display name
+        $o->setEmail($email);
+        $o->setIsAdmin(0);
+        $o->setStatus('a'); // Active status
+        $o->setCanStream(1);
+        $o->setCanUpload(1);
+        $o->setCanCreateMeet(0);
+        $o->setCanViewChart(0);
+        $o->setChannelName($channelName);
+        $o->setEmailVerified(1); // Assume verified
+
+        $id = $o->save(false);
+        if ($id) {
+            _error_log("Successfully created basic user with ID: $id");
+            $stats['users_created']++;
+            return $id;
+        } else {
+            _error_log("Failed to create basic user");
+            return false;
+        }
+    } catch (Exception $e) {
+        _error_log("Exception creating basic user: " . $e->getMessage());
         return false;
     }
 }
@@ -486,6 +531,20 @@ while ($hasNewContent) {
             $hasNewContent = true;
             foreach ($json->response->rows as $key => $value) {
                 _error_log("=== Processing video $key: '{$value->title}' (filename: {$value->filename}) ===");
+
+                // Debug: Log available user fields
+                if (isset($value->email)) {
+                    _error_log("Video owner email: {$value->email}");
+                } else {
+                    _error_log("WARNING: No email field in video data");
+                }
+
+                if (isset($value->channelName)) {
+                    _error_log("Video owner channel: {$value->channelName}");
+                } else {
+                    _error_log("WARNING: No channelName field in video data");
+                }
+
                 $stats['videos_processed']++;
 
                 if ($type == 'm3u8') {
@@ -510,20 +569,48 @@ while ($hasNewContent) {
 
                 // Determine user ID
                 if (empty($imported_users_id)) {
-                    $users_id = 1;
+                    // We want to preserve the original owner from the source site
+                    $users_id = 1; // Default fallback
+
+                    // First, try to find the user by email
                     $user = User::getUserFromEmail($value->email);
-                    if (empty($user)) {
+                    if (empty($user) && !empty($value->channelName)) {
+                        // If not found by email, try by channel name
                         $user = User::getUserFromChannelName($value->channelName);
                     }
+
                     if (!empty($user)) {
                         $users_id = $user['id'];
-                        _error_log("Found user ID $users_id for email/channel: {$value->email}/{$value->channelName}");
+                        _error_log("Found existing user ID $users_id for email/channel: {$value->email}/{$value->channelName}");
                     } else {
-                        _error_log("No user found for email/channel: {$value->email}/{$value->channelName}, using default ID 1");
+                        // User doesn't exist locally
+                        _error_log("Original video owner not found locally!");
+                        _error_log("  - Original email: {$value->email}");
+                        _error_log("  - Original channel: {$value->channelName}");
+
+                        // Option 1: Try to create the user if we have enough info and auto-creation is enabled
+                        if ($auto_create_missing_users && !empty($value->email) && !empty($value->channelName)) {
+                            _error_log("Auto-creation enabled - Attempting to create missing user...");
+                            $created_user_id = createBasicUserFromVideoData($value->email, $value->channelName);
+                            if ($created_user_id) {
+                                $users_id = $created_user_id;
+                                _error_log("SUCCESS: Created user with ID $users_id for video owner");
+                            } else {
+                                _error_log("FAILED to create user, falling back to admin (ID: 1)");
+                                $users_id = 1;
+                            }
+                        } else {
+                            if (!$auto_create_missing_users) {
+                                _error_log("Auto-creation disabled, using admin (ID: 1)");
+                            } else {
+                                _error_log("Insufficient user data to create user, using admin (ID: 1)");
+                            }
+                            $users_id = 1;
+                        }
                     }
                 } else {
                     $users_id = $imported_users_id;
-                    _error_log("Using provided user ID: $users_id");
+                    _error_log("Using provided user ID: $users_id (overriding original owner)");
                 }
 
                 // Determine category ID
@@ -536,7 +623,7 @@ while ($hasNewContent) {
                     _error_log("Using provided category ID: $categories_id");
                 }
 
-                _error_log("Creating video object with users_id=$users_id, categories_id=$categories_id");
+                _error_log("Creating/updating video object with users_id=$users_id, categories_id=$categories_id");
                 $video = new Video($value->title, $value->filename, $videos_id);
 
                 $video->setCreated("'$value->created'");
@@ -545,7 +632,15 @@ while ($hasNewContent) {
                 $video->setVideoDownloadedLink($value->videoDownloadedLink);
                 $video->setDuration_in_seconds($value->duration_in_seconds);
                 $video->setDescription($value->description);
+
+                // Set the owner - this will update existing videos too
                 $video->setUsers_id($users_id);
+                if ($is_new_video) {
+                    _error_log("Setting owner for NEW video to users_id=$users_id");
+                } else {
+                    _error_log("UPDATING owner for EXISTING video (ID: $videos_id) to users_id=$users_id");
+                }
+
                 $video->setCategories_id($categories_id);
 
                 $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
@@ -751,7 +846,7 @@ _error_log("  - Skipped (existing): {$stats['categories_skipped']}");
 
 _error_log("USERS:");
 _error_log("  - Total Processed: {$stats['users_processed']}");
-_error_log("  - Created New: {$stats['users_created']}");
+_error_log("  - Created New: {$stats['users_created']} (includes auto-created from video data)");
 _error_log("  - Skipped (existing): {$stats['users_skipped']}");
 
 _error_log("API CALLS:");
