@@ -18,6 +18,10 @@ $type = trim(@$argv[6]);
 //streamer config
 require_once '../videos/configuration.php';
 
+// make sure display all errors
+error_reporting(E_ALL);
+
+
 // Log script start with parameters
 _error_log("=== SCRIPT START ===");
 _error_log("Parameters: siteURL='$siteURL', APISecret='" . substr($APISecret, 0, 5) . "...', imported_users_id=$imported_users_id, imported_categories_id=$imported_categories_id, total_to_import=$total_to_import, type='$type'");
@@ -25,12 +29,36 @@ _error_log("PHP Version: " . phpversion() . ", Memory Limit: " . ini_get('memory
 
 _error_log("Configuration loaded successfully");
 
+// Initialize statistics tracking
+$stats = [
+    'videos_processed' => 0,
+    'videos_created' => 0,
+    'videos_updated' => 0,
+    'videos_skipped' => 0,
+    'videos_errors' => 0,
+    'api_calls' => 0,
+    'api_errors' => 0,
+    'downloads_attempted' => 0,
+    'downloads_successful' => 0,
+    'downloads_failed' => 0,
+    'downloads_skipped' => 0,
+    'encoder_submissions' => 0,
+    'categories_processed' => 0,
+    'categories_created' => 0,
+    'categories_skipped' => 0,
+    'users_processed' => 0,
+    'users_created' => 0,
+    'users_skipped' => 0
+];
+_error_log("Statistics tracking initialized");
+
 if (!isCommandLineInterface()) {
     _error_log("ERROR: Not running in command line interface");
     return die('Command Line only');
 }
 
 ob_end_flush();
+_error_log("Output buffering flushed");
 
 function download($url, $filename, $path, $forceDownload = false) {
     global $stats;
@@ -162,6 +190,15 @@ if (empty($total_to_import)) {
 }
 _error_log("Total to import set to: $total_to_import");
 
+// Log the final values that will be used
+_error_log("=== FINAL CONFIGURATION ===");
+_error_log("Site URL: $siteURL");
+_error_log("API Secret length: " . strlen($APISecret));
+_error_log("Import users ID: $imported_users_id (0 means import users)");
+_error_log("Import categories ID: $imported_categories_id (0 means import categories)");
+_error_log("Total to import: $total_to_import (0 means import all)");
+_error_log("Type filter: '$type' (empty means all types)");
+
 $rowCount = 50;
 $current = 1;
 $hasNewContent = true;
@@ -174,7 +211,9 @@ $batchSize = 5; // Process in smaller batches for better memory management
 _error_log("importSite: start {$siteURL} imported_users_id=$imported_users_id imported_categories_id=$imported_categories_id total_to_import=$total_to_import");
 
 //exit;
+_error_log("Checking type parameter: type='$type'");
 if ($type !== 'm3u8') {
+    _error_log("Type is not m3u8, proceeding with normal import");
     _error_log("=== STARTING CATEGORIES IMPORT ===");
     if (empty($imported_categories_id) || $imported_categories_id < 0) {
         _error_log("Categories import enabled - importing categories from remote site");
@@ -256,6 +295,7 @@ if ($type !== 'm3u8') {
                 }
             } else {
                 _error_log("importCategory: ERROR - Empty response from API: {$APIURL}");
+                _error_log("Breaking out of categories loop due to empty response");
                 break; // Exit loop if we get empty content
             }
         }
@@ -378,6 +418,7 @@ if ($type !== 'm3u8') {
                 }
             } else {
                 _error_log("importUsers: ERROR - Empty response from API: {$APIURL}");
+                _error_log("Breaking out of users loop due to empty response");
                 break; // Exit loop if we get empty content
             }
         }
@@ -390,35 +431,15 @@ if ($type !== 'm3u8') {
     } else {
         _error_log("Users import skipped - using provided user ID: $imported_users_id");
     }
+} else {
+    _error_log("Type is m3u8, skipping categories and users import");
 }
+
+_error_log("Proceeding to videos import section");
 _error_log("=== STARTING VIDEOS IMPORT ===");
 $current = 1;
 $hasNewContent = true;
 $total_imported = 0;
-
-// Add statistics tracking
-$stats = [
-    'videos_processed' => 0,
-    'videos_created' => 0,
-    'videos_updated' => 0,
-    'videos_skipped' => 0,
-    'videos_errors' => 0,
-    'api_calls' => 0,
-    'api_errors' => 0,
-    'downloads_attempted' => 0,
-    'downloads_successful' => 0,
-    'downloads_failed' => 0,
-    'downloads_skipped' => 0,
-    'encoder_submissions' => 0,
-    'categories_processed' => 0,
-    'categories_created' => 0,
-    'categories_skipped' => 0,
-    'users_processed' => 0,
-    'users_created' => 0,
-    'users_skipped' => 0
-];
-
-_error_log("Statistics tracking initialized");
 
 // import videos
 while ($hasNewContent) {
@@ -632,6 +653,7 @@ while ($hasNewContent) {
         }
     } else {
         _error_log("importVideo: ERROR - Empty response from API: {$APIURL}");
+        _error_log("Breaking out of videos loop due to empty response");
         break; // Exit loop if we get empty content
     }
 }
