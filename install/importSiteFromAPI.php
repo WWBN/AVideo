@@ -155,9 +155,11 @@ function getOrCreateUserFromVideoData($email, $channelName) {
     if (empty($user) && !empty($channelName)) {
         $user = User::getUserFromChannelName($channelName);
     }
+    /*
     if (!empty($email)) {
         $user = User::getUserFromEmail($email);
     }
+    */
 
     if (!empty($user)) {
         _error_log("Found existing user ID {$user['id']} for {$email}/{$channelName}");
