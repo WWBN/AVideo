@@ -563,7 +563,7 @@ while ($hasNewContent) {
                     _error_log("importVideo: Video found in database with ID: " . $row['id']);
                     $videos_id = $row['id'];
                     $is_new_video = false;
-                    
+
                     // Check current owner of existing video
                     if (isset($row['users_id'])) {
                         _error_log("Current video owner: users_id={$row['users_id']}");
@@ -647,7 +647,7 @@ while ($hasNewContent) {
                 }
 
                 $video->setCategories_id($categories_id);
-                
+
                 // Debug: Show what values are set on the video object before saving
                 _error_log("DEBUG: Video object values before save:");
                 _error_log("  - Title: {$value->title}");
@@ -699,27 +699,27 @@ while ($hasNewContent) {
                 }
 
                 _error_log("importVideo: Saving video object...");
-                
+
                 // For existing videos, let's try a more direct approach first
                 if (!$is_new_video && $videos_id > 0) {
                     _error_log("Using direct database update for existing video ID: $videos_id");
-                    
+
                     // Try direct update first for existing videos
-                    $sql = "UPDATE videos SET 
-                            title = ?, 
-                            description = ?, 
-                            users_id = ?, 
-                            categories_id = ?, 
-                            duration = ?, 
-                            type = ?, 
-                            videoDownloadedLink = ?, 
+                    $sql = "UPDATE videos SET
+                            title = ?,
+                            description = ?,
+                            users_id = ?,
+                            categories_id = ?,
+                            duration = ?,
+                            type = ?,
+                            videoDownloadedLink = ?,
                             duration_in_seconds = ?,
                             created = ?
                             WHERE id = ?";
-                    
+
                     $result = sqlDAL::writeSql($sql, "ssiiississ", [
                         $value->title,
-                        $value->description, 
+                        $value->description,
                         $users_id,
                         $categories_id,
                         $value->duration,
@@ -729,7 +729,7 @@ while ($hasNewContent) {
                         $value->created,
                         $videos_id
                     ]);
-                    
+
                     if ($result) {
                         _error_log("Direct database update SUCCESS for existing video ID: $videos_id");
                         $id = $videos_id;
@@ -741,10 +741,10 @@ while ($hasNewContent) {
                     // For new videos, use the regular save method
                     $id = safeVideoOperation('save', $video, false, true);
                 }
-                
+
                 if ($id) {
                     _error_log("importVideo: SUCCESS - Video saved with ID: {$id} categories_id=$categories_id ($value->clean_category) created=$value->created");
-                    
+
                     // Verify that the users_id was actually updated
                     $savedVideo = Video::getVideoLight($id);
                     if ($savedVideo && isset($savedVideo['users_id'])) {
@@ -753,7 +753,7 @@ while ($hasNewContent) {
                         } else {
                             _error_log("VERIFICATION FAILED: Expected users_id={$users_id}, but database shows users_id={$savedVideo['users_id']}");
                             _error_log("Attempting direct database update...");
-                            
+
                             // Try direct database update as fallback
                             $sql = "UPDATE videos SET users_id = ? WHERE id = ?";
                             $result = sqlDAL::writeSql($sql, "ii", [$users_id, $id]);
