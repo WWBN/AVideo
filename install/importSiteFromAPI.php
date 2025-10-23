@@ -51,10 +51,7 @@ $stats = [
     'users_skipped' => 0
 ];
 
-// Configuration: Auto-create missing users
-$auto_create_missing_users = true; // Set to false if you don't want to auto-create users
 _error_log("Statistics tracking initialized");
-_error_log("Auto-create missing users: " . ($auto_create_missing_users ? 'ENABLED' : 'DISABLED'));
 
 if (!isCommandLineInterface()) {
     _error_log("ERROR: Not running in command line interface");
@@ -67,8 +64,6 @@ _error_log("Output buffering flushed");
 function download($url, $filename, $path, $forceDownload = false) {
     global $stats;
 
-    _error_log("download() called: url='$url', filename='$filename', path='$path', forceDownload=" . ($forceDownload ? 'true' : 'false'));
-
     $stats['downloads_attempted']++;
 
     $parts = explode("/{$filename}/", $url);
@@ -76,12 +71,10 @@ function download($url, $filename, $path, $forceDownload = false) {
     if (empty($parts[1])) {
         if (preg_match("/\.mp3$/", $url)) {
             $parts[1] = "{$filename}.mp3";
-            _error_log("download() detected mp3 file: " . $parts[1]);
         }
     }
 
     if (empty($parts[1])) {
-        _error_log("importVideo::download ERROR on download {$url} - parts[1] is empty");
         $stats['downloads_failed']++;
         return false;
     }
@@ -91,18 +84,14 @@ function download($url, $filename, $path, $forceDownload = false) {
     $destination = $path . $file;
 
     if ($forceDownload || !file_exists($destination)) {
-        _error_log("importVideo::download starting download to [$destination]");
         $result = wget($url, $destination, true);
         if ($result) {
             $stats['downloads_successful']++;
-            _error_log("importVideo::download SUCCESS for [$destination]");
         } else {
             $stats['downloads_failed']++;
-            _error_log("importVideo::download FAILED for [$destination]");
         }
         return $result;
     } else {
-        _error_log("importVideo::download skipped (file exists) [$destination]");
         $stats['downloads_skipped']++;
     }
     return false;
@@ -152,63 +141,58 @@ if (function_exists('pcntl_signal')) {
     _error_log("PCNTL extension not available - signal handling disabled");
 }
 
-// Safe wrapper for video operations that might trigger plugin events
-function safeVideoOperation($operation, $video, ...$args) {
-    try {
-        $result = call_user_func_array(array($video, $operation), $args);
-        _error_log("Safe video operation '$operation' completed successfully");
-        return $result;
-    } catch (TypeError $e) {
-        _error_log("TypeError in video operation '$operation': " . $e->getMessage());
-        _error_log("This is likely due to plugin issues with user external options");
-        _error_log("Stack trace: " . $e->getTraceAsString());
-        return false;
-    } catch (Exception $e) {
-        _error_log("Exception in video operation '$operation': " . $e->getMessage());
-        _error_log("Stack trace: " . $e->getTraceAsString());
-        return false;
-    }
-}
-
-// Function to create a basic user when video owner is missing
-function createBasicUserFromVideoData($email, $channelName) {
+// Function to get or create user from video data
+function getOrCreateUserFromVideoData($email, $channelName) {
     global $stats;
 
+    if (empty($email) && empty($channelName)) {
+        _error_log("No user data available - using admin (ID: 1)");
+        return 1;
+    }
+
+    // Try to find existing user
+    $user = null;
+    if (empty($user) && !empty($channelName)) {
+        $user = User::getUserFromChannelName($channelName);
+    }
+    if (!empty($email)) {
+        $user = User::getUserFromEmail($email);
+    }
+
+    if (!empty($user)) {
+        _error_log("Found existing user ID {$user['id']} for {$email}/{$channelName}");
+        return $user['id'];
+    }
+
+    // User doesn't exist - create if we have enough data
     if (empty($email) || empty($channelName)) {
-        _error_log("Cannot create user - missing email or channel name");
-        return false;
+        _error_log("Insufficient data to create user - using admin (ID: 1)");
+        return 1;
     }
 
-    _error_log("Creating basic user from video data: email=$email, channel=$channelName");
+    _error_log("Creating user: {$email} / {$channelName}");
 
-    try {
-        $o = new User(0);
-        $o->setUser($channelName); // Use channel name as username
-        $o->setPassword($channelName); // Temporary password (should be changed)
-        $o->setName($channelName); // Use channel name as display name
-        $o->setEmail($email);
-        $o->setIsAdmin(0);
-        $o->setStatus('a'); // Active status
-        $o->setCanStream(1);
-        $o->setCanUpload(1);
-        $o->setCanCreateMeet(0);
-        $o->setCanViewChart(0);
-        $o->setChannelName($channelName);
-        $o->setEmailVerified(1); // Assume verified
+    $userObj = new User(0);
+    $userObj->setUser($channelName);
+    $userObj->setPassword($channelName); // Should be changed later
+    $userObj->setName($channelName);
+    $userObj->setEmail($email);
+    $userObj->setChannelName($channelName);
+    $userObj->setStatus('a');
+    $userObj->setIsAdmin(0);
+    $userObj->setCanStream(1);
+    $userObj->setCanUpload(1);
+    $userObj->setEmailVerified(1);
 
-        $id = $o->save(false);
-        if ($id) {
-            _error_log("Successfully created basic user with ID: $id");
-            $stats['users_created']++;
-            return $id;
-        } else {
-            _error_log("Failed to create basic user");
-            return false;
-        }
-    } catch (Exception $e) {
-        _error_log("Exception creating basic user: " . $e->getMessage());
-        return false;
+    $newUserId = $userObj->save(false);
+    if ($newUserId) {
+        _error_log("Created user ID: {$newUserId}");
+        $stats['users_created']++;
+        return $newUserId;
     }
+
+    _error_log("Failed to create user - using admin (ID: 1)");
+    return 1;
 }
 
 set_time_limit(360000);
@@ -530,26 +514,12 @@ while ($hasNewContent) {
             _error_log("importVideo: JSON SUCCESS totalRows={$json->response->totalRows}, rows count: " . count($json->response->rows));
             $hasNewContent = true;
             foreach ($json->response->rows as $key => $value) {
-                _error_log("=== Processing video $key: '{$value->title}' (filename: {$value->filename}) ===");
-
-                // Debug: Log available user fields
-                if (isset($value->email)) {
-                    _error_log("Video owner email: {$value->email}");
-                } else {
-                    _error_log("WARNING: No email field in video data");
-                }
-
-                if (isset($value->channelName)) {
-                    _error_log("Video owner channel: {$value->channelName}");
-                } else {
-                    _error_log("WARNING: No channelName field in video data");
-                }
-
+                _error_log("Processing video {$key}: '{$value->title}'");
                 $stats['videos_processed']++;
 
                 if ($type == 'm3u8') {
                     if (empty($value->videos->m3u8)) {
-                        _error_log("Skipping video - no m3u8 found and type is m3u8");
+                        _error_log("Skipping - no m3u8 found");
                         $stats['videos_skipped']++;
                         continue;
                     }
@@ -560,62 +530,21 @@ while ($hasNewContent) {
 
                 $row = Video::getVideoFromFileNameLight($value->filename);
                 if (!empty($row)) {
-                    _error_log("importVideo: Video found in database with ID: " . $row['id']);
+                    _error_log("Existing video ID: " . $row['id']);
                     $videos_id = $row['id'];
                     $is_new_video = false;
 
-                    // Check current owner of existing video
                     if (isset($row['users_id'])) {
-                        _error_log("Current video owner: users_id={$row['users_id']}");
+                        _error_log("Current owner: users_id={$row['users_id']}");
                     }
-                } else {
-                    _error_log("importVideo: Video NOT found in database - will create new");
                 }
 
                 // Determine user ID
                 if (empty($imported_users_id)) {
-                    // We want to preserve the original owner from the source site
-                    $users_id = 1; // Default fallback
-
-                    // First, try to find the user by email
-                    $user = User::getUserFromEmail($value->email);
-                    if (empty($user) && !empty($value->channelName)) {
-                        // If not found by email, try by channel name
-                        $user = User::getUserFromChannelName($value->channelName);
-                    }
-
-                    if (!empty($user)) {
-                        $users_id = $user['id'];
-                        _error_log("Found existing user ID $users_id for email/channel: {$value->email}/{$value->channelName}");
-                    } else {
-                        // User doesn't exist locally
-                        _error_log("Original video owner not found locally!");
-                        _error_log("  - Original email: {$value->email}");
-                        _error_log("  - Original channel: {$value->channelName}");
-
-                        // Option 1: Try to create the user if we have enough info and auto-creation is enabled
-                        if ($auto_create_missing_users && !empty($value->email) && !empty($value->channelName)) {
-                            _error_log("Auto-creation enabled - Attempting to create missing user...");
-                            $created_user_id = createBasicUserFromVideoData($value->email, $value->channelName);
-                            if ($created_user_id) {
-                                $users_id = $created_user_id;
-                                _error_log("SUCCESS: Created user with ID $users_id for video owner");
-                            } else {
-                                _error_log("FAILED to create user, falling back to admin (ID: 1)");
-                                $users_id = 1;
-                            }
-                        } else {
-                            if (!$auto_create_missing_users) {
-                                _error_log("Auto-creation disabled, using admin (ID: 1)");
-                            } else {
-                                _error_log("Insufficient user data to create user, using admin (ID: 1)");
-                            }
-                            $users_id = 1;
-                        }
-                    }
+                    $users_id = getOrCreateUserFromVideoData($value->email ?? '', $value->channelName ?? '');
                 } else {
                     $users_id = $imported_users_id;
-                    _error_log("Using provided user ID: $users_id (overriding original owner)");
+                    _error_log("Using provided user ID: $users_id");
                 }
 
                 // Determine category ID
@@ -640,132 +569,44 @@ while ($hasNewContent) {
 
                 // Set the owner - this will update existing videos too
                 $video->setUsers_id($users_id);
-                if ($is_new_video) {
-                    _error_log("Setting owner for NEW video to users_id=$users_id");
-                } else {
-                    _error_log("UPDATING owner for EXISTING video (ID: $videos_id) to users_id=$users_id");
-                }
-
                 $video->setCategories_id($categories_id);
 
-                // Debug: Show what values are set on the video object before saving
-                _error_log("DEBUG: Video object values before save:");
-                _error_log("  - Title: {$value->title}");
-                _error_log("  - Filename: {$value->filename}");
-                _error_log("  - Video ID (for existing): $videos_id");
-                _error_log("  - Users ID to set: $users_id");
-                _error_log("  - Categories ID: $categories_id");
-                _error_log("  - Is new video: " . ($is_new_video ? 'YES' : 'NO'));
+                _error_log("Saving video with users_id=$users_id, categories_id=$categories_id");
 
                 $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
                 $size = getDirSize($path);
-                _error_log("Video path: $path, current size: " . humanFileSize($size) . " ($size bytes)");
+                _error_log("Video path: $path, size: " . humanFileSize($size));
 
+                // Set initial status based on content
                 if ($size < 10000000) {
-                    if(empty($videos_id)){
+                    if($is_new_video){
                         try {
                             $video->setStatus(Video::STATUS_TRANFERING);
-                            _error_log("importVideo status: transfering ($size) " . humanFileSize($size));
                         } catch (Exception $e) {
-                            _error_log("ERROR setting video status to TRANSFERING: " . $e->getMessage());
-                        } catch (TypeError $e) {
-                            _error_log("TypeError setting video status to TRANSFERING: " . $e->getMessage());
+                            _error_log("Error setting status: " . $e->getMessage());
                         }
-                    }else{
+                    } else {
                         if ($size > 1000000) {
                             try {
                                 $video->setStatus(Video::STATUS_ACTIVE);
-                                _error_log("importVideo status: set to ACTIVE for existing video");
                             } catch (Exception $e) {
-                                _error_log("ERROR setting existing video status to ACTIVE: " . $e->getMessage());
-                            } catch (TypeError $e) {
-                                _error_log("TypeError setting existing video status to ACTIVE: " . $e->getMessage());
+                                _error_log("Error setting status: " . $e->getMessage());
                             }
                         }
-                        _error_log("importVideo status: else ($size) " . humanFileSize($size));
                     }
                 }
-                if(empty($videos_id)){
+                if($is_new_video){
                     try {
                         $video->setStatus(Video::STATUS_TRANFERING);
-                        _error_log("Setting new video status to TRANSFERRING");
                     } catch (Exception $e) {
-                        _error_log("ERROR setting new video status to TRANSFERRING: " . $e->getMessage());
-                    } catch (TypeError $e) {
-                        _error_log("TypeError setting new video status to TRANSFERRING: " . $e->getMessage());
+                        _error_log("Error setting status: " . $e->getMessage());
                     }
-                } else {
-                    _error_log("Updating existing video ID: $videos_id");
                 }
 
-                _error_log("importVideo: Saving video object...");
-
-                // For existing videos, let's try a more direct approach first
-                if (!$is_new_video && $videos_id > 0) {
-                    _error_log("Using direct database update for existing video ID: $videos_id");
-
-                    // Try direct update first for existing videos
-                    $sql = "UPDATE videos SET
-                            title = ?,
-                            description = ?,
-                            users_id = ?,
-                            categories_id = ?,
-                            duration = ?,
-                            type = ?,
-                            videoDownloadedLink = ?,
-                            duration_in_seconds = ?,
-                            created = ?
-                            WHERE id = ?";
-
-                    $result = sqlDAL::writeSql($sql, "ssiiississ", [
-                        $value->title,
-                        $value->description,
-                        $users_id,
-                        $categories_id,
-                        $value->duration,
-                        $value->type,
-                        $value->videoDownloadedLink,
-                        $value->duration_in_seconds,
-                        $value->created,
-                        $videos_id
-                    ]);
-
-                    if ($result) {
-                        _error_log("Direct database update SUCCESS for existing video ID: $videos_id");
-                        $id = $videos_id;
-                    } else {
-                        _error_log("Direct database update FAILED, trying object save method...");
-                        $id = safeVideoOperation('save', $video, false, true);
-                    }
-                } else {
-                    // For new videos, use the regular save method
-                    $id = safeVideoOperation('save', $video, false, true);
-                }
-
+                // Save the video
+                $id = $video->save(false, true);
                 if ($id) {
-                    _error_log("importVideo: SUCCESS - Video saved with ID: {$id} categories_id=$categories_id ($value->clean_category) created=$value->created");
-
-                    // Verify that the users_id was actually updated
-                    $savedVideo = Video::getVideoLight($id);
-                    if ($savedVideo && isset($savedVideo['users_id'])) {
-                        if ($savedVideo['users_id'] == $users_id) {
-                            _error_log("VERIFICATION SUCCESS: Video owner correctly set to users_id={$users_id}");
-                        } else {
-                            _error_log("VERIFICATION FAILED: Expected users_id={$users_id}, but database shows users_id={$savedVideo['users_id']}");
-                            _error_log("Attempting direct database update...");
-
-                            // Try direct database update as fallback
-                            $sql = "UPDATE videos SET users_id = ? WHERE id = ?";
-                            $result = sqlDAL::writeSql($sql, "ii", [$users_id, $id]);
-                            if ($result) {
-                                _error_log("Direct database update SUCCESS: Set users_id={$users_id} for video ID {$id}");
-                            } else {
-                                _error_log("Direct database update FAILED for video ID {$id}");
-                            }
-                        }
-                    } else {
-                        _error_log("WARNING: Could not verify video save - unable to retrieve saved video data");
-                    }
+                    _error_log("Video saved with ID: {$id}");
 
                     if ($is_new_video) {
                         $stats['videos_created']++;
@@ -775,107 +616,69 @@ while ($hasNewContent) {
 
                     make_path($path);
 
-                    // download images
+                    // Download images
                     if (!empty($value->images->poster)) {
-                        _error_log("Downloading poster image: {$value->images->poster}");
                         download($value->images->poster, $value->filename, $path);
                     }
-
                     if (!empty($value->images->thumbsGif)) {
-                        _error_log("Downloading thumbs GIF: {$value->images->thumbsGif}");
                         download($value->images->thumbsGif, $value->filename, $path);
                     }
 
                     // Download MP4 files
                     if (!empty($value->videos->mp4)) {
                         foreach ($value->videos->mp4 as $key2 => $value2) {
-                            _error_log("importVideo MP4: key = {$key} key2 = {$key2} URL = $value2");
                             download($value2, $value->filename, $path);
                         }
                     }
 
                     // Download MP3 file
                     if (!empty($value->videos->mp3)) {
-                        _error_log("importVideo MP3: {$value->videos->mp3}");
                         download($value->videos->mp3, $value->filename, $path);
                     }
 
-                    // Set video status with error handling
+                    // Set video to active
                     try {
                         $video->setStatus(Video::STATUS_ACTIVE);
-                        _error_log("Video status set to ACTIVE successfully");
                     } catch (Exception $e) {
-                        _error_log("ERROR setting video status to ACTIVE: " . $e->getMessage());
-                        _error_log("Stack trace: " . $e->getTraceAsString());
-                    } catch (TypeError $e) {
-                        _error_log("TypeError setting video status to ACTIVE: " . $e->getMessage());
-                        _error_log("Stack trace: " . $e->getTraceAsString());
+                        _error_log("Error setting video to active: " . $e->getMessage());
                     }
 
                     // Handle M3U8
                     if (!empty($value->videos->m3u8)) {
-                        if ($size < 10000000) {
-                            if(empty($videos_id)){
-                                _error_log("importVideo m3u8: Sending to encoder - {$value->videos->m3u8->url} (size: " . humanFileSize($size) . ")");
-                                $encoderResult = sendToEncoder($id, $value->videos->m3u8->url);
-                                $stats['encoder_submissions']++;
-                                _error_log("Encoder result: " . ($encoderResult ? 'SUCCESS' : 'FAILED'));
-                            }
+                        if ($size < 10000000 && $is_new_video) {
+                            _error_log("Sending to encoder: {$value->videos->m3u8->url}");
+                            $encoderResult = sendToEncoder($id, $value->videos->m3u8->url);
+                            $stats['encoder_submissions']++;
 
-                            if(empty($videos_id)){
+                            if ($encoderResult) {
                                 try {
                                     $video->setStatus(Video::STATUS_ENCODING);
-                                    _error_log("Setting video status to ENCODING - SUCCESS");
                                 } catch (Exception $e) {
-                                    _error_log("ERROR setting video status to ENCODING: " . $e->getMessage());
-                                    _error_log("Stack trace: " . $e->getTraceAsString());
-                                } catch (TypeError $e) {
-                                    _error_log("TypeError setting video status to ENCODING: " . $e->getMessage());
-                                    _error_log("Stack trace: " . $e->getTraceAsString());
+                                    _error_log("Error setting encoding status: " . $e->getMessage());
                                 }
                             }
-                        } else {
-                            _error_log("importVideo m3u8 NOT SENT to encoder - size too large: " . humanFileSize($size));
                         }
                     }
 
-                    if(empty($videos_id)){
+                    if($is_new_video){
                         $total_imported++;
-                        _error_log("Incremented total_imported to: $total_imported");
                     }
 
                     if (!empty($total_to_import) && $total_to_import > 0 && $total_imported >= $total_to_import) {
-                        _error_log("importVideo completed: total_imported=$total_imported >= total_to_import=$total_to_import - STOPPING");
+                        _error_log("Import limit reached: $total_imported");
                         $hasNewContent = false;
                         break;
-                    }else{
-                        _error_log("importVideo continue: total_imported=$total_imported < total_to_import=$total_to_import");
                     }
                 } else {
-                    _error_log("importVideo: ERROR - Failed to save video '{$value->title}'");
+                    _error_log("Failed to save video: {$value->title}");
                     $stats['videos_errors']++;
-                    try {
-                        $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
-                        _error_log("Set video status to BROKEN_MISSING_FILES");
-                    } catch (Exception $e) {
-                        _error_log("ERROR setting video status to BROKEN_MISSING_FILES: " . $e->getMessage());
-                    } catch (TypeError $e) {
-                        _error_log("TypeError setting video status to BROKEN_MISSING_FILES: " . $e->getMessage());
-                    }
                 }
 
-                _error_log("Final save of video object...");
+                // Final save
                 try {
-                    $finalSaveResult = $video->save(false, true);
-                    _error_log("Final save result: " . ($finalSaveResult ? 'SUCCESS' : 'FAILED'));
+                    $video->save(false, true);
                 } catch (Exception $e) {
-                    _error_log("ERROR during final video save: " . $e->getMessage());
-                    _error_log("Stack trace: " . $e->getTraceAsString());
-                    $finalSaveResult = false;
-                } catch (TypeError $e) {
-                    _error_log("TypeError during final video save: " . $e->getMessage());
-                    _error_log("Stack trace: " . $e->getTraceAsString());
-                    $finalSaveResult = false;
+                    _error_log("Error in final save: " . $e->getMessage());
                 }
 
                 // Memory management
