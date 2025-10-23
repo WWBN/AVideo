@@ -148,6 +148,24 @@ if (function_exists('pcntl_signal')) {
     _error_log("PCNTL extension not available - signal handling disabled");
 }
 
+// Safe wrapper for video operations that might trigger plugin events
+function safeVideoOperation($operation, $video, ...$args) {
+    try {
+        $result = call_user_func_array(array($video, $operation), $args);
+        _error_log("Safe video operation '$operation' completed successfully");
+        return $result;
+    } catch (TypeError $e) {
+        _error_log("TypeError in video operation '$operation': " . $e->getMessage());
+        _error_log("This is likely due to plugin issues with user external options");
+        _error_log("Stack trace: " . $e->getTraceAsString());
+        return false;
+    } catch (Exception $e) {
+        _error_log("Exception in video operation '$operation': " . $e->getMessage());
+        _error_log("Stack trace: " . $e->getTraceAsString());
+        return false;
+    }
+}
+
 set_time_limit(360000);
 ini_set('max_execution_time', 360000);
 
@@ -397,7 +415,7 @@ if ($type !== 'm3u8') {
                             //wget($value->background, "{$global['systemRootPath']}videos/userPhoto/photo{$id}.png", true);
                         } else {
                             _error_log("importUsers: ERROR - Failed to save user '{$value->user}'");
-                            $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
+                            // Note: No video status to set here, this is user import
                         }
 
                         // Memory management
@@ -536,24 +554,43 @@ while ($hasNewContent) {
 
                 if ($size < 10000000) {
                     if(empty($videos_id)){
-                        $video->setStatus(Video::STATUS_TRANFERING);
-                        _error_log("importVideo status: transfering ($size) " . humanFileSize($size));
+                        try {
+                            $video->setStatus(Video::STATUS_TRANFERING);
+                            _error_log("importVideo status: transfering ($size) " . humanFileSize($size));
+                        } catch (Exception $e) {
+                            _error_log("ERROR setting video status to TRANSFERING: " . $e->getMessage());
+                        } catch (TypeError $e) {
+                            _error_log("TypeError setting video status to TRANSFERING: " . $e->getMessage());
+                        }
                     }else{
                         if ($size > 1000000) {
-                            $video->setStatus(Video::STATUS_ACTIVE);
+                            try {
+                                $video->setStatus(Video::STATUS_ACTIVE);
+                                _error_log("importVideo status: set to ACTIVE for existing video");
+                            } catch (Exception $e) {
+                                _error_log("ERROR setting existing video status to ACTIVE: " . $e->getMessage());
+                            } catch (TypeError $e) {
+                                _error_log("TypeError setting existing video status to ACTIVE: " . $e->getMessage());
+                            }
                         }
                         _error_log("importVideo status: else ($size) " . humanFileSize($size));
                     }
                 }
                 if(empty($videos_id)){
-                    $video->setStatus(Video::STATUS_TRANFERING);
-                    _error_log("Setting new video status to TRANSFERRING");
+                    try {
+                        $video->setStatus(Video::STATUS_TRANFERING);
+                        _error_log("Setting new video status to TRANSFERRING");
+                    } catch (Exception $e) {
+                        _error_log("ERROR setting new video status to TRANSFERRING: " . $e->getMessage());
+                    } catch (TypeError $e) {
+                        _error_log("TypeError setting new video status to TRANSFERRING: " . $e->getMessage());
+                    }
                 } else {
                     _error_log("Updating existing video ID: $videos_id");
                 }
 
                 _error_log("importVideo: Saving video object...");
-                $id = $video->save(false, true);
+                $id = safeVideoOperation('save', $video, false, true);
                 if ($id) {
                     _error_log("importVideo: SUCCESS - Video saved with ID: {$id} categories_id=$categories_id ($value->clean_category) created=$value->created");
 
@@ -590,7 +627,17 @@ while ($hasNewContent) {
                         download($value->videos->mp3, $value->filename, $path);
                     }
 
-                    $video->setStatus(Video::STATUS_ACTIVE);
+                    // Set video status with error handling
+                    try {
+                        $video->setStatus(Video::STATUS_ACTIVE);
+                        _error_log("Video status set to ACTIVE successfully");
+                    } catch (Exception $e) {
+                        _error_log("ERROR setting video status to ACTIVE: " . $e->getMessage());
+                        _error_log("Stack trace: " . $e->getTraceAsString());
+                    } catch (TypeError $e) {
+                        _error_log("TypeError setting video status to ACTIVE: " . $e->getMessage());
+                        _error_log("Stack trace: " . $e->getTraceAsString());
+                    }
 
                     // Handle M3U8
                     if (!empty($value->videos->m3u8)) {
@@ -603,8 +650,16 @@ while ($hasNewContent) {
                             }
 
                             if(empty($videos_id)){
-                                $video->setStatus(Video::STATUS_ENCODING);
-                                _error_log("Setting video status to ENCODING");
+                                try {
+                                    $video->setStatus(Video::STATUS_ENCODING);
+                                    _error_log("Setting video status to ENCODING - SUCCESS");
+                                } catch (Exception $e) {
+                                    _error_log("ERROR setting video status to ENCODING: " . $e->getMessage());
+                                    _error_log("Stack trace: " . $e->getTraceAsString());
+                                } catch (TypeError $e) {
+                                    _error_log("TypeError setting video status to ENCODING: " . $e->getMessage());
+                                    _error_log("Stack trace: " . $e->getTraceAsString());
+                                }
                             }
                         } else {
                             _error_log("importVideo m3u8 NOT SENT to encoder - size too large: " . humanFileSize($size));
@@ -626,12 +681,29 @@ while ($hasNewContent) {
                 } else {
                     _error_log("importVideo: ERROR - Failed to save video '{$value->title}'");
                     $stats['videos_errors']++;
-                    $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
+                    try {
+                        $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
+                        _error_log("Set video status to BROKEN_MISSING_FILES");
+                    } catch (Exception $e) {
+                        _error_log("ERROR setting video status to BROKEN_MISSING_FILES: " . $e->getMessage());
+                    } catch (TypeError $e) {
+                        _error_log("TypeError setting video status to BROKEN_MISSING_FILES: " . $e->getMessage());
+                    }
                 }
 
                 _error_log("Final save of video object...");
-                $finalSaveResult = $video->save(false, true);
-                _error_log("Final save result: " . ($finalSaveResult ? 'SUCCESS' : 'FAILED'));
+                try {
+                    $finalSaveResult = $video->save(false, true);
+                    _error_log("Final save result: " . ($finalSaveResult ? 'SUCCESS' : 'FAILED'));
+                } catch (Exception $e) {
+                    _error_log("ERROR during final video save: " . $e->getMessage());
+                    _error_log("Stack trace: " . $e->getTraceAsString());
+                    $finalSaveResult = false;
+                } catch (TypeError $e) {
+                    _error_log("TypeError during final video save: " . $e->getMessage());
+                    _error_log("Stack trace: " . $e->getTraceAsString());
+                    $finalSaveResult = false;
+                }
 
                 // Memory management
                 $processedCount++;
