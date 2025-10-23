@@ -49,35 +49,8 @@ function download($url, $filename, $path, $forceDownload = false) {
     return false;
 }
 
-function cleanupMemoryAndConnections() {
-    global $global;
-
-    // Force garbage collection
-    gc_collect_cycles();
-
-    // Log current memory usage
-    $memory = memory_get_usage(true);
-    $peak = memory_get_peak_usage(true);
-    _error_log("Memory cleanup - Current: " . number_format($memory / 1024 / 1024, 2) . "MB, Peak: " . number_format($peak / 1024 / 1024, 2) . "MB");
-
-    // Check if we need to reconnect database
-    if (!_mysql_is_open()) {
-        _error_log("Database connection lost, reconnecting...");
-        _mysql_connect();
-    }
-
-    // Small sleep to reduce CPU pressure
-    usleep(100000); // 0.1 seconds
-
-    return true;
-}
-
 set_time_limit(360000);
 ini_set('max_execution_time', 360000);
-
-// Memory optimization settings
-ini_set('memory_limit', '2G');
-gc_enable();
 
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 
@@ -102,11 +75,6 @@ if (empty($total_to_import)) {
 $rowCount = 50;
 $current = 1;
 $hasNewContent = true;
-
-// Add memory management
-$processedCount = 0;
-$memoryCleanupInterval = 10; // Clean up every 10 items
-$batchSize = 5; // Process in smaller batches for better memory management
 
 _error_log("importSite: start {$siteURL} imported_users_id=$imported_users_id imported_categories_id=$imported_categories_id total_to_import=$total_to_import");
 //exit;
@@ -157,13 +125,6 @@ if ($type !== 'm3u8') {
                         } else {
                             _error_log("importCategory: ERROR NOT saved");
                         }
-
-                        // Memory management
-                        $processedCount++;
-                        if ($processedCount % $memoryCleanupInterval == 0) {
-                            cleanupMemoryAndConnections();
-                        }
-                        unset($o); // Explicitly free the object
                         //exit;
                     }
                 } else {
@@ -173,9 +134,6 @@ if ($type !== 'm3u8') {
                 _error_log("importCategory: ERROR {$APIURL} content is empty");
             }
         }
-        // Final cleanup for categories section
-        cleanupMemoryAndConnections();
-        $processedCount = 0; // Reset counter for next section
     }
     if (empty($imported_users_id)) {
         $current = 1;
@@ -249,13 +207,6 @@ if ($type !== 'm3u8') {
                             _error_log("importUsers: ERROR NOT saved");
                             $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
                         }
-
-                        // Memory management
-                        $processedCount++;
-                        if ($processedCount % $memoryCleanupInterval == 0) {
-                            cleanupMemoryAndConnections();
-                        }
-                        unset($o); // Explicitly free the object
                         //exit;
                     }
                 } else {
@@ -267,9 +218,6 @@ if ($type !== 'm3u8') {
                 _error_log("importUsers: ERROR {$APIURL} content is empty");
             }
         }
-        // Final cleanup for users section
-        cleanupMemoryAndConnections();
-        $processedCount = 0; // Reset counter for next section
     }
 }
 $current = 1;
@@ -409,13 +357,6 @@ while ($hasNewContent) {
                     $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
                 }
                 $video->save(false, true);
-
-                // Memory management
-                $processedCount++;
-                if ($processedCount % $memoryCleanupInterval == 0) {
-                    cleanupMemoryAndConnections();
-                }
-                unset($video); // Explicitly free the object
                 //exit;
             }
         } else {
@@ -425,9 +366,5 @@ while ($hasNewContent) {
         _error_log("importVideo: ERROR {$APIURL} content is empty");
     }
 }
-
-// Final cleanup
-cleanupMemoryAndConnections();
-_error_log("Import completed. Final memory usage: " . number_format(memory_get_usage(true) / 1024 / 1024, 2) . "MB");
 
 die();
