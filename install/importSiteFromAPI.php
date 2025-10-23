@@ -14,13 +14,15 @@ $imported_categories_id = intval(@$argv[4]);
 $total_to_import = intval(@$argv[5]);
 $type = trim(@$argv[6]);
 
+
+//streamer config
+require_once '../videos/configuration.php';
+
 // Log script start with parameters
 _error_log("=== SCRIPT START ===");
 _error_log("Parameters: siteURL='$siteURL', APISecret='" . substr($APISecret, 0, 5) . "...', imported_users_id=$imported_users_id, imported_categories_id=$imported_categories_id, total_to_import=$total_to_import, type='$type'");
 _error_log("PHP Version: " . phpversion() . ", Memory Limit: " . ini_get('memory_limit'));
 
-//streamer config
-require_once '../videos/configuration.php';
 _error_log("Configuration loaded successfully");
 
 if (!isCommandLineInterface()) {
