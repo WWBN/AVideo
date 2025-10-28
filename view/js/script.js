@@ -3982,7 +3982,7 @@ async function sendAVideoMobileMessage(type, value) {
         try {
             window.top.postMessage({ type: type, value: value }, '*');
         } catch (error) {
-            console.error('sendAVideoMobileMessage postMessage error', error);
+            console.log('sendAVideoMobileMessage postMessage error', error);
         }
     }
 }
