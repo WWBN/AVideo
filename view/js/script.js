@@ -3979,8 +3979,11 @@ async function sendAVideoMobileMessage(type, value) {
             }, 1000);
         }
     } else {
-        //window.parent.postMessage({type: type, value: value}, '*');
-        window.top.postMessage({ type: type, value: value }, '*');
+        try {
+            window.top.postMessage({ type: type, value: value }, '*');
+        } catch (error) {
+            console.error('sendAVideoMobileMessage postMessage error', error);
+        }
     }
 }
 window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
