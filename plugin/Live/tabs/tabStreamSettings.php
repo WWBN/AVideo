@@ -140,6 +140,14 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
                                             <input id="recordLive" type="checkbox" value="1" <?php echo SendRecordedToEncoder::recordOptionIsChecked(User::getId()) ? "checked" : ""; ?> onchange="saveStream(this);" />
                                             <label for="recordLive" class="label-success"></label>
                                         </div>
+                                        <?php
+                                        global $lastRecordReasonText;
+                                        if (!empty($lastRecordReasonText)) {
+                                        ?>
+                                            <small class="text-muted clearfix"><i class="fas fa-info-circle"></i> <?php echo $lastRecordReasonText; ?></small>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="form-group">
                                         <button
