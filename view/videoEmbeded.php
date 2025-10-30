@@ -1,4 +1,25 @@
 <?php
+/**
+ * Embedded Video Player
+ *
+ * Displays a video in an embeddable format with configurable parameters via URL
+ *
+ * URL Parameters (see objects/EmbedPlayerConfig.php for details):
+ * - autoplay=1           : Auto-start video
+ * - controls=0|-1|-2     : Control visibility (0=none, -1=basic, -2=basic no progress)
+ * - mute=1               : Start muted
+ * - loop=1               : Loop video
+ * - modestbranding=1     : Remove extra branding
+ * - showinfo=0           : Hide top info bar
+ * - objectFit=cover      : Video object-fit CSS
+ * - t=30                 : Start time in seconds
+ * - showBigButton=1      : Show large play button
+ * - forceCloseButton=1   : Force close button display
+ * - closeOnEnd=1         : Close player when video ends
+ *
+ * Example: ?autoplay=1&mute=1&controls=-1&loop=1&t=10
+ */
+
 global $isEmbed;
 $isEmbed = 1;
 global $global, $config;
@@ -94,8 +115,11 @@ if (empty($poster)) {
 }
 
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+require_once $global['systemRootPath'] . 'objects/EmbedPlayerConfig.php';
+
 /*
  * Swap aspect ratio for rotated (vvs) videos
+ * This is currently disabled but kept for reference
 
   if ($video['rotation'] === "90" || $video['rotation'] === "270") {
   $embedResponsiveClass = "embed-responsive-9by16";
@@ -104,66 +128,33 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
   $embedResponsiveClass = "embed-responsive-16by9";
   $vjsClass = "vjs-16-9";
   } */
-$vjsClass = '';
-
-if (!empty($_REQUEST['showBigButton'])) {
-    $vjsClass .= ' showBigButton';
-}
 
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
 
-//https://.../vEmbed/527?modestbranding=1&showinfo=0&autoplay=1&controls=0&loop=1&mute=1&t=0
-$modestbranding = false;
-$autoplay = false;
-$controls = "controls";
-$showOnlyBasicControls = false;
-$hideProgressBarAndUnPause = false;
-$loop = '';
-$mute = '';
-$objectFit = '';
-$t = 0;
+// Initialize embed player configuration
+// URL params: modestbranding, showinfo, autoplay, controls, loop, mute, t, objectFit, showBigButton, forceCloseButton, closeOnEnd
+// Example: ?autoplay=1&controls=0&loop=1&mute=1&t=30
+$embedConfig = new EmbedPlayerConfig($video, $config);
 
-if (isset($_GET['modestbranding']) && $_GET['modestbranding'] == "1") {
-    $modestbranding = true;
-}
-if (!empty($_GET['autoplay']) || $config->getAutoplay()) {
-    $autoplay = true;
-}
-if (isset($_GET['controls'])) {
-    if ($_GET['controls'] == "0") {
-        $controls = '';
-    } elseif ($_GET['controls'] == "-1") {
-        $showOnlyBasicControls = true;
-    } elseif ($_GET['controls'] == "-2") {
-        $showOnlyBasicControls = true;
-        $hideProgressBarAndUnPause = true;
-    }
-}
-if (!empty($_GET['loop'])) {
-    $loop = "loop";
-}
-if (!empty($_GET['mute'])) {
-    $mute = 'muted="muted"';
-}
-if (!empty($_GET['objectFit']) && (intval($_GET['objectFit']) == 1 || $_GET['objectFit'] == 'true')) {
-    $objectFit = 'object-fit: ' . $_GET['objectFit'];
-}
-if (!empty($_GET['t'])) {
-    $t = intval($_GET['t']);
-} elseif (!empty($video['progress']['lastVideoTime'])) {
-    $t = intval($video['progress']['lastVideoTime']);
-} elseif (!empty($video['externalOptions']->videoStartSeconds)) {
-    $t = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
+// Validate configuration (optional - logs errors if any)
+$validation = $embedConfig->validate();
+if ($validation !== true && User::isAdmin()) {
+    error_log("EmbedPlayerConfig validation errors: " . implode(", ", $validation));
 }
 
-$playerSkinsO = AVideoPlugin::getObjectData("PlayerSkins");
-$disableEmbedTopInfo = $playerSkinsO->disableEmbedTopInfo;
-
-if (isset($_REQUEST['showinfo']) && empty($_REQUEST['showinfo'])) {
-    $disableEmbedTopInfo = true;
-    $modestbranding = true;
-}
+// Legacy variables for backward compatibility (deprecated - use $embedConfig instead)
+$modestbranding = $embedConfig->isModestbranding();
+$autoplay = $embedConfig->isAutoplay();
+$controls = $embedConfig->getControls();
+$showOnlyBasicControls = $embedConfig->showOnlyBasicControls();
+$hideProgressBarAndUnPause = $embedConfig->hideProgressBarAndUnPause();
+$loop = $embedConfig->getLoop();
+$mute = $embedConfig->getMute();
+$objectFit = $embedConfig->getObjectFit();
+$t = $embedConfig->getStartTime();
+$disableEmbedTopInfo = $embedConfig->isEmbedTopInfoDisabled();
+$vjsClass = $embedConfig->getVjsClass();
 
 $url = Video::getLink($video['id'], $video['clean_title'], false);
 $title = str_replace('"', '', $video['title']) . ' - ' . $config->getWebSiteTitle();
@@ -295,46 +286,8 @@ if (User::hasBlockedUser($video['users_id'])) {
         }
 
 
-        <?php
-        if (empty($controls)) {
-        ?>#topInfo,
-        .vjs-big-play-button,
-        .vjs-control-bar,
-        #seekBG {
-            display: none !important;
-        }
-
-        <?php
-        } elseif ($showOnlyBasicControls) {
-        ?>#mainVideo>div.vjs-control-bar>.vjs-control,
-        #mainVideo>div.vjs-control-bar>div.vjs-time-divider {
-            display: none;
-        }
-
-        #mainVideo>div.vjs-control-bar>.vjs-play-control,
-        #mainVideo>div.vjs-control-bar>.vjs-fullscreen-control {
-            display: inline-block;
-        }
-
-        #mainVideo>div.vjs-control-bar>.vjs-volume-panel,
-        #mainVideo>div.vjs-control-bar>.vjs-progress-control,
-        #mainVideo>div.vjs-control-bar>.vjs-resolution-button {
-            display: flex;
-        }
-
-        <?php
-            if ($hideProgressBarAndUnPause) {
-        ?>#mainVideo>div.vjs-control-bar>.vjs-progress-control,
-        #mainVideo>div.vjs-control-bar>button.vjs-play-control {
-            display: none;
-        }
-
-        <?php
-            }
-        }
-        ?>#mainVideo>div.vjs-control-bar {
-            bottom: 0 !important;
-        }
+        /* Dynamic CSS generated by EmbedPlayerConfig based on URL parameters */
+        <?php echo $embedConfig->getCustomCSS(); ?>
 
         #main-video,
         #main-video iframe {
@@ -346,6 +299,11 @@ if (User::hasBlockedUser($video['users_id'])) {
     include $global['systemRootPath'] . 'view/include/head.php';
     getOpenGraph($video['id']);
     getLdJson($video['id']);
+
+    // Debug info for admins
+    if (User::isAdmin()) {
+        echo "<!-- EmbedPlayerConfig: " . htmlspecialchars($embedConfig->toJson()) . " -->\n";
+    }
     ?>
 </head>
 
@@ -374,7 +332,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <video id="mainVideo" style="display: none; height: 0;width: 0;"></video>
         <iframe style="width: 100%; height: 100%;" class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php
                                                                                                                                                                         echo $video['serie_playlists_id'];
-                                                                                                                                                                        if ($config->getAutoplay()) {
+                                                                                                                                                                        if ($embedConfig->isAutoplay()) {
                                                                                                                                                                             echo "&autoplay=1";
                                                                                                                                                                         }
                                                                                                                                                                         ?>"></iframe>
@@ -470,7 +428,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <video id="mainVideo" style="display: none; height: 0;width: 0;"></video>
         <iframe style="width: 100%; height: 100%;" class="embed-responsive-item" src="<?php
                                                                                         $url = parseVideos($video['videoLink']);
-                                                                                        if ($autoplay) {
+                                                                                        if ($embedConfig->isAutoplay()) {
                                                                                             $url = addQueryStringParameter($url, 'autoplay', 1);
                                                                                         }
                                                                                         echo $url;
@@ -485,7 +443,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         $isAudio = 1;
     ?>
         <!-- audio videoEmbed -->
-        <audio style="width: 100%; height: 100%;" id="mainVideo" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered" id="mainVideo" data-setup='{ "fluid": true }' poster="<?php echo $poster; ?>">
+        <audio style="width: 100%; height: 100%;" id="mainVideo" <?php echo $embedConfig->getVideoAttributes(); ?> class="center-block video-js vjs-default-skin vjs-big-play-centered" data-setup='{ "fluid": true }' poster="<?php echo $poster; ?>">
             <?php echo getSources($video['filename']); ?>
         </audio>
         <script>
@@ -508,8 +466,8 @@ if (User::hasBlockedUser($video['users_id'])) {
     <?php
     } else {
     ?>
-        <!-- else -->
-        <video style="width: 100%; height: 100%; position: fixed; top: 0; left:0; <?php echo $objectFit; ?>" <?php echo PlayerSkins::getPlaysinline(); ?> poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?> <?php echo $mute; ?> class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
+        <!-- Default video player -->
+        <video style="<?php echo $embedConfig->getVideoStyle(); ?>" <?php echo PlayerSkins::getPlaysinline(); ?> poster="<?php echo $poster; ?>" <?php echo $embedConfig->getVideoAttributes(); ?> class="video-js vjs-default-skin vjs-big-play-centered <?php echo $embedConfig->getVjsClass(); ?> " id="mainVideo">
             <?php echo getSources($video['filename']); ?>
             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
         </video>
@@ -573,41 +531,25 @@ if (User::hasBlockedUser($video['users_id'])) {
         var topInfoTimeout;
 
         $(document).ready(function() {
-            addCloseButtonInVideo(<?php echo json_encode(!empty($_REQUEST['forceCloseButton'])); ?>);
+            // Dynamic JavaScript generated by EmbedPlayerConfig
+            <?php echo $embedConfig->getCustomJS(); ?>
+
+            // Handle iframe mouse out behavior
             $("iframe").mouseout(function(e) {
                 topInfoTimeout = setTimeout(function() {
                     $('#mainVideo').removeClass("vjs-user-active");
                 }, 500);
             });
-            <?php
-            if (!empty($_REQUEST['closeOnEnd'])) {
-            ?>
-                player.on('ended', function() {
-                    $('#CloseButtonInVideo').trigger('click');
-                });
-            <?php
-            }
-            if ($hideProgressBarAndUnPause) {
-            ?>
-                player.on('pause', function() {
-                    player.play();
-                });
-            <?php
-            }
-            if (empty($disableEmbedTopInfo)) {
-            ?>
 
+            <?php if (!$embedConfig->isEmbedTopInfoDisabled()) { ?>
+                // Add top info overlay to player
                 player.ready(function() {
                     var clonedElement = $('#topInfoTemplate').clone();
                     clonedElement.css('display', '');
                     clonedElement.attr('id', 'topInfo');
                     $(player.el()).append(clonedElement);
                 });
-            <?php
-
-            }
-            ?>
-
+            <?php } ?>
         });
     </script>
     <?php

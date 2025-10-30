@@ -516,11 +516,42 @@ function appendParams($url, $baseParams)
     return $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . $baseParams;
 }
 
+/**
+ * Parse and convert video URLs to embeddable format with player configuration
+ *
+ * Supports: YouTube, Vimeo, Dailymotion, Twitch, Facebook, and many others
+ * Can use EmbedPlayerConfig object or individual parameters
+ *
+ * @param string|null $videoString Video URL or iframe code
+ * @param int|EmbedPlayerConfig $autoplay Autoplay flag or EmbedPlayerConfig object
+ * @param int $loop Loop flag
+ * @param int $mute Mute flag
+ * @param int $showinfo Show info flag
+ * @param int $controls Controls visibility
+ * @param int $time Start time in seconds
+ * @param string $objectFit Object-fit CSS property
+ * @return string Embeddable video URL
+ *
+ * @example parseVideos('https://youtube.com/watch?v=abc123', 1, 1, 1) // Classic usage
+ * @example parseVideos('https://youtube.com/watch?v=abc123', $embedConfig) // Using EmbedPlayerConfig
+ */
 function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $showinfo = 0, $controls = 1, $time = 0, $objectFit = "")
 {
     global $global;
     if (!empty($videoString)) {
         $videoString = fixURL($videoString);
+    }
+
+    // Support EmbedPlayerConfig object as second parameter for modern usage
+    if (is_object($autoplay) && method_exists($autoplay, 'isAutoplay')) {
+        $embedConfig = $autoplay;
+        $autoplay = $embedConfig->isAutoplay() ? 1 : 0;
+        $loop = $embedConfig->getLoop() ? 1 : 0;
+        $mute = $embedConfig->getMute() ? 1 : 0;
+        $showinfo = $embedConfig->showInfo() ? 1 : 0;
+        $controls = $embedConfig->getControls() ? 1 : 0;
+        $time = $embedConfig->getStartTime();
+        $objectFit = $embedConfig->getObjectFit();
     }
 
     // Define the base parameters to be appended to the URL
