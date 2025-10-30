@@ -438,6 +438,10 @@ class CustomizeUser extends PluginAbstract
         }
         $o->value = 0;
         $obj->autoDeleteUnverifiedUsersAfterDays = $o;
+
+        $obj->enableResolutionsByUserGroup = false;
+        self::addDataObjectHelper('enableResolutionsByUserGroup', 'Enable Resolutions by User Group', 'Allow admins to restrict available video resolutions per user group');
+
         return $obj;
     }
 

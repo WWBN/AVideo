@@ -13,6 +13,14 @@ require_once 'userGroups.php';
 $obj = new UserGroups(@$_POST['id']);
 $obj->setGroup_name($_POST['group_name']);
 
+// Handle allowed resolutions
+if (!empty($_POST['allowed_resolutions']) && is_array($_POST['allowed_resolutions'])) {
+    $allowedResolutions = array_map('intval', $_POST['allowed_resolutions']);
+    $obj->setAllowed_resolutions($allowedResolutions);
+} else {
+    $obj->setAllowed_resolutions(null);
+}
+
 if ($groups_id = $obj->save()) {
     if (User::isAdmin()) {
         Users_groups_permissions::deleteAllFromGroup($groups_id);
