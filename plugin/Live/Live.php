@@ -604,6 +604,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $obj->showAudioVideoToggleButton = true;
         self::addDataObjectHelper('showAudioVideoToggleButton', 'Show Audio/Video Toggle Button', 'Enable the button that allows users to switch between video and audio streams during live transmission');
 
+        $obj->enableSendViewers = true;
+        self::addDataObjectHelper('enableSendViewers', 'Enable Send Viewers Feature', 'Allow streamers to redirect all viewers to a specified URL and stop the live stream');
+
         return $obj;
     }
 
@@ -3787,6 +3790,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
     {
         $type = self::getImageType($content);
         return $type === LiveImageType::$ONAIRENCODER || $type === LiveImageType::$ONAIR || $type === LiveImageType::$OFFLINE || $type === LiveImageType::$DEFAULTGIF;
+    }
+
+    public static function isSendViewersEnabled()
+    {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('Live');
+        if (empty($obj)) {
+            return false;
+        }
+        return !empty($obj->enableSendViewers);
     }
 
     public static function iskeyOnline($key)

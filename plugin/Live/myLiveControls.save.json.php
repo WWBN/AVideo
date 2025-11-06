@@ -4,6 +4,10 @@ header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 _session_write_close();
 
+if(!Live::isSendViewersEnabled()){
+    forbiddenPage('Send Viewers feature is disabled');
+}
+
 if (!User::isLogged()) {
     forbiddenPage('You must login');
 }

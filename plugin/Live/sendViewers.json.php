@@ -4,6 +4,10 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 
 header('Content-Type: application/json');
 
+if(!Live::isSendViewersEnabled()){
+    forbiddenPage('Send Viewers feature is disabled');
+}
+
 if(empty($_REQUEST['viewerUrl']) || !isValidURL($_REQUEST['viewerUrl'])){
     forbiddenPage('Invalid redirect URL');
 }
