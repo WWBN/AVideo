@@ -13,6 +13,8 @@ require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
+$advancedCustomUser = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+
 if (!empty($_GET['c'])) {
     $user = User::getChannelOwner($_GET['c']);
     if (!empty($user)) {
@@ -121,6 +123,15 @@ $_page->setExtraStyles(
         'view/js/webui-popover/jquery.webui-popover.min.css'
     )
 );
+?>
+<?php
+if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
+?>
+    <div class="container" style="margin-bottom: 10px;">
+        <img src="<?php echo User::getBackground($video['users_id']); ?>" class="img img-responsive" />
+    </div>
+<?php
+}
 ?>
 <!-- Live modeYoutubeLive.php -->
 <div class="container-fluid principalContainer" style="padding: 0; overflow: hidden;" id="modeYoutubePrincipal">
