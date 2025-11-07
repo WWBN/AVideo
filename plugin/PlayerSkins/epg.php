@@ -178,6 +178,8 @@ if ($forceRecreate || empty($channelsList)) {
         _error_log('Commandline: Command line EPG line:' . __LINE__);
     }
     usort($channelsList, "cmpChannels");
+    // Save the complete channels list cache
+    setEPGCache($cacheName, $channelsList);
 } else {
     if (isCommandLineInterface()) {
         _error_log('Commandline: EPG cache detected line: ' . __LINE__);
@@ -224,6 +226,9 @@ function getEPGCache($name) {
     $path = getEPGCacheFolder();
     make_path($path);
     $filename = $path . md5($name) . '.cache';
+    if (!file_exists($filename)) {
+        return false;
+    }
     if (time() - filemtime($filename) > 86400) { // older than 24 hours
         return false;
     }
