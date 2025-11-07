@@ -428,11 +428,7 @@ $_page->setExtraStyles(
 ?>
 <?php
 if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
-?>
-    <div class="container" style="margin-bottom: 10px;">
-        <img src="<?php echo User::getBackground($video['users_id']); ?>" class="img img-responsive" />
-    </div>
-<?php
+    User::getBackGroundHTML($user_id);
 }
 ?>
 <!-- view modeYoutube.php -->

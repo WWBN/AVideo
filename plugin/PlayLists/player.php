@@ -62,11 +62,7 @@ $_page->setExtraScripts(
 </style>
 <?php
 if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
-?>
-    <div class="container" style="margin-bottom: 10px;">
-        <img src="<?php echo User::getBackground($video['users_id']); ?>" class="img img-responsive" />
-    </div>
-<?php
+    User::getBackGroundHTML($user_id);
 }
 ?>
 <div class="container-fluid principalContainer" style="overflow: hidden;">

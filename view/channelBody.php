@@ -197,31 +197,7 @@ function tabContentClass(string $tab): string
 
             <?php
             if (empty($advancedCustomUser->doNotShowTopBannerOnChannel)) {
-                if (isMobile()) {
-                    $relativePath = $user->getBackgroundURL(User::$channel_artDesktopMin);
-                } else {
-                    $relativePath = $user->getBackgroundURL(User::$channel_artDesktopMax);
-                }
-                if (file_exists($global['systemRootPath'] . $relativePath)) {
-            ?>
-                    <div class="clearfix" style="clear: both;"></div>
-                    <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
-                        <div class="row bg-info profileBg" style="margin: -10px -10px 20px -10px; background: url('<?php echo getURL($relativePath); ?>')  no-repeat 50% 50%; -webkit-background-size: cover;
-                             -moz-background-size: cover;
-                             -o-background-size: cover;
-                             background-size: cover;">
-                            <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo str_replace('"', '', $user->_getName()); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;" />
-                        </div>
-                    </a>
-                <?php
-                } else {
-                ?>
-                    <div class="clearfix" style="clear: both;"></div>
-                    <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
-                        <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;" />
-                    </a>
-            <?php
-                }
+                User::getBackGroundHTML($user_id);
             }
             ?>
 

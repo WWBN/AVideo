@@ -113,11 +113,7 @@ if(empty($playListData)){
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <?php
         if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
-            ?>
-            <div class="container" style="margin-bottom: 10px;">
-                <img src="<?php echo User::getBackground($video['users_id']); ?>" class="img img-responsive" />
-            </div>
-            <?php
+           User::getBackGroundHTML($user_id);
         }
         ?>
         <div class="container-fluid principalContainer" style="overflow: hidden;">
@@ -170,7 +166,7 @@ if(empty($playListData)){
                             <option value="popular" data-icon="glyphicon-thumbs-up"> <?php echo __("Most popular"); ?></option>
                             <?php
                             if (empty($advancedCustom->doNotDisplayViews)) {
-                                ?> 
+                                ?>
                                 <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most watched"); ?></option>
                             <?php } ?>
                         </select>
@@ -182,7 +178,7 @@ if(empty($playListData)){
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-1"></div>
-                </div>   
+                </div>
                 <?php
             } else {
                 ?>
