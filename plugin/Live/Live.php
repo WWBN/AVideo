@@ -4357,20 +4357,22 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id)
     {
-        $custom = User::getRedirectCustomUrl($users_id);
-        if (isValidURL($custom['url'])) {
-            if (!empty($custom['autoRedirect'])) {
-                $lt = new LiveTransmitionHistory($live_transmitions_history_id);
-                $key = $lt->getKey();
-                $row = LiveTransmition::keyExists($key);
-                $obj = new stdClass();
-                $obj->row = $row;
-                $obj->viewerUrl = $custom['url'];
-                $obj->customMessage = $custom['msg'];
-                $obj->live_key = $key;
-                $obj->live_servers_id = intval($live_servers_id);
-                $obj->sendSocketMessage = sendSocketMessage(array('redirectLive' => $obj), 'redirectLive', 0);
-                _error_log('on_publish_done::redirectLive ' . json_encode($obj));
+        if (!Live::isSendViewersEnabled()) {
+            $custom = User::getRedirectCustomUrl($users_id);
+            if (isValidURL($custom['url'])) {
+                if (!empty($custom['autoRedirect'])) {
+                    $lt = new LiveTransmitionHistory($live_transmitions_history_id);
+                    $key = $lt->getKey();
+                    $row = LiveTransmition::keyExists($key);
+                    $obj = new stdClass();
+                    $obj->row = $row;
+                    $obj->viewerUrl = $custom['url'];
+                    $obj->customMessage = $custom['msg'];
+                    $obj->live_key = $key;
+                    $obj->live_servers_id = intval($live_servers_id);
+                    $obj->sendSocketMessage = sendSocketMessage(array('redirectLive' => $obj), 'redirectLive', 0);
+                    _error_log('on_publish_done::redirectLive ' . json_encode($obj));
+                }
             }
         }
     }
@@ -4619,5 +4621,4 @@ class LiveStreamObject
         }
         return Live::getServerURL($this->key, $lt['users_id'], $short);
     }
-
 }
