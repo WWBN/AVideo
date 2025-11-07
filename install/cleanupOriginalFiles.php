@@ -11,6 +11,8 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
+ob_end_flush();
+
 echo "=== AVideo Original Files Cleanup Tool ===\n";
 echo "This tool will help you clean up old original_v_* files\n\n";
 
@@ -23,9 +25,28 @@ if (!AVideoPlugin::isEnabledByName('Scheduler')) {
 $videosDir = getVideosDir();
 echo "Videos directory: $videosDir\n";
 
-// Find all original_v_* files
-$pattern = $videosDir . 'original_v_*';
-$originalFiles = glob($pattern);
+// Find all original_v_* files with timeout protection
+echo "Scanning for original_v_* files (videos folder only)...\n";
+$scanStart = time();
+
+// Use opendir/readdir for better performance - only scan videos folder directly
+$originalFiles = array();
+if ($handle = opendir($videosDir)) {
+    while (false !== ($file = readdir($handle))) {
+        if (strpos($file, 'original_v_') === 0) {
+            $fullPath = $videosDir . $file;
+            if (is_file($fullPath)) {
+                $originalFiles[] = $fullPath;
+            }
+        }
+    }
+    closedir($handle);
+} else {
+    die("ERROR: Cannot open videos directory: $videosDir\n");
+}
+
+$scanTime = time() - $scanStart;
+echo "Scan completed in {$scanTime} seconds.\n";
 
 if (empty($originalFiles)) {
     echo "No original_v_* files found.\n";
@@ -71,14 +92,20 @@ $timeLimit = $days * 24 * 60 * 60;
 $deletedCount = 0;
 $totalSize = 0;
 $deletedSize = 0;
+$totalFiles = count($originalFiles);
+$processedFiles = 0;
+$startTime = time();
 
-echo "Analyzing files...\n";
+echo "Analyzing $totalFiles files...\n";
 echo str_repeat("-", 80) . "\n";
 printf("%-40s | %10s | %8s | %s\n", "Filename", "Size", "Age", "Action");
 echo str_repeat("-", 80) . "\n";
 
 foreach ($originalFiles as $filePath) {
+    $processedFiles++;
+
     if (!is_file($filePath)) {
+        echo "[$processedFiles/$totalFiles] Skipping non-file: " . basename($filePath) . "\n";
         continue;
     }
 
@@ -90,7 +117,7 @@ foreach ($originalFiles as $filePath) {
 
     $totalSize += $fileSize;
 
-    printf("%-40s | %10s | %6.1f d | %s\n",
+    printf("%-40s | %10s | %6.1f d | %s",
         substr($fileName, 0, 40),
         humanFileSize($fileSize),
         $ageInDays,
@@ -102,18 +129,32 @@ foreach ($originalFiles as $filePath) {
             if (unlink($filePath)) {
                 $deletedCount++;
                 $deletedSize += $fileSize;
+                echo " ✓\n";
             } else {
+                echo " ✗ FAILED\n";
                 echo "ERROR: Failed to delete $fileName\n";
             }
         } else {
             $deletedCount++;
             $deletedSize += $fileSize;
+            echo "\n";
         }
+    } else {
+        echo "\n";
+    }
+
+    // Show progress every 10 files or if it's a large file
+    if ($processedFiles % 10 == 0 || $fileSize > 100 * 1024 * 1024) {
+        $percent = round(($processedFiles / $totalFiles) * 100, 1);
+        echo "Progress: $processedFiles/$totalFiles files ($percent%) - Freed so far: " . humanFileSize($deletedSize) . "\n";
+        flush(); // Force output to show immediately
     }
 }
 
 echo str_repeat("-", 80) . "\n";
 echo "\nSummary:\n";
+$executionTime = time() - $startTime;
+echo "Execution time: {$executionTime} seconds\n";
 echo "Total files found: " . count($originalFiles) . "\n";
 echo "Total size: " . humanFileSize($totalSize) . "\n";
 echo "Files " . ($dryRun ? 'that would be deleted' : 'deleted') . ": $deletedCount\n";
