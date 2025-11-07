@@ -63,6 +63,12 @@ class Scheduler extends PluginAbstract
         $obj->disableReleaseDate = false;
         self::addDataObjectHelper('disableReleaseDate', 'Disable Release Date');
 
+        $obj->deleteOldOriginalFiles = true;
+        self::addDataObjectHelper('deleteOldOriginalFiles', 'Delete old original_v_* files');
+
+        $obj->originalFilesDaysToKeep = 7;
+        self::addDataObjectHelper('originalFilesDaysToKeep', 'Days to keep original_v_* files (default: 7)');
+
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;
@@ -584,6 +590,11 @@ class Scheduler extends PluginAbstract
             Video::deleteUselessOldVideos(30);
         }
 
+        // Clean up old original_v_* files if enabled
+        if (!empty($obj->deleteOldOriginalFiles)) {
+            $this->deleteOldOriginalFiles();
+        }
+
         // Run the function to delete files older than 7 days from /var/www/tmp
         $this->deleteOldFiles();
         self::manageLogFile();
@@ -638,6 +649,74 @@ class Scheduler extends PluginAbstract
         } else {
             _error_log("Failed to open directory: $directory");
             return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Delete old original_v_* files from the videos directory
+     * @param int $days Number of days to keep files (default: 7)
+     * @return bool Success status
+     */
+    function deleteOldOriginalFiles($days = null)
+    {
+        if (empty($days)) {
+            $obj = AVideoPlugin::getDataObjectIfEnabled('Scheduler');
+            if (empty($obj)) {
+                _error_log("deleteOldOriginalFiles: Scheduler plugin not enabled");
+                return false;
+            }
+
+            if (empty($obj->deleteOldOriginalFiles)) {
+                _error_log("deleteOldOriginalFiles: Feature disabled in settings");
+                return false;
+            }
+
+            $days = !empty($obj->originalFilesDaysToKeep) ? intval($obj->originalFilesDaysToKeep) : 7;
+        }
+
+        $videosDir = getVideosDir();
+        if (!is_dir($videosDir)) {
+            _error_log("deleteOldOriginalFiles: Videos directory not found: $videosDir");
+            return false;
+        }
+
+        $pattern = $videosDir . 'original_v_*';
+        $originalFiles = glob($pattern);
+
+        if (empty($originalFiles)) {
+            _error_log("deleteOldOriginalFiles: No original_v_* files found");
+            return true;
+        }
+
+        $now = time();
+        $timeLimit = $days * 24 * 60 * 60;
+        $deletedCount = 0;
+        $totalSize = 0;
+        $deletedSize = 0;
+
+        foreach ($originalFiles as $filePath) {
+            if (!is_file($filePath)) {
+                continue;
+            }
+
+            $fileModTime = filemtime($filePath);
+            $fileSize = filesize($filePath);
+            $totalSize += $fileSize;
+
+            if (($now - $fileModTime) > $timeLimit) {
+                if (unlink($filePath)) {
+                    $deletedCount++;
+                    $deletedSize += $fileSize;
+                } else {
+                    _error_log("deleteOldOriginalFiles: Failed to delete " . basename($filePath));
+                }
+            }
+        }
+
+        if ($deletedCount > 0) {
+            _error_log("deleteOldOriginalFiles: Deleted $deletedCount files, freed " . humanFileSize($deletedSize) . " of space");
         }
 
         return true;
