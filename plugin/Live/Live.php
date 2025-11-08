@@ -4357,7 +4357,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id)
     {
-        if (!Live::isSendViewersEnabled()) {
+        if (Live::isSendViewersEnabled()) {
             $custom = User::getRedirectCustomUrl($users_id);
             if (isValidURL($custom['url'])) {
                 if (!empty($custom['autoRedirect'])) {
