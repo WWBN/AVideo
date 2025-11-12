@@ -1,9 +1,16 @@
 <?php
 
 //streamer config
+
+use SebastianBergmann\CodeCoverage\Report\PHP;
+
 $global['createDatabase'] = 1;
 $doNotIncludeConfig = 1;
-require_once __DIR__ . '/../videos/configuration.php';
+try {
+    require_once __DIR__ . '/../videos/configuration.php';
+} catch (\Throwable $th) {
+    echo ('Error loading configuration: ' . $th->getMessage()).PHP_EOL;
+}
 
 if (php_sapi_name() !== 'cli') {
     die('Command Line only');
