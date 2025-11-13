@@ -37,48 +37,50 @@ interface SocketInterface
      * Get socket stream.
      *
      * @param bool $create True to create the stream
-     * @return \ElephantIO\Stream\StreamInterface
+     * @return \ElephantIO\Stream\StreamInterface|null
      */
     public function getStream($create = false);
 
     /**
      * Get stream context.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getContext();
 
     /**
      * Get cookies.
      *
-     * @return array
+     * @return string[]
      */
     public function getCookies();
 
     /**
      * Get session.
      *
-     * @return \ElephantIO\Engine\Session
+     * @return \ElephantIO\Engine\Session|null
      */
     public function getSession();
 
     /**
      * Send ping to server.
+     *
+     * @return bool
      */
     public function ping();
 
     /**
      * Build query string parameters.
      *
-     * @param string $transport
-     * @return array
+     * @param ?string $transport
+     * @return array<string, mixed>
      */
     public function buildQueryParameters($transport);
 
     /**
      * Build query from parameters.
      *
-     * @param array $query
+     * @param array<string, mixed> $query
      * @return string
      */
     public function buildQuery($query);

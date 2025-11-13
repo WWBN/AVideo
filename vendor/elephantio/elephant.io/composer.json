@@ -33,17 +33,19 @@
         }
     ],
     "scripts": {
+        "analyze": "phpstan analyze -l 8 src test example",
         "test": "phpunit"
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.4",
         "ext-mbstring": "*",
         "psr/log": "^1.1 || ^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
+        "monolog/monolog": "^2.8 || ^3.0",
         "phpunit/phpunit": "^8.5 || ^9.5",
-        "monolog/monolog": "^2.8 || ^3.0"
+        "phpstan/phpstan": "^2.1"
     },
     "autoload": {
         "psr-4": {

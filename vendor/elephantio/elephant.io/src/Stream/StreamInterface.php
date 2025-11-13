@@ -44,16 +44,22 @@ interface StreamInterface
 
     /**
      * Open stream URL.
+     *
+     * @return void
      */
     public function open();
 
     /**
      * Close the stream.
+     *
+     * @return void
      */
     public function close();
 
     /**
      * Upgrade the stream.
+     *
+     * @return void
      */
     public function upgrade();
 
@@ -68,9 +74,9 @@ interface StreamInterface
      * Read data from underlying stream.
      *
      * @param int $size
-     * @return string
+     * @return string|false|null
      */
-    public function read($size = null);
+    public function read($size = 0);
 
     /**
      * Write data to underlying stream.
@@ -90,28 +96,29 @@ interface StreamInterface
     /**
      * Get errors from the last open attempts.
      *
-     * @return array
+     * @return array<int, mixed>|null
      */
     public function getErrors();
 
     /**
      * Get stream metadata.
      *
-     * @return array
+     * @return array<string, mixed>|null
      */
     public function getMetadata();
 
     /**
      * Get connection timeout (in second).
      *
-     * @return int
+     * @return float
      */
     public function getTimeout();
 
     /**
      * Set connection timeout.
      *
-     * @param int $timeout Timeout in second
+     * @param float $timeout Timeout in second
+     * @return void
      */
     public function setTimeout($timeout);
 }

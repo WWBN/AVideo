@@ -23,33 +23,30 @@ use RuntimeException;
 class SocketStream extends Stream
 {
     /**
-     * @var resource
+     * @var ?resource
      */
     protected $handle = null;
 
     /**
-     * @var bool
+     * @var ?bool
      */
     protected $upgraded = null;
 
     /**
-     * @var bool
+     * @var ?bool
      */
     protected $wasUpgraded = null;
 
     /**
-     * @var array
+     * @var ?array<int, mixed>
      */
     protected $errors = null;
 
     /**
-     * @var array
+     * @var ?array<string, mixed>
      */
     protected $metadata = null;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function initialize()
     {
         $this->open();
@@ -58,7 +55,7 @@ class SocketStream extends Stream
     /**
      * Get connection timeout (in second).
      *
-     * @return int
+     * @return float
      */
     public function getTimeout()
     {
@@ -68,7 +65,7 @@ class SocketStream extends Stream
     /**
      * Set connection timeout.
      *
-     * @param int $timeout
+     * @param float $timeout
      */
     public function setTimeout($timeout)
     {
@@ -81,19 +78,20 @@ class SocketStream extends Stream
     /**
      * Apply connection timeout to underlying stream.
      *
-     * @param int $timeout
+     * @param float $timeout
+     * @return void
      */
     protected function applyTimeout($timeout)
     {
         if (is_resource($this->handle)) {
-            stream_set_timeout($this->handle, $timeout);
+            stream_set_timeout($this->handle, (int) $timeout);
         }
     }
 
     /**
      * Read metadata from socket.
      *
-     * @return array
+     * @return array<string, mixed>|null
      */
     protected function readMetadata()
     {
@@ -102,37 +100,29 @@ class SocketStream extends Stream
 
             return $this->metadata;
         }
+
+        return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function available()
     {
         return is_resource($this->handle);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function readable()
     {
         if ($metadata = $this->readMetadata()) {
             return $metadata['eof'] ? false : true;
         }
+
+        return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function upgraded()
     {
-        return $this->upgraded;
+        return $this->upgraded ? true : false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function open()
     {
         $errors = [null, null];
@@ -148,7 +138,7 @@ class SocketStream extends Stream
         $context = !isset($this->context['headers']) ? $this->context :
             array_merge($this->context, ['headers' => Util::normalizeHeaders($this->context['headers'])]);
 
-        $this->handle = @stream_socket_client(
+        $handle = @stream_socket_client(
             sprintf('%s/%s', $address, uniqid()),
             $errors[0],
             $errors[1],
@@ -157,17 +147,16 @@ class SocketStream extends Stream
             stream_context_create($context)
         );
 
-        if (is_resource($this->handle)) {
+        if (is_resource($handle)) {
+            $this->handle = $handle;
             stream_set_blocking($this->handle, false);
             $this->applyTimeout($timeout);
         } else {
+            $this->handle = null;
             $this->errors = $errors;
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function upgrade()
     {
         if (null === $this->upgraded) {
@@ -176,9 +165,6 @@ class SocketStream extends Stream
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function wasUpgraded()
     {
         if ($this->wasUpgraded) {
@@ -186,11 +172,10 @@ class SocketStream extends Stream
 
             return true;
         }
+
+        return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function close()
     {
         if (!is_resource($this->handle)) {
@@ -201,24 +186,20 @@ class SocketStream extends Stream
         $this->handle = null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function read($size = null)
+    public function read($size = 0)
     {
         if (is_resource($this->handle)) {
-            $data = null !== $size ? fread($this->handle, (int) $size) : fgets($this->handle);
+            $data = $size > 0 ? fread($this->handle, $size) : fgets($this->handle);
             if (false !== $data && strlen($data)) {
                 $this->logger->debug(sprintf('Stream receive: %s', Util::truncate(rtrim($data))));
             }
 
             return $data;
         }
+
+        return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function write($data)
     {
         $bytes = null;
@@ -249,28 +230,19 @@ class SocketStream extends Stream
             }
         }
 
-        return $bytes;
+        return (int) $bytes;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getUrl()
     {
         return $this->url;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getErrors()
     {
         return $this->errors;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMetadata()
     {
         return $this->metadata;

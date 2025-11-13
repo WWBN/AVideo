@@ -20,7 +20,7 @@ namespace ElephantIO;
 class SequenceReader
 {
     /**
-     * @var string
+     * @var ?string
      */
     protected $data = null;
 
@@ -37,36 +37,39 @@ class SequenceReader
     /**
      * Read a fixed size data or remaining data if size is null.
      *
-     * @param int $size
-     * @return string
+     * @param ?int $size
+     * @return string|null
      */
     public function read($size = 1)
     {
         if (!$this->isEof()) {
+            $result = null;
             if (null === $size) {
                 $result = $this->data;
                 $this->data = '';
-            } else {
+            } elseif ($this->data) {
                 $result = mb_substr($this->data, 0, $size);
                 $this->data = mb_substr($this->data, $size);
             }
 
             return $result;
         }
+
+        return null;
     }
 
     /**
      * Read data up to delimiter.
      *
      * @param string $delimiter
-     * @param array $noskips
+     * @param string[] $noskips
      * @return null|string
      */
     public function readUntil($delimiter = ',', $noskips = [])
     {
-        if (!$this->isEof()) {
+        if (!$this->isEof() && $this->data) {
             list($p, $d) = $this->getPos($this->data, $delimiter);
-            if (false !== $p) {
+            if (is_int($p) && is_string($d)) {
                 $result = mb_substr($this->data, 0, $p);
                 // skip delimiter
                 if (!in_array($d, $noskips)) {
@@ -77,26 +80,30 @@ class SequenceReader
                 return $result;
             }
         }
+
+        return null;
     }
 
     /**
      * Read data up to delimiter within boundaries.
      *
      * @param string $delimiter
-     * @param array $boundaries
+     * @param string[] $boundaries
      * @return null|string
      */
     public function readWithin($delimiter = ',', $boundaries = [])
     {
-        if (!$this->isEof()) {
+        if (!$this->isEof() && $this->data) {
             list($p, $d) = $this->getPos($this->data, implode(array_merge([$delimiter], $boundaries)));
-            if (false !== $p && $d === $delimiter) {
+            if (is_int($p) && $d === $delimiter) {
                 $result = mb_substr($this->data, 0, $p);
                 $this->data = mb_substr($this->data, $p + mb_strlen($d));
 
                 return $result;
             }
         }
+
+        return null;
     }
 
     /**
@@ -107,28 +114,35 @@ class SequenceReader
      */
     public function getDelimited($delimiter)
     {
-        list($pos, ) = $this->getPos($this->data, $delimiter);
+        if ($this->data) {
+            list($pos, ) = $this->getPos($this->data, $delimiter);
+        } else {
+            $pos = null;
+        }
 
-        return $pos;
+        return is_int($pos) ? $pos : false;
     }
 
     /**
      * Get first position of delimiters.
      *
-     * @param string $data
-     * @param string $delimiter
-     * @return array Index 0 indicate position found or false and index 1 indicate matched delimiter
+     * @param ?string $data
+     * @param ?string $delimiter
+     * @return array<int, int|string|null> Index 0 indicate position found or false and index 1 indicate matched delimiter
      */
     protected function getPos($data, $delimiter)
     {
-        $pos = false;
+        $pos = null;
         $delim = null;
-        for ($i = 0; $i < mb_strlen($delimiter); $i++) {
-            $d = mb_substr($delimiter, $i, 1);
-            if (false !== ($p = mb_strpos($data, $d))) {
-                if (false === $pos || $p < $pos) {
-                    $pos = $p;
-                    $delim = $d;
+        if ($data && $delimiter) {
+            for ($i = 0; $i < mb_strlen($delimiter); $i++) {
+                $d = mb_substr($delimiter, $i, 1);
+                $p = mb_strpos($data, $d);
+                if (is_int($p)) {
+                    if (null === $pos || $p < $pos) {
+                        $pos = (int) $p;
+                        $delim = $d;
+                    }
                 }
             }
         }
@@ -144,7 +158,7 @@ class SequenceReader
      */
     public function readData($size = 1)
     {
-        return mb_substr($this->data, 0, $size);
+        return $this->data ? mb_substr($this->data, 0, $size) : '';
     }
 
     /**
@@ -154,16 +168,20 @@ class SequenceReader
      */
     public function getData()
     {
-        return $this->data;
+        return $this->data ?? '';
     }
 
     /**
      * Is EOF.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEof()
     {
-        return 0 === mb_strlen($this->data) ? true : false;
+        if (null === $this->data) {
+            return true;
+        } else {
+            return mb_strlen($this->data) > 0 ? false : true;
+        }
     }
 }

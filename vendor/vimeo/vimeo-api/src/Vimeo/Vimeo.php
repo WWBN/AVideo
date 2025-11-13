@@ -5,7 +5,7 @@ use Carbon\Carbon;
 use Vimeo\Exceptions\VimeoException;
 use Vimeo\Exceptions\VimeoRequestException;
 use Vimeo\Exceptions\VimeoUploadException;
-use Vimeo\Upload\TusClientFactory;
+use Vimeo\Upload\TusClient;
 
 /**
  *   Copyright 2013 Vimeo
@@ -35,7 +35,8 @@ class Vimeo
     const CLIENT_CREDENTIALS_TOKEN_ENDPOINT = '/oauth/authorize/client';
     const VERSIONS_ENDPOINT = '/versions';
     const VERSION_STRING = 'application/vnd.vimeo.*+json; version=3.4';
-    const USER_AGENT = 'vimeo.php 3.0.8; (http://developer.vimeo.com/api/docs)';
+    const USER_AGENT = 'vimeo.php 4.0.1; (http://developer.vimeo.com/api/docs)';
+    const MAX_BACKOFF = 8;
 
     /** @var array */
     protected $_curl_opts = array();
@@ -52,18 +53,14 @@ class Vimeo
     /** @var null|string */
     private $_access_token = null;
 
-    /** @var TusClientFactory */
-    private $_tus_client_factory = null;
-
     /**
      * Creates the Vimeo library, and tracks the client and token information.
      *
      * @param string $client_id Your applications client id. Can be found on developer.vimeo.com/apps
      * @param string $client_secret Your applications client secret. Can be found on developer.vimeo.com/apps
      * @param string|null $access_token Your access token. Can be found on developer.vimeo.com/apps or generated using OAuth 2.
-     * @param TusClientFactory|null $tus_client_interface Your tus client that will be used.
      */
-    public function __construct(string $client_id, string $client_secret, ?string $access_token = null, ?TusClientFactory $tus_client_factory = null)
+    public function __construct(string $client_id, string $client_secret, ?string $access_token = null)
     {
         $this->_client_id = $client_id;
         $this->_client_secret = $client_secret;
@@ -76,7 +73,6 @@ class Vimeo
             //Certificate must indicate that the server is the server to which you meant to connect.
             CURLOPT_SSL_VERIFYHOST => 2,
         );
-        $this->_tus_client_factory = $tus_client_factory ?? new TusClientFactory();
     }
 
     /**
@@ -503,7 +499,7 @@ class Vimeo
 
         curl_close($curl);
         fclose($handle);
-        
+
         if ($curl_info['http_code'] !== 200) {
             throw new VimeoUploadException($response);
         }
@@ -590,37 +586,31 @@ class Vimeo
         }
 
         $url = $attempt['body']['upload']['upload_link'];
-        $url_path = parse_url($url)['path'];
-
-        $base_url = str_replace($url_path, '', $url);
-        $api_path = $url_path;
-        $api_pathp = explode('/', $api_path);
-        $key = $api_pathp[count($api_pathp) - 1];
-        $api_path = str_replace('/' . $key, '', $api_path);
 
         $bytes_uploaded = 0;
         $failures = 0;
 
-        $client = $this->_tus_client_factory->getTusClient($base_url, $url);
-        $client->setApiPath($api_path);
-        $client->setKey($key)->file($file_path);
-        $client->getCache()->set($client->getKey(),[
-            'location' => $url,
-            'expires_at' => Carbon::now()->addSeconds($client->getCache()->getTtl())->format($client->getCache()::RFC_7231),
-        ]);
+        $tus_client = new TusClient($url, $file_path);
 
         do {
             try {
-                $bytes_uploaded = $client->upload($chunk_size);
+                $bytes_uploaded = $tus_client->upload($chunk_size);
             } catch (\Exception $e) {
-                // We likely experienced a timeout, but if we experience three in a row, then we should back off and
-                // fail so as to not overwhelm servers that are, probably, down.
-                if ($failures >= 3) {
+
+                if ($e instanceof VimeoUploadException && !$e->isRetryable()) {
+                    throw $e;
+                }
+                // Maximum retry limit of 10. Will retry for timeouts or connection errors.
+                if ($failures >= 10) {
                     throw new VimeoUploadException($e->getMessage());
                 }
 
                 $failures++;
-                sleep((int)pow(4, $failures)); // sleep 4, 16, 64 seconds (based on failure count)
+                $backoff = (int)pow(2, $failures - 1);
+                if ($backoff > self::MAX_BACKOFF) {
+                    $backoff = self::MAX_BACKOFF;
+                }
+                sleep($backoff); // sleep 2, 4, 8, 8... seconds (based on failure count)
             }
         } while ($bytes_uploaded < $file_size);
 

@@ -17,6 +17,12 @@ use InvalidArgumentException;
 
 class MalformedUrlException extends InvalidArgumentException
 {
+    /**
+     * Constructor.
+     *
+     * @param string $url
+     * @param \Exception $previous
+     */
     public function __construct($url, ?Exception $previous = null)
     {
         parent::__construct(\sprintf('The url "%s" seems to be malformed', $url), 0, $previous);

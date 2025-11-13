@@ -99,7 +99,7 @@ class getid3_tar extends getid3_handler
 			if ($name == '') {
 				break;
 			}
-			$info['tar']['file_details'][$name] = array (
+			$info['tar']['file_details'][] = array (
 				'name'     => $name,
 				'mode_raw' => $mode,
 				'mode'     => self::display_perms($mode),
@@ -117,7 +117,7 @@ class getid3_tar extends getid3_handler
 				'devmajor' => $devmaj,
 				'devminor' => $devmin
 			);
-			$info['tar']['files'] = getid3_lib::array_merge_clobber($info['tar']['files'], getid3_lib::CreateDeepArray($info['tar']['file_details'][$name]['name'], '/', $size));
+			$info['tar']['files'] = getid3_lib::array_merge_clobber($info['tar']['files'], getid3_lib::CreateDeepArray($name, '/', $size));
 		}
 		return true;
 	}

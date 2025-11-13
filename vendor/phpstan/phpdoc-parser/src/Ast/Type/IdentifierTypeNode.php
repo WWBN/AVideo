@@ -9,8 +9,7 @@ class IdentifierTypeNode implements TypeNode
 
 	use NodeAttributes;
 
-	/** @var string */
-	public $name;
+	public string $name;
 
 	public function __construct(string $name)
 	{

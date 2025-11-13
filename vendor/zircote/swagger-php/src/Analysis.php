@@ -282,10 +282,12 @@ class Analysis
     }
 
     /**
-     * @param class-string|array<class-string> $classes one or more class names
-     * @param bool                             $strict  in non-strict mode child classes are also detected
+     * @template T extends OA\AbstractAnnotation
      *
-     * @return OA\AbstractAnnotation[]
+     * @param class-string<T>|array<class-string<T>> $classes one or more class names
+     * @param bool                                   $strict  in non-strict mode child classes are also detected
+     *
+     * @return array<T>
      */
     public function getAnnotationsOfType($classes, bool $strict = false): array
     {
@@ -307,6 +309,7 @@ class Analysis
 
     /**
      * @param string $fqdn the source class/interface/trait
+     * @deprecated use getAnnotationForSource() instead
      */
     public function getSchemaForSource(string $fqdn): ?OA\Schema
     {
@@ -316,11 +319,11 @@ class Analysis
     /**
      * @template T of OA\AbstractAnnotation
      *
-     * @param  string          $fqdn  the source class/interface/trait
-     * @param  class-string<T> $class
+     * @param  string          $fqdn        the source class/interface/trait
+     * @param  class-string<T> $sourceClass
      * @return T|null
      */
-    public function getAnnotationForSource(string $fqdn, string $class): ?OA\AbstractAnnotation
+    public function getAnnotationForSource(string $fqdn, string $sourceClass = OA\Schema::class): ?OA\AbstractAnnotation
     {
         $fqdn = '\\' . ltrim($fqdn, '\\');
 
@@ -330,7 +333,7 @@ class Analysis
                 if (is_iterable($definition['context']->annotations)) {
                     /** @var OA\AbstractAnnotation $annotation */
                     foreach (array_reverse($definition['context']->annotations) as $annotation) {
-                        if ($annotation instanceof $class && $annotation->isRoot($class) && !$annotation->_context->is('generated')) {
+                        if ($annotation instanceof $sourceClass && $annotation->isRoot($sourceClass) && !$annotation->_context->is('generated')) {
                             return $annotation;
                         }
                     }
@@ -405,6 +408,7 @@ class Analysis
      * Apply the processor(s).
      *
      * @param callable|array<callable> $processors One or more processors
+     * @deprecated use Generator::withProcessorPipeline() instead
      */
     public function process($processors = null): void
     {

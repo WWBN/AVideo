@@ -29,33 +29,37 @@ class Websocket extends Transport
      * Network safe fread wrapper.
      *
      * @param integer $bytes
-     * @param int $timeout
-     * @return bool|string
+     * @param float $timeout
+     * @throws \RuntimeException
+     * @return string
      */
     protected function readBytes($bytes, $timeout = 0)
     {
-        $stream = $this->sio->getStream();
         $data = '';
-        $chunk = null;
-        $start = microtime(true);
-        while ($bytes > 0) {
-            if ($timeout > 0 && microtime(true) - $start >= $timeout) {
-                $this->timedout = true;
-                break;
-            }
-            if (!$stream->readable()) {
-                throw new RuntimeException('Stream disconnected');
-            }
-            if (false === ($chunk = $stream->read($bytes))) {
-                break;
-            }
-            $bytes -= \strlen($chunk);
-            $data .= $chunk;
+        if ($stream = $this->sio->getStream()) {
+            $chunk = null;
+            $start = microtime(true);
+            while ($bytes > 0) {
+                if ($timeout > 0 && microtime(true) - $start >= $timeout) {
+                    $this->timedout = true;
+                    break;
+                }
+                if (!$stream->readable()) {
+                    throw new RuntimeException('Stream disconnected');
+                }
+                if (false === ($chunk = $stream->read($bytes))) {
+                    break;
+                }
+                if ($chunk) {
+                    $bytes -= strlen($chunk);
+                    $data .= $chunk;
 
-            $this->sio->ping();
-        }
-        if (false === $chunk) {
-            throw new RuntimeException('Could not read from stream');
+                    $this->sio->ping();
+                }
+            }
+            if (false === $chunk) {
+                throw new RuntimeException('Could not read from stream');
+            }
         }
 
         return $data;
@@ -64,12 +68,17 @@ class Websocket extends Transport
     /**
      * Be careful, this method may hang your script, as we're not in a non
      * blocking mode.
+     *
+     * @param float $timeout
+     * @throws \DomainException
+     * @throws \RuntimeException
+     * @return \ElephantIO\Parser\Websocket\Decoder|null
      */
     protected function doRead($timeout = 0)
     {
         $stream = $this->sio->getStream();
         if (!$stream || !$stream->readable()) {
-            return;
+            return null;
         }
 
         /*
@@ -78,10 +87,10 @@ class Websocket extends Transport
          * the second byte contains the mask bit and the payload's length
          */
         $data = $this->readBytes(2, $timeout);
-        $bytes = \unpack('C*', $data);
+        $bytes = unpack('C*', $data);
 
         if (empty($bytes[2])) {
-            return;
+            return null;
         }
 
         $mask = ($bytes[2] & 0b10000000) >> 7;
@@ -103,7 +112,7 @@ class Websocket extends Transport
                 break;
             case 0x7E: // 126
                 $data .= $bytes = $this->readBytes(2);
-                $bytes = \unpack('n', $bytes);
+                $bytes = unpack('n', $bytes);
 
                 if (empty($bytes[1])) {
                     throw new RuntimeException('Invalid extended packet len');
@@ -124,13 +133,15 @@ class Websocket extends Transport
                  * {@link http://stackoverflow.com/questions/14405751/pack-and-unpack-64-bit-integer}
                  */
                 $data .= $bytes = $this->readBytes(8);
-                list($left, $right) = \array_values(\unpack('N2', $bytes));
-                $length = $left << 32 | $right;
+                if (is_array($unpacked = unpack('N2', $bytes))) {
+                    list($left, $right) = array_values($unpacked);
+                    $length = $left << 32 | $right;
+                }
                 break;
         }
 
         // incorporate the mask key if the mask bit is 1
-        if (true === $mask) {
+        if (true === (bool) $mask) {
             $data .= $this->readBytes(4);
         }
 
@@ -168,37 +179,43 @@ class Websocket extends Transport
      *
      * @param string $data
      * @param int $encoding
+     * @throws \RuntimeException
      * @return \ElephantIO\Parser\Websocket\Encoder
      */
     public function getPayload($data, $encoding = Encoder::OPCODE_TEXT)
     {
+        $maxPayload = $this->sio->getSession() && $this->sio->getSession()->max_payload ?
+            $this->sio->getSession()->max_payload : $this->sio->getOptions()->max_payload;
+        if (mb_strlen($data) > $maxPayload) {
+            throw new RuntimeException(sprintf(
+                'Payload is exceed the maximum allowed length of %d!',
+                $maxPayload
+            ));
+        }
+
         $encoder = new Encoder($data, $encoding, true);
-        $encoder->setMaxPayload($this->sio->getSession() ? $this->sio->getSession()->max_payload :
-            $this->sio->getOptions()->max_payload);
+        $encoder->setMaxPayload($maxPayload);
 
         return $encoder;
     }
 
-    /** {@inheritDoc} */
     public function send($data, $parameters = [])
     {
         if (!$data instanceof Encoder) {
             $data = $this->getPayload($data, isset($parameters['encoding']) ? $parameters['encoding'] : Encoder::OPCODE_TEXT);
         }
-        if (count($fragments = $data->encode()->getFragments()) > 1) {
-            throw new RuntimeException(sprintf(
-                'Payload is exceed the maximum allowed length of %d!',
-                $this->sio->getOptions()->max_payload
-            ));
+        $bytes = 0;
+        $fragments = $data->encode()->getFragments();
+        for ($i = 0; $i < count($fragments); $i++) {
+            $bytes += $this->doWrite($fragments[$i]);
         }
 
-        return $this->doWrite($fragments[0]);
+        return $bytes;
     }
 
-    /** {@inheritDoc} */
     public function recv($timeout = 0, $parameters = [])
     {
-        $this->timedout = null;
+        $this->timedout = false;
 
         return $this->doRead($timeout);
     }

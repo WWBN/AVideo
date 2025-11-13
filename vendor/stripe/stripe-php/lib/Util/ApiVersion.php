@@ -6,6 +6,6 @@ namespace Stripe\Util;
 
 class ApiVersion
 {
-    const CURRENT = '2025-07-30.basil';
-    const CURRENT_MAJOR = 'basil';
+    const CURRENT = '2025-10-29.clover';
+    const CURRENT_MAJOR = 'clover';
 }

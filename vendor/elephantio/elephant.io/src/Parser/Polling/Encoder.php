@@ -13,15 +13,19 @@
 namespace ElephantIO\Parser\Polling;
 
 use ElephantIO\Engine\SocketIO;
+use ElephantIO\StringableInterface;
 
 /**
  * Encode the payload to send as HTTP payload.
  *
  * @author Toha <tohenk@yahoo.com>
  */
-class Encoder
+class Encoder implements StringableInterface
 {
+    /** @var bool */
     protected $binary = true;
+
+    /** @var ?string */
     protected $encoded = null;
 
     /**

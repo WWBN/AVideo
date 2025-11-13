@@ -27,6 +27,9 @@ use \ElephantIO\Util;
  */
 class Argument
 {
+    /**
+     * @var array<int|string, mixed>
+     */
     protected $args = [];
 
     /**
@@ -40,7 +43,7 @@ class Argument
     /**
      * Get all arguments.
      *
-     * @return array
+     * @return array<int|string, mixed>
      */
     public function getArguments()
     {
@@ -55,7 +58,7 @@ class Argument
     /**
      * Create argument from array.
      *
-     * @param array $array
+     * @param ?array<int|string, mixed> $array
      * @return \ElephantIO\Engine\Argument
      */
     public static function from($array)

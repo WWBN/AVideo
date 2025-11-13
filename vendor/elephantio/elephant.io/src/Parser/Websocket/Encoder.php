@@ -12,6 +12,8 @@
 
 namespace ElephantIO\Parser\Websocket;
 
+use ElephantIO\StringableInterface;
+
 /**
  * Encode the payload before sending it to a frame.
  *
@@ -21,8 +23,9 @@ namespace ElephantIO\Parser\Websocket;
  *
  * @author Baptiste Clavié <baptiste@wisembly.com>
  */
-class Encoder extends Payload
+class Encoder extends Payload implements StringableInterface
 {
+    /** @var string */
     private $data;
 
     /** @var string */
@@ -43,7 +46,7 @@ class Encoder extends Payload
         $this->mask = (bool) $mask;
 
         if (true === $this->mask) {
-            $this->maskKey = \openssl_random_pseudo_bytes(4);
+            $this->maskKey = random_bytes(4);
         }
     }
 
@@ -67,13 +70,13 @@ class Encoder extends Payload
     protected function doEncode($data, $opCode)
     {
         $pack = '';
-        $length = \strlen($data);
+        $length = strlen($data);
 
         if (0xFFFF < $length) {
-            $pack = \pack('NN', ($length >> 0b100000) & 0xFFFFFFFF, $length & 0xFFFFFFFF);
+            $pack = pack('NN', ($length >> 0b100000) & 0xFFFFFFFF, $length & 0xFFFFFFFF);
             $length = 0x007F;
         } elseif (0x007D < $length) {
-            $pack = \pack('n*', $length);
+            $pack = pack('n*', $length);
             $length = 0x007E;
         }
 
@@ -84,7 +87,7 @@ class Encoder extends Payload
         $payload = ($payload << 0b001) | $this->mask;
         $payload = ($payload << 0b111) | $length;
 
-        $payload = \pack('n', $payload) . $pack;
+        $payload = pack('n', $payload) . $pack;
 
         if (true === $this->mask) {
             $payload .= $this->maskKey;

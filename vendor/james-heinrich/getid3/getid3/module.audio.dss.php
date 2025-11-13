@@ -71,7 +71,9 @@ class getid3_dss extends getid3_handler
 				$this->getid3->warning('playtime_ms ('.number_format($info['dss']['playtime_ms'] / 1000, 3).') does not match playtime_sec ('.number_format($info['dss']['playtime_sec']).') - using playtime_sec value');
 			}
 		}
-		$info['audio']['bitrate'] = ($info['filesize'] * 8) / $info['playtime_seconds'];
+		if ($info['playtime_seconds'] > 0) {
+			$info['audio']['bitrate'] = ($info['filesize'] * 8) / $info['playtime_seconds'];
+		}
 
 		return true;
 	}
@@ -83,11 +85,11 @@ class getid3_dss extends getid3_handler
 	 */
 	public function DSSdateStringToUnixDate($datestring) {
 		$y = (int) substr($datestring,  0, 2);
-		$m = substr($datestring,  2, 2);
-		$d = substr($datestring,  4, 2);
-		$h = substr($datestring,  6, 2);
-		$i = substr($datestring,  8, 2);
-		$s = substr($datestring, 10, 2);
+		$m = (int) substr($datestring,  2, 2);
+		$d = (int) substr($datestring,  4, 2);
+		$h = (int) substr($datestring,  6, 2);
+		$i = (int) substr($datestring,  8, 2);
+		$s = (int) substr($datestring, 10, 2);
 		$y += (($y < 95) ? 2000 : 1900);
 		return mktime($h, $i, $s, $m, $d, $y);
 	}

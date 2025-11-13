@@ -95,7 +95,7 @@ class Client
      * Set socket namespace.
      *
      * @param string $namespace The namespace
-     * @return \ElephantIO\Engine\Packet
+     * @return \ElephantIO\Engine\Packet|null
      */
     public function of($namespace)
     {
@@ -108,9 +108,9 @@ class Client
      * Emit an event to server.
      *
      * @param string $event Event name
-     * @param array|ElephantIO\Engine\Argument $args Event arguments
+     * @param \ElephantIO\Engine\Argument|array<int|string, mixed> $args Event arguments
      * @param bool $ack Set to true to request acknowledgement
-     * @return int|\ElephantIO\Engine\Packet Number of bytes written or acknowledged packet
+     * @return \ElephantIO\Engine\Packet|int|null Number of bytes written or acknowledged packet
      */
     public function emit($event, $args, $ack = null)
     {
@@ -123,8 +123,8 @@ class Client
      * Acknowledge a packet.
      *
      * @param \ElephantIO\Engine\Packet $packet Packet to acknowledge
-     * @param array|ElephantIO\Engine\Argument $args Acknowledgement data
-     * @return int Number of bytes written
+     * @param \ElephantIO\Engine\Argument|array<int|string, mixed> $args Acknowledgement data
+     * @return int|null Number of bytes written
      */
     public function ack($packet, $args)
     {
@@ -133,15 +133,17 @@ class Client
 
             return $this->engine->ack($packet, $args);
         }
+
+        return null;
     }
 
     /**
      * Wait an event arrived from server. To wait for any event from server, simply pass null
      * as event name.
      *
-     * @param string $event Event name
+     * @param ?string $event Event name
      * @param float $timeout Timeout in seconds
-     * @return \ElephantIO\Engine\Packet
+     * @return \ElephantIO\Engine\Packet|null
      */
     public function wait($event, $timeout = 0)
     {
@@ -154,7 +156,7 @@ class Client
      * Drain socket.
      *
      * @param float $timeout Timeout in seconds
-     * @return \ElephantIO\Engine\Packet
+     * @return \ElephantIO\Engine\Packet|null
      */
     public function drain($timeout = 0)
     {
@@ -176,7 +178,7 @@ class Client
      *
      * @param int $version Client version
      * @param string $url Socket url
-     * @param array $options Engine options
+     * @param array<string, mixed> $options Engine options
      * @throws \InvalidArgumentException
      * @return \ElephantIO\Engine\SocketIO
      */
@@ -208,7 +210,7 @@ class Client
      * Options not listed above will be passed to engine.
      *
      * @param string $url Socket url
-     * @param array $options Engine options
+     * @param array<string, mixed> $options Engine options
      * @throws \InvalidArgumentException
      * @return \ElephantIO\Client
      */

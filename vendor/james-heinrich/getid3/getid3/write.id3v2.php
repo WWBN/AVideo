@@ -250,7 +250,7 @@ class getid3_write_id3v2
 						fwrite($fp_temp, $buffer, strlen($buffer));
 					}
 					fclose($fp_source);
-					if (getID3::is_writable($this->filename) && ($fp_source = fopen($this->filename, 'wb'))) {
+					if ($fp_source = fopen($this->filename, 'wb')) {
 						rewind($fp_temp);
 						while ($buffer = fread($fp_temp, $this->fread_buffer_size)) {
 							fwrite($fp_source, $buffer, strlen($buffer));

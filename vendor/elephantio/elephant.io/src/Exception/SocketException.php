@@ -17,6 +17,13 @@ use RuntimeException;
 
 class SocketException extends RuntimeException
 {
+    /**
+     * Constructor.
+     *
+     * @param int $errno
+     * @param string $error
+     * @param \Exception $previous
+     */
     public function __construct($errno, $error, ?Exception $previous = null)
     {
         parent::__construct(

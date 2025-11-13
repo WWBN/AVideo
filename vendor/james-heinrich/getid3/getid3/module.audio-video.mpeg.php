@@ -292,6 +292,10 @@ class getid3_mpeg extends getid3_handler
 						$GOPheader['time_code'] = sprintf('%02d'.$time_code_separator.'%02d'.$time_code_separator.'%02d'.$time_code_separator.'%02d', $GOPheader['time_code_hours'], $GOPheader['time_code_minutes'], $GOPheader['time_code_seconds'], $GOPheader['time_code_pictures']);
 
 						$info['mpeg']['group_of_pictures'][] = $GOPheader;
+					} else {
+						// https://github.com/JamesHeinrich/getID3/issues/440
+						$this->warning('group_of_pictures['.$GOPcounter.'] no valid bitratemode');
+						$info['mpeg']['group_of_pictures'][] = array();
 					}
 					break;
 

@@ -17,10 +17,10 @@ namespace ElephantIO\Engine;
  *
  * @property int $proto Protocol id
  * @property int $type Message type
- * @property string $nsp Namespace
+ * @property ?string $nsp Namespace
  * @property string $event Event name
- * @property int $ack Acknowledgement id
- * @property array $args Event arguments
+ * @property ?int $ack Acknowledgement id
+ * @property array<int|string, mixed> $args Event arguments
  * @property mixed $data Packet data
  * @property int $count Binary attachment count
  * @property \ElephantIO\Engine\Packet[] $next Nested packets
@@ -36,7 +36,7 @@ class Packet extends Store
     /**
      * Set arguments and data from first element of arguments.
      *
-     * @param array $args
+     * @param mixed $args
      * @return \ElephantIO\Engine\Packet
      */
     public function setArgs($args)
@@ -86,7 +86,7 @@ class Packet extends Store
      * Peek packet with matched protocol.
      *
      * @param int $proto
-     * @return \ElephantIO\Engine\Packet
+     * @return \ElephantIO\Engine\Packet|null
      */
     public function peekOne($proto)
     {

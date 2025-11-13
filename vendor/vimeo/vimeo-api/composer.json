@@ -15,7 +15,8 @@
         "php": ">=7.1.0",
         "ext-curl": "*",
         "ext-json":"*",
-        "ankitpokhrel/tus-php": "^v1.0.0 || ^v2.0.0"
+        "guzzlehttp/guzzle": "^7.2",
+        "psr/http-message": "^1.1 || ^2.0"
     },
     "autoload": {
         "psr-4": {

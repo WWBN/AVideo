@@ -10,8 +10,8 @@
       .-~   ~--"~-.   ._ "-.     Its goal is to ease the communications between your
      /      ./_    Y    "-. \    PHP application and a socket.io server.
     Y       :~     !         Y
-    lq p    |     /         .|   Requires PHP 7.2 and openssl, licensed under
- _   \. .-, l    /          |j   the MIT License
+    lq p    |     /         .|   Requires PHP 7.4+ and mbstring extension,
+ _   \. .-, l    /          |j   licensed under the MIT License
 ()\___) |/   \_/";          !
  \._____.-~\  .  ~\.      ./
             Y_ Y_. "vr"~  T      Built-in engines:
@@ -103,6 +103,10 @@ authentication token, or providing stream context.
   Set to `false` to retain it as string instead. Be careful, when you read the resource
   content, it is necessary to seek the stream to the begining using `fseek($handle, 0)`
   first. 
+
+* `binary_chunk_size` _(socket.io 1+)_
+
+  Set the maximum chunk size when sending binary data to the server. Default to `8192`.
 
 * `context`
 

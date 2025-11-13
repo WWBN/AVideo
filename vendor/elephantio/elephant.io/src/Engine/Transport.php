@@ -50,18 +50,18 @@ abstract class Transport
     /**
      * Send data.
      *
-     * @param string $data
-     * @param array $parameters
-     * @return int Number of byte written
+     * @param \ElephantIO\StringableInterface|string $data
+     * @param array<string, mixed> $parameters
+     * @return int|null Number of byte written
      */
     abstract public function send($data, $parameters = []);
 
     /**
      * Receive data.
      *
-     * @param int $timeout
-     * @param array $parameters
-     * @return string
+     * @param float $timeout
+     * @param array<string, mixed> $parameters
+     * @return \ElephantIO\StringableInterface|string|null
      */
     abstract public function recv($timeout = 0, $parameters = []);
 

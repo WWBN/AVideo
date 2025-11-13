@@ -69,7 +69,6 @@ class getid3_voc extends getid3_handler
 			$BlockSize      = getid3_lib::LittleEndian2Int(substr($BlockData, 1, 3));
 			$ThisBlock      = array();
 
-			/** @phpstan-ignore-next-line */
 			getid3_lib::safe_inc($thisfile_voc['blocktypes'][$BlockType], 1);
 			switch ($BlockType) {
 				case 0:  // Terminator

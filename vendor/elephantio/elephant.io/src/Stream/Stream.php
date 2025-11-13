@@ -29,12 +29,12 @@ abstract class Stream implements StreamInterface
     protected $url = null;
 
     /**
-     * @var array
+     * @var ?array<string, mixed>
      */
     protected $context = null;
 
     /**
-     * @var array
+     * @var ?array<string, mixed>
      */
     protected $options = null;
 
@@ -47,8 +47,8 @@ abstract class Stream implements StreamInterface
      * Constructor.
      *
      * @param string $url
-     * @param array $context
-     * @param array $options
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $options
      */
     public function __construct($url, $context = [], $options = [])
     {
@@ -72,6 +72,8 @@ abstract class Stream implements StreamInterface
 
     /**
      * Initialize.
+     *
+     * @return void
      */
     protected function initialize()
     {
@@ -80,6 +82,9 @@ abstract class Stream implements StreamInterface
     /**
      * Create socket stream.
      *
+     * @param string $url
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $options
      * @return \ElephantIO\Stream\StreamInterface
      */
     public static function create($url, $context = [], $options = [])

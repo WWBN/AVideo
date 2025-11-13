@@ -3,6 +3,7 @@
 namespace PHPStan\PhpDocParser\Ast\PhpDoc;
 
 use PHPStan\PhpDocParser\Ast\NodeAttributes;
+use function trim;
 
 class DeprecatedTagValueNode implements PhpDocTagValueNode
 {
@@ -10,7 +11,7 @@ class DeprecatedTagValueNode implements PhpDocTagValueNode
 	use NodeAttributes;
 
 	/** @var string (may be empty) */
-	public $description;
+	public string $description;
 
 	public function __construct(string $description)
 	{

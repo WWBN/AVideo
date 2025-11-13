@@ -9,8 +9,7 @@ class ConstExprIntegerNode implements ConstExprNode
 
 	use NodeAttributes;
 
-	/** @var string */
-	public $value;
+	public string $value;
 
 	public function __construct(string $value)
 	{

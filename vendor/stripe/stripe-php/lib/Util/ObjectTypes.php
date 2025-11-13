@@ -23,6 +23,7 @@ class ObjectTypes
             \Stripe\ApplicationFeeRefund::OBJECT_NAME => \Stripe\ApplicationFeeRefund::class,
             \Stripe\Apps\Secret::OBJECT_NAME => \Stripe\Apps\Secret::class,
             \Stripe\Balance::OBJECT_NAME => \Stripe\Balance::class,
+            \Stripe\BalanceSettings::OBJECT_NAME => \Stripe\BalanceSettings::class,
             \Stripe\BalanceTransaction::OBJECT_NAME => \Stripe\BalanceTransaction::class,
             \Stripe\BankAccount::OBJECT_NAME => \Stripe\BankAccount::class,
             \Stripe\Billing\Alert::OBJECT_NAME => \Stripe\Billing\Alert::class,
@@ -89,11 +90,14 @@ class ObjectTypes
             \Stripe\LineItem::OBJECT_NAME => \Stripe\LineItem::class,
             \Stripe\LoginLink::OBJECT_NAME => \Stripe\LoginLink::class,
             \Stripe\Mandate::OBJECT_NAME => \Stripe\Mandate::class,
+            \Stripe\PaymentAttemptRecord::OBJECT_NAME => \Stripe\PaymentAttemptRecord::class,
             \Stripe\PaymentIntent::OBJECT_NAME => \Stripe\PaymentIntent::class,
+            \Stripe\PaymentIntentAmountDetailsLineItem::OBJECT_NAME => \Stripe\PaymentIntentAmountDetailsLineItem::class,
             \Stripe\PaymentLink::OBJECT_NAME => \Stripe\PaymentLink::class,
             \Stripe\PaymentMethod::OBJECT_NAME => \Stripe\PaymentMethod::class,
             \Stripe\PaymentMethodConfiguration::OBJECT_NAME => \Stripe\PaymentMethodConfiguration::class,
             \Stripe\PaymentMethodDomain::OBJECT_NAME => \Stripe\PaymentMethodDomain::class,
+            \Stripe\PaymentRecord::OBJECT_NAME => \Stripe\PaymentRecord::class,
             \Stripe\Payout::OBJECT_NAME => \Stripe\Payout::class,
             \Stripe\Person::OBJECT_NAME => \Stripe\Person::class,
             \Stripe\Plan::OBJECT_NAME => \Stripe\Plan::class,
@@ -162,8 +166,8 @@ class ObjectTypes
         \Stripe\V2\Billing\MeterEvent::OBJECT_NAME => \Stripe\V2\Billing\MeterEvent::class,
         \Stripe\V2\Billing\MeterEventAdjustment::OBJECT_NAME => \Stripe\V2\Billing\MeterEventAdjustment::class,
         \Stripe\V2\Billing\MeterEventSession::OBJECT_NAME => \Stripe\V2\Billing\MeterEventSession::class,
-        \Stripe\V2\Event::OBJECT_NAME => \Stripe\V2\Event::class,
-        \Stripe\V2\EventDestination::OBJECT_NAME => \Stripe\V2\EventDestination::class,
+        \Stripe\V2\Core\Event::OBJECT_NAME => \Stripe\V2\Core\Event::class,
+        \Stripe\V2\Core\EventDestination::OBJECT_NAME => \Stripe\V2\Core\EventDestination::class,
         // v2 object classes: The end of the section generated from our OpenAPI spec
     ];
 }

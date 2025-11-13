@@ -88,7 +88,7 @@ class getid3_midi extends getid3_handler
 			}
 		}
 
-		if (!is_array($trackdataarray) || count($trackdataarray) === 0) {
+		if (count($trackdataarray) === 0) {
 			$this->error('Cannot find MIDI track information');
 			unset($thisfile_midi);
 			unset($info['fileformat']);
@@ -111,7 +111,7 @@ class getid3_midi extends getid3_handler
 				$TicksAtCurrentBPM = 0;
 				while ($eventsoffset < strlen($trackdata)) {
 					$eventid = 0;
-					if (isset($MIDIevents[$tracknumber]) && is_array($MIDIevents[$tracknumber])) {
+					if (isset($MIDIevents[$tracknumber])) {
 						$eventid = count($MIDIevents[$tracknumber]);
 					}
 					$deltatime = 0;

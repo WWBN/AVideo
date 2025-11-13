@@ -70,10 +70,11 @@ abstract class AbstractAnnotation implements \JsonSerializable
 
     /**
      * Declarative mapping of Annotation types to properties.
+     *
      * Examples:
-     *   Info::clas => 'info', // Set @OA\Info annotation as the info property.
-     *   Parameter::clas => ['parameters'],  // Append @OA\Parameter annotations the parameters array.
-     *   PathItem::clas => ['paths', 'path'],  // Append @OA\PathItem annotations the paths array and use path as key.
+     *   Info::clas => 'info',                // Set @OA\Info annotation as the info property.
+     *   Parameter::clas => ['parameters'],   // Append @OA\Parameter annotations the parameters array.
+     *   PathItem::clas => ['paths', 'path'], // Append @OA\PathItem annotations the paths array and use path as key.
      *
      * @var array<class-string<AbstractAnnotation>,string|array<string>>
      */
@@ -352,7 +353,7 @@ abstract class AbstractAnnotation implements \JsonSerializable
         if (isset($data->ref)) {
             // Only specific https://github.com/OAI/OpenAPI-Specification/blob/3.1.0/versions/3.1.0.md#reference-object
             $ref = ['$ref' => $data->ref];
-            if ($this->_context->isVersion(OpenApi::VERSION_3_1_0)) {
+            if ($this->_context->isVersion('3.1.x')) {
                 foreach (['summary', 'description'] as $prop) {
                     if (property_exists($data, $prop)) {
                         $ref[$prop] = $data->{$prop};
@@ -361,7 +362,7 @@ abstract class AbstractAnnotation implements \JsonSerializable
             }
             if (property_exists($this, 'nullable') && $this->nullable === true) {
                 $ref = ['oneOf' => [$ref]];
-                if ($this->_context->isVersion(OpenApi::VERSION_3_1_0)) {
+                if ($this->_context->isVersion('3.1.x')) {
                     $ref['oneOf'][] = ['type' => 'null'];
                 } else {
                     $ref['nullable'] = $data->nullable;
@@ -376,18 +377,29 @@ abstract class AbstractAnnotation implements \JsonSerializable
             $data = (object) $ref;
         }
 
-        if ($this->_context->isVersion(OpenApi::VERSION_3_0_0)) {
+        if ($this->_context->isVersion('3.0.x')) {
             if (isset($data->exclusiveMinimum) && is_numeric($data->exclusiveMinimum)) {
                 $data->minimum = $data->exclusiveMinimum;
                 $data->exclusiveMinimum = true;
             }
+
             if (isset($data->exclusiveMaximum) && is_numeric($data->exclusiveMaximum)) {
                 $data->maximum = $data->exclusiveMaximum;
                 $data->exclusiveMaximum = true;
             }
+
+            if (isset($data->type) && is_array($data->type)) {
+                if (in_array('null', $data->type)) {
+                    $data->nullable = true;
+                    $data->type = array_filter($data->type, fn ($t): bool => 'null' !== $t);
+                    if (1 === count($data->type)) {
+                        $data->type = array_pop($data->type);
+                    }
+                }
+            }
         }
 
-        if ($this->_context->isVersion(OpenApi::VERSION_3_1_0)) {
+        if ($this->_context->isVersion('3.1.x')) {
             if (isset($data->nullable)) {
                 if (true === $data->nullable) {
                     if (isset($data->oneOf)) {
@@ -396,7 +408,7 @@ abstract class AbstractAnnotation implements \JsonSerializable
                         $data->anyOf[] = ['type' => 'null'];
                     } elseif (isset($data->allOf)) {
                         $data->allOf[] = ['type' => 'null'];
-                    } else {
+                    } elseif (isset($data->type)) {
                         $data->type = (array) $data->type;
                         $data->type[] = 'null';
                     }

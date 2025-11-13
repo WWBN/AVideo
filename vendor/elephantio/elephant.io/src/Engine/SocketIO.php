@@ -22,6 +22,7 @@ use ElephantIO\Exception\UnsupportedActionException;
 use ElephantIO\Stream\Stream;
 use ElephantIO\Util;
 use InvalidArgumentException;
+use RuntimeException;
 use Psr\Log\LoggerAwareTrait;
 
 /**
@@ -47,22 +48,22 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /** @var string Socket url */
     protected $url;
 
-    /** @var string Normalized namespace without path prefix */
+    /** @var ?string Normalized namespace without path prefix */
     protected $namespace = '';
 
-    /** @var \ElephantIO\Engine\Session Session information */
+    /** @var ?\ElephantIO\Engine\Session Session information */
     protected $session;
 
-    /** @var array Cookies received during handshake */
+    /** @var string[] Cookies received during handshake */
     protected $cookies = [];
 
     /** @var \ElephantIO\Engine\Option Array of options for the engine */
     protected $options;
 
-    /** @var \ElephantIO\Stream\StreamInterface Resource to the connected stream */
+    /** @var ?\ElephantIO\Stream\StreamInterface Resource to the connected stream */
     protected $stream;
 
-    /** @var string Current socket transport */
+    /** @var ?string Current socket transport */
     protected $transport = null;
 
     /** @var mixed[] Array of php stream context options */
@@ -71,7 +72,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /** @var mixed[] Array of default options for the engine */
     protected $defaults;
 
-    /** @var mixed[] Array of packet maps */
+    /** @var array<string, array<int, string>> Array of packet maps */
     protected $packetMaps = [];
 
     /** @var int[] Array of min and max of protocol */
@@ -80,17 +81,17 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /** @var string Protocol delimiter */
     protected $protoDelimiter = '';
 
-    /** @var \ElephantIO\Engine\Transport */
+    /** @var ?\ElephantIO\Engine\Transport */
     private $_transport = null;
 
-    /** @var int Acknowledgement id */
+    /** @var ?int Acknowledgement id */
     private static $ack = null;
 
     /**
      * Constructor.
      *
      * @param string $url Socket URL
-     * @param array $options Engine options
+     * @param array<string, mixed> $options Engine options
      */
     public function __construct($url, array $options = [])
     {
@@ -122,8 +123,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
 
         $this->initialize($options);
         $this->options = Option::create(array_replace($this->defaults, $options));
-        if (isset($this->packetMaps['proto'])) {
-            $protos = array_keys($this->packetMaps['proto']);
+        if (isset($this->packetMaps['proto']) && count($protos = array_keys($this->packetMaps['proto']))) {
             $this->proto = [min($protos), max($protos)];
         }
     }
@@ -131,7 +131,8 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Do initilization.
      *
-     * @param array $options Engine options
+     * @param array<string, mixed> $options Engine options
+     * @return void
      */
     protected function initialize(&$options)
     {
@@ -140,14 +141,14 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Set default options.
      *
-     * @param array $options Default options
+     * @param array<string, mixed> $defaults Default options
+     * @return void
      */
     protected function setDefaults($defaults)
     {
         $this->defaults = array_merge($this->defaults, $defaults);
     }
 
-    /** {@inheritDoc} */
     public function getName()
     {
         return $this->name;
@@ -177,7 +178,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      * Get underlying socket stream.
      *
      * @param bool $create True to create the stream
-     * @return \ElephantIO\Stream\StreamInterface
+     * @return \ElephantIO\Stream\StreamInterface|null
      */
     public function getStream($create = false)
     {
@@ -191,7 +192,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Get session.
      *
-     * @return \ElephantIO\Engine\Session
+     * @return \ElephantIO\Engine\Session|null
      */
     public function getSession()
     {
@@ -201,7 +202,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Get cookies.
      *
-     * @return array
+     * @return string[]
      */
     public function getCookies()
     {
@@ -211,7 +212,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Get stream context.
      *
-     * @return array
+     * @return mixed[]
      */
     public function getContext()
     {
@@ -221,7 +222,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Get current socket transport.
      *
-     * @return string
+     * @return string|null
      */
     public function getTransport()
     {
@@ -247,65 +248,65 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Get current transport.
      *
-     * @return \ElephantIO\Engine\Transport
+     * @return \ElephantIO\Engine\Transport|null
      */
     protected function _transport()
     {
-        if (null === $this->_transport || $this->stream->wasUpgraded()) {
+        if (null === $this->_transport || ($this->stream && $this->stream->wasUpgraded())) {
             $this->createStream();
 
-            switch ($this->stream->upgraded()) {
-                case true:
-                    $this->_transport = new Websocket($this);
-                    break;
-                default:
-                    $this->_transport = new Polling($this);
-                    break;
+            if ($this->stream) {
+                switch ($this->stream->upgraded()) {
+                    case true:
+                        $this->_transport = new Websocket($this);
+                        break;
+                    default:
+                        $this->_transport = new Polling($this);
+                        break;
+                }
+                if ($this->logger) {
+                    $this->_transport->setLogger($this->logger);
+                }
             }
-            $this->_transport->setLogger($this->logger);
         }
 
         return $this->_transport;
     }
 
-    /** {@inheritDoc} */
     public function connect()
     {
-        if ($this->connected()) {
-            return;
+        if (!$this->connected()) {
+            $this->setTransport($this->options->transport);
+            $this->doHandshake();
+            $this->doAfterHandshake();
+            if ($this->isUpgradable()) {
+                $this->doUpgrade();
+            } else {
+                $this->doSkipUpgrade();
+            }
+            $this->doConnected();
         }
 
-        $this->setTransport($this->options->transport);
-        $this->doHandshake();
-        $this->doAfterHandshake();
-        if ($this->isUpgradable()) {
-            $this->doUpgrade();
-        } else {
-            $this->doSkipUpgrade();
-        }
-        $this->doConnected();
+        return $this;
     }
 
-    /** {@inheritDoc} */
     public function connected()
     {
         return $this->stream ? $this->stream->readable() : false;
     }
 
-    /** {@inheritDoc} */
     public function disconnect()
     {
-        if (!$this->connected()) {
-            return;
+        if ($this->connected()) {
+            if ($this->session) {
+                $this->doClose();
+            }
+            $this->reset();
         }
 
-        if ($this->session) {
-            $this->doClose();
-        }
-        $this->reset();
+        return $this;
     }
 
-    /** {@inheritDoc} */
     public function of($namespace)
     {
         $normalized = Util::normalizeNamespace($namespace);
@@ -314,9 +315,10 @@ abstract class SocketIO implements EngineInterface, SocketInterface
 
             return $this->doChangeNamespace();
         }
+
+        return null;
     }
 
-    /** {@inheritDoc} */
     public function emit($event, $args, $ack = null)
     {
         if (!$args instanceof Argument) {
@@ -326,8 +328,12 @@ abstract class SocketIO implements EngineInterface, SocketInterface
 
         $len = $this->send($proto, $data);
         if (is_array($raws)) {
-            foreach ($raws as $raw) {
-                $len += $this->_transport()->send($raw);
+            if ($transport = $this->_transport()) {
+                foreach ($raws as $raw) {
+                    $len += $transport->send($raw);
+                }
+            } else {
+                throw new RuntimeException('Unable to create transport!');
             }
         }
 
@@ -341,7 +347,6 @@ abstract class SocketIO implements EngineInterface, SocketInterface
         return $len;
     }
 
-    /** {@inheritDoc} */
     public function ack($packet, $args)
     {
         if (!$args instanceof Argument) {
@@ -352,7 +357,6 @@ abstract class SocketIO implements EngineInterface, SocketInterface
         return $this->send($proto, $data);
     }
 
-    /** {@inheritDoc} */
     public function wait($event, $timeout = 0)
     {
         return $this->waitForPacket(function($packet) use ($event) {
@@ -360,19 +364,22 @@ abstract class SocketIO implements EngineInterface, SocketInterface
         }, $timeout);
     }
 
-    /** {@inheritDoc} */
     public function drain($timeout = 0)
     {
-        if (null !== ($data = $this->_transport()->recv($timeout))) {
-            $this->logger->debug(sprintf('Got data: %s', Util::truncate((string) $data)));
+        if (($transport = $this->_transport()) && null !== ($data = $transport->recv($timeout))) {
+            if ($this->logger) {
+                $this->logger->debug(sprintf('Got data: %s', Util::truncate((string) $data)));
+            }
             if ($data instanceof ArrayObject) {
                 $data = (array) $data;
-            } elseif (is_object($data)) {
+            } else {
                 $data = (string) $data;
             }
 
             return $this->processData($data);
         }
+
+        return null;
     }
 
     /**
@@ -380,28 +387,42 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      *
      * @param int $proto Protocol type
      * @param string  $data Optional data to be sent
-     * @return int Number of bytes written
+     * @return int|null Number of bytes written
      */
     public function send($proto, $data = null)
     {
-        if ($this->isProtocol($proto)) {
+        if ($this->isProtocol($proto) && $transport = $this->_transport()) {
             $formatted = $this->formatProtocol($proto, $data);
-            $this->logger->debug(sprintf('Send data: %s', Util::truncate($formatted)));
+            if ($this->logger) {
+                $this->logger->debug(sprintf('Send data: %s', Util::truncate($formatted)));
+            }
 
-            return $this->_transport()->send($formatted);
+            return $transport->send($formatted);
         }
+
+        return null;
     }
 
     /**
      * Send ping to server.
+     *
+     * @return bool
      */
     public function ping()
     {
         if ($this->session && $this->session->needsHeartbeat()) {
-            $this->logger->debug('Sending ping to server');
+            if ($this->logger) {
+                $this->logger->debug('Sending ping to server');
+            }
             $this->doPing();
-            $this->session->resetHeartbeat();
+            if ($this->session) {
+                $this->session->resetHeartbeat();
+            }
+
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -409,7 +430,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      *
      * @param callable $matcher
      * @param float $timeout
-     * @return \ElephantIO\Engine\Packet
+     * @return \ElephantIO\Engine\Packet|null
      */
     protected function waitForPacket($matcher, $timeout = 0)
     {
@@ -418,26 +439,29 @@ abstract class SocketIO implements EngineInterface, SocketInterface
                 if ($match = $matcher($packet)) {
                     return $match;
                 }
-                foreach ($packet->flatten() as $p) {
-                    $this->logger->info(sprintf('Ignoring packet: %s', Util::truncate((string) $p)));
+                if ($this->logger) {
+                    foreach ($packet->flatten() as $p) {
+                        $this->logger->info(sprintf('Ignoring packet: %s', Util::truncate((string) $p)));
+                    }
                 }
             }
-            if ($this->_transport()->timedout()) {
+            if (($transport = $this->_transport()) && $transport->timedout()) {
                 break;
             }
         }
+
+        return null;
     }
 
     /**
      * Process one or more received data. If data contains more than one,
      * the next packet will be passed as first packet next attribute.
      *
-     * @param string|array $data Data to process
-     * @return \ElephantIO\Engine\Packet
+     * @param string|array<int|string, mixed> $data Data to process
+     * @return \ElephantIO\Engine\Packet|null
      */
     protected function processData($data)
     {
-        /** @var \ElephantIO\Engine\Packet $result */
         $result = null;
         $packets = (array) $data;
         while (count($packets)) {
@@ -460,17 +484,16 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      * Decode a packet.
      *
      * @param string $data
-     * @return \ElephantIO\Engine\Packet
+     * @return \ElephantIO\Engine\Packet|null
      */
-    protected function decodePacket($data)
-    {
-    }
+    abstract protected function decodePacket($data);
 
     /**
      * Post processing a packet.
      *
      * @param \ElephantIO\Engine\Packet $packet
-     * @param array $more Remaining packet data to be processed
+     * @param string[] $more Remaining packet data to be processed
+     * @return void
      */
     protected function postPacket($packet, &$more)
     {
@@ -490,7 +513,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Is namespace match?
      *
-     * @param string $namespace
+     * @param ?string $namespace
      * @return bool
      */
     protected function matchNamespace($namespace)
@@ -498,15 +521,17 @@ abstract class SocketIO implements EngineInterface, SocketInterface
         if ((string) $namespace === $this->namespace || Util::normalizeNamespace($namespace) === $this->namespace) {
             return true;
         }
+
+        return false;
     }
 
     /**
      * Create an event to sent to server.
      *
      * @param string $event
-     * @param array|\ElephantIO\Engine\Argument $args
+     * @param \ElephantIO\Engine\Argument $args
      * @param bool $ack
-     * @return array An indexed array which first element would be protocol id and second element is the data
+     * @return array<int, mixed> An indexed array which first element would be protocol id and second element is the data
      */
     protected function createEvent($event, $args, $ack = null)
     {
@@ -517,8 +542,8 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      * Find matched event from packet.
      *
      * @param \ElephantIO\Engine\Packet $packet
-     * @param string $event
-     * @return \ElephantIO\Engine\Packet
+     * @param ?string $event
+     * @return \ElephantIO\Engine\Packet|null
      */
     protected function matchEvent($packet, $event)
     {
@@ -529,8 +554,8 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      * Create an acknowledgement.
      *
      * @param \ElephantIO\Engine\Packet $packet Packet to acknowledge
-     * @param array|\ElephantIO\Engine\Argument $data Acknowledgement data
-     * @return array An indexed array which first element would be protocol id and second element is the data
+     * @param \ElephantIO\Engine\Argument $data Acknowledgement data
+     * @return array<int, mixed> An indexed array which first element would be protocol id and second element is the data
      */
     protected function createAck($packet, $data)
     {
@@ -541,7 +566,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      * Find matched ack from packet.
      *
      * @param \ElephantIO\Engine\Packet $packet
-     * @return \ElephantIO\Engine\Packet
+     * @return \ElephantIO\Engine\Packet|null
      */
     protected function matchAck($packet)
     {
@@ -552,7 +577,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      * Get or generate acknowledgement id.
      *
      * @param bool $generate
-     * @return int
+     * @return int|null
      */
     protected function getAckId($generate = null)
     {
@@ -587,8 +612,9 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Store successful connection handshake as session.
      *
-     * @param array $handshake
-     * @param array $cookies
+     * @param array<string, mixed> $handshake
+     * @param string[] $cookies
+     * @return void
      */
     protected function storeSession($handshake, $cookies = [])
     {
@@ -600,6 +626,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      * Create socket stream.
      *
      * @throws \ElephantIO\Exception\SocketException
+     * @return void
      */
     protected function createStream()
     {
@@ -621,7 +648,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Update or set connection timeout.
      *
-     * @param int $timeout
+     * @param float $timeout
      * @return \ElephantIO\Engine\SocketIO
      */
     protected function setTimeout($timeout)
@@ -664,8 +691,8 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Build query string parameters.
      *
-     * @param string $transport
-     * @return array
+     * @param ?string $transport
+     * @return array<string, mixed>
      */
     public function buildQueryParameters($transport)
     {
@@ -675,22 +702,28 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Build query from parameters.
      *
-     * @param array $query
-     * @return string
+     * @param array<string, mixed> $query
+     * @return string|null
      */
     public function buildQuery($query)
     {
-        $path = null;
-        if (isset($query['path'])) {
-            $path = $query['path'];
-            unset($query['path']);
+        if ($this->stream) {
+            $path = null;
+            if (isset($query['path'])) {
+                $path = $query['path'];
+                unset($query['path']);
+            }
+
+            return $this->stream->getUrl()->getUri($path, $query);
         }
 
-        return $this->stream->getUrl()->getUri($path, $query);
+        return null;
     }
 
     /**
      * Do reset.
+     *
+     * @return void
      */
     protected function reset()
     {
@@ -706,6 +739,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
     /**
      * Check if protocol is valid.
      *
+     * @param int $proto
      * @return bool True if it is a valid protocol
      */
     protected function isProtocol($proto)
@@ -730,7 +764,7 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      *
      * @param int $proto
      * @param string $data
-     * @return string[]
+     * @return array<int, int|string|null>
      */
     protected function buildProtocol($proto, $data = null)
     {
@@ -744,38 +778,80 @@ abstract class SocketIO implements EngineInterface, SocketInterface
      */
     protected function isUpgradable()
     {
-        return in_array(static::TRANSPORT_WEBSOCKET, $this->session->upgrades) &&
+        return $this->session &&
+            in_array(static::TRANSPORT_WEBSOCKET, $this->session->upgrades) &&
             $this->isTransportEnabled(static::TRANSPORT_WEBSOCKET) ? true : false;
     }
 
+    /**
+     * Do on handshake.
+     *
+     * @return void
+     */
     protected function doHandshake()
     {
     }
 
+    /**
+     * Do on after handshake.
+     *
+     * @return void
+     */
     protected function doAfterHandshake()
     {
     }
 
+    /**
+     * Do on transport upgrade.
+     *
+     * @return void
+     */
     protected function doUpgrade()
     {
     }
 
+    /**
+     * Do on skip upgrade.
+     *
+     * @return void
+     */
     protected function doSkipUpgrade()
     {
     }
 
+    /**
+     * Do on change namespace.
+     *
+     * @return \ElephantIO\Engine\Packet|null
+     */
     protected function doChangeNamespace()
     {
+        return null;
     }
 
+    /**
+     * Do on connected.
+     *
+     * @return void
+     */
     protected function doConnected()
     {
     }
 
+    /**
+     * Do on ping.
+     *
+     * @return void
+     */
     protected function doPing()
     {
     }
 
+    /**
+     * Do on close.
+     *
+     * @return void
+     */
     protected function doClose()
     {
     }
