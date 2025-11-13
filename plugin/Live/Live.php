@@ -924,7 +924,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             return '';
         }
         global $global;
-        $id = "getButton" . uniqid();
+        $id = "getButton" . _uniqid();
         $afterLabel = "";
         $obj = AVideoPlugin::getDataObject('Live');
         switch ($command) {

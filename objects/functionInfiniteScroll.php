@@ -59,7 +59,7 @@ function getPagination($total, $link = "", $maxVisible = 10, $infinityScrollGetF
 
     $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
 
-    $uid = uniqid();
+    $uid = _uniqid();
 
     if ($total < $maxVisible) {
         $maxVisible = $total;

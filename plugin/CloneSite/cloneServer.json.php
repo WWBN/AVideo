@@ -55,7 +55,7 @@ if (!is_dir($clonesDir)) {
     _error_log("Clone: dir {$clonesDir} already exists");
 }
 
-$resp->sqlFile = uniqid('Clone_mysqlDump_') . ".sql";
+$resp->sqlFile = _uniqid('Clone_mysqlDump_') . ".sql";
 // update this clone last request
 $resp->error = !$canClone->clone->updateLastCloneRequest();
 

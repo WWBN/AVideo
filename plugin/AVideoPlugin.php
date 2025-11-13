@@ -1433,7 +1433,7 @@ class AVideoPlugin
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "";
-        $uid = uniqid();
+        $uid = _uniqid();
         foreach ($plugins as $value) {
             self::YPTstart($uid);
             $p = static::loadPlugin($value['dirName']);
@@ -1504,7 +1504,7 @@ class AVideoPlugin
         $p = static::loadPlugin($name);
         $btn = "";
         if (!empty($p)) {
-            $uid = uniqid();
+            $uid = _uniqid();
             $btn = '<div class="material-switch">
                     <input class="pluginSwitch" data-toggle="toggle" type="checkbox" id="subsSwitch' . $uid . '" value="1" ' . (self::isEnabledByName($name) ? "checked" : "") . ' >
                     <label for="subsSwitch' . $uid . '" class="label-primary"></label>

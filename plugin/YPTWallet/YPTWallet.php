@@ -717,7 +717,7 @@ class YPTWallet extends PluginAbstract
     {
         global $global;
         $identification = User::getNameIdentificationById($from_users_id);
-        $element_id = "transactionNotification" . uniqid();
+        $element_id = "transactionNotification" . _uniqid();
 
         // Set default values for title, message, icon, and type
         $title = 'Transaction Notification';

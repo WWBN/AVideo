@@ -40,7 +40,7 @@ function e($text)
     $uniqid = '';
     $class = '';
     $collapsible = true;
-    $uniqid = uniqid();
+    $uniqid = _uniqid();
     if (
             preg_match("/(AVideoLog::SECURITY)/", $text, $matches) ||
             preg_match("/(Prepare failed)/i", $text, $matches) ||

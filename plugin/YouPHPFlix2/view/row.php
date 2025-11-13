@@ -1,7 +1,7 @@
 <?php
 global $advancedCustom;
 
-$uidOriginal = uniqid();
+$uidOriginal = _uniqid();
 $landscape = "rowPortrait";
 $css = "";
 if (!empty($obj->landscapePosters)) {

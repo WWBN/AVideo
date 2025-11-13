@@ -4,7 +4,7 @@
     if (typeof player === 'undefined' && $('#mainVideo').length) {
         player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
     }
-    var options = {id: 'mainVideo', adTagUrl: webSiteRootURL+'plugin/AD_Server/VMAP.php?video_length=<?php echo $video_length ?>&vmap_id=<?php echo $vmap_id ?>&random=<?php echo uniqid(); ?>'};
+    var options = {id: 'mainVideo', adTagUrl: webSiteRootURL+'plugin/AD_Server/VMAP.php?video_length=<?php echo $video_length ?>&vmap_id=<?php echo $vmap_id ?>&random=<?php echo _uniqid(); ?>'};
         player.ima(options);
         $(document).ready(function () {
 

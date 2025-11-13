@@ -433,7 +433,7 @@ class Live_schedule extends ObjectYPT
         }
 
         if (empty($this->key)) {
-            $this->key = uniqid();
+            $this->key = _uniqid();
         }
 
         $this->_setTimeZone(date_default_timezone_get());

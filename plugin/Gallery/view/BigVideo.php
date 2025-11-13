@@ -1,6 +1,6 @@
 <?php
 if (empty($crc)) {
-    $crc = uniqid();
+    $crc = _uniqid();
 }
 $suggestedOrPinnedFound = false;
 if ($obj->BigVideo && empty($_GET['showOnly'])) {

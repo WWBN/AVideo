@@ -4284,7 +4284,7 @@ function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control
 
 function getButtontCopyToClipboard($elemToCopyId, $attributes = 'class="btn btn-default btn-sm btn-xs pull-right"', $label = "Copy to Clipboard")
 {
-    $id = "getButtontCopyToClipboard" . uniqid();
+    $id = "getButtontCopyToClipboard" . _uniqid();
 ?>
     <button id="<?php echo $id; ?>" <?php echo $attributes; ?> data-toggle="tooltip" data-placement="left" title="<?php echo __($label); ?>"><i class="fas fa-clipboard"></i> <?php echo __($label); ?></button>
     <script>
@@ -4436,7 +4436,7 @@ function getCaptcha($uid = "", $forceCaptcha = false)
 {
     global $global;
     if (empty($uid)) {
-        $uid = "capcha_" . uniqid();
+        $uid = "capcha_" . _uniqid();
     }
     $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functiongetCaptcha.php', ['uid' => $uid, 'forceCaptcha' => $forceCaptcha]);
 
@@ -4819,13 +4819,13 @@ function getTimerFromDates($startTime, $endTime = 0)
         $endTime = time();
     }
     $timer = abs($endTime - $startTime);
-    $uid = uniqid();
+    $uid = _uniqid();
     return "<span id='{$uid}'></span><script>$(document).ready(function () {startTimer({$timer}, '#{$uid}', '');})</script>";
 }
 
 function getServerClock()
 {
-    $id = uniqid();
+    $id = _uniqid();
     $today = getdate();
     $html = '<span id="' . $id . '">00:00:00</span>';
     $html .= "<script type=\"text/javascript\">
@@ -4945,7 +4945,7 @@ function getSocialModal($videos_id, $url = "", $title = "")
     }
     $global["socialModalWasAdded_{$videos_id}"] = 1;
     $video['id'] = $videos_id;
-    $sharingUid = uniqid();
+    $sharingUid = _uniqid();
     $filePath = $global['systemRootPath'] . 'objects/functionGetSocialModal.php';
     $contents = getIncludeFileContent(
         $filePath,
@@ -6796,7 +6796,7 @@ function getHamburgerButton($id = '', $type = 0, $parameters = 'class="btn btn-d
         $type = rand(1, 8);
     }
     if (empty($id)) {
-        $id = uniqid();
+        $id = _uniqid();
     }
     $filePath = $global['systemRootPath'] . 'objects/functionGetHamburgerButton.php';
     return getIncludeFileContent($filePath, ['type' => $type, 'id' => $id, 'parameters' => $parameters, 'startActive' => $startActive, 'invert' => $invert]);
@@ -7157,7 +7157,7 @@ function getRandomCode()
     $char1 = $characters[rand(0, $max)];
     $char2 = $characters[rand(0, $max)];
     $char3 = $characters[rand(0, $max)];
-    $uniqueId = uniqid();
+    $uniqueId = _uniqid();
     $uniquePart1 = str_pad(base_convert(substr($uniqueId, -5), 16, 36), 4, $char1, STR_PAD_LEFT);
     $uniquePart2 = str_pad(base_convert(substr($uniqueId, 4, 4), 16, 36), 4, $char2, STR_PAD_LEFT);
     $uniquePart3 = str_pad(base_convert(substr($uniqueId, 0, 4), 16, 36), 4, $char3, STR_PAD_LEFT);
@@ -7200,7 +7200,7 @@ function generateHorizontalFlickity($items)
         <link href="<?php echo getURL('node_modules/flickity/dist/flickity.min.css'); ?>" rel="stylesheet" type="text/css" />
     <?php
     }
-    $carouselClass = 'carousel_' . uniqid();
+    $carouselClass = 'carousel_' . _uniqid();
     ?>
     <div id="<?php echo $carouselClass; ?>" class=" HorizontalFlickity" style="visibility: hidden;">
         <?php

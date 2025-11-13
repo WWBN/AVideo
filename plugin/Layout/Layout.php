@@ -142,7 +142,7 @@ class Layout extends PluginAbstract
         }
 
         $content = file_get_contents($global['systemRootPath'] . 'plugin/Layout/loaders/' . $name . '.html');
-        return trim(preg_replace('/\s+/', ' ', str_replace('lds-', 'lds-' . uniqid(), $content)));
+        return trim(preg_replace('/\s+/', ' ', str_replace('lds-', 'lds-' . _uniqid(), $content)));
     }
 
     static function getLoaderDefault()
@@ -333,7 +333,7 @@ class Layout extends PluginAbstract
         $getIconsSelect = 1;
         $icons = self::getIconsList();
         if (empty($id)) {
-            $id = uniqid();
+            $id = _uniqid();
         }
 
         $html = self::getSearch2Code($id);
@@ -406,7 +406,7 @@ class Layout extends PluginAbstract
         }
 
         if (empty($id)) {
-            $id = uniqid();
+            $id = _uniqid();
         }
 
         if ($selected == 'us') {
@@ -470,7 +470,7 @@ class Layout extends PluginAbstract
             }
         }
         if (empty($id)) {
-            $id = uniqid();
+            $id = _uniqid();
         }
         $html = self::getSearch2Code($id);
         self::addFooterCode($html);
@@ -490,7 +490,7 @@ class Layout extends PluginAbstract
             $cats[$value['id']] = htmlentities("<i class='{$value['iconClass']}'></i> " . $value['hierarchyAndName']);
         }
         if (empty($id)) {
-            $id = uniqid();
+            $id = _uniqid();
         }
 
         $html = self::getSearch2Code($id);
@@ -502,7 +502,7 @@ class Layout extends PluginAbstract
     {
         $rows = UserGroups::getAllUsersGroupsArray();
         if (empty($id)) {
-            $id = uniqid();
+            $id = _uniqid();
         }
         $html = self::getSearch2Code($id);
         self::addFooterCode($html);
@@ -580,7 +580,7 @@ class Layout extends PluginAbstract
         global $global;
         $default_Playlists_id = intval($default_Playlists_id);
         if (empty($id)) {
-            $id = 'getPlaylistAutocomplete_' . uniqid();
+            $id = 'getPlaylistAutocomplete_' . _uniqid();
         }
         include $global['systemRootPath'] . 'plugin/Layout/playlistAutocomplete.php';
         return "updatePlaylistAutocomplete{$id}();";
@@ -591,7 +591,7 @@ class Layout extends PluginAbstract
         global $global;
         $default_users_id = intval($default_users_id);
         if (empty($id)) {
-            $id = 'getUserAutocomplete_' . uniqid();
+            $id = 'getUserAutocomplete_' . _uniqid();
         }
         include $global['systemRootPath'] . 'plugin/Layout/userAutocomplete.php';
         return "updateUserAutocomplete{$id}();";
@@ -602,7 +602,7 @@ class Layout extends PluginAbstract
         global $global;
         $default_videos_id = intval($default_videos_id);
         if (empty($id)) {
-            $id = 'getVideoAutocomplete_' . uniqid();
+            $id = 'getVideoAutocomplete_' . _uniqid();
         }
         include $global['systemRootPath'] . 'plugin/Layout/videoAutocomplete.php';
         return "updateVideoAutocomplete{$id}();";
@@ -881,7 +881,7 @@ class Layout extends PluginAbstract
     static function getSearchOptions($name)
     {
         $divs = array();
-        $id = str_replace('[]', '', $name) . uniqid();
+        $id = str_replace('[]', '', $name) . _uniqid();
         foreach (Layout::$searchOptions as $key => $value) {
 
             $divs[] = '<div class="form-check">
@@ -897,7 +897,7 @@ class Layout extends PluginAbstract
     {
         global $global;
         $divs = array();
-        $id = str_replace('[]', '', $name) . uniqid();
+        $id = str_replace('[]', '', $name) . _uniqid();
 
         $divs[] = '<div class="form-check">
                         <label class="form-check-label">
@@ -922,7 +922,7 @@ class Layout extends PluginAbstract
     {
         global $global;
         $divs = array();
-        $id = str_replace('[]', '', $name) . uniqid();
+        $id = str_replace('[]', '', $name) . _uniqid();
 
         $divs[] = '<div class="form-check">
                         <label class="form-check-label">
@@ -976,7 +976,7 @@ class Layout extends PluginAbstract
         }
 
         $divs = array();
-        $id = str_replace('[]', '', $name) . uniqid();
+        $id = str_replace('[]', '', $name) . _uniqid();
 
         $divs[] = '<div class="form-check">
                         <label class="form-check-label">
@@ -1008,7 +1008,7 @@ class Layout extends PluginAbstract
             return array();
         }
         $divs = array();
-        $id = str_replace('[]', '', $name) . uniqid();
+        $id = str_replace('[]', '', $name) . _uniqid();
         $divs[] = '<div class="form-check">
                         <label class="form-check-label">
                         <input class="form-check-input" type="radio" name="' . $name . '" checked value=""> 
@@ -1026,7 +1026,7 @@ class Layout extends PluginAbstract
 
     static function getSearchHTML($elements, $name)
     {
-        $id = 'search_' . uniqid();
+        $id = 'search_' . _uniqid();
         $class = 'searchHTML' . str_replace('[]', '', $name);
 ?>
         <div class="panel panel-default searchHTML <?php echo $class; ?>" id="<?php echo $id; ?>-panel" style="margin: 0;">

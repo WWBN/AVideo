@@ -1,7 +1,7 @@
 <?php
 global $planTitle;
 $obj = AVideoPlugin::getObjectData('StripeYPT');
-$uid = uniqid();
+$uid = _uniqid();
 ?>
 <style>
     /**

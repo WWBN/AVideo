@@ -25,7 +25,7 @@ $api = new Api($obj->api_key, $obj->api_secret);
 // We create an razorpay order using orders api
 // Docs: https://docs.razorpay.com/docs/orders
 //
-$invoiceNumber = uniqid();
+$invoiceNumber = _uniqid();
 
 $displayCurrency = $objS->currency;
 

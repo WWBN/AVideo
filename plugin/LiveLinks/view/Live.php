@@ -33,7 +33,7 @@ if (!empty($_GET['link'])) {
     $date = convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getStart_date());
     $toTime = strtotime($date);
 } else {
-    $isLiveLink = uniqid();
+    $isLiveLink = _uniqid();
     $uuid = $isLiveLink;
     $t = LiveLinks::decodeDinamicVideoLink();
     $toTime = time();

@@ -870,7 +870,7 @@ abstract class ObjectYPT implements ObjectInterface
         //_error_log('deleteALLCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $tmpDir = self::getCacheDir('', false);
 
-        $newtmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . uniqid();
+        $newtmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . _uniqid();
         _error_log("deleteALLCache rename($tmpDir, $newtmpDir) ");
         @rename($tmpDir, $newtmpDir);
         if (is_dir($tmpDir)) {

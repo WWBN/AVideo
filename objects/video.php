@@ -539,7 +539,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             if (empty($this->title)) {
-                $this->title = uniqid();
+                $this->title = _uniqid();
             }
 
             $this->clean_title = _substr(safeString($this->clean_title), 0, 187);
@@ -4329,7 +4329,7 @@ if (!class_exists('Video')) {
                     }
                     $source['url'] = CDNStorage::getURL($f);
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
-                    //$source['url'] = addQueryStringParameter($source['url'], 'cache', uniqid());
+                    //$source['url'] = addQueryStringParameter($source['url'], 'cache', _uniqid());
                     $source['url_noCDN'] = $source['url'];
                     $source['line'] = __LINE__;
                 } elseif (!empty($yptStorage) && !empty($site) && $isValidType && $fsize < 20) {
@@ -4439,7 +4439,7 @@ if (!class_exists('Video')) {
                 $source = $videosPaths[$filename][$type][intval($includeS3)];
             }
             if (substr($type, -4) === ".jpg" || substr($type, -4) === ".png" || substr($type, -4) === ".gif" || substr($type, -4) === ".webp") {
-                $x = uniqid();
+                $x = _uniqid();
                 if (file_exists($source['path'])) {
                     $x = filemtime($source['path']) . filectime($source['path']);
                 } elseif (!empty($video)) {
@@ -4591,7 +4591,7 @@ if (!class_exists('Video')) {
 
         public static function getNewVideoFilename($prefix = '', $time = '')
         {
-            $uid = substr(uniqid(), -4);
+            $uid = substr(_uniqid(), -4);
             if (empty($time)) {
                 $time = time();
             }
@@ -6561,7 +6561,7 @@ if (!class_exists('Video')) {
                 $video['title'] = $evideo->title;
                 $video['clean_title'] = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\] ]+/', '-', trim(mb_strtolower(cleanString($evideo->title))));
                 if (empty($evideo->description) && !empty($evideo->videos_id)) {
-                    $divId = uniqid();
+                    $divId = _uniqid();
                     $video['description'] = '<div id="' . $divId . '"></div>
                     <script>
                         $(document).ready(function () {
@@ -7040,7 +7040,7 @@ if (!class_exists('Video')) {
             $galleryDropDownMenu = Gallery::getVideoDropdownMenu($videos_id);
 
             $galleryVideoButtons .= '<!-- getVideoImagewithHoverAnimationFromVideosId -->';
-            $galleryVideoButtons .= '<div class="galleryVideoButtons ' . getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0) . '">';
+            $galleryVideoButtons .= '<div class="galleryVideoButtons ' . getCSSAnimationClassAndStyle('animate__flipInY', _uniqid(), 0) . '">';
             $galleryVideoButtons .= self::generatePlaylistButtons($videos_id);
             if (Video::canEdit($videos_id)) {
                 $galleryVideoButtons .= '<div class="clearfix"></div>

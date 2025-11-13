@@ -193,7 +193,7 @@ function sendSiteEmailAsync($to, $subject, $message)
     $to = array_unique($to);
     $content = ['to' => $to, 'subject' => $subject, 'message' => $message];
     //$tmpFile = getTmpFile();
-    $tmpFile = "{$global['systemRootPath']}videos/emails_" . uniqid() . '.log';
+    $tmpFile = "{$global['systemRootPath']}videos/emails_" . _uniqid() . '.log';
     $bytes = file_put_contents($tmpFile, _json_encode($content));
     //outputAndContinueInBackground();
     $command = "php {$global['systemRootPath']}objects/sendSiteEmailAsync.php '$tmpFile' && rm '$tmpFile'";

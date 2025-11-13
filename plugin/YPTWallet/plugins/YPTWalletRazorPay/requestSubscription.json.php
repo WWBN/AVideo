@@ -17,7 +17,7 @@ $obj->error = true;
 $displayCurrency = $objS->currency;
 
 
-$invoiceNumber = uniqid();
+$invoiceNumber = _uniqid();
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }

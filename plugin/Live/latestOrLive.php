@@ -122,7 +122,7 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
         $objectToReturnToParentIframe->mediaSession = LiveLinks::getMediaSession($video['id']);
         $objectToReturnToParentIframe->users_id = intval($video['users_id']);
         $liveFound = true;
-        $isLiveLink = uniqid();
+        $isLiveLink = _uniqid();
     }
 }
 if (!$liveFound) {
