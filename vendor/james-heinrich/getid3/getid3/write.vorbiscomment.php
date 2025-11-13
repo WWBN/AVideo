@@ -88,7 +88,7 @@ class getid3_write_vorbiscomment
 				$timestampbeforewriting = filemtime($this->filename);
 
 				$commandline = GETID3_HELPERAPPSDIR.'vorbiscomment.exe -w --raw -c "'.$tempcommentsfilename.'" "'.$this->filename.'" 2>&1';
-				$VorbiscommentError = `$commandline`;
+				$VorbiscommentError = shell_exec($commandline);
 
 				if (empty($VorbiscommentError)) {
 					clearstatcache(true, $this->filename);
@@ -103,7 +103,7 @@ class getid3_write_vorbiscomment
 		} else {
 
 			$commandline = 'vorbiscomment -w --raw -c "'.$tempcommentsfilename.'" "'.$this->filename.'" 2>&1';
-			$VorbiscommentError = `$commandline`;
+			$VorbiscommentError = shell_exec($commandline);
 
 		}
 

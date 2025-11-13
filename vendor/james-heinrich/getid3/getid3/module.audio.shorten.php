@@ -139,7 +139,7 @@ class getid3_shorten extends getid3_handler
 
 			static $shorten_present;
 			if (!isset($shorten_present)) {
-				$shorten_present = file_exists('/usr/local/bin/shorten') || `which shorten`;
+				$shorten_present = file_exists('/usr/local/bin/shorten') || shell_exec('which shorten');
 			}
 			if (!$shorten_present) {
 				$this->error('shorten binary was not found in path or /usr/local/bin');
@@ -149,7 +149,7 @@ class getid3_shorten extends getid3_handler
 
 		}
 
-		$output = `$commandline`;
+		$output = shell_exec($commandline);
 
 		if (!empty($output) && (substr($output, 12, 4) == 'fmt ')) {
 

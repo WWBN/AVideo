@@ -10,8 +10,7 @@ class ConstTypeNode implements TypeNode
 
 	use NodeAttributes;
 
-	/** @var ConstExprNode */
-	public $constExpr;
+	public ConstExprNode $constExpr;
 
 	public function __construct(ConstExprNode $constExpr)
 	{

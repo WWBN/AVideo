@@ -18,6 +18,27 @@
 Version History
 ===============
 
+1.9.24: [2025-10-09] James Heinrich :: 1.9.24-202509040923
+	» #462 add HEIF image support
+	» #438 add detection support .gpx files
+	* #470 PHP8.5 compatibility
+	* #468 WAV files with RIFF and data chunk sizes of zero
+	* #463 warning on null description
+	* #460 DSS division by zero
+	* #458 errors with MP3 free-format
+	* #452 incorrect parsing of Quicktime files
+	* #450 ogg file formats wrong duration
+	* #449 Lyrics3 did not respect option_tag_apetag
+	* #444 ID3v2 ininitialized string offset 0
+	* #442 PrintHexBytes warning when $string is not a string
+	* #440 MPEG duration error due to error in GOP parsing
+	* #435 compatibility fix for PHP 5.3
+	* #434 do not crash on empty seconds in DSS module
+	* #430 garbage extracted from a RIFF tag in an AIFF file
+	* #429 libxml_disable_entity_loader is deprecated
+	* quicktime parse com.android.capture.fps
+	* tar allow duplicate filenames
+
 1.9.23: [2023-10-19] James Heinrich :: 1.9.23-202310190849
 	» add detection support for 7-zip archives
 	* #424 RIFF Undefined index "data"

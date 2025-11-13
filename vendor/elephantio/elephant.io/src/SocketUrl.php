@@ -22,14 +22,14 @@ use ElephantIO\Exception\MalformedUrlException;
 class SocketUrl
 {
     /**
-     * @var string
+     * @var ?string
      */
     protected $url = null;
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $parsed = null;
+    protected $parsed = [];
 
     /**
      * @var string
@@ -51,7 +51,8 @@ class SocketUrl
      * Parse an url into parts we may expect.
      *
      * @param string $url
-     * @return string[] information on the given URL
+     * @throws \ElephantIO\Exception\MalformedUrlException
+     * @return array<string, mixed> information on the given URL
      */
     protected function parse($url)
     {
@@ -103,7 +104,7 @@ class SocketUrl
     /**
      * Get raw URL.
      *
-     *  @return string
+     *  @return string|null
      */
     public function getUrl()
     {
@@ -134,7 +135,7 @@ class SocketUrl
      * Get socket URI.
      *
      * @param string $path Path
-     * @param array $query Key-value query string
+     * @param array<string, mixed> $query Key-value query string
      * @return string
      */
     public function getUri($path = null, $query = [])

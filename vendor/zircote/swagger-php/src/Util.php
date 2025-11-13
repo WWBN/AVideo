@@ -36,13 +36,13 @@ class Util
         } else { // an array of paths
             foreach ($basePaths as $basePath) {
                 $relativePath = self::removePrefix($fullPath, $basePath);
-                if ($relativePath !== null && $relativePath !== '' && $relativePath !== '0') {
+                if (!in_array($relativePath, [null, '', '0'], true)) {
                     break;
                 }
             }
         }
 
-        return $relativePath === null || $relativePath === '' || $relativePath === '0' ? $fullPath : trim($relativePath, '/');
+        return in_array($relativePath, [null, '', '0'], true) ? $fullPath : trim($relativePath, '/');
     }
 
     /**

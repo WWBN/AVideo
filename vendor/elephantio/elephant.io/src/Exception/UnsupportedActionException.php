@@ -18,6 +18,13 @@ use Exception;
 
 class UnsupportedActionException extends BadMethodCallException
 {
+    /**
+     * Constructor.
+     *
+     * @param \ElephantIO\Engine\EngineInterface $engine
+     * @param string $action
+     * @param \Exception $previous
+     */
     public function __construct(EngineInterface $engine, $action, ?Exception $previous = null)
     {
         parent::__construct(

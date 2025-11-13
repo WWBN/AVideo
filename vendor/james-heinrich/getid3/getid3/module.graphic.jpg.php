@@ -117,7 +117,7 @@ class getid3_jpg extends getid3_handler
 
 			if (isset($info['jpg']['exif']['GPS']['GPSDateStamp'])) {
 				$explodedGPSDateStamp = explode(':', $info['jpg']['exif']['GPS']['GPSDateStamp']);
-				$computed_time[5] = (isset($explodedGPSDateStamp[0]) ? $explodedGPSDateStamp[0] : '');
+				$computed_time[5] = $explodedGPSDateStamp[0];
 				$computed_time[3] = (isset($explodedGPSDateStamp[1]) ? $explodedGPSDateStamp[1] : '');
 				$computed_time[4] = (isset($explodedGPSDateStamp[2]) ? $explodedGPSDateStamp[2] : '');
 

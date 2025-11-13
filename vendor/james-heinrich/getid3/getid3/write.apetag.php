@@ -27,7 +27,7 @@ class getid3_write_apetag
 	public $filename;
 
 	/**
-	 * @var array
+	 * @var array|null
 	 */
 	public $tag_data;
 

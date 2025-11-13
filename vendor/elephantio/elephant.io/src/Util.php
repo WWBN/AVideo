@@ -23,15 +23,15 @@ use ReflectionProperty;
 class Util
 {
     /**
-     * @var string
+     * @var ?string
      */
     protected static $version = null;
 
     /**
      * Normalize namespace.
      *
-     * @param string $namespace
-     * @return string
+     * @param ?string $namespace
+     * @return string|null
      */
     public static function normalizeNamespace($namespace)
     {
@@ -45,8 +45,8 @@ class Util
     /**
      * Concatenate namespace with data using separator.
      *
-     * @param string $namespace
-     * @param string $data
+     * @param ?string $namespace
+     * @param ?string $data
      * @param bool $prefix
      * @param string $separator
      * @return string
@@ -68,8 +68,8 @@ class Util
     /**
      * Normalize request headers from key-value pair array.
      *
-     * @param array $headers
-     * @return array
+     * @param array<string, mixed> $headers
+     * @return string[]
      */
     public static function normalizeHeaders($headers)
     {
@@ -89,14 +89,14 @@ class Util
      * non-associative format (numeric indexed), it triggers a deprecated warning and converts them
      * to the new key-value array format.
      *
-     * @param array $headers A reference to the array of HTTP headers to be processed. This array may
+     * @param array<int|string, mixed> $headers A reference to the array of HTTP headers to be processed. This array may
      *                      be modified if the headers are in the deprecated format.
      *
      * @return void This function modifies the input array in place and does not return any value.
      */
     public static function handleDeprecatedHeaderOptions(&$headers)
     {
-        if (is_array($headers) && count($headers) > 0) {
+        if (count($headers) > 0) {
             // Check if the array is not associative (indicating old format)
             if (array_values($headers) == $headers) {
                 trigger_error('You are using a deprecated header format. Please update to the new key-value array format.', E_USER_DEPRECATED);
@@ -129,7 +129,7 @@ class Util
     /**
      * Convert array or any value for string representaion.
      *
-     * @param array|mixed $value
+     * @param mixed $value
      * @return string
      */
     public static function toStr($value)
@@ -163,7 +163,7 @@ class Util
             $result = '"' . $value . '"';
         } elseif (interface_exists('UnitEnum') && $value instanceof \UnitEnum) {
             if ($value instanceof \BackedEnum) {
-                $result = $value->value;
+                $result = (string) $value->value;
             } else {
                 $result = var_export($value, true);
             }
@@ -187,21 +187,23 @@ class Util
      * Create a resource from value.
      *
      * @param string $value
-     * @return resource
+     * @return resource|null
      */
     public static function toResource($value)
     {
         if (false !== ($result = fopen('php://memory', 'w+'))) {
             fwrite($result, $value);
+
+            return $result;
         }
 
-        return $result;
+        return null;
     }
 
     /**
      * Get Composer autoloader instance.
      *
-     * @return \Composer\Autoload\ClassLoader
+     * @return \Composer\Autoload\ClassLoader|null
      */
     public static function getComposer()
     {
@@ -215,6 +217,8 @@ class Util
                 }
             }
         }
+
+        return null;
     }
 
     /**
@@ -225,18 +229,19 @@ class Util
     public static function getVersion()
     {
         if (null === static::$version) {
-            if ($composer = static::getComposer()) {
-                $package = json_decode(file_get_contents(__DIR__.'/../composer.json'), true);
+            if (($composer = static::getComposer()) && false !== ($content = file_get_contents(__DIR__.'/../composer.json'))) {
+                $package = json_decode($content, true);
                 $packageName = $package['name'];
                 $r = new ReflectionClass($composer);
-                $composerDir = dirname($r->getFileName());
-                if (is_readable($installed = $composerDir.DIRECTORY_SEPARATOR.'installed.json')) {
-                    $packages = json_decode(file_get_contents($installed), true);
-                    $packages = isset($packages['packages']) ? $packages['packages'] : $packages;
-                    foreach ($packages as $package) {
-                        if (isset($package['name']) && $package['name'] === $packageName) {
-                            static::$version = $package['version'];
-                            break;
+                if (($filename = $r->getFileName()) && ($composerDir = dirname($filename)) && is_readable($installed = $composerDir.DIRECTORY_SEPARATOR.'installed.json')) {
+                    if ($content = file_get_contents($installed)) {
+                        $packages = json_decode($content, true);
+                        $packages = isset($packages['packages']) ? $packages['packages'] : $packages;
+                        foreach ($packages as $package) {
+                            if (isset($package['name']) && $package['name'] === $packageName) {
+                                static::$version = $package['version'];
+                                break;
+                            }
                         }
                     }
                 }

@@ -73,10 +73,9 @@ class Version1X extends SocketIO
                 static::PACKET_BINARY_ACK => 'binary-ack',
             ]
         ];
-        $this->setDefaults(['version' => static::EIO_V2, 'max_payload' => 10e7]);
+        $this->setDefaults(['version' => static::EIO_V2, 'max_payload' => 10e7, 'binary_chunk_size' => 8192]);
     }
 
-    /** {@inheritDoc} */
     protected function matchEvent($packet, $event)
     {
         foreach ($packet->peek(static::PROTO_MESSAGE) as $found) {
@@ -84,9 +83,10 @@ class Version1X extends SocketIO
                 return $found;
             }
         }
+
+        return null;
     }
 
-    /** {@inheritDoc} */
     protected function createEvent($event, $args, $ack = null)
     {
         $args = $args->getArguments();
@@ -97,7 +97,9 @@ class Version1X extends SocketIO
         $data = Util::concatNamespace($this->namespace, $data);
         if ($type === static::PACKET_BINARY_EVENT) {
             $data = sprintf('%d-%s', count($attachments), $data);
-            $this->logger->debug(sprintf('Binary event arguments %s', Util::toStr($args)));
+            if ($this->logger) {
+                $this->logger->debug(sprintf('Binary event arguments %s', Util::toStr($args)));
+            }
         }
 
         $raws = null;
@@ -124,7 +126,8 @@ class Version1X extends SocketIO
                         if ($this->options->version <= static::EIO_V3) {
                             $attachment = pack('C', static::PROTO_MESSAGE) . $attachment;
                         }
-                        $raws[] = $transport->getPayload($attachment, WebsocketEncoder::OPCODE_BINARY);
+                        $raws[] = $transport->getPayload($attachment, WebsocketEncoder::OPCODE_BINARY)
+                            ->setMaxPayload($this->options->binary_chunk_size);
                     }
                     break;
             }
@@ -133,7 +136,6 @@ class Version1X extends SocketIO
         return [static::PROTO_MESSAGE, $type . $data, $raws];
     }
 
-    /** {@inheritDoc} */
     protected function matchAck($packet)
     {
         foreach ($packet->peek(static::PROTO_MESSAGE) as $found) {
@@ -142,9 +144,10 @@ class Version1X extends SocketIO
                 return $found;
             }
         }
+
+        return null;
     }
 
-    /** {@inheritDoc} */
     protected function createAck($packet, $data)
     {
         $type = $packet->count ? static::PACKET_BINARY_ACK : static::PACKET_ACK;
@@ -153,7 +156,6 @@ class Version1X extends SocketIO
         return [static::PROTO_MESSAGE, $type . $data];
     }
 
-    /** {@inheritDoc} */
     protected function decodePacket($data)
     {
         // @see https://socket.io/docs/v4/engine-io-protocol/
@@ -177,20 +179,22 @@ class Version1X extends SocketIO
                             $packet->ack = (int) $ack;
                         }
                     }
-                    if (null !== ($data = json_decode($seq->getData(), true))) {
-                        switch ($packet->type) {
-                            case static::PACKET_EVENT:
-                            case static::PACKET_BINARY_EVENT:
-                                $packet->event = array_shift($data);
-                                $packet->setArgs($data);
-                                break;
-                            case static::PACKET_ACK:
-                            case static::PACKET_BINARY_ACK:
-                                $packet->setArgs($data);
-                                break;
-                            default:
-                                $packet->data = $data;
-                                break;
+                    if ($data = $seq->getData()) {
+                        if (null !== ($data = json_decode($data, true))) {
+                            switch ($packet->type) {
+                                case static::PACKET_EVENT:
+                                case static::PACKET_BINARY_EVENT:
+                                    $packet->event = array_shift($data);
+                                    $packet->setArgs($data);
+                                    break;
+                                case static::PACKET_ACK:
+                                case static::PACKET_BINARY_ACK:
+                                    $packet->setArgs($data);
+                                    break;
+                                default:
+                                    $packet->data = $data;
+                                    break;
+                            }
                         }
                     }
                     break;
@@ -203,13 +207,16 @@ class Version1X extends SocketIO
                     }
                     break;
             }
-            $this->logger->info(sprintf('Got packet: %s', Util::truncate((string) $packet)));
+            if ($this->logger) {
+                $this->logger->info(sprintf('Got packet: %s', Util::truncate((string) $packet)));
+            }
 
             return $packet;
         }
+
+        return null;
     }
 
-    /** {@inheritDoc} */
     protected function postPacket($packet, &$more)
     {
         if ($packet->proto === static::PROTO_MESSAGE &&
@@ -237,7 +244,9 @@ class Version1X extends SocketIO
                         }
                         break;
                     case static::TRANSPORT_WEBSOCKET:
-                        $bindata = (string) $this->_transport()->recv();
+                        if ($transport = $this->_transport()) {
+                            $bindata = (string) $transport->recv();
+                        }
                         break;
                 }
                 if (null === $bindata) {
@@ -248,20 +257,25 @@ class Version1X extends SocketIO
         }
     }
 
-    /** {@inheritDoc} */
     protected function consumePacket($packet)
     {
         switch ($packet->proto) {
             case static::PROTO_CLOSE:
-                $this->logger->debug('Connection closed by server');
+                if ($this->logger) {
+                    $this->logger->debug('Connection closed by server');
+                }
                 $this->reset();
                 break;
             case static::PROTO_PING:
-                $this->logger->debug('Got PING, sending PONG');
+                if ($this->logger) {
+                    $this->logger->debug('Got PING, sending PONG');
+                }
                 $this->send(static::PROTO_PONG);
                 break;
             case static::PROTO_PONG:
-                $this->logger->debug('Got PONG');
+                if ($this->logger) {
+                    $this->logger->debug('Got PONG');
+                }
                 break;
             case static::PROTO_NOOP:
                 break;
@@ -276,12 +290,13 @@ class Version1X extends SocketIO
      * Get attachment from packet data. A packet data considered as attachment
      * if it's a resource and it has content.
      *
-     * @param array $array
-     * @param array $result
+     * @param array<int|string, mixed> $array
+     * @param array<int|string, mixed> $result
+     * @return void
      */
     protected function getAttachments(&$array, &$result)
     {
-        if (is_array($array)) {
+        if (count($array)) {
             foreach ($array as &$value) {
                 if (is_resource($value)) {
                     fseek($value, 0);
@@ -303,14 +318,14 @@ class Version1X extends SocketIO
     /**
      * Replace binary attachment.
      *
-     * @param array $array
+     * @param array<int|string, mixed> $array
      * @param int $index
      * @param string $data
-     * @return array
+     * @return array<int|string, mixed>
      */
     protected function replaceAttachment($array, $index, $data)
     {
-        if (is_array($array)) {
+        if (count($array)) {
             foreach ($array as $key => &$value) {
                 if (is_array($value)) {
                     if (isset($value['_placeholder']) && $value['_placeholder'] && $value['num'] === $index) {
@@ -319,7 +334,9 @@ class Version1X extends SocketIO
                         } else {
                             $value = $data;
                         }
-                        $this->logger->debug(sprintf('Replacing binary attachment for %d (%s)', $index, $key));
+                        if ($this->logger) {
+                            $this->logger->debug(sprintf('Replacing binary attachment for %d (%s)', $index, $key));
+                        }
                     } else {
                         $value = $this->replaceAttachment($value, $index, $data);
                     }
@@ -352,7 +369,7 @@ class Version1X extends SocketIO
      * value is true, otherwise failed. If the return value is a string, it's
      * indicated an error message.
      *
-     * @param \ElephantIO\Engine\Packet $packet
+     * @param ?\ElephantIO\Engine\Packet $packet
      * @return bool|string
      */
     protected function getConfirmedNamespace($packet)
@@ -367,13 +384,18 @@ class Version1X extends SocketIO
                 }
             }
         }
+
+        return false;
     }
 
     public function buildQueryParameters($transport)
     {
+        if (null === $transport) {
+            $transport = $this->transport;
+        }
         $parameters = [
             'EIO' => $this->options->version,
-            'transport' => $transport ?? $this->transport,
+            'transport' => $transport,
             't' => Yeast::yeast(),
         ];
         if ($this->session) {
@@ -389,87 +411,114 @@ class Version1X extends SocketIO
             return;
         }
 
-        $this->logger->info('Starting handshake');
+        if ($this->logger) {
+            $this->logger->info('Starting handshake');
+        }
 
         // set timeout to default
         $this->setTimeout($this->defaults['timeout']);
 
-        /** @var \ElephantIO\Engine\Transport\Polling $transport */
-        $transport = $this->_transport();
-        if (null === ($data = $transport->recv($this->options->timeout, ['upgrade' => $this->transport === static::TRANSPORT_WEBSOCKET]))) {
-            throw new ServerConnectionFailureException('unable to perform handshake');
-        }
-
-        if ($this->transport === static::TRANSPORT_WEBSOCKET) {
-            $this->stream->upgrade();
-            $packet = $this->drain($this->options->timeout);
-        } else {
-            $packet = $this->processData($data);
-        }
-
-        $handshake = null;
-        if ($packet && ($packet = $packet->peekOne(static::PROTO_OPEN))) {
-            $handshake = $packet->data;
-        }
-        if (null === $handshake) {
-            throw new RuntimeException('Handshake is successful but without data!');
-        }
-        array_walk($handshake, function(&$value, $key) {
-            if (in_array($key, ['pingInterval', 'pingTimeout'])) {
-                $value /= 1000;
+        if ($transport = $this->_transport()) {
+            if (null === ($data = $transport->recv($this->options->timeout, ['upgrade' => $this->transport === static::TRANSPORT_WEBSOCKET]))) {
+                throw new ServerConnectionFailureException('unable to perform handshake');
             }
-        });
-        $this->storeSession($handshake, $transport->getCookies());
 
-        $this->logger->info(sprintf('Handshake finished with %s', (string) $this->session));
+            if ($this->transport === static::TRANSPORT_WEBSOCKET) {
+                if ($this->stream) {
+                    $this->stream->upgrade();
+                } else {
+                    throw new RuntimeException('Unable to perform websocket upgrade, stream is not avaialble!');
+                }
+                $packet = $this->drain($this->options->timeout);
+            } else {
+                $packet = $this->processData($data);
+            }
+
+            $handshake = null;
+            if ($packet && ($packet = $packet->peekOne(static::PROTO_OPEN))) {
+                $handshake = $packet->data;
+            }
+            if (null === $handshake) {
+                throw new RuntimeException('Handshake is successful but without data!');
+            }
+            array_walk($handshake, function(&$value, $key) {
+                if (in_array($key, ['pingInterval', 'pingTimeout'])) {
+                    $value /= 1000;
+                }
+            });
+            /** @var \ElephantIO\Engine\Transport\Polling $transport */
+            $this->storeSession($handshake, $transport->getCookies());
+
+            if ($this->logger) {
+                $this->logger->info(sprintf('Handshake finished with %s', (string) $this->session));
+            }
+        }
     }
 
     protected function doAfterHandshake()
     {
         // connect to namespace for protocol version 4 and later
         if ($this->options->version >= static::EIO_V4) {
-            $this->logger->info('Starting namespace connect');
+            if ($this->logger) {
+                $this->logger->info('Starting namespace connect');
+            }
 
             // set timeout based on handshake response
-            $this->setTimeout($this->session->getTimeout());
+            if ($this->session) {
+                $this->setTimeout($this->session->getTimeout());
+            }
             $this->doChangeNamespace();
 
-            $this->logger->info('Namespace connect completed');
+            if ($this->logger) {
+                $this->logger->info('Namespace connect completed');
+            }
         }
     }
 
     protected function doUpgrade()
     {
-        $this->logger->info('Starting websocket upgrade');
+        if ($this->logger) {
+            $this->logger->info('Starting websocket upgrade');
+        }
 
         // set timeout based on handshake response
-        $this->setTimeout($this->session->getTimeout());
+        if ($this->session) {
+            $this->setTimeout($this->session->getTimeout());
+        }
 
-        if (null !== $this->_transport()->recv($this->options->timeout, ['transport' => static::TRANSPORT_WEBSOCKET, 'upgrade' => true])) {
-            $this->setTransport(static::TRANSPORT_WEBSOCKET);
-            $this->stream->upgrade();
+        if (($transport = $this->_transport()) && $this->stream) {
+            if (null !== $transport->recv($this->options->timeout, ['transport' => static::TRANSPORT_WEBSOCKET, 'upgrade' => true])) {
+                $this->setTransport(static::TRANSPORT_WEBSOCKET);
+                $this->stream->upgrade();
 
-            $this->send(static::PROTO_UPGRADE);
+                $this->send(static::PROTO_UPGRADE);
 
-            // ensure got packet connect on socket.io 1.x
-            if ($this->options->version === static::EIO_V2 && $packet = $this->drain($this->options->timeout)) {
-                $confirm = null;
-                foreach ($packet->peek(static::PROTO_MESSAGE) as $found) {
-                    if ($found->type === static::PACKET_CONNECT) {
-                        $confirm = $found;
-                        break;
+                // ensure got packet connect on socket.io 1.x
+                if ($this->options->version === static::EIO_V2 && $packet = $this->drain($this->options->timeout)) {
+                    $confirm = null;
+                    foreach ($packet->peek(static::PROTO_MESSAGE) as $found) {
+                        if ($found->type === static::PACKET_CONNECT) {
+                            $confirm = $found;
+                            break;
+                        }
+                    }
+                    if ($this->logger) {
+                        if ($confirm) {
+                            $this->logger->debug('Upgrade successfully confirmed');
+                        } else {
+                            $this->logger->debug('Upgrade not confirmed');
+                        }
                     }
                 }
-                if ($confirm) {
-                    $this->logger->debug('Upgrade successfully confirmed');
-                } else {
-                    $this->logger->debug('Upgrade not confirmed');
+
+                if ($this->logger) {
+                    $this->logger->info('Websocket upgrade completed');
+                }
+            } else {
+                if ($this->logger) {
+                    $this->logger->info('Upgrade failed, skipping websocket');
                 }
             }
-
-            $this->logger->info('Websocket upgrade completed');
-        } else {
-            $this->logger->info('Upgrade failed, skipping websocket');
         }
     }
 
@@ -486,7 +535,6 @@ class Version1X extends SocketIO
             return $packet;
         }
         if (null === $packet) {
-            /** @var \ElephantIO\Engine\Transport\Polling $transport */
             $transport = $this->_transport();
             if ($transport instanceof Polling) {
                 if (is_array($body = $transport->getBody()) && isset($body['message'])) {

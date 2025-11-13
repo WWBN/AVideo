@@ -59,7 +59,7 @@ class PayoutService extends AbstractService
      * from. The <a href="#balance_object">balance object</a> details available and
      * pending amounts by source type.
      *
-     * @param null|array{amount: int, currency: string, description?: string, destination?: string, expand?: string[], metadata?: array<string, string>, method?: string, source_type?: string, statement_descriptor?: string} $params
+     * @param null|array{amount: int, currency: string, description?: string, destination?: string, expand?: string[], metadata?: array<string, string>, method?: string, payout_method?: string, source_type?: string, statement_descriptor?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @return \Stripe\Payout
@@ -91,8 +91,8 @@ class PayoutService extends AbstractService
 
     /**
      * Reverses a payout by debiting the destination bank account. At this time, you
-     * can only reverse payouts for connected accounts to US bank accounts. If the
-     * payout is manual and in the <code>pending</code> status, use
+     * can only reverse payouts for connected accounts to US and Canadian bank
+     * accounts. If the payout is manual and in the <code>pending</code> status, use
      * <code>/v1/payouts/:id/cancel</code> instead.
      *
      * By requesting a reversal through <code>/v1/payouts/:id/reverse</code>, you

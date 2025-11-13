@@ -68,7 +68,7 @@ class Store
     /**
      * Constructor.
      */
-    public function __construct()
+    final public function __construct()
     {
         $this->initialize();
         foreach ($this->keys as $k) {
@@ -78,6 +78,11 @@ class Store
         }
     }
 
+    /**
+     * Initialize store.
+     *
+     * @return void
+     */
     protected function initialize()
     {
     }
@@ -85,7 +90,7 @@ class Store
     /**
      * Set values mapping.
      *
-     * @param array $maps
+     * @param array<int|string, mixed> $maps
      * @return \ElephantIO\Engine\Store
      */
     public function setMaps($maps)
@@ -100,6 +105,7 @@ class Store
      *
      * @param string $key
      * @throws \InvalidArgumentException
+     * @return string
      */
     protected function getKey($key)
     {
@@ -130,7 +136,7 @@ class Store
      *
      * @param string $key
      * @param mixed $value
-     * @return string
+     * @return string|null
      */
     protected function getMappedValue($key, $value)
     {
@@ -140,7 +146,7 @@ class Store
     /**
      * Inspect data.
      *
-     * @param array $data
+     * @param array<int|string, mixed> $data
      * @return string
      */
     public function inspect($data = null)
@@ -153,7 +159,7 @@ class Store
     /**
      * Export key-value as array.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray()
     {
@@ -170,7 +176,7 @@ class Store
     /**
      * Set key-value from array.
      *
-     * @param array $array
+     * @param array<string, mixed> $array
      * @return \ElephantIO\Engine\Store
      */
     public function fromArray($array)
@@ -259,8 +265,8 @@ class Store
     /**
      * Create a key value store.
      *
-     * @param array $keyValuePair
-     * @return \ElephantIO\Engine\Store
+     * @param array<string, mixed> $keyValuePair
+     * @return static
      */
     public static function create($keyValuePair)
     {

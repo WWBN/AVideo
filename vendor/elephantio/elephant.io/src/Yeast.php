@@ -31,7 +31,7 @@ class Yeast
     protected $length = 64;
 
     /**
-     * @var array
+     * @var array<string, int>
      */
     protected $map = [];
 
@@ -41,12 +41,12 @@ class Yeast
     protected $seed = 0;
 
     /**
-     * @var string
+     * @var ?string
      */
     protected $prev = null;
 
     /**
-     * @var Yeast
+     * @var ?Yeast
      */
     protected static $instance = null;
 

@@ -16,12 +16,12 @@ namespace ElephantIO\Engine;
  * Represents options.
  *
  * @property int $version Engine version (EIO)
- * @property array $auth Authentication handshake
- * @property array $headers Request headers
+ * @property ?array<string, int> $auth Authentication handshake
+ * @property array<string, string> $headers Request headers
  * @property int $wait A wait delay applied after reading from stream (in ms)
- * @property int $timeout Stream connection timeout (in second)
+ * @property float $timeout Stream connection timeout (in second)
  * @property bool $reuse_connection Enable or disable existing connection reuse
- * @property string[] $transports Enabled transports
+ * @property string[]|string|null $transports Enabled transports
  * @property string $transport Initial transport
  * @property bool $persistent Enable or disable persistent connection
  * @property bool $binary_as_resource Return received binary data as resource
@@ -29,6 +29,7 @@ namespace ElephantIO\Engine;
  * @property bool $cors True to send referer and origin
  * @property bool|string $ua True to send user agent or set user agent string
  * @property int $max_payload Maximum allowable payload length
+ * @property int $binary_chunk_size Binary payload chunk size
  * @property string $stream_factory A custom socket stream class name
  * @author Toha <tohenk@yahoo.com>
  */
@@ -38,6 +39,6 @@ class Option extends Store
     {
         $this->keys = ['auth', 'headers', 'reuse_connection', 'timeout', 'transports', 'transport',
             'version', 'wait', 'persistent', 'binary_as_resource', 'sio_path', 'cors', 'ua',
-            '_max_payload', '_stream_factory'];
+            '_max_payload', '_binary_chunk_size', '_stream_factory'];
     }
 }

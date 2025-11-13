@@ -43,14 +43,22 @@ abstract class Payload
     public const OPCODE_CONTROL_RESERVED_4 = 0xE;
     public const OPCODE_CONTROL_RESERVED_5 = 0xF;
 
+    /** @var int */
     protected $fin = 0b1; // only one frame is necessary
+
+    /** @var int[] */
     protected $rsv = [0b0, 0b0, 0b0]; // rsv1, rsv2, rsv3
 
+    /** @var bool */
     protected $mask = false;
+
+    /** @var string */
     protected $maskKey = "\x00\x00\x00\x00";
 
+    /** @var int */
     protected $opCode;
 
+    /** @var int */
     protected $maxPayload = 0;
 
     /**
@@ -85,13 +93,23 @@ abstract class Payload
     protected function maskData($data)
     {
         $masked = '';
-        $data = \str_split($data);
-        $key = \str_split($this->maskKey);
+        $data = str_split($data);
+        $key = str_split($this->maskKey);
 
         foreach ($data as $i => $letter) {
             $masked .= $letter ^ $key[$i % 4];
         }
 
         return $masked;
+    }
+
+    /**
+     * Get payload opcode.
+     *
+     * @return int
+     */
+    public function getOpCode()
+    {
+        return$this->opCode;
     }
 }

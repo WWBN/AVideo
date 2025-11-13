@@ -479,6 +479,16 @@ class Schema extends AbstractAnnotation
     ];
 
     /**
+     * Type safe nullable check.
+     *
+     * Defaults to `false` when nullable is not set.
+     */
+    public function isNullable(): bool
+    {
+        return !Generator::isDefault($this->nullable) && $this->nullable;
+    }
+
+    /**
      * @inheritdoc
      */
     #[\ReturnTypeWillChange]
@@ -486,7 +496,7 @@ class Schema extends AbstractAnnotation
     {
         $data = parent::jsonSerialize();
 
-        if ($this->_context->isVersion(OpenApi::VERSION_3_0_0)) {
+        if ($this->_context->isVersion('3.0.x')) {
             unset($data->examples);
             if (isset($data->const)) {
                 $data->enum = [$data->const];
@@ -508,9 +518,9 @@ class Schema extends AbstractAnnotation
             return false;
         }
 
-        if ($this->_context->isVersion(OpenApi::VERSION_3_0_0)) {
+        if ($this->_context->isVersion('3.0.x')) {
             if (!Generator::isDefault($this->examples)) {
-                $this->_context->logger->warning($this->identity() . ' is only allowed for ' . OpenApi::VERSION_3_1_0);
+                $this->_context->logger->warning($this->identity() . ' is only allowed for 3.1.x');
 
                 return false;
             }

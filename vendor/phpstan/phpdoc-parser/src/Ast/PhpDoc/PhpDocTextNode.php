@@ -9,8 +9,7 @@ class PhpDocTextNode implements PhpDocChildNode
 
 	use NodeAttributes;
 
-	/** @var string */
-	public $text;
+	public string $text;
 
 	public function __construct(string $text)
 	{

@@ -15,14 +15,18 @@ namespace ElephantIO\Parser\Polling;
 use ArrayObject;
 use ElephantIO\Engine\SocketIO;
 use ElephantIO\SequenceReader;
+use ElephantIO\StringableInterface;
 use RuntimeException;
 
 /**
  * Decode the payload from HTTP response.
  *
+ * @template TKey of array-key
+ * @template TValue
+ * @extends ArrayObject<TKey, TValue>
  * @author Toha <tohenk@yahoo.com>
  */
-class Decoder extends ArrayObject
+class Decoder extends ArrayObject implements StringableInterface
 {
     public const EIO_V1_SEPARATOR = "\u{fffd}";
     public const EIO_V4_SEPARATOR = "\x1e";
@@ -44,10 +48,11 @@ class Decoder extends ArrayObject
             $skip = null;
             switch ($eio) {
                 case SocketIO::EIO_V4:
-                    if (false !== ($len = $seq->getDelimited(static::EIO_V4_SEPARATOR))) {
+                    if (false !== ($xlen = $seq->getDelimited(static::EIO_V4_SEPARATOR))) {
+                        $len = $xlen;
                         $skip = mb_strlen(static::EIO_V4_SEPARATOR);
-                    } else {
-                        $len = mb_strlen($seq->getData());
+                    } elseif ($data = $seq->getData()) {
+                        $len = mb_strlen($data);
                     }
                     break;
                 case SocketIO::EIO_V3:
@@ -55,11 +60,12 @@ class Decoder extends ArrayObject
                     if ($binary) {
                         $signature = $seq->read();
                         if (in_array($signature, ["\x00", "\x01"])) {
-                            $len = 0;
-                            $sizes = $seq->readUntil("\xff");
-                            $n = mb_strlen($sizes) - 1;
-                            for ($i = 0; $i <= $n; $i++) {
-                                $len += ord($sizes[$i]) * pow(10, $n - $i);
+                            if ($sizes = $seq->readUntil("\xff")) {
+                                $len = 0;
+                                $n = mb_strlen($sizes) - 1;
+                                for ($i = 0; $i <= $n; $i++) {
+                                    $len += ord($sizes[$i]) * (int) pow(10, $n - $i);
+                                }
                             }
                         } else {
                             throw new RuntimeException('Unsupported encoding detected!');
@@ -69,10 +75,11 @@ class Decoder extends ArrayObject
                     }
                     break;
                 case SocketIO::EIO_V1:
-                    if (false !== ($len = $seq->getDelimited(static::EIO_V1_SEPARATOR))) {
+                    if (false !== ($xlen = $seq->getDelimited(static::EIO_V1_SEPARATOR))) {
+                        $len = $xlen;
                         $skip = mb_strlen(static::EIO_V1_SEPARATOR);
-                    } else {
-                        $len = mb_strlen($seq->getData());
+                    } elseif ($data = $seq->getData()) {
+                        $len = mb_strlen($data);
                     }
                     break;
             }
@@ -92,6 +99,7 @@ class Decoder extends ArrayObject
                     }
                 }
                 if ($line) {
+                    /** @var TValue $line */
                     $lines[] = $line;
                 }
             }
