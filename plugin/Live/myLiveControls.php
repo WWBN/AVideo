@@ -1,4 +1,9 @@
 <?php
+
+if(!Live::isSendViewersEnabled()){
+    return;
+}
+
 $class = '';
 if (!empty($live_key)) {
     $bodyClass = "body_live_{$live_servers_id}_{$live_key}";

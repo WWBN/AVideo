@@ -434,6 +434,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `users_groups` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `group_name` VARCHAR(255) NULL,
+  `allowed_resolutions` TEXT NULL DEFAULT NULL COMMENT 'JSON array of allowed video resolutions for this user group',
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   PRIMARY KEY (`id`))

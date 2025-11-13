@@ -35,10 +35,10 @@ foreach ($donation as $value) {
             ?>
             <div class="col-sm-3" style="z-index: <?php echo $total - $i; ?>">
                 <div class="panel panel-default">
-                    <div class="panel-heading">                        
+                    <div class="panel-heading">
                         <div class="material-switch">
                             <?php echo __("Enable Donation Button"); ?>
-                            <input class="enableDonationButtonSwitch" data-toggle="toggle" type="checkbox" value="<?php echo $i; ?>" 
+                            <input class="enableDonationButtonSwitch" data-toggle="toggle" type="checkbox" value="<?php echo $i; ?>"
                                    id="enableDonationButtonSwitch<?php echo $i; ?>" <?php echo $enableDonationButtonSwitch; ?>>
                             <label for="enableDonationButtonSwitch<?php echo $i; ?>" class="label-success"></label>
                         </div>
@@ -49,7 +49,7 @@ foreach ($donation as $value) {
                             <div class="col-md-12 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-dollar-sign"></i></span>
-                                    <input id="donationValue<?php echo $i; ?>" placeholder="<?php echo __("Value to donate"); ?>" class="form-control donationValue"  type="number" value="<?php echo $donationValue; ?>" step="<?php echo YPTWallet::getStep(); ?>" required >
+                                    <input id="donationValue<?php echo $i; ?>" placeholder="<?php echo __("Value to donate"); ?>" class="form-control donationValue"  type="number" value="<?php echo $donationValue; ?>" step="<?php echo class_exists('YPTWallet')?YPTWallet::getStep():1; ?>" required >
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@ foreach ($donation as $value) {
                             <div class="col-md-12" style="padding: 10px 20px;">
                                 <div class="material-switch material-small">
                                     <?php echo __("Enable Fly Icons"); ?>
-                                    <input class="donationFlyIconSwitch" data-toggle="toggle" type="checkbox" value="<?php echo $i; ?>" 
+                                    <input class="donationFlyIconSwitch" data-toggle="toggle" type="checkbox" value="<?php echo $i; ?>"
                                            id="donationFlyIconSwitch<?php echo $i; ?>" <?php echo $donationFlyIconSwitch; ?>>
                                     <label for="donationFlyIconSwitch<?php echo $i; ?>" class="label-primary"></label>
                                 </div>

@@ -268,7 +268,7 @@ if (typeof gtag !== \"function\") {
     public function getExternalOption($id)
     {
         $eo = User::decodeExternalOption($this->externalOptions);
-        if (empty($eo[$id]) && $eo[$id] !== 0 && $eo[$id] !== '0') {
+        if (!is_array($eo) || (empty($eo[$id]) && $eo[$id] !== 0 && $eo[$id] !== '0')) {
             return null;
         }
         return $eo[$id];
@@ -728,6 +728,7 @@ if (typeof gtag !== \"function\") {
             if (!empty($user)) {
                 $photo = $user['backgroundURL'];
             }
+            //var_dump($id, $user);exit;
         } elseif (self::isLogged()) {
             $photo = $_SESSION['user']['backgroundURL'];
         }
@@ -742,6 +743,37 @@ if (typeof gtag !== \"function\") {
             $photo = getURL("view/img/background.png");
         }
         return $photo;
+    }
+
+    public static function getBackGroundHTML($user_id)
+    {
+        global $global;
+        $user        = new User($user_id);
+        if (isMobile()) {
+            $relativePath = $user->getBackgroundURL(User::$channel_artDesktopMin);
+        } else {
+            $relativePath = $user->getBackgroundURL(User::$channel_artDesktopMax);
+        }
+        if (file_exists($global['systemRootPath'] . $relativePath)) {
+?>
+            <div class="clearfix" style="clear: both;"></div>
+            <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
+                <div class="row bg-info profileBg" style="margin: -10px -10px 20px -10px; background: url('<?php echo getURL($relativePath); ?>')  no-repeat 50% 50%; -webkit-background-size: cover;
+                             -moz-background-size: cover;
+                             -o-background-size: cover;
+                             background-size: cover;">
+                    <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo str_replace('"', '', $user->_getName()); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;" />
+                </div>
+            </a>
+        <?php
+        } else {
+        ?>
+            <div class="clearfix" style="clear: both;"></div>
+            <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
+                <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;" />
+            </a>
+        <?php
+        }
     }
 
     public static function getMail()
@@ -3655,7 +3687,7 @@ if (typeof gtag !== \"function\") {
         if (empty($advancedCustom)) {
             $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
         }
-?>
+        ?>
         <div class="panel panel-default">
             <div class="panel-heading" style="position: relative;">
                 <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />

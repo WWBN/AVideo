@@ -5,7 +5,7 @@ if (file_exists("../videos/configuration.php")) {
 }
 
 
-$installationVersion = "18.0";
+$installationVersion = "18.1";
 
 require_once '../objects/functionsSecurity.php';
 

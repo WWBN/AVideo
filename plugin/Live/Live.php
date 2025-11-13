@@ -604,6 +604,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $obj->showAudioVideoToggleButton = true;
         self::addDataObjectHelper('showAudioVideoToggleButton', 'Show Audio/Video Toggle Button', 'Enable the button that allows users to switch between video and audio streams during live transmission');
 
+        $obj->enableSendViewers = true;
+        self::addDataObjectHelper('enableSendViewers', 'Enable Send Viewers Feature', 'Allow streamers to redirect all viewers to a specified URL and stop the live stream');
+
         return $obj;
     }
 
@@ -3789,6 +3792,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $type === LiveImageType::$ONAIRENCODER || $type === LiveImageType::$ONAIR || $type === LiveImageType::$OFFLINE || $type === LiveImageType::$DEFAULTGIF;
     }
 
+    public static function isSendViewersEnabled()
+    {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('Live');
+        if (empty($obj)) {
+            return false;
+        }
+        return !empty($obj->enableSendViewers);
+    }
+
     public static function iskeyOnline($key)
     {
         $stats = getStatsNotifications();
@@ -4345,20 +4357,22 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id)
     {
-        $custom = User::getRedirectCustomUrl($users_id);
-        if (isValidURL($custom['url'])) {
-            if (!empty($custom['autoRedirect'])) {
-                $lt = new LiveTransmitionHistory($live_transmitions_history_id);
-                $key = $lt->getKey();
-                $row = LiveTransmition::keyExists($key);
-                $obj = new stdClass();
-                $obj->row = $row;
-                $obj->viewerUrl = $custom['url'];
-                $obj->customMessage = $custom['msg'];
-                $obj->live_key = $key;
-                $obj->live_servers_id = intval($live_servers_id);
-                $obj->sendSocketMessage = sendSocketMessage(array('redirectLive' => $obj), 'redirectLive', 0);
-                _error_log('on_publish_done::redirectLive ' . json_encode($obj));
+        if (Live::isSendViewersEnabled()) {
+            $custom = User::getRedirectCustomUrl($users_id);
+            if (isValidURL($custom['url'])) {
+                if (!empty($custom['autoRedirect'])) {
+                    $lt = new LiveTransmitionHistory($live_transmitions_history_id);
+                    $key = $lt->getKey();
+                    $row = LiveTransmition::keyExists($key);
+                    $obj = new stdClass();
+                    $obj->row = $row;
+                    $obj->viewerUrl = $custom['url'];
+                    $obj->customMessage = $custom['msg'];
+                    $obj->live_key = $key;
+                    $obj->live_servers_id = intval($live_servers_id);
+                    $obj->sendSocketMessage = sendSocketMessage(array('redirectLive' => $obj), 'redirectLive', 0);
+                    _error_log('on_publish_done::redirectLive ' . json_encode($obj));
+                }
             }
         }
     }
@@ -4607,5 +4621,4 @@ class LiveStreamObject
         }
         return Live::getServerURL($this->key, $lt['users_id'], $short);
     }
-
 }

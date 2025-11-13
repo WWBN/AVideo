@@ -10,6 +10,9 @@ $_POST['sort']["created"] = "DESC";
 $_POST['current'] = 1;
 $_REQUEST['rowCount'] = getRowCount();
 
+set_time_limit(300); // 5 minutes
+ini_set('max_execution_time', 300);
+
 $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
 
 if(!empty($advancedCustom->disableFeeds)){

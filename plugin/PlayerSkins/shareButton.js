@@ -15,4 +15,12 @@ class SocialButton extends Button {
 }
 
 videojs.registerComponent('SocialButton', SocialButton);
-player.getChild('controlBar').addChild('SocialButton', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
+
+function addSocialButton() {
+    if (typeof player !== 'undefined') {
+        player.getChild('controlBar').addChild('SocialButton', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
+    } else {
+        setTimeout(() => { addSocialButton() }, 1000);
+    }
+}
+addSocialButton();

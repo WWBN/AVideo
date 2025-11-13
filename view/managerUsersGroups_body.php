@@ -43,6 +43,39 @@
 
                         <?php
                         if (User::isAdmin()) {
+                            $objCustomizeUser = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
+                            if (!empty($objCustomizeUser) && !empty($objCustomizeUser->enableResolutionsByUserGroup)) {
+                        ?>
+                            <hr>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <?php echo __("Allowed Resolutions"); ?>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label><?php echo __("Select the resolutions allowed for this group"); ?>:</label>
+                                        <br><small class="text-muted"><?php echo __("If none selected, all resolutions will be available"); ?></small>
+                                        <div class="clearfix"></div>
+                                        <div id="resolutionsCheckboxes" class="row">
+                                            <?php
+                                            $availableResolutions = [240, 360, 480, 540, 720, 1080, 1440, 2160];
+                                            foreach ($availableResolutions as $resolution) {
+                                            ?>
+                                                <div class="checkbox col-md-3" style="margin-top: 10px;">
+                                                    <label>
+                                                        <input type="checkbox" name="allowed_resolutions[]" value="<?php echo $resolution; ?>" class="resolution-checkbox">
+                                                        <?php echo $resolution; ?>p
+                                                    </label>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                            }
                         ?>
                             <hr>
 
@@ -120,6 +153,21 @@
                 $('#inputUserGroupsId').val(row.id);
                 $('#inputName').val(row.group_name);
 
+                // Load resolutions
+                $('.resolution-checkbox').prop('checked', false);
+                if (row.allowed_resolutions) {
+                    try {
+                        var allowedResolutions = JSON.parse(row.allowed_resolutions);
+                        if (Array.isArray(allowedResolutions)) {
+                            allowedResolutions.forEach(function(resolution) {
+                                $('.resolution-checkbox[value="' + resolution + '"]').prop('checked', true);
+                            });
+                        }
+                    } catch (e) {
+                        console.error('Error parsing allowed_resolutions:', e);
+                    }
+                }
+
                 modal.showPleaseWait();
                 $.ajax({
                     url: webSiteRootURL + 'plugin/Permissions/getPermissions.json.php?users_groups_id=' + row.id,
@@ -190,6 +238,7 @@
             $('#inputCleanName').val('');
             $("#updateUserGroupsForm").trigger("reset");
             $(".permissions").prop("checked", false);
+            $('.resolution-checkbox').prop('checked', false);
             $('#groupFormModal').modal();
         });
 

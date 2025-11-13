@@ -291,8 +291,9 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
 }
 ////_error_log("login.json.php get user groups");
 TimeLogEnd($timeLog, __LINE__);
-//_error_log("login.json.php getAllUsersGroups");
+//_error_log("login.json.php get user groups");
 $object->userGroups = UserGroups::getAllUsersGroups();
+$object->allowedResolutions = UserGroups::getAllowedResolutionsForUser($object->id);
 TimeLogEnd($timeLog, __LINE__);
 $object->streamServerURL = '';
 $object->streamKey = '';

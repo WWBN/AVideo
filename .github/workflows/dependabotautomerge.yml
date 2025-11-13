@@ -4,6 +4,7 @@ on: pull_request
 permissions:
   contents: write
   pull-requests: write
+  repository-projects: read
 
 jobs:
   dependabot:
@@ -20,4 +21,4 @@ jobs:
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.MYTOKEN}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}

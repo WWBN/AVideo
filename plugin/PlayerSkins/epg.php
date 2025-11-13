@@ -24,15 +24,17 @@ set_time_limit($default_socket_timeout * 100);
 ini_set('max_execution_time', $default_socket_timeout * 100);
 
 $cacheNameEpgPage = 'epgPage_' . $timeLineElementSize . md5(json_encode($_GET));
+$pageCacheUsed = false;
 if (empty($forceRecreate)) {
     $content = ObjectYPT::getCache($cacheNameEpgPage, $cacheTimeout); // 1 minute
 }
 if (!empty($content)) {
     echo $content;
     $_end = microtime(true) - $_start;
-    echo '<!-- pageCache=' . $_end . ' -->';
+    echo '<!-- PAGE_CACHE_USED=YES pageCache=' . $_end . ' -->';
     exit;
 }
+$pageCacheUsed = true;
 require_once $global['systemRootPath'] . 'objects/EpgParser.php';
 
 $epgs = array();
@@ -61,15 +63,19 @@ $secondSize = $minuteSize / 60;
 $cacheName = 'epg';
 
 $cacheName = '/channelsList_' . md5(json_encode($_GET));
+$channelsListCacheUsed = false;
 if (empty($forceRecreate)) {
     $channelsList = getEPGCache($cacheName);
     if (!empty($channelsList)) {
         $channelsList = json_decode($channelsList);
+        $channelsListCacheUsed = true;
     }
 }
 //var_dump($cacheName, $channelsList);exit;
 $_MaxDaysFromNow = strtotime('+24 hours');
 $errorMessages = [];
+$programCacheUsedCount = 0;
+$programCacheCreatedCount = 0;
 if ($forceRecreate || empty($channelsList)) {
     if (isCommandLineInterface()) {
         _error_log('Commandline: Command line EPG line: ' . __LINE__);
@@ -86,6 +92,7 @@ if ($forceRecreate || empty($channelsList)) {
             $programData = getEPGCache($programCacheName);
             if (!empty($programData)) {
                 $programData = json_decode($programData);
+                $programCacheUsedCount++;
             }
         }
         if ($forceRecreate || empty($programData)) {
@@ -149,6 +156,7 @@ if ($forceRecreate || empty($channelsList)) {
                     }
                 }
                 $file = setEPGCache($programCacheName, $channelsList);
+                $programCacheCreatedCount++;
                 _error_log("EPG program cache created videos_id={$this_videos_id} {$programCacheName}" . json_encode($file));
             } catch (Exception $e) {
                 $error = new \RuntimeException($e);
@@ -170,6 +178,8 @@ if ($forceRecreate || empty($channelsList)) {
         _error_log('Commandline: Command line EPG line:' . __LINE__);
     }
     usort($channelsList, "cmpChannels");
+    // Save the complete channels list cache
+    setEPGCache($cacheName, $channelsList);
 } else {
     if (isCommandLineInterface()) {
         _error_log('Commandline: EPG cache detected line: ' . __LINE__);
@@ -216,6 +226,9 @@ function getEPGCache($name) {
     $path = getEPGCacheFolder();
     make_path($path);
     $filename = $path . md5($name) . '.cache';
+    if (!file_exists($filename)) {
+        return false;
+    }
     if (time() - filemtime($filename) > 86400) { // older than 24 hours
         return false;
     }
@@ -606,6 +619,11 @@ $animateJson .= '}';
 <!-- <?php echo date('Y-m-d H:i:s'); ?> -->
 <!-- <?php echo date_default_timezone_get(); ?> -->
 <!-- minutesSince0Time=<?php echo $minutesSince0Time; ?> -->
+<!-- PAGE_CACHE_CREATED=YES cacheTimeout=<?php echo $cacheTimeout; ?>s -->
+<!-- CHANNELS_LIST_CACHE_USED=<?php echo $channelsListCacheUsed ? 'YES' : 'NO'; ?> cacheName=<?php echo $cacheName; ?> -->
+<!-- PROGRAM_CACHE_USED_COUNT=<?php echo $programCacheUsedCount; ?> -->
+<!-- PROGRAM_CACHE_CREATED_COUNT=<?php echo $programCacheCreatedCount; ?> -->
+<!-- TOTAL_CHANNELS=<?php echo count($channelsList); ?> -->
 <?php
 $_end = microtime(true) - $_start;
 ?>

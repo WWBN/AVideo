@@ -14,16 +14,58 @@ $imported_categories_id = intval(@$argv[4]);
 $total_to_import = intval(@$argv[5]);
 $type = trim(@$argv[6]);
 
+
 //streamer config
 require_once '../videos/configuration.php';
 
+// make sure display all errors
+error_reporting(E_ALL);
+
+
+// Log script start with parameters
+_error_log("=== SCRIPT START ===");
+_error_log("Parameters: siteURL='$siteURL', APISecret='" . substr($APISecret, 0, 5) . "...', imported_users_id=$imported_users_id, imported_categories_id=$imported_categories_id, total_to_import=$total_to_import, type='$type'");
+_error_log("PHP Version: " . phpversion() . ", Memory Limit: " . ini_get('memory_limit'));
+
+_error_log("Configuration loaded successfully");
+
+# Initialize statistics tracking
+$stats = [
+    'videos_processed' => 0,
+    'videos_created' => 0,
+    'videos_updated' => 0,
+    'videos_skipped' => 0,
+    'videos_errors' => 0,
+    'api_calls' => 0,
+    'api_errors' => 0,
+    'downloads_attempted' => 0,
+    'downloads_successful' => 0,
+    'downloads_failed' => 0,
+    'downloads_skipped' => 0,
+    'encoder_submissions' => 0,
+    'categories_processed' => 0,
+    'categories_created' => 0,
+    'categories_skipped' => 0,
+    'users_processed' => 0,
+    'users_created' => 0,
+    'users_skipped' => 0
+];
+
+_error_log("Statistics tracking initialized");
+
 if (!isCommandLineInterface()) {
+    _error_log("ERROR: Not running in command line interface");
     return die('Command Line only');
 }
 
 ob_end_flush();
+_error_log("Output buffering flushed");
 
 function download($url, $filename, $path, $forceDownload = false) {
+    global $stats;
+
+    $stats['downloads_attempted']++;
+
     $parts = explode("/{$filename}/", $url);
 
     if (empty($parts[1])) {
@@ -33,79 +75,236 @@ function download($url, $filename, $path, $forceDownload = false) {
     }
 
     if (empty($parts[1])) {
-        _error_log("importVideo::download ERROR on download {$url}");
+        $stats['downloads_failed']++;
         return false;
     }
 
     $parts2 = explode('?', $parts[1]);
     $file = $parts2[0];
     $destination = $path . $file;
+
     if ($forceDownload || !file_exists($destination)) {
-        _error_log("importVideo::download [$destination]");
-        return wget($url, $destination, true);
+        $result = wget($url, $destination, true);
+        if ($result) {
+            $stats['downloads_successful']++;
+        } else {
+            $stats['downloads_failed']++;
+        }
+        return $result;
     } else {
-        _error_log("importVideo::download skipped [$destination]");
+        $stats['downloads_skipped']++;
     }
     return false;
+}function cleanupMemoryAndConnections() {
+    global $global;
+
+    // Force garbage collection
+    gc_collect_cycles();
+
+    // Log current memory usage
+    $memory = memory_get_usage(true);
+    $peak = memory_get_peak_usage(true);
+    _error_log("Memory cleanup - Current: " . number_format($memory / 1024 / 1024, 2) . "MB, Peak: " . number_format($peak / 1024 / 1024, 2) . "MB");
+
+    // Check if we need to reconnect database
+    if (!_mysql_is_open()) {
+        _error_log("Database connection lost, reconnecting...");
+        _mysql_connect();
+    }
+
+    // Log execution time so far
+    static $start_time = null;
+    if ($start_time === null) {
+        $start_time = time();
+    }
+    $elapsed = time() - $start_time;
+    _error_log("Execution time so far: " . gmdate("H:i:s", $elapsed) . " (" . $elapsed . " seconds)");
+
+    // Small sleep to reduce CPU pressure
+    usleep(100000); // 0.1 seconds
+
+    return true;
+}
+
+// Add signal handler for graceful shutdown (if supported)
+if (function_exists('pcntl_signal')) {
+    _error_log("Setting up signal handlers for graceful shutdown");
+    pcntl_signal(SIGTERM, function($signo) {
+        _error_log("SIGTERM received - shutting down gracefully");
+        exit(0);
+    });
+    pcntl_signal(SIGINT, function($signo) {
+        _error_log("SIGINT received - shutting down gracefully");
+        exit(0);
+    });
+} else {
+    _error_log("PCNTL extension not available - signal handling disabled");
+}
+
+// Function to get or create user from video data
+function getOrCreateUserFromVideoData($email, $channelName) {
+    global $stats;
+
+    if (empty($email) && empty($channelName)) {
+        _error_log("No user data available - using admin (ID: 1)");
+        return 1;
+    }
+
+    // Try to find existing user
+    $user = null;
+    if (empty($user) && !empty($channelName)) {
+        $user = User::getUserFromChannelName($channelName);
+    }
+    /*
+    if (!empty($email)) {
+        $user = User::getUserFromEmail($email);
+    }
+    */
+
+    if (!empty($user)) {
+        _error_log("Found existing user ID {$user['id']} for {$email}/{$channelName}");
+        return $user['id'];
+    }
+
+    // User doesn't exist - create if we have enough data
+    if (empty($email) || empty($channelName)) {
+        _error_log("Insufficient data to create user - using admin (ID: 1)");
+        return 1;
+    }
+
+    _error_log("Creating user: {$email} / {$channelName}");
+
+    $userObj = new User(0);
+    $userObj->setUser($channelName);
+    $userObj->setPassword($channelName); // Should be changed later
+    $userObj->setName($channelName);
+    $userObj->setEmail($email);
+    $userObj->setChannelName($channelName);
+    $userObj->setStatus('a');
+    $userObj->setIsAdmin(0);
+    $userObj->setCanStream(1);
+    $userObj->setCanUpload(1);
+    $userObj->setEmailVerified(1);
+
+    $newUserId = $userObj->save(false);
+    if ($newUserId) {
+        _error_log("Created user ID: {$newUserId}");
+        $stats['users_created']++;
+        return $newUserId;
+    }
+
+    _error_log("Failed to create user - using admin (ID: 1)");
+    return 1;
 }
 
 set_time_limit(360000);
 ini_set('max_execution_time', 360000);
 
+// Memory optimization settings
+ini_set('memory_limit', '2G');
+gc_enable();
+
+_error_log("Time limit set to 360000 seconds, memory limit set to 2G, garbage collection enabled");
+
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
+_error_log("Global settings configured - rowCount and limitForUnlimitedVideos set to 999999");
 
 while (empty($siteURL) || !isValidURL($siteURL)) {
+    _error_log("Prompting for site URL (current: '$siteURL')");
     $siteURL = readline('Enter a valid URL: ');
 }
+_error_log("Site URL validated: $siteURL");
 
 while (empty($APISecret)) {
+    _error_log("Prompting for API Secret");
     $APISecret = readline('Enter a valid APISecret: ');
 }
+_error_log("API Secret provided (length: " . strlen($APISecret) . ")");
 
 if (empty($imported_users_id)) {
+    _error_log("Prompting for users_id");
     $imported_users_id = (int) readline('Enter a users id to be the video owner or 0 to also import the users: ');
 }
+_error_log("Users ID set to: $imported_users_id");
+
 if (empty($imported_categories_id)) {
+    _error_log("Prompting for categories_id");
     $imported_categories_id = (int) readline('Enter a category id to be linked to the video or 0 to also import the categories: ');
 }
+_error_log("Categories ID set to: $imported_categories_id");
+
 if (empty($total_to_import)) {
+    _error_log("Prompting for total to import");
     $total_to_import = (int) readline('How many videos do you want to import? type 0 to import all: ');
 }
+_error_log("Total to import set to: $total_to_import");
+
+// Log the final values that will be used
+_error_log("=== FINAL CONFIGURATION ===");
+_error_log("Site URL: $siteURL");
+_error_log("API Secret length: " . strlen($APISecret));
+_error_log("Import users ID: $imported_users_id (0 means import users)");
+_error_log("Import categories ID: $imported_categories_id (0 means import categories)");
+_error_log("Total to import: $total_to_import (0 means import all)");
+_error_log("Type filter: '$type' (empty means all types)");
 
 $rowCount = 50;
 $current = 1;
 $hasNewContent = true;
 
+// Add memory management
+$processedCount = 0;
+$memoryCleanupInterval = 10; // Clean up every 10 items
+$batchSize = 5; // Process in smaller batches for better memory management
+
 _error_log("importSite: start {$siteURL} imported_users_id=$imported_users_id imported_categories_id=$imported_categories_id total_to_import=$total_to_import");
+
 //exit;
+_error_log("Checking type parameter: type='$type'");
 if ($type !== 'm3u8') {
+    _error_log("Type is not m3u8, proceeding with normal import");
+    _error_log("=== STARTING CATEGORIES IMPORT ===");
     if (empty($imported_categories_id) || $imported_categories_id < 0) {
+        _error_log("Categories import enabled - importing categories from remote site");
         // get categories
         while ($hasNewContent) {
+            _error_log("Categories import - Processing page $current");
             $APIURL = "{$siteURL}plugin/API/get.json.php?APIName=category&rowCount={$rowCount}&current={$current}&APISecret={$APISecret}";
+            _error_log("Categories API call: $APIURL");
 
-            $content = url_get_contents($APIURL, "", 30);
+            try {
+                $content = url_get_contents($APIURL, "", 30);
+                $stats['api_calls']++;
+            } catch (Exception $e) {
+                _error_log("Categories API call failed with exception: " . $e->getMessage());
+                $stats['api_calls']++;
+                $stats['api_errors']++;
+                $content = false;
+            }
 
             $hasNewContent = false;
             $current++;
 
             if (!empty($content)) {
-                _error_log("importCategory: SUCCESS {$APIURL}");
+                _error_log("importCategory: SUCCESS - Got response from API (length: " . strlen($content) . ")");
                 $json = _json_decode($content);
                 if (!empty($json) && !empty($json->response) && !empty($json->response->totalRows) && !empty($json->response->rows)) {
-                    _error_log("importCategory: JSON SUCCESS totalRows={$json->response->totalRows}");
+                    _error_log("importCategory: JSON SUCCESS totalRows={$json->response->totalRows}, rows count: " . count($json->response->rows));
                     $hasNewContent = true;
 
                     foreach ($json->response->rows as $key => $value) {
-
+                        _error_log("Processing category $key: {$value->clean_name}");
+                        $stats['categories_processed']++;
 
                         $cat = Category::getCategoryByName($value->clean_name);
 
                         if (!empty($cat)) {
-                            _error_log("importCategory: category exists [{$cat['id']}]{$cat['clean_name']}");
+                            _error_log("importCategory: category exists [{$cat['id']}]{$cat['clean_name']} - skipping");
+                            $stats['categories_skipped']++;
                             continue;
                         }
 
+                        _error_log("importCategory: Creating new category '{$value->name}' with clean_name '{$value->clean_name}'");
                         $o = new Category(0);
                         $o->setName($value->name);
                         $o->setClean_name($value->clean_name);
@@ -118,44 +317,79 @@ if ($type !== 'm3u8') {
                         $o->setNextVideoOrder($value->nextVideoOrder);
                         $o->setUsers_id(1);
 
-                        _error_log("importCategory: Saving ...");
+                        _error_log("importCategory: Saving category object...");
                         $id = $o->save(true);
                         if ($id) {
-                            _error_log("importCategory: saved {$id}");
+                            _error_log("importCategory: SUCCESS - Category saved with ID: {$id}");
+                            $stats['categories_created']++;
                         } else {
-                            _error_log("importCategory: ERROR NOT saved");
+                            _error_log("importCategory: ERROR - Failed to save category '{$value->name}'");
                         }
+
+                        // Memory management
+                        $processedCount++;
+                        if ($processedCount % $memoryCleanupInterval == 0) {
+                            _error_log("Categories - Running memory cleanup (processed: $processedCount)");
+                            cleanupMemoryAndConnections();
+                        }
+                        unset($o); // Explicitly free the object
                         //exit;
                     }
                 } else {
-                    _error_log("importCategory: JSON ERROR {$content} ");
+                    _error_log("importCategory: JSON ERROR - Invalid response structure or empty data");
+                    _error_log("Response content: {$content}");
+                    if (!empty($json)) {
+                        _error_log("JSON decode error: " . json_last_error_msg());
+                    }
                 }
             } else {
-                _error_log("importCategory: ERROR {$APIURL} content is empty");
+                _error_log("importCategory: ERROR - Empty response from API: {$APIURL}");
+                _error_log("Breaking out of categories loop due to empty response");
+                break; // Exit loop if we get empty content
             }
         }
+        // Final cleanup for categories section
+        _error_log("Categories import completed - Running final cleanup");
+        _error_log("CATEGORIES STATS: Processed={$stats['categories_processed']}, Created={$stats['categories_created']}, Skipped={$stats['categories_skipped']}");
+        cleanupMemoryAndConnections();
+        $processedCount = 0; // Reset counter for next section
+        _error_log("=== CATEGORIES IMPORT FINISHED ===");
+    } else {
+        _error_log("Categories import skipped - using provided category ID: $imported_categories_id");
     }
     if (empty($imported_users_id)) {
+        _error_log("=== STARTING USERS IMPORT ===");
         $current = 1;
         $hasNewContent = true;
         // get users
         while ($hasNewContent) {
+            _error_log("Users import - Processing page $current");
             $APIURL = "{$siteURL}plugin/API/get.json.php?APIName=users_list&rowCount={$rowCount}&current={$current}&APISecret={$APISecret}";
+            _error_log("Users API call: $APIURL");
 
-            $content = url_get_contents($APIURL, "", 30);
+            try {
+                $content = url_get_contents($APIURL, "", 30);
+                $stats['api_calls']++;
+            } catch (Exception $e) {
+                _error_log("Users API call failed with exception: " . $e->getMessage());
+                $stats['api_calls']++;
+                $stats['api_errors']++;
+                $content = false;
+            }
 
             $hasNewContent = false;
             $current++;
 
             if (!empty($content)) {
-                _error_log("importUsers: SUCCESS {$APIURL}");
+                _error_log("importUsers: SUCCESS - Got response from API (length: " . strlen($content) . ")");
                 $json = _json_decode($content);
                 if (!empty($json) && !empty($json->response)) {
-                    _error_log("importUsers: JSON SUCCESS");
+                    _error_log("importUsers: JSON SUCCESS - Users count: " . count($json->response));
                     $hasNewContent = true;
 
                     foreach ($json->response as $key => $value) {
-
+                        _error_log("Processing user $key: {$value->user} ({$value->email})");
+                        $stats['users_processed']++;
 
                         $user = User::getUserFromEmail($value->email);
 
@@ -164,10 +398,12 @@ if ($type !== 'm3u8') {
                         }
 
                         if (!empty($user)) {
-                            _error_log("importUsers: exists [{$user['id']}]{$user['clean_name']}");
+                            _error_log("importUsers: user exists [{$user['id']}]{$user['user']} - skipping");
+                            $stats['users_skipped']++;
                             continue;
                         }
 
+                        _error_log("importUsers: Creating new user '{$value->user}' with email '{$value->email}'");
                         $o = new User(0);
                         $o->setUser($value->user);
                         $o->setPassword($value->user);
@@ -196,175 +432,358 @@ if ($type !== 'm3u8') {
                         $o->setPhone($value->phone);
                         $o->setIs_company($value->is_company);
 
-                        _error_log("importUsers: Saving ...");
+                        _error_log("importUsers: Saving user object...");
                         $id = $o->save(false);
                         if ($id) {
-                            _error_log("importUsers: saved {$id}");
+                            _error_log("importUsers: SUCCESS - User saved with ID: {$id}");
+                            $stats['users_created']++;
 
-                            wget($value->photo, "{$global['systemRootPath']}videos/userPhoto/photo{$id}.png", true);
+                            if (!empty($value->photo)) {
+                                _error_log("Downloading user photo: {$value->photo}");
+                                $photoResult = wget($value->photo, "{$global['systemRootPath']}videos/userPhoto/photo{$id}.png", true);
+                                _error_log("Photo download result: " . ($photoResult ? 'SUCCESS' : 'FAILED'));
+                            }
                             //wget($value->background, "{$global['systemRootPath']}videos/userPhoto/photo{$id}.png", true);
                         } else {
-                            _error_log("importUsers: ERROR NOT saved");
-                            $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
+                            _error_log("importUsers: ERROR - Failed to save user '{$value->user}'");
+                            // Note: No video status to set here, this is user import
                         }
+
+                        // Memory management
+                        $processedCount++;
+                        if ($processedCount % $memoryCleanupInterval == 0) {
+                            _error_log("Users - Running memory cleanup (processed: $processedCount)");
+                            cleanupMemoryAndConnections();
+                        }
+                        unset($o); // Explicitly free the object
                         //exit;
                     }
                 } else {
-                    _error_log("importUsers: JSON ERROR " . json_last_error_msg());
-                    //exit;
-                    _error_log("importUsers: JSON ERROR {$content} ");
+                    _error_log("importUsers: JSON ERROR - Invalid response structure");
+                    if (!empty($json)) {
+                        _error_log("JSON decode error: " . json_last_error_msg());
+                    }
+                    _error_log("Response content: {$content}");
                 }
             } else {
-                _error_log("importUsers: ERROR {$APIURL} content is empty");
+                _error_log("importUsers: ERROR - Empty response from API: {$APIURL}");
+                _error_log("Breaking out of users loop due to empty response");
+                break; // Exit loop if we get empty content
             }
         }
+        // Final cleanup for users section
+        _error_log("Users import completed - Running final cleanup");
+        _error_log("USERS STATS: Processed={$stats['users_processed']}, Created={$stats['users_created']}, Skipped={$stats['users_skipped']}");
+        cleanupMemoryAndConnections();
+        $processedCount = 0; // Reset counter for next section
+        _error_log("=== USERS IMPORT FINISHED ===");
+    } else {
+        _error_log("Users import skipped - using provided user ID: $imported_users_id");
     }
+} else {
+    _error_log("Type is m3u8, skipping categories and users import");
 }
+
+_error_log("Proceeding to videos import section");
+_error_log("=== STARTING VIDEOS IMPORT ===");
 $current = 1;
 $hasNewContent = true;
 $total_imported = 0;
 
 // import videos
 while ($hasNewContent) {
-
+    _error_log("Videos import - Processing page $current (total imported so far: $total_imported)");
     $APIURL = "{$siteURL}plugin/API/get.json.php?APIName=video&rowCount={$rowCount}&current={$current}&APISecret={$APISecret}&sort[created]=desc";
+    _error_log("Videos API call: $APIURL");
 
-    $content = url_get_contents($APIURL, "", 30);
+    try {
+        $content = url_get_contents($APIURL, "", 30);
+        $stats['api_calls']++;
+    } catch (Exception $e) {
+        _error_log("Videos API call failed with exception: " . $e->getMessage());
+        $stats['api_calls']++;
+        $stats['api_errors']++;
+        $content = false;
+    }
 
     $hasNewContent = false;
     $current++;
 
     if (!empty($content)) {
-        _error_log("importVideos: SUCCESS {$APIURL}");
+        _error_log("importVideos: SUCCESS - Got response from API (length: " . strlen($content) . ")");
         $json = _json_decode($content);
         if (!empty($json) && !empty($json->response) && !empty($json->response->totalRows) && !empty($json->response->rows)) {
-            _error_log("importVideo: JSON SUCCESS totalRows={$json->response->totalRows}");
+            _error_log("importVideo: JSON SUCCESS totalRows={$json->response->totalRows}, rows count: " . count($json->response->rows));
             $hasNewContent = true;
             foreach ($json->response->rows as $key => $value) {
+                _error_log("Processing video {$key}: '{$value->title}'");
+                $stats['videos_processed']++;
 
                 if ($type == 'm3u8') {
                     if (empty($value->videos->m3u8)) {
+                        _error_log("Skipping - no m3u8 found");
+                        $stats['videos_skipped']++;
                         continue;
                     }
                 }
 
                 $videos_id = 0;
+                $is_new_video = true;
 
                 $row = Video::getVideoFromFileNameLight($value->filename);
                 if (!empty($row)) {
-                    _error_log("importVideo: Video found");
+                    _error_log("Existing video ID: " . $row['id']);
                     $videos_id = $row['id'];
-                } else {
-                    _error_log("importVideo: Video NOT found");
-                }
-                _error_log("importVideo: Video {$videos_id} {$value->title} {$value->fileName}");
+                    $is_new_video = false;
 
+                    if (isset($row['users_id'])) {
+                        _error_log("Current owner: users_id={$row['users_id']}");
+                    }
+                }
+
+                // Determine user ID
                 if (empty($imported_users_id)) {
-                    $users_id = 1;
-                    $user = User::getUserFromEmail($value->email);
-                    if (empty($user)) {
-                        $user = User::getUserFromChannelName($value->channelName);
-                    }
-                    if (!empty($user)) {
-                        $users_id = $user['id'];
-                    }
+                    $users_id = getOrCreateUserFromVideoData($value->email ?? '', $value->channelName ?? '');
                 } else {
                     $users_id = $imported_users_id;
+                    _error_log("Using provided user ID: $users_id");
                 }
 
+                // Determine category ID
                 if (empty($imported_categories_id) || $imported_categories_id < 0) {
                     $cat = Category::getCategoryByName($value->clean_category);
                     $categories_id = $cat['id'];
+                    _error_log("Found category ID $categories_id for: {$value->clean_category}");
                 } else {
                     $categories_id = $imported_categories_id;
+                    _error_log("Using provided category ID: $categories_id");
                 }
 
+                _error_log("Creating/updating video object with users_id=$users_id, categories_id=$categories_id");
                 $video = new Video($value->title, $value->filename, $videos_id);
 
-                $video->setCreated("'$value->created'");
+                _error_log("Setting video created date: {$value->created}");
+                $video->setCreated($value->created);
                 $video->setDuration($value->duration);
                 $video->setType($value->type);
                 $video->setVideoDownloadedLink($value->videoDownloadedLink);
                 $video->setDuration_in_seconds($value->duration_in_seconds);
                 $video->setDescription($value->description);
+
+                // Set the owner - this will update existing videos too
                 $video->setUsers_id($users_id);
                 $video->setCategories_id($categories_id);
 
+                _error_log("Saving video with users_id=$users_id, categories_id=$categories_id");
+
                 $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
                 $size = getDirSize($path);
+                _error_log("Video path: $path, size: " . humanFileSize($size));
+
+                // Set initial status based on content
                 if ($size < 10000000) {
-                    if(empty($videos_id)){
-                        $video->setStatus(Video::STATUS_TRANFERING);
-                        _error_log("importVideo status: transfering ($size) " . humanFileSize($size));
-                    }else{
-                        if ($size > 1000000) {
-                            $video->setStatus(Video::STATUS_ACTIVE);
+                    if($is_new_video){
+                        try {
+                            $video->setStatus(Video::STATUS_TRANFERING);
+                        } catch (Exception $e) {
+                            _error_log("Error setting status: " . $e->getMessage());
                         }
-                        _error_log("importVideo status: else ($size) " . humanFileSize($size));
+                    } else {
+                        if ($size > 1000000) {
+                            try {
+                                $video->setStatus(Video::STATUS_ACTIVE);
+                            } catch (Exception $e) {
+                                _error_log("Error setting status: " . $e->getMessage());
+                            }
+                        }
                     }
                 }
-                if(empty($videos_id)){
-                    $video->setStatus(Video::STATUS_TRANFERING);
+                if($is_new_video){
+                    try {
+                        $video->setStatus(Video::STATUS_TRANFERING);
+                    } catch (Exception $e) {
+                        _error_log("Error setting status: " . $e->getMessage());
+                    }
                 }
 
-                _error_log("importVideo: Saving video");
+                // Save the video
                 $id = $video->save(false, true);
                 if ($id) {
-                    _error_log("importVideo: Video saved {$id} categories_id=$categories_id ($value->clean_category) created=$value->created");
-                    make_path($path);
+                    _error_log("Video saved with ID: {$id}");
 
-                    // download images
-                    download($value->images->poster, $value->filename, $path);
-                    download($value->images->thumbsGif, $value->filename, $path);
-
-                    foreach ($value->videos->mp4 as $key2 => $value2) {
-                        _error_log("importVideo MP4: key = {$key} key2 = {$key2} APIURL = $APIURL");
-                        download($value2, $value->filename, $path);
+                    if ($is_new_video) {
+                        $stats['videos_created']++;
+                    } else {
+                        $stats['videos_updated']++;
                     }
 
+                    make_path($path);
+
+                    // Download images
+                    if (!empty($value->images->poster)) {
+                        download($value->images->poster, $value->filename, $path);
+                    }
+                    if (!empty($value->images->thumbsGif)) {
+                        download($value->images->thumbsGif, $value->filename, $path);
+                    }
+
+                    // Download MP4 files
+                    if (!empty($value->videos->mp4)) {
+                        foreach ($value->videos->mp4 as $key2 => $value2) {
+                            download($value2, $value->filename, $path);
+                        }
+                    }
+
+                    // Download MP3 file
                     if (!empty($value->videos->mp3)) {
-                        _error_log("importVideo MP3: {$value->videos->mp3} APIURL = $APIURL");
                         download($value->videos->mp3, $value->filename, $path);
                     }
 
-                    $video->setStatus(Video::STATUS_ACTIVE);
-                    if (!empty($value->videos->m3u8)) {
-                        if ($size < 10000000) {
-                            if(empty($videos_id)){
-                                _error_log("importVideo m3u8: {$value->videos->m3u8->url} APIURL = $APIURL ($size) " . humanFileSize($size));
-                                sendToEncoder($id, $value->videos->m3u8->url);
+                    // Download subtitles VTT files
+                    if (!empty($value->subtitles) && is_array($value->subtitles)) {
+                        _error_log("Found " . count($value->subtitles) . " VTT subtitle files");
+                        foreach ($value->subtitles as $subtitle) {
+                            if (!empty($subtitle->src)) {
+                                _error_log("Downloading VTT subtitle ({$subtitle->srclang}): {$subtitle->src}");
+                                download($subtitle->src, $value->filename, $path);
                             }
-
-                            if(empty($videos_id)){
-                                $video->setStatus(Video::STATUS_ENCODING);
-                            }
-                        } else {
-                            _error_log("importVideo m3u8 NOT SEND: ($size) " . humanFileSize($size));
                         }
                     }
-                    if(empty($videos_id)){
+
+                    // Download subtitles SRT files
+                    if (!empty($value->subtitlesSRT) && is_array($value->subtitlesSRT)) {
+                        _error_log("Found " . count($value->subtitlesSRT) . " SRT subtitle files");
+                        foreach ($value->subtitlesSRT as $subtitle) {
+                            if (!empty($subtitle->src)) {
+                                _error_log("Downloading SRT subtitle ({$subtitle->srclang}): {$subtitle->src}");
+                                download($subtitle->src, $value->filename, $path);
+                            }
+                        }
+                    }
+
+                    // Set video to active
+                    try {
+                        $video->setStatus(Video::STATUS_ACTIVE);
+                    } catch (Exception $e) {
+                        _error_log("Error setting video to active: " . $e->getMessage());
+                    }
+
+                    // Handle M3U8
+                    if (!empty($value->videos->m3u8)) {
+                        if ($size < 10000000 && $is_new_video) {
+                            _error_log("Sending to encoder: {$value->videos->m3u8->url}");
+                            $encoderResult = sendToEncoder($id, $value->videos->m3u8->url);
+                            $stats['encoder_submissions']++;
+
+                            if ($encoderResult) {
+                                try {
+                                    $video->setStatus(Video::STATUS_ENCODING);
+                                } catch (Exception $e) {
+                                    _error_log("Error setting encoding status: " . $e->getMessage());
+                                }
+                            }
+                        }
+                    }
+
+                    if($is_new_video){
                         $total_imported++;
                     }
+
                     if (!empty($total_to_import) && $total_to_import > 0 && $total_imported >= $total_to_import) {
-                        _error_log("importVideo completed: total_imported=$total_imported >= total_to_import=$total_to_import ");
+                        _error_log("Import limit reached: $total_imported");
                         $hasNewContent = false;
                         break;
-                    }else{
-                        _error_log("importVideo continue: total_imported=$total_imported < total_to_import=$total_to_import ");
                     }
                 } else {
-                    _error_log("importVideo: ERROR Video NOT saved");
-                    $video->setStatus(Video::STATUS_BROKEN_MISSING_FILES);
+                    _error_log("Failed to save video: {$value->title}");
+                    $stats['videos_errors']++;
                 }
-                $video->save(false, true);
+
+                // Final save
+                try {
+                    $video->save(false, true);
+                } catch (Exception $e) {
+                    _error_log("Error in final save: " . $e->getMessage());
+                }
+
+                // Memory management
+                $processedCount++;
+                if ($processedCount % $memoryCleanupInterval == 0) {
+                    _error_log("Videos - Running memory cleanup (processed: $processedCount)");
+                    _error_log("CURRENT VIDEOS STATS: Processed={$stats['videos_processed']}, Created={$stats['videos_created']}, Updated={$stats['videos_updated']}, Skipped={$stats['videos_skipped']}, Errors={$stats['videos_errors']}");
+                    cleanupMemoryAndConnections();
+                }
+                unset($video); // Explicitly free the object
+                _error_log("=== Finished processing video $key ===");
                 //exit;
             }
         } else {
-            _error_log("importVideo: JSON ERROR {$content} ");
+            _error_log("importVideo: JSON ERROR - Invalid response structure");
+            if (!empty($json)) {
+                _error_log("JSON decode error: " . json_last_error_msg());
+            }
+            _error_log("Response content: {$content}");
         }
     } else {
-        _error_log("importVideo: ERROR {$APIURL} content is empty");
+        _error_log("importVideo: ERROR - Empty response from API: {$APIURL}");
+        _error_log("Breaking out of videos loop due to empty response");
+        break; // Exit loop if we get empty content
     }
 }
+
+// Final cleanup
+cleanupMemoryAndConnections();
+_error_log("=== IMPORT PROCESS COMPLETED ===");
+
+// Comprehensive statistics report
+_error_log("=== FINAL STATISTICS REPORT ===");
+_error_log("VIDEOS:");
+_error_log("  - Total Processed: {$stats['videos_processed']}");
+_error_log("  - Created New: {$stats['videos_created']}");
+_error_log("  - Updated Existing: {$stats['videos_updated']}");
+_error_log("  - Skipped: {$stats['videos_skipped']}");
+_error_log("  - Errors: {$stats['videos_errors']}");
+_error_log("  - Success Rate: " . ($stats['videos_processed'] > 0 ? round((($stats['videos_created'] + $stats['videos_updated']) / $stats['videos_processed']) * 100, 2) : 0) . "%");
+
+_error_log("CATEGORIES:");
+_error_log("  - Total Processed: {$stats['categories_processed']}");
+_error_log("  - Created New: {$stats['categories_created']}");
+_error_log("  - Skipped (existing): {$stats['categories_skipped']}");
+
+_error_log("USERS:");
+_error_log("  - Total Processed: {$stats['users_processed']}");
+_error_log("  - Created New: {$stats['users_created']} (includes auto-created from video data)");
+_error_log("  - Skipped (existing): {$stats['users_skipped']}");
+
+_error_log("API CALLS:");
+_error_log("  - Total API Calls: {$stats['api_calls']}");
+_error_log("  - API Errors: {$stats['api_errors']}");
+_error_log("  - API Success Rate: " . ($stats['api_calls'] > 0 ? round((($stats['api_calls'] - $stats['api_errors']) / $stats['api_calls']) * 100, 2) : 0) . "%");
+
+_error_log("DOWNLOADS:");
+_error_log("  - Total Attempted: {$stats['downloads_attempted']}");
+_error_log("  - Successful: {$stats['downloads_successful']}");
+_error_log("  - Failed: {$stats['downloads_failed']}");
+_error_log("  - Skipped (existing): {$stats['downloads_skipped']}");
+_error_log("  - Download Success Rate: " . ($stats['downloads_attempted'] > 0 ? round(($stats['downloads_successful'] / $stats['downloads_attempted']) * 100, 2) : 0) . "%");
+
+_error_log("ENCODER:");
+_error_log("  - Encoder Submissions: {$stats['encoder_submissions']}");
+
+_error_log("PERFORMANCE:");
+_error_log("  - Total videos imported: $total_imported");
+_error_log("  - Final memory usage: " . number_format(memory_get_usage(true) / 1024 / 1024, 2) . "MB");
+_error_log("  - Peak memory usage: " . number_format(memory_get_peak_usage(true) / 1024 / 1024, 2) . "MB");
+
+// Calculate total execution time
+static $script_start_time = null;
+if ($script_start_time === null) {
+    $script_start_time = $_SERVER['REQUEST_TIME'] ?? time();
+}
+$total_execution_time = time() - $script_start_time;
+_error_log("  - Total execution time: " . gmdate("H:i:s", $total_execution_time) . " (" . $total_execution_time . " seconds)");
+
+_error_log("=== END STATISTICS REPORT ===");
+_error_log("Script execution completed successfully");
 
 die();

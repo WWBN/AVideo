@@ -158,6 +158,7 @@ if (empty($tinyMCELibs)) {
             plugins: '<?php echo $tinyMCEplugins; ?>',
             toolbar: '<?php echo $tinyMCEtoolbar; ?>',
             menubar: '<?php echo $tinyMCEmenubar; ?>',
+            license_key: 'gpl',
             height: 400,
             convert_urls: false,
             mobile: {
