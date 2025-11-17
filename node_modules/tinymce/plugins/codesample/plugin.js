@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.1.2 (TBD)
+ * TinyMCE version 8.2.2 (2025-11-17)
  */
 
 (function () {
@@ -34,6 +34,11 @@
      * strict-null-checks
      */
     class Optional {
+        tag;
+        value;
+        // Sneaky optimisation: every instance of Optional.none is identical, so just
+        // reuse the same object
+        static singletonNone = new Optional(false);
         // The internal representation has a `tag` and a `value`, but both are
         // private: able to be console.logged, but not able to be accessed by code
         constructor(tag, value) {
@@ -201,7 +206,7 @@
          */
         getOrDie(message) {
             if (!this.tag) {
-                throw new Error(message !== null && message !== void 0 ? message : 'Called getOrDie on None');
+                throw new Error(message ?? 'Called getOrDie on None');
             }
             else {
                 return this.value;
@@ -265,9 +270,6 @@
             return this.tag ? `some(${this.value})` : 'none()';
         }
     }
-    // Sneaky optimisation: every instance of Optional.none is identical, so just
-    // reuse the same object
-    Optional.singletonNone = new Optional(false);
 
     const get$1 = (xs, i) => i >= 0 && i < xs.length ? Optional.some(xs[i]) : Optional.none();
     const head = (xs) => get$1(xs, 0);
@@ -3571,11 +3573,10 @@
             if (unprocessedCodeSamples.length) {
                 editor.undoManager.transact(() => {
                     global.each(unprocessedCodeSamples, (elm) => {
-                        var _a;
                         global.each(dom.select('br', elm), (elm) => {
                             dom.replace(editor.getDoc().createTextNode('\n'), elm);
                         });
-                        elm.innerHTML = dom.encode((_a = elm.textContent) !== null && _a !== void 0 ? _a : '');
+                        elm.innerHTML = dom.encode(elm.textContent ?? '');
                         get(editor).highlightElement(elm);
                         dom.setAttrib(elm, 'data-mce-highlighted', true);
                         elm.className = trim(elm.className);
@@ -3585,10 +3586,9 @@
         });
         editor.on('PreInit', () => {
             editor.parser.addNodeFilter('pre', (nodes) => {
-                var _a;
                 for (let i = 0, l = nodes.length; i < l; i++) {
                     const node = nodes[i];
-                    const isCodeSample = ((_a = node.attr('class')) !== null && _a !== void 0 ? _a : '').indexOf('language-') !== -1;
+                    const isCodeSample = (node.attr('class') ?? '').indexOf('language-') !== -1;
                     if (isCodeSample) {
                         node.attr('contenteditable', 'false');
                         node.attr('data-mce-highlighted', 'false');

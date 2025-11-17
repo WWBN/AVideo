@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.1.2 (TBD)
+ * TinyMCE version 8.2.2 (2025-11-17)
  */
 
 (function () {
@@ -8,13 +8,12 @@
     /* eslint-disable @typescript-eslint/no-wrapper-object-types */
     const getPrototypeOf$2 = Object.getPrototypeOf;
     const hasProto = (v, constructor, predicate) => {
-        var _a;
         if (predicate(v, constructor.prototype)) {
             return true;
         }
         else {
             // String-based fallback time
-            return ((_a = v.constructor) === null || _a === void 0 ? void 0 : _a.name) === constructor.name;
+            return v.constructor?.name === constructor.name;
         }
     };
     const typeOf = (x) => {
@@ -114,6 +113,11 @@
      * strict-null-checks
      */
     class Optional {
+        tag;
+        value;
+        // Sneaky optimisation: every instance of Optional.none is identical, so just
+        // reuse the same object
+        static singletonNone = new Optional(false);
         // The internal representation has a `tag` and a `value`, but both are
         // private: able to be console.logged, but not able to be accessed by code
         constructor(tag, value) {
@@ -281,7 +285,7 @@
          */
         getOrDie(message) {
             if (!this.tag) {
-                throw new Error(message !== null && message !== void 0 ? message : 'Called getOrDie on None');
+                throw new Error(message ?? 'Called getOrDie on None');
             }
             else {
                 return this.value;
@@ -345,9 +349,6 @@
             return this.tag ? `some(${this.value})` : 'none()';
         }
     }
-    // Sneaky optimisation: every instance of Optional.none is identical, so just
-    // reuse the same object
-    Optional.singletonNone = new Optional(false);
 
     const nativeSlice = Array.prototype.slice;
     const nativeIndexOf = Array.prototype.indexOf;
@@ -1569,7 +1570,7 @@
     const detectBrowser$1 = (browsers, userAgentData) => {
         return findMap(userAgentData.brands, (uaBrand) => {
             const lcBrand = uaBrand.brand.toLowerCase();
-            return find$5(browsers, (browser) => { var _a; return lcBrand === ((_a = browser.brand) === null || _a === void 0 ? void 0 : _a.toLowerCase()); })
+            return find$5(browsers, (browser) => lcBrand === browser.brand?.toLowerCase())
                 .map((info) => ({
                 current: info.name,
                 version: Version.nu(parseInt(uaBrand.version, 10), 0)
@@ -2480,8 +2481,8 @@
         if (body === element.dom) {
             return SugarPosition(body.offsetLeft, body.offsetTop);
         }
-        const scrollTop = firstDefinedOrZero(win === null || win === void 0 ? void 0 : win.pageYOffset, html.scrollTop);
-        const scrollLeft = firstDefinedOrZero(win === null || win === void 0 ? void 0 : win.pageXOffset, html.scrollLeft);
+        const scrollTop = firstDefinedOrZero(win?.pageYOffset, html.scrollTop);
+        const scrollLeft = firstDefinedOrZero(win?.pageXOffset, html.scrollLeft);
         const clientTop = firstDefinedOrZero(html.clientTop, body.clientTop);
         const clientLeft = firstDefinedOrZero(html.clientLeft, body.clientLeft);
         return viewport$1(element).translate(scrollLeft - clientLeft, scrollTop - clientTop);
@@ -2990,10 +2991,9 @@
     };
 
     const view = (doc) => {
-        var _a;
         // Only walk up to the document this script is defined in.
         // This prevents walking up to the parent window when the editor is in an iframe.
-        const element = doc.dom === document ? Optional.none() : Optional.from((_a = doc.dom.defaultView) === null || _a === void 0 ? void 0 : _a.frameElement);
+        const element = doc.dom === document ? Optional.none() : Optional.from(doc.dom.defaultView?.frameElement);
         return element.map(SugarElement.fromDom);
     };
     const owner$3 = (element) => owner$4(element);
@@ -6371,7 +6371,7 @@
             const value = definition.value.getOrUndefined();
             if (value !== get$5(valueElement)) {
                 // TINY-8736: Value.set throws an error in case the value is undefined
-                set$4(valueElement, value !== null && value !== void 0 ? value : '');
+                set$4(valueElement, value ?? '');
             }
         };
         updateAttrs();
@@ -6403,7 +6403,7 @@
             const e = reconcileToDom(definition, obsoleted);
             return Optional.some(e);
         }
-        catch (_a) {
+        catch {
             return Optional.none();
         }
     };
@@ -6961,7 +6961,6 @@
         state.getInitialPos().fold(() => storePrior(elem, box, viewport, state, decision), () => noop);
     };
     const revertToOriginal = (elem, box, state) => state.getInitialPos().bind((position) => {
-        var _a;
         state.clearInitialPos();
         switch (position.position) {
             case 'static':
@@ -6985,7 +6984,7 @@
                 // countered by the fact that if the offset parent is outside the scroller, then you don't really
                 // have a scrolling environment any more, because the offset parent isn't going to be impacted
                 // at all by the scroller
-                const scrollDelta = (_a = offsetParent.dom.scrollTop) !== null && _a !== void 0 ? _a : 0;
+                const scrollDelta = offsetParent.dom.scrollTop ?? 0;
                 return Optional.some({
                     morph: 'absolute',
                     positionCss: NuPositionCss('absolute', get$h(position.style, 'left').map((_left) => box.x - offsetBox.x), get$h(position.style, 'top').map((_top) => box.y - offsetBox.y + scrollDelta), get$h(position.style, 'right').map((_right) => offsetBox.right - box.right), get$h(position.style, 'bottom').map((_bottom) => offsetBox.bottom - box.bottom))
@@ -8712,9 +8711,8 @@
         const transitionCancel = unbindable();
         let timer;
         const isSourceTransition = (e) => {
-            var _a;
             // Ensure the transition event isn't from a pseudo element
-            const pseudoElement = (_a = e.raw.pseudoElement) !== null && _a !== void 0 ? _a : '';
+            const pseudoElement = e.raw.pseudoElement ?? '';
             return eq(e.target, element) && isEmpty(pseudoElement) && contains$2(properties, e.raw.propertyName);
         };
         const transitionDone = (e) => {
@@ -8723,7 +8721,7 @@
                 transitionCancel.clear();
                 // Only cleanup the class/timer on transitionend not on a cancel. This is done as cancel
                 // means the element has been repositioned and would need to keep transitioning
-                const type = e === null || e === void 0 ? void 0 : e.raw.type;
+                const type = e?.raw.type;
                 if (isNullable(type) || type === transitionend()) {
                     clearTimeout(timer);
                     remove$8(element, timerAttr);
@@ -15947,12 +15945,11 @@
     }, always);
     const isToolbarLocationBottom = (editor) => getToolbarLocation(editor) === ToolbarLocation$1.bottom;
     const fixedContainerTarget = (editor) => {
-        var _a;
         if (!editor.inline) {
             // fixed_toolbar_container(_target) is only available in inline mode
             return Optional.none();
         }
-        const selector = (_a = fixedContainerSelector(editor)) !== null && _a !== void 0 ? _a : '';
+        const selector = fixedContainerSelector(editor) ?? '';
         if (selector.length > 0) {
             // If we have a valid selector
             return descendant(body(), selector);
@@ -17478,22 +17475,21 @@
         })
     ]);
     const renderIcon$3 = (spec, iconName, icons, fallbackIcon) => {
-        var _a, _b, _c;
         // If RTL, add the flip icon class if the icon doesn't have a `-rtl` icon available.
         const rtlIconClasses = needsRtlTransform(iconName) ? ['tox-icon--flip'] : [];
         const iconHtml = get$h(icons, getIconName(iconName, icons)).or(fallbackIcon).getOrThunk(defaultIcon(icons));
         return {
             dom: {
                 tag: spec.tag,
-                attributes: (_a = spec.attributes) !== null && _a !== void 0 ? _a : {},
+                attributes: spec.attributes ?? {},
                 classes: spec.classes.concat(rtlIconClasses),
                 innerHtml: iconHtml
             },
             behaviours: derive$1([
-                ...(_b = spec.behaviours) !== null && _b !== void 0 ? _b : [],
+                ...spec.behaviours ?? [],
                 addFocusableBehaviour()
             ]),
-            eventOrder: (_c = spec.eventOrder) !== null && _c !== void 0 ? _c : {}
+            eventOrder: spec.eventOrder ?? {}
         };
     };
     const render$4 = (iconName, spec, iconProvider, fallbackIcon = Optional.none()) => renderIcon$3(spec, iconName, iconProvider(), fallbackIcon);
@@ -18157,14 +18153,13 @@
     const searchResultsClass = 'tox-collection--results__js';
     // NOTE: this is operating on the the final AlloySpec
     const augmentWithAria = (item) => {
-        var _a;
         if (item.dom) {
             return {
                 ...item,
                 dom: {
                     ...item.dom,
                     attributes: {
-                        ...(_a = item.dom.attributes) !== null && _a !== void 0 ? _a : {},
+                        ...item.dom.attributes ?? {},
                         'id': generate$6('aria-item-search-result-id'),
                         'aria-selected': 'false'
                     }
@@ -18983,11 +18978,10 @@
     };
 
     const extract = (structure) => {
-        var _a;
         const internalDialog = getOrDie(createDialog(structure));
         const dataValidator = createDataValidator(structure);
         // We used to validate data here, but it's done when loading the dialog in tinymce
-        const initialData = (_a = structure.initialData) !== null && _a !== void 0 ? _a : {};
+        const initialData = structure.initialData ?? {};
         return {
             internalDialog,
             dataValidator,
@@ -19544,7 +19538,6 @@
     });
 
     const renderImage$1 = (spec, imageUrl) => {
-        var _a, _b;
         const spinnerElement = SugarElement.fromTag('div');
         add$2(spinnerElement, 'tox-image-selector-loading-spinner');
         const addSpinnerElement = (loadingElement) => {
@@ -19558,7 +19551,7 @@
         return {
             dom: {
                 tag: spec.tag,
-                attributes: (_a = spec.attributes) !== null && _a !== void 0 ? _a : {},
+                attributes: spec.attributes ?? {},
                 classes: spec.classes,
             },
             components: [
@@ -19580,7 +19573,7 @@
                 ...spec.checkMark.toArray()
             ],
             behaviours: derive$1([
-                ...(_b = spec.behaviours) !== null && _b !== void 0 ? _b : [],
+                ...spec.behaviours ?? [],
                 config('render-image-events', [
                     runOnAttached((component) => {
                         addSpinnerElement(component.element);
@@ -21612,7 +21605,7 @@
         const pLabel = spec.label.map((label) => renderLabel$3(label, providersBackstage));
         const icons = providersBackstage.icons();
         // TINY-10174: Icon string is either in icon pack or displayed directly
-        const getIcon = (icon) => { var _a; return (_a = icons[icon]) !== null && _a !== void 0 ? _a : icon; };
+        const getIcon = (icon) => icons[icon] ?? icon;
         const runOnItem = (f) => (comp, se) => {
             closest$3(se.event.target, '[data-collection-item-value]').each((target) => {
                 f(comp, se, target, get$g(target, 'data-collection-item-value'));
@@ -22723,10 +22716,9 @@
             });
         };
         const onDrop = (comp, se) => {
-            var _a;
             if (!Disabling.isDisabled(comp)) {
                 const transferEvent = se.event.raw;
-                emitWith(comp, browseFilesEvent, { files: (_a = transferEvent.dataTransfer) === null || _a === void 0 ? void 0 : _a.files });
+                emitWith(comp, browseFilesEvent, { files: transferEvent.dataTransfer?.files });
             }
         };
         const onSelect = (component, simulatedEvent) => {
@@ -23202,8 +23194,7 @@
                         spec.for.each((name) => {
                             getCompByName(name).each((target) => {
                                 label.getOpt(comp).each((labelComp) => {
-                                    var _a;
-                                    const id = (_a = get$g(target.element, 'id')) !== null && _a !== void 0 ? _a : generate$6('form-field');
+                                    const id = get$g(target.element, 'id') ?? generate$6('form-field');
                                     set$9(target.element, 'id', id);
                                     set$9(labelComp.element, 'for', id);
                                 });
@@ -24704,7 +24695,6 @@
     const isNormalFooterButtonSpec = (spec, buttonType) => buttonType === 'custom' || buttonType === 'cancel' || buttonType === 'submit';
     const isToggleButtonSpec = (spec, buttonType) => buttonType === 'togglebutton';
     const renderToggleButton = (spec, providers, btnName) => {
-        var _a, _b;
         const optMemIcon = spec.icon
             .map((memIcon) => renderReplaceableIconFromPack(memIcon, providers.icons))
             .map(record);
@@ -24726,16 +24716,16 @@
         const buttonType = spec.buttonType.getOr(!spec.primary ? 'secondary' : 'primary');
         const buttonSpec = {
             ...spec,
-            name: (_a = spec.name) !== null && _a !== void 0 ? _a : '',
+            name: spec.name ?? '',
             primary: buttonType === 'primary',
             tooltip: spec.tooltip,
-            enabled: (_b = spec.enabled) !== null && _b !== void 0 ? _b : false,
+            enabled: spec.enabled ?? false,
             borderless: false
         };
         const tooltipAttributes = buttonSpec.tooltip.or(spec.text).map((tooltip) => ({
             'aria-label': providers.translate(tooltip),
         })).getOr({});
-        const buttonTypeClasses = calculateClassesFromButtonType(buttonType !== null && buttonType !== void 0 ? buttonType : 'secondary');
+        const buttonTypeClasses = calculateClassesFromButtonType(buttonType ?? 'secondary');
         const showIconAndText = spec.icon.isSome() && spec.text.isSome();
         const dom = {
             tag: 'button',
@@ -24846,17 +24836,15 @@
     const filterByQuery = (term, menuItems) => {
         const lowerCaseTerm = term.toLowerCase();
         return filter$2(menuItems, (item) => {
-            var _a;
             const text = item.meta !== undefined && item.meta.text !== undefined ? item.meta.text : item.text;
-            const value = (_a = item.value) !== null && _a !== void 0 ? _a : '';
+            const value = item.value ?? '';
             return contains$1(text.toLowerCase(), lowerCaseTerm) || contains$1(value.toLowerCase(), lowerCaseTerm);
         });
     };
 
     const getItems = (fileType, input, urlBackstage) => {
-        var _a, _b;
         const urlInputValue = Representing.getValue(input);
-        const term = (_b = (_a = urlInputValue === null || urlInputValue === void 0 ? void 0 : urlInputValue.meta) === null || _a === void 0 ? void 0 : _a.text) !== null && _b !== void 0 ? _b : urlInputValue.value;
+        const term = urlInputValue?.meta?.text ?? urlInputValue.value;
         const info = urlBackstage.getLinkInformation();
         return info.fold(() => [], (linkInfo) => {
             const history = filterByQuery(term, historyTargets(urlBackstage.getHistory(fileType)));
@@ -25802,12 +25790,11 @@
         return isHeader(elm) ? parseInt(elm.nodeName.substr(1), 10) : 0;
     };
     const headerTarget = (elm) => {
-        var _a;
         const headerId = getOrGenerateId(elm);
         const attach = () => {
             elm.id = headerId;
         };
-        return create('header', (_a = getElementText(elm)) !== null && _a !== void 0 ? _a : '', '#' + headerId, getLevel(elm), attach);
+        return create('header', getElementText(elm) ?? '', '#' + headerId, getLevel(elm), attach);
     };
     const anchorTarget = (elm) => {
         const anchorId = elm.id || elm.name;
@@ -26632,7 +26619,7 @@
         optSlider.each((slider) => {
             Replacing.set(slider, [makeSidebar(panelConfigs)]);
             // Show the default sidebar
-            const configKey = showSidebar === null || showSidebar === void 0 ? void 0 : showSidebar.toLowerCase();
+            const configKey = showSidebar?.toLowerCase();
             if (isString(configKey) && has$2(panelConfigs, configKey)) {
                 Composing.getCurrent(slider).each((slotContainer) => {
                     SlotContainer.showSlot(slotContainer, configKey);
@@ -27076,7 +27063,6 @@
     };
 
     const renderButton = (spec, providers) => {
-        var _a, _b;
         const isToggleButton = spec.type === 'togglebutton';
         const optMemIcon = spec.icon
             .map((memIcon) => renderReplaceableIconFromPack(memIcon, providers.icons))
@@ -27112,7 +27098,7 @@
         const action = getAction();
         const buttonSpec = {
             ...spec,
-            name: isToggleButton ? spec.text.getOr(spec.icon.getOr('')) : (_a = spec.text) !== null && _a !== void 0 ? _a : spec.icon.getOr(''),
+            name: isToggleButton ? spec.text.getOr(spec.icon.getOr('')) : spec.text ?? spec.icon.getOr(''),
             primary: spec.buttonType === 'primary',
             buttonType: Optional.from(spec.buttonType),
             tooltip: spec.tooltip,
@@ -27120,7 +27106,7 @@
             enabled: true,
             borderless: spec.borderless
         };
-        const buttonTypeClasses = calculateClassesFromButtonType((_b = spec.buttonType) !== null && _b !== void 0 ? _b : 'secondary');
+        const buttonTypeClasses = calculateClassesFromButtonType(spec.buttonType ?? 'secondary');
         const optTranslatedText = isToggleButton ? spec.text.map(providers.translate) : Optional.some(providers.translate(spec.text));
         const optTranslatedTextComponed = optTranslatedText.map(text$2);
         const ariaLabelAttributes = buttonSpec.tooltip.or(optTranslatedText).map((al) => ({
@@ -27760,7 +27746,7 @@
         file: { title: 'File', items: 'newdocument restoredraft | preview | importword exportpdf exportword | export print | deleteallconversations' },
         edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
         view: { title: 'View', items: 'code suggestededits revisionhistory | visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments' },
-        insert: { title: 'Insert', items: 'image link media addcomment pageembed inserttemplate codesample inserttable accordion math | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents footnotes | mergetags | insertdatetime' },
+        insert: { title: 'Insert', items: 'image video link media addcomment pageembed inserttemplate codesample inserttable accordion math | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents footnotes | mergetags | insertdatetime' },
         format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat' },
         tools: { title: 'Tools', items: 'aidialog aishortcuts | spellchecker spellcheckerlanguage | autocorrect capitalization | a11ycheck code typography wordcount addtemplate' },
         table: { title: 'Table', items: 'inserttable | cell row column | advtablesort | tableprops deletetable' },
@@ -28064,7 +28050,6 @@
         });
     };
     const renderCommonToolbarButton = (spec, specialisation, providersBackstage, btnName) => {
-        var _a;
         const editorOffCell = Cell(noop);
         const structure = renderCommonStructure(spec.icon, spec.text, spec.tooltip, Optional.none(), providersBackstage, spec.context, btnName);
         return Button.sketch({
@@ -28091,7 +28076,7 @@
                 // Here we add the commonButtonDisplayEvent behaviour from the structure so we can listen
                 // to updateMenuIcon and updateMenuText events and run the defined callbacks as they are
                 // defined in the renderCommonStructure function and fix the size of the button onAttached.
-                [commonButtonDisplayEvent]: (_a = structure.buttonBehaviours) === null || _a === void 0 ? void 0 : _a[commonButtonDisplayEvent],
+                [commonButtonDisplayEvent]: structure.buttonBehaviours?.[commonButtonDisplayEvent],
             }
         });
     };
@@ -28270,36 +28255,39 @@
                 }
             }
         });
-        const mainButton = Button.sketch({
-            ...renderCommonStructure(spec.icon, spec.text, Optional.none(), Optional.some([
-                Toggling.config({
-                    toggleClass: "tox-tbtn--enabled" /* ToolbarButtonClasses.Ticked */,
-                    aria: spec.presets === 'color' ? { mode: 'none' } : { mode: 'pressed' },
-                    toggleOnExecute: false
-                }),
-                DisablingConfigs.toolbarButton(() => sharedBackstage.providers.checkUiComponentContext(spec.context).shouldDisable),
-                toggleOnReceive(() => sharedBackstage.providers.checkUiComponentContext(spec.context)),
-                config('split-main-aria-events', []),
-                ...(spec.tooltip.isSome() ? [
-                    Tooltipping.config(sharedBackstage.providers.tooltips.getConfig({
-                        tooltipText: sharedBackstage.providers.translate(spec.tooltip.getOr('')),
-                        onShow: (comp) => {
-                            if (tooltipString.get() !== spec.tooltip.getOr('')) {
-                                const translated = sharedBackstage.providers.translate(tooltipString.get());
-                                Tooltipping.setComponents(comp, sharedBackstage.providers.tooltips.getComponents({ tooltipText: translated }));
-                            }
+        const structure = renderCommonStructure(spec.icon, spec.text, Optional.none(), Optional.some([
+            Toggling.config({
+                toggleClass: "tox-tbtn--enabled" /* ToolbarButtonClasses.Ticked */,
+                aria: spec.presets === 'color' ? { mode: 'none' } : { mode: 'pressed' },
+                toggleOnExecute: false
+            }),
+            ...(spec.tooltip.isSome() ? [
+                Tooltipping.config(sharedBackstage.providers.tooltips.getConfig({
+                    tooltipText: sharedBackstage.providers.translate(spec.tooltip.getOr('')),
+                    onShow: (comp) => {
+                        if (tooltipString.get() !== spec.tooltip.getOr('')) {
+                            const translated = sharedBackstage.providers.translate(tooltipString.get());
+                            Tooltipping.setComponents(comp, sharedBackstage.providers.tooltips.getComponents({ tooltipText: translated }));
                         }
-                    }))
-                ] : [])
-            ]), sharedBackstage.providers, spec.context, btnName),
+                    }
+                }))
+            ] : [])
+        ]), sharedBackstage.providers, spec.context, btnName);
+        const mainButton = Button.sketch({
             dom: {
-                ...renderCommonStructure(spec.icon, spec.text, Optional.none(), Optional.none(), sharedBackstage.providers, spec.context, btnName).dom,
-                classes: ["tox-tbtn" /* ToolbarButtonClasses.Button */, 'tox-split-button__main'],
+                ...structure.dom,
+                classes: [
+                    "tox-tbtn" /* ToolbarButtonClasses.Button */,
+                    'tox-split-button__main'
+                ].concat(spec.text.isSome() ? ["tox-tbtn--select" /* ToolbarButtonClasses.MatchWidth */] : []),
                 attributes: {
                     'aria-label': getMainButtonAriaLabel(),
                     ...(isNonNullable(btnName) ? { 'data-mce-name': btnName } : {})
                 }
             },
+            components: structure.components,
+            eventOrder: structure.eventOrder,
+            buttonBehaviours: structure.buttonBehaviours,
             action: (button) => {
                 if (spec.onAction) {
                     const api = getApi(button);
@@ -29107,7 +29095,6 @@
     };
     const createFontSizeButton = (editor, backstage) => createSelectButton(editor, backstage, getSpec$1(editor), getTooltipPlaceholder$1, 'FontSizeTextUpdate', 'fontsize');
     const getConfigFromUnit = (unit) => {
-        var _a;
         const baseConfig = { step: 1 };
         const configs = {
             em: { step: 0.1 },
@@ -29117,7 +29104,7 @@
             ch: { step: 0.1 },
             rem: { step: 0.1 }
         };
-        return (_a = configs[unit]) !== null && _a !== void 0 ? _a : baseConfig;
+        return configs[unit] ?? baseConfig;
     };
     const defaultValue = 16;
     const isValidValue = (value) => value >= 0;
@@ -29491,7 +29478,7 @@
             OuterContainer.toggleSidebar(outerContainer, value);
             fireToggleSidebar(editor);
         });
-        editor.addQueryValueHandler('ToggleSidebar', () => { var _a; return (_a = OuterContainer.whichSidebar(outerContainer)) !== null && _a !== void 0 ? _a : ''; });
+        editor.addQueryValueHandler('ToggleSidebar', () => OuterContainer.whichSidebar(outerContainer) ?? '');
         editor.addCommand('ToggleView', (_ui, value) => {
             if (OuterContainer.toggleView(outerContainer, value)) {
                 const target = outerContainer.element;
@@ -29508,7 +29495,7 @@
                 fireToggleView(editor);
             }
         });
-        editor.addQueryValueHandler('ToggleView', () => { var _a; return (_a = OuterContainer.whichView(outerContainer)) !== null && _a !== void 0 ? _a : ''; });
+        editor.addQueryValueHandler('ToggleView', () => OuterContainer.whichView(outerContainer) ?? '');
         const toolbarMode = getToolbarMode(editor);
         const refreshDrawer = () => {
             OuterContainer.refreshToolbar(uiRefs.mainUi.outerContainer);
@@ -29699,14 +29686,13 @@
                 const getTop = () => offsetParent.fold(() => isPositionedAtTop()
                     ? Math.max(targetBounds.y - get$d(container.element) + offset, 0)
                     : targetBounds.bottom, (offsetParent) => {
-                    var _a;
                     // Because for ui_mode: split, the main mothership (which includes the toolbar) is moved and added as a sibling
                     // If there's any relative position div set as the parent and the offsetParent is no longer the body,
                     // the absolute top/left positions would no longer be correct
                     // When there's a relative div and the position is the same as the toolbar container
                     // then it would produce a negative top as it needs to be positioned on top of the offsetParent
                     const offsetBox = box$1(offsetParent);
-                    const scrollDelta = (_a = offsetParent.dom.scrollTop) !== null && _a !== void 0 ? _a : 0;
+                    const scrollDelta = offsetParent.dom.scrollTop ?? 0;
                     const isOffsetParentBody = eq(offsetParent, body());
                     const topValue = isOffsetParentBody
                         ? Math.max(targetBounds.y - get$d(container.element) + offset, 0)
@@ -31253,7 +31239,7 @@
             getOptions: constant$1(settings),
             hash: (input) => isUndefined(input.customCode) ? input.code : `${input.code}/${input.customCode}`,
             display: (input) => input.title,
-            watcher: (editor, value, callback) => { var _a; return editor.formatter.formatChanged('lang', callback, false, { value: value.code, customValue: (_a = value.customCode) !== null && _a !== void 0 ? _a : null }).unbind; },
+            watcher: (editor, value, callback) => editor.formatter.formatChanged('lang', callback, false, { value: value.code, customValue: value.customCode ?? null }).unbind,
             getCurrent: (editor) => {
                 const node = SugarElement.fromDom(editor.selection.getNode());
                 return closest(node, (n) => Optional.some(n)
@@ -32146,8 +32132,7 @@
 
     const isHidden = (elm) => elm.nodeName === 'BR' || !!elm.getAttribute('data-mce-bogus') || elm.getAttribute('data-mce-type') === 'bookmark';
     const renderElementPath = (editor, settings, providersBackstage) => {
-        var _a;
-        const delimiter = (_a = settings.delimiter) !== null && _a !== void 0 ? _a : '\u203A';
+        const delimiter = settings.delimiter ?? '\u203A';
         const renderElement = (name, element, index) => Button.sketch({
             dom: {
                 tag: 'div',
@@ -32269,18 +32254,19 @@
         };
     };
     const getDimensions = (editor, deltas, resizeType, originalDimentions) => {
-        const dimensions = {
-            height: calcCappedSize(originalDimentions.height + deltas.top, getMinHeightOption(editor), getMaxHeightOption(editor)),
-            width: resizeType === ResizeTypes.Both
-                ? calcCappedSize(originalDimentions.width + deltas.left, getMinWidthOption(editor), getMaxWidthOption(editor))
-                : originalDimentions.width,
-        };
-        return dimensions;
+        const height = calcCappedSize(originalDimentions.height + deltas.top, getMinHeightOption(editor), getMaxHeightOption(editor));
+        if (resizeType === ResizeTypes.Both) {
+            return {
+                height,
+                width: calcCappedSize(originalDimentions.width + deltas.left, getMinWidthOption(editor), getMaxWidthOption(editor))
+            };
+        }
+        return { height };
     };
     const resize = (editor, deltas, resizeType) => {
         const container = SugarElement.fromDom(editor.getContainer());
-        const originalDimentions = getOriginalDimensions(editor);
-        const dimensions = getDimensions(editor, deltas, resizeType, originalDimentions);
+        const originalDimensions = getOriginalDimensions(editor);
+        const dimensions = getDimensions(editor, deltas, resizeType, originalDimensions);
         each(dimensions, (val, dim) => {
             if (isNumber(val)) {
                 set$7(container, dim, numToPx(val));
@@ -32858,11 +32844,11 @@
                 OuterContainer.focusToolbar(outerContainer);
             });
             editor.addCommand('ToggleToolbarDrawer', (_ui, options, args) => {
-                if (options === null || options === void 0 ? void 0 : options.skipFocus) {
+                if (options?.skipFocus) {
                     logFeatureDeprecationWarning('skipFocus');
                     OuterContainer.toggleToolbarDrawerWithoutFocusing(outerContainer);
                 }
-                else if (args === null || args === void 0 ? void 0 : args.skip_focus) {
+                else if (args?.skip_focus) {
                     OuterContainer.toggleToolbarDrawerWithoutFocusing(outerContainer);
                 }
                 else {

@@ -523,7 +523,7 @@ function enableLogs(debugConfig, context, id) {
     // Some browsers don't allow to use bind on console object anyway
     // fallback to default if needed
     try {
-      newLogger.log(`Debug logs enabled for "${context}" in hls.js version ${"1.6.13"}`);
+      newLogger.log(`Debug logs enabled for "${context}" in hls.js version ${"1.6.14"}`);
     } catch (e) {
       /* log fn threw an exception. All logger methods are no-ops. */
       return createLogger();
@@ -10540,7 +10540,7 @@ function requireEventemitter3 () {
 var eventemitter3Exports = requireEventemitter3();
 var EventEmitter = /*@__PURE__*/getDefaultExportFromCjs(eventemitter3Exports);
 
-const version = "1.6.13";
+const version = "1.6.14";
 
 // ensure the worker ends up in the bundle
 // If the worker should not be included this gets aliased to empty.js
@@ -22256,6 +22256,7 @@ class EMEController extends Logger {
     this.hls = void 0;
     this.config = void 0;
     this.media = null;
+    this.mediaResolved = void 0;
     this.keyFormatPromise = null;
     this.keySystemAccessPromises = {};
     this._requestLicenseFailureCount = 0;
@@ -22686,6 +22687,7 @@ class EMEController extends Logger {
     return this.attemptKeySystemAccess(keySystemsToAttempt);
   }
   attemptSetMediaKeys(keySystem, mediaKeys) {
+    this.mediaResolved = undefined;
     if (this.mediaKeys === mediaKeys) {
       return Promise.resolve();
     }
@@ -22695,8 +22697,16 @@ class EMEController extends Logger {
     // can be queued for execution for multiple key sessions.
     const setMediaKeysPromise = Promise.all(queue).then(() => {
       if (!this.media) {
-        this.mediaKeys = null;
-        throw new Error('Attempted to set mediaKeys without media element attached');
+        return new Promise((resolve, reject) => {
+          this.mediaResolved = () => {
+            this.mediaResolved = undefined;
+            if (!this.media) {
+              return reject(new Error('Attempted to set mediaKeys without media element attached'));
+            }
+            this.mediaKeys = mediaKeys;
+            this.media.setMediaKeys(mediaKeys).then(resolve).catch(reject);
+          };
+        });
       }
       return this.media.setMediaKeys(mediaKeys);
     });
@@ -23120,6 +23130,12 @@ class EMEController extends Logger {
     this.media = media;
     addEventListener(media, 'encrypted', this.onMediaEncrypted);
     addEventListener(media, 'waitingforkey', this.onWaitingForKey);
+    const mediaResolved = this.mediaResolved;
+    if (mediaResolved) {
+      mediaResolved();
+    } else {
+      this.mediaKeys = media.mediaKeys;
+    }
   }
   onMediaDetached() {
     const media = this.media;
@@ -23135,6 +23151,10 @@ class EMEController extends Logger {
     this._requestLicenseFailureCount = 0;
     this.keyIdToKeySessionPromise = {};
     this.bannedKeyIds = {};
+    const mediaResolved = this.mediaResolved;
+    if (mediaResolved) {
+      mediaResolved();
+    }
     if (!this.mediaKeys && !this.mediaKeySessions.length) {
       return;
     }
@@ -23171,8 +23191,7 @@ class EMEController extends Logger {
     });
   }
   onManifestLoading() {
-    this.keyFormatPromise = null;
-    this.bannedKeyIds = {};
+    this._clear();
   }
   onManifestLoaded(event, {
     sessionKeys
@@ -25088,7 +25107,8 @@ class AssetListLoader {
 }
 
 function playWithCatch(media) {
-  media == null || media.play().catch(() => {
+  var _media$play;
+  media == null || (_media$play = media.play()) == null || _media$play.catch(() => {
     /* no-op */
   });
 }

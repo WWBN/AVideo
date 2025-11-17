@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.1.2 (TBD)
+ * TinyMCE version 8.2.2 (2025-11-17)
  */
 
 (function () {
@@ -9,13 +9,12 @@
 
     /* eslint-disable @typescript-eslint/no-wrapper-object-types */
     const hasProto = (v, constructor, predicate) => {
-        var _a;
         if (predicate(v, constructor.prototype)) {
             return true;
         }
         else {
             // String-based fallback time
-            return ((_a = v.constructor) === null || _a === void 0 ? void 0 : _a.name) === constructor.name;
+            return v.constructor?.name === constructor.name;
         }
     };
     const typeOf = (x) => {
@@ -182,7 +181,6 @@
     };
 
     const parseCurrentLine = (editor, offset) => {
-        var _a;
         const voidElements = editor.schema.getVoidElements();
         const autoLinkPattern = getAutoLinkPattern(editor);
         const { dom, selection } = editor;
@@ -197,7 +195,7 @@
         // Descend down the end container to find the text node
         const { container: endContainer, offset: endOffset } = freefallRtl(rng.endContainer, rng.endOffset);
         // Find the root container to use when walking
-        const root = (_a = dom.getParent(endContainer, dom.isBlock)) !== null && _a !== void 0 ? _a : dom.getRoot();
+        const root = dom.getParent(endContainer, dom.isBlock) ?? dom.getRoot();
         // Move the selection backwards to the start of the potential URL to account for the pressed character
         // while also excluding the last full stop from a word like "www.site.com."
         const endSpot = textSeeker.backwards(endContainer, endOffset + offset, (node, offset) => {

@@ -1,22 +1,27 @@
 /**
- * TinyMCE version 8.1.2 (TBD)
+ * TinyMCE version 8.2.2 (2025-11-17)
  */
 
 (function () {
     'use strict';
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global$2 = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     /* eslint-disable @typescript-eslint/no-wrapper-object-types */
+    const isSimpleType = (type) => (value) => typeof value === type;
     const eq = (t) => (a) => t === a;
     const isUndefined = eq(undefined);
     const isNullable = (a) => a === null || a === undefined;
     const isNonNullable = (a) => !isNullable(a);
+    const isFunction = isSimpleType('function');
 
     const constant = (value) => {
         return () => {
             return value;
         };
+    };
+    const identity = (x) => {
+        return x;
     };
     const never = constant(false);
 
@@ -36,6 +41,11 @@
      * strict-null-checks
      */
     class Optional {
+        tag;
+        value;
+        // Sneaky optimisation: every instance of Optional.none is identical, so just
+        // reuse the same object
+        static singletonNone = new Optional(false);
         // The internal representation has a `tag` and a `value`, but both are
         // private: able to be console.logged, but not able to be accessed by code
         constructor(tag, value) {
@@ -203,7 +213,7 @@
          */
         getOrDie(message) {
             if (!this.tag) {
-                throw new Error(message !== null && message !== void 0 ? message : 'Called getOrDie on None');
+                throw new Error(message ?? 'Called getOrDie on None');
             }
             else {
                 return this.value;
@@ -267,10 +277,31 @@
             return this.tag ? `some(${this.value})` : 'none()';
         }
     }
-    // Sneaky optimisation: every instance of Optional.none is identical, so just
-    // reuse the same object
-    Optional.singletonNone = new Optional(false);
 
+    const nativeSlice = Array.prototype.slice;
+    const nativeIndexOf = Array.prototype.indexOf;
+    const rawIndexOf = (ts, t) => nativeIndexOf.call(ts, t);
+    const contains$1 = (xs, x) => rawIndexOf(xs, x) > -1;
+    const exists = (xs, pred) => {
+        for (let i = 0, len = xs.length; i < len; i++) {
+            const x = xs[i];
+            if (pred(x, i)) {
+                return true;
+            }
+        }
+        return false;
+    };
+    const map = (xs, f) => {
+        // pre-allocating array size when it's guaranteed to be known
+        // http://jsperf.com/push-allocated-vs-dynamic/22
+        const len = xs.length;
+        const r = new Array(len);
+        for (let i = 0; i < len; i++) {
+            const x = xs[i];
+            r[i] = f(x, i);
+        }
+        return r;
+    };
     const findUntil = (xs, pred, until) => {
         for (let i = 0, len = xs.length; i < len; i++) {
             const x = xs[i];
@@ -286,6 +317,7 @@
     const find$1 = (xs, pred) => {
         return findUntil(xs, pred, never);
     };
+    isFunction(Array.from) ? Array.from : (x) => nativeSlice.call(x);
     const findMap = (arr, f) => {
         for (let i = 0; i < arr.length; i++) {
             const r = f(arr[i], i);
@@ -294,6 +326,43 @@
             }
         }
         return Optional.none();
+    };
+    const unique = (xs, comparator) => {
+        const r = [];
+        const isDuplicated = isFunction(comparator) ?
+            (x) => exists(r, (i) => comparator(i, x)) :
+            (x) => contains$1(r, x);
+        for (let i = 0, len = xs.length; i < len; i++) {
+            const x = xs[i];
+            if (!isDuplicated(x)) {
+                r.push(x);
+            }
+        }
+        return r;
+    };
+
+    // There are many variations of Object iteration that are faster than the 'for-in' style:
+    // http://jsperf.com/object-keys-iteration/107
+    //
+    // Use the native keys if it is available (IE9+), otherwise fall back to manually filtering
+    const keys = Object.keys;
+    const each = (obj, f) => {
+        const props = keys(obj);
+        for (let k = 0, len = props.length; k < len; k++) {
+            const i = props[k];
+            const x = obj[i];
+            f(x, i);
+        }
+    };
+    const mapToArray = (obj, f) => {
+        const r = [];
+        each(obj, (value, name) => {
+            r.push(f(value, name));
+        });
+        return r;
+    };
+    const values = (obj) => {
+        return mapToArray(obj, identity);
     };
 
     const contains = (str, substr, start = 0, end) => {
@@ -381,7 +450,7 @@
     const detectBrowser$1 = (browsers, userAgentData) => {
         return findMap(userAgentData.brands, (uaBrand) => {
             const lcBrand = uaBrand.brand.toLowerCase();
-            return find$1(browsers, (browser) => { var _a; return lcBrand === ((_a = browser.brand) === null || _a === void 0 ? void 0 : _a.toLowerCase()); })
+            return find$1(browsers, (browser) => lcBrand === browser.brand?.toLowerCase())
                 .map((info) => ({
                 current: info.name,
                 version: Version.nu(parseInt(uaBrand.version, 10), 0)
@@ -655,6 +724,8 @@
         return `<script>(${fn.toString()})(${isMacOSOrIOS})</script>`;
     };
 
+    var global$1 = tinymce.util.Tools.resolve('tinymce.dom.ScriptLoader');
+
     var global = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     const option = (name) => (editor) => editor.options.get(name);
@@ -663,11 +734,17 @@
     const getBodyClass = option('body_class');
     const getBodyId = option('body_id');
 
+    const getComponentScriptsHtml = (editor) => {
+        const urls = unique(values(editor.schema.getComponentUrls()));
+        return map(urls, (url) => {
+            const attrs = mapToArray(global$1.ScriptLoader.getScriptAttributes(url), (v, k) => ` ${editor.dom.encode(k)}="${editor.dom.encode(v)}"`);
+            return `<script src="${editor.dom.encode(url)}"${attrs.join('')}></script>`;
+        }).join('');
+    };
     const getPreviewHtml = (editor) => {
-        var _a;
         let headHtml = '';
         const encode = editor.dom.encode;
-        const contentStyle = (_a = getContentStyle(editor)) !== null && _a !== void 0 ? _a : '';
+        const contentStyle = getContentStyle(editor) ?? '';
         headHtml += `<base href="${encode(editor.documentBaseURI.getURI())}">`;
         const cors = shouldUseContentCssCors(editor) ? ' crossorigin="anonymous"' : '';
         global.each(editor.contentCSS, (url) => {
@@ -676,6 +753,7 @@
         if (contentStyle) {
             headHtml += '<style type="text/css">' + contentStyle + '</style>';
         }
+        headHtml += getComponentScriptsHtml(editor);
         const bodyId = getBodyId(editor);
         const bodyClass = getBodyClass(editor);
         const directionality = editor.getBody().dir;
@@ -749,7 +827,7 @@
     };
 
     var Plugin = () => {
-        global$1.add('preview', (editor) => {
+        global$2.add('preview', (editor) => {
             register$1(editor);
             register(editor);
         });

@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.1.2 (TBD)
+ * TinyMCE version 8.2.2 (2025-11-17)
  */
 
 (function () {
@@ -7,13 +7,12 @@
 
     /* eslint-disable @typescript-eslint/no-wrapper-object-types */
     const hasProto = (v, constructor, predicate) => {
-        var _a;
         if (predicate(v, constructor.prototype)) {
             return true;
         }
         else {
             // String-based fallback time
-            return ((_a = v.constructor) === null || _a === void 0 ? void 0 : _a.name) === constructor.name;
+            return v.constructor?.name === constructor.name;
         }
     };
     const typeOf = (x) => {
@@ -63,6 +62,11 @@
      * strict-null-checks
      */
     class Optional {
+        tag;
+        value;
+        // Sneaky optimisation: every instance of Optional.none is identical, so just
+        // reuse the same object
+        static singletonNone = new Optional(false);
         // The internal representation has a `tag` and a `value`, but both are
         // private: able to be console.logged, but not able to be accessed by code
         constructor(tag, value) {
@@ -230,7 +234,7 @@
          */
         getOrDie(message) {
             if (!this.tag) {
-                throw new Error(message !== null && message !== void 0 ? message : 'Called getOrDie on None');
+                throw new Error(message ?? 'Called getOrDie on None');
             }
             else {
                 return this.value;
@@ -294,9 +298,6 @@
             return this.tag ? `some(${this.value})` : 'none()';
         }
     }
-    // Sneaky optimisation: every instance of Optional.none is identical, so just
-    // reuse the same object
-    Optional.singletonNone = new Optional(false);
 
     const nativeSlice = Array.prototype.slice;
     const nativeIndexOf = Array.prototype.indexOf;
@@ -413,8 +414,7 @@
 
     const get = (customTabs) => {
         const addTab = (spec) => {
-            var _a;
-            const name = (_a = spec.name) !== null && _a !== void 0 ? _a : generate('tab-name');
+            const name = spec.name ?? generate('tab-name');
             const currentCustomTabs = customTabs.get();
             currentCustomTabs[name] = spec;
             customTabs.set(currentCustomTabs);
@@ -620,6 +620,7 @@
         { key: 'suggestededits', name: 'Suggested Edits', type: "premium" /* PluginType.Premium */ },
         { key: 'autocorrect', name: 'Spelling Autocorrect', type: "premium" /* PluginType.Premium */ },
         { key: 'tableofcontents', name: 'Table of Contents', type: "premium" /* PluginType.Premium */ },
+        { key: 'fullpagehtml', name: 'Fullpage HTML', type: "premium" /* PluginType.Premium */ },
         { key: 'advtemplate', name: 'Templates', type: "premium" /* PluginType.Premium */, slug: 'advanced-templates' },
         { key: 'tinycomments', name: 'Tiny Comments', type: "premium" /* PluginType.Premium */, slug: 'introduction-to-tiny-comments' },
         { key: 'tinydrive', name: 'Tiny Drive', type: "premium" /* PluginType.Premium */, slug: 'tinydrive-introduction' },
@@ -671,7 +672,7 @@
         const getPluginKeys = (editor) => {
             const keys$1 = keys(editor.plugins);
             const forcedPlugins = getForcedPlugins(editor);
-            const hiddenPlugins = isUndefined(forcedPlugins) ? ['onboarding'] : forcedPlugins.concat(['onboarding']);
+            const hiddenPlugins = isUndefined(forcedPlugins) ? ['onboarding', 'licensekeymanager'] : forcedPlugins.concat(['onboarding', 'licensekeymanager']);
             return filter(keys$1, (k) => !contains(hiddenPlugins, k));
         };
         const pluginLister = (editor) => {
@@ -734,7 +735,6 @@
     const parseHelpTabsSetting = (tabsFromSettings, tabs) => {
         const newTabs = {};
         const names = map(tabsFromSettings, (t) => {
-            var _a;
             if (isString(t)) {
                 // Code below shouldn't care if a tab name doesn't have a spec.
                 // If we find it does, we'll need to make this smarter.
@@ -745,7 +745,7 @@
                 return t;
             }
             else {
-                const name = (_a = t.name) !== null && _a !== void 0 ? _a : generate('tab-name');
+                const name = t.name ?? generate('tab-name');
                 newTabs[name] = t;
                 return name;
             }

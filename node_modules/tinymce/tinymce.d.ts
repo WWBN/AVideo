@@ -91,6 +91,7 @@ interface CustomElementSpec {
     attributes?: string[];
     children?: string[];
     padEmpty?: boolean;
+    componentUrl?: string;
 }
 interface Schema {
     type: SchemaType;
@@ -111,6 +112,7 @@ interface Schema {
     getWhitespaceElements: () => SchemaMap;
     getTransparentElements: () => SchemaMap;
     getSpecialElements: () => SchemaRegExpMap;
+    getComponentUrls: () => Record<string, string>;
     isValidChild: (name: string, child: string) => boolean;
     isValid: (name: string, attr?: string) => boolean;
     isBlock: (name: string) => boolean;
@@ -1592,7 +1594,7 @@ type UndoLevel = NewUndoLevel & {
 interface UndoManager {
     data: UndoLevel[];
     typing: boolean;
-    add: (level?: Partial<UndoLevel>, event?: EditorEvent<any>) => UndoLevel | null;
+    add: (level?: Partial<UndoLevel>, event?: EditorEvent<unknown>) => UndoLevel | null;
     dispatchChange: () => void;
     beforeChange: () => void;
     undo: () => UndoLevel | undefined;
@@ -1763,7 +1765,7 @@ interface ChangeEvent {
     lastLevel: UndoLevel | undefined;
 }
 interface AddUndoEvent extends ChangeEvent {
-    originalEvent: Event | undefined;
+    originalEvent: EditorEvent<unknown> | undefined;
 }
 interface UndoRedoEvent {
     level: UndoLevel;
@@ -3108,6 +3110,7 @@ declare class ScriptLoader {
     remove(url: string): void;
     loadQueue(): Promise<void>;
     loadScripts(scripts: string[]): Promise<void>;
+    getScriptAttributes(url: string): Record<string, string>;
 }
 type TextProcessCallback = (node: Text, offset: number, text: string) => number;
 interface Spot {

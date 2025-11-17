@@ -17,9 +17,18 @@
 .ima-ad-container {
   top: 0em;
   position: absolute;
-  display: none;
   width: 100%;
   height: 100%;
+  z-index: 1111; /* Set to a high value to make the element visible. */
+}
+
+/* IMA removes the ad container's HTML content when the ad is complete.
+ * This plugin changes the ad container's z-index to prevent the ad container
+ * from intercepting clicks when its HTML is empty. The previous method
+ * of toggling the 'display' property from 'none' to 'block' was not
+ * compatible with the IMA SDK in certain cases. */
+.hide-ad-container {
+  z-index: -1;
 }
 
 /* Move overlay if user fast-clicks play button. */

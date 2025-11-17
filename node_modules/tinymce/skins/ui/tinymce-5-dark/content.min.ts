@@ -64,6 +64,8 @@ export interface Classes {
   "tiny-pageembed--21by9": string;
   "tiny-pageembed--4by3": string;
   "mce-visualblocks": string;
+  "mce-placeholder": string;
+  "mce-edit-focus": string;
   "mce-resizehandle": string;
   "mce-resize-backdrop": string;
   "mce-clonedresizable": string;
@@ -82,7 +84,6 @@ export interface Classes {
   "tox-rtc-remote-image": string;
   "mce-match-marker": string;
   "mce-match-marker-selected": string;
-  "mce-edit-focus": string;
   "ephox-snooker-resizer-bar": string;
   "ephox-snooker-resizer-cols": string;
   "ephox-snooker-resizer-rows": string;
@@ -108,6 +109,7 @@ export interface Classes {
   "tox-uc-loading-spinner-wrapper": string;
   "tox-uc-loading-spinner": string;
   "tox-rotation": string;
+  "tox-uc-video": string;
   "tox-uploadcare-placeholder": string;
   "mce-nbsp": string;
   "mce-shy": string;

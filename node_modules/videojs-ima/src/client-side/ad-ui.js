@@ -129,8 +129,8 @@ const AdUi = function(controller) {
 AdUi.prototype.createAdContainer = function() {
   this.assignControlAttributes(
       this.adContainerDiv, 'ima-ad-container');
-  this.adContainerDiv.style.position = 'absolute';
-  this.adContainerDiv.style.zIndex = 1111;
+  // Hide the ad container until an ad starts.
+  this.adContainerDiv.classList.add('hide-ad-container');
   this.adContainerDiv.addEventListener(
       'mouseenter',
       this.showAdControls.bind(this),
@@ -375,25 +375,27 @@ AdUi.prototype.changeVolume = function(event) {
  * Show the ad container.
  */
 AdUi.prototype.showAdContainer = function() {
-  this.adContainerDiv.style.display = 'block';
+  this.adContainerDiv.classList.remove('hide-ad-container');
 };
 
 
 /**
- * Hide the ad container
+ * Hide the ad container.
  */
 AdUi.prototype.hideAdContainer = function() {
-  this.adContainerDiv.style.display = 'none';
+  this.adContainerDiv.classList.add('hide-ad-container');
 };
 
+
 /**
- * Handles clicks on the ad container
+ * Handles clicks on the ad container.
  */
 AdUi.prototype.onAdContainerClick = function() {
   if (this.isAdNonlinear) {
     this.controller.togglePlayback();
   }
 };
+
 
 /**
  * Resets the state of the ad ui.
@@ -468,9 +470,6 @@ AdUi.prototype.onLinearAdStart = function() {
  * Handles when a non-linear ad starts.
  */
 AdUi.prototype.onNonLinearAdLoad = function() {
-  // For non-linear ads that show after a linear ad. For linear ads, we show the
-  // ad container in onAdBreakStart to prevent blinking in pods.
-  this.adContainerDiv.style.display = 'block';
   // Bump container when controls are shown
   this.addClass(this.adContainerDiv, 'bumpable-ima-ad-container');
   this.isAdNonlinear = true;

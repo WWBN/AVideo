@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.1.2 (TBD)
+ * TinyMCE version 8.2.2 (2025-11-17)
  */
 
 (function () {
@@ -59,8 +59,7 @@
         }
     };
     const parseCssValueToInt = (dom, elm, name, computed) => {
-        var _a;
-        const value = parseInt((_a = dom.getStyle(elm, name, computed)) !== null && _a !== void 0 ? _a : '', 10);
+        const value = parseInt(dom.getStyle(elm, name, computed) ?? '', 10);
         // The value maybe be an empty string, so in that case treat it as being 0
         return isNaN(value) ? 0 : value;
     };
@@ -68,7 +67,7 @@
         // Only scroll the selection into view when we're inserting content. Any other
         // triggers the selection should already be in view and resizing would only
         // extend the content area.
-        if ((trigger === null || trigger === void 0 ? void 0 : trigger.type.toLowerCase()) === 'setcontent') {
+        if (trigger?.type.toLowerCase() === 'setcontent') {
             const setContentEvent = trigger;
             return setContentEvent.selection === true || setContentEvent.paste === true;
         }
@@ -80,7 +79,6 @@
      * This method gets executed each time the editor needs to resize.
      */
     const resize = (editor, oldSize, trigger, getExtraMarginBottom) => {
-        var _a;
         const dom = editor.dom;
         const doc = editor.getDoc();
         if (!doc) {
@@ -92,7 +90,7 @@
         }
         const docEle = doc.documentElement;
         const resizeBottomMargin = getExtraMarginBottom ? getExtraMarginBottom() : getAutoResizeOverflowPadding(editor);
-        const minHeight = (_a = getMinHeight(editor)) !== null && _a !== void 0 ? _a : editor.getElement().offsetHeight;
+        const minHeight = getMinHeight(editor) ?? editor.getElement().offsetHeight;
         let resizeHeight = minHeight;
         // Calculate outer height of the doc element using CSS styles
         const marginTop = parseCssValueToInt(dom, docEle, 'margin-top', true);

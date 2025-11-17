@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.1.2 (TBD)
+ * TinyMCE version 8.2.2 (2025-11-17)
  */
 
 (function () {
@@ -10,13 +10,12 @@
     /* eslint-disable @typescript-eslint/no-wrapper-object-types */
     const getPrototypeOf = Object.getPrototypeOf;
     const hasProto = (v, constructor, predicate) => {
-        var _a;
         if (predicate(v, constructor.prototype)) {
             return true;
         }
         else {
             // String-based fallback time
-            return ((_a = v.constructor) === null || _a === void 0 ? void 0 : _a.name) === constructor.name;
+            return v.constructor?.name === constructor.name;
         }
     };
     const typeOf = (x) => {
@@ -78,6 +77,11 @@
      * strict-null-checks
      */
     class Optional {
+        tag;
+        value;
+        // Sneaky optimisation: every instance of Optional.none is identical, so just
+        // reuse the same object
+        static singletonNone = new Optional(false);
         // The internal representation has a `tag` and a `value`, but both are
         // private: able to be console.logged, but not able to be accessed by code
         constructor(tag, value) {
@@ -245,7 +249,7 @@
          */
         getOrDie(message) {
             if (!this.tag) {
-                throw new Error(message !== null && message !== void 0 ? message : 'Called getOrDie on None');
+                throw new Error(message ?? 'Called getOrDie on None');
             }
             else {
                 return this.value;
@@ -309,9 +313,6 @@
             return this.tag ? `some(${this.value})` : 'none()';
         }
     }
-    // Sneaky optimisation: every instance of Optional.none is identical, so just
-    // reuse the same object
-    Optional.singletonNone = new Optional(false);
 
     const nativeSlice = Array.prototype.slice;
     const nativePush = Array.prototype.push;
@@ -637,8 +638,7 @@
             resolve(reader.result);
         };
         reader.onerror = () => {
-            var _a;
-            reject((_a = reader.error) === null || _a === void 0 ? void 0 : _a.message);
+            reject(reader.error?.message);
         };
         reader.readAsDataURL(blob);
     });
@@ -678,9 +678,8 @@
         }
     };
     const getAttrib = (image, name) => {
-        var _a;
         if (image.hasAttribute(name)) {
-            return (_a = image.getAttribute(name)) !== null && _a !== void 0 ? _a : '';
+            return image.getAttribute(name) ?? '';
         }
         else {
             return '';
@@ -763,7 +762,7 @@
     const setBorderStyle = (image, value) => {
         image.style.borderStyle = value;
     };
-    const getBorderStyle = (image) => { var _a; return (_a = image.style.borderStyle) !== null && _a !== void 0 ? _a : ''; };
+    const getBorderStyle = (image) => image.style.borderStyle ?? '';
     const isFigure = (elm) => isNonNullable(elm) && elm.nodeName === 'FIGURE';
     const isImage = (elm) => elm.nodeName === 'IMG';
     const getIsDecorative = (image) => {
@@ -802,7 +801,6 @@
         isDecorative: false
     });
     const getStyleValue = (normalizeCss, data) => {
-        var _a;
         const image = document.createElement('img');
         updateAttrib(image, 'style', data.style);
         if (getHspace(image) || data.hspace !== '') {
@@ -817,7 +815,7 @@
         if (getBorderStyle(image) || data.borderStyle !== '') {
             setBorderStyle(image, data.borderStyle);
         }
-        return normalizeCss((_a = image.getAttribute('style')) !== null && _a !== void 0 ? _a : '');
+        return normalizeCss(image.getAttribute('style') ?? '');
     };
     const create = (normalizeCss, data) => {
         const image = document.createElement('img');
@@ -920,12 +918,11 @@
         return imgElm;
     };
     const splitTextBlock = (editor, figure) => {
-        var _a;
         const dom = editor.dom;
         const textBlockElements = filter(editor.schema.getTextBlockElements(), (_, parentElm) => !editor.schema.isValidChild(parentElm, 'figure'));
         const textBlock = dom.getParent(figure.parentNode, (node) => hasNonNullableKey(textBlockElements, node.nodeName), editor.getBody());
         if (textBlock) {
-            return (_a = dom.split(textBlock, figure)) !== null && _a !== void 0 ? _a : figure;
+            return dom.split(textBlock, figure) ?? figure;
         }
         else {
             return figure;
@@ -1532,16 +1529,13 @@
             }));
         }
     };
-    const createBlobCache = (editor) => (file, blobUri, dataUrl) => {
-        var _a;
-        return editor.editorUpload.blobCache.create({
-            blob: file,
-            blobUri,
-            name: (_a = file.name) === null || _a === void 0 ? void 0 : _a.replace(/\.[^\.]+$/, ''),
-            filename: file.name,
-            base64: dataUrl.split(',')[1]
-        });
-    };
+    const createBlobCache = (editor) => (file, blobUri, dataUrl) => editor.editorUpload.blobCache.create({
+        blob: file,
+        blobUri,
+        name: file.name?.replace(/\.[^\.]+$/, ''),
+        filename: file.name,
+        base64: dataUrl.split(',')[1]
+    });
     const addToBlobCache = (editor) => (blobInfo) => {
         editor.editorUpload.blobCache.add(blobInfo);
     };
@@ -1552,12 +1546,11 @@
     const parseStyle = (editor) => (cssText) => editor.dom.parseStyle(cssText);
     const serializeStyle = (editor) => (stylesArg, name) => editor.dom.serializeStyle(stylesArg, name);
     const uploadImage = (editor) => (blobInfo) => global$1(editor).upload([blobInfo], false).then((results) => {
-        var _a;
         if (results.length === 0) {
             return Promise.reject('Failed to upload image');
         }
         else if (results[0].status === false) {
-            return Promise.reject((_a = results[0].error) === null || _a === void 0 ? void 0 : _a.message);
+            return Promise.reject(results[0].error?.message);
         }
         else {
             return results[0];

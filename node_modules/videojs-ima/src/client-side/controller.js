@@ -607,10 +607,10 @@ Controller.prototype.reset = function() {
 
 
 /**
- * Adds a listener for the 'contentended' event of the video player. This should
- * be used instead of setting an 'contentended' listener directly to ensure that
- * the ima can do proper cleanup of the SDK before other event listeners are
- * called.
+ * Adds a listener for the 'readyforpostroll' event of the video player. This
+ * should be used instead of setting an 'readyforpostroll' listener directly to
+ * ensure that the ima can do proper cleanup of the SDK before other event
+ * listeners are called.
  * @param {listener} listener The listener to be called when content
  *     completes.
  */

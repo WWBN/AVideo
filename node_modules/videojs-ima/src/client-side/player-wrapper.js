@@ -134,7 +134,7 @@ const PlayerWrapper = function(player, adsPluginSettings, controller) {
 
   this.vjsPlayer.one('play', this.setUpPlayerIntervals.bind(this));
   this.boundContentEndedListener = this.localContentEndedListener.bind(this);
-  this.vjsPlayer.on('contentended', this.boundContentEndedListener);
+  this.vjsPlayer.on('readyforpostroll', this.boundContentEndedListener);
   this.vjsPlayer.on('dispose', this.playerDisposedListener.bind(this));
   this.vjsPlayer.on('readyforpreroll', this.onReadyForPreroll.bind(this));
   this.vjsPlayer.on('adtimeout', this.onAdTimeout.bind(this));
@@ -258,7 +258,7 @@ PlayerWrapper.prototype.playerDisposedListener = function() {
   this.controller.onPlayerDisposed();
 
   this.contentComplete = true;
-  this.vjsPlayer.off('contentended', this.boundContentEndedListener);
+  this.vjsPlayer.off('readyforpostroll', this.boundContentEndedListener);
 
   // Bug fix: https://github.com/googleads/videojs-ima/issues/306
   if (this.vjsPlayer.ads.adTimeoutTimeout) {
@@ -520,7 +520,7 @@ PlayerWrapper.prototype.onAdLog = function(adEvent) {
 PlayerWrapper.prototype.onAdBreakStart = function() {
   this.contentSource = this.vjsPlayer.currentSrc();
   this.contentSourceType = this.vjsPlayer.currentType();
-  this.vjsPlayer.off('contentended', this.boundContentEndedListener);
+  this.vjsPlayer.off('readyforpostroll', this.boundContentEndedListener);
   this.vjsPlayer.ads.startLinearAdMode();
   this.vjsControls.hide();
   this.vjsPlayer.pause();
@@ -531,7 +531,7 @@ PlayerWrapper.prototype.onAdBreakStart = function() {
  * Handles ad break ending.
  */
 PlayerWrapper.prototype.onAdBreakEnd = function() {
-  this.vjsPlayer.on('contentended', this.boundContentEndedListener);
+  this.vjsPlayer.on('readyforpostroll', this.boundContentEndedListener);
   if (this.vjsPlayer.ads.inAdBreak()) {
     this.vjsPlayer.ads.endLinearAdMode();
   }
@@ -618,10 +618,10 @@ PlayerWrapper.prototype.triggerPlayerEvent = function(name, data) {
 
 
 /**
- * Adds a listener for the 'contentended' event of the video player. This should
- * be used instead of setting an 'contentended' listener directly to ensure that
- * the ima can do proper cleanup of the SDK before other event listeners are
- * called.
+ * Adds a listener for the 'readyforpostroll' event of the video player. This
+ * should be used instead of setting an 'readyforpostroll' listener directly to
+ * ensure that the ima can do proper cleanup of the SDK before other event
+ * listeners are called.
  * @param {listener} listener The listener to be called when content
  *     completes.
  */
@@ -637,9 +637,9 @@ PlayerWrapper.prototype.reset = function() {
   // Attempts to remove the contentEndedListener before adding it.
   // This is to prevent an error where an erroring video caused multiple
   // contentEndedListeners to be added.
-  this.vjsPlayer.off('contentended', this.boundContentEndedListener);
+  this.vjsPlayer.off('readyforpostroll', this.boundContentEndedListener);
 
-  this.vjsPlayer.on('contentended', this.boundContentEndedListener);
+  this.vjsPlayer.on('readyforpostroll', this.boundContentEndedListener);
   this.vjsControls.show();
   if (this.vjsPlayer.ads.inAdBreak()) {
     this.vjsPlayer.ads.endLinearAdMode();

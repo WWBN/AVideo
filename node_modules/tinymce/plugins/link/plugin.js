@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.1.2 (TBD)
+ * TinyMCE version 8.2.2 (2025-11-17)
  */
 
 (function () {
@@ -9,13 +9,12 @@
 
     /* eslint-disable @typescript-eslint/no-wrapper-object-types */
     const hasProto = (v, constructor, predicate) => {
-        var _a;
         if (predicate(v, constructor.prototype)) {
             return true;
         }
         else {
             // String-based fallback time
-            return ((_a = v.constructor) === null || _a === void 0 ? void 0 : _a.name) === constructor.name;
+            return v.constructor?.name === constructor.name;
         }
     };
     const typeOf = (x) => {
@@ -82,6 +81,11 @@
      * strict-null-checks
      */
     class Optional {
+        tag;
+        value;
+        // Sneaky optimisation: every instance of Optional.none is identical, so just
+        // reuse the same object
+        static singletonNone = new Optional(false);
         // The internal representation has a `tag` and a `value`, but both are
         // private: able to be console.logged, but not able to be accessed by code
         constructor(tag, value) {
@@ -249,7 +253,7 @@
          */
         getOrDie(message) {
             if (!this.tag) {
-                throw new Error(message !== null && message !== void 0 ? message : 'Called getOrDie on None');
+                throw new Error(message ?? 'Called getOrDie on None');
             }
             else {
                 return this.value;
@@ -313,9 +317,6 @@
             return this.tag ? `some(${this.value})` : 'none()';
         }
     }
-    // Sneaky optimisation: every instance of Optional.none is identical, so just
-    // reuse the same object
-    Optional.singletonNone = new Optional(false);
 
     const nativeSlice = Array.prototype.slice;
     const nativeIndexOf = Array.prototype.indexOf;
@@ -588,9 +589,8 @@
     };
     const hasProtocol = (url) => /^\w+:/i.test(url);
     const getHref = (elm) => {
-        var _a, _b;
         // Returns the real href value not the resolved a.href value
-        return (_b = (_a = elm.getAttribute('data-mce-href')) !== null && _a !== void 0 ? _a : elm.getAttribute('href')) !== null && _b !== void 0 ? _b : '';
+        return elm.getAttribute('data-mce-href') ?? elm.getAttribute('href') ?? '';
     };
     const applyRelTargetRules = (rel, isUnsafe) => {
         const rules = ['noopener'];
@@ -801,22 +801,20 @@
         editor.hasPlugin('rtc', true) ? editor.execCommand('unlink') : unlinkDomMutation(editor);
     };
     const unlinkImageFigure = (editor, fig) => {
-        var _a;
         const img = editor.dom.select('img', fig)[0];
         if (img) {
             const a = editor.dom.getParents(img, 'a[href]', fig)[0];
             if (a) {
-                (_a = a.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(img, a);
+                a.parentNode?.insertBefore(img, a);
                 editor.dom.remove(a);
             }
         }
     };
     const linkImageFigure = (dom, fig, attrs) => {
-        var _a;
         const img = dom.select('img', fig)[0];
         if (img) {
             const a = dom.create('a', attrs);
-            (_a = img.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(a, img);
+            img.parentNode?.insertBefore(a, img);
             a.appendChild(img);
         }
     };
@@ -903,8 +901,8 @@
             text: initialData.text,
             title: initialData.title
         };
-        const getTitleFromUrlChange = (url) => { var _a; return someIf(persistentData.title.length <= 0, Optional.from((_a = url.meta) === null || _a === void 0 ? void 0 : _a.title).getOr('')); };
-        const getTextFromUrlChange = (url) => { var _a; return someIf(persistentData.text.length <= 0, Optional.from((_a = url.meta) === null || _a === void 0 ? void 0 : _a.text).getOr(url.value)); };
+        const getTitleFromUrlChange = (url) => someIf(persistentData.title.length <= 0, Optional.from(url.meta?.title).getOr(''));
+        const getTextFromUrlChange = (url) => someIf(persistentData.text.length <= 0, Optional.from(url.meta?.text).getOr(url.value));
         const onUrlChange = (data) => {
             const text = getTextFromUrlChange(data.url);
             const title = getTitleFromUrlChange(data.url);
@@ -1018,7 +1016,7 @@
         try {
             return Optional.some(JSON.parse(text));
         }
-        catch (_a) {
+        catch {
             return Optional.none();
         }
     };
@@ -1265,7 +1263,7 @@
 
     const register = (editor) => {
         editor.addCommand('mceLink', (_ui, value) => {
-            if ((value === null || value === void 0 ? void 0 : value.dialog) === true || !useQuickLink(editor)) {
+            if (value?.dialog === true || !useQuickLink(editor)) {
                 open(editor);
             }
             else {
