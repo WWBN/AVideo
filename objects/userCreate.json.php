@@ -75,7 +75,7 @@ if (empty($_POST['user']) || empty($_POST['pass']) || empty($_POST['email']) || 
 }
 
 if (!empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-    $obj->error = __("Invalid Email");
+    $obj->error = __("Invalid Email")." ({$_POST['email']})";
     die(json_encode($obj));
 }
 
