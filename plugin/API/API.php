@@ -4026,7 +4026,7 @@ class API extends PluginAbstract
         }
 
         // Rate limiting for user registration (prevent abuse)
-        $this->checkRateLimit('user_registration', 3, 600); // 3 attempts per 10 minutes
+        $this->checkRateLimit('user_registration', 10, 600); // 10 attempts per 10 minutes
 
         $ignoreCaptcha = 1;
         if (isset($_REQUEST['emailVerified'])) {
@@ -5492,7 +5492,7 @@ class API extends PluginAbstract
         }
 
         // Rate limiting check (prevent abuse)
-        $this->checkRateLimit('user_deactivation', 5, 300); // 5 attempts per 5 minutes
+        $this->checkRateLimit('user_deactivation', 10, 300); // 10 attempts per 5 minutes
 
         // Execute the deactivation
         $targetUser->setStatus('i');
