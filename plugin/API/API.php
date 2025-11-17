@@ -4009,7 +4009,11 @@ class API extends PluginAbstract
         global $global;
         $this->getToPost();
         $obj = $this->getDataObject();
-        if ($obj->APISecret !== @$_GET['APISecret']) {
+
+        if (empty($_REQUEST['APISecret'])) {
+            $_REQUEST['APISecret'] = getBearerToken();
+        }
+        if ($obj->APISecret !== @$_REQUEST['APISecret']) {
             if(empty($_REQUEST['captcha'])){
                 return new ApiObject("Captcha is required");
             }
