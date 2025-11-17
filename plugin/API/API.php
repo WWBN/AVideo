@@ -4226,8 +4226,7 @@ class API extends PluginAbstract
     {
         global $global;
         $this->getToPost();
-        $obj = $this->getDataObject();
-        if ($obj->APISecret !== @$_GET['APISecret']) {
+        if (!self::isAPISecretValid()) {
             return new ApiObject("APISecret Not valid");
         }
         if (AVideoPlugin::isEnabledByName("User_Location")) {
