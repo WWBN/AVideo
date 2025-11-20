@@ -110,7 +110,7 @@ document.addEventListener('socketLiveOFFCallback', function(event) {
             if (typeof hideExtraVideosIfEmpty == 'function') {
                 hideExtraVideosIfEmpty();
             }
-        }, 500);
+        }, 1500);
     }, 500);
 
     if (isInLive(json)) {
