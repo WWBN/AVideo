@@ -106,12 +106,18 @@ document.addEventListener('socketLiveOFFCallback', function(event) {
         if (typeof processLiveStats == 'function') {
             processLiveStats(json.stats);
         }
-        setTimeout(function () {
-            if (typeof hideExtraVideosIfEmpty == 'function') {
-                hideExtraVideosIfEmpty();
-            }
-        }, 1500);
     }, 500);
+
+
+    if (typeof window.hideExtraVideosTimeout !== 'undefined') {
+        clearTimeout(window.hideExtraVideosTimeout);
+    }
+
+    window.hideExtraVideosTimeout = setTimeout(function () {
+        if (typeof hideExtraVideosIfEmpty == 'function') {
+            hideExtraVideosIfEmpty();
+        }
+    }, 2000);
 
     if (isInLive(json)) {
         showImage('postrollPoster', json.cleanKey);
