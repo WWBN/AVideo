@@ -38,7 +38,7 @@
         "abraham/twitteroauth": "^7.0",
         "symfony/http-client": "^5.3",
         "norkunas/onesignal-php-api": "^2.7",
-        "stripe/stripe-php": "^18.0",
+        "stripe/stripe-php": "^19.0",
         "symfony/translation": "^5.3",
         "amphp/amp": "^2.6",
         "scssphp/scssphp": "^1.11",
