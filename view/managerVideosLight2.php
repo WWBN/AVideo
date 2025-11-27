@@ -243,7 +243,7 @@ if (!empty($_REQUEST['forcePlayLists'])) {
     }
 
     $(document).ready(function() {
-        setupFormElement('#title', 35, 65, true, true);
+        setupFormElement('#title', 35, 65, false, true);
         <?php
         echo $croppie1['createCroppie'] . "('{$image}');";
         ?>

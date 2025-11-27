@@ -53,6 +53,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     }
 
     $(document).ready(function () {
-        setupFormElement('#title', 35, 65, true, true);
+        setupFormElement('#title', 35, 65, false, true);
     });
 </script>
