@@ -10,7 +10,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 $obj = AVideoPlugin::getObjectData("Gallery");
 $liveobj = AVideoPlugin::getObjectDataIfEnabled("Live");
-$_REQUEST['rowCount'] = 2;
+$_REQUEST['rowCount'] = !empty($obj->CategoriesDisplayCount) ? $obj->CategoriesDisplayCount : 2;
 $_REQUEST['current'] = getCurrentPage();
 if(empty($_GET['tagsid']) && !empty($_REQUEST['tags_id'])){
     $_GET['tagsid'] = $_REQUEST['tags_id'];
@@ -48,7 +48,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
         unsetCurrentPage();
         //var_dump($_currentPage, $_GET['page']);
         //var_dump($_cat, $setCacheName);exit;
-        $contents = getIncludeFileContent("{$global['systemRootPath']}plugin/Gallery/view/modeGalleryCategoryInclude.php", 
+        $contents = getIncludeFileContent("{$global['systemRootPath']}plugin/Gallery/view/modeGalleryCategoryInclude.php",
         ['_cat'=>$_cat, 'obj'=>$obj], $setCacheName);
         echo $contents;
     }
@@ -60,8 +60,8 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 <div class="col-sm-12 gallerySection" >
     <?php
     //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = false)
-    echo getPagination($totalPages, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem", false);    
-    $link = addSearchOptions("{$global['webSiteRootURL']}page/_pageNum_/");  
+    echo getPagination($totalPages, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem", false);
+    $link = addSearchOptions("{$global['webSiteRootURL']}page/_pageNum_/");
     echo getPagination($totalPages, $link);
     ?>
 </div>
