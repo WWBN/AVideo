@@ -313,6 +313,55 @@ $global['overrideNative'] = 1;
                     break;
             }
         });
+
+        window.addEventListener('redirectLive', function(event) {
+            let json = event.detail;
+            const users_id = <?php echo intval($users_id); ?>;
+            if (json === null) {
+                console.error('redirectLive socket EventListener error', event);
+                return false;
+            }
+
+            if (typeof json === 'string') {
+                try {
+                    json = JSON.parse(json);
+                } catch (error) {
+                    console.error("redirectLive: Invalid JSON string:", error);
+                    return;
+                }
+            }
+
+            // Check if we are on a live page
+            if (typeof isLive !== 'function' || !isLive()) {
+                console.log('redirectLive: Not on a live page, ignoring redirect');
+                return false;
+            }
+
+            // Get the current live information
+            var currentLive = isLive();
+            if (!currentLive || !currentLive.users_id) {
+                console.log('redirectLive: Could not get current live users_id');
+                return false;
+            }
+
+            // Extract users_id from the redirect message
+            var redirectUsersId = json.redirectLive && json.redirectLive.users_id;
+            if (!redirectUsersId) {
+                console.log('redirectLive: No users_id in redirect message');
+                return false;
+            }
+
+            // Only redirect if the users_id matches the current live
+            if (users_id !== parseInt(redirectUsersId)) {
+                console.log('redirectLive: users_id mismatch. Current:', users_id, 'Redirect:', redirectUsersId, '- ignoring redirect');
+                return false;
+            }
+
+            console.log('redirectLive: users_id matches, proceeding with redirect');
+            // Call the redirectLive function
+            redirectLive(json);
+        });
+
         $(document).ready(function() {
             <?php
             echo PlayerSkins::getStartPlayerJS();
