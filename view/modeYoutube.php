@@ -428,6 +428,9 @@ $_page->setExtraStyles(
 ?>
 <?php
 if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
+    if(empty($user_id) && !empty($video['users_id'])){
+        $user_id = $video['users_id'];
+    }
     User::getBackGroundHTML($user_id);
 }
 ?>
