@@ -618,7 +618,7 @@ $(document).ready(function() {
 
                 // Update disk read speed
                 if (response.read !== 'N/A') {
-                    var readSpeed = parseFloat(response.read);
+                    var readSpeed = parseSpeed(response.read);
                     var readColor = 'text-success';
                     if (readSpeed < 50) readColor = 'text-danger';
                     else if (readSpeed < 100) readColor = 'text-warning';
@@ -634,7 +634,7 @@ $(document).ready(function() {
 
                 // Update disk write speed
                 if (response.write !== 'N/A') {
-                    var writeSpeed = parseFloat(response.write);
+                    var writeSpeed = parseSpeed(response.write);
                     var writeColor = 'text-success';
                     if (writeSpeed < 30) writeColor = 'text-danger';
                     else if (writeSpeed < 80) writeColor = 'text-warning';
@@ -650,7 +650,7 @@ $(document).ready(function() {
 
                 // Update random I/O speed
                 if (response.random !== 'N/A') {
-                    var randomSpeed = parseFloat(response.random);
+                    var randomSpeed = parseSpeed(response.random);
                     var randomColor = 'text-success';
                     if (randomSpeed < 10) randomColor = 'text-danger';
                     else if (randomSpeed < 30) randomColor = 'text-warning';
@@ -666,7 +666,7 @@ $(document).ready(function() {
 
                 // Update IOPS
                 if (response.iops) {
-                    var iopsValue = parseInt(response.iops);
+                    var iopsValue = parseSpeed(response.iops);
                     var iopsColor = 'text-success';
                     if (iopsValue < 1000) iopsColor = 'text-danger';
                     else if (iopsValue < 5000) iopsColor = 'text-warning';
@@ -712,6 +712,14 @@ $(document).ready(function() {
             updateMetric('diskIOPSMetric', 'Error', errorMsg, 'fas fa-exclamation-triangle');
         }
     });
+
+    // Helper function to parse numbers with thousands separator
+    function parseSpeed(speedString) {
+        if (!speedString || speedString === 'N/A') return 0;
+        // Remove thousands separator (comma) and parse
+        var numStr = speedString.toString().replace(/,/g, '');
+        return parseFloat(numStr);
+    }
 
     function getDiskSpeedRating(speed, type) {
         if (type === 'read') {
