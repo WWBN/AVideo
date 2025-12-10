@@ -64,31 +64,73 @@ function getDiskType($path = '/')
         }
         return 'HDD';
     } else {
-        // Linux: Check rotation rate
-        $device = trim(shell_exec("df {$path} | tail -1 | awk '{print \$1}'"));
+        // Linux: Multiple methods to detect disk type
+
+        // Method 1: Get device from df
+        $device = trim(shell_exec("df {$path} 2>/dev/null | tail -1 | awk '{print \$1}'"));
         if (empty($device)) {
-            return 'Unknown';
+            // Try alternative method with readlink
+            $device = trim(shell_exec("readlink -f {$path} 2>/dev/null"));
+            if (empty($device)) {
+                return 'Unknown - Cannot detect device';
+            }
         }
-        // Extract device name (e.g., sda from /dev/sda1)
-        preg_match('/\/dev\/(sd[a-z]|nvme[0-9]n[0-9]|vd[a-z]|hd[a-z])/', $device, $matches);
+
+        // Extract base device name (e.g., sda from /dev/sda1, nvme0n1 from /dev/nvme0n1p1)
+        // Support for: sd[a-z], nvme[0-9]n[0-9], vd[a-z], hd[a-z], xvd[a-z], mmcblk[0-9]
+        preg_match('/\/dev\/(sd[a-z]+|nvme[0-9]+n[0-9]+|vd[a-z]+|hd[a-z]+|xvd[a-z]+|mmcblk[0-9]+)/', $device, $matches);
+
         if (empty($matches[1])) {
-            return 'Unknown';
+            // Try to extract just the disk name without partition
+            $diskName = preg_replace('/[0-9]+$/', '', basename($device));
+            if (empty($diskName)) {
+                return 'Unknown - Cannot parse device: ' . $device;
+            }
+        } else {
+            $diskName = $matches[1];
         }
-        $diskName = $matches[1];
 
         // Check if it's NVMe
         if (strpos($diskName, 'nvme') === 0) {
             return 'M.2 NVMe';
         }
 
-        // Check rotation rate
+        // Method 2: Check rotation rate
         $rotational = trim(shell_exec("cat /sys/block/{$diskName}/queue/rotational 2>/dev/null"));
         if ($rotational === '0') {
             return 'SSD';
         } elseif ($rotational === '1') {
             return 'HDD';
         }
-        return 'Unknown';
+
+        // Method 3: Check if device exists in /sys/block
+        if (file_exists("/sys/block/{$diskName}")) {
+            // Try to read rotational again with full path
+            $rotFile = "/sys/block/{$diskName}/queue/rotational";
+            if (file_exists($rotFile) && is_readable($rotFile)) {
+                $rotational = trim(file_get_contents($rotFile));
+                if ($rotational === '0') {
+                    return 'SSD';
+                } elseif ($rotational === '1') {
+                    return 'HDD';
+                }
+            }
+
+            // If we got here, assume SSD (most Kimsufi servers use SSD)
+            return 'SSD (detected)';
+        }
+
+        // Method 4: Check lsblk if available
+        $lsblkOutput = shell_exec("lsblk -d -o name,rota 2>/dev/null | grep {$diskName}");
+        if (!empty($lsblkOutput)) {
+            if (strpos($lsblkOutput, ' 0') !== false) {
+                return 'SSD';
+            } elseif (strpos($lsblkOutput, ' 1') !== false) {
+                return 'HDD';
+            }
+        }
+
+        return 'Unknown - Device: ' . $diskName;
     }
 }
 
@@ -278,28 +320,46 @@ function getInternetSpeed()
             }
         }
 
-        // Test upload speed using httpbin.org or similar
+        // Test upload speed - using PUT with raw data for accurate measurement
         if ($downloadSuccess) {
             $uploadUrls = [
+                'https://httpbin.org/put',
                 'https://httpbin.org/post',
+                'https://postman-echo.com/put',
                 'https://postman-echo.com/post'
             ];
 
-            // Create test data (1MB)
-            $uploadData = str_repeat('A', 1024 * 1024);
+            // Create test data (5MB for better accuracy on fast connections)
+            $uploadSize = 5 * 1024 * 1024; // 5MB
+            $uploadData = str_repeat('X', $uploadSize);
 
             foreach ($uploadUrls as $uploadUrl) {
                 $ch = curl_init($uploadUrl);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, ['data' => $uploadData]);
+
+                // Use PUT for raw binary upload (more accurate than POST form-encoded)
+                $isPut = strpos($uploadUrl, '/put') !== false;
+                if ($isPut) {
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $uploadData);
+                } else {
+                    // For POST, use raw body instead of form-encoded
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $uploadData);
+                }
+
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 20);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    'Content-Type: application/octet-stream',
+                    'Content-Length: ' . $uploadSize
+                ]);
 
                 $startTime = microtime(true);
                 $response = curl_exec($ch);
                 $endTime = microtime(true);
                 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $curlError = curl_error($ch);
                 curl_close($ch);
 
                 if ($httpCode == 200 && $response !== false) {
@@ -307,7 +367,6 @@ function getInternetSpeed()
 
                     if ($timeTaken > 0) {
                         // Calculate upload speed in Mbps
-                        $uploadSize = strlen($uploadData);
                         $speedBps = $uploadSize / $timeTaken;
                         $speedMbps = ($speedBps * 8) / (1024 * 1024);
                         $result['upload'] = number_format($speedMbps, 2) . ' Mbps';
