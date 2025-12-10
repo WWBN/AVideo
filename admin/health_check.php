@@ -165,37 +165,7 @@ if ($dfVideos > $_50GB) {
     $messages['Server'][] = ["Your videos directory is almost full, you have only " . humanFileSize($dfVideos) . ' free'];
 }
 
-// Disk type detection
-$diskType = getDiskType("/");
-$messages['Server'][] = "Root disk type: {$diskType}";
-
-$videoDiskType = getDiskType($videosDir);
-if ($videoDiskType !== $diskType) {
-    $messages['Server'][] = "Videos directory disk type: {$videoDiskType}";
-}
-
-// Disk I/O speed test
-$ioSpeed = getDiskIOSpeed($videosDir);
-if ($ioSpeed['read'] !== 'N/A' || $ioSpeed['write'] !== 'N/A') {
-    $messages['Server'][] = "Disk speed - Read: {$ioSpeed['read']}, Write: {$ioSpeed['write']}";
-}
-
-// Evaluate disk performance and show warnings
-$diskEval = evaluateDiskPerformance(
-    $videoDiskType,
-    isset($ioSpeed['readSpeed']) ? $ioSpeed['readSpeed'] : null,
-    isset($ioSpeed['writeSpeed']) ? $ioSpeed['writeSpeed'] : null
-);
-
-foreach ($diskEval['warnings'] as $warning) {
-    $messages['Server'][] = [$warning, 'Critical performance issue'];
-}
-
-foreach ($diskEval['recommendations'] as $recommendation) {
-    $messages['Server'][] = [$recommendation];
-}
-
-// Internet speed test will be loaded async via AJAX
+// Disk and Internet speed tests are loaded asynchronously via AJAX (see Performance Metrics panel)
 
 $verified = verify($global['webSiteRootURL']);
 
@@ -392,17 +362,46 @@ function printMessages($messages, $cols = array(4, 6))
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6">
-                        <div class="metric-box" id="diskMetric">
+                        <div class="metric-box" id="diskTypeMetric">
                             <div class="metric-icon"><i class="fas fa-hdd"></i></div>
                             <div class="metric-label">Disk Type</div>
-                            <div class="metric-value"><?php echo getDiskType('/'); ?></div>
-                            <div class="metric-status"><?php
-                                $videoDiskType = getDiskType(getVideosDir());
-                                $rootDiskType = getDiskType('/');
-                                if ($videoDiskType !== $rootDiskType) {
-                                    echo "Videos: {$videoDiskType}";
-                                }
-                            ?></div>
+                            <div class="metric-value"><div class="spinner"></div></div>
+                            <div class="metric-status">Detecting...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="metric-box" id="diskReadMetric">
+                            <div class="metric-icon"><i class="fas fa-arrow-circle-down"></i></div>
+                            <div class="metric-label">Disk Read Speed</div>
+                            <div class="metric-value"><div class="spinner"></div></div>
+                            <div class="metric-status">Testing...</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="metric-box" id="diskWriteMetric">
+                            <div class="metric-icon"><i class="fas fa-arrow-circle-up"></i></div>
+                            <div class="metric-label">Disk Write Speed</div>
+                            <div class="metric-value"><div class="spinner"></div></div>
+                            <div class="metric-status">Testing...</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="metric-box" id="diskRandomMetric">
+                            <div class="metric-icon"><i class="fas fa-random"></i></div>
+                            <div class="metric-label">Random I/O (4KB)</div>
+                            <div class="metric-value"><div class="spinner"></div></div>
+                            <div class="metric-status">Testing...</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="metric-box" id="diskIOPSMetric">
+                            <div class="metric-icon"><i class="fas fa-sync"></i></div>
+                            <div class="metric-label">IOPS</div>
+                            <div class="metric-value"><div class="spinner"></div></div>
+                            <div class="metric-status">Calculating...</div>
                         </div>
                     </div>
                 </div>
@@ -585,6 +584,160 @@ $(document).ready(function() {
             updateMetric('pingMetric', 'Error', errorMsg, 'fas fa-exclamation-triangle');
         }
     });
+
+    // Load disk speed test asynchronously
+    $.ajax({
+        url: '<?php echo $global['webSiteRootURL']; ?>view/ajax/getDiskSpeed.json.php',
+        method: 'POST',
+        dataType: 'json',
+        timeout: 60000, // 60 second timeout (disk tests take longer)
+        success: function(response) {
+            if (response.error) {
+                updateMetric('diskTypeMetric', 'Error', response.msg || 'Test failed', 'fas fa-exclamation-triangle');
+                updateMetric('diskReadMetric', 'Error', 'Test failed', 'fas fa-exclamation-triangle');
+                updateMetric('diskWriteMetric', 'Error', 'Test failed', 'fas fa-exclamation-triangle');
+                updateMetric('diskRandomMetric', 'Error', 'Test failed', 'fas fa-exclamation-triangle');
+                updateMetric('diskIOPSMetric', 'Error', 'Test failed', 'fas fa-exclamation-triangle');
+            } else {
+                // Update disk type
+                var diskTypeColor = 'text-primary';
+                var diskTypeIcon = 'fas fa-hdd';
+                if (response.diskType.includes('NVMe') || response.diskType.includes('M.2')) {
+                    diskTypeColor = 'text-success';
+                    diskTypeIcon = 'fas fa-bolt';
+                } else if (response.diskType.includes('SSD')) {
+                    diskTypeColor = 'text-info';
+                    diskTypeIcon = 'fas fa-microchip';
+                }
+
+                updateMetric('diskTypeMetric',
+                    '<span class="' + diskTypeColor + '">' + response.diskType + '</span>',
+                    '',
+                    diskTypeIcon
+                );
+
+                // Update disk read speed
+                if (response.read !== 'N/A') {
+                    var readSpeed = parseFloat(response.read);
+                    var readColor = 'text-success';
+                    if (readSpeed < 50) readColor = 'text-danger';
+                    else if (readSpeed < 100) readColor = 'text-warning';
+
+                    updateMetric('diskReadMetric',
+                        '<span class="' + readColor + '">' + response.read + '</span>',
+                        getDiskSpeedRating(readSpeed, 'read'),
+                        'fas fa-arrow-circle-down'
+                    );
+                } else {
+                    updateMetric('diskReadMetric', 'N/A', 'Test failed', 'fas fa-arrow-circle-down');
+                }
+
+                // Update disk write speed
+                if (response.write !== 'N/A') {
+                    var writeSpeed = parseFloat(response.write);
+                    var writeColor = 'text-success';
+                    if (writeSpeed < 30) writeColor = 'text-danger';
+                    else if (writeSpeed < 80) writeColor = 'text-warning';
+
+                    updateMetric('diskWriteMetric',
+                        '<span class="' + writeColor + '">' + response.write + '</span>',
+                        getDiskSpeedRating(writeSpeed, 'write'),
+                        'fas fa-arrow-circle-up'
+                    );
+                } else {
+                    updateMetric('diskWriteMetric', 'N/A', 'Test failed', 'fas fa-arrow-circle-up');
+                }
+
+                // Update random I/O speed
+                if (response.random !== 'N/A') {
+                    var randomSpeed = parseFloat(response.random);
+                    var randomColor = 'text-success';
+                    if (randomSpeed < 10) randomColor = 'text-danger';
+                    else if (randomSpeed < 30) randomColor = 'text-warning';
+
+                    updateMetric('diskRandomMetric',
+                        '<span class="' + randomColor + '">' + response.random + '</span>',
+                        getDiskSpeedRating(randomSpeed, 'random'),
+                        'fas fa-random'
+                    );
+                } else {
+                    updateMetric('diskRandomMetric', 'N/A', 'Test failed', 'fas fa-random');
+                }
+
+                // Update IOPS
+                if (response.iops) {
+                    var iopsValue = parseInt(response.iops);
+                    var iopsColor = 'text-success';
+                    if (iopsValue < 1000) iopsColor = 'text-danger';
+                    else if (iopsValue < 5000) iopsColor = 'text-warning';
+
+                    updateMetric('diskIOPSMetric',
+                        '<span class="' + iopsColor + '">' + response.iops + '</span>',
+                        getIOPSRating(iopsValue),
+                        'fas fa-sync'
+                    );
+                } else {
+                    updateMetric('diskIOPSMetric', 'N/A', 'Not available', 'fas fa-sync');
+                }
+
+                // Display disk warnings and recommendations if any
+                if (response.warnings && response.warnings.length > 0) {
+                    var warningHtml = '<div class="alert alert-warning" style="margin-top: 15px;"><strong><i class="fas fa-exclamation-triangle"></i> Disk Performance Warnings:</strong><ul style="margin: 10px 0 0 0;">';
+                    response.warnings.forEach(function(warning) {
+                        warningHtml += '<li>' + warning + '</li>';
+                    });
+                    warningHtml += '</ul></div>';
+                    $('#performanceMetrics .panel-body').append(warningHtml);
+                }
+
+                if (response.recommendations && response.recommendations.length > 0) {
+                    var recHtml = '<div class="alert alert-info" style="margin-top: 15px;"><strong><i class="fas fa-lightbulb"></i> Disk Recommendations:</strong><ul style="margin: 10px 0 0 0;">';
+                    response.recommendations.forEach(function(rec) {
+                        recHtml += '<li>' + rec + '</li>';
+                    });
+                    recHtml += '</ul></div>';
+                    $('#performanceMetrics .panel-body').append(recHtml);
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            var errorMsg = 'Connection timeout';
+            if (status === 'timeout') {
+                errorMsg = 'Test timed out (disk tests can take up to 60 seconds)';
+            }
+            updateMetric('diskTypeMetric', 'Error', errorMsg, 'fas fa-exclamation-triangle');
+            updateMetric('diskReadMetric', 'Error', errorMsg, 'fas fa-exclamation-triangle');
+            updateMetric('diskWriteMetric', 'Error', errorMsg, 'fas fa-exclamation-triangle');
+            updateMetric('diskRandomMetric', 'Error', errorMsg, 'fas fa-exclamation-triangle');
+            updateMetric('diskIOPSMetric', 'Error', errorMsg, 'fas fa-exclamation-triangle');
+        }
+    });
+
+    function getDiskSpeedRating(speed, type) {
+        if (type === 'read') {
+            if (speed >= 200) return 'Excellent (NVMe)';
+            if (speed >= 100) return 'Good (Fast SSD)';
+            if (speed >= 50) return 'Fair (SSD)';
+            return 'Poor (Slow)';
+        } else if (type === 'write') {
+            if (speed >= 150) return 'Excellent (NVMe)';
+            if (speed >= 80) return 'Good (Fast SSD)';
+            if (speed >= 30) return 'Fair (SSD)';
+            return 'Poor (Slow)';
+        } else { // random
+            if (speed >= 50) return 'Excellent';
+            if (speed >= 30) return 'Good';
+            if (speed >= 10) return 'Fair';
+            return 'Poor';
+        }
+    }
+
+    function getIOPSRating(iops) {
+        if (iops >= 10000) return 'Excellent (NVMe)';
+        if (iops >= 5000) return 'Good (Fast SSD)';
+        if (iops >= 1000) return 'Fair (SSD)';
+        return 'Poor (Slow)';
+    }
 
     function getSpeedRating(speed, type) {
         if (type === 'download') {

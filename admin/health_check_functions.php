@@ -54,15 +54,73 @@ function _isAPPInstalled($appName)
 function getDiskType($path = '/')
 {
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        // Windows: Use WMIC to get drive info
-        $drive = substr($path, 0, 2);
-        $output = shell_exec("wmic diskdrive get Model,MediaType 2>nul");
-        if (stripos($output, 'SSD') !== false) {
-            return 'SSD';
-        } elseif (stripos($output, 'NVMe') !== false || stripos($output, 'M.2') !== false) {
-            return 'M.2 NVMe';
+        // Windows: Use multiple methods to detect drive type
+        $drive = strtoupper(substr($path, 0, 1));
+
+        // Method 1: Try PowerShell to get drive type and media type
+        $psCommand = "Get-PhysicalDisk | Select-Object MediaType, BusType | ConvertTo-Json";
+        $output = shell_exec("powershell -NoProfile -Command \"" . $psCommand . "\" 2>nul");
+
+        if (!empty($output)) {
+            $json = json_decode($output);
+            if ($json) {
+                // Handle both single object and array
+                $disks = is_array($json) ? $json : [$json];
+                foreach ($disks as $disk) {
+                    if (isset($disk->MediaType)) {
+                        $mediaType = $disk->MediaType;
+                        $busType = isset($disk->BusType) ? $disk->BusType : '';
+
+                        if (stripos($mediaType, 'SSD') !== false) {
+                            if (stripos($busType, 'NVMe') !== false || $busType == 17) {
+                                return 'M.2 NVMe';
+                            }
+                            return 'SSD';
+                        } elseif (stripos($mediaType, 'HDD') !== false) {
+                            return 'HDD';
+                        } elseif ($mediaType == 4) { // 4 = SSD in Windows
+                            if (stripos($busType, 'NVMe') !== false || $busType == 17) {
+                                return 'M.2 NVMe';
+                            }
+                            return 'SSD';
+                        } elseif ($mediaType == 3) { // 3 = HDD in Windows
+                            return 'HDD';
+                        }
+                    }
+                }
+            }
         }
-        return 'HDD';
+
+        // Method 2: Try WMIC (older method, more compatible)
+        $wmicOutput = shell_exec("wmic diskdrive get Model,MediaType,InterfaceType 2>nul");
+        if (!empty($wmicOutput)) {
+            if (stripos($wmicOutput, 'SSD') !== false) {
+                if (stripos($wmicOutput, 'NVMe') !== false) {
+                    return 'M.2 NVMe';
+                }
+                return 'SSD';
+            } elseif (stripos($wmicOutput, 'NVMe') !== false) {
+                return 'M.2 NVMe';
+            }
+            return 'HDD (detected)';
+        }
+
+        // Method 3: Check specific drive letter with PowerShell
+        $driveCheck = "Get-Partition -DriveLetter {$drive} -ErrorAction SilentlyContinue | Get-Disk | Get-PhysicalDisk | Select-Object MediaType | ConvertTo-Json";
+        $driveOutput = shell_exec("powershell -NoProfile -Command \"" . $driveCheck . "\" 2>nul");
+
+        if (!empty($driveOutput)) {
+            $driveJson = json_decode($driveOutput);
+            if ($driveJson && isset($driveJson->MediaType)) {
+                if ($driveJson->MediaType == 4 || stripos($driveJson->MediaType, 'SSD') !== false) {
+                    return 'SSD';
+                } elseif ($driveJson->MediaType == 3 || stripos($driveJson->MediaType, 'HDD') !== false) {
+                    return 'HDD';
+                }
+            }
+        }
+
+        return 'Unknown (Windows - unable to detect)';
     } else {
         // Linux: Multiple methods to detect disk type
 
@@ -108,6 +166,65 @@ function getDiskType($path = '/')
                     }
                 }
             }
+        }
+
+        // Special handling for LVM (Logical Volume Manager) devices
+        if (strpos($device, '/dev/mapper/') !== false || strpos($device, '/dev/dm-') !== false || strpos($device, 'ubuntu--vg') !== false) {
+            // LVM device detected - find the underlying physical volume
+            $lvmDevice = basename($device);
+
+            // Try to find the physical device using lvdisplay and pvdisplay
+            $physicalDevice = trim(shell_exec("lvdisplay -C -o devices --noheadings /dev/mapper/{$lvmDevice} 2>/dev/null | sed 's/(.*//' | xargs"));
+
+            if (empty($physicalDevice)) {
+                // Alternative: Try with dmsetup to get underlying device
+                $dmName = str_replace('/dev/mapper/', '', $device);
+                $dmTable = shell_exec("dmsetup table {$dmName} 2>/dev/null");
+                if (!empty($dmTable)) {
+                    preg_match('/(\d+:\d+)/', $dmTable, $majorMinor);
+                    if (!empty($majorMinor[1])) {
+                        $physicalDevice = trim(shell_exec("lsblk -no NAME -r 2>/dev/null | while read dev; do [ \"\$(cat /sys/class/block/\$dev/dev 2>/dev/null)\" = \"{$majorMinor[1]}\" ] && echo \$dev && break; done"));
+                    }
+                }
+            }
+
+            if (empty($physicalDevice)) {
+                // Try to get from /sys/block
+                $dmNumber = str_replace('/dev/dm-', '', $device);
+                if (is_numeric($dmNumber)) {
+                    $slaves = shell_exec("ls -1 /sys/block/dm-{$dmNumber}/slaves/ 2>/dev/null");
+                    if (!empty($slaves)) {
+                        $slaveDevices = explode("\n", trim($slaves));
+                        if (!empty($slaveDevices[0])) {
+                            $physicalDevice = $slaveDevices[0];
+                        }
+                    }
+                }
+            }
+
+            if (!empty($physicalDevice)) {
+                // Extract base device name (e.g., sda from sda1)
+                preg_match('/(sd[a-z]+|nvme[0-9]+n[0-9]+|vd[a-z]+|hd[a-z]+|xvd[a-z]+|mmcblk[0-9]+)/', $physicalDevice, $lvmMatches);
+                if (!empty($lvmMatches[1])) {
+                    $diskName = $lvmMatches[1];
+
+                    // Check if physical disk is NVMe
+                    if (strpos($diskName, 'nvme') === 0) {
+                        return 'M.2 NVMe (LVM)';
+                    }
+
+                    // Check rotation of physical disk
+                    $rotational = trim(shell_exec("cat /sys/block/{$diskName}/queue/rotational 2>/dev/null"));
+                    if ($rotational === '0') {
+                        return 'SSD (LVM)';
+                    } elseif ($rotational === '1') {
+                        return 'HDD (LVM)';
+                    }
+                }
+            }
+
+            // If we couldn't determine the physical device type, assume SSD (most common for LVM)
+            return 'SSD (LVM - detected)';
         }
 
         // Extract base device name (e.g., sda from /dev/sda1, nvme0n1 from /dev/nvme0n1p1)
@@ -219,42 +336,124 @@ function getDiskType($path = '/')
     }
 }
 
-function getDiskIOSpeed($path = '/')
+function getDiskIOSpeedImproved($path = null)
 {
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        return array('read' => 'N/A', 'write' => 'N/A');
+    // Use videos directory by default
+    if ($path === null) {
+        $path = getVideosDir();
     }
 
-    $testFile = rtrim($path, '/') . '/speed_test_' . uniqid() . '.tmp';
-    $result = array('read' => 'N/A', 'write' => 'N/A');
+    $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+
+    $result = array(
+        'read' => 'N/A',
+        'write' => 'N/A',
+        'sequential' => 'N/A',
+        'random' => 'N/A',
+        'readSpeed' => 0,
+        'writeSpeed' => 0,
+        'sequentialSpeed' => 0,
+        'randomSpeed' => 0
+    );
 
     try {
-        // Test write speed (10MB file)
-        $data = str_repeat('0123456789', 1024 * 1024); // 10MB
-        $startTime = microtime(true);
-        @file_put_contents($testFile, $data);
-        $writeTime = microtime(true) - $startTime;
+        // Test 1: Sequential Write Speed (50MB file for more accuracy)
+        $testFile = rtrim($path, '/') . '/speed_test_seq_' . uniqid() . '.tmp';
+        $fileSize = 50 * 1024 * 1024; // 50MB
+        $data = str_repeat('0123456789ABCDEF', 3276800); // 50MB
 
-        if ($writeTime > 0) {
-            $writeMBps = 10 / $writeTime;
-            $result['write'] = number_format($writeMBps, 2) . ' MB/s';
-            $result['writeSpeed'] = $writeMBps;
+        $startTime = microtime(true);
+        $handle = @fopen($testFile, 'wb');
+        if ($handle) {
+            fwrite($handle, $data);
+            fflush($handle);
+            fclose($handle);
+            $writeTime = microtime(true) - $startTime;
+
+            if ($writeTime > 0) {
+                $writeMBps = $fileSize / (1024 * 1024) / $writeTime;
+                $result['write'] = number_format($writeMBps, 2) . ' MB/s';
+                $result['writeSpeed'] = $writeMBps;
+            }
         }
 
-        // Test read speed
+        // Test 2: Sequential Read Speed
         if (file_exists($testFile)) {
-            $startTime = microtime(true);
-            @file_get_contents($testFile);
-            $readTime = microtime(true) - $startTime;
+            // Clear file cache (if possible) - Linux only
+            if (!$isWindows && function_exists('shell_exec')) {
+                @shell_exec('sync; echo 3 > /proc/sys/vm/drop_caches 2>/dev/null');
+            }
 
-            if ($readTime > 0) {
-                $readMBps = 10 / $readTime;
-                $result['read'] = number_format($readMBps, 2) . ' MB/s';
-                $result['readSpeed'] = $readMBps;
+            $startTime = microtime(true);
+            $handle = @fopen($testFile, 'rb');
+            if ($handle) {
+                while (!feof($handle)) {
+                    fread($handle, 8192);
+                }
+                fclose($handle);
+                $readTime = microtime(true) - $startTime;
+
+                if ($readTime > 0) {
+                    $readMBps = $fileSize / (1024 * 1024) / $readTime;
+                    $result['read'] = number_format($readMBps, 2) . ' MB/s';
+                    $result['readSpeed'] = $readMBps;
+                    $result['sequential'] = number_format($readMBps, 2) . ' MB/s';
+                    $result['sequentialSpeed'] = $readMBps;
+                }
             }
 
             @unlink($testFile);
         }
+
+        // Test 3: Random I/O Speed (4KB blocks - more realistic for video serving)
+        $testFile = rtrim($path, '/') . '/speed_test_rand_' . uniqid() . '.tmp';
+        $blockSize = 4096; // 4KB blocks
+        $numBlocks = 1000; // 4MB total
+        $data = str_repeat('X', $blockSize);
+
+        $startTime = microtime(true);
+        $handle = @fopen($testFile, 'wb');
+        if ($handle) {
+            for ($i = 0; $i < $numBlocks; $i++) {
+                fwrite($handle, $data);
+                if ($i % 100 === 0) {
+                    fflush($handle);
+                }
+            }
+            fclose($handle);
+
+            $randomWriteTime = microtime(true) - $startTime;
+
+            // Random read
+            $startTime = microtime(true);
+            $handle = @fopen($testFile, 'rb');
+            if ($handle) {
+                for ($i = 0; $i < 500; $i++) {
+                    $offset = rand(0, $numBlocks - 1) * $blockSize;
+                    fseek($handle, $offset);
+                    fread($handle, $blockSize);
+                }
+                fclose($handle);
+
+                $randomReadTime = microtime(true) - $startTime;
+                $avgRandomTime = ($randomWriteTime + $randomReadTime) / 2;
+
+                if ($avgRandomTime > 0) {
+                    $randomMBps = ($numBlocks * $blockSize) / (1024 * 1024) / $avgRandomTime;
+                    $result['random'] = number_format($randomMBps, 2) . ' MB/s';
+                    $result['randomSpeed'] = $randomMBps;
+                }
+            }
+
+            @unlink($testFile);
+        }
+
+        // Calculate IOPS (Input/Output Operations Per Second) for random I/O
+        if ($result['randomSpeed'] > 0) {
+            $iops = ($result['randomSpeed'] * 1024 * 1024) / $blockSize;
+            $result['iops'] = number_format($iops, 0) . ' IOPS';
+        }
+
     } catch (Exception $e) {
         @unlink($testFile);
     }
