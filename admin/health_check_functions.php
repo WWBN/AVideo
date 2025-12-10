@@ -1,0 +1,421 @@
+<?php
+/**
+ * Health Check Functions - Centralized functions and configuration
+ * This file contains all performance checking functions and threshold configurations
+ */
+
+// ========== CONFIGURATION / THRESHOLDS ==========
+// Optimized for Kimsufi dedicated servers with standard SSD and 100 Mbps internet
+
+class HealthCheckConfig {
+    // Internet Speed Thresholds (in Mbps)
+    // Kimsufi typically provides 100 Mbps (sometimes burst to 250-500 Mbps)
+    const DOWNLOAD_CRITICAL = 10;    // Very low even for 100 Mbps connection
+    const DOWNLOAD_WARNING = 30;     // Below expected for 100 Mbps
+    const DOWNLOAD_OPTIMAL = 80;     // Good for 100 Mbps line
+
+    const UPLOAD_CRITICAL = 5;       // Very low for dedicated server
+    const UPLOAD_WARNING = 10;       // Below minimum for video hosting
+    const UPLOAD_RECOMMENDED = 30;   // Good for 100 Mbps symmetric
+    const UPLOAD_OPTIMAL = 80;       // Near line capacity
+
+    // Ping/Latency Thresholds (in milliseconds)
+    // Kimsufi servers usually have good latency (10-30ms in Europe)
+    const PING_EXCELLENT = 30;       // Typical for Kimsufi in same region
+    const PING_GOOD = 60;            // Acceptable for data centers
+    const PING_WARNING = 150;        // May indicate routing issues
+
+    // Disk Speed Thresholds (in MB/s)
+    // Standard SATA SSD (not NVMe) typical speeds: 400-550 MB/s read, 300-500 MB/s write
+    const DISK_READ_CRITICAL = 80;   // Very slow even for old SSD
+    const DISK_READ_WARNING = 150;   // Below expected for standard SSD
+    const DISK_READ_RECOMMENDED = 300; // Good performance for SATA SSD
+
+    const DISK_WRITE_CRITICAL = 80;  // Very slow even for old SSD
+    const DISK_WRITE_WARNING = 150;  // Below expected for standard SSD
+    const DISK_WRITE_RECOMMENDED = 300; // Good performance for SATA SSD
+
+    // Expected speeds for different disk types (in MB/s)
+    const SSD_EXPECTED_SPEED = 200;  // Minimum expected for standard SATA SSD
+    const NVME_EXPECTED_SPEED = 500; // Minimum for NVMe (Kimsufi doesn't typically have these)
+    const NVME_OPTIMAL_SPEED = 1000; // Optimal NVMe performance
+}
+
+// ========== UTILITY FUNCTIONS ==========
+
+function _isAPPInstalled($appName)
+{
+    $appName = preg_replace('/[^a-z0-9_-]/i', '', $appName);
+    return trim(shell_exec("which {$appName}"));
+}
+
+// ========== DISK FUNCTIONS ==========
+
+function getDiskType($path = '/')
+{
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        // Windows: Use WMIC to get drive info
+        $drive = substr($path, 0, 2);
+        $output = shell_exec("wmic diskdrive get Model,MediaType 2>nul");
+        if (stripos($output, 'SSD') !== false) {
+            return 'SSD';
+        } elseif (stripos($output, 'NVMe') !== false || stripos($output, 'M.2') !== false) {
+            return 'M.2 NVMe';
+        }
+        return 'HDD';
+    } else {
+        // Linux: Check rotation rate
+        $device = trim(shell_exec("df {$path} | tail -1 | awk '{print \$1}'"));
+        if (empty($device)) {
+            return 'Unknown';
+        }
+        // Extract device name (e.g., sda from /dev/sda1)
+        preg_match('/\/dev\/(sd[a-z]|nvme[0-9]n[0-9]|vd[a-z]|hd[a-z])/', $device, $matches);
+        if (empty($matches[1])) {
+            return 'Unknown';
+        }
+        $diskName = $matches[1];
+
+        // Check if it's NVMe
+        if (strpos($diskName, 'nvme') === 0) {
+            return 'M.2 NVMe';
+        }
+
+        // Check rotation rate
+        $rotational = trim(shell_exec("cat /sys/block/{$diskName}/queue/rotational 2>/dev/null"));
+        if ($rotational === '0') {
+            return 'SSD';
+        } elseif ($rotational === '1') {
+            return 'HDD';
+        }
+        return 'Unknown';
+    }
+}
+
+function getDiskIOSpeed($path = '/')
+{
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        return array('read' => 'N/A', 'write' => 'N/A');
+    }
+
+    $testFile = rtrim($path, '/') . '/speed_test_' . uniqid() . '.tmp';
+    $result = array('read' => 'N/A', 'write' => 'N/A');
+
+    try {
+        // Test write speed (10MB file)
+        $data = str_repeat('0123456789', 1024 * 1024); // 10MB
+        $startTime = microtime(true);
+        @file_put_contents($testFile, $data);
+        $writeTime = microtime(true) - $startTime;
+
+        if ($writeTime > 0) {
+            $writeMBps = 10 / $writeTime;
+            $result['write'] = number_format($writeMBps, 2) . ' MB/s';
+            $result['writeSpeed'] = $writeMBps;
+        }
+
+        // Test read speed
+        if (file_exists($testFile)) {
+            $startTime = microtime(true);
+            @file_get_contents($testFile);
+            $readTime = microtime(true) - $startTime;
+
+            if ($readTime > 0) {
+                $readMBps = 10 / $readTime;
+                $result['read'] = number_format($readMBps, 2) . ' MB/s';
+                $result['readSpeed'] = $readMBps;
+            }
+
+            @unlink($testFile);
+        }
+    } catch (Exception $e) {
+        @unlink($testFile);
+    }
+
+    return $result;
+}
+
+function evaluateDiskPerformance($diskType, $readSpeed, $writeSpeed)
+{
+    $warnings = [];
+    $recommendations = [];
+
+    // Evaluate based on disk type
+    if ($diskType === 'HDD') {
+        $warnings[] = 'HDD detected - not optimal for video encoding';
+        $recommendations[] = 'For video encoding and hosting, we strongly recommend upgrading to an SSD or M.2 NVMe drive. HDDs are 5-10x slower and will cause encoding bottlenecks.';
+    } elseif ($diskType === 'Unknown') {
+        $recommendations[] = 'Could not detect disk type. Ensure you are using SSD or M.2 NVMe for optimal performance.';
+    }
+
+    // Evaluate read/write speeds
+    if ($readSpeed !== null && $readSpeed > 0) {
+        if ($readSpeed < HealthCheckConfig::DISK_READ_CRITICAL) {
+            $warnings[] = 'Disk read speed is critically low';
+            $recommendations[] = sprintf(
+                'Read speed below %d MB/s will cause slow video streaming and encoding. Minimum %d MB/s recommended for basic usage, %d+ MB/s for professional hosting.',
+                HealthCheckConfig::DISK_READ_CRITICAL,
+                HealthCheckConfig::DISK_READ_WARNING,
+                HealthCheckConfig::DISK_READ_RECOMMENDED
+            );
+        } elseif ($readSpeed < HealthCheckConfig::DISK_READ_WARNING) {
+            $recommendations[] = sprintf(
+                'Read speed below %d MB/s may cause performance issues. Consider upgrading to a faster SSD.',
+                HealthCheckConfig::DISK_READ_WARNING
+            );
+        }
+    }
+
+    if ($writeSpeed !== null && $writeSpeed > 0) {
+        if ($writeSpeed < HealthCheckConfig::DISK_WRITE_CRITICAL) {
+            $warnings[] = 'Disk write speed is critically low';
+            $recommendations[] = sprintf(
+                'Write speed below %d MB/s will cause very slow video encoding and uploads. Minimum %d MB/s recommended, %d+ MB/s for professional hosting.',
+                HealthCheckConfig::DISK_WRITE_CRITICAL,
+                HealthCheckConfig::DISK_WRITE_WARNING,
+                HealthCheckConfig::DISK_WRITE_RECOMMENDED
+            );
+        } elseif ($writeSpeed < HealthCheckConfig::DISK_WRITE_WARNING) {
+            $recommendations[] = sprintf(
+                'Write speed below %d MB/s may cause encoding delays. Consider upgrading to a faster SSD or M.2 NVMe drive.',
+                HealthCheckConfig::DISK_WRITE_WARNING
+            );
+        }
+    }
+
+    // Recommendations based on disk type
+    if ($diskType === 'SSD' && $writeSpeed !== null && $writeSpeed < HealthCheckConfig::SSD_EXPECTED_SPEED) {
+        $recommendations[] = sprintf(
+            'Your SSD performance is below expected (%d MB/s). Check for: disk health issues, TRIM support, or SATA bottlenecks.',
+            HealthCheckConfig::SSD_EXPECTED_SPEED
+        );
+    }
+
+    if ($diskType === 'M.2 NVMe' && $writeSpeed !== null && $writeSpeed < HealthCheckConfig::NVME_EXPECTED_SPEED) {
+        $recommendations[] = sprintf(
+            'Your M.2 NVMe performance is below expected (should be %d+ MB/s). Check for: PCIe lane limitations, thermal throttling, or disk health issues.',
+            HealthCheckConfig::NVME_OPTIMAL_SPEED
+        );
+    }
+
+    return ['warnings' => $warnings, 'recommendations' => $recommendations];
+}
+
+// ========== INTERNET SPEED FUNCTIONS ==========
+
+function getInternetSpeed()
+{
+    $result = array(
+        'download' => 'N/A',
+        'upload' => 'N/A',
+        'ping' => 'N/A',
+        'status' => 'error'
+    );
+
+    try {
+        // Test ping first using a reliable endpoint
+        $pingUrl = 'https://www.google.com/favicon.ico';
+        $pingStart = microtime(true);
+        $ch = curl_init($pingUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_NOBODY, true); // HEAD request for minimal data
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_exec($ch);
+        $pingEnd = microtime(true);
+        curl_close($ch);
+
+        $pingTime = ($pingEnd - $pingStart) * 1000; // Convert to milliseconds
+        $result['ping'] = number_format($pingTime, 0) . ' ms';
+
+        // Test download speed using a larger file (about 1-5MB)
+        // Using multiple CDN options as fallback
+        $downloadUrls = [
+            'https://speed.cloudflare.com/__down?bytes=5000000', // Cloudflare 5MB
+            'https://proof.ovh.net/files/1Mb.dat', // OVH 1MB
+            'https://ash-speed.hetzner.com/1GB.bin' // Hetzner (we'll only download part of it)
+        ];
+
+        $downloadSuccess = false;
+        foreach ($downloadUrls as $testUrl) {
+            $ch = curl_init($testUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+            // Limit download to 5MB max to avoid long waits
+            curl_setopt($ch, CURLOPT_BUFFERSIZE, 128);
+            curl_setopt($ch, CURLOPT_NOPROGRESS, false);
+
+            $downloadedSize = 0;
+            $startTime = microtime(true);
+
+            curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, function($resource, $download_size, $downloaded, $upload_size, $uploaded) use (&$downloadedSize) {
+                $downloadedSize = $downloaded;
+                // Stop after 5MB
+                return ($downloaded > 5000000) ? 1 : 0;
+            });
+
+            $fileContent = curl_exec($ch);
+            $endTime = microtime(true);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode == 200 && $fileContent !== false) {
+                $fileSize = strlen($fileContent);
+                $timeTaken = $endTime - $startTime;
+
+                if ($timeTaken > 0 && $fileSize > 0) {
+                    // Calculate speed in Mbps
+                    $speedBps = $fileSize / $timeTaken;
+                    $speedMbps = ($speedBps * 8) / (1024 * 1024);
+                    $result['download'] = number_format($speedMbps, 2) . ' Mbps';
+                    $result['status'] = 'success';
+                    $downloadSuccess = true;
+                    break;
+                }
+            }
+        }
+
+        // Test upload speed using httpbin.org or similar
+        if ($downloadSuccess) {
+            $uploadUrls = [
+                'https://httpbin.org/post',
+                'https://postman-echo.com/post'
+            ];
+
+            // Create test data (1MB)
+            $uploadData = str_repeat('A', 1024 * 1024);
+
+            foreach ($uploadUrls as $uploadUrl) {
+                $ch = curl_init($uploadUrl);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, ['data' => $uploadData]);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+                $startTime = microtime(true);
+                $response = curl_exec($ch);
+                $endTime = microtime(true);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+
+                if ($httpCode == 200 && $response !== false) {
+                    $timeTaken = $endTime - $startTime;
+
+                    if ($timeTaken > 0) {
+                        // Calculate upload speed in Mbps
+                        $uploadSize = strlen($uploadData);
+                        $speedBps = $uploadSize / $timeTaken;
+                        $speedMbps = ($speedBps * 8) / (1024 * 1024);
+                        $result['upload'] = number_format($speedMbps, 2) . ' Mbps';
+                        break;
+                    }
+                }
+            }
+
+            if ($result['upload'] === 'N/A') {
+                $result['upload'] = 'Test failed';
+            }
+        }
+
+    } catch (Exception $e) {
+        $result['status'] = 'error';
+        $result['msg'] = $e->getMessage();
+    }
+
+    return $result;
+}
+
+function evaluateInternetSpeed($downloadSpeed, $uploadSpeed, $pingValue)
+{
+    $warnings = [];
+    $recommendations = [];
+
+    // Evaluate download speed (important for CDN delivery and user experience)
+    if ($downloadSpeed < HealthCheckConfig::DOWNLOAD_CRITICAL) {
+        $warnings[] = 'Download speed is critically low';
+        $recommendations[] = sprintf(
+            'Download speed below %d Mbps may cause buffering for users. Consider upgrading your connection or using a CDN.',
+            HealthCheckConfig::DOWNLOAD_CRITICAL
+        );
+    } elseif ($downloadSpeed < HealthCheckConfig::DOWNLOAD_WARNING) {
+        $warnings[] = 'Download speed is below optimal';
+        $recommendations[] = sprintf(
+            'For better video streaming performance, we recommend at least %d Mbps download speed.',
+            HealthCheckConfig::DOWNLOAD_WARNING
+        );
+    }
+
+    // Evaluate upload speed (critical for video uploads and live streaming)
+    if ($uploadSpeed > 0 && $uploadSpeed < HealthCheckConfig::UPLOAD_CRITICAL) {
+        $warnings[] = 'Upload speed is critically low for video hosting';
+        $recommendations[] = sprintf(
+            'Upload speed below %d Mbps will cause very slow video uploads and encoding queue delays. Minimum %d Mbps recommended for basic usage, %d+ Mbps for professional hosting.',
+            HealthCheckConfig::UPLOAD_CRITICAL,
+            HealthCheckConfig::UPLOAD_WARNING,
+            HealthCheckConfig::UPLOAD_RECOMMENDED
+        );
+    } elseif ($uploadSpeed > 0 && $uploadSpeed < HealthCheckConfig::UPLOAD_WARNING) {
+        $warnings[] = 'Upload speed is low for optimal video hosting';
+        $recommendations[] = sprintf(
+            'Upload speed below %d Mbps may cause slow video uploads. We recommend at least %d Mbps for smooth video hosting and live streaming.',
+            HealthCheckConfig::UPLOAD_WARNING,
+            HealthCheckConfig::UPLOAD_RECOMMENDED
+        );
+    } elseif ($uploadSpeed > 0 && $uploadSpeed < HealthCheckConfig::UPLOAD_RECOMMENDED) {
+        $recommendations[] = sprintf(
+            'For professional video hosting with multiple concurrent uploads, consider upgrading to %d+ Mbps upload speed.',
+            HealthCheckConfig::UPLOAD_OPTIMAL
+        );
+    }
+
+    // Evaluate ping/latency
+    if ($pingValue > HealthCheckConfig::PING_WARNING) {
+        $warnings[] = 'High latency detected';
+        $recommendations[] = sprintf(
+            'Ping above %dms may cause delays in live streaming and real-time features. Check your network connection.',
+            HealthCheckConfig::PING_WARNING
+        );
+    } elseif ($pingValue > HealthCheckConfig::PING_GOOD) {
+        $recommendations[] = sprintf(
+            'Ping above %dms may affect live streaming quality. Consider optimizing your network connection.',
+            HealthCheckConfig::PING_GOOD
+        );
+    }
+
+    return ['warnings' => $warnings, 'recommendations' => $recommendations];
+}
+
+function getPerformanceLevel($download, $upload, $ping)
+{
+    // Determine overall performance level for AVideo hosting
+    $score = 0;
+
+    // Download score (max 30 points)
+    if ($download >= HealthCheckConfig::DOWNLOAD_OPTIMAL) $score += 30;
+    elseif ($download >= HealthCheckConfig::DOWNLOAD_WARNING) $score += 25;
+    elseif ($download >= HealthCheckConfig::DOWNLOAD_CRITICAL) $score += 15;
+    else $score += 5;
+
+    // Upload score (max 50 points - most critical for video hosting)
+    if ($upload >= HealthCheckConfig::UPLOAD_OPTIMAL) $score += 50;
+    elseif ($upload >= HealthCheckConfig::UPLOAD_RECOMMENDED) $score += 40;
+    elseif ($upload >= HealthCheckConfig::UPLOAD_WARNING) $score += 25;
+    elseif ($upload >= HealthCheckConfig::UPLOAD_CRITICAL) $score += 10;
+    else $score += 5;
+
+    // Ping score (max 20 points)
+    if ($ping <= HealthCheckConfig::PING_EXCELLENT) $score += 20;
+    elseif ($ping <= HealthCheckConfig::PING_GOOD) $score += 15;
+    elseif ($ping <= HealthCheckConfig::PING_WARNING) $score += 10;
+    else $score += 5;
+
+    // Categorize performance
+    if ($score >= 85) return 'excellent';
+    if ($score >= 65) return 'good';
+    if ($score >= 40) return 'fair';
+    return 'poor';
+}
