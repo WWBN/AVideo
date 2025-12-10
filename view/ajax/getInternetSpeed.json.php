@@ -1,4 +1,9 @@
 <?php
+// Increase timeout for internet speed tests
+set_time_limit(90);
+ini_set('max_execution_time', '90');
+ini_set('memory_limit', '256M');
+
 require_once '../../videos/configuration.php';
 require_once '../../admin/health_check_functions.php';
 

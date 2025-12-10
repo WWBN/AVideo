@@ -1,4 +1,9 @@
 <?php
+// Increase timeout for disk speed tests (can take up to 60 seconds)
+set_time_limit(120);
+ini_set('max_execution_time', '120');
+ini_set('memory_limit', '256M');
+
 require_once '../../videos/configuration.php';
 require_once '../../admin/health_check_functions.php';
 

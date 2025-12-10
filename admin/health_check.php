@@ -716,9 +716,10 @@ $(document).ready(function() {
     // Helper function to parse numbers with thousands separator
     function parseSpeed(speedString) {
         if (!speedString || speedString === 'N/A') return 0;
-        // Remove thousands separator (comma) and parse
-        var numStr = speedString.toString().replace(/,/g, '');
-        return parseFloat(numStr);
+        // Remove ALL commas (thousands separators) and parse
+        // Example: "1,093,548 IOPS" becomes "1093548"
+        var numStr = speedString.toString().replace(/,/g, '').match(/[\d.]+/);
+        return numStr ? parseFloat(numStr[0]) : 0;
     }
 
     function getDiskSpeedRating(speed, type) {
