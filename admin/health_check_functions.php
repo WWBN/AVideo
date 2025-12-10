@@ -76,6 +76,40 @@ function getDiskType($path = '/')
             }
         }
 
+        // Special handling for Docker overlay filesystem
+        if (strpos($device, 'overlay') !== false || strpos($device, 'shm') !== false || strpos($device, 'tmpfs') !== false) {
+            // In Docker, try to find the underlying physical device
+            // Method 1: Check /etc/mtab or /proc/mounts for the real device
+            $mounts = @file_get_contents('/proc/mounts');
+            if ($mounts !== false) {
+                // Look for the root filesystem mount
+                preg_match('/^(\/dev\/[^\s]+)\s+\/\s+/m', $mounts, $rootMatches);
+                if (!empty($rootMatches[1])) {
+                    $device = $rootMatches[1];
+                } else {
+                    // Try to find any /dev/ mount
+                    preg_match('/^(\/dev\/(?:sd[a-z]+|nvme[0-9]+n[0-9]+|vd[a-z]+|md[0-9]+)[^\s]*)\s+/m', $mounts, $anyMatches);
+                    if (!empty($anyMatches[1])) {
+                        $device = $anyMatches[1];
+                    }
+                }
+            }
+
+            // Method 2: Try to get the device of the parent directory
+            if (strpos($device, 'overlay') !== false) {
+                $parentDevice = trim(shell_exec("df /var/lib/docker 2>/dev/null | tail -1 | awk '{print \$1}'"));
+                if (!empty($parentDevice) && strpos($parentDevice, 'overlay') === false) {
+                    $device = $parentDevice;
+                } else {
+                    // Try root directory
+                    $rootDevice = trim(shell_exec("df / 2>/dev/null | tail -1 | awk '{print \$1}'"));
+                    if (!empty($rootDevice) && strpos($rootDevice, 'overlay') === false) {
+                        $device = $rootDevice;
+                    }
+                }
+            }
+        }
+
         // Extract base device name (e.g., sda from /dev/sda1, nvme0n1 from /dev/nvme0n1p1)
         // Support for: sd[a-z], nvme[0-9]n[0-9], vd[a-z], hd[a-z], xvd[a-z], mmcblk[0-9], md[0-9]
         preg_match('/\/dev\/(sd[a-z]+|nvme[0-9]+n[0-9]+|vd[a-z]+|hd[a-z]+|xvd[a-z]+|mmcblk[0-9]+|md[0-9]+)/', $device, $matches);
@@ -371,83 +405,11 @@ function getInternetSpeed()
             }
         }
 
-        // Test upload speed - simplified and more reliable
-        $uploadUrls = [
-            'https://httpbin.org/anything',
-            'https://postman-echo.com/post',
-            'https://httpbin.org/post'
-        ];
-
-        // Start with smaller size (1MB) for compatibility
-        $uploadSize = 1024 * 1024; // 1MB
-        $uploadData = str_repeat('0123456789', 102400); // 1MB of repeated data
-
-        foreach ($uploadUrls as $uploadUrl) {
-            $ch = curl_init($uploadUrl);
-
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $uploadData);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/octet-stream',
-                'Expect:' // Remove Expect header to avoid issues
-            ]);
-
-            $startTime = microtime(true);
-            $response = curl_exec($ch);
-            $endTime = microtime(true);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $curlError = curl_error($ch);
-            curl_close($ch);
-
-            // Accept any 2xx response
-            if ($httpCode >= 200 && $httpCode < 300 && $response !== false) {
-                $timeTaken = $endTime - $startTime;
-
-                if ($timeTaken > 0.1) { // At least 100ms to be meaningful
-                    // Calculate upload speed in Mbps
-                    $speedBps = $uploadSize / $timeTaken;
-                    $speedMbps = ($speedBps * 8) / (1024 * 1024);
-                    $result['upload'] = number_format($speedMbps, 2) . ' Mbps';
-
-                    // If we got a reasonable speed, try a larger test for better accuracy
-                    if ($speedMbps > 50 && $downloadSuccess) {
-                        // Retry with 5MB for high-speed connections
-                        $largeSize = 5 * 1024 * 1024;
-                        $largeData = str_repeat('X', $largeSize);
-
-                        $ch2 = curl_init($uploadUrl);
-                        curl_setopt($ch2, CURLOPT_POST, true);
-                        curl_setopt($ch2, CURLOPT_POSTFIELDS, $largeData);
-                        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch2, CURLOPT_TIMEOUT, 30);
-                        curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
-                        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Content-Type: application/octet-stream', 'Expect:']);
-
-                        $startTime2 = microtime(true);
-                        $response2 = curl_exec($ch2);
-                        $endTime2 = microtime(true);
-                        $httpCode2 = curl_getinfo($ch2, CURLINFO_HTTP_CODE);
-                        curl_close($ch2);
-
-                        if ($httpCode2 >= 200 && $httpCode2 < 300 && $response2 !== false) {
-                            $timeTaken2 = $endTime2 - $startTime2;
-                            if ($timeTaken2 > 0.1) {
-                                $speedBps2 = $largeSize / $timeTaken2;
-                                $speedMbps2 = ($speedBps2 * 8) / (1024 * 1024);
-                                $result['upload'] = number_format($speedMbps2, 2) . ' Mbps';
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
-        if ($result['upload'] === 'N/A') {
+        // Test upload speed - multiple methods with fallbacks
+        $uploadResult = testUploadSpeed();
+        if ($uploadResult !== false) {
+            $result['upload'] = $uploadResult;
+        } else {
             $result['upload'] = 'Test failed';
         }
 
@@ -457,6 +419,91 @@ function getInternetSpeed()
     }
 
     return $result;
+}
+
+function testUploadSpeed() {
+    // Method 1: Try file upload simulation (most compatible)
+    $uploadUrls = [
+        'https://httpbin.org/post',
+        'https://postman-echo.com/post',
+        'https://httpbin.org/anything'
+    ];
+
+    // Create test data - 2MB for balance between speed and compatibility
+    $uploadSize = 2 * 1024 * 1024; // 2MB
+
+    foreach ($uploadUrls as $uploadUrl) {
+        try {
+            // Method A: Try with file upload multipart (most compatible)
+            $ch = curl_init($uploadUrl);
+
+            // Create a temporary file in memory
+            $tmpFile = tmpfile();
+            $tmpPath = stream_get_meta_data($tmpFile)['uri'];
+            fwrite($tmpFile, str_repeat('X', $uploadSize));
+            rewind($tmpFile);
+
+            $postData = [
+                'file' => new CURLFile($tmpPath, 'application/octet-stream', 'test.bin')
+            ];
+
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+            $startTime = microtime(true);
+            $response = curl_exec($ch);
+            $endTime = microtime(true);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            fclose($tmpFile);
+
+            if ($httpCode >= 200 && $httpCode < 300 && $response !== false) {
+                $timeTaken = $endTime - $startTime;
+                if ($timeTaken > 0.05) { // At least 50ms
+                    $speedBps = $uploadSize / $timeTaken;
+                    $speedMbps = ($speedBps * 8) / (1024 * 1024);
+                    return number_format($speedMbps, 2) . ' Mbps';
+                }
+            }
+
+            // Method B: Try with raw POST data
+            $ch = curl_init($uploadUrl);
+            $uploadData = str_repeat('0123456789ABCDEF', 131072); // 2MB
+
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $uploadData);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/octet-stream', 'Expect:']);
+
+            $startTime = microtime(true);
+            $response = curl_exec($ch);
+            $endTime = microtime(true);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode >= 200 && $httpCode < 300 && $response !== false) {
+                $timeTaken = $endTime - $startTime;
+                if ($timeTaken > 0.05) {
+                    $speedBps = strlen($uploadData) / $timeTaken;
+                    $speedMbps = ($speedBps * 8) / (1024 * 1024);
+                    return number_format($speedMbps, 2) . ' Mbps';
+                }
+            }
+
+        } catch (Exception $e) {
+            continue; // Try next URL
+        }
+    }
+
+    return false;
 }
 
 function evaluateInternetSpeed($downloadSpeed, $uploadSpeed, $pingValue)
