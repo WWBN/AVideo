@@ -77,8 +77,8 @@ function getDiskType($path = '/')
         }
 
         // Extract base device name (e.g., sda from /dev/sda1, nvme0n1 from /dev/nvme0n1p1)
-        // Support for: sd[a-z], nvme[0-9]n[0-9], vd[a-z], hd[a-z], xvd[a-z], mmcblk[0-9]
-        preg_match('/\/dev\/(sd[a-z]+|nvme[0-9]+n[0-9]+|vd[a-z]+|hd[a-z]+|xvd[a-z]+|mmcblk[0-9]+)/', $device, $matches);
+        // Support for: sd[a-z], nvme[0-9]n[0-9], vd[a-z], hd[a-z], xvd[a-z], mmcblk[0-9], md[0-9]
+        preg_match('/\/dev\/(sd[a-z]+|nvme[0-9]+n[0-9]+|vd[a-z]+|hd[a-z]+|xvd[a-z]+|mmcblk[0-9]+|md[0-9]+)/', $device, $matches);
 
         if (empty($matches[1])) {
             // Try to extract just the disk name without partition
@@ -88,6 +88,57 @@ function getDiskType($path = '/')
             }
         } else {
             $diskName = $matches[1];
+        }
+
+        // Special handling for RAID devices (md0, md1, md2, etc)
+        if (strpos($diskName, 'md') === 0) {
+            // Get underlying physical devices from RAID array
+            $mdstat = @file_get_contents('/proc/mdstat');
+            if ($mdstat !== false) {
+                // Parse mdstat to find physical devices
+                if (preg_match('/' . $diskName . '\s*:.*?\[.*?\]\s+(sd[a-z]+|nvme[0-9]+n[0-9]+)/i', $mdstat, $mdMatches)) {
+                    $physicalDisk = $mdMatches[1];
+
+                    // Check if physical disk is NVMe
+                    if (strpos($physicalDisk, 'nvme') === 0) {
+                        return 'M.2 NVMe (RAID)';
+                    }
+
+                    // Check rotation of physical disk
+                    $rotational = trim(shell_exec("cat /sys/block/{$physicalDisk}/queue/rotational 2>/dev/null"));
+                    if ($rotational === '0') {
+                        return 'SSD (RAID)';
+                    } elseif ($rotational === '1') {
+                        return 'HDD (RAID)';
+                    }
+                }
+            }
+
+            // Alternative: Check lsblk for RAID members
+            $raidMembers = shell_exec("lsblk -ndo ROTA,NAME /dev/{$diskName} 2>/dev/null | head -1");
+            if (!empty($raidMembers) && strpos($raidMembers, '0') === 0) {
+                return 'SSD (RAID)';
+            } elseif (!empty($raidMembers) && strpos($raidMembers, '1') === 0) {
+                return 'HDD (RAID)';
+            }
+
+            // Try to get slave devices
+            $slaves = shell_exec("ls -1 /sys/block/{$diskName}/slaves/ 2>/dev/null");
+            if (!empty($slaves)) {
+                $slaveDevices = explode("\n", trim($slaves));
+                if (!empty($slaveDevices[0])) {
+                    $slaveDisk = $slaveDevices[0];
+                    $rotational = trim(shell_exec("cat /sys/block/{$slaveDisk}/queue/rotational 2>/dev/null"));
+                    if ($rotational === '0') {
+                        return 'SSD (RAID)';
+                    } elseif ($rotational === '1') {
+                        return 'HDD (RAID)';
+                    }
+                }
+            }
+
+            // Default for RAID: assume SSD (most Kimsufi/OVH use SSD in RAID)
+            return 'SSD (RAID - detected)';
         }
 
         // Check if it's NVMe
@@ -320,64 +371,84 @@ function getInternetSpeed()
             }
         }
 
-        // Test upload speed - using PUT with raw data for accurate measurement
-        if ($downloadSuccess) {
-            $uploadUrls = [
-                'https://httpbin.org/put',
-                'https://httpbin.org/post',
-                'https://postman-echo.com/put',
-                'https://postman-echo.com/post'
-            ];
+        // Test upload speed - simplified and more reliable
+        $uploadUrls = [
+            'https://httpbin.org/anything',
+            'https://postman-echo.com/post',
+            'https://httpbin.org/post'
+        ];
 
-            // Create test data (5MB for better accuracy on fast connections)
-            $uploadSize = 5 * 1024 * 1024; // 5MB
-            $uploadData = str_repeat('X', $uploadSize);
+        // Start with smaller size (1MB) for compatibility
+        $uploadSize = 1024 * 1024; // 1MB
+        $uploadData = str_repeat('0123456789', 102400); // 1MB of repeated data
 
-            foreach ($uploadUrls as $uploadUrl) {
-                $ch = curl_init($uploadUrl);
+        foreach ($uploadUrls as $uploadUrl) {
+            $ch = curl_init($uploadUrl);
 
-                // Use PUT for raw binary upload (more accurate than POST form-encoded)
-                $isPut = strpos($uploadUrl, '/put') !== false;
-                if ($isPut) {
-                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, $uploadData);
-                } else {
-                    // For POST, use raw body instead of form-encoded
-                    curl_setopt($ch, CURLOPT_POST, true);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, $uploadData);
-                }
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $uploadData);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/octet-stream',
+                'Expect:' // Remove Expect header to avoid issues
+            ]);
 
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Content-Type: application/octet-stream',
-                    'Content-Length: ' . $uploadSize
-                ]);
+            $startTime = microtime(true);
+            $response = curl_exec($ch);
+            $endTime = microtime(true);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            curl_close($ch);
 
-                $startTime = microtime(true);
-                $response = curl_exec($ch);
-                $endTime = microtime(true);
-                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $curlError = curl_error($ch);
-                curl_close($ch);
+            // Accept any 2xx response
+            if ($httpCode >= 200 && $httpCode < 300 && $response !== false) {
+                $timeTaken = $endTime - $startTime;
 
-                if ($httpCode == 200 && $response !== false) {
-                    $timeTaken = $endTime - $startTime;
+                if ($timeTaken > 0.1) { // At least 100ms to be meaningful
+                    // Calculate upload speed in Mbps
+                    $speedBps = $uploadSize / $timeTaken;
+                    $speedMbps = ($speedBps * 8) / (1024 * 1024);
+                    $result['upload'] = number_format($speedMbps, 2) . ' Mbps';
 
-                    if ($timeTaken > 0) {
-                        // Calculate upload speed in Mbps
-                        $speedBps = $uploadSize / $timeTaken;
-                        $speedMbps = ($speedBps * 8) / (1024 * 1024);
-                        $result['upload'] = number_format($speedMbps, 2) . ' Mbps';
-                        break;
+                    // If we got a reasonable speed, try a larger test for better accuracy
+                    if ($speedMbps > 50 && $downloadSuccess) {
+                        // Retry with 5MB for high-speed connections
+                        $largeSize = 5 * 1024 * 1024;
+                        $largeData = str_repeat('X', $largeSize);
+
+                        $ch2 = curl_init($uploadUrl);
+                        curl_setopt($ch2, CURLOPT_POST, true);
+                        curl_setopt($ch2, CURLOPT_POSTFIELDS, $largeData);
+                        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch2, CURLOPT_TIMEOUT, 30);
+                        curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
+                        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Content-Type: application/octet-stream', 'Expect:']);
+
+                        $startTime2 = microtime(true);
+                        $response2 = curl_exec($ch2);
+                        $endTime2 = microtime(true);
+                        $httpCode2 = curl_getinfo($ch2, CURLINFO_HTTP_CODE);
+                        curl_close($ch2);
+
+                        if ($httpCode2 >= 200 && $httpCode2 < 300 && $response2 !== false) {
+                            $timeTaken2 = $endTime2 - $startTime2;
+                            if ($timeTaken2 > 0.1) {
+                                $speedBps2 = $largeSize / $timeTaken2;
+                                $speedMbps2 = ($speedBps2 * 8) / (1024 * 1024);
+                                $result['upload'] = number_format($speedMbps2, 2) . ' Mbps';
+                            }
+                        }
                     }
+                    break;
                 }
             }
+        }
 
-            if ($result['upload'] === 'N/A') {
-                $result['upload'] = 'Test failed';
-            }
+        if ($result['upload'] === 'N/A') {
+            $result['upload'] = 'Test failed';
         }
 
     } catch (Exception $e) {
