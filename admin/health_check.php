@@ -590,7 +590,7 @@ $(document).ready(function() {
         url: '<?php echo $global['webSiteRootURL']; ?>view/ajax/getDiskSpeed.json.php',
         method: 'POST',
         dataType: 'json',
-        timeout: 60000, // 60 second timeout (disk tests take longer)
+        timeout: 150000, // 150 second timeout (2.5 minutes - disk tests take longer)
         success: function(response) {
             if (response.error) {
                 updateMetric('diskTypeMetric', 'Error', response.msg || 'Test failed', 'fas fa-exclamation-triangle');
@@ -703,7 +703,7 @@ $(document).ready(function() {
         error: function(xhr, status, error) {
             var errorMsg = 'Connection timeout';
             if (status === 'timeout') {
-                errorMsg = 'Test timed out (disk tests can take up to 60 seconds)';
+                errorMsg = 'Test timed out (disk tests can take up to 2.5 minutes on slow disks)';
             }
             updateMetric('diskTypeMetric', 'Error', errorMsg, 'fas fa-exclamation-triangle');
             updateMetric('diskReadMetric', 'Error', errorMsg, 'fas fa-exclamation-triangle');

@@ -357,10 +357,10 @@ function getDiskIOSpeedImproved($path = null)
     );
 
     try {
-        // Test 1: Sequential Write Speed (50MB file for more accuracy)
+        // Test 1: Sequential Write Speed (20MB file - faster test)
         $testFile = rtrim($path, '/') . '/speed_test_seq_' . uniqid() . '.tmp';
-        $fileSize = 50 * 1024 * 1024; // 50MB
-        $data = str_repeat('0123456789ABCDEF', 3276800); // 50MB
+        $fileSize = 20 * 1024 * 1024; // 20MB
+        $data = str_repeat('0123456789ABCDEF', 1310720); // 20MB
 
         $startTime = microtime(true);
         $handle = @fopen($testFile, 'wb');
@@ -408,7 +408,7 @@ function getDiskIOSpeedImproved($path = null)
         // Test 3: Random I/O Speed (4KB blocks - more realistic for video serving)
         $testFile = rtrim($path, '/') . '/speed_test_rand_' . uniqid() . '.tmp';
         $blockSize = 4096; // 4KB blocks
-        $numBlocks = 1000; // 4MB total
+        $numBlocks = 500; // 2MB total (faster test)
         $data = str_repeat('X', $blockSize);
 
         $startTime = microtime(true);
@@ -424,11 +424,11 @@ function getDiskIOSpeedImproved($path = null)
 
             $randomWriteTime = microtime(true) - $startTime;
 
-            // Random read
+            // Random read - reduce iterations for faster test
             $startTime = microtime(true);
             $handle = @fopen($testFile, 'rb');
             if ($handle) {
-                for ($i = 0; $i < 500; $i++) {
+                for ($i = 0; $i < 250; $i++) { // Reduced from 500 to 250
                     $offset = rand(0, $numBlocks - 1) * $blockSize;
                     fseek($handle, $offset);
                     fread($handle, $blockSize);
