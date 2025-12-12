@@ -17,7 +17,7 @@ if (isValidURL($trailer)) {
 <?php
 }
 
-if($obj->allowDownloadMP3){
+if($obj->allowDownloadMP3 && CustomizeUser::canDownloadVideosFromVideo($videos_id)){
     $filename = $videoAB->getFilename();
     $paths = Video::getPaths($filename);
     $mp3File = "{$paths['path']}{$video['filename']}.mp3";
