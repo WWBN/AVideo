@@ -25,16 +25,16 @@ player.on('adsready', function () {
 
     // Set listener for ad break ready
     player.ima.setAdBreakReadyListener(function (e) {
+        console.log('ADS: Ad break ready, _adWasPlayed:', _adWasPlayed, e);
+
+        // For preroll (first ad), play immediately
         if (!_adWasPlayed) {
-            console.log('ADS: !_adWasPlayed player.ima.playAdBreak();', e);
-            player.on('play', function () {
-                if (!_adWasPlayed) {
-                    player.ima.playAdBreak();
-                    _adWasPlayed = 1;
-                }
-            });
+            console.log('ADS: Playing preroll ad');
+            _adWasPlayed = 1;
+            player.ima.playAdBreak();
         } else {
-            console.log('ADS: _adWasPlayed player.ima.playAdBreak();', e);
+            // For midroll/postroll, play directly
+            console.log('ADS: Playing ad break');
             player.ima.playAdBreak();
         }
     });
