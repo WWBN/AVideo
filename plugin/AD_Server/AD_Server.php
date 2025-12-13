@@ -240,7 +240,7 @@ class AD_Server extends PluginAbstract
         $css = '<link href="' . getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.css') . '" rel="stylesheet" type="text/css"/>'
             . '<link href="' . getURL('node_modules/videojs-ima/dist/videojs.ima.css') . '" rel="stylesheet" type="text/css"/>';
 
-        $css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
+        //$css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
         return $css;
     }
 

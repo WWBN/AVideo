@@ -71,7 +71,7 @@ class AdsForJesus extends PluginAbstract {
             }
             global $global;
             $css .= '<link href="' . getURL('node_modules/videojs-ima/dist/videojs.ima.css') . ' " rel="stylesheet" type="text/css"/>';
-            $css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
+            //$css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
         } else {
             $css .= "<!-- AdsForJesus::getHeadCode empty videos_id -->";
         }
