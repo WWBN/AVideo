@@ -523,7 +523,7 @@ function enableLogs(debugConfig, context, id) {
     // Some browsers don't allow to use bind on console object anyway
     // fallback to default if needed
     try {
-      newLogger.log(`Debug logs enabled for "${context}" in hls.js version ${"1.6.14"}`);
+      newLogger.log(`Debug logs enabled for "${context}" in hls.js version ${"1.6.15"}`);
     } catch (e) {
       /* log fn threw an exception. All logger methods are no-ops. */
       return createLogger();
@@ -4976,11 +4976,7 @@ class FragmentTracker {
     });
     fragmentEntity.loaded = null;
     if (Object.keys(fragmentEntity.range).length) {
-      fragmentEntity.buffered = true;
-      const endList = fragmentEntity.body.endList = frag.endList || fragmentEntity.body.endList;
-      if (endList) {
-        this.endListFragments[fragmentEntity.body.type] = fragmentEntity;
-      }
+      this.bufferedEnd(fragmentEntity, frag);
       if (!isPartial(fragmentEntity)) {
         // Remove older fragment parts from lookup after frag is tracked as buffered
         this.removeParts(frag.sn - 1, frag.type);
@@ -4988,6 +4984,13 @@ class FragmentTracker {
     } else {
       // remove fragment if nothing was appended
       this.removeFragment(fragmentEntity.body);
+    }
+  }
+  bufferedEnd(fragmentEntity, frag) {
+    fragmentEntity.buffered = true;
+    const endList = fragmentEntity.body.endList = frag.endList || fragmentEntity.body.endList;
+    if (endList) {
+      this.endListFragments[fragmentEntity.body.type] = fragmentEntity;
     }
   }
   removeParts(snToKeep, levelType) {
@@ -5014,7 +5017,7 @@ class FragmentTracker {
     }
     if (fragmentEntity) {
       fragmentEntity.loaded = null;
-      fragmentEntity.buffered = true;
+      this.bufferedEnd(fragmentEntity, frag);
     }
   }
   getBufferedTimes(fragment, part, partial, timeRange) {
@@ -7062,6 +7065,14 @@ class LevelKey {
   }
   static setKeyIdForUri(uri, keyId) {
     keyUriToKeyIdMap[uri] = keyId;
+  }
+  static addKeyIdForUri(uri) {
+    const val = Object.keys(keyUriToKeyIdMap).length % Number.MAX_SAFE_INTEGER;
+    const keyId = new Uint8Array(16);
+    const dv = new DataView(keyId.buffer, 12, 4); // Just set the last 4 bytes
+    dv.setUint32(0, val);
+    keyUriToKeyIdMap[uri] = keyId;
+    return keyId;
   }
   constructor(method, uri, format, formatversions = [1], iv = null, keyId) {
     this.uri = void 0;
@@ -9227,7 +9238,7 @@ class BaseStreamController extends TaskLoop {
     this.state = State.FRAG_LOADING;
 
     // Load key before streaming fragment data
-    const dataOnProgress = this.config.progressive;
+    const dataOnProgress = this.config.progressive && frag.type !== PlaylistLevelType.SUBTITLE;
     let result;
     if (dataOnProgress && keyLoadingPromise) {
       result = keyLoadingPromise.then(keyLoadedData => {
@@ -10075,11 +10086,12 @@ class BaseStreamController extends TaskLoop {
     }, false);
     if (!parsed) {
       var _this$transmuxer;
-      if (level.fragmentError === 0) {
-        // Mark and track the odd empty segment as a gap to avoid reloading
+      const mediaNotFound = ((_this$transmuxer = this.transmuxer) == null ? void 0 : _this$transmuxer.error) === null;
+      if (level.fragmentError === 0 || mediaNotFound && (level.fragmentError < 2 || frag.endList)) {
+        // Mark and track the odd (or last) empty segment as a gap to avoid reloading
         this.treatAsGap(frag, level);
       }
-      if (((_this$transmuxer = this.transmuxer) == null ? void 0 : _this$transmuxer.error) === null) {
+      if (mediaNotFound) {
         const error = new Error(`Found no media in fragment ${frag.sn} of ${this.playlistLabel()} ${frag.level} resetting transmuxer to fallback to playlist timing`);
         this.warn(error.message);
         this.hls.trigger(Events.ERROR, {
@@ -10540,7 +10552,7 @@ function requireEventemitter3 () {
 var eventemitter3Exports = requireEventemitter3();
 var EventEmitter = /*@__PURE__*/getDefaultExportFromCjs(eventemitter3Exports);
 
-const version = "1.6.14";
+const version = "1.6.15";
 
 // ensure the worker ends up in the bundle
 // If the worker should not be included this gets aliased to empty.js
@@ -15718,7 +15730,7 @@ class MP4Remuxer extends Logger {
     // Clear the track samples. This also clears the samples array in the demuxer, since the reference is shared
     track.samples = [];
     const start = (firstPTS - initTime) / inputTimeScale;
-    const end = nextAudioTs / inputTimeScale;
+    const end = this.nextAudioTs / inputTimeScale;
     const type = 'audio';
     const audioData = {
       data1: moof,
@@ -22882,6 +22894,11 @@ class EMEController extends Logger {
       }
       const keyIdArray = 'buffer' in keyId ? new Uint8Array(keyId.buffer, keyId.byteOffset, keyId.byteLength) : new Uint8Array(keyId);
       if (mediaKeySessionContext.keySystem === KeySystems.PLAYREADY && keyIdArray.length === 16) {
+        // On some devices, the key ID has already been converted for endianness.
+        // In such cases, this key ID is the one we need to cache.
+        const originKeyIdWithStatusChange = arrayToHex(keyIdArray);
+        // Cache the original key IDs to ensure compatibility across all cases.
+        keyStatuses[originKeyIdWithStatusChange] = status;
         changeEndianness(keyIdArray);
       }
       const keyIdWithStatusChange = arrayToHex(keyIdArray);
@@ -25223,7 +25240,8 @@ class InterstitialsController extends Logger {
       if (backwardSeek && currentTime < start || currentTime >= start + duration) {
         var _playingItem$event;
         if ((_playingItem$event = playingItem.event) != null && _playingItem$event.appendInPlace) {
-          this.clearInterstitial(playingItem.event, playingItem);
+          // Return SourceBuffer(s) to primary player and flush
+          this.clearAssetPlayers(playingItem.event, playingItem);
           this.flushFrontBuffer(currentTime);
         }
         this.setScheduleToAssetAtTime(currentTime, playingAsset);
@@ -26933,11 +26951,14 @@ Schedule: ${scheduleItems.map(seg => segmentToString(seg))} pos: ${this.timeline
     return player;
   }
   clearInterstitial(interstitial, toSegment) {
+    this.clearAssetPlayers(interstitial, toSegment);
+    // Remove asset list and resolved duration
+    interstitial.reset();
+  }
+  clearAssetPlayers(interstitial, toSegment) {
     interstitial.assetList.forEach(asset => {
       this.clearAssetPlayer(asset.identifier, toSegment);
     });
-    // Remove asset list and resolved duration
-    interstitial.reset();
   }
   resetAssetPlayer(assetId) {
     // Reset asset player so that it's timeline can be adjusted without reloading the MVP
@@ -27129,10 +27150,10 @@ Schedule: ${scheduleItems.map(seg => segmentToString(seg))} pos: ${this.timeline
     // Fallback to Primary by on current or future events by updating schedule to skip errored interstitials/assets
     const flushStart = interstitial.timelineStart;
     const playingItem = this.effectivePlayingItem;
+    let timelinePos = this.timelinePos;
     // Update schedule now that interstitial/assets are flagged with `error` for fallback
     if (playingItem) {
-      this.log(`Fallback to primary from event "${interstitial.identifier}" start: ${flushStart} pos: ${this.timelinePos} playing: ${segmentToString(playingItem)} error: ${interstitial.error}`);
-      let timelinePos = this.timelinePos;
+      this.log(`Fallback to primary from event "${interstitial.identifier}" start: ${flushStart} pos: ${timelinePos} playing: ${segmentToString(playingItem)} error: ${interstitial.error}`);
       if (timelinePos === -1) {
         timelinePos = this.hls.startPosition;
       }
@@ -27144,14 +27165,15 @@ Schedule: ${scheduleItems.map(seg => segmentToString(seg))} pos: ${this.timeline
         this.attachPrimary(flushStart, null);
         this.flushFrontBuffer(flushStart);
       }
-      if (!this.schedule) {
-        return;
-      }
-      const scheduleIndex = this.schedule.findItemIndexAtTime(timelinePos);
-      this.setSchedulePosition(scheduleIndex);
-    } else {
+    } else if (timelinePos === -1) {
       this.checkStart();
+      return;
     }
+    if (!this.schedule) {
+      return;
+    }
+    const scheduleIndex = this.schedule.findItemIndexAtTime(timelinePos);
+    this.setSchedulePosition(scheduleIndex);
   }
 
   // Asset List loading
@@ -27192,7 +27214,8 @@ Schedule: ${scheduleItems.map(seg => segmentToString(seg))} pos: ${this.timeline
           // Abandon if new duration is reduced enough to land playback in primary start
           const index = this.schedule.findItemIndexAtTime(this.timelinePos);
           if (index !== scheduleIndex) {
-            interstitial.error = new Error(`Interstitial no longer within playback range ${this.timelinePos} ${interstitial}`);
+            interstitial.error = new Error(`Interstitial ${assets.length ? 'no longer within playback range' : 'asset-list is empty'} ${this.timelinePos} ${interstitial}`);
+            this.log(interstitial.error.message);
             this.updateSchedule(true);
             this.primaryFallback(interstitial);
             return;
@@ -34000,7 +34023,7 @@ class StreamController extends BaseStreamController {
   onAudioTrackSwitching(event, data) {
     const hls = this.hls;
     // if any URL found on new audio track, it is an alternate audio track
-    const fromAltAudio = this.altAudio === 2;
+    const fromAltAudio = this.altAudio !== 0;
     const altAudio = useAlternateAudio(data.url, hls);
     // if we switch on main audio, ensure that main fragment scheduling is synced with media.buffered
     // don't do anything if we switch to alt audio: audio stream controller is handling it.
@@ -34026,6 +34049,7 @@ class StreamController extends BaseStreamController {
       }
       // If switching from alt to main audio, flush all audio and trigger track switched
       if (fromAltAudio) {
+        this.altAudio = 0;
         this.fragmentTracker.removeAllFragments();
         hls.once(Events.BUFFER_FLUSHED, () => {
           if (!this.hls) {
@@ -34863,13 +34887,21 @@ class KeyLoader extends Logger {
       if (!keyInfo.decryptdata.keyId && (_frag$initSegment = frag.initSegment) != null && _frag$initSegment.data) {
         const keyIds = parseKeyIdsFromTenc(frag.initSegment.data);
         if (keyIds.length) {
-          const keyId = keyIds[0];
+          let keyId = keyIds[0];
           if (keyId.some(b => b !== 0)) {
             this.log(`Using keyId found in init segment ${arrayToHex(keyId)}`);
-            keyInfo.decryptdata.keyId = keyId;
             LevelKey.setKeyIdForUri(keyInfo.decryptdata.uri, keyId);
+          } else {
+            keyId = LevelKey.addKeyIdForUri(keyInfo.decryptdata.uri);
+            this.log(`Generating keyId to patch media ${arrayToHex(keyId)}`);
           }
+          keyInfo.decryptdata.keyId = keyId;
         }
+      }
+      if (!keyInfo.decryptdata.keyId && !isMediaFragment(frag)) {
+        // Resolve so that unencrypted init segment is loaded
+        // key id is extracted from tenc box when processing key for next segment above
+        return Promise.resolve(keyLoadedData);
       }
       const keySessionContextPromise = this.emeController.loadKey(keyLoadedData);
       return (keyInfo.keyLoadPromise = keySessionContextPromise.then(keySessionContext => {
