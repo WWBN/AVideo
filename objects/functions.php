@@ -3505,19 +3505,19 @@ function isHLS()
 
 function getRedirectUri($returnThisIfRedirectUriIsNotSet = false)
 {
-    if (isValidURL(@$_GET['redirectUri'])) {
+    if (isSafeRedirectURL(@$_GET['redirectUri'])) {
         return $_GET['redirectUri'];
     }
-    if (isValidURL(@$_SESSION['redirectUri'])) {
+    if (isSafeRedirectURL(@$_SESSION['redirectUri'])) {
         return $_SESSION['redirectUri'];
     }
-    if (isValidURL(@$_REQUEST["redirectUri"])) {
+    if (isSafeRedirectURL(@$_REQUEST["redirectUri"])) {
         return $_REQUEST["redirectUri"];
     }
-    if (isValidURL(@$_SERVER["HTTP_REFERER"])) {
+    if (isSafeRedirectURL(@$_SERVER["HTTP_REFERER"])) {
         return $_SERVER["HTTP_REFERER"];
     }
-    if (isValidURL($returnThisIfRedirectUriIsNotSet)) {
+    if (isSafeRedirectURL($returnThisIfRedirectUriIsNotSet)) {
         return $returnThisIfRedirectUriIsNotSet;
     } else {
         return getRequestURI();
@@ -3534,12 +3534,12 @@ function redirectIfRedirectUriIsSet()
 {
     $redirectUri = false;
     if (!empty($_GET['redirectUri'])) {
-        if (isSameDomainAsMyAVideo($_GET['redirectUri'])) {
+        if (isSafeRedirectURL($_GET['redirectUri'])) {
             $redirectUri = $_GET['redirectUri'];
         }
     }
     if (!empty($_SESSION['redirectUri'])) {
-        if (isSameDomainAsMyAVideo($_SESSION['redirectUri'])) {
+        if (isSafeRedirectURL($_SESSION['redirectUri'])) {
             $redirectUri = $_SESSION['redirectUri'];
         }
         _session_start();
@@ -3896,6 +3896,42 @@ function isValidURL($url)
     if (preg_match("/^http.*/", $url) && filter_var($url, FILTER_VALIDATE_URL)) {
         return true;
     }
+    return false;
+}
+
+/**
+ * Validates if a URL is safe for redirects by checking:
+ * 1. Only relative URLs (starting with /) OR same-origin URLs are allowed
+ * 2. Rejects javascript:, data:, file:, and other dangerous protocols
+ * 3. Rejects external domains to prevent open redirect vulnerabilities
+ *
+ * @param string $url The URL to validate
+ * @return bool True if safe for redirect, false otherwise
+ */
+function isSafeRedirectURL($url)
+{
+    if (empty($url) || !is_string($url)) {
+        return false;
+    }
+
+    // Reject dangerous protocols (javascript:, data:, file:, etc.)
+    $dangerousProtocols = ['javascript:', 'data:', 'file:', 'vbscript:', 'about:'];
+    foreach ($dangerousProtocols as $protocol) {
+        if (stripos(trim($url), $protocol) === 0) {
+            return false;
+        }
+    }
+
+    // Allow relative URLs (starting with /)
+    if (strpos($url, '/') === 0 && strpos($url, '//') !== 0) {
+        return true;
+    }
+
+    // For absolute URLs, check if they're same-origin
+    if (isValidURL($url)) {
+        return isSameDomainAsMyAVideo($url);
+    }
+
     return false;
 }
 

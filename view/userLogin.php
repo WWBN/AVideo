@@ -158,7 +158,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                         </div>
                     <?php
                     }
-                    if (!empty($_REQUEST['cancelUri']) && isValidURL($_REQUEST['cancelUri'])) {
+                    if (!empty($_REQUEST['cancelUri']) && isSafeRedirectURL($_REQUEST['cancelUri'])) {
                     ?>
                         <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>">
                             <div class="col-md-12">

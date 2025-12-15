@@ -12,11 +12,11 @@ $redirectUri = getRedirectUri($global['webSiteRootURL']);
 $siteRedirectUri = "{$global['webSiteRootURL']}user";
 $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'redirectUri', $redirectUri);
 
-if (isValidURL(@$_GET['siteRedirectUri'])) {
+if (isSafeRedirectURL(@$_GET['siteRedirectUri'])) {
     $siteRedirectUri = $_GET['siteRedirectUri'];
 }
 
-if (!empty($advancedCustomUser->afterSignUpGoToURL) && isValidURL($advancedCustomUser->afterSignUpGoToURL)) {
+if (!empty($advancedCustomUser->afterSignUpGoToURL) && isSafeRedirectURL($advancedCustomUser->afterSignUpGoToURL)) {
     $loginURL = "{$global['webSiteRootURL']}user";
     $loginURL = addQueryStringParameter($loginURL, 'redirectUri', $advancedCustomUser->afterSignUpGoToURL);
     $loginURL = addQueryStringParameter($loginURL, 'comebackhere', 1);
