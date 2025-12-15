@@ -8,10 +8,17 @@ if (empty($_GET['redirectUri'])) {
         }
     }
 }
+// Validate redirectUri for security - only allow safe redirect URLs
+$safeRedirectUri = '';
+if (!empty($_GET['redirectUri']) && isSafeRedirectURL($_GET['redirectUri'])) {
+    $safeRedirectUri = $_GET['redirectUri'];
+} else {
+    $safeRedirectUri = $global['webSiteRootURL'];
+}
 if (empty($signUpURL)) {
     $signUpURL = "{$global['webSiteRootURL']}signUp";
-    if (isValidURL(@$_GET['redirectUri'])) {
-        $signUpURL = addQueryStringParameter($signUpURL, 'redirectUri', $_GET['redirectUri']);
+    if (!empty($safeRedirectUri) && $safeRedirectUri !== $global['webSiteRootURL']) {
+        $signUpURL = addQueryStringParameter($signUpURL, 'redirectUri', $safeRedirectUri);
     }
 }
 ?>
@@ -31,14 +38,14 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     </div>
     <script>
         function openLoginWindow() {
-            win = window.open('<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print $_GET['redirectUri'] ?? ""; ?>', 'Login Page', "width=640,height=480,scrollbars=no");
+            win = window.open('<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print urlencode($safeRedirectUri); ?>', 'Login Page', "width=640,height=480,scrollbars=no");
         }
         var win;
         openLoginWindow();
         var logintimer = setInterval(function() {
             if (win.closed) {
                 clearInterval(logintimer);
-                document.location = "<?php print $_GET['redirectUri'] ?? $global['webSiteRootURL']; ?>";
+                document.location = "<?php print $safeRedirectUri; ?>";
             }
         }, 1000);
         $(document).ready(function() {
@@ -302,7 +309,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                     pass: $('#inputPassword').val(),
                     rememberme: $('#inputRememberMe').is(":checked"),
                     captcha: <?php echo empty($captcha['captchaText'])?"''":$captcha['captchaText']; ?>,
-                    redirectUri: '<?php echo $_GET['redirectUri'] ?? ''; ?>'
+                    redirectUri: '<?php echo addslashes($safeRedirectUri); ?>'
                 },
                 type: 'post',
                 success: async function(response) {
