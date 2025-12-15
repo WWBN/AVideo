@@ -12,6 +12,12 @@ if ($videoId <= 0) {
     die(json_encode(['error' => true, 'msg' => 'Invalid video ID']));
 }
 
+// SECURITY: Enforce authorization - user must be able to edit the video
+// This prevents IDOR attacks where users could upload to other users' video directories
+if (!Video::canEdit($videoId)) {
+    die(json_encode(['error' => true, 'msg' => 'Unauthorized: You do not have permission to upload images for this video']));
+}
+
 $targetDir = "{$global['systemRootPath']}videos/uploads/comments/{$videoId}/";
 make_path($targetDir);
 if (!file_exists($targetDir)) {

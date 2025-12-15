@@ -10,6 +10,11 @@ $videos_id = getVideos_id();
 
 // List of relative directories (must end with slash)
 if($videos_id){
+    // SECURITY: Enforce authorization - user must be able to edit the video
+    // This prevents IDOR attacks where users could list images from other users' video directories
+    if (!Video::canEdit($videos_id)) {
+        forbiddenPage('Unauthorized: You do not have permission to access images for this video');
+    }
     $relativeDirs = [
         Video::getVideoLibRelativePath($videos_id),
     ];
