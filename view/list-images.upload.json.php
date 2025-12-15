@@ -15,6 +15,11 @@ if (!User::isLogged()) {
 $userId = User::getId();
 
 if (!empty($_REQUEST['videos_id'])) {
+    // Enforce authorization: user must be able to edit the video
+    if (!Video::canEdit($_REQUEST['videos_id'])) {
+        $obj->msg = 'Unauthorized: You do not have permission to upload files for this video';
+        die(json_encode($obj));
+    }
     $relativeDir = Video::getVideoLibRelativePath($_REQUEST['videos_id']);
 } else {
     $relativeDir = "videos/userPhoto/Live/user_{$userId}/";

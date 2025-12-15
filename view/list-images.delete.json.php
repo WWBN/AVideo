@@ -12,6 +12,11 @@ if (!User::isLogged()) {
 $userId = User::getId();
 
 if (!empty($_REQUEST['videos_id'])) {
+    // Enforce authorization: user must be able to edit the video
+    if (!Video::canEdit($_REQUEST['videos_id'])) {
+        $response['msg'] = 'Unauthorized: You do not have permission to delete files for this video';
+        die(json_encode($response));
+    }
     $relativeDir = Video::getVideoLibRelativePath($_REQUEST['videos_id']);
 } else {
     $relativeDir = "videos/userPhoto/Live/user_{$userId}/";
@@ -24,6 +29,7 @@ if (!is_dir($absoluteDir)) {
     die(json_encode($response));
 }
 
+// Sanitize filename using basename() to prevent directory traversal
 $filename = basename($_POST['filename'] ?? '');
 
 $files = scandir($absoluteDir);
