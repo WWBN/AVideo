@@ -18,6 +18,59 @@ function _uniqid() {
     return $randomString;
 }
 
+/**
+ * Check if saltV2 exists, if not create it and add to configuration.php
+ * This is a security upgrade for existing installations
+ */
+function checkAndCreateSaltV2() {
+    global $global;
+
+    // If saltV2 already exists, nothing to do
+    if (!empty($global['saltV2'])) {
+        return true;
+    }
+
+    // Generate a cryptographically secure saltV2
+    $newSaltV2 = bin2hex(random_bytes(16));
+    $global['saltV2'] = $newSaltV2;
+
+    // Add saltV2 to configuration.php
+    $configFile = $global['systemRootPath'] . 'videos/configuration.php';
+
+    if (!file_exists($configFile)) {
+        _error_log("checkAndCreateSaltV2: configuration.php not found at {$configFile}");
+        return false;
+    }
+
+    $configContent = file_get_contents($configFile);
+
+    // Check if saltV2 line already exists in file (but wasn't loaded)
+    if (strpos($configContent, "\$global['saltV2']") !== false) {
+        _error_log("checkAndCreateSaltV2: saltV2 already exists in configuration.php but wasn't loaded");
+        return true;
+    }
+
+    // Find the position after the salt line to insert saltV2
+    $saltPattern = "/\$global\['salt'\]\s*=\s*'[^']*';/";
+    if (preg_match($saltPattern, $configContent, $matches, PREG_OFFSET_CAPTURE)) {
+        $insertPosition = $matches[0][1] + strlen($matches[0][0]);
+        $newLine = "\n\$global['saltV2'] = '{$newSaltV2}';";
+        $configContent = substr_replace($configContent, $newLine, $insertPosition, 0);
+
+        // Write back to configuration.php
+        if (file_put_contents($configFile, $configContent)) {
+            _error_log("checkAndCreateSaltV2: Successfully added saltV2 to configuration.php");
+            return true;
+        } else {
+            _error_log("checkAndCreateSaltV2: Failed to write saltV2 to configuration.php");
+            return false;
+        }
+    } else {
+        _error_log("checkAndCreateSaltV2: Could not find salt line in configuration.php");
+        return false;
+    }
+}
+
 
 function adminSecurityCheck($force = false)
 {

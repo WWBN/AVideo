@@ -30,7 +30,9 @@ if (!empty($doNotIncludeConfig)) {
     require_once $global['systemRootPath'] . 'objects/images.php';
 
     includeSecurityChecks();
-    return false;
+    // Check and create saltV2 if it doesn't exist (security upgrade)
+    checkAndCreateSaltV2();
+        return false;
 }
 
 /*
@@ -64,6 +66,9 @@ if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
 }
 
 $global['avideoStartMicrotime'] = microtime(true);
+
+// Check and create saltV2 if it doesn't exist (security upgrade)
+checkAndCreateSaltV2();
 
 function includeConfigLog($line, $desc = '')
 {

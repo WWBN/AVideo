@@ -3150,12 +3150,15 @@ function encrypt_decrypt($string, $action, $useOldSalt = false)
         $secret_iv = '1234567890abcdef';
     }
 
-    if ($useOldSalt) {
-        $saltType = 'old';
+    // SECURITY: Always use saltV2 (secure), never use old salt for new encryptions
+    // saltV2 is automatically created by checkAndCreateSaltV2() if it doesn't exist
+    if (empty($global['saltV2'])) {
+        _error_log("encrypt_decrypt: CRITICAL - saltV2 not found, using salt as emergency fallback");
         $salt = $global['salt'];
+        $saltType = 'emergency-fallback';
     } else {
-        $saltType = 'new';
-        $salt = empty($global['saltV2']) ? $global['salt'] : $global['saltV2'];
+        $salt = $global['saltV2'];
+        $saltType = 'saltV2';
     }
 
     // hash
@@ -3179,17 +3182,19 @@ function encrypt_decrypt($string, $action, $useOldSalt = false)
 
         $output = openssl_decrypt($decoded_string, $encrypt_method, $key, 0, $iv);
 
-        // Try with the old salt if the output is empty and not already using the old salt
-        if (empty($output) && $useOldSalt === false) {
-            _error_log("encrypt_decrypt: Failed to decrypt. Debug details:");
-            _error_log("encrypt_decrypt: Encoded string: {$string}");
-            _error_log("encrypt_decrypt: Base64 decoded string: {$decoded_string}");
-            _error_log("encrypt_decrypt: Salt used ($saltType): {$salt}");
-            _error_log("encrypt_decrypt: Encryption method: {$encrypt_method}");
-            _error_log("encrypt_decrypt: Key: {$key}");
-            _error_log("encrypt_decrypt: IV: {$iv}");
-            _error_log("encrypt_decrypt: Retrying decryption with old salt.");
-            return encrypt_decrypt($string, $action, true);
+        // If decryption fails with saltV2, try with old salt for backward compatibility
+        // This allows reading old encrypted data but NEW data is always encrypted with saltV2
+        if (($output === false || $output === '') && !empty($global['salt']) && $salt !== $global['salt']) {
+            _error_log("encrypt_decrypt: Failed with saltV2, trying old salt for backward compatibility");
+            $oldKey = hash('sha256', $global['salt']);
+            $output = openssl_decrypt($decoded_string, $encrypt_method, $oldKey, 0, $iv);
+            if ($output !== false && $output !== '') {
+                _error_log("encrypt_decrypt: Successfully decrypted with old salt");
+            }
+        }
+
+        if ($output === false || $output === '') {
+            _error_log("encrypt_decrypt: Failed to decrypt with both saltV2 and old salt");
         }
     }
 
