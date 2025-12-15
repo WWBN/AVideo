@@ -75,6 +75,67 @@ class API extends PluginAbstract
         return $obj;
     }
 
+    /**
+     * Get list of sensitive user fields that should be removed from public API responses.
+     *
+     * This method centralizes the definition of sensitive fields to ensure consistency
+     * across all API endpoints. These fields come from the users table via SQL JOINs.
+     *
+     * @return array List of sensitive field names to remove
+     */
+    private static function getSensitiveUserFields()
+    {
+        return [
+            'user',                 // Username - prevents account enumeration
+            'email',                // Email address - PII
+            'isAdmin',              // Admin status - security information
+            'lastLogin',            // Last login timestamp - privacy/security
+            'password',             // Should already be unset but ensure it
+            'recoverPass',          // Password recovery token
+            'canStream',            // Permission flag
+            'canUpload',            // Permission flag
+            'canCreateMeet',        // Permission flag
+            'canViewChart',         // Permission flag
+            'analyticsCode',        // Tracking information
+            'first_name',           // PII
+            'last_name',            // PII
+            'address',              // PII
+            'zip_code',             // PII
+            'country',              // PII
+            'region',               // PII
+            'city',                 // PII
+            'phone',                // PII
+            'birth_date',           // PII
+            'donationLink',         // May contain personal info
+            'extra_info',           // May contain sensitive data
+            'userExternalOptions',  // External options may contain sensitive data
+            'status',               // User account status
+            'photoURL',             // Raw photo path (use 'photo' instead)
+            'backgroundURL'         // Raw background path (use 'background' instead)
+        ];
+    }
+
+    /**
+     * Remove sensitive user fields from a mixed data array (e.g., video row with joined user data).
+     *
+     * This is used when data arrays contain both content data (video/live/etc) and user data
+     * from SQL JOINs. It removes only the sensitive user fields while preserving content fields.
+     *
+     * @param array &$data Reference to data array to sanitize in-place
+     * @return void
+     */
+    private static function removeSensitiveUserFields(&$data)
+    {
+        if (empty($data) || !is_array($data)) {
+            return;
+        }
+
+        $sensitiveFields = self::getSensitiveUserFields();
+        foreach ($sensitiveFields as $field) {
+            unset($data[$field]);
+        }
+    }
+
     public function getEmptyDataObject()
     {
         global $global;
@@ -1604,12 +1665,22 @@ class API extends PluginAbstract
         // check if there are custom ads for this video
         $objAds = AVideoPlugin::getDataObjectIfEnabled('ADs');
 
+        // Check if we need to sanitize user data from video responses
+        $isAPISecretValid = self::isAPISecretValid();
+        $isUserLoggedIn = User::isLogged();
+
         foreach ($rows as $key => $value) {
             if (is_object($value)) {
                 $value = object_to_array($value);
             }
             if (empty($value['filename'])) {
                 continue;
+            }
+
+            // Remove sensitive user data from video responses for unauthenticated requests
+            // Video rows include user data from JOIN with users table (u.*)
+            if (!$isAPISecretValid && !$isUserLoggedIn) {
+                self::removeSensitiveUserFields($rows[$key]);
             }
             if ($value['type'] == Video::$videoTypeSerie) {
                 require_once $global['systemRootPath'] . 'objects/playlist.php';
@@ -1712,6 +1783,11 @@ class API extends PluginAbstract
             if (empty($parameters['noRelated'])) {
                 $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
                 foreach ($rows[$key]['relatedVideos'] as $key2 => $value2) {
+                    // Sanitize user data from related videos too
+                    if (!$isAPISecretValid && !$isUserLoggedIn) {
+                        self::removeSensitiveUserFields($rows[$key]['relatedVideos'][$key2]);
+                    }
+
                     $rows[$key]['relatedVideos'][$key2]['tags'] = Video::getTags($value2['id']);
 
                     $sub = self::getSubtitle($rows[$key]['relatedVideos'][$key2]['filename']);
@@ -2845,12 +2921,16 @@ class API extends PluginAbstract
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
+        $isAPISecretValid = self::isAPISecretValid();
+        $currentUserId = User::getId();
+        $isUserLoggedIn = !empty($currentUserId);
+
         if (!empty($parameters['users_id'])) {
-            if (!self::isAPISecretValid()) {
-                $parameters['users_id'] = User::getId();
+            if (!$isAPISecretValid) {
+                $parameters['users_id'] = $currentUserId;
             }
         } else {
-            $parameters['users_id'] = User::getId();
+            $parameters['users_id'] = $currentUserId;
         }
 
         $user = new User($parameters['users_id']);
@@ -2863,7 +2943,17 @@ class API extends PluginAbstract
 
         unset($obj->user['externalOptions']);
         unset($obj->user['extra_info']);
-        $obj->user['canStream'] = $obj->user['canStream'] || $obj->user['isAdmin'];
+
+        // Sanitize user data for public API if not authenticated with API secret
+        // and if viewing another user's data (not own profile while logged in)
+        $isViewingOwnProfile = $isUserLoggedIn && ($user->getBdId() == $currentUserId);
+        if (!$isAPISecretValid && !$isViewingOwnProfile) {
+            self::removeSensitiveUserFields($obj->user);
+        } else {
+            // Only set canStream after sanitization check to avoid exposing admin status
+            $obj->user['canStream'] = $obj->user['canStream'] || $obj->user['isAdmin'];
+        }
+
         $obj->user['DonationButtons'] = _json_decode(@$obj->user['DonationButtons']);
 
 
