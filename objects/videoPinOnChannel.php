@@ -22,6 +22,13 @@ if (!is_array($_POST['id'])) {
 }
 foreach ($obj->idsToSave as $value) {
     $video = new Video('', '', $value);
+    // Verify user can manage this specific video
+    if (!$video->userCanManageVideo()) {
+        $obj->msg = __("You can not Manage This Video");
+        $obj->error = true;
+        echo _json_encode($obj);
+        exit;
+    }
     $video->setIsChannelSuggested($_POST['isSuggested']);
     $obj->idSaved[] = $video->save();
 }

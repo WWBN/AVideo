@@ -19,6 +19,11 @@ if (empty($obj)) {
     croak(["error" => "Video not found"]);
 }
 
+// Verify user can manage this specific video
+if (!Video::canEdit($_POST['id'])) {
+    die('{"error":"'.__("Permission denied").'"}');
+}
+
 $currentRotation = $obj->getRotation();
 $newRotation = $currentRotation;
 $status = ["success" => "video rotated"];
