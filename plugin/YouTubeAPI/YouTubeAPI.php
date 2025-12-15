@@ -207,7 +207,7 @@ class YouTubeAPI extends PluginAbstract {
       return $object;
       }
 
-      $source = Video::getHigestResolutionVideoMP4Source($v->getFilename());
+      $source = Video::getHigestResolutionVideoMP4Source($v->getFilename(), false, true);
       $file_name = $source['path'];
 
       if (!file_exists($file_name)) {

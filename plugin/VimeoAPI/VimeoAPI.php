@@ -76,15 +76,15 @@ class VimeoAPI extends PluginAbstract {
             return $object;
         }
 
-        $source = Video::getHigestResolutionVideoMP4Source($video->getFilename());
+        $source = Video::getHigestResolutionVideoMP4Source($video->getFilename(), false, true);
         $file_name = $source['path'];
-        
+
         if(!file_exists($file_name)){
             $object->msg = __("Video MP4 File was not found");
             _error_log('Vimeo::upload ' . $object->msg." $file_name");
             return $object;
         }
-        
+
         $vimeoObj = $this->getDataObject();
         if (empty($vimeoObj->access_token)) {
             $object->msg = 'You can not upload a file without an access token. You can find this token on your app page';
@@ -190,7 +190,7 @@ class VimeoAPI extends PluginAbstract {
                                             console.log(response);
                                         }
                                     });
-                avideoAlert('" . __("Process Start") . "', 'It may take a while', 'warning');                    
+                avideoAlert('" . __("Process Start") . "', 'It may take a while', 'warning');
                 }</script>";
         }
         return $js;

@@ -37,10 +37,12 @@ if (!empty($live_schedule_id) || !empty($ppv_schedule_id)) {
         die(json_encode($obj));
     }
 } else {
-    $obj->path = $global['systemRootPath'] . Live::_getPosterImage(User::getId(), $live_servers_id, 0, 0, $posterType);
-    $obj->image = saveCroppieImage($obj->path, "image");
+    // SECURITY: Use internal path for file operations but don't expose to API
+    $internalPath = $global['systemRootPath'] . Live::_getPosterImage(User::getId(), $live_servers_id, 0, 0, $posterType);
+    $obj->image = saveCroppieImage($internalPath, "image");
     if ($obj->image) {
-        $obj->pathThumbs = $global['systemRootPath'] . Live::_getPosterThumbsImage(User::getId(), $live_servers_id, $posterType);
+        // SECURITY: Use internal path for file operations but don't expose to API
+        $internalPathThumbs = $global['systemRootPath'] . Live::_getPosterThumbsImage(User::getId(), $live_servers_id, $posterType);
 
         _error_log("removePoster.php ({$obj->pathThumbs}) unlink line=" . __LINE__);
         @unlink($obj->pathThumbs);

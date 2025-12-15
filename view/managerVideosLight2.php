@@ -70,12 +70,16 @@ if (!empty($_REQUEST['forcePlayLists'])) {
                     if (defaultIsPortrait()) {
                         $width = 540;
                         $height = 800;
-                        $path = $images->posterPortraitPath;
+                        // Get path directly for internal server-side use
+                        $pathSource = Video::getSourceFile($value['filename'], '_portrait.jpg', false, true);
+                        $path = $pathSource['path'];
                         $portrait = 1;
                     } else {
                         $width = 1280;
                         $height = 720;
-                        $path = empty($images->posterLandscapePath) ? ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH) : $images->posterLandscapePath;
+                        // Get path directly for internal server-side use
+                        $pathSource = Video::getSourceFile($value['filename'], '.jpg', false, true);
+                        $path = !empty($pathSource['path']) ? $pathSource['path'] : ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);
                         $portrait = 0;
                     }
 

@@ -80,7 +80,7 @@ $imgh = 720;
 
 if ($video['type'] !== Video::$videoTypePdf) {
     if (!empty($video['filename'])) {
-        $source = Video::getSourceFile($video['filename']);
+        $source = Video::getSourceFile($video['filename'], '.jpg', false, true);
         $poster = $img = $source['url'];
         $data = getimgsize($source['path']);
         $imgw = $data[0];

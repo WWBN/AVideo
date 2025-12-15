@@ -32,16 +32,23 @@ if (isset($_REQUEST['description'])) {
 }
 if (isset($_REQUEST['image'])) {
     $images = Video::getImageFromID($obj->videos_id);
+    $video = new Video('', '', $obj->videos_id);
+    $filename = $video->getFilename();
+    // Get path directly for internal server-side use
     if (!empty($_REQUEST['portrait'])) {
-        $path = $images->posterPortraitPath;
+        $pathSource = Video::getSourceFile($filename, '_portrait.jpg', false, true);
+        $path = $pathSource['path'];
     } else {
-        $path = $images->posterLandscapePath;
+        $pathSource = Video::getSourceFile($filename, '.jpg', false, true);
+        $path = $pathSource['path'];
     }
     if(ImagesPlaceHolders::isDefaultImage($path)){
         if (empty($_REQUEST['portrait'])) {
-            $path = $images->posterPortraitPath;
+            $pathSource = Video::getSourceFile($filename, '_portrait.jpg', false, true);
+            $path = $pathSource['path'];
         } else {
-            $path = $images->posterLandscapePath;
+            $pathSource = Video::getSourceFile($filename, '.jpg', false, true);
+            $path = $pathSource['path'];
         }
     }
     if(ImagesPlaceHolders::isDefaultImage($path)){
@@ -60,7 +67,7 @@ if(!empty($_REQUEST['users_id'])){
 
 $obj->save = $video->save();
 $obj->error = empty($obj->save);
-if (empty($obj->error)) {    
+if (empty($obj->error)) {
     if (isset($_REQUEST['playlists_id'])) {
         if (!PlayLists::canAddVideoOnPlaylist($obj->save)) {
             Playlists::addVideo($obj->save, $_REQUEST['playlists_id']);

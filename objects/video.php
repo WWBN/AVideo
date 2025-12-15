@@ -3535,7 +3535,7 @@ if (!class_exists('Video')) {
         public function updateDurationIfNeed($fileExtension = ".mp4")
         {
             global $global;
-            $source = self::getSourceFile($this->filename, $fileExtension, true);
+            $source = self::getSourceFile($this->filename, $fileExtension, true, true);
             $file = $source['path'];
 
             if (!empty($this->id) && !self::isValidDuration($this->duration) && file_exists($file)) {
@@ -3963,7 +3963,7 @@ if (!class_exists('Video')) {
 
         public function getExistingVideoFile()
         {
-            $source = self::getHigestResolutionVideoMP4Source($this->getFilename(), true);
+            $source = self::getHigestResolutionVideoMP4Source($this->getFilename(), true, true);
             if (empty($source)) {
                 _error_log("getExistingVideoFile:: resources are empty " . $this->getFilename());
                 return false;
@@ -4204,7 +4204,7 @@ if (!class_exists('Video')) {
          * @param string $type
          * @return string .jpg .gif .webp _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
          */
-        public static function getSourceFile($filename, $type = ".jpg", $includeS3 = false)
+        public static function getSourceFile($filename, $type = ".jpg", $includeS3 = false, $includePath = false)
         {
             global $global, $advancedCustom, $videosPaths, $VideoGetSourceFile;
             //if (!isValidFormats($type)) {
@@ -4219,7 +4219,11 @@ if (!class_exists('Video')) {
             //self::_moveSourceFilesToDir($filename);
             $paths = self::getPaths($filename);
             if ($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)) {
-                return ['path' => ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH), 'url' => ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL)];
+                $result = ['path' => ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH), 'url' => ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL)];
+                if (!$includePath) {
+                    unset($result['path']);
+                }
+                return $result;
             }
 
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
@@ -4471,6 +4475,14 @@ if (!class_exists('Video')) {
 
             //var_dump($source);exit;
             //var_dump($type, $source);exit;
+
+            // For security: exclude filesystem path from API responses unless explicitly requested
+            if (!$includePath && isset($source['path'])) {
+                $sourceWithoutPath = $source;
+                unset($sourceWithoutPath['path']);
+                return $sourceWithoutPath;
+            }
+
             $VideoGetSourceFile[$cacheName] = $source;
             return $VideoGetSourceFile[$cacheName];
         }
@@ -5012,7 +5024,7 @@ if (!class_exists('Video')) {
             return $resolution;
         }
 
-        public static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false)
+        public static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false, $includePath = false)
         {
             global $global;
             $types = ['', '_HD', '_SD', '_Low'];
@@ -5027,7 +5039,7 @@ if (!class_exists('Video')) {
                 $types[] = "_{$value}";
             }
             foreach ($types as $value) {
-                $source = self::getSourceFile($filename, $value . ".mp4", $includeS3);
+                $source = self::getSourceFile($filename, $value . ".mp4", $includeS3, $includePath);
                 if (!empty($source['url'])) {
                     return $source;
                 }
@@ -5377,21 +5389,23 @@ if (!class_exists('Video')) {
                  *
                  */
             $obj = new stdClass();
-            $gifSource = self::getSourceFile($filename, ".gif");
-            $gifPortraitSource = self::getSourceFile($filename, "_portrait.gif");
-            $jpegSource = self::getSourceFile($filename, ".jpg");
-            $jpegPortraitSource = self::getSourceFile($filename, "_portrait.jpg");
-            $jpegPortraitThumbs = self::getSourceFile($filename, "_portrait_thumbsV2.jpg");
-            $jpegPortraitThumbsSmall = self::getSourceFile($filename, "_portrait_thumbsSmallV2.jpg");
-            $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg");
-            $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
-            $spectrumSource = self::getSourceFile($filename, "_spectrum.jpg");
+            // Request paths for internal file operations only
+            $gifSource = self::getSourceFile($filename, ".gif", false, true);
+            $gifPortraitSource = self::getSourceFile($filename, "_portrait.gif", false, true);
+            $jpegSource = self::getSourceFile($filename, ".jpg", false, true);
+            $jpegPortraitSource = self::getSourceFile($filename, "_portrait.jpg", false, true);
+            $jpegPortraitThumbs = self::getSourceFile($filename, "_portrait_thumbsV2.jpg", false, true);
+            $jpegPortraitThumbsSmall = self::getSourceFile($filename, "_portrait_thumbsSmallV2.jpg", false, true);
+            $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg", false, true);
+            $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg", false, true);
+            $spectrumSource = self::getSourceFile($filename, "_spectrum.jpg", false, true);
             if (empty($jpegSource)) {
                 return [];
             }
             $obj->poster = $jpegSource['url'];
             $obj->posterPortrait = $jpegPortraitSource['url'];
-            $obj->posterPortraitPath = $jpegPortraitSource['path'];
+            // SECURITY: Do not expose filesystem paths in API responses
+            // $obj->posterPortraitPath removed to prevent path disclosure
             $obj->posterPortraitThumbs = $jpegPortraitThumbs['url'];
             $obj->posterPortraitThumbsSmall = $jpegPortraitThumbsSmall['url'];
             $obj->thumbsGif = $gifSource['url'];
@@ -5401,7 +5415,8 @@ if (!class_exists('Video')) {
             $obj->spectrumSource = $spectrumSource['url'];
 
             $obj->posterLandscape = $jpegSource['url'];
-            $obj->posterLandscapePath = $jpegSource['path'];
+            // SECURITY: Do not expose filesystem paths in API responses
+            // $obj->posterLandscapePath removed to prevent path disclosure
             $obj->posterLandscapeThumbs = $thumbsSource['url'];
             $obj->posterLandscapeThumbsSmall = $thumbsSmallSource['url'];
 
@@ -5416,32 +5431,32 @@ if (!class_exists('Video')) {
             } else {
                 if ($type == Video::$videoTypeArticle) {
                     $obj->posterPortrait = ImagesPlaceHolders::getArticlesPortrait(ImagesPlaceHolders::$RETURN_URL);
-                    $obj->posterPortraitPath = ImagesPlaceHolders::getArticlesLandscape(ImagesPlaceHolders::$RETURN_PATH);
+                    // SECURITY: Path removed to prevent disclosure
                     $obj->posterPortraitThumbs = $obj->posterPortrait;
                     $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
                 } elseif ($type == Video::$videoTypePdf) {
                     $obj->posterPortrait = ImagesPlaceHolders::getPdfPortrait(ImagesPlaceHolders::$RETURN_URL);
-                    $obj->posterPortraitPath = ImagesPlaceHolders::getPdfPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                    // SECURITY: Path removed to prevent disclosure
                     $obj->posterPortraitThumbs = $obj->posterPortrait;
                     $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
                 } elseif ($type == Video::$videoTypeZip) {
                     $obj->posterPortrait = ImagesPlaceHolders::getZipPortrait(ImagesPlaceHolders::$RETURN_URL);
-                    $obj->posterPortraitPath = ImagesPlaceHolders::getZipPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                    // SECURITY: Path removed to prevent disclosure
                     $obj->posterPortraitThumbs = $obj->posterPortrait;
                     $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
                 } elseif ($type == Video::$videoTypeImage) {
                     $obj->posterPortrait = ImagesPlaceHolders::getImageNotFoundPortrait(ImagesPlaceHolders::$RETURN_URL);
-                    $obj->posterPortraitPath = ImagesPlaceHolders::getImageNotFoundPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                    // SECURITY: Path removed to prevent disclosure
                     $obj->posterPortraitThumbs = $obj->posterPortrait;
                     $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
                 } elseif ($type == Video::$videoTypeAudio || $type == Video::$videoTypeLinkAudio) {
                     $obj->posterPortrait = ImagesPlaceHolders::getAudioPortrait(ImagesPlaceHolders::$RETURN_URL);
-                    $obj->posterPortraitPath = ImagesPlaceHolders::getAudioPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                    // SECURITY: Path removed to prevent disclosure
                     $obj->posterPortraitThumbs = $obj->posterPortrait;
                     $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
                 } else {
                     $obj->posterPortrait = ImagesPlaceHolders::getVideoPlaceholderPortrait(ImagesPlaceHolders::$RETURN_URL);
-                    $obj->posterPortraitPath = ImagesPlaceHolders::getVideoPlaceholderPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                    // SECURITY: Path removed to prevent disclosure
                     $obj->posterPortraitThumbs = $obj->posterPortrait;
                     $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
                 }
@@ -5513,27 +5528,29 @@ if (!class_exists('Video')) {
             global $global;
             $video = new Video("", "", $videos_id);
             $return = (object) self::getImageFromFilename($video->getFilename());
-            if (empty($return->posterLandscapePath)) {
+            // SECURITY: Provide URL fallbacks without exposing filesystem paths
+            if (empty($return->posterLandscape)) {
                 $path = Video::getPaths($video->getFilename());
-                if (!empty($path['path'])) {
-                    $return->posterLandscapePath = "{$path['path']}{$path['filename']}.jpg";
+                if (!empty($path['url'])) {
                     $return->posterLandscape = "{$path['url']}{$path['filename']}.jpg";
                 }
             }
-            if (empty($return->posterPortraitPath)) {
+            if (empty($return->posterPortrait)) {
                 $path = Video::getPaths($video->getFilename());
-                if (!empty($path['path'])) {
-                    $return->posterPortraitPath = "{$path['path']}{$path['filename']}_portrait.jpg";
+                if (!empty($path['url'])) {
                     $return->posterPortrait = "{$path['url']}{$path['filename']}_portrait.jpg";
                 }
             }
 
             if (defaultIsLandscape() && !empty($return->posterLandscape)) {
-                $return->default = ['url' => $return->posterLandscape, 'path' => $return->posterLandscapePath];
+                // SECURITY: Only return URL, not filesystem path
+                $return->default = ['url' => $return->posterLandscape];
             } else if (!empty($return->posterPortrait)) {
-                $return->default = ['url' => $return->posterPortrait, 'path' => $return->posterPortraitPath];
+                // SECURITY: Only return URL, not filesystem path
+                $return->default = ['url' => $return->posterPortrait];
             } else {
-                $return->default = ['url' => ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL), 'path' => ImagesPlaceHolders::getVideoPlaceholder()];
+                // SECURITY: Only return URL, not filesystem path
+                $return->default = ['url' => ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL)];
             }
 
             return $return;

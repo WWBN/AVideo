@@ -19,7 +19,10 @@ function getVizioImageWide($videos_id)
 {
     global $global;
     $images = Video::getImageFromID($videos_id);
-    $imagePath = $images->posterLandscapePath;
+    // Get path directly for internal server-side image conversion
+    $video = new Video('', '', $videos_id);
+    $pathSource = Video::getSourceFile($video->getFilename(), '.jpg', false, true);
+    $imagePath = $pathSource['path'];
     $destinationImage = str_replace(".jpg", "_vizioWide.jpg", $imagePath);
     if (ImagesPlaceHolders::isDefaultImage($imagePath) || convertImageIfNotExists($imagePath, $destinationImage, 848, 477, true)) {
         $relativePath = str_replace($global['systemRootPath'], '', $destinationImage);

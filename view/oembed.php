@@ -38,7 +38,7 @@ if (empty($_REQUEST['format']) || $_REQUEST['format']=='xml') {
 }
 
 $videos_id = intval($video['id']);
-$source = Video::getSourceFile($video['filename']);
+$source = Video::getSourceFile($video['filename'], '.jpg', false, true);
 $imgw = 1024;
 $imgh = 768;
 if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
@@ -66,8 +66,8 @@ $duration = Video::getItemDurationSeconds($video['duration']);
 $code = str_replace("{embedURL}", $embedURL, $advancedCustom->embedCodeTemplate);
 
 if ($format === 'xml') {
-    header('Content-type: application/xml'); 
-    echo '<?xml version="1.0" encoding="UTF-8"?>'; 
+    header('Content-type: application/xml');
+    echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <oembed>
   <version>1.0</version>

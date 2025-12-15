@@ -314,14 +314,20 @@ function getOpenGraphVideo($videos_id)
         $imgPath = $images->posterPortraitPath;
     } else if (!isImageNotFound($images->posterPortrait)) {
         $imgURL = $images->posterPortrait;
-        $imgPath = $images->posterPortraitPath;
+        // Get path directly for internal server-side use
+        $pathSource = Video::getSourceFile($video['filename'], '_portrait.jpg', false, true);
+        $imgPath = $pathSource['path'];
     }
     if (!isImageNotFound($images->posterLandscapeThumbs)) {
         $imgURL = $images->posterLandscapeThumbs;
-        $imgPath = $images->posterLandscapePath;
+        // Get path directly for internal server-side use
+        $pathSource = Video::getSourceFile($video['filename'], '_thumbsV2.jpg', false, true);
+        $imgPath = $pathSource['path'];
     } else if (!isImageNotFound($images->posterLandscape)) {
         $imgURL = $images->posterLandscape;
-        $imgPath = $images->posterLandscapePath;
+        // Get path directly for internal server-side use
+        $pathSource = Video::getSourceFile($video['filename'], '.jpg', false, true);
+        $imgPath = $pathSource['path'];
     } else {
         $imgURL = $images->posterPortrait;
         $imgPath = $images->posterPortraitPath;
@@ -343,7 +349,7 @@ function getOpenGraphLiveLink($liveLink_id)
     $duration_in_seconds = 0;
     $sourceFileURL = $liveLink->getLink();
     $pageURL = LiveLinks::getLinkToLiveFromId($liveLink_id);
-    $pageURLEmbed = LiveLinks::getLinkToLiveFromId($liveLink_id, true);    
+    $pageURLEmbed = LiveLinks::getLinkToLiveFromId($liveLink_id, true);
     $imgURL = LiveLinks::getImageDafaultOrDynamic($liveLink_id);
     $imgPath = '';
     $extraMetatags = array();

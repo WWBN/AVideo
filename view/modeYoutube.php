@@ -256,7 +256,7 @@ if (!empty($evideo)) {
     }
 
     if (!empty($video)) {
-        $source = Video::getSourceFile($video['filename']);
+        $source = Video::getSourceFile($video['filename'], '.jpg', false, true);
         if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
             $img = $source['url'];
             $data = getimgsize($source['path']);

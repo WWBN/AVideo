@@ -67,9 +67,6 @@ if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
 
 $global['avideoStartMicrotime'] = microtime(true);
 
-// Check and create saltV2 if it doesn't exist (security upgrade)
-checkAndCreateSaltV2();
-
 function includeConfigLog($line, $desc = '')
 {
     if (empty($_REQUEST['debug'])) {
@@ -143,6 +140,8 @@ if (empty($global['mysqli_charset'])) {
 includeConfigLog(__LINE__);
 require_once $global['systemRootPath'] . 'objects/functions.php';
 includeConfigLog(__LINE__);
+// Check and create saltV2 if it doesn't exist (security upgrade)
+checkAndCreateSaltV2();
 set_error_reporting();
 if (empty($doNotConnectDatabaseIncludeConfig)) {
     _mysql_connect();

@@ -828,7 +828,7 @@ function getVideosURLPDF($fileName)
     $time = $time[1] + $time[0];
     $start = $time;
 
-    $source = Video::getSourceFile($fileName, ".pdf");
+    $source = Video::getSourceFile($fileName, ".pdf", false, true);
     $file = $source['path'];
     $files["pdf"] = [
         'filename' => "{$fileName}.pdf",
@@ -899,7 +899,7 @@ function getVideosURLIMAGE($fileName)
     $types = ['png', 'gif', 'webp', 'jpg'];
 
     foreach ($types as $value) {
-        $source = Video::getSourceFile($fileName, ".{$value}");
+        $source = Video::getSourceFile($fileName, ".{$value}", false, true);
         $file = $source['path'];
         $files["image"] = [
             'filename' => "{$fileName}.{$value}",
@@ -938,7 +938,7 @@ function getVideosURLZIP($fileName)
     $types = ['zip'];
 
     foreach ($types as $value) {
-        $source = Video::getSourceFile($fileName, ".{$value}");
+        $source = Video::getSourceFile($fileName, ".{$value}", false, true);
         $file = $source['path'];
         $files["zip"] = [
             'filename' => "{$fileName}.zip",
@@ -1017,7 +1017,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false)
             'format' => 'mp3',
         ];
     } else {
-        $source = Video::getSourceFile($fileName, ".mp3");
+        $source = Video::getSourceFile($fileName, ".mp3", false, true);
         $file = $source['path'];
         $files["mp3"] = [
             'filename' => "{$fileName}.mp3",

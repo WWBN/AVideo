@@ -642,8 +642,12 @@ class PlayList extends ObjectYPT
                     $timeName2 = TimeLogStart("getVideosFromPlaylist foreach {$row['id']} {$row['filename']}");
                     $images = Video::getImageFromFilename($row['filename'], $row['type']);
                     TimeLogEnd($timeName2, __LINE__, $tolerance);
-                    if (is_object($images) && !empty($images->posterLandscapePath) && !file_exists($images->posterLandscapePath) && !empty($row['serie_playlists_id'])) {
-                        $images = self::getRandomImageFromPlayList($row['serie_playlists_id']);
+                    // Get path directly for internal server-side file check
+                    if (is_object($images) && !empty($row['serie_playlists_id'])) {
+                        $pathSource = Video::getSourceFile($row['filename'], '.jpg', false, true);
+                        if (!empty($pathSource['path']) && !file_exists($pathSource['path'])) {
+                            $images = self::getRandomImageFromPlayList($row['serie_playlists_id']);
+                        }
                     }
                     TimeLogEnd($timeName2, __LINE__, $tolerance);
                     $row['images'] = $images;
@@ -726,7 +730,9 @@ class PlayList extends ObjectYPT
             $row = $data;
             $images = Video::getImageFromFilename($row['filename'], $row['type']);
 
-            if (!file_exists($images->posterLandscapePath) && !empty($row['serie_playlists_id'])) {
+            // Get path directly for internal server-side file check
+            $pathSource = Video::getSourceFile($row['filename'], '.jpg', false, true);
+            if (!empty($pathSource['path']) && !file_exists($pathSource['path']) && !empty($row['serie_playlists_id'])) {
                 if ($try < 5) {
                     $images = self::getRandomImageFromPlayList($row['serie_playlists_id'], $try + 1);
                 }

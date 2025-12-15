@@ -18,7 +18,7 @@ if (is_array($video)) {
         $html = '<!-- empty showCreationTimeOnVideoItem ' . basename(__FILE__) . ' line=' . __LINE__ . '-->';
     }
     $video['creator'] = Video::getCreatorHTML($video['users_id'], $html);
-    $source = Video::getSourceFile($video['filename']);
+    $source = Video::getSourceFile($video['filename'], '.jpg', false, true);
     if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
         $img = $source['url'];
         $data = getimgsize($source['path']);
