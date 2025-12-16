@@ -786,9 +786,8 @@ if (!class_exists('Video')) {
                 return false;
             }
             $duration_in_seconds = durationToSeconds($duration);
-            if (empty($duration_in_seconds)) {
-                //_error_log("Video::updateDurationInSeconds empty duration {$videos_id}, {$duration}");
-                return false;
+            if (empty($duration_in_seconds) || $duration_in_seconds <= 0) {
+                $duration_in_seconds = 1;
             }
             _error_log("Video::updateDurationInSeconds update duration {$videos_id}, {$duration}, {$duration_in_seconds}");
             $formats = 'si';
