@@ -2515,6 +2515,10 @@ if (!class_exists('Video')) {
         {
             global $config, $global;
 
+            if(isBot(false) && !isCommandLineInterface()){
+                return false;
+            }
+
             if (!empty($global['ignoreUupdateFilesize'])) {
                 return false;
             }
