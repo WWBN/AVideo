@@ -1,5 +1,5 @@
 <?php
-$global_timeLimit = 300;
+$global_timeLimit = $global['timeLimit'] ?? 300;
 
 
 ini_set('default_socket_timeout', $global_timeLimit);
