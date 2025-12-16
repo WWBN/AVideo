@@ -6711,6 +6711,10 @@ function deleteMediaSessionPosters($imagePath)
     if (empty($imagePath)) {
         return false;
     }
+
+    if(isBot(false) && !isCommandLineInterface()){
+        return false;
+    }
     $sizes = [96, 128, 192, 256, 384, 512];
 
     foreach ($sizes as $value) {

@@ -2515,7 +2515,7 @@ if (!class_exists('Video')) {
         {
             global $config, $global;
 
-            if(isBot(false) && !isCommandLineInterface()){
+            if(isBot() && !isCommandLineInterface()){
                 return false;
             }
 
@@ -5866,6 +5866,11 @@ if (!class_exists('Video')) {
             if (empty($filename)) {
                 return false;
             }
+
+            if(isBot(false) && !isCommandLineInterface()){
+                return false;
+            }
+
             global $global;
             _error_log("Video:deleteThumbs($filename) " . json_encode(debug_backtrace()));
             $filePath = Video::getPathToFile($filename);
