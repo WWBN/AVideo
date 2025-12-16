@@ -3150,8 +3150,8 @@ function encrypt_decrypt($string, $action, $useOldSalt = false)
         $secret_iv = '1234567890abcdef';
     }
 
-    // SECURITY: Always use saltV2 (secure), never use old salt for new encryptions
-    // saltV2 is automatically created by checkAndCreateSaltV2() if it doesn't exist
+    // SECURITY: Always use saltV2 (secure), never use old salt
+    // Legacy fallback REMOVED for security - old salt can be bruteforced
     if (empty($global['saltV2'])) {
         _error_log("encrypt_decrypt: CRITICAL - saltV2 not found, using salt as emergency fallback");
         $salt = $global['salt'];
@@ -3182,19 +3182,13 @@ function encrypt_decrypt($string, $action, $useOldSalt = false)
 
         $output = openssl_decrypt($decoded_string, $encrypt_method, $key, 0, $iv);
 
-        // If decryption fails with saltV2, try with old salt for backward compatibility
-        // This allows reading old encrypted data but NEW data is always encrypted with saltV2
-        if (($output === false || $output === '') && !empty($global['salt']) && $salt !== $global['salt']) {
-            _error_log("encrypt_decrypt: Failed with saltV2, trying old salt for backward compatibility");
-            $oldKey = hash('sha256', $global['salt']);
-            $output = openssl_decrypt($decoded_string, $encrypt_method, $oldKey, 0, $iv);
-            if ($output !== false && $output !== '') {
-                _error_log("encrypt_decrypt: Successfully decrypted with old salt");
-            }
-        }
+        // SECURITY FIX: Legacy salt fallback completely removed
+        // The old salt (uniqid) is predictable and can be bruteforced offline in ~5 seconds
+        // All encrypted data is ephemeral (tokens, callbacks) and created on-the-fly
+        // No legitimate reason to accept old salt - enforces saltV2 only
 
         if ($output === false || $output === '') {
-            _error_log("encrypt_decrypt: Failed to decrypt with both saltV2 and old salt");
+            _error_log("encrypt_decrypt: Failed to decrypt with saltV2");
         }
     }
 
@@ -6087,7 +6081,11 @@ function getHashMethodsAndInfo()
         if (empty($global['salt'])) {
             $global['salt'] = '11234567890abcdef';
         }
-        $saltMD5 = md5($global['salt']);
+        
+        // SECURITY: Use saltV2 to prevent offline salt bruteforce via hashId oracle
+        // The old salt is predictable (uniqid), making hashId an oracle for bruteforce attacks
+        $activeSalt = !empty($global['saltV2']) ? $global['saltV2'] : $global['salt'];
+        $saltMD5 = md5($activeSalt);
         if (!empty($global['useLongHash'])) {
             $base = 2;
             $cipher_algo = 'des';
@@ -6111,7 +6109,7 @@ function getHashMethodsAndInfo()
         $iv = substr($saltMD5, 0, $ivlen);
         $key = substr($saltMD5, 0, $keylen);
 
-        $_getHashMethod = ['cipher_algo' => $cipher_algo, 'iv' => $iv, 'key' => $key, 'base' => $base, 'salt' => $global['salt']];
+        $_getHashMethod = ['cipher_algo' => $cipher_algo, 'iv' => $iv, 'key' => $key, 'base' => $base, 'salt' => $activeSalt];
     }
     return $_getHashMethod;
 }
