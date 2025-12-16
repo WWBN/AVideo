@@ -10,7 +10,13 @@ function mysqlBeginTransaction()
      * @var array $global
      * @var object $global['mysqli']
      */
+    // Check if mysqli connection is still valid
+    if (!_mysql_is_open()) {
+        _error_log('Cannot begin transaction: mysqli connection is closed or invalid', AVideoLog::$WARNING);
+        return false;
+    }
     $global['mysqli']->autocommit(false);
+    return true;
 }
 
 function mysqlRollback()
@@ -22,8 +28,14 @@ function mysqlRollback()
      * @var array $global
      * @var object $global['mysqli']
      */
+    // Check if mysqli connection is still valid
+    if (!_mysql_is_open()) {
+        _error_log('Cannot rollback transaction: mysqli connection is closed or invalid', AVideoLog::$WARNING);
+        return false;
+    }
     $global['mysqli']->rollback();
     $global['mysqli']->autocommit(true);
+    return true;
 }
 
 function mysqlCommit()
@@ -35,8 +47,14 @@ function mysqlCommit()
      * @var array $global
      * @var object $global['mysqli']
      */
+    // Check if mysqli connection is still valid
+    if (!_mysql_is_open()) {
+        _error_log('Cannot commit transaction: mysqli connection is closed or invalid', AVideoLog::$WARNING);
+        return false;
+    }
     $global['mysqli']->commit();
     $global['mysqli']->autocommit(true);
+    return true;
 }
 
 

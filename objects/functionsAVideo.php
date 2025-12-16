@@ -233,7 +233,10 @@ function avideoShutdown()
         exit;
     }else{
         if(class_exists('Cache')){
-            Cache::saveCache();
+            // Check if database connection is still valid before attempting to save cache
+            if (!_mysql_is_open()) {
+                Cache::saveCache();
+            }
         }
     }
 }

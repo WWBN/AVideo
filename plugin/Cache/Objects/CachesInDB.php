@@ -339,11 +339,6 @@ class CachesInDB extends ObjectYPT
     {
         global $global;
 
-        // Check if mysqli connection is valid before using it
-        if (empty($global['mysqli']) || !($global['mysqli'] instanceof mysqli)) {
-            return false;
-        }
-
         // Check if connection was closed
         if (!_mysql_is_open()) {
             return false;
