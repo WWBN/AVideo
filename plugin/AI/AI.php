@@ -523,7 +523,7 @@ class AI extends PluginAbstract
         }
         $msg = '';
         $isValid = false;
-        if ($arrayRegular['isValid'] && $arrayLower['isValid']) {
+        if ($arrayRegular['isValid'] && $arrayLower['isValid'] && !empty($arrayRegular['paths']['path']) && !empty($arrayLower['paths']['path'])) {
             $f = convertVideoFileWithFFMPEGIsLockedInfo($arrayRegular['paths']['path']);
             _error_log("convertVideoFileWithFFMPEGIsLockedInfo({$arrayRegular['paths']['path']}) arrayRegular " . json_encode($f));
             if (!$f['isUnlocked']) {
