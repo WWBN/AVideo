@@ -5338,7 +5338,7 @@ if (!class_exists('Video')) {
             $imagePath = $images->default['path'];
             if (empty($imagePath) || empty(@filesize($imagePath))) {
                 if (AVideoPlugin::isEnabledByName('MP4ThumbsAndGif')) {
-                    MP4ThumbsAndGif::getImageInDuration($videos_id, 'jpg');
+                    MP4ThumbsAndGif::getImageIfNotExists($videos_id, 'jpg');
                 }
             }
 
