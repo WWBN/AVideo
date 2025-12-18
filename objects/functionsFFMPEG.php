@@ -84,7 +84,7 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
     if (file_exists($mp3HLSFile) || file_exists($mp3File)) {
         $global['convertVideoToMP3FileIfNotExistsSteps'][] = "MP3 file already exists";
         $global['convertVideoToMP3FileIfNotExistsFileAlreadyExists'] = true; // Indicate that the file already exists
-        return Video::getSourceFile($video['filename'], ".mp3", true); // Treat as successful since the file exists
+        return Video::getSourceFile($video['filename'], ".mp3", true, true); // Treat as successful since the file exists
     } else {
         $f = convertVideoFileWithFFMPEGIsLockedInfo($mp3File);
         if ($f['isUnlocked']) {
@@ -100,7 +100,7 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
 
                 if (file_exists($mp3File)) {
                     $global['convertVideoToMP3FileIfNotExistsSteps'][] = "MP3 file successfully created";
-                    return Video::getSourceFile($video['filename'], ".mp3", true); // Conversion successful
+                    return Video::getSourceFile($video['filename'], ".mp3", true, true); // Conversion successful
                 } else {
                     $global['convertVideoToMP3FileIfNotExistsSteps'][] = "MP3 file creation failed: File does not exist";
                     _error_log("convertVideoToMP3FileIfNotExists: file not exists {$mp3File}");
