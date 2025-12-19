@@ -748,14 +748,54 @@ function handleCallbackTriggerPluginHook($params, $notify) {
     $hook = sanitizeAlphanumericForCallback($params['hook']);
     $videos_id = intval($params['videos_id']);
 
-    $allowedHooks = ['onNewVideo', 'onVideoProcessed'];
+    $allowedHooks = [
+        'onNewVideo',
+        'afterNewVideo',
+        'onUpdateVideo',
+        'onVideoSetStatus',
+        'onEncoderNotifyIsDone',
+        'onEncoderReceiveImage',
+        'onReceiveFile',
+        'onUploadIsDone'
+    ];
+    
     if (!in_array($hook, $allowedHooks)) {
         return ['error' => 'Hook not allowed'];
     }
 
-    if ($hook === 'onNewVideo') {
-        AVideoPlugin::onNewVideo($videos_id);
+    switch ($hook) {
+        case 'onNewVideo':
+            AVideoPlugin::onNewVideo($videos_id);
+            break;
+        case 'afterNewVideo':
+            AVideoPlugin::afterNewVideo($videos_id);
+            break;
+        case 'onUpdateVideo':
+            AVideoPlugin::onUpdateVideo($videos_id);
+            break;
+        case 'onVideoSetStatus':
+            if (isset($params['oldValue']) && isset($params['newValue'])) {
+                AVideoPlugin::onVideoSetStatus($videos_id, $params['oldValue'], $params['newValue']);
+            } else {
+                return ['error' => 'Missing oldValue or newValue for onVideoSetStatus'];
+            }
+            break;
+        case 'onEncoderNotifyIsDone':
+            AVideoPlugin::onEncoderNotifyIsDone($videos_id);
+            break;
+        case 'onEncoderReceiveImage':
+            AVideoPlugin::onEncoderReceiveImage($videos_id);
+            break;
+        case 'onReceiveFile':
+            AVideoPlugin::onReceiveFile($videos_id);
+            break;
+        case 'onUploadIsDone':
+            AVideoPlugin::onUploadIsDone($videos_id);
+            break;
+        default:
+            return ['error' => 'Hook handler not implemented'];
     }
+    
     return ['success' => true, 'hook' => $hook, 'videos_id' => $videos_id];
 }
 
@@ -780,6 +820,14 @@ function handleCallbackUpdateVideoMetadata($params, $notify) {
     }
     if (isset($params['resolution']) && preg_match('/^\d+x\d+$/', $params['resolution'])) {
         $updates['resolution'] = $params['resolution'];
+    }
+
+    // Save changes to database
+    if (!empty($updates)) {
+        $saved = $video->save();
+        if (!$saved) {
+            return ['error' => 'Failed to save video metadata'];
+        }
     }
 
     return ['success' => true, 'updates' => $updates];
