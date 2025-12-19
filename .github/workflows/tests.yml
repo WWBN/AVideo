@@ -46,11 +46,16 @@ jobs:
         composer clear-cache
         composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
     
+    - name: Verify PHPUnit installation
+      run: |
+        php --version
+        php vendor/bin/phpunit --version
+    
     - name: Run Unit Tests
-      run: vendor/bin/phpunit tests/Unit/ --no-coverage --colors=never
+      run: php vendor/bin/phpunit tests/Unit/ --no-coverage --colors=never
     
     - name: Run Security Tests
-      run: vendor/bin/phpunit tests/Security/ --no-coverage --colors=never
+      run: php vendor/bin/phpunit tests/Security/ --no-coverage --colors=never
     
     - name: Run All Tests with Coverage
       if: matrix.php-version == '8.3'
