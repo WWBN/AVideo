@@ -10,7 +10,26 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
 </p>
 
 <p align="center">
-  <img src="https://github.com/WWBN/AVideo/workflows/Tests/badge.svg" alt="Tests Status"/>
+ 
+  <a href="https://github.com/WWBN/AVideo/actions/workflows/tests.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/WWBN/AVideo/tests.yml?style=flat-square&label=tests" alt="Tests Status"/>
+  </a>
+  <a href="https://github.com/WWBN/AVideo/stargazers">
+    <img src="https://img.shields.io/github/stars/WWBN/AVideo?style=flat-square" alt="GitHub Stars"/>
+  </a>
+  <a href="https://github.com/WWBN/AVideo/network/members">
+    <img src="https://img.shields.io/github/forks/WWBN/AVideo?style=flat-square" alt="GitHub Forks"/>
+  </a>
+  <br/>
+  <a href="https://github.com/WWBN/AVideo/commits/master">
+    <img src="https://img.shields.io/github/last-commit/WWBN/AVideo?style=flat-square" alt="Last Commit"/>
+  </a>
+  <a href="https://github.com/WWBN/AVideo/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/WWBN/AVideo?style=flat-square" alt="Contributors"/>
+  </a>
+  <a href="https://github.com/WWBN/AVideo">
+    <img src="https://img.shields.io/github/languages/code-size/WWBN/AVideo?style=flat-square" alt="Code Size"/>
+  </a>
 </p>
 
 ### [!IMPORTANT] Domain Update Notice
