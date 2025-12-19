@@ -1,0 +1,162 @@
+{
+   "description":"Get list of webhook events",
+   "title":"Get list of webhook events",
+   "runnable":true,
+   "operationId":"event.list",
+   "user":{
+      "scopes":[
+         "https://uri.paypal.com/services/applications/webhooks"
+      ]
+   },
+   "credentials":{
+      "oauth":{
+         "path":"/v1/oauth/token",
+         "clientId":"",
+         "clientSecret":""
+      }
+   },
+   "request":{
+      "path":"v1/notifications/webhooks-events",
+      "method":"GET",
+      "headers":{
+         "Content-Type":"application/json",
+         "Authorization":"Bearer ECvJ_yBNz_UfMmCvWEbT_2ZWXdzbFFQZ-1Y5K2NGgeHn"
+      }
+   },
+   "response":{
+      "status":"200",
+      "headers":{
+         "Content-Type":"application/json",
+         "Paypal-Debug-id":"0c444abc1d12d"
+      },
+      "body":{
+          "events": [
+              {
+                  "id": "8PT597110X687430LKGECATA",
+                  "create_time": "2013-06-25T21:41:28Z",
+                  "resource_type": "authorization",
+                  "event_type": "PAYMENT.AUTHORIZATION.CREATED",
+                  "summary": "A payment authorization was created",
+                  "resource": {
+                      "id": "2DC87612EK520411B",
+                      "create_time": "2013-06-25T21:39:15Z",
+                      "update_time": "2013-06-25T21:39:17Z",
+                      "state": "authorized",
+                      "amount": {
+                          "total": "7.47",
+                          "currency": "USD",
+                          "details": {
+                              "subtotal": "7.47"
+                          }
+                      },
+                      "parent_payment": "PAY-36246664YD343335CKHFA4AY",
+                      "valid_until": "2013-07-24T21:39:15Z",
+                      "links": [
+                          {
+                              "href": "https://api.sandbox.paypal.com/v1/payments/authorization/2DC87612EK520411B",
+                              "rel": "self",
+                              "method": "GET"
+                          },
+                          {
+                              "href": "https://api.sandbox.paypal.com/v1/payments/authorization/2DC87612EK520411B/capture",
+                              "rel": "capture",
+                              "method": "POST"
+                          },
+                          {
+                              "href": "https://api.sandbox.paypal.com/v1/payments/authorization/2DC87612EK520411B/void",
+                              "rel": "void",
+                              "method": "POST"
+                          },
+                          {
+                              "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-36246664YD343335CKHFA4AY",
+                              "rel": "parent_payment",
+                              "method": "GET"
+                          }
+                      ]
+                  },
+                  "links": [
+                      {
+                          "href": "https://api.sandbox.paypal.com/v1/notfications/webhooks-events/8PT597110X687430LKGECATA",
+                          "rel": "self",
+                          "method": "GET"
+                      },
+                      {
+                          "href": "https://api.sandbox.paypal.com/v1/notfications/webhooks-events/8PT597110X687430LKGECATA/resend",
+                          "rel": "resend",
+                          "method": "POST"
+                      }
+                  ]
+              },
+              {
+                  "id": "HTSPGS710X687430LKGECATA",
+                  "create_time": "2013-06-25T21:41:28Z",
+                  "resource_type": "authorization",
+                  "event_type": "PAYMENT.AUTHORIZATION.CREATED",
+                  "summary": "A payment authorization was created",
+                  "resource": {
+                      "id": "HATH7S72EK520411B",
+                      "create_time": "2013-06-25T21:39:15Z",
+                      "update_time": "2013-06-25T21:39:17Z",
+                      "state": "authorized",
+                      "amount": {
+                          "total": "7.47",
+                          "currency": "USD",
+                          "details": {
+                              "subtotal": "7.47"
+                          }
+                      },
+                      "parent_payment": "PAY-ALDSFJ64YD343335CKHFA4AY",
+                      "valid_until": "2013-07-24T21:39:15Z",
+                      "links": [
+                          {
+                              "href": "https://api.sandbox.paypal.com/v1/payments/authorization/HATH7S72EK520411B",
+                              "rel": "self",
+                              "method": "GET"
+                          },
+                          {
+                              "href": "https://api.sandbox.paypal.com/v1/payments/authorization/HATH7S72EK520411B/capture",
+                              "rel": "capture",
+                              "method": "POST"
+                          },
+                          {
+                              "href": "https://api.sandbox.paypal.com/v1/payments/authorization/HATH7S72EK520411B/void",
+                              "rel": "void",
+                              "method": "POST"
+                          },
+                          {
+                              "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-HATH7S72EK520411B",
+                              "rel": "parent_payment",
+                              "method": "GET"
+                          }
+                      ]
+                  },
+                  "links": [
+                      {
+                          "href": "https://api.sandbox.paypal.com/v1/notfications/webhooks-events/HTSPGS710X687430LKGECATA",
+                          "rel": "self",
+                          "method": "GET"
+                      },
+                      {
+                          "href": "https://api.sandbox.paypal.com/v1/notfications/webhooks-events/HTSPGS710X687430LKGECATA/resend",
+                          "rel": "resend",
+                          "method": "POST"
+                      }
+                  ]
+              }
+          ],
+          "count": 2,
+          "links": [
+              {
+                  "href": "https://api.sandbox.paypal.com/v1/notifications/webhooks-events/?start_time=2014-08-04T12:46:47-07:00&amp;amp;end_time=2014-09-18T12:46:47-07:00&amp;amp;page_size=2&amp;amp;move_to=next&amp;amp;index_time=2014-09-17T23:07:35Z&amp;amp;index_id=3",
+                  "rel": "next",
+                  "method": "GET"
+              },
+              {
+                  "href": "https://api.sandbox.paypal.com/v1/notifications/webhooks-events/?start_time=2014-08-04T12:46:47-07:00&amp;amp;end_time=2014-09-18T12:46:47-07:00&amp;amp;page_size=2&amp;amp;move_to=previous&amp;amp;index_time=2014-09-17T23:07:35Z&amp;amp;index_id=0",
+                  "rel": "previous",
+                  "method": "GET"
+              }
+          ]
+      }
+   }
+}

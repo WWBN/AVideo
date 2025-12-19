@@ -1,0 +1,46 @@
+{
+    "description": "Fetch a web experience profile.",
+    "title": "Get profile",
+    "runnable": true,
+    "operationId": "web-profile.get",
+    "user": {
+        "scopes": [
+            "https://api.paypal.com/v1/payments/.*"
+        ]
+    },
+    "credentials": {
+        "oauth": {
+            "clientId": "test-client-01",
+            "clientSecret": "test_secret_a",
+            "path": "/v1/oauth2/token"
+        }
+    },
+    "request": {
+        "path": "/v1/payment-experience/web-profiles/XP-RFV4-PVD8-AGHJ-8E5J",
+        "method": "GET",
+        "headers": {
+            "Authorization": "Bearer ECvJ_yBNz_UfMmCvWEbT_2ZWXdzbFFQZ-1Y5K2NGgeHn"
+        }
+    },
+    "response": {
+        "status": "200",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": {
+            "id": "XP-RFV4-PVD8-AGHJ-8E5J",
+            "name":"someName2",
+            "presentation":{
+                "logo_image":"http://www.ebay.com"
+            },
+            "input_fields":{
+                "no_shipping":1,
+                "address_override":1
+            },
+            "flow_config":{
+                "landing_page_type":"billing",
+                "bank_txn_pending_url":"http://www.ebay.com"
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "description": "Record a payment for an invoice.",
+    "title": "Record a payment for an invoice.",
+    "runnable": true,
+    "operationId": "invoice.record-payment",
+    "request": {
+        "path": "v1/invoicing/invoices/INV2-T4UQ-VW4W-K7N7-XM2R/record-payment",
+        "method": "POST",
+        "headers": {},
+        "body": {
+            "method": "CASH",
+            "date": "2014-07-06 03:30:00 PST",
+            "note": "Cash received."
+        }
+    },
+    "response": {
+        "status": "",
+        "headers": {},
+        "body": {}
+    }
+}

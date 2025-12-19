@@ -1,0 +1,100 @@
+{
+    "description": "Obtain the payment resource for the given identifier.",
+    "title": "Get a payment resource",
+    "runnable": true,
+    "operationId": "payment.get",
+    "user": {
+        "scopes": []
+    },
+    "credentials": {
+        "oauth": {
+            "clientId": "",
+            "clientSecret": "",
+            "path": ""
+        },
+        "login": {},
+        "openIdConnect": {}
+    },
+    "request": {
+        "headers": {},
+        "body": {},
+        "path": "/v1/payments/payment/PAY-5YK922393D847794YKER7MUI",
+        "method": "GET"
+    },
+    "response": {
+        "headers": {},
+        "body": {
+            "id": "PAY-5YK922393D847794YKER7MUI",
+            "create_time": "2013-02-19T22:01:53Z",
+            "update_time": "2013-02-19T22:01:55Z",
+            "state": "approved",
+            "intent": "sale",
+            "payer": {
+                "payment_method": "paypal",
+                "status": "VERIFIED"
+            },
+            "transactions": [
+                {
+                    "amount": {
+                        "total": "7.47",
+                        "currency": "USD",
+                        "details": {
+                            "subtotal": "7.47"
+                        }
+                    },
+                    "description": "This is the payment transaction description.",
+                    "related_resources": [
+                        {
+                            "sale": {
+                                "id": "36C38912MN9658832",
+                                "create_time": "2013-02-19T22:01:53Z",
+                                "update_time": "2013-02-19T22:01:55Z",
+                                "amount": {
+                                    "total": "7.47",
+                                    "currency": "USD"
+                                },
+                                "payment_mode": "INSTANT_TRANSFER",
+                                "state": "pending",
+                                "reason_code": "ECHECK",
+                                "protection_eligibility": "ELIGIBLE",
+                                "protection_eligibility_type": "ELIGIBLE",
+                                "clearing_time": "2014-06-12T07:00:00Z",
+                                "parent_payment": "PAY-5YK922393D847794YKER7MUI",
+                                "links": [
+                                    {
+                                        "href": "https://api.paypal.com/v1/payments/sale/36C38912MN9658832",
+                                        "rel": "self",
+                                        "method": "GET"
+                                    },
+                                    {
+                                        "href": "https://api.paypal.com/v1/payments/sale/36C38912MN9658832/refund",
+                                        "rel": "refund",
+                                        "method": "POST"
+                                    },
+                                    {
+                                        "href": "https://www.paypal.com/cgi-bin/webscr?cmd=_complete-express-checkout&token=EC-92V50600P8987630S",
+                                        "rel": "payment_instruction_redirect",
+                                        "method": "GET"
+                                    },
+                                    {
+                                        "href": "https://api.paypal.com/v1/payments/payment/PAY-5YK922393D847794YKER7MUI",
+                                        "rel": "parent_payment",
+                                        "method": "GET"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "href": "https://api.paypal.com/v1/payments/payment/PAY-5YK922393D847794YKER7MUI",
+                    "rel": "self",
+                    "method": "GET"
+                }
+            ]
+        },
+        "status": "200 OK"
+    }
+}

@@ -1,0 +1,120 @@
+<?php
+use PayPal\Core\PayPalConfigManager;
+
+class PPConfigManagerTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var PayPalConfigManager
+     */
+    protected $object;
+
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp()
+    {
+        $this->object = new \ReflectionClass('PayPal\Core\PayPalConfigManager');
+        runkit_constant_remove('PP_CONFIG_PATH');
+    }
+
+    /**
+     * Tears down the fixture, for example, closes a network connection.
+     * This method is called after a test is executed.
+     */
+    protected function tearDown()
+    {
+        $property = $this->object->getProperty('instance');
+        $property->setValue(null);
+    }
+
+
+    public function testGetInstance()
+    {
+        define("PP_CONFIG_PATH", dirname(dirname(dirname(__DIR__))));
+        $this->object = PayPalConfigManager::getInstance();
+        $instance = $this->object->getInstance();
+        $instance2 = $this->object->getInstance();
+        $this->assertTrue($instance instanceof PayPalConfigManager);
+        $this->assertSame($instance, $instance2);
+    }
+
+
+    public function testGet()
+    {
+        define("PP_CONFIG_PATH", dirname(dirname(dirname(__DIR__))));
+        $this->object = PayPalConfigManager::getInstance();
+        $ret = $this->object->get('acct2');
+        $this->assertConfiguration(
+            array('acct2.ClientId' => 'TestClientId', 'acct2.ClientSecret' => 'TestClientSecret'),
+            $ret
+        );
+        $this->assertTrue(sizeof($ret) == 2);
+
+    }
+
+
+    public function testGetIniPrefix()
+    {
+        define("PP_CONFIG_PATH", dirname(dirname(dirname(__DIR__))));
+        $this->object = PayPalConfigManager::getInstance();
+
+        $ret = $this->object->getIniPrefix();
+        $this->assertContains('acct1', $ret);
+        $this->assertEquals(sizeof($ret), 2);
+
+        $ret = $this->object->getIniPrefix('TestClientId');
+        $this->assertEquals('acct2', $ret);
+    }
+
+
+    public function testConfigByDefault()
+    {
+        define("PP_CONFIG_PATH", dirname(dirname(dirname(__DIR__))));
+        $this->object = PayPalConfigManager::getInstance();
+
+        // Test file based config params and defaults
+        $config = PayPalConfigManager::getInstance()->getConfigHashmap();
+        $this->assertConfiguration(array('mode' => 'sandbox', 'http.ConnectionTimeOut' => '60'), $config);
+    }
+
+
+    public function testConfigByCustom()
+    {
+        define("PP_CONFIG_PATH", dirname(dirname(dirname(__DIR__))));
+        $this->object = PayPalConfigManager::getInstance();
+
+        // Test custom config params and defaults
+        $config = PayPalConfigManager::getInstance()->addConfigs(array('mode' => 'custom', 'http.ConnectionTimeOut' => 900))->getConfigHashmap();
+        $this->assertConfiguration(array('mode' => 'custom', 'http.ConnectionTimeOut' => '900'), $config);
+    }
+
+
+    public function testConfigByFileAndCustom() {
+        define("PP_CONFIG_PATH", __DIR__. '/non_existent/');
+        $this->object = PayPalConfigManager::getInstance();
+
+        $config = PayPalConfigManager::getInstance()->getConfigHashmap();
+        $this->assertArrayHasKey('http.ConnectionTimeOut', $config);
+        $this->assertEquals('30', $config['http.ConnectionTimeOut']);
+        $this->assertEquals('5', $config['http.Retry']);
+
+        //Add more configs
+        $config = PayPalConfigManager::getInstance()->addConfigs(array('http.Retry' => "10", 'mode' => 'sandbox'))->getConfigHashmap();
+        $this->assertConfiguration(array('http.ConnectionTimeOut' => "30", 'http.Retry' => "10", 'mode' => 'sandbox'), $config);
+    }
+
+    /**
+     * Asserts if each configuration is available and has expected value.
+     *
+     * @param $conditions
+     * @param $config
+     */
+    public function assertConfiguration($conditions, $config) {
+        foreach($conditions as $key => $value) {
+            $this->assertArrayHasKey($key, $config);
+            $this->assertEquals($value, $config[$key]);
+        }
+    }
+}
+?>

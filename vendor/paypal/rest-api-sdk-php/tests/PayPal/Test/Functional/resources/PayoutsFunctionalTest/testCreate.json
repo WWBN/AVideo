@@ -1,0 +1,106 @@
+{
+    "description" : "Sender POSTs a batch with 1 payout request. This example is for sync_mode=true. This means an immediate response. For sync_mode=false, the output will be run in back ground and the repsonse will be different.",    
+    "title" : "POST batch sample",
+    "runnable" : true, 
+    "operationId" : "payouts", 
+    "user" : { 
+        "scopes" : [ ]  
+    },
+    "credentials" : {  
+        "oauth": {
+            "path" : "/v1/oauth/token",
+            "clientId":"",    
+            "clientSecret":""
+        }
+    },
+    "request":{
+        "path":"v1/payments/payouts?sync_mode=true",
+        "method":"POST",
+        "headers": {
+            "Content-Type": "application/json", 
+            "Content-Encoding": "gzip"
+        },
+        "body":{
+            "sender_batch_header":{
+                "sender_batch_id":"2014021801",
+                "email_subject":"You have a Payout!"
+            },
+            "items":[
+                {
+                    "recipient_type":"EMAIL",
+                    "amount":{
+                        "value":"1.0",
+                        "currency":"USD"
+                    },
+                    "note":"Thanks for your patronage!",
+                    "sender_item_id":"2014031400023",
+                    "receiver":"shirt-supplier-one@mail.com"
+                }
+            ]
+        }
+    },
+    "response" : {
+        "status" : "201 OK",
+        "headers" : {
+            "Content-Type": "application/json",
+            "Content-Encoding": "gzip"
+        },
+        "body" : {
+                 "batch_header": {
+                     "payout_batch_id": "CDZEC5MJ8R5HY",
+                     "batch_status": "SUCCESS",
+                     "time_created": "2014-46-14T06:46:22Z",
+                     "time_completed": "2014-46-14T06:46:23Z",
+                     "sender_batch_header": {
+                     		"sender_batch_id":"2014021801",
+                          	"email_subject": "You have a Payout!"
+                      },
+                 "amount": {
+                     "currency": "USD",
+                     "value": "1.0"
+                  },
+                 "fees": {
+                     "currency": "USD",
+                     "value": "0.02"
+                  }
+              },
+              "items": [
+        			{
+            			"payout_item_id": "VHBFGN95AWV82",
+            			"transaction_id": "0728664497487461D",
+            			"transaction_status": "UNCLAIMED",
+            			"payout_item_fee": {
+                			"currency": "USD",
+                			"value": "0.02"
+            			},
+            			"payout_batch_id": "CDZEC5MJ8R5HY",
+            			"payout_item": {
+                		"amount": {
+                    		"currency": "USD",
+                    		"value": "1.0"
+                		},
+                		"note": "Thanks for your patronage!",
+                		"receiver": "anybody01@gmail.com",
+                		"recipient_type": "EMAIL",
+                		"sender_item_id": "201403140001"
+            		},
+            		"time_processed": "2014-46-14T06:46:23Z",
+            		"links": [
+                	{
+                    	"href": "https://api.sandbox.paypal.com/v1/payments/payouts-item/VHBFGN95AWV82",
+                   		"rel": "item",
+                    	"method": "GET"
+                	}
+            		]
+        	}
+    	],
+    	"links": [
+        	{
+            	"href": "https://api.sandbox.paypal.com/v1/payments/payouts/CDZEC5MJ8R5HY",
+            	"rel": "self",
+            	"method": "GET"
+        	}
+    	]
+	}
+    }
+}

@@ -1,0 +1,148 @@
+{
+    "description": "get all invoices",
+    "title": "get all invoices",
+    "runnable": true,
+    "operationId": "invoice.get_all",
+    "user": {
+        "scopes": []
+    },
+    "credentials": {
+        "oauth": {
+            "clientId": "",
+            "clientSecret": "",
+            "path": ""
+        },
+        "login": {},
+        "openIdConnect": {}
+    },
+    "request": {
+        "path": "v1/invoicing/invoices?page=0&page_size=10&total_count_required=true",
+        "method": "GET",
+        "headers": {
+            "X-PAYPAL-SECURITY-CONTEXT": "{\"actor\":{\"auth_claims\":[\"CLIENT_ID_SECRET\"],\"auth_state\":\"LOGGEDIN\",\"account_number\":\"1942617323817135416\",\"encrypted_account_number\":\"6QNCBKP95EWWN\",\"party_id\":\"1942617323817135416\"},\"auth_token\":\"A015vRRfXmgj2UscSiBbwz1Elw8RW.ypMlPJsMH77snr6fc\",\"auth_token_type\":\"ACCESS_TOKEN\",\"last_validated\":1405632568,\"scopes\":[\"openid\",\"https://uri.paypal.com/services/invoicing\",\"https://uri.paypal.com/services/subscriptions\",\"https://api.paypal.com/v1/payments/.*\",\"https://api.paypal.com/v1/vault/credit-card/.*\",\"https://api.paypal.com/v1/vault/credit-card\"],\"client_id\":\"AewC1RCK3i4Z7WTbE0cz5buvd_NW17sYbYI4kc29c5qGxeh-0P7sMuXh2chc\",\"claims\":{\"actor_payer_id\":\"6QNCBKP95EWWN\"},\"subjects\":[]}"
+        },
+        "body": {}
+    },
+    "response": {
+        "status": "",
+        "headers": {},
+        "body": {
+            "total_count": 5,
+            "invoices": [
+                {
+                    "id": "INV2-2NB5-UJ7A-YSUJ-ABCD",
+                    "number": "9879878979003791",
+                    "status": "DRAFT",
+                    "merchant_info": {
+                        "email": "sample@sample.com"
+                    },
+                    "billing_info": [
+                        {
+                            "email": "example@example.com"
+                        }
+                    ],
+                    "shipping_info": {
+                        "email": "example@example.com",
+                        "first_name": "Sally",
+                        "last_name": "Patient",
+                        "business_name": "Not applicable"
+                    },
+                    "invoice_date": "2014-02-27 PST",
+                    "note": "Medical Invoice 16 Jul, 2013 PST",
+                    "total_amount": {
+                        "currency": "USD",
+                        "value": "0.00"
+                    },
+                    "metadata": {
+                        "created_date": "2014-02-27 23:55:58 PST"
+                    }
+                },
+                {
+                    "id": "INV2-5AYC-UE5K-XXEG-ABCD",
+                    "number": "9879878979003790",
+                    "status": "DRAFT",
+                    "merchant_info": {
+                        "email": "sample@sample.com"
+                    },
+                    "billing_info": [
+                        {
+                            "email": "example@example.com"
+                        }
+                    ],
+                    "shipping_info": {
+                        "email": "example@example.com",
+                        "first_name": "Sally",
+                        "last_name": "Patient",
+                        "business_name": "Not applicable"
+                    },
+                    "invoice_date": "2014-02-27 PST",
+                    "note": "Medical Invoice 16 Jul, 2013 PST",
+                    "total_amount": {
+                        "currency": "USD",
+                        "value": "0.00"
+                    },
+                    "metadata": {
+                        "created_date": "2014-02-27 19:41:56 PST"
+                    }
+                },
+                {
+                    "id": "INV2-C4QH-KEKM-C5QE-ABCD",
+                    "number": "9879878979003789",
+                    "status": "DRAFT",
+                    "merchant_info": {
+                        "email": "sample@sample.com"
+                    },
+                    "billing_info": [
+                        {
+                            "email": "example@example.com"
+                        }
+                    ],
+                    "shipping_info": {
+                        "email": "example@example.com",
+                        "first_name": "Sally",
+                        "last_name": "Patient",
+                        "business_name": "Not applicable"
+                    },
+                    "invoice_date": "2014-02-27 PST",
+                    "note": "Medical Invoice 16 Jul, 2013 PST",
+                    "total_amount": {
+                        "currency": "USD",
+                        "value": "0.00"
+                    },
+                    "metadata": {
+                        "created_date": "2014-02-27 15:34:11 PST"
+                    }
+                },
+                {
+                    "id": "INV2-RF6D-L66T-D7H2-CRU7",
+                    "number": "9879878979003788",
+                    "status": "DRAFT",
+                    "merchant_info": {
+                        "email": "sample@sample.com"
+                    },
+                    "billing_info": [
+                        {
+                            "email": "example@example.com"
+                        }
+                    ],
+                    "shipping_info": {
+                        "email": "example@example.com",
+                        "first_name": "Sally",
+                        "last_name": "Patient",
+                        "business_name": "Not applicable"
+                    },
+                    "invoice_date": "2014-02-27 PST",
+                    "note": "Medical Invoice 16 Jul, 2013 PST",
+                    "total_amount": {
+                        "currency": "USD",
+                        "value": "12.00"
+                    },
+                    "metadata": {
+                        "created_date": "2014-02-27 15:34:01 PST"
+                    }
+                }
+            ]
+        }
+       
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "description": "Sends a legitimate invoice to the payer.",
+    "title": "Sends a legitimate invoice to the payer.",
+    "runnable": true,
+    "operationId": "invoice.send",
+    "user": {
+        "scopes": []
+    },
+    "credentials": {
+        "oauth": {
+            "clientId": "",
+            "clientSecret": "",
+            "path": ""
+        },
+        "login": {},
+        "openIdConnect": {}
+    },
+    "request": {
+        "path": "v1/invoicing/invoices/INV2-RF6D-L66T-D7H2-CRU7/send",
+        "method": "POST",
+        "headers": {
+            "X-PAYPAL-SECURITY-CONTEXT": "{\"actor\":{\"auth_claims\":[\"CLIENT_ID_SECRET\"],\"auth_state\":\"LOGGEDIN\",\"account_number\":\"1942617323817135416\",\"encrypted_account_number\":\"6QNCBKP95EWWN\",\"party_id\":\"1942617323817135416\"},\"auth_token\":\"A015vRRfXmgj2UscSiBbwz1Elw8RW.ypMlPJsMH77snr6fc\",\"auth_token_type\":\"ACCESS_TOKEN\",\"last_validated\":1405632568,\"scopes\":[\"openid\",\"https://uri.paypal.com/services/invoicing\",\"https://uri.paypal.com/services/subscriptions\",\"https://api.paypal.com/v1/payments/.*\",\"https://api.paypal.com/v1/vault/credit-card/.*\",\"https://api.paypal.com/v1/vault/credit-card\"],\"client_id\":\"AewC1RCK3i4Z7WTbE0cz5buvd_NW17sYbYI4kc29c5qGxeh-0P7sMuXh2chc\",\"claims\":{\"actor_payer_id\":\"6QNCBKP95EWWN\"},\"subjects\":[]}"
+        },
+        "body": {}
+    },
+    "response": {
+        "status": "",
+        "headers": {},
+        "body": {}
+    }
+}

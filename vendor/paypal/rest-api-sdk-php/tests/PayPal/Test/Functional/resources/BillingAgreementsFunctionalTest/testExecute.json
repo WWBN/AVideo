@@ -1,0 +1,37 @@
+{
+    "description" : "Create PayPal agreement after buyer approval",    
+    "title" : "Agreement creation",
+    "runnable" : true, 
+    "operationId" : "agreement.execute", 
+    "user" : { 
+        "scopes" : ["https://uri.paypal.com/services/subscriptions" ]  
+    },
+    "credentials" : {  
+        "oauth": {
+            "path" : "/v1/oauth/token",
+            "clientId":"",    
+            "clientSecret":""
+        }
+    },
+    "request" : {
+        "path" : "v1/payments/billing-agreements/EC-6CT996018D989343F/agreement-execute",
+        "method" : "POST",
+        "headers" : {},
+        "body" : {}
+    },
+    "response" : {
+        "status" : "200 OK",
+        "headers" : {},
+        "body" : 
+        {
+	    "id": "I-5D3XDN2D5FH1",
+	    "links": [
+	        {
+	            "href": "https://stage2p2163.qa.paypal.com/v1/payments/billing-agreements/I-5D3XDN2D5FH1",
+	            "rel": "self",
+	            "method": "GET"
+	        }
+	    ]
+	}
+    }
+}

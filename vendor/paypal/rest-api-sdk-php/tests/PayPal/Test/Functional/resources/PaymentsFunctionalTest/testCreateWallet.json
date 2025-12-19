@@ -1,0 +1,177 @@
+{
+    "description": "Creates a payment resource.",
+    "title": "payment",
+    "runnable": true,
+    "operationId": "payment.create",
+    "user": {
+        "scopes": []
+    },
+    "credentials": {
+        "oauth": {
+            "clientId": "",
+            "clientSecret": "",
+            "path": ""
+        },
+        "login": {},
+        "openIdConnect": {}
+    },
+    "request": {
+        "headers": {},
+        "body": {
+            "intent": "sale",
+            "payer": {
+                "payment_method": "paypal",
+                "payer_info": {
+                    "tax_id_type": "BR_CPF",
+                    "tax_id": "Fh618775611"
+                }
+            },
+            "redirect_urls": {
+                "return_url": "http://localhost/Server-SDK/rest-api-sdk-php/sample/payments/ExecutePayment.php?success=true",
+                "cancel_url": "http://localhost/Server-SDK/rest-api-sdk-php/sample/payments/ExecutePayment.php?success=false"
+            },
+            "transactions": [
+                {
+                    "amount": {
+                        "total": "20.00",
+                        "currency": "USD",
+                        "details": {
+                            "subtotal": "17.50",
+                            "tax": "1.30",
+                            "shipping": "1.20",
+                            "handling_fee": "1.00",
+                            "shipping_discount": "-1.00",
+                            "insurance": "0.00"
+                        }
+                    },
+                    "description": "This is the payment transaction description.",
+                    "custom": "EBAY_EMS_90048630024435",
+                    "invoice_number": "48787589677",
+                    "payment_options": {
+                        "allowed_payment_method": "INSTANT_FUNDING_SOURCE"
+                    },
+                    "soft_descriptor": "ECHI5786786",
+                    "item_list": {
+                        "items": [
+                            {
+                                "name": "hat",
+                                "description": "Browncolorsatinhat",
+                                "quantity": "1",
+                                "price": "7.50",
+                                "tax": "0.30",
+                                "sku": "1",
+                                "currency": "USD"
+                            },
+                            {
+                                "name": "handbag",
+                                "description": "Blackcolorhandbag",
+                                "quantity": "5",
+                                "price": "2.00",
+                                "tax": "0.20",
+                                "sku": "product34",
+                                "currency": "USD"
+                            }
+                        ],
+                        "shipping_address": {
+                            "recipient_name": "HelloWorld",
+                            "line1": "2211 North First Street",
+                            "city": "San Jose",
+                            "country_code": "US",
+                            "postal_code": "95131",
+                            "phone": "011862212345678",
+                            "state": "CA"
+                        }
+                    }
+                }
+            ]
+        },
+        "path": "/v1/payments/payment",
+        "method": "POST"
+    },
+    "response": {
+        "headers": {},
+        "body": {
+            "id": "PAY-17S8410768582940NKEE66EQ",
+            "create_time": "2013-01-31T04: 12: 02Z",
+            "update_time": "2013-01-31T04: 12: 04Z",
+            "state": "approved",
+            "intent": "sale",
+            "payer": {
+                "payment_method": "credit_card",
+                "funding_instruments": [
+                    {
+                        "credit_card": {
+                            "type": "visa",
+                            "number": "xxxxxxxxxxxx0331",
+                            "expire_month": "11",
+                            "expire_year": "2018",
+                            "first_name": "Betsy",
+                            "last_name": "Buyer",
+                            "billing_address": {
+                                "line1": "111FirstStreet",
+                                "city": "Saratoga",
+                                "state": "CA",
+                                "postal_code": "95070",
+                                "country_code": "US"
+                            }
+                        }
+                    }
+                ]
+            },
+            "transactions": [
+                {
+                    "amount": {
+                        "total": "20.00",
+                        "currency": "USD",
+                        "details": {
+                            "subtotal": "17.50",
+                            "tax": "1.30",
+                            "shipping": "1.20"
+                        }
+                    },
+                    "description": "Thisisthepaymenttransactiondescription.",
+                    "related_resources": [
+                        {
+                            "sale": {
+                                "id": "4RR959492F879224U",
+                                "create_time": "2013-01-31T04: 12: 02Z",
+                                "update_time": "2013-01-31T04: 12: 04Z",
+                                "state": "completed",
+                                "amount": {
+                                    "total": "7.47",
+                                    "currency": "USD"
+                                },
+                                "parent_payment": "PAY-17S8410768582940NKEE66EQ",
+                                "links": [
+                                    {
+                                        "href": "https: //api.paypal.com/v1/payments/sale/4RR959492F879224U",
+                                        "rel": "self",
+                                        "method": "GET"
+                                    },
+                                    {
+                                        "href": "https: //api.paypal.com/v1/payments/sale/4RR959492F879224U/refund",
+                                        "rel": "refund",
+                                        "method": "POST"
+                                    },
+                                    {
+                                        "href": "https: //api.paypal.com/v1/payments/payment/PAY-17S8410768582940NKEE66EQ",
+                                        "rel": "parent_payment",
+                                        "method": "GET"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "href": "https: //api.paypal.com/v1/payments/payment/PAY-17S8410768582940NKEE66EQ",
+                    "rel": "self",
+                    "method": "GET"
+                }
+            ]
+        },
+        "status": "201 Created"
+    }
+}

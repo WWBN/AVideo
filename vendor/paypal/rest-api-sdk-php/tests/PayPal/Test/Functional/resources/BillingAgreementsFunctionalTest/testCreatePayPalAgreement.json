@@ -1,0 +1,141 @@
+{
+    "description": "This operation creates agreement having PayPal as payment option",
+    "title": "Agreement created having PayPal as payment option",
+    "runnable": true,
+    "operationId": "agreement.create",
+    "user": {
+        "scopes": ["https://uri.paypal.com/services/subscriptions"]
+    },
+    "credentials": {
+        "oauth": {
+            "path": "/v1/oauth/token",
+            "clientId": "",
+            "clientSecret": ""
+        }
+    },
+    "request": {
+        "path": "v1/payments/billing-agreements/",
+        "method": "POST",
+        "headers": {},
+        "body": {
+            "name": "Base Agreement",
+            "description": "Basic agreement",
+            "start_date": "2019-06-17T9:45:04Z",
+            "plan": {
+                "id": "P-1WJ68935LL406420PUTENA2I"
+            },
+            "payer": {
+                "payment_method": "paypal"
+            },
+            "shipping_address": {
+                "line1": "111 First Street",
+                "city": "Saratoga",
+                "state": "CA",
+                "postal_code": "95070",
+                "country_code": "US"
+            }
+        }
+
+    },
+    "response": {
+        "status": "201 Created",
+        "headers": {},
+        "body": {
+            "name": "Base Agreement",
+            "description": "Basic agreement",
+            "plan": {
+                "id": "P-1WJ68935LL406420PUTENA2I",
+                "state": "ACTIVE",
+                "name": "Fast Speed Plan",
+                "description": "Bathinda",
+                "type": "INFINITE",
+                "payment_definitions": [
+                    {
+                        "id": "PD-9WG6983719571780GUTENA2I",
+                        "name": "Payment Definition-1",
+                        "type": "REGULAR",
+                        "frequency": "Day",
+                        "amount": {
+                            "currency": "GBP",
+                            "value": "10"
+                        },
+                        "charge_models": [
+                            {
+                                "id": "CHM-8373958130821962WUTENA2Q",
+                                "type": "SHIPPING",
+                                "amount": {
+                                    "currency": "GBP",
+                                    "value": "1"
+                                }
+                            },
+                            {
+                                "id": "CHM-2937144979861454NUTENA2Q",
+                                "type": "TAX",
+                                "amount": {
+                                    "currency": "GBP",
+                                    "value": "2"
+                                }
+                            }
+                        ],
+                        "cycles": "0",
+                        "frequency_interval": "1"
+                    },
+                    {
+                        "id": "PD-89M493313S710490TUTENA2Q",
+                        "name": "Payment Definition-1",
+                        "type": "TRIAL",
+                        "frequency": "Month",
+                        "amount": {
+                            "currency": "GBP",
+                            "value": "100"
+                        },
+                        "charge_models": [
+                            {
+                                "id": "CHM-78K47820SS4923826UTENA2Q",
+                                "type": "SHIPPING",
+                                "amount": {
+                                    "currency": "GBP",
+                                    "value": "10"
+                                }
+                            },
+                            {
+                                "id": "CHM-9M366179U7339472RUTENA2Q",
+                                "type": "TAX",
+                                "amount": {
+                                    "currency": "GBP",
+                                    "value": "12"
+                                }
+                            }
+                        ],
+                        "cycles": "5",
+                        "frequency_interval": "2"
+                    }
+                ],
+                "merchant_preferences": {
+                    "setup_fee": {
+                        "currency": "GBP",
+                        "value": "1234"
+                    },
+                    "max_fail_attempts": "21",
+                    "return_url": "http://www.paypal.com",
+                    "cancel_url": "http://www.yahoo.com",
+                    "auto_bill_amount": "YES",
+                    "initial_fail_amount_action": "CONTINUE"
+                }
+            },
+            "links": [
+                {
+                    "href": "https://stage2p2163.qa.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-32P34986EV202211E",
+                    "rel": "approval_url",
+                    "method": "REDIRECT"
+                },
+                {
+                    "href": "https://stage2p2163.qa.paypal.com/v1/payments/billing-agreements/EC-32P34986EV202211E/agreement-execute",
+                    "rel": "execute",
+                    "method": "POST"
+                }
+            ],
+            "start_date": "2114-06-17T9:45:04Z"
+        }
+    }
+}

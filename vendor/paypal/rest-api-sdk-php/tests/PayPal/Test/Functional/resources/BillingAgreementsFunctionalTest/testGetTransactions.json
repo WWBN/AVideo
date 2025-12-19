@@ -1,0 +1,67 @@
+{
+    "description" : "This operation lists the transactions for the agreement",    
+    "title" : "Transaction listing of agreement",
+    "runnable" : true, 
+    "operationId" : "agreement.transactions", 
+    "user" : { 
+        "scopes" : [ "https://uri.paypal.com/services/subscriptions"]  
+    },
+    "credentials" : {
+        "oauth": {
+            "path" : "/v1/oauth/token",
+            "clientId":"",    
+            "clientSecret":""
+        }
+    },
+    "request" : {
+        "path" : "v1/payments/billing-agreements/{Agreement-Id}/transaction?start-date=yyyy-mm-dd&end-date=yyyy-mm-dd",
+        "method" : "GET",
+        "headers" : {},
+        "body" : {}
+    },
+    "response" : {
+        "status" : "200 OK",
+        "headers" : {},
+        "body" : 
+        {
+	    "agreement_transaction_list": [
+	        {
+	            "transaction_id": "I-V8SSE9WLJGY6",
+	            "status": "Created",
+	            "transaction_type": "Recurring Payment",
+	            "payer_email": "",
+	            "payer_name": " ",
+	            "time_stamp": "2014-06-16T13:46:53Z",
+	            "time_zone": "GMT"
+	        },
+	        {
+	            "transaction_id": "I-V8SSE9WLJGY6",
+	            "status": "Suspended",
+	            "transaction_type": "Recurring Payment",
+	            "payer_email": "",
+	            "payer_name": " ",
+	            "time_stamp": "2014-06-16T13:52:26Z",
+	            "time_zone": "GMT"
+	        },
+	        {
+	            "transaction_id": "I-V8SSE9WLJGY6",
+	            "status": "Reactivated",
+	            "transaction_type": "Recurring Payment",
+	            "payer_email": "",
+	            "payer_name": " ",
+	            "time_stamp": "2014-06-16T14:00:23Z",
+	            "time_zone": "GMT"
+	        },
+	        {
+	            "transaction_id": "I-V8SSE9WLJGY6",
+	            "status": "Canceled",
+	            "transaction_type": "Recurring Payment",
+	            "payer_email": "",
+	            "payer_name": " ",
+	            "time_stamp": "2014-06-16T14:02:54Z",
+	            "time_zone": "GMT"
+	        }
+	    ]
+	}
+    }
+}
