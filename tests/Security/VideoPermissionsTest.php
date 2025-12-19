@@ -27,6 +27,11 @@ class VideoPermissionsTest extends TestCase
     {
         parent::setUp();
         
+        // Ensure APP_ROOT is defined (should be set in bootstrap.php)
+        if (!defined('APP_ROOT')) {
+            define('APP_ROOT', dirname(__DIR__, 2));
+        }
+        
         if (!class_exists('Video')) {
             require_once \APP_ROOT . '/objects/video.php';
         }
