@@ -1,0 +1,30 @@
+{
+    "description" : "This operation cancels the agreement",    
+    "title" : "Cancel agreement",
+    "runnable" : true, 
+    "operationId" : "agreement.cancel", 
+    "user" : { 
+        "scopes" : [ "https://uri.paypal.com/services/subscriptions"]  
+    },
+    "credentials" : {
+        "oauth": {
+            "path" : "/v1/oauth/token",
+            "clientId":"",    
+            "clientSecret":""
+        }
+    },
+    "request" : {
+        "path" : "v1/payments/billing-agreements/{Agreement-Id}/cancel",
+        "method" : "POST",
+        "headers" : {},
+        "body" : 
+        {
+	  "note": "Cancelling the profile"
+	}
+    },
+    "response" : {
+        "status" : "204 No Content",
+        "headers" : {},
+        "body" : {}
+    }
+}

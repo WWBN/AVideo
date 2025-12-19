@@ -1,0 +1,56 @@
+{
+   "description":"List of supported webhook events",
+   "title":"List of supported webhook events",
+   "runnable":true,
+   "operationId":"available-event-type.list",
+   "credentials":{
+      "oauth":{
+         "path":"/v1/oauth/token",
+         "clientId":"",
+         "clientSecret":""
+      }
+   },
+   "request":{
+      "path":"v1/notifications/webhooks-event-types",
+      "method":"GET",
+      "headers":{
+         "Content-Type":"application/json",
+         "Authorization":"Bearer ECvJ_yBNz_UfMmCvWEbT_2ZWXdzbFFQZ-1Y5K2NGgeHn"
+      }
+   },
+   "response":{
+      "status":"200",
+      "headers":{
+         "Content-Type":"application/json",
+         "Paypal-Debug-id":"0c444abc1d12d"
+      },
+      "body":{
+         "event_types":[
+            {
+               "name":"PAYMENT.AUTHORIZATION.CREATED",
+               "description":"A payment authorization was created"
+            },
+            {
+               "name":"PAYMENT.AUTHORIZATION.VOIDED",
+               "description":"A payment authorization was voided"
+            },
+            {
+               "name":"PAYMENT.CAPTURE.COMPLETED",
+               "description":"A capture payment was completed"
+            },
+            {
+               "name":"PAYMENT.CAPTURE.REFUNDED",
+               "description":"A capture payment was refunded"
+            },
+            {
+               "name":"PAYMENT.SALE.COMPLETED",
+               "description":"A sale payment was completed"
+            },
+            {
+               "name":"PAYMENT.SALE.REFUNDED",
+               "description":"A sale payment was refunded"
+            }
+         ]
+      }
+   }
+}

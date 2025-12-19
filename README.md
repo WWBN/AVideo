@@ -9,6 +9,10 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
   <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
 </p>
 
+<p align="center">
+  <img src="https://github.com/WWBN/AVideo/workflows/Tests/badge.svg" alt="Tests Status"/>
+</p>
+
 ### [!IMPORTANT] Domain Update Notice
 
 Our previous domains — **youphptube.com** and **youphp.tube** — are being retired following a dispute initiated by **Google LLC (YouTube)**.  

@@ -1,0 +1,45 @@
+{
+    "description": "Partially update a web experience profile.",
+    "title": "Partially Update profile",
+    "runnable": true,
+    "operationId": "web-profile.partial-update", 
+    "user": {
+        "scopes": [
+            "https://api.paypal.com/v1/payments/.*"
+        ]
+    },
+    "credentials": {
+        "oauth": {
+            "clientId": "test-client-01",
+            "clientSecret": "test_secret_a",
+            "path": "/v1/oauth2/token"
+        }
+    },
+    "request": {
+        "path": "v1/payment-experience/web-profiles/XP-RFV4-PVD8-AGHJ-8E5J",
+        "method": "PATCH",
+        "headers": {
+            "Content-Type": "application/json",
+            "PayPal-Request-Id": "abcdefgh123",
+            "Authorization": "Bearer ECvJ_yBNz_UfMmCvWEbT_2ZWXdzbFFQZ-1Y5K2NGgeHn"
+        },
+        "body":  [
+          {
+             "op": "add",
+             "path": "/presentation/brand_name",
+             "value":"new_brand_name"
+          },
+          {
+             "op": "remove",
+            "path": "/flow_config/landing_page_type"
+      
+          }
+        ]
+    },
+    "response": {
+        "status": "204",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}

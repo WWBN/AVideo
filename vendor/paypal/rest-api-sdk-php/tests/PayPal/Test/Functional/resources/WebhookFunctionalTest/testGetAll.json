@@ -1,0 +1,99 @@
+{
+   "description":"Get all webhooks",
+   "title":"Get all webhook",
+   "runnable":true,
+   "operationId":"webhooks.get-all",
+   "user":{
+      "scopes":[
+         "https://uri.paypal.com/services/applications/webhooks"
+      ]
+   },
+   "credentials":{
+      "oauth":{
+         "path":"/v1/oauth/token",
+         "clientId":"",
+         "clientSecret":""
+      }
+   },
+   "request":{
+      "path":"v1/notifications/webhooks",
+      "method":"GET",
+      "headers":{
+         "Content-Type":"application/json",
+         "Authorization":"Bearer ECvJ_yBNz_UfMmCvWEbT_2ZWXdzbFFQZ-1Y5K2NGgeHn"
+      }
+   },
+   "response":{
+      "status":"200",
+      "headers":{
+         "Content-Type":"application/json",
+         "Paypal-Debug-id":"0c444abc1d12d"
+      },
+      "body":{
+         "webhooks":[
+            {
+               "id":"40Y916089Y8324740",
+               "url":"http://www.ebay.com/paypal_webhook",
+               "event_types":[
+                  {
+                     "name":"PAYMENT.AUTHORIZATION.CREATED",
+                     "description":"A payment authorization was created"
+                  },
+                  {
+                     "name":"PAYMENT.AUTHORIZATION.VOIDED",
+                     "description":"A payment authorization was voided"
+                  }
+               ],
+               "links":[
+                  {
+                     "href":"https://api.paypal.com/v1/notifications/webhooks/40Y916089Y8324740",
+                     "rel":"self",
+                     "method":"GET"
+                  },
+                  {
+                     "href":"https://api.paypal.com/v1/notifications/webhooks/40Y916089Y8324740",
+                     "rel":"update",
+                     "method":"PATCH"
+                  },
+                  {
+                     "href":"https://api.paypal.com/v1/notifications/webhooks/40Y916089Y8324740",
+                     "rel":"delete",
+                     "method":"DELETE"
+                  }
+               ]
+            },
+            {
+               "id":"0EH40505U7160970P",
+               "url":"http://www.ebay.com/another_paypal_webhook",
+               "event_types":[
+                  {
+                     "name":"PAYMENT.AUTHORIZATION.CREATED",
+                     "description":"A payment authorization was created"
+                  },
+                  {
+                     "name":"PAYMENT.AUTHORIZATION.VOIDED",
+                     "description":"A payment authorization was voided"
+                  }
+               ],
+               "links":[
+                  {
+                     "href":"https://api.paypal.com/v1/notifications/webhooks/0EH40505U7160970P",
+                     "rel":"self",
+                     "method":"GET"
+                  },
+                  {
+                     "href":"https://api.paypal.com/v1/notifications/webhooks/0EH40505U7160970P",
+                     "rel":"update",
+                     "method":"PATCH"
+                  },
+                  {
+                     "href":"https://api.paypal.com/v1/notifications/webhooks/0EH40505U7160970P",
+                     "rel":"delete",
+                     "method":"DELETE"
+                  }
+               ]
+            }
+         ]
+      }
+   }
+}

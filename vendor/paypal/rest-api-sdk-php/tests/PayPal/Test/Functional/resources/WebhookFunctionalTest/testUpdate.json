@@ -1,0 +1,76 @@
+{
+   "description":"Update a webhook",
+   "title":"Updated a webhook",
+   "runnable":true,
+   "operationId":"webhooks.update",
+   "user":{
+      "scopes":[
+         "https://uri.paypal.com/services/applications/webhooks"
+      ]
+   },
+   "credentials":{
+      "oauth":{
+         "path":"/v1/oauth/token",
+         "clientId":"",
+         "clientSecret":""
+      }
+   },
+   "request":{
+      "path":"v1/notifications/webhooks/0EH40505U7160970P",
+      "method":"PATCH",
+      "headers":{
+         "Content-Type":"application/json",
+         "Authorization":"Bearer ECvJ_yBNz_UfMmCvWEbT_2ZWXdzbFFQZ-1Y5K2NGgeHn"
+      },
+      "body":[
+         {
+            "op":"replace",
+            "path":"/url",
+            "value":"https://requestb.in/10ujt3c1"
+         },
+         {
+            "op":"replace",
+            "path":"/event_types",
+            "value":[
+               {
+                  "name":"PAYMENT.SALE.REFUNDED"
+               }
+            ]
+         }
+      ]
+   },
+   "response":{
+      "status":"200",
+      "headers":{
+         "Content-Type":"application/json",
+         "Paypal-Debug-id":"0c444abc1d12d"
+      },
+      "body":{
+         "id":"0EH40505U7160970P",
+         "url":"https://requestb.in/10ujt3c1",
+         "event_types":[
+            {
+               "name":"PAYMENT.SALE.REFUNDED",
+               "description":"A sale payment was refunded"
+            }
+         ],
+         "links":[
+            {
+               "href":"https://api.paypal.com/v1/notifications/webhooks/0EH40505U7160970P",
+               "rel":"self",
+               "method":"GET"
+            },
+            {
+               "href":"https://api.paypal.com/v1/notifications/webhooks/0EH40505U7160970P",
+               "rel":"update",
+               "method":"PATCH"
+            },
+            {
+               "href":"https://api.paypal.com/v1/notifications/webhooks/0EH40505U7160970P",
+               "rel":"delete",
+               "method":"DELETE"
+            }
+         ]
+      }
+   }
+}

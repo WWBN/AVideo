@@ -1,0 +1,31 @@
+{
+    "description" : "Set the balance for an agreement by passing the ID of the agreement to the request URI. In addition, pass a common_currency object in the request JSON that specifies the currency type and value of the balance.",    
+    "title" : "set-balance",
+    "runnable" : true, 
+    "operationId" : "agreement.set-balance", 
+    "user" : { 
+        "scopes" : [ "https://uri.paypal.com/services/subscriptions"]  
+    },
+    "credentials" : {
+        "oauth": {
+            "path" : "/v1/oauth/token",
+            "clientId":"",    
+            "clientSecret":""
+        }
+    },
+    "request" : {
+        "path" : "v1/payments/billing-agreements/{Agreement-Id}/set-balance",
+        "method" : "POST",
+        "headers" : {},
+        "body" : 
+        {
+ 			"value" : "200",
+ 			"currency" : "USD"
+    	}
+    },
+    "response" : {
+        "status" : "204 No Content",
+        "headers" : {},
+        "body" : {}
+    }
+}

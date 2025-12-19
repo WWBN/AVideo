@@ -1,0 +1,34 @@
+{
+    "description" : "Bill an outstanding amount for an agreement by passing the ID of the agreement to the request URI. In addition, pass an agreement_state_descriptor object in the request JSON that includes a note about the reason for changing the state of the agreement and the amount and currency for the agreement.",    
+    "title" : "bill-balance",
+    "runnable" : true, 
+    "operationId" : "agreement.bill-balance", 
+    "user" : { 
+        "scopes" : [ "https://uri.paypal.com/services/subscriptions"]  
+    },
+    "credentials" : {
+        "oauth": {
+            "path" : "/v1/oauth/token",
+            "clientId":"",    
+            "clientSecret":""
+        }
+    },
+    "request" : {
+        "path" : "v1/payments/billing-agreements/{Agreement-Id}/bill-balance",
+        "method" : "POST",
+        "headers" : {},
+        "body" : 
+        {
+	   "note":"Billing Balance Amount",
+ 		"amount": {
+			 "value" : "100",
+ 			"currency" : "USD"
+ 			}
+		}
+    },
+    "response" : {
+        "status" : "204 No Content",
+        "headers" : {},
+        "body" : {}
+    }
+}

@@ -1,0 +1,60 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.2', '8.3']
+    
+    name: PHP ${{ matrix.php-version }} Tests
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: mbstring, xml, ctype, json, fileinfo, pdo, pdo_mysql, gd, curl
+        coverage: xdebug
+    
+    - name: Validate composer.json
+      run: composer validate --strict
+    
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-${{ matrix.php-version }}-
+    
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+    
+    - name: Run Unit Tests
+      run: vendor/bin/phpunit tests/Unit/ --testsuite=unit --colors=never
+    
+    - name: Run Security Tests
+      run: vendor/bin/phpunit tests/Security/ --colors=never
+    
+    - name: Run All Tests with Coverage
+      if: matrix.php-version == '8.3'
+      run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+    
+    - name: Upload coverage to Codecov
+      if: matrix.php-version == '8.3'
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false

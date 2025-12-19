@@ -1,0 +1,223 @@
+{
+    "description" : "GET of a batch with multiple items.",
+    "title" : "GET batch with multiple items",
+    "runnable" : true, 
+    "operationId" : "payouts.get",
+    "user" : { 
+        "scopes" : [ ]
+    },
+    "credentials" : {
+        "oauth": {
+            "path" : "/v1/oauth/token",  
+            "clientId":"",    
+            "clientSecret":""
+        },
+        "login" : { }, 
+        "openIdConnect" : { }  
+    },
+    "request" : {
+        "path" : "v1/payments/payouts/12345678",
+        "method" : "GET",
+        "headers" : {
+            "Content-Type": "application/json",
+            "Content-Encoding": "gzip"
+        },
+        "body":{
+        }
+    },
+    "response" : {
+        "status" : "200 OK",
+        "headers" : {
+            "Content-Type": "application/json",
+            "Content-Encoding": "gzip"
+        },
+        "body":{ 
+            "batch_header":{
+                "payout_batch_id":"12345678",
+                "batch_status":"PROCESSING",
+                "sender_batch_id":"2014021801123",
+                "time_created":"2014-01-27T10:17:00Z",
+                "time_completed":"2014-01-27T11:17:39.00Z",
+                "sender_batch_header":{
+                    "sender_batch_id":"2014021801",
+                    "email_subject":"You have a Payout!"
+                },
+                "amount":{
+                    "value":"435.85",
+                    "currency":"USD"
+                },
+                "fees":{
+                    "value":"5.84",
+                    "currency":"USD"
+                }
+            },
+            "items":[
+                {
+                    "payout_item_id":"452176",
+                    "transaction_id":"434176",
+                    "transaction_status":"SUCCESS",
+                    "payout_batch_id":"12345678",
+                    "sender_batch_id":"2014021887",
+                    "payout_item_fee":{
+                        "currency":"USD",
+                        "value":"1.00"
+                    },
+                    "payout_item":{
+                        "recipient_type":"EMAIL",
+                        "amount":{
+                            "value":"65.24",
+                            "currency":"EUR"
+                        },
+                        "note":"Thanks for your patronage!",
+                        "receiver":"anybody77@gmail.com",
+                        "payouts_item_id":"1421388",
+                        "sender_item_id":"14Feb_978"
+                    },
+                    "time_created":"2014-01-27T10:17:00:00Z",
+                    "time_processed":"2014-01-27T10:18:32Z"
+                },
+                {
+                    "payout_item_id":"452123",
+                    "transaction_id":"434123",
+                    "transaction_status":"SUCCESS",
+                    "payout_batch_id":"12345678",
+                    "sender_batch_id":"2014021802",
+                    "payout_item_fee":{
+                        "currency":"USD",
+                        "value":"1.00"
+                    },
+                    "payout_item":{
+                        "recipient_type":"EMAIL",
+                        "amount":{
+                            "value":"59.87",
+                            "currency":"EUR"
+                        },
+                        "note":"Thanks for your patronage!",
+                        "receiver":"anybody34@gmail.com",
+                        "payouts_item_id":"1421345",
+                        "sender_item_id":"14Feb_321"
+                    },
+                    "time_created":"2014-01-27T10:17:00Z",
+                    "time_processed":"2014-01-27T10:18:15Z"
+                },
+                {
+                    "payout_item_id":"452323",
+                    "transaction_id":"434543",
+                    "transaction_status":"SUCCESS",
+                    "payout_batch_id":"12345678",
+                    "sender_batch_id":"2014021802",
+                    "payout_item_fee":{
+                        "currency":"USD",
+                        "value":"1.00"
+                    },
+                    "payout_item":{
+                        "recipient_type":"EMAIL",
+                        "amount":{
+                            "value":"59.87",
+                            "currency":"EUR"
+                        },
+                        "note":"Thanks for your patronage!",
+                        "receiver":"anybody03@gmail.com",
+                        "payouts_item_id":"1421355",
+                        "sender_item_id":"14Feb_239"
+                    },
+                    "time_created":"2014-01-27T10:17:00Z",
+                    "time_processed":"2014-01-27T10:17:15Z"
+                },
+                {
+                    "payout_item_id":"452350",
+                    "transaction_id":"434543",
+                    "transaction_status":"SUCCESS",
+                    "payout_batch_id":"12345678",
+                    "sender_batch_id":"2014021801",
+                    "payout_item_fee":{
+                        "currency":"USD",
+                        "value":"0.75"
+                    },
+                    "payout_item":{
+                        "recipient_type":"EMAIL",
+                        "amount":{
+                            "value":"19.87",
+                            "currency":"USD"
+                        },
+                        "note":"Thanks for your patronage!",
+                        "receiver":"anybody02@gmail.com",
+                        "payouts_item_id":"1421332",
+                        "sender_item_id":"14Feb_235"
+                    },
+                    "time_created":"2014-01-27T10:17:00Z",
+                    "time_processed":"2014-01-27T10:17:25Z"
+                },
+                {
+                    "payout_item_id":"452345",
+                    "transaction_id":"4345",
+                    "transaction_status":"SUCCESS",
+                    "payout_batch_id":"12345678",
+                    "sender_batch_id":"2014021801",
+                    "payout_item_fee":{
+                        "currency":"USD",
+                        "value":"0.75"
+                    },
+                    "payout_item":{
+                        "recipient_type":"EMAIL",
+                        "amount":{
+                            "value":"9.87",
+                            "currency":"USD"
+                        },
+                        "note":"Thanks for your patronage!",
+                        "receiver":"anybody01@gmail.com",
+                        "payouts_item_id":"1421342",
+                        "sender_item_id":"14Feb_234"
+                    },
+                    "time_created":"2014-01-27T10:17:00Z",
+                    "time_processed":"2014-01-27T10:17:37Z"
+                },
+                {
+                    "payout_item_id":"4782902",
+                    "transaction_id":"6456456",
+                    "transaction_status":"SUCCESS",
+                    "payout_item_fee":{
+                        "currency":"USD",
+                        "value":"2.35"
+                    },
+                    "payout_batch_id":"12345678",
+                    "sender_batch_id":"2014021801",
+                    "payout_item":{
+                        "recipient_type":"PHONE",
+                        "amount":{
+                            "value":"112.34",
+                            "currency":"EUR"
+                        },
+                        "note":"Thanks for your support!",
+                        "receiver":"91-734-234-1234",
+                        "payouts_item_id":"1421343",
+                        "sender_item_id":"14Feb_235"
+                    },
+                    "time_created":"2014-01-27T10:17:00Z",
+                    "time_processed":"2014-01-27T10:17:52Z"
+                },
+                {
+                    "payout_item_id":"4782902",
+                    "transaction_id":"",
+                    "transaction_status":"PROCESSING",
+                    "payout_batch_id":"12345678",
+                    "sender_batch_id":"2014021801",
+                    "payout_item":{
+                        "recipient_type":"PHONE",
+                        "amount":{
+                            "value":"5.32",
+                            "currency":"USD"
+                        },
+                        "note":"Thanks for your patronage!",
+                        "receiver":"408X234-1234",
+                        "payouts_item_id":"1421344",
+                        "sender_item_id":"14Feb_235"
+                    },
+                    "time_created":"2014-01-27T10:17:00Z",
+                    "time_processed":"2014-01-27T10:17:41Z"
+                }
+            ]
+        }
+    }
+}
+

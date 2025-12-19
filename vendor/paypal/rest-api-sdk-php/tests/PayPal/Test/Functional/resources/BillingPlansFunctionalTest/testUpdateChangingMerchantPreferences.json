@@ -1,0 +1,39 @@
+{
+    "description": "Patch operation for changing merchant preferences values",
+    "title": "Patch Operation for changing merchant preferences",
+    "runnable": true,
+    "operationId": "plan.update",
+    "user": {
+        "scopes": ["https://uri.paypal.com/services/subscriptions"]
+    },
+    "credentials": {
+        "oauth": {
+            "path": "/v1/oauth/token",
+            "clientId": "",
+            "clientSecret": ""
+        }
+    },
+    "request": {
+        "path": "v1/payments/billing-plans/{PLAN-ID}/",
+        "method": "PATCH",
+        "headers": {},
+        "body": [
+            {
+                "op": "replace",
+                "path": "/merchant-preferences",
+                "value": {
+                    "cancel_url": "http://www.cancel.com",
+                    "setup_fee": {
+                        "value": "5",
+                        "currency": "USD"
+                    }
+                }
+            }
+        ]
+    },
+    "response": {
+        "status": "200 OK",
+        "headers": {},
+        "body": {}
+    }
+}

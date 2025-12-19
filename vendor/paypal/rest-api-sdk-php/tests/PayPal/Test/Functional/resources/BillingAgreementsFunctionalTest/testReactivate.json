@@ -1,0 +1,30 @@
+{
+    "description" : "This operation activates the suspended agreement",    
+    "title" : "Reactivate agreement",
+    "runnable" : true, 
+    "operationId" : "agreement.re-activate", 
+    "user" : { 
+        "scopes" : [ "https://uri.paypal.com/services/subscriptions"]  
+    },
+    "credentials" : {
+        "oauth": {
+            "path" : "/v1/oauth/token",
+            "clientId":"",    
+            "clientSecret":""
+        }
+    },
+    "request" : {
+        "path" : "v1/payments/billing-agreements/{Agreement-Id}/re-activate",
+        "method" : "POST",
+        "headers" : {},
+        "body" : 
+        {
+	  "note": "Reactivating the profile"
+	}
+    },
+    "response" : {
+        "status" : "204 No Content",
+        "headers" : {},
+        "body" : {}
+    }
+}

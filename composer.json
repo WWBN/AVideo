@@ -58,7 +58,18 @@
         "authorizenet/authorizenet": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.6",
-        "mockery/mockery": "^1.6"
+        "mockery/mockery": "^1.6",
+        "phpunit/phpunit": "^9.6"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:unit": "phpunit tests/Unit",
+        "test:coverage": "phpunit --coverage-html coverage",
+        "test:filter": "phpunit --filter"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     }
 }
