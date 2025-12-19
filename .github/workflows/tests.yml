@@ -30,9 +30,19 @@ jobs:
     - name: Validate composer.json
       run: composer validate --strict
     
+    - name: Clear Composer cache
+      run: composer clear-cache
+    
+    - name: Remove vendor directory
+      run: rm -rf vendor
+    
     - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-interaction --no-cache --optimize-autoloader
+    
+    - name: Verify PHPUnit installation
       run: |
-        composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
+        test -f vendor/phpunit/phpunit/src/Framework/Test.php || (echo "PHPUnit Test.php missing!" && exit 1)
+        php vendor/bin/phpunit --version
     
     - name: Run Security Tests (Critical)
       run: php vendor/bin/phpunit tests/Security/ --no-coverage --colors=never
