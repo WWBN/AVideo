@@ -27,6 +27,9 @@
         <exclude>
             <directory>vendor</directory>
             <directory>tests</directory>
+            <file>objects/Channel.php</file>
+            <directory suffix=".json.php">objects</directory>
+            <directory suffix=".txt.php">objects</directory>
         </exclude>
     </coverage>
     
