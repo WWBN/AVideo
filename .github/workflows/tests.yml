@@ -30,24 +30,10 @@ jobs:
     - name: Validate composer.json
       run: composer validate --strict
     
-    - name: Get composer cache directory
-      id: composer-cache
-      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-    
-    - name: Cache composer dependencies
-      uses: actions/cache@v3
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
-    
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
-    
-    - name: Verify environment
       run: |
-        php --version
-        php -r "require 'tests/bootstrap.php'; echo 'Bootstrap OK: APP_ROOT=' . APP_ROOT . PHP_EOL;"
+        composer install --prefer-dist --no-progress --no-interaction
+        composer dump-autoload -o
     
     - name: Run Unit Tests
       run: php vendor/bin/phpunit tests/Unit/ --no-coverage --colors=never
