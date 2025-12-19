@@ -166,8 +166,9 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * @var array<string, array{int|string|null, string, string}>
      */
     protected array $emptyListInsertionMap;
-    /** @var array<string, array{string, int}> Map from "{$class}->{$subNode}" to [$printFn, $token]
-     *       where $printFn is the function to print the modifiers and $token is the token before which
+    /** @var array<string, array{string, int, int}>
+     *       Map from "{$class}->{$subNode}" to [$printFn, $skipToken, $findToken] where $printFn is the function to
+     *       print the modifiers, $skipToken is the token to skip at the start and $findToken is the token before which
      *       the modifiers should be reprinted. */
     protected array $modifierChangeMap;
 
@@ -677,8 +678,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                     return $this->pFallback($fallbackNode, $precedence, $lhsPrecedence);
                 }
 
-                [$printFn, $findToken] = $this->modifierChangeMap[$key];
-                $skipWSPos = $this->origTokens->skipRightWhitespace($pos);
+                [$printFn, $skipToken, $findToken] = $this->modifierChangeMap[$key];
+                $skipWSPos = $this->origTokens->skipRight($pos, $skipToken);
                 $result .= $this->origTokens->getTokenCode($pos, $skipWSPos, $indentAdjustment);
                 $result .= $this->$printFn($subNode);
                 $pos = $this->origTokens->findRight($skipWSPos, $findToken);
@@ -1147,6 +1148,9 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * @return bool Whether parentheses are required
      */
     protected function callLhsRequiresParens(Node $node): bool {
+        if ($node instanceof Expr\New_) {
+            return !$this->phpVersion->supportsNewDereferenceWithoutParentheses();
+        }
         return !($node instanceof Node\Name
             || $node instanceof Expr\Variable
             || $node instanceof Expr\ArrayDimFetch
@@ -1178,6 +1182,9 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * @return bool Whether parentheses are required
      */
     protected function staticDereferenceLhsRequiresParens(Node $node): bool {
+        if ($node instanceof Expr\New_) {
+            return !$this->phpVersion->supportsNewDereferenceWithoutParentheses();
+        }
         return !($node instanceof Expr\Variable
             || $node instanceof Node\Name
             || $node instanceof Expr\ArrayDimFetch
@@ -1678,15 +1685,15 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         }
 
         $this->modifierChangeMap = [
-            Stmt\ClassConst::class . '->flags' => ['pModifiers', \T_CONST],
-            Stmt\ClassMethod::class . '->flags' => ['pModifiers', \T_FUNCTION],
-            Stmt\Class_::class . '->flags' => ['pModifiers', \T_CLASS],
-            Stmt\Property::class . '->flags' => ['pModifiers', \T_VARIABLE],
-            PrintableNewAnonClassNode::class . '->flags' => ['pModifiers', \T_CLASS],
-            Param::class . '->flags' => ['pModifiers', \T_VARIABLE],
-            PropertyHook::class . '->flags' => ['pModifiers', \T_STRING],
-            Expr\Closure::class . '->static' => ['pStatic', \T_FUNCTION],
-            Expr\ArrowFunction::class . '->static' => ['pStatic', \T_FN],
+            Stmt\ClassConst::class . '->flags' => ['pModifiers', \T_WHITESPACE, \T_CONST],
+            Stmt\ClassMethod::class . '->flags' => ['pModifiers', \T_WHITESPACE, \T_FUNCTION],
+            Stmt\Class_::class . '->flags' => ['pModifiers', \T_WHITESPACE, \T_CLASS],
+            Stmt\Property::class . '->flags' => ['pModifiers', \T_WHITESPACE, \T_VARIABLE],
+            PrintableNewAnonClassNode::class . '->flags' => ['pModifiers', \T_NEW, \T_CLASS],
+            Param::class . '->flags' => ['pModifiers', \T_WHITESPACE, \T_VARIABLE],
+            PropertyHook::class . '->flags' => ['pModifiers', \T_WHITESPACE, \T_STRING],
+            Expr\Closure::class . '->static' => ['pStatic', \T_WHITESPACE, \T_FUNCTION],
+            Expr\ArrowFunction::class . '->static' => ['pStatic', \T_WHITESPACE, \T_FN],
             //Stmt\TraitUseAdaptation\Alias::class . '->newModifier' => 0, // TODO
         ];
 
