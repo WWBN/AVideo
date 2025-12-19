@@ -28,7 +28,7 @@ class VideoPermissionsTest extends TestCase
         parent::setUp();
         
         if (!class_exists('Video')) {
-            require_once APP_ROOT . '/objects/video.php';
+            require_once \APP_ROOT . '/objects/video.php';
         }
     }
 
