@@ -30,20 +30,21 @@ jobs:
     - name: Validate composer.json
       run: composer validate --strict
     
-    - name: Cache Composer packages
+    - name: Get composer cache directory
       id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+    
+    - name: Cache composer dependencies
       uses: actions/cache@v3
       with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-${{ matrix.php-version }}-
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
     
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-interaction
-    
-    - name: Dump autoload
-      run: composer dump-autoload --optimize
+      run: |
+        composer clear-cache
+        composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
     
     - name: Run Unit Tests
       run: vendor/bin/phpunit tests/Unit/ --no-coverage --colors=never
