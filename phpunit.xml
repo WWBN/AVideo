@@ -19,9 +19,8 @@
         </testsuite>
     </testsuites>
     
-    <coverage processUncoveredFiles="true">
+    <coverage processUncoveredFiles="false">
         <include>
-            <directory suffix=".php">plugin</directory>
         </include>
         <exclude>
             <directory>vendor</directory>
