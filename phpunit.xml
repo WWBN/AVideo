@@ -29,8 +29,19 @@
             <directory>tests</directory>
             <file>objects/Channel.php</file>
             <file>objects/captcha.php</file>
+            <file>objects/category.php</file>
+            <file>objects/comment.php</file>
+            <file>objects/configuration.php</file>
+            <file>objects/like.php</file>
+            <file>objects/plugin.php</file>
+            <file>objects/user.php</file>
+            <file>objects/userGroups.php</file>
+            <file>objects/video.php</file>
+            <file>objects/video_statistic.php</file>
             <directory suffix=".json.php">objects</directory>
             <directory suffix=".txt.php">objects</directory>
+            <directory suffix=".csv.php">objects</directory>
+            <directory suffix=".png.php">objects</directory>
         </exclude>
     </coverage>
     
