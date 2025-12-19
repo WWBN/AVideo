@@ -42,17 +42,12 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     
     - name: Install dependencies
-      run: |
-        rm -rf vendor
-        composer clear-cache
-        composer install --prefer-dist --no-progress --no-interaction --no-dev
-        composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
+      run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
     
-    - name: Verify PHPUnit installation
+    - name: Verify environment
       run: |
         php --version
-        ls -la vendor/phpunit/phpunit/src/Framework/ | head -20
-        php vendor/bin/phpunit --version
+        php -r "require 'tests/bootstrap.php'; echo 'Bootstrap OK: APP_ROOT=' . APP_ROOT . PHP_EOL;"
     
     - name: Run Unit Tests
       run: php vendor/bin/phpunit tests/Unit/ --no-coverage --colors=never
