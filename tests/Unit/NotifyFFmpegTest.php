@@ -30,7 +30,7 @@ class NotifyFFmpegTest extends TestCase
         
         // Load the functions file
         if (!function_exists('processFFMPEGCallback')) {
-            require_once APP_ROOT . '/objects/functionsFFMPEG.php';
+            require_once \APP_ROOT . '/objects/functionsFFMPEG.php';
         }
     }
 

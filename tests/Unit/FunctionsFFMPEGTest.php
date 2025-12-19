@@ -42,7 +42,7 @@ class FunctionsFFMPEGTest extends TestCase
         
         // Load the functions file if not already loaded
         if (!function_exists('handleCallbackTriggerPluginHook')) {
-            require_once APP_ROOT . '/objects/functionsFFMPEG.php';
+            require_once \APP_ROOT . '/objects/functionsFFMPEG.php';
         }
     }
 
