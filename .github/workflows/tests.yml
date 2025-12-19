@@ -40,7 +40,10 @@ jobs:
           ${{ runner.os }}-php-${{ matrix.php-version }}-
     
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      run: composer install --prefer-dist --no-progress --no-interaction
+    
+    - name: Dump autoload
+      run: composer dump-autoload --optimize
     
     - name: Run Unit Tests
       run: vendor/bin/phpunit tests/Unit/ --no-coverage --colors=never
