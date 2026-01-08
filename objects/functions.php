@@ -3661,6 +3661,19 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
     if ($returnPlaylistVideosIDIfIsSerie && empty($videos_id)) {
         $videos_id = getPlayListCurrentVideosId();
     }
+    
+    // Sanitize videos_id to prevent XSS - keep as int or clean string
+    if (!empty($videos_id)) {
+        if (is_numeric($videos_id)) {
+            $videos_id = intval($videos_id);
+        } else {
+            // If it's a string (like hash or clean_title), remove any potential XSS
+            // Keep alphanumeric, underscore, hyphen, period (for hashes like .xxxxxx)
+            // Remove any HTML/script tags and special characters that could be used for XSS
+            $videos_id = preg_replace('/[^a-z0-9_.\/+-]/i', '', $videos_id);
+        }
+    }
+    
     return $videos_id;
 }
 

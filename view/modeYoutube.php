@@ -371,16 +371,16 @@ if (empty($video)) {
 
                 switch ($status) {
                     case 'i':
-                        $msg = "The video ID [{$_GET['v']}] is currently inactive. Please check back later or contact support.";
+                        $msg = "The video ID [" . htmlspecialchars($_GET['v'], ENT_QUOTES, 'UTF-8') . "] is currently inactive. Please check back later or contact support.";
                         break;
                     case 'b':
-                        $msg = "There seems to be an issue with your video ID [{$_GET['v']}]: Broken or missing files. Please contact support for assistance.";
+                        $msg = "There seems to be an issue with your video ID [" . htmlspecialchars($_GET['v'], ENT_QUOTES, 'UTF-8') . "]: Broken or missing files. Please contact support for assistance.";
                         break;
                     case 'p':
-                        $msg = "The video ID [{$_GET['v']}] is unpublished. If this is unexpected, please reach out to support for more information.";
+                        $msg = "The video ID [" . htmlspecialchars($_GET['v'], ENT_QUOTES, 'UTF-8') . "] is unpublished. If this is unexpected, please reach out to support for more information.";
                         break;
                     default:
-                        $msg = "The video ID [{$_GET['v']}] status {$status}. Please contact support for further assistance.";
+                        $msg = "The video ID [" . htmlspecialchars($_GET['v'], ENT_QUOTES, 'UTF-8') . "] status " . htmlspecialchars($status, ENT_QUOTES, 'UTF-8') . ". Please contact support for further assistance.";
                         break;
                 }
                 videoNotFound($msg);
