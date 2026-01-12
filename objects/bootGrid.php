@@ -71,6 +71,7 @@ class BootGrid
             global $global;
             $search = strtolower(xss_esc($_POST['searchPhrase']));
             $search = str_replace('&quot;', '"', $search);
+            $searchRegexpSafe = preg_quote($search, '/');
             $like = [];
             foreach ($searchFieldsNames as $value) {
                 $like[] = " {$value} LIKE '%{$search}%' ";
@@ -78,7 +79,7 @@ class BootGrid
                 //$like[] = " {$value} LIKE _utf8 '%{$search}%' collate utf8_unicode_ci ";
                 $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE _utf8 '%{$search}%'  collate utf8_unicode_ci ";
                 if (preg_match('/description/', $value)) {
-                    $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) regexp '\\b{$search}\\b' ";
+                    $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) regexp '\\b{$searchRegexpSafe}\\b' ";
                 }
             }
             if (!empty($like)) {
