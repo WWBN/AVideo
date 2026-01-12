@@ -2059,7 +2059,7 @@ if (typeof gtag !== \"function\") {
                 return false;
             }
         }
-        $this->user = strip_tags($user);
+        $this->user = str_replace(['"', "'"], '', strip_tags($user));
     }
 
     public function setName($name)
