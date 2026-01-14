@@ -248,13 +248,31 @@ class BTCPayments extends PluginAbstract
             forbiddenPage("Could not decode json from the content from URL {$url} {$content}");
         }
 
+        // Check for top-level marketplace error
         if (!empty($json['error'])) {
             _error_log('BTC::createBTCPayInvoice - ERROR from marketplace', AVideoLog::$ERROR);
             _error_log('BTC::createBTCPayInvoice - Error details: ' . json_encode($json), AVideoLog::$ERROR);
-        } else {
-            _error_log('BTC::createBTCPayInvoice - SUCCESS: Invoice created', AVideoLog::$DEBUG);
-            _error_log('BTC::createBTCPayInvoice - Invoice ID: ' . (!empty($json['id']) ? $json['id'] : 'N/A'), AVideoLog::$DEBUG);
+            return $json;
         }
+        
+        // Check for nested BTCPay API error in invoice object
+        if (!empty($json['invoice']) && !empty($json['invoice']['error'])) {
+            _error_log('BTC::createBTCPayInvoice - ERROR from BTCPay API (nested)', AVideoLog::$ERROR);
+            _error_log('BTC::createBTCPayInvoice - Status: ' . (!empty($json['invoice']['status']) ? $json['invoice']['status'] : 'unknown'), AVideoLog::$ERROR);
+            _error_log('BTC::createBTCPayInvoice - API Error: ' . $json['invoice']['error'], AVideoLog::$ERROR);
+            _error_log('BTC::createBTCPayInvoice - Response: ' . json_encode($json['invoice']['response']), AVideoLog::$ERROR);
+            if (!empty($json['invoice']['lastBtcpayRequest'])) {
+                _error_log('BTC::createBTCPayInvoice - BTCPay Request URL: ' . $json['invoice']['lastBtcpayRequest']['url'], AVideoLog::$ERROR);
+                _error_log('BTC::createBTCPayInvoice - BTCPay Request Code: ' . $json['invoice']['lastBtcpayRequest']['code'], AVideoLog::$ERROR);
+            }
+            // Return error to caller
+            $json['error'] = true;
+            $json['msg'] = 'BTCPay API Error: ' . $json['invoice']['error'] . ' (Status: ' . (!empty($json['invoice']['status']) ? $json['invoice']['status'] : 'unknown') . ')';
+            return $json;
+        }
+
+        _error_log('BTC::createBTCPayInvoice - SUCCESS: Invoice created', AVideoLog::$DEBUG);
+        _error_log('BTC::createBTCPayInvoice - Invoice ID: ' . (!empty($json['id']) ? $json['id'] : (!empty($json['invoice']['id']) ? $json['invoice']['id'] : 'N/A')), AVideoLog::$DEBUG);
 
         return $json;
     }
