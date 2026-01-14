@@ -315,7 +315,18 @@ class BTCPayments extends PluginAbstract
         
         _error_log('BTC::setUpPayment - Invoice created, attempting to save to database', AVideoLog::$DEBUG);
         
-        if (empty($invoice['id'])) {
+        // Handle both old and new response formats for backward compatibility
+        if (isset($invoice['invoice'])) {
+            // New format: invoice data is nested under 'invoice' key
+            $invoiceData = $invoice['invoice'];
+            _error_log('BTC::setUpPayment - Using nested invoice format', AVideoLog::$DEBUG);
+        } else {
+            // Old format: invoice data is at root level
+            $invoiceData = $invoice;
+            _error_log('BTC::setUpPayment - Using root-level invoice format', AVideoLog::$DEBUG);
+        }
+        
+        if (empty($invoiceData['id'])) {
             _error_log('BTC::setUpPayment - ERROR: Invoice ID is empty in response', AVideoLog::$ERROR);
             _error_log('BTC::setUpPayment - Invoice response: ' . json_encode($invoice), AVideoLog::$ERROR);
             forbiddenPage('Invalid invoice response from marketplace: missing invoice ID');
@@ -324,15 +335,15 @@ class BTCPayments extends PluginAbstract
         
         //var_dump($invoice);exit;
         $o = new Btc_invoices(0);
-        $o->setInvoice_identification($invoice['id']);
+        $o->setInvoice_identification($invoiceData['id']);
         $o->setUsers_id($users_id);
-        $o->setAmount_currency($invoice['amount']);
+        $o->setAmount_currency($invoiceData['amount']);
         //$o->setAmount_btc($_POST['amount_btc']);
         $o->setCurrency($currency);
         $o->setStatus('a');
         $o->setJson(json_encode($invoice));
         
-        _error_log('BTC::setUpPayment - Saving invoice to database with ID: ' . $invoice['id'], AVideoLog::$DEBUG);
+        _error_log('BTC::setUpPayment - Saving invoice to database with ID: ' . $invoiceData['id'], AVideoLog::$DEBUG);
         
         $saved_id = $o->save();
         if (empty($saved_id)) {
