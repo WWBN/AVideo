@@ -45,18 +45,12 @@ class BTCPayments extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "1.0";
+        return "1.1";
     }
 
     public function updateScript()
     {
         global $global;
-        /*
-        if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
-            sqlDal::executeFile($global['systemRootPath'] . 'plugin/PayPerView/install/updateV2.0.sql');
-        }
-         *
-         */
         return true;
     }
 
@@ -338,8 +332,10 @@ class BTCPayments extends PluginAbstract
         $o->setInvoice_identification($invoiceData['id']);
         $o->setUsers_id($users_id);
         $o->setAmount_currency($invoiceData['amount']);
-        //$o->setAmount_btc($_POST['amount_btc']);
-        $o->setCurrency($currency);
+        // amount_btc starts at 0, will be updated by webhook with totalBTCPaid when payment is received
+        $o->setAmount_btc(0);
+        // Use currency from invoice response if available, fallback to local currency
+        $o->setCurrency(!empty($invoiceData['currency']) ? $invoiceData['currency'] : $currency);
         $o->setStatus('a');
         $o->setJson(json_encode($invoice));
         
