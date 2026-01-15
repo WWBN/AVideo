@@ -62,6 +62,13 @@
         "phpunit/phpunit": "^9.6"
     },
     "scripts": {
+        "post-install-cmd": [
+            "@apply-patches"
+        ],
+        "post-update-cmd": [
+            "@apply-patches"
+        ],
+        "apply-patches": "sed -i.bak 's/sizeof(\\$v) <= 0 && is_array(\\$v)/is_array(\\$v) \\&\\& sizeof(\\$v) <= 0/' vendor/paypal/rest-api-sdk-php/lib/PayPal/Common/PayPalModel.php && rm -f vendor/paypal/rest-api-sdk-php/lib/PayPal/Common/PayPalModel.php.bak || true",
         "test": "phpunit",
         "test:unit": "phpunit tests/Unit",
         "test:coverage": "phpunit --coverage-html coverage",

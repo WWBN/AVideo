@@ -1,0 +1,7 @@
+{
+    "patches": {
+        "paypal/rest-api-sdk-php": {
+            "Fix PHP 8.x sizeof() TypeError in PayPalModel": "patches/paypal-rest-api-sdk-php8-fix.patch"
+        }
+    }
+}

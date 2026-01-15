@@ -31,7 +31,7 @@ class AdditionalProperties extends OA\AdditionalProperties
         string|object|null $ref = null,
         ?string $schema = null,
         ?string $title = null,
-        ?string $description = null,
+        ?string $description = Generator::UNDEFINED,
         ?int $maxProperties = null,
         ?int $minProperties = null,
         ?array $required = null,
@@ -64,6 +64,7 @@ class AdditionalProperties extends OA\AdditionalProperties
         ?array $anyOf = null,
         ?array $oneOf = null,
         AdditionalProperties|bool|null $additionalProperties = null,
+        ?array $patternProperties = null,
         // annotation
         ?array $x = null,
         ?array $attachables = null
@@ -72,7 +73,7 @@ class AdditionalProperties extends OA\AdditionalProperties
             'ref' => $ref ?? Generator::UNDEFINED,
             'schema' => $schema ?? Generator::UNDEFINED,
             'title' => $title ?? Generator::UNDEFINED,
-            'description' => $description ?? Generator::UNDEFINED,
+            'description' => $description,
             'maxProperties' => $maxProperties ?? Generator::UNDEFINED,
             'minProperties' => $minProperties ?? Generator::UNDEFINED,
             'required' => $required ?? Generator::UNDEFINED,
@@ -101,9 +102,12 @@ class AdditionalProperties extends OA\AdditionalProperties
             'allOf' => $allOf ?? Generator::UNDEFINED,
             'anyOf' => $anyOf ?? Generator::UNDEFINED,
             'oneOf' => $oneOf ?? Generator::UNDEFINED,
+            'additionalProperties' => $additionalProperties ?? Generator::UNDEFINED,
+            'patternProperties' => $patternProperties ?? Generator::UNDEFINED,
+            // annotation
             'x' => $x ?? Generator::UNDEFINED,
             'attachables' => $attachables ?? Generator::UNDEFINED,
-            'value' => $this->combine($items, $discriminator, $externalDocs, $additionalProperties),
+            'value' => $this->combine($items, $discriminator, $externalDocs),
         ]);
     }
 }

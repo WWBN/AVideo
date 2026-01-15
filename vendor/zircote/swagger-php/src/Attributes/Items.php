@@ -31,7 +31,7 @@ class Items extends OA\Items
         string|object|null $ref = null,
         ?string $schema = null,
         ?string $title = null,
-        ?string $description = null,
+        ?string $description = Generator::UNDEFINED,
         ?int $maxProperties = null,
         ?int $minProperties = null,
         ?array $required = null,
@@ -64,6 +64,7 @@ class Items extends OA\Items
         ?array $anyOf = null,
         ?array $oneOf = null,
         AdditionalProperties|bool|null $additionalProperties = null,
+        ?array $patternProperties = null,
         // annotation
         ?array $x = null,
         ?array $attachables = null
@@ -73,7 +74,7 @@ class Items extends OA\Items
             'ref' => $ref ?? Generator::UNDEFINED,
             'schema' => $schema ?? Generator::UNDEFINED,
             'title' => $title ?? Generator::UNDEFINED,
-            'description' => $description ?? Generator::UNDEFINED,
+            'description' => $description,
             'maxProperties' => $maxProperties ?? Generator::UNDEFINED,
             'minProperties' => $minProperties ?? Generator::UNDEFINED,
             'required' => $required ?? Generator::UNDEFINED,
