@@ -222,18 +222,26 @@ if ($isCached) {
         }
         // Check referer protection (only if not AVideo User Agent)
         else if (!empty($_SERVER['HTTP_REFERER']) && isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && $global['webSiteRootURL'] !== 'http://avideo/') {
-            // Valid referer, now check token if download protection is enabled
+            // Valid referer - now check if download protection is enabled
             if (!empty($obj->downloadProtection)) {
-                $authorized = VideoHLS::verifyToken($token);
-                if (!$authorized) {
-                    $verifyTokenReturnFalseReason = "Invalid token for protected stream. IP=".getRealIpAddr();
+                // Protection is ENABLED - token is REQUIRED
+                if (empty($token)) {
+                    // No token provided - BLOCK access
+                    $authorized = false;
+                    $verifyTokenReturnFalseReason = "Download protection enabled but no token provided. IP=".getRealIpAddr();
+                } else {
+                    // Token provided - validate it
+                    $authorized = VideoHLS::verifyToken($token);
+                    if (!$authorized) {
+                        $verifyTokenReturnFalseReason = "Invalid or expired token for protected stream. IP=".getRealIpAddr();
+                    }
                 }
             } else {
-                // No download protection enabled, allow with valid referer
+                // Download protection is DISABLED - allow with valid referer only
                 $authorized = true;
             }
         } else {
-            // Invalid or missing referer
+            // Invalid or missing referer - BLOCK
             $verifyTokenReturnFalseReason = "HTTP_REFERER={$_SERVER['HTTP_REFERER']}, webSiteRootURL={$global['webSiteRootURL']} IP=".getRealIpAddr().' HTTP_USER_AGENT='.$_SERVER['HTTP_USER_AGENT'];
             $authorized = false;
         }
