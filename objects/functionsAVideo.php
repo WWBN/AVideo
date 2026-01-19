@@ -119,6 +119,8 @@ function isAVideoStreamer($user_agent = "")
 function isAVideoUserAgent($user_agent = "")
 {
     global $lastMatchedAVideoUserAgent;
+    $lastMatchedAVideoUserAgent = ''; // Reset to ensure clean state
+
     if (empty($user_agent)) {
         $user_agent = @$_SERVER['HTTP_USER_AGENT'];
     }
@@ -132,7 +134,8 @@ function isAVideoUserAgent($user_agent = "")
     $agents = [$AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoEncoderNetwork_UA, $AVideoStreamer_UA, $AVideoStorage_UA, $AVideoRestreamer_UA];
 
     foreach ($agents as $value) {
-        if (preg_match("/{$value}/", $user_agent)) {
+        // CRITICAL FIX: Only check if value is not empty to prevent false matches with empty regex
+        if (!empty($value) && preg_match("/{$value}/", $user_agent)) {
             $lastMatchedAVideoUserAgent = $value;
             return true;
         }
