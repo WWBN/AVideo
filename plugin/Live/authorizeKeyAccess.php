@@ -223,7 +223,7 @@ if ($isCached) {
         $tokenStatus = empty($token) ? 'NO_TOKEN' : 'TOKEN_PROVIDED';
 
         // Check if it's AVideo User Agent (internal system access)
-        if (isAVideoUserAgent()) {
+        if (!empty($_SERVER['HTTP_USER_AGENT']) && isAVideoUserAgent()) {
             global $lastMatchedAVideoUserAgent;
             $authorized = true;
             $authorizationReason = "AVideo User Agent ({$lastMatchedAVideoUserAgent})";
