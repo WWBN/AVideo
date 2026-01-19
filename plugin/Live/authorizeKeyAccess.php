@@ -145,9 +145,9 @@ if (preg_match($pattern, $uri, $matches)) {
     if(!empty($matches[2])){
         // $matches[2] contains the token
         $token = str_replace('?token=', '', $matches[2]);
-    }else{
-        error_log("Token not found ".json_encode(array($uri, $_SERVER)));
     }
+    // Note: Don't log "Token not found" here - it's only a problem if downloadProtection is enabled
+    // The check will be done later after loading the configuration
 }
 $isCached = false;
 if (!empty($liveKey)) {
@@ -174,11 +174,11 @@ if (!empty($tmpFilePath) && file_exists($tmpFilePath)) {
                 @unlink($tmpFilePath);
             }
             if (!empty($_REQUEST['debug'])) {
-                error_log("Process download protection cache expired time=$content tolerance=$tolerance cpu=$cpuUsage keyFile=$liveKeyFile $tmpFilePath ");
+                error_log("LiveKeyAuth: Process download protection cache expired time=$content tolerance=$tolerance cpu=$cpuUsage keyFile=$liveKeyFile $tmpFilePath ");
             }
         } else {
             if (!empty($_REQUEST['debug'])) {
-                error_log("Process download protection cache still valid diff={$diff} tolerance=$tolerance keyFile=$liveKeyFile $tmpFilePath ");
+                error_log("LiveKeyAuth: Process download protection cache still valid diff={$diff} tolerance=$tolerance keyFile=$liveKeyFile $tmpFilePath ");
             }
             $isCached = true;
         }
@@ -200,7 +200,7 @@ if ($isCached) {
     if ($cpuUsage > 80) {
         // Skip heavy configuration loading when CPU is very high
         $msg = 'authorizeKeyAccess: High CPU usage detected (' . $cpuUsage . '%), using cached authorization';
-        error_log($msg);
+        error_log('LiveKeyAuth: ' . $msg);
         echo $msg;
         exit;
     }
@@ -228,7 +228,8 @@ if ($isCached) {
                 if (empty($token)) {
                     // No token provided - BLOCK access
                     $authorized = false;
-                    $verifyTokenReturnFalseReason = "Download protection enabled but no token provided. IP=".getRealIpAddr();
+                    $verifyTokenReturnFalseReason = "Download protection enabled but no token provided. IP=".getRealIpAddr()." URI=".$uri;
+                    error_log("LiveKeyAuth: BLOCKED - Protection enabled but token missing. URI={$uri} IP=".getRealIpAddr()." Referer=".@$_SERVER['HTTP_REFERER']);
                 } else {
                     // Token provided - validate it
                     $authorized = VideoHLS::verifyToken($token);
@@ -248,14 +249,14 @@ if ($isCached) {
         if (!$authorized) {
             http_response_code(403);
             $msg = 'authorizeKeyAccess: Access denied ['.$verifyTokenReturnFalseReason.'] '.getRealIpAddr();
-            error_log($msg.' '.@$_SERVER['HTTP_REFERER']);
+            error_log('LiveKeyAuth: ' . $msg.' '.@$_SERVER['HTTP_REFERER']);
             echo $msg;
         } else {
             if (!empty($tmpFilePath)) {
                 $bytes = file_put_contents($tmpFilePath, time());
             }
             $msg = 'authorizeKeyAccess: Authorized key=' . $liveKey . ' uri=' . $uri;
-            error_log($msg.' '.@$_SERVER['HTTP_REFERER']);
+            error_log('LiveKeyAuth: ' . $msg.' '.@$_SERVER['HTTP_REFERER']);
             echo $msg;
         }
     } else {
@@ -263,7 +264,7 @@ if ($isCached) {
             $bytes = file_put_contents($tmpFilePath, time());
         }
         $msg = 'authorizeKeyAccess: VideoHLS is not present ';
-        error_log($msg);
+        error_log('LiveKeyAuth: ' . $msg);
         echo $msg;
     }
 }
