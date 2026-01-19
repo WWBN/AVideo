@@ -1,0 +1,40 @@
+{
+    "description": "Patch operation for changing payment definition values",
+    "title": "Patch operation for payment definition",
+    "runnable": true,
+    "operationId": "plan.update",
+    "user": {
+        "scopes": ["https://uri.paypal.com/services/subscriptions"]
+    },
+    "credentials": {
+        "oauth": {
+            "path": "/v1/oauth/token",
+            "clientId": "",
+            "clientSecret": ""
+        }
+    },
+    "request": {
+        "path": "v1/payments/billing-plans/{PLAN-ID}/",
+        "method": "PATCH",
+        "headers": {},
+        "body": [
+            {
+                "op": "replace",
+                "path": "/payment-definitions/PD-4816080302132415WUQBT7WA",
+                "value": {
+                    "name": "Updated Payment Definition",
+                    "frequency": "Day",
+                    "amount": {
+                        "currency": "USD",
+                        "value": "1"
+                    }
+                }
+            }
+        ]
+    },
+    "response": {
+        "status": "200 OK",
+        "headers": {},
+        "body": {}
+    }
+}

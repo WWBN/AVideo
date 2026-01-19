@@ -1,0 +1,20 @@
+{
+    "description": "Record a refund for an invoice.",
+    "title": "Record a refund for an invoice.",
+    "runnable": true,
+    "operationId": "invoice.record-refund",
+    "request": {
+        "path": "v1/invoicing/invoices/INV2-T4UQ-VW4W-K7N7-XM2R/record-refund",
+        "method": "POST",
+        "headers": {},
+        "body": {
+            "date" : "2013-11-10 14:00:00 PST",
+            "note" : "Refunded by cash!"
+        }
+    },
+    "response": {
+        "status": "",
+        "headers": {},
+        "body": {}
+    }
+}

@@ -70,17 +70,27 @@ if (!empty($_REQUEST['forcePlayLists'])) {
                     if (defaultIsPortrait()) {
                         $width = 540;
                         $height = 800;
-                        // Get path directly for internal server-side use
-                        $pathSource = Video::getSourceFile($value['filename'], '_portrait.jpg', false, true);
-                        $path = $pathSource['path'];
                         $portrait = 1;
+                        // Get path directly for internal server-side use
+                        $filename = !empty($value['filename']) ? $value['filename'] : $video->getFilename();
+                        if (!empty($filename)) {
+                            $pathSource = Video::getSourceFile($filename, '_portrait.jpg', false, true);
+                            $path = !empty($pathSource['path']) ? $pathSource['path'] : ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);
+                        } else {
+                            $path = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);
+                        }
                     } else {
                         $width = 1280;
                         $height = 720;
-                        // Get path directly for internal server-side use
-                        $pathSource = Video::getSourceFile($value['filename'], '.jpg', false, true);
-                        $path = !empty($pathSource['path']) ? $pathSource['path'] : ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);
                         $portrait = 0;
+                        // Get path directly for internal server-side use
+                        $filename = !empty($value['filename']) ? $value['filename'] : $video->getFilename();
+                        if (!empty($filename)) {
+                            $pathSource = Video::getSourceFile($filename, '.jpg', false, true);
+                            $path = !empty($pathSource['path']) ? $pathSource['path'] : ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);
+                        } else {
+                            $path = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);
+                        }
                     }
 
                     $image = str_replace([$global['systemRootPath'], DIRECTORY_SEPARATOR], [$global['webSiteRootURL'], '/'], $path);

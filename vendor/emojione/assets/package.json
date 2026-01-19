@@ -24,8 +24,5 @@
   "bugs": {
     "url": "https://github.com/emojione/emojione-assets/issues"
   },
-  "homepage": "https//www.emojione.com",
-  "dependencies": {
-    "emojione-assets": "file:"
-  }
+  "homepage": "https//www.emojione.com"
 }

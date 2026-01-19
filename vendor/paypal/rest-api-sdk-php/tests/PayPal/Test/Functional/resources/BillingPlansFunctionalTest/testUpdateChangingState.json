@@ -1,0 +1,38 @@
+{
+    "description": "This operation changes the state of billing plan to active if its in created state.",
+    "title": "Patch Request for changing state",
+    "runnable": true,
+    "operationId": "plan.update",
+    "user": {
+        "scopes": ["https://uri.paypal.com/services/subscriptions"]
+    },
+    "credentials": {
+        "oauth": {
+            "path": "/v1/oauth/token",
+            "clientId": "",
+            "clientSecret": ""
+        }
+    },
+    "request": {
+        "path": "v1/payments/billing-plans/{PLAN-ID}/",
+        "method": "PATCH",
+        "headers": {},
+        "body": [
+            {
+                "op": "replace",
+                "path": "/",
+                "value": {
+                    "state": "ACTIVE"
+                }
+            }
+        ]
+    },
+    "response": {
+        "status": "200 OK",
+        "headers": {},
+        "body": {}
+    }
+}
+
+
+

@@ -1,0 +1,30 @@
+{
+    "description": "Delete a web experience profile list.",
+    "title": "Delete profile",
+    "runnable": true,
+    "operationId": "web-profile.delete", 
+    "user": {
+        "scopes": [
+            "https://api.paypal.com/v1/payments/.*"
+        ]
+    },
+    "credentials": {
+        "oauth": {
+            "clientId": "test-client-01",
+            "clientSecret": "test_secret_a",
+            "path": "/v1/oauth2/token"
+        }
+    },
+    "request": {
+        "path": "v1/payment-experience/web-profiles/XP-RFV4-PVD8-AGHJ-8E5J",
+        "method": "DELETE",
+        "headers": {
+            "Authorization": "Bearer ECvJ_yBNz_UfMmCvWEbT_2ZWXdzbFFQZ-1Y5K2NGgeHn"
+        }
+    },
+    "response": {
+        "status": "204",
+	"headers": {
+	}
+    }
+}

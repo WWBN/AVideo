@@ -1,0 +1,86 @@
+{
+    "description": "This operation fetches billing plan list",
+    "title": "Billing Plan list",
+    "runnable": true,
+    "operationId": "plans",
+    "user": {
+        "scopes": ["https://uri.paypal.com/services/subscriptions"]
+    },
+    "credentials": {
+        "oauth": {
+            "path": "/v1/oauth/token",
+            "clientId": "",
+            "clientSecret": ""
+        }
+    },
+    "request": {
+        "path": "v1/payments/billing-plans?page_size=3&status=ACTIVE&page_size=2&page=1&total_required=yes",
+        "method": "GET",
+        "headers": {},
+        "body": {}
+    },
+    "response": {
+        "status": "200 OK",
+        "headers": {},
+        "body": {
+            "total_items": "166",
+            "total_pages": "83",
+            "plans": [
+                {
+                    "id": "P-7DC96732KA7763723UOPKETA",
+                    "state": "ACTIVE",
+                    "name": "Testing1-Regular3",
+                    "description": "Create Plan for Regular",
+                    "type": "FIXED",
+                    "create_time": "2014-08-22T04:41:52.836Z",
+                    "update_time": "2014-08-22T04:41:53.169Z",
+                    "links": [
+                        {
+                            "href": "https://stage2p1353.qa.paypal.com/v1/payments/billing-plans/P-6EM196669U062173D7QCVDRA",
+                            "rel": "self",
+                            "method": "GET"
+                        }
+                    ]
+                },
+                {
+                    "id": "P-83567698LH138572V7QCVZJY",
+                    "state": "ACTIVE",
+                    "name": "Testing1-Regular4",
+                    "description": "Create Plan for Regular",
+                    "type": "INFINITE",
+                    "create_time": "2014-08-22T04:41:55.623Z",
+                    "update_time": "2014-08-22T04:41:56.055Z",
+                    "links": [
+                        {
+                            "href": "https://stage2p1353.qa.paypal.com/v1/payments/billing-plans/P-83567698LH138572V7QCVZJY",
+                            "rel": "self",
+                            "method": "GET"
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "href": "https://stage2p1353.qa.paypal.com/v1/payments/billing-plans?page_size=2&page=1&start=3&status=active",
+                    "rel": "start",
+                    "method": "GET"
+                },
+                {
+                    "href": "https://stage2p1353.qa.paypal.com/v1/payments/billing-plans?page_size=2&page=0&status=active",
+                    "rel": "previous_page",
+                    "method": "GET"
+                },
+                {
+                    "href": "https://stage2p1353.qa.paypal.com/v1/payments/billing-plans?page_size=2&page=2&status=active",
+                    "rel": "next_page",
+                    "method": "GET"
+                },
+                {
+                    "href": "https://stage2p1353.qa.paypal.com/v1/payments/billing-plans?page_size=2&page=82&status=active",
+                    "rel": "last",
+                    "method": "GET"
+                }
+            ]
+        }
+    }
+}

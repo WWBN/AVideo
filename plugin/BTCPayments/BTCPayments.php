@@ -45,18 +45,12 @@ class BTCPayments extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "1.0";
+        return "1.1";
     }
 
     public function updateScript()
     {
         global $global;
-        /*
-        if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
-            sqlDal::executeFile($global['systemRootPath'] . 'plugin/PayPerView/install/updateV2.0.sql');
-        }
-         *
-         */
         return true;
     }
 
@@ -225,17 +219,54 @@ class BTCPayments extends PluginAbstract
         $url = addQueryStringParameter($url, 'BTCMarketPlaceKey', $obj->BTCMarketPlaceKey);
         $url = addQueryStringParameter($url, 'tmpFileName', $tmpFileName);
 
+        _error_log('BTC::createBTCPayInvoice - Starting marketplace request', AVideoLog::$DEBUG);
+        _error_log('BTC::createBTCPayInvoice - Marketplace URL: ' . preg_replace('/BTCMarketPlaceKey=[^&]+/', 'BTCMarketPlaceKey=***REDACTED***', $url), AVideoLog::$DEBUG);
+        _error_log('BTC::createBTCPayInvoice - Amount: ' . $amount . ', Currency: ' . $objWallet->currency . ', UseTestNet: ' . ($obj->useTestNet ? 'true' : 'false'), AVideoLog::$DEBUG);
+        _error_log('BTC::createBTCPayInvoice - Request Data: ' . json_encode($data), AVideoLog::$DEBUG);
+
         $content = url_get_contents($url);
-        //var_dump($url);
+        
         if (empty($content)) {
+            _error_log('BTC::createBTCPayInvoice - ERROR: Empty response from marketplace', AVideoLog::$ERROR);
+            _error_log('BTC::createBTCPayInvoice - URL was: ' . preg_replace('/BTCMarketPlaceKey=[^&]+/', 'BTCMarketPlaceKey=***REDACTED***', $url), AVideoLog::$ERROR);
             forbiddenPage("Could not get the content from URL {$url}");
         }
+
+        _error_log('BTC::createBTCPayInvoice - Raw response: ' . substr($content, 0, 500), AVideoLog::$DEBUG);
 
         $json = json_decode($content, true);
 
         if (empty($json)) {
+            _error_log('BTC::createBTCPayInvoice - ERROR: Could not decode JSON response', AVideoLog::$ERROR);
+            _error_log('BTC::createBTCPayInvoice - Response content: ' . $content, AVideoLog::$ERROR);
             forbiddenPage("Could not decode json from the content from URL {$url} {$content}");
         }
+
+        // Check for top-level marketplace error
+        if (!empty($json['error'])) {
+            _error_log('BTC::createBTCPayInvoice - ERROR from marketplace', AVideoLog::$ERROR);
+            _error_log('BTC::createBTCPayInvoice - Error details: ' . json_encode($json), AVideoLog::$ERROR);
+            return $json;
+        }
+        
+        // Check for nested BTCPay API error in invoice object
+        if (!empty($json['invoice']) && !empty($json['invoice']['error'])) {
+            _error_log('BTC::createBTCPayInvoice - ERROR from BTCPay API (nested)', AVideoLog::$ERROR);
+            _error_log('BTC::createBTCPayInvoice - Status: ' . (!empty($json['invoice']['status']) ? $json['invoice']['status'] : 'unknown'), AVideoLog::$ERROR);
+            _error_log('BTC::createBTCPayInvoice - API Error: ' . $json['invoice']['error'], AVideoLog::$ERROR);
+            _error_log('BTC::createBTCPayInvoice - Response: ' . json_encode($json['invoice']['response']), AVideoLog::$ERROR);
+            if (!empty($json['invoice']['lastBtcpayRequest'])) {
+                _error_log('BTC::createBTCPayInvoice - BTCPay Request URL: ' . $json['invoice']['lastBtcpayRequest']['url'], AVideoLog::$ERROR);
+                _error_log('BTC::createBTCPayInvoice - BTCPay Request Code: ' . $json['invoice']['lastBtcpayRequest']['code'], AVideoLog::$ERROR);
+            }
+            // Return error to caller
+            $json['error'] = true;
+            $json['msg'] = 'BTCPay API Error: ' . $json['invoice']['error'] . ' (Status: ' . (!empty($json['invoice']['status']) ? $json['invoice']['status'] : 'unknown') . ')';
+            return $json;
+        }
+
+        _error_log('BTC::createBTCPayInvoice - SUCCESS: Invoice created', AVideoLog::$DEBUG);
+        _error_log('BTC::createBTCPayInvoice - Invoice ID: ' . (!empty($json['id']) ? $json['id'] : (!empty($json['invoice']['id']) ? $json['invoice']['id'] : 'N/A')), AVideoLog::$DEBUG);
 
         return $json;
     }
@@ -246,35 +277,79 @@ class BTCPayments extends PluginAbstract
         $total_cost = floatval($total_cost);
         $objWallet = AVideoPlugin::getObjectData("BTCPayments");
         $currency = $objWallet->currency;
+        
+        _error_log('BTC::setUpPayment - Starting payment setup for user: ' . $users_id . ', amount: ' . $total_cost . ' ' . $currency, AVideoLog::$DEBUG);
+        
         //return here if total is empty
         if (empty($total_cost)) {
+            _error_log('BTC::setUpPayment - ERROR: Total is empty', AVideoLog::$ERROR);
             echo json_encode(array("error" => "Total Is Empty"));
             return false;
         }
 
         if (!User::isLogged()) {
+            _error_log('BTC::setUpPayment - ERROR: User not logged in', AVideoLog::$ERROR);
             echo json_encode(array("error" => "Must be logged in"));
             return false;
         }
 
-
+        _error_log('BTC::setUpPayment - Calling createBTCPayInvoice', AVideoLog::$DEBUG);
         $invoice = BTCPayments::createBTCPayInvoice($total_cost, $users_id, [], $metadata, $redirectUrl);
-        if ($invoice['error']) {
-            _error_log('BTC::setUpPayment ' . json_encode($invoice), AVideoLog::$ERROR);
-            //var_dump($invoice);exit;
-            forbiddenPage($invoice['msg']);
+        
+        if (!empty($invoice['error'])) {
+            _error_log('BTC::setUpPayment - ERROR from marketplace', AVideoLog::$ERROR);
+            _error_log('BTC::setUpPayment - Full error response: ' . json_encode($invoice), AVideoLog::$ERROR);
+            if (!empty($invoice['msg'])) {
+                forbiddenPage($invoice['msg']);
+            } else {
+                forbiddenPage('Unknown error from BTCPay marketplace');
+            }
             exit;
         }
+        
+        _error_log('BTC::setUpPayment - Invoice created, attempting to save to database', AVideoLog::$DEBUG);
+        
+        // Handle both old and new response formats for backward compatibility
+        if (isset($invoice['invoice'])) {
+            // New format: invoice data is nested under 'invoice' key
+            $invoiceData = $invoice['invoice'];
+            _error_log('BTC::setUpPayment - Using nested invoice format', AVideoLog::$DEBUG);
+        } else {
+            // Old format: invoice data is at root level
+            $invoiceData = $invoice;
+            _error_log('BTC::setUpPayment - Using root-level invoice format', AVideoLog::$DEBUG);
+        }
+        
+        if (empty($invoiceData['id'])) {
+            _error_log('BTC::setUpPayment - ERROR: Invoice ID is empty in response', AVideoLog::$ERROR);
+            _error_log('BTC::setUpPayment - Invoice response: ' . json_encode($invoice), AVideoLog::$ERROR);
+            forbiddenPage('Invalid invoice response from marketplace: missing invoice ID');
+            exit;
+        }
+        
         //var_dump($invoice);exit;
         $o = new Btc_invoices(0);
-        $o->setInvoice_identification($invoice['id']);
+        $o->setInvoice_identification($invoiceData['id']);
         $o->setUsers_id($users_id);
-        $o->setAmount_currency($invoice['amount']);
-        //$o->setAmount_btc($_POST['amount_btc']);
-        $o->setCurrency($currency);
+        $o->setAmount_currency($invoiceData['amount']);
+        // amount_btc starts at 0, will be updated by webhook with totalBTCPaid when payment is received
+        $o->setAmount_btc(0);
+        // Use currency from invoice response if available, fallback to local currency
+        $o->setCurrency(!empty($invoiceData['currency']) ? $invoiceData['currency'] : $currency);
         $o->setStatus('a');
         $o->setJson(json_encode($invoice));
-        $invoice['Btc_invoices_id'] = $o->save();
+        
+        _error_log('BTC::setUpPayment - Saving invoice to database with ID: ' . $invoiceData['id'], AVideoLog::$DEBUG);
+        
+        $saved_id = $o->save();
+        if (empty($saved_id)) {
+            _error_log('BTC::setUpPayment - ERROR: Failed to save invoice to database', AVideoLog::$ERROR);
+            forbiddenPage('Failed to save invoice to database');
+            exit;
+        }
+        
+        _error_log('BTC::setUpPayment - SUCCESS: Invoice saved with ID: ' . $saved_id, AVideoLog::$DEBUG);
+        $invoice['Btc_invoices_id'] = $saved_id;
         return $invoice;
     }
 

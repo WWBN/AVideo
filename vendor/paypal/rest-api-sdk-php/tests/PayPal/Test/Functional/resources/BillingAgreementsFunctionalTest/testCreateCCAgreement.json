@@ -1,0 +1,69 @@
+{
+    "description": "This operation creates agreement having Credit card as payment option",
+    "title": "Agreement created using credit card",
+    "runnable": true,
+    "operationId": "agreement.create",
+    "user": {
+        "scopes": ["https://uri.paypal.com/services/subscriptions"]
+    },
+    "credentials": {
+        "oauth": {
+            "path": "/v1/oauth/token",
+            "clientId": "",
+            "clientSecret": ""
+        }
+    },
+    "request": {
+        "path": "v1/payments/billing-agreements/",
+        "method": "POST",
+        "headers": {},
+        "body": {
+            "name": "DPRP",
+            "description": "Payment with credit Card ",
+            "start_date": "2019-06-17T9:45:04Z",
+            "plan": {
+                "id": "P-1WJ68935LL406420PUTENA2I"
+            },
+            "shipping_address": {
+                "line1": "111 First Street",
+                "city": "Saratoga",
+                "state": "CA",
+                "postal_code": "95070",
+                "country_code": "US"
+            },
+            "payer": {
+                "payment_method": "credit_card",
+                "payer_info": {
+                    "email": "jaypatel512-facilitator@hotmail.com"
+                },
+                "funding_instruments": [
+                    {
+                        "credit_card": {
+                            "type": "visa",
+                            "number": "4204466604263862",
+                            "expire_month": "12",
+                            "expire_year": "2017",
+                            "cvv2": "128"
+                        }
+                    }
+                ]
+            }
+        }
+
+
+    },
+    "response": {
+        "status": "200 OK",
+        "headers": {},
+        "body": {
+            "id": "I-V8SSE9WLJGY6",
+            "links": [
+                {
+                    "href": "https://stage2p2163.qa.paypal.com/v1/payments/billing-agreements/I-V8SSE9WLJGY6",
+                    "rel": "self",
+                    "method": "GET"
+                }
+            ]
+        }
+    }
+}

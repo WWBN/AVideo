@@ -1,0 +1,140 @@
+{
+    "description": "This operation fetches details of the agreement",
+    "title": "Fetch agreement details",
+    "runnable": true,
+    "operationId": "agreement.get",
+    "user": {
+        "scopes": ["https://uri.paypal.com/services/subscriptions"]
+    },
+    "credentials": {
+        "oauth": {
+            "path": "/v1/oauth/token",
+            "clientId": "",
+            "clientSecret": ""
+        }
+    },
+    "request": {
+        "path": "v1/payments/billing-agreements/I-5D3XDN2D5FH1",
+        "method": "GET",
+        "headers": {},
+        "body": {}
+    },
+    "response": {
+        "status": "200 OK",
+        "headers": {},
+        "body": {
+            "id": "I-V8SSE9WLJGY6",
+            "state": "Cancelled",
+            "description": "Payment with credit Card ",
+            "plan": {
+                "payment_definitions": [
+                    {
+                        "type": "TRIAL",
+                        "frequency": "Week",
+                        "amount": {
+                            "currency": "USD",
+                            "value": "9.19"
+                        },
+                        "cycles": "2",
+                        "charge_models": [
+                            {
+                                "type": "TAX",
+                                "amount": {
+                                    "currency": "USD",
+                                    "value": "2.00"
+                                }
+                            },
+                            {
+                                "type": "SHIPPING",
+                                "amount": {
+                                    "currency": "USD",
+                                    "value": "1.00"
+                                }
+                            }
+                        ],
+                        "frequency_interval": "5"
+                    },
+                    {
+                        "type": "REGULAR",
+                        "frequency": "Month",
+                        "amount": {
+                            "currency": "USD",
+                            "value": "100.00"
+                        },
+                        "cycles": "12",
+                        "charge_models": [
+                            {
+                                "type": "TAX",
+                                "amount": {
+                                    "currency": "USD",
+                                    "value": "12.00"
+                                }
+                            },
+                            {
+                                "type": "SHIPPING",
+                                "amount": {
+                                    "currency": "USD",
+                                    "value": "10.00"
+                                }
+                            }
+                        ],
+                        "frequency_interval": "2"
+                    }
+                ],
+                "merchant_preferences": {
+                    "setup_fee": {
+                        "currency": "USD",
+                        "value": "1.00"
+                    },
+                    "max_fail_attempts": "0",
+                    "auto_bill_amount": "YES"
+                }
+            },
+            "links": [
+                {
+                    "href": "https://api.sandbox.paypal.com/v1/payments/billing-agreements/I-XTN3V7NY6KG7/suspend",
+                    "rel": "suspend",
+                    "method": "POST"
+                },
+                {
+                    "href": "https://api.sandbox.paypal.com/v1/payments/billing-agreements/I-XTN3V7NY6KG7/re-activate",
+                    "rel": "re_activate",
+                    "method": "POST"
+                },
+                {
+                    "href": "https://api.sandbox.paypal.com/v1/payments/billing-agreements/I-XTN3V7NY6KG7/cancel",
+                    "rel": "cancel",
+                    "method": "POST"
+                },
+                {
+                    "href": "https://api.sandbox.paypal.com/v1/payments/billing-agreements/I-XTN3V7NY6KG7/bill-balance",
+                    "rel": "self",
+                    "method": "POST"
+                },
+                {
+                    "href": "https://api.sandbox.paypal.com/v1/payments/billing-agreements/I-XTN3V7NY6KG7/set-balance",
+                    "rel": "self",
+                    "method": "POST"
+                }
+            ],
+            "start_date": "2015-06-17T16:45:04Z",
+            "agreement_details": {
+                "outstanding_balance": {
+                    "currency": "USD",
+                    "value": "0.00"
+                },
+                "cycles_remaining": "2",
+                "cycles_completed": "0",
+                "next_billing_date": "2015-06-17T10:00:00Z",
+                "last_payment_date": "2014-10-28T22:48:56Z",
+                "last_payment_amount": {
+                    "currency": "USD",
+                    "value": "1.00"
+                },
+                "final_payment_date": "2017-06-26T10:00:00Z",
+                "failed_payment_count": "0"
+            }
+        }
+
+    }
+}

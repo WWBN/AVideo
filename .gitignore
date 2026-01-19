@@ -104,7 +104,7 @@ install/bulkCreateUser.php
 /plugin/CertifyComplete/
 plugin/WebAuthnLogin/
 plugin/UserOTPLogin/
-test*
+test.*
 CreatePlugin/plugins/
 vendor/james-heinrich/getid3/demos/
 AVideoStorage/

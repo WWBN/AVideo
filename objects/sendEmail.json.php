@@ -14,7 +14,12 @@ if(User::isAdmin()){
 $obj = new stdClass();
 $obj->error = '';
 if ($valid) {
-    $msg = "<b>Email:</b> {$_POST['email']}<br><br>{$_POST['comment']}";
+    // Sanitize user inputs to prevent HTML injection (email spoofing/phishing)
+    $safeEmail = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+    $safeComment = htmlspecialchars($_POST['comment'], ENT_QUOTES, 'UTF-8');
+    // Convert newlines to <br> for proper display in email after sanitization
+    $safeComment = nl2br($safeComment);
+    $msg = "<b>Email:</b> {$safeEmail}<br><br>{$safeComment}";
     //Create a new PHPMailer instance
     $mail = new \PHPMailer\PHPMailer\PHPMailer();
     setSiteSendMessage($mail);
@@ -41,8 +46,8 @@ if ($valid) {
         //Set who the message is to be sent to
         $mail->addAddress($sendTo);
         //Set the subject line
-        
-        $mail->Subject = 'Message From Site ' . $config->getWebSiteTitle() . " ({$_POST['first_name']})";
+        $safeFirstName = htmlspecialchars($_POST['first_name'], ENT_QUOTES, 'UTF-8');
+        $mail->Subject = 'Message From Site ' . $config->getWebSiteTitle() . " ({$safeFirstName})";
         $mail->msgHTML($msg);
 
         _error_log("Send email now to {$sendTo}");

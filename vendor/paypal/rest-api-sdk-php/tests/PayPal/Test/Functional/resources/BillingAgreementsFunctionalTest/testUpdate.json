@@ -1,0 +1,46 @@
+{
+    "description": "This operation updates agreement",
+    "title": "Update agreement",
+    "runnable": true,
+    "operationId": "agreement.update",
+    "user": {
+        "scopes": ["https://uri.paypal.com/services/subscriptions"]
+    },
+    "credentials": {
+        "oauth": {
+            "path": "/v1/oauth/token",
+            "clientId": "",
+            "clientSecret": ""
+        }
+    },
+    "request": {
+        "path": "v1/payments/billing-agreements/{Agreement-Id}",
+        "method": "PATCH",
+        "headers": {},
+        "body": [
+            {
+                "op": "replace",
+                "path": "/",
+                "value": {
+                    "description": "Updated description",
+                    "start_date": "2024-06-18T10:00:00Z",
+                    "shipping_address":{
+                        "line1":"Hotel Blue Diamond",
+                        "line2":"Church Street",
+                        "city":"San Jose",
+                        "state":"CA",
+                        "postal_code":"95112",
+                        "country_code":"US"
+                    }
+                }
+            }
+        ]
+
+    },
+    "response": {
+        "status": "200 OK",
+        "headers": {},
+        "body": {}
+
+    }
+}

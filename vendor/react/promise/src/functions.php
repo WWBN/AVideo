@@ -297,7 +297,7 @@ function _checkTypehint(callable $callback, \Throwable $reason): bool
             break;
         case $type instanceof \ReflectionIntersectionType:
             $isTypeUnion = false;
-        case $type instanceof \ReflectionUnionType;
+        case $type instanceof \ReflectionUnionType:
             $types = $type->getTypes();
             break;
         default:

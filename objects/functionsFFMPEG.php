@@ -84,7 +84,7 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
     if (file_exists($mp3HLSFile) || file_exists($mp3File)) {
         $global['convertVideoToMP3FileIfNotExistsSteps'][] = "MP3 file already exists";
         $global['convertVideoToMP3FileIfNotExistsFileAlreadyExists'] = true; // Indicate that the file already exists
-        return Video::getSourceFile($video['filename'], ".mp3", true); // Treat as successful since the file exists
+        return Video::getSourceFile($video['filename'], ".mp3", true, true); // Treat as successful since the file exists
     } else {
         $f = convertVideoFileWithFFMPEGIsLockedInfo($mp3File);
         if ($f['isUnlocked']) {
@@ -100,7 +100,7 @@ function convertVideoToMP3FileIfNotExists($videos_id, $forceTry = 0)
 
                 if (file_exists($mp3File)) {
                     $global['convertVideoToMP3FileIfNotExistsSteps'][] = "MP3 file successfully created";
-                    return Video::getSourceFile($video['filename'], ".mp3", true); // Conversion successful
+                    return Video::getSourceFile($video['filename'], ".mp3", true, true); // Conversion successful
                 } else {
                     $global['convertVideoToMP3FileIfNotExistsSteps'][] = "MP3 file creation failed: File does not exist";
                     _error_log("convertVideoToMP3FileIfNotExists: file not exists {$mp3File}");
@@ -269,6 +269,15 @@ function m3u8ToMP4($input, $makeItPermanent = false, $force = false)
 }
 
 
+/**
+ * Convert M3U8 to MP4 using remote FFMPEG
+ * 
+ * @param string $input Input M3U8 file path
+ * @param string $callback Optional callback in JSON format. Use buildSecureFFMPEGCallback() to create.
+ *                         Format: {"action": "actionName", "params": {...}}
+ *                         Allowed actions: 'updateVideoStatus', 'triggerPluginHook', 'updateVideoMetadata', 'logEvent'
+ * @return array Result with error status and message
+ */
 function m3u8ToMP4RemoteFFMpeg($input, $callback)
 {
     $videosDir = getVideosDir();
@@ -539,6 +548,17 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     return ['return' => $return, 'output' => $output, 'command' => $command, 'toFileLocation' => $toFileLocation];
 }
 
+/**
+ * Convert video file with FFMPEG (async or remote)
+ * 
+ * @param string $fromFileLocation Source file path
+ * @param string $toFileLocation Destination file path
+ * @param string $keyword Process keyword
+ * @param string $callback Optional callback in JSON format. Use buildSecureFFMPEGCallback() to create.
+ *                         Format: {"action": "actionName", "params": {...}}
+ *                         Allowed actions: 'updateVideoStatus', 'triggerPluginHook', 'updateVideoMetadata', 'logEvent'
+ * @return mixed Result of execution
+ */
 function convertVideoFileWithFFMPEGAsyncOrRemote($fromFileLocation, $toFileLocation, $keyword, $callback = '')
 {
     $command = buildFFMPEGCommand($fromFileLocation, $toFileLocation, 0);
@@ -624,6 +644,268 @@ function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, 
 }
 
 
+/**
+ * Build a secure callback for notify.ffmpeg.json.php
+ * 
+ * The callback must be in JSON format: {"action": "actionName", "params": {...}}
+ * Allowed actions: 'updateVideoStatus', 'triggerPluginHook', 'updateVideoMetadata', 'logEvent'
+ * 
+ * @param string $action The action name (must be whitelisted)
+ * @param array $params Parameters for the action
+ * @return string JSON-encoded callback string, or empty string if invalid
+ */
+function buildSecureFFMPEGCallback($action, $params = []) {
+    $allowedActions = ['updateVideoStatus', 'triggerPluginHook', 'updateVideoMetadata', 'logEvent'];
+    
+    if (empty($action) || !in_array($action, $allowedActions)) {
+        if (function_exists('_error_log')) {
+            _error_log("buildSecureFFMPEGCallback: Invalid or non-whitelisted action: $action");
+        }
+        return '';
+    }
+    
+    if (!is_array($params)) {
+        if (function_exists('_error_log')) {
+            _error_log("buildSecureFFMPEGCallback: Params must be an array");
+        }
+        return '';
+    }
+    
+    return json_encode([
+        'action' => $action,
+        'params' => $params
+    ]);
+}
+
+/**
+ * Get video by ID for callback handlers
+ * 
+ * @param int $videos_id Video ID
+ * @return Video|null Video object if found, null otherwise
+ */
+function getVideoByIdForCallback($videos_id) {
+    $videos_id = intval($videos_id);
+    $video = new Video("", "", $videos_id);
+    return $video->getUsers_id() ? $video : null;
+}
+
+/**
+ * Validate required parameters in callback params
+ * 
+ * @param array $params Parameters to validate
+ * @param array $required Required parameter names
+ * @return array|null Error array if validation fails, null if valid
+ */
+function validateCallbackParams($params, $required) {
+    foreach ($required as $param) {
+        if (!isset($params[$param])) {
+            return ['error' => "Missing required parameter: $param"];
+        }
+    }
+    return null;
+}
+
+/**
+ * Sanitize alphanumeric value for callback parameters
+ * 
+ * @param string $value Value to sanitize
+ * @return string Sanitized value (alphanumeric and underscore only)
+ */
+function sanitizeAlphanumericForCallback($value) {
+    return preg_replace('/[^a-zA-Z0-9_]/', '', $value);
+}
+
+/**
+ * Handle updateVideoStatus callback action
+ * 
+ * @param array $params Callback parameters
+ * @param array $notify Notification data
+ * @return array Result array
+ */
+function handleCallbackUpdateVideoStatus($params, $notify) {
+    $error = validateCallbackParams($params, ['videos_id', 'status']);
+    if ($error) return $error;
+
+    $video = getVideoByIdForCallback($params['videos_id']);
+    if (!$video) return ['error' => 'Video not found'];
+
+    $status = sanitizeAlphanumericForCallback($params['status']);
+    $video->setStatus($status);
+    return ['success' => true, 'videos_id' => intval($params['videos_id']), 'status' => $status];
+}
+
+/**
+ * Handle triggerPluginHook callback action
+ * 
+ * @param array $params Callback parameters
+ * @param array $notify Notification data
+ * @return array Result array
+ */
+function handleCallbackTriggerPluginHook($params, $notify) {
+    $error = validateCallbackParams($params, ['hook', 'videos_id']);
+    if ($error) return $error;
+
+    $hook = sanitizeAlphanumericForCallback($params['hook']);
+    $videos_id = intval($params['videos_id']);
+
+    $allowedHooks = [
+        'onNewVideo',
+        'afterNewVideo',
+        'onUpdateVideo',
+        'onVideoSetStatus',
+        'onEncoderNotifyIsDone',
+        'onEncoderReceiveImage',
+        'onReceiveFile',
+        'onUploadIsDone'
+    ];
+    
+    if (!in_array($hook, $allowedHooks)) {
+        return ['error' => 'Hook not allowed'];
+    }
+
+    switch ($hook) {
+        case 'onNewVideo':
+            AVideoPlugin::onNewVideo($videos_id);
+            break;
+        case 'afterNewVideo':
+            AVideoPlugin::afterNewVideo($videos_id);
+            break;
+        case 'onUpdateVideo':
+            AVideoPlugin::onUpdateVideo($videos_id);
+            break;
+        case 'onVideoSetStatus':
+            if (isset($params['oldValue']) && isset($params['newValue'])) {
+                AVideoPlugin::onVideoSetStatus($videos_id, $params['oldValue'], $params['newValue']);
+            } else {
+                return ['error' => 'Missing oldValue or newValue for onVideoSetStatus'];
+            }
+            break;
+        case 'onEncoderNotifyIsDone':
+            AVideoPlugin::onEncoderNotifyIsDone($videos_id);
+            break;
+        case 'onEncoderReceiveImage':
+            AVideoPlugin::onEncoderReceiveImage($videos_id);
+            break;
+        case 'onReceiveFile':
+            AVideoPlugin::onReceiveFile($videos_id);
+            break;
+        case 'onUploadIsDone':
+            AVideoPlugin::onUploadIsDone($videos_id);
+            break;
+        default:
+            return ['error' => 'Hook handler not implemented'];
+    }
+    
+    return ['success' => true, 'hook' => $hook, 'videos_id' => $videos_id];
+}
+
+/**
+ * Handle updateVideoMetadata callback action
+ * 
+ * @param array $params Callback parameters
+ * @param array $notify Notification data
+ * @return array Result array
+ */
+function handleCallbackUpdateVideoMetadata($params, $notify) {
+    $error = validateCallbackParams($params, ['videos_id']);
+    if ($error) return $error;
+
+    $video = getVideoByIdForCallback($params['videos_id']);
+    if (!$video) return ['error' => 'Video not found'];
+
+    $updates = [];
+    if (isset($params['duration']) && is_numeric($params['duration'])) {
+        $video->setDuration(intval($params['duration']));
+        $updates['duration'] = intval($params['duration']);
+    }
+    if (isset($params['resolution']) && preg_match('/^\d+x\d+$/', $params['resolution'])) {
+        $updates['resolution'] = $params['resolution'];
+    }
+
+    // Save changes to database
+    if (!empty($updates)) {
+        $saved = $video->save();
+        if (!$saved) {
+            return ['error' => 'Failed to save video metadata'];
+        }
+    }
+
+    return ['success' => true, 'updates' => $updates];
+}
+
+/**
+ * Handle logEvent callback action
+ * 
+ * @param array $params Callback parameters
+ * @param array $notify Notification data
+ * @return array Result array
+ */
+function handleCallbackLogEvent($params, $notify) {
+    $message = isset($params['message']) ? substr($params['message'], 0, 500) : 'Callback executed';
+    _error_log("notify.ffmpeg callback log: " . $message);
+    return ['success' => true, 'logged' => $message];
+}
+
+/**
+ * Get FFMPEG callback handlers
+ * 
+ * @return array Array of action handlers mapping action names to handler functions
+ */
+function getFFMPEGCallbackHandlers() {
+    return [
+        'updateVideoStatus' => 'handleCallbackUpdateVideoStatus',
+        'triggerPluginHook' => 'handleCallbackTriggerPluginHook',
+        'updateVideoMetadata' => 'handleCallbackUpdateVideoMetadata',
+        'logEvent' => 'handleCallbackLogEvent'
+    ];
+}
+
+/**
+ * Process FFMPEG callback securely
+ * 
+ * @param string $callback Decrypted callback string (JSON format)
+ * @param array $notify Notification data
+ * @return array|null Callback result or null if invalid
+ */
+function processFFMPEGCallback($callback, $notify) {
+    _error_log("notify.ffmpeg: callback requested: $callback");
+
+    $callbackData = json_decode($callback, true);
+    if (json_last_error() !== JSON_ERROR_NONE || !is_array($callbackData)) {
+        _error_log("notify.ffmpeg: SECURITY - invalid callback format: $callback");
+        return ['error' => 'Invalid callback format'];
+    }
+
+    $action = $callbackData['action'] ?? '';
+    $params = is_array($callbackData['params'] ?? null) ? $callbackData['params'] : [];
+
+    if (empty($action)) {
+        _error_log("notify.ffmpeg: SECURITY - missing action in callback");
+        return ['error' => 'Missing action'];
+    }
+
+    $allowedActions = getFFMPEGCallbackHandlers();
+    if (!isset($allowedActions[$action])) {
+        _error_log("notify.ffmpeg: SECURITY - blocked non-whitelisted action: $action");
+        return ['error' => 'Action not allowed'];
+    }
+
+    $handlerName = $allowedActions[$action];
+    if (!function_exists($handlerName)) {
+        _error_log("notify.ffmpeg: ERROR - handler function '$handlerName' not found");
+        return ['error' => 'Handler function not found'];
+    }
+
+    try {
+        $result = $handlerName($params, $notify);
+        _error_log("notify.ffmpeg: executed action '$action': " . json_encode($result));
+        return $result;
+    } catch (Exception $e) {
+        _error_log("notify.ffmpeg: error executing action '$action': " . $e->getMessage());
+        return ['error' => 'Action execution failed: ' . $e->getMessage()];
+    }
+}
+
 function buildFFMPEGRemoteURL($actionParams, $callback='', $standAloneFFMPEG='')
 {
     $obj = AVideoPlugin::getDataObjectIfEnabled('API');
@@ -637,6 +919,10 @@ function buildFFMPEGRemoteURL($actionParams, $callback='', $standAloneFFMPEG='')
     }
     $actionParams['time'] = time();
     $actionParams['notifyCode'] = encryptString(time());
+    
+    // Callback must be in JSON format: {"action": "actionName", "params": {...}}
+    // Use buildSecureFFMPEGCallback() helper function to create valid callbacks
+    // Empty string is allowed (no callback will be executed)
     $actionParams['callback'] = encryptString($callback);
     $encryptedParams = encryptString(json_encode($actionParams));
     $url = addQueryStringParameter($url, 'APISecret', $obj->APISecret);
@@ -744,6 +1030,114 @@ function deleteFileFFMPEGRemote($filePath, $standAloneFFMPEG='')
     } else {
         return false;
     }
+}
+
+/**
+ * Build local file path for video processing
+ * 
+ * @param array $global Global variables array
+ * @param array $notify Notification data with avideoRelativePath
+ * @return string Full local file path
+ */
+function buildLocalPathForNotify($global, $notify) {
+    return "{$global['systemRootPath']}{$notify['avideoRelativePath']}";
+}
+
+/**
+ * Build remote URL for video download from standAlone FFMPEG
+ * 
+ * @param string $standAloneFFMPEG Standalone FFMPEG URL
+ * @param array $notify Notification data with avideoRelativePath
+ * @return string Constructed remote URL
+ */
+function buildRemoteUrlForNotify($standAloneFFMPEG, $notify) {
+    $url = str_replace('plugin/API/standAlone/ffmpeg.json.php', '', $standAloneFFMPEG);
+    return "{$url}{$notify['avideoRelativePath']}";
+}
+
+/**
+ * Create response template for notify.ffmpeg.json.php
+ * 
+ * @param array $notify Notification data
+ * @return array Response template
+ */
+function createNotifyResponseTemplate($notify) {
+    return [
+        'error' => true,
+        'avideoPath' => $notify['avideoPath'] ?? null,
+        'format' => null,
+        'standAloneFFMPEG' => null,
+        'constructedURL' => null,
+        'contentLength' => null,
+        'bytesWritten' => null,
+        'filePath' => null,
+        'deleteStatus' => null,
+    ];
+}
+
+/**
+ * Process video file download and save for notify.ffmpeg.json.php
+ * 
+ * @param array $notify Notification data
+ * @return array Response array with processing results
+ */
+function processNotifyVideoFile($notify) {
+    global $global;
+    
+    $response = createNotifyResponseTemplate($notify);
+
+    if (empty($notify['avideoPath'])) {
+        _error_log("notify.ffmpeg: No avideoPath provided");
+        return $response;
+    }
+
+    $format = pathinfo($notify['avideoPath'], PATHINFO_EXTENSION);
+    $response['format'] = $format;
+
+    if (!in_array($format, ['mp4', 'mp3'])) {
+        _error_log("notify.ffmpeg: Unsupported format: $format");
+        return $response;
+    }
+
+    $obj = AVideoPlugin::getDataObjectIfEnabled('API');
+    $response['standAloneFFMPEG'] = $obj->standAloneFFMPEG ?? null;
+
+    $localPath = buildLocalPathForNotify($global, $notify);
+    if (file_exists($localPath)) {
+        _error_log("notify.ffmpeg: Local file exists, skipping download");
+        $response['error'] = false;
+        return $response;
+    }
+
+    if (empty($obj) || empty($obj->standAloneFFMPEG)) {
+        _error_log("notify.ffmpeg: API Plugin or standAloneFFMPEG not configured");
+        return $response;
+    }
+
+    $url = buildRemoteUrlForNotify($obj->standAloneFFMPEG, $notify);
+    $response['constructedURL'] = $url;
+
+    $content = url_get_contents($url);
+    if ($content === false || empty($content)) {
+        _error_log("notify.ffmpeg: Failed to fetch or empty content from: $url");
+        return $response;
+    }
+
+    $response['contentLength'] = strlen($content);
+    $filePath = buildLocalPathForNotify($global, $notify);
+    $bytes = file_put_contents($filePath, $content);
+
+    if ($bytes === false) {
+        _error_log("notify.ffmpeg: Failed to save file: $filePath");
+        return $response;
+    }
+
+    $response['bytesWritten'] = $bytes;
+    $response['filePath'] = $filePath;
+    $response['error'] = false;
+    $response['deleteStatus'] = deleteFolderFFMPEGRemote($notify['avideoFilename'] ?? '');
+
+    return $response;
 }
 
 function addKeywordToFFmpegCommand(string $command, string $keyword): string

@@ -662,7 +662,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         . " -pix_fmt yuv420p "
         . " -r 30 -g 60 -sc_threshold 0 "             // GOP fixo 2s
         . " -x264-params \"keyint=60:min-keyint=60:scenecut=0:nal-hrd=cbr\" "
-        . " -b:v 6000k -minrate 6000k -maxrate 6000k -bufsize 12000k "
+        . " -b:v 2500k -minrate 2500k -maxrate 2500k -bufsize 5000k "
         . " -vf \"scale=1280:720:force_original_aspect_ratio=decrease,"
         . "pad=1280:720:(ow-iw)/2:(oh-ih)/2,format=yuv420p\" "
         . " -flvflags no_duration_filesize "

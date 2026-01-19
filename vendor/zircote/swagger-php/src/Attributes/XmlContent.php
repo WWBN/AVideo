@@ -24,6 +24,7 @@ class XmlContent extends OA\XmlContent
      * @param array<Schema|OA\Schema>                                       $allOf
      * @param array<Schema|OA\Schema>                                       $anyOf
      * @param array<Schema|OA\Schema>                                       $oneOf
+     * @param Encoding[]                                                    $encoding
      * @param array<string,mixed>|null                                      $x
      * @param Attachable[]|null                                             $attachables
      */
@@ -33,7 +34,7 @@ class XmlContent extends OA\XmlContent
         string|object|null $ref = null,
         ?string $schema = null,
         ?string $title = null,
-        ?string $description = null,
+        ?string $description = Generator::UNDEFINED,
         ?int $maxProperties = null,
         ?int $minProperties = null,
         ?array $required = null,
@@ -66,6 +67,10 @@ class XmlContent extends OA\XmlContent
         ?array $anyOf = null,
         ?array $oneOf = null,
         AdditionalProperties|bool|null $additionalProperties = null,
+        ?array $patternProperties = null,
+        ?array $encoding = null,
+        ?string $contentEncoding = null,
+        ?string $contentMediaType = null,
         // annotation
         ?array $x = null,
         ?array $attachables = null
@@ -76,7 +81,7 @@ class XmlContent extends OA\XmlContent
             'ref' => $ref ?? Generator::UNDEFINED,
             'schema' => $schema ?? Generator::UNDEFINED,
             'title' => $title ?? Generator::UNDEFINED,
-            'description' => $description ?? Generator::UNDEFINED,
+            'description' => $description,
             'maxProperties' => $maxProperties ?? Generator::UNDEFINED,
             'minProperties' => $minProperties ?? Generator::UNDEFINED,
             'required' => $required ?? Generator::UNDEFINED,
@@ -106,6 +111,10 @@ class XmlContent extends OA\XmlContent
             'anyOf' => $anyOf ?? Generator::UNDEFINED,
             'oneOf' => $oneOf ?? Generator::UNDEFINED,
             'additionalProperties' => $additionalProperties ?? Generator::UNDEFINED,
+            'patternProperties' => $patternProperties ?? Generator::UNDEFINED,
+            'encoding' => $encoding ?? Generator::UNDEFINED,
+            'contentEncoding' => $contentEncoding ?? Generator::UNDEFINED,
+            'contentMediaType' => $contentMediaType ?? Generator::UNDEFINED,
             // annotation
             'x' => $x ?? Generator::UNDEFINED,
             'attachables' => $attachables ?? Generator::UNDEFINED,

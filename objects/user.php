@@ -268,7 +268,7 @@ if (typeof gtag !== \"function\") {
     public function getExternalOption($id)
     {
         $eo = User::decodeExternalOption($this->externalOptions);
-        if (!is_array($eo) || (empty($eo[$id]) && $eo[$id] !== 0 && $eo[$id] !== '0')) {
+        if (!is_array($eo) || !array_key_exists($id, $eo)) {
             return null;
         }
         return $eo[$id];
@@ -1192,28 +1192,40 @@ if (typeof gtag !== \"function\") {
                 'email_to_user',
                 'wallet',
                 'anet_webhook_log',
-                'chat_user_ignores'
+                'chat_user_ignores' => ['users_id', 'ignored_users_id'] // Delete records where user is ignoring or being ignored
             ];
 
-            foreach ($arrayTables as $value) {
+            foreach ($arrayTables as $key => $value) {
+                // If value is an array, key is the table name and value contains column names
+                // Otherwise, value is the table name and we use 'users_id' as default column
+                if (is_array($value)) {
+                    $tableName = $key;
+                    $columns = $value;
+                } else {
+                    $tableName = $value;
+                    $columns = ['users_id'];
+                }
+
                 // Check if table exists
-                $checkTableSQL = "SHOW TABLES LIKE '{$value}'";
+                $checkTableSQL = "SHOW TABLES LIKE '{$tableName}'";
                 try {
                     $result = sqlDAL::readSql($checkTableSQL);
                     $tableExists = (sqlDAL::num_rows($result) > 0);
                     sqlDAL::close($result); // Make sure to close the result after checking
                 } catch (Exception $exc) {
-                    _error_log("Delete usertable not found {$value}");
+                    _error_log("Delete usertable not found {$tableName}");
                     $tableExists = false;
                 }
 
                 if ($tableExists) {
-                    $sql = "DELETE FROM {$value} WHERE users_id = ?";
-                    try {
-                        _error_log("Delete user $sql users_id = {$this->id}");
-                        sqlDAL::writeSql($sql, "i", [$this->id]);
-                    } catch (Exception $exc) {
-                        // Handle exception if needed
+                    foreach ($columns as $column) {
+                        $sql = "DELETE FROM {$tableName} WHERE {$column} = ?";
+                        try {
+                            _error_log("Delete user $sql {$column} = {$this->id}");
+                            sqlDAL::writeSql($sql, "i", [$this->id]);
+                        } catch (Exception $exc) {
+                            // Handle exception if needed
+                        }
                     }
                 }
             }
@@ -2047,7 +2059,7 @@ if (typeof gtag !== \"function\") {
                 return false;
             }
         }
-        $this->user = strip_tags($user);
+        $this->user = str_replace(['"', "'"], '', strip_tags($user));
     }
 
     public function setName($name)

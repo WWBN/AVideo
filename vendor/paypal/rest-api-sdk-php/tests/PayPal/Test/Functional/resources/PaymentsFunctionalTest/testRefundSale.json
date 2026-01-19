@@ -1,0 +1,62 @@
+{
+    "description": "Creates a refunded sale resource.",
+    "title": "Refund a Sale",
+    "runnable": true,
+    "operationId": "sale.refund",
+    "user": {
+        "scopes": []
+    },
+    "credentials": {
+        "oauth": {
+            "clientId": "",
+            "clientSecret": "",
+            "path": ""
+        },
+        "login": {},
+        "openIdConnect": {}
+    },
+    "request": {
+        "headers": {},
+        "body": {
+            "amount": {
+                "total": "2.34",
+                "currency": "USD"
+            }
+        },
+        "path": "/v1/sales/4RR959492F879224U/refund",
+        "method": "POST"
+    },
+    "response": {
+        "headers": {},
+        "body": {
+            "id": "4CF18861HF410323U",
+            "create_time": "2013-01-31T04:13:34Z",
+            "update_time": "2013-01-31T04:13:36Z",
+            "state": "completed",
+            "amount": {
+                "total": "2.34",
+                "currency": "USD"
+            },
+            "sale_id": "4RR959492F879224U",
+            "parent_payment": "PAY-17S8410768582940NKEE66EQ",
+            "links": [
+                {
+                    "href": "https://api.paypal.com/v1/payments/refund/4CF18861HF410323U",
+                    "rel": "self",
+                    "method": "GET"
+                },
+                {
+                    "href": "https://api.paypal.com/v1/payments/payment/PAY-46E69296BH2194803KEE662Y",
+                    "rel": "parent_payment",
+                    "method": "GET"
+                },
+                {
+                    "href": "https://api.paypal.com/v1/payments/sale/2MU78835H4515710F",
+                    "rel": "sale",
+                    "method": "GET"
+                }
+            ]
+        },
+        "status": "201 Created"
+    }
+}

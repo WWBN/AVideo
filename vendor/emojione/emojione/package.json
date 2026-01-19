@@ -37,8 +37,5 @@
   },
   "scripts": {
     "test": "grunt travis"
-  },
-  "dependencies": {
-    "emojione": "file:"
   }
 }
