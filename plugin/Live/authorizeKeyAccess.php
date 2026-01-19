@@ -198,7 +198,7 @@ if ($isCached) {
     // Check CPU usage before heavy operations
     $cpuUsage = getCpuUsage();
     if ($cpuUsage > 80) {
-        // Skip heavy configuration loading when CPU is very high
+        // Skip heavy configuration loading when CPU is very high - only log this as it's an operational issue
         $msg = 'authorizeKeyAccess: High CPU usage detected (' . $cpuUsage . '%), using cached authorization';
         error_log('LiveKeyAuth: ' . $msg);
         echo $msg;
@@ -267,7 +267,8 @@ if ($isCached) {
                 $bytes = file_put_contents($tmpFilePath, time());
             }
             $msg = 'authorizeKeyAccess: Authorized key=' . $liveKey . ' uri=' . $uri;
-            error_log("LiveKeyAuth: AUTHORIZED - Reason: {$authorizationReason} | Protection: {$protectionStatus} | Token: {$tokenStatus} | IP=".getRealIpAddr()." | Referer=".@$_SERVER['HTTP_REFERER']);
+            // Only log authorization in debug mode to reduce log noise
+            //error_log("LiveKeyAuth: AUTHORIZED - Reason: {$authorizationReason} | Protection: {$protectionStatus} | Token: {$tokenStatus} | IP=".getRealIpAddr()." | Referer=".@$_SERVER['HTTP_REFERER']);
             echo $msg;
         }
     } else {
