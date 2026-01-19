@@ -136,15 +136,16 @@ $authorized = false; // Set this based on your logic
 $uri = $_SERVER["HTTP_X_ORIGINAL_URI"];
 
 // Define a regular expression to capture the key and token parts
-$pattern = '#/live/([^/]+)/[0-9]+\.key(\?token=([^&]+))?#i';
+// Updated to handle double slashes and URL-encoded tokens
+$pattern = '#/live/+([^/]+)/[0-9]+\.key(\?token=([^&]+))?#i';
 $token = '';
 // Match the pattern with the URI
 if (preg_match($pattern, $uri, $matches)) {
     // $matches[1] contains the key
     $liveKey = $matches[1];
-    if(!empty($matches[2])){
-        // $matches[2] contains the token
-        $token = str_replace('?token=', '', $matches[2]);
+    if(!empty($matches[3])){
+        // $matches[3] contains the token (URL decode it)
+        $token = urldecode($matches[3]);
     }
     // Note: Don't log "Token not found" here - it's only a problem if downloadProtection is enabled
     // The check will be done later after loading the configuration
