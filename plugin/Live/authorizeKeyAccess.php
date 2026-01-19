@@ -216,9 +216,15 @@ if ($isCached) {
         global $verifyTokenReturnFalseReason;
         $verifyTokenReturnFalseReason = '';
 
+        // Store authorization reason for detailed logging
+        $authorizationReason = '';
+        $protectionStatus = !empty($obj->downloadProtection) ? 'ENABLED' : 'DISABLED';
+        $tokenStatus = empty($token) ? 'NO_TOKEN' : 'TOKEN_PROVIDED';
+
         // Check if it's AVideo User Agent (internal system access)
         if (isAVideoUserAgent()) {
             $authorized = true;
+            $authorizationReason = "AVideo User Agent (internal system)";
         }
         // Check referer protection (only if not AVideo User Agent)
         else if (!empty($_SERVER['HTTP_REFERER']) && isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && $global['webSiteRootURL'] !== 'http://avideo/') {
@@ -235,11 +241,14 @@ if ($isCached) {
                     $authorized = VideoHLS::verifyToken($token);
                     if (!$authorized) {
                         $verifyTokenReturnFalseReason = "Invalid or expired token for protected stream. IP=".getRealIpAddr();
+                    } else {
+                        $authorizationReason = "Valid token (protection enabled)";
                     }
                 }
             } else {
                 // Download protection is DISABLED - allow with valid referer only
                 $authorized = true;
+                $authorizationReason = "Valid referer (protection disabled, no token required)";
             }
         } else {
             // Invalid or missing referer - BLOCK
@@ -256,7 +265,7 @@ if ($isCached) {
                 $bytes = file_put_contents($tmpFilePath, time());
             }
             $msg = 'authorizeKeyAccess: Authorized key=' . $liveKey . ' uri=' . $uri;
-            error_log('LiveKeyAuth: ' . $msg.' '.@$_SERVER['HTTP_REFERER']);
+            error_log("LiveKeyAuth: AUTHORIZED - Reason: {$authorizationReason} | Protection: {$protectionStatus} | Token: {$tokenStatus} | IP=".getRealIpAddr()." | Referer=".@$_SERVER['HTTP_REFERER']);
             echo $msg;
         }
     } else {
