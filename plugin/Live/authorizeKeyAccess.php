@@ -48,12 +48,7 @@ function getTmpFilePath($liveKey)
 // Get current CPU usage percentage
 function getCpuUsage()
 {
-    if (function_exists('sys_getloadavg')) {
-        $load = sys_getloadavg();
-        return $load[0] * 100; // Convert to percentage (approximate)
-    }
-
-    // Windows fallback
+    // Windows - Get real CPU percentage
     if (PHP_OS_FAMILY === 'Windows') {
         $cmd = 'wmic cpu get loadpercentage /value';
         $output = shell_exec($cmd);
@@ -62,14 +57,29 @@ function getCpuUsage()
         }
     }
 
-    // Linux fallback
-    if (file_exists('/proc/loadavg')) {
-        $load = file_get_contents('/proc/loadavg');
-        $loadArray = explode(' ', $load);
-        return floatval($loadArray[0]) * 100;
+    // Linux - Convert load average to approximate CPU percentage
+    // Load average represents number of processes, not CPU percentage
+    // We need to divide by number of CPU cores to get meaningful value
+    if (function_exists('sys_getloadavg')) {
+        $load = sys_getloadavg();
+        $cpuCount = 1;
+
+        // Try to get number of CPU cores
+        if (is_readable('/proc/cpuinfo')) {
+            $cpuinfo = file_get_contents('/proc/cpuinfo');
+            preg_match_all('/^processor/m', $cpuinfo, $matches);
+            $cpuCount = count($matches[0]);
+        }
+
+        if ($cpuCount > 0) {
+            // Convert load average to percentage based on CPU count
+            // Load of 1.0 on 1 CPU = 100%, load of 2.0 on 2 CPUs = 100%
+            return ($load[0] / $cpuCount) * 100;
+        }
     }
 
-    return 0; // Default if can't determine
+    // Fallback - return low value to not block access
+    return 10; // Return low value instead of 0 to indicate system is working
 }
 
 // Get dynamic tolerance based on CPU usage
