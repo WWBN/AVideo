@@ -118,6 +118,7 @@ function isAVideoStreamer($user_agent = "")
 
 function isAVideoUserAgent($user_agent = "")
 {
+    global $lastMatchedAVideoUserAgent;
     if (empty($user_agent)) {
         $user_agent = @$_SERVER['HTTP_USER_AGENT'];
     }
@@ -132,6 +133,7 @@ function isAVideoUserAgent($user_agent = "")
 
     foreach ($agents as $value) {
         if (preg_match("/{$value}/", $user_agent)) {
+            $lastMatchedAVideoUserAgent = $value;
             return true;
         }
     }

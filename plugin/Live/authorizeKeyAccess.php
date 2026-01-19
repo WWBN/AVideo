@@ -224,8 +224,9 @@ if ($isCached) {
 
         // Check if it's AVideo User Agent (internal system access)
         if (isAVideoUserAgent()) {
+            global $lastMatchedAVideoUserAgent;
             $authorized = true;
-            $authorizationReason = "AVideo User Agent (internal system)";
+            $authorizationReason = "AVideo User Agent ({$lastMatchedAVideoUserAgent})";
         }
         // Check referer protection (only if not AVideo User Agent)
         else if (!empty($_SERVER['HTTP_REFERER']) && isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && $global['webSiteRootURL'] !== 'http://avideo/') {
