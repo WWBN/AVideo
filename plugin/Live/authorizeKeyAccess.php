@@ -213,6 +213,7 @@ if ($isCached) {
         $obj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
     }
     if (class_exists('VideoHLS')) {
+        $obj = AVideoPlugin::getDataObject('VideoHLS');
         global $verifyTokenReturnFalseReason;
         $verifyTokenReturnFalseReason = '';
 
