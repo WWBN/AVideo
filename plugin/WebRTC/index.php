@@ -46,6 +46,28 @@ include __DIR__ . '/video.php';
 <script>
     $(document).ready(function() {
         startWebRTC();
+
+        // Auto-start live streaming if requested via Quick Go Live
+        <?php if (!empty($_GET['autoStart']) && $_GET['autoStart'] == '1'): ?>
+        // Wait for WebRTC to initialize and webcam to be ready
+        var autoStartAttempts = 0;
+        var maxAutoStartAttempts = 20; // Try for 10 seconds (20 * 500ms)
+
+        var autoStartInterval = setInterval(function() {
+            autoStartAttempts++;
+
+            // Check if webcam is connected and not live yet
+            if (isWebcamServerConnected() && typeof rtmpURLEncrypted !== 'undefined' && !isLive) {
+                console.log('Quick Go Live: Auto-starting live stream...');
+                startWebcamLive(rtmpURLEncrypted);
+                clearInterval(autoStartInterval);
+            } else if (autoStartAttempts >= maxAutoStartAttempts) {
+                console.log('Quick Go Live: Auto-start timeout reached');
+                avideoToastWarning('<?php echo __('Please click the Go Live button to start streaming'); ?>');
+                clearInterval(autoStartInterval);
+            }
+        }, 500);
+        <?php endif; ?>
     });
 </script>
 <?php

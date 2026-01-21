@@ -42,6 +42,11 @@ class WebRTC extends PluginAbstract
 
         $obj->port = 3000;
         $obj->autoStartServerIfIsInactive = true;
+        $obj->quickGoLiveEnabled = true;
+        self::addDataObjectHelper('quickGoLiveEnabled', 'Enable Quick Go Live', 'Show a one-click "Go Live" button in the top menu bar');
+
+        $obj->quickGoLiveButtonTitle = 'Go Live';
+        self::addDataObjectHelper('quickGoLiveButtonTitle', 'Quick Go Live Button Title');
 
         return $obj;
     }
@@ -76,6 +81,11 @@ class WebRTC extends PluginAbstract
         global $global;
         $btn = '<button onclick="avideoModalIframe(webSiteRootURL+\'plugin/WebRTC/status.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa-solid fa-list-check"></i> Server Status</button>';
         return $btn;
+    }
+
+    public function getHTMLMenuRight()
+    {
+        include __DIR__ . '/../../plugin/WebRTC/view/menuRight.php';
     }
 
     static function getJson()
@@ -172,7 +182,7 @@ class WebRTC extends PluginAbstract
                 if ($status !== 0) {
                     _error_log("WebRTC::checkAndUpdate: Warning: Could not stop the server or it was not running.");
                 }
-                
+
                 self::stopServer();
 
                 // Remove old executable
