@@ -11,6 +11,14 @@ if (empty($obj->users_id)) {
     $obj->method = 'cancelSwapUser';
     $obj->new_users_id = User::cancelSwapUser();
 }else{
+    // Verifica se o usuário alvo é admin
+    $targetUser = new User($obj->users_id);
+    if ($targetUser->getIsAdmin()) {
+        $obj->error = true;
+        $obj->msg = __('Cannot swap to an admin user');
+        die(json_encode($obj));
+    }
+
     $obj->method = 'swapUser';
     $obj->new_users_id = !User::swapUser($obj->users_id);
 }
