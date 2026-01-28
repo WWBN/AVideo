@@ -112,6 +112,9 @@ Options All -Indexes
     RewriteRule    ^api/([^/]+)/([^/]+)$ plugin/API/router.php?APIPlugin=$1&APIName=$2 [QSA,L]
     RewriteRule    ^api/([^/]+)$ plugin/API/router.php?APIName=$1 [QSA,L]
 
+    # Certificate validation short URL
+    RewriteRule    ^cert/([^/?]+)$ plugin/CertifyComplete/cert.php?h=$1 [NC,L,QSA]
+
     RewriteRule    ^buy/?  plugin/YPTWallet/buy.php [NC,L,QSA]
     RewriteRule    ^id/?  view/id.php [NC,L,QSA]
     RewriteRule    ^logo.png  view/logo.png.php [NC,L,QSA]
