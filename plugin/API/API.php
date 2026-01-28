@@ -2272,12 +2272,13 @@ class API extends PluginAbstract
      * Retrieves all comments for a given video, with optional authentication and pagination.
      *
      * @param array $parameters {
-     *     @type int    $videos_id Required. The ID of the video to retrieve comments for.
-     *     @type string $APISecret Optional. If provided and valid, bypasses user authentication.
-     *     @type string $user      Optional. Username for authentication.
-     *     @type string $pass      Optional. Password for authentication.
-     *     @type int    $rowCount  Optional. Maximum number of comments to return.
-     *     @type int    $current   Optional. Current page number for pagination.
+     *     @type int    $videos_id         Required. The ID of the video to retrieve comments for.
+     *     @type string $APISecret         Optional. If provided and valid, bypasses user authentication.
+     *     @type string $user              Optional. Username for authentication.
+     *     @type string $pass              Optional. Password for authentication.
+     *     @type int    $rowCount          Optional. Maximum number of comments to return.
+     *     @type int    $current           Optional. Current page number for pagination.
+     *     @type bool   $includeResponses  Optional. Include comment replies/responses (default: false).
      * }
      *
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
@@ -2325,6 +2326,13 @@ class API extends PluginAbstract
                 required: false,
                 schema: new OA\Schema(type: "integer"),
                 description: "Current page for pagination"
+            ),
+            new OA\Parameter(
+                name: "includeResponses",
+                in: "query",
+                required: false,
+                schema: new OA\Schema(type: "boolean"),
+                description: "Include comment replies/responses in the result"
             )
         ],
         responses: [
@@ -2354,7 +2362,8 @@ class API extends PluginAbstract
             require_once $global['systemRootPath'] . 'objects/comment.php';
 
             $_POST['sort']['created'] = "desc";
-            $obj = Comment::getAllComments($parameters['videos_id']);
+            $includeResponses = !empty($parameters['includeResponses']);
+            $obj = Comment::getAllComments($parameters['videos_id'], 'NULL', 0, $includeResponses);
             $obj = Comment::addExtraInfo($obj);
             return new ApiObject("", false, $obj);
         } else {
