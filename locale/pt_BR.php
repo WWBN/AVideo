@@ -2428,3 +2428,6 @@ $t['Validate at'] = 'Valide em';
 $t['Validation URL'] = 'URL de Validação';
 $t['Copy'] = 'Copiar';
 $t['Share this URL to validate your certificate'] = 'Compartilhe esta URL para validar seu certificado';
+$t['Watch Course'] = 'Assistir Curso';
+$t['Note'] = 'Nota';
+$t['Progress is updated automatically every few minutes.'] = 'O progresso é atualizado automaticamente a cada poucos minutos.';
