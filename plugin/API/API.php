@@ -483,7 +483,8 @@ class API extends PluginAbstract
     )]
     public function get_api_preauthorize($parameters)
     {
-        require_once $GLOBALS['systemRootPath'] . 'plugin/Live/Objects/StreamAuthCache.php';
+        global $global;
+        require_once $global['systemRootPath'] . 'plugin/Live/Objects/StreamAuthCache.php';
 
         $username = !empty($parameters['user']) ? $parameters['user'] : '';
         $password = !empty($parameters['password']) ? $parameters['password'] : '';
