@@ -177,10 +177,11 @@ if (!empty($_GET['p'])) {
 
     // Check pre-authorization before rejecting
     $streamKey = Live::cleanUpKey($_POST['name']);
+    $clientIp = $_POST['addr']; // Get real client IP from NGINX
 
-    _error_log("NGINX ON Publish checking pre-authorization for Key: {$streamKey}");
+    _error_log("NGINX ON Publish checking pre-authorization for Key: {$streamKey}, IP: {$clientIp}");
 
-    $preAuth = StreamAuthCache::get($streamKey);
+    $preAuth = StreamAuthCache::get($streamKey, $clientIp);
 
     if (!empty($preAuth)) {
         _error_log("NGINX ON Publish pre-authorization found, processing...");
@@ -196,7 +197,7 @@ if (!empty($_GET['p'])) {
             if (!$user->thisUserCanStream() && !User::isAdmin($obj->row['users_id'])) {
                 _error_log("NGINX ON Publish User [{$obj->row['users_id']}] can not stream (pre-auth check) ".User::getLastUserCanStreamReason());
                 // Remove invalid authorization
-                StreamAuthCache::delete($streamKey);
+                StreamAuthCache::delete($streamKey, $clientIp);
             } else {
                 // Valid authorization - create LiveTransmitionHistory
                 _error_log("NGINX ON Publish creating LiveTransmitionHistory from pre-auth");
@@ -211,7 +212,7 @@ if (!empty($_GET['p'])) {
                 $obj->liveTransmitionHistory_id = $lth->save();
 
                 // Remove authorization (single-use)
-                StreamAuthCache::delete($streamKey);
+                StreamAuthCache::delete($streamKey, $clientIp);
 
                 _error_log("NGINX ON Publish pre-authorization used and removed");
                 $obj->error = false;

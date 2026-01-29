@@ -80,11 +80,14 @@ class StreamAuthCache
      * Check if valid authorization exists
      *
      * @param string $streamKey Stream key
+     * @param string|null $ip Optional IP address (if null, uses getRealIpAddr())
      * @return array|false Returns authorization data or false
      */
-    public static function get($streamKey)
+    public static function get($streamKey, $ip = null)
     {
-        $ip = getRealIpAddr();
+        if ($ip === null) {
+            $ip = getRealIpAddr();
+        }
         $file = self::getCacheFile($ip, $streamKey);
 
         _error_log("StreamAuthCache::get - Looking for auth: IP={$ip}, Key={$streamKey}, File={$file}");
@@ -121,11 +124,14 @@ class StreamAuthCache
      * Remove an authorization (single-use)
      *
      * @param string $streamKey Stream key
+     * @param string|null $ip Optional IP address (if null, uses getRealIpAddr())
      * @return bool
      */
-    public static function delete($streamKey)
+    public static function delete($streamKey, $ip = null)
     {
-        $ip = getRealIpAddr();
+        if ($ip === null) {
+            $ip = getRealIpAddr();
+        }
         $file = self::getCacheFile($ip, $streamKey);
 
         if (file_exists($file)) {
