@@ -115,34 +115,6 @@ if (!empty($_GET['p']) && strpos($_GET['p'], '/') !== false) {
 
 $_POST['name'] = preg_replace("/[&=]/", '', $_POST['name']);
 
-if(strpos($_POST['name'], '-AUTH-')!==false){
-    // replace -AUTH- to ?s= and build the new rtmp url
-    $parts = explode('-AUTH-', $_POST['name'], 2);
-    $newKey = $parts[0] ?? '';
-    $authString = $parts[1] ?? '';
-
-    if ($newKey === '' || $authString === '') {
-        http_response_code(403);
-        exit;
-    }
-
-    if(!empty($parts[1])){
-        $newKey = $parts[0];
-        $authString = $parts[1];
-        _error_log("NGINX ON Publish detected AUTH in the key, rebuilding the RTMP URL");
-
-        $urlParts = parse_url($url); // $url = rtmp://t.ypt.me/live
-        $baseURL = $urlParts['scheme'] . '://127.0.0.1' . (!empty($urlParts['port']) ? ':' . $urlParts['port'] : '');
-
-        // Build new RTMP URL with key and auth parameter
-        $newURL = "{$baseURL}/live/{$newKey}?s={$authString}";
-        _error_log("NGINX ON Publish redirecting to new RTMP URL: $newURL");
-        http_response_code(302);
-        header("Location: $newURL");
-        exit;
-    }
-}
-
 $live_servers_id = Live_servers::getServerIdFromRTMPHost($url);
 $activeLive = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
 
