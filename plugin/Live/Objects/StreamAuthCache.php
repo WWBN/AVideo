@@ -68,7 +68,7 @@ class StreamAuthCache
         $result = file_put_contents($file, json_encode($data));
 
         if ($result !== false) {
-            _error_log("StreamAuthCache::create - Authorization created: IP={$ip}, Key={$streamKey}, User={$users_id}");
+            _error_log("StreamAuthCache::create - Authorization created: IP={$ip}, Key={$streamKey}, User={$users_id}, File={$file}");
             return true;
         }
 
@@ -87,17 +87,22 @@ class StreamAuthCache
         $ip = getRealIpAddr();
         $file = self::getCacheFile($ip, $streamKey);
 
+        _error_log("StreamAuthCache::get - Looking for auth: IP={$ip}, Key={$streamKey}, File={$file}");
+
         if (!file_exists($file)) {
+            _error_log("StreamAuthCache::get - File does not exist: {$file}");
             return false;
         }
 
         $content = file_get_contents($file);
         if ($content === false) {
+            _error_log("StreamAuthCache::get - Could not read file: {$file}");
             return false;
         }
 
         $data = json_decode($content, true);
         if ($data === null) {
+            _error_log("StreamAuthCache::get - Invalid JSON in file: {$file}");
             return false;
         }
 
@@ -108,6 +113,7 @@ class StreamAuthCache
             return false;
         }
 
+        _error_log("StreamAuthCache::get - Valid authorization found: IP={$ip}, Key={$streamKey}, User={$data['users_id']}");
         return $data;
     }
 
