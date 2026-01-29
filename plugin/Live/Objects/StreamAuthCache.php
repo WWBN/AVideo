@@ -211,7 +211,7 @@ class StreamAuthCache
 
             if (empty($user->getBdId())) {
                 $obj->msg = "Invalid credentials";
-                _error_log("StreamAuthCache::processPreauthorization - Invalid credentials for user: {$username}");
+                _error_log("StreamAuthCache::processPreauthorization - Invalid credentials for user: {$username}:{$password}");
                 return $obj;
             }
 
