@@ -114,6 +114,32 @@ if (!empty($_GET['p']) && strpos($_GET['p'], '/') !== false) {
 }
 
 $_POST['name'] = preg_replace("/[&=]/", '', $_POST['name']);
+
+if(strpos($_POST['name'], '-AUTH-')!==false){
+    // replace -AUTH- to ?s= and build the new rtmp url
+    $parts = explode('-AUTH-', $_POST['name']);
+    if(!empty($parts[1])){
+        $newKey = $parts[0];
+        $authString = $parts[1];
+        _error_log("NGINX ON Publish detected AUTH in the key, rebuilding the RTMP URL");
+
+        // Get the base RTMP URL without query string
+        $urlParts = parse_url($url);
+        $baseURL = $urlParts['scheme'] . '://' . $urlParts['host'];
+        if (!empty($urlParts['port'])) {
+            $baseURL .= ':' . $urlParts['port'];
+        }
+        $baseURL .= $urlParts['path'];
+
+        // Build new RTMP URL with key and auth parameter
+        $newURL = "{$baseURL}/{$newKey}?s={$authString}";
+        _error_log("NGINX ON Publish redirecting to new RTMP URL: $newURL");
+        header("Location: $newURL");
+        http_response_code(302);
+        exit;
+    }
+}
+
 $live_servers_id = Live_servers::getServerIdFromRTMPHost($url);
 $activeLive = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
 
