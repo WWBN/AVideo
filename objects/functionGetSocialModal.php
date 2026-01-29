@@ -1,3 +1,4 @@
+<link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
 <div id="SharingModal<?php echo $sharingUid ?>" class="modal fade" role="dialog" style="top: 60px;">
     <div class="modal-dialog">
         <!-- Modal content-->
