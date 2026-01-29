@@ -487,7 +487,7 @@ class API extends PluginAbstract
         require_once $global['systemRootPath'] . 'plugin/Live/Objects/StreamAuthCache.php';
 
         $username = !empty($parameters['user']) ? $parameters['user'] : '';
-        $password = !empty($parameters['password']) ? $parameters['password'] : '';
+        $password = !empty($parameters['password']) ? $parameters['password'] : (!empty($parameters['pass']) ? $parameters['pass'] : '');
 
         // Use shared method for processing
         $result = StreamAuthCache::processPreauthorization($username, $password);

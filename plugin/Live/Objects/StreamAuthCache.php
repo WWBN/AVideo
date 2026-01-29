@@ -182,8 +182,7 @@ class StreamAuthCache
     public static function processPreauthorization($username, $password)
     {
         require_once dirname(__FILE__) . '/../../../objects/user.php';
-        require_once dirname(__FILE__) . '/LiveTransmition.php';
-        require_once dirname(__FILE__) . '/../Live.php';
+        AVideoPlugin::loadPlugin('Live');
 
         $obj = new stdClass();
         $obj->error = true;
@@ -194,9 +193,15 @@ class StreamAuthCache
         _error_log("StreamAuthCache::processPreauthorization - Request from IP: " . getRealIpAddr());
 
         // Validate input
-        if (empty($username) || empty($password)) {
+        if (empty($username)) {
             $obj->msg = "Missing credentials";
-            _error_log("StreamAuthCache::processPreauthorization - Missing user or pass");
+            _error_log("StreamAuthCache::processPreauthorization - Missing user");
+            return $obj;
+        }
+
+        if (empty($password)) {
+            $obj->msg = "Missing credentials";
+            _error_log("StreamAuthCache::processPreauthorization - Missing pass");
             return $obj;
         }
 
