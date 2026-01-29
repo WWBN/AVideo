@@ -1793,6 +1793,11 @@ class API extends PluginAbstract
             $rows[$key]['UserPhoto'] = User::getPhoto($rows[$key]['users_id']);
             $rows[$key]['isSubscribed'] = false;
 
+            // Add video status description
+            $rows[$key]['videoStatus'] = $rows[$key]['status'];
+            $rows[$key]['videoStatusDescription'] = Video::$statusDesc[$rows[$key]['status']] ?? 'Unknown';
+            $rows[$key]['videoStatusIcon'] = Video::$statusIcons[$rows[$key]['status']] ?? '';
+
             //make playlist compatible
             if (!empty($parameters['playlist'])) {
                 $rows[$key]['mp3'] = convertVideoToMP3FileIfNotExists($value['id']);
