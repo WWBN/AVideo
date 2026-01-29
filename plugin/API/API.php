@@ -2419,11 +2419,6 @@ class API extends PluginAbstract
         global $global;
         $obj = $this->startResponseObject($parameters);
         if (!empty($parameters['videos_id'])) {
-            if (!empty($_REQUEST['APISecret']) && !self::isAPISecretValid()) {
-                return new ApiObject("Secret does not match");
-            } elseif (!User::canComment()) {
-                return new ApiObject("Access denied");
-            }
 
             if (!User::canWatchVideo($parameters['videos_id'])) {
                 return new ApiObject("Cannot watch video");
