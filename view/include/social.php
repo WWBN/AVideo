@@ -85,8 +85,8 @@ $social_medias = [
         </a>
     </li>
 </ul>
-<div style="margin-top: 10px;">
+<div style="margin-top: 10px;" class="social-copy-container">
     <?php
-    getInputCopyToClipboard(uniqid(), $urlShort, 'class="form-control" readonly="readonly" style="background-color: #EEE; color: #000;"');
+    getInputCopyToClipboard(uniqid(), $urlShort, 'class="form-control" readonly="readonly" style="background-color: #EEE; color: #000; border: 1px solid #ddd;"');
     ?>
 </div>

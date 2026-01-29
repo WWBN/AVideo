@@ -4301,7 +4301,7 @@ function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control
 ?>
     <div class="input-group">
         <input id="<?php echo $id; ?>" type="text" placeholder="<?php echo $placeholder; ?>" <?php echo $attributes; ?> <?php echo $valueAttr; ?>>
-        <span class="input-group-addon" style="cursor: pointer;" id="copyToClipboard_<?php echo $id; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __('Copy to Clipboard'); ?>"><i class="fas fa-clipboard"></i></span>
+        <span class="input-group-addon" style="cursor: pointer; background-color: #337ab7; border-color: #2e6da4;" id="copyToClipboard_<?php echo $id; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __('Copy to Clipboard'); ?>"><i class="fas fa-clipboard" style="color: #fff;"></i></span>
     </div>
     <script>
         var timeOutCopyToClipboard_<?php echo $id; ?>;
