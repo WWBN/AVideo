@@ -22,6 +22,24 @@ if (!empty($parts["query"])) {
     parse_str($parts["query"], $_REQUEST);
 }
 
+// Extract 's' parameter from tcurl if it contains 'live?s='
+if (strpos($url, 'live?s=') !== false && empty($_REQUEST['s'])) {
+    if (!empty($parts["query"])) {
+        parse_str($parts["query"], $queryParams);
+        if (!empty($queryParams['s'])) {
+            $_REQUEST['s'] = $queryParams['s'];
+            $_GET['s'] = $queryParams['s'];
+            _error_log("NGINX ON Publish extracted 's' from tcurl: {$queryParams['s']}");
+
+            // If name is 'live', get the key from tcurl
+            if ($_POST['name'] == 'live' && !empty($queryParams['key'])) {
+                $_POST['name'] = $queryParams['key'];
+                _error_log("NGINX ON Publish updated name from key in tcurl: {$queryParams['key']}");
+            }
+        }
+    }
+}
+
 if (empty($_GET['p'])) {
     if (!empty($_GET['e'])) {
         if (strpos($_GET['e'], '/') !== false) {
