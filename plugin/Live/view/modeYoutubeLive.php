@@ -4,9 +4,9 @@ $isLive = 1;
 require_once '../../videos/configuration.php';
 
 if(isBot()){
-    // timeout will be max 10 seconds
-    set_time_limit(10);
-    ini_set('max_execution_time', 10);
+    // timeout will be max 5 seconds
+    set_time_limit(5);
+    ini_set('max_execution_time', 5);
 }
 
 if (!empty($_GET['embed'])) {

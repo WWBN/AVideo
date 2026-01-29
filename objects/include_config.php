@@ -56,6 +56,9 @@ if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
                 // check if it is whitelisted
                 foreach ($global['stopBotsWhiteList'] as $key => $value2) {
                     if (stripos($_SERVER['HTTP_USER_AGENT'], $value2) !== false) {
+                        // timeout will be max 5 seconds
+                        set_time_limit(5);
+                        ini_set('max_execution_time', 5);
                         break 2;
                     }
                 }
