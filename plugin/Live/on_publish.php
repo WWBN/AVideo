@@ -131,17 +131,11 @@ if(strpos($_POST['name'], '-AUTH-')!==false){
         $authString = $parts[1];
         _error_log("NGINX ON Publish detected AUTH in the key, rebuilding the RTMP URL");
 
-        // Get the base RTMP URL without query string
         $urlParts = parse_url($url); // $url = rtmp://t.ypt.me/live
         $baseURL = $urlParts['scheme'] . '://' . $urlParts['host'] . (!empty($urlParts['port']) ? ':' . $urlParts['port'] : '');
 
-        if (!empty($urlParts['port'])) {
-            $baseURL .= ':' . $urlParts['port'];
-        }
-        $baseURL .= $urlParts['path'];
-
         // Build new RTMP URL with key and auth parameter
-        $newURL = "{$baseURL}/{$newKey}?s={$authString}";
+        $newURL = "{$baseURL}/live/{$newKey}?s={$authString}";
         _error_log("NGINX ON Publish redirecting to new RTMP URL: $newURL");
         http_response_code(302);
         header("Location: $newURL");
