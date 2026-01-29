@@ -49,11 +49,21 @@ if (empty($feed) || $recreate) {
                     if ($value["type"] === "video" && file_exists($value['path'])) {
                         $path_parts = pathinfo($value['path']);
                         if($path_parts['extension'] === 'm3u8'){
-                            $resp = VideoHLS::convertM3U8ToMP4($row['id']);
-                            if(!empty($resp)){
-                                $value['url'] = $resp['url'];
-                                $value['path'] = $resp['path'];
+                            // Check if MP4 already exists before trying to convert
+                            $mp4Path = str_replace('/index.m3u8', '/index.mp4', $value['path']);
+                            if(file_exists($mp4Path) && filesize($mp4Path) > 100){
+                                // MP4 already exists, use it directly
+                                $value['url'] = str_replace('/index.m3u8', '/index.mp4', $value['url']);
+                                $value['path'] = $mp4Path;
                                 $value['mime'] = "video/mp4";
+                            }else{
+                                // MP4 doesn't exist or is too small, try to convert
+                                $resp = VideoHLS::convertM3U8ToMP4($row['id']);
+                                if(!empty($resp)){
+                                    $value['url'] = $resp['url'];
+                                    $value['path'] = $resp['path'];
+                                    $value['mime'] = "video/mp4";
+                                }
                             }
                         }else{
                             $value['mime'] = "video/{$path_parts['extension']}";
