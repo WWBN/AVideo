@@ -215,7 +215,7 @@ class StreamAuthCache
                     _error_log("StreamAuthCache::processPreauthorization - Invalid user hash provided");
                     return $obj;
                 }
-                
+
                 // User hash is valid, decode to get user ID
                 $decoded = json_decode(decryptString($password));
                 if (empty($decoded) || empty($decoded->u)) {
@@ -223,7 +223,7 @@ class StreamAuthCache
                     _error_log("StreamAuthCache::processPreauthorization - Malformed user hash");
                     return $obj;
                 }
-                
+
                 // Load user directly by ID (no password check needed)
                 $user = new User($decoded->u);
                 _error_log("StreamAuthCache::processPreauthorization - Using valid user hash for user ID: {$decoded->u}");
