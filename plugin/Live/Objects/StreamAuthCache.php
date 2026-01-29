@@ -170,4 +170,91 @@ class StreamAuthCache
     {
         return self::$ttl;
     }
+
+    /**
+     * Process pre-authorization request
+     * Validates credentials and creates temporary authorization
+     *
+     * @param string $username Username
+     * @param string $password Password
+     * @return stdClass Response object with error, msg, rtmpUrl, expiresIn
+     */
+    public static function processPreauthorization($username, $password)
+    {
+        require_once dirname(__FILE__) . '/../../../objects/user.php';
+        require_once dirname(__FILE__) . '/LiveTransmition.php';
+        require_once dirname(__FILE__) . '/../Live.php';
+
+        $obj = new stdClass();
+        $obj->error = true;
+        $obj->msg = "";
+        $obj->rtmpUrl = "";
+        $obj->expiresIn = self::getTTL();
+
+        _error_log("StreamAuthCache::processPreauthorization - Request from IP: " . getRealIpAddr());
+
+        // Validate input
+        if (empty($username) || empty($password)) {
+            $obj->msg = "Missing credentials";
+            _error_log("StreamAuthCache::processPreauthorization - Missing user or pass");
+            return $obj;
+        }
+
+        try {
+            // Authenticate user
+            $user = new User(0, $username, $password);
+
+            if (empty($user->getBdId())) {
+                $obj->msg = "Invalid credentials";
+                _error_log("StreamAuthCache::processPreauthorization - Invalid credentials for user: {$username}");
+                return $obj;
+            }
+
+            // Check if user can stream
+            if (!$user->thisUserCanStream() && !User::isAdmin($user->getBdId())) {
+                $obj->msg = "User not allowed to stream: " . User::getLastUserCanStreamReason();
+                _error_log("StreamAuthCache::processPreauthorization - User {$user->getBdId()} cannot stream: " . User::getLastUserCanStreamReason());
+                return $obj;
+            }
+
+            // Get user's LiveTransmition
+            $liveTransmition = LiveTransmition::getFromDbByUser($user->getBdId());
+
+            if (empty($liveTransmition) || empty($liveTransmition['key'])) {
+                $obj->msg = "Stream key not found for user";
+                _error_log("StreamAuthCache::processPreauthorization - Stream key not found for user: {$user->getBdId()}");
+                return $obj;
+            }
+
+            $streamKey = $liveTransmition['key'];
+
+            // Create temporary authorization (IP obtained internally)
+            $authCreated = self::create($streamKey, $user->getBdId());
+
+            if (!$authCreated) {
+                $obj->msg = "Failed to create authorization";
+                _error_log("StreamAuthCache::processPreauthorization - Failed to create auth for Key: {$streamKey}");
+                return $obj;
+            }
+
+            // Get RTMP URL
+            $rtmpServer = Live::getServer();
+            $obj->rtmpUrl = rtrim($rtmpServer, '/') . '/' . $streamKey;
+
+            // Success
+            $obj->error = false;
+            $obj->msg = "Authorized";
+
+            _error_log("StreamAuthCache::processPreauthorization - Authorization created successfully for user {$user->getBdId()}, Key: {$streamKey}");
+
+        } catch (Exception $e) {
+            $obj->msg = "Authentication error: " . $e->getMessage();
+            _error_log("StreamAuthCache::processPreauthorization - Exception: " . $e->getMessage());
+        }
+
+        // Clean up expired authorizations
+        self::cleanup();
+
+        return $obj;
+    }
 }

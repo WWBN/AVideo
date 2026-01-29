@@ -433,6 +433,70 @@ class API extends PluginAbstract
             )
         ]
     )]
+    /**
+     * Pre-authorize RTMP streaming for mobile apps that cannot send tokens in RTMP URL.
+     * Creates a temporary authorization (60 seconds) that allows stream connection.
+     *
+     * @param array $parameters {
+     *     @type string $user     Required. Username for authentication
+     *     @type string $password Required. User password for authentication
+     * }
+     *
+     * @example {webSiteRootURL}plugin/API/get.json.php?APIName=preauthorize&user=username&password=pass
+     *
+     * @return \ApiObject Object containing rtmpUrl (ready to use), expiresIn (seconds), and error status
+     */
+    #[OA\Get(
+        path: "/api/preauthorize",
+        summary: "Pre-authorize RTMP streaming for mobile apps",
+        tags: ["Live", "API"],
+        parameters: [
+            new OA\Parameter(
+                name: "user",
+                in: "query",
+                required: true,
+                schema: new OA\Schema(type: "string"),
+                description: "Username for authentication"
+            ),
+            new OA\Parameter(
+                name: "password",
+                in: "query",
+                required: true,
+                schema: new OA\Schema(type: "string"),
+                description: "User password"
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "error", type: "boolean"),
+                        new OA\Property(property: "msg", type: "string"),
+                        new OA\Property(property: "rtmpUrl", type: "string"),
+                        new OA\Property(property: "expiresIn", type: "integer")
+                    ]
+                ),
+                description: "Returns RTMP URL ready to use (valid for 60 seconds)"
+            )
+        ]
+    )]
+    public function get_api_preauthorize($parameters)
+    {
+        require_once $GLOBALS['systemRootPath'] . 'plugin/Live/Objects/StreamAuthCache.php';
+
+        $username = !empty($parameters['user']) ? $parameters['user'] : '';
+        $password = !empty($parameters['password']) ? $parameters['password'] : '';
+
+        // Use shared method for processing
+        $result = StreamAuthCache::processPreauthorization($username, $password);
+
+        $apiResponse = new ApiObject();
+        $apiResponse->finalize($result->msg, $result->error, $result);
+
+        return $apiResponse;
+    }
+
     public function get_api_id($parameters)
     {
         $apiResponse = new ApiObject();
