@@ -206,8 +206,22 @@ class StreamAuthCache
         }
 
         try {
+            // Check if password is a user hash
+            $actualPassword = $password;
+            if (preg_match('/^_user_hash_/', $password)) {
+                $extractedPassword = User::getPasswordFromUserHashIfTheItIsValid($password);
+                if ($extractedPassword !== false) {
+                    $actualPassword = $extractedPassword;
+                    _error_log("StreamAuthCache::processPreauthorization - Using valid user hash for authentication");
+                } else {
+                    $obj->msg = "Invalid or expired user hash";
+                    _error_log("StreamAuthCache::processPreauthorization - Invalid user hash provided");
+                    return $obj;
+                }
+            }
+
             // Authenticate user
-            $user = new User(0, $username, $password);
+            $user = new User(0, $username, $actualPassword);
 
             if (empty($user->getBdId())) {
                 $obj->msg = "Invalid credentials";
