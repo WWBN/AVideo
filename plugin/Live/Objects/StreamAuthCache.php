@@ -207,25 +207,34 @@ class StreamAuthCache
 
         try {
             // Check if password is a user hash
-            $actualPassword = $password;
             if (preg_match('/^_user_hash_/', $password)) {
-                $extractedPassword = User::getPasswordFromUserHashIfTheItIsValid($password);
-                if ($extractedPassword !== false) {
-                    $actualPassword = $extractedPassword;
-                    _error_log("StreamAuthCache::processPreauthorization - Using valid user hash for authentication");
-                } else {
+                // For user hash, extract and validate it
+                $userHashData = User::getPasswordFromUserHashIfTheItIsValid($password);
+                if ($userHashData === false) {
                     $obj->msg = "Invalid or expired user hash";
                     _error_log("StreamAuthCache::processPreauthorization - Invalid user hash provided");
                     return $obj;
                 }
+                
+                // User hash is valid, decode to get user ID
+                $decoded = json_decode(decryptString($password));
+                if (empty($decoded) || empty($decoded->u)) {
+                    $obj->msg = "Malformed user hash";
+                    _error_log("StreamAuthCache::processPreauthorization - Malformed user hash");
+                    return $obj;
+                }
+                
+                // Load user directly by ID (no password check needed)
+                $user = new User($decoded->u);
+                _error_log("StreamAuthCache::processPreauthorization - Using valid user hash for user ID: {$decoded->u}");
+            } else {
+                // Normal password authentication
+                $user = new User(0, $username, $password);
             }
-
-            // Authenticate user
-            $user = new User(0, $username, $actualPassword);
 
             if (empty($user->getBdId())) {
                 $obj->msg = "Invalid credentials";
-                _error_log("StreamAuthCache::processPreauthorization - Invalid credentials for user: {$username}:{$password}");
+                _error_log("StreamAuthCache::processPreauthorization - Invalid credentials for user: {$username}");
                 return $obj;
             }
 
