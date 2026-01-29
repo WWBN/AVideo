@@ -3661,7 +3661,7 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
     if ($returnPlaylistVideosIDIfIsSerie && empty($videos_id)) {
         $videos_id = getPlayListCurrentVideosId();
     }
-    
+
     // Sanitize videos_id to prevent XSS - keep as int or clean string
     if (!empty($videos_id)) {
         if (is_numeric($videos_id)) {
@@ -3673,7 +3673,7 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
             $videos_id = preg_replace('/[^a-z0-9_.\/+-]/i', '', $videos_id);
         }
     }
-    
+
     return $videos_id;
 }
 
@@ -6094,7 +6094,7 @@ function getHashMethodsAndInfo()
         if (empty($global['salt'])) {
             $global['salt'] = '11234567890abcdef';
         }
-        
+
         // SECURITY: Use saltV2 to prevent offline salt bruteforce via hashId oracle
         // The old salt is predictable (uniqid), making hashId an oracle for bruteforce attacks
         $activeSalt = !empty($global['saltV2']) ? $global['saltV2'] : $global['salt'];
