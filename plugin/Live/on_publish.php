@@ -3,6 +3,7 @@
 require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
 require_once './Objects/LiveTransmitionHistory.php';
+require_once './Objects/StreamAuthCache.php';
 $obj = new stdClass();
 $obj->error = true;
 $obj->liveTransmitionHistory_id = 0;
@@ -173,6 +174,55 @@ if (!empty($_GET['p'])) {
     }
 } else {
     _error_log("NGINX ON Publish error, Password not found ", AVideoLog::$SECURITY);
+
+    // Check pre-authorization before rejecting
+    $streamKey = Live::cleanUpKey($_POST['name']);
+
+    _error_log("NGINX ON Publish checking pre-authorization for Key: {$streamKey}");
+
+    $preAuth = StreamAuthCache::get($streamKey);
+
+    if (!empty($preAuth)) {
+        _error_log("NGINX ON Publish pre-authorization found, processing...");
+
+        // Check if key matches
+        $obj->row = LiveTransmition::keyExists($streamKey);
+
+        if (!empty($obj->row) && $obj->row['users_id'] == $preAuth['users_id']) {
+            _error_log("NGINX ON Publish pre-authorization valid for user: {$preAuth['users_id']}");
+
+            $user = new User($obj->row['users_id']);
+
+            if (!$user->thisUserCanStream() && !User::isAdmin($obj->row['users_id'])) {
+                _error_log("NGINX ON Publish User [{$obj->row['users_id']}] can not stream (pre-auth check) ".User::getLastUserCanStreamReason());
+                // Remove invalid authorization
+                StreamAuthCache::delete($streamKey);
+            } else {
+                // Valid authorization - create LiveTransmitionHistory
+                _error_log("NGINX ON Publish creating LiveTransmitionHistory from pre-auth");
+                $lth = new LiveTransmitionHistory();
+                $lth->setTitle($obj->row['title']);
+                $lth->setDescription($obj->row['description']);
+                $lth->setKey($streamKey);
+                $lth->setDomain(@$_REQUEST['domain']);
+                $lth->setUsers_id($user->getBdId());
+                $lth->setLive_servers_id($live_servers_id);
+                _error_log("NGINX ON Publish saving LiveTransmitionHistory (pre-auth)");
+                $obj->liveTransmitionHistory_id = $lth->save();
+
+                // Remove authorization (single-use)
+                StreamAuthCache::delete($streamKey);
+
+                _error_log("NGINX ON Publish pre-authorization used and removed");
+                $obj->error = false;
+            }
+        } else {
+            _error_log("NGINX ON Publish pre-authorization invalid: key or user mismatch");
+            StreamAuthCache::delete($streamKey);
+        }
+    } else {
+        _error_log("NGINX ON Publish no valid pre-authorization found");
+    }
 }
 _error_log("NGINX ON Publish deciding ...");
 if (!empty($obj) && empty($obj->error)) {
