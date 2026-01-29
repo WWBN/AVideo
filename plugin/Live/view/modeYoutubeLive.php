@@ -3,6 +3,12 @@ global $isLive;
 $isLive = 1;
 require_once '../../videos/configuration.php';
 
+if(isBot()){
+    // timeout will be max 10 seconds
+    set_time_limit(10);
+    ini_set('max_execution_time', 10);
+}
+
 if (!empty($_GET['embed'])) {
     include $global['systemRootPath'] . 'plugin/Live/view/videoEmbeded.php';
     return false;
