@@ -103,6 +103,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                                     <tr>
                                         <th data-column-id="name" data-formatter="name" data-width="300px"><?php echo __("Name"); ?></th>
                                         <th data-column-id="description" data-formatter="description" data-css-class="wrapText hidden-md hidden-sm hidden-xs" data-header-css-class="hidden-md hidden-sm hidden-xs"><?php echo __("description"); ?></th>
+                                        <th data-column-id="modified" data-formatter="modified" data-sortable="true" data-width="180px" data-css-class="hidden-sm hidden-xs" data-header-css-class="hidden-sm hidden-xs"><?php echo __("Modified"); ?></th>
                                         <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="150px"></th>
                                     </tr>
                                 </thead>
@@ -551,6 +552,33 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                     }
                     txt += "<br>" + tags;
                     return txt;
+                },
+                "modified": function(column, row) {
+                    if (!row.modified || row.modified == '' || row.modified == '0000-00-00 00:00:00') {
+                        return '<small class="text-muted"><i class="fas fa-minus"></i></small>';
+                    }
+                    var date = new Date(row.modified);
+                    var now = new Date();
+                    var diff = Math.floor((now - date) / 1000); // diferença em segundos
+                    var timeAgo = '';
+
+                    if (diff < 60) {
+                        timeAgo = '<?php echo __("just now"); ?>';
+                    } else if (diff < 3600) {
+                        var mins = Math.floor(diff / 60);
+                        timeAgo = mins + ' <?php echo __("min ago"); ?>';
+                    } else if (diff < 86400) {
+                        var hours = Math.floor(diff / 3600);
+                        timeAgo = hours + ' <?php echo __("hours ago"); ?>';
+                    } else if (diff < 2592000) {
+                        var days = Math.floor(diff / 86400);
+                        timeAgo = days + ' <?php echo __("days ago"); ?>';
+                    } else {
+                        timeAgo = date.toLocaleDateString();
+                    }
+
+                    var formattedDate = date.toLocaleString();
+                    return '<small title="' + formattedDate + '" data-toggle="tooltip"><i class="far fa-clock"></i> ' + timeAgo + '</small>';
                 }
             }
         }).on("loaded.rs.jquery.bootgrid", function() {

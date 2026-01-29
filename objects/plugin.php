@@ -263,6 +263,8 @@ class Plugin extends ObjectYPT
                         $obj->installedPlugin = static::getPluginByUUID($obj->uuid);
                         $obj->enabled = (!empty($obj->installedPlugin['status']) && $obj->installedPlugin['status'] === "active") ? true : false;
                         $obj->id = (!empty($obj->installedPlugin['id'])) ? $obj->installedPlugin['id'] : 0;
+                        $obj->created = (!empty($obj->installedPlugin['created'])) ? $obj->installedPlugin['created'] : '';
+                        $obj->modified = (!empty($obj->installedPlugin['modified'])) ? $obj->installedPlugin['modified'] : '';
                         $obj->data_object = $p->getDataObject();
                         $obj->data_object_helper = $p->getDataObjectHelper();
                         $obj->data_object_info = $p->getDataObjectInfo();
