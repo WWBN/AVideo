@@ -7,6 +7,15 @@ $isModeYouTube = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
+
+if(isBot()){
+    // timeout will be max 5 seconds
+    set_time_limit(5);
+    ini_set('max_execution_time', 5);
+}
+
+
 //var_dump(Video::getVideo(73, Video::SORT_TYPE_VIEWABLE, false, false, false, true));
 //var_dump(Video::userGroupAndVideoGroupMatch(User::getId(), 73));exit;
 //var_dump(Video::getUserGroups());
