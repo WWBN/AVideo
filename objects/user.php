@@ -2559,7 +2559,7 @@ if (typeof gtag !== \"function\") {
      */
     public function getRecoverPass()
     {
-        return strip_tags($this->recoverPass);
+        return strip_tags($this->recoverPass ?? '');
     }
 
     public function setRecoverPass($forceChange = false)
@@ -2573,10 +2573,17 @@ if (typeof gtag !== \"function\") {
         $this->recoverPass = $this->createRecoverPass($this->id);
 
         _error_log("setRecoverPass:created " . json_encode(!empty($this->recoverPass)));
-        return strip_tags($this->recoverPass);
+        return strip_tags($this->recoverPass ?? '');
     }
 
-    private function createRecoverPass($id, $secondsValid = 600)
+    /**
+     * Undocumented function
+     *
+     * @param [type] $id
+     * @param integer $secondsValid default is 24 hours
+     * @return void
+     */
+    private function createRecoverPass($id, $secondsValid = 86400)
     {
         $json = new stdClass();
         $json->id = $id;
