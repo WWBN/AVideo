@@ -580,6 +580,12 @@ class Scheduler extends PluginAbstract
                 }
             }
         }
+
+        // execute every 10 minutes the fixCacheDirectoryPermissions
+        $minute = date('i');
+        if ($minute % 10 === 0) {
+            $this->fixCacheDirectoryPermissions();
+        }
     }
 
     function executeEveryDay()
@@ -597,7 +603,53 @@ class Scheduler extends PluginAbstract
 
         // Run the function to delete files older than 7 days from /var/www/tmp
         $this->deleteOldFiles();
+
         self::manageLogFile();
+    }
+
+    function fixCacheDirectoryPermissions($directory = '/var/www/tmp/YPTObjectCache')
+    {
+        // Check if the directory exists
+        if (!is_dir($directory)) {
+            _error_log("Cache directory does not exist, attempting to create: $directory");
+
+            // Try to create the directory with proper permissions
+            if (@mkdir($directory, 0777, true)) {
+                _error_log("Successfully created cache directory: $directory");
+                return true;
+            } else {
+                _error_log("Failed to create cache directory: $directory");
+                return false;
+            }
+        }
+
+        // Check if the directory is writable
+        if (!is_writable($directory)) {
+            _error_log("Cache directory is not writable, attempting to fix permissions: $directory");
+
+            // Try to change permissions to 0777 (full access)
+            if (@chmod($directory, 0777)) {
+                _error_log("Successfully changed permissions for cache directory: $directory");
+
+                // Try to fix permissions recursively for subdirectories
+                $iterator = new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS),
+                    RecursiveIteratorIterator::SELF_FIRST
+                );
+
+                foreach ($iterator as $item) {
+                    @chmod($item, 0777);
+                }
+
+                return true;
+            } else {
+                _error_log("Failed to change permissions for cache directory: $directory");
+                return false;
+            }
+        }
+
+        // Directory is already writable
+        return true;
     }
 
     function deleteOldFiles($directory = '/var/www/tmp', $days = 7)
