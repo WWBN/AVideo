@@ -24,6 +24,12 @@ function includeLangFile() {
     $_SESSION['language'] = str_replace('../', '', $_SESSION['language']);
     setSiteLang();
     @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
+
+    // Close session immediately after reading language to prevent session locks
+    // This is critical for feeds and public pages that don't need session persistence
+    if(function_exists('_session_write_close')){
+        _session_write_close();
+    }
 }
 
 function __($str, $allowHTML = false) {
@@ -146,61 +152,61 @@ function setSiteLang() {
     global $config, $global;
     if (empty($global['systemRootPath'])) {
         if (function_exists('getLanguageFromBrowser')) {
-            
+
             setLanguage(getLanguageFromBrowser());
         } else {
-            
+
             setLanguage('en_US');
         }
-        
+
     } else {
-        
+
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         $userLocation = false;
-        
+
         $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
-        
+
         $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);
 
         if (!empty($_GET['lang'])) {
-            
+
             _session_start();
-            
+
             setLanguage($_GET['lang']);
         } else if ($userLocation) {
-            
+
             User_Location::changeLang();
         }
-        
+
         try {
             if (empty($config) || !is_object($config)) {
-                
+
                 require_once $global['systemRootPath'] . 'objects/configuration.php';
                 if (class_exists('Configuration')) {
                     $config = new Configuration();
                 } else {
                     //_error_log("setSiteLang ERROR 1 systemRootPath=[{$global['systemRootPath']}] " . json_encode(debug_backtrace()));
                 }
-                
+
             }
         } catch (Exception $exc) {
             _error_log("setSiteLang ERROR 2 systemRootPath=[{$global['systemRootPath']}] " . $exc->getMessage() . ' ' . json_encode(debug_backtrace()));
         }
 
         if (empty($_SESSION['language']) && is_object($config)) {
-            
+
             setLanguage($config->getLanguage());
-            
+
         }
         if (empty($_SESSION['language'])) {
             if (function_exists('getLanguageFromBrowser')) {
-                
+
                 setLanguage(getLanguageFromBrowser());
             } else {
-                
+
                 setLanguage('en_US');
             }
-            
+
         }
     }
 }
