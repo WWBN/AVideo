@@ -246,21 +246,34 @@ function _json_decode($object, $associative = false)
     }
 }
 
+function _log_session_performance($reason = 'unknown')
+{
+    global $global;
+    static $performance_logged = false;
+
+    // Evitar log duplicado
+    if ($performance_logged || empty($global['session_start_time'])) {
+        return;
+    }
+
+    if (isSessionStarted()) {
+        $session_open_duration = microtime(true) - $global['session_start_time'];
+        // Log if session was open for more than 2 seconds (blocking other requests)
+        if ($session_open_duration > 2) {
+            $script = $_SERVER['SCRIPT_NAME'] ?? 'unknown';
+            _error_log("Session lock held for {$session_open_duration} seconds in {$script} ({$reason})", AVideoLog::$PERFORMANCE);
+            _error_log(json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)), AVideoLog::$PERFORMANCE);
+        }
+        $performance_logged = true;
+        unset($global['session_start_time']);
+    }
+}
+
 function _session_write_close()
 {
     global $global;
     if (isSessionStarted()) {
-        // Calculate how long the session was open
-        if (!empty($global['session_start_time'])) {
-            $session_open_duration = microtime(true) - $global['session_start_time'];
-            // Log if session was open for more than 2 seconds (blocking other requests)
-            if ($session_open_duration > 2) {
-                $script = $_SERVER['SCRIPT_NAME'] ?? 'unknown';
-                _error_log("Session lock held for {$session_open_duration} seconds in {$script}", AVideoLog::$PERFORMANCE);
-                _error_log(json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)), AVideoLog::$PERFORMANCE);
-            }
-            unset($global['session_start_time']);
-        }
+        _log_session_performance('explicit_close');
         //_error_log(json_encode(debug_backtrace()));
         @session_write_close();
     }
