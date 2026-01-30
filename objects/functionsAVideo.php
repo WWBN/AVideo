@@ -214,12 +214,12 @@ if (!isCommandLineInterface() && !isAVideoEncoder()) {
 function avideoShutdown()
 {
     global $global;
-    
+
     // Log session performance if applicable
     if (function_exists('_log_session_performance')) {
         _log_session_performance('script_end');
     }
-    
+
     $error = error_get_last();
     if ($error && ($error['type'] & E_FATAL)) {
         var_dump($error);
