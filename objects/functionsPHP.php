@@ -248,7 +248,19 @@ function _json_decode($object, $associative = false)
 
 function _session_write_close()
 {
+    global $global;
     if (isSessionStarted()) {
+        // Calculate how long the session was open
+        if (!empty($global['session_start_time'])) {
+            $session_open_duration = microtime(true) - $global['session_start_time'];
+            // Log if session was open for more than 2 seconds (blocking other requests)
+            if ($session_open_duration > 2) {
+                $script = $_SERVER['SCRIPT_NAME'] ?? 'unknown';
+                _error_log("Session lock held for {$session_open_duration} seconds in {$script}", AVideoLog::$PERFORMANCE);
+                _error_log(json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)), AVideoLog::$PERFORMANCE);
+            }
+            unset($global['session_start_time']);
+        }
         //_error_log(json_encode(debug_backtrace()));
         @session_write_close();
     }
@@ -322,6 +334,8 @@ function _session_start(array $options = [])
 
             // Start the session with the options
             $session = @session_start($options);
+            // Track when session was opened to detect long session locks
+            $global['session_start_time'] = microtime(true);
 
             // Now, check if session ID matches after session start
             if ($PHPSESSID === session_id()) {
@@ -338,6 +352,8 @@ function _session_start(array $options = [])
 
                 // Restart session after changing the session ID
                 $session = @session_start($options);
+                // Update session start time after restart
+                $global['session_start_time'] = microtime(true);
 
                 if (preg_match('/objects\/getCaptcha\.php/i', $_SERVER['SCRIPT_NAME'])) {
                     $regenerateSessionId = false;
@@ -365,6 +381,8 @@ function _session_start(array $options = [])
                 _error_log(json_encode(debug_backtrace()), AVideoLog::$PERFORMANCE);
                 //exit;
             }
+            // Track when session was opened to detect long session locks
+            $global['session_start_time'] = microtime(true);
             return $session;
         }
     } catch (Exception $exc) {
