@@ -1,0 +1,3 @@
+.bootgrid-table td.loading, .bootgrid-table td.no-results {
+    background: #333;
+}
