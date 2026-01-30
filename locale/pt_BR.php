@@ -2431,3 +2431,6 @@ $t['Share this URL to validate your certificate'] = 'Compartilhe esta URL para v
 $t['Watch Course'] = 'Assistir Curso';
 $t['Note'] = 'Nota';
 $t['Progress is updated automatically every few minutes.'] = 'O progresso é atualizado automaticamente a cada poucos minutos.';
+$t['Payment Information'] = 'Informações de Pagamento';
+$t['Click to enlarge'] = 'Clique para ampliar';
+$t['Pix Code'] = 'Código Pix';
