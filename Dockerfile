@@ -81,7 +81,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     php-zip \
     php-pear \
     php-mbstring \
-    php-memcached && \
+    php-memcached \
     imagemagick && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
