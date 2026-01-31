@@ -121,7 +121,20 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
             /**
              * @var \PHPMailer\PHPMailer\PHPMailer $mail
              */
-            $mail->setFrom($fromEmail, $fromName);
+            // Always use system email as the actual sender to avoid domain verification issues
+            $systemEmail = $config->getContactEmail();
+            $systemName = $config->getWebSiteTitle();
+
+            // If a custom fromEmail is provided and differs from system email,
+            // use it as Reply-To and include user info in From name
+            if (!empty($fromEmail) && $fromEmail !== $systemEmail) {
+                $mail->addReplyTo($fromEmail, $fromName);
+                // Include the original sender info in the From name
+                $displayName = !empty($fromName) ? "{$fromName} via {$systemName}" : $systemName;
+                $mail->setFrom($systemEmail, $displayName);
+            } else {
+                $mail->setFrom($systemEmail, !empty($fromName) ? $fromName : $systemName);
+            }
             if (strpos($subject, $webSiteTitle) === false) {
                 $mail->Subject = $subject . " - " . $webSiteTitle;
             } else {

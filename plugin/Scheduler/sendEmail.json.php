@@ -48,11 +48,22 @@ if(emptyHTML($parameters['emailEmailBody'])){
     forbiddenPage('emailEmailBody is empty');
 }
 
+// Store the original user email for Reply-To purposes
+$userEmail = null;
+$userEmailName = null;
+
 if(is_numeric($parameters['emailFrom'])){
-    $parameters['emailFromName'] = User::getNameIdentificationById($parameters['emailFrom']);;
-    $parameters['emailFrom'] = User::getEmailDb($parameters['emailFrom']);
+    $userEmailName = User::getNameIdentificationById($parameters['emailFrom']);
+    $userEmail = User::getEmailDb($parameters['emailFrom']);
+    $parameters['emailFromName'] = $userEmailName;
+    $parameters['emailFrom'] = $userEmail;
+} else if(!empty($parameters['emailFrom']) && filter_var($parameters['emailFrom'], FILTER_VALIDATE_EMAIL)) {
+    $userEmail = $parameters['emailFrom'];
+    $userEmailName = $parameters['emailFromName'] ?? '';
 }
 
+// Always use system email as the actual From address to avoid SMTP domain verification issues
+// The user's email will be added as Reply-To by the sendSiteEmail function
 if(empty($parameters['emailFrom']) || !filter_var($parameters['emailFrom'], FILTER_VALIDATE_EMAIL)){
     $parameters['emailFrom'] = $config->getContactEmail();
 }
