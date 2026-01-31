@@ -5938,9 +5938,34 @@ if (!class_exists('Video')) {
             return true;
         }
 
+        /**
+         * Check if an operation is rate limited using file-based locking
+         * @param string $lockName Unique identifier for the lock
+         * @param int $cooldownSeconds Seconds to wait between operations
+         * @return bool True if rate limited (should skip), false if allowed to proceed
+         */
+        private static function isRateLimited($lockName, $cooldownSeconds = 10)
+        {
+            $lockFile = getTmpDir() . '_' . $lockName . '.lock';
+            if (file_exists($lockFile)) {
+                $lastRun = (int)@file_get_contents($lockFile);
+                $timeSinceLastRun = time() - $lastRun;
+                if ($timeSinceLastRun < $cooldownSeconds) {
+                    _error_log("Video::{$lockName} rate limited - last run was {$timeSinceLastRun} seconds ago");
+                    return true;
+                }
+            }
+            @file_put_contents($lockFile, time());
+            return false;
+        }
+
         public static function clearCache($videos_id, $deleteThumbs = false, $clearFirstPageCache = false, $async = true)
         {
             global $global;
+
+            if (self::isRateLimited('clearCache_video_' . intval($videos_id))) {
+                return false;
+            }
 
             $video = new Video("", "", $videos_id);
             $filename = $video->getFilename();
@@ -5965,16 +5990,9 @@ if (!class_exists('Video')) {
 
         public static function _clearCache($videos_id, $clearFirstPageCache = false, $schedule = true)
         {
-            // Add rate limiting to prevent excessive cache clearing
-            static $lastClearTime = array();
-            $currentTime = time();
-            $cacheKey = $videos_id . '_' . ($clearFirstPageCache ? '1' : '0') . '_' . ($schedule ? '1' : '0');
-
-            if (isset($lastClearTime[$cacheKey]) && ($currentTime - $lastClearTime[$cacheKey]) < 5) {
-                _error_log("Video:_clearCache($videos_id) rate limited - last clear was " . ($currentTime - $lastClearTime[$cacheKey]) . " seconds ago");
+            if (self::isRateLimited('_clearCache_video_' . intval($videos_id))) {
                 return false;
             }
-            $lastClearTime[$cacheKey] = $currentTime;
 
             //_error_log("Video:clearCache($videos_id)");
             $video = new Video("", "", $videos_id);
