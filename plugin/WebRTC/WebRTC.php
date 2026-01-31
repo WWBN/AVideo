@@ -237,8 +237,8 @@ class WebRTC extends PluginAbstract
                 error_log("Port $obj->port is already open");
                 return false;
             }else{
-                error_log("Port $obj->port is not open, start the server");
                 $command = "{$file} --port={$obj->port} > $log ";
+                error_log("Port $obj->port is not open, start the server with command: $command");
                 return execAsync($command);
             }
         } else {
