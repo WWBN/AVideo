@@ -5969,7 +5969,7 @@ if (!class_exists('Video')) {
             static $lastClearTime = array();
             $currentTime = time();
             $cacheKey = $videos_id . '_' . ($clearFirstPageCache ? '1' : '0') . '_' . ($schedule ? '1' : '0');
-            
+
             if (isset($lastClearTime[$cacheKey]) && ($currentTime - $lastClearTime[$cacheKey]) < 5) {
                 _error_log("Video:_clearCache($videos_id) rate limited - last clear was " . ($currentTime - $lastClearTime[$cacheKey]) . " seconds ago");
                 return false;
