@@ -21,8 +21,17 @@ $videos_id = intval($argv[1]);
 $deleteThumbs = filter_var($argv[2], FILTER_VALIDATE_BOOLEAN);
 $clearFirstPageCache = filter_var($argv[3], FILTER_VALIDATE_BOOLEAN);
 
+// Handle thumbnails deletion if required
+if ($deleteThumbs) {
+    $video = new Video("", "", $videos_id);
+    $filename = $video->getFilename();
+    if (!empty($filename)) {
+        Video::deleteThumbs($filename, true);
+    }
+}
+
 // Call the clearCache function with the provided arguments
-$obj->clearCache = Video::_clearCache($videos_id, $deleteThumbs, $clearFirstPageCache, false);
+$obj->clearCache = Video::_clearCache($videos_id, $clearFirstPageCache, false);
 $obj->error = false;
 $obj->msg = "Cache cleared successfully";
 
