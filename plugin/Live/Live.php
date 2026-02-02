@@ -785,18 +785,25 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function getControlOrPublic($key, $live_servers_id = 0)
     {
         global $global;
+        _error_log("Live::getControlOrPublic: key={$key}, live_servers_id={$live_servers_id}");
         if (isDocker()) {
+            _error_log("Live::getControlOrPublic: isDocker=true, returning http://live:8080/control/");
             return 'http://live:8080/control/';
         }
         $obj = AVideoPlugin::getObjectData("Live");
+        _error_log("Live::getControlOrPublic: server_type=" . json_encode(@$obj->server_type));
         if (empty($obj->server_type->value)) {
             $row = LiveTransmitionHistory::getLatest($key, $live_servers_id);
+            _error_log("Live::getControlOrPublic: LiveTransmitionHistory::getLatest row=" . json_encode($row));
             if (!empty($row['domain'])) {
                 $url = "{$row['domain']}control.json.php";
-                return addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
+                $url = addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
+                _error_log("Live::getControlOrPublic: Using domain from history, url={$url}");
+                return $url;
             }
         }
         $domain = self::getControl($live_servers_id);
+        _error_log("Live::getControlOrPublic: Using getControl, domain={$domain}");
         return $domain;
     }
 
@@ -832,9 +839,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getStartRecordURL($key, $live_servers_id = 0)
     {
+        _error_log("Live::getStartRecordURL: key={$key}, live_servers_id={$live_servers_id}");
         $domain = self::getControlOrPublic($key, $live_servers_id);
+        _error_log("Live::getStartRecordURL: getControlOrPublic returned domain={$domain}");
         if (isDocker()) {
             $domain .= 'record/start';
+            _error_log("Live::getStartRecordURL: isDocker, domain={$domain}");
         }
         $app = self::getAPPName();
         $domain = addQueryStringParameter($domain, 'command', 'record_start');
@@ -842,6 +852,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $domain = addQueryStringParameter($domain, 'app', $app);
         $domain = addQueryStringParameter($domain, 'name', $key);
         $domain = addQueryStringParameter($domain, 'token', getToken(60));
+        _error_log("Live::getStartRecordURL: Final URL={$domain}");
         return $domain;
     }
 
@@ -861,11 +872,13 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function controlRecording($key, $live_servers_id, $start = true, $try = 0)
     {
+        _error_log("Live::controlRecording START: key={$key}, live_servers_id={$live_servers_id}, start={$start}, try={$try}");
         if ($start) {
             $url = self::getStartRecordURL($key, $live_servers_id);
         } else {
             $url = self::getStopRecordURL($key, $live_servers_id);
         }
+        _error_log("Live::controlRecording: Calling url_get_contents with url={$url}");
         $response = url_get_contents($url, '', 5, true);
         _error_log("Live:controlRecording {$url} {$live_servers_id} - [{$response}]");
         $obj = new stdClass();
@@ -1115,15 +1128,21 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function getControl($live_servers_id = -1)
     {
         $obj = AVideoPlugin::getObjectData("Live");
+        _error_log("Live::getControl: live_servers_id={$live_servers_id}, useLiveServers=" . json_encode(@$obj->useLiveServers));
         if (!empty($obj->useLiveServers) && !empty($live_servers_id)) {
             if ($live_servers_id < 0) {
                 $live_servers_id = self::getCurrentLiveServersId();
+                _error_log("Live::getControl: getCurrentLiveServersId returned {$live_servers_id}");
             }
             $ls = new Live_servers($live_servers_id);
-            if (!empty($ls->getControlURL())) {
-                return $ls->getControlURL();
+            $lsControlURL = $ls->getControlURL();
+            _error_log("Live::getControl: Live_servers({$live_servers_id}) controlURL={$lsControlURL}");
+            if (!empty($lsControlURL)) {
+                _error_log("Live::getControl: Returning Live_servers controlURL={$lsControlURL}");
+                return $lsControlURL;
             }
         }
+        _error_log("Live::getControl: Returning plugin controlURL={$obj->controlURL}");
         return $obj->controlURL;
     }
 
