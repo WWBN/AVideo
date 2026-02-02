@@ -259,7 +259,7 @@ class ADs extends PluginAbstract
                 'url' => $txt['url'],
                 'title' => $txt['title'],
                 'order' => $txt['order'],
-                'imageURL' => "{$paths['url']}{$fileName}.png",
+                'imageURL' => "{$paths['url']}{$fileName}.png?cache=" . filemtime($value),
                 'imagePath' => $value
             ];
             $fileName = '';
