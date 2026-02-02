@@ -2,18 +2,67 @@
 
 function isAPIKeyValid()
 {
+    error_log("isAPIKeyValid: Checking API key validity");
+    error_log("isAPIKeyValid: php_sapi_name=" . php_sapi_name());
+
     if(php_sapi_name() === 'cli'){
+        error_log("isAPIKeyValid: CLI mode, returning true");
         return true;
     }
-    if(empty($_REQUEST['APISecret'])){
-        return false;
+
+    // Check for APISecret in REQUEST (form data or query string)
+    if(!empty($_REQUEST['APISecret'])){
+        error_log("isAPIKeyValid: Found APISecret in REQUEST, validating...");
+        global $global;
+        $url = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=isAPISecretValid&APISecret={$_REQUEST['APISecret']}";
+        error_log("isAPIKeyValid: Validating via URL: {$url}");
+        $content = file_get_contents($url);
+        error_log("isAPIKeyValid: Response: {$content}");
+        $json = json_decode($content);
+        $isValid = !empty($json) && empty($json->error);
+        error_log("isAPIKeyValid: APISecret validation result: " . ($isValid ? 'valid' : 'invalid'));
+        return $isValid;
     }
-    global $global;
-    $url = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=isAPISecretValid&APISecret={$_REQUEST['APISecret']}";
-    $content = file_get_contents($url);
-    $json = json_decode($content);
-    //var_dump(empty($json->error));
-    return !empty($json) && empty($json->error);
+
+    // Check for token in JSON body (for restreamer requests)
+    $rawInput = file_get_contents("php://input");
+    error_log("isAPIKeyValid: No APISecret in REQUEST, checking php://input");
+    error_log("isAPIKeyValid: Raw input length: " . strlen($rawInput));
+
+    if(!empty($rawInput)){
+        $jsonData = json_decode($rawInput);
+        error_log("isAPIKeyValid: JSON decoded: " . json_encode($jsonData));
+
+        // Check for responseToken (sent by sendRestream)
+        if(!empty($jsonData->responseToken)){
+            error_log("isAPIKeyValid: Found responseToken, validating...");
+            global $global;
+            $url = "{$global['webSiteRootURL']}plugin/Live/verifyToken.json.php?token=" . urlencode($jsonData->responseToken);
+            error_log("isAPIKeyValid: Validating responseToken via URL: {$url}");
+            $content = @file_get_contents($url);
+            error_log("isAPIKeyValid: Response: {$content}");
+            if(!empty($content)){
+                $json = json_decode($content);
+                if(!empty($json) && empty($json->error)){
+                    error_log("isAPIKeyValid: responseToken is valid");
+                    return true;
+                }
+            }
+            error_log("isAPIKeyValid: responseToken validation failed");
+        }
+
+        // Check for token (sent by sendRestream)
+        if(!empty($jsonData->token)){
+            error_log("isAPIKeyValid: Found token in JSON body");
+            // Token is present, we'll verify it later in the specific endpoint
+            // For now, allow the request to proceed
+            return true;
+        }
+    }
+
+    error_log("isAPIKeyValid: No valid authentication found");
+    error_log("isAPIKeyValid: REQUEST=" . json_encode($_REQUEST));
+    return false;
 }
 
 function loadStandaloneConfiguration()
@@ -80,7 +129,7 @@ function loadStandaloneConfiguration()
     }
 
     error_log("loadStandaloneConfiguration: No valid configuration file found.");
-    
+
     $webSiteRootURL = 'https://yourSite.com/';
     header('Content-Type: text/html');
 

@@ -57,7 +57,13 @@ $isATest = false;
 
 $logFile = $logFileLocation . "ffmpeg_restreamer_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
 
+error_log("restreamer.json.php: Starting, about to load functionsStandAlone.php");
+error_log("restreamer.json.php: REQUEST=" . json_encode($_REQUEST));
+error_log("restreamer.json.php: php://input preview=" . substr(file_get_contents("php://input"), 0, 500));
+
 require_once __DIR__ . "/../../../objects/functionsStandAlone.php";
+
+error_log("restreamer.json.php: functionsStandAlone.php loaded successfully");
 
 if (empty($streamerURL)) {
     die('streamerURL not defined');
