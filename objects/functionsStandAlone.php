@@ -24,9 +24,27 @@ function isAPIKeyValid()
         return $isValid;
     }
 
+    // Check for token in REQUEST (query string) - used by control.json.php
+    if(!empty($_REQUEST['token'])){
+        error_log("isAPIKeyValid: Found token in REQUEST (query string), validating...");
+        global $global;
+        $url = "{$global['webSiteRootURL']}plugin/Live/verifyToken.json.php?token=" . urlencode($_REQUEST['token']);
+        error_log("isAPIKeyValid: Validating token via URL: {$url}");
+        $content = @file_get_contents($url);
+        error_log("isAPIKeyValid: Response: {$content}");
+        if(!empty($content)){
+            $json = json_decode($content);
+            if(!empty($json) && empty($json->error)){
+                error_log("isAPIKeyValid: token is valid");
+                return true;
+            }
+        }
+        error_log("isAPIKeyValid: token validation failed");
+    }
+
     // Check for token in JSON body (for restreamer requests)
     $rawInput = file_get_contents("php://input");
-    error_log("isAPIKeyValid: No APISecret in REQUEST, checking php://input");
+    error_log("isAPIKeyValid: No APISecret/token in REQUEST, checking php://input");
     error_log("isAPIKeyValid: Raw input length: " . strlen($rawInput));
 
     if(!empty($rawInput)){
