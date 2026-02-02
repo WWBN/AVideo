@@ -20,7 +20,7 @@
     "codemirror": "^6.0.2",
     "croppie": "^2.6.5",
     "date-fns": "^4.1.0",
-    "dexie": "^4.2.1",
+    "dexie": "^4.3.0",
     "dom-walk": "^0.1.2",
     "flatpickr": "^4.6.13",
     "flickity": "^3.0.0",
