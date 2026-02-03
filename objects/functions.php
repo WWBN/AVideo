@@ -6680,6 +6680,9 @@ function getCSSAnimationClassAndStyle($type = 'animate__flipInX', $loaderSequenc
 
 function isHTMLEmpty($html_string)
 {
+    if ($html_string === null || $html_string === '') {
+        return true;
+    }
     // Remove HTML comments
     $html_string_no_comments = preg_replace('/<!--(.*?)-->/', '', $html_string);
     $html_string_no_tags = strip_specific_tags($html_string_no_comments, ['br', 'p', 'span', 'div'], false);
