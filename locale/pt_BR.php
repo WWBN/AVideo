@@ -2434,3 +2434,4 @@ $t['Progress is updated automatically every few minutes.'] = 'O progresso é atu
 $t['Payment Information'] = 'Informações de Pagamento';
 $t['Click to enlarge'] = 'Clique para ampliar';
 $t['Pix Code'] = 'Código Pix';
+$t['Progress'] = 'Progresso';
