@@ -4064,6 +4064,39 @@ class API extends PluginAbstract
     }
 
     /**
+     * Authenticate user via POST (same as GET signIn).
+     */
+    #[OA\Post(
+        path: "/api/signIn",
+        summary: "Authenticate user and return session (POST)",
+        description: "Authenticates a user using username and password (raw or encoded). Returns session token or error.",
+        tags: ["Users"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                type: "object",
+                properties: [
+                    new OA\Property(property: "user", type: "string", description: "Username of the user."),
+                    new OA\Property(property: "pass", type: "string", description: "Password of the user."),
+                    new OA\Property(property: "encodedPass", type: "boolean", description: "Set to true if password is already encrypted.")
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "JSON with user authentication data or error",
+                content: new OA\JsonContent(type: "string", example: "{\"error\":false,\"message\":\"Logged in\",\"session_id\":\"abcd1234\"}")
+            )
+        ]
+    )]
+
+    public function set_api_signIn($parameters)
+    {
+        return $this->get_api_signIn($parameters);
+    }
+
+    /**
      * Register a new user on the platform.
      *
      * @param array $parameters
