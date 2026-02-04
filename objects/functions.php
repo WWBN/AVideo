@@ -2649,7 +2649,7 @@ function allowOrigin()
 {
     global $global;
     cleanUpAccessControlHeader();
-    
+
     // Handle CORS preflight requests (OPTIONS) first - must exit early
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header("Access-Control-Allow-Origin: *");
@@ -2660,7 +2660,7 @@ function allowOrigin()
         http_response_code(200);
         exit;
     }
-    
+
     // For regular requests, allow the requesting origin
     $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? @$_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
     if (empty($HTTP_ORIGIN)) {
