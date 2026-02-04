@@ -1,0 +1,45 @@
+name: 'Close stale issues and PRs'
+
+on:
+  schedule:
+    - cron: '30 1 * * *'  # Executa diariamente às 1:30 UTC
+  workflow_dispatch:  # Permite executar manualmente
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          # Configurações gerais
+          days-before-stale: 30
+          days-before-close: 3
+
+          # Labels
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+          exempt-issue-labels: 'pinned,security,bug,enhancement'
+          exempt-pr-labels: 'pinned,security'
+
+          # Mensagens para Issues
+          stale-issue-message: >
+            This issue has been automatically marked as stale because it has not had
+            recent activity. It will be closed in 3 days if no further activity occurs.
+            Thank you for your contributions.
+          close-issue-message: >
+            This issue has been automatically closed due to inactivity.
+            Feel free to reopen if you still need help.
+
+          # Mensagens para PRs
+          stale-pr-message: >
+            This pull request has been automatically marked as stale because it has not had
+            recent activity. It will be closed in 3 days if no further activity occurs.
+          close-pr-message: false
+
+          # Limites por execução (importante para repos com muitas issues!)
+          # Pode usar até 30000, mas 1000 é suficiente para limpar o backlog
+          operations-per-run: 1000
