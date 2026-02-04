@@ -43,6 +43,10 @@ $matches = [];
 if (preg_match('#^/api/([^/]+)#', $uri, $matches)) {
     $apiName = $matches[1];
 
+    // Set APIName from URL path so get.json.php and set.json.php can use it
+    $_GET['APIName'] = $apiName;
+    $_REQUEST['APIName'] = $apiName;
+
     switch ($method) {
         case 'GET':
             include __DIR__ . "/get.json.php";
