@@ -16,19 +16,20 @@ jobs:
       - uses: actions/stale@v9
         with:
           # Configurações gerais
-          days-before-stale: 30
-          days-before-close: 3
+          days-before-stale: 7
+          days-before-close: 2
 
           # Labels
           stale-issue-label: 'stale'
           stale-pr-label: 'stale'
-          exempt-issue-labels: 'pinned,security,bug,enhancement'
-          exempt-pr-labels: 'pinned,security'
+          # Apenas issues/PRs com label "pinned" serão ignorados pelo stale
+          exempt-issue-labels: 'pinned'
+          exempt-pr-labels: 'pinned'
 
           # Mensagens para Issues
           stale-issue-message: >
             This issue has been automatically marked as stale because it has not had
-            recent activity. It will be closed in 3 days if no further activity occurs.
+            recent activity. It will be closed in 2 days if no further activity occurs.
             Thank you for your contributions.
           close-issue-message: >
             This issue has been automatically closed due to inactivity.
@@ -37,7 +38,7 @@ jobs:
           # Mensagens para PRs
           stale-pr-message: >
             This pull request has been automatically marked as stale because it has not had
-            recent activity. It will be closed in 3 days if no further activity occurs.
+            recent activity. It will be closed in 2 days if no further activity occurs.
           close-pr-message: false
 
           # Limites por execução (importante para repos com muitas issues!)
