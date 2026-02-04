@@ -4059,6 +4059,14 @@ class API extends PluginAbstract
     {
         global $global;
         $this->getToPost();
+        // Also copy $parameters to $_POST for POST requests with JSON body
+        if (!empty($parameters) && is_array($parameters)) {
+            foreach ($parameters as $key => $value) {
+                if (!isset($_POST[$key])) {
+                    $_POST[$key] = $value;
+                }
+            }
+        }
         require_once $global['systemRootPath'] . 'objects/login.json.php';
         exit;
     }
