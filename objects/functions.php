@@ -2649,18 +2649,31 @@ function allowOrigin()
 {
     global $global;
     cleanUpAccessControlHeader();
+    
+    // Handle CORS preflight requests (OPTIONS) first - must exit early
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, ua-resolution, APISecret, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
+        header("Access-Control-Max-Age: 86400"); // Cache preflight response for 24 hours
+        header('Access-Control-Allow-Private-Network: true');
+        http_response_code(200);
+        exit;
+    }
+    
+    // For regular requests, allow the requesting origin
     $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? @$_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
     if (empty($HTTP_ORIGIN)) {
+        // Fallback for Google IMA SDK (video ads)
         $server = parse_url($global['webSiteRootURL']);
         header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');
     } else {
         header("Access-Control-Allow-Origin: " . $HTTP_ORIGIN);
     }
+
     header('Access-Control-Allow-Private-Network: true');
-    header('Access-Control-Request-Private-Network: true');
-    //header("Access-Control-Allow-Credentials: true");
-    header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT,DELETE");
-    header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,ua-resolution,Authorization");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, HEAD");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, ua-resolution, APISecret, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
 }
 
 function cleanUpAccessControlHeader()
