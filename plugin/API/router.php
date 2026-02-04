@@ -1,6 +1,22 @@
 <?php
 
-allowOrigin();
+// CORS handling - must be done before any other processing
+$HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? @$_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
+if (empty($HTTP_ORIGIN)) {
+    header('Access-Control-Allow-Origin: *');
+} else {
+    header("Access-Control-Allow-Origin: " . $HTTP_ORIGIN);
+}
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, HEAD");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, ua-resolution, APISecret, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
+header('Access-Control-Allow-Private-Network: true');
+
+// Handle preflight OPTIONS request immediately
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header("Access-Control-Max-Age: 86400"); // Cache preflight for 24 hours
+    http_response_code(200);
+    exit;
+}
 
 error_reporting(E_ALL);           // Report all types of errors
 ini_set('display_errors', '1');
