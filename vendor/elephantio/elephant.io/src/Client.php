@@ -63,14 +63,18 @@ class Client
      */
     public function connect()
     {
-        try {
-            $this->logger->info('Connecting to server');
-            $this->engine->connect();
-            $this->logger->info('Connected to server');
-        } catch (SocketException $e) {
-            $this->logger->error('Could not connect to server', ['exception' => $e]);
+        if (!$this->engine->connected()) {
+            try {
+                $this->logger->info('Connecting to server');
+                $this->engine->connect();
+                $this->logger->info('Connected to server');
+            } catch (SocketException $e) {
+                $this->logger->error('Could not connect to server', ['exception' => $e]);
 
-            throw $e;
+                throw $e;
+            }
+        } else {
+            $this->logger->info('No connect attempt made, already connected');
         }
 
         return $this;
@@ -89,6 +93,16 @@ class Client
         }
 
         return $this;
+    }
+
+    /**
+     * Check if connected to server.
+     *
+     * @return bool
+     */
+    public function isConnected()
+    {
+        return $this->engine->connected();
     }
 
     /**

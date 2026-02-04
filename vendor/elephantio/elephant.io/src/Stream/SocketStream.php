@@ -111,6 +111,12 @@ class SocketStream extends Stream
 
     public function readable()
     {
+        // PATCH START: Native disconnect detection
+        if (is_resource($this->handle) && feof($this->handle)) {
+            return false;
+        }
+        // PATCH END
+
         if ($metadata = $this->readMetadata()) {
             return $metadata['eof'] ? false : true;
         }

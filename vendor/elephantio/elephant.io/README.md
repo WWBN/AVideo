@@ -218,6 +218,10 @@ Elephant.io client (`ElephantIO\Client`) provides the following api methods:
 
   Disconnect from server and free some resources.
 
+* `isConnected()`
+
+  Check server connection state, return `true` if connected, `false` otherwise.
+
 * `of($namespace)`
 
   Connect to a namespace, see `connect()` above for possible errors.

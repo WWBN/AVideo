@@ -31,7 +31,7 @@ class Polling extends Transport
     public const MIMETYPE_PLAIN_TEXT = 'text/plain';
 
     /**
-     * @var ?array<tring, mixed>
+     * @var ?array<string, mixed>
      */
     protected $result = null;
 
