@@ -630,11 +630,15 @@ async function updateSocketUserCard(userData, currentResourceID, validAnchorHref
 }
 
 function socketNewConnection(json) {
-    setUserOnlineStatus(json.msg.users_id);
+    if (json?.msg?.users_id) {
+        setUserOnlineStatus(json.msg.users_id);
+    }
 }
 
 function socketDisconnection(json) {
-    setUserOnlineStatus(json.msg.users_id);
+    if (json?.msg?.users_id) {
+        setUserOnlineStatus(json.msg.users_id);
+    }
 }
 
 function setInitialOnlineStatus() {
