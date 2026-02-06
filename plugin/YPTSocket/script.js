@@ -312,7 +312,7 @@ function socketConnectIO() {
             if (data.autoUpdateOnHTML) {
                 socketAutoUpdateOnHTML(data.autoUpdateOnHTML);
             }
-            console.log("📩 Socket.IO message received MSG_BATCH:", data);
+            // console.log("📩 Socket.IO message received MSG_BATCH:", data);
             data.messages.forEach(function (message, index) {
                 processSocketJson(message);
                 if(message.users_id){
