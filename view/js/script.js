@@ -2813,7 +2813,7 @@ function isUserOnline(users_id) {
     users_id = parseInt(users_id);
 
     if (typeof users_id_online === 'undefined' || !users_id_online) {
-        console.log('isUserOnline', users_id);
+        //console.log('isUserOnline', users_id);
         return false;
     }
 
