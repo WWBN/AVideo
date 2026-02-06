@@ -626,6 +626,30 @@ function playerIsReady() {
     return (typeof player !== 'undefined' && player.isReady_);
 }
 
+function playerIsReadyToPlay() {
+    if (!playerIsReady()) {
+        return false;
+    }
+    // For HLS streams, check if we have loaded metadata or quality levels
+    try {
+        var sources = player.currentSources();
+        if (sources && sources.length > 0) {
+            var src = sources[0].src || '';
+            // Check if it's an HLS stream
+            if (src.includes('.m3u8') || src.includes('m3u8')) {
+                // Check if player has loaded the HLS manifest
+                if (player.readyState() < 1) {
+                    // HAVE_NOTHING or less - not ready
+                    return false;
+                }
+            }
+        }
+    } catch (e) {
+        // If we can't determine, assume ready
+    }
+    return true;
+}
+
 var promisePlaytry = 20;
 var promisePlaytryNetworkFail = 0;
 var promisePlayTimeoutTime = 500;
@@ -644,7 +668,7 @@ function playerPlay(currentTime) {
     if (currentTime) {
         //console.log("playerPlay time:", currentTime);
     }
-    if (!playerIsReady()) {
+    if (!playerIsReadyToPlay()) {
         playerPlayTimeout = setTimeout(function () {
             playerPlay(currentTime);
         }, 200);
