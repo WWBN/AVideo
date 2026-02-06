@@ -105,8 +105,7 @@ function getSearchParam(param) {
 function forwardToIframe(data) {
     var iframe = document.getElementById('avideoModalIframe'); // Get the iframe by ID
     if (iframe && iframe.contentWindow) {
-        console.trace('forwardToIframe');
-        console.log('forwardToIframe', data);
+        // Debug: console.log('[AVideo] forwardToIframe', data);
         iframe.contentWindow.postMessage(data, '*'); // Send the message to the iframe, replace '*' with the iframe's origin for security
     }
 }
@@ -115,7 +114,7 @@ function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 if (typeof String.prototype.replaceAll === "undefined") {
-    console.log('replaceAll is undefined');
+    // Polyfill for older browsers
     String.prototype.replaceAll = function (match, _replace) {
         return this.replace(new RegExp(escapeRegExp(match), 'g'), _replace);
     }

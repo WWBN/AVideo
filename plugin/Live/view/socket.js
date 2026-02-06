@@ -1,10 +1,11 @@
 document.addEventListener('socketLiveONCallback', function(event) {
     let json = event.detail;
     if(json === null){
-        console.error('socketLiveONCallback socket EventListener error', event);
+        console.error('[Live] socketLiveONCallback: null event detail');
         return false;
     }
-    console.log('socketLiveONCallback socket EventListener', json);
+    // Debug only when needed
+    // console.log('[Live] ON callback:', json.key);
     if (typeof json === 'string') {
         try {
             json = JSON.parse(json);
@@ -18,12 +19,12 @@ document.addEventListener('socketLiveONCallback', function(event) {
         if(typeof json.json !== 'undefined' && typeof json.json.key !== 'undefined' ){
             json = json.json;
         }else{
-            console.error("socketLiveONCallback Invalid JSON key not found:", json);
-            return; // Exit the listener if JSON parsing fails
+            console.error('[Live] socketLiveONCallback: missing key in JSON');
+            return;
         }
     }
 
-    console.log('socketLiveONCallback live plugin', json);
+    // console.log('[Live] Processing ON event for:', json.key);
 
     if (typeof processLiveStats == 'function') {
         processLiveStats(json.stats);
@@ -37,7 +38,7 @@ document.addEventListener('socketLiveONCallback', function(event) {
         selector += ', .liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
         selector += ', .liveViewStatusClass_' + json.key;
         selector += ', .liveViewStatusClass_' + json.cleanKey;
-        console.log('socketLiveONCallback ', selector);
+        // console.log('[Live] Updating online status for:', json.key);
         onlineLabelOnline(selector);
     }
 
@@ -60,11 +61,11 @@ document.addEventListener('socketLiveONCallback', function(event) {
 document.addEventListener('socketLiveOFFCallback', function(event) {
     let json = event.detail;
     if(json === null){
-        console.error('socketLiveOFFCallback socket EventListener error', event);
-        console.trace();
+        console.error('[Live] socketLiveOFFCallback: null event detail');
         return false;
     }
-    console.log('socketLiveOFFCallback socket EventListener', json);
+    // Debug only when needed
+    // console.log('[Live] OFF callback:', json.key);
 
     if (typeof json === 'string') {
         try {
@@ -79,12 +80,12 @@ document.addEventListener('socketLiveOFFCallback', function(event) {
         if(typeof json.json !== 'undefined' && typeof json.json.key !== 'undefined' ){
             json = json.json;
         }else{
-            console.error("socketLiveOFFCallback Invalid JSON key not found:", json);
-            return; // Exit the listener if JSON parsing fails
+            console.error('[Live] socketLiveOFFCallback: missing key in JSON');
+            return;
         }
     }
 
-    console.log('socketLiveOFFCallback live socket', json);
+    // console.log('[Live] Processing OFF event for:', json.key);
 
     let selector = '.live_' + json.live_servers_id + "_" + json.key;
     selector += ', .liveVideo_live_' + json.live_servers_id + "_" + json.key;

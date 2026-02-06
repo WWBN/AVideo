@@ -38,7 +38,9 @@ function appendOnPlayer(element) {
 
 function checkResolutionsLabelFix() {
     if (!$('#mainVideo .vjs-quality-selector .vjs-menu-item-text').length) {
-        console.log('[AVIDEO-HLS] Player loadedmetadata reloaded - no quality menu items found');
+        if (typeof hlsLog === 'function') {
+            hlsLog('[AVIDEO-HLS] Reloading player - no quality menu items found');
+        }
         player.load();
     }
 }
@@ -52,7 +54,7 @@ function removeErrorClassIfVideoActive() {
         if (!player.paused() || player.currentTime() > 0) {
             $(player.el()).removeClass('vjs-error');
             player.error(null);
-            console.log('[AVIDEO] Error class removed - video is active');
+            // Error class removed while video is playing
             return true;
         }
     }
