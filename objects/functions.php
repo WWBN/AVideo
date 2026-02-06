@@ -2652,23 +2652,48 @@ function allowOrigin()
 
     // Handle CORS preflight requests (OPTIONS) first - must exit early
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        header("Access-Control-Allow-Origin: *");
+        // For Private Network Access (PNA) preflight from public origins like imasdk.googleapis.com
+        $requestOrigin = $_SERVER['HTTP_ORIGIN'] ?? '*';
+        header("Access-Control-Allow-Origin: " . $requestOrigin);
         header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, HEAD");
-        header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, ua-resolution, APISecret, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, ua-resolution, APISecret, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network");
         header("Access-Control-Max-Age: 86400"); // Cache preflight response for 24 hours
+        // Required for Private Network Access (Chrome 104+)
         header('Access-Control-Allow-Private-Network: true');
-        http_response_code(200);
+        if (!empty($_SERVER['HTTP_ORIGIN'])) {
+            header("Access-Control-Allow-Credentials: true");
+        }
+        http_response_code(204); // No Content - more appropriate for preflight
         exit;
     }
 
     // For regular requests, allow the requesting origin
     $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? @$_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
+
+    // Handle Google IMA SDK and other known ad providers
+    $allowedAdOrigins = [
+        'imasdk.googleapis.com',
+        'googleads.g.doubleclick.net',
+        'securepubads.g.doubleclick.net'
+    ];
+
     if (empty($HTTP_ORIGIN)) {
-        // Fallback for Google IMA SDK (video ads)
-        $server = parse_url($global['webSiteRootURL']);
-        header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');
+        // Default to wildcard for API endpoints when no origin specified
+        header('Access-Control-Allow-Origin: *');
     } else {
+        // Check if request is from a known ad provider
+        $originHost = parse_url($HTTP_ORIGIN, PHP_URL_HOST);
+        $isAdProvider = false;
+        foreach ($allowedAdOrigins as $adOrigin) {
+            if ($originHost === $adOrigin || str_ends_with($originHost, '.' . $adOrigin)) {
+                $isAdProvider = true;
+                break;
+            }
+        }
+
+        // Allow the requesting origin
         header("Access-Control-Allow-Origin: " . $HTTP_ORIGIN);
+        header("Access-Control-Allow-Credentials: true");
     }
 
     header('Access-Control-Allow-Private-Network: true');
@@ -2679,14 +2704,20 @@ function allowOrigin()
 function cleanUpAccessControlHeader()
 {
     if (!headers_sent()) {
-        foreach (headers_list() as $header) {
-            if (preg_match('/Access-Control-Allow-Origin/i', $header)) {
-                $parts = explode(':', $header);
-                header_remove($parts[0]);
-            }
+        // Remove all Access-Control headers to prevent duplicates
+        $headersToRemove = [
+            'Access-Control-Allow-Origin',
+            'Access-Control-Allow-Methods',
+            'Access-Control-Allow-Headers',
+            'Access-Control-Allow-Credentials',
+            'Access-Control-Allow-Private-Network',
+            'Access-Control-Max-Age'
+        ];
+
+        foreach ($headersToRemove as $headerName) {
+            header_remove($headerName);
         }
     }
-    header('Access-Control-Allow-Origin: ');  // This will essentially "remove" the header
 }
 
 function getAdsDebugTag($adCode)

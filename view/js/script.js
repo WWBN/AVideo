@@ -1143,8 +1143,8 @@ function setCurrentTime(currentTime) {
                 return false; // if is trying to play, only update if the time is greater
             }
         }
-        console.trace();
-        console.log("setCurrentTime 1: ", currentTime);
+        //console.trace();
+        console.debug("setCurrentTime 1: ", currentTime);
         player.currentTime(currentTime);
         initdone = false;
         // wait for video metadata to load, then set time
@@ -1156,8 +1156,8 @@ function setCurrentTime(currentTime) {
         // events: https://www.w3.org/TR/html5/embedded-content-0.html#mediaevents
         player.on("canplaythrough", function () {
             if (!initdone) {
-                console.trace();
-                console.log('setCurrentTime canplaythrough', currentTime);
+                //console.trace();
+                console.debug('setCurrentTime canplaythrough', currentTime);
                 player.currentTime(currentTime);
                 initdone = true;
             }
@@ -4003,9 +4003,19 @@ async function sendAVideoMobileMessage(type, value) {
         }
     } else {
         try {
-            window.top.postMessage({ type: type, value: value }, '*');
+            // Ensure value is serializable (no functions, DOM nodes, etc.)
+            const serializableValue = JSON.parse(JSON.stringify(value, (key, val) => {
+                if (typeof val === 'function' || val instanceof HTMLElement) {
+                    return undefined;
+                }
+                return val;
+            }));
+            window.top.postMessage({ type: type, value: serializableValue }, '*');
         } catch (error) {
-            console.log('sendAVideoMobileMessage postMessage error', error);
+            // Silently ignore serialization errors - these are expected for non-cloneable values
+            if (!(error instanceof DOMException && error.name === 'DataCloneError')) {
+                console.debug('sendAVideoMobileMessage postMessage error', error.message);
+            }
         }
     }
 }
@@ -4267,40 +4277,65 @@ function templateSelectionAndResult(state) {
 };
 
 function preloadVmapAndUpdateAdTag(adTagUrl) {
-    console.log('ADS: preloadVmapAndUpdateAdTag:', adTagUrl);
+    console.debug('ADS: preloadVmapAndUpdateAdTag:', adTagUrl);
 
     fetch(adTagUrl)
         .then(response => response.text())
         .then(vmapXml => {
-            console.log('ADS: preloadVmapAndUpdateAdTag: VMAP Loaded');
+            console.debug('ADS: preloadVmapAndUpdateAdTag: VMAP Loaded');
 
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(vmapXml, "text/xml");
+
+            // Check for parsing errors
+            const parseError = xmlDoc.querySelector('parsererror');
+            if (parseError) {
+                console.debug('ADS: preloadVmapAndUpdateAdTag: Invalid VMAP XML');
+                return Promise.resolve(null); // No ads available
+            }
+
             // Extracting the VAST URL from <vmap:AdTagURI>
             const vastUrlElement = xmlDoc.querySelector('AdTagURI');
-            if (vastUrlElement) {
-                const vastUrl = vastUrlElement.textContent;
-                console.log('ADS: preloadVmapAndUpdateAdTag: VMAP vastUrl', vastUrl);
+            if (vastUrlElement && vastUrlElement.textContent.trim()) {
+                const vastUrl = vastUrlElement.textContent.trim();
+                console.debug('ADS: preloadVmapAndUpdateAdTag: VMAP vastUrl', vastUrl);
                 return fetch(vastUrl);
             } else {
-                throw new Error("Failed to find <AdTagURI> element in VMAP");
+                // No ads configured - this is normal, not an error
+                console.debug('ADS: preloadVmapAndUpdateAdTag: No ads configured in VMAP');
+                return Promise.resolve(null);
             }
         })
-        .then(response => response.text())
+        .then(response => {
+            // Handle case when no ads are configured (response is null)
+            if (!response) {
+                return null;
+            }
+            return response.text();
+        })
         .then(vastXml => {
-            console.log('ADS: preloadVmapAndUpdateAdTag: VAST Loaded');
+            // Skip if no VAST content (no ads configured)
+            if (!vastXml) {
+                console.debug('ADS: preloadVmapAndUpdateAdTag: No VAST content available');
+                return;
+            }
+
+            console.debug('ADS: preloadVmapAndUpdateAdTag: VAST Loaded');
 
             const inlineVmapTag = 'data:text/xml;charset=utf-8,' + encodeURIComponent(vastXml);
 
             player.ima.setContentWithAdTag(null, inlineVmapTag, false);
 
             setTimeout(() => {
-                console.log('ADS: preloadVmapAndUpdateAdTag: Requesting Ads');
+                console.debug('ADS: preloadVmapAndUpdateAdTag: Requesting Ads');
                 player.ima.requestAds();
             }, 5000);
         })
         .catch(error => {
-            console.error("Error preloading and updating adTagUrl:", error);
+            // Only log actual errors, not "no ads" situations
+            if (error && error.message && !error.message.includes('No ads')) {
+                console.debug('ADS: preloadVmapAndUpdateAdTag error:', error.message);
+            }
         });
 }
 

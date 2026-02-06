@@ -210,7 +210,7 @@ function YPTSidebarIsOpen() {
     return $('body').hasClass('youtube');
 }
 async function YPTSidebarOpen() {
-    console.log('YPTSidebarOpen');
+    console.debug('YPTSidebarOpen');
     var selector = '#buttonMenu svg';
     $(selector).addClass('active');
     $('body').addClass('youtube');
@@ -235,7 +235,7 @@ async function flickityReload() {
 }
 
 async function YPTSidebarClose() {
-    console.log('YPTSidebarClose');
+    console.debug('YPTSidebarClose');
     $("#sidebar").removeClass('animate__bounceInLeft');
     $("#sidebar").addClass('animate__bounceOutLeft');
     Cookies.set("menuOpen", false, { expires: 365, path: '/' });
@@ -252,7 +252,7 @@ async function YPTSidebarClose() {
 
 
 async function YPTSidebarCompress() {
-    console.log('YPTSidebarCompress');
+    console.debug('YPTSidebarCompress');
     Cookies.set("menuCompressed", true, { expires: 365, path: '/' });
     $('body').addClass('compressedMenu');
     setTimeout(function () {
@@ -261,7 +261,7 @@ async function YPTSidebarCompress() {
     youTubeMenuIsCompressed = true;
 }
 async function YPTSidebarUncompress() {
-    console.trace('YPTSidebarUncompress');
+    console.debug('YPTSidebarUncompress');
     Cookies.set("menuCompressed", false, { expires: 365, path: '/' });
     $('body').removeClass('compressedMenu');
     setTimeout(function () {

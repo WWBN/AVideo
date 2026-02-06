@@ -75,7 +75,7 @@ async function fetchPlayLists(clearCache = 0) {
 
         // Check if we already have data in the cache and no cache clearing is requested
         if (!empty(fetchPlayListsRows) && empty(clearCache)) {
-            console.log('fetchPlayLists cached');
+            console.debug('fetchPlayLists cached');
             syncPlaylistWithFetchedPlayLists();
             resolve(fetchPlayListsRows);
             return fetchPlayListsRows;
@@ -83,19 +83,19 @@ async function fetchPlayLists(clearCache = 0) {
 
         // If a request is already in progress, return the same Promise
         if (fetchPlayListsPromise) {
-            console.log('fetchPlayLists already running, waiting for the same Promise');
+            console.debug('fetchPlayLists already running, waiting for the same Promise');
             return fetchPlayListsPromise.then(resolve).catch(reject);
         }
 
         // Start a new request and store the Promise
-        console.log('fetchPlayLists starting a new AJAX request');
+        console.debug('fetchPlayLists starting a new AJAX request');
         fetchPlayListsPromise = $.ajax({
             url: webSiteRootURL + 'objects/playlists.json.php?clearPlaylistCache=' + (empty(clearCache) ? 0 : 1),
             success: function (response) {
                 fetchPlayListsRows = response.rows;
                 fetchVideosPlaylistsIds = response.videosPlaylistsIds;
                 fetchVideosPlaylists = response.videosPlaylists;
-                console.log('fetchPlayLists success', response, fetchPlayListsRows);
+                console.debug('fetchPlayLists success', response, fetchPlayListsRows);
                 syncPlaylistWithFetchedPlayLists();
                 resolve(fetchPlayListsRows);
             },
@@ -166,7 +166,7 @@ async function syncPlaylistWithFetchedPlayLists() {
     $('.favoriteBtnAdded').hide();
     $('.watchLaterBtn').show();
     $('.favoriteBtn').show();
-    console.trace("syncPlaylistWithFetchedPlayLists backtrace:", fetchPlayListsRows);
+    //console.trace("syncPlaylistWithFetchedPlayLists backtrace:", fetchPlayListsRows);
 
     let playlists = fetchPlayListsRows;
     let totalVideos = 0;
@@ -188,7 +188,7 @@ async function syncPlaylistWithFetchedPlayLists() {
     let endTime = performance.now();
     let duration = (endTime - startTime) / 1000; // Convert to seconds
 
-    console.log(`syncPlaylistWithFetchedPlayLists processed ${totalVideos} videos in ${duration.toFixed(2)} seconds.`);
+    console.debug(`syncPlaylistWithFetchedPlayLists processed ${totalVideos} videos in ${duration.toFixed(2)} seconds.`);
 
     // Reset the flag after the delay
     setTimeout(() => {

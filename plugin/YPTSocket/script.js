@@ -22,10 +22,10 @@ function socketLog() {
 }
 
 function socketWarn() {
-    if (console && console.warn) {
+    if (console && console.log) {
         var args = Array.prototype.slice.call(arguments);
         args.unshift('[YPTSocket]');
-        console.warn.apply(console, args);
+        console.log.apply(console, args);
     }
 }
 
@@ -678,10 +678,10 @@ $(async function () {
 var _startSocketTimeout;
 async function startSocket() {
     if(typeof webSocketURL === 'undefined') {
-        console.warn('startSocket: webSocketURL is empty or undefined');
+        console.debug('startSocket: webSocketURL is empty or undefined');
         return false;
     }
-    console.log('startSocket');
+    console.debug('startSocket');
     clearTimeout(_startSocketTimeout);
     if (!isOnline() || typeof webSiteRootURL == 'undefined') {
         //console.log('startSocket: Not Online');
