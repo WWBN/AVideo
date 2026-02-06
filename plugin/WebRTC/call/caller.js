@@ -332,11 +332,15 @@ function isReceivingCall() {
 }
 
 function callerNewConnection(json) {
-    callerCheckUser(json.msg.users_id);
+    if (json?.msg?.users_id) {
+        callerCheckUser(json.msg.users_id);
+    }
 }
 
 function callerDisconnection(json) {
-    callerCheckUser(json.msg.users_id);
+    if (json?.msg?.users_id) {
+        callerCheckUser(json.msg.users_id);
+    }
 }
 
 var callerCheckUserList = [];
