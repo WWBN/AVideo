@@ -223,8 +223,13 @@ if ($isCached) {
         $protectionStatus = !empty($obj->downloadProtection) ? 'ENABLED' : 'DISABLED';
         $tokenStatus = empty($token) ? 'NO_TOKEN' : 'TOKEN_PROVIDED';
 
+        // Check if it's localhost with AVideo User Agent (internal system access - always allow)
+        if (_getRealIpAddr() === '127.0.0.1' && !empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'AVideo') === 0) {
+            $authorized = true;
+            $authorizationReason = "Localhost with AVideo User Agent ({$_SERVER['HTTP_USER_AGENT']})";
+        }
         // Check if it's AVideo User Agent (internal system access)
-        if (!empty($_SERVER['HTTP_USER_AGENT']) && isAVideoUserAgent()) {
+        else if (!empty($_SERVER['HTTP_USER_AGENT']) && isAVideoUserAgent()) {
             global $lastMatchedAVideoUserAgent;
             $authorized = true;
             $authorizationReason = "AVideo User Agent ({$lastMatchedAVideoUserAgent}) ({$_SERVER['HTTP_USER_AGENT']})";
