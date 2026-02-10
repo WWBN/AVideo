@@ -234,10 +234,10 @@ if ($isCached) {
             $authorized = true;
             $authorizationReason = "AVideo User Agent ({$lastMatchedAVideoUserAgent}) ({$_SERVER['HTTP_USER_AGENT']})";
         }
-        // Check if it's an iPhone user agent
-        else if (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'iPhone') !== false) {
+        // Check if it's an iPhone or iPad user agent
+        else if (!empty($_SERVER['HTTP_USER_AGENT']) && (stripos($_SERVER['HTTP_USER_AGENT'], 'iPhone') !== false || stripos($_SERVER['HTTP_USER_AGENT'], 'iPad') !== false)) {
             $authorized = true;
-            $authorizationReason = "iPhone User Agent ({$_SERVER['HTTP_USER_AGENT']})";
+            $authorizationReason = "iOS User Agent ({$_SERVER['HTTP_USER_AGENT']})";
         }
         // Check referer protection (only if not AVideo User Agent)
         else if (!empty($_SERVER['HTTP_REFERER']) && isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && $global['webSiteRootURL'] !== 'http://avideo/') {
