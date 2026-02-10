@@ -147,6 +147,9 @@ echo "entrypoint -- Running reencodeAllVideos script..."
 cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
 chown -R www-data:www-data /var/www/html/AVideo/Encoder/videos/
 
+echo "entrypoint -- Checking JS Runtime..."
+php /var/www/html/AVideo/Encoder/install/checkJSRuntime.php
+
 echo "127.0.0.1       ${SERVER_NAME}  www.${SERVER_NAME}" >> /etc/hosts
 
 echo "entrypoint -- Starting cron service..."
