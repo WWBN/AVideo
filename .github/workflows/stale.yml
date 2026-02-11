@@ -19,16 +19,28 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Deleting _state cache to ensure clean processing..."
+          echo "Deleting _state caches via REST API..."
           gh api repos/${{ github.repository }}/actions/caches?key=_state \
-            --jq '.actions_caches[].id' | \
+            --jq '.actions_caches[].id' 2>/dev/null | \
           while read id; do
             echo "Deleting cache id: $id"
+            gh api -X DELETE repos/${{ github.repository }}/actions/caches/$id || true
+          done
+          echo "Also clearing via cache service key prefix..."
+          gh api repos/${{ github.repository }}/actions/caches \
+            --jq '.actions_caches[] | select(.key | startswith("stale")) | .id' 2>/dev/null | \
+          while read id; do
+            echo "Deleting stale cache id: $id"
             gh api -X DELETE repos/${{ github.repository }}/actions/caches/$id || true
           done
           echo "Cache cleanup complete."
 
       - uses: actions/stale@v10
+        env:
+          # Disable internal @actions/cache to prevent stale state from persisting
+          # This forces the action to process ALL issues from scratch each run
+          ACTIONS_CACHE_URL: ''
+          ACTIONS_RESULTS_URL: ''
         with:
           # Configurações gerais
           days-before-stale: 7
