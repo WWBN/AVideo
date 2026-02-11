@@ -15,6 +15,19 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
+      - name: Clear stale cache
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Deleting _state cache to ensure clean processing..."
+          gh api repos/${{ github.repository }}/actions/caches?key=_state \
+            --jq '.actions_caches[].id' | \
+          while read id; do
+            echo "Deleting cache id: $id"
+            gh api -X DELETE repos/${{ github.repository }}/actions/caches/$id || true
+          done
+          echo "Cache cleanup complete."
+
       - uses: actions/stale@v10
         with:
           # Configurações gerais
