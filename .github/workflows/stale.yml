@@ -43,8 +43,9 @@ jobs:
           ACTIONS_RESULTS_URL: ''
         with:
           # Configurações gerais
-          days-before-stale: 7
-          days-before-close: 2
+          # Fecha automaticamente issues/PRs sem atividade por 3 meses (90 dias)
+          days-before-stale: 90
+          days-before-close: 0
 
           # Labels
           stale-issue-label: 'stale'
@@ -55,8 +56,8 @@ jobs:
 
           # Mensagens para Issues
           stale-issue-message: >
-            This issue has been automatically marked as stale because it has not had
-            recent activity. It will be closed in 2 days if no further activity occurs.
+            This issue has been automatically closed because it has not had
+            activity in over 3 months. Feel free to reopen if it is still relevant.
             Thank you for your contributions.
           close-issue-message: >
             This issue has been automatically closed due to inactivity.
@@ -64,8 +65,8 @@ jobs:
 
           # Mensagens para PRs
           stale-pr-message: >
-            This pull request has been automatically marked as stale because it has not had
-            recent activity. It will be closed in 2 days if no further activity occurs.
+            This pull request has been automatically closed because it has not had
+            activity in over 3 months. Feel free to reopen if it is still relevant.
           close-pr-message: false
 
           # Limites por execução (importante para repos com muitas issues!)
