@@ -31,7 +31,7 @@ class MonetizeUsers extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "3.0";
+        return "3.1";
     }
 
     public function getEmptyDataObject() {
@@ -236,16 +236,4 @@ class MonetizeUsers extends PluginAbstract {
         return $fullData;
     }
 
-    public function updateScript() {
-        global $global;
-
-        if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/MonetizeUsers/install/updateV2.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        return true;
-    }
 }
