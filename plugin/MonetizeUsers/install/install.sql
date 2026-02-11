@@ -19,6 +19,6 @@ CREATE TABLE IF NOT EXISTS `monetize_user_reward_log` (
   CONSTRAINT `fk_monetize_user_reward_log_videos1`
     FOREIGN KEY (`videos_id`)
     REFERENCES `videos` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;

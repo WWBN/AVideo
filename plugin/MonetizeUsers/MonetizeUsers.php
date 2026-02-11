@@ -31,7 +31,7 @@ class MonetizeUsers extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "3.0";
     }
 
     public function getEmptyDataObject() {
@@ -57,7 +57,7 @@ class MonetizeUsers extends PluginAbstract {
         $o->type = "textarea";
         $o->value = "";
         $obj->revenueCalculatorFooterText = $o;
-        
+
         return $obj;
     }
 
@@ -226,7 +226,7 @@ class MonetizeUsers extends PluginAbstract {
         if (!empty($_REQUEST['debug'])) {
             var_dump($sql, $formats, $values);
         }
-         * 
+         *
          */
 
         $res = sqlDAL::readSql($sql, $formats, $values);
@@ -238,7 +238,7 @@ class MonetizeUsers extends PluginAbstract {
 
     public function updateScript() {
         global $global;
-        
+
         if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/MonetizeUsers/install/updateV2.0.sql');
             $sqlParts = explode(";", $sqls);
