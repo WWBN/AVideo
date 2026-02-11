@@ -57,5 +57,4 @@ jobs:
           close-pr-message: false
 
           # Limites por execução (importante para repos com muitas issues!)
-          # Pode usar até 30000, mas 1000 é suficiente para limpar o backlog
-          operations-per-run: 1000
+          operations-per-run: 10000
