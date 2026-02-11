@@ -61,6 +61,7 @@ make_path($destination_local);
 _error_log("ReceiveImage: videoFilename = [$videoFileName] destination_local = {$destination_local} Encoder receiving post " . json_encode($_FILES));
 
 $obj->jpgDest = "{$destination_local}.jpg";
+$_jpgExistedBefore = file_exists($obj->jpgDest) && fileIsAnValidImage($obj->jpgDest);
 if (!file_exists($obj->jpgDest) || !fileIsAnValidImage($obj->jpgDest)) {
 
     if (isValidURL($_REQUEST['downloadURL_image'])) {
@@ -94,6 +95,13 @@ if (!file_exists($obj->jpgDest) || !fileIsAnValidImage($obj->jpgDest)) {
             }
         }
     }
+}
+
+// If the .jpg was just written (didn't exist before), delete stale derived thumbnails
+// so they regenerate from the new .jpg image
+if (!$_jpgExistedBefore && file_exists($obj->jpgDest) && fileIsAnValidImage($obj->jpgDest)) {
+    _error_log("ReceiveImage: new .jpg written, deleting derived thumbnails for {$videoFileName}");
+    Video::deleteThumbs($videoFileName);
 }
 
 if (!empty($_REQUEST['downloadURL_spectrumimage'])) {
