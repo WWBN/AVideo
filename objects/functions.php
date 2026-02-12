@@ -5747,6 +5747,37 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             }
             $json['applications'] = array_merge($json['applications'], $appArray);
         }
+        // Hide PPV when a live stream is active for the same user and overlapping time window
+        if (!empty($json['applications'])) {
+            $liveStreams = [];
+            foreach ($json['applications'] as $app) {
+                if (isset($app['type']) && strtolower($app['type']) === 'live') {
+                    $liveStreams[] = $app;
+                }
+            }
+            foreach ($json['applications'] as $key => $app) {
+                if (isset($app['type']) && strtolower($app['type']) === 'ppvlive') {
+                    foreach ($liveStreams as $live) {
+                        if (!empty($live['users_id']) && $live['users_id'] == $app['users_id']) {
+                            // Check for time overlap
+                            $now = time();
+                            $ppvStart = !empty($app['comingsoon']) ? intval($app['comingsoon']) : 0;
+                            $ppvEnd = !empty($app['live_ends_php_time']) ? intval($app['live_ends_php_time']) : 0;
+                            $liveStart = !empty($live['live_start_php_time']) ? intval($live['live_start_php_time']) : 0;
+                            $liveEnd = !empty($live['live_ends_php_time']) ? intval($live['live_ends_php_time']) : 0;
+                            // If live is active now or overlaps PPV
+                            if (
+                                ($liveStart && $liveEnd && $ppvStart && $ppvEnd && $liveStart < $ppvEnd && $liveEnd > $ppvStart) ||
+                                ($liveStart && $liveEnd && $now >= $liveStart && $now <= $liveEnd)
+                            ) {
+                                unset($json['applications'][$key]);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         TimeLogEnd($timeName, __LINE__);
 
         $count = 0;
@@ -5779,7 +5810,8 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
         //Live::checkAllFromStats();
         TimeLogEnd($timeName, __LINE__);
         //_error_log('Live::createStatsCache ' . json_encode($cache));
-    } else {
+    }
+    else {
         //_error_log('getStatsNotifications: 2 cached result');
         $json = array();
     }
