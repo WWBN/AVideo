@@ -5783,27 +5783,12 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                                 'live_ends_php_time' => isset($live['live_ends_php_time']) ? $live['live_ends_php_time'] : 'no end time'
                             ]));
 
-                            // Check for time overlap
-                            $now = time();
-                            $ppvStart = !empty($app['comingsoon']) ? intval($app['comingsoon']) : 0;
-                            $ppvEnd = !empty($app['live_ends_php_time']) ? intval($app['live_ends_php_time']) : 0;
-                            $liveStart = !empty($live['live_start_php_time']) ? intval($live['live_start_php_time']) : 0;
-                            $liveEnd = !empty($live['live_ends_php_time']) ? intval($live['live_ends_php_time']) : 0;
-
-                            _error_log("DEBUG PPV Filter: Time comparison - Now: $now, PPV: $ppvStart-$ppvEnd, Live: $liveStart-$liveEnd");
-
-                            // If live is active now or overlaps PPV
-                            if (
-                                ($liveStart && $liveEnd && $ppvStart && $ppvEnd && $liveStart < $ppvEnd && $liveEnd > $ppvStart) ||
-                                ($liveStart && $liveEnd && $now >= $liveStart && $now <= $liveEnd)
-                            ) {
-                                _error_log("DEBUG PPV Filter: REMOVING PPV application for user " . $app['users_id']);
-                                unset($json['applications'][$key]);
-                                $removedCount++;
-                                break;
-                            } else {
-                                _error_log("DEBUG PPV Filter: No overlap or live not active");
-                            }
+                            // If there's any live stream active for the same user, hide PPV
+                            // This is simpler than time comparison since live streams in stats are already active
+                            _error_log("DEBUG PPV Filter: REMOVING PPV application for user " . $app['users_id'] . " because live stream is active");
+                            unset($json['applications'][$key]);
+                            $removedCount++;
+                            break;
                         }
                     }
                 }
