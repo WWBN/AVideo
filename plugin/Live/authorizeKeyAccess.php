@@ -239,6 +239,11 @@ if ($isCached) {
             $authorized = true;
             $authorizationReason = "iOS User Agent ({$_SERVER['HTTP_USER_AGENT']})";
         }
+        // Check if it's a Mac Safari user agent
+        else if (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'Macintosh') !== false && stripos($_SERVER['HTTP_USER_AGENT'], 'Safari') !== false) {
+            $authorized = true;
+            $authorizationReason = "Mac Safari User Agent ({$_SERVER['HTTP_USER_AGENT']})";
+        }
         // Check referer protection (only if not AVideo User Agent)
         else if (!empty($_SERVER['HTTP_REFERER']) && isSameDomain($_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && $global['webSiteRootURL'] !== 'http://avideo/') {
             // Valid referer - now check if download protection is enabled
