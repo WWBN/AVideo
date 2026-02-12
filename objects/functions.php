@@ -5755,9 +5755,15 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             foreach ($json['applications'] as $app) {
                 _error_log("DEBUG PPV Filter: Application type: " . (isset($app['type']) ? $app['type'] : 'no type') . ", users_id: " . (isset($app['users_id']) ? $app['users_id'] : 'no users_id') . ", method: " . (isset($app['method']) ? $app['method'] : 'no method'));
                 if (isset($app['type']) && (strtolower($app['type']) === 'live' || strtolower($app['type']) === 'schedulelive')) {
+                    $liveStreams[] = $app;
+                }
+            }
+
+            _error_log("DEBUG PPV Filter: Found " . count($liveStreams) . " live streams");
+
             $removedCount = 0;
             foreach ($json['applications'] as $key => $app) {
-                if (isset($app['type']) && (strtolower($app['type']) === 'ppvlive' || strtolower($app['type']) === 'ppv') ||
+                if ((isset($app['type']) && (strtolower($app['type']) === 'ppvlive' || strtolower($app['type']) === 'ppv')) ||
                     (isset($app['method']) && strpos($app['method'], 'PPVLive') !== false)) {
                     _error_log("DEBUG PPV Filter: Checking PPV app: " . json_encode([
                         'type' => isset($app['type']) ? $app['type'] : 'no type',
@@ -5773,6 +5779,8 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                                 'users_id' => $live['users_id'],
                                 'type' => isset($live['type']) ? $live['type'] : 'no type',
                                 'method' => isset($live['method']) ? $live['method'] : 'no method',
+                                'live_start_php_time' => isset($live['live_start_php_time']) ? $live['live_start_php_time'] : 'no start time',
+                                'live_ends_php_time' => isset($live['live_ends_php_time']) ? $live['live_ends_php_time'] : 'no end time'
                             ]));
 
                             // Check for time overlap
