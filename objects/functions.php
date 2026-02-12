@@ -5755,12 +5755,12 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                     $liveStreams[] = $app;
                 }
             }
-            
+
             $removedCount = 0;
             foreach ($json['applications'] as $key => $app) {
                 if ((isset($app['type']) && (strtolower($app['type']) === 'ppvlive' || strtolower($app['type']) === 'ppv')) ||
                     (isset($app['method']) && strpos($app['method'], 'PPVLive') !== false)) {
-                    
+
                     foreach ($liveStreams as $live) {
                         if (!empty($live['users_id']) && $live['users_id'] == $app['users_id']) {
                             // If there's any live stream active for the same user, hide PPV
