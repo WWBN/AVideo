@@ -247,7 +247,7 @@ if ($isCached) {
                 if (empty($token)) {
                     // No token provided - BLOCK access
                     $authorized = false;
-                    $verifyTokenReturnFalseReason = "Download protection enabled but no token provided. IP=".getRealIpAddr()." URI=".$uri;
+                    $verifyTokenReturnFalseReason = "Download protection enabled but no token provided. IP=".getRealIpAddr()." {$_SERVER['HTTP_USER_AGENT']} URI=".$uri;
                     error_log("LiveKeyAuth: BLOCKED - Protection enabled but token missing. URI={$uri} IP=".getRealIpAddr()." Referer=".@$_SERVER['HTTP_REFERER']);
                 } else {
                     // Token provided - validate it

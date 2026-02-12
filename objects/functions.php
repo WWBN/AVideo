@@ -5747,45 +5747,23 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             }
             $json['applications'] = array_merge($json['applications'], $appArray);
         }
-        // Hide PPV when a live stream is active for the same user and overlapping time window
+        // Hide PPV when a live stream is active for the same user
         if (!empty($json['applications'])) {
-            _error_log("DEBUG PPV Filter: Total applications before filter: " . count($json['applications']));
-
             $liveStreams = [];
             foreach ($json['applications'] as $app) {
-                _error_log("DEBUG PPV Filter: Application type: " . (isset($app['type']) ? $app['type'] : 'no type') . ", users_id: " . (isset($app['users_id']) ? $app['users_id'] : 'no users_id') . ", method: " . (isset($app['method']) ? $app['method'] : 'no method'));
                 if (isset($app['type']) && (strtolower($app['type']) === 'live' || strtolower($app['type']) === 'schedulelive')) {
                     $liveStreams[] = $app;
                 }
             }
-
-            _error_log("DEBUG PPV Filter: Found " . count($liveStreams) . " live streams");
-
+            
             $removedCount = 0;
             foreach ($json['applications'] as $key => $app) {
                 if ((isset($app['type']) && (strtolower($app['type']) === 'ppvlive' || strtolower($app['type']) === 'ppv')) ||
                     (isset($app['method']) && strpos($app['method'], 'PPVLive') !== false)) {
-                    _error_log("DEBUG PPV Filter: Checking PPV app: " . json_encode([
-                        'type' => isset($app['type']) ? $app['type'] : 'no type',
-                        'method' => isset($app['method']) ? $app['method'] : 'no method',
-                        'users_id' => isset($app['users_id']) ? $app['users_id'] : 'no users_id',
-                        'comingsoon' => isset($app['comingsoon']) ? $app['comingsoon'] : 'no comingsoon',
-                        'live_ends_php_time' => isset($app['live_ends_php_time']) ? $app['live_ends_php_time'] : 'no end time'
-                    ]));
-
+                    
                     foreach ($liveStreams as $live) {
                         if (!empty($live['users_id']) && $live['users_id'] == $app['users_id']) {
-                            _error_log("DEBUG PPV Filter: Same user found. Live: " . json_encode([
-                                'users_id' => $live['users_id'],
-                                'type' => isset($live['type']) ? $live['type'] : 'no type',
-                                'method' => isset($live['method']) ? $live['method'] : 'no method',
-                                'live_start_php_time' => isset($live['live_start_php_time']) ? $live['live_start_php_time'] : 'no start time',
-                                'live_ends_php_time' => isset($live['live_ends_php_time']) ? $live['live_ends_php_time'] : 'no end time'
-                            ]));
-
                             // If there's any live stream active for the same user, hide PPV
-                            // This is simpler than time comparison since live streams in stats are already active
-                            _error_log("DEBUG PPV Filter: REMOVING PPV application for user " . $app['users_id'] . " because live stream is active");
                             unset($json['applications'][$key]);
                             $removedCount++;
                             break;
@@ -5793,8 +5771,6 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                     }
                 }
             }
-
-            _error_log("DEBUG PPV Filter: Removed $removedCount PPV applications. Total after filter: " . count($json['applications']));
         }
         TimeLogEnd($timeName, __LINE__);
 
