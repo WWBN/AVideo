@@ -5861,13 +5861,13 @@ if (!class_exists('Video')) {
             return $r;
         }
 
-        public static function deleteThumbs($filename, $doNotDeleteSprit = false, $checkIfIsCorrupted = false)
+        public static function deleteThumbs($filename, $doNotDeleteSprit = false, $checkIfIsCorrupted = false, $force = false)
         {
             if (empty($filename)) {
                 return false;
             }
 
-            if(isBot(false) && !isCommandLineInterface()){
+            if(!$force && isBot(false) && !isCommandLineInterface()){
                 return false;
             }
 
