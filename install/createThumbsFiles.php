@@ -32,54 +32,54 @@ if ($res != false) {
         $count++;
         $filename = $row['filename'];
         $videos_id = $row['id'];
-        
+
         if (empty($filename)) {
             echo "[{$count}/{$total}] SKIP: empty filename for video ID {$videos_id}" . PHP_EOL;
             $skippedCount++;
             continue;
         }
-        
+
         // Get paths
         $jpegSource = Video::getSourceFile($filename, ".jpg", false, true);
         $thumbsSource = Video::getSourceFile($filename, "_thumbsV2.jpg", false, true);
-        
+
         if (empty($jpegSource) || empty($jpegSource['path'])) {
             echo "[{$count}/{$total}] SKIP: no source .jpg for {$filename}" . PHP_EOL;
             $skippedCount++;
             continue;
         }
-        
+
         $sourcePath = $jpegSource['path'];
         $thumbsPath = $thumbsSource['path'];
         $webpPath = str_replace('.jpg', '_jpg.webp', $thumbsPath);
-        
+
         // Check if source exists
         if (!file_exists($sourcePath)) {
             echo "[{$count}/{$total}] SKIP: source not found {$sourcePath}" . PHP_EOL;
             $skippedCount++;
             continue;
         }
-        
+
         $createdThisVideo = false;
-        
+
         // Create _thumbsV2.jpg if not exists
         if (!file_exists($thumbsPath) || filesize($thumbsPath) < 1024) {
             echo "[{$count}/{$total}] Creating _thumbsV2.jpg for {$filename}..." . PHP_EOL;
-            
+
             $result = convertImageIfNotExists(
-                $sourcePath, 
-                $thumbsPath, 
-                $advancedCustom->thumbsWidthLandscape, 
-                $advancedCustom->thumbsHeightLandscape, 
+                $sourcePath,
+                $thumbsPath,
+                $advancedCustom->thumbsWidthLandscape,
+                $advancedCustom->thumbsHeightLandscape,
                 true
             );
-            
+
             if (file_exists($thumbsPath)) {
                 // Change owner to www-data
                 @chown($thumbsPath, 'www-data');
                 @chgrp($thumbsPath, 'www-data');
                 @chmod($thumbsPath, 0644);
-                
+
                 echo "  -> Created: {$thumbsPath} (" . humanFileSize(filesize($thumbsPath)) . ")" . PHP_EOL;
                 $createdThisVideo = true;
             } else {
@@ -87,20 +87,20 @@ if ($res != false) {
                 $errorCount++;
             }
         }
-        
+
         // Create _thumbsV2_jpg.webp if not exists (only if _thumbsV2.jpg exists)
         if (file_exists($thumbsPath) && (!file_exists($webpPath) || filesize($webpPath) < 1024)) {
             if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
                 echo "[{$count}/{$total}] Creating _thumbsV2_jpg.webp for {$filename}..." . PHP_EOL;
-                
+
                 convertImage($thumbsPath, $webpPath, 90);
-                
+
                 if (file_exists($webpPath)) {
                     // Change owner to www-data
                     @chown($webpPath, 'www-data');
                     @chgrp($webpPath, 'www-data');
                     @chmod($webpPath, 0644);
-                    
+
                     echo "  -> Created: {$webpPath} (" . humanFileSize(filesize($webpPath)) . ")" . PHP_EOL;
                     $createdThisVideo = true;
                 } else {
@@ -111,7 +111,7 @@ if ($res != false) {
                 echo "[{$count}/{$total}] SKIP webp: PHP version < 8.0" . PHP_EOL;
             }
         }
-        
+
         if ($createdThisVideo) {
             $createdCount++;
             // Clear cache for this video
