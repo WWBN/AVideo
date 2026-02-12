@@ -5753,19 +5753,15 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
 
             $liveStreams = [];
             foreach ($json['applications'] as $app) {
-                _error_log("DEBUG PPV Filter: Application type: " . (isset($app['type']) ? $app['type'] : 'no type') . ", users_id: " . (isset($app['users_id']) ? $app['users_id'] : 'no users_id'));
-                if (isset($app['type']) && strtolower($app['type']) === 'live') {
-                    $liveStreams[] = $app;
-                }
-            }
-
-            _error_log("DEBUG PPV Filter: Found " . count($liveStreams) . " live streams");
-
+                _error_log("DEBUG PPV Filter: Application type: " . (isset($app['type']) ? $app['type'] : 'no type') . ", users_id: " . (isset($app['users_id']) ? $app['users_id'] : 'no users_id') . ", method: " . (isset($app['method']) ? $app['method'] : 'no method'));
+                if (isset($app['type']) && (strtolower($app['type']) === 'live' || strtolower($app['type']) === 'schedulelive')) {
             $removedCount = 0;
             foreach ($json['applications'] as $key => $app) {
-                if (isset($app['type']) && strtolower($app['type']) === 'ppvlive') {
+                if (isset($app['type']) && (strtolower($app['type']) === 'ppvlive' || strtolower($app['type']) === 'ppv') ||
+                    (isset($app['method']) && strpos($app['method'], 'PPVLive') !== false)) {
                     _error_log("DEBUG PPV Filter: Checking PPV app: " . json_encode([
-                        'type' => $app['type'],
+                        'type' => isset($app['type']) ? $app['type'] : 'no type',
+                        'method' => isset($app['method']) ? $app['method'] : 'no method',
                         'users_id' => isset($app['users_id']) ? $app['users_id'] : 'no users_id',
                         'comingsoon' => isset($app['comingsoon']) ? $app['comingsoon'] : 'no comingsoon',
                         'live_ends_php_time' => isset($app['live_ends_php_time']) ? $app['live_ends_php_time'] : 'no end time'
@@ -5775,8 +5771,8 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                         if (!empty($live['users_id']) && $live['users_id'] == $app['users_id']) {
                             _error_log("DEBUG PPV Filter: Same user found. Live: " . json_encode([
                                 'users_id' => $live['users_id'],
-                                'live_start_php_time' => isset($live['live_start_php_time']) ? $live['live_start_php_time'] : 'no start time',
-                                'live_ends_php_time' => isset($live['live_ends_php_time']) ? $live['live_ends_php_time'] : 'no end time'
+                                'type' => isset($live['type']) ? $live['type'] : 'no type',
+                                'method' => isset($live['method']) ? $live['method'] : 'no method',
                             ]));
 
                             // Check for time overlap
