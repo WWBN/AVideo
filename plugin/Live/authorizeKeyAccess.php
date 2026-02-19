@@ -38,6 +38,12 @@ function getClientIdentifier()
     return md5($_SERVER['HTTP_USER_AGENT'] . _getRealIpAddr());
 }
 
+// Check if User Agent starts with "AVideo"
+function isAVideoUA()
+{
+    return !empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'AVideo') === 0;
+}
+
 function getTmpFilePath($liveKey)
 {
     $clientIdentifier = getClientIdentifier();
@@ -223,16 +229,10 @@ if ($isCached) {
         $protectionStatus = !empty($obj->downloadProtection) ? 'ENABLED' : 'DISABLED';
         $tokenStatus = empty($token) ? 'NO_TOKEN' : 'TOKEN_PROVIDED';
 
-        // Check if it's localhost with AVideo User Agent (internal system access - always allow)
-        if (_getRealIpAddr() === '127.0.0.1' && !empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'AVideo') === 0) {
+        // Check if it's AVideo User Agent (internal system access - always allow)
+        if (isAVideoUA()) {
             $authorized = true;
-            $authorizationReason = "Localhost with AVideo User Agent ({$_SERVER['HTTP_USER_AGENT']})";
-        }
-        // Check if it's AVideo User Agent (internal system access)
-        else if (!empty($_SERVER['HTTP_USER_AGENT']) && isAVideoUserAgent()) {
-            global $lastMatchedAVideoUserAgent;
-            $authorized = true;
-            $authorizationReason = "AVideo User Agent ({$lastMatchedAVideoUserAgent}) ({$_SERVER['HTTP_USER_AGENT']})";
+            $authorizationReason = "AVideo User Agent ({$_SERVER['HTTP_USER_AGENT']})";
         }
         // Check if it's an iPhone or iPad user agent
         else if (!empty($_SERVER['HTTP_USER_AGENT']) && (stripos($_SERVER['HTTP_USER_AGENT'], 'iPhone') !== false || stripos($_SERVER['HTTP_USER_AGENT'], 'iPad') !== false)) {
