@@ -349,6 +349,11 @@ function isBot($returnTrueIfNoUserAgent=true)
 function markDownToHTML($text) {
     $parsedown = new Parsedown();
 
+    // Enable safe mode to prevent XSS via raw HTML in markdown input
+    $parsedown->setSafeMode(true);
+    // Also escape any markup that bypasses safe mode
+    $parsedown->setMarkupEscaped(true);
+
     // Convert Markdown to HTML
     $html = $parsedown->text($text);
 
