@@ -68,7 +68,7 @@ if (class_exists("User") && !User::isLogged()) {
         </g>
     </svg>
     <?php
-    echo $_REQUEST['403ErrorMsg'];
+    echo htmlspecialchars($_REQUEST['403ErrorMsg'] ?? '', ENT_QUOTES, 'UTF-8');
     ?>
 </div>
 <script>

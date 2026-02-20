@@ -58,7 +58,7 @@ global $Schedulecount;
                 <i class="fa fa-trash"></i> <span class=""><?php echo __('Delete Poster'); ?></span>
             </button>
         </div>
-        <div class="btn-group  btn-group-justified futureButtons" style="margin-top: 10px;">            
+        <div class="btn-group  btn-group-justified futureButtons" style="margin-top: 10px;">
             <button class="btn btn-primary" onclick="editSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Edit') ?>">
                 <i class="fa fa-edit"></i> <span class=""><?php echo __('Edit'); ?></span>
             </button>
@@ -127,7 +127,7 @@ global $Schedulecount;
     function removePosterSchedule(schedule_id) {
         modal.showPleaseWait();
         $.ajax({
-            url: webSiteRootURL + "plugin/Live/removePoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>&live_schedule_id=" + schedule_id,
+            url: webSiteRootURL + "plugin/Live/removePoster.php?live_servers_id=<?php echo intval($_REQUEST['live_servers_id'] ?? 0); ?>&live_schedule_id=" + schedule_id,
             success: function(response) {
                 modal.hidePleaseWait();
                 if (response.error) {

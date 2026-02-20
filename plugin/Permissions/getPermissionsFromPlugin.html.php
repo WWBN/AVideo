@@ -60,17 +60,17 @@ $uid = uniqid();
                         }
                         ?>
                         <div class="material-small material-switch pull-left">
-                            <input name="pluginPermission<?php echo $key2; ?>" 
-                                   id="pluginPermission<?php echo $key2, $uid; ?>_<?php echo $value->type; ?>" 
+                            <input name="pluginPermission<?php echo $key2; ?>"
+                                   id="pluginPermission<?php echo $key2, $uid; ?>_<?php echo $value->type; ?>"
                                    type="checkbox" value="0" <?php echo $checked; ?>
-                                   onchange="updatePluginPermission<?php echo $uid; ?>(<?php echo $key2; ?>, <?php echo $_REQUEST['plugins_id']; ?>, <?php echo $value->type; ?>)"
+                                   onchange="updatePluginPermission<?php echo $uid; ?>(<?php echo $key2; ?>, <?php echo intval($_REQUEST['plugins_id']); ?>, <?php echo $value->type; ?>)"
                                    />
                             <label for="pluginPermission<?php echo $key2, $uid; ?>_<?php echo $value->type; ?>" class="label-success"> </label>
                         </div> <?php echo $group; ?><br>
                         <?php
                     }
                     ?>
-                </div>    
+                </div>
                 <?php
             }
             ?>

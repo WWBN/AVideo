@@ -12,6 +12,7 @@ if (!User::isAdmin()) {
 if (empty($_GET['draw'])) {
     $_GET['draw'] = 0;
 }
+$_GET['draw'] = intval($_GET['draw']);
 header('Content-Type: application/json');
 ?>
 {

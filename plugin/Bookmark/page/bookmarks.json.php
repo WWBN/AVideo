@@ -11,7 +11,7 @@ $rows = BookmarkTable::getAll();
 $rowsTotal = BookmarkTable::getTotal();
 ?>
 {
-"draw": <?php echo $_GET['draw']; ?>,
+"draw": <?php echo intval($_GET['draw'] ?? 0); ?>,
 "recordsTotal": <?php echo $rowsTotal; ?>,
 "recordsFiltered": <?php echo $rowsTotal; ?>,
 "data": <?php echo json_encode($rows); ?>

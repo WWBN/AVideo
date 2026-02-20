@@ -44,7 +44,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
 <?php if (!empty($_GET['jump'])) { ?>
-            $('#<?php echo $_GET['jump']; ?>').click();
+            $('#<?php echo preg_replace('/[^a-zA-Z0-9_-]/', '', $_GET['jump']); ?>').click();
 <?php } ?>
     });
 </script>

@@ -101,7 +101,7 @@ $_page->setExtraScripts(
         $.ajax({
             url: webSiteRootURL+'plugin/Bookmark/page/bookmarkSave.json.php',
             data: {
-                "videos_id": <?php echo $_GET['videos_id'] ?>,
+                "videos_id": <?php echo intval($_GET['videos_id']); ?>,
                 "timeInSeconds": timeToSeconds($('#currentTime').val()),
                 "name": $('#subtitle').val()
             },
@@ -197,7 +197,7 @@ $_page->setExtraScripts(
         });
 
         if (typeof player === 'undefined' && $('#mainVideo').length) {
-            try {                
+            try {
                 player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
             } catch (error) {
                 player = videojs('mainVideo');
