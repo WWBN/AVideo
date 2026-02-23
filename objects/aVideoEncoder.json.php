@@ -298,6 +298,13 @@ function downloadVideoFromDownloadURL($downloadURL)
 {
     global $global, $obj;
     $downloadURL = trim($downloadURL);
+
+    // SSRF Protection: Validate URL before downloading
+    if (!isSSRFSafeURL($downloadURL)) {
+        __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL SSRF protection blocked URL: " . $downloadURL);
+        return false;
+    }
+
     __errlog("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($downloadURL);
     $strlen = strlen($file);

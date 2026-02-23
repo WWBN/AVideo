@@ -3986,6 +3986,159 @@ function isSafeRedirectURL($url)
     return false;
 }
 
+/**
+ * Validates if a URL is safe from Server-Side Request Forgery (SSRF) attacks.
+ * This function checks:
+ * 1. Only http:// and https:// schemes are allowed
+ * 2. Rejects localhost and loopback addresses
+ * 3. Rejects private/internal IP ranges (10.x.x.x, 172.16-31.x.x, 192.168.x.x)
+ * 4. Rejects link-local addresses (169.254.x.x)
+ * 5. Rejects cloud metadata endpoints (169.254.169.254)
+ * 6. Rejects IPv6 localhost and private addresses
+ *
+ * @param string $url The URL to validate
+ * @return bool True if safe from SSRF, false otherwise
+ */
+function isSSRFSafeURL($url)
+{
+    if (empty($url) || !is_string($url)) {
+        _error_log("isSSRFSafeURL: empty or non-string URL");
+        return false;
+    }
+
+    $url = trim($url);
+
+    // Only allow http and https schemes
+    $scheme = parse_url($url, PHP_URL_SCHEME);
+    if (!in_array(strtolower($scheme), ['http', 'https'])) {
+        _error_log("isSSRFSafeURL: invalid scheme: {$scheme}");
+        return false;
+    }
+
+    $host = parse_url($url, PHP_URL_HOST);
+    if (empty($host)) {
+        _error_log("isSSRFSafeURL: empty host");
+        return false;
+    }
+
+    $host = strtolower($host);
+
+    // Block localhost variations
+    $localhostPatterns = [
+        'localhost',
+        '127.0.0.1',
+        '::1',
+        '[::1]',
+        '0.0.0.0',
+        '0',
+    ];
+    foreach ($localhostPatterns as $pattern) {
+        if ($host === $pattern) {
+            _error_log("isSSRFSafeURL: blocked localhost pattern: {$host}");
+            return false;
+        }
+    }
+
+    // Block localhost with port variations (127.x.x.x range)
+    if (preg_match('/^127\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $host)) {
+        _error_log("isSSRFSafeURL: blocked loopback IP: {$host}");
+        return false;
+    }
+
+    // Resolve hostname to IP to check for DNS rebinding attacks
+    $ip = $host;
+    if (!filter_var($host, FILTER_VALIDATE_IP)) {
+        // It's a hostname, resolve it
+        $resolvedIP = gethostbyname($host);
+        if ($resolvedIP === $host) {
+            // DNS resolution failed
+            _error_log("isSSRFSafeURL: DNS resolution failed for: {$host}");
+            return false;
+        }
+        $ip = $resolvedIP;
+    }
+
+    // Remove IPv6 brackets if present
+    $ip = trim($ip, '[]');
+
+    // Check if it's a valid IP after resolution
+    if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+        _error_log("isSSRFSafeURL: invalid IP after resolution: {$ip}");
+        return false;
+    }
+
+    // Block private IPv4 ranges
+    // 10.0.0.0 - 10.255.255.255
+    if (preg_match('/^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $ip)) {
+        _error_log("isSSRFSafeURL: blocked private IP (10.x.x.x): {$ip}");
+        return false;
+    }
+
+    // 172.16.0.0 - 172.31.255.255
+    if (preg_match('/^172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3}$/', $ip)) {
+        _error_log("isSSRFSafeURL: blocked private IP (172.16-31.x.x): {$ip}");
+        return false;
+    }
+
+    // 192.168.0.0 - 192.168.255.255
+    if (preg_match('/^192\.168\.\d{1,3}\.\d{1,3}$/', $ip)) {
+        _error_log("isSSRFSafeURL: blocked private IP (192.168.x.x): {$ip}");
+        return false;
+    }
+
+    // 127.0.0.0 - 127.255.255.255 (loopback)
+    if (preg_match('/^127\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $ip)) {
+        _error_log("isSSRFSafeURL: blocked loopback IP: {$ip}");
+        return false;
+    }
+
+    // 169.254.0.0 - 169.254.255.255 (link-local, includes AWS/cloud metadata)
+    if (preg_match('/^169\.254\.\d{1,3}\.\d{1,3}$/', $ip)) {
+        _error_log("isSSRFSafeURL: blocked link-local/metadata IP: {$ip}");
+        return false;
+    }
+
+    // 0.0.0.0 - 0.255.255.255
+    if (preg_match('/^0\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $ip)) {
+        _error_log("isSSRFSafeURL: blocked zero IP range: {$ip}");
+        return false;
+    }
+
+    // Block metadata endpoints (cloud providers)
+    $metadataHosts = [
+        'metadata.google.internal',
+        'metadata.goog',
+        'metadata',
+    ];
+    foreach ($metadataHosts as $metadataHost) {
+        if ($host === $metadataHost) {
+            _error_log("isSSRFSafeURL: blocked cloud metadata host: {$host}");
+            return false;
+        }
+    }
+
+    // Block IPv6 private/local addresses
+    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+        // Check for IPv6 loopback
+        if ($ip === '::1' || $ip === '0:0:0:0:0:0:0:1') {
+            _error_log("isSSRFSafeURL: blocked IPv6 loopback: {$ip}");
+            return false;
+        }
+        // Check for IPv6 link-local (fe80::/10)
+        if (preg_match('/^fe[89ab][0-9a-f]:/i', $ip)) {
+            _error_log("isSSRFSafeURL: blocked IPv6 link-local: {$ip}");
+            return false;
+        }
+        // Check for IPv6 unique local (fc00::/7)
+        if (preg_match('/^f[cd][0-9a-f]{2}:/i', $ip)) {
+            _error_log("isSSRFSafeURL: blocked IPv6 unique local: {$ip}");
+            return false;
+        }
+    }
+
+    return true;
+}
+
 function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true)
 {
     global $global;

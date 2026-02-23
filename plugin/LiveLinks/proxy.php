@@ -13,6 +13,14 @@ if (!filter_var($_GET['livelink'], FILTER_VALIDATE_URL) || !preg_match("/^http.*
     echo "Invalid Link";
     exit;
 }
+
+// SSRF Protection: Block requests to internal/private networks
+if (!isSSRFSafeURL($_GET['livelink'])) {
+    _error_log("LiveLinks proxy: SSRF protection blocked URL: " . $_GET['livelink']);
+    echo "Access denied: URL targets restricted network";
+    exit;
+}
+
 header("Content-Type: video/vnd.mpegurl");
 header("Content-Disposition: attachment;filename=playlist.m3u");
 
@@ -51,5 +59,5 @@ if($content === "Empty Token"){
             }
         }
         echo $line . PHP_EOL;
-    } 
+    }
 }
