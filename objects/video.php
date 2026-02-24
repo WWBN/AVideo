@@ -126,6 +126,12 @@ if (!class_exists('Video')) {
         const SORT_TYPE_SHORTS = 'shorts';
         const SORT_TYPE_DATEADDED = 'dateadded';
 
+        // Encoder format constants (POST field names accepted by the encoder queue)
+        const ENCODER_FORMAT_HLS = 'inputAutoHLS';
+        const ENCODER_FORMAT_MP4 = 'inputAutoMP4';
+        const ENCODER_FORMAT_WEBM = 'inputAutoWebm';
+        const ENCODER_FORMAT_AUDIO = 'inputAutoAudio';
+
         // Status constants
         const STATUS_ACTIVE = 'a';
         const STATUS_ACTIVE_AND_ENCODING = 'k';
@@ -4099,44 +4105,48 @@ if (!class_exists('Video')) {
             $this->next_videos_id = $next_videos_id;
         }
 
-        public function queue($types = [])
+        /**
+         * Returns the default encoder format based on enabled plugins.
+         * If VideoHLS plugin is enabled, returns ENCODER_FORMAT_HLS.
+         * Otherwise returns empty string (encoder will use its own default).
+         *
+         * Available formats: ENCODER_FORMAT_HLS, ENCODER_FORMAT_MP4, ENCODER_FORMAT_WEBM, ENCODER_FORMAT_AUDIO
+         *
+         * @return string encoder format constant or empty string
+         */
+        public static function getDefaultEncoderFormat()
         {
-            global $config, $global;
-
-            if (!User::canUpload()) {
-                return false;
+            if (AVideoPlugin::isEnabledByName('VideoHLS')) {
+                return self::ENCODER_FORMAT_HLS;
             }
+            return '';
+        }
+
+        /**
+         * Sends a POST request to the encoder queue endpoint.
+         *
+         * @param array $postFields fields to POST to the encoder
+         * @return object with ->error (bool), ->response, and optionally ->msg
+         */
+        public static function postToEncoderQueue($postFields)
+        {
+            global $config;
+
+            $target = $config->getEncoderURL() . 'queue';
+            _error_log('postToEncoderQueue: SEND To QUEUE: (' . $target . ') ' . json_encode($postFields));
 
             $obj = new stdClass();
             $obj->error = true;
 
-            $target = $config->getEncoderURL() . "queue";
-            $postFields = [
-                'user' => User::getUserName(),
-                'pass' => User::getUserPass(),
-                'fileURI' => $global['webSiteRootURL'] . "videos/original_{$this->getFilename()}",
-                'filename' => $this->getFilename(),
-                'videos_id' => $this->getId(),
-                "notifyURL" => "{$global['webSiteRootURL']}",
-            ];
-
-            if (empty($types) && AVideoPlugin::isEnabledByName("VideoHLS")) {
-                $postFields['inputAutoHLS'] = 1;
-            } elseif (!empty($types)) {
-                $postFields = array_merge($postFields, $types);
-            }
-
-            _error_log("SEND To QUEUE: ($target) " . json_encode($postFields));
-
             $curl = curl_init();
-            curl_setopt_array($curl, array(
+            curl_setopt_array($curl, [
                 CURLOPT_URL => $target,
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => 1,
+                CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => $postFields,
                 CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false
-            ));
+                CURLOPT_SSL_VERIFYHOST => false,
+            ]);
 
             $r = curl_exec($curl);
             $obj->response = $r;
@@ -4148,10 +4158,44 @@ if (!class_exists('Video')) {
                 $obj->error = false;
             }
 
-            _error_log("QUEUE CURL: ($target) " . json_encode($obj));
+            _error_log('postToEncoderQueue: QUEUE CURL: (' . $target . ') ' . json_encode($obj));
             curl_close($curl);
             Configuration::deleteEncoderURLCache();
             return $obj;
+        }
+
+        /**
+         * Queue this video for encoding.
+         *
+         * @param string $format Encoder format constant (e.g. Video::ENCODER_FORMAT_MP4, Video::ENCODER_FORMAT_HLS).
+         *                       If empty, uses getDefaultEncoderFormat().
+         * @return object|false
+         */
+        public function queue($format = '')
+        {
+            global $global;
+
+            if (!User::canUpload()) {
+                return false;
+            }
+
+            $postFields = [
+                'user' => User::getUserName(),
+                'pass' => User::getUserPass(),
+                'fileURI' => $global['webSiteRootURL'] . "videos/original_{$this->getFilename()}",
+                'filename' => $this->getFilename(),
+                'videos_id' => $this->getId(),
+                'notifyURL' => $global['webSiteRootURL'],
+            ];
+
+            if (empty($format)) {
+                $format = self::getDefaultEncoderFormat();
+            }
+            if (!empty($format)) {
+                $postFields[$format] = 1;
+            }
+
+            return self::postToEncoderQueue($postFields);
         }
 
         public function getVideoLink()

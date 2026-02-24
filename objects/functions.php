@@ -7093,9 +7093,20 @@ function getUserOnlineLabel($users_id, $class = '', $style = '')
     }
 }
 
-function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false)
+/**
+ * Send a video to the encoder queue from a download URL.
+ * Uses Video::postToEncoderQueue() to avoid duplicating the curl logic.
+ *
+ * @param int    $videos_id
+ * @param string $downloadURL          Source URL the encoder will download from
+ * @param bool   $checkIfUserCanUpload  Verify the video owner has upload permission
+ * @param string $format               Encoder format constant (e.g. Video::ENCODER_FORMAT_MP4).
+ *                                      If empty, uses Video::getDefaultEncoderFormat()
+ * @return object|false
+ */
+function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false, $format = '')
 {
-    global $global, $config;
+    global $global;
     _error_log("sendToEncoder($videos_id, $downloadURL) start");
 
     // Get the video information
@@ -7123,38 +7134,14 @@ function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false)
         'notifyURL' => $global['webSiteRootURL'],
     ];
 
-    // Check if auto HLS conversion is enabled
-    if (AVideoPlugin::isEnabledByName("VideoHLS")) {
-        $postFields['inputAutoHLS'] = 1;
+    if (empty($format)) {
+        $format = Video::getDefaultEncoderFormat();
+    }
+    if (!empty($format)) {
+        $postFields[$format] = 1;
     }
 
-    // Send the data to the encoder
-    $encoderURL = $config->getEncoderURL();
-    $target = "{$encoderURL}queue";
-    _error_log("sendToEncoder: SEND To QUEUE: ($target) " . json_encode($postFields));
-    $curl = curl_init();
-    curl_setopt_array($curl, [
-        CURLOPT_URL => $target,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $postFields,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST => false,
-    ]);
-    $r = curl_exec($curl);
-    $obj = new stdClass();
-    $obj->error = true;
-    $obj->response = $r;
-    if ($errno = curl_errno($curl)) {
-        $error_message = curl_strerror($errno);
-        $obj->msg = "cURL error ({$errno}):\n {$error_message}";
-    } else {
-        $obj->error = false;
-    }
-    _error_log("sendToEncoder: QUEUE CURL: ($target) " . json_encode($obj));
-    curl_close($curl);
-    Configuration::deleteEncoderURLCache();
-    return $obj;
+    return Video::postToEncoderQueue($postFields);
 }
 
 function getExtension($link)

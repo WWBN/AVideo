@@ -105,7 +105,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     // Send video to encoding queue
     _error_log("AddQueueEncoder Adding video to encoding queue...");
     $queue = [];
-    $queue[] = $video->queue([]);
+    $queue[] = $video->queue();
 
     _error_log("AddQueueEncoder Encoding queue: " . json_encode($queue));
     status(["status" => "success", "msg" => "Your video ($filename) is queued", "filename" => "$filename", "duration" => "$duration", "queue" => json_encode($queue)]);
