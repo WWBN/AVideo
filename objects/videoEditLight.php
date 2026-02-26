@@ -57,6 +57,7 @@ if (isset($_REQUEST['image'])) {
     }
     $obj->path = $path;
     $obj->image = saveCroppieImage($path, "image");
+    Video::deleteThumbs($fileName, true);
 }
 if(!empty($_REQUEST['users_id'])){
     $userCanChangeVideoOwner = !empty($advancedCustomUser->userCanChangeVideoOwner) || Permissions::canAdminVideos();
