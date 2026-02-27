@@ -5908,10 +5908,12 @@ if (!class_exists('Video')) {
         public static function deleteThumbs($filename, $doNotDeleteSprit = false, $checkIfIsCorrupted = false, $force = false)
         {
             if (empty($filename)) {
+                _error_log("Video:deleteThumbs filename is empty");
                 return false;
             }
 
             if(!$force && isBot(false) && !isCommandLineInterface()){
+                _error_log("Video:deleteThumbs skipped for bot {$_SERVER['HTTP_USER_AGENT']} filename: $filename");
                 return false;
             }
 
