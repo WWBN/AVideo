@@ -52,8 +52,7 @@ if (isset($_REQUEST['image'])) {
         }
     }
     if(ImagesPlaceHolders::isDefaultImage($path)){
-        $fileName = $video->getFilename();
-        $path = "{$global['systemRootPath']}videos/{$fileName}/{$fileName}.jpg";
+        $path = "{$global['systemRootPath']}videos/{$$filename}/{$$filename}.jpg";
     }
     $obj->path = $path;
     $obj->image = saveCroppieImage($path, "image");
