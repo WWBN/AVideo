@@ -330,13 +330,14 @@ class LiveLinks extends PluginAbstract {
         }
 
         if (!empty($_REQUEST['catName'])) {
-            $catName = ($_REQUEST['catName']);
+            $catName = $global['mysqli']->real_escape_string($_REQUEST['catName']);
             $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name =  '{$catName}' ))";
         }
 
         if (!empty($_GET['modified'])) {
-            $_GET['modified'] = str_replace("'", "", $_GET['modified']);
-            $sql .= " AND v.modified >= '{$_GET['modified']}'";
+            $_GET['modified'] = preg_replace('/[^0-9: \-]/', '', $_GET['modified']);
+            $modifiedEscaped = $global['mysqli']->real_escape_string($_GET['modified']);
+            $sql .= " AND v.modified >= '{$modifiedEscaped}'";
         }
 
         $sql .= AVideoPlugin::getVideoWhereClause();

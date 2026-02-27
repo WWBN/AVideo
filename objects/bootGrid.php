@@ -25,7 +25,7 @@ class BootGrid
                 $direction = "ASC";
                 if (strtoupper($value)==="DESC") {
                     $direction = "DESC";
-                }else 
+                }else
                 if (strtoupper($value)==="IS NULL") {
                     $direction = "IS NULL";
                 }else if (strtoupper($value)==="IS NOT NULL DESC") {
@@ -71,7 +71,9 @@ class BootGrid
             global $global;
             $search = strtolower(xss_esc($_POST['searchPhrase']));
             $search = str_replace('&quot;', '"', $search);
+            $search = $global['mysqli']->real_escape_string($search);
             $searchRegexpSafe = preg_quote($search, '/');
+            $searchRegexpSafe = $global['mysqli']->real_escape_string($searchRegexpSafe);
             $like = [];
             foreach ($searchFieldsNames as $value) {
                 $like[] = " {$value} LIKE '%{$search}%' ";

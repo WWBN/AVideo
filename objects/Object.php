@@ -268,6 +268,7 @@ abstract class ObjectYPT implements ObjectInterface
         if (!empty($_GET['q'])) {
             global $global;
             $search = strtolower(xss_esc($_GET['q']));
+            $search = $global['mysqli']->real_escape_string($search);
 
             $like = [];
             $searchFields = static::getSearchFieldsNames();

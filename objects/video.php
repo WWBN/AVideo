@@ -1319,6 +1319,7 @@ if (!class_exists('Video')) {
 
         static function getCatSQL()
         {
+            global $global;
             $catName = @$_REQUEST['catName'];
             $sql = '';
             if (!empty($catName)) {
@@ -1327,6 +1328,7 @@ if (!class_exists('Video')) {
                 }
                 $sqls = [];
                 foreach ($catName as $value) {
+                    $value = $global['mysqli']->real_escape_string($value);
                     if (empty($_REQUEST['doNotShowCats'])) {
                         $sqlText = " (c.clean_name = '{$value}' ";
                         if (empty($_REQUEST['doNotShowCatChilds'])) {
@@ -1473,11 +1475,12 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $_POST['searchPhrase'] = mb_strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
+                $searchPhraseEscaped = $global['mysqli']->real_escape_string($_POST['searchPhrase']);
                 $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name "
-                        . "LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
+                        . "LIKE '%{$searchPhraseEscaped}%' WHERE t.id is NOT NULL)";
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
                     $searchFieldsNames = ['v.title'];
                     $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
@@ -1989,8 +1992,9 @@ if (!class_exists('Video')) {
                     $sql .= " AND (v.type = 'video')";
                 } elseif ($_SESSION['type'] == 'audio') {
                     $sql .= " AND (v.type = 'audio' OR  v.type = 'linkAudio')";
-                } else {
-                    $sql .= " AND v.type = '{$_SESSION['type']}' ";
+                } elseif (in_array($_SESSION['type'], self::$typeOptions)) {
+                    $sessionType = $global['mysqli']->real_escape_string($_SESSION['type']);
+                    $sql .= " AND v.type = '{$sessionType}' ";
                 }
             }
 
@@ -2048,11 +2052,12 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $_POST['searchPhrase'] = mb_strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
+                $searchPhraseEscaped = $global['mysqli']->real_escape_string($_POST['searchPhrase']);
                 $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name "
-                        . "LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
+                        . "LIKE '%{$searchPhraseEscaped}%' WHERE t.id is NOT NULL)";
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
                     $searchFieldsNames = ['v.title'];
                     $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
@@ -2836,8 +2841,9 @@ if (!class_exists('Video')) {
                     $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
                 } elseif ($_SESSION['type'] == 'audio') {
                     $sql .= " AND (v.type = 'audio' OR  v.type = 'linkAudio')";
-                } else {
-                    $sql .= " AND v.type = '{$_SESSION['type']}' ";
+                } elseif (in_array($_SESSION['type'], self::$typeOptions)) {
+                    $sessionType = $global['mysqli']->real_escape_string($_SESSION['type']);
+                    $sql .= " AND v.type = '{$sessionType}' ";
                 }
             }
 
@@ -2895,10 +2901,11 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $_POST['searchPhrase'] = mb_strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
+                $searchPhraseEscaped = $global['mysqli']->real_escape_string($_POST['searchPhrase']);
                 $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
-                    $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
+                    $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$searchPhraseEscaped}%' WHERE t.id is NOT NULL)";
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
                     $searchFieldsNames = ['v.title'];
                     $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
@@ -6764,6 +6771,7 @@ if (!class_exists('Video')) {
             $search = (xss_esc($search));
             $search = str_replace('&quot;', '"', $search);
             $search = mb_strtolower($search);
+            $search = $global['mysqli']->real_escape_string($search);
             if (empty($columnsArray) || empty($search)) {
                 return "";
             }
