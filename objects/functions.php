@@ -4001,6 +4001,7 @@ function isSafeRedirectURL($url)
  */
 function isSSRFSafeURL($url)
 {
+    global $global;
     if (empty($url) || !is_string($url)) {
         _error_log("isSSRFSafeURL: empty or non-string URL");
         return false;
@@ -4022,6 +4023,15 @@ function isSSRFSafeURL($url)
     }
 
     $host = strtolower($host);
+
+    // Allow loopback/private IPs if the URL points to the same domain as webSiteRootURL
+    if (!empty($global['webSiteRootURL'])) {
+        $siteHost = strtolower(parse_url($global['webSiteRootURL'], PHP_URL_HOST));
+        if ($host === $siteHost) {
+            _error_log("isSSRFSafeURL: allowing same-domain request to {$host} (matches webSiteRootURL)");
+            return true;
+        }
+    }
 
     // Block localhost variations
     $localhostPatterns = [
