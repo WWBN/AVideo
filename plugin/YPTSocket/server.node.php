@@ -25,8 +25,77 @@ if (!is_dir($baseDir)) {
 }
 
 // 1. Download remote build-info.json
+echo "🔍 Diagnostics before download:\n";
+echo "   📌 URL: $remoteInfoURL\n";
+echo "   📌 allow_url_fopen: " . ini_get('allow_url_fopen') . "\n";
+echo "   📌 openssl extension: " . (extension_loaded('openssl') ? 'loaded' : 'NOT loaded') . "\n";
+echo "   📌 PHP version: " . PHP_VERSION . "\n";
+
+// Test DNS resolution
+$parsed = parse_url($remoteInfoURL);
+$host = $parsed['host'] ?? '';
+$ip = @gethostbyname($host);
+echo "   📌 DNS resolve '{$host}': " . ($ip !== $host ? $ip : 'FAILED') . "\n";
+
 echo "🌐 Downloading remote build-info.json...\n";
-$remoteInfo = @file_get_contents($remoteInfoURL);
+
+// Try with stream context for better error reporting
+$context = stream_context_create([
+    'http' => [
+        'timeout' => 30,
+        'follow_location' => true,
+        'max_redirects' => 10,
+        'user_agent' => 'AVideo-Updater/1.0',
+    ],
+    'ssl' => [
+        'verify_peer' => true,
+        'verify_peer_name' => true,
+    ],
+]);
+
+$remoteInfo = @file_get_contents($remoteInfoURL, false, $context);
+
+// Log response headers if available
+if (isset($http_response_header) && is_array($http_response_header)) {
+    echo "   📌 Response headers:\n";
+    foreach ($http_response_header as $header) {
+        echo "      $header\n";
+    }
+} else {
+    echo "   📌 No response headers received (connection may have failed entirely)\n";
+}
+
+if ($remoteInfo === false) {
+    $err = error_get_last();
+    echo "   📌 Last PHP error: " . ($err ? $err['message'] : 'none') . "\n";
+
+    // Try curl as fallback diagnostic
+    if (function_exists('curl_init')) {
+        echo "   📌 Attempting curl diagnostic...\n";
+        $ch = curl_init($remoteInfoURL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'AVideo-Updater/1.0');
+        $curlResult = curl_exec($ch);
+        $curlError = curl_error($ch);
+        $curlHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlEffectiveUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+        curl_close($ch);
+        echo "   📌 curl HTTP code: $curlHttpCode\n";
+        echo "   📌 curl effective URL: $curlEffectiveUrl\n";
+        if ($curlError) {
+            echo "   📌 curl error: $curlError\n";
+        }
+        if ($curlResult !== false && !empty($curlResult)) {
+            echo "   📌 curl got content (" . strlen($curlResult) . " bytes), using it as fallback\n";
+            $remoteInfo = $curlResult;
+        }
+    } else {
+        echo "   📌 curl extension not available for fallback\n";
+    }
+}
+
 if ($remoteInfo === false) {
     die("❌ Failed to download remote build-info.json\n");
 }
