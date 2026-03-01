@@ -305,7 +305,7 @@ function downloadVideoFromDownloadURL($downloadURL)
         return false;
     }
 
-    __errlog("aVideoEncoder.json: Try to download " . $downloadURL);
+    _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($downloadURL);
     $strlen = strlen($file);
     $minLen = 20000;
@@ -317,7 +317,7 @@ function downloadVideoFromDownloadURL($downloadURL)
         //it is not a video
         return false;
     }
-    __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL Got the download " . $downloadURL . ' ' . humanFileSize($strlen));
+    _error_log("aVideoEncoder.json:downloadVideoFromDownloadURL Got the download " . $downloadURL . ' ' . humanFileSize($strlen));
     if ($file) {
         $_FILES['video']['name'] = basename($downloadURL);
         //$temp = getTmpDir('zip') . $_FILES['video']['name'];
@@ -326,7 +326,7 @@ function downloadVideoFromDownloadURL($downloadURL)
         $bytesSaved = file_put_contents($temp, $file);
 
         if ($bytesSaved) {
-            __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL saved " . $temp  . ' ' . humanFileSize($bytesSaved));
+            _error_log("aVideoEncoder.json:downloadVideoFromDownloadURL saved " . $temp  . ' ' . humanFileSize($bytesSaved));
             return $temp;
         } else {
             $dir = dirname($temp);
