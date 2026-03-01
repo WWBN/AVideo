@@ -17,6 +17,48 @@ $remoteBinaryURL = 'https://github.com/WWBN/AVideo-Socket/raw/refs/heads/main/di
 $localInfoPath = $baseDir . '/build-info.json';
 $localBinaryPath = $baseDir . '/yptsocket';
 
+/**
+ * Download a URL using curl (primary) with file_get_contents fallback.
+ * Returns the content string or false on failure.
+ */
+function downloadURL($url, $timeout = 60) {
+    // Try curl first (handles GitHub redirects properly)
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'AVideo-Updater/1.0');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        $result = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+        curl_close($ch);
+
+        if ($result !== false && $httpCode === 200) {
+            return $result;
+        }
+        echo "   ⚠️ curl failed (HTTP $httpCode): $error\n";
+    }
+
+    // Fallback to file_get_contents
+    $context = stream_context_create([
+        'http' => [
+            'timeout' => $timeout,
+            'follow_location' => true,
+            'max_redirects' => 10,
+            'user_agent' => 'AVideo-Updater/1.0',
+        ],
+    ]);
+    $result = @file_get_contents($url, false, $context);
+    if ($result === false) {
+        $err = error_get_last();
+        echo "   ⚠️ file_get_contents failed: " . ($err ? $err['message'] : 'unknown error') . "\n";
+    }
+    return $result;
+}
+
 // Ensure nodeSocket folder exists
 echo "📂 Ensuring 'nodeSocket' directory exists...\n";
 if (!is_dir($baseDir)) {
@@ -25,77 +67,8 @@ if (!is_dir($baseDir)) {
 }
 
 // 1. Download remote build-info.json
-echo "🔍 Diagnostics before download:\n";
-echo "   📌 URL: $remoteInfoURL\n";
-echo "   📌 allow_url_fopen: " . ini_get('allow_url_fopen') . "\n";
-echo "   📌 openssl extension: " . (extension_loaded('openssl') ? 'loaded' : 'NOT loaded') . "\n";
-echo "   📌 PHP version: " . PHP_VERSION . "\n";
-
-// Test DNS resolution
-$parsed = parse_url($remoteInfoURL);
-$host = $parsed['host'] ?? '';
-$ip = @gethostbyname($host);
-echo "   📌 DNS resolve '{$host}': " . ($ip !== $host ? $ip : 'FAILED') . "\n";
-
 echo "🌐 Downloading remote build-info.json...\n";
-
-// Try with stream context for better error reporting
-$context = stream_context_create([
-    'http' => [
-        'timeout' => 30,
-        'follow_location' => true,
-        'max_redirects' => 10,
-        'user_agent' => 'AVideo-Updater/1.0',
-    ],
-    'ssl' => [
-        'verify_peer' => true,
-        'verify_peer_name' => true,
-    ],
-]);
-
-$remoteInfo = @file_get_contents($remoteInfoURL, false, $context);
-
-// Log response headers if available
-if (isset($http_response_header) && is_array($http_response_header)) {
-    echo "   📌 Response headers:\n";
-    foreach ($http_response_header as $header) {
-        echo "      $header\n";
-    }
-} else {
-    echo "   📌 No response headers received (connection may have failed entirely)\n";
-}
-
-if ($remoteInfo === false) {
-    $err = error_get_last();
-    echo "   📌 Last PHP error: " . ($err ? $err['message'] : 'none') . "\n";
-
-    // Try curl as fallback diagnostic
-    if (function_exists('curl_init')) {
-        echo "   📌 Attempting curl diagnostic...\n";
-        $ch = curl_init($remoteInfoURL);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'AVideo-Updater/1.0');
-        $curlResult = curl_exec($ch);
-        $curlError = curl_error($ch);
-        $curlHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curlEffectiveUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-        curl_close($ch);
-        echo "   📌 curl HTTP code: $curlHttpCode\n";
-        echo "   📌 curl effective URL: $curlEffectiveUrl\n";
-        if ($curlError) {
-            echo "   📌 curl error: $curlError\n";
-        }
-        if ($curlResult !== false && !empty($curlResult)) {
-            echo "   📌 curl got content (" . strlen($curlResult) . " bytes), using it as fallback\n";
-            $remoteInfo = $curlResult;
-        }
-    } else {
-        echo "   📌 curl extension not available for fallback\n";
-    }
-}
-
+$remoteInfo = downloadURL($remoteInfoURL);
 if ($remoteInfo === false) {
     die("❌ Failed to download remote build-info.json\n");
 }
@@ -136,7 +109,7 @@ if ($remoteVersion != $localVersion) {
 
     // Download new binary
     echo "⬇️  Downloading new yptsocket binary...\n";
-    $binary = @file_get_contents($remoteBinaryURL);
+    $binary = downloadURL($remoteBinaryURL, 120);
     if ($binary === false) {
         die("❌ Failed to download yptsocket binary\n");
     }
