@@ -118,11 +118,16 @@ _error_log("aVideoEncoder.json: Encoder receiving post " . json_encode($_REQUEST
 //_error_log(print_r($_REQUEST, true));
 if (preg_match("/(mp3|wav|ogg)$/i", $_REQUEST['format'])) {
     $obj->lines[] = __LINE__;
-    $type = 'audio';
-    $video->setType($type);
+    // Only set type to audio if it is not already set to video
+    // This prevents an audio file (e.g. mp3) arriving after an mp4 from overwriting the type
+    $currentType = $video->getType();
+    if ($currentType !== Video::$videoTypeVideo) {
+        $type = Video::$videoTypeAudio;
+        $video->setType($type);
+    }
 } elseif (preg_match("/(mp4|webm|zip)$/i", $_REQUEST['format'])) {
     $obj->lines[] = __LINE__;
-    $type = 'video';
+    $type = Video::$videoTypeVideo;
     $video->setType($type);
 }
 
