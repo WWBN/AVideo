@@ -199,8 +199,8 @@ services:
     # -R 200   → 200 requests per event loop → lower latency
     command: >
       memcached -m 512 -c 2048 -t ${NPROC:-4} -R 200
-    ports:
-      - "${MEMCACHE_PORT:-11211}:11211"
+    # No ports: directive — memcached is internal-only, accessed via app_net
+    # (same isolation pattern used by database and database_encoder services)
     deploy:
       resources:
         limits:
