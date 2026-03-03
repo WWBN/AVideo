@@ -1451,6 +1451,7 @@ function getSources($fileName, $returnArray = false, $try = 0)
             if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8" || $path_parts['extension'] == "mp3" || $path_parts['extension'] == "ogg") {
                 $obj = new stdClass();
                 $obj->type = mime_content_type_per_filename($value['path']);
+                $value['url'] = AVideoPlugin::modifyURL($value['url'], $video['id']);
                 $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
                 $obj->src = $value['url'];
                 $sourcesArray[] = $obj;
