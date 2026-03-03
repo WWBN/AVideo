@@ -3014,7 +3014,7 @@ class AVideoPlugin
         $plugins = Plugin::getAllEnabled();
         if (empty($videos_id)) {
             $videos_id = 0;
-            if (!empty($file['filename'])) {
+            if (is_array($file) && !empty($file['filename'])) {
                 $videos_id = getVideos_IdFromFilename($file['filename']);
             } else {
                 $videos_id = getVideos_id();

@@ -1438,7 +1438,7 @@ function getSources($fileName, $returnArray = false, $try = 0)
     $video = Video::getVideoFromFileNameLight($fileName);
 
     if ($video['type'] !== 'audio' && function_exists('getVRSSources')) {
-        $videoSources = getVRSSources($fileName, $returnArray);
+        $videoSources = getVRSSources($fileName, $returnArray, $video['id']);
     } else {
         $files = getVideosURL_V2($fileName, !empty($try));
         $sources = '';
