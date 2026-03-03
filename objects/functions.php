@@ -1431,9 +1431,7 @@ function getSources($fileName, $returnArray = false, $try = 0)
 {
     global $getSourcesLastLine;
 
-    if (!isset($getSourcesLastLine)) {
-        $getSourcesLastLine = [];
-    }
+    $getSourcesLastLine = [];
 
     if ($returnArray) {
         $videoSources = $audioTracks = $subtitleTracks = $captionsTracks = [];
