@@ -854,7 +854,7 @@ function getVideosURLSubtitles($fileName)
         return [];
     }
 
-    if(!function_exists('getVTTTracks')){
+    if (!function_exists('getVTTTracks')) {
         return [];
     }
 
@@ -987,7 +987,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false)
     if (empty($fileName)) {
         return [];
     }
-    if(!empty($global['debug'])){
+    if (!empty($global['debug'])) {
         _error_log("getVideosURLAudio $fileName");
     }
     $time = microtime();
@@ -1142,7 +1142,7 @@ function getVideos_IdFromFilename($fileName)
 {
     $cleanfilename = Video::getCleanFilenameFromFile($fileName);
     $video = Video::getVideoFromFileNameLight($cleanfilename);
-    if(empty($video)){
+    if (empty($video)) {
         return 0;
     }
     return $video['id'];
@@ -1429,6 +1429,12 @@ function getResolutionFromFilename($filename, $downloadIfNeed = true)
 
 function getSources($fileName, $returnArray = false, $try = 0)
 {
+    global $getSourcesLastLine;
+
+    if (!isset($getSourcesLastLine)) {
+        $getSourcesLastLine = [];
+    }
+
     if ($returnArray) {
         $videoSources = $audioTracks = $subtitleTracks = $captionsTracks = [];
     } else {
@@ -1439,6 +1445,7 @@ function getSources($fileName, $returnArray = false, $try = 0)
 
     if ($video['type'] !== 'audio' && function_exists('getVRSSources')) {
         $videoSources = getVRSSources($fileName, $returnArray, $video['id']);
+        $getSourcesLastLine[] = __LINE__;
     } else {
         $files = getVideosURL_V2($fileName, !empty($try));
         $sources = '';
@@ -1455,24 +1462,29 @@ function getSources($fileName, $returnArray = false, $try = 0)
                 $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
                 $obj->src = $value['url'];
                 $sourcesArray[] = $obj;
+                $getSourcesLastLine[] = __LINE__;
             }
         }
         $videoSources = $returnArray ? $sourcesArray : $sources;
     }
     if (function_exists('getVTTTracks')) {
         $subtitleTracks = getVTTTracks($fileName, $returnArray);
+        $getSourcesLastLine[] = __LINE__;
     }
     if (function_exists('getVTTChapterTracks')) {
         $captionsTracks = getVTTChapterTracks($fileName, $returnArray);
+        $getSourcesLastLine[] = __LINE__;
     }
     //var_dump($subtitleTracks,  $captionsTracks);exit;
     if ($returnArray) {
         $return = array_merge($videoSources, $audioTracks, $subtitleTracks,  $captionsTracks);
+        $getSourcesLastLine[] = __LINE__;
     } else {
         // remove index.mp4
         $videoSources = preg_replace('/<source src=".*index.mp4.*" type="video\/mp4" label="Low" res="360">/', '<!-- index.mp4 removed -->', $videoSources);
         //var_dump($videoSources);exit;
         $return = $videoSources . $audioTracks  . PHP_EOL . $subtitleTracks  . PHP_EOL . $captionsTracks;
+        $getSourcesLastLine[] = __LINE__;
     }
 
     $obj = new stdClass();
@@ -1485,6 +1497,7 @@ function getSources($fileName, $returnArray = false, $try = 0)
                 Video::updateFilesize($video['id']);
             }
             Video::clearCache($video['id']);
+            $getSourcesLastLine[] = __LINE__;
             return $sources;
         } else {
             _error_log("getSources($fileName) File not found " . json_encode($video));
@@ -1499,6 +1512,7 @@ function getSources($fileName, $returnArray = false, $try = 0)
             $sourcesArray["mp4"] = $obj;
             $sources["mp4"] = "<source src=\"\" type=\"{$obj->type}\" label=\"{$obj->label}\" res=\"{$obj->res}\">";
             $return = $returnArray ? $sourcesArray : PHP_EOL . implode(PHP_EOL, $sources) . PHP_EOL;
+            $getSourcesLastLine[] = __LINE__;
         }
     }
     return $return;
@@ -2103,8 +2117,7 @@ function encryptPassword(
     #[\SensitiveParameter]
     $password,
     $noSalt = false
-)
-{
+) {
     global $advancedCustom, $global, $advancedCustomUser;
     if (!empty($advancedCustomUser->encryptPasswordsWithSalt) && !empty($global['salt']) && empty($noSalt)) {
         $password .= $global['salt'];
@@ -2118,8 +2131,7 @@ function encryptPasswordVerify(
     $password,
     $hash,
     $encodedPass = false
-)
-{
+) {
     global $advancedCustom, $global;
     if (!$encodedPass || $encodedPass === 'false') {
         //_error_log("encryptPasswordVerify: encrypt");
@@ -3003,11 +3015,12 @@ function parse_url_parameters($url)
     return $result;
 }
 
-function get_contents($url, $timeout = 0){
-    if(strlen($url)>1000){
+function get_contents($url, $timeout = 0)
+{
+    if (strlen($url) > 1000) {
         $result = parse_url_parameters($url);
         return postVariables($result['base_url'], $result['parameters'], false, $timeout);
-    }else{
+    } else {
         return url_get_contents($url, $timeout);
     }
 }
@@ -3050,7 +3063,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
         }
         return $httpcode;
     } else {
-        _error_log("postVariables: {$url} success ".(strlen($response) < 1000 ? $response : 'response is too long'));
+        _error_log("postVariables: {$url} success " . (strlen($response) < 1000 ? $response : 'response is too long'));
         curl_close($ch);
         return $response;
     }
@@ -3163,7 +3176,7 @@ function clearCache($firstPageOnly = false)
 
 function clearAllUsersSessionCache()
 {
-    _error_log("clearAllUsersSessionCache ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+    _error_log("clearAllUsersSessionCache " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     sendSocketMessageToAll(time(), 'socketClearSessionCache');
 }
 
@@ -3881,7 +3894,7 @@ function isVideoOrAudioNotEmbed()
     if (in_array($v['type'], $types)) {
         return true;
     }
-    $isVideoOrAudioNotEmbedReason = 'Invalid type'.$v['type'];
+    $isVideoOrAudioNotEmbedReason = 'Invalid type' . $v['type'];
     return false;
 }
 
@@ -5184,7 +5197,8 @@ function playHLSasMP4($filepath)
     exit;
 }
 
-function socialModalWasAdded($videos_id){
+function socialModalWasAdded($videos_id)
+{
     global $global;
     if (empty($global["socialModalWasAdded_{$videos_id}"])) {
         return false;
@@ -5195,7 +5209,7 @@ function socialModalWasAdded($videos_id){
 function getSocialModal($videos_id, $url = "", $title = "")
 {
     global $global;
-    if(socialModalWasAdded($videos_id)){
+    if (socialModalWasAdded($videos_id)) {
         //_error_log("getSocialModal($videos_id) already added");
         return false;
     }
@@ -5396,19 +5410,19 @@ function pathOrURLToValidURL($filenameOrURL)
     if (strpos($filenameOrURL, $videosURL) === 0) {
         $relativePath = str_replace($videosURL, '', $filenameOrURL);
         $filePath = "{$videosPath}{$relativePath}";
-        $defaultURL = getCDN() . 'videos/'.$relativePath;
-    }else if(file_exists($filenameOrURL)){
+        $defaultURL = getCDN() . 'videos/' . $relativePath;
+    } else if (file_exists($filenameOrURL)) {
         $relativePath = str_replace($videosPath, '', $filenameOrURL);
         $filePath = $filenameOrURL;
-        $defaultURL = getCDN() . 'videos/'.$relativePath;
-    }else if(file_exists("{$global['systemRootPath']}{$filenameOrURL}")){
+        $defaultURL = getCDN() . 'videos/' . $relativePath;
+    } else if (file_exists("{$global['systemRootPath']}{$filenameOrURL}")) {
         $relativePath = str_replace('videos/', '', $filenameOrURL);
         $filePath = "{$global['systemRootPath']}videos/{$relativePath}";
-        $defaultURL = getCDN() . 'videos/'.$relativePath;
-    }else if(file_exists("{$videosPath}{$filenameOrURL}")){
+        $defaultURL = getCDN() . 'videos/' . $relativePath;
+    } else if (file_exists("{$videosPath}{$filenameOrURL}")) {
         $relativePath = "{$filenameOrURL}";
         $filePath = "{$global['systemRootPath']}videos/{$relativePath}";
-        $defaultURL = getCDN() . 'videos/'.$relativePath;
+        $defaultURL = getCDN() . 'videos/' . $relativePath;
     }
 
     if (file_exists($filePath)) {
@@ -5424,7 +5438,7 @@ function pathOrURLToValidURL($filenameOrURL)
         $yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage");
         if (!empty($yptStorage)) {
             $source = $yptStorage->getAddress($relativePath);
-            if(!empty($source['url'])){
+            if (!empty($source['url'])) {
                 return $source['url'];
             }
         }
@@ -5432,17 +5446,17 @@ function pathOrURLToValidURL($filenameOrURL)
         if (!preg_match('/index.m3u8$/', $filePath)) {
             if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
                 $source = $aws_s3->getAddress("{$filePath}");
-                if(!empty($source['url'])){
+                if (!empty($source['url'])) {
                     return $source['url'];
                 }
             } elseif ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
                 $source = $bb_b2->getAddress("{$filePath}");
-                if(!empty($source['url'])){
+                if (!empty($source['url'])) {
                     return $source['url'];
                 }
             } elseif ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
                 $source = $ftp->getAddress("{$filePath}");
-                if(!empty($source['url'])){
+                if (!empty($source['url'])) {
                     return $source['url'];
                 }
             }
@@ -5923,7 +5937,8 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             $removedCount = 0;
             foreach ($json['applications'] as $key => $app) {
                 if ((isset($app['type']) && (strtolower($app['type']) === 'ppvlive' || strtolower($app['type']) === 'ppv')) ||
-                    (isset($app['method']) && strpos($app['method'], 'PPVLive') !== false)) {
+                    (isset($app['method']) && strpos($app['method'], 'PPVLive') !== false)
+                ) {
 
                     foreach ($liveStreams as $live) {
                         if (!empty($live['users_id']) && $live['users_id'] == $app['users_id']) {
@@ -5968,8 +5983,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
         //Live::checkAllFromStats();
         TimeLogEnd($timeName, __LINE__);
         //_error_log('Live::createStatsCache ' . json_encode($cache));
-    }
-    else {
+    } else {
         //_error_log('getStatsNotifications: 2 cached result');
         $json = array();
     }
@@ -6960,7 +6974,7 @@ function deleteMediaSessionPosters($imagePath)
         return false;
     }
 
-    if(isBot(false) && !isCommandLineInterface()){
+    if (isBot(false) && !isCommandLineInterface()) {
         return false;
     }
     $sizes = [96, 128, 192, 256, 384, 512];

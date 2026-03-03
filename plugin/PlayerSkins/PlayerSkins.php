@@ -123,7 +123,7 @@ class PlayerSkins extends PluginAbstract
 
     static function getMediaTag($filename, $htmlMediaTag = false)
     {
-        global $autoPlayURL, $global, $config, $isVideoTypeEmbed, $advancedCustom;
+        global $autoPlayURL, $global, $config, $isVideoTypeEmbed, $advancedCustom, $getSourcesLastLine;
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         $html = '';
         if (empty($htmlMediaTag)) {
@@ -149,7 +149,7 @@ class PlayerSkins extends PluginAbstract
                 if ($video['type'] == Video::$videoTypeVideo) {
                     $sources = getSources($video['filename']);
                     //var_dump($video['filename'], $sources);exit;
-                    $htmlMediaTag .= PHP_EOL . "<!-- Video title={$video['title']} {$video['filename']} -->";
+                    $htmlMediaTag .= PHP_EOL . "<!-- Video title={$video['title']} {$video['filename']} getSourcesLastLine=".implode(', ', $getSourcesLastLine)." -->";
                     $htmlMediaTag .= PHP_EOL . $sources; //var_dump($sources);exit;
                 } else { // video link
                     $url = AVideoPlugin::modifyURL($video['videoLink'], $video['id']);
