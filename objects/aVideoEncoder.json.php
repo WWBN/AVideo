@@ -124,6 +124,9 @@ if (preg_match("/(mp3|wav|ogg)$/i", $_REQUEST['format'])) {
     if ($currentType !== Video::$videoTypeVideo) {
         $type = Video::$videoTypeAudio;
         $video->setType($type);
+        _error_log("aVideoEncoder.json: Setting type to audio for format {$_REQUEST['format']} currentType={$currentType}");
+    }else{
+        _error_log("aVideoEncoder.json: Keeping type as video for format {$_REQUEST['format']} currentType={$currentType}");
     }
 } elseif (preg_match("/(mp4|webm|zip)$/i", $_REQUEST['format'])) {
     $obj->lines[] = __LINE__;

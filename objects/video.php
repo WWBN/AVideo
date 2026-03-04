@@ -6249,10 +6249,26 @@ if (!class_exists('Video')) {
         }
 
         /**
-         * Based on Roku Type
-         * @param string $filename
-         * @return string
+         * If the video type is audio but has MP4 or HLS files, fix it to video.
+         * @param int $videos_id
+         * @return string the corrected type or the original type
          */
+        public static function fixAudioTypeIfHasVideoFiles($videos_id)
+        {
+            $video = new Video('', '', $videos_id);
+            if ($video->getType() !== Video::$videoTypeAudio) {
+                return $video->getType();
+            }
+            $videoType = self::getVideoType($video->getFilename());
+            if (!empty($videoType->mp4) || !empty($videoType->m3u8)) {
+                $video->setType(Video::$videoTypeVideo);
+                $video->save();
+                Video::clearCache($videos_id);
+                return Video::$videoTypeVideo;
+            }
+            return $video->getType();
+        }
+
         public static function getVideoTypeText($filename)
         {
             $obj = self::getVideoType($filename);

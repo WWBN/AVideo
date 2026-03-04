@@ -57,6 +57,8 @@ foreach ($videos as $key => $value) {
     $videos[$key]['clean_title'] = @preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['clean_title']);
     TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
     $videos[$key]['typeLabels'] = Video::getVideoTypeLabels($videos[$key]['filename']);
+    // TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
+    // $videos[$key]['type'] = Video::fixAudioTypeIfHasVideoFiles($videos[$key]['id']);
     TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
     $videos[$key]['maxResolution'] = Video::getHigestResolution($videos[$key]['filename']);
     TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
