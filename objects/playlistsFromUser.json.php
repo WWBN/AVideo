@@ -18,7 +18,14 @@ _error_log('playlistsFromUserVideos getAllFromUser '.$_GET['users_id']);
 //setDefaultSort('created', 'DESC');
 //setRowCount(50);
 //_session_write_close();
-$row = PlayList::getAllFromUser($_GET['users_id'], false);
+
+// Only the playlist owner or an admin can see non-public playlists
+$requestedUserId = intval($_GET['users_id']);
+$publicOnly = true;
+if (User::isLogged() && (User::getId() == $requestedUserId || User::isAdmin())) {
+    $publicOnly = false;
+}
+$row = PlayList::getAllFromUser($requestedUserId, $publicOnly);
 foreach ($row as $key => $value) {
     foreach ($row[$key]['videos'] as $key2 => $value2) {
         unset($row[$key]['videos'][$key2]['description']);
