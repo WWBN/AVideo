@@ -1,3 +1,10 @@
 player.ready(function () {
-    player.src(player.currentSources());
+    var currentSrc = player.currentSrc() || '';
+    var currentSources = getPlayerCurrentSources();
+
+    if (currentSrc || hasHlsSource(currentSources) || hasInlineHlsSource() || !currentSources.length) {
+        return;
+    }
+
+    player.src(currentSources);
 });

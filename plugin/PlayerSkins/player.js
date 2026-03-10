@@ -36,8 +36,39 @@ function appendOnPlayer(element) {
     }
 }
 
+function getPlayerCurrentSources() {
+    return player.currentSources() || [];
+}
+
+function hasHlsSource(sources) {
+    return (sources || []).some(function (source) {
+        var src = (source && source.src) || '';
+        return src.indexOf('.m3u8') !== -1;
+    });
+}
+
+function hasInlineHlsSource() {
+    return $('#mainVideo source').toArray().some(function (source) {
+        var src = $(source).attr('src') || '';
+        return src.indexOf('.m3u8') !== -1;
+    });
+}
+
+function isCurrentPlayerSourceHls() {
+    var currentSrc = player.currentSrc() || '';
+    if (currentSrc.indexOf('.m3u8') !== -1) {
+        return true;
+    }
+
+    return hasHlsSource(getPlayerCurrentSources());
+}
+
 function checkResolutionsLabelFix() {
     if (!$('#mainVideo .vjs-quality-selector .vjs-menu-item-text').length) {
+        if (isCurrentPlayerSourceHls() || window._downP_vhsCheckPending) {
+            return;
+        }
+
         if (typeof hlsLog === 'function') {
             hlsLog('[AVIDEO-HLS] Reloading player - no quality menu items found');
         }
