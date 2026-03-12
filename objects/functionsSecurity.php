@@ -346,28 +346,119 @@ function isBot($returnTrueIfNoUserAgent=true)
     return $_isBot;
 }
 
+class ParsedownSafeWithLinks extends Parsedown
+{
+    // Allow only <a> and <img> — all other raw HTML is escaped by the parent.
+    // safeMode/markupEscaped must stay OFF so our overrides can run.
+
+    private static function sanitizeATag($rawAttrs)
+    {
+        $href = '';
+        $target = '';
+        if (preg_match('/\bhref\s*=\s*"([^"]*)"|\bhref\s*=\s*\'([^\']*)\'/i', $rawAttrs, $m)) {
+            $url = $m[2] !== '' ? $m[2] : $m[1];
+            if (preg_match('/^(https?:\/\/|mailto:|\/|#)/i', $url)) {
+                $href = ' href="' . htmlspecialchars($url, ENT_QUOTES) . '"';
+            }
+        }
+        if (preg_match('/\btarget\s*=\s*"([^"]*)"|\btarget\s*=\s*\'([^\']*)\'/i', $rawAttrs, $m)) {
+            $val = $m[2] !== '' ? $m[2] : $m[1];
+            if (in_array($val, ['_blank', '_self', '_parent', '_top'], true)) {
+                $target = ' target="' . $val . '"';
+            }
+        }
+        return '<a' . $href . $target . '>';
+    }
+
+    private static function sanitizeImgTag($rawAttrs)
+    {
+        $src = '';
+        $class = 'img img-responsive';
+        $style = '';
+        if (preg_match('/\bsrc\s*=\s*"([^"]*)"|\bsrc\s*=\s*\'([^\']*)\'/i', $rawAttrs, $m)) {
+            $url = $m[2] !== '' ? $m[2] : $m[1];
+            if (!preg_match('/^(javascript:|vbscript:|data:)/i', $url)) {
+                $src = htmlspecialchars($url, ENT_QUOTES);
+            }
+        }
+        if (empty($src)) {
+            return null;
+        }
+        if (preg_match('/\bclass\s*=\s*"([^"]*)"|\bclass\s*=\s*\'([^\']*)\'/i', $rawAttrs, $m)) {
+            $cv = $m[2] !== '' ? $m[2] : $m[1];
+            $class = htmlspecialchars($cv, ENT_QUOTES) . ' img img-responsive';
+        }
+        if (preg_match('/\bstyle\s*=\s*"([^"]*)"|\bstyle\s*=\s*\'([^\']*)\'/i', $rawAttrs, $m)) {
+            $sv = $m[2] !== '' ? $m[2] : $m[1];
+            $sv = preg_replace('/expression\s*\(|javascript:/i', '', $sv);
+            $style = ' style="' . htmlspecialchars($sv, ENT_QUOTES) . '"';
+        }
+        return '<img src="' . $src . '" class="' . $class . '"' . $style . '>';
+    }
+
+    protected function blockMarkup($Line)
+    {
+        $tag = '';
+        if (preg_match('/^<(\w[\w-]*)(\s[^>]*)?>/', $Line['text'], $m)) {
+            $tag = strtolower($m[1]);
+        }
+        if ($tag !== 'a' && $tag !== 'img') {
+            // Escape everything else — mimic safeMode behaviour
+            return null;
+        }
+        return parent::blockMarkup($Line);
+    }
+
+    protected function inlineMarkup($Excerpt)
+    {
+        if (strpos($Excerpt['text'], '>') === false) {
+            return null;
+        }
+
+        // Closing </a>
+        if (preg_match('/^<\/a[ ]*>/i', $Excerpt['text'], $m)) {
+            return ['markup' => '</a>', 'extent' => strlen($m[0])];
+        }
+
+        // <a ...>
+        if (preg_match('/^<a(\s[^>]*)>/i', $Excerpt['text'], $m)) {
+            return ['markup' => self::sanitizeATag($m[1]), 'extent' => strlen($m[0])];
+        }
+
+        // <img ...>
+        if (preg_match('/^<img(\s[^>]*)\s*\/?>/i', $Excerpt['text'], $m)) {
+            $tag = self::sanitizeImgTag($m[1]);
+            if ($tag === null) {
+                return null;
+            }
+            return ['markup' => $tag, 'extent' => strlen($m[0])];
+        }
+
+        // All other inline HTML: escape it
+        return null;
+    }
+}
+
 function markDownToHTML($text) {
-    $parsedown = new Parsedown();
+    $parsedown = new ParsedownSafeWithLinks();
+    // safeMode OFF so our overrides in blockMarkup/inlineMarkup control what passes
+    $parsedown->setSafeMode(false);
+    $parsedown->setMarkupEscaped(false);
 
-    // Enable safe mode to prevent XSS via raw HTML in markdown input
-    $parsedown->setSafeMode(true);
-    // Also escape any markup that bypasses safe mode
-    $parsedown->setMarkupEscaped(true);
-
-    // Convert Markdown to HTML
+    // Convert Markdown to HTML; <a> and <img> are sanitized, everything else is escaped
     $html = $parsedown->text($text);
 
     // Convert new lines to <br> tags
     $html = nl2br($html);
 
-    // Convert URLs to clickable links with target="_blank"
+    // Convert bare URLs to clickable links with target="_blank"
     $html = preg_replace(
         '/\b[^"\']https?:\/\/[^\s<]+/i',
         '<a href="$0" target="_blank" rel="noopener noreferrer">$0</a>',
         $html
     );
 
-    // Add classes to images
+    // Add classes to images produced by markdown image syntax ![alt](url)
     $html = preg_replace(
         '/<img([^>]+)>/i',
         '<img$1 class="img img-responsive">',
