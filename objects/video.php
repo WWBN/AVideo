@@ -1040,8 +1040,13 @@ if (!class_exists('Video')) {
                                 if (in_array($this->type, $typesToBeAutoDraft)) {
                                     return $this->setStatus(Video::STATUS_DRAFT);
                                 } else {
-                                    _error_log("Video::setAutoStatus({$this->type}) set to default status " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-                                    return $this->setStatus($advancedCustom->defaultVideoStatus->value);
+                                    // Use the caller-provided $default if it differs from the hard-coded
+                                    // function default ('a'), meaning the caller explicitly requested a
+                                    // specific status (e.g. STATUS_DRAFT from videoAddNew.json.php).
+                                    // Otherwise fall back to the site-configured default status.
+                                    $statusToSet = ($default !== Video::STATUS_ACTIVE) ? $default : $advancedCustom->defaultVideoStatus->value;
+                                    _error_log("Video::setAutoStatus({$this->type}) set to status {$statusToSet} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+                                    return $this->setStatus($statusToSet);
                                 }
                             } else {
                                 return $this->setStatus(Video::STATUS_INACTIVE);
