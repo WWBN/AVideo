@@ -2,6 +2,17 @@
 require_once '../objects/functions.php';
 require_once '../locale/function.php';
 //var_dump($_SERVER);exit;
+
+// Generate a one-time CSRF token for the install form.
+// checkConfiguration.php validates this token so that direct POST requests
+// (without first loading this page) are rejected.
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (empty($_SESSION['install_csrf_token'])) {
+    $_SESSION['install_csrf_token'] = bin2hex(random_bytes(32));
+}
+$_installCsrfToken = $_SESSION['install_csrf_token'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -443,7 +454,8 @@ require_once '../locale/function.php';
                             mainLanguage: mainLanguage,
                             systemAdminPass: systemAdminPass,
                             contactEmail: contactEmail,
-                            createTables: createTables
+                            createTables: createTables,
+                            install_csrf_token: '<?php echo htmlspecialchars($_installCsrfToken, ENT_QUOTES, "UTF-8"); ?>'
                         },
                         type: 'post',
                         success: function (response) {

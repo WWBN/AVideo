@@ -18,7 +18,18 @@ $webSiteRootURL = @$argv[1];
 $webSiteRootURL = preg_replace("/[^0-9a-z._\/:-]/i", "", trim($webSiteRootURL));
 $databaseUser = empty($argv[2]) ? $databaseUser : $argv[2];
 $databasePass = empty($argv[3]) ? $databasePass : $argv[3];
-$systemAdminPass = empty($argv[4]) ? "123" : $argv[4];
+if (empty($argv[4])) {
+    echo "Enter admin password (leave blank to generate a random one): ";
+    @ob_flush();
+    $systemAdminPass = trim(readline(""));
+    if (empty($systemAdminPass)) {
+        $systemAdminPass = bin2hex(random_bytes(8));
+        echo "Generated admin password: {$systemAdminPass}\n";
+        echo "IMPORTANT: Save this password now, it will not be shown again.\n";
+    }
+} else {
+    $systemAdminPass = $argv[4];
+}
 $contactEmail = empty($argv[5]) ? "undefined@youremail.com" : $argv[5];
 if (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
     if (!empty($webSiteRootURL)) {
