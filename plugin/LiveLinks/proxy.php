@@ -28,7 +28,9 @@ $options = array(
     'http' => array(
         'user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
         "method" => "GET",
-        "header" => array("Referer: localhost\r\nAccept-languange: en\r\nCookie: foo=bar\r\n")
+        "header" => array("Referer: localhost\r\nAccept-languange: en\r\nCookie: foo=bar\r\n"),
+        'follow_location' => 0,
+        'max_redirects' => 0,
     )
 );
 $context = stream_context_create($options);
@@ -37,7 +39,23 @@ $_GET['livelink'] = addGlobalTokenIfSameDomain($_GET['livelink']);
 
 $headers = get_headers($_GET['livelink'], 1, $context);
 if (!empty($headers["Location"])) {
-    $_GET['livelink'] = $headers["Location"];
+    $redirectUrl = $headers["Location"];
+
+    // Validate the redirect target URL format and scheme before SSRF check
+    if (!filter_var($redirectUrl, FILTER_VALIDATE_URL) || !preg_match("/^https?:\/\//i", $redirectUrl)) {
+        _error_log("LiveLinks proxy: invalid redirect URL: " . $redirectUrl);
+        echo "Access denied: Invalid redirect URL";
+        exit;
+    }
+
+    // SSRF Protection: Re-validate redirect target against internal/private networks
+    if (!isSSRFSafeURL($redirectUrl)) {
+        _error_log("LiveLinks proxy: SSRF protection blocked redirect URL: " . $redirectUrl);
+        echo "Access denied: Redirect URL targets restricted network";
+        exit;
+    }
+
+    $_GET['livelink'] = $redirectUrl;
     $urlinfo = parse_url($_GET['livelink']);
     $content = fakeBrowser($_GET['livelink']);
     $_GET['livelink'] = "{$urlinfo["scheme"]}://{$urlinfo["host"]}:{$urlinfo["port"]}";
