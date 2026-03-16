@@ -99,6 +99,11 @@ else
 fi
 
 echo "entrypoint -- Checking configuration..."
+if [ -z "${SYSTEM_ADMIN_PASSWORD}" ] || [ "${SYSTEM_ADMIN_PASSWORD}" = "password" ]; then
+  echo "WARNING: SYSTEM_ADMIN_PASSWORD is not set or uses the insecure default."
+  echo "         The installer will generate a random password."
+  echo "         Retrieve it from container logs or videos/.initial_admin_password."
+fi
 cd /var/www/html/AVideo/install/
 php ./cli.php
 cd /var/www/html/AVideo/

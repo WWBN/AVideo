@@ -42,7 +42,7 @@ services:
       TLS_CERTIFICATE_FILE: "${TLS_CERTIFICATE_FILE:-/etc/apache2/ssl/localhost.crt}"
       TLS_CERTIFICATE_KEY: "${TLS_CERTIFICATE_KEY:-/etc/apache2/ssl/localhost.key}"
       CONTACT_EMAIL: "${CONTACT_EMAIL:-admin@localhost}"
-      SYSTEM_ADMIN_PASSWORD: "${SYSTEM_ADMIN_PASSWORD:-password}"
+      SYSTEM_ADMIN_PASSWORD: "${SYSTEM_ADMIN_PASSWORD}"
       WEBSITE_TITLE: "${WEBSITE_TITLE:-AVideo}"
       MAIN_LANGUAGE: "${MAIN_LANGUAGE:-en_US}"
       NGINX_RTMP_PORT: "${NGINX_RTMP_PORT:-1935}"
