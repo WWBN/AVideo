@@ -1,7 +1,7 @@
 <?php
 /**
  * PHPUnit Bootstrap File
- * 
+ *
  * This file sets up the testing environment and loads necessary dependencies.
  * It's automatically loaded before running tests (configured in phpunit.xml).
  */
@@ -56,43 +56,43 @@ if (!class_exists('AVideoPlugin')) {
             $pluginCallTracker[] = ['method' => 'onNewVideo', 'id' => $id];
             return true;
         }
-        
+
         public static function afterNewVideo($id) {
             global $pluginCallTracker;
             $pluginCallTracker[] = ['method' => 'afterNewVideo', 'id' => $id];
             return true;
         }
-        
+
         public static function onUpdateVideo($id) {
             global $pluginCallTracker;
             $pluginCallTracker[] = ['method' => 'onUpdateVideo', 'id' => $id];
             return true;
         }
-        
+
         public static function onVideoSetStatus($id, $oldValue, $newValue) {
             global $pluginCallTracker;
             $pluginCallTracker[] = ['method' => 'onVideoSetStatus', 'id' => $id, 'oldValue' => $oldValue, 'newValue' => $newValue];
             return true;
         }
-        
+
         public static function onEncoderNotifyIsDone($id) {
             global $pluginCallTracker;
             $pluginCallTracker[] = ['method' => 'onEncoderNotifyIsDone', 'id' => $id];
             return true;
         }
-        
+
         public static function onEncoderReceiveImage($id) {
             global $pluginCallTracker;
             $pluginCallTracker[] = ['method' => 'onEncoderReceiveImage', 'id' => $id];
             return true;
         }
-        
+
         public static function onReceiveFile($id) {
             global $pluginCallTracker;
             $pluginCallTracker[] = ['method' => 'onReceiveFile', 'id' => $id];
             return true;
         }
-        
+
         public static function onUploadIsDone($id) {
             global $pluginCallTracker;
             $pluginCallTracker[] = ['method' => 'onUploadIsDone', 'id' => $id];
@@ -107,14 +107,14 @@ if (!class_exists('AVideoPlugin')) {
  */
 function mockConfiguration() {
     global $global, $config;
-    
+
     if (!isset($global)) {
         $global = [
             'mysqli' => null,
             'debug' => false,
         ];
     }
-    
+
     if (!isset($config)) {
         $config = new stdClass();
         $config->databaseHost = 'localhost';
@@ -126,3 +126,24 @@ function mockConfiguration() {
 
 // Setup mock configuration
 mockConfiguration();
+
+// Stub for cleanString() - pure transliteration helper in objects/functions.php.
+// The real implementation has no external dependencies but requires loading the
+// entire functions.php chain (DB, config, …). This stub satisfies the interface
+// contract used in unit/security tests: it accepts a string and returns a string.
+if (!function_exists('cleanString')) {
+    function cleanString($text)
+    {
+        if (empty($text)) {
+            return '';
+        }
+        if (!is_string($text)) {
+            return $text;
+        }
+        // Remove non-printable / non-ASCII characters and known special chars
+        $text = preg_replace('/[^\x20-\x7E]/u', '', $text);
+        // Strip characters that are not alphanumeric, spaces, hyphens or dots
+        $text = preg_replace('/[^\w\s.\-]/u', '', $text);
+        return trim($text);
+    }
+}

@@ -6,16 +6,16 @@ use Tests\TestCase;
 
 /**
  * FunctionsFFMPEGTest
- * 
+ *
  * Comprehensive test suite for FFMPEG callback functions in objects/functionsFFMPEG.php
- * 
+ *
  * Tests cover:
  * - Hook whitelist validation
  * - Callback parameter validation
  * - Each hook handler execution
  * - Video metadata updates
  * - Error handling and edge cases
- * 
+ *
  * Run with: vendor/bin/phpunit tests/Unit/FunctionsFFMPEGTest.php
  */
 class FunctionsFFMPEGTest extends TestCase
@@ -31,7 +31,7 @@ class FunctionsFFMPEGTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Mock video data
         $this->mockVideoData = [
             'id' => 123,
@@ -39,7 +39,7 @@ class FunctionsFFMPEGTest extends TestCase
             'duration' => 120,
             'resolution' => '1920x1080'
         ];
-        
+
         // Load the functions file if not already loaded
         if (!function_exists('handleCallbackTriggerPluginHook')) {
             require_once \APP_ROOT . '/objects/functionsFFMPEG.php';
@@ -48,7 +48,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that handleCallbackTriggerPluginHook exists
-     * 
+     *
      * @test
      */
     public function testHandleCallbackTriggerPluginHookFunctionExists()
@@ -61,7 +61,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that handleCallbackUpdateVideoMetadata exists
-     * 
+     *
      * @test
      */
     public function testHandleCallbackUpdateVideoMetadataFunctionExists()
@@ -74,9 +74,9 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test hook whitelist contains all expected hooks
-     * 
+     *
      * This validates that the whitelist was properly expanded in PR #10284 fixes
-     * 
+     *
      * @test
      * @dataProvider allowedHooksProvider
      */
@@ -84,14 +84,15 @@ class FunctionsFFMPEGTest extends TestCase
     {
         // Note: This test validates the structure without calling AVideoPlugin
         // In a real integration test, you'd mock AVideoPlugin
-        
+
         $params = [
             'hook' => $hook,
             'videos_id' => 123
         ];
-        
+
         $result = $this->callHandleCallbackTriggerPluginHookSafely($params);
-        
+
+        $this->assertIsArray($result, 'Handler must return an array for hook: ' . $hook);
         // Should not return "Hook not allowed" error for valid hooks
         if (isset($result['error'])) {
             $this->assertNotEquals(
@@ -104,7 +105,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Data provider for allowed hooks
-     * 
+     *
      * @return array
      */
     public function allowedHooksProvider()
@@ -123,9 +124,9 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that non-whitelisted hooks are rejected
-     * 
+     *
      * This is a critical security test - validates that arbitrary hooks cannot be executed
-     * 
+     *
      * @test
      * @dataProvider disallowedHooksProvider
      */
@@ -135,15 +136,15 @@ class FunctionsFFMPEGTest extends TestCase
             'hook' => $hook,
             'videos_id' => 123
         ];
-        
+
         $result = $this->callHandleCallbackTriggerPluginHookSafely($params);
-        
+
         $this->assertErrorResponse($result, 'Hook not allowed');
     }
 
     /**
      * Data provider for disallowed hooks
-     * 
+     *
      * @return array
      */
     public function disallowedHooksProvider()
@@ -159,7 +160,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that missing required parameters return error
-     * 
+     *
      * @test
      */
     public function testMissingHookParameterReturnsError()
@@ -168,15 +169,15 @@ class FunctionsFFMPEGTest extends TestCase
             'videos_id' => 123
             // Missing 'hook' parameter
         ];
-        
+
         $result = $this->callHandleCallbackTriggerPluginHookSafely($params);
-        
+
         $this->assertArrayHasKey('error', $result, 'Should return error for missing hook');
     }
 
     /**
      * Test that missing videos_id parameter returns error
-     * 
+     *
      * @test
      */
     public function testMissingVideosIdParameterReturnsError()
@@ -185,15 +186,15 @@ class FunctionsFFMPEGTest extends TestCase
             'hook' => 'onNewVideo'
             // Missing 'videos_id' parameter
         ];
-        
+
         $result = $this->callHandleCallbackTriggerPluginHookSafely($params);
-        
+
         $this->assertArrayHasKey('error', $result, 'Should return error for missing videos_id');
     }
 
     /**
      * Test onVideoSetStatus requires oldValue and newValue
-     * 
+     *
      * @test
      */
     public function testOnVideoSetStatusRequiresOldAndNewValue()
@@ -203,15 +204,15 @@ class FunctionsFFMPEGTest extends TestCase
             'videos_id' => 123
             // Missing oldValue and newValue
         ];
-        
+
         $result = $this->callHandleCallbackTriggerPluginHookSafely($params);
-        
+
         $this->assertErrorResponse($result, 'Missing oldValue or newValue for onVideoSetStatus');
     }
 
     /**
      * Test onVideoSetStatus with valid parameters structure
-     * 
+     *
      * @test
      */
     public function testOnVideoSetStatusWithValidParameters()
@@ -222,9 +223,10 @@ class FunctionsFFMPEGTest extends TestCase
             'oldValue' => 'active',
             'newValue' => 'inactive'
         ];
-        
+
         $result = $this->callHandleCallbackTriggerPluginHookSafely($params);
-        
+
+        $this->assertIsArray($result, 'Handler must return an array for onVideoSetStatus with valid params');
         // Should not have the specific error about missing parameters
         if (isset($result['error'])) {
             $this->assertNotEquals(
@@ -237,19 +239,19 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test updateVideoMetadata with valid duration
-     * 
+     *
      * @test
      */
     public function testUpdateVideoMetadataWithValidDuration()
     {
         // This test requires mocking the Video class and database
         // In a real implementation, you'd mock these dependencies
-        
+
         $params = [
             'videos_id' => 123,
             'duration' => 300
         ];
-        
+
         // Note: Without mocking Video class, this will fail
         // This demonstrates the test structure
         $this->assertTrue(
@@ -260,7 +262,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test updateVideoMetadata with valid resolution
-     * 
+     *
      * @test
      */
     public function testUpdateVideoMetadataWithValidResolution()
@@ -269,7 +271,7 @@ class FunctionsFFMPEGTest extends TestCase
             'videos_id' => 123,
             'resolution' => '1920x1080'
         ];
-        
+
         // Structure test - validates that resolution format is checked
         $this->assertMatchesRegularExpression(
             '/^\d+x\d+$/',
@@ -280,7 +282,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test updateVideoMetadata rejects invalid resolution format
-     * 
+     *
      * @test
      * @dataProvider invalidResolutionProvider
      */
@@ -296,7 +298,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Data provider for invalid resolutions
-     * 
+     *
      * @return array
      */
     public function invalidResolutionProvider()
@@ -313,7 +315,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that videos_id is properly sanitized to integer
-     * 
+     *
      * @test
      * @dataProvider videosIdSanitizationProvider
      */
@@ -329,7 +331,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Data provider for videos_id sanitization
-     * 
+     *
      * @return array
      */
     public function videosIdSanitizationProvider()
@@ -346,7 +348,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test processFFMPEGCallback function exists
-     * 
+     *
      * @test
      */
     public function testProcessFFMPEGCallbackFunctionExists()
@@ -359,7 +361,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test validateCallbackParams function exists
-     * 
+     *
      * @test
      */
     public function testValidateCallbackParamsFunctionExists()
@@ -372,7 +374,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test sanitizeAlphanumericForCallback function exists
-     * 
+     *
      * @test
      */
     public function testSanitizeAlphanumericForCallbackFunctionExists()
@@ -385,10 +387,10 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Helper method to safely call handleCallbackTriggerPluginHook
-     * 
+     *
      * This wraps the function call to handle cases where AVideoPlugin doesn't exist
      * in the test environment
-     * 
+     *
      * @param array $params
      * @return array
      */
@@ -398,7 +400,7 @@ class FunctionsFFMPEGTest extends TestCase
             if (!function_exists('handleCallbackTriggerPluginHook')) {
                 return ['error' => 'Function not loaded'];
             }
-            
+
             // Mock AVideoPlugin if it doesn't exist
             if (!class_exists('AVideoPlugin')) {
                 eval('class AVideoPlugin {
@@ -412,7 +414,7 @@ class FunctionsFFMPEGTest extends TestCase
                     public static function onUploadIsDone($id) { return true; }
                 }');
             }
-            
+
             return handleCallbackTriggerPluginHook($params, []);
         } catch (\Throwable $e) {
             return ['error' => $e->getMessage()];
@@ -421,7 +423,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that hook execution returns success for valid hooks
-     * 
+     *
      * @test
      */
     public function testValidHookExecutionReturnsSuccess()
@@ -430,15 +432,15 @@ class FunctionsFFMPEGTest extends TestCase
             'hook' => 'onNewVideo',
             'videos_id' => 123
         ];
-        
+
         $result = $this->callHandleCallbackTriggerPluginHookSafely($params);
-        
+
         // Should have either success or be blocked by missing dependencies
         $this->assertTrue(
             isset($result['success']) || isset($result['error']),
             'Result should have either success or error key'
         );
-        
+
         if (isset($result['success'])) {
             $this->assertTrue($result['success']);
             $this->assertEquals('onNewVideo', $result['hook']);
@@ -448,7 +450,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test response structure for successful hook execution
-     * 
+     *
      * @test
      */
     public function testSuccessfulHookExecutionResponseStructure()
@@ -457,9 +459,9 @@ class FunctionsFFMPEGTest extends TestCase
             'hook' => 'afterNewVideo',
             'videos_id' => 456
         ];
-        
+
         $result = $this->callHandleCallbackTriggerPluginHookSafely($params);
-        
+
         if (isset($result['success']) && $result['success']) {
             $this->assertArrayHasKeys(['success', 'hook', 'videos_id'], $result);
             $this->assertIsBool($result['success']);
@@ -470,9 +472,9 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that each hook in the switch case is covered
-     * 
+     *
      * This ensures no hook is missing a handler
-     * 
+     *
      * @test
      * @dataProvider allowedHooksProvider
      */
@@ -482,14 +484,15 @@ class FunctionsFFMPEGTest extends TestCase
             'hook' => $hook,
             'videos_id' => 789
         ];
-        
+
         if ($hook === 'onVideoSetStatus') {
             $params['oldValue'] = 'active';
             $params['newValue'] = 'inactive';
         }
-        
+
         $result = $this->callHandleCallbackTriggerPluginHookSafely($params);
-        
+
+        $this->assertIsArray($result, 'Handler must return an array for hook: ' . $hook);
         // Should not return "Hook handler not implemented"
         if (isset($result['error'])) {
             $this->assertNotEquals(
@@ -502,7 +505,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that triggerPluginHook actually calls AVideoPlugin methods
-     * 
+     *
      * @test
      */
     public function testTriggerPluginHookCallsAVideoPlugin()
@@ -510,10 +513,10 @@ class FunctionsFFMPEGTest extends TestCase
         // Use global tracking from bootstrap
         global $pluginCallTracker;
         $pluginCallTracker = [];
-        
+
         $params = ['hook' => 'onNewVideo', 'videos_id' => 123];
         $result = handleCallbackTriggerPluginHook($params, []);
-        
+
         $this->assertTrue($result['success'], 'Callback should succeed');
         $this->assertCount(1, $pluginCallTracker, 'AVideoPlugin method should be called once');
         $this->assertEquals('onNewVideo', $pluginCallTracker[0]['method']);
@@ -522,7 +525,7 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that updateVideoMetadata actually modifies video data
-     * 
+     *
      * @test
      */
     public function testUpdateVideoMetadataModifiesVideo()
@@ -532,9 +535,9 @@ class FunctionsFFMPEGTest extends TestCase
             'duration' => 300,
             'resolution' => '1920x1080'
         ];
-        
+
         $result = handleCallbackUpdateVideoMetadata($params, []);
-        
+
         $this->assertTrue($result['success'], 'Callback should succeed');
         $this->assertArrayHasKey('updates', $result);
         $this->assertEquals(300, $result['updates']['duration']);
@@ -543,14 +546,14 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test callback execution with real processFFMPEGCallback
-     * 
+     *
      * @test
      */
     public function testProcessFFMPEGCallbackExecutesAction()
     {
         global $pluginCallTracker;
         $pluginCallTracker = [];
-        
+
         $callback = json_encode([
             'action' => 'triggerPluginHook',
             'params' => [
@@ -558,9 +561,9 @@ class FunctionsFFMPEGTest extends TestCase
                 'videos_id' => 456
             ]
         ]);
-        
+
         $result = processFFMPEGCallback($callback, ['videos_id' => 456]);
-        
+
         $this->assertIsArray($result);
         if (isset($result['success'])) {
             $this->assertTrue($result['success']);
@@ -573,23 +576,23 @@ class FunctionsFFMPEGTest extends TestCase
 
     /**
      * Test that onVideoSetStatus passes oldValue and newValue correctly
-     * 
+     *
      * @test
      */
     public function testOnVideoSetStatusPassesParameters()
     {
         global $pluginCallTracker;
         $pluginCallTracker = [];
-        
+
         $params = [
             'hook' => 'onVideoSetStatus',
             'videos_id' => 789,
             'oldValue' => 'active',
             'newValue' => 'inactive'
         ];
-        
+
         $result = handleCallbackTriggerPluginHook($params, []);
-        
+
         $this->assertTrue($result['success']);
         $this->assertNotEmpty($pluginCallTracker);
         $this->assertEquals('onVideoSetStatus', $pluginCallTracker[0]['method']);
