@@ -22,6 +22,25 @@ class SecurityHardeningRegressionTest extends TestCase
     /**
      * @test
      */
+    public function testEncryptPassRequiresAuthAndDoesNotEchoPlaintext()
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/objects/encryptPass.json.php');
+
+        // Must apply rate limiting via the shared helper.
+        $this->assertStringContainsString('enforceRateLimit(', $source);
+
+        // Must gate on admin session or HMAC token before doing anything useful.
+        $this->assertStringContainsString('User::isAdmin()', $source);
+        $this->assertStringContainsString('hash_equals(', $source);
+        $this->assertStringContainsString("http_response_code(401)", $source);
+
+        // Must NOT reflect the plaintext password back to the caller.
+        $this->assertStringNotContainsString("\$obj->password", $source);
+    }
+
+    /**
+     * @test
+     */
     public function testPlainTextAlertHelpersDefaultToTextContent()
     {
         $script = file_get_contents(dirname(__DIR__, 2) . '/view/js/script.js');

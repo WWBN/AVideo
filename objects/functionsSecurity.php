@@ -729,4 +729,37 @@ function getBearerToken()
     return null; // Token not found
 }
 
+/**
+ * Enforce a rate limit for the current endpoint.
+ *
+ * Kills the request with HTTP 429 + JSON body if the caller has exceeded
+ * the allowed number of attempts within the time window.
+ *
+ * Usage examples:
+ *   enforceRateLimit();                        // 20 req / 5 min, key = script + IP
+ *   enforceRateLimit('login', 5, 60);          // 5 req / 60 s, explicit name
+ *   enforceRateLimit('encryptPass', 20, 300);  // explicit name + window
+ *
+ * @param string $operation  Logical name for the operation. Defaults to the
+ *                           basename of the current script (auto-derived).
+ * @param int    $maxAttempts Maximum requests allowed within $timeWindow.
+ * @param int    $timeWindow  Window duration in seconds.
+ */
+function enforceRateLimit(string $operation = '', int $maxAttempts = 20, int $timeWindow = 300): void
+{
+    if ($operation === '') {
+        $operation = basename($_SERVER['SCRIPT_FILENAME'] ?? 'unknown');
+    }
+    $key      = 'ratelimit_' . $operation . '_' . getRealIpAddr();
+    $attempts = intval(ObjectYPT::getCacheGlobal($key, $timeWindow));
+    if ($attempts >= $maxAttempts) {
+        http_response_code(429);
+        header('Content-Type: application/json');
+        $obj        = new stdClass();
+        $obj->error = true;
+        $obj->msg   = __('Too many requests. Try again later.');
+        die(json_encode($obj));
+    }
+    ObjectYPT::setCacheGlobal($key, $attempts + 1);
+}
 
