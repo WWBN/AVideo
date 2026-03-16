@@ -1,0 +1,12 @@
+# Deny direct access to AES-128 HLS encryption key files in this directory.
+# These keys must never be served directly; access must go through the
+# downloadProtection script via the rewrite rules in the root .htaccess.
+<Files "*.key">
+    <IfModule !authz_core_module>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+    <IfModule authz_core_module>
+        Require all denied
+    </IfModule>
+</Files>
