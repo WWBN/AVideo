@@ -44,7 +44,7 @@ $videos_id = getVideos_id();
             const imgHtml = `<div style='text-align: center;'>
                                 <img src='${dataURL}' style='max-width: 100%; max-height: 300px; border: 1px solid #ddd;' />
                              </div>`;
-            const confirmSave = await avideoConfirm(imgHtml + 'Do you want to save this frame as the thumbnail?');
+            const confirmSave = await avideoConfirmHTML(imgHtml + 'Do you want to save this frame as the thumbnail?');
             if (!confirmSave) {
                 return; // Exit if the user cancels
             }

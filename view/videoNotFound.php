@@ -46,7 +46,7 @@ showCloseButton();
     $(function() {
         <?php
         if (!empty($_REQUEST['404ErrorMsg'])) {
-            echo 'avideoAlertInfo(' . json_encode($_REQUEST['404ErrorMsg']) . ');';
+            echo 'avideoAlertInfo(' . json_encode($_REQUEST['404ErrorMsg'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');';
         }
         ?>
     });

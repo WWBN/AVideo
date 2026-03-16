@@ -1029,7 +1029,7 @@ class CustomizeUser extends PluginAbstract
                             $users_id = $isACompany ? $value['users_id_affiliate'] : $value['users_id_company'];
                             $value['users_id'] = $users_id;
 
-                            $value['js'] = 'avideoAlertOnce('
+                            $value['js'] = 'avideoAlertOnceHTML('
                                 . '"' . __('You have a new affiliation request') . '",'
                                 . "\"<a href='{$global['webSiteRootURL']}user?tab=tabAffiliation'>" . __('Please click here') . '</a>", "info", "' . $value['id'] . $value['modified'] . '");';
 

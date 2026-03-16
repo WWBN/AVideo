@@ -1272,14 +1272,44 @@ function avideoAlert(title, msg, type) {
     if (typeof msg !== 'string') {
         return false;
     }
-    avideoAlertHTMLText(title, msg, type);
+    avideoAlertTextContent(title, msg, type);
+}
+
+function avideoCreateAlertContent(msg, allowHTML) {
+    var span = document.createElement("span");
+    if (allowHTML) {
+        span.innerHTML = msg;
+    } else {
+        span.textContent = msg;
+    }
+    return span;
 }
 
 function avideoAlertWithCookie(title, msg, type, uid, expires) {
     var cookieName = 'avideoAlertOnce' + uid;
     if (!Cookies.get(cookieName)) {
-        var span = document.createElement("span");
-        span.innerHTML = msg;
+        var span = avideoCreateAlertContent(msg, false);
+        swal({
+            title: title,
+            content: span,
+            icon: type,
+            closeOnClickOutside: false,
+            closeModal: true
+        }).then(okay => {
+            if (okay) {
+                Cookies.set(cookieName, 1, {
+                    path: '/',
+                    expires: expires
+                });
+            }
+        });
+    }
+}
+
+function avideoAlertWithCookieHTML(title, msg, type, uid, expires) {
+    var cookieName = 'avideoAlertOnce' + uid;
+    if (!Cookies.get(cookieName)) {
+        var span = avideoCreateAlertContent(msg, true);
         swal({
             title: title,
             content: span,
@@ -1299,6 +1329,10 @@ function avideoAlertWithCookie(title, msg, type, uid, expires) {
 
 function avideoAlertOnce(title, msg, type, uid) {
     avideoAlertWithCookie(title, msg, type, uid, 365);
+}
+
+function avideoAlertOnceHTML(title, msg, type, uid) {
+    avideoAlertWithCookieHTML(title, msg, type, uid, 365);
 }
 
 function avideoAlertOnceADay(title, msg, type, uid) {
@@ -1331,8 +1365,29 @@ async function avideoConfirmCallBack(msg, confirmCallBackFunction, cancelCallBac
 }
 
 async function avideoConfirm(msg) {
-    var span = document.createElement("span");
-    span.innerHTML = __(msg, true);
+    var span = avideoCreateAlertContent(__(msg, true), false);
+    var response = await swal({
+        title: 'Confirm',
+        content: span,
+        icon: 'warning',
+        closeOnClickOutside: false,
+        closeModal: true,
+        buttons: {
+            cancel: "Cancel",
+            confirm: {
+                text: "Confirm",
+                value: "confirm",
+                className: "btn-danger",
+            },
+        }
+    }).then(function (value) {
+        return value == 'confirm';
+    });
+    return response;
+}
+
+async function avideoConfirmHTML(msg) {
+    var span = avideoCreateAlertContent(__(msg, true), true);
     var response = await swal({
         title: 'Confirm',
         content: span,
@@ -1354,8 +1409,18 @@ async function avideoConfirm(msg) {
 }
 
 function avideoAlertOnceForceConfirm(title, msg, type) {
-    var span = document.createElement("span");
-    span.innerHTML = msg;
+    var span = avideoCreateAlertContent(msg, false);
+    swal({
+        title: title,
+        content: span,
+        icon: type,
+        closeOnClickOutside: false,
+        closeModal: true
+    });
+}
+
+function avideoAlertOnceForceConfirmHTML(title, msg, type) {
+    var span = avideoCreateAlertContent(msg, true);
     swal({
         title: title,
         content: span,
@@ -1449,6 +1514,10 @@ function avideoAlertAJAX(url) {
 }
 
 function avideoAlertHTMLText(title, msg, type) {
+    return avideoAlertHTML(title, msg, type);
+}
+
+function avideoAlertTextContent(title, msg, type) {
     var isErrorOrWarning = (type == 'error' || type == 'warning');
     var className = "btn btn-primary btn-block";
     if (type == 'error') {
@@ -1460,8 +1529,40 @@ function avideoAlertHTMLText(title, msg, type) {
     } else if (type == 'success') {
         var className = "btn btn-success btn-block";
     }
-    var span = document.createElement("span");
-    span.innerHTML = msg;
+    var span = avideoCreateAlertContent(msg, false);
+    swal({
+        title: title,
+        content: span,
+        icon: type,
+        closeModal: true,
+        closeOnClickOutside: !isErrorOrWarning,
+        buttons: {
+            confirm: {
+                text: "OK",
+                value: true,
+                visible: isErrorOrWarning,
+                className: className
+            }
+        }
+    });
+    $(".swal-button--confirm").removeClass("swal-button");
+    $(".swal-button-container").removeClass("swal-button-container");
+
+}
+
+function avideoAlertHTML(title, msg, type) {
+    var isErrorOrWarning = (type == 'error' || type == 'warning');
+    var className = "btn btn-primary btn-block";
+    if (type == 'error') {
+        var className = "btn btn-danger btn-block";
+    } else if (type == 'warning') {
+        var className = "btn btn-warning btn-block";
+    } else if (type == 'info') {
+        var className = "btn btn-info btn-block";
+    } else if (type == 'success') {
+        var className = "btn btn-success btn-block";
+    }
+    var span = avideoCreateAlertContent(msg, true);
     swal({
         title: title,
         content: span,
