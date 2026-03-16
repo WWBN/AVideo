@@ -2663,50 +2663,55 @@ function allowOrigin()
     global $global;
     cleanUpAccessControlHeader();
 
+    // Derive the site's own origin from configuration so we can validate
+    // inbound Origin headers instead of blindly reflecting them.
+    // Reflecting an arbitrary Origin with Access-Control-Allow-Credentials:true
+    // allows any third-party site to make credentialed cross-origin requests
+    // and read authenticated responses – a session-theft vector (OWASP A01/A05).
+    $siteOrigin = '';
+    if (!empty($global['webSiteRootURL'])) {
+        $parsed = parse_url($global['webSiteRootURL']);
+        if (!empty($parsed['scheme']) && !empty($parsed['host'])) {
+            $siteOrigin = $parsed['scheme'] . '://' . $parsed['host'];
+            if (!empty($parsed['port'])) {
+                $siteOrigin .= ':' . $parsed['port'];
+            }
+        }
+    }
+
+    $requestOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
+    $isSameOrigin  = !empty($siteOrigin) && $requestOrigin === $siteOrigin;
+
     // Handle CORS preflight requests (OPTIONS) first - must exit early
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        // For Private Network Access (PNA) preflight from public origins like imasdk.googleapis.com
-        $requestOrigin = $_SERVER['HTTP_ORIGIN'] ?? '*';
-        header("Access-Control-Allow-Origin: " . $requestOrigin);
+        if ($isSameOrigin) {
+            header("Access-Control-Allow-Origin: " . $requestOrigin);
+            header("Access-Control-Allow-Credentials: true");
+        } else {
+            // Non-same-origin preflight: reply without credentialed access
+            header("Access-Control-Allow-Origin: " . ($siteOrigin ?: '*'));
+        }
         header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, HEAD");
         header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, ua-resolution, APISecret, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network");
         header("Access-Control-Max-Age: 86400"); // Cache preflight response for 24 hours
         // Required for Private Network Access (Chrome 104+)
         header('Access-Control-Allow-Private-Network: true');
-        if (!empty($_SERVER['HTTP_ORIGIN'])) {
-            header("Access-Control-Allow-Credentials: true");
-        }
         http_response_code(204); // No Content - more appropriate for preflight
         exit;
     }
 
-    // For regular requests, allow the requesting origin
-    $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? @$_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
-
-    // Handle Google IMA SDK and other known ad providers
-    $allowedAdOrigins = [
-        'imasdk.googleapis.com',
-        'googleads.g.doubleclick.net',
-        'securepubads.g.doubleclick.net'
-    ];
-
-    if (empty($HTTP_ORIGIN)) {
-        // Default to wildcard for API endpoints when no origin specified
+    if (empty($requestOrigin)) {
+        // No Origin header – direct request or same-origin browser navigation
         header('Access-Control-Allow-Origin: *');
-    } else {
-        // Check if request is from a known ad provider
-        $originHost = parse_url($HTTP_ORIGIN, PHP_URL_HOST);
-        $isAdProvider = false;
-        foreach ($allowedAdOrigins as $adOrigin) {
-            if ($originHost === $adOrigin || str_ends_with($originHost, '.' . $adOrigin)) {
-                $isAdProvider = true;
-                break;
-            }
-        }
-
-        // Allow the requesting origin
-        header("Access-Control-Allow-Origin: " . $HTTP_ORIGIN);
+    } elseif ($isSameOrigin) {
+        // Verified same-origin CORS request – allow with credentials
+        header("Access-Control-Allow-Origin: " . $requestOrigin);
         header("Access-Control-Allow-Credentials: true");
+    } else {
+        // Third-party origin: permit non-credentialed access only.
+        // Do NOT echo the caller's origin back with credentials – that would
+        // let any page read session-authenticated responses cross-origin.
+        header("Access-Control-Allow-Origin: " . ($siteOrigin ?: '*'));
     }
 
     header('Access-Control-Allow-Private-Network: true');
