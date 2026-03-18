@@ -12,7 +12,7 @@ class SocialUploader
         }
         $pub = new Publisher_user_preferences($publisher_user_preferences_id);
         _error_log("SocialMediaPublisher::upload provider=" . $pub->getProviderName());
-        
+
         $videoPathMP4['url'] = addQueryStringParameter($videoPathMP4['url'], 'globalToken', getToken(30));
         try {
             switch ($pub->getProviderName()) {
@@ -938,7 +938,7 @@ class InstagramUploader
         if(empty($waitForMediaProcessing['error']) || $waitForMediaProcessing["response"]["status_code"] === "PUBLISHED"){
             // Step 3: Publish Media
             $publishResponse = self::publishMedia($accessToken, $containerId, $instagramAccountId);
-            
+
             $mediaResponse = self::getInstagramVideoLink($publishResponse['id'], $accessToken);
 
             $return['publishResponse'] = $publishResponse;
