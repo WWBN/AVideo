@@ -4634,6 +4634,14 @@ if (!class_exists('Video')) {
             $newPath = addLastSlash($paths['path']) . "{$videoFilename}";
 
             $newPath = str_replace('//', '/', $newPath);
+            
+            // Security: Verify resolved path stays within videos directory (defense-in-depth against path traversal)
+            $realPath = realpath($newPath);
+            $realVideosDir = realpath($videosDir);
+            if ($realPath !== false && $realVideosDir !== false && strpos($realPath, $realVideosDir) !== 0) {
+                return false;
+            }
+            
             //var_dump($newPath);
             return $newPath;
         }

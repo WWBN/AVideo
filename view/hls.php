@@ -14,6 +14,16 @@ _session_write_close();
 if (empty($_GET['videoDirectory'])) {
     forbiddenPage("No directory set");
 }
+
+// Security: Reject path traversal attempts
+$_GET['videoDirectory'] = str_replace('\\', '/', $_GET['videoDirectory']);
+if (preg_match('/\.\./', $_GET['videoDirectory'])) {
+    forbiddenPage("Invalid directory");
+}
+// Normalize: strip leading/trailing slashes, collapse multiple slashes
+$_GET['videoDirectory'] = trim($_GET['videoDirectory'], '/');
+$_GET['videoDirectory'] = preg_replace('#/+#', '/', $_GET['videoDirectory']);
+
 $global['disableGeoblock'] = 1;
 $video = Video::getVideoFromFileName($_GET['videoDirectory'], true);
 
