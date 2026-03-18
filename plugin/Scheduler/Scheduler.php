@@ -159,6 +159,10 @@ class Scheduler extends PluginAbstract
         if (!isValidURL($callBackURL)) {
             return false;
         }
+        if (!isSSRFSafeURL($callBackURL)) {
+            _error_log("Scheduler::run SSRF protection blocked callbackURL: " . $callBackURL);
+            return false;
+        }
         if (empty($_executeSchelude[$callBackURL])) {
             $callBackURL = addQueryStringParameter($callBackURL, 'token', getToken(60));
             $callBackURL = addQueryStringParameter($callBackURL, 'scheduler_commands_id', $scheduler_commands_id);
