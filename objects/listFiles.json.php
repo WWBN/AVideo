@@ -13,10 +13,20 @@ $files = [];
 $listedFiles = []; // Array to keep track of files already listed
 
 if (!empty($_POST['path'])) {
-    $path = $_POST['path'];
-    if (substr($path, -1) !== '/') {
-        $path .= "/";
+    $allowedBase = realpath($global['systemRootPath'] . 'videos');
+    if ($allowedBase === false) {
+        echo json_encode([]);
+        exit;
     }
+    $allowedBase .= '/';
+
+    $resolvedPath = realpath($_POST['path']);
+    if ($resolvedPath === false || strpos($resolvedPath . '/', $allowedBase) !== 0) {
+        http_response_code(403);
+        echo json_encode(['error' => 'Path not allowed']);
+        exit;
+    }
+    $path = $resolvedPath . '/';
 
     if (file_exists($path)) {
         $extn = implode(",*.", $global['allowed']);
