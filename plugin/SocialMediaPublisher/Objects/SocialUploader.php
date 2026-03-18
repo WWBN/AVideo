@@ -710,9 +710,10 @@ class LinkedInUploader
 
     static function uploadVideoToLinkedIn($uploadUrl, $filePath)
     {
-        $shellCmd = 'curl -v -H "Content-Type:application/octet-stream" --upload-file "' .
-            $filePath . '" "' .
-            $uploadUrl . '" 2>&1';
+        // Security: Use escapeshellarg() to prevent command injection
+        $shellCmd = 'curl -v -H "Content-Type:application/octet-stream" --upload-file ' .
+            escapeshellarg($filePath) . ' ' .
+            escapeshellarg($uploadUrl) . ' 2>&1';
 
         // Log the shell command
         _error_log("Upload Video Shell Command:\n" . $shellCmd);
