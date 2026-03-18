@@ -3,7 +3,7 @@
 /**
  * Convert ISO 8601 values like PT15M33S
  * to a total value of seconds.
- * 
+ *
  * @param string $ISO8601
  */
 function ISO8601ToSeconds($ISO8601)
@@ -79,7 +79,7 @@ if(!BulkEmbed::canBulkEmbed()){
         $videos->setDescription($value['description']);
         $videos->setClean_title($value['title']);
         $videos->setDuration(ISO8601ToDuration($value['duration']));
-        
+
         // Set the original video date if available in the form data
         if (!empty($value['date']) && $objo->useOriginalYoutubeDate) {
             //_error_log("Do save original date");
@@ -92,13 +92,18 @@ if(!BulkEmbed::canBulkEmbed()){
         $poster = Video::getPathToFile("{$paths['filename']}.jpg");
         $thumbs = $value['thumbs'];
         if (!empty($thumbs)) {
-            $contentThumbs = url_get_contents($thumbs);
-            if (!empty($contentThumbs)) {
-                make_path($poster);
-                $bytes = file_put_contents($poster, $contentThumbs);
-                _error_log("thumbs={$thumbs} poster=$poster bytes=$bytes strlen=" . strlen($contentThumbs));
+            // Security: SSRF protection for user-supplied thumbnail URLs
+            if (!isSSRFSafeURL($thumbs)) {
+                _error_log("BulkEmbed: SSRF protection blocked thumbnail URL: " . $thumbs);
             } else {
-                _error_log("ERROR thumbs={$thumbs} poster=$poster");
+                $contentThumbs = url_get_contents($thumbs);
+                if (!empty($contentThumbs)) {
+                    make_path($poster);
+                    $bytes = file_put_contents($poster, $contentThumbs);
+                    _error_log("thumbs={$thumbs} poster=$poster bytes=$bytes strlen=" . strlen($contentThumbs));
+                } else {
+                    _error_log("ERROR thumbs={$thumbs} poster=$poster");
+                }
             }
         } else {
             _error_log("ERROR thumbs={$thumbs} poster=$poster");
@@ -118,7 +123,7 @@ if(!BulkEmbed::canBulkEmbed()){
                 continue;  // Skip to the next video if saving fails
             }
         }
-        
+
 
         if (!empty($resp) && !empty($obj->playListId)) {
             $playList = new PlayList($obj->playListId);
