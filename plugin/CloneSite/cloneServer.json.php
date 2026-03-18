@@ -42,8 +42,17 @@ if (empty($canClone->canClone)) {
 }
 
 if (!empty($_GET['deleteDump'])) {
-    $resp->error = !unlink("{$clonesDir}{$_GET['deleteDump']}");
-    $resp->msg = "Delete Dump {$_GET['deleteDump']}";
+    // Security: Strip path traversal components and validate path stays within clonesDir
+    $deleteDump = basename($_GET['deleteDump']);
+    $filePath = "{$clonesDir}{$deleteDump}";
+    $realFilePath = realpath($filePath);
+    $realClonesDir = realpath($clonesDir);
+    if ($realFilePath === false || $realClonesDir === false || strpos($realFilePath, $realClonesDir) !== 0) {
+        $resp->msg = "Invalid file path";
+        die(json_encode($resp));
+    }
+    $resp->error = !unlink($realFilePath);
+    $resp->msg = "Delete Dump {$deleteDump}";
     die(json_encode($resp));
 }
 
@@ -64,7 +73,7 @@ $resp->error = !$canClone->clone->updateLastCloneRequest();
 $tables = array();
 $res = sqlDAL::readSql("SHOW TABLES");
 $row = sqlDAL::fetchAllAssoc($res);
-foreach ($row as $value) {    
+foreach ($row as $value) {
     $firstElement = reset($value);
     if ($firstElement != 'CachesInDB') {
         $tables[] = $firstElement;
