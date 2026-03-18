@@ -45,7 +45,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
         var logintimer = setInterval(function() {
             if (win.closed) {
                 clearInterval(logintimer);
-                document.location = "<?php print $safeRedirectUri; ?>";
+                document.location = <?php echo json_encode($safeRedirectUri); ?>;
             }
         }, 1000);
         $(document).ready(function() {
