@@ -525,12 +525,14 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
             $namespace = $_SERVER["SCRIPT_FILENAME"];
         }
         if (!empty($_REQUEST['unlockPassword'])) {
-            if ($_REQUEST['unlockPassword'] == $unlockPassword) {
+            // Sanitize user input to match the same sanitization used when storing the password
+            $sanitizedInput = preg_replace('/[^0-9a-z]/i', '', $_REQUEST['unlockPassword']);
+            if ($sanitizedInput == $unlockPassword) {
                 _session_start();
                 if (!isset($_SESSION['user']['forbiddenPage'])) {
                     $_SESSION['user']['forbiddenPage'] = [];
                 }
-                $_SESSION['user']['forbiddenPage'][$namespace] = $_REQUEST['unlockPassword'];
+                $_SESSION['user']['forbiddenPage'][$namespace] = $sanitizedInput;
             }
         }
         if (!empty($_SESSION['user']['forbiddenPage'][$namespace]) && $unlockPassword === $_SESSION['user']['forbiddenPage'][$namespace]) {
