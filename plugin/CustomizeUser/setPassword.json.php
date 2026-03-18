@@ -16,7 +16,8 @@ if (empty($users_id)) {
     die(json_encode($obj));
 }
 
-$obj->ProfilePassword = intval(@$_REQUEST['ProfilePassword']);
+// ProfilePassword should be a string (alphanumeric), not forced to integer
+$obj->ProfilePassword = strval(@$_REQUEST['ProfilePassword']);
 $obj->users_id = $users_id;
 
 $obj->response = User::setProfilePassword($users_id, $obj->ProfilePassword) ;
