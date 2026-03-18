@@ -79,7 +79,7 @@ $_page->setExtraScripts(array('view/js/script.download.js'));
 <script>
     function _goToURLOrAlertError(url, progress, format) {
         avideoToastSuccess(<?php echo json_encode(__('Downloading') . '... ' . $video['title']); ?>);
-        downloadURLOrAlertError(url, {}, '<?php echo $video['clean_title']; ?>.' + format, progress);
+        downloadURLOrAlertError(url, {}, <?php echo json_encode($video['clean_title']); ?> + '.' + format, progress);
     }
 </script>
 <?php
