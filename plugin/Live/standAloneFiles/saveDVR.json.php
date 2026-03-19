@@ -13,8 +13,13 @@ if (file_exists($configFile)) {
     $streamerURL = $global['webSiteRootURL'];
 }
 
-if (empty($streamerURL) && !empty($_REQUEST['webSiteRootURL'])) {
-    $streamerURL = $_REQUEST['webSiteRootURL'];
+// SECURITY: User-supplied webSiteRootURL is intentionally NOT accepted.
+// Allowing it would enable SSRF (CVE-class: SSRF via file_get_contents on
+// an attacker-controlled host). streamerURL MUST come from the configuration
+// file or be hard-coded in this file above. If neither is set, abort.
+if (empty($streamerURL)) {
+    error_log("saveDVR: streamerURL is not configured");
+    die('saveDVR: Server not configured');
 }
 
 //die("Remove the line ".__LINE__." to use this script "); // remove this line so the script will work
@@ -28,8 +33,10 @@ $verifyURL = "{$streamerURL}plugin/SendRecordedToEncoder/verifyDVRTokenVerificat
 $result = file_get_contents($verifyURL);
 
 if (empty($result)) {
+    // SECURITY: Do not expose the internal verifyURL in the response to avoid
+    // leaking internal hostnames or network topology to callers.
     error_log("saveDVR: We could not verify {$verifyURL} ");
-    die('saveDVR: We could not verify ' . $verifyURL);
+    die('saveDVR: We could not verify the DVR token');
 }
 $result = json_decode($result);
 if (!isset($result->error)) {
@@ -71,6 +78,8 @@ if (!$isAdaptive) {
     error_log("saveDVR: copy dir 2 [{$copyDir}]");
     $DVRFileTarget = "{$tmpDVRDir}" . DIRECTORY_SEPARATOR . "{$key}.m3u8";
 }
+$escaped_DVRFileTarget = escapeshellarg($DVRFileTarget);
+$escaped_filename = escapeshellarg($filename);
 
 // Initialize output and return code variables
 $output = [];
@@ -84,7 +93,7 @@ if ($return_var !== 0) {
     error_log("saveDVR: ERROR executing command: {$copyDir}");
     error_log("saveDVR: Command output: " . implode("\n", $output));
     error_log("saveDVR: Command return code: {$return_var}");
-    
+
     // Try using copyDirectory function
     error_log("saveDVR: Trying to copy directory using PHP functions");
     if (copyDirectory($DVRFile, $tmpDVRDir)) {
@@ -116,7 +125,7 @@ if (!$isAdaptive) {
         setLastSegments($DVRFileTarget, $howManySegments);
     }
     $endLine = PHP_EOL . '#EXT-X-ENDLIST';
-    $appendCommand = "echo \"{$endLine}\" >> {$DVRFileTarget}";
+    $appendCommand = "echo \"{$endLine}\" >> {$escaped_DVRFileTarget}";
     error_log("saveDVR: append [{$appendCommand}]");
     exec($appendCommand, $output, $return_var);
     if ($return_var !== 0) {
@@ -154,7 +163,7 @@ if (!file_exists($DVRFileTarget)) {
 }
 
 // FFmpeg command to convert M3U8 to MP4
-$ffmpeg = "ffmpeg -i {$DVRFileTarget} -c copy -bsf:a aac_adtstoasc {$filename} -y";
+$ffmpeg = "ffmpeg -i {$escaped_DVRFileTarget} -c copy -bsf:a aac_adtstoasc {$escaped_filename} -y";
 error_log("saveDVR: FFMPEG {$ffmpeg}");
 exec($ffmpeg, $output, $return_var);
 if ($return_var !== 0) {
@@ -164,7 +173,7 @@ if ($return_var !== 0) {
 }
 
 // Cleanup temporary directory
-$removeDir = "rm -R {$tmpDVRDir}";
+$removeDir = "rm -R {$escaped_tmpDVRDir}";
 error_log("saveDVR: remove dir {$removeDir}");
 exec($removeDir, $output, $return_var);
 if ($return_var !== 0) {
