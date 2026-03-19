@@ -129,7 +129,7 @@ while (1) {
         $linesCount = intval($defaultLines/4);
         echo "*** {$totalNew} new rules inserted" . PHP_EOL;
     }
-    
+
     if ($totalNew && !$mySQLIsStopped) {
         $load = percentloadavg();
         echo '*** sys_getloadavg: '.$load[0] . PHP_EOL;
