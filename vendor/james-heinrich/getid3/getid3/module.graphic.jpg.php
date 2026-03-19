@@ -116,12 +116,13 @@ class getid3_jpg extends getid3_handler
 			}
 
 			if (isset($info['jpg']['exif']['GPS']['GPSDateStamp'])) {
+				$computed_time = array(0=>0, 1=>0, 2=>0, 3=>0, 4=>0, 5=>0);
+				
 				$explodedGPSDateStamp = explode(':', $info['jpg']['exif']['GPS']['GPSDateStamp']);
 				$computed_time[5] = $explodedGPSDateStamp[0];
 				$computed_time[3] = (isset($explodedGPSDateStamp[1]) ? $explodedGPSDateStamp[1] : '');
 				$computed_time[4] = (isset($explodedGPSDateStamp[2]) ? $explodedGPSDateStamp[2] : '');
 
-				$computed_time = array(0=>0, 1=>0, 2=>0, 3=>0, 4=>0, 5=>0);
 				if (isset($info['jpg']['exif']['GPS']['GPSTimeStamp']) && is_array($info['jpg']['exif']['GPS']['GPSTimeStamp'])) {
 					foreach ($info['jpg']['exif']['GPS']['GPSTimeStamp'] as $key => $value) {
 						$computed_time[$key] = getid3_lib::DecimalizeFraction($value);

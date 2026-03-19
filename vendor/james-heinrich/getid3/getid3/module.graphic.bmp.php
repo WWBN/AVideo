@@ -676,12 +676,16 @@ class getid3_bmp extends getid3_handler
 			}
 			if (headers_sent()) {
 				echo 'plotted '.($BMPinfo['resolution_x'] * $BMPinfo['resolution_y']).' pixels in '.(time() - $starttime).' seconds<BR>';
-				imagedestroy($im);
+				if (PHP_VERSION_ID < 80000) { // imagedestroy does nothing after PHP8 and give deprecation warnings in PHP8.5
+					imagedestroy($im);
+				}
 				exit;
 			} else {
 				header('Content-type: image/png');
 				imagepng($im);
-				imagedestroy($im);
+				if (PHP_VERSION_ID < 80000) {
+					imagedestroy($im);
+				}
 				return true;
 			}
 		}

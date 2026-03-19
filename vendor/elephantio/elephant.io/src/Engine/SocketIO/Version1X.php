@@ -6,6 +6,7 @@
  * For the full copyright and license information, please view the LICENSE file
  * that was distributed with this source code.
  *
+ * @copyright ElephantIO
  * @copyright Wisembly
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
@@ -49,6 +50,8 @@ class Version1X extends SocketIO
     public const PACKET_ERROR = 4;
     public const PACKET_BINARY_EVENT = 5;
     public const PACKET_BINARY_ACK = 6;
+
+    public const UPGRADE_PROBE = 'probe';
 
     protected function initialize(&$options)
     {
@@ -259,6 +262,7 @@ class Version1X extends SocketIO
 
     protected function consumePacket($packet)
     {
+        $result = true;
         switch ($packet->proto) {
             case static::PROTO_CLOSE:
                 if ($this->logger) {
@@ -276,14 +280,18 @@ class Version1X extends SocketIO
                 if ($this->logger) {
                     $this->logger->debug('Got PONG');
                 }
+                // return probe response
+                if ($packet->data === static::UPGRADE_PROBE) {
+                    $result = false;
+                }
                 break;
             case static::PROTO_NOOP:
                 break;
             default:
-                return false;
+                $result = false;
         }
 
-        return true;
+        return $result;
     }
 
     /**
@@ -486,37 +494,50 @@ class Version1X extends SocketIO
             $this->setTimeout($this->session->getTimeout());
         }
 
+        $error = null;
         if (($transport = $this->_transport()) && $this->stream) {
             if (null !== $transport->recv($this->options->timeout, ['transport' => static::TRANSPORT_WEBSOCKET, 'upgrade' => true])) {
                 $this->setTransport(static::TRANSPORT_WEBSOCKET);
                 $this->stream->upgrade();
 
-                $this->send(static::PROTO_UPGRADE);
-
-                // ensure got packet connect on socket.io 1.x
-                if ($this->options->version === static::EIO_V2 && $packet = $this->drain($this->options->timeout)) {
-                    $confirm = null;
-                    foreach ($packet->peek(static::PROTO_MESSAGE) as $found) {
-                        if ($found->type === static::PACKET_CONNECT) {
-                            $confirm = $found;
-                            break;
-                        }
-                    }
-                    if ($this->logger) {
-                        if ($confirm) {
-                            $this->logger->debug('Upgrade successfully confirmed');
-                        } else {
-                            $this->logger->debug('Upgrade not confirmed');
-                        }
+                // sending ping probe
+                $probed = null;
+                $this->send(static::PROTO_PING, static::UPGRADE_PROBE);
+                if ($packet = $this->drain($this->options->timeout)) {
+                    if ($pong = $packet->peekOne(static::PROTO_PONG)) {
+                        $probed = $pong->data === static::UPGRADE_PROBE;
                     }
                 }
+                if (!$probed) {
+                    $error = 'server did not send probe upgrade';
+                }
 
-                if ($this->logger) {
-                    $this->logger->info('Websocket upgrade completed');
+                if (null === $error) {
+                    // send upgrade message
+                    $this->send(static::PROTO_UPGRADE);
+
+                    // ensure got packet connect on socket.io 1.x
+                    if ($this->options->version === static::EIO_V2 && $packet = $this->drain($this->options->timeout)) {
+                        $confirm = null;
+                        foreach ($packet->peek(static::PROTO_MESSAGE) as $found) {
+                            if ($found->type === static::PACKET_CONNECT) {
+                                $confirm = $found;
+                                break;
+                            }
+                        }
+                        if (!$confirm) {
+                            $error = 'missing websocket upgrade ack';
+                        }
+                    }
                 }
             } else {
-                if ($this->logger) {
-                    $this->logger->info('Upgrade failed, skipping websocket');
+                $error = 'skipped upgrade';
+            }
+            if ($this->logger) {
+                if (null !== $error) {
+                    $this->logger->info(sprintf('Websocket upgrade is failed with %s', $error));
+                } else {
+                    $this->logger->info('Websocket upgrade is completed');
                 }
             }
         }

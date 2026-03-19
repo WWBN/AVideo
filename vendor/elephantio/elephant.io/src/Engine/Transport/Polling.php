@@ -6,6 +6,7 @@
  * For the full copyright and license information, please view the LICENSE file
  * that was distributed with this source code.
  *
+ * @copyright ElephantIO
  * @copyright Wisembly
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
@@ -18,6 +19,7 @@ use ElephantIO\Parser\Polling\Decoder;
 use ElephantIO\Parser\Polling\Encoder;
 use ElephantIO\Stream\StreamInterface;
 use ElephantIO\Util;
+use RuntimeException;
 
 /**
  * HTTP polling transport.
@@ -102,9 +104,10 @@ class Polling extends Transport
         if ($stream && $stream->available()) {
             $method = isset($options['method']) ? $options['method'] : 'GET';
             $timeout = isset($options['timeout']) ? $options['timeout'] : 0;
-            $skip_body = isset($options['skip_body']) ? $options['skip_body'] : false;
             $payload = isset($options['payload']) ? $options['payload'] : null;
             $encoding = isset($options['encoding']) ? $options['encoding'] : 'UTF-8';
+            $isUpgrade = isset($headers['Connection']) && $headers['Connection'] === 'Upgrade';
+            $keepAlive = $this->sio->getOptions()->reuse_connection || $isUpgrade;
 
             if ($payload) {
                 $charset = null;
@@ -155,19 +158,25 @@ class Polling extends Transport
             $chunked = null;
             $start = microtime(true);
             while (true) {
-                if ($timeout > 0 && microtime(true) - $start >= $timeout) {
-                    $this->timedout = true;
-                    break;
+                if ($timeout > 0) {
+                    $delta = microtime(true) - $start;
+                    if ($delta >= $timeout) {
+                        if ($this->logger) {
+                            $this->logger->debug(sprintf('Request timed out after %fs', $delta));
+                        }
+                        $this->timedout = true;
+                        break;
+                    }
                 }
                 if (!$stream->readable()) {
-                    break;
+                    throw new RuntimeException('Stream has been disconnected!');
                 }
                 if ($content = $stream->read($header ? 0 : (int) $len)) {
                     if ($content === StreamInterface::EOL && $header && count($this->result['headers'])) {
-                        if ($skip_body) {
+                        $header = false;
+                        if ($isUpgrade) {
                             break;
                         }
-                        $header = false;
                     } else {
                         if ($header) {
                             if ($content = trim($content)) {
@@ -220,15 +229,19 @@ class Polling extends Transport
                         }
                     }
                 }
+                // stop when no response body expected
+                if (false === $content && !$header && null === $len) {
+                    break;
+                }
                 usleep($this->sio->getOptions()->wait);
             }
             // decode JSON if necessary
             if ($this->result['body'] && $contentType === static::MIMETYPE_JSON) {
                 $this->result['body'] = json_decode($this->result['body'], true);
             }
-            if ($closed) {
-                if ($this->logger) {
-                    $this->logger->debug('Connection closed by server');
+            if ($closed || !$keepAlive) {
+                if ($closed && $this->logger) {
+                    $this->logger->debug('Request connection has been closed by the server');
                 }
                 $stream->close();
             }
@@ -365,7 +378,6 @@ class Polling extends Transport
         $options = ['timeout' => $timeout];
         if (isset($parameters['upgrade']) && $parameters['upgrade']) {
             $headers = $this->getUpgradeHeaders();
-            $options['skip_body'] = true;
             $code = 101;
         } else {
             $headers = $this->getDefaultHeaders();

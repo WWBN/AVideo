@@ -33,7 +33,7 @@ class getid3_ivf extends getid3_handler
 
 		if (substr($IVFheader, 0, 4) == 'DKIF') {
 
-			// https://wiki.multimedia.cx/index.php/IVF
+			// https://wiki.multimedia.cx/index.php/Duck_IVF
 			$info['ivf']['header']['signature']            =                              substr($IVFheader,  0, 4);
 			$info['ivf']['header']['version']              = getid3_lib::LittleEndian2Int(substr($IVFheader,  4, 2)); // should be 0
 			$info['ivf']['header']['headersize']           = getid3_lib::LittleEndian2Int(substr($IVFheader,  6, 2));
@@ -51,10 +51,6 @@ class getid3_ivf extends getid3_handler
 				$this->warning('Expecting IVF header version 0, found version '.$info['ivf']['header']['version'].', results may not be accurate');
 			}
 
-			$info['video']['resolution_x']    =         $info['ivf']['header']['resolution_x'];
-			$info['video']['resolution_y']    =         $info['ivf']['header']['resolution_y'];
-			$info['video']['codec']           =         $info['ivf']['header']['fourcc'];
-
 			$info['ivf']['frame_count'] = 0;
 			$timestamp                  = 0;
 			while (!$this->feof()) {
@@ -65,9 +61,17 @@ class getid3_ivf extends getid3_handler
 					$info['ivf']['frame_count']++;
 				}
 			}
-			if ($info['ivf']['frame_count'] && $info['playtime_seconds']) {
-				$info['playtime_seconds']    = $timestamp / 100000;
-				$info['video']['frame_rate'] = (float) $info['ivf']['frame_count'] / $info['playtime_seconds'];
+			//if ($info['ivf']['frame_count'] && $timestamp) {
+			//	$info['playtime_seconds']    = $timestamp / 100000;
+			//	$info['video']['frame_rate'] = (float) $info['ivf']['frame_count'] / $info['playtime_seconds'];
+			//}
+
+			$info['video']['resolution_x'] = $info['ivf']['header']['resolution_x'];
+			$info['video']['resolution_y'] = $info['ivf']['header']['resolution_y'];
+			$info['video']['fourcc']       = $info['ivf']['header']['fourcc'];
+			if ($info['ivf']['header']['frame_count'] && $info['ivf']['header']['frame_rate']) {
+				$info['video']['frame_rate'] = (float) $info['ivf']['header']['frame_rate'];
+				$info['playtime_seconds']    = (float) $info['ivf']['frame_count'] / $info['ivf']['header']['frame_rate'];
 			}
 
 		} else {

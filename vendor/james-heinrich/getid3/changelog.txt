@@ -18,6 +18,29 @@
 Version History
 ===============
 
+1.9.25: [2026-03-10] James Heinrich :: 1.9.25-202603060942
+	* #452 better handle some Quicktime metadata
+	* #452 handle ISO639-2/T Quicktime language code
+	* #452 Quicktime incorrect "keys" mapping
+	* #474 WriteMetaFLAC fails on new files on Windows
+	* #476 ID3v2 errors with ord()
+	* #477 int conversion warning in PHP8.5
+	* #477 QT skip comment copy on empty data
+	* #480 allow metadata extraction from streamable FLAC files
+	* #481 ID3v1 should not parse files shorter than 128 bytes
+	* #482 MIDI: Fix duration for files without tempo events
+	* #483 MIDI: Check for minimum filessize of a valid MIDI header
+	* #484 stop calling imagedestroy in PHP8+
+	* #485 Matroska: scan for duration when not provided by metadata
+	* #486 null coalescing operator not available in PHP5
+	* #486 WAV.PCM detected as WAV.MP3
+	* #487 Matroska: Handle missing TrackUID
+	* #488 GPS computed timestamp ignoring date
+	* XML XXE
+	* add PHP_INT_MIN for PHP older than 5.6
+	* IVF fix warnings, improve framerate
+	* xml_parser_free deprecated in PHP8.5
+
 1.9.24: [2025-10-09] James Heinrich :: 1.9.24-202509040923
 	» #462 add HEIF image support
 	» #438 add detection support .gpx files

@@ -938,17 +938,17 @@
         },
         {
             "name": "elephantio/elephant.io",
-            "version": "v5.1.0",
-            "version_normalized": "5.1.0.0",
+            "version": "v5.3.0",
+            "version_normalized": "5.3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ElephantIO/elephant.io.git",
-                "reference": "9f38be3b002156b2f6cc9ade30e1b58e7fea49cf"
+                "reference": "9849207dcc749582225c183fa1342dee5407ffd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ElephantIO/elephant.io/zipball/9f38be3b002156b2f6cc9ade30e1b58e7fea49cf",
-                "reference": "9f38be3b002156b2f6cc9ade30e1b58e7fea49cf",
+                "url": "https://api.github.com/repos/ElephantIO/elephant.io/zipball/9849207dcc749582225c183fa1342dee5407ffd1",
+                "reference": "9849207dcc749582225c183fa1342dee5407ffd1",
                 "shasum": ""
             },
             "require": {
@@ -962,7 +962,7 @@
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^8.5 || ^9.5"
             },
-            "time": "2025-11-24T06:04:13+00:00",
+            "time": "2026-02-17T16:47:08+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1012,7 +1012,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ElephantIO/elephant.io/issues",
-                "source": "https://github.com/ElephantIO/elephant.io/tree/v5.1.0"
+                "source": "https://github.com/ElephantIO/elephant.io/tree/v5.3.0"
             },
             "install-path": "../elephantio/elephant.io"
         },
@@ -1112,27 +1112,27 @@
         },
         {
             "name": "erusev/parsedown",
-            "version": "1.7.4",
-            "version_normalized": "1.7.4.0",
+            "version": "1.8.0",
+            "version_normalized": "1.8.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3"
+                "reference": "96baaad00f71ba04d76e45b4620f54d3beabd6f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
-                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/96baaad00f71ba04d76e45b4620f54d3beabd6f7",
+                "reference": "96baaad00f71ba04d76e45b4620f54d3beabd6f7",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=5.3.0"
+                "php": ">=7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35"
+                "phpunit/phpunit": "^7.5|^8.5|^9.6"
             },
-            "time": "2019-12-30T22:54:17+00:00",
+            "time": "2026-02-16T11:41:01+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1159,8 +1159,14 @@
             ],
             "support": {
                 "issues": "https://github.com/erusev/parsedown/issues",
-                "source": "https://github.com/erusev/parsedown/tree/1.7.x"
+                "source": "https://github.com/erusev/parsedown/tree/1.8.0"
             },
+            "funding": [
+                {
+                    "url": "https://github.com/erusev",
+                    "type": "github"
+                }
+            ],
             "install-path": "../erusev/parsedown"
         },
         {
@@ -1806,17 +1812,17 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.8.0",
-            "version_normalized": "2.8.0.0",
+            "version": "2.9.0",
+            "version_normalized": "2.9.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "21dc724a0583619cd1652f673303492272778051"
+                "reference": "7d0ed42f28e42d61352a7a79de682e5e67fec884"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/21dc724a0583619cd1652f673303492272778051",
-                "reference": "21dc724a0583619cd1652f673303492272778051",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/7d0ed42f28e42d61352a7a79de682e5e67fec884",
+                "reference": "7d0ed42f28e42d61352a7a79de682e5e67fec884",
                 "shasum": ""
             },
             "require": {
@@ -1832,12 +1838,13 @@
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "http-interop/http-factory-tests": "0.9.0",
+                "jshttp/mime-db": "1.54.0.1",
                 "phpunit/phpunit": "^8.5.44 || ^9.6.25"
             },
             "suggest": {
                 "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
             },
-            "time": "2025-08-23T21:21:41+00:00",
+            "time": "2026-03-10T16:41:02+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -1905,7 +1912,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.8.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.9.0"
             },
             "funding": [
                 {
@@ -2088,17 +2095,17 @@
         },
         {
             "name": "james-heinrich/getid3",
-            "version": "v1.9.24",
-            "version_normalized": "1.9.24.0",
+            "version": "v1.9.25",
+            "version_normalized": "1.9.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JamesHeinrich/getID3.git",
-                "reference": "1e11b9b6eb468b522fe604a42a9fdc8ee759bf8a"
+                "reference": "fefffe762b02be155dcc32eec57feff8a49bc4b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/1e11b9b6eb468b522fe604a42a9fdc8ee759bf8a",
-                "reference": "1e11b9b6eb468b522fe604a42a9fdc8ee759bf8a",
+                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/fefffe762b02be155dcc32eec57feff8a49bc4b5",
+                "reference": "fefffe762b02be155dcc32eec57feff8a49bc4b5",
                 "shasum": ""
             },
             "require": {
@@ -2124,7 +2131,7 @@
                 "ext-xml": "XML extension is required for graphic modules to analyze the XML metadata.",
                 "ext-zlib": "Zlib extension is required for archive modules and compressed metadata."
             },
-            "time": "2025-10-09T17:48:17+00:00",
+            "time": "2026-03-10T11:56:47+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2152,7 +2159,7 @@
             ],
             "support": {
                 "issues": "https://github.com/JamesHeinrich/getID3/issues",
-                "source": "https://github.com/JamesHeinrich/getID3/tree/v1.9.24"
+                "source": "https://github.com/JamesHeinrich/getID3/tree/v1.9.25"
             },
             "install-path": "../james-heinrich/getid3"
         },
@@ -3318,17 +3325,17 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.49",
-            "version_normalized": "3.0.49.0",
+            "version": "3.0.50",
+            "version_normalized": "3.0.50.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "6233a1e12584754e6b5daa69fe1289b47775c1b9"
+                "reference": "aa6ad8321ed103dc3624fb600a25b66ebf78ec7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/6233a1e12584754e6b5daa69fe1289b47775c1b9",
-                "reference": "6233a1e12584754e6b5daa69fe1289b47775c1b9",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/aa6ad8321ed103dc3624fb600a25b66ebf78ec7b",
+                "reference": "aa6ad8321ed103dc3624fb600a25b66ebf78ec7b",
                 "shasum": ""
             },
             "require": {
@@ -3346,7 +3353,7 @@
                 "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
                 "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
             },
-            "time": "2026-01-27T09:17:28+00:00",
+            "time": "2026-03-19T02:57:58+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -3411,7 +3418,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.49"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.50"
             },
             "funding": [
                 {
@@ -6229,17 +6236,17 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v19.3.0",
-            "version_normalized": "19.3.0.0",
+            "version": "v19.4.1",
+            "version_normalized": "19.4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "462272ae7560ee29bb891763fd0967d5a77784e5"
+                "reference": "095384404587d07de2ad1154c389c4051c5ed92f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/462272ae7560ee29bb891763fd0967d5a77784e5",
-                "reference": "462272ae7560ee29bb891763fd0967d5a77784e5",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/095384404587d07de2ad1154c389c4051c5ed92f",
+                "reference": "095384404587d07de2ad1154c389c4051c5ed92f",
                 "shasum": ""
             },
             "require": {
@@ -6249,11 +6256,11 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.72.0",
+                "friendsofphp/php-cs-fixer": "3.94.0",
                 "phpstan/phpstan": "^1.2",
                 "phpunit/phpunit": "^5.7 || ^9.0"
             },
-            "time": "2026-01-28T21:15:45+00:00",
+            "time": "2026-03-06T22:53:13+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6285,7 +6292,7 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v19.3.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v19.4.1"
             },
             "install-path": "../stripe/stripe-php"
         },
