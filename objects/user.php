@@ -3617,7 +3617,11 @@ if (typeof gtag !== \"function\") {
         return self::getSocialMediaURL('website', $users_id);
     }
 
-    public static function setProfilePassword($users_id, $value)
+    public static function setProfilePassword(
+        $users_id,
+        #[\SensitiveParameter]
+        $value
+    )
     {
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
         if (empty($obj) || !User::isAdmin()) {
