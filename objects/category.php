@@ -388,8 +388,11 @@ class Category
             if (!is_array($_REQUEST['doNotShowCats'])) {
                 $doNotShowCats = array($_REQUEST['doNotShowCats']);
             }
+            // SECURITY: Use real_escape_string instead of str_replace("'", ...) to prevent
+            // SQL injection via backslash-escape technique (the old filter did not escape
+            // backslashes, allowing attackers to shift SQL string boundaries).
             foreach ($doNotShowCats as $key => $value) {
-                $doNotShowCats[$key] = str_replace("'", '', $value);
+                $doNotShowCats[$key] = $global['mysqli']->real_escape_string($value);
             }
             $sql .= " AND (c.clean_name NOT IN ('" . implode("', '", $doNotShowCats) . "') )";
         }
