@@ -187,10 +187,37 @@ if (!empty($_FILES['video']['error'])) {
 } else {
     $obj->lines[] = __LINE__;
 }
-$_REQUEST['chunkFile'] = str_replace('../', '', $_REQUEST['chunkFile']);
-if (empty($_FILES['video']['tmp_name']) && isValidURLOrPath($_REQUEST['chunkFile'])) {
-    $obj->lines[] = __LINE__;
-    $_FILES['video']['tmp_name'] = $_REQUEST['chunkFile'];
+// SECURITY: Validate chunkFile against a strict allowlist of temp directories only.
+// The old str_replace('../', '') path-traversal guard was bypassable (e.g. '....//'),
+// and isValidURLOrPath() was too broad — it allowed any path under /var/www/, the
+// application root, and the videos directory, enabling arbitrary local file read for
+// any authenticated uploader. We now use realpath() to canonicalise the path and
+// verify it is rooted inside getTmpDir() or sys_get_temp_dir() only.
+if (empty($_FILES['video']['tmp_name']) && !empty($_REQUEST['chunkFile'])) {
+    $resolvedChunkFile = realpath($_REQUEST['chunkFile']);
+    if ($resolvedChunkFile !== false) {
+        $allowedChunkDirs = array_filter(array_unique([
+            realpath(getTmpDir()),
+            realpath(sys_get_temp_dir()),
+        ]));
+        $chunkAllowed = false;
+        foreach ($allowedChunkDirs as $allowedDir) {
+            // Use DIRECTORY_SEPARATOR so '/tmp' cannot match '/tmpfoo'
+            if (str_starts_with($resolvedChunkFile, $allowedDir . DIRECTORY_SEPARATOR) ||
+                $resolvedChunkFile === $allowedDir) {
+                $chunkAllowed = true;
+                break;
+            }
+        }
+        if ($chunkAllowed) {
+            $obj->lines[] = __LINE__;
+            $_FILES['video']['tmp_name'] = $resolvedChunkFile;
+        } else {
+            _error_log("aVideoEncoder.json: chunkFile rejected (outside allowed temp dirs): " . $_REQUEST['chunkFile']);
+        }
+    } else {
+        _error_log("aVideoEncoder.json: chunkFile rejected (realpath failed / file not found): " . $_REQUEST['chunkFile']);
+    }
 }
 
 // get video file from encoder
@@ -312,6 +339,10 @@ function downloadVideoFromDownloadURL($downloadURL)
         __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL SSRF protection blocked URL: " . $downloadURL);
         return false;
     }
+
+    // Allow up to 2 hours for large video uploads/encoding
+    @set_time_limit(7200);
+    ini_set('max_execution_time', 7200);
 
     _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($downloadURL);
