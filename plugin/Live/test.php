@@ -1,4 +1,10 @@
 <?php
+require_once dirname(__FILE__) . '/../../videos/configuration.php';
+
+if (!User::isAdmin()) {
+    http_response_code(403);
+    exit('Forbidden');
+}
 
 $timeStarted = microtime(true);
 
@@ -131,7 +137,7 @@ function wget($url, $filename)
         _log('this is a windows OS ');
         return false;
     }
-    $cmd = "wget --tries=1 {$url} -O {$filename} --no-check-certificate";
+    $cmd = "wget --tries=1 " . escapeshellarg($url) . " -O " . escapeshellarg($filename) . " --no-check-certificate";
     exec($cmd);
     if (!file_exists($filename)) {
         _log('wget download fail, we cannot read the file: ' . $filename);
