@@ -24,7 +24,7 @@ if (php_sapi_name() !== 'cli') {
 }
 
 
-$installationVersion = "26.0";
+$installationVersion = "27.0";
 
 require_once '../objects/functionsSecurity.php';
 
