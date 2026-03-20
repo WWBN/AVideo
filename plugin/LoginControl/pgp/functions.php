@@ -22,8 +22,9 @@ function createKeys($UserIDPacket = 'Test <test@example.com>', $password = ''){
         'u' => $rsa->coefficients[2]->toBytes(),
     ]);
      */
-    
-    $privateKey = RSA::createKey(512);
+
+    // Security: 512-bit RSA is publicly factorable since 1999. Use 2048-bit minimum.
+    $privateKey = RSA::createKey(2048);
     $publickey = $privateKey->getPublicKey();
 
     $privateKeyComponents = PKCS1::load($privateKey->toString('PKCS1'));

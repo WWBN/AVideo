@@ -1,5 +1,6 @@
 <?php
-require_once  '../../../plugin/LoginControl/pgp/functions.php';
+require_once '../../../videos/configuration.php';
+require_once '../../../plugin/LoginControl/pgp/functions.php';
 header('Content-Type: application/json');
 
 $obj = new stdClass();
@@ -7,6 +8,12 @@ $obj->error = true;
 $obj->msg = '';
 $obj->public = '';
 $obj->private = '';
+
+// Security: require authentication — key generation is CPU-intensive and must not be exposed anonymously.
+if (!User::isLogged()) {
+    $obj->msg = 'Authentication required';
+    die(json_encode($obj));
+}
 
 
 $pass = @$_REQUEST['keyPassword'];
