@@ -5015,8 +5015,14 @@ class API extends PluginAbstract
             return new ApiObject("You must specify a language");
         }
         $parameters['language'] = strtolower($parameters['language']);
-        $file = "{$global['systemRootPath']}locale/{$parameters['language']}.php";
-        if (!file_exists("{$file}")) {
+        // Security: only allow valid locale identifiers (letters, digits, underscores)
+        // to prevent path traversal via ../ sequences (CWE-98 Local File Inclusion)
+        if (!preg_match('/^[a-z0-9_]+$/i', $parameters['language'])) {
+            return new ApiObject("Invalid language code");
+        }
+        $localeDir = realpath("{$global['systemRootPath']}locale");
+        $file = "{$localeDir}/{$parameters['language']}.php";
+        if (!file_exists($file) || realpath($file) !== $file) {
             return new ApiObject("This language does not exists");
         }
         include $file;
