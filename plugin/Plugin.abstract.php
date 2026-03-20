@@ -276,7 +276,7 @@ abstract class PluginAbstract {
         // nested access (e.g. "server->value") is truly required, in which case
         // sanitize with a strict regex before passing.
         $object = $this->getDataObject();
-        eval("\$object->$parameterName = \$value;");
+        $object->{$parameterName} = $value;
         return $this->setDataObject($object);
     }
 
