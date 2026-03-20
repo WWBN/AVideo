@@ -5940,8 +5940,9 @@ class API extends PluginAbstract
     #[OA\Get(
         path: "/api/decryptString",
         summary: "Decrypt an encrypted string",
-        description: "Decrypts a string encrypted by the system.",
+        description: "Decrypts a string encrypted by the system. Requires a valid APISecret.",
         tags: ["API"],
+        security: [ ['APISecret' => []] ],
         parameters: [
             new OA\Parameter(
                 name: "string",
@@ -5962,6 +5963,9 @@ class API extends PluginAbstract
 
     public function get_api_decryptString()
     {
+        if (!User::isAdmin() && !self::isAPISecretValid()) {
+            return new ApiObject("Admin or valid APISecret is required", true);
+        }
         $string = decryptString($_REQUEST['string']);
         return new ApiObject($string, empty($string));
     }
