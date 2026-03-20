@@ -409,6 +409,25 @@ class ParsedownSafeWithLinks extends Parsedown
         return parent::blockMarkup($Line);
     }
 
+    protected function inlineLink($Excerpt)
+    {
+        $Link = parent::inlineLink($Excerpt);
+
+        if ($Link === null) {
+            return null;
+        }
+
+        $href = isset($Link['element']['attributes']['href']) ? $Link['element']['attributes']['href'] : '';
+
+        // Apply the same whitelist as sanitizeATag: http(s), mailto, relative paths, page anchors.
+        // Anything else (javascript:, vbscript:, data:, ...) is stripped.
+        if ($href !== '' && !preg_match('/^(https?:\/\/|mailto:|\/|#)/i', $href)) {
+            $Link['element']['attributes']['href'] = '';
+        }
+
+        return $Link;
+    }
+
     protected function inlineMarkup($Excerpt)
     {
         if (strpos($Excerpt['text'], '>') === false) {
