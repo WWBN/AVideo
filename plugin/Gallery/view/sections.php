@@ -9,6 +9,7 @@ $_page->setExtraScripts(array('plugin/Gallery/view/sections.js'));
     <div class="panel panel-default">
         <div class="panel-heading"><?php echo __('Sort Gallery Sections') ?> </div>
         <div class="panel-body">
+            <input type="hidden" id="galleryToken" value="<?php echo getToken(300); ?>">
             <ul class="list-group" id="sortable">
                 <?php
                 $sections = Gallery::getSectionsOrder(false);

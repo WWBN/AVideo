@@ -7,7 +7,8 @@ $(function () {
                 url: webSiteRootURL + 'plugin/Gallery/view/saveSort.json.php',
                 method: 'POST',
                 data: {
-                    'sections': $("#sortable").sortable("toArray")
+                    'sections': $("#sortable").sortable("toArray"),
+                    'globalToken': $('#galleryToken').val()
                 },
                 success: function (response) {
                     modal.hidePleaseWait();
@@ -27,7 +28,8 @@ $(function () {
             method: 'POST',
             data: {
                 'name': name,
-                'isChecked': isChecked
+                'isChecked': isChecked,
+                'globalToken': $('#galleryToken').val()
             },
             success: function (response) {
                 modal.hidePleaseWait();

@@ -271,6 +271,10 @@ abstract class PluginAbstract {
     }
 
     public function setDataObjectParameter($parameterName, $value) {
+        // Security: $parameterName is passed to eval(). Callers MUST validate it
+        // before calling this method — restrict to alphanumeric/underscore unless
+        // nested access (e.g. "server->value") is truly required, in which case
+        // sanitize with a strict regex before passing.
         $object = $this->getDataObject();
         eval("\$object->$parameterName = \$value;");
         return $this->setDataObject($object);
