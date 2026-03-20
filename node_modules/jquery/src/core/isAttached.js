@@ -1,26 +1,19 @@
-define( [
-	"../core",
-	"../var/documentElement",
-	"../selector/contains" // jQuery.contains
-], function( jQuery, documentElement ) {
-	"use strict";
+import { jQuery } from "../core.js";
+import { documentElement } from "../var/documentElement.js";
 
-	var isAttached = function( elem ) {
-			return jQuery.contains( elem.ownerDocument, elem );
-		},
-		composed = { composed: true };
+var isAttached = function( elem ) {
+		return jQuery.contains( elem.ownerDocument, elem ) ||
+			elem.getRootNode( composed ) === elem.ownerDocument;
+	},
+	composed = { composed: true };
 
-	// Support: IE 9 - 11+, Edge 12 - 18+, iOS 10.0 - 10.2 only
-	// Check attachment across shadow DOM boundaries when possible (gh-3504)
-	// Support: iOS 10.0-10.2 only
-	// Early iOS 10 versions support `attachShadow` but not `getRootNode`,
-	// leading to errors. We need to check for `getRootNode`.
-	if ( documentElement.getRootNode ) {
-		isAttached = function( elem ) {
-			return jQuery.contains( elem.ownerDocument, elem ) ||
-				elem.getRootNode( composed ) === elem.ownerDocument;
-		};
-	}
+// Support: IE 9 - 11+
+// Check attachment across shadow DOM boundaries when possible (gh-3504).
+// Provide a fallback for browsers without Shadow DOM v1 support.
+if ( !documentElement.getRootNode ) {
+	isAttached = function( elem ) {
+		return jQuery.contains( elem.ownerDocument, elem );
+	};
+}
 
-	return isAttached;
-} );
+export { isAttached };

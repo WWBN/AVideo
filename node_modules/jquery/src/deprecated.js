@@ -1,23 +1,8 @@
-define( [
-	"./core",
-	"./core/nodeName",
-	"./core/camelCase",
-	"./core/toType",
-	"./var/isFunction",
-	"./var/isWindow",
-	"./var/slice",
+import { jQuery } from "./core.js";
+import { slice } from "./var/slice.js";
 
-	"./deprecated/ajax-event-alias",
-	"./deprecated/event"
-], function( jQuery, nodeName, camelCase, toType, isFunction, isWindow, slice ) {
-
-"use strict";
-
-// Support: Android <=4.0 only
-// Make sure we trim BOM and NBSP
-// Require that the "whitespace run" starts from a non-whitespace
-// to avoid O(N^2) behavior when the engine would try matching "\s+$" at each space position.
-var rtrim = /^[\s\uFEFF\xA0]+|([^\s\uFEFF\xA0])[\s\uFEFF\xA0]+$/g;
+import "./deprecated/ajax-event-alias.js";
+import "./deprecated/event.js";
 
 // Bind a function to a context, optionally partially applying any
 // arguments.
@@ -34,7 +19,7 @@ jQuery.proxy = function( fn, context ) {
 
 	// Quick check to determine if target is callable, in the spec
 	// this throws a TypeError, but we will just return undefined.
-	if ( !isFunction( fn ) ) {
+	if ( typeof fn !== "function" ) {
 		return undefined;
 	}
 
@@ -57,33 +42,7 @@ jQuery.holdReady = function( hold ) {
 		jQuery.ready( true );
 	}
 };
-jQuery.isArray = Array.isArray;
-jQuery.parseJSON = JSON.parse;
-jQuery.nodeName = nodeName;
-jQuery.isFunction = isFunction;
-jQuery.isWindow = isWindow;
-jQuery.camelCase = camelCase;
-jQuery.type = toType;
 
-jQuery.now = Date.now;
+jQuery.expr[ ":" ] = jQuery.expr.filters = jQuery.expr.pseudos;
 
-jQuery.isNumeric = function( obj ) {
-
-	// As of jQuery 3.0, isNumeric is limited to
-	// strings and numbers (primitives or objects)
-	// that can be coerced to finite numbers (gh-2662)
-	var type = jQuery.type( obj );
-	return ( type === "number" || type === "string" ) &&
-
-		// parseFloat NaNs numeric-cast false positives ("")
-		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
-		// subtraction forces infinities to NaN
-		!isNaN( obj - parseFloat( obj ) );
-};
-
-jQuery.trim = function( text ) {
-	return text == null ?
-		"" :
-		( text + "" ).replace( rtrim, "$1" );
-};
-} );
+export { jQuery, jQuery as $ };

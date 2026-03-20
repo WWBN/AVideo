@@ -1,152 +1,96 @@
-define( [
-	"../core",
-	"../var/document",
-	"../var/documentElement",
-	"../var/support"
-], function( jQuery, document, documentElement, support ) {
+import { jQuery } from "../core.js";
+import { document } from "../var/document.js";
+import { documentElement } from "../var/documentElement.js";
+import { support } from "../var/support.js";
+import { isIE } from "../var/isIE.js";
 
-"use strict";
+var reliableTrDimensionsVal, reliableColDimensionsVal,
+	table = document.createElement( "table" );
 
-( function() {
-
-	// Executing both pixelPosition & boxSizingReliable tests require only one layout
-	// so they're executed at the same time to save the second computation.
-	function computeStyleTests() {
+// Executing table tests requires only one layout, so they're executed
+// at the same time to save the second computation.
+function computeTableStyleTests() {
+	if (
 
 		// This is a singleton, we need to execute it only once
-		if ( !div ) {
-			return;
-		}
+		!table ||
 
-		container.style.cssText = "position:absolute;left:-11111px;width:60px;" +
-			"margin-top:1px;padding:0;border:0";
-		div.style.cssText =
-			"position:relative;display:block;box-sizing:border-box;overflow:scroll;" +
-			"margin:auto;border:1px;padding:1px;" +
-			"width:60%;top:1%";
-		documentElement.appendChild( container ).appendChild( div );
-
-		var divStyle = window.getComputedStyle( div );
-		pixelPositionVal = divStyle.top !== "1%";
-
-		// Support: Android 4.0 - 4.3 only, Firefox <=3 - 44
-		reliableMarginLeftVal = roundPixelMeasures( divStyle.marginLeft ) === 12;
-
-		// Support: Android 4.0 - 4.3 only, Safari <=9.1 - 10.1, iOS <=7.0 - 9.3
-		// Some styles come back with percentage values, even though they shouldn't
-		div.style.right = "60%";
-		pixelBoxStylesVal = roundPixelMeasures( divStyle.right ) === 36;
-
-		// Support: IE 9 - 11 only
-		// Detect misreporting of content dimensions for box-sizing:border-box elements
-		boxSizingReliableVal = roundPixelMeasures( divStyle.width ) === 36;
-
-		// Support: IE 9 only
-		// Detect overflow:scroll screwiness (gh-3699)
-		// Support: Chrome <=64
-		// Don't get tricked when zoom affects offsetWidth (gh-4029)
-		div.style.position = "absolute";
-		scrollboxSizeVal = roundPixelMeasures( div.offsetWidth / 3 ) === 12;
-
-		documentElement.removeChild( container );
-
-		// Nullify the div so it wouldn't be stored in the memory and
-		// it will also be a sign that checks already performed
-		div = null;
-	}
-
-	function roundPixelMeasures( measure ) {
-		return Math.round( parseFloat( measure ) );
-	}
-
-	var pixelPositionVal, boxSizingReliableVal, scrollboxSizeVal, pixelBoxStylesVal,
-		reliableTrDimensionsVal, reliableMarginLeftVal,
-		container = document.createElement( "div" ),
-		div = document.createElement( "div" );
-
-	// Finish early in limited (non-browser) environments
-	if ( !div.style ) {
+		// Finish early in limited (non-browser) environments
+		!table.style
+	) {
 		return;
 	}
 
-	// Support: IE <=9 - 11 only
-	// Style of cloned element affects source element cloned (trac-8908)
-	div.style.backgroundClip = "content-box";
-	div.cloneNode( true ).style.backgroundClip = "";
-	support.clearCloneStyle = div.style.backgroundClip === "content-box";
+	var trStyle,
+		col = document.createElement( "col" ),
+		tr = document.createElement( "tr" ),
+		td = document.createElement( "td" );
 
-	jQuery.extend( support, {
-		boxSizingReliable: function() {
-			computeStyleTests();
-			return boxSizingReliableVal;
-		},
-		pixelBoxStyles: function() {
-			computeStyleTests();
-			return pixelBoxStylesVal;
-		},
-		pixelPosition: function() {
-			computeStyleTests();
-			return pixelPositionVal;
-		},
-		reliableMarginLeft: function() {
-			computeStyleTests();
-			return reliableMarginLeftVal;
-		},
-		scrollboxSize: function() {
-			computeStyleTests();
-			return scrollboxSizeVal;
-		},
+	table.style.cssText = "position:absolute;left:-11111px;" +
+		"border-collapse:separate;border-spacing:0";
+	tr.style.cssText = "box-sizing:content-box;border:1px solid;height:1px";
+	td.style.cssText = "height:9px;width:9px;padding:0";
 
-		// Support: IE 9 - 11+, Edge 15 - 18+
-		// IE/Edge misreport `getComputedStyle` of table rows with width/height
-		// set in CSS while `offset*` properties report correct values.
-		// Behavior in IE 9 is more subtle than in newer versions & it passes
-		// some versions of this test; make sure not to make it pass there!
-		//
-		// Support: Firefox 70+
-		// Only Firefox includes border widths
-		// in computed dimensions. (gh-4529)
-		reliableTrDimensions: function() {
-			var table, tr, trChild, trStyle;
-			if ( reliableTrDimensionsVal == null ) {
-				table = document.createElement( "table" );
-				tr = document.createElement( "tr" );
-				trChild = document.createElement( "div" );
+	col.span = 2;
 
-				table.style.cssText = "position:absolute;left:-11111px;border-collapse:separate";
-				tr.style.cssText = "box-sizing:content-box;border:1px solid";
+	documentElement
+		.appendChild( table )
+		.appendChild( col )
+		.parentNode
+		.appendChild( tr )
+		.appendChild( td )
+		.parentNode
+		.appendChild( td.cloneNode( true ) );
 
-				// Support: Chrome 86+
-				// Height set through cssText does not get applied.
-				// Computed height then comes back as 0.
-				tr.style.height = "1px";
-				trChild.style.height = "9px";
+	// Don't run until window is visible
+	if ( table.offsetWidth === 0 ) {
+		documentElement.removeChild( table );
+		return;
+	}
 
-				// Support: Android 8 Chrome 86+
-				// In our bodyBackground.html iframe,
-				// display for all div elements is set to "inline",
-				// which causes a problem only in Android 8 Chrome 86.
-				// Ensuring the div is `display: block`
-				// gets around this issue.
-				trChild.style.display = "block";
+	trStyle = window.getComputedStyle( tr );
 
-				documentElement
-					.appendChild( table )
-					.appendChild( tr )
-					.appendChild( trChild );
+	// Support: Firefox 135+
+	// Firefox always reports computed width as if `span` was 1.
+	// Support: Safari 18.3+
+	// In Safari, computed width for columns is always 0.
+	// In both these browsers, using `offsetWidth` solves the issue.
+	// Support: IE 11+
+	// In IE, `<col>` computed width is `"auto"` unless `width` is set
+	// explicitly via CSS so measurements there remain incorrect. Because of
+	// the lack of a proper workaround, we accept this limitation, treating
+	// IE as passing the test.
+	reliableColDimensionsVal = isIE || Math.round( parseFloat(
+		window.getComputedStyle( col ).width )
+	) === 18;
 
-				trStyle = window.getComputedStyle( tr );
-				reliableTrDimensionsVal = ( parseInt( trStyle.height, 10 ) +
-					parseInt( trStyle.borderTopWidth, 10 ) +
-					parseInt( trStyle.borderBottomWidth, 10 ) ) === tr.offsetHeight;
+	// Support: IE 10 - 11+
+	// IE misreports `getComputedStyle` of table rows with width/height
+	// set in CSS while `offset*` properties report correct values.
+	// Support: Firefox 70 - 135+
+	// Only Firefox includes border widths
+	// in computed dimensions for table rows. (gh-4529)
+	reliableTrDimensionsVal = Math.round( parseFloat( trStyle.height ) +
+		parseFloat( trStyle.borderTopWidth ) +
+		parseFloat( trStyle.borderBottomWidth ) ) === tr.offsetHeight;
 
-				documentElement.removeChild( table );
-			}
-			return reliableTrDimensionsVal;
-		}
-	} );
-} )();
+	documentElement.removeChild( table );
 
-return support;
+	// Nullify the table so it wouldn't be stored in the memory;
+	// it will also be a sign that checks were already performed.
+	table = null;
+}
 
+jQuery.extend( support, {
+	reliableTrDimensions: function() {
+		computeTableStyleTests();
+		return reliableTrDimensionsVal;
+	},
+
+	reliableColDimensions: function() {
+		computeTableStyleTests();
+		return reliableColDimensionsVal;
+	}
 } );
+
+export { support };

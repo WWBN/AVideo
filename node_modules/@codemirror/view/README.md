@@ -16,3 +16,22 @@ We aim to be an inclusive, welcoming community. To make that explicit,
 we have a [code of
 conduct](http://contributor-covenant.org/version/1/1/0/) that applies
 to communication around the project.
+
+## Usage
+
+```javascript
+import {EditorView} from "@codemirror/view"
+import {basicSetup} from "codemirror"
+
+const view = new EditorView({
+  parent: document.querySelector("#some-node"),
+  doc: "Content text",
+  extensions: [basicSetup /* ... */]
+})
+```
+
+Add additional extensions, such as a [language
+mode](https://codemirror.net/#languages), to configure the editor.
+Call
+[`view.dispatch`](https://codemirror.net/docs/ref/#view.EditorView.dispatch)
+to update the editor's state.

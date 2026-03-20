@@ -16,3 +16,51 @@ We aim to be an inclusive, welcoming community. To make that explicit,
 we have a [code of
 conduct](http://contributor-covenant.org/version/1/1/0/) that applies
 to communication around the project.
+
+## Usage
+
+Setting up a language from a [Lezer](https://lezer.codemirror.net)
+parser looks like this:
+
+```javascript
+import {parser} from "@lezer/json"
+import {LRLanguage, continuedIndent, indentNodeProp,
+        foldNodeProp, foldInside} from "@codemirror/language"
+
+export const jsonLanguage = LRLanguage.define({
+  name: "json",
+  parser: parser.configure({
+    props: [
+      indentNodeProp.add({
+        Object: continuedIndent({except: /^\s*\}/}),
+        Array: continuedIndent({except: /^\s*\]/})
+      }),
+      foldNodeProp.add({
+        "Object Array": foldInside
+      })
+    ]
+  }),
+  languageData: {
+    closeBrackets: {brackets: ["[", "{", '"']},
+    indentOnInput: /^\s*[\}\]]$/
+  }
+})
+```
+
+Often, you'll also use this package just to access some specific
+language-related features, such as accessing the editor's syntax
+tree...
+
+```javascript
+import {syntaxTree} from "@codemirror/language"
+
+const tree = syntaxTree(view)
+```
+
+... or computing the appriate indentation at a given point.
+
+```javascript
+import {getIndentation} from "@codemirror/language"
+
+console.log(getIndentation(view.state, view.state.selection.main.head))
+```

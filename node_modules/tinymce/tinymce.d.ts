@@ -227,7 +227,11 @@ interface UploadFailure {
     remove?: boolean;
 }
 type ProgressFn = (percent: number) => void;
-type UploadHandler = (blobInfo: BlobInfo, progress: ProgressFn) => Promise<string>;
+interface UploadFileData {
+    url: string;
+    fileName: string;
+}
+type UploadHandler<T extends UploadFileData | string = string> = (blobInfo: BlobInfo, progress: ProgressFn) => Promise<T>;
 interface UploadResult$2 {
     url: string;
     blobInfo: BlobInfo;
@@ -675,6 +679,10 @@ type CustomEditorSpec = CustomEditorOldSpec | CustomEditorNewSpec;
 interface DropZoneSpec extends FormComponentWithLabelSpec {
     type: 'dropzone';
     context?: string;
+    dropAreaLabel?: string;
+    buttonLabel?: string;
+    allowedFileTypes?: string;
+    allowedFileExtensions?: string[];
 }
 interface GridSpec {
     type: 'grid';
@@ -2028,6 +2036,10 @@ type ThemeInitFunc = (editor: Editor, elm: HTMLElement) => {
     iframeHeight?: number;
     api?: EditorUiApi;
 };
+interface DocumentsFileTypes {
+    readonly mimeType: string;
+    readonly extensions: Array<string>;
+}
 type SetupCallback = (editor: Editor) => void;
 type FilePickerCallback = (callback: (value: string, meta?: Record<string, any>) => void, value: string, meta: Record<string, any>) => void;
 type FilePickerValidationStatus = 'valid' | 'unknown' | 'invalid' | 'none';
@@ -2367,6 +2379,7 @@ interface EditorOptions extends NormalizedEditorOptions {
     width: number | string;
     xss_sanitization: boolean;
     disabled: boolean;
+    documents_file_types: DocumentsFileTypes[];
 }
 type Content = string | AstNode;
 type ContentFormat = 'raw' | 'text' | 'html' | 'tree';
@@ -2631,6 +2644,7 @@ declare class EditorCommands {
     addCommands(commandList: Record<string, EditorCommandsCallback>): void;
     addCommand<S>(command: string, callback: EditorCommandCallback<S>, scope: S): void;
     addCommand(command: string, callback: EditorCommandCallback<Editor>): void;
+    removeCommand(command: string, type?: 'exec' | 'state' | 'value'): void;
     queryCommandSupported(command: string): boolean;
     addQueryStateHandler<S>(command: string, callback: (this: S) => boolean, scope: S): void;
     addQueryStateHandler(command: string, callback: (this: Editor) => boolean): void;

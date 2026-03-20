@@ -1,47 +1,27 @@
-define( [
-	"./core",
-	"./core/isAttached",
-	"./var/flat",
-	"./var/isFunction",
-	"./var/push",
-	"./var/rcheckableType",
-	"./core/access",
-	"./manipulation/var/rtagName",
-	"./manipulation/var/rscriptType",
-	"./manipulation/wrapMap",
-	"./manipulation/getAll",
-	"./manipulation/setGlobalEval",
-	"./manipulation/buildFragment",
-	"./manipulation/support",
+import { jQuery } from "./core.js";
+import { isAttached } from "./core/isAttached.js";
+import { isIE } from "./var/isIE.js";
+import { push } from "./var/push.js";
+import { access } from "./core/access.js";
+import { rtagName } from "./manipulation/var/rtagName.js";
+import { wrapMap } from "./manipulation/wrapMap.js";
+import { getAll } from "./manipulation/getAll.js";
+import { domManip } from "./manipulation/domManip.js";
+import { setGlobalEval } from "./manipulation/setGlobalEval.js";
+import { dataPriv } from "./data/var/dataPriv.js";
+import { dataUser } from "./data/var/dataUser.js";
+import { acceptData } from "./data/var/acceptData.js";
+import { nodeName } from "./core/nodeName.js";
 
-	"./data/var/dataPriv",
-	"./data/var/dataUser",
-	"./data/var/acceptData",
-	"./core/DOMEval",
-	"./core/nodeName",
-
-	"./core/init",
-	"./traversing",
-	"./selector",
-	"./event"
-], function( jQuery, isAttached, flat, isFunction, push, rcheckableType,
-	access, rtagName, rscriptType,
-	wrapMap, getAll, setGlobalEval, buildFragment, support,
-	dataPriv, dataUser, acceptData, DOMEval, nodeName ) {
-
-"use strict";
+import "./core/init.js";
+import "./traversing.js";
+import "./event.js";
 
 var
 
-	// Support: IE <=10 - 11, Edge 12 - 13 only
-	// In IE/Edge using regex groups here causes severe slowdowns.
-	// See https://connect.microsoft.com/IE/feedback/details/1736512/
-	rnoInnerhtml = /<script|<style|<link/i,
-
-	// checked="checked" or checked
-	rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
-
-	rcleanScript = /^\s*<!\[CDATA\[|\]\]>\s*$/g;
+	// Support: IE <=10 - 11+
+	// In IE using regex groups here causes severe slowdowns.
+	rnoInnerhtml = /<script|<style|<link/i;
 
 // Prefer a tbody over its parent table for containing new rows
 function manipulationTarget( elem, content ) {
@@ -54,163 +34,28 @@ function manipulationTarget( elem, content ) {
 	return elem;
 }
 
-// Replace/restore the type attribute of script elements for safe DOM manipulation
-function disableScript( elem ) {
-	elem.type = ( elem.getAttribute( "type" ) !== null ) + "/" + elem.type;
-	return elem;
-}
-function restoreScript( elem ) {
-	if ( ( elem.type || "" ).slice( 0, 5 ) === "true/" ) {
-		elem.type = elem.type.slice( 5 );
-	} else {
-		elem.removeAttribute( "type" );
-	}
-
-	return elem;
-}
-
 function cloneCopyEvent( src, dest ) {
-	var i, l, type, pdataOld, udataOld, udataCur, events;
+	var type, i, l,
+		events = dataPriv.get( src, "events" );
 
 	if ( dest.nodeType !== 1 ) {
 		return;
 	}
 
 	// 1. Copy private data: events, handlers, etc.
-	if ( dataPriv.hasData( src ) ) {
-		pdataOld = dataPriv.get( src );
-		events = pdataOld.events;
-
-		if ( events ) {
-			dataPriv.remove( dest, "handle events" );
-
-			for ( type in events ) {
-				for ( i = 0, l = events[ type ].length; i < l; i++ ) {
-					jQuery.event.add( dest, type, events[ type ][ i ] );
-				}
+	if ( events ) {
+		dataPriv.remove( dest, "handle events" );
+		for ( type in events ) {
+			for ( i = 0, l = events[ type ].length; i < l; i++ ) {
+				jQuery.event.add( dest, type, events[ type ][ i ] );
 			}
 		}
 	}
 
 	// 2. Copy user data
 	if ( dataUser.hasData( src ) ) {
-		udataOld = dataUser.access( src );
-		udataCur = jQuery.extend( {}, udataOld );
-
-		dataUser.set( dest, udataCur );
+		dataUser.set( dest, jQuery.extend( {}, dataUser.get( src ) ) );
 	}
-}
-
-// Fix IE bugs, see support tests
-function fixInput( src, dest ) {
-	var nodeName = dest.nodeName.toLowerCase();
-
-	// Fails to persist the checked state of a cloned checkbox or radio button.
-	if ( nodeName === "input" && rcheckableType.test( src.type ) ) {
-		dest.checked = src.checked;
-
-	// Fails to return the selected option to the default selected state when cloning options
-	} else if ( nodeName === "input" || nodeName === "textarea" ) {
-		dest.defaultValue = src.defaultValue;
-	}
-}
-
-function domManip( collection, args, callback, ignored ) {
-
-	// Flatten any nested arrays
-	args = flat( args );
-
-	var fragment, first, scripts, hasScripts, node, doc,
-		i = 0,
-		l = collection.length,
-		iNoClone = l - 1,
-		value = args[ 0 ],
-		valueIsFunction = isFunction( value );
-
-	// We can't cloneNode fragments that contain checked, in WebKit
-	if ( valueIsFunction ||
-			( l > 1 && typeof value === "string" &&
-				!support.checkClone && rchecked.test( value ) ) ) {
-		return collection.each( function( index ) {
-			var self = collection.eq( index );
-			if ( valueIsFunction ) {
-				args[ 0 ] = value.call( this, index, self.html() );
-			}
-			domManip( self, args, callback, ignored );
-		} );
-	}
-
-	if ( l ) {
-		fragment = buildFragment( args, collection[ 0 ].ownerDocument, false, collection, ignored );
-		first = fragment.firstChild;
-
-		if ( fragment.childNodes.length === 1 ) {
-			fragment = first;
-		}
-
-		// Require either new content or an interest in ignored elements to invoke the callback
-		if ( first || ignored ) {
-			scripts = jQuery.map( getAll( fragment, "script" ), disableScript );
-			hasScripts = scripts.length;
-
-			// Use the original fragment for the last item
-			// instead of the first because it can end up
-			// being emptied incorrectly in certain situations (trac-8070).
-			for ( ; i < l; i++ ) {
-				node = fragment;
-
-				if ( i !== iNoClone ) {
-					node = jQuery.clone( node, true, true );
-
-					// Keep references to cloned scripts for later restoration
-					if ( hasScripts ) {
-
-						// Support: Android <=4.0 only, PhantomJS 1 only
-						// push.apply(_, arraylike) throws on ancient WebKit
-						jQuery.merge( scripts, getAll( node, "script" ) );
-					}
-				}
-
-				callback.call( collection[ i ], node, i );
-			}
-
-			if ( hasScripts ) {
-				doc = scripts[ scripts.length - 1 ].ownerDocument;
-
-				// Re-enable scripts
-				jQuery.map( scripts, restoreScript );
-
-				// Evaluate executable scripts on first document insertion
-				for ( i = 0; i < hasScripts; i++ ) {
-					node = scripts[ i ];
-					if ( rscriptType.test( node.type || "" ) &&
-						!dataPriv.access( node, "globalEval" ) &&
-						jQuery.contains( doc, node ) ) {
-
-						if ( node.src && ( node.type || "" ).toLowerCase()  !== "module" ) {
-
-							// Optional AJAX dependency, but won't run scripts if not present
-							if ( jQuery._evalUrl && !node.noModule ) {
-								jQuery._evalUrl( node.src, {
-									nonce: node.nonce || node.getAttribute( "nonce" )
-								}, doc );
-							}
-						} else {
-
-							// Unwrap a CDATA section containing script contents. This shouldn't be
-							// needed as in XML documents they're already not visible when
-							// inspecting element contents and in HTML documents they have no
-							// meaning but we're preserving that logic for backwards compatibility.
-							// This will be removed completely in 4.0. See gh-4904.
-							DOMEval( node.textContent.replace( rcleanScript, "" ), node, doc );
-						}
-					}
-				}
-			}
-		}
-	}
-
-	return collection;
 }
 
 function remove( elem, selector, keepData ) {
@@ -245,7 +90,7 @@ jQuery.extend( {
 			inPage = isAttached( elem );
 
 		// Fix IE cloning issues
-		if ( !support.noCloneChecked && ( elem.nodeType === 1 || elem.nodeType === 11 ) &&
+		if ( isIE && ( elem.nodeType === 1 || elem.nodeType === 11 ) &&
 				!jQuery.isXMLDoc( elem ) ) {
 
 			// We eschew jQuery#find here for performance reasons:
@@ -254,7 +99,13 @@ jQuery.extend( {
 			srcElements = getAll( elem );
 
 			for ( i = 0, l = srcElements.length; i < l; i++ ) {
-				fixInput( srcElements[ i ], destElements[ i ] );
+
+				// Support: IE <=11+
+				// IE fails to set the defaultValue to the correct value when
+				// cloning textareas.
+				if ( nodeName( destElements[ i ], "textarea" ) ) {
+					destElements[ i ].defaultValue = srcElements[ i ].defaultValue;
+				}
 			}
 		}
 
@@ -474,15 +325,11 @@ jQuery.each( {
 		for ( ; i <= last; i++ ) {
 			elems = i === last ? this : this.clone( true );
 			jQuery( insert[ i ] )[ original ]( elems );
-
-			// Support: Android <=4.0 only, PhantomJS 1 only
-			// .get() because push.apply(_, arraylike) throws on ancient WebKit
-			push.apply( ret, elems.get() );
+			push.apply( ret, elems );
 		}
 
 		return this.pushStack( ret );
 	};
 } );
 
-return jQuery;
-} );
+export { jQuery, jQuery as $ };

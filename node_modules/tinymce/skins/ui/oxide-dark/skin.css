@@ -367,305 +367,259 @@ button::-moz-focus-inner {
   flex: 0 0 auto;
 }
 .tox .tox-button {
-  background-color: #006ce7;
-  background-image: none;
-  background-position: 0 0;
-  background-repeat: repeat;
-  border-color: #006ce7;
-  border-radius: 6px;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: none;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: bold;
-  letter-spacing: normal;
-  line-height: 24px;
-  margin: 0;
-  outline: none;
-  padding: 4px 16px;
-  position: relative;
+  border-width: var(--tox-private-button-border-width, 1px);
+  border-style: var(--tox-private-button-border-style, solid);
+  border-radius: var(--tox-private-control-border-radius, 6px);
+  font-family: var(--tox-private-font-stack, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif);
+  font-size: var(--tox-private-button-font-size, 14px);
+  font-style: var(--tox-private-button-font-style, normal);
+  font-weight: var(--tox-private-button-font-weight, bold);
+  line-height: var(--tox-private-control-line-height, 24px);
+  padding: var(--tox-private-button-padding-y, 4px) var(--tox-private-button-padding-x, 16px);
   text-align: center;
   -webkit-text-decoration: none;
   text-decoration: none;
   text-transform: none;
+  letter-spacing: normal;
+  box-shadow: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  outline: none;
+  position: relative;
   white-space: nowrap;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
 }
 .tox .tox-button::before {
-  border-radius: 6px;
-  bottom: -1px;
-  box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px #006ce7;
+  border-radius: var(--tox-private-control-border-radius, 6px);
+  bottom: calc(-1 * var(--tox-private-button-border-width, 1px));
+  box-shadow: var(--tox-private-button-focus-outline, inset 0 0 0 1px #fff, 0 0 0 2px #006ce7);
   content: '';
-  left: -1px;
+  left: calc(-1 * var(--tox-private-button-border-width, 1px));
   opacity: 0;
   pointer-events: none;
   position: absolute;
-  right: -1px;
-  top: -1px;
-}
-.tox .tox-button[disabled] {
-  background-color: #006ce7;
-  background-image: none;
-  border-color: #006ce7;
-  box-shadow: none;
-  color: rgba(255, 255, 255, 0.5);
-  cursor: not-allowed;
+  right: calc(-1 * var(--tox-private-button-border-width, 1px));
+  top: calc(-1 * var(--tox-private-button-border-width, 1px));
 }
 .tox .tox-button:focus:not(:disabled) {
-  background-color: #0060ce;
+  background-color: var(--tox-private-button-focus-background-color, #0060ce);
   background-image: none;
-  border-color: #0060ce;
-  box-shadow: none;
-  color: #fff;
+  border-color: var(--tox-private-button-focus-border-color, #0060ce);
+  box-shadow: var(--tox-private-button-focus-box-shadow, none);
+  color: var(--tox-private-button-focus-text-color, #fff);
 }
 .tox .tox-button:focus:not(:disabled)::before {
   opacity: 1;
 }
-.tox .tox-button:hover:not(:disabled) {
-  background-color: #0060ce;
-  background-image: none;
-  border-color: #0060ce;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button:active:not(:disabled) {
-  background-color: #0054b4;
-  background-image: none;
-  border-color: #0054b4;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button.tox-button--enabled {
-  background-color: #0054b4;
-  background-image: none;
-  border-color: #0054b4;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button.tox-button--enabled[disabled] {
-  background-color: #0054b4;
-  background-image: none;
-  border-color: #0054b4;
-  box-shadow: none;
-  color: rgba(255, 255, 255, 0.5);
-  cursor: not-allowed;
-}
-.tox .tox-button.tox-button--enabled:focus:not(:disabled) {
-  background-color: #00489b;
-  background-image: none;
-  border-color: #00489b;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button.tox-button--enabled:hover:not(:disabled) {
-  background-color: #00489b;
-  background-image: none;
-  border-color: #00489b;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button.tox-button--enabled:active:not(:disabled) {
-  background-color: #003c81;
-  background-image: none;
-  border-color: #003c81;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button--icon-and-text,
-.tox .tox-button.tox-button--icon-and-text,
-.tox .tox-button.tox-button--secondary.tox-button--icon-and-text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
-  padding: 5px 4px;
-}
-.tox .tox-button--icon-and-text .tox-icon svg,
-.tox .tox-button.tox-button--icon-and-text .tox-icon svg,
-.tox .tox-button.tox-button--secondary.tox-button--icon-and-text .tox-icon svg {
-  display: block;
-  fill: currentColor;
-}
-.tox .tox-button--icon-and-text .tox-icon.tox-icon--success svg,
-.tox .tox-button.tox-button--icon-and-text .tox-icon.tox-icon--success svg,
-.tox .tox-button.tox-button--secondary.tox-button--icon-and-text .tox-icon.tox-icon--success svg {
-  fill: #78AB46;
-}
-.tox .tox-button--icon-and-text .tox-icon.tox-icon--error svg,
-.tox .tox-button.tox-button--icon-and-text .tox-icon.tox-icon--error svg,
-.tox .tox-button.tox-button--secondary.tox-button--icon-and-text .tox-icon.tox-icon--error svg {
-  fill: #c00;
-}
-.tox .tox-button--secondary {
-  background-color: #3d546f;
-  background-image: none;
-  background-position: 0 0;
-  background-repeat: repeat;
-  border-color: #3d546f;
-  border-radius: 6px;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: none;
-  color: #fff;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: bold;
-  letter-spacing: normal;
-  outline: none;
-  padding: 4px 16px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: none;
-}
-.tox .tox-button--secondary[disabled] {
-  background-color: #3d546f;
-  background-image: none;
-  border-color: #3d546f;
-  box-shadow: none;
-  color: rgba(255, 255, 255, 0.5);
-}
-.tox .tox-button--secondary:focus:not(:disabled) {
-  background-color: #34485f;
-  background-image: none;
-  border-color: #34485f;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button--secondary:hover:not(:disabled) {
-  background-color: #34485f;
-  background-image: none;
-  border-color: #34485f;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button--secondary:active:not(:disabled) {
-  background-color: #2b3b4e;
-  background-image: none;
-  border-color: #2b3b4e;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button--secondary.tox-button--enabled {
-  background-color: #2b5c93;
-  background-image: none;
-  border-color: #2b5c93;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button--secondary.tox-button--enabled[disabled] {
-  background-color: #2b5c93;
-  background-image: none;
-  border-color: #2b5c93;
-  box-shadow: none;
-  color: rgba(255, 255, 255, 0.5);
-}
-.tox .tox-button--secondary.tox-button--enabled:focus:not(:disabled) {
-  background-color: #254f80;
-  background-image: none;
-  border-color: #254f80;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button--secondary.tox-button--enabled:hover:not(:disabled) {
-  background-color: #254f80;
-  background-image: none;
-  border-color: #254f80;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button--secondary.tox-button--enabled:active:not(:disabled) {
-  background-color: #1f436c;
-  background-image: none;
-  border-color: #1f436c;
-  box-shadow: none;
-  color: #fff;
-}
-.tox .tox-button--icon,
 .tox .tox-button.tox-button--icon,
-.tox .tox-button.tox-button--secondary.tox-button--icon {
+.tox .tox-button:has(.tox-icon:only-child) {
   padding: 4px;
 }
-.tox .tox-button--icon .tox-icon svg,
-.tox .tox-button.tox-button--icon .tox-icon svg,
-.tox .tox-button.tox-button--secondary.tox-button--icon .tox-icon svg {
+.tox .tox-button .tox-icon svg {
   display: block;
   fill: currentColor;
 }
-.tox .tox-button--icon .tox-icon.tox-icon--success svg,
-.tox .tox-button.tox-button--icon .tox-icon.tox-icon--success svg,
-.tox .tox-button.tox-button--secondary.tox-button--icon .tox-icon.tox-icon--success svg {
-  fill: #78AB46;
+.tox .tox-button .tox-icon.tox-icon--success svg {
+  fill: var(--tox-private-color-success, #78AB46);
 }
-.tox .tox-button--icon .tox-icon.tox-icon--error svg,
-.tox .tox-button.tox-button--icon .tox-icon.tox-icon--error svg,
-.tox .tox-button.tox-button--secondary.tox-button--icon .tox-icon.tox-icon--error svg {
-  fill: #c00;
+.tox .tox-button .tox-icon.tox-icon--error svg {
+  fill: var(--tox-private-color-error, #c00);
+}
+.tox .tox-button--stretch {
+  width: 100%;
 }
 .tox-context-form__group .tox-button--icon,
 .tox-context-form__group .tox-button.tox-button--icon {
   margin: 6px 1px 5px 0;
   padding: 0;
 }
-.tox .tox-button-link {
-  background: 0;
-  border: none;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-size: 16px;
-  font-weight: normal;
-  line-height: 1.3;
-  margin: 0;
-  padding: 0;
-  white-space: nowrap;
+.tox {
+  /* TODO: Add `--primary` to class name. Currently, we treat primary as base in alloy */
+  /* TODO: Add `--primary` to class name. Currently, we treat primary as base in alloy */
 }
-.tox .tox-button-link--sm {
+.tox .tox-button {
+  background-color: var(--tox-private-button-primary-background-color, #006ce7);
+  background-image: none;
+  background-position: 0 0;
+  background-repeat: repeat;
+  color: var(--tox-private-button-primary-text-color, #fff);
+  border-color: var(--tox-private-button-primary-border-color, #006ce7);
+  /* Enabled state */
+}
+.tox .tox-button[disabled] {
+  background-color: var(--tox-private-button-primary-disabled-background-color, #006ce7);
+  background-image: none;
+  border-color: var(--tox-private-button-primary-disabled-border-color, #006ce7);
+  color: var(--tox-private-button-primary-disabled-text-color, rgba(255, 255, 255, 0.5));
+  cursor: not-allowed;
+}
+.tox .tox-button:focus:not(:disabled) {
+  background-color: var(--tox-private-button-primary-focus-background-color, #0060ce);
+  border-color: var(--tox-private-button-primary-focus-border-color, #0060ce);
+  color: var(--tox-private-button-primary-focus-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button:hover:not(:disabled) {
+  background-color: var(--tox-private-button-primary-hover-background-color, #0060ce);
+  border-color: var(--tox-private-button-primary-hover-border-color, #0060ce);
+  color: var(--tox-private-button-primary-hover-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button:active:not(:disabled) {
+  background-color: var(--tox-private-button-primary-active-background-color, #0054b4);
+  border-color: var(--tox-private-button-primary-active-border-color, #0054b4);
+  color: var(--tox-private-button-primary-active-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button.tox-button--enabled {
+  background-color: var(--tox-private-button-primary-enabled-background-color, #0054b4);
+  border-color: var(--tox-private-button-primary-enabled-border-color, #0054b4);
+  color: var(--tox-private-button-primary-enabled-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button.tox-button--enabled[disabled] {
+  color: var(--tox-private-button-primary-disabled-text-color, rgba(255, 255, 255, 0.5));
+  cursor: not-allowed;
+}
+.tox .tox-button.tox-button--enabled:focus:not(:disabled) {
+  background-color: var(--tox-private-button-primary-enabled-focus-background-color, #00489b);
+  border-color: var(--tox-private-button-primary-enabled-focus-border-color, #00489b);
+  color: var(--tox-private-button-primary-enabled-focus-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button.tox-button--enabled:hover:not(:disabled) {
+  background-color: var(--tox-private-button-primary-enabled-hover-background-color, #00489b);
+  border-color: var(--tox-private-button-primary-enabled-hover-border-color, #00489b);
+  color: var(--tox-private-button-primary-enabled-hover-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button.tox-button--enabled:active:not(:disabled) {
+  background-color: var(--tox-private-button-primary-enabled-active-background-color, #003c81);
+  border-color: var(--tox-private-button-primary-enabled-active-border-color, #003c81);
+  color: var(--tox-private-button-primary-enabled-active-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button--secondary {
+  background-color: var(--tox-private-button-secondary-background-color, #3d546f);
+  border-color: var(--tox-private-button-secondary-border-color, #3d546f);
+  color: var(--tox-private-button-secondary-text-color, #fff);
+  border-style: solid;
+  border-width: 1px;
+  background-image: none;
+  background-position: 0 0;
+  background-repeat: repeat;
+  border-radius: 6px;
+  box-shadow: none;
   font-size: 14px;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: normal;
+  outline: none;
+  padding: 4px 16px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: none;
+  /* Enabled state */
+}
+.tox .tox-button--secondary[disabled] {
+  background-color: var(--tox-private-button-secondary-disabled-background-color, #3d546f);
+  background-image: none;
+  border-color: var(--tox-private-button-secondary-disabled-border-color, #3d546f);
+  color: var(--tox-private-button-secondary-disabled-text-color, rgba(255, 255, 255, 0.5));
+  cursor: not-allowed;
+}
+.tox .tox-button--secondary:focus:not(:disabled) {
+  background-color: var(--tox-private-button-secondary-focus-background-color, #34485f);
+  border-color: var(--tox-private-button-secondary-focus-border-color, #34485f);
+  color: var(--tox-private-button-secondary-focus-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button--secondary:hover:not(:disabled) {
+  background-color: var(--tox-private-button-secondary-hover-background-color, #34485f);
+  border-color: var(--tox-private-button-secondary-hover-border-color, #34485f);
+  color: var(--tox-private-button-secondary-hover-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button--secondary:active:not(:disabled) {
+  background-color: var(--tox-private-button-secondary-active-background-color, #2b3b4e);
+  border-color: var(--tox-private-button-secondary-active-border-color, #2b3b4e);
+  color: var(--tox-private-button-secondary-active-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button--secondary.tox-button--enabled {
+  background-color: var(--tox-private-button-secondary-enabled-background-color, #2b5c93);
+  border-color: var(--tox-private-button-secondary-enabled-border-color, #2b5c93);
+  color: var(--tox-private-button-secondary-enabled-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button--secondary.tox-button--enabled[disabled] {
+  color: var(--tox-private-button-secondary-disabled-text-color, rgba(255, 255, 255, 0.5));
+  cursor: not-allowed;
+}
+.tox .tox-button--secondary.tox-button--enabled:focus:not(:disabled) {
+  background-color: var(--tox-private-button-secondary-enabled-focus-background-color, #254f80);
+  border-color: var(--tox-private-button-secondary-enabled-focus-border-color, #254f80);
+  color: var(--tox-private-button-secondary-enabled-focus-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button--secondary.tox-button--enabled:hover:not(:disabled) {
+  background-color: var(--tox-private-button-secondary-enabled-hover-background-color, #254f80);
+  border-color: var(--tox-private-button-secondary-enabled-hover-border-color, #254f80);
+  color: var(--tox-private-button-secondary-enabled-hover-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
+}
+.tox .tox-button--secondary.tox-button--enabled:active:not(:disabled) {
+  background-color: var(--tox-private-button-secondary-enabled-active-background-color, #1f436c);
+  border-color: var(--tox-private-button-secondary-enabled-active-border-color, #1f436c);
+  color: var(--tox-private-button-secondary-enabled-active-text-color, #fff);
+  background-image: none;
+  box-shadow: none;
 }
 .tox .tox-button--naked {
   background-color: transparent;
   border-color: transparent;
   box-shadow: unset;
-  color: #fff;
+  color: var(--tox-private-button-naked-text-color, #fff);
 }
 .tox .tox-button--naked[disabled] {
   background-color: rgba(255, 255, 255, 0.2);
   border-color: transparent;
-  box-shadow: unset;
-  color: rgba(255, 255, 255, 0.5);
-}
-.tox .tox-button--naked:hover:not(:disabled) {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-color: transparent;
-  box-shadow: unset;
-  color: #fff;
+  color: var(--tox-private-button-naked-disabled-text-color, rgba(255, 255, 255, 0.5));
+  cursor: not-allowed;
 }
 .tox .tox-button--naked:focus:not(:disabled) {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-color: transparent;
+  background-color: var(--tox-private-button-naked-focus-background-color, rgba(255, 255, 255, 0.2));
+  border-color: var(--tox-private-button-naked-focus-border-color, transparent);
+  color: var(--tox-private-button-naked-focus-text-color, #fff);
   box-shadow: unset;
-  color: #fff;
+}
+.tox .tox-button--naked:hover:not(:disabled) {
+  background-color: var(--tox-private-button-naked-hover-background-color, rgba(255, 255, 255, 0.2));
+  border-color: var(--tox-private-button-naked-hover-background-color, transparent);
+  color: var(--tox-private-button-naked-hover-text-color, #fff);
+  box-shadow: unset;
 }
 .tox .tox-button--naked:active:not(:disabled) {
-  background-color: rgba(255, 255, 255, 0.3);
-  border-color: transparent;
+  background-color: var(--tox-private-button-naked-active-background-color, rgba(255, 255, 255, 0.3));
+  border-color: var(--tox-private-button-naked-active-border-color, transparent);
+  color: var(--tox-private-button-naked-active-text-color, #fff);
   box-shadow: unset;
-  color: #fff;
-}
-.tox .tox-button--naked .tox-icon svg {
-  fill: currentColor;
-}
-.tox .tox-button--naked.tox-button--icon:hover:not(:disabled) {
-  color: #fff;
-}
-.tox .tox-button--stretch {
-  width: 100%;
 }
 .tox .tox-button--secondary--outline {
   background-color: transparent;
@@ -694,11 +648,11 @@ button::-moz-focus-inner {
 }
 .tox .tox-checkbox {
   align-items: center;
-  border-radius: 6px;
+  border-radius: var(--tox-private-checkbox-border-radius, 6px);
   cursor: pointer;
   display: flex;
-  height: 36px;
-  min-width: 36px;
+  height: var(--tox-private-control-height, 36px);
+  min-width: var(--tox-private-control-height, 36px);
 }
 .tox .tox-checkbox__input {
   /* Hide from view but visible to screen readers */
@@ -709,19 +663,19 @@ button::-moz-focus-inner {
   width: 1px;
 }
 .tox .tox-checkbox__icons {
-  align-items: center;
-  border-radius: 6px;
-  box-shadow: 0 0 0 2px transparent;
-  box-sizing: content-box;
   display: flex;
-  height: 24px;
+  align-items: center;
   justify-content: center;
-  padding: calc(4px - 1px);
-  width: 24px;
+  box-sizing: content-box;
+  padding: var(--tox-private-pad-xs, calc(4px - 1px));
+  border-radius: var(--tox-private-checkbox-border-radius, 6px);
+  box-shadow: 0 0 0 2px transparent;
+  height: var(--tox-private-control-line-height, 24px);
+  aspect-ratio: 1;
 }
 .tox .tox-checkbox__icons .tox-checkbox-icon__unchecked svg {
   display: block;
-  fill: rgba(255, 255, 255, 0.2);
+  fill: var(--tox-private-checkbox-unselected-color, rgba(255, 255, 255, 0.2));
 }
 @media (forced-colors: active) {
   .tox .tox-checkbox__icons .tox-checkbox-icon__unchecked svg {
@@ -730,24 +684,24 @@ button::-moz-focus-inner {
 }
 .tox .tox-checkbox__icons .tox-checkbox-icon__indeterminate svg {
   display: none;
-  fill: #006ce7;
+  fill: var(--tox-private-checkbox-indeterminate-color, #006ce7);
 }
 .tox .tox-checkbox__icons .tox-checkbox-icon__checked svg {
   display: none;
-  fill: #006ce7;
+  fill: var(--tox-private-checkbox-selected-color, #006ce7);
 }
 .tox .tox-checkbox--disabled {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--tox-private-checkbox-disabled-text-color, rgba(255, 255, 255, 0.5));
   cursor: not-allowed;
 }
 .tox .tox-checkbox--disabled .tox-checkbox__icons .tox-checkbox-icon__checked svg {
-  fill: rgba(255, 255, 255, 0.5);
+  fill: var(--tox-private-checkbox-disabled-text-color, rgba(255, 255, 255, 0.5));
 }
 .tox .tox-checkbox--disabled .tox-checkbox__icons .tox-checkbox-icon__unchecked svg {
-  fill: rgba(255, 255, 255, 0.5);
+  fill: var(--tox-private-checkbox-disabled-text-color, rgba(255, 255, 255, 0.5));
 }
 .tox .tox-checkbox--disabled .tox-checkbox__icons .tox-checkbox-icon__indeterminate svg {
-  fill: rgba(255, 255, 255, 0.5);
+  fill: var(--tox-private-checkbox-disabled-text-color, rgba(255, 255, 255, 0.5));
 }
 .tox input.tox-checkbox__input:checked + .tox-checkbox__icons .tox-checkbox-icon__unchecked svg {
   display: none;
@@ -762,27 +716,25 @@ button::-moz-focus-inner {
   display: block;
 }
 .tox input.tox-checkbox__input:focus + .tox-checkbox__icons {
-  border-radius: 6px;
-  box-shadow: inset 0 0 0 1px #006ce7;
-  padding: calc(4px - 1px);
+  box-shadow: var(--tox-private-checkbox-focus-box-shadow, inset 0 0 0 1px #006ce7);
 }
 .tox:not([dir=rtl]) .tox-checkbox__label {
-  margin-left: 4px;
+  margin-left: var(--tox-private-pad-xs, 4px);
 }
 .tox:not([dir=rtl]) .tox-checkbox__input {
   left: -10000px;
 }
 .tox:not([dir=rtl]) .tox-bar .tox-checkbox {
-  margin-left: 4px;
+  margin-left: var(--tox-private-pad-xs, 4px);
 }
 .tox[dir=rtl] .tox-checkbox__label {
-  margin-right: 4px;
+  margin-right: var(--tox-private-pad-xs, 4px);
 }
 .tox[dir=rtl] .tox-checkbox__input {
   right: -10000px;
 }
 .tox[dir=rtl] .tox-bar .tox-checkbox {
-  margin-right: 4px;
+  margin-right: var(--tox-private-pad-xs, 4px);
 }
 .tox .tox-collection--toolbar .tox-collection__group {
   display: flex;
@@ -2762,6 +2714,32 @@ body.tox-dialog__disable-scroll {
 .tox .tox-image-selector__picker-btn:hover {
   background: #2f4055;
 }
+.tox .tox-context-toolbar {
+  position: absolute;
+  position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  z-index: 1150;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 9px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 4px;
+}
+.tox .tox-context-toolbar[popover] {
+  inset: auto;
+  margin: 0;
+}
+.tox .tox-context-toolbar .tox-toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+.tox .tox-context-toolbar .tox-toolbar__group {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 4px;
+  align-items: center;
+}
 .tox .tox-insert-table-picker {
   background-color: #222F3E;
   display: flex;
@@ -3598,6 +3576,26 @@ body.tox-dialog__disable-scroll {
   color: var(--tox-private-text-color, #fff);
   line-height: 28px;
 }
+.tox .tox-floating-sidebar {
+  --tox-private-floating-sidebar-requested-height: 600px;
+  --tox-private-floating-sidebar-width: min(380px, 90vw);
+  --tox-private-floating-sidebar-height: min(var(--tox-private-floating-sidebar-requested-height), 80vh);
+  box-shadow: var(--tox-private-floating-sidebar-box-shadow, 0 0 40px 1px rgba(34, 47, 62, 0.15), 0 16px 16px -10px rgba(34, 47, 62, 0.15));
+  width: var(--tox-private-floating-sidebar-width);
+  height: var(--tox-private-floating-sidebar-height);
+  background-color: var(--tox-private-background-color, #222F3E);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.tox .tox-floating-sidebar__content-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.tox .tox-floating-sidebar__header {
+  position: relative;
+}
 .tox-ai .tox-ai__user-prompt {
   display: flex;
   flex-direction: column;
@@ -3637,7 +3635,7 @@ body.tox-dialog__disable-scroll {
   white-space: pre-wrap;
 }
 .tox-ai .tox-ai__response.tox-ai__response-streaming {
-  background: linear-gradient(180deg, var(--tox-private-color-black, #222f3e) 0%, color-mix(in srgb, var(--tox-private-color-black, #222f3e) 0%, transparent) 100%);
+  background: linear-gradient(180deg, var(--tox-private-color-black, #222f3e) 0%, transparent 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -3656,6 +3654,10 @@ body.tox-dialog__disable-scroll {
   background-color: var(--tox-private-background-color, #222F3E);
   display: flex;
   flex-direction: column;
+}
+.tox-ai .tox-ai__context {
+  display: flex;
+  gap: 8px;
 }
 .tox-ai .tox-ai__footer-actions {
   display: flex;
@@ -3834,6 +3836,10 @@ body.tox-dialog__disable-scroll {
 }
 .tox[dir=rtl] .tox-spinner > div:not(:first-child) {
   margin-right: 4px;
+}
+.tox .tox-ai__spinner {
+  width: 24px;
+  height: 24px;
 }
 .tox .tox-statusbar {
   align-items: center;
@@ -4066,18 +4072,15 @@ body.tox-dialog__disable-scroll {
   top: 0;
 }
 .tox .tox-toggle {
-  --tox-private-slider-background-color: #222F3E;
-  --tox-private-slider-border-color: rgba(255, 255, 255, 0.15);
-  --tox-private-slider-handle-background-color: #fff;
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px;
-  font-weight: normal;
-  line-height: 24px;
+  gap: var(--tox-private-pad-xs, 4px);
+  padding: var(--tox-private-pad-xs, 4px);
+  font-weight: var(--tox-private-font-weight-normal, normal);
+  line-height: var(--tox-private-control-line-height, 24px);
   white-space: nowrap;
-  background-color: #222F3E;
-  color: #fff;
+  background-color: var(--tox-private-background-color, #222F3E);
+  color: var(--tox-private-text-color, #fff);
 }
 .tox .tox-toggle input {
   position: absolute;
@@ -4093,8 +4096,8 @@ body.tox-dialog__disable-scroll {
   border-radius: 34px;
   width: 28px;
   height: 16px;
-  background-color: var(--tox-private-slider-background-color);
-  border: 1px solid var(--tox-private-slider-border-color);
+  background-color: var(--tox-private-slider-background-color, #222F3E);
+  border: 1px solid var(--tox-private-slider-border-color, rgba(255, 255, 255, 0.15));
 }
 .tox .tox-toggle__slider::before {
   position: absolute;
@@ -4105,18 +4108,18 @@ body.tox-dialog__disable-scroll {
   bottom: 1px;
   transition: 0.4s;
   border-radius: 50%;
-  background-color: var(--tox-private-slider-handle-background-color);
+  background-color: var(--tox-private-slider-handle-background-color, #fff);
 }
 .tox input:checked + .tox-toggle__slider {
-  --tox-private-slider-background-color: #006ce7;
-  --tox-private-slider-border-color: #006ce7;
+  background-color: var(--tox-private-slider-checked-background-color, #006ce7);
+  border: 1px solid var(--tox-private-slider-checked-border-color, #006ce7);
 }
 .tox input:focus + .tox-toggle__slider {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 2px #006ce7;
+  box-shadow: 0 0 0 1px var(--tox-private-color-white, #fff), 0 0 0 2px var(--tox-private-color-tint, #006ce7);
 }
 .tox input:checked + .tox-toggle__slider::before {
   transform: translateX(12px);
-  --tox-private-slider-handle-background-color: #fff;
+  background-color: var(--tox-private-slider-checked-handle-background-color, #fff);
 }
 .tox input:disabled + .tox-toggle__slider::before {
   opacity: 50%;

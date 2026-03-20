@@ -980,6 +980,9 @@ function _insertBefore(parent, node, child, _inDocumentAssertion) {
 	}
 	do{
 		newFirst.parentNode = parent;
+		// Update ownerDocument for each node being inserted
+		var targetDoc = parent.ownerDocument || parent;
+		_updateOwnerDocument(newFirst, targetDoc);
 	}while(newFirst !== newLast && (newFirst= newFirst.nextSibling))
 	_onUpdateChild(parent.ownerDocument||parent, parent);
 	//console.log(parent.lastChild.nextSibling == null)
@@ -987,6 +990,37 @@ function _insertBefore(parent, node, child, _inDocumentAssertion) {
 		node.firstChild = node.lastChild = null;
 	}
 	return node;
+}
+
+/**
+ * Recursively updates the ownerDocument property for a node and all its descendants
+ * @param {Node} node
+ * @param {Document} newOwnerDocument
+ * @private
+ */
+function _updateOwnerDocument(node, newOwnerDocument) {
+	if (node.ownerDocument === newOwnerDocument) {
+		return;
+	}
+	
+	node.ownerDocument = newOwnerDocument;
+	
+	// Update attributes if this is an element
+	if (node.nodeType === ELEMENT_NODE && node.attributes) {
+		for (var i = 0; i < node.attributes.length; i++) {
+			var attr = node.attributes.item(i);
+			if (attr) {
+				attr.ownerDocument = newOwnerDocument;
+			}
+		}
+	}
+	
+	// Recursively update child nodes
+	var child = node.firstChild;
+	while (child) {
+		_updateOwnerDocument(child, newOwnerDocument);
+		child = child.nextSibling;
+	}
 }
 
 /**
@@ -1014,6 +1048,11 @@ function _appendSingleChild (parentNode, newChild) {
 	}
 	parentNode.lastChild = newChild;
 	_onUpdateChild(parentNode.ownerDocument, parentNode, newChild);
+	
+	// Update ownerDocument for the new child and all its descendants
+	var targetDoc = parentNode.ownerDocument || parentNode;
+	_updateOwnerDocument(newChild, targetDoc);
+	
 	return newChild;
 }
 
@@ -1042,7 +1081,7 @@ Document.prototype = {
 			return newChild;
 		}
 		_insertBefore(this, newChild, refChild);
-		newChild.ownerDocument = this;
+		_updateOwnerDocument(newChild, this);
 		if (this.documentElement === null && newChild.nodeType === ELEMENT_NODE) {
 			this.documentElement = newChild;
 		}
@@ -1058,7 +1097,7 @@ Document.prototype = {
 	replaceChild: function (newChild, oldChild) {
 		//raises
 		_insertBefore(this, newChild, oldChild, assertPreReplacementValidityInDocument);
-		newChild.ownerDocument = this;
+		_updateOwnerDocument(newChild, this);
 		if (oldChild) {
 			this.removeChild(oldChild);
 		}

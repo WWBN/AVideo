@@ -18,6 +18,12 @@ declare class TrackList extends EventTarget {
     constructor(tracks?: Track[]);
     tracks_: any[];
     /**
+     * The current number of `Track`s in this TrackList.
+     *
+     * @type {number}
+     */
+    get length(): number;
+    /**
      * Add a {@link Track} to the `TrackList`
      *
      * @param {Track} track

@@ -1,31 +1,19 @@
-/* global Symbol */
-// Defining this global in .eslintrc.json would create a danger of using the global
-// unguarded in another place, it seems safer to define global only for this module
+import { arr } from "./var/arr.js";
+import { getProto } from "./var/getProto.js";
+import { slice } from "./var/slice.js";
+import { flat } from "./var/flat.js";
+import { push } from "./var/push.js";
+import { indexOf } from "./var/indexOf.js";
+import { class2type } from "./var/class2type.js";
+import { toString } from "./var/toString.js";
+import { hasOwn } from "./var/hasOwn.js";
+import { fnToString } from "./var/fnToString.js";
+import { ObjectFunctionString } from "./var/ObjectFunctionString.js";
+import { support } from "./var/support.js";
+import { isArrayLike } from "./core/isArrayLike.js";
+import { DOMEval } from "./core/DOMEval.js";
 
-define( [
-	"./var/arr",
-	"./var/getProto",
-	"./var/slice",
-	"./var/flat",
-	"./var/push",
-	"./var/indexOf",
-	"./var/class2type",
-	"./var/toString",
-	"./var/hasOwn",
-	"./var/fnToString",
-	"./var/ObjectFunctionString",
-	"./var/support",
-	"./var/isFunction",
-	"./var/isWindow",
-	"./core/DOMEval",
-	"./core/toType"
-], function( arr, getProto, slice, flat, push, indexOf,
-	class2type, toString, hasOwn, fnToString, ObjectFunctionString,
-	support, isFunction, isWindow, DOMEval, toType ) {
-
-"use strict";
-
-var version = "3.7.1",
+var version = "4.0.0",
 
 	rhtmlSuffix = /HTML$/i,
 
@@ -121,13 +109,7 @@ jQuery.fn = jQuery.prototype = {
 
 	end: function() {
 		return this.prevObject || this.constructor();
-	},
-
-	// For internal use only.
-	// Behaves like an Array's method, not like a jQuery method.
-	push: push,
-	sort: arr.sort,
-	splice: arr.splice
+	}
 };
 
 jQuery.extend = jQuery.fn.extend = function() {
@@ -147,7 +129,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 	}
 
 	// Handle case when target is a string or something (possible in deep copy)
-	if ( typeof target !== "object" && !isFunction( target ) ) {
+	if ( typeof target !== "object" && typeof target !== "function" ) {
 		target = {};
 	}
 
@@ -305,6 +287,7 @@ jQuery.extend( {
 		return ret;
 	},
 
+
 	// results is for internal usage only
 	makeArray: function( arr, results ) {
 		var ret = results || [];
@@ -336,8 +319,20 @@ jQuery.extend( {
 		return !rhtmlSuffix.test( namespace || docElem && docElem.nodeName || "HTML" );
 	},
 
-	// Support: Android <=4.0 only, PhantomJS 1 only
-	// push.apply(_, arraylike) throws on ancient WebKit
+	// Note: an element does not contain itself
+	contains: function( a, b ) {
+		var bup = b && b.parentNode;
+
+		return a === bup || !!( bup && bup.nodeType === 1 && (
+
+			// Support: IE 9 - 11+
+			// IE doesn't have `contains` on SVG.
+			a.contains ?
+				a.contains( bup ) :
+				a.compareDocumentPosition && a.compareDocumentPosition( bup ) & 16
+		) );
+	},
+
 	merge: function( first, second ) {
 		var len = +second.length,
 			j = 0,
@@ -421,22 +416,4 @@ jQuery.each( "Boolean Number String Function Array Date RegExp Object Error Symb
 		class2type[ "[object " + name + "]" ] = name.toLowerCase();
 	} );
 
-function isArrayLike( obj ) {
-
-	// Support: real iOS 8.2 only (not reproducible in simulator)
-	// `in` check used to prevent JIT error (gh-2145)
-	// hasOwn isn't used here due to false negatives
-	// regarding Nodelist length in IE
-	var length = !!obj && "length" in obj && obj.length,
-		type = toType( obj );
-
-	if ( isFunction( obj ) || isWindow( obj ) ) {
-		return false;
-	}
-
-	return type === "array" || length === 0 ||
-		typeof length === "number" && length > 0 && ( length - 1 ) in obj;
-}
-
-return jQuery;
-} );
+export { jQuery, jQuery as $ };

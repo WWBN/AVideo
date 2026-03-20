@@ -1,13 +1,7 @@
-define( [
-	"../var/document",
-	"../core"
-], function( document, jQuery ) {
-
-"use strict";
+import { document } from "../var/document.js";
 
 var cssPrefixes = [ "Webkit", "Moz", "ms" ],
-	emptyStyle = document.createElement( "div" ).style,
-	vendorProps = {};
+	emptyStyle = document.createElement( "div" ).style;
 
 // Return a vendor-prefixed property or undefined
 function vendorPropName( name ) {
@@ -24,19 +18,10 @@ function vendorPropName( name ) {
 	}
 }
 
-// Return a potentially-mapped jQuery.cssProps or vendor prefixed property
-function finalPropName( name ) {
-	var final = jQuery.cssProps[ name ] || vendorProps[ name ];
-
-	if ( final ) {
-		return final;
-	}
+// Return a potentially-mapped vendor prefixed property
+export function finalPropName( name ) {
 	if ( name in emptyStyle ) {
 		return name;
 	}
-	return vendorProps[ name ] = vendorPropName( name ) || name;
+	return vendorPropName( name ) || name;
 }
-
-return finalPropName;
-
-} );

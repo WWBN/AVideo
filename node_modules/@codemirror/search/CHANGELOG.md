@@ -1,3 +1,41 @@
+## 6.6.0 (2026-01-13)
+
+### New features
+
+Search queries now support a generic `test` field that can be used to implement custom tests on matches.
+
+## 6.5.11 (2025-05-14)
+
+### Bug fixes
+
+Fix an issue in `replaceNext` that could cause it to create an invalid selection when replacing past the end of the document.
+
+## 6.5.10 (2025-02-26)
+
+### Bug fixes
+
+Add a close button to the `gotoLine` panel.
+
+## 6.5.9 (2025-02-12)
+
+### Bug fixes
+
+When replacing a regexp match, don't expand multi-digit replacement markers to numbers beyond the captured group count in the query.
+
+## 6.5.8 (2024-11-22)
+
+### Bug fixes
+
+Fix a bug that put the selection in the wrong place after running `replaceNext` with a regexp query that could match strings of different length.
+
+## 6.5.7 (2024-11-01)
+
+### Bug fixes
+
+Fix an issue where `findNext` and `findPrevious` would do nothing when the only match in the document was partially selected.
+
+Fix an infinite loop in `SearchCursor` when the normalizer function deletes characters.
+
 ## 6.5.6 (2024-02-07)
 
 ### Bug fixes

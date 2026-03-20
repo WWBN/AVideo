@@ -1,12 +1,6 @@
-define( [
-	"./whitespace"
-], function( whitespace ) {
+import { whitespace } from "./whitespace.js";
 
-"use strict";
-
-return new RegExp(
+export var rtrimCSS = new RegExp(
 	"^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$",
 	"g"
 );
-
-} );

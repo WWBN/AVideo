@@ -167,7 +167,7 @@ export class Color {
     /**
      * hex string
      */
-    hexString(): string | RGBA;
+    hexString(): string;
     /**
      * hsl(a) string
      */

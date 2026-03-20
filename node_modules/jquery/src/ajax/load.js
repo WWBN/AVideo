@@ -1,15 +1,11 @@
-define( [
-	"../core",
-	"../core/stripAndCollapse",
-	"../var/isFunction",
-	"../core/parseHTML",
-	"../ajax",
-	"../traversing",
-	"../manipulation",
-	"../selector"
-], function( jQuery, stripAndCollapse, isFunction ) {
+import { jQuery } from "../core.js";
+import { stripAndCollapse } from "../core/stripAndCollapse.js";
 
-"use strict";
+import "../core/parseHTML.js";
+import "../ajax.js";
+import "../traversing.js";
+import "../manipulation.js";
+import "../selector.js";
 
 /**
  * Load a url into a page
@@ -25,7 +21,7 @@ jQuery.fn.load = function( url, params, callback ) {
 	}
 
 	// If it's a function
-	if ( isFunction( params ) ) {
+	if ( typeof params === "function" ) {
 
 		// We assume that it's the callback
 		callback = params;
@@ -73,5 +69,3 @@ jQuery.fn.load = function( url, params, callback ) {
 
 	return this;
 };
-
-} );

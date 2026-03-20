@@ -1,5 +1,5 @@
 /*!
-FullCalendar Core v6.1.19
+FullCalendar Core v6.1.20
 Docs & License: https://fullcalendar.io
 (c) 2024 Adam Shaw
 */
@@ -9963,7 +9963,7 @@ var FullCalendar = (function (exports) {
         return sliceEventStore(props.eventStore, props.eventUiBases, props.dateProfile.activeRange, allDay ? props.nextDayThreshold : null).fg;
     }
 
-    const version = '6.1.19';
+    const version = '6.1.20';
 
     exports.Calendar = Calendar;
     exports.Internal = internal;

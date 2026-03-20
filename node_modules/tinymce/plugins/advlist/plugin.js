@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.2.2 (2025-11-17)
+ * TinyMCE version 8.3.2 (2026-01-14)
  */
 
 (function () {
@@ -396,7 +396,7 @@
         const stylesContainsAliasMap = map(listStyleTypeAliases, (alias) => contains(styles, alias));
         editor.ui.registry.addSplitButton(id, {
             tooltip,
-            chevronTooltip: `${tooltip} menu`,
+            chevronTooltip: tooltip,
             icon: nodeName === "OL" /* ListType.OrderedList */ ? 'ordered-list' : 'unordered-list',
             presets: 'listpreview',
             columns: nodeName === "OL" /* ListType.OrderedList */ ? 3 : 4,

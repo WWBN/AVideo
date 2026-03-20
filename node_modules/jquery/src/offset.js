@@ -1,20 +1,10 @@
-define( [
-	"./core",
-	"./core/access",
-	"./var/documentElement",
-	"./var/isFunction",
-	"./css/var/rnumnonpx",
-	"./css/curCSS",
-	"./css/addGetHookIf",
-	"./css/support",
-	"./var/isWindow",
-	"./core/init",
-	"./css",
-	"./selector" // contains
-], function( jQuery, access, documentElement, isFunction, rnumnonpx,
-	curCSS, addGetHookIf, support, isWindow ) {
+import { jQuery } from "./core.js";
+import { access } from "./core/access.js";
+import { documentElement } from "./var/documentElement.js";
+import { isWindow } from "./var/isWindow.js";
 
-"use strict";
+import "./core/init.js";
+import "./css.js";
 
 jQuery.offset = {
 	setOffset: function( elem, options, i ) {
@@ -46,7 +36,7 @@ jQuery.offset = {
 			curLeft = parseFloat( curCSSLeft ) || 0;
 		}
 
-		if ( isFunction( options ) ) {
+		if ( typeof options === "function" ) {
 
 			// Use jQuery.extend here to allow modification of coordinates argument (gh-1848)
 			options = options.call( elem, i, jQuery.extend( {}, curOffset ) );
@@ -90,7 +80,7 @@ jQuery.fn.extend( {
 		}
 
 		// Return zeros for disconnected and hidden (display: none) elements (gh-2310)
-		// Support: IE <=11 only
+		// Support: IE <=11+
 		// Running getBoundingClientRect on a
 		// disconnected node in IE throws an error
 		if ( !elem.getClientRects().length ) {
@@ -131,12 +121,13 @@ jQuery.fn.extend( {
 			doc = elem.ownerDocument;
 			offsetParent = elem.offsetParent || doc.documentElement;
 			while ( offsetParent &&
-				( offsetParent === doc.body || offsetParent === doc.documentElement ) &&
+				offsetParent !== doc.documentElement &&
 				jQuery.css( offsetParent, "position" ) === "static" ) {
 
-				offsetParent = offsetParent.parentNode;
+				offsetParent = offsetParent.offsetParent || doc.documentElement;
 			}
-			if ( offsetParent && offsetParent !== elem && offsetParent.nodeType === 1 ) {
+			if ( offsetParent && offsetParent !== elem && offsetParent.nodeType === 1 &&
+				jQuery.css( offsetParent, "position" ) !== "static" ) {
 
 				// Incorporate borders into its offset, since they are outside its content origin
 				parentOffset = jQuery( offsetParent ).offset();
@@ -207,26 +198,4 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 	};
 } );
 
-// Support: Safari <=7 - 9.1, Chrome <=37 - 49
-// Add the top/left cssHooks using jQuery.fn.position
-// Webkit bug: https://bugs.webkit.org/show_bug.cgi?id=29084
-// Blink bug: https://bugs.chromium.org/p/chromium/issues/detail?id=589347
-// getComputedStyle returns percent when specified for top/left/bottom/right;
-// rather than make the css module depend on the offset module, just check for it here
-jQuery.each( [ "top", "left" ], function( _i, prop ) {
-	jQuery.cssHooks[ prop ] = addGetHookIf( support.pixelPosition,
-		function( elem, computed ) {
-			if ( computed ) {
-				computed = curCSS( elem, prop );
-
-				// If curCSS returns percentage, fallback to offset
-				return rnumnonpx.test( computed ) ?
-					jQuery( elem ).position()[ prop ] + "px" :
-					computed;
-			}
-		}
-	);
-} );
-
-return jQuery;
-} );
+export { jQuery, jQuery as $ };

@@ -1,8 +1,4 @@
-define( [
-	"../ajax"
-], function( jQuery ) {
-
-"use strict";
+import { jQuery } from "../ajax.js";
 
 jQuery._evalUrl = function( url, options, doc ) {
 	return jQuery.ajax( {
@@ -14,6 +10,7 @@ jQuery._evalUrl = function( url, options, doc ) {
 		cache: true,
 		async: false,
 		global: false,
+		scriptAttrs: options.crossOrigin ? { "crossOrigin": options.crossOrigin } : undefined,
 
 		// Only evaluate the response if it is successful (gh-4126)
 		// dataFilter is not invoked for failure responses, so using it instead
@@ -26,7 +23,3 @@ jQuery._evalUrl = function( url, options, doc ) {
 		}
 	} );
 };
-
-return jQuery._evalUrl;
-
-} );

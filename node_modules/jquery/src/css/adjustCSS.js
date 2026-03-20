@@ -1,11 +1,8 @@
-define( [
-	"../core",
-	"../var/rcssNum"
-], function( jQuery, rcssNum ) {
+import { jQuery } from "../core.js";
+import { isAutoPx } from "./isAutoPx.js";
+import { rcssNum } from "../var/rcssNum.js";
 
-"use strict";
-
-function adjustCSS( elem, prop, valueParts, tween ) {
+export function adjustCSS( elem, prop, valueParts, tween ) {
 	var adjusted, scale,
 		maxIterations = 20,
 		currentValue = tween ?
@@ -16,16 +13,16 @@ function adjustCSS( elem, prop, valueParts, tween ) {
 				return jQuery.css( elem, prop, "" );
 			},
 		initial = currentValue(),
-		unit = valueParts && valueParts[ 3 ] || ( jQuery.cssNumber[ prop ] ? "" : "px" ),
+		unit = valueParts && valueParts[ 3 ] || ( isAutoPx( prop ) ? "px" : "" ),
 
 		// Starting value computation is required for potential unit mismatches
 		initialInUnit = elem.nodeType &&
-			( jQuery.cssNumber[ prop ] || unit !== "px" && +initial ) &&
+			( !isAutoPx( prop ) || unit !== "px" && +initial ) &&
 			rcssNum.exec( jQuery.css( elem, prop ) );
 
 	if ( initialInUnit && initialInUnit[ 3 ] !== unit ) {
 
-		// Support: Firefox <=54
+		// Support: Firefox <=54 - 66+
 		// Halve the iteration target value to prevent interference from CSS upper bounds (gh-2144)
 		initial = initial / 2;
 
@@ -69,6 +66,3 @@ function adjustCSS( elem, prop, valueParts, tween ) {
 	}
 	return adjusted;
 }
-
-return adjustCSS;
-} );

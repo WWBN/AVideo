@@ -1,20 +1,15 @@
-define( [
-	"./core",
-	"./var/document",
-	"./var/isFunction",
-	"./var/rnothtmlwhite",
-	"./ajax/var/location",
-	"./ajax/var/nonce",
-	"./ajax/var/rquery",
+import { jQuery } from "./core.js";
+import { document } from "./var/document.js";
+import { rnothtmlwhite } from "./var/rnothtmlwhite.js";
+import { location } from "./ajax/var/location.js";
+import { nonce } from "./ajax/var/nonce.js";
+import { rquery } from "./ajax/var/rquery.js";
 
-	"./core/init",
-	"./core/parseXML",
-	"./event/trigger",
-	"./deferred",
-	"./serialize" // jQuery.param
-], function( jQuery, document, isFunction, rnothtmlwhite, location, nonce, rquery ) {
-
-"use strict";
+import "./core/init.js";
+import "./core/parseXML.js";
+import "./event/trigger.js";
+import "./deferred.js";
+import "./serialize.js"; // jQuery.param
 
 var
 	r20 = /%20/g,
@@ -68,7 +63,7 @@ function addToPrefiltersOrTransports( structure ) {
 			i = 0,
 			dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
 
-		if ( isFunction( func ) ) {
+		if ( typeof func === "function" ) {
 
 			// For each dataType in the dataTypeExpression
 			while ( ( dataType = dataTypes[ i++ ] ) ) {
@@ -460,6 +455,12 @@ jQuery.extend( {
 						if ( !responseHeaders ) {
 							responseHeaders = {};
 							while ( ( match = rheaders.exec( responseHeadersString ) ) ) {
+
+								// Support: IE 11+
+								// `getResponseHeader( key )` in IE doesn't combine all header
+								// values for the provided key into a single result with values
+								// joined by commas as other browsers do. Instead, it returns
+								// them on separate lines.
 								responseHeaders[ match[ 1 ].toLowerCase() + " " ] =
 									( responseHeaders[ match[ 1 ].toLowerCase() + " " ] || [] )
 										.concat( match[ 2 ] );
@@ -542,13 +543,13 @@ jQuery.extend( {
 		if ( s.crossDomain == null ) {
 			urlAnchor = document.createElement( "a" );
 
-			// Support: IE <=8 - 11, Edge 12 - 15
+			// Support: IE <=8 - 11+
 			// IE throws exception on accessing the href property if url is malformed,
 			// e.g. http://example.com:80x/
 			try {
 				urlAnchor.href = s.url;
 
-				// Support: IE <=8 - 11 only
+				// Support: IE <=8 - 11+
 				// Anchor's host property isn't correctly set when s.url is relative
 				urlAnchor.href = urlAnchor.href;
 				s.crossDomain = originAnchor.protocol + "//" + originAnchor.host !==
@@ -561,13 +562,13 @@ jQuery.extend( {
 			}
 		}
 
+		// Apply prefilters
+		inspectPrefiltersOrTransports( prefilters, s, options, jqXHR );
+
 		// Convert data if not already a string
 		if ( s.data && s.processData && typeof s.data !== "string" ) {
 			s.data = jQuery.param( s.data, s.traditional );
 		}
-
-		// Apply prefilters
-		inspectPrefiltersOrTransports( prefilters, s, options, jqXHR );
 
 		// If request was aborted inside a prefilter, stop there
 		if ( completed ) {
@@ -575,7 +576,7 @@ jQuery.extend( {
 		}
 
 		// We can fire global events as of now if asked to
-		// Don't fire events if jQuery.event is undefined in an AMD-usage scenario (trac-15118)
+		// Don't fire events if jQuery.event is undefined in an ESM-usage scenario (trac-15118)
 		fireGlobals = jQuery.event && s.global;
 
 		// Watch for a new set of requests
@@ -611,8 +612,8 @@ jQuery.extend( {
 			// Add or update anti-cache param if needed
 			if ( s.cache === false ) {
 				cacheURL = cacheURL.replace( rantiCache, "$1" );
-				uncached = ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + ( nonce.guid++ ) +
-					uncached;
+				uncached = ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" +
+					( nonce.guid++ ) + uncached;
 			}
 
 			// Put hash and anti-cache on the URL that will be requested (gh-1732)
@@ -845,8 +846,9 @@ jQuery.extend( {
 jQuery.each( [ "get", "post" ], function( _i, method ) {
 	jQuery[ method ] = function( url, data, callback, type ) {
 
-		// Shift arguments if data argument was omitted
-		if ( isFunction( data ) ) {
+		// Shift arguments if data argument was omitted.
+		// Handle the null callback placeholder.
+		if ( typeof data === "function" || data === null ) {
 			type = type || callback;
 			callback = data;
 			data = undefined;
@@ -872,5 +874,4 @@ jQuery.ajaxPrefilter( function( s ) {
 	}
 } );
 
-return jQuery;
-} );
+export { jQuery, jQuery as $ };

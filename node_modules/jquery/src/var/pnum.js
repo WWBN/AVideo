@@ -1,5 +1,1 @@
-define( function() {
-	"use strict";
-
-	return ( /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/ ).source;
-} );
+export var pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source;

@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.2.2 (2025-11-17)
+ * TinyMCE version 8.3.2 (2026-01-14)
  */
 
 (function () {
@@ -18646,6 +18646,10 @@
 
     const dropZoneFields = formComponentWithLabelFields.concat([
         defaultedString('context', 'mode:design'),
+        optionString('dropAreaLabel'),
+        optionString('buttonLabel'),
+        optionString('allowedFileTypes'),
+        optionArrayOf('allowedFileExtensions', string)
     ]);
     const dropZoneSchema = objOf(dropZoneFields);
     const dropZoneDataProcessor = arrOfVal();
@@ -22699,9 +22703,9 @@
     var global$2 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     const browseFilesEvent = generate$6('browse.files.event');
-    const filterByExtension = (files, providersBackstage) => {
+    const filterByExtension = (files, providersBackstage, allowedFileExtensions) => {
         const allowedImageFileTypes = global$2.explode(providersBackstage.getOption('images_file_types'));
-        const isFileInAllowedTypes = (file) => exists(allowedImageFileTypes, (type) => endsWith(file.name.toLowerCase(), `.${type.toLowerCase()}`));
+        const isFileInAllowedTypes = (file) => allowedFileExtensions.fold(() => exists(allowedImageFileTypes, (type) => endsWith(file.name.toLowerCase(), `.${type.toLowerCase()}`)), (exts) => exists(exts, (type) => endsWith(file.name.toLowerCase(), `.${type.toLowerCase()}`)));
         return filter$2(from(files), isFileInAllowedTypes);
     };
     const renderDropZone = (spec, providersBackstage, initialData) => {
@@ -22727,7 +22731,7 @@
         };
         const handleFiles = (component, files) => {
             if (files) {
-                Representing.setValue(component, filterByExtension(files, providersBackstage));
+                Representing.setValue(component, filterByExtension(files, providersBackstage, spec.allowedFileExtensions));
                 emitWith(component, formChangeEvent, { name: spec.name });
             }
         };
@@ -22736,7 +22740,7 @@
                 tag: 'input',
                 attributes: {
                     type: 'file',
-                    accept: 'image/*'
+                    accept: spec.allowedFileTypes.getOr('image/*')
                 },
                 styles: {
                     display: 'none'
@@ -22760,7 +22764,7 @@
                 classes: ['tox-button', 'tox-button--secondary']
             },
             components: [
-                text$2(providersBackstage.translate('Browse for an image')),
+                text$2(providersBackstage.translate(spec.buttonLabel.getOr('Browse for an image'))),
                 memInput.asSpec()
             ],
             action: (comp) => {
@@ -22810,7 +22814,7 @@
                                 tag: 'p'
                             },
                             components: [
-                                text$2(providersBackstage.translate('Drop an image here'))
+                                text$2(providersBackstage.translate(spec.dropAreaLabel.getOr('Drop an image here')))
                             ]
                         },
                         pField
@@ -28166,7 +28170,7 @@
                 // For chevron, use the explicit chevronTooltip if provided, otherwise fall back to default behavior
                 const chevronTooltipText = spec.chevronTooltip
                     .map((chevronTooltip) => sharedBackstage.providers.translate(chevronTooltip))
-                    .getOr(sharedBackstage.providers.translate(`${tooltip} menu`));
+                    .getOr(sharedBackstage.providers.translate(tooltip));
                 chevronOpt.each((c) => set$9(c.element, 'aria-label', chevronTooltipText));
             }
         };
@@ -29449,6 +29453,7 @@
         attachUiMotherships(editor, uiRoot, uiRefs);
         editor.on('PostRender', () => {
             OuterContainer.setSidebar(outerContainer, rawUiConfig.sidebar, getSidebarShow(editor));
+            OuterContainer.setViews(outerContainer, rawUiConfig.views);
         });
         // TINY-10343: Using `SkinLoaded` instead of `PostRender` because if the skin loading takes too long you run in to rendering problems since things are measured before the CSS is being applied
         editor.on('SkinLoaded', () => {
@@ -29458,7 +29463,6 @@
             setToolbar(editor, uiRefs, rawUiConfig, backstage);
             lastToolbarWidth.set(editor.getWin().innerWidth);
             OuterContainer.setMenubar(outerContainer, identifyMenus(editor, rawUiConfig));
-            OuterContainer.setViews(outerContainer, rawUiConfig.views);
             setupEvents$1(editor, uiRefs);
         });
         const socket = OuterContainer.getSocket(outerContainer).getOrDie('Could not find expected socket element');

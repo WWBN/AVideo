@@ -74,4 +74,4 @@ Visit the [TinyMCE website](https://tiny.cloud/) and check out the [TinyMCE docu
 
 ## License
 
-Licensed under the terms of GNU General Public License Version 2 or later. For full details about the license, please check the LICENSE.md file.
+License terms can be found in the license.md file.

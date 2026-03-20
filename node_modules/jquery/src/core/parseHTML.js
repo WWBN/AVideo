@@ -1,21 +1,14 @@
-define( [
-	"../core",
-	"../var/document",
-	"./var/rsingleTag",
-	"../manipulation/buildFragment",
+import { jQuery } from "../core.js";
+import { rsingleTag } from "./var/rsingleTag.js";
+import { buildFragment } from "../manipulation/buildFragment.js";
+import { isObviousHtml } from "./isObviousHtml.js";
 
-	// This is the only module that needs core/support
-	"./support"
-], function( jQuery, document, rsingleTag, buildFragment, support ) {
-
-"use strict";
-
-// Argument "data" should be string of html
+// Argument "data" should be string of html or a TrustedHTML wrapper of obvious HTML
 // context (optional): If specified, the fragment will be created in this context,
 // defaults to document
 // keepScripts (optional): If true, will include scripts passed in the html string
 jQuery.parseHTML = function( data, context, keepScripts ) {
-	if ( typeof data !== "string" ) {
+	if ( typeof data !== "string" && !isObviousHtml( data + "" ) ) {
 		return [];
 	}
 	if ( typeof context === "boolean" ) {
@@ -23,24 +16,14 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 		context = false;
 	}
 
-	var base, parsed, scripts;
+	var parsed, scripts;
 
 	if ( !context ) {
 
 		// Stop scripts or inline event handlers from being executed immediately
-		// by using document.implementation
-		if ( support.createHTMLDocument ) {
-			context = document.implementation.createHTMLDocument( "" );
-
-			// Set the base href for the created document
-			// so any parsed elements with URLs
-			// are based on the document's URL (gh-2965)
-			base = context.createElement( "base" );
-			base.href = document.location.href;
-			context.head.appendChild( base );
-		} else {
-			context = document;
-		}
+		// by using DOMParser
+		context = ( new window.DOMParser() )
+			.parseFromString( "", "text/html" );
 	}
 
 	parsed = rsingleTag.exec( data );
@@ -59,7 +42,3 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 
 	return jQuery.merge( [], parsed.childNodes );
 };
-
-return jQuery.parseHTML;
-
-} );

@@ -124,9 +124,7 @@ class Stack {
         var _a;
         let depth = action >> 19 /* Action.ReduceDepthShift */, type = action & 65535 /* Action.ValueMask */;
         let { parser } = this.p;
-        let lookaheadRecord = this.reducePos < this.pos - 25 /* Lookahead.Margin */;
-        if (lookaheadRecord)
-            this.setLookAhead(this.pos);
+        let lookaheadRecord = this.reducePos < this.pos - 25 /* Lookahead.Margin */ && this.setLookAhead(this.pos);
         let dPrec = parser.dynamicPrecedence(type);
         if (dPrec)
             this.score += dPrec;
@@ -204,7 +202,7 @@ class Stack {
         }
         else { // There may be skipped nodes that have to be moved forward
             let index = this.buffer.length;
-            if (index > 0 && this.buffer[index - 4] != 0 /* Term.Err */) {
+            if (index > 0 && (this.buffer[index - 4] != 0 /* Term.Err */ || this.buffer[index - 1] < 0)) {
                 let mustMove = false;
                 for (let scan = index; scan > 0 && this.buffer[scan - 2] > end; scan -= 4) {
                     if (this.buffer[scan - 1] >= 0) {
@@ -240,12 +238,12 @@ class Stack {
         }
         else if ((action & 262144 /* Action.StayFlag */) == 0) { // Regular shift
             let nextState = action, { parser } = this.p;
-            if (end > this.pos || type <= parser.maxNode) {
-                this.pos = end;
-                if (!parser.stateFlag(nextState, 1 /* StateFlag.Skipped */))
-                    this.reducePos = end;
-            }
-            this.pushState(nextState, start);
+            this.pos = end;
+            let skipped = parser.stateFlag(nextState, 1 /* StateFlag.Skipped */);
+            // Skipped or zero-length non-tree tokens don't move reducePos
+            if (!skipped && (end > start || type <= parser.maxNode))
+                this.reducePos = end;
+            this.pushState(nextState, skipped ? start : Math.min(start, this.reducePos));
             this.shiftContext(type, start);
             if (type <= parser.maxNode)
                 this.buffer.push(type, start, end, 4);
@@ -517,10 +515,11 @@ class Stack {
     @internal
     */
     setLookAhead(lookAhead) {
-        if (lookAhead > this.lookAhead) {
-            this.emitLookAhead();
-            this.lookAhead = lookAhead;
-        }
+        if (lookAhead <= this.lookAhead)
+            return false;
+        this.emitLookAhead();
+        this.lookAhead = lookAhead;
+        return true;
     }
     /**
     @internal
@@ -1379,8 +1378,10 @@ class Parse {
                     }
                 }
             }
-            if (newStacks.length > 12 /* Rec.MaxStackCount */)
+            if (newStacks.length > 12 /* Rec.MaxStackCount */) {
+                newStacks.sort((a, b) => b.score - a.score);
                 newStacks.splice(12 /* Rec.MaxStackCount */, newStacks.length - 12 /* Rec.MaxStackCount */);
+            }
         }
         this.minStackPos = newStacks[0].pos;
         for (let i = 1; i < newStacks.length; i++)
@@ -1481,7 +1482,7 @@ class Parse {
                     continue;
             }
             let force = stack.split(), forceBase = base;
-            for (let j = 0; force.forceReduce() && j < 10 /* Rec.ForceReduceLimit */; j++) {
+            for (let j = 0; j < 10 /* Rec.ForceReduceLimit */ && force.forceReduce(); j++) {
                 if (verbose)
                     console.log(forceBase + this.stackID(force) + " (via force-reduce)");
                 let done = this.advanceFully(force, newStacks);
@@ -1505,8 +1506,8 @@ class Parse {
                     console.log(base + this.stackID(stack) + ` (via recover-delete ${this.parser.getName(token)})`);
                 pushStackDedup(stack, newStacks);
             }
-            else if (!finished || finished.score < stack.score) {
-                finished = stack;
+            else if (!finished || finished.score < force.score) {
+                finished = force;
             }
         }
         return finished;

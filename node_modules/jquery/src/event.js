@@ -1,21 +1,15 @@
-define( [
-	"./core",
-	"./var/document",
-	"./var/documentElement",
-	"./var/isFunction",
-	"./var/rnothtmlwhite",
-	"./var/rcheckableType",
-	"./var/slice",
-	"./data/var/acceptData",
-	"./data/var/dataPriv",
-	"./core/nodeName",
+import { jQuery } from "./core.js";
+import { documentElement } from "./var/documentElement.js";
+import { rnothtmlwhite } from "./var/rnothtmlwhite.js";
+import { rcheckableType } from "./var/rcheckableType.js";
+import { slice } from "./var/slice.js";
+import { isIE } from "./var/isIE.js";
+import { acceptData } from "./data/var/acceptData.js";
+import { dataPriv } from "./data/var/dataPriv.js";
+import { nodeName } from "./core/nodeName.js";
 
-	"./core/init",
-	"./selector"
-], function( jQuery, document, documentElement, isFunction, rnothtmlwhite,
-	rcheckableType, slice, acceptData, dataPriv, nodeName ) {
-
-"use strict";
+import "./core/init.js";
+import "./selector.js";
 
 var rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
 
@@ -93,8 +87,6 @@ function on( elem, types, selector, data, fn, one ) {
  * Props to Dean Edwards' addEvent library for many of the ideas.
  */
 jQuery.event = {
-
-	global: {},
 
 	add: function( elem, types, handler, data, selector ) {
 
@@ -203,9 +195,6 @@ jQuery.event = {
 			} else {
 				handlers.push( handleObj );
 			}
-
-			// Keep track of which events have ever been used, for event optimization
-			jQuery.event.global[ type ] = true;
 		}
 
 	},
@@ -361,14 +350,10 @@ jQuery.event = {
 		// Find delegate handlers
 		if ( delegateCount &&
 
-			// Support: IE <=9
-			// Black-hole SVG <use> instance trees (trac-13180)
-			cur.nodeType &&
-
-			// Support: Firefox <=42
+			// Support: Firefox <=42 - 66+
 			// Suppress spec-violating clicks indicating a non-primary pointer button (trac-3861)
 			// https://www.w3.org/TR/DOM-Level-3-Events/#event-type-click
-			// Support: IE 11 only
+			// Support: IE 11+
 			// ...but not arrow key "clicks" of radio inputs, which can have `button` -1 (gh-2343)
 			!( event.type === "click" && event.button >= 1 ) ) {
 
@@ -415,7 +400,7 @@ jQuery.event = {
 			enumerable: true,
 			configurable: true,
 
-			get: isFunction( hook ) ?
+			get: typeof hook === "function" ?
 				function() {
 					if ( this.originalEvent ) {
 						return hook( this.originalEvent );
@@ -444,7 +429,7 @@ jQuery.event = {
 			new jQuery.Event( originalEvent );
 	},
 
-	special: {
+	special: jQuery.extend( Object.create( null ), {
 		load: {
 
 			// Prevent triggered image.load events from bubbling to window.load
@@ -500,15 +485,21 @@ jQuery.event = {
 
 		beforeunload: {
 			postDispatch: function( event ) {
+				if ( event.result !== undefined ) {
 
-				// Support: Firefox 20+
-				// Firefox doesn't alert if the returnValue field is not set.
-				if ( event.result !== undefined && event.originalEvent ) {
-					event.originalEvent.returnValue = event.result;
+					// Setting `event.originalEvent.returnValue` in modern
+					// browsers does the same as just calling `preventDefault()`,
+					// the browsers ignore the value anyway.
+					// Incidentally, IE 11 is the only browser from our supported
+					// ones which respects the value returned from a `beforeunload`
+					// handler attached by `addEventListener`; other browsers do
+					// so only for inline handlers, so not setting the value
+					// directly shouldn't reduce any functionality.
+					event.preventDefault();
 				}
 			}
 		}
-	}
+	} )
 };
 
 // Ensure the presence of an event listener that handles manually-triggered
@@ -533,14 +524,29 @@ function leverageNative( el, type, isSetup ) {
 			var result,
 				saved = dataPriv.get( this, type );
 
+			// This controller function is invoked under multiple circumstances,
+			// differentiated by the stored value in `saved`:
+			// 1. For an outer synthetic `.trigger()`ed event (detected by
+			//    `event.isTrigger & 1` and non-array `saved`), it records arguments
+			//    as an array and fires an [inner] native event to prompt state
+			//    changes that should be observed by registered listeners (such as
+			//    checkbox toggling and focus updating), then clears the stored value.
+			// 2. For an [inner] native event (detected by `saved` being
+			//    an array), it triggers an inner synthetic event, records the
+			//    result, and preempts propagation to further jQuery listeners.
+			// 3. For an inner synthetic event (detected by `event.isTrigger & 1` and
+			//    array `saved`), it prevents double-propagation of surrogate events
+			//    but otherwise allows everything to proceed (particularly including
+			//    further listeners).
+			// Possible `saved` data shapes: `[...], `{ value }`, `false`.
 			if ( ( event.isTrigger & 1 ) && this[ type ] ) {
 
 				// Interrupt processing of the outer synthetic .trigger()ed event
-				if ( !saved ) {
+				if ( !saved.length ) {
 
 					// Store arguments for use when handling the inner native event
-					// There will always be at least one argument (an event object), so this array
-					// will not be confused with a leftover capture object.
+					// There will always be at least one argument (an event object),
+					// so this array will not be confused with a leftover capture object.
 					saved = slice.call( arguments );
 					dataPriv.set( this, type, saved );
 
@@ -555,29 +561,35 @@ function leverageNative( el, type, isSetup ) {
 						event.stopImmediatePropagation();
 						event.preventDefault();
 
-						return result;
+						// Support: Chrome 86+
+						// In Chrome, if an element having a focusout handler is
+						// blurred by clicking outside of it, it invokes the handler
+						// synchronously. If that handler calls `.remove()` on
+						// the element, the data is cleared, leaving `result`
+						// undefined. We need to guard against this.
+						return result && result.value;
 					}
 
-				// If this is an inner synthetic event for an event with a bubbling surrogate
-				// (focus or blur), assume that the surrogate already propagated from triggering
-				// the native event and prevent that from happening again here.
-				// This technically gets the ordering wrong w.r.t. to `.trigger()` (in which the
-				// bubbling surrogate propagates *after* the non-bubbling base), but that seems
-				// less bad than duplication.
+				// If this is an inner synthetic event for an event with a bubbling
+				// surrogate (focus or blur), assume that the surrogate already
+				// propagated from triggering the native event and prevent that
+				// from happening again here.
 				} else if ( ( jQuery.event.special[ type ] || {} ).delegateType ) {
 					event.stopPropagation();
 				}
 
-			// If this is a native event triggered above, everything is now in order
-			// Fire an inner synthetic event with the original arguments
-			} else if ( saved ) {
+			// If this is a native event triggered above, everything is now in order.
+			// Fire an inner synthetic event with the original arguments.
+			} else if ( saved.length ) {
 
 				// ...and capture the result
-				dataPriv.set( this, type, jQuery.event.trigger(
-					saved[ 0 ],
-					saved.slice( 1 ),
-					this
-				) );
+				dataPriv.set( this, type, {
+					value: jQuery.event.trigger(
+						saved[ 0 ],
+						saved.slice( 1 ),
+						this
+					)
+				} );
 
 				// Abort handling of the native event by all jQuery handlers while allowing
 				// native handlers on the same element to run. On target, this is achieved
@@ -616,21 +628,12 @@ jQuery.Event = function( src, props ) {
 
 		// Events bubbling up the document may have been marked as prevented
 		// by a handler lower down the tree; reflect the correct value.
-		this.isDefaultPrevented = src.defaultPrevented ||
-				src.defaultPrevented === undefined &&
-
-				// Support: Android <=2.3 only
-				src.returnValue === false ?
+		this.isDefaultPrevented = src.defaultPrevented ?
 			returnTrue :
 			returnFalse;
 
 		// Create target properties
-		// Support: Safari <=6 - 7 only
-		// Target should not be a text node (trac-504, trac-13143)
-		this.target = ( src.target && src.target.nodeType === 3 ) ?
-			src.target.parentNode :
-			src.target;
-
+		this.target = src.target;
 		this.currentTarget = src.currentTarget;
 		this.relatedTarget = src.relatedTarget;
 
@@ -728,41 +731,25 @@ jQuery.each( {
 
 jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateType ) {
 
+	// Support: IE 11+
+	// Attach a single focusin/focusout handler on the document while someone wants focus/blur.
+	// This is because the former are synchronous in IE while the latter are async. In other
+	// browsers, all those handlers are invoked synchronously.
 	function focusMappedHandler( nativeEvent ) {
-		if ( document.documentMode ) {
 
-			// Support: IE 11+
-			// Attach a single focusin/focusout handler on the document while someone wants
-			// focus/blur. This is because the former are synchronous in IE while the latter
-			// are async. In other browsers, all those handlers are invoked synchronously.
+		// `eventHandle` would already wrap the event, but we need to change the `type` here.
+		var event = jQuery.event.fix( nativeEvent );
+		event.type = nativeEvent.type === "focusin" ? "focus" : "blur";
+		event.isSimulated = true;
 
-			// `handle` from private data would already wrap the event, but we need
-			// to change the `type` here.
-			var handle = dataPriv.get( this, "handle" ),
-				event = jQuery.event.fix( nativeEvent );
-			event.type = nativeEvent.type === "focusin" ? "focus" : "blur";
-			event.isSimulated = true;
+		// focus/blur don't bubble while focusin/focusout do; simulate the former by only
+		// invoking the handler at the lower level.
+		if ( event.target === event.currentTarget ) {
 
-			// First, handle focusin/focusout
-			handle( nativeEvent );
-
-			// ...then, handle focus/blur
-			//
-			// focus/blur don't bubble while focusin/focusout do; simulate the former by only
-			// invoking the handler at the lower level.
-			if ( event.target === event.currentTarget ) {
-
-				// The setup part calls `leverageNative`, which, in turn, calls
-				// `jQuery.event.add`, so event handle will already have been set
-				// by this point.
-				handle( event );
-			}
-		} else {
-
-			// For non-IE browsers, attach a single capturing handler on the document
-			// while someone wants focusin/focusout.
-			jQuery.event.simulate( delegateType, nativeEvent.target,
-				jQuery.event.fix( nativeEvent ) );
+			// The setup part calls `leverageNative`, which, in turn, calls
+			// `jQuery.event.add`, so event handle will already have been set
+			// by this point.
+			dataPriv.get( this, "handle" )( event );
 		}
 	}
 
@@ -771,24 +758,13 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 		// Utilize native event if possible so blur/focus sequence is correct
 		setup: function() {
 
-			var attaches;
-
 			// Claim the first handler
 			// dataPriv.set( this, "focus", ... )
 			// dataPriv.set( this, "blur", ... )
 			leverageNative( this, type, true );
 
-			if ( document.documentMode ) {
-
-				// Support: IE 9 - 11+
-				// We use the same native handler for focusin & focus (and focusout & blur)
-				// so we need to coordinate setup & teardown parts between those events.
-				// Use `delegateType` as the key as `type` is already used by `leverageNative`.
-				attaches = dataPriv.get( this, delegateType );
-				if ( !attaches ) {
-					this.addEventListener( delegateType, focusMappedHandler );
-				}
-				dataPriv.set( this, delegateType, ( attaches || 0 ) + 1 );
+			if ( isIE ) {
+				this.addEventListener( delegateType, focusMappedHandler );
 			} else {
 
 				// Return false to allow normal processing in the caller
@@ -805,16 +781,8 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 		},
 
 		teardown: function() {
-			var attaches;
-
-			if ( document.documentMode ) {
-				attaches = dataPriv.get( this, delegateType ) - 1;
-				if ( !attaches ) {
-					this.removeEventListener( delegateType, focusMappedHandler );
-					dataPriv.remove( this, delegateType );
-				} else {
-					dataPriv.set( this, delegateType, attaches );
-				}
+			if ( isIE ) {
+				this.removeEventListener( delegateType, focusMappedHandler );
 			} else {
 
 				// Return false to indicate standard teardown should be applied
@@ -830,68 +798,11 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 
 		delegateType: delegateType
 	};
-
-	// Support: Firefox <=44
-	// Firefox doesn't have focus(in | out) events
-	// Related ticket - https://bugzilla.mozilla.org/show_bug.cgi?id=687787
-	//
-	// Support: Chrome <=48 - 49, Safari <=9.0 - 9.1
-	// focus(in | out) events fire after focus & blur events,
-	// which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
-	// Related ticket - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
-	//
-	// Support: IE 9 - 11+
-	// To preserve relative focusin/focus & focusout/blur event order guaranteed on the 3.x branch,
-	// attach a single handler for both events in IE.
-	jQuery.event.special[ delegateType ] = {
-		setup: function() {
-
-			// Handle: regular nodes (via `this.ownerDocument`), window
-			// (via `this.document`) & document (via `this`).
-			var doc = this.ownerDocument || this.document || this,
-				dataHolder = document.documentMode ? this : doc,
-				attaches = dataPriv.get( dataHolder, delegateType );
-
-			// Support: IE 9 - 11+
-			// We use the same native handler for focusin & focus (and focusout & blur)
-			// so we need to coordinate setup & teardown parts between those events.
-			// Use `delegateType` as the key as `type` is already used by `leverageNative`.
-			if ( !attaches ) {
-				if ( document.documentMode ) {
-					this.addEventListener( delegateType, focusMappedHandler );
-				} else {
-					doc.addEventListener( type, focusMappedHandler, true );
-				}
-			}
-			dataPriv.set( dataHolder, delegateType, ( attaches || 0 ) + 1 );
-		},
-		teardown: function() {
-			var doc = this.ownerDocument || this.document || this,
-				dataHolder = document.documentMode ? this : doc,
-				attaches = dataPriv.get( dataHolder, delegateType ) - 1;
-
-			if ( !attaches ) {
-				if ( document.documentMode ) {
-					this.removeEventListener( delegateType, focusMappedHandler );
-				} else {
-					doc.removeEventListener( type, focusMappedHandler, true );
-				}
-				dataPriv.remove( dataHolder, delegateType );
-			} else {
-				dataPriv.set( dataHolder, delegateType, attaches );
-			}
-		}
-	};
 } );
 
 // Create mouseenter/leave events using mouseover/out and event-time checks
 // so that event delegation works in jQuery.
 // Do the same for pointerenter/pointerleave and pointerover/pointerout
-//
-// Support: Safari 7 only
-// Safari sends mouseenter too often; see:
-// https://bugs.chromium.org/p/chromium/issues/detail?id=470258
-// for the description of the bug (it existed in older Chrome versions as well).
 jQuery.each( {
 	mouseenter: "mouseover",
 	mouseleave: "mouseout",
@@ -966,5 +877,4 @@ jQuery.fn.extend( {
 	}
 } );
 
-return jQuery;
-} );
+export { jQuery, jQuery as $ };

@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.11](https://github.com/xmldom/xmldom/compare/0.8.10...0.8.11)
+
+### Fixed
+
+- update `ownerDocument` when moving nodes between documents
+
+Thank you, [@shunkica](https://github.com/shunkica), for your contributions
+
+
 ## [0.8.10](https://github.com/xmldom/xmldom/compare/0.8.9...0.8.10)
 
 ### Fixed

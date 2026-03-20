@@ -1,5 +1,5 @@
 /*!
-FullCalendar Day Grid Plugin v6.1.19
+FullCalendar Day Grid Plugin v6.1.20
 Docs & License: https://fullcalendar.io/docs/month-view
 (c) 2024 Adam Shaw
 */

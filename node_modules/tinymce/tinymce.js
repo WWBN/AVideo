@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 8.2.2 (2025-11-17)
+ * TinyMCE version 8.3.2 (2026-01-14)
  */
 
 (function () {
@@ -2866,7 +2866,7 @@
         }
         return Optional.none();
     };
-    const closest$4 = (scope, predicate, isRoot) => {
+    const closest$5 = (scope, predicate, isRoot) => {
         // This is required to avoid ClosestOrAncestor passing the predicate to itself
         const is = (s, test) => test(s);
         return ClosestOrAncestor(is, ancestor$5, scope, predicate, isRoot);
@@ -2904,7 +2904,7 @@
     const ancestor$4 = (scope, selector, isRoot) => ancestor$5(scope, (e) => is$2(e, selector), isRoot);
     const descendant$1 = (scope, selector) => one(selector, scope);
     // Returns Some(closest ancestor element (sugared)) matching 'selector' up to isRoot, or None() otherwise
-    const closest$3 = (scope, selector, isRoot) => {
+    const closest$4 = (scope, selector, isRoot) => {
         const is = (element, selector) => is$2(element, selector);
         return ClosestOrAncestor(is, ancestor$4, scope, selector, isRoot);
     };
@@ -2978,14 +2978,14 @@
         });
     };
 
-    const closest$2 = (target) => closest$3(target, '[contenteditable]');
+    const closest$3 = (target) => closest$4(target, '[contenteditable]');
     const isEditable$2 = (element, assumeEditable = false) => {
         if (inBody(element)) {
             return element.dom.isContentEditable;
         }
         else {
             // Find the closest contenteditable element and check if it's editable
-            return closest$2(element).fold(constant(assumeEditable), (editable) => getRaw(editable) === 'true');
+            return closest$3(element).fold(constant(assumeEditable), (editable) => getRaw(editable) === 'true');
         }
     };
     const getRaw = (element) => element.dom.contentEditable;
@@ -3025,6 +3025,7 @@
     const ancestor$2 = (element, target) => ancestor$3(element, curry(eq, target));
 
     const ancestor$1 = (scope, selector, isRoot) => ancestor$4(scope, selector, isRoot).isSome();
+    const closest$2 = (scope, selector, isRoot) => closest$4(scope, selector, isRoot).isSome();
 
     const ensureIsRoot = (isRoot) => isFunction(isRoot) ? isRoot : never;
     const ancestor = (scope, transform, isRoot) => {
@@ -8142,7 +8143,7 @@
         const root = SugarElement.fromDom(editor.getBody());
         const selector = annotationName.fold(() => '.' + annotation(), (an) => `[${dataAnnotation()}="${an}"]`);
         const newStart = child$1(start, rng.startOffset).getOr(start);
-        const closest = closest$3(newStart, selector, isRoot$1(root));
+        const closest = closest$4(newStart, selector, isRoot$1(root));
         return closest.bind((c) => getOpt(c, `${dataAnnotationId()}`).bind((uid) => getOpt(c, `${dataAnnotation()}`).map((name) => {
             const elements = findMarkers(editor, uid);
             return {
@@ -9503,6 +9504,251 @@
      */
     const isBackwards = (direction) => direction === -1 /* HDirection.Backwards */;
 
+    var SimpleResultType;
+    (function (SimpleResultType) {
+        SimpleResultType[SimpleResultType["Error"] = 0] = "Error";
+        SimpleResultType[SimpleResultType["Value"] = 1] = "Value";
+    })(SimpleResultType || (SimpleResultType = {}));
+    const fold$1 = (res, onError, onValue) => res.stype === SimpleResultType.Error ? onError(res.serror) : onValue(res.svalue);
+    const partition = (results) => {
+        const values = [];
+        const errors = [];
+        each$e(results, (obj) => {
+            fold$1(obj, (err) => errors.push(err), (val) => values.push(val));
+        });
+        return { values, errors };
+    };
+    const mapError = (res, f) => {
+        if (res.stype === SimpleResultType.Error) {
+            return { stype: SimpleResultType.Error, serror: f(res.serror) };
+        }
+        else {
+            return res;
+        }
+    };
+    const map = (res, f) => {
+        if (res.stype === SimpleResultType.Value) {
+            return { stype: SimpleResultType.Value, svalue: f(res.svalue) };
+        }
+        else {
+            return res;
+        }
+    };
+    const bind = (res, f) => {
+        if (res.stype === SimpleResultType.Value) {
+            return f(res.svalue);
+        }
+        else {
+            return res;
+        }
+    };
+    const bindError = (res, f) => {
+        if (res.stype === SimpleResultType.Error) {
+            return f(res.serror);
+        }
+        else {
+            return res;
+        }
+    };
+    const svalue = (v) => ({ stype: SimpleResultType.Value, svalue: v });
+    const serror = (e) => ({ stype: SimpleResultType.Error, serror: e });
+    const toResult = (res) => fold$1(res, Result.error, Result.value);
+    const fromResult = (res) => res.fold(serror, svalue);
+    const SimpleResult = {
+        fromResult,
+        toResult,
+        svalue,
+        partition,
+        serror,
+        bind,
+        bindError,
+        map,
+        mapError,
+        fold: fold$1
+    };
+
+    const formatObj = (input) => {
+        return isObject(input) && keys(input).length > 100 ? ' removed due to size' : JSON.stringify(input, null, 2);
+    };
+    const formatErrors = (errors) => {
+        const es = errors.length > 10 ? errors.slice(0, 10).concat([
+            {
+                path: [],
+                getErrorInfo: constant('... (only showing first ten failures)')
+            }
+        ]) : errors;
+        // TODO: Work out a better split between PrettyPrinter and SchemaError
+        return map$3(es, (e) => {
+            return 'Failed path: (' + e.path.join(' > ') + ')\n' + e.getErrorInfo();
+        });
+    };
+
+    const nu = (path, getErrorInfo) => {
+        return SimpleResult.serror([{
+                path,
+                // This is lazy so that it isn't calculated unnecessarily
+                getErrorInfo
+            }]);
+    };
+    const missingRequired = (path, key, obj) => nu(path, () => 'Could not find valid *required* value for "' + key + '" in ' + formatObj(obj));
+    const custom = (path, err) => nu(path, constant(err));
+
+    const value = (validator) => {
+        const extract = (path, val) => {
+            return SimpleResult.bindError(validator(val), (err) => custom(path, err));
+        };
+        const toString = constant('val');
+        return {
+            extract,
+            toString
+        };
+    };
+    const anyValue$1 = value(SimpleResult.svalue);
+
+    const anyValue = constant(anyValue$1);
+    const typedValue = (validator, expectedType) => value((a) => {
+        const actualType = typeof a;
+        return validator(a) ? SimpleResult.svalue(a) : SimpleResult.serror(`Expected type: ${expectedType} but got: ${actualType}`);
+    });
+    const number = typedValue(isNumber, 'number');
+    const string = typedValue(isString, 'string');
+    const functionProcessor = typedValue(isFunction, 'function');
+
+    const required$1 = () => ({ tag: "required" /* FieldPresenceTag.Required */, process: {} });
+    const defaultedThunk = (fallbackThunk) => ({ tag: "defaultedThunk" /* FieldPresenceTag.DefaultedThunk */, process: fallbackThunk });
+    const defaulted$1 = (fallback) => defaultedThunk(constant(fallback));
+    const asOption = () => ({ tag: "option" /* FieldPresenceTag.Option */, process: {} });
+
+    const field$1 = (key, newKey, presence, prop) => ({ tag: "field" /* FieldTag.Field */, key, newKey, presence, prop });
+    const fold = (value, ifField, ifCustom) => {
+        switch (value.tag) {
+            case "field" /* FieldTag.Field */:
+                return ifField(value.key, value.newKey, value.presence, value.prop);
+            case "custom" /* FieldTag.CustomField */:
+                return ifCustom(value.newKey, value.instantiator);
+        }
+    };
+
+    const mergeValues = (values, base) => {
+        return SimpleResult.svalue(deepMerge(base, merge$1.apply(undefined, values)));
+    };
+    const mergeErrors = (errors) => compose(SimpleResult.serror, flatten$1)(errors);
+    const consolidateObj = (objects, base) => {
+        const partition = SimpleResult.partition(objects);
+        return partition.errors.length > 0 ? mergeErrors(partition.errors) : mergeValues(partition.values, base);
+    };
+    const consolidateArr = (objects) => {
+        const partitions = SimpleResult.partition(objects);
+        return partitions.errors.length > 0 ? mergeErrors(partitions.errors) : SimpleResult.svalue(partitions.values);
+    };
+    const ResultCombine = {
+        consolidateObj,
+        consolidateArr
+    };
+
+    const requiredAccess = (path, obj, key, bundle) => 
+    // In required mode, if it is undefined, it is an error.
+    get$a(obj, key).fold(() => missingRequired(path, key, obj), bundle);
+    const fallbackAccess = (obj, key, fallback, bundle) => {
+        const v = get$a(obj, key).getOrThunk(() => fallback(obj));
+        return bundle(v);
+    };
+    const optionAccess = (obj, key, bundle) => bundle(get$a(obj, key));
+    const optionDefaultedAccess = (obj, key, fallback, bundle) => {
+        const opt = get$a(obj, key).map((val) => val === true ? fallback(obj) : val);
+        return bundle(opt);
+    };
+    const extractField = (field, path, obj, key, prop) => {
+        const bundle = (av) => prop.extract(path.concat([key]), av);
+        const bundleAsOption = (optValue) => optValue.fold(() => SimpleResult.svalue(Optional.none()), (ov) => {
+            const result = prop.extract(path.concat([key]), ov);
+            return SimpleResult.map(result, Optional.some);
+        });
+        switch (field.tag) {
+            case "required" /* FieldPresenceTag.Required */:
+                return requiredAccess(path, obj, key, bundle);
+            case "defaultedThunk" /* FieldPresenceTag.DefaultedThunk */:
+                return fallbackAccess(obj, key, field.process, bundle);
+            case "option" /* FieldPresenceTag.Option */:
+                return optionAccess(obj, key, bundleAsOption);
+            case "defaultedOptionThunk" /* FieldPresenceTag.DefaultedOptionThunk */:
+                return optionDefaultedAccess(obj, key, field.process, bundleAsOption);
+            case "mergeWithThunk" /* FieldPresenceTag.MergeWithThunk */: {
+                return fallbackAccess(obj, key, constant({}), (v) => {
+                    const result = deepMerge(field.process(obj), v);
+                    return bundle(result);
+                });
+            }
+        }
+    };
+    const extractFields = (path, obj, fields) => {
+        const success = {};
+        const errors = [];
+        // PERFORMANCE: We use a for loop here instead of Arr.each as this is a hot code path
+        for (const field of fields) {
+            fold(field, (key, newKey, presence, prop) => {
+                const result = extractField(presence, path, obj, key, prop);
+                SimpleResult.fold(result, (err) => {
+                    errors.push(...err);
+                }, (res) => {
+                    success[newKey] = res;
+                });
+            }, (newKey, instantiator) => {
+                success[newKey] = instantiator(obj);
+            });
+        }
+        return errors.length > 0 ? SimpleResult.serror(errors) : SimpleResult.svalue(success);
+    };
+    const objOf = (values) => {
+        const extract = (path, o) => extractFields(path, o, values);
+        const toString = () => {
+            const fieldStrings = map$3(values, (value) => fold(value, (key, _okey, _presence, prop) => key + ' -> ' + prop.toString(), (newKey, _instantiator) => 'state(' + newKey + ')'));
+            return 'obj{\n' + fieldStrings.join('\n') + '}';
+        };
+        return {
+            extract,
+            toString
+        };
+    };
+    const arrOf = (prop) => {
+        const extract = (path, array) => {
+            const results = map$3(array, (a, i) => prop.extract(path.concat(['[' + i + ']']), a));
+            return ResultCombine.consolidateArr(results);
+        };
+        const toString = () => 'array(' + prop.toString() + ')';
+        return {
+            extract,
+            toString
+        };
+    };
+    const arrOfObj = compose(arrOf, objOf);
+
+    const valueOf = (validator) => value((v) => validator(v).fold(SimpleResult.serror, SimpleResult.svalue));
+    const extractValue = (label, prop, obj) => {
+        const res = prop.extract([label], obj);
+        return SimpleResult.mapError(res, (errs) => ({ input: obj, errors: errs }));
+    };
+    const asRaw = (label, prop, obj) => SimpleResult.toResult(extractValue(label, prop, obj));
+    const formatError = (errInfo) => {
+        return 'Errors: \n' + formatErrors(errInfo.errors).join('\n') +
+            '\n\nInput object: ' + formatObj(errInfo.input);
+    };
+
+    const field = field$1;
+    const required = (key) => field(key, key, required$1(), anyValue());
+    const requiredOf = (key, schema) => field(key, key, required$1(), schema);
+    const requiredString = (key) => requiredOf(key, string);
+    const requiredFunction = (key) => requiredOf(key, functionProcessor);
+    const requiredArrayOf = (key, schema) => field(key, key, required$1(), arrOf(schema));
+    const option$1 = (key) => field(key, key, asOption(), anyValue());
+    const optionOf = (key, schema) => field(key, key, asOption(), schema);
+    const optionString = (key) => optionOf(key, string);
+    const optionFunction = (key) => optionOf(key, functionProcessor);
+    const defaulted = (key, fallback) => field(key, key, defaulted$1(fallback), anyValue());
+    const defaultedOf = (key, fallback, schema) => field(key, key, defaulted$1(fallback), schema);
+    const defaultedNumber = (key, fallback) => defaultedOf(key, fallback, number);
+    const defaultedArrayOf = (key, fallback, schema) => defaultedOf(key, fallback, arrOf(schema));
+
     const isInlinePattern = (pattern) => pattern.type === 'inline-command' || pattern.type === 'inline-format';
     const isBlockPattern = (pattern) => pattern.type === 'block-command' || pattern.type === 'block-format';
     const hasBlockTrigger = (pattern, trigger) => (pattern.type === 'block-command' || pattern.type === 'block-format') && pattern.trigger === trigger;
@@ -9695,7 +9941,7 @@
         }, {});
     };
     const isRegExp = (x) => is$5(x, RegExp);
-    const option$1 = (name) => (editor) => editor.options.get(name);
+    const option = (name) => (editor) => editor.options.get(name);
     const stringOrObjectProcessor = (value) => isString(value) || isObject(value);
     const bodyOptionProcessor = (editor, defaultValue = '') => (value) => {
         const valid = isString(value);
@@ -10456,6 +10702,23 @@
                 };
             }
         });
+        const documentsFileTypesOptionsSchema = arrOfObj([
+            requiredString('mimeType'),
+            requiredArrayOf('extensions', valueOf((ext) => {
+                if (isString(ext)) {
+                    return Result.value(ext);
+                }
+                else {
+                    return Result.error('Extensions must be an array of strings');
+                }
+            })),
+        ]);
+        registerOption('documents_file_types', {
+            processor: (value) => asRaw('documents_file_types', documentsFileTypesOptionsSchema, value).fold((_err) => ({
+                valid: false,
+                message: 'Must be a non-empty array of objects matching the configuration schema: https://www.tiny.cloud/docs/tinymce/latest/uploadcare-documents/#documents-file-types'
+            }), (val) => ({ valid: true, value: val }))
+        });
         // These options must be registered later in the init sequence due to their default values
         editor.on('ScriptsLoaded', () => {
             registerOption('directionality', {
@@ -10487,117 +10750,117 @@
             },
         });
     };
-    const getIframeAttrs = option$1('iframe_attrs');
-    const getDocType = option$1('doctype');
-    const getDocumentBaseUrl = option$1('document_base_url');
-    const getBodyId = option$1('body_id');
-    const getBodyClass = option$1('body_class');
-    const getContentSecurityPolicy = option$1('content_security_policy');
-    const shouldPutBrInPre$1 = option$1('br_in_pre');
-    const getForcedRootBlock = option$1('forced_root_block');
-    const getForcedRootBlockAttrs = option$1('forced_root_block_attrs');
-    const getNewlineBehavior = option$1('newline_behavior');
-    const getBrNewLineSelector = option$1('br_newline_selector');
-    const getNoNewLineSelector = option$1('no_newline_selector');
-    const shouldKeepStyles = option$1('keep_styles');
-    const shouldEndContainerOnEmptyBlock = option$1('end_container_on_empty_block');
-    const isAutomaticUploadsEnabled = option$1('automatic_uploads');
-    const shouldReuseFileName = option$1('images_reuse_filename');
-    const shouldReplaceBlobUris = option$1('images_replace_blob_uris');
-    const getIconPackName = option$1('icons');
-    const getIconsUrl = option$1('icons_url');
-    const getImageUploadUrl = option$1('images_upload_url');
-    const getImageUploadBasePath = option$1('images_upload_base_path');
-    const getImagesUploadCredentials = option$1('images_upload_credentials');
-    const getImagesUploadHandler = option$1('images_upload_handler');
-    const shouldUseContentCssCors = option$1('content_css_cors');
-    const getReferrerPolicy = option$1('referrer_policy');
-    const getCrossOrigin = option$1('crossorigin');
-    const getLanguageCode = option$1('language');
-    const getLanguageUrl = option$1('language_url');
-    const shouldIndentUseMargin = option$1('indent_use_margin');
-    const getIndentation = option$1('indentation');
-    const getContentCss = option$1('content_css');
-    const getContentStyle = option$1('content_style');
-    const getFontCss = option$1('font_css');
-    const getDirectionality = option$1('directionality');
-    const getInlineBoundarySelector = option$1('inline_boundaries_selector');
-    const getObjectResizing = option$1('object_resizing');
-    const getResizeImgProportional = option$1('resize_img_proportional');
-    const getPlaceholder = option$1('placeholder');
-    const getEventRoot = option$1('event_root');
-    const getServiceMessage = option$1('service_message');
-    const getTheme = option$1('theme');
-    const getThemeUrl = option$1('theme_url');
-    const getModel = option$1('model');
-    const getModelUrl = option$1('model_url');
-    const isInlineBoundariesEnabled = option$1('inline_boundaries');
-    const getFormats = option$1('formats');
-    const getPreviewStyles = option$1('preview_styles');
-    const canFormatEmptyLines = option$1('format_empty_lines');
-    const getFormatNoneditableSelector = option$1('format_noneditable_selector');
-    const getCustomUiSelector = option$1('custom_ui_selector');
-    const isInline$2 = option$1('inline');
-    const hasHiddenInput = option$1('hidden_input');
-    const shouldPatchSubmit = option$1('submit_patch');
-    const shouldAddFormSubmitTrigger = option$1('add_form_submit_trigger');
-    const shouldAddUnloadTrigger = option$1('add_unload_trigger');
-    const getCustomUndoRedoLevels = option$1('custom_undo_redo_levels');
-    const shouldDisableNodeChange = option$1('disable_nodechange');
-    const isReadOnly$1 = option$1('readonly');
-    const hasEditableRoot$1 = option$1('editable_root');
-    const hasContentCssCors = option$1('content_css_cors');
-    const getPlugins = option$1('plugins');
-    const getExternalPlugins$1 = option$1('external_plugins');
-    const shouldBlockUnsupportedDrop = option$1('block_unsupported_drop');
-    const isVisualAidsEnabled = option$1('visual');
-    const getVisualAidsTableClass = option$1('visual_table_class');
-    const getVisualAidsAnchorClass = option$1('visual_anchor_class');
-    const getIframeAriaText = option$1('iframe_aria_text');
-    const getSetupCallback = option$1('setup');
-    const getInitInstanceCallback = option$1('init_instance_callback');
-    const getUrlConverterCallback = option$1('urlconverter_callback');
-    const getAutoFocus = option$1('auto_focus');
-    const shouldBrowserSpellcheck = option$1('browser_spellcheck');
-    const getProtect = option$1('protect');
-    const shouldPasteBlockDrop = option$1('paste_block_drop');
-    const shouldPasteDataImages = option$1('paste_data_images');
-    const getPastePreProcess = option$1('paste_preprocess');
-    const getPastePostProcess = option$1('paste_postprocess');
-    const getNewDocumentContent = option$1('newdocument_content');
-    const getPasteWebkitStyles = option$1('paste_webkit_styles');
-    const shouldPasteRemoveWebKitStyles = option$1('paste_remove_styles_if_webkit');
-    const shouldPasteMergeFormats = option$1('paste_merge_formats');
-    const isSmartPasteEnabled = option$1('smart_paste');
-    const isPasteAsTextEnabled = option$1('paste_as_text');
-    const getPasteTabSpaces = option$1('paste_tab_spaces');
-    const shouldAllowHtmlDataUrls = option$1('allow_html_data_urls');
-    const getTextPatterns = option$1('text_patterns');
-    const getTextPatternsLookup = option$1('text_patterns_lookup');
-    const getNonEditableClass = option$1('noneditable_class');
-    const getEditableClass = option$1('editable_class');
-    const getNonEditableRegExps = option$1('noneditable_regexp');
-    const shouldPreserveCData = option$1('preserve_cdata');
-    const shouldHighlightOnFocus = option$1('highlight_on_focus');
-    const shouldSanitizeXss = option$1('xss_sanitization');
-    const shouldUseDocumentWrite = option$1('init_content_sync');
+    const getIframeAttrs = option('iframe_attrs');
+    const getDocType = option('doctype');
+    const getDocumentBaseUrl = option('document_base_url');
+    const getBodyId = option('body_id');
+    const getBodyClass = option('body_class');
+    const getContentSecurityPolicy = option('content_security_policy');
+    const shouldPutBrInPre$1 = option('br_in_pre');
+    const getForcedRootBlock = option('forced_root_block');
+    const getForcedRootBlockAttrs = option('forced_root_block_attrs');
+    const getNewlineBehavior = option('newline_behavior');
+    const getBrNewLineSelector = option('br_newline_selector');
+    const getNoNewLineSelector = option('no_newline_selector');
+    const shouldKeepStyles = option('keep_styles');
+    const shouldEndContainerOnEmptyBlock = option('end_container_on_empty_block');
+    const isAutomaticUploadsEnabled = option('automatic_uploads');
+    const shouldReuseFileName = option('images_reuse_filename');
+    const shouldReplaceBlobUris = option('images_replace_blob_uris');
+    const getIconPackName = option('icons');
+    const getIconsUrl = option('icons_url');
+    const getImageUploadUrl = option('images_upload_url');
+    const getImageUploadBasePath = option('images_upload_base_path');
+    const getImagesUploadCredentials = option('images_upload_credentials');
+    const getImagesUploadHandler = option('images_upload_handler');
+    const shouldUseContentCssCors = option('content_css_cors');
+    const getReferrerPolicy = option('referrer_policy');
+    const getCrossOrigin = option('crossorigin');
+    const getLanguageCode = option('language');
+    const getLanguageUrl = option('language_url');
+    const shouldIndentUseMargin = option('indent_use_margin');
+    const getIndentation = option('indentation');
+    const getContentCss = option('content_css');
+    const getContentStyle = option('content_style');
+    const getFontCss = option('font_css');
+    const getDirectionality = option('directionality');
+    const getInlineBoundarySelector = option('inline_boundaries_selector');
+    const getObjectResizing = option('object_resizing');
+    const getResizeImgProportional = option('resize_img_proportional');
+    const getPlaceholder = option('placeholder');
+    const getEventRoot = option('event_root');
+    const getServiceMessage = option('service_message');
+    const getTheme = option('theme');
+    const getThemeUrl = option('theme_url');
+    const getModel = option('model');
+    const getModelUrl = option('model_url');
+    const isInlineBoundariesEnabled = option('inline_boundaries');
+    const getFormats = option('formats');
+    const getPreviewStyles = option('preview_styles');
+    const canFormatEmptyLines = option('format_empty_lines');
+    const getFormatNoneditableSelector = option('format_noneditable_selector');
+    const getCustomUiSelector = option('custom_ui_selector');
+    const isInline$2 = option('inline');
+    const hasHiddenInput = option('hidden_input');
+    const shouldPatchSubmit = option('submit_patch');
+    const shouldAddFormSubmitTrigger = option('add_form_submit_trigger');
+    const shouldAddUnloadTrigger = option('add_unload_trigger');
+    const getCustomUndoRedoLevels = option('custom_undo_redo_levels');
+    const shouldDisableNodeChange = option('disable_nodechange');
+    const isReadOnly$1 = option('readonly');
+    const hasEditableRoot$1 = option('editable_root');
+    const hasContentCssCors = option('content_css_cors');
+    const getPlugins = option('plugins');
+    const getExternalPlugins$1 = option('external_plugins');
+    const shouldBlockUnsupportedDrop = option('block_unsupported_drop');
+    const isVisualAidsEnabled = option('visual');
+    const getVisualAidsTableClass = option('visual_table_class');
+    const getVisualAidsAnchorClass = option('visual_anchor_class');
+    const getIframeAriaText = option('iframe_aria_text');
+    const getSetupCallback = option('setup');
+    const getInitInstanceCallback = option('init_instance_callback');
+    const getUrlConverterCallback = option('urlconverter_callback');
+    const getAutoFocus = option('auto_focus');
+    const shouldBrowserSpellcheck = option('browser_spellcheck');
+    const getProtect = option('protect');
+    const shouldPasteBlockDrop = option('paste_block_drop');
+    const shouldPasteDataImages = option('paste_data_images');
+    const getPastePreProcess = option('paste_preprocess');
+    const getPastePostProcess = option('paste_postprocess');
+    const getNewDocumentContent = option('newdocument_content');
+    const getPasteWebkitStyles = option('paste_webkit_styles');
+    const shouldPasteRemoveWebKitStyles = option('paste_remove_styles_if_webkit');
+    const shouldPasteMergeFormats = option('paste_merge_formats');
+    const isSmartPasteEnabled = option('smart_paste');
+    const isPasteAsTextEnabled = option('paste_as_text');
+    const getPasteTabSpaces = option('paste_tab_spaces');
+    const shouldAllowHtmlDataUrls = option('allow_html_data_urls');
+    const getTextPatterns = option('text_patterns');
+    const getTextPatternsLookup = option('text_patterns_lookup');
+    const getNonEditableClass = option('noneditable_class');
+    const getEditableClass = option('editable_class');
+    const getNonEditableRegExps = option('noneditable_regexp');
+    const shouldPreserveCData = option('preserve_cdata');
+    const shouldHighlightOnFocus = option('highlight_on_focus');
+    const shouldSanitizeXss = option('xss_sanitization');
+    const shouldUseDocumentWrite = option('init_content_sync');
     const hasTextPatternsLookup = (editor) => editor.options.isSet('text_patterns_lookup');
     const getFontStyleValues = (editor) => Tools.explode(editor.options.get('font_size_style_values'));
     const getFontSizeClasses = (editor) => Tools.explode(editor.options.get('font_size_classes'));
     const isEncodingXml = (editor) => editor.options.get('encoding') === 'xml';
     const getAllowedImageFileTypes = (editor) => Tools.explode(editor.options.get('images_file_types'));
-    const hasTableTabNavigation = option$1('table_tab_navigation');
-    const getDetailsInitialState = option$1('details_initial_state');
-    const getDetailsSerializedState = option$1('details_serialized_state');
-    const shouldSandboxIframes = option$1('sandbox_iframes');
+    const hasTableTabNavigation = option('table_tab_navigation');
+    const getDetailsInitialState = option('details_initial_state');
+    const getDetailsSerializedState = option('details_serialized_state');
+    const shouldSandboxIframes = option('sandbox_iframes');
     const getSandboxIframesExclusions = (editor) => editor.options.get('sandbox_iframes_exclusions');
-    const shouldConvertUnsafeEmbeds = option$1('convert_unsafe_embeds');
-    const getLicenseKey = option$1('license_key');
-    const getApiKey = option$1('api_key');
-    const isDisabled$1 = option$1('disabled');
-    const getUserId = option$1('user_id');
-    const getFetchUsers = option$1('fetch_users');
-    const shouldIndentOnTab = option$1('lists_indent_on_tab');
+    const shouldConvertUnsafeEmbeds = option('convert_unsafe_embeds');
+    const getLicenseKey = option('license_key');
+    const getApiKey = option('api_key');
+    const isDisabled$1 = option('disabled');
+    const getUserId = option('user_id');
+    const getFetchUsers = option('fetch_users');
+    const shouldIndentOnTab = option('lists_indent_on_tab');
     const getListMaxDepth = (editor) => Optional.from(editor.options.get('list_max_depth'));
 
     const isElement$4 = isElement$7;
@@ -13191,28 +13454,31 @@
                 return elm.cloneNode(true);
             }
         };
+        const setUcVideoSizeProp = (element, name, value) => {
+            // this is needed because otherwise the ghost for `uc-video` is not correctly rendered
+            element[name] = value;
+            const minimumWidth = 400;
+            if (element.width > minimumWidth && !(name === 'width' && value < minimumWidth)) {
+                element[name] = value;
+                dom.setStyle(element, name, value);
+            }
+            else {
+                const valueConsideringMinWidth = name === 'height' ? minimumWidth * (ratio ?? 1) : minimumWidth;
+                element[name] = valueConsideringMinWidth;
+                dom.setStyle(element, name, valueConsideringMinWidth);
+            }
+        };
         const setSizeProp = (element, name, value) => {
             if (isNonNullable(value)) {
                 // Resize by using style or attribute
                 const targets = getResizeTargets(element);
                 each$e(targets, (target) => {
-                    if (target.style[name] || !editor.schema.isValid(target.nodeName.toLowerCase(), name)) {
-                        dom.setStyle(target, name, value);
+                    if (isUcVideo(target)) {
+                        setUcVideoSizeProp(target, name, value);
                     }
                     else {
-                        if (isUcVideo(target)) {
-                            // this is needed because otherwise the ghost for `uc-video` is not correctly rendered
-                            target[name] = value;
-                            const minimumWidth = 400;
-                            if (target.width > minimumWidth && !(name === 'width' && value < minimumWidth)) {
-                                target[name] = value;
-                                dom.setAttrib(target, name, '' + value);
-                            }
-                            else {
-                                const value = name === 'height' ? minimumWidth * ratio : minimumWidth;
-                                target[name] = value;
-                                dom.setAttrib(target, name, '' + value);
-                            }
+                        if (target.style[name] || !editor.schema.isValid(target.nodeName.toLowerCase(), name)) {
+                            dom.setStyle(target, name, value);
                         }
                         else {
                             dom.setAttrib(target, name, '' + value);
@@ -13439,7 +13705,7 @@
                 return;
             }
             const targetElm = e.type === 'mousedown' ? e.target : selection.getNode();
-            const controlElm = closest$3(SugarElement.fromDom(targetElm), controlElmSelector)
+            const controlElm = closest$4(SugarElement.fromDom(targetElm), controlElmSelector)
                 .map((e) => e.dom)
                 .filter((e) => dom.isEditable(e.parentElement) || (e.nodeName === 'IMG' && dom.isEditable(e)))
                 .getOrUndefined();
@@ -15222,7 +15488,7 @@
     };
     const isPreValue = (value) => contains$2(['pre', 'pre-wrap'], value);
     const isInPre = (pos) => getElementFromPosition(pos)
-        .bind((elm) => closest$4(elm, isElement$8))
+        .bind((elm) => closest$5(elm, isElement$8))
         .exists((elm) => isPreValue(get$7(elm, 'white-space')));
     const isAtBeginningOfBody = (root, pos) => prevPosition(root.dom, pos).isNone();
     const isAtEndOfBody = (root, pos) => nextPosition(root.dom, pos).isNone();
@@ -15589,7 +15855,7 @@
     const isTextBlockOrListItem = (element) => isTextBlock$3(element) || isListItem$2(element);
     const getParentBlock$2 = (rootNode, elm) => {
         if (contains(rootNode, elm)) {
-            return closest$4(elm, isTextBlockOrListItem, isBeforeRoot(rootNode));
+            return closest$5(elm, isTextBlockOrListItem, isBeforeRoot(rootNode));
         }
         else {
             return Optional.none();
@@ -15693,7 +15959,7 @@
         { partialTable: ['cells', 'outsideDetails'] },
         { multiTable: ['startTableCells', 'endTableCells', 'betweenRng'] },
     ]);
-    const getClosestCell$1 = (container, isRoot) => closest$3(SugarElement.fromDom(container), 'td,th', isRoot);
+    const getClosestCell$1 = (container, isRoot) => closest$4(SugarElement.fromDom(container), 'td,th', isRoot);
     const isExpandedCellRng = (cellRng) => !eq(cellRng.start, cellRng.end);
     const getTableFromCellRng = (cellRng, isRoot) => getClosestTable(cellRng.start, isRoot)
         .bind((startParentTable) => getClosestTable(cellRng.end, isRoot)
@@ -16746,12 +17012,22 @@
             .exists((pos) => !isBr$7(pos.getNode()) || nextPosition(elm, pos).isSome()) === false;
     };
     const isEditableListItem = (dom) => (elm) => isListItem$3(elm) && dom.isEditable(elm);
+    // TINY-13197: If the content is wrapped inside a block element, the first block returned by getSelectedBlocks() is not LI, even when the content is fully selected.
+    // However, the second and subsequent do return LI as the selected block so only the first block needs to be adjusted
+    const getAndOnlyNormalizeFirstBlockIf = (selection, pred) => map$3(selection.getSelectedBlocks(), (block, i) => {
+        if (i === 0 && pred(block)) {
+            return selection.dom.getParent(block, isListItem$3) ?? block;
+        }
+        else {
+            return block;
+        }
+    });
     const getFullySelectedBlocks = (selection) => {
-        const blocks = selection.getSelectedBlocks();
-        const rng = selection.getRng();
         if (selection.isCollapsed()) {
             return [];
         }
+        const rng = selection.getRng();
+        const blocks = getAndOnlyNormalizeFirstBlockIf(selection, (el) => isRngStartAtStartOfElement(rng, el) && !isListItem$3(el));
         if (blocks.length === 1) {
             return isRngStartAtStartOfElement(rng, blocks[0]) && isRngEndAtEndOfElement(rng, blocks[0]) ? blocks : [];
         }
@@ -16763,7 +17039,7 @@
         }
     };
     const getFullySelectedListItems = (selection) => filter$5(getFullySelectedBlocks(selection), isEditableListItem(selection.dom));
-    const getPartiallySelectedListItems = (selection) => filter$5(selection.getSelectedBlocks(), isEditableListItem(selection.dom));
+    const getPartiallySelectedListItems = (selection) => filter$5(getAndOnlyNormalizeFirstBlockIf(selection, (el) => !isListItem$3(el)), isEditableListItem(selection.dom));
 
     const each$8 = Tools.each;
     const isElementNode = (node) => isElement$7(node) && !isBookmarkNode$1(node) && !isCaretNode(node) && !isBogus$1(node);
@@ -21842,7 +22118,8 @@
                     applyCaretFormat(ed, name, vars);
                 }
                 getExpandedListItemFormat(ed.formatter, name).each((liFmt) => {
-                    each$e(getFullySelectedListItems(ed.selection), (li) => applyStyles(dom, li, liFmt, vars));
+                    const list = getFullySelectedListItems(ed.selection);
+                    each$e(list, (li) => applyStyles(dom, li, liFmt, vars));
                 });
             }
             postProcess$1(name, ed);
@@ -22436,7 +22713,7 @@
     // We need to create a temporary document instead of using the global document since
     // innerHTML on a detached element will still make http requests to the images
     const lazyTempDocument = cached(() => document.implementation.createHTMLDocument('undo'));
-    const hasIframes = (body) => body.querySelector('iframe') !== null;
+    const shouldBeFragmented = (body) => body.querySelector(`iframe, ${ucVideoNodeName}`) !== null;
     const createFragmentedLevel = (fragments) => {
         return {
             type: 'fragmented',
@@ -22458,7 +22735,7 @@
     const createFromEditor = (editor) => {
         const tempAttrs = editor.serializer.getTempAttrs();
         const body = trim$1(editor.getBody(), tempAttrs);
-        return hasIframes(body) ? createFragmentedLevel(read$2(body, true)) : createCompleteLevel(trim$2(body.innerHTML));
+        return shouldBeFragmented(body) ? createFragmentedLevel(read$2(body, true)) : createCompleteLevel(trim$2(body.innerHTML));
     };
     const applyToEditor = (editor, level, before) => {
         const bookmark = before ? level.beforeBookmark : level.bookmark;
@@ -22483,16 +22760,19 @@
     const getLevelContent = (level) => {
         return level.type === 'fragmented' ? level.fragments.join('') : level.content;
     };
-    const getCleanLevelContent = (level) => {
+    const getCleanLevelContent = (isReadonly, level) => {
         const elm = SugarElement.fromTag('body', lazyTempDocument());
         set$3(elm, getLevelContent(level));
         each$e(descendants(elm, '*[data-mce-bogus]'), unwrap);
+        if (isReadonly) {
+            each$e(descendants(elm, 'details[open]'), (element) => remove$9(element, 'open'));
+        }
         return get$8(elm);
     };
     const hasEqualContent = (level1, level2) => getLevelContent(level1) === getLevelContent(level2);
-    const hasEqualCleanedContent = (level1, level2) => getCleanLevelContent(level1) === getCleanLevelContent(level2);
+    const hasEqualCleanedContent = (isReadonly, level1, level2) => getCleanLevelContent(isReadonly, level1) === getCleanLevelContent(isReadonly, level2);
     // Most of the time the contents is equal so it's faster to first check that using strings then fallback to a cleaned dom comparison
-    const isEq$1 = (level1, level2) => {
+    const isEq$1 = (isReadonly, level1, level2) => {
         if (!level1 || !level2) {
             return false;
         }
@@ -22500,7 +22780,7 @@
             return true;
         }
         else {
-            return hasEqualCleanedContent(level1, level2);
+            return hasEqualCleanedContent(isReadonly, level1, level2);
         }
     };
 
@@ -22540,7 +22820,7 @@
             return null;
         }
         // Add undo level if needed
-        if (lastLevel && isEq$1(lastLevel, newLevel)) {
+        if (lastLevel && isEq$1(editor.readonly, lastLevel, newLevel)) {
             return null;
         }
         // Set before bookmark on previous level
@@ -22628,7 +22908,7 @@
     };
     const hasUndo$1 = (editor, undoManager, index) => 
     // Has undo levels or typing and content isn't the same as the initial level
-    index.get() > 0 || (undoManager.typing && undoManager.data[0] && !isEq$1(createFromEditor(editor), undoManager.data[0]));
+    index.get() > 0 || (undoManager.typing && undoManager.data[0] && !isEq$1(editor.readonly, createFromEditor(editor), undoManager.data[0]));
     const hasRedo$1 = (undoManager, index) => index.get() < undoManager.data.length - 1 && !undoManager.typing;
     const transact$1 = (undoManager, locks, callback) => {
         endTyping(undoManager, locks);
@@ -24610,7 +24890,7 @@
             }
         });
     };
-    const reportInvalidPlugin = (editor, pluginCode) => {
+    const reportInvalidPlugin = (editor, pluginCode, hasShownPluginNotification) => {
         const baseMessage = `The "${pluginCode}" plugin requires a valid TinyMCE license key.`;
         reportMessage(editor, {
             console: {
@@ -24619,6 +24899,12 @@
                     `${baseMessage}`,
                     DOCS_URL_MESSAGE
                 ].join(' ')
+            },
+            ...hasShownPluginNotification ? {} : {
+                editor: {
+                    type: 'warning',
+                    message: `One or more premium plugins are disabled due to license key restrictions.`
+                }
             }
         });
     };
@@ -24665,28 +24951,23 @@
         }
     };
 
-    const NoLicenseKeyManager = (editor) => ({
-        validate: (data) => {
-            const { plugin } = data;
-            const hasPlugin = isString(plugin);
-            // Premium plugins are not allowed
-            if (hasPlugin) {
-                reportInvalidPlugin(editor, plugin);
-            }
-            return Promise.resolve(false);
-        },
-    });
-    const GplLicenseKeyManager = (editor) => ({
-        validate: (data) => {
-            const { plugin } = data;
-            const hasPlugin = isString(plugin);
-            // Premium plugins are not allowed if 'gpl' is given as the license_key
-            if (hasPlugin) {
-                reportInvalidPlugin(editor, plugin);
-            }
-            return Promise.resolve(!hasPlugin);
-        },
-    });
+    const createFallbackLicenseKeyManager = (canValidate) => (editor) => {
+        let hasShownPluginNotification = false;
+        return {
+            validate: (data) => {
+                const { plugin } = data;
+                const hasPlugin = isString(plugin);
+                // Premium plugins are not allowed
+                if (hasPlugin) {
+                    reportInvalidPlugin(editor, plugin, hasShownPluginNotification);
+                    hasShownPluginNotification = true;
+                }
+                return Promise.resolve(canValidate && !hasPlugin);
+            },
+        };
+    };
+    const NoLicenseKeyManager = createFallbackLicenseKeyManager(false);
+    const GplLicenseKeyManager = createFallbackLicenseKeyManager(true);
     const ADDON_KEY = 'manager';
     const PLUGIN_CODE = PLUGIN_CODE$1;
     const setup$y = () => {
@@ -24867,7 +25148,11 @@
     const isAllowedEventInDisabledMode = (e) => contains$2(allowedEvents, e.type);
     const getAnchorHrefOpt = (editor, elm) => {
         const isRoot = (elm) => eq(elm, SugarElement.fromDom(editor.getBody()));
-        return closest$3(elm, 'a', isRoot).bind((a) => getOpt(a, 'href'));
+        return closest$4(elm, 'a', isRoot).bind((a) => getOpt(a, 'href'));
+    };
+    const hasAccordion = (editor, elm) => {
+        const isRoot = (elm) => eq(elm, SugarElement.fromDom(editor.getBody()));
+        return closest$2(elm, 'details', isRoot);
     };
     const processDisabledEvents = (editor, e) => {
         /*
@@ -24878,7 +25163,11 @@
         */
         if (isClickEvent(e) && !VK.metaKeyPressed(e)) {
             const elm = SugarElement.fromDom(e.target);
-            getAnchorHrefOpt(editor, elm).each((href) => {
+            getAnchorHrefOpt(editor, elm).fold(() => {
+                if (hasAccordion(editor, elm)) {
+                    e.preventDefault();
+                }
+            }, (href) => {
                 e.preventDefault();
                 if (/^#/.test(href)) {
                     const targetEl = editor.dom.select(`${href},[name="${removeLeading(href, '#')}"]`);
@@ -25235,8 +25524,9 @@
                             progress = noop; // Once it's closed it's closed
                         }
                     };
-                    const success = (url) => {
+                    const success = (data) => {
                         closeNotification();
+                        const url = isString(data) ? data : data.url;
                         uploadStatus.markUploaded(blobInfo.blobUri(), url);
                         resolvePending(blobInfo.blobUri(), handlerSuccess(blobInfo, url));
                         resolve(handlerSuccess(blobInfo, url));
@@ -25748,7 +26038,7 @@
             hilitecolor: { inline: 'span', styles: { backgroundColor: '%value' }, links: true, remove_similar: true, clear_child_styles: true },
             fontname: { inline: 'span', toggle: false, styles: { fontFamily: '%value' }, clear_child_styles: true },
             fontsize: { inline: 'span', toggle: false, styles: { fontSize: '%value' }, clear_child_styles: true },
-            lineheight: { selector: 'h1,h2,h3,h4,h5,h6,p,li,td,th,div', styles: { lineHeight: '%value' } },
+            lineheight: { selector: 'h1,h2,h3,h4,h5,h6,p,li,td,th,div', styles: { lineHeight: '%value' }, remove_similar: true },
             fontsize_class: { inline: 'span', attributes: { class: '%value' } },
             blockquote: { block: 'blockquote', wrapper: true, remove: 'all' },
             subscript: { inline: 'sub' },
@@ -26361,7 +26651,7 @@
                 editor.nodeChanged();
             }
             // Fire a TypingUndo event on the first character entered
-            if (isFirstTypedCharacter.get() && undoManager.typing && !isEq$1(createFromEditor(editor), undoManager.data[0])) {
+            if (isFirstTypedCharacter.get() && undoManager.typing && !isEq$1(editor.readonly, createFromEditor(editor), undoManager.data[0])) {
                 if (!editor.isDirty()) {
                     editor.setDirty(true);
                 }
@@ -27167,7 +27457,7 @@
     const canIndent$1 = (editor) => getListMaxDepth(editor).forall((max) => {
         const blocks = editor.selection.getSelectedBlocks();
         return exists(blocks, (element) => {
-            return closest$3(SugarElement.fromDom(element), 'li').forall((sugarElement) => ancestors(sugarElement, 'ol,ul').length <= max);
+            return closest$4(SugarElement.fromDom(element), 'li').forall((sugarElement) => ancestors(sugarElement, 'ol,ul').length <= max);
         });
     });
 
@@ -27779,8 +28069,8 @@
             if (nextCaretContainer && otherLi) {
                 const findValidElement = (element) => contains$2(['td', 'th', 'caption'], name(element));
                 const findRoot = (node) => node.dom === root;
-                const otherLiCell = closest$4(SugarElement.fromDom(otherLi), findValidElement, findRoot);
-                const caretCell = closest$4(SugarElement.fromDom(rng.startContainer), findValidElement, findRoot);
+                const otherLiCell = closest$5(SugarElement.fromDom(otherLi), findValidElement, findRoot);
+                const caretCell = closest$5(SugarElement.fromDom(rng.startContainer), findValidElement, findRoot);
                 if (!equals(otherLiCell, caretCell, eq)) {
                     return false;
                 }
@@ -27847,7 +28137,7 @@
     const getClosestHost = (root, scope) => {
         const isRoot = (node) => eq(node, root);
         const isHost = (node) => isTableCell$2(node) || isContentEditableTrue$3(node.dom);
-        return closest$4(scope, isHost, isRoot).filter(isElement$8).getOr(root);
+        return closest$5(scope, isHost, isRoot).filter(isElement$8).getOr(root);
     };
     const hasSameHost = (rootNode, blockBoundary) => {
         const root = SugarElement.fromDom(rootNode);
@@ -29243,7 +29533,7 @@
     };
     const backspaceDelete$3 = (editor, forward) => editor.selection.isCollapsed() ? deleteCaret(editor, forward) : deleteRange$1(editor, forward);
 
-    const isEditable = (target) => closest$4(target, (elm) => isContentEditableTrue$3(elm.dom) || isContentEditableFalse$a(elm.dom))
+    const isEditable = (target) => closest$5(target, (elm) => isContentEditableTrue$3(elm.dom) || isContentEditableFalse$a(elm.dom))
         .exists((elm) => isContentEditableTrue$3(elm.dom));
     const parseIndentValue = (value) => toInt(value ?? '').getOr(0);
     const getIndentStyleName = (useMargin, element) => {
@@ -29763,7 +30053,7 @@
         const isRoot = (el) => eq(el, root);
         const isCet = (el) => isContentEditableTrue$3(el.dom);
         const startNode = SugarElement.fromDom(position.container());
-        const closestCetBlock = closest$4(startNode, isCet, isRoot);
+        const closestCetBlock = closest$5(startNode, isCet, isRoot);
         return closestCetBlock.filter((b) => !isRoot(b));
     };
     const moveVertically = (editor, position, down) => {
@@ -29795,7 +30085,7 @@
     const isTarget = (node) => contains$2(['figcaption'], name(node));
     const getClosestTargetBlock = (pos, root, schema) => {
         const isRoot = curry(eq, root);
-        return closest$4(SugarElement.fromDom(pos.container()), (el) => schema.isBlock(name(el)), isRoot).filter(isTarget);
+        return closest$5(SugarElement.fromDom(pos.container()), (el) => schema.isBlock(name(el)), isRoot).filter(isTarget);
     };
     const isAtFirstOrLastLine = (root, forward, pos) => forward ? isAtLastLine(root.dom, pos) : isAtFirstLine(root.dom, pos);
     const moveCaretToNewEmptyLine = (editor, forward) => {
@@ -29940,7 +30230,7 @@
      */
     const cell = (element, isRoot) => lookup$1(['td', 'th'], element, isRoot);
     const cells = (ancestor) => firstLayer(ancestor, 'th,td');
-    const table = (element, isRoot) => closest$3(element, 'table', isRoot);
+    const table = (element, isRoot) => closest$4(element, 'table', isRoot);
 
     const adt = Adt.generate([
         { none: ['current'] },
@@ -30077,7 +30367,7 @@
         return {
             up: constant({
                 selector: ancestor$4,
-                closest: closest$3,
+                closest: closest$4,
                 predicate: ancestor$5,
                 all: parents$1
             }),
@@ -30499,7 +30789,7 @@
             return tabForward(editor, isRoot, current);
         });
     };
-    const isCellInEditableTable = (cell) => closest$4(cell, isTag('table')).exists(isEditable$2);
+    const isCellInEditableTable = (cell) => closest$5(cell, isTag('table')).exists(isEditable$2);
     const tabForward = (editor, isRoot, cell) => tabGo(editor, isRoot, next(cell, isCellEditable));
     const tabBackward = (editor, isRoot, cell) => tabGo(editor, isRoot, prev(cell, isCellEditable));
     const isCellEditable = (cell) => isEditable$2(cell) || descendant(cell, isEditableHTMLElement);
@@ -30759,283 +31049,6 @@
             context
         });
     };
-
-    var SimpleResultType;
-    (function (SimpleResultType) {
-        SimpleResultType[SimpleResultType["Error"] = 0] = "Error";
-        SimpleResultType[SimpleResultType["Value"] = 1] = "Value";
-    })(SimpleResultType || (SimpleResultType = {}));
-    const fold$1 = (res, onError, onValue) => res.stype === SimpleResultType.Error ? onError(res.serror) : onValue(res.svalue);
-    const partition = (results) => {
-        const values = [];
-        const errors = [];
-        each$e(results, (obj) => {
-            fold$1(obj, (err) => errors.push(err), (val) => values.push(val));
-        });
-        return { values, errors };
-    };
-    const mapError = (res, f) => {
-        if (res.stype === SimpleResultType.Error) {
-            return { stype: SimpleResultType.Error, serror: f(res.serror) };
-        }
-        else {
-            return res;
-        }
-    };
-    const map = (res, f) => {
-        if (res.stype === SimpleResultType.Value) {
-            return { stype: SimpleResultType.Value, svalue: f(res.svalue) };
-        }
-        else {
-            return res;
-        }
-    };
-    const bind = (res, f) => {
-        if (res.stype === SimpleResultType.Value) {
-            return f(res.svalue);
-        }
-        else {
-            return res;
-        }
-    };
-    const bindError = (res, f) => {
-        if (res.stype === SimpleResultType.Error) {
-            return f(res.serror);
-        }
-        else {
-            return res;
-        }
-    };
-    const svalue = (v) => ({ stype: SimpleResultType.Value, svalue: v });
-    const serror = (e) => ({ stype: SimpleResultType.Error, serror: e });
-    const toResult = (res) => fold$1(res, Result.error, Result.value);
-    const fromResult = (res) => res.fold(serror, svalue);
-    const SimpleResult = {
-        fromResult,
-        toResult,
-        svalue,
-        partition,
-        serror,
-        bind,
-        bindError,
-        map,
-        mapError,
-        fold: fold$1
-    };
-
-    const formatObj = (input) => {
-        return isObject(input) && keys(input).length > 100 ? ' removed due to size' : JSON.stringify(input, null, 2);
-    };
-    const formatErrors = (errors) => {
-        const es = errors.length > 10 ? errors.slice(0, 10).concat([
-            {
-                path: [],
-                getErrorInfo: constant('... (only showing first ten failures)')
-            }
-        ]) : errors;
-        // TODO: Work out a better split between PrettyPrinter and SchemaError
-        return map$3(es, (e) => {
-            return 'Failed path: (' + e.path.join(' > ') + ')\n' + e.getErrorInfo();
-        });
-    };
-
-    const nu = (path, getErrorInfo) => {
-        return SimpleResult.serror([{
-                path,
-                // This is lazy so that it isn't calculated unnecessarily
-                getErrorInfo
-            }]);
-    };
-    const missingRequired = (path, key, obj) => nu(path, () => 'Could not find valid *required* value for "' + key + '" in ' + formatObj(obj));
-    const custom = (path, err) => nu(path, constant(err));
-
-    const value = (validator) => {
-        const extract = (path, val) => {
-            return SimpleResult.bindError(validator(val), (err) => custom(path, err));
-        };
-        const toString = constant('val');
-        return {
-            extract,
-            toString
-        };
-    };
-    const anyValue$1 = value(SimpleResult.svalue);
-
-    const anyValue = constant(anyValue$1);
-    const typedValue = (validator, expectedType) => value((a) => {
-        const actualType = typeof a;
-        return validator(a) ? SimpleResult.svalue(a) : SimpleResult.serror(`Expected type: ${expectedType} but got: ${actualType}`);
-    });
-    const number = typedValue(isNumber, 'number');
-    const string = typedValue(isString, 'string');
-    typedValue(isBoolean, 'boolean');
-    const functionProcessor = typedValue(isFunction, 'function');
-    // Test if a value can be copied by the structured clone algorithm and hence sendable via postMessage
-    // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
-    // from https://stackoverflow.com/a/32673910/7377237 with adjustments for typescript
-    const isPostMessageable = (val) => {
-        if (Object(val) !== val) { // Primitive value
-            return true;
-        }
-        switch ({}.toString.call(val).slice(8, -1)) { // Class
-            case 'Boolean':
-            case 'Number':
-            case 'String':
-            case 'Date':
-            case 'RegExp':
-            case 'Blob':
-            case 'FileList':
-            case 'ImageData':
-            case 'ImageBitmap':
-            case 'ArrayBuffer':
-                return true;
-            case 'Array':
-            case 'Object':
-                return Object.keys(val).every((prop) => isPostMessageable(val[prop]));
-            default:
-                return false;
-        }
-    };
-    value((a) => {
-        if (isPostMessageable(a)) {
-            return SimpleResult.svalue(a);
-        }
-        else {
-            return SimpleResult.serror('Expected value to be acceptable for sending via postMessage');
-        }
-    });
-
-    const required$1 = () => ({ tag: "required" /* FieldPresenceTag.Required */, process: {} });
-    const defaultedThunk = (fallbackThunk) => ({ tag: "defaultedThunk" /* FieldPresenceTag.DefaultedThunk */, process: fallbackThunk });
-    const defaulted$1 = (fallback) => defaultedThunk(constant(fallback));
-    const asOption = () => ({ tag: "option" /* FieldPresenceTag.Option */, process: {} });
-
-    const field$1 = (key, newKey, presence, prop) => ({ tag: "field" /* FieldTag.Field */, key, newKey, presence, prop });
-    const fold = (value, ifField, ifCustom) => {
-        switch (value.tag) {
-            case "field" /* FieldTag.Field */:
-                return ifField(value.key, value.newKey, value.presence, value.prop);
-            case "custom" /* FieldTag.CustomField */:
-                return ifCustom(value.newKey, value.instantiator);
-        }
-    };
-
-    const mergeValues = (values, base) => {
-        return SimpleResult.svalue(deepMerge(base, merge$1.apply(undefined, values)));
-    };
-    const mergeErrors = (errors) => compose(SimpleResult.serror, flatten$1)(errors);
-    const consolidateObj = (objects, base) => {
-        const partition = SimpleResult.partition(objects);
-        return partition.errors.length > 0 ? mergeErrors(partition.errors) : mergeValues(partition.values, base);
-    };
-    const consolidateArr = (objects) => {
-        const partitions = SimpleResult.partition(objects);
-        return partitions.errors.length > 0 ? mergeErrors(partitions.errors) : SimpleResult.svalue(partitions.values);
-    };
-    const ResultCombine = {
-        consolidateObj,
-        consolidateArr
-    };
-
-    const requiredAccess = (path, obj, key, bundle) => 
-    // In required mode, if it is undefined, it is an error.
-    get$a(obj, key).fold(() => missingRequired(path, key, obj), bundle);
-    const fallbackAccess = (obj, key, fallback, bundle) => {
-        const v = get$a(obj, key).getOrThunk(() => fallback(obj));
-        return bundle(v);
-    };
-    const optionAccess = (obj, key, bundle) => bundle(get$a(obj, key));
-    const optionDefaultedAccess = (obj, key, fallback, bundle) => {
-        const opt = get$a(obj, key).map((val) => val === true ? fallback(obj) : val);
-        return bundle(opt);
-    };
-    const extractField = (field, path, obj, key, prop) => {
-        const bundle = (av) => prop.extract(path.concat([key]), av);
-        const bundleAsOption = (optValue) => optValue.fold(() => SimpleResult.svalue(Optional.none()), (ov) => {
-            const result = prop.extract(path.concat([key]), ov);
-            return SimpleResult.map(result, Optional.some);
-        });
-        switch (field.tag) {
-            case "required" /* FieldPresenceTag.Required */:
-                return requiredAccess(path, obj, key, bundle);
-            case "defaultedThunk" /* FieldPresenceTag.DefaultedThunk */:
-                return fallbackAccess(obj, key, field.process, bundle);
-            case "option" /* FieldPresenceTag.Option */:
-                return optionAccess(obj, key, bundleAsOption);
-            case "defaultedOptionThunk" /* FieldPresenceTag.DefaultedOptionThunk */:
-                return optionDefaultedAccess(obj, key, field.process, bundleAsOption);
-            case "mergeWithThunk" /* FieldPresenceTag.MergeWithThunk */: {
-                return fallbackAccess(obj, key, constant({}), (v) => {
-                    const result = deepMerge(field.process(obj), v);
-                    return bundle(result);
-                });
-            }
-        }
-    };
-    const extractFields = (path, obj, fields) => {
-        const success = {};
-        const errors = [];
-        // PERFORMANCE: We use a for loop here instead of Arr.each as this is a hot code path
-        for (const field of fields) {
-            fold(field, (key, newKey, presence, prop) => {
-                const result = extractField(presence, path, obj, key, prop);
-                SimpleResult.fold(result, (err) => {
-                    errors.push(...err);
-                }, (res) => {
-                    success[newKey] = res;
-                });
-            }, (newKey, instantiator) => {
-                success[newKey] = instantiator(obj);
-            });
-        }
-        return errors.length > 0 ? SimpleResult.serror(errors) : SimpleResult.svalue(success);
-    };
-    const objOf = (values) => {
-        const extract = (path, o) => extractFields(path, o, values);
-        const toString = () => {
-            const fieldStrings = map$3(values, (value) => fold(value, (key, _okey, _presence, prop) => key + ' -> ' + prop.toString(), (newKey, _instantiator) => 'state(' + newKey + ')'));
-            return 'obj{\n' + fieldStrings.join('\n') + '}';
-        };
-        return {
-            extract,
-            toString
-        };
-    };
-    const arrOf = (prop) => {
-        const extract = (path, array) => {
-            const results = map$3(array, (a, i) => prop.extract(path.concat(['[' + i + ']']), a));
-            return ResultCombine.consolidateArr(results);
-        };
-        const toString = () => 'array(' + prop.toString() + ')';
-        return {
-            extract,
-            toString
-        };
-    };
-
-    const extractValue = (label, prop, obj) => {
-        const res = prop.extract([label], obj);
-        return SimpleResult.mapError(res, (errs) => ({ input: obj, errors: errs }));
-    };
-    const asRaw = (label, prop, obj) => SimpleResult.toResult(extractValue(label, prop, obj));
-    const formatError = (errInfo) => {
-        return 'Errors: \n' + formatErrors(errInfo.errors).join('\n') +
-            '\n\nInput object: ' + formatObj(errInfo.input);
-    };
-
-    const field = field$1;
-    const required = (key) => field(key, key, required$1(), anyValue());
-    const requiredOf = (key, schema) => field(key, key, required$1(), schema);
-    const requiredString = (key) => requiredOf(key, string);
-    const requiredFunction = (key) => requiredOf(key, functionProcessor);
-    const option = (key) => field(key, key, asOption(), anyValue());
-    const optionOf = (key, schema) => field(key, key, asOption(), schema);
-    const optionString = (key) => optionOf(key, string);
-    const optionFunction = (key) => optionOf(key, functionProcessor);
-    const defaulted = (key, fallback) => field(key, key, defaulted$1(fallback), anyValue());
-    const defaultedOf = (key, fallback, schema) => field(key, key, defaulted$1(fallback), schema);
-    const defaultedNumber = (key, fallback) => defaultedOf(key, fallback, number);
-    const defaultedArrayOf = (key, fallback, schema) => defaultedOf(key, fallback, arrOf(schema));
 
     const type = requiredString('type');
     const fetch$1 = requiredFunction('fetch');
@@ -31762,7 +31775,10 @@
                     }
                 }
             } while ((node = node.parentNode) && node !== editableRoot);
-            reduceFontStyleNesting(block, caretNode);
+            // Not omitting font sizes of list items otherwise their font size doesn't match its content
+            if (block.nodeName !== 'LI') {
+                reduceFontStyleNesting(block, caretNode);
+            }
         }
         setForcedBlockAttrs(editor, block);
         emptyBlock(caretNode);
@@ -34057,9 +34073,9 @@
     const isContentEditableFalse$2 = (elm) => isContentEditableFalse$a(elm.dom);
     const isContentEditableTrue = (elm) => isContentEditableTrue$3(elm.dom);
     const isRoot = (rootNode) => (elm) => eq(SugarElement.fromDom(rootNode), elm);
-    const getClosestScope = (node, rootNode, schema) => closest$4(SugarElement.fromDom(node), (elm) => isContentEditableTrue(elm) || schema.isBlock(name(elm)), isRoot(rootNode))
+    const getClosestScope = (node, rootNode, schema) => closest$5(SugarElement.fromDom(node), (elm) => isContentEditableTrue(elm) || schema.isBlock(name(elm)), isRoot(rootNode))
         .getOr(SugarElement.fromDom(rootNode)).dom;
-    const getClosestCef = (node, rootNode) => closest$4(SugarElement.fromDom(node), isContentEditableFalse$2, isRoot(rootNode));
+    const getClosestCef = (node, rootNode) => closest$5(SugarElement.fromDom(node), isContentEditableFalse$2, isRoot(rootNode));
     const findEdgeCaretCandidate = (startNode, scope, forward) => {
         const walker = new DomTreeWalker(startNode, scope);
         const next = forward ? walker.next.bind(walker) : walker.prev.bind(walker);
@@ -37426,7 +37442,7 @@
         required('id'),
         optionString('name'),
         optionString('avatar'),
-        option('custom')
+        option$1('custom')
     ]);
     const objectCat = (obj) => {
         const result = {};
@@ -38274,6 +38290,24 @@
         addCommand(command, callback, scope) {
             const lowerCaseCommand = command.toLowerCase();
             this.commands.exec[lowerCaseCommand] = (_command, ui, value, args) => callback.call(scope ?? this.editor, ui, value, args);
+        }
+        /**
+         * Removes a command from the command collection.
+         *
+         * @method removeCommand
+         * @param {String} command Command name to remove.
+         * @param {String} type Optional type to remove, defaults to removing all types. Can be 'exec', 'state', 'value', or omitted for all.
+         */
+        removeCommand(command, type) {
+            const lowerCaseCommand = command.toLowerCase();
+            if (type) {
+                delete this.commands[type][lowerCaseCommand];
+            }
+            else {
+                delete this.commands.exec[lowerCaseCommand];
+                delete this.commands.state[lowerCaseCommand];
+                delete this.commands.value[lowerCaseCommand];
+            }
         }
         /**
          * Returns true/false if the command is supported or not.
@@ -40547,14 +40581,14 @@
          * @property minorVersion
          * @type String
          */
-        minorVersion: '2.2',
+        minorVersion: '3.2',
         /**
          * Release date of TinyMCE build.
          *
          * @property releaseDate
          * @type String
          */
-        releaseDate: '2025-11-17',
+        releaseDate: '2026-01-14',
         /**
          * Collection of language pack data.
          *

@@ -4,7 +4,7 @@
  *
  * By David Fahlander, david.fahlander@gmail.com
  *
- * Version 4.2.1, Sat Oct 04 2025
+ * Version 4.3.0, Sat Dec 20 2025
  *
  * https://dexie.org
  *
@@ -1096,7 +1096,7 @@ function tempTransaction(db, mode, storeNames, fn) {
     }
 }
 
-const DEXIE_VERSION = '4.2.1';
+const DEXIE_VERSION = '4.3.0';
 const maxString = String.fromCharCode(65535);
 const minKey = -Infinity;
 const INVALID_KEY_ARGUMENT = "Invalid key provided. Keys must be of type string, number, Date or Array<string | number | Date>.";
@@ -5212,13 +5212,13 @@ function vipify(target, vipDb) {
     });
 }
 
-class Dexie$1 {
+let Dexie$1 = class Dexie {
     constructor(name, options) {
         this._middlewares = {};
         this.verno = 0;
-        const deps = Dexie$1.dependencies;
+        const deps = Dexie.dependencies;
         this._options = options = {
-            addons: Dexie$1.addons,
+            addons: Dexie.addons,
             autoOpen: true,
             indexedDB: deps.indexedDB,
             IDBKeyRange: deps.IDBKeyRange,
@@ -5267,7 +5267,7 @@ class Dexie$1 {
         };
         this.on.ready.subscribe = override(this.on.ready.subscribe, subscribe => {
             return (subscriber, bSticky) => {
-                Dexie$1.vip(() => {
+                Dexie.vip(() => {
                     const state = this._state;
                     if (state.openComplete) {
                         if (!state.dbOpenError)
@@ -5548,7 +5548,7 @@ class Dexie$1 {
         }
         return this._allTables[tableName];
     }
-}
+};
 
 const symbolObservable = typeof Symbol !== "undefined" && "observable" in Symbol
     ? Symbol.observable

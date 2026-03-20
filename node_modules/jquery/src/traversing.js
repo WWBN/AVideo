@@ -1,18 +1,14 @@
-define( [
-	"./core",
-	"./var/getProto",
-	"./var/indexOf",
-	"./traversing/var/dir",
-	"./traversing/var/siblings",
-	"./traversing/var/rneedsContext",
-	"./core/nodeName",
+import { jQuery } from "./core.js";
+import { getProto } from "./var/getProto.js";
+import { indexOf } from "./var/indexOf.js";
+import { dir } from "./traversing/var/dir.js";
+import { siblings } from "./traversing/var/siblings.js";
+import { rneedsContext } from "./traversing/var/rneedsContext.js";
+import { nodeName } from "./core/nodeName.js";
 
-	"./core/init",
-	"./traversing/findFilter",
-	"./selector"
-], function( jQuery, getProto, indexOf, dir, siblings, rneedsContext, nodeName ) {
-
-"use strict";
+import "./core/init.js";
+import "./traversing/findFilter.js";
+import "./selector.js";
 
 var rparentsprev = /^(?:parents|prev(?:Until|All))/,
 
@@ -156,7 +152,7 @@ jQuery.each( {
 			return elem.contentDocument;
 		}
 
-		// Support: IE 9 - 11 only, iOS 7 only, Android Browser <=4.3 only
+		// Support: IE 9 - 11+
 		// Treat the template element as a regular one in browsers that
 		// don't support it.
 		if ( nodeName( elem, "template" ) ) {
@@ -194,5 +190,4 @@ jQuery.each( {
 	};
 } );
 
-return jQuery;
-} );
+export { jQuery, jQuery as $ };

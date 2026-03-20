@@ -1,16 +1,12 @@
-define( [
-	"../core",
-	"../var/indexOf",
-	"../var/isFunction",
-	"./var/rneedsContext",
-	"../selector"
-], function( jQuery, indexOf, isFunction, rneedsContext ) {
+import { jQuery } from "../core.js";
+import { indexOf } from "../var/indexOf.js";
+import { rneedsContext } from "./var/rneedsContext.js";
 
-"use strict";
+import "../selector.js";
 
 // Implement the identical functionality for filter and not
 function winnow( elements, qualifier, not ) {
-	if ( isFunction( qualifier ) ) {
+	if ( typeof qualifier === "function" ) {
 		return jQuery.grep( elements, function( elem, i ) {
 			return !!qualifier.call( elem, i, elem ) !== not;
 		} );
@@ -92,6 +88,4 @@ jQuery.fn.extend( {
 			false
 		).length;
 	}
-} );
-
 } );

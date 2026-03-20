@@ -67,8 +67,11 @@ declare class MenuButton extends Component {
      *
      * @param {string} name
      *         The icon name to be added.
+     *
+     * @return {Element}
+     *         The element that gets created.
      */
-    setIcon(name: string): void;
+    setIcon(name: string): Element;
     /**
      * Allow sub components to stack CSS class names for the wrapper element
      *

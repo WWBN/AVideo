@@ -2,7 +2,7 @@ import _typeof from "./typeof.js";
 function applyDecs2203Factory() {
   function createAddInitializerMethod(e, t) {
     return function (r) {
-      !function (e, t) {
+      !function (e) {
         if (e.v) throw Error("attempted to call addInitializer after decoration was finished");
       }(t), assertCallable(r, "An initializer"), e.push(r);
     };

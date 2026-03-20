@@ -806,8 +806,9 @@ table[style*="border-width: 0px"] caption,
   animation: tox-rotation 1s linear infinite;
 }
 .tox-uc-video {
-  display: inline-block;
+  display: block;
   position: relative;
+  margin: 16px 0 16px 0;
 }
 .tox-uc-video:not([data-mce-selected]):after {
   content: "";

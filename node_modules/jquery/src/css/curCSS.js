@@ -1,34 +1,22 @@
-define( [
-	"../core",
-	"../core/isAttached",
-	"./var/rboxStyle",
-	"./var/rnumnonpx",
-	"./var/getStyles",
-	"./var/rcustomProp",
-	"../var/rtrimCSS",
-	"./support"
-], function( jQuery, isAttached, rboxStyle, rnumnonpx, getStyles,
-	rcustomProp, rtrimCSS, support ) {
+import { jQuery } from "../core.js";
+import { isAttached } from "../core/isAttached.js";
+import { getStyles } from "./var/getStyles.js";
+import { rcustomProp } from "./var/rcustomProp.js";
+import { rtrimCSS } from "../var/rtrimCSS.js";
 
-"use strict";
-
-function curCSS( elem, name, computed ) {
-	var width, minWidth, maxWidth, ret,
-		isCustomProp = rcustomProp.test( name ),
-
-		// Support: Firefox 51+
-		// Retrieving style before computed somehow
-		// fixes an issue with getting wrong values
-		// on detached elements
-		style = elem.style;
+export function curCSS( elem, name, computed ) {
+	var ret,
+		isCustomProp = rcustomProp.test( name );
 
 	computed = computed || getStyles( elem );
 
-	// getPropertyValue is needed for:
-	//   .css('filter') (IE 9 only, trac-12537)
-	//   .css('--customProperty) (gh-3144)
+	// getPropertyValue is needed for `.css('--customProperty')` (gh-3144)
 	if ( computed ) {
 
+		// A fallback to direct property access is needed as `computed`, being
+		// the output of `getComputedStyle`, contains camelCased keys and
+		// `getPropertyValue` requires kebab-case ones.
+		//
 		// Support: IE <=9 - 11+
 		// IE only supports `"float"` in `getPropertyValue`; in computed styles
 		// it's only available as `"cssFloat"`. We no longer modify properties
@@ -42,10 +30,9 @@ function curCSS( elem, name, computed ) {
 
 		if ( isCustomProp && ret ) {
 
-			// Support: Firefox 105+, Chrome <=105+
+			// Support: Firefox 105 - 135+
 			// Spec requires trimming whitespace for custom properties (gh-4926).
-			// Firefox only trims leading whitespace. Chrome just collapses
-			// both leading & trailing whitespace to a single space.
+			// Firefox only trims leading whitespace.
 			//
 			// Fall back to `undefined` if empty string returned.
 			// This collapses a missing definition with property defined
@@ -64,37 +51,12 @@ function curCSS( elem, name, computed ) {
 		if ( ret === "" && !isAttached( elem ) ) {
 			ret = jQuery.style( elem, name );
 		}
-
-		// A tribute to the "awesome hack by Dean Edwards"
-		// Android Browser returns percentage for some values,
-		// but width seems to be reliably pixels.
-		// This is against the CSSOM draft spec:
-		// https://drafts.csswg.org/cssom/#resolved-values
-		if ( !support.pixelBoxStyles() && rnumnonpx.test( ret ) && rboxStyle.test( name ) ) {
-
-			// Remember the original values
-			width = style.width;
-			minWidth = style.minWidth;
-			maxWidth = style.maxWidth;
-
-			// Put in the new values to get a computed value out
-			style.minWidth = style.maxWidth = style.width = ret;
-			ret = computed.width;
-
-			// Revert the changed values
-			style.width = width;
-			style.minWidth = minWidth;
-			style.maxWidth = maxWidth;
-		}
 	}
 
 	return ret !== undefined ?
 
-		// Support: IE <=9 - 11 only
+		// Support: IE <=9 - 11+
 		// IE returns zIndex value as an integer.
 		ret + "" :
 		ret;
 }
-
-return curCSS;
-} );

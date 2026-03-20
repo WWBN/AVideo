@@ -1,5 +1,1 @@
-define( function() {
-	"use strict";
-
-	return Object.getPrototypeOf;
-} );
+export var getProto = Object.getPrototypeOf;

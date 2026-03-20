@@ -1,14 +1,10 @@
-define( [
-	"./core",
-	"./core/toType",
-	"./var/rcheckableType",
-	"./var/isFunction",
-	"./core/init",
-	"./traversing", // filter
-	"./attributes/prop"
-], function( jQuery, toType, rcheckableType, isFunction ) {
+import { jQuery } from "./core.js";
+import { toType } from "./core/toType.js";
+import { rcheckableType } from "./var/rcheckableType.js";
 
-"use strict";
+import "./core/init.js";
+import "./traversing.js"; // filter
+import "./attributes/prop.js";
 
 var
 	rbracket = /\[\]$/,
@@ -62,7 +58,7 @@ jQuery.param = function( a, traditional ) {
 		add = function( key, valueOrFunction ) {
 
 			// If value is a function, invoke it and use its return value
-			var value = isFunction( valueOrFunction ) ?
+			var value = typeof valueOrFunction === "function" ?
 				valueOrFunction() :
 				valueOrFunction;
 
@@ -130,5 +126,4 @@ jQuery.fn.extend( {
 	}
 } );
 
-return jQuery;
-} );
+export { jQuery, jQuery as $ };

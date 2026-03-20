@@ -1,9 +1,5 @@
-define( function() {
-
-"use strict";
-
 // A method for quickly swapping in/out CSS properties to get correct calculations.
-return function( elem, options, callback ) {
+export function swap( elem, options, callback ) {
 	var ret, name,
 		old = {};
 
@@ -21,6 +17,4 @@ return function( elem, options, callback ) {
 	}
 
 	return ret;
-};
-
-} );
+}

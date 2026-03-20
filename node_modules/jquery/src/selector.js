@@ -1,122 +1,62 @@
-define( [
-	"./core",
-	"./core/nodeName",
-	"./var/arr",
-	"./var/document",
-	"./var/indexOf",
-	"./var/hasOwn",
-	"./var/pop",
-	"./var/push",
-	"./var/slice",
-	"./var/sort",
-	"./var/splice",
-	"./var/whitespace",
-	"./var/rtrimCSS",
-	"./var/support",
+import { jQuery } from "./core.js";
+import { nodeName } from "./core/nodeName.js";
+import { document as preferredDoc } from "./var/document.js";
+import { indexOf } from "./var/indexOf.js";
+import { pop } from "./var/pop.js";
+import { push } from "./var/push.js";
+import { whitespace } from "./var/whitespace.js";
+import { rbuggyQSA } from "./selector/rbuggyQSA.js";
+import { rtrimCSS } from "./var/rtrimCSS.js";
+import { isIE } from "./var/isIE.js";
+import { identifier } from "./selector/var/identifier.js";
+import { rleadingCombinator } from "./selector/var/rleadingCombinator.js";
+import { rdescend } from "./selector/var/rdescend.js";
+import { rsibling } from "./selector/var/rsibling.js";
+import { matches } from "./selector/var/matches.js";
+import { createCache } from "./selector/createCache.js";
+import { testContext } from "./selector/testContext.js";
+import { filterMatchExpr } from "./selector/filterMatchExpr.js";
+import { preFilter } from "./selector/preFilter.js";
+import { selectorError } from "./selector/selectorError.js";
+import { unescapeSelector } from "./selector/unescapeSelector.js";
+import { tokenize } from "./selector/tokenize.js";
+import { toSelector } from "./selector/toSelector.js";
 
-	// The following utils are attached directly to the jQuery object.
-	"./selector/contains",
-	"./selector/escapeSelector"
-], function( jQuery, nodeName, arr, document, indexOf, hasOwn, pop, push,
-	slice, sort, splice, whitespace, rtrimCSS, support ) {
-
-"use strict";
-
-var preferredDoc = document,
-	pushNative = push;
-
-( function() {
+// The following utils are attached directly to the jQuery object.
+import "./attributes/attr.js"; // jQuery.attr
+import "./selector/escapeSelector.js";
+import "./selector/uniqueSort.js";
 
 var i,
-	Expr,
 	outermostContext,
-	sortInput,
-	hasDuplicate,
-	push = pushNative,
 
 	// Local document vars
 	document,
 	documentElement,
 	documentIsHTML,
-	rbuggyQSA,
-	matches,
 
 	// Instance-specific data
-	expando = jQuery.expando,
 	dirruns = 0,
 	done = 0,
 	classCache = createCache(),
-	tokenCache = createCache(),
 	compilerCache = createCache(),
 	nonnativeSelectorCache = createCache(),
-	sortOrder = function( a, b ) {
-		if ( a === b ) {
-			hasDuplicate = true;
-		}
-		return 0;
-	},
-
-	booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|" +
-		"loop|multiple|open|readonly|required|scoped",
 
 	// Regular expressions
-
-	// https://www.w3.org/TR/css-syntax-3/#ident-token-diagram
-	identifier = "(?:\\\\[\\da-fA-F]{1,6}" + whitespace +
-		"?|\\\\[^\\r\\n\\f]|[\\w-]|[^\0-\\x7f])+",
-
-	// Attribute selectors: https://www.w3.org/TR/selectors/#attribute-selectors
-	attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace +
-
-		// Operator (capture 2)
-		"*([*^$|!~]?=)" + whitespace +
-
-		// "Attribute values must be CSS identifiers [capture 5] or strings [capture 3 or capture 4]"
-		"*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + identifier + "))|)" +
-		whitespace + "*\\]",
-
-	pseudos = ":(" + identifier + ")(?:\\((" +
-
-		// To reduce the number of selectors needing tokenize in the preFilter, prefer arguments:
-		// 1. quoted (capture 3; capture 4 or capture 5)
-		"('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|" +
-
-		// 2. simple (capture 6)
-		"((?:\\\\.|[^\\\\()[\\]]|" + attributes + ")*)|" +
-
-		// 3. anything else (capture 2)
-		".*" +
-		")\\)|)",
 
 	// Leading and non-escaped trailing whitespace, capturing some non-whitespace characters preceding the latter
 	rwhitespace = new RegExp( whitespace + "+", "g" ),
 
-	rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
-	rleadingCombinator = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" +
-		whitespace + "*" ),
-	rdescend = new RegExp( whitespace + "|>" ),
-
-	rpseudo = new RegExp( pseudos ),
 	ridentifier = new RegExp( "^" + identifier + "$" ),
 
-	matchExpr = {
-		ID: new RegExp( "^#(" + identifier + ")" ),
-		CLASS: new RegExp( "^\\.(" + identifier + ")" ),
-		TAG: new RegExp( "^(" + identifier + "|[*])" ),
-		ATTR: new RegExp( "^" + attributes ),
-		PSEUDO: new RegExp( "^" + pseudos ),
-		CHILD: new RegExp(
-			"^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\(" +
-				whitespace + "*(even|odd|(([+-]|)(\\d*)n|)" + whitespace + "*(?:([+-]|)" +
-				whitespace + "*(\\d+)|))" + whitespace + "*\\)|)", "i" ),
-		bool: new RegExp( "^(?:" + booleans + ")$", "i" ),
+	matchExpr = jQuery.extend( {
 
 		// For use in libraries implementing .is()
 		// We use this for POS matching in `select`
 		needsContext: new RegExp( "^" + whitespace +
 			"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(" + whitespace +
 			"*((?:-\\d)?\\d*)" + whitespace + "*\\)|)(?=[^-]|$)", "i" )
-	},
+	}, filterMatchExpr ),
 
 	rinputs = /^(?:input|select|textarea|button)$/i,
 	rheader = /^h\d$/i,
@@ -124,34 +64,10 @@ var i,
 	// Easily-parseable/retrievable ID or TAG or CLASS selectors
 	rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
 
-	rsibling = /[+~]/,
-
-	// CSS escapes
-	// https://www.w3.org/TR/CSS21/syndata.html#escaped-characters
-	runescape = new RegExp( "\\\\[\\da-fA-F]{1,6}" + whitespace +
-		"?|\\\\([^\\r\\n\\f])", "g" ),
-	funescape = function( escape, nonHex ) {
-		var high = "0x" + escape.slice( 1 ) - 0x10000;
-
-		if ( nonHex ) {
-
-			// Strip the backslash prefix from a non-hex escape sequence
-			return nonHex;
-		}
-
-		// Replace a hexadecimal escape sequence with the encoded Unicode code point
-		// Support: IE <=11+
-		// For values outside the Basic Multilingual Plane (BMP), manually construct a
-		// surrogate pair
-		return high < 0 ?
-			String.fromCharCode( high + 0x10000 ) :
-			String.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
-	},
-
 	// Used for iframes; see `setDocument`.
-	// Support: IE 9 - 11+, Edge 12 - 18+
+	// Support: IE 9 - 11+
 	// Removing the function wrapper causes a "Permission Denied"
-	// error in IE/Edge.
+	// error in IE.
 	unloadHandler = function() {
 		setDocument();
 	},
@@ -162,37 +78,6 @@ var i,
 		},
 		{ dir: "parentNode", next: "legend" }
 	);
-
-// Support: IE <=9 only
-// Accessing document.activeElement can throw unexpectedly
-// https://bugs.jquery.com/ticket/13393
-function safeActiveElement() {
-	try {
-		return document.activeElement;
-	} catch ( err ) { }
-}
-
-// Optimize for push.apply( _, NodeList )
-try {
-	push.apply(
-		( arr = slice.call( preferredDoc.childNodes ) ),
-		preferredDoc.childNodes
-	);
-
-	// Support: Android <=4.0
-	// Detect silently failing push.apply
-	// eslint-disable-next-line no-unused-expressions
-	arr[ preferredDoc.childNodes.length ].nodeType;
-} catch ( e ) {
-	push = {
-		apply: function( target, els ) {
-			pushNative.apply( target, slice.call( els ) );
-		},
-		call: function( target ) {
-			pushNative.apply( target, slice.call( arguments, 1 ) );
-		}
-	};
-}
 
 function find( selector, context, results, seed ) {
 	var m, i, elem, nid, match, groups, newSelector,
@@ -227,25 +112,14 @@ function find( selector, context, results, seed ) {
 					// Document context
 					if ( nodeType === 9 ) {
 						if ( ( elem = context.getElementById( m ) ) ) {
-
-							// Support: IE 9 only
-							// getElementById can match elements by name instead of ID
-							if ( elem.id === m ) {
-								push.call( results, elem );
-								return results;
-							}
-						} else {
-							return results;
+							push.call( results, elem );
 						}
+						return results;
 
 					// Element context
 					} else {
-
-						// Support: IE 9 only
-						// getElementById can match elements by name instead of ID
 						if ( newContext && ( elem = newContext.getElementById( m ) ) &&
-							find.contains( context, elem ) &&
-							elem.id === m ) {
+							jQuery.contains( context, elem ) ) {
 
 							push.call( results, elem );
 							return results;
@@ -282,22 +156,23 @@ function find( selector, context, results, seed ) {
 					( rdescend.test( selector ) || rleadingCombinator.test( selector ) ) ) {
 
 					// Expand context for sibling selectors
-					newContext = rsibling.test( selector ) && testContext( context.parentNode ) ||
+					newContext = rsibling.test( selector ) &&
+						testContext( context.parentNode ) ||
 						context;
 
-					// We can use :scope instead of the ID hack if the browser
-					// supports it & if we're not changing the context.
-					// Support: IE 11+, Edge 17 - 18+
-					// IE/Edge sometimes throw a "Permission denied" error when
-					// strict-comparing two documents; shallow comparisons work.
+					// Outside of IE, if we're not changing the context we can
+					// use :scope instead of an ID.
+					// Support: IE 11+
+					// IE sometimes throws a "Permission denied" error when strict-comparing
+					// two documents; shallow comparisons work.
 					// eslint-disable-next-line eqeqeq
-					if ( newContext != context || !support.scope ) {
+					if ( newContext != context || isIE ) {
 
 						// Capture the context ID, setting it first if necessary
 						if ( ( nid = context.getAttribute( "id" ) ) ) {
 							nid = jQuery.escapeSelector( nid );
 						} else {
-							context.setAttribute( "id", ( nid = expando ) );
+							context.setAttribute( "id", ( nid = jQuery.expando ) );
 						}
 					}
 
@@ -319,7 +194,7 @@ function find( selector, context, results, seed ) {
 				} catch ( qsaError ) {
 					nonnativeSelectorCache( selector, true );
 				} finally {
-					if ( nid === expando ) {
+					if ( nid === jQuery.expando ) {
 						context.removeAttribute( "id" );
 					}
 				}
@@ -332,58 +207,12 @@ function find( selector, context, results, seed ) {
 }
 
 /**
- * Create key-value caches of limited size
- * @returns {function(string, object)} Returns the Object data after storing it on itself with
- *	property name the (space-suffixed) string and (if the cache is larger than Expr.cacheLength)
- *	deleting the oldest entry
- */
-function createCache() {
-	var keys = [];
-
-	function cache( key, value ) {
-
-		// Use (key + " ") to avoid collision with native prototype properties
-		// (see https://github.com/jquery/sizzle/issues/157)
-		if ( keys.push( key + " " ) > Expr.cacheLength ) {
-
-			// Only keep the most recent entries
-			delete cache[ keys.shift() ];
-		}
-		return ( cache[ key + " " ] = value );
-	}
-	return cache;
-}
-
-/**
  * Mark a function for special use by jQuery selector module
  * @param {Function} fn The function to mark
  */
 function markFunction( fn ) {
-	fn[ expando ] = true;
+	fn[ jQuery.expando ] = true;
 	return fn;
-}
-
-/**
- * Support testing using an element
- * @param {Function} fn Passed the created element and returns a boolean result
- */
-function assert( fn ) {
-	var el = document.createElement( "fieldset" );
-
-	try {
-		return !!fn( el );
-	} catch ( e ) {
-		return false;
-	} finally {
-
-		// Remove from its parent by default
-		if ( el.parentNode ) {
-			el.parentNode.removeChild( el );
-		}
-
-		// release memory in IE
-		el = null;
-	}
 }
 
 /**
@@ -485,30 +314,20 @@ function createPositionalPseudo( fn ) {
 }
 
 /**
- * Checks a node for validity as a jQuery selector context
- * @param {Element|Object=} context
- * @returns {Element|Object|Boolean} The input node if acceptable, otherwise a falsy value
- */
-function testContext( context ) {
-	return context && typeof context.getElementsByTagName !== "undefined" && context;
-}
-
-/**
  * Sets document-related variables once based on the current document
  * @param {Element|Object} [node] An element or document object to use to set the document
- * @returns {Object} Returns the current document
  */
 function setDocument( node ) {
 	var subWindow,
 		doc = node ? node.ownerDocument || node : preferredDoc;
 
 	// Return early if doc is invalid or already selected
-	// Support: IE 11+, Edge 17 - 18+
-	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
+	// Support: IE 11+
+	// IE sometimes throws a "Permission denied" error when strict-comparing
 	// two documents; shallow comparisons work.
 	// eslint-disable-next-line eqeqeq
-	if ( doc == document || doc.nodeType !== 9 || !doc.documentElement ) {
-		return document;
+	if ( doc == document || doc.nodeType !== 9 ) {
+		return;
 	}
 
 	// Update global variables
@@ -516,294 +335,16 @@ function setDocument( node ) {
 	documentElement = document.documentElement;
 	documentIsHTML = !jQuery.isXMLDoc( document );
 
-	// Support: iOS 7 only, IE 9 - 11+
-	// Older browsers didn't support unprefixed `matches`.
-	matches = documentElement.matches ||
-		documentElement.webkitMatchesSelector ||
-		documentElement.msMatchesSelector;
-
-	// Support: IE 9 - 11+, Edge 12 - 18+
-	// Accessing iframe documents after unload throws "permission denied" errors
-	// (see trac-13936).
-	// Limit the fix to IE & Edge Legacy; despite Edge 15+ implementing `matches`,
-	// all IE 9+ and Edge Legacy versions implement `msMatchesSelector` as well.
-	if ( documentElement.msMatchesSelector &&
-
-		// Support: IE 11+, Edge 17 - 18+
-		// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-		// two documents; shallow comparisons work.
-		// eslint-disable-next-line eqeqeq
-		preferredDoc != document &&
+	// Support: IE 9 - 11+
+	// Accessing iframe documents after unload throws "permission denied" errors (see trac-13936)
+	// Support: IE 11+
+	// IE sometimes throws a "Permission denied" error when strict-comparing
+	// two documents; shallow comparisons work.
+	// eslint-disable-next-line eqeqeq
+	if ( isIE && preferredDoc != document &&
 		( subWindow = document.defaultView ) && subWindow.top !== subWindow ) {
-
-		// Support: IE 9 - 11+, Edge 12 - 18+
 		subWindow.addEventListener( "unload", unloadHandler );
 	}
-
-	// Support: IE <10
-	// Check if getElementById returns elements by name
-	// The broken getElementById methods don't pick up programmatically-set names,
-	// so use a roundabout getElementsByName test
-	support.getById = assert( function( el ) {
-		documentElement.appendChild( el ).id = jQuery.expando;
-		return !document.getElementsByName ||
-			!document.getElementsByName( jQuery.expando ).length;
-	} );
-
-	// Support: IE 9 only
-	// Check to see if it's possible to do matchesSelector
-	// on a disconnected node.
-	support.disconnectedMatch = assert( function( el ) {
-		return matches.call( el, "*" );
-	} );
-
-	// Support: IE 9 - 11+, Edge 12 - 18+
-	// IE/Edge don't support the :scope pseudo-class.
-	support.scope = assert( function() {
-		return document.querySelectorAll( ":scope" );
-	} );
-
-	// Support: Chrome 105 - 111 only, Safari 15.4 - 16.3 only
-	// Make sure the `:has()` argument is parsed unforgivingly.
-	// We include `*` in the test to detect buggy implementations that are
-	// _selectively_ forgiving (specifically when the list includes at least
-	// one valid selector).
-	// Note that we treat complete lack of support for `:has()` as if it were
-	// spec-compliant support, which is fine because use of `:has()` in such
-	// environments will fail in the qSA path and fall back to jQuery traversal
-	// anyway.
-	support.cssHas = assert( function() {
-		try {
-			document.querySelector( ":has(*,:jqfake)" );
-			return false;
-		} catch ( e ) {
-			return true;
-		}
-	} );
-
-	// ID filter and find
-	if ( support.getById ) {
-		Expr.filter.ID = function( id ) {
-			var attrId = id.replace( runescape, funescape );
-			return function( elem ) {
-				return elem.getAttribute( "id" ) === attrId;
-			};
-		};
-		Expr.find.ID = function( id, context ) {
-			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
-				var elem = context.getElementById( id );
-				return elem ? [ elem ] : [];
-			}
-		};
-	} else {
-		Expr.filter.ID =  function( id ) {
-			var attrId = id.replace( runescape, funescape );
-			return function( elem ) {
-				var node = typeof elem.getAttributeNode !== "undefined" &&
-					elem.getAttributeNode( "id" );
-				return node && node.value === attrId;
-			};
-		};
-
-		// Support: IE 6 - 7 only
-		// getElementById is not reliable as a find shortcut
-		Expr.find.ID = function( id, context ) {
-			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
-				var node, i, elems,
-					elem = context.getElementById( id );
-
-				if ( elem ) {
-
-					// Verify the id attribute
-					node = elem.getAttributeNode( "id" );
-					if ( node && node.value === id ) {
-						return [ elem ];
-					}
-
-					// Fall back on getElementsByName
-					elems = context.getElementsByName( id );
-					i = 0;
-					while ( ( elem = elems[ i++ ] ) ) {
-						node = elem.getAttributeNode( "id" );
-						if ( node && node.value === id ) {
-							return [ elem ];
-						}
-					}
-				}
-
-				return [];
-			}
-		};
-	}
-
-	// Tag
-	Expr.find.TAG = function( tag, context ) {
-		if ( typeof context.getElementsByTagName !== "undefined" ) {
-			return context.getElementsByTagName( tag );
-
-		// DocumentFragment nodes don't have gEBTN
-		} else {
-			return context.querySelectorAll( tag );
-		}
-	};
-
-	// Class
-	Expr.find.CLASS = function( className, context ) {
-		if ( typeof context.getElementsByClassName !== "undefined" && documentIsHTML ) {
-			return context.getElementsByClassName( className );
-		}
-	};
-
-	/* QSA/matchesSelector
-	---------------------------------------------------------------------- */
-
-	// QSA and matchesSelector support
-
-	rbuggyQSA = [];
-
-	// Build QSA regex
-	// Regex strategy adopted from Diego Perini
-	assert( function( el ) {
-
-		var input;
-
-		documentElement.appendChild( el ).innerHTML =
-			"<a id='" + expando + "' href='' disabled='disabled'></a>" +
-			"<select id='" + expando + "-\r\\' disabled='disabled'>" +
-			"<option selected=''></option></select>";
-
-		// Support: iOS <=7 - 8 only
-		// Boolean attributes and "value" are not treated correctly in some XML documents
-		if ( !el.querySelectorAll( "[selected]" ).length ) {
-			rbuggyQSA.push( "\\[" + whitespace + "*(?:value|" + booleans + ")" );
-		}
-
-		// Support: iOS <=7 - 8 only
-		if ( !el.querySelectorAll( "[id~=" + expando + "-]" ).length ) {
-			rbuggyQSA.push( "~=" );
-		}
-
-		// Support: iOS 8 only
-		// https://bugs.webkit.org/show_bug.cgi?id=136851
-		// In-page `selector#id sibling-combinator selector` fails
-		if ( !el.querySelectorAll( "a#" + expando + "+*" ).length ) {
-			rbuggyQSA.push( ".#.+[+~]" );
-		}
-
-		// Support: Chrome <=105+, Firefox <=104+, Safari <=15.4+
-		// In some of the document kinds, these selectors wouldn't work natively.
-		// This is probably OK but for backwards compatibility we want to maintain
-		// handling them through jQuery traversal in jQuery 3.x.
-		if ( !el.querySelectorAll( ":checked" ).length ) {
-			rbuggyQSA.push( ":checked" );
-		}
-
-		// Support: Windows 8 Native Apps
-		// The type and name attributes are restricted during .innerHTML assignment
-		input = document.createElement( "input" );
-		input.setAttribute( "type", "hidden" );
-		el.appendChild( input ).setAttribute( "name", "D" );
-
-		// Support: IE 9 - 11+
-		// IE's :disabled selector does not pick up the children of disabled fieldsets
-		// Support: Chrome <=105+, Firefox <=104+, Safari <=15.4+
-		// In some of the document kinds, these selectors wouldn't work natively.
-		// This is probably OK but for backwards compatibility we want to maintain
-		// handling them through jQuery traversal in jQuery 3.x.
-		documentElement.appendChild( el ).disabled = true;
-		if ( el.querySelectorAll( ":disabled" ).length !== 2 ) {
-			rbuggyQSA.push( ":enabled", ":disabled" );
-		}
-
-		// Support: IE 11+, Edge 15 - 18+
-		// IE 11/Edge don't find elements on a `[name='']` query in some cases.
-		// Adding a temporary attribute to the document before the selection works
-		// around the issue.
-		// Interestingly, IE 10 & older don't seem to have the issue.
-		input = document.createElement( "input" );
-		input.setAttribute( "name", "" );
-		el.appendChild( input );
-		if ( !el.querySelectorAll( "[name='']" ).length ) {
-			rbuggyQSA.push( "\\[" + whitespace + "*name" + whitespace + "*=" +
-				whitespace + "*(?:''|\"\")" );
-		}
-	} );
-
-	if ( !support.cssHas ) {
-
-		// Support: Chrome 105 - 110+, Safari 15.4 - 16.3+
-		// Our regular `try-catch` mechanism fails to detect natively-unsupported
-		// pseudo-classes inside `:has()` (such as `:has(:contains("Foo"))`)
-		// in browsers that parse the `:has()` argument as a forgiving selector list.
-		// https://drafts.csswg.org/selectors/#relational now requires the argument
-		// to be parsed unforgivingly, but browsers have not yet fully adjusted.
-		rbuggyQSA.push( ":has" );
-	}
-
-	rbuggyQSA = rbuggyQSA.length && new RegExp( rbuggyQSA.join( "|" ) );
-
-	/* Sorting
-	---------------------------------------------------------------------- */
-
-	// Document order sorting
-	sortOrder = function( a, b ) {
-
-		// Flag for duplicate removal
-		if ( a === b ) {
-			hasDuplicate = true;
-			return 0;
-		}
-
-		// Sort on method existence if only one input has compareDocumentPosition
-		var compare = !a.compareDocumentPosition - !b.compareDocumentPosition;
-		if ( compare ) {
-			return compare;
-		}
-
-		// Calculate position if both inputs belong to the same document
-		// Support: IE 11+, Edge 17 - 18+
-		// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-		// two documents; shallow comparisons work.
-		// eslint-disable-next-line eqeqeq
-		compare = ( a.ownerDocument || a ) == ( b.ownerDocument || b ) ?
-			a.compareDocumentPosition( b ) :
-
-			// Otherwise we know they are disconnected
-			1;
-
-		// Disconnected nodes
-		if ( compare & 1 ||
-			( !support.sortDetached && b.compareDocumentPosition( a ) === compare ) ) {
-
-			// Choose the first element that is related to our preferred document
-			// Support: IE 11+, Edge 17 - 18+
-			// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-			// two documents; shallow comparisons work.
-			// eslint-disable-next-line eqeqeq
-			if ( a === document || a.ownerDocument == preferredDoc &&
-				find.contains( preferredDoc, a ) ) {
-				return -1;
-			}
-
-			// Support: IE 11+, Edge 17 - 18+
-			// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-			// two documents; shallow comparisons work.
-			// eslint-disable-next-line eqeqeq
-			if ( b === document || b.ownerDocument == preferredDoc &&
-				find.contains( preferredDoc, b ) ) {
-				return 1;
-			}
-
-			// Maintain original order
-			return sortInput ?
-				( indexOf.call( sortInput, a ) - indexOf.call( sortInput, b ) ) :
-				0;
-		}
-
-		return compare & 4 ? -1 : 1;
-	};
-
-	return document;
 }
 
 find.matches = function( expr, elements ) {
@@ -818,16 +359,7 @@ find.matchesSelector = function( elem, expr ) {
 		( !rbuggyQSA || !rbuggyQSA.test( expr ) ) ) {
 
 		try {
-			var ret = matches.call( elem, expr );
-
-			// IE 9's matchesSelector returns false on disconnected nodes
-			if ( ret || support.disconnectedMatch ||
-
-					// As well, disconnected nodes are said to be in a document
-					// fragment in IE 9
-					elem.document && elem.document.nodeType !== 11 ) {
-				return ret;
-			}
+			return matches.call( elem, expr );
 		} catch ( e ) {
 			nonnativeSelectorCache( expr, true );
 		}
@@ -836,91 +368,7 @@ find.matchesSelector = function( elem, expr ) {
 	return find( expr, document, null, [ elem ] ).length > 0;
 };
 
-find.contains = function( context, elem ) {
-
-	// Set document vars if needed
-	// Support: IE 11+, Edge 17 - 18+
-	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-	// two documents; shallow comparisons work.
-	// eslint-disable-next-line eqeqeq
-	if ( ( context.ownerDocument || context ) != document ) {
-		setDocument( context );
-	}
-	return jQuery.contains( context, elem );
-};
-
-
-find.attr = function( elem, name ) {
-
-	// Set document vars if needed
-	// Support: IE 11+, Edge 17 - 18+
-	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-	// two documents; shallow comparisons work.
-	// eslint-disable-next-line eqeqeq
-	if ( ( elem.ownerDocument || elem ) != document ) {
-		setDocument( elem );
-	}
-
-	var fn = Expr.attrHandle[ name.toLowerCase() ],
-
-		// Don't get fooled by Object.prototype properties (see trac-13807)
-		val = fn && hasOwn.call( Expr.attrHandle, name.toLowerCase() ) ?
-			fn( elem, name, !documentIsHTML ) :
-			undefined;
-
-	if ( val !== undefined ) {
-		return val;
-	}
-
-	return elem.getAttribute( name );
-};
-
-find.error = function( msg ) {
-	throw new Error( "Syntax error, unrecognized expression: " + msg );
-};
-
-/**
- * Document sorting and removing duplicates
- * @param {ArrayLike} results
- */
-jQuery.uniqueSort = function( results ) {
-	var elem,
-		duplicates = [],
-		j = 0,
-		i = 0;
-
-	// Unless we *know* we can detect duplicates, assume their presence
-	//
-	// Support: Android <=4.0+
-	// Testing for detecting duplicates is unpredictable so instead assume we can't
-	// depend on duplicate detection in all browsers without a stable sort.
-	hasDuplicate = !support.sortStable;
-	sortInput = !support.sortStable && slice.call( results, 0 );
-	sort.call( results, sortOrder );
-
-	if ( hasDuplicate ) {
-		while ( ( elem = results[ i++ ] ) ) {
-			if ( elem === results[ i ] ) {
-				j = duplicates.push( i );
-			}
-		}
-		while ( j-- ) {
-			splice.call( results, duplicates[ j ], 1 );
-		}
-	}
-
-	// Clear input after sorting to release objects
-	// See https://github.com/jquery/sizzle/pull/225
-	sortInput = null;
-
-	return results;
-};
-
-jQuery.fn.uniqueSort = function() {
-	return this.pushStack( jQuery.uniqueSort( slice.apply( this ) ) );
-};
-
-Expr = jQuery.expr = {
+jQuery.expr = {
 
 	// Can be adjusted by the user
 	cacheLength: 50,
@@ -929,9 +377,30 @@ Expr = jQuery.expr = {
 
 	match: matchExpr,
 
-	attrHandle: {},
+	find: {
+		ID: function( id, context ) {
+			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+				var elem = context.getElementById( id );
+				return elem ? [ elem ] : [];
+			}
+		},
 
-	find: {},
+		TAG: function( tag, context ) {
+			if ( typeof context.getElementsByTagName !== "undefined" ) {
+				return context.getElementsByTagName( tag );
+
+				// DocumentFragment nodes don't have gEBTN
+			} else {
+				return context.querySelectorAll( tag );
+			}
+		},
+
+		CLASS: function( className, context ) {
+			if ( typeof context.getElementsByClassName !== "undefined" && documentIsHTML ) {
+				return context.getElementsByClassName( className );
+			}
+		}
+	},
 
 	relative: {
 		">": { dir: "parentNode", first: true },
@@ -940,97 +409,24 @@ Expr = jQuery.expr = {
 		"~": { dir: "previousSibling" }
 	},
 
-	preFilter: {
-		ATTR: function( match ) {
-			match[ 1 ] = match[ 1 ].replace( runescape, funescape );
-
-			// Move the given value to match[3] whether quoted or unquoted
-			match[ 3 ] = ( match[ 3 ] || match[ 4 ] || match[ 5 ] || "" )
-				.replace( runescape, funescape );
-
-			if ( match[ 2 ] === "~=" ) {
-				match[ 3 ] = " " + match[ 3 ] + " ";
-			}
-
-			return match.slice( 0, 4 );
-		},
-
-		CHILD: function( match ) {
-
-			/* matches from matchExpr["CHILD"]
-				1 type (only|nth|...)
-				2 what (child|of-type)
-				3 argument (even|odd|\d*|\d*n([+-]\d+)?|...)
-				4 xn-component of xn+y argument ([+-]?\d*n|)
-				5 sign of xn-component
-				6 x of xn-component
-				7 sign of y-component
-				8 y of y-component
-			*/
-			match[ 1 ] = match[ 1 ].toLowerCase();
-
-			if ( match[ 1 ].slice( 0, 3 ) === "nth" ) {
-
-				// nth-* requires argument
-				if ( !match[ 3 ] ) {
-					find.error( match[ 0 ] );
-				}
-
-				// numeric x and y parameters for Expr.filter.CHILD
-				// remember that false/true cast respectively to 0/1
-				match[ 4 ] = +( match[ 4 ] ?
-					match[ 5 ] + ( match[ 6 ] || 1 ) :
-					2 * ( match[ 3 ] === "even" || match[ 3 ] === "odd" )
-				);
-				match[ 5 ] = +( ( match[ 7 ] + match[ 8 ] ) || match[ 3 ] === "odd" );
-
-			// other types prohibit arguments
-			} else if ( match[ 3 ] ) {
-				find.error( match[ 0 ] );
-			}
-
-			return match;
-		},
-
-		PSEUDO: function( match ) {
-			var excess,
-				unquoted = !match[ 6 ] && match[ 2 ];
-
-			if ( matchExpr.CHILD.test( match[ 0 ] ) ) {
-				return null;
-			}
-
-			// Accept quoted arguments as-is
-			if ( match[ 3 ] ) {
-				match[ 2 ] = match[ 4 ] || match[ 5 ] || "";
-
-			// Strip excess characters from unquoted arguments
-			} else if ( unquoted && rpseudo.test( unquoted ) &&
-
-				// Get excess from tokenize (recursively)
-				( excess = tokenize( unquoted, true ) ) &&
-
-				// advance to the next closing parenthesis
-				( excess = unquoted.indexOf( ")", unquoted.length - excess ) - unquoted.length ) ) {
-
-				// excess is a negative index
-				match[ 0 ] = match[ 0 ].slice( 0, excess );
-				match[ 2 ] = unquoted.slice( 0, excess );
-			}
-
-			// Return only captures needed by the pseudo filter method (type and argument)
-			return match.slice( 0, 3 );
-		}
-	},
+	preFilter: preFilter,
 
 	filter: {
+		ID: function( id ) {
+			var attrId = unescapeSelector( id );
+			return function( elem ) {
+				return elem.getAttribute( "id" ) === attrId;
+			};
+		},
 
 		TAG: function( nodeNameSelector ) {
-			var expectedNodeName = nodeNameSelector.replace( runescape, funescape ).toLowerCase();
+			var expectedNodeName = unescapeSelector( nodeNameSelector ).toLowerCase();
 			return nodeNameSelector === "*" ?
+
 				function() {
 					return true;
 				} :
+
 				function( elem ) {
 					return nodeName( elem, expectedNodeName );
 				};
@@ -1054,7 +450,7 @@ Expr = jQuery.expr = {
 
 		ATTR: function( name, operator, check ) {
 			return function( elem ) {
-				var result = find.attr( elem, name );
+				var result = jQuery.attr( elem, name );
 
 				if ( result == null ) {
 					return operator === "!=";
@@ -1139,7 +535,8 @@ Expr = jQuery.expr = {
 						if ( forward && useCache ) {
 
 							// Seek `elem` from a previously-cached index
-							outerCache = parent[ expando ] || ( parent[ expando ] = {} );
+							outerCache = parent[ jQuery.expando ] ||
+								( parent[ jQuery.expando ] = {} );
 							cache = outerCache[ type ] || [];
 							nodeIndex = cache[ 0 ] === dirruns && cache[ 1 ];
 							diff = nodeIndex && cache[ 2 ];
@@ -1161,7 +558,8 @@ Expr = jQuery.expr = {
 
 							// Use previously-cached element index if available
 							if ( useCache ) {
-								outerCache = elem[ expando ] || ( elem[ expando ] = {} );
+								outerCache = elem[ jQuery.expando ] ||
+									( elem[ jQuery.expando ] = {} );
 								cache = outerCache[ type ] || [];
 								nodeIndex = cache[ 0 ] === dirruns && cache[ 1 ];
 								diff = nodeIndex;
@@ -1182,8 +580,8 @@ Expr = jQuery.expr = {
 
 										// Cache the index of each encountered element
 										if ( useCache ) {
-											outerCache = node[ expando ] ||
-												( node[ expando ] = {} );
+											outerCache = node[ jQuery.expando ] ||
+												( node[ jQuery.expando ] = {} );
 											outerCache[ type ] = [ dirruns, diff ];
 										}
 
@@ -1208,33 +606,15 @@ Expr = jQuery.expr = {
 			// https://www.w3.org/TR/selectors/#pseudo-classes
 			// Prioritize by case sensitivity in case custom pseudos are added with uppercase letters
 			// Remember that setFilters inherits from pseudos
-			var args,
-				fn = Expr.pseudos[ pseudo ] || Expr.setFilters[ pseudo.toLowerCase() ] ||
-					find.error( "unsupported pseudo: " + pseudo );
+			var fn = jQuery.expr.pseudos[ pseudo ] ||
+				jQuery.expr.setFilters[ pseudo.toLowerCase() ] ||
+				selectorError( "unsupported pseudo: " + pseudo );
 
 			// The user may use createPseudo to indicate that
 			// arguments are needed to create the filter function
 			// just as jQuery does
-			if ( fn[ expando ] ) {
+			if ( fn[ jQuery.expando ] ) {
 				return fn( argument );
-			}
-
-			// But maintain support for old signatures
-			if ( fn.length > 1 ) {
-				args = [ pseudo, pseudo, "", argument ];
-				return Expr.setFilters.hasOwnProperty( pseudo.toLowerCase() ) ?
-					markFunction( function( seed, matches ) {
-						var idx,
-							matched = fn( seed, argument ),
-							i = matched.length;
-						while ( i-- ) {
-							idx = indexOf.call( seed, matched[ i ] );
-							seed[ idx ] = !( matches[ idx ] = matched[ i ] );
-						}
-					} ) :
-					function( elem ) {
-						return fn( elem, 0, args );
-					};
 			}
 
 			return fn;
@@ -1253,7 +633,7 @@ Expr = jQuery.expr = {
 				results = [],
 				matcher = compile( selector.replace( rtrimCSS, "$1" ) );
 
-			return matcher[ expando ] ?
+			return matcher[ jQuery.expando ] ?
 				markFunction( function( seed, matches, _context, xml ) {
 					var elem,
 						unmatched = matcher( seed, null, xml, [] ),
@@ -1284,7 +664,7 @@ Expr = jQuery.expr = {
 		} ),
 
 		contains: markFunction( function( text ) {
-			text = text.replace( runescape, funescape );
+			text = unescapeSelector( text );
 			return function( elem ) {
 				return ( elem.textContent || jQuery.text( elem ) ).indexOf( text ) > -1;
 			};
@@ -1301,9 +681,9 @@ Expr = jQuery.expr = {
 
 			// lang value must be a valid identifier
 			if ( !ridentifier.test( lang || "" ) ) {
-				find.error( "unsupported lang: " + lang );
+				selectorError( "unsupported lang: " + lang );
 			}
-			lang = lang.replace( runescape, funescape ).toLowerCase();
+			lang = unescapeSelector( lang ).toLowerCase();
 			return function( elem ) {
 				var elemLang;
 				do {
@@ -1330,7 +710,7 @@ Expr = jQuery.expr = {
 		},
 
 		focus: function( elem ) {
-			return elem === safeActiveElement() &&
+			return elem === document.activeElement &&
 				document.hasFocus() &&
 				!!( elem.type || elem.href || ~elem.tabIndex );
 		},
@@ -1353,7 +733,7 @@ Expr = jQuery.expr = {
 			// Accessing the selectedIndex property
 			// forces the browser to treat the default option as
 			// selected when in an optgroup.
-			if ( elem.parentNode ) {
+			if ( isIE && elem.parentNode ) {
 				// eslint-disable-next-line no-unused-expressions
 				elem.parentNode.selectedIndex;
 			}
@@ -1377,7 +757,7 @@ Expr = jQuery.expr = {
 		},
 
 		parent: function( elem ) {
-			return !Expr.pseudos.empty( elem );
+			return !jQuery.expr.pseudos.empty( elem );
 		},
 
 		// Element/input types
@@ -1395,14 +775,7 @@ Expr = jQuery.expr = {
 		},
 
 		text: function( elem ) {
-			var attr;
-			return nodeName( elem, "input" ) && elem.type === "text" &&
-
-				// Support: IE <10 only
-				// New HTML5 attribute values (e.g., "search") appear
-				// with elem.type === "text"
-				( ( attr = elem.getAttribute( "type" ) ) == null ||
-					attr.toLowerCase() === "text" );
+			return nodeName( elem, "input" ) && elem.type === "text";
 		},
 
 		// Position-in-collection
@@ -1461,102 +834,20 @@ Expr = jQuery.expr = {
 	}
 };
 
-Expr.pseudos.nth = Expr.pseudos.eq;
+jQuery.expr.pseudos.nth = jQuery.expr.pseudos.eq;
 
 // Add button/input type pseudos
 for ( i in { radio: true, checkbox: true, file: true, password: true, image: true } ) {
-	Expr.pseudos[ i ] = createInputPseudo( i );
+	jQuery.expr.pseudos[ i ] = createInputPseudo( i );
 }
 for ( i in { submit: true, reset: true } ) {
-	Expr.pseudos[ i ] = createButtonPseudo( i );
+	jQuery.expr.pseudos[ i ] = createButtonPseudo( i );
 }
 
 // Easy API for creating new setFilters
 function setFilters() {}
-setFilters.prototype = Expr.filters = Expr.pseudos;
-Expr.setFilters = new setFilters();
-
-function tokenize( selector, parseOnly ) {
-	var matched, match, tokens, type,
-		soFar, groups, preFilters,
-		cached = tokenCache[ selector + " " ];
-
-	if ( cached ) {
-		return parseOnly ? 0 : cached.slice( 0 );
-	}
-
-	soFar = selector;
-	groups = [];
-	preFilters = Expr.preFilter;
-
-	while ( soFar ) {
-
-		// Comma and first run
-		if ( !matched || ( match = rcomma.exec( soFar ) ) ) {
-			if ( match ) {
-
-				// Don't consume trailing commas as valid
-				soFar = soFar.slice( match[ 0 ].length ) || soFar;
-			}
-			groups.push( ( tokens = [] ) );
-		}
-
-		matched = false;
-
-		// Combinators
-		if ( ( match = rleadingCombinator.exec( soFar ) ) ) {
-			matched = match.shift();
-			tokens.push( {
-				value: matched,
-
-				// Cast descendant combinators to space
-				type: match[ 0 ].replace( rtrimCSS, " " )
-			} );
-			soFar = soFar.slice( matched.length );
-		}
-
-		// Filters
-		for ( type in Expr.filter ) {
-			if ( ( match = matchExpr[ type ].exec( soFar ) ) && ( !preFilters[ type ] ||
-				( match = preFilters[ type ]( match ) ) ) ) {
-				matched = match.shift();
-				tokens.push( {
-					value: matched,
-					type: type,
-					matches: match
-				} );
-				soFar = soFar.slice( matched.length );
-			}
-		}
-
-		if ( !matched ) {
-			break;
-		}
-	}
-
-	// Return the length of the invalid excess
-	// if we're just parsing
-	// Otherwise, throw an error or return tokens
-	if ( parseOnly ) {
-		return soFar.length;
-	}
-
-	return soFar ?
-		find.error( selector ) :
-
-		// Cache the tokens
-		tokenCache( selector, groups ).slice( 0 );
-}
-
-function toSelector( tokens ) {
-	var i = 0,
-		len = tokens.length,
-		selector = "";
-	for ( ; i < len; i++ ) {
-		selector += tokens[ i ].value;
-	}
-	return selector;
-}
+setFilters.prototype = jQuery.expr.pseudos;
+jQuery.expr.setFilters = new setFilters();
 
 function addCombinator( matcher, combinator, base ) {
 	var dir = combinator.dir,
@@ -1594,7 +885,7 @@ function addCombinator( matcher, combinator, base ) {
 			} else {
 				while ( ( elem = elem[ dir ] ) ) {
 					if ( elem.nodeType === 1 || checkNonElements ) {
-						outerCache = elem[ expando ] || ( elem[ expando ] = {} );
+						outerCache = elem[ jQuery.expando ] || ( elem[ jQuery.expando ] = {} );
 
 						if ( skip && nodeName( elem, skip ) ) {
 							elem = elem[ dir ] || elem;
@@ -1665,10 +956,10 @@ function condense( unmatched, map, filter, context, xml ) {
 }
 
 function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postSelector ) {
-	if ( postFilter && !postFilter[ expando ] ) {
+	if ( postFilter && !postFilter[ jQuery.expando ] ) {
 		postFilter = setMatcher( postFilter );
 	}
-	if ( postFinder && !postFinder[ expando ] ) {
+	if ( postFinder && !postFinder[ jQuery.expando ] ) {
 		postFinder = setMatcher( postFinder, postSelector );
 	}
 	return markFunction( function( seed, results, context, xml ) {
@@ -1766,8 +1057,8 @@ function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postS
 function matcherFromTokens( tokens ) {
 	var checkContext, matcher, j,
 		len = tokens.length,
-		leadingRelative = Expr.relative[ tokens[ 0 ].type ],
-		implicitRelative = leadingRelative || Expr.relative[ " " ],
+		leadingRelative = jQuery.expr.relative[ tokens[ 0 ].type ],
+		implicitRelative = leadingRelative || jQuery.expr.relative[ " " ],
 		i = leadingRelative ? 1 : 0,
 
 		// The foundational matcher ensures that elements are reachable from top-level context(s)
@@ -1779,8 +1070,8 @@ function matcherFromTokens( tokens ) {
 		}, implicitRelative, true ),
 		matchers = [ function( elem, context, xml ) {
 
-			// Support: IE 11+, Edge 17 - 18+
-			// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
+			// Support: IE 11+
+			// IE sometimes throws a "Permission denied" error when strict-comparing
 			// two documents; shallow comparisons work.
 			// eslint-disable-next-line eqeqeq
 			var ret = ( !leadingRelative && ( xml || context != outermostContext ) ) || (
@@ -1795,18 +1086,18 @@ function matcherFromTokens( tokens ) {
 		} ];
 
 	for ( ; i < len; i++ ) {
-		if ( ( matcher = Expr.relative[ tokens[ i ].type ] ) ) {
+		if ( ( matcher = jQuery.expr.relative[ tokens[ i ].type ] ) ) {
 			matchers = [ addCombinator( elementMatcher( matchers ), matcher ) ];
 		} else {
-			matcher = Expr.filter[ tokens[ i ].type ].apply( null, tokens[ i ].matches );
+			matcher = jQuery.expr.filter[ tokens[ i ].type ].apply( null, tokens[ i ].matches );
 
 			// Return special upon seeing a positional matcher
-			if ( matcher[ expando ] ) {
+			if ( matcher[ jQuery.expando ] ) {
 
 				// Find the next relative operator (if any) for proper handling
 				j = ++i;
 				for ( ; j < len; j++ ) {
-					if ( Expr.relative[ tokens[ j ].type ] ) {
+					if ( jQuery.expr.relative[ tokens[ j ].type ] ) {
 						break;
 					}
 				}
@@ -1843,31 +1134,27 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 				contextBackup = outermostContext,
 
 				// We must always have either seed elements or outermost context
-				elems = seed || byElement && Expr.find.TAG( "*", outermost ),
+				elems = seed || byElement && jQuery.expr.find.TAG( "*", outermost ),
 
 				// Use integer dirruns iff this is the outermost matcher
-				dirrunsUnique = ( dirruns += contextBackup == null ? 1 : Math.random() || 0.1 ),
-				len = elems.length;
+				dirrunsUnique = ( dirruns += contextBackup == null ? 1 : Math.random() || 0.1 );
 
 			if ( outermost ) {
 
-				// Support: IE 11+, Edge 17 - 18+
-				// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
+				// Support: IE 11+
+				// IE sometimes throws a "Permission denied" error when strict-comparing
 				// two documents; shallow comparisons work.
 				// eslint-disable-next-line eqeqeq
 				outermostContext = context == document || context || outermost;
 			}
 
 			// Add elements passing elementMatchers directly to results
-			// Support: iOS <=7 - 9 only
-			// Tolerate NodeList properties (IE: "length"; Safari: <number>) matching
-			// elements by id. (see trac-14142)
-			for ( ; i !== len && ( elem = elems[ i ] ) != null; i++ ) {
+			for ( ; ( elem = elems[ i ] ) != null; i++ ) {
 				if ( byElement && elem ) {
 					j = 0;
 
-					// Support: IE 11+, Edge 17 - 18+
-					// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
+					// Support: IE 11+
+					// IE sometimes throws a "Permission denied" error when strict-comparing
 					// two documents; shallow comparisons work.
 					// eslint-disable-next-line eqeqeq
 					if ( !context && elem.ownerDocument != document ) {
@@ -1972,7 +1259,7 @@ function compile( selector, match /* Internal Use Only */ ) {
 		i = match.length;
 		while ( i-- ) {
 			cached = matcherFromTokens( match[ i ] );
-			if ( cached[ expando ] ) {
+			if ( cached[ jQuery.expando ] ) {
 				setMatchers.push( cached );
 			} else {
 				elementMatchers.push( cached );
@@ -2012,10 +1299,11 @@ function select( selector, context, results, seed ) {
 		// Reduce context if the leading compound selector is an ID
 		tokens = match[ 0 ] = match[ 0 ].slice( 0 );
 		if ( tokens.length > 2 && ( token = tokens[ 0 ] ).type === "ID" &&
-				context.nodeType === 9 && documentIsHTML && Expr.relative[ tokens[ 1 ].type ] ) {
+				context.nodeType === 9 && documentIsHTML &&
+				jQuery.expr.relative[ tokens[ 1 ].type ] ) {
 
-			context = ( Expr.find.ID(
-				token.matches[ 0 ].replace( runescape, funescape ),
+			context = ( jQuery.expr.find.ID(
+				unescapeSelector( token.matches[ 0 ] ),
 				context
 			) || [] )[ 0 ];
 			if ( !context ) {
@@ -2035,14 +1323,14 @@ function select( selector, context, results, seed ) {
 			token = tokens[ i ];
 
 			// Abort if we hit a combinator
-			if ( Expr.relative[ ( type = token.type ) ] ) {
+			if ( jQuery.expr.relative[ ( type = token.type ) ] ) {
 				break;
 			}
-			if ( ( find = Expr.find[ type ] ) ) {
+			if ( ( find = jQuery.expr.find[ type ] ) ) {
 
 				// Search, expanding context for leading sibling combinators
 				if ( ( seed = find(
-					token.matches[ 0 ].replace( runescape, funescape ),
+					unescapeSelector( token.matches[ 0 ] ),
 					rsibling.test( tokens[ 0 ].type ) &&
 						testContext( context.parentNode ) || context
 				) ) ) {
@@ -2073,28 +1361,10 @@ function select( selector, context, results, seed ) {
 	return results;
 }
 
-// One-time assignments
-
-// Support: Android <=4.0 - 4.1+
-// Sort stability
-support.sortStable = expando.split( "" ).sort( sortOrder ).join( "" ) === expando;
-
 // Initialize against the default document
 setDocument();
 
-// Support: Android <=4.0 - 4.1+
-// Detached nodes confoundingly follow *each other*
-support.sortDetached = assert( function( el ) {
-
-	// Should return 1, but returns 4 (following)
-	return el.compareDocumentPosition( document.createElement( "fieldset" ) ) & 1;
-} );
-
 jQuery.find = find;
-
-// Deprecated
-jQuery.expr[ ":" ] = jQuery.expr.pseudos;
-jQuery.unique = jQuery.uniqueSort;
 
 // These have always been private, but they used to be documented as part of
 // Sizzle so let's maintain them for now for backwards compatibility purposes.
@@ -2103,15 +1373,4 @@ find.select = select;
 find.setDocument = setDocument;
 find.tokenize = tokenize;
 
-find.escape = jQuery.escapeSelector;
-find.getText = jQuery.text;
-find.isXML = jQuery.isXMLDoc;
-find.selectors = jQuery.expr;
-find.support = jQuery.support;
-find.uniqueSort = jQuery.uniqueSort;
-
-	/* eslint-enable */
-
-} )();
-
-} );
+export { jQuery, jQuery as $ };

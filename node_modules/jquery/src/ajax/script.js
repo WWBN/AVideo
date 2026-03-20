@@ -1,26 +1,38 @@
-define( [
-	"../core",
-	"../var/document",
-	"../ajax"
-], function( jQuery, document ) {
+import { jQuery } from "../core.js";
+import { document } from "../var/document.js";
 
-"use strict";
+import "../ajax.js";
 
-// Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
-jQuery.ajaxPrefilter( function( s ) {
-	if ( s.crossDomain ) {
-		s.contents.script = false;
-	}
-} );
+function canUseScriptTag( s ) {
 
-// Install script dataType
+	// A script tag can only be used for async, cross domain or forced-by-attrs requests.
+	// Requests with headers cannot use a script tag. However, when both `scriptAttrs` &
+	// `headers` options are specified, both are impossible to satisfy together; we
+	// prefer `scriptAttrs` then.
+	// Sync requests remain handled differently to preserve strict script ordering.
+	return s.scriptAttrs || (
+		!s.headers &&
+		(
+			s.crossDomain ||
+
+			// When dealing with JSONP (`s.dataTypes` include "json" then)
+			// don't use a script tag so that error responses still may have
+			// `responseJSON` set. Continue using a script tag for JSONP requests that:
+			//   * are cross-domain as AJAX requests won't work without a CORS setup
+			//   * have `scriptAttrs` set as that's a script-only functionality
+			// Note that this means JSONP requests violate strict CSP script-src settings.
+			// A proper solution is to migrate from using JSONP to a CORS setup.
+			( s.async && jQuery.inArray( "json", s.dataTypes ) < 0 )
+		)
+	);
+}
+
+// Install script dataType. Don't specify `contents.script` so that an explicit
+// `dataType: "script"` is required (see gh-2432, gh-4822)
 jQuery.ajaxSetup( {
 	accepts: {
 		script: "text/javascript, application/javascript, " +
 			"application/ecmascript, application/x-ecmascript"
-	},
-	contents: {
-		script: /\b(?:java|ecma)script\b/
 	},
 	converters: {
 		"text script": function( text ) {
@@ -35,16 +47,17 @@ jQuery.ajaxPrefilter( "script", function( s ) {
 	if ( s.cache === undefined ) {
 		s.cache = false;
 	}
-	if ( s.crossDomain ) {
+
+	// These types of requests are handled via a script tag
+	// so force their methods to GET.
+	if ( canUseScriptTag( s ) ) {
 		s.type = "GET";
 	}
 } );
 
 // Bind script tag hack transport
 jQuery.ajaxTransport( "script", function( s ) {
-
-	// This transport only deals with cross domain or forced-by-attrs requests
-	if ( s.crossDomain || s.scriptAttrs ) {
+	if ( canUseScriptTag( s ) ) {
 		var script, callback;
 		return {
 			send: function( _, complete ) {
@@ -69,6 +82,4 @@ jQuery.ajaxTransport( "script", function( s ) {
 			}
 		};
 	}
-} );
-
 } );

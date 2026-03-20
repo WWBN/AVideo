@@ -39,15 +39,12 @@ export interface Classes {
   "tox-anchorbar": string;
   "tox-bottom-anchorbar": string;
   "tox-bar": string;
-  "tox-button--enabled": string;
-  "tox-button--icon-and-text": string;
-  "tox-button--secondary": string;
   "tox-icon--success": string;
   "tox-icon--error": string;
-  "tox-context-form__group": string;
-  "tox-button-link": string;
-  "tox-button-link--sm": string;
   "tox-button--stretch": string;
+  "tox-context-form__group": string;
+  "tox-button--enabled": string;
+  "tox-button--secondary": string;
   "tox-button--secondary--outline": string;
   "tox-checkbox": string;
   "tox-checkbox__input": string;
@@ -244,6 +241,8 @@ export interface Classes {
   "tox-image-selector-image-wrapper": string;
   "tox-image-selector-image-img": string;
   "tox-image-selector__picker-btn": string;
+  "tox-context-toolbar": string;
+  "tox-toolbar__group": string;
   "tox-insert-table-picker": string;
   "tox-insert-table-picker__selected": string;
   "tox-insert-table-picker__label": string;
@@ -297,7 +296,6 @@ export interface Classes {
   "tox-promotion-button": string;
   "tox-pop": string;
   "tox-pop--resizing": string;
-  "tox-toolbar__group": string;
   "tox-pop--transition": string;
   "tox-pop__dialog": string;
   "tox-pop--inset": string;
@@ -320,6 +318,9 @@ export interface Classes {
   "tox-sidebar-content__header": string;
   "tox-sidebar-content__header-close-button": string;
   "tox-sidebar-content__title": string;
+  "tox-floating-sidebar": string;
+  "tox-floating-sidebar__content-wrapper": string;
+  "tox-floating-sidebar__header": string;
   "tox-ai": string;
   "tox-ai__user-prompt": string;
   "tox-ai__user-prompt__context": string;
@@ -330,6 +331,7 @@ export interface Classes {
   "tox-ai__response-streaming": string;
   "tox-ai__error-message": string;
   "tox-ai__footer": string;
+  "tox-ai__context": string;
   "tox-ai__footer-actions": string;
   "tox-selector": string;
   "tox-platform-touch": string;
@@ -345,6 +347,7 @@ export interface Classes {
   "tox-source-code": string;
   "tox-spinner": string;
   "tam-bouncing-dots": string;
+  "tox-ai__spinner": string;
   "tox-statusbar": string;
   "tox-statusbar__path": string;
   "tox-statusbar__right-container": string;

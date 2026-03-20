@@ -1,8 +1,4 @@
-define( function() {
-
-"use strict";
-
-return function( n, elem ) {
+export function siblings( n, elem ) {
 	var matched = [];
 
 	for ( ; n; n = n.nextSibling ) {
@@ -12,6 +8,4 @@ return function( n, elem ) {
 	}
 
 	return matched;
-};
-
-} );
+}
