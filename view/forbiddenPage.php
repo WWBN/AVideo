@@ -30,7 +30,7 @@ $global['doNotLoadPlayer'] = true;
                             <?php
                             $value = '';
                             if (!empty($_REQUEST['unlockPassword'])) {
-                                $value = $_REQUEST['unlockPassword'];
+                                $value = htmlspecialchars($_REQUEST['unlockPassword'], ENT_QUOTES, 'UTF-8');
                             }
                             echo getInputPassword('unlockPassword', 'class="form-control" value="' . $value . '"', __('Unlock Password'));
                             ?>
