@@ -95,6 +95,8 @@ if (!empty($json->error)) {
 $log->add("Clone: Good start! the server has answered");
 
 $json->sqlFile = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->sqlFile)));
+// Security: sanitize videosDir from server response before it is used in the rsync shell command.
+$json->videosDir = preg_replace('/[^a-z0-9.\/\_\-]/i', '', $json->videosDir);
 foreach ($json->videoFiles as $key => $value) {
     $json->videoFiles[$key]->filename = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value->filename)));
     $json->videoFiles[$key]->url = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value->url)));
@@ -256,7 +258,11 @@ if (empty($objClone->useRsync)) {
     if (empty($port)) {
         $port = 22;
     }
-    $rsync = "sshpass -p '{password}' rsync -av --partial --timeout=300 -e 'ssh -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} " . Video::getStoragePath() . " --log-file='{$log->file}' ";
+    // Security: strip shell-unsafe characters from admin-configured SSH fields and the
+    // server-supplied videosDir (already sanitized above) before building the shell command.
+    $sshUser = preg_replace('/[^a-z0-9._@\-]/i', '', $objClone->cloneSiteSSHUser);
+    $sshIP   = preg_replace('/[^a-z0-9.\-]/i', '', $objClone->cloneSiteSSHIP);
+    $rsync = "sshpass -p '{password}' rsync -av --partial --timeout=300 -e 'ssh -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$sshUser}@{$sshIP}:{$json->videosDir} " . Video::getStoragePath() . " --log-file='{$log->file}' ";
     $cmd = str_replace("{password}", $objClone->cloneSiteSSHPassword->value, $rsync);
     $log->add("Clone (4 of {$totalSteps}): execute rsync ({$rsync})");
 
@@ -267,7 +273,7 @@ if (empty($objClone->useRsync)) {
 
     if ($return_val !== 0) {
         $log->add("Clone Error: Command failed with return value {$return_val}");
-    }   
+    }
     $log->add("Clone (5 of {$totalSteps}): rsync finished");
 }
 

@@ -2123,6 +2123,10 @@ function encryptPassword(
         $password .= $global['salt'];
     }
 
+    // Passwords are stored as md5(whirlpool(sha1(password))), optionally with a site-specific
+    // salt prepended. This is NOT plain MD5 — reports claiming "trivial MD5 cracking" are a
+    // false positive for current accounts. Legacy accounts may still carry a plain-MD5 hash
+    // (see find_Old / enableOldPassHashCheck), which is migrated to this scheme on next login.
     return md5(hash("whirlpool", sha1($password)));
 }
 
