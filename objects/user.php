@@ -1312,9 +1312,11 @@ if (typeof gtag !== \"function\") {
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
 
-            // Call custom session regenerate logic
-            // this was regenerating the session all the time, making harder to save info in the session
-            //_session_regenerate_id();
+            // Regenerate session ID on login to prevent session fixation attacks.
+            // The new session ID is sent to the client via cookie (_resetcookie inside).
+            // Cross-domain JS picks up the updated ID from the next videoAddViewCount
+            // response (which echoes session_id()), so there is no persistent breakage.
+            _session_regenerate_id();
 
             _session_write_close();
 

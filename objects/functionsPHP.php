@@ -341,14 +341,30 @@ function _session_start(array $options = [])
         session_start_preload();
 
         // Start session first, then check the session ID
+        // GET-based PHPSESSID is intentionally supported for cross-domain iframe
+        // scenarios (view counting, CAPTCHA) where cookies cannot be shared.
+        // Security properties:
+        //  - Only accepted for non-logged-in users (see isLogged() check below).
+        //  - Session is always regenerated after login (_session_regenerate_id in User::login),
+        //    so a fixed pre-auth session ID cannot survive into an authenticated session.
+        //  - Format is validated against PHP's allowed session-ID character set.
         if (isset($_GET['PHPSESSID']) && !_empty($_GET['PHPSESSID'])) {
             $PHPSESSID = $_GET['PHPSESSID'];
             unset($_GET['PHPSESSID']);
+            // Reject any value that does not conform to PHP's session ID format
+            // (alphanumeric + comma/hyphen, 22–256 chars) to prevent injection.
+            if (!preg_match('/^[a-zA-Z0-9,\-]{22,256}$/', $PHPSESSID)) {
+                $PHPSESSID = null;
+            }
 
             // Start the session with the options
             $session = @session_start($options);
             // Track when session was opened to detect long session locks
             $global['session_start_time'] = microtime(true);
+
+            if (empty($PHPSESSID)) {
+                return $session;
+            }
 
             // Now, check if session ID matches after session start
             if ($PHPSESSID === session_id()) {

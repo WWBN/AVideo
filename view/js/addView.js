@@ -26,26 +26,26 @@ var VideoWatchTime = (function () {
 // Modify the addView function
 function addView(videos_id, currentTime) {
     addViewSetCookie(PHPSESSID, videos_id, currentTime, VideoWatchTime.getValue());
-    
+
     if (_addViewCheck) {
         return false;
     }
-    
+
     if (last_videos_id === videos_id && last_currentTime === currentTime) {
         return false;
     }
-    
+
     // Removed the currentTime condition
     _addViewCheck = true;
     last_videos_id = videos_id;
     last_currentTime = currentTime;
-    
+
     _addView(videos_id, currentTime, VideoWatchTime.getValue());
-    
+
     setTimeout(function() {
         _addViewCheck = false;
     }, 1000);
-    
+
     return true;
 }
 
@@ -56,7 +56,7 @@ function addCurrentView() {
     }else if(typeof videos_id !== 'undefined'){
         vid = videos_id;
     }
-    var time = Math.round(player.currentTime());     
+    var time = Math.round(player.currentTime());
     addView(vid, time);
 }
 
@@ -71,13 +71,13 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
     if (isVideoAddViewCount) {
         return false;
     }
-    
+
     if (typeof PHPSESSID === 'undefined') {
         PHPSESSID = '';
     }
-    
+
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
-    
+
     if (empty(PHPSESSID)) {
         return false;
     }
@@ -98,7 +98,8 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
         },
         success: function(response) {
             $('.view-count' + videos_id).text(response.countHTML);
-            PHPSESSID = response.session_id;
+            // Keep AVideoSession in sync so all other callers see the updated session ID.
+            AVideoSession.set(response.session_id);
         }, complete: function(response) {
             isVideoAddViewCount = false;
         }
@@ -111,25 +112,25 @@ async function addViewFromCookie() {
     if (typeof webSiteRootURL === 'undefined') {
         return false;
     }
-    
+
     if (_addViewFromCookie_addingtime) {
         return false;
     }
-    
+
     _addViewFromCookie_addingtime = true;
-    
+
     var addView_PHPSESSID = Cookies.get('addView_PHPSESSID');
     var addView_videos_id = Cookies.get('addView_videos_id');
     var addView_playerCurrentTime = Cookies.get('addView_playerCurrentTime');
     var addView_seconds_watching_video = Cookies.get('addView_seconds_watching_video');
-    
+
     if (!addView_PHPSESSID || addView_PHPSESSID === 'false' ||
         !addView_videos_id || addView_videos_id === 'false' ||
         !addView_playerCurrentTime || addView_playerCurrentTime === 'false' ||
         !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
         return false;
     }
-    
+
     if (mediaId === addView_videos_id) {
         // it is the same video, play at the last moment
         forceCurrentTime = addView_playerCurrentTime;
@@ -138,11 +139,11 @@ async function addViewFromCookie() {
     doNotCountView = false;
     _addView(addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
     doNotCountView = doNotCountViewOriginal;
-    
+
     setTimeout(function() {
         _addViewFromCookie_addingtime = false;
     }, 2000);
-    
+
     addViewSetCookie(false, false, false, false);
 }
 
@@ -172,9 +173,9 @@ async function startAddViewCountInPlayer(){
             var time = Math.round(this.currentTime());
             addView(mediaId, time);
         });
-        
+
         player.on('timeupdate', function() {
-            var time = Math.round(this.currentTime());     
+            var time = Math.round(this.currentTime());
             if (time === 0 || time % 30 === 0) {
                 addCurrentView();
             }
@@ -196,7 +197,7 @@ $(document).ready(function() {
     setInterval(function () {
         VideoWatchTime.increment();
     }, 1000);
-    
+
     // Call addViewFromCookie on the next page load
     addViewFromCookie();
 
