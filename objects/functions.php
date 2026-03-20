@@ -4100,44 +4100,24 @@ function isSSRFSafeURL($url)
         return false;
     }
 
-    // Block private IPv4 ranges
-    // 10.0.0.0 - 10.255.255.255
-    if (preg_match('/^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $ip)) {
-        _error_log("isSSRFSafeURL: blocked private IP (10.x.x.x): {$ip}");
+    // Normalize IPv4-mapped IPv6 addresses (::ffff:x.x.x.x) to their plain IPv4 form.
+    // Without this, dotted-decimal private-range regexes and PHP's FILTER_FLAG_NO_PRIV_RANGE
+    // flag both miss the mapped address — the bypass vector reported in CVE-class SSRF findings.
+    if (preg_match('/^::ffff:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/i', $ip, $mapped)) {
+        _error_log("isSSRFSafeURL: normalized IPv4-mapped IPv6 {$ip} to {$mapped[1]}");
+        $ip = $mapped[1];
+    }
+
+    // Block all private and reserved IP ranges using PHP's built-in validation flags.
+    // FILTER_FLAG_NO_PRIV_RANGE rejects: RFC 1918 (10/8, 172.16/12, 192.168/16), fc00::/7
+    // FILTER_FLAG_NO_RES_RANGE rejects: 0/8, 127/8, 169.254/16, ::1, fe80::/10, and others
+    // This replaces the previous manual regex checks and the separate IPv6 block section.
+    if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+        _error_log("isSSRFSafeURL: blocked private/reserved IP: {$ip}");
         return false;
     }
 
-    // 172.16.0.0 - 172.31.255.255
-    if (preg_match('/^172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3}$/', $ip)) {
-        _error_log("isSSRFSafeURL: blocked private IP (172.16-31.x.x): {$ip}");
-        return false;
-    }
-
-    // 192.168.0.0 - 192.168.255.255
-    if (preg_match('/^192\.168\.\d{1,3}\.\d{1,3}$/', $ip)) {
-        _error_log("isSSRFSafeURL: blocked private IP (192.168.x.x): {$ip}");
-        return false;
-    }
-
-    // 127.0.0.0 - 127.255.255.255 (loopback)
-    if (preg_match('/^127\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $ip)) {
-        _error_log("isSSRFSafeURL: blocked loopback IP: {$ip}");
-        return false;
-    }
-
-    // 169.254.0.0 - 169.254.255.255 (link-local, includes AWS/cloud metadata)
-    if (preg_match('/^169\.254\.\d{1,3}\.\d{1,3}$/', $ip)) {
-        _error_log("isSSRFSafeURL: blocked link-local/metadata IP: {$ip}");
-        return false;
-    }
-
-    // 0.0.0.0 - 0.255.255.255
-    if (preg_match('/^0\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $ip)) {
-        _error_log("isSSRFSafeURL: blocked zero IP range: {$ip}");
-        return false;
-    }
-
-    // Block metadata endpoints (cloud providers)
+    // Block cloud metadata endpoints by hostname (defence-in-depth alongside the IP check)
     $metadataHosts = [
         'metadata.google.internal',
         'metadata.goog',
@@ -4146,25 +4126,6 @@ function isSSRFSafeURL($url)
     foreach ($metadataHosts as $metadataHost) {
         if ($host === $metadataHost) {
             _error_log("isSSRFSafeURL: blocked cloud metadata host: {$host}");
-            return false;
-        }
-    }
-
-    // Block IPv6 private/local addresses
-    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-        // Check for IPv6 loopback
-        if ($ip === '::1' || $ip === '0:0:0:0:0:0:0:1') {
-            _error_log("isSSRFSafeURL: blocked IPv6 loopback: {$ip}");
-            return false;
-        }
-        // Check for IPv6 link-local (fe80::/10)
-        if (preg_match('/^fe[89ab][0-9a-f]:/i', $ip)) {
-            _error_log("isSSRFSafeURL: blocked IPv6 link-local: {$ip}");
-            return false;
-        }
-        // Check for IPv6 unique local (fc00::/7)
-        if (preg_match('/^f[cd][0-9a-f]{2}:/i', $ip)) {
-            _error_log("isSSRFSafeURL: blocked IPv6 unique local: {$ip}");
             return false;
         }
     }
