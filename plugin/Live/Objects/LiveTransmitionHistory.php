@@ -484,6 +484,10 @@ class LiveTransmitionHistory extends ObjectYPT
     {
         global $global, $getLatestSQL;
 
+        // Security: use parameterized placeholders for all user-supplied values.
+        $formats = '';
+        $values = [];
+
         $sql = "SELECT
             lth.*,
             lt.id as live_transmitions_id,
@@ -492,7 +496,9 @@ class LiveTransmitionHistory extends ObjectYPT
         LEFT JOIN live_transmitions lt ON lth.users_id = lt.users_id
         WHERE 1=1 ";
         if (!empty($key)) {
-            $sql .= " AND lth.`key` LIKE '{$key}%' ";
+            $sql .= " AND lth.`key` LIKE ? ";
+            $formats .= 's';
+            $values[] = $key . '%';
         }
         if (isset($live_servers_id)) {
             $sql .= " AND (lth.live_servers_id = " . intval($live_servers_id);
@@ -515,11 +521,14 @@ class LiveTransmitionHistory extends ObjectYPT
                 $sql .= " AND finished IS NULL ";
             }
         }
-        $sql .= " ORDER BY (lth.`key` = '{$key}') DESC, lth.created DESC LIMIT 1";
+        // ORDER BY also uses $key — bind it as a parameter to prevent injection.
+        $sql .= " ORDER BY (lth.`key` = ?) DESC, lth.created DESC LIMIT 1";
+        $formats .= 's';
+        $values[] = (string) $key;
 
         $getLatestSQL = $sql;
         //var_dump($sql, $key);exit;
-        $res = sqlDAL::readSql($sql);
+        $res = sqlDAL::readSql($sql, $formats, $values);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         //var_dump($sql, $data);exit;
@@ -680,19 +689,24 @@ class LiveTransmitionHistory extends ObjectYPT
 
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE ";
 
+        // Security: parameterized query to prevent SQL injection via stream key.
         if(!$strict){
             $parts = Live::getLiveParametersFromKey($key);
             $key = $parts['cleanKey'];
-            $sql .= " `key` LIKE '{$key}%' ";
+            $sql .= " `key` LIKE ? ";
+            $bindFormats = 's';
+            $bindValues = [$key . '%'];
         }else{
-            $sql .= " `key` = '{$key}' ";
+            $sql .= " `key` = ? ";
+            $bindFormats = 's';
+            $bindValues = [$key];
         }
 
         $sql .= " ORDER BY modified DESC, id DESC LIMIT 1";
 
         $_getLatestFromKey = $sql;
         //var_dump($sql);exit;
-        $res = sqlDAL::readSql($sql);
+        $res = sqlDAL::readSql($sql, $bindFormats, $bindValues);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
