@@ -132,6 +132,10 @@ $isHTTPS = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
            (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
 
 if ($isHTTPS) {
+    // SameSite=None is intentional: AVideo supports cross-origin iframe embedding
+    // where users must stay authenticated (e.g. video players on third-party sites).
+    // Setting Lax would break that use case. All state-mutating endpoints that are
+    // vulnerable to CSRF must instead enforce a short-lived globalToken (verifyToken).
     ini_set('session.cookie_samesite', 'None');
     ini_set('session.cookie_secure', '1');
 }

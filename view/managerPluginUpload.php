@@ -26,6 +26,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
             if (is_writable($dir)) {
             ?>
                 <form enctype="multipart/form-data">
+                    <input type="hidden" id="pluginUploadToken" name="globalToken" value="<?php echo getToken(300); ?>">
                     <input id="input-b1" name="input-b1" type="file" class="">
                 </form>
             <?php
@@ -48,6 +49,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
             allowedFileExtensions: ['zip'],
             theme: 'fa6',
             showClose: false,
+            uploadExtraData: { globalToken: $('#pluginUploadToken').val() },
         }).on('fileuploaded', function(event, data, id, index) {
             parent.$("#grid").bootgrid('reload');
         });

@@ -20,6 +20,16 @@ if (!User::isAdmin()) {
     die(json_encode($obj));
 }
 
+// CSRF protection: require a valid server-issued token.
+// multipart/form-data is a CORS-safelisted Content-Type, so browsers send it
+// cross-origin without an OPTIONS preflight. With SameSite=None on HTTPS the
+// session cookie is also included, making a pure session check insufficient.
+if (!isGlobalTokenValid()) {
+    http_response_code(403);
+    $obj->msg = "Invalid or missing CSRF token";
+    die(json_encode($obj));
+}
+
 // Validate that a file was actually uploaded
 if (!isset($_FILES['input-b1']) || empty($_FILES['input-b1']['name'])) {
     $obj->msg = "No file uploaded";
