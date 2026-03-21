@@ -1,1 +1,5 @@
-export var rcheckableType = /^(?:checkbox|radio)$/i;
+define( function() {
+	"use strict";
+
+	return ( /^(?:checkbox|radio)$/i );
+} );

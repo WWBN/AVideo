@@ -1,15 +1,19 @@
-import { jQuery } from "./core.js";
+define( [
+	"./core",
+	"./var/isFunction",
+	"./core/init",
+	"./manipulation", // clone
+	"./traversing" // parent, contents
+], function( jQuery, isFunction ) {
 
-import "./core/init.js";
-import "./manipulation.js"; // clone
-import "./traversing.js"; // parent, contents
+"use strict";
 
 jQuery.fn.extend( {
 	wrapAll: function( html ) {
 		var wrap;
 
 		if ( this[ 0 ] ) {
-			if ( typeof html === "function" ) {
+			if ( isFunction( html ) ) {
 				html = html.call( this[ 0 ] );
 			}
 
@@ -35,7 +39,7 @@ jQuery.fn.extend( {
 	},
 
 	wrapInner: function( html ) {
-		if ( typeof html === "function" ) {
+		if ( isFunction( html ) ) {
 			return this.each( function( i ) {
 				jQuery( this ).wrapInner( html.call( this, i ) );
 			} );
@@ -55,7 +59,7 @@ jQuery.fn.extend( {
 	},
 
 	wrap: function( html ) {
-		var htmlIsFunction = typeof html === "function";
+		var htmlIsFunction = isFunction( html );
 
 		return this.each( function( i ) {
 			jQuery( this ).wrapAll( htmlIsFunction ? html.call( this, i ) : html );
@@ -70,4 +74,5 @@ jQuery.fn.extend( {
 	}
 } );
 
-export { jQuery, jQuery as $ };
+return jQuery;
+} );

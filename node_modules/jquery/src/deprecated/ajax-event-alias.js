@@ -1,7 +1,10 @@
-import { jQuery } from "../core.js";
+define( [
+	"../core",
+	"../ajax",
+	"../event"
+], function( jQuery ) {
 
-import "../ajax.js";
-import "../event.js";
+"use strict";
 
 jQuery.each( [
 	"ajaxStart",
@@ -14,4 +17,6 @@ jQuery.each( [
 	jQuery.fn[ type ] = function( fn ) {
 		return this.on( type, fn );
 	};
+} );
+
 } );

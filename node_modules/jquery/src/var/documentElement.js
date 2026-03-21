@@ -1,3 +1,7 @@
-import { document } from "./document.js";
+define( [
+	"./document"
+], function( document ) {
+	"use strict";
 
-export var documentElement = document.documentElement;
+	return document.documentElement;
+} );

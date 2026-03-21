@@ -1,1 +1,5 @@
-export var getProto = Object.getPrototypeOf;
+define( function() {
+	"use strict";
+
+	return Object.getPrototypeOf;
+} );

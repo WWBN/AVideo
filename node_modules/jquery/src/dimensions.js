@@ -1,8 +1,11 @@
-import { jQuery } from "./core.js";
-import { access } from "./core/access.js";
-import { isWindow } from "./var/isWindow.js";
+define( [
+	"./core",
+	"./core/access",
+	"./var/isWindow",
+	"./css"
+], function( jQuery, access, isWindow ) {
 
-import "./css.js";
+"use strict";
 
 // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
 jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
@@ -53,4 +56,5 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 	} );
 } );
 
-export { jQuery, jQuery as $ };
+return jQuery;
+} );

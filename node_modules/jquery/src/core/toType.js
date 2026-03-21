@@ -1,12 +1,20 @@
-import { class2type } from "../var/class2type.js";
-import { toString } from "../var/toString.js";
+define( [
+	"../var/class2type",
+	"../var/toString"
+], function( class2type, toString ) {
 
-export function toType( obj ) {
+"use strict";
+
+function toType( obj ) {
 	if ( obj == null ) {
 		return obj + "";
 	}
 
-	return typeof obj === "object" ?
+	// Support: Android <=2.3 only (functionish RegExp)
+	return typeof obj === "object" || typeof obj === "function" ?
 		class2type[ toString.call( obj ) ] || "object" :
 		typeof obj;
 }
+
+return toType;
+} );

@@ -1,21 +1,27 @@
-import { jQuery } from "./core.js";
-import { document } from "./var/document.js";
-import { rcssNum } from "./var/rcssNum.js";
-import { rnothtmlwhite } from "./var/rnothtmlwhite.js";
-import { cssExpand } from "./css/var/cssExpand.js";
-import { isHiddenWithinTree } from "./css/var/isHiddenWithinTree.js";
-import { adjustCSS } from "./css/adjustCSS.js";
-import { cssCamelCase } from "./css/cssCamelCase.js";
-import { dataPriv } from "./data/var/dataPriv.js";
-import { showHide } from "./css/showHide.js";
+define( [
+	"./core",
+	"./core/camelCase",
+	"./var/document",
+	"./var/isFunction",
+	"./var/rcssNum",
+	"./var/rnothtmlwhite",
+	"./css/var/cssExpand",
+	"./css/var/isHiddenWithinTree",
+	"./css/adjustCSS",
+	"./data/var/dataPriv",
+	"./css/showHide",
 
-import "./core/init.js";
-import "./queue.js";
-import "./deferred.js";
-import "./traversing.js";
-import "./manipulation.js";
-import "./css.js";
-import "./effects/Tween.js";
+	"./core/init",
+	"./queue",
+	"./deferred",
+	"./traversing",
+	"./manipulation",
+	"./css",
+	"./effects/Tween"
+], function( jQuery, camelCase, document, isFunction, rcssNum, rnothtmlwhite, cssExpand,
+	isHiddenWithinTree, adjustCSS, dataPriv, showHide ) {
+
+"use strict";
 
 var
 	fxNow, inProgress,
@@ -27,7 +33,7 @@ function schedule() {
 		if ( document.hidden === false && window.requestAnimationFrame ) {
 			window.requestAnimationFrame( schedule );
 		} else {
-			window.setTimeout( schedule, 13 );
+			window.setTimeout( schedule, jQuery.fx.interval );
 		}
 
 		jQuery.fx.tick();
@@ -143,9 +149,10 @@ function defaultPrefilter( elem, props, opts ) {
 	// Restrict "overflow" and "display" styles during box animations
 	if ( isBox && elem.nodeType === 1 ) {
 
-		// Support: IE <=9 - 11+
+		// Support: IE <=9 - 11, Edge 12 - 15
 		// Record all 3 overflow attributes because IE does not infer the shorthand
-		// from identically-valued overflowX and overflowY.
+		// from identically-valued overflowX and overflowY and Edge just mirrors
+		// the overflowX value there.
 		opts.overflow = [ style.overflow, style.overflowX, style.overflowY ];
 
 		// Identify a display type, preferring old show/hide data over the CSS cascade
@@ -206,7 +213,7 @@ function defaultPrefilter( elem, props, opts ) {
 					hidden = dataShow.hidden;
 				}
 			} else {
-				dataShow = dataPriv.set( elem, "fxshow", { display: restoreDisplay } );
+				dataShow = dataPriv.access( elem, "fxshow", { display: restoreDisplay } );
 			}
 
 			// Store hidden/visible for toggle so `.stop().toggle()` "reverses"
@@ -219,8 +226,11 @@ function defaultPrefilter( elem, props, opts ) {
 				showHide( [ elem ], true );
 			}
 
-			// eslint-disable-next-line no-loop-func
+			/* eslint-disable no-loop-func */
+
 			anim.done( function() {
+
+				/* eslint-enable no-loop-func */
 
 				// The final step of a "hide" animation is actually hiding the element
 				if ( !hidden ) {
@@ -250,7 +260,7 @@ function propFilter( props, specialEasing ) {
 
 	// camelCase, specialEasing and expand cssHook pass
 	for ( index in props ) {
-		name = cssCamelCase( index );
+		name = camelCase( index );
 		easing = specialEasing[ name ];
 		value = props[ index ];
 		if ( Array.isArray( value ) ) {
@@ -299,7 +309,10 @@ function Animation( elem, properties, options ) {
 			var currentTime = fxNow || createFxNow(),
 				remaining = Math.max( 0, animation.startTime + animation.duration - currentTime ),
 
-				percent = 1 - ( remaining / animation.duration || 0 ),
+				// Support: Android 2.3 only
+				// Archaic crash bug won't allow us to use `1 - ( 0.5 || 0 )` (trac-12497)
+				temp = remaining / animation.duration || 0,
+				percent = 1 - temp,
 				index = 0,
 				length = animation.tweens.length;
 
@@ -372,7 +385,7 @@ function Animation( elem, properties, options ) {
 	for ( ; index < length; index++ ) {
 		result = Animation.prefilters[ index ].call( animation, elem, props, animation.opts );
 		if ( result ) {
-			if ( typeof result.stop === "function" ) {
+			if ( isFunction( result.stop ) ) {
 				jQuery._queueHooks( animation.elem, animation.opts.queue ).stop =
 					result.stop.bind( result );
 			}
@@ -382,7 +395,7 @@ function Animation( elem, properties, options ) {
 
 	jQuery.map( props, createTween, animation );
 
-	if ( typeof animation.opts.start === "function" ) {
+	if ( isFunction( animation.opts.start ) ) {
 		animation.opts.start.call( elem, animation );
 	}
 
@@ -415,7 +428,7 @@ jQuery.Animation = jQuery.extend( Animation, {
 	},
 
 	tweener: function( props, callback ) {
-		if ( typeof props === "function" ) {
+		if ( isFunction( props ) ) {
 			callback = props;
 			props = [ "*" ];
 		} else {
@@ -446,10 +459,10 @@ jQuery.Animation = jQuery.extend( Animation, {
 
 jQuery.speed = function( speed, easing, fn ) {
 	var opt = speed && typeof speed === "object" ? jQuery.extend( {}, speed ) : {
-		complete: fn || easing ||
-			typeof speed === "function" && speed,
+		complete: fn || !fn && easing ||
+			isFunction( speed ) && speed,
 		duration: speed,
-		easing: fn && easing || easing && typeof easing !== "function" && easing
+		easing: fn && easing || easing && !isFunction( easing ) && easing
 	};
 
 	// Go to the end state if fx are off
@@ -476,7 +489,7 @@ jQuery.speed = function( speed, easing, fn ) {
 	opt.old = opt.complete;
 
 	opt.complete = function() {
-		if ( typeof opt.old === "function" ) {
+		if ( isFunction( opt.old ) ) {
 			opt.old.call( this );
 		}
 
@@ -663,6 +676,7 @@ jQuery.fx.timer = function( timer ) {
 	jQuery.fx.start();
 };
 
+jQuery.fx.interval = 13;
 jQuery.fx.start = function() {
 	if ( inProgress ) {
 		return;
@@ -684,4 +698,5 @@ jQuery.fx.speeds = {
 	_default: 400
 };
 
-export { jQuery, jQuery as $ };
+return jQuery;
+} );

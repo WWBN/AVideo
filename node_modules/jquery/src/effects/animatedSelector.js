@@ -1,10 +1,15 @@
-import { jQuery } from "../core.js";
+define( [
+	"../core",
+	"../selector",
+	"../effects"
+], function( jQuery ) {
 
-import "../selector.js";
-import "../effects.js";
+"use strict";
 
 jQuery.expr.pseudos.animated = function( elem ) {
 	return jQuery.grep( jQuery.timers, function( fn ) {
 		return elem === fn.elem;
 	} ).length;
 };
+
+} );

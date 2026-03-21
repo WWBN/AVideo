@@ -1,1 +1,5 @@
-export var nonce = { guid: Date.now() };
+define( function() {
+	"use strict";
+
+	return { guid: Date.now() };
+} );

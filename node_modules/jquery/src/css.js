@@ -1,24 +1,36 @@
-import { jQuery } from "./core.js";
-import { access } from "./core/access.js";
-import { nodeName } from "./core/nodeName.js";
-import { rcssNum } from "./var/rcssNum.js";
-import { isIE } from "./var/isIE.js";
-import { rnumnonpx } from "./css/var/rnumnonpx.js";
-import { rcustomProp } from "./css/var/rcustomProp.js";
-import { cssExpand } from "./css/var/cssExpand.js";
-import { isAutoPx } from "./css/isAutoPx.js";
-import { cssCamelCase } from "./css/cssCamelCase.js";
-import { getStyles } from "./css/var/getStyles.js";
-import { swap } from "./css/var/swap.js";
-import { curCSS } from "./css/curCSS.js";
-import { adjustCSS } from "./css/adjustCSS.js";
-import { finalPropName } from "./css/finalPropName.js";
-import { support } from "./css/support.js";
+define( [
+	"./core",
+	"./core/access",
+	"./core/camelCase",
+	"./core/nodeName",
+	"./var/rcssNum",
+	"./css/var/rnumnonpx",
+	"./css/var/rcustomProp",
+	"./css/var/cssExpand",
+	"./css/var/getStyles",
+	"./css/var/swap",
+	"./css/curCSS",
+	"./css/adjustCSS",
+	"./css/addGetHookIf",
+	"./css/support",
+	"./css/finalPropName",
 
-import "./core/init.js";
-import "./core/ready.js";
+	"./core/init",
+	"./core/ready",
+	"./selector" // contains
+], function( jQuery, access, camelCase, nodeName, rcssNum, rnumnonpx,
+	rcustomProp, cssExpand, getStyles, swap, curCSS, adjustCSS, addGetHookIf,
+	support, finalPropName ) {
 
-var cssShow = { position: "absolute", visibility: "hidden", display: "block" },
+"use strict";
+
+var
+
+	// Swappable if display is none or starts with table
+	// except "table", "table-cell", or "table-caption"
+	// See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
+	rdisplayswap = /^(none|table(?!-c[ea]).+)/,
+	cssShow = { position: "absolute", visibility: "hidden", display: "block" },
 	cssNormalTransform = {
 		letterSpacing: "0",
 		fontWeight: "400"
@@ -114,7 +126,7 @@ function getWidthOrHeight( elem, dimension, extra ) {
 
 		// To avoid forcing a reflow, only fetch boxSizing if we need it (gh-4322).
 		// Fake content-box until we know it's needed to know the true value.
-		boxSizingNeeded = isIE || extra,
+		boxSizingNeeded = !support.boxSizingReliable() || extra,
 		isBorderBox = boxSizingNeeded &&
 			jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
 		valueIsBorderBox = isBorderBox,
@@ -122,6 +134,7 @@ function getWidthOrHeight( elem, dimension, extra ) {
 		val = curCSS( elem, dimension, styles ),
 		offsetProp = "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 );
 
+	// Support: Firefox <=54
 	// Return a confounding non-pixel value or feign ignorance, as appropriate.
 	if ( rnumnonpx.test( val ) ) {
 		if ( !extra ) {
@@ -131,22 +144,24 @@ function getWidthOrHeight( elem, dimension, extra ) {
 	}
 
 
-	if (
-		(
+	// Support: IE 9 - 11 only
+	// Use offsetWidth/offsetHeight for when box sizing is unreliable.
+	// In those cases, the computed value can be trusted to be border-box.
+	if ( ( !support.boxSizingReliable() && isBorderBox ||
 
-			// Fall back to offsetWidth/offsetHeight when value is "auto"
-			// This happens for inline elements with no explicit setting (gh-3571)
-			val === "auto" ||
+		// Support: IE 10 - 11+, Edge 15 - 18+
+		// IE/Edge misreport `getComputedStyle` of table rows with width/height
+		// set in CSS while `offset*` properties report correct values.
+		// Interestingly, in some cases IE 9 doesn't suffer from this issue.
+		!support.reliableTrDimensions() && nodeName( elem, "tr" ) ||
 
-			// Support: IE 9 - 11+
-			// Use offsetWidth/offsetHeight for when box sizing is unreliable.
-			// In those cases, the computed value can be trusted to be border-box.
-			( isIE && isBorderBox ) ||
+		// Fall back to offsetWidth/offsetHeight when value is "auto"
+		// This happens for inline elements with no explicit setting (gh-3571)
+		val === "auto" ||
 
-			( !support.reliableColDimensions() && nodeName( elem, "col" ) ) ||
-
-			( !support.reliableTrDimensions() && nodeName( elem, "tr" ) )
-		) &&
+		// Support: Android <=4.1 - 4.3 only
+		// Also use offsetWidth/offsetHeight for misreported inline dimensions (gh-3602)
+		!parseFloat( val ) && jQuery.css( elem, "display", false, styles ) === "inline" ) &&
 
 		// Make sure the element is visible & connected
 		elem.getClientRects().length ) {
@@ -184,7 +199,55 @@ jQuery.extend( {
 
 	// Add in style property hooks for overriding the default
 	// behavior of getting and setting a style property
-	cssHooks: {},
+	cssHooks: {
+		opacity: {
+			get: function( elem, computed ) {
+				if ( computed ) {
+
+					// We should always get a number back from opacity
+					var ret = curCSS( elem, "opacity" );
+					return ret === "" ? "1" : ret;
+				}
+			}
+		}
+	},
+
+	// Don't automatically add "px" to these possibly-unitless properties
+	cssNumber: {
+		animationIterationCount: true,
+		aspectRatio: true,
+		borderImageSlice: true,
+		columnCount: true,
+		flexGrow: true,
+		flexShrink: true,
+		fontWeight: true,
+		gridArea: true,
+		gridColumn: true,
+		gridColumnEnd: true,
+		gridColumnStart: true,
+		gridRow: true,
+		gridRowEnd: true,
+		gridRowStart: true,
+		lineHeight: true,
+		opacity: true,
+		order: true,
+		orphans: true,
+		scale: true,
+		widows: true,
+		zIndex: true,
+		zoom: true,
+
+		// SVG-related
+		fillOpacity: true,
+		floodOpacity: true,
+		stopOpacity: true,
+		strokeMiterlimit: true,
+		strokeOpacity: true
+	},
+
+	// Add in properties whose names you wish to fix before
+	// setting or getting the value
+	cssProps: {},
 
 	// Get and set the style property on a DOM Node
 	style: function( elem, name, value, extra ) {
@@ -196,7 +259,7 @@ jQuery.extend( {
 
 		// Make sure that we're working with the right name
 		var ret, type, hooks,
-			origName = cssCamelCase( name ),
+			origName = camelCase( name ),
 			isCustomProp = rcustomProp.test( name ),
 			style = elem.style;
 
@@ -227,14 +290,15 @@ jQuery.extend( {
 				return;
 			}
 
-			// If the value is a number, add `px` for certain CSS properties
-			if ( type === "number" ) {
-				value += ret && ret[ 3 ] || ( isAutoPx( origName ) ? "px" : "" );
+			// If a number was passed in, add the unit (except for certain CSS properties)
+			// The isCustomProp check can be removed in jQuery 4.0 when we only auto-append
+			// "px" to a few hardcoded values.
+			if ( type === "number" && !isCustomProp ) {
+				value += ret && ret[ 3 ] || ( jQuery.cssNumber[ origName ] ? "" : "px" );
 			}
 
-			// Support: IE <=9 - 11+
-			// background-* props of a cloned element affect the source element (trac-8908)
-			if ( isIE && value === "" && name.indexOf( "background" ) === 0 ) {
+			// background-* props affect original clone's values
+			if ( !support.clearCloneStyle && value === "" && name.indexOf( "background" ) === 0 ) {
 				style[ name ] = "inherit";
 			}
 
@@ -265,7 +329,7 @@ jQuery.extend( {
 
 	css: function( elem, name, extra, styles ) {
 		var val, num, hooks,
-			origName = cssCamelCase( name ),
+			origName = camelCase( name ),
 			isCustomProp = rcustomProp.test( name );
 
 		// Make sure that we're working with the right name. We don't
@@ -308,9 +372,17 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 		get: function( elem, computed, extra ) {
 			if ( computed ) {
 
-				// Elements with `display: none` can have dimension info if
-				// we invisibly show them.
-				return jQuery.css( elem, "display" ) === "none" ?
+				// Certain elements can have dimension info if we invisibly show them
+				// but it must have a current display style that would benefit
+				return rdisplayswap.test( jQuery.css( elem, "display" ) ) &&
+
+					// Support: Safari 8+
+					// Table columns in Safari have non-zero offsetWidth & zero
+					// getBoundingClientRect().width unless display is changed.
+					// Support: IE <=11 only
+					// Running getBoundingClientRect on a disconnected node
+					// in IE throws an error.
+					( !elem.getClientRects().length || !elem.getBoundingClientRect().width ) ?
 					swap( elem, cssShow, function() {
 						return getWidthOrHeight( elem, dimension, extra );
 					} ) :
@@ -322,8 +394,14 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 			var matches,
 				styles = getStyles( elem ),
 
+				// Only read styles.position if the test has a chance to fail
+				// to avoid forcing a reflow.
+				scrollboxSizeBuggy = !support.scrollboxSize() &&
+					styles.position === "absolute",
+
 				// To avoid forcing a reflow, only fetch boxSizing if we need it (gh-3991)
-				isBorderBox = extra &&
+				boxSizingNeeded = scrollboxSizeBuggy || extra,
+				isBorderBox = boxSizingNeeded &&
 					jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
 				subtract = extra ?
 					boxModelAdjustment(
@@ -334,6 +412,17 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 						styles
 					) :
 					0;
+
+			// Account for unreliable border-box dimensions by comparing offset* to computed and
+			// faking a content-box to get border and padding (gh-3699)
+			if ( isBorderBox && scrollboxSizeBuggy ) {
+				subtract -= Math.ceil(
+					elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
+					parseFloat( styles[ dimension ] ) -
+					boxModelAdjustment( elem, dimension, "border", false, styles ) -
+					0.5
+				);
+			}
 
 			// Convert to pixels if value adjustment is needed
 			if ( subtract && ( matches = rcssNum.exec( value ) ) &&
@@ -347,6 +436,19 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 		}
 	};
 } );
+
+jQuery.cssHooks.marginLeft = addGetHookIf( support.reliableMarginLeft,
+	function( elem, computed ) {
+		if ( computed ) {
+			return ( parseFloat( curCSS( elem, "marginLeft" ) ) ||
+				elem.getBoundingClientRect().left -
+					swap( elem, { marginLeft: 0 }, function() {
+						return elem.getBoundingClientRect().left;
+					} )
+			) + "px";
+		}
+	}
+);
 
 // These hooks are used by animate to expand properties
 jQuery.each( {
@@ -401,4 +503,5 @@ jQuery.fn.extend( {
 	}
 } );
 
-export { jQuery, jQuery as $ };
+return jQuery;
+} );

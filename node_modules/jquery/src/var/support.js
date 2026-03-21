@@ -1,2 +1,6 @@
-// All support tests are defined in their respective modules.
-export var support = {};
+define( function() {
+	"use strict";
+
+	// All support tests are defined in their respective modules.
+	return {};
+} );

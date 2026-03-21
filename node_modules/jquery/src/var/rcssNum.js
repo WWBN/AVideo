@@ -1,3 +1,9 @@
-import { pnum } from "../var/pnum.js";
+define( [
+	"../var/pnum"
+], function( pnum ) {
 
-export var rcssNum = new RegExp( "^(?:([+-])=|)(" + pnum + ")([a-z%]*)$", "i" );
+"use strict";
+
+return new RegExp( "^(?:([+-])=|)(" + pnum + ")([a-z%]*)$", "i" );
+
+} );

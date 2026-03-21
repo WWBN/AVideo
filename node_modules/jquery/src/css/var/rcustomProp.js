@@ -1,1 +1,7 @@
-export var rcustomProp = /^--/;
+define( function() {
+
+"use strict";
+
+return /^--/;
+
+} );

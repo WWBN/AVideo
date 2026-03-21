@@ -1,15 +1,17 @@
-export function getStyles( elem ) {
+define( function() {
+	"use strict";
 
-	// Support: IE <=11+ (trac-14150)
-	// In IE popup's `window` is the opener window which makes `window.getComputedStyle( elem )`
-	// break. Using `elem.ownerDocument.defaultView` avoids the issue.
-	var view = elem.ownerDocument.defaultView;
+	return function( elem ) {
 
-	// `document.implementation.createHTMLDocument( "" )` has a `null` `defaultView`
-	// property; check `defaultView` truthiness to fallback to window in such a case.
-	if ( !view ) {
-		view = window;
-	}
+		// Support: IE <=11 only, Firefox <=30 (trac-15098, trac-14150)
+		// IE throws on elements created in popups
+		// FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
+		var view = elem.ownerDocument.defaultView;
 
-	return view.getComputedStyle( elem );
-}
+		if ( !view || !view.opener ) {
+			view = window;
+		}
+
+		return view.getComputedStyle( elem );
+	};
+} );

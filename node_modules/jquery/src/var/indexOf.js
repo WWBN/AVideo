@@ -1,3 +1,7 @@
-import { arr } from "./arr.js";
+define( [
+	"./arr"
+], function( arr ) {
+	"use strict";
 
-export var indexOf = arr.indexOf;
+	return arr.indexOf;
+} );

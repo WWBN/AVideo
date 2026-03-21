@@ -1,8 +1,13 @@
-import { jQuery } from "../core.js";
-import { stripAndCollapse } from "../core/stripAndCollapse.js";
-import { rnothtmlwhite } from "../var/rnothtmlwhite.js";
+define( [
+	"../core",
+	"../core/stripAndCollapse",
+	"../var/isFunction",
+	"../var/rnothtmlwhite",
+	"../data/var/dataPriv",
+	"../core/init"
+], function( jQuery, stripAndCollapse, isFunction, rnothtmlwhite, dataPriv ) {
 
-import "../core/init.js";
+"use strict";
 
 function getClass( elem ) {
 	return elem.getAttribute && elem.getAttribute( "class" ) || "";
@@ -22,7 +27,7 @@ jQuery.fn.extend( {
 	addClass: function( value ) {
 		var classNames, cur, curValue, className, i, finalValue;
 
-		if ( typeof value === "function" ) {
+		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
 				jQuery( this ).addClass( value.call( this, j, getClass( this ) ) );
 			} );
@@ -58,7 +63,7 @@ jQuery.fn.extend( {
 	removeClass: function( value ) {
 		var classNames, cur, curValue, className, i, finalValue;
 
-		if ( typeof value === "function" ) {
+		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
 				jQuery( this ).removeClass( value.call( this, j, getClass( this ) ) );
 			} );
@@ -100,9 +105,11 @@ jQuery.fn.extend( {
 	},
 
 	toggleClass: function( value, stateVal ) {
-		var classNames, className, i, self;
+		var classNames, className, i, self,
+			type = typeof value,
+			isValidValue = type === "string" || Array.isArray( value );
 
-		if ( typeof value === "function" ) {
+		if ( isFunction( value ) ) {
 			return this.each( function( i ) {
 				jQuery( this ).toggleClass(
 					value.call( this, i, getClass( this ), stateVal ),
@@ -111,14 +118,14 @@ jQuery.fn.extend( {
 			} );
 		}
 
-		if ( typeof stateVal === "boolean" ) {
+		if ( typeof stateVal === "boolean" && isValidValue ) {
 			return stateVal ? this.addClass( value ) : this.removeClass( value );
 		}
 
 		classNames = classesToArray( value );
 
-		if ( classNames.length ) {
-			return this.each( function() {
+		return this.each( function() {
+			if ( isValidValue ) {
 
 				// Toggle individual class names
 				self = jQuery( this );
@@ -133,10 +140,29 @@ jQuery.fn.extend( {
 						self.addClass( className );
 					}
 				}
-			} );
-		}
 
-		return this;
+			// Toggle whole class name
+			} else if ( value === undefined || type === "boolean" ) {
+				className = getClass( this );
+				if ( className ) {
+
+					// Store className if set
+					dataPriv.set( this, "__className__", className );
+				}
+
+				// If the element has a class name or if we're passed `false`,
+				// then remove the whole classname (if there was one, the above saved it).
+				// Otherwise bring back whatever was previously saved (if anything),
+				// falling back to the empty string if nothing was stored.
+				if ( this.setAttribute ) {
+					this.setAttribute( "class",
+						className || value === false ?
+							"" :
+							dataPriv.get( this, "__className__" ) || ""
+					);
+				}
+			}
+		} );
 	},
 
 	hasClass: function( selector ) {
@@ -153,4 +179,6 @@ jQuery.fn.extend( {
 
 		return false;
 	}
+} );
+
 } );

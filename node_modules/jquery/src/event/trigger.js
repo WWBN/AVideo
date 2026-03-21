@@ -1,11 +1,15 @@
-import { jQuery } from "../core.js";
-import { document } from "../var/document.js";
-import { dataPriv } from "../data/var/dataPriv.js";
-import { acceptData } from "../data/var/acceptData.js";
-import { hasOwn } from "../var/hasOwn.js";
-import { isWindow } from "../var/isWindow.js";
+define( [
+	"../core",
+	"../var/document",
+	"../data/var/dataPriv",
+	"../data/var/acceptData",
+	"../var/hasOwn",
+	"../var/isFunction",
+	"../var/isWindow",
+	"../event"
+], function( jQuery, document, dataPriv, acceptData, hasOwn, isFunction, isWindow ) {
 
-import "../event.js";
+"use strict";
 
 var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/,
 	stopPropagationCallback = function( e ) {
@@ -125,7 +129,7 @@ jQuery.extend( jQuery.event, {
 
 				// Call a native DOM method on the target with the same name as the event.
 				// Don't do default actions on window, that's where global variables be (trac-6170)
-				if ( ontype && typeof elem[ type ] === "function" && !isWindow( elem ) ) {
+				if ( ontype && isFunction( elem[ type ] ) && !isWindow( elem ) ) {
 
 					// Don't re-trigger an onFOO event when we call its FOO() method
 					tmp = elem[ ontype ];
@@ -189,4 +193,7 @@ jQuery.fn.extend( {
 			return jQuery.event.trigger( type, data, elem, true );
 		}
 	}
+} );
+
+return jQuery;
 } );

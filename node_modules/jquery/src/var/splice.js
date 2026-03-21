@@ -1,3 +1,9 @@
-import { arr } from "./arr.js";
+define( [
+	"./arr"
+], function( arr ) {
 
-export var splice = arr.splice;
+"use strict";
+
+return arr.splice;
+
+} );

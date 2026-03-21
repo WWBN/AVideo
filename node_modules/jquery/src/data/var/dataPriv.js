@@ -1,3 +1,7 @@
-import { Data } from "../Data.js";
+define( [
+	"../Data"
+], function( Data ) {
+	"use strict";
 
-export var dataPriv = new Data();
+	return new Data();
+} );

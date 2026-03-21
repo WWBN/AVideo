@@ -1,2 +1,6 @@
-// [[Class]] -> type pairs
-export var class2type = {};
+define( function() {
+	"use strict";
+
+	// [[Class]] -> type pairs
+	return {};
+} );

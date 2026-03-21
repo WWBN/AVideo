@@ -1,1 +1,5 @@
-export var rquery = /\?/;
+define( function() {
+	"use strict";
+
+	return ( /\?/ );
+} );

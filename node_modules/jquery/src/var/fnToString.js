@@ -1,3 +1,7 @@
-import { hasOwn } from "./hasOwn.js";
+define( [
+	"./hasOwn"
+], function( hasOwn ) {
+	"use strict";
 
-export var fnToString = hasOwn.toString;
+	return hasOwn.toString;
+} );

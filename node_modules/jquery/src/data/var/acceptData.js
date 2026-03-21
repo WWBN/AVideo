@@ -1,7 +1,11 @@
+define( function() {
+
+"use strict";
+
 /**
  * Determines whether an object can have data
  */
-export function acceptData( owner ) {
+return function( owner ) {
 
 	// Accepts only:
 	//  - Node
@@ -10,4 +14,6 @@ export function acceptData( owner ) {
 	//  - Object
 	//    - Any
 	return owner.nodeType === 1 || owner.nodeType === 9 || !( +owner.nodeType );
-}
+};
+
+} );

@@ -1,1 +1,5 @@
-export var location = window.location;
+define( function() {
+	"use strict";
+
+	return window.location;
+} );

@@ -1,9 +1,16 @@
-import { jQuery } from "../core.js";
-import { isIE } from "../var/isIE.js";
-import { stripAndCollapse } from "../core/stripAndCollapse.js";
-import { nodeName } from "../core/nodeName.js";
+define( [
+	"../core",
+	"../core/stripAndCollapse",
+	"./support",
+	"../core/nodeName",
+	"../var/isFunction",
 
-import "../core/init.js";
+	"../core/init"
+], function( jQuery, stripAndCollapse, support, nodeName, isFunction ) {
+
+"use strict";
+
+var rreturn = /\r/g;
 
 jQuery.fn.extend( {
 	val: function( value ) {
@@ -24,6 +31,11 @@ jQuery.fn.extend( {
 
 				ret = elem.value;
 
+				// Handle most common string cases
+				if ( typeof ret === "string" ) {
+					return ret.replace( rreturn, "" );
+				}
+
 				// Handle cases where value is null/undef or number
 				return ret == null ? "" : ret;
 			}
@@ -31,7 +43,7 @@ jQuery.fn.extend( {
 			return;
 		}
 
-		valueIsFunction = typeof value === "function";
+		valueIsFunction = isFunction( value );
 
 		return this.each( function( i ) {
 			var val;
@@ -71,6 +83,20 @@ jQuery.fn.extend( {
 
 jQuery.extend( {
 	valHooks: {
+		option: {
+			get: function( elem ) {
+
+				var val = jQuery.find.attr( elem, "value" );
+				return val != null ?
+					val :
+
+					// Support: IE <=10 - 11 only
+					// option.text throws exceptions (trac-14686, trac-14858)
+					// Strip and collapse whitespace
+					// https://html.spec.whatwg.org/#strip-and-collapse-whitespace
+					stripAndCollapse( jQuery.text( elem ) );
+			}
+		},
 		select: {
 			get: function( elem ) {
 				var value, option, i,
@@ -91,7 +117,9 @@ jQuery.extend( {
 				for ( ; i < max; i++ ) {
 					option = options[ i ];
 
-					if ( option.selected &&
+					// Support: IE <=9 only
+					// IE8-9 doesn't update selected after form reset (trac-2551)
+					if ( ( option.selected || i === index ) &&
 
 							// Don't return options that are disabled or in a disabled optgroup
 							!option.disabled &&
@@ -123,11 +151,15 @@ jQuery.extend( {
 				while ( i-- ) {
 					option = options[ i ];
 
-					if ( ( option.selected =
-						jQuery.inArray( jQuery( option ).val(), values ) > -1
-					) ) {
+					/* eslint-disable no-cond-assign */
+
+					if ( option.selected =
+						jQuery.inArray( jQuery.valHooks.option.get( option ), values ) > -1
+					) {
 						optionSet = true;
 					}
+
+					/* eslint-enable no-cond-assign */
 				}
 
 				// Force browsers to behave consistently when non-matching value is set
@@ -140,23 +172,6 @@ jQuery.extend( {
 	}
 } );
 
-if ( isIE ) {
-	jQuery.valHooks.option = {
-		get: function( elem ) {
-
-			var val = elem.getAttribute( "value" );
-			return val != null ?
-				val :
-
-				// Support: IE <=10 - 11+
-				// option.text throws exceptions (trac-14686, trac-14858)
-				// Strip and collapse whitespace
-				// https://html.spec.whatwg.org/#strip-and-collapse-whitespace
-				stripAndCollapse( jQuery.text( elem ) );
-		}
-	};
-}
-
 // Radios and checkboxes getter/setter
 jQuery.each( [ "radio", "checkbox" ], function() {
 	jQuery.valHooks[ this ] = {
@@ -166,4 +181,11 @@ jQuery.each( [ "radio", "checkbox" ], function() {
 			}
 		}
 	};
+	if ( !support.checkOn ) {
+		jQuery.valHooks[ this ].get = function( elem ) {
+			return elem.getAttribute( "value" ) === null ? "on" : elem.value;
+		};
+	}
+} );
+
 } );

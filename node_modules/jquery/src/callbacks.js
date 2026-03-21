@@ -1,6 +1,11 @@
-import { jQuery } from "./core.js";
-import { toType } from "./core/toType.js";
-import { rnothtmlwhite } from "./var/rnothtmlwhite.js";
+define( [
+	"./core",
+	"./core/toType",
+	"./var/isFunction",
+	"./var/rnothtmlwhite"
+], function( jQuery, toType, isFunction, rnothtmlwhite ) {
+
+"use strict";
 
 // Convert String-formatted options into Object-formatted ones
 function createOptions( options ) {
@@ -122,7 +127,7 @@ jQuery.Callbacks = function( options ) {
 
 					( function add( args ) {
 						jQuery.each( args, function( _, arg ) {
-							if ( typeof arg === "function" ) {
+							if ( isFunction( arg ) ) {
 								if ( !options.unique || !self.has( arg ) ) {
 									list.push( arg );
 								}
@@ -227,4 +232,5 @@ jQuery.Callbacks = function( options ) {
 	return self;
 };
 
-export { jQuery, jQuery as $ };
+return jQuery;
+} );

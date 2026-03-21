@@ -1,7 +1,10 @@
-import { jQuery } from "../core.js";
+define( [
+	"../core",
+	"../queue",
+	"../effects" // Delay is optional because of this dependency
+], function( jQuery ) {
 
-import "../queue.js";
-import "../effects.js"; // Delay is optional because of this dependency
+"use strict";
 
 // Based off of the plugin by Clint Helfers, with permission.
 jQuery.fn.delay = function( time, type ) {
@@ -15,3 +18,6 @@ jQuery.fn.delay = function( time, type ) {
 		};
 	} );
 };
+
+return jQuery.fn.delay;
+} );

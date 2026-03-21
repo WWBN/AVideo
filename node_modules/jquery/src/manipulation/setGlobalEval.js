@@ -1,7 +1,11 @@
-import { dataPriv } from "../data/var/dataPriv.js";
+define( [
+	"../data/var/dataPriv"
+], function( dataPriv ) {
+
+"use strict";
 
 // Mark scripts as having already been evaluated
-export function setGlobalEval( elems, refElements ) {
+function setGlobalEval( elems, refElements ) {
 	var i = 0,
 		l = elems.length;
 
@@ -13,3 +17,6 @@ export function setGlobalEval( elems, refElements ) {
 		);
 	}
 }
+
+return setGlobalEval;
+} );

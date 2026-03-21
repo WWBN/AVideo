@@ -1,3 +1,7 @@
-import { fnToString } from "./fnToString.js";
+define( [
+	"./fnToString"
+], function( fnToString ) {
+	"use strict";
 
-export var ObjectFunctionString = fnToString.call( Object );
+	return fnToString.call( Object );
+} );

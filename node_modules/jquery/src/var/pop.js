@@ -1,3 +1,9 @@
-import { arr } from "./arr.js";
+define( [
+	"./arr"
+], function( arr ) {
 
-export var pop = arr.pop;
+"use strict";
+
+return arr.pop;
+
+} );

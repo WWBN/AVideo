@@ -1,9 +1,13 @@
-import { jQuery } from "./core.js";
+define( [
+	"./core",
+	"./attributes/attr",
+	"./attributes/prop",
+	"./attributes/classes",
+	"./attributes/val"
+], function( jQuery ) {
 
-import "./attributes/attr.js";
-import "./attributes/prop.js";
-import "./attributes/classes.js";
-import "./attributes/val.js";
+"use strict";
 
 // Return jQuery for attributes-only inclusion
-export { jQuery, jQuery as $ };
+return jQuery;
+} );

@@ -1,3 +1,7 @@
-import { class2type } from "./class2type.js";
+define( [
+	"./class2type"
+], function( class2type ) {
+	"use strict";
 
-export var hasOwn = class2type.hasOwnProperty;
+	return class2type.hasOwnProperty;
+} );

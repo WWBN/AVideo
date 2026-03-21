@@ -1,6 +1,10 @@
-import { jQuery } from "../../core.js";
+define( [
+	"../../core"
+], function( jQuery ) {
 
-export function dir( elem, dir, until ) {
+"use strict";
+
+return function( elem, dir, until ) {
 	var matched = [],
 		truncate = until !== undefined;
 
@@ -13,4 +17,6 @@ export function dir( elem, dir, until ) {
 		}
 	}
 	return matched;
-}
+};
+
+} );

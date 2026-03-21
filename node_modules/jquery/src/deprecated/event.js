@@ -1,7 +1,11 @@
-import { jQuery } from "../core.js";
+define( [
+	"../core",
 
-import "../event.js";
-import "../event/trigger.js";
+	"../event",
+	"../event/trigger"
+], function( jQuery ) {
+
+"use strict";
 
 jQuery.fn.extend( {
 
@@ -44,3 +48,5 @@ jQuery.each(
 		};
 	}
 );
+
+} );

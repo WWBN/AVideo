@@ -1,1 +1,5 @@
-export var arr = [];
+define( function() {
+	"use strict";
+
+	return [];
+} );
