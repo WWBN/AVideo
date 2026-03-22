@@ -21,16 +21,16 @@ class Scheduler_commands extends ObjectYPT {
     static function getTableName() {
         return 'scheduler_commands';
     }
-    
+
     static function isActiveFromVideosId($videos_id){
         $row = self::getFromVideosId($videos_id);
-        
+
         if(!empty($row) && $row['status'] == self::$statusActive ){
             return true;
         }
         return false;
     }
-    
+
     static function getFromVideosId($videos_id){
         global $global;
         $videos_id = intval($videos_id);
@@ -49,14 +49,14 @@ class Scheduler_commands extends ObjectYPT {
         }
         return $row;
     }
-    
+
     public static function getTimesNow() {
         $minute = intval(date('i'));
         $hour = intval(date('H'));
         $day_of_month = intval(date('d'));
         $month = intval(date('m'));
         $day_of_week = intval(date('w'));
-        
+
         return array(
             'minute'=>$minute,
             'hour'=>$hour,
@@ -128,10 +128,10 @@ class Scheduler_commands extends ObjectYPT {
             $parameters = _json_encode($parameters);
             $parameters = ($parameters);
         }
-        
+
         $this->parameters = $parameters;
     }
-    
+
     function setDate_to_execute($date_to_execute) {
         if (is_numeric($date_to_execute)) {
             $date_to_execute = date('Y-m-d H:i:s', $date_to_execute);
@@ -203,7 +203,7 @@ class Scheduler_commands extends ObjectYPT {
     private function _setTimezone($timezone) {
         $this->timezone = $timezone;
     }
-    
+
     public function getVideos_id() {
         return $this->videos_id;
     }
@@ -212,7 +212,7 @@ class Scheduler_commands extends ObjectYPT {
         $this->videos_id = $videos_id;
     }
 
-        
+
     public function save() {
         if (empty($this->date_to_execute)) {
             $this->date_to_execute = 'NULL';
@@ -337,14 +337,18 @@ class Scheduler_commands extends ObjectYPT {
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE (status='" . (self::$statusActive) . "' OR status='" . (self::$statusRepeat) . "') ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE (status=? OR status=?) ";
+        $formats = 'ss';
+        $values = [self::$statusActive, self::$statusRepeat];
 
         if(!empty($type)){
-            $sql .= ' AND `type` LIKE "'.$type.'%" ';
+            $sql .= ' AND `type` LIKE ? ';
+            $formats .= 's';
+            $values[] = $type . '%';
         }
-        
+
         $sql .= self::getSqlFromPost();
-        $res = sqlDAL::readSql($sql);
+        $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
@@ -355,7 +359,7 @@ class Scheduler_commands extends ObjectYPT {
         }
         return $rows;
     }
-    
+
     public function getTime_to_execute() {
         return $this->time_to_execute;
     }

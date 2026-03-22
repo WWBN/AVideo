@@ -12,6 +12,8 @@ if (empty($_REQUEST['minutesEarlier'])) {
     $_REQUEST['minutesEarlier'] = 10;
 }
 
+$_REQUEST['live_schedule_id'] = intval($_REQUEST['live_schedule_id']);
+
 $reminder = Live::setLiveScheduleReminder($_REQUEST['live_schedule_id'], $_REQUEST['minutesEarlier'], @$_REQUEST['deleteIfExists']);
 
 $obj = new stdClass();
