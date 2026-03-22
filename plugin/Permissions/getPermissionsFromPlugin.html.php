@@ -20,6 +20,7 @@ $permissions = Permissions::getPluginPermissions($_REQUEST['plugins_id']);
 $userGroups = UserGroups::getAllUsersGroupsArray();
 $uid = uniqid();
 ?>
+<input type="hidden" id="pluginPermissionsToken<?php echo $uid; ?>" value="<?php echo getToken(300); ?>">
 <div class="panel panel-default">
     <div class="panel-heading tabbable-line">
         <ul class="nav nav-tabs">
@@ -83,10 +84,22 @@ $uid = uniqid();
         modal.showPleaseWait();
         $.ajax({
             url: webSiteRootURL+'plugin/Permissions/setPermission.json.php',
-            data: {"users_groups_id": users_groups_id, "plugins_id": plugins_id, "type": type, "isEnabled": $('#pluginPermission'+users_groups_id+'<?php echo  $uid; ?>_'+type).is(":checked")},
+            data: {"users_groups_id": users_groups_id, "plugins_id": plugins_id, "type": type, "isEnabled": $('#pluginPermission'+users_groups_id+'<?php echo  $uid; ?>_'+type).is(":checked"), "globalToken": $('#pluginPermissionsToken<?php echo $uid; ?>').val()},
+            dataType: 'json',
             type: 'post',
             success: function (response) {
                 console.log(response);
+                if (response && response.error && response.msg) {
+                    avideoAlertError(response.msg);
+                }
+                modal.hidePleaseWait();
+            },
+            error: function (xhr) {
+                if (xhr && xhr.responseJSON && xhr.responseJSON.msg) {
+                    avideoAlertError(xhr.responseJSON.msg);
+                } else {
+                    avideoAlertError('Permission update failed');
+                }
                 modal.hidePleaseWait();
             }
         });

@@ -11,17 +11,32 @@ if(!User::isAdmin()){
     forbiddenPage("Not admin");
 }
 
+$obj = new stdClass();
+$obj->error = true;
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    $obj->msg = 'POST method required';
+    die(json_encode($obj));
+}
+
+if (!isGlobalTokenValid()) {
+    http_response_code(403);
+    $obj->msg = 'Invalid or missing CSRF token';
+    die(json_encode($obj));
+}
+
 $intvalList = array('users_groups_id','plugins_id','type','isEnabled');
 foreach ($intvalList as $value) {
-    if($_REQUEST[$value]==='true'){
-        $_REQUEST[$value] = 1;
+    if($_POST[$value]==='true'){
+        $_POST[$value] = 1;
     }else{
-        $_REQUEST[$value] = intval($_REQUEST[$value]);
+        $_POST[$value] = intval($_POST[$value]);
     }
 }
 
-$obj = new stdClass();
-$obj->id = Permissions::setPermission($_REQUEST['users_groups_id'], $_REQUEST['plugins_id'], $_REQUEST['type'], $_REQUEST['isEnabled']);
+$obj->error = false;
+$obj->id = Permissions::setPermission($_POST['users_groups_id'], $_POST['plugins_id'], $_POST['type'], $_POST['isEnabled']);
 
 die(json_encode($obj));
 
