@@ -16,7 +16,7 @@ $info = $infoObj = '';
 require_once 'video.php';
 
 if (!empty($_POST['id'])) {
-    if (!Video::canEdit($_POST['id']) && !Permissions::canModerateVideos()) {
+    if (!Video::canEdit($_POST['id'])) {
         die('{"error":"2 ' . __("Permission denied") . '"}');
     }
 }
@@ -163,12 +163,12 @@ if (isset($_POST['description'])) {
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
     $obj->setDescription($_POST['description']);
 }
-if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canModerateVideos()) {
+if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canAdminVideos()) {
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
     $obj->setCategories_id($_POST['categories_id']);
 }
 
-if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canModerateVideos()) {
+if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdminVideos()) {
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
     if (_empty($_REQUEST['public'])) {
         $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
@@ -219,7 +219,7 @@ if (!empty($_REQUEST['users_id_company'])) {
     $obj->setUsers_id_company(@$_REQUEST['users_id_company']);
 }
 
-if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canModerateVideos() || Users_affiliations::isUserAffiliateOrCompanyToEachOther($obj->getUsers_id(), $_POST['users_id'])) {
+if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canAdminVideos() || Users_affiliations::isUserAffiliateOrCompanyToEachOther($obj->getUsers_id(), $_POST['users_id'])) {
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
     $obj->setUsers_id($_POST['users_id']);
 }
