@@ -42,7 +42,7 @@ class ImageGallery extends PluginAbstract
         }
         $video = new Video('', '', $videos_id);
 
-        if ($video->getType() != Video::$videoTypeImage && $video->getType() != Video::$videoTypeGallery) {           
+        if ($video->getType() != Video::$videoTypeImage && $video->getType() != Video::$videoTypeGallery) {
             return true;
         }
         return false;
@@ -57,7 +57,7 @@ class ImageGallery extends PluginAbstract
     }
 
     private static function getRelative($videos_id)
-    {        
+    {
         ImageGallery::dieIfIsInvalid($videos_id);
         $video = new Video('', '', $videos_id);
         $filename = $video->getFilename();
@@ -79,8 +79,14 @@ class ImageGallery extends PluginAbstract
 
     static function saveFile($file, $videos_id)
     {
-        // Define allowed MIME types
-        $allowedMimeTypes = ['image/jpeg', 'image/webp', 'image/gif', 'image/png', 'video/mp4'];
+        // Never trust the client-provided extension for a web-accessible upload.
+        $allowedMimeTypes = [
+            'image/jpeg' => 'jpg',
+            'image/webp' => 'webp',
+            'image/gif' => 'gif',
+            'image/png' => 'png',
+            'video/mp4' => 'mp4',
+        ];
 
         $directory = self::getImageDir($videos_id);
 
@@ -88,9 +94,9 @@ class ImageGallery extends PluginAbstract
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $fileType = $finfo->file($file['tmp_name']);
 
-        if (in_array($fileType, $allowedMimeTypes)) {
+        if (!empty($allowedMimeTypes[$fileType])) {
             // Generate unique filename to avoid overwriting
-            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $extension = $allowedMimeTypes[$fileType];
             do {
                 $newFilename = uniqid() . '.' . $extension;
                 $newFilePath = $directory . $newFilename;
@@ -120,9 +126,9 @@ class ImageGallery extends PluginAbstract
                 $fileType = mime_content_type($filePath);
                 $relativeBaseName = "{$relative}{$fileBase}";
                 $filesList[] = [
-                    //'path' => $filePath, 
-                    'base' => $fileBase, 
-                    'type' => $fileType, 
+                    //'path' => $filePath,
+                    'base' => $fileBase,
+                    'type' => $fileType,
                     'url'=>getURL($relativeBaseName)
                 ];
             }
@@ -147,7 +153,7 @@ class ImageGallery extends PluginAbstract
         }
     }
 
-    
+
     public static function getManagerVideosTab(){
         return '<li id="pImageGalleryLI" class="showIfIsImage"><a data-toggle="tab" href="#pImageGallery"><i class="fa-regular fa-images"></i> ' . __("Image Gallery") . '</a></li>';
     }
