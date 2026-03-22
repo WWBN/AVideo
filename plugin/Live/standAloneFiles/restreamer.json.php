@@ -169,6 +169,21 @@ function _hasLastSlash($word)
     return substr($word, -1) === '/';
 }
 
+function sanitizeLogFileComponent($value, $default = '0')
+{
+    if (is_array($value) || is_object($value)) {
+        return $default;
+    }
+
+    $value = preg_replace('/[^a-z0-9_.-]/i', '', (string) $value);
+
+    if ($value === '') {
+        return $default;
+    }
+
+    return $value;
+}
+
 function _getLiveKey($token)
 {
     global $streamerURL, $isATest;
@@ -308,6 +323,9 @@ if (empty($robj)) {
     $robj->responseToken = '';
 }
 
+$robj->users_id = sanitizeLogFileComponent(@$robj->users_id, 'web');
+$robj->liveTransmitionHistory_id = sanitizeLogFileComponent(@$robj->liveTransmitionHistory_id, '0');
+
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = implode(PHP_EOL, $errorMessages);
@@ -403,8 +421,10 @@ function runRestream($robj)
         foreach ($restreamsDestinations as $key => $value) {
             sleep(5);
             $robj->live_restreams_id = $key;
-            $host = clearCommandURL(parse_url($value, PHP_URL_HOST));
-            $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$key}_{$robj->liveTransmitionHistory_id}_{$host}.log", $logFile), $robj);
+            $logKey = sanitizeLogFileComponent($key, '0');
+            $historyId = sanitizeLogFileComponent($robj->liveTransmitionHistory_id, '0');
+            $host = sanitizeLogFileComponent(clearCommandURL(parse_url($value, PHP_URL_HOST)), 'unknown');
+            $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$logKey}_{$historyId}_{$host}.log", $logFile), $robj);
         }
     }
     $deferred->resolve($pid);
@@ -714,13 +734,14 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         if (empty($isATest)) {
             $keyword = 'restream_' . md5(basename($logFile));
             $robj->keyword = $keyword;
+            $safeLogFile = escapeshellarg($logFile);
             // use remote ffmpeg here
             if (function_exists('execFFMPEGAsyncOrRemote')) {
                 $restreamStandAloneFFMPEG = isset($json->restreamStandAloneFFMPEG) ? $json->restreamStandAloneFFMPEG : false;
-                execFFMPEGAsyncOrRemote($command . ' > ' . $logFile . ' 2>&1 ', $keyword, '', $restreamStandAloneFFMPEG);
+                execFFMPEGAsyncOrRemote($command . ' > ' . $safeLogFile . ' 2>&1 ', $keyword, '', $restreamStandAloneFFMPEG);
             } else {
                 // Fallback: execute directly
-                exec($command . ' > ' . $logFile . ' 2>&1 &');
+                exec($command . ' > ' . $safeLogFile . ' 2>&1 &');
             }
         }
         error_log("Restreamer.json.php startRestream finish");
