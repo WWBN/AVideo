@@ -345,6 +345,10 @@ class Plugin extends ObjectYPT
         global $global;
 
         $pluginName = AVideoPlugin::fixName($pluginName);
+        $pluginName = trim(preg_replace('/[^0-9a-z_]/i', '', $pluginName));
+        if (empty($pluginName)) {
+            return false;
+        }
         $dir = $global['systemRootPath'] . "plugin";
         $filename = $dir . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "install" . DIRECTORY_SEPARATOR . "install.sql";
         if (!file_exists($filename)) {

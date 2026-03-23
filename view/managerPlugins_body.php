@@ -649,7 +649,8 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                 $.ajax({
                     url: webSiteRootURL + 'objects/pluginRunDatabaseScript.json.php',
                     data: {
-                        "name": row.name
+                        "name": row.name,
+                        "globalToken": '<?php echo getToken(300); ?>'
                     },
                     type: 'post',
                     success: function(response) {
