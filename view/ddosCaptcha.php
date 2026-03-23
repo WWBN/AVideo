@@ -34,6 +34,57 @@ function percentloadavg(){
     return $sys_getloadavg;
 }
 
+function getCaptchaRemoteAddr($server)
+{
+    if (empty($server['REMOTE_ADDR'])) {
+        return '';
+    }
+
+    $remoteAddr = trim($server['REMOTE_ADDR']);
+    if (!filter_var($remoteAddr, FILTER_VALIDATE_IP)) {
+        return '';
+    }
+
+    return $remoteAddr;
+}
+
+function isCaptchaTrustedProxy($ip)
+{
+    if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+        return false;
+    }
+
+    return !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+}
+
+function getCaptchaForwardedIp($server)
+{
+    $ipv6 = '';
+    $headers = [
+        'HTTP_X_REAL_IP',
+        'HTTP_X_FORWARDED_FOR',
+    ];
+
+    foreach ($headers as $header) {
+        if (empty($server[$header])) {
+            continue;
+        }
+
+        $ips = explode(',', $server[$header]);
+        foreach ($ips as $ipCandidate) {
+            $ipCandidate = trim($ipCandidate);
+            if (filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                return $ipCandidate;
+            }
+            if (empty($ipv6) && filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                $ipv6 = $ipCandidate;
+            }
+        }
+    }
+
+    return $ipv6;
+}
+
 $percentloadavg = percentloadavg();
 
 if($percentloadavg[0]<0.5){
@@ -46,13 +97,14 @@ if (!empty($_SERVER['HTTP_USER_AGENT']) && preg_match("/AVideo(.*)/", $ua)) {
     return ;
 }
 
-$ip = uniqid();
-if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-    $ip = $_SERVER['HTTP_CLIENT_IP'];
-} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-} else {
-    $ip = $_SERVER['REMOTE_ADDR'];
+$ip = getCaptchaRemoteAddr($_SERVER);
+if (empty($ip)) {
+    $ip = uniqid();
+} elseif (isCaptchaTrustedProxy($ip)) {
+    $forwardedIp = getCaptchaForwardedIp($_SERVER);
+    if (!empty($forwardedIp)) {
+        $ip = $forwardedIp;
+    }
 }
 
 $byPassCaptcha = [

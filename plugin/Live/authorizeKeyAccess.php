@@ -8,29 +8,72 @@ if (function_exists('gc_enable')) {
     gc_enable();
 }
 
-function _getRealIpAddr()
+function _getRemoteAddrFromServerArray($server)
 {
-    $ip = "127.0.0.1";
+    if (empty($server['REMOTE_ADDR'])) {
+        return '';
+    }
+
+    $remoteAddr = trim($server['REMOTE_ADDR']);
+    if (!filter_var($remoteAddr, FILTER_VALIDATE_IP)) {
+        return '';
+    }
+
+    return $remoteAddr;
+}
+
+function _isPrivateOrLoopbackIP($ip)
+{
+    if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+        return false;
+    }
+
+    return !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+}
+
+function _getForwardedClientIpFromServerArray($server)
+{
+    $ipv6 = '';
     $headers = [
-        'HTTP_CLIENT_IP',
+        'HTTP_X_REAL_IP',
         'HTTP_X_FORWARDED_FOR',
-        'REMOTE_ADDR'
     ];
 
     foreach ($headers as $header) {
-        if (!empty($_SERVER[$header])) {
-            $ips = explode(',', $_SERVER[$header]);
-            foreach ($ips as $ipCandidate) {
-                $ipCandidate = trim($ipCandidate); // Just to be safe
-                if (filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-                    return $ipCandidate; // Return the first valid IPv4 we find
-                } elseif ($header === 'REMOTE_ADDR' && filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-                    $ip = $ipCandidate; // In case no IPv4 is found, set the first IPv6 found from REMOTE_ADDR
-                }
+        if (empty($server[$header])) {
+            continue;
+        }
+
+        $ips = explode(',', $server[$header]);
+        foreach ($ips as $ipCandidate) {
+            $ipCandidate = trim($ipCandidate);
+            if (filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                return $ipCandidate;
+            }
+            if (empty($ipv6) && filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                $ipv6 = $ipCandidate;
             }
         }
     }
-    return $ip;
+
+    return $ipv6;
+}
+
+function _getRealIpAddr()
+{
+    $remoteAddr = _getRemoteAddrFromServerArray($_SERVER);
+    if (empty($remoteAddr)) {
+        return '127.0.0.1';
+    }
+
+    if (_isPrivateOrLoopbackIP($remoteAddr)) {
+        $forwardedIp = _getForwardedClientIpFromServerArray($_SERVER);
+        if (!empty($forwardedIp)) {
+            return $forwardedIp;
+        }
+    }
+
+    return $remoteAddr;
 }
 
 function getClientIdentifier()
