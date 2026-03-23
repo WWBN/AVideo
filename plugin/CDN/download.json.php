@@ -22,20 +22,17 @@ if (empty($_REQUEST['token'])) {
 }
 
 $token = decryptString($_REQUEST['token']);
+// Do not distinguish padding failures from JSON-parse failures — collapsing both
+// into one path eliminates a CBC padding oracle channel (distinguishable responses
+// allow an attacker to probe byte-by-byte whether decrypted padding is valid).
+$json = !empty($token) ? json_decode($token) : null;
 
-if (empty($token)) {
-    $resp->msg = ('Token is invalid');
-    die(json_encode($resp));
-}
-
-$json = json_decode($token);
-
-if(!empty($_REQUEST['delete'])){
+if(!empty($_REQUEST['delete']) && !empty($json)){
     $json->format = 'mp4';
 }
 
 if (empty($json)) {
-    $resp->msg = ('Error on decrypt token');
+    $resp->msg = ('Invalid or expired token');
     die(json_encode($resp));
 }
 
