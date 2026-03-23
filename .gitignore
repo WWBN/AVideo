@@ -122,3 +122,4 @@ phpunit.xml
 plugin/API/AVideo-NodeAPIBoost/
 elephantio.log
 plugin/RemnantTV/
+vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.19.0,50f555aa50a991a53812abc41db17c635ff02b28,1.ser
