@@ -2,6 +2,11 @@
 header('Content-Type: application/json');
 
 require_once '../../videos/configuration.php';
+
+if (!User::isAdmin()) {
+    forbiddenPage('You must be Admin');
+}
+
 allowOrigin();
 $obj = new stdClass();
 $obj->error = true;

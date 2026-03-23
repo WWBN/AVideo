@@ -4,6 +4,10 @@ header('Content-Type: application/json');
 
 require_once '../../videos/configuration.php';
 
+if (!User::isAdmin()) {
+    forbiddenPage(__('You cannot do this'));
+}
+
 // Fetch request parameters with safety checks
 $startDate = !empty($_REQUEST['startDate']) ? $_REQUEST['startDate'] . ' 00:00:00' : null;
 $endDate = !empty($_REQUEST['endDate']) ? $_REQUEST['endDate'] . ' 23:59:59' : null;
