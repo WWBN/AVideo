@@ -85,6 +85,9 @@ if (!empty($_GET['type'])) {
                 break;
             }
         }
+        // $_GET['type'] has already been sanitized by objects/security.php through
+        // videos/configuration.php before this branch runs, so rendering it here
+        // does not reflect raw HTML from the request.
         if (empty($id)) {
             die(sprintf(__("%s ERROR: You must set an ID on config"), $_GET['type']));
         }
