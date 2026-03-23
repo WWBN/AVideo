@@ -4113,10 +4113,10 @@ class API extends PluginAbstract
      * @param string $parameters['pass'] The password for the user.
      * @param string $parameters['email'] The email address of the user.
      * @param string $parameters['name'] The full name of the user.
-     * @param int [$parameters['emailVerified']] Optional. Set to 1 if the user's email is already verified.
-     * @param int [$parameters['canCreateMeet']] Optional. Set to 1 if the user is allowed to create meetings.
-     * @param int [$parameters['canStream']] Optional. Set to 1 if the user is allowed to start live streams.
-     * @param int [$parameters['canUpload']] Optional. Set to 1 if the user is allowed to upload videos.
+    * @param int [$parameters['emailVerified']] Optional. APISecret-only. Set to 1 if the user's email is already verified.
+    * @param int [$parameters['canCreateMeet']] Optional. APISecret-only. Set to 1 if the user is allowed to create meetings.
+    * @param int [$parameters['canStream']] Optional. APISecret-only. Set to 1 if the user is allowed to start live streams.
+    * @param int [$parameters['canUpload']] Optional. APISecret-only. Set to 1 if the user is allowed to upload videos.
      * @param string $parameters['APISecret'] Required. Secret key to authorize the API request.
      * @param string [$parameters['captcha']] Required when APISecret is not provided. CAPTCHA verification code.
      *
@@ -4168,28 +4168,28 @@ class API extends PluginAbstract
                 in: "query",
                 required: false,
                 schema: new OA\Schema(type: "integer"),
-                description: "Set to 1 if the email is already verified."
+                description: "APISecret-only. Set to 1 if the email is already verified."
             ),
             new OA\Parameter(
                 name: "canCreateMeet",
                 in: "query",
                 required: false,
                 schema: new OA\Schema(type: "integer"),
-                description: "Set to 1 to allow user to create meetings."
+                description: "APISecret-only. Set to 1 to allow user to create meetings."
             ),
             new OA\Parameter(
                 name: "canStream",
                 in: "query",
                 required: false,
                 schema: new OA\Schema(type: "integer"),
-                description: "Set to 1 to allow user to start live streams."
+                description: "APISecret-only. Set to 1 to allow user to start live streams."
             ),
             new OA\Parameter(
                 name: "canUpload",
                 in: "query",
                 required: false,
                 schema: new OA\Schema(type: "integer"),
-                description: "Set to 1 to allow user to upload videos."
+                description: "APISecret-only. Set to 1 to allow user to upload videos."
             ),
             new OA\Parameter(
                 name: "captcha",
@@ -4214,12 +4214,9 @@ class API extends PluginAbstract
     {
         global $global;
         $this->getToPost();
-        $obj = $this->getDataObject();
 
-        if (empty($_REQUEST['APISecret'])) {
-            $_REQUEST['APISecret'] = getBearerToken();
-        }
-        if ($obj->APISecret !== @$_REQUEST['APISecret']) {
+        $hasValidAPISecret = self::isAPISecretValid();
+        if (!$hasValidAPISecret) {
             if(empty($_REQUEST['captcha'])){
                 return new ApiObject("Captcha is required");
             }
@@ -4235,17 +4232,19 @@ class API extends PluginAbstract
         $this->checkRateLimit('user_registration', 10, 600); // 10 attempts per 10 minutes
 
         $ignoreCaptcha = 1;
-        if (isset($_REQUEST['emailVerified'])) {
-            $global['emailVerified'] = intval($_REQUEST['emailVerified']);
-        }
-        if (isset($_REQUEST['canCreateMeet'])) {
-            $global['canCreateMeet'] = intval($_REQUEST['canCreateMeet']);
-        }
-        if (isset($_REQUEST['canStream'])) {
-            $global['canStream'] = intval($_REQUEST['canStream']);
-        }
-        if (isset($_REQUEST['canUpload'])) {
-            $global['canUpload'] = intval($_REQUEST['canUpload']);
+        if ($hasValidAPISecret) {
+            if (isset($_REQUEST['emailVerified'])) {
+                $global['emailVerified'] = intval($_REQUEST['emailVerified']);
+            }
+            if (isset($_REQUEST['canCreateMeet'])) {
+                $global['canCreateMeet'] = intval($_REQUEST['canCreateMeet']);
+            }
+            if (isset($_REQUEST['canStream'])) {
+                $global['canStream'] = intval($_REQUEST['canStream']);
+            }
+            if (isset($_REQUEST['canUpload'])) {
+                $global['canUpload'] = intval($_REQUEST['canUpload']);
+            }
         }
         require_once $global['systemRootPath'] . 'objects/userCreate.json.php';
         exit;
