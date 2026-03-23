@@ -74,9 +74,10 @@ if (file_exists($standAloneFile)) {
     error_log("control.json.php: Config file NOT found");
 }
 
-if (!empty($_REQUEST['streamerURL'])) {
-    $streamerURL = $_REQUEST['streamerURL'];
-}
+// SECURITY: User-supplied streamerURL is intentionally NOT accepted.
+// Allowing it would enable authentication bypass and SSRF via file_get_contents
+// on an attacker-controlled host. streamerURL MUST come from the configuration
+// file or be hard-coded in this file above.
 
 error_log("Control.json.php start ".json_encode($_REQUEST));
 
@@ -170,7 +171,9 @@ switch ($obj->command) {
         $tolerance = 10; // 10 seconds
         $obj->response = false;
         // check the last file change time, if is less then x seconds it is recording
-        $files = glob("$record_path/{$obj->name}*.flv");
+        // Sanitize name to prevent path-traversal characters from escaping $record_path.
+        $safeName = preg_replace('/[^a-zA-Z0-9_-]/', '', $obj->name);
+        $files = glob("$record_path/{$safeName}*.flv");
         foreach ($files as $value) {
             if (time()<=filemtime($value)+$tolerance) {
                 $obj->response = true;
