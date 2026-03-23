@@ -80,14 +80,25 @@ class Subscribe extends ObjectYPT{
 
     public function save()
     {
-        global $global;
         if (!empty($this->id)) {
-            $sql = "UPDATE subscribes SET status = '{$this->status}',  notify = '{$this->notify}',ip = '" . getRealIpAddr() . "', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE subscribes SET status = ?, notify = ?, ip = ?, modified = now() WHERE id = ?";
+            $saved = sqlDAL::writeSql($sql, "sssi", [
+                (string) $this->status,
+                (string) $this->notify,
+                getRealIpAddr(),
+                intval($this->id),
+            ]);
         } else {
             $this->status = 'a';
-            $sql = "INSERT INTO subscribes ( users_id, email,status,ip, created, modified, subscriber_users_id) VALUES ('{$this->users_id}','{$this->email}', '{$this->status}', '" . getRealIpAddr() . "',now(), now(), '$this->subscriber_users_id')";
+            $sql = "INSERT INTO subscribes (users_id, email, status, ip, created, modified, subscriber_users_id) VALUES (?, ?, ?, ?, now(), now(), ?)";
+            $saved = sqlDAL::writeSql($sql, "isssi", [
+                intval($this->users_id),
+                (string) $this->email,
+                (string) $this->status,
+                getRealIpAddr(),
+                intval($this->subscriber_users_id),
+            ]);
         }
-        $saved = sqlDAL::writeSql($sql);
         if($saved){
             //var_dump($saved, $this->status);exit;
             if($this->status == 'a'){
