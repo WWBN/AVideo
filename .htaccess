@@ -122,6 +122,7 @@ Options All -Indexes
     RewriteRule ^(.*)$ - [env=proto:http]
 
     RewriteEngine on
+    RewriteRule "(^|/)\.(?!well-known(?:/|$))" - [F,L,NC]
     #VideoHLS for DRM
 
     RewriteRule    ^api/([^/]+)/([^/]+)$ plugin/API/router.php?APIPlugin=$1&APIName=$2 [QSA,L]
