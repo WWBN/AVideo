@@ -6,7 +6,7 @@ $global['bypassSameDomainCheck'] = 1;
 $rawBody = file_get_contents('php://input');
 $headers = getallheaders();
 
-// 1) Parse + signature
+// 1) Parse + signature — reject immediately if signature is invalid
 $parsed = AuthorizeNet::parseWebhookRequest($rawBody, $headers);
 if (!empty($parsed['error'])) {
     _error_log('[Authorize.Net webhook] ' . $parsed['msg']);
@@ -14,9 +14,18 @@ if (!empty($parsed['error'])) {
     echo $parsed['msg'] ?? 'ignored';
     exit;
 }
-
-_error_log('[Authorize.Net webhook] Event: ' . $parsed['eventType']);
-_error_log('[Authorize.Net webhook] uniq_key: ' . $parsed['uniq_key']);
+if (!$parsed['signatureValid']) {
+    $sigHeader = $headers['X-ANET-Signature'] ?? ($headers['x-anet-signature'] ?? '');
+    _error_log('[Authorize.Net webhook] Bad signature'
+        . ' | event=' . $parsed['eventType']
+        . ' | txn=' . ($parsed['transactionId'] ?? 'n/a')
+        . ' | body_len=' . strlen($rawBody)
+        . ' | sig_header=' . (empty($sigHeader) ? 'missing' : 'present')
+    );
+    http_response_code(401);
+    echo 'invalid signature';
+    exit;
+}
 
 // 2) Dedup
 if (Anet_webhook_log::alreadyProcessed($parsed['uniq_key'])) {
@@ -26,42 +35,49 @@ if (Anet_webhook_log::alreadyProcessed($parsed['uniq_key'])) {
     exit;
 }
 
-// 3) Fetch txn (fallback/confirm)
+// 3) Fetch txn details for enrichment
 $txnInfo = AuthorizeNet::getTransactionDetails($parsed['transactionId']);
 
-// 4) Block only if both invalid signature AND no valid txn info
-if (!$parsed['signatureValid'] && (empty($txnInfo) || !empty($txnInfo['error']))) {
-    _error_log('[Authorize.Net webhook] Bad signature and could not confirm transaction');
-    http_response_code(401);
-    echo 'invalid signature';
+// 4) Analyze payload + raw txn
+$analysis = AuthorizeNet::analyzeTransactionFromWebhook($parsed['payload'], $txnInfo['raw'] ?? null);
+
+// Always prefer the Authorize.Net transaction details over webhook payload values.
+if (!empty($txnInfo['users_id'])) {
+    $analysis['users_id'] = (int)$txnInfo['users_id'];
+}
+if (isset($txnInfo['amount'])) {
+    $analysis['amount'] = (float)$txnInfo['amount'];
+}
+if (!empty($txnInfo['currency'])) {
+    $analysis['currency'] = $txnInfo['currency'];
+}
+if (array_key_exists('isApproved', $txnInfo)) {
+    $analysis['isApproved'] = (bool)$txnInfo['isApproved'];
+}
+if (!empty($txnInfo['plans_id'])) {
+    $analysis['plans_id'] = (int)$txnInfo['plans_id'];
+}
+if (empty($analysis['users_id']) || empty($analysis['amount'])) {
+    _error_log('[Authorize.Net webhook] Missing user ID or amount'
+        . ' | txn=' . ($parsed['transactionId'] ?? 'n/a')
+        . ' | users_id=' . ($analysis['users_id'] ?? 'null')
+        . ' | amount=' . ($analysis['amount'] ?? 'null')
+        . ' | txn_lookup=' . (!empty($txnInfo['error']) ? 'error:' . $txnInfo['msg'] : 'ok')
+        . ' | txn_email=' . ($txnInfo['email'] ?? 'n/a')
+    );
+    http_response_code(400);
+    echo 'missing user ID or amount';
     exit;
 }
 
-// 5) Analyze payload + raw txn
-$analysis = AuthorizeNet::analyzeTransactionFromWebhook($parsed['payload'], $txnInfo['raw'] ?? null);
-
-// Fill missing basics from txnInfo if needed
-if (!$analysis['users_id'] && !empty($txnInfo['users_id'])) {
-    $analysis['users_id'] = (int)$txnInfo['users_id'];
-}
-if (!$analysis['amount'] && isset($txnInfo['amount'])) {
-    $analysis['amount'] = (float)$txnInfo['amount'];
-}
-if (!$analysis['currency'] && !empty($txnInfo['currency'])) {
-    $analysis['currency'] = $txnInfo['currency'];
-}
-if (!$analysis['isApproved'] && !empty($txnInfo['isApproved'])) {
-    $analysis['isApproved'] = (bool)$txnInfo['isApproved'];
-}
-if (!$analysis['plans_id'] && !empty($txnInfo['plans_id'])) {
-    $analysis['plans_id'] = (int)$txnInfo['plans_id'];
-}
-_error_log('[Authorize.Net webhook] Analysis: ' . json_encode($analysis));
-
-if(empty($analysis['users_id']) || empty($analysis['amount'])) {
-    _error_log('[Authorize.Net webhook] Missing user ID or amount in analysis');
+if (empty($analysis['isApproved'])) {
+    _error_log('[Authorize.Net webhook] Transaction not approved'
+        . ' | txn=' . ($parsed['transactionId'] ?? 'n/a')
+        . ' | status=' . ($txnInfo['status'] ?? 'n/a')
+        . ' | responseCode=' . ($txnInfo['responseCode'] ?? 'n/a')
+    );
     http_response_code(400);
-    echo 'missing user ID or amount';
+    echo 'transaction not approved';
     exit;
 }
 
@@ -134,14 +150,5 @@ if (!empty($analysis['plans_id'])) {
     }
 }
 
-// 9) Return success response
-echo json_encode([
-    'success'           => true,
-    'users_id'          => $analysis['users_id'],
-    'subscription'      => $analysis['isASubscription'],
-    'subscriptionId'    => $analysis['subscriptionId'] ?? ($subscriptionResult['subscriptionId'] ?? null),
-    'newSubscription'   => $shouldCreateSubscription,
-    'subscriptionCreated' => !empty($subscriptionResult) && empty($subscriptionResult['error']),
-    'sigValid'          => $parsed['signatureValid'],
-    'logId'             => $result['logId'] ?? null
-]);
+http_response_code(200);
+echo json_encode(['success' => true]);

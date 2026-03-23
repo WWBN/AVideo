@@ -43,24 +43,21 @@ class AuthorizeNet extends PluginAbstract
     /**
      * Validate ANet webhook signature (HMAC-SHA512).
      *
+     * The Signature Key is used as a raw ASCII string in the HMAC — not hex-decoded.
+     *
      * @param string $rawBody
      * @param array  $headers
-     * @param string $signatureKeyHex
-     * @return array{valid:bool,expected:string,received:string}
+     * @param string $signatureKey
+     * @return bool
      */
-    public static function verifySignature(string $rawBody, array $headers, string $signatureKeyHex): array
+    public static function verifySignature(string $rawBody, array $headers, string $signatureKey): bool
     {
         $received = $headers['X-ANET-Signature'] ?? ($headers['x-anet-signature'] ?? '');
-        if (empty($signatureKeyHex) || !ctype_xdigit($signatureKeyHex) || empty($received)) {
-            return ['valid' => false, 'expected' => '', 'received' => $received];
+        if (empty($signatureKey) || empty($received)) {
+            return false;
         }
-        $keyBin   = hex2bin($signatureKeyHex);
-        $expected = 'sha512=' . hash_hmac('sha512', $rawBody, $keyBin);
-        return [
-            'valid'    => hash_equals($expected, $received),
-            'expected' => $expected,
-            'received' => $received
-        ];
+        $expected = 'sha512=' . strtolower(hash_hmac('sha512', $rawBody, $signatureKey));
+        return hash_equals($expected, strtolower($received));
     }
 
     /**
@@ -86,22 +83,17 @@ class AuthorizeNet extends PluginAbstract
      */
     public static function parseWebhookRequest(string $rawBody, array $headers, array $allowedEvents = ['net.authorize.payment.authcapture.created']): array
     {
-        $cfg              = self::getConfig();
-        $sig = self::verifySignature($rawBody, $headers, trim($cfg->signatureKey ?? ''));
+        $cfg      = self::getConfig();
+        $sigValid = self::verifySignature($rawBody, $headers, trim((string)($cfg->signatureKey ?? '')));
 
         $json = json_decode($rawBody, true);
         if (!is_array($json)) {
-            return ['error' => true, 'msg' => 'Invalid JSON', 'signatureValid' => $sig['valid']];
+            return ['error' => true, 'msg' => 'Invalid JSON', 'signatureValid' => $sigValid];
         }
 
-        $eventType     = $json['eventType'] ?? '';
+        $eventType = $json['eventType'] ?? '';
         if (!in_array($eventType, $allowedEvents)) {
-            return [
-                'error'          => true,
-                'msg'            => 'Ignored event type',
-                'eventType'      => $eventType,
-                'signatureValid' => $sig['valid']
-            ];
+            return ['error' => true, 'msg' => 'Ignored event type', 'eventType' => $eventType, 'signatureValid' => $sigValid];
         }
 
         $payload       = $json['payload'] ?? [];
@@ -110,21 +102,20 @@ class AuthorizeNet extends PluginAbstract
         $currency      = $payload['currencyCode'] ?? ($payload['currency'] ?? null);
         $metadata      = $payload['metadata'] ?? [];
         $users_id      = isset($metadata['users_id']) ? (int)$metadata['users_id'] : null;
-
-        $uniq_key = sha1($eventType . ($transactionId ?? 'no-txn'));
+        $uniq_key      = sha1($eventType . ($transactionId ?? 'no-txn'));
 
         return [
-            'error'           => false,
-            'data'            => $json,
-            'payload'         => $payload,
-            'eventType'       => $eventType,
-            'transactionId'   => $transactionId,
-            'amount'          => $amount,
-            'currency'        => $currency,
-            'metadata'        => $metadata,
-            'users_id'        => $users_id,
-            'uniq_key'        => $uniq_key,
-            'signatureValid'  => $sig['valid']
+            'error'          => false,
+            'data'           => $json,
+            'payload'        => $payload,
+            'eventType'      => $eventType,
+            'transactionId'  => $transactionId,
+            'amount'         => $amount,
+            'currency'       => $currency,
+            'metadata'       => $metadata,
+            'users_id'       => $users_id,
+            'uniq_key'       => $uniq_key,
+            'signatureValid' => $sigValid,
         ];
     }
 
@@ -1024,7 +1015,7 @@ class AuthorizeNet extends PluginAbstract
                 $submitTime   = method_exists($txn, 'getSubmitTimeUTC') ? $txn->getSubmitTimeUTC() : null;
                 $responseCode = $txn->getResponseCode() ?? '';
                 $status       = $txn->getTransactionStatus() ?? '';
-                $isApproved   = $responseCode == 1 && in_array($status, ['capturedPendingSettlement', 'settledSuccessfully'], true);
+                $isApproved   = $responseCode == 1 && in_array(strtolower($status), ['capturedpendingsettlement', 'settledsuccessfully'], true);
 
                 // ---- NEW: get description and decode metadata ----
                 $orderDescription = ($order && method_exists($order, 'getDescription')) ? (string)$order->getDescription() : null;
