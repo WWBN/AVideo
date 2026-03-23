@@ -152,6 +152,13 @@ if (!empty($_FILES)) {
     $obj->lines[] = __LINE__;
     _error_log("aVideoEncoder.json: Files EMPTY");
     if (!empty($_REQUEST['downloadURL'])) {
+        // Validate resolution before downloading: forbiddenPage() calls die(), so if resolution
+        // is checked only after the download the temp file is orphaned permanently on disk.
+        if (!empty($_REQUEST['resolution']) && !in_array($_REQUEST['resolution'], $global['avideo_possible_resolutions'])) {
+            $msg = "This resolution is not possible {$_REQUEST['resolution']}";
+            _error_log($msg);
+            forbiddenPage($msg);
+        }
         $obj->lines[] = __LINE__;
         $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_REQUEST['downloadURL']);
         if (empty($_FILES['video']['tmp_name'])) {
@@ -337,6 +344,15 @@ function downloadVideoFromDownloadURL($downloadURL)
     // SSRF Protection: Validate URL before downloading
     if (!isSSRFSafeURL($downloadURL)) {
         __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL SSRF protection blocked URL: " . $downloadURL);
+        return false;
+    }
+
+    // Validate that the URL's file extension is on the server's allowed-extension list.
+    // basename($downloadURL) is used later as the temp filename, so an unvalidated extension
+    // (e.g. .php) would be written to the web-accessible cache directory.
+    $urlExtension = strtolower(pathinfo(parse_url($downloadURL, PHP_URL_PATH), PATHINFO_EXTENSION));
+    if (!in_array($urlExtension, $global['allowedExtension'])) {
+        __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL extension not allowed: " . $urlExtension);
         return false;
     }
 
