@@ -100,6 +100,20 @@ if (!isset($themeSwitcherAdded)) {
         }
 
 
+        function applyThemeFromCookie() {
+            var customCSSCookie = Cookies.get('customCSS');
+            if (customCSSCookie) {
+                // Fix CSS link (covers bfcache restore; initial load is handled by inline script in head.php)
+                var currentHref = $('#customCSS').attr('href') || '';
+                if (currentHref.indexOf('/' + customCSSCookie + '.css') === -1) {
+                    $('#customCSS').attr('href', webSiteRootURL + 'view/css/custom/' + customCSSCookie + '.css');
+                }
+                // Fix active menu item to reflect the locally stored theme
+                $('.liThemes').removeClass('active');
+                $('#li' + customCSSCookie).addClass('active');
+            }
+        }
+
         function changeTheme(name) {
             $('.liThemes').removeClass('active');
             $('#li' + name).addClass('active');
@@ -109,6 +123,18 @@ if (!isset($themeSwitcherAdded)) {
                 expires: 365
             });
         }
+
+        $(document).ready(function() {
+            if (typeof Cookies !== 'undefined') {
+                applyThemeFromCookie();
+            }
+        });
+
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted && typeof Cookies !== 'undefined') {
+                applyThemeFromCookie();
+            }
+        });
     </script>
 <?php
 }

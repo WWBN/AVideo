@@ -36,15 +36,40 @@ if (!empty($_COOKIE['themeMode'])) {
     function loadTheme() {
         var themeMode = Cookies.get('themeMode');
         var isEmptythemeMode = empty(themeMode);
-        var themeName = '<?php echo $config->getDefaultTheme(); ?>';
+        var customCSSCookie = Cookies.get('customCSS');
+        var defaultTheme = '<?php echo $config->getDefaultTheme(); ?>';
+        var alternativeTheme = '<?php echo $config->getAlternativeTheme(); ?>';
+        var themeName = defaultTheme;
         if (!isEmptythemeMode) {
-            themeName = '<?php echo $config->getAlternativeTheme(); ?>';
+            themeName = alternativeTheme;
         }
-
+        // customCSS cookie (set by the theme switcher) takes priority,
+        // matching the same logic as getCurrentTheme() on the PHP side.
+        if (!empty(customCSSCookie)) {
+            themeName = customCSSCookie;
+        }
         $('#themeMode').prop('checked', !isEmptythemeMode);
         $('#customCSS').attr('href', webSiteRootURL + 'view/css/custom/' + themeName + '.css');
+
+        // Manage the dark.css overlay separately (uses id="darkThemeCSS")
+        var darkOverlayHref = webSiteRootURL + 'view/css/dark.css';
+        if (!isEmptythemeMode) {
+            if ($('#darkThemeCSS').length === 0) {
+                $('head').append('<link id="darkThemeCSS" rel="stylesheet" type="text/css" href="' + darkOverlayHref + '" />');
+            } else {
+                $('#darkThemeCSS').attr('href', darkOverlayHref);
+            }
+        } else {
+            $('#darkThemeCSS').attr('href', '');
+        }
     }
     $(document).ready(function() {
         loadTheme();
+    });
+
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            loadTheme();
+        }
     });
 </script>

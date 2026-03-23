@@ -131,10 +131,11 @@ TimeLogEnd($timeLogHead, __LINE__);
 if (!empty($theme)) {
 ?>
     <link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
+    <script>(function(){var m=document.cookie.match(/(?:^|;\s*)customCSS=([^;]*)/);if(m){var t=decodeURIComponent(m[1]).replace(/[^a-zA-Z0-9_-]/g,'');if(t){var l=document.getElementById('customCSS');if(l)l.href=l.href.replace(/\/[^\/]+\.css(\?.*)?$/,'/'+t+'.css');}}}());</script>
     <?php
     if ($isCurrentThemeDark) {
     ?>
-        <link href="<?php echo getURL('view/css/dark.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
+        <link href="<?php echo getURL('view/css/dark.css'); ?>" rel="stylesheet" type="text/css" id="darkThemeCSS" />
 <?php
     }
 }
