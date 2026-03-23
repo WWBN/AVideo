@@ -2730,6 +2730,9 @@ if (typeof gtag !== \"function\") {
     public function setUserGroups($userGroups)
     {
         if (is_array($userGroups)) {
+            // Group membership changes are intentionally delegated by endpoints that
+            // require Permissions::canAdminUsers(); unlike isAdmin, user groups are
+            // part of the delegated user-management model and are not filtered here.
             $this->userGroups = $userGroups;
         }
     }
