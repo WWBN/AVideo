@@ -236,7 +236,17 @@ function tabContentClass(string $tab): string
 
             <div class="col-md-12" id="aboutArea">
                 <?php
-                $about = html_entity_decode($user->getAbout());
+                $about = html_entity_decode($user->getAbout(), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                if (!empty($about)) {
+                    // Decode legacy stored content, then purify it before rendering.
+                    $configPuri = HTMLPurifier_Config::createDefault();
+                    $configPuri->set('Cache.SerializerPath', getCacheDir());
+                    $configPuri->set('HTML.Allowed', 'a[href|target|title|class],abbr[title],b,blockquote[class],br,code,div[class|style],em,h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],hr[class],i[class],img[class|src|alt|style|width|height],li[class],ol[class],p[class|style],pre[class],s,span[class|style],strong,u,ul[class]');
+                    $configPuri->set('Attr.AllowedFrameTargets', ['_blank']);
+                    $configPuri->set('AutoFormat.RemoveEmpty', true);
+                    $purifier = new HTMLPurifier($configPuri);
+                    $about = $purifier->purify($about);
+                }
                 if (!empty($advancedCustomUser->showAllAboutTextOnChannel)) {
                     echo $about;
                 } else {
