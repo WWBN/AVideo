@@ -7,11 +7,9 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
-
-$user = new User(0, $_REQUEST['user'], false);
 if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
     _error_log("RecoverPass start user={$_POST['user']} " .' IP='.getRealIpAddr().' '. ' Line='.__LINE__.' '.$_SERVER['HTTP_USER_AGENT'] . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-    
+
     $obj = new stdClass();
     $obj->user = $_REQUEST['user'];
     $obj->captcha = $_REQUEST['captcha'];
@@ -24,59 +22,57 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
     $obj->request = $_REQUEST;
     */
     header('Content-Type: application/json');
-    if (empty($user->getStatus())) {
-        $obj->error = __("User not found");
+
+    if (empty($_REQUEST['captcha'])) {
+        $obj->error = __("Captcha is empty");
         die(json_encode($obj));
     }
-    if ($user->getStatus() !== 'a') {
-        $obj->error = __("The user is not active");
+    require_once 'captcha.php';
+    $valid = Captcha::validation($_REQUEST['captcha']);
+    if (!$valid) {
+        $obj->error = __("Your code is not valid");
+        $obj->reloadCaptcha = true;
         die(json_encode($obj));
     }
-    if (!empty($user->getEmail())) {
-        $recoverPass = $user->setRecoverPass();
-        if (empty($_REQUEST['captcha'])) {
-            $obj->error = __("Captcha is empty");
+
+    $user = new User(0, $_REQUEST['user'], false);
+    if (empty($user->getStatus()) || $user->getStatus() !== 'a' || empty($user->getEmail())) {
+        $obj->success = __("Message sent");
+        die(json_encode($obj));
+    }
+
+    $recoverPass = $user->setRecoverPass();
+    if ($user->save()) {
+
+        if (empty($advancedCustomUser)) {
+            $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+        }
+
+        $url = "{$global['webSiteRootURL']}recoverPass";
+        $url = addQueryStringParameter($url, 'user', $_REQUEST['user']);
+        $url = addQueryStringParameter($url, 'recoverpass', $recoverPass);
+
+        $to = $user->getEmail();
+        $subject = __($advancedCustomUser->recoverPassSubject) . ' ' . $config->getWebSiteTitle();
+        $message = __($advancedCustomUser->recoverPassText) . "<br><a href='{$url}' class='button blue-button'>" . __("Reset password") . "</a><br>IP: " . getRealIpAddr();
+        $fromEmail = $config->getContactEmail();
+        $resp = sendSiteEmail($to, $subject, $message, $fromEmail);
+
+        //send the message, check for errors
+        if (!$resp) {
+            $obj->error = __("Message could not be sent") . " " . $mail->ErrorInfo;
         } else {
-            require_once 'captcha.php';
-            $valid = Captcha::validation($_REQUEST['captcha']);
-            if ($valid) {
-                if ($user->save()) {
-
-                    if (empty($advancedCustomUser)) {
-                        $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
-                    }
-
-                    $url = "{$global['webSiteRootURL']}recoverPass";
-                    $url = addQueryStringParameter($url, 'user', $_REQUEST['user']);
-                    $url = addQueryStringParameter($url, 'recoverpass', $recoverPass);
-
-                    $to = $user->getEmail();
-                    $subject = __($advancedCustomUser->recoverPassSubject) . ' ' . $config->getWebSiteTitle();
-                    $message = __($advancedCustomUser->recoverPassText) . "<br><a href='{$url}' class='button blue-button'>" . __("Reset password") . "</a><br>IP: " . getRealIpAddr();
-                    $fromEmail = $config->getContactEmail();
-                    $resp = sendSiteEmail($to, $subject, $message, $fromEmail);
-
-                    //send the message, check for errors
-                    if (!$resp) {
-                        $obj->error = __("Message could not be sent") . " " . $mail->ErrorInfo;
-                    } else {
-                        $obj->success = __("Message sent");
-                    }
-                } else {
-                    $obj->error = __("Recover password could not be saved!");
-                }
-            } else {
-                $obj->error = __("Your code is not valid");
-                $obj->reloadCaptcha = true;
-            }
+            $obj->success = __("Message sent");
         }
     } else {
-        $obj->error = __("You do not have an e-mail");
+        $obj->error = __("Recover password could not be saved!");
     }
     die(json_encode($obj));
 } else {
     _error_log("RecoverPass start user={$_POST['user']} " .' IP='.getRealIpAddr().' '. ' Line='.__LINE__.' '.$_SERVER['HTTP_USER_AGENT'] . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-       
+
+    $user = new User(0, $_REQUEST['user'], false);
+
     $readonly = '';
     if ($user->getRecoverPass() !== $_REQUEST['recoverpass']) {
         //forbiddenPage('The recover pass does not match!');
