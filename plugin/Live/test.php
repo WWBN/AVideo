@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_servers.php';
 
 if (!User::isAdmin()) {
     http_response_code(403);
@@ -11,6 +12,10 @@ $timeStarted = microtime(true);
 $statsURL = $_REQUEST['statsURL'];
 if (empty($statsURL) || $statsURL == "php://input" || !preg_match("/^http/", $statsURL)) {
     _log('this is not a URL ');
+    exit;
+}
+if (!isAllowedStatsTestURL($statsURL)) {
+    _log('this URL is not allowed ' . htmlentities($statsURL));
     exit;
 }
 
@@ -125,6 +130,49 @@ function url_get_contents($url, $timeout = 0)
     unlink($filename);
 
     return false;
+}
+
+function isAllowedStatsTestURL($url)
+{
+    $url = normalizeStatsTestURL($url);
+    if (empty($url)) {
+        return false;
+    }
+
+    $allowedUrls = [];
+    if (isDocker()) {
+        $allowedUrls[] = getDockerStatsURL();
+    }
+
+    $liveObj = AVideoPlugin::getDataObject('Live');
+    if (!empty($liveObj->stats)) {
+        $allowedUrls[] = $liveObj->stats;
+    }
+
+    $servers = Live_servers::getAll();
+    if (is_array($servers)) {
+        foreach ($servers as $server) {
+            if (!empty($server['stats_url'])) {
+                $allowedUrls[] = $server['stats_url'];
+            }
+        }
+    }
+
+    foreach ($allowedUrls as $allowedUrl) {
+        if ($url === normalizeStatsTestURL($allowedUrl)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function normalizeStatsTestURL($url)
+{
+    if (!is_string($url)) {
+        return '';
+    }
+    return rtrim(trim($url), '/');
 }
 
 function wget($url, $filename)
