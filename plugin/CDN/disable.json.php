@@ -13,22 +13,15 @@ if (empty($obj)) {
     die(json_encode($resp));
 }
 
-if (empty($_REQUEST['key'])) {
-    $resp->msg = 'Key is empty';
+// Key must be pre-configured by admin; reject all requests until it is set.
+if (empty($obj->key)) {
+    $resp->msg = 'CDN key not configured';
     die(json_encode($resp));
 }
-
-if (!empty($obj->key)) {
-    //check the key
-    if ($obj->key !== $_REQUEST['key']) {
-        $resp->msg = 'Key Does not match';
-        die(json_encode($resp));
-    }
-}
-$obj->key = $_REQUEST['key'];
-foreach ($_REQUEST['par'] as $key => $value) {
-    $obj->{$key} = $value;
-    $resp->{$key} = $value;
+// Constant-time comparison to prevent timing side-channel on the shared secret.
+if (empty($_REQUEST['key']) || !hash_equals($obj->key, $_REQUEST['key'])) {
+    $resp->msg = 'Key does not match';
+    die(json_encode($resp));
 }
 
 $row = Plugin::getPluginByName('CDN');

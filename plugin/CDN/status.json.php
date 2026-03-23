@@ -18,17 +18,27 @@ if (empty($_REQUEST['key'])) {
     die(json_encode($resp));
 }
 
-if (!empty($obj->key)) {
-    //check the key
-    if ($obj->key !== $_REQUEST['key']) {
-        $resp->msg = 'Key Does not match';
-        die(json_encode($resp));
-    }
+// Keep the original first-time registration flow for marketplace bootstrap,
+// but once a key exists we require a strict constant-time match.
+if (!empty($obj->key) && !hash_equals($obj->key, $_REQUEST['key'])) {
+    $resp->msg = 'Key does not match';
+    die(json_encode($resp));
 }
-$obj->key = $_REQUEST['key'];
-foreach ($_REQUEST['par'] as $key => $value) {
-    $obj->{$key} = $value;
-    $resp->{$key} = $value;
+
+if (empty($obj->key)) {
+    $obj->key = $_REQUEST['key'];
+}
+
+// Only CDN URL properties may be reported by edge nodes; credentials and key are admin-only.
+$allowedPars = ['CDN', 'CDN_S3', 'CDN_B2', 'CDN_FTP', 'CDN_Live', 'CDN_YPTStorage', 'CDN_LiveServers'];
+if (!empty($_REQUEST['par']) && is_array($_REQUEST['par'])) {
+    foreach ($_REQUEST['par'] as $key => $value) {
+        if (!in_array($key, $allowedPars, true)) {
+            continue;
+        }
+        $obj->{$key} = $value;
+        $resp->{$key} = $value;
+    }
 }
 
 // Update S3 CDN
