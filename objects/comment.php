@@ -138,7 +138,7 @@ class Comment {
         } else {
             AVideoPlugin::afterNewResponse($this->id);
         }
-        
+
         $cacheHandler = new VideoCacheHandler($this->videos_id);
         $cacheHandler->deleteCache();
         return $id;
