@@ -6264,8 +6264,13 @@ function outputAndContinueInBackground($msg = '')
 function cleanUpRowFromDatabase(&$row)
 {
     if (is_array($row)) {
+        // Convert video_password to a presence flag before stripping it,
+        // so callers never receive the stored hash.
+        if (array_key_exists('video_password', $row)) {
+            $row['video_password'] = empty($row['video_password']) ? '' : '1';
+        }
         foreach ($row as $key => $value) {
-            if (preg_match('/pass/i', $key)) {
+            if ($key !== 'video_password' && preg_match('/pass/i', $key)) {
                 unset($row[$key]);
             }
         }

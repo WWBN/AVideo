@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `only_for_paid` TINYINT(1) NULL DEFAULT NULL,
   `serie_playlists_id` INT(11) NULL DEFAULT NULL,
   `sites_id` INT(11) NULL DEFAULT NULL,
-  `video_password` VARCHAR(45) NULL DEFAULT NULL,
+  `video_password` VARCHAR(255) NULL DEFAULT NULL,
   `encoderURL` VARCHAR(255) NULL DEFAULT NULL,
   `filepath` VARCHAR(255) NULL DEFAULT NULL,
   `filesize` BIGINT(19) UNSIGNED NULL DEFAULT 0,

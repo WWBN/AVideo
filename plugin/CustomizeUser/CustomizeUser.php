@@ -796,20 +796,21 @@ class CustomizeUser extends PluginAbstract
     public static function videoPasswordIsGood($videos_id)
     {
         $video = new Video("", "", $videos_id);
-        $videoPassword = $video->getVideo_password();
-        if (empty($videoPassword)) {
+        $storedHash = $video->getVideo_password();
+        if (empty($storedHash)) {
             return true;
         }
-        //var_dump($_REQUEST['video_password'], $videoPassword);exit;
-        if (empty($_SESSION['video_password'][$videos_id]) || $videoPassword !== $_SESSION['video_password'][$videos_id]) {
-            if (!empty($_REQUEST['video_password']) && $_REQUEST['video_password'] == $videoPassword) {
-                _session_start();
-                $_SESSION['video_password'][$videos_id] = $_REQUEST['video_password'];
-                return true;
-            }
-            return false;
+        // Session token is derived from the stored hash so it auto-invalidates when the password changes
+        $sessionToken = hash('sha256', $storedHash);
+        if (!empty($_SESSION['video_password_token'][$videos_id]) && $_SESSION['video_password_token'][$videos_id] === $sessionToken) {
+            return true;
         }
-        return true;
+        if (!empty($_REQUEST['video_password']) && Video::verifyVideoPassword($_REQUEST['video_password'], $storedHash)) {
+            _session_start();
+            $_SESSION['video_password_token'][$videos_id] = $sessionToken;
+            return true;
+        }
+        return false;
     }
 
     public function getEmbed($videos_id)

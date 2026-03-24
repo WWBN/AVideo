@@ -685,6 +685,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     var isArticle = 0;
     var checkProgressTimeout = [];
     var filterDateRange = '';
+    var VIDEO_PASSWORD_KEEP = <?php echo json_encode(Video::PASSWORD_KEEP); ?>;
 
 
     function saveVideoOnPlaylist(videos_id, add, playlists_id) {
@@ -944,7 +945,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
         $('#inputVideoId').val(row.id);
         $('#inputTitle').val(row.title);
-        $('#inputVideoPassword').val(row.video_password);
+        // video_password is a flag ('1'/''): never pre-populate the field with the stored hash
+        $('#inputVideoPassword').val('').data('hasPassword', row.video_password === '1' || row.video_password === 1);
+        // VIDEO_PASSWORD_KEEP is the PHP constant Video::PASSWORD_KEEP passed to JS below
         $('#videoStatus').val(row.status);
         $('#inputTrailer').val(row.trailer1);
         $('#inputCleanTitle').val(row.clean_title);
@@ -1190,7 +1193,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 ?> "id": $('#inputVideoId').val(),
                 "title": $('#inputTitle').val(),
                 "trailer1": $('#inputTrailer').val(),
-                "video_password": $('#inputVideoPassword').val(),
+                "video_password": ($('#inputVideoPassword').val() !== '') ? $('#inputVideoPassword').val() : ($('#inputVideoPassword').data('hasPassword') ? VIDEO_PASSWORD_KEEP : ''),
                 "videoStatus": $('#videoStatus').val(),
                 "videoLink": $('#videoLink').val(),
                 "epg_link": $('#epg_link').val(),

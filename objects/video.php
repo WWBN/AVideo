@@ -111,6 +111,9 @@ if (!class_exists('Video')) {
         const ASPECT_RATIO_VERTICAL = '9:16';
         const ASPECT_RATIO_HORIZONTAL = '16:9';
 
+        /** Sentinel value: tells setVideo_password() to leave the stored password unchanged. */
+        const PASSWORD_KEEP = '__keep__';
+
 
         const SORT_TYPE_CHANNELSUGGESTED = 'channelSuggested';
         const SORT_TYPE_SUGGESTED = 'suggested';
@@ -520,10 +523,44 @@ if (!class_exists('Video')) {
             return trim($this->video_password);
         }
 
+        /**
+         * Returns a bcrypt hash of the given plaintext password.
+         * Already-hashed values (bcrypt prefix '$2') are returned as-is.
+         * Empty string is returned unchanged (means "no password").
+         */
+        public static function hashVideoPassword(string $plaintext): string
+        {
+            if ($plaintext === '' || substr($plaintext, 0, 2) === '$2') {
+                return $plaintext;
+            }
+            return password_hash($plaintext, PASSWORD_BCRYPT);
+        }
+
+        /**
+         * Verifies a plaintext password against the stored value.
+         * Handles both bcrypt hashes (modern) and legacy plaintext (backward-compat).
+         */
+        public static function verifyVideoPassword(string $entered, string $stored): bool
+        {
+            if ($stored === '') {
+                return true;
+            }
+            if (substr($stored, 0, 2) === '$2') {
+                return password_verify($entered, $stored);
+            }
+            // Legacy plaintext — direct comparison until owner re-saves
+            return $entered === $stored;
+        }
+
         public function setVideo_password($video_password)
         {
+            $video_password = trim($video_password);
+            if ($video_password === self::PASSWORD_KEEP) {
+                return;
+            }
+            $video_password = self::hashVideoPassword($video_password);
             AVideoPlugin::onVideoSetVideo_password($this->id, $this->video_password, $video_password);
-            $this->video_password = trim($video_password);
+            $this->video_password = $video_password;
         }
 
         public function save($updateVideoGroups = false, $allowOfflineUser = false)
@@ -2289,17 +2326,7 @@ if (!class_exists('Video')) {
                 if (!empty($obj['userExternalOptions']) && is_string($obj['userExternalOptions'])) {
                     $obj['userExternalOptions'] = User::decodeExternalOption($obj['userExternalOptions']);
                 }
-                $obj = cleanUpRowFromDatabase($obj);
-
-                if (!self::canEdit($obj['id'])) {
-                    if (!empty($rowOriginal['video_password'])) {
-                        $obj['video_password'] = '1';
-                    } else {
-                        $obj['video_password'] = '0';
-                    }
-                } else {
-                    $obj['video_password'] = empty($rowOriginal['video_password']) ? '' : $rowOriginal['video_password'];
-                }
+                $obj = cleanUpRowFromDatabase($obj); // video_password is reduced to '' / '1' flag inside
                 if (self::forceAudio()) {
                     $obj['type'] = 'audio';
                 } else if (self::forceArticle()) {
@@ -2403,16 +2430,7 @@ if (!class_exists('Video')) {
                 return object_to_array($cache);
             }
 
-            $row = cleanUpRowFromDatabase($row);
-            if (!self::canEdit($row['id'])) {
-                if (!empty($rowOriginal['video_password'])) {
-                    $row['video_password'] = '1';
-                } else {
-                    $row['video_password'] = '0';
-                }
-            } else {
-                $row['video_password'] = empty($rowOriginal['video_password']) ? '' : $rowOriginal['video_password'];
-            }
+            $row = cleanUpRowFromDatabase($row); // video_password is reduced to '' / '1' flag inside
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['isFavorite'] = self::isFavorite($row['id']);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
