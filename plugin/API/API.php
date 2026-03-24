@@ -1110,6 +1110,7 @@ class API extends PluginAbstract
     )]
     public function get_api_video_password_is_correct($parameters)
     {
+        $this->checkRateLimit('video_password_check', 10, 300); // 10 attempts per 5 minutes
 
         $obj = new stdClass();
         $obj->videos_id = intval($parameters['videos_id']);
@@ -3218,6 +3219,7 @@ class API extends PluginAbstract
 
     public function get_api_videosViewsCount($parameters)
     {
+        $this->checkRateLimit('videos_views_count', 20, 60); // 20 per minute — full table scan, no cache
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
@@ -4057,6 +4059,7 @@ class API extends PluginAbstract
 
     public function get_api_signIn($parameters)
     {
+        $this->checkRateLimit('sign_in', 10, 300); // 10 attempts per 5 minutes
         global $global;
         $this->getToPost();
         // Merge $parameters into $_POST so login.json.php can read them
@@ -4331,6 +4334,7 @@ class API extends PluginAbstract
 
     public function get_api_vmap($parameters)
     {
+        $this->checkRateLimit('vmap', 120, 60); // 120 per minute — prevents outbound HTTP flood via AdsForJesus
         global $global;
         $this->getToPost();
         header('Content-type: application/xml');
@@ -5420,6 +5424,7 @@ class API extends PluginAbstract
 
     public function set_api_login_code($parameters)
     {
+        $this->checkRateLimit('login_code_generate', 5, 300); // 5 generations per 5 minutes
         $obj = getActivationCode();
         return new ApiObject('', empty($obj['bytes']), $obj);
     }
@@ -5465,6 +5470,7 @@ class API extends PluginAbstract
 
     public function get_api_login_code($parameters)
     {
+        $this->checkRateLimit('login_code_verify', 5, 300); // 5 attempts per 5 minutes
         global $global, $config;
         $msg = '';
         $obj = false;
