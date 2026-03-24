@@ -6538,7 +6538,9 @@ function videosHashToID($hash_of_videos_id)
     if (preg_match('/^\.([0-9a-z._-]+)/i', $hash_of_videos_id, $matches)) {
         $hash_of_videos_id = hashToID($matches[1]);
     }
-    return $hash_of_videos_id;
+    // Always return an integer — prevents SQL injection on any caller that
+    // embeds this value directly without a prepared statement placeholder.
+    return intval($hash_of_videos_id);
 }
 
 /**

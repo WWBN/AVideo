@@ -20,7 +20,7 @@ class Like
             header('Content-Type: application/json');
             die('{"error":"'.__("Permission denied").'"}');
         }
-        $this->videos_id = $videos_id;
+        $this->videos_id = intval($videos_id);
         $this->users_id = User::getId();
         $this->load();
         // if click again in the same vote, remove the vote
@@ -81,8 +81,8 @@ class Like
             header('Content-Type: application/json');
             die('{"error":"You must have user and videos set to get a like"}');
         }
-        $sql = "SELECT * FROM likes WHERE users_id = ? AND videos_id = ".$this->videos_id." LIMIT 1;";
-        $res = sqlDAL::readSql($sql, "i", [$this->users_id]);
+        $sql = "SELECT * FROM likes WHERE users_id = ? AND videos_id = ? LIMIT 1;";
+        $res = sqlDAL::readSql($sql, "ii", [$this->users_id, $this->videos_id]);
         $dbLike = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return $dbLike;
@@ -102,7 +102,7 @@ class Like
             $sql = "INSERT INTO likes (`like`,users_id, videos_id, created, modified) VALUES (?, ?, ?, now(), now());";
             $res = sqlDAL::writeSql($sql, "iii", [$this->like, $this->users_id, $this->videos_id]);
         }
-        
+
         $cacheHandler = new VideoCacheHandler($this->videos_id);
         $cacheHandler->deleteCache();
         return $res;
