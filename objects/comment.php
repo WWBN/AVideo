@@ -44,7 +44,9 @@ class Comment {
     }
 
     public function setComments_id_pai($comments_id_pai) {
-        $this->comments_id_pai = $comments_id_pai;
+        // Always cast to int - $comments_id_pai is interpolated directly into SQL in save()
+        // (see objects/security.php: *_id suffix rule also covers the input side)
+        $this->comments_id_pai = intval($comments_id_pai);
     }
 
     public function getComments_id_pai() {
