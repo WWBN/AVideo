@@ -226,12 +226,14 @@ class Category
             $original_title = $clean_title;
         }
 
-        $sql = "SELECT * FROM categories WHERE clean_name = '{$clean_title}' ";
+        $id = intval($id);
         if (!empty($id)) {
-            $sql .= " AND id != {$id} ";
+            $sql = "SELECT * FROM categories WHERE clean_name = ? AND id != ? LIMIT 1";
+            $res = sqlDAL::readSql($sql, "si", [$clean_title, $id], true);
+        } else {
+            $sql = "SELECT * FROM categories WHERE clean_name = ? LIMIT 1";
+            $res = sqlDAL::readSql($sql, "s", [$clean_title], true);
         }
-        $sql .= " LIMIT 1";
-        $res = sqlDAL::readSql($sql, "", [], true);
         $cleanTitleExists = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!empty($cleanTitleExists)) {
