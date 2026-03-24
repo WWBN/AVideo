@@ -25,7 +25,12 @@ if (empty($_REQUEST['playlists_id'])) {
     die('Play List can not be empty');
 }
 require_once './playlist.php';
-$videos = PlayList::getVideosFromPlaylist($_REQUEST['playlists_id']);
+$_playlists_id = (int)$_REQUEST['playlists_id'];
+if (!PlayList::canSee($_playlists_id, User::getId())) {
+    http_response_code(403);
+    die(json_encode(['error' => 'You do not have permission to view this playlist']));
+}
+$videos = PlayList::getVideosFromPlaylist($_playlists_id);
 $objMob = AVideoPlugin::getObjectData("MobileManager");
 $index = 0;
 foreach ($videos as $key => $value) {
@@ -37,8 +42,8 @@ foreach ($videos as $key => $value) {
     $videos[$key]['imageClass'] = !empty($objMob->portraitImage) ? "portrait" : "landscape";
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
-    $videos[$key]['pageUrl'] =  PlayLists::getLink($_REQUEST['playlists_id'], false, $index);
-    $videos[$key]['embedUrl'] = PlayLists::getLink($_REQUEST['playlists_id'], true, $index);
+    $videos[$key]['pageUrl'] =  PlayLists::getLink($_playlists_id, false, $index);
+    $videos[$key]['embedUrl'] = PlayLists::getLink($_playlists_id, true, $index);
     unset($_REQUEST['sort'], $_REQUEST['current'], $_REQUEST['searchPhrase']);
     $_REQUEST['rowCount'] = 10;
     $_REQUEST['sort']['created'] = "desc";

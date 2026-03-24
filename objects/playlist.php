@@ -1198,16 +1198,16 @@ class PlayList extends ObjectYPT
     {
         global $playListCanSee;
         $index = "$playlist_id, $users_id";
-        if (isset($playListCanSe[$index])) {
-            return $playListCanSe[$index];
+        if (isset($playListCanSee[$index])) {
+            return $playListCanSee[$index];
         }
-        $playListCanSe[$index] = true;
+        $playListCanSee[$index] = true;
         $obj = new PlayList($playlist_id);
         $status = $obj->getStatus();
         if ($status !== 'public' && $status !== 'unlisted' && $users_id !== $obj->getUsers_id()) {
-            $playListCanSe[$index] = false;
+            $playListCanSee[$index] = false;
         }
-        return $playListCanSe[$index];
+        return $playListCanSee[$index];
     }
 
     public static function getEPG()
