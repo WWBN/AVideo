@@ -78,7 +78,14 @@ function wget($url, $filename, $debug = false)
     }
     wgetLock($url);
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        $content = @file_get_contents($url);
+        // SECURITY: Use a stream context with follow_location=0 so that file_get_contents
+        // does NOT follow redirects automatically. Without this, an attacker could set up
+        // a redirect from a trusted URL to an internal address (e.g. 192.168.x.x or the
+        // cloud metadata endpoint 169.254.169.254) and bypass our SSRF checks.
+        // On Windows we use file_get_contents as a last resort (wget is not available),
+        // so we must disable redirects here too.
+        $noRedirectCtx = stream_context_create(['http' => ['follow_location' => 0]]);
+        $content = @file_get_contents($url, false, $noRedirectCtx);
         if (!empty($content) && file_put_contents($filename, $content) > 100) {
             wgetRemoveLock($url);
             return true;
@@ -89,7 +96,12 @@ function wget($url, $filename, $debug = false)
 
     $filename = escapeshellarg($filename);
     $url = escapeshellarg($url);
-    $cmd = "wget --tries=1 {$url} -O {$filename} --no-check-certificate";
+    // SECURITY: --max-redirect=0 tells wget to NOT follow any HTTP redirects.
+    // By default wget follows up to 20 redirects. An attacker that can make us
+    // fetch a URL they control could redirect us to an internal server address,
+    // bypassing the isSSRFSafeURL() check that was only done on the original URL.
+    // With --max-redirect=0, wget fetches exactly the URL we give it and stops.
+    $cmd = "wget --tries=1 --max-redirect=0 {$url} -O {$filename} --no-check-certificate";
     if ($debug) {
         _error_log("wget Start ({$cmd}) ");
     }

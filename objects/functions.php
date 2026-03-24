@@ -1963,7 +1963,25 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
     }
     if (empty($ctx)) {
         $opts = [
-            'http' => ['header' => "User-Agent: {$agent}\r\n"],
+            'http' => [
+                'header' => "User-Agent: {$agent}\r\n",
+                // SECURITY: Disable PHP's automatic HTTP redirect following.
+                //
+                // The problem this solves (called "SSRF via open redirect"):
+                //   Before making a request, we call isSSRFSafeURL() to confirm the
+                //   destination is not an internal/private server (e.g. 192.168.x.x
+                //   or 169.254.169.254, the AWS cloud metadata endpoint).
+                //   BUT if PHP silently follows redirects on its own, an attacker can
+                //   point us at a public URL like https://attacker.com/redir that then
+                //   redirects to http://169.254.169.254/secrets -- bypassing our check
+                //   completely, because we only verified the *first* URL.
+                //
+                // The fix:
+                //   Set follow_location = 0 so PHP stops at every redirect and hands
+                //   control back to us. We then re-check each redirect target ourselves
+                //   with isSSRFSafeURL() before deciding whether to follow it.
+                'follow_location' => 0,
+            ],
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false,
@@ -1986,15 +2004,51 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
             _error_log("url_get_contents: allow_url_fopen {$url}");
         }
         try {
-            if ($debug) {
-                $tmp = file_get_contents($url, false, $context);
-            } else {
-                $tmp = @file_get_contents($url, false, $context);
+            $tmp = false;
+            $currentUrl = $url;
+            // SECURITY: Manual redirect loop -- we follow up to 5 redirects ourselves
+            // so we can run isSSRFSafeURL() on every new destination URL.
+            // Without this loop, PHP would never follow any redirect at all (because
+            // we disabled follow_location above), breaking legitimate HTTP->HTTPS
+            // upgrades. This gives us both safety and correct behavior.
+            for ($redirectCount = 0; $redirectCount <= 5; $redirectCount++) {
+                $fetched = $debug
+                    ? file_get_contents($currentUrl, false, $context)
+                    : @file_get_contents($currentUrl, false, $context);
+                if ($fetched === false) {
+                    break;
+                }
+                // $http_response_header is a PHP magic variable automatically populated
+                // by file_get_contents() with the raw HTTP response headers.
+                // We check whether the server responded with a 3xx redirect status code.
+                $redirectTarget = null;
+                if (!empty($http_response_header) && preg_match('/^HTTP\/\S+\s+3\d\d\s/i', $http_response_header[0])) {
+                    foreach ($http_response_header as $h) {
+                        if (preg_match('/^Location:\s*(.+)$/i', $h, $m)) {
+                            $redirectTarget = trim($m[1]);
+                            break;
+                        }
+                    }
+                }
+                if ($redirectTarget) {
+                    // SECURITY: Re-validate the redirect destination before following it.
+                    // This is the core of the fix -- every redirect hop is checked.
+                    // If the target is an internal/private/reserved IP, we stop
+                    // immediately and return false instead of leaking data.
+                    if (!isSSRFSafeURL($redirectTarget)) {
+                        _error_log("url_get_contents: blocked unsafe redirect from {$currentUrl} to {$redirectTarget}");
+                        return false;
+                    }
+                    $currentUrl = $redirectTarget;
+                    continue;
+                }
+                // No redirect -- this is the final response body we wanted.
+                $tmp = $fetched;
+                break;
             }
             if ($tmp !== false) {
                 $response = remove_utf8_bom($tmp);
                 if ($debug) {
-                    //_error_log("url_get_contents: SUCCESS file_get_contents($url) {$response}");
                     _error_log("url_get_contents: SUCCESS file_get_contents($url)");
                 }
                 return $response;
