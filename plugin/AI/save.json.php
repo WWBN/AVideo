@@ -27,9 +27,14 @@ if (!Video::canEdit($videos_id)) {
 $video = new Video('', '', $videos_id);
 if(!empty($_REQUEST['ai_metatags_responses_id'])){
     $ai = new Ai_metatags_responses($_REQUEST['id']);
-    
+
     if (empty($ai->getcompletion_tokens())) {
         forbiddenPage('AI Response not found');
+    }
+
+    $aiParent = new Ai_responses($ai->getAi_responses_id());
+    if ($aiParent->getVideos_id() != $videos_id) {
+        forbiddenPage('AI Response does not belong to this video');
     }
 }
 
@@ -144,6 +149,12 @@ switch ($_REQUEST['label']) {
     case 'text':
         if(!empty($_REQUEST['ai_transcribe_responses_id'])){
             $ait = new Ai_transcribe_responses($_REQUEST['id']);
+
+            $aitParent = new Ai_responses($ait->getAi_responses_id());
+            if ($aitParent->getVideos_id() != $videos_id) {
+                forbiddenPage('AI Response does not belong to this video');
+            }
+
             $value = $ait->getVtt();
             //var_dump($value);exit;
             if (!empty($value)) {
