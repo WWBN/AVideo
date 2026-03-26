@@ -122,6 +122,9 @@ Options All -Indexes
     RewriteRule ^(.*)$ - [env=proto:http]
 
     RewriteEngine on
+    # Block dot-files/dot-folders (e.g. .env, .git) but allow video/audio/article short IDs that start with a dot
+    RewriteCond %{REQUEST_URI} !^/(v|video|vEmbed|videoEmbeded|videoEmbed|audio|audioEmbed|article|articleEmbed)/\.
+    RewriteCond %{REQUEST_URI} !^/channel/[^/]+/(video|audio|audioEmbed|videoEmbed|article|articleEmbed)/\.
     RewriteRule "(^|/)\.(?!well-known(?:/|$))" - [F,L,NC]
     #VideoHLS for DRM
 
