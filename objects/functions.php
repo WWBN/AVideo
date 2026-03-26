@@ -2768,10 +2768,12 @@ function allowOrigin()
     // allows any third-party site to make credentialed cross-origin requests
     // and read authenticated responses – a session-theft vector (OWASP A01/A05).
     $siteOrigin = '';
+    $siteDomain  = '';
     if (!empty($global['webSiteRootURL'])) {
         $parsed = parse_url($global['webSiteRootURL']);
         if (!empty($parsed['scheme']) && !empty($parsed['host'])) {
             $siteOrigin = $parsed['scheme'] . '://' . $parsed['host'];
+            $siteDomain = strtolower($parsed['host']);
             if (!empty($parsed['port'])) {
                 $siteOrigin .= ':' . $parsed['port'];
             }
@@ -2781,11 +2783,29 @@ function allowOrigin()
     $requestOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
     $isSameOrigin  = !empty($siteOrigin) && $requestOrigin === $siteOrigin;
 
+    // Check whether the request comes from a first-party subdomain
+    // (e.g. vizio.flixhouse.com calling flixhouse.com).  We reflect the
+    // subdomain origin without credentials – only the exact site origin gets
+    // Access-Control-Allow-Credentials: true.
+    $isTrustedSubdomain = false;
+    if (!$isSameOrigin && !empty($siteDomain) && !empty($requestOrigin)) {
+        $parsedReq = parse_url($requestOrigin);
+        if (!empty($parsedReq['host'])) {
+            $reqHost = strtolower($parsedReq['host']);
+            if ($reqHost === $siteDomain || str_ends_with($reqHost, '.' . $siteDomain)) {
+                $isTrustedSubdomain = true;
+            }
+        }
+    }
+
     // Handle CORS preflight requests (OPTIONS) first - must exit early
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         if ($isSameOrigin) {
             header("Access-Control-Allow-Origin: " . $requestOrigin);
             header("Access-Control-Allow-Credentials: true");
+        } elseif ($isTrustedSubdomain) {
+            // First-party subdomain preflight – allow without credentials
+            header("Access-Control-Allow-Origin: " . $requestOrigin);
         } else {
             // Non-same-origin preflight: reply without credentialed access
             header("Access-Control-Allow-Origin: " . ($siteOrigin ?: '*'));
@@ -2806,6 +2826,9 @@ function allowOrigin()
         // Verified same-origin CORS request – allow with credentials
         header("Access-Control-Allow-Origin: " . $requestOrigin);
         header("Access-Control-Allow-Credentials: true");
+    } elseif ($isTrustedSubdomain) {
+        // First-party subdomain – reflect its origin, but no credentials
+        header("Access-Control-Allow-Origin: " . $requestOrigin);
     } else {
         // Third-party origin: permit non-credentialed access only.
         // Do NOT echo the caller's origin back with credentials – that would
