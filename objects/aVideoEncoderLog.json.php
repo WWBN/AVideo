@@ -50,10 +50,9 @@ if (empty($obj->videos_id)) {
     forbiddenPage($obj->msg);
 }
 
-if (!Video::canEdit($obj->videos_id)) {
+if (!Video::canEncoderEdit($obj->videos_id)) {
     $obj->msg = "You cannot edit videos_id  " . $obj->videos_id;
-    _error_log($obj->msg . json_encode($_REQUEST));
-
+    _error_log($obj->msg . " isLogged=" . (User::isLogged() ? 'true' : 'false') . " userId=" . User::getId() . " " . json_encode($_REQUEST));
     forbiddenPage($obj->msg);
 }
 

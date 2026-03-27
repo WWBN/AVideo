@@ -6739,8 +6739,17 @@ function useVideoHashOrLogin()
             $users_id = Video::getOwner($videos_id);
             _error_log("useVideoHashOrLogin: users_id=" . json_encode($users_id) . " videos_id=$videos_id");
             if (empty($users_id)) {
-                _error_log("useVideoHashOrLogin: ERROR - Video::getOwner($videos_id) returned empty, cannot authenticate via hash. Falling back to loginFromRequest.");
-                return User::loginFromRequest();
+                _error_log("useVideoHashOrLogin: ERROR - Video::getOwner($videos_id) returned empty. Attempting credential-based auth (bypassing do_not_login since hash is valid).");
+                // We have a valid video_id_hash proving encoder authorization for this video.
+                // Try authenticating via the user+pass credentials even if do_not_login is set.
+                $savedDoNotLogin = isset($_REQUEST['do_not_login']) ? $_REQUEST['do_not_login'] : null;
+                unset($_REQUEST['do_not_login']);
+                $result = User::loginFromRequest();
+                if ($savedDoNotLogin !== null) {
+                    $_REQUEST['do_not_login'] = $savedDoNotLogin;
+                }
+                _error_log("useVideoHashOrLogin: credential fallback result=$result for user=" . ($_REQUEST['user'] ?? 'empty'));
+                return $result;
             }
             $user = new User($users_id);
             $loginResult = $user->login(true);

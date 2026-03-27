@@ -3986,6 +3986,20 @@ if (!class_exists('Video')) {
             return self::isOwner($videos_id, $users_id);
         }
 
+        /**
+         * Like canEdit(), but also accepts a valid encoder video_id_hash as proof of ownership.
+         * This allows the encoder to update videos whose users_id is NULL in the DB.
+         */
+        public static function canEncoderEdit($videos_id)
+        {
+            if (!empty($_REQUEST['video_id_hash']) &&
+                User::isLogged() &&
+                self::getVideoIdFromHash($_REQUEST['video_id_hash']) == intval($videos_id)) {
+                return true;
+            }
+            return self::canEdit($videos_id);
+        }
+
         public static function getRandom($excludeVideoId = false, $status = Video::SORT_TYPE_VIEWABLE)
         {
             return static::getVideo("", $status, false, $excludeVideoId);

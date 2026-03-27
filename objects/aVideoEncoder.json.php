@@ -63,11 +63,13 @@ if (!User::canUpload()) {
     die(json_encode($obj));
 }
 
-if (!empty($_REQUEST['videos_id']) && !Video::canEdit($_REQUEST['videos_id'])) {
-    _error_log("aVideoEncoder.json: Permission denied to edit a video: " . json_encode($_REQUEST));
-    $obj->msg = __("Permission denied to edit a video: ") . json_encode($_REQUEST);
-    _error_log($obj->msg);
-    die(json_encode($obj));
+if (!empty($_REQUEST['videos_id'])) {
+    if (!Video::canEncoderEdit($_REQUEST['videos_id'])) {
+        _error_log("aVideoEncoder.json: Permission denied to edit videos_id=" . intval($_REQUEST['videos_id']) . " isLogged=" . (User::isLogged() ? 'true' : 'false') . " userId=" . User::getId());
+        $obj->msg = __("Permission denied to edit a video: ") . json_encode($_REQUEST);
+        _error_log($obj->msg);
+        die(json_encode($obj));
+    }
 }
 
 _error_log("aVideoEncoder.json: start to receive: " . json_encode($_REQUEST));
