@@ -10,9 +10,22 @@ $plugin = AVideoPlugin::loadPluginIfEnabled('PlayLists');
 if (empty($plugin)) {
     forbiddenPage(__("The plugin is disabled"));
 }
-                                           
+
 if (!User::canStream()) {
     forbiddenPage(__("You cannot livestream"));
+}
+
+// Verify ownership of the existing schedule when editing
+if (!empty($_POST['id'])) {
+    $existing = new Playlists_schedules(intval($_POST['id']));
+    if (!PlayLists::canManagePlaylist($existing->getPlaylists_id())) {
+        forbiddenPage(__("You cannot modify this schedule"));
+    }
+}
+
+// Verify ownership of the target playlist
+if (!PlayLists::canManagePlaylist($_POST['playlists_id'])) {
+    forbiddenPage(__("You cannot manage this playlist"));
 }
 
 $o = new Playlists_schedules(@$_POST['id']);
