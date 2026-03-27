@@ -8,6 +8,9 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
+if (!isGlobalTokenValid()) {
+    die('{"error":"' . __("Invalid or missing CSRF token") . '"}');
+}
 
 $pluginName = $_POST['pluginName'];
 

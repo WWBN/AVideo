@@ -347,13 +347,14 @@ if (!empty($includeHead) && file_exists($includeHead)) {
     </div>
 </div>
 <script>
+    var adminSaveToken = '<?php echo getToken(); ?>';
     $(document).ready(function() {
         $('.adminOptionsForm').submit(function(e) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
                 url: webSiteRootURL + 'admin/save.json.php',
-                data: $(this).serialize(),
+                data: $(this).serialize() + '&globalToken=' + encodeURIComponent(adminSaveToken),
                 type: 'post',
                 success: function(response) {
                     modal.hidePleaseWait();
