@@ -210,9 +210,11 @@ function socketConnectOld() {
             socketLog('Retrying in', socketConnectRetryTimeout / 1000, 'seconds');
 
             // Retry connection with exponential backoff
+            // Use startSocket() to fetch a fresh token before reconnecting;
+            // socketConnect() would reuse the stale webSocketURL/webSocketToken which expires in 12h.
             socketConnectTimeout = setTimeout(function () {
                 socketConnectRetryTimeout = Math.min(socketConnectRetryTimeout * 2, 60000); // Increase timeout up to 1 minute
-                socketConnect();
+                startSocket();
             }, socketConnectRetryTimeout);
 
             // Optionally, add checks for connection timeouts, SSL issues, or network connectivity
@@ -220,8 +222,9 @@ function socketConnectOld() {
             checkSSLIssues(webSocketURL);
         } else {
             socketLog('Socket closed normally, code:', e.code);
+            // Use startSocket() to fetch a fresh token before reconnecting
             socketConnectTimeout = setTimeout(function () {
-                socketConnect();
+                startSocket();
             }, socketConnectRetryTimeout);
         }
 
@@ -295,7 +298,10 @@ function socketConnectIO() {
             transports: ["websocket"],
             timeout: 10000, // 5 seconds timeout
             pingTimeout: 60000,
-            pingInterval: 25000
+            pingInterval: 25000,
+            // Disable internal reconnector so we always fetch a fresh token
+            // via startSocket() on disconnect, preventing stale/expired token reuse.
+            reconnection: false
         });
     } catch (error) {
         socketError('Socket.IO initialization failed:', error.message);
@@ -340,12 +346,15 @@ function socketConnectIO() {
 
     socket.on("disconnect", (reason) => {
         socketError('Disconnected:', reason);
+        socketConnectRequested = false;
 
-        if (reason === "io server disconnect") {
-            socketWarn('Server initiated disconnect, reconnecting...');
-            socket.connect();
-        } else if (reason === "transport close") {
-            socketError('Transport closed, retrying...');
+        // For all non-intentional disconnects, fetch a fresh token before reconnecting.
+        // socket.connect() / Socket.IO internal reconnector reuses the original URL with
+        // the old token, which will fail after the 12-hour token expiry.
+        if (reason !== "io client disconnect") {
+            socketConnectTimeout = setTimeout(function () {
+                startSocket();
+            }, socketConnectRetryTimeout);
         }
 
         onSocketClose();

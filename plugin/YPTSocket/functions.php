@@ -75,8 +75,8 @@ function verifyTokenSocket($token) {
     }
     $time = time();
     if (!($time >= $obj->time && $time <= $obj->timeout)) {
-        //_error_log("verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout");
-        //return false;
+        _error_log("verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout");
+        return false;
     }
     return true;
 }
