@@ -3994,7 +3994,7 @@ if (!class_exists('Video')) {
         {
             if (!empty($_REQUEST['video_id_hash']) &&
                 User::isLogged() &&
-                self::getVideoIdFromHash($_REQUEST['video_id_hash']) == intval($videos_id)) {
+                intval(self::getVideoIdFromHash($_REQUEST['video_id_hash'])) === intval($videos_id)) {
                 return true;
             }
             return self::canEdit($videos_id);
