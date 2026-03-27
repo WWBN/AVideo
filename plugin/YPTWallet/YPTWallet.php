@@ -304,6 +304,29 @@ class YPTWallet extends PluginAbstract
         return $user;
     }
 
+    /**
+     * Fields that are safe to expose to any authenticated (non-admin) user.
+     * Used by endpoints like the transferFunds autocomplete.
+     */
+    public static function getPublicUserFields(): array
+    {
+        return ['id', 'user_id', 'user', 'identification', 'background', 'photo'];
+    }
+
+    /**
+     * Returns getAllUsers() rows filtered down to public-safe fields only.
+     * Use this for any endpoint that non-admin users can reach.
+     */
+    public function getAllUsersPublicFields($activeOnly = true): array
+    {
+        $users = $this->getAllUsers($activeOnly);
+        if (empty($users)) {
+            return [];
+        }
+        $allowed = array_flip(self::getPublicUserFields());
+        return array_map(fn($row) => array_intersect_key($row, $allowed), $users);
+    }
+
     public static function getTotalBalance()
     {
         global $global;
