@@ -6737,9 +6737,17 @@ function useVideoHashOrLogin()
         $videos_id = Video::getVideoIdFromHash($_REQUEST['video_id_hash']);
         if (!empty($videos_id)) {
             $users_id = Video::getOwner($videos_id);
+            _error_log("useVideoHashOrLogin: users_id=" . json_encode($users_id) . " videos_id=$videos_id");
+            if (empty($users_id)) {
+                _error_log("useVideoHashOrLogin: ERROR - Video::getOwner($videos_id) returned empty, cannot authenticate via hash. Falling back to loginFromRequest.");
+                return User::loginFromRequest();
+            }
             $user = new User($users_id);
-            _error_log("useVideoHashOrLogin: $users_id, $videos_id");
-            return $user->login(true);
+            $loginResult = $user->login(true);
+            _error_log("useVideoHashOrLogin: login result=$loginResult for users_id=$users_id (" . User::USER_LOGGED . "=USER_LOGGED, " . User::USER_NOT_FOUND . "=USER_NOT_FOUND)");
+            return $loginResult;
+        } else {
+            _error_log("useVideoHashOrLogin: ERROR - could not decode video_id_hash into a valid videos_id. hash=" . $_REQUEST['video_id_hash']);
         }
     }
     return User::loginFromRequest();
