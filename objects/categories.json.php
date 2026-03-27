@@ -15,14 +15,16 @@ $_REQUEST['rowCount'] = getRowCount(1000);
 $_REQUEST['current'] = getCurrentPage();
 
 $onlyWithVideos = false;
-$sameUserGroupAsMe = false;
 if(!empty($_GET['user'])){
     $onlyWithVideos = true;
-    $sameUserGroupAsMe = true;
 }
+// Always apply user-group filtering using the logged-in user's real ID.
+// Guests get -1 so getUserGroups returns [], leaving only unrestricted categories visible.
+$currentUserId = User::getId();
+$sameUserGroupAsMe = !empty($currentUserId) ? intval($currentUserId) : -1;
 
 $categories = Category::getAllCategories(true, $onlyWithVideos, false, $sameUserGroupAsMe);
-$total = Category::getTotalCategories(true, $onlyWithVideos);
+$total = Category::getTotalCategories(true, $onlyWithVideos, false, $sameUserGroupAsMe);
 //$breaks = array('<br />', '<br>', '<br/>');
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";

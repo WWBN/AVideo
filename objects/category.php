@@ -975,7 +975,7 @@ class Category
         return sqlDAL::writeSql($sql, "i", [$this->id]);
     }
 
-    public static function getTotalCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false)
+    public static function getTotalCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false)
     {
         global $global, $config;
 
@@ -1022,6 +1022,17 @@ class Category
                     . " ) > 0  ";
             }
             $sql .= ")";
+        }
+        if ($sameUserGroupAsMe) {
+            $users_groups = UserGroups::getUserGroups($sameUserGroupAsMe);
+            $users_groups_id = array(0);
+            foreach ($users_groups as $value) {
+                $users_groups_id[] = $value['id'];
+            }
+            $sql .= " AND ("
+                . "(SELECT count(*) FROM categories_has_users_groups chug WHERE c.id = chug.categories_id) = 0 OR "
+                . "(SELECT count(*) FROM categories_has_users_groups chug2 WHERE c.id = chug2.categories_id AND users_groups_id IN (" . implode(',', $users_groups_id) . ")) >= 1 "
+                . ")";
         }
         $sql .= BootGrid::getSqlSearchFromPost(['name']);
         //echo $sql;exit;
