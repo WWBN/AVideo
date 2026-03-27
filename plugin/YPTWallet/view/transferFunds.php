@@ -157,6 +157,9 @@ $_page = new Page(array('Transfer Funds'));
                         success: function(response) {
                             $(".walletBalance").text(response.walletBalance);
                             modal.hidePleaseWait();
+                            // Always reload the captcha after a submission so the old token
+                            // (consumed on correct answer) is never reused on retry.
+                            <?php echo $capcha['btnReloadCapcha']; ?>
                             if (response.error) {
                                 setTimeout(function() {
                                     avideoAlertError(response.msg);
@@ -166,6 +169,15 @@ $_page = new Page(array('Transfer Funds'));
                                     avideoAlertSuccess(__("Funds successfully transferred"));
                                 }, 500);
                             }
+                        },
+                        error: function() {
+                            modal.hidePleaseWait();
+                            // Reload captcha on network/server error too — the session token
+                            // may have been consumed before the error occurred.
+                            <?php echo $capcha['btnReloadCapcha']; ?>
+                            setTimeout(function() {
+                                avideoAlertError(__("Transfer request failed, please try again"));
+                            }, 500);
                         }
                     });
                 }

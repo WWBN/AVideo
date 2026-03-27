@@ -125,6 +125,31 @@ class Wallet extends ObjectYPT {
         return $id;
     }
 
+    /**
+     * Like getFromUser() but issues SELECT … FOR UPDATE to lock the row.
+     * Must be called inside an active transaction (mysqlBeginTransaction()).
+     * Returns a populated Wallet object, or false if the row does not exist.
+     */
+    static function getFromUserForUpdate($users_id) {
+        global $global;
+        $users_id = intval($users_id);
+        $stmt = $global['mysqli']->prepare(
+            "SELECT * FROM " . static::getTableName() . " WHERE users_id = ? LIMIT 1 FOR UPDATE"
+        );
+        $stmt->bind_param("i", $users_id);
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+        if (empty($row)) {
+            return false;
+        }
+        $wallet = new static(0);
+        foreach ($row as $key => $value) {
+            @$wallet->$key = $value;
+        }
+        return $wallet;
+    }
+
     static function getOrCreateFromUser($users_id) {
         $wallet = self::getFromUser($users_id);
         if(empty($wallet)){

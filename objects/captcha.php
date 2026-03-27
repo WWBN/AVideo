@@ -68,6 +68,8 @@ class Captcha
         $validation = (strcasecmp($word, $_SESSION["palavra"]) == 0);
         if (!$validation) {
             _error_log("Captcha validation Error: you type ({$word}) and session is ({$_SESSION["palavra"]})- session_name ". session_name()." session_id: ". session_id());
+        } else {
+            unset($_SESSION["palavra"]); // Consume the captcha token to prevent reuse within the same session
         }
         return $validation;
     }

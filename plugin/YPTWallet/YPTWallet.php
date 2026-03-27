@@ -469,12 +469,24 @@ class YPTWallet extends PluginAbstract
             return false;
         }
 
-        // Sender wallet
-        $senderWallet = self::getWallet($fromUserId);
+        // Use a transaction with SELECT…FOR UPDATE to eliminate the TOCTOU race condition.
+        // Concurrent transfers from the same sender block on the row lock instead of reading
+        // a stale balance, preventing balance creation from nothing.
+        mysqlBeginTransaction();
+
+        // Lock sender row and load into Wallet object
+        $senderWallet = Wallet::getFromUserForUpdate($fromUserId);
+        if (!$senderWallet) {
+            mysqlRollback();
+            _error_log("transferBalance: sender wallet not found, $fromUserId");
+            return false;
+        }
+
         $senderBalance = $senderWallet->getBalance();
         $senderNewBalance = $senderBalance - $amount;
 
         if ($senderNewBalance < 0) {
+            mysqlRollback();
             _error_log("transferBalance: insufficient balance, $fromUserId, $toUserId, $amount (Balance: {$senderBalance}) (New Balance: {$senderNewBalance}) " . json_encode(debug_backtrace()));
             return false;
         }
@@ -482,7 +494,6 @@ class YPTWallet extends PluginAbstract
         $senderIdentification = User::getNameIdentificationById($fromUserId);
         $receiverIdentification = User::getNameIdentificationById($toUserId);
 
-        // Update sender balance
         $senderWallet->setBalance($senderNewBalance);
         $senderWalletId = $senderWallet->save();
 
@@ -493,12 +504,16 @@ class YPTWallet extends PluginAbstract
 
         $logIdFrom = WalletLog::addLog($senderWalletId, "-" . $amount, $senderBalance, $descriptionFrom, "{}", "success", "transferBalance to");
 
-        // Receiver wallet
-        $receiverWallet = self::getWallet($toUserId);
-        $receiverBalance = $receiverWallet->getBalance();
-        $receiverNewBalance = $receiverBalance + $amount;
+        // Lock receiver row and load into Wallet object
+        $receiverWallet = Wallet::getFromUserForUpdate($toUserId);
+        if (!$receiverWallet) {
+            mysqlRollback();
+            _error_log("transferBalance: receiver wallet not found, $toUserId");
+            return false;
+        }
 
-        $receiverWallet->setBalance($receiverNewBalance);
+        $receiverBalance = $receiverWallet->getBalance();
+        $receiverWallet->setBalance($receiverBalance + $amount);
         $receiverWalletId = $receiverWallet->save();
 
         $descriptionTo = "Transfer Balance {$amount} from user <a href='{$global['webSiteRootURL']}channel/{$fromUserId}'>{$senderIdentification}</a> to <strong>YOU</strong>";
@@ -506,9 +521,9 @@ class YPTWallet extends PluginAbstract
             $descriptionTo = $customDescription;
         }
 
-        ObjectYPT::clearSessionCache();
-
         $logIdTo = WalletLog::addLog($receiverWalletId, $amount, $receiverBalance, $descriptionTo, "{}", "success", "transferBalance from");
+
+        mysqlCommit();
 
         return [
             'log_id_from' => $logIdFrom,
