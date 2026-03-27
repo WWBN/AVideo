@@ -988,12 +988,16 @@ class API extends PluginAbstract
         global $global;
         $obj = $this->startResponseObject($parameters);
         $obj->videos_id = $parameters['videos_id'];
+        $video = new Video('', '', $obj->videos_id);
         if (!self::isAPISecretValid()) {
             if (!User::canWatchVideoWithAds($obj->videos_id)) {
                 return new ApiObject("You cannot watch this video");
             }
+            $storedPassword = $video->getVideo_password();
+            if (!empty($storedPassword) && !Video::verifyVideoPassword((string)($parameters['video_password'] ?? ''), $storedPassword)) {
+                return new ApiObject("Video password required");
+            }
         }
-        $video = new Video('', '', $obj->videos_id);
         $obj->filename = $video->getFilename();
         $obj->duration_in_seconds = $video->getDuration_in_seconds();
         $obj->title = $video->getTitle();
@@ -1123,7 +1127,7 @@ class API extends PluginAbstract
             $video = new Video('', '', $obj->videos_id);
             $password = $video->getVideo_password();
             if (!empty($password)) {
-                $obj->passwordIsCorrect = $password == $parameters['video_password'];
+                $obj->passwordIsCorrect = Video::verifyVideoPassword((string)($parameters['video_password'] ?? ''), $password);
             }
         } else {
             $msg = 'Videos id is required';
@@ -1783,6 +1787,17 @@ class API extends PluginAbstract
                 $rows[$key]['videos'] = new stdClass();
             } else {
                 $rows[$key]['sources'] = Video::getVideosPathsToSource($rows[$key]['videos']);
+            }
+            // Strip playback sources for password-protected videos unless the correct
+            // password is supplied. The video_password field is already sanitised to
+            // '' / '1' by cleanUpRowFromDatabase(), so load the real hash via Video.
+            if (!$isAPISecretValid && !empty($rows[$key]['video_password'])) {
+                $videoObj = new Video('', '', $value['id']);
+                $storedPassword = $videoObj->getVideo_password();
+                if (!Video::verifyVideoPassword((string)($parameters['video_password'] ?? ''), $storedPassword)) {
+                    $rows[$key]['videos'] = new stdClass();
+                    $rows[$key]['sources'] = array();
+                }
             }
 
             $rows[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
