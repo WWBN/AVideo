@@ -44,7 +44,7 @@ function jsonToFormElements($json, $filter = [])
         $input = '';
         if (is_object($valueJson)) {
             if ($valueJson->type === 'textarea') {
-                $input = "<textarea class='form-control jsonElement' name='{$keyJson}' pluginType='object'>{$valueJson->value}</textarea>";
+                $input = "<textarea class='form-control jsonElement' name='{$keyJson}' pluginType='object'>" . htmlspecialchars($valueJson->value, ENT_QUOTES, 'UTF-8') . "</textarea>";
             } elseif (is_array($valueJson->type)) {
                 $input = "<select class='form-control jsonElement' name='{$keyJson}'  pluginType='object'>";
                 foreach ($valueJson->type as $key => $value) {
@@ -52,7 +52,7 @@ function jsonToFormElements($json, $filter = [])
                     if ($valueJson->value == $key) {
                         $select = "selected";
                     }
-                    $input .= "<option value='{$key}' {$select}>{$value}</option>";
+                    $input .= "<option value='" . htmlspecialchars($key, ENT_QUOTES, 'UTF-8') . "' {$select}>" . htmlspecialchars($value, ENT_QUOTES, 'UTF-8') . "</option>";
                 }
                 $input .= "</select>";
             } else {
@@ -60,7 +60,7 @@ function jsonToFormElements($json, $filter = [])
                     continue;
                 }
                 $input = "<input class='form-control jsonElement' name='{$keyJson}' "
-                . "pluginType='object' type='{$valueJson->type}' value='{$valueJson->value}'/>";
+                . "pluginType='object' type='" . htmlspecialchars($valueJson->type, ENT_QUOTES, 'UTF-8') . "' value='" . htmlspecialchars($valueJson->value, ENT_QUOTES, 'UTF-8') . "'/>";
             }
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
         } elseif (is_bool($valueJson)) {
@@ -72,7 +72,7 @@ function jsonToFormElements($json, $filter = [])
                             </div>';
             $elements[] = "<tr><td>{$input}</td><td>{$label}<br>{$help}</td></tr>";
         } else {
-            $input = "<input class='form-control jsonElement' name='{$keyJson}' type='text' value='{$valueJson}'/>";
+            $input = "<input class='form-control jsonElement' name='{$keyJson}' type='text' value='" . htmlspecialchars((string)$valueJson, ENT_QUOTES, 'UTF-8') . "'/>";
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
         }
     }
