@@ -492,10 +492,10 @@ class Live_schedule extends ObjectYPT
                 . " LEFT JOIN users u ON u.id = ls.users_id AND u.status='a' "
                 . " LEFT JOIN live_transmitions lt ON u.id = lt.users_id AND u.status='a' "
                 . " WHERE "
-                . " ls.`key` = '$key' "
+                . " ls.`key` = ? "
                 . " AND (ls.`scheduled_time` + INTERVAL 1 DAY) > NOW() " // expire in 1 day
                 . " LIMIT 1";
-        $res = sqlDAL::readSql($sql);
+        $res = sqlDAL::readSql($sql, 's', [$key]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!empty($data)) {
