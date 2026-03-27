@@ -27,6 +27,7 @@ class Shorts extends PluginAbstract {
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->shortMaxDurationInSeconds = 60;
+        $obj->shortMinDurationInSeconds = 2;
 
         return $obj;
     }

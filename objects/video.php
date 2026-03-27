@@ -1262,7 +1262,9 @@ if (!class_exists('Video')) {
                     if (empty($max_duration_in_seconds)) {
                         $max_duration_in_seconds = 60;
                     }
-                    $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
+                    $min_duration_in_seconds = intval($ShortsObj->shortMinDurationInSeconds);
+
+                    $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds >= {$min_duration_in_seconds} ";
                 }
             } elseif (!empty($status) && strlen($status) == 1) {
                 $sql .= " AND v.status = '{$status}'";
@@ -1916,7 +1918,7 @@ if (!class_exists('Video')) {
          * @param string $videosArrayId an array with videos to return (for filter only)
          * @return array
          */
-        public static function getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
+        public static function getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0, $min_duration_in_seconds = 0)
         {
             global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
@@ -1941,6 +1943,12 @@ if (!class_exists('Video')) {
                     $max_duration_in_seconds = intval($ShortsObj->shortMaxDurationInSeconds);
                     if (empty($max_duration_in_seconds)) {
                         $max_duration_in_seconds = 60;
+                    }
+                    if (empty($min_duration_in_seconds)) {
+                        $min_duration_in_seconds = intval($ShortsObj->shortMinDurationInSeconds);
+                        if (empty($min_duration_in_seconds)) {
+                            $min_duration_in_seconds = 2;
+                        }
                     }
                 }
             }
@@ -2114,6 +2122,10 @@ if (!class_exists('Video')) {
             if (!empty($max_duration_in_seconds)) {
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
                 $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
+            }
+            $min_duration_in_seconds = intval($min_duration_in_seconds);
+            if (!empty($min_duration_in_seconds)) {
+                $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds >= {$min_duration_in_seconds} ";
             }
 
             if (!empty($passwordProtectedOnly)) {
@@ -2635,7 +2647,7 @@ if (!class_exists('Video')) {
          * @param string $showOnlyLoggedUserVideos
          * @return array
          */
-        public static function getAllVideosLight($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '', $max_duration_in_seconds = 0, $with_order_only = false)
+        public static function getAllVideosLight($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '', $max_duration_in_seconds = 0, $with_order_only = false, $min_duration_in_seconds = 0)
         {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
@@ -2707,6 +2719,10 @@ if (!class_exists('Video')) {
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
                 $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
             }
+            $min_duration_in_seconds = intval($min_duration_in_seconds);
+            if (!empty($min_duration_in_seconds)) {
+                $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds >= {$min_duration_in_seconds} ";
+            }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
 
@@ -2766,7 +2782,7 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        public static function getTotalVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '', $max_duration_in_seconds = 0)
+        public static function getTotalVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '', $max_duration_in_seconds = 0, $min_duration_in_seconds = 0)
         {
             global $global, $config, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
@@ -2912,6 +2928,10 @@ if (!class_exists('Video')) {
             if (!empty($max_duration_in_seconds)) {
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
                 $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
+            }
+            $min_duration_in_seconds = intval($min_duration_in_seconds);
+            if (!empty($min_duration_in_seconds)) {
+                $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds >= {$min_duration_in_seconds} ";
             }
 
             if (!empty($passwordProtectedOnly)) {
