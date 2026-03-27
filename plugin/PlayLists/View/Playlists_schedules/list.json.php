@@ -3,6 +3,10 @@ require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/PlayLists/Objects/Playlists_schedules.php';
 header('Content-Type: application/json');
 
+if (!User::canStream()) {
+    die(json_encode(['error' => true, 'msg' => "You can't do this"]));
+}
+
 $rows = Playlists_schedules::getAll(@$_REQUEST['program_id']);
 foreach ($rows as $key => $value) {
     $rows[$key]['loopText'] = empty($rows[$key]['loop'])?__('No'):__('Yes');
