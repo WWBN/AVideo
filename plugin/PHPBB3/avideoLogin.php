@@ -9,7 +9,7 @@ if (!isset($phpbb_root_path)) {
             $content = file_get_contents('index.original.php');
             $newContent = str_replace('$user->session_begin();', 'require_once $phpbb_root_path . \'avideoLogin.php\';' . PHP_EOL . '$user->session_begin();', $content);
             file_put_contents('index.php', $newContent);
-            
+
             if (!file_exists('ucp.original.php')) {
                 copy('ucp.php', 'ucp.original.php');
             }
@@ -101,7 +101,13 @@ if (!empty($dbuserToLogin)) {
                 $cookie_sid = getCookie("{$row['config_value']}_sid");
                 if (!empty($cookie_sid)) {
                     setcookie("{$row['config_value']}_u", $users_id, time() + (86400 * 30), "/"); // 86400 = 1 day
-                    $mysqli->query("UPDATE `{$table_prefix}sessions` SET `session_user_id` = '{$users_id}' WHERE (`session_id` = '{$cookie_sid}')");
+                    $stmt = $mysqli->prepare("UPDATE `{$table_prefix}sessions` SET `session_user_id` = ? WHERE (`session_id` = ?)");
+                    if ($stmt) {
+                        $uid = intval($users_id);
+                        $stmt->bind_param("is", $uid, $cookie_sid);
+                        $stmt->execute();
+                        $stmt->close();
+                    }
                     //var_dump($cookie_sid, $dbuserToLogin, $email);
                     header('Location: .');
                     exit;
