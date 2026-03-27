@@ -16,6 +16,14 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 
+if (!empty($live_schedule_id)) {
+    $ls = new Live_schedule($live_schedule_id);
+    if (!User::isAdmin() && $ls->getUsers_id() != User::getId()) {
+        $obj->msg = 'You cant edit this file';
+        die(json_encode($obj));
+    }
+}
+
 $live = AVideoPlugin::loadPluginIfEnabled("Live");
 
 if (empty($live)) {
