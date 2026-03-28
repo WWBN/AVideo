@@ -129,7 +129,7 @@ if ($forceRecreate || empty($channelsList)) {
                         $timeWillStart = strtotime($program['start']);
                         if ($timeWillStart > $_MaxDaysFromNow) {
                             unset($epgData[$key2]);
-                            _error_log("EPG program start time exceeds max limit: {$program['start']}");
+                            //_error_log("EPG program start time exceeds max limit: {$program['start']}");
                             continue;
                         }
                         $minutes = getDurationInMinutes(date('Y-m-d 00:00:00'), $program['stop']);
