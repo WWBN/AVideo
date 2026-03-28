@@ -1336,7 +1336,7 @@ class VideosListCacheHandler extends CacheHandler
     public function getCacheWithAutoSuffix($lifetime = 60)
     {
         $suffix = $this->getCacheSufix();
-        return parent::getCache($suffix, $lifetime, true);
+        return parent::getCache($suffix, $lifetime, false);
     }
 
     protected function getCacheSubdir()

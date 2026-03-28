@@ -1367,7 +1367,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
             //_error_log("Live::getStatsObject[$live_servers_id] 4: cache not found");
         } else {
-            _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated");
+            //_error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated");
         }
 
         $o = AVideoPlugin::getDataObject('Live');
@@ -1379,7 +1379,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $cacheHandler->setCache($xml);
 
         if (!empty($force_recreate) || !empty($_REQUEST['debug'])) {
-            _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated done " . json_encode(debug_backtrace()));
+            //_error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated done " . json_encode(debug_backtrace()));
         }
         //var_dump(__LINE__, $xml);
         $global['isStatsAccessible'][$live_servers_id] = !empty($xml);

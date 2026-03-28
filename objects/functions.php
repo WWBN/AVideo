@@ -1883,10 +1883,10 @@ function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout =
         //_error_log('url_get_contents_with_cache cache');
         return $cache;
     }
-    _error_log("url_get_contents_with_cache no cache [$url] " . json_encode(debug_backtrace()));
+    //_error_log("url_get_contents_with_cache no cache [$url] " . json_encode(debug_backtrace()));
     $return = url_get_contents($url, $ctx, $timeout, $debug, $mantainSession);
     $response = ObjectYPT::setCacheGlobal($cacheName, $return);
-    _error_log("url_get_contents_with_cache setCache {$url} " . json_encode($response));
+    //_error_log("url_get_contents_with_cache setCache {$url} " . json_encode($response));
     return $return;
 }
 
@@ -7518,7 +7518,7 @@ function is_port_open($port, $address = '127.0.0.1', $timeout = 5)
         fclose($socket);
         return true;
     }
-    _error_log("is_port_open($port, $address) error {$errstr}");
+    //_error_log("is_port_open($port, $address) error {$errstr}");
     // If the socket connection failed, the port is closed
     return false;
 }

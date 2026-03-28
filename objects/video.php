@@ -4412,7 +4412,7 @@ if (!class_exists('Video')) {
                 $video = Video::getVideoFromFileNameLight($cleanFileName);
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (empty($video)) {
-                    _error_log("Video::getSourceFile($filename, $type, $includeS3) ERROR video not found ($cleanFileName)");
+                    //_error_log("Video::getSourceFile($filename, $type, $includeS3) ERROR video not found ($cleanFileName)");
                     $VideoGetSourceFile[$cacheName] = false;
                     return false;
                 }
