@@ -75,7 +75,7 @@ function verifyTokenSocket($token) {
     }
     $time = time();
     if (!($time >= $obj->time && $time <= $obj->timeout)) {
-        _error_log("verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout");
+        _error_log("Socket:verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout IP: ".getRealIpAddr().' UserAgent: '.$_SERVER['HTTP_USER_AGENT']);
         return false;
     }
     return true;

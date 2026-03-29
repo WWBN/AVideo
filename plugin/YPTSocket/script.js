@@ -1,6 +1,7 @@
 var socketConnectRequested = 0;
 var totalDevicesOnline = 0;
 var yptSocketResponse;
+var tokenRefreshTimeout;
 
 var socketResourceId;
 var socketConnectTimeout;
@@ -370,11 +371,61 @@ function socketConnectIO() {
 
 }
 
+/**
+ * Fetches a fresh webSocketToken (and URL) from the server.
+ * @param {function(response)} onSuccess  Called with the response when successful.
+ * @param {function}           onFail     Called on server error or network failure.
+ */
+function fetchWebSocketToken(onSuccess, onFail) {
+    var url = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
+    url = addGetParam(url, 'webSocketSelfURI', webSocketSelfURI);
+    url = addGetParam(url, 'webSocketVideos_id', webSocketVideos_id);
+    url = addGetParam(url, 'webSocketLiveKey', webSocketLiveKey);
+    $.ajax({
+        url: url,
+        success: function (response) {
+            if (response.error) {
+                if (typeof onFail === 'function') onFail(response.msg);
+            } else {
+                webSocketToken = response.webSocketToken;
+                webSocketURL = response.webSocketURL;
+                if (typeof onSuccess === 'function') onSuccess(response);
+            }
+        },
+        error: function () {
+            if (typeof onFail === 'function') onFail('network error');
+        }
+    });
+}
+
+function attemptTokenRefresh() {
+    fetchWebSocketToken(
+        function () {
+            socketLog('WebSocket token refreshed proactively');
+            scheduleTokenRefresh(); // success: schedule next refresh in 11h
+        },
+        function (reason) {
+            // Failure: retry the fetch itself in 30 min (NOT scheduleTokenRefresh,
+            // which would add another 11h on top — the token may already be expired).
+            socketError('Token refresh failed (' + reason + '), retrying in 30 min');
+            tokenRefreshTimeout = setTimeout(attemptTokenRefresh, 30 * 60 * 1000);
+        }
+    );
+}
+
+function scheduleTokenRefresh() {
+    clearTimeout(tokenRefreshTimeout);
+    // Refresh the token 1 hour before the 12-hour expiry so in-flight messages
+    // always carry a valid token, even for long-lived connections.
+    tokenRefreshTimeout = setTimeout(attemptTokenRefresh, 11 * 60 * 60 * 1000);
+}
+
 function onSocketOpen() {
     setSocketIconStatus('connected');
 }
 
 function onSocketClose() {
+    clearTimeout(tokenRefreshTimeout);
     setSocketIconStatus('disconnected');
 }
 
@@ -700,26 +751,18 @@ async function startSocket() {
         return false;
     }
     ////console.log('Getting webSocketToken ...');
-    getWebSocket = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
-    getWebSocket = addGetParam(getWebSocket, 'webSocketSelfURI', webSocketSelfURI);
-    getWebSocket = addGetParam(getWebSocket, 'webSocketVideos_id', webSocketVideos_id);
-    getWebSocket = addGetParam(getWebSocket, 'webSocketLiveKey', webSocketLiveKey);
-    $.ajax({
-        url: getWebSocket,
-        success: function (response) {
-            if (response.error) {
-                //console.log('Getting webSocketToken ERROR ' + response.msg);
-                if (typeof avideoToastError == 'function') {
-                    avideoToastError(response.msg);
-                }
-            } else {
-                ////console.log('Getting webSocketToken SUCCESS ', response);
-                webSocketToken = response.webSocketToken;
-                webSocketURL = response.webSocketURL;
-                socketConnect();
+    fetchWebSocketToken(
+        function () {
+            scheduleTokenRefresh();
+            socketConnect();
+        },
+        function (reason) {
+            //console.log('Getting webSocketToken ERROR ' + reason);
+            if (typeof avideoToastError == 'function') {
+                avideoToastError(reason);
             }
         }
-    });
+    );
     if (inIframe()) {
         $('#socket_info_container').hide();
     }

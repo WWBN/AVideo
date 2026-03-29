@@ -3458,7 +3458,7 @@ function verifyToken($token, $salt = "")
     $time = time();
     date_default_timezone_set($old_timezone);
     if (!($time >= $obj->time && $time <= $obj->timeout)) {
-        _error_log("verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout");
+        _error_log("verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout IP: ".getRealIpAddr().' UserAgent: '.$_SERVER['HTTP_USER_AGENT']);
         return false;
     }
     return true;
