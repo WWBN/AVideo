@@ -3219,6 +3219,7 @@ class AVideoPlugin
 
     public static function executeEveryDay()
     {
+        rotateAVideoLog();
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();

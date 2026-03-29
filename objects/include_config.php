@@ -125,6 +125,11 @@ if (file_exists($global['docker_vars'])) {
     $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
 }
 
+// Number of days to keep rotated log files (can be overridden in configuration.php)
+if (!isset($global['logRotationDays'])) {
+    $global['logRotationDays'] = 30;
+}
+
 ini_set('error_log', $global['logfile']);
 
 // Only set secure cookie settings for HTTPS connections

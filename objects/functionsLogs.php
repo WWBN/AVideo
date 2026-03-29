@@ -148,6 +148,72 @@ function isSchedulerRun()
     return preg_match('/Scheduler\/run\.php$/', $_SERVER['SCRIPT_NAME']);
 }
 
+/**
+ * Rotates avideo.log daily (similar to Apache logrotate):
+ * - Renames avideo.log to avideo.YYYY-MM-DD.log (yesterday's date)
+ * - Creates a fresh empty avideo.log
+ * - Deletes rotated logs older than $daysToKeep days
+ *
+ * Set $global['logRotationDays'] in configuration.php to change retention (default: 30).
+ */
+function rotateAVideoLog()
+{
+    global $global;
+
+    // Skip rotation when logging to stdout/stderr (Docker) or log is not a regular file
+    if (empty($global['logfile']) || !file_exists($global['logfile']) || !is_file($global['logfile'])) {
+        return;
+    }
+
+    $logfile = $global['logfile'];
+    $daysToKeep = isset($global['logRotationDays']) ? (int) $global['logRotationDays'] : 30;
+    if ($daysToKeep < 1) {
+        $daysToKeep = 1;
+    }
+
+    // Rotate: rename current log to avideo.YYYY-MM-DD.log (yesterday)
+    // Keeps the .log extension so web server rules blocking *.log also protect archived files
+    $yesterday = date('Y-m-d', strtotime('-1 day'));
+    $logDir = dirname($logfile);
+    $logBasename = basename($logfile, '.log'); // e.g. "avideo"
+    $rotatedFile = $logDir . DIRECTORY_SEPARATOR . $logBasename . '.' . $yesterday . '.log';
+
+    // Only rotate if there is content and not already rotated today
+    if (filesize($logfile) > 0 && !file_exists($rotatedFile)) {
+        if (rename($logfile, $rotatedFile)) {
+            // Create a fresh empty log
+            file_put_contents($logfile, '');
+            ini_set('error_log', $logfile);
+            _error_log("rotateAVideoLog: rotated to {$rotatedFile}, keeping {$daysToKeep} days");
+        } else {
+            _error_log("rotateAVideoLog: failed to rotate {$logfile}", AVideoLog::$ERROR);
+            return;
+        }
+    }
+
+    // Delete old rotated logs beyond the retention period
+    // Pattern: avideo.YYYY-MM-DD.log
+    $cutoffTime = strtotime("-{$daysToKeep} days");
+
+    foreach (glob($logDir . DIRECTORY_SEPARATOR . $logBasename . '.????-??-??.log') ?: [] as $oldFile) {
+        if (!is_file($oldFile)) {
+            continue;
+        }
+        // Match files like avideo.YYYY-MM-DD.log
+        if (!preg_match('/\.(\d{4}-\d{2}-\d{2})\.log$/', $oldFile, $m)) {
+            continue;
+        }
+        $fileTime = strtotime($m[1]);
+        if ($fileTime !== false && $fileTime < $cutoffTime) {
+            if (unlink($oldFile)) {
+                _error_log("rotateAVideoLog: deleted old log {$oldFile}");
+            } else {
+                _error_log("rotateAVideoLog: failed to delete {$oldFile}", AVideoLog::$WARNING);
+            }
+        }
+    }
+}
+
 
 function _dieAndLogObject($obj, $prefix = "")
 {
