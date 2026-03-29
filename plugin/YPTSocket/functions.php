@@ -75,6 +75,10 @@ function verifyTokenSocket($token) {
     }
     $time = time();
     if (!($time >= $obj->time && $time <= $obj->timeout)) {
+        // Localhost (worker.php running via PHPWorker/CLI) is trusted — skip timeout check
+        if (getRealIpAddr() === '127.0.0.1') {
+            return true;
+        }
         _error_log("Socket:verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout IP: ".getRealIpAddr().' UserAgent: '.$_SERVER['HTTP_USER_AGENT']);
         return false;
     }
