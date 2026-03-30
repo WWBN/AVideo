@@ -46,7 +46,8 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7)
         if (!empty($_SERVER['HTTP_USER_AGENT'])) {
             if (isBot()) {
                 $ua .= " BOT ";
-                $ua .= " USER_AGENT={$_SERVER['HTTP_USER_AGENT']}";
+                // Strip newlines to prevent log injection (CWE-117); security.php does not cover $_SERVER
+                $ua .= " USER_AGENT=" . preg_replace('/[\r\n]+/', ' ', $_SERVER['HTTP_USER_AGENT']);
             }
         } else {
             $ua .= " USER_AGENT=Undefined server=" . json_encode($_SERVER);
