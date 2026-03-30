@@ -86,7 +86,7 @@ function incomeCall(json) {
     }
     imageAndButton = getImageAndButton(json);
     callerToast[users_id] = $.toast({
-        heading: userIdentification,
+        heading: $('<span>').text(userIdentification).html(),
         text: imageAndButton,
         hideAfter: (callingTimeoutSeconds * 1000),
         showHideTransition: 'slide',
@@ -118,9 +118,10 @@ function getImageAndButton(json) {
     imageAndButton += '<img src="' + webSiteRootURL + 'user/' + users_id + '/foto.png" class="img img-circle img-responsive incomeCallImage glowBox">';
     imageAndButton += '</center>';
     imageAndButton += '<div class="clearfix"></div>';
-    imageAndButton += '<button class="btn btn-danger btn-circle incomeCallBtn" onclick=\'hangUpCall(' + JSON.stringify(json) + ')\'><i class="fas fa-phone-slash"></i></button>';
+    var _jsonStr = JSON.stringify(json).replace(/'/g, '&#39;');
+    imageAndButton += '<button class="btn btn-danger btn-circle incomeCallBtn" onclick=\'hangUpCall(' + _jsonStr + ')\'><i class="fas fa-phone-slash"></i></button>';
     if (isJsonReceivingCall(json)) {
-        imageAndButton += '<button class="btn btn-success btn-circle incomeCallBtn" onclick=\'acceptCall(' + JSON.stringify(json) + ')\'><i class="fas fa-phone"></i></button>';
+        imageAndButton += '<button class="btn btn-success btn-circle incomeCallBtn" onclick=\'acceptCall(' + _jsonStr + ')\'><i class="fas fa-phone"></i></button>';
     }
     return imageAndButton;
 }

@@ -227,6 +227,12 @@ class Message implements MessageComponentInterface {
                 break;
             default:
                 $this->msgToArray($json);
+                // Enforce authoritative sender identity from the validated token.
+                // Prevents injection of arbitrary HTML/script into from_identification,
+                // since the WebSocket server relays messages as-is without re-validating fields.
+                if (isset($json['from_identification'])) {
+                    $json['from_identification'] = strip_tags((string)($msgObj->user_name ?? ''));
+                }
                 if (!empty($msgObj->send_to_uri_pattern)) {
                     $this->msgToSelfURI($json, $msgObj->send_to_uri_pattern);
                 } else if (!empty($json['resourceId'])) {
