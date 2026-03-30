@@ -11,6 +11,9 @@ if (!User::isAdmin()) {
     forbiddenPage("You can not do this");
     exit;
 }
+if (!isGlobalTokenValid()) {
+    die('{"error":"' . __('Invalid or missing CSRF token') . '"}');
+}
 
 setRowCount(10000);
 header('Content-Type: application/json');

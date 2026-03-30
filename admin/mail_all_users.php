@@ -46,6 +46,7 @@
     </div>
 </div>
 <script>
+    var mailAllUsersToken = '<?php echo getToken(); ?>';
     function notify() {
         modal.showPleaseWait();
         $("#emailMessage").val(tinymce.get('emailMessage').getContent());
@@ -55,7 +56,8 @@
             data: {
                 'message': $('#emailMessage').val(),
                 'email': $('#email').val(),
-                'users_groups_id': $('input[name="userGroup"]:checked').val()
+                'users_groups_id': $('input[name="userGroup"]:checked').val(),
+                'globalToken': mailAllUsersToken
             },
             success: function (response) {
                 console.log(response);
