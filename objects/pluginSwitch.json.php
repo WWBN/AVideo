@@ -9,6 +9,9 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 if (!User::isAdmin()) {
     forbiddenPage('Permission denied');
 }
+if (!isGlobalTokenValid()) {
+    die('{"error":"' . __('Invalid or missing CSRF token') . '"}');
+}
 if (empty($_POST['name'])) {
     forbiddenPage('Name can\'t be blank');
     die('{"error":"'.__("Name can't be blank").'"}');

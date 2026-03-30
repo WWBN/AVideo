@@ -369,7 +369,8 @@ if (!empty($includeHead) && file_exists($includeHead)) {
                     "uuid": $(this).attr('uuid'),
                     "name": $(this).attr('name'),
                     "dir": $(this).attr('name'),
-                    "enable": $(this).is(":checked")
+                    "enable": $(this).is(":checked"),
+                    "globalToken": adminSaveToken
                 },
                 type: 'post',
                 success: function(response) {
