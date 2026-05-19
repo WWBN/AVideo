@@ -367,7 +367,7 @@ class Category
         //_error_log("deleteCategoryCache: {$cacheDir} = " . json_encode($rrmdir));
     }
 
-    public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false, $hideNegativeOrder = false)
+    public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false, $hideNegativeOrder = false, $showRestrictedCategories = false)
     {
         global $global, $config;
         if ($config->currentVersionLowerThen('8.4')) {
@@ -487,13 +487,19 @@ class Category
 
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     TimeLogEnd($timeLogName, __LINE__);
-                    $totals = self::getTotalFromCategory($row['id']);
+                    $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
+                    if ($showRestrictedCategories) {
+                        // Count all active videos regardless of user-group restrictions so that
+                        // categories with restricted-only content still appear in the menu/API.
+                        $totals = $fullTotals;
+                    } else {
+                        $totals = self::getTotalFromCategory($row['id']);
+                    }
                     if ($onlyWithVideos && empty($totals['total'])) {
                         continue;
                     }
                     TimeLogEnd($timeLogName, __LINE__);
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
-                    $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
 
                     $row['name'] = $row['name'];
                     $row['clean_name'] = $row['clean_name'];

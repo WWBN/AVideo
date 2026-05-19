@@ -18,13 +18,10 @@ $onlyWithVideos = false;
 if(!empty($_GET['user'])){
     $onlyWithVideos = true;
 }
-// Always apply user-group filtering using the logged-in user's real ID.
-// Guests get -1 so getUserGroups returns [], leaving only unrestricted categories visible.
-$currentUserId = User::getId();
-$sameUserGroupAsMe = !empty($currentUserId) ? intval($currentUserId) : -1;
-
-$categories = Category::getAllCategories(true, $onlyWithVideos, false, $sameUserGroupAsMe);
-$total = Category::getTotalCategories(true, $onlyWithVideos, false, $sameUserGroupAsMe);
+// Show all non-empty categories regardless of user-group restrictions.
+// Group restrictions are enforced at the video level, not the category level.
+$categories = Category::getAllCategories(true, $onlyWithVideos, false, false, false, true);
+$total = Category::getTotalCategories(true, $onlyWithVideos, false, false);
 //$breaks = array('<br />', '<br>', '<br/>');
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";

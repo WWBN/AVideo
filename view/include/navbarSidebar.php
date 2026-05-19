@@ -600,16 +600,10 @@ $tToleranceSide = 0.2;
                     unset($_POST);
                     $_GET['current'] = $_POST['current'] = 1;
                     $_GET['parentsOnly'] = 1;
-                    $sameUserGroupAsMe = true;
-
-                    if (User::isAdmin()) {
-                        $sameUserGroupAsMe = false;
-                    } else if (User::isLogged()) {
-                        $sameUserGroupAsMe = User::getId();
-                    }
+                    $sameUserGroupAsMe = false;
 
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
-                    $categories = Category::getAllCategories(false, true, $advancedCustom->CategoryShowOnlySuggested, $sameUserGroupAsMe, true);
+                    $categories = Category::getAllCategories(false, true, $advancedCustom->CategoryShowOnlySuggested, $sameUserGroupAsMe, true, true);
                     if (empty($categories)) {
                         $categories = array();
                     }
