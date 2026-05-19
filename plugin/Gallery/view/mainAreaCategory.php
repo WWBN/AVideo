@@ -9,7 +9,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     if (empty($_GET['page'])) {
         unsetCurrentPage();
     }
-    
+
     if(!empty($_GET['catName'])){
         resetCurrentPage();
     }
@@ -53,7 +53,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
         $_REQUEST['doNotShowCatChilds'] = 0;
         $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
         createCategorySection($videos);
-    } 
+    }
     $_POST['sort'] = $sort;
 }
 
@@ -83,7 +83,7 @@ function createCategorySection($videos)
                     $titleAlert = str_replace(array('"', "'"), array('``', "`"), $videos[0]['category']);
                 ?>
                     <a href="#" class="pull-right" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"categoryDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#categoryDescriptionAlertContent<?php echo $duid; ?>").html($("#categoryDescription<?php echo $duid; ?>").html());return false;'><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
-                    <div id="categoryDescription<?php echo $duid; ?>" style="display: none;"><?php echo $videos[0]['category_description']; ?></div>
+                    <div id="categoryDescription<?php echo $duid; ?>" style="display: none;"><?php echo textToLink(htmlentities($videos[0]['category_description'])); ?></div>
                 <?php
                 }
                 ?>

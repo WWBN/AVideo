@@ -1,11 +1,11 @@
 <?php
 //var_dump($videos, debug_backtrace());exit;
 if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
-    if (($obj->CategoryDescription) && (!empty($_REQUEST['catName']))) { 
+    if (($obj->CategoryDescription) && (!empty($_REQUEST['catName']))) {
         $category = Category::getCategoryByName($_REQUEST['catName']);
         ?>
         <h1 style="text-align: center;" class="categories_id_<?php echo $category['id']; ?>"><?php echo __($category['name']); ?></h1>
-        <p style="margin-left: 10%; margin-right: 10%; max-height: 200px; overflow-x: auto;"><?php echo __($category['description']); ?></p>
+        <p style="margin-left: 10%; margin-right: 10%; max-height: 200px; overflow-x: auto;"><?php echo $category['description_html']; ?></p>
         <?php
     }
     if (($obj->SubCategorys) && (!empty($_REQUEST['catName']))) {
@@ -15,7 +15,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
             $parentCat = Category::getCategory($currentCat['parentId']);
             // -1 is a personal workaround only
             if ((empty($parentCat)) && (($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
-                if (!empty($_REQUEST['catName'])) { 
+                if (!empty($_REQUEST['catName'])) {
                     $backURL = getBackURL();
                     if(!empty($_REQUEST['getBackURL'])){
                         $backURL = $_REQUEST['getBackURL'];
@@ -24,7 +24,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                     <div class="clearfix" style="margin: 10px 0;">
                         <a class="btn btn-default btn-sm pull-left"  href="<?php echo $backURL; ?>">
                             <i class="fa fa-backward"></i>
-                            <?php echo __("Back"); ?> 
+                            <?php echo __("Back"); ?>
                         </a>
                     </div>
                     <?php
@@ -38,7 +38,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                 <div class="clearfix" style="margin: 10px 0;">
                     <a class="btn btn-default btn-sm pull-left" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>?getBackURL=<?php echo urlencode($backURL); ?>">
                         <i class="fa fa-backward"></i>
-                        <?php echo __("Back to") . " " . $parentCat['name']; ?> 
+                        <?php echo __("Back to") . " " . $parentCat['name']; ?>
                     </a>
                 </div>
                 <?php
@@ -53,7 +53,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
         //var_dump(!empty($childCategories) ,($currentCat['parentId'] != "0") , ($currentCat['parentId'] != "-1"));exit;
         if ((!empty($childCategories)) && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) {
             $obj->BigVideo = false;
-            
+
             include_once $global['systemRootPath'] . 'view/include/categoryTop.php';
             ?>
             <!-- category.php -->
@@ -76,14 +76,14 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
 
                         $_GET['limitOnceToOne'] = "1";
                         $videos = Video::getAllVideos();
-                        
+
                         // make a row each 6 cols
                         if ($countCols % 6 === 0) {
                             echo '</div><div class="clearfix">';
                         }
                         $countCols++;
                         unset($_REQUEST['catName']);
-                        
+
                         $backURL = getBackURL();
                         if(!empty($_REQUEST['getBackURL'])){
                             $backURL = $_REQUEST['getBackURL'];
@@ -136,11 +136,11 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                                         <?php echo $cat['name']; ?>
                                     </div>
                                 </a>
-                            </div>          
-    
+                            </div>
+
                             <?php
                         }
-                    } // end of foreach-cat       
+                    } // end of foreach-cat
                     unset($_POST['sort']);
                     if (!empty($originalCat)) {
                         $_REQUEST['catName'] = $originalCat;
