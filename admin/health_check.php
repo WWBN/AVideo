@@ -67,6 +67,12 @@ if (isset($_SERVER["HTTPS"])) {
     $messages['Apache'][] = ["HTTPS is not enabled", 'https://github.com/WWBN/AVideo/wiki/Why-use-HTTPS'];
 }
 
+if (!empty($global['printLogs'])) {
+    $messages['PHP'][] = ['$global[\'printLogs\'] is enabled — this prints raw log output (including request data) directly to HTTP responses. Disable it in production by removing or unsetting it from your configuration.', 'https://github.com/WWBN/AVideo/wiki'];
+} else {
+    $messages['PHP'][] = '$global[\'printLogs\'] is disabled (safe)';
+}
+
 $XSendFileURL = "{$global['webSiteRootURL']}videos/test.mp4";
 $XSendFilePath = "{$global['systemRootPath']}view/xsendfile.html";
 $XSendFile = url_get_contents($XSendFileURL);
