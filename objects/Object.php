@@ -867,12 +867,20 @@ abstract class ObjectYPT implements ObjectInterface
         _error_log("deleteALLCache rename($tmpDir, $newtmpDir) ");
         @rename($tmpDir, $newtmpDir);
         if (is_dir($tmpDir)) {
+            // rename did not succeed; fall back to synchronous deletion
             _error_log('deleteALLCache 1 rmdir ' . $tmpDir);
             @rrmdir($tmpDir);
-        } elseif (preg_match('/videos.cache/', $newtmpDir)) {
-            // only delete if it is on the videos dir. otherwise it is on the /tmp dit and the system will delete it
-            _error_log('deleteALLCache 2 rmdir ' . $newtmpDir);
-            rrmdirCommandLine($newtmpDir, true);
+        } else {
+            // rename succeeded (cache is atomically invalidated); delete asynchronously
+            // so the web request is not blocked even for very large cache directories
+            // Safety guard: only proceed if the path is a known cache directory to
+            // prevent accidental deletion of unrelated directories
+            if (!preg_match('/YPTObjectCache|videos.cache/i', $newtmpDir)) {
+                _error_log('deleteALLCache: unexpected path, refusing async delete: ' . $newtmpDir);
+            } else {
+                _error_log('deleteALLCache 2 rmdir async ' . $newtmpDir);
+                rrmdirCommandLine($newtmpDir, true);
+            }
         }
         self::setLastDeleteALLCacheTime();
         @unlink($lockFile);

@@ -3495,7 +3495,25 @@ function clearCache($firstPageOnly = false)
 
     //_error_log('clearCache 1: '.$dir);
     rrmdir($dir);
-    rrmdir($tmpDir);
+
+    // Use rename + async deletion for the tmp object cache dir.
+    // A synchronous rm -fR on hundreds of GBs would exceed PHP's execution
+    // time limit and leave the directory intact. Renaming is atomic (cache
+    // misses are immediate) and the subsequent deletion runs in the background.
+    //
+    // Safety guard: validate the path is a known cache directory before
+    // touching it. getTmpCacheDir() always embeds 'YPTObjectCache' in the
+    // path; if for any reason that is absent, we refuse the fast-path and
+    // fall back to rrmdir() which has its own videos-dir protection.
+    $renamedTmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . uniqid();
+    if (is_dir($tmpDir) && preg_match('/YPTObjectCache/i', $tmpDir) && @rename($tmpDir, $renamedTmpDir)) {
+        _error_log('clearCache async rmdir ' . $renamedTmpDir);
+        rrmdirCommandLine($renamedTmpDir, true);
+    } elseif (is_dir($tmpDir)) {
+        // rename failed or path guard triggered; fall back to synchronous deletion
+        // (rrmdir() itself protects against deleting the videos directory)
+        rrmdir($tmpDir);
+    }
 
     $obj = AVideoPlugin::getDataObjectIfEnabled('Cache');
     if ($obj) {
