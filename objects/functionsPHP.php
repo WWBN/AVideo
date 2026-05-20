@@ -91,14 +91,15 @@ function _ob_get_clean()
 
 function _getCookieTargetDomains()
 {
-    $domain = getDomain();
+    $domain = _normalizeCookieDomain(getDomain());
     $domains = [];
 
     if (!empty($domain)) {
         $domains[] = $domain;
 
-        if (stripos($domain, 'www.') !== 0) {
-            $domains[] = 'www.' . $domain;
+        $wwwDomain = 'www.' . ltrim($domain, '.');
+        if (stripos($domain, 'www.') !== 0 && _normalizeCookieDomain($wwwDomain) !== null) {
+            $domains[] = $wwwDomain;
         }
     }
 
@@ -146,6 +147,40 @@ function _getCookieRequestDomain($host = null)
     $host = preg_replace('/:[0-9]+$/', '', $host);
 
     return $host;
+}
+
+function _normalizeCookieDomain($domain)
+{
+    $domain = strtolower(trim((string) $domain));
+    $domain = preg_replace('/^www\./i', '', $domain);
+    $domain = preg_match('/^\..+/', $domain) ? ltrim($domain, '.') : $domain;
+    $domain = preg_replace('/:[0-9]+$/', '', $domain);
+    $domain = trim($domain, '.');
+
+    if ($domain === '') {
+        return null;
+    }
+
+    $ipDomain = trim($domain, '[]');
+    if (filter_var($ipDomain, FILTER_VALIDATE_IP)) {
+        return null;
+    }
+
+    if (strpos($domain, '.') === false) {
+        return null;
+    }
+
+    if (strlen($domain) > 253 || !preg_match('/^[a-z0-9.-]+$/', $domain)) {
+        return null;
+    }
+
+    foreach (explode('.', $domain) as $label) {
+        if ($label === '' || strlen($label) > 63 || $label[0] === '-' || substr($label, -1) === '-') {
+            return null;
+        }
+    }
+
+    return $domain;
 }
 
 function _isCookieSecure()
@@ -204,7 +239,8 @@ function _getCookiePolicy()
 
 function _getDefaultCookieDomain()
 {
-    return function_exists('getDomain') ? getDomain() : _getCookieRequestDomain();
+    $domain = function_exists('getDomain') ? getDomain() : _getCookieRequestDomain();
+    return _normalizeCookieDomain($domain);
 }
 
 function _getSessionCookieIniSettings()
@@ -236,7 +272,7 @@ function _getSessionCookieParamsConfig($lifetime, $domain = null, $path = '/')
     return [
         'lifetime' => (int) $lifetime,
         'path' => $path,
-        'domain' => $domain,
+        'domain' => _normalizeCookieDomain($domain),
         'secure' => $policy['secure'],
         'httponly' => $policy['httponly'],
         'samesite' => $policy['samesite'],
@@ -261,8 +297,9 @@ function _getCookieOptionsArray(array $config, $includeExpires = true)
         $cookieOptions['expires'] = $config['lifetime'];
     }
 
-    if ($config['domain'] !== null && $config['domain'] !== '') {
-        $cookieOptions['domain'] = $config['domain'];
+    $domain = _normalizeCookieDomain($config['domain']);
+    if ($domain !== null) {
+        $cookieOptions['domain'] = $domain;
     }
 
     return $cookieOptions;
@@ -335,19 +372,23 @@ function _setcookie($cookieName, $value, $expires = 0)
                 $config = new AVideoConf();
             }
         }
-    if (!empty($config) && is_object($config)) {
-        $expires = time() + $config->getSession_timeout();
-    }
+        if (!empty($config) && is_object($config)) {
+            $expires = time() + $config->getSession_timeout();
+        }
     }
 
-    // Clear any stale host-only cookie on the current host before writing the
-    // canonical domain-scoped copies. This avoids browsers sending conflicting
-    // values for the same cookie name.
+    // Clear any stale host-only cookie before writing the fresh value. Normal
+    // domains use domain-scoped cookies; IP/local hosts fall back to host-only.
     _setcookieInternal($cookieName, '', strtotime('-10 years'), '/', null);
 
     $set = false;
-    foreach (_getCookieTargetDomains() as $domain) {
-        $set = _setcookieInternal($cookieName, $value, $expires, '/', $domain) || $set;
+    $domains = _getCookieTargetDomains();
+    if (empty($domains)) {
+        $set = _setcookieInternal($cookieName, $value, $expires, '/', null);
+    } else {
+        foreach ($domains as $domain) {
+            $set = _setcookieInternal($cookieName, $value, $expires, '/', $domain) || $set;
+        }
     }
     $_COOKIE[$cookieName] = $value;
     return $set;
