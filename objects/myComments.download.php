@@ -140,6 +140,7 @@ function renderRepliesRows($replies, $includeImages, $depth = 1) {
         if (!$includeImages) {
             $commentHTML = preg_replace('/<img[^>]+>/is', '<span class="img-placeholder">&#x1F5BC; [image]</span>', $commentHTML);
         }
+        $commentHTML = strip_tags($commentHTML, '<a><img>');
         $likes       = (int)($reply['likes'] ?? 0);
         $dislikes    = (int)($reply['dislikes'] ?? 0);
 
@@ -219,6 +220,7 @@ function renderRepliesRows($replies, $includeImages, $depth = 1) {
     if (!$includeImages) {
         $commentHTML = preg_replace('/<img[^>]+>/is', '<span class="img-placeholder">&#x1F5BC; [image]</span>', $commentHTML);
     }
+    $commentHTML = strip_tags($commentHTML, '<a><img>');
     $videoTitle  = '';
     $videoURL    = '';
     if (!empty($row['video'])) {

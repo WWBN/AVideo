@@ -400,8 +400,10 @@ $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'vi
             + '?type=' + encodeURIComponent(type)
             + '&format=' + encodeURIComponent(format)
             + '&includeImages=' + includeImages;
-        window.location.href = url;
         $('#downloadCommentsModal').modal('hide');
+        modal.showPleaseWait();
+        setTimeout(function() { modal.hidePleaseWait(); }, 4000);
+        window.location.href = url;
     }
 
     $(document).ready(function() {
