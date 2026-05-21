@@ -467,7 +467,7 @@ class Category
         }
 
         $timeLogName = TimeLogStart("getAllCategories");
-        $cacheSuffix = md5($sql);
+        $cacheSuffix = md5($sql . '_r' . intval($showRestrictedCategories));
         $cacheHandler = new CategoryCacheHandler(0);
         $cacheObj = $cacheHandler->getCache($cacheSuffix, 36000);
         TimeLogEnd($timeLogName, __LINE__);
