@@ -3321,6 +3321,16 @@ if (typeof gtag !== \"function\") {
 
         $response = false;
         if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
+            // If the user is already authenticated in this session, skip re-login.
+            // Re-authenticating an active session regenerates the session ID, which
+            // causes a race condition when parallel requests all start from the same
+            // session ID: the first one to regenerate deletes the session file that
+            // the others (and iframes) are still using.
+            if (!empty($_SESSION['user']['id'])) {
+                $global['bypassSameDomainCheck'] = 1;
+                $_REQUEST['do_not_login'] = 1;
+                return self::USER_LOGGED;
+            }
             unset($_SESSION['user']);
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
             $response = $user->login(false, !empty($_REQUEST['encodedPass']));

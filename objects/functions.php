@@ -7398,6 +7398,11 @@ function useVideoHashOrLogin()
                 _error_log("useVideoHashOrLogin: credential fallback result=$result for user=" . ($_REQUEST['user'] ?? 'empty'));
                 return $result;
             }
+            // Skip login (and session regeneration) if the user is already authenticated.
+            if (!empty($_SESSION['user']['id']) && $_SESSION['user']['id'] == $users_id) {
+                _error_log("useVideoHashOrLogin: user already logged in as users_id=$users_id, skipping login");
+                return User::USER_LOGGED;
+            }
             $user = new User($users_id);
             $loginResult = $user->login(true);
             _error_log("useVideoHashOrLogin: login result=$loginResult for users_id=$users_id (" . User::USER_LOGGED . "=USER_LOGGED, " . User::USER_NOT_FOUND . "=USER_NOT_FOUND)");
