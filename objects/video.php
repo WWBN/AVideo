@@ -1520,24 +1520,7 @@ if (!class_exists('Video')) {
                 $_POST['searchPhrase'] = $_GET['search'];
             }
 
-            if (!empty($_POST['searchPhrase'])) {
-                $_POST['searchPhrase'] = mb_strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
-                $searchPhraseEscaped = $global['mysqli']->real_escape_string($_POST['searchPhrase']);
-                $searchFieldsNames = self::getSearchFieldsNames();
-                if (AVideoPlugin::isEnabledByName("VideoTags")) {
-                    $sql .= " AND (";
-                    $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name "
-                        . "LIKE '%{$searchPhraseEscaped}%' WHERE t.id is NOT NULL)";
-                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
-                    $searchFieldsNames = ['v.title'];
-                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
-                    $sql .= ")";
-                } else {
-                    $sql .= ' AND (1=1 ' . BootGrid::getSqlSearchFromPost($searchFieldsNames);
-                    $searchFieldsNames = ['v.title'];
-                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']) . ')';
-                }
-            }
+            $sql .= self::getSearchSQLFromPost();
             if (!$ignoreGroup) {
                 $arrayNotIN = AVideoPlugin::getAllVideosExcludeVideosIDArray();
                 if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
@@ -2103,24 +2086,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.views_count >= '{$minViews}'";
             }
 
-            if (!empty($_POST['searchPhrase'])) {
-                $_POST['searchPhrase'] = mb_strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
-                $searchPhraseEscaped = $global['mysqli']->real_escape_string($_POST['searchPhrase']);
-                $searchFieldsNames = self::getSearchFieldsNames();
-                if (AVideoPlugin::isEnabledByName("VideoTags")) {
-                    $sql .= " AND (";
-                    $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name "
-                        . "LIKE '%{$searchPhraseEscaped}%' WHERE t.id is NOT NULL)";
-                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
-                    $searchFieldsNames = ['v.title'];
-                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
-                    $sql .= ")";
-                } else {
-                    $sql .= ' AND (1=1 ' . BootGrid::getSqlSearchFromPost($searchFieldsNames);
-                    $searchFieldsNames = ['v.title'];
-                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']) . ')';
-                }
-            }
+            $sql .= self::getSearchSQLFromPost();
 
             if (!empty($max_duration_in_seconds)) {
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
@@ -2945,23 +2911,7 @@ if (!class_exists('Video')) {
 
             $sql .= AVideoPlugin::getVideoWhereClause();
 
-            if (!empty($_POST['searchPhrase'])) {
-                $_POST['searchPhrase'] = mb_strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
-                $searchPhraseEscaped = $global['mysqli']->real_escape_string($_POST['searchPhrase']);
-                $searchFieldsNames = self::getSearchFieldsNames();
-                if (AVideoPlugin::isEnabledByName("VideoTags")) {
-                    $sql .= " AND (";
-                    $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$searchPhraseEscaped}%' WHERE t.id is NOT NULL)";
-                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
-                    $searchFieldsNames = ['v.title'];
-                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
-                    $sql .= ")";
-                } else {
-                    $sql .= ' AND (1=1 ' . BootGrid::getSqlSearchFromPost($searchFieldsNames);
-                    $searchFieldsNames = ['v.title'];
-                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']) . ')';
-                }
-            }
+            $sql .= self::getSearchSQLFromPost();
 
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::STATUS_ACTIVE . "' ";
@@ -6897,6 +6847,39 @@ if (!class_exists('Video')) {
                 $vType = 'video';
             }
             return $vType;
+        }
+
+        private static function getSearchSQLFromPost()
+        {
+            $search = BootGrid::getSearchPhraseFromPost();
+            if (empty($search)) {
+                return "";
+            }
+
+            $_POST['searchPhrase'] = $search;
+            $searchFieldsNames = self::getSearchFieldsNames();
+            $fullTextSearch = self::getFullTextSearch(['v.title'], $search);
+
+            if (AVideoPlugin::isEnabledByName("VideoTags")) {
+                $searchPhraseEscaped = BootGrid::escapeSearchPhraseForSQL($search);
+                return " AND (" .
+                    self::getVideoTagsSearchSQL($searchPhraseEscaped) .
+                    BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR", $search) .
+                    $fullTextSearch .
+                    ")";
+            }
+
+            return ' AND (1=1 ' .
+                BootGrid::getSqlSearchFromPost($searchFieldsNames, "AND", $search) .
+                $fullTextSearch .
+                ')';
+        }
+
+        private static function getVideoTagsSearchSQL($searchPhraseEscaped)
+        {
+            return "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND " .
+                BootGrid::getCollationSafeLike('t.name', $searchPhraseEscaped) .
+                " WHERE t.id is NOT NULL)";
         }
 
         private static function getFullTextSearch($columnsArray, $search, $connection = "OR")

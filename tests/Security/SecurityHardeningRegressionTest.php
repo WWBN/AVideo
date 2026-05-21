@@ -177,4 +177,26 @@ class SecurityHardeningRegressionTest extends TestCase
         $this->assertStringContainsString('function avideoConfirmHTML(msg)', $script);
         $this->assertStringContainsString('function avideoAlertOnceHTML(title, msg, type, uid)', $script);
     }
+
+    /**
+     * @test
+     * Regression: Unicode searches against older latin1 tables must not emit
+     * raw LIKE comparisons, otherwise MySQL can fail at prepare time with
+     * "Illegal mix of collations".
+     */
+    public function testVideoSearchUsesCollationSafeLikeClauses()
+    {
+        $bootGrid = file_get_contents(dirname(__DIR__, 2) . '/objects/bootGrid.php');
+        $video = file_get_contents(dirname(__DIR__, 2) . '/objects/video.php');
+
+        $this->assertStringContainsString('getCollationSafeLike', $bootGrid);
+        $this->assertStringContainsString('utf8mb4_unicode_ci', $bootGrid);
+        $this->assertStringNotContainsString('$like[] = " {$value} LIKE', $bootGrid);
+        $this->assertStringNotContainsString('LIKE _utf8', $bootGrid);
+
+        $this->assertSame(3, substr_count($video, '$sql .= self::getSearchSQLFromPost();'));
+        $this->assertSame(1, substr_count($video, 'private static function getSearchSQLFromPost'));
+        $this->assertStringContainsString("BootGrid::getCollationSafeLike('t.name'", $video);
+        $this->assertStringNotContainsString('t.name LIKE', $video);
+    }
 }

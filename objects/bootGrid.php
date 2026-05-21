@@ -1,6 +1,9 @@
 <?php
 class BootGrid
 {
+    private const SEARCH_CHARSET = 'utf8mb4';
+    private const SEARCH_COLLATION = 'utf8mb4_unicode_ci';
+
     public static function getSqlFromPost($searchFieldsNames = [], $keyPrefix = "", $alternativeOrderBy = "", $doNotSearch=false, $FIND_IN_SET = "")
     {
         global $global;
@@ -57,8 +60,8 @@ class BootGrid
         return $sql;
     }
 
-    public static function getSqlSearchFromPost($searchFieldsNames = [], $connection = "AND"){
-        $sql = '';
+    public static function getSearchPhraseFromPost()
+    {
         if (!empty($_GET['searchPhrase'])) {
             $_POST['searchPhrase'] = $_GET['searchPhrase'];
         } elseif (!empty($_GET['search']['value'])) {
@@ -67,21 +70,61 @@ class BootGrid
             $_POST['searchPhrase'] = $_GET['q'];
         }
 
-        if (!empty($_POST['searchPhrase'])) {
-            global $global;
-            $search = strtolower(xss_esc($_POST['searchPhrase']));
-            $search = str_replace('&quot;', '"', $search);
-            $search = $global['mysqli']->real_escape_string($search);
+        if (empty($_POST['searchPhrase'])) {
+            return '';
+        }
+
+        $search = mb_strtolower(xss_esc($_POST['searchPhrase']));
+        return str_replace('&quot;', '"', $search);
+    }
+
+    public static function escapeSearchPhraseForSQL($search)
+    {
+        global $global;
+        return $global['mysqli']->real_escape_string($search);
+    }
+
+    private static function getSearchFieldAsUtf8($field)
+    {
+        return "CAST({$field} AS CHAR CHARACTER SET " . self::SEARCH_CHARSET . ") COLLATE " . self::SEARCH_COLLATION;
+    }
+
+    private static function getBinarySearchFieldAsUtf8($field)
+    {
+        return "CONVERT(CAST({$field} as BINARY) USING " . self::SEARCH_CHARSET . ") COLLATE " . self::SEARCH_COLLATION;
+    }
+
+    private static function getSearchNeedle($search)
+    {
+        return "_" . self::SEARCH_CHARSET . " '%{$search}%' COLLATE " . self::SEARCH_COLLATION;
+    }
+
+    public static function getCollationSafeLike($field, $search)
+    {
+        $needle = self::getSearchNeedle($search);
+        return " (" . self::getSearchFieldAsUtf8($field) . " LIKE {$needle} OR " .
+            self::getBinarySearchFieldAsUtf8($field) . " LIKE {$needle}) ";
+    }
+
+    public static function getCollationSafeRegexp($field, $search)
+    {
+        return " " . self::getBinarySearchFieldAsUtf8($field) .
+            " REGEXP (_" . self::SEARCH_CHARSET . " '\\b{$search}\\b' COLLATE " . self::SEARCH_COLLATION . ") ";
+    }
+
+    public static function getSqlSearchFromPost($searchFieldsNames = [], $connection = "AND", $search = null){
+        $sql = '';
+        $search = isset($search) ? $search : self::getSearchPhraseFromPost();
+
+        if (!empty($search)) {
+            $search = self::escapeSearchPhraseForSQL($search);
             $searchRegexpSafe = preg_quote($search, '/');
-            $searchRegexpSafe = $global['mysqli']->real_escape_string($searchRegexpSafe);
+            $searchRegexpSafe = self::escapeSearchPhraseForSQL($searchRegexpSafe);
             $like = [];
             foreach ($searchFieldsNames as $value) {
-                $like[] = " {$value} LIKE '%{$search}%' ";
-                //$like[] = " {$value} LIKE _utf8 '%{$search}%' collate utf8_general_ci ";
-                //$like[] = " {$value} LIKE _utf8 '%{$search}%' collate utf8_unicode_ci ";
-                $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE _utf8 '%{$search}%'  collate utf8_unicode_ci ";
+                $like[] = self::getCollationSafeLike($value, $search);
                 if (preg_match('/description/', $value)) {
-                    $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) regexp '\\b{$searchRegexpSafe}\\b' ";
+                    $like[] = self::getCollationSafeRegexp($value, $searchRegexpSafe);
                 }
             }
             if (!empty($like)) {
