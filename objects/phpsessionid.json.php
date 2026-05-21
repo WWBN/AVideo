@@ -41,22 +41,5 @@ if (!empty($_COOKIE[$sessionName])) {
 } elseif (!empty($_COOKIE[session_name()])) {
     $obj->phpsessid = $_COOKIE[session_name()];
 }
-if (empty($obj->phpsessid) && !headers_sent()) {
-    session_name($sessionName);
-    $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (!empty($_SERVER['SERVER_PORT']) && intval($_SERVER['SERVER_PORT']) === 443);
-    if (PHP_VERSION_ID >= 70300) {
-        session_set_cookie_params([
-            'lifetime' => 0,
-            'path' => '/',
-            'secure' => $isSecure,
-            'httponly' => true,
-            'samesite' => $isSecure ? 'None' : 'Lax',
-        ]);
-    } else {
-        session_set_cookie_params(0, '/', '', $isSecure, true);
-    }
-    @session_start(['read_and_close' => true]);
-    $obj->phpsessid = session_id();
-}
 
 echo json_encode($obj);

@@ -150,6 +150,23 @@ class SecurityHardeningRegressionTest extends TestCase
 
     /**
      * @test
+     * Regression: this endpoint is loaded on every page by view/js/session.js.
+     * If it creates a new PHP session when the browser did not send the real
+     * AVideo session cookie, the Set-Cookie response can shadow the logged-in
+     * cookie and make the next page look logged out.
+     */
+    public function testPhpSessionIdEndpointDoesNotStartOrCreateSession()
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/objects/phpsessionid.json.php');
+        $codeOnly = preg_replace('/\/\/[^\n]*|\/\*.*?\*\//s', '', $source);
+
+        $this->assertStringNotContainsString('session_start', $codeOnly);
+        $this->assertStringNotContainsString('session_set_cookie_params', $codeOnly);
+        $this->assertStringNotContainsString('setcookie', strtolower($codeOnly));
+    }
+
+    /**
+     * @test
      */
     public function testPlainTextAlertHelpersDefaultToTextContent()
     {
