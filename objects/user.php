@@ -1487,7 +1487,7 @@ if (typeof gtag !== \"function\") {
         ObjectYPT::deleteAllSessionCache();
         unset($_SESSION['user']);
         unset($_SESSION['swapUser']);
-        _error_log('[SESSION_DEBUG] user:logoff script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' trace=' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 8)));
+        _error_log('[SESSION_DEBUG] user:logoff script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' ip=' . getRealIpAddr() . ' trace=' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 8)));
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(
@@ -1511,7 +1511,7 @@ if (typeof gtag !== \"function\") {
         global $justLogoff, $justTryToRecreateLoginFromCookie;
         if (empty($justTryToRecreateLoginFromCookie) && empty($justLogoff) && empty($_SESSION['user']['id'])) {
             _session_start();
-            _error_log('[SESSION_DEBUG] recreateLoginFromCookie: restoring auth script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' sessionId=' . session_id() . ' hasCreds=' . (int)!empty($_COOKIE['credentials']));
+            _error_log('[SESSION_DEBUG] recreateLoginFromCookie: restoring auth script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' sessionId=' . session_id() . ' ip=' . getRealIpAddr() . ' hasCreds=' . (int)!empty($_COOKIE['credentials']));
             //var_dump($_COOKIE);exit;
             $justTryToRecreateLoginFromCookie = 1;
 

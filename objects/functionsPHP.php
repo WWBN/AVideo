@@ -684,7 +684,7 @@ function _session_regenerate_id()
     $oldId = session_id();
     $session = $_SESSION;
     session_regenerate_id(true);
-    _error_log('[SESSION_DEBUG] _session_regenerate_id: old=' . $oldId . ' new=' . session_id() . ' script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' trace=' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 6)));
+    _error_log('[SESSION_DEBUG] _session_regenerate_id: old=' . $oldId . ' new=' . session_id() . ' script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' ip=' . getRealIpAddr() . ' trace=' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 6)));
     _resetcookie('PHPSESSID', session_id());
     _resetcookie(session_name(), session_id());
     $_SESSION = $session;
