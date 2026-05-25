@@ -265,10 +265,9 @@ class Message implements MessageComponentInterface {
                 $this->msgToArray($json);
                 //_log_message("onMessage:msgObj: " . json_encode($json));
                 // Strip eval-able fields from browser/guest messages.
+                // Remove from all nested paths so msgToResourceId cannot relay it via msg/json/fallback.
                 if (empty($msgObj->isCommandLineInterface) && ($msgObj->sentFrom ?? '') !== 'php') {
-                    if (is_array($json['msg'] ?? null)) {
-                        unset($json['msg']['autoEvalCodeOnHTML']);
-                    }
+                    $this->removeAutoEvalCodeOnHTMLRecursive($json);
                     if (isset($json['callback']) && !preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', (string)$json['callback'])) {
                         unset($json['callback']);
                     }
@@ -283,6 +282,20 @@ class Message implements MessageComponentInterface {
                     $this->msgToAll($from, $json);
                 }
                 break;
+        }
+    }
+
+    private function removeAutoEvalCodeOnHTMLRecursive(&$data) {
+        if (!is_array($data)) {
+            return;
+        }
+        if (array_key_exists('autoEvalCodeOnHTML', $data)) {
+            unset($data['autoEvalCodeOnHTML']);
+        }
+        foreach ($data as &$value) {
+            if (is_array($value)) {
+                $this->removeAutoEvalCodeOnHTMLRecursive($value);
+            }
         }
     }
 
