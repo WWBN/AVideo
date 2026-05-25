@@ -1,4 +1,4 @@
-<?php
+o plugin esta desa<?php
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
@@ -53,7 +53,7 @@ class AdBlockerDetector extends PluginAbstract
             if (empty($_REQUEST["adBDetec"])) {
                 $js .= '<script src="' . getURL('node_modules/blockadblock/blockadblock.js') . '" type="text/javascript"></script>';
                 $js .= '<script src="' . getURL('plugin/AdBlockerDetector/script.js') . '" type="text/javascript"></script>';
-                
+
                 $js .= "<script>
                 function reloadWithadBDetec() {
                     var currentUrl = window.location.href;
@@ -78,7 +78,7 @@ class AdBlockerDetector extends PluginAbstract
                     avideoToastError('Ad Blocker JS checkScriptBlocking not found');
                     adBlockDetected();
                 }
-                
+
                 </script>";
             }else{
                 $js .= '<script>history.replaceState(null, null, "'.getRedirectUri().'");</script>';
