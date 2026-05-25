@@ -114,8 +114,6 @@ $uid = uniqid();
                 "description": $('#description<?php echo @$_GET['plans_id']; ?>').val(),
                 "plans_id": "<?php echo @$_GET['plans_id']; ?>",
                 "plugin": <?php echo json_encode((string)($_REQUEST['plugin'] ?? '')); ?>,
-                "user": "<?php echo User::getUserName() ?>",
-                "pass": "<?php echo User::getUserPass(); ?>",
                 "singlePayment": 1
             },
             type: 'post',

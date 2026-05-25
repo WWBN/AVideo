@@ -186,6 +186,7 @@ if (!empty($_GET['pass'])) {
     $_POST['pass'] = $_GET['pass'];
 }
 if (!empty($_GET['encodedPass'])) {
+    _error_log('login.json.php encodedPass received via URL query string for user [' . @$_GET['user'] . '] from IP ' . getRealIpAddr() . ' — password hash exposed in server access logs', AVideoLog::$SECURITY);
     $_POST['encodedPass'] = $_GET['encodedPass'];
 }
 if (empty($_POST['user']) || empty($_POST['pass'])) {
@@ -206,6 +207,9 @@ if(!empty($user)){
 //_error_log("login.json.php trying to login");
 
 _session_start();
+if (!empty($_POST['encodedPass']) && $_POST['encodedPass'] !== 'false') {
+    _error_log('login.json.php encodedPass login attempt for user [' . @$_POST['user'] . '] from IP ' . getRealIpAddr(), AVideoLog::$SECURITY);
+}
 $resp = $user->login(false, @$_POST['encodedPass']);
 //_error_log("login.json.php login respond something");
 TimeLogEnd($timeLog, __LINE__);
