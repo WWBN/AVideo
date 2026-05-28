@@ -44,6 +44,11 @@ class FunctionsFFMPEGTest extends TestCase
         if (!function_exists('handleCallbackTriggerPluginHook')) {
             require_once \APP_ROOT . '/objects/functionsFFMPEG.php';
         }
+
+        if (class_exists('Video')) {
+            \Video::$simulateMissing = false;
+            \Video::$simulateSaveFailure = false;
+        }
     }
 
     /**
@@ -238,6 +243,36 @@ class FunctionsFFMPEGTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function testHandleCallbackUpdateVideoStatusSanitizesStatus()
+    {
+        $result = handleCallbackUpdateVideoStatus([
+            'videos_id' => 123,
+            'status' => 'a<script>ctive'
+        ], []);
+
+        $this->assertTrue($result['success']);
+        $this->assertSame(123, $result['videos_id']);
+        $this->assertSame('ascriptctive', $result['status']);
+    }
+
+    /**
+     * @test
+     */
+    public function testHandleCallbackUpdateVideoStatusReturnsVideoNotFound()
+    {
+        \Video::$simulateMissing = true;
+
+        $result = handleCallbackUpdateVideoStatus([
+            'videos_id' => 123,
+            'status' => 'active'
+        ], []);
+
+        $this->assertSame(['error' => 'Video not found'], $result);
+    }
+
+    /**
      * Test updateVideoMetadata with valid duration
      *
      * @test
@@ -294,6 +329,21 @@ class FunctionsFFMPEGTest extends TestCase
             $invalidResolution,
             "Resolution '{$invalidResolution}' should not match the required format"
         );
+    }
+
+    /**
+     * @test
+     */
+    public function testHandleCallbackUpdateVideoMetadataReturnsSaveError()
+    {
+        \Video::$simulateSaveFailure = true;
+
+        $result = handleCallbackUpdateVideoMetadata([
+            'videos_id' => 123,
+            'duration' => 99
+        ], []);
+
+        $this->assertSame(['error' => 'Failed to save video metadata'], $result);
     }
 
     /**
@@ -416,6 +466,18 @@ class FunctionsFFMPEGTest extends TestCase
         $this->assertSame('triggerPluginHook', $decoded['action']);
         $this->assertSame('onNewVideo', $decoded['params']['hook']);
         $this->assertSame(42, $decoded['params']['videos_id']);
+    }
+
+    /**
+     * @test
+     */
+    public function testBuildSecureFFMPEGCallbackAcceptsLogEventAction()
+    {
+        $callback = buildSecureFFMPEGCallback('logEvent', ['message' => 'callback done']);
+        $decoded = json_decode($callback, true);
+
+        $this->assertSame('logEvent', $decoded['action']);
+        $this->assertSame('callback done', $decoded['params']['message']);
     }
 
     /**
@@ -632,6 +694,42 @@ class FunctionsFFMPEGTest extends TestCase
             $this->assertEquals('onNewVideo', $pluginCallTracker[0]['method']);
             $this->assertEquals(456, $pluginCallTracker[0]['id']);
         }
+    }
+
+    /**
+     * @test
+     */
+    public function testProcessFFMPEGCallbackExecutesUpdateVideoStatusAction()
+    {
+        $callback = json_encode([
+            'action' => 'updateVideoStatus',
+            'params' => [
+                'videos_id' => 456,
+                'status' => 'in<active>'
+            ]
+        ]);
+
+        $result = processFFMPEGCallback($callback, ['videos_id' => 456]);
+
+        $this->assertSame(true, $result['success'] ?? false);
+        $this->assertSame('inactive', $result['status'] ?? null);
+    }
+
+    /**
+     * @test
+     */
+    public function testProcessFFMPEGCallbackExecutesLogEventAction()
+    {
+        $message = str_repeat('a', 550);
+        $callback = json_encode([
+            'action' => 'logEvent',
+            'params' => ['message' => $message]
+        ]);
+
+        $result = processFFMPEGCallback($callback, []);
+
+        $this->assertSame(true, $result['success'] ?? false);
+        $this->assertSame(500, strlen($result['logged'] ?? ''));
     }
 
     /**
