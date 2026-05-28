@@ -37,14 +37,23 @@ $pluginCallTracker = [];
 // Mock the Video class if not loaded
 if (!class_exists('Video')) {
     class Video {
-        public function __construct($id = 0) {}
+        public static $simulateMissing = false;
+        public static $simulateSaveFailure = false;
+
+        private $status = '';
+
+        public function __construct($title = '', $filename = '', $id = 0) {}
         public function setDuration($duration) { return true; }
+        public function setStatus($status) {
+            $this->status = $status;
+            return true;
+        }
         public function setVideoDownloadedLink($link) { return true; }
         public function setMainVideoResolution($resolution) { return true; }
-        public function save() { return true; }
+        public function save() { return !self::$simulateSaveFailure; }
         public function getCleanTitle() { return 'Test Video'; }
         public function getVideos_id() { return 1; }
-        public function getUsers_id() { return 1; }
+        public function getUsers_id() { return self::$simulateMissing ? 0 : 1; }
     }
 }
 
