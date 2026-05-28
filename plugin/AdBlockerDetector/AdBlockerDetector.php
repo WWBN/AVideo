@@ -1,4 +1,4 @@
-o plugin esta desa<?php
+<?php
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
