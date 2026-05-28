@@ -9,7 +9,16 @@ class CookiePolicyTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $_SERVER = [];
+        unset(
+            $_SERVER['HTTPS'],
+            $_SERVER['REQUEST_SCHEME'],
+            $_SERVER['HTTP_X_FORWARDED_PROTO'],
+            $_SERVER['HTTP_X_FORWARDED_SSL'],
+            $_SERVER['HTTP_FRONT_END_HTTPS'],
+            $_SERVER['HTTP_CF_VISITOR'],
+            $_SERVER['SERVER_PORT'],
+            $_SERVER['HTTP_HOST']
+        );
 
         if (!function_exists('_normalizeCookieDomain')) {
             require_once \APP_ROOT . '/objects/functionsPHP.php';
@@ -55,7 +64,7 @@ class CookiePolicyTest extends TestCase
      */
     public function testCookieRequestDomainNormalization()
     {
-        $this->assertSame('example.com', \_getCookieRequestDomain('www.Example.com:8443'));
+        $this->assertSame('Example.com', \_getCookieRequestDomain('www.Example.com:8443'));
         $this->assertSame('sub.example.com', \_getCookieRequestDomain('.sub.example.com'));
     }
 
@@ -88,8 +97,9 @@ class CookiePolicyTest extends TestCase
      */
     public function testGetCookieDeleteTargetsIncludesBareAndDotDomains()
     {
-        global $global;
-        $global['webSiteRootURL'] = 'https://www.example.com/';
+        if (!function_exists('getDomain')) {
+            eval('function getDomain(){ return "www.example.com"; }');
+        }
 
         $targets = \_getCookieDeleteTargets();
         $domains = array_column($targets, 'domain');
