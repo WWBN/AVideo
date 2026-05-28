@@ -386,6 +386,66 @@ class FunctionsFFMPEGTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function testBuildSecureFFMPEGCallbackRejectsInvalidAction()
+    {
+        $this->assertSame('', buildSecureFFMPEGCallback('deleteAllVideos', []));
+    }
+
+    /**
+     * @test
+     */
+    public function testBuildSecureFFMPEGCallbackRejectsNonArrayParams()
+    {
+        $this->assertSame('', buildSecureFFMPEGCallback('triggerPluginHook', 'not-an-array'));
+    }
+
+    /**
+     * @test
+     */
+    public function testBuildSecureFFMPEGCallbackBuildsExpectedJsonPayload()
+    {
+        $callback = buildSecureFFMPEGCallback('triggerPluginHook', [
+            'hook' => 'onNewVideo',
+            'videos_id' => 42,
+        ]);
+
+        $this->assertIsString($callback);
+        $decoded = json_decode($callback, true);
+        $this->assertSame('triggerPluginHook', $decoded['action']);
+        $this->assertSame('onNewVideo', $decoded['params']['hook']);
+        $this->assertSame(42, $decoded['params']['videos_id']);
+    }
+
+    /**
+     * @test
+     */
+    public function testValidateCallbackParamsDetectsMissingRequiredParameter()
+    {
+        $result = validateCallbackParams(['videos_id' => 10], ['videos_id', 'hook']);
+        $this->assertSame(['error' => 'Missing required parameter: hook'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testValidateCallbackParamsReturnsNullWhenRequiredParametersExist()
+    {
+        $result = validateCallbackParams(['videos_id' => 10, 'hook' => 'onNewVideo'], ['videos_id', 'hook']);
+        $this->assertNull($result);
+    }
+
+    /**
+     * @test
+     */
+    public function testSanitizeAlphanumericForCallbackRemovesUnsafeCharacters()
+    {
+        $sanitized = sanitizeAlphanumericForCallback("onNewVideo<script>alert(1)</script>_ok");
+        $this->assertSame('onNewVideoscriptalert1script_ok', $sanitized);
+    }
+
+    /**
      * Helper method to safely call handleCallbackTriggerPluginHook
      *
      * This wraps the function call to handle cases where AVideoPlugin doesn't exist
