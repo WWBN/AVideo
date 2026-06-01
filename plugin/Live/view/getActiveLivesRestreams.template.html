@@ -16,6 +16,11 @@
             onclick="getAction('start', {live_transmitions_history_id}, {id});">
             <i class="fas fa-play"></i> Start<br>{display_name}
         </button>
+        <button class="btn btn-default hideWhenHasNoLog"
+            onclick="showRestreamLog({live_transmitions_history_id}, {id});"
+            title="View FFMPEG Log">
+            <i class="fas fa-terminal"></i><br>Log
+        </button>
         <a class="btn btn-default " href="{live_url}" target="_blank">
              Open <br>
              <i class="fa-solid fa-arrow-up-right-from-square fa-2x"></i>

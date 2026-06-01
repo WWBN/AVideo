@@ -80,9 +80,10 @@ if (!User::isAdmin()) {
                 {
                     "data": "logFile",
                     render: function (data, type, row) {
-                        var url = webSiteRootURL+'plugin/Live/view/Live_restreams/getAction.json.php?action=log&live_restreams_logs_id='+row.id;
-                        url = addQueryStringParameter(url, 'logFile', row.logFile);
-                        return '<a href="' + url + '" target="_blank">' + data + '</a>';
+                        var viewerUrl = webSiteRootURL + 'plugin/Live/view/Live_restreams/logViewer.php';
+                        viewerUrl = addQueryStringParameter(viewerUrl, 'live_restreams_logs_id', row.id);
+                        return '<a href="javascript:void(0)" onclick="avideoModalIframe(\'' + viewerUrl + '\')">'
+                             + '<i class="fas fa-terminal"></i> ' + data + '</a>';
                     }
                 },
                 {"data": "live_transmitions_history_id"},

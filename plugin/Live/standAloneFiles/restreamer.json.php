@@ -96,6 +96,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
         error_log("Restreamer.json.php token verified " . json_encode($json));
         switch ($json->action) {
             case 'log':
+            case 'logContent':
 
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
                 $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
@@ -109,11 +110,24 @@ if (!empty($_REQUEST['tokenForAction'])) {
                     $obj->resp = $resp;
                 } else if (!empty($obj->logName)) {
                     $logFile = $logFileLocation . $obj->logName;
+                    // also check completed log
+                    if (!file_exists($logFile) && file_exists($logFile . '.completed')) {
+                        $logFile = $logFile . '.completed';
+                    }
                     if (file_exists($logFile)) {
                         $obj->modified = @filemtime($logFile);
                         $obj->secondsAgo = $obj->time - $obj->modified;
                         $obj->isActive = $obj->secondsAgo < 10;
                         $obj->remoteLog = false;
+                        if ($json->action === 'logContent') {
+                            // Return last 300 lines of the log file
+                            $lines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                            if ($lines === false) {
+                                $obj->content = '';
+                            } else {
+                                $obj->content = implode("\n", array_slice($lines, -300));
+                            }
+                        }
                     }
                 }
 

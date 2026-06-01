@@ -122,6 +122,41 @@ class Live_restreams_logs extends ObjectYPT
         return $row;
     }
 
+    /**
+     * Returns all log records for a given restream destination, newest first.
+     * If $users_id is provided (non-admin use), only records belonging to that user are returned.
+     */
+    static function getHistoryByRestream($live_restreams_id, $users_id = 0)
+    {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return [];
+        }
+        $live_restreams_id = intval($live_restreams_id);
+        if (empty($live_restreams_id)) {
+            return [];
+        }
+        $users_id = intval($users_id);
+
+        if ($users_id > 0) {
+            // Join with live_restreams to enforce ownership
+            $sql = "SELECT lrl.*
+                    FROM " . static::getTableName() . " lrl
+                    INNER JOIN live_restreams lr ON lr.id = lrl.live_restreams_id
+                    WHERE lrl.live_restreams_id = ?
+                      AND lr.users_id = ?
+                    ORDER BY lrl.id DESC";
+            $res = sqlDAL::readSql($sql, 'ii', [$live_restreams_id, $users_id]);
+        } else {
+            $sql = "SELECT * FROM " . static::getTableName() . " WHERE live_restreams_id = ? ORDER BY id DESC";
+            $res = sqlDAL::readSql($sql, 'i', [$live_restreams_id]);
+        }
+
+        $rows = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        return $rows ? $rows : [];
+    }
+
     static function getURL($live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id, $action = 'log')
     {
         if (!empty($live_restreams_logs_id)) {

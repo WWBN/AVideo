@@ -61,6 +61,8 @@ $obj->restreamStandAloneFFMPEG = $liveObj->restreamStandAloneFFMPEG ;
 switch ($token->action) {
     case 'log':
         break;
+    case 'logContent':
+        break;
     case 'stop':
         break;
     case 'start':

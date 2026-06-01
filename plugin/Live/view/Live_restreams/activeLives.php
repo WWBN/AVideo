@@ -111,13 +111,13 @@ $_page = new Page(array('Active Lives'));
         var liveTemplate = activeLiveTemplate;
         var restreamTemplate = activeLiveRestreamTemplate;
         $('#livesRestreamList tbody').empty();
-        //console.log('activeLivesToTable', lives);   
+        //console.log('activeLivesToTable', lives);
         for (var i in lives) {
             var live = lives[i];
             if (typeof live == 'function') {
                 continue;
             }
-            //console.log('activeLivesToTable restream_log', live.restream_log);   
+            //console.log('activeLivesToTable restream_log', live.restream_log);
             var restream = '';
             for (var j in live.restream) {
                 var itemsArray = live.restream[j];
@@ -208,6 +208,13 @@ $_page = new Page(array('Active Lives'));
             $(".livesRestreamStatus_" + live_restream_id).removeClass('hasLog');
             $(".livesRestreamStatus_" + live_restream_id).addClass(addClass);
         }
+    }
+
+    function showRestreamLog(live_transmitions_history_id, live_restreams_id) {
+        var url = webSiteRootURL + 'plugin/Live/view/Live_restreams/logViewer.php';
+        url = addQueryStringParameter(url, 'live_transmitions_history_id', live_transmitions_history_id);
+        url = addQueryStringParameter(url, 'live_restreams_id', live_restreams_id);
+        avideoModalIframe(url);
     }
 </script>
 <?php
