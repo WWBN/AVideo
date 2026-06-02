@@ -4147,16 +4147,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v20.1.0",
+            "version": "v20.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "6d0ec5ffa0678a408d63163ace1453b35a85fb24"
+                "reference": "38b784dd45b447609032c151c40712d9b3feecb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/6d0ec5ffa0678a408d63163ace1453b35a85fb24",
-                "reference": "6d0ec5ffa0678a408d63163ace1453b35a85fb24",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/38b784dd45b447609032c151c40712d9b3feecb0",
+                "reference": "38b784dd45b447609032c151c40712d9b3feecb0",
                 "shasum": ""
             },
             "require": {
@@ -4168,7 +4168,7 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "3.94.0",
                 "phpstan/phpstan": "^1.2",
-                "phpunit/phpunit": "^5.7 || ^9.0"
+                "phpunit/phpunit": "^8.0 || ^9.0"
             },
             "type": "library",
             "extra": {
@@ -4203,9 +4203,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v20.1.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v20.2.0"
             },
-            "time": "2026-04-24T00:12:56+00:00"
+            "time": "2026-05-27T20:28:12+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
