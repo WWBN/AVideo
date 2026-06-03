@@ -134,9 +134,9 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `videos` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(190) NOT NULL,
-  `clean_title` VARCHAR(190) NOT NULL,
-  `description` TEXT NULL DEFAULT NULL,
+  `title` VARCHAR(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `clean_title` VARCHAR(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `views_count` INT(11) NOT NULL DEFAULT 0,
   `views_count_25` INT(11) NULL DEFAULT 0,
   `views_count_50` INT(11) NULL DEFAULT 0,
