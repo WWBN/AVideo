@@ -89,12 +89,18 @@ class Message implements MessageComponentInterface
         $client['yptDeviceId'] = $json->yptDeviceId;
         $client['client'] = deviceIdToObject($json->yptDeviceId);
         if (!empty($wsocketGetVars['webSocketSelfURI'])) {
-            $client['selfURI'] = $wsocketGetVars['webSocketSelfURI'];
+            $rawURI = $wsocketGetVars['webSocketSelfURI'];
+            // Only accept http/https URIs to prevent javascript: href injection
+            if (filter_var($rawURI, FILTER_VALIDATE_URL) && preg_match('/^https?:\/\//i', $rawURI)) {
+                $client['selfURI'] = $rawURI;
+            } else {
+                $client['selfURI'] = $json->selfURI;
+            }
         } else {
             $client['selfURI'] = $json->selfURI;
         }
         $client['isCommandLine'] = @$wsocketGetVars['isCommandLine'];
-        $client['page_title'] = @utf8_encode(@$wsocketGetVars['page_title']);
+        $client['page_title'] = htmlspecialchars((string)@$wsocketGetVars['page_title'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $client['ip'] = $json->ip;
         if (!empty($json->location)) {
             $client['location'] = $json->location->country_name;
