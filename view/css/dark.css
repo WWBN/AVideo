@@ -1,3 +1,17 @@
 .bootgrid-table td.loading, .bootgrid-table td.no-results {
     background: #333;
 }
+
+/* Please Wait / loading modal - dark theme */
+.pleaseWaitDialog.modal,
+.pleaseWaitDialog .modal-dialog,
+.pleaseWaitDialog .modal-content {
+    background-color: #1a1a1a !important;
+    color: #ddd !important;
+}
+.pleaseWaitDialog h2 {
+    color: #ddd !important;
+}
+.pleaseWaitDialog .modal-backdrop {
+    background-color: #000 !important;
+}
