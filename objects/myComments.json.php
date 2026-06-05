@@ -16,11 +16,17 @@ if (empty($_POST['sort'])) {
 }
 
 $type = 'posted';
-if (!empty($_REQUEST['type']) && $_REQUEST['type'] === 'received') {
-    $type = 'received';
+if (!empty($_REQUEST['type']) && in_array($_REQUEST['type'], ['received', 'all'], true)) {
+    $type = $_REQUEST['type'];
 }
 
-if ($type === 'received') {
+if ($type === 'all') {
+    if (!User::isAdmin()) {
+        forbiddenPage('Permission denied', true);
+    }
+    $comments = Comment::getAllPostedComments(true);
+    $total = Comment::getTotalAllPostedComments();
+} elseif ($type === 'received') {
     $comments = Comment::getCommentsOnMyVideos(true);
     $total = Comment::getTotalCommentsOnMyVideos();
 } else {

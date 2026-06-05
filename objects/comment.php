@@ -423,6 +423,58 @@ class Comment {
         return $countRow;
     }
 
+    public static function getAllPostedComments($includeResponses = false) {
+        global $global;
+        if (!User::isAdmin()) {
+            return [];
+        }
+        $users_id = User::getId();
+        $format = 'i';
+        $values = [$users_id];
+        $sql = "SELECT c.*, u.name as name, u.user as user, "
+                . " (SELECT count(id) FROM comments_likes as l where l.comments_id = c.id AND `like` = 1 ) as likes, "
+                . " (SELECT count(id) FROM comments_likes as l where l.comments_id = c.id AND `like` = -1 ) as dislikes ";
+        $sql .= ", (SELECT `like` FROM comments_likes as l where l.comments_id = c.id AND users_id = ? ) as myVote ";
+        $format .= '';
+        $sql .= " FROM comments c LEFT JOIN users as u ON u.id = c.users_id LEFT JOIN videos as v ON v.id = c.videos_id";
+        $sql .= " WHERE u.status = 'a' AND c.comments_id_pai IS NULL ";
+        $sql .= BootGrid::getSqlFromPost(['name']);
+        $res = sqlDAL::readSql($sql, $format, $values);
+        $allData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $comment = [];
+        if ($res != false) {
+            foreach ($allData as $row) {
+                $row = cleanUpRowFromDatabase($row);
+                $row['comment'] = str_replace('\n', "\n", $row['comment']);
+                $row['commentPlain'] = xss_esc_back($row['comment']);
+                $row['commentHTML'] = markDownToHTML(str_replace('`', "'", $row['commentPlain']));
+                $row['commentHTML'] = linkifyTimestamps($row['commentHTML']);
+                $row['responses'] = [];
+                if ($includeResponses) {
+                    $row['responses'] = self::getAllComments($row['videos_id'], $row['id'], 0, $includeResponses);
+                }
+                $comment[] = $row;
+            }
+        } else {
+            $comment = false;
+            _error_log($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $comment;
+    }
+
+    public static function getTotalAllPostedComments() {
+        if (!User::isAdmin()) {
+            return 0;
+        }
+        $sql = "SELECT c.id FROM comments c LEFT JOIN users as u ON u.id = c.users_id LEFT JOIN videos as v ON v.id = c.videos_id WHERE u.status = 'a' AND c.comments_id_pai IS NULL ";
+        $sql .= BootGrid::getSqlSearchFromPost(['name']);
+        $res = sqlDAL::readSql($sql, "", []);
+        $countRow = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+        return $countRow;
+    }
+
     public static function userCanAdminComment($comments_id) {
         if (!User::isLogged()) {
             return false;

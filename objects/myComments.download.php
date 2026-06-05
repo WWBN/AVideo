@@ -9,8 +9,12 @@ if (!User::isLogged()) {
 }
 
 $type = 'posted';
-if (!empty($_GET['type']) && $_GET['type'] === 'received') {
-    $type = 'received';
+if (!empty($_GET['type']) && in_array($_GET['type'], ['received', 'all'], true)) {
+    $type = $_GET['type'];
+}
+
+if ($type === 'all' && !User::isAdmin()) {
+    forbiddenPage('Permission denied', true);
 }
 
 $format = 'html';
@@ -26,7 +30,10 @@ $_POST['sort']['id'] = 'DESC';
 
 setRowCount(1000000);
 
-if ($type === 'received') {
+if ($type === 'all') {
+    $comments = Comment::getAllPostedComments(true);
+    $typeLabel = __('All Comments');
+} elseif ($type === 'received') {
     $comments = Comment::getCommentsOnMyVideos(true);
     $typeLabel = __('Comments on My Videos');
 } else {

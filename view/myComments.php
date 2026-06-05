@@ -9,6 +9,7 @@ if (!User::isLogged()) {
 }
 require_once $global['systemRootPath'] . 'objects/comment.php';
 $userCanUpload = User::canUpload();
+$userIsAdmin = User::isAdmin();
 $_page = new Page(array('My Comments'));
 $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'view/videoComments_template.php'));
 ?>
@@ -120,7 +121,7 @@ $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'vi
             </h3>
         </div>
         <div class="panel-body">
-            <?php if ($userCanUpload) { ?>
+            <?php if ($userCanUpload || $userIsAdmin) { ?>
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active">
                     <a href="#postedTab" aria-controls="postedTab" role="tab" data-toggle="tab">
@@ -129,6 +130,7 @@ $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'vi
                         <span class="badge" id="postedBadge" style="display:none;"></span>
                     </a>
                 </li>
+                <?php if ($userCanUpload) { ?>
                 <li role="presentation">
                     <a href="#receivedTab" aria-controls="receivedTab" role="tab" data-toggle="tab">
                         <i class="fas fa-inbox"></i>
@@ -136,6 +138,16 @@ $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'vi
                         <span class="badge" id="receivedBadge" style="display:none;"></span>
                     </a>
                 </li>
+                <?php } ?>
+                <?php if ($userIsAdmin) { ?>
+                <li role="presentation">
+                    <a href="#allTab" aria-controls="allTab" role="tab" data-toggle="tab">
+                        <i class="fas fa-list"></i>
+                        <?php echo __('All Comments'); ?>
+                        <span class="badge" id="allBadge" style="display:none;"></span>
+                    </a>
+                </li>
+                <?php } ?>
             </ul>
             <?php } ?>
             <div class="tab-content">
@@ -157,6 +169,16 @@ $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'vi
                     </div>
                 </div>
                 <?php } ?>
+                <?php if ($userIsAdmin) { ?>
+                <div role="tabpanel" class="tab-pane" id="allTab">
+                    <div id="allCommentsArea" class="myCommentsTabArea canComment userLogged"></div>
+                    <div class="text-center" style="margin-top: 10px;">
+                        <button class="btn btn-link" onclick="loadAllComments(0, lastAllPage + 1);" id="allLoadMoreBtn" style="display:none;">
+                            <i class="fas fa-chevron-down"></i> <?php echo __('Load More'); ?>
+                        </button>
+                    </div>
+                </div>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -165,7 +187,9 @@ $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'vi
     var commentTemplate = <?php echo $commentTemplate; ?>;
     var lastPostedPage = 0;
     var lastReceivedPage = 0;
+    var lastAllPage = 0;
     var receivedLoaded = false;
+    var allLoaded = false;
 
     function mcGetCommentTemplate(itemsArray) {
         var template = commentTemplate;
@@ -384,10 +408,64 @@ $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'vi
         });
     }
 
+    function loadAllComments(comments_id, page) {
+        var url = webSiteRootURL + 'objects/myComments.json.php?type=all';
+        url = addQueryStringParameter(url, 'comments_id', comments_id);
+        url = addQueryStringParameter(url, 'current', page);
+        lastAllPage = page;
+        if (empty(comments_id) && page <= 1 && typeof avideoSetContainerLoading === 'function') {
+            avideoSetContainerLoading('allCommentsArea', true, {clear: true, items: 4});
+        }
+        modal.showPleaseWait();
+        $.ajax({
+            url: url,
+            success: function(response) {
+                modal.hidePleaseWait();
+                if (empty(comments_id) && typeof avideoSetContainerLoading === 'function') {
+                    avideoSetContainerLoading('allCommentsArea', false);
+                }
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                } else {
+                    if (empty(comments_id) && page <= 1) {
+                        $('#allCommentsArea').empty();
+                    }
+                    if (response.rows && response.rows.length > 0) {
+                        $.each(response.rows, function(i, row) {
+                            mcAddComment(row, '#allCommentsArea', 0, true);
+                        });
+                    } else if (page <= 1) {
+                        $('#allCommentsArea').html('<div class="my-comments-empty"><i class="fas fa-comments fa-2x"></i><?php echo __('No comments found.'); ?></div>');
+                    }
+                    if (response.rows && response.rows.length > 0 && (response.current * response.rowCount) < response.total) {
+                        $('#allLoadMoreBtn').show();
+                    } else {
+                        $('#allLoadMoreBtn').hide();
+                    }
+                    if (page <= 1) {
+                        $('#allBadge').text(response.total).show();
+                    }
+                }
+            },
+            error: function() {
+                modal.hidePleaseWait();
+                if (empty(comments_id) && typeof avideoSetContainerLoading === 'function') {
+                    avideoSetContainerLoading('allCommentsArea', false);
+                }
+                avideoAlertError(<?php printJSString('Error loading comments') ?>);
+            }
+        });
+    }
+
     function openDownloadCommentsModal() {
         // detect active tab
         var activeTab = $('#myCommentsPanel .nav-tabs li.active a').attr('href');
-        var type = (activeTab === '#receivedTab') ? 'received' : 'posted';
+        var type = 'posted';
+        if (activeTab === '#receivedTab') {
+            type = 'received';
+        } else if (activeTab === '#allTab') {
+            type = 'all';
+        }
         $('#downloadCommentsType').val(type);
         $('#downloadCommentsModal').modal('show');
     }
@@ -414,6 +492,12 @@ $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'vi
                 loadReceivedComments(0, 1);
             }
         });
+        $('a[href="#allTab"]').on('shown.bs.tab', function() {
+            if (!allLoaded) {
+                allLoaded = true;
+                loadAllComments(0, 1);
+            }
+        });
     });
 </script>
 
@@ -434,6 +518,9 @@ $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'vi
             <option value="posted"><?php echo __('Comments I Wrote'); ?></option>
             <?php if ($userCanUpload): ?>
             <option value="received"><?php echo __('Comments on My Videos'); ?></option>
+            <?php endif; ?>
+            <?php if ($userIsAdmin): ?>
+            <option value="all"><?php echo __('All Comments'); ?></option>
             <?php endif; ?>
           </select>
         </div>
