@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'plugin/AuthorizeNet/Objects/Anet_webho
 header('Content-Type: application/json');
 
 if (!User::isAdmin()) {
-    die(json_encode(['error' => true, 'msg' => "You can't do this"]));
+    forbiddenPage('Admins only', true);
 }
 
 $rows = Anet_webhook_log::getAll();

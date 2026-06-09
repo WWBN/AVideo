@@ -39,13 +39,23 @@ if (!User::isAdmin()) {
                         <table id="Anet_webhook_logTable" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    
+                                    <th><?php echo __('Event Type'); ?></th>
+                                    <th><?php echo __('Trans ID'); ?></th>
+                                    <th><?php echo __('Status'); ?></th>
+                                    <th><?php echo __('Processed'); ?></th>
+                                    <th><?php echo __('Error'); ?></th>
+                                    <th><?php echo __('Created'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    
+                                    <th><?php echo __('Event Type'); ?></th>
+                                    <th><?php echo __('Trans ID'); ?></th>
+                                    <th><?php echo __('Status'); ?></th>
+                                    <th><?php echo __('Processed'); ?></th>
+                                    <th><?php echo __('Error'); ?></th>
+                                    <th><?php echo __('Created'); ?></th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -94,11 +104,16 @@ if (!User::isAdmin()) {
         serverSide: true,
         "ajax": webSiteRootURL+"plugin/AuthorizeNet/View/Anet_webhook_log/list.json.php",
         "columns": [
-        ,
+        { data: 'event_type' },
+        { data: 'trans_id' },
+        { data: 'status' },
+        { data: 'processed' },
+        { data: 'error_text' },
+        { data: 'created_php_time', render: function(data) { return data ? new Date(data * 1000).toLocaleString() : ''; } },
         {
-        sortable: false,
-                data: null,
-                defaultContent: $('#Anet_webhook_logbtnModelLinks').html()
+            sortable: false,
+            data: null,
+            defaultContent: $('#Anet_webhook_logbtnModelLinks').html()
         }
         ],
         select: true,
