@@ -99,9 +99,10 @@ function sanitizeFFmpegCommand($command)
     //$command = str_replace('rtmp://live/', 'rtmp://vlu.me/', $command);
     //$command = str_replace('https://live:8443/', 'https://vlu.me:8443/', $command);
     $command = preg_replace('/\s*&?>.*(?:2>&1)?/', '', $command);
-    // Security: also strip $, (, ), { } to prevent bash command substitution $(...) / ${...}
-    // and newlines which can start a new shell command, in addition to the original metacharacters.
-    $command = preg_replace('/[;|`<>$()\n\r{}]/', '', $command);
+    // Security: also strip $, (, ), { } to prevent bash command substitution $(...) / ${...},
+    // newlines which can start a new shell command, and & which is a shell background/separator
+    // operator at the execAsync sh -c sink (CVE-2026-33482 follow-up: single & bypass).
+    $command = preg_replace('/[;|`<>&$()\n\r{}]/', '', $command);
 
     // Ensure it starts with an allowed prefix
     foreach ($allowedPrefixes as $prefix) {
