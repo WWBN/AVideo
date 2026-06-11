@@ -21,8 +21,8 @@ function _rsearch($folder, $pattern)
     usort(
         $fileList,
         function ($a, $b) {
-                return preg_match('/SendRecordedToEncoder/', $a) ? 1 : 0;
-            }
+            return preg_match('/SendRecordedToEncoder/', $a) ? 1 : 0;
+        }
     );
     return $fileList;
 }
@@ -58,7 +58,7 @@ if ($option == 1 || $option == 2) {
             if (substr(trim($line), -1, 1) == ';') {
                 try {
                     if (!$global['mysqli']->query($templine)) {
-                        echo($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+                        echo ($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
                         die(json_encode($obj));
                     } else {
                         echo "[{$countFiles}/{$totalFiles}][{$countLines}/{$totalLines}] Success performing query from $value\n";
@@ -127,8 +127,8 @@ if ($option == 4) {
             $templine .= $line;
             if (substr(trim($line), -1, 1) == ';') {
                 if (!$global['mysqli']->query($templine)) {
-                    echo($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
-                //die(json_encode($obj));
+                    echo ($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+                    //die(json_encode($obj));
                 } else {
                     echo "Success performing query from $value\n";
                 }
