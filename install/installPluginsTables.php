@@ -1,6 +1,6 @@
 <?php
 //streamer config
-require_once '../videos/configuration.php';
+require_once __DIR__ . '/../videos/configuration.php';
 
 if (!isCommandLineInterface()) {
     return die('Command Line only');
@@ -65,7 +65,7 @@ if ($option == 1 || $option == 2) {
                     }
                 } catch (Exception $exc) {
                     echo $exc->getTraceAsString();
-                } 
+                }
 
                 $templine = '';
             }
