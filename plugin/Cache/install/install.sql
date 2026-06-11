@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `CachesInDB` (
   INDEX `caches3` (`loggedType` ASC),
   INDEX `caches4` (`user_location` ASC),
   INDEX `caches9` (`name` ASC),
+  INDEX `CachesInDB_created_php_time` (`created_php_time` ASC),
   UNIQUE INDEX `unique_cache_index`(`name`(250), `domain`(50), `ishttps`, `user_location`(50), `loggedType`),
   FULLTEXT INDEX `name_fulltext` (`name`)
 ) ENGINE = InnoDB;

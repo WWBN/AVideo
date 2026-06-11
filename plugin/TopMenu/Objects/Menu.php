@@ -34,6 +34,7 @@ class Menu extends ObjectYPT {
         12=>'Float Menu');
 
     protected $id, $menuName, $categories_id, $users_groups_id, $menu_order, $status, $position, $type, $icon, $menuSeoUrl;
+    private static $activeMenusCache = array();
 
     static function getSearchFieldsNames() {
         return array();
@@ -84,9 +85,13 @@ class Menu extends ObjectYPT {
         if(empty($global)){
             $global = [];
         }
+        $cacheKey = empty($type) ? 'all' : intval($type);
+        if (array_key_exists($cacheKey, self::$activeMenusCache)) {
+            return self::$activeMenusCache[$cacheKey];
+        }
         $sql = "SELECT * FROM  ".static::getTableName()." WHERE status = 'active' ";
         if(!empty($type)){
-            $sql .= " AND type = $type ";
+            $sql .= " AND type = ".intval($type)." ";
         }
         $sql .= " ORDER BY menu_order ";
         //_mysql_connect();
@@ -97,7 +102,9 @@ class Menu extends ObjectYPT {
                 $rows[] = $row;
             }
         }
-        return $rows;
+        // Menus are rendered more than once on responsive pages.
+        self::$activeMenusCache[$cacheKey] = $rows;
+        return self::$activeMenusCache[$cacheKey];
     }
 
     function save() {
@@ -131,8 +138,19 @@ class Menu extends ObjectYPT {
 
         $this->menuSeoUrl=(preg_replace('/[^a-z0-9]+/', '_', strtolower($this->menuSeoUrl)));
 
-        return parent::save();
+        $result = parent::save();
+        self::$activeMenusCache = array();
+        return $result;
     }
 
+    public function delete()
+    {
+        $result = parent::delete();
+        self::$activeMenusCache = array();
+        if (class_exists('MenuItem')) {
+            MenuItem::clearRequestCache();
+        }
+        return $result;
+    }
 
 }

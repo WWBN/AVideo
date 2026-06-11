@@ -7,6 +7,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 class MenuItem extends ObjectYPT {
 
     protected $id, $title, $image, $url, $class, $style, $item_order, $topMenu_id, $status, $text, $icon, $clean_url, $menuSeoUrlItem;
+    private static $menuItemsCache = array();
 
     static function getSearchFieldsNames() {
         return array();
@@ -24,6 +25,10 @@ class MenuItem extends ObjectYPT {
         $menu_id = intval($menu_id);
         if (empty($menu_id)) {
             return false;
+        }
+        $cacheKey = $menu_id . '_' . intval($activeOnly) . '_' . intval($sort);
+        if (array_key_exists($cacheKey, self::$menuItemsCache)) {
+            return self::$menuItemsCache[$cacheKey];
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE topMenu_id = {$menu_id}";
 
@@ -62,7 +67,9 @@ class MenuItem extends ObjectYPT {
                 $rows[] = $row;
             }
         } 
-        return $rows;
+        // Desktop and mobile menus request the same items during one page render.
+        self::$menuItemsCache[$cacheKey] = $rows;
+        return self::$menuItemsCache[$cacheKey];
     }
 
     function setTitle($title) {
@@ -129,7 +136,21 @@ class MenuItem extends ObjectYPT {
         $this->title = ($this->title);
         $this->text = ($this->text);
 
-        return parent::save();
+        $result = parent::save();
+        self::clearRequestCache();
+        return $result;
+    }
+
+    public function delete()
+    {
+        $result = parent::delete();
+        self::clearRequestCache();
+        return $result;
+    }
+
+    public static function clearRequestCache()
+    {
+        self::$menuItemsCache = array();
     }
 
     function getTitle() {

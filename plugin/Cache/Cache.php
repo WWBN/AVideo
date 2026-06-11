@@ -6,6 +6,8 @@ require_once $global['systemRootPath'] . 'plugin/Cache/Objects/Cache_schedule_de
 
 class Cache extends PluginAbstract {
 
+    private $skipCurrentRequest = false;
+
     public function getTags() {
         return [
             PluginTags::$RECOMMENDED,
@@ -30,7 +32,7 @@ class Cache extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "8.1";
+        return "9.0";
     }
 
     public function updateScript() {
@@ -130,6 +132,10 @@ class Cache extends PluginAbstract {
 
     public function getStart() {
         global $global;
+        if ($this->shouldSkipPageCacheForCurrentRequest()) {
+            $this->skipCurrentRequest = true;
+            return true;
+        }
         // ignore cache if it is command line
         //var_dump($this->isFirstPage());exit;
         $obj = $this->getDataObject();
@@ -217,6 +223,9 @@ class Cache extends PluginAbstract {
 
     public function getEnd() {
         global $global;
+        if ($this->skipCurrentRequest) {
+            return true;
+        }
         $obj = $this->getDataObject();
         echo PHP_EOL . '<!--        Page Generated in ' . getScriptRunMicrotimeInSeconds() . ' Seconds -->';
         $c = _ob_get_clean();
@@ -286,6 +295,24 @@ class Cache extends PluginAbstract {
         $blacklistedFiles = ['videosAndroid.json.php'];
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         return in_array($baseName, $blacklistedFiles);
+    }
+
+    private function shouldSkipPageCacheForCurrentRequest()
+    {
+        $script = str_replace('\\', '/', $_SERVER['SCRIPT_FILENAME'] ?? '');
+        $dynamicEndpoints = [
+            '/objects/videoAddViewCount.json.php',
+            '/plugin/AD_Server/log.php',
+            '/plugin/UserNotifications/getNotifications.json.php',
+        ];
+        foreach ($dynamicEndpoints as $endpoint) {
+            if (substr($script, -strlen($endpoint)) === $endpoint) {
+                // These endpoints are side-effecting or user-specific and do not
+                // use location in their response, so page-cache metadata is wasted.
+                return true;
+            }
+        }
+        return false;
     }
 
     private function start() {

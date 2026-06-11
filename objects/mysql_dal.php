@@ -245,12 +245,10 @@ class sqlDAL
              */
 
              _error_log(sprintf('writeSql [%s] {%s}  %s userAgent=[%s]', $stmt->errno, $stmt->error, json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)), $_SERVER['HTTP_USER_AGENT'] ?? '-'));
-             if($stmt->errno == 1205 && preg_match('/CachesInDB/', $preparedStatement)){//Lock wait timeout exceeded; try restarting transaction
-                _error_log("writeSql Recreate CachesInDB ");
-                $sql = 'DROP TABLE IF EXISTS `CachesInDB`';
-                $global['mysqli']->query($sql);
-                $file = $global['systemRootPath'] . 'plugin/Cache/install/install.sql';
-                sqlDal::executeFile($file);
+             if($stmt->errno == 1205 && preg_match('/CachesInDB/', $preparedStatement)){
+                // A lock timeout is transient. Dropping the shared cache table here
+                // amplifies contention and can discard valid cache entries.
+                _error_log("writeSql CachesInDB lock wait timeout; cache write skipped");
              }
              if(preg_match('/Data truncated for column/i', $stmt->error)){
                 _error_log("writeSql values = ".' '.json_encode($values));

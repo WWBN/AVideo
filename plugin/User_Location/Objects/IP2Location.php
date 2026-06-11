@@ -6,6 +6,7 @@ class IP2Location extends ObjectYPT
 {
 
     protected $ip_from, $ip_to, $country_code, $country_name, $region_name, $city_name;
+    const LOCATION_CACHE_LIFETIME = 86400;
 
     static function getSearchFieldsNames()
     {
@@ -28,44 +29,98 @@ class IP2Location extends ObjectYPT
         // japan 2.16.40.123
         // USA 	2.16.13.123
         //$ip = '2.16.40.123';
+        $ip = trim((string) $ip);
+        if (!filter_var($ip, FILTER_VALIDATE_IP) || !self::isPublicIP($ip)) {
+            return false;
+        }
         if (!isset($_SESSION['IP2Location']) || !is_array($_SESSION['IP2Location'])) {
             $_SESSION['IP2Location'] = array();
         }
-        if (empty($_SESSION['IP2Location'][$ip]['country_code'])) {
-            $_SESSION['IP2Location'][$ip] = false;
-            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-                $sql = "SELECT * FROM ip2location_db3 WHERE INET_ATON(?) <= ip_to LIMIT 1";
-                // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-                $res = sqlDAL::readSql($sql, "s", array($ip));
-                $data = sqlDAL::fetchAssoc($res);
-                sqlDAL::close($res);
-                if ($res) {
-                    $row = $data;
-                } else {
-                    $row = false;
-                }
-                $row['ip'] = $ip;
-                $_SESSION['IP2Location'][$ip] = $row;
-            } else if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && ObjectYPT::isTableInstalled("ip2location_db1_ipv6")) {
-                $ipno = self::Dot2LongIPv6($ip);
-                $sql = "SELECT * FROM ip2location_db1_ipv6 WHERE ip_to >= $ipno order by ip_to limit 1 ";
-                $res = sqlDAL::readSql($sql);
-                $data = sqlDAL::fetchAssoc($res);
-                sqlDAL::close($res);
-                if ($res) {
-                    $row = $data;
-                } else {
-                    $row = false;
-                }
-                $row['ip'] = $ip;
-                $_SESSION['IP2Location'][$ip] = $row;
-            }
-        } //var_dump($_SESSION['IP2Location'][$ip]);exit;
-        if (!empty($_SESSION['IP2Location'][$ip]['country_name']) && $_SESSION['IP2Location'][$ip]['country_name'] == "United States of America") {
-            $_SESSION['IP2Location'][$ip]['country_name'] = "United States";
+        if (array_key_exists($ip, $_SESSION['IP2Location'])) {
+            $_SESSION['IP2Location'][$ip] = self::normalizeLocation($_SESSION['IP2Location'][$ip]);
+            return $_SESSION['IP2Location'][$ip];
         }
+
+        $cacheName = 'IP2Location_v2_' . sha1($ip);
+        $cached = ObjectYPT::getCacheGlobal($cacheName, self::LOCATION_CACHE_LIFETIME);
+        if (is_object($cached)) {
+            $cached = (array) $cached;
+        }
+        if (is_array($cached) && !empty($cached['country_code'])) {
+            $_SESSION['IP2Location'][$ip] = self::normalizeLocation($cached);
+            return $_SESSION['IP2Location'][$ip];
+        }
+
+        // Cache misses are kept only in the session; a future database update can fix them.
+        $_SESSION['IP2Location'][$ip] = false;
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            $row = self::lookupIPv4($ip);
+        } else if (ObjectYPT::isTableInstalled("ip2location_db1_ipv6")) {
+            $row = self::lookupIPv6($ip);
+        } else {
+            $row = false;
+        }
+
+        if (empty($row)) {
+            return false;
+        }
+
+        $row['ip'] = $ip;
+        $_SESSION['IP2Location'][$ip] = self::normalizeLocation($row);
+        ObjectYPT::setCacheGlobal($cacheName, $_SESSION['IP2Location'][$ip]);
         //_error_log("IP2Location::getLocation({$ip}) " . get_browser_name() . " " . json_encode($_SESSION['IP2Location'][$ip]));
         return $_SESSION['IP2Location'][$ip];
+    }
+
+    private static function isPublicIP($ip)
+    {
+        return filter_var(
+            $ip,
+            FILTER_VALIDATE_IP,
+            FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+        ) !== false;
+    }
+
+    private static function normalizeLocation($row)
+    {
+        if (is_array($row) && !empty($row['country_name']) && $row['country_name'] == "United States of America") {
+            $row['country_name'] = "United States";
+        }
+        return $row;
+    }
+
+    /**
+     * Find the range with the greatest lower bound, then verify its upper bound.
+     * This lets MySQL stop after one reverse index lookup on idx_ip_from.
+     */
+    private static function lookupIPv4($ip)
+    {
+        $sql = "SELECT * FROM ip2location_db3 WHERE ip_from <= INET_ATON(?) ORDER BY ip_from DESC LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($ip));
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!$res || empty($row)) {
+            return false;
+        }
+
+        $ipNumber = sprintf('%u', ip2long($ip));
+        if ((float) $row['ip_to'] < (float) $ipNumber) {
+            return false;
+        }
+        return $row;
+    }
+
+    private static function lookupIPv6($ip)
+    {
+        $ipno = self::Dot2LongIPv6($ip);
+        if (empty($ipno)) {
+            return false;
+        }
+        $sql = "SELECT * FROM ip2location_db1_ipv6 WHERE ip_to >= $ipno ORDER BY ip_to LIMIT 1";
+        $res = sqlDAL::readSql($sql);
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return $res && !empty($row) ? $row : false;
     }
 
     // Function to convert IP address to IP number (IPv6)

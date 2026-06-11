@@ -38,6 +38,48 @@ class TagsHasVideos extends ObjectYPT {
         }
     }
 
+    public function save()
+    {
+        $result = parent::save();
+        self::clearRequestCache($this->videos_id, $this->tags_id);
+        return $result;
+    }
+
+    public function delete()
+    {
+        $result = parent::delete();
+        self::clearRequestCache($this->videos_id, $this->tags_id);
+        return $result;
+    }
+
+    public static function clearRequestCache($videos_id = 0, $tags_id = 0)
+    {
+        global $_getTagsFromVideosId, $_getTotalVideosFromTagsId, $_getAllTagsWithVideo, $_getAllTagsWithTotalVideos;
+        if (!isset($_getTagsFromVideosId)) {
+            $_getTagsFromVideosId = array();
+        }
+        if (!isset($_getTotalVideosFromTagsId)) {
+            $_getTotalVideosFromTagsId = array();
+        }
+        if (!empty($videos_id)) {
+            unset($_getTagsFromVideosId[intval($videos_id)]);
+        } else {
+            $_getTagsFromVideosId = array();
+        }
+        if (!empty($tags_id)) {
+            $prefix = intval($tags_id) . '_';
+            foreach (array_keys((array) $_getTotalVideosFromTagsId) as $key) {
+                if (strpos($key, $prefix) === 0) {
+                    unset($_getTotalVideosFromTagsId[$key]);
+                }
+            }
+        } else {
+            $_getTotalVideosFromTagsId = array();
+        }
+        $_getAllTagsWithVideo = array();
+        $_getAllTagsWithTotalVideos = array();
+    }
+
     function loadFromTagsIdAndVideosId($tags_id, $videos_id) {
         $row = self::getFromTagsIdAndVideosId($tags_id, $videos_id);
         if (empty($row))
@@ -68,9 +110,13 @@ class TagsHasVideos extends ObjectYPT {
     }
 
     static function getAllFromVideosId($videos_id) {
-        global $global;
+        global $global, $_getTagsFromVideosId;
         if (!static::isTableInstalled()) {
             return false;
+        }
+        $videos_id = intval($videos_id);
+        if (isset($_getTagsFromVideosId[$videos_id])) {
+            return $_getTagsFromVideosId[$videos_id];
         }
         $sql = "SELECT tt.*, tt.name as type_name, t.*, tv.* FROM  " . static::getTableName() . " tv "
                 . " LEFT JOIN tags as t ON tags_id = t.id "
@@ -87,13 +133,18 @@ class TagsHasVideos extends ObjectYPT {
                 $rows[] = $row;
             }
         } 
-        return $rows;
+        $_getTagsFromVideosId[$videos_id] = $rows;
+        return $_getTagsFromVideosId[$videos_id];
     }
 
     static function getTotalVideosFromTagsId($tags_id, $status = Video::SORT_TYPE_VIEWABLE) {
-        global $global;
+        global $global, $_getTotalVideosFromTagsId;
         if (!static::isTableInstalled()) {
             return false;
+        }
+        $cacheKey = intval($tags_id) . '_' . (string) $status;
+        if (isset($_getTotalVideosFromTagsId[$cacheKey])) {
+            return $_getTotalVideosFromTagsId[$cacheKey];
         }
         $sql = "SELECT count(thv.id) as total FROM  " . static::getTableName() . " thv LEFT JOIN videos v ON v.id = thv.videos_id  "
                 . " WHERE tags_id=? ";
@@ -114,7 +165,8 @@ class TagsHasVideos extends ObjectYPT {
         sqlDAL::close($res);
 
         //var_dump($sql, $tags_id, $fullData);//exit;
-        return intval($fullData['total']);
+        $_getTotalVideosFromTagsId[$cacheKey] = intval($fullData['total']);
+        return $_getTotalVideosFromTagsId[$cacheKey];
     }
     
     static function getAllVideosFromTagsId($tags_id, $limit = 100, $status = Video::SORT_TYPE_VIEWABLE) {
@@ -183,7 +235,11 @@ class TagsHasVideos extends ObjectYPT {
             $sql .= " WHERE videos_id = ?";
             $global['lastQuery'] = $sql;
             //_error_log("Delete Query: ".$sql);
-            return sqlDAL::writeSql($sql, "i", array($videos_id));
+            $result = sqlDAL::writeSql($sql, "i", array($videos_id));
+            if ($result) {
+                self::clearRequestCache($videos_id);
+            }
+            return $result;
         }
         _error_log("videos_id for table " . static::getTableName() . " not defined for deletion");
         return false;
@@ -193,8 +249,9 @@ class TagsHasVideos extends ObjectYPT {
     public static function getAllWithVideo($limit=100)
     {
         global $global, $_getAllTagsWithVideo;
-        if(isset($_getAllTagsWithVideo)){
-            return $_getAllTagsWithVideo;
+        $limit = max(1, intval($limit));
+        if(isset($_getAllTagsWithVideo[$limit])){
+            return $_getAllTagsWithVideo[$limit];
         }
         if (!static::isTableInstalled()) {
             return false;
@@ -211,8 +268,8 @@ class TagsHasVideos extends ObjectYPT {
         $fullData = sqlDAL::fetchAllAssoc($res);
 
         sqlDAL::close($res);
-        $_getAllTagsWithVideo = $fullData;
-        return $fullData;
+        $_getAllTagsWithVideo[$limit] = $fullData;
+        return $_getAllTagsWithVideo[$limit];
         
     }
 

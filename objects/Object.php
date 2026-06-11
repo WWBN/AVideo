@@ -910,8 +910,9 @@ abstract class ObjectYPT implements ObjectInterface
             $_getCacheDir = [];
         }
 
-        if (!empty($_getCacheDir[$filename])) {
-            return $_getCacheDir[$filename];
+        $cacheIndex = $filename . '_' . intval($addSubDirs) . '_' . intval($ignoreMetadata);
+        if (!empty($_getCacheDir[$cacheIndex])) {
+            return $_getCacheDir[$cacheIndex];
         }
 
         $tmpDir = self::getTmpCacheDir();
@@ -927,7 +928,9 @@ abstract class ObjectYPT implements ObjectInterface
                 // make sure you separete http and https cache
                 $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
                 $tmpDir .= "{$protocol}_{$domain}" . DIRECTORY_SEPARATOR;
-                if (class_exists("User_Location")) {
+                // Global caches explicitly ignore request metadata, including country.
+                // Avoid an IP2Location lookup just to construct a global cache path.
+                if (empty($ignoreMetadata) && class_exists("User_Location")) {
                     $loc = User_Location::getThisUserLocation();
                     if (!empty($loc) && !empty($loc['country_code']) && $loc['country_code'] !== '-') {
                         $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
@@ -954,7 +957,7 @@ abstract class ObjectYPT implements ObjectInterface
             _file_put_contents($tmpDir . "index.html", time());
         }
 
-        $_getCacheDir[$filename] = $tmpDir;
+        $_getCacheDir[$cacheIndex] = $tmpDir;
         return $tmpDir;
     }
 
