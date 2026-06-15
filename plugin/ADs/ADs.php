@@ -280,6 +280,11 @@ class ADs extends PluginAbstract
 
     public static function getFileName($dir, $path)
     {
+        $parsedPath = parse_url($path, PHP_URL_PATH);
+        if (!empty($parsedPath)) {
+            $path = $parsedPath;
+        }
+        $path = preg_replace('/[?#].*$/', '', $path);
         $fileName = str_replace($dir, '', $path);
         $fileName = str_replace('.png', '', $fileName);
         $fileName = str_replace('\\', '', $fileName);

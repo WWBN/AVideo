@@ -56,9 +56,13 @@ if (empty($paths)) {
 $elements = array();
 foreach ($_REQUEST['metadata'] as $value) {
     $fileName = ADs::getFileName($paths['url'], $value['imgSrc']);
+    if (empty($fileName)) {
+        _error_log('ADs saveImagesMetadata: unable to resolve file name from image URL: ' . json_encode($value));
+        continue;
+    }
     $elements[$fileName] = array(
-        'url'=>$value['url'], 
-        'title'=>$value['title'], 
+        'url'=>$value['url'],
+        'title'=>$value['title'],
         'order'=>$value['order']
     );
 }
@@ -66,6 +70,9 @@ foreach ($_REQUEST['metadata'] as $value) {
 $result->paths = $paths;
 $result->saved = array();
 $files = _glob($paths['path'], '/.png$/');
+if (empty($files)) {
+    _error_log('ADs saveImagesMetadata: no PNG files found in path ' . $paths['path']);
+}
 
 foreach ($files as $value) {
     $fileName = ADs::getFileName($paths['path'], $value);
@@ -76,10 +83,18 @@ foreach ($files as $value) {
         continue;
     }
     $txtPath = "{$paths['path']}{$fileName}.txt";
-
-    $result->saved[] = array($txtPath , ADs::setTXT($txtPath, $elements[$fileName]['url'], $elements[$fileName]['title'], $elements[$fileName]['order']));
+    $saved = ADs::setTXT($txtPath, $elements[$fileName]['url'], $elements[$fileName]['title'], $elements[$fileName]['order']);
+    if ($saved === false) {
+        _error_log('ADs saveImagesMetadata: failed to save metadata file ' . $txtPath . ' for image ' . $fileName);
+        continue;
+    }
+    $result->saved[] = array($txtPath, $saved);
 }
 
 $result->error = empty($result->saved);
+if ($result->error) {
+    $result->msg = 'No metadata was saved. Check the image URL format and filesystem permissions.';
+    _error_log('ADs saveImagesMetadata: no metadata saved. paths=' . json_encode($paths) . ' metadata=' . json_encode($_REQUEST['metadata']));
+}
 
 die(json_encode($result));
