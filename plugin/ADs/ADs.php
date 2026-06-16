@@ -30,8 +30,7 @@ class ADs extends PluginAbstract
     public function getDescription()
     {
         $txt = "Handle the ads system, like Adsense or similar";
-        $help = "";
-        $help .= "<br><small><a href='https://github.com/WWBN/AVideo/wiki/ADs-plugin' target='_blank'>"
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/ADs-plugin' target='_blank'>"
             . "<i class='fas fa-question-circle'></i> Help</a></small>";
 
         return $txt . $help;
@@ -54,7 +53,7 @@ class ADs extends PluginAbstract
 
     public static function getDataObjectAdvanced()
     {
-        $array = array();
+        $array = [];
 
         foreach (ADS::AdsPositions as $value) {
             $array[] = $value[0];
@@ -102,7 +101,6 @@ class ADs extends PluginAbstract
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
         $obj->doNotShowAdsForPaidUsers = true;
         $obj->bannerIntervalInSeconds = 5;
-        //var_dump(self::getDataObjectAdvanced(), $obj);exit;
 
         return $obj;
     }
@@ -236,12 +234,11 @@ class ADs extends PluginAbstract
     {
         global $global;
         if (isBot()) {
-            return array();
+            return [];
         }
         $paths = self::getAdsPath($type, $is_regular_user);
-
         if (empty($paths)) {
-            return array();
+            return [];
         }
 
         $files = _glob($paths['path'], '/.png$/');
@@ -294,9 +291,7 @@ class ADs extends PluginAbstract
         if ($fileName === $path) {
             $fileName = basename($path);
         }
-        $fileName = str_replace('.png', '', $fileName);
-        $fileName = str_replace('\\', '', $fileName);
-        return $fileName;
+        return str_replace(['.png', '\\'], '', $fileName);
     }
 
     public static function getTXT($path)
@@ -304,11 +299,11 @@ class ADs extends PluginAbstract
         $content = file_get_contents($path);
         $json = json_decode($content);
         if (empty($json)) {
-            return array(
+            return [
                 'url' => isValidURL($content) ? $content : '',
                 'title' => '',
                 'order' => 0,
-            );
+            ];
         }
         return object_to_array($json);
     }
@@ -319,11 +314,11 @@ class ADs extends PluginAbstract
             $url = '';
         }
         $title = xss_esc($title);
-        $array = array(
+        $array = [
             'url' => $url,
             'title' => $title,
             'order' => intval($order),
-        );
+        ];
         return file_put_contents($path, json_encode($array));
     }
 
@@ -332,7 +327,7 @@ class ADs extends PluginAbstract
         global $global;
 
         if (isBot()) {
-            return ['adCode' => '', 'label' => '', 'paths' => array()];
+            return ['adCode' => '', 'label' => '', 'paths' => []];
         }
 
         if (empty($videos_id)) {
@@ -355,7 +350,7 @@ class ADs extends PluginAbstract
     {
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
         if (empty($ad->$type)) {
-            return ['adCode' => '', 'label' => '', 'paths' => array()];
+            return ['adCode' => '', 'label' => '', 'paths' => []];
         }
         $label = '';
         eval("\$label = \$ad->{$type}Label;");
@@ -364,7 +359,7 @@ class ADs extends PluginAbstract
         $array = self::getAdsHTML($type, $users_id);
         if (empty($array)) {
             eval("\$adCode = \$ad->{$type}->value;");
-            $array = array('paths' => array());
+            $array = ['paths' => []];
         } else {
             $adCode = $array['html'];
 
@@ -465,7 +460,7 @@ class ADs extends PluginAbstract
 
     public static function getAdsCodeReason($type)
     {
-        $reasons = array();
+        $reasons = [];
 
         // Check if the viewer is a bot
         if (isBot()) {
@@ -612,7 +607,7 @@ class ADs extends PluginAbstract
         $html .= "</div></div>";
 
         self::debug(__LINE__, $html);
-        return array('html' => $html, 'paths' => $paths);
+        return ['html' => $html, 'paths' => $paths];
     }
 
     public function getFooterCode()
