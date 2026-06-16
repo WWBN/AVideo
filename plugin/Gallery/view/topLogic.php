@@ -34,7 +34,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 $orderString = '';
 if ($obj->sortReverseable) {
     $orderString = strpos($_SERVER['REQUEST_URI'], '?') === false ? $_SERVER['REQUEST_URI'] . '/?' : $_SERVER['REQUEST_URI'] . '&';
-    $orderString = preg_replace(['~(&|/)\1+~'], ['\1'], $orderString);
+    $orderString = preg_replace('~(&|/)\1+~', '\1', $orderString);
 }
 $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, false, true);
 $debugLastGetVideoSQL = $lastGetVideoSQL;
