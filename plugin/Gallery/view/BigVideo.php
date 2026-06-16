@@ -16,12 +16,12 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         //$videoRows = Video::getAllVideosLight(Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, false, true);
         //$_REQUEST['rowCount'] = 20;
         //unsetCurrentPage();
-        $videoRows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !$obj->hidePrivateVideos, array(), false, false, true, true);
+        $videoRows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !$obj->hidePrivateVideos, [], false, false, true, true);
     }
     resetCurrentPage();
     if (empty($videoRows)) {
-        $videoRows = array($video);
-    }else{
+        $videoRows = [$video];
+    } else {
         $suggestedOrPinnedFound = true;
     }
     $class = '';
@@ -69,7 +69,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     $videoRow['videoCreation'] = $videoRow['created'];
                     $name = User::getNameIdentificationById($videoRow['users_id']);
                     if (empty($get)) {
-                        $get = array();
+                        $get = [];
                     }
                     $bigVideoAd = getAdsLeaderBoardBigVideo();
                     $colClass1 = "col-sm-5";
@@ -187,7 +187,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                     <?php echo humanTimingOrDate(strtotime($videoRow['videoCreation']), 0, true, true); ?>
                                                 </div>
                                             <?php
-                                            }else{
+                                            } else {
                                                 echo '<!-- empty showCreationTimeOnVideoItem '.basename(__FILE__).' line='.__LINE__.'-->';
                                             }
                                             ?>
@@ -263,8 +263,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         </div>
     </div>
 <?php
-} else if (!empty($_GET['showOnly'])) {
+} elseif (!empty($_GET['showOnly'])) {
 ?>
-    <a href="<?php echo getHomePageURL(); ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>
+    <a href="<?php echo getHomePageURL(); ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __('Go Back'); ?></a>
 <?php
 }
