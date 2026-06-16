@@ -519,7 +519,6 @@ $t['If you are not sure how to configure your email'] = 'אם אינך בטוח 
 $t['If you can, clear the log-files, reproduce the error and send them. This helps to reduce old or repeating information.'] = 'אם באפשרותך, נקה את קבצי יומן הרישום, שחזר את השגיאה ושלח אותם. פעולה זו מסייעת להפחית מידע ישן או חוזר.';
 $t["If you can't view this video, your browser does not support HTML5 videos"] = 'אם אינך יכול לצפות בסרטון זה, הדפדפן שלך אינו תומך בסרטוני HTML5';
 $t['If you change your password the Server URL parameters will be changed too.'] = 'אם תשנה את הסיסמה, הפרמטרים של כתובת האתר של השרת ישתנו גם הם.';
-$t['If you change your password the Server URL parameters will be changedtoo.'] = 'אם תשנה את הסיסמה שלך, הפרמטרים של כתובת הקישור של השרת ישתנו.';
 $t['If you do not have curl, you can alternatively use a recent wget: '] = 'אם אין לך תלתל, אתה יכול לחלופין להשתמש wget האחרונות:';
 $t['If you want to tell us, what is not working for you, this is great and helps us, to make the software more stable.'] = 'אם אתה רוצה לספר לנו, מה לא עובד בשבילך, זה נהדר ועוזר לנו, כדי להפוך את התוכנה ליציבה יותר.';
 $t['Image'] = 'תמונה';

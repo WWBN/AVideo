@@ -1394,7 +1394,6 @@ $t['If the system finds a valid public key we will challenge you to decrypt a me
 $t['If you are not sure how to configure your email'] = 'Если вы не знаете, как настроить электронную почту';
 $t['If you can, clear the log-files, reproduce the error and send them. This helps to reduce old or repeating information.'] = 'Если можете, очистите лог-файлы, воспроизведите ошибку и отправьте их. Это помогает сократить количество старой или повторяющейся информации.';
 $t["If you can't view this video, your browser does not support HTML5 videos"] = "Если вы не можете просмотреть это видео, значит ваш браузер не поддерживает видео в формате HTML5.";
-$t['If you change your password the Server URL parameters will be changedtoo.'] = 'Если вы измените свой пароль, параметры URL-адреса сервера также будут изменены.';
 $t['If you want to tell us, what is not working for you, this is great and helps us, to make the software more stable.'] = 'Если вы хотите рассказать нам, что у вас не работает, это здорово и помогает нам сделать программное обеспечение более стабильным.';
 $t['Image'] = 'Изображение';
 $t['Images'] = 'Изображения';

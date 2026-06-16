@@ -1020,7 +1020,6 @@ $t['IP Address'] = 'Endereço IP';
 $t['IP'] = 'IP';
 $t['If the system finds a valid public key we will challenge you to decrypt a message so that you can log into the system. so make sure you have the private key equivalent to this public key'] = 'Se o sistema encontrar uma chave pública válida, desafiamos você a descriptografar uma mensagem para que você possa entrar no sistema. então certifique-se de ter a chave privada equivalente a esta chave pública';
 $t['If you change your password the Server URL parameters will be changed too.'] = 'Se você mudar sua senha, os parâmetros da URL do Servidor também serão alterados.';
-$t['If you change your password the Server URL parameters will be changedtoo.'] = 'Se você mudar sua senha, os parâmetros da URL do Servidor também serão alterados.';
 $t['Import a MP4 File'] = 'Importar um Arquivo MP4';
 $t['In order to enjoy our login feature, you need to allow our pop-ups inyour browser.'] = 'Para aproveitar nosso recurso de login, você precisa permitir nossos pop-ups no seu navegador.';
 $t['Inactivate'] = 'Inativar';
