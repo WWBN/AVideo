@@ -1113,6 +1113,8 @@ $t['Your user is not verified, we sent you a new e-mail'] = 'år';
 $t['Your user or password is wrong!'] = 'flere år';
 $t['Your video has NOT been deleted!'] = 'kan du finde på menupunktet. Men der er flere indstillinger tilgængelige; gå til';
 $t['Your video has NOT been saved!'] = 'youtube-dl bruger Python, og nogle servere fulgte ikke med python som standard for at installere Python-typen:';
+$t['newest'] = 'nyeste';
+$t['oldest'] = 'ældste';
 
 
 // Previously missing from file.
@@ -1255,7 +1257,6 @@ $t['ID'] = 'ID';
 $t['IP Address'] = 'IP Address';
 $t['IP'] = 'IP';
 $t['If the system finds a valid public key we will challenge you to decrypt a message so that you can log into the system. so make sure you have the private key equivalent to this public key'] = 'If the system finds a valid public key we will challenge you to decrypt a message so that you can log into the system. so make sure you have the private key equivalent to this public key';
-$t['If you change your password the Server URL parameters will be changedtoo.'] = 'If you change your password the Server URL parameters will be changedtoo.';
 $t['Import a MP4 File'] = 'Import a MP4 File';
 $t['In order to enjoy our login feature, you need to allow our pop-ups inyour browser.'] = 'In order to enjoy our login feature, you need to allow our pop-ups inyour browser.';
 $t['Inactivate'] = 'Inactivate';
@@ -1604,8 +1605,6 @@ $t['minutes'] = 'minutes';
 $t['month'] = 'month';
 $t['months'] = 'months';
 $t['mvideos'] = 'mvideos';
-$t['newest'] = 'newest';
-$t['oldest'] = 'oldest';
 $t['or user group selected below'] = 'or user group selected below';
 $t['orphanFiles'] = 'orphanFiles';
 $t['pause'] = 'pause';
