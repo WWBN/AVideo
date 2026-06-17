@@ -1518,7 +1518,9 @@ if (typeof gtag !== \"function\") {
             // first check if the LoginControl::singleDeviceLogin is enabled, if it is only recreate login if the device is the last device
             if (class_exists('AVideoPlugin') && $obj = AVideoPlugin::getDataObjectIfEnabled("LoginControl")) {
                 if (!empty($obj->singleDeviceLogin)) {
-                    if (!LoginControl::isLoggedFromSameDevice()) {
+                    if (isAVideoEncoder()) {
+                        _error_log('[SESSION_DEBUG] recreateLoginFromCookie: skip singleDeviceLogin check for encoder request script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' ip=' . getRealIpAddr());
+                    } elseif (!LoginControl::isLoggedFromSameDevice()) {
                         self::logoff();
                         return false;
                     }
