@@ -3311,12 +3311,36 @@ if (typeof gtag !== \"function\") {
 
     public static function loginFromRequest()
     {
+        global $global;
         inputToRequest();
+        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+        $isEncoderRequest = stripos($scriptName, 'aVideoEncoder') !== false;
+        if ($isEncoderRequest) {
+            $rawPass = $_REQUEST['pass'] ?? ($_REQUEST['password'] ?? '');
+            $startsWithUserHash = is_string($rawPass) && strpos($rawPass, '_user_hash_') === 0;
+            _error_log('loginFromRequest: encoder auth precheck script=' . $scriptName
+                . ' hasUser=' . (int)!empty($_REQUEST['user'])
+                . ' hasPass=' . (int)!empty($rawPass)
+                . ' passLen=' . strlen((string) $rawPass)
+                . ' passStartsWithUserHash=' . (int)$startsWithUserHash
+                . ' encodedPass=' . (int)!empty($_REQUEST['encodedPass'])
+                . ' do_not_login=' . (int)!empty($_REQUEST['do_not_login'])
+                . ' isLogged=' . (int)User::isLogged()
+                . ' userId=' . (int)User::getId());
+        }
         if (!empty($_REQUEST['do_not_login'])) {
+            if ($isEncoderRequest) {
+                _error_log('loginFromRequest: encoder auth skipped because do_not_login=1 script=' . $scriptName
+                    . ' user=' . ($_REQUEST['user'] ?? 'empty')
+                    . ' encodedPass=' . (int)!empty($_REQUEST['encodedPass']));
+            }
             return false;
         }
         if (empty($_REQUEST['pass']) && !empty($_REQUEST['password'])) {
             $_REQUEST['pass'] = $_REQUEST['password'];
+            if ($isEncoderRequest) {
+                _error_log('loginFromRequest: encoder auth mapped password->pass script=' . $scriptName . ' user=' . ($_REQUEST['user'] ?? 'empty'));
+            }
         }
 
         $response = false;
@@ -3329,14 +3353,27 @@ if (typeof gtag !== \"function\") {
             if (!empty($_SESSION['user']['id'])) {
                 $global['bypassSameDomainCheck'] = 1;
                 $_REQUEST['do_not_login'] = 1;
+                if ($isEncoderRequest) {
+                    _error_log('loginFromRequest: encoder auth skipped because session already authenticated sessionUserId=' . (int)$_SESSION['user']['id'] . ' requestUser=' . ($_REQUEST['user'] ?? 'empty'));
+                }
                 return self::USER_LOGGED;
             }
             unset($_SESSION['user']);
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
             $response = $user->login(false, !empty($_REQUEST['encodedPass']));
+            if ($isEncoderRequest) {
+                _error_log('loginFromRequest: encoder first attempt result=' . json_encode($response)
+                    . ' encodedPassFlag=' . (int)!empty($_REQUEST['encodedPass'])
+                    . ' user=' . ($_REQUEST['user'] ?? 'empty'));
+            }
             if ($response !== self::USER_LOGGED) {
                 //_error_log("loginFromRequest trying again");
                 $response = $user->login(false, empty($_REQUEST['encodedPass']));
+                if ($isEncoderRequest) {
+                    _error_log('loginFromRequest: encoder fallback attempt result=' . json_encode($response)
+                        . ' fallbackEncodedPassFlag=' . (int)empty($_REQUEST['encodedPass'])
+                        . ' user=' . ($_REQUEST['user'] ?? 'empty'));
+                }
             }
             if ($response) {
                 switch ($response) {
@@ -3367,6 +3404,13 @@ if (typeof gtag !== \"function\") {
                 //_error_log("loginFromRequest ERROR {$_REQUEST['user']}");
             }
             $_REQUEST['do_not_login'] = 1;
+            if ($isEncoderRequest) {
+                _error_log('loginFromRequest: encoder final result=' . json_encode($response)
+                    . ' do_not_login now=' . (int)!empty($_REQUEST['do_not_login'])
+                    . ' userIdAfterLogin=' . (int)User::getId());
+            }
+        } elseif ($isEncoderRequest) {
+            _error_log('loginFromRequest: encoder auth not attempted due missing credentials hasUser=' . (int)!empty($_REQUEST['user']) . ' hasPass=' . (int)!empty($_REQUEST['pass']));
         }
         return $response;
     }

@@ -91,6 +91,32 @@ function dieJsonResponse($obj, $context = '')
     exit;
 }
 
+function getEncoderAuthDebugSummary()
+{
+    $rawPass = $_REQUEST['pass'] ?? ($_REQUEST['password'] ?? '');
+    $passString = (string) $rawPass;
+    $summary = [
+        'script' => $_SERVER['SCRIPT_NAME'] ?? '',
+        'ip' => getRealIpAddr(),
+        'method' => $_SERVER['REQUEST_METHOD'] ?? '',
+        'hasUser' => !empty($_REQUEST['user']),
+        'user' => $_REQUEST['user'] ?? '',
+        'hasPass' => !empty($passString),
+        'passLen' => strlen($passString),
+        'passStartsWithUserHash' => (strpos($passString, '_user_hash_') === 0),
+        'hasPasswordField' => !empty($_REQUEST['password']),
+        'encodedPass' => !empty($_REQUEST['encodedPass']) ? 1 : 0,
+        'do_not_login' => !empty($_REQUEST['do_not_login']) ? 1 : 0,
+        'hasVideoHash' => !empty($_REQUEST['video_id_hash']),
+        'videos_id' => intval(@$_REQUEST['videos_id']),
+        'streamers_id' => intval(@$_REQUEST['streamers_id']),
+        'isLogged' => User::isLogged() ? 1 : 0,
+        'userId' => intval(User::getId()),
+    ];
+
+    return json_encode($summary);
+}
+
 $global['bypassSameDomainCheck'] = 1;
 if (empty($_REQUEST)) {
     $obj->msg = ("Your POST data is empty, maybe your video file is too big for the host");
@@ -119,10 +145,13 @@ if (!preg_match('/^[a-zA-Z0-9_-]+$/', $_REQUEST['format'])) {
 if (!isset($_REQUEST['encodedPass'])) {
     $_REQUEST['encodedPass'] = 1;
 }
+_error_log("aVideoEncoder.json: auth summary before useVideoHashOrLogin " . getEncoderAuthDebugSummary());
 useVideoHashOrLogin();
 _error_log("aVideoEncoder.json: after useVideoHashOrLogin - User::getId()=" . User::getId() . " isLogged=" . (User::isLogged() ? 'true' : 'false') . " videos_id=" . @$_REQUEST['videos_id'] . " video_id_hash=" . @$_REQUEST['video_id_hash']);
+_error_log("aVideoEncoder.json: auth summary after useVideoHashOrLogin " . getEncoderAuthDebugSummary());
 if (!User::canUpload()) {
     $obj->msg = __("Permission denied to receive a file") . ': ' . json_encode($_REQUEST);
+    _error_log("aVideoEncoder.json: upload denied auth summary " . getEncoderAuthDebugSummary());
     _error_log("aVideoEncoder.json: {$obj->msg}  canNotUploadReason=" . json_encode(User::canNotUploadReason()));
     _error_log($obj->msg);
     dieJsonResponse($obj, 'permission-denied-upload');
