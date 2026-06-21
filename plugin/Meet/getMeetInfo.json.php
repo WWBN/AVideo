@@ -68,7 +68,7 @@ if ($_REQUEST['meet_scheduled'] !== "past") {
                     $list = Meet_join_log::getAllFromSchedule($obj->meet_schedule_id);
                     foreach ($list as $value) {
                         $count++;
-                        echo '<li class="list-group-item">#' . $count . " - " . User::getNameIdentificationById($value['users_id']) . ' <span class="badge">' . $value['created'] . '</span><br><small class="text-muted">' . $value['user_agent'] . '</small></li>';
+                        echo '<li class="list-group-item">#' . $count . " - " . User::getNameIdentificationById($value['users_id']) . ' <span class="badge">' . $value['created'] . '</span><br><small class="text-muted">' . htmlspecialchars($value['user_agent'], ENT_QUOTES, 'UTF-8') . '</small></li>';
                     }
                     if (empty($count)) {
                         echo '<li class="list-group-item">There are no participants on this Meet</li>';
