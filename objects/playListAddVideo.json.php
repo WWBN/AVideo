@@ -11,9 +11,11 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->status = 0;
 
+$isAddRequest = !_empty($_REQUEST['add']);
+enforceRateLimit($isAddRequest ? 'playlist_add_video' : 'playlist_remove_video', 180, 60);
+
 if (!User::isLogged()) {
-    $obj->msg = __("Permission denied");
-    die(json_encode($obj));
+    forbiddenPage('Permission denied', true);
 }
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
@@ -34,13 +36,32 @@ if (empty($playList) || empty($_REQUEST['videos_id'])) {
 }
 
 if(!PlayLists::canManageAllPlaylists() && User::getId() !== $playList->getUsers_id() ){
-    $obj->msg = __("This is not your playlist");
+    forbiddenPage('This is not your playlist', true);
+}
+
+$usersId = User::getId();
+$videosId = intval($_REQUEST['videos_id']);
+$playlistsId = intval($_REQUEST['playlists_id']);
+$duplicateActionCacheKey = 'playlist/mutation/' . $usersId . '/' . $playlistsId . '/' . $videosId . '/' . intval($isAddRequest);
+if (!empty(ObjectYPT::getCacheGlobal($duplicateActionCacheKey, 4, true))) {
+    _error_log("playlist mutation duplicate suppressed users_id={$usersId} playlists_id={$playlistsId} videos_id={$videosId} add=" . intval($isAddRequest) . " ip=" . getRealIpAddr(), AVideoLog::$SECURITY);
+    $obj->error = false;
+    $obj->status = true;
+    $obj->msg = __('Duplicate playlist request ignored');
+    $obj->add = $isAddRequest;
+    $obj->videos_id = $videosId;
+    $obj->users_id = $playList->getUsers_id();
+    $obj->id = $playList->getId();
+    $obj->type = $playList->getStatus();
     die(json_encode($obj));
 }
 
-$obj->add = !_empty($_REQUEST['add']);
-$obj->videos_id = intval($_REQUEST['videos_id']);
+$obj->add = $isAddRequest;
+$obj->videos_id = $videosId;
 $obj->status = $playList->addVideo($obj->videos_id, $obj->add);
+if (!empty($obj->status)) {
+    ObjectYPT::setCacheGlobal($duplicateActionCacheKey, 1);
+}
 $obj->users_id = $playList->getUsers_id();
 $obj->id = $playList->getId();
 $obj->error = empty($obj->status);

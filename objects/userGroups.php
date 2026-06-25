@@ -79,6 +79,7 @@ class UserGroups{
             $values = [$this->group_name, $allowed_resolutions_json];
         }
         if (sqlDAL::writeSql($sql, $formats, $values)) {
+            ObjectYPT::deleteCache('UserGroups::getAllUsersGroupsArray', false);
             /**
              *
              * @var array $global
@@ -107,7 +108,11 @@ class UserGroups{
         } else {
             return false;
         }
-        return sqlDAL::writeSql($sql, "i", [$this->id]);
+        $deleted = sqlDAL::writeSql($sql, "i", [$this->id]);
+        if (!empty($deleted)) {
+            ObjectYPT::deleteCache('UserGroups::getAllUsersGroupsArray', false);
+        }
+        return $deleted;
     }
 
     private function getUserGroup($id)
@@ -155,6 +160,15 @@ class UserGroups{
     public static function getAllUsersGroupsArray()
     {
         global $global;
+        $cacheName = 'UserGroups::getAllUsersGroupsArray';
+        $cached = ObjectYPT::getCache($cacheName, 60, true, false);
+        if (is_object($cached)) {
+            $cached = (array) $cached;
+        }
+        if (is_array($cached)) {
+            return $cached;
+        }
+
         $sql = "SELECT * FROM users_groups as ug WHERE 1=1 ";
 
         $res = sqlDAL::readSql($sql);
@@ -170,6 +184,8 @@ class UserGroups{
             $arr = array();
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+
+        ObjectYPT::setCache($cacheName, $arr, false);
         return $arr;
     }
 

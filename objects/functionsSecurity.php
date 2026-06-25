@@ -803,12 +803,16 @@ function getBearerToken()
  */
 function enforceRateLimit(string $operation = '', int $maxAttempts = 20, int $timeWindow = 300): void
 {
+    if (isCommandLineInterface()) {
+        return;
+    }
     if ($operation === '') {
         $operation = basename($_SERVER['SCRIPT_FILENAME'] ?? 'unknown');
     }
     $key      = 'ratelimit_' . $operation . '_' . getRealIpAddr();
     $attempts = intval(ObjectYPT::getCacheGlobal($key, $timeWindow));
     if ($attempts >= $maxAttempts) {
+        _error_log("enforceRateLimit blocked operation={$operation} ip=" . getRealIpAddr() . " attempts={$attempts} window={$timeWindow}", AVideoLog::$SECURITY);
         http_response_code(429);
         header('Content-Type: application/json');
         $obj        = new stdClass();

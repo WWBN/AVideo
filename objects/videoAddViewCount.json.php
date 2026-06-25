@@ -4,6 +4,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+enforceRateLimit('video_add_view_count', 240, 60);
 ini_set('max_execution_time', 5);
 //_error_log('Add view '. json_encode($_REQUEST));
 
@@ -16,7 +17,8 @@ if (isBot()) {
     $obj2->msg = 'Bot Not Allowed';
     die(json_encode($obj2));
 }
-if (empty($_REQUEST['id'])) {
+$videos_id = intval(@$_REQUEST['id']);
+if (empty($videos_id)) {
     $obj2->msg = 'Permission denied';
     die(json_encode($obj2));
 }
@@ -30,7 +32,7 @@ if (empty($_COOKIE) && isIframe() && isIframeInDifferentDomain()) {
     die(json_encode($obj2));
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
-$obj = new Video("", "", $_REQUEST['id'], true);
+$obj = new Video("", "", $videos_id, true);
 if (empty($obj)) {
     $obj2->msg = 'Object not found';
     die(json_encode($obj2));
@@ -40,17 +42,32 @@ if (empty($_SESSION['addViewCount'])) {
     $_SESSION['addViewCount'] = [];
 }
 
+$currentTimeRequest = intval(@$_REQUEST['currentTime']);
+if ($currentTimeRequest < 0) {
+    $currentTimeRequest = 0;
+}
+
+$usersId = User::getId();
+$ipHash = md5(getRealIpAddr());
+$timeBucket = intval(floor($currentTimeRequest / 10));
+$duplicateCacheKey = "videoAddViewCount/{$videos_id}/u{$usersId}/ip{$ipHash}/b{$timeBucket}";
+
+$isDuplicateViewEvent = !empty(ObjectYPT::getCacheGlobal($duplicateCacheKey, 8, true));
+if (!$isDuplicateViewEvent) {
+    ObjectYPT::setCacheGlobal($duplicateCacheKey, 1);
+}
+
 $seconds = parseDurationToSeconds($obj->getDuration());
 
 if (!empty($seconds) && isset($_REQUEST['currentTime'])) {
-    $percent = (intval($_REQUEST['currentTime']) / $seconds) * 100;
+    $percent = ($currentTimeRequest / $seconds) * 100;
     $percentOptions = [25, 50, 75, 100];
     foreach ($percentOptions as $value) {
         if ($percent >= $value) {
-            if (empty($_SESSION['addViewCount'][$_REQUEST['id']][$value]) && !empty($_REQUEST['currentTime'])) {
+            if (empty($_SESSION['addViewCount'][$videos_id][$value]) && !empty($_REQUEST['currentTime'])) {
                 if ($obj->addViewPercent($value)) {
                     _session_start();
-                    $_SESSION['addViewCount'][$_REQUEST['id']][$value] = 1;
+                    $_SESSION['addViewCount'][$videos_id][$value] = 1;
                 }
             }
         }
@@ -65,35 +82,37 @@ if ($seconds_watching_video < 0) {
 
 // Comparison and update
 $current_time = time();
-if (isset($_SESSION['addViewCount'][$_REQUEST['id']]['last_update_time'])) {
-    $elapsed_time = $current_time - $_SESSION['addViewCount'][$_REQUEST['id']]['last_update_time'];
+if (isset($_SESSION['addViewCount'][$videos_id]['last_update_time'])) {
+    $elapsed_time = $current_time - $_SESSION['addViewCount'][$videos_id]['last_update_time'];
     if ($seconds_watching_video > $elapsed_time) {
         $seconds_watching_video = $elapsed_time;
     }
 }
 
-$_SESSION['addViewCount'][$_REQUEST['id']]['last_update_time'] = $current_time;
+$_SESSION['addViewCount'][$videos_id]['last_update_time'] = $current_time;
 
 $obj2->seconds_watching_video = $seconds_watching_video;
 
-if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
-    //_error_log("videos_statistics addView {$_REQUEST['id']} {$_SERVER['HTTP_USER_AGENT']} ".json_encode($_SESSION['addViewCount']));
-    $resp = $obj->addView();
-    if(empty($resp)){
-        $obj2->msg = $_addViewFailReason;
+if (empty($_SESSION['addViewCount'][$videos_id]['time'])) {
+    //_error_log("videos_statistics addView {$videos_id} {$_SERVER['HTTP_USER_AGENT']} ".json_encode($_SESSION['addViewCount']));
+    if ($isDuplicateViewEvent) {
+        $resp = 0;
+        $obj2->msg = 'Duplicate view count ignored';
+    } else {
+        $resp = $obj->addView();
+        if(empty($resp)){
+            $obj2->msg = $_addViewFailReason;
+        }
+        _session_start();
+        $_SESSION['addViewCount'][$videos_id]['time'] = strtotime("+{$seconds} seconds");
     }
-    _session_start();
-    $_SESSION['addViewCount'][$_REQUEST['id']]['time'] = strtotime("+{$seconds} seconds");
 } else {
     $obj2->msg = 'View not added, the user already have a view in this session';
-    //_error_log("videos_statistics addView OK {$_REQUEST['id']} ".json_encode($_SESSION['addViewCount']));
+    //_error_log("videos_statistics addView OK {$videos_id} ".json_encode($_SESSION['addViewCount']));
 }
 
 if (isset($_REQUEST['currentTime'])) {
-    $obj2->currentTime = intval($_REQUEST['currentTime']);
-    if ($obj2->currentTime < 0) {
-        $obj2->currentTime = 0;
-    }
+    $obj2->currentTime = $currentTimeRequest;
     $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), $obj2->currentTime, $obj2->seconds_watching_video);
     $obj2->updateStatistic = $_updateStatisticFailMessage;
 } else {

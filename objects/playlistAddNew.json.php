@@ -7,13 +7,15 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 
+enforceRateLimit('playlist_add_new', 50, 60);
+
 $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
 
 if (empty($plugin)) {
     die('{"error":"Plugin not enabled"}');
 }
 if (!User::isLogged()) {
-    die('{"error":"'.__("Permission denied").'"}');
+    forbiddenPage('Permission denied', true);
 }
 if (empty($_POST['name'])) {
     die('{"error":"'.__("Name can't be blank").'"}');

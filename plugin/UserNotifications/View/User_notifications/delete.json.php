@@ -32,6 +32,9 @@ if(!empty($obj->id)){
     $obj->error = !User_notifications::deleteForUsers_id($obj->users_id);
 }
 
+if (empty($obj->error)) {
+    ObjectYPT::deleteSessionCache('UserNotifications/getNotifications/' . $obj->users_id);
+}
 
 die(json_encode($obj));
 ?>

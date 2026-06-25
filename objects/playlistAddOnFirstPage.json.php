@@ -6,11 +6,12 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+enforceRateLimit('playlist_show_on_first_page', 30, 60);
 if (!PlayLists::canManageAllPlaylists()) {
-    forbiddenPage('Permission denied');
+    forbiddenPage('Permission denied', true);
 }
 if (empty($_REQUEST['playlist_id'])) {
-    forbiddenPage('playlist_id is empty');
+    forbiddenPage('playlist_id is empty', true);
 }
 
 $obj = new stdClass();

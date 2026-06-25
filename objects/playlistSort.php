@@ -6,12 +6,13 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+enforceRateLimit('playlist_sort', 40, 60);
 if (!User::isLogged()) {
-    die('{"error":"'.__("Permission denied").'"}');
+    forbiddenPage('Permission denied', true);
 }
 
 if (!PlayLists::canManagePlaylist($_REQUEST['playlist_id'])) {
-    die('{"error":"'.__("Permission denied").'"}');
+    forbiddenPage('Permission denied', true);
 }
 
 $obj = new PlayList($_REQUEST['playlist_id']);
@@ -51,6 +52,7 @@ if (empty($_POST['list'])) {
 $o = new stdClass();
 $o->savedPLItem = array();
 $o->playlist_id = $_REQUEST['playlist_id'];
+$result = false;
 
 _error_log('playlistSort line='.__LINE__);
 mysqlBeginTransaction();

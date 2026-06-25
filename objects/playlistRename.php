@@ -10,6 +10,8 @@ $obj->error = true;
 $obj->msg = '';
 $obj->name = '';
 
+enforceRateLimit('playlist_rename', 40, 60);
+
 if (empty($_REQUEST['playlist_id'])) {
     $obj->msg = "playlist_id cannot be empty";
     die(json_encode($obj));
@@ -24,13 +26,11 @@ $obj->name = $_REQUEST['name'];
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 if (!User::isLogged()) {
-    $obj->msg = __("Permission denied");
-    die(json_encode($obj));
+    forbiddenPage('Permission denied', true);
 }
 $playList = new PlayList($_REQUEST['playlist_id']);
 if (!PlayLists::canManagePlaylist($_REQUEST['playlist_id'])) {
-    $obj->msg = __("Permission denied");
-    die(json_encode($obj));
+    forbiddenPage('Permission denied', true);
 }
 
 $playList->setName($obj->name);

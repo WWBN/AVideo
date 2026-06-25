@@ -361,6 +361,13 @@ class Plugin extends ObjectYPT
     {
         global $global, $getAllEnabledRows;
         if (empty($getAllEnabledRows)) {
+            $cacheName = 'plugin::getAllEnabled';
+            $cachedRows = ObjectYPT::getCache($cacheName, 30, true, false);
+            if (is_array($cachedRows) && !empty($cachedRows)) {
+                $getAllEnabledRows = $cachedRows;
+                return $getAllEnabledRows;
+            }
+
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
 
             $defaultEnabledUUIDs = AVideoPlugin::getPluginsOnByDefault(true);
@@ -396,6 +403,8 @@ class Plugin extends ObjectYPT
             }
 
             uasort($getAllEnabledRows, 'cmpPlugin');
+            $getAllEnabledRows = array_values($getAllEnabledRows);
+            ObjectYPT::setCache($cacheName, $getAllEnabledRows, false);
         }
         return $getAllEnabledRows;
     }
@@ -519,7 +528,7 @@ class Plugin extends ObjectYPT
     {
         $name = "plugin{$uuid}";
         ObjectYPT::deleteCache($name);
-        ObjectYPT::deleteCache("plugin::getAllEnabled");
+        ObjectYPT::deleteCache("plugin::getAllEnabled", false);
     }
 
     public static function encryptIfNeed($object_data)
