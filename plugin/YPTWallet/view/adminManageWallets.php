@@ -16,7 +16,12 @@ $_page = new Page(array('Support Author'));
 <div class="container">
 
     <div class="panel panel-default">
-        <div class="panel-heading">Total Site Balance: <b><?php echo YPTWallet::getTotalBalanceText(); ?></b></div>
+        <div class="panel-heading">
+            Total Site Balance: <b><?php echo YPTWallet::getTotalBalanceText(); ?></b>
+            <a href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/export.php" target="_blank" class="btn btn-default btn-xs pull-right">
+                <i class="fas fa-file-export"></i> <?php echo __('Exports'); ?>
+            </a>
+        </div>
         <div class="panel-body">
 
             <table id="grid" class="table table-condensed table-hover table-striped">
