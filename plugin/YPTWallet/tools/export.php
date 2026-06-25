@@ -102,21 +102,27 @@ if ($format === 'csv') {
         WalletExport::outputBalancesCSV($file, $rows);
     }
 
+    $itemsCount = is_array($rows) ? count($rows) : 0;
+
     fclose($file);
     echo "CSV generated: {$output}\n";
+    echo "Items exported: {$itemsCount}\n";
     exit(0);
 }
 
 if ($report === 'transactions') {
     $rows = WalletExport::getWalletTransactionsRows($startDate, $endDate);
     $reportText = WalletExport::buildWalletTransactionsText($rows, $startDate, $endDate);
+    $itemsCount = is_array($rows) ? count($rows) : 0;
 } elseif ($report === 'balances') {
     $rows = WalletExport::getWalletBalancesRows();
     $reportText = WalletExport::buildWalletBalancesText($rows);
+    $itemsCount = is_array($rows) ? count($rows) : 0;
 } else {
     $transactionsRows = WalletExport::getWalletTransactionsRows($startDate, $endDate);
     $balancesRows = WalletExport::getWalletBalancesRows();
     $reportText = WalletExport::buildCombinedText($transactionsRows, $balancesRows, $startDate, $endDate);
+    $itemsCount = (is_array($transactionsRows) ? count($transactionsRows) : 0) + (is_array($balancesRows) ? count($balancesRows) : 0);
 }
 
 $pdf = WalletExport::buildSimplePDF($reportText);
@@ -125,6 +131,7 @@ if (file_put_contents($output, $pdf) === false) {
 }
 
 echo "PDF generated: {$output}\n";
+echo "Items exported: {$itemsCount}\n";
 exit(0);
 
 function askText($question, $default = '')
