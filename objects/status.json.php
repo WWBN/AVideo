@@ -3,7 +3,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-allowOrigin();
+allowOrigin(true);
 AVideoPlugin::loadPlugin('MobileManager');
 header('Content-Type: application/json');
 $obj = new stdClass();
