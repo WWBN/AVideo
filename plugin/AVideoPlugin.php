@@ -788,6 +788,7 @@ class AVideoPlugin
     public static function getStart()
     {
         $plugins = Plugin::getAllEnabled();
+        $plugins = object_to_array($plugins);
         foreach ($plugins as $value) {
             //self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
