@@ -364,8 +364,18 @@ class Plugin extends ObjectYPT
             $cacheName = 'plugin::getAllEnabled';
             $cachedRows = ObjectYPT::getCache($cacheName, 30, true, false);
             if (is_array($cachedRows) && !empty($cachedRows)) {
-                $getAllEnabledRows = $cachedRows;
-                return $getAllEnabledRows;
+                $getAllEnabledRows = [];
+                foreach ($cachedRows as $row) {
+                    if (is_object($row)) {
+                        $row = (array) $row;
+                    }
+                    if (is_array($row)) {
+                        $getAllEnabledRows[] = $row;
+                    }
+                }
+                if (!empty($getAllEnabledRows)) {
+                    return $getAllEnabledRows;
+                }
             }
 
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
@@ -404,6 +414,9 @@ class Plugin extends ObjectYPT
 
             uasort($getAllEnabledRows, 'cmpPlugin');
             $getAllEnabledRows = array_values($getAllEnabledRows);
+            $getAllEnabledRows = array_map(function ($row) {
+                return is_object($row) ? (array) $row : $row;
+            }, $getAllEnabledRows);
             ObjectYPT::setCache($cacheName, $getAllEnabledRows, false);
         }
         return $getAllEnabledRows;
