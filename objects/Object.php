@@ -964,9 +964,30 @@ abstract class ObjectYPT implements ObjectInterface
     public static function getCacheFileName($name, $createDir = true, $addSubDirs = true, $ignoreMetadata = false)
     {
         global $global;
+        $start = microtime(true);
+        $debugCacheFileName = (!empty($_SERVER['SCRIPT_NAME']) && (
+            strpos($_SERVER['SCRIPT_NAME'], 'modeYoutube.php') !== false ||
+            strpos($_SERVER['SCRIPT_NAME'], 'videoEmbed') !== false ||
+            strpos($_SERVER['SCRIPT_NAME'], 'managerPlugins.php') !== false
+        ));
+        if ($debugCacheFileName) {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+            $caller = '';
+            if (!empty($trace[1]['file'])) {
+                $caller = $trace[1]['file'] . ':' . intval($trace[1]['line']);
+            } elseif (!empty($trace[0]['file'])) {
+                $caller = $trace[0]['file'] . ':' . intval($trace[0]['line']);
+            }
+            _error_log('getCacheFileName start nameLen=' . strlen($name) . ' addSubDirs=' . intval($addSubDirs) . ' ignoreMetadata=' . intval($ignoreMetadata) . ' caller=' . $caller . ' script=' . @$_SERVER['SCRIPT_NAME'], AVideoLog::$DEBUG);
+        }
         $tmpDir = self::getCacheDir($name, $createDir, $addSubDirs, $ignoreMetadata);
         $uniqueHash = sha1($name . $global['salt']); // add salt for security reasons
-        return $tmpDir . $uniqueHash . '_' . getDeviceName('web') . '.cache';
+        $fileName = $tmpDir . $uniqueHash . '_' . getDeviceName('web') . '.cache';
+        if ($debugCacheFileName) {
+            $elapsed = microtime(true) - $start;
+            _error_log('getCacheFileName end elapsed=' . number_format($elapsed, 4) . ' file=' . $fileName, AVideoLog::$DEBUG);
+        }
+        return $fileName;
     }
 
     public static function deleteCacheFromPattern($name)
