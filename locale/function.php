@@ -148,6 +148,25 @@ function flag2Lang($flagCode) {
     return $flagCode;
 }
 
+function getUserLocationLanguageSettings()
+{
+    if (!class_exists('sqlDAL')) {
+        return false;
+    }
+    $sql = "SELECT object_data, status FROM plugins WHERE name = ? LIMIT 1";
+    $res = sqlDAL::readSql($sql, 's', ['User_Location']);
+    $row = sqlDAL::fetchAssoc($res);
+    sqlDAL::close($res);
+    if (empty($row) || empty($row['object_data']) || $row['status'] !== 'active') {
+        return false;
+    }
+    $data = _json_decode(stripslashes($row['object_data']));
+    if (empty($data)) {
+        $data = _json_decode($row['object_data']);
+    }
+    return $data;
+}
+
 function setSiteLang() {
     global $config, $global;
     if (empty($global['systemRootPath'])) {
@@ -160,22 +179,24 @@ function setSiteLang() {
         }
 
     } else {
-
-        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-        $userLocation = false;
-
-        $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
-
-        $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);
-
+        $userLocation = getUserLocationLanguageSettings();
         if (!empty($_GET['lang'])) {
 
             _session_start();
 
             setLanguage($_GET['lang']);
-        } else if ($userLocation) {
+        } else if (!empty($userLocation) && !empty($userLocation->autoChangeLanguage)) {
+            $lang = '';
+            if (!empty($userLocation->useLanguageFrom->value) && $userLocation->useLanguageFrom->value == 'browser') {
+                if (function_exists('getLanguageFromBrowser')) {
+                    $lang = getLanguageFromBrowser();
+                }
+            }
 
-            User_Location::changeLang();
+            if (!empty($lang)) {
+                _session_start();
+                setLanguage($lang);
+            }
         }
 
         try {
