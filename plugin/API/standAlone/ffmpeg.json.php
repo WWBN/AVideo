@@ -408,7 +408,10 @@ if (!empty($output['avideoPath'])) {
         unlink($output['avideoPath']);
     }
     $outputJson = escapeshellarg(json_encode($output));
-    $ffmpegCommand .= " && php " . escapeshellarg(__DIR__ . "/ffmpeg.json.php") . " notify={$outputJson} notifyCode={$codeToExec->notifyCode} callback={$codeToExec->callback}";
+    $ffmpegCommand .= " && php " . escapeshellarg(__DIR__ . "/ffmpeg.json.php")
+        . " notify=" . $outputJson
+        . " notifyCode=" . escapeshellarg((string)$codeToExec->notifyCode)
+        . " callback=" . escapeshellarg((string)$codeToExec->callback);
 }
 $ffmpegCommand .= " 2>&1";
 file_put_contents($logFile, $ffmpegCommand . PHP_EOL . PHP_EOL);
