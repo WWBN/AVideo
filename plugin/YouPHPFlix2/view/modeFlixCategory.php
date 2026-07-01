@@ -18,6 +18,10 @@ $uid = '{serie_uid}';
 
 $cacheName = "modeFlixCategory" . md5(json_encode($_GET)) . User::getId();
 $cacheName .= isForKidsSet()?'forKids':'';
+$language = getCurrentLanguageCode();
+if (!empty($language)) {
+    $cacheName .= '_lang_' . $language;
+}
 
 $cacheLifetime = User::isLogged() ? 600 : 1800;
 

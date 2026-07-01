@@ -876,6 +876,27 @@ function cacheExpirationTime()
     return intval($cacheExpirationTime);
 }
 
+function getCurrentLanguageCode($sanitize = true)
+{
+    $language = '';
+    if (function_exists('getLanguage')) {
+        $language = getLanguage();
+    }
+    if (empty($language) && !empty($_SESSION['language'])) {
+        $language = $_SESSION['language'];
+    }
+    if (empty($language) && !empty($_GET['lang'])) {
+        $language = $_GET['lang'];
+    }
+    if (!empty($language)) {
+        $language = strtolower($language);
+        if (!empty($sanitize)) {
+            $language = preg_replace('/[^a-z0-9_\-]/i', '', $language);
+        }
+    }
+    return $language;
+}
+
 function getVideosURLPDF($fileName)
 {
     global $global;
@@ -1962,6 +1983,12 @@ function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout =
 {
     $url = removeQueryStringParameter($url, 'pass');
     $cacheName = str_replace('/', '-', $url);
+    if ((isSameDomainAsMyAVideo($url) || !empty($mantainSession))) {
+        $language = getCurrentLanguageCode();
+        if (!empty($language)) {
+            $cacheName .= '_lang_' . $language;
+        }
+    }
     $cache = ObjectYPT::getCacheGlobal($cacheName, $lifeTime); // 24 hours
     if (!empty($cache)) {
         //_error_log('url_get_contents_with_cache cache');
@@ -8490,6 +8517,10 @@ function mkSubCategory($catId)
     unset($_REQUEST['parentsOnly']);
 
     $cacheName = "mkSubCategory_{$catId}";
+    $language = getCurrentLanguageCode();
+    if (!empty($language)) {
+        $cacheName .= "_lang_{$language}";
+    }
     $cache = ObjectYPT::getCache($cacheName, rand(300, 600));
     if (!empty($cache)) {
         return $cache;

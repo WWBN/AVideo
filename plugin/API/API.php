@@ -5358,12 +5358,19 @@ class API extends PluginAbstract
     {
         global $global, $config;
         $name = "get_api_roku" . json_encode($parameters);
+        $language = getCurrentLanguageCode();
+        if (!empty($language)) {
+            $name .= "_lang_{$language}";
+        }
         $roku = ObjectYPT::getCacheGlobal($name, 3600);
         if (empty($roku)) {
             if (AVideoPlugin::isEnabledByName("YouPHPFlix2")) {
                 $url = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=YouPHPFlix2&APIName=firstPage";
             } else {
                 $url = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=Gallery&APIName=firstPage";
+            }
+            if (!empty($language)) {
+                $url = addQueryStringParameter($url, 'lang', $language);
             }
             $content = url_get_contents_with_cache($url);
             //$content = url_get_contents($url);
@@ -6123,6 +6130,10 @@ class SectionFirstPage
             $endpointURL = addQueryStringParameter($endpointURL, 'webSiteRootURL', $global['webSiteRootURL']);
 
             //$endpointURL = addQueryStringParameter($endpointURL, 'PHPSESSID', session_id());
+        }
+        $language = getCurrentLanguageCode();
+        if (!empty($language)) {
+            $endpointURL = addQueryStringParameter($endpointURL, 'lang', $language);
         }
         $start = microtime(true);
         //$endPointResponse = url_get_contents($endpointURL, '', 5, false, true);

@@ -23,6 +23,10 @@ if(User::isLogged()){
     $firstPage = addQueryStringParameter($firstPage, 'pass', User::getUserPass());
     $firstPage = addQueryStringParameter($firstPage, 'webSiteRootURL', $global['webSiteRootURL']);
 }
+$language = getCurrentLanguageCode();
+if (!empty($language)) {
+    $firstPage = addQueryStringParameter($firstPage, 'lang', $language);
+}
 $objMM->firstPageEndpoint = $firstPage;
 
 //$content = url_get_contents($objMM->firstPageEndpoint, "", 0, true, true);
