@@ -680,6 +680,51 @@ var browserPreventShowed = false;
 var playerPlayTimeout;
 var isTryingToPlay = false;
 var promisePlaytryNetworkFailTimeout;
+var playerNotReadyTry = 0;
+var waitingUserGestureToPlay = false;
+
+function clearUserGestureToPlayHandlers() {
+    $(document).off('.playerPlayUnlock');
+}
+
+function armUserGestureToPlay(currentTime) {
+    if (waitingUserGestureToPlay) {
+        return false;
+    }
+    clearUserGestureToPlayHandlers();
+    waitingUserGestureToPlay = true;
+    avideoToastWarning('Click on the video to start playback');
+
+    var clickSelector = '#mainVideo, #mainVideo_html5_api, .vjs-tech, .vjs-big-play-button';
+    $(document).one('click.playerPlayUnlock touchend.playerPlayUnlock keydown.playerPlayUnlock', clickSelector, function () {
+        clearUserGestureToPlayHandlers();
+        waitingUserGestureToPlay = false;
+        playerNotReadyTry = 0;
+        userIsControling = false;
+        cancelAllPlaybackTimeouts();
+
+        try {
+            playerPlay(currentTime);
+        } catch (e) {
+            if (typeof player !== 'undefined' && player) {
+                try {
+                    var promise = player.play();
+                    if (promise !== undefined) {
+                        promise.catch(function () {
+                            if (!player.isAudio()) {
+                                player.muted(true);
+                            }
+                            player.play();
+                        });
+                    }
+                } catch (ee) {
+                }
+            }
+        }
+    });
+    return true;
+}
+
 function playerPlay(currentTime) {
     isTryingToPlay = true;
     cancelAllPlaybackTimeouts();
@@ -700,12 +745,21 @@ function playerPlay(currentTime) {
         //console.log("playerPlay time:", currentTime);
     }
     if (!playerIsReadyToPlay()) {
+        playerNotReadyTry++;
         console.debug('[playerPlay] player not ready, retrying in 200ms');
+        if (playerNotReadyTry > 25) {
+            console.debug('[playerPlay] not ready for too long, waiting for user gesture');
+            armUserGestureToPlay(currentTime);
+            return false;
+        }
         playerPlayTimeout = setTimeout(function () {
             playerPlay(currentTime);
         }, 200);
         return false;
     }
+    playerNotReadyTry = 0;
+    waitingUserGestureToPlay = false;
+    clearUserGestureToPlayHandlers();
     if (userIsControling) { // stops here if the user already clicked on play or pause
         console.debug('[playerPlay] aborted because userIsControling=true');
         //console.log("playerPlay: userIsControling");
