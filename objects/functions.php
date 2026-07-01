@@ -876,27 +876,6 @@ function cacheExpirationTime()
     return intval($cacheExpirationTime);
 }
 
-function getCurrentLanguageCode($sanitize = true)
-{
-    $language = '';
-    if (function_exists('getLanguage')) {
-        $language = getLanguage();
-    }
-    if (empty($language) && !empty($_SESSION['language'])) {
-        $language = $_SESSION['language'];
-    }
-    if (empty($language) && !empty($_GET['lang'])) {
-        $language = $_GET['lang'];
-    }
-    if (!empty($language)) {
-        $language = strtolower($language);
-        if (!empty($sanitize)) {
-            $language = preg_replace('/[^a-z0-9_\-]/i', '', $language);
-        }
-    }
-    return $language;
-}
-
 function getVideosURLPDF($fileName)
 {
     global $global;

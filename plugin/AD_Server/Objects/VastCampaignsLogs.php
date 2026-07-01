@@ -215,16 +215,16 @@ class VastCampaignsLogs extends ObjectYPT
         $end_date = date('Y-m-d 23:59:59', strtotime($end_date));
 
         // Prepare the SQL query
-        $sql = "SELECT
-                    logs.*,
+        $sql = "SELECT 
+                    logs.*, 
                     vchv.videos_id  as campaign_videos_id
-                FROM
+                FROM 
                     vast_campaigns_logs logs
-                INNER JOIN
+                INNER JOIN 
                     vast_campaigns_has_videos vchv ON logs.vast_campaigns_has_videos_id = vchv.id
-                WHERE
-                    vchv.vast_campaigns_id = ?
-                    AND logs.type = '" . AD_Server::STATUS_THAT_DETERMINE_AD_WAS_PLAYED . "'
+                WHERE 
+                    vchv.vast_campaigns_id = ? 
+                    AND logs.type = '" . AD_Server::STATUS_THAT_DETERMINE_AD_WAS_PLAYED . "' 
                     AND logs.created BETWEEN ? AND ?";
 
         // Execute the query
@@ -273,7 +273,7 @@ class VastCampaignsLogs extends ObjectYPT
             $formats .= 's';
             $values[] = $event_type;
         }
-
+        
         if (!empty($external_referrer)) {
             $sql .= " AND vcl.external_referrer LIKE ? ";
             $formats .= 's';
@@ -328,7 +328,7 @@ class VastCampaignsLogs extends ObjectYPT
             $formats .= 's';
             $values[] = $event_type;
         }
-
+        
         if (!empty($external_referrer)) {
             $sql .= " AND vcl.external_referrer LIKE ? ";
             $formats .= 's';
@@ -423,7 +423,7 @@ class VastCampaignsLogs extends ObjectYPT
             $formats .= 's';
             $values[] = $event_type;
         }
-
+        
         // Optional event type filter
         if (!empty($external_referrer)) {
             $sql .= " AND vcl.external_referrer LIKE ? ";
@@ -451,7 +451,7 @@ class VastCampaignsLogs extends ObjectYPT
         global $global;
         $formats = '';
         $values = [];
-
+    
         // Query to fetch advertisement events related to videos by a specific user
         $sql = "SELECT v.title AS video_title, vcl.videos_id, COUNT(vcl.id) AS total_ads, vc.name AS campaign_name, v.users_id
                 FROM vast_campaigns_logs vcl
@@ -459,10 +459,10 @@ class VastCampaignsLogs extends ObjectYPT
                 LEFT JOIN vast_campaigns_has_videos vchv ON vchv.id = vcl.vast_campaigns_has_videos_id
                 LEFT JOIN vast_campaigns vc ON vc.id = vchv.vast_campaigns_id
                 WHERE v.users_id = ?";
-
+    
         $formats .= 'i';
         $values[] = $users_id;
-
+    
         // Filter events by provided period
         if (!empty($startDate) && !empty($endDate)) {
             $sql .= " AND vcl.created_php_time BETWEEN ? AND ?";
@@ -470,34 +470,34 @@ class VastCampaignsLogs extends ObjectYPT
             $values[] = strtotime($startDate);
             $values[] = strtotime($endDate);
         }
-
+    
         // Optional filter for event type
         if (!empty($event_type)) {
             $sql .= " AND vcl.type = ?";
             $formats .= 's';
             $values[] = $event_type;
         }
-
+        
         if (!empty($external_referrer)) {
             $sql .= " AND vcl.external_referrer LIKE ? ";
             $formats .= 's';
             $values[] = '%' . $external_referrer . '%';
         }
-
+    
         // Filter based on campaign type
         if ($campaign_type === 'own') {
             $sql .= " AND vcl.vast_campaigns_has_videos_id IS NOT NULL";
         } elseif ($campaign_type === 'third-party') {
             $sql .= " AND vcl.vast_campaigns_has_videos_id IS NULL";
         }
-
+    
         // Group results by video to get total advertisement events per video
         $sql .= " GROUP BY vcl.videos_id, v.title, vc.name ORDER BY total_ads DESC";
-
+    
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-
+    
         return $fullData;
     }
 
