@@ -651,19 +651,12 @@ function playerIsReadyToPlay() {
     if (!playerIsReady()) {
         return false;
     }
-    // For HLS streams, check if we have loaded metadata or quality levels
+    // Avoid deadlock: some HLS/native flows keep readyState at HAVE_NOTHING
+    // until play() is attempted at least once.
     try {
         var sources = player.currentSources();
-        if (sources && sources.length > 0) {
-            var src = sources[0].src || '';
-            // Check if it's an HLS stream
-            if (src.includes('.m3u8') || src.includes('m3u8')) {
-                // Check if player has loaded the HLS manifest
-                if (player.readyState() < 1) {
-                    // HAVE_NOTHING or less - not ready
-                    return false;
-                }
-            }
+        if (sources && sources.length === 0) {
+            return false;
         }
     } catch (e) {
         // If we can't determine, assume ready
@@ -693,7 +686,12 @@ function armUserGestureToPlay(currentTime) {
     }
     clearUserGestureToPlayHandlers();
     waitingUserGestureToPlay = true;
-    avideoToastWarning('Click on the video to start playback');
+    var clickToPlayMessage = 'Click on the video to start playback';
+    if (typeof $.toast === 'function') {
+        avideoToastWarning(clickToPlayMessage, 10000);
+    } else {
+        console.warn('[playerPlay] ' + clickToPlayMessage);
+    }
 
     var clickSelector = '#mainVideo, #mainVideo_html5_api, .vjs-tech, .vjs-big-play-button';
     $(document).one('click.playerPlayUnlock touchend.playerPlayUnlock keydown.playerPlayUnlock', clickSelector, function () {
