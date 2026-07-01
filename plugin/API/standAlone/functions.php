@@ -141,7 +141,7 @@ function listFFmpegProcesses($keyword = '')
     $command = "ps -eo pid,etime,%cpu,%mem,cmd | grep '[f]fmpeg'"; // Get PID, elapsed time, CPU & memory usage
 
     if (!empty($keyword)) {
-        $command .= " | grep '$keyword'";
+        $command .= " | grep " . escapeshellarg($keyword);
     }
 
     exec($command, $output, $status);
