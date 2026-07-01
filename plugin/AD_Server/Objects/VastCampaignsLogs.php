@@ -115,6 +115,10 @@ class VastCampaignsLogs extends ObjectYPT
             $this->vast_campaigns_has_videos_id = 'null';
         }
 
+        if (empty($this->videos_id)) {
+            $this->videos_id = 'null';
+        }
+
         if (empty($this->users_id)) {
             $this->users_id = 'null';
         }
