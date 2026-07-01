@@ -1716,19 +1716,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             url = addQueryStringParameter(url, 'status', filterStatus);
             url = addQueryStringParameter(url, 'type', filterType);
             url = addQueryStringParameter(url, 'catName', filterCategory);
-            <?php
-            $currentLang = '';
-            if (function_exists('getCurrentLanguageCode')) {
-                $currentLang = getCurrentLanguageCode();
-            } elseif (function_exists('getLanguage')) {
-                $currentLang = getLanguage();
-            }
-            if (!empty($currentLang)) {
-            ?>
-            url = addQueryStringParameter(url, 'lang', '<?php echo $currentLang; ?>');
-            <?php
-            }
-            ?>
             if (filterDateRange) {
                 url = addQueryStringParameter(url, 'dateRange', filterDateRange);
             }

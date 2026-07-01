@@ -423,10 +423,6 @@ class Gallery extends PluginAbstract
         global $global;
         $start = microtime(true);
         $cacheName = 'Gallery_API_get_firstPage_' . md5(json_encode($parameters)) . '_' . User::getId();
-        $language = getCurrentLanguageCode();
-        if (!empty($language)) {
-            $cacheName .= '_lang_' . $language;
-        }
         $object = ObjectYPT::getCache($cacheName, 3600); // 1 hour
         if (empty($object)) {
             $obj = AVideoPlugin::getObjectData("Gallery");

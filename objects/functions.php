@@ -1983,12 +1983,6 @@ function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout =
 {
     $url = removeQueryStringParameter($url, 'pass');
     $cacheName = str_replace('/', '-', $url);
-    if ((isSameDomainAsMyAVideo($url) || !empty($mantainSession))) {
-        $language = getCurrentLanguageCode();
-        if (!empty($language)) {
-            $cacheName .= '_lang_' . $language;
-        }
-    }
     $cache = ObjectYPT::getCacheGlobal($cacheName, $lifeTime); // 24 hours
     if (!empty($cache)) {
         //_error_log('url_get_contents_with_cache cache');
@@ -8517,10 +8511,6 @@ function mkSubCategory($catId)
     unset($_REQUEST['parentsOnly']);
 
     $cacheName = "mkSubCategory_{$catId}";
-    $language = getCurrentLanguageCode();
-    if (!empty($language)) {
-        $cacheName .= "_lang_{$language}";
-    }
     $cache = ObjectYPT::getCache($cacheName, rand(300, 600));
     if (!empty($cache)) {
         return $cache;

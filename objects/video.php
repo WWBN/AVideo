@@ -2279,13 +2279,6 @@ if (!class_exists('Video')) {
             //$name = "_getVideoInfo_{$row['id']}";
             $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
             $cacheSuffix = 'getVideoInfo';
-            $language = '';
-            if (function_exists('getCurrentLanguageCode')) {
-                $language = getCurrentLanguageCode();
-            }
-            if (!empty($language)) {
-                $cacheSuffix .= "_lang_{$language}";
-            }
             //var_dump($row['filename']);
             $videoCache = new VideoCacheHandler($row['filename']);
             $cache = $videoCache->getCache($cacheSuffix, $oneToFiveHours);
@@ -3708,13 +3701,6 @@ if (!class_exists('Video')) {
 
             //$name = "getTags_{$video_id}_{$type}";
             $cacheSuffix = "getTags_{$type}";
-            $language = '';
-            if (function_exists('getCurrentLanguageCode')) {
-                $language = getCurrentLanguageCode();
-            }
-            if (!empty($language)) {
-                $cacheSuffix .= "_lang_{$language}";
-            }
             $videoCache = new VideoCacheHandler('', $video_id);
             $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
             $videos_getTags = $videoCache->getCache($cacheSuffix, $oneToFiveHours);

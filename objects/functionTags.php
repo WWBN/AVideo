@@ -242,26 +242,17 @@ function getVideoTags($videos_id, $type = '')
     global $advancedCustom, $advancedCustomUser, $getTags_, $_getVideoTagsFunctionInProgress;
     $tolerance = 0.1;
     $tags = [];
-    $language = '';
-    if (function_exists('getCurrentLanguageCode')) {
-        $language = getCurrentLanguageCode();
-    } elseif (function_exists('getLanguage')) {
-        $language = getLanguage();
-    }
 
     if (empty($_getVideoTagsFunctionInProgress)) {
         $_getVideoTagsFunctionInProgress = [];
     }
-    $inProgressKey = "{$videos_id}_{$type}_{$language}";
+    $inProgressKey = "{$videos_id}_{$type}";
     if (!empty($_getVideoTagsFunctionInProgress[$inProgressKey])) {
         _error_log("getVideoTags($videos_id, $type) reentry detected, returning empty tags", AVideoLog::$WARNING, true);
         return [];
     }
 
     $cacheSuffix = "getTags_{$type}";
-    if (!empty($language)) {
-        $cacheSuffix .= "_lang_{$language}";
-    }
     $videoCache = new VideoCacheHandler('', $videos_id);
     $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
     $getTags_ = $videoCache->getCache($cacheSuffix, $oneToFiveHours);
