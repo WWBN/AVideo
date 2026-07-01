@@ -681,6 +681,7 @@ var promisePlaytryNetworkFailTimeout;
 function playerPlay(currentTime) {
     isTryingToPlay = true;
     cancelAllPlaybackTimeouts();
+    var autoplayMutedFirst = false;
     if (playerIsPlayingAds()) {
         return false;
     }
@@ -711,6 +712,11 @@ function playerPlay(currentTime) {
             setCurrentTime(currentTime);
         }
         try {
+            // Autoplay has better success rate when playback starts muted.
+            if (!player.muted() && !player.isAudio()) {
+                player.muted(true);
+                autoplayMutedFirst = true;
+            }
             //console.log("playerPlay: Trying to play", player);
             promisePlay = player.play();
             if (promisePlay !== undefined) {
@@ -730,7 +736,9 @@ function playerPlay(currentTime) {
                             tryToPlay(currentTime);
                         }
                     } else {
-                        //player.muted(false);
+                        if (autoplayMutedFirst) {
+                            player.muted(false);
+                        }
                         if (player.muted() && !inIframe()) {
                             showUnmutePopup();
                         }
