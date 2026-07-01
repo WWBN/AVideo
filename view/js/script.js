@@ -392,7 +392,8 @@ function changeVideoSrc(vid_obj, source) {
         if (autoLoad) {
             changeVideoSrcLoad();
         } else {
-            player.play();
+            userIsControling = false;
+            playerPlay();
         }
     }, 1000);
     return true;
@@ -414,7 +415,8 @@ function changeVideoSrcLoad() {
             setTimeout(function () {
                 player.load();
                 //console.log("changeVideoSrcLoad: Trying to play");
-                player.play();
+                userIsControling = false;
+                playerPlay();
             }, 1000);
         }
     });
@@ -681,20 +683,31 @@ var promisePlaytryNetworkFailTimeout;
 function playerPlay(currentTime) {
     isTryingToPlay = true;
     cancelAllPlaybackTimeouts();
-    var autoplayMutedFirst = false;
+    console.debug('[playerPlay] start', {
+        currentTime: currentTime,
+        muted: (typeof player !== 'undefined' && player && typeof player.muted === 'function') ? player.muted() : null,
+        userIsControling: userIsControling,
+        promisePlaytry: promisePlaytry
+    });
     if (playerIsPlayingAds()) {
+        console.debug('[playerPlay] blocked by ads, retrying in 200ms');
+        playerPlayTimeout = setTimeout(function () {
+            playerPlay(currentTime);
+        }, 200);
         return false;
     }
     if (currentTime) {
         //console.log("playerPlay time:", currentTime);
     }
     if (!playerIsReadyToPlay()) {
+        console.debug('[playerPlay] player not ready, retrying in 200ms');
         playerPlayTimeout = setTimeout(function () {
             playerPlay(currentTime);
         }, 200);
         return false;
     }
     if (userIsControling) { // stops here if the user already clicked on play or pause
+        console.debug('[playerPlay] aborted because userIsControling=true');
         //console.log("playerPlay: userIsControling");
         return true;
     }
@@ -712,41 +725,43 @@ function playerPlay(currentTime) {
             setCurrentTime(currentTime);
         }
         try {
-            // Autoplay has better success rate when playback starts muted.
-            if (!player.muted() && !player.isAudio()) {
-                player.muted(true);
-                autoplayMutedFirst = true;
-            }
             //console.log("playerPlay: Trying to play", player);
             promisePlay = player.play();
             if (promisePlay !== undefined) {
+                console.debug('[playerPlay] play() promise received');
                 tryToPlay(currentTime);
                 //console.log("playerPlay: promise found", currentTime);
                 setPlayerListners();
                 promisePlay.then(function () {
+                    console.debug('[playerPlay] play() resolved', {
+                        paused: player.paused(),
+                        muted: player.muted()
+                    });
                     //console.log("playerPlay: Autoplay started", currentTime);
                     userIsControling = true;
                     if (player.paused()) {
                         //console.log("The video still paused, trying to mute and play");
                         if (promisePlaytry <= 10) {
+                            console.debug('[playerPlay] resolved but paused, trying muted flow');
                             //console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to mute and play");
                             tryToPlayMuted(currentTime);
                         } else {
+                            console.debug('[playerPlay] resolved but paused, retrying normal flow');
                             //console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to play again");
                             tryToPlay(currentTime);
                         }
-                    } else {
-                        if (autoplayMutedFirst) {
-                            player.muted(false);
-                        }
-                        if (player.muted() && !inIframe()) {
-                            showUnmutePopup();
-                        }
                     }
                 }).catch(function (error) {
+                    console.debug('[playerPlay] play() rejected', {
+                        message: error && error.message ? error.message : '',
+                        name: error && error.name ? error.name : ''
+                    });
                     if (player.networkState() === 3 && promisePlaytryNetworkFail < 5) {
                         promisePlaytry = 20;
                         promisePlaytryNetworkFail++;
+                        console.debug('[playerPlay] networkState=3, retrying with source reload', {
+                            promisePlaytryNetworkFail: promisePlaytryNetworkFail
+                        });
                         //console.log("playerPlay: Network error detected, trying again", promisePlaytryNetworkFail);
                         cancelAllPlaybackTimeouts();
                         promisePlaytryNetworkFailTimeout = setTimeout(function () {
@@ -755,23 +770,51 @@ function playerPlay(currentTime) {
                             tryToPlay(currentTime);
                         }, promisePlaytryNetworkFail * 1000);
                     } else {
-                        if (promisePlaytryNetworkFail >= 5) {
+                        if (!player.isAudio() && !player.muted()) {
+                            console.debug('[playerPlay] immediate muted fallback');
+                            player.muted(true);
+                            var mutedPlayPromise = player.play();
+                            if (mutedPlayPromise !== undefined) {
+                                mutedPlayPromise.then(function () {
+                                    console.debug('[playerPlay] muted fallback resolved, trying auto unmute');
+                                    player.muted(false);
+                                    setTimeout(function () {
+                                        if (player.muted() && !inIframe()) {
+                                            console.debug('[playerPlay] auto unmute failed, showing popup');
+                                            showUnmutePopup();
+                                        }
+                                    }, 120);
+                                }).catch(function () {
+                                    console.debug('[playerPlay] muted fallback rejected, scheduling tryToPlayMuted');
+                                    tryToPlayMuted(currentTime);
+                                });
+                            } else {
+                                console.debug('[playerPlay] muted fallback no promise, scheduling tryToPlayMuted');
+                                tryToPlayMuted(currentTime);
+                            }
+                        } else if (promisePlaytryNetworkFail >= 5) {
                             userIsControling = true;
                             console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented player.pause()");
                             player.pause();
                         } else if (promisePlaytry <= 10) {
+                            console.debug('[playerPlay] scheduling tryToPlayMuted');
                             //console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
                             tryToPlayMuted(currentTime);
                         } else {
+                            console.debug('[playerPlay] scheduling tryToPlay');
                             //console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to play again");
                             tryToPlay(currentTime);
                         }
                     }
                 });
             } else {
+                console.debug('[playerPlay] play() returned no promise, scheduling tryToPlay');
                 tryToPlay(currentTime);
             }
         } catch (e) {
+            console.debug('[playerPlay] exception on play(), scheduling tryToPlay', {
+                message: e && e.message ? e.message : ''
+            });
             //console.log("playerPlay: We could not autoplay, trying again in 1 second");
             tryToPlay(currentTime);
         }
