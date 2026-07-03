@@ -74,7 +74,7 @@ class Captcha
             $_SESSION["palavraAttempts"] = 0;
         }
         $_SESSION["palavraAttempts"]++;
-        if ($_SESSION["palavraAttempts"] >= 10) {
+        if ($_SESSION["palavraAttempts"] >= 5) {
             unset($_SESSION["palavra"]);
             unset($_SESSION["palavraAttempts"]);
         }
