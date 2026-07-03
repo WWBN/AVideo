@@ -195,22 +195,24 @@ class CachesInDB extends ObjectYPT
             return false;
         }
 
-        $row = self::_getCache($name, $domain, $ishttps, $user_location, $loggedType);
-        if (!empty($row)) {
-            $c = new CachesInDB($row['id']);
-        } else {
-            $c = new CachesInDB(0);
-        }
-
+        // Avoid race conditions from read-then-insert by using a single atomic UPSERT.
         $name = self::hashName($name);
-        $c->setContent($value);
-        $c->setName($name);
-        $c->setDomain($domain);
-        $c->setIshttps($ishttps);
-        $c->setUser_location($user_location);
-        $c->setLoggedType($loggedType);
-        $c->setExpires(date('Y-m-d H:i:s', strtotime('+ 1 month')));
-        return $c->save();
+        $value = self::encodeContent($value);
+        $expires = date('Y-m-d H:i:s', strtotime('+ 1 month'));
+        $timezone = date_default_timezone_get();
+        $createdPhpTime = time();
+
+        $sql = "INSERT INTO " . static::getTableName() . "
+                (name, content, domain, ishttps, user_location, loggedType, expires, timezone, created_php_time, created, modified)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+                ON DUPLICATE KEY UPDATE
+                    content = VALUES(content),
+                    expires = VALUES(expires),
+                    timezone = VALUES(timezone),
+                    created_php_time = VALUES(created_php_time),
+                    modified = NOW()";
+
+        return sqlDAL::writeSql($sql, 'sssissssi', [$name, $value, $domain, intval($ishttps), $user_location, $loggedType, $expires, $timezone, $createdPhpTime]);
     }
     private static function prepareCacheItem($name, $cache, $metadata, $tz, $time) {
         $formattedCacheItem = [];
