@@ -13,6 +13,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 class VideoStatistic extends ObjectYPT
 {
     private const USER_AGENT_MAX_LENGTH = 255;
+    private const APP_MAX_LENGTH = 45;
 
     protected $id;
     protected $when;
@@ -54,7 +55,15 @@ class VideoStatistic extends ObjectYPT
     public function setApp($app)
     {
         $app = preg_replace('/[^a-zA-Z0-9]/', '', $app);
-        $this->app = $app;
+        $this->app = self::normalizeApp($app);
+    }
+
+    private static function normalizeApp($app)
+    {
+        if ($app === null) {
+            return null;
+        }
+        return _substr((string) $app, 0, self::APP_MAX_LENGTH);
     }
 
     public static function getSearchFieldsNames()
@@ -224,13 +233,14 @@ class VideoStatistic extends ObjectYPT
             $this->user_agent = self::normalizeUserAgent($this->user_agent);
         }
 
-        if(empty($this->app)){
-            if(!empty($_SERVER['platform'])){
-            $this->app = ($_SERVER['platform']);
-            }else if(!empty($_SERVER['HTTP_USER_AGENT'])){
+        if (empty($this->app)) {
+            if (!empty($_SERVER['platform'])) {
+                $this->app = $_SERVER['platform'];
+            } elseif (!empty($_SERVER['HTTP_USER_AGENT'])) {
                 $this->app = getUserAgentInfo($_SERVER['HTTP_USER_AGENT']);
             }
         }
+        $this->app = self::normalizeApp($this->app);
 
         if (empty($this->id)) {
             $this->rewarded = 0;
