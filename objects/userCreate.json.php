@@ -29,6 +29,8 @@ if (!empty($input)) {
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = '';
+$obj->reloadCaptcha = false;
+$obj->captchaSessionEmpty = false;
 if (empty($ignoreCaptcha)) {
     if (empty($_POST['captcha'])) {
         $obj->error = __("The captcha is empty");
@@ -37,7 +39,13 @@ if (empty($ignoreCaptcha)) {
     require_once $global['systemRootPath'] . 'objects/captcha.php';
     $valid = Captcha::validation($_POST['captcha']);
     if (!$valid) {
-        $obj->error = __("The captcha is wrong");
+        $obj->reloadCaptcha = true;
+        if (Captcha::isValidationSessionEmpty()) {
+            $obj->captchaSessionEmpty = true;
+            $obj->error = __("Captcha session expired. Please try again.");
+        } else {
+            $obj->error = __("The captcha is wrong");
+        }
         die(json_encode($obj));
     }
 }

@@ -315,6 +315,9 @@ $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'success', _($advan
                             }
                             ?>
                         } else {
+                            if (response.reloadCaptcha) {
+                                <?php echo $capcha['btnReloadCapcha']; ?>
+                            }
                             modal.hidePleaseWait();
                         }
                     }

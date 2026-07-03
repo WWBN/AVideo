@@ -609,6 +609,7 @@ function _session_start(array $options = [])
         if (isset($_GET['PHPSESSID']) && !_empty($_GET['PHPSESSID'])) {
             $PHPSESSID = $_GET['PHPSESSID'];
             unset($_GET['PHPSESSID']);
+            $captchaWordBeforeSessionSwitch = '';
             // Reject any value that does not conform to PHP's session ID format
             // (alphanumeric + comma/hyphen, 22–256 chars) to prevent injection.
             if (!preg_match('/^[a-zA-Z0-9,\-]{22,256}$/', $PHPSESSID)) {
@@ -632,6 +633,9 @@ function _session_start(array $options = [])
 
             if (!User::isLogged()) {
                 if ($PHPSESSID !== session_id()) {
+                    if (!empty($_SESSION['palavra'])) {
+                        $captchaWordBeforeSessionSwitch = $_SESSION['palavra'];
+                    }
                     _session_write_close();
                     session_id($PHPSESSID);
                     //_error_log("captcha: session_id changed to {$PHPSESSID}");
@@ -641,6 +645,13 @@ function _session_start(array $options = [])
                 $session = @session_start($options);
                 // Update session start time after restart
                 $global['session_start_time'] = microtime(true);
+
+                // Keep CAPTCHA stable across explicit session-id switches.
+                // This avoids false "session is empty" errors when a request starts
+                // in one anonymous session and then switches to another PHPSESSID.
+                if (empty($_SESSION['palavra']) && !empty($captchaWordBeforeSessionSwitch)) {
+                    $_SESSION['palavra'] = $captchaWordBeforeSessionSwitch;
+                }
 
                 if (preg_match('/objects\/getCaptcha\.php/i', $_SERVER['SCRIPT_NAME'])) {
                     $regenerateSessionId = false;

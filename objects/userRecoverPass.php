@@ -30,7 +30,11 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
     require_once 'captcha.php';
     $valid = Captcha::validation($_REQUEST['captcha']);
     if (!$valid) {
-        $obj->error = __("Your code is not valid");
+        if (Captcha::isValidationSessionEmpty()) {
+            $obj->error = __("Captcha session expired. Please try again.");
+        } else {
+            $obj->error = __("Your code is not valid");
+        }
         $obj->reloadCaptcha = true;
         die(json_encode($obj));
     }

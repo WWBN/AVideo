@@ -5,6 +5,11 @@ if (!isset($global['systemRootPath'])) {
 }
 class Captcha
 {
+    private const VALIDATION_ERROR_NONE = '';
+    private const VALIDATION_ERROR_SESSION_EMPTY = 'session_empty';
+    private const VALIDATION_ERROR_WRONG_WORD = 'wrong_word';
+    private static $lastValidationError = self::VALIDATION_ERROR_NONE;
+
     private $largura;
     private $altura;
     private $tamanho_fonte;
@@ -64,7 +69,9 @@ class Captcha
     public static function validation($word)
     {
         _session_start();
+        self::$lastValidationError = self::VALIDATION_ERROR_NONE;
         if (empty($_SESSION["palavra"])) {
+            self::$lastValidationError = self::VALIDATION_ERROR_SESSION_EMPTY;
             _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name()." session_id: ". session_id());
             return false;
         }
@@ -75,8 +82,14 @@ class Captcha
         }
         $validation = (strcasecmp($word, $stored) === 0);
         if (!$validation) {
+            self::$lastValidationError = self::VALIDATION_ERROR_WRONG_WORD;
             _error_log("Captcha validation Error: you type ({$word}) and session is ({$stored})- session_name ". session_name()." session_id: ". session_id());
         }
         return $validation;
+    }
+
+    public static function isValidationSessionEmpty()
+    {
+        return self::$lastValidationError === self::VALIDATION_ERROR_SESSION_EMPTY;
     }
 }
