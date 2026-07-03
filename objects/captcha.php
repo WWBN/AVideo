@@ -69,13 +69,25 @@ class Captcha
             return null; // null = session was empty (distinct from false = wrong code)
         }
         $stored = $_SESSION["palavra"];
-        unset($_SESSION["palavra"]); // always consume on any attempt to prevent brute-force
+        // Track failed attempts; only invalidate the captcha after 10 tries (brute-force limit)
+        if (!isset($_SESSION["palavraAttempts"])) {
+            $_SESSION["palavraAttempts"] = 0;
+        }
+        $_SESSION["palavraAttempts"]++;
+        if ($_SESSION["palavraAttempts"] >= 10) {
+            unset($_SESSION["palavra"]);
+            unset($_SESSION["palavraAttempts"]);
+        }
         if (User::isAdmin() && $stored === 'admin') {
             return true;
         }
         $validation = (strcasecmp($word, $stored) === 0);
         if (!$validation) {
             _error_log("Captcha validation Error: you type ({$word}) and session is ({$stored}) - session_name ". session_name()." session_id: ". session_id()." IP: ".getRealIpAddr());
+        } else {
+            // Correct answer — consume the word and reset the attempt counter
+            unset($_SESSION["palavra"]);
+            unset($_SESSION["palavraAttempts"]);
         }
         return $validation;
     }
