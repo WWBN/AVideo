@@ -1511,7 +1511,7 @@ if (typeof gtag !== \"function\") {
         global $justLogoff, $justTryToRecreateLoginFromCookie;
         if (empty($justTryToRecreateLoginFromCookie) && empty($justLogoff) && empty($_SESSION['user']['id'])) {
             _session_start();
-            _error_log('[SESSION_DEBUG] recreateLoginFromCookie: restoring auth script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' sessionId=' . session_id() . ' ip=' . getRealIpAddr() . ' hasCreds=' . (int)!empty($_COOKIE['credentials']));
+            // _error_log('[SESSION_DEBUG] recreateLoginFromCookie: restoring auth script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' sessionId=' . session_id() . ' ip=' . getRealIpAddr() . ' hasCreds=' . (int)!empty($_COOKIE['credentials']));
             //var_dump($_COOKIE);exit;
             $justTryToRecreateLoginFromCookie = 1;
 
