@@ -4,6 +4,10 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
 class CachesInDB extends ObjectYPT
 {
+    private static $missingTableLogLastTime = 0;
+    private static $autoCreateLogLastTime = 0;
+    private static $autoCreateAttempted = false;
+
     protected $id;
     protected $content;
     protected $domain;
@@ -22,6 +26,112 @@ class CachesInDB extends ObjectYPT
     public static function getTableName()
     {
         return 'CachesInDB';
+    }
+
+    private static function shouldThrottleLog($type, $windowSeconds = 30)
+    {
+        $now = time();
+        if ($type === 'missing') {
+            if (($now - self::$missingTableLogLastTime) < $windowSeconds) {
+                return true;
+            }
+            self::$missingTableLogLastTime = $now;
+            return false;
+        }
+
+        if (($now - self::$autoCreateLogLastTime) < $windowSeconds) {
+            return true;
+        }
+        self::$autoCreateLogLastTime = $now;
+        return false;
+    }
+
+    private static function logSchemaEvent($event, $startTime = 0, $tableExists = false, $extra = [])
+    {
+        $isMissingEvent = stripos($event, 'missing') !== false;
+        if (self::shouldThrottleLog($isMissingEvent ? 'missing' : 'autocreate')) {
+            return;
+        }
+
+        $duration = 0;
+        if (!empty($startTime)) {
+            $duration = round((microtime(true) - $startTime) * 1000, 2);
+        }
+
+        $users_id = 0;
+        if (class_exists('User') && method_exists('User', 'getId')) {
+            $users_id = intval(User::getId());
+        }
+
+        $payload = [
+            'event' => $event,
+            'plugin' => 'Cache',
+            'class' => __CLASS__,
+            'table' => static::getTableName(),
+            'tableExists' => !empty($tableExists),
+            'request_uri' => @$_SERVER['REQUEST_URI'],
+            'script_filename' => @$_SERVER['SCRIPT_FILENAME'],
+            'script_name' => @$_SERVER['SCRIPT_NAME'],
+            'users_id' => $users_id,
+            'session_id' => @session_id(),
+            'is_cli' => isCommandLineInterface(),
+            'duration_ms' => $duration,
+        ];
+
+        if (!empty($extra) && is_array($extra)) {
+            $payload = array_merge($payload, $extra);
+        }
+
+        _error_log('CachesInDB::schema ' . json_encode($payload), AVideoLog::$WARNING);
+    }
+
+    private static function tryAutoCreateMissingTable()
+    {
+        global $global;
+        $start = microtime(true);
+
+        // Runtime web traffic must not execute schema creation. Keep this as a
+        // CLI-only recovery path and rely on install/update scripts for normal operation.
+        if (!isCommandLineInterface()) {
+            self::logSchemaEvent('missing_table_skip_autocreate_non_cli', $start, false);
+            return false;
+        }
+
+        if (self::$autoCreateAttempted) {
+            self::logSchemaEvent('missing_table_skip_autocreate_already_attempted', $start, false);
+            return false;
+        }
+        self::$autoCreateAttempted = true;
+
+        $lockFile = sys_get_temp_dir() . '/CachesInDB_autocreate.lock';
+        $lockHandle = @fopen($lockFile, 'c');
+        if (empty($lockHandle)) {
+            self::logSchemaEvent('missing_table_skip_autocreate_lock_open_failed', $start, false);
+            return false;
+        }
+
+        if (!flock($lockHandle, LOCK_EX | LOCK_NB)) {
+            fclose($lockHandle);
+            self::logSchemaEvent('missing_table_skip_autocreate_lock_busy', $start, false);
+            return false;
+        }
+
+        $created = false;
+        try {
+            if (static::isTableInstalled()) {
+                self::logSchemaEvent('missing_table_skip_autocreate_already_exists', $start, true);
+                return true;
+            }
+            $file = $global['systemRootPath'] . 'plugin/Cache/install/install.sql';
+            sqlDal::executeFile($file);
+            $created = static::isTableInstalled();
+            self::logSchemaEvent('missing_table_autocreate_cli_attempt', $start, $created, ['install_file' => $file]);
+        } finally {
+            flock($lockHandle, LOCK_UN);
+            fclose($lockHandle);
+        }
+
+        return $created;
     }
 
     public function setId($id)
@@ -172,13 +282,7 @@ class CachesInDB extends ObjectYPT
                 $global['mysqli'] = new stdClass();
             }
             if($global['mysqli']->errno == 1146){
-                $error = array($global['mysqli']->error);
-                $file = $global['systemRootPath'] . 'plugin/Cache/install/install.sql';
-                sqlDal::executeFile($file);
-                if (!static::isTableInstalled()) {
-                    $error[] = $global['mysqli']->error;
-                    die("We could not create table ".static::getTableName().'<br> '.implode('<br>', $error));
-                }
+                self::tryAutoCreateMissingTable();
             }
             $row = false;
         }

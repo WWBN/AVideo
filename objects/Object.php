@@ -899,6 +899,37 @@ abstract class ObjectYPT implements ObjectInterface
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
+
+        $siteIdentifier = '';
+        $siteHost = '';
+        global $global;
+
+        if (!empty($global['webSiteRootURL'])) {
+            $parsed = @parse_url($global['webSiteRootURL']);
+            if (!empty($parsed['host'])) {
+                $siteHost = strtolower($parsed['host']);
+            }
+        }
+
+        if (empty($siteHost) && !empty($_SERVER['HTTP_HOST'])) {
+            $siteHost = strtolower($_SERVER['HTTP_HOST']);
+        }
+
+        if (!empty($siteHost)) {
+            $siteHost = preg_replace('/[^a-z0-9._-]/i', '_', $siteHost);
+            $siteIdentifier = $siteHost;
+        } elseif (!empty($global['systemRootPath'])) {
+            $siteIdentifier = basename(rtrim(str_replace('\\', '/', $global['systemRootPath']), '/'));
+            $siteIdentifier = preg_replace('/[^a-z0-9._-]/i', '_', strtolower($siteIdentifier));
+        }
+
+        if (empty($siteIdentifier)) {
+            $siteIdentifier = 'default_site';
+        }
+
+        $siteSeed = (!empty($global['webSiteRootURL']) ? $global['webSiteRootURL'] : '') . '|' . (!empty($global['systemRootPath']) ? $global['systemRootPath'] : '');
+        $siteHash = substr(sha1($siteSeed), 0, 12);
+        $tmpDir .= $siteIdentifier . '_' . $siteHash . DIRECTORY_SEPARATOR;
         return $tmpDir;
     }
 
@@ -974,7 +1005,7 @@ abstract class ObjectYPT implements ObjectInterface
         if (empty($name)) {
             return false;
         }
-        $tmpDir = getTmpDir();
+        $tmpDir = self::getTmpCacheDir();
         //_error_log('deleteCacheFromPattern: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $name = self::cleanCacheName($name);
         $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR) !== false);
@@ -1049,8 +1080,8 @@ abstract class ObjectYPT implements ObjectInterface
 
     private static function getLastDeleteALLCacheTimeFile()
     {
-        $tmpDir = getTmpDir();
-        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . "/";
+        $tmpDir = self::getTmpCacheDir();
+        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "lastDeleteALLCacheTime.cache";
         return $tmpDir;
     }
