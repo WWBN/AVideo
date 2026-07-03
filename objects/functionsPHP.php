@@ -647,9 +647,12 @@ function _session_start(array $options = [])
                 $global['session_start_time'] = microtime(true);
 
                 // Keep CAPTCHA stable across explicit session-id switches.
-                // This avoids false "session is empty" errors when a request starts
-                // in one anonymous session and then switches to another PHPSESSID.
-                if (empty($_SESSION['palavra']) && !empty($captchaWordBeforeSessionSwitch)) {
+                // Always prefer the word from the current (cookie-based) session over
+                // any stale word in the PHPSESSID target session. This prevents false
+                // "wrong captcha" errors when the user refreshed the captcha after a
+                // background session regeneration stored a new word in the cookie session
+                // while the old PHPSESSID session still held the original word.
+                if (!empty($captchaWordBeforeSessionSwitch)) {
                     $_SESSION['palavra'] = $captchaWordBeforeSessionSwitch;
                 }
 

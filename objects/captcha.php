@@ -65,7 +65,7 @@ class Captcha
     {
         _session_start();
         if (empty($_SESSION["palavra"])) {
-            _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name()." session_id: ". session_id());
+            _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name()." session_id: ". session_id()." IP: ".getRealIpAddr());
             return null; // null = session was empty (distinct from false = wrong code)
         }
         $stored = $_SESSION["palavra"];
@@ -75,7 +75,7 @@ class Captcha
         }
         $validation = (strcasecmp($word, $stored) === 0);
         if (!$validation) {
-            _error_log("Captcha validation Error: you type ({$word}) and session is ({$stored})- session_name ". session_name()." session_id: ". session_id());
+            _error_log("Captcha validation Error: you type ({$word}) and session is ({$stored}) - session_name ". session_name()." session_id: ". session_id()." IP: ".getRealIpAddr());
         }
         return $validation;
     }
