@@ -36,8 +36,13 @@ if (empty($ignoreCaptcha)) {
     }
     require_once $global['systemRootPath'] . 'objects/captcha.php';
     $valid = Captcha::validation($_POST['captcha']);
+    if ($valid === null) {
+        $obj->error = __('The captcha session expired, please try again');
+        $obj->captchaSessionEmpty = true;
+        die(json_encode($obj));
+    }
     if (!$valid) {
-        $obj->error = __("The captcha is wrong");
+        $obj->error = __('The captcha is wrong');
         die(json_encode($obj));
     }
 }

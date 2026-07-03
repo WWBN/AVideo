@@ -66,7 +66,7 @@ class Captcha
         _session_start();
         if (empty($_SESSION["palavra"])) {
             _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name()." session_id: ". session_id());
-            return false;
+            return null; // null = session was empty (distinct from false = wrong code)
         }
         $stored = $_SESSION["palavra"];
         unset($_SESSION["palavra"]); // always consume on any attempt to prevent brute-force

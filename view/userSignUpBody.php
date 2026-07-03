@@ -305,6 +305,12 @@ $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'success', _($advan
                     data: $('#updateUserForm').serialize(),
                     type: 'post',
                     success: function(response) {
+                        if (response.captchaSessionEmpty) {
+                            // Session was empty — silently refresh captcha before showing the error
+                            if (window.captchaRefreshFns) {
+                                $.each(window.captchaRefreshFns, function(uid, fn) { fn(); });
+                            }
+                        }
                         avideoResponse(response);
                         if (!response.error) {
                             <?php

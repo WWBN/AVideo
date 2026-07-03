@@ -36,6 +36,9 @@ if ($forceCaptcha) {
             $('#<?php echo $uid; ?>').attr('src', bustUrl);
             $('#<?php echo $uid; ?>Text').val('');
         }
+        // Register globally so AJAX handlers can trigger a refresh by uid
+        if (typeof window.captchaRefreshFns === 'undefined') { window.captchaRefreshFns = {}; }
+        window.captchaRefreshFns['<?php echo $uid; ?>'] = refreshCaptcha<?php echo $uid; ?>;
         refreshCaptcha<?php echo $uid; ?>();
         $('#btnReload<?php echo $uid; ?>').click(function() {
             refreshCaptcha<?php echo $uid; ?>();
