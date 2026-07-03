@@ -5471,7 +5471,7 @@ function getCaptcha($uid = "", $forceCaptcha = false)
 
     return [
         'content' => $contents,
-        'btnReloadCapcha' => "$('#btnReload{$uid}').trigger('click');",
+        'btnReloadCapcha' => "if (typeof window.refreshCaptcha{$uid} === 'function') { window.refreshCaptcha{$uid}(); } else { $('#btnReload{$uid}').trigger('click'); }",
         'captchaText' => "$('#{$uid}Text').val()",
         'html' => $result['html'],
         'script' => $result['script'],

@@ -1,10 +1,7 @@
 <?php
 global $global;
 
-_session_start();
-
 $url = "{$global['webSiteRootURL']}captcha";
-$url = addQueryStringParameter($url, 'PHPSESSID', session_id());
 if ($forceCaptcha) {
     $url = addQueryStringParameter($url, 'forceCaptcha', 1);
 }
@@ -32,8 +29,10 @@ if ($forceCaptcha) {
         var captchaBaseUrl<?php echo $uid; ?> = '<?php echo $url; ?>';
 
         function refreshCaptcha<?php echo $uid; ?>() {
-            var separator = captchaBaseUrl<?php echo $uid; ?>.indexOf('?') === -1 ? '?' : '&';
-            var bustUrl = captchaBaseUrl<?php echo $uid; ?> + separator + 'cache=' + Date.now();
+            var bustUrl = captchaBaseUrl<?php echo $uid; ?> + '?cache=' + Date.now();
+            <?php if ($forceCaptcha) { ?>
+                bustUrl += '&forceCaptcha=1';
+            <?php } ?>
             $('#<?php echo $uid; ?>').attr('src', bustUrl);
             $('#<?php echo $uid; ?>Text').val('');
         }

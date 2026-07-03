@@ -374,9 +374,6 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                     },
                     type: 'post',
                     success: function(response) {
-                        if (response.reloadCaptcha) {
-                            <?php echo $captcha2['btnReloadCapcha']; ?>
-                        }
                         if (response.error) {
                             avideoAlert("<?php echo __("Error"); ?>", response.error, "error");
                         } else {
