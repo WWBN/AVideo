@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 
-enforceRateLimit('user_notifications_get', 30, 60);
+enforceRateLimit('user_notifications_get', 6, 60);
 
 $obj = new stdClass();
 $obj->msg = '';
