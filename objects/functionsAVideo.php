@@ -222,8 +222,16 @@ function avideoShutdown()
 
     $error = error_get_last();
     if ($error && ($error['type'] & E_FATAL)) {
-        var_dump($error);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $traceLines = [];
+        foreach ($trace as $i => $frame) {
+            $file = $frame['file'] ?? '[unknown]';
+            $line = $frame['line'] ?? 0;
+            $func = ($frame['class'] ?? '') . ($frame['type'] ?? '') . ($frame['function'] ?? '');
+            $traceLines[] = "#$i $file($line): $func";
+        }
         _error_log($error, AVideoLog::$ERROR);
+        _error_log('BACKTRACE: ' . PHP_EOL . implode(PHP_EOL, $traceLines), AVideoLog::$ERROR);
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
         if (!User::isAdmin()) {
             if (!preg_match('/json\.php$/i', $_SERVER['PHP_SELF'])) {
@@ -238,7 +246,6 @@ function avideoShutdown()
         } else {
             echo '<pre>';
             var_dump($error);
-            var_dump(debug_backtrace());
             echo '</pre>';
         }
         exit;
