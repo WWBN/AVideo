@@ -683,9 +683,8 @@ function execAsync($command, $keyword = null)
         $keyword = preg_replace('/[^a-zA-Z0-9_-]/', '_', $keyword);
     }
 
-    $command = addcslashes($command, '"');
-
     if (isWindowsServer()) {
+        $command = addcslashes($command, '"');
         if ($keyword) {
             // Add the keyword as a comment to the command for Windows
             $commandWithKeyword = "start /B cmd /c \"$command & REM $keyword\" > NUL 2>&1";
@@ -701,10 +700,13 @@ function execAsync($command, $keyword = null)
         }
     } else {
         if ($keyword) {
-            // Add the keyword as a comment to the command for Linux
-            $commandWithKeyword = "nohup sh -c \"$command & echo \\$! > /tmp/$keyword.pid\" > /dev/null 2>&1 &";
+            $pidFile = "/tmp/{$keyword}.pid";
+            // Quote the full script for the outer shell, but capture $! inside sh -c
+            // so existing callers still get the PID of the launched command.
+            $commandWithPidCapture = "{$command} & echo \$! > " . escapeshellarg($pidFile);
+            $commandWithKeyword = "nohup sh -c " . escapeshellarg($commandWithPidCapture) . " > /dev/null 2>&1 &";
         } else {
-            $commandWithKeyword = "nohup sh -c \"$command & echo \\$!\" > /dev/null 2>&1 &";
+            $commandWithKeyword = "nohup sh -c " . escapeshellarg($command) . " > /dev/null 2>&1 &";
         }
         _error_log('execAsync Linux: ' . $commandWithKeyword . ' [' . $_SERVER['HTTP_USER_AGENT'] . '] [' . getRealIpAddr() . '] ');
         exec($commandWithKeyword, $output, $retval);
