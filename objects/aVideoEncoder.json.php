@@ -499,15 +499,17 @@ function downloadVideoFromDownloadURL($downloadURL)
     _error_log("aVideoEncoder.json: Try to download " . $downloadURL . " to " . $temp);
     $bytesSaved = ssrfPinnedFetchToFile($downloadURL, $temp, $resolvedIP_download, 7200);
 
-    // If DNS-pinned fetch failed, retry without DNS pin.
-    // The SSRF check above already confirmed the host resolves to a public IP (not
-    // private/loopback). This endpoint is authenticated (useVideoHashOrLogin at top), so
-    // only authorised callers reach this path. The MIME validation below is the primary
-    // defence against DNS rebinding: even if an attacker swaps DNS to an internal service,
-    // its response (JSON, HTML, config text) will be rejected by the MIME check.
+    // If DNS-pinned fetch failed, re-validate the URL (fresh DNS resolution + SSRF check)
+    // and retry with the new pinned IP. This handles transient failures and CDN IP changes
+    // without opening an unpinned path that an attacker could exploit via redirect.
     if (!$bytesSaved && !empty($resolvedIP_download)) {
-        _error_log("aVideoEncoder.json: DNS-pinned fetch failed; retrying without DNS pin for {$downloadURL}");
-        $bytesSaved = ssrfPinnedFetchToFile($downloadURL, $temp, null, 7200);
+        $freshIP = null;
+        if (isSSRFSafeURL($downloadURL, $freshIP) && !empty($freshIP)) {
+            _error_log("aVideoEncoder.json: DNS-pinned fetch failed; retrying with fresh IP pin for {$downloadURL}");
+            $bytesSaved = ssrfPinnedFetchToFile($downloadURL, $temp, $freshIP, 7200);
+        } else {
+            _error_log("aVideoEncoder.json: DNS-pinned fetch failed; SSRF re-check also failed for {$downloadURL}");
+        }
     }
 
     // Validate MIME type of the downloaded file — must be video, audio, or a known archive.
