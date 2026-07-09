@@ -237,28 +237,49 @@ function try_get_contents_from_local($url)
 
     $parts = explode('/videos/', $url);
     if (!empty($parts[1])) {
-        if (preg_match('/cache\//', $parts[1])) {
+        // Drop any query string or fragment so a traversal payload in the query
+        // string (e.g. ?a=/videos/../../etc/passwd) cannot be interpreted as part
+        // of the local file path.
+        $relativePath = preg_replace('/[?#].*$/', '', $parts[1]);
+
+        if (preg_match('/cache\//', $relativePath)) {
             $encoder = '';
         } else {
             $encoder = 'Encoder/';
         }
-        $tryFile = "{$global['systemRootPath']}{$encoder}videos/{$parts[1]}";
-        // Defense-in-depth: validate the resolved path stays within the videos directory.
-        // explode('/videos/', $url) operates on the full URL string including query string,
-        // so a traversal payload in the query string (e.g. ?a=/videos/../../etc/passwd)
-        // populates $parts[1] with '../../etc/passwd' and escapes the directory.
+
         $videosBaseDir = realpath("{$global['systemRootPath']}{$encoder}videos");
-        $realTryFile   = realpath($tryFile);
-        if ($videosBaseDir === false || $realTryFile === false
+        if ($videosBaseDir === false) {
+            return false;
+        }
+
+        // Defense-in-depth: block explicit traversal payloads before touching the
+        // filesystem. This is the only case that is an actual security violation.
+        if (strpos($relativePath, '..') !== false) {
+            _error_log("try_get_contents_from_local: blocked path traversal attempt for url={$url}");
+            return false;
+        }
+
+        $tryFile = "{$global['systemRootPath']}{$encoder}videos/{$relativePath}";
+
+        // When the file is not stored locally (e.g. it lives on a remote storage
+        // server and the local copy is just a dummy) we simply return false so the
+        // caller can fetch it over HTTP. This is a normal condition, not a security
+        // violation, so do not log it as a path traversal attempt.
+        if (!file_exists($tryFile)) {
+            return false;
+        }
+
+        // Final check: confirm the resolved real path stays within the videos dir.
+        $realTryFile = realpath($tryFile);
+        if ($realTryFile === false
             || strpos($realTryFile, $videosBaseDir . DIRECTORY_SEPARATOR) !== 0
         ) {
             _error_log("try_get_contents_from_local: blocked path traversal attempt for url={$url}");
             return false;
         }
         //_error_log("try_get_contents_from_local {$url} => {$tryFile}");
-        if (file_exists($tryFile)) {
-            return file_get_contents($tryFile);
-        }
+        return file_get_contents($tryFile);
     }
     return false;
 }
