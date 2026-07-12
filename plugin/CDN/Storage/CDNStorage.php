@@ -20,7 +20,6 @@ class CDNStorage
     {
         $obj = AVideoPlugin::getDataObject('CDN');
         if (empty($obj->storage_hostname)) {
-            //var_dump(debug_backtrace());
             die('CDNStorage storage_hostname is empty ');
         }
         $CDNstorage = new \FtpClient\FtpClient();
@@ -628,7 +627,7 @@ class CDNStorage
         } else {
             _error_log("CDNStorage::put videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
 
-            if (version_compare(PHP_VERSION, '8.0.0') >= 0 && !$forceUseFTP) {
+            if (\PHP_VERSION_ID >= 80000 && !$forceUseFTP) {
                 try {
                     $response = self::putUsingAPI($filesToUpload);
                 } catch (\Throwable $th) {
@@ -1291,19 +1290,19 @@ class CDNStorage
         }
 
         $paths = Video::getPaths($filename);
-        if(preg_match('/(index.mp[34])$/', $paths['path'], $match) || preg_match('/(index.mp[34])$/', $paths['videoFilename'], $match)){
+        if (preg_match('/(index.mp[34])$/', $paths['path'], $match) || preg_match('/(index.mp[34])$/', $paths['videoFilename'], $match)) {
             $file = $paths['path'] . $match[0];
-        }else{
+        } else {
             $file = $paths['path'] . $filename;
         }
         if (!file_exists($file)) {
-            if(!empty($global['debug'] )){
+            if (!empty($global['debug'] )) {
                 _error_log("getURL not found $file line=".__LINE__);
             }
             $file = $paths['path'] . $filename;
         }
         if (!file_exists($file)) {
-            if(!empty($global['debug'] )){
+            if (!empty($global['debug'])) {
                 _error_log("getURL not found $file line=".__LINE__);
             }
             $file = $paths['path'] . 'index.m3u8';
@@ -1480,7 +1479,7 @@ class CDNStorage
         }
         if ($file_exists) {
             // If the local file is a dummy file, return the configured storage pullzone.
-            if(isDummyFile($localFile)){
+            if (isDummyFile($localFile)) {
                 _error_log("convertCDNHLSVideoToDownload: before url ($url) - {$localFile}");
                 $storageURL = self::getURLFromPZ($relativeFilename);
                 if (!empty($storageURL)) {
@@ -1515,7 +1514,7 @@ class CDNStorage
                         $response = self::putUsingFTP([$localFile], 1);
                     }
                     _error_log("convertCDNHLSVideoToDownload done: ($localFile) ".json_encode($response));
-                    if(CDNStorage::file_exists_on_cdn($relativeFilename)){
+                    if (CDNStorage::file_exists_on_cdn($relativeFilename)) {
                         self::createDummy($localFile);
                     }
                     $returnURL = $url;
