@@ -100,7 +100,7 @@ function getImageOrientation($imagePath)
  */
 function is_image_fully_transparent($filename)
 {
-    if(filesize($filename)>10000){
+    if (filesize($filename) > 10000) {
         return false;
     }
     // Load the image
@@ -384,7 +384,7 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
         }
         $url = getURL(getRelativePath($file));
         //var_dump($relativePath, $file, $url);exit;
-        if(ImagesPlaceHolders::isDefaultImage($url)){
+        if (ImagesPlaceHolders::isDefaultImage($url)) {
             $class .= ' ImagesPlaceHoldersDefaultImage';
         }
         if (file_exists($file)) {
@@ -839,7 +839,6 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd)
       echo '<h1>Results</h1>';
       var_dump($sizes);exit;
       }
-     *
      */
     $thumb_w = intval($sizes['w']);
     $thumb_h = intval($sizes['h']);
@@ -1144,7 +1143,7 @@ function saveBase64DataToPNGImage($imgBase64, $filePath)
 
 function createWebPIfNotExists($path)
 {
-    if (version_compare(PHP_VERSION, '8.0.0') < 0 || !file_exists($path)) {
+    if (\PHP_VERSION_ID < 80000 || !file_exists($path)) {
         return $path;
     }
     $extension = pathinfo($path, PATHINFO_EXTENSION);
@@ -1192,7 +1191,7 @@ function saveCroppieImage($destination, $postIndex = "imgBase64")
 
 
 function isImageNotFound($imgURL){
-    if(empty($imgURL)){
+    if (empty($imgURL)) {
         return true;
     }
 
@@ -1212,7 +1211,7 @@ function createColorfulTextSpans($string)
 
 function pwaIconsArray($favicon = '', $forceDelete = false)
 {
-    if(is_array($favicon) && !empty($favicon['file'])){
+    if (is_array($favicon) && !empty($favicon['file'])) {
         $favicon = $favicon['file'];
     }
     $icon = [];
@@ -1220,7 +1219,7 @@ function pwaIconsArray($favicon = '', $forceDelete = false)
 
     $sizes = [72, 96, 120, 128, 144, 152, 180, 192, 384, 512];
 
-    if($favicon && $forceDelete){
+    if ($favicon && $forceDelete) {
         foreach ($sizes as $value) {
             $pwaIcon = "faviconPWA{$value}.png";
             if (file_exists(getVideosDir() . $pwaIcon)) {
