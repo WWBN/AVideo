@@ -281,7 +281,7 @@ function _getSessionCookieParamsConfig($lifetime, $domain = null, $path = '/')
 
 function _supportsCookieOptionsArray()
 {
-    return version_compare(PHP_VERSION, '7.3.0', '>=');
+    return \PHP_VERSION_ID >= 70300;
 }
 
 function _getCookieOptionsArray(array $config, $includeExpires = true)
@@ -396,7 +396,7 @@ function _setcookie($cookieName, $value, $expires = 0)
 
 function _unsetcookie($cookieName)
 {
-    $expires = strtotime("-10 years");
+    $expires = strtotime('-10 years');
     $value = '';
 
     foreach (_getCookieDeleteTargets() as $target) {
@@ -413,12 +413,12 @@ function _resetcookie($cookieName, $value)
     _setcookie($cookieName, $value);
 }
 
-// this will make sure the strring will fits in the database field
+// this will make sure the string will fit in the database field
 function _substr($string, $start, $length = null)
 {
     // make sure the name is not chunked in case of multibyte string
-    if (function_exists("mb_strcut")) {
-        return mb_strcut($string, $start, $length, "UTF-8");
+    if (function_exists('mb_strcut')) {
+        return mb_strcut($string, $start, $length, 'UTF-8');
     } else {
         return substr($string, $start, $length);
     }
@@ -741,14 +741,14 @@ function uniqidV4()
  */
 function doesPHPVersioHasOBBug()
 {
-    return (version_compare(phpversion(), '8.1.4', '==') || version_compare(phpversion(), '8.0.17', '=='));
+    return \PHP_VERSION_ID === 80104 || \PHP_VERSION_ID === 80017;
 }
 
 
 function getSystemAPIs()
 {
     global $global;
-    $obj = AVideoPlugin::getObjectData("API");
+    $obj = AVideoPlugin::getObjectData('API');
     $methodsList = array();
 
     $reflector = new ReflectionClass('API');
@@ -784,15 +784,15 @@ function getSystemAPIs()
         $reflector = $method[1];
         $comment = $reflector->getMethod($method[0])->getDocComment();
         $comment = str_replace(['{webSiteRootURL}', '{getOrSet}', '{APIPlugin}', '{APIName}', '{APISecret}'], [$global['webSiteRootURL'], $method[2], $method[4], $method[3], $obj->APISecret], $comment);
-        $resp = array(
+        $resp = [
             'comment' => $comment,
             'method' => $method[0],
             'type' => $method[2],
             'action' => $method[3],
-            'plugin' => $method[4],
-        );
+            'plugin' => $method[4]
+        ];
         $plugins[$method[4]][$method[0]] = $resp ;
         $response[] = $resp ;
     }
-    return array('methodsList' => $methodsList, 'response' => $response, 'plugins' => $plugins);
+    return ['methodsList' => $methodsList, 'response' => $response, 'plugins' => $plugins];
 }
