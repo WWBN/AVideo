@@ -1,4 +1,7 @@
 <?php
+// Polyfills provided in order to maintain compatibility between AVideo and older PHP versions.
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'php80.php';
+
 // Allow PHP to keep running even if Apache closes the gateway connection
 // (Apache TimeOut default = 180 s).  Large video downloads take much longer.
 ignore_user_abort(true);
