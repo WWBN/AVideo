@@ -90,7 +90,7 @@ if ($res != false) {
 
         // Create _thumbsV2_jpg.webp if not exists (only if _thumbsV2.jpg exists)
         if (file_exists($thumbsPath) && (!file_exists($webpPath) || filesize($webpPath) < 1024)) {
-            if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            if (\PHP_VERSION_ID >= 80000) {
                 echo "[{$count}/{$total}] Creating _thumbsV2_jpg.webp for {$filename}..." . PHP_EOL;
 
                 convertImage($thumbsPath, $webpPath, 90);
