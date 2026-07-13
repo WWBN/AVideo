@@ -1,5 +1,4 @@
 <?php
-$isFirstPage = 1;
 if (version_compare(PHP_VERSION, '7.2') < 0) {
     $msg = [];
     $msg[] = 'You are runing PHP version: '.PHP_VERSION;

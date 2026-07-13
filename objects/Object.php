@@ -891,7 +891,7 @@ abstract class ObjectYPT implements ObjectInterface
 
     private static function isToSaveInASubDir($filename)
     {
-        return str_contains($filename, '/') || str_contains($filename, DIRECTORY_SEPARATOR);
+        return str_starts_with($filename, '/') || str_ends_with($filename, '/');
     }
 
     public static function getTmpCacheDir()
