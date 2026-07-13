@@ -1,4 +1,6 @@
 <?php
+// Polyfills provided in order to maintain compatibility between AVideo and older PHP versions.
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'php80.php';
 
 interface ObjectInterface
 {
