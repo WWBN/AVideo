@@ -149,7 +149,7 @@ class LightOpenID
                 $this->xrds_override_pattern = $pattern;
                 $this->xrds_override_replacement = $replacement;
             } else {
-                trigger_error('Invalid value specified for "xrdsOverride".', E_USER_ERROR);
+                throw new \Exception('Invalid value specified for "xrdsOverride".');
             }
             break;
         }

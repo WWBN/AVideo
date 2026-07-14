@@ -8,6 +8,7 @@
  * @author Mehmet Benlioğlu
  * @author @yasinaydin
  * @author Ogün Karakuş
+ * @author Mustafa Deniz Buksur
  */
 
 $PHPMAILER_LANG['authenticate']         = 'SMTP Hatası: Oturum açılamadı.';
@@ -36,3 +37,7 @@ $PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP connect() fonksiyonu başarısı
 $PHPMAILER_LANG['smtp_detail']          = 'SMTP SMTP Detayı: ';
 $PHPMAILER_LANG['smtp_error']           = 'SMTP sunucu hatası: ';
 $PHPMAILER_LANG['variable_set']         = 'Değişken ayarlanamadı ya da sıfırlanamadı: ';
+$PHPMAILER_LANG['no_smtputf8']          = 'Unicode adreslere gönderim için gereken SMTPUTF8 desteği sunucu tarafından desteklenmiyor.';
+$PHPMAILER_LANG['imap_recommended']     = 'Basitleştirilmiş adres ayrıştırıcısını kullanmanız önerilmez. ' .
+    'Tam RFC822 ayrıştırma için PHP IMAP eklentisini yükleyin.';
+$PHPMAILER_LANG['deprecated_argument']  = 'Kullanımdan kaldırılmış argüman: ';

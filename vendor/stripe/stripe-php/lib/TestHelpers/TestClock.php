@@ -14,7 +14,7 @@ namespace Stripe\TestHelpers;
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
  * @property int $deletes_after Time at which this clock is scheduled to auto delete.
  * @property int $frozen_time Time at which all objects belonging to this clock are frozen.
- * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
+ * @property bool $livemode If the object exists in live mode, the value is <code>true</code>. If the object exists in test mode, the value is <code>false</code>.
  * @property null|string $name The custom name supplied at creation.
  * @property string $status The status of the Test Clock.
  * @property (object{advancing?: (object{target_frozen_time: int}&\Stripe\StripeObject)}&\Stripe\StripeObject) $status_details
@@ -30,7 +30,7 @@ class TestClock extends \Stripe\ApiResource
     /**
      * Creates a new test clock that can be attached to new customers and quotes.
      *
-     * @param null|array{expand?: string[], frozen_time: int, name?: string} $params
+     * @param null|array{customer?: string, expand?: string[], frozen_time: int, name?: string} $params
      * @param null|array|string $options
      *
      * @return TestClock the created resource

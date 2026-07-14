@@ -2,28 +2,40 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace OTPHP;
 
 interface HOTPInterface extends OTPInterface
 {
+    public const DEFAULT_COUNTER = 0;
+
     /**
      * The initial counter (a positive integer).
      */
     public function getCounter(): int;
 
     /**
-     * Create a new TOTP object.
+     * Create a new HOTP object.
      *
      * If the secret is null, a random 64 bytes secret will be generated.
+     *
+     * @param null|non-empty-string $secret
+     * @param 0|positive-int $counter
+     * @param non-empty-string $digest
+     * @param positive-int $digits
+     *
+     * @deprecated Deprecated since v11.1, use ::createFromSecret or ::generate instead
      */
-    public static function create(?string $secret = null, int $counter = 0, string $digest = 'sha1', int $digits = 6): self;
+    public static function create(
+        null|string $secret = null,
+        int $counter = 0,
+        string $digest = 'sha1',
+        int $digits = 6
+    ): self;
+
+    /**
+     * @deprecated Deprecated since v11.4, use {@see self::withCounter()} instead
+     */
+    public function setCounter(int $counter): void;
+
+    public function withCounter(int $counter): self;
 }

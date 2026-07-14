@@ -26,7 +26,7 @@ return array(
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
     'ScssPhp\\ScssPhp\\' => array($vendorDir . '/scssphp/scssphp/src'),
-    'Sample\\' => array($vendorDir . '/paypal/paypal-payouts-sdk/samples', $vendorDir . '/paypal/paypal-checkout-sdk/samples'),
+    'Sample\\' => array($vendorDir . '/paypal/paypal-checkout-sdk/samples', $vendorDir . '/paypal/paypal-payouts-sdk/samples'),
     'React\\Stream\\' => array($vendorDir . '/react/stream/src'),
     'React\\Socket\\' => array($vendorDir . '/react/socket/src'),
     'React\\Promise\\' => array($vendorDir . '/react/promise/src'),
@@ -74,7 +74,6 @@ return array(
     'Base32\\' => array($vendorDir . '/christian-riesen/base32/src'),
     'BackblazeB2\\' => array($vendorDir . '/gliterd/backblaze-b2/src'),
     'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
-    'Assert\\' => array($vendorDir . '/beberlei/assert/lib/Assert'),
     'Amp\\' => array($vendorDir . '/amphp/amp/lib'),
     'Abraham\\TwitterOAuth\\' => array($vendorDir . '/abraham/twitteroauth/src'),
 );

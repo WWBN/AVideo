@@ -16,23 +16,13 @@
         }
     ],
     "require": {
-        "php": "^7.2|^8.0",
-        "ext-mbstring": "*",
-        "paragonie/constant_time_encoding": "^2.0",
-        "beberlei/assert": "^3.0",
-        "thecodingmachine/safe": "^0.1.14|^1.0|^2.0"
+        "php": ">=8.1",
+        "paragonie/constant_time_encoding": "^2.0 || ^3.0",
+        "psr/clock": "^1.0",
+        "symfony/deprecation-contracts": "^3.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.0",
-        "php-coveralls/php-coveralls": "^2.0",
-        "phpstan/phpstan": "^0.12",
-        "phpstan/phpstan-beberlei-assert": "^0.12",
-        "phpstan/phpstan-deprecation-rules": "^0.12",
-        "phpstan/phpstan-phpunit": "^0.12",
-        "phpstan/phpstan-strict-rules": "^0.12",
-        "thecodingmachine/phpstan-safe-rule": "^1.0 || ^2.0"
-    },
-    "suggest": {
+        "symfony/error-handler": "^6.4|^7.0|^8.0"
     },
     "autoload": {
         "psr-4": { "OTPHP\\": "src/" }
@@ -40,11 +30,18 @@
     "autoload-dev": {
         "psr-4": { "OTPHP\\Test\\": "tests/" }
     },
-    "extra": {
-        "branch-alias": {
-            "v10.0": "10.0.x-dev",
-            "v9.0": "9.0.x-dev",
-            "v8.3": "8.3.x-dev"
-        }
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "infection/extension-installer": true,
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
     }
 }

@@ -46,6 +46,11 @@ final class NoPrivateNetworkHttpClient implements HttpClientInterface, LoggerAwa
         'fe80::/10',
         '::ffff:0:0/96',
         '::/128',
+        '::/96',
+        '2002::/16',
+        '2001::/32',
+        '64:ff9b::/96',
+        '64:ff9b:1::/48',
     ];
 
     private $defaultOptions = self::OPTIONS_DEFAULTS;

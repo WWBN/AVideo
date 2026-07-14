@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__ . '/lib/version_check.php';
+
 require __DIR__ . '/lib/Util/ApiVersion.php';
 
 // Stripe singleton
@@ -18,6 +20,7 @@ require __DIR__ . '/lib/Util/Set.php';
 require __DIR__ . '/lib/Util/Util.php';
 require __DIR__ . '/lib/Util/EventTypes.php';
 require __DIR__ . '/lib/Util/EventNotificationTypes.php';
+require __DIR__ . '/lib/Util/Int64.php';
 require __DIR__ . '/lib/Util/ObjectTypes.php';
 
 // HttpClient
@@ -36,7 +39,6 @@ require __DIR__ . '/lib/Exception/IdempotencyException.php';
 require __DIR__ . '/lib/Exception/InvalidArgumentException.php';
 require __DIR__ . '/lib/Exception/InvalidRequestException.php';
 require __DIR__ . '/lib/Exception/PermissionException.php';
-require __DIR__ . '/lib/Exception/RateLimitException.php';
 require __DIR__ . '/lib/Exception/SignatureVerificationException.php';
 require __DIR__ . '/lib/Exception/UnexpectedValueException.php';
 require __DIR__ . '/lib/Exception/UnknownApiErrorException.php';
@@ -152,6 +154,14 @@ require __DIR__ . '/lib/Events/V1BillingMeterErrorReportTriggeredEvent.php';
 require __DIR__ . '/lib/Events/V1BillingMeterErrorReportTriggeredEventNotification.php';
 require __DIR__ . '/lib/Events/V1BillingMeterNoMeterFoundEvent.php';
 require __DIR__ . '/lib/Events/V1BillingMeterNoMeterFoundEventNotification.php';
+require __DIR__ . '/lib/Events/V2CommerceProductCatalogImportsFailedEvent.php';
+require __DIR__ . '/lib/Events/V2CommerceProductCatalogImportsFailedEventNotification.php';
+require __DIR__ . '/lib/Events/V2CommerceProductCatalogImportsProcessingEvent.php';
+require __DIR__ . '/lib/Events/V2CommerceProductCatalogImportsProcessingEventNotification.php';
+require __DIR__ . '/lib/Events/V2CommerceProductCatalogImportsSucceededEvent.php';
+require __DIR__ . '/lib/Events/V2CommerceProductCatalogImportsSucceededEventNotification.php';
+require __DIR__ . '/lib/Events/V2CommerceProductCatalogImportsSucceededWithErrorsEvent.php';
+require __DIR__ . '/lib/Events/V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification.php';
 require __DIR__ . '/lib/Events/V2CoreAccountClosedEvent.php';
 require __DIR__ . '/lib/Events/V2CoreAccountClosedEventNotification.php';
 require __DIR__ . '/lib/Events/V2CoreAccountCreatedEvent.php';
@@ -188,6 +198,7 @@ require __DIR__ . '/lib/Events/V2CoreAccountUpdatedEvent.php';
 require __DIR__ . '/lib/Events/V2CoreAccountUpdatedEventNotification.php';
 require __DIR__ . '/lib/Events/V2CoreEventDestinationPingEvent.php';
 require __DIR__ . '/lib/Events/V2CoreEventDestinationPingEventNotification.php';
+require __DIR__ . '/lib/Exception/RateLimitException.php';
 require __DIR__ . '/lib/Exception/TemporarySessionExpiredException.php';
 require __DIR__ . '/lib/ExchangeRate.php';
 require __DIR__ . '/lib/File.php';
@@ -396,6 +407,9 @@ require __DIR__ . '/lib/Service/V2/Billing/MeterEventAdjustmentService.php';
 require __DIR__ . '/lib/Service/V2/Billing/MeterEventService.php';
 require __DIR__ . '/lib/Service/V2/Billing/MeterEventSessionService.php';
 require __DIR__ . '/lib/Service/V2/Billing/MeterEventStreamService.php';
+require __DIR__ . '/lib/Service/V2/Commerce/CommerceServiceFactory.php';
+require __DIR__ . '/lib/Service/V2/Commerce/ProductCatalog/ImportService.php';
+require __DIR__ . '/lib/Service/V2/Commerce/ProductCatalog/ProductCatalogServiceFactory.php';
 require __DIR__ . '/lib/Service/V2/Core/AccountLinkService.php';
 require __DIR__ . '/lib/Service/V2/Core/AccountService.php';
 require __DIR__ . '/lib/Service/V2/Core/AccountTokenService.php';
@@ -451,6 +465,7 @@ require __DIR__ . '/lib/Treasury/TransactionEntry.php';
 require __DIR__ . '/lib/V2/Billing/MeterEvent.php';
 require __DIR__ . '/lib/V2/Billing/MeterEventAdjustment.php';
 require __DIR__ . '/lib/V2/Billing/MeterEventSession.php';
+require __DIR__ . '/lib/V2/Commerce/ProductCatalogImport.php';
 require __DIR__ . '/lib/V2/Core/Account.php';
 require __DIR__ . '/lib/V2/Core/AccountLink.php';
 require __DIR__ . '/lib/V2/Core/AccountPerson.php';

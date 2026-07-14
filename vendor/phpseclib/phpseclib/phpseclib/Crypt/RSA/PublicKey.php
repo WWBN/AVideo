@@ -17,6 +17,7 @@ use phpseclib3\Crypt\Hash;
 use phpseclib3\Crypt\Random;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\RSA\Formats\Keys\PSS;
+use phpseclib3\Exception\BadConfigurationException;
 use phpseclib3\Exception\UnsupportedAlgorithmException;
 use phpseclib3\Exception\UnsupportedFormatException;
 use phpseclib3\File\ASN1;
@@ -116,7 +117,7 @@ final class PublicKey extends RSA implements Common\PublicKey
         }
 
         // Compare
-        return $r1 || $r2;
+        return boolval($r1 | $r2);
     }
 
     /**
@@ -301,6 +302,11 @@ final class PublicKey extends RSA implements Common\PublicKey
      */
     public function verify($message, $signature)
     {
+        $result = $this->handleOpenSSL('openssl_verify', $message, $signature);
+        if ($result !== null) {
+            return $result;
+        }
+
         switch ($this->signaturePadding) {
             case self::SIGNATURE_RELAXED_PKCS1:
                 return $this->rsassa_pkcs1_v1_5_relaxed_verify($message, $signature);
@@ -450,6 +456,11 @@ final class PublicKey extends RSA implements Common\PublicKey
      */
     public function encrypt($plaintext)
     {
+        $result = $this->handleOpenSSL('openssl_public_encrypt', $plaintext);
+        if ($result !== null) {
+            return $result;
+        }
+
         switch ($this->encryptionPadding) {
             case self::ENCRYPTION_NONE:
                 return $this->raw_encrypt($plaintext);

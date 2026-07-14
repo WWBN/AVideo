@@ -1,88 +1,74 @@
-# Security Policy
+# Security Release Process
+
+OTPHP is devoted to providing the best experience for all developers who want to implement OTP authentication in their applications.
+Spomky-Labs has adopted this security disclosure and response policy to ensure we responsibly handle critical issues.
 
 ## Supported Versions
 
+The OTPHP project maintains release branches for the three most recent minor releases.
+Applicable fixes, including security fixes, may be backported to those three release branches, depending on severity and feasibility. Please refer to [RELEASES.md](RELEASES.md) for details.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 11.0.x  | :white_check_mark: |
-| 10.0.x  | :white_check_mark: |
-| < 10.0  | :x:                |
+## Reporting a Vulnerability - Private Disclosure Process
 
-## Reporting a Vulnerability
+Security is of the highest importance and all security vulnerabilities or suspected security vulnerabilities should be reported to OTPHP privately, to minimize attacks against current users of OTPHP before they are fixed.
+Vulnerabilities will be investigated and patched on the next patch (or minor) release as soon as possible.
+This information could be kept entirely internal to the project.
 
-Please send an email to `security@spomky-labs.com`.
-If deemed necessary, you can encrypt your message using one of the following GPG key
+If you know of a publicly disclosed security vulnerability for OTPHP, please **IMMEDIATELY** contact security@spomky-labs.com to inform the OTPHP Security Team.
 
-```
------BEGIN PGP PUBLIC KEY BLOCK-----
-xjMEXTsJVxYJKwYBBAHaRw8BAQdAZCS93eHRx97V+LQbAWuAaeKIdUZ9YIkn
-QH5pQ7dDU0TNMWNvbnRhY3RAc3BvbWt5LWxhYnMuY29tIDxjb250YWN0QHNw
-b21reS1sYWJzLmNvbT7CdwQQFgoAHwUCXTsJVwYLCQcIAwIEFQgKAgMWAgEC
-GQECGwMCHgEACgkQG6hbCDSDj+1/tgEAoy11uHvDV7kkG/iN2/0ylV72hU8y
-c/xoqGd7qFaKD6ABANcthlg63OrQVTf0dUPOT9Y2BJpOOA88JJWgILtuUPIO
-zjgEXTsJVxIKKwYBBAGXVQEFAQEHQKiX7nldkmICePhzwReZnBPmjpsmNt7V
-Y8xHdICKsr8cAwEIB8JhBBgWCAAJBQJdOwlXAhsMAAoJEBuoWwg0g4/t0KgA
-/31ucb/bL/MGpWFrpSjTs6uQhZWlBmcFoeMhwCYepIpZAQDd65UBqFDKXJWv
-Xy3zoMQQzD9Z6fUATnFrWkzjHwhvDQ==
-=j4dw
------END PGP PUBLIC KEY BLOCK-----
-```
+**IMPORTANT: Do not file public issues on GitHub for security vulnerabilities**
 
+To report a vulnerability or a security-related issue, please email the private address security@spomky-labs.com with the details of the vulnerability.
+The email will be fielded by the OTPHP Security Team, which is made up of the OTPHP maintainers who have committer and release permissions.
+Do not report non-security-impacting bugs through this channel. Use [GitHub issues](https://github.com/Spomky-Labs/otphp/issues/new/choose) instead.
 
-```
------BEGIN PGP PUBLIC KEY BLOCK-----
-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
-BUqlX5YJHneD9Q8Sfz/HKDQDCqg=
-=o+4z
------END PGP PUBLIC KEY BLOCK-----
-```
+Emails can be encrypted if you wish to share the vulnerability details securely.
+The OTPHP Security Team's PGP key is available on the [PGP keyservers](https://keys.openpgp.org/search?q=security%40spomky-labs.com).
+
+### Proposed Email Content
+
+Provide a descriptive subject line and in the body of the email include the following information:
+
+-   Basic identity information, such as your name and your affiliation or company.
+-   Detailed steps to reproduce the vulnerability (POC scripts, screenshots, and compressed packet captures are all helpful to us).
+-   Description of the effects of the vulnerability on OTPHP and the related hardware and software configurations, so that the OTPHP Security Team can reproduce it.
+-   How the vulnerability affects OTPHP usage and an estimation of the attack surface, if there is one.
+-   List other projects or dependencies that were used in conjunction with OTPHP to produce the vulnerability.
+
+## When to report a vulnerability
+
+-   When you think OTPHP has a potential security vulnerability.
+-   When you suspect a potential vulnerability, but you are unsure that it impacts OTPHP.
+-   When you know of or suspect a potential vulnerability on another project that is used by OTPHP.
+
+## Patch, Release, and Disclosure
+
+The OTPHP Security Team will respond to vulnerability reports as follows:
+
+1.  The Security Team will investigate the vulnerability and determine its effects and criticality.
+2.  If the issue is not deemed to be a vulnerability, the Security Team will follow up with a detailed reason for rejection.
+3.  The Security Team will initiate a conversation with the reporter as soon as possible.
+4.  If a vulnerability is acknowledged and the timeline for a fix is determined, the Security Team will work on a plan to communicate with the appropriate community, including identifying mitigating steps that affected users can take to protect themselves until the fix is rolled out.
+5.  The Security Team will work on fixing the vulnerability and perform internal testing before preparing to roll out the fix.
+6.  A public disclosure date is negotiated by the OTPHP Security Team and the bug submitter. We prefer to fully disclose the bug as soon as possible once a user mitigation or patch is available. It is reasonable to delay disclosure when the bug or the fix is not yet fully understood, the solution is not well-tested, or for distributor coordination. The timeframe for disclosure is from immediate (especially if it's already publicly known) to a few weeks. For a critical vulnerability with a straightforward mitigation, we expect report date to public disclosure date to be on the order of 14 business days. The OTPHP Security Team holds the final say when setting a public disclosure date.
+7.  Once the fix is confirmed, the Security Team will patch the vulnerability in the next patch or minor release, and backport a patch release into all earlier supported releases. Upon release of the patched version of OTPHP, we will follow the **Public Disclosure Process**.
+
+### Public Disclosure Process
+
+The Security Team publishes a public [advisory](https://github.com/Spomky-Labs/otphp/security/advisories) to the OTPHP community via GitHub. In most cases, additional communication via Twitter, blog and other channels will assist in educating OTPHP users and rolling out the patched release to affected users.
+
+The Security Team will also publish any mitigating steps users can take until the fix can be applied to their OTPHP instances. OTPHP distributors will handle creating and publishing their own security advisories.
+
+## Mailing lists
+
+-   Use security@spomky-labs.com to report security concerns to the OTPHP Security Team, who uses the list to privately discuss security issues and fixes prior to disclosure.
+
+## Early Disclosure to OTPHP Distributors List
+
+This private list is intended to be used primarily to provide actionable information to multiple distributor projects at once. This list is not intended to inform individuals about security issues.
+
+## Confidentiality, integrity and availability
+
+We consider vulnerabilities leading to the compromise of data confidentiality, elevation of privilege, or integrity to be our highest priority concerns.
+Availability, in particular in areas relating to DoS and resource exhaustion, is also a serious security concern.
+The OTPHP Security Team takes all vulnerabilities, potential vulnerabilities, and suspected vulnerabilities seriously and will investigate them in an urgent and expeditious manner.
