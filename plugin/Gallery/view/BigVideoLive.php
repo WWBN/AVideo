@@ -17,7 +17,17 @@ if ($obj->BigVideoLiveOnFirstPageOnly && (!isFirstPage() || !empty($_GET['catNam
 }
 
 if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
-    $liveVideo = Live::getLatest(true);
+    // Inside a category page, validate the live of that category, not a global live
+    $bigVideoLiveCategories_id = 0;
+    if (!empty($_REQUEST['catName'])) {
+        $bigVideoLiveCat = Category::getCategoryByName($_REQUEST['catName']);
+        $bigVideoLiveCategories_id = intval(@$bigVideoLiveCat['id']);
+        if (empty($bigVideoLiveCategories_id)) {
+            echo '<!-- BigVideoLive is disabled because the category does not exist -->';
+            return '';
+        }
+    }
+    $liveVideo = Live::getLatest(true, 0, $bigVideoLiveCategories_id);
     if (empty($liveVideo)) {
         echo '<!-- BigVideoLive is disabled because there is no live video -->';
         return '';
@@ -26,6 +36,10 @@ if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
 $urlLiveNow = "{$global['webSiteRootURL']}liveNow?muted=1";
 $urlLiveNow = addQueryStringParameter($urlLiveNow, 'muted', 1);
 $urlLiveNow = addQueryStringParameter($urlLiveNow, 'isClosed', 1);
+// When displayed inside a category page, show only lives and videos from that category
+if (!empty($_REQUEST['catName'])) {
+    $urlLiveNow = addQueryStringParameter($urlLiveNow, 'catName', $_REQUEST['catName']);
+}
 ?>
 <style>
     #BigVideoLive {

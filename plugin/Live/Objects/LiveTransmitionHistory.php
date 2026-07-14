@@ -751,33 +751,42 @@ class LiveTransmitionHistory extends ObjectYPT
         return $rows;
     }
 
-    public static function getActiveLives($live_servers_id = '', $checkLive = true, $users_id = 0)
+    public static function getActiveLives($live_servers_id = '', $checkLive = true, $users_id = 0, $categories_id = 0)
     {
         global $global;
         if (!self::isTableInstalled(static::getTableName())) {
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
             return false;
         }
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";
+        $sql = "SELECT lth.*, lt.id as live_transmitions_id, lt.categories_id ";
+        $sql .= " FROM " . static::getTableName() . " lth ";
+        $sql .= " LEFT JOIN live_transmitions lt ON lth.users_id = lt.users_id ";
+        $sql .= " WHERE lth.finished IS NULL ";
 
         $formats = "";
         $values = [];
 
         if(!empty($users_id)){
-            $sql .= ' AND `users_id` = ? ';
+            $sql .= ' AND lth.`users_id` = ? ';
             $formats .= "i";
             $values[] = $users_id;
         }
 
+        if (!empty($categories_id)) {
+            $sql .= ' AND lt.`categories_id` = ? ';
+            $formats .= "i";
+            $values[] = $categories_id;
+        }
+
         if (strtolower($live_servers_id) == 'null') {
-            $sql .= ' AND `live_servers_id` IS NULL ';
+            $sql .= ' AND lth.`live_servers_id` IS NULL ';
         } else if (!empty($live_servers_id)) {
-            $sql .= ' AND `live_servers_id` = ? ';
+            $sql .= ' AND lth.`live_servers_id` = ? ';
             $formats .= "i";
             $values[] = $live_servers_id;
         }
 
-        $sql .= " ORDER BY created DESC";
+        $sql .= " ORDER BY lth.created DESC";
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);

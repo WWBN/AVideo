@@ -38,14 +38,19 @@ if (!empty($_REQUEST['catName'])) {
     $categories_id = $cat['id'];
 }
 
+if (!empty($_REQUEST['catName']) && empty($categories_id)) {
+    videoNotFound('');
+}
+
 function matchWithRequest($row)
 {
     global $users_id, $categories_id;
-    if (!empty($row['users_id']) && !empty($users_id)) {
-        return $row['users_id'] == $users_id;
+    // On a channel page, only lives from that user match
+    if (!empty($users_id)) {
+        return !empty($row['users_id']) && $row['users_id'] == $users_id;
     }
-    if (!empty($row['categories_id']) && !empty($categories_id)) {
-        return $row['categories_id'] == $categories_id;
+    if (!empty($categories_id)) {
+        return !empty($row['categories_id']) && intval($row['categories_id']) == intval($categories_id);
     }
     return true;
 }
@@ -54,7 +59,7 @@ $liveFound = false;
 $isEnabledPayPerViewLive = AVideoPlugin::isEnabledByName("PayPerViewLive");
 if (AVideoPlugin::isEnabledByName('PlayLists')) {
     // try to get a live that is not a scheduled playlist
-    $lives = LiveTransmitionHistory::getActiveLives('', false);
+    $lives = LiveTransmitionHistory::getActiveLives('', false, $users_id, $categories_id);
     foreach ($lives as $key => $value) {
         if ($isEnabledPayPerViewLive && !PayPerViewLive::canUserWatchNow(User::getId(), $value['users_id'])) {
             continue;
@@ -71,9 +76,12 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
 if (!$liveFound) {
     //$liveVideo = Live::getLatest(true, $users_id, $categories_id);
 
-    $activeLives = LiveTransmitionHistory::getActiveLives('', true, $users_id);
+    $activeLives = LiveTransmitionHistory::getActiveLives('', true, $users_id, $categories_id);
     foreach ($activeLives as $key => $value) {
         if ($isEnabledPayPerViewLive && !PayPerViewLive::canUserWatchNow(User::getId(), $value['users_id'])) {
+            continue;
+        }
+        if (!matchWithRequest($value)) {
             continue;
         }
         $liveVideo = $value;
@@ -108,8 +116,8 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
     $_POST['rowCount'] = 1;
     $_POST['sort']['created'] = 'DESC';
     $liveVideo = LiveLinks::getAllActive(false, true, false, $users_id, $categories_id);
-    $video = $liveVideo[0];
-    if (!empty($video['link']) && isValidURL($video['link'])) {
+    $video = !empty($liveVideo) ? $liveVideo[0] : false;
+    if (!empty($video) && !empty($video['link']) && isValidURL($video['link'])) {
         $poster = LiveLinks::getImage($video['id']);
         $sources = "<source src=\"{$video['link']}\" type=\"application/x-mpegURL\">";
         $objectToReturnToParentIframe->isLive = true;
@@ -128,16 +136,25 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
 if (!$liveFound) {
     $_POST['rowCount'] = 1;
 
-    //try suggested only first
-    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, true, null, Video::$videoTypeVideo, 0);
-
-    if (empty($videos)) {
-        $_POST['sort']['created'] = 'DESC';
-        //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
+    if (!empty($categories_id)) {
+        // Inside a category: show the latest video of that category.
+        // Do NOT use suggestedOnly (it can trigger ORDER BY RAND()); order deterministically.
+        unset($_POST['sort']);
+        $_POST['sort']['v.created'] = 'DESC';
+        $_POST['sort']['v.id'] = 'DESC';
         $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, false, null, Video::$videoTypeVideo, 0);
+    } else {
+        //try suggested only first
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, true, null, Video::$videoTypeVideo, 0);
+
         if (empty($videos)) {
-            videoNotFound('');
+            $_POST['sort']['created'] = 'DESC';
+            //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
+            $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, false, null, Video::$videoTypeVideo, 0);
         }
+    }
+    if (empty($videos)) {
+        videoNotFound('');
     }
     $video = $videos[0];
     $_GET['videos_id'] = $video['id'];
@@ -158,7 +175,7 @@ if (!$liveFound) {
     $objectToReturnToParentIframe->creator = User::getNameIdentificationById($video['users_id']);
 
     $objectToReturnToParentIframe->mediaSession = Video::getMediaSession($video['id']);
-    $objectToReturnToParentIframe->users_id = intval($liveVideo['users_id']);
+    $objectToReturnToParentIframe->users_id = intval($video['users_id']);
 }
 $objectToReturnToParentIframe->user = User::getNameIdentificationById($objectToReturnToParentIframe->users_id);
 $objectToReturnToParentIframe->UserPhoto = User::getPhoto($objectToReturnToParentIframe->users_id);
