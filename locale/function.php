@@ -150,7 +150,8 @@ function flag2Lang($flagCode) {
 
 function getUserLocationLanguageSettings()
 {
-    if (!class_exists('sqlDAL')) {
+    global $doNotConnectDatabaseIncludeConfig;
+    if (!class_exists('sqlDAL') || !empty($doNotConnectDatabaseIncludeConfig) || !function_exists('_mysql_is_open')) {
         return false;
     }
     $sql = "SELECT object_data, status FROM plugins WHERE name = ? LIMIT 1";

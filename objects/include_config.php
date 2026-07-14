@@ -24,9 +24,9 @@ if (!empty($global['stopHeadRequests'])) {
 if (!empty($doNotIncludeConfig)) {
     //error_log('AVideo includeconfig ignored');
     // in this line the mysql connection will not be opened and session will not be opened
+    require_once $global['systemRootPath'] . 'objects/functions.php';
     require_once $global['systemRootPath'] . 'objects/plugin.php';
     require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-    require_once $global['systemRootPath'] . 'objects/functions.php';
     require_once $global['systemRootPath'] . 'objects/images.php';
 
     includeSecurityChecks();
