@@ -773,8 +773,9 @@ class LiveTransmitionHistory extends ObjectYPT
         }
 
         if (!empty($categories_id)) {
-            $sql .= ' AND lt.`categories_id` = ? ';
-            $formats .= "i";
+            $sql .= ' AND (lt.`categories_id` = ? OR lt.`categories_id` IN (SELECT id FROM categories WHERE parentId = ?)) ';
+            $formats .= "ii";
+            $values[] = $categories_id;
             $values[] = $categories_id;
         }
 

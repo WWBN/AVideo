@@ -35,7 +35,7 @@ if (!empty($_REQUEST['channelName'])) {
 $categories_id = 0;
 if (!empty($_REQUEST['catName'])) {
     $cat = Category::getCategoryByName($_REQUEST['catName']);
-    $categories_id = $cat['id'];
+    $categories_id = intval(@$cat['id']);
 }
 
 if (!empty($_REQUEST['catName']) && empty($categories_id)) {
@@ -50,7 +50,15 @@ function matchWithRequest($row)
         return !empty($row['users_id']) && $row['users_id'] == $users_id;
     }
     if (!empty($categories_id)) {
-        return !empty($row['categories_id']) && intval($row['categories_id']) == intval($categories_id);
+        if (empty($row['categories_id'])) {
+            return false;
+        }
+        $row_categories_id = intval($row['categories_id']);
+        if ($row_categories_id == intval($categories_id)) {
+            return true;
+        }
+        $rowCategory = Category::getCategory($row_categories_id);
+        return !empty($rowCategory['parentId']) && intval($rowCategory['parentId']) == intval($categories_id);
     }
     return true;
 }
