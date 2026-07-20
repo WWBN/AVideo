@@ -160,8 +160,15 @@ class UserGroups{
     public static function getAllUsersGroupsArray()
     {
         global $global;
+        $debugUG = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
         $cacheName = 'UserGroups::getAllUsersGroupsArray';
+        if ($debugUG) {
+            _error_log('UserGroups::getAllUsersGroupsArray UG.1 before getCache');
+        }
         $cached = ObjectYPT::getCache($cacheName, 60, true, false);
+        if ($debugUG) {
+            _error_log('UserGroups::getAllUsersGroupsArray UG.2 after getCache type=' . gettype($cached));
+        }
         if (is_object($cached)) {
             $cached = (array) $cached;
         }
@@ -171,7 +178,13 @@ class UserGroups{
 
         $sql = "SELECT * FROM users_groups as ug WHERE 1=1 ";
 
+        if ($debugUG) {
+            _error_log('UserGroups::getAllUsersGroupsArray UG.3 before readSql');
+        }
         $res = sqlDAL::readSql($sql);
+        if ($debugUG) {
+            _error_log('UserGroups::getAllUsersGroupsArray UG.4 after readSql');
+        }
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $arr = [];
@@ -186,6 +199,9 @@ class UserGroups{
         }
 
         ObjectYPT::setCache($cacheName, $arr, false);
+        if ($debugUG) {
+            _error_log('UserGroups::getAllUsersGroupsArray UG.5 done total=' . count($arr));
+        }
         return $arr;
     }
 
