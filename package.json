@@ -41,7 +41,7 @@
     "js-cookie": "^3.0.8",
     "keycode": "^2.2.1",
     "moment": "^2.30.1",
-    "moment-timezone": "^0.6.2",
+    "moment-timezone": "^0.6.3",
     "nosleep.js": "^0.12.0",
     "pouchdb": "^9.0.0",
     "socket.io-client": "^4.8.3",
