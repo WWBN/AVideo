@@ -11,12 +11,12 @@ class VideosVR360 extends ObjectYPT {
     protected $id, $videos_id, $clickAndDrag, $showNotice, $initLat, $initLon, $backToVerticalCenter, $videoType, $active;
 
     protected $intVal = array(
-        'videos_id', 
-        'clickAndDrag', 
-        'showNotice', 
-        'initLat', 
-        'initLon', 
-        'backToVerticalCenter', 
+        'videos_id',
+        'clickAndDrag',
+        'showNotice',
+        'initLat',
+        'initLon',
+        'backToVerticalCenter',
         'active'
         );
 
@@ -28,7 +28,7 @@ class VideosVR360 extends ObjectYPT {
     static function getTableName() {
         return 'videos_VR360';
     }
-    
+
     protected function loadFromVideo($videos_id) {
         $row = self::getFromVideoDb($videos_id);
         if (empty($row))
@@ -66,13 +66,13 @@ class VideosVR360 extends ObjectYPT {
         }
         return false;
     }
-    
+
     static function isVR360Enabled($videos_id){
         $vr = new VideosVR360(0);
         $vr->loadFromVideo($videos_id);
         return !empty($vr->getActive());
     }
-    
+
     static function toogleVR360($videos_id, $active = null){
         $videos_id = intval($videos_id);
         if (empty($videos_id)) {
@@ -96,9 +96,9 @@ class VideosVR360 extends ObjectYPT {
     }
     static function toogleVR360ByVideoCleanTitle($clean_title){
         $video = Video::getVideoFromCleanTitle($clean_title);
-        return self::toogleVR360($video['id']); 
+        return self::toogleVR360($video['id']);
     }
-    
+
     function getId() {
         return $this->id;
     }
