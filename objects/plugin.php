@@ -362,19 +362,22 @@ class Plugin extends ObjectYPT
         global $global, $getAllEnabledRows;
         if (empty($getAllEnabledRows)) {
             $cacheName = 'plugin::getAllEnabled';
-            $cachedRows = ObjectYPT::getCache($cacheName, 30, true, false);
-            if (is_array($cachedRows) && !empty($cachedRows)) {
-                $getAllEnabledRows = [];
-                foreach ($cachedRows as $row) {
-                    if (is_object($row)) {
-                        $row = (array) $row;
+            $allowPersistentCache = !isCommandLineInterface() || !empty($global['forceGetCache']);
+            if ($allowPersistentCache) {
+                $cachedRows = ObjectYPT::getCache($cacheName, 30, true, false);
+                if (is_array($cachedRows) && !empty($cachedRows)) {
+                    $getAllEnabledRows = [];
+                    foreach ($cachedRows as $row) {
+                        if (is_object($row)) {
+                            $row = (array) $row;
+                        }
+                        if (is_array($row)) {
+                            $getAllEnabledRows[] = $row;
+                        }
                     }
-                    if (is_array($row)) {
-                        $getAllEnabledRows[] = $row;
+                    if (!empty($getAllEnabledRows)) {
+                        return $getAllEnabledRows;
                     }
-                }
-                if (!empty($getAllEnabledRows)) {
-                    return $getAllEnabledRows;
                 }
             }
 
@@ -417,7 +420,9 @@ class Plugin extends ObjectYPT
             $getAllEnabledRows = array_map(function ($row) {
                 return is_object($row) ? (array) $row : $row;
             }, $getAllEnabledRows);
-            ObjectYPT::setCache($cacheName, $getAllEnabledRows, false);
+            if ($allowPersistentCache) {
+                ObjectYPT::setCache($cacheName, $getAllEnabledRows, false);
+            }
         }
         return $getAllEnabledRows;
     }

@@ -161,12 +161,15 @@ class UserGroups{
     {
         global $global;
         $cacheName = 'UserGroups::getAllUsersGroupsArray';
-        $cached = ObjectYPT::getCache($cacheName, 60, true, false);
-        if (is_object($cached)) {
-            $cached = (array) $cached;
-        }
-        if (is_array($cached)) {
-            return $cached;
+        $allowPersistentCache = !isCommandLineInterface() || !empty($global['forceGetCache']);
+        if ($allowPersistentCache) {
+            $cached = ObjectYPT::getCache($cacheName, 60, true, false);
+            if (is_object($cached)) {
+                $cached = (array) $cached;
+            }
+            if (is_array($cached)) {
+                return $cached;
+            }
         }
 
         $sql = "SELECT * FROM users_groups as ug WHERE 1=1 ";
@@ -185,7 +188,9 @@ class UserGroups{
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
 
-        ObjectYPT::setCache($cacheName, $arr, false);
+        if ($allowPersistentCache) {
+            ObjectYPT::setCache($cacheName, $arr, false);
+        }
         return $arr;
     }
 
