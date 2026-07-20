@@ -824,9 +824,29 @@ class CustomizeUser extends PluginAbstract
     public function getStart()
     {
         global $global;
+        $debugGetStart = !empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getStart']);
+        if ($debugGetStart) {
+            _error_log('CustomizeUser::getStart 1 before getDataObject');
+        }
         $obj = $this->getDataObject();
+        if ($debugGetStart) {
+            _error_log('CustomizeUser::getStart 2 after getDataObject userMustBeLoggedIn=' . (int)!empty($obj->userMustBeLoggedIn));
+        }
         $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
+        if ($debugGetStart) {
+            _error_log('CustomizeUser::getStart 3 before useVideoHashOrLogin basename=' . ($thisScriptFile["basename"] ?? ''));
+        }
         useVideoHashOrLogin();
+        if ($debugGetStart) {
+            _error_log('CustomizeUser::getStart 4 after useVideoHashOrLogin isLogged=' . (int)User::isLogged() . ' userId=' . (int)User::getId());
+        }
+        if ($debugGetStart) {
+            _error_log('CustomizeUser::getStart 5 before condition'
+                . ' ignoreUserMustBeLoggedIn=' . (int)!empty($global['ignoreUserMustBeLoggedIn'])
+                . ' isBot=' . (int)isBot()
+                . ' isEmbed=' . (int)isEmbed()
+                . ' isVideo=' . (int)isVideo());
+        }
         if (
             empty($global['ignoreUserMustBeLoggedIn']) && !isBot() && !empty($obj->userMustBeLoggedIn) &&
             ((!isEmbed() && isVideo()) ||
@@ -838,10 +858,16 @@ class CustomizeUser extends PluginAbstract
             !User::isLogged()
         ) {
             _error_log("CustomizeUser::userMustBeLoggedIn basename: {$thisScriptFile["basename"]}");
+            if ($debugGetStart) {
+                _error_log('CustomizeUser::getStart 6 before gotToLoginAndComeBackHere');
+            }
             gotToLoginAndComeBackHere('');
             //$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             //header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($actual_link));
             exit;
+        }
+        if ($debugGetStart) {
+            _error_log('CustomizeUser::getStart 7 done (no redirect)');
         }
     }
 
