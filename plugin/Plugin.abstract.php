@@ -192,11 +192,21 @@ abstract class PluginAbstract {
 
     public function getDataObject() {
         $uuid = $this->getUUID();
+        $debugDataObject = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
         if (empty(PluginAbstract::$dataObject[$uuid]) && class_exists('Plugin')) {
+            if ($debugDataObject) {
+                _error_log("getDataObject A build start uuid=$uuid class=" . get_class($this));
+            }
             $obj = Plugin::getPluginByUUID($uuid);
             //echo $obj['object_data'];
             $o = self::getObjectDataFromDatabase($uuid);
+            if ($debugDataObject) {
+                _error_log("getDataObject B before getEmptyDataObject uuid=$uuid");
+            }
             $eo = $this->getEmptyDataObject();
+            if ($debugDataObject) {
+                _error_log("getDataObject C after getEmptyDataObject uuid=$uuid");
+            }
             if(empty($eo)){
                 $eo = array();
             }
@@ -223,7 +233,13 @@ abstract class PluginAbstract {
             }
             $wholeObjects = array_merge((array) $eo, (array) $o);
             $disabledPlugins = plugin::getAllDisabled();
+            if ($debugDataObject) {
+                _error_log("getDataObject D before disabled plugins loop uuid=$uuid total=" . count($disabledPlugins));
+            }
             foreach ($disabledPlugins as $value) {
+                if ($debugDataObject) {
+                    _error_log("getDataObject D.1 disabled plugin loadPlugin " . $value['dirName'] . " uuid=$uuid");
+                }
                 $p = AVideoPlugin::loadPlugin($value['dirName']);
                 if (is_object($p)) {
                     $foreginObjects = $p->getCustomizeAdvancedOptions();
@@ -233,6 +249,9 @@ abstract class PluginAbstract {
                                 unset($wholeObjects[$optionName]);
                     }
                 }
+            }
+            if ($debugDataObject) {
+                _error_log("getDataObject E after disabled plugins loop uuid=$uuid");
             }
 
             PluginAbstract::$dataObject[$uuid] = $wholeObjects;

@@ -266,9 +266,16 @@ class CustomizeUser extends PluginAbstract
     public function getEmptyDataObject()
     {
         global $advancedCustom, $advancedCustomUser;
+        $debugEmpty = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
         $obj = new stdClass();
 
+        if ($debugEmpty) {
+            _error_log('CustomizeUser::getEmptyDataObject B.1 before _getSocialMedia');
+        }
         $socialMedias = self::_getSocialMedia();
+        if ($debugEmpty) {
+            _error_log('CustomizeUser::getEmptyDataObject B.2 after _getSocialMedia');
+        }
         foreach ($socialMedias as $key => $value) {
             $param = "socialMedia_{$key}";
             $obj->$param = true;
@@ -290,7 +297,13 @@ class CustomizeUser extends PluginAbstract
         $obj->userCanNotChangeUserGroup = false;
 
         $o = new stdClass();
+        if ($debugEmpty) {
+            _error_log('CustomizeUser::getEmptyDataObject B.3 before getAllUsersGroupsArray');
+        }
         $o->type = array_merge(array('Default'), UserGroups::getAllUsersGroupsArray());
+        if ($debugEmpty) {
+            _error_log('CustomizeUser::getEmptyDataObject B.4 after getAllUsersGroupsArray');
+        }
         $o->value = 0;
         $obj->userDefaultUserGroup = $o;
         $obj->userMustBeLoggedIn = !isset($advancedCustom->userMustBeLoggedIn) ? false : $advancedCustom->userMustBeLoggedIn;
@@ -338,7 +351,13 @@ class CustomizeUser extends PluginAbstract
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
 
         $o = new stdClass();
+        if ($debugEmpty) {
+            _error_log('CustomizeUser::getEmptyDataObject B.5 before getBGAnimationArray');
+        }
         $o->type = [0 => '--  None', 1 => '-- Random'] + self::getBGAnimationArray();
+        if ($debugEmpty) {
+            _error_log('CustomizeUser::getEmptyDataObject B.6 after getBGAnimationArray');
+        }
         $o->value = 1;
         $obj->loginBackgroundAnimation = $o;
 
