@@ -54,7 +54,17 @@ class VideosVR360 extends ObjectYPT {
          * @var object $global['mysqli']
          */
         $videos_id = intval($videos_id);
-        return Video::getVideoLight($videos_id);
+        if (empty($videos_id)) {
+            return false;
+        }
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE videos_id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, 'i', array($videos_id));
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($row)) {
+            return $row;
+        }
+        return false;
     }
     
     static function isVR360Enabled($videos_id){
@@ -63,15 +73,25 @@ class VideosVR360 extends ObjectYPT {
         return !empty($vr->getActive());
     }
     
-    static function toogleVR360($videos_id){
-        if(!User::canUpload()){
+    static function toogleVR360($videos_id, $active = null){
+        $videos_id = intval($videos_id);
+        if (empty($videos_id)) {
+            return false;
+        }
+        if(!Video::canEdit($videos_id)){
             return false;
         }
         $vr = new VideosVR360(0);
         $vr->loadFromVideo($videos_id);
         $vr->setVideos_id($videos_id);
-        $vr->setActive(intval(!$vr->getActive()));
-        $vr->save();
+        if ($active === null) {
+            $vr->setActive(intval(!$vr->getActive()));
+        } else {
+            $vr->setActive(intval(!empty($active)));
+        }
+        if (!$vr->save()) {
+            return false;
+        }
         return $vr->getActive();
     }
     static function toogleVR360ByVideoCleanTitle($clean_title){

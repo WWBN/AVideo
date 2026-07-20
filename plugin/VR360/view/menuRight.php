@@ -10,16 +10,30 @@ $videos_id = getVideos_id();
 </li>
 <script>
     $('#vr360').change(function () {
+        var $checkbox = $(this);
+        var checkedValue = $checkbox.is(":checked");
         modal.showPleaseWait();
         $.ajax({
             url: webSiteRootURL+'plugin/VR360/toogleVR360.php',
             method: 'POST',
             data: {
                 'videos_id': <?php echo intval($videos_id); ?>,
-                'vr360': $(this).is(":checked")
+                'vr360': checkedValue ? 1 : 0,
+                'globalToken': '<?php echo getToken(300); ?>'
             },
             success: function (response) {
-                console.log(response);
+                if (response && !response.error) {
+                    $checkbox.prop('checked', !!response.active);
+                    avideoToastSuccess(response.msg || 'VR360 atualizado');
+                } else {
+                    $checkbox.prop('checked', !checkedValue);
+                    avideoToastError((response && response.msg) ? response.msg : 'Nao foi possivel salvar o VR360');
+                }
+                modal.hidePleaseWait();
+            },
+            error: function () {
+                $checkbox.prop('checked', !checkedValue);
+                avideoToastError('Nao foi possivel salvar o VR360');
                 modal.hidePleaseWait();
             }
         });
