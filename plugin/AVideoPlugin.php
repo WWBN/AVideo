@@ -791,11 +791,25 @@ class AVideoPlugin
         $plugins = object_to_array($plugins);
         foreach ($plugins as $value) {
             //self::YPTstart();
+            $debugGetStart = self::isDebuging(__FUNCTION__);
+            if ($debugGetStart) {
+                $currentUserId = class_exists('User') ? User::getId() : '';
+                _error_log('AVideoPlugin::getStart before loadPlugin ' . $value['dirName'] . ' uri=' . getSelfURI() . ' user_id=' . $currentUserId . ' ip=' . getRealIpAddr());
+            }
             $p = static::loadPlugin($value['dirName']);
+            if ($debugGetStart) {
+                _error_log('AVideoPlugin::getStart after loadPlugin ' . $value['dirName'] . ' loaded=' . (is_object($p) ? 'yes' : 'no'));
+            }
             if (is_object($p)) {
                 //echo $value['dirName'].PHP_EOL;
                 //_error_log('AVideoPlugin::getStart: '.$value['dirName']);
+                if ($debugGetStart) {
+                    _error_log('AVideoPlugin::getStart before plugin getStart ' . $value['dirName']);
+                }
                 $p->getStart();
+                if ($debugGetStart) {
+                    _error_log('AVideoPlugin::getStart after plugin getStart ' . $value['dirName']);
+                }
             } //var_dump("----- nada ",$_REQUEST['live_index'], __LINE__, "-----");exit;
             //self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
