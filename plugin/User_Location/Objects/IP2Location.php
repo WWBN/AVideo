@@ -23,6 +23,10 @@ class IP2Location extends ObjectYPT
         if (!self::isTableInstalled() || !AVideoPlugin::isEnabledByName('User_Location')) {
             return false;
         }
+        $debugGL = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
+        if ($debugGL) {
+            _error_log("IP2Location::getLocation GL.1 entry ip=$ip");
+        }
         // samples
         // brazil 2.20.147.123
         // spain 2.22.54.123
@@ -42,7 +46,13 @@ class IP2Location extends ObjectYPT
         }
 
         $cacheName = 'IP2Location_v2_' . sha1($ip);
+        if ($debugGL) {
+            _error_log("IP2Location::getLocation GL.2 before getCacheGlobal ip=$ip");
+        }
         $cached = ObjectYPT::getCacheGlobal($cacheName, self::LOCATION_CACHE_LIFETIME);
+        if ($debugGL) {
+            _error_log("IP2Location::getLocation GL.3 after getCacheGlobal ip=$ip");
+        }
         if (is_object($cached)) {
             $cached = (array) $cached;
         }

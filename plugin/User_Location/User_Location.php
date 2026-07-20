@@ -67,9 +67,19 @@ class User_Location extends PluginAbstract {
     }
 
     static function getThisUserLocation() {
+        $debugGTUL = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
+        if ($debugGTUL) {
+            _error_log("User_Location::getThisUserLocation GTUL.1 before getSessionLocation");
+        }
         $location = self::getSessionLocation();
+        if ($debugGTUL) {
+            _error_log("User_Location::getThisUserLocation GTUL.2 after getSessionLocation found=" . (empty($location['country_code']) ? 'no' : 'yes'));
+        }
         if (!empty($location['country_code'])) {
             return $location;
+        }
+        if ($debugGTUL) {
+            _error_log("User_Location::getThisUserLocation GTUL.3 before getLocationFromIP ip=" . getRealIpAddr());
         }
         return self::getLocationFromIP(getRealIpAddr());
     }
