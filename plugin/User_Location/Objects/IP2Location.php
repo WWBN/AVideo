@@ -53,12 +53,20 @@ class IP2Location extends ObjectYPT
 
         // Cache misses are kept only in the session; a future database update can fix them.
         $_SESSION['IP2Location'][$ip] = false;
+        $debugIP2 = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
+        if ($debugIP2) {
+            _error_log("IP2Location::getLocation IP2.1 before lookup ip=$ip");
+        }
+        $lookupStart = microtime(true);
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             $row = self::lookupIPv4($ip);
         } else if (ObjectYPT::isTableInstalled("ip2location_db1_ipv6")) {
             $row = self::lookupIPv6($ip);
         } else {
             $row = false;
+        }
+        if ($debugIP2) {
+            _error_log("IP2Location::getLocation IP2.2 after lookup ip=$ip took=" . round(microtime(true) - $lookupStart, 4) . "s found=" . (empty($row) ? 'no' : 'yes'));
         }
 
         if (empty($row)) {
