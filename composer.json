@@ -41,7 +41,7 @@
         "stripe/stripe-php": "^20.0",
         "symfony/translation": "^5.3",
         "amphp/amp": "^2.6",
-        "scssphp/scssphp": "^1.11",
+        "scssphp/scssphp": "^2.1",
         "vimeo/vimeo-api": "^4.0",
         "phpseclib/phpseclib": "^3.0",
         "bunnycdn/storage": "^3.0",
