@@ -40,7 +40,7 @@
         "norkunas/onesignal-php-api": "^2.7",
         "stripe/stripe-php": "^21.0",
         "symfony/translation": "^5.3",
-        "amphp/amp": "^2.6",
+        "amphp/amp": "^3.1",
         "scssphp/scssphp": "^2.1",
         "vimeo/vimeo-api": "^4.0",
         "phpseclib/phpseclib": "^3.0",
