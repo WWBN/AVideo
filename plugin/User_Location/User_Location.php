@@ -67,21 +67,24 @@ class User_Location extends PluginAbstract {
     }
 
     static function getThisUserLocation() {
-        $debugGTUL = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
-        if ($debugGTUL) {
-            _error_log("User_Location::getThisUserLocation GTUL.1 before getSessionLocation");
-        }
+        static $computing = false;
         $location = self::getSessionLocation();
-        if ($debugGTUL) {
-            _error_log("User_Location::getThisUserLocation GTUL.2 after getSessionLocation found=" . (empty($location['country_code']) ? 'no' : 'yes'));
-        }
         if (!empty($location['country_code'])) {
             return $location;
         }
-        if ($debugGTUL) {
-            _error_log("User_Location::getThisUserLocation GTUL.3 before getLocationFromIP ip=" . getRealIpAddr());
+        // Re-entrancy guard: resolving the location performs a cache lookup, and that
+        // cache path can call back into this method before the first lookup finishes.
+        // Without this guard the calls recurse forever and freeze the whole request.
+        if ($computing) {
+            return false;
         }
-        return self::getLocationFromIP(getRealIpAddr());
+        $computing = true;
+        try {
+            $result = self::getLocationFromIP(getRealIpAddr());
+        } finally {
+            $computing = false;
+        }
+        return $result;
     }
 
     static function getLocationFromIP($ip) {
