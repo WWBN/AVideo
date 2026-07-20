@@ -266,16 +266,9 @@ class CustomizeUser extends PluginAbstract
     public function getEmptyDataObject()
     {
         global $advancedCustom, $advancedCustomUser;
-        $debugEmpty = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
         $obj = new stdClass();
 
-        if ($debugEmpty) {
-            _error_log('CustomizeUser::getEmptyDataObject B.1 before _getSocialMedia');
-        }
         $socialMedias = self::_getSocialMedia();
-        if ($debugEmpty) {
-            _error_log('CustomizeUser::getEmptyDataObject B.2 after _getSocialMedia');
-        }
         foreach ($socialMedias as $key => $value) {
             $param = "socialMedia_{$key}";
             $obj->$param = true;
@@ -297,13 +290,7 @@ class CustomizeUser extends PluginAbstract
         $obj->userCanNotChangeUserGroup = false;
 
         $o = new stdClass();
-        if ($debugEmpty) {
-            _error_log('CustomizeUser::getEmptyDataObject B.3 before getAllUsersGroupsArray');
-        }
         $o->type = array_merge(array('Default'), UserGroups::getAllUsersGroupsArray());
-        if ($debugEmpty) {
-            _error_log('CustomizeUser::getEmptyDataObject B.4 after getAllUsersGroupsArray');
-        }
         $o->value = 0;
         $obj->userDefaultUserGroup = $o;
         $obj->userMustBeLoggedIn = !isset($advancedCustom->userMustBeLoggedIn) ? false : $advancedCustom->userMustBeLoggedIn;
@@ -351,13 +338,7 @@ class CustomizeUser extends PluginAbstract
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
 
         $o = new stdClass();
-        if ($debugEmpty) {
-            _error_log('CustomizeUser::getEmptyDataObject B.5 before getBGAnimationArray');
-        }
         $o->type = [0 => '--  None', 1 => '-- Random'] + self::getBGAnimationArray();
-        if ($debugEmpty) {
-            _error_log('CustomizeUser::getEmptyDataObject B.6 after getBGAnimationArray');
-        }
         $o->value = 1;
         $obj->loginBackgroundAnimation = $o;
 
@@ -843,29 +824,9 @@ class CustomizeUser extends PluginAbstract
     public function getStart()
     {
         global $global;
-        $debugGetStart = !empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getStart']);
-        if ($debugGetStart) {
-            _error_log('CustomizeUser::getStart 1 before getDataObject');
-        }
         $obj = $this->getDataObject();
-        if ($debugGetStart) {
-            _error_log('CustomizeUser::getStart 2 after getDataObject userMustBeLoggedIn=' . (int)!empty($obj->userMustBeLoggedIn));
-        }
         $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
-        if ($debugGetStart) {
-            _error_log('CustomizeUser::getStart 3 before useVideoHashOrLogin basename=' . ($thisScriptFile["basename"] ?? ''));
-        }
         useVideoHashOrLogin();
-        if ($debugGetStart) {
-            _error_log('CustomizeUser::getStart 4 after useVideoHashOrLogin isLogged=' . (int)User::isLogged() . ' userId=' . (int)User::getId());
-        }
-        if ($debugGetStart) {
-            _error_log('CustomizeUser::getStart 5 before condition'
-                . ' ignoreUserMustBeLoggedIn=' . (int)!empty($global['ignoreUserMustBeLoggedIn'])
-                . ' isBot=' . (int)isBot()
-                . ' isEmbed=' . (int)isEmbed()
-                . ' isVideo=' . (int)isVideo());
-        }
         if (
             empty($global['ignoreUserMustBeLoggedIn']) && !isBot() && !empty($obj->userMustBeLoggedIn) &&
             ((!isEmbed() && isVideo()) ||
@@ -877,16 +838,10 @@ class CustomizeUser extends PluginAbstract
             !User::isLogged()
         ) {
             _error_log("CustomizeUser::userMustBeLoggedIn basename: {$thisScriptFile["basename"]}");
-            if ($debugGetStart) {
-                _error_log('CustomizeUser::getStart 6 before gotToLoginAndComeBackHere');
-            }
             gotToLoginAndComeBackHere('');
             //$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             //header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($actual_link));
             exit;
-        }
-        if ($debugGetStart) {
-            _error_log('CustomizeUser::getStart 7 done (no redirect)');
         }
     }
 

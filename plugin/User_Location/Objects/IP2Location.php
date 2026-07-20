@@ -23,10 +23,6 @@ class IP2Location extends ObjectYPT
         if (!self::isTableInstalled() || !AVideoPlugin::isEnabledByName('User_Location')) {
             return false;
         }
-        $debugGL = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
-        if ($debugGL) {
-            _error_log("IP2Location::getLocation GL.1 entry ip=$ip");
-        }
         // samples
         // brazil 2.20.147.123
         // spain 2.22.54.123
@@ -46,13 +42,7 @@ class IP2Location extends ObjectYPT
         }
 
         $cacheName = 'IP2Location_v2_' . sha1($ip);
-        if ($debugGL) {
-            _error_log("IP2Location::getLocation GL.2 before getCacheGlobal ip=$ip");
-        }
         $cached = ObjectYPT::getCacheGlobal($cacheName, self::LOCATION_CACHE_LIFETIME);
-        if ($debugGL) {
-            _error_log("IP2Location::getLocation GL.3 after getCacheGlobal ip=$ip");
-        }
         if (is_object($cached)) {
             $cached = (array) $cached;
         }
@@ -63,20 +53,12 @@ class IP2Location extends ObjectYPT
 
         // Cache misses are kept only in the session; a future database update can fix them.
         $_SESSION['IP2Location'][$ip] = false;
-        $debugIP2 = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
-        if ($debugIP2) {
-            _error_log("IP2Location::getLocation IP2.1 before lookup ip=$ip");
-        }
-        $lookupStart = microtime(true);
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             $row = self::lookupIPv4($ip);
         } else if (ObjectYPT::isTableInstalled("ip2location_db1_ipv6")) {
             $row = self::lookupIPv6($ip);
         } else {
             $row = false;
-        }
-        if ($debugIP2) {
-            _error_log("IP2Location::getLocation IP2.2 after lookup ip=$ip took=" . round(microtime(true) - $lookupStart, 4) . "s found=" . (empty($row) ? 'no' : 'yes'));
         }
 
         if (empty($row)) {

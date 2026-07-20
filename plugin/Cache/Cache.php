@@ -366,14 +366,7 @@ class Cache extends PluginAbstract {
         $ishttps = isset($_SERVER["HTTPS"]) ? 1 : 0;
         $user_location = 'undefined';
         if (class_exists("User_Location")) {
-            $debugML = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject']));
-            if ($debugML) {
-                _error_log("Cache::getCacheMetaData ML.1 before User_Location::getThisUserLocation");
-            }
             $loc = User_Location::getThisUserLocation();
-            if ($debugML) {
-                _error_log("Cache::getCacheMetaData ML.2 after User_Location::getThisUserLocation");
-            }
             if (!empty($loc) && !empty($loc['country_code']) && $loc['country_code'] != '-') {
                 $user_location = $loc['country_code'];
             }
@@ -449,27 +442,14 @@ class Cache extends PluginAbstract {
         $index = "{$name}_{$lifetime}";
         if (!isset($_getCacheDB[$index])) {
             $_getCacheDB[$index] = false;
-            $debugCC = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject'])) && strpos($name, 'getAllUsersGroupsArray') !== false;
             if ($ignoreMetadata) {
                 // Skip the expensive User_Location/ip2location lookup; only cheap fields are needed.
                 // CachesInDB._getCache() will omit user_location from its WHERE clause when ignoreMetadata=true.
                 $metadata = ['domain' => getDomain(), 'ishttps' => (isset($_SERVER['HTTPS']) ? 1 : 0), 'user_location' => '', 'loggedType' => ''];
             } else {
-                if ($debugCC) {
-                    _error_log("Cache::getCache CC.1 before getCacheMetaData name=$name");
-                }
                 $metadata = self::getCacheMetaData();
-                if ($debugCC) {
-                    _error_log("Cache::getCache CC.2 after getCacheMetaData name=$name user_location=" . (isset($metadata['user_location']) ? $metadata['user_location'] : '?'));
-                }
-            }
-            if ($debugCC) {
-                _error_log("Cache::getCache CC.3 before CacheDB::getCache name=$name");
             }
             $row = CacheDB::getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
-            if ($debugCC) {
-                _error_log("Cache::getCache CC.4 after CacheDB::getCache name=$name found=" . (empty($row) ? 'no' : 'yes'));
-            }
             if (!empty($row) && !empty($row['id'])) {
                 //$time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
                 $created_php_time = $row['created_php_time'];

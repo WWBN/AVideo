@@ -708,10 +708,6 @@ abstract class ObjectYPT implements ObjectInterface
         }
         //if($name=='getVideosURL_V2video_220721204450_v21b7'){var_dump($name);exit;}
         $cachefile = self::getCacheFileName($name, false, $addSubDirs, $ignoreMetadata);
-        $debugGC = (!empty($_REQUEST['debug']) || !empty($_REQUEST['debug_getDataObject'])) && strpos($name, 'getAllUsersGroupsArray') !== false;
-        if ($debugGC) {
-            _error_log("ObjectYPT::getCache GC.1 after getCacheFileName name=$name");
-        }
         if (isCommandLineInterface()) {
             echo 'getCache ' . json_encode(array($name, $addSubDirs, $ignoreMetadata)) . PHP_EOL;
         }
@@ -744,22 +740,13 @@ abstract class ObjectYPT implements ObjectInterface
         }
 
         if (class_exists('Cache')) {
-            if ($debugGC) {
-                _error_log("ObjectYPT::getCache GC.2 before Cache::getCache name=$name");
-            }
             $cache = Cache::getCache($name, $lifetime, $ignoreMetadata);
-            if ($debugGC) {
-                _error_log("ObjectYPT::getCache GC.3 after Cache::getCache name=$name found=" . (empty($cache) ? 'no' : 'yes'));
-            }
             //var_dump($name, $lifetime, $ignoreMetadata);
             if (!empty($cache)) {
                 //if(preg_match('/live/', $name)){_error_log("getCache 1: stats [$name] lifetime=$lifetime filemtime=".filemtime($cachefile)." ".$cachefile);}
                 self::setLastUsedCacheMode("Cache::getCache($name, $lifetime, $ignoreMetadata)");
                 return $cache;
             }
-        }
-        if ($debugGC) {
-            _error_log("ObjectYPT::getCache GC.4 before local file read name=$name exists=" . (file_exists($cachefile) ? '1' : '0'));
         }
 
         /*
