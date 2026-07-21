@@ -1,7 +1,5 @@
 <?php
 
-use function Safe\ob_end_flush;
-
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 
