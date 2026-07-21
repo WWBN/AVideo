@@ -4249,6 +4249,10 @@ if (!class_exists('Video')) {
                 'filename' => $this->getFilename(),
                 'videos_id' => $this->getId(),
                 'notifyURL' => $global['webSiteRootURL'],
+                // Time-limited, site-salted token that authorises the encoder to write
+                // chunks back to aVideoEncoderChunk.json.php. Validated there with
+                // verifyToken(..., 'EncoderChunkUpload') — no DB lookup required.
+                'encoderChunkToken' => getToken(!empty($global['encoderChunkTokenTTL']) ? (int) $global['encoderChunkTokenTTL'] : 604800, 'EncoderChunkUpload'),
             ];
 
             if (empty($format)) {
