@@ -1,25 +1,59 @@
 name: Dependabot auto-merge
-on: pull_request
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
 
 permissions:
   contents: write
   pull-requests: write
-  repository-projects: read
 
 jobs:
-  dependabot:
+  dependabot-pr-event:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' && github.event.pull_request.draft == false }}
     steps:
-      - name: Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v3.1.0
-        with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-          skip-commit-verification: true
       - name: Enable auto-merge for Dependabot PRs
-        #if: ${{contains(steps.metadata.outputs.dependency-names, 'my-dependency') && steps.metadata.outputs.update-type == 'version-update:semver-patch'}}
-        run: gh pr merge --auto --merge "$PR_URL"
-        env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: merge
+
+  dependabot-backfill:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request_target' }}
+    steps:
+      - name: Enable auto-merge on all open Dependabot PRs
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const {owner, repo} = context.repo;
+            const pulls = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: 'open',
+              per_page: 100
+            });
+
+            const dependabotPRs = pulls.filter((pr) => pr.user?.login === 'dependabot[bot]' && !pr.draft);
+            core.info(`Found ${dependabotPRs.length} open Dependabot PR(s).`);
+
+            for (const pr of dependabotPRs) {
+              try {
+                await github.graphql(
+                  `mutation EnableAutoMerge($pullRequestId: ID!) {
+                    enablePullRequestAutoMerge(input: {pullRequestId: $pullRequestId, mergeMethod: MERGE}) {
+                      pullRequest { number }
+                    }
+                  }`,
+                  { pullRequestId: pr.node_id }
+                );
+                core.info(`Enabled auto-merge for #${pr.number}`);
+              } catch (error) {
+                core.warning(`Could not enable auto-merge for #${pr.number}: ${error.message}`);
+              }
+            }
