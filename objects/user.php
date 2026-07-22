@@ -118,7 +118,10 @@ class User
 
     function setPhone($phone): void
     {
-        $this->phone = $phone;
+        // Strip tags on input (consistent with setName() and getPhone()) so that
+        // unauthenticated registration cannot store HTML/JS that would later be
+        // rendered raw in the admin users grid. Prevents stored XSS (CWE-79).
+        $this->phone = strip_tags($phone);
     }
 
     function getBirth_date()

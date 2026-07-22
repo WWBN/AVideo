@@ -91,6 +91,13 @@ if (empty($users)) {
             $u['status'] = $value['status'];
         }else{
             $u = $value;
+            // Defense-in-depth: the admin grid renders values via innerHTML
+            // (bootgrid). $value is the raw DB row, which bypasses the sanitizing
+            // User::getPhone() getter, so neutralize any stored markup here to
+            // cover rows saved before setPhone() was hardened. Prevents stored XSS.
+            if (isset($u['phone'])) {
+                $u['phone'] = strip_tags($u['phone']);
+            }
         }
         if(!empty($u['usageInBytes'])){
             $u['usageTxt'] = humanFileSize($u['usageInBytes']);
