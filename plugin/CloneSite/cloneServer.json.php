@@ -87,7 +87,7 @@ $cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} ".
 " --default-character-set=utf8mb4 {$mysqlDatabase} {$tablesList} > $sqlFile";
 //$cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} --skip-set-charset -N --routines --skip-triggers --databases {$mysqlDatabase} > {$clonesDir}{$resp->sqlFile}";
 _error_log("Clone: Dump to $sqlFile");
-exec($cmd . " 2>&1", $output, $return_val);
+exec($cmd . " 2>/dev/null", $output, $return_val);
 if (!file_exists($sqlFile)) {
     _error_log("Clone: error {$sqlFile} does not exists" . json_encode($output));
 }else{

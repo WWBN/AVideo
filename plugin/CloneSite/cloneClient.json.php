@@ -184,6 +184,10 @@ foreach ($lines as $line) {
     if (strpos($line, 'OLD_CHARACTER_SET_RESULT') !== false) {
         continue;
     }
+    // Skip mysqldump warnings (e.g. "mysqldump: [Warning] Using a password on the command line interface can be insecure.")
+    if (strpos($line, 'mysqldump:') === 0) {
+        continue;
+    }
     // Skip it if it's a comment
     if (substr($line, 0, 2) == '--' || $line == ''){
         continue;
