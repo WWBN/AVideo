@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS `CachesInDB` (
   INDEX `caches4` (`user_location` ASC),
   INDEX `caches9` (`name` ASC),
   INDEX `CachesInDB_created_php_time` (`created_php_time` ASC),
-  UNIQUE INDEX `unique_cache_index`(`name`(250), `domain`(50), `ishttps`, `user_location`(50), `loggedType`),
-  FULLTEXT INDEX `name_fulltext` (`name`)
+  INDEX `CachesInDB_expires` (`expires` ASC),
+  UNIQUE INDEX `unique_cache_index`(`name`(250), `domain`(50), `ishttps`, `user_location`(50), `loggedType`)
 ) ENGINE = InnoDB;
 
 -- Drop the cache_schedule_delete table if it exists

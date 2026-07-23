@@ -32,7 +32,7 @@ class Cache extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "9.0";
+        return "10.0";
     }
 
     public function updateScript() {
@@ -59,6 +59,12 @@ class Cache extends PluginAbstract {
         $obj->logPageLoadTime = false;
         $obj->stopBotsFromNonCachedPages = false;
         $obj->deleteStatisticsDaysOld = 180; // 6 months
+        // CachesInDB safeguards (see plugin/Cache/Objects/CachesInDB.php)
+        $obj->maxCachePayloadSizeBytes = CachesInDB::DEFAULT_MAX_PAYLOAD_BYTES; // skip caching payloads bigger than this
+        $obj->cacheFallbackRetentionDays = CachesInDB::DEFAULT_FALLBACK_RETENTION_DAYS; // 0/empty disables fallback retention for rows with expires IS NULL
+        $obj->cacheDeleteBatchSize = CachesInDB::DEFAULT_DELETE_BATCH_SIZE;
+        $obj->cacheDeleteMaxBatchesHttp = CachesInDB::DEFAULT_DELETE_MAX_BATCHES_HTTP;
+        $obj->cacheDeleteMaxBatchesCli = CachesInDB::DEFAULT_DELETE_MAX_BATCHES_CLI;
         return $obj;
     }
 
@@ -513,9 +519,26 @@ class Cache extends PluginAbstract {
         $global['systemRootPath'] . 'plugin/Cache/deleteStatistics.json.php';
         self::deleteOldCache(1);
 
+        if (class_exists('CachesInDB')) {
+            // Batched, indexed cleanup for rows that already expired, plus a
+            // configurable fallback retention window for rows that never got an
+            // `expires` value (see CachesInDB::deleteStaleCacheWithoutExpiration).
+            CachesInDB::deleteExpiredCache();
+            CachesInDB::deleteStaleCacheWithoutExpiration();
+        }
+
         $rows = Cache_schedule_delete::getAll();
-        Cache_schedule_delete::truncateTable();
-        if (is_iterable($rows)) {
+        if (is_iterable($rows) && !empty($rows)) {
+            // Only remove the rows we are about to process (by id) instead of
+            // truncating the whole queue: a blanket TRUNCATE would silently drop
+            // invalidations inserted concurrently between getAll() and now.
+            $maxId = 0;
+            foreach ($rows as $row) {
+                $maxId = max($maxId, intval($row['id']));
+            }
+            if ($maxId > 0) {
+                sqlDAL::writeSql("DELETE FROM cache_schedule_delete WHERE id <= ?", 'i', [$maxId]);
+            }
             foreach ($rows as $row) {
                 CacheDB::deleteCacheStartingWith($row['name'], false);
                 self::deleteCacheDir($row['name']);

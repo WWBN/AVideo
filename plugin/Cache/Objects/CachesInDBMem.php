@@ -182,14 +182,17 @@ class CachesInDBMem extends CachesInDB
             return false;
         }
         $name = self::hashName($name);
+        // Escape LIKE metacharacters (hashName() turns every non-alphanumeric char into
+        // `_`, which is a LIKE wildcard) so the prefix is matched literally.
+        $escaped = self::escapeLikePrefix($name);
 
         // Delete from content table
-        $sqlContent = "DELETE FROM " . self::$contentTable . " WHERE id IN (SELECT id FROM " . self::$metadataTable . " WHERE name LIKE '{$name}%')";
-        sqlDAL::writeSql($sqlContent);
+        $sqlContent = "DELETE FROM " . self::$contentTable . " WHERE id IN (SELECT id FROM " . self::$metadataTable . " WHERE name LIKE CONCAT(?, '%') ESCAPE '\\\\')";
+        sqlDAL::writeSql($sqlContent, 's', [$escaped]);
 
         // Delete from metadata table
-        $sqlMetadata = "DELETE FROM " . self::$metadataTable . " WHERE name LIKE '{$name}%'";
-        return sqlDAL::writeSql($sqlMetadata);
+        $sqlMetadata = "DELETE FROM " . self::$metadataTable . " WHERE name LIKE CONCAT(?, '%') ESCAPE '\\\\'";
+        return sqlDAL::writeSql($sqlMetadata, 's', [$escaped]);
     }
     public static function _deleteCacheWith($name)
     {
@@ -202,14 +205,16 @@ class CachesInDBMem extends CachesInDB
             return false;
         }
         $name = self::hashName($name);
+        $escaped = self::escapeLikePrefix($name);
 
-        // Delete from content table
-        $sqlContent = "DELETE FROM " . self::$contentTable . " WHERE id IN (SELECT id FROM " . self::$metadataTable . " WHERE name LIKE '%{$name}%')";
-        sqlDAL::writeSql($sqlContent);
+        // Delete from content table (substring search is a full scan by nature, but the
+        // value is still escaped and bound rather than concatenated into the SQL text).
+        $sqlContent = "DELETE FROM " . self::$contentTable . " WHERE id IN (SELECT id FROM " . self::$metadataTable . " WHERE name LIKE CONCAT('%', ?, '%') ESCAPE '\\\\')";
+        sqlDAL::writeSql($sqlContent, 's', [$escaped]);
 
         // Delete from metadata table
-        $sqlMetadata = "DELETE FROM " . self::$metadataTable . " WHERE name LIKE '%{$name}%'";
-        return sqlDAL::writeSql($sqlMetadata);
+        $sqlMetadata = "DELETE FROM " . self::$metadataTable . " WHERE name LIKE CONCAT('%', ?, '%') ESCAPE '\\\\'";
+        return sqlDAL::writeSql($sqlMetadata, 's', [$escaped]);
     }
     public static function _deleteAllCache()
     {
