@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
-    "@fullcalendar/core": "^6.1.21",
+    "@fullcalendar/core": "^7.0.2",
     "@fullcalendar/daygrid": "^6.1.20",
     "@fullcalendar/interaction": "^6.1.21",
     "@fullcalendar/list": "^6.1.21",
@@ -31,7 +31,7 @@
     "hls.js": "^1.6.16",
     "infinite-scroll": "^5.0.0",
     "inputmask": "^5.0.9",
-    "intro.js": "^8.3.2",
+    "intro.js": "^8.5.0",
     "jquery": "^4.0.0",
     "jquery-lazy": "^1.7.11",
     "jquery-mask-plugin": "^1.14.16",
@@ -46,7 +46,7 @@
     "pouchdb": "^9.0.0",
     "socket.io-client": "^4.8.3",
     "sweetalert": "^2.1.2",
-    "tinymce": "^8.8.0",
+    "tinymce": "^8.8.2",
     "tinymce-langs": "^1.0.0",
     "video.js": "^8.23.9",
     "videojs-contrib-ads": "^7.5.2",
