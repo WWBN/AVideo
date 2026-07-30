@@ -593,6 +593,33 @@ function session_start_preload()
 }
 
 
+// Records who (URL + code location) opened the session, returning whatever was
+// recorded on the previous open. Since this is only persisted to storage when the
+// session is written/closed, the value read back is the request that was holding
+// the session lock while the current request waited for it.
+function _sessionRecordOpener()
+{
+    if (!isSessionStarted()) {
+        return null;
+    }
+    $previousOpener = isset($_SESSION['__session_debug_opener']) ? $_SESSION['__session_debug_opener'] : null;
+
+    // frame 0 is this function, frame 1 is _session_start, so look one level up for the real caller
+    $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+    $callerFrame = $trace[2] ?? ($trace[1] ?? null);
+    $caller = $callerFrame ? ($callerFrame['file'] ?? '') . ':' . ($callerFrame['line'] ?? '') : '';
+
+    $_SESSION['__session_debug_opener'] = array(
+        'script' => $_SERVER['SCRIPT_NAME'] ?? '',
+        'uri' => strtok($_SERVER['REQUEST_URI'] ?? '', '?'), // path only, query string may hold sensitive tokens
+        'caller' => $caller,
+        'time' => date('Y-m-d H:i:s'),
+        'pid' => getmypid(),
+    );
+
+    return $previousOpener;
+}
+
 function _session_start(array $options = [])
 {
     try {
@@ -618,6 +645,7 @@ function _session_start(array $options = [])
 
             // Start the session with the options
             $session = @session_start($options);
+            _sessionRecordOpener();
             // Track when session was opened to detect long session locks
             $global['session_start_time'] = microtime(true);
 
@@ -643,6 +671,7 @@ function _session_start(array $options = [])
 
                 // Restart session after changing the session ID
                 $session = @session_start($options);
+                _sessionRecordOpener();
                 // Update session start time after restart
                 $global['session_start_time'] = microtime(true);
 
@@ -676,9 +705,15 @@ function _session_start(array $options = [])
             $session = @session_start($options);
             //_error_log('session_id '. session_id().' line='.__LINE__.' IP:'.getRealIpAddr().json_encode($options));
             //_error_log('session_start 2');
+            $previousOpener = _sessionRecordOpener();
             $takes = microtime(true) - $start;
             if ($takes > 1) {
-                _error_log('session_start takes ' . $takes . ' seconds to open', AVideoLog::$PERFORMANCE);
+                // session size is measured after the lock was acquired, so a small size here
+                // combined with a large $takes points to lock contention (another script held
+                // the session open), not to slow unserialization of a big session payload
+                $sessionDataEncoded = session_encode();
+                $sessionSizeBytes = $sessionDataEncoded !== false ? strlen($sessionDataEncoded) : 0;
+                _error_log('session_start takes ' . $takes . ' seconds to open, session size: ' . $sessionSizeBytes . ' bytes (' . humanFileSize($sessionSizeBytes) . '), session_id=' . session_id() . ', script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ', previous_opener=' . json_encode($previousOpener), AVideoLog::$PERFORMANCE);
                 _error_log(json_encode(debug_backtrace()), AVideoLog::$PERFORMANCE);
                 //exit;
             }
