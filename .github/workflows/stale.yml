@@ -35,7 +35,7 @@ jobs:
           done
           echo "Cache cleanup complete."
 
-      - uses: actions/stale@v10
+      - uses: actions/stale@v11
         env:
           # Disable internal @actions/cache to prevent stale state from persisting
           # This forces the action to process ALL issues from scratch each run
