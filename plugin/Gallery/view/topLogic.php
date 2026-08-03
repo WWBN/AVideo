@@ -60,7 +60,7 @@ if (!empty($video)) {
         $contentSearchFound = !empty($videos);
     }
     //array_push($siteTitle, __("Home"));
-    // don't add a prefix for SEO, it's already handled here below by the implode() func	
+    // don't add a prefix for SEO, it's already handled here below by the implode() func
     $seoComplement = getSEOComplement([
         'addAutoPrefix' => false,
         'addCategory' => false
