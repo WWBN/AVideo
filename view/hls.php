@@ -62,9 +62,12 @@ if (empty($video) || !file_exists($filename)) {
 $_GET['file'] = Video::getPathToFile("{$_GET['videoDirectory']}".DIRECTORY_SEPARATOR."index.m3u8");
 //var_dump($_GET['file']);exit;
 $cachedPath = explode(DIRECTORY_SEPARATOR, $_GET['videoDirectory']);
-if (empty($_SESSION['user']['sessionCache']['hls'][$cachedPath[0]]) && empty($_GET['download'])) {
+// use the session-cache helper (not a raw $_SESSION write) since the session was
+// already closed above; it degrades gracefully instead of silently never persisting
+$hlsCacheName = 'hls_xsendfilePreVideoPlay_' . $cachedPath[0];
+if (empty(ObjectYPT::getSessionCache($hlsCacheName, 0)) && empty($_GET['download'])) {
     AVideoPlugin::xsendfilePreVideoPlay();
-    $_SESSION['user']['sessionCache']['hls'][$cachedPath[0]] = 1;
+    ObjectYPT::setSessionCache($hlsCacheName, 1);
 }
 
 $tokenIsValid = false;

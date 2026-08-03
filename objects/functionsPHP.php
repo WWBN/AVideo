@@ -702,9 +702,16 @@ function _session_start(array $options = [])
             //_error_log(json_encode(debug_backtrace()));
             $start = microtime(true);
             //_error_log('session_start 1');
+            error_clear_last();
             $session = @session_start($options);
             //_error_log('session_id '. session_id().' line='.__LINE__.' IP:'.getRealIpAddr().json_encode($options));
             //_error_log('session_start 2');
+            if ($session === false || session_status() !== PHP_SESSION_ACTIVE) {
+                // session_start() itself failed (as opposed to just being slow to acquire the
+                // lock); capture the suppressed error since @ hides it from the normal log
+                $lastError = error_get_last();
+                _error_log('session_start FAILED session_status=' . session_status() . ', lastError=' . json_encode($lastError) . ', script=' . ($_SERVER['SCRIPT_NAME'] ?? ''), AVideoLog::$ERROR);
+            }
             $previousOpener = _sessionRecordOpener();
             $takes = microtime(true) - $start;
             if ($takes > 1) {

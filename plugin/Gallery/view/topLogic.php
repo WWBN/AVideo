@@ -21,6 +21,9 @@ if (!empty($_GET['type'])) {
         unset($_SESSION['type']);
     }
 }
+// read-only from here on (video/category queries + rendering); release the lock so
+// it doesn't block other concurrent requests from the same browser session
+_session_write_close();
 require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
 if (!empty($_REQUEST['catName'])) {

@@ -1038,6 +1038,12 @@ abstract class ObjectYPT implements ObjectInterface
             return false;
         }
 
+        // this mirror is a best-effort optimization; never force-open a session that a
+        // request already closed on purpose to avoid holding the session file lock
+        if (!isSessionStarted()) {
+            self::setLastUsedCacheMode("Session cache skipped for $name, session is not open");
+            return false;
+        }
         _session_start();
         $_SESSION['user']['sessionCache'][$name]['value'] = $json;
         $_SESSION['user']['sessionCache'][$name]['time'] = time();
@@ -1069,7 +1075,11 @@ abstract class ObjectYPT implements ObjectInterface
                 }
                 return $json;
             }
-            _session_start();
+            // only reopen the session to persist the eviction if it is already active;
+            // otherwise just drop the stale in-memory copy, it will be recomputed anyway
+            if (isSessionStarted()) {
+                _session_start();
+            }
             unset($_SESSION['user']['sessionCache'][$name]);
         }
         return null;

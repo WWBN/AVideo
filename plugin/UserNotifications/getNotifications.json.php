@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+$closeSessionEarlyIncludeConfig = 1;
 require_once '../../videos/configuration.php';
 
 enforceRateLimit('user_notifications_get', 6, 60);

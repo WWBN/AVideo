@@ -13,7 +13,9 @@ require_once '../../videos/configuration.php';
 
 ini_set('max_execution_time', 10);
 set_time_limit(10);
-//_session_write_close();
+// read-only endpoint, polled frequently; release the session lock early so it
+// doesn't queue up behind/behind other requests from the same browser session
+_session_write_close();
 $pobj = AVideoPlugin::getDataObjectIfEnabled("Live");
 if (empty($pobj->server_type->value)) {
     ini_set('max_execution_time', 180);

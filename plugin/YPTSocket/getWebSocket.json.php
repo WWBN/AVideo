@@ -1,4 +1,5 @@
 <?php
+$closeSessionEarlyIncludeConfig = 1;
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 header('Content-Type: application/json');
 

@@ -15,6 +15,9 @@ $users_id = 'null';
 if (User::isLogged()) {
     $users_id = User::getId();
 }
+// nothing below needs $_SESSION; release the lock so it doesn't block other
+// concurrent requests from the same browser session during the DB writes below
+_session_write_close();
 
 $response = new stdClass();
 $response->videos_id = intval(@$_REQUEST['videos_id']);

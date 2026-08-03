@@ -4,7 +4,9 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 User::loginFromRequestIfNotLogged();
-//_session_write_close();
+// read-only from here on; release the session lock so it doesn't block other
+// concurrent requests from the same browser session
+_session_write_close();
 header('Content-Type: application/json');
 $start = microtime(true);
 
