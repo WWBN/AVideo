@@ -3659,6 +3659,12 @@ function isTokenValid($token, $salt = "")
     return verifyToken($token, $salt);
 }
 
+// SECURITY COMPATIBILITY NOTE:
+// This token proves "minted by this app before timeout", not who minted it or for what
+// action - it carries no user/session id, and $videos_id is 0 (inert) at every call site
+// that doesn't explicitly pass one. Treat it as a generic CSRF nonce, layered on top of a
+// real User::isLogged()/isAdmin() check, never as a standalone authorization decision.
+// Do not render/echo a token to a page that skips that check (see plugin/Gallery/view/sections.php).
 function verifyToken($token, $salt = "")
 {
     global $global;
