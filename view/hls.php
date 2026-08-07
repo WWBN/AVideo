@@ -83,6 +83,21 @@ if (!empty($_GET['token'])) {
 }
 $newContent = '';
 // if is using a CDN I can not check if the user is logged
+// SECURITY COMPATIBILITY NOTE:
+// isAVideoUserAgent() and isCDN() are client-controlled headers (User-Agent / CDN-Host)
+// and are NOT authentication. A client sending these headers can bypass
+// User::canWatchVideo() for this playlist/segment listing. This is a real, known
+// gap (restricted HLS playlist/segment disclosure only - no credentials, tokens, or
+// server files are exposed, and ?download=1/?playHLSasMP4=1 re-check
+// CustomizeUser::canDownloadVideos() independently).
+// It is intentionally retained: isAVideoUserAgent() is the documented trust signal
+// for the Mobile App/Encoder/Streamer/Storage/Restreamer components that fetch this
+// URL without a PHP session (see objects/functionsSecurity.php's autoCSRFGuard comment
+// and VideoHLS::ignore()/VideoOffline::showOfflineVideo()), and isCDN() targets WWBN's
+// external cdn.ypt.me edge infrastructure, neither of which can be safely removed or
+// replaced from this repository alone. Do not strip these terms without first migrating
+// those callers to a real shared-secret/signed-token mechanism (see isAVideoStreamer()'s
+// md5($global['salt']) pattern for the precedent) and verifying playback still works.
 if (isAVideoUserAgent() || isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id']) || User::canWatchVideoWithAds($video['id']) || isCDN()) {
     if (!empty($_GET['download'])) {
         _error_log("Download file {$_GET['file']}");
