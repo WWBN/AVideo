@@ -682,6 +682,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     var checkProgressTimeout = [];
     var filterDateRange = '';
     var VIDEO_PASSWORD_KEEP = <?php echo json_encode(Video::PASSWORD_KEEP); ?>;
+    var globalToken = '<?php echo getToken(); ?>';
 
 
     function saveVideoOnPlaylist(videos_id, add, playlists_id) {
@@ -2153,7 +2154,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         $.ajax({
                             url: url,
                             data: {
-                                videos_id: row.id
+                                videos_id: row.id,
+                                globalToken: globalToken
                             },
                             type: 'post',
                             complete: function(resp) {
