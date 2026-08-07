@@ -22,10 +22,13 @@ $obj->live_transmitions_history_id = intval(@$_REQUEST['live_transmitions_histor
 $obj->live_restreams_id = intval(@$_REQUEST['live_restreams_id']);
 $obj->action = @$_REQUEST['action'];
 
+_error_log("Live_restreams/getAction.json.php: request received users_id=" . User::getId() . " action={$obj->action} live_restreams_logs_id={$obj->live_restreams_logs_id} live_transmitions_history_id={$obj->live_transmitions_history_id} live_restreams_id={$obj->live_restreams_id}");
+
 if (empty($obj->live_restreams_logs_id)) {
     if (!empty($obj->live_transmitions_history_id) && !empty($obj->live_restreams_id)) {
 
     } else {
+        _error_log("Live_restreams/getAction.json.php: ids are empty, rejecting");
         forbiddenPage(__("ids are empty"));
     }
 } else {
@@ -36,15 +39,19 @@ if (empty($obj->live_restreams_logs_id)) {
 
 $obj->url = Live_restreams_logs::getURLFromTransmitionAndRestream($obj->live_transmitions_history_id, $obj->live_restreams_id, $obj->action);
 
+_error_log("Live_restreams/getAction.json.php: computed url=" . var_export($obj->url, true));
+
 if (!User::isAdmin()) {
     require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
     $lr = new Live_restreams($obj->live_restreams_id);
     if ($lr->getUsers_id() !== User::getId()) {
+        _error_log("Live_restreams/getAction.json.php: forbidden, restream owner mismatch. restream_users_id=" . $lr->getUsers_id() . " request_users_id=" . User::getId());
         forbiddenPage(__("You have no access to this restream"));
     }
 }
 
 $obj->response = url_get_contents($obj->url);
+_error_log("Live_restreams/getAction.json.php: raw response from restreamer=" . var_export($obj->response, true));
 $obj->json = json_decode($obj->response);
 if (empty($obj->json)) {
     $obj->responseFrom = 'Streamer/GetAction/Restreamer[Empty]';
@@ -57,5 +64,7 @@ if (empty($obj->json)) {
         $obj->error = false;
     }
 }
+
+_error_log("Live_restreams/getAction.json.php: final response=" . json_encode($obj));
 
 die(json_encode($obj));

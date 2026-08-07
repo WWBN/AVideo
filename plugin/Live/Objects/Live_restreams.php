@@ -111,8 +111,40 @@ class Live_restreams extends ObjectYPT {
                 }
                 $rows[] = $row;
             }
-        } 
+        }
         return $rows;
+    }
+
+    /**
+     * Restreams actually started (has at least one live_restreams_logs row) for a given
+     * live session, regardless of which account owns the restream destination. Needed because a
+     * restream destination can be configured by an admin account while the live itself streams
+     * under a different account (see LiveRestreamWatchdog::run()).
+     */
+    public static function getAllFromLiveTransmitionHistory($live_transmitions_history_id, $status = 'a') {
+        if (!static::isTableInstalled()) {
+            return [];
+        }
+        $live_transmitions_history_id = intval($live_transmitions_history_id);
+        if (empty($live_transmitions_history_id)) {
+            return [];
+        }
+
+        $sql = "SELECT lr.* FROM " . static::getTableName() . " lr
+                INNER JOIN (
+                    SELECT DISTINCT live_restreams_id FROM live_restreams_logs WHERE live_transmitions_history_id = ?
+                ) x ON x.live_restreams_id = lr.id";
+        $formats = 'i';
+        $values = [$live_transmitions_history_id];
+        if (!empty($status)) {
+            $sql .= " WHERE lr.status = ?";
+            $formats .= 's';
+            $values[] = $status;
+        }
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $rows = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        return $rows ? $rows : [];
     }
 
     private static function getProviderName($parameters) {

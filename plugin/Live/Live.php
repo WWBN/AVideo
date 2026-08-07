@@ -8,6 +8,7 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_servers.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams_logs.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_schedule.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveRestreamWatchdog.php';
 
 $getStatsObject = [];
 $_getStats = [];
@@ -435,6 +436,11 @@ class Live extends PluginAbstract
             'autoFishLiveEveryHour',
             'restreamStandAloneFFMPEG',
             'restream_resolution',
+            'enableRestreamWatchdog',
+            'restreamWatchdogCooldownSeconds',
+            'restreamWatchdogMaxAttempts',
+            'restreamWatchdogWindowSeconds',
+            'restreamWatchdogHealthyResetSeconds',
         );
     }
 
@@ -517,6 +523,17 @@ class Live extends PluginAbstract
         $o->value = '720';
         $obj->restream_resolution = $o;
         self::addDataObjectHelper('restream_resolution', 'Restream Output Resolution', 'Resolution and bitrate used when re-encoding the live stream for restream destinations. Choose "Passthrough" to copy the stream without transcoding (lowest CPU usage, recommended when the source resolution already matches the destination).');
+
+        $obj->enableRestreamWatchdog = false;
+        self::addDataObjectHelper('enableRestreamWatchdog', 'Enable Restream Watchdog', 'When enabled, executeEveryMinute() will detect restreams that unexpectedly disconnected from their destination (e.g. Broken pipe, Error muxing a packet, Error writing trailer, unexpected FFmpeg termination) while the source is still live, and will automatically restart them using the existing restream start flow. Disabled by default.');
+        $obj->restreamWatchdogCooldownSeconds = 120;
+        self::addDataObjectHelper('restreamWatchdogCooldownSeconds', 'Restream Watchdog Cooldown (seconds)', 'Minimum time to wait between automatic restart attempts for the same restream. Default: 120 seconds (2 minutes).');
+        $obj->restreamWatchdogMaxAttempts = 3;
+        self::addDataObjectHelper('restreamWatchdogMaxAttempts', 'Restream Watchdog Max Attempts', 'Maximum number of automatic restart attempts allowed within the attempts window below before the watchdog stops retrying automatically for that restream. Default: 3.');
+        $obj->restreamWatchdogWindowSeconds = 900;
+        self::addDataObjectHelper('restreamWatchdogWindowSeconds', 'Restream Watchdog Attempts Window (seconds)', 'Time window used to count automatic restart attempts towards the max attempts limit above. Default: 900 seconds (15 minutes).');
+        $obj->restreamWatchdogHealthyResetSeconds = 600;
+        self::addDataObjectHelper('restreamWatchdogHealthyResetSeconds', 'Restream Watchdog Healthy Reset (seconds)', 'How long a restream must stay healthy (running) before the automatic restart attempt counter is reset to zero. Default: 600 seconds (10 minutes).');
 
         $obj->disableDVR = false;
         self::addDataObjectHelper('disableDVR', 'Disable DVR', 'Enable or disable the DVR Feature, you can control the DVR length in your nginx.conf on the parameter hls_playlist_length');
@@ -3636,7 +3653,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $obj;
     }
 
-    public static function getRestreamObject($liveTransmitionHistory_id)
+    public static function getRestreamObject($liveTransmitionHistory_id, $live_restreams_id = 0)
     {
         if (empty($liveTransmitionHistory_id)) {
             _error_log("Live:getRestreamObject failed: liveTransmitionHistory_id is empty");
@@ -3646,6 +3663,29 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($lth->getKey())) {
             _error_log("Live:getRestreamObject failed: live key is empty liveTransmitionHistory_id={$liveTransmitionHistory_id}");
             return false;
+        }
+
+        // When a specific destination id is requested, load it directly by id instead of
+        // filtering the live owner's own restreams: a restream destination can be configured on
+        // a different account than the one currently streaming (e.g. an admin-configured
+        // destination restreaming an operator/encoder account's live, or an automatic restart
+        // from the restream watchdog).
+        if (!empty($live_restreams_id)) {
+            $lr = new Live_restreams($live_restreams_id);
+            if (empty($lr->getId())) {
+                _error_log("Live:getRestreamObject failed: live_restreams_id={$live_restreams_id} not found");
+                return false;
+            }
+            if ($lr->getStatus() !== 'a') {
+                _error_log("Live:getRestreamObject failed: live_restreams_id={$live_restreams_id} is not active (status=" . $lr->getStatus() . ")");
+                return false;
+            }
+            $stream_url = addLastSlash($lr->getStream_url());
+            $restreamsDestination = "{$stream_url}{$lr->getStream_key()}";
+            $restreamRowItems = array(
+                $lr->getId() => self::gettRestreamRowItem($restreamsDestination, $lr->getId(), null),
+            );
+            return self::_getRestreamObject($liveTransmitionHistory_id, $restreamRowItems);
         }
 
         $rows = Live_restreams::getAllFromUser($lth->getUsers_id());
@@ -3724,7 +3764,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             _error_log("Live:restream sending response before background execution liveTransmitionHistory_id={$liveTransmitionHistory_id}");
             outputAndContinueInBackground();
         }
-        $obj = self::getRestreamObject($liveTransmitionHistory_id);
+        $obj = self::getRestreamObject($liveTransmitionHistory_id, $live_restreams_id);
         if (empty($obj)) {
             _error_log("Live:restream failed: could not build restream object liveTransmitionHistory_id={$liveTransmitionHistory_id}");
             return false;
@@ -4650,6 +4690,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $end = microtime(true) - $start;
         //_error_log("Live::executeEveryMinute complete in {$end} seconds");
         include __DIR__ . '/standAloneFiles/kill_ffmpeg_restream.php';
+
+        if (!empty($objLive->enableRestreamWatchdog)) {
+            LiveRestreamWatchdog::run($objLive);
+        }
     }
 
     function executeEveryHour()

@@ -6,8 +6,12 @@ function getRestreamsRuning()
     $obj->msg = "";
     $obj->process = array();
 
-    // Command to list processes that contain 'ffmpeg -re -rw_timeout'
-    $command = "ps aux | grep 'ffmpeg -re -rw_timeout' | grep -v grep";
+    // Command to list ffmpeg restream processes. Matching on the literal 'ffmpeg -re -rw_timeout'
+    // substring is unreliable: the '-re' flag is commented out when the restream command is
+    // built (see startRestream() in restreamer.json.php), so it never appears in the real
+    // process arguments and this check always returned nothing. Match on the stable
+    // live_restreams_id= marker that startRestream() always appends to the input URL instead.
+    $command = "ps aux | grep 'ffmpeg' | grep 'live_restreams_id=' | grep -v grep";
 
     // Execute the command
     exec($command, $output, $return_var);
@@ -45,7 +49,7 @@ function getRestreamsRuning()
         $obj->liveTransmitionHistory_ids = $liveTransmitionHistory_ids;
         $obj->error = false;
     } else {
-        $obj->msg = "No processes found using 'ffmpeg -re -rw_timeout' or an error occurred.";
+        $obj->msg = "No processes found using 'ffmpeg' with a live_restreams_id= marker or an error occurred.";
     }
     return $obj;
 }

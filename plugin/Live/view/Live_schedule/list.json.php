@@ -7,6 +7,8 @@ if (!User::canStream()) {
     $rows = [];
     $total = 0;
 } else {
+    // Read-only after this point, avoid holding the shared session lock during the DB query.
+    _session_write_close();
     if (empty($_POST['sort'])) {
         $_POST['sort']['scheduled_time'] = 'DESC';
     }

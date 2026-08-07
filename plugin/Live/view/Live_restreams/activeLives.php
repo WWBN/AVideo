@@ -61,8 +61,15 @@ $_page = new Page(array('Active Lives'));
     var activeLiveTemplate = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/Live/view/getActiveLives.template.html')); ?>;
     var activeLiveRestreamTemplate = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/Live/view/getActiveLivesRestreams.template.html')); ?>;
 
+    var getActiveLivesRefreshInterval = null;
+
     $(document).ready(function() {
         getActiveLives();
+        // Periodically refresh the whole list so the Start/Stop buttons and the
+        // "checkIfRestreamIsActive" polling never keep using a stale/finished
+        // live_transmitions_history_id if the page is left open across live sessions.
+        clearInterval(getActiveLivesRefreshInterval);
+        getActiveLivesRefreshInterval = setInterval(getActiveLives, 60000);
     });
 
     function getAction(action, live_transmitions_history_id, live_restreams_id) {
@@ -71,6 +78,7 @@ $_page = new Page(array('Active Lives'));
         url = addQueryStringParameter(url, 'live_transmitions_history_id', live_transmitions_history_id);
         url = addQueryStringParameter(url, 'live_restreams_id', live_restreams_id);
 
+        console.log('getAction()', action, live_transmitions_history_id, live_restreams_id, url);
         modal.showPleaseWait();
         $.ajax({
             url: url,
@@ -85,6 +93,11 @@ $_page = new Page(array('Active Lives'));
                     }
                 }
                 getActiveLives();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                modal.hidePleaseWait();
+                console.error('getAction() ajax failed', textStatus, errorThrown, jqXHR.status, jqXHR.responseText);
+                avideoAlertError('Error: ' + textStatus + ' ' + (jqXHR.status || '') + ' ' + (errorThrown || ''));
             }
         });
     }

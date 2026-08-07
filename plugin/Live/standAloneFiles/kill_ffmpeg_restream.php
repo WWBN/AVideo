@@ -112,16 +112,35 @@ foreach ($logFiles as $logFile) {
     $lastUrlOpened = '';
     $foundTsFile = false;
 
+    // FFmpeg always prints its final per-stream stats line (e.g. "kb/s:2503.20")
+    // as part of the summary it dumps right before exiting - this happens on a
+    // *successful* stop AND on a *crash* ("Conversion failed!"/broken pipe/I-O
+    // error). Since that stats line is written to the log BEFORE the terminal
+    // "Conversion failed"/"Exiting normally" line, scanning the tail in
+    // chronological order and stopping at the first match previously caused
+    // crashed restreams to be misreported as "SUCCESS" (the stats line was
+    // always reached first). Scan the whole tail for the terminal marker
+    // first, regardless of line position, so a crash is never masked.
+    $terminalErrorLine = null;
+    foreach ($logContent as $line) {
+        $line = str_replace(array("\r", "\n"), '', $line);
+        if (strpos($line, 'Exiting normally') !== false || strpos($line, 'Conversion failed') !== false) {
+            $terminalErrorLine = $line;
+            break;
+        }
+    }
+    if ($terminalErrorLine !== null) {
+        echo "CRASHED/EXITED restream log file $logFile due to message: $terminalErrorLine (last modified on $lastModifiedFormatted). "
+            . "The FFmpeg process already terminated on its own, so there is no process left to kill here. "
+            . "If the live source is still active and this restream did not restart automatically, enable "
+            . "'Restream Watchdog' in the Live plugin settings for automatic recovery.\n";
+        continue; // Skip to the next log file
+    }
+
     //echo "kill_ffmpeg_restream.php start.\n";
     // Loop through the last N lines of the log file
     foreach ($logContent as $key => $line) {
         $line = str_replace(array("\r", "\n"), '', $line);
-
-        // Check if the line contains "Exiting normally" or "Conversion failed"
-        if (strpos($line, 'Exiting normally') !== false || strpos($line, 'Conversion failed') !== false) {
-            echo "Skipping ERROR log file $logFile due to message: $line (last modified on $lastModifiedFormatted).\n";
-            continue 2; // Skip to the next log file
-        }
 
         // Check if there are encoding stats (indicating a successful process)
         if (preg_match("/\] kb\/s:\d+\.\d+/i", $line)) {

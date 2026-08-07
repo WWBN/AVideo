@@ -98,8 +98,30 @@ if (!empty($_REQUEST['tokenForAction'])) {
             case 'log':
             case 'logContent':
 
+                $obj->completed = false;
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
                 $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
+                $logFile = $logFileLocation . $obj->logName;
+
+                // A manual 'stop' always persists a *.completed marker on this same host (see the
+                // 'stop' action below), regardless of whether FFmpeg ran locally or via a remote
+                // executor. Check it first so a manually stopped/completed restream is never
+                // reported as an unexpected failure just because a remote log endpoint is still
+                // reachable and returns an unrelated/ambiguous status.
+                if (!empty($obj->logName) && file_exists($logFile . '.completed')) {
+                    $completedLogFile = $logFile . '.completed';
+                    $obj->completed = true;
+                    $obj->modified = @filemtime($completedLogFile);
+                    $obj->secondsAgo = $obj->time - $obj->modified;
+                    $obj->isActive = false;
+                    $obj->remoteLog = false;
+                    if ($json->action === 'logContent') {
+                        $lines = file($completedLogFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                        $obj->content = $lines === false ? '' : implode("\n", array_slice($lines, -300));
+                    }
+                    echo json_encode($obj);
+                    exit;
+                }
 
                 $resp = getFFMPEGRemoteLog($keyword, $json->restreamStandAloneFFMPEG);
                 if (!empty($resp) && empty($resp->error)) {
@@ -109,11 +131,6 @@ if (!empty($_REQUEST['tokenForAction'])) {
                     $obj->remoteLog = true;
                     $obj->resp = $resp;
                 } else if (!empty($obj->logName)) {
-                    $logFile = $logFileLocation . $obj->logName;
-                    // also check completed log
-                    if (!file_exists($logFile) && file_exists($logFile . '.completed')) {
-                        $logFile = $logFile . '.completed';
-                    }
                     if (file_exists($logFile)) {
                         $obj->modified = @filemtime($logFile);
                         $obj->secondsAgo = $obj->time - $obj->modified;
@@ -138,17 +155,27 @@ if (!empty($_REQUEST['tokenForAction'])) {
 
                 $resp = stopFFMPEGRemote($keyword, $json->restreamStandAloneFFMPEG);
                 $obj->remoteResponse = $resp;
+                $obj->logName = str_replace($logFileLocation, '', $json->logFile);
+                $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
+                $logFile = $logFileLocation . $obj->logName;
                 if (!empty($resp) && empty($resp->error)) {
                     $obj->remoteKill = true;
                 } else {
                     $obj->killIfIsRunning = killIfIsRunning($json);
-                    $obj->logName = str_replace($logFileLocation, '', $json->logFile);
-                    $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
-                    $logFile = $logFileLocation . $obj->logName;
                     $obj->remoteKill = false;
+                }
+
+                // Persist a reliable "manually stopped" marker regardless of whether FFmpeg was
+                // killed locally or via the remote executor, so a subsequent 'log'/'logContent'
+                // check on this host always reports completed=true instead of looking like an
+                // unexpected crash. When FFmpeg ran entirely on a remote executor the local .log
+                // file may never have existed, so touch() the marker directly in that case.
+                if (!empty($obj->logName)) {
+                    $completedLogFile = $logFile . '.completed';
                     if (file_exists($logFile)) {
-                        $completedLogFile = $logFile . '.completed';
                         rename($logFile, $completedLogFile);
+                    } else if (!file_exists($completedLogFile)) {
+                        @touch($completedLogFile);
                     }
                 }
 
@@ -643,10 +670,24 @@ function _make_path($path)
     return $created;
 }
 
-function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1)
+// Manual "start" (via getAction.json.php) is a synchronous HTTP request end-to-end, so this
+// retry loop directly blocks the caller's browser/AJAX call for as long as it runs. Keep the
+// ceiling and per-try backoff small so a source that is not ready fails fast (a few seconds)
+// instead of hanging the request for minutes (the previous 20-tries/growing-sleep(1..19)
+// ceiling could block for 190+ seconds, well past the default_socket_timeout=60s used by
+// getAction.json.php's url_get_contents() call, causing a blank/"pending forever" response and
+// tying up an Apache worker the whole time).
+const STARTRESTREAM_MAX_TRIES = 6;
+const STARTRESTREAM_MAX_SLEEP_SECONDS = 3;
+
+function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1, $startTime = null)
 {
     global $json;
     global $ffmpegBinary, $isATest;
+
+    if ($startTime === null) {
+        $startTime = microtime(true);
+    }
 
     error_log("Restreamer.json.php startRestream enter " . json_encode(array('tries' => $tries, 'm3u8' => $m3u8, 'destinationsCount' => is_array($restreamsDestinations) ? count($restreamsDestinations) : 0, 'logFile' => $logFile, 'summary' => getRestreamRequestSummary($robj))));
 
@@ -658,7 +699,19 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         return false;
     }
 
-    $m3u8 = str_replace('vlu.me', 'live', $m3u8);
+    // On Docker, rewrite the public domain to the internal Compose service hostname ("live") so
+    // this request stays inside the docker network instead of hairpinning out to the public
+    // domain (which often fails/hangs to reach from inside a container). Read SERVER_NAME from
+    // docker_vars.json (written by deploy/apache/docker-entrypoint) instead of a fixed domain, so
+    // this works for any Docker install, not just this one. On bare metal the file doesn't exist,
+    // so $m3u8 is left untouched (matches the already-working bare-metal behavior).
+    $dockerVarsFile = '/var/www/docker_vars.json';
+    if (file_exists($dockerVarsFile)) {
+        $dockerVars = json_decode(file_get_contents($dockerVarsFile));
+        if (!empty($dockerVars->SERVER_NAME)) {
+            $m3u8 = str_replace($dockerVars->SERVER_NAME, 'live', $m3u8);
+        }
+    }
     if (empty($restreamsDestinations)) {
         error_log("Restreamer.json.php startRestream ERROR empty restreamsDestinations");
         return false;
@@ -683,21 +736,22 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         sleep(3);
     }
     if (!$isATest && function_exists('_isURL200') && !_isURL200($m3u8, true)) {
-        if ($tries > 20) {
-            error_log("Restreamer.json.php startRestream tried too many times, we could not find your stream URL m3u8={$m3u8} summary=" . json_encode(getRestreamRequestSummary($robj)));
+        if ($tries > STARTRESTREAM_MAX_TRIES) {
+            $elapsed = round(microtime(true) - $startTime, 1);
+            error_log("Restreamer.json.php startRestream GAVE UP after {$tries} tries ({$elapsed}s elapsed): the source m3u8 never became ready, check whether the live source is actually broadcasting. m3u8={$m3u8} summary=" . json_encode(getRestreamRequestSummary($robj)));
             return false;
         }
         if ($tries === 1) {
             error_log("Restreamer.json.php startRestream " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
         }
-        error_log("Restreamer.json.php startRestream URL ($m3u8) is NOT ready. trying again ({$tries})");
+        error_log("Restreamer.json.php startRestream URL ($m3u8) is NOT ready. trying again ({$tries}/" . STARTRESTREAM_MAX_TRIES . ")");
 
         // 🔓 Release lock
         flock($lockFileHandle, LOCK_UN);
         fclose($lockFileHandle);
         @unlink($lockFilePath);
-        sleep($tries);
-        return startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries + 1);
+        sleep(min($tries, STARTRESTREAM_MAX_SLEEP_SECONDS));
+        return startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries + 1, $startTime);
     }
 
     error_log("Restreamer.json.php startRestream _isURL200 tries= " . json_encode($tries));

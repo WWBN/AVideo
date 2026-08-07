@@ -13,6 +13,9 @@ if (!User::isAdmin()) {
     $_GET['users_id'] = User::getId();
 }
 
+// Read-only after this point, avoid holding the shared session lock during the DB query.
+_session_write_close();
+
 if (empty($_GET['users_id'])) {
     $rows = Live_restreams::getAll();
 } else {

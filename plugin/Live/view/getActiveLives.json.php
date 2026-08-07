@@ -19,10 +19,16 @@ if (!User::canStream()) {
     die(json_encode($obj));
 }
 $users_id = User::getId();
-$lives = LiveTransmitionHistory::getAllActiveFromUser($users_id);
+
+// Admins manage restreams for any currently active live, not just their own -
+// same "admin sees all" convention already used by Live_restreams/list.json.php.
+// Restreamer destinations still come from the logged in admin's own account,
+// since that is who owns the configured restream credentials/tokens.
+$liveLookupUsersId = User::isAdmin() ? 0 : $users_id;
+$lives = LiveTransmitionHistory::getAllActiveFromUser($liveLookupUsersId);
 
 if(empty($lives)){
-    $lives = LiveTransmitionHistory::getAllFromUser($users_id, false, false, 1);
+    $lives = LiveTransmitionHistory::getAllFromUser($liveLookupUsersId, false, false, 1);
 }
 
 $restreamers = Live_restreams::getAllFromUser($users_id);
@@ -35,11 +41,11 @@ foreach ($lives as $key => $value) {
             $log = array();
         }
         $restream['log'] = $log;
-        
+
         foreach ($log as $log_key => $log_value) {
             $restream['log_'.$log_key] = $log_value;
         }
-        
+
         $restream['log_json'] = json_decode($restream['log_json'], true);
         $restream['live_url'] = !empty($restream['log_json']['live_url'][$restream['id']])?$restream['log_json']['live_url'][$restream['id']]:'';
 
