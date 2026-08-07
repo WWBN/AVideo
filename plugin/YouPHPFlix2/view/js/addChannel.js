@@ -4,7 +4,7 @@ function channelToYouPHPFlix2(users_id, add) {
     $.ajax({
         url: webSiteRootURL + 'plugin/YouPHPFlix2/channelToYouPHPFlix2.json.php',
         method: 'POST',
-        data: {'users_id': users_id, 'add': add},
+        data: {'users_id': users_id, 'add': add, 'globalToken': youPHPFlix2ChannelToken},
         success: function (response) {
             avideoResponse(response);
             if(!response.error){

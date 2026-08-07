@@ -21,6 +21,9 @@ if(!User::isAdmin()){
 </div>
 
 <script>
+    if (typeof youPHPFlix2ChannelToken === 'undefined') {
+        var youPHPFlix2ChannelToken = '<?php echo getToken(); ?>';
+    }
     $(document).ready(function () {
     });
 </script>

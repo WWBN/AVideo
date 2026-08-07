@@ -61,6 +61,11 @@ Also read `plugin/Plugin.abstract.php` to verify hook method signatures.
 - [ ] Ownership of resources is validated before modification (not just "is logged in")
 - [ ] No endpoint performs writes accessible to non-admin users without authorization
 - [ ] No frontend page exposes admin-only data to normal users
+- [ ] Mutating endpoints reuse existing helpers from `objects/functionsSecurity.php` instead of duplicating inline checks:
+  - `forbidIfNotPost($msg='')` — reject non-POST requests (405); required for any mutating endpoint not covered by `autoCSRFGuard()` (GET-reachable, or not named `*.json.php`)
+  - `forbidIfInvalidToken($msg='')` — reject requests without a valid `globalToken` (403), wraps `isGlobalTokenValid()`
+  - `forbidIfIsUntrustedRequest($logMsg='', $approveAVideoUserAgent=true)` — reject cross-origin requests
+  - `forbidIfItIsNotMyUsersId($users_id, $logMsg='')` — reject requests targeting another user's resource
 
 ### 5. Database Access
 

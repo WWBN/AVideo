@@ -8,11 +8,7 @@ $obj->error = true;
 $obj->msg = '';
 
 // mutating endpoint, not named *.json.php so the auto CSRF guard never covers it; GET must not reach it
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    $obj->msg = 'Method not allowed';
-    die(json_encode($obj));
-}
+forbidIfNotPost();
 forbidIfIsUntrustedRequest('videoEditLight');
 
 $obj->videos_id = @$_POST['videos_id'];

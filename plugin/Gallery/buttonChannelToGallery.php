@@ -20,6 +20,9 @@ if(!User::isAdmin()){
 </div>
 
 <script>
+    if (typeof galleryChannelToken === 'undefined') {
+        var galleryChannelToken = '<?php echo getToken(); ?>';
+    }
     $(document).ready(function () {
     });
 </script>

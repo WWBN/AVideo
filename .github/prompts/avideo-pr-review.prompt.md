@@ -38,6 +38,14 @@ For every changed PHP file, verify:
 - Are file uploads validated for MIME type (not just extension)?
 - Are file paths protected against path traversal (`realpath()` + prefix check)?
 - Do error responses avoid leaking stack traces or system paths?
+- Does the diff duplicate an inline auth/CSRF check instead of reusing an existing helper from `objects/functionsSecurity.php`? Known reusable helpers to flag duplication against:
+  - `forbiddenPage($msg, $log=false)` — 403 + optional security log + login redirect
+  - `forbidIfNotPost($msg='')` — reject non-POST requests to a mutating endpoint (405)
+  - `forbidIfInvalidToken($msg='')` — reject requests without a valid `globalToken` (403), wraps `isGlobalTokenValid()`
+  - `forbidIfIsUntrustedRequest($logMsg='', $approveAVideoUserAgent=true)` — reject cross-origin requests (Referer/Origin check)
+  - `forbidIfItIsNotMyUsersId($users_id, $logMsg='')` — reject requests targeting another user's resource
+  - `getToken($timeout=0, $salt='', $videos_id=0)` / `isGlobalTokenValid()` — mint/verify the CSRF token pair
+  - New mutating endpoints (GET-reachable or not named `*.json.php`) should call `forbidIfNotPost()` since `autoCSRFGuard()` in `objects/include_config.php` only arms for `POST` requests to `*.json.php` files.
 
 ### 3. SQL Safety
 

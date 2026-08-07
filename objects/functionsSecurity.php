@@ -172,6 +172,24 @@ function forbidIfItIsNotMyUsersId($users_id, $logMsg = '')
     }
 }
 
+// reject non-POST requests to a mutating endpoint (e.g. one reachable by a GET-only <img>/link CSRF vector)
+function forbidIfNotPost($msg = '')
+{
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+        http_response_code(405);
+        die(json_encode(['error' => true, 'msg' => empty($msg) ? 'Method not allowed' : $msg]));
+    }
+}
+
+// reject requests without a valid globalToken (CSRF protection for mutating endpoints, see isGlobalTokenValid())
+function forbidIfInvalidToken($msg = '')
+{
+    if (!isGlobalTokenValid()) {
+        http_response_code(403);
+        die(json_encode(['error' => true, 'msg' => empty($msg) ? 'Invalid or missing CSRF token' : $msg]));
+    }
+}
+
 function itIsNotMyUsersId($users_id)
 {
     $users_id = intval($users_id);
