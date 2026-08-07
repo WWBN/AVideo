@@ -43,7 +43,7 @@ if (!empty($_GET['channelName'])) {
     $showOnlyLoggedUserVideos = $user['id'];
     $title = User::getNameIdentificationById($user['id']);
     $about = User::getDescriptionById($user['id'], true);
-    $author = $user['email'];
+    // do not disclose the channel owner's personal email to unauthenticated callers; keep the site contact email set above
     if (!isHTMLEmpty($about)) {
         $description = $about;
     }
@@ -77,15 +77,14 @@ if (empty($rows)) {
 
 if (!empty($_REQUEST['program_id'])) {
     $playlists_id = intval($_REQUEST['program_id']);
+    if (!PlayList::canSee($playlists_id, User::getId())) {
+        forbiddenPage('Permission denied');
+    }
     $pl = new PlayList($playlists_id);
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
     $title = PlayLists::getNameOrSerieTitle($playlists_id);
     $link = PlayLists::getLink($playlists_id);
-    $users_id = $pl->getUsers_id();
-    $new_author = User::getEmailDb($users_id);
-    if(!empty($new_author)){
-        $author = $new_author;
-    }
+    // do not disclose the playlist owner's personal email to unauthenticated callers; keep the site contact email set above
     $description = PlayLists::getDescriptionIfIsSerie($playlists_id);
     //var_dump($videosArrayId);foreach ($rows as $value) {var_dump($value['id']);}exit;
 }
