@@ -70,24 +70,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'fetch') {
 
 // Handle kill process request securely
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_token'])) {
+    header('Content-Type: application/json');
     if (hash_equals($csrfToken, $_POST['csrf_token'])) {
         $pidDecrypted = decryptString($_POST['pid']);
         $pid = intval($pidDecrypted);
         if ($pid > 0) {
-            $command = "kill -9 $pid";
-            $output = [];
-            $return_var = 0;
-
-            // Execute the command and capture the output and return status
-            exec($command . " 2>&1", $output, $return_var);
-
-            // Prepare the response JSON with detailed information
-            echo json_encode([
-                'error' => $return_var !== 0,
-                'msg' => $return_var === 0 ? 'Process killed successfully.' : 'Failed to kill the process.',
-                'command' => $command,
-                'output' => $output
-            ]);
+            if (posix_kill($pid, 9)) {
+                echo '{"error":false,"msg":"Process killed successfully."}';
+            } else {
+                echo '{"error":true,"msg":"Failed to kill the process."}';
+            }
             exit;
         }
     }
