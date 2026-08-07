@@ -8,7 +8,7 @@ $obj->error = true;
 $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
-                                                
+
 if(!User::isLogged()){
     forbiddenPage();
 }
