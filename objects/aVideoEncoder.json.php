@@ -635,6 +635,13 @@ function deduplicateByEncoderQueueId(Video &$video, stdClass &$obj)
     $dedup_res = $global['mysqli']->query($dedup_sql);
     if ($dedup_res && ($dedup_row = $dedup_res->fetch_assoc())) {
         $existing_id = intval($dedup_row['id']);
+        // encoder_queue_id lookup is not scoped to the caller, so authorize the discovered video
+        // before disclosing its video_id_hash (same gate used elsewhere in this file).
+        if (!Video::canEncoderEdit($existing_id)) {
+            _error_log("aVideoEncoder.json: deduplicateByEncoderQueueId — permission denied for video_id={$existing_id} (encoder_queue_id={$encoder_queue_id}) userId=" . User::getId());
+            $obj->msg = __("Permission denied to edit a video: ") . $existing_id;
+            dieJsonResponse($obj, 'permission-denied-dedup');
+        }
         _error_log("aVideoEncoder.json: deduplicateByEncoderQueueId — returning existing video_id={$existing_id} for encoder_queue_id={$encoder_queue_id}; skipping duplicate INSERT");
         $obj->error         = false;
         $obj->video_id      = $existing_id;
