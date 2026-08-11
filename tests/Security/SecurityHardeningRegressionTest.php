@@ -29,10 +29,13 @@ class SecurityHardeningRegressionTest extends TestCase
         // Must apply rate limiting via the shared helper.
         $this->assertStringContainsString('enforceRateLimit(', $source);
 
-        // Must gate on admin session or HMAC token before doing anything useful.
+        // Must gate strictly on the admin session before doing anything useful.
+        // A token derived from public streamer information would be forgeable and
+        // must not provide an authentication bypass.
         $this->assertStringContainsString('User::isAdmin()', $source);
-        $this->assertStringContainsString('hash_equals(', $source);
         $this->assertStringContainsString("http_response_code(401)", $source);
+        $this->assertStringNotContainsString('hash_hmac(', $source);
+        $this->assertStringNotContainsString("\$_REQUEST['token']", $source);
 
         // Must NOT reflect the plaintext password back to the caller.
         $this->assertStringNotContainsString("\$obj->password", $source);
