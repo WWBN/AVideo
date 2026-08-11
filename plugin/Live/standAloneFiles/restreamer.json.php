@@ -94,7 +94,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
         $keyword = 'restream_' . md5(basename($json->logFile));
         $obj->keyword = $keyword;
         $obj->error = false;
-        error_log("Restreamer.json.php token verified " . json_encode($json));
+        error_log("Restreamer.json.php STATUS OK tokenForAction verified action='{$json->action}' live_restreams_id=" . (@$json->live_restreams_id ?? '?') . " liveTransmitionHistory_id=" . (@$json->liveTransmitionHistory_id ?? '?') . " logFile=" . (@$json->logFile ?? '?') . " full=" . json_encode($json));
         switch ($json->action) {
             case 'log':
             case 'logContent':
@@ -120,6 +120,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
                         $lines = file($completedLogFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                         $obj->content = $lines === false ? '' : implode("\n", array_slice($lines, -300));
                     }
+                    error_log("Restreamer.json.php STATUS OK logName={$obj->logName} restream was manually STOPPED/COMPLETED at " . date('Y-m-d H:i:s', $obj->modified) . " ({$obj->secondsAgo}s ago) - not an error");
                     echo json_encode($obj);
                     exit;
                 }
@@ -131,6 +132,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
                     $obj->isActive = $resp->isActive;
                     $obj->remoteLog = true;
                     $obj->resp = $resp;
+                    error_log("Restreamer.json.php STATUS " . ($obj->isActive ? 'OK' : 'PROBLEM') . " logName={$obj->logName} ffmpeg is " . ($obj->isActive ? 'ACTIVE' : 'NOT ACTIVE') . " (remote executor) lastUpdate={$obj->secondsAgo}s ago");
                 } else if (!empty($obj->logName)) {
                     if (file_exists($logFile)) {
                         $obj->modified = @filemtime($logFile);
@@ -146,6 +148,9 @@ if (!empty($_REQUEST['tokenForAction'])) {
                                 $obj->content = implode("\n", array_slice($lines, -300));
                             }
                         }
+                        error_log("Restreamer.json.php STATUS " . ($obj->isActive ? 'OK' : 'PROBLEM') . " logName={$obj->logName} ffmpeg is " . ($obj->isActive ? 'ACTIVE' : 'NOT ACTIVE, likely CRASHED/STALLED') . " (local log) lastUpdate={$obj->secondsAgo}s ago");
+                    } else {
+                        error_log("Restreamer.json.php STATUS PROBLEM logName={$obj->logName} NO EVIDENCE FOUND - no .completed marker, no remote log, no local log file at {$logFile}");
                     }
                 }
 
@@ -180,6 +185,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
                     }
                 }
 
+                error_log("Restreamer.json.php STATUS OK logName={$obj->logName} stop requested, killed=" . (!empty($obj->remoteKill) || !empty($obj->killIfIsRunning) ? 'yes' : 'no (already stopped)') . " remoteKill=" . ($obj->remoteKill ? 'yes' : 'no'));
                 echo json_encode($obj);
                 exit;
                 break;
@@ -586,15 +592,17 @@ function postToURL($url, $data_string, $timeLimit = 10)
         $info = curl_getinfo($ch);
         curl_close($ch);
         set_time_limit($global_timeLimit);
-        error_log("Restreamer.json.php postToURL complete " . json_encode(array('url' => $url, 'http_code' => @$info['http_code'], 'curl_errno' => $curlErrno, 'curl_error' => $curlError, 'outputPreview' => substr((string) $output, 0, 500))));
+        $httpCode = @$info['http_code'];
+        $isHttpOk = empty($curlErrno) && $httpCode >= 200 && $httpCode < 300;
+        error_log("Restreamer.json.php postToURL " . ($isHttpOk ? 'OK' : 'FAILED') . " " . json_encode(array('url' => $url, 'http_code' => $httpCode, 'curl_errno' => $curlErrno, 'curl_error' => $curlError, 'outputPreview' => substr((string) $output, 0, 500))));
         //var_dump($url, $data_string, $output);//exit;
         $json = json_decode($output);
         if ($output === false || !empty($curlErrno)) {
-            error_log("Restreamer.json.php postToURL ERROR curl failed " . json_encode(array('url' => $url, 'curl_errno' => $curlErrno, 'curl_error' => $curlError)));
+            error_log("Restreamer.json.php postToURL ERROR curl failed, request never reached {$url} " . json_encode(array('curl_errno' => $curlErrno, 'curl_error' => $curlError)));
             return false;
         }
         if (empty($json) && !empty($output)) {
-            error_log("Restreamer.json.php postToURL ERROR invalid json json_error=" . json_last_error_msg() . " url={$url}");
+            error_log("Restreamer.json.php postToURL ERROR invalid json response from {$url} json_error=" . json_last_error_msg());
         }
         return $json;
     } catch (Exception $exc) {
