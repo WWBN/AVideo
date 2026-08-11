@@ -4,6 +4,7 @@ use Amp\Deferred;
 use Amp\Loop;
 
 require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/restreamProfiles.php';
 
 //pkill -9 -f "rw_timeout.*6196bac40f89f" //When -f is set, the full command line is used for pattern matching.
 /**
@@ -479,7 +480,10 @@ function runRestream($robj)
             $robj->live_restreams_id = $key;
             $logKey = sanitizeLogFileComponent($key, '0');
             $historyId = sanitizeLogFileComponent($robj->liveTransmitionHistory_id, '0');
-            $host = sanitizeLogFileComponent(clearCommandURL(parse_url($value, PHP_URL_HOST)), 'unknown');
+            // clearCommandURL() now requires a full scheme+host URL and would reject a bare
+            // hostname (always returning ''); sanitizeLogFileComponent() already strips it down
+            // to safe filename characters, so pass the extracted host straight to it.
+            $host = sanitizeLogFileComponent(parse_url($value, PHP_URL_HOST), 'unknown');
             error_log("Restreamer.json.php runRestream starting destination key={$key} historyId={$historyId} host={$host}");
             $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$logKey}_{$historyId}_{$host}.log", $logFile), $robj);
         }
@@ -586,24 +590,6 @@ function postToURL($url, $data_string, $timeLimit = 10)
     }
     set_time_limit($global_timeLimit);
     return false;
-}
-
-function clearCommandURL($url)
-{
-    // Validate URL format first
-    if (empty($url) || !is_string($url)) {
-        return '';
-    }
-
-    // Remove potentially dangerous characters while preserving valid URL characters
-    $cleanUrl = preg_replace('/[^0-9a-z:.\/_&?=-]/i', "", $url);
-
-    // Additional security: ensure it looks like a URL
-    if (!preg_match('/^https?:\/\//', $cleanUrl) && !preg_match('/^rtmps?:\/\//', $cleanUrl)) {
-        error_log("clearCommandURL: Invalid URL format: " . $url);
-    }
-
-    return $cleanUrl;
 }
 
 function _isURL200($url, $forceRecheck = false)
@@ -731,6 +717,13 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     $m3u8 = _addQueryStringParameter($m3u8, 'liveTransmitionHistory_id', $robj->liveTransmitionHistory_id);
 
     $m3u8 = clearCommandURL($m3u8);
+    if (empty($m3u8)) {
+        error_log('Restreamer.json.php startRestream ERROR invalid source URL');
+        flock($lockFileHandle, LOCK_UN);
+        fclose($lockFileHandle);
+        @unlink($lockFilePath);
+        return false;
+    }
 
     if ($tries === 1) {
         sleep(3);
@@ -794,10 +787,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         $FFMPEGComplement =
             " -max_muxing_queue_size 8192 "
             . " -c:v copy -c:a copy "
-            . " -flvflags no_duration_filesize "
-            . " -f flv "
-            . " {tls_verify} "
-            . " \"{restreamsDestinations}\"";
+            . "{outputTail}";
     } else {
         $restreamResolution = (int) $restreamResolution;
         switch ($restreamResolution) {
@@ -807,8 +797,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             case 1080:
                 $vWidth = 1920; $vHeight = 1080; $vBitrate = '4500k'; $vBufsize = '9000k';
                 break;
-            default: // 720
-                $vWidth = 1280; $vHeight = 720;  $vBitrate = '2500k'; $vBufsize = '5000k';
+            default: // 720: common floor for YouTube, Facebook and Twitch at 30 fps
+                $vWidth = 1280; $vHeight = 720;  $vBitrate = '3000k'; $vBufsize = '6000k';
                 break;
         }
         error_log("Restreamer.json.php resolution={$restreamResolution}p ({$vWidth}x{$vHeight}) bitrate={$vBitrate}");
@@ -825,10 +815,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             . " -b:v {$vBitrate} -minrate {$vBitrate} -maxrate {$vBitrate} -bufsize {$vBufsize} "
             . " -vf \"scale={$vWidth}:{$vHeight}:force_original_aspect_ratio=decrease,"
             . "pad={$vWidth}:{$vHeight}:(ow-iw)/2:(oh-ih)/2,format=yuv420p\" "
-            . " -flvflags no_duration_filesize "
-            . " -f flv "
-            . " {tls_verify} "
-            . " \"{restreamsDestinations}\"";   // sug.: append ?rtmp_live=1 na URL
+            . "{outputTail}";   // sug.: append ?rtmp_live=1 na URL
     }
 
     if (count($restreamsDestinations) > 1) {
@@ -836,31 +823,46 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         foreach ($restreamsDestinations as $value) {
             $audioConfig = $isPassthrough ? '' : getAudioConfiguration($value);
             $value = clearCommandURL($value);
+            if (empty($value)) {
+                error_log('Restreamer.json.php startRestream skipping invalid destination URL');
+                continue;
+            }
             $tcurl = buildRtmpTcurl($value);
             $tls_verify = preg_match("/^rtmps:/i", $value) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
+            $outputTail = getRestreamOutputTail($value);
 
             $command .= str_replace(
-                array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'),
-                array($audioConfig, $value, $tls_verify),
+                array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}', '{outputTail}'),
+                array($audioConfig, $value, $tls_verify, $outputTail),
                 $FFMPEGComplement
             );
         }
     } else {
         $audioConfig = $isPassthrough ? '' : getAudioConfiguration($restreamsDestinations[0]);
         $dst = clearCommandURL($restreamsDestinations[0]);
+        if (empty($dst)) {
+            error_log('Restreamer.json.php startRestream ERROR invalid destination URL');
+            flock($lockFileHandle, LOCK_UN);
+            fclose($lockFileHandle);
+            @unlink($lockFilePath);
+            return false;
+        }
 
         $tcurl = buildRtmpTcurl($dst);
         $tls_verify = preg_match("/^rtmps:/i", $dst) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
+        $outputTail = getRestreamOutputTail($dst);
 
         $command = $FFMPEGcommand;
         $command .= str_replace(
-            array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}'),
-            array($audioConfig, $dst, $tls_verify),
+            array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}', '{outputTail}'),
+            array($audioConfig, $dst, $tls_verify, $outputTail),
             $FFMPEGComplement
         );
     }
 
-    if (empty($command) || !preg_match("/-f flv/i", $command)) {
+    // "-f tee" is the valid output muxer flag for YouTube destinations (see getRestreamOutputTail()
+    // above); every other destination still produces the original "-f flv".
+    if (empty($command) || !preg_match("/-f (flv|tee)/i", $command)) {
         error_log("Restreamer.json.php startRestream ERROR command is empty ");
     } else {
         error_log("Restreamer.json.php startRestream startRestream, check the file ($logFile) for the log");
@@ -932,24 +934,6 @@ function buildRtmpTcurl(string $url): string
     }
 
     return "{$scheme}://{$host}{$port}{$basePath}";
-}
-
-function getAudioConfiguration($source)
-{
-    if (preg_match("/facebook.com/i", $source)) {
-        $audioConfig = '-c:a aac -ac 2 -ar 44100 -b:a 128k -profile:a aac_low ';
-    } else if (preg_match("/youtube.com/i", $source)) {
-        // YouTube-optimized audio settings for better compatibility
-        $audioConfig = '-c:a aac -b:a 128k -ar 44100 -ac 2 -profile:a aac_low -aac_coder twoloop ';
-    } else if (preg_match("/twitch\.tv/i", $source)) {
-        // Twitch-optimized audio settings
-        $audioConfig = '-c:a aac -b:a 160k -ar 48000 -ac 2 -profile:a aac_low ';
-    } else {
-        // Default: try to copy audio first, fallback to AAC if needed
-        $audioConfig = '-c:a aac -b:a 128k -ar 44100 -ac 2 -profile:a aac_low ';
-    }
-
-    return $audioConfig;
 }
 
 $isOpenSSLEnabled = null;

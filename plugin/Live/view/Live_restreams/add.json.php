@@ -2,6 +2,7 @@
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
+require_once $global['systemRootPath'] . 'plugin/Live/standAloneFiles/restreamProfiles.php';
 
 $obj = new stdClass();
 $obj->error = true;
@@ -29,9 +30,17 @@ if (empty($_POST['users_id'])) {
     $_POST['users_id'] = User::getId();
 }
 
+$streamUrl = trim((string) ($_POST['stream_url'] ?? ''));
+$streamKey = trim((string) ($_POST['stream_key'] ?? ''));
+$destination = rtrim($streamUrl, '/') . '/' . ltrim($streamKey, '/');
+if (empty($streamUrl) || empty($streamKey) || clearCommandURL($destination) === '') {
+    $obj->msg = __('Invalid restream URL or stream key');
+    die(json_encode($obj));
+}
+
 $o->setName($_POST['name']);
-$o->setStream_url($_POST['stream_url']);
-$o->setStream_key($_POST['stream_key']);
+$o->setStream_url($streamUrl);
+$o->setStream_key($streamKey);
 $o->setStatus($_POST['status']);
 $o->setParameters($_POST['parameters']);
 $o->setUsers_id($_POST['users_id']);
