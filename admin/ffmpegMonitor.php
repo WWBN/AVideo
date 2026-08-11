@@ -70,23 +70,26 @@ if (isset($_GET['action']) && $_GET['action'] === 'fetch') {
 
 // Handle kill process request securely
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_token'])) {
+    header('Content-Type: application/json');
     if (hash_equals($csrfToken, $_POST['csrf_token'])) {
         $pidDecrypted = decryptString($_POST['pid']);
         $pid = intval($pidDecrypted);
         if ($pid > 0) {
-            $command = "kill -9 $pid";
-            $output = [];
-            $return_var = 0;
+            // Prefer POSIX signaling because it does not invoke a shell. The
+            // POSIX extension is optional, so retain the project's portable
+            // process helper as a fallback (including on Windows).
+            if (function_exists('posix_kill')) {
+                $signal = defined('SIGKILL') ? SIGKILL : 9;
+                $killed = posix_kill($pid, $signal);
+            } elseif (function_exists('killProcess') && function_exists('exec')) {
+                $killed = killProcess($pid);
+            } else {
+                $killed = false;
+            }
 
-            // Execute the command and capture the output and return status
-            exec($command . " 2>&1", $output, $return_var);
-
-            // Prepare the response JSON with detailed information
             echo json_encode([
-                'error' => $return_var !== 0,
-                'msg' => $return_var === 0 ? 'Process killed successfully.' : 'Failed to kill the process.',
-                'command' => $command,
-                'output' => $output
+                'error' => !$killed,
+                'msg' => $killed ? 'Process killed successfully.' : 'Failed to kill the process.',
             ]);
             exit;
         }

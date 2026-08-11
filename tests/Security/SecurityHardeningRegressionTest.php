@@ -43,6 +43,20 @@ class SecurityHardeningRegressionTest extends TestCase
 
     /**
      * @test
+     */
+    public function testFfmpegMonitorKillsProcessesWithoutRequiringPosixExtension()
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/admin/ffmpegMonitor.php');
+
+        $this->assertStringContainsString("function_exists('posix_kill')", $source);
+        $this->assertStringContainsString('posix_kill($pid, $signal)', $source);
+        $this->assertStringContainsString("function_exists('exec')", $source);
+        $this->assertStringContainsString('killProcess($pid)', $source);
+        $this->assertStringNotContainsString('exec($command', $source);
+    }
+
+    /**
+     * @test
      * CVE-class: CORS misconfiguration – reflected Origin with credentials
      * Ensures allowOrigin() never blindly echoes an arbitrary Origin header
      * back with Access-Control-Allow-Credentials:true, which would allow any
