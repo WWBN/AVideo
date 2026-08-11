@@ -67,16 +67,21 @@ function isYouTubeRestreamDestination($url)
     return getRestreamProvider($url) === 'youtube';
 }
 
-function getRestreamOutputTail($destinationUrl)
+function getRestreamOutputTail($destinationUrl, $tlsVerify = '')
 {
     if (isYouTubeRestreamDestination($destinationUrl)) {
         error_log("Restreamer.json.php startRestream YouTube destination detected ({$destinationUrl}), using FFmpeg tee+fifo output isolation: " . YOUTUBE_FIFO_OPTIONS);
         // Map exactly one video/audio stream. YouTube rejects duplicate audio/video tracks, and
         // HLS inputs may expose metadata or alternate tracks when using the broad "-map 0".
         // flvflags belongs to the tee child muxer, not to tee itself.
-        return " {tls_verify} -map 0:v:0? -map 0:a:0? -f tee \"[" . YOUTUBE_FIFO_OPTIONS . "]{restreamsDestinations}\"";
+        // Values are interpolated directly here (not left as {placeholder}s for a later
+        // str_replace pass) because PHP's str_replace() with an array of search terms does a
+        // single left-to-right pass: a search term processed earlier in the array can never
+        // match text introduced by a later replacement, so any {placeholder} still present in
+        // this return value would be left in the command verbatim.
+        return " {$tlsVerify} -map 0:v:0? -map 0:a:0? -f tee \"[" . YOUTUBE_FIFO_OPTIONS . "]{$destinationUrl}\"";
     }
-    return " -flvflags no_duration_filesize -f flv {tls_verify} \"{restreamsDestinations}\"";
+    return " -flvflags no_duration_filesize -f flv {$tlsVerify} \"{$destinationUrl}\"";
 }
 
 function getAudioConfiguration($source)

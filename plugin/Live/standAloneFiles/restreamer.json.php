@@ -841,11 +841,11 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             }
             $tcurl = buildRtmpTcurl($value);
             $tls_verify = preg_match("/^rtmps:/i", $value) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
-            $outputTail = getRestreamOutputTail($value);
+            $outputTail = getRestreamOutputTail($value, $tls_verify);
 
             $command .= str_replace(
-                array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}', '{outputTail}'),
-                array($audioConfig, $value, $tls_verify, $outputTail),
+                array('{audioConfig}', '{outputTail}'),
+                array($audioConfig, $outputTail),
                 $FFMPEGComplement
             );
         }
@@ -862,12 +862,12 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
         $tcurl = buildRtmpTcurl($dst);
         $tls_verify = preg_match("/^rtmps:/i", $dst) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
-        $outputTail = getRestreamOutputTail($dst);
+        $outputTail = getRestreamOutputTail($dst, $tls_verify);
 
         $command = $FFMPEGcommand;
         $command .= str_replace(
-            array('{audioConfig}', '{restreamsDestinations}', '{tls_verify}', '{outputTail}'),
-            array($audioConfig, $dst, $tls_verify, $outputTail),
+            array('{audioConfig}', '{outputTail}'),
+            array($audioConfig, $outputTail),
             $FFMPEGComplement
         );
     }
