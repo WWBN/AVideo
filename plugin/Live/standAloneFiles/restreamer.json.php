@@ -604,6 +604,65 @@ function postToURL($url, $data_string, $timeLimit = 10)
     return false;
 }
 
+// The tee muxer requires an explicit -map (ffmpeg cannot auto-select streams for it), unlike the
+// plain "-f flv" outputs used for every other destination, which default to ffmpeg's own "highest
+// resolution wins" auto-selection. Hardcoding stream index 0 there previously always grabbed the
+// LOWEST-quality HLS rendition (AVideo's adaptive renditions are ordered low/mid/hi), so probe the
+// input here and pick the actual highest-resolution video stream, pairing it with the audio
+// stream at the next index (AVideo's HLS renditions pair video+audio at adjacent indices, e.g.
+// 0/1, 2/3, 4/5 - confirmed via ffprobe output). Falls back to the old index-0 behavior if probing
+// fails for any reason, so a probe hiccup never blocks the restream from starting.
+function getBestVideoAudioMap($m3u8, $ffmpegBinary)
+{
+    $fallback = '-map 0:v:0? -map 0:a:0?';
+    $ffprobeBinary = str_replace('ffmpeg', 'ffprobe', $ffmpegBinary);
+    if (!is_executable($ffprobeBinary)) {
+        $ffprobeBinary = 'ffprobe';
+    }
+    $cmd = escapeshellarg($ffprobeBinary)
+        . ' -v error -user_agent ' . escapeshellarg('AVideoRestreamer')
+        . ' -show_entries stream=index,codec_type,width,height -of json '
+        . escapeshellarg($m3u8) . ' 2>/dev/null';
+    $output = @shell_exec($cmd);
+    $data = json_decode((string) $output, true);
+    if (empty($data['streams']) || !is_array($data['streams'])) {
+        error_log('Restreamer.json.php getBestVideoAudioMap: ffprobe failed or returned no streams, falling back to index 0');
+        return $fallback;
+    }
+
+    $bestVideoIndex = null;
+    $bestArea = -1;
+    foreach ($data['streams'] as $stream) {
+        if (($stream['codec_type'] ?? '') !== 'video') {
+            continue;
+        }
+        $area = (int) ($stream['width'] ?? 0) * (int) ($stream['height'] ?? 0);
+        if ($area > $bestArea) {
+            $bestArea = $area;
+            $bestVideoIndex = (int) $stream['index'];
+        }
+    }
+    if ($bestVideoIndex === null) {
+        error_log('Restreamer.json.php getBestVideoAudioMap: no video stream found, falling back to index 0');
+        return $fallback;
+    }
+
+    $bestAudioIndex = $bestVideoIndex + 1;
+    $hasPairedAudio = false;
+    foreach ($data['streams'] as $stream) {
+        if ((int) ($stream['index'] ?? -1) === $bestAudioIndex && ($stream['codec_type'] ?? '') === 'audio') {
+            $hasPairedAudio = true;
+            break;
+        }
+    }
+
+    error_log("Restreamer.json.php getBestVideoAudioMap: selected video index={$bestVideoIndex} area={$bestArea} audioIndex=" . ($hasPairedAudio ? $bestAudioIndex : 'none, using fallback a:0'));
+
+    return $hasPairedAudio
+        ? "-map 0:{$bestVideoIndex} -map 0:{$bestAudioIndex}"
+        : "-map 0:{$bestVideoIndex}? -map 0:a:0?";
+}
+
 function _isURL200($url, $forceRecheck = false)
 {
     global $global_timeLimit;
@@ -841,7 +900,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             }
             $tcurl = buildRtmpTcurl($value);
             $tls_verify = preg_match("/^rtmps:/i", $value) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
-            $outputTail = getRestreamOutputTail($value, $tls_verify);
+            $videoAudioMap = isYouTubeRestreamDestination($value) ? getBestVideoAudioMap($m3u8, $ffmpegBinary) : '';
+            $outputTail = getRestreamOutputTail($value, $tls_verify, $videoAudioMap ?: '-map 0:v:0? -map 0:a:0?');
 
             $command .= str_replace(
                 array('{audioConfig}', '{outputTail}'),
@@ -862,7 +922,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
         $tcurl = buildRtmpTcurl($dst);
         $tls_verify = preg_match("/^rtmps:/i", $dst) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
-        $outputTail = getRestreamOutputTail($dst, $tls_verify);
+        $videoAudioMap = isYouTubeRestreamDestination($dst) ? getBestVideoAudioMap($m3u8, $ffmpegBinary) : '';
+        $outputTail = getRestreamOutputTail($dst, $tls_verify, $videoAudioMap ?: '-map 0:v:0? -map 0:a:0?');
 
         $command = $FFMPEGcommand;
         $command .= str_replace(
