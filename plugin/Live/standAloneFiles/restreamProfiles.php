@@ -4,11 +4,6 @@
  * Pure destination-profile helpers shared by the standalone restream endpoint and unit tests.
  */
 
-// The FIFO absorbs short network stalls and retries recoverable failures. Keep onfail=abort so a
-// permanent authentication/endpoint error terminates FFmpeg and remains visible to the watchdog
-// instead of leaving a healthy-looking process that is no longer publishing anything.
-const YOUTUBE_FIFO_OPTIONS = 'f=fifo:fifo_format=flv:format_opts=flvflags=no_duration_filesize:onfail=abort:queue_size=1024:drop_pkts_on_overflow=1:attempt_recovery=1:recovery_wait_time=1:restart_with_keyframe=1';
-
 function clearCommandURL($url)
 {
     if (empty($url) || !is_string($url)) {
@@ -67,23 +62,12 @@ function isYouTubeRestreamDestination($url)
     return getRestreamProvider($url) === 'youtube';
 }
 
-function getRestreamOutputTail($destinationUrl, $tlsVerify = '', $videoAudioMap = '-map 0:v:0? -map 0:a:0?')
+// YouTube, Facebook, Twitch and generic RTMP(S) destinations all use the same plain "-f flv"
+// output - a prior tee+fifo isolation attempt specifically for YouTube caused it to reject the
+// stream while every other provider kept working fine with this exact same output block, so
+// YouTube gets no special-cased muxer/mapping here anymore.
+function getRestreamOutputTail($destinationUrl, $tlsVerify = '')
 {
-    if (isYouTubeRestreamDestination($destinationUrl)) {
-        error_log("Restreamer.json.php startRestream YouTube destination detected ({$destinationUrl}), using FFmpeg tee+fifo output isolation: " . YOUTUBE_FIFO_OPTIONS);
-        // Map exactly one video/audio stream. YouTube rejects duplicate audio/video tracks, and
-        // HLS inputs may expose metadata or alternate tracks when using the broad "-map 0". The
-        // caller resolves $videoAudioMap to the highest-resolution rendition available (falling
-        // back to stream index 0, the lowest-quality rendition, only if that detection fails) -
-        // see getBestVideoAudioMap() in restreamer.json.php.
-        // flvflags belongs to the tee child muxer, not to tee itself.
-        // Values are interpolated directly here (not left as {placeholder}s for a later
-        // str_replace pass) because PHP's str_replace() with an array of search terms does a
-        // single left-to-right pass: a search term processed earlier in the array can never
-        // match text introduced by a later replacement, so any {placeholder} still present in
-        // this return value would be left in the command verbatim.
-        return " {$tlsVerify} {$videoAudioMap} -f tee \"[" . YOUTUBE_FIFO_OPTIONS . "]{$destinationUrl}\"";
-    }
     return " -flvflags no_duration_filesize -f flv {$tlsVerify} \"{$destinationUrl}\"";
 }
 

@@ -54,21 +54,10 @@ class LiveRestreamProfilesTest extends TestCase
         ];
     }
 
-    public function testYouTubeUsesIsolatedFifoAndMapsOnlyOneVideoAndAudioTrack()
-    {
-        $tail = \getRestreamOutputTail('rtmps://a.rtmps.youtube.com/live2/key');
-        $this->assertStringContainsString('-f tee', $tail);
-        $this->assertStringContainsString('-map 0:v:0?', $tail);
-        $this->assertStringContainsString('-map 0:a:0?', $tail);
-        $this->assertStringNotContainsString('-map 0 ', $tail);
-        $this->assertStringContainsString('[f=fifo:fifo_format=flv:', $tail);
-        $this->assertStringContainsString('flvflags=no_duration_filesize', $tail);
-        $this->assertStringContainsString('onfail=abort', $tail);
-    }
-
     public function testFacebookTwitchAndGenericDestinationsKeepStandardFlvOutput()
     {
         foreach (array(
+            'rtmps://a.rtmps.youtube.com/live2/key',
             'rtmps://live-api-s.facebook.com:443/rtmp/key',
             'rtmp://sfo.contribute.live-video.net/app/key',
             'rtmps://stream.example.com/live/key',
