@@ -472,7 +472,11 @@ function runRestream($robj)
     $deferred = new Deferred();
     if (empty($separateRestreams)) {
         error_log("Restreamer.json.php runRestream all in one command ");
-        $pid[] = startRestream($m3u8, $restreamsDestinations, $logFile, $robj);
+        try {
+            $pid[] = startRestream($m3u8, $restreamsDestinations, $logFile, $robj);
+        } catch (\Throwable $th) {
+            error_log("Restreamer.json.php runRestream FATAL while starting all destinations in one command: " . $th->getMessage());
+        }
     } else {
         error_log("Restreamer.json.php runRestream separateRestreams " . count($restreamsDestinations));
         foreach ($restreamsDestinations as $key => $value) {
@@ -485,7 +489,15 @@ function runRestream($robj)
             // to safe filename characters, so pass the extracted host straight to it.
             $host = sanitizeLogFileComponent(parse_url($value, PHP_URL_HOST), 'unknown');
             error_log("Restreamer.json.php runRestream starting destination key={$key} historyId={$historyId} host={$host}");
-            $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$logKey}_{$historyId}_{$host}.log", $logFile), $robj);
+            // A fatal error/exception starting ONE destination must never prevent the remaining
+            // destinations from being attempted (see the "Undefined constant" crash that took
+            // down every destination in the same run before this try/catch existed).
+            try {
+                $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$logKey}_{$historyId}_{$host}.log", $logFile), $robj);
+            } catch (\Throwable $th) {
+                error_log("Restreamer.json.php runRestream FATAL while starting destination key={$key} host={$host}: " . $th->getMessage());
+                $pid[] = false;
+            }
         }
     }
     $deferred->resolve($pid);
