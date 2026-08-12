@@ -4464,6 +4464,28 @@ function isSSRFSafeURL($url, &$resolvedIP = null)
         $ip = $mapped[1];
     }
 
+    // Same reasoning as ::ffff: above, but for IPv6 transition mechanisms that embed
+    // an IPv4 payload: NAT64 (RFC 6052, 64:ff9b::/96) and 6to4 (RFC 3056, 2002::/16).
+    // PHP's FILTER_FLAG_NO_PRIV_RANGE/NO_RES_RANGE do not recognize these prefixes, so
+    // e.g. 64:ff9b::169.254.169.254 (cloud metadata) would otherwise pass as "public".
+    if (preg_match('/^64:ff9b::(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/i', $ip, $nat64)) {
+        _error_log("isSSRFSafeURL: normalized NAT64 {$ip} to {$nat64[1]}");
+        $ip = $nat64[1];
+    } elseif (preg_match('/^2002:([0-9a-f]{1,4}):([0-9a-f]{1,4}):/i', $ip, $sixToFour)) {
+        $embedded = long2ip((hexdec($sixToFour[1]) << 16) | hexdec($sixToFour[2]));
+        _error_log("isSSRFSafeURL: normalized 6to4 {$ip} to {$embedded}");
+        $ip = $embedded;
+    } elseif (preg_match('/^2001:0{1,4}:[0-9a-f]{1,4}:[0-9a-f]{1,4}:[0-9a-f]{1,4}:[0-9a-f]{1,4}:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/i', $ip, $teredo)) {
+        // Teredo (RFC 4380): the client IPv4 is bitwise-NOT obfuscated in the last 32 bits.
+        // The tunnel itself still runs over IPv6, so we don't rewrite $ip — we just refuse
+        // to treat the address as safe when the obfuscated client endpoint is private.
+        $teredoClientIp = long2ip((~((hexdec($teredo[1]) << 16) | hexdec($teredo[2]))) & 0xFFFFFFFF);
+        if (isPrivateOrLoopbackIP($teredoClientIp) || isLoopbackIP($teredoClientIp)) {
+            _error_log("isSSRFSafeURL: blocked Teredo {$ip} embedding private client IP {$teredoClientIp}");
+            return false;
+        }
+    }
+
     if (isLoopbackIP($ip)) {
         _error_log("isSSRFSafeURL: blocked loopback IP: {$ip}");
         return false;
