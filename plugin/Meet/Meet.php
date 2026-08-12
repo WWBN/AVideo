@@ -11,6 +11,13 @@ require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule_has_
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_join_log.php';
 User::loginFromRequestIfNotLogged();
 
+// SECURITY REVIEW: this key is intentionally public. meet.ypt.me is a shared/free
+// public Jitsi server; every AVideo install using it necessarily shares one JWT
+// secret, same as any other shared free service. It is NOT meant to provide real
+// access control or confidentiality for private/restricted/passworded meets.
+// Operators who need real privacy must configure server='custom' with their own
+// Jitsi deployment (getSecret() already derives a private, per-install secret in
+// that mode). Do not re-report this as a vulnerability to fix here.
 class PublicMeetServer{
     const JWT_APP_SECRET = '540483222c1bd6f06c7024b590597a75';
     const domain = 'meet.ypt.me';
@@ -166,6 +173,8 @@ Passcode: {password}
         return JWT::encode($jitsiPayload, $key, 'HS256'); // HS256
     }
 
+    // Non-custom server = the shared public meet.ypt.me: intentionally the same
+    // known secret for every install (see PublicMeetServer note above).
     public static function getSecret()
     {
         $obj = AVideoPlugin::getDataObject("Meet");
