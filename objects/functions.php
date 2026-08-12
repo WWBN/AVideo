@@ -2533,7 +2533,15 @@ function isSameDomain($url1, $url2)
     if (empty($url1) || empty($url2)) {
         return false;
     }
-    return (get_domain($url1) === get_domain($url2));
+    $d1 = get_domain($url1);
+    $d2 = get_domain($url2);
+    // fail closed: a host that could not be parsed must never be treated as
+    // equal to another unparsed host (get_domain() returning false on both
+    // sides used to compare as a match, which is an authenticity bypass)
+    if (empty($d1) || empty($d2)) {
+        return false;
+    }
+    return $d1 === $d2;
 }
 
 function get_domain($url, $ifEmptyReturnSameString = false)
@@ -2543,15 +2551,12 @@ function get_domain($url, $ifEmptyReturnSameString = false)
     if (empty($domain)) {
         return $ifEmptyReturnSameString ? $url : false;
     }
-    if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)) {
-        return $regs['domain'];
-    } else {
-        $isIp = (bool) ip2long($pieces['host']);
-        if ($isIp) {
-            return $pieces['host'];
-        }
-    }
-    return false;
+    // Exact host match, not a "registrable domain" extraction: the previous
+    // regex collapsed sibling subdomains (evil.mysite.com == videos.mysite.com)
+    // to the same value, and rejected long gTLDs entirely. Every caller here
+    // (Referer/Origin checks against webSiteRootURL/CDN) wants "is this the
+    // same host", not "same top-level domain".
+    return strtolower($domain);
 }
 
 function verify($url)
