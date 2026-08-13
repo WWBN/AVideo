@@ -1555,7 +1555,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $response['effective_url'] = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL) ?: $url;
                 $response['headers'] = preg_split("/\r\n|\n|\r/", trim(substr($rawResponse, 0, $headerSize)));
             }
-            curl_close($ch);
             return $response;
         }
 
@@ -3871,7 +3870,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $curlError = curl_error($ch);
             $curlErrno = curl_errno($ch);
             $info = curl_getinfo($ch);
-            curl_close($ch);
             _error_log("Live:sendRestream complete " . json_encode(array('http_code' => @$info['http_code'], 'curl_errno' => $curlErrno, 'curl_error' => $curlError, 'output' => $output)));
             if (intval(@$info['http_code']) >= 400) {
                 _error_log("Live:sendRestream failed http response " . json_encode(array('summary' => $summary, 'http_code' => @$info['http_code'], 'output' => $output)));
