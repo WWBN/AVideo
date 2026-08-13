@@ -176,8 +176,11 @@ function redirectLive(json, countdown = 15) {
         }, 1000);
     }
 
+    // customMessage is streamer-supplied text, not markup; escape it before it is rendered as HTML below
+    var safeCustomMessage = $('<div>').text(customMessage).html();
+
     // Use avideoConfirm to ask for user confirmation and include a progress bar
-    avideoConfirmHTML(customMessage + '<hr>' + __("You will be redirected to the following URL:") + "<br><strong>" + viewerUrl + "</strong><br><div class='progress' style='height: 10px;'><div id='countdownProgressBar' class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>").then(function (confirmed) {
+    avideoConfirmHTML(safeCustomMessage + '<hr>' + __("You will be redirected to the following URL:") + "<br><strong>" + viewerUrl + "</strong><br><div class='progress' style='height: 10px;'><div id='countdownProgressBar' class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>").then(function (confirmed) {
         if (confirmed) {
             clearInterval(countdownInterval); // Stop countdown if user confirms
             redirectToUrl(viewerUrl);

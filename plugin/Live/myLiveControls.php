@@ -122,6 +122,7 @@ $custom = User::getRedirectCustomUrl(User::getId());
 
 
 <script>
+    var myLiveControlsToken = <?php echo json_encode(getToken()); ?>;
     var viewerUrl = <?php echo json_encode($custom['url']); ?>;
     var customMessage = <?php echo json_encode($custom['msg']); ?>;
     var autoRedirect = <?php echo json_encode($custom['autoRedirect']); ?>; // Default is false
@@ -224,7 +225,8 @@ $custom = User::getRedirectCustomUrl(User::getId());
             data: {
                 'customUrl': viewerUrl,
                 'customMessage': customMessage,
-                'autoRedirect': autoRedirect
+                'autoRedirect': autoRedirect,
+                'globalToken': myLiveControlsToken
             },
             success: function(response) {
                 modal.hidePleaseWait();

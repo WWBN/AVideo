@@ -12,6 +12,10 @@ if (!User::isLogged()) {
     forbiddenPage('You must login');
 }
 
+// mutates the user's live redirect settings; GET is CSRF-reachable and the auto CSRF guard only arms for POST
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 if (empty($_REQUEST['customUrl'])) {
     forbiddenPage('customUrl is empty');
 }
