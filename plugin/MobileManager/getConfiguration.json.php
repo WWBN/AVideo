@@ -27,6 +27,13 @@ $objMM->version = $config->getVersion();
 $objMM->EULA_original = $objMM->EULA->value;
 $objMM->EULA = nl2br($objMM->EULA->value);
 $objMM->YPTSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
+// strip server-only secrets before exposing to the unauthenticated mobile config endpoint (mirrors plugin/MobileYPT/getConfiguration.json.php)
+$unset = array('debugSocket', 'debugAllUsersSocket',
+'server_crt_file', 'server_key_file', 'allow_self_signed', 'showTotalOnlineUsersPerVideo',
+'showTotalOnlineUsersPerLive', 'showTotalOnlineUsersPerLiveLink', 'enableCalls');
+foreach ($unset as $value) {
+    unset($objMM->YPTSocket->$value);
+}
 $objMM->language = $config->getLanguage();
 @include_once "{$global['systemRootPath']}locale/{$objMM->language}.php";
 $objMM->translations = $t;
