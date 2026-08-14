@@ -87,6 +87,17 @@ if ($file == "configuration.php") {
     _error_log("XSENDFILE Can't read this configuration ", AVideoLog::$WARNING, true);
     forbiddenPage("Can't read this");
 }
+// SECURITY REVIEW (2026-08-14): cacheDownload deliberately serves videos/cache/download/*
+// without CustomizeUser::canDownloadVideos() (see the exemption below) — this is the
+// documented delivery path for SendRecordedToEncoder::saveDVR()'s "Save Live Now" DVR
+// download, whose write side already requires the stream owner or an admin
+// (plugin/SendRecordedToEncoder/saveDVR.json.php). canDownloadVideos() has no per-owner
+// exception, so applying it here would also block that owner/admin from the clip they
+// just generated whenever downloads are disabled sitewide. Reported as an advisory
+// (auth bypass via user-controlled key); triaged as Priority B / DO NOT FIX — reachable
+// content is scoped to DVR clips with a non-enumerable generated filename, not the
+// general video library. Do not "fix" by making cacheDownload subject to
+// canDownloadVideos() without also carrying a per-owner/per-request exception.
 if (!empty($_REQUEST['cacheDownload'])) {
     $file = preg_replace('/[^0-9a-z_\.]/i', '', $_GET['file']);
     $relativePath = "cache/download/";
@@ -114,6 +125,7 @@ if (!file_exists($path)) {
 if (file_exists($path)) {
     $filesize = filesize($path);
     if (!empty($_GET['download'])) {
+        // SECURITY REVIEW (2026-08-14): cacheDownload exemption is intentional, see comment above.
         if (empty($_REQUEST['cacheDownload']) && !CustomizeUser::canDownloadVideos()) {
             _error_log("downloadHLS: CustomizeUser::canDownloadVideos said NO", AVideoLog::$WARNING, true);
             forbiddenPage("Can't download this");
