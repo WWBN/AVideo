@@ -828,7 +828,9 @@ function enforceRateLimit(string $operation = '', int $maxAttempts = 20, int $ti
         $operation = basename($_SERVER['SCRIPT_FILENAME'] ?? 'unknown');
     }
     $key      = 'ratelimit_' . $operation . '_' . getRealIpAddr();
-    $attempts = intval(ObjectYPT::getCacheGlobal($key, $timeWindow));
+    // ignoreBot=true: this is a security counter, not a page cache, so it must
+    // still be written/expired for bot-classified clients (e.g. no User-Agent, curl).
+    $attempts = intval(ObjectYPT::getCacheGlobal($key, $timeWindow, false, true, true));
     if ($attempts >= $maxAttempts) {
         _error_log("enforceRateLimit blocked operation={$operation} ip=" . getRealIpAddr() . " attempts={$attempts} window={$timeWindow}", AVideoLog::$SECURITY);
         http_response_code(429);
@@ -838,7 +840,7 @@ function enforceRateLimit(string $operation = '', int $maxAttempts = 20, int $ti
         $obj->msg   = __('Too many requests. Try again later.');
         die(json_encode($obj));
     }
-    ObjectYPT::setCacheGlobal($key, $attempts + 1);
+    ObjectYPT::setCacheGlobal($key, $attempts + 1, true, true);
 }
 
 /**

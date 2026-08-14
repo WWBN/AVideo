@@ -602,9 +602,9 @@ abstract class ObjectYPT implements ObjectInterface
         return false;
     }
 
-    public static function setCacheGlobal($name, $value, $addSubDirs = true)
+    public static function setCacheGlobal($name, $value, $addSubDirs = true, $ignoreBot = false)
     {
-        return self::setCache($name, $value, $addSubDirs, true);
+        return self::setCache($name, $value, $addSubDirs, true, $ignoreBot);
     }
 
     private static function logTime($start, $line, $name, $tolerance = 0.1)
@@ -617,13 +617,13 @@ abstract class ObjectYPT implements ObjectInterface
         }
     }
 
-    public static function setCache($name, $value, $addSubDirs = true, $ignoreMetadata = false)
+    public static function setCache($name, $value, $addSubDirs = true, $ignoreMetadata = false, $ignoreBot = false)
     {
         if (!isset($value) || $value == '') {
             //_error_log('Error on set cache, empty content '.$name);
             return false;
         }
-        if (isBot() && !isCommandLineInterface()) {
+        if (isBot() && !isCommandLineInterface() && !$ignoreBot) {
             self::setLastUsedCacheMode("No cache saved for bot {$name}");
             return false;
         }
@@ -672,9 +672,9 @@ abstract class ObjectYPT implements ObjectInterface
         return $name;
     }
 
-    public static function getCacheGlobal($name, $lifetime = 60, $ignoreSessionCache = false, $addSubDirs = true)
+    public static function getCacheGlobal($name, $lifetime = 60, $ignoreSessionCache = false, $addSubDirs = true, $ignoreBot = false)
     {
-        return self::getCache($name, $lifetime, $ignoreSessionCache, $addSubDirs, true);
+        return self::getCache($name, $lifetime, $ignoreSessionCache, $addSubDirs, true, $ignoreBot);
     }
 
     /**
@@ -683,7 +683,7 @@ abstract class ObjectYPT implements ObjectInterface
      * @param int $lifetime, if is = 0 it is unlimited
      * @return object|string
      */
-    public static function getCache($name, $lifetime = 60, $ignoreSessionCache = false, $addSubDirs = true, $ignoreMetadata = false)
+    public static function getCache($name, $lifetime = 60, $ignoreSessionCache = false, $addSubDirs = true, $ignoreMetadata = false, $ignoreBot = false)
     {
         global $global;
         if (!empty($global['ignoreAllCache'])) {
@@ -694,7 +694,7 @@ abstract class ObjectYPT implements ObjectInterface
             return null;
         }
         self::setLastUsedCacheMode("No cache detected $name, $lifetime, " . intval($ignoreSessionCache));
-        if (isBot()) {
+        if (isBot() && !$ignoreBot) {
             $lifetime = 0;
         }
         global $getCachesProcessed, $_getCache;
