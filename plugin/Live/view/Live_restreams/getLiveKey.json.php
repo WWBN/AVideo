@@ -15,7 +15,7 @@ header('Content-Type: application/json');
 
 $byPassPermissionCheck = false;
 if (!empty($_REQUEST['token'])) {
-    $_REQUEST['live_restreams_id'] = intval(decryptString($_REQUEST['token']));
+    $_REQUEST['live_restreams_id'] = Live::getRestreamsIdFromToken($_REQUEST['token']);
     $byPassPermissionCheck = true;
 }
 //var_dump($_REQUEST['token'], decryptString($_REQUEST['token']));exit;

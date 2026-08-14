@@ -4617,13 +4617,27 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $permissions;
     }
 
+    // A spliced/forged token still base64/AES-decrypts to *something* (CBC has no MAC), but the
+    // plaintext won't be a clean decimal integer like a genuine encryptString($id) is.
+    static function getRestreamsIdFromToken($token)
+    {
+        if (empty($token)) {
+            return 0;
+        }
+        $decrypted = decryptString($token);
+        if (!is_string($decrypted) || !ctype_digit(trim($decrypted))) {
+            return 0;
+        }
+        return intval($decrypted);
+    }
+
     static function canRestream()
     {
         if (User::isAdmin()) {
             return true;
         }
         if (!empty($_REQUEST['token'])) {
-            $live_restreams_id = intval(decryptString($_REQUEST['token']));
+            $live_restreams_id = self::getRestreamsIdFromToken($_REQUEST['token']);
             if (!empty($live_restreams_id)) {
                 _error_log('Live::canRestream: canRestream by pass ' . $live_restreams_id);
                 return true;
