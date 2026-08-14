@@ -84,10 +84,6 @@ Best regards,
     }
 
     public function onUserSignIn($users_id) {
-        if (isAVideoEncoder()) {
-            _error_log("Login_control::onUserSignIn Login from encoder, do not do anything");
-            return false;
-        }
         if (empty($_REQUEST['confirmation'])) {
             // create the log
             self::createLog($users_id);
@@ -107,7 +103,7 @@ Best regards,
             } else {
                 // fail closed: do not leave the session authenticated if 2FA cannot be delivered
                 _error_log("Login_control::onUserSignIn 2FA your email could not be sent ({$users_id})", AVideoLog::$ERROR);
-                // User::logoff();
+                User::logoff();
                 $object = new stdClass();
                 $object->error = __("2FA is required but the confirmation email could not be sent, please contact the site administrator");
                 die(json_encode($object));
