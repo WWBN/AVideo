@@ -197,6 +197,11 @@ if (empty($_POST['user']) || empty($_POST['pass'])) {
     $object->error = __("User and Password can not be blank");
     die(json_encode($object));
 }
+// Encoder/Mobile App User-Agent is attacker-spoofable and skips the CAPTCHA check in
+// User::checkLoginAttempts(); real Encoder/Mobile App login volume is far below this cap.
+if (isAVideoMobileApp() || isAVideoEncoder()) {
+    enforceRateLimit('login_encoder_mobile_ua', 10, 300);
+}
 // Brute-force protection: cap credential-submission attempts per IP.
 // Sends HTTP 429 and stops once the threshold is exceeded within the window.
 enforceRateLimit('login', 30, 300);

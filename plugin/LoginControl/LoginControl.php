@@ -105,8 +105,12 @@ Best regards,
                 $object->error = __("Please check your email for 2FA confirmation ") . "<br>($hiddenemail)";
                 die(json_encode($object));
             } else {
+                // fail closed: do not leave the session authenticated if 2FA cannot be delivered
                 _error_log("Login_control::onUserSignIn 2FA your email could not be sent ({$users_id})", AVideoLog::$ERROR);
-                setToastMessage(__("2FA email not sent"));
+                // User::logoff();
+                $object = new stdClass();
+                $object->error = __("2FA is required but the confirmation email could not be sent, please contact the site administrator");
+                die(json_encode($object));
             }
         } else {
             /* Cannot use it due the first page cache. it may work with AJAX
