@@ -4364,6 +4364,46 @@ function isSafeRedirectURL($url)
 }
 
 /**
+ * Extracts the embedded IPv4 address from an IPv6 address using one of the two
+ * fixed /96 embedding schemes: IPv4-mapped (RFC 4291, ::ffff:0:0/96) and NAT64
+ * well-known-prefix (RFC 6052, 64:ff9b::/96) — both simply place the IPv4
+ * address in the last 32 bits. Works on the parsed 128-bit value via
+ * inet_pton() so every textual spelling of the same address (dotted-quad
+ * tail, hex groups, fully expanded) resolves identically. A regex matching
+ * only the dotted-quad tail (e.g. /^::ffff:(\d+\.\d+\.\d+\.\d+)$/) misses the
+ * hex-group spelling of the exact same address, and PHP's own
+ * FILTER_FLAG_NO_RES_RANGE does not reliably reject that spelling either —
+ * both ranges must be normalized before the private/reserved-range check.
+ *
+ * The RFC 8215 NAT64 local-use prefix (64:ff9b:1::/48) is intentionally not
+ * handled here: RFC 6052 splits the IPv4 payload around a reserved octet at a
+ * position that depends on the prefix length, and that variable-length
+ * embedding is not reducible to a fixed byte-range check like the /96 cases.
+ *
+ * @param string $ip IPv6 address, no brackets.
+ * @return string|null Embedded IPv4 address, or null if $ip uses neither scheme.
+ */
+function ssrfExtractEmbeddedIPv4($ip)
+{
+    $packed = @inet_pton($ip);
+    if ($packed === false || strlen($packed) !== 16) {
+        return null;
+    }
+
+    // IPv4-mapped IPv6 (RFC 4291), ::ffff:0:0/96: last 32 bits are the embedded IPv4.
+    if (substr($packed, 0, 10) === "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" && substr($packed, 10, 2) === "\xff\xff") {
+        return inet_ntop(substr($packed, 12, 4));
+    }
+
+    // NAT64 well-known prefix (RFC 6052), 64:ff9b::/96: last 32 bits are the embedded IPv4.
+    if (substr($packed, 0, 12) === "\x00\x64\xff\x9b\x00\x00\x00\x00\x00\x00\x00\x00") {
+        return inet_ntop(substr($packed, 12, 4));
+    }
+
+    return null;
+}
+
+/**
  * Validates if a URL is safe from Server-Side Request Forgery (SSRF) attacks.
  * This function checks:
  * 1. Only http:// and https:// schemes are allowed
@@ -4456,21 +4496,17 @@ function isSSRFSafeURL($url, &$resolvedIP = null)
         return false;
     }
 
-    // Normalize IPv4-mapped IPv6 addresses (::ffff:x.x.x.x) to their plain IPv4 form.
-    // Without this, dotted-decimal private-range regexes and PHP's FILTER_FLAG_NO_PRIV_RANGE
-    // flag both miss the mapped address — the bypass vector reported in CVE-class SSRF findings.
-    if (preg_match('/^::ffff:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/i', $ip, $mapped)) {
-        _error_log("isSSRFSafeURL: normalized IPv4-mapped IPv6 {$ip} to {$mapped[1]}");
-        $ip = $mapped[1];
-    }
-
-    // Same reasoning as ::ffff: above, but for IPv6 transition mechanisms that embed
-    // an IPv4 payload: NAT64 (RFC 6052, 64:ff9b::/96) and 6to4 (RFC 3056, 2002::/16).
-    // PHP's FILTER_FLAG_NO_PRIV_RANGE/NO_RES_RANGE do not recognize these prefixes, so
-    // e.g. 64:ff9b::169.254.169.254 (cloud metadata) would otherwise pass as "public".
-    if (preg_match('/^64:ff9b::(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/i', $ip, $nat64)) {
-        _error_log("isSSRFSafeURL: normalized NAT64 {$ip} to {$nat64[1]}");
-        $ip = $nat64[1];
+    // Normalize IPv4-mapped IPv6 (RFC 4291, ::ffff:0:0/96) and NAT64 well-known-prefix
+    // (RFC 6052, 64:ff9b::/96) addresses to their plain embedded IPv4 form. Both are
+    // matched on the parsed 128-bit value (not a dotted-quad-only regex), so hex-group
+    // and fully-expanded spellings of the same address (e.g. ::ffff:7f00:1 or
+    // 64:ff9b::a9fe:a9fe for cloud metadata) can't bypass the check the way a
+    // dotted-quad-only regex would — and PHP's own FILTER_FLAG_NO_PRIV_RANGE/
+    // NO_RES_RANGE do not reliably reject these prefixes either.
+    $embeddedIPv4 = ssrfExtractEmbeddedIPv4($ip);
+    if ($embeddedIPv4 !== null) {
+        _error_log("isSSRFSafeURL: normalized {$ip} to {$embeddedIPv4}");
+        $ip = $embeddedIPv4;
     } elseif (preg_match('/^2002:([0-9a-f]{1,4}):([0-9a-f]{1,4}):/i', $ip, $sixToFour)) {
         $embedded = long2ip((hexdec($sixToFour[1]) << 16) | hexdec($sixToFour[2]));
         _error_log("isSSRFSafeURL: normalized 6to4 {$ip} to {$embedded}");
