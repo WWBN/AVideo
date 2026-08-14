@@ -96,9 +96,6 @@ echo AVideoPlugin::afterVideoJS();
                     avideoAlertError(response.msg);
                 } else {
                     avideoToastSuccess(response.msg);
-                    if (typeof response.eval !== 'undefined') {
-                        eval(response.eval);
-                    }
                 }
             },
             error: function(xhr, status, error) {

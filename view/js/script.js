@@ -2100,8 +2100,51 @@ function avideoResponse(response) {
             if (typeof response.eval !== 'undefined') {
                 eval(response.eval);
             }
+            if (typeof response.actions !== 'undefined') {
+                avideoRunActions(response.actions);
+            }
         }
     }
+}
+
+// Whitelisted, structured alternative to response.eval; never executes arbitrary server-provided JS.
+function avideoRunActions(actions) {
+    if (!Array.isArray(actions)) {
+        return;
+    }
+    actions.forEach(function (action) {
+        if (!action || typeof action.type !== 'string') {
+            return;
+        }
+        switch (action.type) {
+            case 'reload':
+                location.reload();
+                break;
+            case 'redirect':
+                if (typeof action.url === 'string') {
+                    document.location = action.url;
+                }
+                break;
+            case 'bootgridReload':
+                if (typeof action.selector === 'string') {
+                    $(action.selector).bootgrid('reload');
+                }
+                break;
+            case 'toggleClass':
+                if (typeof action.selector === 'string') {
+                    var $el = $(action.selector);
+                    if (typeof action.removeClass === 'string') {
+                        $el.removeClass(action.removeClass);
+                    }
+                    if (typeof action.addClass === 'string') {
+                        $el.addClass(action.addClass);
+                    }
+                }
+                break;
+            default:
+                console.warn('avideoRunActions: unknown action type', action.type);
+        }
+    });
 }
 
 function avideoAlertText(msg) {

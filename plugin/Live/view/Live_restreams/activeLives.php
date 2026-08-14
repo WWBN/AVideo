@@ -88,9 +88,6 @@ $_page = new Page(array('Active Lives'));
                     avideoAlertError(response.msg);
                 } else {
                     avideoToastSuccess(response.msg);
-                    if (typeof response.eval !== 'undefined') {
-                        eval(response.eval);
-                    }
                 }
                 getActiveLives();
             },
