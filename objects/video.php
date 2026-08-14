@@ -6749,10 +6749,12 @@ if (!class_exists('Video')) {
             }
             $video = [];
             if (!empty($evideo)) {
+                // videoLink is re-validated here (not only at mint time) since it's reused
+                // unescaped by several callers via Video::getLinkToVideo()'s evideo shortcut.
                 $video['id'] = 0;
                 $video['type'] = 'embed';
                 $video['rotation'] = 0;
-                $video['videoLink'] = $evideo->videoLink;
+                $video['videoLink'] = isValidURL(@$evideo->videoLink) ? $evideo->videoLink : '';
                 $video['title'] = $evideo->title;
                 $video['clean_title'] = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\] ]+/', '-', trim(mb_strtolower(cleanString($evideo->title))));
                 if (empty($evideo->description) && !empty($evideo->videos_id)) {

@@ -4321,6 +4321,11 @@ function isValidURL($url)
     if (empty($url) || !is_string($url)) {
         return false;
     }
+    // FILTER_VALIDATE_URL alone accepts raw ", ', <, > and ` even though a well-formed URL
+    // never contains them unencoded (RFC 3986), so reject those explicitly.
+    if (preg_match('/["\'<>`]/', $url)) {
+        return false;
+    }
     if (preg_match("/^http.*/", $url) && filter_var($url, FILTER_VALIDATE_URL)) {
         return true;
     }
