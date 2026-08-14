@@ -914,7 +914,12 @@ function autoCSRFGuard($baseName, $scriptPath = '')
         'userCreate.json.php',
         'userRecoverPassSave.json.php',
         // Public write actions
-        'sendEmail.json.php',
+        // sendEmail.json.php is intentionally NOT here: it lets User::isAdmin()
+        // skip the captcha, so exempting it from the origin check would let any
+        // page an admin visits CSRF the site into sending mail From the site's
+        // own address to an attacker-chosen recipient. Its two legitimate
+        // callers (view/contact.php, admin test-email in
+        // view/configurations_body.php) are both same-origin AJAX calls.
         'subscribe.json.php',
         'subscribeNotify.json.php',
         'like.json.php',
