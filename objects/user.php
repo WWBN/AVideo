@@ -2653,7 +2653,8 @@ if (typeof gtag !== \"function\") {
             $json = _json_decode($string);
             if (is_object($json)) {
                 if (time() < $json->valid) {
-                    if ($this->id < $json->id) {
+                    // token embeds the id it was minted for; must match exactly, not just be <=
+                    if ((int) $this->id === (int) $json->id) {
                         return true;
                     }
                 }

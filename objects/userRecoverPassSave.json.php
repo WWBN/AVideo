@@ -4,7 +4,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-     
+
 require_once $global['systemRootPath'] . 'objects/user.php';
 $obj = new stdClass();
 if (empty($_POST['user']) || empty($_POST['recoverPassword']) || empty($_POST['newPassword']) || empty($_POST['newPasswordConfirm'])) {
@@ -13,12 +13,12 @@ if (empty($_POST['user']) || empty($_POST['recoverPassword']) || empty($_POST['n
 }
 
 _error_log("RecoverPass start user={$_POST['user']} " .' IP='.getRealIpAddr().' '.$_SERVER['HTTP_USER_AGENT'] . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-   
+
 $user = new User(0, $_POST['user'], false);
 if (empty($user)) {
     $obj->error = __("User not found");
     die(json_encode($obj));
-} elseif ($user->getRecoverPass() !== $_POST['recoverPassword']) {
+} elseif (!$user->checkRecoverPass($_POST['recoverPassword'])) {
     $obj->error = __("Recover password does not match");
     die(json_encode($obj));
 } elseif ($_POST['newPassword'] !== $_POST['newPasswordConfirm']) {
