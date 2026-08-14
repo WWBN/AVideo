@@ -196,6 +196,10 @@ class StreamAuthCache
         require_once dirname(__FILE__) . '/../../../objects/user.php';
         AVideoPlugin::loadPlugin('Live');
 
+        // Same cap as the equivalent objects/login.json.php credential check; covers
+        // every caller of this method, not just plugin/Live/api/preauthorize.json.php.
+        enforceRateLimit('preauthorize', 30, 300);
+
         $obj = new stdClass();
         $obj->error = true;
         $obj->msg = "";
