@@ -586,7 +586,7 @@ class Live extends PluginAbstract
         $obj->requestStatsInterval = 60; // how many seconds until requesting the stats again
         self::addDataObjectHelper('requestStatsInterval', 'Stats Request Interval', 'how many seconds until request the stats again');
         $obj->callbackSecret = '';
-        self::addDataObjectHelper('callbackSecret', 'RTMP Callback Secret', 'Required only when your NGINX server is external (not localhost/Docker). Set any strong random string here and add it to your nginx.conf callbacks: on_publish_done http://your-avideo.com/plugin/Live/on_publish_done.php?secret=YOUR_SECRET; on_record_done http://your-avideo.com/plugin/Live/on_record_done.php?secret=YOUR_SECRET; — Leave empty if NGINX runs on localhost or Docker.');
+        self::addDataObjectHelper('callbackSecret', 'RTMP Callback Secret', 'Required only when your NGINX server is external (not localhost/Docker). Set any strong random string here and add it to your nginx.conf callbacks: on_publish http://your-avideo.com/plugin/Live/on_publish.php?secret=YOUR_SECRET; on_publish_done http://your-avideo.com/plugin/Live/on_publish_done.php?secret=YOUR_SECRET; on_record_done http://your-avideo.com/plugin/Live/on_record_done.php?secret=YOUR_SECRET; — Leave empty if NGINX runs on localhost or Docker.');
         $obj->streamDeniedMsg = "You can not stream live videos";
         self::addDataObjectHelper('streamDeniedMsg', 'Denied Message', 'We will show this message when a user is not allowed so watch a livestream');
         $obj->allowMultipleLivesPerUser = true;

@@ -4,6 +4,11 @@ require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
 require_once './Objects/LiveTransmitionHistory.php';
 require_once './Objects/StreamAuthCache.php';
+
+// Security: accept only private/loopback IPs (Docker/local NGINX) or requests with the correct callbackSecret.
+// Must be called before parse_str() overwrites $_GET.
+Live::assertRtmpCallbackAllowed();
+
 $obj = new stdClass();
 $obj->error = true;
 $obj->liveTransmitionHistory_id = 0;

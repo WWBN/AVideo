@@ -1124,8 +1124,17 @@ class PlayLists extends PluginAbstract
     static public function setScheduleStatus($key, $status)
     {
         if (!empty($key) && $isPlayListScheduled = Playlists_schedules::iskeyPlayListScheduled($key)) {
-            _error_log("setFail Playlists_schedules " . json_encode($isPlayListScheduled));
             $ps = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);
+            // Security: only accept this key if its prefix is a real live key already owned by the
+            // schedule's playlist owner — otherwise any RTMP publish attempt (authenticated or not)
+            // whose name happens to match "<anything>-ps-<id>" could flip an arbitrary schedule's status.
+            $pl = new PlayList($ps->getPlaylists_id());
+            $liveRow = class_exists('LiveTransmition') ? LiveTransmition::keyExists($isPlayListScheduled['cleankey']) : false;
+            if (empty($liveRow) || empty($pl->getUsers_id()) || intval($liveRow['users_id']) !== intval($pl->getUsers_id())) {
+                _error_log("setScheduleStatus rejected, key does not belong to schedule owner " . json_encode($isPlayListScheduled), AVideoLog::$SECURITY);
+                return false;
+            }
+            _error_log("setFail Playlists_schedules " . json_encode($isPlayListScheduled));
             $ps->setStatus($status);
             return  $ps->save();
         }
