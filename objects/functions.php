@@ -523,10 +523,11 @@ function parseDurationToSeconds($str)
         return 0;
     }
     $durationParts = explode(":", $str);
-    if (empty($durationParts[1]) || $durationParts[0] == "EE") {
+    // don't use empty() here: minutes/seconds of "0" are valid but empty("0") === true in PHP
+    if (!isset($durationParts[1]) || $durationParts[1] === '' || $durationParts[0] == "EE") {
         return 0;
     }
-    if (empty($durationParts[2])) {
+    if (!isset($durationParts[2]) || $durationParts[2] === '') {
         $durationParts[2] = 0;
     }
     $minutes = (intval($durationParts[0]) * 60) + intval($durationParts[1]);

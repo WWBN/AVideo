@@ -18,17 +18,20 @@ function getDurationFromFile($file)
     $hls = str_replace(".zip", "/index.m3u8", $file);
     $file = str_replace(".zip", ".mp4", $file);
 
+    // download-protected HLS sources only bypass the token check for this UA (see VideoHLS::isUserAgentWhitelisted())
+    $uaContext = function_exists('getSelfUserAgent') ? stream_context_create(['http' => ['header' => 'User-Agent: ' . getSelfUserAgent()]]) : null;
+
     // get movie duration HOURS:MM:SS.MICROSECONDS
     $videoFile = $file;
     if (!file_exists($videoFile)) {
-        $file_headers = @get_headers($videoFile);
+        $file_headers = @get_headers($videoFile, false, $uaContext);
         if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
             error_log('getDurationFromFile try 1, File (' . $videoFile . ') Not Found original=' . $file);
             $videoFile = $hls;
         }
     }
     if (!file_exists($videoFile)) {
-        $file_headers = @get_headers($videoFile);
+        $file_headers = @get_headers($videoFile, false, $uaContext);
         if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
             error_log('getDurationFromFile try 2, File (' . $videoFile . ') Not Found original=' . $file);
             $videoFile = '';
