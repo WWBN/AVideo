@@ -5489,9 +5489,15 @@ class API extends PluginAbstract
         global $global, $config;
         $msg = '';
         $obj = false;
-        if (!empty($parameters['code'])) {
+        // getRandomCode() always yields XXXX-XXXX alphanumerics; reject anything else before it
+        // reaches a path (blocks traversal and the file-existence oracle for bogus values).
+        $code = strtoupper(trim((string) @$parameters['code']));
+        if (!empty($code) && !preg_match('/^[A-Z0-9]+-[A-Z0-9]+$/', $code)) {
+            return new ApiObject('Code not found', true, false);
+        }
+        if (!empty($code)) {
             $path = getTmpDir('loginCodes');
-            $filename = "{$path}{$parameters['code']}.log";
+            $filename = "{$path}{$code}.log";
             if (file_exists($filename)) {
                 $content = file_get_contents($filename);
                 unlink($filename);
