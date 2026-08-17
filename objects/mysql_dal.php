@@ -118,16 +118,23 @@ class sqlDAL
          * @var object $global['mysqli']
          */
         // make sure it does not store autid transactions
-        if(strpos($preparedStatement, 'CachesInDB')===false){
+        // re-entrancy guard: writing the audit row itself must never trigger another audit write.
+        // (the old debug_backtrace()[2]==='AuditTable' check never matches here because frame 2 is
+        // 'Audit' (Audit::exec), not 'AuditTable' - that caused unbounded recursion / OOM.)
+        static $isLoggingAudit = false;
+        if (!$isLoggingAudit && strpos($preparedStatement, 'CachesInDB')===false){
             $debug = debug_backtrace();
             if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable" && class_exists('AVideoPlugin')) {
                 $audit = AVideoPlugin::loadPluginIfEnabled('Audit');
                 if (!empty($audit)) {
+                    $isLoggingAudit = true;
                     try {
                         $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
                     } catch (Exception $exc) {
                         _error_log('Error in writeSql: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
                         log_error($exc->getTraceAsString());
+                    } finally {
+                        $isLoggingAudit = false;
                     }
                 }
             }
