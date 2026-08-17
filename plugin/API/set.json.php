@@ -30,6 +30,27 @@ if (empty($input)) {
 }
 $parameters = array_merge($_GET, $_POST, $input);
 
+// CSRF guard (2026-08-17): this file sets bypassSameDomainCheck above, and the
+// /plugin/api/ path is exempt from the generic autoCSRFGuard, because callers who
+// authenticate explicitly (APISecret, or user+pass) can't be forced to do so
+// cross-site. But when neither is supplied, set() falls back to whatever session the
+// request already carries, and User::login() is a no-op if that session is already
+// logged in — so a forged user/pass does not prove the caller isn't just riding the
+// victim's ambient cookie. Only trust an already-authenticated ambient session; require
+// it to arrive as a same-origin POST so a cross-site GET/POST navigation can't reuse it.
+$ambientlyLoggedIn = User::isLogged();
+$hasExplicitCredentials = API::isAPISecretValid() || (!$ambientlyLoggedIn && !empty($parameters['user']) && (!empty($parameters['pass']) || !empty($parameters['password'])));
+if (!$hasExplicitCredentials) {
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+        http_response_code(405);
+        die(json_encode(['error' => true, 'msg' => 'Method not allowed']));
+    }
+    if (!requestComesFromSameDomainAsMyAVideo() && !isAVideoUserAgent()) {
+        http_response_code(403);
+        die(json_encode(['error' => true, 'msg' => 'Invalid Request ' . getRealIpAddr()]));
+    }
+}
+
 $obj = $plugin->set($parameters);
 
 if(is_object($obj)){
