@@ -217,6 +217,18 @@ function getForwardedClientIpFromServerArray($server)
     return $ipv6;
 }
 
+// A private/loopback REMOTE_ADDR does not mean the request went through a proxy we
+// operate; only an operator-configured $global['trustedProxies'] entry may supply a
+// forwarded IP (2026-08-18, closes header-spoofable enforceRateLimit() bypass).
+function isRequestFromTrustedProxy($remoteAddr)
+{
+    global $global;
+    if (empty($global['trustedProxies']) || !is_array($global['trustedProxies'])) {
+        return false;
+    }
+    return in_array($remoteAddr, $global['trustedProxies'], true);
+}
+
 function getRealIpAddr()
 {
     if (isCommandLineInterface()) {
@@ -228,9 +240,10 @@ function getRealIpAddr()
         return '127.0.0.1';
     }
 
-    if (isPrivateOrLoopbackIP($remoteAddr)) {
+    if (isRequestFromTrustedProxy($remoteAddr)) {
         $forwardedIp = getForwardedClientIpFromServerArray($_SERVER);
-        if (!empty($forwardedIp)) {
+        // never let a forwarded header grant the loopback trust some code keys off of
+        if (!empty($forwardedIp) && !isLoopbackIP($forwardedIp)) {
             return $forwardedIp;
         }
     }
