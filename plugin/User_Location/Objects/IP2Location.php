@@ -198,9 +198,9 @@ class IP2Location extends ObjectYPT
         $cachefile = "{$cacheDir}RegionsArray{$country_name_code}.cache";
         $content = array();
         if (!file_exists($cachefile)) {
-            $sql = "SELECT distinct(region_name) as n FROM  " . static::getTableName() . " WHERE country_name = '{$country_name}' ORDER BY region_name ";
+            $sql = "SELECT distinct(region_name) as n FROM  " . static::getTableName() . " WHERE country_name = ? ORDER BY region_name ";
 
-            $res = sqlDAL::readSql($sql);
+            $res = sqlDAL::readSql($sql, 's', [$country_name]);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $rows = array();
@@ -233,9 +233,9 @@ class IP2Location extends ObjectYPT
         $cachefile = "{$cacheDir}RegionsArray{$country_name_code}{$region_name_code}.cache";
         $content = array();
         if (!file_exists($cachefile)) {
-            $sql = "SELECT distinct(city_name) as n FROM  " . static::getTableName() . " WHERE country_name = '{$country_name}' AND region_name = '{$region_name}' ORDER BY city_name ";
+            $sql = "SELECT distinct(city_name) as n FROM  " . static::getTableName() . " WHERE country_name = ? AND region_name = ? ORDER BY city_name ";
 
-            $res = sqlDAL::readSql($sql);
+            $res = sqlDAL::readSql($sql, 'ss', [$country_name, $region_name]);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $rows = array();
