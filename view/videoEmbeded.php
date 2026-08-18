@@ -20,6 +20,7 @@
  * - disableShareButton=1 : Hide the share button
  * - hideAutoplaySwitch=1 : Hide the autoplay toggle
  * - closeOnEnd=1         : Close player when video ends
+ * - disableContextMenu=1 : Block the right-click/long-press menu without showing its items
  *
  * Example: ?autoplay=1&mute=1&controls=-1&loop=1&t=10
  */

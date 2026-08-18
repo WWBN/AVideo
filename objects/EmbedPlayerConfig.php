@@ -29,6 +29,7 @@ class EmbedPlayerConfig
     private $disableCloseButton = false;
     private $disableOwnerImage = false;
     private $hideAutoplaySwitch = false;
+    private $disableContextMenu = false;
 
     // Video data
     private $video = null;
@@ -141,6 +142,11 @@ class EmbedPlayerConfig
             $this->hideAutoplaySwitch = true;
         }
 
+        // Block the custom right-click context menu without showing its items
+        if (!empty($_REQUEST['disableContextMenu'])) {
+            $this->disableContextMenu = true;
+        }
+
         // Disable Embed Top Info (combinado com PlayerSkins)
         if ($this->config) {
             $playerSkinsO = AVideoPlugin::getObjectData("PlayerSkins");
@@ -190,6 +196,7 @@ class EmbedPlayerConfig
     public function isCloseButtonDisabled() { return $this->disableCloseButton; }
     public function isOwnerImageDisabled() { return $this->disableOwnerImage; }
     public function isAutoplaySwitchHidden() { return $this->hideAutoplaySwitch; }
+    public function isContextMenuDisabled() { return $this->disableContextMenu; }
 
     /**
      * Retorna a classe CSS do VJS
@@ -342,6 +349,11 @@ class EmbedPlayerConfig
                 'type' => 'checkbox',
                 'description' => 'Hide the PlayerSkins autoplay toggle',
             ],
+            'disableContextMenu' => [
+                'name' => 'Disable Context Menu',
+                'type' => 'checkbox',
+                'description' => 'Block the right-click/long-press menu on the video without showing any of its items',
+            ],
         ];
     }
 
@@ -419,6 +431,7 @@ class EmbedPlayerConfig
             'disableCloseButton' => $this->disableCloseButton,
             'disableOwnerImage' => $this->disableOwnerImage,
             'hideAutoplaySwitch' => $this->hideAutoplaySwitch,
+            'disableContextMenu' => $this->disableContextMenu,
         ];
     }
 

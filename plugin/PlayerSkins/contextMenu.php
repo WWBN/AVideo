@@ -10,7 +10,8 @@ if (empty($playerSkinsObj)) {
     $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
 }
 
-if (isEmbed() && $playerSkinsObj->contextMenuDisableEmbedOnly) {
+// disableContextMenu can be forced per-embed via the URL, in addition to the site-wide PlayerSkins setting
+if (isEmbed() && ($playerSkinsObj->contextMenuDisableEmbedOnly || !empty($_REQUEST['disableContextMenu']))) {
     ?>
     <script>
         $(document).ready(function () {
