@@ -26,6 +26,9 @@ class EmbedPlayerConfig
     private $forceCloseButton = false;
     private $closeOnEnd = false;
     private $disableShareButton = false;
+    private $disableCloseButton = false;
+    private $disableOwnerImage = false;
+    private $hideAutoplaySwitch = false;
 
     // Video data
     private $video = null;
@@ -52,7 +55,9 @@ class EmbedPlayerConfig
         }
 
         // Autoplay
-        if (!empty($_GET['autoplay']) || ($this->config && $this->config->getAutoplay())) {
+        if (isset($_GET['autoplay'])) {
+            $this->autoplay = !empty($_GET['autoplay']);
+        } elseif ($this->config && $this->config->getAutoplay()) {
             $this->autoplay = true;
         }
 
@@ -79,13 +84,16 @@ class EmbedPlayerConfig
         }
 
         // Object Fit
-        if (!empty($_GET['objectFit']) && (intval($_GET['objectFit']) == 1 || $_GET['objectFit'] == 'true')) {
-            $this->objectFit = 'object-fit: ' . $_GET['objectFit'];
+        if (!empty($_GET['objectFit'])) {
+            $objectFit = strtolower(trim($_GET['objectFit']));
+            if (in_array($objectFit, ['cover', 'contain', 'fill', 'none', 'scale-down'], true)) {
+                $this->objectFit = 'object-fit: ' . $objectFit;
+            }
         }
 
         // Time (t)
         if (!empty($_GET['t'])) {
-            $this->t = intval($_GET['t']);
+            $this->t = max(0, intval($_GET['t']));
         } elseif (!empty($this->video['progress']['lastVideoTime'])) {
             $this->t = intval($this->video['progress']['lastVideoTime']);
         } elseif (!empty($this->video['externalOptions']->videoStartSeconds)) {
@@ -118,14 +126,29 @@ class EmbedPlayerConfig
             $this->disableShareButton = true;
         }
 
+        // Disable Close Button
+        if (!empty($_REQUEST['disableCloseButton'])) {
+            $this->disableCloseButton = true;
+        }
+
+        // Hide only the video owner's image while keeping the title/info bar
+        if (!empty($_REQUEST['disableOwnerImage'])) {
+            $this->disableOwnerImage = true;
+        }
+
+        // Hide the PlayerSkins autoplay toggle
+        if (!empty($_REQUEST['hideAutoplaySwitch'])) {
+            $this->hideAutoplaySwitch = true;
+        }
+
         // Disable Embed Top Info (combinado com PlayerSkins)
         if ($this->config) {
             $playerSkinsO = AVideoPlugin::getObjectData("PlayerSkins");
             $this->disableEmbedTopInfo = $playerSkinsO->disableEmbedTopInfo;
+        }
 
-            if (!$this->showInfo) {
-                $this->disableEmbedTopInfo = true;
-            }
+        if (!$this->showInfo) {
+            $this->disableEmbedTopInfo = true;
         }
     }
 
@@ -164,6 +187,9 @@ class EmbedPlayerConfig
     public function forceCloseButton() { return $this->forceCloseButton; }
     public function closeOnEnd() { return $this->closeOnEnd; }
     public function isShareButtonDisabled() { return $this->disableShareButton; }
+    public function isCloseButtonDisabled() { return $this->disableCloseButton; }
+    public function isOwnerImageDisabled() { return $this->disableOwnerImage; }
+    public function isAutoplaySwitchHidden() { return $this->hideAutoplaySwitch; }
 
     /**
      * Retorna a classe CSS do VJS
@@ -281,10 +307,10 @@ class EmbedPlayerConfig
                 'type' => 'hidden',
                 'description' => 'Internal only',
             ],
-            'showInfo' => [
-                'name' => 'Show Info',
+            'showinfo' => [
+                'name' => 'Hide Top Info',
                 'type' => 'checkbox-inverted',
-                'description' => 'Hide video title and information',
+                'description' => 'Hide the video title, owner image, owner controls, and link',
             ],
             'forceCloseButton' => [
                 'name' => 'Force Close Button',
@@ -300,6 +326,21 @@ class EmbedPlayerConfig
                 'name' => 'Disable Share Button',
                 'type' => 'checkbox',
                 'description' => 'Hide share button from player controls',
+            ],
+            'disableCloseButton' => [
+                'name' => 'Disable Close Button',
+                'type' => 'checkbox',
+                'description' => 'Hide the close button when the player is inside an iframe',
+            ],
+            'disableOwnerImage' => [
+                'name' => 'Disable Owner Image',
+                'type' => 'checkbox',
+                'description' => 'Hide the video owner image while keeping the top information bar',
+            ],
+            'hideAutoplaySwitch' => [
+                'name' => 'Hide Autoplay Switch',
+                'type' => 'checkbox',
+                'description' => 'Hide the PlayerSkins autoplay toggle',
             ],
         ];
     }
@@ -371,10 +412,13 @@ class EmbedPlayerConfig
             't' => $this->t,
             'showBigButton' => $this->showBigButton,
             'disableEmbedTopInfo' => $this->disableEmbedTopInfo,
-            'showInfo' => $this->showInfo,
+            'showinfo' => $this->showInfo,
             'forceCloseButton' => $this->forceCloseButton,
             'closeOnEnd' => $this->closeOnEnd,
             'disableShareButton' => $this->disableShareButton,
+            'disableCloseButton' => $this->disableCloseButton,
+            'disableOwnerImage' => $this->disableOwnerImage,
+            'hideAutoplaySwitch' => $this->hideAutoplaySwitch,
         ];
     }
 
@@ -442,6 +486,19 @@ class EmbedPlayerConfig
             $css[] = ".social-button { display: none !important; }";
         }
 
+        if ($this->disableCloseButton) {
+            $css[] = "#CloseButtonInVideo { display: none !important; }";
+        }
+
+        if ($this->disableOwnerImage) {
+            $css[] = "#topInfo img { display: none !important; }";
+            $css[] = "#topInfo div { margin-left: 15px !important; }";
+        }
+
+        if ($this->modestbranding) {
+            $css[] = ".player-logo { display: none !important; }";
+        }
+
         // Hide the bootstrapMenu dropdown if either loop button or share button is hidden
         if ($this->disableShareButton || !empty($this->loop)) {
             $css[] = ".dropdown.bootstrapMenu { display: none !important; }";
@@ -471,14 +528,16 @@ class EmbedPlayerConfig
     {
         $js = [];
 
-        if ($this->forceCloseButton) {
+        if ($this->disableCloseButton) {
+            // Do not create the iframe close button.
+        } elseif ($this->forceCloseButton) {
             $js[] = "addCloseButtonInVideo(true);";
         } else {
             $js[] = "addCloseButtonInVideo();";
         }
 
         if ($this->closeOnEnd) {
-            $js[] = "player.on('ended', function() { $('#CloseButtonInVideo').trigger('click'); });";
+            $js[] = "player.on('ended', function() { closeFullScreenOrHistoryBack(); });";
         }
 
         if ($this->hideProgressBarAndUnPause) {

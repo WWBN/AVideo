@@ -15,6 +15,10 @@
  * - t=30                 : Start time in seconds
  * - showBigButton=1      : Show large play button
  * - forceCloseButton=1   : Force close button display
+ * - disableCloseButton=1 : Hide the iframe close button
+ * - disableOwnerImage=1  : Hide owner image but keep top info
+ * - disableShareButton=1 : Hide the share button
+ * - hideAutoplaySwitch=1 : Hide the autoplay toggle
  * - closeOnEnd=1         : Close player when video ends
  *
  * Example: ?autoplay=1&mute=1&controls=-1&loop=1&t=10
@@ -133,7 +137,8 @@ $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
 
 // Initialize embed player configuration
-// URL params: modestbranding, showinfo, autoplay, controls, loop, mute, t, objectFit, showBigButton, forceCloseButton, closeOnEnd
+// URL params: modestbranding, showinfo, autoplay, controls, loop, mute, t, objectFit, showBigButton,
+// forceCloseButton, disableCloseButton, disableOwnerImage, disableShareButton, hideAutoplaySwitch, closeOnEnd
 // Example: ?autoplay=1&controls=0&loop=1&mute=1&t=30
 $embedConfig = new EmbedPlayerConfig($video, $config);
 
@@ -334,10 +339,15 @@ if (User::hasBlockedUser($video['users_id'])) {
         <video id="mainVideo" style="display: none; height: 0;width: 0;"></video>
         <iframe style="width: 100%; height: 100%;" class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php
                                                                                                                                                                         echo $video['serie_playlists_id'];
-                                                                                                                                                                        if ($embedConfig->isAutoplay()) {
-                                                                                                                                                                            echo "&autoplay=1";
-                                                                                                                                                                        }
-                                                                                                                                                                        ?>"></iframe>
+                                                                                                                                                                         if ($embedConfig->isAutoplay()) {
+                                                                                                                                                                             echo "&autoplay=1";
+                                                                                                                                                                         }
+                                                                                                                                                                         if ($embedConfig->isCloseButtonDisabled()) {
+                                                                                                                                                                             echo "&disableCloseButton=1";
+                                                                                                                                                                         } elseif ($embedConfig->forceCloseButton()) {
+                                                                                                                                                                             echo "&forceCloseButton=1";
+                                                                                                                                                                         }
+                                                                                                                                                                         ?>"></iframe>
         <script>
             $(document).ready(function() {
                 addView(<?php echo $video['id']; ?>, 0);

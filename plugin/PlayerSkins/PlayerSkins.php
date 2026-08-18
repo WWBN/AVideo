@@ -284,8 +284,12 @@ class PlayerSkins extends PluginAbstract
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/skipIntro.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
 
-            if (!empty($_REQUEST['autoplay']) || !empty($obj->forceAlwaysAutoplay)) {
+            if (!empty($obj->forceAlwaysAutoplay)) {
                 $js .= "<script>var autoplay = true;var forceautoplay = true;</script>";
+            } else if (isset($_REQUEST['autoplay'])) {
+                $js .= !empty($_REQUEST['autoplay'])
+                    ? "<script>var autoplay = true;var forceautoplay = true;</script>"
+                    : "<script>var autoplay = false;</script>";
             } else if (self::isAutoplayEnabled()) {
                 $js .= "<script>var autoplay = true;</script>";
             } else {

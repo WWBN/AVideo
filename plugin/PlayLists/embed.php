@@ -421,7 +421,9 @@ TimeLogEnd($timelogname, __LINE__);
                     return false;
                 });
 
+                <?php if (empty($_REQUEST['disableCloseButton'])) { ?>
                 addCloseButtonInVideo(<?php echo json_encode(!empty($_REQUEST['forceCloseButton'])); ?>);
+                <?php } ?>
             });
 
             function compare(a, b, type) {
