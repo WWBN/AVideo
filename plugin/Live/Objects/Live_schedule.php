@@ -267,12 +267,13 @@ class Live_schedule extends ObjectYPT
 
     public function setTitle($title)
     {
-        $this->title = $title;
+        // stored raw title reaches remindMe.php/modeYoutubeLive.php unescaped, so sanitize on write
+        $this->title = xss_esc($title);
     }
 
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = xss_esc($description);
     }
 
     public function setKey($key)
