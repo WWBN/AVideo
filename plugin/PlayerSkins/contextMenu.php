@@ -19,7 +19,7 @@ if (isEmbed() && ($playerSkinsObj->contextMenuDisableEmbedOnly || !empty($_REQUE
                 return false;
             });
         });
-    </script>    
+    </script>
     <?php
     return false;
 }
@@ -109,7 +109,7 @@ if ($playerSkinsObj->showSocialShareOnEmbed && $playerSkinsObj->contextMenuShare
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
     <?php
 }
 ?>
