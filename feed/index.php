@@ -105,6 +105,49 @@ if (!empty($_REQUEST['roku'])) {
     include $global['systemRootPath'] . 'feed/mrss.php';
 }
 
+// Plain-text fields (title, itunes:author, etc). Always used inside <![CDATA[ ]]>,
+// so no entity-escaping is needed here - CDATA already protects &, < and >.
+// html_entity_decode() runs first so text that is already HTML-encoded in the DB
+// (e.g. "&lt;p&gt;") is not re-escaped into "&amp;lt;p&amp;gt;" further down.
 function feedText($text) {
-    return trim(str_replace(['&&'], ['&'], str_replace(['&nbsp;', '&', '<', '>'], [' ', '&amp;', '&lt;', '&gt;'], (strip_tags(br2nl($text))))));
+    if ($text === null || $text === '') {
+        return '';
+    }
+    $decoded = html_entity_decode((string) $text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $plain = strip_tags(br2nl($decoded));
+    $plain = str_replace('&nbsp;', ' ', $plain);
+    // guard against a literal "]]>" ever closing the CDATA section early
+    return trim(str_replace(']]>', ']]&gt;', $plain));
+}
+
+// Rich-text fields (episode/channel <description> and <itunes:summary>). Keeps the
+// underlying HTML clean and literal (e.g. <p class="...">) instead of stripping or
+// re-encoding it, but removes inline style="..." attributes and any script/event
+// handlers before it gets echoed inside a <![CDATA[ ]]> block.
+function feedHtmlDescription($text) {
+    if ($text === null || $text === '') {
+        return '';
+    }
+    // some descriptions are stored already HTML-entity-encoded (e.g. "&lt;p&gt;text&lt;/p&gt;");
+    // decode repeatedly until stable so nothing gets double-encoded later on
+    $decoded = (string) $text;
+    for ($i = 0; $i < 3; $i++) {
+        $next = html_entity_decode($decoded, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if ($next === $decoded) {
+            break;
+        }
+        $decoded = $next;
+    }
+
+    // drop <script>/<style> blocks entirely
+    $decoded = preg_replace('#<(script|style)\b[^>]*>.*?</\1>#is', '', $decoded);
+
+    // strip heavy/inline CSS (style="...") that breaks rendering in podcast apps
+    $decoded = preg_replace('/\s+style\s*=\s*("[^"]*"|\'[^\']*\')/i', '', $decoded);
+
+    // strip inline event handlers (onclick="...", onerror="...", etc.)
+    $decoded = preg_replace('/\s+on[a-z]+\s*=\s*("[^"]*"|\'[^\']*\')/i', '', $decoded);
+
+    // guard against a literal "]]>" ever closing the CDATA section early
+    return trim(str_replace(']]>', ']]&gt;', $decoded));
 }

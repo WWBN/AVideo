@@ -5,6 +5,10 @@ $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
 if (empty($feed)) {
     _ob_start();
+    // itunes:author must be a human-readable name (the podcaster/host), never an email
+    // address; $title is already the channel/host display name (or the site title as a
+    // fallback), $author (site contact email) stays reserved for <itunes:owner><itunes:email>
+    $itunesAuthor = feedText(!empty($title) ? $title : $author);
     echo '<?xml version="1.0" encoding="UTF-8"?>'
 ?>
     <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -20,7 +24,7 @@ if (empty($feed)) {
                 <![CDATA[ <?php echo feedText($title); ?> ]]>
             </title>
             <description>
-                <![CDATA[ <?php echo feedText($description); ?> ]]>
+                <![CDATA[ <?php echo feedHtmlDescription($description); ?> ]]>
             </description>
             <link><?php echo $link; ?></link>
             <sy:updatePeriod>hourly</sy:updatePeriod>
@@ -28,18 +32,20 @@ if (empty($feed)) {
             <language>en</language>
             <itunes:category text="Technology" />
             <itunes:explicit>false</itunes:explicit>
+            <!-- required by Apple Podcasts/Spotify for the channel-level cover art -->
+            <itunes:image href="<?php echo $logo; ?>" />
             <itunes:author>
-                <![CDATA[ <?php echo $author; ?> ]]>
+                <![CDATA[ <?php echo $itunesAuthor; ?> ]]>
             </itunes:author>
             <itunes:summary>
-                <![CDATA[ <?php echo feedText($description); ?> ]]>
+                <![CDATA[ <?php echo feedHtmlDescription($description); ?> ]]>
             </itunes:summary>
             <itunes:owner>
                 <itunes:name>
-                    <![CDATA[ <?php echo $title; ?> ]]>
+                    <![CDATA[ <?php echo feedText($title); ?> ]]>
                 </itunes:name>
                 <itunes:email>
-                    <![CDATA[ <?php echo $author; ?> ]]>
+                    <![CDATA[ <?php echo feedText($author); ?> ]]>
                 </itunes:email>
             </itunes:owner>
 
@@ -85,8 +91,27 @@ if (empty($feed)) {
                                 $value['mime'] = "video/{$ext}";
                         }
 
-                        // Get file size and ensure HTTPS for validation
+                        // Get the local file size; when the local file is just a tiny "dummy"
+                        // placeholder (real media hosted on S3/B2/a CDN, see getUsageFromFilename()),
+                        // filesize() alone returns a bogus value like 10 bytes, so resolve the real
+                        // remote size instead of publishing a broken enclosure length
                         $value['size'] = filesize($value['path']);
+                        if ($value['size'] < 20) {
+                            $remoteSize = 0;
+                            $awsS3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
+                            $bbB2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
+                            if (!empty($awsS3)) {
+                                $remoteSize = $awsS3->getFilesize($row['filename']);
+                            } elseif (!empty($bbB2)) {
+                                $remoteSize = $bbB2->getFilesize($row['filename']);
+                            }
+                            if (empty($remoteSize)) {
+                                $remoteSize = getUsageFromURL($value['url']);
+                            }
+                            if (!empty($remoteSize)) {
+                                $value['size'] = $remoteSize;
+                            }
+                        }
                         $value['url'] = str_replace("http://", "https://", $value['url']);
 
                         // Prepare the enclosure tag
@@ -118,7 +143,7 @@ if (empty($feed)) {
                         <![CDATA[ <?php echo feedText($row['title']); ?> ]]>
                     </title>
                     <description>
-                        <![CDATA[ <?php echo feedText($row['description']); ?> ]]>
+                        <![CDATA[ <?php echo feedHtmlDescription($row['description']); ?> ]]>
                     </description>
                     <link><?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
                     <?php echo $selectedEnclosure; ?>
