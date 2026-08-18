@@ -91,26 +91,11 @@ if (empty($feed)) {
                                 $value['mime'] = "video/{$ext}";
                         }
 
-                        // Get the local file size; when the local file is just a tiny "dummy"
-                        // placeholder (real media hosted on S3/B2/a CDN, see getUsageFromFilename()),
-                        // filesize() alone returns a bogus value like 10 bytes, so resolve the real
-                        // remote size instead of publishing a broken enclosure length
-                        $value['size'] = filesize($value['path']);
-                        if ($value['size'] < 20) {
-                            $remoteSize = 0;
-                            $awsS3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
-                            $bbB2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
-                            if (!empty($awsS3)) {
-                                $remoteSize = $awsS3->getFilesize($row['filename']);
-                            } elseif (!empty($bbB2)) {
-                                $remoteSize = $bbB2->getFilesize($row['filename']);
-                            }
-                            if (empty($remoteSize)) {
-                                $remoteSize = getUsageFromURL($value['url']);
-                            }
-                            if (!empty($remoteSize)) {
-                                $value['size'] = $remoteSize;
-                            }
+                        // Get file size and ensure HTTPS for validation
+                        // @ + false-check: never emit length="" if the file becomes unreadable between the file_exists() check and here
+                        $value['size'] = @filesize($value['path']);
+                        if ($value['size'] === false) {
+                            $value['size'] = 0;
                         }
                         $value['url'] = str_replace("http://", "https://", $value['url']);
 
