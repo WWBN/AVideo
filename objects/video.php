@@ -1276,6 +1276,26 @@ if (!class_exists('Video')) {
             return $sql;
         }
 
+        // 'likes'/'dislikes'/'views_count' are computed aliases with no table prefix; getSqlFromPost() drops its
+        // "v." keyPrefix entirely whenever 'likes' is sorted, so only in that case must every other key be capped
+        // here too -- otherwise it would resolve unprefixed and reach the joined users table (e.g. u.password)
+        static function restrictSortToVideoColumnsOnly()
+        {
+            if (empty($_POST['sort']['likes']) || !is_array($_POST['sort'])) {
+                return;
+            }
+            $unprefixedAliasesAllowed = ['likes', 'dislikes', 'views_count'];
+            foreach ($_POST['sort'] as $key => $value) {
+                if (in_array($key, $unprefixedAliasesAllowed, true)) {
+                    continue;
+                }
+                if (strpos($key, 'v.') === 0 || $key === '`order`' || $key === 'order') {
+                    continue;
+                }
+                unset($_POST['sort'][$key]);
+            }
+        }
+
         static function getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly)
         {
             $sql = '';
@@ -1292,6 +1312,7 @@ if (!class_exists('Video')) {
                 case Video::SORT_TYPE_SUGGESTED:
                     $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::STATUS_ACTIVE . "' ";
                     $sql .= " ORDER BY RAND() ";
+                    self::restrictSortToVideoColumnsOnly();
                     $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
                     if (strpos(mb_strtolower($sql), 'limit') === false) {
                         $sql .= " LIMIT 60 ";
@@ -1356,6 +1377,7 @@ if (!class_exists('Video')) {
                         }
                     }
                     //var_dump($_POST['sort']);
+                    self::restrictSortToVideoColumnsOnly();
                     $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
                     //var_dump($sql);exit;
                     break;

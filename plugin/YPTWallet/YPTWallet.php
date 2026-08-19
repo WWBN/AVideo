@@ -272,7 +272,8 @@ class YPTWallet extends PluginAbstract
             $sql .= " AND status = 'a' ";
         }
 
-        $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'));
+        // reachable by any logged-in user via transferFunds.php; must not allow ordering by password/recoverPass
+        $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'), "", "", false, "", ['id', 'u.id', 'user_id', 'name', 'u.name', 'email', 'u.email', 'user', 'u.user', 'balance', 'status', 'u.status']);
 
         /**
          * Global variables.

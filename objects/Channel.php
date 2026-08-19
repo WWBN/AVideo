@@ -36,7 +36,15 @@ class Channel
             $sql .= " AND u.id IN (SELECT users_id FROM users_has_users_groups WHERE users_groups_id = {$user_groups_id}) ";
         }
 
-        $sql .= BootGrid::getSqlFromPost(['user', 'about', 'channelName', 'u.name', 'u.email'], "", "", false, $FIND_IN_SET);
+        // caller-chosen sort must not be able to name an arbitrary users column (e.g. password/recoverPass)
+        $sql .= BootGrid::getSqlFromPost(
+            ['user', 'about', 'channelName', 'u.name', 'u.email'],
+            "",
+            " ORDER BY total_videos DESC ",
+            false,
+            $FIND_IN_SET,
+            ['id', 'u.id', 'name', 'u.name', 'channelName', 'u.channelName', 'created', 'u.created', 'modified', 'u.modified', 'total_videos']
+        );
         //var_dump($sql);exit;
         $res = sqlDAL::readSql($sql);
         $fullResult = sqlDAL::fetchAllAssoc($res);
@@ -49,7 +57,7 @@ class Channel
             }
         } else {
             $subscribe = array();
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            _error_log('Channel::getChannels failed (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . ' SQL: ' . $sql);
         }
         return $subscribe;
     }

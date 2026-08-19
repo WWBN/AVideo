@@ -214,7 +214,8 @@ class Subscribe extends ObjectYPT{
 
             //$sql .= " GROUP BY subscriber_id ";
 
-            $sql .= BootGrid::getSqlFromPost(['email']);
+            // joins the users table twice (suId/u); must not allow ordering by their password/recoverPass columns
+            $sql .= BootGrid::getSqlFromPost(['email'], "", "", false, "", ['id', 's.id', 'status', 's.status', 'created', 's.created', 'modified', 's.modified', 'email', 'notify', 's.notify', 'users_id', 's.users_id', 'subscriber_users_id', 's.subscriber_users_id']);
 
 
             $res = sqlDAL::readSql($sql);

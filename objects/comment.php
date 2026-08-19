@@ -228,7 +228,8 @@ class Comment {
             $values[] = $video_owner_users_id;
         }
 
-        $sql .= BootGrid::getSqlFromPost(['name']);
+        // reachable without login when $videoId is set; must not allow ordering by joined users columns (password/recoverPass)
+        $sql .= BootGrid::getSqlFromPost(['name'], "", "", false, "", ['id', 'c.id', 'name', 'u.name', 'user', 'u.user', 'created', 'c.created', 'likes', 'dislikes']);
         if($comments_id_pai == 9){
             //echo PHP_EOL.PHP_EOL.'>>>>'.PHP_EOL.PHP_EOL;var_dump($comments_id_pai,$video_owner_users_id, $sql, $values);echo PHP_EOL.'<<<<'.PHP_EOL.PHP_EOL;exit;
         }
@@ -438,7 +439,7 @@ class Comment {
         $format .= '';
         $sql .= " FROM comments c LEFT JOIN users as u ON u.id = c.users_id LEFT JOIN videos as v ON v.id = c.videos_id";
         $sql .= " WHERE u.status = 'a' AND c.comments_id_pai IS NULL ";
-        $sql .= BootGrid::getSqlFromPost(['name']);
+        $sql .= BootGrid::getSqlFromPost(['name'], "", "", false, "", ['id', 'c.id', 'name', 'u.name', 'user', 'u.user', 'created', 'c.created', 'likes', 'dislikes']);
         $res = sqlDAL::readSql($sql, $format, $values);
         $allData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);

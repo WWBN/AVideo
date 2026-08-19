@@ -4,7 +4,7 @@ class BootGrid
     private const SEARCH_CHARSET = 'utf8mb4';
     private const SEARCH_COLLATION = 'utf8mb4_unicode_ci';
 
-    public static function getSqlFromPost($searchFieldsNames = [], $keyPrefix = "", $alternativeOrderBy = "", $doNotSearch=false, $FIND_IN_SET = "")
+    public static function getSqlFromPost($searchFieldsNames = [], $keyPrefix = "", $alternativeOrderBy = "", $doNotSearch=false, $FIND_IN_SET = "", $allowedSortColumns = [])
     {
         global $global;
         if (empty($doNotSearch) && empty($global['doNotSearch']) ) {
@@ -38,13 +38,21 @@ class BootGrid
                 if ($key=='order') {
                     $key = '`order`';
                 }
+                // charset filter above only blocks syntax injection, not naming an unrelated/sensitive column; callers that pass $allowedSortColumns rely on this to cap it to their own known-safe fields
+                if (!empty($allowedSortColumns) && !in_array($key, $allowedSortColumns, true)) {
+                    continue;
+                }
                 if (strpos($key, $keyPrefix) === 0) {
                     $orderBy[] = " {$key} {$direction} ";
                 } else {
                     $orderBy[] = " {$keyPrefix}{$key} {$direction} ";
                 }
             }
-            $sql .= " ORDER BY ".implode(",", $orderBy);
+            if (!empty($orderBy)) {
+                $sql .= " ORDER BY ".implode(",", $orderBy);
+            } else {
+                $sql .= $alternativeOrderBy;
+            }
         } else {
             $sql .= $alternativeOrderBy;
         }
