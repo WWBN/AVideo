@@ -11,7 +11,9 @@ if (empty($feed)) {
     $itunesAuthor = feedText(!empty($title) ? $title : $author);
     // configurable per install (CustomizeAdvanced plugin), since this same codebase powers sites with very different content
     $itunesCategory = !empty($advancedCustom->rssItunesCategory->value) ? $advancedCustom->rssItunesCategory->value : 'Society & Culture';
-    echo '<?xml version="1.0" encoding="UTF-8"?>'
+    echo '<?xml version="1.0" encoding="UTF-8"?>';
+    // lets browsers render the feed as a readable page instead of raw XML
+    echo '<?xml-stylesheet type="text/xsl" href="' . $global['webSiteRootURL'] . 'feed/rss-style.xsl"?>'
 ?>
     <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"
         xmlns:wfw="http://wellformedweb.org/CommentAPI/"
@@ -96,8 +98,9 @@ if (empty($feed)) {
                         // Get file size cheaply: a local stat() when the file is on disk, otherwise
                         // the already-loaded `videos.filesize` column (no extra query/HTTP call, so
                         // this stays fast even for hundreds of remotely-stored/CDN episodes).
-                        // The ">1000" guard skips the known placeholder value (10 bytes) some videos
-                        // get in the DB when getUsageFromFilename() can't find any file at all.
+                        // The ">1000" guard skips length=10, a dummy local placeholder written when
+                        // the real file lives only on remote storage; we don't fetch the remote size
+                        // here (too slow for hundreds of episodes), so we just omit the length instead.
                         $value['size'] = file_exists($value['path']) ? @filesize($value['path']) : false;
                         if ($value['size'] === false || $value['size'] < 1) {
                             $dbFilesize = intval($row['filesize'] ?? 0);
