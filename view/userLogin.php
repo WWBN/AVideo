@@ -273,7 +273,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
         <?php
         if (!empty($_GET['error'])) {
         ?>
-            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");
+            avideoAlert("<?php echo __("Sorry!"); ?>", <?php echo json_encode($_GET['error']); ?>, "error");
         <?php
         }
         ?>
