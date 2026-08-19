@@ -143,6 +143,9 @@ if (!class_exists('Video')) {
         const STATUS_ENCODING = 'e';
         const STATUS_ENCODING_ERROR = 'x';
         const STATUS_DOWNLOADING = 'd';
+
+        // video_id_hash lifetime in seconds; encoder jobs can run long, so this is generous on purpose
+        const VIDEO_ID_HASH_LIFETIME = 86400;
         const STATUS_TRANFERING = 't';
         const STATUS_UNLISTED = 'u';
         const STATUS_UNLISTED_BUT_SEARCHABLE = 's';
@@ -4847,6 +4850,9 @@ if (!class_exists('Video')) {
         {
             $obj = new stdClass();
             $obj->videos_id = $this->id;
+            $obj->time = time();
+            $obj->timeout = time() + self::VIDEO_ID_HASH_LIFETIME;
+            $obj->ownerFingerprint = self::getVideoOwnerFingerprint($this->id);
             return encryptString(json_encode($obj));
         }
 
@@ -4856,10 +4862,45 @@ if (!class_exists('Video')) {
             if (!empty($string)) {
                 $json = json_decode($string);
                 if (!empty($json) && !empty($json->videos_id)) {
+                    // hashes minted before expiry/owner-binding existed carry no timeout; treat them as expired, not exempt
+                    if (empty($json->timeout) || intval($json->timeout) < time()) {
+                        return false;
+                    }
+                    $currentFingerprint = self::getVideoOwnerFingerprint($json->videos_id);
+                    if (empty($json->ownerFingerprint) || empty($currentFingerprint) || !hash_equals($currentFingerprint, $json->ownerFingerprint)) {
+                        return false;
+                    }
                     return $json->videos_id;
                 }
             }
             return false;
+        }
+
+        /**
+         * Fingerprint used to bind a video_id_hash to the video owner's current password, so that
+         * changing the owner's password invalidates every hash minted before the change.
+         * Videos with no owner yet (encoder-created, users_id NULL) get a stable placeholder instead,
+         * so canEncoderEdit()'s "edit ownerless videos" flow keeps working.
+         */
+        private static function getVideoOwnerFingerprint($videos_id)
+        {
+            global $global;
+            $salt = !empty($global['saltV2']) ? $global['saltV2'] : $global['salt'];
+            $users_id = self::getOwner($videos_id);
+            $password = '';
+            if (!empty($users_id)) {
+                $sql = "SELECT password FROM users WHERE id = ? LIMIT 1";
+                $res = sqlDAL::readSql($sql, "i", [$users_id]);
+                $row = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
+                if (!empty($row['password'])) {
+                    $password = $row['password'];
+                }
+            }
+            if (empty($password)) {
+                $password = 'no-owner';
+            }
+            return substr(hash('sha256', $password . $salt), 0, 16);
         }
 
         public static function getCleanFilenameFromFile($filename)
