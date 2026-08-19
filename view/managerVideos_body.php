@@ -1919,6 +1919,15 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + text + "</span>";
                     }
                     tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default \">" + row.type + "</span>";
+                    if (row.type === 'serie' && row.serie_playlists_id && row.serie_playlist_name) {
+                        var seriePlaylistId = parseInt(row.serie_playlists_id, 10);
+                        var seriePlaylistName = $('<div>').text(row.serie_playlist_name).html();
+                        tags += "<div class=\"clearfix\"></div><span class='label label-primary tagTitle'><?php echo __("Playlist") . ":"; ?> </span>" +
+                            "<span class=\"label label-default\"><a href=\"#\" style=\"color: inherit;\" " +
+                            "onclick=\"avideoModalIframe(webSiteRootURL + 'viewProgram/" + seriePlaylistId + "'); return false;\" " +
+                            "data-toggle=\"tooltip\" title=\"<?php echo str_replace("'", "\\'", __("Edit")); ?>\">" +
+                            "<i class=\"fas fa-edit\"></i> [" + seriePlaylistId + "] " + seriePlaylistName + "</a></span>";
+                    }
                     //tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default \">" + row.views_count_short + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span>";
                     tags += "<div class=\"clearfix\"></div><span class=\"typeFormat\"><span class='label label-primary  tagTitle'><?php echo __("Format") . ":"; ?> </span><span class=\"typeLabels\">" + row.typeLabels + "</span></span>";
                     if (row.encoderURL) {

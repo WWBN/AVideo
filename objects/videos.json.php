@@ -44,6 +44,26 @@ resetCurrentPage();
 $total = Video::getTotalVideos($status, $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly, false, @$_REQUEST['type']);
 resetCurrentPage();
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
+
+$seriePlaylists = [];
+$seriePlaylistsIds = [];
+foreach ($videos as $video) {
+    if (!empty($video['serie_playlists_id'])) {
+        $seriePlaylistsIds[] = intval($video['serie_playlists_id']);
+    }
+}
+
+$seriePlaylistsIds = array_values(array_unique(array_filter($seriePlaylistsIds)));
+if (!empty($seriePlaylistsIds)) {
+    $sql = "SELECT id, name FROM playlists WHERE id IN (" . implode(',', $seriePlaylistsIds) . ")";
+    $res = sqlDAL::readSql($sql);
+    $rows = sqlDAL::fetchAllAssoc($res);
+    sqlDAL::close($res);
+    foreach ($rows as $row) {
+        $seriePlaylists[intval($row['id'])] = $row['name'];
+    }
+}
+
 foreach ($videos as $key => $value) {
     /*
       $video = new Video('', '', $value['id']);
@@ -57,6 +77,8 @@ foreach ($videos as $key => $value) {
     $videos[$key]['description'] = @preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['description']);
     $videos[$key]['title'] = @preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['title']);
     $videos[$key]['clean_title'] = @preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['clean_title']);
+    $seriePlaylistsId = intval($videos[$key]['serie_playlists_id']);
+    $videos[$key]['serie_playlist_name'] = $seriePlaylists[$seriePlaylistsId] ?? '';
     TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
     $videos[$key]['typeLabels'] = Video::getVideoTypeLabels($videos[$key]['filename']);
     // TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
