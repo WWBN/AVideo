@@ -3539,12 +3539,16 @@ if (typeof gtag !== \"function\") {
 
         // Update Background Image
         if (isset($params['backgroundImg']) && $params['backgroundImg'] !== '') {
-            $background = url_get_contents($params['backgroundImg']);
             $ext = pathinfo(parse_url($params['backgroundImg'], PHP_URL_PATH), PATHINFO_EXTENSION);
             $allowed = ['jpg', 'jpeg', 'gif', 'png'];
             if (!in_array(strtolower($ext), $allowed)) {
                 return "File extension error background Image, We allow only (" . implode(",", $allowed) . ")";
             }
+            // SSRF: validate before fetching, this URL is attacker-supplied API input
+            if (!isValidURL($params['backgroundImg']) || !isSSRFSafeURL($params['backgroundImg'])) {
+                return "Invalid background Image URL";
+            }
+            $background = url_get_contents($params['backgroundImg']);
 
             $backgroundPath = "videos/userPhoto/tmp_background{$id}." . $ext;
             $oldfile = "videos/userPhoto/background{$id}.png";
@@ -3577,6 +3581,10 @@ if (typeof gtag !== \"function\") {
 
         // Update Profile Image
         if (isset($params['profileImg']) && $params['profileImg'] !== '') {
+            // SSRF: validate before fetching, this URL is attacker-supplied API input
+            if (!isValidURL($params['profileImg']) || !isSSRFSafeURL($params['profileImg'])) {
+                return "Invalid profile Image URL";
+            }
             $photo = url_get_contents($params['profileImg']);
             $photoPath = "videos/userPhoto/photo{$id}.png";
 
