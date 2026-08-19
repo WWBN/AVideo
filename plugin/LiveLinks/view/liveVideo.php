@@ -1,4 +1,4 @@
-<!-- Live Link <?php echo $t['id']; ?> -->
+<!-- Live Link <?php echo htmlspecialchars($t['id'], ENT_QUOTES | ENT_HTML5); ?> -->
 <?php
 AVideoPlugin::loadPlugin('LiveLinks');
 if ($t['id'] > 0) {
