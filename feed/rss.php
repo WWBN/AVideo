@@ -9,6 +9,8 @@ if (empty($feed)) {
     // address; $title is already the channel/host display name (or the site title as a
     // fallback), $author (site contact email) stays reserved for <itunes:owner><itunes:email>
     $itunesAuthor = feedText(!empty($title) ? $title : $author);
+    // configurable per install (CustomizeAdvanced plugin), since this same codebase powers sites with very different content
+    $itunesCategory = !empty($advancedCustom->rssItunesCategory->value) ? $advancedCustom->rssItunesCategory->value : 'Society & Culture';
     echo '<?xml version="1.0" encoding="UTF-8"?>'
 ?>
     <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -30,7 +32,7 @@ if (empty($feed)) {
             <sy:updatePeriod>hourly</sy:updatePeriod>
             <sy:updateFrequency>1</sy:updateFrequency>
             <language>en</language>
-            <itunes:category text="Technology" />
+            <itunes:category text="<?php echo htmlspecialchars($itunesCategory, ENT_QUOTES, 'UTF-8'); ?>" />
             <itunes:explicit>false</itunes:explicit>
             <!-- required by Apple Podcasts/Spotify for the channel-level cover art -->
             <itunes:image href="<?php echo $logo; ?>" />
@@ -71,7 +73,7 @@ if (empty($feed)) {
                 foreach ($files as $value) {
                     if (
                         ($value["type"] === Video::$videoTypeVideo || $value["type"] === Video::$videoTypeAudio)
-                        && file_exists($value['path'])
+                        && !empty($value['url'])
                     ) {
                         $path_parts = pathinfo($value['path']);
                         $ext = strtolower($path_parts['extension']);
@@ -91,11 +93,15 @@ if (empty($feed)) {
                                 $value['mime'] = "video/{$ext}";
                         }
 
-                        // Get file size and ensure HTTPS for validation
-                        // @ + false-check: never emit length="" if the file becomes unreadable between the file_exists() check and here
-                        $value['size'] = @filesize($value['path']);
-                        if ($value['size'] === false) {
-                            $value['size'] = 0;
+                        // Get file size cheaply: a local stat() when the file is on disk, otherwise
+                        // the already-loaded `videos.filesize` column (no extra query/HTTP call, so
+                        // this stays fast even for hundreds of remotely-stored/CDN episodes).
+                        // The ">1000" guard skips the known placeholder value (10 bytes) some videos
+                        // get in the DB when getUsageFromFilename() can't find any file at all.
+                        $value['size'] = file_exists($value['path']) ? @filesize($value['path']) : false;
+                        if ($value['size'] === false || $value['size'] < 1) {
+                            $dbFilesize = intval($row['filesize'] ?? 0);
+                            $value['size'] = $dbFilesize > 1000 ? $dbFilesize : 0;
                         }
                         $value['url'] = str_replace("http://", "https://", $value['url']);
 

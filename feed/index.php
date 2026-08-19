@@ -116,6 +116,8 @@ function feedText($text) {
     $decoded = html_entity_decode((string) $text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $plain = strip_tags(br2nl($decoded));
     $plain = str_replace('&nbsp;', ' ', $plain);
+    // collapse repeated spaces/tabs/newlines (e.g. "Bible Study  on...") into a single space
+    $plain = preg_replace('/\s+/u', ' ', $plain);
     // guard against a literal "]]>" ever closing the CDATA section early
     return trim(str_replace(']]>', ']]&gt;', $plain));
 }

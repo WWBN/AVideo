@@ -507,6 +507,32 @@ Disallow: *action=tagsearch*
 
         $obj->disableFeeds = false;
 
+        $o = new stdClass();
+        $o->type = array(
+            'Arts' => __("Arts"),
+            'Business' => __("Business"),
+            'Comedy' => __("Comedy"),
+            'Education' => __("Education"),
+            'Fiction' => __("Fiction"),
+            'Government' => __("Government"),
+            'Health & Fitness' => __("Health & Fitness"),
+            'History' => __("History"),
+            'Kids & Family' => __("Kids & Family"),
+            'Leisure' => __("Leisure"),
+            'Music' => __("Music"),
+            'News' => __("News"),
+            'Religion & Spirituality' => __("Religion & Spirituality"),
+            'Science' => __("Science"),
+            'Society & Culture' => __("Society & Culture"),
+            'Sports' => __("Sports"),
+            'Technology' => __("Technology"),
+            'True Crime' => __("True Crime"),
+            'TV & Film' => __("TV & Film"),
+            );
+        $o->value = 'Society & Culture';
+        $obj->rssItunesCategory = $o;
+        self::addDataObjectHelper('rssItunesCategory', 'RSS/Podcast iTunes Category', 'The Apple Podcasts / iTunes category used on the <itunes:category> tag of the RSS feed');
+
         $obj->ffmpegParameters = "-c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k";
 
         $obj->showHumanTimingOnVideoItem = true;
