@@ -624,7 +624,7 @@ class AVideoConf extends ObjectYPT
                     if (substr($advancedCustom->encoderNetwork, -1) !== '/') {
                         $advancedCustom->encoderNetwork .= "/";
                     }
-                    $bestEncoder = _json_decode(url_get_contents($advancedCustom->encoderNetwork . "view/getBestEncoder.php", "", 10));
+                    $bestEncoder = _json_decode(url_get_contents($advancedCustom->encoderNetwork . "view/getBestEncoder.php", "", 10, false, false, false));
                     if (!empty($bestEncoder->siteURL)) {
                         $this->encoderURL = $bestEncoder->siteURL;
                     } else {

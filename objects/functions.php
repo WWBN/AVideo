@@ -1912,9 +1912,13 @@ function getRelativePath($path)
     return $parts2[0];
 }
 
-function isValidM3U8Link($url, $skipFileNameCheck = false, $timeout = 3)
+function isValidM3U8Link($url, $skipFileNameCheck = false, $timeout = 3, $requireSSRFSafe = false)
 {
     if (!isValidURL($url)) {
+        return false;
+    }
+    if ($requireSSRFSafe && !isSSRFSafeURL($url)) {
+        _error_log('isValidM3U8Link blocked by SSRF protection ' . $url);
         return false;
     }
     if (preg_match('/.m3u8$/i', $url)) {
@@ -1932,7 +1936,7 @@ function isValidM3U8Link($url, $skipFileNameCheck = false, $timeout = 3)
     }
 
     // Fetch the first few KB of the content
-    $content = url_get_contents($url, '', $timeout);
+    $content = url_get_contents($url, '', $timeout, false, false, false);
 
     if (!empty($content)) {
         if (preg_match('/<html/i', $content)) {
@@ -1947,7 +1951,7 @@ function isValidM3U8Link($url, $skipFileNameCheck = false, $timeout = 3)
     return false;
 }
 
-function copy_remotefile_if_local_is_smaller($url, $destination)
+function copy_remotefile_if_local_is_smaller($url, $destination, $requireSSRFSafe = false)
 {
     if (file_exists($destination)) {
         $size = filesize($destination);
@@ -1957,12 +1961,12 @@ function copy_remotefile_if_local_is_smaller($url, $destination)
             return $remote_size;
         }
     }
-    $content = url_get_contents($url);
+    $content = url_get_contents($url, '', 0, false, false, $requireSSRFSafe);
     _error_log('copy_remotefile_if_local_is_smaller url_get_contents = ' . humanFileSize(strlen($content)));
     return file_put_contents($destination, $content);
 }
 
-function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false)
+function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false, $requireSSRFSafe = false)
 {
     $url = removeQueryStringParameter($url, 'pass');
     $cacheName = str_replace('/', '-', $url);
@@ -1972,7 +1976,7 @@ function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout =
         return $cache;
     }
     //_error_log("url_get_contents_with_cache no cache [$url] " . json_encode(debug_backtrace()));
-    $return = url_get_contents($url, $ctx, $timeout, $debug, $mantainSession);
+    $return = url_get_contents($url, $ctx, $timeout, $debug, $mantainSession, $requireSSRFSafe);
     $response = ObjectYPT::setCacheGlobal($cacheName, $return);
     //_error_log("url_get_contents_with_cache setCache {$url} " . json_encode($response));
     return $return;
@@ -2023,7 +2027,7 @@ function url_get_response($url)
     return $responseObj;
 }
 
-function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false)
+function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false, $requireSSRFSafe = true)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if (isDocker() && str_starts_with($url, $global['webSiteRootURL'])) {
@@ -2032,6 +2036,15 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
     }
     if (!isValidURLOrPath($url)) {
         _error_log('url_get_contents Cannot download ' . $url);
+        return false;
+    }
+    // Default-safe: only applies to real http(s) URLs (isValidURL()), never to
+    // php://input or local filesystem paths -- isValidURLOrPath() above already
+    // accepted those as non-network reads, so there is nothing for SSRF to protect.
+    // Callers that must reach a trusted-but-private-network destination (Encoder,
+    // Live server, Storage backend, ...) pass $requireSSRFSafe = false explicitly.
+    if ($requireSSRFSafe && isValidURL($url) && !isSSRFSafeURL($url)) {
+        _error_log('url_get_contents blocked by SSRF protection ' . $url);
         return false;
     }
     if ($debug) {
@@ -3363,13 +3376,13 @@ function parse_url_parameters($url)
     return $result;
 }
 
-function get_contents($url, $timeout = 0)
+function get_contents($url, $timeout = 0, $requireSSRFSafe = false)
 {
     if (strlen($url) > 1000) {
         $result = parse_url_parameters($url);
         return postVariables($result['base_url'], $result['parameters'], false, $timeout);
     } else {
-        return url_get_contents($url, $timeout);
+        return url_get_contents($url, $timeout, 0, false, false, $requireSSRFSafe);
     }
 }
 

@@ -23,7 +23,7 @@ if (!file_exists($lockFile)) {
     file_put_contents($lockFile, time());
     _error_log("Live:asyncGetStats: {$url} start");
     try {
-        $result = url_get_contents($url);
+        $result = url_get_contents($url, '', 0, false, false, false);
         _error_log("Live:asyncGetStats: {$url} complete");
         ObjectYPT::setCache($name, $result);
     } catch (Exception $exc) {

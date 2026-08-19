@@ -19,10 +19,10 @@ $posterURL = LiveLinks::getImage($t['id']);
 
 $disableYoutubeIntegration = !PlayerSkins::isYoutubeIntegrationEnabled();
 $video['videoLink'] = $liveLink;
-if (isValidM3U8Link($liveLink)) {
+if (isValidM3U8Link($liveLink, false, 3, true)) {
 
     $htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getPlaysinline().'
-                       class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered liveVideo vjs-16-9" 
+                       class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered liveVideo vjs-16-9"
                        id="mainVideo">
                     <source src="' . $liveLink . '" type="application/x-mpegURL">
                 </video>';

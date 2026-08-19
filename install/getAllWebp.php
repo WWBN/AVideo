@@ -43,7 +43,7 @@ foreach ($videos as $value) {
                 continue;
             } else {
                 $url = $config->getEncoderURL() . "getImageMP4/" . base64_encode($url) . "/webp/{$duration}";
-                $image = url_get_contents($url);
+                $image = url_get_contents($url, '', 0, false, false, false);
                 file_put_contents($destination, $image);
             }
         } else {

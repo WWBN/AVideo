@@ -329,7 +329,7 @@ class LiveRestreamWatchdog
             if (empty($url)) {
                 return false;
             }
-            $content = url_get_contents($url);
+            $content = url_get_contents($url, '', 0, false, false, false);
             if (empty($content)) {
                 return false;
             }

@@ -72,7 +72,7 @@ $encoder = $config->_getEncoderURL();
 $obj->encoder = $encoder;
 
 
-$status = _json_decode(url_get_contents($encoder."status"));
+$status = _json_decode(url_get_contents($encoder."status", '', 0, false, false, false));
 if(empty($status->version) || version_compare($status->version, "3.2") < 0){
     $obj->msg = __("Your Encoder MUST be version 3.2 or greater");
     _error_log("playProgramsLive:: {$obj->msg}");
@@ -84,7 +84,7 @@ $webSiteRootURL = urlencode($global['webSiteRootURL']);
 $live_servers_id = Live::getCurrentLiveServersId();
 $videosListToLive = "{$encoder}videosListToLive?playlists_id={$playlists_id}&APISecret={$api->APISecret}&webSiteRootURL={$webSiteRootURL}&user=".User::getUserName()."&pass=".User::getUserPass();
 //$obj->url = $videosListToLive;
-$obj->videosListToLive = url_get_contents($videosListToLive);
+$obj->videosListToLive = url_get_contents($videosListToLive, '', 0, false, false, false);
 $obj->error = false;
 $obj->msg = __("Your stream will start soon");
 die(json_encode($obj));

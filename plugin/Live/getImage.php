@@ -172,7 +172,7 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     //header('Content-Type: text/plain');var_dump($url);exit;
     _session_write_close();
     _mysql_close();
-    $content = url_get_contents($url, '', 2);
+    $content = url_get_contents($url, '', 2, false, false, false);
 
     if (empty($content)) {
         if (!file_exists($cacheFileImageNameResized)) {

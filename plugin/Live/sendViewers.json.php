@@ -36,6 +36,6 @@ $obj->sendSocketMessage = sendSocketMessage(array('redirectLive'=>$obj), 'redire
 $obj->msg = '';
 $obj->error = false;
 $obj->dropURL = Live::getDropURL($obj->live_key, $obj->live_servers_id);
-$obj->dropURLResponse = _json_decode(url_get_contents($obj->dropURL));
+$obj->dropURLResponse = _json_decode(url_get_contents($obj->dropURL, '', 0, false, false, false));
 
 die(_json_encode($obj));

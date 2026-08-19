@@ -77,7 +77,7 @@ if (!file_exists($photosDir)) {
 $url = $objClone->cloneSiteURL . "plugin/CloneSite/cloneServer.json.php?url=" . urlencode($global['webSiteRootURL']) . "&key={$objClone->myKey}&useRsync=" . intval($objClone->useRsync);
 // check if it respond
 $log->add("Clone (1 of {$totalSteps}): Asking the Server the database and the files");
-$content = url_get_contents($url, "", 3600, true);
+$content = url_get_contents($url, "", 3600, true, false, false);
 _error_log("Clone: url_get_contents($url) respond: ($content)");
 //var_dump($url, $content);exit;
 $json = _json_decode($content);
@@ -123,7 +123,7 @@ if ($return_val !== 0) {
 
 if(!file_exists($sqlFile) || empty(filesize($sqlFile))){
     $log->add("Clone Error: on download file, trying again" . json_encode($output));
-    $content = url_get_contents($sqlURL);
+    $content = url_get_contents($sqlURL, '', 0, false, false, false);
     if(!empty($content)){
         _file_put_contents($sqlFile, $content);
     }
@@ -285,7 +285,7 @@ if (empty($objClone->useRsync)) {
 $url = $url . "&deleteDump={$json->sqlFile}";
 // check if it respond
 $log->add("Clone (6 of {$totalSteps}): Notify Server to Delete Dump");
-$content2 = url_get_contents($url);
+$content2 = url_get_contents($url, '', 0, false, false, false);
 //var_dump($url, $content);exit;
 $json2 = _json_decode($content);
 if (!empty($json2->error)) {

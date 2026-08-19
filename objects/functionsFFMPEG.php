@@ -271,7 +271,7 @@ function m3u8ToMP4($input, $makeItPermanent = false, $force = false)
 
 /**
  * Convert M3U8 to MP4 using remote FFMPEG
- * 
+ *
  * @param string $input Input M3U8 file path
  * @param string $callback Optional callback in JSON format. Use buildSecureFFMPEGCallback() to create.
  *                         Format: {"action": "actionName", "params": {...}}
@@ -550,7 +550,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
 
 /**
  * Convert video file with FFMPEG (async or remote)
- * 
+ *
  * @param string $fromFileLocation Source file path
  * @param string $toFileLocation Destination file path
  * @param string $keyword Process keyword
@@ -646,31 +646,31 @@ function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, 
 
 /**
  * Build a secure callback for notify.ffmpeg.json.php
- * 
+ *
  * The callback must be in JSON format: {"action": "actionName", "params": {...}}
  * Allowed actions: 'updateVideoStatus', 'triggerPluginHook', 'updateVideoMetadata', 'logEvent'
- * 
+ *
  * @param string $action The action name (must be whitelisted)
  * @param array $params Parameters for the action
  * @return string JSON-encoded callback string, or empty string if invalid
  */
 function buildSecureFFMPEGCallback($action, $params = []) {
     $allowedActions = ['updateVideoStatus', 'triggerPluginHook', 'updateVideoMetadata', 'logEvent'];
-    
+
     if (empty($action) || !in_array($action, $allowedActions)) {
         if (function_exists('_error_log')) {
             _error_log("buildSecureFFMPEGCallback: Invalid or non-whitelisted action: $action");
         }
         return '';
     }
-    
+
     if (!is_array($params)) {
         if (function_exists('_error_log')) {
             _error_log("buildSecureFFMPEGCallback: Params must be an array");
         }
         return '';
     }
-    
+
     return json_encode([
         'action' => $action,
         'params' => $params
@@ -679,7 +679,7 @@ function buildSecureFFMPEGCallback($action, $params = []) {
 
 /**
  * Get video by ID for callback handlers
- * 
+ *
  * @param int $videos_id Video ID
  * @return Video|null Video object if found, null otherwise
  */
@@ -691,7 +691,7 @@ function getVideoByIdForCallback($videos_id) {
 
 /**
  * Validate required parameters in callback params
- * 
+ *
  * @param array $params Parameters to validate
  * @param array $required Required parameter names
  * @return array|null Error array if validation fails, null if valid
@@ -707,7 +707,7 @@ function validateCallbackParams($params, $required) {
 
 /**
  * Sanitize alphanumeric value for callback parameters
- * 
+ *
  * @param string $value Value to sanitize
  * @return string Sanitized value (alphanumeric and underscore only)
  */
@@ -717,7 +717,7 @@ function sanitizeAlphanumericForCallback($value) {
 
 /**
  * Handle updateVideoStatus callback action
- * 
+ *
  * @param array $params Callback parameters
  * @param array $notify Notification data
  * @return array Result array
@@ -736,7 +736,7 @@ function handleCallbackUpdateVideoStatus($params, $notify) {
 
 /**
  * Handle triggerPluginHook callback action
- * 
+ *
  * @param array $params Callback parameters
  * @param array $notify Notification data
  * @return array Result array
@@ -758,7 +758,7 @@ function handleCallbackTriggerPluginHook($params, $notify) {
         'onReceiveFile',
         'onUploadIsDone'
     ];
-    
+
     if (!in_array($hook, $allowedHooks)) {
         return ['error' => 'Hook not allowed'];
     }
@@ -795,13 +795,13 @@ function handleCallbackTriggerPluginHook($params, $notify) {
         default:
             return ['error' => 'Hook handler not implemented'];
     }
-    
+
     return ['success' => true, 'hook' => $hook, 'videos_id' => $videos_id];
 }
 
 /**
  * Handle updateVideoMetadata callback action
- * 
+ *
  * @param array $params Callback parameters
  * @param array $notify Notification data
  * @return array Result array
@@ -835,7 +835,7 @@ function handleCallbackUpdateVideoMetadata($params, $notify) {
 
 /**
  * Handle logEvent callback action
- * 
+ *
  * @param array $params Callback parameters
  * @param array $notify Notification data
  * @return array Result array
@@ -848,7 +848,7 @@ function handleCallbackLogEvent($params, $notify) {
 
 /**
  * Get FFMPEG callback handlers
- * 
+ *
  * @return array Array of action handlers mapping action names to handler functions
  */
 function getFFMPEGCallbackHandlers() {
@@ -862,7 +862,7 @@ function getFFMPEGCallbackHandlers() {
 
 /**
  * Process FFMPEG callback securely
- * 
+ *
  * @param string $callback Decrypted callback string (JSON format)
  * @param array $notify Notification data
  * @return array|null Callback result or null if invalid
@@ -919,7 +919,7 @@ function buildFFMPEGRemoteURL($actionParams, $callback='', $standAloneFFMPEG='')
     }
     $actionParams['time'] = time();
     $actionParams['notifyCode'] = encryptString(time());
-    
+
     // Callback must be in JSON format: {"action": "actionName", "params": {...}}
     // Use buildSecureFFMPEGCallback() helper function to create valid callbacks
     // Empty string is allowed (no callback will be executed)
@@ -936,7 +936,7 @@ function execFFMPEGAsyncOrRemote($command, $keyword, $callback='', $standAloneFF
     if ($url) {
         _error_log("execFFMPEGAsyncOrRemote: URL $command");
         _error_log("execFFMPEGAsyncOrRemote: URL $url");
-        return url_get_contents($url);
+        return url_get_contents($url, '', 0, false, false, false);
     } else {
         _error_log("execFFMPEGAsyncOrRemote: Async $command");
         return execAsync($command, $keyword);
@@ -949,7 +949,7 @@ function getFFMPEGRemoteLog($keyword, $standAloneFFMPEG='')
     //var_dump($url);
     if ($url) {
         _error_log("getFFMPEGRemoteLog: URL $url " . json_encode(debug_backtrace()));
-        return json_decode(url_get_contents($url));
+        return json_decode(url_get_contents($url, '', 0, false, false, false));
     } else {
         return false;
     }
@@ -960,7 +960,7 @@ function stopFFMPEGRemote($keyword, $standAloneFFMPEG='')
     $url = buildFFMPEGRemoteURL(['stop' => 1, 'keyword' => $keyword], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("stopFFMPEGRemote: URL $url");
-        return json_decode(url_get_contents($url));
+        return json_decode(url_get_contents($url, '', 0, false, false, false));
     } else {
         return false;
     }
@@ -971,7 +971,7 @@ function testFFMPEGRemote($standAloneFFMPEG='')
     $url = buildFFMPEGRemoteURL(['test' => 1, 'microtime' => microtime(true)], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("testFFMPEGRemote: URL $url");
-        return json_decode(url_get_contents($url));
+        return json_decode(url_get_contents($url, '', 0, false, false, false));
     } else {
         return false;
     }
@@ -982,7 +982,7 @@ function listFFMPEGRemote($keyword = '', $standAloneFFMPEG='')
     $url = buildFFMPEGRemoteURL(['list' => 1, 'keyword' => $keyword, 'microtime' => microtime(true)], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("listFFMPEGRemote: URL $url");
-        return json_decode(url_get_contents($url));
+        return json_decode(url_get_contents($url, '', 0, false, false, false));
     } else {
         return false;
     }
@@ -993,7 +993,7 @@ function killFFMPEGRemote($pid, $standAloneFFMPEG='')
     $url = buildFFMPEGRemoteURL(['kill' => $pid, 'microtime' => microtime(true)], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("killFFMPEGRemote: URL $url");
-        return json_decode(url_get_contents($url));
+        return json_decode(url_get_contents($url, '', 0, false, false, false));
     } else {
         return false;
     }
@@ -1004,7 +1004,7 @@ function isKeywordRunningFFMPEGRemote($keyword, $standAloneFFMPEG='')
     $url = buildFFMPEGRemoteURL(['isKeywordRunning' => $keyword, 'microtime' => microtime(true)]);
     if ($url) {
         _error_log("isKeywordRunningFFMPEGRemote: URL $url");
-        return json_decode(url_get_contents($url));
+        return json_decode(url_get_contents($url, '', 0, false, false, false));
     } else {
         return false;
     }
@@ -1015,7 +1015,7 @@ function deleteFolderFFMPEGRemote($videoFilename, $standAloneFFMPEG='')
     $url = buildFFMPEGRemoteURL(['deleteFolder' => $videoFilename], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("deleteFolderFFMPEGRemote: URL $url");
-        return json_decode(url_get_contents($url));
+        return json_decode(url_get_contents($url, '', 0, false, false, false));
     } else {
         return false;
     }
@@ -1026,7 +1026,7 @@ function deleteFileFFMPEGRemote($filePath, $standAloneFFMPEG='')
     $url = buildFFMPEGRemoteURL(['deleteFile' => $filePath], '', $standAloneFFMPEG);
     if ($url) {
         _error_log("deleteFileFFMPEGRemote: URL $url");
-        return json_decode(url_get_contents($url));
+        return json_decode(url_get_contents($url, '', 0, false, false, false));
     } else {
         return false;
     }
@@ -1034,7 +1034,7 @@ function deleteFileFFMPEGRemote($filePath, $standAloneFFMPEG='')
 
 /**
  * Build local file path for video processing
- * 
+ *
  * @param array $global Global variables array
  * @param array $notify Notification data with avideoRelativePath
  * @return string Full local file path
@@ -1045,7 +1045,7 @@ function buildLocalPathForNotify($global, $notify) {
 
 /**
  * Build remote URL for video download from standAlone FFMPEG
- * 
+ *
  * @param string $standAloneFFMPEG Standalone FFMPEG URL
  * @param array $notify Notification data with avideoRelativePath
  * @return string Constructed remote URL
@@ -1057,7 +1057,7 @@ function buildRemoteUrlForNotify($standAloneFFMPEG, $notify) {
 
 /**
  * Create response template for notify.ffmpeg.json.php
- * 
+ *
  * @param array $notify Notification data
  * @return array Response template
  */
@@ -1077,13 +1077,13 @@ function createNotifyResponseTemplate($notify) {
 
 /**
  * Process video file download and save for notify.ffmpeg.json.php
- * 
+ *
  * @param array $notify Notification data
  * @return array Response array with processing results
  */
 function processNotifyVideoFile($notify) {
     global $global;
-    
+
     $response = createNotifyResponseTemplate($notify);
 
     if (empty($notify['avideoPath'])) {

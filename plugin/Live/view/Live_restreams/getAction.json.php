@@ -50,7 +50,7 @@ if (!User::isAdmin()) {
     }
 }
 
-$obj->response = url_get_contents($obj->url);
+$obj->response = url_get_contents($obj->url, '', 0, false, false, false);
 _error_log("Live_restreams/getAction.json.php: raw response from restreamer=" . var_export($obj->response, true));
 $obj->json = json_decode($obj->response);
 if (empty($obj->json)) {

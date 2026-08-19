@@ -23,7 +23,7 @@ $resp->url = addQueryStringParameter($resp->url, 'BTCMarketPlaceKey', $obj->BTCM
 
 _error_log('BTC::webhook - Calling marketplace verification URL (redacted key)', AVideoLog::$DEBUG);
 
-$resp->content = url_get_contents($resp->url);
+$resp->content = url_get_contents($resp->url, '', 0, false, false, false);
 if (empty($resp->content)) {
     _error_log('BTC::webhook - ERROR: Empty response from marketplace verification', AVideoLog::$ERROR);
     forbiddenPage('Empty Content');

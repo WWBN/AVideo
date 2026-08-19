@@ -99,7 +99,7 @@ if (!_empty($_POST['videoLink'])) {
             $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
             $getLinkInfo = $config->getEncoderURL() . "getLinkInfo/" . base64_encode($_POST['videoLink']);
             _error_log('videoAddNew: ' . $getLinkInfo);
-            $info = url_get_contents($getLinkInfo, '', 180, true);
+            $info = url_get_contents($getLinkInfo, '', 180, true, false, false);
             $infoObj = _json_decode($info);
             $paths = Video::getNewVideoFilename();
             $filename = $paths['filename'];

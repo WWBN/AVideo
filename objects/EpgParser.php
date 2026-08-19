@@ -363,10 +363,9 @@ class EpgParser {
             throw new \RuntimeException('Url invalid: ' . $this->url);
         }
 
+        // SSRF protection (initial URL + redirect hops) is enforced by default inside url_get_contents()
         $this->logDebug("fetch start url={$this->url}");
 
-        // url_get_contents() validates the URL and every redirect hop via isSSRFSafeURL()
-        // with follow_location=0, preventing redirect-based SSRF bypass.
         $this->content = url_get_contents($this->url);
 
         if ($this->content === false || $this->content === '') {

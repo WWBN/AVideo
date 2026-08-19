@@ -55,12 +55,12 @@ if (true || empty($_SESSION['playerServer'][$live_servers_id])) {
 if ($_SESSION['useAadaptiveMode'][$live_servers_id]) {
     $complement = $_SESSION['playerServer'][$live_servers_id] . "/";
     $url = $_SESSION['playerServer'][$live_servers_id] . "/{$uuid}.m3u8";
-    $content = url_get_contents($url);
+    $content = url_get_contents($url, '', 0, false, false, false);
 }
 if (empty($content)) {
     $complement = $_SESSION['playerServer'][$live_servers_id] . "/{$uuid}/";
     $url = $_SESSION['playerServer'][$live_servers_id] . "/{$uuid}/index.m3u8";
-    $content = url_get_contents($url);
+    $content = url_get_contents($url, '', 0, false, false, false);
     if (!empty($content)) {
         _session_start();
         $_SESSION['useAadaptiveMode'][$live_servers_id] = 0;
@@ -69,7 +69,7 @@ if (empty($content)) {
 if (empty($_SESSION['useAadaptiveMode'][$live_servers_id]) && empty($content)) {
     $complement = $_SESSION['playerServer'][$live_servers_id] . "/";
     $url = $_SESSION['playerServer'][$live_servers_id] . "/{$uuid}.m3u8";
-    $content = url_get_contents($url);
+    $content = url_get_contents($url, '', 0, false, false, false);
     if (!empty($content)) {
         _session_start();
         $_SESSION['useAadaptiveMode'][$live_servers_id] = 1;

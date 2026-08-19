@@ -59,7 +59,7 @@ if (empty($url)) {
     die(json_encode($obj));
 }
 
-$response = url_get_contents($url);
+$response = url_get_contents($url, '', 0, false, false, false);
 $json = json_decode($response);
 
 if (empty($json)) {

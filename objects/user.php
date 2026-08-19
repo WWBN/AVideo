@@ -590,6 +590,7 @@ if (typeof gtag !== \"function\") {
                 return $photo;
             } else {
                 $photoPath = "/videos/userPhoto/photo{$id}.png";
+                // SSRF protection enforced by default inside url_get_contents()
                 $content = url_get_contents($photo);
                 file_put_contents($global['systemRootPath'] . $photoPath, $content);
                 $photo = $photoPath;
@@ -3544,11 +3545,14 @@ if (typeof gtag !== \"function\") {
             if (!in_array(strtolower($ext), $allowed)) {
                 return "File extension error background Image, We allow only (" . implode(",", $allowed) . ")";
             }
-            // SSRF: validate before fetching, this URL is attacker-supplied API input
-            if (!isValidURL($params['backgroundImg']) || !isSSRFSafeURL($params['backgroundImg'])) {
+            // Syntax check only -- SSRF protection is now enforced by default inside url_get_contents()
+            if (!isValidURL($params['backgroundImg'])) {
                 return "Invalid background Image URL";
             }
             $background = url_get_contents($params['backgroundImg']);
+            if ($background === false) {
+                return "Invalid background Image URL";
+            }
 
             $backgroundPath = "videos/userPhoto/tmp_background{$id}." . $ext;
             $oldfile = "videos/userPhoto/background{$id}.png";
@@ -3581,11 +3585,14 @@ if (typeof gtag !== \"function\") {
 
         // Update Profile Image
         if (isset($params['profileImg']) && $params['profileImg'] !== '') {
-            // SSRF: validate before fetching, this URL is attacker-supplied API input
-            if (!isValidURL($params['profileImg']) || !isSSRFSafeURL($params['profileImg'])) {
+            // Syntax check only -- SSRF protection is now enforced by default inside url_get_contents()
+            if (!isValidURL($params['profileImg'])) {
                 return "Invalid profile Image URL";
             }
             $photo = url_get_contents($params['profileImg']);
+            if ($photo === false) {
+                return "Invalid profile Image URL";
+            }
             $photoPath = "videos/userPhoto/photo{$id}.png";
 
             if (!isset($global['systemRootPath'])) {

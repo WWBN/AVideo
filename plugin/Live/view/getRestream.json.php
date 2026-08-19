@@ -45,7 +45,7 @@ if (empty($obj->url)) {
     $obj->log = false;
 } else {
     debugLog(__LINE__);
-    $content = url_get_contents($obj->url);
+    $content = url_get_contents($obj->url, '', 0, false, false, false);
     debugLog(__LINE__);
     $obj->log = json_decode($content);
     debugLog(__LINE__);
@@ -65,7 +65,7 @@ die(json_encode($obj));
 
 function debugLog($line){
     global $obj;
-    $debug = array('time'=>microtime(true), 'line'=>$line, 'takes'=>number_format(microtime(true)-$obj->lastTime, 2) );    
+    $debug = array('time'=>microtime(true), 'line'=>$line, 'takes'=>number_format(microtime(true)-$obj->lastTime, 2) );
     $debug['takesTooLong'] =  $debug['takes']>0.5;
     $obj->debug[] = $debug;
     $obj->lastTime = microtime(true);

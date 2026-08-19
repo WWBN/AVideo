@@ -905,7 +905,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $url = self::getStopRecordURL($key, $live_servers_id);
         }
         _error_log("Live::controlRecording: Calling url_get_contents with url={$url}");
-        $response = url_get_contents($url, '', 5, true);
+        $response = url_get_contents($url, '', 5, true, false, false);
         _error_log("Live:controlRecording {$url} {$live_servers_id} - [{$response}]");
         $obj = new stdClass();
         $obj->error = true;
@@ -1558,7 +1558,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             return $response;
         }
 
-        $body = url_get_contents($url, '', $timeout);
+        $body = url_get_contents($url, '', $timeout, false, false, false);
         $response['body'] = $body;
         return $response;
     }
@@ -1694,7 +1694,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $key = $lt->getKey();
             $appName = self::getApplicationName();
             $url = "{$server}control/record/start?app={$appName}&name=$key";
-            url_get_contents($url);
+            url_get_contents($url, '', 0, false, false, false);
         }
     }
 

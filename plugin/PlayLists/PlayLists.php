@@ -732,7 +732,7 @@ class PlayLists extends PluginAbstract
         }
         $encoder = $config->_getEncoderURL();
         $url = "{$encoder}view/videosListEPG.php";
-        $content = url_get_contents($url);
+        $content = url_get_contents($url, '', 0, false, false, false);
         $name = "getALLEPGs_" . md5($url);
         //$cache = ObjectYPT::getCache($name, 15);
         //if (!empty($cache)) {
