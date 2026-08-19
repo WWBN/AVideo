@@ -86,7 +86,7 @@ getCSSAnimationClassAndStyleAddWait(0.5);
             ?>
             <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>">
                 <div class="col-md-12">
-                    <a href="<?php echo $_REQUEST['cancelUri']; ?>"
+                    <a href="<?php echo htmlspecialchars($_REQUEST['cancelUri'], ENT_QUOTES | ENT_HTML5); ?>"
                        class="btn btn-link btn-block"><i class="fas fa-arrow-left"></i> <?php echo __("Cancel"); ?></a>
                 </div>
             </div>
