@@ -1,4 +1,6 @@
 <?php
+// resolve once so an includer that forgot to set this on $obj cannot silently fail open
+$hidePrivate = isset($obj->hidePrivateVideos) ? $obj->hidePrivateVideos : isToHidePrivateVideos();
 include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
 
 // Pre-load the list of video IDs that have active PPV plans (one query, no
@@ -107,7 +109,7 @@ $videoFound = false;
         }
 
         //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
-        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos, array(), false, false, true, true);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$hidePrivate, array(), false, false, true, true);
         if (!empty($videos)) {
             $videoFound = true;
             ?>
@@ -255,7 +257,7 @@ $videoFound = false;
                 }
             }
             if ($obj->PlayList) {
-                $programs = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos, array(), false, false, true, false, true);
+                $programs = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$hidePrivate, array(), false, false, true, false, true);
                 cleanSearchVar();
                 if (!empty($programs)) {
                     foreach ($programs as $serie) {
@@ -325,7 +327,7 @@ $videoFound = false;
 
         $_POST['sort']['trending'] = "";
 
-        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$hidePrivate);
         unset($_POST['sort']['trending']);
         if (!empty($videos)) {
             $videoFound = true;
@@ -361,7 +363,7 @@ $videoFound = false;
         unset($_POST['sort']);
         $_POST['sort']['created'] = "DESC";
 
-        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$hidePrivate);
         if (!empty($videos)) {
             $videoFound = true;
         ?>
@@ -399,7 +401,7 @@ $videoFound = false;
         unset($_POST['sort']);
         $_POST['sort']['likes'] = "DESC";
         $_POST['sort']['v.created'] = "DESC";
-        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$hidePrivate);
         if(!empty($videos)){
             $videoFound = true;
         }
@@ -437,7 +439,7 @@ $videoFound = false;
         unset($_POST['sort']);
         $_POST['sort']['views_count'] = "DESC";
         $_POST['sort']['created'] = "DESC";
-        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$hidePrivate);
         if(!empty($videos)){
             $videoFound = true;
         }
@@ -473,7 +475,7 @@ $videoFound = false;
         unset($_POST['sort']);
         $_POST['sort']['title'] = "ASC";
         $_POST['sort']['created'] = "DESC";
-        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$hidePrivate);
         if(!empty($videos)){
             $videoFound = true;
         }

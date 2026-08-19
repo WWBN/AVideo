@@ -345,6 +345,8 @@ function tabContentClass(string $tab): string
                                     <?php
                                     // Keep original YouPHPFlix2 setup
                                     $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
+                                    // this plugin's own copy of the flag may be stale if the operator manages it via a different gallery plugin
+                                    $obj->hidePrivateVideos = isToHidePrivateVideos();
                                     $obj->BigVideo                 = true;
                                     $obj->PlayList                 = false;
                                     $obj->Channels                 = false;

@@ -76,7 +76,8 @@ $_page->setExtraStyles(
         } elseif (empty($videosArrayId)) {
             $videosP = [];
         } else {
-            $videosP = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true, $videosArrayId, false, true);
+            // only the owner's own channel view may bypass group/unlisted restrictions here
+            $videosP = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, $isMyChannel, $videosArrayId, false, $isMyChannel);
         } //var_dump($videosArrayId, $videosP);exit;
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
