@@ -331,6 +331,10 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
             modal.showPleaseWait();
             $.ajax({
                 url: webSiteRootURL + "plugin/Live/removePoster.php?live_servers_id=<?php echo intval($_REQUEST['live_servers_id'] ?? 0); ?>",
+                type: 'post',
+                data: {
+                    globalToken: '<?php echo getToken(); ?>'
+                },
                 success: function(response) {
                     modal.hidePleaseWait();
                     if (response.error) {

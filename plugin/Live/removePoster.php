@@ -19,6 +19,10 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 
+// deletes the user's poster/thumbnail files; GET is <img>-reachable and the auto CSRF guard only covers *.json.php
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 $live = AVideoPlugin::loadPluginIfEnabled("Live");
 
 if (empty($live)) {
