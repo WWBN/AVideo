@@ -8,6 +8,9 @@ $obj->error = true;
 if (!User::canStream()) {
     forbiddenPage('Permission denied');
 }
+// mutates the stream key/title/password/users_id; GET is <img>-reachable and the auto CSRF guard only covers *.json.php
+forbidIfNotPost();
+forbidIfInvalidToken();
 $objLive = AVideoPlugin::getDataObject("Live");
 $categories_id = intval(@$_REQUEST['categories_id']);
 if (empty($categories_id)) {

@@ -282,7 +282,8 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                 "isRebroadcast": $('#isRebroadcast').is(":checked"),
                 "userGroups": selectedUserGroups,
                 users_id: '<?php echo $users_id; ?>',
-                password: $('#password_livestream').val()
+                password: $('#password_livestream').val(),
+                globalToken: '<?php echo getToken(); ?>'
             },
             type: 'post',
             complete: function(resp) {
