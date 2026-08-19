@@ -29,7 +29,7 @@
                     </xsl:if>
                     <div>
                         <h1><xsl:value-of select="title"/></h1>
-                        <p><xsl:value-of select="description"/></p>
+                        <p><xsl:value-of select="description" disable-output-escaping="yes"/></p>
                     </div>
                 </div>
                 <div class="container">
@@ -38,7 +38,7 @@
                         <div class="item">
                             <h2><xsl:value-of select="title"/></h2>
                             <div class="date"><xsl:value-of select="pubDate"/></div>
-                            <div><xsl:value-of select="description"/></div>
+                            <div><xsl:value-of select="description" disable-output-escaping="yes"/></div>
                             <xsl:if test="enclosure/@url">
                                 <audio controls="controls" preload="none">
                                     <source src="{enclosure/@url}" type="{enclosure/@type}"/>
