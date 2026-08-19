@@ -1,10 +1,5 @@
 <?php
 
-// buffer everything from the very first line so a stray warning/notice/BOM emitted by the
-// legacy bootstrap below (configuration.php, video.php) never leaks before header() runs or
-// before the XML declaration - either of which breaks the feed's Content-Type/XML rendering
-ob_start();
-
 $global['ignoreUserMustBeLoggedIn'] = 1;
 require_once '../videos/configuration.php';
 require_once '../objects/video.php';
@@ -96,9 +91,6 @@ if (empty($description)) {
     $description = $title;
 }
 //var_dump($title, $cacheName, $_REQUEST);exit;
-// discard anything buffered so far (warnings/whitespace from the bootstrap above) so the
-// response body starts exactly with the feed handler's own header()/XML declaration
-ob_clean();
 if (!empty($_REQUEST['roku'])) {
     include $global['systemRootPath'] . 'feed/roku.json.php';
 } elseif (!empty($_REQUEST['rokuSearch'])) {
@@ -110,7 +102,6 @@ if (!empty($_REQUEST['roku'])) {
 } else {
     include $global['systemRootPath'] . 'feed/mrss.php';
 }
-ob_end_flush();
 
 // Plain-text fields (title, itunes:author, etc). Always used inside <![CDATA[ ]]>,
 // so no entity-escaping is needed here - CDATA already protects &, < and >.
