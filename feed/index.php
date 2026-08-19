@@ -63,7 +63,8 @@ if (empty($rows)) {
         unset($_POST['sort']);
         $playlists_id = intval($_REQUEST['program_id']);
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
-        $rows = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+        // do not widen visibility beyond the playlist's own videos; canSee() only authorizes the container, not its contents
+        $rows = Video::getAllVideos("viewable", false, false, $videosArrayId, false, false);
         $rows = PlayList::sortVideos($rows, $videosArrayId);
     }
     $_POST['sort'] = $sort;
