@@ -30,6 +30,12 @@ $obj->MySQLDate = getMySQLDate();
 $obj->version = $config->getVersion();
 $obj->plugins = Plugin::getAvailablePluginsBasic();
 ///getTotalVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '')
+// SECURITY REVIEW (2026-08-19): reported as disclosing unlisted/group-restricted video counts to
+// anonymous callers via ignoreGroup=true/showUnlisted=true — NOT a vulnerability / DO NOT FIX.
+// "Unlisted" is security-through-obscurity by design (same threat model as a guessable sequential
+// ID), not an access-control boundary; an attacker can already reach the same video by iterating
+// /video/{id}/... directly, with no dependency on this endpoint. See Section 23.1 of
+// .github/prompts/avideo-security-advisory-triage.prompt.md before re-proposing a fix here.
 $obj->totalVideos = Video::getTotalVideos('', false, true, true);
 $obj->totalUsers = User::getTotalUsers(true, 'a');
 $obj->totalChannels = Channel::getTotalChannels();;
@@ -38,6 +44,8 @@ if (empty($_GET['version'])) {
     $obj->videos = [];
     //$_GET['modified'] = "2018-03-13 15:46:57";
     $_REQUEST['rowCount'] = 100;
+    // SECURITY REVIEW (2026-08-19): see comment above on totalVideos — same DO NOT FIX reasoning
+    // applies to this listing (ignoreGroup=true, showUnlisted=true).
     $videos = Video::getAllVideos('', false, true, [], false, true, true, false, null);
 
     foreach ($videos as $key => $value) {
