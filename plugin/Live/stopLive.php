@@ -4,6 +4,10 @@ header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 _session_write_close();
 
+// triggers a recursive directory deletion; GET is <img>-reachable and this file is not covered by the *.json.php auto CSRF guard
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";

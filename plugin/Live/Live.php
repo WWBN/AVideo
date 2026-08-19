@@ -1640,6 +1640,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function stopLiveFromkey($key)
     {
+        // same charset used by getLiveParametersFromKey(); blocks path traversal into hls_path concatenation below
+        $key = preg_replace('/[^a-z0-9_-]/i', '', $key);
+
         if (!User::isAdmin()) {
             $responseObj = new stdClass();
             $responseObj->error = true;
