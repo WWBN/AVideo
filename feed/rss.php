@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * Renders the channel RSS/Podcast feed. Always included from feed/index.php, which defines
+ * the variables below before requiring this file - never accessed directly by a browser.
+ * @var array $global
+ * @var string $title channel/host display name
+ * @var string $link channel link
+ * @var string $description channel description
+ * @var string $author site contact email (from AVideoConf::getContactEmail())
+ * @var string $logo channel logo URL
+ * @var array $rows video rows to render as <item>
+ * @var stdClass $advancedCustom CustomizeAdvanced plugin settings object
+ */
 header('Content-Type: application/rss+xml; charset=UTF-8');
 $cacheFeedName = "feedCacheRSS" . json_encode($_REQUEST);
 $lifetime = 43200;
@@ -9,6 +22,13 @@ if (empty($feed)) {
     // address; $title is already the channel/host display name (or the site title as a
     // fallback), $author (site contact email) stays reserved for <itunes:owner><itunes:email>
     $itunesAuthor = feedText(!empty($title) ? $title : $author);
+    // Apple Podcasts/Spotify reject the feed if this isn't a real address (e.g. the
+    // "undefined@youremail.com" placeholder install.php writes when no contact email was
+    // set); skip the whole <itunes:owner> block instead of shipping an invalid one
+    $itunesOwnerEmail = filter_var($author, FILTER_VALIDATE_EMAIL) ? $author : false;
+    if (empty($itunesOwnerEmail)) {
+        _error_log("feed/rss.php: invalid or missing site contact email, skipping <itunes:owner> (set a valid Contact Email in Admin > General Settings)");
+    }
     // configurable per install (CustomizeAdvanced plugin), since this same codebase powers sites with very different content
     $itunesCategory = !empty($advancedCustom->rssItunesCategory->value) ? $advancedCustom->rssItunesCategory->value : 'Society & Culture';
     echo '<?xml version="1.0" encoding="UTF-8"?>';
@@ -44,14 +64,16 @@ if (empty($feed)) {
             <itunes:summary>
                 <![CDATA[ <?php echo feedHtmlDescription($description); ?> ]]>
             </itunes:summary>
+            <?php if (!empty($itunesOwnerEmail)): ?>
             <itunes:owner>
                 <itunes:name>
                     <![CDATA[ <?php echo feedText($title); ?> ]]>
                 </itunes:name>
                 <itunes:email>
-                    <![CDATA[ <?php echo feedText($author); ?> ]]>
+                    <![CDATA[ <?php echo feedText($itunesOwnerEmail); ?> ]]>
                 </itunes:email>
             </itunes:owner>
+            <?php endif; ?>
 
             <image>
                 <title>
