@@ -12,7 +12,9 @@
  * @var array $rows video rows to render as <item>
  * @var stdClass $advancedCustom CustomizeAdvanced plugin settings object
  */
-header('Content-Type: application/rss+xml; charset=UTF-8');
+// text/xml (not application/rss+xml) so Chrome/Firefox actually apply the xml-stylesheet PI below;
+// podcast clients/validators parse the body as XML regardless of this header
+header('Content-Type: text/xml; charset=UTF-8');
 $cacheFeedName = "feedCacheRSS" . json_encode($_REQUEST);
 $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
@@ -117,17 +119,12 @@ if (empty($feed)) {
                                 $value['mime'] = "video/{$ext}";
                         }
 
-                        // Get file size cheaply: a local stat() when the file is on disk, otherwise
-                        // the already-loaded `videos.filesize` column (no extra query/HTTP call, so
-                        // this stays fast even for hundreds of remotely-stored/CDN episodes).
-                        // The ">1000" guard skips length=10, a dummy local placeholder written when
-                        // the real file lives only on remote storage; we don't fetch the remote size
-                        // here (too slow for hundreds of episodes), so we just omit the length instead.
-                        $value['size'] = file_exists($value['path']) ? @filesize($value['path']) : false;
-                        if ($value['size'] === false || $value['size'] < 1) {
-                            $dbFilesize = intval($row['filesize'] ?? 0);
-                            $value['size'] = $dbFilesize > 1000 ? $dbFilesize : 0;
-                        }
+                        // videos.filesize is already loaded on $row (no extra query/stat() call, so
+                        // this stays fast even for hundreds of remotely-stored/CDN episodes). The
+                        // ">1000" guard skips length=10, a dummy placeholder written when the real
+                        // file lives only on remote storage without a known size.
+                        $dbFilesize = intval($row['filesize'] ?? 0);
+                        $value['size'] = $dbFilesize > 1000 ? $dbFilesize : 0;
                         $value['url'] = str_replace("http://", "https://", $value['url']);
 
                         // Prepare the enclosure tag
