@@ -38,6 +38,231 @@ function socketError() {
     }
 }
 
+// Allowlist of socket callback names a peer is permitted to trigger. A denylist of
+// native functions is not enough - any function AVideo itself defines on window (e.g.
+// one that touches innerHTML/eval) would still be a usable gadget. Plugins that need to
+// react to a socket callback must opt in here instead of relying on window[name] lookup.
+var socketCallbackAllowlist = {};
+
+function registerSocketCallback(name, fn, sanitizeDetails) {
+    if (typeof name === 'string' && typeof fn === 'function') {
+        socketCallbackAllowlist[name] = {
+            callback: fn,
+            sanitizeDetails: typeof sanitizeDetails === 'function' ? sanitizeDetails : null
+        };
+    }
+}
+
+// Shared by plugin/WebRTC/call/caller.js and plugin/YPTSocket/caller.js, which only differ
+// in the link-opening callback (openWebRTCLink vs openMeetLink) - avoids repeating the rest.
+function registerCallSocketCallbacks(linkCallbackName, linkCallbackFn) {
+    registerSocketCallback('incomeCall', incomeCall, sanitizeSocketCallDetails);
+    registerSocketCallback('hangUpCall', hangUpCall, sanitizeSocketCallDetails);
+    registerSocketCallback('hideCall', hideCall, sanitizeSocketCallDetails);
+    registerSocketCallback('callAccepted', callAccepted, sanitizeSocketCallDetails);
+    registerSocketCallback(linkCallbackName, linkCallbackFn, sanitizeSocketCallbackURL);
+    registerSocketCallback('callModalIFrameClosed', callModalIFrameClosed);
+    registerSocketCallback('hideCallPleaseWait', hideCallPleaseWait);
+}
+
+function cloneSocketCallbackDetails(value, depth) {
+    depth = depth || 0;
+    if (depth > 10) {
+        return null;
+    }
+    if (value === null || typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+        return value;
+    }
+    if (Array.isArray(value)) {
+        return value.map(function (item) {
+            return cloneSocketCallbackDetails(item, depth + 1);
+        });
+    }
+    if (typeof value !== 'object') {
+        return null;
+    }
+
+    var clone = {};
+    Object.keys(value).forEach(function (key) {
+        var normalizedKey = key.toLowerCase();
+        if (
+            normalizedKey === '__proto__' ||
+            normalizedKey === 'prototype' ||
+            normalizedKey === 'constructor' ||
+            normalizedKey === 'eval' ||
+            normalizedKey === 'actions' ||
+            normalizedKey === 'autoevalcodeonhtml' ||
+            normalizedKey === 'callback'
+        ) {
+            return;
+        }
+        clone[key] = cloneSocketCallbackDetails(value[key], depth + 1);
+    });
+    return clone;
+}
+
+function escapeSocketCallbackHTML(value) {
+    var element = document.createElement('div');
+    element.textContent = value === null || typeof value === 'undefined' ? '' : String(value);
+    return element.innerHTML;
+}
+
+function sanitizeSocketCallbackObject(details) {
+    return cloneSocketCallbackDetails(details);
+}
+
+function sanitizeSocketCallbackText(details) {
+    return escapeSocketCallbackHTML(details);
+}
+
+function sanitizeSocketCallbackStrings(details) {
+    var sanitized = cloneSocketCallbackDetails(details);
+    if (!sanitized || typeof sanitized !== 'object') {
+        return {};
+    }
+    Object.keys(sanitized).forEach(function (key) {
+        if (typeof sanitized[key] === 'string') {
+            sanitized[key] = escapeSocketCallbackHTML(sanitized[key]);
+        }
+    });
+    return sanitized;
+}
+
+function sanitizeSocketUserNotification(details) {
+    var sanitized = sanitizeSocketCallbackStrings(details);
+    // These fields are inserted directly into the notification template as markup/attributes.
+    sanitized.onclick = '';
+    sanitized.html = '';
+    sanitized.id = parseInt(sanitized.id) || 0;
+    sanitized.priority = parseInt(sanitized.priority) || 0;
+    sanitized.toast = Boolean(sanitized.toast);
+    return sanitized;
+}
+
+function sanitizeSocketCallDetails(details) {
+    var sanitized = cloneSocketCallbackDetails(details);
+    if (!sanitized || typeof sanitized !== 'object') {
+        return {};
+    }
+    ['from_users_id', 'to_users_id', 'users_id'].forEach(function (key) {
+        if (Object.prototype.hasOwnProperty.call(sanitized, key)) {
+            sanitized[key] = parseInt(sanitized[key]) || 0;
+        }
+    });
+    sanitized.playCallBusySound = sanitized.playCallBusySound ? 1 : 0;
+    return sanitized;
+}
+
+function sanitizeSocketCallbackURL(details) {
+    try {
+        var url = new URL(String(details || ''), window.location.href);
+        if (url.protocol === 'http:' || url.protocol === 'https:') {
+            return url.href;
+        }
+    } catch (error) {
+        // Return an empty URL below.
+    }
+    return '';
+}
+
+function sanitizeSocketRedirect(details) {
+    var sanitized = cloneSocketCallbackDetails(details);
+    if (!sanitized || typeof sanitized !== 'object' || !sanitized.redirectLive) {
+        return {};
+    }
+
+    var redirect = sanitized.redirectLive;
+    try {
+        var url = new URL(String(redirect.viewerUrl || ''), window.location.href);
+        if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+            redirect.viewerUrl = '';
+        } else {
+            redirect.viewerUrl = url.href;
+        }
+    } catch (error) {
+        redirect.viewerUrl = '';
+    }
+    redirect.users_id = parseInt(redirect.users_id) || 0;
+    // Socket peers are not authoritative redirect sources. Require an explicit click instead
+    // of allowing the callback to start the automatic redirect countdown.
+    redirect.requireConfirmation = true;
+    return sanitized;
+}
+
+function safeSocketAvideoResponse(response) {
+    if (!response || typeof response !== 'object') {
+        return;
+    }
+    if (response.responseJSON && typeof response.responseJSON === 'object') {
+        response = response.responseJSON;
+    }
+    var msg = response.msg || (typeof response.error === 'string' ? response.error : '');
+    if (response.error) {
+        if (typeof avideoAlertError === 'function') {
+            avideoAlertError(String(msg || __('Error')));
+        }
+        return;
+    }
+
+    var safeMsg = escapeSocketCallbackHTML(msg || __('Success'));
+    if (response.warning && typeof avideoToastWarning === 'function') {
+        avideoToastWarning(safeMsg);
+    } else if (response.info && typeof avideoToastInfo === 'function') {
+        avideoToastInfo(safeMsg);
+    } else if (typeof avideoToastSuccess === 'function') {
+        avideoToastSuccess(safeMsg);
+    }
+}
+
+function safeSocketRedirect(details) {
+    if (
+        !details ||
+        !details.redirectLive ||
+        typeof isLive !== 'function' ||
+        typeof window.redirectLive !== 'function'
+    ) {
+        return;
+    }
+    var currentLive = isLive();
+    if (!currentLive || parseInt(currentLive.users_id) !== details.redirectLive.users_id) {
+        return;
+    }
+    window.redirectLive(details);
+}
+
+// Resolve functions when a message arrives because some plugin scripts load before YPTSocket
+// and others load after it. The callback name itself is still fixed by this allowlist.
+function registerWindowSocketCallback(name, sanitizeDetails) {
+    registerSocketCallback(name, function (details) {
+        var callback = window[name];
+        if (typeof callback === 'function') {
+            callback(details);
+        }
+    }, sanitizeDetails);
+}
+
+function registerSocketEvent(name, sanitizeDetails) {
+    registerSocketCallback(name, defaultCallback, sanitizeDetails);
+}
+
+registerSocketCallback('avideoResponse', safeSocketAvideoResponse, sanitizeSocketCallbackObject);
+registerSocketCallback('avideoToastSuccess', function (details) {
+    if (typeof avideoToastSuccess === 'function') {
+        avideoToastSuccess(details);
+    }
+}, sanitizeSocketCallbackText);
+registerWindowSocketCallback('socketClearSessionCache', sanitizeSocketCallbackObject);
+registerWindowSocketCallback('aiSocketMessage', sanitizeSocketCallbackStrings);
+registerWindowSocketCallback('socketWalletAddBalance', sanitizeSocketCallbackObject);
+registerWindowSocketCallback('socketCDNStorageMoved', sanitizeSocketCallbackText);
+registerSocketEvent('BTCPayments', sanitizeSocketCallbackStrings);
+registerWindowSocketCallback('socketUserNotificationCallback', sanitizeSocketUserNotification);
+registerWindowSocketCallback('socketLiveONCallback', sanitizeSocketCallbackObject);
+registerWindowSocketCallback('socketLiveOFFCallback', sanitizeSocketCallbackObject);
+registerSocketCallback('redirectLive', safeSocketRedirect, sanitizeSocketRedirect);
+registerSocketEvent('socketRemoveLiveLinks', sanitizeSocketCallbackObject);
+registerSocketEvent('loadCallerPanel', sanitizeSocketCallbackObject);
+
 function processSocketJson(json) {
     if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
         socketAutoUpdateOnHTML(json.autoUpdateOnHTML);
@@ -88,17 +313,15 @@ function processSocketJson(json) {
             }
         }
 
-        if (json.callback && /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(String(json.callback))) {
-            // Safe property lookup — no eval. Resolves the named function from the global
-            // scope without constructing or executing arbitrary code strings.
-            // isNativeFunction guards against resolving built-ins such as eval, Function,
-            // setTimeout, setInterval, etc., which would re-introduce code execution.
-            var cbFunc = window[json.callback];
-            var isNativeFunction = function(fn) {
-                return typeof fn === 'function' && /\[native code\]/.test(Function.prototype.toString.call(fn));
-            };
+        if (json.callback && Object.prototype.hasOwnProperty.call(socketCallbackAllowlist, json.callback)) {
+            // Allowlist-only dispatch: a peer can only trigger a handler a plugin explicitly
+            // registered via registerSocketCallback(), never an arbitrary window function.
             socketLog('Executing callback:', json.callback);
-            myfunc = (typeof cbFunc === 'function' && !isNativeFunction(cbFunc)) ? cbFunc : defaultCallback;
+            var callbackRegistration = socketCallbackAllowlist[json.callback];
+            if (callbackRegistration.sanitizeDetails) {
+                _details = callbackRegistration.sanitizeDetails(_details);
+            }
+            myfunc = callbackRegistration.callback;
 
             // Trigger the event with the same name as json.callback and pass the JSON object
             const event = new CustomEvent(json.callback, { detail: _details });
@@ -570,6 +793,14 @@ async function parseSocketResponse() {
         socketAutoUpdateOnHTML(json.autoUpdateOnHTML);
     }
 
+    // SECURITY REVIEW (2026-08-21): live eval() sink. Only reachable here via the top-level
+    // (non-batch) message wrapper's .msg field, which server-side PHP implementations
+    // (Message.php/MessageSQLite*.php) strip via removeAutoEvalCodeOnHTMLRecursive() before
+    // relay; the shipped node socket server does not contain that filter. Not confirmed
+    // exploitable through the node server in this pass (batch-wrapped messages read this from
+    // the array wrapper, not a per-item message), but this is a defense-in-depth gap - the
+    // client should not eval server/peer-supplied strings at all. Left for maintainer judgement,
+    // do not remove this comment without re-verifying reachability through the node server.
     if (json.msg?.autoEvalCodeOnHTML !== undefined) {
         eval(json.msg.autoEvalCodeOnHTML);
     }

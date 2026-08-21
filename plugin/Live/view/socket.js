@@ -189,6 +189,9 @@ function redirectLive(json, countdown = 15) {
         }
     });
 
-    // Start countdown
-    startCountdown();
+    // Socket callbacks can be spoofed by another connected peer, so they require an explicit
+    // confirmation. Locally trusted callers keep the existing automatic countdown behavior.
+    if (!json.redirectLive.requireConfirmation) {
+        startCountdown();
+    }
 }

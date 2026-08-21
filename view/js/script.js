@@ -1397,6 +1397,9 @@ function avideoAlert(title, msg, type) {
 function avideoCreateAlertContent(msg, allowHTML) {
     var span = document.createElement("span");
     if (allowHTML) {
+        // SECURITY REVIEW (2026-08-21): innerHTML sink - only pass trusted/sanitized msg
+        // with allowHTML=true. Do not wire this to unauthenticated peer/network data (e.g.
+        // a socket-callback allowlist entry) without sanitizing first.
         span.innerHTML = msg;
     } else {
         span.textContent = msg;

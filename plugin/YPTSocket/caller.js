@@ -1,6 +1,11 @@
 var callerToast = [];
 var callingTimeoutSeconds = 30;
 
+// Opt in to the socket callback allowlist (plugin/YPTSocket/script.js) so peers can trigger these.
+if (typeof registerCallSocketCallbacks === 'function') {
+    registerCallSocketCallbacks('openMeetLink', openMeetLink);
+}
+
 function getCallJsonFromUser(to_users_id, to_identification) {
     var json = {
         to_users_id: to_users_id,
