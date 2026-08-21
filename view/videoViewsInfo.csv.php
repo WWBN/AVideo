@@ -2,6 +2,8 @@
 require_once '../videos/configuration.php';
 header('Content-Type: application/json');
 
+// SECURITY REVIEW (2026-08-21): see videoViewsInfo.json.php - hash branch intentionally skips
+// Video::canEdit(), it is the no-login "Share link" capability URL. DO NOT FIX here.
 if (!empty($_REQUEST['hash'])) {
     $string = decryptString($_REQUEST['hash']);
     $obj = json_decode($string);

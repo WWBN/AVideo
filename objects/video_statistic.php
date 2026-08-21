@@ -740,7 +740,9 @@ class VideoStatistic extends ObjectYPT
             return false;
         }
 
-        $sql = "SELECT u.*, vs.* FROM  " . static::getTableName() . " vs ";
+        // SECURITY: only non-sensitive display columns are joined in - do not go back to u.* here,
+        // it previously leaked password/recoverPass/email/session_id/PII to every consumer of this row set.
+        $sql = "SELECT u.name AS user_name, u.user AS user_login, u.channelName AS user_channelName, u.photoURL AS user_photoURL, vs.* FROM  " . static::getTableName() . " vs ";
         $sql .= " LEFT JOIN users u ON vs.users_id = u.id ";
         $sql .= " WHERE videos_id=$videos_id ";
 
@@ -754,6 +756,7 @@ class VideoStatistic extends ObjectYPT
             $isPluginEnabled = AVideoPlugin::isEnabledByName('User_Location');
 
             foreach ($fullData as $row) {
+                unset($row['session_id']); // never serialize the viewer's live session identifier
                 $row['users'] = User::getNameIdentificationById($row['users_id']);
                 $row['when_human'] = humanTimingAgo($row['created_php_time'], 0, false);
                 $row['seconds_watching_video_human'] = seconds2human($row['seconds_watching_video']);
