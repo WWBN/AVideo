@@ -1035,12 +1035,29 @@ function deleteFileFFMPEGRemote($filePath, $standAloneFFMPEG='')
 /**
  * Build local file path for video processing
  *
+ * Contains avideoRelativePath under getVideosDir() lexically (traversal/absolute paths and
+ * NUL bytes rejected, a redundant leading "videos/" stripped). realpath() can't be used here
+ * because the destination directory commonly doesn't exist yet on a first download.
+ *
  * @param array $global Global variables array
  * @param array $notify Notification data with avideoRelativePath
- * @return string Full local file path
+ * @return string|false Full local file path, or false if the path is invalid/unsafe
  */
 function buildLocalPathForNotify($global, $notify) {
-    return "{$global['systemRootPath']}{$notify['avideoRelativePath']}";
+    $relativePath = $notify['avideoRelativePath'] ?? '';
+    if (!is_string($relativePath) || $relativePath === '' || strpos($relativePath, "\0") !== false) {
+        return false;
+    }
+
+    $relativePath = str_replace('\\', '/', $relativePath);
+    $relativePath = ltrim($relativePath, '/');
+    $relativePath = preg_replace('#^videos/#i', '', $relativePath);
+
+    if ($relativePath === '' || strpos($relativePath, '..') !== false || preg_match('#^[a-zA-Z]:#', $relativePath)) {
+        return false;
+    }
+
+    return getVideosDir() . $relativePath;
 }
 
 /**
@@ -1103,6 +1120,10 @@ function processNotifyVideoFile($notify) {
     $response['standAloneFFMPEG'] = $obj->standAloneFFMPEG ?? null;
 
     $localPath = buildLocalPathForNotify($global, $notify);
+    if ($localPath === false) {
+        _error_log("notify.ffmpeg: SECURITY - rejected unsafe avideoRelativePath: " . json_encode($notify['avideoRelativePath'] ?? null));
+        return $response;
+    }
     if (file_exists($localPath)) {
         _error_log("notify.ffmpeg: Local file exists, skipping download");
         $response['error'] = false;
@@ -1124,7 +1145,8 @@ function processNotifyVideoFile($notify) {
     }
 
     $response['contentLength'] = strlen($content);
-    $filePath = buildLocalPathForNotify($global, $notify);
+    $filePath = $localPath;
+    make_path($filePath);
     $bytes = file_put_contents($filePath, $content);
 
     if ($bytes === false) {

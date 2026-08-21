@@ -11,7 +11,12 @@ if (empty($_REQUEST['notifyCode']) || empty($_REQUEST['notify'])) {
 $notifyCode = decryptString($_REQUEST['notifyCode']);
 $notify = json_decode($_REQUEST['notify'], true);
 
-if (empty($notifyCode) || empty($notify)) {
+// notifyCode is minted as encryptString(time()) in buildFFMPEGRemoteURL() - it must decrypt to a
+// recent timestamp, not merely to something non-empty, otherwise any ciphertext ever issued by
+// this install (e.g. a video_id_hash) would be accepted as proof the caller is the encoder.
+define('NOTIFY_FFMPEG_MAX_AGE', 86400); // encoding jobs can be long-running
+
+if (empty($notifyCode) || empty($notify) || !is_numeric($notifyCode) || abs(time() - intval($notifyCode)) > NOTIFY_FFMPEG_MAX_AGE) {
     forbiddenPage('Invalid parameters');
 }
 
