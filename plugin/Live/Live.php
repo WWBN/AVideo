@@ -524,8 +524,8 @@ class Live extends PluginAbstract
         $obj->restream_resolution = $o;
         self::addDataObjectHelper('restream_resolution', 'Restream Output Resolution', 'Resolution and bitrate used when re-encoding the live stream for restream destinations. Choose "Passthrough" to copy the stream without transcoding (lowest CPU usage, recommended when the source resolution already matches the destination).');
 
-        $obj->enableRestreamWatchdog = false;
-        self::addDataObjectHelper('enableRestreamWatchdog', 'Enable Restream Watchdog', 'When enabled, executeEveryMinute() will detect restreams that unexpectedly disconnected from their destination (e.g. Broken pipe, Error muxing a packet, Error writing trailer, unexpected FFmpeg termination) while the source is still live, and will automatically restart them using the existing restream start flow. Disabled by default.');
+        $obj->enableRestreamWatchdog = true;
+        self::addDataObjectHelper('enableRestreamWatchdog', 'Enable Restream Watchdog', 'When enabled, executeEveryMinute() will detect restreams that unexpectedly disconnected from their destination (e.g. Broken pipe, Error muxing a packet, Error writing trailer, unexpected FFmpeg termination) while the source is still live, and will automatically restart them using the existing restream start flow. Enabled by default.');
         $obj->restreamWatchdogCooldownSeconds = 120;
         self::addDataObjectHelper('restreamWatchdogCooldownSeconds', 'Restream Watchdog Cooldown (seconds)', 'Minimum time to wait between automatic restart attempts for the same restream. Default: 120 seconds (2 minutes).');
         $obj->restreamWatchdogMaxAttempts = 3;

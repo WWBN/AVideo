@@ -3,7 +3,7 @@
 /**
  * LiveRestreamWatchdog
  *
- * Optional, opt-in (disabled by default) watchdog for the Live plugin restream feature.
+ * Configurable watchdog, enabled by default, for the Live plugin restream feature.
  *
  * Scope (v1): only detects DESTINATION/OUTPUT disconnections of an already-started restream
  * (Broken pipe, Error muxing a packet, Error writing trailer, unexpected FFmpeg process
