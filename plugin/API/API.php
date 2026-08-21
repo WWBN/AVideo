@@ -5768,8 +5768,16 @@ class API extends PluginAbstract
         $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
         $key = "rate_limit_{$operation}_{$ip}";
 
+        // SECURITY: User-Agent is attacker-controlled, so a "bot" UA must never get a free pass on
+        // a security counter (ObjectYPT::setCache/getCache normally skip caching for bots) - force
+        // real counting via $ignoreBot=true, and give bots a stricter budget than real users.
+        $isBot = isBot();
+        if ($isBot) {
+            $maxAttempts = max(1, (int) floor($maxAttempts / 5));
+        }
+
         // Get current attempts count (with proper lifetime)
-        $attempts = ObjectYPT::getCacheGlobal($key, $timeWindow);
+        $attempts = ObjectYPT::getCacheGlobal($key, $timeWindow, false, true, $isBot);
         $attempts = intval($attempts); // Convert null to 0, ensure it's an integer
 
         if ($attempts >= $maxAttempts) {
@@ -5778,7 +5786,7 @@ class API extends PluginAbstract
         }
 
         // Increment and store with proper lifetime
-        ObjectYPT::setCacheGlobal($key, $attempts + 1);
+        ObjectYPT::setCacheGlobal($key, $attempts + 1, true, $isBot);
     }
 
     /**
